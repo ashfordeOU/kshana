@@ -1473,3 +1473,663 @@ seg-74f397ad9c16 = <c1/>, orbita prawdy zbudowana z tablicowych stanów w układ
 seg-7293b717d978 = Pliki testowe i fixtures powyższych porównań, każdy z własnym generatorem i plikiem <c1/> podającym źródło, licencję, datę pobrania i SHA-256.
 
 seg-920fe965bda9 = Runda { "2" }: <c1/> i <c2/> (detekcja uszkodzeń ADD v4.2, wg Stanford MAAST dla ARAIM { "2" }, uwaga BSD-3 w źródle); <c3/>; <c4/> i <c5/>; dziewięciostanowy model błędu INS <c6/>; pochodne cząstkowe <c7/> i dane wejściowe <c8/> na ścieżce jąder; <c9/>, czytnik jąder SPK typu { "2" } i binarnych PCK; <c10/> ze stacjami ITRF2020; gęstość Jacchia { "1971" }; <c11/> dla dowolnego dostawcy efemeryd; <c12/>; <c13/> i <c14/>; <c15/>; <c16/> (czytniki RINEX zegara, ANTEX i DCB).
+
+seg-e3336e670d51 = Wydanie poprawkowe po { "0.29.2" }. Kshana Studio zostało przebudowane wokół dwóch widoków: widoku prostego, który najpierw podaje odpowiedź i wyjaśnia ją zwykłymi słowami, oraz widoku zaawansowanego z pełnym panelem. Razem z nim trafiają dwie drobne poprawki na kshana.dev. Silnik się nie zmienia: każdy dołączony scenariusz daje wynik identyczny bajt w bajt z { "0.29.2" }, poza stemplem wersji.
+
+seg-c40ab967ace6 = <b>Kshana Studio ma widok prosty.</b> To on otwiera się jako pierwszy.
+
+seg-6a5ae001d00e = Odpowiedź jest na pierwszym miejscu: scenariusz otwiera się na swoim wyniku, podanym w jednym prostym zdaniu. Każdy dołączony scenariusz ma własne zdanie, napisane pod kątem tego, co ten scenariusz mierzy.
+
+seg-375421534e4c = Widocznych jest najwyżej pięć ustawień, tych, które najbardziej zmieniają odpowiedź. Pozostałe znajdują się w sekcji „Ustawienia zaawansowane”, zwiniętej do czasu jej otwarcia.
+
+seg-d8650ae64549 = „Jak to jest obliczane” wyjaśnia metodę w kilku wierszach, a „Dla badaczy” podaje własne wartości silnika, plik scenariusza i dowody stojące za wynikiem.
+
+seg-36af7640e6ad = <b>Pełny panel to widok zaawansowany.</b> Jest w nim każdy panel, wykres, eksport i raport z wcześniejszego Studio.
+
+seg-0428d0a7921b = <b>Przełącznik przechodzi między dwoma widokami i zachowuje miejsce, w którym się jest.</b> Scenariusz, widok, w którym się było, i wszystkie zmienione ustawienia zostają przeniesione. Studio zapamiętuje, którego widoku użyto ostatnio. Odnośniki ze strony i z dokumentacji otwierają widok prosty; odnośnik z <c1/> otwiera widok zaawansowany, a każdy wcześniejszy odnośnik do Studio nadal otwiera ten sam scenariusz i ten sam widok.
+
+seg-2c98ed084c10 = <b>Szybszy pierwszy widok przy wolnych połączeniach.</b> Zapisana odpowiedź dla scenariusza jest rysowana, zanim wczyta się reszta Studio, więc przy wolnym połączeniu mobilnym odpowiedź pojawia się po około dwóch sekundach zamiast po około dziewięciu.
+
+seg-2214d2dcfab4 = <b>Lepsze wyszukiwanie.</b> Wyszukiwanie wyświetla teraz najpierw scenariusze, których obszar lub tytuł pasuje do wpisanych słów, przed scenariuszami, które wspominają je tylko w nazwie pliku lub w tekście.
+
+seg-aa8d43280c19 = <b>Globus na stronie głównej nie robi się już pusty przy włączonym ograniczeniu ruchu.</b> Przy włączonym systemowym ustawieniu ograniczenia ruchu zmiana rozmiaru okna mogła pozostawić główny globus pusty aż do przewinięcia strony. Globus rysuje się teraz ponownie w tej samej klatce co zmiana rozmiaru.
+
+seg-da4b78816df1 = <b>Konsola pasma L na stronie głównej wyjaśnia swoje puste pasmo.</b> W „Watch a jammer take the band” panel GPS L5 / Galileo E5a przez całą minutę pozostawał ciemny, co wyglądało na usterkę. W tym scenariuszu żaden jammer nie nadaje w tym paśmie, a sygnały satelitów leżą poniżej poziomu szumu, więc nic tam nad nim nie wystaje. Dyskretna etykieta mówi to teraz w każdym fragmencie panelu, w którym nic nie wystaje ponad poziom szumu (panel L5 / E5a oraz panel L2C, zanim zacznie nadawać jego jammer szumowy), wraz z C/N0 i stanem uchwycenia każdego pasma z tego samego przebiegu. Etykieta jest umieszczana tylko tam, gdzie nic nie jest powyżej poziomu szumu, więc nigdy nie zasłania energii jammera.
+
+seg-e353fdee7033 = Wydanie poprawkowe po { "0.29.1" }. Usuwa zduplikowany kod w modułach wiadomości nawigacyjnej LEO, fuzji i widma, dodaje jasny motyw do kshana.dev, przenosi Kshana Studio pod własny adres, czyni stronę czytelną dla wyszukiwarek i asystentów AI, poprawia kilka drobiazgów w Studio i pozwala publikować wydania npm bez zapisanego tokenu. Wyniki silnika się nie zmieniają: każdy dołączony scenariusz daje wynik identyczny bajt w bajt z { "0.29.1" }, poza stemplem wersji.
+
+seg-e8bf0a4fdc35 = <b>Jasny motyw dla kshana.dev.</b> Każdą stronę można czytać w trybie jasnym lub ciemnym. Strona podąża za ustawieniem systemowym czytelnika i ma przełącznik, który je zmienia.
+
+seg-8e7cabc14c40 = <b>Wyszukiwarki i asystenci AI mogą czytać stronę.</b> Każda strona ma teraz własny tytuł, opis, adres kanoniczny, znaczniki kart społecznościowych i dane strukturalne schema.org, a także zwykły tekst dla sekcji rysowanych skryptem. Strona publikuje <c1/>, <c2/> z datą ostatniej zmiany każdej strony, <c3/> i <c4/> (krótki i pełny przewodnik w postaci zwykłego tekstu dla asystentów AI) oraz klucz IndexNow, dzięki któremu wdrożenie może powiadomić wyszukiwarki o tym, co się zmieniło.
+
+seg-804ba71be9ed = <b>Wydania npm można publikować bez zapisanego tokenu.</b> Zadanie npm działa teraz na Node { "24" } i npm { "11.5.1" } lub nowszym, które obsługują zaufane publikowanie npm: npm wymienia tożsamość GitHub zadania wydania na krótkotrwałe poświadczenie. Sekret <c1/> nadal działa i jest używany, dopóki jest ustawiony, więc nic się nie zmienia, dopóki zaufane publikowanie nie zostanie włączone dla pakietu na npmjs.com. <c2/> wymienia kroki.
+
+seg-81405e5a5e06 = <b>Nagłówek strony głównej jest czytelny nad globusem.</b> Delikatny cień leży teraz za nagłówkiem i jego tekstem, przygaszając linie orbit i punkty satelitów animowanego globusa tam, gdzie go przecinają.
+
+seg-24b8363acc14 = <b>Kshana Studio ma własny adres: <a1>https://kshana.dev/studio/</a1>.</b> Każdy odnośnik na stronie i w dokumentacji prowadzi tam. Stary adres, <c1/>, nadal działa i przekierowuje na nowy, z zachowaniem scenariusza, widoku i innych ustawień zapisanych w odnośniku.
+
+seg-12f223b986bd = <b>Poprawki w Studio.</b> Plik silnika jest pobierany raz zamiast dwa razy. Podczas pobierania Studio od razu pokazuje zapisany wynik scenariusza, oznaczony jako zapisany, zamiast pustego ekranu. Na telefonie nagłówek to jeden zwarty wiersz. Kluczowe wartości zawijają się po dwie w wierszu, więc żadna nie jest ukryta poza krawędzią ekranu. Etykiety pól używają własnych słów scenariusza, z nazwą pola obok, a wyszukiwanie znajduje pola po jednym i drugim.
+
+seg-c130d8a4dc5e = <b>Mniej zduplikowanego kodu.</b> Tabela jednostek wiadomości nawigacyjnej LEO zapisywała te same dziesięć wierszy statystyk SISRE dla czterech podsumowań dopasowania. Teraz makro zapisuje je raz. Dwa wykresy wodospadu widma mają wspólną oś czasu, pasek kolorów i panel paska C/N0. Próbkowanie w dół głównej siatki używa ponownie <c1/>, a całka Simpsona używa ponownie <c2/>. Dwa punkty wejścia rodzaju przelotu LEO mają wspólny krok przygotowania. <c3/> importuje pomocnicze funkcje wektorowe z <c4/> zamiast je kopiować. Raport zaawansowany importuje funkcję ucieczki HTML z raportu API zamiast ją kopiować. Każdy z { "139" } plików scenariuszy w <c5/> uruchomiono na { "0.29.1" } i na tym kodzie, a każdy plik wyjściowy jest identyczny bajt w bajt.
+
+seg-166b0435c96f = <b>Tabele jednostek leo-navmsg i leo-pvt mają własne pliki.</b> Przeniesiono je z modułów, które zawierają także logikę, do <c1/> i <c2/>. <c3/> zachowuje swoją ścieżkę publiczną. Tylko te dwa pliki tabel dołączają do wyłączeń z wykrywania kopii dla katalogów deklaratywnych w <c4/>, które sprawdza <c5/>.
+
+seg-f8b372e08ef9 = <b>Plakietka CI w README pokazuje wynik pushy do main.</b> Plakietka liczyła przebiegi każdego zdarzenia na main, więc mogła pokazywać „failing”, choć każdy przebieg dla pusha był zielony; teraz prosi tylko o przebiegi dla pushy (<c1/>).
+
+seg-7c41a482c7d8 = Wydanie poprawkowe po { "0.29.0" }: zmierzona wartość pokrycia, wiersz z nazwą projektu na kshana.dev, szybsze zadanie pokrycia i odświeżony README. Wyniki silnika się nie zmieniają: każdy scenariusz daje ten sam wynik co na { "0.29.0" }.
+
+seg-997490bd1696 = Rewizje opublikowanych liczb
+
+seg-ed4b071e4bd9 = <b>Pokrycie wierszy: ~{ "96" } % → ~{ "95" } %.</b> Zadanie pokrycia ponownie zmierzyło kod wydania { "0.29.0" } (commit <c1/>, przebieg CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } wierszy w <c3/>. Opublikowana wartość wynosiła { "95.63" } % ({ "37,697" } z { "39,419" } wierszy), zmierzona na <c4/> przed { "0.28.0" }; zaokrąglała się do ~{ "96" } %. Nowa wartość zaokrągla się do ~{ "95" } %, więc razem zmienia się każda powierzchnia, którą przypina <c5/>: <c6/>, plakietka README, wiersz Evidence i tabela CI, plakietki crates.io, PyPI i npm, raport techniczny oraz strona pokrycia na kshana.dev. Próg dolny { "85" } % pozostaje bez zmian.
+
+seg-577baa03af04 = <b>Wiersz z nazwą na kshana.dev.</b> „Kshana · क्षण · the precise instant” otwiera teraz główną sekcję Home i znajduje się pod marką w stopce każdej strony. kshana.dev nadal nie wysyła żadnego żądania do innego hosta: dewanagari to samodzielnie hostowany podzbiór Noto Sans Devanagari z trzema literami क्षण ({ "1,692" } bajtów, <c1/>, z tekstem licencji SIL Open Font License i jego SHA-256 w <c2/>). <c3/> nauczył się zapisywać podzbiór Google Fonts <c4/> pod nazwą pliku adresowaną zawartością.
+
+seg-35b5bc4ee466 = <b>Odnośniki na stronie trafiają tam, dokąd wskazują, pod czystymi adresami.</b> Odnośnik do sekcji ustawia teraz tę sekcję tuż pod nagłówkiem, na telefonie i na komputerze: odnośnik do sektora w Missions otwiera ten sektor z jego panelem na górze; odnośniki do Capabilities i Editions utrzymują swoje miejsce, gdy rysują się znajdujące się nad nimi wykresy; Editions nie dodaje już drugiego odsunięcia nagłówka; a odnośnik do zwiniętej części strony dokumentacji ją otwiera. Każda strona jest linkowana swoim czystym adresem (<c1/>, <c2/>, <c3/> dla Home), a odnośniki kanoniczne, mapa witryny i przekierowania starych adresów podają te same; adresy <c4/> nadal działają. Research ma własny odnośnik w nagłówku, między Evidence a Developers, i w stopce. Dokumentacja nie pokazuje już planu rozwoju (<c5/> pozostaje w repozytorium): grupa Project to Changelog, Licensing, Security, Contributing, Governance i Code of conduct, a Glossary przeniesiono do Get started.
+
+seg-3da9f00f5ce6 = <b>Zadanie pokrycia jest szybsze.</b> Na { "0.29.0" } trwało { "143" } minut wobec zdrowych { "91" } do
+
+seg-85d502773367 = Fuzzer <c1/>, przyczyna za ostatnim razem, zajmował { "4" } z nich. Dołączony korpus urósł z { "74" } do { "139" } scenariuszy, a trzy pliki binarne testów przechodziły go cały, plik po pliku (<c2/> dwa razy, <c3/> i <c4/> po razie): razem { "37" } minut pod instrumentacją pokrycia, wobec { "3" } na { "0.27.2" }. Teraz współdzielą <c5/>, który wykonuje pracę dla każdego scenariusza na wszystkich rdzeniach i oddaje wyniki w posortowanej kolejności; każdy scenariusz i każda asercja pozostają. Na laptopie arm64, kompilacja debug: <c6/> trwa { "143" } s na { "14" } rdzeniach wobec { "612" } s z <c7/> (dawne przejście szeregowe).
+
+seg-bb69dbadbc81 = <b>README, odświeżone.</b> Otwiera się tym samym wierszem z nazwą co strona; zrzuty ekranu Studio zrobiono na nowo ze Studio w wersji { "0.29.1" }, z nowym zrzutem Studio na telefonie i jego dolnym paskiem kroków; nowy pas „The site” pokazuje trzy strony kshana.dev z kompilacji { "0.29.1" } (<c1/>, złożone przez <c2/> i zapisane w <c3/>); wartość pokrycia brzmi ~{ "95" } %; a tekst alternatywny rysunku badawczego, który powtarzał tekst rysunku architektury, opisuje teraz artykuły. Plakietki w nagłówku są mniejsze i krótsze ({ "18" } px wysokości; „~{ "95" }%”, „83/223”, „quality”, „AGPL-3.0”, „zenodo.20528627”), więc jedenaście mieści się w dwóch wierszach; każdy odnośnik i tekst alternatywny zachowuje pełne znaczenie.
+
+seg-f61ef3e16884 = <b>Zadanie obrazu kontenera dostaje { "90" } minut.</b> Na { "v0.29.0" } emulowana kompilacja linux/arm64 obrazu <c1/> przekroczyła dawny limit 45 minut podczas kompilowania ostatniego crate'a, więc obraz, wpis w rejestrze MCP i kontrola kanału nie zostały opublikowane. Limit wynosi teraz { "90" } minut; obraz jest niezmieniony.
+
+seg-1688bf9f0fec = <b>Osiem literałów zmiennoprzecinkowych pogrupowano na nowo</b> w <c1/> i <c2/> (<c3/> → <c4/>): SonarQube Cloud odczytał ostatnią grupę <c5/> lub <c6/> jako brakujący sufiks <c7/> lub <c8/> (reguła S7454). Wartości to te same liczby, więc żaden wynik się nie zmienia.
+
+seg-81fd160937db = Dwanaście nowych rodzajów scenariuszy i trzy nowe sposoby czytania przebiegu. Silnik obejmuje teraz widmo radiowe, cały Układ Słoneczny, konstelacje wokół dowolnego ciała, kampanie łączące scenariusze w jedną misję oraz pozycjonowanie, nawigację i czas (PNT) z niskiej orbity okołoziemskiej (LEO), od sygnału do rozwiązania pozycji. Każdy przebieg można też zapisać jako animację, pełny raport i zestaw plików interoperacyjności dla innych narzędzi.
+
+seg-118be64d7cb2 = Wokół silnika: przeprojektowane kshana.dev (strona wielostronicowa i nowy panel Kshana Studio, który uruchamia każdą możliwość w przeglądarce), przepisane README, czternaście narzędzi na serwerze Model Context Protocol (MCP), kompilacja przeglądarkowa dająca te same liczby co natywna oraz publiczna strona Kshana Pro.
+
+seg-ea31356bc17d = Pliki scenariuszy (plus jeden manifest zestawu)
+
+seg-26654cd81de1 = { "138" }, z czego { "132" } dołączono do <c1/>
+
+seg-3d1a85e93e48 = z czego MODELLED (podany model, sprawdzony tylko pod kątem wewnętrznej spójności)
+
+seg-e77f9d273ee1 = z czego PARTNER (wymaga sprzętu lub danych partnera)
+
+seg-e94cd6b3561a = Skąd bierze się wzrost:
+
+seg-1759a8cce7d6 = Rodzaje
+
+seg-94de9433d99f = Pliki scenariuszy
+
+seg-03d7aea335dc = Wiersze macierzy (sprawdzone + obliczone z modelu)
+
+seg-fdd674722717 = Widmo
+
+seg-59583fa40da3 = Układ Słoneczny i pozycjonowanie wokół dowolnego ciała
+
+seg-fafa167623df = Scenariusze morskie, drogowe i kolejowe
+
+seg-fc571c46e522 = Animacja, raporty, eksporty interoperacyjności
+
+seg-2746e0d9f787 = Projekty sygnałów LEO i widmo wielopasmowe
+
+seg-d40ec114d1f9 = Pozycjonowanie, synchronizacja czasu i fuzja LEO
+
+seg-0157f649e65b = Łańcuch LEO od początku do końca
+
+seg-423283112128 = Odporność LEO oraz scenariusze obszarów zainteresowania i użytkowników końcowych
+
+seg-395beca13299 = Razem dodano
+
+seg-ea9dc4093d8a = Możliwość LEO jest niezależna od systemu: działa na ogólnych, podanych parametrach i nie wymaga żadnego nazwanego systemu. Nazwane systemy są opcjonalnymi presetami, każdy w osobnym pliku z publicznym źródłem. Jeden preset, Celeste IOD (demonstracja na orbicie), używa wartości przedstawionych na warsztatach ESA NAVISP LEO-PNT, { "2026" } (ESA to Europejska Agencja Kosmiczna; NAVISP to jej Program Wsparcia i Innowacji w Nawigacji); znajduje się w jednym pliku, <c1/>, wraz z pięcioma scenariuszami dostępnymi tylko w repozytorium, więc można go wstrzymać bez edycji źródła, a żadna z jego wartości z warsztatów nie jest powtórzona w tym dzienniku zmian.
+
+seg-c36a5015c03c = <b>Przed aktualizacją przeczytaj „Revisions to published numbers”.</b> Zmienia się jeden wynik silnika (kolumny układu inercjalnego rodzaju <c1/>, po poprawce znaku w macierzy nutacji), a audyt dokumentacji poprawił wartości, które wcześniejsze dokumenty podawały w druku.
+
+seg-7fe505d3232b = Statusy: <b>VALIDATED</b> oznacza sprawdzone względem niezależnej wyroczni zewnętrznej (opublikowanej tabeli, oprogramowania innej grupy lub danych pomiarowych); <b>MODELLED</b> oznacza podany model sprawdzony tylko pod kątem wewnętrznej spójności; <b>PARTNER</b> oznacza, że sprawdzenie wymaga sprzętu lub danych partnera.
+
+seg-ec7abb62f217 = 3GPP, 5G, NTN
+
+seg-c5eb2d160429 = 3rd Generation Partnership Project (Projekt Partnerski Trzeciej Generacji); sieć mobilna piątej generacji; sieć nienaziemna
+
+seg-9bb1a987fedc = AD, BC
+
+seg-bbe2b5aa0557 = ery kalendarzowe (anno Domini, przed Chrystusem)
+
+seg-05bbe79b1991 = AIAA
+
+seg-c7bfdad9ae33 = Amerykański Instytut Aeronautyki i Astronautyki
+
+seg-cfe05e065e19 = AltBOC, BOC, BPSK, MBOC
+
+seg-81799e2a0c43 = alternatywna modulacja z przesunięciem binarnym nośnej; modulacja z przesunięciem binarnym nośnej; binarna kluczowanie fazy; multipleksowana modulacja z przesunięciem binarnym nośnej (modulacje sygnałów)
+
+seg-b2d165acb4e7 = ATOMIC
+
+seg-ffd6c68bc1b3 = Autonomous Time and Orbit Determination for Microsatellite Constellations (opublikowany model efemeryd LEO)
+
+seg-e2e2d80f47a5 = C/A, L1, L2, L2C, L5
+
+seg-7f71a4795674 = kod zgrubny/akwizycyjny oraz nazwy nośnych i sygnałów cywilnych Global Positioning System
+
+seg-e464509f3abb = stosunek mocy nośnej do gęstości szumu
+
+seg-d8ba917c09b8 = CIO
+
+seg-4321532214e3 = Celestial Intermediate Origin (niebieski początek pośredni)
+
+seg-de6c33774c9c = CLI
+
+seg-3096eb1d5a15 = interfejs wiersza poleceń
+
+seg-9aa3c2e54398 = 24-bitowa cykliczna kontrola nadmiarowa (wielomian Qualcomm)
+
+seg-1e1009e225aa = CSAC
+
+seg-6ff440ff2c0c = CSS, HTML, SVG, XML
+
+seg-bbe86e85e897 = Cascading Style Sheets (kaskadowe arkusze stylów); HyperText Markup Language (język znaczników hipertekstu); Scalable Vector Graphics (skalowalna grafika wektorowa); Extensible Markup Language (rozszerzalny język znaczników)
+
+seg-7f781a23a5a7 = CSV, JSON, PDF, TOML, URL
+
+seg-b4758ea40624 = wartości rozdzielone przecinkami; JavaScript Object Notation; Portable Document Format; Tom's Obvious Minimal Language; jednolity lokalizator zasobów
+
+seg-3ad592244ea8 = fala ciągła
+
+seg-287014fdc28d = CZML, KML, GeoJSON
+
+seg-469c9a50992d = Cesium Language; Keyhole Markup Language; Geographic JSON (formaty map i globusów)
+
+seg-3415aa029e39 = Development Ephemeris { "441" } Jet Propulsion Laboratory
+
+seg-68ff97cfdc03 = DOI
+
+seg-fa299d3dcaad = cyfrowy identyfikator obiektu
+
+seg-02d581f43613 = DOP, GDOP, PDOP, HDOP, VDOP
+
+seg-a149d6e76bcb = rozmycie dokładności: geometryczne, położenia, poziome, pionowe
+
+seg-bc679de1b3a8 = E1, E5, E5a, E5b
+
+seg-bb2b62a48d99 = nazwy sygnałów Galileo
+
+seg-544f4fcbd68f = nazwa miejsca w tabeli konstelacji Global Positioning System
+
+seg-dd9cfd581e5d = ECEF
+
+seg-1a59ad88eca9 = geocentryczny, związany z Ziemią
+
+seg-7cf8bec6418e = EE
+
+seg-ceacb6924d4d = równanie równonocy
+
+seg-5d59005d9757 = Earth Gravitational Model { "2008" }
+
+seg-de3b39993e2a = EIRP
+
+seg-7f1b85286c96 = równoważna moc promieniowana izotropowo
+
+seg-9a1bcf99edb4 = Essential Routines for Fundamental Astronomy; Standards of Fundamental Astronomy (biblioteki astronomii referencyjnej)
+
+seg-51f1fda55cc7 = ESA, NAVISP
+
+seg-399a11a6e7c7 = Europejska Agencja Kosmiczna; jej Program Wsparcia i Innowacji w Nawigacji
+
+seg-01eb6fdcdb90 = FDMA
+
+seg-6723fd8624df = wielodostęp z podziałem częstotliwości
+
+seg-6d5d27174fe9 = GCRF, GCRS
+
+seg-dd326440740d = Geocentryczny Niebieski Układ Odniesienia (Geocentric Celestial Reference Frame); Geocentryczny Niebieski System Odniesienia (Geocentric Celestial Reference System)
+
+seg-d41af8f18aed = GLONASS
+
+seg-81f742947af1 = rosyjski Globalny System Nawigacji Satelitarnej
+
+seg-d2a107373b59 = GNSS, GPS
+
+seg-d703f29c82eb = globalny system nawigacji satelitarnej; Global Positioning System
+
+seg-1df73b95ae4d = IAU
+
+seg-0461e1933d23 = Międzynarodowa Unia Astronomiczna
+
+seg-6f1e5949b860 = ICD, OS SIS ICD, OS SDD
+
+seg-a54e0f483ad5 = dokument kontroli interfejsu; Galileo Open Service Signal-In-Space Interface Control Document; Galileo Open Service Service Definition Document
+
+seg-e78cf68c3f5e = ICRF
+
+seg-f094d5944111 = Międzynarodowy Niebieski Układ Odniesienia
+
+seg-aa7091bb80e6 = IMO
+
+seg-6a7c8caf2a55 = Międzynarodowa Organizacja Morska
+
+seg-dbcf65546abf = INS, MEMS
+
+seg-b767f348dab9 = inercjalny system nawigacji; układ mikroelektromechaniczny
+
+seg-1be5a43002db = IOD
+
+seg-7eb2ca980e20 = demonstracja na orbicie
+
+seg-92cd0058a058 = IQ
+
+seg-c7fa50165400 = składowe synfazowa i kwadraturowa
+
+seg-41471e51e661 = specyfikacja interfejsu Global Positioning System
+
+seg-70fd83c6e862 = ISS
+
+seg-cc73228e1f0e = Międzynarodowa Stacja Kosmiczna
+
+seg-c0d4cf4a1eab = ITRF, ITRS, PEF, TEME
+
+seg-7d5656c0bdc7 = Międzynarodowy Ziemski Układ Odniesienia (International Terrestrial Reference Frame); Międzynarodowy Ziemski System Odniesienia (International Terrestrial Reference System); pseudo-związany z Ziemią; prawdziwy równik, średnie równonocy (układy odniesienia)
+
+seg-8f1cbbae84aa = ITU, ITU-R
+
+seg-d1b7680b4762 = Międzynarodowy Związek Telekomunikacyjny; jego Sektor Radiokomunikacji
+
+seg-a524e4c4a670 = stosunek jammera do sygnału
+
+seg-5d93361e20d4 = J2 do J6, J2000
+
+seg-50255586b303 = harmoniki strefowe pola grawitacyjnego; epoka 2000-01-01 { "12" }:{ "00" }
+
+seg-368f7969b33a = JPL
+
+seg-44db8a7ae8f7 = Jet Propulsion Laboratory
+
+seg-e0e589aaa8fe = LEO, MEO
+
+seg-f4b580b88664 = niska orbita okołoziemska; średnia orbita okołoziemska
+
+seg-aad5b54bfffd = MBSE
+
+seg-800a5f6b96ad = inżynieria systemów oparta na modelach
+
+seg-535ba4896ba4 = NEES
+
+seg-a230ecd2fe39 = znormalizowany kwadrat błędu estymacji
+
+seg-56d5135d987d = model jonosfery Galileo
+
+seg-408af08fe37b = OEM, SP3, TLE
+
+seg-caac315539e4 = Orbit Ephemeris Message; Standard Product { "3" } (precyzyjne orbity); zestaw elementów dwuliniowych
+
+seg-ac4878697ee5 = PNT, PPP
+
+seg-c19b5f77acc5 = pozycjonowanie, nawigacja i czas; precyzyjne pozycjonowanie punktowe
+
+seg-dd94b086ed4b = PSD, SSC
+
+seg-6e937d7e984e = gęstość widmowa mocy; współczynnik separacji widmowej
+
+seg-e0421c657cc1 = RAIM, SQM
+
+seg-d6fee8d2ce49 = autonomiczne monitorowanie integralności w odbiorniku; monitorowanie jakości sygnału
+
+seg-dc53bead2cf5 = RINEX, RTCM
+
+seg-497d23725a56 = Receiver Independent Exchange Format (niezależny od odbiornika format wymiany); Radio Technical Commission for Maritime Services
+
+seg-dcd6afa24ea6 = RMS
+
+seg-0b4fc648e96c = pierwiastek ze średniej kwadratów
+
+seg-e1c3c49833fc = otwartoźródłowa biblioteka pozycjonowania GNSS, używana tu jako wyrocznia
+
+seg-9ead536db4aa = Simplified General Perturbations { "4" } (model orbity zestawów elementów dwuliniowych)
+
+seg-865e7d1794b6 = Secure Hash Algorithm, 256-bitowy
+
+seg-8c718f7f9f5d = SigMF
+
+seg-7830c93a5803 = Signal Metadata Format (format metadanych sygnału)
+
+seg-d282e836d47b = SISRE
+
+seg-3c48d3ad7b43 = błąd odległości sygnału w przestrzeni
+
+seg-f045a03a5598 = SPS PS
+
+seg-8b51e83d54d3 = Standard Positioning Service Performance Standard
+
+seg-758b51d8d5b6 = SRTM
+
+seg-7e45c32b04e4 = Shuttle Radar Topography Mission
+
+seg-8104773e1484 = STK
+
+seg-f4fca0494aae = Systems Tool Kit (jego format pliku efemeryd <c1/>)
+
+seg-ad20a7bebf23 = STL
+
+seg-e2dbcb4bc5f5 = Satellite Time and Location
+
+seg-1043491566b5 = SVID
+
+seg-d67f9665f054 = identyfikator pojazdu kosmicznego
+
+seg-de4e841ce8a2 = łączna liczba satelitów konstelacji Walkera, jej płaszczyzny i fazowanie
+
+seg-4d6ebfefc096 = TEC
+
+seg-5149401781dd = całkowita zawartość elektronów
+
+seg-71aee5eb55c5 = UHF
+
+seg-65e797f8bb42 = ultrawysoka częstotliwość
+
+seg-3cd6018f5b78 = UTC
+
+seg-4d7d6ff2e8a5 = uniwersalny czas koordynowany
+
+seg-41b9b462d434 = WGS { "84" }
+
+seg-ec04054b9f8e = World Geodetic System { "1984" }
+
+seg-613b7c13cd32 = X1, X5
+
+seg-349e041a5a90 = nazwy sygnałów systemu Xona Pulsar
+
+seg-d6a3f210958a = Zmieniona opublikowana liczba jest rewizją i zostaje zapisana, nigdy poprawiana po cichu. To wydanie zawiera jedną rewizję wyniku silnika i kilka rewizji wartości podanych w dokumentacji.
+
+seg-1669eb4224f1 = Wynik silnika
+
+seg-185961ebab61 = Redukcja TEME→GCRS była obrócona o { "2" }·Δψ: macierz nutacji miała odwrócony znak Δψ.
+
+seg-504b78f30c54 = <c1/> budowało <c2/>, tam gdzie <c3/> z SOFA buduje <c4/>, więc <c5/>, <c6/>, <c7/> i <c8/> obracały o dwukrotną nutację w długości, około { "25" } sekund łuku. Każda kontrola łańcucha była testem własności (obrót właściwy, przejście w obie strony, niezerowy udział nutacji), który przepuszcza pomyłkę znaku; kompleksowy test Vallado obejmował TEME→PEF, TEME→ITRF i GCRS→ITRS, ale nie TEME→GCRS. Na przykładzie Vallado (AIAA 2006-6753, 2004-04-06) łańcuch mijał opublikowany GCRF o { "1 145" } m; teraz ląduje { "0.11" } m od niego, a macierz jest równa <c9/> z ERFA z dokładnością { "1e-14" }. <c10/> i <c11/> oba zawodzą na starym znaku. Test spójności CIO (Celestial Intermediate Origin) w <c12/> przypisał wynikającą z tego niezgodność ~{ "130" } m „≈ { "2" }·EE”; reszta wynosi teraz { "5" } cm, a jej granicę zaostrzono z { "250" } m do { "1" } m. <b>To zmienia opublikowane liczby, zapisane tu jako rewizja:</b> kolumny <c14/> i <c15/> rodzaju <c13/> (około { "0.8" }–{ "1.0" } km dla dołączonego scenariusza ISS (Międzynarodowa Stacja Kosmiczna); jego kolumny TEME, związane z Ziemią, śladu na powierzchni, kątów widzenia i Dopplera nie zmieniają się) oraz <c16/> / <c17/> dla układów GCRS i ITRS. Żaden wiersz podsumowania, wykres ani złoty hasz dołączonego scenariusza nie odczytuje tych kolumn. Nowe eksporty interoperacyjności używają poprawionego łańcucha: pozycja CZML pierwszego satelity <c18/> zgadza się z redukcją ERFA tego samego TLE (propagowanego pakietem Pythona <c19/>) z dokładnością { "2.3" } cm.
+
+seg-a0a4026d22ed = <b>Rodzaj <c1/>, natywnie i w kompilacji przeglądarkowej.</b> Rodzaj oblicza teraz każdą funkcję przestępną przez jedną przenośną bibliotekę matematyczną, więc jego ramka ma te same bajty na każdej platformie i w każdej kompilacji (przy Fixed). Wraz z tym zmienia się każda wartość <c2/> oraz etap <c3/> w <c4/>. Rodzaj jest nowy w tym wydaniu, więc nic z wcześniejszego wydania się nie zmienia, ale zmieniają się wartości podane przed poprawką: wartość kontrolna z <c5/> dla scenariusza kodowania i dekodowania wynosiła <c6/>, a wynosi <c7/>, a SISRE zdekodowanej wiadomości to { "0.129" } cm. Na kshana.dev karta Missions dla <c8/> pokazywała najgorszy błąd odległości { "1.6" } mm przy dopasowaniu { "60" } s i { "40.3" } mm przy dopasowaniu { "900" } s; strona jest teraz budowana z silnika tego wydania i pokazuje { "1.8" } mm i { "46.6" } mm.
+
+seg-77f441bfc3c3 = <b>Mapa zasięgu zagłuszania na kshana.dev (Missions).</b> Każda z jej { "875" } komórek to jeden przebieg <c1/> ze zmienioną tylko pozycją odbiornika. Komórki są teraz obliczane z tych samych współrzędnych o trzech miejscach po przecinku, które odnośnik „open this run” komórki podaje Kshana Studio, więc komórka pokazuje dokładnie to, co odtwarza jej odnośnik. Średni stosunek jammera do sygnału (J/S) w { "30" } komórkach zmienia się o { "0.1" } dB, w górę lub w dół; dostępność śledzenia żadnej komórki się nie zmienia. Silnik daje identyczne wyniki dla każdej komórki w { "0.28.0" } i { "0.29.0" }.
+
+seg-146588a39e7c = <b>Próbkowanie z ziarnem w pakiecie WebAssembly (WASM).</b> Kompilacja przeglądarkowa losowała inne indeksy bootstrapu i tasowania niż kompilacja natywna z tego samego ziarna (przy Fixed). Przedział <c1/> pola pod krzywą w przeglądarce wynosił <c2/>, a teraz jest to natywne <c3/>. Żadna liczba natywna się nie zmienia.
+
+seg-017810049453 = Wartości podane w dokumentacji
+
+seg-85ab2a364a37 = Dokumentację przeaudytowano słowo po słowie względem przebiegów silnika tego wydania. Tam, gdzie podana wartość nie zgadzała się z przebiegiem, dokument poprawiono, a każda poprawka jest tu wymieniona, stare → nowe. W każdym poniższym przypadku wynik silnika się nie zmienił; to dokument źle go odczytał, źle zaokrąglił lub się zdezaktualizował.
+
+seg-1eacdefbfda2 = <b>Audyt dokumentacji stron o widmie, konstelacjach, kampaniach, animacji, raportach i interoperacyjności oraz nowy <c1/>.</b> Każdą wartość przeliczono ponownie tym silnikiem. Zmieniają się dwie opublikowane liczby: <c2/> podawał test pokrycia dla { "5" } 000 satelitów jako „około { "0.13" } s w kompilacji debug”; to się nie odtworzyło ({ "1.24" } s na obciążonym laptopie), więc strona podaje teraz udział prefiltra, który drukuje test ({ "9.9" } % z { "19 440 000" } testów par), oraz { "0.14" } s binarki wydaniowej dla dołączonego <c3/>. Ta sama strona podawała przecięcie E3F jako „off by { "0.050" } deg”; żaden test nie drukuje tej wartości, więc strona podaje teraz tylko próg { "0.06" } deg, który test wymusza, oraz wyprowadzenie { "7.30" } wobec { "7.36" } deg, które za nim stoi. Żaden wynik silnika się nie zmienia.
+
+seg-2ad182e2db15 = Dokumenty LEO-PNT: poprawione opublikowane wartości (przeliczone ponownie na silniku tego wydania).
+
+seg-6c2401365dd5 = <c1/> kompromis między pasmami: opóźnienie jonosferyczne pierwszego rzędu dla <c2/> wynosi { "3.24" } m (podano { "3.25" } m), a dla <c3/> { "0.77" } m (było { "0.78" } m). <c4/> kodowanie i dekodowanie: SISRE zdekodowanej wiadomości podano jako { "0.119" } cm, gdy przebieg dał { "0.122" } cm; strona podaje teraz { "0.129" } cm, wartość po poprawce niezależności od platformy przy Fixed poniżej. <c5/> przelot LEO w porównaniu z GNSS: o { "32" } dB mniejsza strata w wolnej przestrzeni w szczycie przelotu (było „{ "26" } do { "32" } dB”). Dla wartości sygnału i przelotu wynik silnika się nie zmienił; dokumenty źle go odczytały lub źle zaokrągliły.
+
+seg-fc3c8ba1b789 = <b>Samouczki, przykład potoku roboczego i polecenie <c1/>, przeaudytowane względem silnika tego wydania.</b> Rewizje opublikowanych wartości, stare → nowe: rodzajów, które zapisują <c2/>, jest sześć, nie cztery (brakowało <c3/> i <c4/>; <c5/>, <c6/>); przecięcie ½bT² dla zimnych atomów w Samouczku { "3" } wynosi { "18,443" } s, nie { "18,440" } s; błąd przejścia w obie strony <c7/> w <c8/> to zmierzone { "4.88e-7" } km, nie „~{ "1e-7" } km”; pasmo holdover CSAC w Samouczku { "2" } to { "2000" }–{ "3200" } s, które test potwierdza, a nie „~{ "2600" }–{ "4400" } s”; Samouczek { "1" } cytuje wiersze SP3 i blok geometrii z dokładnością, z jaką zapisuje je silnik. Żaden wynik silnika się nie zmienił.
+
+seg-4c613cabb87b = Strony o walidacji, kwantowych, SGP4, animacji, twierdzeniach i integralności.
+
+seg-c49d5cdb36e1 = <c1/>: wymuszany próg dla symulowanego jednosekundowego odchylenia Allana zegara z szumem białym częstotliwości wynosi { "20" } % (podano { "25" } %; próg { "25" } % dotyczy krzywej przy { "1" }, { "10" } i { "100" } s); wiersz błądzenia losowego prędkości podaje teraz swój wymuszany próg { "20" } % obok obserwowanych około { "12" } %; a dostępność zegara atomowego w skali chipa w <c2/> wynosi około { "0.73" } (podano około { "0.83" }). <c3/>: szum pojedynczego strzału ograniczony wibracjami w przykładzie roboczym zimnych atomów na stronie wynosi około { "46" } razy jego dolną granicę szumu śrutowego (było „~{ "45" }×”; przeliczone { "46.49" }), a zakres „{ "1" }–{ "50" } µg/√Hz” dla urządzeń terenowych, który przeczył urządzeniu cytowanemu przez samą stronę, zastąpiono opublikowanymi wartościami dwóch cytowanych urządzeń. <c4/>: najgorsza różnica pozycji wynosi { "4.12" } mm (było „≈ { "4" } mm”), z nazwanym satelitą. <c5/>: przykład z koderem wideo odczytywał klatki o { "24" } klatkach na sekundę jako { "12" }; teraz używa { "24" }, czyli częstotliwości podanej w manifeście klatek. <c6/>: model zagłuszania ma { "10" } testów (było { "8" }), a „{ "2.97" } m wobec { "48.8" } m” dla filtru sprzężonego zastąpiono tym, co jego test potwierdza (sprzężony błąd pozycji poniżej { "0.6" } razy błędu niesprzężonego, wygrywając w co najmniej { "90" } z { "100" } prób). <c7/>: stempel „Today” brzmiał { "v0.22.0" }; teraz nazywa to wydanie, a dwie możliwości zbudowane od tamtej pory (tryb błędu całej konstelacji i wiadomość wsparcia integralności) znikają z jego listy luk.
+
+seg-4fde8788f95f = <b>Rodzaj scenariusza <c1/>: model widma pasma L i wodospad</b> (<c2/>, <c3/>, <c4/>). Całe pasmo L GNSS jako jedna gęstość widmowa mocy (PSD): GPS L1 kod zgrubny/akwizycyjny (C/A) i L2 cywilny (L2C) (BPSK({ "1" })), Galileo E1 (multipleksowana modulacja z przesunięciem binarnym nośnej, MBOC(6,1,1/11), lub BOC({ "1,1" })), GPS L5 i Galileo E5a (BPSK({ "10" })), poziom szumu kT ze współczynnikiem szumu odbiornika oraz jammery fali ciągłej (CW), wąskopasmowe, z przemiataniem i z szumem dopasowanym na zapisanej osi czasu. Każdy jammer jest oceniany w każdym paśmie przez swój współczynnik separacji widmowej (SSC), co daje stosunek jammera do sygnału (J/S) i efektywny stosunek mocy nośnej do gęstości szumu (C/N0) na pasmo na wiersz. Wykres to wodospad SVG z słupkami C/N0; result.json zawiera siatkę uśrednioną blokowo w mocy. Opcjonalne <c5/> rysuje model jako próbki IQ, zapisuje i odczytuje nagranie Signal Metadata Format (SigMF) (<c6/>, <c7/>) i porównuje estymatę Welcha z modelem; opcjonalne <c8/> estymuje rzeczywisty plik SigMF. Dołączony przykład <c9/>: przemiatany sygnał przejmuje L1 C/A i E1 w { "10" } s, ton CW na nośnej L1 utrzymuje C/A na poziomie { "17.98" } dB-Hz po ustaniu przemiatania, podczas gdy E1, którego widmo ma tam zero, wraca do normy; L5 i E5a pozostają nietknięte.
+
+seg-fa9976349886 = Nowy wiersz VALIDATED: PSD i SSC sygnałów, względem głównego listka BPSK(n) o szerokości 2n x { "1.023" } MHz, listków BOC({ "1,1" }) wyśrodkowanych w +/-1.023 MHz, zamkniętych postaci Parsevala stojących za opublikowanymi SSC -61.8 / -64.8 / -67.8 dB/Hz oraz podręcznikowych Q = { "1" } (CW) i { "1.5" } (dopasowany). Maksimum PSD BOC({ "1,1" }) leży w +/-0.759 MHz, a nie w środku listka; test przypina jedno i drugie.
+
+seg-411431a9b26b = Dwa nowe wiersze MODELLED: wodospad i oś czasu C/N0, które sprowadzają się dokładnie do łańcucha rodzaju <c1/> (sprawdzane krzyżowo w każdym raporcie), oraz kodek SigMF i estymator Welcha. W repozytorium nie ma żadnego nagrania osób trzecich.
+
+seg-5c5c695e7c0a = <c1/>: wariant MBOC oraz <c2/>.
+
+seg-bb346f4942a9 = Raport drukuje wartość C/N0, jaką dałaby reprezentatywna tabela Q rodzaju <c1/>, obok wartości wyprowadzonej z widma; dla tonu CW na nośnej C/A różnią się one o { "1.8" } dB. Trzy nowe wiersze macierzy: jeden sprawdzony (widma sygnałów i współczynniki separacji widmowej) i dwa obliczone z modelu.
+
+seg-673dfe048dad = <b>Efemerydy Układu Słonecznego i pozycjonowanie wokół dowolnego ciała.</b> Dwa nowe rodzaje scenariuszy.
+
+seg-3e1b0e8e99e9 = <c1/>: Słońce, osiem planet, Pluton, Księżyc, Fobos, Deimos, Io, Europa, Ganimedes, Kallisto i Tytan w jednej epoce: położenie i prędkość heliocentryczne w Międzynarodowym Niebieskim Układzie Odniesienia (ICRF), parametr grawitacyjny, promienie, J2 (druga harmoniczna strefowa), tam gdzie jest opublikowana, rotacja gwiazdowa, biegun i południk zerowy według Międzynarodowej Unii Astronomicznej (IAU), ślad orbity w ciągu jednego obiegu oraz czas światła, odległość w jedną i w obie strony, solarne opóźnienie Shapiro i separacja od Słońca z ciała obserwatora i dla każdego dodatkowego łącza. Planety pochodzą z elementów keplerowskich Jet Propulsion Laboratory (JPL) według Standisha i Williamsa (Tabela { "1" }, { "1800" } AD do { "2050" } AD; Tabele 2a/2b, { "3000" } BC do { "3000" } AD); księżyce z elementów średnich JPL z synchroniczną prędkością obrotu według IAU, a Tytan z modelu rotacji IAU. Przykład: <c2/>.
+
+seg-6a094973208b = <c1/>: orbiter lub lądownik na powierzchni wokół dowolnego z tych ciał, nawigujący za pomocą pseudoodległości z konstelacji Walkera wokół ciała i odległości w obie strony bez zegara z Ziemi; rozmycie dokładności, niepewność formalna i rozwiązania metodą najmniejszych kwadratów z ziarnem, z łączem z Ziemią i bez niego. Przykłady: <c2/>, <c3/>.
+
+seg-ed5063379a8b = <c1/> zyskuje Merkurego, Wenus, Jowisza, Saturna, Urana, Neptuna, Plutona i siedem księżyców, wyszukiwanie po nazwie oraz rekord fizyczny; <c2/> podaje dowolne ciało względem dowolnego innego przez istniejący szew <c3/>.
+
+seg-8b5c2fbe91f7 = VALIDATED względem JPL Horizons (Development Ephemeris DE441; wzorce i zapytania w <c1/>): od Merkurego do Saturna oraz Ziemia z Tabeli { "1" } w granicach dwukrotności podanego błędu nominalnego (najgorzej { "1.87" } razy), wszystkie osiem planet z Tabel 2a/2b (najgorzej { "1.71" } razy) oraz czas światła Ziemia–Mars i Ziemia–Jowisz. MODELLED: Uran i Neptun z Tabeli { "1" }, które przekraczają podany błąd względem DE441 ({ "2.0" } i { "5.2" } razy), Pluton, księżyce, stałe ciał i wyniki <c2/>.
+
+seg-a3c83f6d2078 = Ustalenie: szereg księżycowy Montenbrucka i Gilla w <c1/> jest już odniesiony do równonocy J2000 przez własny człon precesji ({ "0.05" } stopnia od Horizons), więc używa się go bez dodatkowej rotacji precesji. Sześć nowych wierszy macierzy: dwa sprawdzone (położenia planet, czas światła) i cztery obliczone z modelu.
+
+seg-564133d6a0c4 = Konstelacje wokół dowolnego ciała
+
+seg-d1ddb76d8bf3 = <b>Projektowanie konstelacji na dużą skalę (rodzaj <c1/>, <c2/>).</b> Wzory Walker delta i Walker star (T/P/F), jawne listy elementów i projekty wielopowłokowe, kilka konstelacji na przebieg, wokół Ziemi, Księżyca, Marsa lub innej planety, Plutona albo większego księżyca, ze stałych ciał dodanych przez rodzaj <c3/>. Presety z opublikowanych elementów nominalnych: bazowa i rozszerzalna 24-slotowa konstelacja Global Positioning System (GPS) (Standard Positioning Service Performance Standard, SPS PS, { "2020" }), Galileo Walker 24/3/1 (Open Service Service Definition Document, wydanie { "1.1" }), BeiDou na średniej orbicie okołoziemskiej Walker 24/3/1 plus satelity geostacjonarne i nachylone geosynchroniczne (Open Service Performance Standard { "3.0" }) oraz GLONASS 24/3/1 (Interface Control Document { "5.1" }). Pokrycie i rozmycie dokładności (DOP) na siatce szerokości i długości geograficznej: satelity w zasięgu widzenia, GDOP, PDOP, HDOP i VDOP (geometryczne, położenia, poziome, pionowe) i dostępność na komórkę, globalnie i w najgorszym miejscu, z jednym zegarem odbiornika na konstelację. Prefiltr widoczności (półkąt pokrycia plus pas szerokości podsatelitarnej, dokładny na ciele kulistym) przetwarza { "5 000" } satelitów na siatce { "10" } deg w około { "0.13" } s w kompilacji debug.
+
+seg-8f4ebd177f3d = VALIDATED: generator Walkera odtwarza Tabelę { "23" } Galileo OS SDD i wzór slotów z GLONASS ICD; preset GPS odtwarza kolumnę przecięć równika z SPS PS ({ "35" } z { "36" } lokalizacji w granicach { "0.0108" } deg; E3F w granicach { "0.06" } deg, przy czym własny wiersz tabeli jest niespójny); bazowy globalny rozkład HDOP dla GPS zgadza się z Dodatkiem B SPS PS (mediana { "0.940" } wobec { "0.94" }, { "95" } % { "1.255" } wobec { "1.25" }, średnia { "0.965" } wobec { "0.96" }; próg { "0.03" }).
+
+seg-65658a896a73 = MODELLED: dowolne projekty, inne ciała, faza BeiDou i węzły nachylone geosynchroniczne, orbity dwóch ciał z opcjonalnym J2, wyłącznie geometria.
+
+seg-3dfe470e8a5c = Scenariusze: <c1/> ({ "102" } satelitów, dostępność { "100" } %, mediana PDOP { "0.95" }, { "31.0" } w zasięgu widzenia powyżej { "10" } deg), <c2/> ({ "5 000" } satelitów, dostępność { "99.22" } % przy PDOP { "3" } lub mniejszym powyżej { "20" } deg, { "0" } % na czapach polarnych, prefiltr zachowuje { "11.5" } % testów par), <c3/> ({ "14" } satelitów wokół Księżyca, dostępność { "21.33" } % ogółem i najwyższa nad rejonem południowego bieguna). Wszystkie trzy są dołączone do <c4/>. Uwagi: <c5/>. Trzy nowe wiersze macierzy: dwa sprawdzone (generator Walkera i presety GNSS, globalny DOP GPS) i jeden obliczony z modelu.
+
+seg-79e2d2c42166 = Kampania napędzana modelem widma i konstelacje wokół dowolnego ciała.
+
+seg-4ab5f6f6bbbb = <c1/> łączy rodzaj <c2/> z holdoverem zegara i monitorem integralności (przemiatany sygnał przejmuje L1 C/A i E1; ton CW utrzymuje następnie C/A w dole, podczas gdy E1 wraca do normy, a odbiornik przechodzi na niebo wyłącznie Galileo), przypięta względem samodzielnego przykładu wodospadu w <c3/>. <c4/> rozwiązuje teraz swoje ciało centralne przez <c5/>, więc konstelację można rozmieścić wokół dowolnej planety, Plutona lub większego księżyca ze stałymi używanymi przez rodzaj <c6/>.
+
+seg-dc904f639fed = <b>Kampanie: wiele scenariuszy złożonych w jeden przebieg.</b> Nowy rodzaj <c1/> (<c2/>, opisany w <c3/>) uruchamia członków istniejących rodzajów przez to samo rozdzielanie co wiersz poleceń i odczytuje liczby z ich wyników. Cztery sekcje, w dowolnej kombinacji:
+
+seg-903ee141047a = <c1/>: łańcuchowa misja na jednej osi czasu. Presety dla poszczególnych rodzajów odczytują błąd czasu zegara względem jego strażnika, średni efektywny stosunek mocy nośnej do gęstości szumu (C/N0) względem progu śledzenia, pionowy poziom ochrony względem limitu alarmu, błąd pozycji, śledzące satelity i flagi alarmów, utrzymane na wspólnej siatce z granicami faz i zdarzeniami. Stan jest przekazywany przez <c2/>, <c3/> i <c4/>.
+
+seg-4eeedde09a77 = <c1/>: od jednego do trzech kluczy z kropkami dowolnego rodzaju, opcjonalnie z zespołem z ziarnem w każdym węźle.
+
+seg-4c113198cbb7 = <c1/>: realizacja k przy ziarnie bazowym + k, ze średnią, rozrzutem, percentylami i { "95" }% przedziałem ufności bootstrapu ze stałym ziarnem.
+
+seg-df107253752d = <c1/>: wspólne wartości powiązane z kilkoma członkami, ze złożonym podsumowaniem najlepszego i najgorszego przypadku. Każdy wynik niesie hasz kampanii i skrót ze wszystkich wyników członków. Cztery dołączone scenariusze: <c2/> (nominalny, zagłuszanie, spoofing zakończony przy detekcji monitora zegara po { "370" } s, holdover z przesunięciem { "37.0" } ns po spoofingu przy bezwładnościowym wybiegu, alarm integralności, odzyskanie), <c3/>, <c4/> i <c5/>. <c6/> przypina tożsamości złożenia: kampania jednofazowa odtwarza samodzielny przebieg bit w bit dla trzech rodzajów, zespół ze stałym ziarnem jest stabilny co do bajta, a przy zegarze z szumem białym częstotliwości średnia zespołu leży wewnątrz zgłoszonego przedziału, z rozrzutem wewnątrz przedziału chi-kwadrat dla sqrt(q_wf * tau) = { "16.459" } ns. Trzy nowe wiersze macierzy typu obliczonego z modelu.
+
+seg-c611ee59301a = Animacja
+
+seg-14b2d3cc9e7c = <b>Eksport animacji (<c1/>, <c2/>, <a1><c3/></a1>).</b> Każdy przebieg, którego wynik zawiera szereg czasowy, można teraz zapisać jako animowany plik Scalable Vector Graphics (SVG) (klatki kluczowe Cascading Style Sheets, bez skryptu: ślady rysują się za poruszającym się kursorem czasu), jeden samodzielny odtwarzacz HyperText Markup Language (HTML) (odtwarzanie i pauza, przewijanie, prędkość, każdy panel na jednym zsynchronizowanym kursorze, znaczniki zdarzeń przewijające po kliknięciu; bez zewnętrznych zasobów) albo ponumerowaną sekwencję klatek SVG z plikiem <c4/> podającym liczbę klatek na sekundę, czas trwania i czasy klatek dla kodera wideo. Kampania odtwarza się jako jej fazy z zaznaczonymi alarmami; przebieg widma animuje swój wodospad wiersz po wierszu. Odtwarzacz stosuje się do <c5/>, a przy <c6/> zarówno SVG, jak i odtwarzacz pokazują gotowy obraz zamiast ruchu. <c7/> i <c8/> ustawiają odtwarzanie; <c9/> i <c10/> to punkty wejścia biblioteki, a <c11/> zyskuje blok <c12/> tylko wtedy, gdy działa <c13/>. Wynik jest czystą funkcją wyniku i opcji, identyczny bajt w bajt przy ponownym przebiegu, bez znacznika czasu. Rodzaj bez próbkowanej osi czasu zostaje odrzucony z komunikatem „no time series to animate” i nic nie jest zapisywane. Eksporter rysuje własne próbki przebiegu i nie dodaje żadnej liczby, więc jest MODELLED (wewnętrzna spójność) i nie ma wiersza macierzy weryfikacji; żadna opublikowana liczba się nie zmienia. Testy: <c14/> (determinizm, liczba klatek, brak zewnętrznego adresu, poprawnie sformułowany XML, ścieżka ograniczenia ruchu i animowanie każdego dołączonego scenariusza z szeregiem czasowym).
+
+seg-c01b78b64065 = Raporty
+
+seg-2662fdb991f3 = <b>Zaawansowane raporty z przebiegów (<c1/>, <a1>docs/REPORTS.md</a1>).</b> Każdy przebieg z interfejsu wiersza poleceń (CLI) zapisuje teraz <c2/>, raport HyperText Markup Language (HTML) do wydruku, oraz <c3/>, tę samą treść jako dokument JavaScript Object Notation (JSON) czytelny dla maszyn. Sekcje: streszczenie dla kierownictwa; każde wejście scenariusza z jego jednostką, odczytaną ze schematu jednostek pól (blok <c4/> wyniku), w przeciwnym razie z sufiksu nazwy pola, w przeciwnym razie podane jako niepodane; wyniki z wykresem przebiegu, każdą wartością skalarną i podsumowaniem każdej kolumny liczbowej; dla kampanii tabela węzłów przeglądu, średnia Monte Carlo, odchylenie standardowe, percentyle 5. / 50. / 95. i przedział ufności bootstrapu z histogramem dla każdej metryki, tabela faz łańcucha albo członkowie kompozycji i podsumowanie złożone (oraz siatka przebiegu <c5/> lub <c6/>); oś czasu zdarzeń; etykieta VALIDATED / MODELLED / PARTNER, wyrocznia i dowody testowe każdego wiersza macierzy weryfikacji, który wykorzystują rodzaje przebiegu, odczytane z macierzy przez tabelę przyporządkowania rodzaj–wiersz (wiersz, który ocenia jedną ścieżkę wejściową, taką jak ścieżka Simplified General Perturbations { "4" } (SGP4) rodzaju <c7/> lub ścieżka zmierzonego zapisu rodzaju <c8/>, jest wymieniany tylko wtedy, gdy przebieg poszedł tą ścieżką, a wiersz czytnika Shuttle Radar Topography Mission (SRTM) nie jest wymieniany dla żadnego rodzaju, ponieważ żadne pole scenariusza nie czyta kafla SRTM); stwierdzenia o tym, czego nie modelowano, i założenia, każde zacytowane ze swoim źródłem; oraz zapis odtwarzalności (wersja silnika, commit źródłowy, gdy kompilacja ustawia <c9/>, skróty Secure Hash Algorithm 256-bit (SHA-256) pliku scenariusza i dokumentu wyniku, ziarno, platforma i dokładne polecenie). Raport nie czyta zegara: ten sam scenariusz, ziarno i kompilacja silnika dają raport identyczny bajt w bajt, a jedyny znacznik czasu, jaki może pokazać, to ten, który <c10/> już zapisuje. Arkusz stylów do druku mieści się na A4 i US Letter, powtarza nagłówki tabel i utrzymuje wiersze i rysunki w całości na stronach; plik Portable Document Format (PDF) powstaje przez „Zapisz jako PDF” w przeglądarce. Nie ma opcji <c11/>, ponieważ renderowanie wykresów do PDF wymagałoby nowej, ciężkiej zależności. Testy: <c12/> raportuje każdy dołączony scenariusz (żadnej pustej sekcji, żadnego tekstu zastępczego, etykiety równe macierzy, skrót scenariusza równy skrótowi pliku, identyczność bajt w bajt przy ponownym przebiegu), a <c13/> ponownie uruchamia zapisane polecenie w nowym katalogu i wymaga identycznego bajt w bajt <c14/>. Żadna opublikowana liczba się nie zmienia, a liczby rodzajów, plików scenariuszy i wierszy macierzy pozostają bez zmian.
+
+seg-ce45e75c6d67 = <b>Raport, animacja i eksporty działają razem.</b> Raport zaawansowany zyskuje sekcję „Animation and exports”: animowany rysunek przebiegu osadzony jako nieaktywny obraz (lub powód, dla którego go nie ma), odnośniki do plików animacji i eksportu zapisanych obok oraz każdy format interoperacyjności z informacją, czy ma zastosowanie, dlaczego nie, i jego specyfikacją; <c1/> zawiera ten sam blok <c2/>. Odtwarzacz animacji HTML wymienia pliki eksportu zapisane obok niego. Interfejs wiersza poleceń (CLI) renderuje teraz eksporty przed zapisaniem raportu, więc oba mogą nazywać te pliki.
+
+seg-c60dc5b92a60 = Eksporty interoperacyjności
+
+seg-5bfce52c5a13 = Eksporty i importy interoperacyjności (<c1/>, <c2/>, docs/INTEROP.md).
+
+seg-44e7c902490a = <c1/> zapisuje geometrię scenariusza jako CZML (Cesium Language), KML (Keyhole Markup Language { "2.2" }, standard Open Geospatial Consortium, ze śladami ze znacznikami czasu <c2/>), GeoJSON (Internet Engineering Task Force Request for Comments { "7946" }) i efemerydy Ansys STK (Systems Tool Kit) <c3/> (<c4/>, metry, jeden plik na poruszający się obiekt), a zsyntetyzowaną migawkę IQ (składowe synfazowa i kwadraturowa) rodzaju <c5/> jako parę SigMF (Signal Metadata Format) przez istniejący <c6/>. <c7/> zapisuje każdy format, który ma zastosowanie, i drukuje, dlaczego pozostałe nie; <c8/> raportuje bez uruchamiania. Poruszające się obiekty są zapisywane w Geocentrycznym Niebieskim Systemie Odniesienia (CZML <c9/>, STK <c10/>) oraz jako długość, szerokość i wysokość związane z Ziemią w WGS { "84" } (World Geodetic System { "1984" }) (KML, GeoJSON); stałe miejsca w CZML to <c11/>. Rodzaj <c12/> dodaje dwa zasięgi jammerów z własnych równań łącza. <c13/> zapisuje GeoJSON <c14/> w wejściach śladu <c15/>, <c16/>, <c17/> i <c18/>. Eksporty są deterministyczne co do bajta i nie niosą znacznika czasu. <c19/> waliduje każdy eksport względem opublikowanej specyfikacji, porównuje wyeksportowane stany satelitów z własnymi stanami silnika z dokładnością { "1" } mm i przepuszcza każdy dołączony scenariusz przez każdy format, każdy albo eksportuje, albo podaje dlaczego nie (tabela w docs/INTEROP.md). Żadna opublikowana liczba się nie zmienia: synteza IQ rodzaju <c20/> przeniesiona do jednej wspólnej funkcji, a jego dokument wyniku jest identyczny bajt w bajt, a <c21/> zyskuje <c22/> i <c23/> używane przez jego własny przebieg. Liczby rodzajów, plików scenariuszy i wierszy macierzy weryfikacji pozostają bez zmian. Scenariusz orbity lub integralności bez <c24/> jest datowany własnymi danymi swoich satelitów: <c25/> to najwcześniejsza epoka TLE (zestawu elementów dwuliniowych), efemerydy rozgłaszanej lub SP3 (Standard Product { "3" }), a każdy taki satelita jest obracany do układów GCRS i związanych z Ziemią w swojej własnej chwili; 2000-01-01T00:{ "00" }:00Z jest używane tylko wtedy, gdy żaden satelita nie niesie epoki. Eksporty SP3 i OEM (Orbit Ephemeris Message) zachowują swoją etykietę 2000-01-01. Aby to wesprzeć, dodano <c26/>, <c27/> i <c28/>; nic, co istniało, ich nie czyta.
+
+seg-12c151a800f9 = Nawigacja z niskiej orbity okołoziemskiej: sygnał
+
+seg-9b665682695a = <b>Projekty sygnałów LEO-PNT i widmo wielopasmowe.</b> Nowy rodzaj <c1/> i rodzaj <c2/>, który sięga poza pasmo L: jeden rodzaj, cztery pliki scenariuszy (trzy dołączone; plik Celeste IOD jest tylko w repozytorium) i cztery wiersze macierzy (dwa VALIDATED, dwa MODELLED).
+
+seg-b355b28bfd1b = <c1/>: sparametryzowane projekty sygnałów pozycjonowania, nawigacji i czasu (PNT) z niskiej orbity okołoziemskiej (LEO) dla dowolnego systemu (pasmo, szerokość pasma nadawania, przydział ITU; składowe akwizycyjna, danych i pilotowa z widmami BPSK(n), BOC(m,n), MBOC lub płaskimi, udziałami mocy, podnośnymi FDMA, długościami kodu i szybkościami danych), z wkompilowanych publicznych plików presetów w <c2/> (Xona Pulsar X1/X5, Iridium STL, sygnał okazji Starlink, CentiSpace, reprezentatywny projekt w paśmie C oraz reprezentatywne projekty UHF/L/S/C/szerokie C, każdy z podanym adresem URL źródła) albo zapisane w treści. Na sygnał: PSD ograniczone pasmem i udziały mocy w paśmie, szerokość pasma Gabora, ograniczony pasmem jitter śledzenia kodu wczesny–późny względem C/N0 i odstępu (Betz i Kolodziejski { "2009" }) oraz dokładność wyznaczania odległości, przestrzeń przeszukiwania akwizycji, prawdopodobieństwo detekcji i średni czas akwizycji szeregowej i równoległej względem kodu, SSC do GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b i AltBOC i z nich, wraz ze stratą C/N0, tolerancją J/S dla CW, szerokopasmową i dopasowaną z kodu SSC rodzaju widma, kompromis między pasmami (opóźnienie jonosferyczne, strata w wolnej przestrzeni, wyznaczanie odległości przy równym C/N0 i równym EIRP, tolerancja na jammer) oraz opcjonalne kontrole kształtu względem opisanego pomiaru. Przykłady: <c3/>, <c4/>, <c5/> (pasma i konfiguracja sygnału Celeste IOD przedstawione na warsztatach ESA NAVISP LEO-PNT, { "2026" }; wstrzymane razem z presetem Celeste IOD, zob. „LEO-PNT end to end” poniżej). Uwagi w <c6/>.
+
+seg-8f58debf721f = <c1/>: pasma mogą być teraz presetowym projektem sygnału (każda składowa narysowana, ograniczona pasmem, C/N0 i J/S odniesione do śledzonej składowej) albo własną nośną i modulacją; <c2/> dodają wodospady dla innych zakresów częstotliwości na jednej osi czasu; jammer <c3/> (zaporowy) dołącza do czterech przebiegów. Raport dodaje <c4/>, <c5/> i <c6/> oraz jeden wpis <c7/>. Zwykłe pasma dają te same liczby co wcześniej. Przykład: <c8/>.
+
+seg-98f74d85c54b = <c1/> zyskuje całkę sinusową, zamknięte postaci mocy BPSK w paśmie i szerokości pasma Gabora ograniczonej pasmem, jitter wczesny–późny ograniczony pasmem dla dowolnego widma i jego granicę Gabora, zamkniętą postać SSC dla przesuniętego BPSK, widmo Galileo E5 AltBOC({ "15,10" }) oraz parser etykiet modulacji; <c2/> drukuje BPSK(1/3) jako ułamek.
+
+seg-78d9e5e2c615 = Cztery wiersze macierzy: VALIDATED zamknięte postaci ograniczone pasmem ({ "90.3" } % mocy BPSK w głównym listku, jitter sprowadzający się do postaci koherentnej Kaplana i Hegarty'ego, { "0.0039564" } chipa przy { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms, oraz do swojej granicy Gabora, i własne SSC BPSK 2/({ "3" } R_c); zamknięta postać Gabora i przesunięte SSC względem jego postaci Parsevala podano jako wewnętrzne kontrole krzyżowe); VALIDATED maksymalny Doppler LEO (Xona X1 { "33.2" } kHz w opublikowanym zakresie od { "32" } do { "34" } kHz, Iridium w granicach { "0.5" } kHz od { "36" } kHz); MODELLED <c1/>; MODELLED widmo wielopasmowe.
+
+seg-45d3d4a46d6b = Nawigacja z niskiej orbity okołoziemskiej: łącze
+
+seg-1d120db87aae = <b>Przelot LEO-PNT i bilans łącza dla każdego pasma: rodzaj <c1/>.</b> LEO-PNT to pozycjonowanie, nawigacja i czas z satelitów na niskiej orbicie okołoziemskiej (LEO). Użytkownik (naziemny, morski, powietrzny lub we wnętrzu, nieruchomy lub w ruchu) i jeden lub więcej satelitów LEO z zaprojektowanego przelotu, jawnych elementów, zestawu elementów dwuliniowych (TLE) przez SGP4 albo konstelacji Walkera z kodu <c2/>. Na satelitę, pasmo i epokę: kąty widzenia, odległość, zamknięta postać prędkości i przyspieszenia zmiany odległości (sprawdzane w każdym przebiegu względem różnic centralnych), Doppler i jego tempo, strata w wolnej przestrzeni, EIRP (równoważna moc promieniowana izotropowo) z charakterystyką satelity izoflux, wiązką gaussowską lub płaską, antena użytkownika typu patch, tłumienie gazowe ITU-R P.676, tłumienie deszczu ITU-R P.838/P.618, scyntylacja troposferyczna P.618, strata wnikania do budynku ITU-R P.2109 dla użytkownika we wnętrzu, niedopasowanie polaryzacji, temperatura szumowa systemu i C/N0 (stosunek mocy nośnej do gęstości szumu); opóźnienie jonosferyczne pierwszego rzędu w każdym paśmie z ukośnego TEC (całkowitej zawartości elektronów) według Klobuchara lub pionowego TEC poniżej satelity oraz pary pasm wolne od jonosfery z ich wzmocnieniem szumu. Satelity Galileo lub GPS są oceniane tym samym odbiornikiem na podstawie mocy odbieranych z dokumentów interfejsu, więc dzwonowaty przelot LEO i płaskie nośne MEO (średnia orbita okołoziemska) mają wspólny wykres. Sekcja <c3/> podaje czas do pierwszego rozwiązania pozycji, energię na rozwiązanie i czas pracy baterii względem cyklu pracy (MODELLED).
+
+seg-17f3503e1be3 = Niezależność od systemu: silnik nie potrzebuje żadnego presetu. Opcjonalne presety, każdy w osobnym pliku i oznaczony PUBLIC (z URL), REPRESENTATIVE lub WORKSHOP: ogólny wielopasmowy (UHF, L, S, C), ogólne pasmo C, Xona Pulsar X1/X5 (arXiv { "2509.19551" }), Iridium STL, Starlink jako sygnał okazji wyłącznie dopplerowski, CentiSpace oraz Celeste IOD (demonstracja na orbicie), którego parametry sygnału przedstawiono na warsztatach ESA NAVISP LEO-PNT, { "2026" }, i które znajdują się w <c1/>, aby można je było wstrzymać (zob. „LEO-PNT end to end” poniżej).
+
+seg-a338cc46a1e0 = Publiczne bloki konstrukcyjne w <c1/> (geometry, antenna, itu, iono, energy, presets), które mogą wywoływać inne moduły.
+
+seg-887ad03cb6f6 = Scenariusze: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+seg-a20f1602c236 = Dziewięć wierszy macierzy. VALIDATED ({ "6" }): współczynniki ITU-R P.838-3 względem jego Tabeli { "5" }; tłumienie deszczu i scyntylacja P.618-14 względem przykładów walidacyjnych ITU-R Study Group { "3" }; strata wnikania do budynku P.2109 względem skoroszytu Study Group { "3" }; skalowanie jonosferyczne pierwszego rzędu względem stosunku opóźnień grupowych z IS-GPS-200, ze stratą w wolnej przestrzeni; maksymalny Doppler użytkownika nieruchomego na orbicie kołowej względem arXiv { "2509.19551" }, Tabela { "1" }. MODELLED ({ "3" }): przelot i bilans łącza, presety oraz bilans rozwiązania niskoenergetycznego. Jeden rodzaj i sześć plików scenariuszy. Uwagi w <c1/>.
+
+seg-ef74b0f08aa1 = Nawigacja z niskiej orbity okołoziemskiej: wiadomość nawigacyjna
+
+seg-866ff4ee8b19 = <b>Wiadomość nawigacyjna LEO (rodzaj <c1/>, <c2/>).</b> Rozgłaszana wiadomość z efemerydami i zegarem satelity pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO), dla dowolnej orbity, nośnej i modelu; nazwane presety są danymi opcjonalnymi, a każda możliwość działa bez nich. Jeden rodzaj, pięć plików scenariuszy i dziewięć wierszy macierzy (trzy VALIDATED, sześć MODELLED). Zob. <c3/>.
+
+seg-c42821b6e855 = Zawartość wiadomości: SVID, wydanie danych, pasmo i stan sprawności sygnału; tydzień, czas tygodnia i wielomian zegara drugiego rzędu; efemerydy w jednym z czterech modeli — 16-parametrowy zestaw keplerowski z Galileo OS SIS ICD, ten zestaw plus wielomiany poprawek wzdłuż toru, poprzecznych do toru i radialnych, 22-parametrowy model Liu i in. { "2025" } (doi 10.3390/rs17162894) albo wielomian ECEF ATOMIC z zerowym zegarem — oraz zestaw Klobuchara, współczynniki NeQuick-G z efektywnym poziomem jonizacji i parametry czasu systemowego do UTC z przypadkami sekundy przestępnej z ICD.
+
+seg-e4565696f162 = Dopasowanie: orbita prawdziwa całkowana z grawitacją zonalną J2–J6 lub EGM2008 i oporem, zegar swobodny lub sterowany z ziarnem, dopasowanie Levenberga–Marquardta na elementach niesingularnych, następnie liniowe wielomiany poprawek metodą najmniejszych kwadratów oraz zegar dopasowany po odjęciu relatywistycznego członu użytkownika.
+
+seg-a7287b7b336c = Cztery analizy i scenariusze: <c1/> (błąd odległości sygnału w przestrzeni (SISRE) względem przedziału dopasowania i okresu aktualizacji), <c2/> (cztery modele, bity i 22-parametrowe dopasowanie Kshana na wysokościach z Liu i in. obok opublikowanych wartości, MODELLED), <c3/> (ciągłość przy każdym przełączeniu wiadomości w przelocie) i <c4/> (własna udokumentowana ramka binarna Kshana z CRC-24Q i bilansem kwantyzacji, blok w stylu RINEX-4 oznaczony jako rozszerzenie Kshana oraz tabela CSV).
+
+seg-e272dce3d10f = VALIDATED: globalnie uśrednione wagi SISRE względem opublikowanej tabeli orbit średnich i geostacjonarnych Montenbrucka i in. { "2018" }; algorytm użytkownika Galileo względem RTKLIB na czterech rzeczywistych rozgłaszanych efemerydach Galileo (<c1/>); CRC-24Q względem wartości kontrolnej z katalogu i ramki przykładowej RTCM { "10403" } { "1005" }.
+
+seg-5c8592195b0d = Presety, po jednym pliku ze źródłami: Xona Pulsar i Pulsar-0, Iridium, Starlink, CentiSpace, reprezentatywny system w paśmie C, ATOMIC oraz Celeste IOD (jedyny preset używający materiałów przedstawionych na warsztatach ESA NAVISP LEO-PNT, { "2026" }, przechowywany w <c1/> razem ze swoimi scenariuszami, aby można go było wstrzymać).
+
+seg-9fb0cbf29cef = Nawigacja z niskiej orbity okołoziemskiej: fuzja
+
+seg-071f4db017c5 = <b>Połączone pozycjonowanie, nawigacja i czas MEO + LEO: <c1/>, <c2/> i <c3/>.</b> Trzy nowe rodzaje scenariuszy w <c4/>, niezależne od systemu: każda konstelacja to powłoki Walkera, zestawy elementów lub preset GNSS, każdy sygnał to nośna, szybkość chipów i obwiednia stosunku mocy nośnej do gęstości szumu (C/N0), każdy bilans błędów to jawne jedno sigma, a nazwane systemy na niskiej orbicie okołoziemskiej (LEO) są opcjonalnymi presetami, po jednym pliku ze źródłami oznaczonymi jako publiczne, z warsztatów lub wyprowadzone (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), sygnały okazji Starlink, CentiSpace, reprezentatywny system w paśmie C, model efemeryd ATOMIC z zerowym zegarem oraz jeden preset ESA Celeste z demonstracji na orbicie, którego parametry wyprowadzone z warsztatów znajdują się w <c5/>, aby można je było wstrzymać).
+
+seg-f28f7a441263 = <c1/> ma cztery tryby: pozycjonowanie dopplerowskie (wsadowa metoda najmniejszych kwadratów na prędkości zmiany odległości ze stanami dryfu zegara i prędkości, tryb sygnałów okazji wyłącznie dopplerowski, dokładność wzdłuż toru i poprzeczna do toru w pojedynczym przelocie oraz obwiednia Dopplera, tempa Dopplera i szarpnięcia); łączną ważoną metodę najmniejszych kwadratów GNSS + LEO z jednym zegarem na system (przesunięcie międzysystemowe) lub znanym przesunięciem, z sigmami poszczególnych pomiarów jako wejściami i DOP względem liczby satelitów LEO; pokrycie polarne i arktyczne względem szerokości geograficznej; oraz transfer czasu LEO do uniwersalnego czasu koordynowanego (UTC) względem C/N0 i oscylatora odbiornika z wyrażeniem czasu systemowego do UTC z IS-GPS-200.
+
+seg-57afa384aabd = <c1/>: filtr Kalmana rozszerzony dla precyzyjnego pozycjonowania punktowego (PPP) z liczbami zmiennoprzecinkowymi na kodzie i fazie wolnych od jonosfery, tylko GNSS i z wsparciem LEO, z czasem zbieżności i testem spójności NEES (znormalizowany kwadrat błędu estymacji) metodą Monte Carlo. Dołączony scenariusz daje { "7.4" } min z czterema systemami MEO oraz { "4.8" }, { "3.2" }, { "2.7" } i { "2.3" } min przy { "60" }, { "96" }, { "192" } i { "288" } satelitach LEO, obok { "9.6" }, { "7.0" }, { "3.2" }, { "2.1" } i { "1.3" } min Li i in. (J. Geod. { "93" }:{ "749" }, { "2019" }) jako porównanie trendu typu MODELLED.
+
+seg-3fa0556b3737 = <c1/>: pozycjonowanie w sieci nienaziemnej (NTN) 5G w mobilnym pasmie satelitarnym S 3GPP n256 z granicy Craméra–Rao dla czasu przybycia i Dopplera.
+
+seg-a0cc2699e276 = Scenariusze: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (dołączone) i <c8/> (tylko w repozytorium, wstrzymany razem z presetem Celeste IOD).
+
+seg-c0b6b98eeac3 = Osiem wierszy macierzy: obwiednia Dopplera LEO VALIDATED względem opublikowanych wartości dla Iridium (±{ "36" } kHz: { "35.9" } kHz, w granicach { "5" }%) i Xona Pulsar X1 (od { "32" } do { "34" } kHz: { "33.6" } kHz z powłoki { "97" } deg, bez poszerzenia) (<c1/>); pozycjonowanie dopplerowskie, łączne pozycjonowanie z pseudoodległości, zbieżność PPP, granice NTN, czas LEO, pokrycie polarne i presety MODELLED. Trzy rodzaje i osiem plików scenariuszy. Dokumentacja: <c2/>.
+
+seg-173793480abc = <b>LEO-PNT od początku do końca: rodzaj <c1/> i etapy LEO połączone razem.</b> Jeden system pozycjonowania, nawigacji i czasu (PNT) na niskiej orbicie okołoziemskiej (LEO) prześledzony od projektu sygnału do pozycji użytkownika, każdy etap to własny rodzaj silnika na własnej tabeli scenariusza, z wartościami przekazywanymi w kodzie (<a1><c2/></a1>):
+
+seg-41a4a2183ba3 = Pasma <c1/> mogą wskazywać projekt <c2/> (<c3/>): pasmo przejmuje środek projektu, szerokość pasma nadawania i szybkość chipów śledzonej składowej, dzieli swoje EIRP (równoważną moc promieniowaną izotropowo) między składowe projektu i raportuje w każdej epoce C/N0 śledzonej składowej (stosunek mocy nośnej do gęstości szumu) oraz jitter śledzenia kodu ograniczony pasmem (błąd wyznaczania odległości; szum pary <c4/> także go używa). Pasmo bez projektu daje takie samo wyjście jak wcześniej.
+
+seg-a076a43a9d44 = <c1/> uruchamia sygnał -> przelot -> wiadomość nawigacyjna -> łączne rozwiązanie <c2/> -> opcjonalnie <c3/>. Każdy system LEO etapu pozycjonowania, który ich nie ustawia, przyjmuje linię C/N0 w sin(elewacji) dopasowaną do przelotu, błąd odległości sygnału w przestrzeni wiadomości (SISRE: jej błąd reprezentacji na orbicie satelity przelotu, ze wskazanym członem wyznaczania orbity <c4/> w pierwiastku sumy kwadratów) oraz nośną i szybkość chipów projektu; przypadki precyzyjnego pozycjonowania punktowego (PPP) przyjmują SISRE. Każde przekazanie jest wymienione ze swoją wartością i jednostką, a <c5/> sprawdza, że każde jest równe wyjściu poprzedniego etapu i że zmiany poprzedniego etapu przesuwają wartości następnego. <c6/> to nowy punkt wejścia wiadomości.
+
+seg-8c256ed478e9 = Scenariusze: <c1/> (ogólna konstelacja { "1080" } km i reprezentatywny sygnał <c2/>), <c3/> (publiczny sygnał X5), oba dołączone, oraz opcjonalny, tylko w repozytorium <c4/>.
+
+seg-879259c7ff86 = Presety Celeste IOD (demonstracja na orbicie) z obszarów przelotu, wiadomości i połączonego pozycjonowania znajdują się teraz w jednym pliku, <c1/>, który <c2/> kompiluje tylko wtedy, gdy istnieje (flaga konfiguracji <c3/>). Jego pięć scenariuszy (<c4/>) jest tylko w repozytorium, więc usunięcie tego pliku i tych scenariuszy wstrzymuje każdą liczbę przedstawioną na warsztatach ESA NAVISP LEO-PNT, { "2026" }, bez edycji źródła; <c5/> sprawdza, które pliki mogą wymieniać preset lub zawierać liczby jego planu pasm.
+
+seg-110b1f7c7c63 = Każdy rodzaj LEO w tabeli przyporządkowania raportu zaawansowanego, z wierszami zależnymi od ścieżki wymienianymi tylko wtedy, gdy przebieg poszedł tą ścieżką (natężenie deszczu, budynek, analiza lub tryb, które się wykonały). Okna Dopplera <c1/> zyskują <c2/>, a przypadki <c3/> zyskują <c4/>, więc oba się animują; <c5/> i <c6/> eksportują efemerydy CZML, KML, GeoJSON i STK, a pozostałe rodzaje LEO podają, dlaczego format nie ma zastosowania.
+
+seg-1419edea5329 = Nawigacja z niskiej orbity okołoziemskiej: odporność, obszary zainteresowania i scenariusze użytkowników końcowych
+
+seg-d084d86044b4 = <b>Odporność LEO-PNT, jeden scenariusz na obszar zainteresowania eksperymentu i jeden na branżę użytkowników końcowych oraz <c1/> jako przegląd każdego rodzaju i scenariusza LEO.</b> Każdy scenariusz działa bez żadnych danych Celeste i jest dołączony.
+
+seg-07e91f076ab2 = <c1/> zyskuje sekcję <c2/>: spoofer podrabia, spójnie w odległości i prędkości zmiany odległości, sygnały deklarowanej pozycji, która po początku ataku skacze lub jest odsuwana od prawdziwej (dla każdego pasma LEO oraz sygnału MEO GNSS), z jonosferą lub bez niej. Dwa monitory działają przy podanym prawdopodobieństwie fałszywego alarmu: spójność Dopplera i geometrii przelotu (zmierzone prędkości zmiany odległości względem przewidywanych z orbit i niezależnej pozycji oraz prędkości z wcześniejszej wiedzy; uogólniony chi-kwadrat metodą najmniejszych kwadratów w oknie, dla kanałów GNSS, LEO i wszystkich, z szumem pętli synchronizacji częstotliwości wyznaczonym z C/N0) oraz spójność międzypasmowa (skok skorygowanej modelem kombinacji wolnej od geometrii każdej pary pasm LEO). Wynik podaje statystyki na epokę (więc się animuje), każdą parę oraz moment, w którym każdy monitor wykrywa. Bloki konstrukcyjne w <c3/>. Brak sekcji, wyjście bez zmian.
+
+seg-6a7852f1f053 = Każda para pasm <c1/> raportuje także ukośną całkowitą zawartość elektronów (TEC), którą jej kombinacja wolna od geometrii odzyskuje w szczycie przelotu, oraz sigmę szumu kodu tego oszacowania (sondowanie jonosfery). Dodaje to dwa pola do każdego wielopasmowego wyniku <c2/>; żadna istniejąca liczba się nie zmienia.
+
+seg-bdf333f4c978 = Tryb czasu <c1/> przyjmuje <c2/>: każdy wiersz raportuje wtedy swój błąd czasu i przewidywaną sigmę w każdej epoce, z tymi samymi losowaniami, więc statystyki wierszy nie zmieniają się, a przebieg się animuje i łączy w kampanię.
+
+seg-eb4461740dc5 = Kampania eksportuje teraz każdy scenariusz członka, który ma geometrię (przebiegi faz, scenariusze bazowe przeglądu i Monte Carlo, członkowie złożeni z powiązanymi wspólnymi wartościami), jako osobny zestaw plików, z etykietą członka w nazwie pliku; wcześniej kampania nie eksportowała niczego. Tabela interoperacyjności w <c1/> zmienia się odpowiednio.
+
+seg-c0b1f4d9fed0 = Klucz przeglądu kampanii może indeksować tablicę tabel według pozycji (<c1/>).
+
+seg-4c995017dd9c = Scenariusze odporności: <c1/> (zaporowy jammer w paśmie L5 o szerokości { "50" } MHz przemiatany w mocy: każdy sygnał pasma L zanika, sygnały LEO w pasmach UHF, S i C zachowują swoje C/N0), <c2/> (margines J/S z mocy odbieranej: GPS L5, Galileo E5a i Xona X5 tracone przy -105, -100 i -95 dBW, ogólny sygnał LEO -135 dBW nadal śledzony przy -90 dBW), <c3/> (skok o { "30" } m niewykryty przez test Dopplera wyłącznie GNSS i wykryty przez test na wszystkich kanałach { "105" } s po początku), <c4/> (cztery spoofery wobec obu monitorów) i <c5/> (GNSS zagłuszony, warstwa LEO w pasmach S i C śledzona, autonomiczne monitorowanie integralności w odbiorniku na samej warstwie LEO alarmuje w { "2" } z { "30" } epok).
+
+seg-bae66dac04cc = Scenariusze obszarów zainteresowania: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (odporność w L, S i C to <c8/>).
+
+seg-c7947d9cc592 = Kampanie branżowe, każda animowana i eksportująca swoje przeloty LEO: <c1/>, <c2/> (dołączone scenariusze morskie i kolejowe plus LEO), <c3/>, <c4/>, <c5/>, <c6/>. Wyniki w jednym wierszu w <c7/>.
+
+seg-222ad0b777f8 = Trzy wiersze macierzy MODELLED: monitor spoofingu oparty na Dopplerze i geometrii przelotu, monitor spoofingu międzypasmowy oraz sondowanie jonosfery. <c1/> sprawdza monitory (milczące przed początkiem, statystyka Dopplera kwadratowa względem skoku, skok jonosferyczny spoofera naziemnego i brak takiego skoku u spoofera uwzględniającego jonosferę), tożsamość sondowania, ślad czasu względem statystyk wierszy oraz to, że eksport kampanii jest równy eksportowi każdego z jej członków.
+
+seg-f650b42bf210 = Strona <c1/> przenosi się do <c2/>; <c3/> jest przeglądem.
+
+seg-00a4ba834f37 = <b>Scenariusze morskie, drogowe i kolejowe.</b> Pięć dołączonych przykładów na istniejących rodzajach, tak aby statki, pojazdy drogowe i pociągi miały każde swój przykład roboczy. Każda wartość jest MODELLED; żadna nie jest sprawdzona względem danych pomiarowych.
+
+seg-682414bbe0c6 = <c1/> (<c2/>): szerokopasmowy jammer { "50" } W na maszcie { "30" } m, { "30" } km po otwartej wodzie od statku. Średni stosunek jammera do sygnału (J/S) około { "48" } dB, a dostępność spada z { "1.00" } do { "0.00" }.
+
+seg-4666dcd72c24 = <c1/> (<c2/>): inercjalny system nawigacji (INS) klasy nawigacyjnej przy { "12" } węzłach, z utraconym GNSS i bez wspomagania. Przekracza { "10" } m po { "281" } s i { "100" } m po { "833" } s, czyli wartości dla podejścia do portu i wód oceanicznych z Rezolucji A.1046({ "27" }) Międzynarodowej Organizacji Morskiej (IMO), użyte tu jako budżety.
+
+seg-7407bb97aedd = <c1/> (<c2/>): spoofer +{ "2" } dB, niewyrównany z nośną, spychający cztery satelity, aby zepchnąć statek o { "500" } m. Połączony monitor wykrywa go (wynik { "0.70" } wobec progu { "0.50" }) przez autonomiczne monitorowanie integralności w odbiorniku (RAIM) i monitorowanie jakości sygnału (SQM); samo monitorowanie mocy go nie wykrywa.
+
+seg-1edc0541930b = <c1/> (<c2/>): samochód przejeżdżający przez { "15" } s tunel pod drogą i { "60" } s przerwę wywołaną przez jammer przy drodze, względem budżetu { "1.5" } m na pół pasa. Błąd średniokwadratowy (RMS) połączonego rozwiązania w czasie przerwy wynosi { "1.9" } m dla jednostki mikroelektromechanicznej (MEMS) klasy motoryzacyjnej i { "0.7" } m dla porównawczej jednostki klasy taktycznej; przy swobodnej pracy jednostka MEMS dryfuje do { "850.8" } m.
+
+seg-f9830a49659f = <c1/> (<c2/>): INS klasy taktycznej w pociągu jadącym { "160" } km/h w tunelu. Przekracza { "2" } m (rozróżnienie torów) po { "35.8" } s, po około { "1.6" } km, a { "20" } m po { "107.3" } s. To jest wyłącznie INS: silnik nie ma modelu drogomierza, więc jest to ograniczenie pesymistyczne. Liczba plików scenariuszy w README zmienia się z { "77" } na { "82" }. Wszystkie pięć jest dołączonych do <c3/> i wymienionych w przeglądarkowym playground.
+
+seg-77c8c53126fd = Serwer Model Context Protocol
+
+seg-2deb4b35b41a = Serwer Model Context Protocol (MCP) sięga każdego rodzaju i każdego widoku przebiegu: siedem nowych narzędzi, w sumie czternaście.
+
+seg-7f4035dfd9db = <c1/> już rozdzielał każdy rodzaj; agentowi brakowało drogi do poprawnego scenariusza danego rodzaju i trzech wyników, które wiersz poleceń zapisuje obok wyniku. Nowe narzędzia:
+
+seg-d9df5ab8817a = <c1/> i <c2/> udostępniają dołączone scenariusze referencyjne (tabela <c3/>), każdy z jego rodzajem i pierwszym zdaniem własnego nagłówka, bajt w bajt jak plik w <c4/>. Scenariusz, który jest w repozytorium, ale nie jest dołączony, zostaje odrzucony z podaniem powodu. Każdy rodzaj poza <c5/> (którego wycinek danych jest dostarczany tylko z repozytorium) ma co najmniej jeden przykład.
+
+seg-cb24ad7147ef = <c1/> zwraca raport z przebiegu jako JSON (JavaScript Object Notation) albo jako stronę HTML (HyperText Markup Language) do wydruku (<c2/>).
+
+seg-9264b2f20e15 = <c1/> zwraca szereg czasowy przebiegu jako animowany rysunek SVG (Scalable Vector Graphics), odtwarzacz HTML lub ponumerowane klatki, po podsumowaniu JSON tego, co narysowano (<c2/>). Odpowiedź zawiera najwyżej { "120" } klatek; wiersz poleceń zapisuje dowolną długość.
+
+seg-959f23871238 = <c1/>, <c2/> i <c3/> udostępniają eksporty interoperacyjności i import trasy GeoJSON (<c4/>): CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, efemerydy STK (Systems Tool Kit) <c5/> i SigMF (Signal Metadata Format), z indeksem JSON plików (sufiks, rozmiar i SHA-256, 256-bitowy skrót Secure Hash Algorithm) oraz binarnym plikiem próbek SigMF jako base64.
+
+seg-9ec3f9639b8c = Biblioteka zyskuje domyślnie wyłączoną funkcję <c1/>, która udostępnia tabelę scenariuszy referencyjnych jako <c2/>; włącza ją tylko serwer MCP, więc koło Pythona i moduł WebAssembly nadal nie niosą tekstu scenariuszy. Zestawy badań (<c3/>) pozostają tylko w wierszu poleceń, ponieważ zestaw nazywa pliki na dysku, a serwer żadnych nie czyta. Testy przejścia w obie strony uruchamiają każde nowe narzędzie na dołączonych scenariuszach i sprawdzają liczby silnika: widmo, Układ Słoneczny, konstelacje wokół Księżyca i Europy, przegląd kampanii oraz rodzaje: sygnał na niskiej orbicie okołoziemskiej (LEO), przelot, wiadomość nawigacyjna, połączone pozycjonowanie, precyzyjne pozycjonowanie punktowe, sieć nienaziemna i od początku do końca. Każda powierzchnia, która podaje liczbę narzędzi MCP lub je wymienia, mówi teraz czternaście, z wyjątkiem strony playground w <c4/>, która jest zastępowana stroną.
+
+seg-c11823028688 = kshana.dev, Kshana Studio i README
+
+seg-fb584cf84218 = <b>Przeprojektowane kshana.dev.</b> Pojedyncza strona playground została zastąpiona stroną wielostronicową: Home, Missions, Capabilities, Evidence, Developers, Editions i Docs, z Kshana Studio w odległości jednego kliknięcia. Każdy wykres, mapa i liczba na niej to zapisany przebieg silnika tego wydania, ze scenariuszem i odnośnikiem, który otwiera ten sam przebieg ponownie w Studio; kompilacja strony odrzuca zapis wykonany przez inny commit silnika. Strony dokumentacji są generowane z <c1/> repozytorium, a opcje instalacji z jego kanałów. Czcionki i biblioteki skryptów są serwowane z samego kshana.dev, więc żadna strona nie żąda niczego od hosta zewnętrznego. Stare adresy (<c2/>, <c3/>, odnośniki udostępniania <c4/>, odnośniki osadzania <c5/> i reszta) przekierowują na nowe miejsce, a nieznany adres dostaje stronę { "404" }.
+
+seg-9fa1c542332b = <b>Kshana Studio, panel dla każdej możliwości.</b> Studio otwiera się na ekranie startowym z kafelkami domen i dobrymi pierwszymi przebiegami, a następnie prowadzi przebieg przez pięć ponumerowanych kroków: wybór scenariusza, ustawienie jego parametrów, uruchomienie silnika lokalnie w przeglądarce, odczytanie wyników (najpierw kluczowe wartości, każda z chipem PASS lub FAIL tam, gdzie przebieg podaje próg, potem panele) oraz udostępnienie lub eksport. Jedno pole wyszukiwania znajduje scenariusze, domeny i pola w nich oraz przeskakuje do kontrolki; przebiegi można przypinać i porównywać; ścieżka okruszków mówi, gdzie się jest; na telefonie kroki stają się paskiem kroków. Każdy rodzaj scenariusza ma swój widok, w tym wodospad widma, Układ Słoneczny, pokrycie konstelacji, kampanie, animację, raport z przebiegu, eksporty interoperacyjności i łańcuch niskiej orbity okołoziemskiej. Odnośnik bezpośredni (<c1/>) otwiera ten sam przebieg na wskazanym panelu.
+
+seg-dcf2788bb430 = <b>Badania i cytowanie.</b> Strona Evidence wymienia pięć artykułów Kshana na arXiv ({ "2606.22054" }, { "2606.24210" }, { "2607.02566" }, { "2607.05415" } i { "2607.06212" }), każdy z podsumowaniem, rysunkiem obliczonym przez ten silnik, poleceniem, które go odtwarza, odnośnikiem do Studio i BibTeX, obok informacji, jak cytować oprogramowanie. README zyskuje tę samą sekcję Research.
+
+seg-fab395bab130 = Publiczna strona dla Kshana Pro.
+
+seg-167a59e94101 = <c1/> i strona Editions witryny mówią, co dodaje własnościowa nakładka Pro do tego samego silnika (optymalizator projektu, niepewność i czułość, dossier misji, obserwacja kampanii, współistnienie widma, usługa zadań na miejscu, śledzenie wymagań), co każda z tych funkcji wytwarza i czego nie robi. Każda wartość Pro pokazana na stronie jest podana na tej publicznej stronie. Pro nie dodaje żadnego modelu fizycznego, a otwarty silnik pozostaje cały i bezpłatny.
+
+seg-f57f0a610943 = <b>Przepisane README.</b> Krótkie sekcje, jeden obraz na sekcję, znak Kshana, dwa rzędy plakietek, generowane obrazy architektury, przepływu scenariuszy, łańcucha niskiej orbity okołoziemskiej i weryfikacji (<c1/>, który zawodzi przy nieaktualnym obrazie) oraz zrzuty ekranu Studio wykonane z działającego Studio przez <c2/>. README dla crates.io, PyPI, npm i serwera MCP mają ten sam projekt. Długie materiały referencyjne są zwinięte lub przeniesione do <c3/>.
+
+seg-e06522ca762e = <b><c1/> jest teraz zaawansowanym raportem z przebiegu</b> opisanym w sekcji Added, a wiersz <c2/> w CLI nazywa także <c3/>. Jednostronicowa karta wyników, którą zastąpił, pozostaje bez zmian jako <c4/>, które wiązania Pythona i WebAssembly nadal zwracają. <c5/> udostępnia zdanie, które <c6/> drukuje dla każdego wiersza MODELLED; ten dokument jest bez zmian.
+
+seg-77a6f35c5c9a = <b>README mówi, na czym opiera się Kshana Pro.</b> Sekcja Editions i wiersz Kshana Pro w „Support & professional services” podają teraz, co robią narzędzia Pro do inżynierii systemów opartej na modelach (MBSE) i do programów oraz które opublikowane wyniki otwartego silnika odczytują (<c1/> i <c2/> każdego przebiegu, plik scenariusza, schemat jednostek pól i etykiety macierzy weryfikacji), a także na czym w otwartym silniku opierają się cyfrowe bliźniaki zegarów, studia kompromisów i pakiety dowodowe. Tylko sformułowania: żaden wynik silnika ani opublikowana liczba się nie zmienia.
+
+seg-1a19675ffa3b = <b>Zgodność wsteczna.</b> Publiczny enum <c1/> zyskuje wariant <c2/>, co jest zmianą łamiącą dla wywołującego, który dopasowuje go wyczerpująco. Kolumny <c4/> i <c5/> rodzaju <c3/> się zmieniają (zob. „Revisions to published numbers”). Przebieg nadal odtwarza wersja silnika, która go wykonała.
+
+seg-e7c5f77a6602 = <b><c1/> na serwerze MCP wymieniało cztery rodzaje jako jedyne z tabelą CSV (wartości rozdzielone przecinkami); sześć ją publikuje.</b> Narzędzie zawsze zwracało tabelę dla <c2/> i dla <c3/> (jego analiza <c4/> na modelu wiadomości <c5/> lub <c6/>), ale jego opis, komunikat odmowy i dokumenty wymieniające rodzaje pomijały oba, więc agentowi mówiono, żeby o nie nie prosił. Teraz są wymienione, a test przejścia w obie strony pobiera obie tabele.
+
+seg-4094f58a5f4b = Ramka wiadomości nawigacyjnej na niskiej orbicie okołoziemskiej (LEO) nie miała tych samych bajtów na każdej platformie ani w każdej kompilacji jednej platformy.
+
+seg-5191262de022 = <c1/> kodowało ramkę z cykliczną kontrolą nadmiarową <c2/> w kompilacji wydaniowej na aarch64 macOS, <c3/> w kompilacji debug tego samego źródła na tej samej maszynie i <c4/> w kompilacji WebAssembly (WASM); <c5/> dawało natywnie <c6/>, a w przeglądarce <c7/>. Trzy przyczyny, każda wyśledzona do pierwszej rozbieżnej wartości:
+
+seg-f6501c3cd89d = <em>Między platformami.</em> Orbita prawdziwa była identyczna bit w bit na obu; punkt startowy dopasowania nie. <c1/> bierze nachylenie oskulacyjne z <c2/>, a argument perygeum z <c3/>, a obie biblioteki matematyczne zaokrąglają je inaczej na ostatnim miejscu (na { "20 000" } argumentach różnią się dla { "781" } sinusów, { "858" } cosinusów, { "1 931" } funkcji wykładniczych i { "1 899" } arcusów tangensów dwuargumentowych).
+
+seg-cd6f05096b8b = <em>Między profilami kompilacji.</em> Zoptymalizowana kompilacja na macOS łączy sinus i cosinus jednego argumentu w jedno wywołanie połączonej procedury systemowej, a jej sinus nie jest sinusem samotnego <c1/> dla { "379" } z { "200 000" } argumentów; niezoptymalizowana kompilacja wykonuje dwa wywołania. Rodzaj bierze sinus i cosinus razem w trzynastu miejscach.
+
+seg-91b0700dcb30 = <em>W zegarze.</em> Próbnik normalny z <c1/> wywołuje systemowe <c2/> i <c3/> w swoich dwóch rzadkich gałęziach: z czterech milionów losowań z ziarnem trzy różniły się na ostatnim bicie między kompilacją natywną a WASM.
+
+seg-0a4724333429 = Dopasowanie Levenberga–Marquardta, które na tym łuku zatrzymuje się na swoim limicie 80 iteracji, a nie w minimum, przenosi jedną jednostkę na ostatnim miejscu do różnych skwantowanych pól. Rodzaj oblicza teraz każdą funkcję przestępną przez nowy <c1/>, który wywołuje czysto rustowy crate <c2/> (już w drzewie zależności, teraz nazwany w <c3/>), kompilowany z jednego źródła dla każdego celu, a nie wywołanie biblioteki, które optymalizator przepisuje: <c4/> i kod scenariusza. Potęgi całkowite na tej ścieżce są rozpisane jako podnoszenie do kwadratu i mnożenie, ponieważ <c5/> ma nieokreśloną precyzję, a zegar prawdziwy czerpie swoje odchylenia normalne z <c6/> (metoda biegunowa Marsaglii na surowym wyjściu generatora). Wspólne procedury, przez które całkowana jest orbita prawdziwa, są napisane raz, generycznie względem biblioteki matematycznej, z wewnętrznym dla crate'a punktem wejścia <c7/> obok istniejącego: przyspieszenie harmonik sferycznych, przyspieszenia zonalne i oporu, tempa wiekowe J2 i opóźnienie Klobuchara. Istniejące punkty wejścia pozostają bez zmian co do ostatniego bitu, więc liczba żadnego innego rodzaju się nie zmienia. <c8/> przypina całą 171-bajtową ramkę i jedną wartość kontrolną na model efemeryd, w zwykłym (niezoptymalizowanym) profilu testowym, na każdej platformie i bez bramki bazowego hosta; <c9/> czyta źródła rodzaju z dysku i zawodzi przy wywołaniu wbudowanej funkcji przestępnej, przy próbniku <c10/> lub przy wywołaniu modułu, który nie został przejrzany. Po zmianie kompilacja debug, kompilacja wydaniowa i kompilacja WASM dają dokumenty wyników identyczne bajt w bajt dla wszystkich pięciu scenariuszy <c11/>. <b>To zmienia liczby, zapisane tu jako rewizja.</b> Rodzaj <c12/> jest nowy w tym wydaniu, więc nic opublikowanego we wcześniejszym wydaniu się nie zmienia, ale zmienia się każda wartość <c13/>, natywnie i w kompilacji WASM, a wraz z nią etap <c14/> w <c15/>: wartości orbity, ponieważ dopasowanie startuje teraz z przenośnych elementów, wartości zegara, ponieważ zegar prawdziwy jest inną realizacją tego samego procesu. <c16/> jest wygenerowany ponownie z nowych wyników; jego opublikowana wartość kontrolna dla scenariusza kodowania i dekodowania wynosiła <c17/>, a wynosi <c18/> (pozycja w granicach { "1.126" } mm od dokładnej wiadomości, gdzie było { "0.665" } mm, zegar w granicach { "0.185" } mm, gdzie było { "0.451" } mm). Wielkość zmian w wartościach poniżej milimetra to czułość dopasowania, a nie błąd żadnego z dwóch zestawów: dopasowanie jest bez zmian i nadal zatrzymuje się na limicie iteracji.
+
+seg-c30f4cef4797 = Próbkowanie z ziarnem losowało inne indeksy na celu 32-bitowym.
+
+seg-2bf668e23ec1 = <c1/> na <c2/> bierze { "64" } bity z generatora na hoście 64-bitowym i { "32" } bity na 32-bitowym, więc to samo ziarno dawało inne indeksy i zostawiało strumień w innym miejscu w kompilacji WASM. Tak losowały trzy miejsca: bootstrapy percentylowe w <c3/> (<c4/>, <c5/>), tasowanie przed każdym przebiegiem treningowym w <c6/> oraz test permutacyjny w <c7/>. Teraz losują przez <c8/>, które zawsze próbkuje jako <c9/>: dokładnie to, co robił host 64-bitowy, więc żadna liczba natywna się nie zmienia. <b>To zmienia opublikowane liczby pakietu WASM, zapisane tu jako rewizja:</b> przedział bootstrapu <c10/> dla pola pod krzywą (<c11/>, <c12/>) wynosił <c13/> w przeglądarce, a teraz jest to natywne <c14/>.
+
+seg-80f783da1d4f = <b>Nazwy plików efemeryd STK z identyfikatorów ruchomych obiektów.</b> Identyfikator ruchomego obiektu zawierający <c1/> lub spację (powłoka konstelacji i satelita, <c2/>) powodował panikę CLI przy <c3/>; teraz każdy identyfikator przechodzi przez bezpieczną część nazwy pliku (litery, cyfry, <c4/>, <c5/>).
+
+seg-a0dc5729d5e9 = <b>Znak nutacji TEME→GCRS</b>, opisany powyżej w „Revisions to published numbers”, ponieważ zmienia opublikowany wynik.
+
+seg-5ecbf0787f39 = <b>Rodzaj scenariusza <c1/></b> (<c2/>): sekundy, zanim wolno biegnący zegar opuści strażnika slotu trasowania lub zadań indeksowanego czasem, każdy składnik w tej chwili z nazwanym dominującym, czas pozostały od ostatniego rozwiązania pozycji i największy odstęp między rozwiązaniami, który utrzymuje zegar w granicach, po odjęciu opóźnienia rozwiązania. Zegar pochodzi z domyślnej klasy, presetu z karty katalogowej telecom-timing, wbudowanej karty katalogowej (maksima odchylenia Allana, starzenie, współczynnik temperaturowy) lub zmierzonego zapisu fazy. Naruszenie poza najdłuższym czasem uśredniania, który obsługuje źródło, jest oznaczane jako ekstrapolowane. Dołączony przykład: <c3/>. Zob. <c4/>.
+
+seg-40dd4c16b760 = <b>Zmierzony próg szumu czerwonego.</b> Nakładające się odchylenie Allana zapisu fazy jest dopasowywane ważoną metodą najmniejszych kwadratów w bazie szumu białego fazy i modulacji częstotliwości według IEEE Std { "1139" } (<c1/>), każdy punkt ważony swoimi równoważnymi stopniami swobody, więc odpowiedź dla holdover może opierać się na własnym progu zegara zamiast na założeniu klasy. Dopasowanie bez ważenia nałożyło pozorny próg szumu migotania na testowy zapis szumu białego i skróciło naruszenie po { "2 000" } s o { "30" } %.
+
+seg-22c09748488b = <b>Walidacja na zbiorze zapieczętowanym dla inwersji holdover na prawdziwym zegarze</b> (<c1/>): dopasowane na pierwszej jednej trzeciej zapisu cezu 5071A względem masera wodorowego, przewidziane naruszenia jednego sigma przy sześciu progach od { "0.5" } do { "2.5" } ns wypadają w granicach od { "0.84" } do { "1.03" } naruszeń zmierzonych na pozostałych dwóch trzecich, wobec progu { "1.5" } ustalonego przed pierwszym uruchomieniem testu. Kontrola (jednosekundowe odchylenie Allana odczytane jako szum biały) chybia około { "1 000" } razy i nie spełnia progu. Nowy wiersz rejestru VALIDATED; przepływ pracy <c2/> teraz go uruchamia.
+
+seg-cd73dc87a22f = <b>Ta sama prognoza na prawdziwym oscylatorze kwarcowym</b> (<c1/>, <c2/>): na zmierzonym oscylatorze kwarcowym z termostatem prognoza na zbiorze zapieczętowanym jest zachowawcza, na poziomie od { "0.59" } do { "0.70" } zmierzonego naruszenia i nigdy później, i w większości poza progiem { "1.5" }, ponieważ próg szumu tego oscylatora zmniejszył się o połowę w trakcie 5.5-godzinnego zapisu; dopasowana w próbce mieści się w granicach od { "0.98" } do { "1.17" }. Przypadek kwarcowy nie jest sprawdzony i pozostaje MODELLED. Przebieg ujawnił też brakujący człon: częstotliwość kwarcu wędruje, więc model niesie teraz niepewność częstotliwości znanej w chwili rozwiązania (<c3/>); bez niego prognoza była zbyt optymistyczna nawet { "2.5" }×.
+
+seg-8519979d184c = <b>Ta sama prognoza na zegarach atomowych na orbicie</b> (<c1/>, <c2/>): { "14" } dni końcowych zegarów International GNSS Service dla satelitów GPS Block IIF, z protokołem spisanym przed pobraniem danych. Osiem z dziesięciu satelitów mieści się w progu { "1.5" }; G25 i G30 przewidują naruszenia nawet około dwa razy późniejsze niż zmierzone. Protokół wymaga, aby zaliczył każdy satelita, więc przypadek orbitalny nie jest sprawdzony i pozostaje MODELLED; wynik jest przypięty.
+
+seg-0d666a725b77 = <b>Klasy zegarów: kwarc z kompensacją temperaturową (TCXO), kwarc z termostatem (OCXO) i rubidowy wzorzec częstotliwości atomowy (RAFS)</b> (<c1/>, <c2/>, <c3/>), części, które lata komercyjna magistrala małego satelity lub bramka naziemna, każda z jedną publiczną kartą katalogową (<c4/>). Dodano <c5/>, <c6/> i <c7/>. <c9/> z <c8/> przyjmuje trzy nowe identyfikatory. Dodanie wariantów do publicznego enum jest zmianą łamiącą dla wywołującego, który dopasowuje go wyczerpująco.
+
+seg-24ae82b115f5 = <b>Poziom ochrony czasu dla odbiornika na orbicie</b> (<c1/>, opcjonalna sekcja <c3/> rodzaju <c2/>): jak długo spoofer naziemny może dosięgać satelity na niskiej orbicie okołoziemskiej w jednym przelocie, odchylenie, które spoofer przy podanym maksymalnym tempie narastania gromadzi, zanim satelita opuści jego zasięg lub zostanie wykonana niezależna kontrola, oraz czy każda kontrola z kontaktu naziemnego lub łącza międzysatelitarnego jest niezależna od tego spoofera. Sprowadza się dokładnie do <c4/> dla zegara bez szumu migotania, białego fazy lub błądzenia losowego. MODELLED.
+
+seg-4032bc03fad5 = <b>Trzy uwagi</b>: <c1/> (w tym względem której metryki wędrówki należy akceptować slot: maksymalny bezwzględny błąd czasu, a nie maksymalny błąd interwału czasu ani odchylenie czasu, i dlaczego), <c2/> (podpisane polecenie zastosowane w oszukanym czasie nadal błędnie trasuje) oraz <c3/> (gdzie działa Kshana; nie oferuje się rdzenia lotniczego <c4/>).
+
+seg-712035e19515 = Wydanie { "v0.27.3" } dotarło do crates.io (<c1/> i <c2/>) i PyPI, po czym zatrzymało się na npm, więc npm, obraz MCP na ghcr.io, rejestr MCP, JetBrains Marketplace i kshana.dev nigdy go nie otrzymały. { "0.27.4" } niesie ten sam silnik, z poniższą poprawką wydania, do każdego kanału.
+
+seg-bab8d4d1bc54 = <b>Krok publikacji npm wskazuje tarball jawną ścieżką.</b> npm odczytuje samo <c1/> jako skrót GitHub <c2/>, więc zadanie npm dla { "v0.27.3" } próbowało sklonować <c3/> i zawiodło z „Permission denied (publickey)”. Sam tarball został zbudowany i poświadczony. Krok publikuje teraz <c4/>. Wszystko po npm w kolejności wydania (obraz MCP, wtyczka JetBrains, kontrola parzystości kanałów i strona) zostało pominięte, zgodnie z założeniem.
+
+seg-f9a112755eb1 = <b>Katalogi jednostek telecom-timing i <c1/> są wyłączone z wykrywania kopii</b>, według tej samej polityki i testu uzasadnienia co inne katalogi. Bramka jakości SonarCloud zaczerwieniła się z powodu duplikacji w nowym kodzie ({ "4.0" }% wobec { "3" }%), a każdy zduplikowany blok był wierszem jednostek lub wpisem maski ITU-T.
+
+seg-3c3dacae06d6 = <b><c1/>: jak długo nawigacja małego drona wytrzymuje po zagłuszeniu GNSS.</b> Uruchamia jednostkę inercjalną mikroelektromechaniczną (MEMS) klasy kontrolera lotu, Bosch BMI088, wobec jednostki klasy taktycznej. Sygnał GNSS (globalnego systemu nawigacji satelitarnej) jest nominalny przez { "100" } s, a potem odmówiony przez { "60" } s (<c2/> pokazuje, dlaczego robi to pobliski jammer). Błędy systematyczne BMI088 to reszty pozostające po kalibracji początkowej, wzięte ze współczynników temperaturowych w jego karcie katalogowej (BST-BMI088-DS000-19 rev { "1.9" }): { "0.015" } °/s na K dla żyroskopu i < { "0.2" } mg na K dla akcelerometru. W pliku oznaczono dwa założenia: { "10" } K nagrzania po kalibracji i dalsze nagrzewanie o { "1" } K na minutę w locie. Dryf w locie to błąd, którego filtr nie może się nauczyć, zanim zacznie się zagłuszanie, i to on kończy wybieg. Każda wartość jest obliczona z modelu; jej sprawdzenie wymaga zapisów lotów ze środowiska zagłuszanego. <c3/> ją drukuje.
+
+seg-7154f69a2b8a = <b>Każdy czujnik <c1/> może ustawić własny prior filtru</b> (<c2/> lub <c3/>, z <c4/> i <c5/>). Wartość domyślna jest bez zmian, więc każdy istniejący scenariusz daje ten sam wynik. Pozostały błąd systematyczny żyroskopu jednostki klasy konsumenckiej leży około { "26" } sigma poza domyślną wartością klasy taktycznej, gdzie filtr nigdy by się go nie nauczył. Prior, który nie jest skończony i dodatni, jest odrzucany, a wynik powtarza prior, gdy jest ustawiony.
+
+seg-2b54735b19aa = <b><c1/> daje użytkownikowi rejestru scenariusz do uruchomienia.</b> Użytkownik <c2/> ma plik wykonywalny i nie ma katalogu <c3/>, więc pierwsze polecenie z każdego szybkiego startu zawodziło. Interfejs wiersza poleceń (CLI) niesie teraz { "75" } scenariuszy referencyjnych, które działają samodzielnie, bajt w bajt, wkompilowanych z <c4/> (<c5/>; tabela żyje w binarce CLI, więc koło Pythona i moduł WebAssembly nie rosną). <c6/> je wymienia; <c7/> zapisuje jeden. Pozostałe dwa pliki są tylko w repozytorium: <c8/> czyta zarchiwizowane dane księżycowego pomiaru laserowego, które są dostarczane tylko z repozytorium, a <c9/> to manifest badania, który uruchamia trzy pliki siostrzane przez <c10/>. Zażądanie któregokolwiek podaje powód i kończy się kodem { "2" } zamiast drukować coś, co nie może działać samodzielnie. <c11/> trzyma tabelę zgodną z katalogiem w obu kierunkach, więc nowy plik scenariusza, który nie jest ani dołączony, ani nazwany jako tylko w repozytorium, zawodzi.
+
+seg-43249b6a1f3c = <b>Każdy wskaźnik jakości w wyniku dla zegara, orbity, hybrydy lub fuzji mówi teraz, czy jest VALIDATED, czy MODELLED, w samym wyniku.</b> Dokument wyniku zyskuje blok <c1/>, zawsze jego ostatni klucz. Wymienia każdą raportowaną wartość (na przykład <c2/>) z jej poziomem — VALIDATED oznacza sprawdzone względem niezależnej wyroczni zewnętrznej, MODELLED oznacza model oparty na pierwszych zasadach, testowany wewnętrznie — i wiersz macierzy weryfikacji, z którego poziom jest odczytywany. Poziom pochodzi z <c3/> przez <c4/>, więc nie ma drugiej tabeli, która mogłaby się rozjechać. Wcześniej słowa „sprawdzone” i „obliczone z modelu” pojawiały się w wyniku holdover zegara zero razy, a czytelnik surowego JSON (JavaScript Object Notation) nie miał jak odróżnić tych dwóch. Wartości położenia <c5/> i <c6/> nie mają własnego wiersza macierzy, więc są wymienione pod <c7/> zamiast otrzymać poziom. Blok nie niesie liczb. Jest udowodnione, że jest addytywny, a nie założone: jego usunięcie przywraca dokument sprzed zmiany bajt w bajt, dla wszystkich pięciu rodzajów (test silnika), a oba zestawy wzorców (<c8/>, <c9/>) odcinają teraz dokładnie ten klucz, i tylko gdy jest ostatni, po czym haszują resztę względem swoich <b>niezmienionych</b> zamrożonych stałych. Lista w każdym zestawie przypina, które scenariusze muszą nieść blok, więc wyłączenie nie może się po cichu rozszerzyć.
+
+seg-8faf1981d797 = <b>Rodzaj <c1/> odpowiada w jednostkach inżyniera czasu: błąd czasu, maksymalny błąd interwału czasu (MTIE) i odchylenie czasu (TDEV), każde z PASS lub FAIL i marginesem względem masek Sektora Normalizacji Telekomunikacji Międzynarodowego Związku Telekomunikacyjnego (ITU-T).</b> Maski są przepisane z wydań obowiązujących: G.8272 (07/2025) dla klas A i B podstawowego zegara czasu odniesienia (PRTC), G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) dla rozszerzonego PRTC w trybie zablokowanym i w holdover (w tym jego obwiednia błędu czasu, która rośnie od { "30" } ns do { "100" } ns w okresie holdover zależnym od tego, jak długo zegar był zablokowany), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) dla zegarów granicznych i podrzędnych czasu telekomunikacyjnego, klasy od A do D, oraz G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) dla limitów sieciowych w punkcie odniesienia C. Każdy wpis, który te Zalecenia pozostawiają „do dalszych badań”, jest nieobecny, a nie szacowany, a <c2/> wymienia każdą liczbę z jej tabelą lub klauzulą i każdą pominiętą pozycję. Raport podaje też czas przekroczenia każdego budżetu błędu czasu: domyślnie domyślny holdover ePRTC { "100" } ns, alokację holdover sieci { "400" } ns, limit punktu C { "1 100" } ns i wymaganie end-to-end klasy { "4" } wynoszące { "1.5" } mikrosekundy.
+
+seg-9e5325e1b0ca = Wejściem jest albo syntetyczny holdover, albo własny szereg. Syntetyczny używa jednego z czterech presetów oscylatora (oscylator kwarcowy z termostatem, wzorzec rubidowy, wzorzec cezowy i zegar atomowy w skali chipa), każdy niesie wartości stabilności, starzenia i temperatury z nazwanej karty katalogowej Microchip. To, jak te wartości stają się szumem białym, migotania i błądzenia losowego częstotliwości, starzeniem i członem temperaturowym, jest podane w każdym raporcie i oznaczone MODELLED. Własny szereg to pary <c1/>, w treści (tak działa w przeglądarce) lub, w kompilacjach natywnych, z pliku z wartościami rozdzielonymi przecinkami. Tabela MTIE/TDEV, z limitem każdej wybranej maski obok, jest zapisywana jako artefakt CSV przebiegu.
+
+seg-a23a96819dee = <c1/> to 24-godzinny holdover rubidowy ze starzeniem, migotaniem i dobowym cyklem temperatury: jego największy błąd czasu wynosi { "603.2" } ns, przekracza { "100" } ns po { "8 206" } s od utraty i przez cały dzień mieści się w { "1.5" } mikrosekundy, a nie spełnia obwiedni holdover rozszerzonego PRTC, jak powinien zegar, który nie jest klasy cezowej. <c2/> pokazuje wejście w treści. MTIE i TDEV raportowane przez rodzaj są sprawdzone względem pakietu allantools na zatwierdzonym { "2" } 048-próbkowym szeregu holdover, dokładnie dla MTIE i do { "1.1e-15" } dla TDEV, więc macierz zyskuje jeden wiersz VALIDATED i dwa MODELLED (transkrypcja masek i presety) i wynosi teraz <b>{ "171" } wierszy — { "65" } VALIDATED, { "102" } MODELLED, { "4" } PARTNER</b>. Pokrycie jednostek pól rośnie z { "60" } z { "61" } rodzajów do { "61" } z { "62" } i z { "1,742" } do { "1,788" } opisanych pól. Rodzaj jest nowy i addytywny: żaden istniejący scenariusz, pin ani opublikowana wartość się nie zmienia.
+
+seg-5bb1ad9a34ec = Playground uruchamia silnik w tle w Web Workerze, więc wolny scenariusz nie zamraża już strony.
+
+seg-b1ab3546f131 = <c1/> hostuje silnik WebAssembly, a <c2/> przekazuje do niego każde wykonanie scenariusza — przebiegi, przeglądy parametrów oraz eksporty SP3 / OMM / OEM / CSV. Przebieg, który trwa dłużej niż { "150" } ms, pokazuje stan zajętości (Run wyłączone, „Running… N s”) i przycisk Cancel, który kończy i ponownie uruchamia workera; przeglądarka, która nie może uruchomić workera modułowego, wraca do dawnej ścieżki w głównym wątku. <c3/>, pominięty w katalogu, ponieważ zamrażał stronę, wrócił do niego, oznaczony jako wolny: trwa około { "13" } s w Chrome (cztery wywołania silnika po około { "3" } s każde), w czasie których strona pozostaje responsywna.
+
+seg-146200dfac7e = <b>Każda raportowana wielkość <c1/> niesie teraz jednostkę, klasę pochodzenia i definicję — to przedostatni rodzaj na liście wyłączeń obejmującej cały crate.</b> Wszystkie { "41" } pól liczbowych dokumentu WYDANEGO są opisane, więc pokrycie jednostek pól rośnie z { "59" } z { "61" } rodzajów do { "60" } z { "61" } i z { "1,698" } do { "1,742" } opisanych pól, przy niezmienionym zaległym zbiorze bez definicji, wynoszącym { "239" }.
+
+seg-61b1219ae0e3 = Blokował to pin, który zamraża wydany dokument i który nazywał <c1/> kluczem, jakiego dokument nigdy nie może zyskać. Dodanie go oznaczałoby usunięcie tej asercji i ponowne ustalenie wzorców trzech haszy w trzech plikach — kształt nieodróżnialny od zatuszowania regresji. Zamiast tego dwa piny, które mierzą ten dokument, <em>dowodzą</em> teraz, że dodatek jest addytywny: każdy odcina blok <c2/> z powrotem i haszuje ponownie względem stałej zamrożonej, zanim blok istniał, a <b>obie stałe są niezmienione</b>. Mutacja potwierdza, że gwarancja jest prawdziwa — przesuń wydaną wartość i ustal ponownie wzorzec hasza całego dokumentu tak, jak zrobiłaby to nieuważna poprawka, a odcięcie i ponowne haszowanie nadal zawodzi. Trzeci pin, w ogólnym zestawie wzorców rejestru, jest ustalony ponownie zgodnie z sześcioma rodzeństwa, które ustalono ponownie dokładnie z tego powodu, a jego niosący wartość literał <c3/> się nie zmienia.
+
+seg-a73409e0b664 = <c1/> raportuje, względem której prawdy oceniono każdy wiersz orientacji Ziemi i jak często zadziałał zapas.
+
+seg-6e0493a39f1a = <c1/> zyskują <c2/> i <c3/>. Próg <c4/> jest oceniany względem Bulletin B final i może używać tylko epok, które go publikują; każdy wiersz <c5/> jest oceniany względem <c6/>/<c7/>, które wracają do szybkiej wartości z Bulletin A. W dołączonym wyciągu { "2026" } to { "12" } z { "31" } próbek przy jednym dniu, wobec { "0" } przy progu — więc wiersz progu i wiersze predykcji obok niego opierają się na mierzalnie innej prawdzie, co raport teraz podaje, zamiast zostawiać do wywnioskowania z liczby próbek, która rośnie tam, gdzie zagnieżdżone horyzonty mówią, że nie może.
+
+seg-7ba5be07fa8c = <c1/> emituje punkt odniesienia keplerowski dopasowany wielkością.
+
+seg-f9dc8fae6452 = <c1/> ponownie uruchamia konstelację ilustracyjną przy własnej liczbie satelitów zestawu POBRANEGO, obecne tylko wtedy, gdy liczby się różnią. Liczba jest częścią geometrii tego projektu — RAAN i anomalia średnia są obie rozłożone jako <c2/> — więc bez niej pięciosatelitarny pobrany zestaw oceniano względem ośmiosatelitarnego ilustracyjnego i projekt mieszano z rozmiarem. Dla pięciosatelitarnego zestawu referencyjnego LANS { "8.68" } z 14.24-punktowej luki pokrycia okazuje się trzema brakującymi satelitami, a tylko { "5.56" } punktu projektem; dla czterech statków naprawdę na orbicie księżycowej, specjalnie zbudowany czterosatelitarny zestaw osiąga { "4.86" } % tam, gdzie one osiągają { "0" } %. Test przypina, że dopasowany wiersz jest odbudowaną konstelacją, a nie skonfigurowaną ze zmienioną etykietą, bo tak został najpierw napisany i to właśnie przebieg wtedy zgłaszał.
+
+seg-2e7e4dbbb7f6 = <b>Dziewięć kart możliwości na stronie publicznej, obejmujących { "22" } wiersze macierzy weryfikacji, które zostały wydane bez karty na poziomie produktu.</b> Silnik urósł o rodzinę możliwości — kontrolę ARAIM względem opublikowanych wektorów referencyjnych Working Group C, rzeczywistą pobraną geometrię konstelacji księżycowej, księżycowy kontur odmowy ze zmierzonym pasmem C/N₀, krok od harmonogramu VLBI do kowariancji stacji, przekazanie optyczne i RF z wstrzykiwaniem błędów między modalnościami, predykcję orientacji Ziemi w czasie rzeczywistym względem zarchiwizowanego Bulletin A, współdzielenie apertury nawigacja–komunikacja, wybieg INS/TRN oraz pokrycie jednostek i pochodzenia — każdą z wierszem macierzy i dołączonym scenariuszem, a żadna nie była nazwana na kshana.dev. Pokrycie kart względem wierszy rośnie z { "72" } z { "168" } wierszy do { "94" }.
