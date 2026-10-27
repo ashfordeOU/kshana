@@ -2569,3 +2569,695 @@ seg-8980b5ae869b = Cijfer
 seg-f4d1ec6fc464 = Citeren
 
 seg-d0566d4db829 = Reproduceer het
+
+seg-1d45f4717196 = Uit de repository
+
+seg-b366150de755 = Een studie aanvragen
+
+seg-ac7e1a5e344a = Pro
+
+seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
+
+seg-8f101c803442 = Elke mogelijkheid draagt <s1>haar bewijs.</s1>
+
+seg-9ef28b622a43 = { "388" } mogelijkheden, elk beoordeeld. <b>{ "176" } getoetst</b> aan onafhankelijke externe referenties. <b>{ "208" } eerlijk gelabeld als berekend uit een model.</b> { "4" } in handen van de partner. Er wordt niets naar boven afgerond.
+
+seg-4f6445e5dd61 = Verificatiematrix <b>v{ $version }</b>
+
+seg-d9f0aabb4262 = De sweep pauzeren
+
+seg-ae9e2459836c = mogelijkheden
+
+seg-4adb5411062e = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } getoetst (gevulde vierkantjes), { "208" } berekend uit een model (holle vierkantjes), { "4" } in handen van de partner (ruiten). Met de pijltjestoetsen gaat u van cel naar cel; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
+
+seg-f97cb6bf8202 = Beweeg de aanwijzer over een cel of geef er focus aan om de mogelijkheid en de onafhankelijke referentie die haar beoordeelt te lezen.
+
+seg-8a1cef0b9561 = Getoetst: een onafhankelijke externe referentie komt overeen
+
+seg-582c4a762fc5 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "388" } rijen · geen scenario of seed: het eigen register van de engine
+
+seg-d5c32303297d = Lees het register
+
+seg-f6112ab2dfdf = Het register, de resultaten, het reproduceerbaarheidsstempel en de tests erachter zitten allemaal in de open engine.
+
+seg-69df15091cab = Verpakt het bewijs tot een reproduceerbaar bewijspakket van auditkwaliteit voor een beoordelingscommissie. <a1>Zie hieronder</a1>
+
+seg-9906d9824f3e = Beantwoordt uw eigen vraag met dezelfde labels, zonder certificering. <a1>Zie hieronder</a1>
+
+seg-f6a6cca2263c = Matrix
+
+seg-78e5feea4a80 = Getoetste resultaten
+
+seg-b3b972c50b99 = Woordenlijst (Documentatie)
+
+seg-92e427f220c0 = Getoetste resultaten · elke vergeleken waarde
+
+seg-a92d57eddda0 = Gecontroleerd tegen het antwoord van een ander.
+
+seg-978c14c0cbd8 = Elke tegel tekent elke waarde die de engine heeft vergeleken met een onafhankelijke referentie: gepubliceerde vectoren, een aparte bibliotheek voor vluchtdynamica, precieze efemeriden, een statistiekbibliotheek, een normpublicatie en een gemeten klokrecord dat buiten de fit is gehouden. Beweeg de aanwijzer over een markering of geef er focus aan voor haar waarde.
+
+seg-2b49d76005fd = Banen · analytisch
+
+seg-0155cf46a133 = Baanpropagatie met SGP4 (Simplified General Perturbations { "4" })
+
+seg-3d4fd2b6704a = Elke referentievector van de AIAA (American Institute of Aeronautics and Astronautics) gereproduceerd, inclusief de gevallen van SDP4 voor de diepe ruimte (Simplified Deep-space Perturbations { "4" }). Slechtste geval <c1/> mm.
+
+seg-dbb66386afbf = Eén vierkantje per vergeleken vector, gekleurd naar zijn positiefout.
+
+seg-55fc928e19ae = referentie · verificatievectoren van AIAA 2006-6753
+
+seg-1d60624d525d = Hoe het is gecontroleerd
+
+seg-6adbc42697f9 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-58ca3da25e69 = Openen in Kshana Studio: dezelfde propagator, <c1/><s1> · seed <c2/></s1>
+
+seg-813d6d41b891 = Kopieer de opdracht die het reproduceert
+
+seg-a0ef302e2458 = Opdracht kopiëren
+
+seg-3b6c7858f32d = { "171" } van { "171" } drempelgevallen van RAIM (receiver autonomous integrity monitoring) komen overeen met SciPy binnen de band. Seed { "7" }.
+
+seg-0921da0d292e = Integriteit · statistiek
+
+seg-6f311aef88fe = gevallen
+
+seg-36b744b97026 = Detectiedrempels van RAIM
+
+seg-db13900bdd77 = De statistische kern van RAIM (receiver autonomous integrity monitoring) tegenover SciPy, geval voor geval.
+
+seg-87734f6c52a2 = Eén vierkantje per SciPy-geval, gegroepeerd per kern.
+
+seg-4957eddb39ed = referentie · SciPy
+
+seg-c5d5cf50c8a9 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-011e33e27f59 = Openen in Kshana Studio: de kern aan het werk, <c1/><s1> · seed <c2/></s1>
+
+seg-e02df7620fc7 = Numerieke baanpropagatie (Cowell) tegenover Orekit over een boog van 24 uur: slechtste verschil { "0.08" } m in krachtniveaus { "1" } tot { "5" }.
+
+seg-d52f564b4af8 = Banen · numeriek
+
+seg-e204506056b8 = Numerieke propagatie (Cowell)
+
+seg-16e820be9d20 = Tegenover de bibliotheek Orekit { "12.2" } voor vluchtdynamica bij elke epoch van een boog van 24 uur, krachtniveau voor krachtniveau.
+
+seg-2b1ea60e99a7 = Positieverschil tegenover de tijd, per krachtniveau.
+
+seg-75344d6c427a = referentie · Orekit { "12.2" }
+
+seg-2e80a89ee20a = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-44988f3835ce = Geen weergave in Kshana Studio: deze vergelijking draait als enginetest.
+
+seg-6e9e7897bbc0 = Banen · van millimeters tot meters
+
+seg-dcde8c6ec76a = m Galileo
+
+seg-f09e813feeb3 = m Swarm-A
+
+seg-3c258b4d5ac7 = Elk baanresidu op één schaal
+
+seg-211a071c2017 = Van de controles van de propagator tot fits tegenover precieze efemeriden van ESA (European Space Agency). De lunaire orbiter, boven de drempel, wordt ook getoond.
+
+seg-f5b078c26ba8 = Elk residu op een logaritmische schaal van een millimeter tot twintig meter.
+
+seg-6670ead3fa91 = referentie · precieze efemeriden van ESA, de gereconstrueerde baan van de lunaire orbiter, Orekit { "12.2" }, AIAA-vectoren
+
+seg-6ce9be05ab08 = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed
+
+seg-57c9f4e60efa = Geen weergave in Kshana Studio: precieze baanbepaling draait als enginetests.
+
+seg-f8f25ec2345b = Klokken · stabiliteit
+
+seg-912dbb14d171 = van <c1/> gepubliceerde waarden
+
+seg-e0c144321893 = Reproduceert de referentiewaarden van NIST (National Institute of Standards and Technology) Special Publication (SP) { "1065" }, Tabel { "31" }, op haar eigen gegevensset van 1000 punten.
+
+seg-5d3372dbff1f = Vier deviaties tegenover de middelingstijd, met de gepubliceerde waarden als ringen.
+
+seg-9993e306ae64 = referentie · NIST SP { "1065" }
+
+seg-2a2794bda50f = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-fc6a00946a11 = Openen in Kshana Studio: de schatters op een klok, <c1/><s1> · seed <c2/></s1>
+
+seg-4f484b09471e = Holdover-voorspelling op een gemeten caesiumklokrecord: voorspeld ten opzichte van gemeten tussen { "0.84" } en { "1.03" }, binnen de vooraf vastgestelde factor van { "1.5" }.
+
+seg-4321e1b6bc12 = Klokken · holdover
+
+seg-7e2bad702e68 = tot
+
+seg-62cf63a7bec7 = Holdover-voorspelling op een echte caesiumklok
+
+seg-1f59d5bb3cff = Gefit op het eerste derde van een gemeten caesiumrecord, voorspeld op de andere twee derde: binnen de vooraf vastgestelde factor van <c1/>.
+
+seg-46c1dbe5c6bc = Gemeten en voorspelde tijdfout tegenover coast-tijd, en het venster van de verhouding.
+
+seg-449f52c56c67 = referentie · gemeten caesiumrecord
+
+seg-275351654591 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-c131867720cc = Openen in Kshana Studio: dezelfde inversie, <c1/><s1> · deterministisch</s1>
+
+seg-05dd599ce14a = Eén cel per mogelijkheid.
+
+seg-b19592bc5242 = Getoetst betekent dat een onafhankelijke externe bron het eens is: gepubliceerde referentievectoren, een afzonderlijk hulpmiddel of gemeten gegevens. Al het andere zegt berekend uit een model. Kies een label om de bijbehorende cellen te laten oplichten.
+
+seg-800e31fc8f7d = Beoordeelde mogelijkheden
+
+seg-1d2c8132218d = { "176" }<s1>van { "388" } getoetst</s1>
+
+seg-e61158f71854 = Beweeg over een cel
+
+seg-b66d124aa8dd = Verificatiematrix: { "176" } getoetst, { "208" } berekend uit een model, { "4" } in handen van de partner, { "388" } in totaal
+
+seg-d814d33d2b1e = allan::lag1_noise_id: de lag-1-autocorrelatieruis van Riley en Greenhall ({ "2004" })… · getoetst
+
+seg-3f806067da69 = osnma + kshana osnma verify: een open, in pure Rust geschreven verifier aan ontvangerzijde voor Galileo OSNMA… · getoetst
+
+seg-10698a330a88 = Allan-/gemodificeerde/Hadamard-deviatie + identificatie van machtswetruis met χ²-betrouwbaarheidsintervallen · getoetst
+
+seg-b1508c42341f = Overlappende Allan- + overlappende Hadamard-deviatie op een echte caesiumstandaard · getoetst
+
+seg-a8462102ee02 = Overlappende Allan- + gemodificeerde Allan-deviatie + tijddeviatie over de volledige AF-ladder · getoetst
+
+seg-29e7bbbe508c = Theo1 en totale deviatie (TOTVAR): stabiliteitsschatters met uitgebreid bereik voor lange tau… · getoetst
+
+seg-1e52731cd30d = MTIE(τ): de maximale piek-tot-piekzwaai van de tijdfout over elk verschuivend venster van τ =… · getoetst
+
+seg-0bdb8a3e7052 = MDEV(τ): de overlappende gemodificeerde Allan-deviatie (tweede verschil, verschuivend venster… · getoetst
+
+seg-e5651d7b5236 = Herstel van machtswet (white FM + rode ruisbodem) met NNLS uit een gepubliceerde gemeten ⁸⁸Sr… · getoetst
+
+seg-e7ada48a7ff9 = ARAIM-oplossingsscheiding met meerdere hypothesen volgens het ARAIM Airborne Design Document… · getoetst
+
+seg-a74e42c59d5f = SGP4/SDP4, Cowell 6-DOF + storingen, batch/sequentiële OD · getoetst
+
+seg-4f8eeede9609 = Numerieke propagator van Cowell met een hiërarchisch krachtmodel (tweelichamenprobleem, zonale J2–J6… · getoetst
+
+seg-1fecb2c8c5d7 = Belichte fractie voor SRP met het WGS-84-ellipsoïde als bedekkend lichaam (schijnbare Aardstraal… · getoetst
+
+seg-da94fc5e3b03 = SRP zonder kanonskogelmodel: een plaatmodel met doos en vleugels (Vallado vgl. 8-44; eenzijdig lichaam… · getoetst
+
+seg-bf16e7dc6637 = Belichte fractie voor SRP als de niet-bedekte fractie van de zonneflux met randverdonkering… · berekend uit een model
+
+seg-5ccaafbaf99c = Een port van de empirische thermosfeer NRLMSISE-00 (gtd7 en gtd7d: soortdichtheden… · getoetst
+
+seg-2fd4e498e5d6 = forces::DensityModel (Exponential standaard, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) en… · getoetst
+
+seg-8c1643833e02 = De standaardweerstand van de Cowell-propagator: kwadratische weerstand tegenover de meeroterende… · getoetst
+
+seg-c88dad1395e5 = Optioneel efemeridenniveau voor de termen van de derde massa en SRP van de numerieke Cowell… · berekend uit een model
+
+seg-fc85378484a6 = Het dagelijkse S1-luchtdruketij als storing van het geopotentiaal: Biancale en Bode… · berekend uit een model
+
+seg-5d41c94116ae = Ray ({ "2001" }) S2-luchtdrukharmonischen (n <= { "4" }, prograde en retrograde) omgezet naar het… · getoetst
+
+seg-4e94ef6bbaf3 = Optioneel tesseraal veld van EGM2008 (tot graad/orde { "70" }) als centrale zwaartekracht van het… · getoetst
+
+seg-1b8ba1d23a4f = Underflow-veilige, poolveilige evaluatie van een volledig genormaliseerd veld tot graad { "2190" }… · berekend uit een model
+
+seg-ece10758305d = Hairer DOP853 { "8" }({ "5,3" }) expliciete Runge-Kutta met de gecombineerde foutschatting van 5e/3e orde… · getoetst
+
+seg-c29a1f584c92 = Elliptische Kepler-oplosser voor alle { "0" } <= e < { "1" } en alle gemiddelde anomalieën: Markley ({ "1995" }) kubische… · getoetst
+
+seg-ae484d7c73e7 = Herstel een epochtoestand uit gemengde afstands-, afstandssnelheids- en azimut/elevatie-tracking boven… · berekend uit een model
+
+seg-7166587b7af6 = Koppel SP3-nauwkeurigheidscodes (header ++ exponenten in { "2" }^n mm, de %f-basis, per record basis^n mm… · berekend uit een model
+
+seg-a352259cb1c3 = Lees PDS SHADR-tabellen met sferisch-harmonische coëfficiënten (from_shadr, op SphericalHarmonicField in… · getoetst
+
+seg-bbdb377981c4 = with_gravity_field (op Body, in src/gravity_pds.rs): koppel elk geladen… · berekend uit een model
+
+seg-0dad0a6df1ba = Herstel een epochtoestand [r,v] uit afstanden van grondstations via een Gauss–Newton-batch… · getoetst
+
+seg-9aa6eccb7941 = Vertraagde (neerwaartse) enkelvoudige lichttijdoplossing τ = |r_rx − r_target(t−τ)|/c voor… · getoetst
+
+seg-44b327dce46e = Keplerse broadcast-efemeriden van IS-GPS-200 / Galileo-OS / BeiDou-OS → ECEF-satelliet… · getoetst
+
+seg-b2291e777ac3 = Lagrange-interpolatie volgens IGS-standaard van satellietposities uit SP3-precieze efemeriden met… · getoetst
+
+seg-e64d4f89e37d = GPS CNAV-berichttypen 10/11/30, Galileo I/NAV-woordtypen 1-5 in nominale even/oneven pagina's… · berekend uit een model
+
+seg-30fbb32b73fa = IONEX { "1.0" }-lezer (header, I5-waarden met vaste kolommen, TEC- en RMS-kaarten, absolute epochs… · getoetst
+
+seg-851595dfa46e = Divergentievrij Hatch-filter (ionosfeervrije code gedragen door de ionosfeervrije… · berekend uit een model
+
+seg-f22ecff347b8 = Relatieve positiebepaling op korte basislijn uit echte tweefrequente GPS-code en draaggolffase… · getoetst
+
+seg-53b900e15215 = De ontvangerklok geschat door het statische float-PPP-filter op echte tweefrequente GPS… · getoetst
+
+seg-53508398f315 = Statisch float-PPP met een extended Kalman-filter op echte tweefrequente GPS-code en draaggolf… · getoetst
+
+seg-135f709cabd6 = RINEX 4.00-4.02-navigatiebestanden: > EPH-records van GPS LNAV, Galileo I/NAV en F/NAV… · getoetst
+
+seg-8217e6dad5f4 = RINEX 4.0x-waarnemingsheaders (DOI, LICENSE OF USE, STATION INFORMATION, MERGED FILE… · berekend uit een model
+
+seg-5064320fefbc = BDS-SIS-ICD-B1I v3.0 §{ "5.2.4.12" } positie van een geostationaire satelliet uit een broadcast… · berekend uit een model
+
+seg-b3a6e424d368 = Satellietklokoffset tussen de getabelleerde SP3-klokknopen door lineaire interpolatie… · getoetst
+
+seg-f3c33c897d1c = Foutentoestands-EKF over { "15" } INS-toestanden, een ontvangerklok met twee toestanden en één float-draaggolf… · berekend uit een model
+
+seg-d18e059df2c0 = Drie gnss-ins-scenario's op de trajectbibliotheek (een vaartuig dat met { "8" } m/s zigzagt met een… · berekend uit een model
+
+seg-94ad91994306 = Eén gestapeld Kalman-filter over positie, snelheid, klokfase en frequentie, gevoed… · berekend uit een model
+
+seg-6d46cb5414e3 = De gesloten-lus-EKF met 15 foutentoestanden, aangedreven door IMU-increments met GNSS-antenne… · getoetst
+
+seg-be8fb95782af = De bench-exportbewegingsbestanden die aan de eigen lezers van een opensource-GNSS-simulator worden gegeven, komen… · getoetst
+
+seg-0d1622691877 = Strapdown-inertiële mechanisatie met quaternionstand en WGS-84-NED… · getoetst
+
+seg-6c2952f49754 = Zwaartekrachtgrootte + verstoring (mGal) uit sferische harmonischen van elk ICGEM .gfc-model… · getoetst
+
+seg-41ca7eec4a62 = De circulaire beperkte { "9" }:{ "2" } L2 zuidelijke bijna-rechtlijnige halobaan die… · berekend uit een model
+
+seg-42c26212e2c9 = cr3bp::to_moon_centred_icrf zet een dimensieloze roterende Aarde-Maan-CR3BP-toestand om naar een… · getoetst
+
+seg-35b2be544d26 = De zonnestelselsoort met planetary_kernel_path: elk gemeld lichaam waarvan de eigen NAIF-code… · getoetst
+
+seg-ad3763136cc7 = maneuver::porkchop_kernel: de sweep lanceerdatum x aankomstdatum van vertrek-C3 (km²/s²)… · getoetst
+
+seg-0f5ae623905f = maneuver::optimise_transfer_kernel: de vertrek- en aankomstdata van een… · getoetst
+
+seg-0ae19001fe4b = Elke oplossing van het probleem van Lambert met tot drie volledige omwentelingen… · getoetst
+
+seg-7eafc10ca9dc = Lambert-oplosser van Izzo-2015 voor één omwenteling (r1, r2, vliegtijd → rand… · getoetst
+
+seg-a8818aea1c75 = IAU 2006/2000A-precessie-nutatie, CIO GCRS↔ITRS, tijdschalen met schrikkelseconden · getoetst
+
+seg-3713cbb8eb72 = Een UTC-kalenderdatum en -tijd naar een tweedelige UTC-juliaanse datum met de SOFA dtf2d… · getoetst
+
+seg-822cd40b49f9 = Aardrotatie uit een tweedelige UT1-Juliaanse datum op het baantraject, zodat het aardvaste… · Getoetst
+
+seg-c846d8ec2e5e = Drie framematrices element voor element of op rotatiehoek vergeleken met ERFA bij… · Getoetst
+
+seg-853ce09df9d5 = UTC van 1960-01-01 tot 1971-12-31, toen UTC met een offsetsnelheid ten opzichte van TAI liep en stapte… · Getoetst
+
+seg-a0c473abd3ff = De GLONASS-satellietklokbias -tau_n + gamma_n (t - t_b) op een tijdstip afgelezen op… · Getoetst
+
+seg-ca16d26f1ebe = Het voortplantings- en framepad dat elke gerouteerde aardbaansoort deelt: een SGP4-gemiddelde… · Getoetst
+
+seg-15ce16875e3a = m-sequence/Gold-zijlobben en kruiscorrelatiegrenzen, lengte↔ambiguïteit · Getoetst
+
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP uit zichtlijngeometrie via Q=(HᵀH)⁻¹ met een lokale ENU-splitsing · Getoetst
+
+seg-a9fda54b3df8 = dop_error_mc::run_geometry en check: een geseede Monte Carlo (N = { "20,000" } epochs per… · Gemodelleerd
+
+seg-cd50aaf86375 = receiver_trust::geometry: satellietgeometrie per epoch (goed, gedegradeerd met redenen… · Gemodelleerd
+
+seg-d39aa1ea5121 = Klobuchar-ionosferische groepsvertraging voor enkelvoudige-frequentie L1 langs het schuine pad uit de acht uitgezonden α/β… · Getoetst
+
+seg-ab6ef0477bea = De distributiekern waarop elk beschermingsniveau rust: de snapshot-foutdetectie… · Getoetst
+
+seg-08740f67bcf2 = DO-229E Appendix J gewogen-kleinstekwadraten-beschermingsniveaus: D=(GᵀWG)⁻¹ uit… · Getoetst
+
+seg-0597fb2464d0 = AUC (Mann-Whitney, gelijke waarden ½), verwarringsmatrix bij drempel… · Getoetst
+
+seg-76f7a9a22d70 = ROC AUC + bootstrap-BI die echte gelabelde anomalieën scheidt; transparante detector… · Getoetst
+
+seg-f3d7926d7464 = Gemeten-ADEV-NNLS-fit, NEES/NIS χ²-consistentiebanden en de klok-van-Loan-discrete… · Getoetst
+
+seg-cf029efb7438 = Sferisch-harmonische synthese van het IGRF-14-hoofdveld — X/Y/Z/F-componenten, declinatie… · Getoetst
+
+seg-ba97bae9110c = Analytische binormale ROC AUC = Φ(μ/(σ√{ "2" })) en de minimaal detecteerbare fout… · Getoetst
+
+seg-fa9b946507f8 = Rangcorrelatie- en hersteekproefkernels onder de studie naar beslissingsinstabiliteit van veerkracht… · Getoetst
+
+seg-c0267817b05a = Analytic Hierarchy Process-prioriteitsgewichten = genormaliseerde dominante (Perron-)eigenvector… · Getoetst
+
+seg-3780fbf75fa5 = Weighted Sum Model (min–max-genormaliseerde additieve aggregatie + rangschikking) en Weighted… · Getoetst
+
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Getoetst
+
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — groepsnut Sᵢ, individuele spijt Rᵢ en de… · Getoetst
+
+seg-8e3355350914 = Preference Ranking Organization METHod — paarsgewijze voorkeursindex met de zes standaard… · Getoetst
+
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — concordantie-/discordantiematrices, de… · Getoetst
+
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (lineair genormaliseerde convexe mix… · Getoetst
+
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — kolomsom-genormaliseerde batensignificantie S⁺ plus de… · Getoetst
+
+seg-14a9c267153c = Slechtste-geval-detectielatentie van de tabulaire CUSUM-detector (⌊h/(z−k)⌋+{ "1" }) en out-of-control… · Getoetst
+
+seg-559361559e00 = Groei van de fasefoutvariantie tijdens coast q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 en de monotone… · Getoetst
+
+seg-f35ada98dcce = Effectieve architectonische diversiteit = inverse-Simpson / Hill-orde-2-getal 1/Σpᵢ² over… · Getoetst
+
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: het geodetische (WGS-84) azimut… · Getoetst
+
+seg-f5a8c861b566 = skyline: de straatcanyon in gesloten vorm (snede atan((h - a) / d) met d = (w/2) /… · Gemodelleerd
+
+seg-6f4ab2e589a4 = skyline::PRESETS: vier REPRESENTATIVE geometrieën met de in de ontwerpnotitie vermelde… · Gemodelleerd
+
+seg-206fd57a3ac7 = geometry::sky_geometry: de ENU-en-klok-cofactor (H^T H)^-1 met één ontvangerklok in… · Getoetst
+
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Gemodelleerd
+
+seg-443eb5d0c060 = Coast-foutgroei in gesloten vorm + holdover tot drempel; kwantumklokklassen · Gemodelleerd
+
+seg-82fc65142759 = clock_library: een apparaatkaart (witte fase, witte, flicker- en random-walk-FM plus een… · Gemodelleerd
+
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: een apparaatkaart die de… · Gemodelleerd
+
+seg-b3a0ab1e8725 = 3-toestands (fase/frequentie/drift) van-Loan-Kalmanklok, Joseph-gestabiliseerd · Gemodelleerd
+
+seg-065f31b5656e = Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; linkjitter→afstand · Gemodelleerd
+
+seg-f66464be680e = BPSK-R/BOC-PSD, spectrale scheiding κ, Gabor-bandbreedte, DLL-jitter, meerwegontvangst · Gemodelleerd
+
+seg-93c350e230ed = G1/G2-LFSR C/A-codegenerator die de gepubliceerde octale eerste-10-chips van IS-GPS-200 reproduceert… · Getoetst
+
+seg-934de63c594b = Koude-atoom-interferometer-accelerometer vanuit eerste principes (k_eff·T², QPN) · Gemodelleerd
+
+seg-c1b7c7c18be6 = Mach–Zehnder-fringe-ambiguïteitsdynamiek: de 2π-periodieke fringe-uitlezing legt een… · Gemodelleerd
+
+seg-0b04febfad29 = Samengesteld positiebudget van bias + schaalfactor + VRW + stabiliteitsverval over holdover · Gemodelleerd
+
+seg-9f1d13017c2b = 15-toestands error-state EKF, losjes gekoppeld (getoetst op een echte IMU/GNSS-rit tegen… · Getoetst
+
+seg-7de0c3292c0b = Geometrisch J/S-linkbudget, anti-jam C/N₀, verlies van lock per satelliet · Gemodelleerd
+
+seg-4c976ce425d1 = Klokondersteunde χ², RAIM, AGC, SQM, per epoch gefuseerde beveiligings-FoM · Gemodelleerd
+
+seg-94aef965251e = Gesloten-vormgrens op de slechtste-geval onopgemerkte tijdfout = monitorondergrens + oscillator… · Gemodelleerd
+
+seg-f94c1547b98c = CR3BP-STM + single-shooting differentiële corrector; L2 zuidelijke NRHO · Getoetst
+
+seg-ed2d780e3d9e = Zwaartekrachtkaartmatching, terreinreferentie (TERCOM/SITAN), magnetische anomalie · Gemodelleerd
+
+seg-486011306ab7 = Zwaartekrachtanomalie in sferische benadering (Barthelmes STR09/02 verg. { "126" }, ICGEM… · Getoetst
+
+seg-4483cf6d6e1b = Zelfgeschreven SRTM .hgt-parser (16-bit big-endian, noordrij eerst, void-bewust) + bilineaire… · Getoetst
+
+seg-00ca5de4ee1f = Deterministische, scenario-gehashte, SBOM- + platformoverschrijdende golden gates · Gemodelleerd
+
+seg-8e59c3e84e80 = Gelabeld synthetisch verstoringscorpus + detectoronafhankelijke ROC/AUC/verwarringsmatrix/Pfa-Pmd… · Gemodelleerd
+
+seg-ee1c310ec3f1 = Gecontroleerde synthetische studie van de in-distributie→out-of-distributie AUC-optimismekloof… · Gemodelleerd
+
+seg-901571509bd6 = Inname van gemeten ADEV (NNLS), afwegingstabel (tijdsynchronisatie-/inertiële holdover + voordeel)… · Gemodelleerd
+
+seg-5662e2e5895c = Zonne-/geomagnetische indices (definitionele Kp↔ap-tabel), de exosferische Jacchia-1971… · Gemodelleerd
+
+seg-c537da9d8e79 = CCSDS { "502.0" } OEM-importeur (parse_oem), tolerant voor COMMENT-regels / extra metadata… · Getoetst
+
+seg-beeb7d7b6dd4 = Tweelichamen-lanceerazimut(en) (sin Az = cos i / cos lat), minimaal bereikbare inclinatie… · Gemodelleerd
+
+seg-c45e3519a7a5 = Piekvertraging (onafhankelijk van de ballistische coëfficiënt), snelheid + hoogte bij piek-g… · Gemodelleerd
+
+seg-da36dafae1a0 = SMAD-ruimtedriehoeksgeometrie: hoekstraal van de aarde, zwathbreedte, nadir-GSD, maximale… · Getoetst
+
+seg-3ad96d6deb18 = CCSDS 133.0-B Space Packet primaire-header encoderen/decoderen… · Getoetst
+
+seg-8310f0595525 = CCSDS 133.0-B-2 Space Packet-extensies naast de primaire header: een secundaire header… · Getoetst
+
+seg-5bb33fefb658 = Schrijver en lezer van NAIF SPICE SPK-kernels van type { "9" } (Lagrange, ongelijke tijdstappen)… · Getoetst
+
+seg-0e3ee73f6878 = Schrijver en lezer van NAIF SPICE SPK-segmenten van type { "3" } (Chebyshev-polynomen voor… · Getoetst
+
+seg-f7030d62e793 = Schrijver en lezer van de CCSDS 504.0-B-2 Attitude Data Messages in KVN en NDM/XML: AEM… · Getoetst
+
+seg-c50a40ca4cc3 = Schrijver en lezer van de CCSDS 502.0-B-3 Orbit Data Messages in KVN en NDM/XML: OPM { "3.0" }… · Getoetst
+
+seg-26a88c235d95 = Zwaartekrachtgradiënt-storingskoppel voor het slechtste geval ((3/2)(μ/R³)ΔI) als de piek over standen… · Getoetst
+
+seg-87c35f71a0ad = Tijdsdomein-zichtbaarheidspassages (AOS/TCA/LOS, maximale elevatie, duur) van een engine… · Getoetst
+
+seg-52b6d079e92c = Zichtbaarheidspassages (AOS, TCA, LOS, maximale schijnbare elevatie, duur) van een SGP4… · Getoetst
+
+seg-399a6180ad73 = Downlink-Es/N0 langs elke passage van één satelliet boven één station (EIRP, vrije-ruimteverlies… · Gemodelleerd
+
+seg-39ce06b45cb9 = Kandidaatcontacten uit elke satelliet-stationpassage met het ACM-datavolume; conflicten… · Gemodelleerd
+
+seg-3fba182b5716 = Vrije-ruimtepadverlies, C/N₀, Eb/N₀, marge en sluiting over de CCSDS { "401" } / DSN 810-005… · Getoetst
+
+seg-c4474a20a256 = Kosten-per-percentage-dekking + dekking-per-euro-ROI over de constellatiedimensioneringsengine… · Gemodelleerd
+
+seg-f7455ff3cea7 = Koppelt een onopgemerkte spoof-/jam-bias aan effectieve fout → Stanford-gebied… · Gemodelleerd
+
+seg-3b6f9365b858 = Begrensde (beste/nominale/conservatieve) prestaties van een koude-atoom-interferometer — bias… · Gemodelleerd
+
+seg-487540fed42b = TIB Stanford-integriteitsdiagram-epochclassificatie (nominaal / niet beschikbaar / MI / HMI) · Gemodelleerd
+
+seg-fdacd291d688 = TIB-integriteitsdekkingsscore (HMI/MI/beschikbaarheidspercentages + overbound-dekkingsoordeel) · Gemodelleerd
+
+seg-55b7d4cb0733 = TIB-foutmenu (domeindivergentie, clock-slam, holdover-coast… · Gemodelleerd
+
+seg-deb93b385e06 = TIB-oordeel over niet-detecteerbare absorptie (symmetrisch/replay moet door het PL worden geabsorbeerd, nooit… · Gemodelleerd
+
+seg-71e991a2fb5e = Niet geleverd — Kshana is een simulator voor navigatieprestaties, geen satellietbouwer · Partner
+
+seg-aad5d920d276 = Niet geleverd — Kshana modelleert signaalprestaties, geen payload-/antennehardware · Partner
+
+seg-635ca7bf37f6 = Niet geleverd — alleen prestatiemodellen; koude-atoom-/klokhardware is van een partner · Partner
+
+seg-cf461832e017 = Niet geleverd — Kshana richt zich alleen op software-PA; vlucht-PA is van een partner · Partner
+
+seg-b12d70afce58 = Relativistische aarde-maan-klokgang (LTC/TCL) + TT/TAI/UTC-koppeling + ensemble · Getoetst
+
+seg-2196751179d2 = Het hybrid-optical-rf-rapport vermeldt de linkconfiguratie waarmee het daadwerkelijk draaide (draaggolf… · Gemodelleerd
+
+seg-c4ba60f69a92 = Het hybrid-optical-rf-rapport vermeldt een RF-linkbeschikbaarheid, samengesteld uit grootheden… · Gemodelleerd
+
+seg-e35847b3472a = Het hybrid-optical-rf-rapport geeft de optisch-versus-RF-afstandsmetingsverhouding weer met de ENE… · Gemodelleerd
+
+seg-f2a51c1899b1 = Het linkbudgetrapport vermeldt elke absolute constante waaruit zijn eigen marge werd berekend… · Gemodelleerd
+
+seg-8f6469a6120f = Eén run van het lunar-time-budget geeft per klokklasse een klok-versus-frame-kruispuntrij weer tegen een… · Gemodelleerd
+
+seg-0539c66f5cf0 = Eén tabel meldt de UT1-voorspellingsfout, de poolbewegingsfout en hun… · Getoetst
+
+seg-a3f939d488fb = De runtimestandaard van realtime-frame-eop is de eigen ingebedde kopie van de bibliotheek van een letterlijke… · Getoetst
+
+seg-8f02a2501455 = Tweeassige sweep van de patroongewogen, hoogtebegrensde oppervlakte-opvangvoetafdruk over… · Gemodelleerd
+
+seg-8a1340c7c9c7 = Het lunar-time-budget-scenario publiceert zijn arraywaardige uitvoer als een long-form (raster… · Gemodelleerd
+
+seg-4ab4a61e8167 = Het optionele [time_lab]-blok van het lunar-time-budget-scenario modelleert een maanreferentie… · Gemodelleerd
+
+seg-57abfe8d677e = Nabijeveld-VLBI-vertraging voor een aardbasislijn die een maanbaken waarneemt + partiële afgeleiden · Gemodelleerd
+
+seg-d30dd4a12006 = Nabijeveld-VLBI-vertraging voor een aardbasislijn die een maanbaken waarneemt, met baken en… · Getoetst
+
+seg-3aa60b9c6b3c = De eigen pure-Rust-lezer van de engine voor binaire NAIF-kernels (naif_kernel): de DAF… · Getoetst
+
+seg-2acd73a9ac2d = Ontvangst van aard-GNSS op maanafstand: de zwaksignaallaag die P7 Table { "1" } noemt en de… · Gemodelleerd
+
+seg-33d1304a0519 = Baanbepaling in een bijna-rechtlijnige halobaan (of een elliptische bevroren baan)… · Gemodelleerd
+
+seg-c1ee9a353523 = Enkelvoudig verschil tussen ontvangers van aard-GNSS-draaggolffase en -code op een maanoppervlak… · Gemodelleerd
+
+seg-69aedd00f9a3 = Fisher-informatie van de zevenparameter-maanframedatum uit aardstation-laser… · Gemodelleerd
+
+seg-1fbf7618a692 = Cramér-Rao-precisie van de translatie-, schaal- en rotatie-offsets tussen technieken… · Gemodelleerd
+
+seg-e415b5a77676 = Fisher-informatie van h2, k2, l2 en de fysische libratie-amplitudes uit laser… · Gemodelleerd
+
+seg-8f2d14dd394e = Bakenversterkte dilution of precision voor een maanoppervlaktegebruiker: de zichtbare-satelliet… · Gemodelleerd
+
+seg-d76d65cb95c5 = Exacte pariteitsruimte-splitsing van een meetfout in het deel dat RAIM niet kan zien en het… · Getoetst
+
+seg-90c252c7df52 = cmpl_horizontal begrenst de k-sigma horizontale positiefout die wordt bijgedragen door de blinde… · Gemodelleerd
+
+seg-92fc824c4b83 = Batchfusie van VLBI + maanlokale afstand + afstand tussen satellieten om te herstellen… · Getoetst
+
+seg-4cf20252f448 = Fisher-informatie M=HᵀWH, Cramér–Rao-ondergrens, waarneembaarheidsrang / datumdefect… · Getoetst
+
+seg-f71ccda9ffde = Fisher-informatie-waarneembaarheid van de gezamenlijke maanoplossing: zonder aardbasislijnen de… · Gemodelleerd
+
+seg-cd6e8589ff01 = 7-parameter Helmert-datumfit + ICRF-oriëntatiekoppeling uit een netwerk van punten · Getoetst
+
+seg-04e2dd96ebd4 = Moonlight-klasse maan-DOP / dekking / beschikbaarheid + gegeneraliseerd maan-ARAIM-beschermings… · Getoetst
+
+seg-b4800672c176 = De Augmented Forward Signal-codes van LSIS V1.0 ({ "29" } januari { "2025" }): de AFS-Q 10230-chip… · Gemodelleerd
+
+seg-e663cd51a1af = De renderingkern van de AFS-basisband (LSIS-130: complexe omhullende I + jQ, I = de AFS-I… · Getoetst
+
+seg-088515ff0767 = Het { "12" } s, 6000-symbolen FID { "0" }-frame van LSIS V1.0: 68-symbolen synchronisatiepatroon, BCH… · Getoetst
+
+seg-2e3079616926 = Een Kshana AFS-opname verworven, gevolgd en gedecodeerd door een onafhankelijke software-ontvanger… · Gemodelleerd
+
+seg-437e67bb2bed = GPS L1 C/A-spreidingscodes (sdr::CaCode) en LNAV-subframes 1-3 (gps_lnav: IS-GPS-200… · Gemodelleerd
+
+seg-ffd1b13b8e08 = De referentie per satelliet van de IQ-scènegenerator voor een GPS L1 C/A-uitgezonden-efemeride-scène… · Getoetst
+
+seg-f93a7f8acc5a = iq::acq::acquire (FFT-parallelle codefasezoektocht met de square-law Marcum-Q-drempel)… · Gemodelleerd
+
+seg-eef6607ed2cf = iq::campaign::detect en de campagnerunner: een optionele [monitors]-tabel laat de IQ… · Gemodelleerd
+
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) en iq::campaign::report::rocs: elke cel van een… · Gemodelleerd
+
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) en [input] campaign op kshana iq labfit… · Gemodelleerd
+
+seg-14e8ca05c35a = De LNAV-subframes 1-3 van Kshana (gps_lnav::encode_subframes) voor de { "32" } brdc0010.22n… · Gemodelleerd
+
+seg-030d1fa37f79 = IS-GPS-200 LNAV-subframes 1-3 (gps_lnav::encode_subframes: kwantisatie naar dichtstbijzijnde… · Gemodelleerd
+
+seg-e53b50d716c2 = Parallelle codefasezoektocht (acquisition::pcps_acquire: draagbare FFT, coherente vouwing… · Gemodelleerd
+
+seg-dd83610c7054 = acquisition::pcps_acquire met zijn samplevermogensbeslissing op de negen niet-oppervlakte LuGRE… · Gemodelleerd
+
+seg-39dfb5c00daf = acquisition::pcps_acquire met de celgemiddelde-beslissing (piek over het gemiddelde van het raster… · Gemodelleerd
+
+seg-c75576fbf7dc = acquisition::pcps_acquire (celgemiddelde-beslissing, valsealarmkans { "1e-7" }) met… · Gemodelleerd
+
+seg-7b80adb2f3c1 = Topocentrische kijkhoeken per satelliet (azimut met de klok mee vanaf noord, elevatie) en… · Getoetst
+
+seg-8682a18623a0 = Differentieel referentiestation van NovaMoon-klasse: common-mode-onderdrukking +… · Gemodelleerd
+
+seg-22e6954fe97f = LunaNet/IOAG-afgestemde maanframe- + tijd- + efemeride-export (CCSDS OEM + KIF) met… · Gemodelleerd
+
+seg-ef1f98adc881 = Subscores per dimensie over de eigen zeven veerkrachtcategorieën van Kshana (niet de DHS-termen)… · Gemodelleerd
+
+seg-a4b986bb7414 = Kwantificeert hoe één samengestelde score / RPCF-niveau architecturen herordent onder een… · Gemodelleerd
+
+seg-2c46a0ac9d47 = Eerlijkheidsregister per resultaat dat een demonstratie-uitvoer kwalificeert: zijn externe ankers… · Gemodelleerd
+
+seg-3cf7f27d3357 = Eén reproduceerbaar TradeEvidence-object (vast frame: scenario+seed+engine; gemeenschappelijke FoM per… · Gemodelleerd
+
+seg-24f99198842b = Apparaatkaarten (optisch/gevangen-ion/kwik-ion + klassieke klokken hergebruikt uit… · Gemodelleerd
+
+seg-acd180a7e9c1 = End-to-end kwantum- versus klassieke tijdoverdrachtketen (klok-coast + linkprecisie in… · Gemodelleerd
+
+seg-cd23c8f87bd6 = Kwantum- (koude-atoom-interferometer) versus klassieke dode-rekening van een INS van navigatiekwaliteit over… · Gemodelleerd
+
+seg-843a2f5c9332 = Gelabelde kwantumfoutencatalogus (klokfrequentiesprong/drift/lock-verlies; sensor… · Gemodelleerd
+
+seg-cc543b168360 = Euler-bewegingsvergelijkingen voor rotatie (I ω̇ = τ − ω × Iω, hoofdas en algemeen… · Getoetst
+
+seg-1cb6f416c032 = Relatieve beweging van een chaser rond een target op een cirkelvormige referentiebaan in het LVLH… · Getoetst
+
+seg-af4f665f008c = Lokaliseer een zender (jammer/spoofer, of een opportunistische bron voor reverse-PNT) uit… · Gemodelleerd
+
+seg-537695276e2e = Een 3-DoF-puntmassa-intrede over een roterende sferische aarde door de US Standard… · Getoetst
+
+seg-325aee4e883b = Convectieve warmteflux in het stagnatiepunt q = k sqrt(rho/R_n) V^{ "3" } met de Sutton-Graves… · Gemodelleerd
+
+seg-1d456a0c1722 = Signaal-ruisbudget van een nadirbeeldvormer (Lambertiaanse scèneradiantie, cameravergelijking, shot… · Gemodelleerd
+
+seg-177b656af61c = Vlakke gravity-turn-opstijging van een voertuig met meerdere trappen over een niet-roterende sferische aarde… · Gemodelleerd
+
+seg-ef8c91c82ae6 = De TWSTFT-tweewegvergelijking opgelost voor T_A - T_B met zend- en ontvangst van het station… · Gemodelleerd
+
+seg-1d0b4b4e110f = Hufnagel-Valley Cn2 geïntegreerd langs een schuin pad voor de vlakke- en sferische-golf… · Gemodelleerd
+
+seg-c4ee04146fdd = Beschikbaarheid van een optische link tegen een vermelde linkmarge uit een log-normale wolken… · Gemodelleerd
+
+seg-028c12c10cb9 = De verdeling van de uitvalduur van een optische locatie, gekoppeld aan de coast in gesloten vorm… · Gemodelleerd
+
+seg-c3d99589cc05 = Een opt-in [timeseries]-tabel (duration, step, seed) laat de optical-atmosphere-soort… · Gemodelleerd
+
+seg-0c7d7f31e4d6 = Een lezer voor DSN Orbit Data Files (TRK-2-18): de recordgroepen van 36 bytes (bestandslabel… · Gemodelleerd
+
+seg-7956a36bcade = Inertiële standregeling van een starre hub met drie of meer gebalanceerde reactie… · Getoetst
+
+seg-84a5fe5a3fbe = Het multiplicatieve EKF van Lefferts-Markley-Shuster: standfout in het lichaamsframe en gyrobias… · Gemodelleerd
+
+seg-193da3371e11 = Optimale driedimensionale stand uit gewogen vectorwaarnemingen (ster/zon/magnetometer… · Getoetst
+
+seg-8da56e79e751 = Square-law (niet-coherente) acquisitiedetector over een codefase × Doppler-zoek… · Getoetst
+
+seg-d5849ac6bc94 = Geheeltallige kleinste-kwadraten-ambiguïteitsfixatie op de LAMBDA-manier: een volumebehoudende gehele (Z)… · Getoetst
+
+seg-2d96783440cc = Hyperbolische flyby-geometrie (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, afbuighoek δ={ "2" }·asin(1/e), impact… · Getoetst
+
+seg-e7d3b969f076 = Antenne-nulling met controlled reception pattern: complexe array-stuurvectoren… · Getoetst
+
+seg-dd7b728fe2b4 = De IEEE-1139 PSD↔Allan-variantie-conversie met vijf coëfficiënten S_y(f)=Σh_α f^α → σ_y²(τ)… · Getoetst
+
+seg-f8adbffd71d8 = Serialiseer en parseer het CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP-blok — de { "6" }×{ "6" }… · Getoetst
+
+seg-d67d03452c0a = Budget van positiefout versus coast-duur opgebouwd uit IMU-coëfficiënten, elke foutbron… · Getoetst
+
+seg-4b154bf6e19f = Eén run neemt een contactplan (een lijst aos_s/los_s-vensters, elk met de vraag aan de apertuur… · Gemodelleerd
+
+seg-f760b89fb9f2 = Maannatieve jammer-tot-signaalverhouding, effectieve C/N₀ en verlies van lock voor een selenografische… · Gemodelleerd
+
+seg-4f9161cdf3ee = Het lunar-jamming-rapport steunt zijn denial-contour niet langer op één scalar. Het geeft de… · Gemodelleerd
+
+seg-c9d6d3cf2935 = Het hybrid-optical-rf-rapport vermeldt wat de cross-modality-chikwadraatmonitor kan… · Gemodelleerd
+
+seg-59df9a43a6b8 = Het hybrid-optical-rf-rapport legt het procesruismodel van het filter bloot en vermeldt hoe… · Gemodelleerd
+
+seg-8b261efc9e1c = De geometrie-export per satelliet bevat, per (epoch, satelliet), de off-boresight… · Gemodelleerd
+
+seg-128f88766721 = Verlies van lock berekend uit lusdynamica in plaats van een vermogensverhouding: draaggolf (Costas) en… · Gemodelleerd
+
+seg-dc1fcd97c3a7 = Vertragingspartiële afgeleiden opgeteld over een schema van basislijnen × epochs tot een Fisher… · Getoetst
+
+seg-c17542136645 = Een derde datumkeuze, alle-stations-vast, die elk aardstation vasthoudt en schat… · Gemodelleerd
+
+seg-5c8e2fa3bbbf = De alle-stations-vaste bakencovariantie van het lunar-vlbi-fim-scenario (elk aardstation… · Getoetst
+
+seg-ce38279b5aa8 = De drie termen die een differentiële correctie oppikt tussen de epoch waarop ze wordt berekend en… · Gemodelleerd
+
+seg-156151ec109a = Monte Carlo-sweep van het lunaire differentiële PNT-model over een zuidpool-gebruikersraster en een… · Gemodelleerd
+
+seg-1705f4ce1f56 = Azimutafhankelijke horizonmaskers per locatie voor de lunar-station-coverage-soort (de… · Gemodelleerd
+
+seg-e93ebeff92a8 = De optionele [receiver]-sectie van lunar-station-coverage (LRS-02): elevatieafhankelijke… · Gemodelleerd
+
+seg-b294dec61e30 = De optionele invoer orbit_err_growth_m_per_s van lunar-station-coverage (LRS-03): een… · Gemodelleerd
+
+seg-a68d82cb0c1e = De optionele [solution]-sectie van lunar-station-coverage (LRS-06): een hoogte… · Gemodelleerd
+
+seg-b4996f005ec1 = De lunar-station-coverage-soort uitgevoerd onder de publieke aannames van de gepubliceerde… · Gemodelleerd
+
+seg-bd66869079b4 = De geometrie-naar-covariantiestap van het maanbeschermingsniveau — (GᵀG)⁻¹ over de alles-in-zicht… · Getoetst
+
+seg-f9bc824806f8 = De multiple-hypothesis-solution-separation-beschermingsniveauvergelijking zelf… · Getoetst
+
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: de ADD v4.2-regel voor subsetbepaling (P_THRES… · Gemodelleerd
+
+seg-e5cfbf8661ff = De optionele [integrity]-sectie van de clock-soort (clock_integrity::run): uit een vermelde… · Gemodelleerd
+
+seg-b07a36e5c271 = De cislunaire booglengte-waarneembaarheidsdrempel in de RUIMTELIJKE zes-toestands CR3BP in plaats van… · Gemodelleerd
+
+seg-f88fcbfa22cf = Een kleinste-kwadraten bias-plus-snelheid-fit over een meelopend venster plus de voornaamste periodieke… · Gemodelleerd
+
+seg-fd5f35f76c57 = De zevenparameter-Helmert-datum gepropageerd uit een GESIMULEERDE WAARNEEMCAMPAGNE in plaats van… · Gemodelleerd
+
+seg-2c8d43fe11c7 = Een batch-kleinste-kwadraten-schatter die de beginstand van de chief HERSTELT uit gesimuleerde… · Gemodelleerd
+
+seg-a10c3602ff80 = Accepteert een getabelleerde maancentrische toestandsefemeride (de evaluatie van een SPK/BSP-kernel)… · Gemodelleerd
+
+seg-4b77b4198030 = Een machineleesbaar schema dat eenheid, herkomstklasse en definitie geeft voor elk numeriek… · Gemodelleerd
+
+seg-735a5f9d5762 = De zevenparameter-Helmert-datumcovariantie, met zijn twee gesimuleerde invoeren vervangen door… · Getoetst
+
+seg-ea7ecbe4ec1e = Optionele invoeren extra_reflectors en extra_beacons op het lunar-llr-datum-scenario voegen een… · Gemodelleerd
+
+seg-e55351a3a757 = De zevenparameter-Helmert-datumcovariantie van lunar-llr-datum uit gearchiveerde ILRS normal… · Getoetst
+
+seg-e84dedc612c4 = ephem::moon_position, de laagprecieze geocentrische maanreeks waarop de crate terugvalt… · Getoetst
+
+seg-1af4030e7dde = Drie structurele waarborgen over het verificatieproces zelf, elk een klasse van… sluitend · Gemodelleerd
+
+seg-5b9dda92c158 = Scalair-tijd solution-separation-TPL over heterogene bronnen; PL aangedreven door… · Getoetst
+
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); lager-semicontinu PL({ "0" }+)≥PL({ "0" }−); K(IR/2) lopend-maximum… · Gemodelleerd
+
+seg-54d612592d08 = Lopend-maximum-omhullende overbound-dekt (zonder doorboring van nul) een echte metrologische reeks bij… · Getoetst
+
+seg-54f4e009c7d5 = Geen eindige slechtste-geval holdover (Brownse sup divergeert); IR-toegewezen HPL consistent met… · Gemodelleerd
+
+seg-2f43298d88c8 = Per-bron-bias-overbound b = (U/k_cov)·Phi^-1(1-tail/2) + veroudering, die een gepubliceerde… oppompt · Gemodelleerd
+
+seg-76baa53b1b6e = N×N bias-kruiscovariantie met rho·b_i·b_j buiten de diagonaal voor bronnen die een UTC(k) delen… · Gemodelleerd
+
+seg-b2396f1b8e9d = Zelfgeschreven Cholesky Omega=LL^T en voorwaartse-substitutie-witmaking z=L^-1 r (Cov(z)=I… · Getoetst
+
+seg-e7ad7dc222c3 = Scorestatistiek ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 voor een common-mode-verschuiving… · Gemodelleerd
+
+seg-91e04ed91d06 = Plafond voor niet-detecteerbare common-mode: de grootste foutomvang langs een richting d die… · Getoetst
+
+seg-39ee9f0b7b11 = Schur-complement-marginaal van het { "{" }lunocenter-X, scale{ "}" }-blok van de 7-parameter Helmert… · Getoetst
+
+seg-9eaa1f56a3b7 = Classificatie van het interne-afstandsmeting-datumprobleem: één afstandswaarneming… · Gemodelleerd
+
+seg-e97d57d71169 = Datum-Jacobiaanrijen voor aarde-reflector-LLR-afstand, tweestations-maan-VLBI differentieel… · Gemodelleerd
