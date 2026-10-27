@@ -4463,3 +4463,173 @@ dat-b0df8ec2da5c = scikit-learn roc_auc_score på testdelingen OPSSAT-AD (Ruszcz
 dat-2af5f540cc70 = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa m.fl., JMLR { "2011" }), begge BSD-3-Clause — uavhengige biblioteker som beregner de samme entydig definerte størrelsene for gaussisk hale / AUC, stemt til A&S-erf-gulvet (~{ "7e-8" }). Fordelen for kvante mot klassisk bygget oppå forblir MODELLED
 
 dat-04ea5481c128 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — uavhengig bibliotek (Cephes/Boost), en annen algoritme enn Kshanas serie for ufullstendig gamma; stemt til ≤{ "1e-6" } rel. Bare kjernen. *Fordelingen* av ARAIM MHSS P_HMI-budsjettet er ikke lenger uten en publisert numerisk uavhengig referanse — WG-C ARAIM Technical Subgroups eget gjennomregnede eksempel støtter nå den separate raden «ARAIM MHSS protection levels against published reference vectors», stemt ved referansens egen TOL_PL = { "5e-2" } m — så denne radens omfang er den statistiske kjernen og den raden bærer fordelingen (se docs/ARAIM_REFERENCE.md)
+
+dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q eksakt, χ² <{ "5e-4" } ved driftsfrihetsgrader. Bare kjerner — tall for enhetsytelse forblir modellert (neste rad)
+
+dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm som beregner den diskrete prosessstøyen Q₀₀ = ∫₀ᵗ ΦQcΦᵀds etter Van-Loan { "1978" } via Padé-skalering og kvadrering på den utvidede matrisen på { "6" }×{ "6" } — en uavhengig vei som aldri ser kshanas polynomkoeffisienter; pluss optimize.brentq som inverterer den samme monotone kurven mot kshanas halvering. Tallene for rødstøygulvet per klasse (ClockClass) forblir MODELLED
+
+dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — uavhengige implementasjoner (merge-sort τ) av de entydig definerte rangstatistikkene, stemt til { "1e-12" }. Studien av beslutningsustabilitet bygget på disse kjernene forblir MODELLED
+
+dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) og dens rutiner for enkeltsteg, feilnorm, tett utdata og startsteg, en uavhengig implementasjon; eksakte todelegemetilstander fra mpmath { "1.3.0" } med { "40" } sifre. Terskler forhåndsregistrert i xval/dop853-scipy/PREREGISTRATION.md (ae1b25e) før den første sammenligningen; alle nådd (xval/dop853-scipy/RESULTS.md). SciPys første steg gis til begge løserne i de fulle kjøringene; startstegrutinen sammenlignes separat. Ikke dekket: RKF7({ "8" }), stivhetsdeteksjon, hendelseslokalisering
+
+dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) med det samme periodiske Hann-vinduet, overlapp, tetthetsskalering, ingen fjerning av trend og tosidig middelverdi: hver bin innenfor { "1e-12" } relativt (observert { "6.0e-14" }) over { "27" } tilfeller, med segmenttellinger hentet fra scipys eget spektrogram. sigmf-python { "1.13.0" } (LGPL-3.0, kjørt som et verktøy) skriver fem opptak fra tredjepart (cf32_le, ci16_le, ci8, to opptak med merknader, en sample_start som ikke er null) som craten dekoder bit for bit identisk med identiske kjernefelt, og leser craten sine opptak tilbake bit for bit identisk; metadataskjemaet SigMF { "v1.2.6" } rapporterer null feil på cratens metadata. Toleranser fastsatt før den første sammenligningen. Utenfor påstanden: spectrum::synthesise_iq og sammenligningene [iq] og [recording] med modellen (en syntese har ikke ett eneste riktig svar; en periodisk chirp viser linjer, Fresnel-rippel og kanthaler som den glatte modellen utelater, total effekt innenfor { "2" } %), konvensjonen for skalering fra heltall til flyttall (craten deler på { "32767" } og { "127" }, sigmf-pythons autoscale med { "2" }^{ "15" } og { "2" }^{ "7" }, noe spesifikasjonen lar stå åpent; sammenligningen bruker rå koder), flerkanalsopptak og datatypene leseren avviser
+
+dat-577e00a866ab = SciPy stats chi2/ncx2/norm (uavhengig bibliotek) — tests/raim_reference.rs (statistisk kjerne; ARAIM MHSS PL-verdi ikke festet)
+
+dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen m.fl., Nature Methods { "2020" }) — Kabsch/Markley SVD-løsningen av Wahbas problem, en genuint uavhengig algoritme (SVD av holdningsprofilmatrisen) og kodebase fra kshanas Davenport-K-egenløsning / QUEST-metode med karakteristisk rot, som beregner den SAMME entydig definerte Wahba-optimale holdningen. På støyfrie sett med vektede vektorobservasjoner gjengir TRIAD, q-metoden og QUEST scipys optimale rotasjon til <{ "1e-9" } rad (sammenlignet via holdningsfeilvinkelen som er uavhengig av fortegn). Den støyfylte Monte Carlo-påstanden «optimal slår TRIAD» forblir MODELLED (ingen ekstern uavhengig referanse); bare enhetsvektorobservasjoner av punktretninger — ingen modellering av sensorens synsfelt, bias eller tidskorrelasjon, og QUEST er singulær ved { "180" }° (q-metoden dekker det tilfellet)
+
+dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — en uavhengig algoritme (kjedebrøk for ikke-sentral/sentral χ²) fra kshanas serie for ufullstendig gamma (raim::chi2_cdf / noncentral_chi2_cdf), som beregner den samme entydig definerte KJERNEN for deteksjonsstatistikk: den generaliserte Marcum Q_M(a,b)=ncx2.sf(b²,2M,a²), deteksjonssannsynligheten P_d, den falske alarmsannsynligheten P_fa og inversjonen P_fa→terskel, stemt til ~{ "1e-6" } — det samme uavhengighetsgrunnlaget som den validerte raden «RAIM/ARAIM integrity statistical kernel». BARE kjernen: CFAR-celleaveraging per celle og tapet ved at kode-/dopplerbin deles forblir MODELLED
+
+dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space og numpy.linalg.svd, LAPACK gesdd) klassifiserer de samme innsjekkede matrisene ved snitt av underrom, dim null([F; E_T]) og dim null([F; E_S]), og SVD-nullromprojektoren, som skiller seg fra Kshanas Jacobi-egenvektorer og Gram-rangformler; forhåndsregistrert (d429993c): heltall eksakte, p_st_norm til { "1e-9" } (P2, et uavhengig numerisk bibliotek), med rangterskelen fastsatt på forhånd og et spektralt gap på minst { "1e6" } slått fast. Radens påstand er klassifiseringen av en oppgitt matrise, så P2 dekker den fullt ut. De konstruerte tilfellene omfatter direkte sum, koblede og blandede nullrom og tilfeldige omtilpasninger av basis; de reelle nettverksdimensjonene i raden for koblet gauge er ikke talt opp igjen her. Invarianstesten i craten (en rotert nullbasis gir identiske resultater) beholdes
+
+dat-ecdfcb899baa = Scoop-bøtte
+
+dat-a18e70a6324e = Poengsett et avgrenset utdrag av et fartøys NMEA { "0183" }-strøm slik `kshana receiver-trust live` poengsetter den, og returner tillitstilstand per epoke (kalibrerer, nominell, forringet, utrygg) og poengsum 0-100 med monitorene som trakk (live JSON-lines-skjema { "1.3" }: hver epoke bærer `position`, en `advisory`-erklæring om at utdataene er veiledende, og sin satellittgeometri `geometry` (god, forringet med årsaker som few-satellites eller high-pdop, eller ukjent når utdraget ikke har GSV eller GSA) med en `label` (good, fair, poor; geometri trekker bare når den er dårlig); hvert fradrag bærer en `class`: geometry (himmelen, ikke et funn om at ingen angrep skjedde), environment eller inconsistency (angrepslignende)), sammendraget (tellinger etter tilstand, geometri og klasse, laveste og siste poengsum, når den første utrygge epoken kom) og den siste `$PKSHT`-setningen.
+
+dat-b0851170eab0 = Poengsett en innsending til kshana-bench (`kshana bench score`, bench/SPEC.md, docs/BENCH.md): en prediksjonsfil (`kshana-bench-predictions/1`) mot en referansefil (`kshana-bench-truth/1`), begge JSON-tekst, høyst { "4" } MiB hver, og returner resultatfilen (`kshana-bench-result/1`) med spesifikasjonsversjonen, oppgave (a deteksjon på mottakerlogger, b deteksjon på IQ, c prediksjon av holdover for tidssynkronisering, d optimismegap utenfor fordelingen), deling, SHA-256 av begge inngangsfilene og oppgavens målinger (AUC, deteksjonssannsynlighet ved et tak for falsk alarm, RMSE per horisont, eller optimismegapet).
+
+dat-e4e75b47727c = Poengsett en mottakerlogg mot Jammertest-planen (`kshana jammertest score`): per planlagt test deteksjonsforsinkelsen (første alarm minus planlagt start), om den ble oppdaget innenfor toleransen, sent eller ikke i det hele tatt, og tiden til gjenoppretting (et alarmfritt stykke på `recover_hold_s`), pluss de falske alarmene utenfor hvert spor og dets vern.
+
+dat-5b577627cdf9 = Skårstatistikk ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 for et fellesmodusskift som løsningsseparasjon (kontraster ortogonale på { "1" }) ikke kan se; et fellesmodusskift blåser den opp mens parvise separasjoner forblir flate
+
+dat-4a9189f161fe = Vurderer om et fartøys navigasjonsposisjon kan stoles på ut fra NMEA { "0183" } mottakeren og instrumentene allerede sender ut: en poengsum fra 0 til 100, tre bånd og årsakene bak dem, per epoke, i batch, live eller som en port. Monitorene sammenligner posisjonen med fartøyets egen bevegelse, kurssensor, fartslogg og satellittsignalnivåer. Veiledende programvare, ikke typegodkjent navigasjonsutstyr: operatøren er fortsatt ansvarlig. Monitorenes aritmetikk er kontrollert mot uavhengige biblioteker; poengsummens regel og terskler er prosjektets egne og forblir modellert.
+
+dat-389c8d89137d = sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN { "1" }–{ "9" } de første 10 brikkene gjengir IS-GPS-200 tabell 3-Ia oktaler 1440/1620/1710/1744/1133/1455/1131/1454/1626 eksakt; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)
+
+dat-f8b4b933bb97 = Søk etter io.github.ashfordeOU/kshana-mcp.
+
+dat-3842550f02d0 = Sekunder til en fritt løpende klokke forlater vernet til et tidsindeksert spor, og kadensen for posisjonsbestemmelse som holder den innenfor
+
+dat-9101fe90af84 = Sikkerhetskvalitetstall — analytisk grense for påvisbarhet av spoofing
+
+dat-5929ef9641ba = Sikkerhetspolicy
+
+dat-2fa97693b70f = Se også
+
+dat-0ef56cdaefab = Selvkonsistens for estimatoren og geometrien: rundturer forover→invers, Fisher/CRLB-identiteten J·CRLB=I, monotonitet i GDOP, og at estimatoren når sin egen Cramér–Rao-grense under Monte Carlo-støy — interne konsistenssjekker, IKKE et eksternt datasett, så raden forblir InternalConsistency. MODELLED passiv geolokalisering — punktkildemodell med siktelinje; ingen ledd for flerveisforplantning / NLOS, mottakerklokkebias eller atmosfærisk refraksjon. Runde { "2" } i { "0.30" }, mot Ho og Chan { "1993" } og Ho og Xu { "2004" } (forhåndsregistrert f89018b8, { "1" } % av hver trykt verdi), et funn (forblir MODELLED): den overflatebegrensede TDOA-grensen gjengir de geometriske faktorene på { "40" } N (-0.11 %, -0.02 %) og maksimal TDOA; den felles TDOA+FDOA-grensen gjengir fig. { "6" } (+{ "0.06" } %, -0.17 %) og, ved kilden forfatternes egen kode navngir for fig. { "7" } (endring skrevet etter at dette resultatet var sett, opplyst), fig. { "7" } (+{ "0.11" } %, -0.02 %); den er lik forfatternes publiserte grensekode (BSD-stil, kjørt under GNU Octave) til { "3e-12" }; maksimum-sannsynlighet-løseren vektet med kovarians når den trykte grensen (+{ "0.3" } til +{ "0.4" } %). Ottawa-faktorene artikkelen skriver ut fra en Monte Carlo ({ "251" }, { "7.1" }) avviker med +{ "1.3" } % og +{ "4.4" } %, utenfor terskelen på { "1" } %
+
+dat-48c06a69f626 = Selvkonsistens for overleveringene: hver videreført verdi er lik oppstrømstrinnets egen utdata, og å mutere en oppstrøms inngangsverdi flytter hvert nedstrøms tall som avhenger av den. Trinnene beholder sine egne merkelapper; kjeden tilfører ingen fysikk og ingen ekstern uavhengig referanse
+
+dat-c66a398789c3 = Selvkonsistens for interferometerets fringemodell: halvfringekanten, den 2π-periodiske aliasstrukturen og kanselleringen av skalafaktoren i forholdet mellom område og oppløsning er algebraiske identiteter på lukket form kontrollert mot motorens egne Mach–Zehnder-fase- og følsomhetsfunksjoner — interne konsistenssjekker, IKKE et eksternt datasett, så raden forblir InternalConsistency. MODELLED ideell fringeflertydighet med tre pulser; ingen grenser for bølgefrontaberrasjon eller kontrasttap på det entydige området
+
+dat-1edd3707cfc5 = Bare selvkonsistens: den publiserte totalen kontrolleres mot kvadratroten av kvadratsummen av leddene i den samme filen, og den utgitte kurven gjengir den utgitte p3_time_budget_curve.csv over alle { "57" } punkter. Begge kontrollene deler denne motorens egne leddefinisjoner, så ingen av dem er uavhengig. Klokkeleddet hviler på publiserte klokkespesifikasjoner, men STØRRELSENE på gulvene for lenke, referansesystem, relativistikk og efemeride er dokumenterte budsjettfordelinger uten ekstern uavhengig referanse
+
+dat-65858866917e = Veiledning for egendrift
+
+dat-9ac614e8f945 = Følsomhetsstudie
+
+dat-da902218b92d = Følsomhetsstudie (tre døgn)
+
+dat-c884dc5cd017 = Septentrio SBF (format = "sbf")
+
+dat-f21f6312d77b = Sekvensiell (rekursiv) terrengreferert navigasjon — alt-PNT uten GPS.
+
+dat-af686833dcf2 = Serialiser og parse blokken COVARIANCE_START…COVARIANCE_STOP i CCSDS { "502.0" } OEM — posisjons-/hastighetskovariansen på { "6" }×{ "6" } skrevet som sin nedre trekant med 21 elementer (kanonisk rekkefølge CX_X … CZ_DOT_Z_DOT) med den valgfrie COV_REF_FRAME, som utfyller den eksisterende skriveren/parseren for OEM-tilstandsvektorer slik at kovarianser fra banebestemmelse og filtre går rundtur i standardformatet
+
+dat-d5e280fe1d19 = Sett en CPU- og minnegrense på plattformen
+
+dat-f7f7c4ac51b3 = Mengdeinklusjon: jammer-til-signal-forholdet inngår som et jevnt desibelforskyvning, så den fangede mengden ved høyere senderkraft inneholder mengden ved lavere, og andelen kan bare øke -- en egenskap Airy-mønsteret IKKE gir i strålebredde eller høyde, der det fangede området brytes opp i ringer og andelen faktisk er ikke-monoton. Ingen publisert tabell gir den fangede skiveandelen for en sender i månebane mot høyde og strålebredde, så det finnes ingenting eksternt å kontrollere disse cellene mot; mønsteret under er separat Validert mot publiserte Bessel-verdier og har sin egen rad
+
+dat-b499b8e2c8f2 = Innstillinger → Utvidelser → Marketplace → søk etter «Kshana» (utvidelses-ID dev.kshana.ide). Høyreklikk en scenario-.toml og velg Run Kshana Scenario.
+
+dat-5f452eb6f36c = Sju MTIE- og TDEV-masker for vandringsgenerering ved konstant temperatur for typen `telecom-timing`: G.811 (09/1997) PRC (autonom), G.812 (06/2004) typene I, II og III, G.8262 (10/2024) EEC-alternativene { "1" } og { "2" } og G.8262.1 (11/2025) eEEC (låst modus), inkludert potenslovleddene tabellene skriver (`{ "8" } τ^{ "0.5" }` og lignende), hvert intervall åpent eller lukket slik det er trykt, målt gjennom filteret på { "10" } Hz som klausulene oppgir (tatt som anvendt før sampling); referansescenarioet scenarios/telecom-synce-eec.toml setter en fritt løpende OCXO mot de tre EEC-maskene. Ikke implementert: tilleggene for variabel temperatur, holdover, transienter, jitter og frekvensnøyaktigheten i G.811
+
+dat-c154e22f0463 = Referansesystemdatum med sju parametere etter Helmert (likhet) drevet av en SIMULERT OBSERVASJONSKAMPANJE i stedet for av en…
+
+dat-5edf07579980 = Månens referansesystemdatum med sju parametere etter Helmert drevet av en REELL, ARKIVERT observasjonskampanje i stedet for en…
+
+dat-4b89cb3df611 = Månens referansesystemdatum med sju parametere etter Helmert drevet av en SIMULERT OBSERVASJONSKAMPANJE (G9).
+
+dat-ce78e41f321f = Månens referansesystemdatum med sju parametere etter Helmert fra en REELL, ARKIVERT observasjonskampanje (V3).
+
+dat-d55cb71472c4 = Flere scenarioer under felles betingelser, med et samlet sammendrag
+
+dat-2fbb120bffe0 = SGP4/SDP4-propagering fra reelle tolinjeelementer (et innsjekket Celestrak GPS-øyeblikksbilde) eller syntetiske Walker-konstellasjoner der middelelementene realiserer formelen i:T/P/F til under { "1" } km over { "24" } timer. Sikt for flere konstellasjoner, fortynning av presisjon og GNSS-tilgjengelighet, en optimaliserer for konstellasjonsutforming, dimensjonering av dekningsstriper, og et Walker-utformingssveip som rapporterer de Pareto-optimale utformingene over et rutenett av baneplan × satellitter.
+
+dat-e82ed37686f0 = Validering av SGP4/SDP4 mot fellesskapets referanse
+
+dat-e58ad5dbbc32 = SGP4/SDP4, Cowell 6-DOF + forstyrrelser, batch-/sekvensiell OD
+
+dat-d458c3670e24 = Skallmodus: heftets globale mål
+
+dat-09e67d38f482 = Relativ posisjonering på kort grunnlinje fra reell tofrekvens GPS-kode og bærebølgefase: dobbeltdifferanser mot den høyeste satellitten med full kovarians, et flytende Kalman-filter over grunnlinjen og enkeltdifferanse-flertydigheter med reinitialisering ved slip, LAMBDA heltalls minste kvadrater med forholdstesten, og grunnlinjen betinget på de fikserte heltallene
+
+dat-2d5c1f5c13a3 = SigMF-opptak inn og ut, og Welch-spektralestimater av kompleks IQ
+
+dat-e466797c6633 = sigmf: les og skriv opptak i Signal Metadata Format (JSON .sigmf-meta med kjernefeltene global, captures og annotations; rå .sigmf-data som cf32_le, ci16_le eller ci8, heltallsdekoderne delt med realdata::iqif::load_iq), alt på strenger og bytebuffere. spectrum::welch_psd: Hann-vindusbelagte, overlappede, midlede periodogrammer, tetthetsskalert, på en radix-2-transformasjon i craten (spectrum::fft_in_place). Disse to er den validerte påstanden. spectrum::synthesise_iq tegner modellen som IQ, og seksjonen [iq] i typen `spectrum` kjører modell til IQ til SigMF til Welch og sammenligner med modellen; dens seksjon [recording] estimerer et reelt opptak (native bygg); syntesen og disse modellsammenligningene er utenfor den validerte påstanden
+
+dat-ca38e49660ad = sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — gulv innenfor { "2" } % av varians over samplingsrate, Parseval-total innenfor { "2" } %, ekvivalent støybåndbredde for Hann { "1.5" } bin; noise_like_synthesis_is_unbiased_through_welch — median Welch minus modell innenfor { "0.1" } dB gjennom en ci16_le-rundtur; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch-PSD mot scipy { "1.18.1" } signal.welch per bin til { "1e-12" } relativt over { "27" } tilfeller, observert { "6.0e-14" }; fem sigmf-python { "1.13.0" }-opptak dekodet bit for bit identisk med identiske metadata; opptak skrevet av craten lest tilbake bit for bit identisk av sigmf-python og skjemagyldige mot SigMF { "v1.2.6" })
+
+dat-9cd9dd4c33e3 = Forhåndsinnstillinger for signaler og systemer
+
+dat-b00bcd626c85 = signalutforminger
+
+dat-0345ce0c3308 = Veiledning for Signal K-utvidelsen
+
+dat-d59d6f542e93 = Avstandsfeil i signal-i-rommet
+
+dat-ec7503f282d5 = avstandsfeil i signal-i-rommet, RMS
+
+dat-9c6a9341490c = Signerte bevispakker
+
+dat-18a2db656f97 = Simulert referanse mot filterets eget estimat (en konsistent filters gjennomsnittlige normaliserte estimeringsfeil i kvadrat er omtrent { "3" } for posisjonen) og determinisme for et fast frø. Ingen flydata eller innspilte GNSS-data fra høy bane er sammenlignet; Sola og Månen er sirkulære stedfortredere med lav presisjon
+
+dat-d56763338043 = Simuleringsvalidert (kovarians- og lukkede sløyfe-kvalitetstall, ikke sertifiserte beskyttelsesnivåer); Mars-dynamikken med Sola i sentrum er kryssjekket mot JPL DE440 til { "137" } m @ en bue på 1 døgn; Mars-LMO OD ≈ { "0.2" } m.
+
+dat-d4776382a489 = Tjenester for ionosfære med én frekvens og UTC i en LEO-navigasjonsmelding
+
+dat-531887b91757 = Motstandsdyktighetsvurderinger med ett enkelt tall for posisjonering, navigasjon og tidssynkronisering er stabile bare der én utforming dominerer; vekting, trussel og deklarerte teknikker kan snu dem.
+
+dat-d541692e383b = Enkeltpunktsposisjonering (PVT)
+
+dat-b668016e1890 = Himmelgeometri
+
+dat-2d7d60357e41 = Funksjoner for himmelgeometri: sikt, DOP, kovarians, feilellipse, Monte Carlo-sky
+
+dat-12c10c0617b0 = Himmelgeometri under en asimutavhengig horisontlinje (en gatekløft, en havn, en fjord, en containerterminal): fra et sted, et tidspunkt og forhåndsinnstillinger for konstellasjoner, tolinjeelementsett (`tle`, med en UTC-`epoch`) eller satellitter oppgitt som asimut/elevasjon eller ECEF, hvilke satellitter som er synlige og hvilke som skjules av horisontlinjen, GDOP/PDOP/HDOP/VDOP/TDOP fra DOP-kjernen kontrollert mot gnss_lib_py, kofaktoren og kovariansen øst-nord-opp med én mottakerklokke per system (eller én felles), og den horisontale feilellipsen ved én sigma og ved en oppgitt konfidens for en oppgitt UERE.
+
+dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), med sin egen tabell over skuddsekunder, sin egen TDB-TT og sin egen leser av den samme NAIF de440s.bsp (jplephem), kjørt som et eget program ved UTC-epoker. Forhåndsregistrert (0bfafe6d) før fixturen fantes, med rutenettet sådd fra hashen til den commit-en, med en terskel på { "5e-5" } s ganger relativ hastighet (motorens oppgitte nøyaktighet med to ledd for TDB-TT) pluss { "1e-13" } av den barysentriske avstanden pluss { "1e-5" } m, per komponent. Resultat: alle { "600" } innenfor, verst { "0.66" } av terskelen ({ "2.96" } m på et raskt par, TDB-TT-seriens egen feil). Mutasjon: TT brukt som TDB feiler ved { "33" } ganger terskelen. Begge sider leser DE440: dette validerer leverandøren og dens tidskjede, ikke DE440. Utenfor påstanden: planetene utenfor Venus som legemer (de440s bærer bare deres barysentre), planetmånene, og presisjon under serien med to ledd for TDB-TT (noen få meter for de raskeste parene)
+
+dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: den geodetiske (WGS-84) asimuten og elevasjonen til en satellitt fra et bakkested, en maskeringstabell for asimut/elevasjon lineært interpolert i asimut med omslag ved { "360" } grader, den synlige mengden el >= max(mask_deg, mask(az)), og felles-klokke-DOP og kofaktormatrisen ENU-og-klokke for den mengden (kjernen bak orbit::dop). Det er slik seksjonen [skyline] avgjør sikt i typene gnss-sim, jamming, leo-pvt, leo-pass og nmea-scenario og, med bakkestedet user_site, i orbit og integrity
+
+dat-7d7fce0709c1 = Horisontmasker og himmelgeometri
+
+dat-f409aed2c1fd = Forhåndsinnstillinger for horisontlinje (bygate, havneinnseiling, fjord, containerterminal)
+
+dat-127c914f92b1 = Forhåndsinnstillinger for horisontlinje og funksjonene for himmelgeometri
+
+dat-a2f8ef765eed = Sikt, DOP og feilellipse med horisontmaske
+
+dat-f408f01299bd = skyline: gatekløften på lukket form (avskjæring atan((h - a) / d) med d = (w/2) / abs(sin(az - s)), åpne ender for en endelig lengde), skarpkantede sektorer med klokken med omslag, og terrengpunkter redusert til en tabell med krumningsfallet d^2/({ "2" } * 4/3 R); horisontlinjen er deres punktvise maksimum med en hvilken som helst tabell
+
+dat-54d387cbe183 = skyline::PRESETS: fire REPRESENTATIVE geometrier med utformingsnotatets oppgitte dimensjoner og en opphavslinje hver: city-street (en kløft, gate { "0" } grader, { "20" } m mellom { "30" } m vegger, antenne { "1.5" } m), harbour-approach (sektorer: åpen mot sjøen over { "180" } grader, kaibygninger { "8" } grader over { "90" } grader, moloen { "3" } grader), fjord (terreng: vegger { "600" } m over antennen { "1.5" } km til hver side av en nord-sør-kanal, krumningsfall anvendt), container-terminal (sektorer: stabler { "12" } grader over den landvendte halvparten, kranbomer { "35" } grader og { "25" } grader over to smale sektorer); kan overstyres felt for felt
+
+dat-7969ca4fa6ac = Sportidsstyring
+
+dat-581da7573890 = Sportidsstyring: hvor lenge en ovnsstyrt krystalloscillator (OCXO) i lav jordbane
+
+dat-42d4c827caff = Sportidsstyring: sekunder til en fritt løpende klokke forlater vernet til et tidsindeksert rutings- eller oppgavespor…
+
+dat-296ef4327c8b = slot-timing (scenariotype)
+
+dat-111439f50e53 = SMAD rom-trekantgeometri: jordens vinkelradius, sveipbredde, nadir-GSD, maksimal tilgang utenfor nadir og sirkulær periode, pluss den førsteordens J2-nodeperioden (eo_payload::j2_nodal_period) og ekvatorial bakkesporavstand R_e (omega_E - dOmega/dt) T_nodal (eo_payload::ground_track_spacing_equator_j2) med et flagg for sammenhengende dekning, for en banehøyde, inklinasjon og sensorens FOV/IFOV. Kan kjøres fra CLI/bindinger som scenariotypen `eo-coverage` (scenarios/eo-coverage.toml); dens standardinklinasjon er den solsynkrone fra eo_payload::sun_synchronous_inclination, en bekvemmelighetsstandard som ikke er en del av den validerte påstanden
+
+dat-31d991caf4b7 = Lite ubemannet fly under GNSS-jamming: hvor langt en flykontroller i klassen
+
+dat-2d806ce82e15 = RAIM med øyeblikksbilde / løsningsseparasjon / ARAIM med HPL/VPL og et Stanford-diagram.
+
+dat-c02622d843b3 = RAIM med øyeblikksbilde og løsningsseparasjon med horisontale og vertikale beskyttelsesnivåer (HPL/VPL), feildeteksjon og eksklusjon, og Stanford-integritetsdiagrammer — pluss et eksplisitt beskyttelsesnivå for integritetsrisikobudsjett (MHSS) med feilmodusen for hele konstellasjonen i konstellasjoner med to eller flere (EU ARAIM / DO-316).
+
+dat-07e36468d18e = deteksjonskjerne for øyeblikksbilde (χ²/ikke-sentral χ²/normal) mot SciPy · ARAIM MHSS-budsjett begrenset av grunnleggeren
+
+dat-ac6e25381f04 = Programvarestykkliste (SBOM)
+
+dat-dfdd58c878cd = SRP-skygge med randmørkning fra Sola (valgfritt)
+
+dat-4cae6d94c5e5 = Solsystemet
+
+dat-9b14e3a637d5 = Solsystemet og posisjonering rundt andre legemer
+
+dat-aeceaa175523 = Solsystemet ved 2026-09-28T00:{ "00" }:{ "00" } (JD { "2461311.50080" } TDB), { "18" } legemer, observatør Jorden
+
+dat-b60237034eb8 = Valgbare bevegelsesprofiler for pakken gnss-ins (rett linje, figur-8, urban stopp-og-gå, flyets stigning og koordinert sving, kartleggingsdrone), definert av kommandoer for Euler-rate og akselerasjon langs sporet lukket på referansetilstanden med den kinematiske IMU-en (sentripetal-, gravitasjons- og Coriolis-ledd), og importert CSV-referanse omgjort til den IMU-en som gjengir den; den historiske kjøringen er uendret når ingen profil er oppgitt
