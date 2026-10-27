@@ -15,3 +15,5 @@ seg-c5ce76c91ff7 = Etykieta
 seg-7670cf4ceda3 = Wartość domyślna
 
 seg-430edd66bda0 = Niemodelowane
+
+seg-e0eb14018b2c = jak wyżej

@@ -67,3 +67,5 @@ seg-07b9e03942cb = <b>Macierz weryfikacji</b> → <a1>docs/VERIFICATION-MATRIX.m
 seg-9390336ecc01 = <b>Cytowanie</b> → <a1>CITATION.cff</a1> · DOI <a2>10.5281/zenodo.20528627</a2>
 
 seg-d059e9fc67e1 = Wolne i otwarte oprogramowanie na licencji <b>GNU AGPL-3.0-only</b> (GNU Affero General Public License, wyłącznie wersja { "3" }). <b>Licencja komercyjna</b> jest dostępna od <a1>Ashforde® OÜ</a1> (estońskiej spółki z ograniczoną odpowiedzialnością; OÜ = osaühing) dla zamkniętej integracji; zob. <a2>LICENSING.md</a2>. Profesjonalnie rozwijane i utrzymywane przez Ashforde® OÜ.
+
+seg-8c83544270b5 = Sygnatura

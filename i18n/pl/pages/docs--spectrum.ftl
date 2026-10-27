@@ -39,3 +39,5 @@ seg-f8e6beeceedd = { "47.41" } dB-Hz
 seg-53a7343c076e = Twierdzenie
 
 seg-430edd66bda0 = Niemodelowane
+
+seg-64509c048541 = Co jest modelowane

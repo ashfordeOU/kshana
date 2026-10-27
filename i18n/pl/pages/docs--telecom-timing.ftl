@@ -19,3 +19,5 @@ seg-f63dd3d7aad4 = Źródło
 seg-587beeccaa11 = Ustawienie predefiniowane
 
 seg-edb7b16b6c0e = Walidacja
+
+seg-3c513ef2fd3b = Wielkość
