@@ -5001,3 +5001,705 @@ dat-c8fff0b939ce = nmea_synth（track、sentences、scenarios）；cli nmea-scen
 dat-24431d690b8d = 没有外部参考基准（oracle），并且拒绝 ExternalDataset。两个输入是 Eb/N0 裕度和 C/N0 门限穿越，二者都是 MODELLED 的 EIRP、品质因数和集总损耗分配的函数；没有地月光学/射频混合服务的实测可用性记录可用来对照所组合的数值。现有的检验是内部的，并如实说明：组合是依据报告自己发布的裕度而非发射端内部量重新计算的，闭合距离则通过在该距离上重新运行链路方程并要求裕度消失来检验——这是一次反演往返，而不是独立实现。该数值的如实限度记录在报告本身：它是确定性的 0/1 指示量，而不是概率，因为引擎中没有任何东西测量这一频段和几何下的射频链路中断分布。这项缺失的输入在 rf_availability.factors_not_included 中被点明而非凭空杜撰，而要得到概率性的射频可用性，就需要提供它
 
 dat-ecd4bf05a7bc = 没有外部参考基准（oracle），也不可能有：这是自我描述，而不是测量。之所以记录它，是因为缺少它曾是一个缺陷——P5 不得不从源默认值中引用载波波长和发射孔径，并由内部一致性检验推断出一个裸 `variance` 的单位是平方米。这一推断是正确的，而这恰恰是它重要的原因：若它有误，没有任何机制能发现
+
+dat-062548149812 = 干扰类型的可选 [crpa] 部分：为朝向每颗卫星的各通道形成一个波束（以干扰源为零点的零陷转向，或基于 sigma^{ "2" } I + P_j a_j a_j^H 的 MVDR），在现有的抗干扰 C/N0 公式之前，将每条链路的噪声按 ||w||^{ "2" } 缩放，并将干扰按 |w^H a_j|^{ "2" } 缩放。
+
+dat-f7f1d21b678b = 干扰类型的可选 [terrain] 部分：在 SRTM .hgt 瓦片上取干扰源与接收机之间的大圆地形剖面，计入 k 因子地球隆起、主导刃峰（菲涅耳-基尔霍夫 nu 最大者）以及 ITU-R P.526-15 第 { "4.1" } 节的单刃峰损耗，并从干扰源的接收功率中扣除。
+
+dat-2c34bbc8b62e = JSON 文档
+
+dat-58a78c79e5a1 = 各类型及其相互连接方式
+
+dat-3ba792aa6d28 = kshana.dev 网站
+
+dat-04c749ab6ebe = 实验室证明字段
+
+dat-813f52a95891 = Lefferts-Markley-Shuster 乘性 EKF：以本体系姿态误差和陀螺偏置为状态，用陀螺角速率减去偏置估计值以及 Farrenkopf 离散过程噪声（角度随机游走与角速率随机游走）进行传播，以 Joseph 形式使用残差 { "2" } vec(q^-1 q_st) 进行星敏感器更新，并做乘性重置；另有 Farrenkopf 离散陀螺与星敏感器模拟器。`aocs` 类型可依据其估计值闭合控制回路。
+
+dat-8f3d057cd4a6 = leo-navmsg 场景类型构建低地球轨道（LEO）的广播星历与钟差电文…
+
+dat-6a2c66c8a402 = leo-signal 场景类型分析低地球轨道（LEO）定位、导航与授时（PNT）信号。
+
+dat-e7e4a7fad758 = 低轨与 GNSS 的观测对比
+
+dat-a65e01b98a79 = 自参照的月球星座在没有地面真值的情况下检测自身故障所需的线性代数：以秩亏伪逆形式给出、在基准与时间尺度规范下仍然成立的加权奇偶投影器，逐节点可检测性，Baarda 最小可检测偏差，以及基于真实 DE440 节点间几何的拜占庭块火花检测/识别计数。
+
+dat-a5de09f9dd3d = 链路预算报告列出其自身余量所依据的每一个绝对常数——自由空间损耗所用的载波频率、EIRP、品质因数、集总损耗和玻尔兹曼项——以及余量为零时所需的 G/T、链路常数（EIRP - 损耗 - 所需 Eb/N0；这是已公布的速率/增益表唯一能够确定的组合），并且在调用方给定系统噪声温度时，给出该品质因数所隐含的接收天线增益
+
+dat-264de1df4f0a = leo_navmsg::elements::EphemerisModel 的 Liu22 变体，由 kepler_point 配合 Liu22Extra 求值：16 参数集，外加半长轴变化率 a_dot、以 n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk 形式进入的平均角速度变化率 n_dot（转录自论文式 { "1" }；拟合比较并不依赖这一尺度约定，因此所传输的 nDot 值的含义在此处并未得到验证），以及作用于未修正纬度幅角的每圈一次和每圈三次的半径谐波 Crs1、Crc1、Crs3、Crc3。其经 leo_navmsg::fit::fit_message 的拟合采用论文第 { "2.3" } 节的起点和估计器（每项修正均从零开始；无先验的普通最小二乘；论文的 100 次迭代上限），但按 Kshana 的参数收敛规则停止（每一步均低于其形式 sigma 的 { "1e-3" }），而不是按论文中 RMS 变化低于 { "0.1" } mm 的规则。在一条列表化精密轨道的 { "20" } 分钟和 { "30" } 分钟弧段上拟合
+
+dat-e2d220bec7ee = 月球保护级由几何到协方差的步骤——对全可见集和每个单故障子几何计算 (GᵀG)⁻¹，投影到局部垂向，并取水平分块的迹——及其统计内核：Bonferroni 检测器倍数、每个故障假设的高斯上尾，以及把完好性风险预算映射到保护级的求根过程，在 7 个点的月球服务体积上进行
+
+dat-8b334001363f = lunar-llr-datum 七参数 Helmert 基准协方差，基于已归档的 ILRS 标准点及其实测权重，走内核路径：地心月球中心由引擎自带的内核读取器（planetary_kernel_path；lunar_llr::llr_geometry_with、ephem_provider::KernelEphemeris）从 JPL DE440 读取。与解析行相比，仅月球中心不同；IAU { "2015" } 定向、缺失的极移与 UT1、星表、选取规则、权重和线性代数均相同。已验证的声明仅限于：在全新的、未见过的标准点上，该路径的基准协方差与独立的 SPICE 和 NumPy 参考基准（oracle）一致。该比较不能区分各月球模型，也不检查月球中心：在同一切片上，解析月球同样通过每一条判据，预先登记的突变（内核月球读取晚了一小时）未被检出，月球中心偏差约 { "4,650" } km 同样能够通过（见参考基准（oracle）文本）。这并不能证明内核月球改进了基准。可作为带有 planetary_kernel_path 的 `lunar-llr-datum` 场景运行（另一切片则加 normal_points_dir）
+
+dat-d399db8ab42e = lunar-station-coverage 类型，在已公布的月球差分参考站资料所依据的公开假设下运行（{ "24" } h 冻结椭圆轨道上的四颗导航卫星、{ "10" } m { "95" } % SISE、{ "0.30" } m 码噪声、{ "1" } s 和 { "600" } s 的修正延迟、亚分米级的测站测量、已公布的示例测站位置、{ "300" } km 和 { "600" } km 的南极圈），并依据运行之前预先登记的六条单侧判据，对照这些资料中的数值声明进行评分：整个南极地区达到亚米级 p95（K1、K2），修正后 p95 达到亚米级和分米级（K3、K4），在 { "600" } s 延迟下仍保持亚米级（K5），以及基线从 { "10" } km 到 { "500" } km 精度保持不变（K6）
+
+dat-24e1cb4885b2 = lunar-time-budget 场景将其数组值输出连同报告一并发布为长格式（网格索引、平均时间、项）表，因此七条逐项 x(tau) 曲线和平方和根总量是引擎输出，而不是需要读者根据方法一节自行重建的内容
+
+dat-52997960d5b8 = `telecom-timing` 场景类型所报告的最大时间间隔误差和时间偏差，基于电信规模的守时（holdover）记录：一个 O(n) 的单调队列滑动窗口 MTIE（telecom_timing::mtie_sliding，需要它才能使一天的一秒采样仍然保持快速）以及引擎自身的 TDEV（allan::time_deviation），在该类型所报告的网格上求值，并从摄入该序列的完整运行中读回
+
+dat-9c7c156edc60 = 实测 ADEV→PSD 拟合（NNLS）内核与 scipy.optimize.nnls（tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs）相符——这是一个独立的外部内核；但权衡的数值只是对合作方时钟/CAI 做量化（绝不是验证），因此权衡本身仍为 MODELLED，没有验证标记
+
+dat-0fc2baa2494b = 测量滤波器
+
+dat-b3e182285f77 = 监测器自身的闭式解，作用于 Kshana 自己的 GPS L1 C/A 场景（噪声和合法信号；卫星自身信号的衰减事件），对照 docs/design/MONITORS-IN-CAMPAIGN.md（382ab2f4）中预先登记的判据。发现：M1、M2 和 M4 达到判据。M3 在检测方面达到判据（{ "18" } 次衰减中的 { "18" } 次，P_md { "0" }），而在其时间条款上 NOT MET：检测时间中位数为 { "1.001" } s，而 { "2" } x ARL1 个样本 = { "0.433" } s。CUSUM 每个 { "1" } s 窗口只看到一个估计值，因此样本数界限不足一个样本。仅为内部自洽：未对照任何真实接收机或已记录的干扰进行检查
+
+dat-43640ae1cf86 = 运动 CSV 中的地固位置、大地位置、地固速度、航向/俯仰/横滚和 UTC 列，以及 NMEA GGA/RMC 语句，由合成场景写出（gnss-ins，包括 automotive-urban-canyon、jamming、gnss-sim）。仅含运动和事件；不写出任何信号，也不声称模拟器或接收机的性能。
+
+dat-89e233c63635 = 多频段频谱
+
+dat-4dc48a3e5ebd = 多假设解分离保护级方程本身：在东/北/天几何上、每个星座一个钟差状态的条件下，对全可见集和每个故障模式分别做加权最小二乘，子解 sigma、解分离 sigma 和单侧标称偏差投影，Bonferroni K_fa 阈值，未监测故障的风险分配，以及求解完好性风险方程的 VPL/HPL。可作为 `araim-reference-check` 场景类型运行
+
+dat-2ce06c348216 = 导航电文
+
+dat-16fdeef4af41 = NEES 卡方检验是内部自洽性检查（真值与滤波器共用同一模型）。将趋势与 Li 等人的 LEO constellation-augmented multi-GNSS for rapid PPP convergence，J. Geod. { "93" }:749-764（{ "2019" }），doi 10.1007/s00190-018-1195-2 作比较：多 GNSS 的 { "9.6" } min 分别缩短为 { "7.0" }、{ "3.2" }、{ "2.1" } 和 { "1.3" } min，对应 { "60" }、{ "96" }、{ "192" } 和 { "288" } 颗 LEO 卫星。随附场景给出 { "7.4" }、{ "4.8" }、{ "3.2" }、{ "2.7" } 和 { "2.3" } min，采用其自身具有代表性的 { "1000" } km、{ "60" } deg 壳层、噪声和测站；论文中的星座、噪声和收敛定义并未复现，因此这是对趋势（单调缩短，最大星座低于仅 GNSS 所需时间的三分之一）的 MODELLED 自洽性，而不是验证
+
+dat-d6f28e310ff2 = 从任一天体到任一其他天体、在某历元接收的牛顿单程光行时，由辐射测量不动点光行时求解器（radiometric::light_time_solution，发射端取其推迟位置）经 solar_system::link_on 在任意 EphemerisProvider 上求解；solar-system 类型在日心坐标系中、在解析太阳系上运行它（solar_system::link）。来自 radiometric::two_way_range 的双程测距和来自 radiometric::shapiro_delay 的太阳夏皮罗延迟分别报告，并未与外部结果比较。`solar-system` 类型针对观测者对每个天体输出，并针对任何额外链路输出；`body-pnt` 类型针对天体到地球的下行链路输出
+
+dat-82ac4850886b = 非循环的参考基准（oracle）：解析与蒙特卡罗 P_md
+
+dat-aca5442415ce = 非循环的参考基准（oracle）：这真的是一条 GPS 轨道吗？
+
+dat-813b2afefcac = 非循环的参考基准（oracle）：{ "350" } s 位置守时（holdover）
+
+dat-ba2f435b2480 = 非循环的参考基准（oracle）：为什么 CSAC 为 { "2610" } s？
+
+dat-64b0b715e5da = 数值与一个独立程序（xval/optical-atmosphere/oracle.py，mpmath { "1.4.1" }，{ "30" } 位精度，对原始高度变量做 tanh-sinh 求积，并使用 Bessel-K gamma-gamma 密度）作比较，该程序与 Kshana 不共享任何代码，所依据的判据在任何实现出现之前即已确定（xval/optical-atmosphere/PREREGISTRATION.md）。为什么是 MODELLED：该参考基准（oracle）求值的是同样的已公布公式，因此它检验的是对所述公式的实现，而不是大气本身；未使用任何 ITU-R 验证算例，也未使用任何实测闪烁或斜程消光记录（ITU 的取值是一项悬而未决的许可决定，不纳入代码库）。Cn2 剖面水平、能见度、气溶胶与分子标高、孔径平均路径长度，以及用于将孔径平均应用于 gamma-gamma 参数的矩匹配，均为所述的输入或约定。模块中的一行源码注释记录了：一份被广泛转抄的综述把第二个闪烁指数印成 7/6，而 Andrews 和 Phillips 给出的是 5/6；实现中采用 5/6 形式
+
+dat-31f0e7e8b147 = 观测量与基本方法
+
+dat-795cb54aff09 = 欧洲 GNSS 服务中心作为《接收机指南》附件发布的官方 Galileo OSNMA 测试向量（Test_vectors.zip，sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370）：{ "18" } 组中的 { "18" } 组，{ "186,382" } 个标签通过认证，{ "0" } 个失败，于 2026-10-10 离线运行（证据记录见 kshana-pro docs/evidence）。适用范围：这些向量验证的是密码学验证过程（Merkle、KROOT/ECDSA、TESLA 链、MACK 标签、ADKD 0/4/12）及其在已公布场景上的结果；它们只使用 HMAC-SHA-256、SHA-256 链、128 位密钥、40 位标签以及查找表条目 { "33" } 和 { "34" }，因此 CMAC-AES、SHA3-256 链和其他参数仅由已公布的原语已知答案测试和合成测试覆盖。可信时间、数据绑定、过期和报头确认方面的加固由合成攻击测试检验，而不是由外部参考基准（oracle）检验。未检查：证书吊销列表、实时信号或实时接收机（UBX 字布局仅在合成帧上检查）、SHA3-256 Merkle 树、没有独立时间时的新鲜度。并非欧盟服务
+
+dat-02fc3466eb93 = 开放与封闭的边界
+
+dat-c1c7288e6e34 = optical-atmosphere 场景类型回答：通往地面的光链路多久能正常工作、为何失效…
+
+dat-c96aa9fcd785 = 时钟类型的可选 [integrity] 部分（clock_integrity::run）：根据给定的站点和星座预设（geometry::sky_geometry），在 GNSS 时间线未被拒止的每个完好性历元，对高于遮蔽角的卫星做快照 RAIM（raim::snapshot_raim：奇偶卡方检验、斜率保护级），残差为所给 sigma 的带种子高斯残差，并可选加入所给偏差；单独的 integrity_fom 块给出逐历元的判定、保护级和可用性。被拒止的历元报告为不可用，绝不外推；守时（holdover）品质因数不变，并且没有该部分时输出逐字节相同
+
+dat-2511de383cdd = lunar-station-coverage 的可选 [receiver] 部分（LRS-02）：用户和测站处随高度角变化的多路径 sigma(el) = a + b exp(-el / el0)（RTCA DO-229 机载函数形式，默认 a = { "0.13" } m、b = { "0.53" } m、el0 = { "10" } deg；在月球上每个取值均为 ILLUSTRATIVE），用户处为白噪声，测站处为历元间的一阶高斯-马尔可夫过程（rho = exp(-dt / tau)）；超前减滞后 DLL 热码噪声 sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0)))；用户处和测站处在一次试验中保持不变的逐通道通道间偏差。测站项进入其修正量，用户项进入原始测量和修正后的测量，各自使用自己的带种子随机流。若缺省，则每个文档均不变
+
+dat-5b071d009bc1 = lunar-station-coverage 的可选 [solution] 部分（LRS-06）：一个高度伪测量行 up . dx = e_h，其给定的 1-sigma 与距离行加权，只有在使用它时才允许最少三颗卫星，以及在最近 window_epochs 个历元上、采用共享的静态位置和每个历元一个钟差的加权最小二乘解（相当于对同一数据、无过程噪声的静态位置的滤波器解；各历元的误差视为相互独立）。若缺省，则快照解和每个文档均不变。这是对已公布声明比较的补充，采用与这些资料相同的解算方式，单独预先登记
+
+dat-98937e2b27b7 = lunar-time-budget 场景的可选 [time_lab] 块对月球参考站时钟建模（默认为 miniRAFS 类，或任何指定类别，或按给定稳定度点拟合的设备卡），该时钟被驾驭到协调月球时，然后自由运行或每 N 秒重新驾驭一次：时间误差曲线 x(t) 取为时钟幂律项、恒定驾驭残差（ILLUSTRATIVE）、恒定 LTC 实现残差和可选启用的站高变化率项的平方和根；驾驭之后时间降到 { "1" }、{ "10" } 和 { "100" } ns（或给定阈值）所需的时间，通过二分法求得，并与主导噪声类型的闭式逆解并列给出，同时给出每个给定时间范围内的主导项，均带有单位
+
+dat-5bc49ba7fcb7 = lunar-station-coverage 的可选 orbit_err_growth_m_per_s 输入（LRS-03）：在计算出修正之后 latency_s 才应用的修正，会漏掉广播轨道误差的增长 g latency_s，其中 g 为 3-D RMS 变化率的各向同性量，按每颗卫星和每次试验在其自身的带种子随机流上抽取（距离 1-sigma 变化率 tau / sqrt({ "3" })），叠加在冻结误差的视线方向重新投影之上。若缺省，则每个文档均不变。这是对已公布声明比较的 K5 补充，单独预先登记，在 { "0.001" }、{ "0.01" } 和 { "0.1" } m/s（ILLUSTRATIVE）下运行 K5
+
+dat-09591bd30be5 = 光学站点的中断时长分布，与时钟守时（holdover）模型的闭式滑行方差耦合：在给定中断分位数处的授时和测距误差，守时（holdover）至授时阈值的时长，处于该阈值之内的中断比例和中断时间比例，以及授时可用性 A + U E[min(D, T_h)]/E[D]，针对经典时钟类和量子时钟类。可在 `optical-atmosphere` 场景类型内运行。
+
+dat-783048fbbf26 = 每节点径向距离与接收机钟差之间的退化关系在 { "1" } m 对 { "3.336" } ns（即 c 的倒数）处是精确的。{ "{" }scale, offset{ "}" } 舒尔补边缘化（coupled_marginal_fisher）表明：在几何多样的网络中，双向测距使边缘量提升的倍数与同样数量的额外单向数据大致相同，而在理想化的单节点情形下，双向测距的提升要大出几个数量级。由此得出的设计规律是：在单向测距中，区分月球坐标系尺度与时间尺度偏移的是几何多样性，而不是双向测距本身；只有在低多样性或单用户情形下，才需要双向或外部时间联结。
+
+dat-2ec9862606b9 = 逐卫星几何导出针对每个（历元，卫星）给出星上离轴角，以及由真实的均匀照射圆孔径（Airy）方向图得到的朝向测站的发射增益，并报告该方向图下的波束内计数，同时并列报告对称的增益到波束宽度近似（θ_3dB[deg] = √(31000/G_lin)）下的波束内计数，并把二者之差作为明确的修正量输出，分别以链路数、每历元卫星数和最差的单个历元表示。该近似所隐含的两个孔径效率均予输出（对其所引用的 { "70" }·λ/D 度法则为 { "0.641" }，对均匀圆孔径为 { "0.920" }），使其默默假设的效率得到明确陈述而无需推断。默认关闭：仅当同时给出导出站点和孔径时才出现该块
+
+dat-940e5ca338cc = 流水线
+
+dat-36996982c5c7 = 计划与目录
+
+dat-6196b779861f = 步骤
+
+dat-1bbca90efb82 = 晋级规则
+
+dat-976de57c6004 = 所有经路由的地球轨道类型共用的传播与坐标系路径：带两段式 UTC 历元的 SGP4 平均根数（sgp4::MeanElementSet，由 MeanElementSet::from_earth_fixed 从 constellation-design 根数读入）经 SGP4/SDP4 传播到 TEME（sgp4::SgpOrbit），以及带 UT1 - UTC 和极移的 IAU 2006/2000A 链的 TEME -> ITRS 和 GCRS -> ITRS 旋转（sgp4::teme_to_itrs_matrix_eop、gcrs_to_itrs_matrix_eop，以及零参数形式 teme_to_itrs_matrix 和 gcrs_to_itrs_matrix）。TEME 为瞬时真赤道与平春分点，由 GCRS 经 IAU { "2006" } 岁差偏差、IAU 2000B 章动和二分点方程得到
+
+dat-428ad2136253 = Montenbruck、Steigenberger 和 Hauschild（{ "2018" }）已公布的 SISRE 权重因子表，Multi-GNSS signal-in-space range error assessment - Methodology and results，Advances in Space Research { "61" }({ "12" }):3020-3038，doi 10.1016/j.asr.2018.03.041：GPS { "0.98" } 和 1/49，GLONASS { "0.98" } 和 1/45，Galileo { "0.98" } 和 1/61，BeiDou MEO { "0.98" } 和 1/54，BeiDou IGSO/GEO { "0.99" } 和 1/126。同样的平均在 LEO 半径处求值即得 LEO 权重；没有已公布的 LEO 表可供固定，因此 LEO 数值是所应用的已验证方法，而不是单独得到验证
+
+dat-d572d32bf414 = 地图所用的 ADS-B 导航精度与完好性编码的解读（NACp 编码所代表的 EPU 界、NIC 编码所代表的包含半径界，以及该方法由它们导出的低类和良好类）；AIS 读取器丢弃的 AIS 位置与速度不可用值；某个位置所落入的固定经纬度网格单元；航线长度，及其按单元状态（降级、未降级、未评估、未观测）的划分，由航线暴露量报告；以及某个位置是否位于陆地多边形内陆侧且超出缓冲区。被标记为降级或异常的单元，所陈述的是所报告的精度字段或不合理的位置，而不是对干扰的认定，此处也不检查这一点。
+
+dat-abc1dd0c01b2 = 朝向干扰源的接收天线方向图，而不止一个增益数值
+
+dat-c7f246747fa9 = 静态浮点解 PPP 滤波器在真实的双频 GPS 码和相位数据上、采用 IGS 最终轨道和钟差所估计的接收机钟差：从接收机到 IGS 时间的时间传递，即 PPP 无电离层时间解。
+
+dat-7b4b1b50aa19 = 接收机自报告比较
+
+dat-6f5606020684 = 接收机自身的标志
+
+dat-9c518b5ec811 = 接收机自身的欺骗干扰与压制干扰标志（UBX）
+
+dat-7c64579f4ddb = 尚存的差距（路线图）
+
+dat-3e46d08f39d5 = AFS 基带的渲染核心（LSIS-130：复包络 I + jQ，I = AFS-I Gold 码乘以 { "1.023" } Mchip/s 下的 { "500" } 符号/s 帧，Q = { "5.115" } Mchip/s 下的分层 AFS-Q 导频，载波旋转，码片与符号对齐），在由某独立生成器自身记录的通道状态（码相位与速率、载波相位与频率、逐通道幅度）驱动时，复现该生成器的采样值。未覆盖：由多普勒、延迟和载噪比密度推导该状态的节点模型，由载噪比密度计算的 50/50 功率分配（幅度取自模拟器），以及 SigMF 元数据和 8 位采样写出
+
+dat-3591d85a0ba5 = 报告
+
+dat-99348c91a583 = 可复现性表
+
+dat-4e9dc7c15dbc = 引擎的其余部分
+
+dat-4d88e08f47f8 = 规则
+
+dat-042dd05b607e = 适用于每个回答的规则
+
+dat-d299c1a24acf = 安全的默认值
+
+dat-9fd0af13eca1 = 同一天 IGS 的 RINEX { "3" } 合并广播文件（已公布数据，由不同的文件生成器根据同样的广播电文写出）；判据在首次运行之前已预先登记于 tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md（7aa264b）
+
+dat-0d170f85e055 = 同一预测在真实晶体振荡器上：偏保守，未验证
+
+dat-6149b8367932 = 同一预测在在轨原子钟上：{ "10" } 个中有 { "8" } 个，未验证
+
+dat-ac1b5bd75a02 = 与绝对滤波器相同的模拟真值：相对滤波器相对于真实相对状态的误差，以及检查它至少不比把两个独立的绝对定位解相减更差。未与任何飞行编队数据比较
+
+dat-51e3aab053e7 = 场景
+
+dat-2f3b5663c8ba = 场景库
+
+dat-1f72323a66cf = Kshana 所比较的传感器
+
+dat-9bcd172f4744 = 服务体积基于已公布的星座设计运行，而不是基于示意性设计：五颗卫星的 LANS 互操作演示参考集，{ "8" }、{ "12" } 和 { "16" } 颗卫星的 LNCSS 案例研究，以及 2023-01-01 当天实际位于月球轨道上、来自 JPL Horizons 的四个航天器。每个文件各自说明其坐标系和来源类别，超出列表化星历末尾的时间范围会被拒绝而不是外推，而示意性的开普勒结果与检索到的结果并列输出，并给出二者之差，绝不以前者替代后者。
+
+dat-accb0008fb70 = 七参数 Helmert 基准协方差，其两个模拟输入被实测输入取代：时间表为 { "337" } 个已归档 ILRS 月球激光测距标准点的地面发射历元（2015-04-08 至 2015-06-27，Grasse MeO { "7845" } 和 Matera MLRO { "7941" }，全部五个后向反射器阵列），每个观测权重均为该点自身已归档的精度 bin_rms/√n_raw——单程距离中位数 { "5.13" } mm，直接从文件读出。测站坐标取 IERS ITRF2020，反射器坐标取 JPL DE430 表 { "7" }。可作为 `lunar-llr-datum` 场景类型运行。已验证的声明（{ "0.36" }）范围很窄：在解析默认路径上，基准协方差的计算与独立的 SPICE 光行时和 NumPy 参考基准（oracle）在全新的实测标准点上一致；这不是 LLR 精度，也不能证明解析月球是准确的
+
+dat-fdf50c7675aa = 七参数 Helmert 基准由模拟观测测评活动传播而来，而不是从注入的变换中恢复。地球测站按明确的时间表观测一个有来源的月面信标星表；月球 VLBI 时延偏导数累积为信标坐标的费舍尔信息矩阵，并经 Helmert 设计矩阵 A = [I₃ | [p]ₓ | p] 推入 H = AᵀM_bA，因此所报告的基准精度是观测计划的函数——对时延 sigma 恰为线性，并且通过报告所实测的天平动而对弧段呈单调变化。基准亏损是主题，而不是脚注：秩、亏损、条件数、谱、七参数基底中的不可观测方向、即使满秩时最弱的方向，以及各参数在其中的占比，在每次运行中均予输出，并且测评活动未能约束的任何参数都以 NULL 及其状态发布。信标误差相关性是 MEASURED，而不是假设的——测站固定时恰为零，测站被估计时则连同其代价一并给出。可作为 `lunar-frame-campaign` 场景类型运行
+
+dat-602bfa37c542 = 位于链路预算与测量域之间的信号性能层：BPSK-R(n) 和正弦 BOC(m,n) 的单位面积功率谱密度，直接依据实际信号谱与干扰谱推导干扰模型所用抗干扰 Q 的谱分离系数，决定测距信息含量的 RMS（Gabor）带宽（BOC > BPSK），相干超前-滞后 DLL 码跟踪热噪声抖动，带窄相关器抑制的相干超前减滞后多路径误差包络，以及测距码设计权衡（m 序列/Gold 码自相关旁瓣和三值 Gold 互相关界，外加由码长到无模糊距离的反演）。这是信号性能分析，而不是射频有效载荷或天线硬件设计。
+
+dat-677d04005685 = 单时钟 DOP 因子依赖于已对照 gnss_lib_py { "1.0.4" } 验证的内核（行“GNSS geometry / dilution of precision (DOP)”）；本行自身的检查属于内部检查：sky_geometry 在同一几何上复现 orbit::dop 和 dop_cov，椭圆复现解析的 2x2 特征分解，ECEF 与方位角/高度角输入相互一致，带种子的点云的 RMS 和 { "95" } % 包含率与几何一致。每个系统一个钟差的 ENU 协方差及椭圆在行“Horizontal error ellipse and per-system cofactor from the geometry covariance”中为 VALIDATED（numpy，P2）；此处仍为 MODELLED 的是组合部分：预设传播到具有代表性的天空，蒙特卡罗点云（对照其所抽样的几何检查，属于自洽性检查）以及各曲面。星座预设给出的是具有代表性的天空，而不是某个带日期的天空；高斯误差模型和 UERE 是所述输入，而不是实测精度或完好性界
+
+dat-0cbb8b176295 = 站点
+
+dat-ca71a91dc8eb = 天际线
+
+dat-da5865588453 = slot-timing 场景类型针对在同步之间自由运行的时钟回答三个问题…
+
+dat-83d1ec2f6e4a = 快照缩减以及求解器的闭式情形（InternalConsistency）。补充（tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md，单独预先登记于 001ca100）采用 { "1" } m 高度约束、三颗卫星和 6 个历元窗口（ILLUSTRATIVE 设定；这些资料说明了滤波器、高度约束和三颗卫星，但未给出其设定）：K1 至 K5 失败而 K6 通过，{ "6" } 条中的 { "1" } 条，与已记录的运行相同；R300 修正后 p95 3-D 误差从 { "280.6" } m 降至 { "2.11" } m（水平 { "0.90" } m，未评分），覆盖率仍为 { "0" }。窗口的独立性假设对其有利。并非对任何真实系统的陈述
+
+dat-84c3e7c0b54b = spectrum 场景类型构建全球导航卫星系统（GNSS）L 频段，以及任何其他频段…
+
+dat-73a3d167d96e = Desai、Mitcheltree 和 Cheatwood 的 Stardust 标称值（{ "1999" }，NASA NTRS { "20050042027" }）：在行星相对速度 { "12.6" } km/s、发射质量 { "45.8" } kg 的条件下，最大减速度 { "33.4" } g，采用带完整气动数据库的 6 自由度 POST 轨迹；进入界面取自 Desai、Lyons、Tooley 和 Kangas（NTRS { "20090004445" }）：半径 { "6503.14" } km，惯性速度 { "12.9" } km/s，于 -8.2 deg。判据在对这些输入进行任何运行之前即已预先登记于 xval/entry-stardust/PREREGISTRATION.md；两条判据在首次运行即成立。未涵盖的内容：只有一个已公布的案例和一个量（峰值减速度，在弹道近似下它与弹道系数无关）；进入纬度和航向是假设的；加热、热载荷和着陆点均未对照它检查；这是常数 C_D 的质点，而不是 6 自由度。
+
+dat-5bea30c2f8ec = 静态的公开框架映射（`kshana compliance-report --mapping` / `--sources`），以 Markdown 输出：每个框架一张表，列出每一行经改写的要求、为其提供证据支持（supports evidence for）的 Kshana 输出，以及这些输出未能弥补的差距；或者在 `sources` 为 true 时，输出这些表所引用的来源文档及其版本和 URL。
+
+dat-0d3123f7d981 = 街道峡谷
+
+dat-06acdcc725b9 = 将街道峡谷、扇区和地形缩减为天际线表，四个具有代表性的预设（城市街道、港口进近、峡湾、集装箱码头），以及把它们组合成天空图和蒙特卡罗点云的函数，可通过 CLI、MCP、Python 和浏览器使用。这些预设是具有代表性的几何，其尺寸为选定并已说明，而不是实地测量，并且这些缩减仅对照手工计算值进行检查。
+
+dat-cbb9fd521aa7 = 技术判据（不可协商）
+
+dat-2193be3cc46a = 差分修正在其计算历元与其使用历元之间所引入的三项，每一项此前都被当作未建模的余量留下：参考站测量误差（跨卫星相关，与基线无关，约 { "1" }:{ "1" } 的位置传递，且可证明不会被 DOP 放大），修正老化（冻结的轨道误差向量被重新投影到引擎自身传播器所给出的、晚一个延迟之后卫星所处的视线方向上，外加依据已校准幂律的 c·σ_y(τ)·τ 钟漂），以及在精确的 ±(orbit_err + clock_err) 满量程上、方差为 step²/12 的均匀链路量化。在距离域和位置域均予报告，并列于现有的残差和保护级之旁——绝不取而代之，并在单个数值之外给出延迟曲线
+
+dat-c7fae9dce7f6 = 三个完整示例
+
+dat-8d9c177fc1ca = 信任度得分、等级、原因、闸门状态和接收机报告的位置，在 Signal K 服务器中发布于 navigation.gnss.kshana 之下，并带有 warn、alarm 和 normal 通知（integrations/signalk）；经闸门的 NMEA 数据流（信任度崩溃时将定位标为无效，每个周期一条 PKSHT 语句），由闸门自身或由一个小型中继经 TCP 提供给 OpenCPN，另有读取 PKSHT 语句的原生 OpenCPN 得分面板（integrations/opencpn）；以及运行该闸门的 systemd 单元和容器（deploy/reference-build）。凡显示输出之处，均带有咨询性声明：仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。
+
+dat-ab27e5de4c14 = 针对 T_A - T_B 求解的 TWSTFT 双向方程，计入测站发射与接收延迟、Ku 波段电离层上/下行不对称、转发器延迟差和 Sagnac 项，并对照其精确的正向模型；以链路 TDEV 作为 A 类项的二次和不确定度预算；带白噪声和闪变相位噪声（Kasdin-Walter）、日变非互易性和恒定互易性残差的双向序列；以及所提供 Circular T、MJD-CSV 或 IGS RINEX 测站钟差序列的变化率、残差 RMS、TDEV 和 ADEV。可作为 `time-transfer-budget` 场景类型运行。
+
+dat-50788560e7d7 = 以上两行的已验证闭式，即平方律虚警恒等式 P_d(snr = { "0" }) = P_fa 和 Holmes 平均捕获时间，以及到 spectrum 类型自身 SSC 链的归约（同一份 Jammer::ssc 代码）。设计本身是输入：标为 REPRESENTATIVE 或 WORKSHOP 的预设并非已公布的规范，增强 Feher QPSK、码移键控和 OFDM 频谱是近似的，形状检查比较的是形状，而不是已校准的电平。
+
+dat-16112a9a77ca = 船舶
+
+dat-3f1d4e3f1ccb = 某一历元的整个太阳系，用于任意天体周围的 PNT（定位、导航与授时）。
+
+dat-555eddd72c9c = 某一历元的整个太阳系，用于任意天体周围的 PNT（定位、导航与授时）。对于…
+
+dat-669e6375dd79 = 某一历元的整个太阳系。
+
+dat-89aaa5f9ce5a = 措辞与局限
+
+dat-b16d6e1433cb = Theo1 和全偏差（TOTVAR）——扩展范围的长 tau 稳定度估计器，可达到记录长度的约 { "75" }%，而阿伦偏差在约 { "50" }% 附近失效；建立在它们之上的去偏 ThêoH 混合量（allan::theoh_curve）仍为 MODELLED
+
+dat-66fa672b5002 = 这些能力是依据已公布的或第一性原理的物理实现的，并带有测试，但如实地…
+
+dat-cc1d1473669d = 本文档映射 RTCA（原 Radio Technical Commission for Aeronautics）DO-229E（SBAS…
+
+dat-079cb1d71f11 = 本文档说明 Kshana 如何治理：由谁作出决策、如何作出，以及本项目将会和不会…
+
+dat-50eb6e6fec85 = 本说明记录 Kshana 对高级接收机自主完好性监测（Advanced Receiver Autonomous Integrity Monitoring）的开放实现…
+
+dat-bf2f1f92d9a4 = 本页面从零开始，逐步构建到物理原理，解释 Kshana 做什么以及为什么这样做。
+
+dat-af95fca25c5e = 本页面列出 telecom-timing 场景类型检查的每一项限值、每一项的出处，以及已完成了什么…
+
+dat-0ce7cfae4415 = 本文逐步演示一条轨迹如何端到端地经过基于标准的互操作与任务分析场景类型…
+
+dat-da8207aca260 = 对单一分解 ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) 的三个侧面，其中 8 维基准⊕时间尺度规范为 N(G)，state_dim − { "8" } = { "32" } 个可观测方向为 range(G)：（T5）provider_mismatch_split 把共同的多提供方偏差（∈ range(G)）归为不可检测（UNDETECTABLE）——需要外部联结——而把差分偏差（∉ range(G)）归为自监测/可检测（DETECTABLE）；（§{ "0" }）统一之处在于，同一个 range(G) 盲子空间决定了不可检测的故障类别，因此基准规范 N(G) 与故障盲子空间 range(G) 是同一种几何，而不是两种；（g7）对故障 b ∈ range(G)（估计量被破坏而奇偶为零），slope 返回 Brown 保护间隙斜率 ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞，对可检测的故障则为有限值
+
+dat-fe38e57d2fb3 = 三个坐标系矩阵，在任意历元上与 ERFA 逐元素或按旋转角比较：precession::precession_matrix（由 Fukushima-Williams 角给出的 IAU { "2006" } 岁差偏差），nutation::teme_to_gcrs_matrix（TEME 到 GCRS 的旋转 P^T N^T Rz(-EE)，采用 IAU { "2006" } 岁差、IAU 2000B 章动和带其两个主要补充项的二分点方程），以及 cio::gcrs_to_cirs_matrix_with_offsets（GCRS 到 CIRS 的旋转，在旋转之前把 IERS 天极偏移 dX、dY 加到模型 CIP X、Y 上，即 SOFA 手册的约定；新增）。模型选择本身（TEME 路径上的 2000B 章动、两项补充级数）未经验证，仅验证了其实现
+
+dat-c6a5b4e18a0f = 轨迹库上的三个 gnss-ins 场景（一艘以 { "8" } m/s 蛇行且有五分钟中断的船舶；一列穿过双卫星路堑和隧道的列车；一架中断期覆盖 25 度压坡盘旋转弯的飞机），以及该包可选的 [tight] 表：由 SGP4 Walker 星座得到的伪距，经闭环导航器融合，标称时取遮蔽角以上的每颗卫星，降级时取最高的几颗
+
+dat-6781f5f7c487 = 三个独立的权威星历——DE440（JPL）、INPOP21a（IMCCE）、EPM2021（IAA RAS）——经 IMCCE calceph 采样，并由独立的 numpy SVD 最小二乘拟合交叉核对。为什么此处为已验证（Validated）而 lunar_common_mode 并非如此，尽管使用同样的三个星历：此处所报告的量就是已公布数据的属性——它们之间的相互分歧——因此这些星历是参考基准（oracle），而不是输入。在 lunar_common_mode 中，同样的分歧馈入一个 MODELLED 的星座几何，答案是该模型的属性，这就是该行被正确地标为已建模（Modelled）/ReferenceImpl 的原因。
+
+dat-e308dc95dc23 = 三种场景类型为低地球轨道卫星提供定位、导航与授时（PNT）…
+
+dat-b7376e140622 = 针对验证过程本身的三项结构性防护，每一项都封堵一类曾以间歇性或虚假红灯形式抵达规范闸门的缺陷。（{ "1" }）Rust 源码中每一个构造出的临时路径都必须带有逐次调用唯一的成分；进程号会被拒绝，因为 cargo 把库测试作为同一个进程的并行线程运行，而该进程号为所有线程共有。（{ "2" }）每一个逐字节或哈希固定项，都必须在其自身旁边或在其模块头部声明其涵盖什么以及有意排除什么——这样，一项横切变更便可一眼看出哪些固定项在范围之内，哪些已悄然变成了全仓库范围的变更探测器。（{ "3" }）只有完整（FULL）测试套件才能声明通过：scripts/gate.sh 运行 `cargo test --all`，在没有管道干扰的情况下捕获真实退出码，并写出一份回执，注明提交、集成二进制数量、测试数量和耗时；推送前检查会在干净的树上拒绝其提交没有任何有效回执所指明的推送。可重复性由 scripts/check-repeatability.sh 单独抽样，它运行库测试套件 N 次，若通过的测试集合不同则失败。
+
+dat-abb22745ef3d = 三轴捷联 INS——四元数姿态、WGS-84 NED 机械编排、圆锥/划桨补偿以及完整的确定性 IMU 误差模型——外加基于第一性原理的冷原子干涉仪加速度计（Mach–Zehnder 相位、投影噪声、对比度衰减、振动耦合），以及用于地形/重力参照的 GPS 拒止导航的粒子滤波器。
+
+dat-8a384aa0ece5 = TIB 故障菜单（域发散、钟猛调、守时（holdover）滑行、静态/增量/对称/非对称延迟、新鲜度内重放、路径选择性、k-of-N 法定人数）
+
+dat-ba55614d83be = TIB 完好性覆盖评分（HMI/MI/可用性比率 + 过界覆盖判定）
+
+dat-a94d5c81b3b5 = TIB Stanford 完好性图历元分类（标称 / 不可用 / MI / HMI）
+
+dat-ae4e9157f569 = TIB 不可检测吸收判定（对称/重放必须被保护级吸收，绝不报告为已检测到）
+
+dat-96a1790c4953 = 地球重力位上的潮汐（src/tides.rs）
+
+dat-1cece66370c3 = tides::tests（S1 项为周日项，在四分之一天内转过 { "90" } deg，并具有各行的负荷因子幅度；LEO 处的物理量级）；propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration
+
+dat-570e93de692d = 紧耦合 UKF · RMS { "0.77" } m
+
+dat-7693dd3b7cf2 = 时间误差
+
+dat-6cece0b05a6a = 时间尺度与地球定向坐标系
+
+dat-46048a345e4c = 时间系统
+
+dat-a4f81aad2d9a = 来自 LEO 卫星的对 UTC 时间传递，针对 C/N0 和接收机振荡器。
+
+dat-e2efae3f8849 = 引擎传播器对高于遮蔽角的测站的时域可见性过境（AOS/TCA/LOS、最大高度角、持续时间），带插值的升落穿越点和总接入时间：passes::predict_passes，几何调度器（无折射或光行时）。`passes` 场景类型运行行“Apparent ground-station pass prediction with refraction and light time”的视位置预测器
+
+dat-66eda5411853 = 具有明确攻击形态和随机检测器的时间欺骗检测。
+
+dat-dcb22bd12a55 = 时间传递误差预算
+
+dat-5f88ca853243 = time-transfer-budget（场景类型）
+
+dat-bbb4dcced418 = timetransfer（场景类型）
+
+dat-44dcbd5a239e = timetransfer_chain::tests（精度随积分而提高；量子既可能胜出也可能落败；PL 为有限正值；安全品质因数在 [{ "0,1" }] 内并随攻击延迟而增长；异常 Pd 单调；权衡 is_honest）
+
+dat-9fd675aba21a = timetransfer::tests（互易抵消；双形式 Sagnac 恒等式）；tests/time_transfer_error_budgeting_reference.rs（赤道环绕 Sagnac = { "207.386" } ns，对照已公布的 Ashby { "207.4" } ns，偏差小于 { "0.05" } ns；另外 Sagnac/geodist 几何与由 C 源码编译的 RTKLIB { "2.4.3" } geodist() 交叉核对）
+
+dat-bafdf56f480c = 授时与守时（holdover）测试
+
+dat-fe1585259034 = 穿越光学中断期间的授时与测距连续性
+
+dat-572b994bdb6f = 运行期间的授时误差
+
+dat-60e75eec2266 = 面向网络、频谱、太阳系、星座、测评活动和低轨 PNT 的授时
+
+dat-af3ae4c6ec29 = 授时硬件在环：拔掉天线，给守时（holdover）打分
+
+dat-a4bd95a08c10 = 授时完好性
+
+dat-830ecf94efaa = GNSS 欺骗干扰下在轨接收机的授时保护级
+
+dat-3c5975241acf = 欺骗干扰下的授时保护级
+
+dat-81849f4dacd3 = 授时墙
+
+dat-28757f0de384 = 授时完好性一致性基准测试——故障目录（参数化生成器）
+
+dat-00ec4aa50d47 = 授时完好性一致性基准测试——完好性覆盖评分器
+
+dat-cea9b5d71933 = 授时完好性一致性基准测试——Stanford 完好性图历元分类器
+
+dat-06ca29579f23 = 授时完好性一致性基准测试——不可检测吸收判定
+
+dat-d7ca79c5d894 = 收敛所需时间，仅 GNSS
+
+dat-73bf610fd7de = 顶层（时钟与轨道包）
+
+dat-5a7431e27e44 = 无力矩刚体姿态动力学
+
+dat-b5235132847d = tpl::tests（闭式参考基准（oracle）+ CUSUM）；examples/tpl_jammertest.rs（JammerTest { "2024" } 真实欺骗标定）；tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement（固定该发现）；tests/tpl_jammertest_log_oracle.rs::drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement
+
+dat-cf0276f69bce = tracking_loop（组合 sdr、jamming）
+
+dat-e61b4ece5d0d = tracking_loop::tests（开环 Costas 鉴别器抖动，对照在带种子的合成 IF 上逐步前进的 sdr::correlate，{ "3" } 个合并的噪声实现 × { "900" } 个历元，在 35-45 dB-Hz 范围内一致到 { "0.63" }%，其中平方损耗项在其可分辨之处须比无平方损耗形式至少好 { "3" }×；约 { "32" } dB-Hz 的 atan 鉴别器饱和是被断言而不仅仅是陈述，因此有效性极限被固定；闭环 σ 对照逐步运行的 sdr Costas 环，在 { "4000" } 个历元上一致到 { "3.7" }%；一阶 DLL 斜坡滞后对照逐步运行的 sdr DLL，一致到 { "0.17" }%；bessel_i0 对照列表值 I₀，一致到 { "7.4e-8" }；滞回宽度须落在 [{ "5" }·log₁₀ r, { "10" }·log₁₀ r] 内，涵盖 { "4" } 个比值 × { "2" } 个积分时间 × { "3" } 个带宽）；api::tests::tracking_loop_kind_round_trips_through_the_dispatch；tests/tracking_loop_gnss_sdr_oracle.rs::finding_is_pinned
+
+dat-b47f3ef2ed91 = tracking-loop（场景类型）
+
+dat-ddc4cb423e89 = 干扰下的跟踪环失锁与欺骗牵引
+
+dat-6f5b10eb7cfb = 跟踪环失锁：C/N0 -> 带滞回的锁定/失锁，所需时间
+
+dat-9171d7bdf4d8 = 跟踪环失锁：C/N0 -> 带滞回（WITH HYSTERESIS）的锁定/失锁，失锁所需时间，以及欺骗…
+
+dat-a92df5c034d8 = 权衡研究：守时（holdover）如何随时钟稳定度而变化？
+
+dat-895e0a8d9ffd = 轨迹模式：沿轨道
+
+dat-473bee0dc62d = ITU-T G.8272（07/2025）PRTC-A/B、G.8272.1（{ "2024" }）修订 { "1" }（07/2025）ePRTC 锁定与 ePRTC-A 守时（holdover）（包括表 { "3" } 的时间误差包络）、G.8273.2（{ "2023" }）修订 { "2" }（11/2025）T-BC/T-TSC A-D 类，以及 G.8271.1（{ "2022" }）修订 { "3" }（05/2025）参考点 C 的限值转录，每个开区间或闭区间均照表中所述，所有“有待进一步研究”的条目均予省略；每项检查在约束点处给出判定和余量，以及超出各预算所需的时间。可作为 `telecom-timing` 场景类型运行
+
+dat-973900257f13 = 对所引用公开数值的转录和一项自洽性检查：由已公布最小接收功率设定的 EIRP，在平坦方向图下于 { "0.5" } dB 之内预测出已公布的最大值。这是对距离展宽的检查，而不是对任何卫星天线的验证；具有代表性的预设不对真实系统作出任何声明
+
+dat-75850c0e8a41 = 对所引用公开数值的转录，检查其结构（每个公开来源都有 URL，Walker 图样整除，由接收功率除以 { "290" } K 下的 kT 得到 C/N0），而不是对照外部参考基准（oracle）。具有代表性的数值在每个预设中均有标注，且仅为示意
+
+dat-757d75457718 = 对所列建议书的转录（于 2026-10-13 从 itu.int 下载），每一行均对照文本重新核读，印刷系数所隐含的断点连续性在测试中受到界定（例如 { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns，对照 G.812 表 { "4" } 的 { "100" } ns 平台）。这是带内部自洽性检查的标准转录，并非一致性测试，也不是外部验证。G.812（06/2004）被列为已被预先发布的 08/2026 版取代，G.811 有修订 { "1" }（04/2016）；二者均未能读到，因此均未检查。自由运行的 OCXO 场景在相对于环路时间常数较长的观测间隔上高估了振荡器的贡献；它对任何设备时钟都没有说明
+
+dat-41fde09e0536 = 对所列建议书的转录（可从 itu.int 免费下载），每项限值均注明其表或条款，并与 docs/TELECOM-TIMING.md 中每一项未确认或未实现的条目一并列出；这些表所隐含的断点连续性恒等式在测试中检查。这是带内部自洽性检查的标准转录，并非一致性测试，也不是外部验证。{ "0.30" } 第 { "2" } 轮（预先登记 970003ee），受阻（仍为 MODELLED）：建议书以示例数值形式印出的十个掩模值和十三个 ePRTC-A 守时（holdover）值（G.8272 图 1-2、G.8272.1 修订 1 第 { "8.2.1" } 条和图 V.1-V.3、G.8271.1 修订 3 图 7-2 至 7-4）在半个印刷单位之内被复现，其中大多数是表常数或断点；G.8271.1 图 7-2 在 { "1.3" } s 处标注 { "200" } ns，而其自身的表 7-1 为 { "197.5" } ns。G.8273.2 的 A-D 类限值没有印刷出的示例数值，而 G.8272.1 ePRTC 锁定的断点标注（位于实线构造线上）被预先登记的选择规则排除，因此这些仍然是转录
+
+dat-d599af854f03 = TRK-2-18 轨道数据文件读取器与火星 2-way 带斜率多普勒模型
+
+dat-987a822b09b1 = 地月空间链路上的对流层幅度闪烁
+
+dat-18b137f9f9d0 = 信任度得分
+
+dat-f0430b8cc9f6 = 信任度得分（船舶平台）
+
+dat-03c201e427bf = 面向安全运营的信任度遥测
+
+dat-8dd9b64e7b1c = 信任度遥测 SIEM 事件：经 syslog 的通用事件格式（CEF）
+
+dat-3b341a074b5a = 信任度遥测 SIEM 事件：经 syslog 的日志事件扩展格式（LEEF）
+
+dat-af2c0f76b82d = 信任度遥测线路格式：Prometheus 文本展示格式与 OpenTelemetry OTLP/HTTP JSON
+
+dat-462f51eddb7a = 可信量子授时——端到端链、安全分发、异常 + 权衡（src/timetransfer_chain.rs）
+
+dat-e2b23a03c196 = 可信量子授时——端到端时间传递链、安全分发，
+
+dat-6c2f04247970 = 可信量子授时（时间传递 + 安全分发 + 异常）
+
+dat-678b3b18dc8d = 在浏览器中试用
+
+dat-fe6951113784 = 试一试
+
+dat-2d7dadadb10a = 齐奥尔科夫斯基 < { "0.01" } % · 兰伯特往返回到二体真值
+
+dat-792becc434c6 = 教程 { "1" } — 我的第一条轨道：GPS 卫星在哪里
+
+dat-a424ed5ba327 = 教程 { "2" } — 时钟守时（holdover）：能滑行多久
+
+dat-43b0b402ae05 = 教程 { "3" } — 量子与经典 GNSS 韧性（综合练习）
+
+dat-b349d9190a41 = 在代码库内对同一个量的两种不同计算，而不是把同一种计算重述一遍：对 IEEE-1139 幂律曲线做二分完全不了解噪声类型，而闭式解则以代数方式反演主导类型，因此被误分类的噪声类型或糟糕的括区会表现为不可忽略的相对差异。这四个值也复现了论文已公布的表，一直到其最后一位印刷数字的一半——但该表本身就是由同一闭式解重建的，因此这只是可复现性检查，而不是外部参考基准（oracle），并且用来衡量它的坐标系项是已建模（Modelled）的分配
+
+dat-56afaff440ac = 对方向图加权、高度受限的地表捕获足迹随发射机高度和天线口径的双轴扫描，每个工作点输出一行，并给出每个口径所隐含的半功率波束宽度，且临边捕获作为阈值（THRESHOLD）报告——每行给出临边 J/S、其余量以及可使其闭合的发射功率；每个网格给出所定位的交叉点，或明确声明在网格上任何位置都达不到临边，并给出缺口
+
+dat-72905c49853b = 二体发射与上升几何：发射方位角（sin Az = cos i / cos lat），可达到的最小…
+
+dat-d4efa5c1652f = 二体发射方位角（sin Az = cos i / cos lat）、可达到的最小倾角、圆轨道速度、地球自转的向东增益、折线飞行的平面变轨 Δv 和每日发射机会，并且在给定历元和 IERS finals2000A 行的情况下，给出围绕真极点的发射场速度（launch::site_rotation_speed_at）。可通过 CLI/绑定作为 `launch-window` 场景类型运行（scenarios/launch-window.toml）
+
+dat-ba0279e6f540 = 地球轨道时间路径上的两段式儒略日与闰秒
+
+dat-349495a3c0b4 = 轨道路径上经由地球自转的两段式儒略日
+
+dat-0286c8eb5794 = 两状态卡尔曼守时（holdover）、带置信区间的阿伦族稳定度（ADEV / MDEV / TDEV / HDEV）以及完整的 IEEE-1139 五系数幂律拟合，外加各种运行中的传递方法——采用 BIPM Sagnac 闭式的 TWSTFT、GNSS 共视、PPP 无电离层传递、带湍流闪烁的自由空间光链路，以及逆方差钟组时间尺度。GNSS 拒止下的时钟守时（holdover）计算器把 van-Loan 滑行误差增长反演为到阈值的守时（holdover）——时钟自由运行多久其授时误差才会超出预算——涵盖经典时钟类和量子时钟类；已建模，并如实说明：对于非常稳定的时钟，到严格阈值的守时（holdover）由所假设的长 tau 噪声底限决定，而不是由所引用的 ADEV 决定。
+
+dat-7f7007942495 = 两个 ILLUSTRATIVE 测站之间的双向卫星时间频率传递（TWSTFT），一个
+
+dat-5013dd9c3030 = 两个测站之间经地球静止中继的双向卫星时间频率传递：…
+
+dat-cb59cc06f1d2 = 双向/TWSTFT（Sagnac）、GNSS 共视、PPP；链路抖动→距离
+
+dat-8e1d443b5d7e = TWSTFT 双向方程、不确定度预算，以及含闪变和日变非互易性的链路稳定度
+
+dat-983d0f0e3e8a = twstft_budget::tests（双向方程精确恢复偏移；Sagnac 项等于 BIPM 环路闭式；电离层项遵循频率分离而对流层相互抵消；闪变相位的 TDEV 平坦；日变残差使 TDEV 在约半天处抬升；互易性偏差使偏移改变而不改变 TDEV；序列稳定度去除变化率）；time_transfer_budget::tests
+
+dat-dd9ca7845a91 = 类型化分发与结构化 API
+
+dat-989fe8c60f51 = 对完全归一化场到 { "2190" } 阶的防下溢、防极点的求值（SphericalHarmonicField::acceleration_hf / potential_hf，Holmes-Featherstone { "2002" } 修正的前向列递推，梯度不含 1/cos phi），流式 ICGEM .gfc 加载器（from_gfc_file / from_gfc_reader；完整的 EGM2008 在运行时获取，而不是随附），以及可在可选启用的 Cowell Geopotential 上选用的 Holmes-Featherstone 求值器
+
+dat-321e1c30be42 = 不可检测的共模上限：同时逃过分离检验（alpha_ss = T_ss / d 的白化对比范数）和共模统计量（alpha_cm = sqrt(T_cm { "1" }^T Omega^-1 { "1" }) / |{ "1" }^T Omega^-1 d|）的、沿方向 d 的最大故障幅度，报告为 min(alpha_ss, alpha_cm)。在 Omega 正定时，两个盲方向（d 正比于 { "1" }，以及 { "1" }^T Omega^-1 d = { "0" }）互斥，因此对每个非零 d 该上限均为有限（FINITE）值；仅对零方向或非正定的 Omega 才为无穷。位于已建模的共同轴之外的方向仅对共模统计量盲，并受分离检验所界定
+
+dat-de39e3e42f97 = 统一的量子与经典权衡证据（src/qtrade.rs）
+
+dat-30a97898922e = 为每个所报告的量声明单位与出处
+
+dat-bb1ab222d297 = 每个所报告的量均带有单位与出处
+
+dat-19a913b31515 = GPS L1 C/A 和 L2C（BPSK({ "1" })）、GPS L5 和 Galileo E5a（BPSK({ "10" })）、正弦 BOC({ "1,1" }) 以及 Galileo E1 MBOC(6,1,1/11) 的单位面积功率谱密度（navsignal::Modulation::psd，并增加了一个 MBOC 变体），其以数值方式定位的零点和极大值（spectrum::psd_nulls_hz、psd_peak_hz、main_lobe_null_to_null_hz），以及某信号相对于任意偏移处任意频谱（navsignal::spectral_separation_coeff_offset）或相对于单频音、平坦噪声、线性调频或匹配噪声（spectrum::Jammer::ssc）的谱分离系数，以及抗干扰系数 Q = 1/(R_c kappa)
+
+dat-61d80f0e7425 = 每种类型的各字段单位与出处
+
+dat-a9e9ab6d88d7 = 直到 { "0.36" } 之前，引擎中每一个地球可见性检验都是一个高度截止角 mask_deg：一颗卫星…
+
+dat-2233778f23ed = 取自 Standish 表 { "1" } 的天王星和海王星、冥王星，以及行星速度
+
+dat-c79c9837d30a = 美国 DHS 韧性 PNT 一致性框架：Kshana 为其提供证据支持（supports evidence for）的内容
+
+dat-2b68c27525f2 = 美国 DHS 韧性 PNT 框架
+
+dat-823f014c99fb = USGS / 行星数据系统（Planetary Data System），Voyager 和 Galileo SSI 镶嵌图
+
+dat-cd4da8272226 = USGS Astrogeology / 行星数据系统（Planetary Data System），Viking 镶嵌图（P. Stooke）
+
+dat-dd59e97e8dcf = USGS Astrogeology Science Center
+
+dat-0ce0df0ff899 = 在 AI 智能体中使用 Kshana
+
+dat-72f2e25e1d08 = 使用真实的星座 TLE
+
+dat-efc9b5010923 = 1960-01-01 至 1971-12-31 的 UTC，其时 UTC 以相对于 TAI 的偏移速率运行并以不足一秒的量阶跃，在两段式儒略日路径上：TAI - UTC 取自各时期的漂移表（timescales::tai_minus_utc_on_date），UTC 日历日期转为日长 { "86 400" } s + dleap 的两段式 UTC 儒略日（Jd2::from_utc_calendar），UTC 转 TAI 时把日分数从 UTC 缩放为 SI 秒（jd2::utc_to_tai），以及 TAI 回到 UTC（jd2::tai_to_utc），遵循 SOFA 的 dtf2d、utctai 和 taiutc。在 { "1960" } 之前，TAI - UTC 取为 { "0" }（SOFA 的取值；UTC 未定义），且在声明范围之外。单个 f64 的 timescales::tai_minus_utc 在 { "1972" } 之前仍钳位为 { "10" } s，未被覆盖
+
+dat-0bcbd6a488b7 = 实用函数
+
+dat-04685dab3c55 = 有效：检测到场景类型 `clock`
+
+dat-7ae5035a7d5a = 校验实验室测试条件文件（`kshana iq conditions`）：一个 `kshana.test-conditions/1` 文件，TOML 或 JSON 文本，陈述实验室对一次录制已知的真值（预期的卫星、稳定时间、所述的压制干扰或干扰时间表）。
+
+dat-9edfc7a39d2a = VALIDATED 与 MODELLED
+
+dat-0019c88828a9 = 在真实的 IGS 数据上已验证（测站 ABMF，2018-05-13），对照实测坐标，3-D RMS 为 { "5.7" } m，水平为 { "1.1" } m。
+
+dat-dcc344df03dd = 已验证的结果
+
+dat-8ba36ed18039 = 已验证的行需要外部参考基准（oracle）（该不变量在 CI 中强制执行）
+
+dat-509ad71b1b5f = 验证与证据
+
+dat-2c8f88b01581 = 验证概览
+
+dat-108d874b494e = 验证台账（ledger）
+
+dat-4d1e3020f8f1 = 验证包
+
+dat-4a43a8c1fd74 = 第 { "2" } 轮验证
+
+dat-d7b6a8ce3a7a = 验证状态
+
+dat-2db9e436cfdd = 验证：在保留的真实时钟上的反演
+
+dat-f4a97f622c0a = 变体：实验室级锶光钟对 CSAC。
+
+dat-795854adc6c4 = 判定汇总
+
+dat-66f52522c4b3 = 验证矩阵
+
+dat-aedfff7efc5d = 验证状态
+
+dat-0f25026f5234 = 验证已签名的证据包（`kshana evidence verify`）：每个文件的 SHA-256 对照清单，哈希链，Ed25519 签名；若给出 `public_key`（签名者的密钥，经由另一条途径取自签名者），则验证签名者即为预期者；若给出 `full_log`，则验证所持有的日志即为证据包所记录的日志，且该切片取自其中。
+
+dat-068809535e3c = 带版本的封装 · 往返与向前兼容的读取均已核实
+
+dat-8c6a34721e44 = SGP4 根数集在 WGS-84 测站上空、位于已验证的地球轨道路径（IAU 2006/2000A，可选的地球定向参数）上的可见性过境（AOS、TCA、LOS、最大视高度角、持续时间），带 ITU-R P.834-9 对流层折射（式 { "9" } 至 { "14" }，即该建议书印刷的系数）和下行光行时，二者均可单独开关；穿越点由二分法求解到 { "1e-7" } s，极大点由黄金分割搜索求得。可通过 CLI/绑定作为 `passes` 场景类型运行（scenarios/passes.toml），两项修正默认开启
+
+dat-a4d681c2f89b = 从 VLBI 观测计划到测站坐标协方差
+
+dat-715f9872a12d = VlseKriterijumska Optimizacija——群体效用 Sᵢ、个体遗憾 Rᵢ 和策略权重 v={ "0.5" } 下的折中指数 Qᵢ，按越低越好排序
+
+dat-cec4d4f917b6 = VS Code（一键）
+
+dat-aab2e31aee02 = VS Code 和 Insiders 用户
+
+dat-53b8139d7ee1 = 对照独立的 numpy/scipy 奇偶代数
+
+dat-d2bc1a8c41f0 = 对照 numpy/scipy Umeyama–Horn SVD
+
+dat-057b91b0c350 = 对照官方 BGS IGRF-14 数值
+
+dat-727093687049 = wahba::tests（A(单位四元数)=I；雅可比特征值求解器满足 Kv=λv 并在已知对称矩阵上保持迹不变；K 为对称）；tests/wahba_reference.rs（TRIAD、Davenport q 方法和 QUEST 在无噪声加权矢量集上复现 scipy.spatial.transform.Rotation.align_vectors 的最优 DCM，经与坐标系无关的姿态误差角度量，偏差小于 { "1e-9" } rad；另外 q 方法恢复出已知旋转，其中 λ_max=Σ 权重且 Wahba 损失为零，q 方法解在扰动下使 Wahba 损失最小，QUEST 与最优 q 方法一致，偏差小于 { "1e-7" } rad，并且在 { "2000" } 次含噪蒙特卡罗试验中，最优估计器的 RMS 姿态误差优于双矢量 TRIAD）
+
+dat-7a50fbacac97 = Wahba/TRIAD/QUEST 姿态确定
+
+dat-ead7033f0cfa = Walker 星座几何，以及 GPS、Galileo 和 GLONASS 已公布的标称轨位
+
+dat-b262774f5883 = Walker delta 1600/32/1；Walker delta 1600/32/7；Walker delta 1000/20/3；Walker star 800/16/1
+
+dat-a2c625238ffd = Walker delta 8/4/1；Walker delta 6/3/1
+
+dat-9f4d90082cce = 想要最新数据吗？
+
+dat-b62354b3a6a8 = 使用方式
+
+dat-7ea36107ff6a = 我们作为成员、贡献者和领导者，承诺使参与我们社区的体验不受骚扰…
+
+dat-9fc2c82396a8 = 受天气驱动的光学地面站可用性与随距离相关的站点分集
+
+dat-cc207b5cd120 = Web 和 Node.js 开发者
+
+dat-14787aed1cf0 = 加权聚合和积评估法（Weighted Aggregated Sum Product ASSessment，线性归一化的凸组合 λ·WSM+({ "1" }−λ)·WPM，λ={ "0.5" }）和 MOORA 比率系统（向量归一化的加权效益总和减去加权成本总和）——经稳定性强化的值混合与带符号的比率系统评分器
+
+dat-7b2ae275c7cf = 对任意系统组合的加权最小二乘高斯-牛顿定位，每个系统一个接收机钟差（系统间偏差与位置一并估计），或在参考时间尺度上取已知的广播偏移；逐测量 sigma 由调用方提供，默认为引擎的延迟锁定环热噪声（navsignal::dll_code_jitter_chips），取该高度角的 C/N0，并与信号空间测距误差合成；在局部大地坐标系中的未加权 DOP（GDOP、PDOP、HDOP、VDOP、TDOP）、形式上的东-北-天 sigma 以及偏差 sigma；`leo-pvt` 联合模式比较仅 GNSS、仅 LEO 和融合的定位解，并随所加入的 LEO 卫星数扫描 DOP
+
+dat-70d1be2267c4 = 加权和模型（最小-最大归一化的加性聚合 + 排序）与加权积模型（和归一化、成本取倒数的乘性聚合）——两种值聚合权衡研究评分器
+
+dat-32193a7618c9 = 加权最小二乘保护级（DO-229E 附录 J）
+
+dat-d321c3bd2268 = “良好”是什么样子
+
+dat-a7c1dc8dc6c8 = 报告中的标签意味着什么
+
+dat-b0ebd80a8a88 = 一条消息携带什么
+
+dat-7527daffb359 = 证据包不做什么
+
+dat-0d559928045e = 结果没有说明什么
+
+dat-91b5336a4a1f = 一行意味着什么
+
+dat-a9c9d77f4ae3 = 此处已验证的残差意味着什么
+
+dat-002d214117b2 = 什么对其设限
+
+dat-098bbea567ed = 输出什么
+
+dat-581f00be7809 = 什么算作时间序列
+
+dat-218fae2d48b6 = 什么不算
+
+dat-3384381cc8d6 = 每项检查能发现什么，不能发现什么
+
+dat-6b4afd405535 = 每个文件包含什么
+
+dat-600eb20b965f = 每个工具不会做什么
+
+dat-09153c033e1e = 输入什么
+
+dat-bcb352dedddd = 检查了什么
+
+dat-96d7e8438600 = 检查了什么，对照什么检查
+
+dat-45287ea80f6d = 已检查的内容：本 crate 自身对所记录的 LEEF 字段映射以及 RFC { "5424" } 封装字段的精确字符串测试；不存在维护中的开源 LEEF 解析器（在 Python 包索引中检索未发现任何一个），因此该格式是对照其自身规范、由同一作者读取后检查的，而不是对照外部参考基准（oracle）。未检查的内容：任何厂商的解析器或 SIEM 是否接受这些 LEEF 载荷；所记录规则之外的转义规则；真实 syslog 收集器的行为。
+
+dat-f998b3c0c729 = 计算什么
+
+dat-d90f873bae70 = 每个信号计算什么
+
+dat-19486e94f8c9 = 外部检查了什么，表述从窄：gps-sdr-sim（MIT，提交 28ca29a6）的 readNmeaGGA、readUserMotion 和 readUserMotionLLH 及其自带的 WGS { "84" } llh2xyz，经由 xval/testbench-gpssdrsim/driver.c 调用（不调用任何信号函数），逐行对照运动 CSV 的地固列，所依据的判据在任何运行之前即已预先登记于 xval/testbench-gpssdrsim/PREREGISTRATION.md：全部 { "8" } 个场景上每个样本均被读取；NMEA 最差 { "1.21" } mm（判据 { "1" } cm）；LLH 切分最差 { "0.145" } mm（判据 { "1" } mm）；四列地固切分精确（判据 { "1" } um，修订 { "1" }）；gnss-ins 行在模拟器的 { "10" } Hz 网格上一致到 { "2.3e-13" } s。发现（运行 { "1" }，已固定）：去掉表头的全宽 CSV 无法被 -u 读取，因为读取器的 100 字符行缓冲区会把每个 161 字符的行拆成两个样本；docs/TEST-BENCH.md 给出了四列切分。未检查的内容：场景真值轨迹的物理；gps-sdr-sim 的信号输出；任何其他模拟器的读取器；任何接收机。
+
+dat-ad4d6d2f2bfe = 已实现什么
+
+dat-3459cd97e0ca = 证据包里有什么
+
+dat-caaad7e970cd = 已建模的内容
+
+dat-4ab5db8f7878 = 哪些内容已建模
+
+dat-f94c7e554898 = 此双重许可未涵盖的内容
+
+dat-ae82ac4e8c4c = 尚未实现的内容
+
+dat-e013e854b982 = 未建模的内容
+
+dat-3bb561cded1b = 未建模的内容（以及为什么该下限偏乐观）
+
+dat-08a406b8ecc7 = 未验证或未执行的内容
+
+dat-052f1075ebf9 = 已验证的内容
+
+dat-3281bb5ae242 = 写出什么
+
+dat-c74ea9dc9cd2 = 它做什么
+
+dat-303c182c2dd7 = 它给出什么
+
+dat-03cda2782bef = 它是什么 / 不是什么
+
+dat-9516c425aeb2 = 它不是什么
+
+dat-19270c6e5d05 = 它是什么，不是什么
+
+dat-3995ccf3a5df = 它读取什么
+
+dat-e9866ffcee45 = Kshana 不是什么
+
+dat-831115fee2e1 = 相对于 GNSS 处理引擎，Kshana 是什么，不是什么
+
+dat-8ec7e65cc362 = 它有何不同
+
+dat-15cba1bf87b0 = 一次运行计算什么
+
+dat-46be95cd5f6c = 这些检查能说明什么，不能说明什么
+
+dat-ac58b43279d3 = 与小册子的比较显示了什么
+
+dat-68e739bdfd0b = 观测站发布什么
+
+dat-d8c200aa93ea = 报告包含什么
+
+dat-8371eb305726 = 该测试固定什么
+
+dat-10b52840a05f = 这些测试固定什么
+
+dat-71890a13e98e = 这份对照表不声称什么
+
+dat-cda28621f9e2 = 这不声称什么
+
+dat-7dc2bd1e4fa9 = 这对贡献者意味着什么
+
+dat-5696cc1abc40 = 这一方法不做什么
+
+dat-5f19a20eaa94 = 本说明不声称什么
+
+dat-44252aa25aa2 = 本场景是什么
+
+dat-95bb71989246 = 改为怎么做
+
+dat-357548784840 = 随答案应保留什么
+
+dat-ac6245280999 = 应记录什么
+
+dat-bb04b5c6d588 = 运行了什么
+
+dat-fd4063ae190d = { "0.38" } 版的新内容
+
+dat-c053702f8863 = { "0.39" } 版的新内容
+
+dat-244b436782d3 = 日志可在何处使用
+
+dat-3c9d70c4d70c = 卫星在哪里？（成果）
+
+dat-06de3e854765 = 每项能力可从何处使用
+
+dat-3c4d08956c69 = 它通向何处：关键基础设施的授时与守时（holdover）
+
+dat-362660e7f896 = Kshana 在何处运行，在何处不运行
+
+dat-c5ff30793b41 = Kshana 的定位
+
+dat-d8ab4a0c1780 = 下一步去向
+
+dat-8717ac9b7cc8 = 时钟从何而来
+
+dat-032c0650064d = 这些设计用于何处
+
+dat-1e8bdbc89372 = 历元从何而来（来源）
+
+dat-1623a97a2988 = 文件从何而来
+
+dat-f6dcdfe2a660 = 位置从何而来
+
+dat-2323b2c7a3c9 = 当建筑物、码头岸壁、起重机或地形遮挡部分天空时，站点能看到哪些卫星，以及这对精度因子（DOP）和水平误差椭圆有何影响。随方位角变化的天际线取代单一的高度截止角；可见集、其 DOP 和椭圆按历元和按星座给出。天际线只去除视线卫星，仅此而已：它不对反射、衍射和信号强度建模。
+
+dat-1589eaeb4b18 = 哪个问题用哪个工具
+
+dat-7a53b264d1e3 = 应依据哪种漂移指标来接受某个时隙？
+
+dat-bcdecc549d07 = 适用对象
+
+dat-0da9ac688de8 = 为什么采用这种双重许可
+
+dat-3e8a8aadf012 = 为什么时钟是软肋
+
+dat-1c9b4395c4e3 = 为什么 N/A 单元格是 N/A
+
+dat-500a9d78ddb1 = 为什么这是粘合层，而不是竞争对手
+
+dat-97c24222dad6 = 配 { "288" } 颗低轨卫星
+
+dat-d1c342fccbf1 = with_gravity_field（在 Body 上，位于 src/gravity_pds.rs）：把任何已加载的球谐场（例如 GMM-3 或 GL0660B）附加到某个 Body，使传播器在体固系中对其求值；可选启用，默认天体不变
+
+dat-816a8275fb4c = 示例：Kshana 作为多工具任务分析的粘合层
+
+dat-21a850bb20da = 示例：gps-sdr-sim 写出一个文件
+
+dat-8960dcd3c54c = 研讨会（Workshop）参数
+
+dat-8b569b55f222 = 最差误差 { "0.044" } m，对照这些资料自身的 { "0.05" } m 容差
+
+dat-996b654e25b2 = 最差距离误差，{ "60" } s 拟合
+
+dat-900c4a41066b = 最差距离误差，{ "900" } s 拟合
+
+dat-e4f36434be06 = Helmert 点雅可比作用的最坏情形三角界（闭式）
+
+dat-278a0de08553 = 把 GeoJSON 路线写成一个飞行航路点轨迹的 Kshana 场景，并返回新的场景 TOML（用 run_scenario 运行它）。
+
+dat-c14c336c5c33 = 类型 { "9" }（Lagrange，不等时间步长）和 { "13" }（Hermite，不等时间步长）的 NAIF SPICE SPK 内核的写入器与读取器，带 DAF 布局、段描述符和历元目录，以及把 CCSDS OEM 导出为 SPK 内核（UTC 或 TDB 历元转为星历时）
+
+dat-3413fcac7dbb = 类型 { "3" }（固定区间上位置和速度的切比雪夫多项式，阶数 { "0" } 至 { "27" }）和类型 { "21" }（扩展修正差分数组，即 JPL 积分器的差分行，MAXDIM { "15" } 至 { "25" }）的 NAIF SPICE SPK 段的写入器与读取器，依据给定记录，写入同时也含有类型 { "9" } 和 { "13" } 段的文件；记录选择与求值按 SPICE 读取器的顺序。Kshana 不拟合切比雪夫系数，也不生成差分行
+
+dat-8373efd23d2e = KVN 和 NDM/XML 格式的 CCSDS 502.0-B-3 轨道数据消息的写入器与读取器：OPM { "3.0" } 和 { "2.0" }（状态矢量、密切开普勒根数、航天器参数、协方差、机动、用户自定义参数），OMM { "3.0" } 和 { "2.0" }（按平均运动或半长轴给出的平均根数，带 BSTAR 或 BTERM 以及 AGOM 的 TLE 相关参数，协方差），以及带轨迹（CARTP、CARTPV、CARTPVA；绝对或相对历元）、物理属性、协方差（LTM 顺序的 CARTP、CARTPV）、机动和用户自定义块的 OCM { "3.0" }；以及由 SGP4 根数集得到的全精度 OMM，与保持不变的 OmmFile::to_omm_kvn 并列
+
+dat-9df173efeef9 = KVN 和 NDM/XML 格式的 CCSDS 504.0-B-2 姿态数据消息的写入器与读取器：AEM 版本 { "2.0" }（以及 KVN 中的 { "1.0" }，带其 ATTITUDE_DIR、QUATERNION_TYPE 和数值旋转序列），带四元数、欧拉角和自旋姿态类型及其导数、角速度和章动变体，多个段；APM 版本 { "2.0" }，带四元数、欧拉、角速度、自旋、惯量和机动块；记录的 A 到 B 四元数（504.0-B-2 附录 F）
+
+dat-14a123e4b029 = 把场景的载体运动和事件写成 CSV 轨迹和 NMEA { "0183" }，供实验室 GNSS 模拟器使用：地固、大地和局部速度列、姿态和 UTC。仅含运动和事件：不写出任何信号，也不声称模拟器或接收机的性能。
+
+dat-83d4ec0ad790 = 为一次脚本化的航行写出合成的桥楼 NMEA { "0183" }，其中含教员编排的压制干扰、位置拖离、时间欺骗和重放事件，并附教员日志，使船员能在自己的仪表上看到降级定位的样子。仅为文本，绝不用于船舶的实时导航系统；不发射任何信号，也不产生无线电信号。语句及其解码值经过检查；接收机、天空和事件模型均为已建模。
+
+dat-aeb0bd942720 = Xona Pulsar
+
+dat-79b6914906bf = Xona Pulsar 端到端：公开的 X5 信号 -> 一次 Pulsar 过境 -> 一条 LEO 导航电文
+
+dat-416271e91acb = Xona Pulsar 信号：一颗商业低轨卫星的 X1（L1 频段）和 X5（L5 频段）信号
+
+dat-87de160b68f9 = 一次过境中的 Xona Pulsar X1 和 X5，以及 Pulsar 星座的最高过境。
+
+dat-a08318993154 = 杨元喜准则（授时/检测品质因数所涉及的子集）
+
+dat-1868c76f244c = 自己的主机
+
+dat-4c20ebade87f = χ²₁ NP 检测器 · 闭式和蒙特卡罗的 P_fa/P_md 一致
