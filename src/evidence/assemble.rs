@@ -148,8 +148,14 @@ pub fn build_receiver_trust_pack_full(
     extra_config: &[(&str, Value)],
 ) -> Result<PackSummary, String> {
     let scn = req.scenario;
-    let result =
-        scenario::run_receiver_trust_bytes_imu(scn, req.log_bytes, req.nav_bytes, req.imu_bytes)?;
+    // The epochs, notes and advisory the run produces go into the signed files: they are English in
+    // every language. An error is shown in the user's language, by running again to make it.
+    let run =
+        || scenario::run_receiver_trust_bytes_imu(scn, req.log_bytes, req.nav_bytes, req.imu_bytes);
+    let result = match crate::i18n::with_lang(crate::i18n::Lang::english(), run) {
+        Ok(r) => r,
+        Err(english) => return Err(run().err().unwrap_or(english)),
+    };
     let t0 = parse_time(req.from, result.log.start_label.as_deref())?;
     let t1 = parse_time(req.to, result.log.start_label.as_deref())?;
     let epochs: Vec<Value> = result

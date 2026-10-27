@@ -54,7 +54,7 @@ pub fn l1ca(prn: u16) -> Result<SignalCode, SignalError> {
             prn,
         })?;
     Ok(SignalCode::new(
-        crate::t!("iq-scene-code-gps-l1-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-scene-code-gps-l1-prn", prn = prn)),
         crate::sdr::CA_CHIP_RATE_HZ,
         L1_HZ,
         bipolar(&code.chips),
@@ -160,7 +160,7 @@ pub fn l1c_o_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
 /// and final 24 chips of Table 3.2-2 (`tests/iq_signals_gps_l1c.rs`).
 pub fn l1c_d(prn: u16) -> Result<SignalCode, SignalError> {
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l1cd-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l1cd-prn", prn = prn)),
         L1C_CHIP_RATE_HZ,
         L1_HZ,
         bipolar(&l1c_d_bits(prn)?),
@@ -177,7 +177,7 @@ pub fn l1c_d(prn: u16) -> Result<SignalCode, SignalError> {
 /// 3.2-3 (`tests/iq_signals_gps_l1c.rs`); the TMBOC pattern is MODELLED from the §3.3 text.
 pub fn l1c_p(prn: u16) -> Result<SignalCode, SignalError> {
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l1cp-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l1cp-prn", prn = prn)),
         L1C_CHIP_RATE_HZ,
         L1_HZ,
         bipolar(&l1c_p_bits(prn)?),
@@ -261,7 +261,7 @@ fn l5_row(signal: &'static str, prn: u16) -> Result<&'static super::tables::L5Ph
 pub fn l5_i5(prn: u16) -> Result<SignalCode, SignalError> {
     let row = l5_row("GPS L5 I5", prn)?;
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l5-i5-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l5-i5-prn", prn = prn)),
         L5_CHIP_RATE_HZ,
         L5_HZ,
         bipolar(&l5_primary_bits(row.xb_i5)),
@@ -276,7 +276,7 @@ pub fn l5_i5(prn: u16) -> Result<SignalCode, SignalError> {
 pub fn l5_q5(prn: u16) -> Result<SignalCode, SignalError> {
     let row = l5_row("GPS L5 Q5", prn)?;
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l5-q5-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l5-q5-prn", prn = prn)),
         L5_CHIP_RATE_HZ,
         L5_HZ,
         bipolar(&l5_primary_bits(row.xb_q5)),
@@ -325,7 +325,7 @@ pub fn l2c_cm(prn: u16) -> Result<SignalCode, SignalError> {
     let row = l2c_row("GPS L2 CM", prn)?;
     let (bits, _) = l2c_run(row.cm_initial, L2_CM_LEN);
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l2-cm-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l2-cm-prn", prn = prn)),
         L2C_CHIP_RATE_HZ,
         L2_HZ,
         bipolar(&bits),
@@ -341,7 +341,7 @@ pub fn l2c_cl(prn: u16) -> Result<SignalCode, SignalError> {
     let row = l2c_row("GPS L2 CL", prn)?;
     let (bits, _) = l2c_run(row.cl_initial, L2_CL_LEN);
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l2-cl-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l2-cl-prn", prn = prn)),
         L2C_CHIP_RATE_HZ,
         L2_HZ,
         bipolar(&bits),
@@ -365,7 +365,7 @@ pub fn l2c(prn: u16) -> Result<SignalCode, SignalError> {
         bits.push(cl_bit);
     }
     Ok(SignalCode::new(
-        crate::t!("iq-signals-gps-gps-l2c-prn", prn = prn),
+        crate::i18n::in_english(|| crate::t!("iq-signals-gps-gps-l2c-prn", prn = prn)),
         2.0 * L2C_CHIP_RATE_HZ,
         L2_HZ,
         bipolar(&bits),

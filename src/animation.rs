@@ -1752,7 +1752,9 @@ pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFil
         let tc = tl.t0 + (tl.t1 - tl.t0) * i as f64 / (n - 1) as f64;
         times.push(tc);
         files.push(AnimationFile {
-            name: crate::t!("animation-frame-svg", i = format!("{:04}", i)),
+            name: crate::i18n::in_english(|| {
+                crate::t!("animation-frame-svg", i = format!("{:04}", i))
+            }),
             content: render_frame(tl, &lay, tc, &css),
         });
     }

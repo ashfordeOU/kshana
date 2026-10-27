@@ -392,26 +392,28 @@ fn run_test(t: &Test, scenarios: Scenarios) -> Value {
 
 /// Run a pack from its manifest text and scenarios. The report is JSON.
 pub fn run_with(manifest: &str, scenarios: Scenarios) -> Result<Value, String> {
-    let pack = parse(manifest, scenarios)?;
-    let tests: Vec<Value> = pack.tests.iter().map(|t| run_test(t, scenarios)).collect();
-    let count = |s: &str| tests.iter().filter(|t| t["status"] == json!(s)).count();
-    Ok(json!({
-        "schema": REPORT_SCHEMA,
-        "engine_version": env!("CARGO_PKG_VERSION"),
-        "pack": pack.id,
-        "title": pack.title,
-        "framework": pack.framework,
-        "sources": pack.sources,
-        "evidence_tier": "MODELLED",
-        "notice": NOTICE,
-        "advisory": ADVISORY,
-        "statement": STATEMENT,
-        "summary": {
-            "met": count("MET"), "not_met": count("NOT MET"),
-            "needs_input": count("NEEDS INPUT"), "error": count("ERROR"),
-        },
-        "tests": tests,
-    }))
+    crate::i18n::in_english_or_localised_error(|| {
+        let pack = parse(manifest, scenarios)?;
+        let tests: Vec<Value> = pack.tests.iter().map(|t| run_test(t, scenarios)).collect();
+        let count = |s: &str| tests.iter().filter(|t| t["status"] == json!(s)).count();
+        Ok(json!({
+            "schema": REPORT_SCHEMA,
+            "engine_version": env!("CARGO_PKG_VERSION"),
+            "pack": pack.id,
+            "title": pack.title,
+            "framework": pack.framework,
+            "sources": pack.sources,
+            "evidence_tier": "MODELLED",
+            "notice": NOTICE,
+            "advisory": ADVISORY,
+            "statement": STATEMENT,
+            "summary": {
+                "met": count("MET"), "not_met": count("NOT MET"),
+                "needs_input": count("NEEDS INPUT"), "error": count("ERROR"),
+            },
+            "tests": tests,
+        }))
+    })
 }
 
 /// Run the embedded pack `id`.
@@ -422,19 +424,21 @@ pub fn run(id: &str) -> Result<Value, String> {
 
 /// The packs as JSON: id, title, framework and test counts.
 pub fn list() -> Value {
-    let packs: Vec<Value> = EMBEDDED
-        .iter()
-        .filter_map(|e| parse(e.manifest, e.scenarios).ok())
-        .map(|p| {
-            json!({
-                "id": p.id, "title": p.title, "framework": p.framework,
-                "tests": p.tests.len(),
-                "scored": p.tests.iter().filter(|t| t.scenario.is_some()).count(),
-                "needs_input": p.tests.iter().filter(|t| t.needs_input.is_some()).count(),
+    crate::i18n::in_english(|| {
+        let packs: Vec<Value> = EMBEDDED
+            .iter()
+            .filter_map(|e| parse(e.manifest, e.scenarios).ok())
+            .map(|p| {
+                json!({
+                    "id": p.id, "title": p.title, "framework": p.framework,
+                    "tests": p.tests.len(),
+                    "scored": p.tests.iter().filter(|t| t.scenario.is_some()).count(),
+                    "needs_input": p.tests.iter().filter(|t| t.needs_input.is_some()).count(),
+                })
             })
-        })
-        .collect();
-    json!({ "packs": packs, "notice": NOTICE })
+            .collect();
+        json!({ "packs": packs, "notice": NOTICE })
+    })
 }
 
 /// The pack's rows as a Markdown table (what `docs/compliance/<pack>.md` embeds): each row

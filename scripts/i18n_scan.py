@@ -8,7 +8,7 @@
 
 A literal counts when, outside `#[cfg(test)]` and `#[test]` code, it holds at least two words of three
 or more letters once markup tags and `{placeholders}` are removed, and it is not: an argument of
-`t!`/`terr!`, `include_str!`, `concat!`, `env!`, `assert*`, `debug_assert*`, `panic!`, `unreachable!`,
+`t!`/`tx!`/`terr!`, `include_str!`, `concat!`, `env!`, `assert*`, `debug_assert*`, `panic!`, `unreachable!`,
 `unimplemented!`, `todo!`, `stringify!`, `matches!`, `cfg*`; an `.expect(..)` message; inside an
 attribute; or a match-arm pattern. tests/i18n_ratchet.rs applies the same rule in Rust.
 """
@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from i18n_codemod import ROOT, in_regions, match_close, significant, test_regions, tokenize, unescape  # noqa: E402
 
 EXCLUDED_MACROS = {
-    "t", "terr", "include_str", "include_bytes", "concat", "env", "option_env", "assert", "assert_eq",
+    "t", "tx", "terr", "include_str", "include_bytes", "concat", "env", "option_env", "assert", "assert_eq",
     "assert_ne", "debug_assert", "debug_assert_eq", "debug_assert_ne", "panic", "unreachable",
     "unimplemented", "todo", "stringify", "matches", "cfg", "compile_error", "thread_local",
 }
@@ -89,7 +89,9 @@ def main():
     counts = {}
     for d, _, files in os.walk(os.path.join(ROOT, "src")):
         for f in files:
-            if f.endswith(".rs") and "/src/i18n" not in d.replace(os.sep, "/"):
+            # The optional workshop preset is withholdable and is named only in the files that
+            # tests/workshop_preset_isolation.rs lists, so it is neither scanned nor named in allow.json.
+            if f.endswith(".rs") and "/src/i18n" not in d.replace(os.sep, "/") and not f.startswith("celeste_"):
                 p = os.path.join(d, f)
                 c = len(scan(p))
                 if c:

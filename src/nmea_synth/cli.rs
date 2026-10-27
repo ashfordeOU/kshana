@@ -161,14 +161,12 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         None => PathBuf::from(&scn.scenario.name),
     });
     let (jp, tp) = (
-        PathBuf::from(crate::t!(
-            "nmea-synth-cli-instructor-json",
-            prefix = prefix.display()
-        )),
-        PathBuf::from(crate::t!(
-            "nmea-synth-cli-instructor-txt",
-            prefix = prefix.display()
-        )),
+        PathBuf::from(crate::i18n::in_english(|| {
+            crate::t!("nmea-synth-cli-instructor-json", prefix = prefix.display())
+        })),
+        PathBuf::from(crate::i18n::in_english(|| {
+            crate::t!("nmea-synth-cli-instructor-txt", prefix = prefix.display())
+        })),
     );
     if let Err(e) = fs::write(&jp, g.log.to_json()).and_then(|_| fs::write(&tp, g.log.to_text())) {
         return fail(crate::t!("nmea-synth-cli-instructor-log", e = e));

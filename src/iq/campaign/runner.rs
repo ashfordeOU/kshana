@@ -536,9 +536,11 @@ pub fn run(c: &LoadedCampaign, out_dir: &Path, opts: &RunOptions) -> Result<RunS
             .open(out_dir.join("runs.jsonl"))
             .map_err(|e| crate::terr!("e-iq-campaign-runner-runs-jsonl", e = e))?,
     );
+    // Cell results, runs.jsonl and the failures in the summary are machine files: English in
+    // every language (a worker thread has no language of its own, so it is set here).
     let results = run_batch_items(&items, workers, |item| {
         let t0 = std::time::Instant::now();
-        let r = run_item(c, &plan, item, out_dir);
+        let r = crate::i18n::in_english(|| run_item(c, &plan, item, out_dir));
         let wall = t0.elapsed().as_secs_f64();
         if let Ok(mut f) = log.lock() {
             for &ci in &item.cells {
@@ -796,15 +798,15 @@ fn open_writers(
     let pid = std::process::id();
     let dest = (
         dir.join(format!("{key}.{ext}")),
-        dir.join(crate::t!("iq-campaign-runner-events-jsonl", key = key)),
+        dir.join(crate::i18n::in_english(|| {
+            crate::t!("iq-campaign-runner-events-jsonl", key = key)
+        })),
     );
     let tmp = (
         dir.join(format!(".{key}.{ext}.tmp{pid}")),
-        dir.join(crate::t!(
-            "iq-campaign-runner-events-jsonl-tmp",
-            key = key,
-            pid = pid
-        )),
+        dir.join(crate::i18n::in_english(|| {
+            crate::t!("iq-campaign-runner-events-jsonl-tmp", key = key, pid = pid)
+        })),
     );
     let create = |p: &Path| {
         std::fs::File::create(p)
