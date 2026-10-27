@@ -10580,3 +10580,415 @@ engine-main-usage-sky =
     elementsæt (højst 4 MiB) og propagerer dem med SGP4 til --epoch (UTC) plus --time: den himmel, disse
     elementsæt giver på den epoke, ikke en måling. Uden --epoch går de til det nyeste
     elementsæts epoke, en repræsentativ himmel. MODELLED; docs/SKYLINE.md.
+
+engine-main-usage-skyline =
+    brug: kshana skyline --preset <name> [--json]
+    { "   " }eller: kshana skyline --presets
+    { "   " }eller: kshana skyline --profile <skyline.json|skyline.toml>
+
+    Udskriver et skyline-preset (city-street, harbour-approach, fjord, container-terminal) med dets
+    proveniens og snittet for hver grad af azimut, listen over presets eller en skyline-sektion
+    reduceret til den tabel med 360 poster, som engine'en bruger. REPRESENTATIVE presets; docs/SKYLINE.md.
+
+engine-main-usage-lunanet-afs-check =
+    brug: kshana lunanet-afs-check spec [--json] [--strict]
+    { "   " }eller: kshana lunanet-afs-check symbols <file> [--max-sp-errors <n>] [--json]
+    { "   " }eller: kshana lunanet-afs-check generate --frames <n> [--toi0 <t>] --out <file>
+
+    Fastlåst til LunaNet Interoperability Specification V5, Applicable Document 1 Volume A (LSIS-AFS
+    V1.0, 29 January 2025). `spec` kontrollerer denne implementering mod dokumentets trykte kodetabeller
+    og gennemregnede eksempler (tærsklerne B1 til B10 i xval/lunanet-afs/PREREGISTRATION.md; med --strict
+    er exitstatus 1, medmindre hver tærskel er nået). `symbols` kontrollerer en hård-beslutnings-symbolstrøm
+    (tekst med 0 og 1) for synkroniseringsmønsteret, SB1-afkodning, FID, TOI-kontinuitet og
+    rammeafstand; underrammerne 2 til 4 (LDPC, CRC-24Q) verificeres IKKE. `generate` skriver en teststrøm af
+    symboler med pladsholder-underrammer; den er ikke en bølgeform, og Kshana skriver intet signal. For at
+    opfange eller spore AFS-bølgeformen i en optagelse brug `kshana iq acquire --signal lunanet-afs-i`
+    (eller lunanet-afs-q). Kun vejledende. docs/LUNANET-AFS.md.
+
+engine-main-usage-standards-pack =
+    brug: kshana standards-pack list
+    { "   " }eller: kshana standards-pack run <id> [--json] [--out <base>]
+    { "   " }eller: kshana standards-pack rows <id>
+    { "   " }eller: kshana standards-pack tests <id>
+
+    En standardpakke er et sæt scenarier, der scores mod tærskler fastsat før kørslen, knyttet til de
+    compliance-report-rækker, den leverer belæg for. `run` udskriver en tabel (eller --json) og skriver, med
+    --out, <base>.pack.json og <base>.pack.md; giv JSON'en til `kshana compliance-report`
+    for at se rækkerne. En test, der kræver en modtagerlog, vises som NEEDS INPUT og scores ikke.
+    MODELLED: en MET-tærskel siger, at et modelleret scenarie nåede en angivet tærskel, ikke at noget produkt opfylder et
+    krav. docs/compliance/README.md.
+
+engine-main-applies = { $fmt }: gælder
+
+engine-main-wrote = skrev { $path }
+
+engine-main-note = bemærk: { $n }
+
+engine-main-error-example-extra-argument = fejl: uventet argument '{ $extra }' efter `example <name>`; den tager ét navn
+
+engine-main-lunanet-afs-generate-needs = generate kræver --frames <n> og --out <file> (og et helt tal som --toi0)
+
+engine-evidence-cli-usage =
+    brug:
+    { "  " }kshana evidence keygen --out <keyfile>
+    { "  " }kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp] [--tsa-ca <anchors.pem>]
+    { "      " }[--allow-unpinned] [--json]      exit 0 verificeret, 1 mislykket, 3 intakt men underskriver ikke fastlåst
+    { "  " }kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+    { "      " }(læser RFC 3161-tokenet og binder det til manifestet; den verificerer IKKE tidsstempelmyndighedens
+    { "      " }signatur: brug `openssl ts -verify`)
+    { "  " }kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
+    { "      " }[--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>] [--lab-attestation <file.toml>]
+    { "  " }kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1>
+    { "      " }--key <keyfile> --out <dir> [--title <text>] [--created-utc <...|none>]
+    { "      " }(forbinder scenariet, laboratoriets testbetingelser, modtagerloggen og dens score; den
+    { "      " }<scenario.toml> er receiver-trust-scoringsscenariet; skriver intet signal)
+    { "  " }<t0>/<t1>: sekunder siden loggens første epoke eller et ISO-8601 UTC-tidspunkt, når loggen
+    { "  " }angiver sit starttidspunkt. En pakke er en teknisk optegnelse, ikke en juridisk udtalelse.
+
+engine-evidence-cli-fingerprint = fingeraftryk: { $fp }
+
+engine-evidence-cli-verify-failure = { "  " }fejl: { $f }
+
+engine-evidence-cli-verify-note = { "  " }bemærkning: { $n }
+
+engine-evidence-cli-verified-pinned = VERIFIED: hver hash, kæden og signaturen er i orden for den nøgle, du angav.
+
+engine-evidence-cli-verified-unpinned = VERIFIED mod den nøgle, pakken selv angiver, fingeraftryk { $fp } (underskriver IKKE fastlåst; angiv --pubkey).
+
+engine-evidence-cli-intact-signer-not-pinned = INTACT, BUT THE SIGNER IS NOT PINNED: hashene og signaturen er konsistente med nøglen { $fp }, som pakken selv angiver. Angiv --pubkey <signer public key> for at fastslå, hvem der har underskrevet den (eller --allow-unpinned for at acceptere dette bevidst).
+
+engine-evidence-cli-not-verified = NOT VERIFIED: se fejlene ovenfor.
+
+engine-evidence-cli-attached = tilknyttede { $path }
+
+engine-evidence-cli-verify-with = verificér med: kshana evidence verify { $out } --pubkey <signer public key>
+
+engine-interference-map-cli-usage-map =
+    brug: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+    { "   " }eller: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
+    { "   " }eller: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
+    { "   " }eller: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
+    { "   " }eller: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }(--dataset custom kræver også --licence <text> --licence-url <url> --attribution <text>)
+
+engine-interference-map-cli-usage-route = brug: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
+
+engine-interference-map-cli-col-date = dato
+
+engine-interference-map-cli-col-src = kilde
+
+engine-interference-map-cli-col-degraded = forringet
+
+engine-interference-map-cli-col-not-degraded = ikke forringet
+
+engine-interference-map-cli-col-unassessed = ikke vurderet
+
+engine-interference-map-cli-col-not-observed = ikke observeret
+
+engine-bench-cli-usage =
+    brug: kshana bench spec
+    { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
+    { "   " }eller: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
+    { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
+    { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
+    { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }eller: kshana bench validate <result.json>...
+    { "   " }eller: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (ingen inputs: tomtilstanden; --fragment: en indlejrbar sektion)
+    { "   " }(en seed-fil rummer hemmeligheden bag et forseglet tilbageholdt datasæt; hold den uden for versionsstyring)
+
+engine-bench-cli-match = match
+
+engine-bench-cli-valid = { $f }: gyldig
+
+engine-bench-cli-folders = { $n ->
+        [one] { $n } mappe
+       *[other] { $n } mapper
+    }
+
+engine-bench-cli-unpinned = ikke fastlåst: { $rel }
+
+engine-bench-cli-missing = mangler: { $rel }
+
+engine-bench-cli-mismatch-line = MISMATCH: { $rel }
+
+engine-osnma-cli-usage =
+    brug: kshana osnma verify <input> [options]
+
+    { "  " }<input>                    I/NAV-sider: det almindelige format (se docs/OSNMA.md) eller
+    { "                             " }CSV-layoutet for de offentliggjorte testvektorer
+    { "  " }--format pages|vector-csv|ubx
+    { "                             " }inputlayout (standard: efter filindhold). ubx er en u-blox-
+    { "                             " }bytestrøm med UBX-RXM-SFRBX-beskeder (Galileo E1-B)
+    { "  " }--start-gst SECONDS        starttidspunkt for en vektor-CSV i GST-sekunder
+    { "                             " }(standard: læses fra et filnavn som 16_AUG_2023_GST_05_00_01.csv)
+    { "  " }--merkle-root HEX          betroet Merkle-rod (64 hex-cifre) til DSM-PKR-kontroller
+    { "  " }--public-key ID:TYPE:HEX   betroet offentlig nøgle, TYPE p256 eller p521, komprimeret punkt
+    { "  " }--reference-time SECONDS   nuværende tid i GST-sekunder fra en uafhængig kilde. Ét enkelt
+    { "                             " }tidspunkt: underrammer længere fra det end tolerancen lægges
+    { "                             " }til side, så brug den til live- eller netop optagede data
+    { "  " }--max-time-error SECONDS   største afstand mellem en underramme og referencetiden, under
+    { "                             " }30 (standard 29); kræver --reference-time
+    { "  " }--epochs                   udskriv også hvert tagresultat
+    { "  " }--json                     udskriv JSON i stedet for tekst
+
+    Exitstatus: 0 udført, 2 brugs- eller inputfejl, 3 en kontrol af en satellits data mislykkedes.
+
+engine-iq-cli-usage =
+    brug: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf|sdrx[:ci16_le]] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+    { "   " }eller: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf|sdrx[:ci16_le]]
+    { "   " }eller: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+    { "   " }eller: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+    { "   " }eller: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
+    { "   " }eller: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+    { "   " }eller: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+    { "   " }eller: kshana iq campaign report <out-dir>
+    { "   " }eller: kshana iq conditions <test-conditions.toml|json>
+    { "   " }eller: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+    { "   " }eller: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { " " }labfit-scenarier: [[runs]] af modtagerlogs eller [input] campaign = "<out-dir>", der angiver en outputmappe fra kshana iq campaign (relativ til scenariefilen)
+    { " " }løkkeudformninger: en kshana.loop-design/1 TOML-fil (docs/design/LOOP-DESIGN-TOML.md); eksplicitte løkke-/akvisitionsflag tilsidesætter den valgte udformning
+    { " " }acquire/track/sweep tager også front-end-flagene [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], anvendt før behandlingen (på akvisitionen og sporingspasset ens)
+    { " " }scene-kanalknapper: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+    { " " }scene-C/N0-profil: [--cn0-profile <toml>] tidsvarierende C/N0-forskydninger pr. satellit (trin, rampe, punkter, fading), anvendt over kanalen; sandhedens cn0_dbhz følger den
+    { " " }optagelser/rå inputs uden sidecar tager også: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multistrøm-inputs tager --channel <k>
+    { " " }signaler: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of lunanet-afs-i lunanet-afs-q
+    { " " }<list> er en kommasepareret liste (én pr. --prn, eller en enkelt værdi anvendt på alle)
+
+engine-iq-cli-usage-error = brugsfejl: { $m }
+
+engine-iq-io-cli-usage =
+    brug: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]
+    { "   " }eller: kshana iq info <recording>
+    { "   " }eller: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
+    { "   " }eller: kshana iq convert <in> <out> --to <format> [--gain <g>]
+    { "   " }eller: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { " " }rå inputs uden sidecar tager også: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+    { " " }multistrøm-inputs (flerkanals SigMF, interleaved rå) tager --channel <k> (fra 0; standard 0)
+    { " " }formater: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit i 16 ci12r_le ci12l_be cu12r_le ..., pakket 4-bit ci4_msb cu4_lsb ..., pakket 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit pr. byte c2sm_byte ..., reel r..., Q først ..._qi
+
+engine-telemetry-cli-usage =
+    brug: kshana trust-telemetry [options]
+    { "  " }input (standard: JSON-linjer på stdin):
+    { "    " }--input <file|->         læs JSON-linjer fra en fil, eller `-` for stdin
+    { "    " }--result <result.json>   afspil epokerne fra en `kshana receiver-trust`-resultatfil
+    { "  " }Prometheus:
+    { "    " }--listen <addr:port>     servér /metrics (standard 127.0.0.1:9464, når intet andet output er valgt)
+    { "    " }--print-metrics          udskriv den endelige eksposition til stdout ved inputtets slutning
+    { "    " }--hold                   bliv ved med at servere, efter inputtet er slut
+    { "    " }--expose-position        udgiv også den position, modtageren rapporterer, som gauges (slået fra som standard)
+    { "  " }syslog (CEF eller LEEF i en RFC 5424-kuvert):
+    { "    " }--syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    { "    " }--syslog-octet-counting  ramm TCP-beskeder ind med octet counting (RFC 6587), ikke én pr. linje
+    { "    " }--format cef|leef        nyttelastdialekt (standard cef)
+    { "    " }--syslog-all             én hændelse pr. epoke (standard: én pr. båndskift)
+    { "    " }--host <name>            enhedens værtsnavn i hændelser (standard `kshana`)
+    { "  " }Home Assistant / NTP-appliance (JSON-tilstand + MQTT-discovery; kun udgivelse, ingen legitimationsoplysninger eller TLS):
+    { "    " }--mqtt-tcp <host:port>   udgiv til en lokal MQTT 3.1.1-broker (retained-beskeder, QoS 0)
+    { "    " }--print-mqtt             udskriv beskederne som `topic<TAB>payload`-linjer
+    { "    " }--mqtt-prefix <p>        præfiks for tilstandstopic (standard kshana/trust); --mqtt-node <id> (standard kshana)
+    { "    " }--mqtt-discovery <p>     Home Assistant-discovery-præfiks (standard homeassistant)
+    { "  " }OpenTelemetry (byg med --features otlp):
+    { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (standard 10)
+
+engine-jammertest-cli-usage =
+    brug:
+    { "  " }kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)
+    { "  " }kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]
+    { "        " }[--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)
+    { "        " }[--local-offset-h <h>] [--year <y>] [--out <events.toml>]
+    { "  " }kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]
+    { "  " }kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]
+    { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
+    { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
+    { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    Planen og kataloget er de offentliggjorte NPRA/jammertest-plan JSON-filer (MIT; hent dem med
+    xval/jammertest-plan/fetch.sh). Plantider er lokal vægtid; --local-offset-h (standard 2, CEST)
+    angiver, hvor langt de ligger fra UTC. Attack_log-stemplerne i JammerTest 2024-datasættet siger Z, men er lokal
+    tid: --time-shift-h er som standard -2. Hændelser er planlagt sandhed, ikke optagne tidspunkter i luften.
+    Vejledende software, ikke typegodkendt navigationsudstyr.
+
+engine-nmea-synth-cli-usage =
+    brug: kshana nmea-scenario <scenario.toml> [options]
+
+    Skriver eller streamer et syntetisk NMEA 0183-sæt for en bro (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
+    for et fartøjsspor med scriptede jamming-/spoofing-hændelser og en instruktørlog.
+    Kun til træning og test: føj det aldrig til et fartøjs levende navigationssystemer.
+
+    options:
+    { "  " }--out <file.nmea>          skriv strømmen til en fil (standard <name>.nmea, når intet
+    { "                             " }netværksoutput er angivet)
+    { "  " }--instructor-log <prefix>  skriv <prefix>.json og <prefix>.txt (standard: ved siden af
+    { "                             " }filen, ellers <name> i den aktuelle mappe)
+    { "  " }--tcp <addr:port|port>     servér strømmen over TCP (venter først på en klient); en bar
+    { "                             " }port lytter kun på 127.0.0.1. Der er ingen autentificering:
+    { "                             " }enhver, der kan nå adressen, kan læse strømmen
+    { "  " }--udp <addr:port|port>     send én sætning pr. UDP-datagram til denne adresse; en bar
+    { "                             " }port sender til 127.0.0.1
+    { "  " }--broadcast                tillad --udp at bruge en broadcast-adresse
+    { "  " }--wait-clients <n>         klienter at vente på, før TCP-strømmen starter (standard 1)
+    { "  " }--realtime                 tempo i realtid (standard for netværksoutput)
+    { "  " }--speed <x>                tempo på x gange realtid; 0 er så hurtigt som muligt
+    { "                             " }(standard for filer)
+    { "  " }--seed <n>                 erstat scenariets seed
+    { "  " }--no-marker                udelad markørsætningen for syntetiske data
+
+engine-live-io-usage =
+    brug: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port> | --serial <device> [--baud <n>]] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
+
+    Læser NMEA 0183 (stdin som standard), scorer hver epoke af et fartøjs positionsbestemmelse 0-100 og skriver én
+    JSON-linje pr. epoke (stdout som standard). Med --gate sendes NMEA-strømmen i stedet videre på stdout,
+    uændret, mens positionsbestemmelsen er betroet, og med positionsbestemmelsen markeret ugyldig, mens den ikke er det, hver
+    cyklus efterfulgt af en $PKSHT-sætning; JSON'en går da kun derhen, hvor --json siger. Sessionen er et
+    scenarie .toml med en [platform] kind = "vessel"; dens [log]-tabel er ikke nødvendig.
+
+    --listen (med --gate) serverer den gatede strøm til et vilkårligt antal TCP-klienter (for eksempel en kortplotter)
+    i stedet for at skrive den til stdout; standardadressen er loopback. En klient, der
+    ikke kan følge med, droppes, så den aldrig holder de andre eller inputtet op.
+
+    Modtagerens tid kontrolleres også mod denne computers ur, hvilket kun giver mening for
+    en strøm, der ankommer i realtid; for en gemt log, der fødes ind hurtigere end det (stdin, tcp, udp), angiv
+    --replay, og en almindelig --file (uden --follow) gør det allerede.
+
+    --serial læser en seriel eller USB-enhed (kun Unix), skrivebeskyttet: den åbner enheden til læsning, sætter
+    den lokale linje i råtilstand ved --baud (standard 4800, NMEA 0183-raten) og skriver aldrig en byte til
+    modtageren. Kshana konfigurerer ikke modtagere; sæt modtageren til at udsende NMEA med dens eget værktøj.
+
+    Dette er vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren
+    er fortsat ansvarlig for fartøjets navigation.
+
+engine-tle-warning = advarsel: { $w }
+
+engine-e-animation-no-time-series-to-animate = ingen tidsserie at animere: { $k }-resultatet bærer ingen samplet tidsakse (se docs/ANIMATION.md for de former, eksportøren genkender)
+
+engine-animation-svg-sub = kind { $kind } · { $t0 } til { $t1 } · samples fra result.json, tegnet uden resampling · Kshana { $version }
+
+engine-animation-svg-strip-events = hændelser
+
+engine-animation-svg-strip-phases = faser
+
+engine-animation-svg-waterfall = vandfald: { $title } [{ $unit }], tiden løber nedad, farve { $lo } til { $hi }
+
+engine-animation-svg-mhz = { $f } MHz
+
+engine-animation-epoch-index = epokeindeks
+
+engine-animation-svg-desc = Animeret tidsserie af en { $kind }-kørsel: { $n_panels } panel(er), { $n_events } hændelse(r), { $n_phases } fase(r). Hvert punkt er en sample fra kørslens result.json.
+
+engine-animation-html-title = { $title } — Kshana-animation
+
+engine-animation-html-sub = kind { $kind } · { $n } serier fra result.json, tegnet uden resampling · Kshana { $version }
+
+engine-animation-html-playback = Afspilning
+
+engine-animation-html-play = Afspil
+
+engine-animation-html-pause = Pause
+
+engine-animation-html-mission-time = Missionstid
+
+engine-animation-html-speed = hastighed
+
+engine-animation-html-playback-speed = Afspilningshastighed
+
+engine-animation-html-events = Hændelser
+
+engine-animation-html-footer-keys = Mellemrum afspiller eller pauser, piletasterne træder, Home og End springer. Dette er en gengivelse af kørslens egne samples: den er præcis lige så god som kørslen og tilføjer intet belæg (MODELLED, intern konsistens).
+
+engine-animation-html-footer-determinism = Samme scenarie, seed og indstillinger giver en byte-identisk fil.
+
+engine-animation-html-exports-heading = Eksporter skrevet ved siden af denne afspiller
+
+engine-animation-js-phases-and-events = faser og hændelser
+
+engine-animation-js-waterfall = vandfald: { $title } [{ $unit }], tiden løber nedad
+
+engine-animation-js-now = t = { $time }
+
+engine-animation-js-phase = fase: { $name }
+
+engine-e-evidence-bundle-bad-log-slice = ugyldigt logudsnit: { $s }
+
+engine-e-evidence-bundle-bad-window = ugyldigt vindue: { $s }
+
+engine-e-evidence-bundle-bad-creation-time = ugyldigt oprettelsestidspunkt: { $s }
+
+engine-e-evidence-bundle-bad-timestamp-token = ugyldigt tidsstempeltoken: { $s }
+
+engine-e-evidence-bundle-cannot-serialise = kan ikke serialisere: { $s }
+
+engine-e-osnma-page-not-valid-hex = siden er ikke gyldig hex
+
+engine-e-osnma-page-time-outside-week-number = sidens tid ligger uden for de 4096 uger i et Galileo-ugenummer
+
+engine-e-osnma-page-bad-length = siden har { $n } hex-cifre, forventet 60
+
+engine-e-osnma-page-malformed-line = fejlformet sidelinje: { $s }
+
+engine-e-interchange-encode-payload = kunne ikke kode nyttelasten: { $e }
+
+engine-e-interchange-invalid-envelope = ikke en gyldig udvekslingskuvert: { $e }
+
+engine-e-interchange-not-kshana-artifact = ikke et Kshana-artefakt: formatet er { $found }, forventet { $expected }
+
+engine-e-interchange-incompatible-schema-version = uforenelig skemaversion { $v } ({ $verdict }); denne engine taler { $current }
+
+engine-e-interchange-payload-mismatch = nyttelasten svarede ikke til den ønskede type: { $e }
+
+engine-e-interop-not-applicable = ikke relevant: { $why }
+
+engine-e-iq-io-error = I/O-fejl: { $m }
+
+engine-e-iq-format-error = formatfejl: { $m }
+
+engine-e-iq-signals-prn-not-defined = { $signal }: PRN { $prn } er ikke defineret af ICD'en
+
+engine-e-iq-signals-glonass-channel-outside = GLONASS-frekvenskanal { $k } ligger uden for -7..=6
+
+engine-e-iq-signals-code-table = kodetabel: { $m }
+
+engine-e-kepler-out-of-domain = Kepler-ligningen: M eller e uden for definitionsområdet
+
+engine-e-kepler-no-convergence = Kepler-ligningen konvergerede ikke på { $iters } trin (residual { $residual })
+
+engine-e-lunar-orientation-epoch-outside-series = epoke { $t } julianske århundreder fra J2000 ligger uden for DE440-rækken for lunar orientering ({ $first } .. { $last }, 2014-01-01 .. 2030-12-31 TDB)
+
+engine-e-propagator-sgp4-error = SGP4-propageringsfejl (kode { $code })
+
+engine-e-integrator-dop853-stopped = DOP853 stoppede ved t = { $t } ({ $failure }) efter { $accepted } trin
+
+engine-e-portable-distr-variance-non-finite = variansen er ikke endelig i normalfordelingen
+
+engine-e-portable-distr-shape-not-positive = shape er ikke positiv i gammafordelingen
+
+engine-e-portable-distr-scale-not-positive = scale er ikke positiv i gammafordelingen
+
+engine-bench-tasks-clock-line-before-header = en urlinje står før en `@<PRN>`-header
+
+engine-api-html-clock = Ur
+
+engine-api-html-fom-heading = Kvalitetsmål
+
+engine-api-html-metric = Mål
+
+engine-api-html-value = Værdi
+
+engine-api-html-validation = Validering
+
+engine-api-html-tier-note = Hvert kvalitetsmål er mærket VALIDATED (kontrolleret mod en ekstern reference) eller MODELLED (fra første principper, internt testet), udledt af verifikationsmatricen.
+
+engine-api-html-default-title = Kshana — scenarieresultat
+
+engine-api-html-study-title = { $title } — Kshana
+
+engine-api-html-eyebrow = क्षण · det præcise øjeblik
+
+engine-api-html-tagline = Scorecard for hybrid kvante-/klassisk PNT-ydeevne
+
+engine-api-html-chart-alt = Resultatdiagram
+
+engine-api-html-full-result = Fuldt resultat (JSON)
+
+engine-api-html-footer-generated = Genereret af Kshana { $version }.
