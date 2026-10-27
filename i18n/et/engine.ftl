@@ -9220,3 +9220,403 @@ engine-e-telemetry-cli-listen = --listen { $l }: { $e }
 engine-e-telemetry-cli-host = --host: { $e }
 
 engine-telemetry-prometheus-kshana-build-info-version = kshana_build_info{ "{" }version="{ $escape_label }"{ "}" } 1{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-score = kshana_trust_score { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-band-band = kshana_trust_band{ "{" }band="{ $b }"{ "}" } { $on }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-gate-gate = kshana_trust_gate{ "{" }gate="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-active-reason = kshana_trust_reason_active{ "{" }reason="{ $escape_label }"{ $class }{ "}" } { $v2 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epochs-total-band = kshana_trust_epochs_total{ "{" }band="{ $b }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-epochs-total = kshana_trust_reason_epochs_total{ "{" }reason="{ $escape_label }"{ "}" } { $n }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-input-errors-total = kshana_trust_input_errors_total { $input_errors }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-overflow-total = kshana_trust_reason_overflow_total { $reason_overflow }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-syslog-send-failures = kshana_trust_syslog_send_failures_total { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epoch-offset-seconds = kshana_trust_epoch_offset_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-last-sample-timestamp = kshana_trust_last_sample_timestamp_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-status = kshana_trust_geometry{ "{" }status="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-degraded = kshana_trust_geometry_degraded { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-signal-loss = kshana_trust_geometry_signal_loss { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-epochs-total = kshana_trust_geometry_epochs_total{ "{" }status="{ $st }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-label-label = kshana_trust_geometry_label{ "{" }label="{ $l }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-vdop = kshana_trust_geometry_vdop { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-help-type =
+    # HELP { $name } { $help }
+    # TYPE { $name } { $kind }{ "\u000A" }
+
+engine-telemetry-syslog-cat-gnss-trust-dvchost-cs1label = cat=gnss-trust dvchost={ $cef_ext_escape } cs1Label=band cs1={ $band }
+
+engine-telemetry-syslog-cs2label-reasons-cs2 = { " " }cs2Label=reasons cs2={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs3label-previousband-cs3 = { " " }cs3Label=previousBand cs3={ $p }
+
+engine-telemetry-syslog-cfp1label-trustscore-cfp1 = { " " }cfp1Label=trustScore cfp1={ $num }
+
+engine-telemetry-syslog-cfp2label-epochoffsetseconds-cfp2 = { " " }cfp2Label=epochOffsetSeconds cfp2={ $num }
+
+engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
+
+engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
+
+engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryPdop cfp4={ $num }
+
+engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-verification-src-mod-rs = src/{ $rel }/mod.rs
+
+engine-verification-tests-fixtures = tests/fixtures/{ $base }
+
+engine-compliance-fw-dhs-rpcf-title = USA DHS vastupidava PNT vastavusraamistik
+
+engine-compliance-fw-imo-ships-title = IMO juhis GNSS-häirete kohta laevadele
+
+engine-compliance-fw-easa-aviation-title = EASA juhis GNSS-häirete kohta lennunduses
+
+engine-compliance-fw-nis2-art21-title = EL NIS2 direktiiv, artikkel 21 riskijuhtimismeetmed
+
+engine-compliance-fw-en-16803-title = EN 16803, GNSS-põhine positsioneerimine maanteede ITS jaoks
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, PNT alusprofiil
+
+engine-compliance-source-dhs-rpcf-1-title = Vastupidav positsioneerimise, navigatsiooni ja aja (PNT) vastavusraamistik
+
+engine-compliance-source-dhs-rpcf-1-version = Versioon 2.0, 26. aprill 2022 (DHS Science and Technology Directorate koostöös CISA-ga)
+
+engine-compliance-source-dhs-rpcf-1-checked = dokument loetud täielikult; väljaande sihtlehte ei laaditud
+
+engine-compliance-source-imo-ships-1-title = Tahtlik häirimine Ameerika Ühendriikide globaalse positsioneerimissüsteemi ja teiste globaalsete satelliitnavigatsioonisüsteemide suhtes
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644, 18. oktoober 2021
+
+engine-compliance-source-imo-ships-1-checked = tekst loetud täielikult tsirkulaari kolmanda osapoole peegelkoopiast, mitte IMO saidilt; autoriteetse koopia leiate IMO dokumendiraamatukogust
+
+engine-compliance-source-imo-ships-2-title = Ülemaailmne raadionavigatsioonisüsteem
+
+engine-compliance-source-imo-ships-2-version = IMO assamblee resolutsioon A.1046(27), vastu võetud 30. novembril 2011
+
+engine-compliance-source-imo-ships-2-checked = dokument loetud täielikult
+
+engine-compliance-source-imo-ships-3-title = Mitme süsteemi laevaraadionavigatsiooni vastuvõtjate toimivusstandardid
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95), vastu võetud 8. juunil 2015 (muudetud MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = algne resolutsioon loetud täielikult; 2017. aasta muudatuse teksti ei loetud. Ühtegi IMO tsirkulaari GNSS-häirete kohta, mis oleks hilisem kui MSC.1/Circ.1644, ei leitud; uuemaid otsige IMO dokumendiraamatukogust
+
+engine-compliance-source-easa-aviation-1-title = Globaalse satelliitnavigatsioonisüsteemi katkestus ja muutused, mis põhjustavad side-, navigatsiooni- ja seirevõime halvenemist
+
+engine-compliance-source-easa-aviation-1-version = EASA ohutusteabe bülletään SIB 2022-02R4, välja antud 3. juulil 2026, parandatud 22. juulil 2026 (teavitav, mitte kohustuslik)
+
+engine-compliance-source-easa-aviation-1-checked = redaktsioon 4 loetud täielikult; jaotistele viidatakse pealkirja järgi, sest bülletään ei nummerda oma soovitusi. Kontrollitud uuesti 2026-10-10: bülletääni PDF, EASA AD-tööriista leht (mis märgib selle asendamise puudumist) ja EASA GNSS-leht ei nimeta hilisemat redaktsiooni ega bülletääni numbriga 2026-07; bännerit, mis nimetaks SIB 2026-07 redaktsiooni 2, ei leitud, seega küsimus on lahtine ja tuleb kontrollida EASA aktiivselt lehelt. Konfliktipiirkonna teabebülletääne ei avatud
+
+engine-compliance-source-nis2-art21-1-title = Direktiiv (EL) 2022/2555 meetmete kohta kõrgetasemelise ühise küberturvalisuse tagamiseks kogu liidus (NIS 2 direktiiv)
+
+engine-compliance-source-nis2-art21-1-version = ELT L 333, 27.12.2022, lk 80–152
+
+engine-compliance-source-nis2-art21-1-checked = artikli 21 lõigete tähed loeti EUR-Lexi lehe kokkuvõttest ja need vastavad avaldatud tekstile; enne tähe viitamist avaldusel kontrollige seda lehe vastu
+
+engine-compliance-source-en-16803-1-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 1: Definitsioonid ja süsteemitehnika protseduurid toimivuse kehtestamiseks ja hindamiseks
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (kataloog: kehtib alates 2. oktoobrist 2020, asendab 2016. aasta väljaande)
+
+engine-compliance-source-en-16803-1-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud
+
+engine-compliance-source-en-16803-2-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 2: GNSS-põhiste positsioneerimisterminalide põhitoimivuse hindamine
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (kataloog: kehtib alates 2. oktoobrist 2020)
+
+engine-compliance-source-en-16803-2-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud
+
+engine-compliance-source-en-16803-3-title = Kosmos. GNSS-põhise positsioneerimise kasutamine maanteede intelligentsetes transpordisüsteemides (ITS). Osa 3: GNSS-põhiste positsioneerimisterminalide turvatoimivuse hindamine
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (kataloog: kehtib alates 2. oktoobrist 2020)
+
+engine-compliance-source-en-16803-3-checked = ainult kataloogi ulatuse tekst; standard on tasuline ja seda ei loetud. Kataloogi tekst nimetab numbriga punkti 6 (salvestatud versus simuleeritud signaalid) ja lisa A (rünnakute kõrgetasemeline liigitus) ning mitte midagi muud; kataloog ei nimeta komiteed, seega siin seda ei esitata
+
+engine-compliance-source-nist-ir-8323r1-1-title = PNT alusprofiil: küberturvalisuse raamistiku rakendamine positsioneerimise, navigatsiooni ja aja (PNT) teenuste vastutustundlikuks kasutamiseks
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, jaanuar 2023 (NIST sisearuanne)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = PDF laaditi 2026-10-18 (SHA-256 on salvestatud failis tests/fixtures/compliance/headings.json) ja selle profiili tabelid 3 kuni 25 loeti viidatud alamkategooriate jaoks; teisi jaotisi, lisasid ja väljaande sihtlehte ei loetud. Alamkategooriate identifikaatorid järgivad profiili enda tabeleid, mis kasutavad küberturvalisuse raamistiku 1.1 identifikaatoreid
+
+engine-compliance-cap-receiver-log-trust-name = Vastuvõtja logi usaldusväärsuse hindamine
+
+engine-compliance-cap-receiver-log-trust-output = päris vastuvõtja enda logi usaldusolek epohhi kohta, alarmide ajad ja kooskõla enne käivitust esitatud sündmustega
+
+engine-compliance-cap-jamming-effects-name = Segamise mõjud lingieelarvele
+
+engine-compliance-cap-jamming-effects-output = kandja ja müra tihedus ning lukustuse olek satelliidi kohta esitatud segaja geomeetria korral
+
+engine-compliance-cap-spoofing-detection-name = Spuufimise ja meaconing-u tuvastamine
+
+engine-compliance-cap-spoofing-detection-output = detektori otsused ja detektori eristusvõime esitatud spuufimisrünnaku korral
+
+engine-compliance-cap-integrity-monitoring-name = Terviklikkuse seire ja kaitsetasemed
+
+engine-compliance-cap-integrity-monitoring-output = kaitsetasemed, kättesaadavus häirepiiride suhtes ja veatuvastuse tulemused
+
+engine-compliance-cap-holdover-name = Holdover ja inertsliikumine
+
+engine-compliance-cap-holdover-output = asukoha- või ajavea kasv GNSS-i keelamise ajal esitatud läve suhtes
+
+engine-compliance-cap-source-diversity-name = Alternatiivsed ja mitmekesised PNT allikad
+
+engine-compliance-cap-source-diversity-output = navigatsiooni- või ajastustoimivus allikatest, mis on esmasest GNSS-sagedusalast sõltumatud
+
+engine-compliance-cap-resilience-scoring-name = Vastupidavuse hindamine ohuansamblite kohal
+
+engine-compliance-cap-resilience-scoring-output = ellujäämis- ja vastupidavussuhted ohuvektori kohta esitatud ansambli kohal, eeldused esitatud
+
+engine-compliance-cap-run-provenance-name = Reprodutseeritav käivituse päritolu
+
+engine-compliance-cap-run-provenance-output = stsenaariumi räsi, mootori versioon ja algväärtus (seed) on igas tulemuses kaasas, et käivitust saaks korrata
+
+engine-compliance-req-dhs-s5-2-reference = Jaotis 5.2 (ennetamine, reageerimine, taastumine)
+
+engine-compliance-req-dhs-s5-2-asks = Vastupidavust kirjeldatakse kolme funktsioonina: kahju ennetamine, reageerimine (tuvastamine, teatamine, leevendamine, piiramine) ja taastumine. Tuvastamine on tõenäosuslik, seega on olulised nii valehäired kui ka tuvastamata jäänud sündmused.
+
+engine-compliance-req-dhs-s5-2-gap = Ennetamine on toote kujunduse omadus, mida ükski simulatsiooni väljund ei näita. Sünteetilise või ühe seansi käivituse tuvastusstatistika ei ole kasutusel oleva toote mõõdetud valehäire- ega möödalaskmismäär.
+
+engine-compliance-req-dhs-l1-r1-reference = Tase 1, nõue 1
+
+engine-compliance-req-dhs-l1-r1-asks = Kontrollida, et väliskeskkonnast saabuvad salvestatud andmed vastavad asjakohaste standardite vormingutele ja väärtusvahemikele.
+
+engine-compliance-req-dhs-l1-r1-gap = Katsetatava toote tarkvaratagatise ja sisendi valideerimise omadus. Kshana ei kontrolli toote sisendikäsitlust.
+
+engine-compliance-req-dhs-l1-r2-reference = Tase 1, nõue 2
+
+engine-compliance-req-dhs-l1-r2-asks = Võimaldada täielikku käsitsi taastamist mälu tühjendamise või lähtestamise teel, viies süsteemi pärast ohu möödumist tagasi määratud toimivusele.
+
+engine-compliance-req-dhs-l1-r2-gap = Vastuvõtja logi näitab, millal fiks muutus usaldamatuks ja millal see taastus; see ei näita, et käsitsi lähtestamine tühjendab iga salvestatud oleku.
+
+engine-compliance-req-dhs-l1-r3-reference = Tase 1, nõue 3
+
+engine-compliance-req-dhs-l1-r3-asks = Laadida püsivara turvaliselt uuesti või uuendada.
+
+engine-compliance-req-dhs-l1-r3-gap = Püsivara uuendamise turvalisus jääb väljapoole seda, mida ükski Kshana väljund jälgib.
+
+engine-compliance-req-dhs-l2-r4-reference = Tase 2, nõue 4
+
+engine-compliance-req-dhs-l2-r4-asks = Tuvastada kompromiteeritud PNT allikad ja takistada neil lahendi rikkumist.
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana hindab detektoreid ja monitore, mida ta modelleerib või käivitab logi kohal; kas toote enda allikate välistamine toimib, vajab toote sisemist olekut, mitte ainult selle logi.
+
+engine-compliance-req-dhs-l2-r5-reference = Tase 2, nõue 5
+
+engine-compliance-req-dhs-l2-r5-asks = Taastada allikad ja süsteem automaatselt väljundit katkestamata; lahend antakse ka ohu ajal, võimalik piiramatu halvenemisega.
+
+engine-compliance-req-dhs-l2-r5-gap = Holdover-käivitused piiravad modelleeritud triivi esitatud kella- või inertsmudeli korral, mitte toote enda taastumiskäitumist.
+
+engine-compliance-req-dhs-l3-r6-reference = Tase 3, nõue 6
+
+engine-compliance-req-dhs-l3-r6-asks = Ühe allika rikutud andmed ei tohi saastata teist allikat.
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana käivitab allikaid kõrvuti; allikate isolatsioon toote sees vajab kujunduse ülevaatust või vigade süstimist tootesse.
+
+engine-compliance-req-dhs-l3-r7-reference = Tase 3, nõue 7
+
+engine-compliance-req-dhs-l3-r7-asks = Ristkontrollida kõigi allikate lahendeid ja hoida halvenemine ohu ajal piiratuna.
+
+engine-compliance-req-dhs-l3-r7-gap = Piiratud halvenemine on näidatud modelleeritud andurite kohta; toote enda ristkontrolli ei jälgita.
+
+engine-compliance-req-dhs-l4-r8-reference = Tase 4, nõue 8
+
+engine-compliance-req-dhs-l4-r8-asks = Kasutada erinevate tehnoloogiatega allikaid ühisrežiimi ohtude vastu, ilma halvenemiseta ohu ajal.
+
+engine-compliance-req-dhs-l4-r8-gap = Ühisrežiimi argument vajab päris toote allikate komplekti ja neid hõlmavat ohtu; stsenaarium esitab ühe, see ei tõesta, et tootel poleks ühist nõrkust.
+
+engine-compliance-req-dhs-s5-5-reference = Jaotis 5.5 (ühisrežiim)
+
+engine-compliance-req-dhs-s5-5-asks = Mitmekesistel mehhanismidel ei tohi olla ühist nõrkust: näiteks segaja, mis katab kaht sagedusala, kummutab sagedusalade mitmekesisuse.
+
+engine-compliance-req-dhs-s5-5-gap = Hindamisel kasutatakse sünteetilist ohuansamblit, mis on nii öeldud; see ei ole välitööandmed.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Jaotised 8.1 kuni 8.3 (hindamine)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = Hindamine ühendab staatilise analüüsi dünaamilise analüüsiga, kus testvektorid esindavad ohte; testiklassid on allika rike, häire ja sisemised rikked. Simulaatorid on nimetatud testimismeetodina.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = Eksporditud liikumine ja sündmused võivad juhtida laborisimulaatorit (docs/TEST-BENCH.md). Kshana ei kirjuta ühtegi signaali, seega ohu annavad simulaator ja selle volitatud operaator.
+
+engine-compliance-req-dhs-s8-6-reference = Jaotis 8.6 (testiplaani elemendid)
+
+engine-compliance-req-dhs-s8-6-asks = Testiplaan esitab taseme, nõude, sisendid, viited, vajaliku andmetele juurdepääsu, protseduuri läbimise või kukkumise kriteeriumidega, tulemused ja märkused.
+
+engine-compliance-req-dhs-s8-6-gap = Läbimise või kukkumise kriteeriumid valib hindaja; Kshana salvestab sisendid, läved ja räsid, millega ta käivitati.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, punkt 3
+
+engine-compliance-req-imo-1644-3-asks = Tahtlik GNSS-häire on oluline oht navigatsiooni, inimeste, vara ja keskkonna ohutusele.
+
+engine-compliance-req-imo-1644-3-gap = Riski väide; Kshana kvantifitseerib mõjusid esitatud geomeetria korral, mitte riski mere piirkonnas.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, punkt 5
+
+engine-compliance-req-imo-1644-5-asks = Liikmesriikidel palutakse piirata häireid oma territooriumilt, kaaluda hoiatusi meremeestele ja kaaluda meetmeid lubamatu edastamise vastu.
+
+engine-compliance-req-imo-1644-5-gap = Adresseeritud riikidele ja haldusasutustele; ükski simulatsiooni väljund seda ei puuduta.
+
+engine-compliance-req-imo-a1046-3-reference = Resolutsioon A.1046(27), lisa punkt 3 (sadamasissepääsud, sadamalähenemised ja rannikuveed)
+
+engine-compliance-req-imo-a1046-3-asks = Süsteemi loetakse kättesaadavaks ainult nii kaua, kuni see tagab esitatud terviklikkuse esitatud täpsusega, uuendatuna esitatud sagedusel, terviklikkushoiatusega esitatud aja jooksul.
+
+engine-compliance-req-imo-a1046-3-gap = Kshana arvutab kaitsetasemeid ja kättesaadavust häirepiiri suhtes modelleeritud geomeetria korral; resolutsiooni täpsuse, kättesaadavuse ja hoiatusaja väärtusi siin ei väideta.
+
+engine-compliance-req-imo-a1046-2-reference = Resolutsioon A.1046(27), lisa punkt 2 (ookeaniveed)
+
+engine-compliance-req-imo-a1046-2-asks = Ookeanifaasi täpsuse, uuendussageduse, kättesaadavuse ja terviklikkushoiatuse nõuded raadionavigatsioonisüsteemile.
+
+engine-compliance-req-imo-a1046-2-gap = Nagu eespool ookeanifaasi kohta.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1 kuni 3.2
+
+engine-compliance-req-imo-401-3-1-asks = Vastuvõtja kasutab vähemalt kahe sõltumatu süsteemi tsiviilsignaale ja annab asukoha-, kiiruse- ja ajalahendi vajaliku vastupidavuse ja terviklikkusega.
+
+engine-compliance-req-imo-401-3-1-gap = Mitme konstellatsiooni terviklikkus on modelleeritud; vastuvõtja tegelik kahe süsteemi kasutamine on toote test.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11 kuni 3.14
+
+engine-compliance-req-imo-401-3-11-asks = Vastuvõtja hindab täpsust ja terviklikkust navigatsioonifaasi kohta, annab ettevaatusteate, kui ta ei saa, hoiatab, kui uut lahendit õigel ajal ei saabu, ning näitab viimast usutavat väärtust selge olekuga.
+
+engine-compliance-req-imo-401-3-11-gap = Kshana loeb ajastuse ja usaldusväärsuse logist; kas kuvatud ettevaatusteate ja hoiatuse intervallid vastavad standardi nõuetele, vajab vastuvõtja kasutajaliidest, mida logi ei näita.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15 kuni 3.16
+
+engine-compliance-req-imo-401-3-16-asks = Näidata täiendussüsteemi olekut ning asukohta, kurssi, kiirust, aega ja kasutatud allikaid.
+
+engine-compliance-req-imo-401-3-16-gap = Kuvanõuded; ükski Kshana väljund neid ei puuduta.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Töötada rahuldavalt tavapäraste häiretingimuste korral kooskõlas resolutsiooniga A.694(17) (laevaraadioseadmete üldnõuded) ning tüüpilise pardal oleva ja välise raadiokeskkonnaga. See ei ole segamisvastane ega spuufimisvastane nõue.
+
+engine-compliance-req-imo-401-4-2-gap = Tavahäirete testimine on vastuvõtja laboratoorne mõõtmine; resolutsiooni A.694(17) ennast ei loetud.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, kirjeldus
+
+engine-compliance-req-easa-desc-asks = Spuufimist on raskem tuvastada ja see on ohtlikum kui segamine; kokpitis puudub hoiatus, mis neid kaht eristaks; mõjud ulatuvad valedest maastikuhoiatustest rikutud seireandmeteni ja võivad püsida pärast piirkonnast lahkumist.
+
+engine-compliance-req-easa-desc-gap = Kshana modelleerib detektori ja lingi mõjusid; kokpiti hoiatamine on seadme omadus.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, soovitused: õhusõidukite ja seadmete tootjad peaksid
+
+engine-compliance-req-easa-mfr-asks = Hinnata segamise ja spuufimise mõjusid tootele, sealhulgas kumulatiivseid mõjusid, ning anda operaatoritele juhiseid kahtlustatava spuufimise märkamiseks ja tööpiirangute kohta GNSS-i kaotuse korral.
+
+engine-compliance-req-easa-mfr-gap = Toote enda hindamine on tootja ülesanne; Kshana annab selles tõendina korratava stsenaariumi ja hinnatud vastuvõtja logi.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, soovitused: õhusõiduki käitajad peaksid (spuufimine)
+
+engine-compliance-req-easa-ops-spoof-asks = Võrrelda GNSS-i asukohta ja aega mitte-GNSS allikatega ning jälgida asukohamääramatuse näitajat ja navigatsioonivahendeid, et spuufimist märgata.
+
+engine-compliance-req-easa-ops-spoof-gap = Operatiivne protseduur ja koolitus jäävad väljapoole simulatsiooni väljundeid.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, soovitused: ATM/ANS pakkujad peaksid; ATM/ANS seadmete kavandamise või tootmisega seotud organisatsioonid peaksid
+
+engine-compliance-req-easa-ansp-asks = Hinnata GNSS-i ajastuse kaotuse mõju side-, navigatsiooni- ja seiresüsteemidele, säilitada maapealsed navigatsioonivahendid ning aidata häireid tuvastada.
+
+engine-compliance-req-easa-ansp-gap = Ajastuse holdover-käivitused käsitlevad ajastuse kaotuse hindamist; maapealsete süsteemide kujundus ja protseduurid ei ole kaetud.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, soovitused: aruandlust puudutavad lõpumeeldetuletused
+
+engine-compliance-req-easa-report-asks = Teatada ohutust mõjutavatest sündmustest sündmustest teatamise määruse alusel ning teatada kahtlustatavast spuufimisest ja kõrgema riskiga segamisest tootjale.
+
+engine-compliance-req-easa-report-gap = Aruandluskohustus; ükski väljund seda ei puuduta.
+
+engine-compliance-req-nis2-21-1-reference = Artikkel 21(1)
+
+engine-compliance-req-nis2-21-1-asks = Võtta proportsionaalsed tehnilised, operatiivsed ja organisatsioonilised meetmed võrgu- ja infosüsteemide riskide juhtimiseks, arvestades tehnika taset, kokkupuudet, suurust ning intsidentide tõenäosust ja tõsidust.
+
+engine-compliance-req-nis2-21-1-gap = Kshana käsitleb ainult süsteemi sõltuvust positsioneerimisest ja ajastusest, mitte infoturbe riski üldiselt.
+
+engine-compliance-req-nis2-21-2-a-reference = Artikkel 21(2)(a)
+
+engine-compliance-req-nis2-21-2-a-asks = Riskianalüüsi ja infosüsteemide turvalisuse poliitikad.
+
+engine-compliance-req-nis2-21-2-a-gap = Toetab riskianalüüsi PNT osa; poliitika ise on organisatsiooniline.
+
+engine-compliance-req-nis2-21-2-b-reference = Artikkel 21(2)(b)
+
+engine-compliance-req-nis2-21-2-b-asks = Intsidentide käsitlemine.
+
+engine-compliance-req-nis2-21-2-b-gap = Hinnatud vastuvõtja logi aitab dateerida PNT häirejuhtumi algust ja lõppu; käsitlemise protsess on organisatsiooniline.
+
+engine-compliance-req-nis2-21-2-c-reference = Artikkel 21(2)(c)
+
+engine-compliance-req-nis2-21-2-c-asks = Tegevuspidevus, näiteks varukoopiate haldus, avariitaaste ja kriisijuhtimine.
+
+engine-compliance-req-nis2-21-2-c-gap = Näitab, kui kaua modelleeritud varulahendus hoiab ajastuse või asukoha piiri; pidevuskavad on organisatsioonilised.
+
+engine-compliance-req-nis2-21-2-d-reference = Artikkel 21(2)(d)
+
+engine-compliance-req-nis2-21-2-d-asks = Tarneahela turvalisus, sealhulgas suhted otseste tarnijatega.
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana ei hinda tarnijaid. Neutraalse, reprodutseeritava bench-i kasutamine vastuvõtja vastuvõtukatsetel on üks sisend, mida ostja saab kasutada, mitte tarneahela hindamine.
+
+engine-compliance-req-nis2-21-2-e-reference = Artikkel 21(2)(e)
+
+engine-compliance-req-nis2-21-2-e-asks = Turvalisus süsteemide hankimisel, arendamisel ja hooldamisel, sealhulgas haavatavuste käsitlemine ja avalikustamine.
+
+engine-compliance-req-nis2-21-2-e-gap = Vastuvõtja häirekäitumise korratavad vastuvõtukatsed toetavad tõendeid (supports evidence for) hankeosa jaoks; haavatavuste käsitlemine jääb väljapoole.
+
+engine-compliance-req-nis2-21-2-f-reference = Artikkel 21(2)(f)
+
+engine-compliance-req-nis2-21-2-f-asks = Poliitikad ja protseduurid küberturvalisuse riskijuhtimismeetmete tõhususe hindamiseks.
+
+engine-compliance-req-nis2-21-2-f-gap = Räsitud, korratavad käivitused ja enne hindamist esitatud sündmused toetavad tõendeid (supports evidence for) tõhususe testi jaoks; poliitika ja selle ajakava on organisatsioonilised.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Artikkel 21(2)(g) kuni (j)
+
+engine-compliance-req-nis2-21-2-ghij-asks = Küberhügieen ja koolitus; krüptograafia ja krüpteerimine; personalijulgeolek, juurdepääsukontroll ja varahaldus; mitmefaktoriline autentimine ja turvatud side.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Positsioneerimise ja ajastuse käivituste väljunditega mittekäsitletav.
+
+engine-compliance-req-nis2-21-3-reference = Artikkel 21(3)
+
+engine-compliance-req-nis2-21-3-asks = Tarneahela meetmeid valides arvestada iga tarnija haavatavusi ning selle toodete kvaliteeti ja turvalist arendust.
+
+engine-compliance-req-nis2-21-3-gap = Vt artikkel 21(2)(d).
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (definitsioonid ja süsteemitehnika protseduurid)
+
+engine-compliance-req-en16803-1-asks = Määratleb maanteede ITS arhitektuuri, toimivusnäitajad ja mõõdikud ning meetodi testikeskkondade võrdlemiseks. Ei sea nõudeid.
+
+engine-compliance-req-en16803-1-gap = Punktide numbrid ei ole avalikult nähtavad. Litsentsiomanik peaks vastendama Kshana väljundiväljad mõõdikute definitsioonidega.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (GNSS-põhiste terminalide põhitoimivus)
+
+engine-compliance-req-en16803-2-asks = Taasesitusel põhinevad laborikatsete protseduurid asukohaväljundi kättesaadavuse, pidevuse, täpsuse, terviklikkuse ja esimese fiksi aja kohta. Ei sea miinimumväärtusi.
+
+engine-compliance-req-en16803-2-gap = Kshana eksporditud liikumine võib juhtida taasesitust; standardi protseduuri, selle salvestatud signaalide käsitlust ja mõõdikute arvutust siin ei reprodutseerita ning need vajavad litsentsitud teksti.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, punkt 6
+
+engine-compliance-req-en16803-3-6-asks = Eristab turvatestides salvestatud signaale simuleeritud signaalidest.
+
+engine-compliance-req-en16803-3-6-gap = Kshana ei salvesta ega simuleeri signaali. See ekspordib liikumise ja sündmused ning hindab vastuvõtja logi.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, lisa A
+
+engine-compliance-req-en16803-3-a-asks = GNSS-i vastaste rünnakute kõrgetasemeline liigitus: häire, segamine, meaconing ja spuufimine.
+
+engine-compliance-req-en16803-3-a-gap = Kshana stsenaariumid nimetavad rünnakuklasse samades üldterminites; punktitasemel vastavustabel vajab litsentsitud lisa.
