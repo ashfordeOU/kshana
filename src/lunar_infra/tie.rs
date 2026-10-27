@@ -156,7 +156,7 @@ pub fn covariance(rows: &[Vec<f64>], tie_sigma_m: f64) -> Result<Mat, String> {
     let w = vec![1.0; jac.len()];
     let c = crate::fim::crlb_srif(&jac, &w, 1e-30);
     c.covariance
-        .ok_or_else(|| "the space-tie information matrix is singular".to_string())
+        .ok_or_else(|| crate::terr!("e-lunar-infra-tie-the-space-tie-information-matrix"))
 }
 
 /// Sigmas of the offset `b - a` between two techniques (0-based, `a < b`): 7 values
@@ -192,7 +192,9 @@ pub fn run(orbit: &OrbitSpec, tech: &TechniqueSpec) -> Result<Value, String> {
         tech.slr_sigma_m.unwrap_or(0.1) * scale,
     ];
     if sig.iter().any(|s| !(*s > 0.0)) {
-        return Err("technique sigmas must be positive".into());
+        return Err(crate::terr!(
+            "e-lunar-infra-tie-technique-sigmas-must-be-positive"
+        ));
     }
     let tie = tech.local_tie_sigma_m.unwrap_or(0.001);
     let mut sweep = tech
@@ -204,7 +206,7 @@ pub fn run(orbit: &OrbitSpec, tech: &TechniqueSpec) -> Result<Value, String> {
         sweep.sort_by(|a, b| a.total_cmp(b));
     }
     if sweep.iter().any(|s| !(*s > 0.0)) {
-        return Err("local-tie sigmas must be positive".into());
+        return Err(crate::terr!("e-lunar-infra-tie-local-tie-sigmas-must-be"));
     }
     let arcs = orbit
         .arcs_days

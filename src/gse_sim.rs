@@ -575,12 +575,15 @@ impl Default for GseScenario {
 /// on a degenerate scenario (non-positive cadence/duration, too few epochs).
 pub fn gse_performance_sim(scn: &GseScenario) -> Result<GsePerformanceResult, String> {
     if scn.step_s <= 0.0 {
-        return Err(format!("step_s must be positive, got {}", scn.step_s));
+        return Err(crate::terr!(
+            "e-gse-sim-step-must-be-positive-got",
+            step_s = scn.step_s
+        ));
     }
     if scn.duration_s <= 0.0 {
-        return Err(format!(
-            "duration_s must be positive, got {}",
-            scn.duration_s
+        return Err(crate::terr!(
+            "e-gse-sim-duration-must-be-positive-got",
+            duration_s = scn.duration_s
         ));
     }
     let nmax = 4usize;
@@ -590,8 +593,9 @@ pub fn gse_performance_sim(scn: &GseScenario) -> Result<GsePerformanceResult, St
 
     let n = (scn.duration_s / scn.step_s).floor() as usize;
     if n < 2 {
-        return Err(format!(
-            "scenario produces {n} epochs (need ≥ 2); increase duration_s or decrease step_s"
+        return Err(crate::terr!(
+            "e-gse-sim-scenario-produces-epochs-need-increase",
+            n = n
         ));
     }
     let times: Vec<f64> = (1..=n).map(|k| k as f64 * scn.step_s).collect();
@@ -764,7 +768,7 @@ pub fn gse_performance_sim(scn: &GseScenario) -> Result<GsePerformanceResult, St
     let fm_filter = MarsForceModel::gmm3(nmax, epoch_jd);
     let report = FusionOd::new(fm_filter, cfg)
         .run(r0_guess, v0_guess, &obs)
-        .ok_or_else(|| "fusion OD produced no steps (too few observations)".to_string())?;
+        .ok_or_else(|| crate::terr!("e-gse-sim-fusion-od-produced-no-steps"))?;
 
     // 5. Per-epoch covariance-vs-time: the SRIF carries a single (converged) covariance, so report
     // the per-epoch *clock-freq* sigma path (which the report exposes) and the converged position

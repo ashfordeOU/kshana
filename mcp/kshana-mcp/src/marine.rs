@@ -410,7 +410,12 @@ impl KshanaServer {
         Parameters(VesselNmeaRequest { session_toml, nmea }): Parameters<VesselNmeaRequest>,
     ) -> Result<CallToolResult, McpError> {
         let r = surface::assess_vessel_excerpt(&session_toml, nmea.as_bytes(), MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("vessel stream assessment failed: {e}")))?;
+            .map_err(|e| {
+                bad(kshana::terr!(
+                    "e-mcp-marine-vessel-stream-assessment-failed",
+                    e = e
+                ))
+            })?;
         let notable: String = r
             .epochs
             .iter()
@@ -452,9 +457,14 @@ impl KshanaServer {
             r.year,
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("jammertest import failed: {e}")))?;
-        let mut v: serde_json::Value =
-            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        .map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-marine-jammertest-import-failed",
+                e = e
+            ))
+        })?;
+        let mut v: serde_json::Value = serde_json::from_str(&j)
+            .map_err(|e| bad(kshana::terr!("e-animation-result-is-not-json", e = e)))?;
         v["notice"] =
             "Scheduled truth: planned slots, not recorded on-air times. Evidence tier: MODELLED."
                 .into();
@@ -471,8 +481,8 @@ impl KshanaServer {
         let log: Vec<u8> = match (&r.log, &r.log_base64) {
             (Some(t), None) => t.as_bytes().to_vec(),
             (None, Some(b)) => kshana::permalink::base64_decode(b.trim())
-                .ok_or_else(|| bad("log_base64 is not base64".into()))?,
-            _ => return Err(bad("give exactly one of `log` and `log_base64`".into())),
+                .ok_or_else(|| bad(kshana::terr!("e-wasm-log-base64-is-not-base64")))?,
+            _ => return Err(bad(kshana::terr!("e-mcp-marine-give-exactly-one-of-log"))),
         };
         let refs: Vec<&str> = r.plans.iter().map(String::as_str).collect();
         let dflt = kshana::jammertest::score::ScoreOptions::default();
@@ -491,9 +501,9 @@ impl KshanaServer {
             },
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("jammertest score failed: {e}")))?;
-        let mut v: serde_json::Value =
-            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        .map_err(|e| bad(kshana::terr!("e-mcp-marine-jammertest-score-failed", e = e)))?;
+        let mut v: serde_json::Value = serde_json::from_str(&j)
+            .map_err(|e| bad(kshana::terr!("e-animation-result-is-not-json", e = e)))?;
         v["notice"] = ADVISORY.into();
         reply(v)
     }
@@ -506,9 +516,14 @@ impl KshanaServer {
         Parameters(VesselNmeaRequest { session_toml, nmea }): Parameters<VesselNmeaRequest>,
     ) -> Result<CallToolResult, McpError> {
         let j = surface::assess_vessel_log_json(&session_toml, nmea.as_bytes(), MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("vessel log assessment failed: {e}")))?;
-        let mut v: serde_json::Value =
-            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+            .map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-marine-vessel-log-assessment-failed",
+                e = e
+            ))
+        })?;
+        let mut v: serde_json::Value = serde_json::from_str(&j)
+            .map_err(|e| bad(kshana::terr!("e-animation-result-is-not-json", e = e)))?;
         let epochs = v["epochs"].as_array().cloned().unwrap_or_default();
         let state = |e: &serde_json::Value| e["state"].as_str().unwrap_or("").to_string();
         let mut counts = std::collections::BTreeMap::<String, usize>::new();
@@ -537,8 +552,12 @@ impl KshanaServer {
             include_nmea,
         }): Parameters<TrainingNmeaRequest>,
     ) -> Result<CallToolResult, McpError> {
-        let t = surface::nmea_training(&toml, seed, MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("training scenario failed: {e}")))?;
+        let t = surface::nmea_training(&toml, seed, MAX_UPLOAD_BYTES).map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-marine-training-scenario-failed",
+                e = e
+            ))
+        })?;
         let total = t.nmea.lines().count();
         let mut v = serde_json::json!({
             "nmea_lines_total": total,
@@ -580,12 +599,14 @@ impl KshanaServer {
             r.lab_attestation_toml.as_deref(),
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("evidence pack failed: {e}")))?;
+        .map_err(|e| bad(kshana::terr!("e-mcp-marine-evidence-pack-failed", e = e)))?;
         let files = surface::files_to_json(&p.files);
         let size = files.to_string().len();
         if size > MAX_MAP_REPLY_BYTES {
-            return Err(bad(format!(
-                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana receiver-trust evidence` on the command line"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-the-pack-is-bytes-over",
+                size = size,
+                max_bytes = MAX_MAP_REPLY_BYTES
             )));
         }
         // The fingerprint the manifest itself states.
@@ -631,12 +652,14 @@ impl KshanaServer {
             seed,
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("round-trip pack failed: {e}")))?;
+        .map_err(|e| bad(kshana::terr!("e-mcp-marine-round-trip-pack-failed", e = e)))?;
         let files = surface::files_to_json(&p.files);
         let size = files.to_string().len();
         if size > MAX_MAP_REPLY_BYTES {
-            return Err(bad(format!(
-                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana evidence round-trip` on the command line"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-the-pack-is-bytes-over-2",
+                size = size,
+                max_bytes = MAX_MAP_REPLY_BYTES
             )));
         }
         reply(serde_json::json!({
@@ -656,16 +679,18 @@ impl KshanaServer {
         Parameters(r): Parameters<VerifyEvidenceRequest>,
     ) -> Result<CallToolResult, McpError> {
         if r.files.to_string().len() > MAX_UPLOAD_BYTES {
-            return Err(bad(format!(
-                "files are over the {MAX_UPLOAD_BYTES}-byte limit"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-files-are-over-the-byte",
+                max_bytes = MAX_UPLOAD_BYTES
             )));
         }
         if r.full_log
             .as_ref()
             .is_some_and(|l| l.len() > MAX_UPLOAD_BYTES)
         {
-            return Err(bad(format!(
-                "full_log is over the {MAX_UPLOAD_BYTES}-byte limit"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-full-log-is-over-the",
+                max_bytes = MAX_UPLOAD_BYTES
             )));
         }
         let files = surface::files_from_json(&r.files).map_err(bad)?;
@@ -702,11 +727,13 @@ impl KshanaServer {
             r.land_geojson.as_deref(),
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("interference map failed: {e}")))?;
+        .map_err(|e| bad(kshana::terr!("e-mcp-marine-interference-map-failed", e = e)))?;
         let total: usize = days.iter().map(|d| d.geojson.len()).sum();
         if total > MAX_MAP_REPLY_BYTES {
-            return Err(bad(format!(
-                "the map is {total} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; use a coarser cell_deg, fewer days, or `kshana interference-map` on the command line"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-the-map-is-bytes-over",
+                total = total,
+                max_bytes = MAX_MAP_REPLY_BYTES
             )));
         }
         let mut contents = vec![ContentBlock::text(
@@ -733,7 +760,7 @@ impl KshanaServer {
         Parameters(r): Parameters<RouteExposureRequest>,
     ) -> Result<CallToolResult, McpError> {
         if r.maps.len() > 366 {
-            return Err(bad("at most 366 maps per call".into()));
+            return Err(bad(kshana::terr!("e-mcp-marine-at-most-366-maps-per")));
         }
         let maps: Vec<&str> = r.maps.iter().map(String::as_str).collect();
         let report = surface::route_exposure(
@@ -743,7 +770,7 @@ impl KshanaServer {
             r.date_to.as_deref(),
             MAX_UPLOAD_BYTES,
         )
-        .map_err(|e| bad(format!("route exposure failed: {e}")))?;
+        .map_err(|e| bad(kshana::terr!("e-mcp-marine-route-exposure-failed", e = e)))?;
         Ok(CallToolResult::success(vec![ContentBlock::text(report)]))
     }
 
@@ -763,8 +790,12 @@ impl KshanaServer {
                 scenario_toml: x.scenario,
             })
             .collect();
-        let out = surface::compliance_report(&runs, MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("compliance report failed: {e}")))?;
+        let out = surface::compliance_report(&runs, MAX_UPLOAD_BYTES).map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-marine-compliance-report-failed",
+                e = e
+            ))
+        })?;
         let mut v = out.report;
         v["markdown"] = out.markdown.into();
         reply(v)
@@ -816,7 +847,7 @@ impl KshanaServer {
         Parameters(r): Parameters<StandardsPackRequest>,
     ) -> Result<CallToolResult, McpError> {
         let (mut report, md) = surface::standards_pack_run(&r.pack)
-            .map_err(|e| bad(format!("standards pack failed: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-marine-standards-pack-failed", e = e)))?;
         report["markdown"] = md.into();
         reply(report)
     }
@@ -833,25 +864,36 @@ impl KshanaServer {
             "symbols" => {
                 let text = r
                     .symbols
-                    .ok_or_else(|| bad("mode `symbols` needs `symbols`".into()))?;
+                    .ok_or_else(|| bad(kshana::terr!("e-mcp-marine-mode-symbols-needs-symbols")))?;
                 let v = surface::lunanet_afs_check_symbols(
                     &text,
                     r.max_sp_errors.unwrap_or(0),
                     MAX_UPLOAD_BYTES,
                 )
-                .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                .map_err(|e| {
+                    bad(kshana::terr!(
+                        "e-mcp-marine-lunanet-afs-check-failed",
+                        e = e
+                    ))
+                })?;
                 reply(v)
             }
             "generate" => {
                 let s = surface::lunanet_afs_generate(r.frames.unwrap_or(1), r.toi0.unwrap_or(0))
-                    .map_err(|e| bad(format!("lunanet-afs-check failed: {e}")))?;
+                    .map_err(|e| {
+                    bad(kshana::terr!(
+                        "e-mcp-marine-lunanet-afs-check-failed",
+                        e = e
+                    ))
+                })?;
                 reply(serde_json::json!({
                     "symbols": s,
                     "note": "placeholder subframes 2 to 4 (not LDPC coded, no message); symbols for testing a checker, not a waveform",
                 }))
             }
-            other => Err(bad(format!(
-                "mode must be spec, symbols or generate (got {other})"
+            other => Err(bad(kshana::terr!(
+                "e-mcp-marine-mode-must-be-spec-symbols",
+                other = other
             ))),
         }
     }
@@ -864,7 +906,12 @@ impl KshanaServer {
         Parameters(r): Parameters<ScoreBenchmarkRequest>,
     ) -> Result<CallToolResult, McpError> {
         let out = surface::bench_score(&r.truth, &r.predictions, r.threshold, MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("benchmark scoring failed: {e}")))?;
+            .map_err(|e| {
+                bad(kshana::terr!(
+                    "e-mcp-marine-benchmark-scoring-failed",
+                    e = e
+                ))
+            })?;
         Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
     }
 
@@ -876,7 +923,7 @@ impl KshanaServer {
         Parameters(r): Parameters<RenderLeaderboardRequest>,
     ) -> Result<CallToolResult, McpError> {
         let out = surface::bench_leaderboard(&r.results, MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("leaderboard failed: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-marine-leaderboard-failed", e = e)))?;
         Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
     }
 
@@ -913,8 +960,13 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         surface::reject_file_sources(&r.toml, MAX_UPLOAD_BYTES)
             .map_err(|e| McpError::invalid_params(e, None))?;
-        let e = surface::bench_export(&r.toml, r.epoch.as_deref(), MAX_UPLOAD_BYTES)
-            .map_err(|e| bad(format!("test-bench export failed: {e}")))?;
+        let e =
+            surface::bench_export(&r.toml, r.epoch.as_deref(), MAX_UPLOAD_BYTES).map_err(|e| {
+                bad(kshana::terr!(
+                    "e-mcp-marine-test-bench-export-failed",
+                    e = e
+                ))
+            })?;
         let index: Vec<serde_json::Value> = e
             .files
             .iter()
@@ -948,14 +1000,16 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let files = surface::files_from_json(&r.files).map_err(bad)?;
         let token = kshana::permalink::base64_decode(r.token_base64.trim())
-            .ok_or_else(|| bad("token_base64 is not base64".into()))?;
+            .ok_or_else(|| bad(kshana::terr!("e-wasm-token-base64-is-not-base64")))?;
         let t = surface::evidence_attach_timestamp(&files, &token, r.replace, MAX_UPLOAD_BYTES)
             .map_err(bad)?;
         let out = surface::files_to_json(&t.files);
         let size = out.to_string().len();
         if size > MAX_MAP_REPLY_BYTES {
-            return Err(bad(format!(
-                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit"
+            return Err(bad(kshana::terr!(
+                "e-mcp-marine-the-pack-is-bytes-over-3",
+                size = size,
+                max_bytes = MAX_MAP_REPLY_BYTES
             )));
         }
         reply(serde_json::json!({

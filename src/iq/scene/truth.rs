@@ -65,20 +65,21 @@ impl TruthRecord {
     pub fn from_csv_row(line: &str) -> Result<Self, IqError> {
         let f: Vec<&str> = line.trim().split(',').collect();
         if f.len() != 10 {
-            return Err(IqError::Format(format!(
-                "truth row has {} fields, expected 10",
-                f.len()
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-scene-truth-truth-row-has-fields-expected",
+                f = f.len()
             )));
         }
         let num = |i: usize| -> Result<f64, IqError> {
-            f[i].parse::<f64>()
-                .map_err(|e| IqError::Format(format!("truth field {i}: {e}")))
+            f[i].parse::<f64>().map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-scene-truth-truth-field", i = i, e = e))
+            })
         };
         Ok(Self {
             t_s: num(0)?,
-            sat_id: f[1]
-                .parse()
-                .map_err(|e| IqError::Format(format!("truth sat_id: {e}")))?,
+            sat_id: f[1].parse().map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-scene-truth-truth-sat-id", e = e))
+            })?,
             visible: f[2] == "1",
             elevation_deg: num(3)?,
             azimuth_deg: num(4)?,
@@ -200,7 +201,11 @@ pub fn truth_from_csv(text: &str) -> Result<Vec<TruthRecord>, IqError> {
     let mut lines = text.lines();
     match lines.next() {
         Some(h) if h.trim() == TruthRecord::CSV_HEADER => {}
-        _ => return Err(IqError::Format("missing truth CSV header".into())),
+        _ => {
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-scene-truth-missing-truth-csv-header"
+            )))
+        }
     }
     lines
         .filter(|l| !l.trim().is_empty())

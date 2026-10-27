@@ -232,17 +232,16 @@ impl AnalyticSolarSystem {
             .unwrap_or("outside every Standish table");
         match name {
             "Sun" => "origin of the heliocentric frame".to_string(),
-            "Earth" | "Moon" => format!(
-                "Earth-Moon barycentre from {table}, split by the Montenbruck & Gill lunar series \
-                 precessed to J2000"
+            "Earth" | "Moon" => crate::t!(
+                "ephem-provider-earth-moon-barycentre-from-split",
+                table = table
             ),
-            "Phobos" | "Deimos" | "Io" | "Europa" | "Ganymede" | "Callisto" => format!(
-                "JPL mean elements in the Laplace plane, mean-longitude rate from the IAU \
-                 synchronous rotation rate, added to its planet from {table}"
-            ),
-            "Titan" => format!(
-                "IAU synchronous-rotation direction at the JPL mean distance, added to Saturn \
-                 from {table}"
+            "Phobos" | "Deimos" | "Io" | "Europa" | "Ganymede" | "Callisto" => {
+                crate::t!("ephem-provider-jpl-mean-elements-in-the", table = table)
+            }
+            "Titan" => crate::t!(
+                "ephem-provider-iau-synchronous-rotation-direction-at",
+                table = table
             ),
             "Pluto" => "the 1992 Standish Table 1 Pluto row (1800 AD to 2050 AD)".to_string(),
             _ => table.to_string(),
@@ -303,7 +302,8 @@ pub mod naif_code {
 impl KernelEphemeris {
     /// Read an SPK kernel from disk and record its SHA-256.
     pub fn open(path: &std::path::Path) -> Result<Self, String> {
-        let bytes = std::fs::read(path).map_err(|e| format!("read {}: {e}", path.display()))?;
+        let bytes = std::fs::read(path)
+            .map_err(|e| crate::terr!("e-ephem-provider-read", path = path.display(), e = e))?;
         Self::from_bytes(bytes, path.display().to_string())
     }
 

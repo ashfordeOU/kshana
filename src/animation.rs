@@ -69,8 +69,9 @@ impl AnimationFormat {
             "svg" => Ok(AnimationFormat::Svg),
             "html" => Ok(AnimationFormat::Html),
             "frames" => Ok(AnimationFormat::Frames),
-            other => Err(format!(
-                "unknown animation format '{other}'; expected svg, html, frames or all"
+            other => Err(crate::terr!(
+                "e-animation-unknown-animation-format-expected-svg",
+                other = other
             )),
         }
     }
@@ -94,7 +95,9 @@ impl AnimationFormat {
             .map(|(f, _)| *f)
             .collect();
         if out.is_empty() {
-            return Err("no animation format given; expected svg, html, frames or all".into());
+            return Err(crate::terr!(
+                "e-animation-no-animation-format-given-expected"
+            ));
         }
         Ok(out)
     }
@@ -128,28 +131,30 @@ impl AnimationOptions {
     /// Refuse settings that cannot produce a sensible animation.
     pub fn validate(&self) -> Result<(), String> {
         if !(1..=60).contains(&self.fps) {
-            return Err(format!(
-                "animation fps must be between 1 and 60, got {}",
-                self.fps
+            return Err(crate::terr!(
+                "e-animation-animation-fps-must-be-between",
+                fps = self.fps
             ));
         }
         if !self.duration_s.is_finite() || !(0.5..=600.0).contains(&self.duration_s) {
-            return Err(format!(
-                "animation duration must be between 0.5 s and 600 s, got {}",
-                self.duration_s
+            return Err(crate::terr!(
+                "e-animation-animation-duration-must-be-between",
+                duration_s = self.duration_s,
+                lit_0_5 = crate::i18n::num(0.5_f64, 1)
             ));
         }
         if !(480..=3840).contains(&self.width) {
-            return Err(format!(
-                "animation width must be between 480 and 3840 pixels, got {}",
-                self.width
+            return Err(crate::terr!(
+                "e-animation-animation-width-must-be-between",
+                width = self.width
             ));
         }
         let n = self.frame_count();
         if !(2..=Self::MAX_FRAMES).contains(&n) {
-            return Err(format!(
-                "duration x fps gives {n} frames; the frame sequence needs between 2 and {}",
-                Self::MAX_FRAMES
+            return Err(crate::terr!(
+                "e-animation-duration-fps-gives-frames-the",
+                n = n,
+                v1 = Self::MAX_FRAMES
             ));
         }
         Ok(())
@@ -173,11 +178,10 @@ pub enum AnimationError {
 impl std::fmt::Display for AnimationError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            AnimationError::NoTimeSeries(k) => write!(
-                f,
-                "no time series to animate: the {k} result carries no sampled time axis \
-                 (see docs/ANIMATION.md for the shapes the exporter recognises)"
-            ),
+            AnimationError::NoTimeSeries(k) => f.write_str(&crate::terr!(
+                "e-animation-no-time-series-to-animate",
+                k = k
+            )),
             AnimationError::Invalid(m) => write!(f, "{m}"),
         }
     }
@@ -848,8 +852,9 @@ fn humanise(field: &str, unit: &str) -> String {
 /// `kind` names the scenario kind for titles and errors; `None` reads the document's
 /// own `kind` field.
 pub fn extract_timeline(json: &str, kind: Option<&str>) -> Result<Timeline, AnimationError> {
-    let doc: Value = serde_json::from_str(json)
-        .map_err(|e| AnimationError::Invalid(format!("result is not JSON: {e}")))?;
+    let doc: Value = serde_json::from_str(json).map_err(|e| {
+        AnimationError::Invalid(crate::terr!("e-animation-result-is-not-json", e = e))
+    })?;
     let kind = kind
         .map(str::to_string)
         .or_else(|| doc.get("kind").and_then(Value::as_str).map(str::to_string))
@@ -1216,10 +1221,18 @@ impl Layout {
 /// cursor, and six series (`.s0`-`.s5` strokes, `.f0`-`.f5` fills).
 fn theme_classes(t: &[&str; 18]) -> String {
     let [bg, fg, mu, gr, ax, ph0, ph1, phl, cur, alarm, s0, s1, s2, s3, s4, s5, ..] = *t;
-    let mut css = format!(
-        ".bg{{fill:{bg}}}.fg{{fill:{fg}}}.mu{{fill:{mu}}}.gr{{stroke:{gr}}}\
-         .ax{{stroke:{ax}}}.ph0{{fill:{ph0}}}.ph1{{fill:{ph1}}}.phl{{fill:{phl}}}\
-         .ev{{stroke:{mu}}}.eva{{stroke:{alarm}}}.evt{{fill:{mu}}}.evta{{fill:{alarm}}}.cur{{stroke:{cur}}}"
+    let mut css = crate::t!(
+        "animation-bg-fill-fg-fill-mu",
+        bg = bg,
+        fg = fg,
+        mu = mu,
+        gr = gr,
+        ax = ax,
+        ph0 = ph0,
+        ph1 = ph1,
+        phl = phl,
+        alarm = alarm,
+        cur = cur
     );
     for (i, c) in [s0, s1, s2, s3, s4, s5].iter().enumerate() {
         let _ = write!(css, ".s{i}{{stroke:{c}}}");
@@ -1258,10 +1271,9 @@ fn light_css() -> String {
 }
 
 fn common_css() -> String {
-    format!(
-        "text{{font-family:{}}}\
-         .tr{{fill:none;stroke-width:1.6;stroke-linejoin:round}}.ev,.eva{{stroke-dasharray:3 3}}.cur{{stroke-width:1.4}}",
-        crate::palette::chart::FONT_SANS
+    crate::t!(
+        "animation-text-font-family-tr-fill",
+        v1 = crate::palette::chart::FONT_SANS
     )
 }
 
@@ -1306,14 +1318,17 @@ fn svg_scaffold(out: &mut String, tl: &Timeline, lay: &Layout) {
         out,
         "<rect class=\"bg\" width=\"{:.0}\" height=\"{:.0}\"/>\
          <text class=\"fg\" x=\"24\" y=\"28\" font-size=\"16\" font-weight=\"bold\">{}</text>\
-         <text class=\"mu\" x=\"24\" y=\"46\" font-size=\"11\">kind {} \u{b7} {} to {} \u{b7} samples from result.json, drawn without resampling \u{b7} Kshana {}</text>",
+         <text class=\"mu\" x=\"24\" y=\"46\" font-size=\"11\">{}</text>",
         lay.w,
         lay.h,
         esc(&tl.title),
-        esc(&tl.kind),
-        esc(&lay.fmt_time(tl.t0)),
-        esc(&lay.fmt_time(tl.t1)),
-        env!("CARGO_PKG_VERSION"),
+        crate::t!(
+            "animation-svg-sub",
+            kind = esc(&tl.kind),
+            t0 = esc(&lay.fmt_time(tl.t0)),
+            t1 = esc(&lay.fmt_time(tl.t1)),
+            version = env!("CARGO_PKG_VERSION")
+        ),
     );
     if let Some((sy, sh)) = lay.strip {
         let _ = write!(
@@ -1321,7 +1336,11 @@ fn svg_scaffold(out: &mut String, tl: &Timeline, lay: &Layout) {
             "<text class=\"mu\" x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" text-anchor=\"end\">{}</text>",
             lay.ml - 8.0,
             sy + sh / 2.0 + 3.5,
-            if tl.phases.is_empty() { "events" } else { "phases" }
+            if tl.phases.is_empty() {
+                crate::t!("animation-svg-strip-events")
+            } else {
+                crate::t!("animation-svg-strip-phases")
+            }
         );
         for (i, p) in tl.phases.iter().enumerate() {
             let x0 = lay.x(p.t0);
@@ -1407,22 +1426,25 @@ fn svg_scaffold(out: &mut String, tl: &Timeline, lay: &Layout) {
         let f1 = wf.freq_hz.last().copied().unwrap_or(1.0) / 1e6;
         let _ = write!(
             out,
-            "<text class=\"fg\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">waterfall: {} [{}], time runs downward, colour {} to {}</text>\
-             <text class=\"mu\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\">{:.1} MHz</text>\
-             <text class=\"mu\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" text-anchor=\"end\">{:.1} MHz</text>\
+            "<text class=\"fg\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{}</text>\
+             <text class=\"mu\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\">{}</text>\
+             <text class=\"mu\" x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" text-anchor=\"end\">{}</text>\
              <rect class=\"ax\" fill=\"none\" x=\"{:.0}\" y=\"{wy:.0}\" width=\"{:.0}\" height=\"{wh:.0}\"/>",
             lay.ml,
             wy - 8.0,
-            esc(&humanise(&wf.title, "")),
-            esc(&wf.unit),
-            fmt_tick(wf.lo, 0.1),
-            fmt_tick(wf.hi, 0.1),
+            crate::t!(
+                "animation-svg-waterfall",
+                title = esc(&humanise(&wf.title, "")),
+                unit = esc(&wf.unit),
+                lo = fmt_tick(wf.lo, 0.1),
+                hi = fmt_tick(wf.hi, 0.1)
+            ),
             lay.ml,
             wy + wh + 14.0,
-            f0,
+            crate::t!("animation-svg-mhz", f = crate::i18n::num(f0, 1)),
             lay.ml + lay.pw,
             wy + wh + 14.0,
-            f1,
+            crate::t!("animation-svg-mhz", f = crate::i18n::num(f1, 1)),
             lay.ml,
             lay.pw,
         );
@@ -1465,9 +1487,9 @@ fn svg_scaffold(out: &mut String, tl: &Timeline, lay: &Layout) {
             _ => lay.h - 12.0,
         },
         if lay.tdisp.0 == "epoch" {
-            "epoch index".to_string()
+            crate::t!("animation-epoch-index")
         } else {
-            format!("mission time ({})", lay.tdisp.0)
+            crate::t!("animation-mission-time", lay = lay.tdisp.0)
         }
     );
 }
@@ -1540,15 +1562,17 @@ fn svg_open(lay: &Layout, tl: &Timeline, css: &str) -> String {
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" viewBox=\"0 0 {w:.0} {h:.0}\" role=\"img\" aria-labelledby=\"kx-title kx-desc\">\
          <title id=\"kx-title\">{title}</title>\
-         <desc id=\"kx-desc\">Animated time series of a {kind} run: {n} panel(s), {e} event(s), {p} phase(s). \
-         Every point is a sample from the run's result.json.</desc><style>{css}</style>",
+         <desc id=\"kx-desc\">{desc}</desc><style>{css}</style>",
         w = lay.w,
         h = lay.h,
         title = esc(&tl.title),
-        kind = esc(&tl.kind),
-        n = tl.charts.len() + usize::from(tl.waterfall.is_some()),
-        e = tl.events.len(),
-        p = tl.phases.len(),
+        desc = crate::t!(
+            "animation-svg-desc",
+            kind = esc(&tl.kind),
+            n_panels = tl.charts.len() + usize::from(tl.waterfall.is_some()),
+            n_events = tl.events.len(),
+            n_phases = tl.phases.len()
+        ),
     )
 }
 
@@ -1739,7 +1763,9 @@ pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFil
         let tc = tl.t0 + (tl.t1 - tl.t0) * i as f64 / (n - 1) as f64;
         times.push(tc);
         files.push(AnimationFile {
-            name: format!("frame_{i:04}.svg"),
+            name: crate::i18n::in_english(|| {
+                crate::t!("animation-frame-svg", i = format!("{:04}", i))
+            }),
             content: render_frame(tl, &lay, tc, &css),
         });
     }
@@ -1764,10 +1790,7 @@ pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFil
         "events": tl.events.iter().map(|e| serde_json::json!({"t": e.t, "label": e.label, "alarm": e.alarm})).collect::<Vec<_>>(),
         "sources": tl.sources,
         "omitted": tl.omitted,
-        "encode": format!(
-            "ffmpeg -framerate {} -i frame_%04d.svg -pix_fmt yuv420p animation.mp4  (needs an ffmpeg built with librsvg; otherwise rasterise the frames first)",
-            opts.fps
-        ),
+        "encode": crate::t!("animation-ffmpeg-framerate-frame-04d-svg", fps = opts.fps),
         "tier": "MODELLED: a rendering of the run's own samples; it adds no evidence",
     });
     files.push(AnimationFile {
@@ -1830,15 +1853,30 @@ fn player_data(tl: &Timeline, opts: &AnimationOptions) -> Value {
 /// The player's custom properties for both themes, from [`LIGHT`] and [`DARK`].
 fn player_vars() -> String {
     let vars = |t: &[&str; 18]| {
-        format!(
-            "--bg:{};--panel:{};--fg:{};--mu:{};--grid:{};--axis:{};--ph0:{};--ph1:{};--cur:{};--alarm:{};--s0:{};--s1:{};--s2:{};--s3:{};--s4:{};--s5:{}",
-            t[0], t[16], t[7], t[17], t[3], t[4], t[5], t[6], t[8], t[9], t[10], t[11], t[12], t[13], t[14], t[15]
+        crate::t!(
+            "animation-bg-panel-fg-mu-grid",
+            t = t[0],
+            t2 = t[16],
+            t3 = t[7],
+            t4 = t[17],
+            t5 = t[3],
+            t6 = t[4],
+            t7 = t[5],
+            t8 = t[6],
+            t9 = t[8],
+            t10 = t[9],
+            t11 = t[10],
+            t12 = t[11],
+            t13 = t[12],
+            t14 = t[13],
+            t15 = t[14],
+            t16 = t[15]
         )
     };
-    format!(
-        ":root{{color-scheme:light dark;{}}}\n@media (prefers-color-scheme: dark){{:root{{{}}}}}\n",
-        vars(&LIGHT),
-        vars(&DARK)
+    crate::t!(
+        "animation-root-color-scheme-light-dark",
+        vars = vars(&LIGHT),
+        vars2 = vars(&DARK)
     )
 }
 
@@ -1882,9 +1920,9 @@ function tfmt(t){var s=span/D.tScale/1000;return fmt(t/D.tScale,s>0?Math.pow(10,
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
 var figs=[], root=$("kx-charts");
 function addFig(title,h){var f=el("figure"),c=el("figcaption"),t=el("span","",title),lg=el("span","legend"),cv=el("canvas");cv.height=h;cv.setAttribute("role","img");cv.setAttribute("aria-label",title);c.appendChild(t);c.appendChild(lg);f.appendChild(c);f.appendChild(cv);root.appendChild(f);return {cv:cv,lg:lg,h:h};}
-if(D.phases.length||D.events.length){figs.push({kind:"strip",f:addFig("phases and events",40)});}
+if(D.phases.length||D.events.length){figs.push({kind:"strip",f:addFig(@@PHASES_AND_EVENTS@@,40)});}
 D.charts.forEach(function(c){var f=addFig(c.title,150),items=[];c.traces.forEach(function(tr,i){var s=el("span"),sw=el("i"),v=el("b");sw.style.background="var(--s"+(i%6)+")";s.appendChild(sw);s.appendChild(document.createTextNode(tr.label+" "));s.appendChild(v);f.lg.appendChild(s);items.push(v);});figs.push({kind:"chart",c:c,f:f,vals:items});});
-if(D.waterfall){figs.push({kind:"wf",w:D.waterfall,f:addFig("waterfall: "+D.waterfall.title+" ["+D.waterfall.unit+"], time runs downward",220)});}
+if(D.waterfall){figs.push({kind:"wf",w:D.waterfall,f:addFig(@@WATERFALL@@,220)});}
 var evl=$("kx-events");
 D.events.forEach(function(e){var li=el("li",e.alarm?"alarm":""),b=el("button","",tfmt(e.t));b.addEventListener("click",function(){seek((e.t-D.t0)/span);});li.appendChild(b);li.appendChild(document.createTextNode(e.label));evl.appendChild(li);});
 if(!D.events.length){$("kx-events-h").hidden=true;}
@@ -1909,9 +1947,9 @@ for(var r=0;r<n;r++){if(W.t[r]>tc)break;var row=W.rows[r];for(var q=0;q<row.leng
 g.strokeStyle=css("--axis");g.strokeRect(ML+.5,.5,w-ML-MR-1,h-18);g.fillStyle=css("--mu");g.textAlign="left";g.fillText((W.f0/1e6).toFixed(1)+" MHz",ML,h-4);g.textAlign="right";g.fillText((W.f1/1e6).toFixed(1)+" MHz",w-MR,h-4);
 var rr=0;while(rr<n-1&&W.t[rr+1]<=tc)rr++;g.strokeStyle=css("--cur");g.beginPath();g.moveTo(ML,(rr+1)*rh);g.lineTo(w-MR,(rr+1)*rh);g.stroke();}
 });
-$("kx-now").textContent="t = "+tfmt(tc);$("kx-phase").textContent=ph?("phase: "+ph):"";$("kx-scrub").value=Math.round(frac*1000);$("kx-scrub").setAttribute("aria-valuetext",tfmt(tc));}
+$("kx-now").textContent=@@NOW@@;$("kx-phase").textContent=ph?(@@PHASE@@):"";$("kx-scrub").value=Math.round(frac*1000);$("kx-scrub").setAttribute("aria-valuetext",tfmt(tc));}
 function tick(ts){if(!playing){last=null;return;}if(last!==null){frac+=(ts-last)/1000*speed/D.duration;if(frac>=1){frac=1;setPlaying(false);}}last=ts;draw();if(playing)requestAnimationFrame(tick);}
-function setPlaying(p){playing=p;$("kx-play").textContent=p?"Pause":"Play";$("kx-play").setAttribute("aria-pressed",p?"true":"false");if(p){if(frac>=1)frac=0;last=null;requestAnimationFrame(tick);}}
+function setPlaying(p){playing=p;$("kx-play").textContent=p?@@PAUSE@@:@@PLAY@@;$("kx-play").setAttribute("aria-pressed",p?"true":"false");if(p){if(frac>=1)frac=0;last=null;requestAnimationFrame(tick);}}
 function seek(f){frac=Math.max(0,Math.min(1,f));draw();}
 $("kx-play").addEventListener("click",function(){setPlaying(!playing);});
 $("kx-scrub").addEventListener("input",function(e){seek(e.target.value/1000);});
@@ -1921,6 +1959,71 @@ window.addEventListener("resize",draw);
 if(window.matchMedia){var cs=window.matchMedia("(prefers-color-scheme: dark)");if(cs.addEventListener)cs.addEventListener("change",draw);}
 if(reduce&&reduce.matches){frac=1;draw();}else{frac=0;draw();setPlaying(true);}
 })();"#;
+
+/// The player script with its user-visible strings from the catalogue. A message's placeholders are
+/// rendered as `\u{1}name\u{1}` and become JavaScript expressions around string literals, so the word
+/// order of a translation is the translator's.
+fn player_js() -> String {
+    fn js_str(s: &str) -> String {
+        serde_json::to_string(s)
+            .unwrap_or_else(|_| "\"\"".into())
+            .replace("</", "<\\/")
+    }
+    fn expr(text: &str, vars: &[(&str, &str)]) -> String {
+        let mut parts: Vec<String> = Vec::new();
+        for (i, piece) in text.split('\u{1}').enumerate() {
+            if i % 2 == 0 {
+                if !piece.is_empty() {
+                    parts.push(js_str(piece));
+                }
+            } else {
+                let v = vars
+                    .iter()
+                    .find(|(k, _)| *k == piece)
+                    .map_or("\"\"", |(_, e)| *e);
+                parts.push(v.to_string());
+            }
+        }
+        match parts.first() {
+            None => "\"\"".to_string(),
+            Some(first) if !first.starts_with('"') => format!("\"\"+{}", parts.join("+")),
+            _ => parts.join("+"),
+        }
+    }
+    let var = |n: &str| format!("\u{1}{n}\u{1}");
+    PLAYER_JS
+        .replace(
+            "@@PHASES_AND_EVENTS@@",
+            &js_str(&crate::t!("animation-js-phases-and-events")),
+        )
+        .replace(
+            "@@WATERFALL@@",
+            &expr(
+                &crate::t!(
+                    "animation-js-waterfall",
+                    title = var("title"),
+                    unit = var("unit")
+                ),
+                &[("title", "D.waterfall.title"), ("unit", "D.waterfall.unit")],
+            ),
+        )
+        .replace("@@PAUSE@@", &js_str(&crate::t!("animation-html-pause")))
+        .replace("@@PLAY@@", &js_str(&crate::t!("animation-html-play")))
+        .replace(
+            "@@NOW@@",
+            &expr(
+                &crate::t!("animation-js-now", time = var("time")),
+                &[("time", "tfmt(tc)")],
+            ),
+        )
+        .replace(
+            "@@PHASE@@",
+            &expr(
+                &crate::t!("animation-js-phase", name = var("name")),
+                &[("name", "ph")],
+            ),
+        )
+}
 
 /// Render the self-contained HTML player: play and pause, a scrubber, playback speed,
 /// every panel on one synced cursor, the phase strip and clickable event markers. The
@@ -1934,35 +2037,52 @@ pub fn render_html(tl: &Timeline, opts: &AnimationOptions) -> String {
     let omitted = if tl.omitted.is_empty() {
         String::new()
     } else {
-        format!(
-            " {} further series were found but not drawn (the player shows at most {MAX_CHARTS} panels of {MAX_TRACES} traces); they are listed in the manifest of the frames export.",
-            tl.omitted.len()
+        crate::t!(
+            "animation-further-series-were-found-but",
+            omitted = tl.omitted.len(),
+            MAX_CHARTS = MAX_CHARTS,
+            MAX_TRACES = MAX_TRACES
         )
     };
     let css = player_css();
+    let player_js = player_js();
+    let lang = crate::i18n::current().tag().to_string();
+    let footer = format!(
+        "{}{omitted} {}",
+        crate::t!("animation-html-footer-keys"),
+        crate::t!("animation-html-footer-determinism")
+    );
     format!(
-        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n\
+        "<!doctype html>\n<html lang=\"{lang}\">\n<head>\n<meta charset=\"utf-8\"/>\n\
          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n\
-         <title>{title} \u{2014} Kshana animation</title>\n<style>\n{css}\n</style>\n</head>\n<body>\n<main>\n\
+         <title>{page_title}</title>\n<style>\n{css}\n</style>\n</head>\n<body>\n<main>\n\
          <h1>{title}</h1>\n\
-         <p class=\"sub\">kind {kind} \u{b7} {n} series from result.json, drawn without resampling \u{b7} Kshana {version}</p>\n\
-         <div class=\"bar\" role=\"group\" aria-label=\"Playback\">\
-         <button id=\"kx-play\" type=\"button\" aria-pressed=\"false\">Play</button>\
-         <input id=\"kx-scrub\" type=\"range\" min=\"0\" max=\"1000\" value=\"0\" aria-label=\"Mission time\"/>\
-         <label>speed <select id=\"kx-speed\" aria-label=\"Playback speed\">\
+         <p class=\"sub\">{sub}</p>\n\
+         <div class=\"bar\" role=\"group\" aria-label=\"{playback}\">\
+         <button id=\"kx-play\" type=\"button\" aria-pressed=\"false\">{play}</button>\
+         <input id=\"kx-scrub\" type=\"range\" min=\"0\" max=\"1000\" value=\"0\" aria-label=\"{mission_time}\"/>\
+         <label>{speed} <select id=\"kx-speed\" aria-label=\"{playback_speed}\">\
          <option value=\"0.25\">0.25x</option><option value=\"0.5\">0.5x</option><option value=\"1\" selected>1x</option>\
          <option value=\"2\">2x</option><option value=\"4\">4x</option></select></label>\
          <span id=\"kx-now\" class=\"now\" aria-live=\"off\"></span><span id=\"kx-phase\" class=\"phase\"></span></div>\n\
          <div id=\"kx-charts\"></div>\n\
-         <h2 id=\"kx-events-h\" style=\"font-size:1rem;margin-top:22px\">Events</h2>\n<ol id=\"kx-events\" class=\"events\"></ol>\n\
-         <footer>Space plays or pauses, the arrow keys step, Home and End jump. \
-         This is a rendering of the run's own samples: it is exactly as good as the run and adds no evidence \
-         (MODELLED, internal consistency).{omitted} Same scenario, seed and options give a byte-identical file.</footer>\n\
-         </main>\n<script type=\"application/json\" id=\"kx-data\">{data}</script>\n<script>\n{PLAYER_JS}\n</script>\n</body>\n</html>\n",
+         <h2 id=\"kx-events-h\" style=\"font-size:1rem;margin-top:22px\">{events}</h2>\n<ol id=\"kx-events\" class=\"events\"></ol>\n\
+         <footer>{footer}</footer>\n\
+         </main>\n<script type=\"application/json\" id=\"kx-data\">{data}</script>\n<script>\n{player_js}\n</script>\n</body>\n</html>\n",
         title = esc(&tl.title),
-        kind = esc(&tl.kind),
-        n = tl.sources.len(),
-        version = env!("CARGO_PKG_VERSION"),
+        page_title = crate::t!("animation-html-title", title = esc(&tl.title)),
+        sub = crate::t!(
+            "animation-html-sub",
+            kind = esc(&tl.kind),
+            n = tl.sources.len(),
+            version = env!("CARGO_PKG_VERSION")
+        ),
+        playback = crate::t!("animation-html-playback"),
+        play = crate::t!("animation-html-play"),
+        mission_time = crate::t!("animation-html-mission-time"),
+        speed = crate::t!("animation-html-speed"),
+        playback_speed = crate::t!("animation-html-playback-speed"),
+        events = crate::t!("animation-html-events"),
     )
 }
 
@@ -1996,7 +2116,8 @@ pub fn with_companion_links(html: &str, files: &[(String, String)]) -> String {
         })
         .collect();
     let block = format!(
-        "<h2 id=\"kx-files-h\" style=\"font-size:1rem;margin-top:22px\">Exports written beside this player</h2>\n<ul id=\"kx-files\" class=\"events\">{}</ul>\n<footer>",
+        "<h2 id=\"kx-files-h\" style=\"font-size:1rem;margin-top:22px\">{}</h2>\n<ul id=\"kx-files\" class=\"events\">{}</ul>\n<footer>",
+        crate::t!("animation-html-exports-heading"),
         items.join("")
     );
     match html.find("<footer>") {

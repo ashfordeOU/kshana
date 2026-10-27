@@ -279,8 +279,13 @@ impl RealtimeFrameEopScenario {
     fn eop_body(&self) -> Result<(String, String), String> {
         match &self.eop_finals2000a {
             Some(path) => {
-                let body = std::fs::read_to_string(path)
-                    .map_err(|e| format!("cannot read EOP file {path}: {e}"))?;
+                let body = std::fs::read_to_string(path).map_err(|e| {
+                    crate::terr!(
+                        "e-realtime-frame-eop-cannot-read-eop-file",
+                        path = path,
+                        e = e
+                    )
+                })?;
                 Ok((body, path.clone()))
             }
             None => Ok((FIXTURE.to_string(), BUNDLED_EOP_SOURCE.to_string())),
@@ -302,8 +307,9 @@ impl RealtimeFrameEopScenario {
             .unwrap_or_else(|| derived_frame_realization_floor_m(tie_noise_m));
         let delta_ut1_ms = self.delta_ut1_ms.unwrap_or(0.5);
         if !latency_s.is_finite() || latency_s < 0.0 {
-            return Err(format!(
-                "latency_s must be finite and non-negative, got {latency_s}"
+            return Err(crate::terr!(
+                "e-realtime-frame-eop-latency-must-be-finite-and",
+                latency_s = latency_s
             ));
         }
 
@@ -347,8 +353,13 @@ impl RealtimeFrameEopScenario {
         // to difference against and the table stays empty — stated, never synthesised.
         let (predicted_vs_final, later_source) = match &self.eop_finals2000a_later {
             Some(path) => {
-                let later = std::fs::read_to_string(path)
-                    .map_err(|e| format!("cannot read later-vintage EOP file {path}: {e}"))?;
+                let later = std::fs::read_to_string(path).map_err(|e| {
+                    crate::terr!(
+                        "e-realtime-frame-eop-cannot-read-later-vintage-eop",
+                        path = path,
+                        e = e
+                    )
+                })?;
                 (
                     predicted_vs_final_ut1(&body, &later, &self.horizons()),
                     Some(path.clone()),
@@ -401,8 +412,13 @@ impl RealtimeFrameEopScenario {
         // G13 — the archived-vintage path: only a genuine second vintage can populate it.
         let archived = match &self.eop_finals2000a_later {
             Some(path) => {
-                let later = std::fs::read_to_string(path)
-                    .map_err(|e| format!("cannot read later-vintage EOP file {path}: {e}"))?;
+                let later = std::fs::read_to_string(path).map_err(|e| {
+                    crate::terr!(
+                        "e-realtime-frame-eop-cannot-read-later-vintage-eop",
+                        path = path,
+                        e = e
+                    )
+                })?;
                 archived_vintage_comparison(&body, &later, &horizons, &op_cfg)
             }
             None => Vec::new(),
@@ -805,26 +821,19 @@ impl RealtimeFrameEopScenario {
         let (status, statement) = if c.op_vs_pers.is_empty() {
             (
                 "insufficient-data",
-                format!(
-                "EMPTY, and deliberately so: a predicted-versus-final row needs an issue epoch \
-                 with a COMPLETE {:.0}-day fit window behind it and a published Bulletin B \
-                 final at the target epoch. The input in force ({}) supplies no epoch meeting \
-                 both. Shorten `operational_window_days`, or supply a longer real finals2000A \
-                 series — no row is manufactured to fill the table.",
-                c.op_cfg.window_days, c.eop_source),
+                crate::t!(
+                    "realtime-frame-eop-empty-and-deliberately-so-predicted",
+                    window_days =
+                        crate::i18n::localise_decimal(format!("{:.0}", c.op_cfg.window_days)),
+                    eop_source = c.eop_source
+                ),
             )
         } else {
             (
                 "measured",
-                format!(
-                    "Measured over the real series in force ({}). Every row is a genuine \
-                 prediction error: a forecast for T+h formed from rapid Bulletin A rows at or \
-                 before T, scored against the LATER-PUBLISHED Bulletin B final at T+h. \
-                 Persistence is scored over the identical epoch set against the identical \
-                 finals, so the two columns differ in the predictor and in nothing else. \
-                 `improvement_factor` below 1 means the operational predictor is WORSE than \
-                 persistence at that horizon, and is reported as such.",
-                    c.eop_source
+                crate::t!(
+                    "realtime-frame-eop-measured-over-the-real-series",
+                    eop_source = c.eop_source
                 ),
             )
         };
@@ -892,45 +901,33 @@ impl RealtimeFrameEopScenario {
                 })
             })
             .collect();
-        let (status, statement) =
-            if !rows.is_empty() {
-                (
-                    "measured",
-                    format!(
-                "Measured over a genuine two-vintage pair: the as-issued vintage ({}) carries \
-                 real Bulletin A predictions past its own data cutoff, and the archived later \
-                 vintage ({}) carries the Bulletin B finals those dates eventually received. \
-                 Three forecasts are scored against that final — the archived Bulletin A \
-                 prediction itself, this crate's operational-style fit over the as-issued \
-                 vintage, and persistence at the cutoff.",
-                c.eop_source, c.later_source.clone().unwrap_or_default()),
-                )
-            } else if c.later_source.is_some() {
-                (
-                    "no-matched-pairs",
-                    format!(
-                "EMPTY, and deliberately so: a later vintage was supplied ({}) but no date is \
-                 carried as a Bulletin A PREDICTION in the as-issued file ({}) and as a \
-                 Bulletin B FINAL in the later one at any requested horizon. No row is \
-                 synthesised.",
-                c.later_source.clone().unwrap_or_default(), c.eop_source),
-                )
-            } else {
-                (
-                    "no-second-vintage",
-                    format!(
-                "EMPTY, and deliberately so. Scoring a GENUINE ARCHIVED prediction needs two \
-                 vintages of the same finals2000A product; this run was given one ({}). The \
-                 repository ships no archived earlier vintage, and one is NOT manufactured by \
-                 perturbing the vintage it has — a synthesised archive would make every number \
-                 in this table a measurement of the perturbation. Supply a real archived later \
-                 vintage through `eop_finals2000a_later` to populate it. Until then the \
-                 genuine predicted-versus-final errors this report does carry are in \
-                 `table5_operational_vs_persistence`, where the forecast is this crate's own \
-                 and the truth is the later-published Bulletin B final.",
-                c.eop_source),
-                )
-            };
+        let (status, statement) = if !rows.is_empty() {
+            (
+                "measured",
+                crate::t!(
+                    "realtime-frame-eop-measured-over-genuine-two-vintage",
+                    eop_source = c.eop_source,
+                    c = c.later_source.clone().unwrap_or_default()
+                ),
+            )
+        } else if c.later_source.is_some() {
+            (
+                "no-matched-pairs",
+                crate::t!(
+                    "realtime-frame-eop-empty-and-deliberately-so-later",
+                    c = c.later_source.clone().unwrap_or_default(),
+                    eop_source = c.eop_source
+                ),
+            )
+        } else {
+            (
+                "no-second-vintage",
+                crate::t!(
+                    "realtime-frame-eop-empty-and-deliberately-so-scoring",
+                    eop_source = c.eop_source
+                ),
+            )
+        };
         serde_json::json!({
             "status": status,
             "statement": statement,
@@ -944,20 +941,26 @@ impl RealtimeFrameEopScenario {
     fn summary(&self, c: &Computed) -> String {
         let far = c.table2.last();
         let floor = c.table2.first();
-        format!(
-            "realtime-frame-eop | Table 1: post-proc {:.2} m ({:.4} ms UT1) ↔ real-time \
-             {:.1} m ({:.3} ms UT1) | Table 2: final floor {:.4} ms → {:.0}-day {:.4} ms \
-             | budget total {:.1} m ({:.1} ns) | L19 lever arm + L18 real-data (Validated), \
-             OD cov (Modelled)",
-            c.table1[0].frame_position_m,
-            c.table1[0].ut1_equiv_ms,
-            c.table1[1].frame_position_m,
-            c.table1[1].ut1_equiv_ms,
-            floor.map(|r| r.ut1_rms_ms).unwrap_or(0.0),
-            far.map(|r| r.horizon_days).unwrap_or(0.0),
-            far.map(|r| r.ut1_rms_ms).unwrap_or(0.0),
-            c.budget.total_m,
-            c.budget.total_time_ns,
+        crate::t!(
+            "realtime-frame-eop-realtime-frame-eop-table-post",
+            c = crate::i18n::localise_decimal(format!("{:.2}", c.table1[0].frame_position_m)),
+            c2 = crate::i18n::localise_decimal(format!("{:.4}", c.table1[0].ut1_equiv_ms)),
+            c3 = crate::i18n::localise_decimal(format!("{:.1}", c.table1[1].frame_position_m)),
+            c4 = crate::i18n::localise_decimal(format!("{:.3}", c.table1[1].ut1_equiv_ms)),
+            floor = crate::i18n::localise_decimal(format!(
+                "{:.4}",
+                floor.map(|r| r.ut1_rms_ms).unwrap_or(0.0)
+            )),
+            far = crate::i18n::localise_decimal(format!(
+                "{:.0}",
+                far.map(|r| r.horizon_days).unwrap_or(0.0)
+            )),
+            far2 = crate::i18n::localise_decimal(format!(
+                "{:.4}",
+                far.map(|r| r.ut1_rms_ms).unwrap_or(0.0)
+            )),
+            total_m = crate::i18n::localise_decimal(format!("{:.1}", c.budget.total_m)),
+            total_time_ns = crate::i18n::localise_decimal(format!("{:.1}", c.budget.total_time_ns))
         )
     }
 }
@@ -1046,13 +1049,13 @@ fn units_block() -> serde_json::Value {
     put("table3_joint_eop[].n", "count", "measured", "");
     for q in ["ut1", "polar_motion", "combined"] {
         put(
-            &format!("table3_joint_eop[].{q}.n"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop", q = q),
             "count",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.truth_fallback_rows"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-truth-fallback", q = q),
             "count",
             "measured",
             "How many of this component's `n` samples were scored against the Bulletin A \
@@ -1062,49 +1065,49 @@ fn units_block() -> serde_json::Value {
              it is the measure of how far that row's truth departs from the floor row's.",
         );
         put(
-            &format!("table3_joint_eop[].{q}.epochs_mjd"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-epochs-mjd", q = q),
             "MJD (day)",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.rms_native"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-rms-native", q = q),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.p50_native"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-p50-native", q = q),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.p95_native"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-p95-native", q = q),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.max_native"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-max-native", q = q),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.rms_position_m"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-rms-position", q = q),
             "m",
             "computed",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.p95_position_m"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-p95-position", q = q),
             "m",
             "computed",
             "",
         );
         put(
-            &format!("table3_joint_eop[].{q}.rms_light_time_ns"),
+            &crate::t!("realtime-frame-eop-table3-joint-eop-rms-light", q = q),
             "ns",
             "computed",
             "",
@@ -1240,51 +1243,83 @@ fn units_block() -> serde_json::Value {
     for q in ["ut1", "polar_motion_xp"] {
         let u = if q == "ut1" { "s" } else { "arcsec" };
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.issue_mjd"),
+            &crate::t!("realtime-frame-eop-operational-predictor-model-representative-fit", q = q),
             "MJD (day)",
             "measured",
             "the epoch the representative forecast is issued at; the fit sees no observation after it",
         );
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.window_first_mjd"),
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-2",
+                q = q
+            ),
             "MJD (day)",
             "measured",
             "first observation epoch inside the trailing fit window",
         );
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.window_last_mjd"),
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-3",
+                q = q
+            ),
             "MJD (day)",
             "measured",
             "last observation epoch inside the trailing fit window",
         );
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.n_fit"),
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-4",
+                q = q
+            ),
             "count",
             "measured",
             "observations the fit was formed from",
         );
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.rms_fit_residual_native"),
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-5",
+                q = q
+            ),
             u,
             "computed",
             "in-window post-fit RMS, NOT a prediction error",
         );
         put(
-            &format!("operational_predictor_model.representative_fit.{q}.anchor_residual_native"),
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-6",
+                q = q
+            ),
             u,
             "computed",
             "the last in-window residual carried onto every forecast",
         );
         put(
-            &format!(
-                "operational_predictor_model.representative_fit.{q}.terms_rejected[].period_days"
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-7",
+                q = q
             ),
             "day",
             "constant",
             "period of a candidate periodic term the window was too short to admit",
         );
-        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].cycles_spanned"), "cycle (dimensionless)", "computed", "cycles of that period the fit window actually spans");
-        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].threshold_cycles"), "cycle (dimensionless)", "input", "cycles a term must span to be admitted to the design matrix");
+        put(
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-8",
+                q = q
+            ),
+            "cycle (dimensionless)",
+            "computed",
+            "cycles of that period the fit window actually spans",
+        );
+        put(
+            &crate::t!(
+                "realtime-frame-eop-operational-predictor-model-representative-fit-9",
+                q = q
+            ),
+            "cycle (dimensionless)",
+            "input",
+            "cycles a term must span to be admitted to the design matrix",
+        );
     }
     put(
         "operational_predictor_model.published_bulletin_a_agreement.issue_mjd",
@@ -1369,7 +1404,7 @@ fn units_block() -> serde_json::Value {
     let t5 = "table5_operational_vs_persistence";
     put(&format!("{t5}.n_rows"), "count", "measured", "");
     put(
-        &format!("{t5}.rows[].horizon_days"),
+        &crate::t!("realtime-frame-eop-rows-horizon-days", t5 = t5),
         "day",
         "input",
         "forecast lead the row was scored at",
@@ -1381,31 +1416,31 @@ fn units_block() -> serde_json::Value {
         "epochs BOTH predictors were scored over; the two columns share this set exactly",
     );
     put(
-        &format!("{t5}.rows[].epochs_mjd"),
+        &crate::t!("realtime-frame-eop-rows-epochs-mjd", t5 = t5),
         "MJD (day)",
         "measured",
         "the issue epochs the forecasts were made at",
     );
     put(
-        &format!("{t5}.rows[].target_mjds"),
+        &crate::t!("realtime-frame-eop-rows-target-mjds", t5 = t5),
         "MJD (day)",
         "measured",
         "the epochs the forecasts were scored at",
     );
-    put(&format!("{t5}.rows[].min_fit_lead_days"), "day", "computed", "smallest gap between any fit window's last observation and the epoch it predicted; > 0 is the no-look-ahead proof");
+    put(&crate::t!("realtime-frame-eop-rows-min-fit-lead-days", t5 = t5), "day", "computed", "smallest gap between any fit window's last observation and the epoch it predicted; > 0 is the no-look-ahead proof");
     put(
-        &format!("{t5}.rows[].fit_rows_min"),
+        &crate::t!("realtime-frame-eop-rows-fit-rows-min", t5 = t5),
         "count",
         "measured",
         "fewest observations any fit in the row was formed from",
     );
     put(
-        &format!("{t5}.rows[].fit_rows_max"),
+        &crate::t!("realtime-frame-eop-rows-fit-rows-max", t5 = t5),
         "count",
         "measured",
         "most observations any fit in the row was formed from",
     );
-    put(&format!("{t5}.rows[].*.improvement_factor"), "ratio (dimensionless)", "computed", "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon");
+    put(&crate::t!("realtime-frame-eop-rows-improvement-factor", t5 = t5), "ratio (dimensionless)", "computed", "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon");
     for p in ["operational", "persistence"] {
         put(
             &format!("{t5}.rows[].*.{p}.n"),
@@ -1414,73 +1449,81 @@ fn units_block() -> serde_json::Value {
             "epochs this predictor was scored at (equal to the row's n)",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.rms_native"),
+            &crate::t!("realtime-frame-eop-rows-rms-native", t5 = t5, p = p),
             "see the sibling `unit` field",
             "measured",
             "root-mean-square predicted-minus-final residual over the row's epochs",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.p50_native"),
+            &crate::t!("realtime-frame-eop-rows-p50-native", t5 = t5, p = p),
             "see the sibling `unit` field",
             "measured",
             "median absolute predicted-minus-final residual",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.p95_native"),
+            &crate::t!("realtime-frame-eop-rows-p95-native", t5 = t5, p = p),
             "see the sibling `unit` field",
             "measured",
             "95th-percentile absolute predicted-minus-final residual",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.max_native"),
+            &crate::t!("realtime-frame-eop-rows-max-native", t5 = t5, p = p),
             "see the sibling `unit` field",
             "measured",
             "largest absolute predicted-minus-final residual",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.rms_position_m"),
+            &crate::t!("realtime-frame-eop-rows-rms-position", t5 = t5, p = p),
             "m",
             "computed",
             "the RMS residual at the Moon through the L19 lever arm",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.p95_position_m"),
+            &crate::t!("realtime-frame-eop-rows-p95-position", t5 = t5, p = p),
             "m",
             "computed",
             "the 95th-percentile residual at the Moon",
         );
         put(
-            &format!("{t5}.rows[].*.{p}.rms_light_time_ns"),
+            &crate::t!("realtime-frame-eop-rows-rms-light-time-ns", t5 = t5, p = p),
             "ns",
             "computed",
             "the RMS residual as one-way light time at the Moon",
         );
     }
     put(
-        &format!("{t5}.equivalent_horizon_days.target_position_m"),
+        &crate::t!(
+            "realtime-frame-eop-equivalent-horizon-days-target-position",
+            t5 = t5
+        ),
         "m",
         "modelled",
         "the Table 1 real-time frame position the horizon is read against",
     );
     for q in ["ut1", "combined"] {
         for p in ["operational", "persistence"] {
-            put(&format!("{t5}.equivalent_horizon_days.{q}.{p}"), "day", "computed", "null when no measured pair of horizons brackets the target; the curve is never extrapolated");
+            put(&crate::t!("realtime-frame-eop-equivalent-horizon-days", t5 = t5, q = q, p = p), "day", "computed", "null when no measured pair of horizons brackets the target; the curve is never extrapolated");
         }
     }
 
     // --- G13: Table 6 ---
     let t6 = "table6_archived_vintage_predicted_vs_final";
     put(&format!("{t6}.n_rows"), "count", "measured", "");
-    put(&format!("{t6}.rows[].horizon_days"), "day", "input", "");
+    put(
+        &crate::t!("realtime-frame-eop-rows-horizon-days-2", t6 = t6),
+        "day",
+        "input",
+        "",
+    );
     put(&format!("{t6}.rows[].n"), "count", "measured", "");
     put(
-        &format!("{t6}.rows[].issue_mjd"),
+        &crate::t!("realtime-frame-eop-rows-issue-mjd", t6 = t6),
         "MJD (day)",
         "measured",
         "the as-issued vintage's data cutoff",
     );
     put(
-        &format!("{t6}.rows[].epochs_mjd"),
+        &crate::t!("realtime-frame-eop-rows-epochs-mjd-2", t6 = t6),
         "MJD (day)",
         "measured",
         "",
@@ -1488,43 +1531,47 @@ fn units_block() -> serde_json::Value {
     for p in ["archived_bulletin_a", "operational", "persistence"] {
         put(&format!("{t6}.rows[].*.{p}.n"), "count", "measured", "");
         put(
-            &format!("{t6}.rows[].*.{p}.rms_native"),
+            &crate::t!("realtime-frame-eop-rows-rms-native-2", t6 = t6, p = p),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.p50_native"),
+            &crate::t!("realtime-frame-eop-rows-p50-native-2", t6 = t6, p = p),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.p95_native"),
+            &crate::t!("realtime-frame-eop-rows-p95-native-2", t6 = t6, p = p),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.max_native"),
+            &crate::t!("realtime-frame-eop-rows-max-native-2", t6 = t6, p = p),
             "see the sibling `unit` field",
             "measured",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.rms_position_m"),
+            &crate::t!("realtime-frame-eop-rows-rms-position-2", t6 = t6, p = p),
             "m",
             "computed",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.p95_position_m"),
+            &crate::t!("realtime-frame-eop-rows-p95-position-2", t6 = t6, p = p),
             "m",
             "computed",
             "",
         );
         put(
-            &format!("{t6}.rows[].*.{p}.rms_light_time_ns"),
+            &crate::t!(
+                "realtime-frame-eop-rows-rms-light-time-ns-2",
+                t6 = t6,
+                p = p
+            ),
             "ns",
             "computed",
             "",
@@ -1643,41 +1690,29 @@ fn predicted_vs_final_status(c: &Computed) -> (&'static str, String) {
     if !c.predicted_vs_final.is_empty() {
         return (
             "measured",
-            format!(
-                "Measured over a genuine two-vintage pair: the Bulletin A PREDICTED UT1 of \
-                 the as-issued file ({}) differenced against the eventual Bulletin B FINAL \
-                 of the archived later vintage ({}), at {} horizon(s).",
-                c.eop_source,
-                c.later_source.clone().unwrap_or_default(),
-                c.predicted_vs_final.len(),
+            crate::t!(
+                "realtime-frame-eop-measured-over-genuine-two-vintage-2",
+                eop_source = c.eop_source,
+                c = c.later_source.clone().unwrap_or_default(),
+                predicted_vs_final = c.predicted_vs_final.len()
             ),
         );
     }
     if c.later_source.is_some() {
         return (
             "no-matched-pairs",
-            format!(
-                "EMPTY, and deliberately so: an archived later vintage was supplied ({}) but \
-                 no date is carried as a Bulletin A PREDICTION in the as-issued file ({}) and \
-                 as a Bulletin B FINAL in the later one at any requested horizon, so there is \
-                 no predicted-vs-final residual to report. No row is synthesised.",
-                c.later_source.clone().unwrap_or_default(),
-                c.eop_source,
+            crate::t!(
+                "realtime-frame-eop-empty-and-deliberately-so-an",
+                c = c.later_source.clone().unwrap_or_default(),
+                eop_source = c.eop_source
             ),
         );
     }
     (
         "no-second-vintage",
-        format!(
-            "EMPTY, and deliberately so: a predicted-vs-final residual needs TWO vintages of \
-             the same finals2000A product. This run was given one ({}). Its Bulletin A \
-             prediction rows are for future dates that have no Bulletin B final yet, so the \
-             residual does not exist to be measured and none is invented here. Supply an \
-             archived later vintage through `eop_finals2000a_later` to populate this table. \
-             Until then the multi-day growth reported in `table2_error_vs_horizon` is the \
-             PERSISTENCE predictor scored over the real finals — a real measured error, but a \
-             Modelled predictor, and not the IERS Bulletin A prediction residual.",
-            c.eop_source,
+        crate::t!(
+            "realtime-frame-eop-empty-and-deliberately-so-predicted-2",
+            eop_source = c.eop_source
         ),
     )
 }

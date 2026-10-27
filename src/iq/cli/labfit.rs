@@ -27,10 +27,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     a.need_pos(1, "labfit")?;
     let path = Path::new(&a.pos[0]);
 
-    let src = std::fs::read_to_string(path)
-        .map_err(|e| Fail::Run(format!("cannot read {}: {e}", path.display())))?;
-    let mut scenario: LabFitScenario =
-        toml::from_str(&src).map_err(|e| Fail::Usage(format!("invalid labfit scenario: {e}")))?;
+    let src = std::fs::read_to_string(path).map_err(|e| {
+        Fail::Run(crate::t!(
+            "iq-cli-labfit-cannot-read",
+            path = path.display(),
+            e = e
+        ))
+    })?;
+    let mut scenario: LabFitScenario = toml::from_str(&src)
+        .map_err(|e| Fail::Usage(crate::t!("iq-cli-labfit-invalid-labfit-scenario", e = e)))?;
     let base = path.parent().map(PathBuf::from).unwrap_or_default();
     resolve_paths(&mut scenario, &base);
 
@@ -42,7 +47,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         return run_campaign(&scenario, &prefix);
     }
 
-    let out = run_scenario(&scenario).map_err(Fail::Run)?;
+    // The four report files are machine files: English in every language.
+    let out = crate::i18n::in_english_or_localised_error(|| run_scenario(&scenario))
+        .map_err(Fail::Run)?;
 
     let written = write_all(
         &prefix,
@@ -53,17 +60,18 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             ("labfit.md", &out.markdown),
         ],
     )?;
-    Ok(format!(
-        "fitted {} run(s); wrote {}",
-        scenario.runs.len(),
-        written.join(", ")
+    Ok(crate::t!(
+        "iq-cli-labfit-fitted-run-wrote",
+        runs = scenario.runs.len(),
+        written = written.join(", ")
     ))
 }
 
 /// The campaign path: fit the `kshana iq campaign` folder the scenario names and write the
 /// four `labfit-iq` report forms under `prefix`.
 fn run_campaign(scenario: &LabFitScenario, prefix: &Path) -> Result<String, Fail> {
-    let out = run_campaign_scenario(scenario).map_err(Fail::Run)?;
+    let out = crate::i18n::in_english_or_localised_error(|| run_campaign_scenario(scenario))
+        .map_err(Fail::Run)?;
     let written = write_all(
         prefix,
         [
@@ -73,10 +81,10 @@ fn run_campaign(scenario: &LabFitScenario, prefix: &Path) -> Result<String, Fail
             ("labfit-iq.md", &out.markdown),
         ],
     )?;
-    Ok(format!(
-        "fitted {} unit(s) from campaign; wrote {}",
-        out.report.fit_units.len(),
-        written.join(", ")
+    Ok(crate::t!(
+        "iq-cli-labfit-fitted-unit-from-campaign-wrote",
+        fit_units = out.report.fit_units.len(),
+        written = written.join(", ")
     ))
 }
 
@@ -85,8 +93,13 @@ fn write_all(prefix: &Path, files: [(&str, &String); 4]) -> Result<Vec<String>, 
     let mut written = Vec::new();
     for (ext, body) in files {
         let target = PathBuf::from(format!("{}.{ext}", prefix.display()));
-        std::fs::write(&target, body)
-            .map_err(|e| Fail::Run(format!("cannot write {}: {e}", target.display())))?;
+        std::fs::write(&target, body).map_err(|e| {
+            Fail::Run(crate::t!(
+                "iq-cli-labfit-cannot-write",
+                target = target.display(),
+                e = e
+            ))
+        })?;
         written.push(target.display().to_string());
     }
     Ok(written)

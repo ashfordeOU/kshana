@@ -72,11 +72,17 @@ impl LiveCfg {
             ("gate_release_s", self.gate_release_s),
         ] {
             if !(v.is_finite() && v >= 0.0) {
-                return Err(format!("live: {name} must be finite and >= 0 (got {v})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-live-live-must-be-finite-and",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if self.idle_flush_s == 0.0 {
-            return Err("live: idle_flush_s must be above 0".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-live-live-idle-flush-must-be"
+            ));
         }
         Ok(())
     }
@@ -213,14 +219,16 @@ fn label_tod(label: &str) -> Option<String> {
 /// Parse a live session: the same TOML as a batch scenario, except that `[log]` is not
 /// needed (and not used when present).
 pub fn parse_live_scenario(src: &str) -> Result<ReceiverTrustScenario, String> {
-    let mut v: toml::Table = toml::from_str(src).map_err(|e| format!("invalid session: {e}"))?;
+    let mut v: toml::Table = toml::from_str(src)
+        .map_err(|e| crate::terr!("e-receiver-trust-live-invalid-session", e = e))?;
     v.entry("log").or_insert_with(|| {
         let mut t = toml::Table::new();
         t.insert("format".into(), "nmea".into());
         t.insert("text".into(), "".into());
         toml::Value::Table(t)
     });
-    v.try_into().map_err(|e| format!("invalid session: {e}"))
+    v.try_into()
+        .map_err(|e| crate::terr!("e-receiver-trust-live-invalid-session", e = e))
 }
 
 /// What one call returns.
@@ -274,11 +282,9 @@ impl LiveEngine {
         let cfg = &scn.monitors;
         cfg.validate()?;
         if !cfg.platform.is_vessel() {
-            return Err(
-                "live mode needs [platform] kind = \"vessel\": the trust score is for a moving \
-                 platform"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-receiver-trust-live-live-mode-needs-platform-kind"
+            ));
         }
         // Everything a monitor looks back on: two kinematic windows, the evidence hold and
         // the smoothing window, plus a margin.
@@ -530,7 +536,10 @@ impl LiveEngine {
                 None,
                 Vec::new(),
                 Vec::new(),
-                Some(format!("no score could be produced: {msg}")),
+                Some(crate::t!(
+                    "receiver-trust-live-no-score-could-be-produced",
+                    msg = msg
+                )),
                 None,
             ),
         }

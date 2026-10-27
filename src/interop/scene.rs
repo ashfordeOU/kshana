@@ -210,19 +210,21 @@ const MAX_SAMPLES: usize = 5_000_000;
 
 fn time_grid(step_s: f64, duration_s: f64) -> Result<Vec<f64>, ExportError> {
     if !(step_s.is_finite() && step_s > 0.0) {
-        return Err(ExportError::Failed(
-            "time step must be positive and finite for an export".into(),
-        ));
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-time-step-must-be-positive"
+        )));
     }
     if !(duration_s.is_finite() && duration_s >= 0.0) {
-        return Err(ExportError::Failed(
-            "duration must be non-negative and finite for an export".into(),
-        ));
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-duration-must-be-non-negative"
+        )));
     }
     let n = (duration_s / step_s).round() as usize;
     if n >= MAX_SAMPLES {
-        return Err(ExportError::Failed(format!(
-            "{n} time samples is more than an export writes ({MAX_SAMPLES})"
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-time-samples-is-more-than",
+            n = n,
+            MAX_SAMPLES = MAX_SAMPLES
         )));
     }
     Ok((0..=n).map(|i| i as f64 * step_s).collect())
@@ -243,10 +245,11 @@ fn sample(
     own_dates: bool,
 ) -> Result<Vec<Mover>, ExportError> {
     if items.len().saturating_mul(times.len()) > MAX_SAMPLES {
-        return Err(ExportError::Failed(format!(
-            "{} objects x {} samples is more than an export writes ({MAX_SAMPLES})",
-            items.len(),
-            times.len()
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-objects-samples-is-more-than",
+            items = items.len(),
+            times = times.len(),
+            MAX_SAMPLES = MAX_SAMPLES
         )));
     }
     let mut movers: Vec<Mover> = items
@@ -515,7 +518,11 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
         return Err(ExportError::NotApplicable(why));
     }
     let bad = |e: toml::de::Error| {
-        ExportError::Failed(format!("invalid {} scenario: {e}", kind.as_str()))
+        ExportError::Failed(crate::terr!(
+            "e-interop-scene-invalid-scenario",
+            kind = kind.as_str(),
+            e = e
+        ))
     };
     let mut scene = Scene::empty(kind, src);
     match kind {
@@ -565,9 +572,11 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 let site = geodetic_site(
                     "jammer",
                     SiteRole::Jammer,
-                    format!(
-                        "{} jammer, {} dBW transmit power, {} dBi antenna gain",
-                        j.jammer_type, j.power_dbw, j.gain_dbi
+                    crate::t!(
+                        "interop-scene-jammer-dbw-transmit-power-dbi",
+                        jammer_type = j.jammer_type,
+                        power_dbw = j.power_dbw,
+                        gain_dbi = j.gain_dbi
                     ),
                     j.position_ecef_m,
                 );
@@ -589,10 +598,10 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                     if let Some(r) = jammer_denial_range_m(&scn, j, el) {
                         scene.footprints.push(Footprint {
                             id: id.to_string(),
-                            description: format!(
-                                "{what}; {:.0} m, from the jamming kind's link equations with \
-                                 the jammer at the receiver's horizon and free-space loss",
-                                r
+                            description: crate::t!(
+                                "interop-scene-from-the-jamming-kind-link",
+                                what = what,
+                                r = crate::i18n::localise_decimal(format!("{:.0}", r))
                             ),
                             centre_lat_deg: site.lat_deg,
                             centre_lon_deg: site.lon_deg,
@@ -622,7 +631,10 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 toml::from_str(src).map_err(bad)?;
             let pass = scn.pass_scenario().map_err(ExportError::Failed)?;
             leo_pass_scene(&mut scene, &pass)?;
-            scene.epoch_note = format!("{} (the chain's [pass] stage)", scene.epoch_note);
+            scene.epoch_note = crate::t!(
+                "interop-scene-the-chain-pass-stage",
+                epoch_note = scene.epoch_note
+            );
         }
         ScenarioKind::Passes => {
             let scn: crate::passes::PassesScenario = toml::from_str(src).map_err(bad)?;
@@ -644,10 +656,10 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 vec![(
                     "satellite".into(),
                     MoverRole::Satellite,
-                    format!(
-                        "circular orbit, {} km altitude, {} deg inclination (SGP4 mean elements \
-                         at the window start, as the passes kind propagates it)",
-                        scn.altitude_km, scn.inclination_deg
+                    crate::t!(
+                        "interop-scene-circular-orbit-km-altitude-deg",
+                        altitude_km = scn.altitude_km,
+                        inclination_deg = scn.inclination_deg
                     ),
                     scn.propagator(),
                 )],
@@ -658,7 +670,10 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
             scene.sites.push(Site {
                 id: "station".into(),
                 role: SiteRole::Station,
-                description: format!("ground station, {} deg elevation mask", scn.mask_deg),
+                description: crate::t!(
+                    "interop-scene-ground-station-deg-elevation-mask",
+                    mask_deg = scn.mask_deg
+                ),
                 lat_deg: scn.station_lat_deg,
                 lon_deg: scn.station_lon_deg,
                 h_m: scn.station_alt_m,
@@ -676,10 +691,9 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
             scene.movers.push(Mover {
                 id: "satellite".into(),
                 role: MoverRole::Satellite,
-                description: format!(
-                    "{}; GCRS and Earth-fixed states are the ephemeris kind's own output \
-                     (UT1 and polar motion as the scenario sets them)",
-                    r.source
+                description: crate::t!(
+                    "interop-scene-gcrs-and-earth-fixed-states",
+                    source = r.source
                 ),
                 gcrs_r_m: r.samples.iter().map(|s| s.gcrs_r_m).collect(),
                 gcrs_v_m_s: r.samples.iter().map(|s| s.gcrs_v_m_s).collect(),
@@ -720,9 +734,9 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 .map(|a| a.iter().filter_map(toml_f64).collect::<Vec<f64>>())
                 .filter(|a| a.len() == 3);
             let Some(t) = truth else {
-                return Err(ExportError::NotApplicable(
-                    "this pvt scenario gives no `truth_ecef`, the only position it states".into(),
-                ));
+                return Err(ExportError::NotApplicable(crate::terr!(
+                    "e-interop-scene-this-pvt-scenario-gives-no"
+                )));
             };
             scene.epoch_note = "static scene: the receiver's reference position only".into();
             scene.sites.push(geodetic_site(
@@ -740,24 +754,23 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
         | ScenarioKind::CombinedAltPnt => {
             let v: toml::Value = toml::from_str(src).map_err(bad)?;
             let track = straight_track(&v).map_err(ExportError::Failed)?;
-            scene.epoch_note = format!(
-                "static scene: the {} kind flies an untimed track of waypoints",
-                kind.as_str()
+            scene.epoch_note = crate::t!(
+                "interop-scene-static-scene-the-kind-flies",
+                kind = kind.as_str()
             );
             scene.routes.push(Route {
                 id: "track".into(),
-                description: format!(
-                    "true track flown GPS-denied: {} waypoints from start_lat_deg/start_lon_deg \
-                     in steps of step_lat_deg/step_lon_deg",
-                    track.len()
+                description: crate::t!(
+                    "interop-scene-true-track-flown-gps-denied",
+                    track = track.len()
                 ),
                 points: track,
             });
         }
         _ => {
-            return Err(ExportError::NotApplicable(format!(
-                "`{}` has no scene",
-                kind.as_str()
+            return Err(ExportError::NotApplicable(crate::terr!(
+                "e-interop-scene-has-no-scene",
+                kind = kind.as_str()
             )))
         }
     }
@@ -774,7 +787,7 @@ pub fn straight_track(v: &toml::Value) -> Result<Vec<[f64; 2]>, String> {
     let f = |k: &str| {
         v.get(k)
             .and_then(toml_f64)
-            .ok_or_else(|| format!("missing numeric `{k}`"))
+            .ok_or_else(|| crate::terr!("e-interop-scene-missing-numeric", k = k))
     };
     let (la0, lo0, dla, dlo) = (
         f("start_lat_deg")?,
@@ -785,9 +798,12 @@ pub fn straight_track(v: &toml::Value) -> Result<Vec<[f64; 2]>, String> {
     let n = v
         .get("waypoints")
         .and_then(|w| w.as_integer())
-        .ok_or("missing integer `waypoints`")?;
+        .ok_or_else(|| crate::terr!("e-interop-scene-missing-integer-waypoints"))?;
     if !(1..=1_000_000).contains(&n) {
-        return Err(format!("waypoints = {n} is outside 1..=1000000"));
+        return Err(crate::terr!(
+            "e-interop-scene-waypoints-is-outside-1000000",
+            n = n
+        ));
     }
     Ok((0..n as usize)
         .map(|i| {
@@ -823,13 +839,13 @@ fn walker_scene(
     scene.times_s = time_grid(time.step_s, time.duration_s)?;
     let sats = w.satellites();
     let ids = positional_ids(sats.len());
-    let desc = format!(
-        "Walker {}/{}/{} at {} km, {} deg inclination (SGP4)",
-        w.total(),
-        w.planes,
-        w.phasing_f,
-        w.altitude_km,
-        w.inclination_deg
+    let desc = crate::t!(
+        "interop-scene-walker-at-km-deg-inclination",
+        w = w.total(),
+        planes = w.planes,
+        phasing_f = w.phasing_f,
+        altitude_km = w.altitude_km,
+        inclination_deg = w.inclination_deg
     );
     let items = ids
         .into_iter()
@@ -859,22 +875,15 @@ fn default_epoch(sats: &[Propagator]) -> (UtcEpoch, String) {
     let epoch = UtcEpoch::from_jd_utc(first);
     let spread_h = (last - first) * 24.0;
     let note = if spread_h > 0.0 {
-        format!(
-            "the scenario gives no `epoch`; t = 0 is {}, the earliest epoch the satellites' \
-             own data carry (TLE, broadcast-ephemeris or SP3 epoch). Each satellite is \
-             propagated from its own epoch, and those span {:.3} h: the time tags follow the \
-             engine's premise that every satellite starts at t = 0, while each position is \
-             rotated into the GCRS and Earth-fixed frames at that satellite's own instant. \
-             The SP3 and OEM exports label t = 0 as 2000-01-01T00:00:00Z instead",
-            epoch.iso(0.0),
-            spread_h
+        crate::t!(
+            "interop-scene-the-scenario-gives-no-epoch",
+            epoch = epoch.iso(0.0),
+            spread_h = crate::i18n::localise_decimal(format!("{:.3}", spread_h))
         )
     } else {
-        format!(
-            "the scenario gives no `epoch`; t = 0 is {}, the epoch the satellites' own data \
-             carry (TLE, broadcast-ephemeris or SP3 epoch). The SP3 and OEM exports label t = \
-             0 as 2000-01-01T00:00:00Z instead",
-            epoch.iso(0.0)
+        crate::t!(
+            "interop-scene-the-scenario-gives-no-epoch-2",
+            epoch = epoch.iso(0.0)
         )
     };
     (epoch, note)
@@ -892,10 +901,11 @@ fn leo_pass_scene(
     use crate::leo_link::geometry::{eci0_to_ecef, Kinematics};
     let tr = scn.tracks().map_err(ExportError::Failed)?;
     if tr.satellites.len().saturating_mul(tr.times_s.len()) > MAX_SAMPLES {
-        return Err(ExportError::Failed(format!(
-            "{} objects x {} samples is more than an export writes ({MAX_SAMPLES})",
-            tr.satellites.len(),
-            tr.times_s.len()
+        return Err(ExportError::Failed(crate::terr!(
+            "e-interop-scene-objects-samples-is-more-than-2",
+            satellites = tr.satellites.len(),
+            times_s = tr.times_s.len(),
+            MAX_SAMPLES = MAX_SAMPLES
         )));
     }
     let epoch = UtcEpoch::from_jd_utc(tr.epoch_jd_utc);
@@ -935,9 +945,9 @@ fn leo_pass_scene(
         scene.movers.push(mover(
             "user".into(),
             MoverRole::User,
-            format!(
-                "{} user, moving (the kind's constant speed and heading)",
-                tr.user_environment
+            crate::t!(
+                "interop-scene-user-moving-the-kind-constant",
+                user_environment = tr.user_environment
             ),
             &tr.user,
         ));
@@ -945,7 +955,10 @@ fn leo_pass_scene(
         scene.sites.push(Site {
             id: "user".into(),
             role: SiteRole::Receiver,
-            description: format!("{} user (receiver)", tr.user_environment),
+            description: crate::t!(
+                "interop-scene-user-receiver",
+                user_environment = tr.user_environment
+            ),
             lat_deg: round_dp(lat, 9),
             lon_deg: round_dp(lon, 9),
             h_m: round_dp(h, 4),
@@ -987,11 +1000,11 @@ fn orbit_like(
         items.push((
             "user".into(),
             MoverRole::User,
-            format!(
-                "user orbit, {} km altitude, {} deg inclination (Keplerian{})",
-                user.altitude_km,
-                user.inclination_deg,
-                if user.j2 { ", secular J2" } else { "" }
+            crate::t!(
+                "interop-scene-user-orbit-km-altitude-deg",
+                altitude_km = user.altitude_km,
+                inclination_deg = user.inclination_deg,
+                v3 = if user.j2 { ", secular J2" } else { "" }
             ),
             Propagator::Kepler(user.to_orbit()),
         ));

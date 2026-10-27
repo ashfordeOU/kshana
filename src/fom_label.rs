@@ -54,6 +54,17 @@ impl ValidationTier {
             ValidationTier::Partial => "PARTIAL",
         }
     }
+
+    /// The tier word as a person reads it in a human rendering (the study report, the run
+    /// summary), in the current language. [`tag`](Self::tag) stays English: it is what the
+    /// machine documents (`figure_tiers`) carry.
+    pub fn label(self) -> String {
+        match self {
+            ValidationTier::Validated => crate::t!("fom-verdict-validated"),
+            ValidationTier::Modelled => crate::t!("fom-verdict-modelled"),
+            ValidationTier::Partial => crate::t!("fom-verdict-partial"),
+        }
+    }
 }
 
 /// The verification-matrix `requirement` that owns each FoM field. The tier is

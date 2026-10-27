@@ -120,7 +120,7 @@ pub struct Handoff {
 fn table<T: serde::de::DeserializeOwned>(v: &toml::Value, what: &str) -> Result<T, String> {
     v.clone()
         .try_into()
-        .map_err(|e| format!("invalid [{what}] table: {e}"))
+        .map_err(|e| crate::terr!("e-leo-pnt-chain-invalid-table", what = what, e = e))
 }
 
 /// Least-squares line `cn0 = a + b sin(el)` through `(el_deg, cn0)` samples.
@@ -187,19 +187,19 @@ impl LeoPntChainScenario {
             .cloned()
             .or_else(|| crate::leo_signal::public_signal(&self.signal_design))
             .ok_or_else(|| {
-                format!(
-                    "signal_design '{}' is neither in [signal] nor a public design ({})",
-                    self.signal_design,
-                    crate::leo_signal::public_signal_names().join(", ")
+                crate::terr!(
+                    "e-leo-pnt-chain-signal-design-is-neither-in",
+                    signal_design = self.signal_design,
+                    v2 = crate::leo_signal::public_signal_names().join(", ")
                 )
             })?;
         if !designs.iter().any(|d| d.name == chosen.name) {
             designs.push(chosen.clone());
         }
         if chosen.tracked_index().is_none() {
-            return Err(format!(
-                "signal_design '{}' has no code-tracked component, so it gives no pseudorange",
-                chosen.name
+            return Err(crate::terr!(
+                "e-leo-pnt-chain-signal-design-has-no-code",
+                name = chosen.name
             ));
         }
         Ok((sig, designs, chosen))
@@ -218,7 +218,7 @@ impl LeoPntChainScenario {
     pub fn compute(&self) -> Result<(Value, String, String), String> {
         if let Some(k) = &self.kind {
             if k != "leo-pnt-chain" {
-                return Err(format!("kind must be leo-pnt-chain; got {k}"));
+                return Err(crate::terr!("e-leo-pnt-chain-kind-must-be-leo-pnt", k = k));
             }
         }
         let seed = self.seed.unwrap_or(1);
@@ -241,7 +241,7 @@ impl LeoPntChainScenario {
         let chip = design.components[ti]
             .shape
             .chip_rate_hz()
-            .ok_or("the tracked component has no chip rate")?;
+            .ok_or_else(|| crate::terr!("e-leo-pnt-chain-the-tracked-component-has-no"))?;
         let offset = design.component_cn0_offset_db(ti, eta);
         hand(
             "leo-signal",
@@ -273,10 +273,7 @@ impl LeoPntChainScenario {
         pass.signal_designs = designs.clone();
         let pr = pass.compute()?;
         let pk = pick(&pr, &design.name).ok_or_else(|| {
-            format!(
-                "no band of [pass] names signal = \"{}\"; the chain needs one to carry the design",
-                design.name
-            )
+            crate::terr!("e-leo-pnt-chain-no-band-of-pass-names", name = design.name)
         })?;
         let sat = &pr.satellites[pk.sat];
         let band = &sat.bands[pk.band];
@@ -290,15 +287,14 @@ impl LeoPntChainScenario {
                     .map(|c| (e.elevation_deg, c))
             })
             .collect();
-        let (a, b) = fit_sin_line(&pts).ok_or(
-            "the chain satellite is visible for fewer than two epochs, or at one elevation only; \
-             widen the pass window",
-        )?;
+        let (a, b) = fit_sin_line(&pts)
+            .ok_or_else(|| crate::terr!("e-leo-pnt-chain-the-chain-satellite-is-visible"))?;
         let jit: Vec<f64> = vis
             .iter()
             .filter_map(|e| e.bands[pk.band].code_jitter_m)
             .collect();
-        let jitter_median = median(jit.clone()).ok_or("the pass gives no code jitter")?;
+        let jitter_median = median(jit.clone())
+            .ok_or_else(|| crate::terr!("e-leo-pnt-chain-the-pass-gives-no-code"))?;
 
         // 3. Navigation message.
         let mut nav: LeoNavmsgScenario = match &self.navmsg {
@@ -335,7 +331,7 @@ impl LeoPntChainScenario {
         let (stats, res) = nav.broadcast_sisre()?;
         let od = self.od_sisre_m.unwrap_or(0.0);
         if !(od.is_finite() && (0.0..=100.0).contains(&od)) {
-            return Err(format!("od_sisre_m must be in [0, 100] m; got {od}"));
+            return Err(crate::terr!("e-leo-pnt-chain-od-sisre-must-be-in", od = od));
         }
         let sisre = (stats.sisre_rms_m.ppowi(2) + od * od).sqrt();
 
@@ -343,7 +339,10 @@ impl LeoPntChainScenario {
         let mut fusion: LeoPvtScenario = table(&self.fusion, "fusion")?;
         let mode = fusion.mode.clone().unwrap_or_else(|| "joint".into());
         if mode != "joint" {
-            return Err(format!("[fusion] must run mode = \"joint\"; got {mode}"));
+            return Err(crate::terr!(
+                "e-leo-pnt-chain-fusion-must-run-mode-joint",
+                mode = mode
+            ));
         }
         if fusion.seed.is_none() {
             fusion.seed = Some(seed);
@@ -376,7 +375,10 @@ impl LeoPntChainScenario {
                 hand(
                     "leo-pass",
                     "leo-pvt",
-                    &format!("tracked C/N0 at the {mask:.0} deg mask (line fit in sin elevation)"),
+                    &crate::t!(
+                        "leo-pnt-chain-tracked-n0-at-the-deg",
+                        mask = crate::i18n::localise_decimal(format!("{:.0}", mask))
+                    ),
                     &tag("cn0_dbhz[0]"),
                     lo,
                     "dB-Hz",
@@ -419,13 +421,13 @@ impl LeoPntChainScenario {
             first_leo = false;
         }
         if n_leo_systems == 0 {
-            return Err("[fusion] has no LEO system to receive the chain's values".into());
+            return Err(crate::terr!("e-leo-pnt-chain-fusion-has-no-leo-system"));
         }
         let fr: LeoPvtReport = fusion.compute()?;
         let joint = fr
             .joint
             .as_ref()
-            .ok_or("[fusion] produced no joint block")?;
+            .ok_or_else(|| crate::terr!("e-leo-pnt-chain-fusion-produced-no-joint-block"))?;
 
         // 5. PPP (optional).
         let ppp_out = match &self.ppp {
@@ -491,7 +493,7 @@ impl LeoPntChainScenario {
         let name = self
             .name
             .clone()
-            .unwrap_or_else(|| format!("LEO-PNT chain: {}", design.name));
+            .unwrap_or_else(|| crate::t!("leo-pnt-chain-leo-pnt-chain", name = design.name));
         let mut doc = json!({
             "kind": "leo-pnt-chain",
             "label": LABEL,
@@ -564,48 +566,53 @@ impl LeoPntChainScenario {
             .expect("object")
             .insert("units".into(), units);
 
-        let mut s = format!(
-            "{name}\n  signal {} ({}), tracked {} at {:.3} Mchip/s, C/N0 offset {:+.2} dB\n",
-            design.name,
-            design
+        let mut s = crate::t!(
+            "leo-pnt-chain-signal-tracked-at-mchip-n0",
+            name = name,
+            name2 = design.name,
+            design = design
                 .source_ref
                 .clone()
                 .unwrap_or_else(|| "scenario".into()),
-            design.components[ti].role.as_str(),
-            chip / 1e6,
-            offset
+            design2 = design.components[ti].role.as_str(),
+            v4 = crate::i18n::localise_decimal(format!("{:.3}", chip / 1e6)),
+            offset = crate::i18n::localise_decimal(format!("{:+.2}", offset))
         );
-        s.push_str(&format!(
-            "  pass {} {:.0} km: tracked C/N0 peak {:.1} dB-Hz, code jitter median {:.3} m; C/N0 line {:.1} + {:.1} sin(el) dB-Hz\n",
-            sat.id,
-            sat.altitude_m / 1e3,
-            band.peak_tracked_cn0_dbhz.unwrap_or(f64::NAN),
-            jitter_median,
-            a,
-            b
+        s.push_str(&crate::t!(
+            "leo-pnt-chain-pass-km-tracked-n0-peak",
+            id = sat.id,
+            sat = crate::i18n::localise_decimal(format!("{:.0}", sat.altitude_m / 1e3)),
+            peak_tracked_cn0_dbhz = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                band.peak_tracked_cn0_dbhz.unwrap_or(f64::NAN)
+            )),
+            jitter_median = crate::i18n::localise_decimal(format!("{:.3}", jitter_median)),
+            a = crate::i18n::localise_decimal(format!("{:.1}", a)),
+            b = crate::i18n::localise_decimal(format!("{:.1}", b))
         ));
-        s.push_str(&format!(
-            "  message {} {:.0} s fit / {:.0} s update: representation SISRE {:.3} mm RMS (orbit {:.3} mm), with {:.3} m orbit determination: {:.3} m handed on\n",
-            res.model.code(),
-            res.fit_interval_s,
-            res.update_period_s,
-            stats.sisre_rms_m * 1e3,
-            stats.sisre_orb_rms_m * 1e3,
-            od,
-            sisre
+        s.push_str(&crate::t!(
+            "leo-pnt-chain-message-fit-update-representation-sisre",
+            res = res.model.code(),
+            fit_interval_s = crate::i18n::localise_decimal(format!("{:.0}", res.fit_interval_s)),
+            update_period_s = crate::i18n::localise_decimal(format!("{:.0}", res.update_period_s)),
+            stats = crate::i18n::localise_decimal(format!("{:.3}", stats.sisre_rms_m * 1e3)),
+            stats2 = crate::i18n::localise_decimal(format!("{:.3}", stats.sisre_orb_rms_m * 1e3)),
+            od = crate::i18n::localise_decimal(format!("{:.3}", od)),
+            sisre = crate::i18n::localise_decimal(format!("{:.3}", sisre))
         ));
         let f3 = |f: &crate::leo_fusion::pvt_kind::FixFom| {
-            format!(
-                "PDOP {} RMS 3D {}",
-                f.median_pdop.map_or("n/a".into(), |v| format!("{v:.2}")),
-                f.rms_error_3d_m
+            crate::t!(
+                "leo-pnt-chain-pdop-rms-3d",
+                f = f.median_pdop.map_or("n/a".into(), |v| format!("{v:.2}")),
+                f2 = f
+                    .rms_error_3d_m
                     .map_or("n/a".into(), |v| format!("{v:.2} m"))
             )
         };
-        s.push_str(&format!(
-            "  fused fix: GNSS only {} -> GNSS + LEO {}\n",
-            f3(&joint.gnss),
-            f3(&joint.fused)
+        s.push_str(&crate::t!(
+            "leo-pnt-chain-fused-fix-gnss-only-gnss",
+            f3 = f3(&joint.gnss),
+            f32 = f3(&joint.fused)
         ));
         if let Some(p) = &ppp_out {
             let cells: Vec<String> = p
@@ -620,11 +627,14 @@ impl LeoPntChainScenario {
                     )
                 })
                 .collect();
-            s.push_str(&format!("  PPP convergence: {}\n", cells.join(", ")));
+            s.push_str(&crate::t!(
+                "leo-pnt-chain-ppp-convergence",
+                cells = cells.join(", ")
+            ));
         }
-        s.push_str(&format!(
-            "  {} values handed between stages. MODELLED.",
-            doc["handoffs"].as_array().map_or(0, |v| v.len())
+        s.push_str(&crate::t!(
+            "leo-pnt-chain-values-handed-between-stages-modelled",
+            doc = doc["handoffs"].as_array().map_or(0, |v| v.len())
         ));
         let svg = to_svg(&doc, &name);
         Ok((doc, s, svg))
@@ -655,7 +665,10 @@ fn to_svg(doc: &Value, name: &str) -> String {
         w,
         h,
         name,
-        "signal design -> pass C/N0 and code jitter -> message SISRE -> fused fix · MODELLED",
+        &crate::t!(
+            "leo-pnt-chain-chart-subtitle",
+            label = crate::t!("fom-verdict-modelled")
+        ),
     );
     let (ml, pw) = (70.0, 800.0);
     let t = nums(&doc["series"]["t_s"]);
@@ -675,7 +688,7 @@ fn to_svg(doc: &Value, name: &str) -> String {
         top1,
         pw,
         top1 + ph1,
-        "Tracked-component C/N0 over the pass (dB-Hz, 20 to 80)",
+        &crate::t!("leo-pnt-chain-chart-cn0-caption"),
     ));
     let pts: Vec<String> = t
         .iter()
@@ -702,7 +715,10 @@ fn to_svg(doc: &Value, name: &str) -> String {
         top2,
         pw,
         top2 + ph2,
-        &format!("Code-tracking jitter, the ranging error (m, 0 to {jmax:.3})"),
+        &crate::t!(
+            "leo-pnt-chain-code-tracking-jitter-the-ranging",
+            jmax = crate::i18n::localise_decimal(format!("{:.3}", jmax))
+        ),
     ));
     let pts: Vec<String> = t
         .iter()
@@ -718,11 +734,19 @@ fn to_svg(doc: &Value, name: &str) -> String {
     }
     // Footer: the downstream figures.
     let f = |p: &str| doc.pointer(p).and_then(Value::as_f64);
-    let line = format!(
-        "SISRE {} · GNSS only RMS 3D {} · GNSS + LEO RMS 3D {}",
-        f("/navmsg/sisre_rms_m").map_or("n/a".into(), |v| format!("{v:.3} m")),
-        f("/fusion/gnss/rms_error_3d_m").map_or("n/a".into(), |v| format!("{v:.2} m")),
-        f("/fusion/fused/rms_error_3d_m").map_or("n/a".into(), |v| format!("{v:.2} m")),
+    let line = crate::t!(
+        "leo-pnt-chain-sisre-gnss-only-rms-3d",
+        f = f("/navmsg/sisre_rms_m").map_or(crate::t!("leo-pnt-chain-chart-not-available"), |v| {
+            format!("{} m", crate::i18n::num(v, 3))
+        }),
+        f2 = f("/fusion/gnss/rms_error_3d_m").map_or(
+            crate::t!("leo-pnt-chain-chart-not-available"),
+            |v| format!("{} m", crate::i18n::num(v, 2))
+        ),
+        f3 = f("/fusion/fused/rms_error_3d_m").map_or(
+            crate::t!("leo-pnt-chain-chart-not-available"),
+            |v| format!("{} m", crate::i18n::num(v, 2))
+        )
     );
     s.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"450\" font-size=\"13\">{}</text>",

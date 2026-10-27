@@ -1,0 +1,113 @@
+{
+ "_comment": "Per-file allowance of string literals that sit in a human-facing sink (print, write, Display impl, error, markup text writer; scripts/i18n_sinks.py) and do not go through the catalogue. A count may fall and may never rise; a file not listed allows none. Replace 'unreviewed' by a specific reason once a file's remainder has been read.",
+ "files": {
+  "mcp/kshana-mcp/src/iq.rs": {
+   "count": 4,
+   "reason": "machine-format: MCP tool descriptions, the schema text served to the client model (English by design; the tool replies follow the caller's lang)"
+  },
+  "mcp/kshana-mcp/src/main.rs": {
+   "count": 1,
+   "reason": "identifier: the version line `kshana-mcp <version>`"
+  },
+  "mcp/kshana-mcp/src/marine.rs": {
+   "count": 2,
+   "reason": "machine-format: MCP tool descriptions, the schema text served to the client model (English by design)"
+  },
+  "mcp/kshana-mcp/src/server.rs": {
+   "count": 1,
+   "reason": "machine-format: an MCP tool description, the schema text served to the client model (English by design)"
+  },
+  "src/animation.rs": {
+   "count": 7,
+   "reason": "machine-format: CSS rule text (stroke/fill classes and keyframes) and the player script, whose user-visible strings are substituted from the catalogue; the `epoch` literal is compared, not shown"
+  },
+  "src/api.rs": {
+   "count": 2,
+   "reason": "machine-format: the stylesheet text inside the scorecard template (every text node is a message) and the generated docs/KINDS preamble written by gen_validation_artifacts"
+  },
+  "src/bin/crossover_study.rs": {
+   "count": 2,
+   "reason": "developer: a maintainer's study binary (wrote / error lines for the maintainer)"
+  },
+  "src/bin/gen_araim_m3_study.rs": {
+   "count": 1,
+   "reason": "developer: a maintainer's study generator (progress line)"
+  },
+  "src/bin/gen_calibration_ensembles.rs": {
+   "count": 2,
+   "reason": "developer: a maintainer's generator (prints MET / NOT MET to the maintainer's terminal)"
+  },
+  "src/bin/gen_validation_artifacts.rs": {
+   "count": 1,
+   "reason": "developer: a maintainer's generator of the docs artifacts (progress line)"
+  },
+  "src/bin/validation_report.rs": {
+   "count": 5,
+   "reason": "developer: the maintainer's generator of the published validation summary page (English by design, like docs/VERIFICATION-MATRIX.md); not part of the shipped command line"
+  },
+  "src/evidence/html.rs": {
+   "count": 19,
+   "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 102266ea; docs/i18n.md)"
+  },
+  "src/fusion/gnss_ins_ekf.rs": {
+   "count": 4,
+   "reason": "error: public Result<_, &'static str> of the EKF update; a catalogue message cannot be a &'static str (kept on purpose)"
+  },
+  "src/interop/kml.rs": {
+   "count": 10,
+   "reason": "machine-format: KML element names and the folder names of the interchange file (Moving objects, Sites, Jammer footprints, Tracks); an exported file is a machine file and does not depend on the language"
+  },
+  "src/iq/acq_surface.rs": {
+   "count": 6,
+   "reason": "machine-format: the acquisition-surface CSV (header row and `# key=value` comment lines that are part of the file format)"
+  },
+  "src/iq/campaign/report.rs": {
+   "count": 10,
+   "reason": "identifier: the HTML attribute ` class=\"l\"` written beside cells whose text is already a message; no words a person reads"
+  },
+  "src/iq/signals/lunanet.rs": {
+   "count": 2,
+   "reason": "error: public Result<_, &'static str>; the LunaNet signal name is part of the message (kept on purpose)"
+  },
+  "src/jammertest/plan.rs": {
+   "count": 10,
+   "reason": "machine-format: the events TOML the importer writes (keys, [[events]] tables, comment lines that are part of the file and carry the scheduled-truth notice in English, label field)"
+  },
+  "src/lunar_service.rs": {
+   "count": 1,
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
+  },
+  "src/lunar_time_budget_scenario.rs": {
+   "count": 1,
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
+  },
+  "src/main.rs": {
+   "count": 12,
+   "reason": "identifier: the remaining literals are a version line (kshana <version>), JSON keys of the lunanet-afs-check document and of imu-fit output, a subcommand name compared with `cmd`, and the id of a legal message; no text a person reads"
+  },
+  "src/maneuver.rs": {
+   "count": 1,
+   "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
+  },
+  "src/realtime_frame_eop.rs": {
+   "count": 1,
+   "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
+  },
+  "src/study.rs": {
+   "count": 2,
+   "reason": "machine-format: the page skeleton (stylesheet text) and an `&mdash;` cell; every text node of the study page is a message"
+  },
+  "src/telemetry/otlp.rs": {
+   "count": 1,
+   "reason": "machine-format: the HTTP/1.1 request an OTLP exporter sends (protocol text)"
+  },
+  "src/telemetry/prometheus.rs": {
+   "count": 1,
+   "reason": "machine-format: the HTTP/1.1 response of the /metrics endpoint (protocol text)"
+  },
+  "src/verification.rs": {
+   "count": 4,
+   "reason": "machine-document: rows of the verification matrix (claims, oracles, notes); stays English in every language (docs/i18n.md)"
+  }
+ }
+}

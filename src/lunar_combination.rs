@@ -1482,11 +1482,17 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">Lunar joint OD + clock — station 3-D position error (VLBI restores observability)</text>"
+        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!("lunar-combination-chart-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\">{} sats, {} Earth stations · improvement factor {:.1}×</text>",
-        r.n_sat, r.n_earth, r.station_observability_improvement_factor
+        "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\">{}</text>",
+        crate::t!(
+            "lunar-combination-chart-subtitle",
+            n_sat = r.n_sat,
+            n_earth = r.n_earth,
+            factor = crate::i18n::num(r.station_observability_improvement_factor, 1)
+        )
     ));
     // With-VLBI bar.
     let yw = yof(with);
@@ -1495,10 +1501,13 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
         (base_y - yw).max(0.0)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\">with VLBI: {:.2} m</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\">{}</text>",
         x_with + bar_w / 2.0,
         base_y + 16.0,
-        r.with_vlbi.station_pos_err_m
+        crate::t!(
+            "lunar-combination-chart-with-vlbi",
+            m = crate::i18n::num(r.with_vlbi.station_pos_err_m, 2)
+        )
     ));
     // Without-VLBI bar.
     let ywo = yof(without);
@@ -1507,20 +1516,26 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
         (base_y - ywo).max(0.0)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\">range-only: {:.2} m</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\">{}</text>",
         x_without + bar_w / 2.0,
         base_y + 16.0,
-        r.without_vlbi.station_pos_err_m
+        crate::t!(
+            "lunar-combination-chart-range-only",
+            m = crate::i18n::num(r.without_vlbi.station_pos_err_m, 2)
+        )
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{base_y:.0}\" x2=\"{:.0}\" y2=\"{base_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">log10 station error (m); converged with/without = {}/{}</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">{}</text>",
         h - 12.0,
-        r.with_vlbi.converged,
-        r.without_vlbi.converged
+        crate::t!(
+            "lunar-combination-chart-axis-note",
+            with = r.with_vlbi.converged,
+            without = r.without_vlbi.converged
+        )
     ));
     svg.push_str("</svg>");
     svg

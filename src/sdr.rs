@@ -307,15 +307,15 @@ impl ChipGrid {
         if !self.commensurate {
             return None;
         }
-        Some(format!(
-            "sampling rate is commensurate with the code rate ({:.6} samples/chip, {:.3e} \
-             samples from a whole number): the zero-order-hold code replica cannot resolve a \
-             code-phase change below {:.6} chips, so the Early/Late discriminator is a \
-             staircase with a one-sample dead band instead of a triangle and the DLL settles \
-             at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is \
-             4.8876 samples/chip; 25 MHz is 24.4379) or oversample far enough that the dead \
-             band is below the code-phase accuracy you need.",
-            self.samples_per_chip, self.offset_from_integer_samples, self.dead_band_chips
+        Some(crate::t!(
+            "sdr-sampling-rate-is-commensurate-with",
+            samples_per_chip =
+                crate::i18n::localise_decimal(format!("{:.6}", self.samples_per_chip)),
+            offset_from_integer_samples =
+                crate::i18n::localise_decimal(format!("{:.3e}", self.offset_from_integer_samples)),
+            dead_band_chips = crate::i18n::localise_decimal(format!("{:.6}", self.dead_band_chips)),
+            lit_4_8876 = crate::i18n::num(4.8876_f64, 4),
+            lit_24_4379 = crate::i18n::num(24.4379_f64, 4)
         ))
     }
 }

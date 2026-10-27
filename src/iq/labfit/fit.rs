@@ -682,9 +682,9 @@ pub fn analyse(runs: &[LabRun], sc: &LabFitScenario) -> Result<LabFitReport, Str
                 )
             })
             .collect();
-        return Err(format!(
-            "no run is usable for the lock fit: {}",
-            if why.is_empty() {
+        return Err(crate::terr!(
+            "e-iq-labfit-fit-no-run-is-usable-for",
+            v1 = if why.is_empty() {
                 "no runs given".to_string()
             } else {
                 why.join("; ")

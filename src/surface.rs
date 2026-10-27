@@ -41,7 +41,7 @@ impl MapSource {
         match s {
             "adsb" => Ok(Self::Adsb),
             "ais" => Ok(Self::Ais),
-            o => Err(format!("unknown source `{o}`: use `adsb` or `ais`")),
+            o => Err(crate::terr!("e-surface-unknown-source-use-adsb-or", o = o)),
         }
     }
 }
@@ -79,8 +79,11 @@ fn cap(what: &str, text: &str, max: usize) -> Result<(), String> {
 fn cap_len(what: &str, len: usize, max: usize) -> Result<(), String> {
     let limit = max.min(MAX_INPUT_BYTES);
     if len > limit {
-        return Err(format!(
-            "{what} is {len} bytes, over the {limit}-byte limit"
+        return Err(crate::terr!(
+            "e-surface-is-bytes-over-the-byte",
+            what = what,
+            len = len,
+            limit = limit
         ));
     }
     Ok(())
@@ -96,8 +99,8 @@ pub use crate::inline_only::{reject_file_sources, FILE_SOURCE_KEYS, FILE_SOURCE_
 /// the host's files. `max_bytes` caps the TOML, and therefore the inline log.
 pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustOutput, String> {
     reject_file_sources(toml, max_bytes)?;
-    let scn: ReceiverTrustScenario =
-        toml::from_str(toml).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
+    let scn: ReceiverTrustScenario = toml::from_str(toml)
+        .map_err(|e| crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e))?;
     if scn.log.source.path.is_some()
         || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some())
         || scn
@@ -106,10 +109,7 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
             .as_ref()
             .is_some_and(|i| i.source.path.is_some())
     {
-        return Err(
-            "`path` sources are not accepted here: give the log inline as `text` or `base64`"
-                .into(),
-        );
+        return Err(crate::terr!("e-surface-path-sources-are-not-accepted"));
     }
     scenario::run_scenario(&scn)
 }
@@ -122,10 +122,12 @@ pub fn assess_vessel_log_json(
     log: &[u8],
     max_bytes: usize,
 ) -> Result<String, String> {
-    cap("session", session_toml, max_bytes)?;
-    cap_len("log", log.len(), max_bytes)?;
-    let r = assess::assess_vessel_log(session_toml, log)?;
-    serde_json::to_string_pretty(&r).map_err(|e| e.to_string())
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("session", session_toml, max_bytes)?;
+        cap_len("log", log.len(), max_bytes)?;
+        let r = assess::assess_vessel_log(session_toml, log)?;
+        serde_json::to_string_pretty(&r).map_err(|e| e.to_string())
+    })
 }
 
 /// Turn the published Jammertest catalogue and transmission plan into receiver-trust events
@@ -143,47 +145,55 @@ pub fn jammertest_import_json(
     year: Option<u32>,
     max_bytes: usize,
 ) -> Result<String, String> {
-    use crate::jammertest::plan::{events_toml, import, parse_catalog, parse_plan, ImportOptions};
-    cap("catalogue", catalog_json, max_bytes)?;
-    for p in plan_jsons {
-        cap("plan", p, max_bytes)?;
-    }
-    let start = crate::telemetry::time::parse_rfc3339_utc(log_start_utc)
-        .ok_or_else(|| format!("log_start_utc `{log_start_utc}` is not an ISO-8601 UTC time"))?;
-    let catalog = parse_catalog(catalog_json)?;
-    let mut slots = Vec::new();
-    for p in plan_jsons {
-        slots.extend(parse_plan(p, local_offset_h)?);
-    }
-    let imp = import(
-        &slots,
-        &catalog,
-        &ImportOptions {
-            location,
-            log_start_utc: start,
-            log_duration_s: None,
-            year,
-        },
-    )?;
-    let events: Vec<Value> = imp
-        .events
-        .iter()
-        .map(|e| {
-            json!({"test_id": e.test_id, "test_name": e.test_name, "year": e.year,
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::jammertest::plan::{
+            events_toml, import, parse_catalog, parse_plan, ImportOptions,
+        };
+        cap("catalogue", catalog_json, max_bytes)?;
+        for p in plan_jsons {
+            cap("plan", p, max_bytes)?;
+        }
+        let start = crate::telemetry::time::parse_rfc3339_utc(log_start_utc).ok_or_else(|| {
+            crate::terr!(
+                "e-surface-log-start-utc-is-not",
+                log_start_utc = log_start_utc
+            )
+        })?;
+        let catalog = parse_catalog(catalog_json)?;
+        let mut slots = Vec::new();
+        for p in plan_jsons {
+            slots.extend(parse_plan(p, local_offset_h)?);
+        }
+        let imp = import(
+            &slots,
+            &catalog,
+            &ImportOptions {
+                location,
+                log_start_utc: start,
+                log_duration_s: None,
+                year,
+            },
+        )?;
+        let events: Vec<Value> = imp
+            .events
+            .iter()
+            .map(|e| {
+                json!({"test_id": e.test_id, "test_name": e.test_name, "year": e.year,
                    "location_id": e.location_id, "label": e.event.label,
                    "kind": e.event.kind, "onset_s": e.event.onset_s, "end_s": e.event.end_s,
                    "plan_status": e.status})
-        })
-        .collect();
-    serde_json::to_string_pretty(&json!({
-        "label": crate::jammertest::plan::SCHEDULED_TRUTH,
-        "events_toml": events_toml(&imp, &[]),
-        "events": events,
-        "skipped_non_rf": imp.skipped_non_rf,
-        "outside_log": imp.outside_log,
-        "unknown_ids": imp.unknown_ids,
-    }))
-    .map_err(|e| e.to_string())
+            })
+            .collect();
+        serde_json::to_string_pretty(&json!({
+            "label": crate::jammertest::plan::SCHEDULED_TRUTH,
+            "events_toml": events_toml(&imp, &[]),
+            "events": events,
+            "skipped_non_rf": imp.skipped_non_rf,
+            "outside_log": imp.outside_log,
+            "unknown_ids": imp.unknown_ids,
+        }))
+        .map_err(|e| e.to_string())
+    })
 }
 
 /// Score a receiver log against the Jammertest schedule: per scheduled test the detection
@@ -205,37 +215,39 @@ pub fn jammertest_score_json(
     options: crate::jammertest::score::ScoreOptions,
     max_bytes: usize,
 ) -> Result<String, String> {
-    use crate::jammertest::{score_log, Schedule, ScoreRequest};
-    cap("session", session_toml, max_bytes)?;
-    cap_len("log", log.len(), max_bytes)?;
-    cap("catalogue", catalog_json, max_bytes)?;
-    for p in plan_jsons {
-        cap("plan", p, max_bytes)?;
-    }
-    reject_file_sources(session_toml, max_bytes)?;
-    let scn: ReceiverTrustScenario =
-        toml::from_str(session_toml).map_err(|e| format!("invalid receiver-trust session: {e}"))?;
-    let start = match log_start_utc {
-        Some(t) => Some(
-            crate::telemetry::time::parse_rfc3339_utc(t)
-                .ok_or_else(|| format!("log_start_utc `{t}` is not an ISO-8601 UTC time"))?,
-        ),
-        None => None,
-    };
-    let out = score_log(&ScoreRequest {
-        scenario: &scn,
-        log_bytes: log,
-        schedule: Schedule::Plan {
-            catalog_json,
-            plan_jsons,
-            location,
-            local_offset_h,
-            year,
-        },
-        log_start_utc: start,
-        options,
-    })?;
-    serde_json::to_string_pretty(&out.scorecard).map_err(|e| e.to_string())
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::jammertest::{score_log, Schedule, ScoreRequest};
+        cap("session", session_toml, max_bytes)?;
+        cap_len("log", log.len(), max_bytes)?;
+        cap("catalogue", catalog_json, max_bytes)?;
+        for p in plan_jsons {
+            cap("plan", p, max_bytes)?;
+        }
+        reject_file_sources(session_toml, max_bytes)?;
+        let scn: ReceiverTrustScenario = toml::from_str(session_toml)
+            .map_err(|e| crate::terr!("e-surface-invalid-receiver-trust-session", e = e))?;
+        let start = match log_start_utc {
+            Some(t) => Some(
+                crate::telemetry::time::parse_rfc3339_utc(t)
+                    .ok_or_else(|| crate::terr!("e-surface-log-start-utc-is-not-2", t = t))?,
+            ),
+            None => None,
+        };
+        let out = score_log(&ScoreRequest {
+            scenario: &scn,
+            log_bytes: log,
+            schedule: Schedule::Plan {
+                catalog_json,
+                plan_jsons,
+                location,
+                local_offset_h,
+                year,
+            },
+            log_start_utc: start,
+            options,
+        })?;
+        serde_json::to_string_pretty(&out.scorecard).map_err(|e| e.to_string())
+    })
 }
 
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way live mode scores it:
@@ -248,9 +260,11 @@ pub fn assess_vessel_excerpt(
     excerpt: &[u8],
     max_bytes: usize,
 ) -> Result<ExcerptAssessment, String> {
-    cap("session", session_toml, max_bytes)?;
-    cap_len("excerpt", excerpt.len(), max_bytes)?;
-    assess::assess_stream_excerpt(session_toml, excerpt)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("session", session_toml, max_bytes)?;
+        cap_len("excerpt", excerpt.len(), max_bytes)?;
+        assess::assess_stream_excerpt(session_toml, excerpt)
+    })
 }
 
 fn dataset_spec<'a>(
@@ -258,9 +272,12 @@ fn dataset_spec<'a>(
     custom: Option<&'a CustomDataset>,
 ) -> Result<DatasetSpec<'a>, String> {
     if key == "custom" {
-        let c = custom.ok_or("dataset `custom` needs licence, licence_url and attribution")?;
+        let c =
+            custom.ok_or_else(|| crate::terr!("e-surface-dataset-custom-needs-licence-licence"))?;
         if c.licence.is_empty() || c.licence_url.is_empty() || c.attribution.is_empty() {
-            return Err("dataset `custom` needs licence, licence_url and attribution".into());
+            return Err(crate::terr!(
+                "e-surface-dataset-custom-needs-licence-licence"
+            ));
         }
         Ok(DatasetSpec::Custom {
             licence: &c.licence,
@@ -285,35 +302,37 @@ pub fn interference_map(
     land_geojson: Option<&str>,
     max_bytes: usize,
 ) -> Result<Vec<MapDay>, String> {
-    cap("input", csv, max_bytes)?;
-    if let Some(l) = land_geojson {
-        cap("land file", l, max_bytes)?;
-    }
-    let spec = dataset_spec(dataset, custom)?;
-    let cell = cell_deg.unwrap_or(DEFAULT_CELL_DEG);
-    let days = match source {
-        MapSource::Adsb => api::adsb_maps_from_csv(csv, &spec, cell),
-        MapSource::Ais => api::ais_maps_from_csv(csv, &spec, cell, land_geojson),
-    }
-    .map_err(|e| e.to_string())?;
-    days.into_iter()
-        .map(|d| {
-            let features = d.geojson["features"]
-                .as_array()
-                .map_or(&[][..], Vec::as_slice);
-            let flagged = features
-                .iter()
-                .filter(|f| f["properties"]["degraded"] == Value::Bool(true))
-                .count();
-            Ok(MapDay {
-                file_name: d.file_name,
-                date: d.date,
-                cells_published: features.len(),
-                cells_flagged: flagged,
-                geojson: serde_json::to_string_pretty(&d.geojson).map_err(|e| e.to_string())?,
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("input", csv, max_bytes)?;
+        if let Some(l) = land_geojson {
+            cap("land file", l, max_bytes)?;
+        }
+        let spec = dataset_spec(dataset, custom)?;
+        let cell = cell_deg.unwrap_or(DEFAULT_CELL_DEG);
+        let days = match source {
+            MapSource::Adsb => api::adsb_maps_from_csv(csv, &spec, cell),
+            MapSource::Ais => api::ais_maps_from_csv(csv, &spec, cell, land_geojson),
+        }
+        .map_err(|e| e.to_string())?;
+        days.into_iter()
+            .map(|d| {
+                let features = d.geojson["features"]
+                    .as_array()
+                    .map_or(&[][..], Vec::as_slice);
+                let flagged = features
+                    .iter()
+                    .filter(|f| f["properties"]["degraded"] == Value::Bool(true))
+                    .count();
+                Ok(MapDay {
+                    file_name: d.file_name,
+                    date: d.date,
+                    cells_published: features.len(),
+                    cells_flagged: flagged,
+                    geojson: serde_json::to_string_pretty(&d.geojson).map_err(|e| e.to_string())?,
+                })
             })
-        })
-        .collect()
+            .collect()
+    })
 }
 
 /// Share of a route through degraded cells, for each map in `maps` (GeoJSON text from
@@ -327,15 +346,17 @@ pub fn route_exposure(
     to: Option<&str>,
     max_bytes: usize,
 ) -> Result<String, String> {
-    cap("route", route_text, max_bytes)?;
-    if maps.is_empty() {
-        return Err("at least one map is required".into());
-    }
-    for (i, m) in maps.iter().enumerate() {
-        cap(&format!("map {}", i + 1), m, max_bytes)?;
-    }
-    let v = api::route_exposure(route_text, maps, from, to).map_err(|e| e.to_string())?;
-    serde_json::to_string_pretty(&v).map_err(|e| e.to_string())
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("route", route_text, max_bytes)?;
+        if maps.is_empty() {
+            return Err(crate::terr!("e-surface-at-least-one-map-is"));
+        }
+        for (i, m) in maps.iter().enumerate() {
+            cap(&format!("map {}", i + 1), m, max_bytes)?;
+        }
+        let v = api::route_exposure(route_text, maps, from, to).map_err(|e| e.to_string())?;
+        serde_json::to_string_pretty(&v).map_err(|e| e.to_string())
+    })
 }
 
 /// Result of a training-scenario run: text only, nothing is transmitted.
@@ -356,12 +377,14 @@ pub fn nmea_training(
     seed: Option<u64>,
     max_bytes: usize,
 ) -> Result<NmeaTraining, String> {
-    cap("scenario", toml, max_bytes)?;
-    let g = crate::nmea_synth::generate_from_toml(toml, seed)?;
-    Ok(NmeaTraining {
-        nmea: g.nmea_text(),
-        log_json: g.log.to_json(),
-        log_text: g.log.to_text(),
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml, max_bytes)?;
+        let g = crate::nmea_synth::generate_from_toml(toml, seed)?;
+        Ok(NmeaTraining {
+            nmea: g.nmea_text(),
+            log_json: g.log.to_json(),
+            log_text: g.log.to_text(),
+        })
     })
 }
 
@@ -395,22 +418,24 @@ pub fn bench_export(
     epoch: Option<&str>,
     max_bytes: usize,
 ) -> Result<BenchExport, String> {
-    cap("scenario", toml, max_bytes)?;
-    let epoch = epoch
-        .map(crate::interop::UtcEpoch::parse_iso)
-        .transpose()
-        .map_err(|e| format!("epoch: {e}"))?;
-    let (files, notes) =
-        crate::interop::testbench::export_with_notes(toml, epoch).map_err(|e| e.to_string())?;
-    let files = files
-        .into_iter()
-        .map(|f| {
-            String::from_utf8(f.bytes)
-                .map(|t| (f.suffix.clone(), t))
-                .map_err(|_| format!("{}: not UTF-8", f.suffix))
-        })
-        .collect::<Result<Vec<_>, _>>()?;
-    Ok(BenchExport { files, notes })
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml, max_bytes)?;
+        let epoch = epoch
+            .map(crate::interop::UtcEpoch::parse_iso)
+            .transpose()
+            .map_err(|e| crate::terr!("e-surface-epoch", e = e))?;
+        let (files, notes) =
+            crate::interop::testbench::export_with_notes(toml, epoch).map_err(|e| e.to_string())?;
+        let files = files
+            .into_iter()
+            .map(|f| {
+                String::from_utf8(f.bytes)
+                    .map(|t| (f.suffix.clone(), t))
+                    .map_err(|_| crate::terr!("e-surface-not-utf", suffix = f.suffix))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(BenchExport { files, notes })
+    })
 }
 
 /// Abbreviations whose full stop does not end a sentence in a scenario header.
@@ -464,8 +489,9 @@ pub fn list_examples(kind: Option<&str>) -> Result<Value, String> {
             .iter()
             .any(|m| m.name == k)
         {
-            return Err(format!(
-                "unknown scenario kind `{k}`; the kind list names every kind"
+            return Err(crate::terr!(
+                "e-surface-unknown-scenario-kind-the-kind",
+                k = k
             ));
         }
     }
@@ -490,10 +516,11 @@ pub fn get_example(name: &str) -> Result<&'static str, String> {
         return Ok(toml);
     }
     Err(match crate::bundled_scenarios::repo_only_reason(name) {
-        Some(why) => format!("`{name}` is not bundled: it {why}"),
-        None => format!(
-            "no bundled scenario named `{name}`; the example list names the {} that are",
-            crate::bundled_scenarios::BUNDLED.len()
+        Some(why) => crate::t!("surface-is-not-bundled-it", name = name, why = why),
+        None => crate::t!(
+            "surface-no-bundled-scenario-named-the",
+            name = name,
+            v1 = crate::bundled_scenarios::BUNDLED.len()
         ),
     })
 }
@@ -501,23 +528,25 @@ pub fn get_example(name: &str) -> Result<&'static str, String> {
 /// Which interoperability formats apply to a scenario, without running it: one entry per
 /// format with `format`, `applies`, `reason` (when it does not) and `spec_url`.
 pub fn export_formats(toml: &str, max_bytes: usize) -> Result<Value, String> {
-    cap("scenario", toml, max_bytes)?;
-    if let Err(e) = toml::from_str::<toml::Value>(toml) {
-        return Err(format!("invalid TOML: {e}"));
-    }
-    Ok(Value::Array(
-        crate::interop::plan(toml)
-            .into_iter()
-            .map(|(format, outcome)| {
-                json!({
-                    "format": format.as_str(),
-                    "applies": outcome.is_ok(),
-                    "reason": outcome.err(),
-                    "spec_url": format.spec_url(),
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml, max_bytes)?;
+        if let Err(e) = toml::from_str::<toml::Value>(toml) {
+            return Err(crate::terr!("e-surface-invalid-toml", e = e));
+        }
+        Ok(Value::Array(
+            crate::interop::plan(toml)
+                .into_iter()
+                .map(|(format, outcome)| {
+                    json!({
+                        "format": format.as_str(),
+                        "applies": outcome.is_ok(),
+                        "reason": outcome.err(),
+                        "spec_url": format.spec_url(),
+                    })
                 })
-            })
-            .collect(),
-    ))
+                .collect(),
+        ))
+    })
 }
 
 /// One exported file: its suffix, size, SHA-256, encoding (`utf-8` or `base64`) and content.
@@ -568,44 +597,49 @@ pub fn export_scenario(
     format: &str,
     max_bytes: usize,
 ) -> Result<ScenarioExport, String> {
-    cap("scenario", toml, max_bytes)?;
-    let fmt = crate::interop::Format::parse(format.trim()).map_err(|_| {
-        format!(
-            "unknown export format `{}`; expected one of czml, kml, geojson, stk or sigmf",
-            format.trim()
-        )
-    })?;
-    let files = crate::interop::export(toml, fmt).map_err(|e| format!("{}: {e}", fmt.as_str()))?;
-    Ok(ScenarioExport {
-        format: fmt.as_str(),
-        spec_url: fmt.spec_url(),
-        files: files
-            .into_iter()
-            .map(|f| {
-                let sha256 = crate::advanced_report::sha256_hex(&f.bytes);
-                let bytes = f.bytes.len();
-                let (encoding, content) = match String::from_utf8(f.bytes) {
-                    Ok(t) => ("utf-8", t),
-                    Err(e) => ("base64", crate::permalink::base64_encode(e.as_bytes())),
-                };
-                ExportedFile {
-                    suffix: f.suffix,
-                    bytes,
-                    sha256,
-                    encoding,
-                    content,
-                }
-            })
-            .collect(),
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml, max_bytes)?;
+        let fmt = crate::interop::Format::parse(format.trim()).map_err(|_| {
+            crate::terr!(
+                "e-surface-unknown-export-format-expected-one",
+                format = format.trim()
+            )
+        })?;
+        let files =
+            crate::interop::export(toml, fmt).map_err(|e| format!("{}: {e}", fmt.as_str()))?;
+        Ok(ScenarioExport {
+            format: fmt.as_str(),
+            spec_url: fmt.spec_url(),
+            files: files
+                .into_iter()
+                .map(|f| {
+                    let sha256 = crate::advanced_report::sha256_hex(&f.bytes);
+                    let bytes = f.bytes.len();
+                    let (encoding, content) = match String::from_utf8(f.bytes) {
+                        Ok(t) => ("utf-8", t),
+                        Err(e) => ("base64", crate::permalink::base64_encode(e.as_bytes())),
+                    };
+                    ExportedFile {
+                        suffix: f.suffix,
+                        bytes,
+                        sha256,
+                        encoding,
+                        content,
+                    }
+                })
+                .collect(),
+        })
     })
 }
 
 /// Write a GeoJSON route (a `LineString`, or a `Feature` or `FeatureCollection` holding one)
 /// into a scenario of a kind that flies a waypoint track, and return the new TOML.
 pub fn import_route(toml: &str, geojson: &str, max_bytes: usize) -> Result<String, String> {
-    cap("scenario", toml, max_bytes)?;
-    cap("route", geojson, max_bytes)?;
-    crate::interop::geojson::apply_route(toml, geojson)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml, max_bytes)?;
+        cap("route", geojson, max_bytes)?;
+        crate::interop::geojson::apply_route(toml, geojson)
+    })
 }
 
 /// Most frames a surface returns in one animation.
@@ -648,14 +682,15 @@ pub fn animate_scenario(
     }
     opts.validate()?;
     if format == AnimationFormat::Frames && opts.frame_count() > MAX_ANIMATION_FRAMES {
-        return Err(format!(
-            "duration_s x fps gives {} frames and at most {MAX_ANIMATION_FRAMES} are returned; \
-             lower fps or duration_s, or write a longer sequence with the command line",
-            opts.frame_count()
+        return Err(crate::terr!(
+            "e-surface-duration-fps-gives-frames-and",
+            opts = opts.frame_count(),
+            MAX_ANIMATION_FRAMES = MAX_ANIMATION_FRAMES
         ));
     }
     let kind = scenario_kind_name(toml);
-    let out = crate::api::run_toml(toml).map_err(|e| format!("scenario run failed: {e}"))?;
+    let out = crate::api::run_toml(toml)
+        .map_err(|e| crate::terr!("e-surface-scenario-run-failed", e = e))?;
     let anim = animate_result(&out.json, Some(kind), format, &opts).map_err(|e| e.to_string())?;
     let names: Vec<String> = anim.files.iter().map(|f| f.name.clone()).collect();
     let summary = animation_meta(&out.json, Some(kind), &[format], &opts, &names)
@@ -677,41 +712,37 @@ pub fn animate_scenario(
 /// Returns the parsed `report` and the `residuals_csv`, `predictions_csv` and `markdown`
 /// renderings.
 pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, String> {
-    cap("scenario", toml_text, max_bytes)?;
-    let v: toml::Value =
-        toml::from_str(toml_text).map_err(|e| format!("iq-labfit scenario: {e}"))?;
-    if v.get("input").and_then(|i| i.get("campaign")).is_some() {
-        return Err(
-            "[input] campaign names a campaign folder, and this surface reads no files; \
-             campaigns are read only by the CLI (`kshana iq labfit`), Python \
-             (`kshana.iq_labfit`), or the MCP labfit tool inside its IQ work directory"
-                .into(),
-        );
-    }
-    if let Some(runs) = v.get("runs").and_then(toml::Value::as_array) {
-        for (i, r) in runs.iter().enumerate() {
-            let log = r.get("log");
-            let named = log.and_then(|l| l.get("path")).is_some()
-                || log
-                    .and_then(|l| l.get("nav"))
-                    .and_then(|n| n.get("path"))
-                    .is_some();
-            if named {
-                return Err(format!(
-                    "runs[{i}].log names a file `path`; give the log as `text` or `base64` \
-                     (this surface reads no files)"
-                ));
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scenario", toml_text, max_bytes)?;
+        let v: toml::Value = toml::from_str(toml_text)
+            .map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
+        if v.get("input").and_then(|i| i.get("campaign")).is_some() {
+            return Err(crate::terr!(
+                "e-surface-input-campaign-names-campaign-folder"
+            ));
+        }
+        if let Some(runs) = v.get("runs").and_then(toml::Value::as_array) {
+            for (i, r) in runs.iter().enumerate() {
+                let log = r.get("log");
+                let named = log.and_then(|l| l.get("path")).is_some()
+                    || log
+                        .and_then(|l| l.get("nav"))
+                        .and_then(|n| n.get("path"))
+                        .is_some();
+                if named {
+                    return Err(crate::terr!("e-surface-runs-log-names-file-path", i = i));
+                }
             }
         }
-    }
-    let out = crate::iq::labfit::run_toml(toml_text)?;
-    let report: Value = serde_json::from_str(&out.json).map_err(|e| e.to_string())?;
-    Ok(json!({
-        "report": report,
-        "residuals_csv": out.residuals_csv,
-        "predictions_csv": out.predictions_csv,
-        "markdown": out.markdown,
-    }))
+        let out = crate::iq::labfit::run_toml(toml_text)?;
+        let report: Value = serde_json::from_str(&out.json).map_err(|e| e.to_string())?;
+        Ok(json!({
+            "report": report,
+            "residuals_csv": out.residuals_csv,
+            "predictions_csv": out.predictions_csv,
+            "markdown": out.markdown,
+        }))
+    })
 }
 
 /// Validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON) given as
@@ -719,19 +750,21 @@ pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, Stri
 /// recording path the file names is not opened).
 #[cfg(not(target_arch = "wasm32"))]
 pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, String> {
-    cap("test conditions", text, max_bytes)?;
-    let tc = crate::iq::campaign::TestConditions::parse(text)?;
-    let mut v = serde_json::to_value(&tc).map_err(|e| e.to_string())?;
-    if let Some(m) = v.as_object_mut() {
-        m.insert("hash".into(), tc.hash().into());
-    }
-    Ok(v)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("test conditions", text, max_bytes)?;
+        let tc = crate::iq::campaign::TestConditions::parse(text)?;
+        let mut v = serde_json::to_value(&tc).map_err(|e| e.to_string())?;
+        if let Some(m) = v.as_object_mut() {
+            m.insert("hash".into(), tc.hash().into());
+        }
+        Ok(v)
+    })
 }
 
 /// The standards packs (`kshana standards-pack list`, `standards/`): id, title, framework and
 /// test counts, with the notice that a pack measures modelled scenarios and rates no product.
 pub fn standards_pack_list() -> Value {
-    crate::standards_pack::list()
+    crate::i18n::in_english(crate::standards_pack::list)
 }
 
 /// Run one standards pack by id (`kshana standards-pack run <id>`): the report as JSON and as
@@ -739,9 +772,11 @@ pub fn standards_pack_list() -> Value {
 /// Give the JSON text to [`compliance_report`] to see the rows the pack supports evidence for.
 /// A test that needs a receiver log is `NEEDS INPUT` and not scored.
 pub fn standards_pack_run(id: &str) -> Result<(Value, String), String> {
-    let report = crate::standards_pack::run(id)?;
-    let md = crate::standards_pack::report_markdown(&report);
-    Ok((report, md))
+    crate::i18n::in_english_or_localised_error(|| {
+        let report = crate::standards_pack::run(id)?;
+        let md = crate::standards_pack::report_markdown(&report);
+        Ok((report, md))
+    })
 }
 
 /// Most frames [`lunanet_afs_generate`] writes in one call (600 000 symbols of text).
@@ -752,7 +787,7 @@ pub const MAX_AFS_FRAMES: usize = 100;
 /// spec`, `docs/LUNANET-AFS.md`): bars B1 to B10 of `xval/lunanet-afs/PREREGISTRATION.md`, each
 /// with its count and status. A miss is reported, never hidden. Nothing is read from disk.
 pub fn lunanet_afs_check_spec() -> Value {
-    crate::iq::lunanet_afs::check_spec()
+    crate::i18n::in_english(crate::iq::lunanet_afs::check_spec)
 }
 
 /// Check a hard-decision AFS symbol stream given as text (`0` and `1`, white space ignored)
@@ -764,12 +799,14 @@ pub fn lunanet_afs_check_symbols(
     max_sp_errors: usize,
     max_bytes: usize,
 ) -> Result<Value, String> {
-    cap("symbol stream", text, max_bytes)?;
-    if max_sp_errors > 20 {
-        return Err("max_sp_errors must be at most 20".into());
-    }
-    let symbols = crate::iq::lunanet_afs::parse_symbol_text(text)?;
-    Ok(crate::iq::lunanet_afs::check_symbols(&symbols, max_sp_errors).to_json())
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("symbol stream", text, max_bytes)?;
+        if max_sp_errors > 20 {
+            return Err(crate::terr!("e-surface-max-sp-errors-must-be"));
+        }
+        let symbols = crate::iq::lunanet_afs::parse_symbol_text(text)?;
+        Ok(crate::iq::lunanet_afs::check_symbols(&symbols, max_sp_errors).to_json())
+    })
 }
 
 /// A test stream of `frames` AFS frames (at most [`MAX_AFS_FRAMES`]) as `0`/`1` text, TOI
@@ -778,10 +815,13 @@ pub fn lunanet_afs_check_symbols(
 /// for testing a checker or a decoder, not a waveform; Kshana writes no signal.
 pub fn lunanet_afs_generate(frames: usize, toi0: u8) -> Result<String, String> {
     if !(1..=MAX_AFS_FRAMES).contains(&frames) {
-        return Err(format!("frames must be 1 to {MAX_AFS_FRAMES}"));
+        return Err(crate::terr!(
+            "e-surface-frames-must-be-to",
+            MAX_AFS_FRAMES = MAX_AFS_FRAMES
+        ));
     }
     if u16::from(toi0) >= crate::iq::lunanet_afs::TOI_VALUES {
-        return Err("toi0 must be 0 to 99".into());
+        return Err(crate::terr!("e-surface-toi0-must-be-to-99"));
     }
     Ok(crate::iq::lunanet_afs::generate_symbols(frames, toi0)
         .iter()
@@ -824,38 +864,43 @@ pub fn compliance_report(
     runs: &[ComplianceRunText],
     max_bytes: usize,
 ) -> Result<ComplianceOutput, String> {
-    if runs.len() > MAX_COMPLIANCE_RUNS {
-        return Err(format!(
-            "{} runs given; at most {MAX_COMPLIANCE_RUNS} per report",
-            runs.len()
-        ));
-    }
-    let mut total = 0usize;
-    for r in runs {
-        cap("result", &r.result_json, max_bytes)?;
-        total += r.result_json.len();
-        if let Some(t) = &r.scenario_toml {
-            cap("scenario", t, max_bytes)?;
-            total += t.len();
+    crate::i18n::in_english_or_localised_error(|| {
+        if runs.len() > MAX_COMPLIANCE_RUNS {
+            return Err(crate::terr!(
+                "e-surface-runs-given-at-most-per",
+                runs = runs.len(),
+                MAX_COMPLIANCE_RUNS = MAX_COMPLIANCE_RUNS
+            ));
         }
-    }
-    if total > max_bytes {
-        return Err(format!(
-            "the runs total {total} bytes; the limit for one report is {max_bytes}"
-        ));
-    }
-    let inputs: Vec<crate::compliance::RunInput<'_>> = runs
-        .iter()
-        .map(|r| crate::compliance::RunInput {
-            label: &r.label,
-            result_json: &r.result_json,
-            scenario_toml: r.scenario_toml.as_deref(),
+        let mut total = 0usize;
+        for r in runs {
+            cap("result", &r.result_json, max_bytes)?;
+            total += r.result_json.len();
+            if let Some(t) = &r.scenario_toml {
+                cap("scenario", t, max_bytes)?;
+                total += t.len();
+            }
+        }
+        if total > max_bytes {
+            return Err(crate::terr!(
+                "e-surface-the-runs-total-bytes-the",
+                total = total,
+                max_bytes = max_bytes
+            ));
+        }
+        let inputs: Vec<crate::compliance::RunInput<'_>> = runs
+            .iter()
+            .map(|r| crate::compliance::RunInput {
+                label: &r.label,
+                result_json: &r.result_json,
+                scenario_toml: r.scenario_toml.as_deref(),
+            })
+            .collect();
+        let rep = crate::compliance::assess_texts(&inputs);
+        Ok(ComplianceOutput {
+            report: json!(rep),
+            markdown: rep.to_markdown(),
         })
-        .collect();
-    let rep = crate::compliance::assess_texts(&inputs);
-    Ok(ComplianceOutput {
-        report: json!(rep),
-        markdown: rep.to_markdown(),
     })
 }
 
@@ -868,23 +913,28 @@ pub fn bench_score(
     threshold: Option<f64>,
     max_bytes: usize,
 ) -> Result<String, String> {
-    cap_len("truth", truth_json.len(), max_bytes)?;
-    cap_len("predictions", predictions_json.len(), max_bytes)?;
-    crate::bench::score(truth_json, predictions_json, threshold).map_err(|e| e.to_string())
+    crate::i18n::in_english_or_localised_error(|| {
+        cap_len("truth", truth_json.len(), max_bytes)?;
+        cap_len("predictions", predictions_json.len(), max_bytes)?;
+        crate::bench::score(truth_json, predictions_json, threshold).map_err(|e| e.to_string())
+    })
 }
 
 /// Render kshana-bench result files (JSON texts, at most 256) as the static leaderboard page.
 /// Every file must pass `kshana bench validate` and carry this spec version's major number.
 pub fn bench_leaderboard(results: &[String], max_bytes: usize) -> Result<String, String> {
     if results.len() > 256 {
-        return Err(format!("{} result files given, at most 256", results.len()));
+        return Err(crate::terr!(
+            "e-surface-result-files-given-at-most",
+            results = results.len()
+        ));
     }
     let mut docs = Vec::with_capacity(results.len());
     for (i, r) in results.iter().enumerate() {
         cap_len("result file", r.len(), max_bytes)?;
         docs.push(
             serde_json::from_str::<serde_json::Value>(r)
-                .map_err(|e| format!("result {} is not JSON: {e}", i + 1))?,
+                .map_err(|e| crate::terr!("e-surface-result-is-not-json", v1 = i + 1, e = e))?,
         );
     }
     crate::bench::site::leaderboard_html(&docs).map_err(|e| e.to_string())
@@ -894,14 +944,14 @@ pub fn bench_leaderboard(results: &[String], max_bytes: usize) -> Result<String,
 /// (`sources = true`), as Markdown, led by [`crate::compliance::STATEMENT`].
 pub fn compliance_mapping(sources: bool) -> String {
     use crate::compliance::mapping::{framework_table_md, sources_md, Framework};
-    let mut s = format!("> {}\n\n", crate::compliance::STATEMENT);
+    let mut s = format!("> {}\n\n", crate::legal::text("legal-compliance-statement"));
     for fw in Framework::ALL {
         let body = if sources {
             sources_md(fw)
         } else {
             framework_table_md(fw)
         };
-        s.push_str(&format!("## {}\n\n{}\n", fw.title(), body));
+        s.push_str(&format!("## {}\n\n{}\n", fw.title_localised(), body));
     }
     s
 }
@@ -931,8 +981,9 @@ impl TelemetryFormat {
             "leef" => Ok(Self::Leef),
             "otlp" => Ok(Self::Otlp),
             "mqtt" => Ok(Self::Mqtt),
-            o => Err(format!(
-                "unknown format `{o}`: use `prometheus`, `cef`, `leef`, `otlp` or `mqtt`"
+            o => Err(crate::terr!(
+                "e-surface-unknown-format-use-prometheus-cef",
+                o = o
             )),
         }
     }
@@ -954,40 +1005,46 @@ pub fn imu_fit(
     id: &str,
     max_bytes: usize,
 ) -> Result<String, String> {
-    use crate::receiver_trust::machines::{
-        imu::{read_imu, ImuFormat},
-        imu_fit::fit_accel_cfg,
-    };
-    cap("imu log", text, max_bytes)?;
-    let fmt = match format {
-        "csv" => ImuFormat::Csv,
-        "euroc" => ImuFormat::Euroc,
-        o => return Err(format!("unknown IMU format `{o}`: use `csv` or `euroc`")),
-    };
-    let ax = match axis {
-        "x" => 0,
-        "y" => 1,
-        "z" => 2,
-        o => return Err(format!("unknown axis `{o}`: use `x`, `y` or `z`")),
-    };
-    if id.is_empty() || id.len() > 64 || !id.chars().all(|c| c.is_ascii_graphic()) {
-        return Err("id must be 1 to 64 printable ASCII characters without spaces".into());
-    }
-    let samples = read_imu(fmt, text)?;
-    let fit = fit_accel_cfg(&samples, ax, expected_mean)?;
-    let sha = crate::advanced_report::sha256_hex(text.as_bytes());
-    let toml = fit.to_toml(
-        "accel_classical",
-        id,
-        &format!("fitted from a stationary IMU log, sha256 {sha}, axis {axis}, Allan estimator"),
-    );
-    serde_json::to_string_pretty(&json!({
-        "fit": fit,
-        "toml": toml,
-        "sha256": sha,
-        "evidence": "MODELLED",
-    }))
-    .map_err(|e| e.to_string())
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::receiver_trust::machines::{
+            imu::{read_imu, ImuFormat},
+            imu_fit::fit_accel_cfg,
+        };
+        cap("imu log", text, max_bytes)?;
+        let fmt = match format {
+            "csv" => ImuFormat::Csv,
+            "euroc" => ImuFormat::Euroc,
+            o => return Err(crate::terr!("e-surface-unknown-imu-format-use-csv", o = o)),
+        };
+        let ax = match axis {
+            "x" => 0,
+            "y" => 1,
+            "z" => 2,
+            o => return Err(crate::terr!("e-surface-unknown-axis-use-or", o = o)),
+        };
+        if id.is_empty() || id.len() > 64 || !id.chars().all(|c| c.is_ascii_graphic()) {
+            return Err(crate::terr!("e-surface-id-must-be-to-64"));
+        }
+        let samples = read_imu(fmt, text)?;
+        let fit = fit_accel_cfg(&samples, ax, expected_mean)?;
+        let sha = crate::advanced_report::sha256_hex(text.as_bytes());
+        let toml = fit.to_toml(
+            "accel_classical",
+            id,
+            &crate::t!(
+                "surface-fitted-from-stationary-imu-log",
+                sha = sha,
+                axis = axis
+            ),
+        );
+        serde_json::to_string_pretty(&json!({
+            "fit": fit,
+            "toml": toml,
+            "sha256": sha,
+            "evidence": "MODELLED",
+        }))
+        .map_err(|e| e.to_string())
+    })
 }
 
 /// What the input of [`trust_telemetry`] is.
@@ -1005,7 +1062,10 @@ impl TelemetryInput {
         match s {
             "result" => Ok(Self::Result),
             "jsonl" => Ok(Self::Jsonl),
-            o => Err(format!("unknown input_kind `{o}`: use `result` or `jsonl`")),
+            o => Err(crate::terr!(
+                "e-surface-unknown-input-kind-use-result",
+                o = o
+            )),
         }
     }
 }
@@ -1034,77 +1094,79 @@ pub fn trust_telemetry(
     opts: TelemetryOptions,
     max_bytes: usize,
 ) -> Result<String, String> {
-    use crate::telemetry::{prometheus::Registry, sample, syslog};
-    cap("input", input, max_bytes)?;
-    syslog::check_host(host)?;
-    let version = env!("CARGO_PKG_VERSION");
-    let host = if host.is_empty() { "kshana" } else { host };
-    let mut reg = Registry::new(version);
-    reg.set_expose_position(opts.expose_position);
-    let mut samples: Vec<sample::TrustSample> = Vec::new();
-    match input_kind {
-        TelemetryInput::Result => samples = sample::from_result_json(input)?,
-        TelemetryInput::Jsonl => {
-            for line in input.lines().filter(|l| !l.trim().is_empty()) {
-                match sample::parse_live_line(line) {
-                    Ok(s) => samples.push(s),
-                    Err(_) => reg.observe_input_error(),
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::telemetry::{prometheus::Registry, sample, syslog};
+        cap("input", input, max_bytes)?;
+        syslog::check_host(host)?;
+        let version = env!("CARGO_PKG_VERSION");
+        let host = if host.is_empty() { "kshana" } else { host };
+        let mut reg = Registry::new(version);
+        reg.set_expose_position(opts.expose_position);
+        let mut samples: Vec<sample::TrustSample> = Vec::new();
+        match input_kind {
+            TelemetryInput::Result => samples = sample::from_result_json(input)?,
+            TelemetryInput::Jsonl => {
+                for line in input.lines().filter(|l| !l.trim().is_empty()) {
+                    match sample::parse_live_line(line) {
+                        Ok(s) => samples.push(s),
+                        Err(_) => reg.observe_input_error(),
+                    }
                 }
             }
         }
-    }
-    if samples.is_empty() {
-        return Err("the input holds no trust epoch".into());
-    }
-    let mut out = String::new();
-    let mut prev = None;
-    if format == TelemetryFormat::Mqtt {
-        for m in crate::telemetry::mqtt::discovery(&Default::default()) {
-            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+        if samples.is_empty() {
+            return Err(crate::terr!("e-surface-the-input-holds-no-trust"));
         }
-    }
-    for s in &samples {
-        reg.observe(s, None);
-        if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
-            && (opts.syslog_all || prev != Some(s.band))
-        {
-            let payload = if format == TelemetryFormat::Cef {
-                syslog::cef(s, prev, host, version)
-            } else {
-                syslog::leef(s, prev, host, version)
-            };
-            out.push_str(&syslog::rfc5424(s.band, None, host, &payload));
-            out.push('\n');
-            // CEF and LEEF fan one input line out to one event per epoch: bound the reply too.
-            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
-                return Err(format!(
-                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
-                    max_bytes.min(MAX_INPUT_BYTES)
-                ));
+        let mut out = String::new();
+        let mut prev = None;
+        if format == TelemetryFormat::Mqtt {
+            for m in crate::telemetry::mqtt::discovery(&Default::default()) {
+                out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
             }
         }
-        if format == TelemetryFormat::Mqtt && (opts.syslog_all || prev != Some(s.band)) {
-            let m = crate::telemetry::mqtt::state_message(&Default::default(), s);
-            out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
-            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
-                return Err(format!(
-                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
-                    max_bytes.min(MAX_INPUT_BYTES)
-                ));
+        for s in &samples {
+            reg.observe(s, None);
+            if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
+                && (opts.syslog_all || prev != Some(s.band))
+            {
+                let payload = if format == TelemetryFormat::Cef {
+                    syslog::cef(s, prev, host, version)
+                } else {
+                    syslog::leef(s, prev, host, version)
+                };
+                out.push_str(&syslog::rfc5424(s.band, None, host, &payload));
+                out.push('\n');
+                // CEF and LEEF fan one input line out to one event per epoch: bound the reply too.
+                if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                    return Err(crate::terr!(
+                        "e-surface-the-reply-is-over-the",
+                        max_bytes = max_bytes.min(MAX_INPUT_BYTES)
+                    ));
+                }
             }
+            if format == TelemetryFormat::Mqtt && (opts.syslog_all || prev != Some(s.band)) {
+                let m = crate::telemetry::mqtt::state_message(&Default::default(), s);
+                out.push_str(&format!("{}\t{}\n", m.topic, m.payload));
+                if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                    return Err(crate::terr!(
+                        "e-surface-the-reply-is-over-the",
+                        max_bytes = max_bytes.min(MAX_INPUT_BYTES)
+                    ));
+                }
+            }
+            prev = Some(s.band);
         }
-        prev = Some(s.band);
-    }
-    match format {
-        TelemetryFormat::Cef | TelemetryFormat::Leef | TelemetryFormat::Mqtt => Ok(out),
-        TelemetryFormat::Prometheus => Ok(reg.render()),
-        #[cfg(feature = "otlp")]
-        TelemetryFormat::Otlp => {
-            Ok(crate::telemetry::otlp::build_payload(&reg, opts.unix_nano).to_string())
+        match format {
+            TelemetryFormat::Cef | TelemetryFormat::Leef | TelemetryFormat::Mqtt => Ok(out),
+            TelemetryFormat::Prometheus => Ok(reg.render()),
+            #[cfg(feature = "otlp")]
+            TelemetryFormat::Otlp => {
+                Ok(crate::telemetry::otlp::build_payload(&reg, opts.unix_nano).to_string())
+            }
+            #[cfg(not(feature = "otlp"))]
+            TelemetryFormat::Otlp => Err(crate::terr!("e-surface-otlp-needs-build-with-the")),
         }
-        #[cfg(not(feature = "otlp"))]
-        TelemetryFormat::Otlp => Err("otlp needs a build with the `otlp` feature".into()),
-    }
+    })
 }
 
 /// Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
@@ -1127,46 +1189,49 @@ pub fn osnma_verify(
     max_time_error: Option<u32>,
     max_bytes: usize,
 ) -> Result<String, String> {
-    use crate::osnma::cli::{parse_public_key, verify_report, VerifyParams};
-    use crate::osnma::verifier::Config;
-    cap_len("input", input.len(), max_bytes)?;
-    let merkle_root = match merkle_root_hex.trim() {
-        "" => None,
-        h => {
-            let b = hex::decode(h).map_err(|_| "bad Merkle root hex".to_string())?;
-            Some(
-                <[u8; 32]>::try_from(b.as_slice())
-                    .map_err(|_| "Merkle root must be 32 bytes".to_string())?,
-            )
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::osnma::cli::{parse_public_key, verify_report, VerifyParams};
+        use crate::osnma::verifier::Config;
+        cap_len("input", input.len(), max_bytes)?;
+        let merkle_root = match merkle_root_hex.trim() {
+            "" => None,
+            h => {
+                let b =
+                    hex::decode(h).map_err(|_| crate::terr!("e-surface-bad-merkle-root-hex"))?;
+                Some(
+                    <[u8; 32]>::try_from(b.as_slice())
+                        .map_err(|_| crate::terr!("e-surface-merkle-root-must-be-32"))?,
+                )
+            }
+        };
+        let keys = public_keys
+            .iter()
+            .map(|k| parse_public_key(k.trim()))
+            .collect::<Result<Vec<_>, _>>()?;
+        if max_time_error.is_some() && reference_time.is_none() {
+            return Err(crate::terr!("e-osnma-cli-max-time-error-has-no"));
         }
-    };
-    let keys = public_keys
-        .iter()
-        .map(|k| parse_public_key(k.trim()))
-        .collect::<Result<Vec<_>, _>>()?;
-    if max_time_error.is_some() && reference_time.is_none() {
-        return Err("--max-time-error has no effect without --reference-time".into());
-    }
-    Config {
-        max_time_error_s: max_time_error,
-        ..Config::default()
-    }
-    .validate()?;
-    let format = match format.trim() {
-        "" => None,
-        f => Some(f),
-    };
-    let params = VerifyParams {
-        label: "(in memory)",
-        format,
-        start_gst,
-        merkle_root,
-        keys,
-        reference: reference_time,
-        max_err: max_time_error,
-    };
-    let (report, _failed) = verify_report(input.to_vec(), &params)?;
-    Ok(report.to_string())
+        Config {
+            max_time_error_s: max_time_error,
+            ..Config::default()
+        }
+        .validate()?;
+        let format = match format.trim() {
+            "" => None,
+            f => Some(f),
+        };
+        let params = VerifyParams {
+            label: "(in memory)",
+            format,
+            start_gst,
+            merkle_root,
+            keys,
+            reference: reference_time,
+            max_err: max_time_error,
+        };
+        let (report, _failed) = verify_report(input.to_vec(), &params)?;
+        Ok(report.to_string())
+    })
 }
 
 /// A signed evidence pack built in memory, and the key that signed it.
@@ -1208,18 +1273,22 @@ pub fn evidence_attach_timestamp(
     replace: bool,
     max_bytes: usize,
 ) -> Result<TimestampedPack, String> {
-    let total: usize = files.values().map(Vec::len).sum::<usize>() + token.len();
-    if total > max_bytes {
-        return Err(format!(
-            "the pack and token total {total} bytes; the limit is {max_bytes}"
-        ));
-    }
-    if token.is_empty() {
-        return Err("the timestamp token is empty".into());
-    }
-    let mut files = files.clone();
-    let notes = crate::evidence::attach_timestamp(&mut files, token, replace)?;
-    Ok(TimestampedPack { files, notes })
+    crate::i18n::in_english_or_localised_error(|| {
+        let total: usize = files.values().map(Vec::len).sum::<usize>() + token.len();
+        if total > max_bytes {
+            return Err(crate::terr!(
+                "e-surface-the-pack-and-token-total",
+                total = total,
+                max_bytes = max_bytes
+            ));
+        }
+        if token.is_empty() {
+            return Err(crate::terr!("e-surface-the-timestamp-token-is-empty"));
+        }
+        let mut files = files.clone();
+        let notes = crate::evidence::attach_timestamp(&mut files, token, replace)?;
+        Ok(TimestampedPack { files, notes })
+    })
 }
 
 /// A fresh Ed25519 signing key for evidence packs.
@@ -1253,10 +1322,11 @@ pub fn evidence_keygen() -> EvidenceKey {
 pub fn hex32(what: &str, s: &str) -> Result<[u8; 32], String> {
     let s = s.trim();
     if s.len() != 64 || !s.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f')) {
-        return Err(format!("{what} must be 64 lower-case hex digits"));
+        return Err(crate::terr!("e-surface-must-be-64-lower-case", what = what));
     }
     let v = hex::decode(s).map_err(|e| format!("{what}: {e}"))?;
-    <[u8; 32]>::try_from(v.as_slice()).map_err(|_| format!("{what} must be 32 bytes"))
+    <[u8; 32]>::try_from(v.as_slice())
+        .map_err(|_| crate::terr!("e-surface-must-be-32-bytes", what = what))
 }
 
 /// The current UTC time as RFC 3339, for a pack's creation time.
@@ -1322,40 +1392,42 @@ pub fn evidence_create_attested(
     lab_attestation_toml: Option<&str>,
     max_bytes: usize,
 ) -> Result<EvidencePack, String> {
-    cap("session", session_toml, max_bytes)?;
-    let lab = match lab_attestation_toml {
-        Some(t) => {
-            cap("lab_attestation", t, max_bytes)?;
-            Some(crate::evidence::LabAttestation::from_toml(t)?)
-        }
-        None => None,
-    };
-    cap_len("log", log.len(), max_bytes)?;
-    let scn = parse_live_scenario(session_toml)?;
-    let seed = seed.unwrap_or_else(generate_seed);
-    let (from, to) = (from_s.to_string(), to_s.to_string());
-    let summary = crate::evidence::build_receiver_trust_pack_attested(
-        &PackRequest {
-            scenario: &scn,
-            log_bytes: log,
-            nav_bytes: None,
-            imu_bytes: None,
-            log_file_name: "inline",
-            from: &from,
-            to: &to,
-            title: title.unwrap_or("GNSS trust evidence pack"),
-            created_utc,
-        },
-        &seed,
-        None,
-        lab.as_ref(),
-    )?;
-    Ok(EvidencePack {
-        public_key: public_key_hex(&seed),
-        seed,
-        epochs_in_window: summary.epochs_in_window,
-        slice: summary.slice,
-        files: summary.files,
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("session", session_toml, max_bytes)?;
+        let lab = match lab_attestation_toml {
+            Some(t) => {
+                cap("lab_attestation", t, max_bytes)?;
+                Some(crate::evidence::LabAttestation::from_toml(t)?)
+            }
+            None => None,
+        };
+        cap_len("log", log.len(), max_bytes)?;
+        let scn = parse_live_scenario(session_toml)?;
+        let seed = seed.unwrap_or_else(generate_seed);
+        let (from, to) = (from_s.to_string(), to_s.to_string());
+        let summary = crate::evidence::build_receiver_trust_pack_attested(
+            &PackRequest {
+                scenario: &scn,
+                log_bytes: log,
+                nav_bytes: None,
+                imu_bytes: None,
+                log_file_name: "inline",
+                from: &from,
+                to: &to,
+                title: title.unwrap_or("GNSS trust evidence pack"),
+                created_utc,
+            },
+            &seed,
+            None,
+            lab.as_ref(),
+        )?;
+        Ok(EvidencePack {
+            public_key: public_key_hex(&seed),
+            seed,
+            epochs_in_window: summary.epochs_in_window,
+            slice: summary.slice,
+            files: summary.files,
+        })
     })
 }
 
@@ -1381,36 +1453,40 @@ pub fn evidence_round_trip(
     seed: Option<[u8; 32]>,
     max_bytes: usize,
 ) -> Result<EvidencePack, String> {
-    cap("scoring scenario", scoring_toml, max_bytes)?;
-    cap("scenario", scenario_toml, max_bytes)?;
-    cap("conditions", conditions, max_bytes)?;
-    cap_len("log", log.len(), max_bytes)?;
-    let scn: crate::receiver_trust::scenario::ReceiverTrustScenario = toml::from_str(scoring_toml)
-        .map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
-    let seed = seed.unwrap_or_else(generate_seed);
-    let (from, to) = (from_s.to_string(), to_s.to_string());
-    let summary = crate::evidence::build_round_trip_pack(
-        &PackRequest {
-            scenario: &scn,
-            log_bytes: log,
-            nav_bytes: None,
-            imu_bytes: None,
-            log_file_name: "inline",
-            from: &from,
-            to: &to,
-            title: title.unwrap_or("Laboratory round-trip evidence pack"),
-            created_utc,
-        },
-        scenario_toml,
-        conditions,
-        &seed,
-    )?;
-    Ok(EvidencePack {
-        public_key: public_key_hex(&seed),
-        seed,
-        epochs_in_window: summary.epochs_in_window,
-        slice: summary.slice,
-        files: summary.files,
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("scoring scenario", scoring_toml, max_bytes)?;
+        cap("scenario", scenario_toml, max_bytes)?;
+        cap("conditions", conditions, max_bytes)?;
+        cap_len("log", log.len(), max_bytes)?;
+        let scn: crate::receiver_trust::scenario::ReceiverTrustScenario =
+            toml::from_str(scoring_toml).map_err(|e| {
+                crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e)
+            })?;
+        let seed = seed.unwrap_or_else(generate_seed);
+        let (from, to) = (from_s.to_string(), to_s.to_string());
+        let summary = crate::evidence::build_round_trip_pack(
+            &PackRequest {
+                scenario: &scn,
+                log_bytes: log,
+                nav_bytes: None,
+                imu_bytes: None,
+                log_file_name: "inline",
+                from: &from,
+                to: &to,
+                title: title.unwrap_or("Laboratory round-trip evidence pack"),
+                created_utc,
+            },
+            scenario_toml,
+            conditions,
+            &seed,
+        )?;
+        Ok(EvidencePack {
+            public_key: public_key_hex(&seed),
+            seed,
+            epochs_in_window: summary.epochs_in_window,
+            slice: summary.slice,
+            files: summary.files,
+        })
     })
 }
 
@@ -1430,39 +1506,39 @@ pub fn evidence_verify(
     full_log: Option<&[u8]>,
     require_timestamp: bool,
 ) -> Result<Value, String> {
-    let expected = public_key.map(|k| hex32("public key", k)).transpose()?;
-    let r = verify_bundle(
-        files,
-        &VerifyOptions {
-            expected_public_key: expected,
-            full_log,
-            require_timestamp,
-            tsa_anchors: None,
-        },
-    );
-    let fp = r.signer_fingerprint.clone().unwrap_or_default();
-    let (verdict, message) = if !r.ok {
-        (
-            "failed",
-            "NOT VERIFIED: at least one check failed; see `failures`.".to_string(),
-        )
-    } else if r.signer_pinned {
-        (
-            "verified",
-            format!("VERIFIED against the public key you supplied (signer fingerprint {fp})."),
-        )
-    } else {
-        (
-            "intact-signer-not-pinned",
-            format!(
-                "INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key {fp}, which the pack names itself. Supply the signer's public key, obtained from the signer by another route, to establish who signed it."
-            ),
-        )
-    };
-    let mut v = serde_json::to_value(&r).map_err(|e| e.to_string())?;
-    v["verdict"] = verdict.into();
-    v["message"] = message.into();
-    Ok(v)
+    crate::i18n::in_english_or_localised_error(|| {
+        let expected = public_key.map(|k| hex32("public key", k)).transpose()?;
+        let r = verify_bundle(
+            files,
+            &VerifyOptions {
+                expected_public_key: expected,
+                full_log,
+                require_timestamp,
+                tsa_anchors: None,
+            },
+        );
+        let fp = r.signer_fingerprint.clone().unwrap_or_default();
+        let (verdict, message) = if !r.ok {
+            (
+                "failed",
+                "NOT VERIFIED: at least one check failed; see `failures`.".to_string(),
+            )
+        } else if r.signer_pinned {
+            (
+                "verified",
+                crate::t!("surface-verified-against-the-public-key", fp = fp),
+            )
+        } else {
+            (
+                "intact-signer-not-pinned",
+                crate::t!("surface-intact-but-the-signer-is", fp = fp),
+            )
+        };
+        let mut v = serde_json::to_value(&r).map_err(|e| e.to_string())?;
+        v["verdict"] = verdict.into();
+        v["message"] = message.into();
+        Ok(v)
+    })
 }
 
 /// A pack's files as JSON, for surfaces that carry text: each file is `{"utf8": text}`, or
@@ -1486,24 +1562,22 @@ pub fn files_to_json(files: &Files) -> Value {
 pub fn files_from_json(v: &Value) -> Result<Files, String> {
     let o = v
         .as_object()
-        .ok_or("files must be a JSON object of name to content")?;
+        .ok_or_else(|| crate::terr!("e-surface-files-must-be-json-object"))?;
     if o.len() > 64 {
-        return Err("a pack has at most 64 files".into());
+        return Err(crate::terr!("e-surface-pack-has-at-most-64"));
     }
     o.iter()
         .map(|(k, c)| {
             if k.contains(['/', '\\']) || k.is_empty() {
-                return Err(format!("file name `{k}` must be a plain name"));
+                return Err(crate::terr!("e-surface-file-name-must-be-plain", k = k));
             }
             let bytes = if let Some(t) = c.as_str().or_else(|| c["utf8"].as_str()) {
                 t.as_bytes().to_vec()
             } else if let Some(b) = c["base64"].as_str() {
                 crate::permalink::base64_decode(b)
-                    .ok_or_else(|| format!("{k}: `base64` is not valid standard base64"))?
+                    .ok_or_else(|| crate::terr!("e-surface-base64-is-not-valid-standard", k = k))?
             } else {
-                return Err(format!(
-                    "{k}: give a string, {{\"utf8\": ...}} or {{\"base64\": ...}}"
-                ));
+                return Err(crate::terr!("e-surface-give-string-utf8-or-base64", k = k));
             };
             Ok((k.clone(), bytes))
         })
@@ -1515,8 +1589,10 @@ pub fn files_from_json(v: &Value) -> Result<Files, String> {
 /// the horizontal error ellipse, as JSON. MODELLED; the result carries its label, statement and
 /// the advisory.
 pub fn sky_geometry(request: &str, max_bytes: usize) -> Result<String, String> {
-    cap("sky request", request, max_bytes)?;
-    crate::geometry::sky_geometry_json(request)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("sky request", request, max_bytes)?;
+        crate::geometry::sky_geometry_json(request)
+    })
 }
 
 /// `sky_monte_carlo` ([`crate::geometry::sky_monte_carlo`]): `n` (at most
@@ -1528,21 +1604,25 @@ pub fn sky_monte_carlo(
     n: usize,
     max_bytes: usize,
 ) -> Result<String, String> {
-    cap("sky request", request, max_bytes)?;
-    crate::geometry::sky_monte_carlo_json(request, seed, n)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("sky request", request, max_bytes)?;
+        crate::geometry::sky_monte_carlo_json(request, seed, n)
+    })
 }
 
 /// `skyline_presets` ([`crate::geometry::skyline_presets`]): the named presets with their
 /// REPRESENTATIVE label, provenance and 360-entry tables, as JSON.
 pub fn skyline_presets() -> String {
-    crate::geometry::skyline_presets_json()
+    crate::i18n::in_english(crate::geometry::skyline_presets_json)
 }
 
 /// `skyline_profile` ([`crate::geometry::skyline_profile`]): a skyline section given as JSON or
 /// TOML reduced to the normalised 360-entry table the engine uses, as JSON.
 pub fn skyline_profile(skyline: &str, max_bytes: usize) -> Result<String, String> {
-    cap("skyline", skyline, max_bytes)?;
-    crate::geometry::skyline_profile_json(skyline)
+    crate::i18n::in_english_or_localised_error(|| {
+        cap("skyline", skyline, max_bytes)?;
+        crate::geometry::skyline_profile_json(skyline)
+    })
 }
 
 /// `skyplot_svg` ([`crate::geometry::skyplot_svg`]): the request's skyplot as static SVG.
@@ -1910,6 +1990,21 @@ mod tests {
         assert!(a.nmea.contains("\r\n") && a.log_json.contains("kshana-nmea-training/1"));
         assert!(!a.log_text.is_empty());
         assert!(nmea_training("[scenario]", None, MAX_INPUT_BYTES).is_err());
+    }
+
+    #[test]
+    fn compliance_mapping_english_is_the_recorded_original() {
+        // Recorded from the binary before the human renderings moved into the catalogue.
+        crate::i18n::in_english(|| {
+            assert_eq!(
+                compliance_mapping(false),
+                include_str!("../tests/fixtures/compliance/mapping_en.md")
+            );
+            assert_eq!(
+                compliance_mapping(true),
+                include_str!("../tests/fixtures/compliance/sources_en.md")
+            );
+        });
     }
 
     #[test]

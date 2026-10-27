@@ -81,19 +81,17 @@ impl RawEntry {
 /// each of which would otherwise produce a meaningless empty study. Matches the
 /// crate's existing `toml`-parse error style (a short prefixed message).
 pub fn parse_suite(src: &str) -> Result<Suite, String> {
-    let raw: RawSuite = toml::from_str(src).map_err(|e| format!("invalid suite manifest: {e}"))?;
+    let raw: RawSuite =
+        toml::from_str(src).map_err(|e| crate::terr!("e-suite-invalid-suite-manifest", e = e))?;
 
     let title = raw
         .title
         .filter(|t| !t.trim().is_empty())
-        .ok_or_else(|| "suite manifest is missing a `title`".to_string())?;
+        .ok_or_else(|| crate::terr!("e-suite-suite-manifest-is-missing-title"))?;
 
     let entries = raw.scenarios.unwrap_or_default();
     if entries.is_empty() {
-        return Err(
-            "suite manifest has no `scenarios`: add a non-empty `scenarios = [...]` array"
-                .to_string(),
-        );
+        return Err(crate::terr!("e-suite-suite-manifest-has-no-scenarios"));
     }
 
     let scenarios = entries.into_iter().map(RawEntry::into_entry).collect();

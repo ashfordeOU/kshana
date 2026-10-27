@@ -56,10 +56,9 @@ pub fn observations(
         iono: klobuchar_from_nav_header(nav_rinex).unwrap_or_default(),
         meteo: Meteo::default(),
     };
-    let apriori = apriori.or(obs.header.approx_xyz).ok_or_else(|| {
-        "no a-priori position: pass one or supply an observation-header APPROX POSITION XYZ"
-            .to_string()
-    })?;
+    let apriori = apriori
+        .or(obs.header.approx_xyz)
+        .ok_or_else(|| crate::terr!("e-realdata-raim-no-priori-position-pass-one"))?;
 
     let mut out = Vec::new();
     for idx in 0..obs.epochs.len() {

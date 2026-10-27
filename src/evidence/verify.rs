@@ -245,10 +245,11 @@ pub fn verify_detached(public_key: &[u8; 32], msg: &[u8], sig: &[u8; 64]) -> Res
 
 fn hex_fixed<const N: usize>(s: &str) -> Result<[u8; N], String> {
     if !s.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f')) {
-        return Err("not lower-case hex".into());
+        return Err(crate::terr!("e-evidence-verify-not-lower-case-hex"));
     }
     let v = hex::decode(s).map_err(|e| e.to_string())?;
-    <[u8; N]>::try_from(v.as_slice()).map_err(|_| format!("expected {N} bytes, found {}", v.len()))
+    <[u8; N]>::try_from(v.as_slice())
+        .map_err(|_| crate::terr!("e-evidence-verify-expected-bytes-found", N = N, v = v.len()))
 }
 
 /// Bind an RFC 3161 timestamp token to a pack, in memory: the token is stored as
@@ -262,15 +263,17 @@ pub fn attach_timestamp(
     replace: bool,
 ) -> Result<Vec<String>, String> {
     if files.contains_key("timestamp.tsr") && !replace {
-        return Err("the pack already has a timestamp token; pass --replace to replace it".into());
+        return Err(crate::terr!(
+            "e-evidence-verify-the-pack-already-has-timestamp"
+        ));
     }
     let mut with = files.clone();
     with.insert("timestamp.tsr".into(), token.to_vec());
     let rep = verify_bundle(&with, &VerifyOptions::default());
     if !rep.ok {
-        return Err(format!(
-            "not attached: the pack with this token does not verify ({})",
-            serde_json::to_string(&rep.failures).unwrap_or_default()
+        return Err(crate::terr!(
+            "e-evidence-verify-not-attached-the-pack-with",
+            v1 = serde_json::to_string(&rep.failures).unwrap_or_default()
         ));
     }
     *files = with;
@@ -328,12 +331,12 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
         r.engine_version = Some(m.engine_version.clone());
         if let Some(a) = &m.lab_attestation {
             r.lab_attestation = Some(a.clone());
-            r.notes.push(format!(
-                "the pack records a lab attestation by {} ({}, {}): {}",
-                a.operator,
-                a.organisation,
-                a.setup,
-                super::lab::STANDING
+            r.notes.push(crate::t!(
+                "evidence-verify-the-pack-records-lab-attestation",
+                operator = a.operator,
+                organisation = a.organisation,
+                setup = a.setup,
+                v4 = super::lab::STANDING
             ));
         }
         if m.format != FORMAT {
@@ -378,7 +381,7 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
         Some(sb) => match (
             match String::from_utf8_lossy(sb).strip_suffix('\n') {
                 Some(h) => hex_fixed::<64>(h),
-                None => Err("the signature file does not end with a newline".into()),
+                None => Err(crate::terr!("e-evidence-verify-the-signature-file-does-not")),
             },
             key_bytes,
         ) {
@@ -403,9 +406,9 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
     };
     close(&mut r, "signature", from, sig_detail);
     if !r.signer_pinned {
-        r.notes.push(format!(
-            "signer not pinned: the signature proves the pack is intact against key {}, which the pack names itself. Compare that fingerprint with one you got from the signer, or pass the key.",
-            r.signer_fingerprint.as_deref().unwrap_or("(none)")
+        r.notes.push(crate::t!(
+            "evidence-verify-signer-not-pinned-the-signature",
+            r = r.signer_fingerprint.as_deref().unwrap_or("(none)")
         ));
     }
 
@@ -521,9 +524,11 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
             .push(Failure::SliceRecordInconsistent { detail: d })
     };
     if s.start > s.end || s.end > m.log.full_bytes {
-        bad(format!(
-            "range {}..{} is not inside a log of {} bytes",
-            s.start, s.end, m.log.full_bytes
+        bad(crate::t!(
+            "evidence-verify-range-is-not-inside-log",
+            start = s.start,
+            end = s.end,
+            full_bytes = m.log.full_bytes
         ));
     }
     if let Some(a) = m.artifacts.iter().find(|a| a.name == "log-slice.bin") {
@@ -660,10 +665,10 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                         .tsa_anchors
                         .map(|a| crate::evidence::tsa::verify_token(tok, mbytes, a, &[]));
                     match &authority {
-                        None => r.notes.push(format!(
-                            "timestamp token states {}; its imprint {} manifest.json. Timestamp authority signature not verified by Kshana: check it with `openssl ts -verify`.",
-                            info.gen_time,
-                            if matches { "matches" } else { "does NOT match" }
+                        None => r.notes.push(crate::t!(
+                            "evidence-verify-timestamp-token-states-its-imprint",
+                            gen_time = info.gen_time,
+                            v2 = if matches { "matches" } else { "does NOT match" }
                         )),
                         Some(v) => {
                             if !v.pass {
@@ -671,11 +676,11 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                                     detail: v.reason.clone(),
                                 });
                             }
-                            r.notes.push(format!(
-                                "timestamp token states {}; its imprint {} manifest.json; the timestamp authority's signature and chain {} against the anchors given.",
-                                info.gen_time,
-                                if matches { "matches" } else { "does NOT match" },
-                                if v.pass { "verified" } else { "did NOT verify" }
+                            r.notes.push(crate::t!(
+                                "evidence-verify-timestamp-token-states-its-imprint-2",
+                                gen_time = info.gen_time,
+                                v2 = if matches { "matches" } else { "does NOT match" },
+                                v3 = if v.pass { "verified" } else { "did NOT verify" }
                             ));
                         }
                     }

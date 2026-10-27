@@ -102,12 +102,13 @@ impl Field {
             (0.0, 2f64.ppowi(self.bits as i32) - 1.0)
         };
         if !(q >= lo && q <= hi) {
-            return Err(format!(
-                "{}: {value:e} at LSB {:e} does not fit {} {} bits",
-                self.name,
-                self.lsb_si(),
-                self.bits,
-                if self.signed { "signed" } else { "unsigned" }
+            return Err(crate::terr!(
+                "e-gnss-navmsg-at-lsb-does-not-fit",
+                name = self.name,
+                value = crate::i18n::localise_decimal(format!("{:e}", value)),
+                value2 = crate::i18n::localise_decimal(format!("{:e}", self.lsb_si())),
+                bits = self.bits,
+                v4 = if self.signed { "signed" } else { "unsigned" }
             ));
         }
         Ok((q as i64 as u64) & mask(self.bits))
@@ -199,7 +200,11 @@ pub fn pack(
 pub fn unpack(layout: &[Field], bits: &[u8]) -> Result<Vec<Decoded>, String> {
     let need = layout_bits(layout) as usize;
     if bits.len() < need {
-        return Err(format!("{} bits, layout needs {need}", bits.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-bits-layout-needs",
+            bits = bits.len(),
+            need = need
+        ));
     }
     let mut at = 0usize;
     Ok(layout
@@ -222,7 +227,7 @@ pub fn get<'a>(fields: &'a [Decoded], name: &str) -> Result<&'a Decoded, String>
     fields
         .iter()
         .find(|d| d.name == name)
-        .ok_or_else(|| format!("no field {name}"))
+        .ok_or_else(|| crate::terr!("e-gnss-navmsg-no-field", name = name))
 }
 
 /// Two raised to `e`, exactly (for LSB constants).

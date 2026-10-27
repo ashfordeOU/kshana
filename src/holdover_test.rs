@@ -324,7 +324,7 @@ pub struct HoldoverTestRun {
 
 fn check_nan(rec: &TeRecord) -> Result<(), String> {
     if rec.te_ns.iter().any(|v| !v.is_finite()) {
-        return Err("the record holds a non-finite time error".into());
+        return Err(crate::terr!("e-holdover-test-the-record-holds-non-finite"));
     }
     Ok(())
 }
@@ -346,10 +346,9 @@ impl HoldoverTestScenario {
             + usize::from(s.clock_log.is_some());
         if given != 1 {
             return Err(if given == 0 {
-                "give one of series.samples, series.csv_path or series.clock_log".into()
+                crate::terr!("e-holdover-test-give-one-of-series-samples")
             } else {
-                "give one of series.samples, series.csv_path or series.clock_log, not more than one"
-                    .into()
+                crate::terr!("e-holdover-test-give-one-of-series-samples-2")
             });
         }
         let pairs: Vec<[f64; 2]> = if let Some(c) = &s.clock_log {
@@ -381,18 +380,15 @@ impl HoldoverTestScenario {
             && t.recovery_dwell_s.is_finite()
             && t.recovery_dwell_s >= 0.0)
         {
-            return Err(
-                "gnss_removed_s must be finite, locked_duration_days >= 0, recovery_band_ns > 0 \
-                 and recovery_dwell_s >= 0"
-                    .into(),
-            );
+            return Err(crate::terr!("e-holdover-test-gnss-removed-must-be-finite"));
         }
         let mut masks = Vec::new();
         for id in &self.masks {
             masks.push(mask_by_id(id).ok_or_else(|| {
-                format!(
-                    "unknown mask {id:?}; expected one of {}",
-                    MASKS.iter().map(|m| m.id).collect::<Vec<_>>().join(", ")
+                crate::terr!(
+                    "e-holdover-test-unknown-mask-expected-one-of",
+                    id = format!("{:?}", id),
+                    masks = MASKS.iter().map(|m| m.id).collect::<Vec<_>>().join(", ")
                 )
             })?);
         }
@@ -401,16 +397,18 @@ impl HoldoverTestScenario {
             .iter()
             .any(|b| !(b.max_abs_te_ns.is_finite() && b.max_abs_te_ns > 0.0))
         {
-            return Err("every budget max_abs_te_ns must be finite and positive".into());
+            return Err(crate::terr!("e-holdover-test-every-budget-max-abs-te"));
         }
         let (record, clock_log) = self.load()?;
         check_nan(&record)?;
         let n = record.te_ns.len();
         let t_end = record.t0_s + (n - 1) as f64 * record.dt_s;
         if !(t.gnss_removed_s >= record.t0_s && t.gnss_removed_s <= t_end) {
-            return Err(format!(
-                "gnss_removed_s = {} lies outside the record ({} to {} s on its own time axis)",
-                t.gnss_removed_s, record.t0_s, t_end
+            return Err(crate::terr!(
+                "e-holdover-test-gnss-removed-lies-outside-the",
+                gnss_removed_s = t.gnss_removed_s,
+                t0_s = record.t0_s,
+                t_end = t_end
             ));
         }
         let i_rm = index_at(&record, t.gnss_removed_s).min(n);
@@ -418,17 +416,18 @@ impl HoldoverTestScenario {
             None => n,
             Some(r) => {
                 if !(r.is_finite() && r > t.gnss_removed_s && r <= t_end + record.dt_s) {
-                    return Err(format!(
-                        "gnss_restored_s = {r} must be later than gnss_removed_s ({}) and not past \
-                         the end of the record ({t_end} s)",
-                        t.gnss_removed_s
+                    return Err(crate::terr!(
+                        "e-holdover-test-gnss-restored-must-be-later",
+                        r = r,
+                        gnss_removed_s = t.gnss_removed_s,
+                        t_end = t_end
                     ));
                 }
                 index_at(&record, r).min(n)
             }
         };
         if i_rm >= i_rs {
-            return Err("the holdover step holds no sample".into());
+            return Err(crate::terr!("e-holdover-test-the-holdover-step-holds-no"));
         }
         let mut steps = Vec::new();
         if i_rm > 0 {
@@ -493,9 +492,7 @@ impl HoldoverTestScenario {
                             margin_ns: None,
                             worst_tau_s: None,
                             points_evaluated: 0,
-                            note: format!(
-                                "the record has no {step} step: GNSS was removed at its first sample"
-                            ),
+                            note: crate::t!("holdover-test-the-record-has-no-step", step = step),
                         }],
                         not_specified: mask.not_specified,
                     },
@@ -521,9 +518,10 @@ impl HoldoverTestScenario {
                             margin_ns: None,
                             worst_tau_s: None,
                             points_evaluated: 0,
-                            note: format!(
-                                "the {step} step has {} samples; the estimators need at least 13",
-                                s.rec.te_ns.len()
+                            note: crate::t!(
+                                "holdover-test-the-step-has-samples-the",
+                                step = step,
+                                te_ns = s.rec.te_ns.len()
                             ),
                         }],
                         not_specified: mask.not_specified,
@@ -534,7 +532,7 @@ impl HoldoverTestScenario {
             let (_, m, d) = curves
                 .iter()
                 .find(|(nm, _, _)| *nm == step)
-                .ok_or("a step with a mask has no curve")?;
+                .ok_or_else(|| crate::terr!("e-holdover-test-step-with-mask-has-no"))?;
             let env = if step == "holdover" {
                 envelope.as_ref()
             } else {
@@ -718,18 +716,19 @@ impl HoldoverTestScenario {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_csv(path: &str) -> Result<Vec<[f64; 2]>, String> {
-    let text =
-        std::fs::read_to_string(path).map_err(|e| format!("cannot read csv_path {path:?}: {e}"))?;
+    let text = std::fs::read_to_string(path).map_err(|e| {
+        crate::terr!(
+            "e-holdover-test-cannot-read-csv-path",
+            path = format!("{:?}", path),
+            e = e
+        )
+    })?;
     parse_csv_pairs(&text)
 }
 
 #[cfg(target_arch = "wasm32")]
 fn read_csv(_path: &str) -> Result<Vec<[f64; 2]>, String> {
-    Err(
-        "csv_path is not available in the WebAssembly build; give the series inline as \
-         `samples` or `clock_log.text`"
-            .into(),
-    )
+    Err(crate::terr!("e-holdover-test-csv-path-is-not-available"))
 }
 
 fn summary_line(r: &HoldoverTestRun) -> String {
@@ -743,28 +742,46 @@ fn summary_line(r: &HoldoverTestRun) -> String {
         .iter()
         .map(|(_, m)| format!("{} {}", m.id, m.verdict))
         .collect();
-    let rec = match &r.recovery {
-        Some(x) => match x.time_to_recover_s {
-            Some(t) => format!("; recovered {t:.0} s after GNSS returned"),
-            None => "; not recovered within the record".to_string(),
-        },
-        None => String::new(),
-    };
-    format!(
-        "holdover-test: holdover {:.0} s, max|TE| {:.1} ns; {}{} (MODELLED, measured against the mask)",
-        hold.map(|h| (h.rec.te_ns.len() - 1) as f64 * h.rec.dt_s).unwrap_or(0.0),
-        max_abs,
-        masks.join(", "),
-        rec
-    )
+    let hold_s = crate::i18n::localise_decimal(format!(
+        "{:.0}",
+        hold.map(|h| (h.rec.te_ns.len() - 1) as f64 * h.rec.dt_s)
+            .unwrap_or(0.0)
+    ));
+    let max_abs = crate::i18n::localise_decimal(format!("{:.1}", max_abs));
+    let masks = masks.join(", ");
+    match r.recovery.as_ref().map(|x| x.time_to_recover_s) {
+        Some(Some(t)) => crate::t!(
+            "holdover-test-holdover-recovered-after-gnss-returned",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks,
+            t = crate::i18n::localise_decimal(format!("{:.0}", t))
+        ),
+        Some(None) => crate::t!(
+            "holdover-test-holdover-not-recovered-within-record",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks
+        ),
+        None => crate::t!(
+            "holdover-test-holdover-test-holdover-max-te",
+            hold = hold_s,
+            max_abs = max_abs,
+            masks = masks
+        ),
+    }
 }
 
 /// |TE| against time with the three steps shaded and the budgets drawn.
 fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
     use crate::palette::chart::{AMBER, BLUE, INK_3, MUTED};
     let (w, h) = (900.0, 460.0);
-    let mut s =
-        crate::chart::frame_open(w, h, "Holdover test: time error by step", &summary_line(r));
+    let mut s = crate::chart::frame_open(
+        w,
+        h,
+        &crate::t!("holdover-test-chart-title"),
+        &summary_line(r),
+    );
     let (lx, top, pw, ph) = (80.0, 80.0, 760.0, 320.0);
     let rec = &r.record;
     let n = rec.te_ns.len();
@@ -781,14 +798,14 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
         pw,
         ph,
         y_max,
-        "|time error| (ns)",
+        &crate::t!("holdover-test-chart-y-title"),
     ));
     s.push_str(&crate::chart::panel_axes(
         lx,
         top,
         pw,
         top + ph,
-        "absolute time error; holdover step shaded; dashed lines are the time-error budgets",
+        &crate::t!("holdover-test-chart-panel-caption"),
     ));
     let t_span = ((n - 1) as f64 * rec.dt_s).max(1e-9);
     let x_of = |t: f64| lx + pw * (t - rec.t0_s) / t_span;
@@ -816,17 +833,23 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
             let y = top + ph - ph * b.max_abs_te_ns / y_max;
             s.push_str(&format!(
                 "<line x1=\"{lx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{INK_3}\" stroke-dasharray=\"4 3\"/>\
-                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"{MUTED}\" text-anchor=\"end\">{:.0} ns</text>",
+                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"{MUTED}\" text-anchor=\"end\">{} ns</text>",
                 lx + pw,
                 lx + pw - 4.0,
                 y - 3.0,
-                b.max_abs_te_ns
+                crate::i18n::num(b.max_abs_te_ns, 0)
             ));
         }
     }
     for (t, label) in [
-        (Some(sc.test.gnss_removed_s), "GNSS removed"),
-        (sc.test.gnss_restored_s, "GNSS restored"),
+        (
+            Some(sc.test.gnss_removed_s),
+            crate::t!("holdover-test-chart-gnss-removed"),
+        ),
+        (
+            sc.test.gnss_restored_s,
+            crate::t!("holdover-test-chart-gnss-restored"),
+        ),
     ] {
         if let Some(t) = t {
             let x = x_of(t);
@@ -840,10 +863,13 @@ fn to_svg(sc: &HoldoverTestScenario, r: &HoldoverTestRun) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">time on the record's axis ({:.1} min)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">{}</text>",
         lx + pw / 2.0,
         top + ph + 28.0,
-        t_span / 60.0
+        crate::t!(
+            "holdover-test-chart-time-axis",
+            min = crate::i18n::num(t_span / 60.0, 1)
+        )
     ));
     s.push_str("</svg>");
     s

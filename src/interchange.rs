@@ -94,19 +94,25 @@ pub enum InterchangeError {
 impl fmt::Display for InterchangeError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            InterchangeError::Encode(e) => write!(f, "failed to encode payload: {e}"),
-            InterchangeError::Parse(e) => write!(f, "not a valid interchange envelope: {e}"),
-            InterchangeError::NotKshana(found) => {
-                write!(
-                    f,
-                    "not a Kshana artifact: format is {found:?}, expected {FORMAT_TAG:?}"
-                )
+            InterchangeError::Encode(e) => {
+                f.write_str(&crate::terr!("e-interchange-encode-payload", e = e))
             }
-            InterchangeError::Incompatible(verdict, v) => {
-                write!(f, "incompatible schema version {v:?} ({verdict:?}); this engine speaks {SCHEMA_VERSION:?}")
+            InterchangeError::Parse(e) => {
+                f.write_str(&crate::terr!("e-interchange-invalid-envelope", e = e))
             }
+            InterchangeError::NotKshana(found) => f.write_str(&crate::terr!(
+                "e-interchange-not-kshana-artifact",
+                found = format!("{found:?}"),
+                expected = format!("{FORMAT_TAG:?}")
+            )),
+            InterchangeError::Incompatible(verdict, v) => f.write_str(&crate::terr!(
+                "e-interchange-incompatible-schema-version",
+                v = format!("{v:?}"),
+                verdict = format!("{verdict:?}"),
+                current = format!("{SCHEMA_VERSION:?}")
+            )),
             InterchangeError::Payload(e) => {
-                write!(f, "payload did not match the requested type: {e}")
+                f.write_str(&crate::terr!("e-interchange-payload-mismatch", e = e))
             }
         }
     }

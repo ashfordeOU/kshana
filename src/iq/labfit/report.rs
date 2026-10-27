@@ -96,11 +96,11 @@ fn param_row(p: &ParamEstimate) -> String {
 /// A markdown summary.
 pub fn to_markdown(r: &LabFitReport) -> String {
     let mut s = String::new();
-    s.push_str(&format!(
-        "# Lab fit: {}\n\nLabel: **{}**. Settings SHA-256 `{}`.\n\n",
-        r.name.as_deref().unwrap_or("(unnamed)"),
-        r.label,
-        r.settings_sha256
+    s.push_str(&crate::t!(
+        "iq-labfit-report-lab-fit-label-settings-sha",
+        r = r.name.as_deref().unwrap_or("(unnamed)"),
+        label = r.label,
+        settings_sha256 = r.settings_sha256
     ));
     s.push_str("## Runs\n\n| run | SHA-256 | used | sats | losses | reacq | C/N0 at loss (median) | C/N0 resid RMS dB | note |\n|---|---|---|---|---|---|---|---|---|\n");
     for run in &r.runs {
@@ -131,32 +131,33 @@ pub fn to_markdown(r: &LabFitReport) -> String {
     }
     s.push_str("\n## Level calibration\n\n| parameter | value | bounds | at bound | bootstrap sd (95 %) |\n|---|---|---|---|---|\n");
     s.push_str(&param_row(&r.level_offset.estimate));
-    s.push_str(&format!(
-        "\n{} C/N0 samples, residual RMS {} dB.{}\n",
-        r.level_offset.n_samples,
-        om(r.level_offset.rms_db, 3),
-        r.level_offset
+    s.push_str(&crate::t!(
+        "iq-labfit-report-n0-samples-residual-rms-db",
+        n_samples = r.level_offset.n_samples,
+        om = om(r.level_offset.rms_db, 3),
+        r = r
+            .level_offset
             .note
             .as_ref()
             .map_or(String::new(), |n| format!(" {n}."))
     ));
     for m in &r.models {
-        s.push_str(&format!(
-            "\n## Model: {} ({})\n\n| parameter | value | bounds | at bound | bootstrap sd (95 %) |\n|---|---|---|---|---|\n",
-            m.model.as_str(),
-            m.label
+        s.push_str(&crate::t!(
+            "iq-labfit-report-model-parameter-value-bounds-at",
+            model = m.model.as_str(),
+            label = m.label
         ));
         for p in &m.params {
             s.push_str(&param_row(p));
         }
-        s.push_str(&format!(
-            "\nEvent-time RMS {} s over {} events; losses missed {} / extra {}, reacquisitions missed {} / extra {}.\n\n| run | drop dB-Hz | re-lock dB-Hz | events | RMS s |\n|---|---|---|---|---|\n",
-            om(m.rms_s, 3),
-            m.n_events,
-            m.loss_missed,
-            m.loss_extra,
-            m.reacq_missed,
-            m.reacq_extra
+        s.push_str(&crate::t!(
+            "iq-labfit-report-event-time-rms-over-events",
+            om = om(m.rms_s, 3),
+            n_events = m.n_events,
+            loss_missed = m.loss_missed,
+            loss_extra = m.loss_extra,
+            reacq_missed = m.reacq_missed,
+            reacq_extra = m.reacq_extra
         ));
         for pr in &m.per_run {
             s.push_str(&format!(
@@ -169,13 +170,13 @@ pub fn to_markdown(r: &LabFitReport) -> String {
             ));
         }
         if let Some(cv) = &m.cv {
-            s.push_str(&format!(
-                "\nHold-out ({}, {} folds): all {} s, interpolation {} s, extrapolation {} s.\n\n| held-out run | class | distance | nearest training run | RMS s |\n|---|---|---|---|---|\n",
-                cv.scheme,
-                cv.folds,
-                om(cv.rms_all_s, 3),
-                om(cv.rms_interpolation_s, 3),
-                om(cv.rms_extrapolation_s, 3)
+            s.push_str(&crate::t!(
+                "iq-labfit-report-hold-out-folds-all-interpolation",
+                scheme = cv.scheme,
+                folds = cv.folds,
+                om = om(cv.rms_all_s, 3),
+                om2 = om(cv.rms_interpolation_s, 3),
+                om3 = om(cv.rms_extrapolation_s, 3)
             ));
             for h in &cv.holdout {
                 s.push_str(&format!(

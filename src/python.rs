@@ -87,8 +87,9 @@ impl PyRunOutput {
 /// array accessors need it.
 fn numpy(py: Python<'_>) -> PyResult<pyo3::Bound<'_, pyo3::types::PyModule>> {
     py.import("numpy").map_err(|e| {
-        pyo3::exceptions::PyImportError::new_err(format!(
-            "RunOutput's array accessors need NumPy (pip install numpy): {e}"
+        pyo3::exceptions::PyImportError::new_err(crate::terr!(
+            "e-python-runoutput-array-accessors-need-numpy",
+            e = e
         ))
     })
 }
@@ -217,8 +218,9 @@ impl PyRunOutput {
         let doc = self.parsed()?;
         let v = lookup(&doc, path)?;
         if !is_numeric_array(v) {
-            return Err(PyValueError::new_err(format!(
-                "{path:?} is not a numeric array (a list of numbers, or of equal-length lists of numbers)"
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-is-not-numeric-array-list",
+                path = format!("{:?}", path)
             )));
         }
         let np = numpy(py)?;
@@ -238,7 +240,10 @@ impl PyRunOutput {
             .as_array()
             .filter(|a| !a.is_empty() && a.iter().all(|r| r.is_object()))
             .ok_or_else(|| {
-                PyValueError::new_err(format!("{path:?} is not a non-empty list of records"))
+                PyValueError::new_err(crate::terr!(
+                    "e-python-is-not-non-empty-list",
+                    path = format!("{:?}", path)
+                ))
             })?;
         let np = numpy(py)?;
         records_to_columns(py, &np, records)
@@ -274,12 +279,12 @@ impl PyRunOutput {
     }
 
     fn __repr__(&self) -> String {
-        format!(
-            "RunOutput(json={} bytes, svg={} bytes, csv={} bytes, summary={:?})",
-            self.json.len(),
-            self.svg.len(),
-            self.csv.as_ref().map_or(0, |c| c.len()),
-            self.summary.chars().take(48).collect::<String>()
+        crate::t!(
+            "python-runoutput-json-bytes-svg-bytes",
+            json = self.json.len(),
+            svg = self.svg.len(),
+            value = self.csv.as_ref().map_or(0, |c| c.len()),
+            value2 = format!("{:?}", self.summary.chars().take(48).collect::<String>())
         )
     }
 }
@@ -289,8 +294,9 @@ impl PyRunOutput {
 /// accessors `.array()`, `.columns()` and `.series()`). Raises
 /// `ValueError` if invalid.
 #[pyfunction]
-fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run_typed(toml: &str, lang: Option<&str>) -> PyResult<PyRunOutput> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| PyRunOutput {
             json: o.json,
             svg: o.svg,
@@ -321,9 +327,11 @@ fn receiver_trust(toml: &str) -> PyResult<PyRunOutput> {
         .map_err(PyValueError::new_err)
 }
 
+/// The kinds' metadata, already parsed; `lang` is the language of each `description`.
 #[pyfunction]
-fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
-    let json = crate::api::list_scenario_kinds_json();
+#[pyo3(signature = (lang=None))]
+fn scenario_kinds<'py>(py: Python<'py>, lang: Option<&str>) -> PyResult<Bound<'py, PyAny>> {
+    let json = kinds_json(lang)?;
     let v: serde_json::Value =
         serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
     json_to_py(py, &v)
@@ -333,8 +341,9 @@ fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
 /// messages (empty if the scenario is valid). Note: this executes the scenario,
 /// so it surfaces both parse/config errors and runtime failures.
 #[pyfunction]
-fn validate_toml(toml: &str) -> Vec<String> {
-    match crate::api::run_scenario(toml) {
+#[pyo3(signature = (toml, lang=None))]
+fn validate_toml(toml: &str, lang: Option<&str>) -> Vec<String> {
+    match crate::api::run_scenario_lang(toml, lang.unwrap_or("en")) {
         Ok(_) => vec![],
         Err(e) => vec![e.to_string()],
     }
@@ -343,16 +352,18 @@ fn validate_toml(toml: &str) -> Vec<String> {
 /// Run a scenario given as a TOML string; returns the result document as a JSON
 /// string. Raises `ValueError` if the scenario is invalid.
 #[pyfunction]
-fn run(toml: &str) -> PyResult<String> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run(toml: &str, lang: Option<&str>) -> PyResult<String> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| o.json)
         .map_err(PyValueError::new_err)
 }
 
 /// Run a scenario; returns `(json, svg, summary)`.
 #[pyfunction]
-fn run_full(toml: &str) -> PyResult<(String, String, String)> {
-    crate::api::run_toml(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn run_full(toml: &str, lang: Option<&str>) -> PyResult<(String, String, String)> {
+    crate::api::run_toml_lang(toml, lang.unwrap_or("en"))
         .map(|o| (o.json, o.svg, o.summary))
         .map_err(PyValueError::new_err)
 }
@@ -362,8 +373,17 @@ fn run_full(toml: &str) -> PyResult<(String, String, String)> {
 /// [`scenario_kinds`], which returns the same metadata already parsed, and keeps its
 /// string return so existing callers do not break; new code should call `scenario_kinds`.
 #[pyfunction]
-fn list_kinds() -> String {
-    crate::api::list_scenario_kinds_json()
+#[pyo3(signature = (lang=None))]
+fn list_kinds(lang: Option<&str>) -> PyResult<String> {
+    kinds_json(lang)
+}
+
+/// The kinds document, in English or in `lang`.
+fn kinds_json(lang: Option<&str>) -> PyResult<String> {
+    match lang {
+        None => Ok(crate::api::list_scenario_kinds_json()),
+        Some(l) => crate::api::list_scenario_kinds_json_lang(l).map_err(PyValueError::new_err),
+    }
 }
 
 /// Run a scenario; on failure return the structured error *kind* tag
@@ -371,10 +391,38 @@ fn list_kinds() -> String {
 /// raising, so a caller can pattern-match on the failure category. Returns `None`
 /// on success.
 #[pyfunction]
-fn error_kind(toml: &str) -> Option<String> {
-    crate::api::run_scenario(toml)
+#[pyo3(signature = (toml, lang=None))]
+fn error_kind(toml: &str, lang: Option<&str>) -> Option<String> {
+    crate::api::run_scenario_lang(toml, lang.unwrap_or("en"))
         .err()
         .map(|e| e.kind_tag().to_string())
+}
+
+/// Run a scenario once in `lang` and return `(summary, svg)`, what a person reads. The result
+/// document and CSV are the English run's (`run_typed`), not this run's.
+#[pyfunction]
+fn run_human(toml: &str, lang: &str) -> PyResult<(String, String)> {
+    crate::api::run_toml_human(toml, lang)
+        .map(|h| (h.summary, h.svg))
+        .map_err(PyValueError::new_err)
+}
+
+/// Why a scenario fails: `None` when it runs, else a dict `{"kind", "code", "message"}` with the
+/// message in `lang` and the code (`E-...`, or `None`) the same in every language.
+#[pyfunction]
+#[pyo3(signature = (toml, lang=None))]
+fn error_info<'py>(
+    py: Python<'py>,
+    toml: &str,
+    lang: Option<&str>,
+) -> PyResult<Option<Bound<'py, PyAny>>> {
+    let json = crate::api::error_info_json(toml, lang.unwrap_or("en"));
+    if json.is_empty() {
+        return Ok(None);
+    }
+    let v: serde_json::Value =
+        serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v).map(Some)
 }
 
 /// Engine version (the crate version).
@@ -404,7 +452,9 @@ use crate::iq::{Cf64, SampleSpec, SpreadingCode, VecSink};
 /// Build one spreading code per identifier in `prns`.
 fn codes_for(signal: &str, prns: &[i64]) -> PyResult<Vec<SignalCode>> {
     if prns.is_empty() {
-        return Err(PyValueError::new_err("prns must list at least one PRN"));
+        return Err(PyValueError::new_err(crate::terr!(
+            "e-python-prns-must-list-at-least"
+        )));
     }
     prns.iter()
         .map(|&id| build_code(signal, id).map_err(PyValueError::new_err))
@@ -414,10 +464,10 @@ fn codes_for(signal: &str, prns: &[i64]) -> PyResult<Vec<SignalCode>> {
 /// Interleave two equal-length real sequences into complex samples.
 fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
     if i.len() != q.len() {
-        return Err(PyValueError::new_err(format!(
-            "i and q must be the same length ({} vs {})",
-            i.len(),
-            q.len()
+        return Err(PyValueError::new_err(crate::terr!(
+            "e-python-and-must-be-the-same",
+            i = i.len(),
+            q = q.len()
         )));
     }
     Ok(i.iter()
@@ -773,7 +823,9 @@ fn iq_track<'py>(
     let base = match design {
         None => {
             if design_name.is_some() {
-                return Err(PyValueError::new_err("design_name needs design"));
+                return Err(PyValueError::new_err(crate::terr!(
+                    "e-python-design-name-needs-design"
+                )));
             }
             Design::builtin_default()
         }
@@ -847,11 +899,11 @@ fn iq_track<'py>(
     for code in &codes {
         let found = acquire_peak(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
         if !found.acquired {
-            return Err(PyValueError::new_err(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2})",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-not-acquired-statistic-threshold",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
@@ -1127,11 +1179,7 @@ fn iq_sweep<'py>(
     let designs: Vec<Design> = match design {
         Some(d) => {
             if pll_bws.is_some() || dll_bws.is_some() || spacings.is_some() || coherents.is_some() {
-                return Err(bad(
-                    "pll_bws, dll_bws, spacings and coherents cannot be combined with design: \
-                     the sweep runs every design in the file"
-                        .into(),
-                ));
+                return Err(bad(crate::terr!("e-python-pll-bws-dll-bws-spacings")));
             }
             let text = if std::path::Path::new(&d).is_file() {
                 std::fs::read_to_string(&d).map_err(|e| bad(e.to_string()))?
@@ -1161,12 +1209,21 @@ fn iq_sweep<'py>(
                         for &c in &coh {
                             let c = c.max(1);
                             let dd = base
-                                .with_overrides(&format!(
-                                    "[carrier]\npll_bw_hz = {p:?}\n[code]\nbw_hz = {d:?}\n\
-                                     [integration]\nspacing_chips = {s:?}\ncoherent_periods = {c}\n"
+                                .with_overrides(&crate::t!(
+                                    "python-carrier-pll-bw-hz-code",
+                                    p = format!("{:?}", p),
+                                    d = format!("{:?}", d),
+                                    s = format!("{:?}", s),
+                                    c = c
                                 ))
                                 .map_err(bad)?;
-                            out.push(dd.renamed(&format!("pll{p}_dll{d}_sp{s}_coh{c}")));
+                            out.push(dd.renamed(&crate::t!(
+                                "python-pll-dll-sp-coh",
+                                p = p,
+                                d = d,
+                                s = s,
+                                c = c
+                            )));
                         }
                     }
                 }
@@ -1175,12 +1232,12 @@ fn iq_sweep<'py>(
         }
     };
     if designs.is_empty() {
-        return Err(bad("no designs to sweep".into()));
+        return Err(bad(crate::terr!("e-python-no-designs-to-sweep")));
     }
     if designs.len() * codes.len() > 256 {
-        return Err(bad(format!(
-            "{} (design, PRN) channels; at most 256 per sweep",
-            designs.len() * codes.len()
+        return Err(bad(crate::t!(
+            "python-design-prn-channels-at-most",
+            designs = designs.len() * codes.len()
         )));
     }
     // Acquire each PRN once, with the first design's acquisition.
@@ -1189,11 +1246,11 @@ fn iq_sweep<'py>(
     for code in &codes {
         let found = acquire_peak(&samples, &spec, code, &acq).map_err(bad)?;
         if !found.acquired {
-            return Err(bad(format!(
-                "{}: not acquired (statistic {:.2} < threshold {:.2})",
-                code.name(),
-                found.statistic,
-                found.threshold
+            return Err(bad(crate::t!(
+                "python-not-acquired-statistic-threshold",
+                code = code.name(),
+                statistic = crate::i18n::localise_decimal(format!("{:.2}", found.statistic)),
+                threshold = crate::i18n::localise_decimal(format!("{:.2}", found.threshold))
             )));
         }
         let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
@@ -1430,9 +1487,9 @@ fn iq_frontend<'py>(
         (Some(lo), Some(hi)) => Some((lo, hi)),
         (None, None) => None,
         _ => {
-            return Err(PyValueError::new_err(
-                "bandpass needs both bandpass_lo and bandpass_hi",
-            ))
+            return Err(PyValueError::new_err(crate::terr!(
+                "e-python-bandpass-needs-both-bandpass-lo"
+            )))
         }
     };
     let params = FrontendParams {
@@ -1781,8 +1838,9 @@ fn evidence_attach_timestamp<'py>(
         .collect();
     let token = match &token {
         TextOrBytes::Bytes(b) => b.clone(),
-        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim())
-            .ok_or_else(|| PyValueError::new_err("token text is not base64"))?,
+        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim()).ok_or_else(|| {
+            PyValueError::new_err(crate::terr!("e-python-token-text-is-not-base64"))
+        })?,
     };
     let t = crate::surface::evidence_attach_timestamp(
         &files,
@@ -2027,10 +2085,12 @@ fn compliance_report<'py>(
     for (i, r) in runs.iter().enumerate() {
         let get = |k: &str| r.get(k).cloned();
         texts.push(ComplianceRunText {
-            label: get("label")
-                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `label`")))?,
-            result_json: get("result")
-                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `result`")))?,
+            label: get("label").ok_or_else(|| {
+                PyValueError::new_err(crate::terr!("e-python-runs-needs-label", i = i))
+            })?,
+            result_json: get("result").ok_or_else(|| {
+                PyValueError::new_err(crate::terr!("e-python-runs-needs-result", i = i))
+            })?,
             scenario_toml: get("scenario"),
         });
     }
@@ -2070,7 +2130,7 @@ fn osnma_verify<'py>(
     let to_u32 = |name: &str, v: Option<i64>| -> PyResult<Option<u32>> {
         v.map(|n| {
             u32::try_from(n).map_err(|_| {
-                PyValueError::new_err(format!("{name} must be between 0 and 2**32 - 1"))
+                PyValueError::new_err(crate::terr!("e-python-must-be-between-and-32", name = name))
             })
         })
         .transpose()
@@ -2217,7 +2277,7 @@ fn trust_telemetry(
     use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
     let bad = |e: String| PyValueError::new_err(e);
     let unix_nano = u64::try_from(unix_nano)
-        .map_err(|_| PyValueError::new_err("unix_nano must be between 0 and 2**64 - 1"))?;
+        .map_err(|_| PyValueError::new_err(crate::terr!("e-python-unix-nano-must-be-between")))?;
     surface::trust_telemetry(
         input,
         TelemetryFormat::parse(format).map_err(bad)?,
@@ -2391,6 +2451,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(validate_toml, m)?)?;
     m.add_function(wrap_pyfunction!(list_kinds, m)?)?;
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
+    m.add_function(wrap_pyfunction!(error_info, m)?)?;
+    m.add_function(wrap_pyfunction!(run_human, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;

@@ -248,14 +248,14 @@ pub(crate) fn epoch_to_jd_tdb(epoch: &str) -> Result<f64, String> {
     let s = epoch.trim();
     let (date, time) = s
         .split_once('T')
-        .ok_or_else(|| format!("epoch '{s}' must be YYYY-MM-DDTHH:MM:SS"))?;
+        .ok_or_else(|| crate::terr!("e-solar-system-epoch-must-be-yyyy-mm", s = s))?;
     let d: Vec<&str> = date.split('-').collect();
     let time = time.strip_suffix('Z').unwrap_or(time);
     let t: Vec<&str> = time.split(':').collect();
     if d.len() != 3 || t.len() != 3 {
-        return Err(format!("epoch '{s}' must be YYYY-MM-DDTHH:MM:SS"));
+        return Err(crate::terr!("e-solar-system-epoch-must-be-yyyy-mm", s = s));
     }
-    let bad = |what: &str, v: &str| format!("epoch '{s}': bad {what} '{v}'");
+    let bad = |what: &str, v: &str| crate::t!("solar-system-epoch-bad", s = s, what = what, v = v);
     let year: i32 = d[0].parse().map_err(|_| bad("year", d[0]))?;
     let month: u32 = d[1].parse().map_err(|_| bad("month", d[1]))?;
     let day: u32 = d[2].parse().map_err(|_| bad("day", d[2]))?;
@@ -263,7 +263,7 @@ pub(crate) fn epoch_to_jd_tdb(epoch: &str) -> Result<f64, String> {
     let minute: u32 = t[1].parse().map_err(|_| bad("minute", t[1]))?;
     let second: f64 = t[2].parse().map_err(|_| bad("second", t[2]))?;
     if !(1..=12).contains(&month) || !(1..=31).contains(&day) || hour > 23 || minute > 59 {
-        return Err(format!("epoch '{s}' is out of range"));
+        return Err(crate::terr!("e-leo-pass-epoch-is-out-of-range", s = s));
     }
     let jd_utc = crate::timescales::julian_date(year, month, day, hour, minute, second);
     Ok(crate::timescales::tt_to_tdb(crate::timescales::utc_to_tt(
@@ -276,7 +276,7 @@ pub(crate) fn resolve_epoch(epoch: Option<&str>, jd: Option<f64>) -> Result<Epoc
     match (jd, epoch) {
         (Some(jd), _) => {
             if !jd.is_finite() {
-                return Err("epoch_jd_tdb must be finite".to_string());
+                return Err(crate::terr!("e-solar-system-epoch-jd-tdb-must-be"));
             }
             Ok(EpochOut {
                 input: format!("JD {jd} TDB"),
@@ -300,7 +300,10 @@ pub(crate) fn parse_table(s: Option<&str>) -> Result<Option<StandishTable>, Stri
         Some(v) if v == "auto" => Ok(None),
         Some(v) if v == "table1" => Ok(Some(StandishTable::Table1)),
         Some(v) if v == "table2" => Ok(Some(StandishTable::Table2)),
-        Some(v) => Err(format!("table must be auto, table1 or table2; got '{v}'")),
+        Some(v) => Err(crate::terr!(
+            "e-solar-system-table-must-be-auto-table1",
+            v = v
+        )),
     }
 }
 
@@ -370,9 +373,11 @@ pub fn link_on<E: EphemerisProvider>(
 ) -> Result<LinkOut, String> {
     let sun = Body::sun();
     let unavailable = || {
-        format!(
-            "no ephemeris for the {} to {} link at JD {jd_tdb} TDB",
-            from.name, to.name
+        crate::t!(
+            "solar-system-no-ephemeris-for-the-to",
+            name = from.name,
+            name2 = to.name,
+            jd_tdb = jd_tdb
         )
     };
     let rx = eph
@@ -425,9 +430,9 @@ impl SolarSystemScenario {
         let eph = AnalyticSolarSystem {
             table: parse_table(self.table.as_deref())?,
         };
-        let table = eph.table_at(jd).ok_or_else(|| {
-            format!("epoch JD {jd} TDB is outside 3000 BC to 3000 AD, the Standish tables' range")
-        })?;
+        let table = eph
+            .table_at(jd)
+            .ok_or_else(|| crate::terr!("e-solar-system-epoch-jd-tdb-is-outside", jd = jd))?;
         let t = (jd - 2_451_545.0) / 36_525.0;
         let kernel = match &self.planetary_kernel_path {
             Some(p) => Some(crate::ephem_provider::KernelEphemeris::open(
@@ -455,21 +460,29 @@ impl SolarSystemScenario {
         let mut kernel_links: Vec<String> = Vec::new();
         let n_track = self.track_points.unwrap_or(DEFAULT_TRACK_POINTS);
         if !(8..=2000).contains(&n_track) {
-            return Err(format!("track_points must be 8 to 2000; got {n_track}"));
+            return Err(crate::terr!(
+                "e-solar-system-track-points-must-be-to",
+                n_track = n_track
+            ));
         }
         let observer_name = self.observer.as_deref().unwrap_or("Earth");
-        let observer = Body::by_name(observer_name)
-            .ok_or_else(|| format!("unknown observer body '{observer_name}'"))?;
+        let observer = Body::by_name(observer_name).ok_or_else(|| {
+            crate::terr!(
+                "e-solar-system-unknown-observer-body",
+                observer_name = observer_name
+            )
+        })?;
 
         let selected: Vec<&'static BodyFacts> = match &self.bodies {
             None => SOLAR_SYSTEM.iter().collect(),
             Some(names) => {
                 if names.is_empty() {
-                    return Err("bodies must name at least one body".to_string());
+                    return Err(crate::terr!("e-solar-system-bodies-must-name-at-least"));
                 }
                 let mut v = Vec::new();
                 for n in names {
-                    let b = Body::by_name(n).ok_or_else(|| format!("unknown body '{n}'"))?;
+                    let b = Body::by_name(n)
+                        .ok_or_else(|| crate::terr!("e-solar-system-unknown-body", n = n))?;
                     let fct = b.facts().expect("every Body::by_name body has a record");
                     if !v.iter().any(|x: &&BodyFacts| x.name == fct.name) {
                         v.push(fct);
@@ -490,9 +503,7 @@ impl SolarSystemScenario {
                     s
                 }
                 None => eph.heliocentric_state(name, jd).ok_or_else(|| {
-                    format!(
-                        "no position for {name} at JD {jd} TDB (Pluto is 1800 AD to 2050 AD only)"
-                    )
+                    crate::terr!("e-solar-system-no-position-for-at-jd", name = name, jd = jd)
                 })?,
             };
             let parent_pos = match fct.parent {
@@ -519,8 +530,9 @@ impl SolarSystemScenario {
             };
             let (track_frame, track_m, period_d) = match (planet_of(name), satellite_of(name)) {
                 (Some(p), _) => {
-                    let el = standish_elements(p, t, planet_table)
-                        .ok_or_else(|| format!("no Standish elements for {name}"))?;
+                    let el = standish_elements(p, t, planet_table).ok_or_else(|| {
+                        crate::terr!("e-solar-system-no-standish-elements-for", name = name)
+                    })?;
                     let track = el
                         .track(n_track)
                         .into_iter()
@@ -579,10 +591,10 @@ impl SolarSystemScenario {
                     position_label(name, planet_table).to_string()
                 },
                 method: match (&kernel, from_kernel.is_some()) {
-                    (Some(k), true) => format!(
-                        "JPL SPK {} (SHA-256 {}), heliocentric state read by the engine's own reader",
-                        k.source(),
-                        k.kernel_sha256()
+                    (Some(k), true) => crate::t!(
+                        "solar-system-jpl-spk-sha-256-heliocentric",
+                        k = k.source(),
+                        k2 = k.kernel_sha256()
                     ),
                     _ => eph.method(name, jd),
                 },
@@ -611,13 +623,14 @@ impl SolarSystemScenario {
 
         let mut links = Vec::new();
         for l in self.links.as_deref().unwrap_or(&[]) {
-            let from =
-                Body::by_name(&l.from).ok_or_else(|| format!("unknown link body '{}'", l.from))?;
-            let to = Body::by_name(&l.to).ok_or_else(|| format!("unknown link body '{}'", l.to))?;
+            let from = Body::by_name(&l.from)
+                .ok_or_else(|| crate::terr!("e-solar-system-unknown-link-body", from = l.from))?;
+            let to = Body::by_name(&l.to)
+                .ok_or_else(|| crate::terr!("e-solar-system-unknown-link-body-2", to = l.to))?;
             if from.name == to.name {
-                return Err(format!(
-                    "a link needs two different bodies; got {}",
-                    from.name
+                return Err(crate::terr!(
+                    "e-solar-system-link-needs-two-different-bodies",
+                    name = from.name
                 ));
             }
             match (
@@ -722,42 +735,63 @@ fn units_block() -> serde_json::Value {
 }
 
 fn report_json(r: &SolarSystemReport) -> Result<String, String> {
-    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising report: {e}"))?;
+    let mut doc = serde_json::to_value(r)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))?;
     match doc.as_object_mut() {
         Some(o) => {
             o.insert("units".into(), units_block());
         }
-        None => return Err("the report must serialise to a JSON object".to_string()),
+        None => return Err(crate::terr!("e-body-pnt-the-report-must-serialise-to")),
     }
-    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising report: {e}"))
+    serde_json::to_string_pretty(&doc)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))
 }
 
 /// The text summary.
 pub fn summary(r: &SolarSystemReport) -> String {
-    let mut s = format!(
-        "Solar system at {} (JD {:.5} TDB), {} bodies, observer {}\n  {}\n",
-        r.epoch.input, r.epoch.jd_tdb, r.n_bodies, r.observer, r.standish_table
+    let mut s = crate::t!(
+        "solar-system-solar-system-at-jd-tdb",
+        input = r.epoch.input,
+        jd_tdb = crate::i18n::localise_decimal(format!("{:.5}", r.epoch.jd_tdb)),
+        n_bodies = r.n_bodies,
+        observer = r.observer,
+        standish_table = r.standish_table
     );
     for b in &r.bodies {
         let lt = b
             .observer_link
             .as_ref()
-            .map(|l| format!("light time {:>9.1} s", l.one_way_light_time_s))
+            .map(|l| {
+                crate::t!(
+                    "solar-system-light-time",
+                    one_way_light_time_s =
+                        crate::i18n::localise_decimal(format!("{:>9.1}", l.one_way_light_time_s))
+                )
+            })
             .unwrap_or_else(|| "observer".to_string());
-        s.push_str(&format!(
-            "  {:<9} {:>8.4} au  lon {:>7.2} deg  {lt}  [{}]\n",
-            b.name, b.heliocentric_distance_au, b.ecliptic_longitude_deg, b.label
+        s.push_str(&crate::t!(
+            "solar-system-au-lon-deg",
+            name = format!("{:<9}", b.name),
+            heliocentric_distance_au =
+                crate::i18n::localise_decimal(format!("{:>8.4}", b.heliocentric_distance_au)),
+            ecliptic_longitude_deg =
+                crate::i18n::localise_decimal(format!("{:>7.2}", b.ecliptic_longitude_deg)),
+            lt = lt,
+            label = b.label
         ));
     }
     for l in &r.links {
-        s.push_str(&format!(
-            "  link {} -> {}: one-way {:.3} s, two-way {:.3} s, Shapiro {:.1} us, Sun {:.1} deg\n",
-            l.from,
-            l.to,
-            l.one_way_light_time_s,
-            l.two_way_light_time_s,
-            l.shapiro_delay_s * 1e6,
-            l.sun_separation_deg
+        s.push_str(&crate::t!(
+            "solar-system-link-one-way-two-way",
+            from = l.from,
+            to = l.to,
+            one_way_light_time_s =
+                crate::i18n::localise_decimal(format!("{:.3}", l.one_way_light_time_s)),
+            two_way_light_time_s =
+                crate::i18n::localise_decimal(format!("{:.3}", l.two_way_light_time_s)),
+            l = crate::i18n::localise_decimal(format!("{:.1}", l.shapiro_delay_s * 1e6)),
+            sun_separation_deg =
+                crate::i18n::localise_decimal(format!("{:.1}", l.sun_separation_deg))
         ));
     }
     s
@@ -770,22 +804,23 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Solar system — J2000 ecliptic, top-down",
-        &format!(
-            "epoch {} · {} · positions from the Standish elements",
-            r.epoch.input, r.standish_table
+        &crate::t!("solar-system-chart-title"),
+        &crate::t!(
+            "solar-system-epoch-positions-from-the-standish",
+            input = r.epoch.input,
+            standish_table = r.standish_table
         ),
     );
     let panels = [
-        (40.0, "Inner system (to Mars)", 1.75),
-        (500.0, "Whole system (to Pluto)", 50.0),
+        (40.0, crate::t!("solar-system-chart-inner"), 1.75),
+        (500.0, crate::t!("solar-system-chart-whole"), 50.0),
     ];
     for (x0, caption, extent_au) in panels {
         let (pw, top) = (420.0, 70.0);
         let cx = x0 + pw / 2.0;
         let cy = top + pw / 2.0;
         let k = (pw / 2.0) / (extent_au * crate::ephem::AU_M);
-        s.push_str(&crate::chart::panel_axes(x0, top, pw, top + pw, caption));
+        s.push_str(&crate::chart::panel_axes(x0, top, pw, top + pw, &caption));
         s.push_str(&format!(
             "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"4\" fill=\"{AMBER}\"/>"
         ));
@@ -828,9 +863,8 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"{MUTED}\">green: VALIDATED against \
-         JPL Horizons · amber: MODELLED · moons are listed in result.json with parent-centred \
-         tracks</text></svg>"
+        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"{MUTED}\">{}</text></svg>",
+        crate::t!("solar-system-chart-legend")
     ));
     s
 }

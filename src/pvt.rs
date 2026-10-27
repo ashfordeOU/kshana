@@ -992,11 +992,7 @@ pub fn run_pvt(scn: &PvtScenario) -> Result<PvtResult, String> {
         .apriori_ecef
         .or(obs.header.approx_xyz)
         .or(scn.truth_ecef)
-        .ok_or_else(|| {
-            "no a-priori position: set apriori_ecef, an observation-header APPROX \
-             POSITION XYZ, or truth_ecef"
-                .to_string()
-        })?;
+        .ok_or_else(|| crate::terr!("e-pvt-no-priori-position-set-apriori"))?;
 
     let mut epochs = Vec::with_capacity(obs.epochs.len());
     let (mut sum_n, mut sum_pdop, mut sum_rms) = (0.0_f64, 0.0_f64, 0.0_f64);
@@ -1100,18 +1096,26 @@ pub fn run_pvt(scn: &PvtScenario) -> Result<PvtResult, String> {
 /// A one-line human summary of a PVT run.
 pub fn summary(r: &PvtResult) -> String {
     let acc = match (r.fom.rms_3d_m, r.fom.max_3d_m) {
-        (Some(rms), Some(max)) => format!(" | 3D error RMS {rms:.2} m (max {max:.2} m)"),
-        _ => format!(" | post-fit RMS {:.2} m", r.fom.mean_postfit_rms_m),
+        (Some(rms), Some(max)) => crate::t!(
+            "pvt-3d-error-rms-max",
+            rms = crate::i18n::localise_decimal(format!("{:.2}", rms)),
+            max = crate::i18n::localise_decimal(format!("{:.2}", max))
+        ),
+        _ => crate::t!(
+            "pvt-post-fit-rms",
+            mean_postfit_rms_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.fom.mean_postfit_rms_m))
+        ),
     };
-    format!(
-        "pvt {} | {} sat nav | {}/{} epochs solved | mean {:.1} sats, PDOP {:.1}{}",
-        &r.scenario_hash[..12.min(r.scenario_hash.len())],
-        r.n_satellites_nav,
-        r.fom.epochs_solved,
-        r.fom.epochs_total,
-        r.fom.mean_n_used,
-        r.fom.mean_pdop,
-        acc,
+    crate::t!(
+        "pvt-pvt-sat-nav-epochs-solved",
+        r = &r.scenario_hash[..12.min(r.scenario_hash.len())],
+        n_satellites_nav = r.n_satellites_nav,
+        epochs_solved = r.fom.epochs_solved,
+        epochs_total = r.fom.epochs_total,
+        mean_n_used = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_n_used)),
+        mean_pdop = crate::i18n::localise_decimal(format!("{:.1}", r.fom.mean_pdop)),
+        acc = acc
     )
 }
 
@@ -1137,20 +1141,22 @@ pub fn pvt_svg(r: &PvtResult) -> String {
         .collect();
     let y_max = (vals.iter().cloned().fold(1.0_f64, f64::max) * 1.2).max(1.0);
     let title = if has_truth {
-        format!(
-            "Single-point positioning — 3D error vs surveyed coordinate (RMS {:.2} m)",
-            r.fom.rms_3d_m.unwrap_or(0.0)
+        crate::t!(
+            "pvt-single-point-positioning-3d-error",
+            rms_3d_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.fom.rms_3d_m.unwrap_or(0.0)))
         )
     } else {
-        format!(
-            "Single-point positioning — post-fit residual RMS ({:.2} m mean)",
-            r.fom.mean_postfit_rms_m
+        crate::t!(
+            "pvt-single-point-positioning-post-fit",
+            mean_postfit_rms_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.fom.mean_postfit_rms_m))
         )
     };
     let axis_label = if has_truth {
-        "3D error (m)"
+        crate::t!("pvt-chart-3d-error-m")
     } else {
-        "post-fit RMS (m)"
+        crate::t!("pvt-chart-postfit-rms-m")
     };
 
     let mut svg = String::new();
@@ -1163,7 +1169,7 @@ pub fn pvt_svg(r: &PvtResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
     ));
-    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, axis_label));
+    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, &axis_label));
     // Bars, one per solved epoch.
     let n = vals.len().max(1);
     let bw = (pw / n as f64).min(28.0);

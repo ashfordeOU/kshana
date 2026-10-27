@@ -168,34 +168,35 @@ impl TruthOrbit {
     /// Integrate the orbit.
     pub fn propagate(cfg: &OrbitConfig) -> Result<TruthOrbit, String> {
         if !(cfg.altitude_m > 100e3 && cfg.altitude_m < 3000e3) {
-            return Err(format!(
-                "orbit altitude must be between 100 km and 3000 km; got {} km",
-                cfg.altitude_m / 1e3
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-orbit-altitude-must-be-between",
+                cfg = cfg.altitude_m / 1e3
             ));
         }
         if !(0.0..0.1).contains(&cfg.eccentricity) {
-            return Err(format!(
-                "eccentricity must be in [0, 0.1) for a LEO fit; got {}",
-                cfg.eccentricity
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-eccentricity-must-be-in-for",
+                eccentricity = cfg.eccentricity,
+                lit_0_1 = crate::i18n::num(0.1_f64, 1)
             ));
         }
         if !(cfg.step_s > 0.0 && cfg.step_s <= 30.0) {
-            return Err(format!(
-                "integration step must be in (0, 30] s; got {}",
-                cfg.step_s
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-integration-step-must-be-in",
+                step_s = cfg.step_s
             ));
         }
         if !(cfg.duration_s > 0.0 && cfg.duration_s / cfg.step_s <= 200_000.0) {
-            return Err(format!(
-                "duration must be positive with at most 200000 steps; got {} s",
-                cfg.duration_s
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-duration-must-be-positive-with",
+                duration_s = cfg.duration_s
             ));
         }
         if cfg.gravity_degree == 1 || cfg.gravity_degree > crate::egm2008_data::EGM2008_NMAX {
-            return Err(format!(
-                "gravity_degree must be 0, 2-6 (zonal) or 7-{} (EGM2008); got {}",
-                crate::egm2008_data::EGM2008_NMAX,
-                cfg.gravity_degree
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-gravity-degree-must-be-zonal",
+                v1 = crate::egm2008_data::EGM2008_NMAX,
+                gravity_degree = cfg.gravity_degree
             ));
         }
         let a = EARTH_EQ_RADIUS_M + cfg.altitude_m;
@@ -263,10 +264,14 @@ impl TruthOrbit {
             }
             t += h;
             if !(r.iter().chain(v.iter()).all(|x| x.is_finite())) {
-                return Err("truth propagation diverged".to_string());
+                return Err(crate::terr!(
+                    "e-leo-navmsg-truth-truth-propagation-diverged"
+                ));
             }
             if dot(r, r).sqrt() < EARTH_EQ_RADIUS_M + 80e3 {
-                return Err("truth orbit decayed below 80 km".to_string());
+                return Err(crate::terr!(
+                    "e-leo-navmsg-truth-truth-orbit-decayed-below-80"
+                ));
             }
         }
         Ok(TruthOrbit {
@@ -291,19 +296,25 @@ impl TruthOrbit {
         states: &[([f64; 3], [f64; 3])],
     ) -> Result<TruthOrbit, String> {
         if !(step_s > 0.0 && step_s <= 60.0) {
-            return Err(format!("node spacing must be in (0, 60] s; got {step_s}"));
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-node-spacing-must-be-in",
+                step_s = step_s
+            ));
         }
         if states.len() < 2 {
-            return Err(format!(
-                "a tabulated truth orbit needs at least two states; got {}",
-                states.len()
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-tabulated-truth-orbit-needs-at",
+                states = states.len()
             ));
         }
         let mut r = Vec::with_capacity(states.len());
         let mut v = Vec::with_capacity(states.len());
         for (k, (re, ve)) in states.iter().enumerate() {
             if !re.iter().chain(ve.iter()).all(|x| x.is_finite()) {
-                return Err(format!("state {k} is not finite"));
+                return Err(crate::terr!(
+                    "e-leo-navmsg-truth-state-is-not-finite",
+                    k = k
+                ));
             }
             let th = theta0_rad + OMEGA_E * (k as f64 * step_s);
             // Inertial-sense velocity in ECEF axes: v_ecef + ω × r.
@@ -438,7 +449,10 @@ impl TruthClock {
         match cfg {
             ClockConfig::Free { adev_1s, seed, .. } => {
                 if !(0.0..1e-6).contains(&adev_1s) {
-                    return Err(format!("clock adev_1s must be in [0, 1e-6); got {adev_1s}"));
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-truth-clock-adev-1s-must-be",
+                        adev_1s = adev_1s
+                    ));
                 }
                 let mut rng = ChaCha8Rng::seed_from_u64(seed);
                 let mut x = 0.0;
@@ -453,7 +467,9 @@ impl TruthClock {
                 }
             }
             ClockConfig::Measured { .. } => {
-                return Err("a measured clock is built with TruthClock::from_samples".to_string());
+                return Err(crate::terr!(
+                    "e-leo-navmsg-truth-measured-clock-is-built-with"
+                ));
             }
             ClockConfig::Steered {
                 sigma_s,
@@ -461,8 +477,10 @@ impl TruthClock {
                 seed,
             } => {
                 if !(0.0..1e-3).contains(&sigma_s) || tau_s.is_nan() || tau_s <= 0.0 {
-                    return Err(format!(
-                        "steered clock needs sigma_s in [0, 1e-3) and tau_s > 0; got {sigma_s}, {tau_s}"
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-truth-steered-clock-needs-sigma-in",
+                        sigma_s = sigma_s,
+                        tau_s = tau_s
                     ));
                 }
                 let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -483,10 +501,14 @@ impl TruthClock {
     /// the grid of its precise orbit). At least two finite samples and a positive step.
     pub fn from_samples(step_s: f64, samples: &[f64]) -> Result<TruthClock, String> {
         if !(step_s > 0.0 && step_s.is_finite()) || samples.len() < 2 {
-            return Err("a measured clock needs a positive step and at least two samples".into());
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-measured-clock-needs-positive-step"
+            ));
         }
         if samples.iter().any(|x| !x.is_finite()) {
-            return Err("a measured clock sample is not finite".to_string());
+            return Err(crate::terr!(
+                "e-leo-navmsg-truth-measured-clock-sample-is-not"
+            ));
         }
         Ok(TruthClock {
             cfg: ClockConfig::Measured { step_s },

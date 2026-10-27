@@ -79,17 +79,25 @@ impl DafFile {
     /// Parse a DAF from its bytes.
     pub fn from_bytes(bytes: Vec<u8>) -> Result<Self, String> {
         if bytes.len() < RECORD_BYTES {
-            return Err("not a DAF: shorter than one record".into());
+            return Err(crate::terr!("e-naif-kernel-not-daf-shorter-than-one"));
         }
         let id_word = String::from_utf8_lossy(&bytes[0..8]).trim().to_string();
         if !id_word.starts_with("DAF/") {
-            return Err(format!("not a DAF: identification word {id_word:?}"));
+            return Err(crate::terr!(
+                "e-naif-kernel-not-daf-identification-word",
+                id_word = format!("{:?}", id_word)
+            ));
         }
         let fmt = String::from_utf8_lossy(&bytes[88..96]).to_string();
         let little_endian = match fmt.as_str() {
             "LTL-IEEE" => true,
             "BIG-IEEE" => false,
-            other => return Err(format!("unsupported DAF binary format {other:?}")),
+            other => {
+                return Err(crate::terr!(
+                    "e-naif-kernel-unsupported-daf-binary-format",
+                    other = format!("{:?}", other)
+                ))
+            }
         };
         let int_at = |off: usize| -> i32 {
             let b: [u8; 4] = bytes[off..off + 4].try_into().expect("4 bytes");
@@ -103,8 +111,11 @@ impl DafFile {
         let ni = int_at(12);
         let fward = int_at(76);
         if !(0..=124).contains(&nd) || !(2..=250).contains(&ni) || fward < 2 {
-            return Err(format!(
-                "implausible DAF header: ND {nd}, NI {ni}, FWARD {fward}"
+            return Err(crate::terr!(
+                "e-naif-kernel-implausible-daf-header-nd-ni",
+                nd = nd,
+                ni = ni,
+                fward = fward
             ));
         }
         Ok(Self {
@@ -119,7 +130,8 @@ impl DafFile {
 
     /// Read a DAF from disk.
     pub fn open(path: &std::path::Path) -> Result<Self, String> {
-        let bytes = std::fs::read(path).map_err(|e| format!("read {}: {e}", path.display()))?;
+        let bytes = std::fs::read(path)
+            .map_err(|e| crate::terr!("e-ephem-provider-read", path = path.display(), e = e))?;
         Self::from_bytes(bytes)
     }
 
@@ -129,7 +141,7 @@ impl DafFile {
         let b: [u8; 8] = self
             .bytes
             .get(off..off + 8)
-            .ok_or_else(|| format!("DAF address {addr} beyond the end of the file"))?
+            .ok_or_else(|| crate::terr!("e-naif-kernel-daf-address-beyond-the-end", addr = addr))?
             .try_into()
             .expect("8 bytes");
         Ok(if self.little_endian {
@@ -142,7 +154,11 @@ impl DafFile {
     /// The doubles at 1-based word addresses `first..=last` (a segment's data).
     pub fn words(&self, first: usize, last: usize) -> Result<Vec<f64>, String> {
         if first == 0 || last < first {
-            return Err(format!("bad DAF address range {first}..={last}"));
+            return Err(crate::terr!(
+                "e-naif-kernel-bad-daf-address-range",
+                first = first,
+                last = last
+            ));
         }
         (first..=last).map(|a| self.word(a)).collect()
     }
@@ -166,13 +182,17 @@ impl DafFile {
         while rec != 0 {
             guard += 1;
             if guard > 100_000 {
-                return Err("DAF summary list does not terminate".into());
+                return Err(crate::terr!("e-naif-kernel-daf-summary-list-does-not"));
             }
             let base = (rec - 1) * 128; // word index (0-based) of the record's first double
             let next = self.word(base + 1)? as usize;
             let count = self.word(base + 3)? as usize;
             if 3 + count * ss > 128 {
-                return Err(format!("DAF summary record {rec} claims {count} summaries"));
+                return Err(crate::terr!(
+                    "e-naif-kernel-daf-summary-record-claims-summaries",
+                    rec = rec,
+                    count = count
+                ));
             }
             for k in 0..count {
                 let w0 = base + 3 + k * ss; // 0-based word index of this summary
@@ -227,12 +247,15 @@ impl Chebyshev2 {
         let rsize = file.word(last - 1)? as usize;
         let n = file.word(last)? as usize;
         if rsize < 5 || (rsize - 2) % 3 != 0 || intlen <= 0.0 || n == 0 {
-            return Err(format!(
-                "malformed type-2 segment: RSIZE {rsize}, INTLEN {intlen}, N {n}"
+            return Err(crate::terr!(
+                "e-naif-kernel-malformed-type-segment-rsize-intlen",
+                rsize = rsize,
+                intlen = intlen,
+                n = n
             ));
         }
         if first + n * rsize + 3 != last {
-            return Err("type-2 segment size does not match its directory".into());
+            return Err(crate::terr!("e-naif-kernel-type-segment-size-does-not"));
         }
         Ok(Self {
             start_et,
@@ -263,10 +286,11 @@ impl Chebyshev2 {
         let radius = file.word(rec + 1)?;
         let s = ((et_hi - mid) + et_lo) / radius;
         if s.abs() > 1.0 + 1e-9 {
-            return Err(format!(
-                "epoch {et} outside the record [{}, {}]",
-                mid - radius,
-                mid + radius
+            return Err(crate::terr!(
+                "e-naif-kernel-epoch-outside-the-record",
+                et = et,
+                v1 = mid - radius,
+                v2 = mid + radius
             ));
         }
         let ncoef = (self.rsize - 2) / 3;
@@ -334,7 +358,10 @@ impl Mda1 {
     ) -> Result<Self, String> {
         let n = file.word(last)? as usize;
         if n == 0 || first + n * MDA1_RSIZE + n + n / 100 != last {
-            return Err(format!("type-1 segment size does not match its N = {n}"));
+            return Err(crate::terr!(
+                "e-naif-kernel-type-segment-size-does-not-2",
+                n = n
+            ));
         }
         Ok(Self {
             start_et,
@@ -374,8 +401,10 @@ impl Mda1 {
         let kqmax1 = r[67] as usize;
         let kq = [r[68] as usize, r[69] as usize, r[70] as usize];
         if !(2..=16).contains(&kqmax1) || kq.iter().any(|&k| k > 15) {
-            return Err(format!(
-                "malformed type-1 record: KQMAX1 {kqmax1}, KQ {kq:?}"
+            return Err(crate::terr!(
+                "e-naif-kernel-malformed-type-record-kqmax1-kq",
+                kqmax1 = kqmax1,
+                kq = format!("{:?}", kq)
             ));
         }
         // Arrays are 1-based in the published algorithm; index 0 is unused here.
@@ -485,12 +514,15 @@ impl SpkKernel {
     /// Wrap a parsed DAF.
     pub fn from_daf(file: DafFile) -> Result<Self, String> {
         if file.id_word != "DAF/SPK" {
-            return Err(format!("not an SPK: {}", file.id_word));
+            return Err(crate::terr!(
+                "e-naif-kernel-not-an-spk",
+                id_word = file.id_word
+            ));
         }
         let mut segments = Vec::new();
         for s in file.summaries()? {
             if s.doubles.len() != 2 || s.ints.len() != 6 {
-                return Err("SPK summary is not ND=2, NI=6".into());
+                return Err(crate::terr!("e-naif-kernel-spk-summary-is-not-nd"));
             }
             let (a, b) = (s.ints[4] as usize, s.ints[5] as usize);
             let seg = match s.ints[3] {
@@ -512,10 +544,18 @@ impl SpkKernel {
             .iter()
             .rev()
             .find(|(t, _, _, s)| *t == target && s.covers(et))
-            .ok_or_else(|| format!("no SPK type-1/2 data for body {target} at ET {et}"))?;
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-naif-kernel-no-spk-type-data-for",
+                    target = target,
+                    et = et
+                )
+            })?;
         if *frame != 1 {
-            return Err(format!(
-                "SPK segment for {target} is in frame {frame}, not J2000"
+            return Err(crate::terr!(
+                "e-naif-kernel-spk-segment-for-is-in",
+                target = target,
+                frame = frame
             ));
         }
         let km = seg.eval(&self.file, et_hi, et_lo)?;
@@ -532,7 +572,7 @@ impl SpkKernel {
             let (c, st) = self.hop(b, et_hi, et_lo)?;
             out.push((b, st));
             if out.len() > 20 {
-                return Err("SPK centre chain does not reach the barycentre".into());
+                return Err(crate::terr!("e-naif-kernel-spk-centre-chain-does-not"));
             }
             b = c;
         }
@@ -628,12 +668,15 @@ impl PckKernel {
     /// Wrap a parsed DAF.
     pub fn from_daf(file: DafFile) -> Result<Self, String> {
         if file.id_word != "DAF/PCK" {
-            return Err(format!("not a binary PCK: {}", file.id_word));
+            return Err(crate::terr!(
+                "e-naif-kernel-not-binary-pck",
+                id_word = file.id_word
+            ));
         }
         let mut segments = Vec::new();
         for s in file.summaries()? {
             if s.doubles.len() != 2 || s.ints.len() != 5 {
-                return Err("PCK summary is not ND=2, NI=5".into());
+                return Err(crate::terr!("e-naif-kernel-pck-summary-is-not-nd"));
             }
             if s.ints[2] != 2 {
                 continue;
@@ -664,7 +707,13 @@ impl PckKernel {
             .iter()
             .rev()
             .find(|(b, _, s)| *b == body_frame && s.covers(et))
-            .ok_or_else(|| format!("no PCK type-2 data for frame {body_frame} at ET {et}"))?;
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-naif-kernel-no-pck-type-data-for",
+                    body_frame = body_frame,
+                    et = et
+                )
+            })?;
         let e = seg.eval(&self.file, et_hi, et_lo)?;
         Ok((*reference, e[0], e[1]))
     }
@@ -685,8 +734,10 @@ impl PckKernel {
                 let e = rot_x(ECLIPJ2000_OBLIQUITY_RAD);
                 Ok((mat_mul(&r, &e), mat_mul(&dr, &e)))
             }
-            other => Err(format!(
-                "PCK frame {body_frame} is given against frame {other}, which is not J2000 or ECLIPJ2000"
+            other => Err(crate::terr!(
+                "e-naif-kernel-pck-frame-is-given-against",
+                body_frame = body_frame,
+                other = other
             )),
         }
     }

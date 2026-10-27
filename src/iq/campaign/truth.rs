@@ -33,7 +33,7 @@ impl TruthDoppler {
             } else {
                 TruthRecord::from_csv_row(line).map_err(|e| e.to_string())
             }
-            .map_err(|e| format!("truth line {}: {e}", i + 1))?;
+            .map_err(|e| crate::terr!("e-iq-campaign-truth-truth-line", v1 = i + 1, e = e))?;
             series
                 .entry(r.sat_id)
                 .or_default()

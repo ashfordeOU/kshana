@@ -77,7 +77,7 @@ impl Split {
             "dev" => Ok(Split::Dev),
             "test" => Ok(Split::Test),
             "holdout" => Ok(Split::Holdout),
-            other => err(format!("unknown split `{other}` (dev, test or holdout)")),
+            other => err(crate::t!("bench-unknown-split-dev-test-or", other = other)),
         }
     }
 
@@ -252,7 +252,7 @@ pub fn pair(
     for t in truth {
         match scores.get(&t.id) {
             Some(s) if s.is_finite() => out.push((t.positive, *s)),
-            Some(_) => return err(format!("score for `{}` is not finite", t.id)),
+            Some(_) => return err(crate::t!("bench-score-for-is-not-finite", id = t.id)),
             None => {
                 if missing == 0 {
                     first_missing = t.id.clone();
@@ -262,16 +262,18 @@ pub fn pair(
         }
     }
     if missing > 0 {
-        return err(format!(
-            "{missing} case(s) have no score, the first is `{first_missing}`"
+        return err(crate::t!(
+            "bench-case-have-no-score-the",
+            missing = missing,
+            first_missing = first_missing
         ));
     }
     if scores.len() != truth.len() {
         let known: std::collections::BTreeSet<&str> = truth.iter().map(|t| t.id.as_str()).collect();
         let extra = scores.keys().find(|k| !known.contains(k.as_str()));
-        return err(format!(
-            "predictions name a case that is not in the truth: `{}`",
-            extra.map(String::as_str).unwrap_or("?")
+        return err(crate::t!(
+            "bench-predictions-name-case-that-is",
+            extra = extra.map(String::as_str).unwrap_or("?")
         ));
     }
     Ok(out)
@@ -294,7 +296,7 @@ impl System {
             .get("name")
             .and_then(Value::as_str)
             .filter(|s| !s.trim().is_empty())
-            .ok_or_else(|| BenchError("`system.name` is required".into()))?;
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-system-name-is-required")))?;
         Ok(Self {
             name: name.to_string(),
             version: v
@@ -354,7 +356,10 @@ pub fn validate_result(v: &Value) -> Vec<String> {
     let mut p = Vec::new();
     let s = |k: &str| v.get(k).and_then(Value::as_str);
     if s("schema") != Some(RESULT_SCHEMA) {
-        p.push(format!("`schema` must be `{RESULT_SCHEMA}`"));
+        p.push(crate::t!(
+            "bench-schema-must-be",
+            RESULT_SCHEMA = RESULT_SCHEMA
+        ));
     }
     if !s("spec_version").is_some_and(|x| x.starts_with("kshana-bench/")) {
         p.push("`spec_version` must start with `kshana-bench/`".into());
@@ -384,7 +389,7 @@ pub fn validate_result(v: &Value) -> Vec<String> {
         let ok = s(k).is_some_and(|x| x.len() == 64 && x.bytes().all(|b| b.is_ascii_hexdigit()));
         // A carried result has no file to hash.
         if !ok && s("provenance") != Some("carried") {
-            p.push(format!("`{k}` must be a 64-digit hex SHA-256"));
+            p.push(crate::t!("bench-must-be-64-digit-hex", k = k));
         }
     }
     if !v.get("metrics").is_some_and(Value::is_object) {
@@ -407,15 +412,19 @@ pub fn score(
     declared_threshold: Option<f64>,
 ) -> Result<String, BenchError> {
     let truth: Value = serde_json::from_str(truth_json)
-        .map_err(|e| BenchError(format!("truth is not JSON: {e}")))?;
+        .map_err(|e| BenchError(crate::t!("bench-truth-is-not-json", e = e)))?;
     let preds: Value = serde_json::from_str(predictions_json)
-        .map_err(|e| BenchError(format!("predictions are not JSON: {e}")))?;
+        .map_err(|e| BenchError(crate::t!("bench-predictions-are-not-json", e = e)))?;
     if truth.get("schema").and_then(Value::as_str) != Some(TRUTH_SCHEMA) {
-        return err(format!("truth `schema` must be `{TRUTH_SCHEMA}`"));
+        return err(crate::t!(
+            "bench-truth-schema-must-be",
+            TRUTH_SCHEMA = TRUTH_SCHEMA
+        ));
     }
     if preds.get("schema").and_then(Value::as_str) != Some(PREDICTIONS_SCHEMA) {
-        return err(format!(
-            "predictions `schema` must be `{PREDICTIONS_SCHEMA}`"
+        return err(crate::t!(
+            "bench-predictions-schema-must-be",
+            PREDICTIONS_SCHEMA = PREDICTIONS_SCHEMA
         ));
     }
     let task = truth.get("task").and_then(Value::as_str).unwrap_or("");
@@ -427,8 +436,9 @@ pub fn score(
         return err("predictions and truth name different splits");
     }
     if truth.get("spec_version").and_then(Value::as_str) != Some(SPEC_VERSION) {
-        return err(format!(
-            "truth was made under another spec version than {SPEC_VERSION}; results of different major versions are never mixed"
+        return err(crate::t!(
+            "bench-truth-was-made-under-another",
+            SPEC_VERSION = SPEC_VERSION
         ));
     }
     Split::parse(split)?;
@@ -437,7 +447,7 @@ pub fn score(
         "a" | "b" => tasks::score_detection_task(&truth, &preds, declared_threshold)?,
         "c" => tasks::score_c(&truth, &preds)?,
         "d" => tasks::score_d(&truth, &preds)?,
-        other => return err(format!("unknown task `{other}`")),
+        other => return err(crate::t!("bench-unknown-task", other = other)),
     };
     let mut r = result_json(
         task,

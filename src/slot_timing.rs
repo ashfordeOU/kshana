@@ -186,13 +186,14 @@ impl ClockNoise {
         tempco_per_k: f64,
     ) -> Result<ClockNoise, String> {
         if adev_points.len() < 2 {
-            return Err("a datasheet needs at least two Allan-deviation points".into());
+            return Err(crate::terr!("e-slot-timing-datasheet-needs-at-least-two"));
         }
         for &(t, s) in adev_points {
             if !(t.is_finite() && t > 0.0 && s.is_finite() && s > 0.0) {
-                return Err(format!(
-                    "datasheet point ({t}, {s}) must have a positive averaging time and \
-                     a positive Allan deviation"
+                return Err(crate::terr!(
+                    "e-slot-timing-datasheet-point-must-have-positive",
+                    t = t,
+                    s = s
                 ));
             }
         }
@@ -224,16 +225,16 @@ impl ClockNoise {
     /// record and start at zero.
     pub fn from_phase_record(phase_s: &[f64], tau0_s: f64) -> Result<ClockNoise, String> {
         if !(tau0_s.is_finite() && tau0_s > 0.0) {
-            return Err("tau0_s must be a positive number of seconds".into());
+            return Err(crate::terr!("e-slot-timing-tau0-must-be-positive-number"));
         }
         if phase_s.len() < 32 {
-            return Err(format!(
-                "a phase record needs at least 32 samples to fit a noise model; got {}",
-                phase_s.len()
+            return Err(crate::terr!(
+                "e-slot-timing-phase-record-needs-at-least",
+                phase_s = phase_s.len()
             ));
         }
         if phase_s.iter().any(|x| !x.is_finite()) {
-            return Err("the phase record contains a non-finite sample".into());
+            return Err(crate::terr!("e-slot-timing-the-phase-record-contains-non"));
         }
         let curve = overlapping_adev_curve(phase_s, tau0_s);
         let pts: Vec<(f64, f64, f64)> = curve
@@ -242,7 +243,7 @@ impl ClockNoise {
             .map(|p| (p.tau_s, p.adev, p.edf))
             .collect();
         if pts.len() < 3 {
-            return Err("the phase record yields fewer than three Allan-deviation points".into());
+            return Err(crate::terr!("e-slot-timing-the-phase-record-yields-fewer"));
         }
         let fit = fit_weighted(&pts);
         let support = pts.iter().map(|p| p.0).fold(0.0_f64, f64::max);
@@ -437,7 +438,11 @@ fn check_nonneg(name: &str, v: f64) -> Result<(), String> {
     if v.is_finite() && v >= 0.0 {
         Ok(())
     } else {
-        Err(format!("{name} must be finite and non-negative; got {v}"))
+        Err(crate::terr!(
+            "e-slot-timing-must-be-finite-and-non",
+            name = name,
+            v = v
+        ))
     }
 }
 
@@ -602,20 +607,24 @@ pub fn terms_at(noise: &ClockNoise, c: &SlotConditions, t: f64) -> Vec<Term> {
 /// Validate the conditions.
 pub fn check_conditions(c: &SlotConditions) -> Result<(), String> {
     if !(c.guard_s.is_finite() && c.guard_s > 0.0) {
-        return Err("the slot guard must be a positive time".into());
+        return Err(crate::terr!("e-slot-timing-the-slot-guard-must-be"));
     }
     if !(c.k_sigma.is_finite() && c.k_sigma > 0.0) {
-        return Err("k_sigma must be positive".into());
+        return Err(crate::terr!("e-slot-timing-sigma-must-be-positive"));
     }
     check_nonneg("fix_sigma", c.fix_sigma_s)?;
     check_nonneg("fix_frequency_sigma", c.fix_frequency_sigma)?;
     check_nonneg("elapsed_since_sync_s", c.elapsed_since_sync_s)?;
     check_nonneg("fix_latency_s", c.fix_latency_s)?;
     if !c.residual_frequency_offset.is_finite() {
-        return Err("residual_frequency_offset must be finite".into());
+        return Err(crate::terr!(
+            "e-slot-timing-residual-frequency-offset-must-be"
+        ));
     }
     if !c.temperature_excursion_k.is_finite() {
-        return Err("temperature_excursion_k must be finite".into());
+        return Err(crate::terr!(
+            "e-slot-timing-temperature-excursion-must-be-finite"
+        ));
     }
     Ok(())
 }
@@ -838,17 +847,18 @@ impl SlotTimingScenario {
         .filter(|b| **b)
         .count();
         if given != 1 {
-            return Err("give exactly one of oscillator.class, oscillator.preset, \
-                 oscillator.datasheet or oscillator.record"
-                .into());
+            return Err(crate::terr!("e-slot-timing-give-exactly-one-of-oscillator"));
         }
         let mut n = if let Some(id) = &o.class {
             ClockNoise::from_class(ClockClass::from_id(id).ok_or_else(|| {
-                format!("unknown oscillator.class '{id}' (csac|uso|dsac|tcxo|ocxo|rafs)")
+                crate::terr!("e-slot-timing-unknown-oscillator-class-csac-uso", id = id)
             })?)
         } else if let Some(id) = &o.preset {
             let p = preset_by_id(id).ok_or_else(|| {
-                format!("unknown oscillator.preset '{id}' (ocxo|rubidium|caesium|csac)")
+                crate::terr!(
+                    "e-slot-timing-unknown-oscillator-preset-ocxo-rubidium",
+                    id = id
+                )
             })?;
             ClockNoise::from_datasheet(
                 p.document,
@@ -893,19 +903,19 @@ impl SlotTimingScenario {
 
     fn source_detail(n: &ClockNoise) -> String {
         match &n.source {
-            NoiseSource::Class(c) => format!(
-                "{} class default: sigma_y(1 s) from {}; red-noise floor synthesised two \
-                 and four decades below it (an assumption, not a measurement)",
-                c.id(),
-                c.source()
+            NoiseSource::Class(c) => crate::t!(
+                "slot-timing-class-default-sigma-from-red",
+                c = c.id(),
+                c2 = c.source()
             ),
-            NoiseSource::Datasheet { document } => format!(
-                "fitted to the Allan-deviation maxima of {document}, scaled to lie at or \
-                 above every point"
+            NoiseSource::Datasheet { document } => crate::t!(
+                "slot-timing-fitted-to-the-allan-deviation",
+                document = document
             ),
-            NoiseSource::Record { n_samples, tau0_s } => format!(
-                "fitted to the overlapping Allan deviation of a {n_samples}-sample record \
-                 at {tau0_s} s, in the IEEE Std 1139 frequency-modulation basis"
+            NoiseSource::Record { n_samples, tau0_s } => crate::t!(
+                "slot-timing-fitted-to-the-overlapping-allan",
+                n_samples = n_samples,
+                tau0_s = tau0_s
             ),
             NoiseSource::Explicit => "levels given explicitly".to_string(),
         }
@@ -1031,29 +1041,28 @@ impl SlotTimingScenario {
 
 fn fmt_s(s: f64) -> String {
     if !s.is_finite() {
-        "never".to_string()
+        crate::t!("slot-timing-never")
     } else if s >= DAY_S {
-        format!("{:.2} d", s / DAY_S)
+        format!("{} d", crate::i18n::num(s / DAY_S, 2))
     } else if s >= 3600.0 {
-        format!("{:.2} h", s / 3600.0)
+        format!("{} h", crate::i18n::num(s / 3600.0, 2))
     } else {
-        format!("{s:.1} s")
+        format!("{} s", crate::i18n::num(s, 1))
     }
 }
 
 fn summary_line(n: &ClockNoise, c: &SlotConditions, b: &SlotBudget) -> String {
-    format!(
-        "slot-timing ({} source): guard {:.1} ns at k={} breaks {} after a fix ({} left); \
-         fix at least every {} ({:.2} per day); dominant term: {}{}",
-        n.source.kind(),
-        c.guard_s * 1e9,
-        c.k_sigma,
-        fmt_s(b.breach_after_sync_s),
-        fmt_s(b.remaining_s),
-        fmt_s(b.resync_interval_s),
-        b.fixes_per_day,
-        b.dominant_term(),
-        if b.extrapolated {
+    crate::t!(
+        "slot-timing-slot-timing-source-guard-ns",
+        n = n.source.kind(),
+        c = crate::i18n::localise_decimal(format!("{:.1}", c.guard_s * 1e9)),
+        k_sigma = c.k_sigma,
+        fmt_s = fmt_s(b.breach_after_sync_s),
+        fmt_s2 = fmt_s(b.remaining_s),
+        fmt_s3 = fmt_s(b.resync_interval_s),
+        fixes_per_day = crate::i18n::localise_decimal(format!("{:.2}", b.fixes_per_day)),
+        b = b.dominant_term(),
+        v9 = if b.extrapolated {
             "; EXTRAPOLATED beyond the longest averaging time the source supports"
         } else {
             ""
@@ -1073,21 +1082,25 @@ fn growth_svg(curve: &[(f64, f64)], guard_ns: f64) -> String {
         .collect();
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w} {h}\" role=\"img\" \
-         aria-label=\"Predicted time error against time since the last fix, with the slot \
-         guard\"><rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         aria-label=\"{aria}\"><rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <line x1=\"{pad}\" y1=\"{gy:.1}\" x2=\"{gx2}\" y2=\"{gy:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"6 4\"/>\
          <polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"2\" points=\"{pts}\"/>\
          <text x=\"{pad}\" y=\"{ty}\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
-         fill=\"{TEXT}\">time since fix, 0 to {tlabel}</text>\
+         fill=\"{TEXT}\">{since_fix}</text>\
          <text x=\"{pad}\" y=\"20\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
-         fill=\"{TEXT}\">predicted time error (ns); dashed: guard {guard_ns:.1} ns</text>\
+         fill=\"{TEXT}\">{predicted}</text>\
          </svg>",
         gy = y(guard_ns),
         gx2 = w - pad,
         pts = pts.join(" "),
         ty = h - 14.0,
-        tlabel = fmt_s(tmax),
+        aria = crate::t!("slot-timing-chart-aria"),
+        since_fix = crate::t!("slot-timing-chart-time-since-fix", t = fmt_s(tmax)),
+        predicted = crate::t!(
+            "slot-timing-chart-predicted-error",
+            guard = crate::i18n::num(guard_ns, 1)
+        ),
     )
 }
 

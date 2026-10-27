@@ -295,7 +295,12 @@ fn antenna_named(name: &str, band: Band) -> Result<UserAntenna, String> {
         "booklet-patch-zenith" => {
             UserAntenna::named(&NamedAntenna::BookletPatch, band, Axis::Zenith)
         }
-        other => return Err(format!("unknown antenna `{other}`")),
+        other => {
+            return Err(crate::terr!(
+                "e-ssv-scenario-unknown-antenna",
+                other = other
+            ))
+        }
     })
 }
 
@@ -308,13 +313,13 @@ pub fn parse_pattern_csv(text: &str) -> Result<GainPattern2D, String> {
         .filter(|l| !l.is_empty() && !l.starts_with('#'));
     let head: Vec<&str> = lines
         .next()
-        .ok_or("pattern CSV is empty")?
+        .ok_or_else(|| crate::terr!("e-ssv-scenario-pattern-csv-is-empty"))?
         .split(',')
         .map(str::trim)
         .collect();
     let num = |s: &str| {
         s.parse::<f64>()
-            .map_err(|_| format!("`{s}` is not a number in the pattern CSV"))
+            .map_err(|_| crate::terr!("e-ssv-scenario-is-not-number-in-the", s = s))
     };
     let (azimuths, simple): (Vec<f64>, bool) = if head.len() == 2 && head[1].parse::<f64>().is_err()
     {
@@ -330,10 +335,11 @@ pub fn parse_pattern_csv(text: &str) -> Result<GainPattern2D, String> {
     for l in lines {
         let f: Vec<&str> = l.split(',').map(str::trim).collect();
         if f.len() != azimuths.len() + 1 {
-            return Err(format!(
-                "pattern CSV row `{l}` has {} columns, expected {}",
-                f.len(),
-                azimuths.len() + 1
+            return Err(crate::terr!(
+                "e-ssv-scenario-pattern-csv-row-has-columns",
+                l = l,
+                f = f.len(),
+                azimuths = azimuths.len() + 1
             ));
         }
         thetas.push(num(f[0])?);
@@ -358,13 +364,19 @@ fn tx_pattern(t: &TransmitCfg) -> Result<TxPattern, String> {
         "table" => {
             let text = match (&t.pattern_text, &t.pattern_csv) {
                 (Some(x), None) => x.clone(),
-                (None, Some(p)) => std::fs::read_to_string(p).map_err(|e| format!("cannot read {p}: {e}"))?,
-                _ => return Err("transmit.pattern = \"table\" needs exactly one of pattern_csv and pattern_text".into()),
+                (None, Some(p)) => std::fs::read_to_string(p)
+                    .map_err(|e| crate::terr!("e-evidence-cli-cannot-read-3", p = p, e = e))?,
+                _ => {
+                    return Err(crate::terr!(
+                        "e-ssv-scenario-transmit-pattern-table-needs-exactly"
+                    ))
+                }
             };
             Ok(TxPattern::Table(Arc::new(parse_pattern_csv(&text)?)))
         }
-        other => Err(format!(
-            "transmit.pattern `{other}` is not booklet, parametric or table"
+        other => Err(crate::terr!(
+            "e-ssv-scenario-transmit-pattern-is-not-booklet",
+            other = other
         )),
     }
 }
@@ -372,7 +384,7 @@ fn tx_pattern(t: &TransmitCfg) -> Result<TxPattern, String> {
 /// The receiver's threshold: the fixed number, or the weak-signal design's.
 fn threshold(r: &ReceiverCfg) -> Result<(Option<f64>, Option<Thresholds>), String> {
     if r.cn0_min_dbhz.is_some() && r.weak_signal.is_some() {
-        return Err("receiver: give cn0_min_dbhz or weak_signal, not both".into());
+        return Err(crate::terr!("e-ssv-scenario-receiver-give-cn0-min-dbhz"));
     }
     if let Some(w) = &r.weak_signal {
         let t = w.thresholds()?;
@@ -380,14 +392,15 @@ fn threshold(r: &ReceiverCfg) -> Result<(Option<f64>, Option<Thresholds>), Strin
             "acquisition" => t.acquisition_dbhz,
             "tracking" => t
                 .tracking_dbhz
-                .ok_or("the carrier loop cannot hold the stated Doppler rate at any C/N0")?,
+                .ok_or_else(|| crate::terr!("e-ssv-scenario-the-carrier-loop-cannot-hold"))?,
             "both" => t
                 .tracking_dbhz
-                .ok_or("the carrier loop cannot hold the stated Doppler rate at any C/N0")?
+                .ok_or_else(|| crate::terr!("e-ssv-scenario-the-carrier-loop-cannot-hold"))?
                 .max(t.acquisition_dbhz),
             other => {
-                return Err(format!(
-                    "receiver.apply `{other}` is not acquisition, tracking or both"
+                return Err(crate::terr!(
+                    "e-ssv-scenario-receiver-apply-is-not-acquisition",
+                    other = other
                 ))
             }
         };
@@ -395,7 +408,7 @@ fn threshold(r: &ReceiverCfg) -> Result<(Option<f64>, Option<Thresholds>), Strin
     }
     if let Some(x) = r.cn0_min_dbhz {
         if !x.is_finite() {
-            return Err("receiver.cn0_min_dbhz must be finite".into());
+            return Err(crate::terr!("e-ssv-scenario-receiver-cn0-min-dbhz-must"));
         }
     }
     Ok((r.cn0_min_dbhz, None))
@@ -482,25 +495,25 @@ fn units_table() -> Vec<FieldUnit> {
     ];
     for root in ["bands[].groups[]", "result.bands[].groups[]"] {
         v.push(f(
-            leak(format!("{root}.at_least_1_pct")),
+            leak(crate::t!("ssv-scenario-at-least-pct", root = root)),
             "%",
             Computed,
             "share of (user, epoch) pairs with at least one signal",
         ));
         v.push(f(
-            leak(format!("{root}.at_least_4_pct")),
+            leak(crate::t!("ssv-scenario-at-least-pct-2", root = root)),
             "%",
             Computed,
             "share with at least four signals",
         ));
         v.push(f(
-            leak(format!("{root}.max_outage_1_min")),
+            leak(crate::t!("ssv-scenario-max-outage-min", root = root)),
             "min",
             Computed,
             "longest run without a signal at the worst user",
         ));
         v.push(f(
-            leak(format!("{root}.max_outage_4_min")),
+            leak(crate::t!("ssv-scenario-max-outage-min-2", root = root)),
             "min",
             Computed,
             "longest run below four signals at the worst user",
@@ -660,17 +673,22 @@ fn units_table() -> Vec<FieldUnit> {
 impl GnssSsvScenario {
     fn validate_navigation(&self, n: &NavigationCfg) -> Result<(), String> {
         if n.preset.is_some() == n.orbit.is_some() {
-            return Err("navigation: give exactly one of preset and orbit".into());
+            return Err(crate::terr!(
+                "e-ssv-scenario-navigation-give-exactly-one-of"
+            ));
         }
         if let Some(p) = &n.preset {
             if preset_orbit(p).is_none() {
-                return Err(format!(
-                    "navigation.preset `{p}` is not leo, meo, geo, heo or lunar-transfer"
+                return Err(crate::terr!(
+                    "e-ssv-scenario-navigation-preset-is-not-leo",
+                    p = p
                 ));
             }
         }
         if n.duration_min.is_some() == n.duration_periods.is_some() {
-            return Err("navigation: give exactly one of duration_min and duration_periods".into());
+            return Err(crate::terr!(
+                "e-ssv-scenario-navigation-give-exactly-one-of-2"
+            ));
         }
         for (name, v) in [
             ("step_s", n.step_s),
@@ -679,14 +697,17 @@ impl GnssSsvScenario {
             ("init_vel_sigma_ms", n.init_vel_sigma_ms),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("navigation.{name} must be positive"));
+                return Err(crate::terr!(
+                    "e-ssv-scenario-navigation-must-be-positive",
+                    name = name
+                ));
             }
         }
         for v in [n.accel_psd, n.clock_drift_walk, n.srp_area_to_mass] {
             if !(v.is_finite() && v >= 0.0) {
-                return Err(
-                    "navigation: noise and radiation-pressure values must not be negative".into(),
-                );
+                return Err(crate::terr!(
+                    "e-ssv-scenario-navigation-noise-and-radiation-pressure"
+                ));
             }
         }
         for a in &n.antennas {
@@ -697,10 +718,12 @@ impl GnssSsvScenario {
                 || f.offsets_deg.len() > 8
                 || f.offsets_deg.iter().any(|x| !x.is_finite())
             {
-                return Err("formation.offsets_deg needs 1 to 8 finite offsets".into());
+                return Err(crate::terr!(
+                    "e-ssv-scenario-formation-offsets-deg-needs-to"
+                ));
             }
             if !(f.rel_accel_psd.is_finite() && f.rel_accel_psd >= 0.0) {
-                return Err("formation.rel_accel_psd must not be negative".into());
+                return Err(crate::terr!("e-ssv-scenario-formation-rel-accel-psd-must"));
             }
         }
         if self.shell.is_some() {
@@ -718,50 +741,61 @@ impl GnssSsvScenario {
             self.navigation.is_some(),
         ];
         if modes.iter().filter(|m| **m).count() != 1 {
-            return Err("give exactly one of [shell], [trajectory] and [navigation]".into());
+            return Err(crate::terr!("e-ssv-scenario-give-exactly-one-of-shell"));
         }
         if self.formation.is_some() && self.navigation.is_none() {
-            return Err("[formation] needs a [navigation] table for the chief".into());
+            return Err(crate::terr!(
+                "e-ssv-scenario-formation-needs-navigation-table-for"
+            ));
         }
         if let Some(n) = &self.navigation {
             self.validate_navigation(n)?;
         }
         if self.constellations.include.is_empty() || self.constellations.bands.is_empty() {
-            return Err("constellations.include and constellations.bands must not be empty".into());
+            return Err(crate::terr!(
+                "e-ssv-scenario-constellations-include-and-constellations-bands"
+            ));
         }
         threshold(&self.receiver)?;
         if let Some(s) = &self.shell {
             if !(s.altitude_km.is_finite() && s.altitude_km > 100.0) {
-                return Err("shell.altitude_km must be above 100".into());
+                return Err(crate::terr!("e-ssv-scenario-shell-altitude-km-must-be"));
             }
             if s.grid_levels > 5 {
-                return Err("shell.grid_levels above 5 is not supported".into());
+                return Err(crate::terr!("e-ssv-scenario-shell-grid-levels-above-is"));
             }
             if !matches!(s.antenna.as_str(), "hemisphere" | "omni") {
-                return Err("shell.antenna must be hemisphere or omni".into());
+                return Err(crate::terr!(
+                    "e-ssv-scenario-shell-antenna-must-be-hemisphere"
+                ));
             }
             if !tx_pattern(&self.transmit)?.is_booklet() {
-                return Err("the shell sweep supports the booklet transmit pattern only (a shaped pattern needs the trajectory sweep)".into());
+                return Err(crate::terr!("e-ssv-scenario-the-shell-sweep-supports-the"));
             }
             if self.atmosphere.is_some() {
-                return Err("[atmosphere] applies to a [trajectory], not a [shell]".into());
+                return Err(crate::terr!(
+                    "e-ssv-scenario-atmosphere-applies-to-trajectory-not"
+                ));
             }
         }
         if let Some(t) = &self.trajectory {
             if t.preset.is_some() == t.orbit.is_some() {
-                return Err("trajectory: give exactly one of preset and orbit".into());
+                return Err(crate::terr!(
+                    "e-ssv-scenario-trajectory-give-exactly-one-of"
+                ));
             }
             if let Some(p) = &t.preset {
                 if preset_orbit(p).is_none() {
-                    return Err(format!(
-                        "trajectory.preset `{p}` is not leo, meo, geo, heo or lunar-transfer"
+                    return Err(crate::terr!(
+                        "e-ssv-scenario-trajectory-preset-is-not-leo",
+                        p = p
                     ));
                 }
             }
             if t.duration_min.is_some() == t.duration_periods.is_some() {
-                return Err(
-                    "trajectory: give exactly one of duration_min and duration_periods".into(),
-                );
+                return Err(crate::terr!(
+                    "e-ssv-scenario-trajectory-give-exactly-one-of-2"
+                ));
             }
             for a in &t.antennas {
                 antenna_named(a, Band::L1)?;
@@ -811,7 +845,9 @@ impl GnssSsvScenario {
             doc["bands"] = serde_json::to_value(&r).map_err(|e| e.to_string())?;
         } else if let Some(t) = &self.trajectory {
             let orbit = match (&t.preset, &t.orbit) {
-                (Some(p), _) => preset_orbit(p).ok_or("unknown preset")?,
+                (Some(p), _) => {
+                    preset_orbit(p).ok_or_else(|| crate::terr!("e-ssv-scenario-unknown-preset"))?
+                }
                 (_, Some(o)) => *o,
                 _ => unreachable!(),
             };
@@ -862,7 +898,9 @@ impl GnssSsvScenario {
             }
         } else if let Some(n) = &self.navigation {
             let orbit = match (&n.preset, &n.orbit) {
-                (Some(p), _) => preset_orbit(p).ok_or("unknown preset")?,
+                (Some(p), _) => {
+                    preset_orbit(p).ok_or_else(|| crate::terr!("e-ssv-scenario-unknown-preset"))?
+                }
                 (_, Some(o)) => *o,
                 _ => unreachable!(),
             };
@@ -964,10 +1002,10 @@ fn shell_summary(r: &[BandResult], s: &ShellCfg) -> String {
             ));
         }
     }
-    format!(
-        "gnss-ssv shell {:.0} km: {}",
-        s.altitude_km,
-        parts.join("; ")
+    crate::t!(
+        "ssv-scenario-gnss-ssv-shell-km",
+        altitude_km = crate::i18n::localise_decimal(format!("{:.0}", s.altitude_km)),
+        parts = parts.join("; ")
     )
 }
 
@@ -978,12 +1016,12 @@ fn navigation_summary(r: &NavResult) -> String {
             .and_then(|x| x.pos_rms_m)
             .map_or("n/a".to_string(), |v| format!("{v:.1} m"))
     };
-    format!(
-        "gnss-ssv navigation: position RMS {} overall, {} inside the GNSS orbits, {} above; longest gap {:.0} min",
-        p(0),
-        p(1),
-        p(2),
-        r.longest_gap_min
+    crate::t!(
+        "ssv-scenario-gnss-ssv-navigation-position-rms",
+        p = p(0),
+        p2 = p(1),
+        p3 = p(2),
+        longest_gap_min = crate::i18n::localise_decimal(format!("{:.0}", r.longest_gap_min))
     )
 }
 
@@ -992,9 +1030,14 @@ fn formation_summary(r: &FormationResult) -> String {
         .deputies
         .iter()
         .map(|d| {
-            format!(
-                "deputy at {:.2} deg ({:.0} km): relative RMS {:.1} m filtered vs {:.1} m from absolute fixes",
-                d.offset_deg, d.baseline_km, d.rel_rms_filter_m, d.rel_rms_from_absolute_m
+            crate::t!(
+                "ssv-scenario-deputy-at-deg-km-relative",
+                offset_deg = crate::i18n::localise_decimal(format!("{:.2}", d.offset_deg)),
+                baseline_km = crate::i18n::localise_decimal(format!("{:.0}", d.baseline_km)),
+                rel_rms_filter_m =
+                    crate::i18n::localise_decimal(format!("{:.1}", d.rel_rms_filter_m)),
+                rel_rms_from_absolute_m =
+                    crate::i18n::localise_decimal(format!("{:.1}", d.rel_rms_from_absolute_m))
             )
         })
         .collect();
@@ -1005,20 +1048,25 @@ fn trajectory_summary(r: &TrajectoryResult) -> String {
     let mut parts = Vec::new();
     for b in &r.bands {
         if let Some(g) = b.groups.last() {
-            parts.push(format!(
-                "{} combined 1+ {:.1}% 4+ {:.1}% (max outage {:.0} min)",
-                b.band.name(),
-                g.availability.at_least_1_pct,
-                g.availability.at_least_4_pct,
-                g.availability.max_outage_1_min
+            parts.push(crate::t!(
+                "ssv-scenario-combined-max-outage-min",
+                band = b.band.name(),
+                at_least_1_pct =
+                    crate::i18n::localise_decimal(format!("{:.1}", g.availability.at_least_1_pct)),
+                at_least_4_pct =
+                    crate::i18n::localise_decimal(format!("{:.1}", g.availability.at_least_4_pct)),
+                max_outage_1_min = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    g.availability.max_outage_1_min
+                ))
             ));
         }
     }
-    format!(
-        "gnss-ssv trajectory {:.0} to {:.0} km altitude: {}",
-        r.perigee_alt_km,
-        r.apogee_alt_km,
-        parts.join("; ")
+    crate::t!(
+        "ssv-scenario-gnss-ssv-trajectory-to-km",
+        perigee_alt_km = crate::i18n::localise_decimal(format!("{:.0}", r.perigee_alt_km)),
+        apogee_alt_km = crate::i18n::localise_decimal(format!("{:.0}", r.apogee_alt_km)),
+        parts = parts.join("; ")
     )
 }
 
@@ -1029,7 +1077,7 @@ fn trajectory_csv(r: &TrajectoryResult) -> Option<String> {
     }
     let mut out = String::from("t_min,altitude_km");
     for b in &r.bands {
-        out += &format!(",{0}_signals,{0}_best_cn0_dbhz", b.band.name());
+        out += &crate::t!("ssv-scenario-signals-best-cn0-dbhz", band = b.band.name());
     }
     out.push('\n');
     for (k, p) in first.series.iter().enumerate() {

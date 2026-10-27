@@ -89,7 +89,7 @@ pub struct ReceiverCfg {
 impl ReceiverCfg {
     /// Check the section.
     pub fn validate(&self) -> Result<(), String> {
-        let bad = |w: &str| Err(format!("receiver: {w}"));
+        let bad = |w: &str| Err(crate::terr!("e-lunar-receiver-receiver", w = w));
         for (n, v) in [
             ("multipath_a_m", self.multipath_a_m),
             ("multipath_b_m", self.multipath_b_m),
@@ -99,7 +99,7 @@ impl ReceiverCfg {
             ),
         ] {
             if !(v.is_finite() && v >= 0.0) {
-                return bad(&format!("{n} must be finite and not negative"));
+                return bad(&crate::t!("lunar-receiver-must-be-finite-and-not", n = n));
             }
         }
         for (n, v) in [
@@ -109,7 +109,10 @@ impl ReceiverCfg {
             ("chip_length_m", self.chip_length_m),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return bad(&format!("{n} must be finite and positive"));
+                return bad(&crate::t!(
+                    "lunar-receiver-must-be-finite-and-positive",
+                    n = n
+                ));
             }
         }
         if !(self.correlator_spacing_chips > 0.0 && self.correlator_spacing_chips < 2.0) {

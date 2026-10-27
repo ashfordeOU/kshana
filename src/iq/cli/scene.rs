@@ -72,7 +72,10 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
     } else {
         p.prns
             .iter()
-            .map(|&id| u8::try_from(id).map_err(|_| format!("PRN {id} is out of range for GPS")))
+            .map(|&id| {
+                u8::try_from(id)
+                    .map_err(|_| crate::terr!("e-iq-cli-scene-prn-is-out-of-range", id = id))
+            })
             .collect::<Result<Vec<_>, _>>()?
     };
     let mut chosen: Vec<&crate::rinex::RinexEphemeris> = Vec::new();
@@ -90,7 +93,9 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
         }
     }
     if chosen.is_empty() {
-        return Err("no healthy GPS ephemeris found for the requested PRNs".to_string());
+        return Err(crate::terr!(
+            "e-iq-cli-scene-no-healthy-gps-ephemeris-found"
+        ));
     }
     let center = p.center_hz.unwrap_or(crate::gnss_sim::L1_HZ);
     let spec = SampleSpec {
@@ -132,11 +137,16 @@ fn parse_llh(v: &str) -> Result<(f64, f64, f64), Fail> {
         .split(',')
         .map(|s| s.trim().parse::<f64>())
         .collect::<Result<_, _>>()
-        .map_err(|_| Fail::Usage(format!("--rx-pos wants lat,lon,alt (got {v:?})")))?;
+        .map_err(|_| {
+            Fail::Usage(crate::t!(
+                "iq-cli-scene-rx-pos-wants-lat-lon",
+                v = format!("{:?}", v)
+            ))
+        })?;
     if parts.len() != 3 {
-        return Err(Fail::Usage(
-            "--rx-pos wants three values: lat,lon,alt (deg,deg,m)".into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-rx-pos-wants-three-values"
+        )));
     }
     Ok((parts[0], parts[1], parts[2]))
 }
@@ -154,15 +164,17 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let fs_hz = a
         .num("--rate")
         .map_err(Fail::Usage)?
-        .ok_or(Fail::Usage("iq scene needs --rate <hz>".into()))?;
+        .ok_or(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-iq-scene-needs-rate-hz"
+        )))?;
     // The scene length: --duration, or --window (its alias in broadcast mode).
     let duration_s = a
         .num("--duration")
         .map_err(Fail::Usage)?
         .or(a.num("--window").map_err(Fail::Usage)?)
-        .ok_or(Fail::Usage(
-            "iq scene needs --duration <s> (or --window)".into(),
-        ))?;
+        .ok_or(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-iq-scene-needs-duration-or"
+        )))?;
     let seed = a.num("--seed").map_err(Fail::Usage)?.unwrap_or(1);
     let threads = a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1);
     let cn0_dbhz = a.num("--cn0").map_err(Fail::Usage)?;
@@ -177,9 +189,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         let rx_llh_deg = match a.get("--rx-pos") {
             Some(v) => parse_llh(v)?,
             None => {
-                return Err(Fail::Usage(
-                    "iq scene --nav needs --rx-pos lat,lon,alt".into(),
-                ))
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-cli-scene-iq-scene-nav-needs-rx"
+                )))
             }
         };
         let bp = BroadcastParams {
@@ -202,11 +214,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     } else {
         let signal = a
             .get("--signal")
-            .ok_or(Fail::Usage("iq scene needs --signal <name>".into()))?
+            .ok_or(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-iq-scene-needs-signal-name"
+            )))?
             .to_string();
         let ids: Vec<i64> = a.list("--prn").map_err(Fail::Usage)?;
         if ids.is_empty() {
-            return Err(Fail::Usage("iq scene needs --prn <list>".into()));
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-iq-scene-needs-prn-list"
+            )));
         }
         let params = SceneParams {
             fs_hz,
@@ -230,6 +246,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     // Optional propagation channel applied to every satellite.
     let chan = super::channel::ChannelParams::from_args(&a)?;
     let mut chan_desc = chan.describe();
+    // The same description for the files (the SigMF annotation): English in every language.
+    let mut chan_desc_en = crate::i18n::in_english(|| chan.describe());
     let mut inner = None;
     if chan.any() {
         let carrier = scene
@@ -251,10 +269,18 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     };
     match (&cn0_profile, inner) {
         (Some(prof), inner) => {
-            chan_desc = format!(
-                "{chan_desc}; C/N0 profile ({} segment(s))",
-                prof.segments.len()
+            chan_desc = crate::t!(
+                "iq-cli-scene-n0-profile-segment",
+                chan_desc = chan_desc,
+                segments = prof.segments.len()
             );
+            chan_desc_en = crate::i18n::in_english(|| {
+                crate::t!(
+                    "iq-cli-scene-n0-profile-segment",
+                    chan_desc = chan_desc_en,
+                    segments = prof.segments.len()
+                )
+            });
             scene.set_channel(Box::new(Cn0ProfileChannel::new(prof.clone(), inner)));
         }
         (None, Some(ch)) => scene.set_channel(ch),
@@ -287,7 +313,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let sdrx_format = sdrx_sample_format(a.get("--format"), &a.pos[0])?;
     let want_sdrx = sdrx_format.is_some();
     if want_sdrx && want_sigmf {
-        return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-format-takes-sigmf-or-sdrx"
+        )));
     }
 
     let format = if want_sigmf {
@@ -328,8 +356,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         "csv" => Box::new(CsvTruthWriter::new(truth_file)),
         "jsonl" | "jsonlines" => Box::new(JsonLinesTruthWriter::new(truth_file)),
         other => {
-            return Err(Fail::Usage(format!(
-                "--truth-format must be csv or jsonl (got {other:?})"
+            return Err(Fail::Usage(crate::t!(
+                "iq-cli-scene-truth-format-must-be-csv",
+                other = format!("{:?}", other)
             )))
         }
     };
@@ -344,22 +373,47 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     };
 
     let clipped = iq.clipped();
-    let scale_note = match scale {
-        Some(sc) => format!(
-            "; integer scale: 1 LSB = {sc:.6e} noise-normalised units (expected RMS {:.4} LSB per component), {clipped} element(s) clipped",
-            rms / sc
-        ),
-        None => String::new(),
-    };
+    // The integer scale, stated when the format is an integer one: (scale, expected RMS, clipped).
+    let scale_note = scale.map(|sc| {
+        (
+            crate::i18n::localise_decimal(format!("{:.6e}", sc)),
+            crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
+        )
+    });
+    // The note written into the sidecar and the metadata files: English in every language.
+    let scale_note_en = crate::i18n::in_english(|| {
+        scale.map(|sc| {
+            (
+                crate::i18n::localise_decimal(format!("{:.6e}", sc)),
+                crate::i18n::localise_decimal(format!("{:.4}", rms / sc)),
+            )
+        })
+    });
 
     let meta_note = if want_sdrx {
-        let comment =
-            format!("written by kshana iq scene: a SIMULATED scene, not a recording{scale_note}");
+        let comment = match &scale_note_en {
+            Some((sc, v1)) => crate::i18n::in_english(|| {
+                crate::t!(
+                    "iq-cli-scene-written-by-kshana-iq-scene-integer-scale",
+                    sc = sc,
+                    v1 = v1,
+                    clipped = clipped
+                )
+            }),
+            None => {
+                crate::i18n::in_english(|| crate::t!("iq-cli-scene-written-by-kshana-iq-scene"))
+            }
+        };
         let path = write_sdrx_meta(&a.pos[0], &data_path, format, &spec, &comment)?;
-        format!("ION SDR metadata {path}")
+        crate::t!("iq-cli-scene-ion-sdr-metadata", path = path)
     } else if want_sigmf {
-        let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
-        format!("SigMF data {data_path}, meta {meta_path}")
+        let meta_path =
+            write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc_en, summary.samples)?;
+        crate::t!(
+            "iq-cli-scene-sigmf-data-meta",
+            data_path = data_path,
+            meta_path = meta_path
+        )
     } else {
         let sidecar = RawSidecar {
             format: format.name(),
@@ -370,24 +424,51 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             channels: None,
             channel: None,
             datetime: None,
-            description: Some(format!("written by kshana iq scene{scale_note}")),
+            description: Some(match &scale_note_en {
+                Some((sc, v1)) => crate::i18n::in_english(|| {
+                    crate::t!(
+                        "iq-cli-scene-written-by-kshana-iq-scene-2-integer-scale",
+                        sc = sc,
+                        v1 = v1,
+                        clipped = clipped
+                    )
+                }),
+                None => crate::i18n::in_english(|| {
+                    crate::t!("iq-cli-scene-written-by-kshana-iq-scene-2")
+                }),
+            }),
         };
         let sidecar_path = write_sidecar(out, &sidecar)?;
         format!("sidecar {}", sidecar_path.display())
     };
 
-    Ok(format!(
-        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; {}; channel: {}{}",
-        summary.samples,
-        format.name(),
-        spec.fs_hz,
-        data_path,
-        summary.truth_records,
-        truth_path,
-        meta_note,
-        chan_desc,
-        scale_note,
-    ))
+    Ok(match &scale_note {
+        Some((sc, v1)) => crate::t!(
+            "iq-cli-scene-wrote-samples-hz-to-truth-integer-scale",
+            samples = summary.samples,
+            format = format.name(),
+            fs_hz = spec.fs_hz,
+            data_path = data_path,
+            truth_records = summary.truth_records,
+            truth_path = truth_path,
+            meta_note = meta_note,
+            chan_desc = chan_desc,
+            sc = sc,
+            v1 = v1,
+            clipped = clipped
+        ),
+        None => crate::t!(
+            "iq-cli-scene-wrote-samples-hz-to-truth",
+            samples = summary.samples,
+            format = format.name(),
+            fs_hz = spec.fs_hz,
+            data_path = data_path,
+            truth_records = summary.truth_records,
+            truth_path = truth_path,
+            meta_note = meta_note,
+            chan_desc = chan_desc
+        ),
+    })
 }
 
 /// Fraction of the integer full scale the expected per-component RMS is placed at: 1/4,
@@ -490,7 +571,9 @@ fn sdrx_sample_format(flag: Option<&str>, out: &str) -> Result<Option<SampleForm
     let name = match (named, lower) {
         (Some(n), _) => n,
         (None, Some(f)) if f == "sigmf" => {
-            return Err(Fail::Usage("--format takes sigmf or sdrx, not both".into()))
+            return Err(Fail::Usage(crate::terr!(
+                "e-iq-cli-scene-format-takes-sigmf-or-sdrx"
+            )))
         }
         (None, f) => f,
     };
@@ -499,11 +582,9 @@ fn sdrx_sample_format(flag: Option<&str>, out: &str) -> Result<Option<SampleForm
         Some(n) => SampleFormat::parse(&n)?,
     };
     if fmt != SampleFormat::CI8 && fmt != SampleFormat::CI16_LE {
-        return Err(Fail::Usage(
-            "--format sdrx writes ci8 (the default) or ci16_le (sdrx:ci16_le); the ION \
-             metadata standard has no floating-point coding"
-                .into(),
-        ));
+        return Err(Fail::Usage(crate::terr!(
+            "e-iq-cli-scene-format-sdrx-writes-ci8-the"
+        )));
     }
     Ok(Some(fmt))
 }
@@ -565,7 +646,7 @@ fn write_sdrx_meta(
 
 /// The `.sigmf-data` path for `path`.
 fn sigmf_data_path(path: &str) -> String {
-    format!("{}.sigmf-data", sigmf_base(path))
+    crate::i18n::in_english(|| crate::t!("iq-cli-scene-sigmf-data", sigmf_base = sigmf_base(path)))
 }
 
 /// Write the `.sigmf-meta` document (one capture, one annotation per satellite plus one for
@@ -607,7 +688,9 @@ fn write_sigmf_meta(
         comment: Some(chan_desc.to_string()),
     });
     let json = meta_to_json(&meta).map_err(Fail::Run)?;
-    let meta_path = format!("{}.sigmf-meta", sigmf_base(path));
+    let meta_path = crate::i18n::in_english(|| {
+        crate::t!("iq-cli-scene-sigmf-meta", sigmf_base = sigmf_base(path))
+    });
     std::fs::write(&meta_path, json).map_err(|e| Fail::Run(format!("{meta_path}: {e}")))?;
     Ok(meta_path)
 }

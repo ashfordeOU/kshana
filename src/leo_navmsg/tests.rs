@@ -584,7 +584,7 @@ const PLATFORM_METHODS: [&str; 27] = [
 /// listed is the optional workshop preset's, registered behind [`PRESET_GATE`]: it is a
 /// table of message defaults (read, no mathematics), it is absent from a release that
 /// withholds the preset, and naming it here would break that withholding.
-const REVIEWED_CRATE_PATHS: [&str; 16] = [
+const REVIEWED_CRATE_PATHS: [&str; 23] = [
     "crate::portable_math::PortableFloat",
     "crate::portable_math",
     "crate::gravity_sh::SphericalHarmonicField",
@@ -602,6 +602,15 @@ const REVIEWED_CRATE_PATHS: [&str; 16] = [
     "crate::chart::panel_axes",
     // Colour and font string constants only; no arithmetic.
     "crate::palette::chart",
+    // The message catalogue: it looks a text up and puts text into it. The number helpers print a
+    // number already computed with `format!`; none of them does mathematics.
+    "crate::t",
+    "crate::terr",
+    "crate::i18n::arg",
+    "crate::i18n::num",
+    "crate::i18n::num_e",
+    "crate::i18n::num_plain",
+    "crate::i18n::localise_decimal",
 ];
 
 /// The attribute that compiles the optional workshop preset in.
@@ -621,21 +630,24 @@ fn platform_calls(text: &str) -> Vec<String> {
         for m in PLATFORM_METHODS {
             for call in [format!(".{m}("), format!("f64::{m}(")] {
                 if code.contains(&call) {
-                    found.push(format!("{}: `{call}` is the host library's", n + 1));
+                    found.push(crate::t!(
+                        "leo-navmsg-tests-is-the-host-library",
+                        v1 = n + 1,
+                        call = call
+                    ));
                 }
             }
         }
         if code.contains("rand_distr") {
-            found.push(format!(
-                "{}: `rand_distr` samplers call the host `exp` and `ln` in their rare branches; \
-                 use `portable_math::standard_normal`",
-                n + 1
+            found.push(crate::t!(
+                "leo-navmsg-tests-rand-distr-samplers-call-the",
+                v1 = n + 1
             ));
         }
         if code.contains(".acceleration(") {
-            found.push(format!(
-                "{}: `.acceleration(` is the host-library gravity field; use `.acceleration_portable(`",
-                n + 1
+            found.push(crate::t!(
+                "leo-navmsg-tests-acceleration-is-the-host-library",
+                v1 = n + 1
             ));
         }
         let mut rest = code;
@@ -648,7 +660,11 @@ fn platform_calls(text: &str) -> Vec<String> {
             let path = tail[..end].trim_end_matches(':');
             let own = path.starts_with("crate::leo_navmsg");
             if !own && !behind_gate && !REVIEWED_CRATE_PATHS.contains(&path) {
-                found.push(format!("{}: `{path}` has not been reviewed", n + 1));
+                found.push(crate::t!(
+                    "leo-navmsg-tests-has-not-been-reviewed",
+                    v1 = n + 1,
+                    path = path
+                ));
             }
             rest = &tail[end..];
         }

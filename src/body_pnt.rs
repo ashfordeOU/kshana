@@ -418,12 +418,12 @@ impl BodyPntScenario {
     /// Compute the report.
     pub fn compute(&self) -> Result<BodyPntReport, String> {
         let body_name = self.body.as_deref().unwrap_or("Mars");
-        let body = Body::by_name(body_name).ok_or_else(|| format!("unknown body '{body_name}'"))?;
+        let body = Body::by_name(body_name)
+            .ok_or_else(|| crate::terr!("e-body-pnt-unknown-body", body_name = body_name))?;
         if body.name == "Earth" || body.name == "Sun" {
-            return Err(format!(
-                "body-pnt navigates around a body other than the Earth with an Earth link; \
-                 {} is not supported here",
-                body.name
+            return Err(crate::terr!(
+                "e-body-pnt-body-pnt-navigates-around-body",
+                name = body.name
             ));
         }
         let facts = body.facts().expect("every Body::by_name body has a record");
@@ -439,8 +439,10 @@ impl BodyPntScenario {
         let duration = self.duration_s.unwrap_or(86_400.0);
         let step = self.step_s.unwrap_or(600.0);
         if !(duration > 0.0 && step > 0.0) || duration / step > 20_000.0 {
-            return Err(format!(
-                "duration_s and step_s must be positive with at most 20000 epochs; got {duration} and {step}"
+            return Err(crate::terr!(
+                "e-body-pnt-duration-and-step-must-be",
+                duration = duration,
+                step = step
             ));
         }
 
@@ -449,7 +451,7 @@ impl BodyPntScenario {
         let surface = match user_kind.as_str() {
             "orbiter" => false,
             "surface" => true,
-            k => return Err(format!("user.kind must be orbiter or surface; got '{k}'")),
+            k => return Err(crate::terr!("e-body-pnt-user-kind-must-be-orbiter", k = k)),
         };
         let user_orbit = if surface {
             None
@@ -457,11 +459,14 @@ impl BodyPntScenario {
             let alt = user_cfg.altitude_km.unwrap_or(400.0) * 1e3;
             let e = user_cfg.eccentricity.unwrap_or(0.0);
             if !(0.0..0.9).contains(&e) || alt <= 0.0 {
-                return Err("user altitude must be positive and eccentricity in [0, 0.9)".into());
+                return Err(crate::terr!(
+                    "e-body-pnt-user-altitude-must-be-positive",
+                    lit_0_9 = crate::i18n::num(0.9_f64, 1)
+                ));
             }
             let a = radius + alt;
             if a * (1.0 - e) <= radius {
-                return Err("the user orbit's periapsis is below the surface".to_string());
+                return Err(crate::terr!("e-body-pnt-the-user-orbit-periapsis-is"));
             }
             Some(EqOrbit::new(
                 &body,
@@ -485,11 +490,15 @@ impl BodyPntScenario {
         let planes = c.planes.unwrap_or(3);
         let per_plane = c.sats_per_plane.unwrap_or(4);
         if planes == 0 || per_plane == 0 || planes * per_plane > 200 {
-            return Err("constellation needs 1 to 200 satellites in at least one plane".into());
+            return Err(crate::terr!(
+                "e-body-pnt-constellation-needs-to-200-satellites"
+            ));
         }
         let relay_alt = c.altitude_km.map(|k| k * 1e3).unwrap_or(3.0 * radius);
         if relay_alt <= 0.0 {
-            return Err("constellation altitude must be positive".to_string());
+            return Err(crate::terr!(
+                "e-body-pnt-constellation-altitude-must-be-positive"
+            ));
         }
         let relay_a = radius + relay_alt;
         let relay_inc = c.inclination_deg.unwrap_or(60.0) * DEG;
@@ -512,7 +521,7 @@ impl BodyPntScenario {
         let earth_used = el.enabled.unwrap_or(true);
         let sigma_earth = el.sigma_range_m.unwrap_or(1.0);
         if !(sigma_relay > 0.0 && sigma_earth > 0.0) {
-            return Err("range sigmas must be positive".to_string());
+            return Err(crate::terr!("e-body-pnt-range-sigmas-must-be-positive"));
         }
         let earth_to_body = link(&eph, &body, &Body::earth(), jd0)?;
 
@@ -540,7 +549,13 @@ impl BodyPntScenario {
             };
             let earth = eph
                 .relative_position(&Body::earth(), &body, jd)
-                .ok_or_else(|| format!("no Earth position relative to {} at JD {jd}", body.name))?;
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-body-pnt-no-earth-position-relative-to",
+                        name = body.name,
+                        jd = jd
+                    )
+                })?;
             let up = {
                 let r = norm(user);
                 [user[0] / r, user[1] / r, user[2] / r]
@@ -748,14 +763,16 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
 ];
 
 fn report_json(r: &BodyPntReport) -> Result<String, String> {
-    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising report: {e}"))?;
+    let mut doc = serde_json::to_value(r)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))?;
     match doc.as_object_mut() {
         Some(o) => {
             o.insert("units".into(), crate::solar_system::units_block_from(UNITS));
         }
-        None => return Err("the report must serialise to a JSON object".to_string()),
+        None => return Err(crate::terr!("e-body-pnt-the-report-must-serialise-to")),
     }
-    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising report: {e}"))
+    serde_json::to_string_pretty(&doc)
+        .map_err(|e| crate::terr!("e-body-pnt-serialising-report", e = e))
 }
 
 fn opt(v: Option<f64>, scale: f64, unit: &str) -> String {
@@ -765,28 +782,29 @@ fn opt(v: Option<f64>, scale: f64, unit: &str) -> String {
 
 /// The text summary.
 pub fn summary(r: &BodyPntReport) -> String {
-    format!(
-        "Positioning around {} — {} user, {} relays at {:.0} km, {} epochs\n  \
-         Earth light time {:.1} s one-way, {:.1} s round trip; Sun-Earth-body angle {:.1} deg\n  \
-         availability: {:.3} constellation only, {:.3} with the Earth range (Earth in view {:.3})\n  \
-         median PDOP {}; RMS error {} constellation only, {} with the Earth range\n  \
-         median formal sigma {} constellation only, {} with the Earth range\n",
-        r.body.name,
-        r.user_kind,
-        r.n_relays,
-        r.relay_altitude_m / 1e3,
-        r.fom.n_epochs,
-        r.earth_to_body.one_way_light_time_s,
-        r.earth_to_body.two_way_light_time_s,
-        r.earth_to_body.sun_separation_deg,
-        r.fom.availability_relays,
-        r.fom.availability_with_earth,
-        r.fom.earth_visibility,
-        opt(r.fom.median_pdop, 1.0, ""),
-        opt(r.fom.rms_error_relays_m, 1.0, "m"),
-        opt(r.fom.rms_error_with_earth_m, 1.0, "m"),
-        opt(r.fom.median_formal_sigma_relays_m, 1.0, "m"),
-        opt(r.fom.median_formal_sigma_with_earth_m, 1.0, "m"),
+    crate::t!(
+        "body-pnt-positioning-around-user-relays-at",
+        name = r.body.name,
+        user_kind = r.user_kind,
+        n_relays = r.n_relays,
+        r = crate::i18n::localise_decimal(format!("{:.0}", r.relay_altitude_m / 1e3)),
+        n_epochs = r.fom.n_epochs,
+        one_way_light_time_s =
+            crate::i18n::localise_decimal(format!("{:.1}", r.earth_to_body.one_way_light_time_s)),
+        two_way_light_time_s =
+            crate::i18n::localise_decimal(format!("{:.1}", r.earth_to_body.two_way_light_time_s)),
+        sun_separation_deg =
+            crate::i18n::localise_decimal(format!("{:.1}", r.earth_to_body.sun_separation_deg)),
+        availability_relays =
+            crate::i18n::localise_decimal(format!("{:.3}", r.fom.availability_relays)),
+        availability_with_earth =
+            crate::i18n::localise_decimal(format!("{:.3}", r.fom.availability_with_earth)),
+        earth_visibility = crate::i18n::localise_decimal(format!("{:.3}", r.fom.earth_visibility)),
+        opt = opt(r.fom.median_pdop, 1.0, ""),
+        opt2 = opt(r.fom.rms_error_relays_m, 1.0, "m"),
+        opt3 = opt(r.fom.rms_error_with_earth_m, 1.0, "m"),
+        opt4 = opt(r.fom.median_formal_sigma_relays_m, 1.0, "m"),
+        opt5 = opt(r.fom.median_formal_sigma_with_earth_m, 1.0, "m")
     )
 }
 
@@ -797,10 +815,15 @@ pub fn to_svg(r: &BodyPntReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        &format!("Positioning around {}", r.body.name),
-        &format!(
-            "{} user · {} relays · Earth light time {:.1} s · MODELLED",
-            r.user_kind, r.n_relays, r.earth_to_body.one_way_light_time_s
+        &crate::t!("body-pnt-positioning-around", name = r.body.name),
+        &crate::t!(
+            "body-pnt-user-relays-earth-light-time",
+            user_kind = r.user_kind,
+            n_relays = r.n_relays,
+            one_way_light_time_s = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                r.earth_to_body.one_way_light_time_s
+            ))
         ),
     );
     let (ml, pw) = (70.0, 800.0);
@@ -814,9 +837,16 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         top1,
         pw,
         top1 + ph1,
-        "relays in view",
+        &crate::t!("body-pnt-chart-relays-in-view"),
     ));
-    s.push_str(&crate::chart::y_axis(ml, top1, pw, ph1, n_max, "count"));
+    s.push_str(&crate::chart::y_axis(
+        ml,
+        top1,
+        pw,
+        ph1,
+        n_max,
+        &crate::t!("body-pnt-chart-count"),
+    ));
     let bw = (pw / r.epochs.len().max(1) as f64).max(1.0);
     for e in &r.epochs {
         let hgt = ph1 * e.n_relays_visible as f64 / n_max;
@@ -833,7 +863,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         top2,
         pw,
         top2 + ph2,
-        "formal one-sigma position (log10 m): blue constellation only, amber with the Earth range",
+        &crate::t!("body-pnt-chart-formal-one-sigma-position"),
     ));
     let logs: Vec<f64> = r
         .epochs
@@ -877,16 +907,21 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text>\
-         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text>\
+         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text>",
         ml - 60.0,
         top2 + ph2,
+        crate::i18n::num(lo, 0),
         ml - 60.0,
-        top2 + 10.0
+        top2 + 10.0,
+        crate::i18n::num(hi, 0)
     ));
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"{MUTED}\">time since epoch, 0 to {:.0} s</text></svg>",
-        t_max
+        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"{MUTED}\">{}</text></svg>",
+        crate::t!(
+            "body-pnt-chart-time-since-epoch",
+            t_max = crate::i18n::num(t_max, 0)
+        )
     ));
     s
 }

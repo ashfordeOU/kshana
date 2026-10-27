@@ -21,13 +21,20 @@ extern "C" {
     fn json_parse(text: &str) -> JsValue;
 }
 
+/// Run `toml` for a user in language `lang` (`None`/`"en"` is English). The result document and
+/// the CSV are always from the English run; the summary and the chart text are in `lang`.
+fn run_in(toml: &str, lang: &Option<String>) -> Result<crate::api::RunOutput, JsValue> {
+    crate::api::run_toml_lang(toml, lang.as_deref().unwrap_or("en"))
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Run a scenario once and return every output as one typed object (`RunOutput` in the
 /// declarations): `json`, `svg`, `summary`, `csv` (`null` for a kind that emits no
 /// table) and `data`, the result document already parsed. A plain object, not a class,
 /// so there is nothing to free. Throws a JS error if the scenario is invalid.
 #[wasm_bindgen(unchecked_return_type = "RunOutput")]
-pub fn run_typed(toml: &str) -> Result<JsValue, JsValue> {
-    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+pub fn run_typed(toml: &str, lang: Option<String>) -> Result<JsValue, JsValue> {
+    let o = run_in(toml, &lang)?;
     let quoted = |s: &str| serde_json::Value::from(s).to_string();
     // `o.json` is already a JSON document, so it is spliced in as `data` rather than
     // parsed and re-serialised here.
@@ -42,35 +49,38 @@ pub fn run_typed(toml: &str) -> Result<JsValue, JsValue> {
 }
 
 /// The available scenario kinds and their metadata, already parsed: the typed form of
-/// [`list_kinds`], which keeps its JSON-string return for existing callers.
+/// [`list_kinds`], which keeps its JSON-string return for existing callers. `lang` (a tag such as
+/// `de`; omitted is English) is the language of each `description`; names and fields do not change.
 #[wasm_bindgen(unchecked_return_type = "KindMeta[]")]
-pub fn scenario_kinds() -> JsValue {
-    json_parse(&crate::api::list_scenario_kinds_json())
+pub fn scenario_kinds(lang: Option<String>) -> Result<JsValue, JsValue> {
+    kinds_in(&lang).map(|j| json_parse(&j))
+}
+
+/// The kinds document, in English or in `lang`.
+fn kinds_in(lang: &Option<String>) -> Result<String, JsValue> {
+    match lang.as_deref() {
+        None => Ok(crate::api::list_scenario_kinds_json()),
+        Some(l) => crate::api::list_scenario_kinds_json_lang(l).map_err(|e| JsValue::from_str(&e)),
+    }
 }
 
 /// Run a scenario given as a TOML string; returns the result document as a JSON
 /// string. Throws a JS error if the scenario is invalid.
 #[wasm_bindgen]
-pub fn run(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.json)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn run(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.json)
 }
 
 /// Run a scenario and return its SVG chart.
 #[wasm_bindgen]
-pub fn chart_svg(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.svg)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn chart_svg(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.svg)
 }
 
 /// Run a scenario and return its one-line human-readable summary.
 #[wasm_bindgen]
-pub fn summary(toml: &str) -> Result<String, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.summary)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn summary(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    run_in(toml, &lang).map(|o| o.summary)
 }
 
 /// Run a scenario and return its reproducibility table as CSV text — the same bytes the
@@ -79,10 +89,8 @@ pub fn summary(toml: &str) -> Result<String, JsValue> {
 /// `moonlight-service-volume` with an export site configured emit one). Throws a JS error
 /// if the scenario is invalid.
 #[wasm_bindgen]
-pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
-    crate::api::run_toml(toml)
-        .map(|o| o.csv)
-        .map_err(|e| JsValue::from_str(&e))
+pub fn table_csv(toml: &str, lang: Option<String>) -> Result<Option<String>, JsValue> {
+    run_in(toml, &lang).map(|o| o.csv)
 }
 
 /// Run a scenario ONCE and return every output of that run as a JSON object string:
@@ -93,8 +101,8 @@ pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
 /// runs — about 12 s instead of 3 s for the heaviest kind in a browser. Throws a JS
 /// error if the scenario is invalid.
 #[wasm_bindgen]
-pub fn run_all(toml: &str) -> Result<String, JsValue> {
-    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+pub fn run_all(toml: &str, lang: Option<String>) -> Result<String, JsValue> {
+    let o = run_in(toml, &lang)?;
     Ok(serde_json::json!({
         "json": o.json,
         "svg": o.svg,
@@ -105,10 +113,11 @@ pub fn run_all(toml: &str) -> Result<String, JsValue> {
 }
 
 /// List the available scenario kinds and their metadata as a JSON array (name,
-/// description, required and optional fields), for programmatic introspection.
+/// description, required and optional fields), for programmatic introspection. `lang` (a tag such
+/// as `de`; omitted is English) is the language of each `description`.
 #[wasm_bindgen]
-pub fn list_kinds() -> String {
-    crate::api::list_scenario_kinds_json()
+pub fn list_kinds(lang: Option<String>) -> Result<String, JsValue> {
+    kinds_in(&lang)
 }
 
 /// The modules a scenario kind's verification-matrix rows name where they differ from the kind's
@@ -131,11 +140,38 @@ pub fn field_importance() -> String {
 /// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
 /// category rather than parse the message. Returns an empty string on success.
 #[wasm_bindgen(unchecked_return_type = "ErrorKind | \"\"")]
-pub fn error_kind(toml: &str) -> String {
-    crate::api::run_scenario(toml)
+pub fn error_kind(toml: &str, lang: Option<String>) -> String {
+    crate::api::run_scenario_lang(toml, lang.as_deref().unwrap_or("en"))
         .err()
         .map(|e| e.kind_tag().to_string())
         .unwrap_or_default()
+}
+
+/// Run a scenario ONCE in `lang` and return what a person reads, as an object `{summary, svg}`. The
+/// result document and CSV are not part of it: they are the English run's (`run_typed`), so a page
+/// shows the English result at once and calls this afterwards to localise the summary and the chart.
+#[wasm_bindgen(unchecked_return_type = "{ summary: string; svg: string }")]
+pub fn run_human(toml: &str, lang: &str) -> Result<JsValue, JsValue> {
+    let h = crate::api::run_toml_human(toml, lang).map_err(|e| JsValue::from_str(&e))?;
+    Ok(json_parse(
+        &serde_json::json!({"summary": h.summary, "svg": h.svg}).to_string(),
+    ))
+}
+
+/// Use `ftl` (the text of `i18n/<lang>/engine.ftl`) as the catalogue of language `tag`. The WebAssembly
+/// build embeds English only; a page fetches the file of the chosen language and registers it here
+/// before `run_human`, `run_typed(.., lang)` or `list_kinds(lang)`. Throws if the tag is not a supported
+/// language or the text is not a valid catalogue; the page then stays in English.
+#[wasm_bindgen]
+pub fn register_catalogue(tag: &str, ftl: &str) -> Result<(), JsValue> {
+    crate::i18n::register_catalogue(tag, ftl).map_err(|e| JsValue::from_str(&e))
+}
+
+/// Why a scenario fails, as a JSON object string `{"kind", "code", "message"}` (`message` in `lang`,
+/// `code` the same in every language, null when the message has none); empty when it runs.
+#[wasm_bindgen]
+pub fn error_info(toml: &str, lang: Option<String>) -> String {
+    crate::api::error_info_json(toml, lang.as_deref().unwrap_or("en"))
 }
 
 /// Engine version (the crate version).
@@ -278,10 +314,10 @@ pub fn evidence_attach_timestamp(
     replace: bool,
 ) -> Result<String, JsValue> {
     let v: serde_json::Value = serde_json::from_str(files_json)
-        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-files-json-is-not-json", e = e)))?;
     let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
     let token = crate::permalink::base64_decode(token_base64.trim())
-        .ok_or_else(|| JsValue::from_str("token_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-token-base64-is-not-base64")))?;
     let t = crate::surface::evidence_attach_timestamp(
         &files,
         &token,
@@ -337,7 +373,8 @@ pub fn lunanet_afs_check_symbols(symbols: &str, max_sp_errors: u32) -> Result<St
 /// subframes 2 to 4 (not LDPC coded, no message): symbols, not a waveform.
 #[wasm_bindgen]
 pub fn lunanet_afs_generate(frames: u32, toi0: u32) -> Result<String, JsValue> {
-    let toi0 = u8::try_from(toi0).map_err(|_| JsValue::from_str("toi0 must be 0 to 99"))?;
+    let toi0 = u8::try_from(toi0)
+        .map_err(|_| JsValue::from_str(&crate::terr!("e-surface-toi0-must-be-to-99")))?;
     crate::surface::lunanet_afs_generate(frames as usize, toi0).map_err(|e| JsValue::from_str(&e))
 }
 
@@ -369,18 +406,18 @@ pub fn standards_pack_run(id: &str) -> Result<String, JsValue> {
 pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
     use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
     let v: serde_json::Value = serde_json::from_str(runs_json)
-        .map_err(|e| JsValue::from_str(&format!("runs_json is not JSON: {e}")))?;
-    let arr = v.as_array().ok_or_else(|| {
-        JsValue::from_str("runs_json must be an array of {label, result, scenario?}")
-    })?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-runs-json-is-not-json", e = e)))?;
+    let arr = v
+        .as_array()
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-runs-json-must-be-an")))?;
     let mut texts = Vec::with_capacity(arr.len());
     for (i, r) in arr.iter().enumerate() {
         let field = |k: &str| r.get(k).and_then(|x| x.as_str()).map(str::to_string);
         texts.push(ComplianceRunText {
             label: field("label")
-                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `label`")))?,
+                .ok_or_else(|| JsValue::from_str(&crate::t!("wasm-runs-needs-label", i = i)))?,
             result_json: field("result")
-                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `result`")))?,
+                .ok_or_else(|| JsValue::from_str(&crate::t!("wasm-runs-needs-result", i = i)))?,
             scenario_toml: field("scenario"),
         });
     }
@@ -410,9 +447,8 @@ pub fn bench_score(
 /// page (HTML).
 #[wasm_bindgen]
 pub fn bench_leaderboard(results_json: &str) -> Result<String, JsValue> {
-    let results: Vec<String> = serde_json::from_str(results_json).map_err(|e| {
-        JsValue::from_str(&format!("results_json is not a JSON array of strings: {e}"))
-    })?;
+    let results: Vec<String> = serde_json::from_str(results_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-results-json-is-not-json", e = e)))?;
     crate::surface::bench_leaderboard(&results, crate::surface::MAX_INPUT_BYTES)
         .map_err(|e| JsValue::from_str(&e))
 }
@@ -490,9 +526,8 @@ pub fn route_exposure(
     date_from: &str,
     date_to: &str,
 ) -> Result<String, JsValue> {
-    let maps: Vec<String> = serde_json::from_str(maps_json).map_err(|e| {
-        JsValue::from_str(&format!("maps_json must be a JSON array of strings: {e}"))
-    })?;
+    let maps: Vec<String> = serde_json::from_str(maps_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-maps-json-must-be-json", e = e)))?;
     let refs: Vec<&str> = maps.iter().map(String::as_str).collect();
     crate::surface::route_exposure(
         route,
@@ -566,9 +601,8 @@ pub fn jammertest_import(
     local_offset_h: f64,
     year: u32,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
-        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
-    })?;
+    let plans: Vec<String> = serde_json::from_str(plans_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-plans-json-is-not-json", e = e)))?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     crate::surface::jammertest_import_json(
         catalog_json,
@@ -601,12 +635,11 @@ pub fn jammertest_score(
     recover_hold_s: f64,
     guard_s: f64,
 ) -> Result<String, JsValue> {
-    let plans: Vec<String> = serde_json::from_str(plans_json).map_err(|e| {
-        JsValue::from_str(&format!("plans_json is not a JSON array of strings: {e}"))
-    })?;
+    let plans: Vec<String> = serde_json::from_str(plans_json)
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-plans-json-is-not-json", e = e)))?;
     let refs: Vec<&str> = plans.iter().map(String::as_str).collect();
     let log = crate::permalink::base64_decode(log_base64.trim())
-        .ok_or_else(|| JsValue::from_str("log_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-log-base64-is-not-base64")))?;
     crate::surface::jammertest_score_json(
         session_toml,
         &log,
@@ -641,7 +674,7 @@ pub fn evidence_verify(
     require_timestamp: bool,
 ) -> Result<String, JsValue> {
     let v: serde_json::Value = serde_json::from_str(files_json)
-        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+        .map_err(|e| JsValue::from_str(&crate::t!("wasm-files-json-is-not-json", e = e)))?;
     let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
     let report = crate::surface::evidence_verify(
         &files,
@@ -674,7 +707,7 @@ pub fn trust_telemetry(
     let mut opts = TelemetryOptions::default();
     if !options_json.trim().is_empty() {
         let v: serde_json::Value = serde_json::from_str(options_json)
-            .map_err(|e| err(format!("options_json is not JSON: {e}")))?;
+            .map_err(|e| err(crate::t!("wasm-options-json-is-not-json", e = e)))?;
         opts.expose_position = v["expose_position"].as_bool().unwrap_or(false);
         opts.syslog_all = v["syslog_all"].as_bool().unwrap_or(false);
         opts.unix_nano = v["unix_nano"].as_f64().unwrap_or(0.0) as u64;
@@ -738,14 +771,14 @@ pub fn osnma_verify(
 ) -> Result<String, JsValue> {
     let b64 = input_base64.trim();
     if b64.len() / 4 * 3 > crate::surface::MAX_INPUT_BYTES {
-        return Err(JsValue::from_str(&format!(
-            "input is about {} bytes, over the {}-byte limit",
-            b64.len() / 4 * 3,
-            crate::surface::MAX_INPUT_BYTES
+        return Err(JsValue::from_str(&crate::t!(
+            "wasm-input-is-about-bytes-over",
+            b64 = b64.len() / 4 * 3,
+            v2 = crate::surface::MAX_INPUT_BYTES
         )));
     }
     let bytes = crate::permalink::base64_decode(b64)
-        .ok_or_else(|| JsValue::from_str("input_base64 is not base64"))?;
+        .ok_or_else(|| JsValue::from_str(&crate::terr!("e-wasm-input-base64-is-not-base64")))?;
     crate::surface::osnma_verify(
         &bytes,
         format,
@@ -789,7 +822,9 @@ pub fn sky_geometry(request_json: &str) -> Result<String, JsValue> {
 pub fn sky_monte_carlo(request_json: &str, seed: f64, n: u32) -> Result<String, JsValue> {
     if !(seed.is_finite() && seed >= 0.0 && seed.fract() == 0.0 && seed <= 9_007_199_254_740_991.0)
     {
-        return Err(JsValue::from_str("seed must be a non-negative integer"));
+        return Err(JsValue::from_str(&crate::terr!(
+            "e-wasm-seed-must-be-non-negative"
+        )));
     }
     crate::surface::sky_monte_carlo(
         request_json,

@@ -77,17 +77,18 @@ fn as_u32(v: &Value) -> Option<u32> {
 
 /// Read the catalogue (`testcatalog*.json`).
 pub fn parse_catalog(json: &str) -> Result<Catalog, String> {
-    let v: Value = serde_json::from_str(json).map_err(|e| format!("catalogue is not JSON: {e}"))?;
+    let v: Value = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-jammertest-plan-catalogue-is-not-json", e = e))?;
     let types = v
         .get("test_types")
         .and_then(Value::as_array)
-        .ok_or("catalogue has no `test_types` array")?;
+        .ok_or_else(|| crate::terr!("e-jammertest-plan-catalogue-has-no-test-types"))?;
     let mut tests = BTreeMap::new();
     for t in types {
         let type_id = t
             .get("type_id")
             .and_then(as_u32)
-            .ok_or("a test type has no `type_id`")?;
+            .ok_or_else(|| crate::terr!("e-jammertest-plan-test-type-has-no-type"))?;
         let type_name = t
             .get("type")
             .and_then(Value::as_str)
@@ -102,7 +103,7 @@ pub fn parse_catalog(json: &str) -> Result<Catalog, String> {
             let gid = g
                 .get("group_id")
                 .and_then(as_u32)
-                .ok_or("a test group has no `group_id`")?;
+                .ok_or_else(|| crate::terr!("e-jammertest-plan-test-group-has-no-group"))?;
             let gname = g
                 .get("group_name")
                 .and_then(Value::as_str)
@@ -117,7 +118,7 @@ pub fn parse_catalog(json: &str) -> Result<Catalog, String> {
                 let tid = x
                     .get("test_id")
                     .and_then(as_u32)
-                    .ok_or("a test has no `test_id`")?;
+                    .ok_or_else(|| crate::terr!("e-jammertest-plan-test-has-no-test-id"))?;
                 let id = format!("{type_id}.{gid}.{tid}");
                 tests.insert(
                     id.clone(),
@@ -137,7 +138,7 @@ pub fn parse_catalog(json: &str) -> Result<Catalog, String> {
         }
     }
     if tests.is_empty() {
-        return Err("catalogue lists no tests".into());
+        return Err(crate::terr!("e-jammertest-plan-catalogue-lists-no-tests"));
     }
     Ok(Catalog { tests })
 }
@@ -147,18 +148,19 @@ pub fn parse_catalog(json: &str) -> Result<Catalog, String> {
 fn local_to_utc(text: &str, local_offset_h: f64) -> Result<f64, String> {
     parse_rfc3339_utc(text)
         .map(|t| t - local_offset_h * 3600.0)
-        .ok_or_else(|| format!("`{text}` is not a plan time like 2025-09-15T14:00:00"))
+        .ok_or_else(|| crate::terr!("e-jammertest-plan-is-not-plan-time-like", text = text))
 }
 
 /// Read one transmission-plan file (`plan-<day>-<date>.json` or `transmission-plan-<date>.json`).
 /// Times in the plan have no zone; `local_offset_h` is the event's offset from UTC (Norway in
 /// September is CEST, +2).
 pub fn parse_plan(json: &str, local_offset_h: f64) -> Result<Vec<Slot>, String> {
-    let v: Value = serde_json::from_str(json).map_err(|e| format!("plan is not JSON: {e}"))?;
+    let v: Value = serde_json::from_str(json)
+        .map_err(|e| crate::terr!("e-jammertest-plan-plan-is-not-json", e = e))?;
     let locs = v
         .get("locations")
         .and_then(Value::as_array)
-        .ok_or("plan has no `locations` array")?;
+        .ok_or_else(|| crate::terr!("e-jammertest-plan-plan-has-no-locations-array"))?;
     let mut out = Vec::new();
     for l in locs {
         let location_id = l.get("location_id").and_then(as_u32).unwrap_or(0);
@@ -181,7 +183,10 @@ pub fn parse_plan(json: &str, local_offset_h: f64) -> Result<Vec<Slot>, String> 
             let start_utc = local_to_utc(text("start_time"), local_offset_h)?;
             let end_utc = local_to_utc(text("end_time"), local_offset_h)?;
             if end_utc <= start_utc {
-                return Err(format!("test {id}: end_time is not after start_time"));
+                return Err(crate::terr!(
+                    "e-jammertest-plan-test-end-time-is-not",
+                    id = id
+                ));
             }
             out.push(Slot {
                 test_id: id.to_string(),
@@ -265,14 +270,19 @@ pub fn import(slots: &[Slot], catalog: &Catalog, opt: &ImportOptions) -> Result<
     let location = match (opt.location, areas.len()) {
         (Some(l), _) => {
             if !areas.iter().any(|a| a.0 == l) {
-                return Err(format!("the plan has no test area {l}; it has {areas:?}"));
+                return Err(crate::terr!(
+                    "e-jammertest-plan-the-plan-has-no-test",
+                    l = l,
+                    areas = format!("{:?}", areas)
+                ));
             }
             l
         }
         (None, 1) => areas[0].0,
         (None, _) => {
-            return Err(format!(
-                "the plan has several test areas {areas:?}; say which one the log was recorded in"
+            return Err(crate::terr!(
+                "e-jammertest-plan-the-plan-has-several-test",
+                areas = format!("{:?}", areas)
             ))
         }
     };
@@ -341,7 +351,7 @@ pub fn import_attack_log(
     log_duration_s: Option<f64>,
 ) -> Result<Imported, String> {
     let v: Value = serde_json::from_str(scenario_json)
-        .map_err(|e| format!("scenario.json is not JSON: {e}"))?;
+        .map_err(|e| crate::terr!("e-jammertest-plan-scenario-json-is-not-json", e = e))?;
     let id = v
         .get("scenario_id")
         .and_then(Value::as_str)
@@ -368,7 +378,7 @@ pub fn import_attack_log(
     for ev in v
         .get("attack_log")
         .and_then(Value::as_array)
-        .ok_or("no `attack_log` array")?
+        .ok_or_else(|| crate::terr!("e-jammertest-plan-no-attack-log-array"))?
     {
         let (Some(ts), Some(text)) = (
             ev.get("timestamp_utc").and_then(Value::as_str),
@@ -392,8 +402,12 @@ pub fn import_attack_log(
             }
             out.events.push(ImportedEvent {
                 event: EventCfg {
-                    label: format!(
-                        "{SCHEDULED_TRUTH}: Jammertest 2024 test {id} window {n} ({attack})"
+                    label: crate::t!(
+                        "jammertest-plan-jammertest-2024-test-window",
+                        SCHEDULED_TRUTH = SCHEDULED_TRUTH,
+                        id = id,
+                        n = n,
+                        attack = attack
                     ),
                     kind,
                     onset_s: onset.max(0.0),
@@ -409,7 +423,7 @@ pub fn import_attack_log(
         }
     }
     if n == 0 {
-        return Err("the attack_log holds no start/end window".into());
+        return Err(crate::terr!("e-jammertest-plan-the-attack-log-holds-no"));
     }
     Ok(out)
 }

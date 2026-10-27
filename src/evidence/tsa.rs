@@ -54,14 +54,18 @@ struct Tlv<'a> {
 }
 
 fn read(b: &[u8]) -> Result<(Tlv<'_>, &[u8]), String> {
-    let tag = *b.first().ok_or("truncated DER")?;
-    let l0 = *b.get(1).ok_or("truncated DER")?;
+    let tag = *b
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-truncated-der"))?;
+    let l0 = *b
+        .get(1)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-truncated-der"))?;
     let (len, hdr) = if l0 < 0x80 {
         (l0 as usize, 2)
     } else {
         let n = (l0 & 0x7f) as usize;
         if n == 0 || n > 4 || b.len() < 2 + n {
-            return Err("bad DER length".into());
+            return Err(crate::terr!("e-evidence-tsa-bad-der-length"));
         }
         let mut len = 0usize;
         for &x in &b[2..2 + n] {
@@ -70,7 +74,7 @@ fn read(b: &[u8]) -> Result<(Tlv<'_>, &[u8]), String> {
         (len, 2 + n)
     };
     if b.len() < hdr + len {
-        return Err("truncated DER".into());
+        return Err(crate::terr!("e-evidence-tsa-truncated-der"));
     }
     Ok((
         Tlv {
@@ -94,7 +98,11 @@ fn items(mut b: &[u8]) -> Result<Vec<Tlv<'_>>, String> {
 
 fn expect<'a>(t: &Tlv<'a>, tag: u8, what: &str) -> Result<Vec<Tlv<'a>>, String> {
     if t.tag != tag {
-        return Err(format!("{what}: unexpected DER tag {:#04x}", t.tag));
+        return Err(crate::terr!(
+            "e-evidence-tsa-unexpected-der-tag",
+            what = what,
+            tag = format!("{:#04x}", t.tag)
+        ));
     }
     items(t.body)
 }
@@ -204,8 +212,11 @@ impl Hash {
 /// The hash named by an `AlgorithmIdentifier` (its first element, the OID).
 fn alg_hash(alg: &Tlv) -> Result<Hash, String> {
     let a = expect(alg, 0x30, "AlgorithmIdentifier")?;
-    let oid = a.first().ok_or("empty AlgorithmIdentifier")?;
-    Hash::from_oid(oid.body).ok_or_else(|| "unsupported digest algorithm".to_string())
+    let oid = a
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-empty-algorithmidentifier"))?;
+    Hash::from_oid(oid.body)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-unsupported-digest-algorithm"))
 }
 
 // ── time ──────────────────────────────────────────────────────────────────────
@@ -236,16 +247,21 @@ fn time_of(t: &Tlv) -> Result<i64, String> {
     let s = t.body;
     let (y, rest) = match t.tag {
         0x17 if s.len() >= 13 => {
-            let yy = digits(&s[0..2]).ok_or("bad UTCTime")?;
+            let yy = digits(&s[0..2]).ok_or_else(|| crate::terr!("e-evidence-tsa-bad-utctime"))?;
             (if yy < 50 { 2000 + yy } else { 1900 + yy }, &s[2..])
         }
-        0x18 if s.len() >= 15 => (digits(&s[0..4]).ok_or("bad GeneralizedTime")?, &s[4..]),
-        _ => return Err("bad time".into()),
+        0x18 if s.len() >= 15 => (
+            digits(&s[0..4]).ok_or_else(|| crate::terr!("e-evidence-tsa-bad-generalizedtime"))?,
+            &s[4..],
+        ),
+        _ => return Err(crate::terr!("e-evidence-tsa-bad-time")),
     };
     if *s.last().unwrap_or(&0) != b'Z' {
-        return Err("time not in UTC".into());
+        return Err(crate::terr!("e-evidence-tsa-time-not-in-utc"));
     }
-    let f = |i: usize| digits(&rest[i..i + 2]).ok_or("bad time digits");
+    let f = |i: usize| {
+        digits(&rest[i..i + 2]).ok_or_else(|| crate::terr!("e-evidence-tsa-bad-time-digits"))
+    };
     let (mo, d, h, mi, se) = (f(0)?, f(2)?, f(4)?, f(6)?, f(8)?);
     Ok(days_from_civil(y, mo, d) * 86_400 + h * 3600 + mi * 60 + se)
 }
@@ -274,7 +290,7 @@ struct Cert<'a> {
 
 fn bit_string<'a>(t: &Tlv<'a>) -> Result<&'a [u8], String> {
     if t.tag != 0x03 || t.body.is_empty() {
-        return Err("bad BIT STRING".into());
+        return Err(crate::terr!("e-evidence-tsa-bad-bit-string"));
     }
     Ok(&t.body[1..])
 }
@@ -283,14 +299,20 @@ fn parse_cert(der: &[u8]) -> Result<Cert<'_>, String> {
     let (c, _) = read(der)?;
     let top = expect(&c, 0x30, "Certificate")?;
     if top.len() != 3 {
-        return Err("Certificate: three elements expected".into());
+        return Err(crate::terr!(
+            "e-evidence-tsa-certificate-three-elements-expected"
+        ));
     }
     let tbs = expect(&top[0], 0x30, "TBSCertificate")?;
     let mut i = 0;
     if tbs.first().map(|t| t.tag) == Some(0xa0) {
         i = 1;
     }
-    let get = |k: usize| tbs.get(k).copied().ok_or("TBSCertificate: too short");
+    let get = |k: usize| {
+        tbs.get(k)
+            .copied()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-tbscertificate-too-short"))
+    };
     let serial = get(i)?;
     let issuer = get(i + 2)?;
     let validity = expect(&get(i + 3)?, 0x30, "Validity")?;
@@ -304,11 +326,16 @@ fn parse_cert(der: &[u8]) -> Result<Cert<'_>, String> {
         let (exts, _) = read(t.body)?;
         for e in expect(&exts, 0x30, "Extensions")? {
             let f = expect(&e, 0x30, "Extension")?;
-            let oid = f.first().ok_or("empty Extension")?.body;
+            let oid = f
+                .first()
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-empty-extension"))?
+                .body;
             let critical = f.len() == 3 && f[1].tag == 0x01 && f[1].body.first() == Some(&0xff);
-            let value = f.last().ok_or("empty Extension")?;
+            let value = f
+                .last()
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-empty-extension"))?;
             if value.tag != 0x04 {
-                return Err("Extension: value not an OCTET STRING".into());
+                return Err(crate::terr!("e-evidence-tsa-extension-value-not-an-octet"));
             }
             match oid {
                 OID_BASIC_CONSTRAINTS => {
@@ -359,8 +386,16 @@ fn parse_cert(der: &[u8]) -> Result<Cert<'_>, String> {
         serial: unsigned(serial.body),
         issuer: issuer.full,
         subject: subject.full,
-        not_before: time_of(validity.first().ok_or("Validity: empty")?)?,
-        not_after: time_of(validity.get(1).ok_or("Validity: short")?)?,
+        not_before: time_of(
+            validity
+                .first()
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-validity-empty"))?,
+        )?,
+        not_after: time_of(
+            validity
+                .get(1)
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-validity-short"))?,
+        )?,
         spki,
         ca,
         key_usage,
@@ -378,7 +413,9 @@ pub fn pem_certificates(text: &str) -> Result<Vec<Vec<u8>>, String> {
         if l == "-----BEGIN CERTIFICATE-----" {
             cur = Some(String::new());
         } else if l == "-----END CERTIFICATE-----" {
-            let b64 = cur.take().ok_or("PEM: END without BEGIN")?;
+            let b64 = cur
+                .take()
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-pem-end-without-begin"))?;
             out.push(base64_decode(&b64)?);
         } else if let Some(c) = cur.as_mut() {
             c.push_str(l);
@@ -396,7 +433,7 @@ fn base64_decode(s: &str) -> Result<Vec<u8>, String> {
             b'0'..=b'9' => (c - b'0' + 52) as u32,
             b'+' => 62,
             b'/' => 63,
-            _ => return Err("PEM: bad base64".into()),
+            _ => return Err(crate::terr!("e-evidence-tsa-pem-bad-base64")),
         })
     };
     let b = s.trim_end_matches('=').as_bytes();
@@ -410,7 +447,7 @@ fn base64_decode(s: &str) -> Result<Vec<u8>, String> {
             4 => 3,
             3 => 2,
             2 => 1,
-            _ => return Err("PEM: bad base64 length".into()),
+            _ => return Err(crate::terr!("e-evidence-tsa-pem-bad-base64-length")),
         };
         out.extend_from_slice(&acc.to_be_bytes()[1..1 + n]);
     }
@@ -427,15 +464,28 @@ enum Key<'a> {
 
 fn public_key<'a>(spki: &Tlv<'a>) -> Result<Key<'a>, String> {
     let s = expect(spki, 0x30, "SubjectPublicKeyInfo")?;
-    let alg = expect(s.first().ok_or("SPKI: empty")?, 0x30, "SPKI algorithm")?;
-    let oid = alg.first().ok_or("SPKI: no OID")?.body;
-    let bits = bit_string(s.get(1).ok_or("SPKI: no key")?)?;
+    let alg = expect(
+        s.first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-spki-empty"))?,
+        0x30,
+        "SPKI algorithm",
+    )?;
+    let oid = alg
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-spki-no-oid"))?
+        .body;
+    let bits = bit_string(
+        s.get(1)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-spki-no-key"))?,
+    )?;
     match oid {
         OID_RSA | OID_RSA_PSS => {
             let (k, _) = read(bits)?;
             let ne = expect(&k, 0x30, "RSAPublicKey")?;
             if ne.len() != 2 {
-                return Err("RSAPublicKey: two integers expected".into());
+                return Err(crate::terr!(
+                    "e-evidence-tsa-rsapublickey-two-integers-expected"
+                ));
             }
             Ok(Key::Rsa {
                 n: unsigned(ne[0].body),
@@ -445,9 +495,11 @@ fn public_key<'a>(spki: &Tlv<'a>) -> Result<Key<'a>, String> {
         OID_EC_PUBLIC_KEY => match alg.get(1).map(|c| c.body) {
             Some(OID_P256) => Ok(Key::P256(bits)),
             Some(OID_P384) => Ok(Key::P384(bits)),
-            _ => Err("unsupported elliptic curve".into()),
+            _ => Err(crate::terr!("e-evidence-tsa-unsupported-elliptic-curve")),
         },
-        _ => Err("unsupported public-key algorithm".into()),
+        _ => Err(crate::terr!(
+            "e-evidence-tsa-unsupported-public-key-algorithm"
+        )),
     }
 }
 
@@ -456,7 +508,7 @@ fn public_key<'a>(spki: &Tlv<'a>) -> Result<Key<'a>, String> {
 fn rsa_public(n: &[u8], e: &[u8], s: &[u8]) -> Result<Vec<u8>, String> {
     let k = n.len();
     if k > 512 || e.len() > 512 || s.len() > k {
-        return Err("RSA key or signature too large".into());
+        return Err(crate::terr!("e-evidence-tsa-rsa-key-or-signature-too"));
     }
     let pad = |b: &[u8]| {
         let mut v = vec![0u8; 512];
@@ -465,10 +517,10 @@ fn rsa_public(n: &[u8], e: &[u8], s: &[u8]) -> Result<Vec<u8>, String> {
     };
     let (nn, ee, ss) = (pad(n), pad(e), pad(s));
     if n.last().is_none_or(|b| b & 1 == 0) {
-        return Err("RSA modulus not odd".into());
+        return Err(crate::terr!("e-evidence-tsa-rsa-modulus-not-odd"));
     }
     if ss >= nn {
-        return Err("RSA signature out of range".into());
+        return Err(crate::terr!("e-evidence-tsa-rsa-signature-out-of-range"));
     }
     let params = DynResidueParams::new(&nn);
     let m = DynResidue::new(&ss, params).pow(&ee).retrieve();
@@ -481,7 +533,7 @@ fn verify_pkcs1(n: &[u8], e: &[u8], hash: Hash, msg: &[u8], sig: &[u8]) -> Resul
     let prefix = hash.digest_info_prefix();
     let t_len = prefix.len() + h.len();
     if em.len() < t_len + 11 {
-        return Err("RSA key too small".into());
+        return Err(crate::terr!("e-evidence-tsa-rsa-key-too-small"));
     }
     let ps = em.len() - t_len - 3;
     let mut want = vec![0x00, 0x01];
@@ -492,7 +544,7 @@ fn verify_pkcs1(n: &[u8], e: &[u8], hash: Hash, msg: &[u8], sig: &[u8]) -> Resul
     if em == want {
         Ok(())
     } else {
-        Err("invalid padding".into())
+        Err(crate::terr!("e-evidence-tsa-invalid-padding"))
     }
 }
 
@@ -525,17 +577,17 @@ fn verify_pss(
     let em_len = em_bits.div_ceil(8);
     let em = &em_full[em_full.len() - em_len..];
     if em_full.len() > em_len && em_full[..em_full.len() - em_len].iter().any(|&b| b != 0) {
-        return Err("PSS: encoded message too long".into());
+        return Err(crate::terr!("e-evidence-tsa-pss-encoded-message-too-long"));
     }
     let h_len = hash.len();
     if em_len < h_len + salt_len + 2 || *em.last().unwrap_or(&0) != 0xbc {
-        return Err("last octet invalid".into());
+        return Err(crate::terr!("e-evidence-tsa-last-octet-invalid"));
     }
     let (masked_db, rest) = em.split_at(em_len - h_len - 1);
     let h = &rest[..h_len];
     let top_bits = 8 * em_len - em_bits;
     if top_bits > 0 && masked_db[0] >> (8 - top_bits) != 0 {
-        return Err("PSS: leftmost bits not zero".into());
+        return Err(crate::terr!("e-evidence-tsa-pss-leftmost-bits-not-zero"));
     }
     let mask = mgf1(mgf_hash, h, masked_db.len());
     let mut db: Vec<u8> = masked_db.iter().zip(&mask).map(|(a, b)| a ^ b).collect();
@@ -544,7 +596,7 @@ fn verify_pss(
     }
     let ps = em_len - h_len - salt_len - 2;
     if db[..ps].iter().any(|&b| b != 0) || db[ps] != 0x01 {
-        return Err("PSS: bad padding".into());
+        return Err(crate::terr!("e-evidence-tsa-pss-bad-padding"));
     }
     let salt = &db[db.len() - salt_len..];
     let mut m2 = vec![0u8; 8];
@@ -553,7 +605,7 @@ fn verify_pss(
     if hash.digest(&m2) == h {
         Ok(())
     } else {
-        Err("PSS: signature mismatch".into())
+        Err(crate::terr!("e-evidence-tsa-pss-signature-mismatch"))
     }
 }
 
@@ -569,13 +621,18 @@ fn pss_params(alg: &Tlv) -> Result<(Hash, Hash, usize), String> {
                 0xa1 => {
                     let m = expect(&inner, 0x30, "MaskGenAlgorithm")?;
                     if m.first().map(|o| o.body) != Some(OID_MGF1) {
-                        return Err("unsupported mask generation function".into());
+                        return Err(crate::terr!(
+                            "e-evidence-tsa-unsupported-mask-generation-function"
+                        ));
                     }
-                    mh = alg_hash(m.get(1).ok_or("MGF1 without a hash")?)?;
+                    mh = alg_hash(
+                        m.get(1)
+                            .ok_or_else(|| crate::terr!("e-evidence-tsa-mgf1-without-hash"))?,
+                    )?;
                 }
                 0xa2 => {
                     if inner.tag != 0x02 {
-                        return Err("bad PSS salt length".into());
+                        return Err(crate::terr!("e-evidence-tsa-bad-pss-salt-length"));
                     }
                     salt = unsigned(inner.body)
                         .iter()
@@ -593,18 +650,22 @@ fn verify_ecdsa(key: &Key, hash: Hash, msg: &[u8], sig: &[u8]) -> Result<(), Str
     let pre = hash.digest(msg);
     match key {
         Key::P256(pt) => {
-            let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-256 key")?;
-            let s = p256::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
+            let vk = p256::ecdsa::VerifyingKey::from_sec1_bytes(pt)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-256-key"))?;
+            let s = p256::ecdsa::Signature::from_der(sig)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)
-                .map_err(|_| "signature failure".to_string())
+                .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
         Key::P384(pt) => {
-            let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt).map_err(|_| "bad P-384 key")?;
-            let s = p384::ecdsa::Signature::from_der(sig).map_err(|_| "bad ECDSA signature")?;
+            let vk = p384::ecdsa::VerifyingKey::from_sec1_bytes(pt)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-384-key"))?;
+            let s = p384::ecdsa::Signature::from_der(sig)
+                .map_err(|_| crate::terr!("e-evidence-tsa-bad-ecdsa-signature"))?;
             vk.verify_prehash(&pre, &s)
-                .map_err(|_| "signature failure".to_string())
+                .map_err(|_| crate::terr!("e-evidence-tsa-signature-failure"))
         }
-        Key::Rsa { .. } => Err("an ECDSA signature needs an EC key".into()),
+        Key::Rsa { .. } => Err(crate::terr!("e-evidence-tsa-an-ecdsa-signature-needs-an")),
     }
 }
 
@@ -618,22 +679,27 @@ fn verify_sig(
     sig: &[u8],
 ) -> Result<(), String> {
     let a = expect(alg, 0x30, "AlgorithmIdentifier")?;
-    let oid = a.first().ok_or("empty AlgorithmIdentifier")?.body;
+    let oid = a
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-empty-algorithmidentifier"))?
+        .body;
     let rsa = |h: Hash| match key {
         Key::Rsa { n, e } => verify_pkcs1(n, e, h, msg, sig),
-        _ => Err("an RSA signature needs an RSA key".to_string()),
+        _ => Err(crate::terr!("e-evidence-tsa-an-rsa-signature-needs-an")),
     };
     match oid {
         OID_RSA_SHA1 => rsa(Hash::Sha1),
         OID_RSA_SHA256 => rsa(Hash::Sha256),
         OID_RSA_SHA384 => rsa(Hash::Sha384),
         OID_RSA_SHA512 => rsa(Hash::Sha512),
-        OID_RSA => rsa(digest.ok_or("rsaEncryption without a digest algorithm")?),
+        OID_RSA => rsa(digest.ok_or_else(|| {
+            crate::terr!("e-evidence-tsa-rsaencryption-without-digest-algorithm")
+        })?),
         OID_RSA_PSS => {
             let (h, mh, salt) = pss_params(alg)?;
             match key {
                 Key::Rsa { n, e } => verify_pss(n, e, h, mh, salt, msg, sig),
-                _ => Err("an RSA-PSS signature needs an RSA key".into()),
+                _ => Err(crate::terr!("e-evidence-tsa-an-rsa-pss-signature-needs")),
             }
         }
         OID_ECDSA_SHA256 => verify_ecdsa(key, Hash::Sha256, msg, sig),
@@ -641,11 +707,15 @@ fn verify_sig(
         OID_ECDSA_SHA512 => verify_ecdsa(key, Hash::Sha512, msg, sig),
         OID_EC_PUBLIC_KEY => verify_ecdsa(
             key,
-            digest.ok_or("id-ecPublicKey without a digest algorithm")?,
+            digest.ok_or_else(|| {
+                crate::terr!("e-evidence-tsa-id-ecpublickey-without-digest-algorithm")
+            })?,
             msg,
             sig,
         ),
-        _ => Err("unsupported signature algorithm".into()),
+        _ => Err(crate::terr!(
+            "e-evidence-tsa-unsupported-signature-algorithm"
+        )),
     }
 }
 
@@ -682,40 +752,70 @@ fn check(
     let content_info = match o.first().map(|t| t.tag) {
         Some(0x30) => {
             let status = expect(&o[0], 0x30, "PKIStatusInfo")?;
-            let s = status.first().ok_or("PKIStatusInfo: empty")?;
+            let s = status
+                .first()
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-pkistatusinfo-empty"))?;
             if s.tag != 0x02 || !matches!(unsigned(s.body), [0] | [1]) {
-                return Err("time-stamp request not granted".into());
+                return Err(crate::terr!(
+                    "e-evidence-tsa-time-stamp-request-not-granted"
+                ));
             }
-            *o.get(1).ok_or("no time-stamp token in the response")?
+            *o.get(1)
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-no-time-stamp-token-in"))?
         }
         Some(0x06) => outer,
-        _ => return Err("not a TimeStampResp or TimeStampToken".into()),
+        _ => {
+            return Err(crate::terr!(
+                "e-evidence-tsa-not-timestampresp-or-timestamptoken"
+            ))
+        }
     };
     let ci = expect(&content_info, 0x30, "ContentInfo")?;
     if ci.first().map(|t| t.body) != Some(OID_SIGNED_DATA) {
-        return Err("not CMS SignedData".into());
+        return Err(crate::terr!("e-evidence-tsa-not-cms-signeddata"));
     }
-    let wrapped = ci.get(1).ok_or("ContentInfo: no content")?;
+    let wrapped = ci
+        .get(1)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-contentinfo-no-content"))?;
     let (sd_tlv, _) = read(wrapped.body)?;
     let sd = expect(&sd_tlv, 0x30, "SignedData")?;
     let encap = expect(
-        sd.get(2).ok_or("SignedData: short")?,
+        sd.get(2)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-signeddata-short"))?,
         0x30,
         "EncapsulatedContentInfo",
     )?;
-    let e_type = encap.first().ok_or("EncapsulatedContentInfo: empty")?.body;
+    let e_type = encap
+        .first()
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-encapsulatedcontentinfo-empty"))?
+        .body;
     if e_type != OID_TST_INFO {
-        return Err("encapsulated content is not a TSTInfo".into());
+        return Err(crate::terr!(
+            "e-evidence-tsa-encapsulated-content-is-not-tstinfo"
+        ));
     }
-    let (e_octets, _) = read(encap.get(1).ok_or("no TSTInfo")?.body)?;
+    let (e_octets, _) = read(
+        encap
+            .get(1)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-no-tstinfo"))?
+            .body,
+    )?;
     if e_octets.tag != 0x04 {
-        return Err("TSTInfo not in an OCTET STRING".into());
+        return Err(crate::terr!("e-evidence-tsa-tstinfo-not-in-an-octet"));
     }
     let tst_der = e_octets.body;
     let (tst_tlv, _) = read(tst_der)?;
     let tst = expect(&tst_tlv, 0x30, "TSTInfo")?;
-    let imprint = expect(tst.get(2).ok_or("TSTInfo: short")?, 0x30, "MessageImprint")?;
-    let gt = time_of(tst.get(4).ok_or("TSTInfo: no genTime")?)?;
+    let imprint = expect(
+        tst.get(2)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-tstinfo-short"))?,
+        0x30,
+        "MessageImprint",
+    )?;
+    let gt = time_of(
+        tst.get(4)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-tstinfo-no-gentime"))?,
+    )?;
     *gen_time = Some(gt);
 
     // Certificates and signer.
@@ -730,22 +830,38 @@ fn check(
         idx += 1;
     }
     let signers = expect(
-        sd.get(idx).ok_or("SignedData: no signerInfos")?,
+        sd.get(idx)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-signeddata-no-signerinfos"))?,
         0x31,
         "signerInfos",
     )?;
     if signers.len() != 1 {
-        return Err("exactly one SignerInfo expected".into());
+        return Err(crate::terr!(
+            "e-evidence-tsa-exactly-one-signerinfo-expected"
+        ));
     }
     let si = expect(&signers[0], 0x30, "SignerInfo")?;
-    let sid = si.get(1).ok_or("SignerInfo: no sid")?;
-    let digest = alg_hash(si.get(2).ok_or("SignerInfo: no digest algorithm")?)?;
-    let attrs = si.get(3).ok_or("SignerInfo: short")?;
+    let sid = si
+        .get(1)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-signerinfo-no-sid"))?;
+    let digest = alg_hash(
+        si.get(2)
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-signerinfo-no-digest-algorithm"))?,
+    )?;
+    let attrs = si
+        .get(3)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-signerinfo-short"))?;
     if attrs.tag != 0xa0 {
-        return Err("SignerInfo: no signed attributes".into());
+        return Err(crate::terr!(
+            "e-evidence-tsa-signerinfo-no-signed-attributes"
+        ));
     }
-    let sig_alg = si.get(4).ok_or("SignerInfo: no signature algorithm")?;
-    let sig = si.get(5).ok_or("SignerInfo: no signature")?;
+    let sig_alg = si
+        .get(4)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-signerinfo-no-signature-algorithm"))?;
+    let sig = si
+        .get(5)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-signerinfo-no-signature"))?;
 
     let pool_signer: Vec<Cert> = token_certs
         .iter()
@@ -756,7 +872,14 @@ fn check(
     let signer = match sid.tag {
         0x30 => {
             let ias = expect(sid, 0x30, "IssuerAndSerialNumber")?;
-            let (iss, ser) = (ias[0].full, unsigned(ias.get(1).ok_or("no serial")?.body));
+            let (iss, ser) = (
+                ias[0].full,
+                unsigned(
+                    ias.get(1)
+                        .ok_or_else(|| crate::terr!("e-evidence-tsa-no-serial"))?
+                        .body,
+                ),
+            );
             pool_signer
                 .iter()
                 .find(|c| c.issuer == iss && c.serial == ser)
@@ -764,20 +887,26 @@ fn check(
         0x80 => pool_signer.iter().find(|c| c.ski == Some(sid.body)),
         _ => None,
     }
-    .ok_or("signer certificate not found")?
+    .ok_or_else(|| crate::terr!("e-evidence-tsa-signer-certificate-not-found"))?
     .clone();
 
     // Signed attributes.
     let (mut ct, mut md, mut ess) = (None, None, None);
     for a in items(attrs.body)? {
         let f = expect(&a, 0x30, "Attribute")?;
-        let oid = f.first().ok_or("Attribute: empty")?.body;
+        let oid = f
+            .first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-attribute-empty"))?
+            .body;
         let vals = expect(
-            f.get(1).ok_or("Attribute: no values")?,
+            f.get(1)
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-attribute-no-values"))?,
             0x31,
             "AttributeValues",
         )?;
-        let v = *vals.first().ok_or("Attribute: no value")?;
+        let v = *vals
+            .first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-attribute-no-value"))?;
         match oid {
             OID_CONTENT_TYPE => ct = Some(v.body),
             OID_MESSAGE_DIGEST => md = Some(v.body),
@@ -787,15 +916,17 @@ fn check(
         }
     }
     if ct != Some(OID_TST_INFO) {
-        return Err("content-type attribute mismatch".into());
+        return Err(crate::terr!(
+            "e-evidence-tsa-content-type-attribute-mismatch"
+        ));
     }
     if md != Some(digest.digest(tst_der).as_slice()) {
-        return Err("digest failure".into());
+        return Err(crate::terr!("e-evidence-tsa-digest-failure"));
     }
     let mut signed = attrs.full.to_vec();
     signed[0] = 0x31;
     if sig.tag != 0x04 {
-        return Err("signature not an OCTET STRING".into());
+        return Err(crate::terr!("e-evidence-tsa-signature-not-an-octet-string"));
     }
     verify_sig(
         &public_key(&signer.spki)?,
@@ -806,22 +937,28 @@ fn check(
     )?;
 
     // ESS signing certificate.
-    let (v2, ess_v) = ess.ok_or("ess signing certificate attribute missing")?;
+    let (v2, ess_v) = ess
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-ess-signing-certificate-attribute-missing"))?;
     let s = expect(&ess_v, 0x30, "SigningCertificate")?;
     let ids = expect(
-        s.first().ok_or("SigningCertificate: empty")?,
+        s.first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-signingcertificate-empty"))?,
         0x30,
         "ESSCertIDs",
     )?;
     let first = expect(
-        ids.first().ok_or("ess cert id not found")?,
+        ids.first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-ess-cert-id-not-found"))?,
         0x30,
         "ESSCertID",
     )?;
     let (h, hash) = if v2 && first.first().map(|t| t.tag) == Some(0x30) {
         (
             alg_hash(&first[0])?,
-            first.get(1).ok_or("ESSCertIDv2: no hash")?.body,
+            first
+                .get(1)
+                .ok_or_else(|| crate::terr!("e-evidence-tsa-esscertidv2-no-hash"))?
+                .body,
         )
     } else if v2 {
         (Hash::Sha256, first[0].body)
@@ -829,17 +966,23 @@ fn check(
         (Hash::Sha1, first[0].body)
     };
     if h.digest(signer.der) != hash {
-        return Err("ess cert id not found".into());
+        return Err(crate::terr!("e-evidence-tsa-ess-cert-id-not-found"));
     }
 
     // Signer usage.
     match &signer.eku {
         Some((true, p)) if p.len() == 1 && p[0] == OID_KP_TIMESTAMPING => {}
-        _ => return Err("unsuitable certificate purpose".into()),
+        _ => {
+            return Err(crate::terr!(
+                "e-evidence-tsa-unsuitable-certificate-purpose"
+            ))
+        }
     }
     if let Some(ku) = signer.key_usage {
         if ku & 0b11 == 0 {
-            return Err("unsuitable certificate purpose".into());
+            return Err(crate::terr!(
+                "e-evidence-tsa-unsuitable-certificate-purpose"
+            ));
         }
     }
 
@@ -856,10 +999,10 @@ fn check(
     let mut cur = signer;
     for _ in 0..10 {
         if gt < cur.not_before {
-            return Err("certificate is not yet valid".into());
+            return Err(crate::terr!("e-evidence-tsa-certificate-is-not-yet-valid"));
         }
         if gt > cur.not_after {
-            return Err("certificate has expired".into());
+            return Err(crate::terr!("e-evidence-tsa-certificate-has-expired"));
         }
         let trusted = anchor_certs.iter().any(|a| a.der == cur.der);
         if trusted && cur.subject == cur.issuer {
@@ -876,29 +1019,34 @@ fn check(
         let Some(issuer) = issuer else {
             let named = pool_chain.iter().any(|c| c.subject == cur.issuer);
             return Err(if named {
-                "certificate signature failure"
+                crate::terr!("e-evidence-tsa-certificate-signature-failure")
             } else if trusted {
-                "unable to get issuer certificate"
+                crate::terr!("e-evidence-tsa-unable-to-get-issuer-certificate")
             } else {
-                "unable to get local issuer certificate"
-            }
-            .into());
+                crate::terr!("e-evidence-tsa-unable-to-get-local-issuer")
+            });
         };
         if !issuer.ca || issuer.key_usage.is_some_and(|k| k & (1 << 5) == 0) {
-            return Err("invalid CA certificate".into());
+            return Err(crate::terr!("e-evidence-tsa-invalid-ca-certificate"));
         }
         cur = issuer.clone();
     }
-    Err("certificate chain too long".into())
+    Err(crate::terr!("e-evidence-tsa-certificate-chain-too-long"))
 }
 
 fn check_imprint(imprint: &[Tlv], data: &[u8]) -> Result<(), String> {
-    let h = alg_hash(imprint.first().ok_or("MessageImprint: empty")?)?;
-    let want = imprint.get(1).ok_or("MessageImprint: no digest")?;
+    let h = alg_hash(
+        imprint
+            .first()
+            .ok_or_else(|| crate::terr!("e-evidence-tsa-messageimprint-empty"))?,
+    )?;
+    let want = imprint
+        .get(1)
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-messageimprint-no-digest"))?;
     if want.body == h.digest(data).as_slice() {
         Ok(())
     } else {
-        Err("message imprint mismatch".into())
+        Err(crate::terr!("e-evidence-tsa-message-imprint-mismatch"))
     }
 }
 

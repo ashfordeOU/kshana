@@ -387,16 +387,22 @@ fn n_fault_max(sum_p_event: f64, p_thres: f64) -> usize {
 pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<ReferenceResult, String> {
     let n = case.satellites.len();
     if n == 0 {
-        return Err("a reference case needs at least one satellite".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-reference-case-needs-at-least"
+        ));
     }
     if case.constellations == 0 {
-        return Err("a reference case needs at least one constellation".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-reference-case-needs-at-least-2"
+        ));
     }
     for (i, s) in case.satellites.iter().enumerate() {
         if s.constellation >= case.constellations {
-            return Err(format!(
-                "satellite {i} names constellation {} but only {} are declared",
-                s.constellation, case.constellations
+            return Err(crate::terr!(
+                "e-araim-reference-satellite-names-constellation-but-only",
+                i = i,
+                constellation = s.constellation,
+                constellations = case.constellations
             ));
         }
         if s.c_int_m2 <= 0.0
@@ -404,12 +410,17 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
             || !s.c_int_m2.is_finite()
             || !s.c_acc_m2.is_finite()
         {
-            return Err(format!("satellite {i} has a non-positive error variance"));
+            return Err(crate::terr!(
+                "e-araim-reference-satellite-has-non-positive-error",
+                i = i
+            ));
         }
     }
     let k = &case.constants;
     if k.p_hmi_vert <= 0.0 || k.p_hmi_horz <= 0.0 {
-        return Err("both integrity-risk allocations must be positive".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-both-integrity-risk-allocations-must"
+        ));
     }
 
     // The event list the reference builds the fault modes from: one per satellite,
@@ -419,16 +430,16 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
     let sum_p_event: f64 = p_event.iter().sum();
     let nfm = n_fault_max(sum_p_event, k.p_thres);
     if nfm != 1 {
-        return Err(format!(
-            "this reference implementation monitors single-event fault modes only, but the \
-             case's priors require N_fault,max = {nfm} (simultaneous multi-event subsets). \
-             Refusing rather than under-counting fault modes."
+        return Err(crate::terr!(
+            "e-araim-reference-this-reference-implementation-monitors-single",
+            nfm = nfm
         ));
     }
 
     let c_acc: Vec<f64> = case.satellites.iter().map(|s| s.c_acc_m2).collect();
     let all = vec![true; n];
-    let s0 = subset_solution(case, &all).ok_or("the all-in-view geometry is singular")?;
+    let s0 = subset_solution(case, &all)
+        .ok_or_else(|| crate::terr!("e-araim-reference-the-all-in-view-geometry"))?;
     let bias0: [f64; 3] =
         std::array::from_fn(|q| s0.s[q].iter().map(|v| v.abs()).sum::<f64>() * case.b_nom_m);
     let sigma_v_acc = quadrature(&s0.s[2], &c_acc);
@@ -488,7 +499,9 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
         );
     }
     if modes.is_empty() {
-        return Err("no fault mode is observable on this geometry".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-no-fault-mode-is-observable"
+        ));
     }
 
     // P(two or more simultaneous events), exactly as the reference writes it, plus
@@ -499,11 +512,9 @@ pub fn araim_reference_protection_levels(case: &ReferenceCase) -> Result<Referen
     let p_not_monitored = p_two_or_more + p_unobservable;
     let factor = 1.0 - p_not_monitored / (k.p_hmi_vert + k.p_hmi_horz);
     if factor <= 0.0 {
-        return Err(
-            "the unmonitored fault risk exhausts the whole integrity budget; no finite \
-             protection level exists"
-                .to_string(),
-        );
+        return Err(crate::terr!(
+            "e-araim-reference-the-unmonitored-fault-risk-exhausts"
+        ));
     }
 
     let nmodes = modes.len() as f64;
@@ -834,10 +845,10 @@ impl AraimReferenceCheckScenario {
             let hit: Vec<&PublishedVector> = all.iter().filter(|v| v.id == self.vector).collect();
             if hit.is_empty() {
                 let ids: Vec<&str> = all.iter().map(|v| v.id).collect();
-                return Err(format!(
-                    "unknown reference vector '{}'; known vectors: {} (or 'all')",
-                    self.vector,
-                    ids.join(", ")
+                return Err(crate::terr!(
+                    "e-araim-reference-unknown-reference-vector-known-vectors",
+                    vector = self.vector,
+                    ids = ids.join(", ")
                 ));
             }
             hit
@@ -990,14 +1001,12 @@ impl AraimReferenceCheckScenario {
         });
         json["units"] = units;
 
-        let summary = format!(
-            "araim-reference-check: {} published WG-C reference vector(s); worst VPL/HPL \
-             agreement {:.4} m against the reference's own TOL_PL = {:.2} m over {} acceptance \
-             vector(s)",
-            wanted.len(),
-            worst_acceptance,
-            tol,
-            acceptance_checked,
+        let summary = crate::t!(
+            "araim-reference-araim-reference-check-published-wg",
+            wanted = wanted.len(),
+            worst_acceptance = crate::i18n::localise_decimal(format!("{:.4}", worst_acceptance)),
+            tol = crate::i18n::localise_decimal(format!("{:.2}", tol)),
+            acceptance_checked = acceptance_checked
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))
@@ -1259,15 +1268,15 @@ pub fn add_v42_subset_plan(
 ) -> Result<AddV42SubsetPlan, String> {
     let n = sat_constellation.len();
     if p_sat.len() != n || p_const.len() != constellations {
-        return Err("P_sat needs one value per satellite and P_const one per constellation".into());
+        return Err(crate::terr!("e-araim-reference-sat-needs-one-value-per"));
     }
     if sat_constellation.iter().any(|&c| c >= constellations) {
-        return Err("a satellite names an undeclared constellation".into());
+        return Err(crate::terr!(
+            "e-araim-reference-satellite-names-an-undeclared-constellation"
+        ));
     }
     if max_order < 2 {
-        return Err(
-            "the ADD v4.2 subset rule always enumerates pairs; max_order must be >= 2".into(),
-        );
+        return Err(crate::terr!("e-araim-reference-the-add-v4-subset-rule"));
     }
     // Events: one per satellite, then one per constellation that has satellites.
     let present: Vec<usize> = (0..constellations)
@@ -1276,7 +1285,7 @@ pub fn add_v42_subset_plan(
     let mut p_event: Vec<f64> = p_sat.to_vec();
     p_event.extend(present.iter().map(|&j| p_const[j]));
     if p_event.iter().any(|&p| !(0.0..1.0).contains(&p)) {
-        return Err("every prior must lie in [0, 1)".to_string());
+        return Err(crate::terr!("e-araim-reference-every-prior-must-lie-in"));
     }
     let n_ev = p_event.len();
     let mut r = 0usize;
@@ -1293,9 +1302,10 @@ pub fn add_v42_subset_plan(
         } else {
             max_order.to_string()
         };
-        return Err(format!(
-            "the priors need subsets of {n_fault_max} simultaneous events; this path enumerates \
-             at most {most}"
+        return Err(crate::terr!(
+            "e-araim-reference-the-priors-need-subsets-of",
+            n_fault_max = n_fault_max,
+            most = most
         ));
     }
     let p_no_fault: f64 = p_event.iter().map(|p| 1.0 - p).product();
@@ -1398,7 +1408,7 @@ pub fn add_v42_subset_plan(
         }
     }
     if unique.first().map(|u| u.0.iter().any(|&x| x)) != Some(false) {
-        return Err("the all-in-view solution was not selected".to_string());
+        return Err(crate::terr!("e-araim-reference-the-all-in-view-solution"));
     }
     Ok(AddV42SubsetPlan {
         n_fault_max,
@@ -1446,20 +1456,26 @@ pub fn add_v42_protection_levels_to_order(
 ) -> Result<AddV42Result, String> {
     let n = case.satellites.len();
     if n == 0 || case.constellations == 0 {
-        return Err("an ADD v4.2 case needs satellites and constellations".to_string());
+        return Err(crate::terr!("e-araim-reference-an-add-v4-case-needs"));
     }
     if case.b_nom_m.len() != n || case.p_sat.len() != n {
-        return Err("b_nom and P_sat need one value per satellite".to_string());
+        return Err(crate::terr!("e-araim-reference-nom-and-sat-need-one"));
     }
     if case.p_const.len() != case.constellations {
-        return Err("P_const needs one value per constellation".to_string());
+        return Err(crate::terr!("e-araim-reference-const-needs-one-value-per"));
     }
     for (i, s) in case.satellites.iter().enumerate() {
         if s.constellation >= case.constellations {
-            return Err(format!("satellite {i} names an undeclared constellation"));
+            return Err(crate::terr!(
+                "e-araim-reference-satellite-names-an-undeclared-constellation-2",
+                i = i
+            ));
         }
         if !(s.c_int_m2 > 0.0 && s.c_acc_m2 > 0.0) {
-            return Err(format!("satellite {i} has a non-positive error variance"));
+            return Err(crate::terr!(
+                "e-araim-reference-satellite-has-non-positive-error",
+                i = i
+            ));
         }
     }
     let k = &case.constants;
@@ -1490,7 +1506,8 @@ pub fn add_v42_protection_levels_to_order(
     let c_int: Vec<f64> = case.satellites.iter().map(|s| s.c_int_m2).collect();
     let c_acc: Vec<f64> = case.satellites.iter().map(|s| s.c_acc_m2).collect();
     let all = vec![true; n];
-    let s0 = subset_solution(&ref_case, &all).ok_or("the all-in-view geometry is singular")?;
+    let s0 = subset_solution(&ref_case, &all)
+        .ok_or_else(|| crate::terr!("e-araim-reference-the-all-in-view-geometry"))?;
     let sigma_v_acc = quadrature(&s0.s[2], &c_acc);
     struct Mode {
         p: f64,
@@ -1659,7 +1676,9 @@ pub fn add_v42_case_from_ecef(
     mask_deg: f64,
 ) -> Result<(AddV42Case, Vec<usize>), String> {
     if sats.len() != constellation.len() {
-        return Err("one constellation index per satellite".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-one-constellation-index-per-satellite"
+        ));
     }
     let g = crate::frames::ecef_to_geodetic(user);
     let (sl, cl) = g.lat_rad.psin_cos();
@@ -1671,9 +1690,13 @@ pub fn add_v42_case_from_ecef(
     let sin_mask = mask_deg.to_radians().psin();
     let mut rows: Vec<(usize, ReferenceSatellite)> = Vec::new();
     for (i, (&s, &c)) in sats.iter().zip(constellation).enumerate() {
-        let ism = isms
-            .get(c)
-            .ok_or_else(|| format!("satellite {i} names constellation {c} with no ISM"))?;
+        let ism = isms.get(c).ok_or_else(|| {
+            crate::terr!(
+                "e-araim-reference-satellite-names-constellation-with-no",
+                i = i,
+                c = c
+            )
+        })?;
         let d = [s[0] - user[0], s[1] - user[1], s[2] - user[2]];
         let r = dot(d, d).sqrt();
         let e = [d[0] / r, d[1] / r, d[2] / r];
@@ -1692,7 +1715,9 @@ pub fn add_v42_case_from_ecef(
         }
     }
     if rows.len() < 4 {
-        return Err("fewer than four satellites above the mask".to_string());
+        return Err(crate::terr!(
+            "e-araim-reference-fewer-than-four-satellites-above"
+        ));
     }
     rows.sort_by_key(|(_, s)| s.constellation);
     let used: Vec<usize> = rows.iter().map(|(i, _)| *i).collect();

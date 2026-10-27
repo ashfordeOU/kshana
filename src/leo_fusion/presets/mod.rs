@@ -131,19 +131,25 @@ impl LeoPreset {
     /// The signal of that name (case-insensitive), or the first signal when `name` is `None`.
     pub fn signal(&self, name: Option<&str>) -> Result<&'static PresetSignal, String> {
         match name {
-            None => self
-                .signals
-                .first()
-                .ok_or_else(|| format!("preset {} carries no signal", self.id)),
+            None => self.signals.first().ok_or_else(|| {
+                crate::terr!(
+                    "e-leo-fusion-presets-preset-carries-no-signal",
+                    id = self.id
+                )
+            }),
             Some(n) => self
                 .signals
                 .iter()
                 .find(|s| s.name.eq_ignore_ascii_case(n))
                 .ok_or_else(|| {
-                    format!(
-                        "preset {} has no signal {n:?}; it has {:?}",
-                        self.id,
-                        self.signals.iter().map(|s| s.name).collect::<Vec<_>>()
+                    crate::terr!(
+                        "e-leo-fusion-presets-preset-has-no-signal-it",
+                        id = self.id,
+                        n = format!("{:?}", n),
+                        value = format!(
+                            "{:?}",
+                            self.signals.iter().map(|s| s.name).collect::<Vec<_>>()
+                        )
                     )
                 }),
         }
@@ -175,9 +181,10 @@ pub fn by_id(id: &str) -> Result<&'static LeoPreset, String> {
         .into_iter()
         .find(|p| p.id.eq_ignore_ascii_case(id.trim()))
         .ok_or_else(|| {
-            format!(
-                "unknown LEO preset {id:?}; known: {:?}",
-                all().iter().map(|p| p.id).collect::<Vec<_>>()
+            crate::terr!(
+                "e-leo-fusion-presets-unknown-leo-preset-known",
+                id = format!("{:?}", id),
+                all = format!("{:?}", all().iter().map(|p| p.id).collect::<Vec<_>>())
             )
         })
 }
