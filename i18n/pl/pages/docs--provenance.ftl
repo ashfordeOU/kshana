@@ -13,3 +13,5 @@ seg-6e0cb6acc073 = VALIDATED
 seg-f63dd3d7aad4 = Źródło
 
 seg-638b8d451550 = Czujnik
+
+seg-d4a762001549 = Licencja

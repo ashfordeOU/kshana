@@ -13,3 +13,5 @@ seg-adc34608c46b = Klasa
 seg-f63dd3d7aad4 = Źródło
 
 seg-1ff32b87e030 = Satelity
+
+seg-582fd72f1a1a = Werdykt
