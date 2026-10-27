@@ -2407,7 +2407,7 @@ dat-3ada6ff9e069 = fusão (tipo de cenário)
 dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), cenários gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
 
 # data/verification-matrix.json
-dat-95e88ecc34df = fusion::tests (identidade UKF==KF linear; navegação inercial durante a interrupção; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } casos face a filterpy { "1.4.5" }: EKF linear solto/apertado + posteriores PNT acoplados até ≤{ "2.4e-12" }; execução UKF de 40 épocas, pior |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (solução fracamente acoplada do NaveGo v1.4 sobre o percurso real de IMU/GNSS Ekinox do NaveGo: RMS horizontal 0.912x, vertical 0.940x, RMS da inovação de posição 0.861x do do NaveGo, inovação normalizada média { "0.395" }; limiares 1.2x, 1.2x, 1.2x e { "1.5" } fixados antes da execução)
+dat-95e88ecc34df = fusion::tests (identidade UKF==KF linear; propagação livre durante a interrupção; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } casos face a filterpy { "1.4.5" }: EKF linear solto/apertado + posteriores PNT acoplados até ≤{ "2.4e-12" }; execução UKF de 40 épocas, pior |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (solução fracamente acoplada do NaveGo v1.4 sobre o percurso real de IMU/GNSS Ekinox do NaveGo: RMS horizontal 0.912x, vertical 0.940x, RMS da inovação de posição 0.861x do do NaveGo, inovação normalizada média { "0.395" }; limiares 1.2x, 1.2x, 1.2x e { "1.5" } fixados antes da execução)
 
 # data/verification-matrix.json
 dat-fa85ed0fb966 = Gerador LFSR G1/G2 do código C/A que reproduz os vetores de verificação octais publicados no IS-GPS-200 para os primeiros 10 chips dos PRN { "1" }–{ "9" } (mais o comprimento de 1023 chips, o equilíbrio de 512 uns e a autocorrelação periódica de três valores)
@@ -2729,3 +2729,348 @@ dat-fd36d4cd58c4 = Navegação sem GPS por referência ao terreno (TERCOM/SITAN)
 
 # data/verification-matrix.json
 dat-3a18e1b86eec = fusion::trajectory::tests (a curva coordenada não tem força lateral e o fator de carga é 1/cos φ; a importação de CSV reproduz um perfil voado até { "1e-3" } m/s e { "1" } m); tests/gnss_ins_trajectory_library.rs (todos os perfis executam e a fusão vence a INS livre durante a interrupção; cada um voa o movimento que o nome indica; observabilidade do rumo: sigma da guinada após { "240" } s { "1.27" } graus em cruzeiro em linha reta contra { "0.039" } graus em figura de 8 e { "0.062" } graus em arranca-e-pára); tests/gnss_ins_legacy_trajectory_pin.rs (resultado legado e hashes de referência idênticos bit a bit)
+
+# data/verification-matrix.json
+dat-3af71f34aee3 = gps-sdr-sim (MIT, commit 28ca29a6, executado como programa separado através de um harness registado), pré-registado f88f2969 com um limiar exato ao bit sobre (A) chips C/A, (B) todos os campos LNAV calculados, (C) todos os bits de paridade. CONSTATAÇÃO: (A) { "0" } de { "32 736" } chips diferem, (C) a paridade de { "0" } de { "1 920" } palavras difere, (B) { "230" } de { "1 152" } campos calculados diferem de uma unidade: o eph2sbf do gps-sdr-sim trunca em direção a zero com conversões de C onde o inteiro difundido precisa de arredondamento (todos os valores diferentes estão a menos de { "0.01" } de uma unidade do inteiro arredondado do Kshana). Continua MODELLED: o limiar registado era a conjunção
+
+# data/verification-matrix.json
+dat-cca90e8b2987 = amostras I/Q do gps-sdr-sim (MIT, commit 28ca29a6) e o seu próprio estado de canal, pré-registado 7777da53: (B1) todos os PRN simulados adquiridos, (B2) nenhum outro PRN adquirido, (B3) fase do código até { "0.5" } chip, (B4) Doppler até { "125" } Hz. CONSTATAÇÃO: B1, B3 e B4 verificam-se em ambas as janelas (pior { "0.195" } chip, { "72" } Hz), mas B2 falha: todos os { "21" } PRN que o gps-sdr-sim não simulou também ultrapassam o limiar (estatística de { "151" } a { "206" } contra { "79.5" }; PRN simulados { "1 300" } e acima). O limiar está definido para ruído gaussiano da potência de amostra medida; o gps-sdr-sim não acrescenta ruído, pelo que as células de um PRN ausente contêm a correlação cruzada dos outros satélites. Continua MODELLED: o limiar registado era a conjunção
+
+# data/verification-matrix.json
+dat-52d3c8bd9d2c = gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), um gerador independente de banda de base GPS L1 C/A, compilado com o seu próprio Makefile e executado como programa separado sobre o seu brdc0010.22n incluído, no local de exemplo do seu texto de utilização (scripts/gen_iq_gpssdrsim_ref.sh); um harness registado, ligado à mesma compilação, imprime o estado do canal (computeRange, computeCodePhase) por detrás do primeiro bloco do programa. Limiares fixados antes de o gerador ser executado (pré-registado 7777da53). Âmbito: geometria GPS L1 C/A para um recetor estático sem ionosfera, troposfera nem relógio do recetor; os modelos de canal, o ruído e o conteúdo dos dados de navegação da cena não fazem parte desta linha
+
+# data/search.json
+dat-be8f88b2f462 = Exercícios graduados
+
+# studio/channels.json
+dat-0a9eb1c3aa34 = Painel Grafana
+
+# data/verification-matrix.json
+dat-9d8f413a2486 = Anomalia da gravidade em aproximação esférica (Barthelmes STR09/02 eq. { "126" }, ICGEM gravity_anomaly_sa) a partir de coeficientes totalmente normalizados face a um elipsoide de nível de forma fechada (WGS84/GRS80), com o termo de grau zero, em grelha para o correspondente de mapa de gravidade
+
+# data/verification-matrix.json
+dat-93082325851e = Síntese da anomalia da gravidade a partir de um modelo de harmónicas esféricas
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-52d2b4907601 = Síntese funcional do campo gravítico (mapa de navegação assistida por gravidade / sem GNSS)
+
+# data/verification-matrix.json
+dat-9c57c1677418 = Binário perturbador do pior caso do gradiente de gravidade ((3/2)(μ/R³)ΔI) como pico sobre a atitude (a afirmação validada), mais um orçamento RSS de erro de apontamento sobre contribuições nomeadas de 1σ com o termo dominante (uma soma em quadratura de números fornecidos por quem chama, fora da afirmação validada). Executável a partir da CLI/bindings como o tipo de cenário `attitude-budget` (scenarios/attitude-budget.toml)
+
+# data/search.json
+dat-b54b88ffb24b = gravity-map (tipo de cenário)
+
+# data/search.json
+dat-56286e67cf33 = Navegação por mapa de gravidade / PNT alternativo (src/gravimeter.rs, src/mapmatch.rs, src/particle_filter.rs, src/altpnt/terrain.rs)
+
+# data/verification-matrix.json
+dat-a4942a2ee924 = Correspondência com mapa de gravidade, referenciada ao terreno (TERCOM/SITAN), anomalia magnética
+
+# data/search.json
+dat-51f9b6ca7476 = Perdas na subida em viragem gravitacional de um lançador bietápico de querosene/oxigénio ILLUSTRATIVE (nenhum real
+
+# studio/data/capabilities.json
+dat-179f6f50879d = Correspondência com mapas de gravidade, terreno e magnetismo
+
+# data/verification-matrix.json
+dat-a9a886b55894 = Graus de liberdade equivalentes exatos de Greenhall e Riley das variâncias de Allan, de Allan modificada e de Hadamard
+
+# data/search.json
+dat-35263996f593 = Planeamento de contactos terrestres para vários satélites sobre várias estações: janelas de acesso aparentes (SGP4, IAU…
+
+# data/search.json
+dat-d880e28889ce = Planeamento de contactos terrestres: três satélites ilustrativos sobre três estações ilustrativas para
+
+# data/search.json
+dat-359b73a38bd7 = Valores de laboratório em terra vs. qualificados para voo
+
+# data/verification-matrix.json
+dat-a9b472c1bb4e = Previsão de passagens sobre estações terrestres (segmento terrestre)
+
+# data/search.json
+dat-0c1f2799015f = Demonstrador de previsão de passagens sobre estações terrestres (segmento terrestre e operações).
+
+# data/search.json
+dat-9fd044c96d13 = Previsão de passagens sobre estações terrestres: as passagens de visibilidade no domínio do tempo (AOS/TCA/LOS, elevação aparente máxima…
+
+# data/verification-matrix.json
+dat-0e1c7cbf518f = Atraso de grupo { "40.3" } STEC/f^{ "2" } por banda; os coeficientes livres de ionosfera f1^2/(f1^{ "2" } - f2^{ "2" }) e -f2^2/(f1^{ "2" } - f2^{ "2" }) e a amplificação de ruído sqrt(a1^{ "2" } s1^{ "2" } + a2^{ "2" } s2^{ "2" }) para qualquer par de bandas; a perda em espaço livre { "20" } log10({ "4" } pi R f/c) de linkbudget::free_space_loss_db na sua forma quilómetro-megahertz
+
+# data/verification-matrix.json
+dat-872abf4f27e1 = GRS80 (Moritz { "1980" }, IAG) gravidade normal de Somigliana + γ_e/γ_p publicados; campo EGM2008 real do ICGEM
+
+# data/verification-matrix.json
+dat-398ee3faaf1b = Runge-Kutta explícito DOP853 de Hairer { "8" }({ "5,3" }) com o estimador de erro combinado de 5.ª/3.ª ordem, o controlador de passo SciPy/Hairer, passo inicial automático, uma guarda de passo de falha segura e saída densa de 7.ª ordem; selecionável como a variante Dop853 do propagador Integrator / propagator::propagate_dop853
+
+# data/verification-matrix.json
+dat-13ba5b5dba8c = Cálculo à mão sobre registos construídos a partir de fórmulas cuja inclinação, passo, extremo e tempo de recuperação são conhecidos antes da execução (os testes enunciam-nos), e as máscaras, o envelope e os orçamentos das linhas de temporização de telecomunicações acima. Nenhuma medição de laboratório de um holdover real foi pontuada e nenhuma referência independente externa foi comparada, pelo que o tipo não faz qualquer afirmação sobre nenhum relógio ou sistema; é preciso um parceiro de laboratório de temporização antes de qualquer valor por classe de relógio poder ser promovido
+
+# studio/data/capabilities.json
+dat-9b8e133e0848 = valores calculados à mão e a geometria que a nuvem amostra; sem referência independente externa
+
+# data/verification-matrix.json
+dat-cf38c7df09e5 = Fórmulas por métrica derivadas à mão: diversidade de Simpson inversa, compósito de média ponderada, durações de cronologia limitadas/ilimitadas, escada de Níveis pelo elo mais fraco
+
+# data/verification-matrix.json
+dat-7fa3bc8204f6 = Estatísticas derivadas à mão face a formas fechadas (AUC binormal Φ(d'/√{ "2" }), variância de DeLong, Spearman com postos empatados, recuperação exata por OLS) + validação cruzada leave-one-out face à linha de base de prever a média. O corpus é SINTÉTICO (fundamentado em parâmetros, nunca de campo/IQ) e a diferença de otimismo é uma mudança de gravidade sintético→sintético, NÃO um resultado de simulação para campo
+
+# data/verification-matrix.json
+dat-686f5ce810aa = Cholesky Omega=LL^T e branqueamento por substituição direta z=L^-1 r escritos à mão (Cov(z)=I quando Cov(r)=Omega); quadrado de Mahalanobis z^T z = r^T Omega^-1 r
+
+# data/verification-matrix.json
+dat-9fba5b35e3f7 = Leitor SRTM .hgt escrito à mão (16 bits big-endian, primeiro a linha norte, consciente de vazios) + amostrador bilinear que lê um mosaico DEM real de domínio público e resolve um valor de referência de levantamento documentado
+
+# data/search.json
+dat-d558a721805a = Exemplos práticos e trabalhados que o levam de «executar um cenário fornecido» a «quantificar e defender um resultado».…
+
+# data/search.json
+dat-7e24fec1e03d = Segurança do hardware: o que o Kshana faz com hardware e o que nunca faz
+
+# data/verification-matrix.json
+dat-f40289c2bc44 = Alisamento do código pela portadora de Hatch sobre observações RINEX reais
+
+# data/verification-matrix.json
+dat-6af8f8015b04 = hatch::tests (passagem direta sem ruído; variância de ruído branco 1/(2N-1); reinícios); tests/hatch_wettzell_oracle.rs::hatch_finding_is_pinned (WTZR 2025-02-24 01-06 h, { "600" } épocas, N = { "100" }: erro 3-D mediano { "1.553" } -> { "1.116" } m, p95 { "3.473" } -> { "3.207" } m)
+
+# data/verification-matrix.json
+dat-5b10e4dfa6be = Posições heliocêntricas de Mercúrio, Vénus, do baricentro Terra-Lua, da Terra, de Marte, de Júpiter e de Saturno a partir do Quadro { "1" } de Standish ({ "1800" } d.C. a { "2050" } d.C.), e de todos os oito planetas a partir dos Quadros 2a/2b ({ "3000" } a.C. a { "3000" } d.C., com os termos de anomalia média b, c, s, f), seguindo passo a passo o algoritmo da página do JPL e rodadas para o ICRF (International Celestial Reference Frame) pela obliquidade da página; a Terra é separada do baricentro pela série lunar de Montenbruck & Gill e pela razão de massas. Composto como ephem_provider::AnalyticSolarSystem para que qualquer corpo esteja disponível relativamente a qualquer outro, e executável como o tipo `solar-system`
+
+# data/search.json
+dat-931dbfaa77ef = Disponibilidade / precisão / integridade conjuntas de PNT heterogéneo ótico + RF (P5).
+
+# data/verification-matrix.json
+dat-cce187eb5278 = Sobrelimite de integridade do enviesamento de rastreabilidade UTC(k) heterogéneo
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-011311b1bdbb = Gravidade em harmónicas esféricas de grau elevado (EGM2008 até { "2190" })
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-562004710f16 = Previsão de holdover a partir de um registo de relógio medido, verificada em dados reservados
+
+# data/search.json
+dat-3a1c4a617632 = Ensaio de holdover de um registo linuxptp: os mesmos quatro passos de holdover-test-example.toml, com o registo
+
+# data/verification-matrix.json
+dat-3c0cedf176f1 = Ensaio de holdover avaliado a partir de um registo de erro de tempo fornecido pelo operador
+
+# data/search.json
+dat-df8a87246d35 = Ensaio de holdover, exemplo de ingestão: um registo de erro de tempo avaliado pelo tipo holdover-test
+
+# data/verification-matrix.json
+dat-4e1af12fdb95 = holdover_floor estabelece que, num conjunto de nós autónomos ligados apenas por medições entre nós, a taxa comum do relógio (δα_j += { "1" } ∀j) é um parâmetro livre do tempo do conjunto que se situa em N(GᵀWG): nenhuma quantidade adicional de medição de distância entre nós a consegue observar (rate_in_gauge = true, temporal_gauge_dim = { "2" } com o desvio comum). Este é o verdadeiro limite de holdover — o análogo temporal do gauge de posição do referencial rígido. Acrescentar uma ligação externa de taxa absoluta (uma ligação direta a uma referência fora da rede) expulsa a taxa comum do espaço nulo (rate_in_gauge = false, temporal_gauge_dim = { "1" }), provando que o limite é um gauge real, não um artefacto do modelo de oscilador
+
+# data/search.json
+dat-df12bdd03b04 = holdover-test (tipo de cenário)
+
+# studio/data/capabilities.json
+dat-866e2b2acaad = Holdover, estabilidade e transferência de tempo e frequência
+
+# data/verification-matrix.json
+dat-25cc7eb2491b = holdover::tests (face à recursão de covariância de Kalman em vários passos; FM branco exato; ida e volta); núcleo da variância de propagação livre validado externamente em tests/gnss_denied_clock_holdover_reference.rs (face a scipy Van-Loan/brentq)
+
+# data/search.json
+dat-b11a218aa23c = Home Assistant e equipamentos NTP (MQTT)
+
+# data/verification-matrix.json
+dat-64d822df0f16 = Descoberta MQTT do Home Assistant e exportador de estado para telemetria de confiança
+
+# studio/channels.json
+dat-ba11a646e67a = Homebrew tap
+
+# data/search.json
+dat-41c193393b62 = Limites honestos
+
+# data/search.json
+dat-8ffd3c3b4c0a = Âmbito honesto
+
+# data/search.json
+dat-ec5ca67b1822 = Contrato de honestidade
+
+# data/search.json
+dat-0391a2f2f55d = Etiquetas de honestidade
+
+# js/missions-runs.mjs
+dat-26ee49586173 = critério horizontal
+
+# js/missions-runs.mjs
+dat-4bab7ea5f074 = erro horizontal
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-ea2e883bd4e5 = Elipse de erro horizontal e cofator por sistema a partir da covariância da geometria
+
+# data/search.json
+dat-ef7245602f73 = Como uma linha se mantém GREEN
+
+# data/search.json
+dat-baad56eb3581 = Como funciona uma execução
+
+# data/search.json
+dat-8ce529e13ddf = Como são tomadas as decisões
+
+# data/search.json
+dat-e7acb3670542 = Como os erros são modelados (ruído do relógio)
+
+# data/search.json
+dat-893da1c76fb5 = Como escala
+
+# data/search.json
+dat-cc213ff67576 = O que um detetor de interferência perde sob condições deslocadas pode ser previsto a partir das suas próprias pontuações em distribuição; resultados sintéticos, verificados em gravações de campo abertas.
+
+# studio/data/capabilities.json
+dat-39700e54758f = Com que frequência uma ligação de transferência de tempo ótica está ativa quando a atmosfera está no caminho. Para cada local em terra, o motor indica a perda em céu limpo, o estado de turbulência de Hufnagel-Valley com desvanecimentos de cintilação gama-gama e média de abertura, a disponibilidade face à margem da ligação a partir de um clima de nuvens declarado, o teto que nenhuma margem consegue elevar, a distribuição da duração das interrupções e o erro de tempo que uma interrupção custa a um relógio em holdover. Mostra depois o que ganham locais adicionais, uma abertura maior, outro comprimento de onda ou ótica adaptativa. Os climas de nuvens incluídos são ilustrativos, não medidos; o resultado é de caráter consultivo.
+
+# data/search.json
+dat-958f5e83ef0a = Como se mede a estabilidade
+
+# data/search.json
+dat-b1e4554edba5 = Quão estável é uma pontuação de resiliência PNT? Instabilidade de decisão das classificações de resiliência de um só número sob ponderação alinhada com o enquadramento
+
+# data/search.json
+dat-7b1cd59f3ddf = Como as exportações são verificadas
+
+# data/search.json
+dat-32dd3fc5fe68 = Como a regra é aplicada
+
+# data/search.json
+dat-efaa5003d60d = Como citar e reproduzir
+
+# data/search.json
+dat-578287a3e1ac = Como ler as três figuras em conjunto
+
+# data/search.json
+dat-6c70a5a10273 = Como executar um tutorial
+
+# data/search.json
+dat-6a398070976f = Modo HTTP (alojamento próprio)
+
+# data/verification-matrix.json
+dat-f7185ed2e5f0 = Cn2 de Hufnagel-Valley integrado ao longo de um percurso oblíquo para a variância de Rytov de onda plana e esférica (ligação ascendente e descendente), o índice de cintilação de Andrews-Phillips e os parâmetros gama-gama, a probabilidade de desvanecimento gama-gama e a margem de desvanecimento, o fator de média de abertura em turbulência fraca, a profundidade ótica de nuvem de uma coluna de água líquida e a profundidade ótica de céu limpo de Kim (visibilidade) mais Rayleigh, substituindo a perda atmosférica agregada do orçamento da ligação ótica quando é fornecida uma atmosfera. Executável dentro do tipo de cenário `optical-atmosphere`.
+
+# data/search.json
+dat-ab23183506b5 = hybrid (tipo de cenário)
+
+# data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
+dat-7a7934499b49 = Disponibilidade da ligação híbrida ótica/RF do lado RF
+
+# data/verification-matrix.json, data/card-matrix-map.json
+dat-77f54b2dc326 = Autodescrição do relatório híbrido ótico/RF
+
+# data/search.json
+dat-78671230a9be = Capstone PNT híbrido: conjunto totalmente quântico (relógio ótico + IMU de átomos frios + ISL ótico
+
+# data/search.json
+dat-fcc929094892 = Capstone PNT híbrido: apoio de relógio + IMU + transferência de tempo.
+
+# data/verification-matrix.json
+dat-f4fd30b7e91b = hybrid_integrity::tests (a disponibilidade é igual ao produto dos dois indicadores recalculados a partir das margens do próprio relatório, e essas margens são elas próprias reconstruídas a partir da EIRP, da perda em espaço livre, da perda agregada, da figura de mérito, do termo de Boltzmann, do débito de dados e do requisito do próprio relatório até { "1e-9" } dB; o valor é medido como { "0" } ou { "1" } enquanto a disponibilidade ótica na mesma execução é medida como estritamente entre ambos; cada linha de fator traz uma classe de proveniência do vocabulário fechado field_schema; o alcance de fecho comunicado, repassado pelo orçamento da ligação, devolve uma margem de { "0" } a { "1e-9" } dB e é medido como independente do alcance em que a execução se situou ao longo de quatro décadas, enquanto a utilização do alcance se move exatamente pela razão dos alcances; uma ligação de -40 dBW comunica disponibilidade { "0" }, LOST, e uma utilização acima de { "1" } em vez de uma fração; a nota substituída «nenhum equivalente de disponibilidade RF é calculado por este motor» é afirmada como removida e a substituta é afirmada como nomeando o novo campo; uma entrada RF malformada é recusada em vez de truncada)
+
+# data/verification-matrix.json
+dat-c683ad6a43e0 = hybrid_integrity::tests (a propagação livre parte exatamente do traço de covariância que o bloco de transferência comunica, nos dois sentidos, pelo que a diagonal repetida não se pode afastar da transferência comunicada; o instante de cruzamento comunicado é recalculado a partir do sigma de transferência, da PSD do ruído de processo e do fator de cobertura do próprio relatório, e o limite está dentro do limite de alerta imediatamente antes e fora imediatamente depois; o tempo de propagação livre escala exatamente de forma inversa com a PSD do ruído de processo e encurta quando o limite de alerta se aperta; uma propagação livre com PSD nula comunica nulo em vez de um tempo zero, porque nunca não é imediatamente; o perfil emitido cruza exatamente uma vez e enquadra o cruzamento comunicado; o tempo de duplicação da variância e o tempo de cruzamento do limite de alerta ficam fixados separadamente, diferindo em oito ordens de grandeza após o estágio ótico apertado e em menos de uma ordem de grandeza após o estágio RF solto; deixar a modalidade ótica dá mais tempo de propagação livre do que deixar a RF, exatamente pela diferença de covariância dividida pela taxa de crescimento horizontal; e random_walk_time_to_limit separa já-fora, cruza-em-t e nunca-cruza)
+
+# data/verification-matrix.json
+dat-4a6077a9c2c3 = hybrid_integrity::tests (a configuração resolvida é repetida para as predefinições e para as sobreposições, sem passar o comprimento de onda por metros e voltar; cada entrada de unidades traz uma unidade e uma classe de proveniência; todos os campos que o bloco de unidades nomeia são efetivamente emitidos, pelo que não pode documentar um fantasma)
+
+# data/search.json
+dat-4925e948ec7d = hybrid-optical-rf (tipo de cenário)
+
+# data/search.json
+dat-1d3f2d8fe71f = hybrid-ukf (tipo de cenário)
+
+# data/verification-matrix.json
+dat-85dd3280dd3e = Geometria de sobrevoo hiperbólico (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, ângulo de desvio δ={ "2" }·asin(1/e), parâmetro de impacto |B|=|a|·√(e²−{ "1" })), o referencial de ponto de mira do plano B Ŝ/T̂/R̂ e a decomposição B·T̂/B·R̂, e uma assistência gravítica em cónicas ajustadas (módulo de v∞ conservado, direção desviada de δ, Δv heliocêntrico={ "2" }·v∞·sin(δ/2) sem custo de propelente) com o parâmetro de Tisserand T_P=a_P/a+{ "2" }√((a/a_P)({ "1" }−e²))cos i
+
+# data/verification-matrix.json
+dat-1fe5cc9bfe4f = Precessão-nutação IAU 2006/2000A, GCRS↔ITRS por CIO, escalas de tempo com segundos intercalares
+
+# data/verification-matrix.json
+dat-ee5cc5e3262d = Orientação de corpo IAU e parâmetro gravitacional dos catorze corpos do sistema solar acrescentados
+
+# data/verification-matrix.json
+dat-cdb9c1e8cbe2 = Vetores de referência IAU SOFA / ERFA; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+
+# assets/capabilities/capabilities.json
+dat-cb5220c1ec12 = Direção de rotação síncrona IAU à distância média do JPL, acrescentada a Saturno a partir do Quadro { "1" } de Standish ({ "1800" } d.C. a { "2050" } d.C.)
+
+# studio/data/capabilities.json
+dat-1200f27eb7e0 = Quadros do livrete SSV do ICG, pré-registados; a maioria dos limiares NOT MET (xval/gnss-ssv/RESULTS.md)
+
+# data/verification-matrix.json
+dat-b963797d4ff9 = ICGEM Calculation Service (GFZ Potsdam), uma implementação independente: EGM2008 truncado ao grau { "70" }, gravity_anomaly_sa, WGS84, sem maré, termo de grau zero, h = { "0" }. A saída do serviço não traz licença explícita, pelo que as grelhas são obtidas no momento do teste com um SHA-256 fixado (tools/fetch_icgem_grid.sh) e apenas dez valores são citados com atribuição
+
+# assets/capabilities/capabilities.json
+dat-477edaf1dd1f = ICRF (equatorial J2000), heliocêntrico; metros, metros por segundo
+
+# data/verification-matrix.json
+dat-c81ac54a597c = Identidades: o degrau de início de um spoofer livre de ionosfera é igual à diferença modelada do atraso ionosférico do par, o limiar é o quantil normal bilateral vezes o desvio-padrão do degrau mais o limite da taxa. O modelo ionosférico do recetor é o do motor, pelo que o resíduo autêntico é nulo em média por construção; sem referência independente externa
+
+# data/verification-matrix.json, studio/data/areas.json
+dat-9715be87b6c1 = Ruído de relógio de lei de potência IEEE-1139 + piso de FM de cintilação
+
+# studio/data/capabilities.json
+dat-57c8c05cdd7d = Escalas UTC / TAI / TT / UT1 do IERS com segundos intercalares, uma API de data juliana, o Ângulo de Rotação da Terra IAU-2000, TEME ↔ ECEF baseado em GMST e referenciais geodésicos WGS-84, nutação IAU 2000A/2000B completa e precessão IAU { "2006" }, e a redução GCRS↔ITRS IAU 2006/2000A baseada no CIO, sem equinócio, com movimento polar do IERS — validada bit a bit face aos vetores SOFA/ERFA e verificada de forma cruzada e independente face ao ANISE (SPICE em Rust puro): GCRS→ITRS face ao ANISE ITRF93, mesmo EOP do IERS, coincidem até ≤ { "0.86" } m à superfície e ≤ { "3.6" } m na órbita GNSS.
+
+# data/verification-matrix.json
+dat-610c770c6114 = Coeficientes IGRF-14; CRLB de filtro adaptado de primeiros princípios. O campo do valor de referência de gravidade de campo real é verificado externamente (linha «Síntese da anomalia da gravidade a partir de um modelo de harmónicas esféricas»), mas o seu resultado de navegação não tem referência independente externa
+
+# data/verification-matrix.json
+dat-8f73e1bb24ce = Combinação final de relógios de satélite IGS de { "30" } s (IGS0OPSFIN 30S CLK, 2025-02-24): estimativas de relógio publicadas nos instantes de consulta, não interpoladas a partir do SP3; limiares pré-registados em tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md antes da primeira execução (RMS { "0.15" } ns, p95 { "0.30" } ns, mediana por nó { "1e-12" } s, discriminação 2x)
+
+# data/verification-matrix.json
+dat-2d8fff0e9c24 = Interpolação de Lagrange normalizada pelo IGS de posições de satélite de efemérides precisas SP3 com a correção da rotação da Terra por nó (rodar cada nó por ω⊕·(t_nó−t) para o referencial fixo à Terra do instante de consulta antes do ajuste polinomial)
+
+# studio/data/capabilities.json
+dat-db2732a90c3d = Orientações da IMO sobre interferência GNSS (navios)
+
+# studio/data/capabilities.json
+dat-a325f121413c = Orientações da IMO para navios, mapeadas por número de cláusula
+
+# data/search.json
+dat-2d9493affef6 = Orientações da IMO sobre interferência GNSS para navios: para que o Kshana fornece elementos de prova em apoio de
+
+# data/search.json
+dat-b6b9647750e6 = O texto da IMO sobre interferência GNSS para navios é escasso: a MSC.1/Circ.1644 dirige-se sobretudo aos Estados-Membros, e…
+
+# data/verification-matrix.json
+dat-fee1e90fb1da = impairment_eval::tests (AUC perfeita=1/idêntica=0.5/empate={ "0.125" }, ROC monótona, fundida>{ "0.8" }, separação de camadas por classe, guarda de fuga, corpus reprodutível, mudança de distribuição assinala otimismo); dominance_demonstrators (alcançável + reprodutível + MODELLED-não-VALIDATED + diferença de otimismo autoconsistente)
+
+# data/verification-matrix.json
+dat-825a8d353671 = impairment_study::tests (AUC do oráculo por classe≈{ "1" }, diferença de otimismo aprendida>{ "0" }, forma da grelha + o IC bootstrap enquadra a média + tendência de escala positiva, características de ID finitas, o preditor de diferença vence prever-a-média sob AMBAS as validações cruzadas deixando um detetor de fora e deixando uma classe de fora + determinista); impairment_ml::tests (logreg separa + determinista + perda↓, o MLP resolve o XOR que um modelo linear não resolve + com semente); eval_stats::tests (bootstrap/DeLong/Spearman/ridge face a formas fechadas)
+
+# data/search.json
+dat-f70d14110dad = impairment-eval (tipo de cenário)
+
+# data/verification-matrix.json
+dat-c28838cded13 = Implementação face à especificação, NÃO uma referência independente externa: uma reimplementação Python de sala limpa (scripts/maritime_score_cleanroom.py), escrita por um leitor a quem só foram dados docs/RECEIVER-TRUST.md e docs/MARITIME-TRUST.md e não o código-fonte Rust, concorda com score_from_ratios em { "600" } vetores de razões (pontuação, banda, pontos e ordem das deduções, diferença { "0" }), depois de a documentação ter sido completada onde o primeiro leitor a encontrou omissa ou inconsistente (ordem de empate, arredondamento, a razão de um monitor de passa-ou-falha, dois exemplos cujos números não correspondiam à fórmula). Isso mostra que a documentação é suficiente e que o código faz o que diz. O QUE NÃO É VERIFICADO, e porque a linha continua MODELLED: a própria regra (os pesos, a rampa, os limites das bandas, a retenção de evidência) é deste projeto, pré-registada mas sem fonte externa, e nada aqui mostra que uma pontuação de { "80" } ou { "40" } significa o que um navegador gostaria que significasse sob interferência real; não é dado nenhum valor desse tipo. Os limiares dos monitores são igualmente deste projeto (a Linha A só verifica a sua aritmética).
+
+# studio/channels.json
+dat-108c4798153a = Importe kshana-grafana-*.json a partir da edição.
+
+# data/verification-matrix.json
+dat-c80a768c4432 = Otimizador de transferências impulsivas sobre as efemérides DE440
+
+# studio/data/capabilities.json
+dat-c81cb948fbeb = Nós de ΔV impulsivos com propagação de covariância { "6" }×{ "6" }, integração de queima finita verificada face à equação do foguetão de Tsiolkovsky com menos de { "0.01" } %, um solucionador de Lambert de revolução única de Izzo-2015 e um propagador de Kepler exato em variáveis universais, e uma varredura porkchop (lançamento × chegada) de C3 / V∞ de chegada emitida como grelha de contornos JSON — a camada de simulação de desempenho acima do GMAT/Orekit.
+
+# data/search.json
+dat-ce3c739652af = IMU nos cenários híbridos e de fusão (kshana imu-fit)
+
+# data/verification-matrix.json
+dat-e757b2baccd6 = Ingestão de registo de IMU, entrada de rumo do giroscópio e ajuste de Allan dos parâmetros de sensor híbrido
+
+# data/search.json
+dat-593077adf8f0 = No espaço cislunar a diluição de precisão não se aplica: ligações só de distância deixam a velocidade inobservável em qualquer instante, pelo que os requisitos pertencem a orçamentos de comprimento de arco, condicionamento e tipo de medição.
+
+# js/missions-runs.mjs
+dat-fd612e5a3b73 = em vista em média
+
+# data/verification-matrix.json
+dat-ad6442b40262 = Solucionador independente de forma fechada de transformação de semelhança de Umeyama (Horn) ponderada (baseado em SVD de numpy/scipy; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — um algoritmo diferente do ajuste iterativo de Gauss–Newton do kshana, que atinge o mesmo ótimo de mínimos quadrados ponderados, unicamente definido, em redes de pontos idênticas byte a byte
+
+# data/search.json
+dat-7a8163ea53f2 = Verificação cruzada independente face ao crate sgp4
+
+# data/verification-matrix.json
+dat-a3c0d41e4b56 = Integração SDE de Monte Carlo em numpy, independente, de ruído de aceleração branca duplamente integrado (valida a variância analítica do VRW por um algoritmo genuinamente independente) + uma âncora de valor publicado de Groves { "2013" } para os termos de enviesamento/fator de escala; os números do dispositivo CAI quantificam hardware do parceiro e continuam MODELLED
+
+# data/verification-matrix.json
+dat-76097bbb6a19 = hybrid_integrity::tests (a razão é igual aos dois ramos emitidos divididos, até { "1e-15" } relativo, e as suas formas recíproca e em decibéis concordam; o alcance e o sigma de tempo de cada ramo relacionam-se exatamente por c; a configuração comum emitida é afirmada igual ao alcance e ao tempo de integração do próprio cenário e o alcance do ramo RF é afirmado igual ao do ramo ótico; o C/N0 do ramo RF é, bit a bit, o do bloco de disponibilidade, a partir de um só orçamento de ligação, não uma nova derivação; a propriedade DE IGUAL PARA IGUAL é MEASURED em vez de afirmada -- quadruplicar o tempo de acumulação comum reduz a metade o ramo ótico até { "1e-12" } e o ramo RF até { "1e-7" } e deixa a razão inalterada até { "3.19e-9" } relativo, o que um ramo que calculasse secretamente a média sobre outra coisa não conseguiria; uma sobreposição de rf_dll_bandwidth_hz que quebre o tempo de média comum torna a razão nula com um motivo que nomeia ambos os tempos, enquanto os dois ramos continuam a ser emitidos; uma execução de sentido único faz do ramo de comparação, bit a bit, o valor principal divulgado com um fator de penalização de exatamente { "1" }, e uma execução de dois sentidos reproduz a penalização 0.5/sqrt(perda geométrica do percurso de retorno) recalculada a partir do geometric_loss_db do próprio relatório até { "1e-12" })
