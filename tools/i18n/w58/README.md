@@ -14,10 +14,9 @@ Needs `pip install fluent.syntax`.
 - `delta.py NN <lang|done-ids.txt>...` writes `chunks/en-NN.ftl` with the English messages not yet handled.
   `done-ids-0f6fb1fa.txt` lists every English id at 0f6fb1fa (all handled; use it for pl, cs, uk, ru, fi, et, ja, zh-Hans, whose files omit
   messages with no human words). For the nine languages translated first, the language's own `engine.ftl` is the done-list.
-- `mk-chunk-prompt.sh LANG "Name" "NN NN"` writes the translator prompt for chunks (it reads `guides/<lang>.md`, `prompt-chunk.md`). Translate
-  three or four chunks (or three small languages) per run. The translator writes `$I18N_WORK/out/<lang>-NN.ftl` and runs the validator until
-  `0 problems`.
-- `counts.py LANG...` + `mk-counts-prompt.sh LANG "Name" "one, few, many, other"` do the plural-selector pass for the messages in
+- A translated chunk is written to `$I18N_WORK/out/<lang>-NN.ftl` (guided by `guides/<lang>.md`) and checked with `validate.py` until it
+  reports `0 problems`.
+- `counts.py LANG...` lists the plural-selector pass (categories `one, few, many, other` as the language has them) for the messages in
   `engine-counts.txt` (`$I18N_WORK/counts/out-<lang>.ftl` holds the changed messages). For a message that has several counts keep the
   number-independent form (one selector on the main noun at most); nested selectors become unreadable.
 - `assemble.py LANG` (pl cs uk ru fi et ja zh-Hans) rebuilds the whole file from `out/<lang>-NN.ftl` + `counts/out-<lang>.ftl` +
@@ -29,7 +28,7 @@ Needs `pip install fluent.syntax`.
 ## Recipe for messages added to the engine catalogue later
 1. Merge the engine branch. `python3 tools/i18n/w58/delta.py 17 tools/i18n/w58/done-ids-0f6fb1fa.txt` (new ids for the first eight
    languages) and `... delta.py 18 de fr es pt-BR pt-PT nl da sv nb` (for the other nine), in new chunk numbers.
-2. One run per language (or three languages for a small chunk) with `mk-chunk-prompt.sh`.
+2. Translate one language at a time (or three languages for a small chunk), writing `out/<lang>-NN.ftl`.
 3. `assemble.py` / `assemble9.py`, then `cargo test --test i18n_catalogue --test i18n_legal --test i18n_api`, commit, push.
 
 ## Decisions to keep

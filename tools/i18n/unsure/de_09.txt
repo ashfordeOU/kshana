@@ -1,7 +1,0 @@
-engine-legal-compliance-statement | 'evidenced' and 'gap' are quoted label names kept in English; 'framework is met' = 'Rahmenwerk erfüllt ist', negated
-engine-legal-standards-pack-notice | 'MET bar' = 'Zielwert mit dem Urteil MET'; 'Modelled scenarios' = 'modellierte Szenarien'
-engine-legal-geometry-statement | long technical sentence; tier word MODELLED as in English
-engine-legal-bench-notice | lowercase 'modelled' = 'aus einem Modell berechnet'
-engine-legal-resilience-disclaimer | negated forbidden words (Zertifizierung, Akkreditierung, Genehmigung, Konformitätsaussage) as the English requires
-engine-legal-observatory-notice | negated forbidden words as the English requires
-engine-legal-lunanet-afs-advisory | no glossary block; translated freshly; 'type-approved' and 'not a safety-of-life service' scopes kept
