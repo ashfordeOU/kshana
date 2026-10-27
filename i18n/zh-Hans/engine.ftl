@@ -8517,3 +8517,399 @@ engine-telemetry-prometheus-kshana-trust-epochs-total-band = kshana_trust_epochs
 engine-telemetry-prometheus-kshana-trust-reason-epochs-total = kshana_trust_reason_epochs_total{ "{" }reason="{ $escape_label }"{ "}" } { $n }{ "\u000A" }
 
 engine-telemetry-prometheus-kshana-trust-input-errors-total = kshana_trust_input_errors_total { $input_errors }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-overflow-total = kshana_trust_reason_overflow_total { $reason_overflow }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-syslog-send-failures = kshana_trust_syslog_send_failures_total { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epoch-offset-seconds = kshana_trust_epoch_offset_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-last-sample-timestamp = kshana_trust_last_sample_timestamp_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-status = kshana_trust_geometry{ "{" }status="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-degraded = kshana_trust_geometry_degraded { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-signal-loss = kshana_trust_geometry_signal_loss { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-epochs-total = kshana_trust_geometry_epochs_total{ "{" }status="{ $st }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-label-label = kshana_trust_geometry_label{ "{" }label="{ $l }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-vdop = kshana_trust_geometry_vdop { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-help-type =
+    # HELP { $name } { $help }
+    # TYPE { $name } { $kind }{ "\u000A" }
+
+engine-telemetry-syslog-cat-gnss-trust-dvchost-cs1label = cat=gnss-trust dvchost={ $cef_ext_escape } cs1Label=band cs1={ $band }
+
+engine-telemetry-syslog-cs2label-reasons-cs2 = { " " }cs2Label=reasons cs2={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs3label-previousband-cs3 = { " " }cs3Label=previousBand cs3={ $p }
+
+engine-telemetry-syslog-cfp1label-trustscore-cfp1 = { " " }cfp1Label=trustScore cfp1={ $num }
+
+engine-telemetry-syslog-cfp2label-epochoffsetseconds-cfp2 = { " " }cfp2Label=epochOffsetSeconds cfp2={ $num }
+
+engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
+
+engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
+
+engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryPdop cfp4={ $num }
+
+engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-timetransfer-chart-rf = RF：{ $id }
+
+engine-verification-src-mod-rs = src/{ $rel }/mod.rs
+
+engine-verification-tests-fixtures = tests/fixtures/{ $base }
+
+engine-compliance-fw-dhs-rpcf-title = 美国 DHS 韧性 PNT 一致性框架
+
+engine-compliance-fw-imo-ships-title = IMO 关于船舶 GNSS 干扰的指南
+
+engine-compliance-fw-easa-aviation-title = EASA 关于航空 GNSS 干扰的指南
+
+engine-compliance-fw-nis2-art21-title = 欧盟 NIS2 指令第 21 条风险管理措施
+
+engine-compliance-fw-en-16803-title = EN 16803，面向道路 ITS 的基于 GNSS 的定位
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1，PNT 基础概要
+
+engine-compliance-source-dhs-rpcf-1-title = 韧性定位、导航与授时（PNT）一致性框架
+
+engine-compliance-source-dhs-rpcf-1-version = 2.0 版，2022 年 4 月 26 日（DHS 科学技术局，联合 CISA）
+
+engine-compliance-source-dhs-rpcf-1-checked = 文件已通读；未获取该出版物的着陆页
+
+engine-compliance-source-imo-ships-1-title = 对美国全球定位系统及其他全球导航卫星系统的蓄意干扰
+
+engine-compliance-source-imo-ships-1-version = IMO MSC.1/Circ.1644，2021 年 10 月 18 日
+
+engine-compliance-source-imo-ships-1-checked = 文本通读自该通函的这一第三方镜像，而非 IMO 网站；权威文本请查阅 IMO 文件库
+
+engine-compliance-source-imo-ships-2-title = 全球无线电导航系统
+
+engine-compliance-source-imo-ships-2-version = IMO 大会决议 A.1046(27)，2011 年 11 月 30 日通过
+
+engine-compliance-source-imo-ships-2-checked = 文件已通读
+
+engine-compliance-source-imo-ships-3-title = 多系统船载无线电导航接收机性能标准
+
+engine-compliance-source-imo-ships-3-version = IMO MSC.401(95)，2015 年 6 月 8 日通过（经 MSC.432(98) 修订，2017 年）
+
+engine-compliance-source-imo-ships-3-checked = 原决议已通读；未阅读 2017 年修正案文本。未发现晚于 MSC.1/Circ.1644 的 IMO GNSS 干扰通函；更新的通函请查阅 IMO 文件库
+
+engine-compliance-source-easa-aviation-1-title = 导致通信/导航/监视性能下降的全球导航卫星系统中断与改变
+
+engine-compliance-source-easa-aviation-1-version = EASA 安全信息公告 SIB 2022-02R4，2026 年 7 月 3 日发布，2026 年 7 月 22 日更正（供参考，非强制）
+
+engine-compliance-source-easa-aviation-1-checked = 第 4 修订版已通读；由于该公告未给建议编号，各节按标题引用。2026-10-10 复查：该公告 PDF、EASA AD 工具页面（其中该公告的取代项为无）和 EASA GNSS 页面均未提及更晚的修订版，也没有编号为 2026-07 的公告；未发现提及 SIB 2026-07 第 2 修订版的横幅，因此该问题尚无定论，应在 EASA 实时页面上核对。冲突区信息公告未打开查阅
+
+engine-compliance-source-nis2-art21-1-title = 关于在欧盟范围内实现高度统一网络安全水平的措施的指令（欧盟）2022/2555（NIS 2 指令）
+
+engine-compliance-source-nis2-art21-1-version = OJ L 333，2022 年 12 月 27 日，第 80-152 页
+
+engine-compliance-source-nis2-art21-1-checked = 第 21 条各款的字母编号取自 EUR-Lex 页面的摘要，与已发布文本一致；在申报文件中引用某一字母项之前，请对照该页面确认
+
+engine-compliance-source-en-16803-1-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 1 部分：性能建立与评估的定义和系统工程程序
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020（目录：自 2020 年 10 月 2 日起有效，取代 2016 年版）
+
+engine-compliance-source-en-16803-1-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
+
+engine-compliance-source-en-16803-2-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 2 部分：基于 GNSS 的定位终端基本性能的评估
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020（目录：自 2020 年 10 月 2 日起有效）
+
+engine-compliance-source-en-16803-2-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读
+
+engine-compliance-source-en-16803-3-title = 空间 - 在道路智能交通系统（ITS）中使用基于 GNSS 的定位 - 第 3 部分：基于 GNSS 的定位终端安全性能的评估
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020（目录：自 2020 年 10 月 2 日起有效）
+
+engine-compliance-source-en-16803-3-checked = 仅阅读了目录中的范围文本；该标准需付费，未阅读。目录文本只按编号点名了第 6 条（录制信号与模拟信号）和附录 A（对攻击的高层分类），没有点名其他内容；目录未给出委员会名称，因此此处不作说明
+
+engine-compliance-source-nist-ir-8323r1-1-title = PNT 基础概要：应用网络安全框架负责任地使用定位、导航与授时（PNT）服务
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1，2023 年 1 月（NIST 内部报告）
+
+engine-compliance-source-nist-ir-8323r1-1-checked = 该 PDF 于 2026-10-18 获取（SHA-256 记录在 tests/fixtures/compliance/headings.json 中），并阅读了其概要表 3 至 25，以核对所引用的子类别；其他章节、附录和出版物着陆页未阅读。子类别标识符遵循该概要自身的表格，这些表格使用网络安全框架 1.1 的标识符
+
+engine-compliance-cap-receiver-log-trust-name = 接收机日志信任度评估
+
+engine-compliance-cap-receiver-log-trust-output = 真实接收机自身日志的逐历元信任状态、告警时刻，以及与运行前设定事件的吻合程度
+
+engine-compliance-cap-jamming-effects-name = 压制干扰（jamming）链路预算影响
+
+engine-compliance-cap-jamming-effects-output = 在设定的干扰源几何下，每颗卫星的载噪比密度与锁定状态
+
+engine-compliance-cap-spoofing-detection-name = 欺骗干扰（spoofing）与转发欺骗（meaconing）检测
+
+engine-compliance-cap-spoofing-detection-output = 在设定的欺骗干扰攻击下的检测器判决与检测器区分能力
+
+engine-compliance-cap-integrity-monitoring-name = 完好性监测与保护级
+
+engine-compliance-cap-integrity-monitoring-output = 保护级、相对于告警限值的可用性，以及故障检测结果
+
+engine-compliance-cap-holdover-name = 守时（holdover）与惯性滑行
+
+engine-compliance-cap-holdover-output = GNSS 被拒止期间位置或时间误差的增长，对照设定的阈值
+
+engine-compliance-cap-source-diversity-name = 替代与多样化的 PNT 源
+
+engine-compliance-cap-source-diversity-output = 来自独立于主 GNSS 频段的源的导航或授时性能
+
+engine-compliance-cap-resilience-scoring-name = 针对威胁集合的韧性评分
+
+engine-compliance-cap-resilience-scoring-output = 在设定的集合上，每个威胁向量的生存比与韧性比，并说明所作假设
+
+engine-compliance-cap-run-provenance-name = 可复现的运行溯源
+
+engine-compliance-cap-run-provenance-output = 每个结果中携带的场景哈希、引擎版本和随机种子，使运行可以重复
+
+engine-compliance-req-dhs-s5-2-reference = 第 5.2 节（预防、响应、恢复）
+
+engine-compliance-req-dhs-s5-2-asks = 韧性被描述为三项功能：预防危害、响应（检测、报告、缓解、遏制）和恢复。检测是概率性的，因此虚警与漏检都很重要。
+
+engine-compliance-req-dhs-s5-2-gap = 预防是产品设计属性，任何仿真输出都无法显示。来自合成数据或单次会话运行的检测统计量，并非已部署产品的实测虚警率或漏检率。
+
+engine-compliance-req-dhs-l1-r1-reference = 第 1 级，要求 1
+
+engine-compliance-req-dhs-l1-r1-asks = 检查来自外部源的存储数据是否符合相关标准的格式和取值范围。
+
+engine-compliance-req-dhs-l1-r1-gap = 这是被测产品的软件保证与输入校验属性。Kshana 不检查产品的输入处理。
+
+engine-compliance-req-dhs-l1-r2-reference = 第 1 级，要求 2
+
+engine-compliance-req-dhs-l1-r2-asks = 允许通过清除或复位存储器进行完全的手动恢复，在威胁消失后使系统回到规定的性能。
+
+engine-compliance-req-dhs-l1-r2-gap = 接收机日志显示定位何时变得不可信、何时恢复；但不显示手动复位是否清除了所有已存储的状态。
+
+engine-compliance-req-dhs-l1-r3-reference = 第 1 级，要求 3
+
+engine-compliance-req-dhs-l1-r3-asks = 安全地重新加载或更新固件。
+
+engine-compliance-req-dhs-l1-r3-gap = 固件更新的安全性不在任何 Kshana 输出所能观察的范围之内。
+
+engine-compliance-req-dhs-l2-r4-reference = 第 2 级，要求 4
+
+engine-compliance-req-dhs-l2-r4-asks = 识别受损的 PNT 源，并阻止它们破坏解算结果。
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana 对其建模的、或在日志上运行的检测器和监测器评分；产品自身的源排除是否有效，需要产品的内部状态，而不仅仅是其日志。
+
+engine-compliance-req-dhs-l2-r5-reference = 第 2 级，要求 5
+
+engine-compliance-req-dhs-l2-r5-asks = 自动恢复各源和系统且不中断输出；在威胁期间仍提供解算结果，其劣化可能没有上限。
+
+engine-compliance-req-dhs-l2-r5-gap = 守时（holdover）运行约束的是针对设定的时钟或惯性模型的建模漂移，而不是产品自身的恢复行为。
+
+engine-compliance-req-dhs-l3-r6-reference = 第 3 级，要求 6
+
+engine-compliance-req-dhs-l3-r6-asks = 来自一个源的错误数据不得污染另一个源。
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana 并排运行各源；产品内部的源隔离需要设计评审或对产品进行故障注入。
+
+engine-compliance-req-dhs-l3-r7-reference = 第 3 级，要求 7
+
+engine-compliance-req-dhs-l3-r7-asks = 对所有源的解算结果进行交叉验证，并使威胁期间的劣化保持有界。
+
+engine-compliance-req-dhs-l3-r7-gap = 有界劣化是针对建模的传感器给出的；产品自身的交叉检查未被观察。
+
+engine-compliance-req-dhs-l4-r8-reference = 第 4 级，要求 8
+
+engine-compliance-req-dhs-l4-r8-asks = 针对共模威胁使用不同技术的源，威胁期间无劣化。
+
+engine-compliance-req-dhs-l4-r8-gap = 共模论证需要真实产品的源集合，以及跨越这些源的威胁；场景只是设定了一个威胁，并不能证明产品没有共同的弱点。
+
+engine-compliance-req-dhs-s5-5-reference = 第 5.5 节（共模）
+
+engine-compliance-req-dhs-s5-5-asks = 多样化的机制不得共有同一弱点：例如覆盖两个频段的干扰源会使频段多样性失效。
+
+engine-compliance-req-dhs-s5-5-gap = 评分使用合成的威胁集合，并如实说明；它不是现场数据。
+
+engine-compliance-req-dhs-s8-1-8-3-reference = 第 8.1 至 8.3 节（评估）
+
+engine-compliance-req-dhs-s8-1-8-3-asks = 评估将静态分析与动态分析相结合，其中以测试向量代替威胁；测试类别为源故障、干扰和内部故障。仿真器被列为一种测试方法。
+
+engine-compliance-req-dhs-s8-1-8-3-gap = 导出的运动和事件可以驱动实验室仿真器（docs/TEST-BENCH.md）。Kshana 不生成任何信号，因此威胁由仿真器及其获授权的操作人员提供。
+
+engine-compliance-req-dhs-s8-6-reference = 第 8.6 节（测试计划要素）
+
+engine-compliance-req-dhs-s8-6-asks = 测试计划说明等级、要求、输入、参考资料、所需的数据访问、含通过或失败判据的程序、结果和备注。
+
+engine-compliance-req-dhs-s8-6-gap = 通过或失败判据由评估者选定；Kshana 记录其运行所用的输入、阈值和哈希。
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644，第 3 段
+
+engine-compliance-req-imo-1644-3-asks = 蓄意的 GNSS 干扰对航行安全、人员、财产和环境构成重大风险。
+
+engine-compliance-req-imo-1644-3-gap = 这是一项风险陈述；Kshana 针对设定的几何量化影响，而不是某一海域的风险。
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644，第 5 段
+
+engine-compliance-req-imo-1644-5-asks = 请成员国限制来自其领土的干扰，考虑向海员发出警告，并考虑针对未经授权发射的措施。
+
+engine-compliance-req-imo-1644-5-gap = 面向各国及其主管机关；没有任何仿真输出涉及此项。
+
+engine-compliance-req-imo-a1046-3-reference = 决议 A.1046(27)，附件第 3 段（港口入口、港口进近水域和沿海水域）
+
+engine-compliance-req-imo-a1046-3-asks = 只有当系统以设定的精度提供设定的完好性、以设定的速率更新，并在设定的时间内给出完好性告警时，才算可用。
+
+engine-compliance-req-imo-a1046-3-gap = Kshana 针对建模的几何计算保护级和相对于告警限值的可用性；该决议中的精度、可用性和告警时间数值在此不作断言。
+
+engine-compliance-req-imo-a1046-2-reference = 决议 A.1046(27)，附件第 2 段（远洋水域）
+
+engine-compliance-req-imo-a1046-2-asks = 无线电导航系统在远洋阶段的精度、更新速率、可用性和完好性告警要求。
+
+engine-compliance-req-imo-a1046-2-gap = 同上，针对远洋阶段。
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95)，3.1 至 3.2
+
+engine-compliance-req-imo-401-3-1-asks = 接收机使用来自至少两个独立系统的民用信号，并提供具备所需韧性和完好性的位置、速度和时间解算。
+
+engine-compliance-req-imo-401-3-1-gap = 多星座完好性是建模的；接收机实际是否使用两个系统属于产品测试。
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95)，3.11 至 3.14
+
+engine-compliance-req-imo-401-3-11-asks = 接收机按航行阶段评估精度和完好性，无法评估时给出提醒，在未及时得到新解算时发出警告，并以明确的状态显示最后一个合理值。
+
+engine-compliance-req-imo-401-3-11-gap = Kshana 从日志中读取授时和信任度；所显示的提醒与警告间隔是否符合该标准，需要接收机的用户界面，而日志并不显示。
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95)，3.15 至 3.16
+
+engine-compliance-req-imo-401-3-16-asks = 显示增强系统的状态，以及位置、航向、航速、时间和所用的源。
+
+engine-compliance-req-imo-401-3-16-gap = 显示要求；没有任何 Kshana 输出涉及这些要求。
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95)，4.2
+
+engine-compliance-req-imo-401-4-2-asks = 在正常干扰条件下令人满意地工作，符合决议 A.694(17)（船载无线电设备一般要求）以及典型的船上和外部无线电环境。这不是抗压制干扰或抗欺骗干扰的要求。
+
+engine-compliance-req-imo-401-4-2-gap = 正常干扰测试是对接收机的实验室测量；决议 A.694(17) 本身未阅读。
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4，说明
+
+engine-compliance-req-easa-desc-asks = 欺骗干扰（spoofing）比压制干扰（jamming）更难检测，也更危险；驾驶舱内没有能区分二者的告警；其影响从虚假地形告警到监视数据被破坏不等，并且在离开该区域后仍可能持续。
+
+engine-compliance-req-easa-desc-gap = Kshana 对检测器和链路影响建模；驾驶舱告警是设备属性。
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4，建议：航空器和设备制造商应当
+
+engine-compliance-req-easa-mfr-asks = 评估压制干扰和欺骗干扰对产品的影响（包括累积影响），并向运营人提供关于识别疑似欺骗干扰以及在 GNSS 丢失时的运行限制的指导。
+
+engine-compliance-req-easa-mfr-gap = 对产品本身的评估由制造商负责；Kshana 提供可重复的场景和已评分的接收机日志，作为其中的证据。
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4，建议：航空运营人应当（欺骗干扰）
+
+engine-compliance-req-easa-ops-spoof-asks = 将 GNSS 位置和时间与非 GNSS 源比较，并关注位置不确定度数值和导航设施，以发现欺骗干扰。
+
+engine-compliance-req-easa-ops-spoof-gap = 运行程序和培训不在仿真输出的范围之内。
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4，建议：ATM/ANS 服务提供者应当；参与 ATM/ANS 设备设计或生产的组织应当
+
+engine-compliance-req-easa-ansp-asks = 评估 GNSS 授时丢失对通信、导航和监视系统的影响，保留地面导航设施，并协助检测干扰。
+
+engine-compliance-req-easa-ansp-gap = 授时守时（holdover）运行涉及授时丢失评估；地面系统设计和程序不在覆盖范围内。
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4，建议：关于报告的结束提醒
+
+engine-compliance-req-easa-report-asks = 依据事件报告法规报告影响安全的事件，并向制造商报告疑似欺骗干扰和风险较高的压制干扰。
+
+engine-compliance-req-easa-report-gap = 这是一项报告义务；没有任何输出涉及此项。
+
+engine-compliance-req-nis2-21-1-reference = 第 21(1) 条
+
+engine-compliance-req-nis2-21-1-asks = 根据最新技术水平、暴露程度、规模以及事件发生的可能性和严重程度，采取适当的技术、运行和组织措施来管理网络和信息系统的风险。
+
+engine-compliance-req-nis2-21-1-gap = Kshana 只涉及系统对定位和授时的依赖，而不涉及一般的信息安全风险。
+
+engine-compliance-req-nis2-21-2-a-reference = 第 21(2)(a) 条
+
+engine-compliance-req-nis2-21-2-a-asks = 关于风险分析和信息系统安全的政策。
+
+engine-compliance-req-nis2-21-2-a-gap = 为风险分析中的 PNT 部分提供证据支持（supports evidence for）；政策本身属于组织层面。
+
+engine-compliance-req-nis2-21-2-b-reference = 第 21(2)(b) 条
+
+engine-compliance-req-nis2-21-2-b-asks = 事件处理。
+
+engine-compliance-req-nis2-21-2-b-gap = 已评分的接收机日志有助于确定 PNT 干扰事件的起止时间；处理流程属于组织层面。
+
+engine-compliance-req-nis2-21-2-c-reference = 第 21(2)(c) 条
+
+engine-compliance-req-nis2-21-2-c-asks = 业务连续性，例如备份管理、灾难恢复和危机管理。
+
+engine-compliance-req-nis2-21-2-c-gap = 显示建模的后备方案能将授时或位置保持在界限内多长时间；连续性计划属于组织层面。
+
+engine-compliance-req-nis2-21-2-d-reference = 第 21(2)(d) 条
+
+engine-compliance-req-nis2-21-2-d-asks = 供应链安全，包括与直接供应商的关系。
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana 不评估供应商。使用中立、可复现的 bench 进行接收机验收，是买方可以使用的一项输入，而不是供应链评估。
+
+engine-compliance-req-nis2-21-2-e-reference = 第 21(2)(e) 条
+
+engine-compliance-req-nis2-21-2-e-asks = 系统获取、开发和维护中的安全，包括漏洞处理与披露。
+
+engine-compliance-req-nis2-21-2-e-gap = 对接收机干扰行为的可重复验收测试，为采购部分提供证据支持（supports evidence for）；漏洞处理不在范围内。
+
+engine-compliance-req-nis2-21-2-f-reference = 第 21(2)(f) 条
+
+engine-compliance-req-nis2-21-2-f-asks = 用于评估网络安全风险管理措施有效性的政策和程序。
+
+engine-compliance-req-nis2-21-2-f-gap = 带哈希的可重复运行和评分前设定的事件，为有效性测试提供证据支持（supports evidence for）；政策及其时间表属于组织层面。
+
+engine-compliance-req-nis2-21-2-ghij-reference = 第 21(2)(g) 至 (j) 条
+
+engine-compliance-req-nis2-21-2-ghij-asks = 网络卫生与培训；密码学与加密；人力资源安全、访问控制与资产管理；多因素认证与安全通信。
+
+engine-compliance-req-nis2-21-2-ghij-gap = 无法通过定位和授时的运行输出来涉及。
+
+engine-compliance-req-nis2-21-3-reference = 第 21(3) 条
+
+engine-compliance-req-nis2-21-3-asks = 在选择供应链措施时，考虑每个供应商的漏洞，以及其产品的质量和安全开发。
+
+engine-compliance-req-nis2-21-3-gap = 见第 21(2)(d) 条。
+
+engine-compliance-req-en16803-1-reference = EN 16803-1（定义与系统工程程序）
+
+engine-compliance-req-en16803-1-asks = 定义道路 ITS 架构、性能特征和指标，以及比较测试环境的方法。不设定任何要求。
+
+engine-compliance-req-en16803-1-gap = 条款编号并不公开可见。持有许可的人员应将 Kshana 的输出字段对应到各指标定义。
+
+engine-compliance-req-en16803-2-reference = EN 16803-2（基于 GNSS 的终端基本性能）
+
+engine-compliance-req-en16803-2-asks = 针对位置输出的可用性、连续性、精度、完好性和首次定位时间的、基于回放的实验室测试程序。不设定最低值。
+
+engine-compliance-req-en16803-2-gap = Kshana 导出的运动可以驱动回放；该标准的程序、其对录制信号的处理及其指标计算在此均未复现，需要获得许可的文本。
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3，第 6 条
+
+engine-compliance-req-en16803-3-6-asks = 在安全测试中区分录制信号与模拟信号。
+
+engine-compliance-req-en16803-3-6-gap = Kshana 既不录制也不模拟信号。它导出运动和事件，并对接收机的日志评分。
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3，附录 A
+
+engine-compliance-req-en16803-3-a-asks = 对 GNSS 攻击的高层分类：干扰、压制干扰（jamming）、转发欺骗（meaconing）和欺骗干扰（spoofing）。
+
+engine-compliance-req-en16803-3-a-gap = Kshana 的场景以同样宽泛的措辞指明攻击类别；条款级对照需要获得许可的附录。
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1（风险评估）
+
+engine-compliance-req-nist-id-ra-1-asks = 识别、记录并报告 PNT 系统以及分发 PNT 数据的对象的漏洞；在安全的情况下，在法律和业务连续性限制内测试其对中断或操纵的易感性，这可能使用 PNT 信号仿真。
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana 在建模场景和接收机的录制日志中刻画易感性。对真实系统漏洞的清查由运营方负责，任何 RF 测试均使用运营方自己的设备并经其授权进行：Kshana 不发射任何信号。
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3（风险评估）
+
+engine-compliance-req-nist-id-ra-3-asks = 识别并记录针对 PNT 的内部和外部威胁，从自然和无意的中断到压制干扰、欺骗干扰和延迟攻击等蓄意攻击。

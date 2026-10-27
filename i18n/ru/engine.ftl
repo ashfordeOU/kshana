@@ -9441,3 +9441,507 @@ engine-e-telemetry-cli-host = --host: { $e }
 engine-e-telemetry-otlp-resolve = resolve { $hostport }: { $e }
 
 engine-telemetry-prometheus-kshana-build-info-version = kshana_build_info{ "{" }version="{ $escape_label }"{ "}" } 1{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-score = kshana_trust_score { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-band-band = kshana_trust_band{ "{" }band="{ $b }"{ "}" } { $on }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-gate-gate = kshana_trust_gate{ "{" }gate="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-active-reason = kshana_trust_reason_active{ "{" }reason="{ $escape_label }"{ $class }{ "}" } { $v2 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epochs-total-band = kshana_trust_epochs_total{ "{" }band="{ $b }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-epochs-total = kshana_trust_reason_epochs_total{ "{" }reason="{ $escape_label }"{ "}" } { $n }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-input-errors-total = kshana_trust_input_errors_total { $input_errors }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-reason-overflow-total = kshana_trust_reason_overflow_total { $reason_overflow }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-syslog-send-failures = kshana_trust_syslog_send_failures_total { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-epoch-offset-seconds = kshana_trust_epoch_offset_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-last-sample-timestamp = kshana_trust_last_sample_timestamp_seconds { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-status = kshana_trust_geometry{ "{" }status="{ $st }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-degraded = kshana_trust_geometry_degraded { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-signal-loss = kshana_trust_geometry_signal_loss { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-epochs-total = kshana_trust_geometry_epochs_total{ "{" }status="{ $st }"{ "}" } { $value }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-label-label = kshana_trust_geometry_label{ "{" }label="{ $l }"{ "}" } { $v1 }{ "\u000A" }
+
+engine-telemetry-prometheus-kshana-trust-geometry-vdop = kshana_trust_geometry_vdop { $fmt_f64 }{ "\u000A" }
+
+engine-telemetry-prometheus-help-type =
+    # HELP { $name } { $help }
+    # TYPE { $name } { $kind }{ "\u000A" }
+
+engine-telemetry-syslog-cat-gnss-trust-dvchost-cs1label = cat=gnss-trust dvchost={ $cef_ext_escape } cs1Label=band cs1={ $band }
+
+engine-telemetry-syslog-cs2label-reasons-cs2 = { " " }cs2Label=reasons cs2={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs3label-previousband-cs3 = { " " }cs3Label=previousBand cs3={ $p }
+
+engine-telemetry-syslog-cfp1label-trustscore-cfp1 = { " " }cfp1Label=trustScore cfp1={ $num }
+
+engine-telemetry-syslog-cfp2label-epochoffsetseconds-cfp2 = { " " }cfp2Label=epochOffsetSeconds cfp2={ $num }
+
+engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
+
+engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
+
+engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
+
+engine-telemetry-syslog-cfp4label-geometrypdop-cfp4 = { " " }cfp4Label=geometryPdop cfp4={ $num }
+
+engine-telemetry-syslog-cn1label-geometryusedsatellites-cn1 = { " " }cn1Label=geometryUsedSatellites cn1={ $v1 }
+
+engine-telemetry-syslog-cef-gnss-trust = CEF:0|{ $cef_header_escape }|{ $cef_header_escape2 }|{ $cef_header_escape3 }|{ $EVENT_PREFIX }.{ $band }|GNSS trust { $band }|{ $cef_severity }|{ $ext }
+
+engine-timetransfer-chart-rf = RF: { $id }
+
+engine-timetransfer-chain-chart-title = quantum-time-transfer (MODELLED)
+
+engine-verification-src-mod-rs = src/{ $rel }/mod.rs
+
+engine-verification-tests-fixtures = tests/fixtures/{ $base }
+
+engine-compliance-fw-dhs-rpcf-title = Рамочный документ США (DHS) по соответствию требованиям для устойчивого PNT (Resilient PNT Conformance Framework)
+
+engine-compliance-fw-imo-ships-title = Руководство ИМО по помехам ГНСС для судов
+
+engine-compliance-fw-easa-aviation-title = Руководство EASA по помехам ГНСС для авиации
+
+engine-compliance-fw-nis2-art21-title = Директива ЕС NIS2, статья 21: меры управления рисками
+
+engine-compliance-fw-en-16803-title = EN 16803, определение местоположения на основе ГНСС для дорожных ИТС
+
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, базовый профиль PNT (Foundational PNT Profile)
+
+engine-compliance-source-dhs-rpcf-1-title = Рамочный документ по соответствию требованиям для устойчивого позиционирования, навигации и времени (PNT) (Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework)
+
+engine-compliance-source-dhs-rpcf-1-version = Версия 2.0, 26 апреля 2022 г. (Управление науки и технологий DHS совместно с CISA)
+
+engine-compliance-source-dhs-rpcf-1-checked = документ прочитан полностью; страница публикации не загружалась
+
+engine-compliance-source-imo-ships-1-title = Преднамеренные помехи Глобальной системе позиционирования Соединённых Штатов и другим глобальным навигационным спутниковым системам
+
+engine-compliance-source-imo-ships-1-version = ИМО MSC.1/Circ.1644, 18 октября 2021 г.
+
+engine-compliance-source-imo-ships-1-checked = текст прочитан полностью на стороннем зеркале циркуляра, а не на сайте ИМО; авторитетную копию следует проверить в библиотеке документов ИМО
+
+engine-compliance-source-imo-ships-2-title = Всемирная радионавигационная система
+
+engine-compliance-source-imo-ships-2-version = Резолюция Ассамблеи ИМО A.1046(27), принята 30 ноября 2011 г.
+
+engine-compliance-source-imo-ships-2-checked = документ прочитан полностью
+
+engine-compliance-source-imo-ships-3-title = Эксплуатационные стандарты для судовых многосистемных радионавигационных приёмников
+
+engine-compliance-source-imo-ships-3-version = ИМО MSC.401(95), принята 8 июня 2015 г. (с поправкой MSC.432(98), 2017)
+
+engine-compliance-source-imo-ships-3-checked = исходная резолюция прочитана полностью; текст поправки 2017 года не читался. Циркуляр ИМО по помехам ГНСС новее MSC.1/Circ.1644 не найден; более новые следует проверить в библиотеке документов ИМО
+
+engine-compliance-source-easa-aviation-1-title = Отключения и изменения работы глобальной навигационной спутниковой системы, приводящие к ухудшению связи, навигации и наблюдения (Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation)
+
+engine-compliance-source-easa-aviation-1-version = Информационный бюллетень по безопасности EASA SIB 2022-02R4, выпущен 3 июля 2026 г., исправлен 22 июля 2026 г. (информационный, не обязательный)
+
+engine-compliance-source-easa-aviation-1-checked = редакция 4 прочитана полностью; разделы цитируются по заголовкам, так как бюллетень не нумерует свои рекомендации. Повторная проверка 2026-10-10: PDF бюллетеня, страница инструмента EASA AD (в которой его замена указана как отсутствующая) и страница EASA по ГНСС не называют более поздней редакции и бюллетеня с номером 2026-07; баннер с названием редакции 2 бюллетеня SIB 2026-07 не найден, поэтому вопрос остаётся открытым и его следует проверить на актуальной странице EASA. Информационные бюллетени по зонам конфликтов не открывались
+
+engine-compliance-source-nis2-art21-1-title = Директива (ЕС) 2022/2555 о мерах для высокого общего уровня кибербезопасности на всей территории Союза (Директива NIS 2)
+
+engine-compliance-source-nis2-art21-1-version = OJ L 333, 27.12.2022, стр. 80-152
+
+engine-compliance-source-nis2-art21-1-checked = буквы пунктов статьи 21 прочитаны по краткому изложению страницы EUR-Lex и совпадают с опубликованным текстом; перед ссылкой на букву в документе для подачи сверьтесь со страницей
+
+engine-compliance-source-en-16803-1-version = EN 16803-1:2020 (каталог: действует с 2 октября 2020 г., заменяет редакцию 2016 года)
+
+engine-compliance-source-en-16803-1-checked = только текст области применения из каталога; стандарт платный и не читался
+
+engine-compliance-source-en-16803-2-version = EN 16803-2:2020 (каталог: действует с 2 октября 2020 г.)
+
+engine-compliance-source-en-16803-2-checked = только текст области применения из каталога; стандарт платный и не читался
+
+engine-compliance-source-en-16803-3-version = EN 16803-3:2020 (каталог: действует с 2 октября 2020 г.)
+
+engine-compliance-source-en-16803-3-checked = только текст области применения из каталога; стандарт платный и не читался. Текст каталога называет по номерам только раздел 6 (записанные и имитированные сигналы) и приложение A (обобщённая классификация атак); комитет в каталоге не указан, поэтому здесь он не назван
+
+engine-compliance-source-nist-ir-8323r1-1-title = Базовый профиль PNT: применение Cybersecurity Framework для ответственного использования служб позиционирования, навигации и времени (PNT) (Foundational PNT Profile: Applying the Cybersecurity Framework for the Responsible Use of Positioning, Navigation, and Timing (PNT) Services)
+
+engine-compliance-source-nist-ir-8323r1-1-version = NIST IR 8323r1, январь 2023 г. (внутренний отчёт NIST)
+
+engine-compliance-source-nist-ir-8323r1-1-checked = PDF загружен 2026-10-18 (SHA-256 записан в tests/fixtures/compliance/headings.json), таблицы 3-25 профиля прочитаны для процитированных подкатегорий; остальные разделы, приложения и страница публикации не читались. Идентификаторы подкатегорий следуют собственным таблицам профиля, в которых используются идентификаторы Cybersecurity Framework 1.1
+
+engine-compliance-cap-receiver-log-trust-name = Оценка доверия по журналу приёмника
+
+engine-compliance-cap-receiver-log-trust-output = состояние доверия по эпохам для собственного журнала реального приёмника, время тревог и согласие с событиями, заданными до запуска
+
+engine-compliance-cap-jamming-effects-name = Эффекты подавления в бюджете радиолинии
+
+engine-compliance-cap-jamming-effects-output = отношение несущая/шум и состояние захвата по каждому спутнику при заданной геометрии источника подавления
+
+engine-compliance-cap-spoofing-detection-name = Обнаружение спуфинга и meaconing
+
+engine-compliance-cap-spoofing-detection-output = решения детекторов и различающая способность детекторов при заданной атаке спуфинга
+
+engine-compliance-cap-integrity-monitoring-name = Контроль целостности и уровни защиты
+
+engine-compliance-cap-integrity-monitoring-output = уровни защиты, доступность относительно пределов тревоги и результаты обнаружения отказов
+
+engine-compliance-cap-holdover-name = Holdover и работа по инерции
+
+engine-compliance-cap-holdover-output = рост ошибки положения или времени при отказе GNSS относительно заданного порога
+
+engine-compliance-cap-source-diversity-name = Альтернативные и разнородные источники PNT
+
+engine-compliance-cap-source-diversity-output = навигационные или временные характеристики от источников, независимых от основного диапазона ГНСС
+
+engine-compliance-cap-resilience-scoring-name = Оценка устойчивости по ансамблям угроз
+
+engine-compliance-cap-resilience-scoring-output = доли выживания и устойчивости по каждому вектору угроз для заданного ансамбля с указанными допущениями
+
+engine-compliance-cap-run-provenance-name = Воспроизводимое происхождение запуска
+
+engine-compliance-cap-run-provenance-output = хеш сценария, версия движка и начальное значение (seed) приводятся в каждом результате, чтобы запуск можно было повторить
+
+engine-compliance-req-dhs-s5-2-reference = Раздел 5.2 (предотвращение, реагирование, восстановление)
+
+engine-compliance-req-dhs-s5-2-asks = Устойчивость описывается тремя функциями: предотвращение ущерба, реагирование (обнаружение, оповещение, смягчение, локализация) и восстановление. Обнаружение носит вероятностный характер, поэтому важны и ложные тревоги, и пропуски обнаружения.
+
+engine-compliance-req-dhs-s5-2-gap = Предотвращение является свойством проектирования изделия, которое не показывает ни один результат моделирования. Статистика обнаружения по синтетическому или однократному запуску не является измеренной долей ложных тревог или пропусков для серийного изделия.
+
+engine-compliance-req-dhs-l1-r1-reference = Уровень 1, требование 1
+
+engine-compliance-req-dhs-l1-r1-asks = Проверять, что сохранённые данные из внешних источников соответствуют форматам и диапазонам значений соответствующих стандартов.
+
+engine-compliance-req-dhs-l1-r1-gap = Свойство гарантии качества ПО и проверки входных данных испытуемого изделия. Kshana не проверяет обработку входных данных изделия.
+
+engine-compliance-req-dhs-l1-r2-reference = Уровень 1, требование 2
+
+engine-compliance-req-dhs-l1-r2-asks = Допускать полное ручное восстановление путём очистки или сброса памяти, возвращающее систему к заданным характеристикам после исчезновения угрозы.
+
+engine-compliance-req-dhs-l1-r2-gap = Журнал приёмника показывает, когда решение перестало быть доверенным и когда оно восстановилось; он не показывает, что ручной сброс очищает все сохранённые состояния.
+
+engine-compliance-req-dhs-l1-r3-reference = Уровень 1, требование 3
+
+engine-compliance-req-dhs-l1-r3-asks = Безопасно перезагружать или обновлять микропрограмму.
+
+engine-compliance-req-dhs-l1-r3-gap = Безопасность обновления микропрограммы лежит за пределами того, что наблюдает любой результат Kshana.
+
+engine-compliance-req-dhs-l2-r4-reference = Уровень 2, требование 4
+
+engine-compliance-req-dhs-l2-r4-asks = Выявлять скомпрометированные источники PNT и не допускать искажения ими решения.
+
+engine-compliance-req-dhs-l2-r4-gap = Kshana оценивает детекторы и мониторы, которые моделирует или запускает по журналу; чтобы проверить, работает ли собственное исключение источников изделия, нужно внутреннее состояние изделия, а не только его журнал.
+
+engine-compliance-req-dhs-l2-r5-reference = Уровень 2, требование 5
+
+engine-compliance-req-dhs-l2-r5-asks = Автоматически восстанавливать источники и систему без прерывания выдачи; решение по-прежнему выдаётся во время угрозы, возможно, с неограниченным ухудшением.
+
+engine-compliance-req-dhs-l2-r5-gap = Запуски holdover ограничивают смоделированный дрейф для заданной модели часов или инерциальной системы, а не собственное поведение изделия при восстановлении.
+
+engine-compliance-req-dhs-l3-r6-reference = Уровень 3, требование 6
+
+engine-compliance-req-dhs-l3-r6-asks = Искажённые данные одного источника не должны загрязнять другой источник.
+
+engine-compliance-req-dhs-l3-r6-gap = Kshana запускает источники параллельно; для проверки изоляции источников внутри изделия нужен анализ проекта или внесение отказов в изделие.
+
+engine-compliance-req-dhs-l3-r7-reference = Уровень 3, требование 7
+
+engine-compliance-req-dhs-l3-r7-asks = Перекрёстно проверять решения всех источников и удерживать ухудшение во время угрозы в ограниченных пределах.
+
+engine-compliance-req-dhs-l3-r7-gap = Ограниченное ухудшение показано для смоделированных датчиков; собственная перекрёстная проверка изделия не наблюдается.
+
+engine-compliance-req-dhs-l4-r8-reference = Уровень 4, требование 8
+
+engine-compliance-req-dhs-l4-r8-asks = Использовать источники разных технологий против угроз общего вида без ухудшения характеристик во время угрозы.
+
+engine-compliance-req-dhs-l4-r8-gap = Для довода об общем виде отказа нужны набор источников реального изделия и угроза, охватывающая их все; сценарий задаёт одну угрозу, но не доказывает отсутствие у изделия общей слабости.
+
+engine-compliance-req-dhs-s5-5-reference = Раздел 5.5 (общий вид отказа)
+
+engine-compliance-req-dhs-s5-5-asks = Разнородные механизмы не должны иметь общую слабость: например, источник подавления, перекрывающий два диапазона, нарушает разнесение по диапазонам.
+
+engine-compliance-req-dhs-s5-5-gap = Оценка использует синтетический ансамбль угроз, о чём сказано явно; это не полевые данные.
+
+engine-compliance-req-dhs-s8-1-8-3-reference = Разделы 8.1-8.3 (оценка)
+
+engine-compliance-req-dhs-s8-1-8-3-asks = Оценка сочетает статический анализ с динамическим, где тестовые векторы заменяют угрозы; классы испытаний: отказ источника, помехи и внутренние неисправности. Имитаторы названы методом испытаний.
+
+engine-compliance-req-dhs-s8-1-8-3-gap = Экспортированные движение и события могут управлять лабораторным имитатором (docs/TEST-BENCH.md). Kshana не формирует сигнал, поэтому угрозу задают имитатор и его уполномоченный оператор.
+
+engine-compliance-req-dhs-s8-6-reference = Раздел 8.6 (элементы плана испытаний)
+
+engine-compliance-req-dhs-s8-6-asks = План испытаний указывает уровень, требование, входные данные, ссылки, необходимый доступ к данным, процедуру с критериями прохождения или непрохождения, результаты и примечания.
+
+engine-compliance-req-dhs-s8-6-gap = Критерии прохождения или непрохождения выбирает оценивающая сторона; Kshana записывает входные данные, пороги и хеши, с которыми выполнялся запуск.
+
+engine-compliance-req-imo-1644-3-reference = MSC.1/Circ.1644, пункт 3
+
+engine-compliance-req-imo-1644-3-asks = Преднамеренные помехи ГНСС представляют существенный риск для безопасности судовождения, людей, имущества и окружающей среды.
+
+engine-compliance-req-imo-1644-3-gap = Это утверждение о риске; Kshana количественно оценивает эффекты для заданной геометрии, а не риск в морском районе.
+
+engine-compliance-req-imo-1644-5-reference = MSC.1/Circ.1644, пункт 5
+
+engine-compliance-req-imo-1644-5-asks = Государствам-членам предлагается ограничивать помехи с их территории, рассмотреть предупреждения морякам и рассмотреть меры против несанкционированных передач.
+
+engine-compliance-req-imo-1644-5-gap = Адресовано государствам и администрациям; ни один результат моделирования к этому не относится.
+
+engine-compliance-req-imo-a1046-3-reference = Резолюция A.1046(27), пункт 3 приложения (входы в гавани, подходы к гаваням и прибрежные воды)
+
+engine-compliance-req-imo-a1046-3-asks = Система считается доступной только пока она обеспечивает заданную целостность при заданной точности, обновляется с заданной частотой и выдаёт предупреждение о целостности в заданное время.
+
+engine-compliance-req-imo-a1046-3-gap = Kshana вычисляет уровни защиты и доступность относительно предела тревоги для смоделированной геометрии; значения точности, доступности и времени предупреждения из резолюции здесь не утверждаются.
+
+engine-compliance-req-imo-a1046-2-reference = Резолюция A.1046(27), пункт 2 приложения (океанские воды)
+
+engine-compliance-req-imo-a1046-2-asks = Требования к точности, частоте обновления, доступности и предупреждению о целостности радионавигационной системы на океанском этапе.
+
+engine-compliance-req-imo-a1046-2-gap = То же, что выше, для океанского этапа.
+
+engine-compliance-req-imo-401-3-1-reference = MSC.401(95), 3.1-3.2
+
+engine-compliance-req-imo-401-3-1-asks = Приёмник использует гражданские сигналы не менее чем двух независимых систем и выдаёт решение по положению, скорости и времени с необходимыми устойчивостью и целостностью.
+
+engine-compliance-req-imo-401-3-1-gap = Целостность при нескольких орбитальных группировках моделируется; фактическое использование приёмником двух систем проверяется испытанием изделия.
+
+engine-compliance-req-imo-401-3-11-reference = MSC.401(95), 3.11-3.14
+
+engine-compliance-req-imo-401-3-11-asks = Приёмник оценивает точность и целостность для каждой навигационной фазы, выдаёт предупреждение, когда не может этого сделать, сигнализирует, когда новое решение не поступает вовремя, и показывает последнее правдоподобное значение с явным состоянием.
+
+engine-compliance-req-imo-401-3-11-gap = Kshana считывает время и доверие из журнала; чтобы проверить, соответствуют ли отображаемые интервалы предупреждения и сигнализации требованиям стандарта, нужен пользовательский интерфейс приёмника, которого журнал не показывает.
+
+engine-compliance-req-imo-401-3-16-reference = MSC.401(95), 3.15-3.16
+
+engine-compliance-req-imo-401-3-16-asks = Показывать состояние функциональных дополнений, а также положение, курс, скорость, время и используемые источники.
+
+engine-compliance-req-imo-401-3-16-gap = Требования к индикации; ни один результат Kshana к ним не относится.
+
+engine-compliance-req-imo-401-4-2-reference = MSC.401(95), 4.2
+
+engine-compliance-req-imo-401-4-2-asks = Удовлетворительно работать в нормальных условиях помех в соответствии с резолюцией A.694(17) (общие требования к судовому радиооборудованию) и типичной бортовой и внешней радиообстановкой. Это не требование по защите от подавления или спуфинга.
+
+engine-compliance-req-imo-401-4-2-gap = Испытание при нормальных помехах является лабораторным измерением на приёмнике; сама резолюция A.694(17) не читалась.
+
+engine-compliance-req-easa-desc-reference = SIB 2022-02R4, описание
+
+engine-compliance-req-easa-desc-asks = Спуфинг труднее обнаружить и он опаснее подавления; в кабине нет сигнализации, различающей их; последствия варьируются от ложных предупреждений о рельефе до искажённых данных наблюдения и могут сохраняться после выхода из района.
+
+engine-compliance-req-easa-desc-gap = Kshana моделирует эффекты для детекторов и радиолинии; сигнализация в кабине является свойством оборудования.
+
+engine-compliance-req-easa-mfr-reference = SIB 2022-02R4, рекомендации: производителям воздушных судов и оборудования (should)
+
+engine-compliance-req-easa-mfr-asks = Оценивать эффекты подавления и спуфинга для изделия, включая накопленные эффекты, и давать эксплуатантам указания по выявлению предполагаемого спуфинга и по эксплуатационным ограничениям при потере ГНСС.
+
+engine-compliance-req-easa-mfr-gap = Оценка самого изделия остаётся за производителем; Kshana предоставляет повторяемый сценарий и оценённый журнал приёмника как доказательство в ней.
+
+engine-compliance-req-easa-ops-spoof-reference = SIB 2022-02R4, рекомендации: авиаэксплуатантам (should), спуфинг
+
+engine-compliance-req-easa-ops-spoof-asks = Сравнивать положение и время по ГНСС с данными негнсс-источников и следить за показателем неопределённости положения и навигационными средствами, чтобы заметить спуфинг.
+
+engine-compliance-req-easa-ops-spoof-gap = Эксплуатационная процедура и обучение лежат за пределами результатов моделирования.
+
+engine-compliance-req-easa-ansp-reference = SIB 2022-02R4, рекомендации: поставщикам услуг ОВД/АНС (should); организациям, участвующим в проектировании или производстве оборудования ОВД/АНС (should)
+
+engine-compliance-req-easa-ansp-asks = Оценивать влияние потери синхронизации времени по ГНСС на системы связи, навигации и наблюдения, сохранять наземные навигационные средства и помогать выявлять помехи.
+
+engine-compliance-req-easa-ansp-gap = Запуски holdover времени относятся к оценке потери синхронизации времени; проектирование наземных систем и процедуры не охвачены.
+
+engine-compliance-req-easa-report-reference = SIB 2022-02R4, рекомендации: заключительные напоминания об отчётности
+
+engine-compliance-req-easa-report-asks = Сообщать о событиях, влияющих на безопасность, в соответствии с регламентом об уведомлении о происшествиях, а о предполагаемом спуфинге и подавлении повышенного риска сообщать производителю.
+
+engine-compliance-req-easa-report-gap = Обязанность по отчётности; ни один результат к ней не относится.
+
+engine-compliance-req-nis2-21-1-reference = Статья 21(1)
+
+engine-compliance-req-nis2-21-1-asks = Принимать соразмерные технические, операционные и организационные меры для управления рисками для сетей и информационных систем с учётом современного уровня, подверженности, масштаба, а также вероятности и тяжести инцидентов.
+
+engine-compliance-req-nis2-21-1-gap = Kshana относится только к зависимости системы от позиционирования и времени, а не к информационной безопасности в целом.
+
+engine-compliance-req-nis2-21-2-a-reference = Статья 21(2)(a)
+
+engine-compliance-req-nis2-21-2-a-asks = Политики анализа рисков и безопасности информационных систем.
+
+engine-compliance-req-nis2-21-2-a-gap = Подкрепляет доказательствами часть анализа рисков, относящуюся к PNT; сама политика является организационной.
+
+engine-compliance-req-nis2-21-2-b-reference = Статья 21(2)(b)
+
+engine-compliance-req-nis2-21-2-b-asks = Обработка инцидентов.
+
+engine-compliance-req-nis2-21-2-b-gap = Оценённый журнал приёмника помогает датировать начало и конец инцидента помех PNT; процесс обработки является организационным.
+
+engine-compliance-req-nis2-21-2-c-reference = Статья 21(2)(c)
+
+engine-compliance-req-nis2-21-2-c-asks = Непрерывность деятельности, например управление резервными копиями, аварийное восстановление и управление кризисными ситуациями.
+
+engine-compliance-req-nis2-21-2-c-gap = Показывает, как долго смоделированный резервный режим удерживает границу по времени или положению; планы обеспечения непрерывности являются организационными.
+
+engine-compliance-req-nis2-21-2-d-reference = Статья 21(2)(d)
+
+engine-compliance-req-nis2-21-2-d-asks = Безопасность цепочки поставок, включая отношения с прямыми поставщиками.
+
+engine-compliance-req-nis2-21-2-d-gap = Kshana не оценивает поставщиков. Использование нейтрального воспроизводимого bench для приёмки приёмников является одним из входных данных, доступных покупателю, но не оценкой цепочки поставок.
+
+engine-compliance-req-nis2-21-2-e-reference = Статья 21(2)(e)
+
+engine-compliance-req-nis2-21-2-e-asks = Безопасность при приобретении, разработке и сопровождении систем, включая обработку уязвимостей и их раскрытие.
+
+engine-compliance-req-nis2-21-2-e-gap = Повторяемые приёмочные испытания поведения приёмника при помехах подкрепляют доказательствами часть, относящуюся к приобретению; обработка уязвимостей не охвачена.
+
+engine-compliance-req-nis2-21-2-f-reference = Статья 21(2)(f)
+
+engine-compliance-req-nis2-21-2-f-asks = Политики и процедуры оценки эффективности мер управления рисками кибербезопасности.
+
+engine-compliance-req-nis2-21-2-f-gap = Запуски с хешами, повторяемые, и события, заданные до оценки, подкрепляют доказательствами проверку эффективности; сама политика и её график являются организационными.
+
+engine-compliance-req-nis2-21-2-ghij-reference = Статья 21(2)(g)-(j)
+
+engine-compliance-req-nis2-21-2-ghij-asks = Кибергигиена и обучение; криптография и шифрование; безопасность кадров, управление доступом и управление активами; многофакторная аутентификация и защищённая связь.
+
+engine-compliance-req-nis2-21-2-ghij-gap = Не может быть охвачено результатами запусков по позиционированию и времени.
+
+engine-compliance-req-nis2-21-3-reference = Статья 21(3)
+
+engine-compliance-req-nis2-21-3-asks = При выборе мер для цепочки поставок учитывать уязвимости каждого поставщика, а также качество и безопасную разработку его продуктов.
+
+engine-compliance-req-nis2-21-3-gap = См. статью 21(2)(d).
+
+engine-compliance-req-en16803-1-reference = EN 16803-1 (определения и процедуры системной инженерии)
+
+engine-compliance-req-en16803-1-asks = Определяет архитектуру дорожных ИТС, показатели и метрики характеристик, а также метод сравнения испытательных сред. Не устанавливает требований.
+
+engine-compliance-req-en16803-1-gap = Номера разделов публично не видны. Обладателю лицензии следует сопоставить выходные поля Kshana с определениями метрик.
+
+engine-compliance-req-en16803-2-reference = EN 16803-2 (базовые характеристики терминалов на основе ГНСС)
+
+engine-compliance-req-en16803-2-asks = Лабораторные процедуры испытаний на основе воспроизведения для доступности, непрерывности, точности, целостности и времени до первого определения выходного положения. Не устанавливает минимальных значений.
+
+engine-compliance-req-en16803-2-gap = Экспортированное движение Kshana может управлять воспроизведением; процедура стандарта, обработка записанных сигналов и вычисление метрик здесь не воспроизводятся и требуют лицензионного текста.
+
+engine-compliance-req-en16803-3-6-reference = EN 16803-3, раздел 6
+
+engine-compliance-req-en16803-3-6-asks = Различает записанные и имитированные сигналы в испытаниях на безопасность.
+
+engine-compliance-req-en16803-3-6-gap = Kshana не записывает и не имитирует сигнал. Она экспортирует движение и события и оценивает журнал приёмника.
+
+engine-compliance-req-en16803-3-a-reference = EN 16803-3, приложение A
+
+engine-compliance-req-en16803-3-a-asks = Обобщённая классификация атак на ГНСС: помехи, подавление, meaconing и спуфинг.
+
+engine-compliance-req-en16803-3-a-gap = Сценарии Kshana называют классы атак в тех же общих терминах; сопоставление на уровне разделов требует лицензионного приложения.
+
+engine-compliance-source-en-16803-1-title = Космос. Использование определения местоположения на основе ГНСС для дорожных интеллектуальных транспортных систем (ИТС). Часть 1. Определения и процедуры системной инженерии для установления и оценки характеристик
+
+engine-compliance-source-en-16803-2-title = Космос. Использование определения местоположения на основе ГНСС для дорожных интеллектуальных транспортных систем (ИТС). Часть 2. Оценка базовых характеристик терминалов определения местоположения на основе ГНСС
+
+engine-compliance-source-en-16803-3-title = Космос. Использование определения местоположения на основе ГНСС для дорожных интеллектуальных транспортных систем (ИТС). Часть 3. Оценка характеристик безопасности терминалов определения местоположения на основе ГНСС
+
+engine-compliance-req-nist-id-ra-1-reference = ID.RA-1 (оценка рисков)
+
+engine-compliance-req-nist-id-ra-1-asks = Выявлять, документировать и сообщать об уязвимостях системы PNT и того, что распространяет данные PNT; где это безопасно, проверять восприимчивость к нарушению или манипуляции, для чего может использоваться имитация сигналов PNT, в рамках ограничений закона и непрерывности деятельности.
+
+engine-compliance-req-nist-id-ra-1-gap = Kshana характеризует восприимчивость в смоделированных сценариях и в записанном журнале приёмника. Перечень уязвимостей реальной системы составляет оператор, а любое РЧ-испытание выполняется на собственном оборудовании оператора и с его разрешением: Kshana ничего не передаёт.
+
+engine-compliance-req-nist-id-ra-3-reference = ID.RA-3 (оценка рисков)
+
+engine-compliance-req-nist-id-ra-3-asks = Выявлять и документировать внутренние и внешние угрозы для PNT: от природных и непреднамеренных нарушений до преднамеренных атак, таких как подавление, спуфинг и атаки с задержкой.
+
+engine-compliance-req-nist-id-ra-3-gap = Сценарии задают угрозы и их эффекты. Документированную оценку угроз для собственной площадки и системы пользователя составляет сам пользователь; ни один сценарий не является доказательством существования угрозы на ней.
+
+engine-compliance-req-nist-id-ra-4-reference = ID.RA-4 (оценка рисков)
+
+engine-compliance-req-nist-id-ra-4-asks = Определять возможные последствия и вероятности; для каждой угрозы указывать масштаб последствий, форму проявления ошибки (скачок или нарастание), пороги обнаружения и влияние ошибки на последующие звенья.
+
+engine-compliance-req-nist-id-ra-4-gap = Запуски дают показатели последствий (рост ошибки, уровни защиты, эффекты в радиолинии) для смоделированных датчиков и заданной угрозы. Вероятности не вычисляются, а смоделированное последствие не является измеренным.
+
+engine-compliance-req-nist-id-ra-5-reference = ID.RA-5 (оценка рисков)
+
+engine-compliance-req-nist-id-ra-5-asks = Использовать угрозы, уязвимости, вероятности и последствия для оценки риска и пересматривать её периодически, а также при изменении системы или угрозы.
+
+engine-compliance-req-nist-id-ra-5-gap = Оценка использует синтетический ансамбль угроз, о чём сказано явно. Запуски с хешами и повторяемостью делают повторную оценку сопоставимой; суждение о риске и его график являются организационными.
+
+engine-compliance-req-nist-pr-ds-6-reference = PR.DS-6 (безопасность данных)
+
+engine-compliance-req-nist-pr-ds-6-asks = Проверять целостность данных PNT при расхождении источников, например перекрёстной проверкой по нескольким частотам, орбитальным группировкам или независимым источникам.
+
+engine-compliance-req-nist-pr-ds-6-gap = Kshana вычисляет уровни защиты и результаты перекрёстной проверки источников для смоделированных геометрии и датчиков; проверки целостности внутри изделия не наблюдаются.
+
+engine-compliance-req-nist-pr-ip-10-reference = PR.IP-10 (процессы и процедуры защиты информации)
+
+engine-compliance-req-nist-pr-ip-10-asks = Проверять планы реагирования и восстановления; для системы с резервным источником времени отключить основной источник и убедиться, что точность времени, скачки и нарастания остаются в пределах заданных требований к часам.
+
+engine-compliance-req-nist-pr-ip-10-gap = Запуск holdover моделирует отключение и сравнивает ошибку с заданным порогом; оценённый журнал приёмника показывает реальную потерю и восстановление. Испытание на собственном сервере времени оператора и любые используемые для него РЧ-средства остаются за оператором.
+
+engine-compliance-req-nist-pr-pt-5-reference = PR.PT-5 (защитные технологии)
+
+engine-compliance-req-nist-pr-pt-5-asks = Использовать механизмы устойчивости в нормальных и неблагоприятных условиях: отбраковывать плохие сигналы и данные, а holdover сочетать с обнаружением аномалий, резервными или объединёнными источниками и восстановлением.
+
+engine-compliance-req-nist-pr-pt-5-gap = Показаны смоделированные механизмы и их пределы; реализует ли их изделие, проверяется испытанием изделия.
+
+engine-compliance-req-nist-de-ae-2-reference = DE.AE-2 (аномалии и события)
+
+engine-compliance-req-nist-de-ae-2-asks = Анализировать обнаруженные события PNT в реальном времени и впоследствии (источник, статистика ошибок, длительность, частота, местоположение), отличать вредные события от нормальной работы и сохранять исходные данные и анализ.
+
+engine-compliance-req-nist-de-ae-2-gap = Kshana оценивает записанный журнал постфактум и хранит хеши того, что запускала. Она не определяет местоположение и не устанавливает принадлежность источника помех и не выполняет мониторинг в реальном времени как услугу.
+
+engine-compliance-req-nist-de-ae-3-reference = DE.AE-3 (аномалии и события)
+
+engine-compliance-req-nist-de-ae-3-asks = Собирать и сопоставлять данные о событиях из нескольких источников и датчиков и перекрёстно проверять данные PNT из более чем одного источника для обнаружения аномального поведения.
+
+engine-compliance-req-nist-de-ae-3-gap = Мониторы Kshana перекрёстно проверяют потоки одного журнала приёмника или одного сценария; сопоставление по собственным датчикам и журналам оператора остаётся за ним.
+
+engine-compliance-req-nist-de-ae-4-reference = DE.AE-4 (аномалии и события)
+
+engine-compliance-req-nist-de-ae-4-asks = Определять влияние событий на данные PNT и на зависящие от них приложения, включая редкие события.
+
+engine-compliance-req-nist-de-ae-4-gap = Влияние показано на выходных данных PNT запуска или журнала. Для оценки эффектов на конкретное нижестоящее приложение нужны собственные требования этого приложения.
+
+engine-compliance-req-nist-de-ae-5-reference = DE.AE-5 (аномалии и события)
+
+engine-compliance-req-nist-de-ae-5-asks = Устанавливать и документировать пороги оповещения об инцидентах исходя из допусков по ошибке и неопределённости, необходимых приложению, с временем уведомления.
+
+engine-compliance-req-nist-de-ae-5-gap = Запуски оцениваются по порогам, которые задаёт пользователь, и записывают их. Выбор порогов и процедуры оповещения остаётся за пользователем.
+
+engine-compliance-req-nist-de-cm-1-reference = DE.CM-1 (непрерывный мониторинг безопасности)
+
+engine-compliance-req-nist-de-cm-1-asks = Контролировать источники и выходные данные PNT относительно базовых уровней для обнаружения аномалий, используя разнородные источники и обнаружение и исключение отказов, и проверять, что мониторинг охватывает выявленные виды отказов.
+
+engine-compliance-req-nist-de-cm-1-gap = Kshana запускает и оценивает такие мониторы на журналах и сценариях. Непрерывный мониторинг действующей системы и охват каждого вида отказа изделия набором запусков не показываются.
+
+engine-compliance-req-nist-de-dp-3-reference = DE.DP-3 (процессы обнаружения)
+
+engine-compliance-req-nist-de-dp-3-asks = Проверять, что обнаружение событий работает как задумано, периодически и после обновлений, относительно актуальных профилей угроз.
+
+engine-compliance-req-nist-de-dp-3-gap = Повторяемые сценарии с хешами и события, заданные до оценки, подкрепляют доказательствами такую проверку; её выполнение на оборудовании оператора по графику остаётся за ним.
+
+engine-compliance-req-nist-rs-an-5-reference = RS.AN-5 (анализ)
+
+engine-compliance-req-nist-rs-an-5-asks = Организовать верификацию и валидацию для известных видов отказов и вновь обнаруженных уязвимостей и записывать номинальные и аномальные данные PNT при инцидентах для улучшения последующего обнаружения.
+
+engine-compliance-req-nist-rs-an-5-gap = Оценённый журнал характеризует один инцидент постфактум. Получение сведений о раскрытых уязвимостях и реагирование на них является процессом вне любого запуска.
+
+engine-compliance-req-nist-rs-mi-2-reference = RS.MI-2 (смягчение)
+
+engine-compliance-req-nist-rs-mi-2-asks = После локализации инцидента смягчать его с помощью альтернативных или дополняющих источников PNT, чтобы работа продолжалась, и возвращать систему в надлежащее рабочее состояние.
+
+engine-compliance-req-nist-rs-mi-2-gap = Запуски показывают, как долго смоделированные резервные источники удерживают ошибку в пределах границы; локализация и возврат к эксплуатации являются операционными шагами.
+
+engine-compliance-mapping-header-reference = Ссылка
+
+engine-compliance-mapping-header-asks = Что требуется (перефразировано)
+
+engine-compliance-mapping-header-capabilities = Выходные данные Kshana, которые подкрепляют это доказательствами
+
+engine-compliance-mapping-header-gap = Пробел
+
+engine-compliance-mapping-none = нет
+
+engine-compliance-source-line = **{ $title }**: { $version }. <{ $url }>. Прочитано { $accessed }: { $checked }.
