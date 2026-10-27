@@ -19,3 +19,7 @@ seg-d3af26f389f5 = IONEX / Klobuchar
 seg-d6476863f862 = Możliwość
 
 seg-ad856ad710eb = Status
+
+seg-d12d4565b01d = Księżycowa geodezyjna VLBI, ścieżka jądrowa
+
+seg-5ed34a5b402e = Księżycowe wspólne OD wielotechnikowe + zegar

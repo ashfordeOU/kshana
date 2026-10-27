@@ -13,3 +13,9 @@ seg-ad856ad710eb = Status
 seg-cbf0f9bcd2d8 = Wyrocznia
 
 seg-6e0cb6acc073 = VALIDATED
+
+seg-c14b8fe46517 = Maska horyzontu zależna od azymutu: zbiór widocznych satelitów, azymut i elewacja oraz DOP przy masce
+
+seg-bbb1828b3db1 = Redukcje kanionu ulicznego, sektorów i terenu do tabeli
+
+seg-2c53381d48ae = Elipsa błędu poziomego i kofaktor dla poszczególnych systemów z kowariancji geometrii
