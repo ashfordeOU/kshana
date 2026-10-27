@@ -62,7 +62,7 @@ seg-b8733ea97546 = <b>Päritolu.</b> Anonüümseid arvulisi konstante ei ole —
 # c2: modelled
 # c3: not modeled
 # c4: src/verification.rs
-seg-55a09b775418 = <b>Valideerimise ausus.</b> Iga võimekus on märgitud kui <c1/> (välise oraakli (sõltumatu etalon) vastu) või <c2/> / <c3/>. Midagi ei väideta tõenditest kaugemale. Vt masinkontrollitud maatriksit failis <c4/>.
+seg-55a09b775418 = <b>Valideerimise ausus.</b> Iga võimekus on märgitud kui <c1/> (välise sõltumatu etaloni vastu) või <c2/> / <c3/>. Midagi ei väideta tõenditest kaugemale. Vt masinkontrollitud maatriksit failis <c4/>.
 
 # text
 # c1: scripts/check-no-attribution.sh

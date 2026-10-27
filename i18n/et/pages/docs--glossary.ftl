@@ -339,7 +339,7 @@ seg-c0e0c18bd867 = Tõendustasemed: VALIDATED, MODELLED, PARTNER
 seg-61c0aa107fd9 = Iga masinkontrollitud kontrollimaatriksi (<a1><c1/></a1>) võimekus kannab ühte kolmest tasemest.
 
 # text
-seg-13fb20435df3 = <b>VALIDATED.</b> Lihtsalt öeldes: <em>kontrollitud kellegi teise vastuse vastu.</em> Võimekuse väljundit võrreldi sõltumatu välise oraakliga (sõltumatu etalon) — tegelikud mõõdetud andmed, kellegi teise kirjutatud sõltumatu teek või avaldatud etalonväärtused — ja see nõustus kindlaksmääratud tolerantsi piires. Pideva integratsiooni kontroll lükkab tagasi VALIDATED rea, mis ei nimeta ühtegi välist oraaklit.
+seg-13fb20435df3 = <b>VALIDATED.</b> Lihtsalt öeldes: <em>kontrollitud kellegi teise vastuse vastu.</em> Võimekuse väljundit võrreldi sõltumatu välise sõltumatu etaloniga — tegelikud mõõdetud andmed, kellegi teise kirjutatud sõltumatu teek või avaldatud etalonväärtused — ja see nõustus kindlaksmääratud tolerantsi piires. Pideva integratsiooni kontroll lükkab tagasi VALIDATED rea, mis ei nimeta ühtegi välist sõltumatut etaloni.
 
 # text
 # c1: MODELLED-RATIONALE.md

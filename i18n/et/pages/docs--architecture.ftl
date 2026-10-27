@@ -130,7 +130,7 @@ seg-5749f1300772 = 1c. Terviklikkuse, GNSS-i, sügava kosmose, Kuu ja missiooni 
 # text
 # c1: api
 # c2: verification
-seg-f44755d6d921 = Ülejäänud valdkonnad ühendatakse sama <c1/> väljasaatmisega ja taaskasutavad jagatud tuuma, tugisüsteeme ja geomeetriat. Kõik siin on <b>MODELLED</b>, kui just <c2/>-maatriksi rida ei viita välisele oraaklile (sõltumatu etalon) (RAIM tuum vs SciPy, SBAS vs RTKLIB (avatud lähtekoodiga reaalajas kinemaatilise positsioneerimise teek) fork, gnss_lib_py DOP (täpsuse halvenemise tegur) tuum, OPS-SAT hindamine, Kuu ARAIM kaitsetaseme tuum, tarnijate vaheline Kuu efemeriidi kooskõla) — ülejäänud Kuu komplekt ja kvantdemonstraator on modelleeritud, illustratiivsed, avaliku allikaga ega kanna TRL (tehnoloogia valmidustase) / pärandi / agentuuri kinnituse väidet.
+seg-f44755d6d921 = Ülejäänud valdkonnad ühendatakse sama <c1/> väljasaatmisega ja taaskasutavad jagatud tuuma, tugisüsteeme ja geomeetriat. Kõik siin on <b>MODELLED</b>, kui just <c2/>-maatriksi rida ei viita välisele sõltumatule etalonile (RAIM tuum vs SciPy, SBAS vs RTKLIB (avatud lähtekoodiga reaalajas kinemaatilise positsioneerimise teek) fork, gnss_lib_py DOP (täpsuse halvenemise tegur) tuum, OPS-SAT hindamine, Kuu ARAIM kaitsetaseme tuum, tarnijate vaheline Kuu efemeriidi kooskõla) — ülejäänud Kuu komplekt ja kvantdemonstraator on modelleeritud, illustratiivsed, avaliku allikaga ega kanna TRL (tehnoloogia valmidustase) / pärandi / agentuuri kinnituse väidet.
 
 # text
 seg-044940c8d052 = 1d. LEO PNT, spekter, päikesesüsteem, võrguajastus, kampaaniad ja väljundid
@@ -138,7 +138,7 @@ seg-044940c8d052 = 1d. LEO PNT, spekter, päikesesüsteem, võrguajastus, kampaa
 # text
 # c1: kind
 # c2: api
-seg-253a26d9cc5d = Uusimad kihid järgivad sama mustrit: igaüks on üks või mitu stsenaariumi <c1/>-i, mis saadetakse välja failist <c2/>, ehitatud jagatud tuumale ja MODELLED, kui just maatriksi rida ei nimeta välist oraaklit (sõltumatu etalon).
+seg-253a26d9cc5d = Uusimad kihid järgivad sama mustrit: igaüks on üks või mitu stsenaariumi <c1/>-i, mis saadetakse välja failist <c2/>, ehitatud jagatud tuumale ja MODELLED, kui just maatriksi rida ei nimeta välist sõltumatut etaloni.
 
 # text
 seg-e47cccd54da3 = Liigipõhine detail on failides <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-PASS</a3>, <a4>LEO-NAVMSG</a4>, <a5>LEO-PNT-FUSION</a5>, <a6>SPECTRUM</a6>, <a7>CONSTELLATION-DESIGN</a7>, <a8>TELECOM-TIMING</a8>, <a9>SLOT-TIMING</a9>, <a10>CAMPAIGNS</a10>, <a11>REPORTS</a11>, <a12>ANIMATION</a12> ja <a13>INTEROP</a13>.
@@ -149,7 +149,7 @@ seg-d04b21c7cb6c = 1e. Vastuvõtja usalduse, tõendite, telemeetria, väljaõppe
 # text
 # c1: api
 # c2: receiver-trust
-seg-84ee122959b4 = Need kihid loevad vastuvõtja enda logi või kirjutavad faile teiste tööriistade jaoks; ükski neist ei sünteesi ega edasta raadiosageduslikku signaali. Need asuvad <c1/> kõrval, mitte stsenaariumi liikide all, välja arvatud <c2/> ise, mis on stsenaariumi liik. Kõik on MODELLED, kui just maatriksi rida ei nimeta välist oraaklit (sõltumatu etalon), ja merendusväljundid on nõuandvad, mitte tüübikinnitust omav navigatsiooniseade.
+seg-84ee122959b4 = Need kihid loevad vastuvõtja enda logi või kirjutavad faile teiste tööriistade jaoks; ükski neist ei sünteesi ega edasta raadiosageduslikku signaali. Need asuvad <c1/> kõrval, mitte stsenaariumi liikide all, välja arvatud <c2/> ise, mis on stsenaariumi liik. Kõik on MODELLED, kui just maatriksi rida ei nimeta välist sõltumatut etaloni, ja merendusväljundid on nõuandvad, mitte tüübikinnitust omav navigatsiooniseade.
 
 # text
 seg-aab745a65e76 = Moodul
@@ -407,7 +407,7 @@ seg-318ad50d3826 = Mitu siia kunagi tulevase tööna kantud võimekust on vahepe
 # c2: .gfc
 # c3: xval/high-degree-gravity/
 # c4: space-weather
-seg-068119b15b27 = Ülejäänud jätkutööd on jälgitavad failis <a1>CHANGELOG</a1> <c1/> ning võimekuse kaupa teekaart failis <a2>CAPABILITY</a2>: välise oraakli (sõltumatu etalon) väärtus EGM (Earth Gravitational Model) kõrgastme hindaja jaoks täpselt polaarteljel ja pyshtools-puhas pooluse lähedane võrdlus (hindaja astmeni { "2190" } ja selle käitusaegne <c2/> laadija on olemas, MODELLED; vt <c3/>), ajas muutuv kosmoseilma draiver valikulise NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) pidurdustiheduse taseme jaoks (vaikimisi pidurdustihedus on staatiline eksponentmudel ning liigi <c4/> Jacchia-71 tihedust iseloomustatakse NRLMSISE-00 suhtes, kuid ei asendata sellega), valikulise päikese servapimenemise varju väline kontroll, kandelaine faasi GNSS/INS tihe sidumine ning päris EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) gravitatsioonikaart alt-PNT sobitaja jaoks.
+seg-068119b15b27 = Ülejäänud jätkutööd on jälgitavad failis <a1>CHANGELOG</a1> <c1/> ning võimekuse kaupa teekaart failis <a2>CAPABILITY</a2>: välise sõltumatu etaloni väärtus EGM (Earth Gravitational Model) kõrgastme hindaja jaoks täpselt polaarteljel ja pyshtools-puhas pooluse lähedane võrdlus (hindaja astmeni { "2190" } ja selle käitusaegne <c2/> laadija on olemas, MODELLED; vt <c3/>), ajas muutuv kosmoseilma draiver valikulise NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) pidurdustiheduse taseme jaoks (vaikimisi pidurdustihedus on staatiline eksponentmudel ning liigi <c4/> Jacchia-71 tihedust iseloomustatakse NRLMSISE-00 suhtes, kuid ei asendata sellega), valikulise päikese servapimenemise varju väline kontroll, kandelaine faasi GNSS/INS tihe sidumine ning päris EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) gravitatsioonikaart alt-PNT sobitaja jaoks.
 
 # text
 # c1: ErrorModel

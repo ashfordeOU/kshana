@@ -7,7 +7,7 @@ seg-4636d450ef60 = <b>MODELLED</b> Üks jooks võtab kontaktiplaani (aos_s/los_s
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Oraakel (sõltumatu etalon) (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
+seg-fa3ad6babe54 = <b>MODELLED</b> Liigi <c1/> pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise telje väärtustel, soovi korral ansambel igas sõlmes) ja monte_carlo sec. Sõltumatu etalon (InternalConsistency): Faasi juhusliku ekslemise suletud kuju valge sageduse müra korral, dispersioon q_wf tau (NIST Technical Note { "1337" }), statistikamasinavärgi jaoks ning baitide tasemel võrdsus eraldiseisvate jooksudega seemendamise (seeding) jaoks. See kontrollib ansambli aritmeetikat mootori enda kellamudelil, mitte välist andmestikku
 
 # text
 seg-d1c11e493795 = Parameetripühkimised ja algväärtusega (seed) Monte Carlo ansamblid üle mis tahes stsenaariumi liigi on MODELLED, mitte valideeritud: kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -22,7 +22,7 @@ seg-c61e88721556 = Mootori v{ $version } stsenaariumi liik, perekond <a1>Kellad,
 seg-a8d92406e428 = Strontsiumi optiline võrekell, kosmosele suunatud eesmärk sigma_y
 
 # text
-seg-5278ccdaf16f = <b>MODELLED</b> Suletud kujul libisemisvea kasv + holdover läveni; kvantkellade klassid. Oraakel (sõltumatu etalon) (ReferenceImpl): Mitmeastmeline clock_state kovariatsioonirekursioon (sama koodibaasi ristkontroll); aluseks olev libisemisdispersiooni ja holdover-i inversiooni tuum on väliselt valideeritud scipy vastu (vt „Clock-holdover coast-variance & threshold inversion“). Klassipõhised punase müra põranda holdover-i arvud jäävad MODELLED
+seg-5278ccdaf16f = <b>MODELLED</b> Suletud kujul libisemisvea kasv + holdover läveni; kvantkellade klassid. Sõltumatu etalon (ReferenceImpl): Mitmeastmeline clock_state kovariatsioonirekursioon (sama koodibaasi ristkontroll); aluseks olev libisemisdispersiooni ja holdover-i inversiooni tuum on väliselt valideeritud scipy vastu (vt „Clock-holdover coast-variance & threshold inversion“). Klassipõhised punase müra põranda holdover-i arvud jäävad MODELLED
 
 # text
 seg-e12f672ae71d = GNSS-ita kella holdover on MODELLED, mitte valideeritud: kontrollitud eraldi teostuse vastu samas koodibaasis — testitavast üksusest sõltumatu, kuid mitte väliselt autoriteetne. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))

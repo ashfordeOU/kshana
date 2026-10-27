@@ -61,10 +61,10 @@ seg-ceedc14c623a = <b>VALIDATED</b> ROC AUC + bootstrap usaldusvahemik, mis eral
 seg-0ee5b31cfd09 = <b>MODELLED</b> Märgendatud sünteetiline häirekorpus + detektorist sõltumatu ROC/AUC/segadusmaatriksi/Pfa-Pmd raamistik; lekkekaitse, kihiline jaotus, jaotusnihke (režiimisisese vs -välise) optimismiaruanne.
 
 # text
-seg-392fa6495840 = <b>VALIDATED</b> AUC (Mann-Whitney, viigid ½), segadusmaatriks läveväärtusel, P_d/P_md/P_fa/täpsus/korrektsus/F1. Oraakel (sõltumatu etalon) (ExternalDataset): scikit-learn { "1.9.0" } (Pedregosa et al., JMLR { "2011" }) — sõltumatu teek, täpne vaste
+seg-392fa6495840 = <b>VALIDATED</b> AUC (Mann-Whitney, viigid ½), segadusmaatriks läveväärtusel, P_d/P_md/P_fa/täpsus/korrektsus/F1. Sõltumatu etalon (ExternalDataset): scikit-learn { "1.9.0" } (Pedregosa et al., JMLR { "2011" }) — sõltumatu teek, täpne vaste
 
 # text
-seg-c719d4060e1a = <b>MODELLED</b> Märgendatud sünteetiline häirekorpus + detektorist sõltumatu ROC/AUC/segadusmaatriksi/Pfa-Pmd raamistik; lekkekaitse, kihiline jaotus, jaotusnihke (režiimisisese vs -välise. Oraakel (sõltumatu etalon) (InternalConsistency): Suletud kujul AUC piirid (Mann–Whitney) + täiusliku sõltumatu etaloni detektor; korpus on SÜNTEETILINE (parameetritest lähtuv, mitte väli-/IQ-andmed)
+seg-c719d4060e1a = <b>MODELLED</b> Märgendatud sünteetiline häirekorpus + detektorist sõltumatu ROC/AUC/segadusmaatriksi/Pfa-Pmd raamistik; lekkekaitse, kihiline jaotus, jaotusnihke (režiimisisese vs -välise. Sõltumatu etalon (InternalConsistency): Suletud kujul AUC piirid (Mann–Whitney) + täiusliku sõltumatu etaloni detektor; korpus on SÜNTEETILINE (parameetritest lähtuv, mitte väli-/IQ-andmed)
 
 # text
 # c1: label

@@ -7,7 +7,7 @@ seg-37d29d8303fe = km
 seg-b054c73f22e5 = väärtus puudub
 
 # text
-seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-1f17ef6a853e = Mootori v{ $version } stsenaariumi liik, perekond <a1>Kuu ja tsislunaarne ruum</a1>. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
@@ -69,7 +69,7 @@ seg-cf1dce5fc824 = Diagramm, mille mootor kirjutab failile scenarios/earth-gnss-
 seg-04f59a1e2ec2 = <b>MODELLED</b> Maa-GNSS-i vastuvõtt Kuu kaugusel: nõrga signaali kiht, mida nimetab P7 tabel { "1" } ja mille jaoks mootoril mudelit ei olnud.
 
 # text
-seg-9531f6b14fc8 = <b>MODELLED</b> Maa-GNSS-i vastuvõtt Kuu kaugusel: nõrga signaali kiht, mida nimetab P7 tabel { "1" } ja mille jaoks mootoril mudelit ei olnud. Satelliidi ja epohhi kohta arvutab see telje-v. Oraakel (sõltumatu etalon) (InternalConsistency): Suletud kujul samasused ja sisemine kooskõla; VÄLIST sõltumatut etaloni EI väideta. Limbi poolnurka kontrollitakse suhte asin(R_earth/r_orbit) vastu ja geomeetriat selle vastu; vabaruumi sumbuvus, DOP-i tuum ja SGP4 levitamine, mida see koondab, on igaüks väliselt valideeritud oma ridades ning see rida ei laena nende staatust. MIKS MODELLED, ja see on saatemuster: võimendus nurga all on ühtlaselt valgustatud
+seg-9531f6b14fc8 = <b>MODELLED</b> Maa-GNSS-i vastuvõtt Kuu kaugusel: nõrga signaali kiht, mida nimetab P7 tabel { "1" } ja mille jaoks mootoril mudelit ei olnud. Satelliidi ja epohhi kohta arvutab see telje-v. Sõltumatu etalon (InternalConsistency): Suletud kujul samasused ja sisemine kooskõla; VÄLIST sõltumatut etaloni EI väideta. Limbi poolnurka kontrollitakse suhte asin(R_earth/r_orbit) vastu ja geomeetriat selle vastu; vabaruumi sumbuvus, DOP-i tuum ja SGP4 levitamine, mida see koondab, on igaüks väliselt valideeritud oma ridades ning see rida ei laena nende staatust. MIKS MODELLED, ja see on saatemuster: võimendus nurga all on ühtlaselt valgustatud
 
 # text
 # c1: kshana kinds --json

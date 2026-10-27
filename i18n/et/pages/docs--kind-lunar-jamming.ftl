@@ -4,7 +4,7 @@
 seg-37d16b499bc5 = dB
 
 # text
-seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-1f17ef6a853e = Mootori v{ $version } stsenaariumi liik, perekond <a1>Kuu ja tsislunaarne ruum</a1>. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
@@ -77,11 +77,11 @@ seg-c61fb6515ed9 = Näide <c1/> määrab muu hulgas:
 seg-6fe8b3c6c584 = Mootori joonistatud diagramm failile scenarios/lunar-jamming.toml, liik lunar-jamming
 
 # text
-seg-d4ae2f589112 = <b>MODELLED</b> Kuupõhine segaja ja signaali suhe, efektiivne C/N₀ ja haakumise kadu selenograafilise pinnakasutaja jaoks Kuu pinna (või kõrgendatud) segaja all, illustratiivse. Oraakel (sõltumatu etalon) (ReferenceImpl): Koostise ristkontroll sõltumatu hoidlasisese koodiraja vastu: iga lingi J/S tuletatakse uuesti kahe lingieelarve vahena, mis on arvutatud linkbudget::received_signal_power_dbw abil, mille vabaruumi kadu on üks avaldis { "20" }·log10(4πRf/c) kolmeliikmelise summa asemel, mida kasutab jamming::free_space_path_loss_db — mõlemad ühtivad täpsusega < { "1e-9" } dB igal real (mõõdetud halvim juhtum { "7.11e-14" } dB, st ujukomaümardus)
+seg-d4ae2f589112 = <b>MODELLED</b> Kuupõhine segaja ja signaali suhe, efektiivne C/N₀ ja haakumise kadu selenograafilise pinnakasutaja jaoks Kuu pinna (või kõrgendatud) segaja all, illustratiivse. Sõltumatu etalon (ReferenceImpl): Koostise ristkontroll sõltumatu hoidlasisese koodiraja vastu: iga lingi J/S tuletatakse uuesti kahe lingieelarve vahena, mis on arvutatud linkbudget::received_signal_power_dbw abil, mille vabaruumi kadu on üks avaldis { "20" }·log10(4πRf/c) kolmeliikmelise summa asemel, mida kasutab jamming::free_space_path_loss_db — mõlemad ühtivad täpsusega < { "1e-9" } dB igal real (mõõdetud halvim juhtum { "7.11e-14" } dB, st ujukomaümardus)
 
 # text
 # c1: lunar-jamming
-seg-dbe54e7cc800 = <b>MODELLED</b> Aruanne <c1/> ei toetu enam oma keelukontuuris ühele skalaarile. See väljastab kogu mõõdetud soovitud signaali C/N₀ jaotuse satelliidipõhise t. Oraakel (sõltumatu etalon) (InternalConsistency): Sisemine kooskõla mootori enda edasifunktsioonidega, mida see võimekus ausalt väita saab. Iga kontuuripunkt on suletud kujuga pöördamine ja iga pöördamist kontrollitakse selle vastuse tagasi surumisega läbi EDASI funktsiooni, millega aruande enda read hinnati: J/S veerg läbi jamming::effective_cn0_dbhz (mis peab tagastama tracking_threshold_dbhz täpsusega < { "1e-9" } dB-Hz), eemalseisu veerg
+seg-dbe54e7cc800 = <b>MODELLED</b> Aruanne <c1/> ei toetu enam oma keelukontuuris ühele skalaarile. See väljastab kogu mõõdetud soovitud signaali C/N₀ jaotuse satelliidipõhise t. Sõltumatu etalon (InternalConsistency): Sisemine kooskõla mootori enda edasifunktsioonidega, mida see võimekus ausalt väita saab. Iga kontuuripunkt on suletud kujuga pöördamine ja iga pöördamist kontrollitakse selle vastuse tagasi surumisega läbi EDASI funktsiooni, millega aruande enda read hinnati: J/S veerg läbi jamming::effective_cn0_dbhz (mis peab tagastama tracking_threshold_dbhz täpsusega < { "1e-9" } dB-Hz), eemalseisu veerg
 
 # text
 # c1: kshana kinds --json

@@ -50,7 +50,7 @@ seg-bd3832c8215d = Tulemuse silt (mootori oma): MODELLED kihilise PNT konfliktiv
 seg-4dd2bcc206db = Diagramm, mille mootor kirjutab failile scenarios/conflict-resilience.toml, liik conflict-resilience
 
 # text
-seg-c0e69524f05d = <b>MODELLED</b> Mõõtmekohased alamhinded Kshana enda seitsme vastupidavuskategooria (mitte DHS-i terminid), RethinkPNT RDRR funktsioonide ja Yangi kriteeriumide üle, igaüks märgitud modelleeritud märgisega i. Oraakel (sõltumatu etalon) (InternalConsistency): Käsitsi tuletatud mõõdikukohased valemid: pöördSimpsoni mitmekesisus, kaalutud keskmine komposiit, piiratud/piiramata ajajoone kestused, nõrgima lüli Level-redel
+seg-c0e69524f05d = <b>MODELLED</b> Mõõtmekohased alamhinded Kshana enda seitsme vastupidavuskategooria (mitte DHS-i terminid), RethinkPNT RDRR funktsioonide ja Yangi kriteeriumide üle, igaüks märgitud modelleeritud märgisega i. Sõltumatu etalon (InternalConsistency): Käsitsi tuletatud mõõdikukohased valemid: pöördSimpsoni mitmekesisus, kaalutud keskmine komposiit, piiratud/piiramata ajajoone kestused, nõrgima lüli Level-redel
 
 # text
 # c1: label

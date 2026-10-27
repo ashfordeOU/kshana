@@ -75,11 +75,11 @@ seg-35ac4dddc39f = <b>MODELLED</b> orbital_timing::orbital_timing, kättesaadav 
 
 # text
 # c1: slot-timing
-seg-8dbc28c3398f = <b>MODELLED</b> Liik <c1/>: ennustatud viga E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² pööratud rikkumise, järelejäänud aja, uuestisünkroniseerimise. Oraakel (sisemine kooskõla; InternalConsistency): iga liikme kinnised kujud eraldi ja sõltumatu holdover::holdover_seconds juureleidmine; andmelehe arvud on nimetatud dokumendid (docs/SLOT-TIMING.md). Klassi vaikeväärtus põhineb eeldatud punase müra põhjatasemel ja andmelehe allikas on maksimumide ümbrik, seega pole ükski neist ühegi üksuse mõõtmine
+seg-8dbc28c3398f = <b>MODELLED</b> Liik <c1/>: ennustatud viga E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² pööratud rikkumise, järelejäänud aja, uuestisünkroniseerimise. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): iga liikme kinnised kujud eraldi ja sõltumatu holdover::holdover_seconds juureleidmine; andmelehe arvud on nimetatud dokumendid (docs/SLOT-TIMING.md). Klassi vaikeväärtus põhineb eeldatud punase müra põhjatasemel ja andmelehe allikas on maksimumide ümbrik, seega pole ükski neist ühegi üksuse mõõtmine
 
 # text
 # c1: slot-timing
-seg-fabde8dddf68 = <b>MODELLED</b> orbital_timing::orbital_timing, kättesaadav liigi <c1/> spuufimise jaotisena: ringorbiidi kiirus ja periood, pikim aeg, mille jooksul maapealne spuufer suudab satelliidini ulatuda ühe läbimise jooksul, kellaga toetatud monitori põhjatase ja CUSUM-i tuvastus l. Oraakel (sisemine kooskõla; InternalConsistency): taandamine olemasolevale ajastuse kaitsetasemele ning ringorbiidi ja kerakujulise Maa nähtavuse kinnistele kujudele. Tingimuslik tuvastamisest, üks maapealne spuufer kindlaksmääratud tõusukiirusega, läbimine otse pea kohal mittepöörleval Maal; spuufitud vastuvõtjal orbiidil ei ole valideeritud
+seg-fabde8dddf68 = <b>MODELLED</b> orbital_timing::orbital_timing, kättesaadav liigi <c1/> spuufimise jaotisena: ringorbiidi kiirus ja periood, pikim aeg, mille jooksul maapealne spuufer suudab satelliidini ulatuda ühe läbimise jooksul, kellaga toetatud monitori põhjatase ja CUSUM-i tuvastus l. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): taandamine olemasolevale ajastuse kaitsetasemele ning ringorbiidi ja kerakujulise Maa nähtavuse kinnistele kujudele. Tingimuslik tuvastamisest, üks maapealne spuufer kindlaksmääratud tõusukiirusega, läbimine otse pea kohal mittepöörleval Maal; spuufitud vastuvõtjal orbiidil ei ole valideeritud
 
 # text
 # c1: not_modelled[0]

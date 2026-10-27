@@ -136,7 +136,7 @@ seg-65fb8703baf9 = Simulaator on kasulik ainult siis, kui seda saab usaldada. Ks
 seg-de8fd160db6d = <b>Iga parameeter on tsiteeritud.</b> Iga sensori näitaja kannab stringi <c1/>, mis nimetab andmelehe või artikli, kust see pärineb. Anonüümseid konstante pole.
 
 # text
-seg-09d5cd11b127 = <b>Iga mudelit kontrollitakse õpikuseose vastu,</b> mitte ainult iseenda vastu — nt simuleeritud kella Alani hälve peab ühtima avaldatud stabiilsusnäitajaga ja inertsiaaltriiv peab ühtima standardse vea kasvu seadusega. Võimekust nimetatakse <em>valideeritud</em> ainult seal, kus sõltumatu väline oraakel (sõltumatu etalon) (tegelik andmestik, sõltumatu realisatsioon või avaldatud etalonvektorid) nõustub; ülejäänu on <em>modelleeritud</em>, ja <a1>kontrollimaatriks</a1> ütleb, mis on mis.
+seg-09d5cd11b127 = <b>Iga mudelit kontrollitakse õpikuseose vastu,</b> mitte ainult iseenda vastu — nt simuleeritud kella Alani hälve peab ühtima avaldatud stabiilsusnäitajaga ja inertsiaaltriiv peab ühtima standardse vea kasvu seadusega. Võimekust nimetatakse <em>valideeritud</em> ainult seal, kus sõltumatu väline sõltumatu etalon (tegelik andmestik, sõltumatu realisatsioon või avaldatud etalonvektorid) nõustub; ülejäänu on <em>modelleeritud</em>, ja <a1>kontrollimaatriks</a1> ütleb, mis on mis.
 
 # text
 seg-ccb5b2fe93c4 = Küpsus on sildistatud.

@@ -47,7 +47,7 @@ seg-46aa0e01b330 = <b>Kvant: <c1/>, tuvastatud { "70" } s juures.</b> Optilise k
 seg-022573b3dcc4 = <b>Klassikaline: <c1/>, tuvastatud { "430" } s juures.</b> Kiibimõõtmelise aatomkella (CSAC) enda veerumismüra aknas on { "20" } ns-ga võrreldav, nii et see ei suuda sageli spuufimist oma triivist eristada — see jätab märkamata { "44" } % ajast.
 
 # text
-seg-27b2b715efcb = Mitte-ringsõltuv oraakel (sõltumatu etalon): analüütiline ja Monte Carlo P_md
+seg-27b2b715efcb = Mitte-ringsõltuv sõltumatu etalon: analüütiline ja Monte Carlo P_md
 
 # text
 # c1: 0.442
@@ -83,7 +83,7 @@ seg-6441dfa026dc = <b>Klassikaline: PNT-holdover { "350" } s</b> — <em>ajastus
 seg-12e9b7192733 = <b><c1/> kvantkomplekti puhul on tegelik ja ei ole viga.</b> See on filtri enda kooskõla mürarikka uuestisünkroniseerimise korral — <b>mitte</b> lennunduse terviklikkuse arv (horisontaalne või vertikaalne kaitsetase, HPL/VPL). Sõna „terviklikkus“ siin mitte üle lugeda; vt <a1><c2/></a1>.
 
 # text
-seg-587efcdcbc13 = Mitte-ringsõltuv oraakel (sõltumatu etalon): { "350" } s asukoha holdover
+seg-587efcdcbc13 = Mitte-ringsõltuv sõltumatu etalon: { "350" } s asukoha holdover
 
 # text
 # c1: b

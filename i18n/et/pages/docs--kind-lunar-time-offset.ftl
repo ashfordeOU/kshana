@@ -45,7 +45,7 @@ seg-3843825d0733 = us
 seg-e9deb6ed41c1 = Mootori joonistatud diagramm failile scenarios/lunar-time-offset.toml, liik lunar-time-offset
 
 # text
-seg-982426693747 = <b>VALIDATED</b> Relativistlik Maa-Kuu kellakiirus (LTC/TCL) + TT/TAI/UTC aheldamine + ansambel. Oraakel (sõltumatu etalon) (ExternalDataset): Ashby & Patla { "2024" }, „A Relativistic Framework to Estimate Clock Rates on the Moon“, Astronomical Journal { "167" }:{ "149" } (NIST; IAU/IAG LunaNet LTC alus): Kuu pinna omapotentsiaal L_m = { "3.13881e-11" } ja sekulaarne kogu { "56.02" } µs/päevas ühtivad avaldatud arvväärtustena; geotsentriline Kuu kiirus ristkontrollitud JPL DE440 vastu (de440s.bsp SPICE kaudu)
+seg-982426693747 = <b>VALIDATED</b> Relativistlik Maa-Kuu kellakiirus (LTC/TCL) + TT/TAI/UTC aheldamine + ansambel. Sõltumatu etalon (ExternalDataset): Ashby & Patla { "2024" }, „A Relativistic Framework to Estimate Clock Rates on the Moon“, Astronomical Journal { "167" }:{ "149" } (NIST; IAU/IAG LunaNet LTC alus): Kuu pinna omapotentsiaal L_m = { "3.13881e-11" } ja sekulaarne kogu { "56.02" } µs/päevas ühtivad avaldatud arvväärtustena; geotsentriline Kuu kiirus ristkontrollitud JPL DE440 vastu (de440s.bsp SPICE kaudu)
 
 # text
 seg-96b65f604cc2 = Ausus: MODELLED, mitte sertifitseeritud. Peamine us/päevas arv sõltub etalonist (Maa geoid W0 vs Kuu selenoid, ajakeskmistamise aken, tähelepanuta jäetud alla-us/päevas tsentrifugaal-/J2 paranded) -> aus väljund on vöönd, mitte üks arv. Midagi siin ei ole valideeritud alla nanosekundilise absoluutse täpsuseni ega sertifitseeritud operatiivseks ajahoidmiseks. Aruanne annab ka kogunenud LTC-TT nihke üle horisondi (stsenaariumifaili kommentaar, read { "11" } kuni { "16" })

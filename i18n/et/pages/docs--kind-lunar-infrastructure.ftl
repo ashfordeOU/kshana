@@ -62,16 +62,16 @@ seg-def582a1f2ca = Tulemuse silt (mootori oma): MODELLED — piiratud kolme keha
 seg-f3b4a80a739b = graafikut ei ole: näide ei kirjuta diagrammi
 
 # text
-seg-35a4a7a25561 = <b>MODELLED</b> Orbiidi määramine peaaegu sirgjoonelisel halo orbiidil (või elliptilisel külmutatud orbiidil) kahest sõltumatust andmetüübist: pardal vastuvõetud Maa-GNSS pseudovahemaad. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu scipy/numpy programm integreerib samu variatsioonivõrrandeid (lävi O1). Midagi ei võrrelda Kuu orbiidi mõõtmisega. Sõltumatu etalon kontrollib kindlaksmääratud valemite numbrilisi lahendusi, mitte füüsikat, seega jääb rida MODELLED. Piiratud kolme keha mudel: ilma Päikeseta, ilma Kuu harmoonikuteta, Maa pöörlemistelg piki orbiidi normaali, ILLUSTRATIVE vastuvõtja ja jaama sisendid.
+seg-35a4a7a25561 = <b>MODELLED</b> Orbiidi määramine peaaegu sirgjoonelisel halo orbiidil (või elliptilisel külmutatud orbiidil) kahest sõltumatust andmetüübist: pardal vastuvõetud Maa-GNSS pseudovahemaad. Sõltumatu etalon (ReferenceImpl): Sõltumatu scipy/numpy programm integreerib samu variatsioonivõrrandeid (lävi O1). Midagi ei võrrelda Kuu orbiidi mõõtmisega. Sõltumatu etalon kontrollib kindlaksmääratud valemite numbrilisi lahendusi, mitte füüsikat, seega jääb rida MODELLED. Piiratud kolme keha mudel: ilma Päikeseta, ilma Kuu harmoonikuteta, Maa pöörlemistelg piki orbiidi normaali, ILLUSTRATIVE vastuvõtja ja jaama sisendid.
 
 # text
-seg-32455bf5f804 = <b>MODELLED</b> Vastuvõtjatevaheline üksikdiferentseeritud Maa-GNSS kandelaine faas ja kood Kuu pinnajaamas ja orbiitril, epohhipõhise kellaerinevuse profileeritud välja. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu numpy lahendus samade normaalvõrrandite jaoks eksporditud ridadest (Q3) ja jõumeetodil täisarvude loendamine (Q4). Ühtegi GNSS-i ega Kuu kandelaine faasi mõõtmist ei võrrelda. MODELLED.
+seg-32455bf5f804 = <b>MODELLED</b> Vastuvõtjatevaheline üksikdiferentseeritud Maa-GNSS kandelaine faas ja kood Kuu pinnajaamas ja orbiitril, epohhipõhise kellaerinevuse profileeritud välja. Sõltumatu etalon (ReferenceImpl): Sõltumatu numpy lahendus samade normaalvõrrandite jaoks eksporditud ridadest (Q3) ja jõumeetodil täisarvude loendamine (Q4). Ühtegi GNSS-i ega Kuu kandelaine faasi mõõtmist ei võrrelda. MODELLED.
 
 # text
-seg-b20c412516b6 = <b>MODELLED</b> Seitsmeparameetrilise Kuu tugisüsteemi datumi Fisheri informatsioon Maa jaama laserulatusest viiele reflektorile üksi ja orbiitri-pinnajaama ra. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu numpy lõplik erinevus edasimudelist (F2). Midagi ei võrrelda päris Kuu tugisüsteemi lahendustega. Tegur on tingimuslik eeldatava teadaoleva orbiidi ja { "1" } m ulatuse sigma suhtes. MODELLED.
+seg-b20c412516b6 = <b>MODELLED</b> Seitsmeparameetrilise Kuu tugisüsteemi datumi Fisheri informatsioon Maa jaama laserulatusest viiele reflektorile üksi ja orbiitri-pinnajaama ra. Sõltumatu etalon (ReferenceImpl): Sõltumatu numpy lõplik erinevus edasimudelist (F2). Midagi ei võrrelda päris Kuu tugisüsteemi lahendustega. Tegur on tingimuslik eeldatava teadaoleva orbiidi ja { "1" } m ulatuse sigma suhtes. MODELLED.
 
 # text
-seg-151c96b1f882 = <b>MODELLED</b> Cramer-Rao täpsus GNSS-i, VLBI ja laserulatuse tugisüsteemide tehnikatevahelise translatsiooni, skaala ja pöörde nihete jaoks, kui üks kosmoseaparaat kannab kõiki. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu numpy virnastatud süsteem, kus asukoha tundmatud on elimineeritud selgesõnaliste Schuri komplementidega (T3). Ühtegi GRASP, Genesis ega muu missiooni andmeid ei võrrelda. MODELLED.
+seg-151c96b1f882 = <b>MODELLED</b> Cramer-Rao täpsus GNSS-i, VLBI ja laserulatuse tugisüsteemide tehnikatevahelise translatsiooni, skaala ja pöörde nihete jaoks, kui üks kosmoseaparaat kannab kõiki. Sõltumatu etalon (ReferenceImpl): Sõltumatu numpy virnastatud süsteem, kus asukoha tundmatud on elimineeritud selgesõnaliste Schuri komplementidega (T3). Ühtegi GRASP, Genesis ega muu missiooni andmeid ei võrrelda. MODELLED.
 
 # text
 # c1: label

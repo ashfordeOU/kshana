@@ -249,7 +249,7 @@ seg-70343708da03 = Skeemi { "1.3" } sisenditest alates kannab <c1/> ka silti <c2
 # c7: reason
 # c8: max by (reason)
 # c9: class
-seg-3f45b21003d5 = Silt <c1/> on seeria identiteedi osa: kui põhjuse klass muutub epohhide vahel (<c2/> väärtusest <c3/> väärtuseks <c4/>, kui kaotatud satelliidid olid madalad, või <c5/> väärtusest <c6/> väärtuseks, kui esitatud HDOP on vastuolus esitatud taevaga), siis vana seeriat enam ei ekspordita ja uus algab. Päring väljal <c7/> koos <c8/>, kui klass ei loe, ja oodata, et selline ümberlülitus näeb välja nagu ühe seeria lõppemine ja teise algamine. Skeemi { "1.3" } seeriaid, silti <c9/> ja CEF/LEEF geomeetria välju kontrollivad mootori enda testid ja CEF oraaklid (pycef, Logstash); välistel Prometheuse ja OTLP oraakleil ei ole veel { "1.3" } voogu.
+seg-3f45b21003d5 = Silt <c1/> on seeria identiteedi osa: kui põhjuse klass muutub epohhide vahel (<c2/> väärtusest <c3/> väärtuseks <c4/>, kui kaotatud satelliidid olid madalad, või <c5/> väärtusest <c6/> väärtuseks, kui esitatud HDOP on vastuolus esitatud taevaga), siis vana seeriat enam ei ekspordita ja uus algab. Päring väljal <c7/> koos <c8/>, kui klass ei loe, ja oodata, et selline ümberlülitus näeb välja nagu ühe seeria lõppemine ja teise algamine. Skeemi { "1.3" } seeriaid, silti <c9/> ja CEF/LEEF geomeetria välju kontrollivad mootori enda testid ja CEF sõltumatud etalonid (pycef, Logstash); välistel Prometheuse ja OTLP sõltumatutel etalonidel ei ole veel { "1.3" } voogu.
 
 # text
 # c1: reason="other"
@@ -423,7 +423,7 @@ seg-6a80d53b2163 = <c1/>, ainult kui see kehtib
 # c2: flexString1
 # c3: flexString
 # c4: tests/cef_reference.rs
-seg-1f099d4ef4b6 = CEF-is kasutab geomeetria ainult sõnastiku kohandatud välju (leiutatud võtmeid ei ole); silt liigub väljas <c1/>, mitte väljas <c2/>, sest Logstashi CEF-kodek ei vasta välju <c3/>. Geomeetria sündmused { "1.3" }, sealhulgas sildijuhud, on VALIDATED CEF rea osa: mõlemad oraakli parserid loevad need tagasi nii, nagu need on kirjutatud (<c4/>, muudatused { "4" } ja { "5" }, kumbki registreeritud enne, kui kumbagi parserit nende juhtudel käivitati). Sildi, VDOP ja satelliitide arvu väljad lisatakse pärast kõiki varasemaid välju ja seeriaid ning ainult sisenditele, mis kannavad silti, nii et sildita sisend renderdatakse täpselt nagu varem.
+seg-1f099d4ef4b6 = CEF-is kasutab geomeetria ainult sõnastiku kohandatud välju (leiutatud võtmeid ei ole); silt liigub väljas <c1/>, mitte väljas <c2/>, sest Logstashi CEF-kodek ei vasta välju <c3/>. Geomeetria sündmused { "1.3" }, sealhulgas sildijuhud, on VALIDATED CEF rea osa: mõlemad sõltumatu etaloni parserid loevad need tagasi nii, nagu need on kirjutatud (<c4/>, muudatused { "4" } ja { "5" }, kumbki registreeritud enne, kui kumbagi parserit nende juhtudel käivitati). Sildi, VDOP ja satelliitide arvu väljad lisatakse pärast kõiki varasemaid välju ja seeriaid ning ainult sisenditele, mis kannavad silti, nii et sildita sisend renderdatakse täpselt nagu varem.
 
 # text
 # c1: cs2=

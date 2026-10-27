@@ -20,7 +20,7 @@ seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC andmeleht sigma_y(1s)={ "3e-10" 
 seg-a8d92406e428 = Strontsiumi optiline võrekell, kosmosele suunatud eesmärk sigma_y
 
 # text
-seg-b9174c70772f = <b>MODELLED</b> Kellaga toetatud χ², RAIM, AGC, SQM ühendatud epohhikaupa turvalisuse FoM. Oraakel (sõltumatu etalon) (ExternalDataset): TEXBAT-i stsenaariumi parameetrid (Humphreys { "2012" }) — iseloomustus, mitte fikseeritud vektorid. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): JammerTest { "2024" } (Bleik; GPL-3.0 andmed) ei tõstnud vaatlustaseme monitorid (kellaga toetatud hii-ruut, RAIM, lahenduse ebaõnnestumine) alarmi { "10" } s jooksul ühegi { "8" } hinnatava avaldatud spuufimise alguse suhtes (kus alguseelne aken oli puhas, tuli esimene alarm { "10.2" } kuni { "39" } s pärast pu
+seg-b9174c70772f = <b>MODELLED</b> Kellaga toetatud χ², RAIM, AGC, SQM ühendatud epohhikaupa turvalisuse FoM. Sõltumatu etalon (ExternalDataset): TEXBAT-i stsenaariumi parameetrid (Humphreys { "2012" }) — iseloomustus, mitte fikseeritud vektorid. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): JammerTest { "2024" } (Bleik; GPL-3.0 andmed) ei tõstnud vaatlustaseme monitorid (kellaga toetatud hii-ruut, RAIM, lahenduse ebaõnnestumine) alarmi { "10" } s jooksul ühegi { "8" } hinnatava avaldatud spuufimise alguse suhtes (kus alguseelne aken oli puhas, tuli esimene alarm { "10.2" } kuni { "39" } s pärast pu
 
 # text
 seg-e4b64d7277da = Spuufimise tuvastamine on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))

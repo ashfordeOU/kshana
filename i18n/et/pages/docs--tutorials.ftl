@@ -279,7 +279,7 @@ seg-5f2f9e63093a = Lisaks õpetustele: uuemad võimekused
 # c2: kshana <file>
 # c3: tests/tutorials.rs
 # c4: label
-seg-3d6a8fd31402 = Kolm õpetust jäävad klassikaliste kella-, orbiidi- ja turvapakettide juurde. Mootor on neist kaugele kasvanud. Iga allolev rida on kaasasolev stsenaarium, mida saab käivitada sellisena, nagu see on (<c1/> või <c2/>); kokkuvõte on esimene rida, mille kshana { "0.35.0" } selle kohta 2026-10-10 trükkis. Erinevalt õpetuste arvudest on need read ühe käivituse kirje, mida <c3/> ei fikseeri: praeguse väärtuse saamiseks käivitada stsenaarium uuesti. Tulemused esitavad oma ulatuse (enamik kannab <c4/>) ja <a1>kontrollimaatriks</a1> ütleb, millised võimekused on VALIDATED välise oraakli (sõltumatu etalon) vastu ja millised MODELLED.
+seg-3d6a8fd31402 = Kolm õpetust jäävad klassikaliste kella-, orbiidi- ja turvapakettide juurde. Mootor on neist kaugele kasvanud. Iga allolev rida on kaasasolev stsenaarium, mida saab käivitada sellisena, nagu see on (<c1/> või <c2/>); kokkuvõte on esimene rida, mille kshana { "0.35.0" } selle kohta 2026-10-10 trükkis. Erinevalt õpetuste arvudest on need read ühe käivituse kirje, mida <c3/> ei fikseeri: praeguse väärtuse saamiseks käivitada stsenaarium uuesti. Tulemused esitavad oma ulatuse (enamik kannab <c4/>) ja <a1>kontrollimaatriks</a1> ütleb, millised võimekused on VALIDATED välise sõltumatu etaloni vastu ja millised MODELLED.
 
 # text
 seg-2dc1d8680abb = Kokkuvõtte esimene rida
@@ -435,10 +435,10 @@ seg-6a20ec96cb92 = <b>GPS kaherealised elemendikomplektid (TLE-d)</b> (orbiidiko
 # text
 # c1: tests/sgp4_verification.rs
 # c2: docs/SGP4-VALIDATION.md
-seg-9bcea1d9eb12 = <b>SGP4 (Simplified General Perturbations { "4" }) kontrollimise oraakel (sõltumatu etalon)</b> (juba kaasatud, mitte uuesti tõmmata): AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 „Revisiting Spacetrack Report #3“ testvektorid, <a1>https://celestrak.org/publications/AIAA/2006-6753/</a1>, kasutab <c1/>; vt <a2><c2/></a2>.
+seg-9bcea1d9eb12 = <b>SGP4 (Simplified General Perturbations { "4" }) kontrollimise sõltumatu etalon</b> (juba kaasatud, mitte uuesti tõmmata): AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 „Revisiting Spacetrack Report #3“ testvektorid, <a1>https://celestrak.org/publications/AIAA/2006-6753/</a1>, kasutab <c1/>; vt <a2><c2/></a2>.
 
 # text
-seg-d33aa34b2762 = <b>Kella stabiilsuse seoste oraakel (sõltumatu etalon)</b>: NIST (National Institute of Standards and Technology) Special Publication { "1065" } (Riley, <em>Handbook of Frequency Stability Analysis</em>), <a1>https://tf.nist.gov/general/pdf/2220.pdf</a1>, σ_y(τ)↔faasi seosed õpetuse { "2" } taga.
+seg-d33aa34b2762 = <b>Kella stabiilsuse seoste sõltumatu etalon</b>: NIST (National Institute of Standards and Technology) Special Publication { "1065" } (Riley, <em>Handbook of Frequency Stability Analysis</em>), <a1>https://tf.nist.gov/general/pdf/2220.pdf</a1>, σ_y(τ)↔faasi seosed õpetuse { "2" } taga.
 
 # text
 seg-36be39f17e35 = <s1>Eelmine</s1>Studio juhend

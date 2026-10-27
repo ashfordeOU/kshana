@@ -10,7 +10,7 @@ seg-7b2721b7588d = Mootori v{ $version } stsenaariumi liik, perekond <a1>Inertsi
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Oraakel (sõltumatu etalon) (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
+seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
 
 # text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -25,13 +25,13 @@ seg-496b17a8d3b9 = Teemaleht: <a1>QUANTUM-MODELS.md</a1>
 seg-753f0302eeef = Teemaleht: <a1>QUANTUM.md</a1>
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-f44afe581836 = { $version }
 
 # text
-seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Oraakel (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
+seg-c37642bb24fe = <b>MODELLED</b> Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: scenario+seed+engine; ühised kvant-vs-klassikalised väärtused FoM-i kohta polaarsuse poolest õige kasuga, valikuline { "95" }%. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): kinnise kuju kasu/võitja samasused + olemasoleva quantum_trade::TradeResult'i truu ümbris; ausus seotud esinduslikkuse registri ja kontrollisiltidega
 
 # text
 seg-eb75c6a4dcec = Kvant-vs-klassikaline kompromissitõend (ühine kuju) on MODELLED, mitte valideeritud: kontrollitud oma kinnise kuju / analüütilise samasuse vastu — tabab ärakirjutus- ja koefitsiendivigu, kuid ei ole väline etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -66,7 +66,7 @@ seg-88d9dfe0353a = Näide <c1/> määrab muu hulgas:
 seg-1bdbf1a737b2 = Diagramm, mille mootor kirjutab failile scenarios/quantum-gnss-free-nav.toml, liik quantum-gnss-free-nav
 
 # text
-seg-d196391dcf4f = <b>MODELLED</b> Kvant- (külmaatomi interferomeeter) vs klassikaline navigatsioonitaseme INS-i arvestusnavigatsioon GNSS-i katkestuse ajal: asukohavea kasv, holdover asukohalävendini,. Oraakel (sisemine kooskõla; InternalConsistency): taaskasutatud inertsiaalsed eelarved ristkontrollitud sõltumatu Octave'i kahekordse integreerimisega samast arvestusnavigatsiooni ODE-st (erinev käitusaeg, ühine mudel → ReferenceImpl) ning avaldatud Freier-2016 lühiajalise müraga ühepoolse ankruna; kvant-vs-klassikaline liitnäitaja jääb MODELLED
+seg-d196391dcf4f = <b>MODELLED</b> Kvant- (külmaatomi interferomeeter) vs klassikaline navigatsioonitaseme INS-i arvestusnavigatsioon GNSS-i katkestuse ajal: asukohavea kasv, holdover asukohalävendini,. Sõltumatu etalon (sisemine kooskõla; InternalConsistency): taaskasutatud inertsiaalsed eelarved ristkontrollitud sõltumatu Octave'i kahekordse integreerimisega samast arvestusnavigatsiooni ODE-st (erinev käitusaeg, ühine mudel → ReferenceImpl) ning avaldatud Freier-2016 lühiajalise müraga ühepoolse ankruna; kvant-vs-klassikaline liitnäitaja jääb MODELLED
 
 # text
 # c1: kshana kinds --json

@@ -63,7 +63,7 @@ seg-f15bbf30b0dd = Diagramm, mille mootor kirjutab failile scenarios/cislunar-ob
 seg-4564ad90378b = <b>MODELLED</b> Tsislunaarse kaare pikkuse jälgitavuse lävi RUUMILISES kuueoleku CR3BP-s tasapinnalise neljaoleku asemel, üle DRO, L2 halo ja L2 peaaegu sirgjoonelise halo perekondade, mõõtemüraga, mis siseneb Gramiani, ja KAHE kriteeriumiga, mis annavad aru
 
 # text
-seg-9f857ff85800 = <b>MODELLED</b> Tsislunaarse kaare pikkuse jälgitavuse lävi RUUMILISES kuueoleku CR3BP-s tasapinnalise neljaoleku asemel, üle DRO, L2 halo ja L2 peaaegu sirgjoonelise ha. Oraakel (sõltumatu etalon) (InternalConsistency): Sõltumatu astmelise kuju astak Gaussi elimineerimisega osalise peatelje valikuga kinnitab iga kuueoleku astakuotsuse — erinev algoritm, mis ei jaga koodi testitava omaväärtus/SVD teega. { "6" }×{ "6" } CR3BP olekuüleminekumaatriks, mida see koondab, kannab oma ReferenceImpl sõltumatut etaloni SciPy variatsioonilise integreerimise vastu ning halo/NRHO algtingimused tulevad korrektorist, mis reprodutseerib avaldatud L2 lõuna
+seg-9f857ff85800 = <b>MODELLED</b> Tsislunaarse kaare pikkuse jälgitavuse lävi RUUMILISES kuueoleku CR3BP-s tasapinnalise neljaoleku asemel, üle DRO, L2 halo ja L2 peaaegu sirgjoonelise ha. Sõltumatu etalon (InternalConsistency): Sõltumatu astmelise kuju astak Gaussi elimineerimisega osalise peatelje valikuga kinnitab iga kuueoleku astakuotsuse — erinev algoritm, mis ei jaga koodi testitava omaväärtus/SVD teega. { "6" }×{ "6" } CR3BP olekuüleminekumaatriks, mida see koondab, kannab oma ReferenceImpl sõltumatut etaloni SciPy variatsioonilise integreerimise vastu ning halo/NRHO algtingimused tulevad korrektorist, mis reprodutseerib avaldatud L2 lõuna
 
 # text
 # c1: label

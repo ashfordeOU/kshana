@@ -1542,7 +1542,7 @@ seg-c530da682cca = Uut mootori funktsiooni pole: tulemused on versiooni { "0.38.
 seg-c5fc0ca71fae = Iga stsenaariumi liik, üks leht igaühele
 
 # text
-seg-86ff766b2c1d = Kõik { "87" } stsenaariumi liiki, rühmitatud perekondadesse, igaühel oma leht: mida see teeb, selle sisendid, näidiskäigu tulemused, selle märgise taga olevad registri (ledger) read ja oraakel (sõltumatu etalon), aruandes nimetatud piirangud ja mootori kirjutatav diagramm.
+seg-86ff766b2c1d = Kõik { "87" } stsenaariumi liiki, rühmitatud perekondadesse, igaühel oma leht: mida see teeb, selle sisendid, näidiskäigu tulemused, selle märgise taga olevad registri (ledger) read ja sõltumatu etalon, aruandes nimetatud piirangud ja mootori kirjutatav diagramm.
 
 # text
 seg-a0b63210b807 = Loe edasi
@@ -3168,10 +3168,10 @@ seg-1f379e235f5f = Masinkontrollitud kontrollimaatriks
 seg-a4d10bb41065 = Kontrollimine ja kindlustamine
 
 # text
-seg-72ec664ea7ae = kontrollitud read nõuavad välist oraaklit (sõltumatu etalon); invariant jõustatakse CI-s
+seg-72ec664ea7ae = kontrollitud read nõuavad välist sõltumatut etaloni; invariant jõustatakse CI-s
 
 # text
-seg-cab165105f32 = Nõue → moodul → test → oraakel (sõltumatu etalon) → olek ristviide, renderdatud mootorist endast (Markdown/CSV), ühiktestitud aususe invariantidega: rida võib olla märgitud kontrollituks ainult siis, kui sellel on väline sõltumatu etalon (NIST / AIAA / SOFA / IGS / avaldatud väärtus), nii et sisemine isekooskõla kontroll ei saa teeselda valideerimist — ning riistvara/PA võimekused, mida Kshana ei paku, on registreeritud partneri omanduses olevate lünkadena. ECSS-E-ST-10-02 kontrollimise ristviite täidetav selgroog.
+seg-cab165105f32 = Nõue → moodul → test → sõltumatu etalon → olek ristviide, renderdatud mootorist endast (Markdown/CSV), ühiktestitud aususe invariantidega: rida võib olla märgitud kontrollituks ainult siis, kui sellel on väline sõltumatu etalon (NIST / AIAA / SOFA / IGS / avaldatud väärtus), nii et sisemine isekooskõla kontroll ei saa teeselda valideerimist — ning riistvara/PA võimekused, mida Kshana ei paku, on registreeritud partneri omanduses olevate lünkadena. ECSS-E-ST-10-02 kontrollimise ristviite täidetav selgroog.
 
 # text
 seg-ac19e38bed11 = <b>CI</b> pidev integreerimine · <b>CSV</b> komadega eraldatud väärtused · <b>NIST</b> USA Riiklik Standardite ja Tehnoloogia Instituut · <b>AIAA</b> Ameerika Aeronautika ja Astronautika Instituut · <b>SOFA</b> fundamentaalastronoomia standardid · <b>IGS</b> Rahvusvaheline GNSS-i teenistus
@@ -3279,7 +3279,7 @@ seg-734a93b6a809 = PNT vastupidavuse hindamine ja otsuse ebastabiilsus
 seg-c25b4e240fb5 = Vastupidavuse hindamine
 
 # text
-seg-f42ae8719e02 = { "35" } käsitsi tuletatud oraakli (sõltumatu etalon) testi; bait-deterministlik uuringuartefakt (fikseeritud algväärtus (seed)); joondatud DHS RPCF v2.0-ga
+seg-f42ae8719e02 = { "35" } käsitsi tuletatud sõltumatu etaloni testi; bait-deterministlik uuringuartefakt (fikseeritud algväärtus (seed)); joondatud DHS RPCF v2.0-ga
 
 # text
 seg-8e69193ca540 = Raamistikuga joondatud hindamismootor (DHS RPCF kategooriad), mis kaardistab arhitektuuri simuleeritud käitumise dimensioonipõhisteks alamhinneteks ning küsib seejärel, kas mõni üksik koondhinne või küpsustase on otsuse jaoks stabiilne alus — Dirichlet' kaalumise simpleksi, Kendalli tau järjestuse ebastabiilsuse, top-1 võitja vahetumise määra ja ühisrežiimi mitmekesisuse kollapsi (Hill-N2) kaudu — terviklikkuse räsiga kindlustusaruandega. Reprodutseeritav käsuga cargo run --example resilience_report. Modelleeritud sünteetilised arhitektuurid, joondatud RPCF v2.0-ga; enesehinnang, mitte sertifitseerimine.
@@ -3426,7 +3426,7 @@ seg-a83c8b7cfbe5 = <b>DOP</b> täpsuse halvenemise tegur
 seg-448e81d36ca4 = Horisondijoone eelseadistused ja taevageomeetria funktsioonid
 
 # text
-seg-6483f9d89f15 = käsitsi arvutatud väärtused ja geomeetria, mida pilv valimina võtab; puudub väline oraakel (sõltumatu etalon)
+seg-6483f9d89f15 = käsitsi arvutatud väärtused ja geomeetria, mida pilv valimina võtab; puudub väline sõltumatu etalon
 
 # text
 seg-ebc2904904d3 = Tänavakanjoni, sektori ja maastiku taandamised horisondijoone tabeliks, neli esinduslikku eelseadistust (linnatänav, sadamasse lähenemine, fjord, konteinerterminal) ja funktsioonid, mis koostavad neist taevakaardi ja Monte Carlo pilve, CLI-st, MCP-st, Pythonist ja brauserist. Eelseadistused on esindusliku geomeetriaga valitud, nimetatud mõõtmetega, mitte mõõdistused, ja taandamisi kontrollitakse ainult käsitsi arvutatud väärtuste vastu.
@@ -3477,10 +3477,10 @@ seg-5aa2375e2950 = Käivita gnss-ssv-shell Kshana Studios
 seg-61817375c8ea = Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina
 
 # text
-seg-d2439abaeabb = numerite numpy/scipy oraakel (sõltumatu etalon); kolm eelregistreeritud lävi NOT MET (xval/lunar-infra/RESULTS.md)
+seg-d2439abaeabb = numerite numpy/scipy sõltumatu etalon; kolm eelregistreeritud lävi NOT MET (xval/lunar-infra/RESULTS.md)
 
 # text
-seg-db45ac2940af = Viis uuringut piiratud kolme keha mudelis: pardal Maa GNSS-i orbiidi määramine peaaegu sirgjoonelisel halo orbiidil sõltumatu maapealse vahemaa ja vahemaakiiruse määramise vastu; ühine pinnajaama ja orbiitri kandelaine faasi täisarvuliste mitmetähenduslikkuste fikseerimine (LAMBDA); seitsmeparameetrilise Kuu datumi Fisheri informatsioon orbiitri-pinna vahemaadega ja ilma; GNSS-i, VLBI ja laserkaugusmõõtmise nihked kohaliku sideme vastu; ning tundlikkus Kuu loodete ja libratsiooni parameetrite suhtes. MODELLED näidissisenditega: numbreid kontrollitakse sõltumatute numpy ja scipy programmide vastu, mitte füüsikat. Eelregistreeritud lävede korral on kolm NOT MET: sisestatud jõuviga ei tuvastata nimetatud määraga (C3), bootstrapitud edukuse määr erineb numpy oraaklist (sõltumatu etalon) arvu { "1.7e-6" } võrra läve { "1e-9" } vastu (Q3) ning vahemaamõõtmise pere lisamine ei vähenda alati pseudo-pöördmaatriksi jälge (G3, jälje pool).
+seg-db45ac2940af = Viis uuringut piiratud kolme keha mudelis: pardal Maa GNSS-i orbiidi määramine peaaegu sirgjoonelisel halo orbiidil sõltumatu maapealse vahemaa ja vahemaakiiruse määramise vastu; ühine pinnajaama ja orbiitri kandelaine faasi täisarvuliste mitmetähenduslikkuste fikseerimine (LAMBDA); seitsmeparameetrilise Kuu datumi Fisheri informatsioon orbiitri-pinna vahemaadega ja ilma; GNSS-i, VLBI ja laserkaugusmõõtmise nihked kohaliku sideme vastu; ning tundlikkus Kuu loodete ja libratsiooni parameetrite suhtes. MODELLED näidissisenditega: numbreid kontrollitakse sõltumatute numpy ja scipy programmide vastu, mitte füüsikat. Eelregistreeritud lävede korral on kolm NOT MET: sisestatud jõuviga ei tuvastata nimetatud määraga (C3), bootstrapitud edukuse määr erineb numpy sõltumatust etalonist arvu { "1.7e-6" } võrra läve { "1e-9" } vastu (Q3) ning vahemaamõõtmise pere lisamine ei vähenda alati pseudo-pöördmaatriksi jälge (G3, jälje pool).
 
 # text
 seg-75245f18e82f = <b>GNSS</b> ülemaailmne satelliitnavigatsioonisüsteem · <b>VLBI</b> väga pika baasjoonega interferomeetria
@@ -3591,7 +3591,7 @@ seg-4ce61bf53ab7 = <b>SBAS</b> satelliidipõhine täiendussüsteem · <b>DO-229E
 seg-d3af26f389f5 = IONEX / Klobuchar
 
 # text
-seg-7df7164eb9ce = Klobuchari L1 viivitus vs RTKLIB ionmodel · IONEX TEC-kaardi lugeja leebe, väline oraakel (sõltumatu etalon) puudub veel
+seg-7df7164eb9ce = Klobuchari L1 viivitus vs RTKLIB ionmodel · IONEX TEC-kaardi lugeja leebe, väline sõltumatu etalon puudub veel
 
 # text
 seg-4a1781bd0be2 = <b>IONEX</b> Ionosphere Map Exchange format · <b>RTKLIB</b> avatud lähtekoodiga GNSS-i positsioneerimise teek · <b>TEC</b> elektronide koguarv

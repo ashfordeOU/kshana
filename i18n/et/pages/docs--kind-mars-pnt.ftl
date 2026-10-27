@@ -17,7 +17,7 @@ seg-a4f1e7d2041e = Perekonna leht: <a1>Satelliidikonstellatsioonid, katvus ja ge
 seg-670191cf797f = Teemaleht: <a1>SOLAR-SYSTEM.md</a1>
 
 # text
-seg-3ea0aa9b3907 = <b>MODELLED</b> 3-olekuline (faas/sagedus/triiv) van-Loani Kalmani kell, Joseph-stabiliseeritud. Oraakel (sõltumatu etalon) (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), F funktsiooniga scipy.linalg.expm ja Q Van-Loani { "1978" } plokkmaatriksiga — sõltumatu etalonteostus, mis reprodutseerib kshana täieliku filtri trajektoori. Teostustevaheline kooskõla: kella füüsikat / Alani kalibreerimist ei ole väliselt valideeritud, seega jääb see MODELLED. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): IGS-i lõplikel { "30" } s kelladel { "11" } GPS Blo
+seg-3ea0aa9b3907 = <b>MODELLED</b> 3-olekuline (faas/sagedus/triiv) van-Loani Kalmani kell, Joseph-stabiliseeritud. Sõltumatu etalon (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), F funktsiooniga scipy.linalg.expm ja Q Van-Loani { "1978" } plokkmaatriksiga — sõltumatu etalonteostus, mis reprodutseerib kshana täieliku filtri trajektoori. Teostustevaheline kooskõla: kella füüsikat / Alani kalibreerimist ei ole väliselt valideeritud, seega jääb see MODELLED. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): IGS-i lõplikel { "30" } s kelladel { "11" } GPS Blo
 
 # text
 seg-8de95b3a9229 = Pardakella oleku hindamine on MODELLED, mitte valideeritud: kontrollitud eraldi teostuse vastu samas koodibaasis — testitavast üksusest sõltumatu, kuid mitte väliselt autoriteetne. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -68,7 +68,7 @@ seg-a16f2332397c = lmo
 seg-c564dca90854 = Mootori joonistatud diagramm failile scenarios/mars-pnt-lmo.toml, liik mars-pnt
 
 # text
-seg-83c3a84f6b98 = <b>VALIDATED</b> Epohhi oleku [r,v] taastamine maajaama ulatustest Gaussi–Newtoni kobardiferentsiaalparandaja ja järjestikfiltri kaudu kahe keha+J2 jõumudelil. Oraakel (sõltumatu etalon) (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — sõltumatu kolmanda osapoole hindamisteek sobitatud jõumudelil; taastatud epohhi olek + sobitusjärgne jäägi RMS ühtivad täpsusega <{ "1e-3" } m müravabalt ja <{ "3" } m müratasemel { "5" } m
+seg-83c3a84f6b98 = <b>VALIDATED</b> Epohhi oleku [r,v] taastamine maajaama ulatustest Gaussi–Newtoni kobardiferentsiaalparandaja ja järjestikfiltri kaudu kahe keha+J2 jõumudelil. Sõltumatu etalon (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — sõltumatu kolmanda osapoole hindamisteek sobitatud jõumudelil; taastatud epohhi olek + sobitusjärgne jäägi RMS ühtivad täpsusega <{ "1e-3" } m müravabalt ja <{ "3" } m müratasemel { "5" } m
 
 # text
 seg-4be479b81f39 = <s1>Eelmine</s1>lunar-vlbi

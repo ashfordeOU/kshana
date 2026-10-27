@@ -26,10 +26,10 @@ seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Oraakel (sõltumatu etalon) (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
+seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
 
 # text
-seg-7e95210bcc48 = <b>MODELLED</b> Koostatud nihke + skaalateguri + VRW + stabiilsuse hääbumise positsioonieelarve holdover-i jooksul. Oraakel (sõltumatu etalon) (ReferenceImpl): Sõltumatu numpy Monte Carlo SDE integreerimine topeltintegreeritud valge kiirenduse müra jaoks (valideerib analüütilise VRW dispersiooni tõeliselt sõltumatu algoritmiga) + Grovesi { "2013" } avaldatud väärtuse ankur nihke/skaalateguri liikmete jaoks; CAI seadme arvud kvantifitseerivad partneri riistvara ja jäävad MODELLED
+seg-7e95210bcc48 = <b>MODELLED</b> Koostatud nihke + skaalateguri + VRW + stabiilsuse hääbumise positsioonieelarve holdover-i jooksul. Sõltumatu etalon (ReferenceImpl): Sõltumatu numpy Monte Carlo SDE integreerimine topeltintegreeritud valge kiirenduse müra jaoks (valideerib analüütilise VRW dispersiooni tõeliselt sõltumatu algoritmiga) + Grovesi { "2013" } avaldatud väärtuse ankur nihke/skaalateguri liikmete jaoks; CAI seadme arvud kvantifitseerivad partneri riistvara ja jäävad MODELLED
 
 # text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -106,7 +106,7 @@ seg-83fa50d4859a = <b>MODELLED</b> Mach–Zehnderi triibumitmetähenduslikkuse d
 seg-89ec2e65cf4f = <b>MODELLED</b> Koostatud nihke + skaalateguri + VRW + stabiilsuse hääbumise positsioonieelarve holdover-i jooksul Testid: <a1>quantum_inertial_dead_reckoning_reference.rs</a1>.
 
 # text
-seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Oraakel (sõltumatu etalon) (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
+seg-bb07c8ee153f = <b>PARTNER</b> Ei paku — ainult toimivusmudelid; külmaatomi/kella riistvara on partneri oma. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text
 seg-fab4c926e628 = <s1>Eelmine</s1>impairment-eval

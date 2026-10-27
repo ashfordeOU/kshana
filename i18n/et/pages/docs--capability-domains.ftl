@@ -169,7 +169,7 @@ seg-3b6eb3f9e83a = Allikas: <c1/>
 # text
 # c1: tools/gen_readme_blocks.py
 # c2: web/capabilities.json
-seg-edf51b89f46c = Avaliku kaardi iga võimekus valdkondade kaupa koos selle registrisildiga. Tabeli kirjutab <a1><c1/></a1> failist <c2/>, mida loeb Studio kõigi asjade kaart; võimekus on VALIDATED ainult sõltumatu välise oraakli (sõltumatu etalon) olemasolul (<a2>kuidas silti teenitakse</a2>). Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade.
+seg-edf51b89f46c = Avaliku kaardi iga võimekus valdkondade kaupa koos selle registrisildiga. Tabeli kirjutab <a1><c1/></a1> failist <c2/>, mida loeb Studio kõigi asjade kaart; võimekus on VALIDATED ainult sõltumatu välise sõltumatu etaloni olemasolul (<a2>kuidas silti teenitakse</a2>). Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade.
 
 # text
 seg-28e87f407a10 = Valdkond

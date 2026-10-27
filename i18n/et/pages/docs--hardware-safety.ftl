@@ -142,7 +142,7 @@ seg-63c000eccfc2 = Iga riistvaraseanss annab tõendipaketi, milles on sisendite,
 seg-63cc5d9513ff = Juhtmega või varjestatud seadistuse atesteering salvestatakse, seda ei järeldata kunagi.
 
 # text
-seg-da1e4f5da956 = Riistvarast pärit arvud jäävad <b>MODELLED</b>, kuni sõltumatu väline oraakel (sõltumatu etalon) nõustub (näiteks labori tõeline trajektoor või etalonkell). Eelregistreeritud lävi ei lõdvendata pärast käivitust.
+seg-da1e4f5da956 = Riistvarast pärit arvud jäävad <b>MODELLED</b>, kuni sõltumatu väline sõltumatu etalon nõustub (näiteks labori tõeline trajektoor või etalonkell). Eelregistreeritud lävi ei lõdvendata pärast käivitust.
 
 # text
 seg-d8e445427d02 = Kontrollitud suunadiagrammiga antenne, inertsiaalseadmeid ja kiibimõõtmelisi aatomkellasid käsitletakse andmeallikatena (suunadiagrammid, logid, avaldatud stabiilsuskõverad), mitte seadmetena, mida Kshana juhib.
@@ -209,7 +209,7 @@ seg-4360b8fbdafb = <c1/> teatab atesteeringust ja ütleb, et see on „attested 
 seg-438bbe788314 = Atesteering, mis on mittetäielik või mille <c1/> ei ole ei <c2/> ega <c3/> (õhu kaudu tehtav seadistus ei ole laborikäivitusena aktsepteeritav), lükatakse tagasi ja paketti ei tehta.
 
 # text
-seg-c8c40ed88dde = Mis <b>ei</b> ole veel realiseeritud: etapi { "2" } reegel, mille kohaselt Kshana keeldub <em>hindamast</em> laborikäivitust, millel puudub atesteering. Ükski käsk ei võta versioonis { "0.38" } laborikäivituse lippu, seega ei ole millestki keelduda; reegel lisandub koos laboriorkestreerimise käskudega. Atesteering salvestab operaatori väite kaitsemeetme kohta. See ei muuda ühtegi kiirgust seaduslikuks ega muuda tulemuse märgist: hinnatud laborikäivitus on MODELLED, kui just väline oraakel (sõltumatu etalon) ei nõustu.
+seg-c8c40ed88dde = Mis <b>ei</b> ole veel realiseeritud: etapi { "2" } reegel, mille kohaselt Kshana keeldub <em>hindamast</em> laborikäivitust, millel puudub atesteering. Ükski käsk ei võta versioonis { "0.38" } laborikäivituse lippu, seega ei ole millestki keelduda; reegel lisandub koos laboriorkestreerimise käskudega. Atesteering salvestab operaatori väite kaitsemeetme kohta. See ei muuda ühtegi kiirgust seaduslikuks ega muuda tulemuse märgist: hinnatud laborikäivitus on MODELLED, kui just väline sõltumatu etalon ei nõustu.
 
 # text
 seg-b0db377bce58 = Mida see tähendab kaastöötajale

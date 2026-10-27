@@ -20,7 +20,7 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>täpne hetk</em></b
 seg-3b861b2f08b8 = Väljalase v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } võimekust { "388" }-st valideeritud sõltumatute väliste oraaklite (sõltumatute etalonide) vastu
+seg-ebe636986f46 = { "176" } võimekust { "388" }-st valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu
 
 # text
 seg-6a1906d8d4ad = Ligikaudu { "95" } % reakatvus, pidevas integratsioonis nõutav { "85" } %
@@ -44,7 +44,7 @@ seg-d284448743af = Kshana taasesitab segamist, spuufimist ja kella holdover-it (
 seg-d1a3f78ad8e0 = Esmalt saab proovida, ilma midagi paigaldamata: <a1>Kshana Studio</a1> käitab kogu mootorit brauseris, WebAssemblyks kompileeritult, ja ei lae midagi üles.
 
 # text
-seg-2d2c47db0c1f = <b>{ "176" } { "388" }-st</b> võimekust on valideeritud sõltumatute väliste oraaklite (sõltumatute etalonide) vastu; { "208" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline oraakel (sõltumatu etalon) nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+seg-2d2c47db0c1f = <b>{ "176" } { "388" }-st</b> võimekust on valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu; { "208" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline sõltumatu etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
 
 # attr:alt
 seg-44f7862c45a2 = Kuidas võimekus oma sildi teenib: võimekus, sõltumatu etalon, test, registri (ledger) silt. Kontrollistaatus kõigi { "388" } võimekuse lõikes: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omad
