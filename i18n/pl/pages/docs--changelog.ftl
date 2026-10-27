@@ -2133,3 +2133,563 @@ seg-7ba5be07fa8c = <c1/> emituje punkt odniesienia keplerowski dopasowany wielko
 seg-f9dc8fae6452 = <c1/> ponownie uruchamia konstelację ilustracyjną przy własnej liczbie satelitów zestawu POBRANEGO, obecne tylko wtedy, gdy liczby się różnią. Liczba jest częścią geometrii tego projektu — RAAN i anomalia średnia są obie rozłożone jako <c2/> — więc bez niej pięciosatelitarny pobrany zestaw oceniano względem ośmiosatelitarnego ilustracyjnego i projekt mieszano z rozmiarem. Dla pięciosatelitarnego zestawu referencyjnego LANS { "8.68" } z 14.24-punktowej luki pokrycia okazuje się trzema brakującymi satelitami, a tylko { "5.56" } punktu projektem; dla czterech statków naprawdę na orbicie księżycowej, specjalnie zbudowany czterosatelitarny zestaw osiąga { "4.86" } % tam, gdzie one osiągają { "0" } %. Test przypina, że dopasowany wiersz jest odbudowaną konstelacją, a nie skonfigurowaną ze zmienioną etykietą, bo tak został najpierw napisany i to właśnie przebieg wtedy zgłaszał.
 
 seg-2e7e4dbbb7f6 = <b>Dziewięć kart możliwości na stronie publicznej, obejmujących { "22" } wiersze macierzy weryfikacji, które zostały wydane bez karty na poziomie produktu.</b> Silnik urósł o rodzinę możliwości — kontrolę ARAIM względem opublikowanych wektorów referencyjnych Working Group C, rzeczywistą pobraną geometrię konstelacji księżycowej, księżycowy kontur odmowy ze zmierzonym pasmem C/N₀, krok od harmonogramu VLBI do kowariancji stacji, przekazanie optyczne i RF z wstrzykiwaniem błędów między modalnościami, predykcję orientacji Ziemi w czasie rzeczywistym względem zarchiwizowanego Bulletin A, współdzielenie apertury nawigacja–komunikacja, wybieg INS/TRN oraz pokrycie jednostek i pochodzenia — każdą z wierszem macierzy i dołączonym scenariuszem, a żadna nie była nazwana na kshana.dev. Pokrycie kart względem wierszy rośnie z { "72" } z { "168" } wierszy do { "94" }.
+
+seg-3dc189224fe8 = <b>Osiem scenariuszy dodano do katalogu playground.</b> Przycisk Run na karcie możliwości pojawia się tylko wtedy, gdy <c1/> zawiera także dany plik; sześć kart wskazywało scenariusz, którego tam nie było, więc wyświetlały się bez możliwości uruchomienia. Jedna z nich, dotycząca rzeczywistego pomiaru odległości laserem, była w tym stanie od chwili wydania. Test <c2/> pilnuje teraz tej niezmienniczości w obu częściach: cel <c3/> karty musi być dołączony w <c4/> <em>i</em> oferowany przez katalog. Sprawdzone testami mutacyjnymi względem obu rodzajów błędu.
+
+seg-2d69334516e9 = <b><c1/> zapisuje geometrię poszczególnych satelitów jako <c2/></b>, gdy skonfigurowano miejsce eksportu (G11). Jest to największa tablica, jaką publikuje crate: { "2304" } wierszy w wydanej łącznej tabeli komunikacji i nawigacji. Trafiała ona do odbiorców wyłącznie w JSON, czyli w kształcie, który w sąsiednim scenariuszu obciął krzywą o 57 punktach do { "23" } punktów pod kolumną deklarującą wszystkie z nich. Jeden wiersz na łącze, liczba wierszy w wierszu nagłówka, kolumny anteny tylko wtedy, gdy skonfigurowano antenę. Przebieg bez miejsca eksportu pozostaje bez zmian co do bajta i nie zapisuje żadnego pliku.
+
+seg-7958d26072f7 = SBOM opisuje teraz to, co faktycznie jest dostarczane: z { "60" } komponentów zrobiło się { "66" }.
+
+seg-219cd333b000 = <c1/> wymieniał każdy pakiet z rozwiązania zależności dla funkcji domyślnych, łącznie z zależnościami deweloperskimi. Przez to <c2/> i <c3/>, crate'y używane tylko w testach i niewkompilowane do żadnego artefaktu, trafiły do zestawienia komponentów, a pominięto łańcuch <c4/>, z którym linkuje się wheel z PyPI (<c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>), czyli granicę obcych funkcji (FFI) tego wheela. Skrypt przechodzi teraz po grafie zależności od pakietu kshana, tylko po krawędziach zwykłych i budowania, po sumie zestawów funkcji domyślnych, <c13/> i <c14/> (pakiet npm zawiera ten sam SBOM), dla każdej platformy docelowej. Przypięty werdykt testu zgodności formatu CycloneDX został ponownie wyznaczony przez zatwierdzony generator: z { "60" } do { "66" } komponentów, z { "53" } do { "60" } złożonych wyrażeń licencyjnych, nadal przy zerze błędów schematu po zapisaniu ich w standardowej postaci <c15/>.
+
+seg-23c98d31f749 = <b>Tabela odtwarzalności CSV jest dostępna w każdym punkcie wejścia, nie tylko w CLI i w wheelu Pythona.</b> Serwer MCP zyskuje siódme narzędzie, <c1/>, które uruchamia scenariusz i zwraca stabilną co do bajta tabelę, jaką CLI zapisuje jako <c2/>, albo błąd wskazujący rodzaje, które ją publikują (<c3/>, <c4/>, <c5/> oraz <c6/> tylko przy ustawionych <c7/> + <c8/>). Moduł WebAssembly zyskuje <c9/>, zwracające ten sam tekst albo <c10/>. Test pełnego obiegu MCP i testy wiązań Pythona porównują teraz zwracany plik CSV bajt po bajcie z <c11/> oraz sprawdzają, że <c12/> zwraca liczbę zapisanych bajtów, a dla rodzaju bez tabeli zwraca { "0" } bez utworzenia pliku. Każda powierzchnia, która podaje liczbę narzędzi MCP lub je wymienia, mówi teraz o siedmiu.
+
+seg-86c3fed5e23a = <c1/> w module WebAssembly: jeden przebieg silnika dla wszystkich wyników.
+
+seg-3f2677cd280b = <c1/>, <c2/>, <c3/> i <c4/> wykonują scenariusz każde od początku, więc playground płacił za cztery pełne przebiegi przy każdym kliknięciu: w przeglądarce około { "12" } s zamiast { "3" } s dla <c5/>. <c6/> zwraca <c7/> z jednego przebiegu i playground go teraz używa. Wynik jest identyczny bajt po bajcie z czterema osobnymi wywołaniami.
+
+seg-fa05c9ee0c6a = <b>KOREKTA: sprzężenie biasu żyroskopu w filtrze GNSS/INS miało zły znak, a wartości dla przestoju w <c1/> się zmieniają.</b> Rozszerzony filtr Kalmana stanu błędu (EKF) przechowuje oba biasy inercyjne jako reszty (wartość prawdziwa minus bieżąca estymata, wprowadzane z powrotem przez dodawanie). Kolumna akcelerometru wpływała na błąd prędkości przez <c2/>, ale kolumna żyroskopu wpływała na błąd orientacji przez <c3/>. Resztkowy bias żyroskopu faktycznie obraca obliczoną orientację o <c4/>, więc każda estymata biasu żyroskopu przesuwała wynik w złą stronę. Pakiet pozostawał stabilny tylko dlatego, że jego domyślna wartość a priori biasu żyroskopu ({ "1e-4" } rad/s, 1-sigma) była dość ciasna, by utrzymać te stany w miejscu. Przy szerszej wartości a priori filtr rozbiegał się nawet wtedy, gdy prawdziwy bias żyroskopu wynosił zero: { "93" } m błędu fuzji w przestoju zamieniło się w { "4.3" } km. Opublikowane wartości dla <c5/> zmieniają się następująco:
+
+seg-47e22e713df6 = przed (≤ { "0.27.2" })
+
+seg-5215a0a41b89 = po
+
+seg-f58aecc6864c = IMU na zimnych atomach, RMS błędu fuzji w przestoju
+
+seg-c4fbd933ddb2 = { "96.1" } m
+
+seg-002d765fca02 = { "1.9" } m
+
+seg-d14616d4ea1b = IMU na zimnych atomach, dryf w specyfikacji ({ "50" } m)
+
+seg-35f8f623ea28 = { "30" } s
+
+seg-91645c14401b = { "60" } s (cały przestój)
+
+seg-f297a2652cf8 = IMU taktyczny, RMS błędu fuzji w przestoju
+
+seg-0ac27c6d4206 = { "62.5" } m
+
+seg-eda895cc3b86 = { "3.1" } m
+
+seg-e0ab83f1d8d7 = IMU taktyczny, dryf w specyfikacji ({ "50" } m)
+
+seg-5c526991a521 = { "37" } s
+
+seg-743060da5543 = Wartości dla pracy swobodnej ({ "130.7" } m i { "314.3" } m) się nie zmieniają; nigdy nie korzystały z filtra. Wcześniejszy wniosek z pakietu, że dryf z fuzją jest ograniczony dolną granicą orientacji z przekazania, a więc nie poprawia się przy lepszym czujniku, był artefaktem tego błędu i zostaje wycofany. Przy stałych, wolnych od szumu biasach filtr uczy się ich teraz, gdy GNSS działa, więc dryf z fuzją jest przypadkiem najlepszym. Zewnętrzny wzorzec filterpy (<c1/>) sprawdza tylko aktualizacje pomiarowe, dlatego nigdy nie zauważył propagacji. Dwa testy sprawdzają teraz znak bezpośrednio i oba zawodzą na starym. Pierwszy, w <c2/>, podaje znany resztkowy bias żyroskopu przez strapdown i wymaga, by filtr przewidział wynikowy błąd orientacji z dokładnością do { "2" } %. Drugi wymaga, by filtr z szerokim rozkładem a priori nauczył się biasu żyroskopu { "1e-3" } rad/s i pozostał w granicach { "6" } m. Złoty wzorzec międzyplatformowy <c3/> zostaje ponownie przypięty z tego powodu i z żadnego innego.
+
+seg-f764678e3376 = <b>Każdy quickstart z rejestru działa teraz tak, jak jest zapisany, na czystej maszynie.</b> Zmierzono przed tą zmianą: przykłady crates.io i PyPI (Python Package Index) odczytywały <c1/>, którego instalacja z rejestru nie zawiera, a przykład npm zawieszał się w Node.js z błędem <c2/>, ponieważ <c3/> pakietu pobiera binarny plik WebAssembly, a <c4/> w Node nie potrafi odczytać pliku lokalnego. Teraz:
+
+seg-e77a540d2f90 = <c1/> i <c2/> zawierają ten scenariusz w treści, tak jak robił to już <c3/>. Blok kodu Rust jest kompletnym programem z własnym <c4/>, ponieważ ukryta w rustdoc linia <c5/>, którą się kończył, jest pokazywana na crates.io i po wklejeniu się nie kompiluje. <c6/> nadal kompiluje go bajt po bajcie, a teraz także odrzuca ukrytą linię w tym bloku.
+
+seg-ea5204ced0d2 = <c1/> rozdziela przeglądarkę i Node.js oraz podaje przepis dla Node, który odczytuje plik binarny z dysku i przekazuje go do <c2/>. Test synchronizacji dokumentacji przyjmuje <c3/> jako loader generowany przez wasm-bindgen.
+
+seg-ebb763695c59 = Wszystkie trzy osadzają scenariusz z nieskróconymi ciągami pochodzenia, więc skrót scenariusza to <c1/> na każdej powierzchni. Przykład npm dawniej je skracał, przez co miał inny skrót niż CLI.
+
+seg-dc52363432f8 = Odtworzono z lokalnych kompilacji tego drzewa: świeży projekt <c1/> z zależnością przez ścieżkę od spakowanego crate'a zbudował i uruchomił przykład Rust; wheel zbudowany maturinem ze spakowanych źródeł, zainstalowany w nowym środowisku wirtualnym, uruchomił przykład Python; a pakiet <c2/>, spakowany i zainstalowany przez npm, uruchomił przepis dla Node. Wszystkie trzy wypisały tę samą linię podsumowania.
+
+seg-07e465a602f1 = <c1/> działa z sklonowanego repozytorium.
+
+seg-77ce31300b69 = <c1/> ustawia <c2/>. Bez tego cargo odmawiało z komunikatem „could not determine which binary to run”, na który natrafiała każda linia <c3/> w dokumentacji.
+
+seg-2d516597b5f5 = <b>Błędy CLI w pierwszej minucie mówią, co robić dalej.</b> Ścieżka scenariusza, która nie istnieje, dodaje teraz wskazówkę kierującą do <c1/>, a drugi argument pozycyjny wypisuje tekst użycia, a nie tylko nazywa argument. <c2/>, <c3/>, błąd nieznanej opcji (kod wyjścia { "2" }) oraz jednolinijkowe <c5/> z <c4/> po powodzeniu były już na main. <c6/> obejmuje teraz wszystkie z nich, ponieważ wcześniej żaden test nie uruchamiał dla nich pliku binarnego.
+
+seg-fdd9a27ccfc4 = <b><c1/> w Pythonie jest udokumentowane jako zwracające jeden ciąg JSON, a nie listę.</b> Zwraca te same metadane co <c2/>, w postaci zserializowanej, więc iterowanie po nim przechodzi po znakach. Zachowuje zwracany ciąg, aby nie zepsuć istniejących wywołań. <c3/>, komentarz dokumentacyjny wiązania, <c4/> i <c5/> mówią to teraz i wskazują <c6/>.
+
+seg-f0e0c8c12f8a = <b>Trzy README rejestrów rozwijają każdy skrót przy pierwszym użyciu.</b> PNT jest teraz rozwinięte w haśle, w którym występuje po raz pierwszy, a CLI, TOML, JSON, SVG, CSV, CSAC, HTML, URL i API są rozwinięte w plikach, które ich używają. Nagłówek tabeli wyroczni nie mówi już „CI-gated” przed zdefiniowaniem CI.
+
+seg-554c5b0c9c60 = Poprawiono opublikowaną wartość: dostępność ARAIM dla dwóch konstelacji na dołączonych TLE Celestrak dla GPS + Galileo.
+
+seg-1f023a822c91 = <c1/> stwierdzał, że dodanie Galileo podnosi dostępność z { "0.21" } do { "0.67" } przy VAL { "12" } m oraz że tryb odporny na awarię konstelacji jest ograniczony przy tylko dwóch konstelacjach. Wynikało to z tego, że <c2/> propagował każdego satelitę od jego własnej epoki TLE (<c3/> odrzuca epokę), a epoki w tych plikach obejmują { "70.6" } h (GPS) i { "335.7" } h (Galileo), więc satelity znajdowały się w wzajemnie niespójnych chwilach. Test zachowuje teraz każdą epokę (<c4/>) i ocenia wszystkie satelity w jednej wspólnej chwili UTC, czyli najpóźniejszej epoce TLE w zbiorze (2026-06-07T07:{ "21" }:{ "04" }). Zmierzona dostępność na tej samej { "24" }-godzinnej siatce 289 próbek wynosi teraz dla samego GPS { "0.993" } (było { "0.208" }), dla połączonych { "1.000" } (było { "0.671" }) i dla dwóch konstelacji w trybie odpornym na awarię konstelacji { "0.990" } (było { "0.031" }); przy granicy APV-I tryb dwukonstelacyjny przechodzi z { "0.180" } na { "1.000" }. Wniosek się odwraca: na spójnym niebie dwie konstelacje podtrzymują hipotezę awarii konstelacji przy VAL { "12" } m. Te same wartości wychodzą przy najwcześniejszej epoce TLE jako odniesieniu. Samokontrola w teście przypina jego pętlę dostępności próbka po próbce do <c5/>, więc jedyną różnicą jest wyrównanie czasu. <c6/> i <c7/> §{ "3" } zawierają nowe liczby; wpis { "0.13.0" } poniżej pozostaje w wersji wydanej.
+
+seg-3173a2e03521 = <b>Publiczne powierzchnie nie reklamują już RINEX { "4" } jako sprawdzonego niezależnie.</b> Silnik odmawia teraz po nazwie obsługi pliku nawigacyjnego RINEX { "4" }, zamiast go błędnie dekodować, ale siatka standardów nadal pokazywała kartę „RINEX { "3" } / { "4" }” ze znacznikiem <em>sprawdzone niezależnie</em>, powiązanym z dowodami parsera nawigacyjnego dla RINEX-3. Karta brzmi teraz „RINEX { "3" }”, a README, <c1/>, <c2/>, <c3/> i podsumowanie możliwości mówią, co jest prawdą: pliki obserwacji RINEX 3.0x są parsowane, układ obserwacji { "4.00" } powinien być obsługiwany, ale żaden plik { "4.00" } nie został odczytany przez ten kod, a pliki nawigacyjne RINEX { "4" } są odrzucane.
+
+seg-c9bb514acb7a = <b><c1/> mówi, kiedy „ok” oznacza, że nie było czego sprawdzać.</b> Około dwie trzecie katalogu nie publikuje żadnego wymaganego pola; te pakiety uruchamiają swoją konfigurację referencyjną z pustej treści, więc lint mógł dla nich wypisać tylko „ok”, tymi samymi słowami, których używał po sprawdzeniu sześciu pól. Linia powodzenia podaje teraz liczbę wymaganych pól, które stwierdzono jako obecne, albo że rodzaj nie wymaga żadnego.
+
+seg-06b324d00285 = <b><c1/> odrzuca nienumeryczne <c2/> lub <c3/>.</b> W bash { "3.2" } wartość <c4/> powodowała błąd porównania liczbowego i wynik fałszywy, więc bramka ogłaszała „repeatability loop SKIPPED (REPEAT={ "0" })” dla wartości, która nie była { "0" }, i mimo to zapisywała potwierdzenie. Oba pokrętła kończą się teraz kodem { "2" }, jeśli nie są zwykłymi liczbami całkowitymi.
+
+seg-09d04ffdd9ac = MSRV jest podane jako { "1.85" } wszędzie, gdzie czyta je człowiek.
+
+seg-dafc23725315 = <c1/> w ostatnim wydaniu przeszło na { "1.85" }; plakietka w README, tekst instalacji i rozwiązywania problemów, <c2/> oraz własne uzasadnienie crate'a MCP nadal podawały { "1.75" }.
+
+seg-c2fa8a31058c = <b><c1/> w wiązaniu Pythona podaje bajty, a nie „chars”.</b> Wypisywało <c2/> ciągów UTF-8, co jest liczbą bajtów: { "710" } „chars” dla tabeli o 708 znakach.
+
+seg-6b4452a4e340 = README nie dokumentuje już razem <c1/>.
+
+seg-47d83e4d847b = <c1/> jest flagą dla pojedynczego scenariusza i jest ignorowana z <c2/> (binarka ostrzega). Dwa przykłady do skopiowania w README.md i README.crates.md pokazują teraz samo polecenie study.
+
+seg-5ed7f8330b2d = <b>Dowody stabilności zegara na stronie podają obie zaobserwowane tolerancje.</b> Seria cezowa 5071A jest odtwarzana z dokładnością ≤ { "3e-5" }, a PHASE.DAT z ≤ { "5e-5" }; akapit podawał { "3e-5" } dla obu.
+
+seg-8bba7f1171f3 = Dwa pliki wyjściowe silnika nie są już śledzone.
+
+seg-ea9bf1d14371 = <c1/> zostały opatrzone znacznikiem silnika { "0.20.0" } z pustymi wszystkimi wskaźnikami jakości, a własne polecenie study w README nadpisywało je, brudząc drzewo i blokując bramkę push. <c2/> / <c3/> są teraz ignorowane jak pozostałe cztery pliki wyjściowe silnika.
+
+seg-77ce9b90859d = <b>Przegląd ziarna (seed) w playground nie zawodzi już przy każdym przebiegu.</b> Przegląd zmieniał całkowite pokrętło <c1/> liniowo ({ "1" }, { "10.9" }, { "20.8" }, …), a silnik, odczytując je jako <c2/>, odrzucał każdą wartość ułamkową. Pokrętła całkowite przeglądają teraz różne liczby całkowite.
+
+seg-e1b1e1360eb9 = <b>Każde pobranie z playground mówi, który silnik i które dane wejściowe je wytworzyły.</b> Kilka rodzajów (np. <c1/>) nie zapisuje <c2/> ani <c3/>, więc ich pobrania nazywały się po prostu <c4/>. Nazwa korzysta teraz z wersji wczytanego silnika i 12-cyfrowego szesnastkowego odcisku FNV-1a-64 tekstu scenariusza.
+
+seg-0181e86b576a = <b>Opublikowany crate jest mniejszy niż połowa dawnego rozmiaru, a <c1/> buduje samo CLI.</b> Pakiet zawierał dawniej artykuły, ich pakiety zgłoszeniowe, artefakty rysunków do artykułów, notatniki, <c2/>, skrypty opiekunów i programy przykładowe. Żadne z nich nie jest kompilowane przez bibliotekę ani CLI. Zawierał też trzy wewnętrzne generatory w <c3/> (<c4/>, <c5/>, <c6/>), więc instalacja z rejestru kompilowała i instalowała cztery pliki wykonywalne, z których trzy były użyteczne tylko wewnątrz checkoutu. Te drzewa i trzy źródła generatorów są teraz wykluczone. Cargo wylicza binaria pakietu z zawartych w nim plików, więc opublikowany manifest wymienia tylko <c7/>. W klonie generatory nadal są znajdowane automatycznie, więc <c8/> i zadanie wydania uruchamiające <c9/> pozostają bez zmian. Zmierzono przez <c10/>: wcześniej { "763" } plików, { "16.7" } MiB, { "6.8" } MiB po kompresji; teraz { "591" } plików, { "10.5" } MiB, { "3.0" } MiB po kompresji. Jego kompilacja weryfikacyjna, która kompiluje tylko spakowane pliki, przechodzi. <c11/> na spakowanym crate'cie zainstalowało jeden plik wykonywalny, <c12/>.
+
+seg-567c7059286f = <b>Wynik czytelny dla inżyniera czasu: koniec z <c1/>, koniec z <c2/> bez ataku oraz liczby na stronie takie same jak w README.</b> To korekta sposobu wyświetlania. Żadna opublikowana liczba się nie zmienia; wartości JSON są identyczne, co potwierdzają powyższe skróty złotych wzorców.
+
+seg-849fa9a29f07 = Jednolinijkowe podsumowanie wypisywało 95. percentyl (p95) błędu czasu zegara optycznego jako <c1/>, podczas gdy tabela obok pokazywała { "1.20e-4" } ns. Niezerowa wartość czasu zbyt mała na jedno miejsce po przecinku jest teraz wypisywana z trzema cyframi znaczącymi (<c2/>); dokładne zero nadal wypisuje się jako <c3/>. Raport HTML (HyperText Markup Language), tabela porównania studiów i pobierany raport z playground stosują tę samą regułę, więc żadna niezerowa wartość nie jest też wypisywana jako <c4/>.
+
+seg-c44323babd1e = <c1/> to analityczna granica wykrywalności spoofingu, która ma sens tylko wobec skonfigurowanego ataku. Rodzaje <c2/>, <c3/>, <c4/> i <c5/> go nie konfigurują, więc ich podsumowanie wypisuje teraz <c6/> zamiast liczby takiej jak <c7/>, którą można odczytać jako nieudaną detekcję. Wartość pozostaje w <c8/>, oznaczona <c9/> z powodem w <c10/>, a tabele raportu pokazują „nie dotyczy”. Rodzaj <c11/> nadal ocenia detekcję.
+
+seg-f54d5ffb7dff = Dwa przypięte podsumowania w <c1/> zmieniły się dokładnie z tych dwóch powodów i z żadnego innego: <c2/> (p95 kwantowe i obie wartości <c3/>) oraz <c4/> (obie wartości <c5/>; jego wartości p95 są dokładnie zerowe). Skróty całych dokumentów się nie zmieniły. Oczekiwane podsumowania w README, trzech samouczkach i ich scenariuszach dydaktycznych zostały zaktualizowane, a <c6/> sprawdza kopie dydaktyczne względem silnika.
+
+seg-e8e012376fa3 = Przewodnik po playground nie otwiera się już przy pierwszym wczytaniu. Jego okno modalne przechwytywało pierwsze kliknięcia, a podświetlenie przewijało stronę z miejsca, w którym znalazł się odwiedzający. Uruchamia się przyciskiem „Take the 60-second tour” albo pływającym przyciskiem Tour.
+
+seg-4d60d4ea4d7d = Strona nie przewija się już na boki na telefonie. Przy { "390" } px wiersz marki i przycisk GitHub zajmowały około { "410" } px zawartości, czyli przepełnienie o { "4" } px; nagłówek mieści się teraz od { "320" } px w górę, a tabela wskaźników jakości przewija się wewnątrz własnego pola, zamiast rozszerzać stronę.
+
+seg-f6ec6a64071d = Eksplorator możliwości zaczynał od własnej liczby kart („{ "46" } kart możliwości … { "17" } popartych zewnętrzną wyrocznią”), obok README podających { "64" } z { "168" }. Zaczyna teraz od macierzy weryfikacji, odczytanej z generowanego <c1/> (tej samej macierzy, do której przypięto liczby w README), a karty nazywa dopiero potem tym, czym są: warstwą podsumowującą. <c2/>, nowy krok w przepływie ciągłej integracji (CI), sprawdza arytmetykę i porównuje README.md z opisami na stronie; <c3/> przypina to połączenie od strony Rust.
+
+seg-606098743e57 = <b>Publiczny opis zaczyna się teraz od synchronizacji czasu i holdover, czyli najlepiej zwalidowanej dziedziny.</b> Początek README i <c1/> przedstawiają Kshana jako otwarty, odtwarzalny silnik dowodowy odporności PNT z oznaczonym pochodzeniem: najpierw synchronizacja czasu i holdover w infrastrukturze krytycznej (estymatory Allana, zmodyfikowanego Allana, odchylenia czasu i maksymalnego błędu odstępu czasu oraz inwersja wariancji dryfu w holdover to wiersze VALIDATED, które za tym stoją), kwantowe jako neutralna metoda porównania kwantowego z klasycznym, której wyniki są oznaczone MODELLED, a nawigacja księżycowa / cislunarna i w głębokiej przestrzeni jako utrzymywane możliwości, a nie hasło przewodnie. Obie strony mówią teraz, czym Kshana nie jest: nie jest symulatorem sygnałów radiowych ani stanowiskiem hardware-in-the-loop, nie jest zamiennikiem MATLAB/Simulink, STK ani Orekit; wskazują też nowy rodzaj <c2/> i <c3/>. Dawne zdanie „nie ma dobrego otwartego narzędzia” znika: wyszukiwanie, które niczego nie znajduje, nie jest dowodem, że nic nie istnieje. <c4/> zyskuje niedatowaną kolejność priorytetów (najpierw synchronizacja czasu, potem kwantowe porównanie, a lunarne utrzymywane) i traci trzy nieaktualne pozycje (systematyki Coriolisa i przesunięcia świetlnego, warunki początkowe NRHO i scenariusz księżycowy, wszystkie dostarczone); linia README „Coriolis i przesunięcie świetlne pozostają w planie” jest poprawiona w ten sam sposób.
+
+seg-7bc48692be0b = <b><c1/> przestało się niedoceniać.</b> Wiersz układów związanych z Ziemią mówił „none”, podczas gdy macierz ocenia GCRS→ITRS jako VALIDATED; jest teraz „full”, a wiersz układów rdzenia odnotowuje porównanie z ANISE jako dostarczone. Tryb prowadzony figurował jako plan; playground dostarczył suwaki prowadzone i przewodnik. Przegląd względem <c2/> poprawił pięć kolejnych wierszy, które były starsze od swoich walidacji: model sił Cowella oraz wsadowe/sekwencyjne wyznaczanie orbity względem Orekit { "12.2" }, przeloty nad stacjami naziemnymi względem detektora elewacji Orekit, jądro współczynnika rozmycia dokładności względem gnss_lib_py oraz import OEM względem niezależnego parsera <c3/>; wiersz weryfikacji i walidacji wymienia teraz zabezpieczenia sprawdzające, że każdy przywołany test istnieje.
+
+seg-9d144df304ca = Słownik wyjaśnia, co mówi plik wyniku.
+
+seg-eed672b2f8fd = <c1/> zyskuje wpisy w prostym języku dla terminów wyniku (holdover, p95, integralność, wskaźnik bezpieczeństwa, PDOP, <c2/>, <c3/>), terminów synchronizacji telekomunikacyjnej (błąd czasu, max|TE|, cTE, dTE, MTIE, TDEV, PRTC, ePRTC, T-BC, T-TSC, OCXO, CSAC) oraz trzech poziomów dowodowych (VALIDATED, MODELLED, PARTNER).
+
+seg-1a4f9d5eef96 = <b>Skróty są rozwijane przy pierwszym użyciu w każdym ręcznie pisanym dokumencie publicznym.</b> README i { "24" } plików w <c1/> miało kilkaset skrótów użytych przed rozwinięciem lub bez niego; każdy jest teraz rozwinięty tam, gdzie pojawia się w danym pliku po raz pierwszy. Trzy pliki generowane (<c2/>, <c3/>, <c4/>) pozostają bez zmian: są pisane z <c5/> i <c6/>, więc ich brzmienie trzeba zmienić u źródła.
+
+seg-2889ce118381 = Pokrycie linii ma pomiar referencyjny.
+
+seg-9c4684c0a4ef = <c1/> zapisuje { "95.63" } % ({ "37,697" } z { "39,419" } linii) z zadania CI <c2/> dla <c3/>, a <c4/> przypina do niego pięć publicznych powierzchni z „~{ "96" }%”, czyli jedyną główną liczbę, którą utrzymywano ręcznie i która już raz zmieniła się niezauważona.
+
+seg-ebd36b7291df = Nowe bramki synchronizacji dokumentacji dla powierzchni, których nic nie czytało.
+
+seg-3dd44fc69a28 = <c1/> sprawdza każde <c2/> w bloku JavaScript względem eksportów WebAssembly i przypina przykład Rust z README.crates.md bajt po bajcie do kopii kompilowanej przez binarkę testową. <c3/> zawodzi, jeśli <c4/> traci <c5/> lub SECURITY.md przestaje to stwierdzać. <c6/> skanuje teraz także <c7/> i trzy README rejestrów, a każdy standard na stronie musi jawnie podawać swój <c8/>.
+
+seg-a506d14f3447 = Dwie kontrole zegara na rzeczywistym sprzęcie działają na runnerze.
+
+seg-c7f8b8627137 = <c1/> (co miesiąc i na żądanie) pobiera serie 5071A i PHASE.DAT i uruchamia oba testy z <c2/>, więc brakujące dane wejściowe powodują porażkę zamiast pominięcia. Oba skrypty pobierania są przypięte do jednego commitu allantools i weryfikują SHA-256.
+
+seg-3b4a7fee3cd0 = <b>Stub typów Pythona jest sprawdzany względem zbudowanego wheela</b> (<c1/> w zadaniu bindings), przez co <c2/>/<c3/> zostały wydane bez stubu.
+
+seg-24c2ccf3634a = <b>Słownik definiuje URE, EOP, FoM, CTI i TIB</b>, których README i rejestr używały bez rozwinięcia.
+
+seg-ae044195cd47 = <b>Opublikowany kontrakt pól każdego rodzaju jest teraz prawdziwy, a test go tak utrzymuje.</b> Zmieniło się pięć z { "61" } rodzajów. Rodzaje z niepustym <c1/> przechodzą z { "21" } do { "22" }: <c2/> wymaga teraz <c3/> (samo <c4/> dawniej przechodziło <c5/>, a potem kończyło przebieg błędem), a <c6/> dodaje <c7/>, czego jego przebieg już wymagał. Wymagany wpis może używać <c8/> (jedno z nich) i <c9/> (wszystkie razem); <c10/> rozumie oba. <c11/>, <c12/> i <c13/> publikują { "9" } rzeczywistych pól opcjonalnych, które wcześniej pominięto. <c14/> mówi teraz, że <c15/> jest wymagane dla każdego rodzaju poza <c16/>. <c17/> sprawdza każdy rodzaj względem dostarczonego scenariusza: usunięcie dowolnego wymaganego wpisu musi sprawić, że przebieg zawiedzie, a dokument zawierający tylko wymagane pola musi się uruchomić.
+
+seg-09ba716f3e97 = Notatki JetBrains Marketplace są objęte bramką.
+
+seg-938ff48e7a2d = <c1/> kończy się teraz błędem, jeśli najnowszy wpis <c2/> w <c3/> nie podaje wydawanej wersji; siedem opublikowanych wersji serwowało bez zmian notatki { "0.22.0" }.
+
+seg-3d38550854e0 = Wartość pokrycia w raporcie technicznym jest wartością zmierzoną.
+
+seg-bd312cd26746 = <c1/> podawał „near { "97" } %”; teraz podaje około { "96" } % ({ "95.63" } % zmierzone, <c2/>) i jest szóstą powierzchnią, którą przypina test pokrycia.
+
+seg-934680d402da = <b>Klient silnika poza głównym wątkiem jest testowany</b> (<c1/>, w CI): lista dozwolonych wywołań, anulowanie i ponowne uruchomienie, trzy ścieżki awaryjne w głównym wątku oraz odzyskiwanie po awarii, na atrapie workera.
+
+seg-fd5f9a8a4f43 = <b>Nic nie jest publikowane, dopóki otagowany commit nie przejdzie swoich testów, a wydanie nie jest zakończone, dopóki każdy rejestr go nie serwuje.</b> Kolejność to teraz tag, weryfikacja, publikacja, parytet, strona, w jednym przebiegu <c1/> (<a1><c2/></a1>).
+
+seg-745b11c8ed74 = Publikacja czeka na werdykt.
+
+seg-e66c890cf6c0 = <c1/>, <c2/> i <c3/> nie startują już po wypchnięciu tagu; wywołuje je <c4/> z zadań, które mają <c5/>. Wcześniej ścigały się z nim: przy { "v0.27.2" } crates.io, npm i Python Package Index (PyPI) opublikowały wszystko w ciągu { "4.5" } minuty od tagu, a <c6/> zwróciło wynik { "84" } minuty po nim; przy { "v0.27.0" } npm i PyPI opublikowały, podczas gdy zadanie crates.io zakończyło się błędem. Ręczną ponowną próbę na tagu wstrzymuje nowy <c7/>, który wymaga zielonego <c8/> dla dokładnie tego commitu z interfejsu Actions i w każdym innym przypadku kończy się odmową.
+
+seg-3800247c81f2 = <em>Wszystko jest budowane, zanim cokolwiek zostanie wysłane</em>, a crates.io, którego krok pakowania zawiódł w połowie wydania, publikuje jako pierwszy.
+
+seg-6929a7608da7 = <em>Brak tokenu rejestru kończy zadanie błędem</em> zamiast pominąć wysyłkę i zgłosić powodzenie.
+
+seg-460811602293 = Kontrola parytetu po publikacji.
+
+seg-86eb0fab2f7c = <c1/> odpytuje crates.io (<c2/> i <c3/>), npm, PyPI (dystrybucję źródłową i wszystkie sześć wheeli platformowych) oraz ghcr.io, aż każdy serwuje daną wersję, albo kończy przebieg błędem; docs.rs i rejestr Model Context Protocol (MCP) są raportowane, ale nie wymagane. Uruchomiony na dawnych wydaniach stwierdza brak { "0.22.0" } w npm i PyPI, brak { "0.23.0" } w PyPI i brak { "0.27.0" } w crates.io.
+
+seg-79578a00fd78 = <em>Gotowe binaria wiersza poleceń dla macOS (Apple silicon i Intel) oraz Windows x86-64</em>, nazwane według celu (<c1/> i tak dalej), obok linuksowego <c2/>, którego nazwa się nie zmienia. Plik <c3/> obejmuje każdy zasób, a <c4/> sprawdza go i uruchamia binaria dla macOS i Windows na ich własnych systemach.
+
+seg-3e1f5afa9f2a = <em>kshana.dev pokazuje wydanie, a nie <c1/>.</em> Dawniej wdrażało się ponownie przy każdym pushu do <c2/>, podczas gdy jego strony wymieniały ostatnie wydanie. <c3/> buduje teraz tylko tag wydania: wydanie uruchamia go raz, gdy każdy kanał serwuje daną wersję, a ręczne uruchomienie wdraża ponownie ostatnie wydanie (lub wskazane).
+
+seg-43da8f3f171e = Jedno źródło wheeli.
+
+seg-b911ac65e231 = Ręcznie skopiowana macierz sześciu celów w <c1/> zniknęła; wywołuje on <c2/>, więc bramka znacznika auditwheel i sprawdzenie odtwarzalności bajt po bajcie oceniają teraz wheele, które otrzymuje PyPI, a porażka któregokolwiek z nich zatrzymuje wydanie.
+
+seg-194c4b019a4c = <em>Przypięte narzędzia budowania.</em> Każdy workflow żąda Rust { "1.93.0" } (zadanie msrv własnej wersji); <c1/> i <c2/> żądały <c3/>, a log { "v0.27.2" } pokazuje, że rustup instalował { "1.98.1" }, a następnie kompilował z { "1.93.0" } tylko dlatego, że <c4/> ma pierwszeństwo. wasm-pack jest przypięty do { "0.13.1" } (wersja, która zbudowała { "v0.27.2" }, wybrana przez nieprzypięty skrypt instalacyjny) ze sprawdzeniem sumy kontrolnej, a mcp-publisher do { "1.8.1" } z opublikowanym SHA-256. <c5/> kończy się teraz błędem, jeśli workflow prosi o inny kompilator lub przekazuje pobrany skrypt do powłoki. Żadne zadanie weryfikacji, przypięty złoty wzorzec ani lokalny skrypt bramki nie zostały usunięte ani osłabione.
+
+seg-9e2a7376367e = <b>Każda zewnętrzna akcja GitHub jest przypięta przez SHA commitu</b>: { "93" } odwołań w { "15" } workflowach, z czego { "92" } nowo, a tag zostaje jako końcowy komentarz do aktualizacji przez Dependabot. Wyjątkiem jest <c1/>, którego tag jest selektorem toolchainu.
+
+seg-6afb4a8770b0 = <b>Bazowe warstwy obrazu serwera MCP są przypięte przez skrót wieloarchitekturowy</b>, a Dependabot obserwuje teraz Dockerfile <c1/>, więc warstwy systemu nadal dostają aktualizacje bezpieczeństwa, przez zrecenzowany PR.
+
+seg-4ea8b158b408 = Sprawdzenie zgodności tagu z manifestem działa w dwóch workflowach publikacji, które wydają wersję z tagu.
+
+seg-4b77764e955d = <c1/> (obraz ghcr, rejestr MCP) i <c2/> (Marketplace) ścigają się z <c3/> zamiast na niego czekać, więc błędnie wycięty tag był bramkowany tylko w siostrzanym workflow. Oba uruchamiają teraz <c4/> przed budowaniem.
+
+seg-bf90c4063843 = <b>Naprawiono cztery ostrzeżenia, które Dependabot zgłosił w dniu włączenia alertów.</b> Serwer MCP przechodzi z <c1/> { "1.7" } na { "2.2" }: trzy ostrzeżenia dotyczące <c2/> < { "2.1" } (wyciek tabeli sesji Streamable-HTTP, brak walidacji chronionego zasobu OAuth, własne nagłówki podążające za przekierowaniem między źródłami); żadne nie jest tu osiągalne, bo serwer mówi tylko przez stdio, ale opublikowany crate nie powinien przypinać podatnego SDK. Makra <c3/> { "2" } wymagają Rust { "1.88" }, więc tylko <c4/> deklaruje teraz <c5/>; biblioteka <c6/> zostaje przy { "1.85" }. Jedna zmiana API (<c7/> → <c8/>) została zastosowana, a testy pełnego obiegu przechodzą. Akcja skanowania SonarQube przechodzi z v5 na v6, co naprawia ostrzeżenie o wstrzyknięciu argumentu (≥ { "4.0" }, < { "6.0" }).
+
+seg-2652aaad177e = <b>Każdy element Rust przywołany przez wiersz macierzy weryfikacji jest teraz rozstrzygany względem crate'a.</b> Dotychczasowa bariera sprawdzała cytowania w kształcie ścieżek plików; { "63" } ze { "164" } wierszy niepartnerskich podaje swoje dowody jako element wewnątrz crate'a: <c1/>, <c2/>, <c3/>, a token bez przyrostka <c4/> był niewidoczny dla skanera ścieżek. Takie wiersze mogły wskazywać zmieniony moduł, opróżniony moduł testów lub funkcję, która nigdy nie istniała, a każda bramka pozostałaby zielona.
+
+seg-01eee5115e3f = <c1/> rozstrzyga wszystkie { "339" } takich cytowań przez drzewo modułów, wymaga, aby każdy wiersz niepartnerski wskazywał co najmniej jeden test, który faktycznie ma <c2/>, i wymaga, aby wiersze partnerskie nie wskazywały żadnego. Do oceny testu użyto czterech mutacji: zmiany nazwy cytowanego modułu, skierowania jedynego cytowania testu w wierszu na funkcję niebędącą testem, zmiany nazwy prawdziwego <c3/> oraz usunięcia z niego atrybutów <c4/>; każda z nich zaczerwienia asercję, która za nią odpowiada.
+
+seg-7731d549c739 = Jeden wiersz był już błędny: <em>Alternative / complementary PNT</em> przywoływał <c1/>, czyli glob, który nie jest cytowaniem. Wymienia teraz <c2/> oraz trzy stojące za nim wewnętrzne moduły testów crate'a.
+
+seg-cf6fd64368de = <b>Opublikowane wykresy są ponownie sprawdzane względem silnika przy każdej kompilacji</b> (<c1/>). Trzy wykresy demonstracyjne w README to własny wynik <c2/> silnika i nic nie uruchamiało scenariusza ponownie; dwa studia punktu przecięcia z artykułu zostały wygenerowane raz i zatwierdzone; a README podaje cztery wskaźniki jakości w tekście obok <c3/>. Wszystkie trzy są teraz przypięte do bieżącego wyniku silnika.
+
+seg-276b65a8f76a = Ich uzgodnienie przyniosło użyteczny wynik: wykresy demonstracyjne narysowano w silniku { "0.22.0" }, a JSON punktu przecięcia z artykułu w { "0.20.0" }, a w { "0.27.1" } <b>każda narysowana wartość we wszystkich pięciu artefaktach jest identyczna</b>; trzy wykresy SVG różnią się od świeżego przebiegu dokładnie dwoma znakami każdy, czyli znacznikiem wersji w stopce. Wykresy wyrenderowano ponownie, aby stopka była prawdziwa. JSON artykułu celowo pozostaje ze znacznikiem { "0.20.0" }: jest zapisem przebiegu, którego wykres zawiera opublikowany artykuł, a zmiana znacznika przypisałaby mu pochodzenie, jakiego PDF nie ma. Bariera stwierdza zamiast tego mocniejszą własność: że obecny silnik nadal odtwarza każdą opublikowaną wartość.
+
+seg-c88647c5f2fc = Analizy SonarCloud były zapisywane jako <c1/>, więc okres nowego kodu <c2/> nigdy nie przesuwał się: nadal był zakotwiczony w analizie z 2026-07-02, oceniając osiemdziesiąt dwa dni pracy jako jedną deltę i mierząc { "7877" } „nowych” zduplikowanych linii wobec progu { "3" } %. Skan przekazuje teraz wersję crate'a. Leżąca u podstaw duplikacja jest prawdziwa i to jej nie ukrywa: skupia się w deklaratywnych rejestrach <c3/> powtarzanych w <c4/>, <c5/>, <c6/>, <c7/> i <c8/> oraz w 168-wierszowej tabeli weryfikacji i jest tu nazwana pracą do wykonania, a nie wyłączona z pomiaru.
+
+seg-f2a0960a6f11 = <b><c1/> nie miało blokady jednego piszącego, a każdy przebieg zapisywał ten sam log.</b> To nie jest kwestia porządku: wartości <c2/>, <c3/> i <c4/> z potwierdzenia są odczytywane Z tego logu, a hak pre-push ufa potwierdzeniu. Bramka, która została zabita, ale której binarka testowa nadal żyła, zapisywała dalej do pliku, który następny przebieg właśnie obciął, więc liczby jednego przebiegu mogły zostać poświadczone jako liczby innego, co upoważniało do pushu na podstawie zestawu, który nigdy nie uruchomił się na wypychanym drzewie. Teraz jest jedna bramka na checkout (odmawia z kodem wyjścia { "75" } obok żywej, usuwa przestarzałą blokadę, której pid już nie istnieje) i jeden log na przebieg, a <c5/> jest odświeżany z kończącego się przebiegu przy wyjściu. Oba kierunki są przetestowane: żywy pid powoduje odmowę, martwy zostaje wyczyszczony.
+
+seg-687d6fe87221 = <c1/> twierdził, że jego testy <b>nie</b> dowodzą, że ciągi nazw testów i wyroczni wskazują żywy kod. Dwie bariery robią teraz dokładnie to, więc dokumentacja modułu mówiła odwrotnie niż jest naprawdę; podaje teraz, co jest sprawdzane maszynowo, a co pozostawiono ocenie człowieka. Nieaktualne odwołanie do <c2/>, bo moduł nazywa się <c3/>, zostało poprawione w dokumentacji siostrzanej bariery.
+
+seg-014070f0873c = <b><c1/> została przepisana 2026-09-22 i wypchnięta siłą.</b> Dziesięć commitów stało się czterema. Przepisanie wchłonęło każdy commit, który zostawiał bramkę czerwoną, w commit, który ją naprawiał, więc każdy commit na <c2/> ma teraz drzewo, które przechodzi, i usunęło anulowane przebiegi, które grupa współbieżności obejmująca cały branch zostawiała na każdym zastąpionym commicie.
+
+seg-b48d6cfc3b42 = Nic nie zostało odrzucone. Commity sprzed przepisania pozostają osiągalne przez tagi, które na nie wskazują, a końcowe drzewo jest identyczne bajt po bajcie z drzewem, od którego przepisanie zaczęło: <c1/> między starym a nowym końcem jest puste, poza trzema plikami workflow, które zmienia to wydanie.
+
+seg-0549cfdc6d69 = Zastąpione SHA, dla każdego, kto trzyma do któregoś odwołanie:
+
+seg-14812deb1b6b = stary
+
+seg-c63f549e6a1d = temat
+
+seg-57bfbb773299 = docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s
+
+seg-02aa1be872d2 = fix(docs): the engine-flow diagram said { "6" } figures of merit; the engine scores { "7" }
+
+seg-f3a598ff3349 = fix(test): two more cross-platform pins, and two wrong assumptions of my own
+
+seg-e9054c4801ff = feat(web): surface the lunar cluster on the site — seven capability cards
+
+seg-3f1f16502fdf = docs(lunar): document { "42" } public fields and ratchet the ceiling down to { "985" }
+
+seg-f97ce0978cc3 = chore(release): { "v0.27.0" }
+
+seg-cbe63ab92c6a = test(docs): guard the distribution diagram, the last unguarded one
+
+seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
+
+seg-9c220336c895 = <b>Tagi { "v0.27.0" } i { "v0.27.1" } celowo NIE zostały przesunięte.</b> Nadal wskazują <c1/> i <c2/>, dokładnie te commity, których drzewa wytworzyły artefakty obecnie dostępne w crates.io, npm, PyPI, ghcr.io i rejestrze MCP. <c3/> crate'a zapisuje sha1, z którego został spakowany, rejestry są niezmienne, a atestacja pochodzenia budowy SLSA na zasobach wydania { "v0.27.1" } jest związana z tym commitem. Przesunięcie tagów zostawiłoby każdy z tych opublikowanych artefaktów wskazujący commit, który już nie istnieje. Pozostawienie ich utrzymuje stare commity osiągalnymi i każdy opublikowany łańcuch pochodzenia rozstrzygalnym, kosztem dwóch tagów, które nie są już przodkami <c4/>; dlatego to wydanie istnieje: { "v0.27.2" } daje <c5/> własny tag, spakowany z commitu, który się na niej znajduje.
+
+seg-3c644384256f = To drugie ujawnione przepisanie tej historii; pierwsze, 2026-09-21, ujednoliciło autorstwo i jest zapisane w notatkach { "0.27.0" } wraz z jego dwoma wiszącymi sha1 crate'ów. Przepisanie jest tu ujawniane za każdym razem, bo repozytorium, które sprzedaje weryfikowalne pochodzenie, nie może po cichu ruszać gruntu spod opublikowanego artefaktu.
+
+seg-d82d7a3c9054 = Opublikowany crate się nie kompilował.
+
+seg-ebc99c9df1ef = <c1/> zawiera <c2/> najwyższego poziomu dla <c3/>, a manifest wyklucza <c4/> z pakietu, więc archiwum otrzymywane przez crates.io nie miało pliku, który sama biblioteka osadza. Publikacja { "v0.27.0" } zawiodła w kompilacji weryfikacyjnej z tego powodu i żadne { "0.27.0" } nie dotarło do crates.io; npm i PyPI, których zadania od niego nie zależą, opublikowały normalnie. Wykluczenie ma teraz wyjątek dla tego jednego katalogu.
+
+seg-6ff9cdb976e8 = Każde inne <c1/> fixture w <c2/> znajduje się wewnątrz modułu <c3/>, więc nigdy nie trafia do spakowanej biblioteki. Tylko to na najwyższym poziomie trafia.
+
+seg-7f0975453b8f = <b>Nic w CI nie uruchamiało <c1/>,</b> dlatego archiwum, które nie może się skompilować, zostało po raz pierwszy wykryte przez zadanie publikacji, gdy dwa inne rejestry już je wydały. Zadanie <c2/> buduje teraz i kompiluje dokładnie to archiwum przy każdym pushu.
+
+seg-1f2df48821fc = Przypięte skróty emisji realizacji układu księżycowego nie przesuwają się już przy podbiciu wersji. Stopka SVG zawiera wersję silnika, więc każde wydanie wymuszało nowe wyznaczenie trzech skrótów, dwukrotnie w jednym dniu, a pin ponownie wyznaczany z rutyny przestaje być czytany. Ciąg wersji jest normalizowany do symbolu zastępczego przed haszowaniem, a emisja jest osobno sprawdzana pod kątem podania działającej wersji, więc ten fakt jest sprawdzany dokładniej, niż kiedykolwiek sprawdzał go skrót.
+
+seg-56309487ea7e = <c1/>: księżycowy datum układu z prawdziwej kampanii obserwacyjnej.
+
+seg-966a2cc4e40d = <c1/> zastąpiło wstrzykniętą transformację Helmerta <em>symulowaną</em> kampanią i powiedziało to wprost: jej sieć stacji, harmonogram i sigma na obserwację są wejściami ilustracyjnymi. Ten scenariusz usuwa symulację z dwóch miejsc, w których harmonogram i model błędu wchodzą do wyniku. Epokami są czasy nadania { "337" } zarchiwizowanych normalnych punktów księżycowej laserowej lokacji ILRS (2015-04-08 .. 2015-06-27, Grasse MeO { "7845" } i Matera MLRO { "7941" }, wszystkie pięć macierzy reflektorów), a waga każdej obserwacji to własna zarchiwizowana precyzja tego punktu normalnego, <c2/>, czyli mediana { "5.13" } mm odległości w jedną stronę, wzięta z pliku, a nie wybrana tutaj. Współrzędne stacji pochodzą z IERS ITRF2020, a współrzędne reflektorów z tabeli { "7" } JPL DE430; każde fixture zapisuje adres URL, datę pobrania i SHA-256 i jest regenerowane ze swojego źródła przez zatwierdzony generator, który weryfikuje źródło i przerywa zamiast wyemitować liczbę. Raport nazywa, które łącza są zmierzone, a które pozostają modelowane, i te modelowane są <em>zmierzone</em>: różnica obserwowana minus obliczona odległości w jedną stronę na rzeczywistych danych wynosi { "156 494" } m RMS, co ten sam zestaw testów potwierdza względem JPL Horizons na tym samym przedziale ({ "195 655" } m RMS wektora, najgorsza epoka { "0.054" }°, czyli w granicach ~{ "0.3" }°, które wbudowany analityczny szereg księżycowy deklaruje dla siebie). Addytywnie: nowy rodzaj, nowy czytnik (<c3/>) i nowy moduł (<c4/>); istniejące pakiety układu księżycowego są przypięte bit po bicie.
+
+seg-7fcd2af0a688 = <b><c1/> jako parametr scenariusza</b> w <c2/> i <c3/>. Dokładność pomiaru odległości w sygnale w przestrzeni była stałą czasu kompilacji (<c4/>), więc przegląd objętości usługi mógł odpowiedzieć tylko „zaliczone albo nie” przy jednej ustalonej wartości. Poziomy ochrony są względem niej dokładnie liniowe, więc jej udostępnienie zamienia przegląd w <b>wymaganie</b> dokładności pomiaru odległości w całej objętości. Wartość domyślna odtwarza dotychczasowe zachowanie bit po bicie.
+
+seg-c3ccc1e89a2d = <b>Eksport geometrii poszczególnych satelitów</b> w <c1/>: <c2/> + <c3/> dodają tablicę <c4/> podającą azymut, elewację i odległość ukośną do każdego satelity w każdej epoce dla jednego nazwanego miejsca selenograficznego, plus znacznik widoczności. Zbiorcze podsumowanie pokrycia celowo zwija geometrię poszczególnych satelitów, ale odległość ukośna jest dokładnie tym, czego używa bilans łącza, więc łącznej analizy komunikacji i nawigacji nie dało się wykonać z samego podsumowania. Wyłączone, jeśli nie podano obu współrzędnych; wyłącznie addytywne.
+
+seg-ae7886fbca9d = <c1/>, publiczna funkcja pomocnicza kątów widzenia stojąca za eksportem.
+
+seg-b187bade5f04 = Wiersz macierzy weryfikacji dla nowej możliwości geometrii.
+
+seg-14ef785b6c12 = <b>Rzeczywisty wzorzec anteny w eksporcie geometrii.</b> Silnik od P1 zawiera wzorzec jednorodnie oświetlonej apertury kołowej (<c1/>, postać Airy’ego <c2/>), a <b>nic poza <c3/> go nie używało</b>; zamiast tego pracę wykonywała wzmocnienie na osi w parze z regułą kciuka wzmocnienie–szerokość wiązki. Opcjonalna tabela <c4/> w <c5/> (odczytywana tylko wtedy, gdy ustawiono miejsce eksportu) daje teraz każdemu wierszowi eksportu <b>kąt poza osią na satelicie</b> i <b>wzmocnienie nadawcze w kierunku miejsca z tego wzorca</b> oraz dodaje blok <c6/>, który podaje <b>liczbę w wiązce według rzeczywistego wzorca obok liczby w wiązce według przybliżenia symetrycznego</b> (<c7/>) z różnicą jako nazwaną korektą. Emitowane są obie liczby; żadna nie zastępuje drugiej. Zmierzone przy własnej reprezentatywnej aperturze księżycowej silnika (czasza { "1" } m, { "2.4" } GHz, η = { "0.60" }) nad miejscem przy biegunie południowym i ilustracyjną powłoką klasy LCNS obie <b>różnią się o więcej niż jednego satelitę</b>: rzeczywisty wzorzec umieszcza { "0" } z { "76" } widocznych łączy w wiązce półmocy, przybliżenie twierdzi { "28" }; korekta wynosi −{ "2.33" } satelity na epokę, a najgorsza pojedyncza epoka { "3" }. Przybliżenie ma własną sprawność apertury ({ "0.641" } wobec reguły <c8/> stopni, w której zwykle się je podaje, { "0.920" } wobec jednorodnej apertury kołowej), więc dla czaszy o η = { "0.60" } zwraca wiązkę { "1.238" }× za szeroką; blok emituje obie implikowane sprawności zamiast zostawiać je do wywnioskowania. Wyłącznie addytywnie: zmierzone w udokumentowanym punkcie pracy, { "597" } dotychczasowych liści, <b>{ "0" } zmienionych, { "0" } usuniętych, { "494" } dodanych</b>.
+
+seg-3149d17a8ffa = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> i <c7/>, publiczne elementy za tym stojące. Wzorzec jest też teraz zakotwiczony względem opublikowanych stałych Airy’ego, a nie tylko względem samego siebie: przejście przez połowę mocy jest lokalizowane bisekcją i porównywane z <c8/>, co daje dokładną szerokość połowy mocy <c9/> i uczciwie zapisuje, że konwencjonalny współczynnik <c10/> daje <c11/> równe <b>−{ "2.955" } dB</b>, a nie −{ "3.010" } dB.
+
+seg-bac7217bb128 = <b>Długa tabela odtwarzalności dla <c1/>.</b> Wyniki scenariusza będące tablicami, czyli siatka czasów uśredniania, siedem krzywych <c2/> dla poszczególnych składników i ich suma kwadratowa, docierały do odbiorców tylko jako tablice JSON. Jedna wydana tabela została obcięta na { "400" } znakach i opublikowała { "23" } z { "57" } czasów uśredniania pod kolumną deklarującą wszystkie z nich, a manuskrypt odbudowywał krzywe składników ze wzorów zamkniętych, bo silnik nigdy ich nie emitował. Zwykły przebieg zapisuje teraz także <c3/> z jednym wierszem na (indeks siatki, czas uśredniania, składnik), którego nie da się obciąć do czegoś, co nadal wygląda na całość. Indeks siatki jest dokładnym kluczem złączenia; <c4/> jest zapisywane z { "13" } cyframi znaczącymi, a każde <c5/> z { "7" }, więc bajty nie rozchodzą się między kompilacjami tego samego źródła. Wyłącznie addytywnie: raport JSON jest identyczny bajt po bajcie.
+
+seg-ab9209297ec2 = <b>Raport <c1/> opisuje teraz sam siebie.</b> Blok <c2/> powtarza rozstrzygnięte wejścia łącza (długość fali nośnej, apertura nadawcza i odbiorcza, odległość, szerokość impulsu, czas integracji, sprawności i straty) z zastosowanymi wartościami domyślnymi, więc artykuł podaje konfigurację, z którą się uruchomił, zamiast cytować wartość domyślną odczytaną ze źródła. Blok <c3/> podaje jednostkę i klasę pochodzenia każdej wielkości, którą artykuł prawdopodobnie zacytuje. Powodem jego istnienia są ślady kowariancji przekazania: były emitowane jako goły <c4/>, a manuskrypt wywnioskował metry kwadratowe z wewnętrznej kontroli spójności. Wniosek był słuszny, i właśnie dlatego był defektem: nic nie wychwyciłoby, gdyby był błędny. Wyłącznie addytywnie: zmierzone dla czterech konfiguracji, { "456" } dotychczasowych pól, <b>{ "0" } zmienionych, { "0" } usuniętych, { "196" } dodanych</b>.
+
+seg-5c810155300c = Wiersz macierzy weryfikacji dla tabeli odtwarzalności bilansu czasu, uczciwie <c1/> / <b>MODELLED</b>: suma jest sprawdzana względem sumy kwadratowej składników w tym samym pliku, który współdzieli własne definicje składników silnika i dlatego nie jest niezależną wyrocznią. Razem dodają one trzy wiersze. Bieżąca suma dla tej niewydanej sekcji to <b>{ "168" } wierszy: { "64" } VALIDATED, { "100" } MODELLED, { "4" } PARTNER</b>.
+
+seg-ed290a85ab0e = <b>Autorstwo commitów w całej historii jest teraz jedną tożsamością, a dwa opublikowane crate'y wskazują commit, który już nie istnieje.</b> 2026-09-21 historię git przepisano tak, aby każdy commit od człowieka miał jako autora i zatwierdzającego <c1/>. Wcześniej nosiła trzy zapisy jednej osoby: { "688" } commitów jako <c2/>, { "34" } jako <c3/> i { "94" } już kanonicznych. Jedyny commit <c4/> celowo pozostawiono z własnym autorem: zmiana etykiety aktualizacji zależności od bota przypisywałaby autorstwo pracy, której nikt tu nie wykonał.
+
+seg-ec4e75f94462 = <b>Żadna treść się nie zmieniła.</b> Przepisanie dotknęło wyłącznie nagłówków autora i zatwierdzającego, i da się to sprawdzić, a nie tylko twierdzić: drzewo każdego tagu i każdego brancha jest bit po bicie takie samo jak wcześniej. <c1/> nadal wskazuje drzewo <c2/>, dokładnie tak jak przedtem.
+
+seg-bc0f4fa0a009 = <b>Ile to kosztowało.</b> Nazwa commitu jest skrótem drzewa, rodziców i nagłówków autora, więc zmiana przodka zmienia nazwę każdego potomka. Commit wydania <c1/> miał <c2/>, a ma teraz <c3/>. Dwa artefakty zapisały starą nazwę w chwili publikacji i nie można ich poprawić, bo opublikowana wersja w rejestrze jest z założenia niezmienna:
+
+seg-52e096332738 = <c1/> { "0.26.0" } w crates.io: <c2/> zapisuje <c3/>
+
+seg-8ec39d2f136c = <c1/> { "0.26.0" } w crates.io: ten sam sha1, <c2/>
+
+seg-9a21b7c7b41c = Nic więcej nie jest dotknięte. Pakiet npm nie zapisuje <c1/>, a dystrybucja PyPI w ogóle nie zapisuje commitu; oba sprawdzono, a nie założono.
+
+seg-9c51c5fb0d80 = Nie ma naprawy, po której <c1/> wskazywałoby przepisany commit: ten ciąg <em>jest</em> starym rodowodem, a jedyny sposób, w jaki da się go rozstrzygnąć, to pozostawienie opublikowanej historii sprzed przepisania, co przywróciłoby autorstwo, które przepisanie usunęło. Pochodzenie { "0.26.0" } biegnie więc przez tag, a nie przez zapisany sha1, a tag dostarcza identyczne bajty, z których crate zbudowano. Następne wydanie zapisuje prawidłowy commit bez żadnego działania.
+
+seg-30ecea86118a = <b><c1/> domyślnie używało pliku EOP bez wierszy predykcji (G12).</b> Scenariusz osadzał pięciowierszowy wyciąg <c2/> <em>tylko z wartościami ostatecznymi</em> jako domyślny tryb offline, więc goły przebieg raportował <c3/>, a tabela dla poszczególnych horyzontów opierała się na parach { "5" }, { "4" }, { "3" } i { "2" }. Silnik zawsze potrafił odczytać wiersz predykcji; po prostu dane wejściowe żadnego nie miały. Domyślnym jest teraz dosłowny wyciąg IERS { "2026" } (<c4/>, MJD { "61173" }–{ "61204" }): { "20" } wartości ostatecznych Bulletin B i <b>{ "12" } wierszy Bulletin A wyłącznie z predykcją</b>, więc goły przebieg bez argumentu pliku i bez sieci raportuje <c5/> i tabelę dla poszczególnych horyzontów przy n = { "20" } / { "31" } / { "30" } / { "29" }, a porównanie z predyktorem operacyjnym i uzgodnienie z własnymi opublikowanymi predykcjami produktu również się wypełniają. Długi 45-wierszowy wyciąg zmierzono jako alternatywę i odrzucono: również zawiera tylko wartości ostateczne, więc zostawiłby <c6/> na { "0" }. <b>To zmienia opublikowane liczby</b>, na mocy reguły R4 i za zgodą założyciela: dziesięć z { "22" } komórek wydanego <c7/> i { "24" } z { "42" } wypełnionych komórek <c8/>. Zmierzona podłoga bieguna rapid minus final wynosi { "0.0678" } mas (z { "0.0769" } mas), czyli wartość, którą własna tabela ruchu bieguna w artykule P4 już publikuje przy n = { "20" }; obie zgadzają się teraz zamiast różnić się o { "13.5" } %. Każda inna wartość, którą P4 drukuje z tej tabeli, jest bez zmian przy drukowanej precyzji. Pełne zestawienie stare → nowe, w tym pól, które <em>nie</em> uległy zmianie, jest w <a1><c9/></a1>. Wyciąg tylko z wartościami ostatecznymi nadal jest dostarczany, przypięty co do bajta i ćwiczony: zerowa liczba wierszy predykcji na nim jest własnością tego pliku i test nadal to dowodzi.
+
+seg-17fbc566dc5b = <b>Przestarzałe ograniczenie liczby satelitów w <c1/>.</b> Scenariusz ograniczał <c2/> do { "12" }, chociaż jego własny konstruktor konstelacji obsługuje { "24" }, a test stwierdza { "24" }, więc każda żądana liczba powyżej { "12" } była po cichu zmniejszana, a przegląd liczby satelitów zwracał identyczne wartości powyżej { "12" }, nie do odróżnienia od prawdziwego nasycenia geometrycznego. Teraz ograniczenie wynosi tyle, ile limit konstruktora. Jest to zmiana zachowania tylko dla <c3/>.
+
+seg-4df7d4d61b40 = To samo przestarzałe ograniczenie w <c1/>.
+
+seg-8adfbd27c4f8 = <c1/> ograniczało <c2/> do { "12" } z tym samym skutkiem, a ten trafił do opublikowanej tabeli: <c3/> zawiera wiersz <c4/> identyczny bajt po bajcie z wierszem <c5/>, bo silnik zwracał odpowiedź dla dwunastu satelitów pod etykietą szesnastu. Teraz ograniczenie wynosi limit konstruktora { "24" }, a nowy test to przypina: każda większa konstelacja musi zarówno podać własną liczbę, jak i ściśle poprawić poziom ochrony, więc ograniczenie nie może wrócić niezauważone. <b>To zmienia opublikowane liczby</b>: poziom ochrony <c6/> zmienia się z { "16.92" } m na { "14.57" } m. Przy przeglądzie do { "24" } krzywa jest ściśle monotoniczna ({ "11.94" } m przy { "24" } satelitach, o { "29.5" } % lepiej niż przy { "12" }), więc przy { "12" } nie ma nasycenia; pozorne plateau było tym ograniczeniem. Zmiana zachowania tylko dla <c7/>.
+
+seg-ebee158b73c8 = Wydanie dokumentacji, przejrzystości i playground. Zachowanie silnika się nie zmienia: macierz weryfikacji liczy <b>{ "102" } wierszy: { "56" } VALIDATED, { "42" } MODELLED, { "4" } PARTNER</b>, bez zmian względem { "0.25.0" }.
+
+seg-7af422ed6d89 = <b>Rustdoc na poziomie crate'a</b> (<c1/> w <c2/>) obejmujący punkty wejścia, model rzetelności i poziomów dowodowych oraz odtwarzalność, aby docs.rs otwierało się na prawdziwej stronie startowej, a nie na gołej ścianie modułów.
+
+seg-dd44c25f3af5 = <b><c1/></b>: referencja dla każdego z <c2/> rodzajów scenariuszy, generowana z <c3/> (jedyne źródło prawdy) przez <c4/> i pilnowana przez <c5/>, więc nie może rozjechać się z dyspozytorem.
+
+seg-e2cc77d3b413 = <b>Dokumentacja modułów</b> dla { "11" } dotąd nieudokumentowanych modułów publicznych (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>).
+
+seg-8d156713799d = <b>Źródła literaturowe</b> dla pięciu modułów wzorów, które podawały równanie, ale nie wskazywały źródła: <c1/> (Tapley/Schutz/Born; Bjorck), <c2/> (Szebehely; Koon i in.), <c3/> (Kay), <c4/> (Wertz; Sidi), <c5/> (Allen-Eggers, NACA TR-1381).
+
+seg-832b4bfbc48a = <b>Opublikowany <c1/></b> na kshana.dev do skoordynowanego ujawniania.
+
+seg-30603f59e27d = <b>Poziom dowodowy walidacji dla każdego przebiegu w playground.</b> Tabela wskaźników jakości pojedynczego przebiegu zawiera teraz dla każdej wartości znacznik VALIDATED/MODELLED odczytany z tego samego wyszukiwania <c1/>, którego używa pobierany raport (odzwierciedla <c2/>, wyprowadzone z macierzy weryfikacji), więc poziom pokazany obok wartości na żywo nigdy nie może się rozejść z rejestrem.
+
+seg-93b203f3a1c0 = <b><c1/></b> w menu playground: wszystkie { "50" } rodzajów dostępnych do uruchomienia jest teraz o jedno kliknięcie (było 49/50).
+
+seg-1ec0830db404 = <b>Pięć kolejnych kart możliwości z możliwością uruchomienia</b> (pogoda kosmiczna, ocena zakłóceń RF, odporność, interoperacyjność CCSDS OEM, KIF), co podnosi liczbę uruchamialnych kart z { "11" } do { "16" }. Karty tylko dla API i biblioteki zachowują uczciwy odnośnik do dokumentacji zamiast fałszywego przycisku uruchomienia.
+
+seg-977ea074dd9d = Pokrycie dokumentacją jest teraz pilnowane w CI przez zapadkę.
+
+seg-beb308bcaafb = <c1/> kompiluje bibliotekę z <c2/>, liczy ostrzeżenia i kończy się błędem tylko wtedy, gdy liczba przekroczy przypięty pułap ({ "986" }). Twarde <c3/> pod <c4/> zamieniłoby ~{ "1000" } obecnie nieudokumentowanych elementów publicznych w nocną awarię budowania; w ten sposób nowe nieudokumentowane elementy publiczne przerywają budowanie, a istniejące zaległości są spłacane świadomie.
+
+seg-27668072a608 = <b>Wiersz narzędzia MCP <c1/> reklamował „~{ "17" } wbudowanych rodzajów scenariuszy”</b>, podczas gdy <c2/> od pewnego czasu udostępniało { "50" }: dokumentacja dla agentów trzykrotnie zaniżała rzeczywiste możliwości. Przypięto do prawdziwej liczby.
+
+seg-1ffc9f9816e8 = Ponownie wygenerowano wyrocznię zgodności SBOM CycloneDX dla zaktualizowanego grafu zależności ({ "60" } komponentów). Werdykt testu zgodności formatu się nie zmienia: zero znormalizowanych błędów schematu, a każdy atomowy identyfikator licencji nadal należy do oficjalnego wyliczenia SPDX.
+
+seg-a6db590bbcbe = <b>Pięć możliwości awansowało do zewnętrznie VALIDATED</b>, z których każda jest teraz sprawdzona względem niezależnej implementacji strony trzeciej tej samej jednoznacznie zdefiniowanej wielkości (nieokrężnie, z fixture odtwarzalnymi offline):
+
+seg-98588143b4bb = <b>Konwersja potęgowa IEEE-1139 → odchylenie Allana</b> względem wzorów zamkniętych <c1/> dla wszystkich pięciu rodzajów szumu (<c2/>);
+
+seg-ce37d70fa8bc = <b>Wagi beamformera CRPA MVDR / o minimalnej normie z zerowaniem kierunku</b> względem numpy/scipy LAPACK (<c1/>);
+
+seg-0f033d1027f8 = <b>Wyznaczanie orientacji Wahba / TRIAD / QUEST</b> względem SVD <c1/> SciPy na obserwacjach bez szumu (<c2/>);
+
+seg-e1e2283cb524 = <b>Wymiana bloków kowariancji CCSDS { "502.0" } OEM</b> przeprowadzona w obie strony przez parser niezależnej biblioteki <c1/> (<c2/>);
+
+seg-579eefbb646f = <b>jądro statystyk detekcji akwizycji w detektorze kwadratowym</b> (uogólnione Marcum-Q / P_d / P_fa / próg) względem SciPy <c1/>/<c2/> (<c3/>). Sprawdzana maszynowo macierz walidacji przechodzi na <b>{ "56" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> w <b>{ "102" } wierszach</b> (było { "51" } · { "47" } · { "4" }). Zastrzeżenia co do uczciwego zakresu zostają zachowane, np. awans akwizycji obejmuje tylko jądro statystyk detekcji; straty CFAR/straddling pozostają MODELLED.
+
+seg-b6a140d55580 = <b>Wskaźniki jakości w dziedzinie pozycji</b> (<c1/>): dokładne CEP, SEP i 2DRMS z kowariancji pozycji ENU 3-D rozwiązania nawigacyjnego oraz poziomego poziomu ochrony. CEP/SEP są <em>dokładnymi</em> medianami błędu promieniowego (a nie regułą liniową <c2/>), sprawdzonymi względem kwantyli rayleigh/maxwell z <c3/> i niezależnej mediany Monte-Carlo w NumPy (<c4/>). Zastępuje dotychczasowy uczciwy zaślepiony brak implementacji: <b>sygnatura funkcji się zmieniła</b> z <c5/> zwracającego błąd na <c6/> zwracającą <c7/>.
+
+seg-1551afa17154 = <b>Równoważna liczba stopni swobody (EDF) przedziału ufności dopełniona dla wszystkich estymatorów rodziny Allana</b> (<c1/>): EDF dla zmodyfikowanego Allana, Hadamarda i wariancji całkowitej używa teraz algorytmu łącznego EDF Greenhalla i Rileya oraz postaci TOTVAR z tabeli 7 NIST SP { "1065" } (dotąd zaimplementowano tylko EDF nakładającego się Allana, a pozostałe po cichu go ponownie wykorzystywały), sprawdzone względem <c2/> <c3/>/<c4/> (<c5/>).
+
+seg-39753e7919cc = <b>Niezależne zewnętrzne kontrole dla geometrii PNT księżycowego, DOP, EOP, DRO i możliwości pomiaru odległości RF</b> (<c1/>, z fixture i generatorami wyroczni w <c2/>). Każda kontrola uruchamia już dostarczoną <b>modelowaną</b> możliwość względem wyroczni wytworzonej przez <em>inną</em> implementację, więc zgodność nie jest okrężna: orbitalny ślad nadawania/przechwytu względem <c3/> (Cephes, rzeczywiście inna funkcja Bessela J1); geometryczne DOP naziemnych radiolatarni względem niezależnego rozwiązania NumPy <c4/>; wzrost błędu predykcji persystencji UT1/EOP względem osobnego ponownego sparsowania w NumPy tych samych dosłownych wierszy IERS <c5/>; płaska rodzina orbit wstecznych dalekich (DRO) względem bazy NASA/JPL Three-Body Periodic Orbit Database; oraz bilans precyzji pomiaru odległości RF względem odniesienia z pierwszych zasad. Są to dodatkowe dowody regresji dla istniejących modułów; dodanie tych testów kontrolnych samo w sobie nie zmienia etykiety żadnej możliwości (pięć awansów powyżej to osobne zmiany statusu poparte wyrocznią w <c6/>).
+
+seg-662c04f0552f = <b>Scenariusz <c1/></b> (<c2/>, <c3/>): złożony, osiągalny z binarki (CLI / Python / MCP / wasm przez <c4/>) przebieg P1 bezpieczeństwa sygnału księżycowego, który łączy deficyt mocy bilansu łącza i jego pasmo czułości { "12" }–{ "18" } dB, wymaganą moc nadawczą zagłuszania/spoofingu względem odległości odstępu, orbitalny ślad przechwytu przy rzeczywistym wzorcu anteny, wynik wciągnięcia przy przechwyceniu przez spoofing w pętli śledzenia, zasięg horyzontu ciała bez atmosfery oraz bilans uwierzytelniania OSNMA/TESLA. Puste ciało odtwarza punkt odniesienia P1.
+
+seg-a9b7ee942a23 = <b>Pasmo czułości deficytu mocy</b> (<c1/>, <c2/>): prawdziwy wieloosiowy przegląd (odniesienie × EIRP × odległość ukośna) zbudowany na <c3/> i oceniany przez <c4/>, odtwarzający pasmo P1 { "12" }–{ "18" } dB i uzgadniający wartości współczynnika liniowego { "32" }× (zaokrąglone) / { "36" }× (niezaokrąglone).
+
+seg-0734a4ca7535 = <b>Trójwymiarowa kostka przechwycenia przez spoofing</b> (<c1/>): dodaje do mapy przechwycenia oś przesunięcia nośnej/Dopplera (J/S × przesunięcie kodu × przesunięcie nośnej, czas zaczepienia na komórkę); przekrój z zerową nośną redukuje się dokładnie do <c2/> 2-D.
+
+seg-3b9bbc25b114 = <b>Detekcja w rzadkiej sieci monitorów</b> (<c1/>) składa teraz fizyczną statystykę AGC <c2/> i siatkę widoczności selenograficznej <c3/>, aby wyprowadzić statystykę detekcji i geometrię każdej stacji, zamiast swobodnych parametrów i doraźnego nakładania się kół wielkich; prawdopodobieństwa detekcji monitora i sieci pozostają zamkniętymi postaciami chi-kwadrat/Marcum-Q z <c4/>. <b>Pola <c5/> / <c6/> zmieniły się</b> na wielkości fizyczne (szer./dł./wysokość/moc).
+
+seg-54c36267382c = <b>Wymiarowanie narzutu uwierzytelniania OSNMA/TESLA</b> (<c1/>): części pól OSNMA na stronę (8-bitowy HKROOT + 32-bitowy MACK na stronę { "2" } s) były błędnie oznaczone jako sumy na podramkę, co zaniżało narzut { "15" }× ({ "1.33" } bit/s). Poprawiono do opublikowanych w SIS-ICD sum na podramkę 30 s (HKROOT { "120" } + MACK { "480" } bitów ⇒ <b>{ "20" } bit/s</b>). Konsekwencja jest teraz podana uczciwie: przy szybkości danych nawigacyjnych AFS { "50" } bit/s narzut uwierzytelniania jest kosztem <b>pierwszego rzędu ≈{ "40" } %</b>, a nie pomijalnymi kilkoma procentami; pole <c2/> jest udokumentowane jako opóźnienie ujawnienia klucza (dolna granica czasu do pierwszego uwierzytelnionego rozwiązania).
+
+seg-0cf179a34252 = Szerokie wydanie możliwości. Wprowadza dwa w pełni <b>zewnętrznie zwalidowane</b> zestawy analiz, kompletną rodzinę <b>wielokryterialnej analizy decyzyjnej (MCDA)</b> oraz estymatory <b>wędrówki Allana / stabilności zegara dla długich τ</b>, i otwiera nową uruchamialną warstwę scenariuszy: <b>księżycowy bilans czasu, ramka/EOP w czasie rzeczywistym, hybryda optyczno-RF, obserwowalność cislunarna i odporność warstwowego PNT na konflikt</b>, na wierzchu podstawy, plus podstawę możliwości dla <b>naziemnej radiolatarni księżycowej</b> i <b>bezpieczeństwa sygnału</b>. Sprawdzana maszynowo macierz walidacji rośnie do <b>{ "51" } VALIDATED · { "47" } MODELLED · { "4" } PARTNER</b> w <b>{ "102" } wierszach</b> (było { "40" } · { "47" } · { "4" } w { "91" }): wszystkie jedenaście nowych wierszy to walidacje względem wyroczni zewnętrznej dla analizy decyzyjnej i estymatorów czasu, sprawdzone względem niezależnych bibliotek (SciPy, pymcdm, pyDecision, allantools) z ciasną tolerancją, podczas gdy nowa powierzchnia możliwości PNT jest uczciwie pokazana jako MODELLED. Jak zawsze, żadne twierdzenie o modelu liczbowym nie jest podnoszone bez zewnętrznego zbioru danych.
+
+seg-267e50f8dd56 = <b>Scenariusze do uruchomienia</b>: każdy to zarejestrowany scenariusz <c1/>, wywoływany przez silnik i potwierdzany w CI od początku do końca przez <c2/> (który uruchamia każdy dołączony <c3/> i kończy się twardym błędem przy każdym fixture, którego nie da się uruchomić):
+
+seg-c87fc11dd86b = <b>Odporność warstwowego PNT na konflikt</b> (<c1/>, <c2/>): silnik odporności Monte-Carlo z ziarnem (seed) dla wielowarstwowej architektury PNT, z modelem <b>przeżywalności przy łagodnej degradacji dla każdego wektora</b> z §{ "4.2" } (cztery nazwane wektory zagrożeń, zamknięta postać przeżywalności użytecznego PNT, do której zbiega Monte-Carlo dla każdej warstwy, emitowana w JSON wyniku) oraz udokumentowanym, pilnowanym przed dryfem pochodzeniem parametrów zagrożeń (<c3/>). Architektury MODELLED; zbieżność Monte-Carlo przeżywalności do postaci zamkniętej jest rdzeniem sprawdzonym niezależnie.
+
+seg-9c69e4d8ade9 = <b>Obserwowalność cislunarna</b> (<c1/>, <c2/>): widmo wartości własnych gramianu obserwowalności na łuku, generator orbit wstecznych dalekich (DRO) z korekcją różnicową oraz niezależna kontrola filtrem pierwiastka informacji, której kowariancja a posteriori staje się skończona dokładnie przy pełnym rzędzie obserwowalności. Konstelacja MODELLED; niezmienniki rzędu/gramianu/STM/SRIF są rdzeniem sprawdzonym niezależnie.
+
+seg-92fb333483e5 = <b>Heterogeniczna hybrydowa ciągłość i integralność optyczno-RF</b> (<c1/>, <c2/>, <c3/>, <c4/>, <c5/>): dostępność i integralność międzydziedzinowa, gdy łączy się PNT optyczne i RF. MODELLED.
+
+seg-08e2f640ae14 = <b>Endogeniczny księżycowy bilans czasu</b> (<c1/>, <c2/>) i <b>bilans ramki / EOP w czasie rzeczywistym</b> (<c3/>, <c4/>, <c5/>): bilanse czasu księżycowego i orientacji Ziemi P3/P4 wyprowadzone endogenicznie z łańcucha synchronizacji czasu, a nie zakładane. MODELLED.
+
+seg-52c2f9c2c9a7 = <b>Zewnętrznie zwalidowane zestawy analiz</b>: możliwości biblioteczne, każda wchodzi do macierzy jako nowe wiersze VALIDATED (sprawdzone względem niezależnej wyroczni zewnętrznej, a nie samokontroli):
+
+seg-709789e8fb04 = <b>Pełny zestaw wielokryterialnej analizy decyzyjnej (MCDA)</b> (<c1/>): cztery rodziny metod: agregacja wartości (<b>WSM</b>, <b>WPM</b>, <b>WASPAS</b>), system ilorazowy (<b>MOORA</b>) i proporcjonalny (<b>COPRAS</b>), odległość od ideału (<b>TOPSIS</b>), programowanie kompromisowe (<b>VIKOR</b>) i przewyższanie (<b>PROMETHEE II</b> z sześcioma uogólnionymi kształtami kryteriów, zgodność/niezgodność <b>ELECTRE I</b>), a ponadto wagi priorytetów <b>AHP</b> z wektora własnego Perrona z bramką współczynnika spójności Saatyego (CR < { "0.10" }), użyteczność <b>MAUT</b>, wydobywanie frontu Pareto i analiza <b>wrażliwości</b> wag. Dziewięć agregatorów odtwarza <b>pymcdm</b> / <b>pyDecision</b>, a wektor własny AHP zgadza się z SciPy/LAPACK, wszystko do < { "1e-9" } (<c2/>). Tornado wrażliwości jest też dostępne w scenariuszu odporności na konflikt.
+
+seg-2ce49cbfd8bf = <b>Estymatory wędrówki Allana i stabilności zegara dla długich τ</b> (<c1/>): <b>MTIE</b> (statystyka wędrówki błędu czasu między szczytami wg ITU-T G.810/G.823/G.8261, względem której pisane są maski synchronizacji), <b>MDEV</b> i <b>TDEV</b> jako wędrówka w dziedzinie czasu oraz estymatory o rozszerzonym zakresie <b>Theo1 / TOTVAR</b>. VALIDATED względem <b>allantools</b> na serii NIST SP { "1065" }; hybryda <b>ThéoH</b> z usuniętym obciążeniem, zbudowana na TOTVAR, pozostaje uczciwie MODELLED.
+
+seg-68bcdf8bd5de = <b>Zestaw zapewnienia / zewnętrznej wyroczni</b> (<c1/>): zestaw wyroczni podłączony bezpośrednio do bramki rzetelności CI, rekord pochodzenia <b>W3C-PROV</b> z deterministycznym korzeniem Merkle'a oraz <b>Greenhall</b>, równoważna liczba stopni swobody + przedziały ufności chi-kwadrat dla estymat stabilności.
+
+seg-dcb91813b24c = <b>Szew rozszerzeń PackRegistry / ExternalPack</b> (<c1/>, <c2/>): szew dyspozytora, dzięki któremu pakiety możliwości trafiają przez jeden rejestr (wbudowane wywołania są na gorącej ścieżce CLI; pakiety spoza drzewa podłączają się za domyślnym <c3/>), pilnowany przez złoty zestaw zgodności identyczności bajtowej oraz bramki CI standalone / wasm32.
+
+seg-16b1f5d249ed = <b>Podstawa możliwości oparta na modelu</b>: nowe moduły biblioteczne zasilające powyższe scenariusze i przyszłe (jeszcze nie samodzielny scenariusz <c1/>):
+
+seg-f8c9ffbc56cf = <b>DOP naziemnej radiolatarni księżycowej</b> (<c1/>) z bilansem osiągniętej dokładności, przeglądem liczby N satelitów i mapą GDOP, a także zaburzona efemeryda księżycowa (<c2/>) i geometria horyzontu ciała bez atmosfery / odwrotność mocy spoofingu / pasmo deficytu AFS (<c3/>, <c4/>). Wykorzystuje ponownie jądro DOP sprawdzone względem gnss_lib_py.
+
+seg-28209a2747d5 = <b>Wczytywanie DEM w formacie LOLA</b> + widoczność bezpośrednia terenu (<c1/>).
+
+seg-6e98ac90a0e2 = <b>Trójwarstwowa obrona bezpieczeństwa sygnału</b>: przechwycenie przez spoofing, integralność międzyczujnikowa i wymiarowanie sieci monitorów (<c1/>, <c2/>, <c3/>) z orbitalnym śladem wiązki anteny i bilansem uwierzytelniania OSNMA (<c4/>, <c5/>). MODELLED.
+
+seg-bd5b9511accb = Macierz walidacji i każdy pochodny artefakt zostały ponownie wygenerowane z jedynego źródła prawdy (<c1/>): rejestr na stronie, diagramy mapy modułów i pochodzenia walidacji oraz ciągi liczbowe README i poszczególnych powierzchni pokazują teraz <b>{ "51" } / { "47" } / { "4" } z { "102" }</b> (było { "40" } / { "47" } / { "4" } z { "91" }); bariera rzetelności liczb skanuje teraz pełną historię git, a rysunki w README ujednolicono w ciemnej palecie marki.
+
+seg-c2ec7e2b6296 = Jeden wspólny adaptacyjny sterownik całkowania obsługuje teraz zarówno <c1/>, jak i <c2/> (<c3/>), usuwając zduplikowany stepper.
+
+seg-85cfb0f10268 = <b>SonarQube Cloud</b>: analiza statyczna dodana do CI (Rust + zaimportowane pokrycie), z plakietkami ocen bezpieczeństwa / łatwości utrzymania / niezawodności w README.
+
+seg-deeef8318367 = Dyscyplina wydań i pakowania: CI rejestruje środowisko wdrożeniowe dla każdej publikacji pakietu/rejestru, a ukierunkowane zadanie publiczne standalone jest odcięte od wolnych binarek walidacyjnych.
+
+seg-30181148b098 = Bariera higieny braku atrybucji jest ograniczona wyłącznie do znaczników autorstwa, więc wymienienie hosta integracji lub produktu nie przerywa już budowania.
+
+seg-6eb3868fdce0 = Dokumentacja: sekcja <b>Citing</b> w README wymienia teraz cztery opublikowane preprinty arXiv, a możliwość DOP naziemnej radiolatarni jest udokumentowana w wierszu księżycowym.
+
+seg-d12533cbf1f2 = Całkowite liczniki pętli dla pętli sterowanych liczbami zmiennoprzecinkowymi (Sonar S2193).
+
+seg-3c213354187f = Dokładna odwrotność chi-kwadrat przy małej liczbie stopni swobody przez udoskonalenie Newtona w ścieżce przedziałów ufności zapewnienia.
+
+seg-386b7094d34d = kshana.dev: sekcja standardów otwiera się teraz domyślnie, a zapasowa liczba w rejestrze jest poprawiona; nieaktualne ciągi README / strony wokół warstwy obserwowalności zsynchronizowano.
+
+seg-33448f46894f = Wydanie możliwości dodające ogólną <b>warstwę obserwowalności Fishera / Cramér–Rao i optymalnego projektowania eksperymentu</b> oraz wydanie, na którym opiera się artykuł o obserwowalności PNT księżycowego. Sprawdzana maszynowo macierz walidacji rośnie do <b>{ "40" } VALIDATED · { "47" } MODELLED · { "4" } PARTNER</b> w <b>{ "91" } wierszach</b> (było { "39" } · { "46" } · { "4" } w { "89" }): nowy silnik estymacji jest sprawdzony względem wyroczni zewnętrznej i jest VALIDATED; jego zastosowanie księżycowe jest uczciwie MODELLED. Jak zawsze, żadne twierdzenie o modelu liczbowym nie jest podnoszone bez zewnętrznego zbioru danych.
+
+seg-c377207026f4 = <b><c1/>: informacja Fishera, granice Cramér–Rao i optymalne projektowanie eksperymentu.</b> Ogólny, wielokrotnego użytku silnik teorii estymacji: macierz informacji Fishera <c2/> z jakobianu pomiarów i wag; symetryczny rozwiązywacz wartości własnych (cykliczny Jacobiego); dolna granica Cramér–Rao przez odwrotność albo pseudoodwrotność Moore'a–Penrose'a plus baza przestrzeni zerowej, gdy informacja jest o niepełnym rzędzie (przypadek sieci swobodnej / defektu datum); oraz miary D-, A-, E- i T-optymalne projektowania eksperymentu z selektorem <c3/> po kandydackich geometriach. <b>VALIDATED</b> względem NumPy (<c4/>/<c5/>) i opublikowanych zamkniętych granic Kaya ({ "1993" }) do { "1e-9" } (<c6/>), więc wchodzi do macierzy jako wiersz z wyrocznią zewnętrzną, a nie samokontrola.
+
+seg-91d09b4e737f = <b>Obserwowalność księżycowego łącznego wyznaczania orbity</b> (<c1/> w <c2/>, uwidoczniona w raporcie lunar-combination): stosuje silnik FIM/CRLB do łącznego rozwiązania orbity i zegara, aby ujawnić defekt datum bezwzględnego położenia stacji, odzyskiwanie rzędu wraz z dodawaniem stacji z bazą ziemską, osiągniętą CRLB położenia stacji oraz kondycjonowanie E-optymalne. Uczciwie <b>MODELLED</b>: silnik estymacji jest zwalidowany zewnętrznie, ale sieć księżycowa, do której go zastosowano, jest reprezentatywną symulacją, a żaden obecny zbiór danych nie może zamienić tej geometrii w pomiar.
+
+seg-6b1cd00aca8c = <b>Reprezentatywna geometria eliptycznej księżycowej orbity zamrożonej (ELFO)</b> dla scenariusza lunar-combination (<c1/>, <c2/>, <c3/>, <c4/>; domyślnie pozostaje rozmieszczenie kołowe) oraz pole obserwowalności bez VLBI w raporcie, aby można było pokazać, że wynik defektu datum jest ogólny względem geometrii. Ta sama drabina { "3" }→{ "1" }→{ "0" } i próg trzech stacji obowiązują na ELFO rodziny Moonlight/LCNS, a przy trzech ziemskich liniach bazowych VLBI bezwzględne położenie stacji jest obserwowalne przy granicy poniżej metra, co blokuje <c5/>. Nadal MODELLED.
+
+seg-9e6627c0c417 = Macierz walidacji i każdy wygenerowany artefakt dowodowy zostały ponownie wygenerowane z jedynego źródła prawdy (<c1/>): rejestr (<c2/>), <c3/>, <c4/>, rysunki podziału walidacji i rodzaju wyroczni oraz ciągi liczbowe README na wszystkich powierzchniach dystrybucji pokazują teraz <b>{ "40" } / { "47" } / { "4" } z { "91" }</b>.
+
+seg-6f90233290a2 = Wydanie poprawkowe wyłącznie pakowania. Bez zmian silnika, scenariuszy ani wyników; macierz walidacji pozostaje bez zmian: { "39" } VALIDATED · { "46" } MODELLED · { "4" } PARTNER w { "89" } wierszach.
+
+seg-9d41e1412d1f = Publikacja npm: pakiet <c1/> wyprowadzony z manifestu crate'a używał właściciela GitHub z błędną wielkością liter (<c2/>), co nie przeszło weryfikacji pochodzenia sigstore w npm (porównuje właściciela z uwzględnieniem wielkości liter). Manifest <c3/> ma teraz kanoniczne małe litery <c4/>, więc wygenerowany <c5/> zgadza się z podmiotem pochodzenia, a wydanie npm się publikuje.
+
+seg-fe1f8aae99f4 = Budowanie wheela przypina <c1/>, aby wheel manylinux był odtwarzalny bajt po bajcie przy przebudowach (sprawdzenie odtwarzalności przez przebudowę i porównanie).
+
+seg-b87075b47007 = Wydanie konsolidacyjne skupione na <b>dyscyplinie dowodów, pochodzenia i dystrybucji</b>. Sprawdzana maszynowo macierz walidacji rośnie do <b>{ "39" } VALIDATED · { "46" } MODELLED · { "4" } PARTNER</b> w <b>{ "89" } wierszach</b> (było { "15" } · { "42" } · { "4" } w { "61" }), co wynika z walidacji krzyżowej możliwości modelowanych względem niezależnych wyroczni zewnętrznych. Każdy dystrybuowany artefakt ma teraz kryptograficzną atestację pochodzenia budowy SLSA, dostarcza SBOM CycloneDX i jest publikowany równolegle na wszystkich powierzchniach. Żadne twierdzenie o modelu liczbowym nie jest podnoszone bez zewnętrznego zbioru danych; nowe możliwości pozostają uczciwie MODELLED.
+
+seg-f6de783bfd29 = <b>Dynamika orientacji</b> (<c1/>, MODELLED): równania Eulera bryły sztywnej bez momentu + kinematyka kwaternionów (RK4), z samotestami praw zachowania (norma kwaternionu, energia kinetyczna, |Iω|, precesja symetrycznego bąka).
+
+seg-339bc18b9fc4 = <b>Walidacja krzyżowa możliwości modelowanych</b> względem niezależnych wyroczni zewnętrznych, co podnosi macierz walidacji do { "39" } wierszy VALIDATED, każdy poparty zewnętrznym zbiorem danych (bramka rzetelności CI zabrania statusu VALIDATED bez niego). Najnowsze walidacje z wyrocznią zewnętrzną: <b>zmierzona krzywa stabilności zegara optycznego</b> (dopasowanie krzywej ADEV w <c1/> odtwarza opublikowane σ_y(τ) optycznego zegara sieciowego ⁸⁸Sr Norcii i in., <em>Science</em> { "366" }:{ "93" } ({ "2019" }), Zenodo 10.5281/zenodo.3382347, CC-BY-4.0, dołączone w <c2/>); <b>generowanie kodu rozpraszającego GPS L1 C/A</b> (LFSR G1/G2 w <c3/> odtwarza ósemkowe fazy kodu z tabeli 3-Ia IS-GPS-200 dla PRN { "1" }–{ "9" }); oraz <b>czytnik cyfrowego modelu terenu SRTM na rzeczywistym terenie</b> (<c4/> odczytuje dołączony kafel SRTM v3 NASA/USGS z domeny publicznej, N36W117 / Dolina Śmierci, umieszczając Badwater Basin w jego udokumentowanym paśmie pomiaru).
+
+seg-665d0dde637b = <b>Nowe możliwości MODELLED</b>, każda sprawdzona wewnętrznie względem postaci zamkniętej lub siostrzanej ścieżki kodu: dynamika ruchu względnego Clohessy’ego–Wiltshire’a / Hilla, pasywna geolokalizacja emiterów TDOA/FDOA, wyznaczanie orientacji Wahba/TRIAD/QUEST, rozwiązywanie całkowitoliczbowej niejednoznaczności fazy nośnej GNSS (LAMBDA), celowanie w płaszczyźnie B i asysta grawitacyjna z przybliżeniem stożkowych, formowanie wiązki w macierzy antyzakłóceniowej CRPA, statystyki akwizycji GNSS w detektorze kwadratowym, niejednoznaczność prążków / zakres dynamiczny kwantowego czujnika inercyjnego, szum zegara IEEE-1139 o prawie potęgowym + podłoga flicker-FM oraz wymiana bloków kowariancji CCSDS-OEM.
+
+seg-b3f53d5e3c3a = <b>Rejestr dowodów z jednego źródła</b> z generowaną dokumentacją weryfikacji i barierą przed dryfem; przeglądalny rejestr walidacji na kshana.dev z odnośnikami do dowodów dla poszczególnych kart.
+
+seg-b3c0545157b3 = <b>Maszynowo czytelne metadane cytowania</b>: <c1/> (CodeMeta { "2.0" }) i <c2/>, przypięte do manifestu Cargo przez <c3/>.
+
+seg-2ca8875da9de = <b>Pochodzenie łańcucha dostaw</b>: atestacja pochodzenia budowy SLSA dla archiwum crate'a, wheeli, sdist i archiwum npm; PyPI OIDC Trusted Publishing; SBOM CycloneDX dostarczany w wheelu i pakiecie npm; porównanie budowy odtwarzalnej i weryfikacja po wydaniu.
+
+seg-18fdecf7f2fa = <b>Wykrywalność</b>: <c1/>, <c2/> oraz metadane Open Graph / JSON-LD na kshana.dev; generowany rysunek <c3/> wyprowadzony z macierzy.
+
+seg-f80db0b0f545 = <b>README dla poszczególnych powierzchni</b> w crates.io / PyPI / npm z barierą rzetelności liczb.
+
+seg-bd33b21f8f91 = <b>Wyrocznia transferu czasu Sagnaca</b> podniesiona do ExternalDataset: poprawka Sagnaca dla okrążenia równika jest teraz sprawdzana względem opublikowanej przez Ashby'ego wartości { "207.4" } ns (<em>Living Reviews in Relativity</em> { "6" }:{ "1" }, { "2003" }, wzór { "1.29" }; odtworzone z dokładnością < { "0.05" } ns). Złożona możliwość transferu czasu pozostaje uczciwie MODELLED.
+
+seg-882133bf1fcc = <b>Dokumentację, diagramy i rysunki odświeżono</b> do bieżącej macierzy (39/46/4/89): diagram pochodzenia walidacji, rysunek <c1/> (teraz generowany z macierzy z barierą CI przed dryfem), VALIDATION/PROVENANCE/CAPABILITY/QUANTUM-MODELS/WHEEL_TAGS, dokumenty architektury i samouczków oraz łączną liczbę w rejestrze kshana.dev.
+
+seg-a9be3d71a52c = Przeformatowano drzewo źródeł przypiętym rustfmt (toolchain { "1.93.0" }): czysty styl, bez zmiany zachowania.
+
+seg-4542eb4fabfc = <b>Wersjonowanie w zgodnym kroku.</b> Każda powierzchnia dystrybucji (crate, PyPI, npm, crate MCP + obraz OCI, wtyczka JetBrains) wersjonuje się teraz w kroku z silnikiem, co wymusza w CI <c1/>.
+
+seg-792df0cdc8a7 = <b>Wtyczka JetBrains</b> przelicencjonowana na <b>AGPL-3.0-only</b> (opublikowana { "0.1.1" } nadal podawała Apache-2.0) i wyprowadza teraz wersję w Marketplace z tagu wydania.
+
+seg-171f5649c90f = <b>Utwardzenie odporności</b>: <c1/> poza testami usunięto lub uzasadniono; <c2/> wymuszane na kodzie poza testami.
+
+seg-0e5abb2fad02 = <b>kshana.dev</b>: gruntowna przebudowa z dowodami na pierwszym miejscu: dominujący hero, diagramy architektury i rysunki wyników, i18n, zwijane i responsywne sekcje rejestru i standardów.
+
+seg-05ef9b9f3653 = <b>Precyzyjna efemeryda SP3</b>: stosowanie poprawki węzła rotacji Ziemi IGS podczas interpolacji.
+
+seg-bbd0dc3dd9cb = <b>Obrazy w rejestrach</b>: README dla PyPI/crates.io/npm używają bezwzględnych adresów URL obrazów; względne ścieżki obrazów z głównego README renderowały się jako uszkodzone obrazy na stronie PyPI { "0.21.0" }. Bariera CI (<c1/>) zapobiega regresji.
+
+seg-6d044971dbc8 = <b>CI</b>: <c1/> + <c2/> zielone; koniec z kompilowaniem względem prawdziwych danych ignorowanych przez git.
+
+seg-c3c260b7063e = Testy
+
+seg-5dca3defcfe3 = Kowariancja zegara Kalmana pozostaje dodatnio półokreślona i symetryczna (test własności, <c1/>).
+
+seg-c861779f04ca = Bariery synchronizacji dokumentacji: każdy publiczny ciąg liczby walidacji, metadane cytowania, wygenerowany rysunek i adresy URL obrazów w README powierzchni są przypięte do swojego źródła prawdy.
+
+seg-0540044c92a6 = To wydanie dodaje do otwartego silnika dwa zestawy zastosowań MODELLED: <b>demonstrator PNT z technologiami kwantowymi</b> (zaufany kwantowy transfer czasu, nawigacja kwantowa bez GNSS, kwantowa detekcja usterek/anomalii) oraz <b>zestaw PNT księżycowego / cislunarnego</b> (księżycowy czas współrzędnych, księżycowe VLBI, łączne wyznaczanie orbity i zegara, realizacja układu odniesienia, objętość usługi, różnicowe PNT, eksport interoperacyjności), każdy uruchamiany z jednego <c1/>, każdy emitujący uczciwy zapis <c2/> oraz rejestr reprezentatywności / luk do lotu. Wprowadza też <b>sześć nowych walidacji względem wyroczni zewnętrznych</b>, co podnosi sprawdzaną maszynowo macierz walidacji do <b>{ "15" } VALIDATED · { "42" } MODELLED · { "4" } PARTNER</b> w jej { "61" } wierszach. Nowe liczby zastosowań są MODELLED z ilustracyjnych parametrów ze źródeł publicznych: bez TRL, doświadczenia lotnego, certyfikacji ani poparcia agencji, a ponownie używane sprawdzone niezależnie jądra są tak oznaczone.
+
+seg-82a1822f53e2 = <b>Zestaw demonstratora PNT z technologiami kwantowymi</b> (<c1/>, <c2/>, <c3/>). Trzy uruchamialne obszary zastosowań MODELLED za silnikiem, każdy emituje <c4/> oraz zapis reprezentatywności / luk do lotu:
+
+seg-07532f03a1f1 = <b>Zaufany kwantowy transfer czasu</b> (<c1/>): bilans optyczny zegar sieciowy + łącze fotoniczne wobec CSAC + dwukierunkowe RF, z ponownym użyciem poziomu ochrony czasu, ze wskaźnikiem jakości bezpieczeństwa wobec ataku opóźnienia/odtwarzania ({ "1" } − P_md) oraz detekcją anomalii zegara + opóźnieniem CUSUM.
+
+seg-4c9036cffe1b = <b>Nawigacja kwantowa bez GNSS</b> (<c1/>): inercyjny dryf z interferometrem zimnych atomów wobec INS klasy nawigacyjnej w czasie przestoju GNSS, z uczciwym zastrzeżeniem, że bez zewnętrznego poprawienia pozycji bias akcelerometru pozostaje nieobserwowalny, więc błąd nadal rośnie.
+
+seg-6188f1c6893a = <b>Kwantowa detekcja usterek / anomalii</b> (<c1/>): oznaczony katalog usterek z ROC AUC z przedziałem ufności bootstrap i minimalną wykrywalną usterką przy ustalonym wskaźniku fałszywych alarmów.
+
+seg-9e22314b1337 = Wspólna biblioteka modeli błędów urządzeń kwantowych (<c1/>) i ujednolicony harness porównania kwantowego z klasycznym (<c2/>) stoją za wszystkimi trzema.
+
+seg-808e20f28556 = <b>Zestaw PNT księżycowego / cislunarnego.</b> Siedem uruchamialnych <c1/> MODELLED osadzonych na rdzeniu CR3BP: <b>księżycowy czas współrzędnych</b> (świecka stopa LTC/TCL − TT, <c2/>), geodezyjna wielkość obserwowalna opóźnienia <b>księżycowego VLBI</b> (<c3/>), <b>łączny wielotechnikowy estymator wsadowy OD + zegar</b> (<c4/>), <b>realizacja układu odniesienia</b> (transformacja Helmerta o 7 parametrach + powiązanie IAU { "2015" } WGCCRE, <c5/>), analiza <b>objętości usługi klasy Moonlight / LCNS</b> (<c6/>), <b>księżycowe różnicowe PNT</b> (<c7/>) oraz <b>eksport interoperacyjności zgodny z LunaNet / IOAG</b> (CCSDS-OEM + księżycowa skala czasu w kopercie KIF, <c8/>). Wszystko MODELLED z ilustracyjnych parametrów ze źródeł publicznych; niesprawdzone względem rzeczywistego VLBI / śledzenia Gateway; bez afiliacji ani poparcia agencji.
+
+seg-a892ce052e3c = <b>Sześć nowych walidacji względem wyroczni zewnętrznych</b> (macierz walidacji liczy teraz { "15" } wierszy sprawdzonych niezależnie):
+
+seg-c30ae6767c6c = <b>ADEV / HDEV na rzeczywistym zegarze cezowym 5071A</b>: sprawdzone niezależnie względem punktów dekadowych Stable32 (<c1/>).
+
+seg-dd0e2be52340 = <b>OADEV / MDEV / TDEV na wzorcu Stable32 <c1/></b>: sprawdzone niezależnie względem opublikowanych tabel Stable32 (<c2/>).
+
+seg-e8728f57effa = <b>ROC AUC detekcji anomalii na rzeczywistej telemetrii ESA OPS-SAT</b>: sprawdzone niezależnie względem scikit-learn (<c1/>).
+
+seg-5446957ac631 = <b>Synteza funkcjonałów grawitacyjnych ICGEM</b>: sprawdzona niezależnie względem standardu normalnej grawitacji GRS80 (γ Somigliany do { "3.5e-12" }; mapa zaburzeń EGM2008, <c1/>).
+
+seg-751c5ac90229 = <b>Model jonosfery nadawanej Klobuchara</b>: sprawdzony niezależnie względem RTKLIB (<c1/>).
+
+seg-dcc6d4e04a5c = <b>Jądro detekcji RAIM</b> ({ "171" } przypadków, <c1/>) i <b>poziom ochrony SBAS DO-229E</b> na rzeczywistych danych EGNOS (fork RTKLIB SBAS-PL, <c2/>): oba sprawdzone niezależnie względem swoich wyroczni zewnętrznych.
+
+seg-3f6c1ff0b3a4 = <b>Rejestr reprezentatywności i luk do lotu</b> (<c1/>). Ustrukturyzowany zapis emitowany przez każdy demonstrator: co jest reprezentatywne, co uproszczone i co dzieli model od lotu; uczciwy towarzysz każdego porównania MODELLED.
+
+seg-6b4c78bdaf35 = <b>Agregacja studiów i ergonomia CLI.</b> Manifest zestawu scenariuszy z agregacją studium jednym poleceniem, stabilne co do skrótu metadane studium + <c1/>, lintowanie scenariuszy <c2/> oraz pokazywanie poziomu walidacji dla każdego wskaźnika jakości w raportach studiów.
+
+seg-e24230b80a89 = <b>kshana.dev przeprojektowano wokół wspólnego kręgosłupa dziedzin</b>: możliwości i walidacja złożone w jeden eksplorator dziedzin ze wspólnym słownictwem, uwidocznione nowe wyspy sprawdzone niezależnie, wierna lądom animowana mapa Ziemi oraz wezwanie do zamówienia studium, a także marka i odnośniki Ashforde OÜ.
+
+seg-79b5ea5d1dd7 = <b>README + ARCHITECTURE zbadano pod kątem kompletności i rzetelności</b>: poprawiono nieaktualne liczby wyników sprawdzonych niezależnie (teraz { "15" } wyroczni zewnętrznych), rozszerzono diagramy oraz zacytowano preprinty o Warunkowym Poziomie Ochrony Czasu (arXiv:{ "2606.24210" }) i o luce optymizmu przy zakłóceniach RF (arXiv:{ "2606.22054" }).
+
+seg-42a317c6ce06 = Źródła <c1/> i potok szkicu JOSS są utrzymywane w publicznym repozytorium.
+
+seg-8ed5cf845b00 = To wydanie dodaje do otwartego silnika cztery możliwości studiów: warunkowy Poziom Ochrony Czasu, ocenę odporności PNT zgodną z ramami, ocenę luki optymizmu przy zakłóceniach RF oraz front end odbiornika programowego / rzeczywistych danych, z których każdy jest odtwarzalny jednym poleceniem i zapisuje artefakt deterministyczny co do bajta. Wszystkie studia są MODELLED (kalibracja na danych syntetycznych lub publicznych zbiorach), niosą uczciwe pochodzenie (wersja silnika, ziarna, skrót konfiguracji) i etykiety walidacji oraz nie są certyfikacjami.
+
+seg-0c9f0c665491 = <b>Warunkowy Poziom Ochrony Czasu (<c1/>).</b> Ograniczona holdoverem granica niewykrytego błędu czasu przy spoofingu GNSS, z podłogą monitora k-sigma, wariancją dryfu van Loana na opóźnieniu detekcji i czasem do alarmu CUSUM. Skalibrowany na rzeczywistym zarejestrowanym ataku (JammerTest { "2024" }, scenariusz { "2.1.1" }) przez <c2/>, które odtwarza swoją tabelę referencyjną ze skalarów odzyskanych z publicznego nagrania (surowy zbiór danych nie jest redystrybuowany).
+
+seg-d874d7f13f28 = <b>Ocena odporności PNT zgodna z ramami + studium niestabilności decyzji (<c1/>).</b> Model architektury, ocena zgodna z RPCF, sympleks wag Dirichleta, niestabilność Kendalla-tau i częstość odwrócenia pozycji top-1 oraz załamanie różnorodności wspólnego trybu (Hill-N2), z <c2/>. Tabela odpowiedniości w <a1><c3/></a1>.
+
+seg-343f7af54503 = <b>Studium luki optymizmu przy zakłóceniach RF (<c1/>, <c2/>, <c3/>).</b> Panel 13 detektorów na syntetycznym korpusie ugruntowanym w parametrach, luka optymizmu między rozkładem wewnętrznym a zewnętrznym, trendy praw skalowania z zerem permutacyjnym oraz predyktor degradacji typu leave-one-out, przez <c4/>.
+
+seg-6eed55859bbf = <b>Front end odbiornika programowego (<c1/>) i adaptery rzeczywistych danych (<c2/>).</b> Surowe IQ/IF do odczepów korelatora i SQM, plus adaptery wczytywania (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) i przykłady sond. Odczytują one nagrania dostarczone lokalnie przez użytkownika; żadne nagrania nie są zatwierdzane do repozytorium.
+
+seg-afe2282fa771 = <b>Zatwierdzone artefakty studiów.</b> Deterministyczne co do bajta <c1/> i <c2/> są teraz śledzone w <c3/>, aby liczby studiów można było sprawdzić bez przebudowy; pozostają odtwarzalne z powyższych generatorów. Surowe zbiory danych pozostają poza repozytorium (<c4/>).
+
+seg-450d82cddc28 = Wersja podniesiona do { "0.20.0" } w <c1/>, <c2/> i <c3/>; artefakty studium punktu przecięcia są wygenerowane ponownie, aby ich znacznik zgadzał się z wydaną wersją.
+
+seg-a0a66af8fd14 = <b>Przelicencjonowano z Apache-2.0 na GNU AGPL-3.0-only, z licencją komercyjną dostępną od Ashforde OÜ (podwójne licencjonowanie).</b> Otwarty silnik pozostaje w pełni otwarty i publicznie weryfikowalny; sieciowy copyleft AGPL (§{ "13" }) oznacza, że zamknięta lub hostowana pochodna musi wrócić do otwartego źródła albo przyjąć licencję komercyjną. To broni sprawdzonego niezależnie rdzenia przed forkiem i zamknięciem, zachowując wiarygodność publicznego, uruchamialnego, audytowalnego silnika. Zob. <a1><c1/></a1> (AGPL) i nowy <a2><c2/></a2> (co obejmuje każda licencja i kiedy ma zastosowanie).
+
+seg-ffa799fdb814 = <c1/> zawiera teraz tekst AGPL-3.0; nagłówki SPDX we wszystkich źródłach zaktualizowano do <c2/>; <c3/>, <c4/>, <c5/>, <c6/>, strona internetowa oraz metadane crate'a/pakietów (<c7/>, <c8/>, <c9/>, crate MCP + obraz) zostały odpowiednio zaktualizowane.
+
+seg-8d67aba2af0b = <b>Warunki dla współtwórców</b> (<a1><c1/></a1>) licencjonują teraz wkład przychodzący na AGPL <b>i</b> dają Ashforde OÜ prawo do włączania wkładów do wydania licencjonowanego komercyjnie, dzięki czemu podwójna licencja nadal działa.
+
+seg-93644d1c1420 = <b>Polityka zależności bez zmian, ale uzasadniona na nowo</b> (<a1><c1/></a1>, <c2/>): zależności pozostają permisywne (Apache/MIT/BSD/ISC). AGPL jest dozwolona tylko dla własnego crate'a kshana; <em>zależność</em> typu copyleft zainfekowałaby wydanie komercyjne i zepsuła podwójne licencjonowanie.
+
+seg-9b77c2d36241 = <b>Uwaga dla dalszych użytkowników:</b> to przelicencjonowanie na copyleft. Użytkownicy, którzy polegali na permisywnych warunkach Apache-2.0, mogą nadal używać ostatniego wydania na Apache-2.0 (<c1/> i wcześniejsze, jak opublikowano); od <c2/> w górę obowiązuje AGPL-3.0 / licencja komercyjna.
+
+seg-51e32f15b7ea = <b>Podniesiono <c1/> { "0.24" } → { "0.29" }</b>, aby usunąć RUSTSEC-2026-0176 / RUSTSEC-2026-0177 (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) ze skanów zewnętrznych OSV/zależności. Oba to ostrzeżenia <em>na poziomie funkcji</em>, których dotknięte funkcje (<c2/>/<c3/>, <c4/>) Kshana nigdy nie wywołuje, a <c5/> jest zależnością opcjonalną (funkcja <c6/>), więc rzeczywiste narażenie wynosiło zero, ale podniesienie utrzymuje czysty skan dla audytorów dalej w łańcuchu. Zmigrowano <c7/> do API pyo3 { "0.29" } (typ zwracany Bound dla <c8/>; jawne <c9/> na pyclass <c10/>). Wszystkie { "11" } testów wiązania Pythona przechodzą na przebudowanym rozszerzeniu.
+
+seg-8d9332df5c74 = <b>Jedenaście nowych uruchamialnych rodzajów scenariuszy: demonstratory dla dwóch przetargów, most interoperacyjności CCSDS oraz zestaw analizy misji pierwszego rzędu / środowiska (wszystkie MODELLED, addytywne; istniejące złote wzorce odtwarzalności bez zmian).</b> Każdy można wywołać z CLI / Pythona / WASM / MCP, ma <c1/> i niesie jawną etykietę MODELLED w JSON wyniku i jednolinijkowym podsumowaniu (test dla każdego rodzaju w <c2/> stwierdza, że etykieta jest obecna i że wynik nigdy nie zawiera ciągu <c3/>):
+
+seg-20b74caf58cc = <c1/> (<c2/>): stanowisko oceny uczenia maszynowego do wykrywania zakłóceń RF: oznaczony korpus <b>syntetyczny</b> + niezależny od detektora harness <b>ROC/AUC</b> + raport <b>luki optymizmu</b> między rozkładem wewnętrznym a zewnętrznym (tylko charakterystyki operacyjne, nigdy dane terenowe/IQ).
+
+seg-0253656a0ecf = <c1/> (<c2/>): porównanie PNT kwantowego z klasycznym ze wczytywaniem zmierzonego ADEV i obwiednią odporności bez GNSS.
+
+seg-901bd713bd62 = <c1/> (<c2/>): wskaźniki słoneczne/geomagnetyczne (tabela IAGA Kp↔ap, dzienne Ap, centrowane 81-dniowe F10.7a), temperatura egzosferyczna <b>Jacchia-71</b> oraz sprzężenie gęstości termosfery sterowane aktywnością nad statyczną atmosferą (NIE jest to model gęstości bezwzględnej NRLMSISE).
+
+seg-2323b43c0ffc = <c1/> (<c2/>): import <b>CCSDS { "502.0" } OEM</b> + most w obie strony dla efemeryd GMAT / Orekit / STK (czytnik <c3/>, dokładna odwrotność zapisu).
+
+seg-188aeb3e8219 = <c1/> (<c2/>): <b>azymut startu</b> dla dwóch ciał (<c3/>), Δv zmiany płaszczyzny, bonus rotacji miejsca i geometria dziennych okazji.
+
+seg-6200a47276e6 = <c1/> (<c2/>): korytarz balistycznego wejścia w atmosferę <b>Allena-Eggersa</b>: szczytowe opóźnienie, prędkości szczytowego g i szczytowego nagrzewania, wysokość szczytowego g.
+
+seg-0874c2241748 = <c1/> (<c2/>): geometria <b>pasa / GSD / dostępu / ponownego przeglądu</b> EO (trójkąt kosmiczny SMAD).
+
+seg-83c7588ff074 = <c1/> (<c2/>): kodowanie/dekodowanie nagłówka głównego <b>CCSDS 133.0-B Space Packet</b> z obiegiem w obie strony dokładnym co do bitu.
+
+seg-ae1bcad02880 = <c1/> (<c2/>): <b>moment grawitacyjno-gradientowy</b> 3-DOF + <b>bilans błędu wskazywania RSS</b> (skalarny bilans przed sprzętem, nie pętla sterowania).
+
+seg-65f59cc12e02 = <c1/> (<c2/>): <b>przewidywanie przelotów nad stacją naziemną</b> (AOS/TCA/LOS, maksymalna elewacja, dostęp).
+
+seg-178776497627 = <c1/> (<c2/>): jednokierunkowe równanie łącza <b>CCSDS-401 / DSN-810-005</b> (<c3/>, FSPL / Eb·N₀ / zapas / domknięcie).
+
+seg-e7fee32a00f5 = <b>17-stanowy hybrydowy kwantowo-klasyczny ściśle sprzężony UKF, udostępniony jako scenariusz do uruchomienia (MODELLED).</b> Nowy rodzaj scenariusza <c1/> (<c2/>, <c3/>), który zamienia dotąd dostępny tylko przez API 17-stanowy ściśle sprzężony filtr nieśladowy GNSS/INS (<c4/>) w scenariusz, który mogą wywoływać wiązania CLI/Python/WASM/MCP. 17-stanowy wektor błędu to <b>{ "15" } stanów błędu INS</b> (położenie, prędkość, błąd ustawienia orientacji, bias akcelerometru + żyroskopu) rozszerzonych o <b>poprawkę biasu akcelerometru z CAI</b>: interferometr zimnych atomów (<c5/>) wyznacza podłogę przypadkowego błądzenia prędkości <c6/>, więc długoterminowy dryf jest ograniczony przez czujnik kwantowy, oraz o <b>2-stanowy zegar fazy + częstotliwości</b>, którego szum procesu pochodzi z <b>silnika zegara z parametrami q</b> (<c7/>, odwzorowującego profil odchylenia Allana zegara na PSD <c8/>/<c9/>, przeskalowane do jednostek odległości). Platforma jest wspomagana GNSS w fazie wstępnej (filtr uczy się biasów, prędkości i zegara), po czym dryfuje przez przestój GNSS tylko na IMU CAI + zegarze, więc przebieg pokazuje hybrydyzację <b>klasycznego IMU w krótkim okresie + kwantowego w długim</b>. Wskaźnikiem jakości jest <b>samospójność filtra</b>: zbiorcze <b>NEES</b> (Normalised Estimation Error Squared, na szacowalnym podzbiorze położenie/prędkość/zegar) i <b>NIS bieli innowacji</b> (Normalised Innovation Squared) na zespole Monte-Carlo, sprawdzone względem ich pasm χ² { "95" }% (Bar-Shalom §{ "5.4" }). Dopasowany filtr mieści się w pasmach; celowo źle nastrojony filtr (pokrętła <c10/> / <c11/>) jest oznaczany: obiektywnie sprawdzalna, rozróżniająca bramka, a nie pieczątka. <b>Kontrola NEES/bieli innowacji jest WYROCZNIĄ STATYSTYCZNĄ: stwierdzeniem samospójności (raportowana kowariancja filtra uczciwie odpowiada rozrzutowi jego własnych błędów przy modelowanym szumie), a NIE gwarancją dokładności w świecie rzeczywistym.</b> Uczciwy zakres: wszystko jest <b>obliczone na podstawie modelu / symulacja</b>: wejścia CAI i zegara to ujęte w granice wartości reprezentatywne dla literatury, a nie zmierzony sprzęt; sprzęt CAI i jego Key-Person pozostają po stronie partnera; nic tu nie sugeruje TRL > { "3" }, doświadczenia lotnego ani zewnętrznej walidacji (JSON wyniku i jednolinijkowe podsumowanie niosą te etykiety jawnie). Pojedyncza trajektoria o stałej prędkości i poziomym locie czyni stany orientacji i biasów IMU obserwowalnymi tylko słabo, więc NEES jest oceniane na { "8" } szacowalnych stanach; trajektoria z manewrami dla pełnej obserwowalności 17 stanów jest w planie. Dodaje też instrumentację spójności <c12/> (zwraca NIS dla każdej aktualizacji) i <c13/>. Wszystkie istniejące scenariusze pozostają nietknięte (addytywnie; złote wzorce odtwarzalności bez zmian).
+
+seg-9b55f4ac5053 = <b>Sekwencyjna (rekurencyjna) nawigacja odniesiona do terenu: SITAN jako filtr bieżący.</b> Nowy rodzaj scenariusza <c1/> (<c2/>, <c3/>), który uruchamia istniejący model pomiaru wysokościomierz–DEM <b>epoka po epoce</b> przez silnik SIR <c4/>, zamiast wsadowego przeszukiwania od grubego do drobnego, którego <c5/> używa do odzyskania pojedynczego <em>stałego</em> przesunięcia INS. W każdym punkcie trasy chmura jest propagowana o przyrost raportowany przez INS (sam zepsuty przez wzrost dryfu na krok), ponownie ważona dopasowaniem do terenu i próbkowana ponownie przy degeneracji, więc <b>zmienny w czasie</b> dryf INS jest <em>śledzony</em> wzdłuż trasy, czego dopasowanie stałego przesunięcia strukturalnie nie potrafi. Na syntetycznym DEM estymata rekurencyjna pozostaje ograniczona i ponownie zbiega (końcowo ≈ { "70" } m), podczas gdy nieobsługiwane rozwiązanie inercyjne rozbiega się bez ograniczenia do ≈ { "5" } km; błąd w każdej epoce podąża za wyrazistością terenu (dryfuje na obciążonym INS nad płaskimi siodłami i ponownie się zaczepia nad wyrazistą rzeźbą), a monitor efektywnej liczby próbek potwierdza zdrową chmurę. Uczciwy zakres: mapa jest <b>znana i stała</b>, to rekurencyjna <em>lokalizacja</em> względem zapisanego DEM (lokalizacyjna połowa SLAM terenu), a nie łączne estymowanie mapy; nieokrężne z konstrukcji (wstrzyknięta rampa dryfu jest niezależną prawdą). Wszystkie istniejące scenariusze pozostają nietknięte (addytywnie; złote wzorce odtwarzalności bez zmian).
+
+seg-87ba3bc926fa = <b>Rdzeń odporności bez GNSS + wycinki demonstratora FutureNAV</b> (<c1/> oraz podstawy obwiedni odporności w <c2/>, <c3/>, <c4/>, <c5/>, z wycinkami weryfikacji FutureNAV w <c6/>). Składa elementy składowe alternatywnego PNT (holdover zegara, śledzenie sygnału, dryf inercyjny, teren) w jedną narrację odporności na przestój GNSS. MODELLED; addytywnie.
+
+seg-071bb6654f24 = <b>Kshana Interchange Format (KIF): wersjonowana, samoopisująca się koperta artefaktu</b> (<c1/>). Opakowanie z tagiem schematu wokół wyników scenariuszy, aby zapisany artefakt niósł ze sobą swój rodzaj, wersję schematu i etykiety MODELLED/VALIDATED, a starsze koperty pozostawały odczytywalne z zachowaniem zgodności w przód. Addytywnie; istniejący JSON wyniku bez zmian.
+
+seg-07147766ab22 = <b>Modulacja / śledzenie sygnału nawigacyjnego + korektor różnicowy halo/NRHO w CR3BP</b> (<c1/>, <c2/>). Model modulacji i śledzenia sygnału nawigacyjnego pierwszego rzędu oraz korektor różnicowy kołowego ograniczonego problemu trzech ciał dla orbit halo / prawie prostoliniowych orbit halo, udostępnione na istniejącej osi możliwości głębokiej przestrzeni. MODELLED.
+
+seg-d0d2366e3351 = <b>Tryb oceny przesunięcia rozkładu + pokrętło skali dotkliwości korpusu dla <c1/></b> (<c2/>). Dodaje jawny podział na rozkład wewnętrzny i zewnętrzny oraz regulowaną skalę dotkliwości korpusu do harnessu luki optymizmu ROC/AUC (tylko charakterystyki operacyjne, nigdy dane terenowe/IQ).
+
+seg-9bb8ee93e70b = <b>Zwrot z inwestycji na pokrycie + odwzorowanie wpływu niewykrycia na integralność</b> (<c1/>, <c2/>). Soczewka ROI inżynierii oszczędnej (koszt na jednostkę pokrycia) i odwzorowanie częstości niewykryć na wpływ na integralność. MODELLED; addytywnie.
+
+seg-55f8ba5b52ee = <b>Arkusz parametrów modelu błędów interferometru zimnych atomów (CAI) z cytowaniami</b> (<c1/>). Oparty na literaturze, ujęty w granice arkusz parametrów modelu inercyjnego CAI: wejścia są <b>cytowane, a nie ze zmierzonego sprzętu</b> (bez deklaracji TRL / lotu); zasila podłogę przypadkowego błądzenia prędkości <c2/>.
+
+seg-cfbff4acc64c = Zarządzanie projektem.
+
+seg-982f9ea3eee8 = <c1/> dokumentuje model decyzyjny i granicę otwarte/zamknięte; wiersz społeczności/zarządzania w mapie możliwości przechodzi <c2/>, aby to odzwierciedlić.
+
+seg-c9ff6a7183eb = <b>Poziom ochrony integralności ARAIM: nominalny bias (<c1/>) i σ_URA są teraz stosowane.</b> Poziom ochrony MHSS odejmuje teraz jednostronną projekcję nominalnego biasu <c2/> dla każdego trybu usterki i używa sigmy <b>integralności</b> σ_URA (odrębnej od sigmy <b>dokładności</b> σ_URE) niesionej w Integrity Support Message. To czyni poziom ochrony bardziej zachowawczym i poprawnym względem standardów, a zatem <b>zmienia wartości PL raportowane przez istniejące scenariusze integralności</b>. ISM/scenariusz zyskuje pola <c3/> <c4/> / <c5/>, więc dane wejściowe, które ich nie ustawiają, zachowują dotychczasowe zachowanie. Zob. <c6/> dla przywróconego wzoru <c7/> i uczciwej uwagi implementacyjnej.
+
+seg-c408f8944ac6 = Spójność χ² monitora spoofingu.
+
+seg-92e2b5c5458c = <c1/> używa teraz wspólnej ścieżki odwrotności χ² <c2/>, co usuwa drugą rozbieżną implementację χ², więc RAIM i monitor spoofingu w parytecie zgadzają się co do swoich progów.
+
+seg-6d424034e500 = <b><c1/> podłączono do dyspozytora CLI.</b> Scenariusz był wcześniej osiągalny tylko przez API; teraz jest wywoływany jako <c2/> jak każdy inny scenariusz.

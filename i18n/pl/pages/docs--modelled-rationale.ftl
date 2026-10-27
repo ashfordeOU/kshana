@@ -829,3 +829,5 @@ seg-6d6b07b26966 = Dokument stanu JSON i komunikaty wykrywania MQTT Home Assista
 seg-68caf86157c2 = Pakiet ROS { "2" } receiver-trust i most gnss_lib_py
 
 seg-e7d7d99fe538 = Most niezależny od ROS, który zapisuje komunikaty fixa i satelitów jako NMEA i ocenia je przez wiązanie Pythona (integrations/ros2/kshana_trust), oraz most gnss_lib_py NavData do receiver-trust przez format rtklib-pos (integrations/gnss_lib_py).
+
+seg-c3c260b7063e = Testy
