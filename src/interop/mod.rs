@@ -162,14 +162,17 @@ impl std::fmt::Display for ExportError {
 /// Export a scenario (TOML source) to one format. A campaign exports each of its member
 /// scenarios that the format applies to (see [`export_campaign`]).
 pub fn export(src: &str, fmt: Format) -> Result<Vec<ExportFile>, ExportError> {
-    if crate::api::ScenarioKind::classify(src).ok() == Some(crate::api::ScenarioKind::Campaign) {
-        return export_campaign(src, fmt);
-    }
-    if fmt == Format::Sigmf {
-        return export_sigmf(src);
-    }
-    let scene = scene::scene_of(src)?;
-    export_scene(&scene, fmt)
+    crate::i18n::in_english_or_localised_error(|| {
+        if crate::api::ScenarioKind::classify(src).ok() == Some(crate::api::ScenarioKind::Campaign)
+        {
+            return export_campaign(src, fmt);
+        }
+        if fmt == Format::Sigmf {
+            return export_sigmf(src);
+        }
+        let scene = scene::scene_of(src)?;
+        export_scene(&scene, fmt)
+    })
 }
 
 /// Write an already-built scene in one of the geospatial formats. [`Format::Sigmf`] is

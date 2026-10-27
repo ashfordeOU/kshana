@@ -661,10 +661,11 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             }
         }
         for r in &out.reports {
-            json.write(format!("{}\n", r.to_json_line()).as_bytes())
-                .map_err(io_err)?;
+            // The JSON lines and the $PKSHT sentences are machine output: English in every language.
+            let (line, pksht_line) = kshana::i18n::in_english(|| (r.to_json_line(), r.pksht()));
+            json.write(format!("{line}\n").as_bytes()).map_err(io_err)?;
             pksht
-                .write(format!("{}\r\n", r.pksht()).as_bytes())
+                .write(format!("{pksht_line}\r\n").as_bytes())
                 .map_err(io_err)?;
         }
         stream.flush().map_err(io_err)?;
@@ -673,7 +674,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     };
     loop {
         match rx.recv_timeout(poll) {
-            Ok(Msg::Line(l, t)) => emit(engine.feed_line(&l, t))?,
+            Ok(Msg::Line(l, t)) => emit(kshana::i18n::in_english(|| engine.feed_line(&l, t)))?,
             Ok(Msg::CaughtUp) => engine.set_host_clock(!replay),
             Ok(Msg::Dropped(n)) => {
                 udp_dropped += n;
@@ -687,21 +688,23 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
                 );
             }
             Ok(Msg::End) | Err(RecvTimeoutError::Disconnected) => {
-                emit(engine.finish())?;
+                emit(kshana::i18n::in_english(|| engine.finish()))?;
                 if let Some(b) = &tcp {
                     b.close();
                 }
                 return Ok(());
             }
             Ok(Msg::Fail(e)) => {
-                emit(engine.finish())?;
+                emit(kshana::i18n::in_english(|| engine.finish()))?;
                 if let Some(b) = &tcp {
                     b.close();
                 }
                 return Err((e, 1));
             }
             Err(RecvTimeoutError::Timeout) => {
-                emit(engine.idle(start.elapsed().as_secs_f64()))?;
+                emit(kshana::i18n::in_english(|| {
+                    engine.idle(start.elapsed().as_secs_f64())
+                }))?;
             }
         }
     }

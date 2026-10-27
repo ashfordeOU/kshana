@@ -315,7 +315,8 @@ pub fn build_product(
         "kshana_version": env!("CARGO_PKG_VERSION"),
         "notice": NOTICE,
     });
-    let png = render_png(&cells_png, grid, &day.date, dataset, &summary);
+    // The picture is hashed into the manifest: its text is English in every language.
+    let png = english(|| render_png(&cells_png, grid, &day.date, dataset, &summary));
     Ok(Product {
         geojson,
         incidents,
@@ -732,6 +733,11 @@ fn render_png(
     )
 }
 
+/// Run `f` with English as the language: for a published file whose bytes or name are hashed.
+fn english<R>(f: impl FnOnce() -> R) -> R {
+    crate::i18n::with_lang(crate::i18n::Lang::english(), f)
+}
+
 fn trim_deg(d: f64) -> String {
     let s = format!("{d}");
     s
@@ -945,18 +951,25 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
             e = e
         ))
     })?;
-    let stem = crate::t!(
-        "interference-map-observatory-observatory-adsb",
-        key = ds.key,
-        day = day
-    );
+    // File names are machine text, whatever the language.
+    let stem = english(|| {
+        crate::t!(
+            "interference-map-observatory-observatory-adsb",
+            key = ds.key,
+            day = day
+        )
+    });
     let gj = to_text(&p.geojson)?;
     let inc = to_text(&p.incidents)?;
     let names = [
         (format!("{stem}.geojson"), gj.into_bytes()),
         (format!("{stem}.png"), p.png),
         (
-            crate::t!("interference-map-observatory-incidents-json", stem = stem),
+            english(|| {
+                crate::i18n::in_english(|| {
+                    crate::t!("interference-map-observatory-incidents-json", stem = stem)
+                })
+            }),
             inc.into_bytes(),
         ),
     ];
@@ -986,10 +999,11 @@ pub fn run_daily(rest: &[String]) -> Result<(), MapError> {
         "files": files,
     });
     write_new(
-        &out.join(crate::t!(
-            "interference-map-observatory-manifest-json",
-            stem = stem
-        )),
+        &out.join(english(|| {
+            crate::i18n::in_english(|| {
+                crate::t!("interference-map-observatory-manifest-json", stem = stem)
+            })
+        })),
         to_text(&manifest)?.as_bytes(),
     )?;
     println!(

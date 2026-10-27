@@ -416,77 +416,79 @@ fn facts_of(r: &Run) -> Option<ReceiverTrustFacts> {
 
 /// Fill the mapping from a set of runs. `unrecognised` is carried into the report as given.
 pub fn assess(runs: &[Run], mut unrecognised: Vec<String>) -> Report {
-    // A run whose counts are malformed counts for nothing, and the report says why.
-    let (runs, malformed): (Vec<&Run>, Vec<&Run>) =
-        runs.iter().partition(|r| malformed_counts(r).is_none());
-    for r in malformed {
-        unrecognised.push(crate::t!(
-            "compliance-receiver-trust-counts-malformed-excluded",
-            label = r.label,
-            malformed_counts = malformed_counts(r).unwrap_or_default()
-        ));
-    }
-    let capabilities: Vec<CapabilityEvidence> = CAPABILITIES
-        .iter()
-        .map(|c| CapabilityEvidence {
-            id: c.id.into(),
-            name: c.name.into(),
-            output: c.output.into(),
+    crate::i18n::in_english(|| {
+        // A run whose counts are malformed counts for nothing, and the report says why.
+        let (runs, malformed): (Vec<&Run>, Vec<&Run>) =
+            runs.iter().partition(|r| malformed_counts(r).is_none());
+        for r in malformed {
+            unrecognised.push(crate::t!(
+                "compliance-receiver-trust-counts-malformed-excluded",
+                label = r.label,
+                malformed_counts = malformed_counts(r).unwrap_or_default()
+            ));
+        }
+        let capabilities: Vec<CapabilityEvidence> = CAPABILITIES
+            .iter()
+            .map(|c| CapabilityEvidence {
+                id: c.id.into(),
+                name: c.name.into(),
+                output: c.output.into(),
+                runs: runs
+                    .iter()
+                    .filter(|r| run_carries(c, r))
+                    .map(|r| r.label.clone())
+                    .collect(),
+            })
+            .collect();
+        let has = |id: &str| {
+            capabilities
+                .iter()
+                .any(|c| c.id == id && !c.runs.is_empty())
+        };
+        let rows = mapping::rows()
+            .iter()
+            .map(|r| {
+                let (ok, missing): (Vec<&&str>, Vec<&&str>) =
+                    r.capabilities.iter().partition(|c| has(c));
+                let status = if r.capabilities.is_empty() {
+                    Status::OutOfScope
+                } else if missing.is_empty() {
+                    Status::Evidenced
+                } else if ok.is_empty() {
+                    Status::NotEvidenced
+                } else {
+                    Status::PartlyEvidenced
+                };
+                RowReport {
+                    id: r.id.into(),
+                    framework: r.framework.id().into(),
+                    reference: r.reference.into(),
+                    asks: r.asks.into(),
+                    status,
+                    evidenced_capabilities: ok.iter().map(|c| c.to_string()).collect(),
+                    missing_capabilities: missing.iter().map(|c| c.to_string()).collect(),
+                    gap: r.gap.into(),
+                }
+            })
+            .collect();
+        Report {
+            statement: STATEMENT.into(),
+            engine_version: env!("CARGO_PKG_VERSION").into(),
             runs: runs
                 .iter()
-                .filter(|r| run_carries(c, r))
-                .map(|r| r.label.clone())
+                .map(|r| RunRef {
+                    label: r.label.clone(),
+                    kind: r.kind.clone(),
+                    scenario_hash: hash_of(&r.json),
+                })
                 .collect(),
-        })
-        .collect();
-    let has = |id: &str| {
-        capabilities
-            .iter()
-            .any(|c| c.id == id && !c.runs.is_empty())
-    };
-    let rows = mapping::rows()
-        .iter()
-        .map(|r| {
-            let (ok, missing): (Vec<&&str>, Vec<&&str>) =
-                r.capabilities.iter().partition(|c| has(c));
-            let status = if r.capabilities.is_empty() {
-                Status::OutOfScope
-            } else if missing.is_empty() {
-                Status::Evidenced
-            } else if ok.is_empty() {
-                Status::NotEvidenced
-            } else {
-                Status::PartlyEvidenced
-            };
-            RowReport {
-                id: r.id.into(),
-                framework: r.framework.id().into(),
-                reference: r.reference.into(),
-                asks: r.asks.into(),
-                status,
-                evidenced_capabilities: ok.iter().map(|c| c.to_string()).collect(),
-                missing_capabilities: missing.iter().map(|c| c.to_string()).collect(),
-                gap: r.gap.into(),
-            }
-        })
-        .collect();
-    Report {
-        statement: STATEMENT.into(),
-        engine_version: env!("CARGO_PKG_VERSION").into(),
-        runs: runs
-            .iter()
-            .map(|r| RunRef {
-                label: r.label.clone(),
-                kind: r.kind.clone(),
-                scenario_hash: hash_of(&r.json),
-            })
-            .collect(),
-        unrecognised,
-        capabilities,
-        receiver_trust: runs.iter().copied().filter_map(facts_of).collect(),
-        standards_packs: runs.iter().copied().filter_map(pack_facts_of).collect(),
-        rows,
-    }
+            unrecognised,
+            capabilities,
+            receiver_trust: runs.iter().copied().filter_map(facts_of).collect(),
+            standards_packs: runs.iter().copied().filter_map(pack_facts_of).collect(),
+            rows,
+        }
+    })
 }
 
 /// One result file as text, with the scenario file that produced it when there is one.
@@ -540,34 +542,36 @@ pub fn assess_texts(inputs: &[RunInput<'_>]) -> Report {
 /// Read result files into runs (a thin file-system wrapper over [`run_from_text`]).
 /// Returns the runs and a reason for each file that could not be used.
 pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
-    let mut runs = Vec::new();
-    let mut bad = Vec::new();
-    for p in paths {
-        let label = p
-            .file_name()
-            .map(|n| n.to_string_lossy().into_owned())
-            .unwrap_or_else(|| p.display().to_string());
-        let text = match std::fs::read_to_string(p) {
-            Ok(t) => t,
-            Err(e) => {
-                bad.push(crate::t!("compliance-cannot-read", label = label, e = e));
-                continue;
+    crate::i18n::in_english(|| {
+        let mut runs = Vec::new();
+        let mut bad = Vec::new();
+        for p in paths {
+            let label = p
+                .file_name()
+                .map(|n| n.to_string_lossy().into_owned())
+                .unwrap_or_else(|| p.display().to_string());
+            let text = match std::fs::read_to_string(p) {
+                Ok(t) => t,
+                Err(e) => {
+                    bad.push(crate::t!("compliance-cannot-read", label = label, e = e));
+                    continue;
+                }
+            };
+            // foo.result.json -> foo.toml
+            let sibling = label.strip_suffix(".result.json").and_then(|stem| {
+                std::fs::read_to_string(p.with_file_name(format!("{stem}.toml"))).ok()
+            });
+            match run_from_text(&RunInput {
+                label: &label,
+                result_json: &text,
+                scenario_toml: sibling.as_deref(),
+            }) {
+                Ok(r) => runs.push(r),
+                Err(e) => bad.push(e),
             }
-        };
-        // foo.result.json -> foo.toml
-        let sibling = label.strip_suffix(".result.json").and_then(|stem| {
-            std::fs::read_to_string(p.with_file_name(format!("{stem}.toml"))).ok()
-        });
-        match run_from_text(&RunInput {
-            label: &label,
-            result_json: &text,
-            scenario_toml: sibling.as_deref(),
-        }) {
-            Ok(r) => runs.push(r),
-            Err(e) => bad.push(e),
         }
-    }
-    (runs, bad)
+        (runs, bad)
+    })
 }
 
 /// Find a result's scenario kind: a receiver-trust result by its content, else the sibling
@@ -633,132 +637,136 @@ fn cell(s: &str) -> String {
 impl Report {
     /// The report as pretty JSON.
     pub fn to_json(&self) -> String {
-        let mut s = serde_json::to_string_pretty(&json!(self)).unwrap_or_default();
-        s.push('\n');
-        s
+        crate::i18n::in_english(|| {
+            let mut s = serde_json::to_string_pretty(&json!(self)).unwrap_or_default();
+            s.push('\n');
+            s
+        })
     }
 
     /// The report as Markdown.
     pub fn to_markdown(&self) -> String {
-        let mut s = String::from("# Compliance report\n\n");
-        s.push_str(&format!("> {}\n\n", self.statement));
-        s.push_str(&crate::t!(
-            "compliance-written-by-kshana",
-            engine_version = self.engine_version
-        ));
-        s.push_str("## Runs read\n\n");
-        if self.runs.is_empty() {
-            s.push_str("None. Every row below is therefore not evidenced.\n\n");
-        } else {
-            s.push_str("| Run | Kind | Scenario hash |\n|---|---|---|\n");
-            for r in &self.runs {
-                s.push_str(&format!(
-                    "| {} | {} | {} |\n",
-                    cell(&r.label),
-                    r.kind,
-                    r.scenario_hash
-                        .as_deref()
-                        .map_or("none".to_string(), |h| h.chars().take(12).collect())
-                ));
-            }
-            s.push('\n');
-        }
-        if !self.unrecognised.is_empty() {
-            s.push_str("## Inputs not used\n\n");
-            for u in &self.unrecognised {
-                s.push_str(&format!("- {}\n", cell(u)));
-            }
-            s.push('\n');
-        }
-        s.push_str("## Capabilities in this set\n\n| Capability | Runs |\n|---|---|\n");
-        for c in &self.capabilities {
-            let runs = if c.runs.is_empty() {
-                "none".to_string()
+        crate::i18n::in_english(|| {
+            let mut s = String::from("# Compliance report\n\n");
+            s.push_str(&format!("> {}\n\n", self.statement));
+            s.push_str(&crate::t!(
+                "compliance-written-by-kshana",
+                engine_version = self.engine_version
+            ));
+            s.push_str("## Runs read\n\n");
+            if self.runs.is_empty() {
+                s.push_str("None. Every row below is therefore not evidenced.\n\n");
             } else {
-                c.runs
-                    .iter()
-                    .map(|r| cell(r))
-                    .collect::<Vec<_>>()
-                    .join(", ")
-            };
-            s.push_str(&format!("| {} | {} |\n", c.name, runs));
-        }
-        s.push('\n');
-        if !self.receiver_trust.is_empty() {
-            s.push_str("## Receiver logs, as the runs state them\n\n");
-            s.push_str(
-                "| Run | Log format | Epochs | Events detected / evaluable | Predictions agreeing / evaluable |\n|---|---|---|---|---|\n",
-            );
-            for f in &self.receiver_trust {
-                s.push_str(&format!(
-                    "| {} | {} | {} | {} / {} | {} / {} |\n",
-                    cell(&f.run),
-                    cell(&f.log_format),
-                    f.epochs,
-                    f.events_detected,
-                    f.events_evaluable,
-                    f.predictions_agreeing,
-                    f.predictions_evaluable
-                ));
-            }
-            s.push_str(
-                "\nThese counts are the runs' own, scored against events and tolerances stated \
-                 before the run. They describe those logs, not the receiver in general.\n\n",
-            );
-        }
-        if !self.standards_packs.is_empty() {
-            s.push_str("## Standards packs, as the runs state them\n\n");
-            s.push_str(
-                "Each pack measures modelled scenarios against bars stated before the run. The \
-                 rows below are the ones its tests support evidence for; a row is never marked \
-                 met.\n\n",
-            );
-            for f in &self.standards_packs {
-                s.push_str(&crate::t!(
-                    "compliance-test-with-every-stated-bar",
-                    cell = cell(&f.title),
-                    cell2 = cell(&f.run),
-                    met = f.met,
-                    not_met = f.not_met,
-                    needs_input = f.needs_input
-                ));
-                s.push_str("| Row | Reference | Pack tests | Outcome |\n|---|---|---|---|\n");
-                for r in &f.rows {
+                s.push_str("| Run | Kind | Scenario hash |\n|---|---|---|\n");
+                for r in &self.runs {
                     s.push_str(&format!(
-                        "| {} | {} | {} | {} |\n",
-                        cell(&r.id),
-                        cell(&r.reference),
-                        r.tests.join(", "),
-                        r.outcome
+                        "| {} | {} | {} |\n",
+                        cell(&r.label),
+                        r.kind,
+                        r.scenario_hash
+                            .as_deref()
+                            .map_or("none".to_string(), |h| h.chars().take(12).collect())
                     ));
                 }
                 s.push('\n');
             }
-        }
-        for fw in Framework::ALL {
-            s.push_str(&format!("## {}\n\n", fw.title()));
-            s.push_str(
-                "| Reference | Status | Evidenced by | Not in this set | Gap |\n|---|---|---|---|---|\n",
-            );
-            for r in self.rows.iter().filter(|r| r.framework == fw.id()) {
-                let names = |ids: &[String]| {
-                    if ids.is_empty() {
-                        "none".to_string()
-                    } else {
-                        ids.join(", ")
-                    }
+            if !self.unrecognised.is_empty() {
+                s.push_str("## Inputs not used\n\n");
+                for u in &self.unrecognised {
+                    s.push_str(&format!("- {}\n", cell(u)));
+                }
+                s.push('\n');
+            }
+            s.push_str("## Capabilities in this set\n\n| Capability | Runs |\n|---|---|\n");
+            for c in &self.capabilities {
+                let runs = if c.runs.is_empty() {
+                    "none".to_string()
+                } else {
+                    c.runs
+                        .iter()
+                        .map(|r| cell(r))
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 };
-                s.push_str(&format!(
-                    "| {} | {} | {} | {} | {} |\n",
-                    r.reference,
-                    r.status.as_str(),
-                    names(&r.evidenced_capabilities),
-                    names(&r.missing_capabilities),
-                    r.gap
-                ));
+                s.push_str(&format!("| {} | {} |\n", c.name, runs));
             }
             s.push('\n');
-        }
-        s
+            if !self.receiver_trust.is_empty() {
+                s.push_str("## Receiver logs, as the runs state them\n\n");
+                s.push_str(
+                "| Run | Log format | Epochs | Events detected / evaluable | Predictions agreeing / evaluable |\n|---|---|---|---|---|\n",
+            );
+                for f in &self.receiver_trust {
+                    s.push_str(&format!(
+                        "| {} | {} | {} | {} / {} | {} / {} |\n",
+                        cell(&f.run),
+                        cell(&f.log_format),
+                        f.epochs,
+                        f.events_detected,
+                        f.events_evaluable,
+                        f.predictions_agreeing,
+                        f.predictions_evaluable
+                    ));
+                }
+                s.push_str(
+                "\nThese counts are the runs' own, scored against events and tolerances stated \
+                 before the run. They describe those logs, not the receiver in general.\n\n",
+            );
+            }
+            if !self.standards_packs.is_empty() {
+                s.push_str("## Standards packs, as the runs state them\n\n");
+                s.push_str(
+                "Each pack measures modelled scenarios against bars stated before the run. The \
+                 rows below are the ones its tests support evidence for; a row is never marked \
+                 met.\n\n",
+            );
+                for f in &self.standards_packs {
+                    s.push_str(&crate::t!(
+                        "compliance-test-with-every-stated-bar",
+                        cell = cell(&f.title),
+                        cell2 = cell(&f.run),
+                        met = f.met,
+                        not_met = f.not_met,
+                        needs_input = f.needs_input
+                    ));
+                    s.push_str("| Row | Reference | Pack tests | Outcome |\n|---|---|---|---|\n");
+                    for r in &f.rows {
+                        s.push_str(&format!(
+                            "| {} | {} | {} | {} |\n",
+                            cell(&r.id),
+                            cell(&r.reference),
+                            r.tests.join(", "),
+                            r.outcome
+                        ));
+                    }
+                    s.push('\n');
+                }
+            }
+            for fw in Framework::ALL {
+                s.push_str(&format!("## {}\n\n", fw.title()));
+                s.push_str(
+                "| Reference | Status | Evidenced by | Not in this set | Gap |\n|---|---|---|---|---|\n",
+            );
+                for r in self.rows.iter().filter(|r| r.framework == fw.id()) {
+                    let names = |ids: &[String]| {
+                        if ids.is_empty() {
+                            "none".to_string()
+                        } else {
+                            ids.join(", ")
+                        }
+                    };
+                    s.push_str(&format!(
+                        "| {} | {} | {} | {} | {} |\n",
+                        r.reference,
+                        r.status.as_str(),
+                        names(&r.evidenced_capabilities),
+                        names(&r.missing_capabilities),
+                        r.gap
+                    ));
+                }
+                s.push('\n');
+            }
+            s
+        })
     }
 }

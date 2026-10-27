@@ -47,7 +47,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         return run_campaign(&scenario, &prefix);
     }
 
-    let out = run_scenario(&scenario).map_err(Fail::Run)?;
+    // The four report files are machine files: English in every language.
+    let out = crate::i18n::in_english_or_localised_error(|| run_scenario(&scenario))
+        .map_err(Fail::Run)?;
 
     let written = write_all(
         &prefix,
@@ -68,7 +70,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 /// The campaign path: fit the `kshana iq campaign` folder the scenario names and write the
 /// four `labfit-iq` report forms under `prefix`.
 fn run_campaign(scenario: &LabFitScenario, prefix: &Path) -> Result<String, Fail> {
-    let out = run_campaign_scenario(scenario).map_err(Fail::Run)?;
+    let out = crate::i18n::in_english_or_localised_error(|| run_campaign_scenario(scenario))
+        .map_err(Fail::Run)?;
     let written = write_all(
         prefix,
         [

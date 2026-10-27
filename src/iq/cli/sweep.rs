@@ -71,21 +71,25 @@ pub(crate) fn designs(a: &Args) -> Result<Vec<Design>, Fail> {
                 for &coh in &coherents {
                     let coh = coh.max(1);
                     let d = base
-                        .with_overrides(&crate::t!(
-                            "iq-cli-sweep-carrier-pll-bw-hz-code",
-                            pll = format!("{:?}", pll),
-                            dll = format!("{:?}", dll),
-                            sp = format!("{:?}", sp),
-                            coh = coh
-                        ))
+                        .with_overrides(&crate::i18n::in_english(|| {
+                            crate::t!(
+                                "iq-cli-sweep-carrier-pll-bw-hz-code",
+                                pll = format!("{:?}", pll),
+                                dll = format!("{:?}", dll),
+                                sp = format!("{:?}", sp),
+                                coh = coh
+                            )
+                        }))
                         .map_err(Fail::Usage)?;
-                    out.push(d.renamed(&crate::t!(
-                        "iq-cli-sweep-pll-dll-sp-coh",
-                        pll = pll,
-                        dll = dll,
-                        sp = sp,
-                        coh = coh
-                    )));
+                    out.push(d.renamed(&crate::i18n::in_english(|| {
+                        crate::t!(
+                            "iq-cli-sweep-pll-dll-sp-coh",
+                            pll = pll,
+                            dll = dll,
+                            sp = sp,
+                            coh = coh
+                        )
+                    })));
                 }
             }
         }
@@ -206,7 +210,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .collect();
     let warnings = sampling_warnings(&spec, &codes);
     write_outputs(&a, &rows, &warnings)?;
-    Ok(table(&rows) + &warning_lines(&warnings))
+    Ok(table(&rows) + &warning_lines(&spec, &codes))
 }
 
 /// Write the optional `--json` and `--csv` artifacts.
