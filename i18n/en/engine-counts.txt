@@ -191,3 +191,5 @@ study-summary: n_scenarios
 study-footer: n_scenarios
 resilience-report-summary: n_validated n_modelled
 bench-cli-folders: n
+interference-map-locate-summary: n_sessions n_withheld
+interference-map-locate-fig-subtitle: n

@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 176,
-    "modelled": 220,
+    "modelled": 221,
     "partner_owned": 4,
-    "total": 400
+    "total": 401
   },
   "rows": [
     {
@@ -8483,6 +8483,32 @@
         }
       ],
       "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Interference source region: a feasible emitter region from aircraft and ship position reports",
+      "capability": "A feasible region for where a source of degraded navigation reports can be, from ADS-B (NIC/NACp) or AIS position reports: radio line of sight on a 4/3-earth radius from the report height and an emitter antenna height range, a limited effective range for the unknown power, affected units pulling the posterior toward their reach and unaffected units with line of sight pushing against it, grouped into sessions in time and space. Output is highest-density regions at stated confidence levels, a posterior centroid with a moment ellipse, session start, end, duration, affected area and distinct-aircraft count above the publication minimum, a time-of-day profile and hours per day. Terrain-free; a single source per session; the credibility is conditional on the model. Optional fusion with a TDOA fix from geolocation.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest 2025 transmitter positions is planned under a pre-registration that is committed before any scored run; it has not been scored, and the row stays MODELLED unless that run is recorded as MET",
+      "module": "interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`",
+      "tests": "interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases",
+      "module_links": [
+        {
+          "path": "src/interference_map/emitter.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/interference_map/emitter.rs"
+        },
+        {
+          "path": "src/interference_map/emitter_out.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/interference_map/emitter_out.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/interference_map_cli.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/interference_map_cli.rs"
+        }
+      ],
       "fixture": null
     },
     {

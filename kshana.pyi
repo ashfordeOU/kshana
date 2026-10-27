@@ -175,6 +175,7 @@ __all__ = [
     "evidence_round_trip",
     "evidence_verify",
     "interference_map",
+    "interference_emitter_regions",
     "bench_export",
     "iq_sweep",
     "iq_info",
@@ -618,6 +619,23 @@ def interference_map(
     ``cells_published``, ``cells_flagged`` and ``geojson`` (``kshana-interference-map/v1``
     text). Aggregate only; a degraded cell does not name interference as the cause.
     Raises ``ValueError`` on bad input."""
+
+def interference_emitter_regions(
+    source: str,
+    csv: str,
+    dataset: str,
+    licence: Optional[str] = None,
+    licence_url: Optional[str] = None,
+    attribution: Optional[str] = None,
+    land_geojson: Optional[str] = None,
+) -> dict[str, Any]:
+    """Estimated emitter regions from ``"adsb"`` or ``"ais"`` CSV text: where, under stated
+    assumptions, a source of the degraded reports could be, as regions at stated confidence levels
+    with a centroid and an uncertainty ellipse, never a bare point. Arguments as
+    ``interference_map``. Keys: ``stem``, ``geojson``, ``summary``, ``csv``, ``svg`` (each labelled
+    with its evidence tier, MODELLED), ``sessions_published``, ``sessions_withheld``. Aggregate
+    only; a region is not the position of anyone and not a finding of the cause. Raises
+    ``ValueError``."""
 
 def route_exposure(
     route: str,

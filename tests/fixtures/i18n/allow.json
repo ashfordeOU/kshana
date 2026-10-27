@@ -393,6 +393,18 @@
    "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/interference_map/emitter.rs": {
+   "count": 25,
+   "reason": "machine-document and identifiers: JSON keys of the parameter block and the method id; no human-facing text"
+  },
+  "src/interference_map/emitter_out.rs": {
+   "count": 83,
+   "reason": "machine-document: JSON keys, schema names and the English assumptions, limits, guards and notice written into the GeoJSON and JSON outputs (machine files stay English); human-facing text goes through t!"
+  },
+  "src/interference_map/locate_cli.rs": {
+   "count": 7,
+   "reason": "identifiers: command-line flag names and output file name suffixes"
+  },
   "src/interference_map/observatory.rs": {
    "count": 95,
    "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted"

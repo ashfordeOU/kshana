@@ -251,6 +251,96 @@ rows per day and source with the four shares (degraded, clear, unassessed, not o
 together, never the degraded share alone, plus the report's `caveats`, and each row's
 `map_licence` and `map_attribution`.
 
+## Emitter region (`interference-map locate`)
+
+`kshana interference-map locate` estimates **where an interference source can be** from the same open ADS-B or
+AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in
+time. It never returns a bare point. **MODELLED** (ledger row `VM-bc70cb57`): the physics is textbook radio
+line of sight, the credibility of the regions is conditional on the model, and the only external check is the
+Jammertest comparison pre-registered in [`emitter-region/PREREGISTRATION.md`](emitter-region/PREREGISTRATION.md).
+Publishing emitter regions in the public observatory is a separate owner decision and is **off**: the observatory
+does not read this module, and a test pins that.
+
+```
+kshana interference-map locate input.csv --source adsb --dataset adsb-lol --out regions/
+kshana interference-map locate day-dir/  --source adsb --dataset adsb-lol --out regions/     # readsb traces
+kshana interference-map locate ais.csv   --source ais  --dataset kystverket --land land.geojson --out regions/
+```
+
+Options: `--levels 0.5,0.9,0.95`, `--cell-km`, `--session-gap-min`, `--emitter-height-m min,max`,
+`--ship-height-m` (AIS), `--tdoa fix.json` (fuse a TDOA fix; below). Any option that differs from the
+pre-registered value is announced as "not the pre-registered method". Files are never overwritten.
+
+**Model.** Reports are binned into *units* (one aircraft or vessel in one 2-minute bin), each *affected* (ADS-B:
+at least half its reports have low NIC or NACp by the map's own rule; AIS: an implausible speed or jump, or a
+position inland of the coastline) or not. An aircraft or vessel counts only with at least 5 good reports in the
+input (the same equipment-baseline guard as the map). Affected units are grouped into *sessions*: a gap of more
+than 30 minutes splits in time, and within a time cluster two units belong together when one emitter could be in
+reach of both. For one session every candidate position on a grid gets a likelihood:
+
+- **Line of sight.** An aircraft at height `h` and an emitter antenna at `h_e` see each other out to
+  `4.122 (sqrt h + sqrt h_e)` km on a 4/3-earth radius. `h_e` is marginalised over 2 to 100 m (8 log-spaced values).
+- **Power.** The emitter's power is unknown, so an effective range from 12 km to 426 km (steps of 1.25) or "line of
+  sight only" caps the reach, marginalised with equal weight. The reach edge is soft: a unit counts as in reach with a
+  weight that falls linearly across 15% of the reach on each side (at least three-quarters of a grid cell), because
+  terrain, antenna pattern and path are not known to better than that.
+- **Affected and unaffected.** An aircraft or vessel is *susceptible* with probability 0.6 (receiver equipment,
+  antenna and signal path differ), a unit of a susceptible one within reach is affected with probability 0.9, and
+  any other unit is affected with the background probability 0.03 (other causes). Susceptibility is a latent
+  property of the aircraft, summed out per aircraft, as is a persistent equipment fault (probability 0.03: all of
+  that aircraft's units are affected wherever it is), which keeps a faulty transponder from dragging the region. So an **affected** aircraft pulls the posterior toward
+  positions that reach it, and an **unaffected aircraft with line of sight** pushes against positions that would
+  have reached it by at most one aircraft's worth, however many reports it sent, while an unaffected aircraft
+  without line of sight says nothing.
+- **Terrain-free.** Terrain, ducting and diffraction are not modelled (terrain can only remove line of sight).
+- **Tempering.** The log-likelihood is multiplied by 0.3 (a power posterior). The model's evidence is more dependent
+  and its edges less sharp than the independence the likelihood assumes, and on synthetic data with those faults the
+  untempered regions held the true source at well under their stated rate; 0.3 was chosen on synthetic data only (the
+  derivation is in `docs/emitter-region/PREREGISTRATION.md`, section 8).
+
+The posterior gives **highest-density regions** at the stated levels (nested; polygons with holes where needed),
+the posterior-weighted **centroid** and its **moment ellipse** (scaled to 95% under a Gaussian; the polygons, not
+the ellipse, are the calibrated levels). The grid is coarse (about 5 to 10 km) over the whole domain and every coarse cell holding mass is split 4 by 4. **Coverage bias** is handled by conditioning on where reports exist: a
+region is wide where few aircraft were present, and a session whose 95% region fills more than 80% of its search
+domain is reported `unconstrained` with no centroid.
+
+**Sessions and profile.** Each published session has start, end, duration, the area of the 0.5-degree cells that
+hold an affected unit and at least 5 distinct aircraft or vessels, the distinct affected and observed counts, and
+the counter-evidence (distinct unaffected with line of sight to the centroid; withheld below 5). A session with
+fewer than **5** distinct affected aircraft or vessels is withheld and counted. The profile gives, per UTC hour
+of day, the distinct affected aircraft (`null` below 5) and the minutes of session time, and hours of session
+time per UTC day.
+
+**Optional TDOA fusion.** `--tdoa fix.json` takes `{"receivers": [[lat, lon, height_m], ...], "tdoa_s": [...],
+"sigma_s": 1e-7, "start": [lat, lon]}` (at least three receivers; `tdoa_s[i]` is receiver `i+1` minus receiver 0).
+The position is solved on the Earth's surface by Gauss-Newton on `geolocation::tdoa_predict`, its covariance is
+`geolocation::tdoa_crlb_on_sphere`, and the Gaussian is multiplied into the posterior. The Cramer-Rao bound is a
+lower bound on a model, not a measured accuracy.
+
+**Outputs** (`emitter-<source>-<dataset>-<day>`): `.geojson` (MultiPolygon region per level and session, the
+ellipse polygon, the centroid point carrying its ellipse), `-summary.json`, `-sessions.csv`, `-figure.svg`. Each
+embeds the dataset licence, licence URL and attribution, the method id `kshana-interference-map/emitter-region/v1`,
+every parameter, the assumptions and the limits, and carries its **evidence label** (tier MODELLED, ledger row
+ids; the strip under the figure, `# evidence` lines in the table, an `evidence` member in the JSON). Machine
+files are English whatever the language; the figure text and command-line lines are localised. A synthetic
+example is in `examples/emitter-region/` (`regenerate.sh`).
+
+**Privacy and wording.** No aircraft or vessel identifier appears in any output; no report position is drawn;
+a session needs at least 5 distinct aircraft or vessels; counts below 5 are `null`. Wording is neutral:
+"estimated emitter region", "interference source region". A region is not the position of anyone, is not a
+finding of the cause and says nothing about who or what is behind a source; the extended wording test checks
+the outputs for words of actors, intent and conflict.
+
+**Limits.** Credibility is conditional on the model. On synthetic data (a generator that shares the model, with
+reach edges uncertain by 15% per aircraft, persistent equipment faults, unknown power and unknown antenna height) the
+95% region held the true source in 0.99 (aircraft geometry) and 1.00 (ship geometry) of sessions and the 50% region in
+about 0.77: the levels are conservative, by the likelihood exponent of 0.3, and the centroid error of a session has a
+median of 23 km (aircraft) and 12 km (ships). Calibration is checked on synthetic data only; the Jammertest comparison
+is pre-registered in `emitter-region/PREREGISTRATION.md`. One source per session; several close sources look like one.
+A regional cause (a constellation outage, space weather) gives a region that is not a source. ADS-B gives few reports
+outside busy airspace, and only about a quarter of readsb trace points carry NIC and NACp, so sparse areas give wide or
+no regions (31% of the ship-geometry sessions were `unconstrained`).
+
 ## ADS-B method (`kshana-interference-map/adsb/v2`)
 
 Each airborne ADS-B report carries two self-assessed navigation quality fields: NIC (the

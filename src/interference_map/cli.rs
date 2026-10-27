@@ -315,6 +315,7 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 &out,
             )
         }
+        "locate" => super::locate_cli::run_locate(rest),
         "daily" => super::observatory::run_daily(rest),
         "sensitivity" => super::observatory::run_sensitivity(rest),
         "fetch-land" => {
