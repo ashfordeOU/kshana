@@ -10613,5 +10613,270 @@
   "parts": [
    "no work directory"
   ]
+ },
+ {
+  "id": "e-mcp-iq-input",
+  "error": true,
+  "parts": [
+   "input `",
+   {
+    "var": "rel"
+   },
+   "`: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-input-is-not-file",
+  "error": true,
+  "parts": [
+   "input `",
+   {
+    "var": "rel"
+   },
+   "` is not a file"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-input-campaign-is-not-folder",
+  "error": true,
+  "parts": [
+   "[input] campaign `",
+   {
+    "var": "rel"
+   },
+   "` is not a folder"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-out-dir-is-not-folder",
+  "error": true,
+  "parts": [
+   "out_dir `",
+   {
+    "var": "rel"
+   },
+   "` is not a folder"
+  ]
+ },
+ {
+  "id": "e-mcp-iq-out-dir",
+  "error": true,
+  "parts": [
+   "out_dir `",
+   {
+    "var": "rel"
+   },
+   "`: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-mcp-iq-iq-failed",
+  "error": true,
+  "parts": [
+   "iq ",
+   {
+    "var": "args"
+   },
+   " failed: ",
+   {
+    "var": "m"
+   }
+  ]
+ },
+ {
+  "id": "e-adm-attitudestate-without",
+  "error": true,
+  "parts": [
+   "<attitudeState> without <",
+   {
+    "var": "tag"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-bench-cli-is-required",
+  "error": true,
+  "parts": [
+   {
+    "var": "flag"
+   },
+   " is required"
+  ]
+ },
+ {
+  "id": "e-bench-cli-is-empty",
+  "error": true,
+  "parts": [
+   {
+    "var": "p"
+   },
+   " is empty"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-bad-256-key",
+  "error": true,
+  "parts": [
+   "bad P-256 key"
+  ]
+ },
+ {
+  "id": "e-evidence-tsa-bad-384-key",
+  "error": true,
+  "parts": [
+   "bad P-384 key"
+  ]
+ },
+ {
+  "id": "e-interop-no-iq-block",
+  "error": true,
+  "parts": [
+   "no [iq] block"
+  ]
+ },
+ {
+  "id": "e-ndm-xml-closes",
+  "error": true,
+  "parts": [
+   "</",
+   {
+    "var": "close"
+   },
+   "> closes <",
+   {
+    "var": "name"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-odm-unexpected-in-data",
+  "error": true,
+  "parts": [
+   "unexpected <",
+   {
+    "var": "name"
+   },
+   "> in <data>"
+  ]
+ },
+ {
+  "id": "e-odm-unsupported-in-ocm-data",
+  "error": true,
+  "parts": [
+   "unsupported <",
+   {
+    "var": "name"
+   },
+   "> in OCM <data>"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-no-stream-element",
+  "error": true,
+  "parts": [
+   "no <stream> element"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-is-not-number",
+  "error": true,
+  "parts": [
+   "<",
+   {
+    "var": "name"
+   },
+   "> is not a number: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-no-chunk-element",
+  "error": true,
+  "parts": [
+   "no <chunk> element"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-stream-lacks",
+  "error": true,
+  "parts": [
+   "<stream> lacks <",
+   {
+    "var": "key"
+   },
+   ">"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-no-system-element",
+  "error": true,
+  "parts": [
+   "no <system> element"
+  ]
+ },
+ {
+  "id": "e-realdata-ion-sdr-no-file-with-url",
+  "error": true,
+  "parts": [
+   "no <file> with a <url>"
+  ]
+ },
+ {
+  "id": "e-surface-give-string-utf8-or-base64",
+  "error": true,
+  "parts": [
+   {
+    "var": "k"
+   },
+   ": give a string, {\"utf8\": ...} or {\"base64\": ...}"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-short-h1-record",
+  "error": true,
+  "parts": [
+   "short h1 record"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-short-h2-record",
+  "error": true,
+  "parts": [
+   "short h2 (station) record"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-short-h3-record",
+  "error": true,
+  "parts": [
+   "short h3 (target) record"
+  ]
+ },
+ {
+  "id": "e-realdata-llr-crd-short-h4-record",
+  "error": true,
+  "parts": [
+   "short h4 (session) record"
+  ]
+ },
+ {
+  "id": "e-mcp-main-needs-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "a"
+   },
+   " needs a value"
+  ]
  }
 ]

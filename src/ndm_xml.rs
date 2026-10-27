@@ -194,7 +194,11 @@ impl<'a> Parser<'a> {
                     .ok_or_else(|| crate::terr!("e-ndm-xml-unterminated-end-tag"))?;
                 let close = r[2..e].trim();
                 if close != el.name {
-                    return Err(format!("</{close}> closes <{}>", el.name));
+                    return Err(crate::terr!(
+                        "e-ndm-xml-closes",
+                        close = close,
+                        name = el.name
+                    ));
                 }
                 self.pos += e + 1;
                 el.text = text.trim().to_string();

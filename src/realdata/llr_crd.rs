@@ -145,7 +145,7 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             "h1" | "H1" => {
                 // h1 CRD <version> <production date…>
                 if f.len() < 3 {
-                    return Err(at("short h1 record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h1-record")));
                 }
                 let v: u32 = f[2].parse().map_err(|_| {
                     at(&crate::t!(
@@ -162,7 +162,7 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             }
             "h2" | "H2" => {
                 if f.len() < 6 {
-                    return Err(at("short h2 (station) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h2-record")));
                 }
                 station_name = f[1].to_string();
                 station_id = f[2].parse().map_err(|_| {
@@ -186,14 +186,14 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
             }
             "h3" | "H3" => {
                 if f.len() < 2 {
-                    return Err(at("short h3 (target) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h3-record")));
                 }
                 target = f[1].to_string();
             }
             "h4" | "H4" => {
                 // h4 <data type> <sy sm sd sh smin ssec> <ey em ed eh emin esec> …
                 if f.len() < 14 {
-                    return Err(at("short h4 (session) record"));
+                    return Err(at(&crate::terr!("e-realdata-llr-crd-short-h4-record")));
                 }
                 let num = |i: usize| -> Result<f64, String> {
                     f[i].parse::<f64>().map_err(|_| {

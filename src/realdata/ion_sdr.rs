@@ -249,11 +249,13 @@ pub fn parse_xml(text: &str) -> Result<XmlElement, String> {
 /// A frequency element's value in hertz: its text scaled by its `format` attribute (`Hz`,
 /// `kHz`, `MHz`, `GHz`; hertz when absent).
 fn freq_hz(el: &XmlElement) -> Result<f64, String> {
-    let v: f64 = el
-        .text
-        .trim()
-        .parse()
-        .map_err(|_| format!("<{}> is not a number: {:?}", el.name, el.text))?;
+    let v: f64 = el.text.trim().parse().map_err(|_| {
+        crate::terr!(
+            "e-realdata-ion-sdr-is-not-number",
+            name = el.name,
+            text = format!("{:?}", el.text)
+        )
+    })?;
     let scale = match el.attr("format").map(|s| s.to_ascii_lowercase()) {
         None => 1.0,
         Some(f) if f == "hz" => 1.0,
@@ -449,7 +451,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     root.find_all("stream", &mut streams);
     let stream = match streams.as_slice() {
         [s] => *s,
-        [] => return Err("no <stream> element".into()),
+        [] => return Err(crate::terr!("e-realdata-ion-sdr-no-stream-element")),
         _ => {
             return Err(crate::terr!(
                 "e-realdata-ion-sdr-streams-only-single-stream-files",
@@ -488,7 +490,9 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
             ));
         }
     }
-    let chunk = root.find("chunk").ok_or("no <chunk> element")?;
+    let chunk = root
+        .find("chunk")
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-no-chunk-element"))?;
     let word_bytes = int(chunk, "sizeword")?
         .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-chunk-lacks-sizeword"))?;
     let words_per_chunk = int(chunk, "countwords")?
@@ -506,7 +510,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         stream
             .child_text(key)
             .map(str::to_string)
-            .ok_or(format!("<stream> lacks <{key}>"))
+            .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-stream-lacks", key = key))
     };
     let parse_u = |key: &str| -> Result<u32, String> {
         text_of(key)?
@@ -556,7 +560,9 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     let align_left = stream
         .child_text("alignment")
         .is_some_and(|a| a.trim().eq_ignore_ascii_case("left"));
-    let system = root.find("system").ok_or("no <system> element")?;
+    let system = root
+        .find("system")
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-no-system-element"))?;
     let freqbase = {
         let mut systems = Vec::new();
         root.find_all("system", &mut systems);
@@ -594,7 +600,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     let file = files
         .iter()
         .find(|f| f.child("url").is_some())
-        .ok_or("no <file> with a <url>")?;
+        .ok_or_else(|| crate::terr!("e-realdata-ion-sdr-no-file-with-url"))?;
     let url = file.child_text("url").unwrap_or_default().to_string();
     let offset_bytes = file
         .child_text("offset")

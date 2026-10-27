@@ -663,7 +663,7 @@ impl AemMessage {
             for st in data.children_named("attitudeState") {
                 let rec = st
                     .child(tag)
-                    .ok_or_else(|| format!("<attitudeState> without <{tag}>"))?;
+                    .ok_or_else(|| crate::terr!("e-adm-attitudestate-without", tag = tag))?;
                 let epoch = rec
                     .child_text("EPOCH")
                     .ok_or_else(|| crate::terr!("e-adm-record-without-epoch"))?;
