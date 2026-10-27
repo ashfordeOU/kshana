@@ -1,5 +1,63 @@
 # docs--leo-pnt: translations (fi)
 
+seg-46c7e6f003dd = Järjestelmä
+
+seg-cae10fb9bff8 = Skenaario
+
+seg-f1f903f1b9ff = Kestävyys
+
+seg-1759a8cce7d6 = Lajit
+
+seg-71aee5eb55c5 = UHF
+
+seg-f63dd3d7aad4 = Lähde
+
+seg-587beeccaa11 = Esiasetus
+
+seg-e305279d5b11 = Sisältö
+
+seg-b03d56f501c3 = Tyyppi
+
+seg-6752521002b2 = Osa
+
+seg-cf6ae60eea4f = Aputiedot
+
+seg-0bdbdd2c923b = Synkronointi
+
+seg-b09dc4b322d3 = Efemeridi
+
+seg-3a835a49b43f = Muut palvelut
+
+seg-a17f4b4f7fb5 = { "1191.795" } MHz
+
+seg-c5ce76c91ff7 = Merkintä
+
+seg-c1020ac47091 = Mitä yksi ajo laskee
+
+seg-f708914fed48 = Kaistat
+
+seg-486f17197d4d = REPRESENTATIVE, C-kaistan järjestelmille, joiden parametrit eivät ole julkisia (esimerkiksi TrustPoint)
+
+seg-03d5ae448705 = <c1/> (valinnainen)
+
+seg-fde146239f5d = Yhden ajon tulos
+
+seg-a3f63252bd1b = Mitä se sisältää
+
+seg-7d2c6fbf95b7 = Lähde: <c1/>
+
+seg-6f1f29597f4b = LEO-PNT Kshanassa
+
+seg-2a3a1f19005a = LEO-PNT on paikannus, navigointi ja ajanmääritys (PNT) matalan Maan kiertoradan (LEO) satelliiteista, keskikorkean kiertoradan (MEO) maailmanlaajuisten satelliittinavigointijärjestelmien (GNSS), kuten Global Positioning Systemin (GPS) ja Galileon, rinnalla tai sijasta. Tämä sivu kokoaa yhteen moottorin jokaisen LEO-PNT-lajin ja -skenaarion: mitä kukin laskee, kaistat ja signaaliesiasetukset ja mistä niiden luvut tulevat, mitä navigointiviesti kantaa, mikä on VALIDATED ja mikä MODELLED sekä miten kukin skenaario ajetaan. Lajisivut menevät syvemmälle:
+
+seg-8e3556046e63 = Sivu
+
+seg-cdb06a47be0a = <c1/> (signaalisuunnitelmat) ja monikaistaiset <c2/>-paneelit
+
+seg-09894e033033 = <c1/> (ylilennon geometria ja linkkibudjetti kaistoittain, vähäenergiset paikkaratkaisut, ionosfäärin luotaus, harhautuksen valvonta)
+
+seg-f19c0bfe2996 = <c1/> (lähetetty viesti: sovitin, käyttäjäalgoritmi, binääri- ja tekstimuodot)
+
 seg-0fe4979f8309 = <c1/>, <c2/>, <c3/> (yhdistetty paikannus, tarkka pistepaikannus, 5G:n ei-maanpäällisen verkon (NTN) paikannus, ajoitus, napa-alueiden kattavuus)
 
 seg-29013ad5656c = <c1/> (häirinnän vesiputouskuvaajat ja häirintä-signaalisuhde (J/S) kaistoittain)
@@ -284,6 +342,8 @@ seg-00d5b60c0ebb = Jokainen yllä oleva skenaario on mukana toimitettu: <c1/> tu
 
 seg-e01ebe977e65 = kirjoittaa tiedoston viereen tuloksen (<c1/>), kaavion (<c2/>), laajan raportin (<c3/> ja <c4/>, jossa on osio, joka upottaa animoidun ajon ja luettelee viennit), interaktiivisen soittimen (<c5/>) ja viennit. Mikä näistä pätee, riippuu lajista:
 
+seg-8a96eda978b4 = aika-akselillinen ajo animoituu: <c1/>-jaksot, harhautusajon <c2/>, <c3/>-aikajanat, <c4/>-yhteisjaksot ja ajoitusjäljet, <c5/>-virhekäyrät ja jokainen kampanjaketju. Pyyhkäisyllä tai yhdistelmällä ei ole aika-akselia: <c6/> hylkää sen poistumistilalla { "1" } ja sitten komento ei kirjoita mitään, joten aja yllä olevat kahdeksan pyyhkäisyä ja yhdistelmää (<c7/>, <c8/> ja jokainen <c9/>-skenaario paitsi <c10/>) ilman valitsinta <c11/>;
+
 seg-8d26148aeeff = <c1/> ja <c2/> vievät ylilennon geometrian CZML-muodossa (Cesium Language), KML-muodossa (Keyhole Markup Language), GeoJSON-muodossa ja STK-efemerideinä (Systems Tool Kit); kampanja vie jokaisen geometrian sisältävän jäsenen omana tiedostojoukkonaan, jäsenen nimike tiedostonimessä (<c3/>), joten jokainen ala vie LEO-ylilentonsa; muut LEO-lajit kertovat, miksi jokin formaatti ei sovellu (<a1>INTEROP.md</a1>).
 
 seg-6f3ad057f914 = Muut LEO-skenaariot lajeittain (lisätietoja kunkin lajin sivulla):
@@ -299,6 +359,8 @@ seg-731d447261fc = <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, valinnainen <c6/>
 seg-e3017b224dfc = <c1/>, <c2/>, valinnainen <c3/>
 
 seg-1ada84b384ee = Valinnaiset skenaariot ovat vain tietovarastossa, ja ne jätetään pois Celeste-esiasetustiedoston mukana.
+
+seg-6305e46ec778 = Kaksi niistä kuuluu muihin lajeihin. <c1/> (<c2/>) mitoittaa 5000 satelliitin LEO-PNT-tähdistön neljässä havainnollistavassa Walker-kuoressa: saatavuus { "99.22" } % PDOP-arvolla { "3" } tai alle { "20" }°:n maskin yläpuolella, PDOP:n mediaani { "1.11" } ja keskimäärin { "39.4" } näkyvää satelliittia { "648" } ruudukkopisteessä ja { "12" } jaksolla. <c3/> (<c4/>) kysyy, kuinka kauan LEO-piensatelliitin tietolehden mukainen OCXO pysyy { "100" } ns:n aikaväliohjauksen rajan sisällä arvolla k = { "3" } viimeisen GNSS-paikkaratkaisun jälkeen: raja rikkoutuu { "650.8" } s paikkaratkaisun jälkeen, joten tarvitaan paikkaratkaisu vähintään { "645.8" } s:n välein ({ "133.8" } päivässä), ja taajuuden satunnaiskulkukohina on hallitseva tekijä.
 
 seg-ee9f20a4485b = LEO-PNT-ketju päästä päähän
 
@@ -322,63 +384,7 @@ seg-b4b3dff58f3b = kantoaaltotaajuus ja seurattava sirunopeus
 
 seg-4def115dba1b = Arvo välitetään eteenpäin vain, jos jatkossa oleva taulukko jättää sen asettamatta, ja jokainen luovutus luetellaan tuloksen <c1/>-taulukossa arvoineen, yksikköineen ja kohteineen. Kaistan <c2/> on nimettävä suunnitelma (<c3/>); näin <c4/>-kaista voi kantaa mitä tahansa <c5/>-suunnitelmaa myös yksinään: se ottaa suunnitelman keskitaajuuden, lähetyksen kaistanleveyden ja seurattavan sirunopeuden, jakaa EIRP:nsä komponenttien kesken ja raportoi seurattavan komponentin C/N0:n sekä kaistarajoitetun koherentin varhais-myöhäis-koodinseurannan värinän (Betz ja Kolodziejski { "2009" }; puolen sirun väli, { "1" } Hz:n silmukka, { "20" } ms) jokaisella jaksolla.
 
-seg-46c7e6f003dd = Järjestelmä
-
-seg-cae10fb9bff8 = Skenaario
-
-seg-f1f903f1b9ff = Kestävyys
-
-seg-1759a8cce7d6 = Lajit
-
-seg-71aee5eb55c5 = UHF
-
-seg-f63dd3d7aad4 = Lähde
-
-seg-587beeccaa11 = Esiasetus
-
-seg-e305279d5b11 = Sisältö
-
-seg-b03d56f501c3 = Tyyppi
-
-seg-6752521002b2 = Osa
-
-seg-cf6ae60eea4f = Aputiedot
-
-seg-0bdbdd2c923b = Synkronointi
-
-seg-b09dc4b322d3 = Efemeridi
-
-seg-3a835a49b43f = Muut palvelut
-
-seg-a17f4b4f7fb5 = { "1191.795" } MHz
-
-seg-c5ce76c91ff7 = Merkintä
-
-seg-c1020ac47091 = Mitä yksi ajo laskee
-
-seg-f708914fed48 = Kaistat
-
-seg-486f17197d4d = REPRESENTATIVE, C-kaistan järjestelmille, joiden parametrit eivät ole julkisia (esimerkiksi TrustPoint)
-
-seg-03d5ae448705 = <c1/> (valinnainen)
-
-seg-fde146239f5d = Yhden ajon tulos
-
-seg-a3f63252bd1b = Mitä se sisältää
-
-seg-7d2c6fbf95b7 = Lähde: <c1/>
-
-seg-6f1f29597f4b = LEO-PNT Kshanassa
-
-seg-2a3a1f19005a = LEO-PNT on paikannus, navigointi ja ajanmääritys (PNT) matalan Maan kiertoradan (LEO) satelliiteista, keskikorkean kiertoradan (MEO) maailmanlaajuisten satelliittinavigointijärjestelmien (GNSS), kuten Global Positioning Systemin (GPS) ja Galileon, rinnalla tai sijasta. Tämä sivu kokoaa yhteen moottorin jokaisen LEO-PNT-lajin ja -skenaarion: mitä kukin laskee, kaistat ja signaaliesiasetukset ja mistä niiden luvut tulevat, mitä navigointiviesti kantaa, mikä on VALIDATED ja mikä MODELLED sekä miten kukin skenaario ajetaan. Lajisivut menevät syvemmälle:
-
-seg-8e3556046e63 = Sivu
-
-seg-cdb06a47be0a = <c1/> (signaalisuunnitelmat) ja monikaistaiset <c2/>-paneelit
-
-seg-09894e033033 = <c1/> (ylilennon geometria ja linkkibudjetti kaistoittain, vähäenergiset paikkaratkaisut, ionosfäärin luotaus, harhautuksen valvonta)
-
-seg-f19c0bfe2996 = <c1/> (lähetetty viesti: sovitin, käyttäjäalgoritmi, binääri- ja tekstimuodot)
+seg-e75e48eeeca1 = BPSK(n) on binäärinen vaihesiirtoavainnus nopeudella n × { "1.023" } Mchip/s. Viiveen suhde on <c1/>, kun <c2/> = { "1191.795" } MHz. Vapaan tilan vaimennus kasvaa määrällä <c3/> samalla etäisyydellä (−{ "8.2" } dB UHF-kaistalla, +{ "6.4" } dB S-kaistalla, +{ "12.5" } dB C-kaistalla).
 
 seg-2a2b15256cf4 = generic: edustava malli <c1/>: { "1080" } km, { "53" }° ylilento Madridin yllä, 240 satelliitin Walker-kerros
 

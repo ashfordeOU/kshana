@@ -283,3 +283,5 @@ seg-9e3ea39c38cf = <s1>Edellinen</s1>Vastaanottimen luottamus
 seg-136da5c10b2d = <s1>Seuraava</s1>NMEA-harjoitusvirrat
 
 seg-990a49527516 = $PKSHT: valmistajakohtainen sanoma
+
+seg-940b39a3988a = he sanovat, että ympäristö on vihamielinen, eivät sitä, että paikannus on väärin

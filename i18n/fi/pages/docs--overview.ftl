@@ -322,6 +322,12 @@ seg-3b861b2f08b8 = Julkaisu v{ $version }
 # text
 seg-d1153c5e9112 = Harjoittele hetkeä, kun GNSS sammuu
 
+# attr:alt
+seg-e9dbbd9cfa32 = Yksi siemenlukuun sidottu realisaatio paikan 'northern' yhteysmarginaalista { "336" } h ajalta, moottorin v{ $version } todellisesta ajosta skenaariolla scenarios/optical-atmosphere-network.toml (siemenluku { "37" }, askel { "600" } s). Marginaali putoaa alle nollan pilvijaksojen aikana; tässä otoksessa yhteys on pystyssä { "40.5" } % ajasta, katkoja on { "27" } ja pisin katko on { "30.7" } h. Syötteet ovat havainnollistavia, sarja on yksi otos mallista eikä ilmasto, ja se eroaa tilastollisesta saatavuudesta ({ "37.8" } %) otoksen otantavirheen verran. Vain ohjeellinen analyysi: ei sertifioitu saatavuus-, eheys- tai navigointituote eikä ennuste millekään todelliselle paikalle, ellei sen ilmastosyötteet tule ilmoitetusta aineistosta.
+
+# text
+seg-278dd0f9df58 = Asiakirja
+
 # text
 # c1: README.md
 seg-29af7c764c09 = Lähde: <c1/>
