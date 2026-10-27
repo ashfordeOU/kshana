@@ -467,3 +467,161 @@ dat-fa2607562c2d = En åpen verifikator i ren Rust på mottakersiden for Galileo
 dat-7e83d1cb3dc8 = En prediktor for jordorientering i operativ stil: minste kvadrater over bias, rate og de viktigste periodiske leddene over et etterfølgende vindu, målt mot virkelig arkiverte Bulletin A-prediksjoner og ikke mot persistens. Standardinndataen frakoblet er et reelt IERS finals2000A-produkt med Bulletin A-prediksjonsrader, slik at en bar kjøring gir en utfylt tabell per horisont i stedet for en tom. UT1 og polbevegelse rapporteres over et felles radsett sammen med kombinasjonen deres, slik at det felles tallet er én statistikk og ikke en kvadratsum av to ulike utvalg.
 
 dat-f39279e0685c = En valgfri `[timeseries]`-tabell (varighet, steg, frø) gjør at `optical-atmosphere`-typen også skriver, per sted, én realisering med fast frø av den oppgitte stedsmodellen gjennom tid: skyepisoder (klare perioder eksponentielle, skyutfall lognormale med oppgitt middel og spredning, andelen tid i sky satt til den oppgitte skysannsynligheten), én lognormal flytende vannsøyle per skyepisode, ett gamma-gamma-scintillasjonsutvalg per steg, og ut fra dem linkmarginen, sky- og scintillasjonsfadingen og link-oppe-flagget, med realisert tilgjengelighet, skyandel, antall utfall og lengste utfall. Uten tabellen er resultatet { "0.37" }-dokumentet. Trekningene går gjennom den portable fordelings- og matematikkruten, slik at native og wasm32 gir de samme bytene.
+
+dat-988cdb4d03aa = En valgfri kvadratrotinformasjonsløser (lunar-frame-campaign solver = "srif"; standard uendret) som aldri danner eller inverterer en informasjonsmatrise for datumet: Householder-QR (ortogonal-triangulær dekomponering) av den whitened forsinkelses-Jacobien som en måleoppdatering i et kvadratrotinformasjonsfilter, jordstasjonene marginalisert gjennom den etterfølgende triangulære blokken (hvis Gram-produkt er Schur-komplementet), en andre QR av R_bb A for Helmert-datumet med sju parametere, sigma som radnormene til den triangulære inversen, og spekteret (kondisjonstall, svakeste retning) fra en ensidig Jacobi-singulærverdidekomponering. Indreprodukter kompenseres med et Dekker-oppdelt feilfritt produkt, slik at hver operasjon er en korrekt avrundet grunnleggende IEEE-754-operasjon eller kvadratrot; identiske resultater på alle plattformer begrunnes ut fra det, og er ikke testet på tvers av plattformer
+
+dat-34e7e8854cfc = En optimalisering gjennom en kampanje: X-bånd-linken fra link-budget-eksempelet
+
+dat-31b07ea02ef3 = En testbenk for evaluering av deteksjon av RF-forstyrrelser: et merket, parameterforankret syntetisk korpus (nominell / jamming / tidsspoof / posisjonsspoof / flerveis), en detektoruavhengig ROC/AUC-seleksjon som skårer enhver detektor med Pd per klasse ved en mål-Pfa, og optimismegapet mellom innenfor og utenfor fordelingen. En dypere studie av optimismegapet utvider dette til et panel med 13 detektorer (energi / AGC / SQM / paritet pluss detektorer med logistisk regresjon og MLP med ett skjult lag, begge med fast frø), skaleringslover innenfor og utenfor fordelingen med en permutasjonsnull, og en leave-one-out-prediktor for degraderingen utenfor fordelingen; en frontend for programvaredefinert mottaker (rå IQ/IF til korrelatorenes early/prompt/late-tapper til SQM) og innlesingsadaptere for reelle data (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) lar de samme detektorene kjøre over opptak som leveres lokalt. Pluss en avveining mellom kvante og klassisk PNT som kvantifiserer en kandidatklokkes fordel i tid og treghet under holdover ut fra en målt ADEV-kurve mot en klassisk grunnlinje, med en resiliens-mot-tid-omhylling uten GNSS. Modellerte driftskarakteristikker: aldri felt- eller IQ-data, ingen dom om bra eller dårlig.
+
+dat-a6c939372ee0 = analytikere og notatbøker
+
+dat-ee74f6e4d192 = Analytisk binormal ROC-AUC = Φ(μ/(σ√{ "2" })) og den minste påviselige feilen σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) som ligger under kvantefeil- og anomalidetektorene
+
+dat-c073884f991a = Analytisk datumdefektstruktur: den uobserverbare absolutte rammemodusen ligger i nullrommet til Fisher-informasjonen (lukket form), rangterskelen stemmer med den publiserte begrunnelsen for utformingen med 3 stasjoner, og estimatoren når den resulterende CRLB i Monte Carlo. Selve månegeometrien er et representativt nettverk (ikke en fløyet efemeride), så raden forblir MODELLED; den underliggende FIM/CRLB-motoren kontrolleres separat mot de lukkede formene til Kay ({ "1993" }). { "0.30" } runde { "2" } (forhåndsregistrert fab02df9), blokkert (forblir MODELLED): NumPy/SciPy omberegner rang og defekt ved den oppgitte terskelen { "1e-9" }, stasjonsaksenes andel av nullrommet (innenfor { "8.4e-10" }) og stasjons-CRLB (innenfor { "1.2e-10" }) på { "17" } innsjekkede Kshana-genererte konfigurasjoner (P2). Ikke løftet opp: påstanden om at estimatoren når grensen (Monte Carlo-effektivitet omtrent { "0.98" }) har ikke noe orakel, og avgrensningen som ville la den forbli MODELLED venter på en eierbeslutning
+
+dat-a628e3cdffa2 = Prioritetsvekter i Analytic Hierarchy Process = normalisert hovedegenvektor (Perron) av en resiprok parvis sammenlikningsmatrise med potensiterasjon, med Saatys konsistensindeks / konsistensforhold og akseptgrensen CR<{ "0.10" }
+
+dat-abcb2f60d9ab = Analytisk projektoralgebra kontrollert mot seg selv: en kovarians begrenset til range(G) må gi en positiv CMPL, en kovarians begrenset til paritetsrommet må gi omtrent null, og omhyllingen må summere to bidrag som er ortogonale i måleområdet. Fellesmodus-kovariansen, konstellasjonsgeometrien og k er representative modellerte inndata, IKKE et sertifisert budsjett, og det hevdes ikke at trekantgrensen er stram. MERKNAD OM OPPHAV: cmpl_horizontal, blind_position_covariance og integrity_envelope er offentlige og leveres, og enhetstestene deres var allerede sitert av raden for fellesmodusblindhet, men SELVE OMHYLLINGSPÅSTANDEN hadde ingen rad, så den ene forbeholdet som holder den ærlig, at summen er en trekantgrense og ikke en RSS, var oppgitt ingen steder i registeret. Raden registrerer påstanden og forbeholdet sammen.
+
+dat-9f3d41f07ce5 = Kryssjekker av analytiske mot endelige differanser av hver teknikks delderivater (interne); forbedringsRETNINGEN er et geometrisk faktum. Beacon-posisjoner, tidsplaner og støy er MODELLED/representative (se tests/fixtures/llr_geometry/NOTICE.md).
+
+dat-81b38a472eb4 = Animasjonseksport
+
+dat-0bdf3a5b6698 = ANISE { "0.10" } (Nyx Space, MPL-2.0) lystid med aberrasjon konvergert newtonsk (Aberration::CN; tilsvarer SPICE spkapo) over JPL DE440: en uavhengig Rust-SPICE-implementasjon; kshanas fastpunkt-løser for retardert tid stemte til under et nanosekund. De bredere Doppler-, Shapiro- og redusert-dynamikk-OD-tallene forblir MODELLED
+
+dat-b3af797782a6 = ANISE { "0.10.2" } (Nyx Space, MPL-2.0, kjørt som et verktøy fra xval/anise-service-geometry, binæren lunar-look-angles-xval, som ikke kaller noen Kshana-kode): ANISEs egen rutine for asimut, elevasjon og avstand (azimuth_elevation_range_sez) fra steder bygd med dens konstruktør for breddegrad, lengdegrad og høyde på pck00011-Månen (kule { "1737.4" } km), med satellittene rotert inn i MOON_PA_DE440 gjennom moon_pa_de440_200625.bpc. { "768" } utvalg over { "8" } steder ({ "4" } navngitte steder og { "4" } andre, over og under horisonten), { "12" } epoker og { "8" } satellitter stemmer innenfor { "1e-6" } grader i asimut og elevasjon og { "1" } mm i avstand og stedsposisjon (fastsatt før sammenlikningen); målt { "2.2e-12" } grader, { "2.1e-13" } grader og { "5.6e-9" } m. Påstand: stedsplassering og siktevinkler gitt satellitten i stedets kroppsfaste system. Kshanas egen realisering av det månefaste systemet med middelrotasjon og avstandsnøyaktighetsparameteren ligger utenfor; enhetstestene for geometri med lukket form blir stående som støttende kontroller
+
+dat-d7a7a0840f72 = Kommenterte undervisningsscenarioer
+
+dat-24e0303abad5 = Skåring av anomalideteksjon på reelle romfartøytelemetridata
+
+dat-0dfee12efc67 = antenna::tests og attack_surface::tests (rutenettet er komplett og hver fangede andel ligger i [{ "0,1" }]; fangede andel er ikke-avtagende i sendeeffekt i hver node; den er IKKE monoton i strålebredde eller høyde, noe som er festet av en egen test slik at sveipet ikke senere kan glattes; grunnlinjenoden gjengir den eksisterende fangede andelen bit for bit; evalueringen med bare randen er bitidentisk med det fulle sveipets siste punkt; en lokalisert kryssing ligger på terskelen til { "1e-9" } dB og er omsluttet)
+
+dat-b89396f72d4a = antenna::tests og lunar_service::tests (halveffektkryssingen lokalisert ved bisection på mønsteret stemmer med den publiserte Airy x = { "1.61634" } og gir den eksakte bredden { "1.02899" }·λ/D, og registrerer at den konvensjonelle koeffisienten { "1.02" } ligger på −{ "2.955" } dB og ikke −{ "3.010" } dB; mønsteret er strengt avtagende over { "400" } punkter fra siktelinjen til første null; algebraen for implisitt virkningsgrad går rundt til { "1e-12" } og gjengir { "0.641" } / { "0.920" }; vinkelen utenfor siktelinjen stemmer med tan θ = R·sin γ/(r − R·cos γ) i { "20" } punkter og begge grenser til { "1e-12" }; den omtrentlige kjeglen inneholder den reelle strålen rad for rad; de overordnede tallene er lik flaggene per rad de oppsummerer og korreksjonen er lik differansen deres; hver raddom kan omberegnes fra den utsendte rapporten alene; hvert utsendt numerisk og boolsk felt har en enhet og en opphavsklasse; en umulig apertur gir ingen blokk; uten konfigurert antenne beholder eksporten nøyaktig sine seks eksisterende nøkler, { "0" } blad endret og { "0" } fjernet); tests/validate_lunar_export_offboresight_spice.rs (flown_orbiter_export_matches_spice_geometry_and_scipy_pattern; documented_working_point_matches_anise_propagation_and_scipy_pattern)
+
+dat-aec4ecbe4a92 = Ligningen for C/N₀-linkbudsjett mot jamming kryssjekket mot en uavhengig numpy-gjenavledning (deler samme lukkede form → InternalConsistency) pluss en karakterisering av C/N₀-degradering i reelle JammerTest-2024-data. { "0.30" } runde { "2" }, blokkert (forblir MODELLED): det målte C/N0-fallet i JammerTest { "2024" } mot en linkbudsjettprediksjon (forhåndsregistrert 6a66994b, innenfor { "3" } dB) ble ikke kjørt, fordi F8.1-antenneposisjonen og -peilingen ved Bleik og L1-andelen av multibåndets { "1.6.4" } rampeeffekt ikke er dokumentert i testkatalogen eller den offisielle loggen
+
+dat-2597c7cdc6ec = Å forutse optimismegapet: Prediksjon av degradering ved fordelingsskifte for detektorer av RF-forstyrrelser ut fra statistikk innenfor fordelingen
+
+dat-5a0345683afb = alle som bruker en MCP-kapabel assistent
+
+dat-742beb7fad81 = alle, ingenting å installere
+
+dat-ba05c4556a52 = aocs (scenariotype)
+
+dat-d6cca0fc052c = aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } frø, gjennomsnittlig NEES for seks frihetsgrader over andre halvdel innenfor { "4.5" } til { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error; aocs_mekf::tests::attitude_error_is_the_body_frame_small_angle; aocs_kind::tests::estimator_loop_runs_and_reports_consistency
+
+dat-d24006cdd66d = Aperturbelastning: tidsdelingen mellom navigasjon og kommunikasjon som en kontaktplan innebærer for en pool av…
+
+dat-416ce3b2e668 = Demonstrator for aperturbelastning (bakkesegment og operasjoner).
+
+dat-c58f1105ff7d = Aperturens belastning mellom navigasjon og kommunikasjon
+
+dat-3e592278f0d0 = aperture-duty-cycle (scenariotype)
+
+dat-5f4b815aea8a = API-referanse på docs.rs
+
+dat-4718cdcef9a0 = API-er og integrasjoner
+
+dat-81de805c52b2 = Prediksjon av tilsynelatende passeringer over en bakkestasjon med refraksjon og lystid
+
+dat-1ac2234b645c = Vises når Microsoft slår sammen innsendingen.
+
+dat-f004dab3d413 = Bruk mottakerens frontend og DSP for interferensdemping på et IQ-opptak i arbeidsmappen og skriv resultatet som et nytt råopptak med en `<out>.json`-sidefil (`kshana iq frontend`).
+
+dat-ee235d00ac73 = ARAIM mot publiserte referansevektorer
+
+dat-8da0d4971a79 = ARAIM-tilgjengelighet for et fartøy som kommer inn i en havn: `integrity`-typen med et bakkested
+
+dat-b4123360fbe5 = ARAIM MHSS-beskyttelsesnivåer mot publiserte referansevektorer
+
+dat-f7d497d896c7 = ARAIM multippel-hypotese-løsningsseparasjon etter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protection_levels_ecef: delmengdebestemmelse etter reglene P_THRES og FC_THRES, VPL, HPL, den effektive monitorterskelen EMT og sigma_acc); kji-kvadrat-RAIM-feildeteksjon på øyeblikksbilde med eksklusjon av enkeltsatellitt (raim::snapshot_raim, raim::snapshot_raim_fde) og stigningsbasert HPL/VPL på det geodetiske lokale nivået; og SBAS DO-229E-kombinasjonen av beskyttelsesnivå (sbas::sbas_protection_level) på L1-tjenesten. IKKE dekket, sagt rett ut: bekvemmelighetsfunksjonene med uniform sigma raim::araim_raim og raim::araim_dual_raim følger IKKE ADD (på samsvarende inndata bommer de på Stanford MAAST med { "0.75" } m VPL / { "4.04" } m HPL og { "0.39" } m VPL / { "1.93" } m HPL, et funn); sammenlikningen for tofrekvens multikonstellasjon (DFMC) L5 SBAS er et funn ({ "308" } bruker-epokepar uten GEO i sikte er beskyttet av Kshana og ikke av MAAST, hvis GEO-mottaksport Kshana ikke modellerer); raim::solution_separation_raim har ingen ekstern sammenlikning
+
+dat-9116a37ea98d = ARAIM-referanse: avanserte RAIM-beskyttelsesnivåer i Kshana
+
+dat-2363455141be = ARAIM med samtidige feilhypoteser for flere satellitter
+
+dat-3479807e1773 = araim_reference::add_v42_subset_plan: ADD v4.2-regelen for delmengdebestemmelse (P_THRES, FC_THRES, overvåkede delmengder med færrest fjernet først) generalisert fra par til samtidige kombinasjoner av opptil max_order satellitt- og konstellasjonshendelser, med den eksakte apriori P_no fault prod q_e; add_v42_protection_levels_to_order kjører ADD v4.2-beskyttelsesnivåbanen på den (orden { "2" } er den eksisterende banen nøyaktig). raim::araim_subset_raim (valgfri): avansert RAIM over denne hypotesemengden, hver overvåket delmengde én modus (p_fault, T, b, sigma) i integritetsrisikosummen, uobserverbare delmengder flyttet til den uovervåkede risikoen, budsjettet skalert med ADD-fordelingen av den uovervåkede risikoen, og delmengden med størst normalisert separasjon rapportert når en feil oppdages. Apriorier som trenger dypere delmengder enn max_order avvises, aldri avkortes
+
+dat-50090093f6d9 = araim-reference-check (scenariotype)
+
+dat-31105e471926 = Aritmetikken omberegnet av et uavhengig numpy-skript på eksporterte tilfeller (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; forhåndsregistrert i tests/fixtures/lunar_station/PREREGISTRATION.md, innsjekket alene i 9caedf97 før første kjøring): på { "20" } tilfeller med alle feilledd på er de synlige settene og statusen identiske, de rå avstandsfeilene stemmer til { "1.4e-14" } m, posisjonsfeilvektorene og -størrelsene til { "1.4e-9" } m mot en terskel på { "1e-6" } m, og hvert punkts p95 er lik numpy.percentile bit for bit; stasjonskorreksjonene BOMMET på terskelen sin på { "1e-9" } m (verst { "3.73e-9" } m, { "15" } av { "20" } tilfeller), og med dem de korrigerte avstandsfeilene: kontrollert i aritmetikk med 60 sifre ligger begge sider innenfor avrunding i dobbel presisjon av den eksakte verdien, siden oppmålingsleddet er en differanse av to avstander på { "1e7" } m hvis siste sifferenhet er { "1.86e-9" } m; registrert, ikke tunet. Typen reduseres nøyaktig til lunar-differential-pnt-typen ved ett punkt, én epoke og ett forsøk. Feilmodellen, dekorrelasjonsmodellen og hver terskel er dette prosjektets egne eller ILLUSTRATIVE; ingenting her er en påstand om noe reelt system
+
+dat-f6f6e5db8052 = Artikkel { "21" } lister i avsnitt { "2" } punktene (a) til (j) opp tiltakene som vesentlige og viktige enheter treffer for å…
+
+dat-ac61b111bbf6 = Artefaktutveksling
+
+dat-9cbb57e44df7 = ascent-losses (scenariotype)
+
+dat-f4c6c42742c8 = Ashby & Patla { "2024" }, «A Relativistic Framework to Estimate Clock Rates on the Moon», Astronomical Journal { "167" }:{ "149" } (NIST; grunnlag for IAU/IAG LunaNet LTC): egenpotensialet på månens overflate L_m = { "3.13881e-11" } og total sekulær { "56.02" } µs/døgn stemte som publiserte numeriske verdier; geosentrisk Månehastighet kryssjekket mot JPL DE440 (de440s.bsp via SPICE)
+
+dat-1b475a0c1d67 = assemble_coupled_info bygger den koblede Fisher-matrisen med 9 parametere over [t_x, t_y, t_z, s, theta_x, theta_y, theta_z, d_tau, d_alpha]; classify_null_space gir en basisinvariant dekomponering av nullrommet i bare-romlige, bare-tidsmessige og genuint koblede dimensjoner pluss koblingsnormen for projektoren fra romlig til tidsmessig; coupled_marginal_eigs gir Schur-komplement-marginalen for { "{" }skala, forskyvning{ "}" }. På de innsjekkede nettverkene rapporterer motoren et datum med full rang (defekt { "0" }) for det velformulerte tilfellet og en eksakt enkelt defekt i rateretningen for enkeltepoketilfellet (medgått tid null, så raten er uobserverbar per konstruksjon), og beregner marginalen for { "{" }s, d_tau{ "}" } i begge.
+
+dat-88628f117d66 = Vurder en reell GNSS-mottakerlogg for tillit: les en u-blox UBX-, RINEX { "3" }- (eventuelt med kringkastet navigasjon, som legger til motorens egen posisjonsbestemmelse, RAIM og en klokkestøttet monitor), Android GnssLogger- eller NMEA-logg, kjør tillitsmonitorene (fall i bærebølge-til-støy-tetthet, AGC, jamming-indikator, tap av lås, posisjonshopp, RAIM, klokke) mot en kalibreringsgrunnlinje, og gi tilbake når og hvorfor mottakeren sluttet å være til å stole på.
+
+dat-93160f442fa0 = Vurder et fartøys NMEA { "0183" }-logg som en batchkjøring (`kshana receiver-trust` med `[platform] kind = "vessel"`): poengmodellen, monitorene som kjørte og hver epokes poengsum 0-100 med fradragene, dens satellittgeometri (god, degradert, ukjent) med en `label` (good, fair, poor) på hver epoke, der geometri bare trekker poeng når den er dårlig, og en klasse på hvert fradrag (geometri, miljø, inkonsistens), med `geometry_model` (terskler, taket og gulvet som gjelder, og opphav) og `geometry_summary`.
+
+dat-5243f5bcd02f = ATOMIC-modellfakta fra InsideGNSS (polynom av 6. orden, omtrent ett minutts gyldighet, { "30" } s oppdatering, klokken styrt, { "24" } cm klokkefeil). Dette er beskrivende fakta uten publiserte tall å sammenlikne med. Tabellen med fem høyder skriver ut Liu et al. { "2025" } SISRE ({ "8.88" }, { "6.21" }, { "2.87" }, { "2.11" } og { "0.75" } cm ved { "320" }, { "475" }, { "786" }, { "966" } og { "1336" } km over en bue på 20 minutter) ved siden av Kshanas tilpasning på sin egen integrerte bane ({ "4.25" }, { "2.87" }, { "2.20" }, { "1.25" } og { "0.51" } cm; forhold { "0.46" } til { "0.77" }), ikke festet, fordi artikkelen tilpasset reelle presise baner og referansene er forskjellige. Modellen med 22 parametere og tilpasningen selv er validert mot reelle baner i raden Liu et al. { "2025" } LEO-efemeridemodell med 22 parametere og dens tilpasning på reelle presise baner. Revisjon { "0.30" }: tabelltallene flyttet seg med tilpasningen etter artikkelens konvensjon (GRACE-A { "5.40" } -> { "4.25" } cm, GRACE-C { "4.12" } -> { "2.87" }, Sentinel-2A { "2.95" } -> { "2.20" }, HY-2A { "2.38" } -> { "1.25" }, Sentinel-6A { "0.70" } -> { "0.51" })
+
+dat-b4f93233f242 = ATOMIC ECEF-polynom med null klokke og modellsammenlikningen for syntetisk LEO med fem høyder
+
+dat-4b74b49feb9e = Knytt et publisert tyngdefelt til et legeme
+
+dat-0645e8cb42a8 = attitude_budget::tests (GG-moment forsvinner for et symmetrisk legeme, vokser lavere ned, lineært i ΔI, RSS-kvadratsum, varians-andeler-summerer-til-1); tests/attitude_gg_torque_reference.rs ({ "20" } tilfeller mot et uavhengig fulltensor-GG-moment T=(3μ/R³)(n̂×(I·n̂)) numerisk maksimert over attityde med Hipparchus { "3.1" } linalg; verst rel { "6e-15" }, + Wertz/Sidi publisert O({ "1e-6" }) s⁻²-bånd); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk ({ "40" } tilfeller mot Basilisk { "2.9.1" } GravityGradientEffector: topp ved attityden på { "45" } grader innenfor { "1e-12" } relativt, verst { "2.1e-15" }; intet moment over toppen over { "2000" } tilfeldige attityder per tilfelle, { "3" } diagonale og { "5" } generelle treghetstensorer, { "5" } høyder)
+
+dat-ecc3e3825b54 = attitude_dynamics::tests (apply/solve invers, kuleformet topp null moment, hovedaksens fastpunkt, bevaring av energi og bevegelsesmengde i korte kjøringer, q̇=½q⊗ω, fortegn for rate i symmetrisk topp + presesjon av kroppskjegle); tests/attitude_dynamics_reference.rs ({ "200" } 000-stegs momentfrie kjøringer: |q|={ "1" } til { "1e-10" }, kinetisk energi T=½ωᵀIω bevart til { "1e-9" } rel, |Iω| og den inertielle bevegelsesmengdevektoren bevart til 1e-9/1e-8 rel, begge på en treakset og en generell ikke-diagonal treghet; presesjon av kroppskjegle for symmetrisk topp, oblat + prolat, gjengitt til { "1e-6" } mot den analytiske λ=ω₃(I_a−I_t)/I_t); tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk (to generelle ikke-diagonale treghetsmomenter, { "1e4" } s momentfritt mot Basilisk { "2.9.1" } spacecraft hub med RKF78: kvaternion innenfor { "1e-9" }, verst { "3.3e-11" }; kroppsrater innenfor { "1e-9" } rad/s, verst { "3.4e-12" })
+
+dat-e911016c39e1 = attitude-budget (scenariotype)
+
+dat-dade698ef2a2 = AUC (Mann-Whitney, likhet ½), forvekslingsmatrise ved terskel, P_d/P_md/P_fa/presisjon/nøyaktighet/F1
+
+dat-cf9a68e76ca1 = AUC-seleksjon verifisert mot binormal lukket form Φ(d′/√{ "2" }) (Gneiting & Vogel { "2018" }); evalueringsmål validert bit for bit mot scikit-learn { "1.9.0" }: syntetisk korpus, ikke rå IQ/TEXBAT
+
+dat-898fbd84661e = Autentiseringsinndata
+
+dat-ccd85c6c3fa6 = automatisk forsterkningsstyring, kvantisering, pulsblanking og hakkfiltrering
+
+dat-191683c36535 = Autonom feilobserverbarhet i fritt nettverk
+
+dat-3d1c54573d8a = Lineæralgebrapipeline for autonom feilobserverbarhet i fritt nettverk (paritetsprojektor, detekterbarhet, MDB-ikke-sentralitet, bysantinsk blokk-spark)
+
+dat-ea17589a4f89 = Gulv for autonom tidsmåler (temporal gauge) under holdover for den selvrefererende lunare konstellasjonen (T4)
+
+dat-27a48a5f743d = Tilgjengelighet for en optisk link mot en oppgitt linkmargin fra et lognormalt klima for flytende skyvann (ITU-R P.840-mengde, ekstinksjon etter geometrisk optikk) og det uavhengige gamma-gamma-turbulensfadingen, linkmarginen som trengs for mål-tilgjengeligheter og taket ingen margin løfter, lognormale utfallsvarigheter, hva-hvis-analyser av forbedringsteknikker, og en enfaktors gaussisk kopula-nettverkstilgjengelighet der parkorrelasjonen er exp(-avstand/dekorrelasjonslengde). Kan kjøres som scenariotypen `optical-atmosphere`.
+
+dat-fb2fe55623bc = Luftfart og droner
+
+dat-095d8e3b083e = GNSS/INS for luftfart med tett kobling: et lett fly letter, stiger med { "6" } grader, flyr i
+
+dat-73e30b65916a = Asimutavhengig horisontmaske: synlig sett, asimut og elevasjon, og DOP under masken
+
+dat-7db8a5ce417f = B-plane-sikting og patched-conic-gravitasjonsassistanse
+
+dat-b4b08b83df00 = Sammendrag av bakkatalogen
+
+dat-72711b981102 = Ballistisk reinntrengingskorridor (Allen–Eggers)
+
+dat-18c087506da0 = Demonstrator for ballistisk reinntrengingskorridor (Allen-Eggers, oppdragsanalyse).
+
+dat-ffc5b47e033e = Båndatlas
+
+dat-028e4df3e548 = Hendelser ved båndbytte (eller per epoke) som Common Event Format-nyttelast i en RFC { "5424" }-konvolutt over UDP eller TCP, med en dokumentert feltkartlegging og CEF-escaping.
+
+dat-b15130124f41 = Hendelser ved båndbytte (eller per epoke) som Log Event Extended Format { "2.0" }-nyttelast i en RFC { "5424" }-konvolutt over UDP eller TCP, med en dokumentert feltkartlegging.
+
+dat-25c2d93d18e3 = Båndbegrensede lukkede former for ethvert avstandsmålingssignal: effekt i båndet og early-late-kodesporingsjitter mot publiserte verdier, med Gabor-båndbredden og forskjøvet spektral separasjon kryssjekket
+
+dat-0e731a642d96 = Bånd og signalutforminger
+
+dat-dff28d824f2c = Basilisk { "2.9.1" } (AVSLab, ISC; bsk-hjulet kjørt som et eget verktøy, aldri lenket eller medlevert): spacecraft hub, reactionWheelStateEffector (BalancedWheels, momentgrense på), simpleNav, inertial3D, attTrackingError, mrpFeedback (uten integralledd) og rwMotorTorque ved dt = { "0.1" } s med dens RK4, mot Kshanas egen implementasjon på tre tilfeller (tre ortogonale hjul; en firehjuls pyramide; et mettende firehjulstilfelle), terskler forhåndsregistrert i xval/aocs-basilisk/PREREGISTRATION.md før koden og kjøringen. Alle terskler holdt ved første kjøring. HVA SOM IKKE ER MED: sensorstøy i sløyfen, integraltilbakekobling, sporingsføring, hjulfriksjon, jitter, hastighetsgrenser og effekt, ethvert reelt romfartøys forsterkninger; sammenlikningen kontrollerer implementasjonen av loven og dynamikken mot en uavhengig en, ikke en flykontroller.
+
+dat-d67db218a54a = Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), en uavhengig C++-implementasjon av gravitasjonsgradientmomentet med full tensor: Kshanas topp (3/2)(μ/R³)ΔI er lik Basilisks moment ved attityden på { "45" } grader innenfor { "1e-12" } relativt (verst { "2.1e-15" }) over { "5" } høyder og { "8" } treghetstensorer, og begrenser Basilisks moment over { "2000" } tilfeldige attityder per tilfelle; toleranse fastsatt før sammenlikningen. Validert påstand: toppen i gravitasjonsgradientmomentet. RSS-peilingsbudsjettet er en kvadratsum av tall oppgitt av den som kaller, uten ekstern referanse, og blir stående utenfor; den håndkodede fulltensor-maksimeringen med Hipparchus blir stående som støttende selvkonsistens. Ingen simulering av kontrollsløyfe, 6-DoF eller fleksible moduser
+
+dat-a6dc301fd5fc = Basilisk { "2.9.1" } stivlegemepropagering for spacecraft hub (AVSLab, ISC; MRP-attityde gjennom dens egne koblede hub-ligninger, svIntegratorRKF78 ved relativ toleranse { "1e-12" }), en uavhengig implementasjon av de momentfrie stivlegemeligningene: Kshanas RK4-kvaternion (dt { "0.01" } s) og kroppsrater stemmer innenfor { "1e-9" } over { "1e4" } s på to generelle ikke-diagonale treghetsmomenter (verst { "3.3e-11" } og { "3.4e-12" } rad/s); toleranse fastsatt før sammenlikningen. Validert påstand: momentfri bevegelse; leddet for eksternt moment er ikke sammenliknet. Kontrollene av bevaringslover og symmetrisk topp blir stående som støttende selvkonsistens. Ingen miljø med fleksible legemer, kontrollsløyfe eller eksternt moment
+
+dat-3da07d8af089 = Basisinvariant klassifisering av nullrommet for koblet system og tidsskala
+
+dat-29d26ecafffb = Batch og sekvensiell OD
+
+dat-9aa52bbeb2dd = Batch og sekvensiell banebestemmelse
