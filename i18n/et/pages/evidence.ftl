@@ -3896,3 +3896,2292 @@ seg-f4d1ec6fc464 = Tsiteeri
 
 # attr:aria-label, text
 seg-d0566d4db829 = Reprodutseeri see
+
+# text
+seg-1d45f4717196 = Hoidlast
+
+# text
+seg-b366150de755 = Telli uuring
+
+# text
+seg-ac7e1a5e344a = Pro
+
+# attr:title
+seg-822cd40b49f9 = Maa pöörlemine kaheosalisest UT1 Juliuse kuupäevast orbiidi trajektooril, nii et Maaga seotud… · Kontrollitud
+
+# attr:title
+seg-c846d8ec2e5e = Kolm tugisüsteemi maatriksit, võrreldud element-elemendi haaval või pöördenurga järgi ERFA-ga… · Kontrollitud
+
+# attr:title
+seg-853ce09df9d5 = UTC ajavahemikul 1960-01-01 kuni 1971-12-31, mil UTC kulges TAI-st erineva kiirusega ja astus… · Kontrollitud
+
+# attr:title
+seg-a0c473abd3ff = GLONASS-i edastatud satelliidikella nihe -tau_n + gamma_n (t - t_b) hetkel, mis loetud… · Kontrollitud
+
+# attr:title
+seg-ca16d26f1ebe = Levimis- ja tugisüsteemi trajektoor, mida jagavad kõik marsruudistatud Maa orbiidi liigid: SGP4 keskmine… · Kontrollitud
+
+# attr:title
+seg-15ce16875e3a = m-jada/Goldi jada külgsagara ja ristkorrelatsiooni piirid, pikkus↔mitmetähenduslikkus · Kontrollitud
+
+# attr:title
+seg-044da209dd61 = GDOP/PDOP/HDOP/VDOP/TDOP nähtavussuuna geomeetriast valemiga Q=(HᵀH)⁻¹ koos kohaliku ENU jaotusega · Kontrollitud
+
+# attr:title
+seg-a9fda54b3df8 = dop_error_mc::run_geometry ja check: algväärtusega (seed) Monte Carlo (N = { "20,000" } epohhi… · Modelleeritud
+
+# attr:title
+seg-cd50aaf86375 = receiver_trust::geometry: epohhipõhine satelliidigeomeetria (hea, halvenenud koos põhjustega… · Modelleeritud
+
+# attr:title
+seg-d39aa1ea5121 = Klobucharin ühesageduslik L1 kaldtee ionosfääri grupiviivitus kaheksast edastatud α/β… · Kontrollitud
+
+# attr:title
+seg-ab6ef0477bea = Jaotuslik tuum, millel iga kaitsetase põhineb: hetktõmmise veatuvastus… · Kontrollitud
+
+# attr:title
+seg-08740f67bcf2 = DO-229E lisa J kaalutud vähimruutude kaitsetasemed: D=(GᵀWG)⁻¹ alates… · Kontrollitud
+
+# attr:title
+seg-0597fb2464d0 = AUC (Mann-Whitney, võrdsused ½), segadusmaatriks läveväärtusel… · Kontrollitud
+
+# attr:title
+seg-76f7a9a22d70 = ROC AUC + bootstrap-usaldusvahemik, mis eraldab tegelikke märgendatud anomaaliaid; läbipaistev detektor… · Kontrollitud
+
+# attr:title
+seg-f3d7926d7464 = Mõõdetud ADEV NNLS-sobitus, NEES/NIS χ² kooskõlavahemikud ja kella van Loani diskreetne… · Kontrollitud
+
+# attr:title
+seg-cf029efb7438 = IGRF-14 põhivälja sfäärilise harmooniku süntees — X/Y/Z/F komponendid, deklinatsioon… · Kontrollitud
+
+# attr:title
+seg-ba97bae9110c = Analüütiline binormaalne ROC AUC = Φ(μ/(σ√{ "2" })) ja minimaalne tuvastatav viga… · Kontrollitud
+
+# attr:title
+seg-fa9b946507f8 = Astakkorrelatsiooni ja ümbervalimi tuumad vastupidavuse otsuse ebastabiilsuse uuringu all… · Kontrollitud
+
+# attr:title
+seg-c0267817b05a = Analytic Hierarchy Process'i prioriteedikaalud = normaliseeritud peamine (Perroni) omavektor… · Kontrollitud
+
+# attr:title
+seg-3780fbf75fa5 = Weighted Sum Model (min–max-normaliseeritud liitkoond + järjestus) ja Weighted… · Kontrollitud
+
+# attr:title
+seg-e90b04f6ed22 = Technique for Order of Preference by Similarity to Ideal Solution — min–max… · Kontrollitud
+
+# attr:title
+seg-b66a72295a62 = VlseKriterijumska Optimizacija — grupikasu Sᵢ, individuaalne kahetsus Rᵢ ja… · Kontrollitud
+
+# attr:title
+seg-8e3355350914 = Preference Ranking Organization METHod — paarikaupa eelistusindeks kuue standardse… · Kontrollitud
+
+# attr:title
+seg-edc8867a5ae6 = ELimination Et Choix Traduisant la REalité — kooskõla- ja lahknevusmaatriksid… · Kontrollitud
+
+# attr:title
+seg-85bc967357d6 = Weighted Aggregated Sum Product ASSessment (lineaarselt normaliseeritud kumer segu… · Kontrollitud
+
+# attr:title
+seg-69652cbd7eb5 = COmplex PRoportional ASsessment — veerusummaga normaliseeritud kasu olulisus S⁺ pluss… · Kontrollitud
+
+# attr:title
+seg-14a9c267153c = Tabelaarse CUSUM-detektori halvima juhu tuvastusviivitus (⌊h/(z−k)⌋+{ "1" }) ja kontrolli alt väljas… · Kontrollitud
+
+# attr:title
+seg-559361559e00 = Rannikufaasi faasiveavarieerumise kasv q_wf·t + q_rw·t³/3 + q_drift·t⁵/20 ja selle monotoonne… · Kontrollitud
+
+# attr:title
+seg-f35ada98dcce = Efektiivne arhitektuuriline mitmekesisus = pöördarv Simpsoni / Hilli järku 2 arv 1/Σpᵢ² üle… · Kontrollitud
+
+# attr:title
+seg-02037e5e43e7 = skyline + frames::look_angles + geometry::sky_geometry: geodeetiline (WGS-84) asimuut… · Kontrollitud
+
+# attr:title
+seg-f5a8c861b566 = skyline: tänavakanjon suletud kujul (lõige atan((h - a) / d), kus d = (w/2) /… · Modelleeritud
+
+# attr:title
+seg-6f4ab2e589a4 = skyline::PRESETS: neli REPRESENTATIVE geomeetriat projekteerimismärkuse esitatud… · Modelleeritud
+
+# attr:title
+seg-206fd57a3ac7 = geometry::sky_geometry: ENU ja kella kovariatsioonimaatriks (H^T H)^-1 ühe vastuvõtja kellaga… · Kontrollitud
+
+# attr:title
+seg-d01c7735f171 = geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg… · Modelleeritud
+
+# attr:title
+seg-443eb5d0c060 = Suletud kujuga rannikuvea kasv + holdover-lävendini; kvantkellade klassid · Modelleeritud
+
+# attr:title
+seg-82fc65142759 = clock_library: seadmekaart (valge faas, valge, flicker- ja juhusliku käite FM pluss… · Modelleeritud
+
+# attr:title
+seg-18704e564ea4 = clock_library::card::DeviceCard::fit_phase_periodic: seadmekaart, mis kannab… · Modelleeritud
+
+# attr:title
+seg-b3a0ab1e8725 = 3-olekuline (faas/sagedus/triiv) van Loani Kalmani kell, Joseph-stabiliseeritud · Modelleeritud
+
+# attr:title
+seg-065f31b5656e = Kahesuunaline/TWSTFT (Sagnac), GNSS-i ühisvaatlus, PPP; lingi värin→kaugus · Modelleeritud
+
+# attr:title
+seg-f66464be680e = BPSK-R/BOC PSD, spektraaleraldus κ, Gabori ribalaius, DLL-i värin, mitmeteelevi · Modelleeritud
+
+# attr:title
+seg-93c350e230ed = G1/G2 LFSR C/A-koodi generaator, mis taastoodab IS-GPS-200 avaldatud esimese 10 kiibi kaheksandkoodi… · Kontrollitud
+
+# attr:title
+seg-934de63c594b = Külmaatom-interferomeetri kiirendusmõõtur esimestest printsiipidest (k_eff·T², QPN) · Modelleeritud
+
+# attr:title
+seg-c1b7c7c18be6 = Mach–Zehnderi interferentsijoone mitmetähenduslikkuse dünaamiline ulatus: 2π-perioodiline interferentsijoone näit seab… · Modelleeritud
+
+# attr:title
+seg-0b04febfad29 = Koostatud nihke + skaalategur + VRW + stabiilsuse languse positsioonieelarve holdover-i vältel · Modelleeritud
+
+# attr:title
+seg-9f1d13017c2b = 15-olekuline veaoleku EKF, lõdvalt seotud (kontrollitud tegeliku IMU/GNSS sõidu vastu… · Kontrollitud
+
+# attr:title
+seg-7de0c3292c0b = Geomeetria J/S sidelingi eelarve, tõrjesegamise C/N₀, satelliidipõhine lukustuse kadu · Modelleeritud
+
+# attr:title
+seg-4c976ce425d1 = Kellaga toetatud χ², RAIM, AGC, SQM liidetud epohhipõhine turvalisuse FoM · Modelleeritud
+
+# attr:title
+seg-94aef965251e = Suletud kujuga ülempiir halvima juhu tuvastamata ajaveale = monitori põhi + ostsillaatori… · Modelleeritud
+
+# attr:title
+seg-f94c1547b98c = CR3BP STM + üksiklasuga diferentsiaalparandaja; L2 lõunapoolne NRHO · Kontrollitud
+
+# attr:title
+seg-ed2d780e3d9e = Gravitatsioonikaardi sobitamine, maastikuga seotud (TERCOM/SITAN), magnetanomaalia · Modelleeritud
+
+# attr:title
+seg-486011306ab7 = Gravitatsioonianomaalia sfäärilises lähenduses (Barthelmes STR09/02 vrd { "126" }, ICGEM… · Kontrollitud
+
+# attr:title
+seg-4483cf6d6e1b = Käsitsi kirjutatud SRTM .hgt parser (16-bitine big-endian, põhjarida ees, tühikohti arvestav) + bilineaarne… · Kontrollitud
+
+# attr:title
+seg-00ca5de4ee1f = Deterministlikud, stsenaariumi räsiga, SBOM + platvormideülesed golden-väravad · Modelleeritud
+
+# attr:title
+seg-8e59c3e84e80 = Märgendatud sünteetiline häirekorpus + detektorist sõltumatu ROC/AUC/segadusmaatriks/Pfa-Pmd… · Modelleeritud
+
+# attr:title
+seg-ee1c310ec3f1 = Kontrollitud sünteetiline uuring jaotusesisese→jaotusevälise AUC optimismilõhe kohta… · Modelleeritud
+
+# attr:title
+seg-901571509bd6 = Mõõdetud ADEV sissevõtt (NNLS), kompromissitabel (ajastuse/inertsiaalne holdover + kasu)… · Modelleeritud
+
+# attr:title
+seg-5662e2e5895c = Päikese/geomagnetilised indeksid (definitsiooniline Kp↔ap tabel), Jacchia-1971 eksosfääri… · Modelleeritud
+
+# attr:title
+seg-c537da9d8e79 = CCSDS { "502.0" } OEM importija (parse_oem), talub COMMENT-ridu / lisametaandmeid… · Kontrollitud
+
+# attr:title
+seg-beeb7d7b6dd4 = Kahe keha stardiasimuut(id) (sin Az = cos i / cos lat), minimaalne saavutatav kalle… · Modelleeritud
+
+# attr:title
+seg-c45e3519a7a5 = Tippaeglustus (ballistilisest koefitsiendist sõltumatu), kiirus + kõrgus tippkoormuse hetkel… · Modelleeritud
+
+# attr:title
+seg-da36dafae1a0 = SMAD kosmosekolmnurga geomeetria: Maa nurkraadius, haardelaius, nadiiri GSD, maksimaalne… · Kontrollitud
+
+# attr:title
+seg-3ad96d6deb18 = CCSDS 133.0-B Space Packet'i põhipäise kodeerimine/dekodeerimine… · Kontrollitud
+
+# attr:title
+seg-8310f0595525 = CCSDS 133.0-B-2 Space Packet'i laiendused põhipäise kõrval: teisene päis… · Kontrollitud
+
+# attr:title
+seg-5bb33fefb658 = NAIF SPICE SPK tuumade kirjutaja ja lugeja tüüpidele { "9" } (Lagrange, ebavõrdsed ajasammud)… · Kontrollitud
+
+# attr:title
+seg-0e3ee73f6878 = NAIF SPICE SPK segmentide kirjutaja ja lugeja tüübile { "3" } (Tšebõševi polünoomid…) · Kontrollitud
+
+# attr:title
+seg-f7030d62e793 = CCSDS 504.0-B-2 asendiandmesõnumite kirjutaja ja lugeja KVN-is ja NDM/XML-is: AEM… · Kontrollitud
+
+# attr:title
+seg-c50a40ca4cc3 = CCSDS 502.0-B-3 orbiidiandmesõnumite kirjutaja ja lugeja KVN-is ja NDM/XML-is: OPM { "3.0" }… · Kontrollitud
+
+# attr:title
+seg-26a88c235d95 = Gravitatsioonigradiendi halvima juhu häiringumoment ((3/2)(μ/R³)ΔI) kui tipp asendi… · Kontrollitud
+
+# attr:title
+seg-87c35f71a0ad = Ajaruumi nähtavusläbilennud (AOS/TCA/LOS, maksimaalne tõusunurk, kestus) mootori… · Kontrollitud
+
+# attr:title
+seg-52b6d079e92c = Nähtavusläbilennud (AOS, TCA, LOS, maksimaalne näiv tõusunurk, kestus) SGP4… · Kontrollitud
+
+# attr:title
+seg-399a6180ad73 = Allalingi Es/N0 ühe satelliidi iga läbilennu jooksul ühe jaama kohal (EIRP, vabaruumi sumbuvus… · Modelleeritud
+
+# attr:title
+seg-39ce06b45cb9 = Kandidaatkontaktid igast satelliidi ja jaama läbilennust koos selle ACM-i andmemahuga; konfliktid… · Modelleeritud
+
+# attr:title
+seg-3fba182b5716 = Vabaruumi levikadu, C/N₀, Eb/N₀, varu ja sulgumine CCSDS { "401" } / DSN 810-005 üle… · Kontrollitud
+
+# attr:title
+seg-c4474a20a256 = Kulu protsendi katvuse kohta + katvus euro kohta ROI konstellatsiooni mõõtmestamise mootori üle… · Modelleeritud
+
+# attr:title
+seg-f7455ff3cea7 = Seob tuvastamata spuufimise/segamise nihke efektiivse veaga → Stanfordi piirkond… · Modelleeritud
+
+# attr:title
+seg-3b6f9365b858 = Piiritletud (parim/nominaalne/konservatiivne) külmaatom-interferomeetri toimivus — nihe… · Modelleeritud
+
+# attr:title
+seg-487540fed42b = TIB Stanfordi terviklikkusdiagrammi epohhide klassifikatsioon (nominaalne / kättesaamatu / MI / HMI) · Modelleeritud
+
+# attr:title
+seg-fdacd291d688 = TIB terviklikkuskatvuse hindamine (HMI/MI/kättesaadavuse määrad + ülepiiramiskatvuse otsus) · Modelleeritud
+
+# attr:title
+seg-55b7d4cb0733 = TIB vigade menüü (domeeni lahknemine, kella lööming, holdover-rannik… · Modelleeritud
+
+# attr:title
+seg-deb93b385e06 = TIB tuvastamatu neeldumise otsus (sümmeetriline/kordusrünne peab olema PL-i poolt neelatud, mitte kunagi… · Modelleeritud
+
+# attr:title
+seg-71e991a2fb5e = Ei paku — Kshana on navigatsioonitoimivuse simulaator, mitte satelliidiplatvormi ehitaja · Partner
+
+# attr:title
+seg-aad5d920d276 = Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikku lasti/antenni riistvara · Partner
+
+# attr:title
+seg-635ca7bf37f6 = Ei paku — ainult toimivusmudelid; külmaatomi-/kelle riistvara on partneri oma · Partner
+
+# attr:title
+seg-cf461832e017 = Ei paku — Kshana käsitleb ainult tarkvaralist PA-d; lennu-PA on partneri oma · Partner
+
+# attr:title
+seg-b12d70afce58 = Relativistlik Maa–Kuu kellakiirus (LTC/TCL) + TT/TAI/UTC ahelamine + ansambel · Kontrollitud
+
+# attr:title
+seg-2196751179d2 = Hybrid-optical-rf aruanne esitab sidelingi konfiguratsiooni, millega see tegelikult töötas (kandja… · Modelleeritud
+
+# attr:title
+seg-c4ba60f69a92 = Hybrid-optical-rf aruanne esitab RF-lingi kättesaadavuse, mis on koostatud suurustest… · Modelleeritud
+
+# attr:title
+seg-e35847b3472a = Hybrid-optical-rf aruanne väljastab optilise ja RF kaugusmõõtmise suhte koos ÜHE… · Modelleeritud
+
+# attr:title
+seg-f2a51c1899b1 = Sidelingi eelarve aruanne esitab iga absoluutse konstandi, millest selle enda varu arvutati… · Modelleeritud
+
+# attr:title
+seg-8f6469a6120f = Üks Kuu ajaeelarve jooksutus väljastab iga kellaklassi kohta kella-vs-tugisüsteemi ristumisrea vastu… · Modelleeritud
+
+# attr:title
+seg-0539c66f5cf0 = Üks tabel annab UT1 ennustusvea, poolusliikumise poolusvea ja nende… · Kontrollitud
+
+# attr:title
+seg-a3f939d488fb = Realtime-frame-eop töösoleku vaikeväärtus on teegi enda manustatud koopia sõna-sõnalisest… · Kontrollitud
+
+# attr:title
+seg-8f02a2501455 = Kahetelgne pühkimine mustriga kaalutud, kõrgusega piiratud pinnahõive jalajäljest üle… · Modelleeritud
+
+# attr:title
+seg-8a1340c7c9c7 = Lunar-time-budget stsenaarium avaldab oma massiivväärtustega väljundid pikavormilisena (ruudustik… · Modelleeritud
+
+# attr:title
+seg-4ab4a61e8167 = Lunar-time-budget stsenaariumi valikuline [time_lab] plokk modelleerib Kuu etalonkella… · Modelleeritud
+
+# attr:title
+seg-57abfe8d677e = Lähivälja VLBI viivitus Maa baasjoonele, mis vaatleb Kuu majakat + osatuletised · Modelleeritud
+
+# attr:title
+seg-d30dd4a12006 = Lähivälja VLBI viivitus Maa baasjoonele, mis vaatleb Kuu majakat, koos majaka ja… · Kontrollitud
+
+# attr:title
+seg-3aa60b9c6b3c = Mootori enda puhas Rust'i lugeja NAIF binaarkernelitele (naif_kernel): DAF… · Kontrollitud
+
+# attr:title
+seg-2acd73a9ac2d = Maa GNSS-i vastuvõtt Kuu kaugusel: nõrga signaali kiht, mille P7 tabel { "1" } nimetab, ja… · Modelleeritud
+
+# attr:title
+seg-33d1304a0519 = Orbiidi määramine peaaegu sirgjoonelisel halo-orbiidil (või elliptilisel külmunud orbiidil)… · Modelleeritud
+
+# attr:title
+seg-c1ee9a353523 = Vastuvõtjatevaheline ühekordselt diferentseeritud Maa GNSS-i kandelaine faas ja kood Kuu pinnal… · Modelleeritud
+
+# attr:title
+seg-69aedd00f9a3 = Seitsmeparameetrilise Kuu tugisüsteemi datumi Fisheri informatsioon Maa jaamade laserist… · Modelleeritud
+
+# attr:title
+seg-1fbf7618a692 = Tehnikatevahelise nihke, skaala ja pöörde nihete Cramér–Rao täpsus… · Modelleeritud
+
+# attr:title
+seg-e415b5a77676 = h2, k2, l2 ja füüsiliste libratsiooniamplituudide Fisheri informatsioon laserist… · Modelleeritud
+
+# attr:title
+seg-8f2d14dd394e = Majakaga täiendatud DOP Kuu pinnakasutajale: nähtavate satelliitide… · Modelleeritud
+
+# attr:title
+seg-d76d65cb95c5 = Mõõtevea täpne pariteediaruumi jaotus osaks, mida RAIM ei näe, ja… · Kontrollitud
+
+# attr:title
+seg-90c252c7df52 = cmpl_horizontal piirab k-sigma horisontaalset positsiooniviga, mille annab pime… · Modelleeritud
+
+# attr:title
+seg-92fc824c4b83 = VLBI + Kuu-kohaliku kauguse + satelliitidevahelise kauguse partiiliit taastamiseks… · Kontrollitud
+
+# attr:title
+seg-4cf20252f448 = Fisheri informatsioon M=HᵀWH, Cramér–Rao alampiir, jälgitavuse astak / datumi-defekt… · Kontrollitud
+
+# attr:title
+seg-f71ccda9ffde = Ühise Kuu lahenduse Fisheri informatsiooni jälgitavus: ilma Maa baasjoonteta… · Modelleeritud
+
+# attr:title
+seg-cd6e8589ff01 = 7-parameetriline Helmerti datumi sobitus + ICRF orientatsiooni side punktide võrgust · Kontrollitud
+
+# attr:title
+seg-04e2dd96ebd4 = Moonlight-klassi Kuu DOP / katvus / kättesaadavus + üldistatud Kuu ARAIM-i kaitse… · Kontrollitud
+
+# attr:title
+seg-b4800672c176 = LSIS V1.0 täiendava edastatava signaali koodid ({ "29" } jaanuar { "2025" }): AFS-Q 10230-kiibiline… · Modelleeritud
+
+# attr:title
+seg-e663cd51a1af = AFS baasriba renderdustuum (LSIS-130: kompleksne mähis I + jQ, I = AFS-I… · Kontrollitud
+
+# attr:title
+seg-088515ff0767 = LSIS V1.0 { "12" } s, 6000-sümbolline FID { "0" } kaader: 68-sümbolline sünkroniseerimismuster, BCH… · Kontrollitud
+
+# attr:title
+seg-2e3079616926 = Kshana AFS-salvestis, mille omandas, jälgis ja dekodeeris sõltumatu tarkvaravastuvõtja… · Modelleeritud
+
+# attr:title
+seg-437e67bb2bed = GPS L1 C/A hajutuskoodid (sdr::CaCode) ja LNAV alamkaadrid 1-3 (gps_lnav: IS-GPS-200… · Modelleeritud
+
+# attr:title
+seg-ffd1b13b8e08 = IQ-stseenigeneraatori satelliidipõhine tõde GPS L1 C/A edastatud efemeriidi stseenile… · Kontrollitud
+
+# attr:title
+seg-f93a7f8acc5a = iq::acq::acquire (FFT paralleelne koodifaasi otsing ruutseadusega Marcum-Q läviga)… · Modelleeritud
+
+# attr:title
+seg-eef6607ed2cf = iq::campaign::detect ja kampaaniajooksutaja: valikuline [monitors] tabel jooksutab IQ… · Modelleeritud
+
+# attr:title
+seg-ee78cb937e79 = iq::campaign::detect (windows, roc) ja iq::campaign::report::rocs: iga… lahter · Modelleeritud
+
+# attr:title
+seg-47782cefbb89 = iq::labfit (campaign, cn0, iqfit, iqreport) ja [input] campaign käsul kshana iq labfit… · Modelleeritud
+
+# attr:title
+seg-14e8ca05c35a = Kshana LNAV alamkaadrid 1-3 (gps_lnav::encode_subframes) { "32" } brdc0010.22n jaoks… · Modelleeritud
+
+# attr:title
+seg-030d1fa37f79 = IS-GPS-200 LNAV alamkaadrid 1-3 (gps_lnav::encode_subframes: lähima ümardusega kvantimine… · Modelleeritud
+
+# attr:title
+seg-e53b50d716c2 = Paralleelne koodifaasi otsing (acquisition::pcps_acquire: kaasaskantav FFT, koherentne voltimine… · Modelleeritud
+
+# attr:title
+seg-dd83610c7054 = acquisition::pcps_acquire oma valimivõimsuse otsusega üheksal mittepinna LuGRE… · Modelleeritud
+
+# attr:title
+seg-39dfb5c00daf = acquisition::pcps_acquire lahtrikeskmistamisega otsusega (tipp üle ruudustiku keskmise)… · Modelleeritud
+
+# attr:title
+seg-c75576fbf7dc = acquisition::pcps_acquire (lahtrikeskmistamise otsus, valehäire tõenäosus { "1e-7" }) koos… · Modelleeritud
+
+# attr:title
+seg-7b80adb2f3c1 = Satelliidipõhised topotsentrilised nähtavusnurgad (asimuut päripäeva põhjast, tõusunurk) ja… · Kontrollitud
+
+# attr:title
+seg-8682a18623a0 = NovaMoon-klassi diferentsiaalne etalonjaam: ühisrežiimi tühistamine +… · Modelleeritud
+
+# attr:title
+seg-22e6954fe97f = LunaNet/IOAG-ga kooskõlastatud Kuu tugisüsteemi + aja + efemeriidi eksport (CCSDS OEM + KIF) koos… · Modelleeritud
+
+# attr:title
+seg-ef1f98adc881 = Alamhinded mõõtmete kaupa Kshana enda seitsme vastupidavuskategooria üle (mitte DHS-i terminid)… · Modelleeritud
+
+# attr:title
+seg-a4b986bb7414 = Kvantifitseerib, kuidas üksik liithinne / RPCF tase järjestab arhitektuurid ümber… · Modelleeritud
+
+# attr:title
+seg-2c46a0ac9d47 = Tulemuspõhine ausus-register (ledger), mis kvalifitseerib demonstratsiooni väljundi: selle välised ankrud… · Modelleeritud
+
+# attr:title
+seg-3cf7f27d3357 = Üks reprodutseeritav TradeEvidence objekt (fikseeritud raam: stsenaarium+algväärtus (seed)+mootor; ühine FoM-põhine… · Modelleeritud
+
+# attr:title
+seg-24f99198842b = Seadmekaardid (optiline/lõksustatud ioon/elavhõbeioon + klassikalised kellad, taaskasutatud…) · Modelleeritud
+
+# attr:title
+seg-acd180a7e9c1 = Otsast lõpuni kvant- vs klassikaline aja edastamise ahel (kella rannik + lingi korduvtäpsus…) · Modelleeritud
+
+# attr:title
+seg-cd23c8f87bd6 = Kvant- (külmaatom-interferomeeter) vs klassikaline navigatsioonitasemega INS-i dead-reckoning üle… · Modelleeritud
+
+# attr:title
+seg-843a2f5c9332 = Märgendatud kvantvigade kataloog (kella sageduse hüpe/triiv/lukustuse kadu; andur… · Modelleeritud
+
+# attr:title
+seg-cc543b168360 = Euleri pöörlemise liikumisvõrrandid (I ω̇ = τ − ω × Iω, peateljestik ja üldine…) · Kontrollitud
+
+# attr:title
+seg-1cb6f416c032 = Jälitaja suhteline liikumine sihtmärgi ümber ringikujulisel etalonorbiidil LVLH… · Kontrollitud
+
+# attr:title
+seg-af4f665f008c = Kiirgusallika (segaja/spuufer või oportunistlik allikas pöörd-PNT jaoks) asukoha määramine… · Modelleeritud
+
+# attr:title
+seg-537695276e2e = 3-DoF punktmassi sisenemine pöörleva sfäärilise Maa kohal läbi USA standardatmosfääri… · Kontrollitud
+
+# attr:title
+seg-325aee4e883b = Peatuspunkti konvektiivne soojusvoog q = k sqrt(rho/R_n) V^{ "3" } Sutton-Gravesi… · Modelleeritud
+
+# attr:title
+seg-1d456a0c1722 = Nadiiri kujutaja signaali-müra eelarve (Lambertiline stseeni radiants, kaamera võrrand, hajumüra… · Modelleeritud
+
+# attr:title
+seg-177b656af61c = Mitmeastmelise kanderaketi tasapinnaline gravitatsioonipöörde tõus mittepöörleva sfäärilise Maa kohal… · Modelleeritud
+
+# attr:title
+seg-ef8c91c82ae6 = TWSTFT kahesuunaline võrrand, lahendatud suuruse T_A - T_B jaoks jaama edastus- ja vastuvõtu… · Modelleeritud
+
+# attr:title
+seg-1d0b4b4e110f = Hufnagel-Valley Cn2 integreeritud piki kaldteed tasapinnalise ja sfäärilise laine… · Modelleeritud
+
+# attr:title
+seg-c4ee04146fdd = Optilise lingi kättesaadavus esitatud lingivaru suhtes logaritmilis-normaalsest pilvest… · Modelleeritud
+
+# attr:title
+seg-028c12c10cb9 = Optilise asukoha katkestuse kestuse jaotus, seotud suletud kujuga rannikuga… · Modelleeritud
+
+# attr:title
+seg-c3d99589cc05 = Valikuline [timeseries] tabel (kestus, samm, algväärtus (seed)) muudab optiline-atmosfäär liigi… · Modelleeritud
+
+# attr:title
+seg-0c7d7f31e4d6 = DSN orbiidiandmefailide (TRK-2-18) lugeja: 36-baidised kirjerühmad (faili silt… · Modelleeritud
+
+# attr:title
+seg-7956a36bcade = Jäiga rummu inertsiaalne suunamine kolme või enama tasakaalustatud reaktsioonirattaga… · Kontrollitud
+
+# attr:title
+seg-84a5fe5a3fbe = Lefferts-Markley-Shusteri multiplikatiivne EKF: kerekoordinaadistiku asendiviga ja güroskoobi nihe… · Modelleeritud
+
+# attr:title
+seg-193da3371e11 = Optimaalne kolmeteljeline asend kaalutud vektorvaatlustest (täht/päike/magnetomeeter… · Kontrollitud
+
+# attr:title
+seg-8da56e79e751 = Ruutseadusega (mittekoherentne) omandamisdetektor koodifaasi × Doppleri otsingu üle… · Kontrollitud
+
+# attr:title
+seg-d5849ac6bc94 = Täisarvuliste vähimruutude mitmetähenduslikkuse fikseerimine LAMBDA viisil: ruumala säilitav täisarvuline (Z)… · Kontrollitud
+
+# attr:title
+seg-2d96783440cc = Hüperboolse möödalennu geomeetria (a=−μ/v∞², e={ "1" }+r_p·v∞²/μ, pöördenurk δ={ "2" }·asin(1/e), sihtparameeter… · Kontrollitud
+
+# attr:title
+seg-e7d3b969f076 = Kontrollitud-vastuvõtumustriga antenni nullimine: kompleksvõre suunavektorid… · Kontrollitud
+
+# attr:title
+seg-dd7b728fe2b4 = Viiekoefitsiendiline IEEE-1139 PSD↔Alani dispersiooni teisendus S_y(f)=Σh_α f^α → σ_y²(τ)… · Kontrollitud
+
+# attr:title
+seg-f8adbffd71d8 = Serialiseeri ja parsi CCSDS { "502.0" } OEM COVARIANCE_START…COVARIANCE_STOP plokk — { "6" }×{ "6" }… · Kontrollitud
+
+# attr:title
+seg-d67d03452c0a = Positsiooniviga vs rannikukestuse eelarve, mis on ehitatud IMU koefitsientidest, iga veaallikas… · Kontrollitud
+
+# attr:title
+seg-4b154bf6e19f = Üks jooksutus võtab kontaktiplaani (aos_s/los_s akende loend, millest igaüks küsib apertuuri… · Modelleeritud
+
+# attr:title
+seg-f760b89fb9f2 = Kuu-natiivne segaja-signaali suhe, efektiivne C/N₀ ja lukustuse kadu selenograafilise… · Modelleeritud
+
+# attr:title
+seg-4f9161cdf3ee = Kuu segamise aruanne ei toetu enam oma keelukontuuris ühele skalaarile. See väljastab… · Modelleeritud
+
+# attr:title
+seg-c9d6d3cf2935 = Hybrid-optical-rf aruanne esitab, mida modaalsustevaheline hii-ruut monitor suudab… · Modelleeritud
+
+# attr:title
+seg-59df9a43a6b8 = Hybrid-optical-rf aruanne avab filtri protsessimüra mudeli ja esitab, kuidas… · Modelleeritud
+
+# attr:title
+seg-8b261efc9e1c = Satelliidipõhine geomeetriaeksport kannab iga (epohh, satelliit) kohta bore-sight'ist kõrvalekalde… · Modelleeritud
+
+# attr:title
+seg-128f88766721 = Lukustuse kadu arvutatud kontuuridünaamikast võimsussuhte asemel: kandja (Costas) ja… · Modelleeritud
+
+# attr:title
+seg-dc1fcd97c3a7 = Viivituse osatuletised, kogutud baasjoonte × epohhide ajakava üle Fisheri… · Kontrollitud
+
+# attr:title
+seg-c17542136645 = Kolmas datumivalik, kõik-jaamad-fikseeritud, mis hoiab iga Maa jaama ja hindab… · Modelleeritud
+
+# attr:title
+seg-5c8e2fa3bbbf = Lunar-vlbi-fim stsenaariumi kõik-jaamad-fikseeritud majaka kovariatsioon (iga Maa… · Kontrollitud
+
+# attr:title
+seg-ce38279b5aa8 = Kolm liiget, mille diferentsiaalparandus omandab epohhi, mille jaoks see arvutatakse, vahel… · Modelleeritud
+
+# attr:title
+seg-156151ec109a = Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapolaarse kasutajaruudustiku ja… · Modelleeritud
+
+# attr:title
+seg-1705f4ce1f56 = Asukohapõhised asimuudist sõltuvad horisondimaskid lunar-station-coverage liigi jaoks (… · Modelleeritud
+
+# attr:title
+seg-e93ebeff92a8 = Lunar-station-coverage valikuline [receiver] jaotis (LRS-02): tõusunurgast sõltuv… · Modelleeritud
+
+# attr:title
+seg-b294dec61e30 = Lunar-station-coverage valikuline orbit_err_growth_m_per_s sisend (LRS-03):… · Modelleeritud
+
+# attr:title
+seg-a68d82cb0c1e = Lunar-station-coverage valikuline [solution] jaotis (LRS-06): kõrgus… · Modelleeritud
+
+# attr:title
+seg-b4996f005ec1 = Lunar-station-coverage liik, jooksutatud avaldatud… avalike eelduste all · Modelleeritud
+
+# attr:title
+seg-bd66869079b4 = Kuu kaitsetaseme geomeetriast kovariatsiooni astme — (GᵀG)⁻¹ üle kõik-vaates… · Kontrollitud
+
+# attr:title
+seg-f9bc824806f8 = Mitmehüpoteesilise lahenduseraldus-kaitsetaseme võrrand ise… · Kontrollitud
+
+# attr:title
+seg-23900b097b2f = araim_reference::add_v42_subset_plan: ADD v4.2 alamhulga määramise reegel (P_THRES… · Modelleeritud
+
+# attr:title
+seg-e5cfbf8661ff = Kella liigi valikuline [integrity] jaotis (clock_integrity::run): esitatud… · Modelleeritud
+
+# attr:title
+seg-b07a36e5c271 = Tsislunaarse kaare pikkuse jälgitavuse lävi RUUMILISES kuueolekulises CR3BP-s mitte… · Modelleeritud
+
+# attr:title
+seg-f88fcbfa22cf = Vähimruutude nihke-pluss-kiiruse sobitus järelakna üle pluss peamine perioodiline… · Modelleeritud
+
+# attr:title
+seg-fd5f35f76c57 = Seitsmeparameetriline Helmerti datum, levitatud SIMULEERITUD VAATLUSKAMPAANIAST, mitte… · Modelleeritud
+
+# attr:title
+seg-2c8d43fe11c7 = Partii vähimruutude hindaja, mis TAASTAB juhtsatelliidi algoleku simuleeritud… · Modelleeritud
+
+# attr:title
+seg-a10c3602ff80 = Aktsepteerib tabuleeritud Kuu-keskset olekuefemeriidi (SPK/BSP kerneli hindamine)… · Modelleeritud
+
+# attr:title
+seg-4b77b4198030 = Masinloetav skeem, mis annab iga arvulise… ühiku, päritolu klassi ja definitsiooni · Modelleeritud
+
+# attr:title
+seg-735a5f9d5762 = Seitsmeparameetrilise Helmerti datumi kovariatsioon, mille kaks simuleeritud sisendit on asendatud… · Kontrollitud
+
+# attr:title
+seg-ea7ecbe4ec1e = Valikulised extra_reflectors ja extra_beacons sisendid lunar-llr-datum stsenaariumil lisavad… · Modelleeritud
+
+# attr:title
+seg-e55351a3a757 = Lunar-llr-datum seitsmeparameetrilise Helmerti datumi kovariatsioon arhiveeritud ILRS normaalpunktidest… · Kontrollitud
+
+# attr:title
+seg-e84dedc612c4 = ephem::moon_position, väikese täpsusega geotsentriline Kuu rida, millele teek tagasi langeb… · Kontrollitud
+
+# attr:title
+seg-1af4030e7dde = Kolm struktuurset kaitset kontrollimisprotsessi enda üle, millest igaüks sulgeb klassi… · Modelleeritud
+
+# attr:title
+seg-5b9dda92c158 = Skalaarse aja lahenduseraldus-TPL heterogeensete allikate üle; PL, mida juhib… · Kontrollitud
+
+# attr:title
+seg-a1f93440e60e = PL(τ)=max(TPL_handover,HPL(τ)); alt poolpidev PL({ "0" }+)≥PL({ "0" }−); K(IR/2) jooksev maks… · Modelleeritud
+
+# attr:title
+seg-54d612592d08 = Jooksva maksimumi mähis ülepiirab (nullit läbistamata) tegelikku metroloogilist rida… · Kontrollitud
+
+# attr:title
+seg-54f4e009c7d5 = Lõplikku halvima juhu holdover-it ei ole (Browni supreemum hajub); IR-ile eraldatud HPL kooskõlas… · Modelleeritud
+
+# attr:title
+seg-2f43298d88c8 = Allikapõhine nihke ülempiir b = (U/k_cov)·Phi^-1(1-tail/2) + vananemine, paisutades avaldatud… · Modelleeritud
+
+# attr:title
+seg-76baa53b1b6e = N×N nihke ristkovariatsioon rho·b_i·b_j mittediagonaalsete elementidega allikatele, mis jagavad UTC(k)… · Modelleeritud
+
+# attr:title
+seg-b2396f1b8e9d = Käsitsi kirjutatud Choleski Omega=LL^T ja päripidise asendamisega valgendamine z=L^-1 r (Cov(z)=I… · Kontrollitud
+
+# attr:title
+seg-e7ad7dc222c3 = Skoorstatistik ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 ühisrežiimi nihke jaoks… · Modelleeritud
+
+# attr:title
+seg-91e04ed91d06 = Tuvastamatu ühisrežiimi lagi: suurim vea suurus piki suunda d, mis… · Kontrollitud
+
+# attr:title
+seg-39ee9f0b7b11 = Schuri komplemendi marginaal plokist { "{" }lunocenter-X, scale{ "}" } 7-parameetrilisest Helmerti… · Kontrollitud
+
+# attr:title
+seg-9eaa1f56a3b7 = Sisemise kaugusmõõtmise datumiprobleemi klassifikatsioon: üksik kaugusvaatlus… · Modelleeritud
+
+# attr:title
+seg-e97d57d71169 = Datumi Jacobi read Maa reflektori LLR kauguse jaoks, kahe jaama Kuu-VLBI diferentsiaal… · Modelleeritud
+
+# attr:title
+seg-8f2f47d609a1 = MOON_PA_DE440 pööre J2000-ks suvalistel epohhidel vahemikus 2014-01-01 kuni 2030-12-31 TDB… · Kontrollitud
+
+# attr:title
+seg-58aa8583d165 = Viis Kuu nähtava poole retroreflektorivõret PA kerekoordinaadistikus meetrites ja LLR maapealne… · Modelleeritud
+
+# attr:title
+seg-2c37f225dfbd = Kuu laserkaugusmõõtmise normaalpunkti ühesuunaline Maa jaama ja reflektori vaheline kaugus: … · Kontrollitud
+
+# attr:title
+seg-5bd57078f7ca = assemble_coupled_info koostab 9-parameetrilise seotud Fisheri maatriksi üle [t_x, t_y, t_z, s… · Kontrollitud
+
+# attr:title
+seg-2cc77f037f08 = Sõlmepõhine radiaalkauguse ja vastuvõtja kellanihke degeneratsioon on täpne vahemikus { "1" } m kuni { "3.336" }… · Modelleeritud
+
+# attr:title
+seg-193fb9b9adcf = rate_frame_jacobian(_with) annab Kuu ajaskaala kiiruse tundlikkuse… · Kontrollitud
+
+# attr:title
+seg-54e36f7a21b4 = classify_null_space lahutab datumi nullruumi ainult ruumiliseks (dimensioon d miinus… · Kontrollitud
+
+# attr:title
+seg-f719cc938742 = MeasurementBlock hoiab ühte kandidaatmõõtmiskampaaniat 7x7 Fisheri informatsioonimaatriksina… · Modelleeritud
+
+# attr:title
+seg-9a8d751557dc = ainult pöörde (6-parameetriline nihe+pööre) lahutus… · Kontrollitud
+
+# attr:title
+seg-37a04d53055c = consistency_tolerance: pöörab kasutaja positsioonieelarve ümber parameetripõhiseks pakkujatevaheliseks… · Modelleeritud
+
+# attr:title
+seg-99b19ea76ee8 = interop_budget: taandatav (ühine tugisüsteemi side) vs taandamatu (dünaamika) jaotus all… · Modelleeritud
+
+# attr:title
+seg-0bdcdf560cb2 = Tegelikul DE440 sõlmepõhisel Kuu võrgul (iga rida diferentsiaalne sõlmedevaheline ühesuunaline… · Kontrollitud
+
+# attr:title
+seg-5ebd7b35bd1f = byzantine_bound konkretiseerib turvalise olekuhinnangu kodeerimise / hõreda jälgitavuse… · Modelleeritud
+
+# attr:title
+seg-3899180aa58b = holdover_floor tõendab, et ainult ühendatud autonoomsete sõlmede ansamblis… · Modelleeritud
+
+# attr:title
+seg-d323b519c245 = Kolm tahku ühest lahutusest ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) koos… · Modelleeritud
+
+# attr:title
+seg-94d22b2503a8 = Maksimaalne ajavahemikuviga ja ajahälve, mida telecom-timing stsenaariumi liik… · Kontrollitud
+
+# attr:title
+seg-a84558dbbbfe = ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ülekantud piirid… · Modelleeritud
+
+# attr:title
+seg-e1d85bd6b885 = Seitse püsitemperatuurset MTIE ja TDEV triivi tekke maski telecom-timing… · Modelleeritud
+
+# attr:title
+seg-fb20760cdc4c = clock_log::read_input: üks parsimiskiht, mis muudab RINEX kellafaili (AS/AR kirjed…) · Modelleeritud
+
+# attr:title
+seg-f786d891bc94 = clock_log::read_input vormingutega ptp4l, phc2sys, ts2phc, chrony-tracking ja… · Modelleeritud
+
+# attr:title
+seg-a208919126f0 = Holdover-test liik: ajavea kirje (linuxptp, chrony, TICC, TimeLab või RINEX… · Modelleeritud
+
+# attr:title
+seg-a9f96c67a8ea = gnss-ssv liigi kättesaadavuse pühkimised: konstellatsiooni kohta (GPS, GLONASS, Galileo, BDS… · Modelleeritud
+
+# attr:title
+seg-7beec1fba869 = Chapmani ionosfäär, Gallagheri tüüpi plasmasfäär ja neutraalne atmosfäär… · Modelleeritud
+
+# attr:title
+seg-9bd04213bd7b = gnss-ssv liigi [navigation] režiim: üheksaolekuline laiendatud Kalmani filter (positsioon… · Modelleeritud
+
+# attr:title
+seg-59b78f3897ba = gnss-ssv liigi [formation] režiim: juhtsatelliit ja abisatelliidid jooksutavad igaüks absoluutfiltrit… · Modelleeritud
+
+# attr:title
+seg-41d36946a448 = inertial::cai_error_terms (teegifunktsioonid, mis ei ole veel stsenaariumi liigist kättesaadavad)… · Modelleeritud
+
+# attr:title
+seg-5960aff23d31 = allan::edf_greenhall (koos edf_greenhall_adev, _mdev ja _hdev ümbristega): täielik… · Kontrollitud
+
+# attr:title
+seg-27745ffd98ee = Neli eelseadistust — OCXO (Microchip OX-208), rubiidium (Microchip 8040C), tseesium (Microchip… · Modelleeritud
+
+# attr:title
+seg-f2e36db87617 = Slot-timing liigi mõõdetud kirje tee: faasi kattuv Alani hälve… · Kontrollitud
+
+# attr:title
+seg-109907bc9864 = Slot-timing liik: ennustatud viga E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| +… · Modelleeritud
+
+# attr:title
+seg-1365b5beea5d = orbital_timing::orbital_timing, kättesaadav slot-timing liigi spuufimise jaotisena… · Modelleeritud
+
+# attr:title
+seg-cf3bc790331a = GPS L1 C/A ja L2C (BPSK({ "1" })), GPS L5 ja Galileo ühikpinna võimsusspektritihedused… · Kontrollitud
+
+# attr:title
+seg-7c8f9549667b = Spectrum liik: L-riba võimsusspektritiheduse sageduse-ajas ruudustik… · Modelleeritud
+
+# attr:title
+seg-21a27551f400 = sigmf: Signal Metadata Format salvestiste lugemine ja kirjutamine (JSON .sigmf-meta koos tuumaga… · Kontrollitud
+
+# attr:title
+seg-cbf9461da030 = Merkuuri, Veenuse, Maa–Kuu baristsentri, Maa, Marsi heliotsentrilised positsioonid… · Kontrollitud
+
+# attr:title
+seg-6f84829bf6f5 = Päikese, Merkuuri, Veenuse, Maa ja Kuu geomeetrilised positsioonid üksteise suhtes… · Kontrollitud
+
+# attr:title
+seg-2d4dc39d352b = Newtoni ühesuunaline valguse levi aeg ükskõik millisest kehast mis tahes teiseni, vastu võetud epohhil… · Kontrollitud
+
+# attr:title
+seg-ced7622e838b = Uraani ja Neptuuni positsioonid Standishi tabelist { "1" } (vaikimisi { "1800" } AD kuni… · Modelleeritud
+
+# attr:title
+seg-abe80edcb2c5 = Geotsentriline Kuu Montenbrucki ja Gilli reast (mille -1.3972 kraadi sajandis… · Modelleeritud
+
+# attr:title
+seg-56cf1bcf8251 = Kehade võimendused Merkuur, Veenus, Jupiter, Saturn, Uraan, Neptuun, Pluuto, Phobos, Deimos, Io… · Modelleeritud
+
+# attr:title
+seg-c5fc2a8e4753 = Body::iau_rotation_et, pööre J2000-st IAU keha-fikseeritud tugisüsteemi Merkuuri… · Kontrollitud
+
+# attr:title
+seg-175fb15dc664 = Body-pnt liik: nimega valitud keha ümber orbiit- või pinnalander navigeerib… · Modelleeritud
+
+# attr:title
+seg-fdefacb7aa4b = Constellation-design liigi generaatorid: Walkeri delta- ja tähemustrid T/P/F… · Kontrollitud
+
+# attr:title
+seg-fc12c5b5204d = Constellation-design katvusmootor GPS-i baasjoone 24 pesa eelseadistusel all… · Kontrollitud
+
+# attr:title
+seg-49e9a81112bf = Constellation-design liik kahe kinnitatud juhtumi väliselt: selgesõnalised ja mitmekihilised… · Modelleeritud
+
+# attr:title
+seg-430480ee3de0 = Campaign liigi faasid: iga faas jooksutab ühte või mitut olemasolevate liikide stsenaariumi… · Modelleeritud
+
+# attr:title
+seg-4d47d2917133 = Campaign liigi pühkimine (üks kuni kolm punktidega võtit mis tahes liigist, üldise pühkimise…) · Modelleeritud
+
+# attr:title
+seg-05fe232e052e = Campaign liigi compose jaotis: nimega jagatud väärtused (näiteks ühe segaja võimsus… · Modelleeritud
+
+# attr:title
+seg-61e08d3722d8 = Campaign liigi optimize jaotis (CAP-32): üks kuni kolm punktidega stsenaariumivõtit, piiratud… · Modelleeritud
+
+# attr:title
+seg-6d032eaa4ecd = navsignal: siinusintegraal (sine_integral), BPSK-R võimsuse osa sees… · Kontrollitud
+
+# attr:title
+seg-0344008faf5c = leo_signal::max_doppler_hz: suurim satelliidi Doppler ülelennul… · Kontrollitud
+
+# attr:title
+seg-1384d9815030 = Leo-signal liik: parameetritega signaalikujundused (riba, edastusribalaius, ITU… · Modelleeritud
+
+# attr:title
+seg-bb691aa3e054 = Spectrum liik laiendatud L-ribast kaugemale: ribad antud eelseadistatud signaalikujundusena… · Modelleeritud
+
+# attr:title
+seg-91cfb0c491d8 = ITU-R (rahvusvaheline telekommunikatsiooniliit, raadiosidesektor) P.838-3… · Kontrollitud
+
+# attr:title
+seg-c3262bd28ad8 = ITU-R P.618-14 jaotis { "2.2.1.1" } sammud { "2" } kuni { "10" } (kaldtee ja horisontaaltee vihma all…) · Kontrollitud
+
+# attr:title
+seg-16f9554a4a2b = ITU-R P.618-14 jaotis { "2.4.1" } sammud { "3" } kuni { "9" } (etalon-sigma N_wet-ist, efektiivne tee… · Kontrollitud
+
+# attr:title
+seg-7398db38da80 = ITU-R P.2109-2 lisa { "1" } võrrandid ({ "1" }) kuni ({ "10" }) koos tabeliga { "1" }: kadu, mida ei ületata… · Kontrollitud
+
+# attr:title
+seg-d8aa9e586ecf = Grupiviivitus { "40.3" } STEC/f^{ "2" } ribade kaupa; ionosfäärivabad koefitsiendid f1^2/(f1^{ "2" } - f2^{ "2" })… · Kontrollitud
+
+# attr:title
+seg-c131312392cb = leo_link::geometry::max_static_user_range_rate: otsing üle iga orbiidipositsiooni ja… · Kontrollitud
+
+# attr:title
+seg-10357ae7c9b3 = Leo-pass liik: satelliidid kavandatud läbilennust, elementidest, TLE-st SGP4 kaudu või… · Modelleeritud
+
+# attr:title
+seg-0b4a68a05199 = leo_link::presets: üldine mitmeribaline (UHF, L, S, C), üldine C-riba, Xona Pulsar X1/X5… · Modelleeritud
+
+# attr:title
+seg-f5e2c76caa01 = leo_link::energy ja leo-pass liigi [iot] jaotis: koherentne integreerimine piiratud… · Modelleeritud
+
+# attr:title
+seg-43c4c2808e47 = leo_navmsg::sisre::sisre_weights: radiaalne kaal w_R ja ruut põiki… · Kontrollitud
+
+# attr:title
+seg-5bc0db905ba3 = leo_navmsg::elements::kepler_point: Galileo OS SIS ICD Kepleri hindamine… · Kontrollitud
+
+# attr:title
+seg-4b5b2e636eaa = leo_navmsg::codec::crc24q: generaatorpolünoom 0x1864CFB, algväärtus { "0" }, ilma… · Kontrollitud
+
+# attr:title
+seg-aa475ec1f38b = Leo-navmsg liigi sobitaja ja kompromiss: tõeline orbiit, integreeritud zonaalse J2-J6-ga või… · Kontrollitud
+
+# attr:title
+seg-a8d1a0c8aa20 = Leo-navmsg keskläbilennu uuenduse analüüs: kõrgeim läbilend kasutaja kohal otsinguaknas… · Modelleeritud
+
+# attr:title
+seg-9877e2306ec7 = leo_navmsg::codec: Kshana enda kaader (preambul, versioon, mudel, pikkus, kasulik koorem…) · Modelleeritud
+
+# attr:title
+seg-b3674570d6c9 = leo_navmsg::text: RINEX-4 stiilis plokk (> EPH kirje päis, satelliidi- ja epohhirida…) · Modelleeritud
+
+# attr:title
+seg-30ece7b6f10e = leo_navmsg::elements::EphemerisModel Liu22 variant, hinnatud kepler_point'iga… · Kontrollitud
+
+# attr:title
+seg-24e95ef0c9ee = leo_navmsg::elements::EphemerisModel EcefPoly variant: teljepõhine ECEF polünoom… · Modelleeritud
+
+# attr:title
+seg-89d02bcdf9e8 = leo_navmsg::services: Klobucharin edastatud viivitus mis tahes kandjal (mootori L1…) · Kontrollitud
+
+# attr:title
+seg-26334e3d6bc5 = Satelliidi täpne kauguskiirus, mille Maaga seotud positsioon ja kiirus tulevad… · Kontrollitud
+
+# attr:title
+seg-5ac58c46dbbd = Partii Gauss-Newtoni positsioneerimine kauguskiirusest analüütiliste osatuletistega (d rho_dot / d r =… · Modelleeritud
+
+# attr:title
+seg-1e63f2b7a7eb = Kaalutud vähimruutude Gauss-Newtoni lahendid üle mis tahes süsteemide segu, üks vastuvõtja kell… · Modelleeritud
+
+# attr:title
+seg-a0252001355f = Ujuvlahendusega PPP laiendatud Kalmani filter ionosfäärivabal koodil ja faasil: staatiline… · Modelleeritud
+
+# attr:title
+seg-b2e485b4ead5 = Saabumisaja Cramér–Raoi alampiir keskruutväärtuse (Gabori) ribalaiusest… · Kontrollitud
+
+# attr:title
+seg-4a487a69e0f4 = Kellamõõtmised igalt tuntud positsioonil nähtavalt LEO satelliidilt, ühendatud… · Modelleeritud
+
+# attr:title
+seg-9750a328ac46 = Nähtavad satelliidid ja mediaanne PDOP, HDOP ja VDOP koos kättesaadavusega üle laiuskraadi… · Kontrollitud
+
+# attr:title
+seg-a584bac9a33d = Süsteemist sõltumatud sisendid: iga süsteem on Walkeri kihid, selgesõnalised elemendid või GNSS… · Modelleeritud
+
+# attr:title
+seg-cbfc7ff68128 = Leo-pnt-chain liik: leo-signal kujundus (avalik eelseadistus või sisseehitatud) seab leo-pass… · Modelleeritud
+
+# attr:title
+seg-36860c10b4d0 = Leo-pass liigi [spoofer] jaotis: spuufer võltsib, enesekooskõlaliselt… · Modelleeritud
+
+# attr:title
+seg-db029e7a6cc7 = Iga LEO satelliidi ja kaugusmõõtmisribade paari kohta moodustab [spoofer] jaotis… · Modelleeritud
+
+# attr:title
+seg-8c87558cbceb = Leo-pass satelliidi iga ribapaari kohta annab aruanne kaldtee kogu elektronsisalduse… · Modelleeritud
+
+# attr:title
+seg-c047f25ef400 = Lunar-frame-campaign stsenaariumi seitsmeparameetrilise Helmerti datumi kovariatsioon koos… · Kontrollitud
+
+# attr:title
+seg-fd628e182c3e = Valikuline ruutjuure informatsioonilahendaja (lunar-frame-campaign solver = "srif"; vaikimisi… · Kontrollitud
+
+# attr:title
+seg-e95295d74586 = Laeva puhul dekodeerib receiver_trust NMEA { "0183" } laused, mida vastuvõtja ja selle… · Kontrollitud
+
+# attr:title
+seg-1d3aab6d8554 = Iga monitor taandab oma tõendid statistiku ja läve suhteks; skoor on { "100" }… · Modelleeritud
+
+# attr:title
+seg-43a58d2f2e32 = Sünteetilised sillaruumi NMEA { "0183" } voogud meeskonna väljaõppeks (kshana nmea-scenario): GGA, RMC… · Kontrollitud
+
+# attr:title
+seg-b53303d52991 = ADS-B navigatsioonitäpsuse ja terviklikkuse koodide lugemine, mida kaart kasutab (EPU… · Kontrollitud
+
+# attr:title
+seg-3e274aa29264 = GNSS-i usaldus (skoor, riba, põhjused, värav ja soovi korral positsioon) Prometheuse tekstina… · Kontrollitud
+
+# attr:title
+seg-16f2bbb013f5 = Ribamuutuse (või epohhipõhised) sündmused Common Event Format kandmetena RFC { "5424" }… · Kontrollitud
+
+# attr:title
+seg-b8601543ee77 = Ribamuutuse (või epohhipõhised) sündmused Log Event Extended Format { "2.0" } kandmetena RFC… · Modelleeritud
+
+# attr:title
+seg-001347eb4f7e = GNSS-i usaldussündmuse allkirjastatud, räsiahelaga tõendipakett: SHA-256 üle iga faili ja… · Kontrollitud
+
+# attr:title
+seg-7d9a0122ebcf = evidence::tsa::verify_token ja valikuline kshana evidence verify --tsa-ca <anchors.pem>… · Kontrollitud
+
+# attr:title
+seg-cfc6c2986f15 = receiver_trust::calibration::run_dataset: eelregistreeritud kalibreerimine… · Modelleeritud
+
+# attr:title
+seg-7f6d9ae684a1 = jammertest::{ "{" }plan, score, dataset{ "}" } (kshana jammertest import|score): NPRA test… · Modelleeritud
+
+# attr:title
+seg-a0f30d0040c6 = Liikumise CSV Maaga seotud positsioon, geodeetiline positsioon, Maaga seotud kiirus… · Kontrollitud
+
+# attr:title
+seg-ceb7d7c4aa9a = compliance (kshana compliance-report): vastendus Kshana väljunditelt klauslitele… · Modelleeritud
+
+# attr:title
+seg-7a4ba53202ae = Usaldusskoor, riba, põhjused, värava olek ja vastuvõtja teatatud positsioon, mis on avaldatud… · Modelleeritud
+
+# attr:title
+seg-5618f7c6904c = iq::track::LoopConfig väli boc (valikuline, vaikimisi None): kolm DLL… · Modelleeritud
+
+# attr:title
+seg-b9c85204d2be = iq::channel::scint, Cornelli skintillatsioonimudel (Rice'i intensiivsus, teist järku… · Modelleeritud
+
+# attr:title
+seg-962ef2cf8ab0 = iq::acq::ca_cfar ja ca_cfar_cells (valikuline): omandamisruudustiku lahtrit võrreldakse… · Modelleeritud
+
+# attr:title
+seg-b30aadd2c937 = spectrum::default_band lahendab ainult nime järgi (MORE_BAND_NAMES) GLONASS L1OF ja L2OF… · Modelleeritud
+
+# attr:title
+seg-ef32d4666b43 = iq::signals::beidou::b1i_bits ja b1i: BDS-SIS-ICD-B1I-3.0 Goldi koodid, kärbitud… · Kontrollitud
+
+# attr:title
+seg-08e2f936c1c3 = iq::signals::gps::l1c_p_bits, l1c_d_bits ja l1c_o_bits: L1CP ja L1CD Weili kaugusmõõtmise… · Kontrollitud
+
+# attr:title
+seg-449f1fd5a4a0 = iq::signals::lunanet::afs_i_bits ja afs_q_primary_bits (signaalinimed lunanet-afs-i ja… · Kontrollitud
+
+# attr:title
+seg-a2f797219cd6 = iq::signals::lunanet::afs_q_tertiary_bits, afs_q_tiered; iq::lunanet_afs… · Modelleeritud
+
+# attr:title
+seg-1780616b8677 = standards_pack (kshana standards-pack): DHS Resilient PNT raamistiku testiprofiilid… · Modelleeritud
+
+# attr:title
+seg-499dcb74620c = evidence::roundtrip (kshana evidence round-trip) ja kshana.test-conditions/1… · Modelleeritud
+
+# attr:title
+seg-e885c4b88ddb = Täielik IQ-kihi jälgimismootor (iq::track kuni kshana iq track: omandamine… · Modelleeritud
+
+# attr:title
+seg-9444c0bd9a44 = Jamming liigi valikuline [crpa] jaotis: kanalipõhine kiir iga satelliidi suunas… · Modelleeritud
+
+# attr:title
+seg-01e2f93ebd7c = Jamming liigi valikuline [terrain] jaotis: suurringi maastikuprofiil vahel… · Modelleeritud
+
+# attr:title
+seg-de5a2ace5291 = Jamming liigi valikuline [acquisition] jaotis (satelliit omandatakse siis, kui…) · Modelleeritud
+
+# attr:title
+seg-337acb9b46a7 = iq::track valikuline carrier.fll_pull_in_max_s (väli fll_pull_in_max_s…) · Modelleeritud
+
+# attr:title
+seg-731c77d5b154 = Loeb RTKLIB lahenduse faili (kalender- või GPS-nädala/TOW aeg, laius/pikkus või ECEF…) · Modelleeritud
+
+# attr:title
+seg-c55fdbe431b5 = Loeb BESTPOS (positsioon), RANGE (C/No signaali kohta) ja RXSTATUS (vastuvõtja segaja…) · Modelleeritud
+
+# attr:title
+seg-c4e9eae15690 = Loeb RTCM { "3" } MSM4 ja MSM7 sõnumite iga signaalilahtri C/N0 (GPS, GLONASS…) · Modelleeritud
+
+# attr:title
+seg-1a0d48096470 = Loeb GNSS-SDR Monitor (Gnss_Synchro) ja PVT-monitori sõnumeid, edastatud JSON-ridadena… · Modelleeritud
+
+# attr:title
+seg-c9e7077311e2 = Loeb IMU CSV-d (dokumenteeritud veerud või EuRoC paigutus); integreerib kursinurga kiiruse… · Modelleeritud
+
+# attr:title
+seg-0a44618c7e98 = JSON olekudokument ja Home Assistanti MQTT avastussõnumid usaldusvoo jaoks… · Modelleeritud
+
+# attr:title
+seg-2c0eeca292e0 = ROS-vaba sild, mis kirjutab asukoha- ja satelliidisõnumid NMEA-na ja hindab neid läbi… · Modelleeritud
+
+# attr:aria-label
+seg-83dc4863b9cb = Valgusta ühe sildi lahtrid
+
+# text
+seg-52696b2fa099 = Kontrollitud sõltumatu välise oraakli (sõltumatu etalon) vastu
+
+# text
+seg-1e3ba1b099ba = Modelleeritud: teostatud, veel väliselt kontrollimata
+
+# text
+seg-97b628450f8c = Partneri omanduses: väljaspool seda, mida mootor teeb
+
+# text
+seg-eef053d8c686 = Arvud on täpsed, pärinevad mootori kontrollimaatriksist. Lahtrid järgivad registri (ledger) reajärjestust.
+
+# text
+seg-2ef0ba031af3 = Kolm sõna, mida kasutatakse rangelt
+
+# text
+seg-7a23624246c0 = Kshana väljund<s1>mootori jooksutus</s1>
+
+# text
+seg-7042922a4050 = Sõltumatu etalon<s1>avaldatud etalon</s1>
+
+# text
+seg-f402715031f4 = Ainult sõltumatu välise oraakli (sõltumatu etalon) korral: avaldatud etalonvektorid, eraldi teostus või sobitamisest välja jäetud mõõteandmed. Register (ledger) nimetab oraakli ja testi ning maatriksi invariantsustestid jõustavad reegli.
+
+# text
+seg-7091847e1c77 = Avaldatud mudel või dokumenteeritud modelleerimisvalik, sisemiselt testitud, ilma sõltumatu välise oraaklita (sõltumatu etalon). Öeldud välja, mitte ümardatud ülespoole.
+
+# text
+seg-1d17589ad647 = Kosmoselaeva platvormi inseneeria, navigatsiooni kasulik last ja antenniriistvara, kvant-kasuliku lasti riistvara ning lennuriistvara tootekvaliteedi tagamine. Kshana ei väida ühtegi neist; need kuuluvad partnerile.
+
+# text
+seg-5af3d58e83fa = <b>Pro-ga:</b> <b>missioonidossier</b> kontrollib iga nõuet tegelike jooksutuste vastu ja hoiab neid silte oma kontrollimaatriksis: nõue, mis on täidetud MODELLED või PARTNER alusel, märgitakse. <a1>Vaata tegelikku dossiee</a1>
+
+# attr:aria-label, text
+seg-400016e22379 = Valideerimise register (ledger)
+
+# text
+seg-6ef0eb045293 = Kõik { "388" } rida, igaüks ühel real.
+
+# text
+seg-20ec758fe328 = Iga rida nimetab oma nõuet, olekut ja seda teostavat moodulit. Ava rida, et näha selle oraaklit (sõltumatu etalon) ja teste, või vali valdkond, et neid kitsendada.
+
+# attr:aria-label
+seg-08f2354cb22b = Filtreeri valdkonna järgi
+
+# text
+seg-f5a2e020b47e = Valdkonna järgi: tulba pikkus on ridade arv, värv on olek. Filtreerimiseks vali üks.
+
+# text
+seg-d8691ddf3170 = { "93" }-st kontrollitud
+
+# text
+seg-0272bc18f675 = { "19" }-st kontrollitud
+
+# text
+seg-d6687397eae9 = { "73" }-st kontrollitud
+
+# text
+seg-38ec110ef886 = Orbiidid, tugisüsteemid ja geomeetria
+
+# text
+seg-8d3ad903cd18 = { "76" }-st kontrollitud
+
+# text
+seg-a1c022c60fb6 = Inertsiaal-, liit- ja alternatiivne PNT
+
+# text
+seg-223bf21e1d9b = { "25" }-st kontrollitud
+
+# text
+seg-b355dc732d29 = Signaalid ja häired
+
+# text
+seg-fb01a581d5ee = { "28" }-st kontrollitud
+
+# text
+seg-d6c43e56d4cc = Missioonianalüüs, kvaliteedi tagamine ja muu
+
+# text
+seg-5516d9825527 = { "55" }-st kontrollitud
+
+# text
+seg-d5b6224d2ec4 = Kõik { "388" }
+
+# text
+seg-7038fab8b00c = Kontrollitud { "176" }
+
+# text
+seg-2bca452c28dd = Modelleeritud { "208" }
+
+# text
+seg-ba89c1119b21 = Partneri omanduses { "4" }
+
+# text
+seg-cd12d85e2beb = Otsi registrist (ledger)
+
+# attr:placeholder
+seg-f014d784ebe3 = Otsi nõuet, oraaklit (sõltumatu etalon), moodulit või testi
+
+# attr:aria-label
+seg-d0352364053e = Valideerimise register (ledger), { "388" } rida, keritav
+
+# text
+seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } juhtu: kümme Kasdini astmeseaduse kirjet, b = { "0" } kuni -4, faasi- ja sagedusandmetena, af = { "1" } kuni { "64" }; alpha_int ja d identsed, halvim |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" }…</s1>
+
+# text
+seg-06e5bf24f6cb = <s1>tests/osnma_official_vectors.rs (valikuline, KSHANA_OSNMA_VECTORS: kõik { "18" } vektorikomplekti, { "186,382" } märgist autenditud, { "0" } ebaõnnestunud, komplektipõhised alampiirid, ahelad teatatud, ADKD 0/4/12, häire kontrollitud, autentimine jätkub pärast…</s1>
+
+# text
+seg-59f1fce2addc = <s1>tests/cs5071a_reference.rs (tegelik 5071A Cs vs H-maser, { "556 990" } punkti, { "16" } keskmistamistegurit vs Stable32 täpsusega { "1e-3" }; andmetega lukustatud skripti scripts/fetch_cs5071a.sh kaudu)</s1>
+
+# text
+seg-c99e283fa971 = <s1>tests/theo1_totvar_reference.rs (Theo1 + TOTDEV NIST SP { "1065" } §{ "12.4" } 1000-punktilisel LCG andmekogumil, { "6" } + { "6" } keskmistamistegurit vs allantools { "2024.06" } täpsusega <{ "1e-9" }); allan::tests (valge-FM suletud kujuga jälgimine; TOTVAR=ADEV…</s1>
+
+# text
+seg-fd99ba5338f1 = <s1>tests/mtie_reference.rs (MTIE hermeetilisel NIST SP { "1065" } §{ "12.4" } 1000-punktilisel LCG faasireal, { "9" } keskmistamistegurit m={ "1" }..256 vs allantools { "2024.06" } mtie täpsusega <{ "1e-9" }, täheldatud ≤{ "4e-15" }); allan::tests (käsitsi tuletatud tipust tipuni…</s1>
+
+# text
+seg-4ffcb6d162ba = <s1>tests/mdev_tdev_reference.rs (MDEV + TDEV hermeetilisel NIST SP { "1065" } §{ "12.4" } 1000-punktilisel LCG faasireal, { "8" } keskmistamistegurit m={ "1" }..200 vs allantools { "2024.06" } mdev/tdev suhtelise täpsusega <{ "1e-9" }, pluss τ/√{ "3" } samasus…</s1>
+
+# text
+seg-32f89bf69b73 = <s1>tests/optical_clock_adev_reference.rs (Norcia jt ⁸⁸Sr pintsettide kella σ_y(τ), { "8" } keskmistamisaega { "0.92" }–{ "117.76" } s sõna-sõnalt kaasatud litsentsi CC-BY-4.0 all: NNLS rekonstrueerib kõvera ~{ "10" }% RMS / ≤{ "21" }% halvim punkt; taastatud…</s1>
+
+# text
+seg-734313a995c1 = <s1>tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } tegeliku geomeetria juhtu, Celestrak GPS+Galileo ja IGS SP3: halvim |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m ADD vastu…</s1>
+
+# text
+seg-f48dbf60fb99 = <s1>tests/numerical_cowell_propagator_reference.rs ({ "275" } epohhi = { "11" } juhtu × { "25" } tunnipõhist olekut, LEO+GTO, vs Orekit { "12.2" } DormandPrince853; konservatiivsed tasemed T1–T5 halvim |Δr| { "0.08" } m { "24" } h jooksul; takistustase iseloomustatud { "333" } m juures)</s1>
+
+# text
+seg-2b6ce8db9bb0 = <s1>tests/srp_oblate_shadow_orekit_oracle.rs ({ "2400" } geomeetriat üle varjuserva, { "884" } poolvarjus, LEO-st GEO-ni, Päikese deklinatsioon { "0" } ja +-23.44 kraadi, { "8" } asimuuti: halvim |dnu| { "7.41e-9" } WGS-84 jaoks ja { "2.24e-9" } sfäärilise jaoks…</s1>
+
+# text
+seg-df6d6c97de09 = <s1>tests/srp_boxwing_orekit_oracle.rs ({ "252" } Galileo orbiidi geomeetriat, { "7" } Päikese juhtu, sh periheeli ja afeeli kaugused, { "100" } juhuslikku asendit; lameplaadi summa halvim { "2.05e-15" } suhteline { "1056" } juhu kohta; otsast lõpuni koos…</s1>
+
+# text
+seg-352cf0bd15a5 = <s1>srp_shadow::tests (rõngakujuline suletud kuju, ühtlase seaduse taastoodetud koonusvari, täispäikese ja täisvarju piirid)</s1>
+
+# text
+seg-fec5921215cf = <s1>tests/nrlmsise00_reference.rs ({ "720" } ruudustikupunkti, { "90" } kuni { "1000" } km, { "4" } laiuskraadi, { "2" } kohalikku aega, { "3" } päeva, madal/mõõdukas/kõrge aktiivsus: tihedus suhtelise täpsusega { "1.866e-6" } ja temperatuur täpsusega { "1.97e-4" } K pymsis-ist; bitt-identne…</s1>
+
+# text
+seg-0861267dffb1 = <s1>tests/drag_tier_orekit_oracle.rs ({ "4" } juhtu x { "25" } tunnipõhist olekut { "24" } h jooksul, ringorbiit { "51.6" } kraadi, { "400" } km madala/mõõduka/kõrge aktiivsuse juures ja { "300" } km: halvim |dr| { "0.0303" } m ja |dv| { "3.36e-5" } m/s vastu { "3.3" } kuni { "141.8" } km takistuse…</s1>
+
+# text
+seg-f288a564c842 = <s1>tests/drag_exponential_gmat_oracle.rs (ekvatoriaalsed juhud E400, E300 ja E250x600 J2000.0 juures, { "25" } tunnipõhist olekut { "24" } h jooksul: takistusest tingitud nihe ühtib GMAT-iga kuni { "0.016" } ulatuses lävest { "0.5" } m + { "1e-3" }|D|…</s1>
+
+# text
+seg-f495c3fe4b80 = <s1>tests/propagator_de440_orekit_oracle.rs ({ "5" } juhtu x { "25" } tunnipõhist olekut { "24" } h jooksul, LEO, GEO ja HEO, kolmas keha ning kolmas keha + SRP: halvim |dr| { "0.0170" } m, |dv| { "1.84e-5" } m/s; analüütilise rea kontroll eksib { "9.96" } m; Päike…</s1>
+
+# text
+seg-ffd928487a96 = <s1>tides::tests (S1 liige on ööpäevane, pöörleb { "90" } kraadi veerandpäevaga ja omab iga rea koormusteguri amplituudi; füüsikaline suurusjärk LEO juures); propagator::tests::the_s1_air_tide_flag_adds_exactly_the_s1_acceleration</s1>
+
+# text
+seg-34fa42e9a136 = <s1>tests/s2_air_tide_gfz_table5.rs ({ "21" }-st { "21" } lainest ühtib avaldatud mudeliga A2: halvim { "0.00050" } cm, { "0.050" } kraadi läviga { "0.0006" } cm, { "0.1" } kraadi vastu); tests/tides_iers.rs (S2 amplituudivahemik)</s1>
+
+# text
+seg-018bfa0a86ca = <s1>tests/cowell_tesseral_orekit_oracle.rs ({ "6" } juhtu x { "25" } tunnipõhist olekut { "24" } h jooksul: EGM2008 8x8 ja 70x70 LEO-l { "45" } kraadi, polaarne { "89.9" } kraadi, päikesesünkroonne { "98.2" } kraadi, GTO, ning 70x70 Päikese/Kuu ja SRP-ga; halvim |dr| { "0.0355" } m…</s1>
+
+# text
+seg-c44a64c16085 = <s1>tests/gravity_sh_high_degree.rs (Orekit { "8" } teljevälises punktis: maks |da| { "2.2e-17" } m/s^{ "2" } juures N = { "70" }, jooksutatakse alati; { "3.5e-17" }, { "3.9e-17" } ja { "7.3e-17" } m/s^{ "2" } juures N = { "200" }, { "360" }, { "2190" }, andmetega lukustatud KSHANA_EGM2008_GFC kaudu)…</s1>
+
+# text
+seg-3f5f546d8f02 = <s1>tests/dop853_scipy_oracle.rs ({ "8" } üksiksammu: olek suhtelise täpsusega { "5.55e-15" }, FSAL tuletis { "3.46e-15" }, tihe väljund { "1.99e-14" }, vastuvõtu/tagasilükkamise otsused identsed; { "3" } täisjooksutust rtol = atol = { "1e-12" } juures (LEO { "58000" } s, e = { "0.7" }…</s1>
+
+# text
+seg-5bea85df4628 = <s1>tests/kepler_mpmath_oracle.rs ({ "405" } ruudustikupunkti, e vahemikus { "0" } kuni { "0.999999" }, M vahemikus [-pi, pi] kuni { "1e-12" }: halvim |E - E_ref| { "0.898" } eps|E| läve { "8" } eps|E| vastu; { "9" } mähitud-M punkti halvimal { "0.013" } nende lävest; ilma Newtonita…</s1>
+
+# text
+seg-3408741d4f83 = <s1>tests/od_tracking_measurements_reference.rs ({ "8" } stsenaariumi: kauguskiirus, az/el ja segu, LEO ja MEO, müratu ja algväärtusega (seed) sigma { "5" } m / { "5" } mm/s / { "1e-4" } rad, { "5" } ja { "10" } kraadi maskid, Orekit { "12.2" } vastu: nähtavad hulgad identsed…</s1>
+
+# text
+seg-e7ea69e06ac4 = <s1>tests/planetary_gravity_pds.rs (astme-20 lõiked jooksevad alati: halvim |dg|/|g| { "9.7e-16" }, häiringu-suhteline { "3.4e-11" }; GMM-3 d/o { "120" } üle kogu sfääri { "3.7e-15" } / { "6.3e-12" } ja GL0660B d/o { "660" } kui |lat| <= { "60" } kraadi { "5.0e-14" } /…</s1>
+
+# text
+seg-32a31bdc95c9 = <s1>tests/deep_space_mars_radiometric_reference.rs ({ "24" } lõiku üle { "8" } epohhi { "2020" }–{ "2027" } vs ANISE DE440; halvim |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m kuni { "2.5" } AU juures)</s1>
+
+# text
+seg-6eab5fdef15e = <s1>gnss_navmsg::tests (CRC-24Q kontrollväärtus 0xCDE703; konvolutsioonimpulssvastus; Viterbi parandab sisestatud vead; paigutuse laiused); tests/gnss_navmsg_roundtrip.rs (väljade algbitid võrduvad ICD bitinumbritega; kodeeri ->…</s1>
+
+# text
+seg-8b30719c93a3 = <s1>tests/ionex_code_gim_oracle.rs (kinnistatud sünteetiline IONEX kaart vs valemi etalon: { "20 075" } sõlme täpne, interpolatsiooni maks |Δ| { "3.5e-13" } TECU; andmetega lukustatud KSHANA_IONEX_CODE_GIM_DIR kaudu, tegelik CODE lõplik GIM…</s1>
+
+# text
+seg-260f56f3a4cf = <s1>tests/rtk_real_wettzell_oracle.rs (IGS jaamad WTZR baas / WTZZ rover, { "1.4" } m, 2025-02-24 00-03 h, { "30" } s: { "359" } epohhi, fikseeritud lahendused { "100" } % alates { "00" }:{ "10" }, fikseeritud baasjoone vea mediaan { "4.5" } mm, p95 { "5.5" } mm; esimesed { "10" } min fikseeritud { "2.6" } mm…</s1>
+
+# text
+seg-323c83de82d9 = <s1>tests/ppp_real_wettzell_oracle.rs (IGS jaam WTZR, 2025-02-24 00-06 h, { "30" } s, arendusest välja jäetud: viimase epohhi horisontaal { "1.5" } mm, üles −{ "2.9" } cm; 04-06 h 240/240 epohhi piires { "0.10" } m 3-D, p95 { "6.7" } cm; ainult koodiga p95…</s1>
+
+# text
+seg-1f7a4468e913 = <s1>tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } vs BRDM00DLR_S RINEX { "3.04" } kuupäevast 2026-07-19, lõik 00-02 h: G { "37" } / E { "478" } / C { "72" } kirjet sobitatud mõlemas suunas, iga väli identne, positsioon Toe juures { "0" } m; terve päev…</s1>
+
+# text
+seg-0c54a0c29630 = <s1>tests/rinex4_obs_mao0.rs (IGS MGEX RINEX { "4.00" } faili MAO000USA_R_20231980000_01D_30S_MO esimesed { "4" } epohhi, { "58" } satelliiti, { "7" } süsteemi: päisekirjed ja esimese epohhi väärtused võrduvad avaldatud literaalidega)…</s1>
+
+# text
+seg-ebf5ac05182a = <s1>tests/bds_geo_broadcast_oracle.rs (tegelikud C01-C04 kirjed: geostatsionaarne raadius, pikkuskraadid 140.02/80.04/110.55/159.99 kraadi avaldatud pesades, |laiuskraad| { "2.13" } kraadi kaldega vs { "6.65" } ilma; eelregistreeritud…</s1>
+
+# text
+seg-00d9f55700d8 = <s1>tests/sp3_clock_igs_oracle.rs (IGS lõplik { "15" } min SP3 kuupäevast 2025-02-24 vs IGS lõplikud { "30" } s kellad, { "32" } GPS-satelliiti: sõlme mediaan |Δ| { "2.6e-13" } s; { "3038" } keskpunkti kirjet RMS { "0.121" } ns, p95 { "0.265" } ns; sõlme hoidmine hoopis…</s1>
+
+# text
+seg-58cc844d35d1 = <s1>tests/fusion_carrier_tc.rs (figure-8 sõit: püsiv 3-D RMS { "0.025" } m kandelainega vs { "0.470" } m koodiga identsetel mõõtmistel; { "12" } algväärtust (seed) keskmine NIS/dof { "1.00" } ja püsiv NEES/dof { "0.92" }; 1-tsükline libisemine tuvastatud oma epohhil ilma…</s1>
+
+# text
+seg-9e2c501c7027 = <s1>tests/gnss_ins_packs.rs (iga pakett: liidetud allpool vaba INS-i katkestuse ajal mõlema anduri jaoks; raudtee: tihe { "5.3" } m vs lõtv { "12.9" } m navigatsioonitase ja { "15.6" } m vs { "18.8" } m taktikaline katkestuse ajal, kättesaadavus { "0.97" } vs { "0.95" }…</s1>
+
+# text
+seg-2d1083cc0d20 = <s1>tests/fusion_coupled_filters.rs (3-D filter üle { "60" } algväärtuse (seed): teise poole keskmine NEES { "8.12" } { "8" } oleku kohta, viimase epohhi χ² summa oma { "95" } % vahemikus; { "0.1" } ns kellaparandus vähendab 3-D positsiooni sigmat { "5.58" } m-lt { "3.07" } m-ni; nihe…</s1>
+
+# text
+seg-2de7638c3fc3 = <s1>tests/fusion_kfgins_dataset_oracle.rs (sünteetilised laadijad ja pöörleva platvormi õlavarre testid alati; andmetega lukustatud KSHANA_KFGINS_DIR kaudu, jooksutatud 2026-10-13 KF-GINS demoandmestikul: horisontaalne / vertikaalne RMS { "0.0109" } /…</s1>
+
+# text
+seg-b3d67427253e = <s1>tests/testbench_gpssdrsim_oracle.rs ({ "6" } testi: sõltumatu etalon ja stsenaariumid, eksportbaidid kinnitatud, NMEA ja LLH lugejad, nelja veeruga ECEF lõige, jooksutuse-1 FINDING täislaiuses CSV-l, { "10" } Hz rearuudustik)</s1>
+
+# text
+seg-7670442550b0 = <s1>fusion::trajectory::tests (koordineeritud pööre ei oma külgjõudu ja koormustegur on 1/cos φ; CSV import taastoodab lennatud profiili täpsusega { "1e-3" } m/s ja { "1" } m); tests/gnss_ins_trajectory_library.rs (iga profiil jookseb ja liit…</s1>
+
+# text
+seg-43684d842873 = <s1>tests/classical_strapdown_ins_reference.rs (staatilised/pöörde/koonuse profiilid, { "30" } epohhi igaüks, vs NaveGo: asend bitt-identne { "0" } rad; kiirus/positsioon nimetatud analüütiliste piiride sees)</s1>
+
+# text
+seg-9a888143b12b = <s1>tests/icgem_gravity_reference.rs (GRS80 süntees taastoodab Somigliana täpsusega { "3.5e-12" }; tegelik ICGEM EGM2008 häiringukaart füüsikaline)</s1>
+
+# text
+seg-16180ad1a02e = <s1>tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE märts { "2023" }, { "4" } perilunat ja { "5" } apolunat: periood { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, lävi { "3" } %), apolun { "71 182" } vs { "71 215" } km ({ "0.05" } %, lävi { "5" } %)…</s1>
+
+# text
+seg-88442c3f67b7 = <s1>tests/cr3bp_to_mci_spice_oracle.rs::cr3bp_to_mci_matches_a_spice_two_vector_frame ({ "72" } juhtu: { "12" } epohhi jaanuaris { "2025" } x L1 ja L2 punktid, kaks L2 lõunapoolset halo- ja üks DRO algolek JPL Three-Body…</s1>
+
+# text
+seg-ce1903930dae = <s1>tests/solar_system_kernel_oracle.rs::kernel_backed_solar_system_matches_spice (Merkuur, Veenus, Maa ja Kuu kuupäevadel 2026-01-01, 2030-06-15 ja 2040-12-31: halvim { "3.3e-5" } m ja { "1.0e-11" } m/s vastu { "1" } mm ja { "1e-6" } m/s…</s1>
+
+# text
+seg-5475e346272a = <s1>tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Maa Marsi baristsentrisse, { "16" } väljumist 2026-09-01..2027-01-29 x { "19" } saabumist 2027-06-01..2028-02-26: { "304" } lahtrit lõplikud mõlemal pool, halvim C3…</s1>
+
+# text
+seg-d85e4cdff95b = <s1>tests/transfer_optimiser_oracle.rs::transfer_optimiser_matches_spice_pykep_scipy (Maa Marsi baristsentrisse, väljumised 2026-09-15..2027-01-15 x saabumised 2027-05-01..2028-03-01, tüüp I/II x min C3 / min V-infinity…</s1>
+
+# text
+seg-8a7000ddbb4e = <s1>tests/lambert_multirev_oracle.rs::multirev_lambert_matches_pykep_on_the_preregistered_cases ({ "382" } juhtu: { "300" } juhuslikku 3-D, { "18" } lähedal { "180" } kraadile, { "24" } lähedal minimaalsele ajale M = { "1" }..3, { "40" } heliotsentrilist; { "1058" } lahendit; arvud ja…</s1>
+
+# text
+seg-d15a1c6e17c9 = <s1>tests/jd2_sofa_time_oracle.rs ({ "224" } UTC hetke: kuus ümber iga { "27" } liigsekundi 1972-2016, kaks fikseeritud, { "60" } algväärtusega (seed) üle 1972-2026; dtf2d, utctai ja taiutc igaüks täpsusega { "1e-6" } s, halvim { "1.9e-11" } s); jd2::tests…</s1>
+
+# text
+seg-7fd1d47c6025 = <s1>tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } kaheosalist UT1/TT kuupäeva 1980-2050 sh +{ "1" }, +{ "10" }, +{ "50" } us sammud kahel kuupäeval: gmst82 täpsusega { "1e-12" } rad, halvim { "0" }; GCRS-st ITRS-i…</s1>
+
+# text
+seg-4450a3324ae4 = <s1>tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT epohhi 1950-2100, dX ja dY kuni { "0.5" } mas: pretsessiooni elemendid täpsusega { "1e-13" }, halvim { "0" }; TEME-st GCRS-i täpsusega { "5e-10" } rad, halvim { "1.10e-10" } rad…</s1>
+
+# text
+seg-684ae107a510 = <s1>tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC hetke: neli ümber iga { "15" } TAI-UTC avaldise alguse 1960-1972 ja { "60" } algväärtusega (seed) üle 1960-1971; dtf2d, utctai ja taiutc…</s1>
+
+# text
+seg-9447c09c6106 = <s1>tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } juhtu: tegeliku 2013-01-01 IGS MGEX edastusfaili { "4" } GLONASS-i kirjet x { "73" } nihet vahemikus +/-900 s; kell täpsusega { "1e-14" }…</s1>
+
+# text
+seg-540374d8dc58 = <s1>tests/earth_orbit_path_sgp4_erfa_oracle.rs (osa { "1" }: { "4432" } TEME positsiooni { "232" } kinnitatud elemendikomplektist python-sgp4 { "2.24" } vastu, halvim { "6.1e-8" } m, lävi { "1" } cm; osa { "2" }: { "108" } hetke, neist { "23" } Maa orientatsiooniga…</s1>
+
+# text
+seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_times_dop_on_the_gnss_lib_py_geometries: kõik { "104" } kontrolli läbivad esimesel jooksutusel pärast eelregistreerimist e50c88d2, halvim dispersioon { "3.2" } %, RMS { "1.6" } %, korrelatsioon { "0.012" }…</s1>
+
+# text
+seg-57f448ea3c8d = <s1>tests/natural_degradation_trust.rs (a_stated_skyline_reads_the_fjord_as_geometry: faili scenarios/training/fjord-natural-degradation.toml sünteetilisel fjordi läbimisel arvatakse samad { "624" } epohhi maha nii koos kui ilma…</s1>
+
+# text
+seg-b8d1d3c43935 = <s1>tests/opssat_ad_reference.rs (tegelik ESA OPS-SAT, AUC taastoodab scikit-learn'i täpsusega { "1e-9" }); tests/ai_ml_rf_impairment_detection_evaluation_reference.rs ({ "122" } juhtu tegelikul OPSSAT-AD testijaotusel: täielik tööpunkt…</s1>
+
+# text
+seg-e7d3a0262133 = <s1>tests/resilience_score_decision_instability_reference.rs ({ "124" } juhtu vs scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendalli τ-b täpsusega { "2e-16" }, järjestus täpne, Dirichlet' keskmine + protsentiili usaldusvahemik täpsusega { "1e-12" })</s1>
+
+# text
+seg-1a7fab04a137 = <s1>tests/mcda_ahp_reference.rs (Saaty { "1980" } juhuindeksi tabel n={ "1" }..10 TÄPNE; prioriteedivektor + λ_max + CR vs SciPy/LAPACK eig kooskõlalisel { "3" }×{ "3" } ja kooskõlatul { "3" }×{ "3" } / { "4" }×{ "4" }, sobitatud täpsusega <{ "1e-9" })</s1>
+
+# text
+seg-893579639f36 = <s1>tests/mcda_wsm_reference.rs (WSM skoorid + järjestus) ja tests/mcda_wpm_reference.rs (WPM skoorid + järjestus), mõlemad vs pymcdm täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu otsustusmaatriksil</s1>
+
+# text
+seg-824021181461 = <s1>tests/mcda_topsis_reference.rs (lähedustegurid + järjestus vs pymcdm täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu maatriksil)</s1>
+
+# text
+seg-bd60ed86fd18 = <s1>tests/mcda_vikor_reference.rs (Q indeks + järjestus vs pymcdm täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu maatriksil)</s1>
+
+# text
+seg-8552a96ec65d = <s1>tests/mcda_promethee_reference.rs (neto ülekaaluvoog + järjestus, tavakriteerium, vs pymcdm täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu maatriksil)</s1>
+
+# text
+seg-b8e7db47be3c = <s1>tests/mcda_electre_reference.rs (kooskõla-, lahknevus- ja dominantsimaatriksid element-elemendi haaval + tuum/domineeritud hulk vs pyDecision täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } ainult-kasu andmestikul)</s1>
+
+# text
+seg-4fb626bb143d = <s1>tests/mcda_waspas_reference.rs (WASPAS eelistused + järjestus) ja tests/mcda_moora_reference.rs (MOORA skoorid + järjestus), mõlemad vs pymcdm täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu otsustusmaatriksil</s1>
+
+# text
+seg-74495891f53d = <s1>tests/mcda_copras_reference.rs (kasulikkusastmed + järjestus vs pyDecision täpsusega <{ "1e-9" } fikseeritud { "4" }×{ "3" } kasu/kulu maatriksil)</s1>
+
+# text
+seg-e42773002f0d = <s1>tests/timing_protection_level_under_spoofing_reference.rs ({ "16" } deterministliku viivitusega juhtu TÄPNE vs esmaläbimise sõltumatu etalon; { "8" } ARL₁ juhtu, Monte Carlo @60k katset vs Siegmundi lähendus + avaldatud Montgomery…</s1>
+
+# text
+seg-d963a63ff219 = <s1>tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } nähtavusnurka kuuel asukohal ja neljal epohhil, kuus maskitabelit, { "142" } nähtavat hulka; halvim |d el| { "1.3e-13" } kraadi ja |d az|…</s1>
+
+# text
+seg-f44b2e44dd69 = <s1>tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } juhtu, skyline võrdluse { "142" } kinnitatud nähtavat hulka ühe ühise kellaga ja ühe kellaga süsteemi kohta; halvim…</s1>
+
+# text
+seg-857773027c1e = <s1>holdover::tests (vs mitmeastmeline Kalmani kovariatsiooni rekursioon; valge-FM täpne; edasi-tagasi teisendus); rannikuvarieeruvuse tuum väliselt kontrollitud failis tests/gnss_denied_clock_holdover_reference.rs (vs scipy Van-Loan/brentq)</s1>
+
+# text
+seg-2642a03475ff = <s1>clock_state::tests (analüütiline van-Loani Q; NEES; PSD positiivsus); tests/clock_state_reference.rs (täielik ennustus+uuendus trajektoor — olek x ja { "3" }×{ "3" } kovariatsioon P üle { "1925" } sammu / { "4" } parameetrikomplekti vs filterpy { "1.4.5" }; halvim…</s1>
+
+# text
+seg-56b3dcc8f005 = <s1>timetransfer::tests (vastastikune tühistus; kahe vormiga Sagnaci samasus); tests/time_transfer_error_budgeting_reference.rs (ekvatoriaalne ringreis Sagnac = { "207.386" } ns vs avaldatud Ashby { "207.4" } ns täpsusega <{ "0.05" } ns…</s1>
+
+# text
+seg-a7eec0b252c2 = <s1>quantum_imu::tests (k_eff; Mach-Zehnder T²; Freier-2016 põhja vahemik); tests/quantum_inertial_sensor_reference.rs (ülekandefunktsioon |H(ω)|, k_eff·T² ja hajumüra ASD vs avaldatud Cheinet { "2008" } / Peters / Freier…</s1>
+
+# text
+seg-8cf49f65ae5e = <s1>quantum_imu::tests (a_max asub ±π pooleinterferentsijoone serval koos 1/T² ulatuse skaleerimisega; mähitud faasi taastamine on täpne vahemikus [−a_max,a_max] ja alias täpselt { "2" }·a_max võrra väljaspool seda; ühemõtteline dünaamiline ulatus…</s1>
+
+# text
+seg-a4ab1740caf1 = <s1>budget_tests (nihe vs AccelModel integraator; VRW vs analüütiline integraal); tests/quantum_inertial_dead_reckoning_reference.rs (VRW vs sõltumatu numpy Monte Carlo kahekordne integreerimine valge kiirendusmüra puhul, halvim…</s1>
+
+# text
+seg-b56e2e538e2b = <s1>fusion::tests (UKF==lineaarse KF samasus; katkestuse rannik; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } juhtu vs filterpy { "1.4.5" }: lineaarne EKF lõtv/tihe + seotud PNT posteeriorid täpsusega ≤{ "2.4e-12" }; UKF 40-epohhiline jooksutus halvim…</s1>
+
+# text
+seg-97be148ec2ab = <s1>jamming::tests (broadband_q_equals_the_spectral_separation_closed_form ja cw_q_equals_the_spectral_separation_closed_form: Q tabel, CW ja kitsariba { "1" }, lairiba ja pühitud { "2" }, kinnitatud navsignal suletud kujudele…</s1>
+
+# text
+seg-67272ab552dd = <s1>cr3bp::tests (STM vs lõplik vahe); tests/cislunar_mission_analysis_reference.rs ({ "5" } JPL L2-S NRHO liiget: { "9" }:{ "2" } + { "4" } naabrit; halvim |ΔC| { "1.5e-5" }, |ΔT|/T { "9.6e-5" }, perilun { "0.7" } km JPL pikkusühikutes)</s1>
+
+# text
+seg-4a73fb2c75bf = <s1>tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_cited_icgem_values CI-s kümnel viidatud ICGEM sõlmel; egm2008_n70_gravity_anomaly_sa_matches_icgem üle täielike toodud 0.25-kraadiste ruudustike Tšaadi 9-15N 19-25E ja…</s1>
+
+# text
+seg-0b579dcb5998 = <s1>tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — avaliku omandi SRTM v3 N36W117 kinnitatud 6-kaaresekundiline hõrendus paigutab Badwateri nõo, Põhja-Ameerika madalaima punkti…</s1>
+
+# text
+seg-21b8048577a6 = <s1>impairment_study::tests (klassipõhine sõltumatu etalon AUC≈{ "1" }, õpitud optimismilõhe>{ "0" }, ruudustiku kuju + bootstrap usaldusvahemik ümbritseb keskmist + positiivne skaleerumistrend, ID tunnused lõplikud, lõhe ennustaja ületab keskmise ennustamise MÕLEMA all…</s1>
+
+# text
+seg-bb1a73581a82 = <s1>space_weather::tests (Kp↔ap täpne ruudustikupunktides + edasi-tagasi + monotoonne, päevane Ap keskmine, eksosfääri T vs avaldatud päikese miinimumi/keskmise/maksimumi + tormi juurdekasvu ankrud, tiheduse ühik etalonil, päikesetsükli kõikumine…</s1>
+
+# text
+seg-7c3b6a03e34f = <s1>tests/ccsds_oem_interop_reference.rs ({ "24" } olekut / { "2" } fikstuuri dekodeeritud bait-baidilt identselt sõltumatu oem parseri poolt, pos/vel Δ = { "0" }); oem::tests (väliskeskkonnatööriista OEM parsimine lisavõtmesõnade/kommentaaride/kovariatsiooniga…</s1>
+
+# text
+seg-01273c1047bc = <s1>reentry::tests (tippkoormus sõltumatu ballistilisest koefitsiendist + füüsikaline g-vahemik, kasvab järsema γ / kiirema sisenemisega, tippkoormuse kiirus = V_e·e^(−1/2) ja tippkuumenemine = V_e·e^(−1/6) kiiremini, tippkoormuse kõrgus füüsikaline +…</s1>
+
+# text
+seg-670306801d75 = <s1>eo_payload::tests (nurkraadius { "64" }° kõrgusel { "700" } km + väheneb kõrgusega, nadiir→seniit/nullkaugus, horisont→ε=0/maks keskpunktinurk, horisondi taha jäävad vead, haardelaius kasvab FOV-iga / GSD kõrgusega, ~{ "2750" } km sõlmede vahe…</s1>
+
+# text
+seg-5292634e1534 = <s1>space_packet::tests (päise bitid ühtivad CCSDS-133 paigutusega, kodeeri→dekodeeri edasi-tagasi teisendab kõik väljad, vahemikust väljas/kärbitud lükatakse tagasi); tests/ccsds_space_packet_reference.rs ({ "33" } juhtu vs spacepackets { "0.32.0" }, sh { "12" }…</s1>
+
+# text
+seg-c64d7ee3b5d3 = <s1>tests/space_packet_ext_oracle.rs (viis eelregistreeritud lävendit: CRC, ajakoodid, vood, lüngad ja järjekord, PUS TM; null mittevastavust); space_packet::tests</s1>
+
+# text
+seg-68e5424ed6ae = <s1>tests/spk_writer_spice_oracle.rs (inventar, hindamine, bitt- ja baitidentsus, OEM epohhi teisendus; neli planeeritud mutatsioonikontrolli muudavad selle punaseks)</s1>
+
+# text
+seg-3ec80b15b047 = <s1>tests/odm_orekit_oracle.rs (L1 Orekit loeb { "30" } Kshana faili, L2 Kshana loeb { "25" } Orekiti faili; leiud kinnitatud ja kinnitatud kordumine); odm::tests</s1>
+
+# text
+seg-08ddb272bbf1 = <s1>attitude_budget::tests (GG moment kaob sümmeetrilise keha korral, kasvab madalamal, lineaarne ΔI suhtes, RSS ruutsumma, dispersiooniosade summa on 1); tests/attitude_gg_torque_reference.rs ({ "20" } juhtu vs sõltumatu…</s1>
+
+# text
+seg-6f9fcbb8c941 = <s1>integrity_impact::tests (sama möödalaskmine lülitub Available→MI→HMI konteksti karmistumisel; konservatiivne-PL→Unavailable; teljepõhine HMI; sisendikaitsed)</s1>
+
+# text
+seg-73dd2999b16a = <s1>inertial::cai_params::tests (füüsika VRW jääb viidatud VRW vahemikku kõigil { "3" } tasemel; toores interferentsijoone mitmetähenduslikkuse ulatus arvutatud k_eff·T²-st; konservatiivne eelarve triivib rohkem kui parim; iga vahemik allikaga +…</s1>
+
+# text
+seg-d1e5a6bf11d7 = <s1>src/benchmark/stanford.rs::tests (neli piirkonda + kaasavad piirid + |viga| + PL>AL kättesaamatus); tests/tib_scorer_reference.rs (klassifikatsiooni arvud vs sõltumatu numpy fikseeritud sünteetilisel komplektil)</s1>
+
+# text
+seg-12f523034ea5 = <s1>src/benchmark/scorecard.rs::tests (etalon-PL neelab; katkine PL neelamata-tuvastamata; tuvastatav katvuse otsus; ausus-omadus, et tuvastamatu jaoks ei ole kättesaadav ühtki katvuse/tuvastamise otsust…</s1>
+
+# text
+seg-2de847f37e06 = Puudub: märgitud kui partneri omanduses
+
+# text
+seg-863d635911ac = <s1>hybrid_integrity::tests (lahendatud konfiguratsioon kajastatakse vaikeväärtuste ja ülekirjutuste korral, ilma lainepikkuse meetritesse edasi-tagasi teisendamiseta; iga ühikute kirje kannab nii ühikut kui päritolu klassi; iga…</s1>
+
+# text
+seg-ec8482ccf5c5 = <s1>hybrid_integrity::tests (kättesaadavus võrdub kahe aruande enda varudest ümber arvutatud indikaatori korrutisega ja need varud on ise kokku pandud aruande enda EIRP-st, vabaruumi sumbuvusest…</s1>
+
+# text
+seg-1d720b86fed9 = <s1>hybrid_integrity::tests (suhe võrdub kahe väljastatud haru jagatisega suhtelise täpsusega { "1e-15" } ning selle pöördarv ja detsibellivorm ühtivad; iga haru kaugus ja ajasigma on seotud täpselt c-ga; väljastatud ühine…</s1>
+
+# text
+seg-a5e09c5baf6c = <s1>linkbudget::tests (kolmes ribas, nelja kümnendi ulatuses kaugust ja mõlema sulgumisotsuse korral arvutatakse varu ja selle aluseks olev vabaruumi sumbuvus ümber ainult aruandest täpsusega üle { "1e-9" } dB; nõutav G/T…</s1>
+
+# text
+seg-b15cce3f2860 = <s1>lunar_time_budget::tests ja lunar_time_budget_scenario::tests (kõik neli klassi esinevad ühes jooksutuses ja soovitud alamhulga järjekorras; iga rida ühtib oma suletud kujuga suhtelise täpsusega üle { "1e-12" }; skaleerimine…</s1>
+
+# text
+seg-5afae1521f9f = <s1>frame_eop::tests ja realtime_frame_eop::tests (kõik kolm komponenti kannavad võrdseid, elementhaaval identseid, rangelt kasvavaid epohhikomplekte üle mõlema tegeliku IERS-i väljavõtte; ühine komplekt kahaneb ühisosaks, kui…</s1>
+
+# text
+seg-55130d929fc6 = <s1>tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (kuus täpset kriteeriumi: väljavõtte baidid; { "174" } rida; vintage'i põhised arvud ja täielikud MJD loendid…</s1>
+
+# text
+seg-4319252c1932 = <s1>antenna::tests ja attack_surface::tests (ruudustik on täielik ja iga hõivatud osa asub vahemikus [{ "0,1" }]; hõivatud osa on igal sõlmel edastusvõimsuse suhtes mittekahanev; see EI OLE monotoonne ribalaiuse või…</s1>
+
+# text
+seg-373635b17f69 = <s1>lunar_time_budget_scenario::tests (kõik { "57" } keskmistamisaega x { "8" } liiget olemas, ruudustiku indeks jookseb { "0" }..={ "56" } ja kannab igaüks { "8" } rida; kogurida võrdub selle kõrval olevate seitsme liikme ruutude summa juurega igal tau-l; …</s1>
+
+# text
+seg-273fc9f39f91 = <s1>lunar_time_lab::tests (free_run_clock_term_is_the_budget_clock_term: suunamise väljalülitamisel võrdub kellaliige eelarve kellaliikmega bitini kõigi nelja klassi puhul; bisection_matches_the_closed_form täpsusega { "1e-9" }…</s1>
+
+# text
+seg-6d60a3c0bffa = <s1>tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_match_spice_light_times_near_j2000 ({ "75" } viivitust { "25" } epohhil J2000 lähedal DSS-14, DSS-43 ja DSS-63 kohal: viivitused täpsusega { "1" } ps, halvim { "0.06" } ps; kerekoordinaadistiku majakas…</s1>
+
+# text
+seg-f986e2e5c8f2 = <s1>tests/naif_reader_spice_oracle.rs::reader_matches_spice_and_anise_on_the_post_registration_grid ({ "600" } de440s.bsp olekut ja { "200" } MOON_PA_DE440 pööret { "200" } epohhil 1849-2150 ja juhuslikud kehapaarid, valitud…</s1>
+
+# text
+seg-0280fb2b8502 = <s1>earth_gnss_lunar::tests ({ "11" } teegi testi: Maa limbi poolnurk vs selle suletud kuju asin(R/r) lisaväitega, et IGA varjutamata link asub selle koonuse väljas, nii et varjutamise test ja limbi nurk…</s1>
+
+# text
+seg-bd5a02ba059e = <s1>tests/lunar_infra_od_consistency.rs (lävi O1: kolme päeva ja ühe perioodi jooksul aheldatud olekuüleminekumaatriks võrdub scipy DOP853-ga suhtelise täpsusega { "1e-6" }; lävi C1: keskmine q ja 95 % sees olev osa; lävi C2: valim üle…</s1>
+
+# text
+seg-a0bc9ccc18e0 = <s1>tests/lunar_infra_carrier_phase.rs (lävi Q1: Monte Carlo edu vähemalt bootstrap-piir miinus kolm standardviga; Q2: ei langust kaare pikkusega üle kolme standardvea; Q4: LAMBDA võrdub toorjõuga…</s1>
+
+# text
+seg-a351ba6299d6 = <s1>tests/lunar_infra_studies_3_5.rs (lävi F1: CRLB jälg ei tõuse ja väikseim omaväärtus ei lange orbiiterite linkidega, näites ja { "20" } algväärtusega (seed) juhuslikus komplektis; lävi F2: kaugusosatuletised võrduvad…</s1>
+
+# text
+seg-7c519c33e94d = <s1>tests/lunar_infra_studies_3_5.rs (lävi T1: nihke sigmad ei lange, kui kohalik side lõtvub; T2: tehnikasigmade skaleerimisel { "1e-6" } võrra on iga paari nihke sigma { "1" } % piires sqrt({ "2" }) korda kohaliku side…</s1>
+
+# text
+seg-d45bfe637f5c = <s1>tests/lunar_infra_studies_3_5.rs (lävi G1: analüütilised osatuletised võrduvad iga otsemudeli tsentraalse lõplikuga vahega täpsusega { "1e-8" }; G2: 5x5 informatsioon võrdub sõltumatu numpy koostega täpsusega { "1e-6" }; G4: kellapõhine loodeline…</s1>
+
+# text
+seg-548d662e2903 = <s1>lunar_beacon::tests (horisondi nähtavus vs L01 suletud kuju; majakaga täiendatud DOP vs paljas; veaeelarve ruutude summa juur; DOP-st meetriteks seos)…</s1>
+
+# text
+seg-16dacba36610 = <s1>lunar_common_mode::tests ({ "8" } teegi testi: jaotus on aditiivne ja rekonstrueerib dy; ühisrežiimi kovariatsioon annab positiivse ühisrežiimi kaitsetaseme, samas kui ainult pariteedi kovariatsioon annab peaaegu nulli; …</s1>
+
+# text
+seg-f7d33a13cf7b = <s1>lunar_combination::tests (taastab simuleeritud tõe; VLBI taastab jaama 3-D jälgitavuse; deterministlik); tests/lunar_joint_multi_technique_od_reference.rs ({ "6" } geomeetriat × { "16" } parameetrit, { "31" } vaatlust igaüks, vs Orekit { "12.2" } /…</s1>
+
+# text
+seg-38aa194db570 = <s1>tests/fim_observability_reference.rs (omaväärtused vs numpy.linalg.eigh; CRLB kovariatsioon vs σ²(XᵀX)⁻¹ numpy.linalg.inv kaudu; GNSS GDOP/PDOP/HDOP/VDOP/TDOP informatsioonimaatriksist vs numpy — kõik sobitatud täpsusega { "1e-9" })…</s1>
+
+# text
+seg-b9ba2c91b976 = <s1>lunar_combination::tests (astakdefektiline ilma Maa baasjoonteta; kolm baasjoont taastavad täisastaku — 3-jaama lävi informatsiooni astakust, mitte lahendusveast; jaama CRLB saavutatud hindaja poolt…</s1>
+
+# text
+seg-e66fab330a70 = <s1>lunar_frame_realise::tests (taastab sisestatud Helmerti teisenduse); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } juhtu vs sõltumatu suletud kujuga Umeyama-SVD lahendaja; halvim |Δ| nihe { "2.0e-5" } m…</s1>
+
+# text
+seg-d64c7d12097d = <s1>lunar_service::tests (DOP taaskasutab kontrollitud tuuma; PL taandub lõunapooluse juhtumile); tests/lunar_navigation_service_volume_reference.rs (satelliidipõhine MCI positsioon täpsusega <{ "1e-3" } m + TÄPNE nähtavate satelliitide hulk üle…</s1>
+
+# text
+seg-2869e5710360 = <s1>lunar_afs::codes::tests (maksimaalpikkusega registrid, Legendre'i tasakaal, G2 viivituse edasi-tagasi teisendus, taseme koostis); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (ilma LSIS vahemäluta…</s1>
+
+# text
+seg-ae3ebfe11427 = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim ({ "210" } AFS-Q esmast koodi alati; KSHANA_LANS_RUN ja LSIS vahemäluga kõik { "630" } koodi, null kiibi mittevastavust)…</s1>
+
+# text
+seg-295278a84ccf = <s1>tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (LSIS vahemäluga: { "3" } kaadrit, mida LANS-AFS-SIM edastab, ehitatud samast FID-ist, TOI-st ja andmebittidest: null { "18 000" } sümbolist…</s1>
+
+# text
+seg-f24c41c419fc = <s1>tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file ({ "32" } satelliiti IGS edastusfailist kuupäevaga { "2" }. märts { "2025" }: { "960" } { "960" }-st sõnast läbib RTKLIB pariteedi, { "96" } { "96" }-st…</s1>
+
+# text
+seg-15ee42ed7c97 = <s1>lunar_service::tests (topotsentriline vs käsitsi arvutatud geomeetria: otse pea kohal, täpselt põhja/ida/lääne, antipood ja degenereerunud polaarne idasuund; eksporditud nähtavuslipp ühtib sõltumatu nähtavuse…</s1>
+
+# text
+seg-77da0b3e0b1c = <s1>lunar_dpnt::tests (kella ühisrežiim tühistub täpselt; jääk kasvab baasjoonega; taaskasutab SBAS PL-i; satelliitide arvu austatakse ehitaja piirini { "24" }, nii et suurem konstellatsioon ei saa vaikselt tagastada…</s1>
+
+# text
+seg-5db769e82e5c = <s1>lunar_interop::tests (OEM kannab Kuu REF_FRAME/TIME_SYSTEM; ajametaandmed teisenduvad edasi-tagasi; KIF ümbrik); tests/lunar_interoperability_export_reference.rs (kshana väljastatud Kuu OEM parsitud uuesti sõltumatu oem…</s1>
+
+# text
+seg-4f6e54e86d48 = <s1>qtrade::tests (kasu polaarsus parem/madalam-on-parem, mähib tegelikku TradeResult'i truult, ebaaus tõend tagasi lükatud, kontrollitud-FoM vajab välist ankrut, deterministlik JSON)</s1>
+
+# text
+seg-f5bacc1a6bd7 = <s1>timetransfer_chain::tests (korduvtäpsus paraneb integreerimisega; kvant võib nii võita KUI KA kaotada; PL lõplik-positiivne; turvalisuse FoM vahemikus [{ "0,1" }] ja kasvab ründeviivitusega; anomaalia Pd monotoonne; kompromiss is_honest)</s1>
+
+# text
+seg-e31dc5eb9af0 = <s1>quantum_nav_od::tests (kvant ületab klassikalise pika katkestuse korral; eelis sõltub katkestusest; kompromiss is_honest); tests/gnss_free_quantum_navigation_reference.rs (dead-reckoning positsiooni kasv vs sõltumatu…</s1>
+
+# text
+seg-a591da195f89 = <s1>quantum_faults::tests (analüütilise AUC teadaolevad väärtused; empiiriline bootstrap AUC ümbritseb suletud kuju; kvant tuvastab väiksemaid vigu / kõrgem AUC; eelis kaob suurte vigade korral; 5-klassiline kataloog; kompromiss is_honest)</s1>
+
+# text
+seg-5f53e711c909 = <s1>cw_dynamics::tests (Φ({ "0" })=I, ristsuunas lahtisidumata SHM); tests/cw_dynamics_reference.rs (suletud kujuga Φ vs sõltumatu fikseeritud sammuga RK4 integreerimine samadest Hilli ODE-dest täpsusega <{ "1e-6" } kolmandiku orbiidi jooksul; Φ(t)Φ(−t)=I täpsusega…</s1>
+
+# text
+seg-62ce807669f8 = <s1>geolocation::tests (müratu TDOA otse→pöördsuund täpsusega { "1e-6" } m; J·CRLB=I sümmeetrilise PD kovariatsiooniga; CRLB positsioonivariatsiooni jälg ei kasva, kui lisada vastuvõtja; ühine TDOA+FDOA taastab liikuva…</s1>
+
+# text
+seg-046805e51094 = <s1>tests/entry_stardust_published.rs (tipp { "35.44" } g vs avaldatud { "33.4" } g, +{ "6.1" } %, lävi { "10" } %; planeedi suhtes sisenemiskiirus { "12.551" } km/s vs { "12.6" }, lävi { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (pöörleva tugisüsteemi…</s1>
+
+# text
+seg-ac52f93507b3 = <s1>twstft_budget::tests (kahesuunaline võrrand taastab nihke täpselt; Sagnaci liige võrdub BIPM-i ringi suletud kujuga; ionosfääri liige järgib sageduse jaotust ja troposfäär tühistub; flicker-faasil on…</s1>
+
+# text
+seg-a9b476c32f84 = <s1>tests/optical_atmosphere_reference.rs (eelregistreeritud lävendid A1-A3 sõltumatu mpmath etaloni vastu: { "216" } Rytovi ruudustikupunkti halvim suhteline viga { "3.4e-7" } läve { "1e-6" } vastu, skintillatsioon halvim { "4.5e-16" }, apertuuritegur…</s1>
+
+# text
+seg-6ee49f7de98e = <s1>tests/optical_atmosphere_identities.rs (lävi A4: rho = { "0" } võrdub sõltumatu ühendiga ja rho = { "1" } parima üksiku asukohaga täpsusega { "1e-12" } ning null monotoonsuse rikkumist asukohtade arvu ja korrelatsiooni suhtes; esimene…</s1>
+
+# text
+seg-a1da08c8ab20 = <s1>tests/optical_atmosphere_identities.rs (lävi A6: katkestuse ajaviga võrdub holdover::coast_phase_sigma-ga ja kaugusviga võrdub phase_to_range_m-ga bitini { "9" } kella, { "3" } keskmise kestuse, { "3" } hajuvuse ja { "4" } üle…</s1>
+
+# text
+seg-760c332254b9 = <s1>tests/optical_atmosphere_timeseries.rs (xval/optical-atmosphere/PREREGISTRATION-timeseries.md läved T1-T6, fikseeritud enne esimest jooksutust: sama algväärtus (seed) samad baidid ja teine algväärtus (seed) teised baidid; võtit pole ilma tabelita; üle…</s1>
+
+# text
+seg-5f819ec42753 = <s1>tests/mro_odf_reader_label_oracle.rs (tegelik MRO ODF, 2007-304/305, vs selle PDS silt: kirjete arv, rühmade positsioonid, jaamad, algus- ja lõpuajad ning andmetüübid ühtivad; faililõpu tabeli reaarv eksib…</s1>
+
+# text
+seg-0f5890150b2a = <s1>tests/aocs_basilisk_oracle.rs ({ "3" } juhtu, { "601" } valimit igaüks: MRP halvim { "2.4e-14" }, lävi { "1e-9" }; keha kiirus { "1.6e-15" } rad/s, lävi { "1e-9" }; ratta kiirus { "2.9e-11" } rad/s, lävi { "1e-6" }; rakendatud mootori moment { "1.2e-13" } N m, lävi { "1e-9" }; t = { "0" } momendid…</s1>
+
+# text
+seg-7a953365327a = <s1>aocs_mekf::tests::mekf_is_consistent_over_monte_carlo_seeds ({ "40" } algväärtust (seed), keskmine kuue vabadusastmega NEES teise poole jooksul vahemikus { "4.5" } kuni { "7.5" }); aocs_mekf::tests::star_tracker_updates_bound_the_attitude_error…</s1>
+
+# text
+seg-a54d1b51ac52 = <s1>wahba::tests (A(ühikkvaternion)=I; Jacobi omaväärtuslahendaja rahuldab Kv=λv ja säilitab jälje teadaoleval sümmeetrilisel maatriksil; K on sümmeetriline); tests/wahba_reference.rs (TRIAD, Davenporti q-meetod ja QUEST…</s1>
+
+# text
+seg-ea40d0a1466d = <s1>acquisition::tests (Marcum-Q keskjuhtum Q_1({ "0" },b)=exp(−b²/2); samasus P_d=Q_M(√(2Mρ),√γ); P_fa↔lävi edasi-tagasi teisendus üle M ja P_fa; ROC monotoonsus — P_d tõuseb SNR-iga, langeb läviga, P_d→P_fa kui…</s1>
+
+# text
+seg-68cac50395e0 = <s1>lambda::tests (L D Lᵀ rekonstrueerib Q); tests/lambda_reference.rs (Z-teisendus on unimodulaarne |det Z|={ "1" } koos Q_z=ZᵀQZ SPD, determinanti säilitav ja madalama kogu mittediagonaalse korrelatsiooniga; Schnorr–Euchneri ILS ühtib…</s1>
+
+# text
+seg-6c4c83ade953 = <s1>bplane::tests (möödalennu skalaarid rahuldavad suletud kujusid kahe kokkulangeva |B| samasusega ja |B|>r_p; pöördenurk väheneb periapsise raadiusega ja jõuab piirideni δ→{ "0" } / δ→π; läbipaine säilitab v∞ kiiruse ja…</s1>
+
+# text
+seg-2a5411e17787 = <s1>crpa::tests (kompleksarvude aritmeetika samasused sh z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; deterministlik nullimine annab täpse ühikulise SV võimenduse ja <{ "1e-9" } segaja nullid 4-elemendilisel ULA-l { "3" } segajaga; N-elemendiline võre tõrjub…</s1>
+
+# text
+seg-9439176716b3 = <s1>powerlaw::tests (iga puhas müratüüp näitab oma ADEV log-log tõusu signatuuri — valge FM −½, flicker FM { "0" }, juhusliku käite FM +½, valge PM −{ "1" }; flicker-FM liige on lame põhi, mis võrdub √({ "2" } ln2·h_{ "{" }-1{ "}" })-ga viie dekaadi ulatuses…</s1>
+
+# text
+seg-d0ba60840a33 = <s1>oem::tests (sümmeetriline PD kovariatsioon teisendub KVN→parse edasi-tagasi f64 ümardusveani ja jääb sümmeetriliseks; plokk väljastab täpselt { "21" } alumise kolmnurga elementi — i+{ "1" } maatriksirea kohta — koos/ilma COV_REF_FRAME-ita; plokk, mille…</s1>
+
+# text
+seg-b9cedff90c5f = <s1>tests/ins_coast_schuler_navego_oracle.rs::coast_error_model_matches_the_corrected_navego_runs ({ "48" } punkti, kuus veaühikut kohal { "30" } s kuni { "3600" } s, taktikaline klass, { "45" } kraadi N, loodis ja põhja suunatud: iga punkt { "5" } % piires…</s1>
+
+# text
+seg-8d4441a16bbf = <s1>aperture_duty::tests (aken, mis lõpeb täpselt siis, kui järgmine algab, ei konkureeri ja selle nihutamine sekundi võrra varasemaks maksab täpselt ühe sekundi — ühe võrra eksimise kaitse; kattuvad aknad üle apertuuride arvu…</s1>
+
+# text
+seg-9c561cfdd542 = <s1>hybrid_integrity::tests (tuvastusvõimsuse kõver jookseb valehäire määrast nullvea juures kuni { "1" } − P_md minimaalse tuvastatava nihkeni; minimaalne tuvastatav nihe, mis on tagasi söödetud läbi noncentral_chi2_cdf…</s1>
+
+# text
+seg-e82ac3e32317 = <s1>hybrid_integrity::tests (rannik algab täpselt kovariatsioonijäljest, mida üleandmisplokk teatab, mõlemas suunas, nii et taasesitatud diagonaal ei saa teatatud üleandmisest triivida; teatatud ristumisaeg…</s1>
+
+# text
+seg-193ac8bc7a82 = <s1>antenna::tests ja lunar_service::tests (poolvõimsuse ristumine, leitud mustri poolitamisega, ühtib avaldatud Airy x = { "1.61634" }-ga ja annab täpse { "1.02899" }·λ/D laiuse, märkides, et tavapärane { "1.02" }…</s1>
+
+# text
+seg-67b8e74543ed = <s1>tracking_loop::tests (avatud ahelaga Costase diskriminaatori värin vs sdr::correlate, sammutatud edasi algväärtusega (seed) sünteetilisel IF-il, { "3" } ühendatud müra realisatsiooni × { "900" } epohhi, ühtivad täpsusega { "0.63" }% vahemikus 35-45 dB-Hz, koos…</s1>
+
+# text
+seg-45f00cdcecc4 = <s1>lunar_vlbi_fim::tests ({ "24" } teegi testi: analüütiline Jacobi maatriks vs lunar_vlbi::vlbi_delay_s keskne lõplik vahe, võetud marsruudi kaudu, mis pöörab oleku enda koordinaate edasi ega puuduta kunagi…</s1>
+
+# text
+seg-c94c1bafd6bb = <s1>lunar_vlbi_fim::tests ({ "7" } teegi testi: iga datumi kirjapilt teisendub edasi-tagasi parse/as_str kaudu ja tundmatu lükatakse tagasi; iga jaama hoidmine ilma majakata lükatakse tagasi veaga, mis nimetab estimate_beacon; …</s1>
+
+# text
+seg-7802e95f2bc6 = <s1>lunar_dpnt::tests (puhtalt aditiivne kaitse, mille võtmehulga erinevus on täpselt { "{" }correction_link, units{ "}" } ja iga olemasolev väärtus on bitt-identne enne muudatust jäädvustatud literaalidega; mõõtmisviga EI…</s1>
+
+# text
+seg-3358e5d2ce66 = <s1>tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: täpsusega { "1e-12" } m vastuvõtja müraga ja ilma; zero_baseline_floor_is_zero_in_every_trial: { "0" } täpsusega { "1e-9" } m…</s1>
+
+# text
+seg-97ad6389fa09 = <s1>lunar_terrain::tests (bare_sphere_horizon_is_the_dip: kiirte marssimine taastoodab -acos(R / (R + a)) täpsusega { "1e-3" } kraadi igal asimuudil; a_cone_on_a_lat_lon_tile_matches_the_analytic_cone: sama koonus, valimina võetud { "0.005" } kraadisele…</s1>
+
+# text
+seg-576b1eda3bf4 = <s1>tests/lunar_station_ext.rs (growth_absent_or_zero_is_the_frozen_error_run; the_growth_term_has_the_closed_form_sigma: kasvuga miinus kasvuta lingi vea valimi sigma kiirus tau / sqrt({ "3" }) { "6" } % piires üle { "1600" }…</s1>
+
+# text
+seg-c18cef305fc2 = <s1>lunar_solution::tests (one_epoch_without_height_is_the_snapshot_solve: võrdub lunar_dpnt::position_error_vector_from_range_errors täpsusega { "1e-8" } m, lõtv kõrgusrida ei muuda midagi, tihe fikseerib kõrguse vea…</s1>
+
+# text
+seg-fd1f10c41a66 = <s1>tests/lunar_protection_level_reference.rs ({ "7" } teenindusmahu juhtu — lõunapolaarne, keskmine laiuskraad, ekvatoriaalne, tõstetud mägismaa — { "6" } kuni { "19" } satelliiti, σ_URE 10/30/60 m, P_HMI { "1e-3" } kuni { "1e-7" }, kaitsetasemed, mis ulatuvad…</s1>
+
+# text
+seg-9544831a5a89 = <s1>tests/araim_reference_vectors.rs ({ "2" } avaldatud vektorit + { "6" } negatiivset kontrolli, fikstuur tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: nominaalse nihke väljajätmine eksib avaldatud VPL-ist { "2.6457" } m võrra, { "10" }…</s1>
+
+# text
+seg-cbb5fec70449 = <s1>tests/raim_multi_sv_subsets.rs (deeper_orders_change_nothing_when_pairs_suffice; triples_are_refused_at_order_two_and_planned_deeper: N_fault,max >= { "3" }, jälgimata risk P_THRES piires, alamhulk, mis eemaldab kolm või…</s1>
+
+# text
+seg-a6a5b0b81816 = <s1>tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover-i arvud muutumatud, { "111" } keelatud epohhi kättesaamatud ilma kaitsetasemeta, tagasi lükatud jooksutustega > { "1" }…</s1>
+
+# text
+seg-1f02e6ff390a = <s1>cislunar_observability::tests ja observability_gramian::tests (vaikedokument kinnitatud bitini selle JSON-i, kokkuvõtte ja SVG FNV-1a-ga, selgesõnaliste vaikeväärtustega, mis on väidetud olevat tegevusetud, ja kaheksa…</s1>
+
+# text
+seg-ddd33dc7406d = <s1>lunar_frame_campaign::tests ({ "21" } teegi testi: Helmerti kavand vs lunar_frame_realise::apply_helmert keskne lõplik vahe — moodul, MILLE JAOKS datum on, mis ei arvuta tuletist ja seega kinnitab [p]ₓ…</s1>
+
+# text
+seg-0f4208761aa1 = <s1>cislunar_arc_recovery::tests ja tests/cislunar_arc_recovery_reference.rs (mõlemad piirid ja nende suhted kinnitatud avaldatud ruudustikul; mõõdetud veakõver võrreldud formaalse kovariatsiooniga rida-realt koos…</s1>
+
+# text
+seg-0af954b5a4f8 = <s1>lunar_ephemeris::tests (vormingu ja tugisüsteemi parsimine; Lagrange'i interpolatsioon täpne sõlmedes ja lineaarsel rajal väljaspool sõlme; ICRF elemendid kasutavad IAU { "2015" } taandust ja on bait-baidilt võrdsed selgesõnalise icrf_to_iau_moon…</s1>
+
+# text
+seg-6fc822a083e1 = <s1>tests/field_units_global.rs (kõik { "61" } registreeritud liiki jooksevad, igaüks ühe dokumendivormiga: iga arvuline leht peab lahenduma kirjeks selle dokumendi enda ühikute plokis; väärvormistatud kirje loetakse puuduvaks IGA liigi jaoks…</s1>
+
+# text
+seg-97e468fe62a1 = <s1>tests/lunar_llr_real_data.rs ({ "11" } testi: kõik { "15" } kinnitatud CRD faili bait-baidilt identsed oma salvestatud räsidega; kõik { "349" } kirjet arvele võetud, { "337" } kasutatud ja { "12" } vahele jäetud nimetatud põhjusel; iga arhiveeritud kaugus sees…</s1>
+
+# text
+seg-be4e192d09c8 = <s1>tests/lunar_station_geodesy.rs (empty_or_absent_extra_lists_are_bit_identical: tühjad loendid ja baasjoone näide annavad vaikearuande ja kokkuvõtte bait-baidilt; an_added_site_never_increases_any_variance: …</s1>
+
+# text
+seg-3a90aaa2bab4 = <s1>tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } nägemata 2019-Q2 normaalpunkti; sigmad ja normid { "4.0e-5" } piires väärtusest { "1e-2" }, tingimus { "1.6e-5" } väärtusest { "2e-2" }…</s1>
+
+# text
+seg-8e49f59ab515 = <s1>tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount ({ "12" } nädalast geotsentrilist olekut, halvima epohhi nurk väidetud < { "0.3" }° ja RMS < { "5e5" } m vastu mooduli enda dokumenteeritud väidet…</s1>
+
+# text
+seg-405a4baa18c2 = <s1>tests/source_guards.rs ({ "9" } testi: mõlemad kaitsed üle kogu lähtekoodipuu, pluss mutatsioonifikstuurid, mis hindavad iga kaitset mõlemas suunas — F22 muster teatatud mõlemal kokkupõrkeraual, tarnitud aatomjada…</s1>
+
+# text
+seg-97bf39b8d423 = <s1>tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference ({ "16" } sünteetilist 7x7 SPD maatriksit, mis ulatuvad hästi tingimustatud maatriksitest { "{" }{ "0,3" }{ "}" }-lähedaselt degenereerunuteni; Schuri lambda_min / lähtepunkti CRLB / |corr| vs…</s1>
+
+# text
+seg-d9143b8478b2 = <s1>tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_bcrs_iers2010_relativistic ({ "192" } ILRS normaalpunkti: RMS { "2.81" } m; ainult kaks ITRF2020 jaama { "2.96" } m; mõlemad kuni { "10" } m)…</s1>
+
+# text
+seg-cd923a61d85b = <s1>tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows ({ "9" } omaväärtust, defect/dim_spatial/dim_temporal/coupled_dim/p_st_norm ja { "{" }scale,offset{ "}" } Schuri marginaal well_posed…</s1>
+
+# text
+seg-359b0ae05111 = <s1>tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m { "2.8e-6" } piires Ashby ja Patla { "2024" } väärtusest, J2 AIUB-GRL350A/B-st…</s1>
+
+# text
+seg-c5530b3416de = <s1>lunar_gauge::tests (classify_is_invariant_under_null_basis_rotation - teljega joondatud nullbaas ja selle { "0.6" } rad pööre annavad identse defect, dim_spatial, dim_temporal, coupled_dim ja p_st_norm…</s1>
+
+# text
+seg-f2d1f7f911eb = <s1>lunar_techniques::tests (combine_is_additive_order_independent_and_empty_is_zero - tühi valik annab nullmaatriksi, üksik valik on ühikmaatriks, paar võrdub sõltumatult kirjutatud elementhaaval summaga ja…</s1>
+
+# text
+seg-192a66dd5837 = <s1>tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible { "3" } pakkujapaari kohta vs sõltumatu SciPy SVD lstsq sobitus…</s1>
+
+# text
+seg-f43b88acb648 = <s1>lunar_interop_budget::tests (monotoonsus eelarve suhtes; RSS eelarve vähendamine pakkujapõhise CRLB all; läbitöötatud pöördetolerants Kuu õlavarrel; siduv liige = pööre)</s1>
+
+# text
+seg-286a2e81f845 = <s1>lunar_interop_budget::tests (CommonEphemeris nullib eelarve; CommonFrameTie < PerProvider; irreducible_fraction > { "0.5" } tegelikel jaotustel; konventsioonide järjestus)</s1>
+
+# text
+seg-240b8520d6bc = <s1>tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_scipy_on_real_de440_rows: { "84" }×{ "84" } P⊥ elementhaaval, trace(P⊥) = parity_dim = { "52" } ja rank(G) = { "32" }, tuvastatavuse normid + lipud, MDB ruutvorm cᵀWP⊥c +…</s1>
+
+# text
+seg-c00b93a0b0fd = <s1>tests/telecom_timing_reference.rs ({ "17" } MTIE ja { "12" } TDEV keskmistamistegurit kinnitatud { "2" } 048-valimilisel kiibimõõtmelise aatomkella holdover-i real vananemise, flickeri ja temperatuuriga, vs allantools { "2024.06" } täpsusega <{ "1e-12" } / <{ "1e-9" }…</s1>
+
+# text
+seg-f370ba86f559 = <s1>telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — avatud ja suletud otsad, τ = { "400" } s lünk G.8271.1 tabelis 7-3, pidevus igas murdepunktis, mida tabelid eeldavad…</s1>
+
+# text
+seg-54f65105891a = <s1>clock_log::tests (käsitsi kirjutatud logid vormingu kaupa: päised, eraldajad, ühikud, sageduse integreerimine, TICC kanalid ja režiimid, lüngad ja poliitikad, keeldumised); tests/clock_log_allantools.rs (eelregistreeritud võrdlus…</s1>
+
+# text
+seg-626117af9cdf = <s1>telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — diskreetne vananemisrampi { "0.1" } % piires väärtusest (1/2)·D·t² üle…</s1>
+
+# text
+seg-b8eed1ebd82a = <s1>tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: sobitus kirje esimesel kolmandikul, ennusta ühe sigma ületamine kohal { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } ja { "2.5" } ns, mõõda seda…</s1>
+
+# text
+seg-75b0ef8ae233 = <s1>tests/slot_timing_igs_holdout.rs ({ "10" } GPS Block IIF satelliidikella, { "14" } päeva IGS lõplikke kelli: { "8" } läve { "1.5" } piires, G25 ja G30 optimistlikud kuni umbes 2x, kinnitatud); tests/slot_timing_ocxo_holdout.rs (mõõdetud…</s1>
+
+# text
+seg-5b4b3588e36c = <s1>orbital_timing::tests (reduces_to_the_terrestrial_tpl — täpselt tpl::timing_protection_level_ns, kui kellal puudub flicker-, valge faasi või juhusliku käite liige; leo_geometry_matches_its_closed_forms…</s1>
+
+# text
+seg-bd9967650e32 = <s1>spectrum::tests (bpsk_main_lobe_null_to_null_is_two_n_times_1_023_mhz — BPSK({ "1" }) { "2.046" } MHz ja BPSK({ "10" }) { "20.46" } MHz leitud numbriliselt suletud kujul; boc11_lobes_are_centred_at_plus_minus_1_023_mhz — kandja null…</s1>
+
+# text
+seg-48672b24258c = <s1>spectrum::tests (agrees_with_the_jamming_kind_chain — J/S võrdub jamming::j_over_s_db-ga ja efektiivne C/N0 võrdub jamming::effective_cn0_dbhz-ga, kus Q = 1/(R_c kappa), täpsusega { "1e-9" } dB, ning { "32.105" } dB ankur jamming…</s1>
+
+# text
+seg-7ecf03ff1966 = <s1>tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (baristsentrid 1800-2050 tabelist { "1" } ja { "3000" } BC-3000 AD tabelist { "2" }, { "8908" } ja { "21857" } epohhi, halvim RMS…</s1>
+
+# text
+seg-fd1cc8019558 = <s1>tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs ({ "600" } positsiooni { "200" } UTC epohhil 1973-2026, võetud eelregistreerimise räsist; halvim { "0.66" } lävest, { "2.96" } m)…</s1>
+
+# text
+seg-d44a18dac6a9 = <s1>tests/solar_system_light_time_solver_preregistered.rs::light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s (Merkuuri, Veenuse, Marsi, Jupiteri ja Saturni baristsentrid, Päike ja Kuu Maale…</s1>
+
+# text
+seg-457d0bb2fc18 = <s1>tests/solar_system_horizons_reference.rs (standish_table1_uranus_and_neptune_exceed_the_nominal_error: kinnitatud { "2.04" } ja { "5.16" } korda nominaalse pikkuskraadi viga, alla kuue korra…</s1>
+
+# text
+seg-97266912f59e = <s1>tests/solar_system_horizons_reference.rs (moons_track_horizons_to_the_measured_angles: halvim planeedilt nähtud nurgaviga vahemikus { "2000" } kuni { "2040" }, Phobos { "5.65" } kraadi, Deimos { "0.38" }, Io { "0.40" }, Europa { "1.63" }, Ganymedes { "0.22" }…</s1>
+
+# text
+seg-130434c29134 = <s1>tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epohhi { "1955" } kuni { "2044" }, { "574" } maatriksit täpsusega { "1e-9" } rad, halvim Phobos { "1.43e-10" } rad)…</s1>
+
+# text
+seg-f0f5cad2f3b9 = <s1>constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (kõik { "24" } RAAN-i ja keskmise anomaalia rida täpsusega { "1e-9" } kraadi); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (ICD pesa valem ja…</s1>
+
+# text
+seg-1589b9b655fa = <s1>constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP mediaan { "0.940" }, { "90" } % { "1.165" }, { "95" } % { "1.255" }, { "98" } % { "1.370" }, keskmine { "0.965" } vastu { "0.94" }, { "1.16" }, { "1.25" }, { "1.37" } ja { "0.96" }, lävi { "0.03" } igal fikseeritud…</s1>
+
+# text
+seg-0df9c964e180 = <s1>constellation::tests (prefilter_matches_brute_force_exactly — iga kaart ja loendur võrdub otsese tõusunurga testiga skaneerimisega; five_thousand_satellites_on_a_coarse_grid — { "5 000" } satelliiti, trükib tööaja ja…</s1>
+
+# text
+seg-44fa74f15217 = <s1>tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — ühe liikmega koosseis loeb eraldiseisva arvu ja tulemuse räsi)</s1>
+
+# text
+seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (eelregistreeritud fbe6c8b3 ja pärast 1. vooru protokollimööda möödalaskmist 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D siht-lahend { "6.1e-15" } piires väärtusest r* = r0 { "10" }^((m(r0)…</s1>
+
+# text
+seg-898a76c2719d = <s1>navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) täpsusega { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } võimsusest peasagaras…</s1>
+
+# text
+seg-38df494c0225 = <s1>tests/leo_signal_reference.rs (mitmeribaline joonis jookseb nelja paneeliga, UHF, L5-riba, S ja C segajad keelavad igaüks ainult oma riba ning lihtriba jooksutus on laiendusest puutumata)…</s1>
+
+# text
+seg-5b584f66b1b9 = <s1>tests/leo_link_reference.rs (p838_coefficients_reproduce_table5_to_its_printed_digits: kõik { "115" } tabeli { "5" } rida, { "1" } GHz kuni { "1000" } GHz, iga koefitsient { "0.6" } piires oma viimasest trükitud numbrist; halvim täheldatud { "0.51" })</s1>
+
+# text
+seg-fcf54e4d09c3 = <s1>tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } juhtu viiel asukohal, { "14.25" } ja { "29" } GHz, { "0.001" } % kuni { "1" } %, täpsusega { "1e-4" } dB; täheldatud { "5e-6" } dB)</s1>
+
+# text
+seg-f6b9a637b0d5 = <s1>tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } juhtu seitsmel asukohal, { "14.25" } ja { "20" } GHz, täpsusega { "1e-5" } dB; täheldatud { "5e-7" } dB)</s1>
+
+# text
+seg-a0b65a73f2a4 = <s1>tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } väärtust, { "28" } GHz kraadil { "0" } ja { "2" } GHz kraadil { "45" }, mõlemad klassid, P vahemikus { "1e-7" } kuni { "0.998" }, täpsusega { "0.001" } dB)</s1>
+
+# text
+seg-53943b608329 = <s1>tests/leo_link_reference.rs (doppler_envelope_reproduces_the_pulsar_paper_table_1: Pulsar IOV { "520" } km { "97" } kraadi, Pulsar FOC polaarne { "1080" } km { "97" } kraadi, Pulsar FOC kaldus { "1080" } km { "53" } kraadi ja GPS { "20180" } km { "55" } kraadi; orbitaalkiirus…</s1>
+
+# text
+seg-d34f65fbc0f2 = <s1>leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } ja 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } ja 1/61.1, BeiDou MEO 1/54.2, geostatsionaarne { "0.992" } ja 1/126.2 maskiga { "0" } kraadi, iga…</s1>
+
+# text
+seg-658e7640260b = <s1>tests/leo_navmsg_reference.rs (the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre — neli tegelikku Galileo edastatud efemeriidi E10, E19, E24, E25 kohal tk = { "0" }, +/-600, +/-1800, +/-3600 s, iga telg { "1" } mm piires…</s1>
+
+# text
+seg-bbde673e86b7 = <s1>leo_navmsg::codec::tests (crc24q_matches_the_catalogue_check_value — 0xCDE703 ASCII stringi { "123456789" } jaoks; crc24q_matches_the_rtcm_1005_example_frame — kolm kontrollbaiti 0x360B98 RTCM { "10403" } sõnumitüübi…</s1>
+
+# text
+seg-026c16b76bc5 = <s1>leo_navmsg::tests::a_mid_pass_update_is_continuous (iga lüliti kauguse hüpe võrdub kaugusvea muutusega ja parandatud { "300" } s sobitus, mida uuendatakse iga { "150" } s järel, läbib { "5" } cm läve)…</s1>
+
+# text
+seg-206c8fedb40a = <s1>leo_navmsg::text::tests (calendar_round_trips_and_knows_the_gps_origin; d19_is_rinex_shaped); leo_navmsg::tests::rinex_and_csv_round_trips (iga mudel { "0.1" } mm piires pärast tekstiplokki, CSV täpne)</s1>
+
+# text
+seg-09284032f3ff = <s1>tests/leo_navmsg_fit_real_orbit_oracle.rs::liu22_model_matches_the_published_sisre (neli artikli päeva: piki-, risti-, radiaal- ja SISRE suhted { "0.755" } kuni { "1.138" } Liu jt { "2025" }, sees 1.5x)…</s1>
+
+# text
+seg-bdf321af446a = <s1>tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: üks satelliit kõrgusel { "780" } km ja { "86.4" } kraadi lennatud ööpäev sagedusel { "1621" } MHz üle nelja laiuskraadi, maksimum { "5" }% piires väärtusest { "36" } kHz…</s1>
+
+# text
+seg-1408cfaef991 = <s1>leo_fusion::doppler::tests (range_acceleration_obeys_the_kinematic_identity_and_vanishes_doppler_at_closest_approach; noise_free_multi_satellite_doppler_recovers_the_user: täpsusega { "1" } mm ja triiv täpsusega { "1e-6" } m/s…</s1>
+
+# text
+seg-9cedbeb3d672 = <s1>leo_fusion::ppp::tests (the_filter_is_consistent_over_monte_carlo_seeds: { "24" } algväärtust (seed), jooksude keskmine NEES keskmine vahemikus [{ "2.4" }, { "3.6" }] ja vähemalt { "75" }% epohhidest kahepoolse { "95" }% hii-ruut vahemiku sees; mõõdetud { "150" } algväärtusega (seed), keskmine…</s1>
+
+# text
+seg-1191202e90ca = <s1>tests/leo_polar_coverage_on_path_orekit_oracle.rs (konfiguratsioonid A ja B, { "4040" } valimit: Maaga seotud positsioonid { "6.8e-5" } m piires, lävi { "0.2" } m; nähtavate arvud identsed 4040/4040; mediaanne DOP suhtelise täpsusega { "2.3e-11" }, lävi…</s1>
+
+# text
+seg-d9a4ae25b196 = <s1>leo_pnt_chain::tests (a_sine_line_fit_recovers_its_line); tests/leo_pnt_chain.rs (every_upstream_change_moves_the_downstream_figures: tugevam EIRP, pikem sobitusvahemik ja suurem orbiidi määramise liige igaüks…</s1>
+
+# text
+seg-85d961f50587 = <s1>tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: võrdub läbilennu kaldtee TEC-iga tipus täpsusega { "1e-9" } ja selle sigma võrdub koodimüra RSS-iga üle { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" }))…</s1>
+
+# text
+seg-a17cc61fffba = <s1>tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: kolm stsenaariumi — jaamad hinnatud uuel kampaaniakuupäeval 2026-03-18 (siduv), jaamad fikseeritud sellel kuupäeval…</s1>
+
+# text
+seg-b2e472a6691a = <s1>tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: neli stsenaariumi — jaamad hinnatud uuel kampaaniakuupäeval 2026-06-09 (siduv), jaamad fikseeritud sellel kuupäeval (kontroll)…</s1>
+
+# text
+seg-a71282a84212 = <s1>telemetry::syslog::tests (täpsed LEEF stringid, paomärgid, tõsidus, RFC { "5424" } ümbrik, kohaletoimetamise ajalõpud ja taasühendus); tests/telemetry_cli.rs</s1>
+
+# text
+seg-0f6ad892e199 = <s1>tests/receiver_trust_jammertest_calibration.rs::the_recorded_calibration_reproduces (ignoreeritud, andmetega lukustatud KSHANA_JAMMERTEST_DIR kaudu: salvestatud valik, välja jäetud arvud, läveotsused ja otsus)…</s1>
+
+# text
+seg-fa68aadcc812 = <s1>tests/jammertest_plan_roundtrip.rs (andmetega lukustatud KSHANA_JAMMERTEST_PLAN_DIR kaudu: pesade arvud testiala kohta { "2025" } plaanis, kataloogi id-d, TOML edasi-tagasi teisendus); tests/jammertest_score.rs (sünteetiline logi teadaoleva languse…</s1>
+
+# text
+seg-9029e168db2d = <s1>tests/receiver_trust_live_cli.rs (värav ja selle TCP kuulaja, Rusti pool); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js ja integrations/signalk/test/plugin.test.js ({ "24" } Node…</s1>
+
+# text
+seg-33067eb81d16 = <s1>tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, registreeritud otsus väidetud nii nagu salvestatud, leid F1; finding_model_fades_are_deeper_and_longer_than_measured…</s1>
+
+# text
+seg-a7d806eca846 = <s1>tests/standards_packs.rs (pinned_outcomes: iga testi olek, sh möödalasked L4-T1 ja neli IMO täpsustesti); standards_pack::tests</s1>
+
+# text
+seg-b2e460fe9109 = <s1>receiver_trust::machines::novatel::tests (kinnitatud CRC, ASCII ja binaarkirjed, vigane CRC vahele jäetud, vaenulik sisend); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report</s1>
+
+# text
+seg-af38bd301f7a = <s1>receiver_trust::machines::rtcm3::tests (CRC-24Q kataloogi kontrollväärtus, MSM4/MSM7 C/N0 ja epohhi liitmine, GLONASS-i aja ja SBAS-i id vastendus, vigane CRC ja muud sõnumid)</s1>
+
+# text
+seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: vorming, mille gnss_lib_py sild kirjutab, jooksutatud läbi receiver-trust); sildade Pythoni testid on…</s1>
+
+# text
+seg-17ab1aee875b = Genereeritud mootori kontrollimaatriksist ja kinnitatud testiga. Keri loendit või ava rida, et näha selle võimekust, oraaklit (sõltumatu etalon) ja teste. Täielik tabel, kõik veerud korraga, on dokumentatsioonis: <a1>Võimekuse viide</a1>.
+
+# text
+seg-41da0459d87a = Kas seda registrit (ledger) on vaja auditikvaliteediga reprodutseeritava tõendipaketina ülevaatuskomisjonile? <a1>Kshana Pro pakendab selle</a1>.
+
+# text
+seg-72a49f4a8a52 = Vaikimisi reprodutseeritav
+
+# text
+seg-fa37e615f55e = Käivita uuesti. Saad samad arvud.
+
+# text
+seg-ed2388d71f8d = <s1>Tasuta tuum</s1> Tulemus on reprodutseeritav bitini stsenaariumist, algväärtusest (seed) ja mootori versioonist. Siin ei vaja miski litsentsi, kontot ega meid.
+
+# text
+# c1: result.json
+seg-37c1e99ec1ea = Tempel, mida kannab iga <c1/>
+
+# text
+seg-87d1a7bd3204 = See pärineb salvestatud kella holdover-i jooksutusest. Ava see Kshana Studios või käivita see ise uuesti:
+
+# text
+seg-006d9a3357c7 = algväärtus (seed)
+
+# text
+seg-477ec417d61a = Paigalda mootor.
+
+# text
+# c1: pip install kshana
+seg-972d68eb7cb0 = Või <c1/>, või <a1>mõni muu kanal</a1>.
+
+# attr:aria-label
+seg-a8676830c911 = Kopeeri: kshana scenarios/clock-holdover.toml
+
+# text
+seg-c1c85d7f2577 = Käivita sama stsenaarium.
+
+# text
+seg-b6c702bf5a99 = kshana scenarios/<s1>clock-holdover.toml</s1>
+
+# text
+# c1: result.json
+# c2: chart.svg
+# c3: report.html
+# c4: table.csv
+seg-42c1c8edda64 = See kirjutab stsenaariumi kõrvale <c1/>, <c2/>, <c3/> ja <c4/>.
+
+# text
+seg-f250e52e31a2 = Võrdle templit.
+
+# text
+seg-270867e3758d = Stsenaariumi räsi on SHA-256 (256-bitine turvaline räsialgoritm) kokkuvõte kanoonilisest stsenaariumist: algväärtus (seed), läved, mudeli parameetrid. Muuda mis tahes sisendit ja räsi muutub. Iga diagrammi jalus kannab selle esimest { "12" } kuueteistkümnendmärki.
+
+# text
+seg-67a40345e62e = Lase mootoril ennast kontrollida.
+
+# attr:title
+seg-0ce40c687cec = tests/published_figures_still_reproduce.rs
+
+# attr:title
+seg-349b9f41ae53 = tests/verification_rows_name_a_test_that_exists.rs
+
+# attr:title
+seg-bc1e2f2efa37 = tests/verification_rows_cite_evidence_that_exists.rs
+
+# text
+# c1: tests/published_figures_still_reproduce.rs
+# c2: tests/verification_rows_name_a_test_that_exists.rs
+# c3: tests/verification_rows_cite_evidence_that_exists.rs
+seg-27b8a76b5377 = Igal järgul kinnitavad testid, et avaldatud arvud reprodutseeruvad endiselt (<c1/>) ja et iga registri (ledger) rida nimetab testi ning viitab olemasolevale tõendile (<c2/>, <c3/>).
+
+# text
+seg-c9bd26fbb336 = Standardite ruudustik
+
+# text
+seg-48fb720acd5b = Räägib vorminguid, mida juba esitad.
+
+# text
+seg-4f2bf101ab05 = { "18" } standardit ja vormingut, mida mootor teostab. Roheline märk tähendab, et see on kontrollitud tegelike andmete, avaldatud näite või sõltumatu etalonteostuse vastu.
+
+# attr:aria-label, text
+seg-4dbf9694677e = Kui ülevaatus vajab rohkem
+
+# text
+seg-481e625b04be = Samad tõendid, pakendatud või teie eest tehtud.
+
+# text
+seg-d2c76b1353a9 = Mootor ja kõik ülaltoodu jäävad tasuta. Kaks tasulist teed toetuvad neile, lepingu alusel.
+
+# text
+seg-1e1e6d431868 = Kshana Pro: missioonidossier ja tõendipakett
+
+# text
+seg-20582558a93f = Kshana Pro pakendab tõendid, mida ülevaatus- või hankekomisjon küsib, reprodutseeritavalt. Millele see toetub: see register (ledger), kus iga võimekus nimetab oma oraakli (sõltumatu etalon) ja testi, ning tempel, mida kannab iga tulemus. Ühe käsuga kontrollib missioonidossier iga nõuet tegelike jooksutuste vastu ning kirjutab kontrollimaatriksi koos lahtiste punktide ja PDF-iga (Portable Document Format).
+
+# text
+seg-1c8effb9400a = Vaata tegelikku dossiee
+
+# text
+seg-c24f4ecd4d42 = Kohandatud uuring: teie küsimus, vastatud
+
+# text
+seg-bead5a126394 = Kohandatud uuring vastab teie enda küsimusele samade siltidega: iga arv on Kontrollitud või Modelleeritud, mitte sertifitseerimine. Ekspordikontrolli alla kuuluvat tööd käsitletakse juurdepääsuloa ja NDA (konfidentsiaalsuskokkuleppe) alusel.
+
+# text
+seg-6df96ca25c68 = Miks ja kellele see on mõeldud
+
+# text
+seg-1aff28e3a49a = Võrdle meetodeid samadel logidel.
+
+# text
+seg-5c0bc250857a = kshana-bench fikseerib GNSS-i häirete tuvastamise ja ajastuse holdover-i ülesanded, jaotused ja mõõdikud, koos lähtetasemetega, mille lävi kirjutati üles enne esimest hinnatud jooksutust. Skoor kirjeldab logi või korpust, mitte kunagi toodet.
+
+# attr:aria-label, text
+seg-fa599e1294b9 = Uurimistöö ja viitamine
+
+# text
+seg-9bff81726f3f = Avaldatud uurimistöö.
+
+# text
+seg-7563b76b2e24 = { "6" } artiklit arXivis, avatud preprintide arhiivis, mis on ehitatud avatud mootorile. Igaüks avaneb mootoril uuesti käivitatud diagrammiks, selle leidudeks, käsuks ja DOI-ks (Digital Object Identifier).
+
+# text
+seg-71fadc5b5a0b = Kuu navigatsioon
+
+# text
+seg-99f49da3e2c2 = <s1>{ "18" }. september { "2026" }</s1> · arXiv:{ "2610.23871" }
+
+# text
+seg-4215aedbd38b = Tsislunaarne navigatsioon on jälgitavuse probleem: kaare pikkuse läved, Gramiani konditsioneeritus ja Doppleri hoob
+
+# text
+seg-b98018947305 = Tsislunaarses ruumis DOP (täpsuse halvenemise tegur) ei kehti: ainult-vahemaa lingid jätavad kiiruse igal hetkel jälgimatuks, mistõttu nõuded kuuluvad kaare pikkuse, konditsioneerituse ja mõõtmistüübi eelarvetesse.
+
+# text
+seg-d44879bf12ee = Kokkuvõte
+
+# text
+seg-4f7300f35cc4 = DOI 10.48550/arXiv.2610.23871
+
+# attr:aria-label
+seg-d1e4312d649c = 4-olekulise (positsioon ja kiirus tasandil) jälgitav astak; kõrgem on parem
+
+# attr:title
+seg-f5cb4cb0ab34 = Ruumiline, müraga, mitme perekonna tsislunaarne kaare pikkuse jälgitavus: kontrollimaatriksi silt
+
+# text
+# c1: cislunar-observability.toml
+seg-24861a829697 = Mootor v{ $version } · <c1/> · deterministlik, algväärtuseta (seed)
+
+# text
+seg-53ec3ceb08e3 = Põhileiud
+
+# text
+seg-97a4147e002c = Mootori jooksutuses on ainult-vahemaa geomeetria astak ühel hetkel { "2" } { "4" }-st, seega DOP on määramata; täisolek muutub jälgitavaks pärast { "2.09" } h kaart.
+
+# text
+seg-879b68e63984 = Kauguskiiruse lisamine tõstab hetkelise astaku väärtuselt { "2" } väärtusele { "4" }: Doppleri-võimeline link võimaldab hetktõmmise lahendi, kus ainult-vahemaa link seda ei suuda.
+
+# text
+seg-59fe2106ff19 = Lävest kaugemal konditsioneeritus paraneb kaare pikkusega, seega nõuded loevad paremini kaare pikkuse, konditsioneerituse ja mõõtmistüübi eelarvetena.
+
+# text
+seg-c39dad75b1db = Kuidas Kshana seda reprodutseerib
+
+# text
+seg-88d62c0eb522 = Cislunar-observability liik parandab diferentsiaalselt neli tasapinnalist kaugretrograadset orbiiti, koostab vahemaa ja kauguskiiruse Jacobi maatriksid läbi kolme keha olekuüleminekumaatriksi ning annab aruande jälgitava astaku kohta kasvava jälgimiskaare jooksul, jälgitavuse Gramiani tingimusarvu ning ruutjuure informatsioonifiltri, mis arvutab sama suuruse teist teed pidi ümber.
+
+# text
+seg-4199e285c1ce = <b>Diagramm.</b> Kaasasolev stsenaarium: neli diferentsiaalselt parandatud tasapinnalist kaugretrograadset orbiiti, jälgitud satelliitidevahelise kaugusmõõtmisega { "6" } h kaare jooksul, valimiga iga { "0.26" } h järel.
+
+# text
+# c1: cislunar-observability
+# c2: scenarios/cislunar-observability.toml
+seg-641d437e44cf = Käivitab stsenaariumi liigi <c1/> (<c2/>) paigaldatud mootoriga.
+
+# attr:aria-label
+seg-2d7cee52688b = Kopeeri: kshana example cislunar-observability > cislunar-observability.toml
+
+# text
+seg-8bcfbf1acc34 = kshana example cislunar-observability > cislunar-observability.toml
+
+# attr:aria-label
+seg-819350dc7d89 = Kopeeri: kshana cislunar-observability.toml
+
+# text
+seg-0805c0fa877a = kshana cislunar-observability.toml
+
+# text
+seg-8542b85104f5 = Viita sellele
+
+# text
+seg-e1324f491348 = BibTeX · baweja2026cislunar
+
+# text
+seg-02ae60696338 = Kopeeri BibTeX
+
+# text
+seg-814e10300308 = <s1>{ "7" }. juuli { "2026" }</s1> · arXiv:{ "2607.06212" }
+
+# text
+seg-cb5ae69b24b2 = Kuu lõunapolaarse geomeetria hind ja pinnamajakad kui tõhus parandus: DOP-analüüs
+
+# text
+seg-2d8cdfcc974c = Kavandatud orbiidid koonduvad Kuu lõunapooluse kasutaja pea kohale; mõned lähedasel kõrgendikul asuvad kaugusmõõtmismajakad parandavad geomeetriat odavamalt kui rohkem satelliite.
+
+# text
+seg-15862a1146a0 = DOI 10.48550/arXiv.2607.06212
+
+# attr:aria-label
+seg-5b774fbf8cf4 = Geomeetriline DOP lõunapolaarse kasutaja juures (madalam on parem)
+
+# attr:title
+seg-3534626980e2 = Kuu pinnamajaka DOP-i täiendus: kontrollimaatriksi silt
+
+# text
+# c1: lunar-beacon.toml
+seg-1a81055d9da3 = Mootor v{ $version } · <c1/> · deterministlik, algväärtuseta (seed)
+
+# text
+seg-da361b259315 = Kaasasolevas jooksutuses vähendab üks majakas, mis jõuab horisondist kõrgemale, geomeetrilist DOP-i väärtuselt { "11.66" } väärtusele { "4.998" }; 24-satelliidiline konstellatsioon jõuab selle asemel väärtuseni { "2.893" }.
+
+# text
+seg-53df3c2b7e42 = Satelliidid, mida lõunapolaarne kasutaja näeb, koonduvad väikesesse laiku pea kohal, nii et geomeetriat piirab nende hajuvus, mitte arv.
+
+# text
+seg-cbbaada97ad4 = Mõned majakad kõrgendatud maastikul jõuavad geomeetriani, mille ainult-orbiidi kavand saavutab alles palju suurema parvega.
+
+# text
+seg-89f424090012 = Lunar-beacon liik ehitab orbitaalse konstellatsiooni ja mõõdistatud pinnamajakate, mis jõuavad õhuvaba horisondist kõrgemale, kaugusmõõtmise geomeetria, DOP-i tuumal, mis on kontrollitud sõltumatu teegi vastu, ning annab aruande iga konfiguratsiooni DOP-i ja selle täpsuse kohta meetrites.
+
+# text
+seg-9a9dd41c0880 = <b>Diagramm.</b> Üks epohh kaasasolevast stsenaariumist, selle vaikegeomeetria: ainult satelliidid, satelliidid pluss majakad, mis jõuavad horisondist kõrgemale, ja selle asemel 24-satelliidiline konstellatsioon.
+
+# text
+# c1: lunar-beacon
+# c2: scenarios/lunar-beacon.toml
+seg-5425a567ce90 = Käivitab stsenaariumi liigi <c1/> (<c2/>) paigaldatud mootoriga.
+
+# attr:aria-label
+seg-e117d65ea93b = Kopeeri: kshana example lunar-beacon > lunar-beacon.toml
+
+# text
+seg-51991939e727 = kshana example lunar-beacon > lunar-beacon.toml
+
+# attr:aria-label
+seg-a635fe4b7597 = Kopeeri: kshana lunar-beacon.toml
+
+# text
+seg-c3952de0ac25 = kshana lunar-beacon.toml
+
+# text
+seg-3863c17f1d12 = BibTeX · baweja2026cost
+
+# text
+seg-756a63fd185f = <s1>{ "29" }. juuni { "2026" }</s1> · arXiv:{ "2607.02566" }
+
+# text
+seg-75c6caf87321 = Maa baasjoone VLBI taastab Kuu pinnajaama jälgitavuse ühises orbiidi ja kella määramises
+
+# text
+seg-e58a7d860d50 = Kuu võrgu kaugusmõõtmine fikseerib ainult suhtelise geomeetria; Maa baasjoone pikibaasinterferomeetria viivitus seob pinnajaama Maa tugisüsteemiga isegi väheste satelliitidega. <s1><b>VLBI</b> pikibaasinterferomeetria</s1>
+
+# text
+seg-1d5d779fec56 = DOI 10.48550/arXiv.2607.02566
+
+# attr:aria-label
+seg-4d34307e4008 = Sobituse jaama absoluutse positsiooni viga meetrites (logaritmiline skaala)
+
+# attr:title
+seg-1427dd0d24c1 = Kuu absoluutse jaama jälgitavus (datumi defekt): kontrollimaatriksi silt
+
+# text
+# c1: lunar-joint-od-clock.toml
+seg-dd9cc689ae2b = Mootor v{ $version } · <c1/> · algväärtus (seed) { "42" }
+
+# text
+seg-473a7f364ad8 = Salvestatud macOS-il nii, nagu avaldatud. Uus Linux x86-64 jooksutus annab { "2184" } m / { "3.537" } m (lahendaja iteratsiooni hostisõltuvus, issue #36 rida { "6" }).
+
+# text
+seg-36052dbf6e6d = Kaugusmõõtmine Kuu võrgus jätab klastri vabaks nihkuma ja pöörlema nähtamatult; kellad jäävad jälgitavaks, nii et defekt on puhtalt positsiooniline.
+
+# text
+seg-b734ac9c732e = Mootori jooksutuses ({ "3" } satelliiti) on interferomeetriaharudeta Fisheri informatsiooni astak { "15" } { "16" }-st; nendega on see täisastakuga ja Cramér–Raoi piiriga { "20.1" } m.
+
+# text
+seg-e18724ed23f7 = Rikkaliku konstellatsiooniga ainult teritab interferomeetriaside piiri; hõreda puhul taastab see jaama absoluutse positsiooni.
+
+# text
+seg-d626b2e1fb1c = Lunar-joint-od-clock liik liidab Maa baasjoone interferomeetria viivitused, Kuu-kohalikud kaugused ja satelliitidevahelised kaugused ühes partii vähimruutude sobituses, jooksutab seda interferomeetriaharudega ja ilma samal algväärtusel (seed) ning annab aruande Fisheri informatsiooni astaku, datumi defekti ja Cramér–Raoi piiri kohta.
+
+# text
+seg-16e6ed9268fb = <b>Diagramm.</b> Kaasasolev simuleeritud võrk: { "3" } Kuu satelliiti, { "6" } Maa jaama, üks pinnajaam, sama algväärtus (seed) ja tõde mõlema sobituse jaoks.
+
+# text
+# c1: lunar-joint-od-clock
+# c2: scenarios/lunar-joint-od-clock.toml
+seg-4ed8d3407015 = Käivitab stsenaariumi liigi <c1/> (<c2/>) paigaldatud mootoriga.
+
+# attr:aria-label
+seg-825f9c694f75 = Kopeeri: kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+# text
+seg-b39180e5bad6 = kshana example lunar-joint-od-clock > lunar-joint-od-clock.toml
+
+# attr:aria-label
+seg-e37077cef2d2 = Kopeeri: kshana lunar-joint-od-clock.toml
+
+# text
+seg-4d7b3cc885e1 = kshana lunar-joint-od-clock.toml
+
+# text
+seg-4a67b5769164 = BibTeX · baweja2026earth
+
+# text
+seg-7334fb10a58d = <s1>{ "23" }. juuni { "2026" }</s1> · arXiv:{ "2606.24210" }
+
+# text
+seg-d919ca966a9e = Tingimuslik ajastuse kaitsetase: holdover-iga piiratud tuvastamata ajaviga GNSS-i spuufimise korral
+
+# text
+seg-913d89357229 = Salvestatud spuufimine näitab, et ajastusvastuvõtja pakub aega palju valesti, kui ta teatab; tingimusteta piiri ei ole, seega artikkel piirab tuvastamata viga tingimuslikult. <s1><b>GNSS</b> ülemaailmne satelliitnavigatsioonisüsteem</s1>
+
+# text
+seg-6de2dc8a5fb7 = DOI 10.48550/arXiv.2606.24210
+
+# attr:aria-label
+seg-b3ea3697c2c0 = Nanosekundid (logaritmiline skaala) tuvastusviivituse vastu, sekundid
+
+# attr:title
+seg-0cbe8e77cc1c = Ajastuse kaitsetase spuufimise korral: kontrollimaatriksi silt
+
+# text
+# c1: examples/tpl_jammertest.rs
+seg-83a7b4fac0b6 = Mootor v{ $version } · <c1/> · deterministlik, algväärtuseta (seed)
+
+# text
+seg-77c4b79f3e91 = Avalik salvestatud spuufimine nihutas vastuvõtja pakutavat aega umbes { "1.01" } ms võrra, samal ajal kui see teatas kõige rohkem { "51" } ns.
+
+# text
+seg-f49dcc8cddcc = Piisavalt aeglase rambi vastu ei ole lõplikku tingimusteta piiri, seega on piir tingimuslik sõltumatu satelliitidevahelise kontrolli tuvastamisel rünnakut.
+
+# text
+seg-548b29459f87 = Mootori ajastuse kaitsetase on { "114" } ns tuvastusviivitusel { "1" } s ja { "458" } ns viivitusel { "60" } s.
+
+# text
+seg-ceb4239784a5 = Ajastuse kaitsetaseme moodul liidab monitori tuvastuspõhja ostsillaatori rannikule tuvastusviivituse jooksul. Näide kalibreerib selle skalaaridega, mis on taastatud avalikust JammerTest { "2024" } salvestisest; toorsalvestist ei tarnita.
+
+# text
+seg-723ada08a5da = <b>Diagramm.</b> Näite väljund: tingimuslik ajastuse kaitsetase viiel tuvastusviivitusel ja kaks skalaari, mille see taastas avalikust JammerTest { "2024" } salvestisest.
+
+# text
+# c1: examples/tpl_jammertest.rs
+seg-72b36b33149c = Genereerib uuringuartefakti uuesti failist <c1/>, hoidla kloonis.
+
+# attr:aria-label
+seg-1bbc7e2ec752 = Kopeeri: cargo run --release --example tpl_jammertest
+
+# text
+seg-f9d26d561e77 = cargo run --release --example tpl_jammertest
+
+# text
+seg-1e7f0f12f1d8 = BibTeX · baweja2026conditional
+
+# text
+seg-71f2b94fc8ed = Vastupidavuse hindamine
+
+# text
+seg-0bf6d80a9ac4 = <s1>{ "22" }. juuni { "2026" }</s1> · arXiv:{ "2607.05415" }
+
+# text
+seg-e1901a8f71a6 = Kui stabiilne on PNT vastupidavuse skoor? Ühearvuliste vastupidavushinnangute otsuse ebastabiilsus raamistikuga joondatud kaalumise korral
+
+# text
+seg-0c986779c8c0 = Positsioneerimise, navigatsiooni ja aja ühearvulised vastupidavushinnangud on stabiilsed ainult seal, kus üks kavand domineerib; kaalumine, oht ja deklareeritud tehnikad võivad neid ümber pöörata. <s1><b>PNT</b> positsioneerimine, navigatsioon ja aeg</s1>
+
+# text
+seg-fa0b79c90793 = DOI 10.48550/arXiv.2607.05415
+
+# attr:aria-label
+seg-fe88f96641c0 = Loosid, milles ainuüksi ümberkaalumine muudab esikohal oleva arhitektuuri, protsentides
+
+# attr:title
+seg-4fcd1d447d03 = Vastupidavuse skoori otsuse ebastabiilsuse uuring: kontrollimaatriksi silt
+
+# text
+# c1: examples/resilience_report.rs
+seg-44773d6f6133 = Mootor v{ $version } · <c1/> · algväärtus (seed) { "12345" }
+
+# text
+seg-8b90bfea6f24 = Ainuüksi ümberkaalumine muudab esikohal oleva arhitektuuri { "22" }% loosidest nominaalsetes tingimustes ja kõige rohkem { "1.25" }%-l iga aktiivse ohu korral.
+
+# text
+seg-d8e47cf40fdd = Nõrgima lüli küpsustase sõltub eeldatavast ohust, mitte ainult arhitektuurist.
+
+# text
+seg-1df0aa1cd5d4 = Kuna liitskoor premeerib deklareeritud tehnikaid, võib rohkem deklareeriv kavand edestada vastupidavamat.
+
+# text
+seg-fe2d2c2ed9ec = Vastupidavuse moodul hindab seitset etalonarhitektuuri seitsmes raamistiku kategoorias ja viie ohu vastu, loosib kategooriate kaalud Dirichlet' jaotusest juhuslikult ja loeb, kui sageli esikoht muutub. Näide kirjutab kogu uuringu ühe deterministliku failina.
+
+# text
+seg-83a738bd9ab5 = <b>Diagramm.</b> { "7" } etalonarhitektuuri, { "2,000" } juhuslikku kategooriakaalumist ohu kohta.
+
+# text
+# c1: examples/resilience_report.rs
+seg-a1c2bf9c21a4 = Genereerib uuringuartefakti uuesti failist <c1/>, hoidla kloonis.
+
+# attr:aria-label
+seg-b9a73904adfc = Kopeeri: cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+# text
+seg-164b725640f2 = cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json
+
+# text
+seg-068c8bc02d18 = BibTeX · baweja2026stable
+
+# text
+seg-bc499c388907 = Raadiosageduslik häire
+
+# text
+seg-0411e7a125dd = <s1>{ "20" }. juuni { "2026" }</s1> · arXiv:{ "2606.22054" } · versioon { "2" }
+
+# text
+seg-1a9e30bfff32 = Optimismilõhe ennetamine: RF-häirete detektorite jaotuse nihke languse ennustamine jaotusesisestest statistikutest
+
+# text
+seg-1a5fd51bad12 = Kui palju häiredetektor nihkunud tingimustes kaotab, saab ennustada tema enda jaotusesisestest skooridest; sünteetilised tulemused, kontrollitud avatud välisalvestistel. <s1><b>RF</b> raadiosagedus</s1>
+
+# text
+seg-0484b37344e2 = DOI 10.48550/arXiv.2606.22054
+
+# attr:aria-label
+seg-2ead6f7b689b = Ennustatud vs tegelik optimismilõhe (nihke korral kaotatud pindala kõvera all)
+
+# attr:title
+seg-412b53a9eeb4 = AI/ML RF-häirete optimismilõhe uuring ja ainult-ID lõhe ennustaja: kontrollimaatriksi silt
+
+# text
+# c1: examples/optimism_study.rs
+seg-852f52ca41c7 = Mootor v{ $version } · <c1/> · algväärtus (seed) { "1" }, { "2" }, { "3" }, { "4" }, { "5" }
+
+# text
+seg-e316b9177880 = Jaotusesisese ja nihkunud pindala kõvera all vaheline lõhe kasvab nihke süvenedes ning sõltub sellest, mitu vaadeldavat suurust detektor kasutab, mitte sellest, kas see on õpitud.
+
+# text
+seg-4761136935f9 = Mootori jooksutuses ennustab jaotusesiseste skooristatistikute peal olev ridge-mudel lõhet detektori kohta, mida ta pole näinud (R² { "0.46" }), ja häireklassi kohta, mida ta pole näinud (R² { "0.33" }).
+
+# text
+seg-72cdba8fbe98 = Peamised leiud on sünteetilised; artikkel kontrollib neid seejärel avatud välisalvestistel.
+
+# text
+seg-61d0f43db2e3 = Häireuuring genereerib sünteetilise, parameetritega põhjendatud korpuse nelja häireklassi jaoks, hindab kolmeteistkümmend detektorit nelja nihkeraskuse juures viie algväärtuse (seed) üle ning sobitab lõhe ennustaja ühe-välja-jätmise ristvalideerimise ja permutatsioonitestiga.
+
+# text
+seg-300c322d4ba2 = <b>Diagramm.</b> { "260" } detektori, klassi ja raskuse lahtrit; iga ennustus tehakse detektori kohta, mis on sobitusest välja jäetud.
+
+# text
+# c1: examples/optimism_study.rs
+seg-296fc672c52b = Genereerib uuringuartefakti uuesti failist <c1/>, hoidla kloonis.
+
+# attr:aria-label
+seg-99072a1940f0 = Kopeeri: cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+# text
+seg-66c4d9424478 = cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
+
+# text
+seg-c2e48bf2916b = BibTeX · baweja2026anticipating
+
+# text
+seg-96fe472ae234 = Viita mootorile
+
+# text
+seg-47c92ffeaa12 = Iga väljalase arhiveeritakse Zenodos viidatava DOI-ga ning hoidlas on kaasas CITATION.cff. Palun viidata mootori versioonile, stsenaariumile ja algväärtusele (seed).
+
+# text
+seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — PNT vastupidavuse simulaator kvantandurite toimivusmudelitega</em> (Versioon { $version }). Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+
+# text
+seg-c97e87cbcdd5 = Mootori BibTeX
+
+# text
+seg-24ff0a7466d6 = BibTeX
