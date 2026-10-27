@@ -11213,3 +11213,416 @@ engine-api-html-chart-alt = График результата
 engine-api-html-full-result = Полный результат (JSON)
 
 engine-api-html-footer-generated = Создано Kshana { $version }.
+
+engine-api-html-footer-licence = Воспроизводимо по сценарию + начальному значению + версии движка. Свободное ПО с открытым исходным кодом (AGPL-3.0) — <a href="https://github.com/AshfordeOU/kshana">исходный код и документация</a>.
+
+engine-leo-signal-mhz-pair = { $centre } MHz, { $bandwidth } MHz
+
+engine-spectrum-dbw-per-hz = { $level } dBW/Hz
+
+engine-mcp-main-usage =
+    kshana-mcp: сервер Model Context Protocol для симулятора устойчивости PNT Kshana.
+
+    ИСПОЛЬЗОВАНИЕ:
+    { "    " }kshana-mcp                      работа через stdio (по умолчанию; так запускают клиенты MCP)
+    { "    " }kshana-mcp --http <addr>        работа через потоковый HTTP по адресу http://<addr>/mcp
+
+    ПАРАМЕТРЫ HTTP:
+    { "    " }--http <addr>               адрес привязки, например 127.0.0.1:8080 (по умолчанию только петлевой)
+    { "    " }--allow-remote              разрешить непетлевой адрес; требует KSHANA_MCP_HTTP_TOKEN
+    { "    " }--allowed-host <host[:port]>  дополнительный принимаемый заголовок Host (можно повторять)
+    { "    " }--allow-origin <origin>     принимаемый источник браузера (можно повторять; по умолчанию нет)
+    { "    " }--max-body-bytes <n>        предел тела запроса (по умолчанию 5242880)
+    { "    " }--request-timeout-secs <n>  предел времени на запрос (по умолчанию 120)
+    { "    " }--max-concurrent <n>        число одновременно обслуживаемых запросов (по умолчанию 8)
+
+    Транспорт HTTP отключает файловые инструменты IQ. Kshana не размещает конечную точку: запускайте её сами.{ "\u000A" }
+
+engine-e-mcp-main-unknown-argument = неизвестный аргумент `{ $other }`
+
+engine-e-mcp-main-http-options-need-http = параметры HTTP требуют --http <addr>
+
+engine-e-mcp-http-refusing-to-bind = привязка к { $addr } отклонена: это не петлевой адрес. Используйте 127.0.0.1:<port> или передайте --allow-remote (и задайте { $token_env }), чтобы слушать за пределами этой машины
+
+engine-e-mcp-http-refusing-to-bind-needs-token = привязка к { $addr } отклонена: для непетлевого адреса нужен токен носителя в переменной окружения { $token_env }
+
+engine-e-mcp-http-token-too-short = { $token_env } короче 16 символов; используйте длинный случайный токен
+
+engine-e-mcp-http-limits-must-be-above-zero = --max-body-bytes, --max-concurrent и --request-timeout-secs должны быть больше нуля
+
+engine-e-mcp-http-allow-origin-wildcard = --allow-origin не принимает `*`; укажите каждый источник
+
+engine-mcp-http-warning-remote = ПРЕДУПРЕЖДЕНИЕ: kshana-mcp слушает { $addr } за пределами этой машины. Любой, кто может до него добраться и обладает токеном носителя, может запускать моделирование на вашем оборудовании. Поставьте перед ним TLS (обратный прокси или HTTPS вашей платформы) и храните токен в тайне.
+
+engine-e-lunar-ascent-site-latitude-must-be-in = широта площадки должна быть в [-90, 90], а долгота — в [-180, 360]
+
+engine-e-lunar-ascent-ascent-must-be-in-120 = ascent_s должно быть в [120, 1800]
+
+engine-e-lunar-ascent-afs-mode-must-be-off = afs_mode должно быть off, standalone или differential, получено `{ $o }`
+
+engine-e-lunar-ascent-lunar-time-mode-must-be = lunar_time_mode должно быть off, ltc или tt, получено `{ $o }`
+
+engine-e-lunar-ascent-relays-must-be-in-24 = n_relays должно быть в 3..=24
+
+engine-e-lunar-ascent-afs-interval-must-be-positive = afs_interval_s должно быть положительным, а afs_first_fix_s — неотрицательным
+
+engine-e-lunar-ascent-insertion-altitude-km-must-be = insertion_altitude_km должно быть в [10, 1000]
+
+engine-e-lunar-ascent-entry-covariance-is-not-symmetric = входная ковариация не симметрична или её диагональ содержит отрицательные значения
+
+engine-e-lunar-ascent-lunar-ascent-expects-the-entry = lunar-ascent ожидает входные часы в LTC или TT, получено { $timescale }; цепочка преобразует шкалы времени
+
+engine-e-lunar-landing-descent-must-be-in-60 = descent_s должно быть в [60, 3600]
+
+engine-e-lunar-landing-trn-source-must-be-off = trn_source должно быть off, terrain-nav или lola-crlb, получено `{ $o }`
+
+engine-e-lunar-landing-fix-times-must-be-positive = моменты определений должны быть положительными, afs_interval_s > 0, а trn_fix_time_s — в пределах спуска
+
+engine-e-lunar-landing-trn-window-must-be-at = trn_window_m должно быть не менее 3600
+
+engine-e-lunar-landing-trn-height-sigma-must-be = trn_height_sigma_m должно быть положительным
+
+engine-e-lunar-landing-lola-crlb-needs-the-dem = lola-crlb требует ЦМР, которую не удалось загрузить
+
+engine-e-lunar-landing-lunar-descent-expects-the-entry = lunar-descent ожидает входные часы в LTC или TT, получено { $timescale }; цепочка преобразует шкалы времени
+
+engine-e-lunar-landing-east-prior-is-not-positive = априорная оценка по востоку не положительно определена
+
+engine-e-lunar-landing-north-prior-is-not-positive = априорная оценка по северу не положительно определена
+
+engine-e-lunar-rendezvous-gravity-table-path = gravity_table_path { $p }: { $e }
+
+engine-e-lunar-rendezvous-orbit-must-be-llo-or = orbit должно быть `llo` или `elfo`, получено `{ $o }`
+
+engine-e-lunar-rendezvous-periapsis-must-be-at-least = периселений должен быть не менее чем на 20 km выше поверхности
+
+engine-e-lunar-rendezvous-separation-must-be-in-50000 = separation_m должно быть в (0, 50000)
+
+engine-e-lunar-rendezvous-step-must-be-in-60 = step_s должно быть в (0, 60], а arc_s — не меньше одного шага
+
+engine-e-lunar-rendezvous-relays-must-be-in-24 = n_relays должно быть в 4..=24
+
+engine-e-lunar-rendezvous-integration-must-be-positive = integration_s должно быть положительным
+
+engine-e-lunar-rendezvous-common-mode-fraction-must-be = common_mode_fraction должно быть в [0, 1)
+
+engine-e-lunar-rendezvous-filter-model-must-be-same = filter_model должно быть `same` или `point-mass`, получено `{ $o }`
+
+engine-e-lunar-rendezvous-lunar-orbit-rendezvous-expects-the = lunar-orbit-rendezvous ожидает входную ковариацию в MCI; цепочка преобразует системы координат
+
+engine-e-lunar-rendezvous-prior-covariance-is-not-positive = априорная ковариация не положительно определена
+
+engine-e-lunar-rendezvous-normal-equations-are-not-positive = нормальные уравнения не положительно определены
+
+engine-e-lunar-rendezvous-posterior-information-is-not-positive = апостериорная информация не положительно определена
+
+engine-e-lunar-rendezvous-no-trial-ran = ни одно испытание не выполнялось
+
+engine-e-lunar-surface-map-season-date-is-not-yyyy = дата сезона `{ $s }` не в формате YYYY-MM-DD
+
+engine-e-lunar-surface-map-season-date-bad-year = дата сезона `{ $s }`: неверный год
+
+engine-e-lunar-surface-map-season-date-bad-month = дата сезона `{ $s }`: неверный месяц
+
+engine-e-lunar-surface-map-season-date-bad-day = дата сезона `{ $s }`: неверный день
+
+engine-e-lunar-surface-map-season-date-is-outside-1901 = дата сезона `{ $s }` вне диапазона 1901-2099 или не является датой
+
+engine-e-lunar-surface-map-sites-must-hold-between-and = sites должно содержать от 1 до 64 записей
+
+engine-e-lunar-surface-map-site-latitude-must-be-in = площадка { $i }: широта должна быть в [-90, 90], а долгота — в [-180, 360]
+
+engine-e-lunar-surface-map-season-dates-must-hold-at = season_dates должно содержать хотя бы одну дату
+
+engine-e-lunar-surface-map-season-dates-must-hold-at-2 = season_dates должно содержать не более 16 дат
+
+engine-e-lunar-surface-map-window-days-must-be-in = window_days должно быть в (0, 400], а step_min — в [1, 720]
+
+engine-e-lunar-surface-map-stay-days-and-timing-floor = stay_days и timing_floor_s должны быть положительными и конечными
+
+engine-e-lunar-phase-epoch-is-not-yyyy-mm = эпоха `{ $s }` не в формате YYYY-MM-DDTHH:MM:SSZ
+
+engine-e-lunar-phase-epoch-bad-number = эпоха `{ $s }`: неверное число `{ $x }`
+
+engine-e-lunar-phase-epoch-is-outside-1901-2099 = эпоха `{ $s }` вне диапазона 1901-2099 или не является датой
+
+engine-e-clock-fit-clock-fit-replaces-must-be = { "[" }clock_fit] replaces должно быть "quantum" или "classical" (получено { $other })
+
+engine-e-clock-fit-clock-fit = { "[" }clock_fit]: { $e }
+
+engine-e-evidence-label-the-result-document-already-carries = документ результата уже содержит ключ `evidence`
+
+engine-e-evidence-label-the-result-document-is-not = документ результата не является объектом JSON
+
+engine-e-evidence-label-no-evidence-rows-are-listed = для `{ $tool }` не перечислено ни одной строки доказательств
+
+engine-e-clock-log-not-rinex-clock-file-no-2 = не файл часов RINEX: нет записи RINEX VERSION / TYPE
+
+engine-e-clock-log-rinex-version-type-record-has = в записи RINEX VERSION / TYPE нет номера версии (найдено { $field })
+
+engine-e-clock-log-rinex-clock-version-is-not = версия часов RINEX { $v } не читается: читаются версии 2.00 и 3.00-3.04 (IGS публикует формат часов до 3.04; RINEX 4.00-4.02 не определяют файл часов)
+
+engine-e-clock-log-rinex-clock-record-with-an = запись часов RINEX с нечитаемым смещением часов или эпохой: { $e }
+
+engine-e-clock-log-timelab-line-holds-reading-that = строка TimeLab { $line } содержит неконечное показание: { $l }
+
+engine-e-mission-thread-conversions-frame-conversion-is-not-available = преобразование системы координат { $a } -> { $b } недоступно (преобразуются только Gcrf, Mci и Mcmf)
+
+engine-e-mission-thread-conversions-timescale-hop-is-not-pivot = переход шкалы времени { $a } -> { $b } не является опорным переходом
+
+engine-e-mission-thread-earth-entry-the-corridor-must-run-from = { $kind }: коридор должен идти от пологого угла к более крутому, ниже 90 градусов, получено от { $lo } до { $hi }
+
+engine-e-mission-thread-earth-ground-network-ground-network-min-elevation-deg = ground_network: `min_elevation_deg` должно быть в [0, 90), получено { $min_elevation_deg }
+
+engine-e-mission-thread-earth-ground-network-ground-network-handover-gap-must = ground_network: `handover_gap_s` должно быть не менее 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-step-must-be = ground_network: `step_s` должно быть больше 0
+
+engine-e-mission-thread-earth-ground-network-ground-network-needs-at-least = ground_network: нужна хотя бы одна станция
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-has-an = ground_network: у станции `{ $id }` недопустимые широта или долгота
+
+engine-e-mission-thread-earth-ground-network-ground-network-station-id-is = ground_network: идентификатор станции `{ $id }` используется дважды
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-geometry = ground_network: у фазы `{ $phase }` геометрия "stated", и ей нужно `duty`
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-duty-must = ground_network: duty фазы `{ $phase }` должно быть в [0, 1], получено { $d }
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-has-unknown = ground_network: у фазы `{ $phase }` неизвестная геометрия `{ $other }`; геометрии: entry-orbit, moon-direction и stated
+
+engine-e-mission-thread-earth-ground-network-ground-network-the-entry-orbit = ground_network: входная орбита не была распространена
+
+engine-e-mission-thread-earth-ground-network-ground-network-no-geometry-to = ground_network: нет геометрии `{ $other }` для вычисления
+
+engine-e-mission-thread-earth-ground-network-ground-network-phase-needs-gcrf = ground_network: фазе `{ $phase }` для её геометрии нужен вход в GCRF, получено { $frame }
+
+engine-e-mission-thread-earth-launch-fade-must-end-after-it = { $kind }: замирание должно заканчиваться после своего начала (от { $a } до { $b } s)
+
+engine-e-mission-thread-earth-launch-expects-gcrf-entry-state-got = { $kind }: ожидается входное состояние в GCRF, получено { $frame }; задайте вход в gcrf
+
+engine-e-mission-thread-earth-launch-the-phase-produced-no-samples = { $kind }: фаза не дала ни одного отсчёта
+
+engine-e-mission-thread-earth-model-unknown-model-key-the-keys = { $kind }: неизвестный ключ модели `{ $k }`; ключи: { $allowed }
+
+engine-e-mission-thread-earth-model-the-model-needs = { $kind }: модели нужен `{ $key }`
+
+engine-e-mission-thread-earth-model-must-be-finite-number = { $kind }: `{ $key }` должно быть конечным числом
+
+engine-e-mission-thread-earth-model-must-be-above-got = { $kind }: `{ $key }` должно быть больше 0, получено { $v }
+
+engine-e-mission-thread-earth-model-must-be-at-least-got = { $kind }: `{ $key }` должно быть не менее 0, получено { $v }
+
+engine-e-mission-thread-earth-model-must-be-string = { $kind }: `{ $key }` должно быть строкой
+
+engine-e-mission-thread-earth-model-must-be-an-array-of = { $kind }: `{ $key }` должно быть массивом таблиц
+
+engine-e-mission-thread-earth-model-must-hold-tables = { $kind }: `{ $key }` должно содержать таблицы
+
+engine-e-mission-thread-earth-model-must-be-an-array-of-2 = { $kind }: `{ $key }` должно быть массивом из { $n } чисел
+
+engine-e-mission-thread-earth-model-must-hold-numbers-got = { $kind }: `{ $key }` должно содержать { $n } чисел, получено { $got_count }
+
+engine-e-mission-thread-earth-model-must-hold-finite-numbers = { $kind }: `{ $key }` должно содержать конечные числа
+
+engine-e-mission-thread-earth-rendezvous-leg-needs-sensor = { $kind }: участку нужен `sensor`
+
+engine-e-mission-thread-earth-rendezvous-the-model-needs-at-least = { $kind }: модели нужен хотя бы один `[[phase.model.legs]]`
+
+engine-e-mission-thread-earth-rendezvous-leg-start = { $kind }: начало участка { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg-end = { $kind }: конец участка { $leg }: { $e }
+
+engine-e-mission-thread-earth-rendezvous-leg = { $kind }: участок { $leg }: { $e }
+
+engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` должно быть в [0, 1], получено { $d }
+
+engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` и `ssv_step_min` должны быть больше 0
+
+engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: распространение не дошло до { $dt } s
+
+engine-e-mission-thread-earth-tli-cruise-the-post-burn-orbit-is = { $kind }: орбита после включения двигателя не является связанной (удельная энергия { $energy } J/kg); для замещающей орбиты gnss-ssv нужна эллиптическая
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned = { $kind }: перебор gnss-ssv не вернул ни одной полосы
+
+engine-e-mission-thread-earth-tli-cruise-the-gnss-ssv-sweep-returned-2 = { $kind }: перебор gnss-ssv не вернул ни одной группы
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-gnss-ssv = { $kind }: фаза перечисляет gnss-ssv, поэтому модели нужен `ssv_uere_m`
+
+engine-e-mission-thread-earth-tli-cruise-the-phase-lists-ground-tracking = { $kind }: фаза перечисляет ground-tracking, поэтому модели нужны `ground_range_sigma_m`, `ground_range_rate_sigma_mps` и `ground_interval_s`
+
+engine-e-mission-thread-handover-handover-must-be-finite-number = передача { $name } должна быть конечным числом не менее 0, получено { $v }
+
+engine-e-mission-thread-phase-its-model-is-but = фаза `{ $id }`: у её модели { $key } равно { $own_s } s, но цепочка задаёт фазе duration_s = { $duration_s } s; согласуйте их или опустите { $key }
+
+engine-e-mission-thread-phase-unknown-frame-expected-one-of = неизвестная система координат `{ $other }`; ожидается одна из gcrf, itrf, mci, mcmf, lvlh
+
+engine-e-mission-thread-phase-unknown-timescale-expected-one-of = неизвестная шкала времени `{ $other }`; ожидается одна из tt, tdb, utc, ltc
+
+engine-e-mission-thread-phase-unknown-navigation-source-expected-one = неизвестный источник навигации `{ $other }`; ожидается один из gnss, gnss-ssv, ground-tracking, lunanet, trn, inertial, relative-optical
+
+engine-e-mission-thread-phase-unknown-time-source-expected-one = неизвестный источник времени `{ $other }`; ожидается один из gnss, ground-clock, lunar-time, onboard-holdover
+
+engine-e-mission-thread-scenario-must-be-positive-finite-number = { $name } должно быть положительным конечным числом, получено { $v }
+
+engine-e-mission-thread-scenario-handover-rule-needs = правилу передачи `{ $rule }` нужен `{ $what }`
+
+engine-e-mission-thread-scenario-unknown-handover-rule-expected-carry = неизвестное правило передачи `{ $other }`; ожидается carry, inflate или reacquire
+
+engine-e-mission-thread-scenario-phase-has-an-empty-id = у фазы пустой идентификатор
+
+engine-e-mission-thread-scenario-entry = entry: { $e }
+
+engine-e-mission-thread-scenario-entry-sigma-drift-per-must = entry: sigma_drift_s_per_s должно быть конечным числом не менее 0
+
+engine-e-mission-thread-scenario-entry-must-hold-six-finite = entry: x должно содержать шесть конечных чисел
+
+engine-e-mission-thread-scenario-mission-thread = mission-thread: { $e }
+
+engine-e-mission-thread-scenario-kind-must-be-mission-thread = kind должно быть "mission-thread", получено "{ $k }"
+
+engine-e-mission-thread-scenario-mission-thread-needs-at-least = для цепочки миссии нужна хотя бы одна [[phase]]
+
+engine-e-mission-thread-scenario-phase-id-is-used-twice = идентификатор фазы `{ $id }` используется дважды; идентификаторы уникальны
+
+engine-e-mission-thread-scenario-ground-network-phase-is-not = ground_network: фаза `{ $phase }` не является фазой этой цепочки
+
+engine-e-mission-thread-scenario-phase = фаза `{ $id }`: { $e }
+
+engine-e-mission-thread-scenario-phase-ended-at-but-started = фаза `{ $id }` закончилась в { $t_s } s, но началась в { $start_s } s и длится { $duration_s } s
+
+engine-e-mission-thread-sensors-unknown-relative-navigation-sensor-expected = неизвестный датчик относительной навигации `{ $other }`; ожидается один из optical-camera, lidar, rf-ranging
+
+engine-e-mission-thread-sensors-range-must-be-positive-finite = дальность должна быть положительным конечным числом метров, получено { $range_m }
+
+engine-e-mission-thread-sensors-range-is-beyond-the-sensor = дальность { $range_m } m превышает предел датчика в { $max_range_m } m
+
+engine-e-mission-thread-lunar-unknown-model-key-the-keys = { $kind }: неизвестный ключ модели `{ $bad }`; ключи: { $keys }
+
+engine-e-receiver-trust-scenario-the-receiver-trust-evidence-rows = строк доказательств receiver-trust нет в матрице
+
+engine-e-ssv-check-unknown-ablation-b1-to-b5 = неизвестная абляция `{ $other }`: B1-B5
+
+engine-e-evidence-assemble-the-evidence-pack-rows-are = строк пакета доказательств нет в матрице
+
+engine-e-jammertest-cli-the-jammertest-evidence-rows-are = строк доказательств jammertest нет в матрице
+
+engine-e-clock-fit-fit-has-no-frequency-noise = { "[" }clock_fit]: в подгонке нет частотного шума (белый FM, фликкер-FM и случайное блуждание FM равны нулю), поэтому не из чего предсказать holdover; журнал может содержать только белый фазовый шум или быть слишком коротким
+
+engine-e-evidence-label-run-exercised-no-matrix-row = прогон не задействовал ни одной строки матрицы верификации
+
+engine-e-lunar-ascent-expects-entry-covariance-in-mci = lunar-ascent ожидает входную ковариацию в MCI; цепочка преобразует системы координат
+
+engine-e-lunar-landing-expects-entry-covariance-in-mci = lunar-descent ожидает входную ковариацию в MCI; цепочка преобразует системы координат
+
+engine-e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf = lunar-surface ожидает входное состояние в MCI или MCMF; цепочка преобразует системы координат
+
+engine-e-lunar-rendezvous-sma-must-exceed-lunar-radius = sma_km должно превышать лунный радиус, а эксцентриситет — быть в [0, { $lit_0_9 })
+
+engine-e-mission-thread-unknown-phase-kind = неизвестный вид фазы `{ $kind }`; зарегистрированные виды: { $known }
+
+engine-e-mission-thread-scenario-nav-lists-no-source = `nav` не перечисляет ни одного источника навигации
+
+engine-e-ssv-check-training-pattern-missing = отсутствует обучающий шаблон { $sv }
+
+engine-e-api-clock-fit-needs-clock-log-table = { "[" }clock_fit] требует таблицу [clock_log]: измеренный ряд, по которому делается подгонка
+
+engine-lunar-phase-no-finite-points-to-plot = нет конечных точек для построения графика
+
+engine-partner-cli-usage =
+    использование: kshana partner check <submission.toml> [--json]
+    { "  " }Проверяет формат и метаданные материалов партнёра по данным (kshana.partner-submission/1) и читает его
+    { "  " }файл данных собственными средствами чтения движка. Он ничего не оценивает и не проверяет на достоверность; см. docs/PARTNER-DATA.md.
+    { "  " }Код завершения 0: материалы полны и читаются; 1: найдены ошибки; 2: ошибка использования.
+    Программное обеспечение консультативного характера, не навигационное оборудование с утверждённым типом.
+
+engine-evidence-verify-evidence-label-ledger-rows = метка доказательств: { $tier } (строк реестра: { $row_count }: { $rows }); она находится внутри config.json, поэтому подпись её охватывает
+
+engine-evidence-verify-no-evidence-label-pre-040-pack = метки доказательств нет (пакет до 0.40)
+
+engine-e-ssv-check-pattern-missing = отсутствует шаблон { $sv }
+
+engine-lunar-ascent-summary = lunar-ascent | { $lat } deg | только инерциально { $inertial_pos } m / { $inertial_vel } m/s | с AFS { $afs_pos } m / { $afs_vel } m/s | разброс при выведении { $dispersion } m/s (MODELLED)
+
+engine-lunar-ascent-chart-subtitle = инерциальный дрейф с определениями по AFS | MODELLED, только консультативный характер
+
+engine-lunar-ascent-chart-x-axis = секунд с момента старта
+
+engine-lunar-ascent-chart-series = 1-сигма положения
+
+engine-lunar-chart-y-axis-metres = метры
+
+engine-lunar-landing-summary = lunar-descent | { $lat } deg | только инерциально { $none_east }/{ $none_north } m (В/С) | со средствами поддержки { $all_east }/{ $all_north } m | разброс R95 { $r95 } m | эллипс 3-сигма { $major } x { $minor } m | { $inside }% внутри (ожидается { $expect }%) (MODELLED)
+
+engine-lunar-landing-chart-title = Разброс лунной посадки: R95 в зависимости от используемых средств поддержки
+
+engine-lunar-landing-chart-subtitle = R95 по средствам поддержки: { $aids } | MODELLED, только консультативный характер
+
+engine-lunar-landing-chart-x-axis = комбинация средств поддержки (индекс)
+
+engine-lunar-landing-chart-series = R95 разброса посадки
+
+engine-lunar-rendezvous-summary = lunar-orbit-rendezvous | { $orbit } { $periapsis_km }x{ $apoapsis_km } km | расст. { $sep } m | определений { $fixes }% | отн. положение 1-сигма R/A/C { $radial }/{ $along }/{ $cross } m | средний NEES { $nees } (ожидается 6) | сошлось { $converged } (MODELLED)
+
+engine-lunar-rendezvous-converged-never = никогда
+
+engine-lunar-rendezvous-converged-at = при { $s } s
+
+engine-lunar-rendezvous-chart-title = Лунная стыковка: формальная 1-сигма относительного положения (3-D, м)
+
+engine-lunar-rendezvous-chart-subtitle = { $filter_model } | определений { $fixes }% | средний NEES { $nees } (ожидается 6) | MODELLED, только консультативный характер
+
+engine-lunar-rendezvous-chart-x-axis = минут с начала дуги
+
+engine-lunar-rendezvous-chart-series = 1-сигма относительного положения
+
+engine-lunar-surface-map-summary = lunar-surface | площадок: { $n_sites } x сезонов: { $n_seasons } | позиционирование от { $position_min }% до { $position_max }% | худшая доступность синхронизации { $worst_timing }% | самый длинный пробел синхронизации { $gap_h } h (MODELLED)
+
+engine-lunar-surface-map-chart-title = Карта PNT лунной поверхности: доступность по площадкам (худший сезон, %)
+
+engine-lunar-surface-map-chart-subtitle = позиционирование = 4 и более ретрансляторов и PDOP ниже порога; синхронизация = один ретранслятор или Земля | MODELLED, только консультативный характер
+
+engine-lunar-surface-map-chart-x-axis = индекс площадки
+
+engine-lunar-surface-map-chart-y-axis = процент окна
+
+engine-lunar-surface-map-chart-series-positioning = позиционирование
+
+engine-lunar-surface-map-chart-series-timing = синхронизация
+
+engine-lunar-surface-map-chart-series-earth-visible = Земля видна
+
+engine-mission-thread-weakest-link = самое слабое звено { $phase_id }
+
+engine-mission-thread-no-phases = нет фаз
+
+engine-mission-thread-untitled = без названия
+
+engine-mission-thread-summary = mission-thread | фаз: { $n_phases } | { $title } | { $weak } | { $tier }
+
+engine-mission-thread-default-title = Цепочка миссии
+
+engine-mission-thread-chart-position-caption = 1-сигма положения, м
+
+engine-mission-thread-chart-time-caption = 1-сигма времени, с
+
+engine-mission-thread-chart-subtitle = MODELLED бюджет ошибок навигации и синхронизации времени; каждая фаза показана равной ширины
+
+engine-evidence-label-line-one-row = Доказательства: { $tier } · { $n } строка реестра { $ids }
+
+engine-evidence-label-line-rows = Доказательства: { $tier } · строк реестра: { $n } { $ids }
+
+engine-evidence-label-line-rows-more = Доказательства: { $tier } · строк реестра: { $n } { $ids } и ещё { $n_more }
+
+engine-partner-text-header = kshana partner check: { $submission }
+
+engine-partner-text-info = { "  " }информация: { $i }
+
+engine-partner-text-warning = { "  " }предупреждение: { $w }
+
+engine-partner-text-error = { "  " }ОШИБКА: { $e }
+
+engine-partner-text-result-ok = результат: формат и метаданные полны и читаются
+
+engine-partner-text-result-not-ready = результат: не готово; исправьте ошибки выше
+
+engine-lunar-ascent-chart-title = Лунный взлёт: 1-сигма навигационного положения в 3-D (м)
