@@ -9,3 +9,5 @@ seg-ee2e250497f9 = Eksport dla test bench
 seg-ad856ad710eb = Status
 
 seg-98d0bc6b40ce = Mapowanie compliance do publicznych ram
+
+seg-80f3f0aae42c = Mapa zakłóceń
