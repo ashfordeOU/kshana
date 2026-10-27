@@ -297,8 +297,10 @@ pub fn convert_frame(
             r1.extend(r2);
             Ok((s2, r1))
         }
-        (a, b) => Err(format!(
-            "frame conversion {a:?} -> {b:?} is not available (only Gcrf, Mci and Mcmf convert)"
+        (a, b) => Err(crate::terr!(
+            "e-mission-thread-conversions-frame-conversion-is-not-available",
+            a = format!("{:?}", a),
+            b = format!("{:?}", b)
         )),
     }
 }
@@ -386,7 +388,7 @@ fn hop(
                 )],
             ))
         }
-        _ => Err(format!("timescale hop {a} -> {b} is not a pivot hop")),
+        _ => Err(crate::terr!("e-mission-thread-conversions-timescale-hop-is-not-pivot", a = a, b = b)),
     }
 }
 

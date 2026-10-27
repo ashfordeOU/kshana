@@ -461,37 +461,37 @@ impl LunarLandingScenario {
         if !((-90.0..=90.0).contains(&lat) && (-180.0..=360.0).contains(&lon))
             || more.iter().any(|l| !(-90.0..=90.0).contains(l))
         {
-            return Err("site latitude must be in [-90, 90] and longitude in [-180, 360]".into());
+            return Err(crate::terr!("e-lunar-ascent-site-latitude-must-be-in"));
         }
         let t_end = self.descent_s.unwrap_or(600.0);
         if !(60.0..=3600.0).contains(&t_end) {
-            return Err("descent_s must be in [60, 3600]".into());
+            return Err(crate::terr!("e-lunar-landing-descent-must-be-in-60"));
         }
         let pos = |v: Option<f64>, d: f64, name: &str| -> Result<f64, String> {
             let x = v.unwrap_or(d);
             if x.is_finite() && x >= 0.0 {
                 Ok(x)
             } else {
-                Err(format!("{name} must be finite and non-negative"))
+                Err(crate::terr!(
+                    "e-nma-budget-must-be-finite-and-non",
+                    name = name
+                ))
             }
         };
         let afs = match self.afs_mode.as_deref().unwrap_or("standalone") {
             "off" => AfsMode::Off,
             "standalone" => AfsMode::Standalone,
             "differential" => AfsMode::Differential,
-            o => {
-                return Err(format!(
-                    "afs_mode must be off, standalone or differential, got `{o}`"
-                ))
-            }
+            o => return Err(crate::terr!("e-lunar-ascent-afs-mode-must-be-off", o = o)),
         };
         let trn = match self.trn_source.as_deref().unwrap_or("terrain-nav") {
             "off" => TrnSource::Off,
             "terrain-nav" => TrnSource::TerrainNav,
             "lola-crlb" => TrnSource::LolaCrlb,
             o => {
-                return Err(format!(
-                    "trn_source must be off, terrain-nav or lola-crlb, got `{o}`"
+                return Err(crate::terr!(
+                    "e-lunar-landing-trn-source-must-be-off",
+                    o = o
                 ))
             }
         };
@@ -499,26 +499,31 @@ impl LunarLandingScenario {
             "off" => TimeMode::Off,
             "ltc" => TimeMode::Ltc,
             "tt" => TimeMode::Tt,
-            o => return Err(format!("lunar_time_mode must be off, ltc or tt, got `{o}`")),
+            o => {
+                return Err(crate::terr!(
+                    "e-lunar-ascent-lunar-time-mode-must-be",
+                    o = o
+                ))
+            }
         };
         let n_relays = self.n_relays.unwrap_or(8);
         if !(3..=24).contains(&n_relays) {
-            return Err("n_relays must be in 3..=24".into());
+            return Err(crate::terr!("e-lunar-ascent-relays-must-be-in-24"));
         }
         let trn_t = self.trn_fix_time_s.unwrap_or(480.0);
         let afs_first = self.afs_first_fix_s.unwrap_or(60.0);
         let afs_dt = self.afs_interval_s.unwrap_or(60.0);
         if !(afs_dt > 0.0 && afs_first >= 0.0 && trn_t > 0.0 && trn_t <= t_end) {
-            return Err("fix times must be positive, afs_interval_s > 0 and trn_fix_time_s within the descent".into());
+            return Err(crate::terr!("e-lunar-landing-fix-times-must-be-positive"));
         }
         let sync_days = pos(self.time_since_sync_days, 3.0, "time_since_sync_days")?;
         let trn_window = pos(self.trn_window_m, 12_000.0, "trn_window_m")?;
         if trn_window < 3600.0 {
-            return Err("trn_window_m must be at least 3600".into());
+            return Err(crate::terr!("e-lunar-landing-trn-window-must-be-at"));
         }
         let trn_h_sigma = self.trn_height_sigma_m.unwrap_or(5.0);
         if trn_h_sigma.is_nan() || trn_h_sigma <= 0.0 {
-            return Err("trn_height_sigma_m must be positive".into());
+            return Err(crate::terr!("e-lunar-landing-trn-height-sigma-must-be"));
         }
         Ok(Resolved {
             lat,
@@ -586,13 +591,14 @@ impl LunarLandingScenario {
         seconds: f64,
     ) -> Result<([f64; 4], [Vec3; 3]), String> {
         if carried.frame != Frame::Mci {
-            return Err(
-                "lunar-descent expects the entry covariance in MCI; the thread converts frames"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-landing-expects-entry-covariance-in-mci"
+            ));
         }
         if !cov_is_valid(&carried.p) {
-            return Err("entry covariance is not symmetric with a non-negative diagonal".into());
+            return Err(crate::terr!(
+                "e-lunar-ascent-entry-covariance-is-not-symmetric"
+            ));
         }
         let site = selenographic_to_mcmf(Selenographic {
             lat_rad: lat.to_radians(),
@@ -726,7 +732,8 @@ impl LunarLandingScenario {
                 trn_sigma = Some((s, s));
             }
             TrnSource::LolaCrlb => {
-                let dem = dem.ok_or("lola-crlb needs the DEM, which could not be loaded")?;
+                let dem =
+                    dem.ok_or_else(|| crate::terr!("e-lunar-landing-lola-crlb-needs-the-dem"))?;
                 let sample = 1200.0;
                 if let Some((se, sn)) =
                     lola_crlb(dem, site, cfg.trn_window, sample, cfg.trn_h_sigma)
@@ -812,9 +819,9 @@ impl LunarLandingScenario {
             cfg.seed = seed;
         }
         if !matches!(carried.clock.timescale, Timescale::Ltc | Timescale::Tt) {
-            return Err(format!(
-                "lunar-descent expects the entry clock in LTC or TT, got {:?}; the thread converts timescales",
-                carried.clock.timescale
+            return Err(crate::terr!(
+                "e-lunar-landing-lunar-descent-expects-the-entry",
+                timescale = format!("{:?}", carried.clock.timescale)
             ));
         }
         let _ = epoch_jd(ctx, carried.t_s)?;
@@ -902,10 +909,10 @@ impl LunarLandingScenario {
         let l0 = [
             priors[0]
                 .cholesky()
-                .ok_or("east prior is not positive definite")?,
+                .ok_or_else(|| crate::terr!("e-lunar-landing-east-prior-is-not-positive"))?,
             priors[1]
                 .cholesky()
-                .ok_or("north prior is not positive definite")?,
+                .ok_or_else(|| crate::terr!("e-lunar-landing-north-prior-is-not-positive"))?,
         ];
         let mut rng = ChaCha8Rng::seed_from_u64(cfg.seed);
         let mut g = || unit.sample(&mut rng);
@@ -1062,18 +1069,18 @@ impl LunarLandingScenario {
             base.extend(p2);
             base.extend(p3);
         }
-        let summary = format!(
-            "lunar-descent | {:.2} deg | inertial only {:.0}/{:.0} m (E/N) | with aids {:.1}/{:.1} m | dispersion R95 {:.0} m | 3-sigma ellipse {:.0} x {:.0} m | {:.1}% inside (expect {:.1}%) (MODELLED)",
-            cfg.lat,
-            nav_none.0,
-            nav_none.1,
-            nav_all.0,
-            nav_all.1,
-            r95(sig_e, sig_n),
-            maj,
-            min,
-            100.0 * frac,
-            100.0 * P_3SIGMA_2D
+        let summary = crate::t!(
+            "lunar-landing-summary",
+            lat = crate::i18n::num(cfg.lat, 2),
+            none_east = crate::i18n::num(nav_none.0, 0),
+            none_north = crate::i18n::num(nav_none.1, 0),
+            all_east = crate::i18n::num(nav_all.0, 1),
+            all_north = crate::i18n::num(nav_all.1, 1),
+            r95 = crate::i18n::num(r95(sig_e, sig_n), 0),
+            major = crate::i18n::num(maj, 0),
+            minor = crate::i18n::num(min, 0),
+            inside = crate::i18n::num(100.0 * frac, 1),
+            expect = crate::i18n::num(100.0 * P_3SIGMA_2D, 1)
         );
         let per_axis: Vec<Vec<(f64, f64, f64)>> = (0..2)
             .map(|k| crate::lunar_ascent::axis_series(&priors[k], cfg.s, cfg.t_end, &fx[k], 10.0))
@@ -1140,9 +1147,9 @@ impl LunarLandingScenario {
             .iter()
             .filter_map(|r| r["aids"].as_str().map(|s| s.to_string()))
             .collect();
-        let sub = format!(
-            "R95 by aids: {} | MODELLED, advisory only",
-            names
+        let sub = crate::t!(
+            "lunar-landing-chart-subtitle",
+            aids = names
                 .iter()
                 .enumerate()
                 .map(|(i, n)| format!("{i}={n}"))
@@ -1150,12 +1157,12 @@ impl LunarLandingScenario {
                 .join(", ")
         );
         line_chart_svg(
-            "Lunar landing dispersion: R95 against aids used",
+            &crate::t!("lunar-landing-chart-title"),
             &sub,
-            "aid combination (index)",
-            "metres",
+            &crate::t!("lunar-landing-chart-x-axis"),
+            &crate::t!("lunar-chart-y-axis-metres"),
             &[ChartSeries {
-                name: "R95 of landing dispersion",
+                name: &crate::t!("lunar-landing-chart-series"),
                 points: pts,
             }],
         )

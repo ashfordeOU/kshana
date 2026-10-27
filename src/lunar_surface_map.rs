@@ -163,20 +163,24 @@ fn ymd_of(jd: f64) -> String {
 fn parse_date(s: &str) -> Result<f64, String> {
     let p: Vec<&str> = s.split('-').collect();
     if p.len() != 3 {
-        return Err(format!("season date `{s}` is not YYYY-MM-DD"));
+        return Err(crate::terr!(
+            "e-lunar-surface-map-season-date-is-not-yyyy",
+            s = s
+        ));
     }
     let y: i32 = p[0]
         .parse()
-        .map_err(|_| format!("season date `{s}`: bad year"))?;
+        .map_err(|_| crate::terr!("e-lunar-surface-map-season-date-bad-year", s = s))?;
     let m: u32 = p[1]
         .parse()
-        .map_err(|_| format!("season date `{s}`: bad month"))?;
+        .map_err(|_| crate::terr!("e-lunar-surface-map-season-date-bad-month", s = s))?;
     let d: u32 = p[2]
         .parse()
-        .map_err(|_| format!("season date `{s}`: bad day"))?;
+        .map_err(|_| crate::terr!("e-lunar-surface-map-season-date-bad-day", s = s))?;
     if !(1901..=2099).contains(&y) || !(1..=12).contains(&m) || !(1..=31).contains(&d) {
-        return Err(format!(
-            "season date `{s}` is outside 1901-2099 or not a date"
+        return Err(crate::terr!(
+            "e-lunar-surface-map-season-date-is-outside-1901",
+            s = s
         ));
     }
     Ok(jd_of(y, m, d))
@@ -250,14 +254,17 @@ impl LunarSurfaceMapScenario {
                 .collect()
         });
         if sites_in.is_empty() || sites_in.len() > 64 {
-            return Err("sites must hold between 1 and 64 entries".into());
+            return Err(crate::terr!(
+                "e-lunar-surface-map-sites-must-hold-between-and"
+            ));
         }
         let mut sites = Vec::new();
         for (i, s) in sites_in.iter().enumerate() {
             let lon = s.lon_deg.unwrap_or(0.0);
             if !((-90.0..=90.0).contains(&s.lat_deg) && (-180.0..=360.0).contains(&lon)) {
-                return Err(format!(
-                    "site {i}: latitude must be in [-90, 90] and longitude in [-180, 360]"
+                return Err(crate::terr!(
+                    "e-lunar-surface-map-site-latitude-must-be-in",
+                    i = i
                 ));
             }
             sites.push((
@@ -268,9 +275,15 @@ impl LunarSurfaceMapScenario {
         }
         let seasons: Vec<(String, f64)> = match &self.season_dates {
             Some(d) if d.is_empty() => {
-                return Err("season_dates must hold at least one date".into())
+                return Err(crate::terr!(
+                    "e-lunar-surface-map-season-dates-must-hold-at"
+                ))
             }
-            Some(d) if d.len() > 16 => return Err("season_dates must hold at most 16 dates".into()),
+            Some(d) if d.len() > 16 => {
+                return Err(crate::terr!(
+                    "e-lunar-surface-map-season-dates-must-hold-at-2"
+                ))
+            }
             Some(d) => d
                 .iter()
                 .map(|s| parse_date(s).map(|jd| (s.clone(), jd)))
@@ -288,7 +301,7 @@ impl LunarSurfaceMapScenario {
             && (0.0..=400.0).contains(&window_days)
             && (1.0..=720.0).contains(&step_min))
         {
-            return Err("window_days must be in (0, 400] and step_min in [1, 720]".into());
+            return Err(crate::terr!("e-lunar-surface-map-window-days-must-be-in"));
         }
         let mut svc = LunarServiceScenario::default();
         if let Some(v) = self.n_sats {
@@ -332,15 +345,16 @@ impl LunarSurfaceMapScenario {
     pub fn run_phase(&self, carried: &NavState, ctx: &ThreadCtx) -> Result<MapOut, String> {
         let cfg = self.resolve()?;
         if !matches!(carried.frame, Frame::Mci | Frame::Mcmf) {
-            return Err(
-                "lunar-surface expects the entry state in MCI or MCMF; the thread converts frames"
-                    .into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-surface-map-expects-entry-state-in-mci-or-mcmf"
+            ));
         }
         let stay_s = self.stay_days.map_or(cfg.window_s, |d| d * 86_400.0);
         let floor_s = self.timing_floor_s.unwrap_or(5.0e-8);
         if !(stay_s > 0.0 && stay_s.is_finite() && floor_s > 0.0 && floor_s.is_finite()) {
-            return Err("stay_days and timing_floor_s must be positive and finite".into());
+            return Err(crate::terr!(
+                "e-lunar-surface-map-stay-days-and-timing-floor"
+            ));
         }
         let _ = epoch_jd(ctx, carried.t_s)?;
         let constellation = constellation_of(&cfg.svc);
@@ -523,25 +537,34 @@ impl LunarSurfaceMapScenario {
             .iter()
             .filter_map(|c| c["timing_availability"].as_f64())
             .fold(f64::INFINITY, f64::min);
-        let summary = format!(
-            "lunar-surface | {} sites x {} seasons | positioning {:.0}% to {:.0}% | worst timing availability {:.1}% | longest timing gap {:.1} h (MODELLED)",
-            cfg.sites.len(),
-            cfg.seasons.len(),
-            100.0
-                * cells
+        let summary = crate::t!(
+            "lunar-surface-map-summary",
+            n_sites = cfg.sites.len(),
+            n_seasons = cfg.seasons.len(),
+            position_min = crate::i18n::num(
+                100.0
+                    * cells
+                        .iter()
+                        .filter_map(|c| c["position_availability"].as_f64())
+                        .fold(f64::INFINITY, f64::min),
+                0
+            ),
+            position_max = crate::i18n::num(
+                100.0
+                    * cells
+                        .iter()
+                        .filter_map(|c| c["position_availability"].as_f64())
+                        .fold(0.0, f64::max),
+                0
+            ),
+            worst_timing = crate::i18n::num(100.0 * worst_t, 1),
+            gap_h = crate::i18n::num(
+                cells
                     .iter()
-                    .filter_map(|c| c["position_availability"].as_f64())
-                    .fold(f64::INFINITY, f64::min),
-            100.0
-                * cells
-                    .iter()
-                    .filter_map(|c| c["position_availability"].as_f64())
+                    .filter_map(|c| c["longest_timing_gap_h"].as_f64())
                     .fold(0.0, f64::max),
-            100.0 * worst_t,
-            cells
-                .iter()
-                .filter_map(|c| c["longest_timing_gap_h"].as_f64())
-                .fold(0.0, f64::max),
+                1
+            ),
         );
         Ok(MapOut {
             exit: {
@@ -562,8 +585,8 @@ impl LunarSurfaceMapScenario {
         let v: Value = serde_json::from_str(json).unwrap_or(Value::Null);
         let cells = v["cells"].as_array().cloned().unwrap_or_default();
         let n_sites = v["n_sites"].as_u64().unwrap_or(0) as usize;
-        let series = |key: &str, name: &'static str| -> ChartSeries<'static> {
-            let pts: Vec<(f64, f64)> = (0..n_sites)
+        let series = |key: &str| -> Vec<(f64, f64)> {
+            (0..n_sites)
                 .filter_map(|si| {
                     let worst = cells
                         .iter()
@@ -572,18 +595,31 @@ impl LunarSurfaceMapScenario {
                         .fold(f64::INFINITY, f64::min);
                     worst.is_finite().then_some((si as f64, 100.0 * worst))
                 })
-                .collect();
-            ChartSeries { name, points: pts }
+                .collect()
         };
+        let (name_positioning, name_timing, name_earth) = (
+            crate::t!("lunar-surface-map-chart-series-positioning"),
+            crate::t!("lunar-surface-map-chart-series-timing"),
+            crate::t!("lunar-surface-map-chart-series-earth-visible"),
+        );
         line_chart_svg(
-            "Lunar surface PNT map: availability by site (worst season, %)",
-            "positioning = 4+ relays and PDOP under the threshold; timing = one relay or the Earth | MODELLED, advisory only",
-            "site index",
-            "percent of the window",
+            &crate::t!("lunar-surface-map-chart-title"),
+            &crate::t!("lunar-surface-map-chart-subtitle"),
+            &crate::t!("lunar-surface-map-chart-x-axis"),
+            &crate::t!("lunar-surface-map-chart-y-axis"),
             &[
-                series("position_availability", "positioning"),
-                series("timing_availability", "timing"),
-                series("earth_visible", "Earth visible"),
+                ChartSeries {
+                    name: &name_positioning,
+                    points: series("position_availability"),
+                },
+                ChartSeries {
+                    name: &name_timing,
+                    points: series("timing_availability"),
+                },
+                ChartSeries {
+                    name: &name_earth,
+                    points: series("earth_visible"),
+                },
             ],
         )
     }
