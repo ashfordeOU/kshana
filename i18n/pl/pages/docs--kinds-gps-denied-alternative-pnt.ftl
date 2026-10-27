@@ -57,3 +57,9 @@ seg-ab895b157152 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia 
 seg-c0ef7d676ec1 = <s1>Poprzedni</s1>Pomiary GNSS, pozycjonowanie i integralność
 
 seg-54b45b00a2f0 = <s1>Następny</s1>Fuzja inercyjna i czujniki kwantowe
+
+seg-0d7bf5a4f07e = Nawigacja odniesiona do terenu bez GPS (TERCOM/SITAN): wysokościomierz radarowy/barometryczny dopasowuje profil wysokości terenu do NMT w stylu SRTM, aby odzyskać dryf INS.
+
+seg-c5e33c7122e2 = Wykres zapisany przez silnik dla scenarios/terrain-nav.toml, rodzaj terrain-nav
+
+seg-6bdc150ab25b = Sekwencyjna (rekurencyjna) nawigacja odniesiona do terenu bez GPS: filtr cząsteczkowy uruchamia model pomiaru dopasowania do terenu epoka po epoce (SITAN jako filtr ciągły), dzięki czemu zmienny w czasie dryf INS jest śledzony wzdłuż trasy, podczas gdy wsadowe terrain-nav odzyskuje tylko jedno stałe przesunięcie.

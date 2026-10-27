@@ -159,3 +159,7 @@ seg-41e50e49da99 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia 
 seg-09f7f99d04a6 = <s1>Poprzedni</s1>Nawigacja z niskiej orbity okołoziemskiej
 
 seg-74c6bf83988e = <s1>Następny</s1>Analiza misji, łącza i operacje kosmiczne
+
+seg-28c6a5644152 = Obliczona na podstawie modelu analiza lunarnego obszaru usługi nawigacyjnej dla ILLUSTRATIVE, opartej na źródłach publicznych konstelacji na orbicie okołoksiężycowej klasy Moonlight/LCNS (bez powiązania z ESA): przegląda siatkę szerokości i długości selenograficznych w danym horyzoncie czasowym i podaje DOP, pokrycie i dostępność (≥{ "4" } satelitów ORAZ PDOP poniżej progu) oraz uogólnioną obwiednię poziomów ochrony lunarnego ARAIM (HPL/VPL) nad tym obszarem. Geometria DOP PONOWNIE WYKORZYSTUJE jądro VALIDATED względem gnss_lib_py (crate::orbit::dop); poziom ochrony PONOWNIE WYKORZYSTUJE mechanizm lunarnego ARAIM LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) i jako przypadek szczególny sprowadza się do istniejącego poziomu ochrony dla bieguna południowego. Kompozycja MODELLED: zestaw przekaźników na orbitach keplerowskich kołowych lub eliptycznych (nie rzeczywiste efemerydy LCNS/NRHO z korekcją różnicową), Księżyc z rotacją średnią (bez libracji i precesji bieguna). Deterministyczna (czysta geometria). Bez TRL, dziedzictwa lotniczego ani poparcia agencji.
+
+seg-edb738273a3a = Wykres zapisany przez silnik dla scenarios/moonlight-service-volume.toml, rodzaj moonlight-service-volume

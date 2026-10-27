@@ -67,3 +67,15 @@ seg-1c244958d3c4 = <b>Rejestr (ledger):</b> MODELLED { "1" } · VALIDATED { "2" 
 seg-d4adf4283480 = <s1>Poprzedni</s1>Konstelacje, pokrycie i geometria
 
 seg-2cdfd7f8bfb3 = <s1>Następny</s1>Alternatywne PNT w warunkach braku GPS
+
+seg-b7b67e03f125 = Pozycjonowanie jednopunktowe na rzeczywistych obserwacjach: wyznaczenie pozycji odbiornika z pliku obserwacji RINEX { "3" } i pliku nawigacyjnego z komunikatów rozgłoszeniowych (pseudoodległości kodowe, efemerydy rozgłoszeniowe, jonosfera Klobuchara, troposfera Saastamoinena/Niella), opcjonalnie sprawdzone względem współrzędnej pomierzonej geodezyjnie.
+
+seg-d76d59644d84 = Wykres zapisany przez silnik dla scenarios/pvt-abmf.toml, rodzaj pvt
+
+seg-edfcb546d9de = Budżet prognozy lunarnego układu odniesienia i orientacji Ziemi w czasie rzeczywistym: Tabela { "1" } z P4 (kontrola spójności błędu układu odniesienia — po przetworzeniu ~{ "0.27" } m ↔ ~{ "0.010" } ms oraz w czasie rzeczywistym ~{ "15" } m ↔ ~{ "0.5" } ms, każda pozycja układu wyrażona jako równoważny błąd UT1 przez ramię dźwigni L19 Δr = D_EM·ω⊕·ΔUT1) i Tabela { "2" } (zmierzony błąd prognozy UT1 w funkcji horyzontu — krzywa L18 odczytana wprost z rzeczywistego szeregu IERS finals2000A: końcowa podłoga Bulletin A − Bulletin B i błąd wieloniowego predyktora persystencji, każdy odwzorowany na pozycję w układzie Księżyca przez L19), plus budżet błędu układu odniesienia w czasie rzeczywistym L21 jako pierwiastek sumy kwadratów (EOP + efemerydy + podłoga realizacji). Postać zamknięta VALIDATED (ramię dźwigni L19, ω⊕ skontrolowane krzyżowo względem kąta obrotu Ziemi CIO) oraz rzeczywiste dane VALIDATED (krzywa L18 z rzeczywistych wierszy finals2000A); MODELLED są wielkości kowariancji OD przekaźnika lunarnego i podłoga realizacji układu (alokacje reprezentatywne) oraz predyktor persystencji (nie jest to operacyjny algorytm Bulletin A organizacji IERS). Nie jest to produkt układu odniesienia czasu rzeczywistego objęty certyfikacją.
+
+seg-2721ed7727bb = Wykres zapisany przez silnik dla scenarios/realtime-frame-eop.toml, rodzaj realtime-frame-eop
+
+seg-5f25c5b71f0c = Model środowiska pogody kosmicznej: wskaźniki aktywności słonecznej (F10.7/F10.7a) i geomagnetycznej (Kp, z definicyjną tabelą Kp↔ap), temperatura egzosferyczna Jacchia-1971, którą one napędzają (sprawdzona względem niezależnego wzorca zewnętrznego dla opublikowanych wartości w minimum, średniej i maksimum słonecznym), oraz gęstość neutralna termosfery Jacchia-1971 przy średniodobowej temperaturze egzosferycznej wobec statycznego profilu niezależnego od aktywności na zbiorze wysokości — zależność gęstości od cyklu słonecznego, której atmosfera statyczna nie uwzględnia. MODELLED: gęstość zgadza się z gęstościami wyprowadzonymi z akcelerometrów (TOLEOS CHAMP i GRACE) w granicach czynnika { "2" } w maksimum słonecznym, lecz jest około 1.7x zbyt gęsta w minimum słonecznym z { "2008" }.
+
+seg-c1c6f2f73fb5 = Wykres zapisany przez silnik dla scenarios/space-weather.toml, rodzaj space-weather
