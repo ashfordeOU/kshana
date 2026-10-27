@@ -11,22 +11,22 @@ js-ledger-rows =
        *[other] { $n } ledger rows
     }
 
-# src/site.js:373
+# src/site.js:374
 js-site-action-copy-install = Copy: cargo install kshana
 
-# src/site.js:371
+# src/site.js:372
 js-site-action-launch = Launch { $name }
 
-# src/site.js:375
+# src/site.js:376
 js-site-action-licence = Talk to us about a commercial licence
 
-# src/site.js:374
+# src/site.js:375
 js-site-action-pro-eval = Request a Kshana Pro evaluation
 
-# src/site.js:376
+# src/site.js:377
 js-site-action-study = Request a study
 
-# src/site.js:372
+# src/site.js:373
 js-site-action-theme = Switch light or dark theme
 
 # src/js/capabilities.mjs:689
@@ -658,40 +658,40 @@ js-site-caphero-read-orbit = orbit { $period }
 # src/js/cap-hero.mjs:64
 js-site-caphero-seed = seed { $seed }
 
-# src/site.js:239
+# src/site.js:240
 js-site-copy-aria = Copy: { $cmd }
 
-# src/js/developers.mjs:41
+# src/js/developers.mjs:42
 js-site-developers-captured-from = captured { $recorded } from
 
-# src/js/developers.mjs:41
+# src/js/developers.mjs:42
 js-site-developers-engine-build = Engine v{ $version }, build
 
-# src/js/developers.mjs:51
+# src/js/developers.mjs:52
 js-site-developers-exit-stamp = exit { $rc } · { $ms } ms
 
-# src/js/developers.mjs:44
+# src/js/developers.mjs:45
 js-site-developers-file-open-in-studio = { $file }: open in { $studio }
 
-# src/js/developers.mjs:45
+# src/js/developers.mjs:46
 js-site-developers-no-seed = (deterministic, no seed)
 
-# src/js/developers.mjs:44
+# src/js/developers.mjs:45
 js-site-developers-open-in-studio = Open in { $studio }
 
-# src/js/developers.mjs:89
+# src/js/developers.mjs:90
 js-site-developers-pause = Pause the replay
 
-# src/js/developers.mjs:89
+# src/js/developers.mjs:90
 js-site-developers-play = Play the replay
 
-# src/js/developers.mjs:70
+# src/js/developers.mjs:71
 js-site-developers-replaying = # replaying the recorded session
 
-# src/js/developers.mjs:45
+# src/js/developers.mjs:46
 js-site-developers-seed = (seed { $seed })
 
-# src/js/developers.mjs:46
+# src/js/developers.mjs:47
 js-site-developers-what-runs-write = What every run writes
 
 # src/js/editions.mjs:89
@@ -737,347 +737,347 @@ js-site-editions-ring-pro = Kshana Pro
 # src/js/editions.mjs:49
 js-site-editions-ring-study = Custom study
 
-# src/js/evidence.mjs:319
+# src/js/evidence.mjs:320
 js-site-evidence-allan-aria = Four deviations of the NIST SP 1065 1000-point data set against averaging time; all { $n } published values reproduced, worst relative error { $err }
 
-# src/js/evidence.mjs:340
+# src/js/evidence.mjs:341
 js-site-evidence-allan-lg-published = published value, SP 1065 Table 31
 
-# src/js/evidence.mjs:312
+# src/js/evidence.mjs:313
 js-site-evidence-allan-mdev = modified Allan deviation
 
-# src/js/evidence.mjs:346
+# src/js/evidence.mjs:347
 js-site-evidence-allan-na = n/a
 
-# src/js/evidence.mjs:312
+# src/js/evidence.mjs:313
 js-site-evidence-allan-oadev = overlapping Allan deviation
 
-# src/js/evidence.mjs:312
+# src/js/evidence.mjs:313
 js-site-evidence-allan-ohdev = overlapping Hadamard deviation
 
-# src/js/evidence.mjs:347
+# src/js/evidence.mjs:348
 js-site-evidence-allan-read = { $tau } s · Allan { $oadev } · modified { $mdev } · Hadamard { $ohdev }
 
-# src/js/evidence.mjs:341
+# src/js/evidence.mjs:342
 js-site-evidence-allan-st-gate = the test's gate
 
-# src/js/evidence.mjs:341
+# src/js/evidence.mjs:342
 js-site-evidence-allan-st-reproduced = published values reproduced
 
-# src/js/evidence.mjs:341
+# src/js/evidence.mjs:342
 js-site-evidence-allan-st-worst = worst relative error
 
-# src/js/evidence.mjs:312
+# src/js/evidence.mjs:313
 js-site-evidence-allan-tdev = time deviation, in seconds
 
-# src/js/evidence.mjs:328
+# src/js/evidence.mjs:329
 js-site-evidence-allan-tip-at = «{ $name }» at { $m } s
 
-# src/js/evidence.mjs:328
+# src/js/evidence.mjs:329
 js-site-evidence-allan-tip-engine = engine: «{ $got }» · relative error { $err }
 
-# src/js/evidence.mjs:328
+# src/js/evidence.mjs:329
 js-site-evidence-allan-tip-table = SP 1065 Table 31: «{ $want }»
 
-# src/js/evidence.mjs:469
+# src/js/evidence.mjs:470
 js-site-evidence-cell-tip = Capability { $i } of { $n } · «{ $label }»
 
-# src/js/evidence.mjs:222
+# src/js/evidence.mjs:223
 js-site-evidence-cowell-aria = Position difference against Orekit over 24 hours: force tiers 1 to 5 stay under { $worst }; the drag tier reaches { $drag }, a characterisation band
 
-# src/js/evidence.mjs:236
+# src/js/evidence.mjs:237
 js-site-evidence-cowell-gto = geostationary transfer orbit
 
-# src/js/evidence.mjs:236
+# src/js/evidence.mjs:237
 js-site-evidence-cowell-leo = low Earth orbit
 
-# src/js/evidence.mjs:242
+# src/js/evidence.mjs:243
 js-site-evidence-cowell-lg-con = tiers 1 to 5, two-body up to solar radiation pressure, two orbits each
 
-# src/js/evidence.mjs:242
+# src/js/evidence.mjs:243
 js-site-evidence-cowell-lg-drag = tier 6, drag: characterisation only (different density models)
 
-# src/js/evidence.mjs:251
+# src/js/evidence.mjs:252
 js-site-evidence-cowell-read = { $h } h · tiers 1 to 5 worst { $con } · drag { $drag }
 
-# src/js/evidence.mjs:243
+# src/js/evidence.mjs:244
 js-site-evidence-cowell-st-drag = drag tier, worst
 
-# src/js/evidence.mjs:243
+# src/js/evidence.mjs:244
 js-site-evidence-cowell-st-epochs = epochs in tiers 1 to 5
 
-# src/js/evidence.mjs:236
+# src/js/evidence.mjs:237
 js-site-evidence-cowell-tip-tier = «Tier { $tier }: { $label }» · { $regime }
 
-# src/js/evidence.mjs:236
+# src/js/evidence.mjs:237
 js-site-evidence-cowell-tip-worst = worst difference «{ $err }» at { $h } h
 
-# src/js/evidence.mjs:539
+# src/js/evidence.mjs:540
 js-site-evidence-hero-live = { $label }. { $cap }. { $oracle }
 
-# src/js/evidence.mjs:537
+# src/js/evidence.mjs:538
 js-site-evidence-hero-no-oracle = No external oracle named.
 
-# src/js/evidence.mjs:536
+# src/js/evidence.mjs:537
 js-site-evidence-hero-oracle = Oracle
 
-# src/js/evidence.mjs:539
+# src/js/evidence.mjs:540
 js-site-evidence-hero-oracle-is = Oracle: { $o }
 
-# src/js/evidence.mjs:536
+# src/js/evidence.mjs:537
 js-site-evidence-hero-owner = Owner
 
-# src/js/evidence.mjs:537
+# src/js/evidence.mjs:538
 js-site-evidence-hero-partner = A partner owns this; the engine claims none of it.
 
-# src/js/evidence.mjs:544
+# src/js/evidence.mjs:545
 js-site-evidence-hero-pause = Pause the sweep
 
-# src/js/evidence.mjs:544
+# src/js/evidence.mjs:545
 js-site-evidence-hero-play = Play the sweep
 
-# src/js/evidence.mjs:531
+# src/js/evidence.mjs:532
 js-site-evidence-hero-row = Row { $i } of { $n }
 
-# src/js/evidence.mjs:381
+# src/js/evidence.mjs:382
 js-site-evidence-hold-accepted = accepted: within a factor of { $bar }
 
-# src/js/evidence.mjs:359
+# src/js/evidence.mjs:360
 js-site-evidence-hold-aria = Measured root-mean-square time error of the caesium clock against coast time, with the engine's prediction; predicted over measured breach from { $lo } to { $hi }
 
-# src/js/evidence.mjs:387
+# src/js/evidence.mjs:388
 js-site-evidence-hold-control = «Control:» the naive prediction (the one-second stability read as white frequency noise) gives a ratio of { $ratio }, off by a factor of about { $factor }, and fails the same bar. The bar has teeth.
 
-# src/js/evidence.mjs:375
+# src/js/evidence.mjs:376
 js-site-evidence-hold-lg-meas = measured on the held-out record (dot: breach)
 
-# src/js/evidence.mjs:375
+# src/js/evidence.mjs:376
 js-site-evidence-hold-lg-pred = predicted from the first third (ring: breach)
 
-# src/js/evidence.mjs:354
+# src/js/evidence.mjs:355
 js-site-evidence-hold-nodata = The measured record was not available when this page was generated.
 
-# src/js/evidence.mjs:383
+# src/js/evidence.mjs:384
 js-site-evidence-hold-perfect = 1 = perfect
 
-# src/js/evidence.mjs:377
+# src/js/evidence.mjs:378
 js-site-evidence-hold-ratio-aria = Predicted over measured for { $n } thresholds, all inside the accepted factor of { $bar }
 
-# src/js/evidence.mjs:393
+# src/js/evidence.mjs:394
 js-site-evidence-hold-read = coast { $h } h · measured { $m } ns · predicted { $p } ns
 
-# src/js/evidence.mjs:388
+# src/js/evidence.mjs:389
 js-site-evidence-hold-st-fit = used for the fit
 
-# src/js/evidence.mjs:388
+# src/js/evidence.mjs:389
 js-site-evidence-hold-st-samples = one-second samples
 
-# src/js/evidence.mjs:388
+# src/js/evidence.mjs:389
 js-site-evidence-hold-st-syncs = held-out sync points
 
-# src/js/evidence.mjs:366
+# src/js/evidence.mjs:367
 js-site-evidence-hold-tip-breach = predicted breach { $p } s · measured { $m } s
 
-# src/js/evidence.mjs:366
+# src/js/evidence.mjs:367
 js-site-evidence-hold-tip-error = «Time error { $thr } ns»
 
-# src/js/evidence.mjs:366
+# src/js/evidence.mjs:367
 js-site-evidence-hold-tip-ratio = predicted over measured «{ $ratio }»
 
-# src/js/evidence.mjs:382
+# src/js/evidence.mjs:383
 js-site-evidence-hold-tip-row = «{ $thr } ns» · predicted over measured «{ $ratio }»
 
-# src/js/evidence.mjs:171
+# src/js/evidence.mjs:172
 js-site-evidence-kernel-chi2-cdf = chi-squared distribution
 
-# src/js/evidence.mjs:172
+# src/js/evidence.mjs:173
 js-site-evidence-kernel-chi2-quantile = chi-squared quantile
 
-# src/js/evidence.mjs:175
+# src/js/evidence.mjs:176
 js-site-evidence-kernel-noncentral = non-central chi-squared
 
-# src/js/evidence.mjs:173
+# src/js/evidence.mjs:174
 js-site-evidence-kernel-normal-cdf = normal distribution
 
-# src/js/evidence.mjs:174
+# src/js/evidence.mjs:175
 js-site-evidence-kernel-normal-quantile = normal quantile
 
-# src/js/evidence.mjs:176
+# src/js/evidence.mjs:177
 js-site-evidence-kernel-pbias = detection bias
 
-# src/js/evidence.mjs:274
+# src/js/evidence.mjs:275
 js-site-evidence-ladder-aria = Orbit residuals from { $lo } to { $hi } m on one logarithmic scale, with the { $bar } m agency bar
 
-# src/js/evidence.mjs:284
+# src/js/evidence.mjs:285
 js-site-evidence-ladder-bar = agency bar { $bar } m
 
-# src/js/evidence.mjs:265
+# src/js/evidence.mjs:266
 js-site-evidence-ladder-cowell = Cowell against Orekit 12.2, worst
 
-# src/js/evidence.mjs:267
+# src/js/evidence.mjs:268
 js-site-evidence-ladder-g24 = Galileo E11, 24-hour fit
 
-# src/js/evidence.mjs:266
+# src/js/evidence.mjs:267
 js-site-evidence-ladder-g8 = Galileo E11, 8-hour fit
 
-# src/js/evidence.mjs:302
+# src/js/evidence.mjs:303
 js-site-evidence-ladder-lg-headline = headline residual
 
-# src/js/evidence.mjs:302
+# src/js/evidence.mjs:303
 js-site-evidence-ladder-lg-over = beyond the { $bar } m agency bar
 
-# src/js/evidence.mjs:302
+# src/js/evidence.mjs:303
 js-site-evidence-ladder-lg-ring = force model alone, before empirical accelerations
 
-# src/js/evidence.mjs:269
+# src/js/evidence.mjs:270
 js-site-evidence-ladder-lro = Lunar Reconnaissance Orbiter, 4-hour fit
 
-# src/js/evidence.mjs:307
+# src/js/evidence.mjs:308
 js-site-evidence-ladder-read = sweep at { $v } · { $n } of { $total } headline residuals at or under it
 
-# src/js/evidence.mjs:262
+# src/js/evidence.mjs:263
 js-site-evidence-ladder-rt-arc = { $arc } arc · degree and order { $do } · { $n } observations
 
-# src/js/evidence.mjs:262
+# src/js/evidence.mjs:263
 js-site-evidence-ladder-rt-rtn = radial { $r } m · along-track { $a } m · cross-track { $c } m
 
-# src/js/evidence.mjs:264
+# src/js/evidence.mjs:265
 js-site-evidence-ladder-sgp4 = SGP4 against the AIAA vectors, worst
 
-# src/js/evidence.mjs:268
+# src/js/evidence.mjs:269
 js-site-evidence-ladder-swarm = Swarm-A, 3-hour fit
 
-# src/js/evidence.mjs:265
+# src/js/evidence.mjs:266
 js-site-evidence-ladder-tip-cowell = «Cowell · worst of { $n } epochs» · { $worst }
 
-# src/js/evidence.mjs:267
+# src/js/evidence.mjs:268
 js-site-evidence-ladder-tip-g24 = «Galileo E11 · a full day» · { $rms } m
 
-# src/js/evidence.mjs:266
+# src/js/evidence.mjs:267
 js-site-evidence-ladder-tip-g8a = «Galileo E11 · force model only» · { $rms } m
 
-# src/js/evidence.mjs:266
+# src/js/evidence.mjs:267
 js-site-evidence-ladder-tip-g8b = «Galileo E11 · with empirical accelerations» · { $rms } m
 
-# src/js/evidence.mjs:269
+# src/js/evidence.mjs:270
 js-site-evidence-ladder-tip-lrd = «Lunar orbiter · dynamic» · { $rms } m
 
-# src/js/evidence.mjs:269
+# src/js/evidence.mjs:270
 js-site-evidence-ladder-tip-lrr = «Lunar orbiter · reduced-dynamic» · { $rms } m, above the { $bar } m bar and reported as it is
 
-# src/js/evidence.mjs:264
+# src/js/evidence.mjs:265
 js-site-evidence-ladder-tip-sgp4 = «SGP4 · worst of { $n } vectors» · { $worst }
 
-# src/js/evidence.mjs:268
+# src/js/evidence.mjs:269
 js-site-evidence-ladder-tip-swd = «Swarm-A · dynamic» · { $rms } m, almost all along-track (drag)
 
-# src/js/evidence.mjs:268
+# src/js/evidence.mjs:269
 js-site-evidence-ladder-tip-swr = «Swarm-A · reduced-dynamic» · { $rms } m
 
-# src/js/evidence.mjs:183
+# src/js/evidence.mjs:184
 js-site-evidence-raim-aria = { $pass } of { $n } SciPy cases inside their tolerance band, across { $kernels } kernels
 
-# src/js/evidence.mjs:187
+# src/js/evidence.mjs:188
 js-site-evidence-raim-lane = { $kernel } · { $n }
 
-# src/js/evidence.mjs:209
+# src/js/evidence.mjs:210
 js-site-evidence-raim-lg-most = the most of a band any case uses
 
-# src/js/evidence.mjs:214
+# src/js/evidence.mjs:215
 js-site-evidence-raim-read = case { $q } of { $n } · { $kernel } · { $what }
 
-# src/js/evidence.mjs:214
+# src/js/evidence.mjs:215
 js-site-evidence-raim-read-band = { $pct } % of band
 
-# src/js/evidence.mjs:199
+# src/js/evidence.mjs:200
 js-site-evidence-raim-scale-aria = Colour scale: share of the tolerance band used, logarithmic from 10 to the minus 11 to the band's edge
 
-# src/js/evidence.mjs:210
+# src/js/evidence.mjs:211
 js-site-evidence-raim-st-inside = inside the band
 
-# src/js/evidence.mjs:210
+# src/js/evidence.mjs:211
 js-site-evidence-raim-st-most = most of a band used
 
-# src/js/evidence.mjs:203
+# src/js/evidence.mjs:204
 js-site-evidence-raim-tick-edge = band edge
 
-# src/js/evidence.mjs:203
+# src/js/evidence.mjs:204
 js-site-evidence-raim-tick-exact = exact
 
-# src/js/evidence.mjs:192
+# src/js/evidence.mjs:193
 js-site-evidence-raim-tip-case = «{ $kernel }» · case { $j } of { $n }
 
-# src/js/evidence.mjs:192
+# src/js/evidence.mjs:193
 js-site-evidence-raim-tip-exact = «exact match» with SciPy
 
-# src/js/evidence.mjs:192
+# src/js/evidence.mjs:193
 js-site-evidence-raim-tip-uses = uses «{ $pct } %» of its tolerance band
 
-# src/js/evidence.mjs:132
+# src/js/evidence.mjs:133
 js-site-evidence-sgp4-aria = { $n } of { $n } AIAA vectors reproduced; worst { $worst }, median { $median }, all inside the { $tol } tolerance
 
-# src/js/evidence.mjs:139
+# src/js/evidence.mjs:140
 js-site-evidence-sgp4-deep = deep space (SDP4)
 
-# src/js/evidence.mjs:158
+# src/js/evidence.mjs:159
 js-site-evidence-sgp4-lg-deep = deep-space vector (SDP4)
 
-# src/js/evidence.mjs:158
+# src/js/evidence.mjs:159
 js-site-evidence-sgp4-lg-median = median and worst on the scale
 
-# src/js/evidence.mjs:158
+# src/js/evidence.mjs:159
 js-site-evidence-sgp4-lg-near = near-Earth vector (SGP4)
 
-# src/js/evidence.mjs:139
+# src/js/evidence.mjs:140
 js-site-evidence-sgp4-near = near Earth (SGP4)
 
-# src/js/evidence.mjs:165
+# src/js/evidence.mjs:166
 js-site-evidence-sgp4-read = vector { $i } of { $n } · satellite { $sat } · error { $err }
 
-# src/js/evidence.mjs:164
+# src/js/evidence.mjs:165
 js-site-evidence-sgp4-read-deep = vector { $i } of { $n } · satellite { $sat }, deep space · error { $err }
 
-# src/js/evidence.mjs:144
+# src/js/evidence.mjs:145
 js-site-evidence-sgp4-scale-aria = Colour scale from 0.1 micrometre to the tolerance, logarithmic
 
-# src/js/evidence.mjs:159
+# src/js/evidence.mjs:160
 js-site-evidence-sgp4-st-deep = deep-space vectors
 
-# src/js/evidence.mjs:159
+# src/js/evidence.mjs:160
 js-site-evidence-sgp4-st-sats = test satellites
 
-# src/js/evidence.mjs:139
+# src/js/evidence.mjs:140
 js-site-evidence-sgp4-tip-sat = «Satellite { $sat }» · { $kind }
 
-# src/js/evidence.mjs:139
+# src/js/evidence.mjs:140
 js-site-evidence-sgp4-tip-vector = vector { $j } of { $n } · position error «{ $err }»
 
-# src/js/evidence.mjs:159
+# src/js/evidence.mjs:160
 js-site-evidence-st-median = median
 
-# src/js/evidence.mjs:159
+# src/js/evidence.mjs:160
 js-site-evidence-st-worst = worst
 
-# src/js/evidence.mjs:148
+# src/js/evidence.mjs:149
 js-site-evidence-tolerance = tolerance { $v }
 
-# src/site.js:277
+# src/site.js:278
 js-site-filter-in-all = { $total } in all
 
-# src/site.js:276
+# src/site.js:277
 js-site-filter-matches =
     { $n ->
         [one] { $n } match
        *[other] { $n } matches
     }
 
-# src/site.js:276
+# src/site.js:277
 js-site-filter-n-of-m = { $n } of { $total }
 
-# src/site.js:279
+# src/site.js:280
 js-site-filter-n-of-m-rows = { $n } of { $total } rows
 
-# src/site.js:276
+# src/site.js:277
 js-site-filter-rows = { $total } rows
 
 # src/js/home.mjs:258
@@ -1173,7 +1173,7 @@ js-site-home-thr-floor = floor
 # src/js/home.mjs:59
 js-site-home-thr-guard = guard
 
-# src/site.js:408
+# src/site.js:409
 js-site-kind-action = Action
 
 # src/js/mcp-player.mjs:92
@@ -1284,10 +1284,10 @@ js-site-mcp-tools-with-descriptions =
        *[other] { $n } tools with descriptions
     }
 
-# src/site.js:71
+# src/site.js:72
 js-site-menu-close = Close the menu
 
-# src/site.js:71
+# src/site.js:72
 js-site-menu-open = Open the menu
 
 # src/js/missions.mjs:658
@@ -1770,10 +1770,10 @@ js-site-missions-vis-title = Satellites in view, mean over the run
 # src/js/missions.mjs:662
 js-site-missions-vis-uniform = { $v } in every cell
 
-# src/site.js:417
+# src/site.js:418
 js-site-palette-none = No results
 
-# src/site.js:417
+# src/site.js:418
 js-site-palette-results = { $count } results
 
 # src/js/pro-power.mjs:147
@@ -1813,22 +1813,22 @@ js-site-pro-same-sha = same SHA-256 { $sha }…
 # src/js/pro-power.mjs:94
 js-site-pro-same-sha-index = same result SHA-256 as the index
 
-# src/site.js:41
+# src/site.js:42
 js-site-toast-copied = Copied: { $text }
 
-# src/site.js:351
+# src/site.js:352
 js-site-toast-data-failed = The data file could not be loaded
 
-# src/site.js:350
+# src/site.js:351
 js-site-toast-data-saved = Data saved as CSV
 
-# src/site.js:348
+# src/site.js:349
 js-site-toast-no-data = No data for this chart
 
-# src/site.js:340
+# src/site.js:341
 js-site-toast-svg-saved = Chart saved as SVG
 
-# src/site.js:346
+# src/site.js:347
 js-site-toast-table-saved = Table saved as CSV
 
 # src/js/home-waterfall.mjs:248
