@@ -9033,7 +9033,7 @@ engine-verification-src-mod-rs = src/{ $rel }/mod.rs
 
 engine-verification-tests-fixtures = tests/fixtures/{ $base }
 
-engine-compliance-fw-dhs-rpcf-title = Yhdysvaltain DHS:n kestävän PNT:n vastaavuuskehys
+engine-compliance-fw-dhs-rpcf-title = US DHS Resilient PNT Conformance Framework
 
 engine-compliance-fw-imo-ships-title = IMO:n ohjeistus GNSS-häiriöistä aluksille
 
@@ -9043,7 +9043,7 @@ engine-compliance-fw-nis2-art21-title = EU:n NIS2-direktiivi, artikla 21: riskie
 
 engine-compliance-fw-en-16803-title = EN 16803, GNSS-pohjainen paikannus tieliikenteen älykkäissä liikennejärjestelmissä (ITS)
 
-engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, PNT-perusprofiili
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
 engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
 

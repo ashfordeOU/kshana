@@ -9517,7 +9517,7 @@ engine-compliance-fw-nis2-art21-title = Directiva NIS2 de la UE, artículo 21, m
 
 engine-compliance-fw-en-16803-title = EN 16803, posicionamiento basado en GNSS para ITS viarios
 
-engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Perfil PNT fundamental
+engine-compliance-fw-nist-ir-8323r1-title = NIST IR 8323r1, Foundational PNT Profile
 
 engine-compliance-source-dhs-rpcf-1-title = Resilient Positioning, Navigation, and Timing (PNT) Conformance Framework
 
