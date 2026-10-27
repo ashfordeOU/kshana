@@ -461,3 +461,159 @@ seg-1103199f019b = Opcjonalna sekcja [receiver] lunar-station-coverage (LRS-02):
 seg-03796cb741b6 = Narastanie błędu efemeryd księżycowej stacji referencyjnej w czasie opóźnienia korekcji
 
 seg-13b0ae9a874a = Opcjonalna dana wejściowa orbit_err_growth_m_per_s lunar-station-coverage (LRS-03): korekcja zastosowana latency_s po jej obliczeniu pomija wzrost g latency_s błędu orbity nadawanej, g izotropowe o tempie 3-D RMS, losowane dla każdego satelity i próby na własnym strumieniu z ziarnem (tempo 1-sigma zakresu tau / sqrt({ "3" })), ponad przeprojektowaniem zamrożonego błędu na linię widzenia. Gdy nieobecne, każdy dokument pozostaje bez zmian. Dodatek K5 do porównania z opublikowanymi twierdzeniami, wstępnie zarejestrowany osobno, uruchamia K5 przy { "0.001" }, { "0.01" } i { "0.1" } m/s (ILLUSTRATIVE)
+
+seg-90307f07e0ef = Tryby rozwiązania dla księżycowej stacji referencyjnej: więzy wysokości, trzy satelity, okno użytkownika statycznego
+
+seg-366c7ad03fb2 = Opcjonalna sekcja [solution] w lunar-station-coverage (LRS-06): wiersz pseudopomiaru wysokości up . dx = e_h o podanym odchyleniu 1-sigma, ważony względem wierszy odległości; minimum trzech satelitów dozwolone tylko wraz z nim; oraz rozwiązanie metodą ważonych najmniejszych kwadratów na ostatnich window_epochs epokach, ze wspólną pozycją statyczną i jednym zegarem na epokę (odpowiedź filtra dla pozycji statycznej bez szumu procesu na tych samych danych; błędy epok traktuje się jako niezależne). Gdy sekcji brak, rozwiązanie migawkowe i każdy dokument pozostają bez zmian. Uzupełnienie porównania z opublikowanymi twierdzeniami, w stylu rozwiązania użytym w źródłach, wstępnie zarejestrowane osobno
+
+seg-611ba369ed00 = Dokładność i pokrycie księżycowej stacji referencyjnej na tle opublikowanych twierdzeń
+
+seg-4fe4f1cffa2b = Rodzaj lunar-station-coverage uruchomiony przy publicznych założeniach opublikowanych materiałów o księżycowej różnicowej stacji referencyjnej (cztery satelity nawigacyjne na zamrożonych orbitach eliptycznych o okresie { "24" } h, SISE { "10" } m { "95" } %, szum kodu { "0.30" } m, opóźnienie poprawek { "1" } s i { "600" } s, pomiar położenia stacji z dokładnością poniżej decymetra, opublikowane przykładowe miejsce stacji, okręgi południowo-polarne { "300" } km i { "600" } km) i oceniony względem liczbowych twierdzeń źródeł według sześciu jednostronnych progów wstępnie zarejestrowanych przed przebiegiem: pokrycie całego bieguna południowego przy p95 poniżej metra (K1, K2), skorygowane p95 poniżej metra i na poziomie decymetrów (K3, K4), wynik poniżej metra utrzymany przy opóźnieniu { "600" } s (K5) oraz dokładność utrzymana od { "10" } km do { "500" } km długości bazy (K6)
+
+seg-7bfcb5c6a985 = ARAIM z jednoczesnymi hipotezami usterek wielu satelitów
+
+seg-15043111e437 = araim_reference::add_v42_subset_plan: reguła wyznaczania podzbiorów z ADD v4.2 (P_THRES, FC_THRES, monitorowane podzbiory z najmniejszą liczbą usuniętych najpierw) uogólniona z par na jednoczesne kombinacje do max_order zdarzeń satelitów i konstelacji, z dokładnym prawdopodobieństwem apriorycznym P_no fault prod q_e; add_v42_protection_levels_to_order uruchamia na niej ścieżkę poziomów ochrony z ADD v4.2 (rząd { "2" } to dokładnie dotychczasowa ścieżka). raim::araim_subset_raim (opcjonalnie): zaawansowany RAIM na tym zbiorze hipotez, każdy monitorowany podzbiór jako jeden tryb (p_fault, T, b, sigma) w sumie ryzyka integralności, podzbiory nieobserwowalne przeniesione do ryzyka niemonitorowanego, budżet przeskalowany przydziałem ryzyka niemonitorowanego z ADD, a podzbiór o największej znormalizowanej separacji raportowany po wykryciu usterki. Prawdopodobieństwa a priori wymagające głębszych podzbiorów niż max_order są odrzucane, nigdy obcinane
+
+seg-48ca01332f8f = RAIM obok wskaźników jakości holdover zegara
+
+seg-890f1006a75d = Opcjonalna sekcja [integrity] rodzaju clock (clock_integrity::run): dla podanego miejsca i ustawień konstelacji (geometry::sky_geometry), w każdej epoce integralności, gdy oś czasu GNSS nie jest zaprzeczona, migawkowy RAIM (raim::snapshot_raim: test chi-kwadrat parzystości, poziomy ochrony według nachylenia) na satelitach powyżej maski, z losowanymi z ziarnem gaussowskimi residuami o podanej sigmie i opcjonalnym podanym obciążeniem; osobny blok integrity_fom z werdyktami dla każdej epoki, poziomami ochrony i dostępnością. Epoki z odmową są raportowane jako niedostępne, nigdy ekstrapolowane; wskaźniki jakości holdover pozostają bez zmian, a bez tej sekcji wynik jest identyczny co do bajta
+
+seg-9cbb4ee7588a = Przestrzenna, zaszumiona obserwowalność długości łuku cislunarnego dla wielu rodzin orbit
+
+seg-5ebd771deef8 = Próg obserwowalności długości łuku cislunarnego w PRZESTRZENNYM sześciostanowym CR3BP zamiast płaskiego czterostanowego, dla rodzin DRO, halo L2 i prawie prostoliniowego halo L2, z szumem pomiarowym wchodzącym do gramianu i DWOMA raportowanymi kryteriami, bo nie ma jednego uczciwego: opublikowane kryterium rzędu, które jest dowodnie niezmiennicze względem homoskedastycznej sigmy pomiaru (wybielanie mnoży macierz obserwowalności przez skalar, nie zmieniając względnego widma wartości osobliwych, a więc rzędu, defektu i uwarunkowania), oraz kryterium estymowalności — pierwszy łuk, przy którym formalna niepewność 1σ położenia początkowego stanu chief spada poniżej podanej granicy — które jako jedyne zmienia się z szumem. Każdy próg niesie przedział siatki epok, w którym leży; kryterium nieosiągnięte ma wartość null z podaniem powodu. Tryb płaski pozostaje domyślny, a rodziny pozapłaszczyznowe są w nim odrzucane, a nie spłaszczane do stanu, który nie potrafi ich przedstawić
+
+seg-e250321394bc = Błąd predykcji orientacji Ziemi w stylu operacyjnym, mierzony jako przewidywanie względem wartości ostatecznych
+
+seg-0e443d241460 = Dopasowanie metodą najmniejszych kwadratów obciążenia i tempa w oknie wstecznym plus główne składniki okresowe — roczny, półroczny i dwa główne zonalne pływy dla UT1; Chandlera, roczny i półroczny dla bieguna — ekstrapolowane z przeniesieniem ostatniego residuum z okna: klasa używana przez IERS Bulletin A, w miejsce predyktora persystencji, na którym opierał się opublikowany horyzont. Oceniane jedynym uczciwym sposobem: prognoza na T+h zbudowana z szybkich wierszy Bulletin A z chwili T lub wcześniejszych, mierzona względem OPUBLIKOWANEJ PÓŹNIEJ wartości ostatecznej Bulletin B w T+h, a persystencja oceniana obok na identycznym zbiorze epok względem identycznych wartości ostatecznych. Epoka docelowa bez opublikowanej wartości ostatecznej jest pomijana, a nie oceniana ponownie względem kolumny szybkiej; składnik okresowy, którego okno nie może ograniczyć, jest raportowany jako odrzucony wraz z liczbą cykli, które faktycznie obejmuje; niepełne okno jest odrzucane, a nie po cichu skracane
+
+seg-f4efd94dd746 = Układ datum Księżyca z kampanii obserwacyjnej
+
+seg-a6972eb89d7d = Siedmioparametrowe datum Helmerta wyprowadzone z SYMULOWANEJ KAMPANII OBSERWACYJNEJ zamiast odzyskiwane ze wstrzykniętej transformacji. Stacje ziemskie obserwują katalog radiolatarni na powierzchni Księżyca o znanym źródle według jawnego harmonogramu; pochodne opóźnienia lunar-VLBI są gromadzone w macierzy informacyjnej Fishera współrzędnych radiolatarni i przepychane przez macierz projektową Helmerta A = [I₃ | [p]ₓ | p] do H = AᵀM_bA, więc raportowana dokładność datum jest funkcją programu obserwacji — dokładnie liniową względem sigmy opóźnienia i monotoniczną względem łuku przez libracja, którą raport MIERZY. Defekt datum jest tematem, a nie przypisem: rząd, defekt, liczba uwarunkowania, widmo, nieobserwowalne kierunki w bazie siedmioparametrowej, najsłabszy kierunek nawet przy pełnym rzędzie i udział każdego parametru w nim są emitowane w każdym przebiegu, a każdy parametr, którego kampania nie ogranicza, jest publikowany jako NULL ze statusem. Korelacja błędów radiolatarni jest MEASURED, a nie zakładana — dokładnie zero przy stacjach ustalonych i podawana wraz z kosztem, gdy stacje są estymowane. Można ją uruchomić jako rodzaj scenariusza <c1/>
+
+seg-ca481f2d8f9e = Potwierdzenie progu długości łuku cislunarnego niezależnym estymatorem
+
+seg-3d5fbf896209 = Estymator wsadowy najmniejszych kwadratów, który ODZYSKUJE początkowy stan chief z symulowanych pomiarów międzysatelitarnych na rosnących prefiksach tej samej siatki epok, której używa tabela rzędu względem łuku, z pochodnymi pomiaru wziętymi jako centralne różnice skończone złożonego modelu prostego. Nie korzysta z żadnego z mechanizmów, którymi mierzono próg — żadnego wiersza jakobianu analitycznego, żadnej wariacyjnej macierzy przejścia stanu, żadnego rozkładu na wartości osobliwe ani własne, żadnej tolerancji rzędu, żadnego filtra pierwiastka informacji — i dzieli tylko dynamikę, warunki początkowe, obserwabl skalarny i siatkę epok, każde wskazane w wyemitowanym dokumencie. Dwa kryteria, oba przeglądane: odzyskanie bez szumu (odpowiednik rzędu) i estymowalność Monte Carlo (odpowiednik estymowalności, mierzony względem znanej prawdy, a nie przewidywany z kowariancji). Można je uruchomić jako rodzaj scenariusza <c1/>
+
+seg-f839285852d9 = Księżycowa objętość usługi na podstawie rzeczywistej, pobranej geometrii konstelacji
+
+seg-c3059fcced49 = Przyjmuje tabelaryczną efemerydę stanu względem środka Księżyca (wynik ewaluacji jądra SPK/BSP) lub opublikowaną definicję konstelacji za <c1/>, uruchamia na niej identyczny przegląd pokrycia / DOP / poziomów ochrony i emituje wynikające z niej wymaganie dotyczące σ_URE OBOK niezmienionych ilustracyjnych wyników keplerowskich i zaburzonych, z różnicą jako osobną nazwaną wielkością. Każda wartość niesie klasę pochodzenia, która odróżnia wartości wyprowadzone z jądra od wyprowadzonych z opublikowanych elementów i od modelowanych, więc nigdy nie da się ich pomylić w dalszym cytowaniu
+
+seg-36a6cfaf5afa = Jednostka i pochodzenie zadeklarowane dla każdej raportowanej wielkości
+
+seg-12460501e82b = Czytelny maszynowo schemat podający jednostkę, klasę pochodzenia i definicję dla każdego pola liczbowego każdego raportu scenariusza oraz jedna globalna bramka, która uruchamia każdy zarejestrowany rodzaj scenariusza i kończy się niepowodzeniem, jeśli wyemitowanemu polu liczbowemu brakuje któregokolwiek z nich. Słownik pochodzenia jest zamknięty, a każda klasa niesie poziom dowodowy, przy czym dwie klasy są celowo odwzorowane na <c1/> i <c2/>, zamiast otrzymywać poziom, którego klasa nie determinuje
+
+seg-c815cb90dcde = Geodezja księżycowej stacji referencyjnej: dodany retroreflektor i radiolatarnia VLBI względem datum pięciu układów
+
+seg-103cf21173ac = Opcjonalne dane wejściowe extra_reflectors i extra_beacons w scenariuszu lunar-llr-datum dodają blok station_geodesy: informację Helmerta pięciu układów z zarchiwizowanego wycinka księżycowego laserowego pomiaru odległości oraz informację, jaką na siedmioparametrowe datum nakładają dodany retroreflektor (mierzony w zarchiwizowanych epokach punktów normalnych, w których stacja mierząca znajduje się nad horyzontem, każdy z zarchiwizowaną wagą tego punktu normalnego) i dodana radiolatarnia VLBI (obserwowana przez sieć i harmonogram lunar-frame-campaign przy stałych stacjach ziemskich, przez pochodne opóźnienia lunar-vlbi-fim) w podanych miejscach, rozwiązane ponownie, z 1-sigma każdego parametru Helmerta przed i po, ich stosunkiem, normami przed i po oraz skrajnymi wartościami własnymi różnicy Fishera. Gdy brak lub puste, raport pozostaje bez zmian
+
+seg-44f582b17fa9 = Integralność bramki — zielony, który znaczy to, co mówi
+
+seg-43fbcfbe990c = Trzy strukturalne strażniki nad samym procesem weryfikacji, z których każdy zamyka klasę defektu, która dotarła do kanonicznej bramki jako sporadyczna lub fałszywa czerwień. ({ "1" }) Każda skonstruowana ścieżka tymczasowa w źródłach Rusta musi zawierać składnik unikalny dla każdego wywołania; identyfikator procesu jest odrzucany, bo cargo uruchamia testy biblioteki jako równoległe wątki JEDNEGO procesu, a pid jest wspólny dla wszystkich. ({ "2" }) Każdy pin bajt po bajcie lub skrótu musi zadeklarować, obok siebie lub w nagłówku swojego modułu, co obejmuje, a co celowo wyłącza — dzięki czemu zmiana przekrojowa od razu pokazuje, które piny są w zakresie, a które po cichu stały się wykrywaczami zmian w całym repozytorium. ({ "3" }) Zieleń można deklarować tylko z PEŁNEGO zestawu: scripts/gate.sh uruchamia <c1/>, przechwytuje prawdziwy kod wyjścia bez potoku na drodze i zapisuje kwit nazywający commit, liczbę binariów integracyjnych, liczbę testów i czas trwania; kontrola przed wypchnięciem odrzuca wypchnięcie, którego commit nie jest nazwany przez żaden ważny kwit, na czystym drzewie. Powtarzalność jest próbkowana osobno przez scripts/check-repeatability.sh, który uruchamia zestaw biblioteki N razy i kończy się niepowodzeniem, jeśli zbiór zaliczonych testów się różni.
+
+seg-b7cd952ff133 = Złożony PL czasu — przejście holdover zasiane P0
+
+seg-135df1e0e68a = PL(τ)=max(TPL_handover,HPL(τ)); dolnie półciągły PL({ "0" }+)≥PL({ "0" }−); K(IR/2) maksimum bieżące; wykładniki fazy τ/τ³/τ⁵
+
+seg-096b6cdfe2dc = Złożony PL czasu — obwiednia LIL prawie na pewno (niemożliwość + spójność)
+
+seg-1671add2210d = Brak skończonego holdover w najgorszym przypadku (supremum ruchu Browna jest rozbieżne); HPL z przydziałem IR spójny z obwiednią Hartmana-Wintnera, gdy IR→{ "0" }
+
+seg-5a27c9f0a67d = Górne ograniczenie integralności obciążenia identyfikowalności niejednorodnego UTC(k)
+
+seg-fd09ab2adbf6 = Górne ograniczenie obciążenia dla każdego źródła b = (U/k_cov)·Phi^-1(1-tail/2) + starzenie, rozdymające opublikowaną rozszerzoną niepewność typu B do przydzielonego ogona integralności; łączy się z tpl_scalar jako bias_s
+
+seg-d75b900ad25f = Skorelowana kowariancja krzyżowa obciążenia identyfikowalności (przydział niebezpieczny przy wspólnym trybie)
+
+seg-0641f6d38c23 = Kowariancja krzyżowa obciążeń N×N z wyrazami pozadiagonalnymi rho·b_i·b_j dla źródeł dzielących realizatora UTC(k); UDOWODNIONE correlated_fused_bias >= independent_fused_bias (naiwny niezależny przydział zaniża obciążenie połączone -> optymistyczny -> niebezpieczny)
+
+seg-1a3bb032960f = Statystyka spójności trybu wspólnego (usterka wspólnego wzorca niewidoczna dla separacji)
+
+seg-1b03f522b8fc = Statystyka wyniku ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 dla przesunięcia trybu wspólnego, którego separacja rozwiązań (kontrasty ortogonalne do { "1" }) nie widzi; przesunięcie trybu wspólnego ją zawyża, podczas gdy separacje parami pozostają płaskie
+
+seg-3359eee713a5 = Klasyfikacja przestrzeni zerowej datum Księżyca (addytywność rzędu LLR + podniesienie defektu przez libracje)
+
+seg-6d722c176052 = Klasyfikacja wewnętrznego problemu datum z pomiarów odległości: pojedyncza obserwacja odległości wnosi rząd { "1" } (6-wymiarowa przestrzeń zerowa); para początek-X i skala jest bliska zerowej, a fizyczna libracja DE440 podnosi defekt do zera, podczas gdy para pozostaje bliska zdegenerowanej
+
+seg-3fd19007ea67 = Informacja o datum Księżyca z wielu technik (LLR + księżycowe VLBI + odległość orbitera)
+
+seg-23d0dd7d0666 = Wiersze jakobianu datum dla odległości LLR do reflektora na Ziemi, różnicowego opóźnienia księżycowego VLBI z dwóch stacji i odległości orbiter-radiolatarnia dla 7-parametrowego datum, połączone w jedną spójnie uwarunkowaną wstępnie informację Fishera; pokazują, że śledzenie poza kierunkiem radialnym (orbiter / zróżnicowane głębokością) łamie degenerację początek-X do skali, gdzie poprzeczne VLBI pomaga tylko pośrednio
+
+seg-ab96cfc8d48c = Podłoże geometryczne datum LLR Księżyca (reflektory osi głównych, stacje naziemne, analityczne pochodne odległości)
+
+seg-40e91288f81a = Pięć układów retroreflektorów po bliższej stronie w metrach układu ciała PA i stacje naziemne LLR we współrzędnych geodezyjnych; umiejscowienie reflektorów z układu ciała do inercjalnego przez orientację PA DE440; analityczne pochodne odległości Ziemia-reflektor względem 4-parametrowego datum; oraz macierz Fishera tylko z LLR, wykazująca degenerację lunocentrum-X do skali, która motywuje analizę 7-parametrową
+
+seg-63a8571f8eb0 = Degeneracja odległość-przesunięcie zegara w jednokierunkowym pomiarze odległości na Księżycu oraz prawo projektowe różnorodności geometrycznej
+
+seg-cdd70f56051a = Degeneracja promieniowej odległości do przesunięcia zegara odbiornika dla każdego węzła jest dokładna: { "1" } m do { "3.336" } ns (jeden przez c). Brzegowa dopełnienia Schura { "{" }skala, przesunięcie{ "}" } (coupled_marginal_fisher) pokazuje, że w geometrycznie zróżnicowanej sieci pomiar dwukierunkowy podnosi brzegową mniej więcej o ten sam czynnik co równa liczba dodatkowych danych jednokierunkowych, podczas gdy w wyidealizowanym reżimie pojedynczego węzła podniesienie dla pomiaru dwukierunkowego jest o rzędy wielkości większe. Z tego wynika prawo projektowe: to różnorodność geometryczna, a nie pomiar dwukierunkowy jako taki, oddziela skalę układu Księżyca od przesunięcia skali czasu w pomiarze jednokierunkowym; dwukierunkowe lub zewnętrzne powiązanie czasu jest wymagane tylko w reżimie niskiej różnorodności lub pojedynczego użytkownika.
+
+seg-2c074d6260ba = Reprezentatywne menu pomiarów z wielu technik i addytywna reguła łączenia Fishera
+
+seg-beefac5c1b13 = MeasurementBlock przechowuje jedną kandydującą kampanię pomiarową jako wkład informacji Fishera 7x7 plus skalarny koszt względny; block_from_rows buduje go z surowych wierszy jakobianu datum, więc każdy blok jest wstępnie uwarunkowany identycznie przez lunar_identifiability::assemble_multi_info; combine sumuje informację wybranego podzbioru, co jest regułą poprawną, ponieważ informacja Fishera jest addytywna dla niezależnych pomiarów; representative_lunar_menu dostarcza deterministyczne menu czterech bloków (LLR, poprzeczna radiolatarnia VLBI na brzegu tarczy, orbiter po bliższej stronie i orbiter po dalszej stronie). Optymalizator projektu z ograniczonym budżetem, który korzysta z tego menu, nie jest częścią tego crate.
+
+seg-2d3347bcb15e = Tolerancja spójności między dostawcami dla użytkownika z mieszanymi dostawcami
+
+seg-9decf2cb6b0c = consistency_tolerance: odwraca budżet położenia użytkownika do wymagania zgodności Helmerta między dostawcami dla każdego parametru (początek/skala/rotacja) przy referencyjnym ramieniu dźwigni, opcjonalnie powiększonego o CRLB realizacji pojedynczego dostawcy P1
+
+seg-5450d921dfc9 = Budżet błędów interoperacyjności księżycowej dla wielu dostawców i prawo projektowe układ-kontra-efemeryda
+
+seg-e1e30f5c17a6 = interop_budget: podział na redukowalny (wspólne powiązanie układu) i nieredukowalny (dynamika) przy konwencjach PerProvider / CommonFrameTie / CommonEphemeris, z miarą prawa projektowego ułamka nieredukowalnego (~{ "0.69" } dla rzeczywistych DE440/INPOP/EPM: samo wspólne oznaczenie układu zostawia dominującą podłogę)
+
+seg-ebb827739614 = Granica wykrywania/identyfikacji blokowej iskry bizantyjskiej dla autonomicznej sieci księżycowej z węzłami (T3)
+
+seg-4fb935e6193d = byzantine_bound konkretyzuje granicę kodowania / rzadkiej obserwowalności bezpiecznego estymowania stanu na geometrii sieci dla każdego węzła: bizantyjski rówieśnik wstrzykuje dowolną kombinację liniową pomiarów, w których uczestniczy, a sieć WYKRYWA każdą koalicję ≤ f = block_spark − { "1" } rówieśników i jednoznacznie IDENTYFIKUJE każdą koalicję ≤ ⌊(block_spark − { "1" })/2⌋, gdzie block_spark jest najmniejszą koalicją rówieśników, której ułożone w stos efektywne sygnatury P⊥·B_T mają niepełny rząd kolumnowy. Wykrywalność rówieśnika to PEŁNY RZĄD KOLUMNOWY P⊥·B_j (niezerowy, ale o niepełnym rzędzie blok to niezerowy atak, który ląduje w range(G) i nie zostawia residuum), a nie tylko P⊥·B_j ≠ { "0" }
+
+seg-4f57f586cf82 = Podłoga czasowej miary autonomicznego holdover dla samoodniesionej konstelacji księżycowej (T4)
+
+seg-eb690e8f5c9b = holdover_floor ustala, że w zespole autonomicznych węzłów połączonych tylko pomiarami międzywęzłowymi wspólne tempo zegara (δα_j += { "1" } ∀j) jest swobodnym parametrem czasu zespołu leżącym w N(GᵀWG): żadna ilość dodatkowych pomiarów odległości między węzłami nie może go zaobserwować (rate_in_gauge = true, temporal_gauge_dim = { "2" } ze wspólnym przesunięciem). To jest prawdziwa podłoga holdover — czasowy odpowiednik położeniowej miary sztywnego układu. Dodanie jednego zewnętrznego bezwzględnego powiązania tempa (bezpośredniego łącza do wzorca poza siecią) usuwa wspólne tempo z przestrzeni zerowej (rate_in_gauge = false, temporal_gauge_dim = { "1" }), co dowodzi, że podłoga jest rzeczywistą miarą, a nie artefaktem modelu oscylatora
+
+seg-25ffd6e1979c = Wspólny/różnicowy podział dostawców, unifikacja jednego defektu rzędu i nachylenie luki ochrony (T5 / §{ "0" } / g7)
+
+seg-72c7ec3724bf = Trzy aspekty jednej dekompozycji ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) z 8-wymiarową miarą datum⊕skala czasu jako N(G) oraz state_dim − { "8" } = { "32" } obserwowalnymi kierunkami jako range(G): (T5) provider_mismatch_split klasyfikuje wspólne obciążenie wielu dostawców (∈ range(G)) jako NIEWYKRYWALNE — wymagające zewnętrznego powiązania — a obciążenie różnicowe (∉ range(G)) jako samomonitorowane / WYKRYWALNE; (§{ "0" }) unifikacja polega na tym, że TA SAMA ślepa podprzestrzeń range(G) rządzi klasą usterek niewykrywalnych, więc miara datum N(G) i podprzestrzeń ślepa na usterki range(G) to jedna geometria, a nie dwie; (g7) slope zwraca nachylenie luki ochrony Browna ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ dla usterki b ∈ range(G) (estymator zepsuty przy zerowej parzystości) i skończone dla usterki wykrywalnej
+
+seg-632add2dbd3c = Maski synchronizacji telekomunikacyjnej ITU-T z PASS/FAIL i marginesem
+
+seg-47687529aee7 = Przepisane limity ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC w stanie zsynchronizowanym i ePRTC-A w holdover (w tym obwiednia błędu czasu z tabeli { "3" }), G.8273.2 ({ "2023" }) Amd. { "2" } (11/2025) klasy T-BC/T-TSC A-D oraz G.8271.1 ({ "2022" }) Amd. { "3" } (05/2025) punkt odniesienia C, każdy przedział otwarty lub zamknięty tak, jak podaje tabela, z pominięciem każdego wpisu „do dalszych badań”; werdykt i margines w punkcie wiążącym dla każdej kontroli oraz czas przekroczenia każdego budżetu. Można je uruchomić jako rodzaj scenariusza <c1/>
+
+seg-165ed2bc771a = Maski generacji dryfu dla synchronizacji częstotliwości ITU-T (G.811, G.812, G.8262, G.8262.1)
+
+seg-953793d4446a = Siedem masek generacji dryfu MTIE i TDEV w stałej temperaturze dla rodzaju <c1/>: G.811 (09/1997) PRC (autonomiczny), G.812 (06/2004) typy I, II i III, G.8262 (10/2024) EEC opcje { "1" } i { "2" } oraz G.8262.1 (11/2025) eEEC (tryb zsynchronizowany), w tym odcinki potęgowe, które zapisują tabele (<c2/> i podobne), każdy przedział otwarty lub zamknięty tak, jak wydrukowano, mierzone przez filtr { "10" } Hz, który podają punkty norm (przyjęty jako zastosowany przed próbkowaniem); scenariusz referencyjny scenarios/telecom-synce-eec.toml zestawia swobodnie pracujący OCXO z trzema maskami EEC. Niezaimplementowane: tolerancje przy zmiennej temperaturze, holdover, stany przejściowe, jitter i dokładność częstotliwości G.811
+
+seg-5fc2ad88faf0 = Formaty dzienników zegara (zegar RINEX, ASCII TimeLab, TAPR TICC) odczytywane do znormalizowanego szeregu fazy
+
+seg-5b5bcbdea166 = clock_log::read_input: jedna warstwa parsera, która zamienia plik zegara RINEX (rekordy AS/AR jednego nazwanego zegara, wersje { "2" } i { "3.00" } do { "3.04" }), dziennik ASCII fazy lub częstotliwości w stylu TimeLab albo dziennik znaczników czasu lub przedziałów TAPR TICC w jednolitą siatkę fazy, z tau0 podanym, z nagłówka lub jako medianą odstępów, z policzoną każdą luką, odczytem poza siatką i duplikatem, oraz polityką luk: odrzuć, najdłuższy odcinek lub liniowa; podpięty opcjonalnie do szeregu telecom-timing (<c1/>, dodając blok <c2/>) i do rodzaju clock (<c3/>, dodając blok <c4/> z ADEV, TDEV i MTIE, SHA-256 tabeli i SHA-256 fazy; runs = { "1" }). Bez tabeli oba rodzaje są identyczne co do bajta
+
+seg-acdb0337bce7 = Formaty dzienników zegara linuxptp (ptp4l, phc2sys, ts2phc) i chrony (tracking, statistics) odczytywane do znormalizowanego szeregu fazy
+
+seg-e87b3dba2072 = clock_log::read_input z formatami ptp4l, phc2sys, ts2phc, chrony-tracking i chrony-statistics: zapisane przesunięcie wiersza serwa linuxptp (ns, własny znacznik czasu wiersza w nawiasach, odczyty przed pierwszym zgłoszeniem s2 przez serwo pominięte i policzone) lub dziennika chrony tracking albo statistics (s, według pozycji kolumny, data i czas UTC) staje się jednolitą siatką fazy przez te same polityki luk co w innych formatach; selektor źródła (<c1/>) nazywa jeden z kilku interfejsów, zegarów lub adresów; dzienniki zasilają szereg telecom-timing, rodzaj clock i rodzaj holdover-test
+
+seg-97aebb84576e = Test holdover oceniany z zapisu błędu czasu dostarczonego przez operatora
+
+seg-ab533cf99c56 = Rodzaj <c1/>: zapis błędu czasu (dziennik zegara linuxptp, chrony, TICC, TimeLab lub RINEX albo pary time_s,time_error_ns) jest dzielony w dwóch momentach, które operator podaje dla usunięcia i przywrócenia GNSS, na krok bazowy, holdover i odzyskiwania; baza jest mierzona względem masek ITU-T napisanych dla zegara zsynchronizowanego, a holdover względem napisanych dla holdover lub zegara autonomicznego, obwiedni holdover ePRTC-A i budżetów błędu czasu; holdover raportuje przesunięcie częstotliwości z najmniejszych kwadratów, które system utrzymał, a odzyskiwanie — czy i kiedy |TE| weszło w podane pasmo i pozostało w nim przez podany czas przebywania, z wartością szczytową i największym krokiem. Każdy limit jest tym, który przepisuje rodzaj telecom-timing; oba momenty to oświadczenie operatora i nie są weryfikowane
+
+seg-94cbac97a1aa = Dostępność sygnałów GNSS w Space Service Volume i poza nią, porównana z broszurą ICG SSV
+
+seg-c59e349fdc9e = Przeglądy dostępności rodzaju <c1/>: dla każdej konstelacji (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) i łącznie udział par (użytkownik, epoka) z co najmniej jednym i co najmniej czterema sygnałami oraz najdłuższa przerwa, dla użytkownika na sferze (globalna powłoka broszury z 2,562 punktami, { "14" } dni co { "1" } minutę) lub na trajektorii (GEO, HEO, transfer księżycowy), z orbit keplerowskich z załącznika C broszury, stałą minimalną mocą promieniowaną w obrębie referencyjnego kąta poza osią, zasłonięciem przez Ziemię jako sferę plus { "50" } km oraz progiem C/N0; anteny użytkownika z tabeli B10 broszury
+
+seg-d2f04991c8a4 = Efekty jonosfery, plazmosfery i atmosfery dla promieni brzegowych na przechodzących stycznie sygnałach GNSS oraz projekt odbiornika słabych sygnałów w rodzaju <c1/>
+
+seg-1a1786ba90b6 = Jonosfera Chapmana, plazmosfera typu Gallagera i atmosfera obojętna (załamanie refrakcyjne, absorpcja tlenu, defokusacja) całkowane wzdłuż prostego promienia między nadajnikiem a użytkownikiem: ukośna całkowita zawartość elektronów, jej część plazmosferyczna, opóźnienie nadmiarowe, wysokość styczna i strata na łączach stycznych; oraz projekt odbiornika słabych sygnałów (całkowanie koherentne i niekoherentne, limit bitu danych, wspomaganie, przeszukiwanie Dopplera), który ustala próg C/N0 z modeli akwizycji i pętli śledzenia
+
+seg-6b8f9f3ca2a3 = Pokładowy filtr nawigacyjny GNSS dla statków kosmicznych na wysokich orbitach i w transferze księżycowym
+
+seg-39ddc494f103 = Tryb <c2/> rodzaju <c1/>: dziewięciostanowy rozszerzony filtr Kalmana (położenie, prędkość, odchylenie i dryf zegara odbiornika, skala ciśnienia promieniowania słonecznego) na pseudoodległościach, których dostępność, szum i C/N0 pochodzą z tej samej geometrii łączy co w przeglądach; prawda jest całkowana z J2, trzecim ciałem Słońca i Księżyca oraz ciśnieniem promieniowania z cieniem, filtr modeluje J2 i trzecie ciała i estymuje ciśnienie promieniowania; raportuje błędy położenia i prędkości wewnątrz orbit GNSS i powyżej nich, najdłuższą lukę pomiarową i średnie NEES
+
+seg-5fc242476828 = Nawigacja względna formacji wielu statków kosmicznych na silnie eliptycznej orbicie z GNSS
+
+seg-f67eb29d4483 = Tryb <c2/> rodzaju <c1/>: statek główny i statki zastępcze uruchamiają każdy filtr bezwzględny; położenie statku zastępczego względem głównego jest estymowane przez odjęcie estymat bezwzględnych oraz przez filtr względny na pseudoodległościach pojedynczo różnicowanych dla sygnałów śledzonych przez oba statki, z dynamiką względną jako różnicą dwóch nieliniowych trajektorii
+
+seg-7038f6902820 = Człony błędu interferometru z zimnych atomów: szum fazy lasera Ramana, obciążenie krzywizną czoła fali i rozwiązywanie niejednoznaczności prążków
+
+seg-4d9690207607 = inertial::cai_error_terms (funkcje biblioteczne, jeszcze nieosiągalne z rodzaju scenariusza): funkcja ważąca fazy Ramana dla interferometru trójimpulsowego z impulsami prostokątnymi (Cheinet i in. { "2008" }, równ. { "8" }) z postacią zamkniętą dla szumu białej fazy (pi/2)^{ "2" } S_phi0/tau_R i drogą numeryczną dla dowolnego widma; szum częstotliwości lasera, którego opóźnienie przy retroodbiciu nie znosi (Le Gouet i in. { "2007" }, równ. { "9" } do { "11" }); obciążenie czoła fali czystą defokusacją sigma_v^2/R chmury termicznej i jego redukcja promieniem detekcji; prawdopodobieństwo błędnego indeksu prążka erfc(pi/(sqrt({ "2" }) s)) dla wspomagania klasycznym akcelerometrem i dla dwóch czasów interrogacji oraz jego odwrotność
+
+seg-363705e03bac = Wzorce holdover oscylatorów z publicznych kart katalogowych
+
+seg-9750d9e0ec7a = Cztery wzorce — OCXO (Microchip OX-208), rubidowy (Microchip 8040C), cezowy (Microchip 5071A, lampa o wysokiej wydajności) i CSAC (Microchip SA.45s) — każdy niosący maksima odchylenia Allana z karty katalogowej, starzenie i granicę temperaturową; nieujemne dopasowanie najmniejszych kwadratów szumu częstotliwości białego + migotania + błądzenia losowego, przeskalowane tak, by obejmować obwiednią każdy punkt karty katalogowej, podłoga migotania nigdy poniżej wartości dla najdłuższego τ, liniowe starzenie i sinusoidalny człon temperaturowy, zsyntetyzowane jako holdover z ziarnem po utracie GNSS
+
+seg-d7e03158b972 = Sekundy, zanim swobodnie pracujący zegar opuści margines czasowy slotu indeksowanego czasem, oraz kadencja poprawek, która utrzymuje go wewnątrz
+
+seg-0b4d8815f756 = Rodzaj <c1/>: przewidywany błąd E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² odwrócony do przekroczenia, pozostałego czasu, interwału resynchronizacji pomniejszonego o opóźnienie poprawki i poprawek na dobę, z każdym członem wyszczególnionym i nazwanym dominującym; zegary z sześciu domyślnych ClockClass (TCXO, OCXO i RAFS dodane, każdy z odwołaniem do jednej karty katalogowej), wzorców telecom-timing, śródliniowej karty katalogowej lub zmierzonego zapisu; przekroczenie poza najdłuższym czasem uśredniania źródła oznaczane jako ekstrapolowane
