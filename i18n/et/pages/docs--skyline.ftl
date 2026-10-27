@@ -32,3 +32,9 @@ seg-2c53381d48ae = Horisontaalne veaellips ja süsteemikohane kofaktor geomeetri
 
 # text
 seg-de6c33774c9c = CLI
+
+# text
+seg-d1e9715513b4 = Näide
+
+# text
+seg-587beeccaa11 = Eelseade

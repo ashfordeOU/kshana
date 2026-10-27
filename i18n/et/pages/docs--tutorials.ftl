@@ -23,3 +23,9 @@ seg-28e87f407a10 = Valdkond
 
 # text
 seg-d6476863f862 = Võimekus
+
+# text
+seg-029de6b99be0 = Inertsiaalne dead-reckoning
+
+# text
+seg-9ef8f99ca6e4 = Aja edastamine
