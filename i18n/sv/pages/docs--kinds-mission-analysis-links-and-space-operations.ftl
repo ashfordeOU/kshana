@@ -161,3 +161,5 @@ seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Hela sidan, med indata, resultat,
 seg-41996765fcf1 = <s1>Föregående</s1>Måne och cislunart
 
 seg-1951c46fe429 = <s1>Nästa</s1>Optisk PNT
+
+seg-e77c46e23e67 = <s1>Nästa</s1>Uppdragsflöden

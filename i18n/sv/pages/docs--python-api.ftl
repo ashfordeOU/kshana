@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>Föregående</s1>Kallatomsinterferometer
 seg-4a457afc63fb = <s1>Nästa</s1>npm och WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = uppskattade sändarområden utifrån CSV-text med ADS-B eller AIS: <c1/>, vart och ett märkt MODELLED; områden vid angiven konfidens med en tyngdpunkt och en osäkerhetsellips, aldrig en enskild punkt; endast aggregerat, och ett område är ingens position och inte heller ett fynd av orsaken

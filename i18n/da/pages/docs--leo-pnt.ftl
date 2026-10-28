@@ -407,3 +407,5 @@ seg-a08e67a32d60 = Kæden er MODELLED: den tilføjer ingen fysik, og hvert trin 
 seg-ee3c5b58e6fa = <s1>Forrige</s1>Månens bane og overflade som infrastruktur
 
 seg-6b951d6413c8 = <s1>Næste</s1>LEO-signaludformninger
+
+seg-9bfe27f7ebc5 = <s1>Forrige</s1>Missionstråd: månesegmentet

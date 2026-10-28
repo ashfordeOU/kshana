@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = Korridor for ballistisk generindtræden (Allen–Eggers) er M
 seg-a4b7c16e3fea = <s1>Forrige</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Næste</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Fasen <c1/>: returkysten for <c2/> uden brænding, der ender ved indflyvningsgrænsefladen; flyvebaneafvigelsen og dens sigma fra den fulde kovarians ved en gradient med endelig differens; sandsynligheden for, at vinklen ligger inden for en ang

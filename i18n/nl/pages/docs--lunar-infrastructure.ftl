@@ -55,3 +55,5 @@ seg-6334f82991d3 = Niet gehaald, en vastgepind door tests die de misser vaststel
 seg-1d3bffc2fd02 = <s1>Vorige</s1>Navigatie voor ruimtegebruikers (gnss-ssv)
 
 seg-90932eed0074 = <s1>Volgende</s1>Positiebepaling, navigatie en tijdsynchronisatie in een LEO
+
+seg-c3b27dfb7bca = <s1>Volgende</s1>Missieketen: van lancering tot terugkeer

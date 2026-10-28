@@ -95,3 +95,7 @@ seg-6339abe5314a = Familie
 seg-3040e2ec62b1 = <s1>Vorige</s1>Scenariosoorten
 
 seg-1d6e6cc607f2 = <s1>Volgende</s1>Elke opdracht
+
+seg-c6bb02c73696 = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Missieketens
+
+seg-9ad7876b693f = Elke scenariosoort die de engine v{ $version } verdeelt ({ "92" }), ingedeeld in { "13" } families. Elke familie heeft een pagina met één vermelding per soort (de beschrijving en velden van de engine, de voorbeeldopdracht, kerncijfers uit een run, de matrixrijen die ernaar verwijzen, en de grafiek die de engine schrijft) en een contactblad van die grafieken. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders zegt (hoe een label wordt verdiend: de sectie Bewijs van de README).

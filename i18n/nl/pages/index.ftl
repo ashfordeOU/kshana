@@ -719,3 +719,9 @@ seg-5858e5d1f7c5 = Een bewijslabel bij elk cijfer en elke tabel die een run schr
 seg-bd28ef5c376e = Zeventien talen naast het Engels
 
 seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
+
+seg-b9961ed25282 = Nieuw in v{ $version }: een missieketen, een bewijslabel bij elk cijfer en zeventien talen
+
+seg-653cf3198094 = { "176" } van { "401" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.
+
+seg-76b213d03caa = Alle { "92" } scenariosoorten, gratis zonder functiepoort, deterministisch uit scenario, seed en engineversie.

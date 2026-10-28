@@ -770,3 +770,9 @@ seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning
 seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
 
 seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }
+
+seg-b9961ed25282 = Nytt i v{ $version }: ett uppdragsflöde, en evidensetikett på varje siffra och sjutton språk
+
+seg-653cf3198094 = { "176" } av { "401" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.
+
+seg-76b213d03caa = Alla { "92" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.

@@ -719,3 +719,9 @@ seg-5858e5d1f7c5 = En evidensetiket på hvert tal og hver tabel, en kørsel skri
 seg-bd28ef5c376e = Sytten sprog ved siden af engelsk
 
 seg-7fae5de5ebf1 = kshana-bench: gen-kampagnen { "0.40" }
+
+seg-b9961ed25282 = Nyt i v{ $version }: en missionstråd, en evidensetiket på hvert tal og sytten sprog
+
+seg-653cf3198094 = { "176" } af { "401" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
+
+seg-76b213d03caa = Alle { "92" } scenarietyper, gratis uden funktionsspærring, deterministiske ud fra scenarie, seed og motorversion.

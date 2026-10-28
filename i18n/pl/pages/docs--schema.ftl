@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Następna</s1>Użycie rzeczywistych TLE
 seg-6585c8a3643d = ClockRun (każdy z quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (obiekt fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Etykieta dowodowa przebiegu: <c1/> (<c2/>, <c3/> lub <c4/>: <em>najsłabszy</em> status wśród wierszy, więc nigdy nie twierdzi więcej niż jego najsłabszy wiersz), <c5/> (<c6/>), <c7/> i <c8/>, po jednym na wiersz macierzy weryfikacji, który przebieg wykorzystał (wiersze wymienione w jego raporcie zaawansowanym, z <c9/>): <c10/> (<c11/> i pierwsze { "8" } cyfr szesnastkowych SHA-256 tekstu wymagania wiersza), <c12/> i <c13/>, wszystko odczytane z macierzy, nic nie wpisane. Dodawana przez <c14/> do wyniku każdego rodzaju, przed końcowym blokiem <c15/>, gdy taki jest (ten blok pozostaje ostatnim kluczem); <c16/> usuwa ją bajt w bajt. Wykres SVG i tabela CSV tego samego przebiegu niosą tę samą etykietę (<c17/> i widoczny wiersz pod wykresem; <c18/> wierszy komentarza przed CSV). Członkowie kampanii osadzeni w wyniku innego rodzaju nie niosą żadnej: niesie ją dokument zewnętrzny. Nie zawiera liczb.

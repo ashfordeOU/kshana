@@ -12695,3 +12695,7 @@ js-trust-track-start = początek
 js-trust-unknown-agreement = zgodność nieznana tej stronie
 
 js-trust-yes = tak
+
+js-mthread-limiting-phase = Silnik wskazuje ograniczające źródło tej fazy jako { $source }: źródło fazy, a nie jeden wiersz tej tabeli.
+
+js-mthread-limiting-row = ograniczające źródło silnika

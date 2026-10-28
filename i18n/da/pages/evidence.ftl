@@ -4325,3 +4325,65 @@ seg-150ae9c3d755 = Interferenskildeområde: et muligt senderområde ud fra posit
 seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, ud fra positionsrapporter fra ADS-B (NIC/NACp) eller AIS: radiosigtlinje på en 4/3-jordradius fra rapporthøjden og et højdeinterval for senderantennen, en begrænset effektiv rækkevidde for den ukendte effekt, hvor berørte enheder trækker posterioren mod deres rækkevidde, og uberørte enheder med sigtlinje skubber imod, grupperet i sessioner i tid og rum. Output er områder med højeste tæthed ved angivne konfidensniveauer, et posterior-tyngdepunkt med en momentellipse, sessionens start, slut, varighed, berørt areal og antal forskellige fly over offentliggørelsesminimum, en døgnprofil og timer pr. dag. Uden terræn; én kilde pr. session; troværdigheden er betinget af modellen. Valgfri fusion med en TDOA-positionsbestemmelse fra geolokalisering.
 
 seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B IKKE VURDERBAR ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS IKKE VURDERBAR (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
+
+seg-aa7c0a865661 = { "401" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "221" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
+
+seg-7a254b7d5498 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "221" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
+
+seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "401" } rækker · intet scenarie eller seed: motorens eget register
+
+seg-015ecb5cddc3 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-e26b6fdc705b = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-66defa1494fc = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-4c54e96a1832 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-3d202a56e836 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-77bfad0f4f88 = { "176" }<s1>af { "401" } valideret</s1>
+
+seg-222c46a96ec3 = Verifikationsmatrix: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere, { "401" } i alt
+
+seg-cf2aa475bc68 = Typen mission-thread: et dokument af faser, hver en af otte registrerede typer, kørt… · Modelleret
+
+seg-bdc3223c80e4 = Fasen launch-ascent: en position- og hastighedskovarians med konstant hastighed og hvid… · Modelleret
+
+seg-a60883a4b32c = Fasen leo-rendezvous: den relative tilstand i målets LVLH-akser med den… · Modelleret
+
+seg-a3201e17ddc4 = Fasen tli-and-cruise: middeltilstanden fra motorens Cowell-propagator (Jorden som punkt… · Modelleret
+
+seg-a143fdf9c4cb = Fasen entry: returkysten for tli-and-cruise uden brænding, der ender ved indflyvnings… · Modelleret
+
+seg-6c84e2db7d1e = Overlayet af jordnetværk: stationer med en mindste elevation, sigtbarheden af… · Modelleret
+
+seg-256ed84fca2b = Typen og fasen lunar-orbit-rendezvous: et fælles batch-Gauss-Newton… · Modelleret
+
+seg-6cae40e30a77 = Typen og fasen lunar-descent: en inertiel fejlmodel med fem tilstande pr. akse (position… · Modelleret
+
+seg-2db0710d699f = Typen og fasen lunar-surface: relætilgængelighed og PDOP, sigtbarhed af Jorden og Solen… · Modelleret
+
+seg-40e993dc4c56 = Typen og fasen lunar-ascent: den inertielle fejlmodel med fem tilstande pr. akse kørt over en… · Modelleret
+
+seg-904a8004957d = Den propagator, månetyperne deler (GRAIL GL0660B grad og orden { "150" }, Jorden og Solen… · Modelleret
+
+seg-860ca782e2bf = Propageringen af middeltilstanden i fasen tli-and-cruise (Cowell, Jorden som punktmasse og J2… · Modelleret
+
+seg-7c7d72cc2036 = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, fra ADS-B… · Modelleret
+
+seg-65feaf4e91ef = Alle { "401" } rækker, én linje hver.
+
+seg-5668b5581703 = af { "102" } valideret
+
+seg-43f852e4bee8 = af { "74" } valideret
+
+seg-fbb78f11c0dc = af { "78" } valideret
+
+seg-8fe12f6058c6 = af { "26" } valideret
+
+seg-b393e1b5fcfc = Alle { "401" }
+
+seg-3df9e327c036 = Modelleret { "221" }
+
+seg-7fa6f2e0de57 = Valideringsregister, { "401" } rækker, kan rulles

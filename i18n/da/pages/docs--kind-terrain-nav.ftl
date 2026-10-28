@@ -31,3 +31,5 @@ seg-0fcad0016c78 = <s1>Forrige</s1>telecom-timing
 seg-fa50992f818f = <s1>Næste</s1>terrain-slam
 
 seg-e66e2ca31e54 = Emneside: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Typen og fasen <c1/>: en inertiel fejlmodel med fem tilstande pr. akse (position, hastighed, accelerometerbias, hældning, gyrobias) over en drevet nedstigning, støttet af AFS-positionsbestemmelser (selvstændige eller differentielle, med det urstøttede tilfælde med tre relæ
