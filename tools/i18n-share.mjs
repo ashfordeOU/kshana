@@ -103,11 +103,13 @@ export function stageCatalogues(root, tree, langs) {
  *    assets/capabilities/capabilities.json web/js/cap-hero.mjs, web/js/capabilities.mjs (fetchData)
  *    js/evidence-data.mjs, js/developers-data.mjs, js/missions-runs.mjs   web/js/{evidence,developers,missions}.mjs (importData)
  *    studio/channels.json                  web/studio/app.js, advanced.js (fetchData("channels.json") from /studio/)
- *  Every other file i18n/data-spec.json lists is applied at build time or read only in English: data/verification-matrix.json,
- *  data/card-matrix-map.json, data/standards-matrix-map.json (no fetchData or importData names them; the Studio's own matrix is
- *  studio/data/verification-matrix.json, which the spec does not list), studio/data/capabilities.json (nothing reads it),
+ *    data/verification-matrix.json         web/studio/app.js, advanced.js (fetchData("/data/verification-matrix.json"): the shared ledger at the
+ *                                          site root, so /<lang>/studio/ reads /<lang>/data/verification-matrix.json; the Studio's own
+ *                                          studio/data/verification-matrix.json is the English fallback for a Studio served on its own)
+ *  Every other file i18n/data-spec.json lists is applied at build time or read only in English:
+ *  data/card-matrix-map.json, data/standards-matrix-map.json (no fetchData or importData names them), studio/data/capabilities.json (nothing reads it),
  *  studio/data/areas.json (read with a plain fetch, so always the English file). */
-export const RUNTIME_DATA = ['data/series.json', 'data/search.json', 'assets/capabilities/capabilities.json', 'js/evidence-data.mjs', 'js/developers-data.mjs', 'js/missions-runs.mjs', 'studio/channels.json'];
+export const RUNTIME_DATA = ['data/series.json', 'data/search.json', 'assets/capabilities/capabilities.json', 'js/evidence-data.mjs', 'js/developers-data.mjs', 'js/missions-runs.mjs', 'studio/channels.json', 'data/verification-matrix.json'];
 
 /** Remove the language copies no page requests (run after `verify`). Returns { removed: [path], bytes }. */
 export function pruneData(tree, langs, specFile) {

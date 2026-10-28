@@ -2275,7 +2275,10 @@ function engineChip() {
 
 async function loadCounts() {
   try {
-    const ledger = await (await fetchData("data/verification-matrix.json")).json();
+    // The shared ledger at the site root (a translated page gets its own language copy); a Studio served on its own falls back to its data/ copy.
+    let r; try { r = await fetchData("/data/verification-matrix.json"); } catch { r = null; }
+    if (!r || !r.ok) r = await fetch("data/verification-matrix.json");
+    const ledger = await r.json();
     const m = matrixCounts(ledger);
     $("matrix-line").replaceChildren(...withNodes(t("js-adv-matrix-line", "{ $counts } capabilities validated against independent external oracles · { $modelled } modelled · { $partner } partner-owned", { counts: NM[0], modelled: m.modelled, partner: m.partner }), h("b", { text: t("js-adv-matrix-counts", "{ $validated } of { $total }", { validated: m.validated, total: m.total }) })));
   } catch { /* the ledger is optional context */ }
