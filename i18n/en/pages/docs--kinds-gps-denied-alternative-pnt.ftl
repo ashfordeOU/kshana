@@ -90,7 +90,7 @@ seg-c42d90057e9f = The chart the engine writes for scenarios/gravity-map-nav.tom
 seg-b1ff6f0e1769 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Optional: <c13/>, <c14/>, <c15/>.
 
 # text
-seg-9bd19903f577 = <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+seg-643fa0f18717 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
 
 # attr:alt
 seg-c5e33c7122e2 = The chart the engine writes for scenarios/terrain-nav.toml, kind terrain-nav

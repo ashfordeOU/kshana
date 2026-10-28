@@ -178,8 +178,6 @@ seg-f6ff1c8c78db = Tap av lås i sporingssløyfen: C/N0 -> lås/ulåst MED HYSTE
 
 seg-45cb12242d59 = Kilde: <c1/>
 
-seg-843d88cee576 = De { "87" } innebygde scenario-kind-ene som <c1/> fordeler over, hver med sin enlinjes beskrivelse og sine obligatoriske / valgfrie felt i TOML (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Denne filen er <b>generert</b> fra <c1/> — den eneste kilden til sannhet — av <c2/>; rediger kilden, ikke denne filen. Alle bindinger (Python-pakken, verktøyet <c3/> på MCP-serveren (Model Context Protocol) og WebAssembly-lekeplassen (WASM)) viser samme katalog, så det som er oppført her er nøyaktig det hver flate kan kjøre. Beskrivelsene er kortfattede og utvider ikke alltid forkortelsene sine; hver av dem er skrevet ut i <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Hvert scenario unntatt <c1/> må også sette <c2/> på toppnivå: et dokument uten <c3/> kjører som <c4/>, og derfor gjentas ikke <c5/> blant de obligatoriske feltene til noen kind nedenfor. En obligatorisk oppføring kan nevne alternativer: <c6/> skiller former der minst én må finnes, og <c7/> binder sammen felt som må forekomme sammen, slik at <c8/> betyr «en <c9/>, eller en <c10/> med en <c11/>».

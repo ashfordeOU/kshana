@@ -374,8 +374,6 @@ seg-e01f77d493a0 = Modelowana księżycowa geodezyjna obserwabla opóźnienia VL
 
 seg-3f749aef8d89 = Głębokokosmiczny Mars PNT: symulowana konstelacja przekaźników MARCONI (przekaźniki areostacjonarne + nachylone nadające jednokierunkowo + przekazujące dwukierunkowo do stacji w głębokim kosmosie) nawiguje użytkownika referencyjnego (transfer | lmo | surface) przez wspólny estymator fuzji radiometrycznej jedno- i dwukierunkowej. Podaje geometrię/widoczność na epokę, osiągnięty RMS względem prawdy i formalną kowariancję (pozycja 1σ / 3σ) — uczciwy symulowany wskaźnik jakości, NIE certyfikowany poziom ochrony.
 
-seg-1e4d5b2f4810 = Każdy dołączony plik scenariusza ({ "182" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
-
 seg-e701392324d0 = rodzaj acm-link
 
 seg-c4d65df7ab98 = nie dopasowano do modułu rejestru według nazwy

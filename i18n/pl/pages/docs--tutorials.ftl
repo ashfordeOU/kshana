@@ -128,8 +128,6 @@ seg-c889e5e77121 = Plik dydaktyczny dla <b>bezpieczeństwa</b> używa wewnątrz 
 
 seg-89fef83a9d54 = Pełny katalog rodzajów scenariuszy
 
-seg-648bb07212cd = Silnik wybiera działanie według pola <c1/> scenariusza. Poniższa tabela wymienia najczęściej używane rodzaje (osiem dziedzin samouczków powyżej wraz z ich najbliższymi sąsiadami). To <b>nie</b> jest pełny zbiór: <c2/> zwraca wszystkie <c3/> wbudowanych rodzajów. Ta funkcja (udostępniona jako <c4/> w wiązaniach Pythona i WebAssembly (WASM) oraz jako <c5/> w wierszu poleceń) jest miarodajnym, zawsze aktualnym katalogiem, a <a1><c6/></a1> to jej wygenerowane zestawienie, jedna sekcja na rodzaj, z wymaganymi i opcjonalnymi polami TOML. <c7/> wymusza, aby każdy rodzaj opisany w samouczku był rzeczywistym rodzajem obsługiwanym przez silnik, więc nic w tej tabeli nie może wskazywać rodzaju, który nie istnieje.
-
 seg-0f744a3a7193 = Holdover zegara względem specyfikacji; opcjonalny zespół Monte Carlo (<c1/>).
 
 seg-9a2564fdc86a = Nawigacja zliczeniowa inercjalna 1-DOF (jeden stopień swobody) podczas przerwy w GNSS.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Wyrocznia relacji stabilności zegara</b>: NIST (National 
 seg-36be39f17e35 = <s1>Poprzednia</s1>Przewodnik po Studio
 
 seg-6f6204737a87 = <s1>Następna</s1>{ "1" } · Twoja pierwsza orbita
+
+seg-2fa9e002b3a2 = Silnik wybiera działanie według pola <c1/> scenariusza. Poniższa tabela wymienia najczęściej używane rodzaje (osiem dziedzin samouczków powyżej wraz z ich najbliższymi sąsiadami). To <b>nie</b> jest pełny zbiór: <c2/> zwraca wszystkie <c3/> wbudowanych rodzajów. Ta funkcja (udostępniona jako <c4/> w wiązaniach Pythona i WebAssembly (WASM) oraz jako <c5/> w wierszu poleceń) jest miarodajnym, zawsze aktualnym katalogiem, a <a1><c6/></a1> to jej wygenerowane zestawienie, jedna sekcja na rodzaj, z wymaganymi i opcjonalnymi polami TOML. <c7/> wymusza, aby każdy rodzaj opisany w samouczku był rzeczywistym rodzajem obsługiwanym przez silnik, więc nic w tej tabeli nie może wskazywać rodzaju, który nie istnieje.

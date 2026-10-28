@@ -539,9 +539,6 @@ seg-9a2bb9809aed = Zweiweg-Satelliten-Zeit- und Frequenzübertragung zwischen zw
 seg-ccb244e60d60 = Optische gegen HF-Zweiweg-Zeit-/Frequenzübertragung.
 
 # text
-seg-1e4d5b2f4810 = Jede mitgelieferte Szenariodatei ({ "182" }), nach Art gruppiert. Die Beschreibung ist der eigene Kopfkommentar der Datei; die Schlüsselparameter sind ihre Einstellungen auf oberster Ebene. Der Status liest die Verifikationsmatrix für das Modul der Art. <b>In Kshana Studio öffnen</b> öffnet den aufgezeichneten Lauf.
-
-# text
 seg-e701392324d0 = Art acm-link
 
 # text

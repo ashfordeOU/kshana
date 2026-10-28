@@ -47,13 +47,7 @@ seg-11450a55fc9d = The example <c1/> sets, among others:
 seg-df90e5910fb4 = hr
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-c1ce24cd6008 = analytic
-
-# text
-seg-3843825d0733 = us
 
 # attr:alt
 seg-07d97fc1abac = The chart the engine writes for scenarios/lunar-vlbi.toml, kind lunar-vlbi

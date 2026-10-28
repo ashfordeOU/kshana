@@ -47,9 +47,6 @@ seg-c2b10c0bdaf8 = Das Beispiel <c1/> setzt unter anderem:
 seg-f44afe581836 = { $version }
 
 # text
-seg-25da07e56aa8 = Quanten- gegen klassische PNT-Anomalieerkennun
-
-# text
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytische binormale ROC-AUC = Φ(μ/(σ√{ "2" })) und der minimal erkennbare Fehler σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), die den Quantenfehler- und Anomaliedetektoren zugrunde liegen. Unabhängige Referenz (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), beide BSD-3-Clause — unabhängige Bibliotheken, die dieselben eindeutig definierten Gauß-Schwanz-/AUC-Größen berechnen, abgeglichen bis zum A&S-erf-Boden (~{ "7e-8" }). Der darauf aufbauende Quanten-gegen-klassisch-Vorteil bleibt MODELLED
 
 # text

@@ -908,26 +908,6 @@ seg-fdbb9db68f1d = puudub
 seg-86709f7f67c0 = TRL ~{ "3" }; agentuuride tsitaate/lepinguid veel ei ole (vt strateegiamärkmeid)
 
 # text
-# c1: kshana kinds --json
-# c2: holdover-test
-# c3: gnss-ssv
-# c4: lunar-infrastructure
-# c5: optical-atmosphere
-# c6: acm-link
-# c7: aocs
-# c8: ascent-losses
-# c9: contact-schedule
-# c10: entry-heating
-# c11: eo-radiometry
-# c12: lunar-station-coverage
-# c13: time-transfer-budget
-# c14: src/holdover.rs
-# c15: QuantumNavBudget
-# c16: CodeFamily
-# c17: src/verification.rs
-seg-a887cfc920f6 = Uuendatud 2026-10-22 mootori { $version } jaoks ({ "87" } stsenaariumi liiki, allikast <c1/>; versioonis { $version } uut liiki ei ole). 2026-10-19: mootor { "0.38.0" }, { "87" } liiki (uued versioonis { "0.38.0" }: <c2/>, <c3/> ja <c4/>). 2026-10-18: { "84" } liiki (uus versioonis { "0.37" }: <c5/>). 2026-10-16: { "83" } liiki (uued versioonis { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> ja <c13/>). 2026-10-10: mootor { "0.35.0" }, { "75" } liiki, uusi liiki ei ole. 2026-10-09 ja 2026-10-08: eelmised redaktsioonid. 2026-10-04: Nav-signaali rida märgib versiooni { "0.31.0" } IQ kihti. 2026-09-29: lisatud LEO-PNT, spektri, päikesesüsteemi / mis tahes keha PNT, kampaania ja väljundite read. Varem: joondatud 2026-06-02 suure auditi 27-realise võimekusmaatriksiga; süvakosmose / Marsi PNT rida lisati versioonis { "v0.17.0" }. Kvant-PNT täiendused (GNSS-ita kella holdover <c14/>, koostatud kvant-inertsiaalse dead-reckoning-i eelarve <c15/>, kaugusmõõtmise koodi kavandi kompromiss <c16/>, masinkontrollitud kontrollimaatriks <c17/>) on voldutud ridadesse Ajastus, Kvant-PNT anduri, Nav-signaali ja V&V — igaüks sildistatud kontrollituks-või-modelleerituks vastavalt oma tegelikule sõltumatule etalonile.
-
-# text
 # c1: src/impairment_eval.rs
 # c2: src/quantum_trade.rs
 # c3: σ_y²(τ)=q_wf/τ + q_rw·τ/3 + q_drift·τ³/20

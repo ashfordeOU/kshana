@@ -165,11 +165,6 @@ seg-0edf8c38f9eb = À côté de ce tableau de temps, <c1/> (<c2/>, <c3/>, <c4/>)
 seg-608c4fed9e98 = Les tracés avec une unité partagent un panneau lorsque leurs grandeurs sont dans un rapport d'au plus { "100" }, de sorte qu'une garde de { "50" } ns n'aplatit pas une erreur de { "2" } ns. Au plus { "6" } panneaux de { "6" } tracés sont dessinés ; le reste est listé sous <c1/>. Les tracés de plus de { "2,400" } échantillons sont éclaircis par un pas régulier qui conserve le dernier échantillon, et une cascade de plus de { "96" } × { "120" } cellules est moyennée à la baisse (en puissance, pour les cellules en décibels, afin qu'un brouilleur étroit ne soit pas dilué).
 
 # text
-# c1: no time series to animate
-# c2: cargo test --test animation -- --nocapture
-seg-b68ce4aa301f = Un type dont le résultat ne porte aucune de ces formes (un bilan de liaison, une géométrie à époque unique, un résumé Monte Carlo purement statistique, ou le holdover de télécommunication, dont le résultat publie l'empreinte de l'enregistrement mais non l'enregistrement) est refusé avec <c1/>, et rien n'est écrit. Avec kshana { $version }, { "89" } des { "182" } fichiers de scénario exécutables (tous les fichiers sauf une suite d'études) s'animent et { "93" } sont refusés. <c2/> affiche le recensement.
-
-# text
 # c1: leo-pass
 # c2: leo-pnt-chain
 # c3: leo-ppp

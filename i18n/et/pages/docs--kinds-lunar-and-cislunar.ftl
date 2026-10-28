@@ -149,9 +149,6 @@ seg-a240ef37dc6d = Source: <c1/>
 seg-befef5f2f8dd = Kuu ja tsislunaarne ruum (stsenaariumi liikide perekond)
 
 # text
-seg-f964724ea446 = { "20" } stsenaariumi liiki mootorist v{ $version }. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
-
-# text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
 seg-369e7cfcc1d3 = Teemalehed: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Käivita üks: <c1/>. Kõik perekonnad: <a4>KINDS.md</a4>.
 
@@ -410,9 +407,6 @@ seg-4f05fad4b146 = <b>Register (ledger):</b> VALIDATED. Täielik leht koos sisen
 # c25: epoch_utc
 # c26: terrain
 seg-8d9e0277303e = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-# text
-seg-204901ae3684 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>moonlight-service-volume</a1>.
 
 # text
 # c1: n_sats

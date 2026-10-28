@@ -104,9 +104,6 @@ seg-f7f2a6c0cd15 = Source : <c1/>
 seg-6c7831311d4e = Types de scénario, par famille
 
 # text
-seg-6bed0bef75bc = Chaque type de scénario que le moteur v{ $version } distribue ({ "87" }), classé en { "12" } familles. Chaque famille a une page avec une entrée par type (la description et les champs du moteur, la commande d'exemple, des chiffres clés d'une exécution, les lignes de la matrice qui le nomment, et le graphique que le moteur écrit) et une planche-contact de ces graphiques. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, pas un équipement de navigation homologué et pas un service de sauvegarde de la vie humaine. Chaque libellé ici est celui du moteur ou de la matrice de vérification ; un type est MODELLED sauf indication contraire de la matrice (comment un libellé s'obtient : la section Evidence du README).
-
-# text
 seg-d23eaa8bc98b = Familles
 
 # text

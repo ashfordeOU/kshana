@@ -544,8 +544,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Verklig motorkörning, uppspelad
 
-seg-597a57467277 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
 seg-f1313464b7c9 = Banor: propagerade om utifrån körningens egna element och kontrollerade mot motorns markspår. Planeter: NASA-bilder.
 
 seg-6c981f00d37d = <b>Med Pro:</b> utformningsoptimeraren kör ett helt utformningsrum för konstellationer kring jorden, månen eller Mars genom den här motorn och returnerar dess <b>Paretofront</b>, där varje utformning på fronten skrivs ut som en vanlig scenariofil. <a1>Se en verklig front</a1>

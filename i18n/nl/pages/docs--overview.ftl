@@ -328,8 +328,6 @@ seg-fdd71491d5b0 = Status van continue integratie op main
 
 seg-fa8a7ec005a9 = Regeldekking van ongeveer { "95" } % van src/, gemeten in docs/COVERAGE.md en in continue integratie afgedwongen op { "85" } %
 
-seg-af101c048e7e = { "176" } van { "388" } mogelijkheden VALIDATED aan een onafhankelijke externe referentie, volgens de verificatiematrix
-
 seg-6499faeb5966 = Status van de kwaliteitspoort van SonarQube Cloud
 
 seg-ca94ec23de8d = <a1><s1>Licentie: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI 10.5281/zenodo.20528627, het Zenodo-conceptrecord van elke release</s2></a2>
@@ -347,8 +345,6 @@ seg-72cbdfddc323 = <a1>Kshana Studio openen</a1> · <a2>Installeren</a2> · <a3>
 seg-904baf07192f = Oefen de minuut dat GNSS uitvalt. De missieconsole van Kshana, getekend op basis van een echte run van engine v{ $version }: de geketende campagne campaign-jam-spoof-holdover-integrity (seed { "20260928" }, { "6" } fasen, { "18" } deelruns over T+{ "01" }:{ "16" }:{ "10" }) en de { "102" } satellieten van GPS, Galileo, BeiDou en GLONASS uit constellation-multi-gnss-coverage, elk getekend op de cirkelvormige tweelichamenbaan die uit het grondspoor van de engine is teruggewonnen, met voor de weergave samengedrukte stralen. De tijdfout van de klok piekt op { "62.7" } ns tegen een bewaking van { "50" } ns, de draaggolf-ruisdichtheid daalt tot -12.2 dB-Hz tegen een ondergrens van { "25" } dB-Hz, en het verticale beschermingsniveau bereikt { "135.4" } m tegen een alarmlimiet van { "50" } m.
 
 seg-d435b868c53d = Inhoud
-
-seg-161fa1263086 = <a1>Nieuw in { "0.39" }</a1>, <a2>Nieuw in { "0.38" }</a2> en <a3>{ "0.38" } in detail</a3>: jammertest-scoring, de eigen vlaggen van de ontvanger, machine-invoer, tijdsynchronisatie en holdover, standaardenpakketten, LunaNet AFS, de laboratoriumrondgang, kshana-bench, het observatorium, exporters, optisch, <a4>navigatie voor ruimtegebruikers</a4> en <a5>maaninfrastructuur</a5>
 
 seg-b4569d43b652 = <a1>Kshana Studio</a1> en elke Studio-pagina
 
@@ -542,25 +538,15 @@ seg-1b484c7d2d35 = Open <a1>kshana.dev/studio</a1> en de hele engine draait in u
 
 seg-503f53e7874b = <b>De eenvoudige weergave</b> is waar de Studio opent. Ze begint bij vragen (hoeveel satellieten kan ik zien, kan ik mijn positiebepaling vertrouwen, hoelang kan een klok de tijd bijhouden, wat doet een jammer met mijn ontvanger) en bij een kaart van alles wat de engine kan, elk gebied met zijn aandeel getoetste methoden. Open een scenario en het antwoord komt eerst: één gewone zin, geschreven voor wat dat scenario meet, daarna de kerncijfers en een grafiek. Hooguit vijf instellingen zijn zichtbaar, die welke het antwoord het meest veranderen; de rest wacht onder <b>Geavanceerde instellingen</b>. <b>Hoe dit wordt berekend</b> legt de methode uit, en <b>Voor onderzoekers</b> geeft de eigen cijfers van de engine, het scenariobestand, de code om het vanuit Python uit te voeren en de citatie.
 
-seg-c45a4adf8209 = Kshana Studio, eenvoudige weergave, op het meegeleverde scenario integrity-raim, engine { "v0.38.0" } lokaal draaiend. De vraag: voldoet de geometrie aan de alarmlimieten (horizontaal en verticaal beschermingsniveau)? Het antwoord eerst, gemarkeerd als Live resultaat: Ja, grotendeels: voor { "95.3" } % van de { "12" } u. De foutgrens van de ontvanger bleef onder de alarmlimieten ({ "40" } m horizontaal en { "50" } m verticaal) bij { "344" } van { "361" } controles, en geen enkele positiebepaling was misleidend. Kerncijfers: tijd dat de positiebepaling kan worden vertrouwd { "95.3" } %, langste onderbreking { "10" } min, typische foutgrens { "6.5" } / { "13" } m, misleidende positiebepalingen { "0" }. Ernaast Andere instellingen proberen met vijf ervan (de afstandsfout, de twee alarmlimieten, de duur en het elevatiemasker) en Opnieuw uitvoeren, daarna de ingeklapte secties Geavanceerde instellingen ({ "13" } meer), Hoe dit wordt berekend ({ "8" } getoetst, { "6" } gemodelleerd) en Voor onderzoekers. Daaronder de weergaven van dit resultaat en de beschermingsniveaus uitgezet tegen de alarmlimiet.
-
 seg-6767f63a1153 = <b>De geavanceerde weergave</b> is het volledige dashboard: de scenariobibliotheek, vijf genummerde stappen (Kiezen, Instellen, Uitvoeren, Resultaten lezen, Delen of exporteren), de kerncijfers met PASS- en FAIL-chips waar de run een drempel vermeldt, en elk paneel: overzicht, grafieken, kaarten, replay, het rapport van de engine en exports. Eén zoekvak bereikt scenario's, domeinen en de velden daarin, en u kunt tot vier runs vastpinnen en naast elkaar vergelijken.
 
 seg-48e01a0f5cb8 = Het openingsscherm van de eenvoudige weergave, en de geavanceerde weergave na een run
-
-seg-1af317b46992 = Kshana Studio, eenvoudige weergave, openingsscherm, getiteld Wat wilt u te weten komen?, met de engine { "v0.38.0" } live en, in de bovenbalk, drie links: Trainingsnabespreking, Interferentiekaart en Ontvangervertrouwen. Vier vragen: hoeveel satellieten kan ik overal op Aarde zien, kan ik mijn positiebepaling vertrouwen, hoelang kan een klok de tijd bijhouden zonder satellieten, en wat doet een jammer met mijn ontvanger. Onder de eerste staat het vastgelegde resultaat: minstens { "22" } satellieten in zicht op elke plaats en gemiddeld { "31" } met GPS, Galileo, BeiDou en GLONASS samen, een positiebepaling mogelijk op { "100" } % van de plaatsen en tijden, op een wereldkaart van satellieten in zicht, met een knop Dit resultaat openen. Ernaast Alles wat Kshana kan: { "16" } gebieden en { "139" } direct uitvoerbare scenario's, elke tegel met een kleine grafiek uit een vastgelegde run en zijn aandeel getoetste methoden, en { "173" } van de { "350" } mogelijkheden van het register getoetst.
-
-seg-3fed18478b21 = Kshana Studio, geavanceerde weergave, na een run van het meegeleverde scenario constellation-multi-gnss-coverage (Vier GNSS-constellaties, één kaart), engine { "v0.38.0" } lokaal draaiend. Links de scenariobibliotheek, { "139" } scenario's in { "16" } domeinen. De vijf stappen Kiezen, Instellen, Uitvoeren, Resultaten lezen en Delen of exporteren, met stap { "4" } actueel. Kerncijfers: { "102" } satellieten, beschikbaarheid { "100" } % (PASS), mediane positie-dilution-of-precision (PDOP) { "0.95" } (PASS), PDOP 95e percentiel { "1.105" } (PASS), gemiddeld { "31.03" } satellieten in zicht en { "22" } op het minst. Daaronder de paneelrij met Dekking geselecteerd, de replaybalk, een wereldkaart van de gemiddelde PDOP van { "0.831" } tot { "1.0853" } met elke satelliet getekend, en de wereldwijde dekkingscijfers.
 
 seg-6d955a8881fd = De bron van de Studio en zijn buildnotities staan in <a1><c1/></a1>.
 
 seg-655d43f8ee92 = De site
 
 seg-8a4b804467d2 = De rest van <a1>kshana.dev</a1> wordt gebouwd uit de eigen bestanden en enginerus van deze repository: missies, mogelijkheden, het bewijsregister, het gepubliceerde onderzoek en de edities.
-
-seg-88302efebc1a = Drie pagina's van kshana.dev naast elkaar. De hero van Home: de naamregel Kshana · क्षण · het precieze moment boven de kop Oefen de minuut dat GNSS uitvalt, met de missieconsole van een echte run van engine { "v0.38.0" } (een globe en drie live grafieken: tijdfout van de klok, draaggolf-ruisdichtheid en beschermingsniveau). Bewijs, Gepubliceerd onderzoek: de vijf arXiv-artikelen gebouwd op de open engine, het nieuwste met een enginefiguur. Edities, Kshana Pro, dezelfde engine, versterkt: Free voert één scenario uit, Pro beantwoordt de vraag van het programma.
-
-seg-eabb798bbe4e = Eén engine dekt de hele storingsketen, van de eerste gestoorde satelliet tot de laatste nanoseconde van klok-holdover. De engine heeft { "87" } scenariotypen; <c1/> somt ze op en <a1><c2/></a1> documenteert elk veld.
 
 seg-921d30a36374 = hoe een jammer de GNSS L-band overneemt, band voor band, seconde voor seconde
 
@@ -814,15 +800,11 @@ seg-458a3953b3b2 = lancering, stijging, terugkeer, standregeling, verbindingen, 
 
 seg-7df7f7116a7c = geketende missies, sweeps en ensembles opgebouwd uit de andere soorten
 
-seg-ab2c09d44cb7 = <c1/> draait een scenario; elke andere opdracht is een subopdracht, en <c2/> toont het gebruik van alle opdrachten. De opdrachten zijn <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (met <c8/> en <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> en <c61/>. <a1><c62/></a1> geeft van elke opdracht het doel, een geverifieerd voorbeeld en de bijbehorende documentatiepagina.
-
 seg-4061734355a4 = Eén engine, overal dezelfde resultaten: de opdrachtregel, de Rust-bibliotheek, Python, JavaScript en WebAssembly, de MCP-server met zijn pluginopdrachten en skills, Kshana Studio (elke pagina draait in de browser, zonder installatie, er wordt niets geüpload), de integraties met ROS { "2" }, Signal K, OpenCPN, GNSS-SDR en <c1/>, de implementatiekits voor systemd, Docker en Grafana, en de JetBrains-plugin. <a1><c2/></a1> somt ze op, met hoe u elk verkrijgt en de namen van alle pluginopdrachten, skills en Studio-pagina's; <a2><c3/></a2> vermeldt voor elke opdracht en soort welk oppervlak hem draagt en welke niet, met de reden.
 
 seg-e46194af8cec = Hoe een run werkt
 
 seg-aa92d3f2aaa0 = Een scenario is een TOML-bestand (Tom's Obvious, Minimal Language): een soort, een seed en de parameters. De engine voert het uit en schrijft het resultaat, een grafiek en een rapport ernaast, plus de exports waarom u vraagt.
-
-seg-76e3ec458441 = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, een seed en zijn parameters) gaat de engine in, kshana { $version }, via de api::run_toml-dispatch over { "87" } scenariosoorten, deterministisch vanuit scenario, seed en engineversie. De engine schrijft result.json, chart.svg, report.html en report.json, een table.csv voor de soorten die er een definiëren, en op verzoek exports in SP3, CCSDS OMM en OEM, CZML, KML, GeoJSON, STK en SigMF; een suite schrijft study.json en study.html. Die bestanden voeden Kshana Studio in de browser, een AI-assistent via de kshana-mcp-server en continue integratie.
 
 seg-63aa55ab596d = Dit meegeleverde scenario duurt { "2" } h: { "10" } min GNSS, daarna ongeveer { "1.8" } h met GNSS geweigerd. Het vraagt hoe lang een optische strontiumroosterklok en een chipschaal-atoomklok (CSAC) elk de tijd binnen { "20" } ns houden.
 
@@ -886,10 +868,6 @@ seg-36d838421b86 = Kan ik een PNT-resultaat reproduceren, uitbreiden en citeren,
 
 seg-e31cf348fc57 = SGP4 gecontroleerd aan alle { "666" } referentievectoren van AIAA 2006-6753, grootste positiefout { "4.12" } mm
 
-seg-707e2cf795f6 = <b>{ "176" } van de { "388" }</b> mogelijkheden getoetst aan onafhankelijke externe referenties; { "208" } eerlijk gelabeld als berekend uit een model. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waaraan ze wordt getoetst, de test die de controle uitvoert en het label dat daaruit volgt. Continue integratie (CI) maakt het onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke externe referentie.
-
-seg-2f81cf391eae = Hoe een mogelijkheid haar label verdient. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waaraan ze wordt getoetst, de test die de controle in continue integratie uitvoert en het label dat daaruit volgt. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie; anders is ze MODELLED, of PARTNER wanneer een hardwarepartner haar bezit. Voorbeeld: SGP4/SDP4, Cowell 6-DOF + verstoringen, batch-/sequentiële baanbepaling, referentie AIAA 2006-6753 SGP4-verificatievectoren, test tests/sgp4_verification.rs, label VALIDATED. Actuele aantallen: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER van { "388" } rijen. In totaal zijn { "176" } mogelijkheden getoetst aan onafhankelijke externe referenties; { "208" } andere zijn eerlijk gelabeld als MODELLED en { "4" } zijn eigendom van een PARTNER.
-
 seg-23d73e23b368 = Rijen
 
 seg-d16e0aac11d5 = een onafhankelijke externe referentie komt overeen: echte gegevens, een onafhankelijke implementatie of gepubliceerde referentievectoren
@@ -897,8 +875,6 @@ seg-d16e0aac11d5 = een onafhankelijke externe referentie komt overeen: echte geg
 seg-0c1beb3b59cc = gecontroleerd aan analytische waarheid of consistentie van de simulatie met zichzelf, en dat wordt hardop gezegd
 
 seg-9dd73106acfc = eigendom van een hardwarepartner; Kshana heeft er geen onafhankelijke referentie voor
-
-seg-ed47a99fac7f = Enkele van de controles: alle { "666" } AIAA-vectoren (American Institute of Aeronautics and Astronautics) 2006-6753 voor SGP4 (Simplified General Perturbations { "4" }) tot { "4.12" } mm; het Cowell-krachtmodel tot { "0.08" } m ten opzichte van Orekit { "12.2" }; Galileo tot { "0.61" } m en Swarm-A tot { "0.10" } m ten opzichte van echte precieze efemeriden van de Europese ruimtevaartorganisatie ESA. De tests dekken bijna { "95" } % van de regels van <c1/>, met een drempel van { "85" } % in CI. Het register is <a1><c2/></a1>, gegenereerd uit <c3/>: de <a2>volledige matrix van 388 rijen</a2>, en waarom elke rij die uit een model is berekend geen externe referentie heeft in <a3><c4/></a3>.
 
 seg-6fd41f16334e = Hoe validatie werkt, de samengestelde overzichtstabel en de bewijsgrafieken
 
@@ -913,8 +889,6 @@ seg-47e49f21e7b8 = <c1/>. <c2/> dwingt het af; kwantum- en klassieke runs gebrui
 seg-9908a7f56956 = De rijpheid wordt eerlijk vermeld: cijfers voor optische klokken en optische verbindingen zijn <em>doelwaarden / resultaten van grondopstellingen</em>, niet in de ruimte gevlogen.
 
 seg-ee66ab516e01 = Validatie in één oogopslag
-
-seg-557da03648c5 = Elke rij wordt in CI afgedwongen door een benoemde test. Deze tabel is een <b>samengestelde selectie</b>; de volledige machinaal gecontroleerde matrix telt <b>{ "388" } rijen — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), met het volledige bewijs (en wat eerlijk gezegd <em>nog niet</em> getoetst is) in <a1><c2/></a1> en het artefact <a2><c3/></a2> per release (gegenereerd door <c4/>, SLSA-geattesteerd — Supply-chain Levels for Software Artifacts).
 
 seg-bae9b226350a = De kolom <b>Status</b> geeft de <em>soort</em> bewijs aan, overeenkomstig de validatieladder hierboven: <b>VALIDATED</b> = gecontroleerd aan een onafhankelijke externe referentie (echte gegevens, een onafhankelijke bibliotheek of gepubliceerde referentievectoren); <b>MODELLED</b> = gecontroleerd aan analytische waarheid of consistentie van de simulatie met zichzelf (geen onafhankelijke externe dataset). VALIDATED beschrijft de <em>methode</em> van controleren, geen geslaagd/gezakt — een eerlijke misser ten opzichte van een echte externe referentie blijft VALIDATED, terwijl een vergelijking die geen enkele matrixrij als onafhankelijke referentie noemt (de LRO-fit — Lunar Reconnaissance Orbiter — hierboven) als MODELLED wordt getoond. <c1/>-rijen zijn procesbewakers, geen kwaliteitsmaten. Enkele eilanden met echte gegevens (de gemeten cesiumklok, Stable32 PHASE.DAT en de OPS-SAT/ICGEM-controles waarvan de ruwe invoer geen herdistributielicentie heeft) zijn <b>gegevensafhankelijk</b>: de test meldt dat hij is overgeslagen en blijft groen wanneer de invoer ontbreekt, en de openbare referentiegetallen zijn vastgelegd onder <c2/>. Reproduceer de ruwe invoer met de bijbehorende <c3/>.
 
@@ -1158,8 +1132,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % regels</b> van <c1/> met uitzondering van <c2/
 
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM-engine)
 
-seg-9fcd5cdd129d = Hoe een mogelijkheid haar label verdient: een eis wordt gekoppeld aan een module in src, aan een test in tests, aan een externe onafhankelijke referentie (echte dataset, onafhankelijke referentie-implementatie of gepubliceerde vectoren), aan een status — met een in CI afgedwongen bewaking dat geen enkele mogelijkheid als getoetst kan gelden zonder externe onafhankelijke referentie. Actuele aantallen: { "176" } getoetst, { "208" } berekend uit een model, { "4" } van een partner, { "388" } in totaal
-
 seg-5262ee45dd08 = Hoe een mogelijkheid haar label verdient — de in CI afgedwongen invariant: geen externe onafhankelijke referentie ⇒ kan niet als getoetst gelden · <a1>SVG</a1>
 
 seg-452fea06dd30 = Hoe elke bewering wordt onderbouwd: de kolom getoetst bestaat per constructie voor { "176" } van de { "176" } uit ExternalDataset (in CI afgedwongen); rijen die uit een model zijn berekend zijn eerlijk gelabeld als InternalConsistency, ReferenceImpl of ExternalDataset; rijen van een partner hebben geen Kshana-referentie
@@ -1167,10 +1139,6 @@ seg-452fea06dd30 = Hoe elke bewering wordt onderbouwd: de kolom getoetst bestaat
 seg-c550a4bde1ff = Grootste positiefout van SGP4/SDP4 ten opzichte van de AIAA 2006-6753-referentie per regime, logaritmische schaal: elk regime ligt ver onder de AIAA-tolerantie, het ergste geval is { "4.12" } mm in het niet-resonante diepe-ruimteregime
 
 seg-2ad422aac6a1 = Boven: elke getoetste rij wordt per constructie onderbouwd door een externe dataset. Onder: SGP4 komt in elk regime overeen met de officiële referentie (grootste afwijking { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-seg-faadba4f1f85 = Verificatiestatus over alle { "388" } mogelijkheden: { "176" } getoetst (gecontroleerd aan een externe onafhankelijke referentie), { "208" } berekend uit een model, { "4" } eigendom van een partner
-
-seg-6c1edff3e035 = { "176" } getoetst · { "208" } berekend uit een model · { "4" } van een partner — <a1>SVG</a1>
 
 seg-a9d8031cdcf8 = Elke mogelijkheid van de openbare kaart, per domein, met haar label in het register. De domeintabel wordt door <a1><c1/></a1> geschreven uit <c2/>, hetzelfde bestand dat de kaart van alles in Studio leest.
 
@@ -1186,10 +1154,6 @@ seg-8d953358d683 = open <a1>https://kshana.dev</a1>
 
 seg-a594acff8553 = Een passage waarin AI-clients van derden worden genoemd is hier weggelaten; ze staat in <a1>README.md</a1> op GitHub.
 
-seg-d48f3f0dec08 = <a1>Toevoegen aan Cursor (npx)</a1> · <a2>Toevoegen aan Cursor (Docker)</a2> · <c1/>
-
-seg-ad59014f9c8e = <a1>Installeren in VS Code (npx)</a1> · <a2>Installeren in VS Code (Docker)</a2> · <c1/>
-
 seg-2593c6d52c90 = download kshana-mcp-<target> uit de release en controleer het aan de hand van SHA256SUMS
 
 seg-1999be2916fa = zoek io.github.ashfordeOU/kshana-mcp
@@ -1204,8 +1168,6 @@ seg-7849acc8e680 = Kshana op de JetBrains Marketplace
 
 seg-48a01a252537 = Bouwt met Rust { "1.85" } of nieuwer, de rust-version in Cargo.toml
 
-seg-8edd16ad3672 = MCP is het Model Context Protocol. Pin een release met <c1/>, <c2/> of <c3/>. Om vanuit de broncode te bouwen, zie <a1>Installeren en bouwen</a1> onder Naslag.
-
 seg-152cb43de2f3 = Een scenario draaien vanuit Python en vanuit WebAssembly
 
 seg-58ea673e61fc = Naast <c1/> biedt de module <c2/> (JSON, SVG en de samenvatting van één regel tegelijk), <c3/>, <c4/>, <c5/> / <c6/> en <c7/>; zie <a1><c8/></a1>.
@@ -1214,11 +1176,7 @@ seg-f589eb87e902 = Het npm-pakket is de hele engine gecompileerd naar WebAssembl
 
 seg-7488a0b0a215 = Eén open engine staat in het midden en elk oppervlak draait hem: de opdrachtregel, de Rust-bibliotheek, Python, WebAssembly en Kshana Studio, de MCP-server, het Docker-image en de JetBrains-plugin. Hetzelfde scenariobestand geeft op elk dezelfde bytes. Kshana Pro staat erbovenop als een afzonderlijke overlay die van de engine afhangt en hem nooit forkt.
 
-seg-9d69cf43cd40 = De architectuur van Kshana: één open engine in het midden, kshana { $version } onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elke soort, en het verificatieregister van { "388" } mogelijkheden ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: „Kshana”). Eronder staat Kshana Pro, een propriëtaire overlay die als bibliotheek van de open engine afhangt, hem nooit forkt en geen fysisch model toevoegt.
-
 seg-9ac1f9e2d1b1 = In de engine: de domeinlagen en het verificatieregister
-
-seg-9bc9a971bdb4 = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "87" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle kruiselings verwezen door de verificatiemodule, de machinaal gecontroleerde matrix van { "388" } mogelijkheden die de enige bron van waarheid is voor elk label.
 
 seg-4e894b853889 = <b>Eén engine, veel toegangspoorten.</b> Eén Rust-kern (<c1/>) draait elk scenario, bereikt via een CLI, een Python-extensie, een WebAssembly-module in de browser, een <b>MCP-server</b> voor AI-agents en een <b>JetBrains-IDE-plugin</b> — allemaal samenkomend in één <c2/>-dispatch. Binnenin sluiten de sensorpakketten aan op een gemeenschappelijke foutmodelinterface; ernaast staan een <b>referentiestelsellaag</b> (IAU 2006/2000A-precessie–nutatie en de CIO-gebaseerde GCRS↔ITRS-reductie), een <b>astrodynamica-/numerieke laag</b> (analytische SGP4/SDP4 <b>en</b> een numerieke Cowell-propagator met zijn EGM2008-/verstoringskrachtmodel, manoeuvreontwerp en baanbepaling), een <b>integriteits-/GNSS-laag</b> (RAIM/ARAIM, SBAS, het meetdomein, jamming, cislunair), een <b>fusie- / alt-PNT-laag</b> (de GNSS/INS-schatters en de map-matchers voor zwaartekracht/terrein/magnetisme), een <b>diepe-ruimte- en maanlaag</b> (radiometrische Mars-PNT en de maan-PNT-suite, met per onderdeel het bewijsniveau in de matrix — LTC-tijd, VLBI, gezamenlijke OD+klok, realisatie van referentiestelsels, servicevolume, differentiële PNT, interoperabiliteit), een <b>missieanalyselaag</b> (lancering / terugkeer / dekking / richting / passage / verbindingsbudgetten en de ruimteweersomgeving) en de open <b>studielaag voor veerkracht en machine learning</b> (RPCF-veerkrachtscoring, de optimismekloof bij RF-verstoringen en de demonstrator voor kwantumgebaseerde PNT) waarvan de reproduceerbare artefacten op de getoetste kernels rusten.
 
@@ -1279,8 +1237,6 @@ seg-b7ea176e9993 = De { "49" } tools
 seg-4a458fb861f4 = Scenario's en rapporten
 
 seg-44d509180c56 = Een scenario draaien vanuit een TOML-definitie (Tom's Obvious, Minimal Language)
-
-seg-87e30294e0dc = De { "87" } ingebouwde scenariosoorten met beschrijvingen + verplichte/optionele velden — zodat de agent een geldig scenario kan opstellen
 
 seg-ef28db290e2b = Controle vooraf: de TOML parsen en de soort ervan vaststellen, zonder te draaien
 
@@ -1375,8 +1331,6 @@ seg-d958c43ba8c1 = Het ondertekende laboratoriumrondgangspakket: scenario, <c1/>
 seg-22377c58ecb2 = De hele engine is gratis. Kshana Pro en studies op maat zijn voor programma's die meer nodig hebben, en elke betaalde route begint met een bericht: hier staan geen prijzen.
 
 seg-a91762c0aabe = Gratis
-
-seg-eedfcdbe2b1c = de hele open engine, alle { "87" } scenariosoorten, zonder functiepoort
 
 seg-af56c940e13a = een propriëtaire overlay op dezelfde engine, onder contract
 
@@ -1573,8 +1527,6 @@ seg-5841e4eac5a5 = De soorten voor <b>GPS-denied alt-PNT</b> navigeren zonder en
 seg-ec221fc5ace5 = Een scenario <c1/> evalueert <b>cislunaire</b> PNT: het draait een passage met ARAIM-beschermingsniveau aan de zuidpool van de maan tegen een LunaNet/LNIS-relaisset en rapporteert eerlijk de integriteitskloof — een lunaire σ_URE van ~{ "30" } m drijft het beschermingsniveau ver boven een alarmgrens van { "50" } m, zodat de dienst <em>niet beschikbaar</em> is volgens integriteitsregels in luchtvaartstijl (<c2/>).
 
 seg-9b33c9203ca2 = Een scenario <c1/> rapporteert de <b>relativistische klokgang aarde–maan</b> — de basis van een Lunar Coordinate Time-schaal (LTC/TCL). Een post-Newtoniaanse identiteit uit eerste principes sommeert het verschil in zelfpotentiaal (IAU-geoïdepotentiaal <c2/> min de zelfpotentiaal aan het maanoppervlak) en de kinetische term (tweede-orde-Doppler) van de maan tot een seculiere gang van ≈ { "57" } µs/dag, gerapporteerd met de gepubliceerde band van { "56" }–{ "59" } µs/dag; het geeft ook de opgebouwde LTC−TT-offset over een horizon en een ensemble met inverse variantie (een lunaire papieren klok). <b>MODELLED</b> — het kopcijfer is <em>referentieafhankelijk</em> (aardgeoïde tegenover maanselenoïde, middelingsvenster), en daarom wordt een band gerapporteerd, geen enkel gecertificeerd getal (<c3/>).
-
-seg-f1efe0de99b8 = Zie <c1/> voor minstens één uitgewerkt voorbeeld van elke soort ({ "87" } soorten, { "182" } scenariobestanden <c2/> + { "1" } suite-manifest — verschillende soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar hem is vernoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn er twee van meerdere. Som de beschikbare soorten op elk moment op met de fouten van <c7/>, de Python-functie <c8/> of de MCP-tool <c9/>.
 
 seg-ee0d7a833f44 = Het resultaatartefact is geversioneerde, zelfbeschrijvende JSON: tijdreeksen per stap, de gescoorde kwaliteitsmaten, de actieve modelspecificaties (met herkomst), de seed, een <b>scenariohash</b> — zodat elke grafiek uit het bestand kan worden gereproduceerd — en, voor elke klok, een <c1/> (<c2/>): de overlappende Allan-deviatie over octaafgespatieerde middelingstijden — de standaardmanier om de stabiliteit van een klok te lezen — nu met een <b>ruistypespecifieke betrouwbaarheidsband van { "95" }%</b> per punt (het machtswettype van de opname wordt vastgesteld uit haar gemodificeerde Allan-helling, en het χ²-interval gebruikt de bijpassende effectieve vrijheidsgraden uit NIST SP { "1065" }). De browserplayground rendert het als een log-log-grafiek „Clock stability (ADEV)”. (MDEV, TDEV en HDEV zijn beschikbaar als bibliotheekschatters; de geëxporteerde resultaatcurve is de overlappende ADEV.) Elk veld, met eenheden en een bronverwijzing, is gedocumenteerd in <a1><c3/></a1>.
 
@@ -1935,3 +1887,9 @@ seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({
 seg-2658a9477dd9 = <s1>Volgende</s1>Conceptenoverzicht
 
 seg-90a95738b32d = Maaninfrastructuur (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Toevoegen aan Cursor (npx)</a1> · <a2>Toevoegen aan Cursor (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Installeren in VS Code (npx)</a1> · <a2>Installeren in VS Code (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP is het Model Context Protocol. Pin een release met <c1/>, <c2/> of <c3/>. Om vanuit de broncode te bouwen, zie <a1>Installeren en bouwen</a1> onder Naslag.

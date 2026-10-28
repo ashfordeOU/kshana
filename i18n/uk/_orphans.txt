@@ -1,0 +1,338 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-da4764e4d161 = Оберіть один із { "183" } файлів сценаріїв у { "87" } видах або напишіть власний. <c1/> перелічує кожен вид із його полями, а <c2/> друкує файл, з якого можна почати.
+
+# Every kind, every command, and the benchmark's misses.
+seg-850aca04de28 = Кожен вид, кожна команда та промахи бенчмарка.
+
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+seg-c530da682cca = Жодної нової функції рушія: результати — це результати версії { "0.38.0" }. Документація тепер має сторінку для кожного виду сценарію та перелік кожної команди й кожної поверхні, а сторінка бенчмарка вказує кожен поріг, який не було досягнуто. Командний рядок також тихо завершується, коли його вихідний канал закривається. Кожна можливість має позначку, яку для неї містить реєстр (ledger), і позначка називає лише те, що було перевірено. Консультативне програмне забезпечення.
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Кожен вид сценарію, по одній сторінці
+
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+seg-86ff766b2c1d = Усі { "87" } видів сценаріїв розподілено за родинами, зі сторінкою для кожного виду: що він робить, його входи, результати прикладового прогону, рядки реєстру (ledger) та оракули за його позначкою, обмеження, які вказує його звіт, і діаграма, яку записує рушій.
+
+# Every command, every surface
+seg-ccee5886cf25 = Кожна команда, кожна поверхня
+
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+seg-6630acb722ae = Кожна команда з прикладом, який можна запустити з локальної копії репозиторію, і кожна поверхня (командний рядок, Python, Rust, WebAssembly, сервер MCP, команди плагіна, навички та сторінки Studio) з командами й видами, які вона підтримує, а де не підтримує, то з причиною.
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Яка поверхня підтримує яку можливість
+
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-678872a862dc = Одна сторінка перелічує для кожної команди й виду, яка поверхня його підтримує, а яка ні, з причиною, поруч із областями можливостей і їхніми позначками в реєстрі (ledger).
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: пороги, яких не було досягнуто, названо прямо
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-df8f792ffa97 = Сторінка бенчмарка тепер перелічує кожен поріг, якого не було досягнуто, так, як їх записує файл результатів, і вказує, що жоден поріг не послаблено.
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-761213eb3ce0 = Усі { "183" } файлів сценаріїв у { "87" } видах, згруповані за областями; { "173" } вбудовано в рушій, а <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> запускаються з репозиторію командним рядком. Крапка показує статус модуля виду в реєстрі (ledger), де реєстр його називає. Файл із записаним прогоном відкриває його в Kshana Studio; решта відкриває свій запис у довіднику сценаріїв із файлом і командою, що його запускає.
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } з { "87" } видів, { "3127" } з { "3127" } числових полів
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+seg-b68ce4aa301f = Вид, результат якого не містить жодної з цих форм (бюджет лінії зв'язку, геометрія за одну епоху, підсумок Монте-Карло лише зі статистик або телекомунікаційний holdover, чий результат публікує хеш запису, але не сам запис), відхиляється з повідомленням <c1/>, і нічого не записується. У kshana { $version } { "89" } зі { "182" } придатних до запуску файлів сценаріїв (усі файли, крім набору досліджень) анімуються, а { "93" } відхиляються. <c2/> друкує перепис.
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+seg-a887cfc920f6 = Оновлено 2026-10-22 для рушія { $version } ({ "87" } типів сценаріїв, із <c1/>; у { $version } нових типів немає). 2026-10-19: рушій { "0.38.0" }, { "87" } типів (нові в { "0.38.0" }: <c2/>, <c3/> і <c4/>). 2026-10-18: { "84" } типи (нове в { "0.37" }: <c5/>). 2026-10-16: { "83" } типи (нові в { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> і <c13/>). 2026-10-10: рушій { "0.35.0" }, { "75" } типів, без нових типів. 2026-10-09 і 2026-10-08: попередні редакції. 2026-10-04: у рядку Nav-signal зазначено шар IQ { "0.31.0" }. 2026-09-29: додано рядки LEO-PNT, спектр, PNT Сонячної системи / будь-якого тіла, кампанії та вихідні дані. Раніше: узгоджено з 27-рядковою матрицею можливостей великого аудиту від 2026-06-02; рядок PNT далекого космосу / Марса додано в { "v0.17.0" }. Доповнення Quantum-PNT (holdover годинника без ГНСС <c14/>, складений бюджет інерційної навігації з квантовими датчиками <c15/>, компроміси при проєктуванні дальнометричних кодів <c16/>, машинно перевірювана матриця верифікації <c17/>) внесено в рядки Timing, Quantum-PNT-sensor, Nav-signal і V&V — кожне позначено як validated або modelled за своїм фактичним оракулом.
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } з { "87" } видів, { "3127" } з { "3127" } числових полів
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+seg-6f44f45f6bf9 = { "61" } карток можливостей із <c1/>, а потім усі { "388" } рядків матриці верифікації.
+
+# [{ $version }] - 2026-10-22
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+seg-7f608c733407 = <b><c1/></b>: файли годинника RINEX, версії { "2" } та від { "3.00" } до { "3.04" } (включно з дев'ятисимвольним полем імені { "3.04" }). Заголовок читається лише заради <c2/> і пропускається до <c3/>. Із записів даних зберігаються лише записи <c4/> (супутник) і <c5/> (приймач або станція) одного годинника, вибраного за назвою. Їхнє перше поле значення, зсув годинника в секундах, є фазою. Рядки продовження та записи <c6/>, <c7/> і <c8/> пропускаються. Епохи — це календарні поля запису, у секундах від 1980-01-06 { "00" }:{ "00" }:{ "00" } у власній шкалі часу файлу, без перетворення.
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+seg-3d8853fa9c92 = <b><c1/></b>: журнали лічильника TAPR TICC (TICC Operation Manual, редакція від { "23" } листопада { "2016" }, «режими вимірювання»). Кожне поле даних — це секунди з { "12" } десятковими знаками.
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+seg-75301936698f = Вивід у режимах Period і Debug відхиляється. Канал, значення якого не зростають, повідомляється як режим Period.
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-fe7d27a473aa = MODELLED. Це аналізатор, і його вивід живить оцінювачі, перевірені деінде за allantools. Модульні тести в <c1/> використовують невеликі журнали, написані вручну, а для форматів linuxptp і chrony — фікстури в <c2/>. <c3/> виконує порівняння, попередньо зареєстроване в <c4/>: три синтетичні журнали із зерном, по одному на формат, прочитані незалежним читачем, написаним за цією сторінкою тим самим автором, з перевіркою ADEV, TDEV і MTIE за allantools { "2024.6" }; це порівняння охоплює лише перші три формати, а читачі linuxptp і chrony мають тести аналізатора, але не мають порівняння з оракулом. Журнали синтетичні, тож ніщо тут не описує реальний годинник чи лічильник.
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>Місячний і цисмісячний простір</s1><s2>Видів сценаріїв рушія v{ $version }: { "20" }. Лише консультативно: результат аналізу від дослідницького та інженерного інструмента; це не…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-0144518c94fc = Сторінок: { "87" }, по одній для кожного виду сценарію; посилання на них є в розділі <a1>Усі види сценаріїв за родинами</a1>.
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-78756a9f6704 = <s1>Різновиди сценаріїв</s1><s2>{ "87" } вбудованих різновидів сценаріїв, між якими розподіляє kshana::api::run_toml, кожен із його однорядковим…</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>Кожен різновид сценарію за родинами</s1><s2>Кожен різновид сценарію, який розподіляє рушій v{ $version } ({ "87" }), розкладений за { "12" } родинами.</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-76a9b614dada = <s1>Довідник сценаріїв</s1><s2>Кожен вбудований файл сценарію ({ "182" }), згрупований за різновидом, з його ключовими параметрами.</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-c387a74ffabb = <s1>Матриця верифікації</s1><s2>Повний, машинно перевірений реєстр доказів (ledger): { "388" } рядків — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-be02c7f0d48e = <s1>Довідник можливостей</s1><s2>Картки можливостей і всі { "388" } рядків матриці верифікації.</s2>
+
+# defined
+seg-1767b216650d = визначений
+
+# sgp4 (TLE)
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+seg-25da07e56aa8 = виявлення аномалій квантового та класичного PNT
+
+# classical baseline
+seg-a6551a61cf69 = класичний базовий рівень
+
+# First
+seg-5b3bc9761db4 = Перший
+
+# TM
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+seg-9bd19903f577 = <b>Реєстр:</b> жоден рядок матриці не називає цей вид; рушій сам позначає свій результат. Повна сторінка з вхідними даними, результатами, доказами та обмеженнями: <a1>terrain-nav</a1>.
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = { "20" } видів сценаріїв рушія v{ $version }. Лише консультативно: результат аналізу від дослідницького та інженерного інструмента; це не навігаційне обладнання із затвердженням типу і не послуга забезпечення безпеки життя. Усі позначки тут належать рушієві або матриці верифікації; вид має рівень MODELLED, якщо матриця не каже іншого (як заробляється позначка: розділ «Докази» у README).
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-204901ae3684 = <b>Реєстр:</b> жоден рядок матриці не називає цей вид; рушій сам позначає свій результат. Повна сторінка з вхідними даними, результатами, доказами та обмеженнями: <a1>moonlight-service-volume</a1>.
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6bed0bef75bc = Усі види сценаріїв, які диспетчеризує рушій v{ $version } ({ "87" }), розподілені за { "12" } родинами. Кожна родина має сторінку з одним записом на вид (опис і поля від рушія, приклад команди, ключові числа з прогону, рядки матриці, що його називають, і діаграма, яку записує рушій) та оглядовий аркуш цих діаграм. Лише консультативно: результат аналізу від дослідницького та інженерного інструмента; це не навігаційне обладнання із затвердженням типу і не послуга забезпечення безпеки життя. Усі позначки тут належать рушієві або матриці верифікації; вид має рівень MODELLED, якщо матриця не каже іншого (як заробляється позначка: розділ «Докази» у README).
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-a30b46501cff = { "87" } вбудованих типів сценаріїв з описами + обов'язковими/необов'язковими полями, щоб агент міг сформувати чинний сценарій.
+
+# { "208" } capabilities labelled MODELLED.
+seg-e7d71a9d77a6 = { "208" } можливостей позначено MODELLED.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } із { "388" } можливостей перевірено за незалежними зовнішніми оракулами
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } із { "388" }</b> можливостей перевірено за незалежними зовнішніми оракулами; { "208" } чесно позначено як обчислені за моделлю, { "4" } належать партнеру. Кожна можливість має одну позначку в машинно перевіреному реєстрі: VALIDATED (незалежний зовнішній оракул погоджується: реальні дані, незалежна реалізація або опубліковані еталонні вектори), MODELLED (внутрішньо узгоджено, і про це сказано прямо) або PARTNER (нею володіє апаратний партнер). Серед перевірок: усі { "666" } векторів SGP4 (Simplified General Perturbations { "4" }) AIAA (Американського інституту аеронавтики й астронавтики) 2006-6753 з точністю до { "4.12" } мм і силова модель Cowell з точністю до { "0.08" } м проти Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Як можливість отримує свою позначку: можливість, оракул, тест, позначка реєстру. Стан верифікації для всіх { "388" } можливостей: { "176" } перевірено за незалежним еталоном, { "208" } обчислено за моделлю, { "4" } належать партнеру
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-af101c048e7e = { "176" } із { "388" } можливостей VALIDATED за незалежним зовнішнім оракулом, за матрицею верифікації
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+seg-161fa1263086 = <a1>Що нового в { "0.39" }</a1>, <a2>Що нового в { "0.38" }</a2> і <a3>{ "0.38" } докладно</a3>: оцінювання jammertest, власні прапори приймача, машинні входи, синхронізація часу та holdover, пакети стандартів, LunaNet AFS, лабораторний круговий обхід, kshana-bench, обсерваторія, експортери, оптика, <a4>навігація користувача в космосі</a4> і <a5>місячна інфраструктура</a5>
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-9fcd5cdd129d = Як можливість отримує свою позначку: вимога відображається на модуль у src, на тест у tests, на зовнішній оракул (реальний набір даних, незалежна еталонна реалізація або опубліковані вектори), на статус — із захистом, що виконується в CI: жодну можливість не можна позначити як перевірену без зовнішнього оракула. Поточні лічильники: { "176" } перевірених, { "208" } змодельованих, { "4" } партнерських, { "388" } усього
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-faadba4f1f85 = Статус верифікації для всіх { "388" } можливостей: { "176" } перевірених (звірено із зовнішнім оракулом), { "208" } змодельованих, { "4" } партнерських
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-6c1edff3e035 = { "176" } перевірених · { "208" } змодельованих · { "4" } партнерських — <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-9d69cf43cd40 = Архітектура Kshana: один відкритий рушій у центрі, kshana { $version } за AGPL-3.0, з api::run_toml, типізованою диспетчеризацією за кожним видом і реєстром верифікації з { "388" } можливостей ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Навколо нього кожна поверхня запускає той самий рушій: командний рядок (cargo install kshana); бібліотека Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); сервер MCP (cargo install kshana-mcp); образ Docker (ghcr.io/ashfordeou/kshana-mcp); плагін JetBrains (Marketplace: «Kshana»). Під ним — Kshana Pro, пропрієтарна надбудова, що залежить від відкритого рушія як від бібліотеки, ніколи його не розгалужує і не додає жодної фізичної моделі.
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-9bc9a971bdb4 = Архітектура Kshana за шарами. П'ять вхідних дверей (командний рядок, Python, JavaScript і WebAssembly, сервер MCP та плагін JetBrains) ведуть до одного api::run_toml, типізованої диспетчеризації за { "87" } видами. Під нею розташовано вісім предметних шарів: час і системи відліку, годинники та синхронізація часу, інерціальні системи та злиття, GNSS і цілісність, астродинаміка, LEO PNT, Місяць, Марс і далекий космос, місії та дослідження, на спільному ядрі, і всі вони перехресно пов'язані модулем верифікації — машинно перевіреною матрицею з { "388" } можливостей, що є єдиним джерелом істини для кожної позначки.
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-87e30294e0dc = { "87" } вбудованих видів сценаріїв з описами та обов'язковими/необов'язковими полями — щоб агент міг скласти коректний сценарій
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-eedfcdbe2b1c = увесь відкритий рушій, усі { "87" } видів сценаріїв, без обмежень на функції
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-f1efe0de99b8 = Див. <c1/> щодо принаймні одного робочого прикладу кожного виду ({ "87" } видів, { "182" } файлів сценаріїв <c2/> + { "1" } маніфест набору — кілька видів постачаються з більш ніж одним прикладом). Не кожен вид має файл, названий його іменем: <c3/> → <c4/> і <c5/> → <c6/> — два з кількох таких випадків. Перелічити види, доступні для диспетчеризації, можна будь-коли за допомогою помилок <c7/>, Python <c8/> або інструмента MCP <c9/>.
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-c45a4adf8209 = Kshana Studio, Просте подання, на вбудованому сценарії integrity-raim, рушій { "v0.38.0" } працює локально. Запитання: чи геометрія відповідає межам тривоги (рівень захисту по горизонталі та вертикалі)? Спершу відповідь, позначена як Live result: Так, здебільшого: для { "95.3" } % із { "12" } h. Межа похибки приймача залишалася під межами тривоги ({ "40" } m по горизонталі та { "50" } m по вертикалі) у { "344" } із { "361" } перевірок, і жодне визначення положення не було оманливим. Ключові показники: час, коли визначенню положення можна довіряти, { "95.3" } %, найдовша перерва { "10" } min, типова межа похибки { "6.5" } / { "13" } m, оманливі визначення положення { "0" }. Поруч Try other settings із п'ятьма з них (похибка дальності, дві межі тривоги, тривалість і маска висоти) і Run again, потім згорнуті розділи Advanced settings (ще { "13" }), How this is computed ({ "8" } перевірено, { "6" } змодельовано) і For researchers. Нижче подання цього результату та рівні захисту, накреслені відносно межі тривоги.
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-1af317b46992 = Kshana Studio, Просте подання, початковий екран, із заголовком What would you like to find out?, рушій { "v0.38.0" } працює, а у верхній панелі три посилання: Training debrief, Interference map і Receiver trust. Чотири запитання: скільки супутників я бачу в будь-якій точці Землі, чи можна довіряти моєму визначенню положення, як довго годинник може тримати час без супутників і що глушник робить із моїм приймачем. Під першим його записаний результат: щонайменше { "22" } супутники в полі зору в кожному місці та { "31" } у середньому за GPS, Galileo, BeiDou і GLONASS разом, визначення положення можливе в { "100" } % місць і моментів, на карті світу з супутниками в полі зору, із кнопкою Open this result. Поруч Everything Kshana can do: { "16" } областей і { "139" } готових до запуску сценаріїв, кожна плитка з малою діаграмою із записаного прогону та часткою перевірених методів, а також { "173" } із { "350" } можливостей реєстру, що мають статус перевірених.
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-3fed18478b21 = Kshana Studio, Розширене подання, після прогону вбудованого сценарію constellation-multi-gnss-coverage (Four GNSS constellations, one map), рушій { "v0.38.0" } працює локально. Ліворуч бібліотека сценаріїв, { "139" } сценаріїв у { "16" } областях. П'ять кроків Choose, Set, Run, Read results і Share or export, поточний крок { "4" }. Ключові показники: { "102" } супутники, доступність { "100" } % (PASS), медіанний геометричний чинник DOP для положення (PDOP) { "0.95" } (PASS), 95-й процентиль PDOP { "1.105" } (PASS), у середньому { "31.03" } супутника в полі зору і { "22" } щонайменше. Нижче ряд панелей із вибраним Coverage, панель відтворення, карта світу із середнім PDOP від { "0.831" } до { "1.0853" } з усіма намальованими супутниками та глобальні показники покриття.
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-88302efebc1a = Три сторінки kshana.dev поруч. Головна, головний екран: рядок назви Kshana · क्षण · the precise instant над заголовком Rehearse the minute GNSS goes dark, із консоллю місії реального прогону рушія { "v0.38.0" } (глобус і три живі діаграми: похибка часу годинника, густина потужності несівної до шуму та рівень захисту). Докази, Опубліковані дослідження: п'ять статей arXiv, що спираються на відкритий рушій, найновіша з рисунком рушія. Видання, Kshana Pro, той самий рушій, підсилений: Free запускає один сценарій, Pro відповідає на запитання програми.
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-eabb798bbe4e = Один рушій охоплює весь ланцюг відмов: від першого заглушеного супутника до останньої наносекунди holdover годинника. Рушій має { "87" } типів сценаріїв; <c1/> перелічує їх, а <a1><c2/></a1> документує кожне поле.
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+seg-ab2c09d44cb7 = <c1/> запускає сценарій; кожна інша команда є підкомандою, а <c2/> виводить довідку про використання всіх із них. Команди: <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (з <c8/> і <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> і <c61/>. <a1><c62/></a1> подає призначення кожної, перевірений приклад і її сторінку документації.
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-76e3ec458441 = Як тече прогін. Файл сценарію TOML (тип, зерно (seed) і його параметри) надходить у рушій, kshana { $version }, через диспетчер api::run_toml за { "87" } типами сценаріїв, детермінований за сценарієм, зерном і версією рушія. Рушій записує result.json, chart.svg, report.html і report.json, table.csv для типів, що його визначають, а на запит — експорти SP3, CCSDS OMM і OEM, CZML, KML, GeoJSON, STK і SigMF; набір записує study.json і study.html. Ці файли живлять Kshana Studio у браузері, асистента ШІ через сервер kshana-mcp та безперервну інтеграцію.
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-707e2cf795f6 = <b>{ "176" } із { "388" }</b> можливостей перевірено за незалежними зовнішніми оракулами; { "208" } чесно позначено як обчислені за моделлю. Кожен рядок матриці верифікації називає можливість, оракул, за яким її перевіряють, тест, що виконує перевірку, і мітку, яка з цього випливає. Безперервна інтеграція (CI) унеможливлює позначення можливості як VALIDATED без незалежного зовнішнього оракула.
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-2f81cf391eae = Як можливість заслуговує свою мітку. Кожен рядок матриці верифікації називає можливість, оракул, за яким її перевіряють, тест, що виконує перевірку в безперервній інтеграції, і мітку, яка з цього випливає. Рядок може бути VALIDATED лише за наявності незалежного зовнішнього оракула; інакше він MODELLED, або PARTNER, коли ним володіє апаратний партнер. Приклад: SGP4/SDP4, Cowell 6-DOF + збурення, пакетне/послідовне визначення орбіти, оракул — вектори верифікації SGP4 AIAA 2006-6753, тест tests/sgp4_verification.rs, мітка VALIDATED. Поточні кількості: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER із { "388" } рядків. Загалом { "176" } можливостей перевірено за незалежними зовнішніми оракулами; ще { "208" } чесно позначено MODELLED, а { "4" } належать партнерові (PARTNER).
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-ed47a99fac7f = Кілька перевірок: усі { "666" } векторів AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) з точністю { "4.12" } mm; модель сил Cowell з точністю { "0.08" } m проти Orekit { "12.2" }; Galileo з точністю { "0.61" } m і Swarm-A з точністю { "0.10" } m проти справжніх точних ефемерид Європейського космічного агентства (ESA). Тести забезпечують близько { "95" } % покриття рядків <c1/>, з порогом { "85" } % у CI. Реєстр (ledger) — це <a1><c2/></a1>, згенерований із <c3/>: <a2>повна матриця з 388 рядків</a2> і чому кожен рядок, обчислений за моделлю, не має зовнішнього оракула, у <a3><c4/></a3>.
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-557da03648c5 = Кожен рядок забезпечується іменованим тестом у CI. Ця таблиця є <b>добірним переліком основних моментів</b>; повна машинно перевірювана матриця — це <b>{ "388" } рядків — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), з повними доказами (і тим, що чесно <em>ще не</em> перевірено) у <a1><c2/></a1> та артефакті <a2><c3/></a2> для кожного випуску (згенерованому через <c4/>, з атестацією SLSA — Supply-chain Levels for Software Artifacts).
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } із { "388" } можливостей перевірено за незалежними зовнішніми оракулами
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } із { "388" }</b> можливостей перевірено за незалежними зовнішніми оракулами; { "208" } чесно позначено як обчислені за моделлю, { "4" } належать партнеру. Кожна можливість має одну позначку в машинно перевіреному реєстрі: VALIDATED (незалежний зовнішній оракул погоджується: реальні дані, незалежна реалізація або опубліковані еталонні вектори), MODELLED (внутрішньо узгоджено, і про це сказано прямо) або PARTNER (нею володіє апаратний партнер). Серед перевірок: усі { "666" } векторів SGP4 (Simplified General Perturbations { "4" }) AIAA (Американського інституту аеронавтики й астронавтики) 2006-6753 з точністю до { "4.12" } мм і силова модель Cowell з точністю до { "0.08" } м проти Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Як можливість отримує свою позначку: можливість, оракул, тест, позначка реєстру. Стан верифікації для всіх { "388" } можливостей: { "176" } перевірено за незалежним еталоном, { "208" } обчислено за моделлю, { "4" } належать партнеру
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1e4d5b2f4810 = Кожен вбудований файл сценарію ({ "182" }), згрупований за видом. Опис — це власний коментар-заголовок файлу; ключові параметри — його налаштування верхнього рівня. Статус читається з матриці верифікації для модуля виду. <b>Відкрити в Kshana Studio</b> відкриває записаний запуск.
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-843d88cee576 = { "87" } вбудованих видів сценаріїв, за якими диспетчеризує <c1/>, кожен зі своїм однорядковим описом і обов'язковими / необов'язковими полями TOML (Tom's Obvious, Minimal Language).
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-4cb1d67922ed = Повний, перевірений машиною реєстр доказів: <b>{ "388" } рядків — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Рядок може бути VALIDATED лише за наявності незалежного зовнішнього оракула (це забезпечують інваріантні тести матриці). Ті самі дані, із клікабельними посиланнями для кожного рядка на тест, модуль і закомічену фікстуру, подано як <em>реєстр валідації</em> на <a1>https://kshana.dev</a1>. Чому кожен змодельований рядок не перевірено за зовнішнім еталоном, див. у <a2>MODELLED-RATIONALE.md</a2>.
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+seg-af826b47d00e = { "388" } рядків: { "176" } зовнішньо перевірено, { "208" } обчислено за моделлю, { "4" } належать партнеру.
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0adcadeb3854 = Відкритий рушій у центрі: одна позначка на кожен вид сценарію ({ "87" }), заповнена, якщо для цього виду є рядки реєстру, перевірені зовнішньо, порожня, якщо його рядки обчислено за моделлю, і риска, якщо жоден модуль реєстру не відповідає йому за назвою. Kshana Pro та індивідуальне дослідження розташовані навколо нього й сполучені з видами, на яких вони побудовані.
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+# c1: src/api.rs
+# c2: web/data/verification-matrix.json
+seg-9e896ee62ea0 = Рушій v{ $version } · { "87" } видів із <c1/> · стан реєстру з <c2/> · на чому побудовані Pro та дослідження: реєстр видань сайту · без сценарію чи зерна (seed)
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-abe5c7257cda = Усі { "87" } видів сценаріїв і { "173" } вбудованих сценаріїв: нативно, у Python, JavaScript, у браузері та через MCP (Model Context Protocol)
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-1434952d1bc8 = Повна матриця верифікації: { "176" } із { "388" } можливостей перевірено за незалежними оракулами, решту позначено як обчислені за моделлю
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-9ef28b622a43 = { "388" } можливостей, кожна оцінена. <b>{ "176" } перевірено</b> за незалежними зовнішніми оракулами. <b>{ "208" } чесно позначено як обчислені за моделлю.</b> { "4" } належать партнеру. Нічого не округлено вгору.
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-4adb5411062e = Матриця верифікації, одна комірка на можливість у порядку реєстру: { "176" } перевірено (заповнені квадрати), { "208" } обчислено за моделлю (порожні квадрати), { "4" } належать партнеру (ромби). Клавіші зі стрілками переміщують між комірками; можливість і її оракул зачитуються нижче.
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Рушій v{ $version } · <c1/>, згенеровано з <c2/> · { "388" } рядків · без сценарію чи зерна (seed): власний реєстр рушія
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/numerical_cowell_пропагатор_reference.rs
+seg-2e80a89ee20a = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
+
+# { "176" }<s1>of { "388" } validated</s1>
+seg-1d2c8132218d = { "176" }<s1>із { "388" } перевірено</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-b66d124aa8dd = Матриця верифікації: { "176" } перевірено, { "208" } обчислено за моделлю, { "4" } належать партнеру, усього { "388" }
+
+# All { "388" } rows, one line each.
+# text
+seg-6ef0eb045293 = Усі { "388" } рядків, по одному рядку на кожен.
+
+# of { "93" } validated
+# text
+seg-d8691ddf3170 = із { "93" } перевірено
+
+# of { "73" } validated
+# text
+seg-d6687397eae9 = із { "73" } перевірено
+
+# of { "76" } validated
+# text
+seg-8d3ad903cd18 = із { "76" } перевірено
+
+# of { "25" } validated
+# text
+seg-223bf21e1d9b = із { "25" } перевірено
+
+# All { "388" }
+# text
+seg-d5b6224d2ec4 = Усі { "388" }
+
+# Modelled { "208" }
+# text
+seg-2bca452c28dd = Обчислено за моделлю { "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+# attr:aria-label
+seg-d0352364053e = Реєстр валідації (ledger), { "388" } рядків, із прокручуванням
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Кожен вид сценарію, по одній сторінці
+
+# Every command, every surface
+seg-ccee5886cf25 = Кожна команда, кожна поверхня
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Яка поверхня підтримує яку можливість
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: пороги, яких не було досягнуто, названо прямо
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+# text
+seg-9b3429f89f21 = Нове у v{ $version }: кожен вид, кожна команда та промахи бенчмарка
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+# text
+seg-9e88a1981d1e = { "176" } із { "388" } можливостей узгоджуються з незалежними зовнішніми оракулами; решту прямо позначено як обчислені за моделлю.
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+# text
+seg-4b41ffeb0030 = Усі { "87" } видів сценаріїв, безкоштовно, без обмежень функцій, детерміновано зі сценарію, зерна (seed) і версії рушія.
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: constellation-multi-gnss-coverage.toml
+seg-597a57467277 = Рушій v{ $version }, збірка <c1/> · <c2/> · детермінований, без зерна (seed)

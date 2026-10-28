@@ -67,9 +67,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 # text
 seg-4d208b6c0eb8 = päev
 
-# text
-seg-cc723fa4fafa = sgp4 (TLE)
-
 # attr:alt
 seg-0fd3c58fde09 = Diagramm, mille mootor kirjutab failile scenarios/ephemeris.toml, liik ephemeris
 

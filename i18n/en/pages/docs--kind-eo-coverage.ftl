@@ -32,13 +32,7 @@ seg-609c5b7bc6f1 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
 seg-14f19837e422 = The example <c1/> sets, among others:
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-98151954f217 = false
-
-# text
-seg-834408a40783 = min
 
 # text
 seg-ade2ba71a96c = Result label (the engine's): MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track spacing is R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates

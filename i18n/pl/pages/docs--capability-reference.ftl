@@ -266,8 +266,6 @@ seg-cab165105f32 = Odsyłacz wymaganie–moduł–test–wyrocznia–status, gen
 
 seg-190cdf3ca8dc = Jednostka i pochodzenie przy każdej raportowanej wielkości
 
-seg-1c7bb8c3e887 = { "87" } z { "87" } rodzajów, { "3127" } z { "3127" } pól liczbowych
-
 seg-3e7fb040a7c4 = Każde pole liczbowe emitowane przez scenariusz niesie jednostkę i klasę pochodzenia z zamkniętego słownika, z definicją tam, gdzie istnieje, publikowane jako schemat czytelny maszynowo obok silnika. Bramka z zapadką uruchamia każdy wbudowany rodzaj i kończy się niepowodzeniem na polu, które nie niesie żadnego z tych elementów; rodzaje jeszcze niekompletne są wymienione jeden po drugim z powodem, dla którego każdy pozostaje otwarty, a lista może się tylko kurczyć. Raporty, które podają własne stałe — jednokierunkowy budżet łącza, budżet optyczny i radiowy — pozwalają czytelnikowi przeliczyć wartość nagłówkową wyłącznie na podstawie raportu.
 
 seg-0e1a01c9158a = Budżety startu, wejścia w atmosferę, pokrycia i pointingu
@@ -437,8 +435,6 @@ seg-d6476863f862 = Możliwość
 seg-ad856ad710eb = Status
 
 seg-6962adaa6a1f = Wygenerowano podczas budowania ze scenariuszy repozytorium i macierzy weryfikacji.
-
-seg-6f44f45f6bf9 = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "388" } wierszy macierzy weryfikacji.
 
 seg-30200bb5be58 = Uruchom orbit-sgp4-gps.toml w Kshana Studio
 

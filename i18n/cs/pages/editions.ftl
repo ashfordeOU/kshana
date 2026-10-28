@@ -106,10 +106,6 @@ seg-0cad5afda483 = Požádat o vyhodnocení
 
 seg-b366150de755 = Požádat o studii
 
-seg-0adcadeb3854 = Otevřený engine uprostřed: jedna značka pro každý druh scénáře ({ "87" }), vyplněná tam, kde má daný druh ověřené řádky registru, prázdná tam, kde jsou jeho řádky modelované, pomlčka tam, kde mu podle názvu neodpovídá žádný modul registru. { -brand } Pro a studie na míru jsou kolem něj a navazují na druhy, na kterých stavějí.
-
-seg-9e896ee62ea0 = Engine v{ $version } · { "87" } druhů z <c1/> · stav registru z <c2/> · na čem stavějí Pro a studie: registr edic na tomto webu · žádný scénář ani seed
-
 seg-e1acd19a6ac6 = Porovnat edice
 
 seg-352b6af14482 = Licence open core
@@ -149,10 +145,6 @@ seg-abc6bb005249 = Inženýři vozidel, sítí, rozvodných soustav a kosmickýc
 seg-21989d609ae7 = Výzkumníci, studenti a recenzenti, kteří potřebují hodnoty, jež lze reprodukovat a citovat
 
 seg-3b6d727a2d38 = Vývojáři, kteří zapojují engine do kódu, sady CI (průběžná integrace) nebo asistenta s AI (umělou inteligencí)
-
-seg-abe5c7257cda = Všech { "87" } druhů scénářů a { "173" } přibalených scénářů: nativně, v Pythonu, v JavaScriptu, v prohlížeči a přes MCP (Model Context Protocol)
-
-seg-1434952d1bc8 = Úplná verifikační matice: { "176" } z { "388" } schopností ověřeno proti nezávislým orákulím, ostatní označeny jako modelované
 
 seg-9b8eb955fecf = Každý výsledek opatřen otiskem scénáře, seedem a verzí enginu a zapsán jako JSON (JavaScript Object Notation), tabulky CSV (hodnoty oddělené čárkami) a grafy SVG (Scalable Vector Graphics)
 

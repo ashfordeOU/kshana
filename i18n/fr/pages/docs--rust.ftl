@@ -16,9 +16,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>l'instant précis</
 seg-3b861b2f08b8 = Version v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } capacités sur { "388" } validées par rapport à des références externes indépendantes
-
-# text
 seg-6a1906d8d4ad = Environ { "95" } % de couverture de lignes, imposée à { "85" } % en intégration continue
 
 # text
@@ -35,12 +32,6 @@ seg-d1153c5e9112 = Répétez la minute où le GNSS s'éteint
 
 # text
 seg-d1a3f78ad8e0 = Essayez d'abord sans rien installer : <a1>Kshana Studio</a1> exécute tout le moteur dans votre navigateur, compilé en WebAssembly, et ne téléverse rien.
-
-# text
-seg-2d2c47db0c1f = <b>{ "176" } sur { "388" }</b> capacités validées par rapport à des références externes indépendantes ; { "208" } honnêtement étiquetées modélisées, { "4" } détenues par un partenaire. Chaque capacité porte une étiquette dans un registre vérifié par machine : VALIDATED (une référence externe indépendante concorde : données réelles, implémentation indépendante ou vecteurs de référence publiés), MODELLED (cohérent en interne, et dit à voix haute) ou PARTNER (un partenaire matériel la détient). Parmi les vérifications : les { "666" } vecteurs SGP4 (Simplified General Perturbations { "4" }) de l'AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 à { "4.12" } mm, et le modèle de forces de Cowell à { "0.08" } m près par rapport à Orekit { "12.2" }.
-
-# attr:alt
-seg-44f7862c45a2 = Comment une capacité gagne son étiquette : capacité, référence indépendante, test, étiquette du registre. L'état de vérification sur l'ensemble des { "388" } capacités : { "176" } validées, { "208" } modélisées, { "4" } détenues par un partenaire
 
 # text
 seg-12a295fba8a5 = Chaque capacité de la matrice de vérification est étiquetée <b>validée</b> (vérifiée par rapport à une référence externe indépendante), <b>modélisée</b> ou <b>détenue par un partenaire</b> ; les valeurs des horloges optiques sont des objectifs spatiaux sur du matériel au sol (aucune horloge optique au strontium n'a volé). La maturité n'est <em>pas</em> uniforme selon les domaines — le PNT terrestre est validé par rapport à des données réelles ; la navigation en espace lointain et sur Mars est modélisée, seuls ses éléments constitutifs (temps de lumière, positions des planètes) étant validés par rapport à des références externes ; la détermination d'orbite (OD) de missions réelles en espace lointain figure sur la feuille de route.

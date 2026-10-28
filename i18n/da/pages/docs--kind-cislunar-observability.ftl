@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP udefineret (rangdefekt / singula
 
 seg-856eb311f24b = “udefineret” (tekst som dokumentet angiver
 
-seg-1767b216650d = defineret
-
 seg-fc5d34345fdd = Resultatmærkat (motorens egen): MODELLED observerbarhed for en plan cislunar konstellation (P6). VALIDATED kerne: den observerbare RANG er en rangafslørende tærskel på singulærværdier, krydskontrolleret mod Gramianens egenrang; Gramianens egenspektrum overholder de spektrale invarianter (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
 
 seg-f15bbf30b0dd = Diagrammet, som motoren skriver for scenarios/cislunar-observability.toml, type cislunar-observability

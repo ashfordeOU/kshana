@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Tämän aikataulukon rinnalla <c1/> (<c2/>, <c3/>, <c4/>) muu
 
 seg-608c4fed9e98 = Jäljet, joilla on yksikkö, jakavat paneelin, kun niiden suuruusluokat ovat kertoimen { "100" } sisällä, joten { "50" } ns:n suoja ei litistä { "2" } ns:n virhettä. Enintään { "6" } paneelia, joissa on { "6" } jälkeä, piirretään; loput luetellaan kohdassa <c1/>. Jäljet, joissa on yli { "2,400" } näytettä, harvennetaan tasaisella askeleella, joka säilyttää viimeisen näytteen, ja vesiputous, jossa on yli { "96" } × { "120" } solua, keskiarvoistetaan alas (tehossa desibelisoluille, jotta kapeaa häirintälähdettä ei laimenneta).
 
-seg-b68ce4aa301f = Tyyppi, jonka tulos ei sisällä yhtäkään näistä muodoista (linkkibudjetti, yhden epookin geometria, pelkkä tilastollinen Monte Carlo -yhteenveto tai telealan holdover, jonka tulos julkaisee tallenteen hashin mutta ei tallennetta), hylätään viestillä <c1/>, eikä mitään kirjoiteta. Versiolla kshana { $version } animoituu { "89" } niistä { "182" } ajettavasta skenaariotiedostosta (kaikki tiedostot paitsi tutkimussarja), ja { "93" } hylätään. <c2/> tulostaa laskennan.
-
 seg-c386389e4f1d = LEO-tyypeistä jokainen mukana toimitettu skenaario tyypeille <c1/>, <c2/> ja <c3/> animoituu. <c4/> animoituu Doppler-, yhteispaikannus- ja ajoitustiloissaan (ajoitusajo tarvitsee <c5/>, mikä saa jokaisen rivin raportoimaan aikavirheensä ja ennustetun sigmansa jokaisella epookilla) ja hylätään napa-alueen kattavuustilassaan. <c6/> animoituu ylilennon keskivaiheen päivityksensä osalta ja hylätään koodaus-, sovitusvälin- ja mallivertailuanalyyseille. Tuloksissa <c7/> ja <c8/> ei ole aika-akselia, ja ne hylätään.
 
 seg-eb31ec7a07b7 = Determinismi

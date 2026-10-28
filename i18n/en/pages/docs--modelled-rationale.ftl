@@ -2241,6 +2241,211 @@ seg-59bd0b502622 = ssv::formation (run_formation, RelEkf)
 seg-70f8b2a10f03 = ssv::formation::tests (differencing_beats_subtracting_absolute_estimates_and_is_deterministic); ssv::scenario::tests (navigation_and_formation_run_and_report; formation_needs_navigation_and_one_mode_only)
 
 # text
+# c1: mission-thread
+seg-65185cb68d6b = Navigation and timing error budget of a chain of mission phases from launch to entry (<c1/>)
+
+# text
+# c1: mission-thread
+# c2: carry
+# c3: inflate
+# c4: reacquire
+seg-86a132e1a243 = The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated gap on a straight-line model; <c4/>, dead reckoning then the source floor, never below it, never a reset); frame conversions GCRF, MCI and MCMF and timescale conversions through TT, each its own budget row, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback; the margin against a stated requirement, the weakest link, the events and a timeline figure. Every number is a stated input or a model of one
+
+# text
+seg-26d9a520eb6a = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst { "2.6" } m and { "7e-6" } m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agency endorsement
+
+# text
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+# text
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+# text
+# c1: launch-ascent
+seg-87b2b2459b45 = Launch and ascent to a parking orbit with GNSS acquisition and fade (<c1/>)
+
+# text
+# c1: launch-ascent
+seg-725e7ce83533 = The <c1/> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-drift clock disciplined by the same fixes, and the parking-orbit insertion state
+
+# text
+seg-d77218b48910 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
+
+# text
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+# text
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+# text
+# c1: leo-rendezvous
+seg-eb66a49b0306 = Relative navigation to the docking envelope in low Earth orbit over sensor legs (<c1/>)
+
+# text
+# c1: leo-rendezvous
+seg-658a0448d80d = The <c1/> phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the current range, over legs of a stated sensor (ILLUSTRATIVE optical camera, lidar and radio-ranging forms); the docking window is the time from which the relative sigma stays inside the capture envelope to the end of the phase. The chaser's absolute covariance is handed on unchanged and a row says so
+
+# text
+seg-24aae90bcf56 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
+
+# text
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+# text
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+# text
+# c1: tli-and-cruise
+seg-b45a8a357faf = Trans-lunar injection and cislunar cruise: propagated mean state and covariance with tracking updates (<c1/>)
+
+# text
+# c1: tli-and-cruise
+# c2: gnss-ssv
+seg-ab5c79789754 = The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic series); the covariance by a forward-difference state-transition matrix of that propagation (the nominal run and six perturbed runs per segment) with white acceleration noise; the TLI burn's size and pointing error; <c2/> fixes whose availability and PDOP come from the space-service-volume sweep along an osculating orbit standing in for the arc; range and range-rate tracking along the geocentric direction scaled by the ground-network duty, with the Joseph-form update
+
+# text
+seg-4bbee1892183 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
+
+# text
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+# text
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+# text
+# c1: entry
+seg-7a3eb4fae324 = Entry interface covariance, corridor probability, peak deceleration and landing footprint (<c1/>)
+
+# text
+# c1: entry
+# c2: tli-and-cruise
+seg-93f07906d7bf = The <c1/> phase: the return coast of <c2/> with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a stated corridor; the peak deceleration at the nominal angle and at both corridor edges from the engine's planar ballistic point-mass entry (skip-out detected) beside the Allen-Eggers closed form; the landing footprint from a stated downrange sensitivity and the interface covariance across the orbit plane. No lift, guidance or heating is modelled
+
+# text
+seg-2dc8a48d5ffe = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Hand calculations in the tests (the angle sigma is the perpendicular velocity sigma over the speed; the Gaussian mass in a corridor). The planar entry is the engine's own and the Allen-Eggers form is a closed-form comparison; no flown entry is compared
+
+# text
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+# text
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+# text
+# c1: [ground_network]
+# c2: mission-thread
+seg-3f0951532f6e = Ground-network coverage and tracking duty for a thread phase (<c1/> of <c2/>)
+
+# text
+seg-5204af351299 = The ground-network overlay: stations with a minimum elevation, the visibility of the vehicle on a stated geometry (the entry state flown two-body with J2, the Moon's position for the cruise, or a stated duty), station handovers that lose a stated time each, and the resulting duty passed to the phase's ground-tracking update rate; the longest interval with no station in view is a budget row
+
+# text
+seg-2a78aa543666 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Zenith and antipode geometry checks and the expected visibility of a distant target in the tests. No real network, antenna or schedule is modelled
+
+# text
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-4ba700726208 = Relative navigation to docking in a lunar orbit (<c1/>)
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-2e30e78e49f7 = The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a half and the whole arc with step halving, from an absolute fix per vehicle (AFS pilot code-tracking bound, ILLUSTRATIVE relay set) and a crosslink range, under the crate's lunar force model; the mean normalised estimation error squared, the Clohessy-Wiltshire check on a circular orbit and the 6x6 covariance handed on
+
+# text
+seg-addac2398a5e = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is { "5.85" } to { "5.93" } against the band { "5.2" } to { "6.8" } in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The propagator it shares is compared with LRO and CAPSTONE in a row below
+
+# text
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+# text
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+# text
+# c1: lunar-descent
+seg-c85d7e5e63a3 = Landing-dispersion budget at a lunar polar site (<c1/>)
+
+# text
+# c1: lunar-descent
+seg-bd88ab3ad105 = The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-relay case), a terrain-relative fix (the engine's terrain-nav matcher on synthetic relief, or a Cramer-Rao bound on a LOLA DEM with an aperture-problem rule) and lunar time, with a Monte Carlo touchdown ellipse
+
+# text
+seg-3270c832c0fe = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
+
+# text
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+# text
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+# text
+# c1: lunar-surface
+seg-8dfc1600cf8c = Surface positioning and timing availability by site and season at the lunar poles (<c1/>)
+
+# text
+# c1: lunar-surface
+# c2: moonlight-service-volume
+seg-f91c1da9ab55 = The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that kind's availability and PDOP to the bit
+
+# text
+seg-a8b9da63334b = checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
+
+# text
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+# text
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+# text
+# c1: lunar-ascent
+seg-0db91d70a079 = Powered ascent from a lunar polar site to an insertion orbit (<c1/>)
+
+# text
+# c1: lunar-ascent
+seg-b5b1125d515c = The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance carried to orbit and the engine-cutoff dispersion (reported, not carried)
+
+# text
+seg-aa4a409d28b4 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared
+
+# text
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+# text
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+# text
+seg-1983ce9cc6da = The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories
+
+# text
+seg-57f53a7d1fa2 = The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the public JPL Horizons trajectories of LRO ({ "24" } h, { "10" } minute samples) and CAPSTONE (one { "6.5" } day revolution, one hour samples), under bars fixed in a committed file before the run
+
+# text
+seg-581586ff816c = a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the CAPSTONE bar is missed and the comparison tests the shared propagator, not any filter, signal or budget
+
+# text
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+# text
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+# text
+# c1: tli-and-cruise
+seg-c557d317389a = The cislunar mean-state propagation against the public Artemis I trajectory (<c1/>)
+
+# text
+# c1: tli-and-cruise
+seg-539d4c3e9b56 = The mean-state propagation of the <c1/> phase (Cowell, Earth point mass and J2, the Sun and Moon third bodies, the Moon from a DE440 cut) compared with the public JPL Horizons trajectory of Artemis I over a { "72" } h coast arc from 2022-11-16 { "18" }:{ "00" } TDB, at { "12" } hour epochs, under bars fixed in a committed file before the run
+
+# text
+seg-7ce4f3fbb3c4 = a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons target -1023 (the NASA navigation as-flown post-TLI trajectory), against bars pre-registered in xval/mission-thread/PREREGISTRATION.md (Amendment { "1" } changes only the request span). NOT MET and asserted as missed: { "45.3" } km largest position difference against { "5" } km, and { "0.249" } m/s velocity difference at { "72" } h against { "0.05" } m/s. A diagnostic written after the verdict places the miss in five impulsive velocity steps of { "0.09" } to { "0.22" } m/s in the reference (the pre-registered reading that the window held no burn was wrong); over the other { "67" } hours the model reproduces the next hourly state to a median of { "0.38" } m. Tests the mean state of one coast arc only: no covariance, filter, update or other phase
+
+# text
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+# text
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+# text
 seg-7038f6902820 = Cold-atom interferometer error terms: Raman laser-phase noise, wavefront-curvature bias and fringe-ambiguity resolution
 
 # text
@@ -2760,6 +2965,22 @@ seg-aa2667aa0296 = receiver_trust (score, monitors, live)
 seg-58fcb2ec63c5 = tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotone in every statistic, adding a monitor never raises the score, healthy statistics stay at { "100" })
 
 # text
+seg-150ae9c3d755 = Interference source region: a feasible emitter region from aircraft and ship position reports
+
+# text
+seg-b5c49044a7a1 = A feasible region for where a source of degraded navigation reports can be, from ADS-B (NIC/NACp) or AIS position reports: radio line of sight on a 4/3-earth radius from the report height and an emitter antenna height range, a limited effective range for the unknown power, affected units pulling the posterior toward their reach and unaffected units with line of sight pushing against it, grouped into sessions in time and space. Output is highest-density regions at stated confidence levels, a posterior centroid with a moment ellipse, session start, end, duration, affected area and distinct-aircraft count above the publication minimum, a time-of-day profile and hours per day. Terrain-free; a single source per session; the credibility is conditional on the model. Optional fusion with a TDOA fix from geolocation.
+
+# text
+seg-2630978c5675 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest { "2025" } transmitter sites was pre-registered (docs/emitter-region/PREREGISTRATION.md, signed off by the owner before any scored run) and run once (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } scheduled sessions, fewer than the registered minimum of { "4" }) and AIS NOT ASSESSABLE (no published session), so no bar was tested and the row stays MODELLED
+
+# text
+# c1: kshana interference-map locate
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+# text
+seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
+
+# text
 seg-51640405c9b7 = Trust telemetry SIEM events: Log Event Extended Format (LEEF) over syslog
 
 # text
@@ -3123,7 +3344,7 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a { "1.1" } km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py { "1.1.0" } and the wheel), run with pytest, not by cargo
 
 # text
-seg-e7d71a9d77a6 = { "208" } capabilities labelled MODELLED.
+seg-a2bf08b8e82d = { "221" } capabilities labelled MODELLED.
 
 # text
 seg-7a0503f925c1 = <s1>Previous</s1>Capability reference

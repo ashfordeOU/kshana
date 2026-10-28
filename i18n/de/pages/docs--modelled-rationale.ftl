@@ -3104,9 +3104,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: das Format, das die Bridge von gnss_lib_py schreibt, durch receiver-trust geführt); die Python-Tests der Bridges sind integrations/ros2/kshana_trust/test/test_bridge.py (Bridge mit einer Mock-Engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (das echte Wheel bewertet einen stetigen Fix als nominal und einen Sprung von { "1.1" } km als nicht vertrauenswürdig) und integrations/gnss_lib_py/test_bridge.py (echtes gnss_lib_py { "1.1.0" } und das Wheel), ausgeführt mit pytest, nicht mit cargo
 
 # text
-seg-e7d71a9d77a6 = { "208" } Fähigkeiten mit der Kennzeichnung MODELLED.
-
-# text
 seg-7a0503f925c1 = <s1>Zurück</s1>Referenz der Fähigkeiten
 
 # text

@@ -86,17 +86,9 @@ seg-f325b20ba911 = Wybierz sposób uruchomienia serwera
 
 seg-f7b7c7f2eb0d = Każdy poniższy klient przyjmuje jedną z trzech definicji serwera. Uruchamiają ten sam serwer:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (wymaga Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (wymaga Dockera): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp w PATH</b> (wymaga pliku binarnego (brew, scoop, winget, cargo lub pobranie z wydania)): <c1/>
 
 seg-c320bcbc9bcd = Linki jednego kliknięcia
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>link internetowy</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>link internetowy</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp w PATH: <a1>link internetowy</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>otwórz</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code, Docker: <a1>otwórz</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp w PATH: <a1>otwórz</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = Inny klient
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> udostępnia te same narzędzia przez streamable HTTP kl
 seg-04c1f05fb027 = <s1>Poprzednia</s1>Serwer MCP
 
 seg-eba757f29814 = <s1>Następna</s1>Serwer MCP: tryb HTTP z własnym hostingiem
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (wymaga Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (wymaga Dockera): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>link internetowy</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>link internetowy</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

@@ -34,7 +34,7 @@ seg-88d9dfe0353a = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-f44afe581836 = { $version }
+seg-a349aa76b0ed = PARTNER
 
 # attr:alt
 seg-1bdbf1a737b2 = The chart the engine writes for scenarios/quantum-gnss-free-nav.toml, kind quantum-gnss-free-nav

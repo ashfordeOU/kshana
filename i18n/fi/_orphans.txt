@@ -1,0 +1,322 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-da4764e4d161 = Valitse jokin { "183" } skenaariotiedostosta { "87" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
+
+# Every kind, every command, and the benchmark's misses.
+seg-850aca04de28 = Jokainen tyyppi, jokainen komento ja benchmarkin alitukset.
+
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+seg-c530da682cca = Ei uutta moottorin ominaisuutta: tulokset ovat samat kuin versiossa { "0.38.0" }. Dokumentaatiossa on nyt sivu jokaiselle skenaariotyypille sekä luettelo jokaisesta komennosta ja jokaisesta pinnasta, ja benchmark-sivu kertoo jokaisen kynnyksen, joka ei täyttynyt. Komentorivi myös päättyy hiljaa, kun sen tulostusputki sulkeutuu. Jokaisella ominaisuudella on merkintä, jonka kirjanpito (ledger) siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto.
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
+
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+seg-86ff766b2c1d = Kaikki { "87" } skenaariotyyppiä jaoteltuna perheisiin, kullekin tyypille oma sivu: mitä se tekee, sen syötteet, esimerkkiajon tulokset, sen merkinnän taustalla olevat kirjanpitorivit (ledger) ja oraakkelit (riippumaton vertailu), sen raportin ilmoittamat rajoitukset ja moottorin kirjoittama kaavio.
+
+# Every command, every surface
+seg-ccee5886cf25 = Jokainen komento, jokainen pinta
+
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+seg-6630acb722ae = Jokainen komento esimerkillä, jonka voi ajaa checkoutista, ja jokainen pinta (komentorivi, Python, Rust, WebAssembly, MCP-palvelin, liitännäiskomennot, skillit ja Studio-sivut) komentoineen ja tyyppeineen sekä syy siellä, missä niitä ei ole.
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
+
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-678872a862dc = Yksi sivu luettelee jokaiselle komennolle ja tyypille, mikä pinta sen kantaa ja mikä ei, syineen, ominaisuusalueiden ja niiden kirjanpitomerkintöjen (ledger) rinnalla.
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-df8f792ffa97 = Benchmark-sivu luettelee nyt jokaisen kynnyksen, joka ei täyttynyt, sellaisena kuin tulostiedosto sen kirjaa, ja kertoo, ettei yhtäkään kynnystä ole höllennetty.
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-761213eb3ce0 = Kaikki { "183" } skenaariotiedostoa { "87" } tyypissä, ryhmiteltyinä alueen mukaan; { "173" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan (ledger), kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaariohakuteoksessa tiedostoineen ja komentoineen, jolla se ajetaan.
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } / { "87" } lajia, { "3127" } / { "3127" } numeerista kenttää
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+seg-b68ce4aa301f = Tyyppi, jonka tulos ei sisällä yhtäkään näistä muodoista (linkkibudjetti, yhden epookin geometria, pelkkä tilastollinen Monte Carlo -yhteenveto tai telealan holdover, jonka tulos julkaisee tallenteen hashin mutta ei tallennetta), hylätään viestillä <c1/>, eikä mitään kirjoiteta. Versiolla kshana { $version } animoituu { "89" } niistä { "182" } ajettavasta skenaariotiedostosta (kaikki tiedostot paitsi tutkimussarja), ja { "93" } hylätään. <c2/> tulostaa laskennan.
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+seg-a887cfc920f6 = Päivitetty 2026-10-22 moottorille { $version } ({ "87" } skenaariotyyppiä, lähteenä <c1/>; versiossa { $version } ei uutta tyyppiä). 2026-10-19: moottori { "0.38.0" }, { "87" } tyyppiä (uusia versiossa { "0.38.0" }: <c2/>, <c3/> ja <c4/>). 2026-10-18: { "84" } tyyppiä (uusi versiossa { "0.37" }: <c5/>). 2026-10-16: { "83" } tyyppiä (uusia versiossa { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> ja <c13/>). 2026-10-10: moottori { "0.35.0" }, { "75" } tyyppiä, ei uutta tyyppiä. 2026-10-09 ja 2026-10-08: aiemmat versiot. 2026-10-04: Nav-signal-rivillä mainitaan { "0.31.0" }-IQ-kerros. 2026-09-29: lisätty LEO-PNT-, spektri-, aurinkokunta- / minkä tahansa kappaleen PNT-, kampanja- ja tulosterivit. Aiemmin: yhdenmukaistettu 2026-06-02 suuren auditoinnin 27-rivisen ominaisuusmatriisin kanssa; syväavaruuden / Marsin PNT -rivi lisätty versiossa { "v0.17.0" }. Kvantti-PNT-lisäykset (GNSS-estoinen kellon holdover <c14/>, yhdistetty kvantti-inertiaalisen dead reckoning -budjetti <c15/>, etäisyyskoodin suunnittelukompromissi <c16/>, koneellisesti tarkistettu varmennusmatriisi <c17/>) on yhdistetty Timing-, Quantum-PNT-sensor-, Nav-signal- ja V&V-riveihin; kukin on merkitty validoiduksi tai mallinnetuksi todellisen oraakkelinsa mukaan.
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } / { "87" } lajia, { "3127" } / { "3127" } numeerista kenttää
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+seg-6f44f45f6bf9 = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "388" } riviä.
+
+# [{ $version }] - 2026-10-22
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+seg-7f608c733407 = <b><c1/></b>: RINEX-kellotiedostot, versiot { "2" } ja { "3.00" }–{ "3.04" } (mukaan lukien version { "3.04" } yhdeksänmerkkinen nimikenttä). Otsakkeesta luetaan vain <c2/>, ja se ohitetaan rivin <c3/> saakka. Datatietueista säilytetään vain yhden kellon tietueet tyypeistä <c4/> (satelliitti) ja <c5/> (vastaanotin tai asema), valittuna nimen perusteella. Niiden ensimmäinen arvokenttä, kellon harha sekunteina, on vaihe. Jatkorivit ja tietueet <c6/>, <c7/> ja <c8/> ohitetaan. Epookit ovat tietueen kalenterikentät sekunteina hetkestä 1980-01-06 { "00" }:{ "00" }:{ "00" } tiedoston omassa aikajärjestelmässä ilman muunnosta.
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+seg-3d8853fa9c92 = <b><c1/></b>: TAPR TICC -laskurin lokit (TICC Operation Manual, revisio { "23" }. marraskuuta { "2016" }, ”measurement modes”). Jokainen datakenttä on sekunteja { "12" } desimaalin tarkkuudella.
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+seg-75301936698f = Jaksotilan ja Debug-tilan tuloste hylätään. Kanava, jonka lukemat eivät kasva, raportoidaan jaksotilana.
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-fe7d27a473aa = MODELLED. Tämä on jäsennin, ja sen tuloste syöttää estimaattoreita, jotka on validoitu muualla allantoolsia vastaan. Tiedoston <c1/> yksikkötestit käyttävät pieniä käsin kirjoitettuja lokeja, ja linuxptp- ja chrony-formaateille hakemiston <c2/> fixtureja. <c3/> ajaa tiedostossa <c4/> ennakkorekisteröidyn vertailun: kolme siemenluvulla tuotettua synteettistä lokia, yksi per formaatti, jotka riippumaton, tämän sivun pohjalta saman tekijän kirjoittama lukija lukee takaisin, ja ADEV, TDEV ja MTIE tarkistetaan allantoolsia { "2024.6" } vastaan; vertailu kattaa vain kolme ensimmäistä formaattia, ja linuxptp- ja chrony-lukijoilla on jäsennystestit mutta ei oraakkelivertailua. Lokit ovat synteettisiä, joten mikään tässä ei kuvaa todellista kelloa tai laskuria.
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-78756a9f6704 = <s1>Skenaariotyypit</s1><s2>{ "87" } sisäänrakennettua skenaariotyyppiä, joiden kesken kshana::api::run_toml ohjaa, kullakin yksirivinen…</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen skenaariotyyppi, jonka moottori v{ $version } ohjaa ({ "87" }), jaoteltuna { "12" } perheeseen.</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-76a9b614dada = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "182" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-c387a74ffabb = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-be02c7f0d48e = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "388" } riviä.</s2>
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>Kuu ja kuunläheinen avaruus</s1><s2>{ "20" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-0144518c94fc = { "87" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
+
+# defined
+seg-1767b216650d = määritelty
+
+# sgp4 (TLE)
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
+
+# classical baseline
+seg-a6551a61cf69 = klassinen lähtötaso
+
+# First
+# text
+seg-5b3bc9761db4 = Ensimmäinen
+
+# TM
+# text
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+# text
+seg-9bd19903f577 = <b>Kirjanpito:</b> yksikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jossa syötteet, tulokset, todisteet ja rajoitukset: <a1>terrain-nav</a1>.
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = Moottorin v{ $version } skenaariolajeja on { "20" }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-204901ae3684 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>moonlight-service-volume</a1>.
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6bed0bef75bc = Jokainen moottorin v{ $version } lähettämä skenaariolaji ({ "87" }), jaoteltuna { "12" } perheeseen. Jokaisella perheellä on sivu, jolla on yksi merkintä lajia kohden (moottorin kuvaus ja kentät, esimerkkikomento, ajon pääluvut, lajin nimeävät matriisirivit ja moottorin kirjoittama kaavio) sekä yleiskuva näistä kaavioista. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-a30b46501cff = { "87" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.
+
+# { "208" } capabilities labelled MODELLED.
+# text
+seg-e7d71a9d77a6 = { "208" } ominaisuutta merkitty tilaan MODELLED.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+# text
+seg-ebe636986f46 = { "176" } / { "388" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+# text
+seg-2d2c47db0c1f = <b>{ "176" } / { "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "208" } rehellisesti merkitty mallinnetuiksi, { "4" } kumppanin omistamaa. Jokaisella ominaisuudella on yksi tunniste koneellisesti tarkistetussa kirjanpidossa (ledger): VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: oikea data, riippumaton toteutus tai julkaistut vertailuvektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani vastaa). Tarkistuksiin kuuluvat: kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) AIAA:n (American Institute of Aeronautics and Astronautics) asiakirjasta 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vastaan.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+# attr:alt
+seg-44f7862c45a2 = Kuinka ominaisuus ansaitsee tunnisteensa: ominaisuus, oraakkeli, testi, kirjanpidon tunniste. Varmennuksen tila kaikissa { "388" } ominaisuudessa: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+# text
+seg-af101c048e7e = { "176" } / { "388" } ominaisuutta VALIDATED riippumatonta ulkoista oraakkelia vastaan, varmennusmatriisin mukaan
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+# text
+seg-161fa1263086 = <a1>Uutta versiossa { "0.39" }</a1>, <a2>Uutta versiossa { "0.38" }</a2> ja <a3>{ "0.38" } perusteellisesti</a3>: jammertest-pisteytys, vastaanottimen omat liput, konesyötteet, ajoitus ja holdover, standardipaketit, LunaNet AFS, laboratorion kiertoajo, kshana-bench, observatorio, viejät, optinen, <a4>avaruuskäyttäjän navigointi</a4> ja <a5>kuun infrastruktuuri</a5>
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-c45a4adf8209 = Kshana Studio, Yksinkertainen näkymä, mukana toimitetulla skenaariolla integrity-raim, moottori { "v0.38.0" } toimii paikallisesti. Kysymys: täyttääkö geometria hälytysrajat (vaaka- ja pystysuuntainen suojaustaso)? Vastaus ensin, merkittynä Live result: Kyllä, enimmäkseen: { "95.3" } % ajasta { "12" } h. Vastaanottimen virherajat pysyivät hälytysrajojen alla ({ "40" } m vaaka- ja { "50" } m pystysuunnassa) { "344" } tarkistuksessa { "361" }:stä, eikä yksikään paikannus ollut harhaanjohtava. Keskeiset luvut: aika, jolloin paikannukseen voi luottaa { "95.3" } %, pisin katko { "10" } min, tyypillinen virheraja { "6.5" } / { "13" } m, harhaanjohtavat paikannukset { "0" }. Vieressä Try other settings viidellä asetuksella (etäisyysvirhe, kaksi hälytysrajaa, kesto ja korkeuskulmamaski) ja Run again, sitten suljetut osiot Advanced settings ({ "13" } lisää), How this is computed ({ "8" } validoitu, { "6" } mallinnettu) ja For researchers. Alla tämän tuloksen näkymät ja suojaustasot piirrettynä hälytysrajaa vasten.
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-1af317b46992 = Kshana Studio, Yksinkertainen näkymä, aloitusnäyttö, otsikko What would you like to find out?, moottori { "v0.38.0" } käynnissä ja yläpalkissa kolme linkkiä: Training debrief, Interference map ja Receiver trust. Neljä kysymystä: kuinka monta satelliittia näen missä tahansa Maan päällä, voinko luottaa paikannukseeni, kuinka kauan kello pitää aikaa ilman satelliitteja ja mitä häirintälähetin tekee vastaanottimelleni. Ensimmäisen alla sen tallennettu tulos: vähintään { "22" } satelliittia näkyvissä jokaisessa paikassa ja { "31" } keskimäärin GPS:llä, Galileolla, BeiDoulla ja GLONASSilla yhdessä, paikannus mahdollinen { "100" } %:ssa paikoista ja ajoista, näkyvien satelliittien maailmankartalla, ja painike Open this result. Vieressä Everything Kshana can do: { "16" } aluetta ja { "139" } ajovalmista skenaariota, jokaisessa ruudussa pieni kaavio tallennetusta ajosta ja sen validoitujen menetelmien osuus, ja kirjanpidon { "173" }/{ "350" } ominaisuutta validoitu.
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-3fed18478b21 = Kshana Studio, Laaja näkymä, mukana toimitetun skenaarion constellation-multi-gnss-coverage (Four GNSS constellations, one map) ajon jälkeen, moottori { "v0.38.0" } toimii paikallisesti. Vasemmalla skenaariokirjasto, { "139" } skenaariota { "16" } alueella. Viisi vaihetta Choose, Set, Run, Read results ja Share or export, vaihe { "4" } kuluvana. Keskeiset luvut: { "102" } satelliittia, saatavuus { "100" } % (PASS), paikan tarkkuuden heikkenemiskertoimen (PDOP) mediaani { "0.95" } (PASS), PDOP:n 95. persentiili { "1.105" } (PASS), keskimäärin { "31.03" } satelliittia näkyvissä ja { "22" } vähimmillään. Alla paneelirivi, jossa Coverage on valittuna, toistopalkki, maailmankartta keskimääräisestä PDOP:sta välillä { "0.831" }–{ "1.0853" } kaikki satelliitit piirrettyinä sekä maailmanlaajuiset kattavuusluvut.
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-88302efebc1a = Kolme kshana.dev-sivua rinnakkain. Etusivun pääosa: nimirivi Kshana · क्षण · the precise instant otsikon Rehearse the minute GNSS goes dark yläpuolella sekä moottorin { "v0.38.0" } todellisen ajon tehtäväkonsoli (maapallo ja kolme reaaliaikaista kaaviota: kellon aikavirhe, kantoaalto-kohinatiheys ja suojaustaso). Evidence, Published research: viisi avoimeen moottoriin perustuvaa arXiv-artikkelia, uusimmassa moottorin kuva. Editions, Kshana Pro, sama moottori vahvistettuna: Free ajaa yhden skenaarion, Pro vastaa ohjelman kysymykseen.
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-eabb798bbe4e = Yksi moottori kattaa koko vikaketjun, ensimmäisestä häirityistä satelliitista kellon holdoverin viimeiseen nanosekuntiin. Moottorissa on { "87" } skenaariotyyppiä; <c1/> listaa ne ja <a1><c2/></a1> dokumentoi jokaisen kentän.
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+seg-ab2c09d44cb7 = <c1/> ajaa skenaarion; jokainen muu komento on alikomento, ja <c2/> tulostaa niiden kaikkien käyttöohjeen. Komennot ovat <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (komennoilla <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> ja <c61/>. <a1><c62/></a1> kertoo jokaisen tarkoituksen, varmennetun esimerkin ja sen dokumentaatiosivun.
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-76e3ec458441 = Miten ajo etenee. Skenaarion TOML-tiedosto (tyyppi, siemenluku ja sen parametrit) menee moottoriin, kshana { $version }, api::run_toml-jakelun kautta { "87" } skenaariotyypin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille tyypeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa tiedostot study.json ja study.html. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integrointia.
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-707e2cf795f6 = <b>{ "176" }/{ "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen, ja tunnisteen, joka siitä seuraa. Jatkuva integrointi (CI) tekee mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakkelia.
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-2f81cf391eae = Miten ominaisuus ansaitsee tunnisteensa. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen jatkuvassa integroinnissa, ja tunnisteen, joka siitä seuraa. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED tai PARTNER, kun laitteistokumppani omistaa sen. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, erä-/sekventiaalinen OD, oraakkeli AIAA 2006-6753 SGP4 -varmennusvektorit, testi tests/sgp4_verification.rs, tunniste VALIDATED. Tämänhetkiset määrät: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } rivistä. Kaiken kaikkiaan { "176" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } lisää on rehellisesti merkitty MODELLED ja { "4" } on PARTNER-merkittyjä.
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-ed47a99fac7f = Muutamia tarkistuksia: kaikki { "666" } AIAA:n (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektoria (Simplified General Perturbations { "4" }) tarkkuuteen { "4.12" } mm; Cowellin voimamalli tarkkuuteen { "0.08" } m Orekit { "12.2" }:ta vasten; Galileo tarkkuuteen { "0.61" } m ja Swarm-A tarkkuuteen { "0.10" } m Euroopan avaruusjärjestön (ESA) todellisia tarkkoja efemeridejä vasten. Testit kattavat noin { "95" } % rivikattavuuden hakemistosta <c1/>, kynnys CI:ssä { "85" } %. Kirjanpito on <a1><c2/></a1>, generoitu tiedostosta <c3/>: <a2>koko 388 rivin matriisi</a2> ja syy, miksi millään mallinnetulla rivillä ei ole ulkoista oraakkelia, tiedostossa <a3><c4/></a3>.
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-557da03648c5 = Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on <b>valikoitu kohokohtaluettelo</b>; täysi koneellisesti tarkistettu matriisi on <b>{ "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), täydellä näytöllä (ja sillä, mitä rehellisesti <em>ei</em> vielä ole validoitu) tiedostossa <a1><c2/></a1> ja julkaisukohtaisessa <a2><c3/></a2>-artefaktissa (tuottanut <c4/>, SLSA-todennettu — Supply-chain Levels for Software Artifacts).
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-9fcd5cdd129d = Miten ominaisuus ansaitsee merkintänsä: vaatimus kartoitetaan src-hakemiston moduuliin, tests-hakemiston testiin, ulkoiseen oraakkeliin (todellinen aineisto, riippumaton viitetoteutus tai julkaistut vektorit) ja tilaan — CI valvoo, ettei mikään ominaisuus voi olla validoitu ilman ulkoista oraakkelia. Ajantasaiset luvut: validoitu { "176" }, mallinnettu { "208" }, kumppani { "4" }, yhteensä { "388" }
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-faadba4f1f85 = Varmennustila kaikille ominaisuuksille (yhteensä { "388" }): validoitu { "176" } (tarkistettu ulkoista oraakkelia vastaan), mallinnettu { "208" }, kumppanin omistama { "4" }
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-6c1edff3e035 = { "176" } validoitu · { "208" } mallinnettu · { "4" } kumppani — <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-9d69cf43cd40 = Kshanan arkkitehtuuri: yksi avoin moottori keskellä, kshana { $version } AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty jakelu kaikille lajeille ja { "388" } ominaisuuden varmennuskirjanpito ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Sen ympärillä jokainen pinta ajaa samaa moottoria: komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-kuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-lisäosa (Marketplace: ”Kshana”). Sen alla on Kshana Pro, suljettu kerros, joka käyttää avointa moottoria kirjastona eikä koskaan haarauta sitä eikä lisää mitään fysikaalista mallia.
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-9bc9a971bdb4 = Kshanan arkkitehtuuri kerroksittain. Viisi sisäänkäyntiä (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-lisäosa) johtavat yhteen funktioon api::run_toml, tyypitettyyn jakeluun, jossa on { "87" } laji. Sen alla on kahdeksan toimialuekerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä tehtävät ja tutkimukset, yhteisen ytimen päällä, ja kaikkia ristiviittaa varmennusmoduuli, koneellisesti tarkistettu { "388" } ominaisuuden matriisi, joka on kaikkien merkintöjen ainoa totuuden lähde.
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-87e30294e0dc = { "87" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-eedfcdbe2b1c = koko avoin moottori, kaikki { "87" } skenaariolajia, ei ominaisuuksien porttia
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-f1efe0de99b8 = Katso hakemisto <c1/>: jokaisesta lajista on vähintään yksi toimiva esimerkki ({ "87" } lajia, { "182" } skenaario<c2/>-tiedostoa + { "1" } sarjamanifesti — useasta lajista on toimitettu useampi esimerkki). Kaikilla lajeilla ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat lajit voi luetella milloin tahansa virheillä <c7/>, Pythonin <c8/> tai MCP-työkalulla <c9/>.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+# text
+seg-ebe636986f46 = { "176" } / { "388" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+# text
+seg-2d2c47db0c1f = <b>{ "176" } / { "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "208" } rehellisesti merkitty mallinnetuiksi, { "4" } kumppanin omistamaa. Jokaisella ominaisuudella on yksi tunniste koneellisesti tarkistetussa kirjanpidossa (ledger): VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: oikea data, riippumaton toteutus tai julkaistut vertailuvektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani vastaa). Tarkistuksiin kuuluvat: kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) AIAA:n (American Institute of Aeronautics and Astronautics) asiakirjasta 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vastaan.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+# attr:alt
+seg-44f7862c45a2 = Kuinka ominaisuus ansaitsee tunnisteensa: ominaisuus, oraakkeli, testi, kirjanpidon tunniste. Varmennuksen tila kaikissa { "388" } ominaisuudessa: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1e4d5b2f4810 = Jokainen mukana toimitettu skenaariotiedosto ({ "182" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylätason asetuksia. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studio -työkalussa</b> avaa tallennetun ajon.
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-843d88cee576 = { "87" } sisäänrakennettua skenaariotyyppiä, joiden yli <c1/> välittää, kukin yhden rivin kuvauksineen ja vaadittuine / valinnaisine TOML-kenttineen (Tom's Obvious, Minimal Language).
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-4cb1d67922ed = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): <b>{ "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa (matriisin invarianttitestit valvovat tätä). Samat tiedot, joissa on napsautettavat rivikohtaiset linkit jokaiseen testiin, moduuliin ja tallennettuun testiaineistoon, ovat <em>Validointikirjanpito (ledger)</em> sivustolla <a1>https://kshana.dev</a1>. Katso <a2>MODELLED-RATIONALE.md</a2>, miksi kutakin mallinnettua riviä ei ole validoitu ulkoisesti.
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+seg-af826b47d00e = { "388" } riviä: { "176" } validoitu ulkoisesti, { "208" } mallinnettu, { "4" } kumppanin omistamaa.
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0adcadeb3854 = Avoin moottori keskellä: yksi merkki per skenaariotyyppi ({ "87" }), täytetty, jos tyypillä on validoituja kirjanpitorivejä, ontto, jos sen rivit ovat mallinnettuja, ja viiva, jos mikään kirjanpitomoduuli ei vastaa sitä nimeltä. Kshana Pro ja räätälöity selvitys ovat sen ympärillä ja yhdistyvät tyyppeihin, joille ne rakentavat.
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-9e896ee62ea0 = Moottori v{ $version } · { "87" } tyyppiä tiedostosta <c1/> · kirjanpidon tila tiedostosta <c2/> · mille Pro ja selvitys rakentuvat: sivuston versiorekisteri · ei skenaariota eikä siemenlukua
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-abe5c7257cda = Kaikki { "87" } skenaariotyyppiä ja { "173" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-1434952d1bc8 = Koko varmennusmatriisi: { "176" } ominaisuutta yhteensä { "388" } ominaisuudesta validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-9ef28b622a43 = { "388" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitua</b> riippumattomia ulkoisia oraakkeleita vasten. <b>{ "208" } rehellisesti merkittyä mallinnetuksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-4adb5411062e = Varmennusmatriisi, yksi solu ominaisuutta kohti kirjanpidon (ledger) järjestyksessä: { "176" } validoitua (täytetyt neliöt), { "208" } mallinnettua (onttoja neliöitä), { "4" } kumppanin omistamaa (vinoneliöt). Nuolinäppäimet siirtävät solusta toiseen; ominaisuus ja sen oraakkeli luetaan alla.
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+seg-582c4a762fc5 = Moottori v{ $version } · <c1/>, tuotettu tiedostosta <c2/> · { "388" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-6adbc42697f9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-c5d5cf50c8a9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2e80a89ee20a = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2a2794bda50f = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-275351654591 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# { "176" }<s1>of { "388" } validated</s1>
+seg-1d2c8132218d = { "176" }<s1>validoitu, yhteensä { "388" }</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-b66d124aa8dd = Varmennusmatriisi: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa, yhteensä { "388" }
+
+# All { "388" } rows, one line each.
+seg-6ef0eb045293 = Kaikki { "388" } riviä, yksi rivi kutakin kohden.
+
+# of { "93" } validated
+seg-d8691ddf3170 = { "93" } rivistä validoitu
+
+# of { "73" } validated
+seg-d6687397eae9 = { "73" } rivistä validoitu
+
+# of { "76" } validated
+seg-8d3ad903cd18 = { "76" } rivistä validoitu
+
+# of { "25" } validated
+seg-223bf21e1d9b = { "25" } rivistä validoitu
+
+# All { "388" }
+seg-d5b6224d2ec4 = Kaikki { "388" }
+
+# Modelled { "208" }
+seg-2bca452c28dd = Mallinnettu { "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+seg-d0352364053e = Validoinnin kirjanpito, { "388" } riviä, vieritettävä
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
+
+# Every command, every surface
+seg-ccee5886cf25 = Jokainen komento, jokainen pinta
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+seg-9b3429f89f21 = Uutta versiossa v{ $version }: jokainen laji, jokainen komento ja benchmarkin epäonnistumiset
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+seg-9e88a1981d1e = { "176" } ominaisuudesta, joita on yhteensä { "388" }, on yhtä mieltä riippumattomien ulkoisten oraakkelien kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuina.
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-4b41ffeb0030 = Kaikki { "87" } skenaariolajia, ilmaiseksi ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-597a57467277 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · deterministinen, ei siemenlukua

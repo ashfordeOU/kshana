@@ -178,8 +178,6 @@ seg-f6ff1c8c78db = Ztráta zámku sledovací smyčky: C/N0 -> zámek/odemknutí 
 
 seg-45cb12242d59 = Zdroj: <c1/>
 
-seg-843d88cee576 = { "87" } vestavěných druhů scénářů, mezi něž <c1/> rozděluje, každý s jednořádkovým popisem a povinnými / volitelnými poli TOML (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Tento soubor je <b>generován</b> z <c1/> — jediného zdroje pravdy — pomocí <c2/>; upravujte zdroj, nikoli tento soubor. Každá vazba (balíček Pythonu, nástroj <c3/> serveru MCP (Model Context Protocol) a hřiště WebAssembly (WASM)) zpřístupňuje tentýž katalog, takže to, co je zde uvedeno, je přesně to, co může spustit každé rozhraní. Popisy jsou stručné a ne vždy rozepisují své zkratky; každá je rozepsána v <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Každý scénář kromě <c1/> musí také na nejvyšší úrovni nastavit <c2/>: dokument bez <c3/> běží jako <c4/>, a proto se <c5/> neopakuje v povinných polích žádného druhu níže. Povinná položka může jmenovat alternativy: <c6/> odděluje podoby, z nichž musí být přítomna alespoň jedna, a <c7/> spojuje pole, která se musí objevit společně, takže <c8/> se čte „<c9/>, nebo <c10/> s <c11/>“.

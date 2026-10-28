@@ -110,19 +110,7 @@ seg-4248eb5c3aef = Holdover
 seg-a51c36133548 = Ajastusmaskid
 
 # text
-seg-c5fc0ca71fae = Iga stsenaariumi liik, üks leht igaühele
-
-# text
-seg-ccee5886cf25 = Iga käsk, iga liides
-
-# text
-seg-4ef6dcd0a58b = Millist võimekust milline liides toetab
-
-# text
 seg-29e58493fdd4 = Modelleeritud
-
-# text
-seg-8e092e49bdeb = kshana-bench: täitmata läved, välja öeldud
 
 # text
 seg-bd4da5bc989d = Genereeritud hoidlast
@@ -594,11 +582,6 @@ seg-47d596393831 = Tegelikud sündmused
 # text
 seg-5630c799cec1 = Kust iga jälg pärineb
 
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
-
 # attr:title
 seg-f70fa3b93b11 = Mootori enda aruanne selle jooksutuse kohta
 
@@ -610,11 +593,6 @@ seg-c459bc5805bb = Stsenaariumifail, mis jooksis
 
 # text
 seg-f18f76c10709 = <s1><a1>Aruanne</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
 
 # text
 seg-f2d2f2263e63 = Konsool, kolm kaarti ja logi taasesitavad ühe aheldatud jooksutuse { "6" } faasi ja { "18" } liikmejooksutusega selle { "10" } s ruudustikul (T+{ "01" }:{ "16" }:{ "10" } missiooniaega). Orbiidid on GPS-i, Galileo, BeiDou ja GLONASS-i { "102" } satelliiti konstellatsioonijooksutusest, igaüks taastatud ringikujulise kahe keha orbiidina mootori maapealsest jäljest (halvim jääk { "0.0034" }°), raadiused kuvamiseks kokku surutud. Lingid joonistatakse satelliitidele konstellatsioonijooksutuse { "10" }° maski kohal ({ "25" }° terviklikkuse häire faasis, kampaania uuesti omandamise mask), tuhmistatuna selle segamisega ja katkestatuna holdover-is. Maa: NASA Blue Marble ja Black Marble. Kshana Studio taasesitab aheldatud jooksutuse teie brauseris; mootori enda aruanne ja käsk reprodutseerivad iga jooksutuse.
@@ -637,9 +615,6 @@ seg-3a3535770138 = <s1>artiklit arXivis, mis on ehitatud avatud mootorile</s1><s
 
 # text
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>jookseb brauseris WebAssemblyna, paigaldust pole vaja</s2>
-
-# text
-seg-9b3429f89f21 = Uut versioonis v{ $version }: iga liik, iga käsk ja võrdlusaluse möödalasud
 
 # text
 seg-471b95f0c08f = <a1>Mida igaüks teeb ja mida kontrolliti</a1> · <a2>Iga paigalduskanal</a2>
@@ -819,11 +794,6 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 
 # text
 seg-dc2eb6c3c2a4 = PL = kaitsetase · AL = häirepiir · INS = inertsiaalnavigatsioonisüsteem
-
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
 
 # text
 seg-0588364091ec = Esimesest segatud satelliidist kuni kella holdover-i viimase nanosekundini: signaalid, andurid, kellad, orbiidid ja terviklikkus ühes simulaatoris. Iga allolev pilt on tegelik mootori jooksutus ja ütleb seda.
@@ -1081,12 +1051,6 @@ seg-43ceda17e71c = Avatud tuum · tasuta · AGPL-3.0
 seg-0230217b1110 = Igaüks, kes saab asendi või aja GNSS-ist, on ohustatud: segamine, spuufimine ja signaali kadu tabavad võrdselt sõidukeid, võrke, elektrivõrke ja kosmoselaevu.
 
 # text
-seg-9e88a1981d1e = { "388" }-st võimekusest { "176" } nõustub sõltumatute väliste sõltumatute etalonidega; ülejäänud on märgistatud kui modelleeritud, valjusti.
-
-# text
-seg-4b41ffeb0030 = Kõik { "87" } stsenaariumi liiki, tasuta ilma funktsioonilukuta, deterministlikud stsenaariumist, algväärtusest (seed) ja mootori versioonist.
-
-# text
 seg-0af87a1caff4 = Sama tuum kommertslitsentsi all, suletud integreerimiseks.
 
 # text
@@ -1154,3 +1118,9 @@ seg-905e5eef45e5 = <b>{ "12" } nõuet</b> kontrollitud tegelike jooksutuste vast
 
 # text
 seg-7d9ee2bfbb90 = Leia, kus teie ajastus puruneb, enne kui see seda teeb.
+
+seg-f4d3b1f5b1b4 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+seg-3287261002dd = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+
+seg-510663384be1 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }

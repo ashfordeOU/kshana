@@ -9,7 +9,7 @@ seg-f7f2a6c0cd15 = Source: <c1/>
 seg-6c7831311d4e = Scenario kinds, by family
 
 # text
-seg-6bed0bef75bc = Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-9ad7876b693f = Every scenario kind the engine v{ $version } dispatches ({ "92" }), filed under { "13" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-d23eaa8bc98b = Families
@@ -76,6 +76,9 @@ seg-179dc850c643 = Mission analysis, links and space operations
 
 # attr:alt
 seg-d6c5a581ffaf = Contact sheet of the charts the engine writes for the kinds of the family Mission analysis, links and space operations
+
+# attr:alt
+seg-c6bb02c73696 = Contact sheet of the charts the engine writes for the kinds of the family Mission threads
 
 # attr:alt
 seg-b49ec180e810 = Contact sheet of the charts the engine writes for the kinds of the family Campaigns

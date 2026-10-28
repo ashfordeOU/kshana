@@ -86,17 +86,9 @@ seg-f325b20ba911 = Välj ett sätt att starta servern
 
 seg-f7b7c7f2eb0d = Varje klient nedan tar en av tre serverdefinitioner. De startar samma server:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (kräver Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (kräver Docker): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp på PATH</b> (kräver binärfilen (brew, scoop, winget, cargo eller en nedladdning av utgåvan)): <c1/>
 
 seg-c320bcbc9bcd = Ettklickslänkar
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>webblänk</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>webblänk</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp på PATH: <a1>webblänk</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>öppna</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code, Docker: <a1>öppna</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp på PATH: <a1>öppna</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = En annan klient
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> serverar samma verktyg över streamable HTTP för en kl
 seg-04c1f05fb027 = <s1>Föregående</s1>MCP-server
 
 seg-eba757f29814 = <s1>Nästa</s1>MCP-server: HTTP-läge för egen drift
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (kräver Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (kräver Docker): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>webblänk</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>webblänk</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

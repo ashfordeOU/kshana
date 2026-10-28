@@ -70,15 +70,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Maski synchronizacji
 
-seg-c5fc0ca71fae = Każdy rodzaj scenariusza, po jednej stronie
-
-seg-ccee5886cf25 = Każde polecenie, każda powierzchnia
-
-seg-4ef6dcd0a58b = Która powierzchnia obsługuje którą możliwość
-
 seg-29e58493fdd4 = Obliczone z modelu
-
-seg-8e092e49bdeb = kshana-bench: progi, które nie zostały spełnione, podane wprost
 
 seg-bd4da5bc989d = Wygenerowane z repozytorium
 
@@ -362,8 +354,6 @@ seg-47d596393831 = Rzeczywiste zdarzenia
 
 seg-5630c799cec1 = Skąd pochodzi każdy przebieg
 
-seg-46b6db21c09b = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
-
 seg-f70fa3b93b11 = Własny raport silnika z tego przebiegu
 
 seg-d32a11c090e1 = Wynik silnika, niezmieniony
@@ -371,8 +361,6 @@ seg-d32a11c090e1 = Wynik silnika, niezmieniony
 seg-c459bc5805bb = Plik scenariusza, który został uruchomiony
 
 seg-f18f76c10709 = <s1><a1>Raport</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-seg-c043a94c7564 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
 seg-f2d2f2263e63 = Konsola, trzy karty i dziennik odtwarzają jeden łańcuchowy przebieg złożony z { "6" } faz i { "18" } przebiegów składowych na jego siatce { "10" } s (T+{ "01" }:{ "16" }:{ "10" } czasu misji). Orbity to { "102" } satelity GPS, Galileo, BeiDou i GLONASS z przebiegu konstelacji, każdy odtworzony jako orbita kołowa w problemie dwóch ciał ze śladu naziemnego silnika (najgorsze residuum { "0.0034" }°), z promieniami ściśniętymi na potrzeby wyświetlania. Łącza są rysowane do satelitów powyżej maski { "10" }° przebiegu konstelacji ({ "25" }° w fazie alarmu integralności, czyli masce ponownego przechwycenia kampanii), przyciemniane przez jego zagłuszanie i przerywane w holdover. Ziemia: NASA Blue Marble i Black Marble. Kshana Studio odtwarza przebieg łańcuchowy w przeglądarce; własny raport silnika i polecenie odtwarzają każdy przebieg.
 
@@ -387,8 +375,6 @@ seg-d2c0888d98f6 = sprawdzonych względem niezależnych wyroczni zewnętrznych
 seg-3a3535770138 = <s1>artykułów w arXiv zbudowanych na otwartym silniku</s1><s2>Przeczytaj badania <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>działa w przeglądarce jako WebAssembly, bez instalacji</s2>
-
-seg-9b3429f89f21 = Nowość w v{ $version }: każdy rodzaj, każde polecenie i chybienia benchmarku
 
 seg-471b95f0c08f = <a1>Co robi każdy z nich i co sprawdzono</a1> · <a2>Każdy kanał instalacji</a2>
 
@@ -501,8 +487,6 @@ seg-63a70a989509 = Odzyskiwanie
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } czasu misji · jeden przebieg łańcuchowy, a nie trzy przebiegi obok siebie
 
 seg-dc2eb6c3c2a4 = PL = poziom ochrony · AL = limit alarmowy · INS = inercyjny system nawigacyjny
-
-seg-b85e60e05c9f = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
 
 seg-0588364091ec = Od pierwszego zagłuszonego satelity do ostatniej nanosekundy holdover zegara: sygnały, czujniki, zegary, orbity i integralność w jednym symulatorze. Każdy obraz poniżej to rzeczywisty przebieg silnika i mówi, który.
 
@@ -670,10 +654,6 @@ seg-43ceda17e71c = Otwarty rdzeń · za darmo · AGPL-3.0
 
 seg-0230217b1110 = Każdy, kto bierze położenie lub czas z GNSS, jest narażony: zagłuszanie, spoofing i utrata sygnału dotykają jednakowo pojazdów, sieci, systemów energetycznych i statków kosmicznych.
 
-seg-9e88a1981d1e = { "176" } z { "388" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
-
-seg-4b41ffeb0030 = Wszystkie { "87" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
-
 seg-0af87a1caff4 = Ten sam rdzeń na licencji komercyjnej, do integracji zamkniętej.
 
 seg-f6406933eb77 = Zainstaluj silnik
@@ -717,3 +697,9 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Dossier misji</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } wymagań</b> sprawdzonych na rzeczywistych przebiegach, 21-stronicowy PDF (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Sprawdź, gdzie załamuje się synchronizacja czasu, zanim to nastąpi.
+
+seg-f4d3b1f5b1b4 = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-3287261002dd = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-510663384be1 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }

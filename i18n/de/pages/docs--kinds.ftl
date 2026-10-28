@@ -77,9 +77,6 @@ seg-f7f2a6c0cd15 = Quelle: <c1/>
 seg-6c7831311d4e = Szenariotypen nach Familie
 
 # text
-seg-6bed0bef75bc = Jeder Szenariotyp, den die Engine v{ $version } verteilt ({ "87" }), eingeordnet in { "12" } Familien. Jede Familie hat eine Seite mit einem Eintrag je Typ (die Beschreibung und die Felder der Engine, der Beispielbefehl, Kennzahlen aus einem Lauf, die Matrixzeilen, die ihn nennen, und das Diagramm, das die Engine schreibt) und ein Übersichtsblatt dieser Diagramme. Hinweis (beratend): Analyseausgabe eines Forschungs- und Ingenieurwerkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit menschlichen Lebens. Jede Kennzeichnung hier stammt von der Engine oder von der Verifikationsmatrix; ein Typ ist MODELLED, sofern die Matrix nichts anderes angibt (wie eine Kennzeichnung erworben wird: Abschnitt Evidence der README).
-
-# text
 seg-d23eaa8bc98b = Familien
 
 # text

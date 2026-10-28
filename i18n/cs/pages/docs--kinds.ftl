@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Zdroj: <c1/>
 
 seg-6c7831311d4e = Druhy scénářů podle rodin
 
-seg-6bed0bef75bc = Každý druh scénáře, který engine v{ $version } zpracovává ({ "87" }), zařazený do { "12" } rodin. Každá rodina má stránku s jedním záznamem na druh (popis a pole z enginu, ukázkový příkaz, hlavní čísla z běhu, řádky matice, které druh uvádějí, a graf, který engine zapisuje) a přehledový list těchto grafů. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází od enginu nebo z verifikační matice; druh je MODELLED, pokud matice neříká jinak (jak se označení získává: část Evidence v README).
-
 seg-d23eaa8bc98b = Rodiny
 
 seg-3ac9e578414c = Hodiny, časování a holdover

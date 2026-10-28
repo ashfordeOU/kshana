@@ -96,8 +96,6 @@ seg-a240ef37dc6d = Kilde: <c1/>
 
 seg-befef5f2f8dd = Måne og cislunart (scenariotypefamilie)
 
-seg-f964724ea446 = { "20" } scenariotyper i motoren v{ $version }. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste. Hver etikett her er motorens eller verifikasjonsmatrisens; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett oppnås: README-ens Evidence-avsnitt).
-
 seg-369e7cfcc1d3 = Temasider: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Kjør én: <c1/>. Alle familier: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Kontaktark over diagrammene motoren skriver for typene i familien Måne og cislunart
@@ -181,8 +179,6 @@ seg-d9e24a9a8c0c = Obligatoriske felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4
 seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Obligatoriske felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Register:</b> ingen rad i matrisen nevner denne typen; motoren merker selv resultatet sitt. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Obligatoriske felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

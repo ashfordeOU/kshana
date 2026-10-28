@@ -397,9 +397,6 @@ seg-cab165105f32 = Una referencia cruzada de requisito-módulo-prueba-referencia
 seg-190cdf3ca8dc = Unidad y procedencia en cada magnitud indicada
 
 # text
-seg-1c7bb8c3e887 = { "87" } de { "87" } tipos de escenario, { "3127" } de { "3127" } campos numéricos
-
-# text
 seg-3e7fb040a7c4 = Cada campo numérico que emite un escenario lleva una unidad y una clase de procedencia tomada de un vocabulario cerrado, con una definición cuando existe, publicado como un esquema legible por máquina junto al motor. Una compuerta de trinquete ejecuta cada tipo de escenario integrado y falla ante un campo que no lleve ninguna; los tipos de escenario aún incompletos se nombran uno por uno con el motivo por el que sigue abierto cada uno, y la lista solo puede reducirse. Los informes que indican sus propias constantes — el presupuesto de enlace unidireccional, el presupuesto óptico y de RF — permiten al lector recalcular la cifra principal solo a partir del informe.
 
 # text
@@ -656,10 +653,6 @@ seg-ad856ad710eb = Estado
 
 # text
 seg-6962adaa6a1f = Generado en tiempo de compilación a partir de los archivos de escenarios del repositorio y de la matriz de verificación.
-
-# text
-# c1: web/capabilities.json
-seg-6f44f45f6bf9 = Las { "61" } fichas de capacidades de <c1/>, y después las { "388" } filas de la matriz de verificación.
 
 # text
 seg-30200bb5be58 = Ejecutar orbit-sgp4-gps.toml en Kshana Studio

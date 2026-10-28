@@ -50,9 +50,6 @@ seg-37d16b499bc5 = dB
 seg-b77b8420b4f5 = Mbit
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-eeaa777e4301 = 8PSK 3/4
 
 # text

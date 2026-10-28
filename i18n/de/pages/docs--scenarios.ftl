@@ -246,10 +246,6 @@ seg-f6ff1c8c78db = Lock-Verlust der Tracking-Schleife: C/N0 -> Lock/Unlock MIT H
 seg-45cb12242d59 = Quelle: <c1/>
 
 # text
-# c1: kshana::api::run_toml
-seg-843d88cee576 = Die { "87" } eingebauten Szenarioarten, über die <c1/> verteilt, jeweils mit ihrer einzeiligen Beschreibung und ihren erforderlichen / optionalen Feldern in TOML (Tom's Obvious, Minimal Language).
-
-# text
 # c1: api::list_scenario_kinds()
 # c2: cargo run --bin gen_validation_artifacts
 # c3: list_scenario_kinds

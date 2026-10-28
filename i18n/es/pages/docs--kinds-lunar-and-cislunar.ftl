@@ -140,9 +140,6 @@ seg-a240ef37dc6d = Fuente: <c1/>
 seg-befef5f2f8dd = Lunar y cislunar (familia de tipos de escenario)
 
 # text
-seg-f964724ea446 = { "20" } tipos de escenario del motor v{ $version }. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Cada etiqueta de aquí es la del motor o la de la matriz de verificación; un tipo de escenario es MODELLED salvo que la matriz diga otra cosa (cómo se obtiene una etiqueta: la sección Evidence del README).
-
-# text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
 seg-369e7cfcc1d3 = Páginas temáticas: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Ejecute uno: <c1/>. Todas las familias: <a4>KINDS.md</a4>.
 
@@ -395,9 +392,6 @@ seg-4f05fad4b146 = <b>Registro:</b> VALIDATED. Página completa, con las entrada
 # c25: epoch_utc
 # c26: terrain
 seg-8d9e0277303e = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-# text
-seg-204901ae3684 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>moonlight-service-volume</a1>.
 
 # text
 # c1: n_sats

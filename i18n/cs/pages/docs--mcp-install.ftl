@@ -86,17 +86,9 @@ seg-f325b20ba911 = Zvolte způsob spuštění serveru
 
 seg-f7b7c7f2eb0d = Každý z níže uvedených klientů přijímá jednu ze tří definic serveru. Spouštějí tentýž server:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (vyžaduje Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (vyžaduje Docker): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp v PATH</b> (vyžaduje binární soubor (brew, scoop, winget, cargo nebo stažení z vydání)): <c1/>
 
 seg-c320bcbc9bcd = Odkazy na instalaci jedním kliknutím
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>webový odkaz</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>webový odkaz</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp v PATH: <a1>webový odkaz</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>otevřít</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code, Docker: <a1>otevřít</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp v PATH: <a1>otevřít</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = Jiný klient
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> poskytuje stejné nástroje přes streamable HTTP pro k
 seg-04c1f05fb027 = <s1>Předchozí</s1>Server MCP
 
 seg-eba757f29814 = <s1>Další</s1>Server MCP: vlastní hostovaný režim HTTP
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (vyžaduje Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (vyžaduje Docker): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>webový odkaz</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>webový odkaz</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

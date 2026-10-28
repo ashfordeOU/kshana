@@ -152,9 +152,6 @@ seg-2a56e1f52830 = Werkzeuge
 seg-b847694d91b5 = Führt ein Szenario aus einer TOML-Definition (Tom's Obvious, Minimal Language) aus; gibt die Zusammenfassung + das vollständige Ergebnis-JSON zurück (JavaScript Object Notation: Gütemaße, Kurven). Optional gibt <c1/> das Diagramm als SVG (Scalable Vector Graphics) zurück.
 
 # text
-seg-a30b46501cff = Die { "87" } eingebauten Szenarioarten mit Beschreibungen + Pflicht-/optionalen Feldern, damit der Agent ein gültiges Szenario konstruieren kann.
-
-# text
 seg-3c00da00ec30 = Vorabprüfung: das TOML parsen und seine Art erkennen, ohne es auszuführen.
 
 # text

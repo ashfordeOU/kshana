@@ -100,9 +100,6 @@ seg-c2187e8291f9 = <b>Kirjanpito:</b> yksikään matriisin rivi ei nimeä tätä
 seg-b1ff6f0e1769 = Pakolliset kentät: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Valinnaiset: <c13/>, <c14/>, <c15/>.
 
 # text
-seg-9bd19903f577 = <b>Kirjanpito:</b> yksikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jossa syötteet, tulokset, todisteet ja rajoitukset: <a1>terrain-nav</a1>.
-
-# text
 # c1: dem_seed
 # c2: start_lat_deg
 # c3: start_lon_deg

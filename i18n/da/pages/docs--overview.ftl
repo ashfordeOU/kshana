@@ -328,8 +328,6 @@ seg-fdd71491d5b0 = Status for kontinuerlig integration på main
 
 seg-fa8a7ec005a9 = Linjedækning nær { "95" } % af src/, målt i docs/COVERAGE.md og med en grænse på { "85" } % i kontinuerlig integration
 
-seg-af101c048e7e = { "176" } af { "388" } funktioner VALIDATED mod en uafhængig ekstern reference, fra verifikationsmatrixen
-
 seg-6499faeb5966 = Status for kvalitetsgrænsen i SonarQube Cloud
 
 seg-ca94ec23de8d = <a1><s1>Licens: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI 10.5281/zenodo.20528627, Zenodos conceptpost for hver udgave</s2></a2>
@@ -347,8 +345,6 @@ seg-72cbdfddc323 = <a1>Åbn Kshana Studio</a1> · <a2>Installation</a2> · <a3>F
 seg-904baf07192f = Øv det minut, hvor GNSS går i sort. Kshanas missionskonsol, tegnet ud fra en rigtig kørsel af motor v{ $version }: den sammenkædede kampagne campaign-jam-spoof-holdover-integrity (seed { "20260928" }, { "6" } faser, { "18" } medlemskørsler over T+{ "01" }:{ "16" }:{ "10" }) og de { "102" } satellitter i GPS, Galileo, BeiDou og GLONASS fra constellation-multi-gnss-coverage, hver tegnet på den cirkulære tolegemebane, der er genfundet fra motorens sporet på jorden, radier komprimeret til visning. Urets tidsfejl topper ved { "62.7" } ns mod et værn på { "50" } ns, bærebølge-til-støj-tætheden falder til -12.2 dB-Hz mod et gulv på { "25" } dB-Hz, og det lodrette beskyttelsesniveau når { "135.4" } m mod en alarmgrænse på { "50" } m.
 
 seg-d435b868c53d = Indhold
-
-seg-161fa1263086 = <a1>Nyt i { "0.39" }</a1>, <a2>Nyt i { "0.38" }</a2> og <a3>{ "0.38" } i dybden</a3>: scoring af jammertest, modtagerens egne flag, maskininput, tidssynkronisering og holdover, standardpakker, LunaNet AFS, laboratorierundturen, kshana-bench, observatoriet, eksportører, optik, <a4>navigation for rumbrugere</a4> og <a5>månens infrastruktur</a5>
 
 seg-b4569d43b652 = <a1>Kshana Studio</a1> og hver Studio-side
 
@@ -542,25 +538,15 @@ seg-1b484c7d2d35 = Åbn <a1>kshana.dev/studio</a1>, og hele motoren kører i din
 
 seg-503f53e7874b = <b>Den enkle visning</b> er der, hvor Studio åbner. Den starter fra spørgsmål (hvor mange satellitter kan jeg se, kan jeg stole på min positionsbestemmelse, hvor længe kan et ur holde tiden, hvad gør en jammer ved min modtager) og fra et kort over alt, motoren kan, hvert område med sin andel af validerede metoder. Åbn et scenarie, og svaret kommer først: én almindelig sætning, skrevet til det, scenariet måler, derefter dets nøgletal og et diagram. Højst fem indstillinger vises, dem der ændrer svaret mest; resten venter under <b>Avancerede indstillinger</b>. <b>Sådan beregnes det</b> forklarer metoden, og <b>Til forskere</b> giver motorens egne tal, scenariefilen, koden til at køre det fra Python og citationen.
 
-seg-c45a4adf8209 = Kshana Studio, enkel visning, på det medfølgende scenarie integrity-raim, motor { "v0.38.0" } kører lokalt. Spørgsmålet: holder geometrien sig inden for alarmgrænserne (horisontalt og vertikalt beskyttelsesniveau)? Svaret først, markeret Levende resultat: Ja, for det meste: for { "95.3" } % af de { "12" } h. Modtagerens fejlgrænse holdt sig under alarmgrænserne ({ "40" } m horisontalt og { "50" } m vertikalt) ved { "344" } af { "361" } kontroller, og ingen positionsbestemmelse var vildledende. Nøgletal: tid positionsbestemmelsen kan stoles på { "95.3" } %, længste hul { "10" } min, typisk fejlgrænse { "6.5" } / { "13" } m, vildledende positionsbestemmelser { "0" }. Ved siden af Prøv andre indstillinger med fem af dem (afstandsfejlen, de to alarmgrænser, varigheden og elevationsmasken) og Kør igen, derefter de foldede afsnit Avancerede indstillinger ({ "13" } flere), Sådan beregnes det ({ "8" } validerede, { "6" } modellerede) og Til forskere. Nedenunder visningerne af dette resultat og beskyttelsesniveauerne afbildet mod alarmgrænsen.
-
 seg-6767f63a1153 = <b>Den avancerede visning</b> er det fulde dashboard: scenariebiblioteket, fem nummererede trin (Vælg, Indstil, Kør, Læs resultater, Del eller eksportér), nøgletallene med PASS- og FAIL-chips, hvor kørslen angiver en tærskel, og alle paneler: oversigt, diagrammer, kort, afspilning, motorens rapport og eksport. Ét søgefelt når scenarier, domæner og felterne i dem, og du kan fastgøre op til fire kørsler og sammenligne dem side om side.
 
 seg-48e01a0f5cb8 = Den enkle visnings åbningsskærm og den avancerede visning efter en kørsel
-
-seg-1af317b46992 = Kshana Studio, enkel visning, åbningsskærm med titlen Hvad vil du gerne finde ud af?, med motoren { "v0.38.0" } live og i topbjælken tre links: Træningsdebriefing, Interferenskort og Modtagertillid. Fire spørgsmål: hvor mange satellitter kan jeg se overalt på Jorden, kan jeg stole på min positionsbestemmelse, hvor længe kan et ur holde tiden uden satellitter, og hvad gør en jammer ved min modtager. Under det første dets optagne resultat: mindst { "22" } satellitter i sigte overalt og { "31" } i gennemsnit med GPS, Galileo, BeiDou og GLONASS tilsammen, positionsbestemmelse mulig på { "100" } % af steder og tidspunkter, på et verdenskort over satellitter i sigte, med en knap Åbn dette resultat. Ved siden af Alt, Kshana kan: { "16" } områder og { "139" } scenarier klar til kørsel, hver flise med et lille diagram fra en optaget kørsel og sin andel af validerede metoder, og registerets { "173" } af { "350" } funktioner validerede.
-
-seg-3fed18478b21 = Kshana Studio, avanceret visning, efter en kørsel af det medfølgende scenarie constellation-multi-gnss-coverage (Fire GNSS-konstellationer, ét kort), motor { "v0.38.0" } kører lokalt. Til venstre scenariebiblioteket, { "139" } scenarier i { "16" } domæner. De fem trin Vælg, Indstil, Kør, Læs resultater og Del eller eksportér, med trin { "4" } aktuelt. Nøgletal: { "102" } satellitter, tilgængelighed { "100" } % (PASS), median positionsfortynding (PDOP) { "0.95" } (PASS), PDOP 95. percentil { "1.105" } (PASS), { "31.03" } satellitter i sigte i gennemsnit og { "22" } som færrest. Nedenunder panelrækken med Dækning valgt, afspilningslinjen, et verdenskort over middel-PDOP fra { "0.831" } til { "1.0853" } med hver satellit tegnet, og de globale dækningstal.
 
 seg-6d955a8881fd = Studios kildekode og dens byggenoter findes i <a1><c1/></a1>.
 
 seg-655d43f8ee92 = Webstedet
 
 seg-8a4b804467d2 = Resten af <a1>kshana.dev</a1> er bygget af dette repositorys egne filer og motorkørsler: missioner, funktioner, evidensregistret, den udgivne forskning og udgaverne.
-
-seg-88302efebc1a = Tre sider på kshana.dev side om side. Forsidens hero: navnelinjen Kshana · क्षण · det præcise øjeblik over overskriften Øv dig på det minut, GNSS går i sort, med missionskonsollen fra en egentlig kørsel af motor { "v0.38.0" } (en klode og tre levende diagrammer: urets tidsfejl, bærebølge-til-støj-tæthed og beskyttelsesniveau). Evidens, Udgiven forskning: de fem arXiv-artikler bygget på den åbne motor, den nyeste med et motordiagram. Udgaver, Kshana Pro, den samme motor, forstærket: Free kører ét scenarie, Pro besvarer programmets spørgsmål.
-
-seg-eabb798bbe4e = Én motor dækker hele fejlkæden, fra den første jammede satellit til den sidste nanosekund af urets holdover. Motoren har { "87" } scenarietyper; <c1/> viser dem, og <a1><c2/></a1> dokumenterer hvert felt.
 
 seg-921d30a36374 = hvordan en jammer tager GNSS' L-bånd, bånd for bånd, sekund for sekund
 
@@ -814,15 +800,11 @@ seg-458a3953b3b2 = opsendelse, opstigning, genindtrængning, attitude, links, ko
 
 seg-7df7f7116a7c = kædede missioner, sweeps og ensembler bygget af de andre typer
 
-seg-ab2c09d44cb7 = <c1/> kører et scenarie; hver anden kommando er en underkommando, og <c2/> udskriver brugen af dem alle. Kommandoerne er <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> og <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> og <c61/>. <a1><c62/></a1> angiver hvert enkelt formål, et verificeret eksempel og dets dokumentationsside.
-
 seg-4061734355a4 = Én motor, de samme resultater overalt: kommandolinjen, Rust-biblioteket, Python, JavaScript og WebAssembly, MCP-serveren med dens plugin-kommandoer og skills, Kshana Studio (hver side kører i browseren, uden installation, intet uploades), integrationerne med ROS { "2" }, Signal K, OpenCPN, GNSS-SDR og <c1/>, udrulningspakkerne til systemd, Docker og Grafana og JetBrains-pluginet. <a1><c2/></a1> viser dem med, hvordan man får fat i hver, og navnene på alle plugin-kommandoer, skills og Studio-sider; <a2><c3/></a2> siger for hver kommando og type, hvilken flade der bærer den, og hvilke der ikke gør, med begrundelsen.
 
 seg-e46194af8cec = Sådan fungerer en kørsel
 
 seg-aa92d3f2aaa0 = Et scenarie er en TOML-fil (Tom's Obvious, Minimal Language): en type, et seed og parametrene. Motoren kører den og skriver resultatet, et diagram og en rapport ved siden af samt de eksporter, du beder om.
-
-seg-76e3ec458441 = Sådan løber en kørsel. En scenariefil i TOML (en type, et seed og dens parametre) går ind i motoren, kshana { $version }, gennem udsendelsen api::run_toml over { "87" } scenarietyper, deterministisk ud fra scenarie, seed og motorversion. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for de typer, der definerer en, og efter anmodning eksporter til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en pakke skriver study.json og study.html. Disse filer føder Kshana Studio i browseren, en AI-assistent gennem serveren kshana-mcp og kontinuerlig integration.
 
 seg-63aa55ab596d = Dette medfølgende scenarie kører { "2" } h: { "10" } min med GNSS, derefter omkring { "1.8" } h uden GNSS. Det spørger, hvor længe et optisk strontium-gitterur og et chip-scale atomur (CSAC) hver holder tiden inden for { "20" } ns.
 
@@ -886,10 +868,6 @@ seg-36d838421b86 = Kan jeg gengive, udvide og citere et PNT-resultat, helt ned t
 
 seg-e31cf348fc57 = SGP4 kontrolleret mod alle { "666" } referencevektorer i AIAA 2006-6753, værste positionsfejl { "4.12" } mm
 
-seg-707e2cf795f6 = <b>{ "176" } af { "388" }</b> funktioner valideret mod uafhængige eksterne referencer; { "208" } ærligt mærket som modelleret. Hver række i verifikationsmatrixen nævner en funktion, den reference, den kontrolleres mod, den test, der kører kontrollen, og den etiket, der følger. Kontinuerlig integration (CI) gør det umuligt at kalde en funktion VALIDATED uden en uafhængig ekstern reference.
-
-seg-2f81cf391eae = Sådan optjener en funktion sin etiket. Hver række i verifikationsmatrixen nævner en funktion, den reference, den kontrolleres mod, den test, der kører kontrollen i kontinuerlig integration, og den etiket, der følger. En række må kun være VALIDATED med en uafhængig ekstern reference; ellers er den MODELLED, eller PARTNER, når en hardwarepartner ejer den. Eksempel: SGP4/SDP4, Cowell 6-DOF + forstyrrelser, batch/sekventiel OD, reference AIAA 2006-6753 SGP4-verifikationsvektorer, test tests/sgp4_verification.rs, etiket VALIDATED. Aktuelle tal: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER af { "388" } rækker. I alt { "176" } funktioner valideret mod uafhængige eksterne referencer; { "208" } flere er ærligt mærket MODELLED, og { "4" } ejes af en hardwarepartner (PARTNER).
-
 seg-23d73e23b368 = Rækker
 
 seg-d16e0aac11d5 = en uafhængig ekstern reference er enig: egentlige data, en uafhængig implementering eller offentliggjorte referencevektorer
@@ -897,8 +875,6 @@ seg-d16e0aac11d5 = en uafhængig ekstern reference er enig: egentlige data, en u
 seg-0c1beb3b59cc = kontrolleret mod analytisk sandhed eller konsistens i simulationen, og sagt højt
 
 seg-9dd73106acfc = ejet af en hardwarepartner; Kshana har ingen uafhængig reference for den
-
-seg-ed47a99fac7f = Nogle af kontrollerne: alle { "666" } vektorer i AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) til { "4.12" } mm; Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }; Galileo til { "0.61" } m og Swarm-A til { "0.10" } m mod egentlige præcise efemerider fra European Space Agency (ESA). Tests har omkring { "95" } % linjedækning af <c1/>, med en grænse på { "85" } % i CI. Registret er <a1><c2/></a1>, genereret ud fra <c3/>: den <a2>fulde matrix med 388 rækker</a2> og hvorfor hver modelleret række ikke har nogen ekstern reference, i <a3><c4/></a3>.
 
 seg-6fd41f16334e = Sådan fungerer validering, den kuraterede højdepunktstabel og evidensfigurerne
 
@@ -913,8 +889,6 @@ seg-47e49f21e7b8 = <c1/>. <c2/> håndhæver det; kørsler med kvante og klassisk
 seg-9908a7f56956 = Modenhed angives ærligt: tal for optiske ure og optiske links er resultater af <em>mål / jordbaserede demonstratorer</em>, ikke fløjet.
 
 seg-ee66ab516e01 = Validering i overblik
-
-seg-557da03648c5 = Hver række håndhæves af en navngiven test i CI. Denne tabel er et <b>kurateret højdepunkt</b>; den fulde maskinkontrollerede matrix er <b>{ "388" } rækker — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den komplette evidens (og hvad der ærligt <em>ikke</em> endnu er valideret) i <a1><c2/></a1> og artefaktet <a2><c3/></a2> for hver udgivelse (genereret af <c4/>, SLSA-attesteret — Supply-chain Levels for Software Artifacts).
 
 seg-bae9b226350a = Kolonnen <b>Status</b> angiver evidensens <em>art</em>, svarende til valideringsstigen ovenfor: <b>VALIDATED</b> = kontrolleret mod en uafhængig ekstern reference (egentlige data, et uafhængigt bibliotek eller offentliggjorte referencevektorer); <b>MODELLED</b> = kontrolleret mod analytisk sandhed eller konsistens i simulationen (intet uafhængigt eksternt datasæt). VALIDATED beskriver <em>metoden</em> for kontrol, ikke bestået/ikke bestået — et ærligt svigt mod en egentlig ekstern reference forbliver VALIDATED, mens en sammenligning, som ingen matrixrække nævner som reference (LRO — Lunar Reconnaissance Orbiter — tilpasningen ovenfor), vises som MODELLED. Rækkerne for <c1/> er procesværn, ikke kvalitetsmål. Nogle få øer med egentlige data (det målte cæsiumur, Stable32 PHASE.DAT og kontrollerne for OPS-SAT/ICGEM, hvor de rå input ikke har nogen licens til videredistribution) er <b>datastyrede</b>: testen udskriver en overspringsmeddelelse og forbliver grøn, når inputtet mangler, og de offentlige referencetal er indlagt under <c2/>. Gengiv de rå input med den tilsvarende <c3/>.
 
@@ -1158,8 +1132,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % linjer</b> på <c1/> uden <c2/> og <c3/>, med 
 
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM-motor)
 
-seg-9fcd5cdd129d = Hvordan en funktion opnår sin mærkning: Et krav kobles til et modul i src, til en test i tests, til en ekstern uafhængig reference (reelt datasæt, uafhængig referenceimplementering eller publicerede vektorer), til en status — med en CI-håndhævet kontrol af, at ingen funktion kan være valideret uden en ekstern uafhængig reference. Aktuelle antal: { "176" } validerede, { "208" } modellerede, { "4" } partner, { "388" } i alt
-
 seg-5262ee45dd08 = Hvordan en funktion opnår sin mærkning — den CI-håndhævede invariant: ingen ekstern uafhængig reference ⇒ kan ikke være valideret · <a1>SVG</a1>
 
 seg-452fea06dd30 = Hvordan hver påstand understøttes: Kolonnen for validerede er { "176" } af { "176" } ExternalDataset pr. konstruktion (CI-håndhævet); modellerede rækker er ærligt mærket InternalConsistency, ReferenceImpl eller ExternalDataset; partnerrækker har ingen Kshana-reference
@@ -1167,10 +1139,6 @@ seg-452fea06dd30 = Hvordan hver påstand understøttes: Kolonnen for validerede 
 seg-c550a4bde1ff = SGP4/SDP4 værste positionsfejl i forhold til AIAA 2006-6753-referencen pr. område, logaritmisk skala: hvert område ligger langt under AIAA's tolerance, værste tilfælde { "4.12" } mm i det dybrumsområde, der ikke er resonant
 
 seg-2ad422aac6a1 = Øverst: hver valideret række understøttes af et eksternt datasæt, pr. konstruktion. Nederst: SGP4 stemmer overens med den officielle reference i hvert område (værst { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-seg-faadba4f1f85 = Verifikationsstatus for alle { "388" } funktioner: { "176" } validerede (kontrolleret mod ekstern uafhængig reference), { "208" } modellerede, { "4" } ejet af partner
-
-seg-6c1edff3e035 = { "176" } validerede · { "208" } modellerede · { "4" } partner — <a1>SVG</a1>
 
 seg-a9d8031cdcf8 = Alle funktioner i det offentlige kort, fordelt på område, med deres registermærkning. Områdetabellen skrives af <a1><c1/></a1> ud fra <c2/>, den samme fil som Studios kort over alt læser.
 
@@ -1186,10 +1154,6 @@ seg-8d953358d683 = åbn <a1>https://kshana.dev</a1>
 
 seg-a594acff8553 = En passage, der nævner AI-klienter fra tredjepart, er udeladt her; den findes i <a1>README.md</a1> på GitHub.
 
-seg-d48f3f0dec08 = <a1>Føj til Cursor (npx)</a1> · <a2>Føj til Cursor (Docker)</a2> · <c1/>
-
-seg-ad59014f9c8e = <a1>Installér i VS Code (npx)</a1> · <a2>Installér i VS Code (Docker)</a2> · <c1/>
-
 seg-2593c6d52c90 = download kshana-mcp-<target> fra udgivelsen, og kontrollér den mod SHA256SUMS
 
 seg-1999be2916fa = søg efter io.github.ashfordeOU/kshana-mcp
@@ -1204,8 +1168,6 @@ seg-7849acc8e680 = Kshana på JetBrains Marketplace
 
 seg-48a01a252537 = Bygger med Rust { "1.85" } eller nyere, rust-version i Cargo.toml
 
-seg-8edd16ad3672 = MCP er Model Context Protocol. Fastlås en udgivelse med <c1/>, <c2/> eller <c3/>. Hvis du vil bygge fra kildekode, se <a1>Installation og bygning</a1> under Reference.
-
 seg-152cb43de2f3 = Kør et scenarie fra Python og fra WebAssembly
 
 seg-58ea673e61fc = Ud over <c1/> udstiller modulet <c2/> (JSON, SVG og enlinjesammenfatningen på én gang), <c3/>, <c4/>, <c5/> / <c6/> og <c7/>; se <a1><c8/></a1>.
@@ -1214,11 +1176,7 @@ seg-f589eb87e902 = npm-pakken er hele motoren kompileret til WebAssembly. I Node
 
 seg-7488a0b0a215 = Én åben motor sidder i midten, og hver flade kører den: kommandolinjen, Rust-biblioteket, Python, WebAssembly og Kshana Studio, MCP-serveren, Docker-billedet og JetBrains-pluginnet. Den samme scenariefil giver de samme bytes på hver. Kshana Pro sidder ovenpå som et separat overlay, der afhænger af motoren og aldrig forgrener den.
 
-seg-9d69cf43cd40 = Kshanas arkitektur: én åben motor i midten, kshana { $version } under AGPL-3.0, med api::run_toml, en typet fordeling over hver kind og verifikationsregistret med { "388" } funktioner ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Rundt om den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-billede (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Nedenunder ligger Kshana Pro, et proprietært overlay, der afhænger af den åbne motor som bibliotek og aldrig forgrener den, og som ikke tilføjer nogen fysisk model.
-
 seg-9ac1f9e2d1b1 = Inde i motoren: domænelagene og verifikationsregistret
-
-seg-9bc9a971bdb4 = Kshanas arkitektur i lag. Fem indgange (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-pluginnet) når én api::run_toml, en typet fordeling over { "87" } kinds. Nedenunder ligger otte domænelag: tid og referencesystemer, ure og tidssynkronisering, inerti og fusion, GNSS og integritet, astrodynamik, LEO PNT, Månen, Mars og dybt rum samt missioner og studier, oven på en fælles kerne, alle krydsrefereret af verifikationsmodulet, den maskinkontrollerede matrix med { "388" } funktioner, som er den ene sandhedskilde for hver mærkning.
 
 seg-4e894b853889 = <b>Én motor, mange indgange.</b> En enkelt Rust-kerne (<c1/>) kører hvert scenarie, nået gennem en CLI, en Python-udvidelse, et WebAssembly-modul i browseren, en <b>MCP-server</b> til AI-agenter og et <b>JetBrains IDE-plugin</b> — alle samlet i én <c2/>-fordeling. Indeni tilsluttes sensorpakkerne en fælles fejlmodelgrænseflade; ved siden af ligger et <b>referencesystemlag</b> (IAU 2006/2000A-præcession–nutation og den CIO-baserede GCRS↔ITRS-reduktion), et <b>astrodynamisk/numerisk lag</b> (analytisk SGP4/SDP4 <b>og</b> en numerisk Cowell-propagator med sin EGM2008/perturbationskraftmodel, manøvreudformning og banebestemmelse), et <b>integritets-/GNSS-lag</b> (RAIM/ARAIM, SBAS, måledomænet, jamming, cislunar), et <b>fusions-/alt-PNT-lag</b> (GNSS/INS-estimatorerne og tyngde-/terræn-/magnetkortmatcherne), et <b>lag for dybt rum og Månen</b> (radiometrisk Mars-PNT og Månens PNT-suite, med evidensniveau pr. del i matrixen — LTC-tid, VLBI, fælles OD+ur, realisering af referencesystem, servicevolumen, differentiel PNT, interoperabilitet), et <b>missionsanalyselag</b> (opsendelse / genindtrængning / dækning / pegning / passage / linkbudgetter og rumvejrmiljøet) og det åbne <b>studielag for robusthed og maskinlæring</b> (RPCF-robusthedsscoring, optimismegabet ved RF-forstyrrelser og den kvanteunderstøttede PNT-demonstrator), hvis reproducerbare artefakter bygger på de validerede kerner.
 
@@ -1279,8 +1237,6 @@ seg-b7ea176e9993 = De { "49" } værktøjer
 seg-4a458fb861f4 = Scenarier og rapporter
 
 seg-44d509180c56 = Kør et scenarie ud fra en TOML-definition (Tom's Obvious, Minimal Language)
-
-seg-87e30294e0dc = De { "87" } indbyggede scenariekinds med beskrivelser + påkrævede/valgfrie felter — så agenten kan opbygge et gyldigt scenarie
 
 seg-ef28db290e2b = Kontrol før kørsel: parse TOML'en og find dens kind uden at køre
 
@@ -1375,8 +1331,6 @@ seg-d958c43ba8c1 = Den signerede rundturspakke fra laboratoriet: scenarie, <c1/>
 seg-22377c58ecb2 = Hele motoren er gratis. Kshana Pro og skræddersyede studier er til programmer, der har brug for mere, og hver betalt vej starter med en henvendelse: her er ingen priser.
 
 seg-a91762c0aabe = Gratis
-
-seg-eedfcdbe2b1c = hele den åbne motor, alle { "87" } scenariekinds, ingen funktionsspærring
 
 seg-af56c940e13a = et proprietært overlay på den samme motor, under kontrakt
 
@@ -1573,8 +1527,6 @@ seg-5841e4eac5a5 = <b>GPS-nægtede alt-PNT</b>-kinds navigerer helt uden GNSS og
 seg-ec221fc5ace5 = Et <c1/>-scenarie evaluerer <b>cislunar</b> PNT: det kører en ARAIM-beskyttelsesniveaupassage ved Månens sydpol mod et LunaNet/LNIS-relæsæt og rapporterer ærligt integritetsgabet — en lunar σ_URE på ~{ "30" } m driver beskyttelsesniveauet langt over en alarmgrænse på { "50" } m, så servicen er <em>utilgængelig</em> under integritetsregler i luftfartens stil (<c2/>).
 
 seg-9b33c9203ca2 = Et <c1/>-scenarie rapporterer den <b>relativistiske ur-rate mellem Jorden og Månen</b> — grundlaget for en månekoordinattidsskala (LTC/TCL). En post-newtonsk identitet ud fra første principper summerer forskellen i selvpotentiale (IAU <c2/>-geoidepotentiale minus Månens overfladeselvpotentiale) og Månens kinetiske led (andenordens Doppler) til en sekulær rate på ≈ { "57" } µs/dag, rapporteret med det publicerede bånd på { "56" }–{ "59" } µs/dag; det giver også den akkumulerede LTC−TT-forskydning over en horisont og et ensemble med invers varians (et lunart papirur). <b>MODELLED</b> — hovedtallet er <em>referenceafhængigt</em> (jordens geoide mod månens selenoide, middelvindue), hvorfor der rapporteres et bånd og ikke et enkelt certificeret tal (<c3/>).
-
-seg-f1efe0de99b8 = Se <c1/> for mindst ét gennemarbejdet eksempel på hver kind ({ "87" } kinds, { "182" } scenariefiler <c2/> + { "1" } suite-manifest — flere kinds leveres med mere end ét eksempel). Ikke hver kind har en fil opkaldt efter sig: <c3/> → <c4/> og <c5/> → <c6/> er to af flere sådanne. List de kinds, der kan fordeles, når som helst med <c7/>-fejl, Pythons <c8/> eller MCP-værktøjet <c9/>.
 
 seg-ee0d7a833f44 = Resultatartefaktet er versioneret, selvbeskrivende JSON: tidsserier pr. trin, de scorede kvalitetsmål, de aktive modelspecifikationer (med proveniens), seed, en <b>scenariehash</b> — så ethvert diagram kan genskabes ud fra filen — og for hvert ur en <c1/> (<c2/>): den overlappende Allan-deviation over oktavfordelte middelværdityder — den gængse måde at aflæse et urs stabilitet på — nu med et <b>støjtypespecifikt { "95" } %-konfidensbånd</b> pr. punkt (postens potenslovstype identificeres ud fra dens modificerede Allan-hældning, og χ²-intervallet bruger de tilsvarende effektive frihedsgrader fra NIST SP { "1065" }). Browserens playground gengiver det som et log-log-diagram "Clock stability (ADEV)". (MDEV, TDEV og HDEV er tilgængelige som bibliotekets estimatorer; den eksporterede resultatkurve er den overlappende ADEV.) Hvert felt, med enheder og en kildehenvisning, er dokumenteret i <a1><c3/></a1>.
 
@@ -1935,3 +1887,9 @@ seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({
 seg-2658a9477dd9 = <s1>Næste</s1>Primer om begreber
 
 seg-90a95738b32d = Månens infrastruktur (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Føj til Cursor (npx)</a1> · <a2>Føj til Cursor (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Installér i VS Code (npx)</a1> · <a2>Installér i VS Code (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP er Model Context Protocol. Fastlås en udgivelse med <c1/>, <c2/> eller <c3/>. Hvis du vil bygge fra kildekode, se <a1>Installation og bygning</a1> under Reference.

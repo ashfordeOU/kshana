@@ -28,8 +28,6 @@ seg-a240ef37dc6d = Źródło: <c1/>
 
 seg-befef5f2f8dd = Księżyc i przestrzeń cislunarna (rodzina rodzajów scenariuszy)
 
-seg-f964724ea446 = { "20" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
-
 seg-369e7cfcc1d3 = Strony tematyczne: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Uruchom jeden: <c1/>. Wszystkie rodziny: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Arkusz miniatur wykresów zapisywanych przez silnik dla rodzajów z rodziny Księżyc i przestrzeń cislunarna
@@ -113,8 +111,6 @@ seg-d9e24a9a8c0c = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, 
 seg-4f05fad4b146 = <b>Rejestr (ledger):</b> VALIDATED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

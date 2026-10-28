@@ -16,9 +16,6 @@ seg-69525243f8f1 = <s1>Jamming, Spoofing und das Spektrum</s1><s2>{ "6" } Szenar
 seg-0541e0421253 = <s1>Navigation im niedrigen Erdorbit</s1><s2>{ "7" } Szenariotypen der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, nicht…</s2>
 
 # text
-seg-1da177a1654b = <s1>Mond und cislunar</s1><s2>{ "20" } Szenariotypen der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, nicht…</s2>
-
-# text
 seg-671dc0d705c5 = <s1>Missionsanalyse, Verbindungen und Raumfahrtbetrieb</s1><s2>{ "14" } Szenariotypen der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, nicht…</s2>
 
 # text
@@ -26,9 +23,6 @@ seg-5de091b18fe4 = <s1>Optische PNT</s1><s2>{ "2" } Szenariotypen der Engine v{ 
 
 # text
 seg-35db5b51a590 = <s1>Navigation für Raumfahrtnutzer</s1><s2>{ "1" } Szenariotyp der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, nicht…</s2>
-
-# text
-seg-0144518c94fc = { "87" } Seiten, eine für jeden Szenariotyp, verlinkt von <a1>Jeder Szenariotyp, nach Familie</a1>.
 
 # text
 seg-1acf60cff708 = Nicht enthalten
@@ -70,12 +64,6 @@ seg-a164328ef8cd = <s1>{ "3" } · Quanten gegen klassisch</s1><s2>Der Abschluss.
 seg-50dd8e4077fd = <s1>Durchgerechnetes Beispiel: Pipeline mit mehreren Werkzeugen</s1><s2>Dies führt eine Trajektorie durch die auf Standards beruhenden Szenarioarten für Interoperabilität und Missionsanalyse bis zum…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Szenarioarten</s1><s2>Die { "87" } eingebauten Szenarioarten, über die kshana::api::run_toml verteilt, jede mit ihrer einzeiligen…</s2>
-
-# text
-seg-051029eb3525 = <s1>Jede Szenarioart, nach Familie</s1><s2>Jede Szenarioart, die die Engine v{ $version } verteilt ({ "87" }), eingeordnet in { "12" } Familien.</s2>
-
-# text
 seg-86b2b5f29f35 = <s1>Jeder Befehl</s1><s2>kshana <scenario.toml> führt ein Szenario aus; jeder andere Befehl ist ein Unterbefehl. kshana --help gibt die Nutzung aus…</s2>
 
 # text
@@ -83,9 +71,6 @@ seg-e847b803a7a9 = <s1>Jede Oberfläche</s1><s2>Eine Engine, überall dieselben 
 
 # text
 seg-dcd149f1b172 = <s1>Fähigkeitsbereiche</s1><s2>Jede Fähigkeit der öffentlichen Karte, nach Bereich, mit ihrem Label im Register.</s2>
-
-# text
-seg-76a9b614dada = <s1>Szenario-Referenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "182" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Ergebnisschema</s1><s2>Jeder Lauf schreibt ein versioniertes, selbstbeschreibendes JSON-Artefakt (JavaScript Object Notation) neben das Szenario.</s2>
@@ -107,12 +92,6 @@ seg-6e9c30a894e9 = <s1>Interoperabilitätsexporte und -importe</s1><s2>Ein Lauf 
 
 # text
 seg-ea5f09561b29 = <s1>Validierungsstand</s1><s2>Zu Toleranzen. „Validiert“ bedeutet unten, dass ein Kalibrierungstest zusichert, dass die simulierte Statistik mit der…</s2>
-
-# text
-seg-c387a74ffabb = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinell geprüfte Nachweisregister: { "388" } Zeilen — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-# text
-seg-be02c7f0d48e = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "388" } Zeilen der Verifikationsmatrix.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Warum Zeilen modelliert bleiben</s1><s2>Diese Fähigkeiten sind aus veröffentlichter oder aus Grundprinzipien abgeleiteter Physik mit Tests umgesetzt, sind aber ehrlich…</s2>

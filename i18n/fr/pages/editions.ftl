@@ -159,14 +159,6 @@ seg-0cad5afda483 = Demander une évaluation
 # text
 seg-b366150de755 = Demander une étude
 
-# text
-seg-0adcadeb3854 = Le moteur ouvert au centre : une marque par type de scénario ({ "87" }), pleine lorsque le type a des lignes de registre validées, creuse lorsque ses lignes sont modélisées, un tiret lorsqu'aucun module du registre ne lui correspond par son nom. Kshana Pro et l'étude sur mesure l'entourent et se relient aux types sur lesquels ils s'appuient.
-
-# text
-# c1: src/api.rs
-# c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Moteur v{ $version } · { "87" } types issus de <c1/> · état du registre issu de <c2/> · ce sur quoi s'appuient Pro et une étude : le registre des éditions du site · aucun scénario ni graine
-
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Comparer les éditions
 
@@ -226,12 +218,6 @@ seg-21989d609ae7 = Chercheurs, étudiants et relecteurs qui ont besoin de chiffr
 
 # text
 seg-3b6d727a2d38 = Développeurs qui intègrent le moteur dans du code, une suite d'intégration continue (CI) ou un assistant d'intelligence artificielle (IA)
-
-# text
-seg-abe5c7257cda = Les { "87" } types de scénario et les { "173" } scénarios fournis : en natif, Python, JavaScript, dans le navigateur et via MCP (Model Context Protocol)
-
-# text
-seg-1434952d1bc8 = La matrice de vérification complète : { "176" } capacités sur { "388" } validées par rapport à des références indépendantes, les autres étiquetées modélisées
 
 # text
 seg-9b8eb955fecf = Chaque résultat estampillé du hachage du scénario, de la graine et de la version du moteur, et écrit en JSON (JavaScript Object Notation), en tables CSV (valeurs séparées par des virgules) et en graphiques SVG (Scalable Vector Graphics)

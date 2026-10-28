@@ -130,8 +130,6 @@ seg-c889e5e77121 = <b>Tietoturvan</b> opetustiedosto sisältää rivin <c1/>: ti
 
 seg-89fef83a9d54 = Täydellinen skenaariotyyppien luettelo
 
-seg-648bb07212cd = Moottori valitsee toiminnon skenaarion kentän <c1/> mukaan. Alla oleva taulukko luettelee yleisimmin käytetyt tyypit (yllä olevat kahdeksan opetusaluetta sekä niiden lähimmät naapurit). Se <b>ei</b> ole täydellinen joukko: <c2/> palauttaa kaikki <c3/> sisäänrakennettua tyyppiä. Tämä funktio (Python- ja WebAssembly (WASM) -sidonnoissa nimellä <c4/> ja komentorivillä komennolla <c5/>) on auktoritatiivinen, aina ajan tasalla oleva luettelo, ja <a1><c6/></a1> on sen generoitu luettelointi, yksi osio tyyppiä kohti, pakollisine ja valinnaisine TOML-kenttineen. <c7/> pakottaa, että jokainen opetusohjelmassa dokumentoitu tyyppi on todellinen toiminnon valintatyyppi, joten tämän taulukon mikään rivi ei voi nimetä olematonta tyyppiä.
-
 seg-0f744a3a7193 = Kellon holdover vs. määrittely; valinnainen Monte Carlo -joukko (<c1/>).
 
 seg-9a2564fdc86a = 1-DOF (yksi vapausaste) inertiapaikannus (dead-reckoning) GNSS-katkon aikana.
@@ -245,3 +243,5 @@ seg-d33aa34b2762 = <b>Kellon vakauden relaatioiden oraakkeli</b>: NIST (National
 seg-36be39f17e35 = <s1>Edellinen</s1>Studio-opas
 
 seg-6f6204737a87 = <s1>Seuraava</s1>{ "1" } · Ensimmäinen kiertoratasi
+
+seg-2fa9e002b3a2 = Moottori valitsee toiminnon skenaarion kentän <c1/> mukaan. Alla oleva taulukko luettelee yleisimmin käytetyt tyypit (yllä olevat kahdeksan opetusaluetta sekä niiden lähimmät naapurit). Se <b>ei</b> ole täydellinen joukko: <c2/> palauttaa kaikki <c3/> sisäänrakennettua tyyppiä. Tämä funktio (Python- ja WebAssembly (WASM) -sidonnoissa nimellä <c4/> ja komentorivillä komennolla <c5/>) on auktoritatiivinen, aina ajan tasalla oleva luettelo, ja <a1><c6/></a1> on sen generoitu luettelointi, yksi osio tyyppiä kohti, pakollisine ja valinnaisine TOML-kenttineen. <c7/> pakottaa, että jokainen opetusohjelmassa dokumentoitu tyyppi on todellinen toiminnon valintatyyppi, joten tämän taulukon mikään rivi ei voi nimetä olematonta tyyppiä.

@@ -190,8 +190,6 @@ seg-c9afb81f21d8 = <s1>Volgende</s1>Alle scenariosoorten, per familie
 
 seg-45cb12242d59 = Bron: <c1/>
 
-seg-843d88cee576 = De { "87" } ingebouwde scenariosoorten waarover <c1/> verdeelt, elk met zijn beschrijving van één regel en zijn verplichte / optionele velden in TOML (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Dit bestand wordt <b>gegenereerd</b> uit <c1/> — de enige bron van waarheid — door <c2/>; bewerk de bron, niet dit bestand. Elke binding (het Python-pakket, de tool <c3/> van de MCP-server (Model Context Protocol) en de WebAssembly (WASM)-playground) stelt dezelfde catalogus beschikbaar, dus wat hier staat is precies wat elk oppervlak kan uitvoeren. De beschrijvingen zijn beknopt en spellen hun afkortingen niet altijd uit; elke afkorting staat uitgeschreven in <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Elk scenario behalve <c1/> moet ook <c2/> op het hoogste niveau instellen: een document zonder <c3/> draait als <c4/>, en daarom wordt <c5/> hieronder niet herhaald in de verplichte velden van enige soort. Een verplichte invoer kan alternatieven noemen: <c6/> scheidt vormen waarvan er ten minste één aanwezig moet zijn en <c7/> verbindt velden die samen moeten voorkomen, dus <c8/> leest als "een <c9/>, of een <c10/> met een <c11/>".

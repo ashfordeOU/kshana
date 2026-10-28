@@ -662,8 +662,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Ægte motorkørsel, afspillet
 
-seg-597a57467277 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-f1313464b7c9 = Baner: propageret igen ud fra kørslens egne elementer og kontrolleret mod motorens spor på jorden. Planeter: NASA-billeder.
 
 seg-6c981f00d37d = <b>Med Pro:</b> udformningsoptimeringen kører et helt konstellationsudformningsrum omkring Jorden, Månen eller Mars gennem denne motor og returnerer dets <b>Pareto-front</b>, hvor hver udformning på fronten er skrevet ud som en almindelig scenariefil. <a1>Se en ægte front</a1>

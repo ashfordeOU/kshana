@@ -362,4 +362,4 @@ seg-5db5a7c812ca = The chart the engine writes for scenarios/oem-interop.toml, k
 seg-41996765fcf1 = <s1>Previous</s1>Lunar and cislunar
 
 # text
-seg-1951c46fe429 = <s1>Next</s1>Optical pnt
+seg-e77c46e23e67 = <s1>Next</s1>Mission threads

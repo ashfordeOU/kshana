@@ -32,8 +32,6 @@ seg-f2cc0830b53f = 示例<c1/>设置了以下内容等：
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = 经典基线
-
 seg-f5fa445702c6 = 结果标签（引擎给出）：MODELLED：对合作方时钟/传感器只作量化（绝不验证）；未经飞行演示
 
 seg-c74c63ffd859 = 引擎为scenarios/quantum-trade.toml（类型quantum-trade）绘制的图表

@@ -40,12 +40,6 @@ seg-e3235e4d3760 = Esimerkki <c1/> asettaa muun muassa seuraavat:
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = Ensimmäinen
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Tuloksen tunniste (moottorin oma): CCSDS 133.0-B Space Packet -ensisijaisen otsikon kehystys — tarkka, deterministinen bittirakenne, koodaus↔dekoodaus-kierto varmennettu; EI vaatimustenmukaisuuden sertifiointi (ei toissijaisen otsikon / CRC:n / segmentoinnin logiikkaa lippuja pidemmälle)
 
 # attr:alt

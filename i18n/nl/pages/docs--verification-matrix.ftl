@@ -3136,8 +3136,6 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 
 seg-e8e0e0618afa = Bron: <c1/>
 
-seg-4cb1d67922ed = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "388" } rijen — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde gegevens, met aanklikbare koppelingen per rij naar elke test, elke module en elke vastgelegde fixture, vormen het <em>Toetsingsregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke uit een model berekende rij niet extern is getoetst.
-
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } gevallen: tien Kasdin-machtswetregistraties, b = { "0" } tot -4, als fase- en frequentiegegevens, af = { "1" } tot { "64" }; alpha_int en d identiek, slechtste |d alpha| { "9.6e-13" } en |d rho| { "4.8e-13" } tegenover { "1e-9" }; gepreregistreerd 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
@@ -3774,8 +3772,6 @@ seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_fin
 seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
 
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-seg-af826b47d00e = { "388" } rijen: { "176" } extern getoetst, { "208" } berekend uit een model, { "4" } in handen van de partner.
 
 seg-6bb40f180cf0 = <s1>Vorige</s1>Validatiestatus
 

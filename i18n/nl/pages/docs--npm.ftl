@@ -12,8 +12,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>het precieze moment
 
 seg-3b861b2f08b8 = Release v{ $version }
 
-seg-ebe636986f46 = { "176" } van { "388" } mogelijkheden getoetst aan onafhankelijke externe referenties
-
 seg-6a1906d8d4ad = Ongeveer { "95" }% regeldekking, in continue integratie bewaakt op { "85" }%
 
 seg-a9f4f2795fb5 = Licentie: AGPL-3.0-only, of een commerciële licentie
@@ -27,10 +25,6 @@ seg-d1153c5e9112 = Oefen de minuut waarin GNSS uitvalt
 seg-d284448743af = Kshana speelt jamming, spoofing en klok-holdover na wanneer GNSS-signalen (Global Navigation Satellite System) uitvallen, en vertelt u hoe lang een systeem tijd en positie binnen zijn budget houdt, en welke klok of sensor de meeste marge oplevert. Dit is het WebAssembly-pakket: de hele engine in JavaScript, in de browser of in Node.js. Elke run is bit voor bit reproduceerbaar uit het scenario, de seed en de engineversie.
 
 seg-d1a3f78ad8e0 = Probeer het eerst zonder iets te installeren: <a1>Kshana Studio</a1> draait de hele engine in uw browser, gecompileerd naar WebAssembly, en uploadt niets.
-
-seg-2d2c47db0c1f = <b>{ "176" } van { "388" }</b> mogelijkheden getoetst aan onafhankelijke externe referenties; { "208" } eerlijk gelabeld als modelmatig, { "4" } in eigendom van een partner. Elke mogelijkheid draagt één label in een machinaal gecontroleerd register: VALIDATED (een onafhankelijke externe referentie komt overeen: echte data, een onafhankelijke implementatie of gepubliceerde referentievectoren), MODELLED (intern consistent, en dat wordt openlijk gezegd) of PARTNER (een hardwarepartner is eigenaar). Onder de controles: alle { "666" } SGP4-vectoren (Simplified General Perturbations { "4" }) van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tot { "4.12" } mm, en het Cowell-krachtmodel tot { "0.08" } m ten opzichte van Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "388" } mogelijkheden: { "176" } getoetst aan een onafhankelijke externe referentie, { "208" } modelmatig, { "4" } in eigendom van een partner
 
 seg-d662055d817f = Het pakket is een ES-module (ECMAScript, standaard-JavaScript) met een WebAssembly-payload, gebouwd voor de browser. Initialiseer het één keer en roep de engine daarna synchroon aan. Het enige verschil tussen de browser en Node.js is hoe het WebAssembly-binary wordt geladen.
 

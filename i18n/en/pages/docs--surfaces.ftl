@@ -390,6 +390,15 @@ seg-3740aafd1749 = Build Interference Map
 seg-b164d99daf08 = Interference map page
 
 # text
+seg-12471a4b2b57 = Emitter region (ADS-B, AIS; MODELLED)
+
+# text
+seg-0a58678302e5 = <b>N/A</b> (not yet carried; the Rust, Python and WASM surfaces cover it)
+
+# text
+seg-dff1bfe0263e = <b>N/A</b> (publishing emitter regions in the public observatory is a separate owner decision and is off)
+
+# text
 seg-206c78a69ded = Route exposure
 
 # text
@@ -453,6 +462,28 @@ seg-72ea3b5bf39d = <b>N/A</b> (JetBrains actions are bound to a selected file; p
 
 # text
 seg-731504a1218f = <b>N/A</b> (Studio Tools cards for packs belong to the Studio workstream; the CLI or any surface output feeds the Compliance mapping card)
+
+# text
+# c1: kshana.partner-submission/1
+seg-ec2d91e2f867 = Data-partner submission check (format and metadata of a measured-data submission, <c1/>; scores nothing)
+
+# text
+seg-c16a5ff8218b = <b>N/A</b> (the check reads local files and their SHA-256; the Rust API is the library surface and the CLI is the tool)
+
+# text
+seg-ed29039d1dc0 = <b>N/A</b> (no file system in the browser build)
+
+# text
+seg-b3397901ea5f = <b>N/A</b> (MCP refuses file sources by design (inline text only))
+
+# text
+seg-c5fc0c41b9bb = <b>N/A</b> (slash commands call MCP tools, and this check needs files on disk)
+
+# text
+seg-be971c31e0de = <b>N/A</b> (JetBrains actions are bound to one selected file; a submission is a folder)
+
+# text
+seg-b9e56d6ab03b = <b>N/A</b> (Studio has no file-system access; run the command)
 
 # text
 # c1: docs/LUNANET-AFS.md
@@ -564,6 +595,28 @@ seg-d946c75f821a = <c1/> (inline only)
 # text
 # c1: run
 seg-b91e77ef7186 = <b>N/A</b> (no notebook in { "0.38" }; the example scenarios run in any notebook through <c1/>)
+
+# text
+# c1: mission-thread
+# c2: docs/MISSION-THREAD.md
+seg-521b58a1080e = Navigation and timing error budget of a chain of mission phases from launch to entry: eight phase kinds, handover rules, frame and timescale conversions, a ground-network overlay, margin against stated requirements and the weakest link (scenario kind <c1/>; <c2/>; MODELLED, ILLUSTRATIVE inputs, advisory; public sources only, no endorsement)
+
+# text
+# c1: kshana scenarios/mission-thread-artemis-class.toml
+seg-6b451021b87a = <c1/> (from a checkout: it reads a committed Moon kernel cut)
+
+# text
+# c1: run
+# c2: moon_kernel_path
+seg-ac3e013b5217 = <c1/> (<c2/> is a file key and is refused; without a kernel the Moon is the analytic series and the conversion row says so)
+
+# text
+# c1: run_scenario
+seg-e957474f44a8 = <c1/> (inline only; the kernel key is refused)
+
+# text
+# c1: run
+seg-1c1729fafe99 = <b>N/A</b> (no notebook; the example runs in any notebook through <c1/> from a checkout)
 
 # text
 # c1: gnss-ssv
@@ -938,6 +991,17 @@ seg-79f851a94048 = <c1/> (trace directory)
 seg-d2cc933b6894 = Reads a directory (N/A above)
 
 # text
+# c1: interference-map locate
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+# text
+seg-743d33b43d99 = N/A (not yet carried)
+
+# text
+# c1: --tdoa
+seg-ab52a3469f6a = Estimated emitter regions, MODELLED; trace directories and <c1/> are command line only
+
+# text
 seg-316b51d83726 = Network access (N/A above)
 
 # text
@@ -975,6 +1039,10 @@ seg-7c9273837b73 = Samples are files. <c1/> (or an out path ending <c2/>) writes
 # c1: rows
 # c2: tests
 seg-4f1cc14c9af4 = Scenarios are embedded; no file system; <c1/> and <c2/> print the committed doc tables and are CLI-only
+
+# text
+# c1: docs/PARTNER-DATA.md
+seg-5f1ce275acbd = Reads a submission file and its data file on disk and verifies the SHA-256; none of those surfaces has the folder. Format and metadata only, nothing scored; see <c1/>
 
 # text
 seg-5de02dcfb151 = Symbol streams are text of { "0" } and { "1" }, at most { "4" } MiB (MCP) or { "100" } frames generated per call; LDPC and CRC-24Q of subframes { "2" } to { "4" } are not verified; no signal is written
@@ -1104,6 +1172,81 @@ seg-606127880e96 = The interference map is <b>MODELLED</b> (pre-registered thres
 
 # text
 seg-b2fd2a05842f = Training NMEA is <b>text only</b>: no RF, IQ or waveform is synthesised, nothing is transmitted, and it is never for a vessel's live navigation systems.
+
+# text
+seg-fc9ab9f71553 = The evidence label, and the outputs that carry none
+
+# text
+# c1: VALIDATED
+# c2: MODELLED
+# c3: PARTNER
+# c4: evidence
+# c5: # evidence:
+# c6: jammertest score --json
+# c7: iq acquire
+# c8: iq sweep
+# c9: iq track --summary
+# c10: iq monitor --json
+# c11: config.json
+# c12: kshana evidence verify
+# c13: VM-
+# c14: ID
+# c15: docs/VERIFICATION-MATRIX.md
+seg-b1e4bcc2ac09 = Every figure and table a run writes carries its evidence tier (<c1/>, <c2/> or <c3/>, the weakest of the ledger rows behind it) and the ids of those rows, on every surface that runs a scenario: the result JSON (<c4/> key), the chart SVG (metadata element and a line under the plot) and the CSV table (<c5/> comment lines). The same label is on the receiver-trust outputs (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, the interference-map route report, and inside the <c11/> of every evidence pack (signed; <c12/> reports it). Row ids are stable (<c13/> and eight hex digits, the <c14/> column of <c15/>).
+
+# text
+# c1: UNLABELLED_WRITERS
+# c2: tests/evidence_labels_doc_sync.rs
+seg-c66058f24f0e = These outputs carry no label, each for a stated reason (the list is <c1/> in <c2/>, which fails on a writer that is neither labelled nor listed):
+
+# attr:aria-label, text
+seg-6555ff9a6d8e = Output
+
+# text
+seg-04ca90423b80 = Why it carries no label
+
+# text
+seg-a90c022c4dea = kshana-bench result files
+
+# text
+# c1: label
+seg-9f3f0adbcfe6 = a fixed schema pinned by the holdout commitments; each carries its own <c1/> (MODELLED or measured)
+
+# text
+seg-9bb126104f12 = interference observatory daily products (GeoJSON, PNG, incident JSON)
+
+# text
+seg-ddbc60cb14ac = a frozen, published schema; the method note's caveats travel with them
+
+# text
+seg-874cb55d3457 = IQ campaign cell, scorecard and report files
+
+# text
+seg-8c8cb4bd5110 = digest-pinned; each states the campaign scorecard it restates
+
+# text
+seg-8d2645e93451 = IQ samples, SigMF and SDR metadata, scene truth, track epoch and event streams, live session logs
+
+# text
+seg-9fa872028a08 = format-bound files and record streams read by other tools
+
+# text
+seg-6c77071a0d03 = SP3, OMM, OEM, CZML, KML, GeoJSON, STK, test-bench motion and NMEA exports; the NMEA training stream
+
+# text
+seg-5c1b92afa402 = format-bound files read by third-party tools
+
+# text
+seg-b5c79a0e395c = telemetry wire formats (Prometheus, OTLP, CEF, LEEF)
+
+# text
+seg-8cd0fdb609e5 = defined by their wire formats
+
+# text
+seg-3ba06004fc14 = generated documents (the ledger itself, the committed study and data tables)
+
+# text
+seg-8be4943acd00 = not the output of a run
 
 # text
 seg-4e3bbacda9ac = <s1>Previous</s1>Using Kshana from an agent

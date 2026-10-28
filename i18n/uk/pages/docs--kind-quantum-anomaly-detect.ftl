@@ -16,8 +16,6 @@ seg-c2b10c0bdaf8 = Приклад <c1/> задає, серед іншого:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = виявлення аномалій квантового та класичного PNT
-
 seg-2f1d14239d1a = Діаграма, яку рушій записує для scenarios/quantum-anomaly-detect.toml, тип quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Аналітична біноромальна ROC AUC = Φ(μ/(σ√{ "2" })) і мінімальний виявлюваний збій σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), на яких ґрунтуються детектори квантових збоїв і аномалій. Оракул (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), обидві BSD-3-Clause — незалежні бібліотеки, що обчислюють ті самі однозначно визначені величини гауссового хвоста / AUC, збіг до порога A&S-erf (~{ "7e-8" }). Надбудована поверх цього перевага квантового над класичним лишається MODELLED

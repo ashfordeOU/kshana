@@ -68,15 +68,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Tidsmasker
 
-seg-c5fc0ca71fae = Alle scenarietyper, en side til hver
-
-seg-ccee5886cf25 = Alle kommandoer, alle flader
-
-seg-4ef6dcd0a58b = Hvilken flade bærer hvilken funktion
-
 seg-29e58493fdd4 = Modelleret
-
-seg-8e092e49bdeb = kshana-bench: de tærskler, der ikke blev nået, opgivet
 
 seg-bd4da5bc989d = Genereret ud fra repositoryet
 
@@ -362,8 +354,6 @@ seg-47d596393831 = Rigtige hændelser
 
 seg-5630c799cec1 = Hvor hvert spor kommer fra
 
-seg-46b6db21c09b = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-f70fa3b93b11 = Motorens egen rapport om denne kørsel
 
 seg-d32a11c090e1 = Motorens resultat, uændret
@@ -371,8 +361,6 @@ seg-d32a11c090e1 = Motorens resultat, uændret
 seg-c459bc5805bb = Scenariefilen, der blev kørt
 
 seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-seg-c043a94c7564 = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
 
 seg-f2d2f2263e63 = Konsollen, de tre kort og loggen afspiller én kædet kørsel med { "6" } faser og { "18" } medlemskørsler på dens { "10" } s-gitter (T+{ "01" }:{ "16" }:{ "10" } missionstid). Banerne er de { "102" } satellitter i GPS, Galileo, BeiDou og GLONASS fra konstellationskørslen, hver genfundet som en cirkulær tolegemebane ud fra motorens sporing på jorden (værste residual { "0.0034" }°), med radier komprimeret til visning. Forbindelser tegnes til satellitter over konstellationskørslens maske på { "10" }° ({ "25" }° i integritetsalarmfasen, kampagnens maske for genfangst), dæmpet af dens jamming og afbrudt i holdover. Jorden: NASA Blue Marble og Black Marble. Kshana Studio afspiller den kædede kørsel i din browser; motorens egen rapport og kommandoen gengiver hver kørsel.
 
@@ -387,8 +375,6 @@ seg-d2c0888d98f6 = valideret mod uafhængige eksterne referencer
 seg-3a3535770138 = <s1>artikler på arXiv bygget på den åbne motor</s1><s2>Læs forskningen <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>kører i browseren som WebAssembly, uden installation</s2>
-
-seg-9b3429f89f21 = Nyt i v{ $version }: hver type, hver kommando og de tærskler, benchmarken ikke nåede
 
 seg-471b95f0c08f = <a1>Hvad hver enkelt gør, og hvad der blev kontrolleret</a1> · <a2>Alle installationskanaler</a2>
 
@@ -501,8 +487,6 @@ seg-63a70a989509 = Genopretning
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } missionstid · den kædede kørsel, ikke tre kørsler side om side
 
 seg-dc2eb6c3c2a4 = PL = beskyttelsesniveau · AL = alarmgrænse · INS = inertinavigationssystem
-
-seg-b85e60e05c9f = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 seg-0588364091ec = Fra den første jammede satellit til det sidste nanosekund af urets holdover: signaler, sensorer, ure, baner og integritet i én simulator. Hvert billede herunder er en ægte kørsel af motoren og siger hvilken.
 
@@ -670,10 +654,6 @@ seg-43ceda17e71c = Åben kerne · gratis · AGPL-3.0
 
 seg-0230217b1110 = Enhver, der henter position eller tid fra GNSS, er udsat: jamming, spoofing og signaltab rammer køretøjer, net, elnet og rumfartøjer på samme måde.
 
-seg-9e88a1981d1e = { "176" } af { "388" } funktioner stemmer med uafhængige eksterne referencer; resten er mærket modelleret, højt og tydeligt.
-
-seg-4b41ffeb0030 = Alle { "87" } scenarietyper, gratis og uden funktionsspærre, deterministiske ud fra scenarie, seed og motorversion.
-
 seg-0af87a1caff4 = Den samme kerne under en kommerciel licens, til lukket integration.
 
 seg-f6406933eb77 = Installér motoren
@@ -717,3 +697,9 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Missionsdossier</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrolleret mod ægte kørsler, PDF på 21 sider (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Find ud af, hvor din tidssynkronisering går i stykker, før den gør det.
+
+seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-3287261002dd = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+
+seg-510663384be1 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

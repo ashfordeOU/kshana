@@ -18,8 +18,6 @@ seg-2f464fe709c9 = Zonder de tabel worden beide typen geparst, gehasht en gerapp
 
 seg-c931c5ec2f4a = De formaten
 
-seg-7f608c733407 = <b><c1/></b>: RINEX-klokbestanden, versies { "2" } en { "3.00" } tot { "3.04" } (inclusief het naamveld van negen tekens van { "3.04" }). De header wordt alleen gelezen voor zijn <c2/> en tot <c3/> overgeslagen. Van de gegevensrecords worden alleen de records <c4/> (satelliet) en <c5/> (ontvanger of station) van één klok, geselecteerd op naam, bewaard. Hun eerste waardeveld, de klokbias in seconden, is de fase. Vervolgregels en de records <c6/>, <c7/> en <c8/> worden overgeslagen. Tijdstippen zijn de kalendervelden van het record, als seconden vanaf 1980-01-06 { "00" }:{ "00" }:{ "00" } in het eigen tijdsysteem van het bestand, zonder omrekening.
-
 seg-0b758195e7eb = <b><c1/></b>: ASCII-fase- of frequentielogs in TimeLab-stijl, de platte tekstvorm die TimeLab exporteert en die de ASCII-import ervan en Stable32 lezen. Er staat één meting per regel: ofwel één kolom met een uniforme <c2/>, ofwel twee kolommen <c3/>. Kolommen kunnen worden gescheiden door witruimte, komma's of puntkomma's.
 
 seg-a7ae9e712bea = Regels die beginnen met <c1/>, <c2/> of <c3/> zijn commentaar. Een commentaar van de vorm <c4/> (of <c5/>) stelt <c6/> (s), <c7/> (<c8/>, <c9/>, <c10/>, <c11/> of <c12/>, voor fase), <c13/> (<c14/> of <c15/>) of <c16/> (<c17/> of <c18/>, voor de eerste van twee kolommen) in.
@@ -30,13 +28,9 @@ seg-84f4b59bcdbf = Frequentiegegevens (fractionele frequentie) worden alleen als
 
 seg-8cc445eb84f3 = De binaire en <c1/>-projectbestanden van TimeLab worden niet gelezen.
 
-seg-3d8853fa9c92 = <b><c1/></b>: logs van de TAPR TICC-teller (TICC Operation Manual, revisie van { "23" } november { "2016" }, "measurement modes"). Elk gegevensveld is in seconden met { "12" } decimalen.
-
 seg-3af6e4e7bc73 = Regels in timestampmodus (<c1/>, <c2/>) en het pseudo-timestampkanaal van de TimeLab-modus (<c3/>) zijn tijdstempels van gebeurtenissen. De fase van het gekozen kanaal is zijn tijdstempel min de nominale tik: <c4/>, waarbij <c5/> het gehele aantal <c6/> sinds de eerste gebeurtenis is. Een gemiste gebeurtenis is een hiaat.
 
 seg-cecf9df4ff10 = Regels in intervalmodus (<c1/>, of elk label dat met <c2/> begint) worden rechtstreeks als fase gelezen, één meting per <c3/>. Het scenario moet <c4/> opgeven, omdat de regel geen tijd bevat.
-
-seg-75301936698f = Uitvoer in periodemodus en debugmodus wordt geweigerd. Een kanaal waarvan de metingen niet toenemen, wordt gemeld als periodemodus.
 
 seg-5ec2509907dd = Regels die met <c1/> beginnen en regels die niet <c2/> zijn (zoals het opstartmenu) worden overgeslagen en geteld.
 
@@ -81,8 +75,6 @@ seg-593c998b65e0 = <c1/>: houd de langste hiaatvrije reeks;
 seg-f184ce746389 = <c1/>: vul interne hiaten door lineaire interpolatie en meld het aantal gevulde.
 
 seg-1f3dc3429615 = De schatters hebben een hiaatvrije opname nodig, en daarom worden hiaten hier opgelost.
-
-seg-fe7d27a473aa = MODELLED. Dit is een parser, en zijn uitvoer voedt schatters die elders aan allantools zijn getoetst. De unittests in <c1/> gebruiken kleine met de hand geschreven logs, en voor de formaten van linuxptp en chrony de fixtures in <c2/>. <c3/> voert de in <c4/> vooraf vastgelegde vergelijking uit: drie geseede synthetische logs, één per formaat, teruggelezen door een onafhankelijke lezer die door dezelfde auteur uit deze pagina is geschreven, waarbij ADEV, TDEV en MTIE zijn gecontroleerd tegen allantools { "2024.6" }; die vergelijking dekt alleen de eerste drie formaten, en de lezers voor linuxptp en chrony hebben parsertests maar geen vergelijking met een onafhankelijke referentie. De logs zijn synthetisch, dus niets hier beschrijft een echte klok of teller.
 
 seg-0f061f726ec5 = <s1>Vorige</s1>Holdovertest en tijdsynchronisatiehardware in de lus
 

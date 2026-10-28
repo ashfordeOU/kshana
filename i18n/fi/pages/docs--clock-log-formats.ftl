@@ -18,8 +18,6 @@ seg-2f464fe709c9 = Ilman taulukkoa molemmat lajit jäsennetään, tiivistetään
 
 seg-c931c5ec2f4a = Formaatit
 
-seg-7f608c733407 = <b><c1/></b>: RINEX-kellotiedostot, versiot { "2" } ja { "3.00" }–{ "3.04" } (mukaan lukien version { "3.04" } yhdeksänmerkkinen nimikenttä). Otsakkeesta luetaan vain <c2/>, ja se ohitetaan rivin <c3/> saakka. Datatietueista säilytetään vain yhden kellon tietueet tyypeistä <c4/> (satelliitti) ja <c5/> (vastaanotin tai asema), valittuna nimen perusteella. Niiden ensimmäinen arvokenttä, kellon harha sekunteina, on vaihe. Jatkorivit ja tietueet <c6/>, <c7/> ja <c8/> ohitetaan. Epookit ovat tietueen kalenterikentät sekunteina hetkestä 1980-01-06 { "00" }:{ "00" }:{ "00" } tiedoston omassa aikajärjestelmässä ilman muunnosta.
-
 seg-0b758195e7eb = <b><c1/></b>: TimeLab-tyyliset ASCII-vaihe- tai taajuuslokit, selväkielinen muoto, jonka TimeLab vie ja jonka sen ASCII-tuonti ja Stable32 lukevat. Rivillä on yksi lukema: joko yksi sarake tasavälillä <c2/> tai kaksi saraketta <c3/>. Sarakkeet voi erottaa tyhjemerkeillä, pilkuilla tai puolipisteillä.
 
 seg-a7ae9e712bea = Rivit, jotka alkavat merkillä <c1/>, <c2/> tai <c3/>, ovat kommentteja. Muotoa <c4/> (tai <c5/>) oleva kommentti asettaa arvon <c6/> (s), <c7/> (<c8/>, <c9/>, <c10/>, <c11/> tai <c12/>, vaiheelle), <c13/> (<c14/> tai <c15/>) tai <c16/> (<c17/> tai <c18/>, kahden sarakkeen ensimmäiselle).
@@ -30,13 +28,9 @@ seg-84f4b59bcdbf = Taajuusdata (suhteellinen taajuus) hyväksytään vain yhten�
 
 seg-8cc445eb84f3 = TimeLabin binääri- ja projektitiedostoja (<c1/>) ei lueta.
 
-seg-3d8853fa9c92 = <b><c1/></b>: TAPR TICC -laskurin lokit (TICC Operation Manual, revisio { "23" }. marraskuuta { "2016" }, ”measurement modes”). Jokainen datakenttä on sekunteja { "12" } desimaalin tarkkuudella.
-
 seg-3af6e4e7bc73 = Aikaleimatilan rivit (<c1/>, <c2/>) ja TimeLab-tilan pseudoaikaleimakanava (<c3/>) ovat tapahtuma-aikaleimoja. Valitun kanavan vaihe on sen aikaleima miinus nimellinen tikitys: <c4/>, missä <c5/> on ensimmäisen tapahtuman jälkeen kulunut kokonaislukumäärä jaksoja <c6/>. Puuttuva tapahtuma on aukko.
 
 seg-cecf9df4ff10 = Välitilan rivit (<c1/> tai mikä tahansa tunniste, joka alkaa <c2/>) luetaan suoraan vaiheeksi, yksi lukema jokaista väliä <c3/> kohden. Skenaarion on ilmoitettava <c4/>, koska rivi ei sisällä aikaa.
-
-seg-75301936698f = Jaksotilan ja Debug-tilan tuloste hylätään. Kanava, jonka lukemat eivät kasva, raportoidaan jaksotilana.
 
 seg-5ec2509907dd = Rivit, jotka alkavat merkillä <c1/>, sekä rivit, jotka eivät ole muotoa <c2/> (kuten käynnistysvalikko), ohitetaan ja lasketaan.
 
@@ -81,8 +75,6 @@ seg-593c998b65e0 = <c1/>: säilytetään pisin aukoton jakso;
 seg-f184ce746389 = <c1/>: täytetään sisäiset aukot lineaarisella interpoloinnilla ja raportoidaan täytettyjen määrä.
 
 seg-1f3dc3429615 = Estimaattorit tarvitsevat aukottoman aineiston, minkä vuoksi aukot ratkaistaan tässä.
-
-seg-fe7d27a473aa = MODELLED. Tämä on jäsennin, ja sen tuloste syöttää estimaattoreita, jotka on validoitu muualla allantoolsia vastaan. Tiedoston <c1/> yksikkötestit käyttävät pieniä käsin kirjoitettuja lokeja, ja linuxptp- ja chrony-formaateille hakemiston <c2/> fixtureja. <c3/> ajaa tiedostossa <c4/> ennakkorekisteröidyn vertailun: kolme siemenluvulla tuotettua synteettistä lokia, yksi per formaatti, jotka riippumaton, tämän sivun pohjalta saman tekijän kirjoittama lukija lukee takaisin, ja ADEV, TDEV ja MTIE tarkistetaan allantoolsia { "2024.6" } vastaan; vertailu kattaa vain kolme ensimmäistä formaattia, ja linuxptp- ja chrony-lukijoilla on jäsennystestit mutta ei oraakkelivertailua. Lokit ovat synteettisiä, joten mikään tässä ei kuvaa todellista kelloa tai laskuria.
 
 seg-0f061f726ec5 = <s1>Edellinen</s1>Holdover-testi ja ajoituslaitteisto silmukassa
 

@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = day
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = Diagrammet, som motoren skriver for scenarios/ephemeris.toml, scenarietype ephemeris
 
 seg-d291f20074f0 = <b>VALIDATED</b> Jordens rotation ud fra en todelt juliansk UT1-dato på banestien, så den jordfaste position bevarer det mikrosekund, som en enkelt f64-dato mister (omkring { "3e-9" } rad ved { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, TEME-konventionen, på de to dele), cio:

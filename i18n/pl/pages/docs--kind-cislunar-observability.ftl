@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP nieokreślony (niepełna ranga / osobli
 
 seg-856eb311f24b = „nieokreślony” (tekst tak, jak podaje dokument
 
-seg-1767b216650d = określony
-
 seg-fc5d34345fdd = Etykieta wyniku (silnika): obserwowalność planarnej konstelacji cislunarnej MODELLED (P6). Rdzeń VALIDATED: obserwowalna RANGA jest progiem wartości osobliwych ujawniającym rangę, sprawdzonym krzyżowo z rangą z wartości własnych gramianu; widmo wartości własnych gramianu spełnia niezmienniki spektralne (ślad = suma wł., wyznacznik = iloczyn wł., Frobenius^{ "2" } = suma wł.^{ "2" }
 
 seg-f15bbf30b0dd = Wykres zapisywany przez silnik dla scenarios/cislunar-observability.toml, rodzaj cislunar-observability

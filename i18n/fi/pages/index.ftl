@@ -68,15 +68,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Ajoitusmaskit
 
-seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
-
-seg-ccee5886cf25 = Jokainen komento, jokainen pinta
-
-seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
-
 seg-29e58493fdd4 = Mallinnettu
-
-seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
 
 seg-bd4da5bc989d = Luotu repositoriosta
 
@@ -365,10 +357,6 @@ seg-47d596393831 = Todelliset tapahtumat
 
 seg-5630c799cec1 = Mistä jokainen käyrä tulee
 
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
-
 seg-f70fa3b93b11 = Moottorin oma raportti tästä ajosta
 
 seg-d32a11c090e1 = Moottorin tulos muuttamattomana
@@ -376,10 +364,6 @@ seg-d32a11c090e1 = Moottorin tulos muuttamattomana
 seg-c459bc5805bb = Skenaariotiedosto, joka ajettiin
 
 seg-f18f76c10709 = <s1><a1>Raportti</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
 seg-f2d2f2263e63 = Konsoli, kolme korttia ja loki toistavat yhden ketjutetun ajon, jossa on { "6" } vaihetta ja { "18" } jäsenajoa sen ruudukolla, jonka askel on { "10" } s, (T+{ "01" }:{ "16" }:{ "10" } tehtäväaikaa). Radat ovat GPS:n, Galileon, BeiDoun ja GLONASSin { "102" } satelliittia tähdistöajosta, kukin palautettuna ympyräkaarisena kaksirunkoratana moottorin maanpintajäljestä (pahin jäännös { "0.0034" }°), säteet tiivistettyinä esitystä varten. Linkit piirretään satelliitteihin tähdistöajon { "10" }° maskin yläpuolella ({ "25" }° eheyshälytysvaiheessa, kampanjan uudelleenkiinnisaantimaski), himmennettyinä sen häirinnällä ja katkaistuina holdoverissa. Maa: NASA Blue Marble ja Black Marble. Kshana Studio toistaa ketjutetun ajon selaimessasi; moottorin oma raportti ja komento toistavat kunkin ajon.
 
@@ -395,8 +379,6 @@ seg-d2c0888d98f6 = validoitu riippumattomia ulkoisia oraakkeleita vasten
 seg-3a3535770138 = <s1>artikkelia arXivissa, rakennettu avoimen moottorin päälle</s1><s2>Lue tutkimus <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>toimii selaimessa WebAssemblynä, ei asennusta</s2>
-
-seg-9b3429f89f21 = Uutta versiossa v{ $version }: jokainen laji, jokainen komento ja benchmarkin epäonnistumiset
 
 seg-471b95f0c08f = <a1>Mitä kukin tekee ja mitä tarkistettiin</a1> · <a2>Jokainen asennuskanava</a2>
 
@@ -511,8 +493,6 @@ seg-63a70a989509 = Toipuminen
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } tehtäväaika · ketjutettu ajo, ei kolme rinnakkaista ajoa
 
 seg-dc2eb6c3c2a4 = PL = suojaustaso · AL = hälytysraja · INS = inertianavigointijärjestelmä
-
-seg-b85e60e05c9f = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
 
 seg-0588364091ec = Ensimmäisestä häirityn satelliitista kellon holdoverin viimeiseen nanosekuntiin: signaalit, anturit, kellot, radat ja eheys yhdessä simulaattorissa. Jokainen alla oleva kuva on todellinen moottoriajo, ja se kertoo, mikä.
 
@@ -680,10 +660,6 @@ seg-43ceda17e71c = Avoin ydin · ilmainen · AGPL-3.0
 
 seg-0230217b1110 = Jokainen, joka ottaa paikkansa tai aikansa GNSS:stä, on alttiina: häirintä, harhautus ja signaalin menetys osuvat yhtä lailla ajoneuvoihin, verkkoihin, sähköverkkoihin ja avaruusaluksiin.
 
-seg-9e88a1981d1e = { "176" } ominaisuudesta, joita on yhteensä { "388" }, on yhtä mieltä riippumattomien ulkoisten oraakkelien kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuina.
-
-seg-4b41ffeb0030 = Kaikki { "87" } skenaariolajia, ilmaiseksi ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
-
 seg-0af87a1caff4 = Sama ydin kaupallisella lisenssillä suljettua integrointia varten.
 
 seg-f6406933eb77 = Asenna moottori
@@ -727,3 +703,9 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Tehtäväasiakirja</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } vaatimusta</b> tarkistettu todellisia ajoja vasten, 21-sivuinen PDF (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Selvitä, mistä ajoituksesi pettää, ennen kuin se pettää.
+
+seg-f4d3b1f5b1b4 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-3287261002dd = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-510663384be1 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }

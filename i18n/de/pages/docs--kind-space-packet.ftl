@@ -30,12 +30,6 @@ seg-e3235e4d3760 = Das Beispiel <c1/> setzt unter anderem:
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = Erstes
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Ergebnisbezeichnung (die der Engine): Framing des Primärheaders nach CCSDS 133.0-B Space Packet — exaktes, deterministisches Bitlayout, Rundlauf aus Kodierung und Dekodierung verifiziert; KEINE Konformitätszertifizierung (keine Logik für Sekundärheader, CRC oder Segmentierung über die Flags hinaus)
 
 # attr:alt

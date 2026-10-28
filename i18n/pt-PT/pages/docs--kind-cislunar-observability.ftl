@@ -51,9 +51,6 @@ seg-84781b6fff48 = GDOP indefinido (característica deficiente / singula
 seg-856eb311f24b = “indefinido” (texto como o documento declara
 
 # text
-seg-1767b216650d = definido
-
-# text
 seg-fc5d34345fdd = Rótulo do resultado (o do motor): observabilidade MODELLED de constelação cislunar planar (P6). Núcleo VALIDATED: a CARACTERÍSTICA observável é um limiar de valor singular que revela a característica, verificado de forma cruzada contra o característica de autovalores do gramiano; o espetro de autovalores do gramiano obedece aos invariantes espetrais (traço = soma dos autovalores, det = produto dos autovalores, Frobenius^{ "2" } = soma dos autovalores^{ "2" }
 
 # attr:alt

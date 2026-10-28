@@ -178,8 +178,6 @@ seg-3f749aef8d89 = Głębokokosmiczny Mars PNT: symulowana konstelacja przekaźn
 
 seg-45cb12242d59 = Źródło: <c1/>
 
-seg-843d88cee576 = { "87" } wbudowanych rodzajów scenariuszy, po których <c1/> kieruje wywołania, każdy z jednozdaniowym opisem i polami TOML (Tom's Obvious, Minimal Language) wymaganymi i opcjonalnymi.
-
 seg-2860d14bd619 = Ten plik jest <b>generowany</b> z <c1/>, jedynego źródła prawdy, przez <c2/>; edytuj źródło, a nie ten plik. Każde wiązanie (pakiet Pythona, narzędzie <c3/> serwera MCP (Model Context Protocol) i piaskownica WebAssembly (WASM)) udostępnia ten sam katalog, więc to, co tu wymieniono, jest dokładnie tym, co może uruchomić każda powierzchnia. Opisy są zwięzłe i nie zawsze rozwijają swoje skróty; każdy z nich jest wyjaśniony w <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Każdy scenariusz poza <c1/> musi też ustawiać <c2/> na najwyższym poziomie: dokument bez <c3/> działa jako <c4/>, dlatego <c5/> nie jest powtarzane w wymaganych polach żadnego poniższego rodzaju. Wymagany wpis może wskazywać alternatywy: <c6/> oddziela formy, z których co najmniej jedna musi być obecna, a <c7/> łączy pola, które muszą wystąpić razem, więc <c8/> należy czytać jako „<c9/> albo <c10/> z <c11/>”.

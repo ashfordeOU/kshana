@@ -22,17 +22,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvant mot klassiskt</s1><s2>Slutprojektet. Du 
 
 seg-50dd8e4077fd = <s1>Genomarbetat exempel: pipeline med flera verktyg</s1><s2>Här följer en bana genom scenariotyperna för standardbaserad interoperabilitet och uppdragsanalys från början till slut…</s2>
 
-seg-78756a9f6704 = <s1>Scenariotyper</s1><s2>De { "87" } inbyggda scenariotyperna som kshana::api::run_toml skickar vidare till, var och en med sin enradsbeskrivning…</s2>
-
-seg-051029eb3525 = <s1>Varje scenariotyp, per familj</s1><s2>Varje scenariotyp som motor v{ $version } skickar vidare till ({ "87" }), ordnade under { "12" } familjer.</s2>
-
 seg-86b2b5f29f35 = <s1>Varje kommando</s1><s2>kshana <scenario.toml> kör ett scenario; varje annat kommando är ett underkommando. kshana --help skriver ut användningen…</s2>
 
 seg-e847b803a7a9 = <s1>Varje yta</s1><s2>En motor, samma resultat överallt. docs/SURFACES.md anger, för varje kommando och typ, vilken yta…</s2>
 
 seg-dcd149f1b172 = <s1>Förmågedomäner</s1><s2>Varje förmåga i den offentliga kartan, per domän, med sin registeretikett.</s2>
-
-seg-76a9b614dada = <s1>Scenarioreferens</s1><s2>Varje medföljande scenariofil ({ "182" }), grupperad per typ, med sina viktigaste inställningar.</s2>
 
 seg-58cdc99dfc9e = <s1>Resultatschema</s1><s2>Varje körning skriver en versionshanterad, självbeskrivande JSON-artefakt (JavaScript Object Notation) bredvid scenariot.</s2>
 
@@ -47,10 +41,6 @@ seg-b57457566406 = <s1>Animeringsexport</s1><s2>--animate gör en körnings tids
 seg-6e9c30a894e9 = <s1>Interoperabilitetsexporter och -importer</s1><s2>En körning skriver ett resultatdokument, ett diagram och en rapport. --export skriver också scenariots geometri, eller dess…</s2>
 
 seg-ea5f09561b29 = <s1>Valideringsstatus</s1><s2>Om toleranser. ”Validated” nedan betyder att ett kalibreringstest hävdar att den simulerade statistiken stämmer med…</s2>
-
-seg-c387a74ffabb = <s1>Verifieringsmatris</s1><s2>Det fullständiga, maskinkontrollerade evidensregistret: { "388" } rader — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Förmågereferens</s1><s2>Förmågekorten och alla { "388" } rader i verifieringsmatrisen.</s2>
 
 seg-ae0276d1d945 = <s1>Varför rader förblir Modelled</s1><s2>De här förmågorna är implementerade utifrån publicerad fysik eller fysik från grundprinciper med tester, men är ärligt talat…</s2>
 
@@ -218,15 +208,11 @@ seg-69525243f8f1 = <s1>Jamming, spoofing och spektrumet</s1><s2>{ "6" } scenario
 
 seg-0541e0421253 = <s1>Navigering i låg omloppsbana</s1><s2>{ "7" } scenariotyper i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
 
-seg-1da177a1654b = <s1>Månen och cislunärt</s1><s2>{ "20" } scenariotyper i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
-
 seg-671dc0d705c5 = <s1>Uppdragsanalys, länkar och rymdoperationer</s1><s2>{ "14" } scenariotyper i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
 
 seg-5de091b18fe4 = <s1>Optisk PNT</s1><s2>{ "2" } scenariotyper i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
 
 seg-35db5b51a590 = <s1>Rymdanvändarnavigering</s1><s2>{ "1" } scenariotyp i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
-
-seg-0144518c94fc = { "87" } sidor, en för varje scenariotyp, länkade från <a1>Varje scenariotyp, per familj</a1>.
 
 seg-1acf60cff708 = Ingår inte
 

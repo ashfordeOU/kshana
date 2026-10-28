@@ -31,9 +31,6 @@ seg-6bb05c41eba2 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-c367f1aacd0b = The example <c1/> sets, among others:
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-02dc0d42fb21 = sfu
 
 # text

@@ -107,10 +107,6 @@ seg-0cad5afda483 = Pyydä arviointi
 
 seg-b366150de755 = Pyydä selvitys
 
-seg-0adcadeb3854 = Avoin moottori keskellä: yksi merkki per skenaariotyyppi ({ "87" }), täytetty, jos tyypillä on validoituja kirjanpitorivejä, ontto, jos sen rivit ovat mallinnettuja, ja viiva, jos mikään kirjanpitomoduuli ei vastaa sitä nimeltä. Kshana Pro ja räätälöity selvitys ovat sen ympärillä ja yhdistyvät tyyppeihin, joille ne rakentavat.
-
-seg-9e896ee62ea0 = Moottori v{ $version } · { "87" } tyyppiä tiedostosta <c1/> · kirjanpidon tila tiedostosta <c2/> · mille Pro ja selvitys rakentuvat: sivuston versiorekisteri · ei skenaariota eikä siemenlukua
-
 seg-e1acd19a6ac6 = Vertaa versioita
 
 seg-352b6af14482 = Avoimen ytimen lisenssi
@@ -150,10 +146,6 @@ seg-abc6bb005249 = Ajoneuvojen, verkkojen, sähköverkkojen ja avaruusalusten in
 seg-21989d609ae7 = Tutkijat, opiskelijat ja tarkastajat, jotka tarvitsevat lukuja, jotka he voivat toistaa ja lainata
 
 seg-3b6d727a2d38 = Kehittäjät, jotka kytkevät moottorin koodiin, CI-ketjuun (continuous integration) tai tekoälyavustajaan (artificial intelligence)
-
-seg-abe5c7257cda = Kaikki { "87" } skenaariotyyppiä ja { "173" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
-
-seg-1434952d1bc8 = Koko varmennusmatriisi: { "176" } ominaisuutta yhteensä { "388" } ominaisuudesta validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi
 
 seg-9b8eb955fecf = Jokaiseen tulokseen leimataan skenaarion tiiviste, siemenluku ja moottorin versio, ja se kirjoitetaan JSON-muodossa (JavaScript Object Notation), CSV-taulukkoina (comma-separated values) ja SVG-kaavioina (Scalable Vector Graphics)
 

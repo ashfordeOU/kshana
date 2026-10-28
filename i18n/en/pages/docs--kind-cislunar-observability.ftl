@@ -49,9 +49,6 @@ seg-856eb311f24b = “undefined” (text as the document states
 seg-6d584e86deba = ratio (dimensionless)
 
 # text
-seg-1767b216650d = defined
-
-# text
 seg-fc5d34345fdd = Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
 
 # attr:alt

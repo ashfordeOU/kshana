@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = den
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = Graf, který engine zapisuje pro scenarios/ephemeris.toml, druh ephemeris
 
 seg-d291f20074f0 = <b>VALIDATED</b> Rotace Země ze dvoudílného juliánského data UT1 na dráhové větvi, takže poloha v zemské soustavě zachová mikrosekundu, kterou jednoduché datum f64 ztrácí (asi { "3e-9" } rad v okolí { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, konvence TEME, na dvou dílech), cio:

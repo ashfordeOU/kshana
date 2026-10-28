@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Källa: <c1/>
 
 seg-6c7831311d4e = Scenariotyper, per familj
 
-seg-6bed0bef75bc = Alla scenariotyper som motorn v{ $version } hanterar ({ "87" }), fördelade på { "12" } familjer. Varje familj har en sida med en post per typ (motorns beskrivning och fält, exempelkommandot, nyckeltal från en körning, de matrisrader som nämner den och det diagram som motorn skriver) samt ett kontaktark med de diagrammen. Rådgivande: analysresultat från ett forsknings- och ingenjörsverktyg, inte typgodkänd navigationsutrustning och inte en livräddande säkerhetstjänst. Varje etikett här kommer från motorn eller verifieringsmatrisen; en typ är MODELLED om inte matrisen anger något annat (hur en etikett förtjänas: avsnittet Evidence i README).
-
 seg-d23eaa8bc98b = Familjer
 
 seg-3ac9e578414c = Klockor, tidssynkronisering och holdover

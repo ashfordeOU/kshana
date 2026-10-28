@@ -72,9 +72,6 @@ seg-37d16b499bc5 = dB
 # text
 seg-9521a296d617 = dBi
 
-# text
-seg-98151954f217 = false
-
 # attr:alt
 seg-de295af20c55 = The chart the engine writes for scenarios/lunar-attack-surface.toml, kind lunar-attack-surface
 
@@ -101,7 +98,7 @@ seg-95be70748647 = Capture footprint against altitude and beamwidth is MODELLED,
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 
 # text
-seg-1a1799e01ac4 = <s1>Previous</s1>link-budget
+seg-ca1c7e92b98e = <s1>Previous</s1>lunar-ascent
 
 # text
 seg-4b0efe4b9b85 = <s1>Next</s1>lunar-beacon

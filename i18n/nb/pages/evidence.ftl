@@ -2508,21 +2508,15 @@ seg-6d3d0f8c9b7c = Be om en Pro-evaluering
 
 seg-8f101c803442 = Hver funksjon bærer <s1>sin evidens.</s1>
 
-seg-9ef28b622a43 = { "388" } funksjoner, hver med en vurdering. <b>{ "176" } validert</b> mot uavhengige eksterne referanser. <b>{ "208" } ærlig merket Modellert.</b> { "4" } eies av partnere. Ingenting er rundet opp.
-
 seg-4f6445e5dd61 = Verifikasjonsmatrise <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = Sett sveipet på pause
 
 seg-ae9e2459836c = funksjoner
 
-seg-4adb5411062e = Verifikasjonsmatrise, én celle per funksjon i registerets rekkefølge: { "176" } validert (fylte kvadrater), { "208" } modellert (hule kvadrater), { "4" } eid av partnere (ruter). Piltastene flytter mellom cellene; funksjonen og dens uavhengige referanse leses opp under.
-
 seg-f97cb6bf8202 = Hold musepekeren over eller sett fokus på en celle for å lese funksjonen og den uavhengige referansen som vurderer den.
 
 seg-8a1cef0b9561 = Validert: en uavhengig ekstern referanse er enig
-
-seg-582c4a762fc5 = Motor v{ $version } · <c1/>, generert fra <c2/> · { "388" } rader · ingen scenario eller seed: motorens eget register
 
 seg-d5c32303297d = Les registeret
 
@@ -2556,8 +2550,6 @@ seg-55fc928e19ae = uavhengig referanse · AIAA 2006-6753 verifikasjonsvektorer
 
 seg-1d60624d525d = Slik ble det kontrollert
 
-seg-6adbc42697f9 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-58ca3da25e69 = Åpne i Kshana Studio: den samme propagatoren, <c1/><s1> · seed <c2/></s1>
 
 seg-813d6d41b891 = Kopier kommandoen som gjenskaper det
@@ -2578,8 +2570,6 @@ seg-87734f6c52a2 = Ett kvadrat per SciPy-tilfelle, gruppert etter kjerne.
 
 seg-4957eddb39ed = uavhengig referanse · SciPy
 
-seg-c5d5cf50c8a9 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-011e33e27f59 = Åpne i Kshana Studio: kjernen i arbeid, <c1/><s1> · seed <c2/></s1>
 
 seg-e02df7620fc7 = Numerisk (Cowell) banepropagering mot Orekit over en bue på 24 timer: største avvik { "0.08" } m i kraftnivåene { "1" } til { "5" }.
@@ -2593,8 +2583,6 @@ seg-16e820be9d20 = Mot flygedynamikkbiblioteket Orekit { "12.2" } i hver epoke a
 seg-2b1ea60e99a7 = Posisjonsavvik mot tid, per kraftnivå.
 
 seg-75344d6c427a = uavhengig referanse · Orekit { "12.2" }
-
-seg-2e80a89ee20a = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
 seg-44988f3835ce = Ingen Kshana Studio-visning: denne sammenligningen kjører som en motortest.
 
@@ -2612,8 +2600,6 @@ seg-f5b078c26ba8 = Hvert restavvik på en logaritmisk skala fra én millimeter t
 
 seg-6670ead3fa91 = uavhengig referanse · presise efemerider fra ESA, månebanefarkostens rekonstruerte bane, Orekit { "12.2" }, AIAA-vektorer
 
-seg-6ce9be05ab08 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
-
 seg-57c9f4e60efa = Ingen Kshana Studio-visning: presis banebestemmelse kjører som motortester.
 
 seg-f8f25ec2345b = Klokker · stabilitet
@@ -2625,8 +2611,6 @@ seg-e0c144321893 = Gjenskaper referanseverdiene i NIST (National Institute of St
 seg-5d3372dbff1f = Fire deviasjoner mot midlingstid, med de publiserte verdiene som ringer.
 
 seg-9993e306ae64 = uavhengig referanse · NIST SP { "1065" }
-
-seg-2a2794bda50f = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
 seg-fc6a00946a11 = Åpne i Kshana Studio: estimatorene på en klokke, <c1/><s1> · seed <c2/></s1>
 
@@ -2644,8 +2628,6 @@ seg-46c1dbe5c6bc = Målt og predikert tidsfeil mot coast-tid, og forholdsvinduet
 
 seg-449f52c56c67 = uavhengig referanse · målt cesiumregistrering
 
-seg-275351654591 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-c131867720cc = Åpne i Kshana Studio: den samme inversjonen, <c1/><s1> · deterministisk</s1>
 
 seg-05dd599ce14a = Én celle per funksjon.
@@ -2654,11 +2636,7 @@ seg-b19592bc5242 = Validert betyr at en uavhengig ekstern kilde er enig: publise
 
 seg-800e31fc8f7d = Funksjoner vurdert
 
-seg-1d2c8132218d = { "176" }<s1>av { "388" } validert</s1>
-
 seg-e61158f71854 = Hold musepekeren over en celle
-
-seg-b66d124aa8dd = Verifikasjonsmatrise: { "176" } validert, { "208" } modellert, { "4" } eid av partnere, { "388" } totalt
 
 seg-d814d33d2b1e = allan::lag1_noise_id: Riley og Greenhalls ({ "2004" }) lag-1-autokorrelasjonsstøy… · Validert
 
@@ -3462,27 +3440,17 @@ seg-5af3d58e83fa = <b>Med Pro:</b> et <b>oppdragsdossier</b> kontrollerer hvert 
 
 seg-400016e22379 = Valideringsregister
 
-seg-6ef0eb045293 = Alle { "388" } rader, én linje hver.
-
 seg-20ec758fe328 = Hver rad navngir sitt krav, sin status og modulen som implementerer det. Åpne en rad for å se dens referanse og tester, eller velg et domene for å snevre inn.
 
 seg-08f2354cb22b = Filtrer etter domene
 
 seg-f5a2e020b47e = Etter domene: stolpelengden er rader, fargen er status. Velg ett for å filtrere.
 
-seg-d8691ddf3170 = av { "93" } validert
-
 seg-0272bc18f675 = av { "19" } validert
-
-seg-d6687397eae9 = av { "73" } validert
 
 seg-38ec110ef886 = Baner, referansesystemer og geometri
 
-seg-8d3ad903cd18 = av { "76" } validert
-
 seg-a1c022c60fb6 = Treghet, fusjon og alternativ PNT
-
-seg-223bf21e1d9b = av { "25" } validert
 
 seg-b355dc732d29 = Signaler og interferens
 
@@ -3492,19 +3460,13 @@ seg-d6c43e56d4cc = Oppdragsanalyse, sikring og annet
 
 seg-5516d9825527 = av { "55" } validert
 
-seg-d5b6224d2ec4 = Alle { "388" }
-
 seg-7038fab8b00c = Validert { "176" }
-
-seg-2bca452c28dd = Modellert { "208" }
 
 seg-ba89c1119b21 = Eid av partner { "4" }
 
 seg-cd12d85e2beb = Søk i registeret
 
 seg-f014d784ebe3 = Søk etter krav, referanse, modul eller test
-
-seg-d0352364053e = Valideringsregister, { "388" } rader, kan rulles
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tilfeller: ti Kasdin-potenslovregistreringer, b = { "0" } til -4, som fase- og frekvensdata, af = { "1" } til { "64" }; alpha_int og d identiske, verste |d alpha| { "9.6e-13" } og |d rho| { "4.8e-13" }…</s1>
 
@@ -4283,3 +4245,5 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX for motoren
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed

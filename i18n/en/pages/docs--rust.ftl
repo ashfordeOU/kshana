@@ -15,7 +15,7 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>the precise instant
 seg-3b861b2f08b8 = Release v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } of { "388" } capabilities validated against independent external oracles
+seg-c9a297cc51e9 = { "176" } of { "401" } capabilities validated against independent external oracles
 
 # text
 seg-6a1906d8d4ad = About { "95" }% line coverage, gated at { "85" }% in continuous integration
@@ -40,10 +40,10 @@ seg-9a65e21abcf4 = Kshana replays jamming, spoofing and clock holdover when GNSS
 seg-d1a3f78ad8e0 = Try it first with nothing to install: <a1>Kshana Studio</a1> runs the whole engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 # text
-seg-2d2c47db0c1f = <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-7b53ee712a36 = <b>{ "176" } of { "401" }</b> capabilities validated against independent external oracles; { "221" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
 
 # attr:alt
-seg-44f7862c45a2 = How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-b59781ecf257 = How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "401" } capabilities: { "176" } Validated, { "221" } Modelled, { "4" } Partner-owned
 
 # text
 seg-991c428a8063 = Usage — library
@@ -81,6 +81,15 @@ seg-6157f407ab8b = List every built-in scenario kind with its metadata.
 
 # text
 seg-e9535491e871 = The built-in scenario kinds and their metadata as a JSON array — the form the language bindings expose for programmatic introspection.
+
+# text
+seg-8e9fbc5f2e72 = The description of the built-in scenario kind kind in lang, from the catalogue (English when the language has no translation of it); None for a name that is not a built-in kind.
+
+# text
+seg-06e503c23c30 = [kind_description_in] in the current language ([crate::i18n::current]).
+
+# text
+seg-2549a4e06eff = [list_scenario_kinds_json] with each description in lang (a tag as --lang takes, such as de or zh-Hans); the names and the field lists are the same in every language, and for English the document is byte-identical to [list_scenario_kinds_json].
 
 # text
 seg-a3e3eeb83c46 = [KIND_MODULES] as a JSON object, kind to array of module names, in table order.
@@ -123,6 +132,27 @@ seg-afa952d0c0f5 = Run a scenario and return a typed result with a structured er
 
 # text
 seg-d0a609bfd225 = Parse, dispatch, and run a scenario given as a TOML string.
+
+# text
+seg-3a25e30a0dc9 = [run_toml] for a user in language lang (a tag such as de, pt-BR, zh-Hans, en-XA).
+
+# text
+seg-6691825fa5e6 = The two runs of [run_toml_lang] kept apart: the English run, whose json and csv are the machine files, and, for another language, the run in that language for everything a person reads.
+
+# text
+seg-1fd1f547d2b3 = The second pass of [run_toml_bilingual] on its own: run the scenario once in lang and return only what a person reads.
+
+# text
+seg-ae75df85e545 = [run_scenario] for a user in language lang; see [run_toml_lang].
+
+# text
+seg-28e05e08ff76 = Run src in language lang and, if it fails, describe the failure as a JSON object { "{" }"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>{ "}" }.
+
+# text
+seg-24fe823a994a = json without the evidence label ([crate::evidence_label]); unchanged if it carries none.
+
+# text
+seg-c0444d838311 = out with the evidence label removed from its JSON, SVG and CSV, byte for byte as the run produced them before the label existed; an output without a label is unchanged.
 
 # text
 seg-c62cff9a8dba = [run_toml] without the per-kind figure_tiers block that [run_toml_inner] appends (RM-04): for a run whose document is embedded in another kind's result (a campaign member), so the outer document keeps its bytes.

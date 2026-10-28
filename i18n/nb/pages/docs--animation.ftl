@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Ved siden av denne tidstabellen blir <c1/> (<c2/>, <c3/>, <c4
 
 seg-608c4fed9e98 = Spor med en enhet deler et panel når størrelsene ligger innenfor en faktor på { "100" }, slik at en vakt på { "50" } ns ikke flater ut en feil på { "2" } ns. Høyst { "6" } paneler med { "6" } spor tegnes; resten listes under <c1/>. Spor over { "2,400" } sampler tynnes ut med et jevnt steg som beholder det siste samplet, og en waterfall over { "96" } × { "120" } celler midles ned (i effekt, for desibelceller, slik at en smal jammer ikke fortynnes).
 
-seg-b68ce4aa301f = En type hvis resultat ikke bærer noen av disse formene (et lenkebudsjett, en geometri for én epoke, en Monte Carlo-oppsummering med bare statistikk, eller teletidssynkroniseringens holdover, hvis resultat publiserer oppføringens hash, men ikke oppføringen) avvises med <c1/>, og ingenting skrives. Med kshana { $version } animeres { "89" } av de { "182" } kjørbare scenariofilene (alle filer unntatt en studiesuite) og { "93" } avvises. <c2/> skriver ut opptellingen.
-
 seg-c386389e4f1d = Blant LEO-typene animeres hvert medfølgende scenario av typene <c1/>, <c2/> og <c3/>. <c4/> animeres i modusene Doppler, felles posisjonsbestemmelse og tidssynkronisering (en tidssynkroniseringskjøring trenger <c5/>, som gjør at hver rad rapporterer sin tidsfeil og predikerte sigma i hver epoke) og avvises i modusen for polardekning. <c6/> animerer sin oppdatering midt i passeringen og avvises for analysene av koding, tilpasningsintervall og modellsammenligning. Resultater av <c7/> og <c8/> bærer ingen tidsakse og avvises.
 
 seg-eb31ec7a07b7 = Determinisme

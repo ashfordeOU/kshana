@@ -106,10 +106,6 @@ seg-0cad5afda483 = Een evaluatie aanvragen
 
 seg-b366150de755 = Een studie aanvragen
 
-seg-0adcadeb3854 = De open engine in het midden: één teken per scenariosoort ({ "87" }), gevuld waar de soort getoetste registerrijen heeft, hol waar de rijen berekend zijn uit een model, een streepje waar geen registermodule op naam overeenkomt. Kshana Pro en de studie op maat staan eromheen en zijn verbonden met de soorten waarop ze voortbouwen.
-
-seg-9e896ee62ea0 = Engine v{ $version } · { "87" } soorten uit <c1/> · registerstatus uit <c2/> · waarop Pro en een studie voortbouwen: het register van edities van de site · geen scenario of seed
-
 seg-e1acd19a6ac6 = De edities vergelijken
 
 seg-352b6af14482 = Licentie van de open kern
@@ -149,10 +145,6 @@ seg-abc6bb005249 = Ingenieurs van voertuigen, netwerken, elektriciteitsnetten en
 seg-21989d609ae7 = Onderzoekers, studenten en beoordelaars die cijfers nodig hebben die ze kunnen reproduceren en citeren
 
 seg-3b6d727a2d38 = Ontwikkelaars die de engine in code, een CI-suite (continuous integration) of een AI-assistent (kunstmatige intelligentie) inbouwen
-
-seg-abe5c7257cda = Alle { "87" } scenariosoorten en { "173" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)
-
-seg-1434952d1bc8 = De volledige verificatiematrix: { "176" } van { "388" } mogelijkheden getoetst aan onafhankelijke referenties, de rest met het label berekend uit een model
 
 seg-9b8eb955fecf = Elk resultaat voorzien van scenariohash, seed en engineversie, en geschreven als JSON (JavaScript Object Notation), CSV-tabellen (door komma's gescheiden waarden) en SVG-grafieken (Scalable Vector Graphics)
 

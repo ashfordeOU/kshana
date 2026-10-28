@@ -1350,11 +1350,6 @@ seg-7718b39ae2c6 = Iga sellel lehel olev diagramm on stsenaariumifail, mille moo
 seg-24194ccdcdca = Alusta mis tahes stsenaariumist
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-da4764e4d161 = Vali üks { "183" } stsenaariumifailist { "87" } liigi hulgast või kirjuta oma. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib alustamiseks faili.
-
-# text
 seg-5dd293dd429b = Teek Kshana Studios
 
 # text
@@ -1533,56 +1528,13 @@ seg-58a8a796c8cb = etalonkontrollid
 seg-3cbba5a3ab3b = Uus versioonis v{ $version }
 
 # text
-seg-850aca04de28 = Iga liik, iga käsk ja benchmarki möödalasud.
-
-# text
-seg-c530da682cca = Uut mootori funktsiooni pole: tulemused on versiooni { "0.38.0" } omad. Dokumentatsioonis on nüüd leht iga stsenaariumi liigi kohta ning loend kõigist käskudest ja kõigist liidestest ning benchmarki leht nimetab iga täitmata läve. Käsurida lõpetab nüüd vaikselt, kui selle väljundtoru sulgub. Iga võimekus kannab märgist, mille register (ledger) selle kohta hoiab, ja märgis nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara.
-
-# text
-seg-c5fc0ca71fae = Iga stsenaariumi liik, üks leht igaühele
-
-# text
-seg-86ff766b2c1d = Kõik { "87" } stsenaariumi liiki, rühmitatud perekondadesse, igaühel oma leht: mida see teeb, selle sisendid, näidiskäigu tulemused, selle märgise taga olevad registri (ledger) read ja sõltumatu etalon, aruandes nimetatud piirangud ja mootori kirjutatav diagramm.
-
-# text
 seg-a0b63210b807 = Loe edasi
-
-# text
-seg-ccee5886cf25 = Iga käsk, iga liides
-
-# text
-seg-6630acb722ae = Iga käsk koos näitega, mida saab hoidla koopiast (checkout) käivitada, ja iga liides (käsurida, Python, Rust, WebAssembly, MCP-server, pluginakäsud, oskused ja Studio lehed) koos käskude ja liikidega, mida see toetab, ning põhjendusega seal, kus ei toeta.
-
-# text
-seg-4ef6dcd0a58b = Millist võimekust milline liides toetab
-
-# text
-seg-678872a862dc = Üks leht loetleb iga käsu ja liigi kohta, milline liides seda toetab ja milline mitte, koos põhjendusega, võimekusvaldkondade ja nende registrimärgiste (ledger) kõrval.
 
 # text
 seg-29e58493fdd4 = Modelleeritud
 
 # text
-seg-8e092e49bdeb = kshana-bench: täitmata läved, välja öeldud
-
-# text
-seg-df8f792ffa97 = Benchmarki leht loetleb nüüd iga täitmata läve, nii nagu tulemusfail neid registreerib, ja ütleb, et ühtegi lävi ei lõdvendata.
-
-# text
 seg-54dce6366d5a = Iga kaasasolev stsenaarium ühel kaardil.
-
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = Kõik { "183" } stsenaariumifaili { "87" } liigi hulgas, rühmitatud valdkonna järgi; { "173" } on mootorisse kaasatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> käivituvad hoidlast käsurealt. Punkt näitab liigi mooduli registri (ledger) olekut seal, kus register seda nimetab. Salvestatud käiguga fail avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja käsuga, mis seda käivitab.
 
 # attr:aria-label
 seg-f53c36555404 = Filtreeri registri oleku järgi
@@ -1839,10 +1791,6 @@ seg-6f80bcd98ce4 = Kshana etalonstsenaarium: { "2" } h käik, { "10" } min GNSS-
 
 # attr:title
 seg-4a194573e324 = Variant: laborikvaliteediga strontsiumi optiline kell vs CSAC.
-
-# text
-# c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 # attr:title
 seg-ef238a2781ad = Holdover-i test, sisendamise näide: ajavea salvestis, mida hindab liik holdover-test
@@ -3178,9 +3126,6 @@ seg-ac19e38bed11 = <b>CI</b> pidev integreerimine · <b>CSV</b> komadega eraldat
 
 # text
 seg-190cdf3ca8dc = Ühik ja päritolu igal esitataval suurusel
-
-# text
-seg-1c7bb8c3e887 = { "87" } liiki { "87" }-st, { "3127" } arvvälja { "3127" }-st
 
 # text
 seg-3e7fb040a7c4 = Iga arvväli, mille stsenaarium väljastab, kannab ühikut ja päritoluklassi suletud sõnavarast, definitsiooniga seal, kus see on olemas, avaldatud masinloetava skeemina mootori kõrval. Ratšetiga värav käivitab iga sisseehitatud liigi ja kukub läbi väljal, mis ei kanna ühtegi; veel mittetäielikud liigid nimetatakse ükshaaval koos põhjusega, miks iga on endiselt lahtine, ja loend saab ainult kahaneda. Aruanded, mis esitavad oma konstandid — ühesuunaline lingibilanss, optiline ja RF bilanss — võimaldavad lugejal põhinäitaja ainuüksi aruandest uuesti arvutada.

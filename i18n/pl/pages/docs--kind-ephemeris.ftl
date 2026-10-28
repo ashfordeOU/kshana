@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = doba
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = Wykres zapisany przez silnik dla scenarios/ephemeris.toml, rodzaj ephemeris
 
 seg-d291f20074f0 = <b>VALIDATED</b> Obrót Ziemi z dwuczęściowej daty juliańskiej UT1 na ścieżce orbity, tak aby położenie w układzie związanym z Ziemią zachowało mikrosekundę, którą traci pojedyncza data f64 (około { "3e-9" } rad w pobliżu { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, konwencja TEME, na obu częściach), cio:

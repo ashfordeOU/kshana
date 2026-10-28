@@ -2580,21 +2580,15 @@ seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
 
 seg-8f101c803442 = Elke mogelijkheid draagt <s1>haar bewijs.</s1>
 
-seg-9ef28b622a43 = { "388" } mogelijkheden, elk beoordeeld. <b>{ "176" } getoetst</b> aan onafhankelijke externe referenties. <b>{ "208" } eerlijk gelabeld als berekend uit een model.</b> { "4" } in handen van de partner. Er wordt niets naar boven afgerond.
-
 seg-4f6445e5dd61 = Verificatiematrix <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = De sweep pauzeren
 
 seg-ae9e2459836c = mogelijkheden
 
-seg-4adb5411062e = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } getoetst (gevulde vierkantjes), { "208" } berekend uit een model (holle vierkantjes), { "4" } in handen van de partner (ruiten). Met de pijltjestoetsen gaat u van cel naar cel; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
-
 seg-f97cb6bf8202 = Beweeg de aanwijzer over een cel of geef er focus aan om de mogelijkheid en de onafhankelijke referentie die haar beoordeelt te lezen.
 
 seg-8a1cef0b9561 = Getoetst: een onafhankelijke externe referentie komt overeen
-
-seg-582c4a762fc5 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "388" } rijen · geen scenario of seed: het eigen register van de engine
 
 seg-d5c32303297d = Lees het register
 
@@ -2628,8 +2622,6 @@ seg-55fc928e19ae = referentie · verificatievectoren van AIAA 2006-6753
 
 seg-1d60624d525d = Hoe het is gecontroleerd
 
-seg-6adbc42697f9 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
 seg-58ca3da25e69 = Openen in Kshana Studio: dezelfde propagator, <c1/><s1> · seed <c2/></s1>
 
 seg-813d6d41b891 = Kopieer de opdracht die het reproduceert
@@ -2650,8 +2642,6 @@ seg-87734f6c52a2 = Eén vierkantje per SciPy-geval, gegroepeerd per kern.
 
 seg-4957eddb39ed = referentie · SciPy
 
-seg-c5d5cf50c8a9 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
 seg-011e33e27f59 = Openen in Kshana Studio: de kern aan het werk, <c1/><s1> · seed <c2/></s1>
 
 seg-e02df7620fc7 = Numerieke baanpropagatie (Cowell) tegenover Orekit over een boog van 24 uur: slechtste verschil { "0.08" } m in krachtniveaus { "1" } tot { "5" }.
@@ -2665,8 +2655,6 @@ seg-16e820be9d20 = Tegenover de bibliotheek Orekit { "12.2" } voor vluchtdynamic
 seg-2b1ea60e99a7 = Positieverschil tegenover de tijd, per krachtniveau.
 
 seg-75344d6c427a = referentie · Orekit { "12.2" }
-
-seg-2e80a89ee20a = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
 seg-44988f3835ce = Geen weergave in Kshana Studio: deze vergelijking draait als enginetest.
 
@@ -2684,8 +2672,6 @@ seg-f5b078c26ba8 = Elk residu op een logaritmische schaal van een millimeter tot
 
 seg-6670ead3fa91 = referentie · precieze efemeriden van ESA, de gereconstrueerde baan van de lunaire orbiter, Orekit { "12.2" }, AIAA-vectoren
 
-seg-6ce9be05ab08 = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed
-
 seg-57c9f4e60efa = Geen weergave in Kshana Studio: precieze baanbepaling draait als enginetests.
 
 seg-f8f25ec2345b = Klokken · stabiliteit
@@ -2697,8 +2683,6 @@ seg-e0c144321893 = Reproduceert de referentiewaarden van NIST (National Institut
 seg-5d3372dbff1f = Vier deviaties tegenover de middelingstijd, met de gepubliceerde waarden als ringen.
 
 seg-9993e306ae64 = referentie · NIST SP { "1065" }
-
-seg-2a2794bda50f = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
 seg-fc6a00946a11 = Openen in Kshana Studio: de schatters op een klok, <c1/><s1> · seed <c2/></s1>
 
@@ -2716,8 +2700,6 @@ seg-46c1dbe5c6bc = Gemeten en voorspelde tijdfout tegenover coast-tijd, en het v
 
 seg-449f52c56c67 = referentie · gemeten caesiumrecord
 
-seg-275351654591 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
 seg-c131867720cc = Openen in Kshana Studio: dezelfde inversie, <c1/><s1> · deterministisch</s1>
 
 seg-05dd599ce14a = Eén cel per mogelijkheid.
@@ -2726,11 +2708,7 @@ seg-b19592bc5242 = Getoetst betekent dat een onafhankelijke externe bron het een
 
 seg-800e31fc8f7d = Beoordeelde mogelijkheden
 
-seg-1d2c8132218d = { "176" }<s1>van { "388" } getoetst</s1>
-
 seg-e61158f71854 = Beweeg over een cel
-
-seg-b66d124aa8dd = Verificatiematrix: { "176" } getoetst, { "208" } berekend uit een model, { "4" } in handen van de partner, { "388" } in totaal
 
 seg-d814d33d2b1e = allan::lag1_noise_id: de lag-1-autocorrelatieruis van Riley en Greenhall ({ "2004" })… · getoetst
 
@@ -3534,27 +3512,17 @@ seg-5af3d58e83fa = <b>Met Pro:</b> een <b>missiedossier</b> controleert elke eis
 
 seg-400016e22379 = Validatieregister
 
-seg-6ef0eb045293 = Alle { "388" } rijen, elk op één regel.
-
 seg-20ec758fe328 = Elke rij noemt haar eis, haar status en de module die haar implementeert. Open een rij voor haar referentie en tests, of kies een domein om te versmallen.
 
 seg-08f2354cb22b = Filteren op domein
 
 seg-f5a2e020b47e = Per domein: de lengte van de balk is het aantal rijen, de kleur is de status. Kies er een om te filteren.
 
-seg-d8691ddf3170 = van { "93" } getoetst
-
 seg-0272bc18f675 = van { "19" } getoetst
-
-seg-d6687397eae9 = van { "73" } getoetst
 
 seg-38ec110ef886 = Banen, referentiestelsels en geometrie
 
-seg-8d3ad903cd18 = van { "76" } getoetst
-
 seg-a1c022c60fb6 = Inertiaal, fusie en alternatieve PNT
-
-seg-223bf21e1d9b = van { "25" } getoetst
 
 seg-b355dc732d29 = Signalen en interferentie
 
@@ -3564,19 +3532,13 @@ seg-d6c43e56d4cc = Missieanalyse, borging en overig
 
 seg-5516d9825527 = van { "55" } getoetst
 
-seg-d5b6224d2ec4 = Alle { "388" }
-
 seg-7038fab8b00c = Getoetst { "176" }
-
-seg-2bca452c28dd = Gemodelleerd { "208" }
 
 seg-ba89c1119b21 = Eigendom van de partner { "4" }
 
 seg-cd12d85e2beb = Het register doorzoeken
 
 seg-f014d784ebe3 = Zoek op eis, referentie, module of test
-
-seg-d0352364053e = Validatieregister, { "388" } rijen, scrollbaar
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } gevallen: tien Kasdin-machtswetregistraties, b = { "0" } tot -4, als fase- en frequentiegegevens, af = { "1" } tot { "64" }; alpha_int en d identiek, slechtste |d alpha| { "9.6e-13" } en |d rho| { "4.8e-13" }…</s1>
 
@@ -4355,3 +4317,5 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX voor de engine
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed

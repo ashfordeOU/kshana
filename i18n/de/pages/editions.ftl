@@ -156,14 +156,6 @@ seg-0cad5afda483 = Evaluierung anfragen
 # text
 seg-b366150de755 = Studie anfragen
 
-# text
-seg-0adcadeb3854 = Die offene Engine in der Mitte: eine Markierung je Szenariotyp ({ "87" }), ausgefüllt, wenn der Typ validierte Registerzeilen hat, hohl, wenn seine Zeilen modelliert sind, ein Strich, wenn kein Registermodul namentlich zu ihm passt. Kshana Pro und die individuelle Studie sitzen darum herum und verbinden sich mit den Typen, auf denen sie aufbauen.
-
-# text
-# c1: src/api.rs
-# c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Engine v{ $version } · { "87" } Typen aus <c1/> · Registerstatus aus <c2/> · worauf Pro und eine Studie aufbauen: das Editionsregister der Website · kein Szenario und kein Seed
-
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Editionen vergleichen
 
@@ -223,12 +215,6 @@ seg-21989d609ae7 = Forschende, Studierende und Prüfer, die Zahlen brauchen, die
 
 # text
 seg-3b6d727a2d38 = Entwickler, die die Engine in Code, eine CI-Suite (Continuous Integration) oder einen KI-Assistenten (künstliche Intelligenz) einbinden
-
-# text
-seg-abe5c7257cda = Alle { "87" } Szenariotypen und { "173" } mitgelieferte Szenarien: nativ, Python, JavaScript, im Browser und über MCP (Model Context Protocol)
-
-# text
-seg-1434952d1bc8 = Die vollständige Verifikationsmatrix: { "176" } von { "388" } Fähigkeiten gegen unabhängige Referenzen validiert, der Rest als modelliert gekennzeichnet
 
 # text
 seg-9b8eb955fecf = Jedes Ergebnis mit Szenario-Hash, Seed und Engine-Version gestempelt und geschrieben als JSON (JavaScript Object Notation), CSV-Tabellen (kommagetrennte Werte) und SVG-Diagramme (Scalable Vector Graphics)

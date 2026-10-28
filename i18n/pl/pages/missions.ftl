@@ -662,8 +662,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Rzeczywisty przebieg silnika, odtworzony
 
-seg-597a57467277 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-f1313464b7c9 = Orbity: propagowane ponownie z własnych elementów przebiegu i sprawdzone względem śladów naziemnych silnika. Planety: zdjęcia NASA.
 
 seg-6c981f00d37d = <b>Z Pro:</b> optymalizator projektu przepuszcza przez ten silnik całą przestrzeń projektową konstelacji wokół Ziemi, Księżyca lub Marsa i zwraca jej <b>front Pareto</b>, przy czym każdy projekt z frontu jest zapisany jako zwykły plik scenariusza. <a1>Zobacz prawdziwy front</a1>

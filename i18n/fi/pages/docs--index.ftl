@@ -22,17 +22,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvantti klassista vastaan</s1><s2>Päätösosa
 
 seg-50dd8e4077fd = <s1>Läpikäyty esimerkki: monityökaluputki</s1><s2>Tämä vie yhden reitin standardipohjaisen yhteentoimivuuden ja tehtäväanalyysin skenaariotyyppien läpi päästä päähän…</s2>
 
-seg-78756a9f6704 = <s1>Skenaariotyypit</s1><s2>{ "87" } sisäänrakennettua skenaariotyyppiä, joiden kesken kshana::api::run_toml ohjaa, kullakin yksirivinen…</s2>
-
-seg-051029eb3525 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen skenaariotyyppi, jonka moottori v{ $version } ohjaa ({ "87" }), jaoteltuna { "12" } perheeseen.</s2>
-
 seg-86b2b5f29f35 = <s1>Jokainen komento</s1><s2>kshana <scenario.toml> ajaa skenaarion; jokainen muu komento on alikomento. kshana --help tulostaa käyttöohjeen…</s2>
 
 seg-e847b803a7a9 = <s1>Jokainen pinta</s1><s2>Yksi moottori, samat tulokset kaikkialla. docs/SURFACES.md luettelee jokaiselle komennolle ja tyypille, mikä pinta…</s2>
 
 seg-dcd149f1b172 = <s1>Ominaisuusalueet</s1><s2>Julkisen kartan jokainen ominaisuus alueittain, kirjanpitomerkintöineen.</s2>
-
-seg-76a9b614dada = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "182" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
 
 seg-58cdc99dfc9e = <s1>Tulosskeema</s1><s2>Jokainen ajo kirjoittaa versioidun, itsekuvaavan JSON-artefaktin (JavaScript Object Notation) skenaarion viereen.</s2>
 
@@ -47,10 +41,6 @@ seg-b57457566406 = <s1>Animaatioviennti</s1><s2>--animate muuttaa ajon aikasarja
 seg-6e9c30a894e9 = <s1>Yhteentoimivuusviennit ja -tuonnit</s1><s2>Ajo kirjoittaa tulosasiakirjan, kaavion ja raportin. --export kirjoittaa myös skenaarion geometrian tai sen…</s2>
 
 seg-ea5f09561b29 = <s1>Validoinnin tila</s1><s2>Toleransseista. Alla ”validoitu” tarkoittaa, että kalibrointitesti toteaa simuloidun tilastosuureen vastaavan…</s2>
-
-seg-c387a74ffabb = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "388" } riviä.</s2>
 
 seg-ae0276d1d945 = <s1>Miksi rivit jäävät mallinnetuiksi</s1><s2>Nämä ominaisuudet on toteutettu julkaistun tai ensiperiaatteisiin perustuvan fysiikan pohjalta ja testein, mutta ne ovat rehellisesti…</s2>
 
@@ -218,15 +208,11 @@ seg-69525243f8f1 = <s1>Häirintä, harhautus ja spektri</s1><s2>{ "6" } skenaari
 
 seg-0541e0421253 = <s1>Matalan Maan kiertoradan navigointi</s1><s2>{ "7" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
 
-seg-1da177a1654b = <s1>Kuu ja kuunläheinen avaruus</s1><s2>{ "20" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
-
 seg-671dc0d705c5 = <s1>Tehtäväanalyysi, linkit ja avaruusoperaatiot</s1><s2>{ "14" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
 
 seg-5de091b18fe4 = <s1>Optinen PNT</s1><s2>{ "2" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
 
 seg-35db5b51a590 = <s1>Avaruuskäyttäjän navigointi</s1><s2>{ "1" } skenaariotyyppi moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
-
-seg-0144518c94fc = { "87" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
 
 seg-1acf60cff708 = Ei mukana
 

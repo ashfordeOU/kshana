@@ -1,34 +1,310 @@
 # Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
 
-# <a1>Launch Kshana Studio <c1/></a1>
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-da4764e4d161 = Välj en av { "183" } scenariofiler fördelade på { "87" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
 
-# <a1>Launch Kshana Studio <c1/></a1>
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+# Every kind, every command, and the benchmark's misses.
+seg-850aca04de28 = Varje typ, varje kommando och benchmarkens missar.
 
-# Lunar navigation<s1><s2>{ "18" } September { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
-seg-c08c27e6bac3 = Månnavigering<s1><s2>{ "18" } september { "2026" }</s2> · arXiv:{ "2610.23871" }</s1>
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+seg-c530da682cca = Ingen ny motorfunktion: resultaten är desamma som i { "0.38.0" }. Dokumentationen har nu en sida för varje scenariotyp och en lista över varje kommando och varje yta, och benchmark-sidan anger varje tröskel som inte nåddes. Kommandoraden avslutas också tyst när dess utdatakanal stängs. Varje förmåga bär den etikett som registret har för den, och en etikett anger bara det som har kontrollerats. Rådgivande programvara.
 
-# Lunar navigation<s1><s2>{ "7" } July { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
-seg-22c586c6000b = Månnavigering<s1><s2>{ "7" } juli { "2026" }</s2> · arXiv:{ "2607.06212" }</s1>
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Varje scenariotyp, en sida vardera
 
-# Lunar navigation<s1><s2>{ "29" } June { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
-seg-5c3bd1c94790 = Månnavigering<s1><s2>{ "29" } juni { "2026" }</s2> · arXiv:{ "2607.02566" }</s1>
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+seg-86ff766b2c1d = Alla { "87" } scenariotyper ordnade under familjer, med en sida för varje typ: vad den gör, dess indata, resultaten av en exempelkörning, registerraderna och de oberoende referenser som ligger bakom dess etikett, de begränsningar som dess rapport anger och diagrammet som motorn skriver.
 
-# Timing integrity<s1><s2>{ "23" } June { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
-seg-5e319b243ab2 = Tidssynkroniseringens integritet<s1><s2>{ "23" } juni { "2026" }</s2> · arXiv:{ "2606.24210" }</s1>
+# Every command, every surface
+seg-ccee5886cf25 = Varje kommando, varje yta
 
-# Resilience scoring<s1><s2>{ "22" } June { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
-seg-cacc9e88dce2 = Resiliensbedömning<s1><s2>{ "22" } juni { "2026" }</s2> · arXiv:{ "2607.05415" }</s1>
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+seg-6630acb722ae = Varje kommando med ett exempel som du kan köra från en utcheckning, och varje yta (kommandoraden, Python, Rust, WebAssembly, MCP-servern, plugin-kommandona, skills och Studio-sidorna) med de kommandon och typer den bär och skälet där den inte gör det.
 
-# Radio-frequency interference<s1><s2>{ "20" } June { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
-seg-dc082b5d5c49 = Radiofrekvensstörning<s1><s2>{ "20" } juni { "2026" }</s2> · arXiv:{ "2606.22054" } · version { "2" }</s1>
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Vilken yta som bär vilken förmåga
 
-# <a1>Launch Kshana Studio <c1/></a1>
-# c1:
-seg-dca88d8e959c = <a1>Starta Kshana Studio <c1/></a1>
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-678872a862dc = En sida listar, för varje kommando och typ, vilken yta som bär den och vilka som inte gör det, med skälet, bredvid förmågeområdena och deras registeretiketter.
 
-# Same engine, amplified: { "608" } designs, one Pareto front
-seg-511c8bb00e62 = Samma motor, förstärkt: { "608" } utformningar, en Paretofront
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: tröskelvärdena som inte nåddes, angivna
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-df8f792ffa97 = Benchmark-sidan listar nu varje tröskel som inte nåddes, så som resultatfilen registrerar dem, och säger att ingen tröskel har lättats.
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-761213eb3ce0 = Alla { "183" } scenariofiler fördelade på { "87" } typer, grupperade efter område; { "173" } är inbyggda i motorn, och <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> körs från arkivet med kommandoraden. Pricken visar registerstatus för typens modul där registret anger den. En fil med en inspelad körning öppnar den i Kshana Studio; de andra öppnar sin post i scenarioreferensen, med filen och kommandot som kör den.
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } av { "87" } slag, { "3127" } av { "3127" } numeriska fält
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+seg-b68ce4aa301f = En typ vars resultat inte bär någon av dessa former (en länkbudget, en geometri för en enda epok, en sammanfattning av enbart Monte Carlo-statistik, eller telekomholdovern, vars resultat publicerar registreringens hash men inte registreringen) avvisas med <c1/>, och ingenting skrivs. Med kshana { $version } animeras { "89" } av de { "182" } körbara scenariofilerna (varje fil utom en studiesvit) och { "93" } avvisas. <c2/> skriver ut sammanställningen.
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+seg-a887cfc920f6 = Uppdaterad 2026-10-22 för motorn { $version } ({ "87" } scenariotyper, från <c1/>; ingen ny typ i { $version }). 2026-10-19: motorn { "0.38.0" }, { "87" } typer (nya i { "0.38.0" }: <c2/>, <c3/> och <c4/>). 2026-10-18: { "84" } typer (ny i { "0.37" }: <c5/>). 2026-10-16: { "83" } typer (nya i { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> och <c13/>). 2026-10-10: motorn { "0.35.0" }, { "75" } typer, ingen ny typ. 2026-10-09 och 2026-10-08: tidigare revisioner. 2026-10-04: raden Nav-signal noterar IQ-lagret { "0.31.0" }. 2026-09-29: raderna LEO-PNT, spektrum, solsystem / PNT kring valfri kropp, kampanj och utdata tillagda. Tidigare: anpassad efter den stora revisionen 2026-06-02 med dess kapacitetsmatris på 27 rader; raden för PNT i djupa rymden / Mars tillagd i { "v0.17.0" }. Tillägg för kvant-PNT (GNSS-fri klock-holdover <c14/>, sammansatt budget för kvantinertiell dödräkning <c15/>, utformningsavvägning för avståndskoder <c16/>, maskinkontrollerad verifieringsmatris <c17/>) har vikts in i raderna Tidssynkronisering, Sensor för kvant-PNT, Nav-signal och V&V — var och en märkt validerad eller modellerad efter sin faktiska referens.
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } av { "87" } slag, { "3127" } av { "3127" } numeriska fält
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+seg-6f44f45f6bf9 = De { "61" } förmågekorten från <c1/>, därefter alla { "388" } rader i verifieringsmatrisen.
+
+# [{ $version }] - 2026-10-22
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+seg-7f608c733407 = <b><c1/></b>: RINEX-klockfiler, versionerna { "2" } och { "3.00" } till { "3.04" } (inklusive namnfältet på nio tecken i { "3.04" }). Huvudet läses bara för sitt <c2/> och hoppas över fram till <c3/>. Av dataposterna behålls bara posterna <c4/> (satellit) och <c5/> (mottagare eller station) för en klocka, vald med namn. Deras första värdefält, klockbiasen i sekunder, är fasen. Fortsättningsrader och posterna <c6/>, <c7/> och <c8/> hoppas över. Epoker är postens kalenderfält, som sekunder från 1980-01-06 { "00" }:{ "00" }:{ "00" } i filens eget tidssystem, utan omvandling.
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+seg-3d8853fa9c92 = <b><c1/></b>: loggar från räknaren TAPR TICC (TICC Operation Manual, revision av { "23" } november { "2016" }, "measurement modes"). Varje datafält är sekunder med { "12" } decimaler.
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+seg-75301936698f = Utdata i periodläge och felsökningsläge avvisas. En kanal vars avläsningar inte ökar redovisas som periodläge.
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-fe7d27a473aa = MODELLED. Detta är en tolkare, och dess utdata matar skattare som är validerade på annat håll mot allantools. Enhetstesterna i <c1/> använder små handskrivna loggar, och för formaten linuxptp och chrony testfilerna i <c2/>. <c3/> kör den jämförelse som förhandsregistrerades i <c4/>: tre fröstyrda syntetiska loggar, en per format, inlästa på nytt av en oberoende läsare skriven utifrån den här sidan av samma författare, med ADEV, TDEV och MTIE kontrollerade mot allantools { "2024.6" }; den jämförelsen täcker bara de tre första formaten, och läsarna för linuxptp och chrony har tolkartester men ingen jämförelse mot oberoende referens. Loggarna är syntetiska, så ingenting här beskriver en verklig klocka eller räknare.
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-78756a9f6704 = <s1>Scenariotyper</s1><s2>De { "87" } inbyggda scenariotyperna som kshana::api::run_toml skickar vidare till, var och en med sin enradsbeskrivning…</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>Varje scenariotyp, per familj</s1><s2>Varje scenariotyp som motor v{ $version } skickar vidare till ({ "87" }), ordnade under { "12" } familjer.</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-76a9b614dada = <s1>Scenarioreferens</s1><s2>Varje medföljande scenariofil ({ "182" }), grupperad per typ, med sina viktigaste inställningar.</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-c387a74ffabb = <s1>Verifieringsmatris</s1><s2>Det fullständiga, maskinkontrollerade evidensregistret: { "388" } rader — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-be02c7f0d48e = <s1>Förmågereferens</s1><s2>Förmågekorten och alla { "388" } rader i verifieringsmatrisen.</s2>
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>Månen och cislunärt</s1><s2>{ "20" } scenariotyper i motor v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-0144518c94fc = { "87" } sidor, en för varje scenariotyp, länkade från <a1>Varje scenariotyp, per familj</a1>.
+
+# defined
+seg-1767b216650d = definierad
+
+# sgp4 (TLE)
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
+
+# classical baseline
+seg-a6551a61cf69 = classical baseline
+
+# First
+seg-5b3bc9761db4 = Först
+
+# TM
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+seg-9bd19903f577 = <b>Register:</b> ingen matrisrad nämner den här typen; motorn sätter själv etiketten på sitt resultat. Hela sidan, med indata, resultat, evidens och begränsningar: <a1>terrain-nav</a1>.
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = { "20" } scenariotyper i motorn v{ $version }. Rådgivande: analysutdata från ett forsknings- och ingenjörsverktyg, inte typgodkänd navigationsutrustning och inte en safety-of-life-tjänst. Varje etikett här är motorns eller verifieringsmatrisens; en typ är MODELLED om inte matrisen anger något annat (hur en etikett förtjänas: avsnittet Evidence i README).
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-204901ae3684 = <b>Register:</b> ingen matrisrad nämner den här typen; motorn sätter själv etiketten på sitt resultat. Hela sidan, med indata, resultat, evidens och begränsningar: <a1>moonlight-service-volume</a1>.
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6bed0bef75bc = Alla scenariotyper som motorn v{ $version } hanterar ({ "87" }), fördelade på { "12" } familjer. Varje familj har en sida med en post per typ (motorns beskrivning och fält, exempelkommandot, nyckeltal från en körning, de matrisrader som nämner den och det diagram som motorn skriver) samt ett kontaktark med de diagrammen. Rådgivande: analysresultat från ett forsknings- och ingenjörsverktyg, inte typgodkänd navigationsutrustning och inte en livräddande säkerhetstjänst. Varje etikett här kommer från motorn eller verifieringsmatrisen; en typ är MODELLED om inte matrisen anger något annat (hur en etikett förtjänas: avsnittet Evidence i README).
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-a30b46501cff = De { "87" } inbyggda scenariotyperna med beskrivningar + obligatoriska/valfria fält, så att agenten kan konstruera ett giltigt scenario.
+
+# { "208" } capabilities labelled MODELLED.
+seg-e7d71a9d77a6 = { "208" } förmågor märkta MODELLED.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } av { "388" } förmågor validerade mot oberoende externa referenser
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } av { "388" }</b> förmågor validerade mot oberoende externa referenser; { "208" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga har en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsekvent, och uttalat öppet) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Hur en förmåga får sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatus för alla { "388" } förmågor: { "176" } validerade, { "208" } modellerade, { "4" } ägda av partner
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-af101c048e7e = { "176" } av { "388" } förmågor VALIDATED mot en oberoende extern referens, från verifieringsmatrisen
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+seg-161fa1263086 = <a1>Nytt i { "0.39" }</a1>, <a2>Nytt i { "0.38" }</a2> och <a3>{ "0.38" } på djupet</a3>: jammertest-poängsättning, mottagarens egna flaggor, maskinindata, tidssynkronisering och holdover, standardpaket, LunaNet AFS, laboratorierundturen, kshana-bench, observatoriet, exportörer, optik, <a4>navigering för rymdanvändare</a4> och <a5>månens infrastruktur</a5>
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-c45a4adf8209 = Kshana Studio, enkla vyn, på det medföljande scenariot integrity-raim, motor { "v0.38.0" } körs lokalt. Frågan: klarar geometrin larmgränserna (horisontell och vertikal skyddsnivå)? Svaret först, märkt Live-resultat: Ja, mestadels: för { "95.3" } % av de { "12" } h. Mottagarens felgräns höll sig under larmgränserna ({ "40" } m horisontellt och { "50" } m vertikalt) vid { "344" } av { "361" } kontroller, och ingen positionsbestämning var vilseledande. Nyckeltal: tid positionsbestämningen går att lita på { "95.3" } %, längsta lucka { "10" } min, typisk felgräns { "6.5" } / { "13" } m, vilseledande positionsbestämningar { "0" }. Bredvid, Prova andra inställningar med fem av dem (avståndsfelet, de två larmgränserna, varaktigheten och elevationsmasken) och Kör igen, sedan de hopfällda avsnitten Avancerade inställningar ({ "13" } fler), Så beräknas detta ({ "8" } validerade, { "6" } modellerade) och För forskare. Nedanför, vyerna av detta resultat och skyddsnivåerna ritade mot larmgränsen.
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-1af317b46992 = Kshana Studio, enkla vyn, startskärm, med titeln Vad vill du ta reda på?, med motor { "v0.38.0" } live och, i det övre fältet, tre länkar: Utbildningsgenomgång, Störningskarta och Mottagarförtroende. Fyra frågor: hur många satelliter kan jag se var som helst på jorden, kan jag lita på min positionsbestämning, hur länge kan en klocka hålla tid utan satelliter, och vad gör en jammer med min mottagare. Under den första dess registrerade resultat: minst { "22" } satelliter i sikte på varje plats och { "31" } i genomsnitt med GPS, Galileo, BeiDou och GLONASS tillsammans, en positionsbestämning möjlig på { "100" } % av platserna och tiderna, på en världskarta över satelliter i sikte, med en knapp Öppna det här resultatet. Bredvid, Allt Kshana kan göra: { "16" } områden och { "139" } färdigkörda scenarier, varje ruta med ett litet diagram från en registrerad körning och sin andel validerade metoder, och registrets { "173" } av { "350" } förmågor validerade.
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-3fed18478b21 = Kshana Studio, avancerade vyn, efter en körning av det medföljande scenariot constellation-multi-gnss-coverage (Fyra GNSS-konstellationer, en karta), motor { "v0.38.0" } körs lokalt. Till vänster scenariobiblioteket, { "139" } scenarier i { "16" } domäner. De fem stegen Välj, Ställ in, Kör, Läs resultat och Dela eller exportera, med steg { "4" } aktuellt. Nyckeltal: { "102" } satelliter, tillgänglighet { "100" } % (PASS), median för positionens precisionsförsämring (PDOP) { "0.95" } (PASS), PDOP 95:e percentilen { "1.105" } (PASS), { "31.03" } satelliter i sikte i genomsnitt och { "22" } som minst. Nedanför panelraden med Täckning vald, uppspelningsfältet, en världskarta över medel-PDOP från { "0.831" } till { "1.0853" } med varje satellit ritad, och de globala täckningssiffrorna.
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-88302efebc1a = Tre sidor på kshana.dev sida vid sida. Startsidans hjälte: namnraden Kshana · क्षण · det precisa ögonblicket ovanför rubriken Öva på minuten då GNSS går i mörker, med uppdragskonsolen från en verklig körning av motor { "v0.38.0" } (en glob och tre live-diagram: klockans tidsfel, bärvågs-brusdensitet och skyddsnivå). Evidens, Publicerad forskning: de fem arXiv-artiklarna byggda på den öppna motorn, den nyaste med en motorsiffra. Utgåvor, Kshana Pro, samma motor, förstärkt: Free kör ett scenario, Pro svarar på programmets fråga.
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-eabb798bbe4e = En motor täcker hela felkedjan, från den första jammade satelliten till den sista nanosekunden av klock-holdover. Motorn har { "87" } scenariotyper; <c1/> listar dem och <a1><c2/></a1> dokumenterar varje fält.
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+seg-ab2c09d44cb7 = <c1/> kör ett scenario; varje annat kommando är ett underkommando, och <c2/> skriver ut användningen för alla. Kommandona är <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> och <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> och <c61/>. <a1><c62/></a1> anger syftet med vart och ett, ett verifierat exempel och dess dokumentationssida.
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-76e3ec458441 = Så flödar en körning. En scenario-TOML-fil (en typ, ett frö och dess parametrar) går in i motorn, kshana { $version }, genom api::run_toml-anropet över { "87" } scenariotyper, deterministiskt utifrån scenario, frö och motorversion. Motorn skriver result.json, chart.svg, report.html och report.json, en table.csv för de typer som definierar en, och på begäran exporter i SP3, CCSDS OMM och OEM, CZML, KML, GeoJSON, STK och SigMF; en svit skriver study.json och study.html. Dessa filer matar Kshana Studio i webbläsaren, en AI-assistent via servern kshana-mcp och kontinuerlig integration.
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-707e2cf795f6 = <b>{ "176" } av { "388" }</b> förmågor validerade mot oberoende externa referenser; { "208" } ärligt märkta Modelled. Varje rad i verifieringsmatrisen anger en förmåga, den oberoende referens den kontrolleras mot, testet som utför kontrollen och märkningen som följer. Kontinuerlig integration (CI) gör det omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-2f81cf391eae = Så förtjänar en förmåga sin märkning. Varje rad i verifieringsmatrisen anger en förmåga, den oberoende referens den kontrolleras mot, testet som utför kontrollen i kontinuerlig integration och märkningen som följer. En rad får vara VALIDATED endast med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en maskinvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + perturbationer, batch-/sekventiell OD, referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, märkning VALIDATED. Aktuellt antal: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER av { "388" } rader. Sammanlagt är { "176" } förmågor validerade mot oberoende externa referenser; { "208" } till är ärligt märkta MODELLED och { "4" } ägs av en PARTNER.
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-ed47a99fac7f = Några av kontrollerna: alla { "666" } vektorer för AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) till { "4.12" } mm; kraftmodellen enligt Cowell till { "0.08" } m mot Orekit { "12.2" }; Galileo till { "0.61" } m och Swarm-A till { "0.10" } m mot verkliga precisa efemerider från Europeiska rymdorganisationen (ESA). Testerna ger nära { "95" } % radtäckning av <c1/>, med en spärr på { "85" } % i CI. Registret är <a1><c2/></a1>, genererat från <c3/>: den <a2>fullständiga matrisen med 388 rader</a2>, och varför varje modellerad rad saknar extern referens finns i <a3><c4/></a3>.
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-557da03648c5 = Varje rad upprätthålls av ett namngivet test i CI. Den här tabellen är en <b>utvald höjdpunktslista</b>; den fullständiga maskingranskade matrisen är <b>{ "388" } rader: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den fullständiga evidensen (och vad som ärligt talat <em>inte</em> är validerat ännu) i <a1><c2/></a1> och artefakten <a2><c3/></a2> för varje utgåva (genererad av <c4/>, SLSA-attesterad, Supply-chain Levels for Software Artifacts).
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-9fcd5cdd129d = Så förtjänar en förmåga sin märkning: ett krav mappas till en modul i src, till ett test i tests, till en extern referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status, med en spärr som upprätthålls av CI så att ingen förmåga kan vara validerad utan en extern referens. Aktuellt antal: { "176" } validerade, { "208" } modellerade, { "4" } partner, { "388" } totalt
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-faadba4f1f85 = Verifieringsstatus för alla { "388" } förmågor: { "176" } validerade (kontrollerade mot extern referens), { "208" } modellerade, { "4" } ägda av partner
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-6c1edff3e035 = { "176" } validerade · { "208" } modellerade · { "4" } partner, <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-9d69cf43cd40 = Kshanas arkitektur: en öppen motor i mitten, kshana { $version } under AGPL-3.0, med api::run_toml, en typad dispatch över varje typ, och verifieringsregistret med { "388" } förmågor ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Runt den kör varje yta samma motor: kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbild (ghcr.io/ashfordeou/kshana-mcp); JetBrains-insticksprogram (Marketplace: "Kshana"). Under den ligger Kshana Pro, ett proprietärt överlägg som är beroende av den öppna motorn som bibliotek, aldrig förgrenar den och inte tillför någon fysikalisk modell.
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-9bc9a971bdb4 = Kshanas arkitektur i skikt. Fem ingångar (kommandorad, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-insticksprogrammet) når en enda api::run_toml, en typad dispatch över { "87" } typer. Under den ligger åtta domänskikt: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, LEO PNT, månen, Mars och djupa rymden samt uppdrag och studier, på en gemensam kärna, alla korsrefererade av verifieringsmodulen, den maskingranskade matrisen med { "388" } förmågor som är den enda sanningskällan för varje märkning.
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-87e30294e0dc = De { "87" } inbyggda scenariotyperna med beskrivningar + obligatoriska/valfria fält, så att agenten kan bygga ett giltigt scenario
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-eedfcdbe2b1c = hela den öppna motorn, alla { "87" } scenariotyper, ingen funktionsspärr
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-f1efe0de99b8 = Se <c1/> för minst ett genomarbetat exempel för varje slag ({ "87" } slag, { "182" } scenariofiler av typen <c2/> + { "1" } sviftmanifest — flera slag levereras med mer än ett exempel). Alla slag har inte en fil som är uppkallad efter det: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de slag som kan skickas när som helst med <c7/> errors, Python-funktionen <c8/> eller MCP-verktyget <c9/>.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } av { "388" } förmågor validerade mot oberoende externa referenser
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } av { "388" }</b> förmågor validerade mot oberoende externa referenser; { "208" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga har en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsekvent, och uttalat öppet) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Hur en förmåga får sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatus för alla { "388" } förmågor: { "176" } validerade, { "208" } modellerade, { "4" } ägda av partner
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1e4d5b2f4810 = Varje medföljande scenariofil ({ "182" }), grupperad efter typ. Beskrivningen är filens egen rubrikkommentar; nyckelparametrarna är dess inställningar på översta nivån. Status läser verifieringsmatrisen för typens modul. <b>Öppna i Kshana Studio</b> öppnar den registrerade körningen.
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-843d88cee576 = De { "87" } inbyggda scenariotyper som <c1/> skickar vidare över, var och en med sin enradsbeskrivning och sina obligatoriska / valfria TOML-fält (Tom's Obvious, Minimal Language).
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-4cb1d67922ed = Det kompletta, maskinkontrollerade evidensregistret: <b>{ "388" } rader — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. En rad får vara VALIDATED endast med en oberoende extern referens (matrisens invarianttester tillämpar detta). Samma data, med klickbara länkar per rad till varje test, modul och incheckad fixtur, är <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> för varför varje modellerad rad inte är externt validerad.
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+seg-af826b47d00e = { "388" } rader: { "176" } externt validerade, { "208" } modellerade, { "4" } ägda av partner.
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0adcadeb3854 = Den öppna motorn i mitten: ett märke per scenariotyp ({ "87" }), fyllt där typen har validerade registerrader, ihåligt där dess rader är modellerade, ett streck där ingen registermodul matchar den på namn. Kshana Pro och den skräddarsydda studien ligger runt den och kopplas till de typer de bygger på.
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-9e896ee62ea0 = Motor v{ $version } · { "87" } typer från <c1/> · registerstatus från <c2/> · det som Pro och en studie bygger på: webbplatsens utgåveregister · inget scenario eller frö
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-abe5c7257cda = Alla { "87" } scenariotyper och { "173" } medföljande scenarier: nativt, i Python, i JavaScript, i webbläsaren och över MCP (Model Context Protocol)
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-1434952d1bc8 = Hela verifieringsmatrisen: { "176" } av { "388" } förmågor validerade mot oberoende referenser, resten märkta som modellerade
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-9ef28b622a43 = { "388" } förmågor, var och en graderad. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "208" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-4adb5411062e = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "208" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan cellerna; förmågan och dess referens läses upp nedan.
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+seg-582c4a762fc5 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "388" } rader · inget scenario eller frö: motorns eget register
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-6adbc42697f9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-c5d5cf50c8a9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2e80a89ee20a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2a2794bda50f = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-275351654591 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
+
+# { "176" }<s1>of { "388" } validated</s1>
+seg-1d2c8132218d = { "176" }<s1>av { "388" } validerade</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-b66d124aa8dd = Verifieringsmatris: { "176" } validerade, { "208" } modellerade, { "4" } ägda av partner, { "388" } totalt
+
+# All { "388" } rows, one line each.
+seg-6ef0eb045293 = Alla { "388" } rader, en rad vardera.
+
+# of { "93" } validated
+seg-d8691ddf3170 = av { "93" } validerade
+
+# of { "73" } validated
+seg-d6687397eae9 = av { "73" } validerade
+
+# of { "76" } validated
+seg-8d3ad903cd18 = av { "76" } validerade
+
+# of { "25" } validated
+seg-223bf21e1d9b = av { "25" } validerade
+
+# All { "388" }
+seg-d5b6224d2ec4 = Alla { "388" }
+
+# Modelled { "208" }
+seg-2bca452c28dd = Modellerade { "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+seg-d0352364053e = Valideringsregister, { "388" } rader, rullningsbart
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Varje scenariotyp, en sida vardera
+
+# Every command, every surface
+seg-ccee5886cf25 = Varje kommando, varje yta
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Vilken yta som bär vilken förmåga
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: tröskelvärdena som inte nåddes, angivna
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+seg-9b3429f89f21 = Nytt i v{ $version }: varje typ, varje kommando och benchmarkens missar
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+seg-9e88a1981d1e = { "176" } av { "388" } förmågor stämmer med oberoende externa referenser; resten är märkta Modelled, öppet och tydligt.
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-4b41ffeb0030 = Alla { "87" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-597a57467277 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

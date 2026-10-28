@@ -2009,8 +2009,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formatet som gnss_lib_py-broen skriver, kjørt gjennom receiver-trust); Python-testene for broene er integrations/ros2/kshana_trust/test/test_bridge.py (bro med en falsk motor), integrations/ros2/kshana_trust/test/test_engine_integration.py (den reelle wheel-pakken scorer en jevn posisjonsbestemmelse som nominell og et hopp på { "1.1" } km som untrusted) og integrations/gnss_lib_py/test_bridge.py (ekte gnss_lib_py { "1.1.0" } og wheel-pakken), kjørt med pytest, ikke av cargo
 
-seg-e7d71a9d77a6 = { "208" } funksjoner merket MODELLED.
-
 seg-7a0503f925c1 = <s1>Forrige</s1>Funksjonsreferanse
 
 seg-b5832e94f926 = <s1>Neste</s1>Påstander mot virkeligheten

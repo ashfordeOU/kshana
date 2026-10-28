@@ -64,9 +64,6 @@ seg-f2cc0830b53f = Näide <c1/> määrab muu hulgas:
 seg-ee5bcbbe0167 = csac
 
 # text
-seg-a6551a61cf69 = klassikaline lähtetase
-
-# text
 seg-f5fa445702c6 = Tulemuse silt (mootori oma): MODELLED — kvantifitseerib (mitte kunagi ei valideeri) partneri kella/andurit; lennul demonstreerimata
 
 # attr:alt

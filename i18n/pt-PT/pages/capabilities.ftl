@@ -1347,11 +1347,6 @@ seg-7718b39ae2c6 = Cada gráfico desta página é um ficheiro de cenário que o 
 seg-24194ccdcdca = Comece por qualquer cenário
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-da4764e4d161 = Escolha um de { "183" } ficheiros de cenário distribuídos por { "87" } tipos de cenário, ou escreva o seu. <c1/> lista todos os tipos de cenário com os respetivos campos, e <c2/> imprime um ficheiro para começar.
-
-# text
 seg-5dd293dd429b = A biblioteca no Kshana Studio
 
 # text
@@ -1530,56 +1525,13 @@ seg-58a8a796c8cb = verificações de referência
 seg-3cbba5a3ab3b = Novidades na v{ $version }
 
 # text
-seg-850aca04de28 = Todos os tipos de cenário, todos os comandos e as falhas do benchmark.
-
-# text
-seg-c530da682cca = Nenhuma funcionalidade nova do motor: os resultados são os da { "0.38.0" }. A documentação tem agora uma página para cada tipo de cenário e uma lista de todos os comandos e de todas as superfícies, e a página do benchmark indica cada limiar que não foi atingido. A linha de comandos também termina em silêncio quando o seu canal de saída é fechado. Cada capacidade traz a etiqueta que o registo lhe atribui, e uma etiqueta indica apenas o que foi verificado. Software de caráter consultivo.
-
-# text
-seg-c5fc0ca71fae = Todos os tipos de cenário, uma página para cada
-
-# text
-seg-86ff766b2c1d = Todos os { "87" } tipos de cenário arquivados por famílias, com uma página para cada tipo: o que faz, as suas entradas, os resultados de uma execução de exemplo, as linhas do registo e as referências independentes por trás da sua etiqueta, as limitações que o seu relatório indica e o gráfico que o motor escreve.
-
-# text
 seg-a0b63210b807 = Ler mais
-
-# text
-seg-ccee5886cf25 = Todos os comandos, todas as superfícies
-
-# text
-seg-6630acb722ae = Todos os comandos com um exemplo que pode executar a partir de uma cópia do repositório, e todas as superfícies (linha de comandos, Python, Rust, WebAssembly, o servidor MCP, os comandos do plugin, as competências e as páginas do Studio) com os comandos e os tipos que cada uma inclui e o motivo quando não os inclui.
-
-# text
-seg-4ef6dcd0a58b = Que superfície inclui que capacidade
-
-# text
-seg-678872a862dc = Uma página lista, para cada comando e tipo, que superfície o inclui e quais não o incluem, com o motivo, ao lado dos domínios de capacidade e das respetivas etiquetas do registo.
 
 # text
 seg-29e58493fdd4 = Modelado
 
 # text
-seg-8e092e49bdeb = kshana-bench: os limiares que não foram atingidos, indicados
-
-# text
-seg-df8f792ffa97 = A página do benchmark lista agora todos os limiares que não foram atingidos, tal como o ficheiro de resultados os regista, e diz que nenhum limiar é relaxado.
-
-# text
 seg-54dce6366d5a = Todos os cenários incluídos, num só mapa.
-
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = Todos os { "183" } ficheiros de cenário em { "87" } tipos de cenário, agrupados por domínio; { "173" } estão incluídos no motor, e <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> são executados a partir do repositório com a linha de comandos. O ponto mostra o estado no registo do módulo do tipo de cenário, quando o registo o refere. Um ficheiro com uma execução registada abre-a no Kshana Studio; os outros abrem a sua entrada na referência de cenários, com o ficheiro e o comando que o executa.
 
 # attr:aria-label
 seg-f53c36555404 = Filtrar por estado no registo
@@ -1836,10 +1788,6 @@ seg-6f80bcd98ce4 = Cenário de referência do Kshana: execução de { "2" } h, {
 
 # attr:title
 seg-4a194573e324 = Variante: relógio ótico de estrôncio de qualidade de laboratório vs CSAC.
-
-# text
-# c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 # attr:title
 seg-ef238a2781ad = Teste de holdover, exemplo de ingestão: um registo de erro de tempo pontuado pelo tipo holdover-test
@@ -3175,9 +3123,6 @@ seg-ac19e38bed11 = <b>CI</b> integração contínua · <b>CSV</b> valores separa
 
 # text
 seg-190cdf3ca8dc = Unidade e proveniência em cada grandeza comunicada
-
-# text
-seg-1c7bb8c3e887 = { "87" } de { "87" } tipos de cenário, { "3127" } de { "3127" } campos numéricos
 
 # text
 seg-3e7fb040a7c4 = Cada campo numérico que um cenário emite traz uma unidade e uma classe de proveniência retiradas de um vocabulário fechado, com uma definição onde exista, publicadas como um esquema legível por máquina ao lado do motor. Uma barreira progressiva executa todos os tipos de cenário incorporados e falha num campo que não traga nenhuma; os tipos de cenário ainda não completos são identificados um a um com o motivo por que cada um continua em aberto, e a lista só pode diminuir. Os relatórios que indicam as suas próprias constantes — o orçamento de ligação unidirecional, o orçamento ótico e de RF — permitem ao leitor recalcular o valor principal só a partir do relatório.

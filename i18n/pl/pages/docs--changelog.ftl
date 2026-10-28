@@ -20,8 +20,6 @@ seg-bbc8f38627f1 = Format opiera się na <a1>Keep a Changelog</a1>, a ten projek
 
 seg-985f7b4c001a = Niewydane
 
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
 seg-a2f583aadd0b = Bez nowych funkcji: jedna poprawka wiersza poleceń, aktualizacje zależności w narzędziach walidacji krzyżowej i dokumentacja. Wyniki silnika są bez zmian względem { "0.38.0" }.
 
 seg-c9a8a5898ced = Poprawiono

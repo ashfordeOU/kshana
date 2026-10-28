@@ -32,8 +32,6 @@ seg-f2cc0830b53f = Het voorbeeld <c1/> stelt onder meer in:
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = klassieke basislijn
-
 seg-f5fa445702c6 = Resultaatlabel (van de engine): MODELLED — kwantificeert (valideert nooit) een klok/sensor van een partner; niet in vlucht gedemonstreerd
 
 seg-c74c63ffd859 = De grafiek die de engine schrijft voor scenarios/quantum-trade.toml, soort quantum-trade

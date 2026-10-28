@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP未定義（ランク不足／特異
 
 seg-856eb311f24b = 「未定義」（文書が述べるとおりのテキスト
 
-seg-1767b216650d = 定義済み
-
 seg-fc5d34345fdd = 結果ラベル（エンジンによるもの）：MODELLEDの、平面の地球・月間空間（シスルナー）コンステレーションの可観測性（P6）。VALIDATEDの中核：可観測ランクは、グラミアンの固有ランクとクロスチェックされた、ランクを明らかにする特異値しきい値です。グラミアンの固有スペクトルはスペクトル不変量（trace = sum eig、det = prod eig、Frobenius^{ "2" } = sum eig^{ "2" }
 
 seg-f15bbf30b0dd = scenarios/cislunar-observability.toml（種類cislunar-observability）についてエンジンが書き出すグラフ

@@ -152,9 +152,6 @@ seg-2a56e1f52830 = Ferramentas
 seg-b847694d91b5 = Executa um cenário a partir de uma definição TOML (Tom's Obvious, Minimal Language); devolve o resumo + o JSON completo do resultado (JavaScript Object Notation: figuras de mérito, curvas). A opção <c1/> devolve o gráfico como SVG (Scalable Vector Graphics).
 
 # text
-seg-a30b46501cff = Os { "87" } tipos de cenário incorporados com descrições + campos obrigatórios/facultativos, para que o agente possa construir um cenário válido.
-
-# text
 seg-3c00da00ec30 = Verificação prévia: analisa o TOML e deteta o seu tipo de cenário, sem executar.
 
 # text

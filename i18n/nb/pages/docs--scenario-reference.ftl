@@ -374,8 +374,6 @@ seg-9a2bb9809aed = Toveis satellittbasert tid- og frekvensoverføring mellom to 
 
 seg-ccb244e60d60 = Optisk mot RF toveis tids-/frekvensoverføring.
 
-seg-1e4d5b2f4810 = Hver medfølgende scenariofil ({ "182" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på toppnivå. Status leses fra verifikasjonsmatrisen for typens modul. <b>Åpne i Kshana Studio</b> åpner den registrerte kjøringen.
-
 seg-e701392324d0 = type acm-link
 
 seg-c4d65df7ab98 = ikke koblet til en registermodul etter navn

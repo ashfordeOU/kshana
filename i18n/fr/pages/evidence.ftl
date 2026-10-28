@@ -4207,9 +4207,6 @@ seg-6d3d0f8c9b7c = Demander une évaluation de Pro
 seg-8f101c803442 = Chaque capacité porte <s1>sa preuve.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } capacités, chacune évaluée. <b>{ "176" } validées</b> par rapport à des références externes indépendantes. <b>{ "208" } honnêtement étiquetées modélisées.</b> { "4" } relevant du partenaire. Rien n'est arrondi vers le haut.
-
-# text
 seg-4f6445e5dd61 = Matrice de vérification <b>v{ $version }</b>
 
 # attr:aria-label
@@ -4218,19 +4215,11 @@ seg-d9f0aabb4262 = Mettre le balayage en pause
 # text
 seg-ae9e2459836c = capacités
 
-# attr:aria-label
-seg-4adb5411062e = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } validées (carrés pleins), { "208" } modélisées (carrés creux), { "4" } relevant du partenaire (losanges). Les touches fléchées déplacent entre les cellules ; la capacité et sa référence indépendante sont lues ci-dessous.
-
 # text
 seg-f97cb6bf8202 = Survolez une cellule ou donnez-lui le focus pour lire sa capacité et la référence indépendante qui l'évalue.
 
 # text
 seg-8a1cef0b9561 = Validé : une référence externe indépendante concorde
-
-# text
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "388" } lignes · aucun scénario ni graine : le registre propre du moteur
 
 # text
 seg-d5c32303297d = Lire le registre
@@ -4282,11 +4271,6 @@ seg-55fc928e19ae = référence indépendante · vecteurs de vérification AIAA 2
 seg-1d60624d525d = Comment cela a été vérifié
 
 # text
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-# text
 # c1: orbit-sgp4-gps.toml
 # c2: 17
 seg-58ca3da25e69 = Ouvrir dans Kshana Studio : le même propagateur, <c1/><s1> · graine <c2/></s1>
@@ -4319,11 +4303,6 @@ seg-87734f6c52a2 = Un carré par cas SciPy, groupé par noyau.
 seg-4957eddb39ed = référence indépendante · SciPy
 
 # text
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-# text
 # c1: integrity-raim.toml
 # c2: 7
 seg-011e33e27f59 = Ouvrir dans Kshana Studio : le noyau à l'œuvre, <c1/><s1> · graine <c2/></s1>
@@ -4345,11 +4324,6 @@ seg-2b1ea60e99a7 = Écart de position en fonction du temps, par niveau de forces
 
 # text
 seg-75344d6c427a = référence indépendante · Orekit { "12.2" }
-
-# text
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
 # text
 seg-44988f3835ce = Pas de vue Kshana Studio : cette comparaison s'exécute comme un test du moteur.
@@ -4376,11 +4350,6 @@ seg-f5b078c26ba8 = Chaque résidu sur une échelle logarithmique du millimètre 
 seg-6670ead3fa91 = référence indépendante · éphémérides précises de l'ESA, trajectoire reconstruite de l'orbiteur lunaire, Orekit { "12.2" }, vecteurs AIAA
 
 # text
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
-
-# text
 seg-57c9f4e60efa = Pas de vue Kshana Studio : la détermination d'orbite précise s'exécute comme des tests du moteur.
 
 # text
@@ -4398,11 +4367,6 @@ seg-5d3372dbff1f = Quatre écarts-types en fonction du temps de moyennage, avec 
 
 # text
 seg-9993e306ae64 = référence indépendante · NIST SP { "1065" }
-
-# text
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
 # text
 # c1: clock-holdover.toml
@@ -4432,11 +4396,6 @@ seg-46c1dbe5c6bc = Erreur de temps mesurée et prédite en fonction de la durée
 seg-449f52c56c67 = référence indépendante · enregistrement mesuré au césium
 
 # text
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-# text
 # c1: slot-timing-ocxo-leo.toml
 seg-c131867720cc = Ouvrir dans Kshana Studio : la même inversion, <c1/><s1> · déterministe</s1>
 
@@ -4450,13 +4409,7 @@ seg-b19592bc5242 = Validé signifie qu'une source externe indépendante concorde
 seg-800e31fc8f7d = Capacités évaluées
 
 # text
-seg-1d2c8132218d = { "176" }<s1>sur { "388" } validées</s1>
-
-# text
 seg-e61158f71854 = Survolez une cellule
-
-# attr:aria-label
-seg-b66d124aa8dd = Matrice de vérification : { "176" } validées, { "208" } modélisées, { "4" } relevant du partenaire, { "388" } au total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id : le bruit d'autocorrélation de retard 1 de Riley et Greenhall ({ "2004" })… · Validé
@@ -5662,9 +5615,6 @@ seg-5af3d58e83fa = <b>Avec Pro :</b> un <b>dossier de mission</b> vérifie chaqu
 seg-400016e22379 = Registre de validation
 
 # text
-seg-6ef0eb045293 = Les { "388" } lignes, une ligne chacune.
-
-# text
 seg-20ec758fe328 = Chaque ligne nomme son exigence, son statut et le module qui l'implémente. Ouvrez une ligne pour voir sa référence indépendante et ses essais, ou choisissez un domaine pour restreindre.
 
 # attr:aria-label
@@ -5674,25 +5624,13 @@ seg-08f2354cb22b = Filtrer par domaine
 seg-f5a2e020b47e = Par domaine : la longueur de la barre est le nombre de lignes, la couleur est le statut. Choisissez-en un pour filtrer.
 
 # text
-seg-d8691ddf3170 = sur { "93" } validés
-
-# text
 seg-0272bc18f675 = sur { "19" } validés
-
-# text
-seg-d6687397eae9 = sur { "73" } validés
 
 # text
 seg-38ec110ef886 = Orbites, référentiels et géométrie
 
 # text
-seg-8d3ad903cd18 = sur { "76" } validés
-
-# text
 seg-a1c022c60fb6 = Inertiel, fusion et PNT alternatif
-
-# text
-seg-223bf21e1d9b = sur { "25" } validés
 
 # text
 seg-b355dc732d29 = Signaux et interférences
@@ -5707,13 +5645,7 @@ seg-d6c43e56d4cc = Analyse de mission, assurance et autres
 seg-5516d9825527 = sur { "55" } validés
 
 # text
-seg-d5b6224d2ec4 = Toutes { "388" }
-
-# text
 seg-7038fab8b00c = Validé { "176" }
-
-# text
-seg-2bca452c28dd = Modélisé { "208" }
 
 # text
 seg-ba89c1119b21 = Relevant du partenaire { "4" }
@@ -5723,9 +5655,6 @@ seg-cd12d85e2beb = Rechercher dans le registre
 
 # attr:placeholder
 seg-f014d784ebe3 = Rechercher une exigence, une référence indépendante, un module ou un essai
-
-# attr:aria-label
-seg-d0352364053e = Registre de validation, { "388" } lignes, défilable
 
 # text
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } cas : dix enregistrements en loi de puissance de Kasdin, b = { "0" } à -4, en données de phase et de fréquence, af = { "1" } à { "64" } ; alpha_int et d identiques, pire |d alpha| { "9.6e-13" } et |d rho| { "4.8e-13" }…</s1>
@@ -6623,3 +6552,5 @@ seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget 
 
 # text
 seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRESENTATIVE avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ
+
+seg-52dab8f79eed = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine

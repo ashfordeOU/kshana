@@ -18,8 +18,6 @@ seg-2f464fe709c9 = Bez tabeli oba rodzaje są parsowane, haszowane i raportowane
 
 seg-c931c5ec2f4a = Formaty
 
-seg-7f608c733407 = <b><c1/></b>: pliki zegara RINEX, wersje { "2" } oraz od { "3.00" } do { "3.04" } (w tym dziewięcioznakowe pole nazwy z { "3.04" }). Nagłówek jest czytany tylko dla <c2/> i pomijany do <c3/>. Spośród rekordów danych zachowywane są tylko rekordy <c4/> (satelita) i <c5/> (odbiornik lub stacja) jednego zegara, wybranego po nazwie. Ich pierwsze pole wartości, bias zegara w sekundach, jest fazą. Linie kontynuacji oraz rekordy <c6/>, <c7/> i <c8/> są pomijane. Epoki to pola kalendarzowe rekordu, jako sekundy od 1980-01-06 { "00" }:{ "00" }:{ "00" } we własnym systemie czasu pliku, bez konwersji.
-
 seg-0b758195e7eb = <b><c1/></b>: dzienniki fazy lub częstotliwości ASCII w stylu TimeLab, czyli zwykła postać tekstowa, którą eksportuje TimeLab i którą wczytują jego import ASCII oraz Stable32. W każdej linii jest jeden odczyt: albo pojedyncza kolumna przy jednorodnym <c2/>, albo dwie kolumny <c3/>. Kolumny mogą być oddzielone białymi znakami, przecinkami lub średnikami.
 
 seg-a7ae9e712bea = Linie zaczynające się od <c1/>, <c2/> lub <c3/> są komentarzami. Komentarz w postaci <c4/> (lub <c5/>) ustawia <c6/> (s), <c7/> (<c8/>, <c9/>, <c10/>, <c11/> lub <c12/>, dla fazy), <c13/> (<c14/> lub <c15/>) albo <c16/> (<c17/> lub <c18/>, dla pierwszej z dwóch kolumn).
@@ -30,13 +28,9 @@ seg-84f4b59bcdbf = Dane częstotliwości (częstotliwość względna) są przyjm
 
 seg-8cc445eb84f3 = Binarne pliki projektów TimeLab oraz <c1/> nie są wczytywane.
 
-seg-3d8853fa9c92 = <b><c1/></b>: dzienniki licznika TAPR TICC (TICC Operation Manual, wersja z { "23" } listopada { "2016" }, „measurement modes”). Każde pole danych to sekundy z { "12" } miejscami po przecinku.
-
 seg-3af6e4e7bc73 = Linie trybu znaczników czasu (<c1/>, <c2/>) oraz kanał pseudoznacznika czasu trybu TimeLab (<c3/>) są znacznikami czasu zdarzeń. Fazą wybranego kanału jest jego znacznik czasu minus nominalny takt: <c4/>, gdzie <c5/> to liczba całkowita <c6/> od pierwszego zdarzenia. Pominięte zdarzenie jest przerwą.
 
 seg-cecf9df4ff10 = Linie trybu interwału (<c1/> lub dowolna etykieta zaczynająca się od <c2/>) są odczytywane bezpośrednio jako faza, jeden odczyt na <c3/>. Scenariusz musi podać <c4/>, ponieważ linia nie niesie czasu.
-
-seg-75301936698f = Wyjście trybu okresu i trybu debugowania jest odrzucane. Kanał, którego odczyty nie rosną, jest zgłaszany jako tryb okresu.
 
 seg-5ec2509907dd = Linie zaczynające się od <c1/> oraz linie niebędące <c2/> (takie jak menu startowe) są pomijane i liczone.
 
@@ -81,8 +75,6 @@ seg-593c998b65e0 = <c1/>: zachowaj najdłuższy ciąg bez przerw;
 seg-f184ce746389 = <c1/>: wypełnij przerwy wewnętrzne interpolacją liniową i podaj liczbę wypełnionych.
 
 seg-1f3dc3429615 = Estymatory wymagają zapisu bez przerw, dlatego przerwy są tu rozwiązywane.
-
-seg-fe7d27a473aa = MODELLED. To jest parser, a jego wynik zasila estymatory sprawdzane gdzie indziej względem allantools. Testy jednostkowe w <c1/> używają małych ręcznie napisanych dzienników, a dla formatów linuxptp i chrony zestawów danych z <c2/>. <c3/> uruchamia porównanie zarejestrowane wstępnie w <c4/>: trzy syntetyczne dzienniki z ziarnem, po jednym na format, odczytane z powrotem przez niezależny czytnik napisany na podstawie tej strony przez tego samego autora, z ADEV, TDEV i MTIE sprawdzonymi względem allantools { "2024.6" }; porównanie to obejmuje tylko pierwsze trzy formaty, a czytniki linuxptp i chrony mają testy parsera, lecz nie mają porównania z wyrocznią. Dzienniki są syntetyczne, więc nic tu nie opisuje prawdziwego zegara ani licznika.
 
 seg-0f061f726ec5 = <s1>Poprzednia</s1>Test holdover i sprzęt czasu w pętli
 

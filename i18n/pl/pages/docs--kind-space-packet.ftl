@@ -22,10 +22,6 @@ seg-e3235e4d3760 = Przykład <c1/> ustawia między innymi:
 
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
-seg-5b3bc9761db4 = Pierwszy
-
-seg-52036320db9b = TM
-
 seg-f336ba92871f = Etykieta wyniku (silnika): ramkowanie nagłówka głównego CCSDS 133.0-B Space Packet — dokładny, deterministyczny układ bitów, obieg kodowanie↔dekodowanie zweryfikowany; NIE jest to certyfikacja zgodności (bez logiki nagłówka wtórnego, CRC ani segmentacji poza flagami)
 
 seg-af1cf9aa9938 = Wykres zapisany przez silnik dla scenarios/space-packet.toml, rodzaj space-packet

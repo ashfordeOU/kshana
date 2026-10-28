@@ -3862,9 +3862,6 @@ seg-6d3d0f8c9b7c = Solicitar una evaluación de Pro
 seg-8f101c803442 = Cada capacidad lleva <s1>su evidencia.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } capacidades, cada una calificada. <b>{ "176" } validadas</b> frente a referencias independientes externas. <b>{ "208" } etiquetadas con honestidad como modeladas.</b> { "4" } son del socio. Nada se redondea al alza.
-
-# text
 seg-4f6445e5dd61 = Matriz de verificación <b>v{ $version }</b>
 
 # attr:aria-label
@@ -3873,19 +3870,11 @@ seg-d9f0aabb4262 = Pausar el barrido
 # text
 seg-ae9e2459836c = capacidades
 
-# attr:aria-label
-seg-4adb5411062e = Matriz de verificación, una celda por capacidad en el orden del registro: { "176" } validadas (cuadrados rellenos), { "208" } modeladas (cuadrados huecos), { "4" } del socio (rombos). Las teclas de flecha mueven entre celdas; la capacidad y su referencia independiente se leen debajo.
-
 # text
 seg-f97cb6bf8202 = Pase el cursor por una celda o enfóquela para leer su capacidad y la referencia independiente que la califica.
 
 # text
 seg-8a1cef0b9561 = Validada: una referencia independiente externa coincide
-
-# text
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "388" } filas · sin escenario ni semilla: el propio registro del motor
 
 # text
 seg-d5c32303297d = Leer el registro
@@ -3937,11 +3926,6 @@ seg-55fc928e19ae = referencia independiente · vectores de verificación AIAA 20
 seg-1d60624d525d = Cómo se comprobó
 
 # text
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-# text
 # c1: orbit-sgp4-gps.toml
 # c2: 17
 seg-58ca3da25e69 = Abrir en Kshana Studio: el mismo propagador, <c1/><s1> · semilla <c2/></s1>
@@ -3974,11 +3958,6 @@ seg-87734f6c52a2 = Un cuadrado por caso de SciPy, agrupados por núcleo.
 seg-4957eddb39ed = referencia independiente · SciPy
 
 # text
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-# text
 # c1: integrity-raim.toml
 # c2: 7
 seg-011e33e27f59 = Abrir en Kshana Studio: el núcleo en funcionamiento, <c1/><s1> · semilla <c2/></s1>
@@ -4000,11 +3979,6 @@ seg-2b1ea60e99a7 = Diferencia de posición frente al tiempo, por nivel de fuerza
 
 # text
 seg-75344d6c427a = referencia independiente · Orekit { "12.2" }
-
-# text
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
 # text
 seg-44988f3835ce = Sin vista en Kshana Studio: esta comparación se ejecuta como una prueba del motor.
@@ -4031,11 +4005,6 @@ seg-f5b078c26ba8 = Cada residuo en escala logarítmica, desde un milímetro hast
 seg-6670ead3fa91 = referencia independiente · efemérides precisas de la ESA, trayectoria reconstruida del orbitador lunar, Orekit { "12.2" }, vectores de la AIAA
 
 # text
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
-
-# text
 seg-57c9f4e60efa = Sin vista en Kshana Studio: la determinación precisa de órbita se ejecuta como pruebas del motor.
 
 # text
@@ -4053,11 +4022,6 @@ seg-5d3372dbff1f = Cuatro desviaciones frente al tiempo de promediado, con los v
 
 # text
 seg-9993e306ae64 = referencia independiente · NIST SP { "1065" }
-
-# text
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
 # text
 # c1: clock-holdover.toml
@@ -4087,11 +4051,6 @@ seg-46c1dbe5c6bc = Error de tiempo medido y predicho frente al tiempo de funcion
 seg-449f52c56c67 = referencia independiente · registro medido de cesio
 
 # text
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-# text
 # c1: slot-timing-ocxo-leo.toml
 seg-c131867720cc = Abrir en Kshana Studio: la misma inversión, <c1/><s1> · determinista</s1>
 
@@ -4105,13 +4064,7 @@ seg-b19592bc5242 = Validado significa que coincide una fuente externa independie
 seg-800e31fc8f7d = Capacidades calificadas
 
 # text
-seg-1d2c8132218d = { "176" }<s1>de { "388" } validadas</s1>
-
-# text
 seg-e61158f71854 = Pase el cursor por una celda
-
-# attr:aria-label
-seg-b66d124aa8dd = Matriz de verificación: { "176" } validadas, { "208" } modeladas, { "4" } del socio, { "388" } en total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: la autocorrelación de retardo 1 de Riley y Greenhall ({ "2004" }) para identificar el ruido… · Validado
@@ -5314,9 +5267,6 @@ seg-5af3d58e83fa = <b>Con Pro:</b> un <b>dosier de misión</b> comprueba cada re
 seg-400016e22379 = Registro de validación
 
 # text
-seg-6ef0eb045293 = Las { "388" } filas, una línea cada una.
-
-# text
 seg-20ec758fe328 = Cada fila nombra su requisito, su estado y el módulo que lo implementa. Abra una fila para ver su referencia independiente y sus pruebas, o elija un dominio para acotar.
 
 # attr:aria-label
@@ -5326,25 +5276,13 @@ seg-08f2354cb22b = Filtrar por dominio
 seg-f5a2e020b47e = Por dominio: la longitud de la barra son las filas, el color es el estado. Elija uno para filtrar.
 
 # text
-seg-d8691ddf3170 = de { "93" } validadas
-
-# text
 seg-0272bc18f675 = de { "19" } validadas
-
-# text
-seg-d6687397eae9 = de { "73" } validadas
 
 # text
 seg-38ec110ef886 = Órbitas, marcos y geometría
 
 # text
-seg-8d3ad903cd18 = de { "76" } validadas
-
-# text
 seg-a1c022c60fb6 = Inercial, fusión y PNT alternativo
-
-# text
-seg-223bf21e1d9b = de { "25" } validadas
 
 # text
 seg-b355dc732d29 = Señales e interferencia
@@ -5359,13 +5297,7 @@ seg-d6c43e56d4cc = Análisis de misión, aseguramiento y otros
 seg-5516d9825527 = de { "55" } validadas
 
 # text
-seg-d5b6224d2ec4 = Todas { "388" }
-
-# text
 seg-7038fab8b00c = Validadas { "176" }
-
-# text
-seg-2bca452c28dd = Modeladas { "208" }
 
 # text
 seg-ba89c1119b21 = Del socio { "4" }
@@ -5375,9 +5307,6 @@ seg-cd12d85e2beb = Buscar en el registro
 
 # attr:placeholder
 seg-f014d784ebe3 = Buscar requisito, referencia independiente, módulo o prueba
-
-# attr:aria-label
-seg-d0352364053e = Registro de validación, { "388" } filas, desplazable
 
 # text
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } casos: diez registros de ley de potencias de Kasdin, b = { "0" } a -4, como datos de fase y de frecuencia, af = { "1" } a { "64" }; alpha_int y d idénticos, peor |d alpha| { "9.6e-13" } y |d rho| { "4.8e-13" }…</s1>
@@ -6623,3 +6552,5 @@ seg-dd838d199a0d = Superficies en forma cerrada (InternalConsistency): la depres
 
 # text
 seg-eb6d3be85fec = Referencia: las afirmaciones numéricas de cinco fuentes públicas registradas con URL, fecha de obtención, SHA-256 y licencia en tests/fixtures/lunar_station/SOURCES.md (arXiv:2602.08432v3; presentaciones del IOAG Cislunar PNT Workshop { "2025" } y { "2026" }; UNOOSA ICG WG-B Lunar PNT, junio de { "2024" }), transcritas con referencias de página en tests/fixtures/lunar_station_published/CLAIMS.md. Los umbrales, casos y entradas se preregistraron en tests/fixtures/lunar_station_published/PREREGISTRATION.md (revisión { "2" }, 05bf9a19, confirmada por separado antes de la ejecución). { "0.36" } primera ejecución, un hallazgo (se mantiene MODELLED): { "1" } de { "6" } umbrales se superan. La cobertura es { "0.00" } en ambos círculos frente a >= { "0.95" }, y el error p95 3-D corregido es { "280.6" } m ({ "300" } km) y { "293.0" } m con latencia de { "600" } s, frente a <= { "1.5" } m. El umbral decimétrico (K4) no podía superarse con el ruido de código de { "0.30" } m de las fuentes, lo que refleja un conflicto entre las fuentes y no un resultado del modelo. K6 se supera (razón { "1.39" } frente a <= { "1.5" }), pero como razón de dos cifras dominadas por la geometría no es evidencia sobre la decorrelación en ningún sentido. Causa: los elementos de los satélites no son públicos, y con los elementos ILLUSTRATIVE del árbol un usuario y la estación comparten cuatro satélites por encima de { "5" } grados solo en el { "8.2" } % ({ "300" } km) y el { "6.3" } % ({ "600" } km) de las épocas, con geometría casi singular (p95 sin corregir { "3.8" } km frente a < { "10" } m de las fuentes). Las simulaciones de las fuentes usaron un filtro, una restricción de altura y tres satélites en vista común, lo que el tipo de escenario instantáneo no modela. Por tanto, la comparación ni confirma ni refuta el 'submétrico en todo el polo sur' publicado. Muestra que el resultado de este modelo depende de órbitas que no están publicadas. No es una afirmación sobre ningún sistema real; no está afiliado a ningún organismo ni avalado por él
+
+seg-52dab8f79eed = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla

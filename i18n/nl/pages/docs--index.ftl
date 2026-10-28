@@ -10,15 +10,11 @@ seg-69525243f8f1 = <s1>Jamming, spoofing en het spectrum</s1><s2>{ "6" } scenari
 
 seg-0541e0421253 = <s1>Navigatie in een lage baan om de aarde</s1><s2>{ "7" } scenariotypen van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
 
-seg-1da177a1654b = <s1>Maan en cislunair</s1><s2>{ "20" } scenariotypen van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
-
 seg-671dc0d705c5 = <s1>Missieanalyse, verbindingen en ruimteoperaties</s1><s2>{ "14" } scenariotypen van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
 
 seg-5de091b18fe4 = <s1>Optische PNT</s1><s2>{ "2" } scenariotypen van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
 
 seg-35db5b51a590 = <s1>Navigatie voor ruimtegebruikers</s1><s2>{ "1" } scenariotype van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
-
-seg-0144518c94fc = { "87" } pagina's, één voor elk scenariotype, gelinkt vanaf <a1>Elk scenariotype, per familie</a1>.
 
 seg-1acf60cff708 = Niet opgenomen
 
@@ -46,17 +42,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kwantum tegenover klassiek</s1><s2>De afsluite
 
 seg-50dd8e4077fd = <s1>Uitgewerkt voorbeeld: pijplijn met meerdere hulpmiddelen</s1><s2>Hierin loopt één traject door de op standaarden gebaseerde interop- en missieanalysescenariosoorten van begin tot…</s2>
 
-seg-78756a9f6704 = <s1>Scenariosoorten</s1><s2>De { "87" } ingebouwde scenariosoorten waarover kshana::api::run_toml verdeelt, elk met zijn eenregelige…</s2>
-
-seg-051029eb3525 = <s1>Elke scenariosoort, per familie</s1><s2>Elke scenariosoort die engine v{ $version } verdeelt ({ "87" }), ingedeeld in { "12" } families.</s2>
-
 seg-86b2b5f29f35 = <s1>Elke opdracht</s1><s2>kshana <scenario.toml> voert een scenario uit; elke andere opdracht is een subopdracht. kshana --help toont het gebruik…</s2>
 
 seg-e847b803a7a9 = <s1>Elk oppervlak</s1><s2>Eén engine, overal dezelfde resultaten. docs/SURFACES.md vermeldt voor elke opdracht en soort welk oppervlak…</s2>
 
 seg-dcd149f1b172 = <s1>Mogelijkheidsdomeinen</s1><s2>Elke mogelijkheid van de openbare kaart, per domein, met haar registerlabel.</s2>
-
-seg-76a9b614dada = <s1>Scenarioreferentie</s1><s2>Elk meegeleverd scenariobestand ({ "182" }), gegroepeerd per soort, met de belangrijkste instellingen.</s2>
 
 seg-58cdc99dfc9e = <s1>Resultaatschema</s1><s2>Elke run schrijft een van versies voorzien, zelfbeschrijvend JSON-artefact (JavaScript Object Notation) naast het scenario.</s2>
 
@@ -71,10 +61,6 @@ seg-b57457566406 = <s1>Animatie-export</s1><s2>--animate maakt van de tijdreeks 
 seg-6e9c30a894e9 = <s1>Interoperabiliteitsexports en -imports</s1><s2>Een run schrijft een resultaatdocument, een grafiek en een rapport. --export schrijft ook de geometrie van het scenario, of zijn…</s2>
 
 seg-ea5f09561b29 = <s1>Validatiestatus</s1><s2>Over toleranties. "Getoetst" betekent hieronder dat een kalibratietest bevestigt dat de gesimuleerde statistiek overeenkomt met de…</s2>
-
-seg-c387a74ffabb = <s1>Verificatiematrix</s1><s2>Het complete, machinaal gecontroleerde bewijsregister: { "388" } rijen: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkhedenkaarten en alle { "388" } rijen van de verificatiematrix.</s2>
 
 seg-ae0276d1d945 = <s1>Waarom rijen uit een model berekend blijven</s1><s2>Deze mogelijkheden zijn geïmplementeerd vanuit gepubliceerde of eerstebeginselenfysica met tests, maar zijn eerlijk…</s2>
 

@@ -43,17 +43,6 @@ seg-2f464fe709c9 = Sem a tabela, ambos os tipos de cenário são analisados, cal
 seg-c931c5ec2f4a = Os formatos
 
 # text
-# c1: rinex-clk
-# c2: TIME SYSTEM ID
-# c3: END OF HEADER
-# c4: AS
-# c5: AR
-# c6: CR
-# c7: DR
-# c8: MS
-seg-7f608c733407 = <b><c1/></b>: ficheiros de relógio RINEX, versões { "2" } e { "3.00" } a { "3.04" } (incluindo o campo de nome de nove carateres de { "3.04" }). O cabeçalho é lido apenas pelo seu <c2/> e é ignorado até <c3/>. Dos registos de dados, só são mantidos os registos <c4/> (satélite) e <c5/> (recetor ou estação) de um relógio, selecionado pelo nome. O seu primeiro campo de valor, o desvio do relógio em segundos, é a fase. As linhas de continuação e os registos <c6/>, <c7/> e <c8/> são ignorados. As épocas são os campos de calendário do registo, em segundos desde 1980-01-06 { "00" }:{ "00" }:{ "00" } no próprio sistema de tempo do ficheiro, sem conversão.
-
-# text
 # c1: timelab
 # c2: tau0
 # c3: time value
@@ -92,10 +81,6 @@ seg-84f4b59bcdbf = Os dados de frequência (frequência fracionária) só são a
 seg-8cc445eb84f3 = Os ficheiros binários e de projeto <c1/> do TimeLab não são lidos.
 
 # text
-# c1: ticc
-seg-3d8853fa9c92 = <b><c1/></b>: registos do contador TAPR TICC (TICC Operation Manual, revisão de { "23" } de novembro de { "2016" }, «measurement modes»). Cada campo de dados é em segundos com { "12" } casas decimais.
-
-# text
 # c1: <seconds> chA
 # c2: <seconds> chB
 # c3: chC
@@ -110,9 +95,6 @@ seg-3af6e4e7bc73 = As linhas do modo de marca temporal (<c1/>, <c2/>) e o canal 
 # c3: tau0
 # c4: tau0_s
 seg-cecf9df4ff10 = As linhas do modo de intervalo (<c1/>, ou qualquer etiqueta que comece por <c2/>) são lidas diretamente como fase, uma leitura por <c3/>. O cenário tem de indicar <c4/>, porque a linha não transporta tempo.
-
-# text
-seg-75301936698f = A saída em modo de período e em modo de depuração é recusada. Um canal cujas leituras não aumentam é reportado como modo de período.
 
 # text
 # c1: #
@@ -232,13 +214,6 @@ seg-f184ce746389 = <c1/>: preencher as lacunas interiores por interpolação lin
 
 # text
 seg-1f3dc3429615 = Os estimadores precisam de um registo sem lacunas, razão pela qual as lacunas são resolvidas aqui.
-
-# text
-# c1: src/clock_log.rs
-# c2: tests/fixtures/clock_log/linuxptp_chrony/
-# c3: tests/clock_log_allantools.rs
-# c4: tests/fixtures/clock_log/PREREGISTRATION.md
-seg-fe7d27a473aa = MODELLED. Isto é um analisador, e a sua saída alimenta estimadores que são validados noutro local face ao allantools. Os testes unitários em <c1/> usam pequenos registos escritos à mão e, para os formatos linuxptp e chrony, os ficheiros de apoio em <c2/>. <c3/> executa a comparação pré-registada em <c4/>: três registos sintéticos com semente, um por formato, relidos por um leitor independente escrito a partir desta página pelo mesmo autor, com o ADEV, o TDEV e o MTIE verificados face ao allantools { "2024.6" }; essa comparação abrange apenas os três primeiros formatos, e os leitores linuxptp e chrony têm testes de analisador mas nenhuma comparação com uma referência independente. Os registos são sintéticos, pelo que nada aqui descreve um relógio ou contador real.
 
 # text
 seg-0f061f726ec5 = <s1>Anterior</s1>Teste de holdover e hardware de temporização no circuito

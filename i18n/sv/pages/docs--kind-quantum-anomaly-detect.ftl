@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = Exemplet <c1/> anger bland annat:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
-
 seg-2f1d14239d1a = Diagrammet som motorn skriver för scenarios/quantum-anomaly-detect.toml, typ quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytisk binormal ROC-AUC = Φ(μ/(σ√{ "2" })) och det minsta detekterbara felet σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) som ligger till grund för kvantfels- och anomalidetektorerna. Oberoende referens (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), båda BSD-3-Clause — oberoende bibliotek som beräknar samma entydigt definierade storheter för Gauss-svans / AUC, matchade till A&S-erf-golvet (~{ "7e-8" }). Fördelen för kvant mot klassisk som byggs ovanpå förblir MODELLED

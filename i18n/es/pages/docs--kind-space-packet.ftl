@@ -45,12 +45,6 @@ seg-e3235e4d3760 = El ejemplo <c1/> establece, entre otros:
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = First
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Etiqueta del resultado (la del motor): entramado de cabecera primaria del CCSDS 133.0-B Space Packet: disposición de bits exacta y determinista, recorrido de ida y vuelta de codificación↔decodificación verificado; NO una certificación de ajuste a la norma (sin lógica de cabecera secundaria, CRC ni segmentación más allá de los indicadores)
 
 # attr:alt

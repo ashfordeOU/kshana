@@ -86,17 +86,9 @@ seg-f325b20ba911 = サーバーの起動方法を選ぶ
 
 seg-f7b7c7f2eb0d = 以下の各クライアントは、三つのサーバー定義のいずれかを受け付けます。いずれも同じサーバーを起動します。
 
-seg-e40d4a54025f = <b>npx (Node)</b>（Node { "18" }+ が必要）：<c1/>
-
-seg-11aa05e3bace = <b>Docker</b>（Docker が必要）：<c1/>
-
 seg-d5fce7d58cfc = <b>PATH 上の kshana-mcp</b>（バイナリが必要です（brew、scoop、winget、cargo、またはリリースからのダウンロード））：<c1/>
 
 seg-c320bcbc9bcd = ワンクリックのリンク
-
-seg-0281dbe84644 = Cursor、npx (Node)：<a1>Web リンク</a1> · <c1/>
-
-seg-405f915ef73a = Cursor、Docker：<a1>Web リンク</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor、PATH 上の kshana-mcp：<a1>Web リンク</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code、npx (Node)：<a1>開く</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code、Docker：<a1>開く</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code、PATH 上の kshana-mcp：<a1>開く</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose、npx：<c1/>
 
 seg-13df6618e070 = その他のクライアント
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/>は、ローカルプロセスを実行できないク�
 seg-04c1f05fb027 = <s1>前へ</s1>MCP サーバー
 
 seg-eba757f29814 = <s1>次へ</s1>MCP サーバー：セルフホストの HTTP モード
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b>（Node { "18" }+ が必要）：<c1/>
+
+seg-77230eb344ea = <b>Docker</b>（Docker が必要）：<c1/>
+
+seg-3398eea8e332 = Cursor、npx (Node)：<a1>Web リンク</a1> · <c1/>
+
+seg-67009baafb3b = Cursor、Docker：<a1>Web リンク</a1> · <c1/>
+
+seg-6918cd89f776 = Goose、npx：<c1/>

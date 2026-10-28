@@ -2504,21 +2504,15 @@ seg-ac7e1a5e344a = Pro
 
 seg-8f101c803442 = Varje förmåga bär <s1>sin evidens.</s1>
 
-seg-9ef28b622a43 = { "388" } förmågor, var och en graderad. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "208" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
-
 seg-4f6445e5dd61 = Verifieringsmatris <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = Pausa svepet
 
 seg-ae9e2459836c = förmågor
 
-seg-4adb5411062e = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "208" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan cellerna; förmågan och dess referens läses upp nedan.
-
 seg-f97cb6bf8202 = Håll muspekaren över eller fokusera en cell för att läsa dess förmåga och den referens som graderar den.
 
 seg-8a1cef0b9561 = Validerad: en oberoende extern referens stämmer
-
-seg-582c4a762fc5 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "388" } rader · inget scenario eller frö: motorns eget register
 
 seg-d5c32303297d = Läs registret
 
@@ -2552,8 +2546,6 @@ seg-55fc928e19ae = referens · verifieringsvektorer i AIAA 2006-6753
 
 seg-1d60624d525d = Hur det kontrollerades
 
-seg-6adbc42697f9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
-
 seg-813d6d41b891 = Kopiera kommandot som återskapar det
 
 seg-a0ef302e2458 = Kopiera kommando
@@ -2572,8 +2564,6 @@ seg-87734f6c52a2 = En kvadrat per SciPy-fall, grupperade per kärna.
 
 seg-4957eddb39ed = referens · SciPy
 
-seg-c5d5cf50c8a9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
-
 seg-e02df7620fc7 = Numerisk (Cowell) banpropagering mot Orekit över en 24-timmarsbåge: sämsta skillnad { "0.08" } m i kraftnivåerna { "1" } till { "5" }.
 
 seg-d52f564b4af8 = Banor · numeriska
@@ -2585,8 +2575,6 @@ seg-16e820be9d20 = Mot flygdynamikbiblioteket Orekit { "12.2" } vid varje epok i
 seg-2b1ea60e99a7 = Positionsskillnad mot tid, per kraftnivå.
 
 seg-75344d6c427a = referens · Orekit { "12.2" }
-
-seg-2e80a89ee20a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
 
 seg-44988f3835ce = Ingen Kshana Studio-vy: den här jämförelsen körs som ett motortest.
 
@@ -2604,8 +2592,6 @@ seg-f5b078c26ba8 = Varje rest på en logaritmisk skala från en millimeter till 
 
 seg-6670ead3fa91 = referens · ESA:s precisa efemerider, månomloppsfarkostens rekonstruerade bana, Orekit { "12.2" }, AIAA-vektorer
 
-seg-6ce9be05ab08 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
-
 seg-57c9f4e60efa = Ingen Kshana Studio-vy: precis banbestämning körs som motortester.
 
 seg-f8f25ec2345b = Klockor · stabilitet
@@ -2617,8 +2603,6 @@ seg-e0c144321893 = Återskapar referensvärdena i NIST (National Institute of St
 seg-5d3372dbff1f = Fyra avvikelser mot medelvärdesbildningstid, med de publicerade värdena som ringar.
 
 seg-9993e306ae64 = referens · NIST SP { "1065" }
-
-seg-2a2794bda50f = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
 
 seg-4f484b09471e = Holdover-prediktion på en uppmätt cesiumklockserie: predikterat över uppmätt mellan { "0.84" } och { "1.03" }, inom den förinställda faktorn { "1.5" }.
 
@@ -2634,19 +2618,13 @@ seg-46c1dbe5c6bc = Uppmätt och predikterat tidsfel mot glidtid, och kvotfönstr
 
 seg-449f52c56c67 = referens · uppmätt cesiumserie
 
-seg-275351654591 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministiskt, inget frö
-
 seg-05dd599ce14a = En cell per förmåga.
 
 seg-b19592bc5242 = Validerad betyder att en oberoende extern källa stämmer: publicerade referensvektorer, ett separat verktyg eller uppmätta data. Allt annat står som modellerat. Välj en etikett för att tända dess celler.
 
 seg-800e31fc8f7d = Graderade förmågor
 
-seg-1d2c8132218d = { "176" }<s1>av { "388" } validerade</s1>
-
 seg-e61158f71854 = Håll muspekaren över en cell
-
-seg-b66d124aa8dd = Verifieringsmatris: { "176" } validerade, { "208" } modellerade, { "4" } ägda av partner, { "388" } totalt
 
 seg-d814d33d2b1e = allan::lag1_noise_id: Riley och Greenhalls ({ "2004" }) lag-1-autokorrelationsbrus… · Validerad
 
@@ -3450,27 +3428,17 @@ seg-5af3d58e83fa = <b>Med Pro:</b> ett <b>uppdragsdossier</b> kontrollerar varje
 
 seg-400016e22379 = Valideringsregister
 
-seg-6ef0eb045293 = Alla { "388" } rader, en rad vardera.
-
 seg-20ec758fe328 = Varje rad anger sitt krav, sin status och modulen som implementerar det. Öppna en rad för dess oberoende referens och tester, eller välj ett område för att begränsa urvalet.
 
 seg-08f2354cb22b = Filtrera efter område
 
 seg-f5a2e020b47e = Efter område: stapellängden är antal rader, färgen är status. Välj ett för att filtrera.
 
-seg-d8691ddf3170 = av { "93" } validerade
-
 seg-0272bc18f675 = av { "19" } validerade
-
-seg-d6687397eae9 = av { "73" } validerade
 
 seg-38ec110ef886 = Banor, referenssystem och geometri
 
-seg-8d3ad903cd18 = av { "76" } validerade
-
 seg-a1c022c60fb6 = Tröghet, fusion och alternativ PNT
-
-seg-223bf21e1d9b = av { "25" } validerade
 
 seg-b355dc732d29 = Signaler och störning
 
@@ -3480,19 +3448,13 @@ seg-d6c43e56d4cc = Uppdragsanalys, säkring och övrigt
 
 seg-5516d9825527 = av { "55" } validerade
 
-seg-d5b6224d2ec4 = Alla { "388" }
-
 seg-7038fab8b00c = Validerade { "176" }
-
-seg-2bca452c28dd = Modellerade { "208" }
 
 seg-ba89c1119b21 = Partnerägda { "4" }
 
 seg-cd12d85e2beb = Sök i registret
 
 seg-f014d784ebe3 = Sök krav, oberoende referens, modul eller test
-
-seg-d0352364053e = Valideringsregister, { "388" } rader, rullningsbart
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } fall: tio Kasdin-potenslagsregistreringar, b = { "0" } till -4, som fas- och frekvensdata, af = { "1" } till { "64" }; alpha_int och d identiska, sämsta |d alpha| { "9.6e-13" } och |d rho| { "4.8e-13" }…</s1>
 
@@ -4291,3 +4253,5 @@ seg-0bf6d80a9ac4 = <s1>{ "22" } juni { "2026" }</s1> · arXiv:{ "2607.05415" }
 seg-bc499c388907 = Radiofrekvensstörning
 
 seg-0411e7a125dd = <s1>{ "20" } juni { "2026" }</s1> · arXiv:{ "2606.22054" } · version { "2" }
+
+seg-52dab8f79eed = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö

@@ -100,8 +100,6 @@ seg-a240ef37dc6d = Lähde: <c1/>
 
 seg-befef5f2f8dd = Kuu ja Maa–Kuu-avaruus (skenaariolajien perhe)
 
-seg-f964724ea446 = Moottorin v{ $version } skenaariolajeja on { "20" }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
-
 seg-369e7cfcc1d3 = Aihesivut: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Aja yksi: <c1/>. Kaikki perheet: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Yleiskuva kaavioista, jotka moottori kirjoittaa Kuu ja Maa–Kuu-avaruus -perheen lajeille
@@ -185,8 +183,6 @@ seg-d9e24a9a8c0c = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <
 seg-4f05fad4b146 = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

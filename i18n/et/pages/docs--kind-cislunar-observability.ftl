@@ -51,9 +51,6 @@ seg-84781b6fff48 = GDOP määramata (astakupuudulik / singula
 seg-856eb311f24b = „undefined“ (tekst, nagu dokument väidab
 
 # text
-seg-1767b216650d = määratud
-
-# text
 seg-fc5d34345fdd = Tulemuse silt (mootori oma): MODELLED tasapinnalise tsislunaarse konstellatsiooni jälgitavus (P6). VALIDATED tuum: jälgitav ASTAK on astakut paljastav singulaarväärtuse lävi, mida on risttõendatud Gramiani omaastakuga; Gramiani omaspekter järgib spektraalseid invariante (jälg = omaväärtuste summa, det = omaväärtuste korrutis, Frobenius^{ "2" } = omaväärtuste ruutude summa^{ "2" }
 
 # attr:alt

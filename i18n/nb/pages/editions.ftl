@@ -106,10 +106,6 @@ seg-0cad5afda483 = Be om en evaluering
 
 seg-b366150de755 = Be om en studie
 
-seg-0adcadeb3854 = Den åpne motoren i midten: ett merke per scenariotype ({ "87" }), fylt der typen har validerte registerrader, hult der radene er modellert, en strek der ingen registermodul samsvarer med den på navn. Kshana Pro og den skreddersydde studien ligger rundt den og er knyttet til typene de bygger på.
-
-seg-9e896ee62ea0 = Motor v{ $version } · { "87" } typer fra <c1/> · registerstatus fra <c2/> · hva Pro og en studie bygger på: nettstedets register over utgaver · ingen scenario eller seed
-
 seg-e1acd19a6ac6 = Sammenlign utgavene
 
 seg-352b6af14482 = Lisens for åpen kjerne
@@ -149,10 +145,6 @@ seg-abc6bb005249 = Ingeniører for kjøretøy, nettverk, strømnett og romfartø
 seg-21989d609ae7 = Forskere, studenter og gjennomgangsfolk som trenger tall de kan reprodusere og sitere
 
 seg-3b6d727a2d38 = Utviklere som kobler motoren inn i kode, en CI-pakke (kontinuerlig integrasjon) eller en AI-assistent (kunstig intelligens)
-
-seg-abe5c7257cda = Alle { "87" } scenariotyper og { "173" } medfølgende scenarioer: native, Python, JavaScript, i nettleseren og over MCP (Model Context Protocol)
-
-seg-1434952d1bc8 = Hele verifikasjonsmatrisen: { "176" } av { "388" } funksjoner validert mot uavhengige referanser, resten merket som modellert
 
 seg-9b8eb955fecf = Hvert resultat stemplet med scenarioets hash, seed og motorversjon, og skrevet som JSON (JavaScript Object Notation), CSV-tabeller (kommaseparerte verdier) og SVG-diagrammer (Scalable Vector Graphics)
 

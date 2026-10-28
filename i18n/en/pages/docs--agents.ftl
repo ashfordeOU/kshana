@@ -251,6 +251,14 @@ seg-14781c19be62 = Interference map, route exposure
 seg-7135c6f44d49 = How the accuracy codes are read and the grid and route geometry are <b>VALIDATED</b> against independent libraries on synthetic inputs; the method's thresholds stay <b>MODELLED</b>, and that a degraded cell is interference is <b>not</b> checked: a degraded cell does <b>not</b> identify interference as the cause. A cell not observed is <b>not</b> evidence of a clear route. Past reports, <b>not a forecast</b>. Aggregate only: do not try to recover identifiers. ADS-B and AIS maps stay separate.
 
 # text
+# c1: interference-map locate
+seg-e3949a1e6082 = Emitter region (<c1/>)
+
+# text
+# c1: unconstrained
+seg-46b2efcb9bec = <b>MODELLED</b>: a feasible region under radio line of sight, not a fix. Report the region at its stated confidence with the centroid and its ellipse, never the centroid alone; say <c1/> when the data do not narrow it; say it is conditional on the model (checked on synthetic data only; the pre-registered Jammertest comparison ran once and was NOT ASSESSABLE for both sources, so nothing was tested externally). Neutral wording: "estimated emitter region"; never name or imply who or what is behind a source, a state, a force or an intent. Aggregate only; do not try to recover identifiers. Publishing emitter regions in the public observatory is off.
+
+# text
 seg-e47db9be47ea = Sky geometry, skyline
 
 # text

@@ -40,8 +40,6 @@ seg-c2187e8291f9 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia 
 
 seg-b1ff6f0e1769 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Opcjonalne: <c13/>, <c14/>, <c15/>.
 
-seg-9bd19903f577 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-nav</a1>.
-
 seg-3ec7b38184b7 = Pola wymagane: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Opcjonalne: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
 
 seg-7c777178ee8f = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-slam</a1>.

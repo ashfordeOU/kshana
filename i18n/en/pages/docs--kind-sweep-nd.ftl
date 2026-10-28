@@ -39,6 +39,9 @@ seg-8b701f465117 = log
 # text
 seg-195347c63a8a = m/s^{ "2" }
 
+# text
+seg-a349aa76b0ed = PARTNER
+
 # attr:alt
 seg-621a18c07044 = The chart the engine writes for scenarios/sweep-nd-inertial.toml, kind sweep-nd
 

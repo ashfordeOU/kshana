@@ -18,8 +18,6 @@ seg-2f464fe709c9 = Uten tabellen parses, hashes og rapporteres begge typene nøy
 
 seg-c931c5ec2f4a = Formatene
 
-seg-7f608c733407 = <b><c1/></b>: RINEX-klokkefiler, versjon { "2" } og { "3.00" } til { "3.04" } (inkludert navnefeltet på ni tegn i { "3.04" }). Headeren leses bare for sin <c2/> og hoppes over frem til <c3/>. Av datapostene beholdes bare postene <c4/> (satellitt) og <c5/> (mottaker eller stasjon) for én klokke, valgt etter navn. Det første verdifeltet deres, klokkebiasen i sekunder, er fasen. Fortsettelseslinjer og postene <c6/>, <c7/> og <c8/> hoppes over. Epoker er postens kalenderfelt, som sekunder fra 1980-01-06 { "00" }:{ "00" }:{ "00" } i filens eget tidssystem, uten konvertering.
-
 seg-0b758195e7eb = <b><c1/></b>: ASCII-fase- eller frekvenslogger i TimeLab-stil, tekstformen som TimeLab eksporterer og som ASCII-importen og Stable32 leser. Det er én avlesning per linje: enten én kolonne ved et jevnt <c2/>, eller to kolonner <c3/>. Kolonner kan skilles med blanktegn, komma eller semikolon.
 
 seg-a7ae9e712bea = Linjer som starter med <c1/>, <c2/> eller <c3/> er kommentarer. En kommentar på formen <c4/> (eller <c5/>) setter <c6/> (s), <c7/> (<c8/>, <c9/>, <c10/>, <c11/> eller <c12/>, for fase), <c13/> (<c14/> eller <c15/>) eller <c16/> (<c17/> eller <c18/>, for den første av to kolonner).
@@ -30,13 +28,9 @@ seg-84f4b59bcdbf = Frekvensdata (relativ frekvens) godtas bare som én enkelt ko
 
 seg-8cc445eb84f3 = TimeLabs binære prosjektfiler og prosjektfiler av typen <c1/> leses ikke.
 
-seg-3d8853fa9c92 = <b><c1/></b>: logger fra TAPR TICC-telleren (TICC Operation Manual, revisjon av { "23" } november { "2016" }, «measurement modes»). Hvert datafelt er sekunder med { "12" } desimaler.
-
 seg-3af6e4e7bc73 = Linjer i tidsstempelmodus (<c1/>, <c2/>) og TimeLab-modusens pseudo-tidsstempelkanal (<c3/>) er tidsstempler for hendelser. Fasen til den valgte kanalen er tidsstempelet minus den nominelle tikken: <c4/>, der <c5/> er det hele antallet <c6/> siden den første hendelsen. En hendelse som uteblir er et hull.
 
 seg-cecf9df4ff10 = Linjer i intervallmodus (<c1/>, eller en hvilken som helst etikett som starter med <c2/>) leses direkte som fase, én avlesning per <c3/>. Scenarioet må oppgi <c4/>, fordi linjen ikke bærer noe tidspunkt.
-
-seg-75301936698f = Utdata i periodemodus og feilsøkingsmodus avvises. En kanal der avlesningene ikke øker rapporteres som periodemodus.
 
 seg-5ec2509907dd = Linjer som starter med <c1/>, og linjer som ikke er <c2/> (for eksempel oppstartsmenyen), hoppes over og telles.
 
@@ -81,8 +75,6 @@ seg-593c998b65e0 = <c1/>: behold den lengste hullfrie perioden;
 seg-f184ce746389 = <c1/>: fyll indre hull med lineær interpolasjon, og rapporter hvor mange som ble fylt.
 
 seg-1f3dc3429615 = Estimatorene trenger en hullfri registrering, og derfor løses hull her.
-
-seg-fe7d27a473aa = MODELLED. Dette er en parser, og utdataene mater estimatorer som er validert andre steder mot allantools. Enhetstestene i <c1/> bruker små håndskrevne logger, og for formatene linuxptp og chrony fiksene i <c2/>. <c3/> kjører sammenligningen som er forhåndsregistrert i <c4/>: tre seedede syntetiske logger, én per format, lest tilbake av en uavhengig leser skrevet ut fra denne siden av den samme forfatteren, med ADEV, TDEV og MTIE kontrollert mot allantools { "2024.6" }; den sammenligningen dekker bare de tre første formatene, og leserne for linuxptp og chrony har parsertester, men ingen sammenligning mot en uavhengig referanse. Loggene er syntetiske, så ingenting her beskriver en ekte klokke eller teller.
 
 seg-0f061f726ec5 = <s1>Forrige</s1>Test av holdover og tidsmaskinvare i sløyfen
 

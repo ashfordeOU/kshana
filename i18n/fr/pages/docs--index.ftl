@@ -34,12 +34,6 @@ seg-a164328ef8cd = <s1>{ "3" } · Quantique contre classique</s1><s2>Le point d'
 seg-50dd8e4077fd = <s1>Exemple détaillé : chaîne multi-outils</s1><s2>Cet exemple suit une trajectoire à travers les types de scénario d'interopérabilité fondée sur des normes et d'analyse de mission, de bout en…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Types de scénario</s1><s2>Les { "87" } types de scénario intégrés sur lesquels kshana::api::run_toml distribue, chacun avec sa ligne unique…</s2>
-
-# text
-seg-051029eb3525 = <s1>Chaque type de scénario, par famille</s1><s2>Chaque type de scénario que le moteur v{ $version } distribue ({ "87" }), classé sous { "12" } familles.</s2>
-
-# text
 seg-86b2b5f29f35 = <s1>Chaque commande</s1><s2>kshana <scenario.toml> exécute un scénario ; chaque autre commande est une sous-commande. kshana --help affiche l'usage…</s2>
 
 # text
@@ -47,9 +41,6 @@ seg-e847b803a7a9 = <s1>Chaque surface</s1><s2>Un seul moteur, les mêmes résult
 
 # text
 seg-dcd149f1b172 = <s1>Domaines de capacités</s1><s2>Chaque capacité de la carte publique, par domaine, avec son étiquette de registre.</s2>
-
-# text
-seg-76a9b614dada = <s1>Référence des scénarios</s1><s2>Chaque fichier de scénario fourni ({ "182" }), regroupé par type de scénario, avec ses principaux réglages.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Schéma de résultat</s1><s2>Chaque exécution écrit un artefact JSON (JavaScript Object Notation) versionné et autodescriptif à côté du scénario.</s2>
@@ -71,12 +62,6 @@ seg-6e9c30a894e9 = <s1>Exports et imports d'interopérabilité</s1><s2>Une exéc
 
 # text
 seg-ea5f09561b29 = <s1>État de la validation</s1><s2>À propos des tolérances. « Validé » ci-dessous signifie qu'un test d'étalonnage affirme que la statistique simulée concorde avec le…</s2>
-
-# text
-seg-c387a74ffabb = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "388" } lignes — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-# text
-seg-be02c7f0d48e = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "388" } lignes de la matrice de vérification.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Pourquoi des lignes restent modélisées</s1><s2>Ces capacités sont implémentées à partir d'une physique publiée ou de premiers principes avec des tests, mais sont honnêtement…</s2>
@@ -328,9 +313,6 @@ seg-69525243f8f1 = <s1>Brouillage, leurrage et spectre</s1><s2>{ "6" } types de 
 seg-0541e0421253 = <s1>Navigation en orbite basse</s1><s2>{ "7" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
 
 # text
-seg-1da177a1654b = <s1>Lunaire et cislunaire</s1><s2>{ "20" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
-
-# text
 seg-671dc0d705c5 = <s1>Analyse de mission, liaisons et opérations spatiales</s1><s2>{ "14" } types de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
 
 # text
@@ -338,9 +320,6 @@ seg-5de091b18fe4 = <s1>PNT optique</s1><s2>{ "2" } types de scénario du moteur 
 
 # text
 seg-35db5b51a590 = <s1>Navigation de l'utilisateur spatial</s1><s2>{ "1" } type de scénario du moteur v{ $version }. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
-
-# text
-seg-0144518c94fc = { "87" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.
 
 # text
 seg-1acf60cff708 = Non inclus
