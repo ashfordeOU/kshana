@@ -61,3 +61,5 @@ seg-4b59ac409819 = Avveining mellom kvante og klassisk PNT og robusthet uten GNS
 seg-e6498fae3ba7 = <s1>Forrige</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Neste</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

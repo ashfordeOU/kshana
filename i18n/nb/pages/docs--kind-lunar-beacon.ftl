@@ -31,3 +31,5 @@ seg-2516c4208769 = DOP-forsterkning med overflatebaker på månen er MODELLED, i
 seg-ebb9724de60a = <s1>Forrige</s1>lunar-attack-surface
 
 seg-ca9b68783354 = <s1>Neste</s1>lunar-differential-pnt
+
+seg-b81e98467952 = <s1>Neste</s1>lunar-descent

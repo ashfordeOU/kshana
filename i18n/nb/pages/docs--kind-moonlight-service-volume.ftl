@@ -35,3 +35,9 @@ seg-2ff91fe31123 = ÆRLIGHET: MODELLED sammensetning. DOP-geometrien er validert
 seg-f3279128de3b = <s1>Forrige</s1>mars-pnt
 
 seg-92cd937a3fb7 = <s1>Neste</s1>ntn-positioning
+
+seg-e66e2ca31e54 = Temaside: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Typen og fasen <c1/>: relétilgjengelighet og PDOP, synlighet av Jorden og Solen og en disiplinert overflateklokke for hvert sted og hver årstid, med terrengskylinen fra <c2/>; en kjøring for ett sted er lik den typens
+
+seg-6730fa1b9820 = <s1>Forrige</s1>mission-thread

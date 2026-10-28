@@ -419,3 +419,17 @@ seg-1fc08d2f0209 = Hva kjøringens egen rapport sier ikke er modellert eller ikk
 seg-58c4d7218e70 = Reproduserbarhet og programvarekvalitetssikring er MODELLED, ikke validert: en delpåstand er kontrollert eksternt, men hele funksjonen setter sammen modellerte deler, så funksjonen forblir modellert. (verifikasjonsmatrise (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Alle typer: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Språk
+
+seg-aaf9c6896126 = Datapartnere og rader som kan oppgraderes
+
+seg-3b31855a40e7 = Oppdragstråd: fra oppskyting til gjeninntreden
+
+seg-0cf138405411 = Oppdragstråd: månesegmentet
+
+seg-5fee8df421d2 = Oppdragstråder
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = den stabile id-en til matriseraden (ID
