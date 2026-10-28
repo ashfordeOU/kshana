@@ -84,4 +84,4 @@ seg-be1f1afe7424 = <s1>Poprzednia</s1>Raporty z przebiegów
 
 seg-6817433f69f6 = <s1>Następna</s1>Eksporty i importy interoperacyjności
 
-seg-5366f477e688 = Rodzaj, którego wynik nie niesie żadnego z tych kształtów (bilans łącza, geometria jednej epoki, podsumowanie wyłącznie statystyczne Monte Carlo albo holdover telekomunikacyjny, którego wynik publikuje skrót zapisu, lecz nie sam zapis), jest odrzucany z komunikatem <c1/>, a nic nie jest zapisywane. W kshana { $version } { "94" } z { "192" } plików scenariuszy możliwych do uruchomienia (każdy plik poza zestawem badań) daje animację, a { "98" } jest odrzucanych. <c2/> wypisuje spis.
+seg-51cd8d5f527b = Rodzaj, którego wynik nie niesie żadnego z tych kształtów (bilans łącza, geometria jednej epoki, podsumowanie wyłącznie statystyczne Monte Carlo albo holdover telekomunikacyjny, którego wynik publikuje skrót zapisu, lecz nie sam zapis), jest odrzucany z komunikatem <c1/>, a nic nie jest zapisywane. W kshana { $version } { "94" } z { "193" } plików scenariuszy możliwych do uruchomienia (każdy plik poza zestawem badań) daje animację, a { "99" } jest odrzucanych. <c2/> wypisuje spis.

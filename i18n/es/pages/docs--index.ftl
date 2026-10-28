@@ -333,8 +333,6 @@ seg-0cf0b9fb9184 = <s1>Tipos de escenario</s1><s2>Los { "92" } tipos de escenari
 
 seg-9d5c233c72b4 = <s1>Todos los tipos de escenario, por familia</s1><s2>Cada tipo de escenario que despacha el motor v{ $version } ({ "92" }), clasificado en { "13" } familias.</s2>
 
-seg-2c002a7b7640 = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "192" }), agrupado por tipo de escenario, con sus ajustes principales.</s2>
-
 seg-f5987c9d9fde = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "401" } filas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "401" } filas de la matriz de verificación.</s2>
@@ -350,3 +348,5 @@ seg-cecb9535c0a1 = <s1>Lunar y cislunar</s1><s2>{ "24" } tipos de escenario del 
 seg-1dd7c80e18a7 = <s1>Hilos de misión</s1><s2>{ "1" } tipo de escenario del motor v{ $version }. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
 
 seg-f0e26f01a361 = { "92" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.
+
+seg-a1f33bd571ed = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "193" }), agrupado por tipo de escenario, con sus ajustes principales.</s2>

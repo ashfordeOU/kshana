@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Vælg en af { "193" } scenariefiler fordelt på { "92" } typer, eller skriv din egen. <c1/> viser hver type med dens felter, og <c2/> udskriver en fil at starte fra.
-
 seg-d5c6110302e9 = En missionstråd i Artemis-klassen, en evidensetiket på hvert tal og sytten sprog.
 
 seg-8597c65432ed = Kæd faserne i en månemission sammen til ét fejlbudget for navigation og tidssynkronisering, estimer, hvor en kilde til forringede positionsrapporter kan være, læs målte urlogs, se evidensniveauet på hvert tal, en kørsel skriver, og brug kommandolinjen, rapporterne og Studio på sytten sprog. Hver funktion bærer den etiket, som registeret har for den, og en etiket angiver kun det, der er kontrolleret. Vejledende software, ikke typegodkendt navigationsudstyr: operatøren er fortsat ansvarlig.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: gen-kampagnen { "0.40" }
 
 seg-1e0afa852323 = Fire præregistrerede sammenligninger blev kørt én gang efter frigivelsen og nåede deres tærskler, og hver score er modelleret.
 
-seg-ed10ac59ed87 = Alle { "193" } scenariefiler fordelt på { "92" } typer, grupperet efter domæne; { "180" } er indbygget i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> køres fra repositoriet med kommandolinjen. Prikken viser registerstatus for typens modul, hvor registeret nævner det. En fil med en optaget kørsel åbner den i Kshana Studio; de øvrige åbner deres post i scenariehenvisningen med filen og den kommando, der kører den.
-
 seg-c381cfa99bb0 = Et urscenarie, hvor det klassiske ur tager støjen fra en målt log (`[clock_fit]`).
 
 seg-328cd04eef87 = Et urscenarie med en målt log ved siden af den simulerede holdover (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Tilgængelighed af PNT og tidssynkronisering på månens over
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } af { "92" } typer, { "3300" } af { "3300" } numeriske felter
+
+seg-237402dbe93a = Vælg en af { "194" } scenariefiler fordelt på { "92" } typer, eller skriv din egen. <c1/> viser hver type med dens felter, og <c2/> udskriver en fil at starte fra.
+
+seg-ace118a5dc36 = Alle { "194" } scenariefiler fordelt på { "92" } typer, grupperet efter domæne; { "181" } er indbygget i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> køres fra repositoriet med kommandolinjen. Prikken viser registerstatus for typens modul, hvor registeret nævner det. En fil med en optaget kørsel åbner den i Kshana Studio; de øvrige åbner deres post i scenariehenvisningen med filen og den kommando, der kører den.

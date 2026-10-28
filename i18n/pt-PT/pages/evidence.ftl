@@ -6553,8 +6553,6 @@ seg-c97e87cbcdd5 = BibTeX do motor
 # text
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas na compilação <c2/> · determinístico, sem semente
-
 # text
 # c1: mission-thread
 seg-65185cb68d6b = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão, do lançamento à reentrada (<c1/>)
@@ -6712,31 +6710,6 @@ seg-7a254b7d5498 = Matriz de verificação, uma célula por capacidade na ordem 
 seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "401" } linhas · sem cenário nem semente: o registo do próprio motor
 
 # text
-# c1: ac05b72
-# c2: tests/sgp4_verification.rs
-seg-015ecb5cddc3 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
-# c1: ac05b72
-# c2: tests/raim_reference.rs
-seg-e26b6fdc705b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
-# c1: ac05b72
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-66defa1494fc = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
-# c1: ac05b72
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-4c54e96a1832 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
-# c1: ac05b72
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-3d202a56e836 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
 seg-77bfad0f4f88 = { "176" }<s1>de { "401" } validadas</s1>
 
 # attr:aria-label
@@ -6804,3 +6777,15 @@ seg-3df9e327c036 = Modeladas { "221" }
 
 # attr:aria-label
 seg-7fa6f2e0de57 = Registo de validação, { "401" } linhas, rolável
+
+seg-df43ce08ec0e = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-613de9424706 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-d2c2b9393166 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-6b46b5866660 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas na compilação <c2/> · determinístico, sem semente
+
+seg-958dfeda6dbf = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-3a1b15ffddc1 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

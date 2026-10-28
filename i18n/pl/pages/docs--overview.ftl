@@ -1970,8 +1970,8 @@ seg-11041e6beb65 = { "92" } wbudowanych rodzajów scenariuszy z opisami + polami
 
 seg-abf70d11a088 = cały otwarty silnik, wszystkie { "92" } rodzajów scenariuszy, bez blokad funkcji
 
-seg-b14326430bd8 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "92" } rodzajów, { "192" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
-
 seg-824001fa6734 = laboratoria i producenci posiadający zmierzone dane
 
 seg-df3ca402513f = które wiersze MODELLED mógłby awansować zmierzony zapis zegara lub IMU, jakie formaty, jak zgłoszenie jest sprawdzane (<c1/>), oceniane i zaliczane
+
+seg-e2d733f93455 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "92" } rodzajów, { "193" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.

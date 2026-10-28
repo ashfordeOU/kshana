@@ -1970,8 +1970,8 @@ seg-11041e6beb65 = De { "92" } indbyggede scenarietyper med beskrivelser + oblig
 
 seg-abf70d11a088 = hele den åbne motor, alle { "92" } scenarietyper, ingen funktionsspærring
 
-seg-b14326430bd8 = Se <c1/> for mindst ét udarbejdet eksempel på hver type ({ "92" } typer, { "192" } scenariefiler <c2/> + { "1" } suitemanifest — flere typer leveres med mere end ét eksempel). Ikke hver type har en fil opkaldt efter sig: <c3/> → <c4/> og <c5/> → <c6/> er to af flere sådanne. Vis de fordelbare typer når som helst med <c7/> fejl, Python-funktionen <c8/> eller MCP-værktøjet <c9/>.
-
 seg-824001fa6734 = laboratorier og producenter med målte data
 
 seg-df3ca402513f = hvilke MODELLED-rækker en målt ur- eller IMU-optagelse kunne opgradere, formaterne, hvordan en indsendelse kontrolleres (<c1/>), scores og krediteres
+
+seg-e2d733f93455 = Se <c1/> for mindst ét udarbejdet eksempel på hver type ({ "92" } typer, { "193" } scenariefiler <c2/> + { "1" } suitemanifest — flere typer leveres med mere end ét eksempel). Ikke hver type har en fil opkaldt efter sig: <c3/> → <c4/> og <c5/> → <c6/> er to af flere sådanne. Vis de fordelbare typer når som helst med <c7/> fejl, Python-funktionen <c8/> eller MCP-værktøjet <c9/>.

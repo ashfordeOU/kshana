@@ -3609,8 +3609,8 @@ seg-11041e6beb65 = Os { "92" } tipos de cenário incorporados com descrições +
 
 seg-abf70d11a088 = todo o motor aberto, todos os { "92" } tipos de cenário, sem restrição de recursos
 
-seg-b14326430bd8 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "192" } arquivos <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um arquivo com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
-
 seg-824001fa6734 = laboratórios e fabricantes com dados medidos
 
 seg-df3ca402513f = quais linhas MODELLED um registro medido de relógio ou de IMU poderia promover, os formatos, como um envio é verificado (<c1/>), pontuado e creditado
+
+seg-e2d733f93455 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "193" } arquivos <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um arquivo com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.

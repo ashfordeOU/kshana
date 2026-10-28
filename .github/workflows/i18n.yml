@@ -71,6 +71,8 @@ jobs:
         run: node tools/i18n-caps-test.mjs
       - name: migrate keeps earlier orphans (appends, dedupes by id)
         run: node tools/i18n-migrate-test.mjs
+      - name: renumber carries a translation over a digits-only English change (by value, formatting kept)
+        run: node tools/i18n-renumber-test.mjs
       - name: Deploy size accounting, untranslated data files left out, one engine package
         run: node tools/i18n-size-test.mjs
       - name: Language negotiation

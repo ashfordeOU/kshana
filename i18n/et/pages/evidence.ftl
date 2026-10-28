@@ -6553,8 +6553,6 @@ seg-a8818aea1c75 = IAU 2006/2000A pretsessioon-nutatsioon, CIO GCRS↔ITRS, liig
 # attr:title
 seg-3713cbb8eb72 = UTC kalendrikuupäev ja kellaaeg kaheosaliseks UTC Juliuse kuupäevaks SOFA dtf2d abil… · Valideeritud
 
-seg-52dab8f79eed = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
-
 seg-65185cb68d6b = Missioonifaaside ahela navigatsiooni- ja ajastusvea eelarve startimisest sisenemiseni (<c1/>)
 
 seg-86a132e1a243 = Liik <c1/>: faaside dokument, millest iga on üks kaheksast registreeritud liigist, käivitatud järjekorras, 6x6 kovariatsiooni, kella ja tugisüsteemi edasiandmisega öeldud reegli järgi (<c2/>; <c3/>, valge kiirendusmüra öeldud vahemiku jooksul sirgjoonelisel mudelil; <c4/>, inertsiaalne edasiliikumine ja seejärel allika alampiir, mitte kunagi sellest allapoole, mitte kunagi lähtestamine); tugisüsteemi teisendused GCRF, MCI ja MCMF ning ajaskaala teisendused läbi TT, igaüks oma eelarveread, Kuu olek valikulisest DE440 kerneli lõigust ja analüütiline rida öeldud varuvariandina; varu öeldud nõude suhtes, nõrgim lüli, sündmused ja ajajoone joonis. Iga arv on öeldud sisend või selle mudel
@@ -6639,16 +6637,6 @@ seg-7a254b7d5498 = Kontrollimaatriks, üks lahter võimekuse kohta registri jär
 
 seg-a2f63c51d2c7 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "401" } rida · stsenaariumi ega algväärtust pole: mootori enda register
 
-seg-015ecb5cddc3 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-e26b6fdc705b = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-66defa1494fc = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-4c54e96a1832 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-3d202a56e836 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
 seg-77bfad0f4f88 = { "176" }<s1>{ "401" }-st valideeritud</s1>
 
 seg-222c46a96ec3 = Kontrollimaatriks: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omanduses, kokku { "401" }
@@ -6694,3 +6682,15 @@ seg-b393e1b5fcfc = Kõik { "401" }
 seg-3df9e327c036 = Modelleeritud { "221" }
 
 seg-7fa6f2e0de57 = Valideerimisregister, { "401" } rida, keritav
+
+seg-df43ce08ec0e = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-613de9424706 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-d2c2b9393166 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-6b46b5866660 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+
+seg-958dfeda6dbf = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-3a1b15ffddc1 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

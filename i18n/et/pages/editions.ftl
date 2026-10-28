@@ -1229,6 +1229,6 @@ seg-3bf5f474beca = Avatud mootor keskel: üks märk iga stsenaariumi liigi kohta
 
 seg-f88b6cf10837 = Mootor v{ $version } · { "92" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · stsenaariumi ega algväärtust pole
 
-seg-7a848f1d8304 = Kõik { "92" } stsenaariumi liiki ja { "180" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
-
 seg-cc655ce0b6c8 = Täielik kontrollimaatriks: { "176" } võimekust { "401" }-st on valideeritud sõltumatute etalonide vastu, ülejäänud on märgitud modelleeritud
+
+seg-65342d8ef6ad = Kõik { "92" } stsenaariumi liiki ja { "181" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)

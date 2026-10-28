@@ -1229,6 +1229,6 @@ seg-3bf5f474beca = O motor aberto no centro: uma marca por tipo de cenário ({ "
 
 seg-f88b6cf10837 = Motor v{ $version } · { "92" } tipos de cenário de <c1/> · estado no registro de <c2/> · em que o Pro e um estudo se baseiam: o registro de edições do site · sem cenário nem semente
 
-seg-7a848f1d8304 = Todos os { "92" } tipos de cenário e { "180" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)
-
 seg-cc655ce0b6c8 = A matriz de verificação completa: { "176" } de { "401" } capacidades validadas em relação a referências independentes, as demais rotuladas como modeladas
+
+seg-65342d8ef6ad = Todos os { "92" } tipos de cenário e { "181" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)

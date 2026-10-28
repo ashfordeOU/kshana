@@ -704,12 +704,6 @@ seg-905e5eef45e5 = <b>{ "12" } vaatimusta</b> tarkistettu todellisia ajoja vaste
 
 seg-7d9ee2bfbb90 = Selvitä, mistä ajoituksesi pettää, ennen kuin se pettää.
 
-seg-f4d3b1f5b1b4 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
-
-seg-3287261002dd = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-510663384be1 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
-
 seg-070972f642de = Artemis-luokan tehtäväketju: navigoinnin ja ajoituksen virhebudjetti laukaisusta ilmakehään paluuseen
 
 seg-4970f874d334 = Kuusegmentti: kohtaaminen, lasku, pinta ja nousu
@@ -731,3 +725,9 @@ seg-b9961ed25282 = Uutta versiossa v{ $version }: tehtäväketju, todistemerkint
 seg-653cf3198094 = { "401" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
 
 seg-76b213d03caa = Kaikki { "92" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
+
+seg-cff488aa106d = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-fddfe8b260be = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-388f14eb6d8d = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }

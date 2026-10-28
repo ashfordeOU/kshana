@@ -84,4 +84,4 @@ seg-be1f1afe7424 = <s1>Forrige</s1>Kørselsrapporter
 
 seg-6817433f69f6 = <s1>Næste</s1>Interoperabilitetseksport og -import
 
-seg-5366f477e688 = En type, hvis resultat ikke bærer nogen af disse former (et linkbudget, en geometri for én epoke, en Monte Carlo-oversigt med kun statistik eller telecom-holdover, hvis resultat udgiver optagelsens hash, men ikke optagelsen), afvises med <c1/>, og intet skrives. Med kshana { $version } animerer { "94" } af de { "192" } kørbare scenariefiler (alle filer undtagen en undersøgelsessuite), og { "98" } afvises. <c2/> udskriver optællingen.
+seg-51cd8d5f527b = En type, hvis resultat ikke bærer nogen af disse former (et linkbudget, en geometri for én epoke, en Monte Carlo-oversigt med kun statistik eller telecom-holdover, hvis resultat udgiver optagelsens hash, men ikke optagelsen), afvises med <c1/>, og intet skrives. Med kshana { $version } animerer { "94" } af de { "193" } kørbare scenariefiler (alle filer undtagen en undersøgelsessuite), og { "99" } afvises. <c2/> udskriver optællingen.
