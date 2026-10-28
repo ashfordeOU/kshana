@@ -1893,3 +1893,85 @@ seg-20beca58d39e = <a1>Legg til i Cursor (npx)</a1> · <a2>Legg til i Cursor (Do
 seg-aa6b62f0b484 = <a1>Installer i VS Code (npx)</a1> · <a2>Installer i VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP er Model Context Protocol. Lås en utgivelse med <c1/>, <c2/> eller <c3/>. For å bygge fra kildekode, se <a1>Installer og bygg</a1> under Referanse.
+
+seg-57686575b81d = Partnerdata
+
+seg-0c39fcb3527f = { "176" } av { "401" } funksjoner VALIDATED mot en uavhengig ekstern referanse, fra verifikasjonsmatrisen
+
+seg-467bb88ec415 = <a1>Nytt i { "0.40" }</a1>, <a2>Nytt i { "0.39" }</a2>, <a3>Nytt i { "0.38" }</a3> og <a4>{ "0.38" } i dybden</a4>: jammertest-skåring, mottakerens egne flagg, maskininndata, tidssynkronisering og holdover, standardpakker, LunaNet AFS, laboratorierunden, kshana-bench, observatoriet, eksportører, optikk, <a5>rombrukernavigasjon</a5> og <a6>månens infrastruktur</a6>
+
+seg-cafc1c9c4d58 = Nytt i { "0.40" }
+
+seg-59a31376fa3d = { "0.40" } legger til et budsjett på oppdragsnivå for feil, merker hvert tall og hver tabell med sitt evidensnivå, leser målte klokkeloggere, kontrollerer innleveringer fra datapartnere, anslår hvor en interferenskilde kan befinne seg, og snakker sytten språk ved siden av engelsk. Registeret har nå { "401" } rader: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ingen rad ble oppgradert til VALIDATED, og hver bom nedenfor er festet av en test.
+
+seg-ab5eec8db03e = <b>Oppdragstråd.</b> Typen <c1/> kjeder sammen faser fra oppskyting til gjeninntreden (<c2/>, <c3/>, <c4/>, <c5/> og fire lunare typer) med oppgitte overleveringsregler, en margin mot oppgitte krav og det svakeste leddet; et ende-til-ende-eksempel i stil med Artemis-class over { "11" } faser (jord- og månesegmenter), { "92" } scenariotyper til sammen. Hvert tall er MODELLED. Den cislunare propageringen mot den offentlige banekurven for Artemis I <b>bommer</b> på sin forhåndsregistrerte terskel ({ "45.3" } km og { "0.25" } m/s mot { "5" } km og { "0.05" } m/s; årsaken er små manøvrer modellen ikke inkluderer), og den lunare propagatoren mot CAPSTONE-banen <b>bommer</b> ({ "136.8" } km mot { "25" } km ved slutten av én omløpstid); sammenligningen med LRO er oppfylt. Radene forblir MODELLED (<a1>Oppdragstråd</a1>, <a2>månesegmentet</a2>).
+
+seg-5bd16655cace = <b>Evidensetiketter.</b> Hvert tall og hver tabell en kjøring skriver bærer nivået og register-radidene den bygger på, lest fra matrisen.
+
+seg-e79fca859317 = <b>Målte klokker.</b> Åtte klokkeloggformater leses (<a1><c1/></a1>), og en tilpasset serie kan drive holdoveren. Mot forhåndsregistrerte terskler <b>bommer</b> tilpasningen på F1(a) for fem av seks registreringer og på F2 for én; begge forblir MODELLED (<a2>Endringslogg</a2>).
+
+seg-cda13679ad81 = Datapartnere.
+
+seg-88439b6ddd78 = <c1/> kontrollerer formatet på en innlevering og skårer ingenting (<a1><c2/></a1>).
+
+seg-c571cf207dd4 = Senderregion.
+
+seg-5cf9c8d0440e = <c1/> gir en region og en ellipse, aldri et enkelt punkt, ut fra ADS-B- eller AIS-rapporter. Sammenlignet én gang med senderstedene fra Jammertest { "2025" } er resultatet <b>NOT ASSESSABLE</b> for begge kildene (for få planlagte økter i de åpne dataene), så raden forblir MODELLED (<a1>Interferenskart</a1>).
+
+seg-5b1f193d1f85 = <b>Benchmark.</b> Ny kampanje i { "0.40" } når A3, D3 (begge EXPLORATORY), R3 og R4; A2, D1 og R1 forblir NOT MET (<a1>Bench</a1>).
+
+seg-04cc50904993 = <b>Språk.</b> nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja og zh-Hans, som <b>maskinoversettelser som ingen morsmålsbruker har gjennomgått</b>; engelsk er referansen, og kjøringer på andre språk enn engelsk tar omtrent dobbelt så lang tid (<a1><c1/></a1>).
+
+seg-47949eaeac72 = Fastsetting av heltallsflertydighet i bærebølgefasen mellom månens overflatestasjoner og en orbiter, fra det innsjekkede resultatet av den skårede kjøringen av motor v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } buelengder, en Monte Carlo med { "401" } trekk hver, skrevet av scenarios/carrier-phase-scored.toml). { "1" } døgn: suksess { "1.0" } % (standardfeil { "0.5" } %), { "134" } flertydigheter, orbiterens posisjonssigma { "45.6" } m flytende og { "18.5" } m fastsatt; { "2" } døgn: suksess { "0.5" } % (standardfeil { "0.4" } %), { "259" } flertydigheter, orbiterens posisjonssigma { "21.5" } m flytende og { "8.7" } m fastsatt; { "3" } døgn: suksess { "2.8" } % (standardfeil { "0.8" } %), { "375" } flertydigheter, orbiterens posisjonssigma { "6.3" } m flytende og { "2.1" } m fastsatt. Heltallsfastsetting oppnås ikke: suksessen holder seg mellom { "1" } % og { "3" } % ved { "25" } dBi, og ved de registrerte { "12" } dBi kan ikke problemet formuleres. MODELLED: en begrenset trelegememodell med oppgitte forenklinger og illustrative inndata, ikke en måling av noen lunar størrelse. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste.
+
+seg-91d06a3fa705 = Kshana Studio, enkel visning, på det medfølgende scenarioet integrity-raim, motor v{ $version } kjører lokalt. Spørsmålet: oppfyller geometrien alarmgrensene (horisontalt og vertikalt beskyttelsesnivå)? Svaret først, merket Levende resultat: Ja, for det meste: for { "95.3" } % av de { "12" } t. Mottakerens feilgrense holdt seg under alarmgrensene ({ "40" } m horisontalt og { "50" } m vertikalt) ved { "344" } av { "361" } kontroller, og ingen posisjonsbestemmelse var villedende. Nøkkeltall: tid posisjonsbestemmelsen kan stoles på { "95.3" } %, lengste gap { "10" } min, typisk feilgrense { "6.5" } / { "13" } m, villedende posisjonsbestemmelser { "0" }. Ved siden av, Prøv andre innstillinger med fem av dem (avstandsfeilen, de to alarmgrensene, varigheten og elevasjonsmasken) og Kjør igjen, så de sammenfoldede seksjonene Avanserte innstillinger ({ "13" } flere), Hvordan dette beregnes ({ "8" } validert, { "6" } modellert) og For forskere. Under, visningene av dette resultatet og beskyttelsesnivåene plottet mot alarmgrensen.
+
+seg-69022d84094d = Kshana Studio, enkel visning, åpningsskjermen, med tittelen Hva vil du finne ut?, med motor v{ $version } levende og, i toppfeltet, tre lenker: Treningsdebrief, Interferenskart og Mottakertillit. Fire spørsmål: hvor mange satellitter kan jeg se hvor som helst på jorden, kan jeg stole på posisjonsbestemmelsen min, hvor lenge kan en klokke holde tid uten satellitter, og hva gjør en jammer med mottakeren min. Under det første, det registrerte resultatet: minst { "22" } satellitter i sikte på hvert sted og { "31" } i gjennomsnitt med GPS, Galileo, BeiDou og GLONASS sammen, en posisjonsbestemmelse mulig på { "100" } % av stedene og tidene, på et verdenskart over satellitter i sikte, med en knapp Åpne dette resultatet. Ved siden av, Alt Kshana kan gjøre: { "16" } områder og { "139" } ferdigkjørbare scenarioer, hver flis med et lite diagram fra en registrert kjøring og sin andel validerte metoder, og registerets { "173" } av { "350" } funksjoner validert.
+
+seg-5d3bb72c6490 = Kshana Studio, avansert visning, etter en kjøring av det medfølgende scenarioet constellation-multi-gnss-coverage (Fire GNSS-konstellasjoner, ett kart), motor v{ $version } kjører lokalt. Til venstre scenariobiblioteket, { "139" } scenarioer i { "16" } domener. De fem trinnene Velg, Sett, Kjør, Les resultater og Del eller eksporter, med trinn { "4" } gjeldende. Nøkkeltall: { "102" } satellitter, tilgjengelighet { "100" } % (PASS), median posisjonspresisjonsfortynning (PDOP) { "0.95" } (PASS), PDOP 95. persentil { "1.105" } (PASS), { "31.03" } satellitter i sikte i gjennomsnitt og { "22" } som færrest. Under, panelraden med Dekning valgt, gjenspillingslinjen, et verdenskart over gjennomsnittlig PDOP fra { "0.831" } til { "1.0853" } med hver satellitt tegnet, og de globale dekningstallene.
+
+seg-b8f6321e9e0d = Tre sider fra kshana.dev side om side. Forsiden: navnelinjen Kshana · क्षण · det presise øyeblikket over overskriften Øv på minuttet GNSS går i svart, med oppdragskonsollen fra en ekte kjøring av motor v{ $version } (en globus og tre levende diagrammer: klokkens tidsfeil, bærebølge-til-støy-tetthet og beskyttelsesnivå). Evidens, Publisert forskning: de seks arXiv-artiklene bygget på den åpne motoren, den nyeste med et motortall. Utgaver, Kshana Pro, den samme motoren, forsterket: Free kjører ett scenario, Pro besvarer programmets spørsmål.
+
+seg-9d447be4caed = Én motor dekker hele feilkjeden, fra den første jammede satellitten til den siste nanosekunden av klokke-holdover. Motoren har { "92" } scenariotyper; <c1/> lister dem, og <a1><c2/></a1> dokumenterer hvert felt.
+
+seg-d3d6b030b588 = Senderregion
+
+seg-56eee3458645 = hvor, under oppgitte forutsetninger, en kilde til degraderte posisjonsrapporter kan befinne seg: regioner ved oppgitt konfidensnivå, et tyngdepunkt med sin ellipse, aldri et punkt (MODELLED; <c1/>)
+
+seg-ee28beafac1a = budsjettet for navigasjons- og tidsfeil for en kjede av faser fra oppskyting til gjeninntreden
+
+seg-34e44a492cad = <c1/> kjører et scenario; hver annen kommando er en underkommando, og <c2/> skriver ut bruken av dem alle. Kommandoene er <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> og <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> og <c63/>. <a1><c64/></a1> gir formålet med hver, et verifisert eksempel og dokumentasjonssiden.
+
+seg-c472e0e5a3a5 = Hvordan en kjøring flyter. En scenario-TOML-fil (en type, en seed og parametrene) går inn i motoren, kshana { $version }, gjennom api::run_toml-dispatchen over { "92" } scenariotyper, deterministisk ut fra scenario, seed og motorversjon. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for typene som definerer en, og på forespørsel eksport til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en suite skriver study.json og study.html. Disse filene mater Kshana Studio i nettleseren, en AI-assistent gjennom kshana-mcp-serveren og kontinuerlig integrasjon.
+
+seg-9f5426cbbf4a = <b>{ "176" } av { "401" }</b> funksjoner validert mot uavhengige eksterne referanser; { "221" } ærlig merket modellert. Hver rad i verifikasjonsmatrisen navngir en funksjon, den uavhengige referansen den kontrolleres mot, testen som kjører kontrollen og merkelappen som følger. Kontinuerlig integrasjon (CI) gjør det umulig å kalle en funksjon VALIDATED uten en uavhengig ekstern referanse.
+
+seg-54ac34405621 = Hvordan en funksjon får merkelappen sin. Hver rad i verifikasjonsmatrisen navngir en funksjon, den uavhengige referansen den kontrolleres mot, testen som kjører kontrollen i kontinuerlig integrasjon og merkelappen som følger. En rad kan bare være VALIDATED med en uavhengig ekstern referanse; ellers er den MODELLED, eller PARTNER når en maskinvarepartner eier den. Eksempel: SGP4/SDP4, Cowell 6-DOF + perturbasjoner, batch/sekvensiell OD, uavhengig referanse AIAA 2006-6753 SGP4-verifikasjonsvektorer, test tests/sgp4_verification.rs, merkelapp VALIDATED. Levende tall: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER av { "401" } rader. Til sammen er { "176" } funksjoner validert mot uavhengige eksterne referanser; { "221" } til er ærlig merket MODELLED og { "4" } er PARTNER-eide.
+
+seg-42fa293e1bb4 = Noen av kontrollene: alle { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektorer (Simplified General Perturbations { "4" }) til { "4.12" } mm; Cowell-kraftmodellen til { "0.08" } m mot Orekit { "12.2" }; Galileo til { "0.61" } m og Swarm-A til { "0.10" } m mot reelle presise efemerider fra European Space Agency (ESA). Testene holder omtrent { "95" } % linjedekning av <c1/>, med en port på { "85" } % i CI. Registeret er <a1><c2/></a1>, generert fra <c3/>: den <a2>fulle matrisen med 401 rader</a2> og hvorfor hver modellerte rad mangler en ekstern uavhengig referanse i <a3><c4/></a3>.
+
+seg-e7f7d0e51698 = Bevismerkelappen på hvert tall
+
+seg-58ce18b8e642 = Hvert tall og hver tabell en kjøring skriver, sier hvor langt det kan stoles på, og hvilke registerrader det hviler på. Resultat-JSON har en <c1/>-nøkkel, diagram-SVG-en en linje under plottet (og et <c2/>-element), og CSV-tabellen har <c3/>-kommentarlinjer foran (les dem med <c4/>). Den navngir et nivå, <c5/>, <c6/> eller <c7/>, og id-ene (<c8/> og åtte heksadesimale sifre) til de verifikasjonsmatriserradene kjøringen brukte. Nivået er det svakeste av disse radene, så en kjøring som støtter seg på én modellert rad, merkes MODELLED uansett hvor mange validerte rader som står ved siden av; merkelappen kan aldri hevde mer enn registeret gjør. Rader, statuser og id-er leses fra matrisen og skrives ikke for hånd (<a1><c9/></a1>, <a2><c10/></a2>), og <c11/> feiler hvis et tall mangler merkelapp eller en merkelapp ikke stemmer med matrisen.
+
+seg-06fc56dd3edb = Hver rad håndheves av en navngitt test i CI. Denne tabellen er et <b>utvalg av høydepunkter</b>; den fulle maskinkontrollerte matrisen er <b>{ "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), med det fullstendige beviset (og hva som ærlig talt <em>ikke</em> er validert ennå) i <a1><c2/></a1> og artefakten <a2><c3/></a2> for hver utgivelse (generert av <c4/>, SLSA-attestert — Supply-chain Levels for Software Artifacts).
+
+seg-4c4dfa02be15 = Hvordan en funksjon får merkelappen sin: et krav peker til en modul i src, til en test i tests, til en ekstern uavhengig referanse (reelle data, en uavhengig referanseimplementering eller publiserte vektorer), til en status — med en CI-håndhevet vakt som sikrer at ingen funksjon kan være validert uten en ekstern uavhengig referanse. Levende tall: { "176" } validert, { "221" } modellert, { "4" } eid av partnere, { "401" } totalt
+
+seg-3f48a70a707a = Verifikasjonsstatus for alle { "401" } funksjoner: { "176" } validert (kontrollert mot ekstern uavhengig referanse), { "221" } modellert, { "4" } eid av partnere
+
+seg-35a4412348e1 = { "176" } validert · { "221" } modellert · { "4" } partner — <a1>SVG</a1>
+
+seg-cdf946112863 = Kshanas arkitektur: én åpen motor i sentrum, kshana { $version } under AGPL-3.0, med api::run_toml, en typet dispatch over hver type, og verifikasjonsregisteret med { "401" } funksjoner ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Rundt den kjører hver flate den samme motoren: kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbildning (ghcr.io/ashfordeou/kshana-mcp); JetBrains-programtillegg (Marketplace: "Kshana"). Under den ligger Kshana Pro, et proprietært overlegg som avhenger av den åpne motoren som bibliotek og aldri forgrener den, og som ikke legger til noen fysisk modell.
+
+seg-656df854409a = Kshanas arkitektur i lag. Fem innganger (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-programtillegget) når én api::run_toml, en typet dispatch over { "92" } typer. Under ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med { "401" } funksjoner som er den eneste kilden til sannhet for hver merkelapp.
+
+seg-11041e6beb65 = De { "92" } innebygde scenariotypene med beskrivelser og obligatoriske/valgfrie felt, slik at agenten kan bygge et gyldig scenario
+
+seg-abf70d11a088 = hele den åpne motoren, alle { "92" } scenariotyper, ingen funksjonsbegrensning
+
+seg-b14326430bd8 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "92" } typer, { "192" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.
+
+seg-824001fa6734 = laboratorier og produsenter som har målte data
+
+seg-df3ca402513f = hvilke MODELLED-rader en målt klokke- eller IMU-registrering kan løfte, formatene, hvordan en innsending kontrolleres (<c1/>), skåres og krediteres

@@ -39,3 +39,5 @@ seg-83c3a84f6b98 = <b>VALIDATED</b> Gjenfinn en epoketilstand [r,v] fra avstande
 seg-4be479b81f39 = <s1>Forrige</s1>lunar-vlbi
 
 seg-2854e6a75833 = <s1>Neste</s1>moonlight-service-volume
+
+seg-6d595f01ffcc = <s1>Neste</s1>mission-thread

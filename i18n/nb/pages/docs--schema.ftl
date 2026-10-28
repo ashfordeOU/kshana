@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Neste</s1>Bruke reelle TLE-er
 seg-6585c8a3643d = ClockRun (hver av quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (objektet fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Bevismerkelappen for kjøringen: <c1/> (<c2/>, <c3/> eller <c4/>: den <em>svakeste</em> statusen blant radene, så den aldri hevder mer enn sin svakeste rad), <c5/> (<c6/>), <c7/> og <c8/>, én per verifikasjonsmatriserad kjøringen brukte (radene den avanserte rapporten lister, fra <c9/>): <c10/> (<c11/> og de første { "8" } heksadesimale sifrene av SHA-256 for radens kravtekst), <c12/> og <c13/>, alt lest fra matrisen, ingenting skrevet for hånd. Legges til av <c14/> i resultatet for hver type, før den avsluttende <c15/>-blokken når det finnes en (den blokken forblir siste nøkkel); <c16/> fjerner den byte for byte. Diagram-SVG-en og CSV-tabellen fra samme kjøring bærer den samme merkelappen (<c17/> og en synlig linje under diagrammet; <c18/>-kommentarlinjer foran CSV-en). Kampanjemedlemmer innebygd i resultatet til en annen type bærer ingen: det ytre dokumentet gjør det. Inneholder ingen tall.

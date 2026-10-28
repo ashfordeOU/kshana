@@ -187,3 +187,11 @@ seg-9c361736bf27 = Den er en teknisk registrering og ikke en juridisk vurdering 
 seg-68bcf43b4e27 = <s1>Forrige</s1>Linjedekning
 
 seg-09c0b5fa6e52 = <s1>Neste</s1>Optiske linker gjennom atmosfæren
+
+seg-bd3169455cd0 = Evidensetiketten ({ "0.40" })
+
+seg-6fe796d2b15f = En pakke bygget av { "0.40" } eller senere bærer, inne i <c1/>, en oppføring <c2/> (nivået, <c3/>, <c4/> eller <c5/>, som er den svakeste statusen blant radene, og id-ene og kravene til radene i verifikasjonsmatrisen pakkens innhold hviler på: raden for pakkeintegritet, radene for mottakertillit, og radene for jammertest-skåring eller rundtur for de pakkene) og <c6/> <c7/>. Den ligger inne i <c8/>, så manifestets filhash, hashkjeden og signaturen dekker den: å endre den får verifiseringen til å feile. <c9/> rapporterer nivået og rad-id-ene.
+
+seg-15b4e784361a = Endringen er additiv og bare framover. Manifestets <c1/> forblir <c2/>: den normative teksten ovenfor sier at en verifiserer MÅ finne den verdien, og clean-room-verifisereren i <c3/> gjør det. Minorversjonen bæres derfor av <c4/> (fraværende for en pakke laget før { "0.40" }, som betyr { "1.0" }), ikke av en ny streng i <c5/>. En pakke laget før { "0.40" } har ingen etikett og verifiseres uendret; <c6/> sier "no evidence label (pre-0.40 pack)". Testene er <c7/> (inkludert de innsjekkede referansepakkene fra før 0.40) og <c8/>.
+
+seg-218641620d3e = <s1>Neste</s1>Datapartnere og rader som kan oppgraderes

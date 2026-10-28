@@ -47,3 +47,5 @@ seg-cb00aca0268d = <b>MODELLED</b> Sveipet i typen <c1/> (én til tre nøkler me
 seg-1750fbfc4a99 = <s1>Forrige</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Neste</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Fasen <c1/>: middeltilstanden fra motorens Cowell-propagator (jordens punktmasse og J2, Solen og Månen som tredje legemer, Månen fra oppdragstrådens DE440-kjerne der den dekker segmentet og Solen fra den analytiske serie

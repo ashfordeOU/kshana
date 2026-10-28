@@ -83,3 +83,5 @@ seg-9dfb9596ecf3 = Kampanjer for sveip, Monte Carlo og compose bærer ingen tids
 seg-be1f1afe7424 = <s1>Forrige</s1>Kjøringsrapporter
 
 seg-6817433f69f6 = <s1>Neste</s1>Interoperabilitetseksporter og -importer
+
+seg-5366f477e688 = En type hvis resultat ikke bærer noen av disse formene (et lenkebudsjett, en geometri for én epoke, en Monte Carlo-oppsummering med bare statistikk, eller teletidssynkroniseringens holdover, hvis resultat publiserer oppføringens hash, men ikke oppføringen) avvises med <c1/>, og ingenting skrives. Med kshana { $version } animeres { "94" } av de { "192" } kjørbare scenariofilene (alle filer unntatt en studiesuite) og { "98" } avvises. <c2/> skriver ut opptellingen.
