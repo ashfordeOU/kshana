@@ -9056,3 +9056,7 @@ js-trust-track-start = 起点
 js-trust-unknown-agreement = 本页面不认识的一致性结果
 
 js-trust-yes = 是
+
+js-mthread-limiting-phase = 引擎将此阶段的限制来源命名为 { $source }：这是该阶段的来源，而不是此表中的某一行。
+
+js-mthread-limiting-row = 引擎给出的限制来源
