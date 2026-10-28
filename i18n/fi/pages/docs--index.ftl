@@ -217,3 +217,27 @@ seg-35db5b51a590 = <s1>Avaruuskäyttäjän navigointi</s1><s2>{ "1" } skenaariot
 seg-1acf60cff708 = Ei mukana
 
 seg-188c6e41f434 = Ylläpitäjien prosessiasiakirjat pysyvät repositoriossa: docs/RELEASING.md (julkaisumenettely); docs/WHEEL_TAGS.md (paketoinnin yksityiskohdat); docs/revisions/ (sisäiset muutosmuistiinpanot); docs/design/ (sisäiset suunnittelumuistiinpanot); README.pypi.md (PyPI-sivu; Python-rajapinnan dokumentti kattaa sen); .github/-mallipohjat; docs/integrations.md (jäsennelty nimettyjen kolmannen osapuolen tekoälytuotteiden ympärille, joita tämä sivusto ei nimeä).
+
+seg-fcffac5eb150 = <s1>Kielet</s1><s2>Moottorin ihmiselle tarkoitettu teksti on { "17" } kielellä englannin rinnalla: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Skenaariotyypit</s1><s2>{ "92" } sisäänrakennettua skenaariotyyppiä, joiden kesken kshana::api::run_toml ohjaa, kullakin yksirivinen…</s2>
+
+seg-9d5c233c72b4 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen skenaariotyyppi, jonka moottori v{ $version } ohjaa ({ "92" }), jaoteltuna { "13" } perheeseen.</s2>
+
+seg-2c002a7b7640 = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
+
+seg-f5987c9d9fde = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "401" } riviä — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "401" } riviä.</s2>
+
+seg-980f70b29717 = <s1>Datakumppanit ja ylentävät rivit</s1><s2>Kshana merkitsee jokaisen ominaisuuden koneellisesti tarkistetussa kirjanpidossa (varmennusmatriisi).</s2>
+
+seg-7c6a541b3bc8 = <s1>Tehtäväketju: laukaisusta paluuseen</s1><s2>Ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.</s2>
+
+seg-7377c479fed0 = <s1>Tehtäväketju: kuusegmentti</s1><s2>Neljä skenaariotyyppiä, jotka ovat kukin myös tehtäväketjurajapinnan vaihetyyppi (src/mission_thread/): ne…</s2>
+
+seg-cecb9535c0a1 = <s1>Kuu ja kuunläheinen avaruus</s1><s2>{ "24" } skenaariotyyppiä moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
+
+seg-1dd7c80e18a7 = <s1>Tehtäväketjut</s1><s2>{ "1" } skenaariotyyppi moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
+
+seg-f0e26f01a361 = { "92" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.

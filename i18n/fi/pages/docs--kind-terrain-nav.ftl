@@ -58,3 +58,7 @@ seg-0fcad0016c78 = <s1>Edellinen</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Seuraava</s1>terrain-slam
+
+seg-e66e2ca31e54 = Aihesivu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Laji ja vaihe <c1/>: viisitilainen akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, kallistuma, gyron harha) moottoroidun laskeutumisen ajalta, tukena AFS-korjaukset (yksinään tai differentiaalisena, kolmen releen kellotuella

@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = Aihesivu: <a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>Edellinen</s1>gnss-sim
 
 seg-9df48482a140 = <s1>Seuraava</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> Vaihe <c1/>: keskitila moottorin Cowell-propagaattorilla (Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu ketjun DE440-kernelistä, missä se kattaa osuuden, ja Aurinko analyyttisestä sarj
+
+seg-6a26b9ab59fe = Aihesivu: <a1>MISSION-THREAD.md</a1>

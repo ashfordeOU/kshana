@@ -565,3 +565,79 @@ seg-b2fd2a05842f = Harjoitus-NMEA on <b>vain tekstiä</b>: mitään RF-, IQ- tai
 seg-4e3bbacda9ac = <s1>Edellinen</s1>Kshanan käyttö agentista
 
 seg-c5fbfab85e01 = <s1>Seuraava</s1>JetBrains-lisäosa
+
+seg-6555ff9a6d8e = Tuloste
+
+seg-12471a4b2b57 = Lähetinalue (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (ei vielä mukana; Rust-, Python- ja WASM-pinnat kattavat sen)
+
+seg-dff1bfe0263e = <b>N/A</b> (lähetinalueiden julkaiseminen julkisessa observatoriossa on erillinen omistajan päätös ja on pois päältä)
+
+seg-ec2d91e2f867 = Datakumppanin lähetyksen tarkistus (mitatun datan lähetyksen muoto ja metatiedot, <c1/>; ei pisteytä mitään)
+
+seg-c16a5ff8218b = <b>N/A</b> (tarkistus lukee paikallisia tiedostoja ja niiden SHA-256-tiivisteet; Rust-API on kirjastopinta ja CLI on työkalu)
+
+seg-ed29039d1dc0 = <b>N/A</b> (selainversiossa ei ole tiedostojärjestelmää)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP hylkää tiedostolähteet tarkoituksella (vain inline-teksti))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (kauttaviivakomennot kutsuvat MCP-työkaluja, ja tämä tarkistus tarvitsee tiedostoja levyltä)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrains-toiminnot sidotaan yhteen valittuun tiedostoon; lähetys on kansio)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studiolla ei ole tiedostojärjestelmäyhteyttä; aja komento)
+
+seg-521b58a1080e = Laukaisusta paluuseen ulottuvan tehtävävaiheiden ketjun navigointi- ja ajoitusvirhebudjetti: kahdeksan vaihetyyppiä, luovutussäännöt, koordinaatisto- ja aikaskaalamuunnokset, maaverkon peittokerros, marginaali ilmoitettuja vaatimuksia vasten ja heikoin lenkki (skenaariotyyppi <c1/>; <c2/>; taso MODELLED, syötteet tasolla ILLUSTRATIVE, ohjeellinen; vain julkiset lähteet, ei kenenkään kannatusta)
+
+seg-6b451021b87a = <c1/> (checkoutista: lukee tallennetun Kuun kernel-leikkeen)
+
+seg-ac3e013b5217 = <c1/> (<c2/> on tiedostoavain ja se hylätään; ilman kerneliä Kuu on analyyttinen sarja, ja muunnosrivi sanoo niin)
+
+seg-e957474f44a8 = <c1/> (vain inline; kerneliavain hylätään)
+
+seg-1c1729fafe99 = <b>N/A</b> (ei notebookia; esimerkki ajetaan missä tahansa notebookissa checkoutista käyttäen <c1/>)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (ei vielä mukana)
+
+seg-ab52a3469f6a = Arvioidut lähetinalueet, MODELLED; jälkihakemistot ja <c1/> ovat vain komentoriviltä
+
+seg-5f1ce275acbd = Lukee lähetystiedoston ja sen datatiedoston levyltä ja tarkistaa SHA-256-tiivisteen; millään näistä pinnoista ei ole kansiota. Vain muoto ja metatiedot, mitään ei pisteytetä; ks. <c1/>
+
+seg-fc9ab9f71553 = Todistemerkintä ja tulosteet, jotka eivät kanna sellaista
+
+seg-b1e4bcc2ac09 = Jokainen ajon kirjoittama luku ja taulukko kantaa todistetasonsa (<c1/>, <c2/> tai <c3/>, sen takana olevien kirjanpitorivien (ledger) heikoin) ja näiden rivien tunnisteet, jokaisella pinnalla, joka ajaa skenaarion: tulos-JSON (avain <c4/>), kaavion SVG (metatietoelementti ja rivi kuvaajan alla) ja CSV-taulukko (kommenttirivit <c5/>). Sama merkintä on vastaanottimen luottamustulosteissa (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, häiriökartan reittiraportissa ja jokaisen todistepaketin tiedoston <c11/> sisällä (allekirjoitettu; <c12/> raportoi sen). Rivitunnisteet ovat vakaita (<c13/> ja kahdeksan heksadesimaalinumeroa, sarake <c14/> tiedostossa <c15/>).
+
+seg-c66058f24f0e = Nämä tulosteet eivät kanna merkintää, kukin ilmoitetusta syystä (luettelo on <c1/> tiedostossa <c2/>, joka epäonnistuu, jos kirjoittaja ei ole merkitty eikä luettelossa):
+
+seg-04ca90423b80 = Miksi merkintää ei ole
+
+seg-a90c022c4dea = kshana-bench-tulostiedostot
+
+seg-9f3f0adbcfe6 = kiinteä skeema, jonka holdout-sitoumukset lukitsevat; kukin kantaa oman <c1/>-kenttänsä (MODELLED tai mitattu)
+
+seg-9bb126104f12 = häiriöobservatorion päivätuotteet (GeoJSON, PNG, tapahtuma-JSON)
+
+seg-ddbc60cb14ac = jäädytetty, julkaistu skeema; menetelmäselosteen varaumat kulkevat niiden mukana
+
+seg-874cb55d3457 = IQ-kampanjan solu-, tuloskortti- ja raporttitiedostot
+
+seg-8c8cb4bd5110 = tiivisteellä lukitut; kukin kertoo, minkä kampanjan tuloskortin se uudelleen esittää
+
+seg-8d2645e93451 = IQ-näytteet, SigMF- ja SDR-metatiedot, skenaarion totuus, jäljen epookki- ja tapahtumavirrat, live-istuntolokit
+
+seg-9fa872028a08 = muotoon sidotut tiedostot ja tallennevirrat, joita muut työkalut lukevat
+
+seg-6c77071a0d03 = SP3-, OMM-, OEM-, CZML-, KML-, GeoJSON-, STK-, testipenkin liike- ja NMEA-viennit; NMEA-opetusvirta
+
+seg-5c1b92afa402 = muotoon sidotut tiedostot, joita kolmansien osapuolten työkalut lukevat
+
+seg-b5c79a0e395c = telemetrian siirtomuodot (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = niiden siirtomuotojen määrittelemät
+
+seg-3ba06004fc14 = generoidut asiakirjat (itse kirjanpito (ledger), tallennetut tutkimus- ja datataulukot)
+
+seg-8be4943acd00 = ei ajon tulos

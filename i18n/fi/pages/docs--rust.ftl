@@ -169,3 +169,31 @@ seg-68274ce67506 = <b>GNSS IQ -laboratorio</b> (<c1/>): kohtaukset, hankinta, se
 seg-6dc7d52fef11 = <s1>Edellinen</s1>npm ja WebAssembly
 
 seg-8ff56af64ec2 = <s1>Seuraava</s1>MCP-palvelin
+
+seg-c9a297cc51e9 = { "176" } / { "401" } kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten
+
+seg-7b53ee712a36 = <b>{ "176" } / { "401" }</b> kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten; { "221" } rehellisesti merkitty mallinnetuksi, { "4" } kumppanin omistamaa. Jokaisella kyvykkyydellä on yksi nimike koneellisesti tarkistetussa kirjanpidossa: VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut viitevektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani omistaa sen). Tarkistuksiin kuuluvat muun muassa kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) julkaisusta AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vasten.
+
+seg-b59781ecf257 = Miten kyvykkyys ansaitsee nimikkeensä: kyvykkyys, oraakkeli, testi, kirjanpidon nimike. Varmennustila kaikissa { "401" } kyvykkyydessä: { "176" } validoitua, { "221" } mallinnettua, { "4" } kumppanin omistamaa
+
+seg-d0b2811a3d3c = Moottorissa on { "92" } skenaariolajia; <c1/> luettelee ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-kiertoratojen yläpuolella, ympärillä ja ohi) ja <c3/> (Kuun kiertorata ja pinta navigointi- ja geodeettisena infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vasten).
+
+seg-8e9fbc5f2e72 = Sisäänrakennetun skenaariotyypin kind kuvaus kielellä lang katalogista (englanniksi, kun kielellä ei ole sen käännöstä); None nimelle, joka ei ole sisäänrakennettu tyyppi.
+
+seg-06e503c23c30 = [kind_description_in] nykyisellä kielellä ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json], jossa jokainen kuvaus on kielellä lang (tunniste, jonka --lang hyväksyy, kuten de tai zh-Hans); nimet ja kenttäluettelot ovat samat jokaisella kielellä, ja englanniksi asiakirja on tavu tavulta identtinen luettelon [list_scenario_kinds_json] kanssa.
+
+seg-3a25e30a0dc9 = [run_toml] käyttäjälle kielellä lang (tunniste kuten de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Kaksi funktion [run_toml_lang] ajoa erillään: englanninkielinen ajo, jonka json ja csv ovat konetiedostot, ja toiselle kielelle ajo sillä kielellä kaikelle, minkä ihminen lukee.
+
+seg-1fd1f547d2b3 = Funktion [run_toml_bilingual] toinen vaihe yksinään: aja skenaario kerran kielellä lang ja palauta vain se, minkä ihminen lukee.
+
+seg-ae75df85e545 = [run_scenario] käyttäjälle kielellä lang; ks. [run_toml_lang].
+
+seg-28e05e08ff76 = Aja src kielellä lang ja, jos se epäonnistuu, kuvaa virhe JSON-oliona { "{" }"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>{ "}" }.
+
+seg-24fe823a994a = json ilman todistemerkintää ([crate::evidence_label]); muuttumaton, jos siinä ei ole sellaista.
+
+seg-c0444d838311 = out ilman todistemerkintää JSON-, SVG- ja CSV-tulosteestaan, tavu tavulta sellaisena kuin ajo ne tuotti ennen merkinnän olemassaoloa; tuloste, jossa ei ole merkintää, on muuttumaton.

@@ -2058,3 +2058,133 @@ seg-7a0503f925c1 = <s1>Edellinen</s1>Ominaisuusviite
 
 # text
 seg-b5832e94f926 = <s1>Seuraava</s1>Väitteet todellisuutta vasten
+
+seg-65185cb68d6b = Tehtävävaiheiden ketjun navigoinnin ja ajoituksen virhebudjetti laukaisusta paluuseen (<c1/>)
+
+seg-86a132e1a243 = Tyyppi <c1/>: vaiheiden asiakirja, jossa kukin vaihe on yksi kahdeksasta rekisteröidystä tyypistä, ajetaan järjestyksessä ja 6x6-kovarianssi, kello ja koordinaatisto siirretään eteenpäin ilmoitetun säännön mukaan (<c2/>; <c3/>, valkoinen kiihtyvyyskohina ilmoitetun välin yli suoraviivaisella mallilla; <c4/>, dead reckoning ja sitten lähteen lattia, ei koskaan sen alle, ei koskaan nollausta); koordinaatistomuunnokset GCRF, MCI ja MCMF sekä aika-asteikkomuunnokset TT:n kautta, kukin oma budjettirivinsä, ja Kuun tila valinnaisesta DE440-kernelin leikkeestä sekä analyyttinen sarja ilmoitettuna varavaihtoehtona; marginaali ilmoitettua vaatimusta vasten, heikoin lenkki, tapahtumat ja aikajanakuva. Jokainen luku on ilmoitettu syöte tai sen malli
+
+seg-87b2b2459b45 = Laukaisu ja nousu parkkirataan GNSS-hankinnalla ja häipymällä (<c1/>)
+
+seg-725e7ce83533 = Vaihe <c1/>: vakionopeuden paikka- ja nopeuskovarianssi valkoisella kiihtyvyyskohinalla (dead reckoning -luokka), ilmoitetun tarkkuuden GNSS-paikannus, jota sovelletaan hankinta-ajan jälkeen ja ilmoitettujen häipymien ulkopuolella, harhan ja ajautuman sisältävä kello, jota samat paikannukset kurinalaistavat, sekä parkkiradalle saattamisen tila
+
+seg-eb66a49b0306 = Suhteellinen navigointi telakointikaistaan matalalla Maan kiertoradalla anturijaksojen yli (<c1/>)
+
+seg-658a0448d80d = Vaihe <c1/>: suhteellinen tila kohteen LVLH-akseleissa suljetun muodon Clohessy-Wiltshire-siirtymällä, 6x6 Kalman-kovarianssi valkoisella kiihtyvyyskohinalla ja paikkapäivitykset, joiden varianssi on anturin varianssi senhetkisellä etäisyydellä, ilmoitetun anturin jaksojen yli (ILLUSTRATIVE optisen kameran, lidarin ja radioetäisyysmittauksen muodot); telakointi-ikkuna on aika, josta alkaen suhteellinen sigma pysyy kaappauskaistan sisällä vaiheen loppuun. Lähestyvän aluksen absoluuttinen kovarianssi siirretään muuttumattomana, ja rivi kertoo sen
+
+seg-b45a8a357faf = Kuuhun suuntautuva siirtoratainjektio ja kuunläheinen matka: propagoitu keskitila ja kovarianssi seurantapäivityksin (<c1/>)
+
+seg-ab5c79789754 = Vaihe <c1/>: keskitila moottorin Cowell-propagaattorilla (Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu ketjun DE440-kernelistä, missä se kattaa osuuden, ja Aurinko analyyttisestä sarjasta); kovarianssi tämän propagoinnin eteenpäin otetulla tilasiirtymämatriisilla (nimellisajo ja kuusi häirittyä ajoa osuutta kohti) valkoisella kiihtyvyyskohinalla; TLI-polton koko- ja suuntausvirhe; <c2/>-paikannukset, joiden saatavuus ja PDOP tulevat avaruuspalvelualueen pyyhkäisystä kaarta edustavaa oskuloivaa rataa pitkin; etäisyys- ja etäisyysnopeusseuranta geosentristä suuntaa pitkin maaverkon käyttöasteella skaalattuna, Joseph-muotoisella päivityksellä
+
+seg-7a3eb4fae324 = Paluurajapinnan kovarianssi, käytävän todennäköisyys, huippuhidastuvuus ja laskeutumisjalanjälki (<c1/>)
+
+seg-93f07906d7bf = Vaihe <c1/>: vaiheen <c2/> paluun vapaalento ilman polttoa, päättyen paluurajapintaan; lentoratakulma ja sen sigma täydestä kovarianssista äärellisen differenssin gradientilla; todennäköisyys, että kulma on ilmoitetun käytävän sisällä; huippuhidastuvuus nimelliskulmalla ja molemmilla käytävän reunoilla moottorin tasomaisesta ballistisesta pistemassapaluusta (takaisinkimpoaminen havaittu) Allen-Eggers-suljetun muodon rinnalla; laskeutumisjalanjälki ilmoitetusta etenemän suuntaisesta herkkyydestä ja rajapinnan kovarianssista kiertoratatason poikki. Nostovoimaa, ohjausta tai lämpenemistä ei mallinneta
+
+seg-3f0951532f6e = Maaverkon kattavuus ja seurantakäyttöaste tehtävän vaiheelle (<c1/>, tyyppi <c2/>)
+
+seg-5204af351299 = Maaverkkokerros: asemat vähimmäiskorkeuskulmalla, ajoneuvon näkyvyys ilmoitetulla geometrialla (paluutila lennettynä kahden kappaleen mallilla J2:n kanssa, Kuun paikka matkaa varten tai ilmoitettu käyttöaste), asemanvaihdot, joista kukin menettää ilmoitetun ajan, ja tuloksena oleva käyttöaste, joka välitetään vaiheen maaseurannan päivitystaajuudelle; pisin väli, jossa mikään asema ei ole näkyvissä, on budjettirivi
+
+seg-4ba700726208 = Suhteellinen navigointi telakointiin Kuun kiertoradalla (<c1/>)
+
+seg-2e30e78e49f7 = Tyyppi ja vaihe <c1/>: kahden aluksen yhteinen erä-Gauss-Newton-estimaatti kaaren yli (kaksikymmentäyksi parametria: molempien tilat ja pysyvät signal-in-space-paikkaharhat, yhteiset ja riippumattomat), kasvatettuna neljänneksen, puolen ja koko kaaren yli askelpuolituksella, aluskohtaisesta absoluuttisesta paikannuksesta (AFS-pilottikoodin seurantaraja, ILLUSTRATIVE relejoukko) ja ristilinkin etäisyydestä, crate-paketin Kuun voimamallilla; keskimääräinen normalisoitu estimointivirheen neliö, Clohessy-Wiltshire-tarkistus ympyräradalla ja eteenpäin siirretty 6x6-kovarianssi
+
+seg-c85d7e5e63a3 = Laskeutumishajonnan budjetti Kuun napa-alueen kohteessa (<c1/>)
+
+seg-bd88ab3ad105 = Tyyppi ja vaihe <c1/>: viiden tilan akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, kallistus, gyron harha) moottoroidun laskun aikana, avustettuna AFS-paikannuksilla (itsenäinen tai differentiaalinen, kellon tukemalla kolmen releen tapauksella), maastosuhteellisella paikannuksella (moottorin terrain-nav-täsmäyttäjä synteettisellä reliefillä tai Cramer-Rao-raja LOLA DEM:llä aukko-ongelmasäännöllä) ja Kuun ajalla, Monte Carlo -alastuloellipsillä
+
+seg-8dfc1600cf8c = Pinnan paikannuksen ja ajoituksen saatavuus kohteen ja vuodenajan mukaan Kuun navoilla (<c1/>)
+
+seg-f91c1da9ab55 = Tyyppi ja vaihe <c1/>: releen saatavuus ja PDOP, Maan ja Auringon näkyvyys sekä kuriin pidetty pintakello kullekin kohteelle ja vuodenajalle, tyypin <c2/> maastosiluetilla; yhden kohteen ajo on bitilleen yhtä kuin sen tyypin saatavuus ja PDOP
+
+seg-0db91d70a079 = Moottoroitu nousu Kuun napa-alueen kohteesta insertiorataan (<c1/>)
+
+seg-b5b1125d515c = Tyyppi ja vaihe <c1/>: viiden tilan akselikohtainen inertiavirhemalli ajettuna moottoroidun nousun yli ominaisvoimalla radan suunnassa, avustettuna AFS-paikannuksilla ja Kuun ajalla, raportoiden kiertoradalle kuljetetun insertiopaikan ja -nopeuden kovarianssin sekä moottorin katkaisuhajonnan (raportoitu, ei kuljetettu)
+
+seg-1983ce9cc6da = Kuun voimamallin propagointi julkisia rekonstruoituja kuukiertäjien ja kuunläheisiä lentoratoja vasten
+
+seg-57f53a7d1fa2 = Kuutyyppien jakama propagaattori (GRAIL GL0660B aste ja kertaluku { "150" }, Maa ja Aurinko kolmansina kappaleina, suhteellisuus, DE440-Kuun orientaatio) verrattuna julkisiin JPL Horizons -lentoratoihin: LRO ({ "24" } h, { "10" } minuutin välein otetut näytteet) ja CAPSTONE (yksi { "6.5" } vuorokauden kierros, tunnin välein otetut näytteet), kynnyksin, jotka on kiinnitetty kirjattuun tiedostoon ennen ajoa
+
+seg-c557d317389a = Kuunläheisen keskitilan propagointi julkista Artemis I -lentorataa vasten (<c1/>)
+
+seg-539d4c3e9b56 = Vaiheen <c1/> keskitilan propagointi (Cowell, Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu DE440-leikkeestä) verrattuna Artemis I:n julkiseen JPL Horizons -lentorataan { "72" } h vapaalentokaaren yli alkaen 2022-11-16 { "18" }:{ "00" } TDB, { "12" } tunnin välein olevissa epookeissa, kynnyksin, jotka on kiinnitetty kirjattuun tiedostoon ennen ajoa
+
+seg-150ae9c3d755 = Häirintälähteen alue: mahdollinen lähetinalue ilma-alusten ja alusten paikkaraporteista
+
+seg-b5c49044a7a1 = Mahdollinen alue sille, missä heikentyneitä navigointiraportteja aiheuttava lähde voi olla, ADS-B- (NIC/NACp) tai AIS-paikkaraporteista: radion näköyhteys 4/3-maapallon säteellä raportin korkeudesta ja lähetinantennin korkeusvälistä, rajoitettu tehollinen kantama tuntemattomalle teholle, vaikutuksen alaiset yksiköt vetävät posteriorin kohti kantamaansa ja vaikutuksen ulkopuoliset yksiköt, joilla on näköyhteys, työntävät sitä vastaan, ryhmiteltyinä istunnoiksi ajassa ja paikassa. Tuloste on suurimman tiheyden alueet ilmoitetuilla luottamustasoilla, posteriorin painopiste momenttiellipsillä, istunnon alku, loppu, kesto, vaikutuksen alainen pinta-ala ja erillisten ilma-alusten lukumäärä julkaisuminimin yläpuolella, vuorokaudenaikaprofiili ja tunnit päivässä. Maastoton; yksi lähde istuntoa kohti; uskottavuus on ehdollinen mallille. Valinnainen fuusio geolocation-moduulin TDOA-paikannukseen.
+
+seg-26d9a520eb6a = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Käsinlaskut testeissä (suoraviivaisen kovarianssin kasvu, keskimääräinen tähtiaikainen pyöriminen, Kuun kellon sekulaarinen nopeus) ja vain Kuun tilan osalta sitoutetut DE440-kernelin leikkaukset kiinnitettyjä JPL Horizons -arvoja vasten (pahin { "2.6" } m ja { "7e-6" } m/s). Mitään tehtävädataa ei verrata ketjuun; sen vaiheet ovat omia rivejään. Asiakirja on määritelty ketju ILLUSTRATIVE syötteillä, vain julkisia lähteitä eikä minkään viraston suositusta
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Riccatin vakaa tila ja ennusteen käsinlasku testeissä. Mikään tässä ei mallinna kantorakettia tai vastaanotinta; jokainen luku on ilmoitettu syöte
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Yksiakselinen käsinlasku ennustamisesta ja päivittämisestä testissä; Clohessy–Wiltshire-siirtymä on se, jonka cw_dynamics tarkistaa riippumatonta numeerista integrointia vasten. Anturit ovat ILLUSTRATIVE, eikä mitään todellista kohtaamista verrata
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Liouvillen lause (konservatiivisen osan tilasiirtymämatriisin determinantti on yksi) ja hienompi differenssi testeissä; keskimääräistä tilaa verrataan julkiseen lentorataan alla olevalla rivillä, jonka se ei täytä. Polttovirhettä, päivityksiä ja kovarianssia ei verrata mihinkään
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Käsinlaskut testeissä (kulman sigma on kohtisuoran nopeuden sigma jaettuna nopeudella; Gaussin massa käytävässä). Tasomainen tulo on moottorin oma ja Allen–Eggers-muoto on suljetun muodon vertailu; mitään lennettyä tuloa ei verrata
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Zeniitin ja antipodin geometriatarkistukset sekä kaukaisen kohteen odotettu näkyvyys testeissä. Mitään todellista verkkoa, antennia tai aikataulua ei mallinneta
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Itsejohdonmukaisuus ennakkorekisteröinnin alaisena (xval/mission-thread-lunar/PREREGISTRATION.md, tulokset ja estimaattorin historia tiedostossa RESULTS.md): suhteellisen tilan keskimääräinen NEES on { "5.85" }–{ "5.93" } kaistaa { "5.2" }–{ "6.8" } vasten neljässä kokoonpanossa, MET neljännellä estimaattorirakenteella sen jälkeen, kun kolme peräkkäissuodinrakennetta oli jäänyt vajaaksi; totuus ja estimaattori käyttävät samaa voimamallia, joten tämä ei kerro mallivirheestä mitään. Sen jakamaa propagaattoria verrataan LRO:hon ja CAPSTONEen alla olevalla rivillä
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Suljetun muodon inertiaajautuma, uudelleenkäytettyjen lajien omat tulokset ja 3-sigma-ellipsin kalibrointi (ellipsin sisälle jäävä osuus vastaa odotustaan) testeissä. Mitään lennettyä tai testattua laskeutumista ei verrata
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = tarkistettu erillistä toteutusta vastaan samassa koodikannassa, mikä on riippumaton testattavasta yksiköstä mutta ei ulkoisesti auktoritatiivinen — Täsmällinen yhtäsuuruus olemassa olevan lajin kanssa yhden kohteen osalta sekä monotonisuustarkistukset testeissä. Releiden joukko on ILLUSTRATIVE, eikä mitään pinnalla tehtyä mittausta verrata
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Suljetun muodon inertiaajautuma ja monotonisuustarkistukset testeissä. Mitään lennettyä nousua ei verrata
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = osaväite tarkistetaan ulkoisesti, mutta koko kyvykkyys koostuu mallinnetuista osista, joten kyvykkyys pysyy mallinnettuna — JPL Horizons -avaruusalusefemeridit LRO:lle ja CAPSTONElle, kynnyksiä vasten, jotka on ennakkorekisteröity tiedostossa xval/mission-thread-lunar/PREREGISTRATION.md (muutokset { "1" }–{ "6" }). LRO: MET, { "33" } m suurin 3D-ero ja { "2.4" } m RMS radiaalisesti kynnyksiä { "500" } m ja { "60" } m vasten. CAPSTONE: NOT MET, { "136.8" } km loppupaikan ero kynnystä { "25" } km vasten ja { "28.4" } km periapsiksen ero kynnystä { "10" } km vasten, syitä ei eristetty. Rivi on mallinnettu, koska CAPSTONE-kynnys jää saavuttamatta ja vertailu testaa jaettua propagaattoria, ei mitään suodinta, signaalia tai budjettia
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = osaväite tarkistetaan ulkoisesti, mutta koko kyvykkyys koostuu mallinnetuista osista, joten kyvykkyys pysyy mallinnettuna — JPL Horizons -kohde -1023 (NASAn navigoinnin lennetty TLI:n jälkeinen lentorata), kynnyksiä vasten, jotka on ennakkorekisteröity tiedostossa xval/mission-thread/PREREGISTRATION.md (muutos { "1" } muuttaa vain pyyntöjaksoa). NOT MET ja varmistettu ohitetuksi: { "45.3" } km suurin paikkaero kynnystä { "5" } km vasten ja { "0.249" } m/s nopeusero hetkellä { "72" } h kynnystä { "0.05" } m/s vasten. Tuomion jälkeen kirjoitettu diagnostiikka sijoittaa ohituksen viiteaineiston viiteen impulsiiviseen nopeusaskeleeseen, { "0.09" }–{ "0.22" } m/s (ennakkorekisteröity tulkinta, että ikkunassa ei ollut polttoa, oli väärä); muiden { "67" } tunnin aikana malli toistaa seuraavan tuntitilan mediaanilla { "0.38" } m. Testaa vain yhden rannikkokaaren keskimääräistä tilaa: ei kovarianssia, suodinta, päivitystä tai muuta vaihetta
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli — Ulkoista tarkistusta ei vielä ole. Vain synteettisiä eteenpäin–käänteis-kierroksia generaattorilla, joka jakaa estimaattorin mallin, joten ne tarkistavat koodin ja ilmoitettujen tasojen kalibroinnin tämän mallin alla eikä mitään todellisista lähettimistä. Ulkoinen tarkistus julkaistuja Jammertest { "2025" } -lähetinkohteita vasten ennakkorekisteröitiin (docs/emitter-region/PREREGISTRATION.md, omistajan hyväksymä ennen yhtäkään pisteytettyä ajoa) ja ajettiin kerran (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } aikataulutettua istuntoa, vähemmän kuin rekisteröity vähimmäismäärä { "4" }) ja AIS NOT ASSESSABLE (ei julkaistua istuntoa), joten mitään kynnystä ei testattu ja rivi pysyy MODELLED-tasolla
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
+
+seg-a2bf08b8e82d = { "221" } kyvykkyyttä merkitty MODELLED.
