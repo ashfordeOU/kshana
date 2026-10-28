@@ -161,3 +161,5 @@ seg-b0109481e8ff = Graf, který engine zapisuje pro scenarios/reentry.toml, druh
 seg-de2448d74c2b = Rámcování podle CCSDS 133.0-B Space Packet Protocol: kódování syntetického proudu paketů TM/TC (6oktetová primární hlavička + datové pole) a výpis dekódování hlavičky každého paketu, celkového počtu oktetů a přesného round-tripu kódování↔dekódování. Deterministické přesné rámcování podle bitového uspořádání — vrstva interoperability formátu paketů agentur; NENÍ to certifikace shody (bez logiky sekundární hlavičky/CRC/segmentace nad rámec příznaků).
 
 seg-af1cf9aa9938 = Graf, který engine zapisuje pro scenarios/space-packet.toml, druh space-packet
+
+seg-e77c46e23e67 = <s1>Další</s1>Vlákna mise

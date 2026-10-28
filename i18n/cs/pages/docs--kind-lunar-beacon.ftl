@@ -31,3 +31,5 @@ seg-ca9b68783354 = <s1>Další</s1>lunar-differential-pnt
 seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
 
 seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
+
+seg-b81e98467952 = <s1>Další</s1>lunar-descent

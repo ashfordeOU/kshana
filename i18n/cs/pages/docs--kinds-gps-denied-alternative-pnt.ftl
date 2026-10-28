@@ -61,3 +61,5 @@ seg-c5e33c7122e2 = Graf, který engine zapisuje pro scenarios/terrain-nav.toml, 
 seg-6bdc150ab25b = Sekvenční (rekurzivní) navigace podle terénu bez GPS: částicový filtr spouští měřicí model shody s terénem epochu po epoše (SITAN jako běžící filtr), takže se podél trasy sleduje časově proměnný drift INS, zatímco dávkový terrain-nav obnoví pouze jediný konstantní posun.
 
 seg-4aca87f022dc = Graf, který engine zapisuje pro scenarios/terrain-slam.toml, druh terrain-slam
+
+seg-643fa0f18717 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>terrain-nav</a1>.

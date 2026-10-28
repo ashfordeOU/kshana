@@ -1900,3 +1900,85 @@ seg-20beca58d39e = <a1>Přidat do Cursoru (npx)</a1> · <a2>Přidat do Cursoru (
 seg-aa6b62f0b484 = <a1>Nainstalovat ve VS Code (npx)</a1> · <a2>Nainstalovat ve VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP je Model Context Protocol. Vydání připnete pomocí <c1/>, <c2/> nebo <c3/>. Sestavení ze zdrojů viz <a1>Instalace a sestavení</a1> v části Reference.
+
+seg-57686575b81d = Data partnerů
+
+seg-0c39fcb3527f = { "176" } z { "401" } schopností VALIDATED proti nezávislému vnějšímu orákulu, z verifikační matice
+
+seg-467bb88ec415 = <a1>Co je nového ve verzi { "0.40" }</a1>, <a2>Co je nového ve verzi { "0.39" }</a2>, <a3>Co je nového ve verzi { "0.38" }</a3> a <a4>{ "0.38" } podrobně</a4>: bodování jammertestu, vlastní příznaky přijímače, strojové vstupy, časování a holdover, balíčky norem, LunaNet AFS, okružní zkouška v laboratoři, kshana-bench, observatoř, exportéry, optika, <a5>navigace uživatelů ve vesmíru</a5> a <a6>lunární infrastruktura</a6>
+
+seg-cafc1c9c4d58 = Co je nového ve verzi { "0.40" }
+
+seg-59a31376fa3d = Verze { "0.40" } přidává rozpočet chyb na úrovni mise, označuje každé číslo a tabulku úrovní důkazu, čte naměřené záznamy hodin, kontroluje podání datových partnerů, odhaduje, kde může být zdroj rušení, a mluví sedmnácti jazyky vedle angličtiny. Registr má nyní { "401" } řádků: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé nesplnění níže je zajištěno testem.
+
+seg-ab5eec8db03e = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "92" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>).
+
+seg-5bd16655cace = <b>Označení důkazů.</b> Každé číslo a tabulka, které běh zapíše, nese úroveň a id řádků registru, na nichž spočívá, načtené z matice.
+
+seg-e79fca859317 = <b>Naměřené hodiny.</b> Čte se osm formátů záznamů hodin (<a1><c1/></a1>) a nafitovaná řada může řídit holdover. Proti předregistrovaným prahům fit <b>nesplňuje</b> F1(a) u pěti ze šesti záznamů a F2 u jednoho; oba zůstávají MODELLED (<a2>Seznam změn</a2>).
+
+seg-cda13679ad81 = Datoví partneři.
+
+seg-88439b6ddd78 = <c1/> kontroluje formát podání a nic nehodnotí (<a1><c2/></a1>).
+
+seg-c571cf207dd4 = Oblast vysílače.
+
+seg-5cf9c8d0440e = <c1/> uvádí oblast a elipsu, nikdy holý bod, z hlášení ADS-B nebo AIS. Při jednom porovnání s místy vysílačů Jammertest { "2025" } je výsledek <b>NOT ASSESSABLE</b> pro oba zdroje (příliš málo plánovaných relací v otevřených datech), takže řádek zůstává MODELLED (<a1>Mapa interference</a1>).
+
+seg-5b1f193d1f85 = <b>Benchmark.</b> Nová kampaň { "0.40" } splňuje A3, D3 (obojí EXPLORATORY), R3 a R4; A2, D1 a R1 zůstávají NOT MET (<a1>Bench</a1>).
+
+seg-04cc50904993 = <b>Jazyky.</b> nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja a zh-Hans, jako <b>strojové překlady, které žádný rodilý mluvčí nekontroloval</b>; referenční je angličtina a běhy v jiném jazyce trvají přibližně dvakrát déle (<a1><c1/></a1>).
+
+seg-47949eaeac72 = Řešení celočíselných nejednoznačností fáze nosné mezi lunárními povrchovými stanicemi a orbiterem z uloženého výsledku hodnoceného běhu enginu v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } délky oblouku, každá s metodou Monte Carlo o { "401" } losováních, zapsáno scenarios/carrier-phase-scored.toml). { "1" } den: úspěšnost { "1.0" } % (směrodatná chyba { "0.5" } %), { "134" } nejednoznačností, sigma polohy orbiteru { "45.6" } m s plovoucím řešením a { "18.5" } m s pevným; { "2" } dny: úspěšnost { "0.5" } % (směrodatná chyba { "0.4" } %), { "259" } nejednoznačností, sigma polohy orbiteru { "21.5" } m s plovoucím řešením a { "8.7" } m s pevným; { "3" } dny: úspěšnost { "2.8" } % (směrodatná chyba { "0.8" } %), { "375" } nejednoznačností, sigma polohy orbiteru { "6.3" } m s plovoucím řešením a { "2.1" } m s pevným. Celočíselné řešení se nedosahuje: úspěšnost zůstává mezi { "1" } % a { "3" } % při { "25" } dBi a při registrovaných { "12" } dBi nelze problém sestavit. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života.
+
+seg-91d06a3fa705 = Kshana Studio, jednoduchý pohled, na přibaleném scénáři integrity-raim, engine v{ $version } běžící lokálně. Otázka: splňuje geometrie meze výstrahy (horizontální a vertikální ochranná úroveň)? Odpověď je uvedena jako první a označena Živý výsledek: Ano, většinou: po { "95.3" } % z { "12" } h. Mez chyby přijímače zůstala pod mezemi výstrahy ({ "40" } m horizontálně a { "50" } m vertikálně) při { "344" } z { "361" } kontrol a žádné určení polohy nebylo zavádějící. Klíčová čísla: doba, po kterou lze určení polohy věřit { "95.3" } %, nejdelší mezera { "10" } min, typická mez chyby { "6.5" } / { "13" } m, zavádějící určení polohy { "0" }. Vedle toho Zkusit jiná nastavení s pěti z nich (chyba vzdálenosti, dvě meze výstrahy, doba trvání a elevační maska) a Spustit znovu, poté sbalené oddíly Pokročilá nastavení ({ "13" } dalších), Jak se to počítá ({ "8" } ověřených, { "6" } modelovaných) a Pro výzkumníky. Níže pohledy na tento výsledek a ochranné úrovně vykreslené proti mezi výstrahy.
+
+seg-69022d84094d = Kshana Studio, jednoduchý pohled, úvodní obrazovka s názvem Co byste chtěli zjistit?, s živým enginem v{ $version } a v horní liště třemi odkazy: Rozbor tréninku, Mapa interference a Důvěra v přijímač. Čtyři otázky: kolik družic vidím kdekoli na Zemi, mohu věřit určení polohy, jak dlouho mohou hodiny udržet čas bez družic a co dělá rušička s mým přijímačem. Pod první z nich její zaznamenaný výsledek: nejméně { "22" } družic ve výhledu na každém místě a { "31" } v průměru s GPS, Galileem, BeiDou a GLONASS dohromady, určení polohy možné na { "100" } % míst a časů, na světové mapě družic ve výhledu, s tlačítkem Otevřít tento výsledek. Vedle toho Vše, co Kshana umí: { "16" } oblastí a { "139" } scénářů připravených ke spuštění, každá dlaždice s malým grafem ze zaznamenaného běhu a svým podílem ověřených metod a { "173" } z { "350" } schopností ověřených v registru.
+
+seg-5d3bb72c6490 = Kshana Studio, pokročilý pohled, po běhu přibaleného scénáře constellation-multi-gnss-coverage (Čtyři konstelace GNSS, jedna mapa), engine v{ $version } běžící lokálně. Vlevo knihovna scénářů, { "139" } scénářů v { "16" } oblastech. Pět kroků Vybrat, Nastavit, Spustit, Číst výsledky a Sdílet nebo exportovat, přičemž aktuální je krok { "4" }. Klíčová čísla: { "102" } družic, dostupnost { "100" } % (PASS), medián faktoru zhoršení přesnosti polohy (PDOP) { "0.95" } (PASS), 95. percentil PDOP { "1.105" } (PASS), v průměru { "31.03" } družic ve výhledu a { "22" } nejméně. Níže řada panelů s vybraným Pokrytím, lišta přehrávání, světová mapa středního PDOP od { "0.831" } do { "1.0853" } s vykreslenou každou družicí a globální údaje o pokrytí.
+
+seg-b8f6321e9e0d = Tři stránky kshana.dev vedle sebe. Hlavní část Domů: řádek s názvem Kshana · क्षण · přesný okamžik nad titulkem Nacvičte minutu, kdy GNSS zhasne, s konzolí mise ze skutečného běhu enginu v{ $version } (zeměkoule a tři živé grafy: časová chyba hodin, poměr nosné k hustotě šumu a ochranná úroveň). Evidence, Publikovaný výzkum: šest článků na arXiv postavených na otevřeném enginu, nejnovější s obrázkem z enginu. Edice, Kshana Pro, týž engine, zesílený: Free spouští jeden scénář, Pro odpovídá na otázku programu.
+
+seg-9d447be4caed = Jeden engine pokrývá celý řetězec selhání, od prvního rušeného družicového signálu po poslední nanosekundu holdoveru hodin. Engine má { "92" } druhů scénářů; <c1/> je vypíše a <a1><c2/></a1> dokumentuje každé pole.
+
+seg-d3d6b030b588 = Oblast vysílače
+
+seg-56eee3458645 = kde, při uvedených předpokladech, může být zdroj zhoršených hlášení polohy: oblasti s uvedenou spolehlivostí, těžiště s elipsou, nikdy bod (MODELLED; <c1/>)
+
+seg-ee28beafac1a = rozpočet chyb navigace a času řetězce fází od startu po vstup do atmosféry
+
+seg-34e44a492cad = <c1/> spouští scénář; každý další příkaz je podpříkaz a <c2/> vypíše použití všech. Příkazy jsou <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (s <c8/> a <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> a <c63/>. <a1><c64/></a1> uvádí účel každého z nich, ověřený příklad a jeho stránku v dokumentaci.
+
+seg-c472e0e5a3a5 = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) jde do enginu, kshana { $version }, přes dispečink api::run_toml nad { "92" } druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapisuje result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapisuje study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a průběžnou integraci.
+
+seg-9f5426cbbf4a = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "221" } poctivě označeno jako modelované. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
+
+seg-54ac34405621 = Jak schopnost získá své označení. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí v kontinuální integraci, a označení, které z toho plyne. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, pokud za něj odpovídá hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD, orákulum ověřovací vektory AIAA 2006-6753 SGP4, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER z { "401" } řádků. Celkem { "176" } schopností ověřeno proti nezávislým vnějším orákulům; dalších { "221" } je poctivě označeno MODELLED a { "4" } je ve vlastnictví partnera (PARTNER).
+
+seg-42fa293e1bb4 = Několik kontrol: všech { "666" } vektorů AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; silový model Cowell do { "0.08" } m proti Orekit { "12.2" }; Galileo do { "0.61" } m a Swarm-A do { "0.10" } m proti skutečným přesným efemeridám Evropské kosmické agentury (ESA). Testy udržují přibližně { "95" } % pokrytí řádků v <c1/>, s prahem { "85" } % v CI. Registrem je <a1><c2/></a1>, generovaný z <c3/>: <a2>úplná matice o 401 řádcích</a2> a proč nemá žádný modelovaný řádek vnější orákulum, v <a3><c4/></a3>.
+
+seg-e7f7d0e51698 = Štítek důkazů u každého čísla
+
+seg-58ce18b8e642 = Každé číslo a každá tabulka, které běh zapíše, říká, nakolik jim lze důvěřovat a na kterých řádcích registru stojí. Výsledné JSON má klíč <c1/>, graf SVG řádek pod grafem (a prvek <c2/>) a tabulka CSV na začátku řádky komentářů <c3/> (čtěte s <c4/>). Uvádí úroveň, <c5/>, <c6/> nebo <c7/>, a identifikátory (<c8/> a osm hexadecimálních číslic) řádků verifikační matice, které běh použil. Úroveň je nejslabší z těchto řádků, takže běh, který se opírá o jediný modelovaný řádek, je označen MODELLED bez ohledu na to, kolik ověřených řádků leží vedle něj; štítek tedy nikdy netvrdí víc než registr. Řádky, stavy a identifikátory se čtou z matice, nepíší se ručně (<a1><c9/></a1>, <a2><c10/></a2>) a <c11/> selže, pokud číslo nemá štítek nebo štítek s maticí nesouhlasí.
+
+seg-06fc56dd3edb = Každý řádek vynucuje pojmenovaný test v CI. Tato tabulka je <b>vybraný výběr</b>; úplná strojově kontrolovaná matice má <b>{ "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), s úplnými důkazy (a tím, co poctivě <em>ještě není</em> ověřeno) v <a1><c2/></a1> a v artefaktu <a2><c3/></a2> každého vydání (generovaném pomocí <c4/>, s atestací SLSA — Supply-chain Levels for Software Artifacts).
+
+seg-4c4dfa02be15 = Jak schopnost získá své označení: požadavek je mapován na modul v src, na test v tests, na vnější orákulum (skutečný soubor dat, nezávislá referenční implementace nebo zveřejněné vektory) a na stav — s ochranou vynucovanou v CI, že žádná schopnost nemůže být ověřena bez vnějšího orákula. Aktuální počty: { "176" } ověřeno, { "221" } modelováno, { "4" } partnerské, celkem { "401" }
+
+seg-3f48a70a707a = Stav verifikace všech { "401" } schopností: { "176" } ověřeno (zkontrolováno proti vnějšímu orákulu), { "221" } modelováno, { "4" } ve vlastnictví partnera
+
+seg-35a4412348e1 = { "176" } ověřeno · { "221" } modelováno · { "4" } partnerské — <a1>SVG</a1>
+
+seg-cdf946112863 = Architektura Kshana: jeden otevřený engine uprostřed, kshana { $version } pod licencí AGPL-3.0, s api::run_toml, typovaným rozdělováním přes každý druh, a verifikační registr { "401" } schopností ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Kolem něj každé rozhraní spouští týž engine: příkazový řádek (cargo install kshana); knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); server MCP (cargo install kshana-mcp); image Dockeru (ghcr.io/ashfordeou/kshana-mcp); zásuvný modul JetBrains (Marketplace: "Kshana"). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nepřidává žádný fyzikální model.
+
+seg-656df854409a = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "92" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "401" } schopností, která je jediným zdrojem pravdy pro každý štítek.
+
+seg-11041e6beb65 = { "92" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli — aby agent mohl sestavit platný scénář
+
+seg-abf70d11a088 = celý otevřený engine, všech { "92" } druhů scénářů, bez omezení funkcí
+
+seg-b14326430bd8 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "92" } druhů, { "192" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
+
+seg-824001fa6734 = laboratoře a výrobci, kteří mají naměřená data
+
+seg-df3ca402513f = které řádky MODELLED by mohl povýšit naměřený záznam hodin nebo IMU, formáty, jak se podání kontroluje (<c1/>), hodnotí a připisuje

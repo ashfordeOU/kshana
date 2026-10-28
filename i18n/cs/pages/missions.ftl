@@ -837,3 +837,5 @@ seg-d10b07c40c97 = Začněte v <a1>Instalaci</a1>
 seg-0e6be0d623f6 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Komerční licence otevřeného jádra: uzavřená nebo proprietární integrace bez závazků AGPL.
 
 seg-9b505908a6e2 = Kshana <b>neovládá žádný rádiový hardware a nic nevysílá</b>. Obsahuje softwarový přijímač GNSS pro zaznamenaná a generovaná data IQ a umí zapisovat syntetické soubory IQ v základním pásmu, ale <b>nejde o hardware generátoru rádiových signálů</b> a <b>nejde o hardwarový přijímač GNSS ani o přijímač s certifikací</b>. Je to nástroj pro studie a kompromisní analýzy: simuluje, co rušení, spoofing a ztráta signálu způsobují navigačnímu a časovému řešení, a říká vám, které z jeho odpovědí jsou ověřené. <b>Nejde o letový produkt.</b>
+
+seg-ecb96b67c4e9 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu

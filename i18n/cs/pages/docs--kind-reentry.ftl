@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = Balistický koridor návratu do atmosféry (Allen–Eggers) j
 seg-a4b7c16e3fea = <s1>Předchozí</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Další</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Fáze <c1/>: návratový volný let <c2/> bez zážehu, končící na rozhraní vstupu; úhel dráhy letu a jeho sigma z úplné kovariance pomocí gradientu konečných diferencí; pravděpodobnost, že úhel leží uvnitř uvedeného

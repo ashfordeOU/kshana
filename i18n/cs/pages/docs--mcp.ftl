@@ -293,3 +293,5 @@ seg-75bf2d74642d = Licence: pouze AGPL-3.0, GNU Affero General Public License ve
 seg-490ebbefb561 = <s1>Předchozí</s1>Crate Rustu
 
 seg-350b6b914734 = <s1>Další</s1>Server MCP: každý instalační kanál
+
+seg-492888115662 = { "92" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli, aby agent mohl sestavit platný scénář.

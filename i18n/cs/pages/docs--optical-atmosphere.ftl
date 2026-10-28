@@ -128,3 +128,5 @@ seg-309c70f2f4f8 = ITU-R P.840 (statistiky kapalné vody v oblacích), P.1814 a 
 seg-83b30e1ca261 = <s1>Předchozí</s1>Balíčky důkazů
 
 seg-1474b58fb35a = <s1>Další</s1>Časování slotů
+
+seg-50f25bceca3c = <s1>Předchozí</s1>Datoví partneři a povyšující řádky

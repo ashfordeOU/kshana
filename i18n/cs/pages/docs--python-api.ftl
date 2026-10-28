@@ -402,3 +402,5 @@ seg-82379c29d438 = <s1>Předchozí</s1>Atomový interferometr z chladných atom�
 seg-4a457afc63fb = <s1>Další</s1>npm a WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = odhadnuté oblasti emitorů z textu CSV ADS-B nebo AIS: <c1/>, každá označená MODELLED; oblasti se stanovenou spolehlivostí s těžištěm a elipsou nejistoty, nikdy holý bod; pouze souhrnně, a oblast není polohou nikoho ani zjištěním příčiny

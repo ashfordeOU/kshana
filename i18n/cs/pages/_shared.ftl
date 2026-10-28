@@ -419,3 +419,17 @@ seg-58c4d7218e70 = Reprodukovatelnost a zajištění softwaru je MODELLED, nikol
 seg-1bf3d5817274 = Všechny druhy: <a1>KINDS.md</a1>
 
 seg-852814f107a7 = Stránky druhů scénářů
+
+seg-6867c09f7613 = Jazyky
+
+seg-aaf9c6896126 = Datoví partneři a povyšované řádky
+
+seg-3b31855a40e7 = Vlákno mise: od startu po vstup do atmosféry
+
+seg-0cf138405411 = Vlákno mise: lunární část
+
+seg-5fee8df421d2 = Vlákna misí
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = stabilní id řádku matice (ID

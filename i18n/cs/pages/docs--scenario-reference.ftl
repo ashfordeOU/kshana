@@ -733,3 +733,47 @@ seg-2f09b9930e10 = Zobrazit na GitHubu
 seg-67f767701c6d = <s1>Předchozí</s1>Oblasti schopností
 
 seg-ea79a68b0587 = <s1>Další</s1>Schéma výsledku
+
+seg-944145b95b4a = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby (jihopolární místa ve stylu Artemis).
+
+seg-f942b36a11c4 = Zatím ne na GitHubu
+
+seg-ae3053a1f6c8 = MODELLED motorický výstup z jihopolárního povrchového místa na oběžnou dráhu setkání a kovariance polohy a rychlosti, kterou přenáší zpět na dráhu (ve stylu Artemis). Pětistavový inerciální model chyb po osách z lunar-descent (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu, buzený specifickou silou) běží na všech třech osách místa od povrchového stavu, s nímž fáze vstupuje; určení polohy AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatné, nebo diferenční s využitím rezidua korekčního spoje z lunar-differential-pnt, s podporou hodin, když jsou viditelná jen tři relé) se pořizuje v stanoveném intervalu, přičemž lunární čas vstupuje přes hodiny vozidla a chyba časové značky podél dráhy. Uvádí uzavřené inerciální zdroje, příspěvek podpory, ablaci, navigační 1 sigma po dobu výstupu, rozptyl vypnutí motoru vedle navigační znalosti a úplnou kovarianci 6x6 MCI při vložení se zachovanou korelací polohy a rychlosti. MODELLED: ilustrační třída IMU, specifická síla, sada relé a rozptyl vypnutí; chyby držené v osách místa startu; nominální výstupní stav je zástupný. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-2cd0d5385530 = MODELLED rozpočet rozptylu přistání pro motorický sestup na místo u jižního pólu (třída Artemis). Pro každou horizontální osu je pětistavový model inerciální chyby (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu) řízen měrnou silou sestupu; sekvenční filtr přijímá polohové určení z povolených pomůcek: určení AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatně, nebo diferenciálně s využitím rezidua korekčního spoje z lunar-differential-pnt, s podporou hodin, jsou-li viditelná jen tři relé) a určení podle terénu (porovnávač TERCOM/SITAN v crate na syntetickém reliéfu, nebo Cramérova–Raova mez porovnávání výškového okna skutečného jihopolárního DEM z LOLA). Lunární čas vstupuje přes hodiny vozidla při určeních (posun LTC-TT z lunar-time-offset nebo nejistota jeho zveřejněného pásma) a jako chyba časové značky podél dráhy. Uvádí 3sigma elipsu přistání, R95, inerciální zdroje v uzavřeném tvaru, příspěvek každé pomůcky, ablaci každé kombinace pomůcek, kalibraci elipsy metodou Monte Carlo a předávanou kovarianci. MODELLED: ilustrativní třída IMU, sada relé, profil sestupu a naváděcí člen; navigace podle terénu používá syntetický reliéf v měřítku metrů na Zemi; dostupnost AFS je jedna epocha na plochém prahu. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-2deefd8c547b = MODELLED relativní navigace pro dokování ve stylu Orion–lander na nízké lunární oběžné dráze nebo eliptické polární dráze (třída Artemis). Chaser a cíl létají po téže dráze podle lunárního modelu sil v crate; společný dávkový odhad Gauss–Newton s 21 parametry přes oblouk (dva stavy vozidel a trvalé biasy signálu v prostoru) slučuje absolutní polohové určení pro každé vozidlo ze sady relé ILLUSTRATIVE třídy LCNS (relé za Měsícem se vyřadí, potřeba jsou čtyři, společná složka chyby signálu v prostoru se mezi vozidly vyruší) a křížový odhad vzdálenosti, s přesností měření vzdálenosti danou mezí sledování kódu na pilotu LunaNet AFS. Uvádí formální chybu relativní polohy a rychlosti i chybu metodou Monte Carlo v osách LVLH cíle, dostupnost určení, střední normalizovanou kvadratickou chybu odhadu oproti její očekávané hodnotě a každý pokus, jehož iterace nezkonvergovala, drift vzniklý zanedbáním gravitačních harmonických a úplnou kovarianci 6x6 předávanou dál. Pro kruhový případ platí kontrola v uzavřeném tvaru podle Hilla/Clohessyho–Wiltshirea. MODELLED: ilustrativní sada relé, rozpočet chyb a apriorní hodnoty; skutečnost a odhadovač sdílejí jeden model sil, takže NEES kontroluje vnitřní konzistenci a nikoli chybu modelu. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-6c7d25f672fb = MODELLED dostupnost určování polohy a času na povrchu podle místa a ročního období pro jihopolární místa třídy Artemis. Pro každé místo a období (epochu a okno po ní) uvádí polohování pomocí relé (čtyři a více relé ILLUSTRATIVE konstelace třídy LCNS ve výhledu a PDOP pod prahem, ze stejných funkcí jako moonlight-service-volume a s oddílem terénu také s horizontem vykresleným metodou ray-marching z terénu lunar-station-coverage), zda jsou Země a Slunce nad horizontem místa (analytická poloha Slunce a Měsíce a orientace Měsíce, včetně librace, která se s ročním obdobím mění), a dostupnost času (relé nebo Země ve výhledu) s nejdelším úsekem, kdy není ani jedno, tedy s holdoverem, který musí povrchové hodiny překlenout. Výsledek pro jedno místo se rovná výsledku moonlight-service-volume na bit. MODELLED: ilustrativní keplerovská sada relé na Měsíci s průměrnou rotací; údaj o relé se s ročním obdobím nemění; terén je výřez LOLA { "1200" } m. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-1ec485468daa = MODELLED rozpočet chyb navigace a času pro uvedený řetězec fází mise od startu po vstup do atmosféry: start a výstup, setkání a dokování na nízké oběžné dráze Země (opakovatelné), trans-lunární injekce a cislunární plavba, setkání na lunární oběžné dráze, sestup, pobyt na povrchu, výstup a návrat a vstup do atmosféry, přičemž každá fáze je jedním z osmi registrovaných druhů s vlastními senzory a filtrem. Kovariance 6x6, hodiny a rámec se předávají z fáze do fáze podle uvedeného pravidla (přenést, nafouknout nebo znovu získat); převody rámců a časových škál (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) jsou samostatné řádky rozpočtu, přičemž stav Měsíce pochází z volitelného výřezu jádra DE440 a analytická řada slouží jako uvedená záloha. Volitelné překrytí pozemní sítí nastavuje sledovací pracovní cyklus každé fáze. Uvádí rozpočet pro jednotlivé fáze (1sigma při vstupu, ve špičce a při výstupu, každý příspěvek s jednotkou), rezervu oproti uvedenému požadavku, nejslabší článek, události a obrázek časové osy. MODELLED: každé číslo je uvedený vstup; řetězec sleduje jeden svazek a žádné vozidlo není modelováno. Pouze veřejné zdroje; bez spojení s žádnou agenturou ani její podpory; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-5b4a725bea4e = Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu. Popis je vlastní hlavičkový komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul daného druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.
+
+seg-d2b1e58dea11 = Scénář hodin, jehož klasické hodiny přebírají šum naměřeného logu (<c1/>).
+
+seg-760090cd3247 = Scénář hodin s naměřeným logem vedle simulovaného holdoveru (<c1/>).
+
+seg-d7ed02b28987 = druh lunar-ascent
+
+seg-e92ba974379b = Lunar ascent: řízený výstup z jižního polárního povrchového místa (třída Artemis) na rendezvousovou oběžnou dráhu ve výšce { "100" } km a kovariance polohy a rychlosti, kterou si nese zpět na oběžnou dráhu.
+
+seg-d9f4bc0e8795 = druh lunar-descent
+
+seg-224175962a12 = Rozptyl lunárního přistání: rozpočet řízeného sestupu na jižní polární místo (třída Artemis) z inerciálního driftu sestupového stupně a toho, kolik z něj ubírá terénně relativní navigace, signály LunaNet a lunární čas.
+
+seg-138dbcd1aece = Rozptyl lunárního přistání se skutečným jižním polárním DEM z LOLA: rozpočet řízeného sestupu na jižní polární místo (třída Artemis) z inerciálního driftu sestupového stupně a toho, kolik z něj ubírá terénně relativní navigace, signály LunaNet a lunární čas.
+
+seg-7d99c01a7740 = druh lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Lunární rendezvous: relativní navigace pro dokování typu Orion–lander na kruhové polární nízké lunární dráze ve výšce { "100" } km (třída Artemis), s lunárním gravitačním polem a signály ve stylu LunaNet.
+
+seg-9f740b874e14 = Lunární rendezvous na eliptické polární dráze: relativní navigace pro dokování typu Orion–lander na polární dráze { "100" } km krát { "3000" } km s periapsidou nad jižním pólem (třída Artemis), s lunárním gravitačním polem a signály ve stylu LunaNet.
+
+seg-d1fc00782fe9 = druh lunar-surface
+
+seg-ce9f26be0623 = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby se skutečným horizontem terénu jižního pólu z LOLA (jižní polární místa třídy Artemis).
+
+seg-ce858063d300 = druh mission-thread
+
+seg-0bd19840e50d = Misijní vlákno třídy Artemis: rozpočet chyb navigace a času jednoho řetězce fází, od startu po vstup do atmosféry, sestavený z veřejných materiálů koncepce operací.
