@@ -414,16 +414,19 @@ fn esc(s: &str) -> String {
 /// no report position is drawn.
 fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
     let (w, h, m): (f64, f64, f64) = (760.0, 640.0, 60.0);
-    let fill = ["#7aa6d8", "#4f81bd", "#27508a", "#f0b429"];
+    use crate::palette::map as pm;
+    let fill = [pm::REGION_50, pm::REGION_90, pm::REGION_95, pm::ELLIPSE];
+    let (ink, muted, note, plot, frame) = (pm::INK, pm::MUTED, pm::NOTE, pm::PLOT, pm::FRAME);
     let mut svg = format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" font-family=\"sans-serif\"><rect width=\"{w}\" height=\"{h}\" fill=\"#ffffff\"/>"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" font-family=\"sans-serif\"><rect width=\"{w}\" height=\"{h}\" fill=\"{}\"/>",
+        pm::GROUND
     );
     svg.push_str(&format!(
-        "<text x=\"{m}\" y=\"28\" font-size=\"18\" font-weight=\"bold\" fill=\"#111111\">{}</text>",
+        "<text x=\"{m}\" y=\"28\" font-size=\"18\" font-weight=\"bold\" fill=\"{ink}\">{}</text>",
         esc(&crate::t!("interference-map-locate-fig-title"))
     ));
     svg.push_str(&format!(
-        "<text x=\"{m}\" y=\"46\" font-size=\"11\" fill=\"#444444\">{}</text>",
+        "<text x=\"{m}\" y=\"46\" font-size=\"11\" fill=\"{muted}\">{}</text>",
         esc(&crate::t!(
             "interference-map-locate-fig-subtitle",
             n = est.len()
@@ -431,7 +434,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
     ));
     if est.is_empty() {
         svg.push_str(&format!(
-            "<text x=\"{m}\" y=\"{}\" font-size=\"14\" fill=\"#444444\">{}</text></svg>",
+            "<text x=\"{m}\" y=\"{}\" font-size=\"14\" fill=\"{muted}\">{}</text></svg>",
             h / 2.0,
             esc(&crate::t!("interference-map-locate-fig-none"))
         ));
@@ -477,7 +480,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
     let px = |x: f64| m + side / 2.0 + (x - cx) * sc;
     let py = |y: f64| 80.0 + side / 2.0 - (y - cy) * sc;
     svg.push_str(&format!(
-        "<rect x=\"{m}\" y=\"80\" width=\"{side}\" height=\"{side}\" fill=\"#f7f7f7\" stroke=\"#999999\"/>"
+        "<rect x=\"{m}\" y=\"80\" width=\"{side}\" height=\"{side}\" fill=\"{plot}\" stroke=\"{frame}\"/>"
     ));
     for (k, (_, e)) in est.iter().enumerate() {
         for li in (0..e.regions.len()).rev() {
@@ -517,7 +520,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
             let (x, y) = proj.forward(e.centroid.0, e.centroid.1);
             let (cxp, cyp) = (px(x), py(y));
             svg.push_str(&format!(
-                "<path d=\"M{:.1},{:.1}L{:.1},{:.1}M{:.1},{:.1}L{:.1},{:.1}\" stroke=\"#111111\" stroke-width=\"2\"/><text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#111111\">{}</text>",
+                "<path d=\"M{:.1},{:.1}L{:.1},{:.1}M{:.1},{:.1}L{:.1},{:.1}\" stroke=\"{ink}\" stroke-width=\"2\"/><text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{ink}\">{}</text>",
                 cxp - 6.0, cyp, cxp + 6.0, cyp, cxp, cyp - 6.0, cxp, cyp + 6.0, cxp + 8.0, cyp - 8.0, k + 1
             ));
         }
@@ -530,7 +533,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
         .filter(|b| b * sc < side / 3.0)
         .fold(1.0, f64::max);
     svg.push_str(&format!(
-        "<path d=\"M{m},{y}L{x:.1},{y}\" stroke=\"#111111\" stroke-width=\"3\"/><text x=\"{m}\" y=\"{t}\" font-size=\"11\" fill=\"#111111\">{}</text>",
+        "<path d=\"M{m},{y}L{x:.1},{y}\" stroke=\"{ink}\" stroke-width=\"3\"/><text x=\"{m}\" y=\"{t}\" font-size=\"11\" fill=\"{ink}\">{}</text>",
         esc(&crate::t!("interference-map-locate-fig-scale", km = crate::i18n::num(bar, 0))),
         y = 80.0 + side + 16.0,
         x = m + bar * sc,
@@ -540,14 +543,14 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
     let lx = m + side + 14.0;
     for (li, l) in params.confidence_levels.iter().enumerate() {
         svg.push_str(&format!(
-            "<rect x=\"{lx}\" y=\"{ly}\" width=\"12\" height=\"12\" fill=\"{}\" fill-opacity=\"0.5\" stroke=\"{}\"/><text x=\"{}\" y=\"{}\" font-size=\"11\" fill=\"#111111\">{}</text>",
+            "<rect x=\"{lx}\" y=\"{ly}\" width=\"12\" height=\"12\" fill=\"{}\" fill-opacity=\"0.5\" stroke=\"{}\"/><text x=\"{}\" y=\"{}\" font-size=\"11\" fill=\"{ink}\">{}</text>",
             fill[li.min(2)], fill[li.min(2)], lx + 18.0, ly + 10.0,
             esc(&crate::t!("interference-map-locate-fig-legend-region", pct = (l * 100.0).round() as u32))
         ));
         ly += 20.0;
     }
     svg.push_str(&format!(
-        "<path d=\"M{lx},{}L{},{}\" stroke=\"{}\" stroke-width=\"1.5\" stroke-dasharray=\"5 3\"/><text x=\"{}\" y=\"{}\" font-size=\"11\" fill=\"#111111\">{}</text>",
+        "<path d=\"M{lx},{}L{},{}\" stroke=\"{}\" stroke-width=\"1.5\" stroke-dasharray=\"5 3\"/><text x=\"{}\" y=\"{}\" font-size=\"11\" fill=\"{ink}\">{}</text>",
         ly + 6.0, lx + 12.0, ly + 6.0, fill[3], lx + 18.0, ly + 10.0,
         esc(&crate::t!("interference-map-locate-fig-legend-ellipse"))
     ));
@@ -557,7 +560,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
     ];
     for (i, n) in notes.iter().enumerate() {
         svg.push_str(&format!(
-            "<text x=\"{m}\" y=\"{}\" font-size=\"10\" fill=\"#555555\">{}</text>",
+            "<text x=\"{m}\" y=\"{}\" font-size=\"10\" fill=\"{note}\">{}</text>",
             80.0 + side + 52.0 + 13.0 * i as f64,
             esc(n)
         ));
