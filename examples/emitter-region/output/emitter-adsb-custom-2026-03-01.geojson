@@ -650,7 +650,7 @@
     },
     "first_day": "2026-03-01",
     "format_version": 1,
-    "kshana_version": "0.39.0",
+    "kshana_version": "0.40.0",
     "last_day": "2026-03-01",
     "method": {
       "assumptions": [
