@@ -47,3 +47,5 @@ seg-d717412c4f06 = Samoopis raportu link-budget ma poziom MODELLED, nie jest nie
 seg-ffbc9de75306 = <s1>Poprzedni</s1>leo-signal
 
 seg-59d4cb995cb9 = <s1>Następny</s1>lunar-attack-surface
+
+seg-410a790785e7 = <s1>Następny</s1>lunar-ascent

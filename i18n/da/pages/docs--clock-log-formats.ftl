@@ -81,3 +81,37 @@ seg-0f061f726ec5 = <s1>Forrige</s1>Holdover-test og tidssynkroniseringshardware 
 seg-3c89cfcbbd04 = <s1>Næste</s1>Hardwaresikkerhed
 
 seg-9b52cd5eb4be = tau0 og huller
+
+seg-9c8042f0d3d7 = <b><c1/></b>: RINEX-urfiler, version { "2.00" } og { "3.00" } til { "3.04" } (herunder navnefeltet med ni tegn i { "3.04" }). Posten <c2/> kontrolleres, og enhver anden version afvises med angivelse af den fundne version: IGS udgiver urformatet (<c3/>, <c4/>, <c5/>) op til { "3.04" }, og dokumenterne RINEX { "4.00" }, { "4.01" } og { "4.02" } definerer kun observations-, navigations- og meteorologiske filer, så der findes ingen version { "4.00" } af urfilen at læse. Headeren læses kun for sit <c6/> og springes over til <c7/>. Af dataposterne beholdes kun posterne <c8/> (satellit) og <c9/> (modtager eller station) for ét ur, valgt efter navn. Deres første værdifelt, urbiasen i sekunder, er fasen. Fortsættelseslinjer og posterne <c10/>, <c11/> og <c12/> springes over. Epoker er postens kalenderfelter, som sekunder fra 1980-01-06 { "00" }:{ "00" }:{ "00" } i filens eget tidssystem, uden konvertering.
+
+seg-b65f4a928891 = <b><c1/></b>: logs fra TAPR TICC-tælleren (TICC Operation Manual, revisioner af { "23" } november { "2016" } og { "15" } december { "2025" }, "measurement modes"). Hvert datafelt er sekunder med { "12" } decimaler ({ "11" } som standard fra firmware { "20251101" }: ethvert antal op til { "15" } læses). Et tidsstempel læses fra sin decimaltekst som et helt antal femtosekunder, ikke som et binært flydende tal, så fasen i en log optaget dage efter tællerens start bevarer tællerens egen opløsning: et <c2/>-tidsstempel ved { "3.0e5" } s har en afstand på { "5.8e-11" } s, omkring tællerens { "60" } ps.
+
+seg-bb51bfa2a834 = Tilstanden Paired Timestamp udskriver de samme linjer i kanalrækkefølge og læses som tilstanden Timestamp; tilstanden 3-Corner Hat tilføjer den syntetiserede <c1/>, læst som ovenfor.
+
+seg-220bc7450e83 = Output i periode-tilstand og debug-tilstand afvises. En kanal, hvis målinger ikke vokser, rapporteres som periode-tilstand. Binær Timestamp-tilstand er ikke tekst, og en fil i den afvises med en meddelelse, der siger det.
+
+seg-1138c53b3eac = Dit eget ur
+
+seg-1f9cce016fa0 = En tabel <c1/> på urtypen rapporterer, hvor stabilt dit eget ur var, ved siden af simuleringen: <c2/> (<c3/>) er <c4/> med et udtræk på 96 aflæsninger af et IGS-satellitur som en indlejret TimeLab-log. Erstat <c5/> med <c6/> og <c7/> for din egen fil. Blokken <c8/> i resultatet rummer, hvordan loggen blev læst (format, <c9/> og hvor den kom fra, hvert hul) og dens ADEV, TDEV og MTIE; den ændrer ikke simuleringen.
+
+seg-584564d1a734 = At drive holdoveren med dit eget ur: <c1/>
+
+seg-56799b5fea19 = Loggen tilpasses med enhedskortets procedure fra <c1/> (konditionering, kvadratisk led fjernet, lag-1-støjidentifikation, vægtet mindste kvadraters metode i hvid PM, hvid FM, flicker-FM og random-walk-FM ved de middelingstider, der har mindst { "30" } frihedsgrader). Det navngivne ur får derefter <c2/>, <c3/>, <c4/> og den tilpassede <c5/>; <c6/> forbliver, som scenariet har det, fordi en log bærer referencens offset, ikke urets efter disciplinering. Hvid fasestøj tilpasses og rapporteres, men simuleres ikke. Resultatet får en blok <c7/> (koefficienterne, tilpasningspunkterne, de værdier, kørslen brugte, hvad der blev udeladt, logens SHA-256), og uret bærer id'et <c8/>. Med <c9/> trækker ensemblet fra det tilpassede ur (blokken <c10/> kræver <c11/>). En tilpasning uden frekvensstøj, en log for kort til at tilpasse og en <c12/> andre end <c13/> eller <c14/> er fejl, der siger det. <c15/> er et eksempel ({ "6" } timer af et IGS-satellitur).
+
+seg-fe695061eed3 = Hvad sammenligningen på kendt støj (<c1/>) viser, og hvad man bør huske:
+
+seg-90657795ba62 = Nået: niveauet af hvid FM genfindes inden for { "5" } % på hver syntetisk optagelse, der har den; det tilpassede kort gengiver den sande Allan-deviation inden for en faktor { "1.35" } ved hver middelingstid, det blev tilpasset ved; støjeksponenten, som tilpasningen identificerer, er lig med allantools' i hvert punkt (på 5071A-optagelsen, når fasetrinnet, som konditioneringen fjerner, også er fjernet fra allantools' input).
+
+seg-f1ec27a393ae = <b>Ikke nået og fastholdt af testen:</b> random-walk-FM genfindes kun, når den dominerer rækkens længste middelingstider, og selv da kun i én af tre optagelser; i en serie på { "131 072" } s med et krydsningspunkt ved { "3 000" } s gav tilpasningen den til flicker-FM og til driften. Fordelingen mellem random-walk-FM og flicker-FM er ikke pålidelig ud fra én optagelse. Kørslen gengiver logens stabilitet over de middelingstider, loggen dækker; ud over dem divergerer de to valg (flicker-FM er et konstant gulv, random-walk-FM vokser som kvadratroden af middelingstiden).
+
+seg-88ba5ae782d4 = MODELLED: et hvad-nu-hvis for det urs støj, som loggen viser den, ikke en kalibrering af uret og ikke en forudsigelse af dets fremtidige adfærd.
+
+seg-6e88b597bbf0 = En ugyldig log er en fejl, der nævner, hvad der blev fundet (linjen, versionen, den manglende vælger), aldrig et delvist resultat: <c1/> fastholder { "24" } sådanne tilfælde.
+
+seg-4a05abb27420 = MODELLED. Dette er en parser, og dens output føder estimatorer, der er valideret andetsteds mod allantools. Enhedstestene i <c1/> bruger små håndskrevne logs og for formaterne linuxptp og chrony fixturerne i <c2/>. <c3/> kører den sammenligning, der er præregistreret i <c4/>: tre seedede syntetiske logs, én pr. format, læst tilbage af en uafhængig læser skrevet ud fra denne side af samme forfatter, med ADEV, TDEV og MTIE kontrolleret mod allantools { "2024.6" }; den sammenligning dækker kun de tre første formater, og læserne af linuxptp og chrony har parsertests, men ingen sammenligning med en uafhængig reference. Logs i den sammenligning er syntetiske, så intet dér beskriver et virkeligt ur eller en virkelig tæller; sammenligningen på målte serier beskrives nedenfor.
+
+seg-576211abf0b4 = På målte data
+
+seg-3c8d10e8bd1c = <c1/> kører den sammenligning, der er præregistreret i <c2/> (indlagt før nogen fixture eller kørsel), på fire målte serier: Stable32-filen <c3/>, de første { "65 536" } aflæsninger af et 5071A-cæsiumur mod en brintmaser samt urene i IGS-satellitten G01 ({ "30" } s) og stationen ABMF ({ "300" } s) fra IGS' endelige urfil for 2026-08-02, som et medleveret udsnit med sin NOTICE. De to første bærer ingen tilladelse til videredistribution: de logs, der er skrevet ud fra dem, ligger i det git-ignorerede <c4/> (<c5/>), og testen siger det og bestås, når de mangler, medmindre <c6/>. Hver log læses af motoren og af en uafhængig læser, og ADEV, TDEV og MTIE sammenlignes med allantools { "2024.6" }. Optaget i <c7/>: på den udleverede læser fejlede TICC-logs, headerversionen og fem fejlmeddelelser de præregistrerede tærskler; de blev rettet, og sammenligningen blev kørt igen uændret. Nået, bortset fra ét par: MTIE for en frekvenslog afviger fra allantools', fordi allantools integrerer frekvensen minus dens middelværdi (fastholdt som NOT MET; sammenligningen på sammenlignelig basis er nået). Rækken forbliver MODELLED: TICC-logs er målte urdata, omkodet til tællerens layout af vores script (ingen virkelig TICC-optagelse blev fundet), og referencelæseren har samme forfatter som motorens.
+
+seg-52778d17f4db = At drive holdoveren med dit eget ur: [clock_fit]

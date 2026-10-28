@@ -15,7 +15,7 @@ seg-1b94e5a24a2d = Fonte: <c1/>
 seg-ee3ecc6e0330 = <c1/> (tipo de cenário)
 
 # text
-seg-d07af7221334 = Tipo de cenário do motor v{ $version }, família <a1>Navegação de utilizadores no espaço</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-d07af7221334 = Tipo de cenário do motor v{ $version }, família <a1>Navegação de utilizadores no espaço</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-d6d7bca305dc = Disponibilidade e intensidade de enlace de GNSS MODELLED no Space Service Volume e além: para um utilizador numa esfera (a camada global do folheto do ICG) ou numa trajetória kepleriana (de LEO a transferência lunar), conta, por constelação (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) e para todas em conjunto, os sinais utilizáveis acima de um limiar de C/N0 - disponibilidade de pelo menos um e de quatro sinais, duração máxima de interrupção, C/N0 recebido, diluição de precisão, enlaces de lóbulo principal contra lóbulo lateral - com um diagrama de transmissão do folheto, paramétrico ou fornecido pelo utilizador, efeitos opcionais de ionosfera, plasmasfera e atmosfera em raios rasantes ao limbo e um projeto opcional de recetor de sinal fraco; também um filtro de Kalman estendido de GNSS a bordo para naves em HEO e em transferência lunar (dinâmica orbital, pressão de radiação solar, terceiros corpos, relógio) e a navegação relativa de uma formação de várias naves por pseudodistâncias de diferença simples. Conferido contra as tabelas do folheto SSV do ICG sob um pré-registo (xval/gnss-ssv)
@@ -138,3 +138,10 @@ seg-c9ac9a99bcbb = <s1>Anterior</s1>gnss-sim
 
 # text
 seg-9df48482a140 = <s1>Seguinte</s1>gravity-map
+
+# text
+# c1: tli-and-cruise
+seg-795e0409fa5a = <b>MODELLED</b> A fase <c1/>: o estado médio pelo propagador de Cowell do motor (massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir do kernel DE440 da cadeia onde ele cobre o segmento e o Sol a partir da série analít
+
+# text
+seg-6a26b9ab59fe = Página do tópico: <a1>MISSION-THREAD.md</a1>

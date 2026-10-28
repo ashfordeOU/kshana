@@ -2473,3 +2473,5 @@ seg-529f02f85a76 = Lunar Reconnaissance Orbiter Camera
 seg-c5da9d350518 = <s1>Föregående</s1>Introduktion till begrepp
 
 seg-670504be0531 = <s1>Nästa</s1>Studioguide
+
+seg-6c10aaedf2fc = <s1>Nästa</s1>Språk

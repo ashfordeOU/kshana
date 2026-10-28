@@ -419,3 +419,17 @@ seg-58c4d7218e70 = Reproducerbarhed og softwarekvalitetssikring er MODELLED, ikk
 seg-1bf3d5817274 = Alle typer: <a1>KINDS.md</a1>
 
 seg-850a18066e2b = Kampagner
+
+seg-6867c09f7613 = Sprog
+
+seg-aaf9c6896126 = Datapartnere og rækker, der kan opgraderes
+
+seg-3b31855a40e7 = Missionstråd: fra opsendelse til indflyvning
+
+seg-0cf138405411 = Missionstråd: månesegmentet
+
+seg-5fee8df421d2 = Missionstråde
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = det stabile id for matrixrækken (kolonnen ID

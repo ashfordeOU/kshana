@@ -29,3 +29,7 @@ seg-c5e33c7122e2 = De grafiek die de engine schrijft voor scenarios/terrain-nav.
 seg-0fcad0016c78 = <s1>Vorige</s1>telecom-timing
 
 seg-fa50992f818f = <s1>Volgende</s1>terrain-slam
+
+seg-e66e2ca31e54 = Onderwerppagina: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> De soort en fase <c1/>: een traagheidsfoutenmodel met vijf toestanden per as (positie, snelheid, bias van de versnellingsmeter, kanteling, gyrobias) over een aangedreven afdaling, ondersteund door AFS-positiebepalingen (zelfstandig of differentieel, met het klokondersteunde geval met drie relais

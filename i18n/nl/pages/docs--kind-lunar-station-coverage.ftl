@@ -49,3 +49,7 @@ seg-db27cc015952 = De dekkings- en nauwkeurigheidskaart van een referentiestatio
 seg-6ac5bd1500a8 = <s1>Vorige</s1>lunar-llr-datum
 
 seg-625c1973128e = <s1>Volgende</s1>lunar-time-budget
+
+seg-bf7d64a925dd = <s1>Vorige</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Volgende</s1>lunar-surface

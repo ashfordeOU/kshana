@@ -419,3 +419,17 @@ seg-1fc08d2f0209 = Vad körningens egen rapport säger inte är modellerat eller
 seg-58c4d7218e70 = Reproducerbarhet och programvarusäkring är MODELLED, inte validerad: ett delpåstående kontrolleras externt, men hela förmågan sätts ihop av modellerade delar, så förmågan förblir Modelled. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Alla typer: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Språk
+
+seg-aaf9c6896126 = Datapartner och rader som lyfts
+
+seg-3b31855a40e7 = Uppdragsflöde: från uppskjutning till återinträde
+
+seg-0cf138405411 = Uppdragsflöde: månsegmentet
+
+seg-5fee8df421d2 = Uppdragsflöden
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = det stabila id:t för matrisraden (ID

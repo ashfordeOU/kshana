@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = Balistyczny korytarz wejścia w atmosferę (Allen–Eggers) j
 seg-a4b7c16e3fea = <s1>Poprzednia</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Następna</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Faza <c1/>: lot powrotny <c2/> bez impulsu, kończący się na granicy wejścia; kąt toru lotu i jego sigma z pełnej kowariancji przez gradient różnic skończonych; prawdopodobieństwo, że kąt mieści się w podan

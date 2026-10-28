@@ -55,3 +55,9 @@ seg-46ed0b786244 = Strona tematu: <a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>Poprzedni</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Następny</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } dołączonych scenariuszy używa tego rodzaju; pozostałe są w <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Rodzaj <c1/>: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (<c2/>; <c3/>, szum białego przyspieszenia na podanym odstępie Testy: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = i { "1" } kolejny w macierzy.

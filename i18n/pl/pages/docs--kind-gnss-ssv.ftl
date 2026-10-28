@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = Strona tematu: <a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>Poprzedni</s1>gnss-sim
 
 seg-9df48482a140 = <s1>Następny</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> Faza <c1/>: stan średni z propagatora Cowella silnika (masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z jądra DE440 wątku tam, gdzie obejmuje on segment, a Słońce z serii analitycznej
+
+seg-6a26b9ab59fe = Strona tematu: <a1>MISSION-THREAD.md</a1>

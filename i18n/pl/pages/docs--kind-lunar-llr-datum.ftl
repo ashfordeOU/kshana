@@ -57,3 +57,5 @@ seg-8bfe258bedf5 = MODELLED: wartości siedmiu parametrów to granica Craméra-R
 seg-598a7d6ba1e7 = <s1>Poprzedni</s1>lunar-joint-od-clock
 
 seg-54b1c9200aae = <s1>Następny</s1>lunar-station-coverage
+
+seg-2053999af5ef = <s1>Następny</s1>lunar-orbit-rendezvous

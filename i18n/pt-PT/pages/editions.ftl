@@ -1224,3 +1224,17 @@ seg-67341b9eea70 = <b>Qualquer outro assunto</b><s1>contact@ashforde.org · as m
 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+# text
+seg-3bf5f474beca = O motor aberto no centro: uma marca por tipo de cenário ({ "92" }), preenchida onde o tipo de cenário tem linhas validadas no registo, vazada onde as suas linhas são modeladas, um traço onde nenhum módulo do registo corresponde a ele pelo nome. O Kshana Pro e o estudo à medida ficam em volta e ligam-se aos tipos de cenário em que se baseiam.
+
+# text
+# c1: src/api.rs
+# c2: web/data/verification-matrix.json
+seg-f88b6cf10837 = Motor v{ $version } · { "92" } tipos de cenário de <c1/> · estado no registo de <c2/> · em que o Pro e um estudo se baseiam: o registo de edições do site · sem cenário nem semente
+
+# text
+seg-7a848f1d8304 = Todos os { "92" } tipos de cenário e { "180" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)
+
+# text
+seg-cc655ce0b6c8 = A matriz de verificação completa: { "176" } de { "401" } capacidades validadas face a referências independentes, as demais etiquetadas como modeladas

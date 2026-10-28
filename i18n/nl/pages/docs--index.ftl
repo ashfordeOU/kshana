@@ -217,3 +217,27 @@ seg-f614d6e8b1f4 = <s1>Campagnes</s1><s2>{ "1" } scenariosoort van engine v{ $ve
 seg-c4fc43121c22 = <s1>Klokken, tijdsynchronisatie en holdover</s1><s2>{ "9" } scenariosoorten van engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
 
 seg-d4b063147d18 = <s1>Constellaties, dekking en geometrie</s1><s2>{ "7" } scenariosoorten van engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, niet…</s2>
+
+seg-fcffac5eb150 = <s1>Talen</s1><s2>De menselijk leesbare tekst van de engine staat in { "17" } talen naast het Engels: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Scenariosoorten</s1><s2>De { "92" } ingebouwde scenariosoorten waarover kshana::api::run_toml verdeelt, elk met zijn ene regel…</s2>
+
+seg-9d5c233c72b4 = <s1>Elke scenariosoort, per familie</s1><s2>Elke scenariosoort die de engine v{ $version } verdeelt ({ "92" }), ingedeeld in { "13" } families.</s2>
+
+seg-2c002a7b7640 = <s1>Scenarioreferentie</s1><s2>Elk meegeleverd scenariobestand ({ "192" }), gegroepeerd per soort, met zijn belangrijkste instellingen.</s2>
+
+seg-f5987c9d9fde = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "401" } rijen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "401" } rijen van de verificatiematrix.</s2>
+
+seg-980f70b29717 = <s1>Datapartners en bevorderende rijen</s1><s2>Kshana labelt elke mogelijkheid in een machinaal gecontroleerd register (verificatiematrix).</s2>
+
+seg-7c6a541b3bc8 = <s1>Missieketen: van lancering tot terugkeer</s1><s2>Adviserende software, geen gecertificeerde navigatieapparatuur.</s2>
+
+seg-7377c479fed0 = <s1>Missieketen: het maansegment</s1><s2>Vier scenariosoorten, elk ook een fasesoort van de interface van de missieketen (src/mission_thread/): ze…</s2>
+
+seg-cecb9535c0a1 = <s1>Maan en cislunair</s1><s2>{ "24" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…</s2>
+
+seg-1dd7c80e18a7 = <s1>Missieketens</s1><s2>{ "1" } scenariosoort van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…</s2>
+
+seg-f0e26f01a361 = { "92" } pagina's, een voor elke scenariosoort, gelinkt vanaf <a1>Elke scenariosoort, per familie</a1>.

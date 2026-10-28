@@ -2024,3 +2024,55 @@ seg-cee919e2058e = sprawdzone względem własnej tożsamości w postaci zamknię
 seg-6b48be996d76 = src/benchmark/faults.rs::tests (profile przesunięć, monotoniczny dryf, flagowanie zbioru niewykrywalnego, spójność max_offset, dokładnie dwie klasy niewykrywalne)
 
 seg-0cc84aedee42 = sprawdzone względem własnej tożsamości w postaci zamkniętej / analitycznej — wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią — Sprawdzenie własności, że wyliczenie Verdict strukturalnie nie może zgłosić niewykrywalnego uszkodzenia jako wykrytego (Mizrahi RFC { "7384" }); pochłonięte ⟺ PL ≥ przesunięcie. Brak wyroczni dokładności.
+
+seg-65185cb68d6b = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (<c1/>)
+
+seg-86a132e1a243 = Rodzaj <c1/>: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (<c2/>; <c3/>, szum białego przyspieszenia na podanym odstępie w modelu prostoliniowym; <c4/>, nawigacja zliczeniowa, a potem dolna granica źródła, nigdy poniżej niej, nigdy zerowanie); konwersje układów GCRF, MCI i MCMF oraz konwersje skal czasu przez TT, każda jako osobny wiersz budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem; margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. Każda liczba jest podanym wejściem albo modelem takiego wejścia
+
+seg-87b2b2459b45 = Start i wznoszenie na orbitę parkingową z akwizycją GNSS i zanikiem (<c1/>)
+
+seg-725e7ce83533 = Faza <c1/>: kowariancja pozycji i prędkości o stałej prędkości z szumem białego przyspieszenia (klasa nawigacji zliczeniowej), pozycja GNSS o podanej dokładności stosowana po czasie akwizycji i poza podanymi zanikami, zegar z biasem i dryfem dyscyplinowany tymi samymi pozycjami oraz stan wprowadzenia na orbitę parkingową
+
+seg-eb66a49b0306 = Nawigacja względna do obwiedni połączenia na niskiej orbicie okołoziemskiej na odcinkach czujników (<c1/>)
+
+seg-658a0448d80d = Faza <c1/>: stan względny w osiach LVLH celu z zamkniętą postacią przejścia Clohessy'ego-Wiltshire'a, kowariancja Kalmana 6x6 z szumem białego przyspieszenia i aktualizacje pozycji, których wariancja jest wariancją czujnika przy bieżącej odległości, na odcinkach podanego czujnika (ILLUSTRATIVE: kamera optyczna, lidar i formy z pomiarem odległości radiem); okno połączenia to czas od chwili, od której sigma względna pozostaje wewnątrz obwiedni zdolności chwytu, do końca fazy. Bezwzględna kowariancja statku gonionego jest przekazywana bez zmian i mówi o tym wiersz
+
+seg-b45a8a357faf = Wtrysk translunarny i lot cislunarny: propagowany stan średni i kowariancja z aktualizacjami śledzenia (<c1/>)
+
+seg-ab5c79789754 = Faza <c1/>: stan średni z propagatora Cowella silnika (masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z jądra DE440 wątku tam, gdzie obejmuje on segment, a Słońce z serii analitycznej); kowariancja z macierzy przejścia stanu liczonej różnicą w przód z tej propagacji (przebieg nominalny i sześć przebiegów zaburzonych na segment) z szumem białego przyspieszenia; wielkość i błąd kierunku impulsu TLI; pozycje <c2/>, których dostępność i PDOP pochodzą z przeglądu objętości usługi kosmicznej wzdłuż orbity oskulacyjnej zastępującej łuk; śledzenie odległości i prędkości radialnej wzdłuż kierunku geocentrycznego, skalowane cyklem pracy sieci naziemnej, z aktualizacją w postaci Josepha
+
+seg-7a3eb4fae324 = Kowariancja na granicy wejścia w atmosferę, prawdopodobieństwo korytarza, szczytowe opóźnienie i obszar lądowania (<c1/>)
+
+seg-93f07906d7bf = Faza <c1/>: lot powrotny <c2/> bez impulsu, kończący się na granicy wejścia; kąt toru lotu i jego sigma z pełnej kowariancji przez gradient różnic skończonych; prawdopodobieństwo, że kąt mieści się w podanym korytarzu; szczytowe opóźnienie przy kącie nominalnym i na obu brzegach korytarza z płaskiego balistycznego wejścia masy punktowej silnika (z wykrywaniem odbicia) obok zamkniętej postaci Allena-Eggersa; obszar lądowania z podanej czułości na odległość wzdłuż toru i kowariancji na granicy wejścia w poprzek płaszczyzny orbity. Nie modeluje się siły nośnej, prowadzenia ani nagrzewania
+
+seg-3f0951532f6e = Pokrycie sieci naziemnej i cykl śledzenia dla fazy wątku (<c1/> z <c2/>)
+
+seg-5204af351299 = Nakładka sieci naziemnej: stacje z minimalną elewacją, widoczność pojazdu na podanej geometrii (stan wejścia lecący jako dwuciałowy z J2, pozycja Księżyca dla lotu albo podany cykl pracy), przekazania między stacjami, z których każde traci podany czas, oraz wynikowy cykl pracy przekazywany do częstości aktualizacji śledzenia naziemnego fazy; najdłuższy odstęp bez stacji w zasięgu jest wierszem budżetu
+
+seg-4ba700726208 = Nawigacja względna do połączenia na orbicie księżycowej (<c1/>)
+
+seg-2e30e78e49f7 = Rodzaj i faza <c1/>: wspólne wsadowe oszacowanie Gaussa-Newtona dwóch pojazdów na łuku (dwadzieścia jeden parametrów: oba stany oraz trwałe odchylenia pozycji sygnału w przestrzeni, wspólne i niezależne), rozbudowywane na ćwierć, połowę i cały łuk z połowieniem kroku, z pozycji bezwzględnej każdego pojazdu (granica śledzenia kodu pilotowego AFS, zestaw przekaźników ILLUSTRATIVE) i odległości międzypojazdowej, w modelu sił księżycowych biblioteki; średni znormalizowany kwadrat błędu oszacowania, kontrola Clohessy'ego-Wiltshire'a na orbicie kołowej i przekazywana kowariancja 6x6
+
+seg-c85d7e5e63a3 = Budżet rozrzutu lądowania w miejscu przy biegunie Księżyca (<c1/>)
+
+seg-bd88ab3ad105 = Rodzaj i faza <c1/>: pięciostanowy model błędu inercjalnego na oś (pozycja, prędkość, bias akcelerometru, przechył, bias żyroskopu) w trakcie lądowania z napędem, wspomagany pozycjami AFS (samodzielnymi lub różnicowymi, z przypadkiem trzech przekaźników wspomaganych zegarem), pozycją względem terenu (dopasowanie terrain-nav silnika na syntetycznej rzeźbie albo ograniczenie Craméra-Rao na DEM LOLA z regułą problemu apertury) i czasem księżycowym, z elipsą lądowania Monte Carlo
+
+seg-8dfc1600cf8c = Dostępność pozycjonowania i czasu na powierzchni według miejsca i pory roku na biegunach Księżyca (<c1/>)
+
+seg-f91c1da9ab55 = Rodzaj i faza <c1/>: dostępność przekaźników i PDOP, widoczność Ziemi i Słońca oraz zdyscyplinowany zegar powierzchniowy dla każdego miejsca i pory roku, z horyzontem terenu z <c2/>; przebieg dla jednego miejsca równa się dostępności i PDOP tego rodzaju co do bitu
+
+seg-0db91d70a079 = Wznoszenie z napędem z miejsca przy biegunie Księżyca na orbitę wprowadzenia (<c1/>)
+
+seg-b5b1125d515c = Rodzaj i faza <c1/>: pięciostanowy model błędu inercjalnego na oś uruchomiony dla wznoszenia z napędem z siłą właściwą wzdłuż toru, wspomagany pozycjami AFS i czasem księżycowym, podający kowariancję pozycji i prędkości wprowadzenia przenoszoną na orbitę oraz rozrzut przy wyłączeniu silnika (podany, nieprzenoszony)
+
+seg-1983ce9cc6da = Propagacja księżycowego modelu sił względem publicznych odtworzonych trajektorii orbiterów księżycowych i cislunarnych
+
+seg-57f53a7d1fa2 = Propagator wspólny dla rodzajów księżycowych (GRAIL GL0660B stopnia i rzędu { "150" }, Ziemia i Słońce jako ciała trzecie, relatywistyka, orientacja Księżyca z DE440) porównany z publicznymi trajektoriami JPL Horizons LRO ({ "24" } h, próbki co { "10" } minut) i CAPSTONE (jeden obieg { "6.5" } doby, próbki co godzinę), względem progów ustalonych w zatwierdzonym pliku przed przebiegiem
+
+seg-c557d317389a = Propagacja stanu średniego cislunarnego względem publicznej trajektorii Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Propagacja stanu średniego fazy <c1/> (Cowell, masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z wycinka DE440) porównana z publiczną trajektorią JPL Horizons Artemis I na łuku lotu bezwładnego trwającym { "72" } h od 2022-11-16 { "18" }:{ "00" } TDB, w epokach co { "12" } godzin, względem progów ustalonych w zatwierdzonym pliku przed przebiegiem
+
+seg-150ae9c3d755 = Obszar źródła zakłóceń: dopuszczalny obszar emitera na podstawie raportów pozycji statków powietrznych i okrętów
+
+seg-b5c49044a7a1 = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie raportów pozycji ADS-B (NIC/NACp) lub AIS: łączność radiowa w linii wzroku na promieniu 4/3 Ziemi z wysokości raportu i zakresu wysokości anteny emitera, ograniczony efektywny zasięg dla nieznanej mocy, dotknięte jednostki przyciągające rozkład a posteriori ku swojemu zasięgowi oraz niedotknięte jednostki z linią wzroku odpychające go, pogrupowane w sesje w czasie i przestrzeni. Wynik to obszary o najwyższej gęstości na podanych poziomach ufności, centroid a posteriori z elipsą momentów, początek, koniec i czas trwania sesji, obszar dotknięty oraz liczba odrębnych statków powietrznych powyżej minimum publikacji, profil pory dnia i godziny na dobę. Bez terenu; jedno źródło na sesję; wiarygodność jest zależna od modelu. Opcjonalne połączenie z pozycją TDOA z geolokalizacji.

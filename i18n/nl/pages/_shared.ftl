@@ -429,3 +429,7 @@ seg-3b31855a40e7 = Missieketen: van lancering tot terugkeer
 seg-0cf138405411 = Missieketen: het maansegment
 
 seg-5fee8df421d2 = Missieketens
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = de stabiele id van de matrixrij (de ID

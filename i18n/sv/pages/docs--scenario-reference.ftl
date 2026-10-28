@@ -733,3 +733,9 @@ seg-2f09b9930e10 = Visa på GitHub
 seg-67f767701c6d = <s1>Föregående</s1>Förmågedomäner
 
 seg-ea79a68b0587 = <s1>Nästa</s1>Resultatschema
+
+seg-944145b95b4a = PNT och tidssynkronisering på månytan: tillgänglighet per plats och årstid (platser nära sydpolen i Artemis-klass).
+
+seg-f942b36a11c4 = Ännu inte på GitHub
+
+seg-ae3053a1f6c8 = MODELLED driven stigning från en plats på ytan nära sydpolen till rendezvousbanan, och kovariansen för position och hastighet som den för tillbaka till banan (Artemis-klass). Den inertiella felmodellen med fem tillstånd per axel från lunar-descent (position, hastighet, accelerometerbias, lutning i attityd, gyrobias, driven av den specifika kraften) körs på alla tre platsaxlarna från det ytillstånd som fasen går in med; en AFS-positionsbestämning från de synliga reläerna i en ILLUSTRATIVE konstellation i LCNS-klass (fristående, eller differentiell med korrektionslänkens residual från lunar-differential-pnt, med klockan stödd när bara tre reläer är synliga) tas med ett angivet intervall, med månens tid som går in via fordonets klocka och ett tidsstämpelfel längs banan. Redovisar de inertiella källorna i sluten form, stödets bidrag, ablationen, navigeringens 1-sigman över stigningen, spridningen vid motoravstängning bredvid navigeringskunskapen, och hela 6x6-MCI-kovariansen vid insättningen med korrelationen mellan position och hastighet bevarad. MODELLED: illustrativ IMU-klass, specifik kraft, reläuppsättning och spridning vid avstängning; fel hållna i avfyrningsplatsens axlar; det nominella utgångstillståndet är en ersättning. Inte stött av någon rymdorganisation; rådgivande programvara, inte certifierad navigationsutrustning.

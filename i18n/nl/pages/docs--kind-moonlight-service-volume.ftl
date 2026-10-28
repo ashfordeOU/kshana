@@ -35,3 +35,9 @@ seg-92cd937a3fb7 = <s1>Volgende</s1>ntn-positioning
 seg-8f8871ac8a0f = Onderwerppagina: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 seg-a2889fb2b42a = Onderwerppagina: <a1>integrations.md</a1>
+
+seg-e66e2ca31e54 = Onderwerppagina: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> De soort en fase <c1/>: beschikbaarheid van relais en PDOP, zicht op aarde en zon en een gestuurde oppervlakteklok voor elke locatie en elk seizoen, met de terreinhorizon van <c2/>; een run voor één locatie is gelijk aan die van die soort
+
+seg-6730fa1b9820 = <s1>Vorige</s1>mission-thread

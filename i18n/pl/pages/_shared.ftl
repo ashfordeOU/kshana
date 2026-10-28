@@ -419,3 +419,17 @@ seg-1fc08d2f0209 = Co raport samego przebiegu podaje jako niemodelowane lub nies
 seg-58c4d7218e70 = Odtwarzalność i zapewnienie jakości oprogramowania jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: jedno twierdzenie składowe jest sprawdzone zewnętrznie, ale cała możliwość składa się z elementów obliczonych na podstawie modelu, więc pozostaje obliczona na podstawie modelu. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Wszystkie rodzaje: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Języki
+
+seg-aaf9c6896126 = Partnerzy danych i awansowane wiersze
+
+seg-3b31855a40e7 = Wątek misji: od startu do wejścia w atmosferę
+
+seg-0cf138405411 = Wątek misji: segment księżycowy
+
+seg-5fee8df421d2 = Wątki misji
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = stabilny identyfikator wiersza macierzy (ID

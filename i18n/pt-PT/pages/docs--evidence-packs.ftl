@@ -477,3 +477,32 @@ seg-68bcf43b4e27 = <s1>Anterior</s1>Cobertura de linhas
 
 # text
 seg-09c0b5fa6e52 = <s1>Seguinte</s1>Ligações óticas através da atmosfera
+
+# text
+seg-bd3169455cd0 = A etiqueta de evidência ({ "0.40" })
+
+# text
+# c1: config.json
+# c2: evidence
+# c3: VALIDATED
+# c4: MODELLED
+# c5: PARTNER
+# c6: config_version
+# c7: "1.1"
+# c8: config.json
+# c9: kshana evidence verify
+seg-6fe796d2b15f = Um pacote criado pela { "0.40" } ou posterior traz, dentro de <c1/>, uma entrada <c2/> (o nível, <c3/>, <c4/> ou <c5/>, que é o estado mais fraco entre as suas linhas, e os ids e requisitos das linhas da matriz de verificação em que o conteúdo do pacote se apoia: a linha de integridade do pacote, as linhas de receiver-trust e as linhas de pontuação do jammertest ou de ida e volta para esses pacotes) e <c6/> <c7/>. Está dentro de <c8/>, de modo que o hash do ficheiro do manifesto, a cadeia de hashes e a assinatura o cobrem: alterá-lo faz a verificação falhar. <c9/> informa o nível e os ids das linhas.
+
+# text
+# c1: format
+# c2: kshana-evidence/1
+# c3: scripts/
+# c4: config_version
+# c5: format
+# c6: kshana evidence verify
+# c7: tests/evidence_pack_label.rs
+# c8: tests/evidence_labels_doc_sync.rs
+seg-15b4e784361a = A mudança é aditiva e apenas para a frente. O <c1/> do manifesto permanece <c2/>: o texto normativo acima diz que um verificador DEVE encontrar esse valor, e o verificador de sala limpa em <c3/> o encontra. A versão menor é portanto carregada por <c4/> (ausente num pacote feito antes da { "0.40" }, a significar { "1.0" }), e não por uma nova cadeia <c5/>. Um pacote feito antes da { "0.40" } não tem etiqueta e é verificado sem alteração; <c6/> diz "no evidence label (pre-0.40 pack)". Os testes são <c7/> (incluindo os pacotes de referência independente pré-0.40 versionados) e <c8/>.
+
+# text
+seg-218641620d3e = <s1>Seguinte</s1>Parceiros de dados e linhas promovidas
