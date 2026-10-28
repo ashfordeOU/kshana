@@ -4333,3 +4333,65 @@ seg-150ae9c3d755 = Område för störkälla: ett möjligt sändarområde utifrå
 seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B-rapporter (NIC/NACp) eller AIS-positionsrapporter: radiosikt på en 4/3-jordradie från rapporthöjden och ett höjdintervall för sändarantennen, en begränsad effektiv räckvidd för den okända effekten, påverkade enheter som drar posteriorn mot sin räckvidd och opåverkade enheter med sikt som trycker emot den, grupperade i sessioner i tid och rum. Utdata är områden med högst täthet vid angivna konfidensnivåer, en posteriortyngdpunkt med en momentellips, sessionens start, slut, varaktighet, påverkad yta och antal skilda flygplan över publiceringsminimum, en profil över dygnet och timmar per dag. Terrängfritt; en enda källa per session; trovärdigheten är villkorad av modellen. Valfri fusion med en TDOA-positionsbestämning från geolokalisering.
 
 seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B INTE BEDÖMBAR ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS INTE BEDÖMBAR (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
+
+seg-aa7c0a865661 = { "401" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "221" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
+
+seg-7a254b7d5498 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "221" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
+
+seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "401" } rader · inget scenario eller frö: motorns eget register
+
+seg-015ecb5cddc3 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-e26b6fdc705b = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-66defa1494fc = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-4c54e96a1832 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-3d202a56e836 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-77bfad0f4f88 = { "176" }<s1>av { "401" } validerade</s1>
+
+seg-222c46a96ec3 = Verifieringsmatris: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner, { "401" } totalt
+
+seg-cf2aa475bc68 = Typen mission-thread: ett dokument med faser, var och en av åtta registrerade typer, körda… · Modellerad
+
+seg-bdc3223c80e4 = Fasen launch-ascent: en kovarians för position och hastighet med konstant hastighet och vitt… · Modellerad
+
+seg-a60883a4b32c = Fasen leo-rendezvous: det relativa tillståndet i målets LVLH-axlar med… · Modellerad
+
+seg-a3201e17ddc4 = Fasen tli-and-cruise: medeltillståndet med motorns Cowell-propagator (jordens punkt… · Modellerad
+
+seg-a143fdf9c4cb = Fasen entry: returfärden för tli-and-cruise utan brännare, som slutar vid återinträdes… · Modellerad
+
+seg-6c84e2db7d1e = Överlägget för markstationsnätet: stationer med en lägsta elevation, synligheten för… · Modellerad
+
+seg-256ed84fca2b = Typen och fasen lunar-orbit-rendezvous: en gemensam Gauss-Newton-skattning i satser för två fordon… · Modellerad
+
+seg-6cae40e30a77 = Typen och fasen lunar-descent: en inertiell felmodell med fem tillstånd per axel (position… · Modellerad
+
+seg-2db0710d699f = Typen och fasen lunar-surface: reläers tillgänglighet och PDOP, synlighet för jorden och solen… · Modellerad
+
+seg-40e993dc4c56 = Typen och fasen lunar-ascent: den inertiella felmodellen med fem tillstånd per axel körd över en… · Modellerad
+
+seg-904a8004957d = Propagatorn som månens typer delar (GRAIL GL0660B grad och ordning { "150" }, jorden och solen… · Modellerad
+
+seg-860ca782e2bf = Propageringen av medeltillståndet i fasen tli-and-cruise (Cowell, jordens punktmassa och J2… · Modellerad
+
+seg-7c7d72cc2036 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B… · Modellerad
+
+seg-65feaf4e91ef = Alla { "401" } rader, en rad vardera.
+
+seg-5668b5581703 = av { "102" } validerade
+
+seg-43f852e4bee8 = av { "74" } validerade
+
+seg-fbb78f11c0dc = av { "78" } validerade
+
+seg-8fe12f6058c6 = av { "26" } validerade
+
+seg-b393e1b5fcfc = Alla { "401" }
+
+seg-3df9e327c036 = Modellerade { "221" }
+
+seg-7fa6f2e0de57 = Valideringsregister, { "401" } rader, rullningsbart

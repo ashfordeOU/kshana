@@ -141,3 +141,31 @@ seg-68274ce67506 = <b>GNSS IQ-labb</b> (<c1/>): scener, förvärv, spårning, mo
 seg-6dc7d52fef11 = <s1>Föregående</s1>npm och WebAssembly
 
 seg-8ff56af64ec2 = <s1>Nästa</s1>MCP-server
+
+seg-c9a297cc51e9 = { "176" } av { "401" } förmågor validerade mot oberoende externa referenser
+
+seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> förmågor validerade mot oberoende externa referenser; { "221" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga bär en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsistent, och sagt högt) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
+
+seg-b59781ecf257 = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "401" } förmågor: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner
+
+seg-d0b2811a3d3c = Motorn har { "92" } scenariotyper; <c1/> listar dem med deras fält. Nya i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månbana och månyta som infrastruktur för navigering och geodesi), båda MODELLED, och <c4/> (en tidsfelsregistrering mot ITU-T-maskerna).
+
+seg-8e9fbc5f2e72 = Beskrivningen av den inbyggda scenariotypen kind på språket lang, från katalogen (engelska när språket saknar översättning av den); None för ett namn som inte är en inbyggd typ.
+
+seg-06e503c23c30 = [kind_description_in] på det aktuella språket ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] med varje beskrivning på språket lang (en kod som --lang tar, till exempel de eller zh-Hans); namnen och fältlistorna är desamma på varje språk, och för engelska är dokumentet byte för byte identiskt med [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] för en användare på språket lang (en kod som de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = De två körningarna av [run_toml_lang] hållna isär: den engelska körningen, vars json och csv är maskinfilerna, och, för ett annat språk, körningen på det språket för allt en människa läser.
+
+seg-1fd1f547d2b3 = Den andra omgången av [run_toml_bilingual] för sig: kör scenariot en gång på språket lang och returnera bara det en människa läser.
+
+seg-ae75df85e545 = [run_scenario] för en användare på språket lang; se [run_toml_lang].
+
+seg-28e05e08ff76 = Kör src på språket lang och, om den misslyckas, beskriv felet som ett JSON-objekt { "{" }"kind": <kind_tag>, "code": <stabil kod eller null>, "message": <text på språket>{ "}" }.
+
+seg-24fe823a994a = json utan evidensetiketten ([crate::evidence_label]); oförändrad om den inte bär någon.
+
+seg-c0444d838311 = out med evidensetiketten borttagen ur sin JSON, SVG och CSV, byte för byte som körningen producerade dem innan etiketten fanns; en utdata utan etikett är oförändrad.

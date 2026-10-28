@@ -141,3 +141,31 @@ seg-68274ce67506 = <b>Laboratorium IQ GNSS</b> (<c1/>): sceny, akwizycja, śledz
 seg-6dc7d52fef11 = <s1>Poprzednia</s1>npm i WebAssembly
 
 seg-8ff56af64ec2 = <s1>Następna</s1>Serwer MCP
+
+seg-c9a297cc51e9 = { "176" } z { "401" } możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni
+
+seg-7b53ee712a36 = <b>{ "176" } z { "401" }</b> możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni; { "221" } uczciwie oznaczonych jako obliczone na podstawie modelu, { "4" } należące do partnera. Każda możliwość nosi jedną etykietę w sprawdzanym maszynowo rejestrze (ledger): VALIDATED (niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory wzorcowe), MODELLED (wewnętrznie spójne i powiedziane wprost) lub PARTNER (odpowiada za to partner sprzętowy). Wśród kontroli: wszystkie { "666" } wektorów SGP4 (Simplified General Perturbations { "4" }) z AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 z dokładnością do { "4.12" } mm oraz model sił Cowella z dokładnością do { "0.08" } m względem Orekit { "12.2" }.
+
+seg-b59781ecf257 = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "401" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "221" } obliczonych na podstawie modelu, { "4" } należących do partnera
+
+seg-d0b2811a3d3c = Silnik ma { "92" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).
+
+seg-8e9fbc5f2e72 = Opis wbudowanego rodzaju scenariusza kind w języku lang, z katalogu (po angielsku, gdy język nie ma jego tłumaczenia); None dla nazwy, która nie jest wbudowanym rodzajem.
+
+seg-06e503c23c30 = [kind_description_in] w bieżącym języku ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] z każdym opisem w języku lang (znacznik taki, jaki przyjmuje --lang, na przykład de lub zh-Hans); nazwy i listy pól są takie same w każdym języku, a dla angielskiego dokument jest identyczny bajt w bajt z [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] dla użytkownika w języku lang (znacznik taki jak de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Dwa przebiegi [run_toml_lang] rozdzielone: przebieg angielski, którego json i csv są plikami maszynowymi, oraz, dla innego języka, przebieg w tym języku dla wszystkiego, co czyta człowiek.
+
+seg-1fd1f547d2b3 = Drugi przebieg [run_toml_bilingual] osobno: uruchom scenariusz raz w języku lang i zwróć tylko to, co czyta człowiek.
+
+seg-ae75df85e545 = [run_scenario] dla użytkownika w języku lang; zob. [run_toml_lang].
+
+seg-28e05e08ff76 = Uruchom src w języku lang i, jeśli się nie powiedzie, opisz niepowodzenie jako obiekt JSON { "{" }"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>{ "}" }.
+
+seg-24fe823a994a = json bez etykiety dowodowej ([crate::evidence_label]); bez zmian, jeśli jej nie niesie.
+
+seg-c0444d838311 = out z usuniętą etykietą dowodową z jego JSON, SVG i CSV, bajt w bajt taki, jak przebieg go wytworzył, zanim etykieta istniała; wynik bez etykiety jest bez zmian.

@@ -69,3 +69,5 @@ seg-0316a3f12053 = Arbetsflödet <c1/> i GitHub Actions distribuerar en releaset
 seg-6aa2e78078ae = <s1>Föregående</s1>Ordlista
 
 seg-419353a4fb30 = <s1>Nästa</s1>Handledningar
+
+seg-74dc3fad6ee7 = <s1>Föregående</s1>Språk

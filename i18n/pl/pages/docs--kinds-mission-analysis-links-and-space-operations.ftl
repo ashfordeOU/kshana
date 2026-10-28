@@ -161,3 +161,5 @@ seg-af1cf9aa9938 = Wykres zapisany przez silnik dla scenarios/space-packet.toml,
 seg-953188c11165 = Jednokierunkowy bilans łącza według równania łącza CCSDS { "401" } / DSN 810-005: tłumienie w wolnej przestrzeni, C/N₀, Eb/N₀, zapas i domknięcie dla EIRP nadawania, G/T odbioru, odległości, szybkości danych i pasma (s|x|ka) względem wymaganego Eb/N₀. Deterministyczne obliczenie inżynierskie z podanych danych wejściowych (nie jest to skalibrowana karta katalogowa terminala).
 
 seg-bd375631bc7e = Wykres, który silnik zapisuje dla scenarios/link-budget.toml, rodzaj link-budget
+
+seg-e77c46e23e67 = <s1>Następna</s1>Wątki misji

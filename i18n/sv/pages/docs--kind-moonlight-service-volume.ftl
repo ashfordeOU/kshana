@@ -37,3 +37,7 @@ seg-f3279128de3b = <s1>Föregående</s1>mars-pnt
 seg-92cd937a3fb7 = <s1>Nästa</s1>ntn-positioning
 
 seg-e66e2ca31e54 = Ämnessida: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Typen och fasen <c1/>: reläers tillgänglighet och PDOP, synlighet för jorden och solen samt en styrd ytklocka för varje plats och årstid, med terrängsiluetten från <c2/>; en körning för en enda plats ger exakt samma som den typens
+
+seg-6730fa1b9820 = <s1>Föregående</s1>mission-thread

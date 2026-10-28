@@ -69,3 +69,5 @@ seg-0316a3f12053 = Przepływ GitHub Actions <c1/> wdraża znacznik wydania, a ni
 seg-6aa2e78078ae = <s1>Poprzednia</s1>Słownik
 
 seg-419353a4fb30 = <s1>Następna</s1>Samouczki
+
+seg-74dc3fad6ee7 = <s1>Poprzednia</s1>Języki

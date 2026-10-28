@@ -567,3 +567,77 @@ seg-4e3bbacda9ac = <s1>Forrige</s1>Brug af Kshana fra en agent
 seg-c5fbfab85e01 = <s1>Næste</s1>JetBrains-plugin
 
 seg-6555ff9a6d8e = Output
+
+seg-12471a4b2b57 = Senderområde (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (endnu ikke ført; fladerne Rust, Python og WASM dækker det)
+
+seg-dff1bfe0263e = <b>N/A</b> (offentliggørelse af senderområder i det offentlige observatorium er en særskilt beslutning for ejeren og er slået fra)
+
+seg-ec2d91e2f867 = Kontrol af indsendelse fra datapartner (format og metadata for en indsendelse af målte data, <c1/>; scorer intet)
+
+seg-c16a5ff8218b = <b>N/A</b> (kontrollen læser lokale filer og deres SHA-256; Rust-API'et er biblioteksfladen, og CLI'en er værktøjet)
+
+seg-ed29039d1dc0 = <b>N/A</b> (intet filsystem i browser-buildet)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP afviser filkilder af design (kun indlejret tekst))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (slash-kommandoer kalder MCP-værktøjer, og denne kontrol kræver filer på disk)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrains-handlinger er bundet til én valgt fil; en indsendelse er en mappe)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio har ingen adgang til filsystemet; kør kommandoen)
+
+seg-521b58a1080e = Fejlbudget for navigation og tidssynkronisering for en kæde af missionsfaser fra opsendelse til indflyvning: otte fasetyper, overdragelsesregler, konverteringer af referencesystem og tidsskala, et overlay af jordnetværk, margin mod angivne krav og det svageste led (scenarietype <c1/>; <c2/>; MODELLED, ILLUSTRATIVE input, vejledende; kun offentlige kilder, ingen støtte)
+
+seg-6b451021b87a = <c1/> (fra et checkout: den læser et indlagt udsnit af Månens kerne)
+
+seg-ac3e013b5217 = <c1/> (<c2/> er en filnøgle og afvises; uden en kerne er Månen den analytiske serie, og konverteringsrækken siger det)
+
+seg-e957474f44a8 = <c1/> (kun indlejret; kernenøglen afvises)
+
+seg-1c1729fafe99 = <b>N/A</b> (ingen notebook; eksemplet kører i enhver notebook gennem <c1/> fra et checkout)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (endnu ikke ført)
+
+seg-ab52a3469f6a = Estimerede senderområder, MODELLED; sporkataloger og <c1/> er kun til kommandolinjen
+
+seg-5f1ce275acbd = Læser en indsendelsesfil og dens datafil på disken og verificerer SHA-256; ingen af disse flader har mappen. Kun format og metadata, intet scoret; se <c1/>
+
+seg-fc9ab9f71553 = Evidensetiketten og de output, der ikke bærer nogen
+
+seg-b1e4bcc2ac09 = Hvert tal og hver tabel, en kørsel skriver, bærer sit evidensniveau (<c1/>, <c2/> eller <c3/>, det svageste af registerrækkerne bag det) og id'erne på disse rækker, på hver flade, der kører et scenarie: resultat-JSON (nøglen <c4/>), diagram-SVG (metadataelement og en linje under diagrammet) og CSV-tabellen (kommentarlinjer <c5/>). Den samme etiket findes på output fra receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, ruterapporten fra interferenskortet og inde i <c11/> i hver bevispakke (signeret; <c12/> rapporterer den). Række-id'er er stabile (<c13/> og otte hex-cifre, kolonnen <c14/> i <c15/>).
+
+seg-c66058f24f0e = Disse output bærer ingen etiket, hvert af en angivet grund (listen er <c1/> i <c2/>, som fejler ved en skriver, der hverken er mærket eller opført):
+
+seg-04ca90423b80 = Hvorfor den ikke bærer nogen etiket
+
+seg-a90c022c4dea = resultatfiler fra kshana-bench
+
+seg-9f3f0adbcfe6 = et fast skema fastholdt af forpligtelserne for de tilbageholdte data; hver bærer sin egen <c1/> (MODELLED eller målt)
+
+seg-9bb126104f12 = daglige produkter fra interferensobservatoriet (GeoJSON, PNG, hændelses-JSON)
+
+seg-ddbc60cb14ac = et fastfrosset, offentliggjort skema; metodenotens forbehold følger med
+
+seg-874cb55d3457 = celle-, scorekort- og rapportfiler fra IQ-kampagnen
+
+seg-8c8cb4bd5110 = fastlåst med digest; hver angiver det kampagnescorekort, den gentager
+
+seg-8d2645e93451 = IQ-prøver, SigMF- og SDR-metadata, referencesandhed for scenen, spor-epoke- og hændelsesstrømme, logs fra live-sessioner
+
+seg-9fa872028a08 = formatbundne filer og poststrømme læst af andre værktøjer
+
+seg-6c77071a0d03 = eksporter til SP3, OMM, OEM, CZML, KML, GeoJSON, STK, testbænkbevægelse og NMEA; NMEA-træningsstrømmen
+
+seg-5c1b92afa402 = formatbundne filer læst af tredjepartsværktøjer
+
+seg-b5c79a0e395c = telemetriformater på ledningen (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = defineret af deres formater på ledningen
+
+seg-3ba06004fc14 = genererede dokumenter (selve registeret, de indlagte studie- og datatabeller)
+
+seg-8be4943acd00 = ikke en kørsels output

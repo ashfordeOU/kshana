@@ -567,3 +567,77 @@ seg-4e3bbacda9ac = <s1>Vorige</s1>Kshana gebruiken vanuit een agent
 seg-c5fbfab85e01 = <s1>Volgende</s1>JetBrains-plug-in
 
 seg-6555ff9a6d8e = Uitvoer
+
+seg-12471a4b2b57 = Zendergebied (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>n.v.t.</b> (nog niet beschikbaar; de oppervlakken Rust, Python en WASM dekken het)
+
+seg-dff1bfe0263e = <b>n.v.t.</b> (het publiceren van zendergebieden in het openbare observatorium is een afzonderlijk besluit van de eigenaar en staat uit)
+
+seg-ec2d91e2f867 = Controle van inzendingen van datapartners (formaat en metadata van een inzending met gemeten data, <c1/>; scoort niets)
+
+seg-c16a5ff8218b = <b>n.v.t.</b> (de controle leest lokale bestanden en hun SHA-256; de Rust-API is het bibliotheekoppervlak en de CLI is het hulpmiddel)
+
+seg-ed29039d1dc0 = <b>n.v.t.</b> (geen bestandssysteem in de browserbuild)
+
+seg-b3397901ea5f = <b>n.v.t.</b> (MCP weigert bestandsbronnen met opzet (alleen inline tekst))
+
+seg-c5fc0c41b9bb = <b>n.v.t.</b> (slash-opdrachten roepen MCP-tools aan, en deze controle heeft bestanden op schijf nodig)
+
+seg-be971c31e0de = <b>n.v.t.</b> (JetBrains-acties zijn gebonden aan één geselecteerd bestand; een inzending is een map)
+
+seg-b9e56d6ab03b = <b>n.v.t.</b> (Studio heeft geen toegang tot het bestandssysteem; voer de opdracht uit)
+
+seg-521b58a1080e = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer: acht fasesoorten, overdrachtsregels, omzettingen van referentiestelsel en tijdschaal, een overlay van het grondnetwerk, marge ten opzichte van vermelde eisen en de zwakste schakel (scenariosoort <c1/>; <c2/>; MODELLED, ILLUSTRATIVE invoer, adviserend; alleen openbare bronnen, geen onderschrijving)
+
+seg-6b451021b87a = <c1/> (vanuit een checkout: het leest een vastgelegde snede van een maankernel)
+
+seg-ac3e013b5217 = <c1/> (<c2/> is een bestandssleutel en wordt geweigerd; zonder kernel is de maan de analytische reeks en de omzettingsrij zegt dat)
+
+seg-e957474f44a8 = <c1/> (alleen inline; de kernelsleutel wordt geweigerd)
+
+seg-1c1729fafe99 = <b>n.v.t.</b> (geen notebook; het voorbeeld draait in elk notebook via <c1/> vanuit een checkout)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = n.v.t. (nog niet beschikbaar)
+
+seg-ab52a3469f6a = Geschatte zendergebieden, MODELLED; tracemappen en <c1/> zijn alleen op de opdrachtregel beschikbaar
+
+seg-5f1ce275acbd = Leest een inzendingsbestand en zijn databestand op schijf en verifieert de SHA-256; geen van die oppervlakken heeft de map. Alleen formaat en metadata, niets gescoord; zie <c1/>
+
+seg-fc9ab9f71553 = Het bewijslabel, en de uitvoer die er geen draagt
+
+seg-b1e4bcc2ac09 = Elk cijfer en elke tabel die een run schrijft draagt zijn bewijsniveau (<c1/>, <c2/> of <c3/>, het zwakste van de registerrijen erachter) en de id's van die rijen, op elk oppervlak dat een scenario uitvoert: het resultaat-JSON (sleutel <c4/>), de grafiek-SVG (metadata-element en een regel onder de plot) en de CSV-tabel (<c5/>-commentaarregels). Hetzelfde label staat op de uitvoer van receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, het routerapport van de interferentiekaart, en binnen de <c11/> van elk bewijspakket (ondertekend; <c12/> meldt het). Rij-id's zijn stabiel (<c13/> en acht hexadecimale cijfers, de kolom <c14/> van <c15/>).
+
+seg-c66058f24f0e = Deze uitvoer draagt geen label, elk om een vermelde reden (de lijst is <c1/> in <c2/>, die faalt bij een schrijver die noch een label heeft noch is vermeld):
+
+seg-04ca90423b80 = Waarom het geen label draagt
+
+seg-a90c022c4dea = resultaatbestanden van kshana-bench
+
+seg-9f3f0adbcfe6 = een vast schema dat door de vastleggingen van de achtergehouden set is vastgezet; elk draagt zijn eigen <c1/> (MODELLED of gemeten)
+
+seg-9bb126104f12 = dagelijkse producten van het interferentieobservatorium (GeoJSON, PNG, incident-JSON)
+
+seg-ddbc60cb14ac = een bevroren, gepubliceerd schema; de kanttekeningen van de methodenotitie reizen met ze mee
+
+seg-874cb55d3457 = cel-, scorekaart- en rapportbestanden van de IQ-campagne
+
+seg-8c8cb4bd5110 = met digest vastgezet; elk vermeldt de scorekaart van de campagne die het herhaalt
+
+seg-8d2645e93451 = IQ-samples, SigMF- en SDR-metadata, referentie van de scène, tracks van epochen en gebeurtenissen, logs van live sessies
+
+seg-9fa872028a08 = formaatgebonden bestanden en recordstromen die door andere hulpmiddelen worden gelezen
+
+seg-6c77071a0d03 = exports in SP3, OMM, OEM, CZML, KML, GeoJSON, STK, bewegingsdata voor de testbank en NMEA; de NMEA-trainingsstroom
+
+seg-5c1b92afa402 = formaatgebonden bestanden die door hulpmiddelen van derden worden gelezen
+
+seg-b5c79a0e395c = telemetrie-wireformaten (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = bepaald door hun wireformaten
+
+seg-3ba06004fc14 = gegenereerde documenten (het register zelf, de vastgelegde studie- en datatabellen)
+
+seg-8be4943acd00 = niet de uitvoer van een run

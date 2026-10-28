@@ -61,3 +61,5 @@ seg-ab895b157152 = <b>Register:</b> ingen matrixrække nævner denne type; motor
 seg-c0ef7d676ec1 = <s1>Forrige</s1>GNSS-målinger positionering og integritet
 
 seg-54b45b00a2f0 = <s1>Næste</s1>Inertial fusion og kvantesensorer
+
+seg-643fa0f18717 = <b>Register:</b> MODELLED. Fuld side med input, resultater, evidens og begrænsninger: <a1>terrain-nav</a1>.

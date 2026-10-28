@@ -89,3 +89,5 @@ seg-309c70f2f4f8 = ITU-R P.840 (statistik för molnens vätskevatten), P.1814 oc
 seg-83b30e1ca261 = <s1>Föregående</s1>Bevispaket
 
 seg-1474b58fb35a = <s1>Nästa</s1>Tidsluckornas tidssynkronisering
+
+seg-50f25bceca3c = <s1>Föregående</s1>Datapartner och rader som lyfts

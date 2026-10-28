@@ -55,3 +55,5 @@ seg-6334f82991d3 = Inte uppnådda, och fastlåsta av tester som hävdar missen: 
 seg-1d3bffc2fd02 = <s1>Föregående</s1>Navigering för rymdanvändare (gnss-ssv)
 
 seg-90932eed0074 = <s1>Nästa</s1>Positionering, navigering och tidssynkronisering i LEO
+
+seg-c3b27dfb7bca = <s1>Nästa</s1>Uppdragsflöde: från uppskjutning till återinträde

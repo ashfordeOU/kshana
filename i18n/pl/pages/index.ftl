@@ -719,3 +719,9 @@ seg-5858e5d1f7c5 = Etykieta dowodowa przy każdej wartości i tabeli zapisywanej
 seg-bd28ef5c376e = Siedemnaście języków obok angielskiego
 
 seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
+
+seg-b9961ed25282 = Nowość w v{ $version }: wątek misji, etykieta dowodowa przy każdej wartości i siedemnaście języków
+
+seg-653cf3198094 = { "176" } z { "401" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
+
+seg-76b213d03caa = Wszystkie { "92" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.

@@ -95,3 +95,7 @@ seg-6339abe5314a = Familie
 seg-3040e2ec62b1 = <s1>Forrige</s1>Scenarietyper
 
 seg-1d6e6cc607f2 = <s1>Næste</s1>Alle kommandoer
+
+seg-c6bb02c73696 = Kontaktark med de diagrammer, motoren skriver for typerne i familien Missionstråde
+
+seg-9ad7876b693f = Alle scenarietyper, motoren v{ $version } fordeler over ({ "92" }), ordnet under { "13" } familier. Hver familie har en side med én post pr. type (motorens beskrivelse og felter, eksempelkommandoen, hovedtal fra en kørsel, de matrixrækker, der nævner den, og det diagram, motoren skriver) og et kontaktark med disse diagrammer. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
