@@ -187,3 +187,11 @@ seg-9c361736bf27 = Det är en teknisk registrering och inte ett juridiskt utlåt
 seg-68bcf43b4e27 = <s1>Föregående</s1>Radtäckning
 
 seg-09c0b5fa6e52 = <s1>Nästa</s1>Optiska länkar genom atmosfären
+
+seg-bd3169455cd0 = Evidensetiketten ({ "0.40" })
+
+seg-6fe796d2b15f = Ett paket byggt med { "0.40" } eller senare bär, inuti <c1/>, en post <c2/> (nivån, <c3/>, <c4/> eller <c5/>, som är den svagaste statusen bland dess rader, samt id:na och kraven för de rader i verifieringsmatrisen som paketets innehåll vilar på: raden för paketets integritet, raderna för receiver-trust, och raderna för jammertest-poängsättning eller rundtur för sådana paket) och <c6/> <c7/>. Den ligger inuti <c8/>, så manifestets filhash, hashkedjan och signaturen täcker den: att ändra den gör att verifieringen misslyckas. <c9/> redovisar nivån och radernas id.
+
+seg-15b4e784361a = Ändringen är additiv och gäller bara framåt. Manifestets <c1/> förblir <c2/>: den normativa texten ovan säger att en verifierare MÅSTE hitta det värdet, och verifieraren byggd från rent blad i <c3/> gör det. Den lägre versionen bärs därför av <c4/> (saknas för ett paket gjort före { "0.40" }, vilket betyder { "1.0" }), inte av en ny sträng <c5/>. Ett paket gjort före { "0.40" } har ingen etikett och verifieras oförändrat; <c6/> säger "no evidence label (pre-0.40 pack)". Testerna är <c7/> (inklusive de incheckade oberoende paketen från före 0.40) och <c8/>.
+
+seg-218641620d3e = <s1>Nästa</s1>Datapartner och rader som lyfts

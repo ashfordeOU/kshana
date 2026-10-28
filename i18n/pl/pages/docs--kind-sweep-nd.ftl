@@ -45,3 +45,5 @@ seg-ce006a6715e9 = <s1>Poprzednia</s1>spoof
 seg-b9f8771ffd3d = <s1>Następna</s1>sweep
 
 seg-8b701f465117 = logarytmiczna
+
+seg-a349aa76b0ed = PARTNER

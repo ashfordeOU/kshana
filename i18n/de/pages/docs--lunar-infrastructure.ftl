@@ -103,3 +103,5 @@ seg-1d3bffc2fd02 = <s1>Zurück</s1>Navigation für Raumnutzer (gnss-ssv)
 
 # text
 seg-90932eed0074 = <s1>Weiter</s1>LEO-Positionierung, -Navigation und -Zeitgebung
+
+seg-c3b27dfb7bca = <s1>Weiter</s1>Missionsstrang: vom Start bis zum Wiedereintritt

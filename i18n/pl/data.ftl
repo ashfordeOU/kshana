@@ -8202,3 +8202,235 @@ dat-1868c76f244c = własny host
 
 # studio/data/capabilities.json
 dat-4c20ebade87f = detektor χ²₁ NP · postać zamknięta i Monte Carlo P_fa/P_md zgadzają się
+
+dat-338478a8723e = { "1" } rodzaj scenariusza silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-cd5eb1698a87 = { "14" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-60cc193bcc29 = { "2" } rodzaje scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-b73627a5b6d7 = { "24" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-fd22a00f9aa5 = { "5" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-ef1e661614eb = { "6" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-9379a089776e = { "7" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-25d6ecf7e78d = { "9" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…
+
+dat-90999a1f6b23 = { "92" } z { "92" } rodzajów, { "3300" } z { "3300" } pól liczbowych
+
+dat-e069e927e712 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Scenariusz zegara ze zmierzonym dziennikiem obok symulowanego holdover (`[clock_log]`).
+
+dat-6e2cb362b6ee = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie raportów pozycji ADS-B (NIC/NACp) lub AIS: łączność radiowa w linii wzroku na promieniu 4/3 Ziemi z wysokości raportu i zakresu wysokości anteny emitera, ograniczony efektywny zasięg dla nieznanej mocy, dotknięte jednostki przyciągające rozkład a posteriori ku swojemu zasięgowi oraz niedotknięte jednostki z linią wzroku odpychające go, pogrupowane w sesje w czasie i przestrzeni. Wynik to obszary o najwyższej gęstości na podanych poziomach ufności, centroid a posteriori z elipsą momentów, początek, koniec i czas trwania sesji, obszar dotknięty oraz liczba odrębnych statków powietrznych powyżej minimum publikacji, profil pory dnia i godziny na dobę. Bez terenu; jedno źródło na sesję; wiarygodność jest zależna od modelu. Opcjonalne połączenie z pozycją TDOA z geolokalizacji.
+
+dat-7c2ec7378a5c = Jednoosiowe obliczenie ręczne predykcji i aktualizacji w teście; przejście Clohessy'ego-Wiltshire'a to to, które cw_dynamics sprawdza względem niezależnego całkowania numerycznego. Czujniki są ILLUSTRATIVE i nie porównuje się żadnego rzeczywistego spotkania
+
+dat-9c42080d805e = Oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.
+
+dat-3ab21add7c07 = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu jednego łańcucha faz, od startu
+
+dat-6ba64899cc4a = Wybór języka
+
+dat-1886310b3396 = Uznanie zasług i prawa
+
+dat-3ab0b8db8085 = Zależności i licencje
+
+dat-ce766cce1a7d = Sterowanie holdover własnym zegarem: [clock_fit]
+
+dat-6fd0ece9147e = Obszar emitera (interference-map locate)
+
+dat-fe6d68d3c1f9 = Kowariancja na granicy wejścia w atmosferę, prawdopodobieństwo korytarza, szczytowe opóźnienie i obszar lądowania (`entry`)
+
+dat-f6759242b1a9 = Błędy i ich kody
+
+dat-0488b2056745 = Każdy dołączony plik scenariusza ({ "192" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.
+
+dat-c0206ef96894 = Każdy rodzaj scenariusza, który rozdziela silnik v{ $version } ({ "92" }), przypisany do { "13" } rodzin.
+
+dat-59385aaf8a98 = Dokładna równość z istniejącym rodzajem dla jednego miejsca oraz kontrole monotoniczności w testach. Zestaw przekaźników jest ILLUSTRATIVE i nie porównuje się żadnego pomiaru z powierzchni
+
+dat-6ed624c1c297 = Cztery rodzaje scenariuszy, każdy także rodzajem fazy interfejsu wątku misji (src/mission_thread/): one…
+
+dat-ed7ff984ba53 = Układy odniesienia i skale czasu
+
+dat-36619fa31a07 = Pokrycie sieci naziemnej i cykl śledzenia dla fazy wątku (`[ground_network]` z `mission-thread`)
+
+dat-626be4f0752e = Obliczenia ręczne w testach (sigma kąta to sigma prędkości prostopadłej podzielona przez prędkość; masa gaussowska w korytarzu). Wejście płaskie jest własnym wejściem silnika, a postać Allena-Eggersa jest porównaniem w postaci zamkniętej; nie porównuje się żadnego odbytego wejścia
+
+dat-1d6764bb725d = Obliczenia ręczne w testach (wzrost kowariancji po linii prostej, średnia rotacja gwiazdowa, wiekowe tempo zegara księżycowego) oraz, tylko dla stanu Księżyca, zatwierdzone wycinki jądra DE440 względem przypiętych wartości JPL Horizons (najgorzej { "2.6" } m i { "7e-6" } m/s). Z łańcuchem nie porównuje się żadnych danych misji; jego fazy są osobnymi wierszami. Dokument jest podanym łańcuchem z wejściami ILLUSTRATIVE, wyłącznie ze źródeł publicznych i bez poparcia żadnej agencji
+
+dat-a8beacb2b7c6 = Jak dokument określa fazę
+
+dat-f4f6c97c58d7 = Jak działa przebieg w innym języku (zasada podwójnego przebiegu)
+
+dat-18ddc744e88f = Jak zgłoszenie jest sprawdzane
+
+dat-b233043f785b = Instalacja serwera MCP Kshana (v{ $version })
+
+dat-bc70cb57a31f = Obszar źródła zakłóceń: dopuszczalny obszar emitera na podstawie raportów pozycji statków powietrznych i okrętów
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = testy jednostkowe interference_map::emitter (cykl projekcji, wartość horyzontu, syntetyczne pełne cykle prosty i odwrotny: znany emiter leży wewnątrz podanego obszaru z mniej więcej podaną częstością, przypadki brzegowe, grupowanie sesji, profil, prywatność i sformułowania); przypadki locate w tests/interference_map_cli.rs
+
+dat-f1881d3fd450 = Efemerydy statków kosmicznych JPL Horizons dla LRO i CAPSTONE, względem progów zarejestrowanych wstępnie w xval/mission-thread-lunar/PREREGISTRATION.md (poprawki { "1" } do { "6" }). LRO: MET, największa różnica 3-D { "33" } m i { "2.4" } m RMS promieniowo wobec { "500" } m i { "60" } m. CAPSTONE: NOT MET, różnica pozycji końcowej { "136.8" } km wobec { "25" } km i różnica perycentrum { "28.4" } km wobec { "10" } km, przyczyny nie zostały wyizolowane. Wiersz jest obliczony z modelu, ponieważ próg CAPSTONE nie został osiągnięty, a porównanie sprawdza wspólny propagator, a nie żaden filtr, sygnał ani budżet
+
+dat-203f52ed49d1 = JPL Horizons, cel -1023 (trajektoria po TLI z nawigacji NASA, zgodna z lotem), względem progów zarejestrowanych wstępnie w xval/mission-thread/PREREGISTRATION.md (poprawka { "1" } zmienia tylko zakres zapytania). NOT MET i stwierdzone jako niespełnione: największa różnica pozycji { "45.3" } km wobec { "5" } km oraz różnica prędkości { "0.249" } m/s po { "72" } h wobec { "0.05" } m/s. Diagnostyka napisana po werdykcie lokalizuje chybienie w pięciu impulsowych krokach prędkości po { "0.09" } do { "0.22" } m/s we wzorcu (odczyt zarejestrowany wstępnie, że okno nie zawierało impulsu, był błędny); w pozostałych { "67" } godzinach model odtwarza następny godzinowy stan z medianą { "0.38" } m. Sprawdza tylko stan średni jednego łuku lotu bezwładnego: bez kowariancji, filtra, aktualizacji ani innych faz
+
+dat-021bd19116af = Znane ograniczenia
+
+dat-61ab3ea0293c = Kshana oznacza każdą możliwość etykietą w sprawdzanym maszynowo rejestrze (macierz weryfikacji).
+
+dat-0002d522fae4 = Budżet rozrzutu lądowania w miejscu przy biegunie Księżyca (`lunar-descent`)
+
+dat-141c646761d9 = Start i wznoszenie na orbitę parkingową z akwizycją GNSS i zanikiem (`launch-ascent`)
+
+dat-252a4ca5d8cd = Twierdzenie Liouville'a (wyznacznik macierzy przejścia stanu części zachowawczej wynosi jeden) i drobniejsza różnica w testach; stan średni jest porównywany z publiczną trajektorią w wierszu poniżej, którego nie osiąga. Błąd impulsu, aktualizacje i kowariancja nie są z niczym porównywane
+
+dat-1b090eb926b7 = Lokalizacja silnika
+
+dat-5482eb8e992e = Wznoszenie z Księżyca: wznoszenie z napędem z miejsca na powierzchni przy biegunie południowym (klasa Artemis) do spotkania na wysokości { "100" } km
+
+dat-b5499ac7fa90 = Rozrzut lądowania na Księżycu z rzeczywistym DEM LOLA okolic bieguna południowego: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z…
+
+dat-c064ed689649 = Rozrzut lądowania na Księżycu: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z
+
+dat-e576d5088076 = Spotkanie na eliptycznej orbicie polarnej Księżyca: nawigacja względna do połączenia w stylu Orion–lądownik na
+
+dat-7459ee1f4efa = Spotkanie na orbicie księżycowej: nawigacja względna do połączenia w stylu Orion–lądownik na kołowej orbicie polarnej o wysokości { "100" } km
+
+dat-25f2f7c5048f = Dostępność PNT i czasu na powierzchni Księżyca według miejsca i pory roku (miejsca przy biegunie południowym, klasa Artemis).
+
+dat-fdedddcf211b = Dostępność PNT i czasu na powierzchni Księżyca według miejsca i pory roku z rzeczywistym ukształtowaniem terenu LOLA przy biegunie południowym
+
+dat-f250522ecad3 = lunar-ascent (rodzaj scenariusza)
+
+dat-afded8513758 = lunar-descent (rodzaj scenariusza)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (rodzaj scenariusza)
+
+dat-4ea2873d47bd = lunar-surface (rodzaj scenariusza)
+
+dat-d2b23c8c0cb8 = Wątki misji
+
+dat-42ff804cc994 = Wątki misji (rodzina rodzajów scenariuszy)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (blok jednostek raportu)
+
+dat-5b23ee4808db = mission-thread (rodzaj scenariusza)
+
+dat-f6f0757c4934 = MODELLED: budżet rozrzutu lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis).
+
+dat-64ba276bb1f8 = MODELLED: budżet rozrzutu lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis). Na…
+
+dat-84797c24853b = MODELLED: budżet błędu nawigacji i czasu podanego łańcucha faz misji, od startu do wejścia w atmosferę…
+
+dat-eee427a562f9 = MODELLED: wznoszenie z napędem z miejsca na powierzchni przy biegunie południowym na orbitę spotkania oraz kowariancja pozycji i prędkości…
+
+dat-a5d5120ad3dd = MODELLED: nawigacja względna do połączenia w stylu Orion–lądownik na niskiej orbicie księżycowej albo eliptycznej orbicie polarnej…
+
+dat-6cb24469351b = MODELLED: dostępność pozycjonowania i czasu na powierzchni według miejsca i pory roku dla miejsc przy biegunie południowym klasy Artemis.
+
+dat-61218243092c = MODELLED: dostępność pozycjonowania i czasu na powierzchni według miejsca i pory roku dla miejsc przy biegunie południowym klasy Artemis.…
+
+dat-dd872eabd06d = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (`mission-thread`)
+
+dat-7557b6b1b3a2 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NOT ASSESSABLE (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
+
+dat-c61600fc3590 = Na zmierzonych danych
+
+dat-edfd6919d948 = Dane partnera: co mogłyby awansować zmierzone dane w wierszu MODELLED
+
+dat-5bd5efbe5a8c = Wznoszenie z napędem z miejsca przy biegunie Księżyca na orbitę wprowadzenia (`lunar-ascent`)
+
+dat-5c095f4884b4 = Nawigacja względna do połączenia na orbicie księżycowej (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Nawigacja względna do obwiedni połączenia na niskiej orbicie okołoziemskiej na odcinkach czujników (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Wiersze, które mogłyby awansować dzięki danym partnera
+
+dat-c069be5250fc = Samozgodność w ramach wstępnej rejestracji (xval/mission-thread-lunar/PREREGISTRATION.md, wyniki i historia estymatora w RESULTS.md): średnie NEES stanu względnego wynosi od { "5.85" } do { "5.93" } wobec pasma od { "5.2" } do { "6.8" } w czterech konfiguracjach, MET przy czwartym projekcie estymatora po tym, jak trzy projekty filtra sekwencyjnego nie osiągnęły progu; prawda i estymator współdzielą jeden model sił, więc nic to nie mówi o błędzie modelu. Propagator, który współdzielą, jest porównany z LRO i CAPSTONE w wierszu poniżej
+
+dat-bb8b8191a0f6 = Dostępność pozycjonowania i czasu na powierzchni według miejsca i pory roku na biegunach Księżyca (`lunar-surface`)
+
+dat-11e9ad0e8321 = Faza `entry`: lot powrotny `tli-and-cruise` bez impulsu, kończący się na granicy wejścia; kąt toru lotu i jego sigma z pełnej kowariancji przez gradient różnic skończonych; prawdopodobieństwo, że kąt mieści się w podanym korytarzu; szczytowe opóźnienie przy kącie nominalnym i na obu brzegach korytarza z płaskiego balistycznego wejścia masy punktowej silnika (z wykrywaniem odbicia) obok zamkniętej postaci Allena-Eggersa; obszar lądowania z podanej czułości na odległość wzdłuż toru i kowariancji na granicy wejścia w poprzek płaszczyzny orbity. Nie modeluje się siły nośnej, prowadzenia ani nagrzewania
+
+dat-5fedd1cdf670 = Faza `launch-ascent`: kowariancja pozycji i prędkości o stałej prędkości z szumem białego przyspieszenia (klasa nawigacji zliczeniowej), pozycja GNSS o podanej dokładności stosowana po czasie akwizycji i poza podanymi zanikami, zegar z biasem i dryfem dyscyplinowany tymi samymi pozycjami oraz stan wprowadzenia na orbitę parkingową
+
+dat-4feb3a9f775b = Faza `leo-rendezvous`: stan względny w osiach LVLH celu z zamkniętą postacią przejścia Clohessy'ego-Wiltshire'a, kowariancja Kalmana 6x6 z szumem białego przyspieszenia i aktualizacje pozycji, których wariancja jest wariancją czujnika przy bieżącej odległości, na odcinkach podanego czujnika (ILLUSTRATIVE: kamera optyczna, lidar i formy z pomiarem odległości radiem); okno połączenia to czas od chwili, od której sigma względna pozostaje wewnątrz obwiedni zdolności chwytu, do końca fazy. Bezwzględna kowariancja statku gonionego jest przekazywana bez zmian i mówi o tym wiersz
+
+dat-238413a36808 = Rodzaj i faza `lunar-ascent`: pięciostanowy model błędu inercjalnego na oś uruchomiony dla wznoszenia z napędem z siłą właściwą wzdłuż toru, wspomagany pozycjami AFS i czasem księżycowym, podający kowariancję pozycji i prędkości wprowadzenia przenoszoną na orbitę oraz rozrzut przy wyłączeniu silnika (podany, nieprzenoszony)
+
+dat-9fe860d16f1f = Rodzaj i faza `lunar-descent`: pięciostanowy model błędu inercjalnego na oś (pozycja, prędkość, bias akcelerometru, przechył, bias żyroskopu) w trakcie lądowania z napędem, wspomagany pozycjami AFS (samodzielnymi lub różnicowymi, z przypadkiem trzech przekaźników wspomaganych zegarem), pozycją względem terenu (dopasowanie terrain-nav silnika na syntetycznej rzeźbie albo ograniczenie Craméra-Rao na DEM LOLA z regułą problemu apertury) i czasem księżycowym, z elipsą lądowania Monte Carlo
+
+dat-ba0cc6e0ae77 = Rodzaj i faza `lunar-orbit-rendezvous`: wspólne wsadowe oszacowanie Gaussa-Newtona dwóch pojazdów na łuku (dwadzieścia jeden parametrów: oba stany oraz trwałe odchylenia pozycji sygnału w przestrzeni, wspólne i niezależne), rozbudowywane na ćwierć, połowę i cały łuk z połowieniem kroku, z pozycji bezwzględnej każdego pojazdu (granica śledzenia kodu pilotowego AFS, zestaw przekaźników ILLUSTRATIVE) i odległości międzypojazdowej, w modelu sił księżycowych biblioteki; średni znormalizowany kwadrat błędu oszacowania, kontrola Clohessy'ego-Wiltshire'a na orbicie kołowej i przekazywana kowariancja 6x6
+
+dat-955283daf32d = Rodzaj i faza `lunar-surface`: dostępność przekaźników i PDOP, widoczność Ziemi i Słońca oraz zdyscyplinowany zegar powierzchniowy dla każdego miejsca i pory roku, z horyzontem terenu z `moonlight-service-volume`; przebieg dla jednego miejsca równa się dostępności i PDOP tego rodzaju co do bitu
+
+dat-571779bc241a = Rodzaj `mission-thread`: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (`carry`; `inflate`, szum białego przyspieszenia na podanym odstępie w modelu prostoliniowym; `reacquire`, nawigacja zliczeniowa, a potem dolna granica źródła, nigdy poniżej niej, nigdy zerowanie); konwersje układów GCRF, MCI i MCMF oraz konwersje skal czasu przez TT, każda jako osobny wiersz budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem; margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. Każda liczba jest podanym wejściem albo modelem takiego wejścia
+
+dat-36aa30c0c245 = Faza `tli-and-cruise`: stan średni z propagatora Cowella silnika (masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z jądra DE440 wątku tam, gdzie obejmuje on segment, a Słońce z serii analitycznej); kowariancja z macierzy przejścia stanu liczonej różnicą w przód z tej propagacji (przebieg nominalny i sześć przebiegów zaburzonych na segment) z szumem białego przyspieszenia; wielkość i błąd kierunku impulsu TLI; pozycje `gnss-ssv`, których dostępność i PDOP pochodzą z przeglądu objętości usługi kosmicznej wzdłuż orbity oskulacyjnej zastępującej łuk; śledzenie odległości i prędkości radialnej wzdłuż kierunku geocentrycznego, skalowane cyklem pracy sieci naziemnej, z aktualizacją w postaci Josepha
+
+dat-826b5ff3a004 = { "92" } wbudowanych rodzajów scenariuszy, między które rozdziela kshana::api::run_toml, każdy z jego jednowierszowym…
+
+dat-4ad8b288fa02 = Karty możliwości i wszystkie { "401" } wierszy macierzy weryfikacji.
+
+dat-85ad15fcf6cb = Propagacja stanu średniego cislunarnego względem publicznej trajektorii Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = Zamknięty dryf inercjalny i kontrole monotoniczności w testach. Nie porównuje się żadnego odbytego wznoszenia
+
+dat-1b1e2bdeb2a2 = Zamknięty dryf inercjalny, własne wyniki użytych ponownie rodzajów i kalibracja elipsy 3-sigma (część wewnątrz zgadza się z oczekiwaniem) w testach. Nie porównuje się żadnego odbytego ani przetestowanego lądowania
+
+dat-bc68a493fe5d = Kompletny, sprawdzany maszynowo rejestr dowodów: { "401" } wierszy — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Dokument
+
+dat-b07afbb33f4b = Osiem rodzajów faz
+
+dat-ddc15e493a03 = Tekst silnika przeznaczony dla człowieka jest w { "17" } językach obok angielskiego: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Etykieta dowodowa ({ "0.40" })
+
+dat-ac0745dcf97a = Etykieta dowodowa przy każdej wartości
+
+dat-21d73819d31c = Etykieta dowodowa i wyniki, które jej nie niosą
+
+dat-88641ee424ff = Nakładka sieci naziemnej
+
+dat-5c091b15d738 = Nakładka sieci naziemnej: stacje z minimalną elewacją, widoczność pojazdu na podanej geometrii (stan wejścia lecący jako dwuciałowy z J2, pozycja Księżyca dla lotu albo podany cykl pracy), przekazania między stacjami, z których każde traci podany czas, oraz wynikowy cykl pracy przekazywany do częstości aktualizacji śledzenia naziemnego fazy; najdłuższy odstęp bez stacji w zasięgu jest wierszem budżetu
+
+dat-576667f29670 = Propagacja księżycowego modelu sił względem publicznych odtworzonych trajektorii orbiterów księżycowych i cislunarnych
+
+dat-5025f9f26401 = Segment księżycowy wątku misji klasy Artemis
+
+dat-2d1fe075cab5 = Propagacja stanu średniego fazy `tli-and-cruise` (Cowell, masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z wycinka DE440) porównana z publiczną trajektorią JPL Horizons Artemis I na łuku lotu bezwładnego trwającym { "72" } h od 2022-11-16 { "18" }:{ "00" } TDB, w epokach co { "12" } godzin, względem progów ustalonych w zatwierdzonym pliku przed przebiegiem
+
+dat-510e796c2898 = Wątek misji
+
+dat-cba533186d05 = Propagator wspólny dla rodzajów księżycowych (GRAIL GL0660B stopnia i rzędu { "150" }, Ziemia i Słońce jako ciała trzecie, relatywistyka, orientacja Księżyca z DE440) porównany z publicznymi trajektoriami JPL Horizons LRO ({ "24" } h, próbki co { "10" } minut) i CAPSTONE (jeden obieg { "6.5" } doby, próbki co godzinę), względem progów ustalonych w zatwierdzonym pliku przed przebiegiem
+
+dat-16451dd503da = Stan ustalony Riccatiego i ręczne obliczenie predykcji w testach. Nic tu nie modeluje rakiety nośnej ani odbiornika; każda liczba jest podanym wejściem
+
+dat-09d31ea90146 = Wtrysk translunarny i lot cislunarny: propagowany stan średni i kowariancja z aktualizacjami śledzenia (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Co robi przekazanie
+
+dat-3727a96cc814 = Co robi każda faza
+
+dat-703c52a91b91 = Co jest lokalizowane, a co nigdy
+
+dat-93572ee1f44a = Czym są dowody
+
+dat-8796a5569e10 = Co oznaczają etykiety
+
+dat-bceb988a4263 = Co przesłać
+
+dat-82201a0b07b0 = Co nowego w { "0.40" }
+
+dat-b3d9ac894036 = Twój własny zegar
+
+dat-286487acb3db = Kontrole geometrii zenitu i antypodu oraz oczekiwana widoczność odległego celu w testach. Nie modeluje się żadnej rzeczywistej sieci, anteny ani harmonogramu

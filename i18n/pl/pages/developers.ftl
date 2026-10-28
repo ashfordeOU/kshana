@@ -46,7 +46,7 @@ seg-88dc6ca4799b = Dla programistów webowych i Node.js. Wymaga: Node.
 
 seg-6582d85cfa39 = Asystenci AI (serwer MCP)
 
-seg-261c059bec54 = Wyłącznie doradczo, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu: za nawigację odpowiada nadal operator. Serwer działa na Twoim komputerze; nic nie jest wysyłane do Ashforde OÜ.
+seg-261c059bec54 = Wyłącznie doradczo: nie jest to sprzęt nawigacyjny z zatwierdzeniem typu; za nawigację odpowiada nadal operator. Serwer działa na Twoim komputerze; nic nie jest wysyłane do Ashforde OÜ.
 
 seg-bb28e2a66e35 = Dla każdego, kto używa asystenta obsługującego MCP. Wymaga: Rust { "1.88" }+.
 

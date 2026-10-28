@@ -51,3 +51,5 @@ seg-6e9f5dfca6b0 = Vertrouwde kwantum-tijdsynchronisatie (tijdoverdracht + bevei
 seg-d3665be74ff1 = <s1>Vorige</s1>quantum-gnss-free-nav
 
 seg-0d4b1f97541f = <s1>Volgende</s1>quantum-trade
+
+seg-a349aa76b0ed = PARTNER

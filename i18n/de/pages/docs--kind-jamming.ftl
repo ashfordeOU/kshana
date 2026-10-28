@@ -108,3 +108,5 @@ seg-304496607bd7 = Szenarioart der Engine v{ $version }, Familie <a1>Jamming, sp
 
 # attr:alt
 seg-42d46b928d09 = Das Diagramm, das die Engine für scenarios/jamming-demo.toml schreibt, Szenarioart jamming
+
+seg-a349aa76b0ed = PARTNER

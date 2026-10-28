@@ -326,3 +326,27 @@ seg-1acf60cff708 = Non inclus
 
 # text
 seg-188c6e41f434 = Les documents relatifs aux processus des mainteneurs restent dans le dépôt : docs/RELEASING.md (procédure de publication) ; docs/WHEEL_TAGS.md (détail du packaging) ; docs/revisions/ (notes de modification internes) ; docs/design/ (notes de conception internes) ; README.pypi.md (la page PyPI ; la documentation de l'API Python la couvre) ; modèles .github/ ; docs/integrations.md (organisé autour de produits d'IA tiers nommés, que ce site ne nomme pas).
+
+seg-fcffac5eb150 = <s1>Langues</s1><s2>Le texte du moteur destiné aux personnes existe en { "17" } langues en plus de l'anglais : nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Types de scénario</s1><s2>Les { "92" } types de scénario intégrés sur lesquels kshana::api::run_toml aiguille, chacun avec sa description en une ligne…</s2>
+
+seg-9d5c233c72b4 = <s1>Chaque type de scénario, par famille</s1><s2>Chaque type de scénario que le moteur v{ $version } aiguille ({ "92" }), classé dans { "13" } familles.</s2>
+
+seg-2c002a7b7640 = <s1>Référence des scénarios</s1><s2>Chaque fichier de scénario fourni ({ "192" }), regroupé par type, avec ses principaux réglages.</s2>
+
+seg-f5987c9d9fde = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "401" } lignes — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "401" } lignes de la matrice de vérification.</s2>
+
+seg-980f70b29717 = <s1>Partenaires de données et lignes à promouvoir</s1><s2>{ -brand } étiquette chaque capacité dans un registre vérifié par machine (matrice de vérification).</s2>
+
+seg-7c6a541b3bc8 = <s1>Fil de mission : du lancement à l'entrée</s1><s2>Logiciel à titre consultatif, et non un équipement de navigation certifié.</s2>
+
+seg-7377c479fed0 = <s1>Fil de mission : le segment lunaire</s1><s2>Quatre types de scénario, chacun aussi un type de phase de l'interface de fil de mission (src/mission_thread/) : ils…</s2>
+
+seg-cecb9535c0a1 = <s1>Lunaire et cislunaire</s1><s2>{ "24" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+seg-1dd7c80e18a7 = <s1>Fils de mission</s1><s2>{ "1" } type de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…</s2>
+
+seg-f0e26f01a361 = { "92" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.

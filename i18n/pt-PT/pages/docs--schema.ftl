@@ -459,3 +459,24 @@ seg-6585c8a3643d = ClockRun (cada um de quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (o objeto fom)
+
+# text
+# c1: tier
+# c2: VALIDATED
+# c3: MODELLED
+# c4: PARTNER
+# c5: matrix
+# c6: docs/VERIFICATION-MATRIX.md
+# c7: id_rule
+# c8: rows
+# c9: advanced_report::KIND_CAPABILITIES
+# c10: id
+# c11: VM-
+# c12: requirement
+# c13: status
+# c14: api::run_toml
+# c15: figure_tiers
+# c16: evidence_label::strip_json
+# c17: <metadata id="kshana-evidence">
+# c18: # evidence:
+seg-d17376a1ea92 = ({ "0.40" }) A etiqueta de evidência da execução: <c1/> (<c2/>, <c3/> ou <c4/>: o estado <em>mais fraco</em> entre as linhas, de modo que nunca afirma mais que a sua linha mais fraca), <c5/> (<c6/>), <c7/> e <c8/>, um por linha da matriz de verificação que a execução exercitou (as linhas que o seu relatório avançado lista, a partir de <c9/>): <c10/> (<c11/> e os primeiros { "8" } dígitos hexadecimais do SHA-256 do texto do requisito da linha), <c12/> e <c13/>, todos lidos da matriz, nenhum escrito à mão. Acrescentado por <c14/> ao resultado de todo tipo de cenário, antes do bloco <c15/> final quando há um (esse bloco continua a ser a última chave); <c16/> o remove byte a byte. O SVG do gráfico e a tabela CSV da mesma execução trazem a mesma etiqueta (<c17/> e uma linha visível sob o gráfico; linhas de comentário <c18/> na frente do CSV). Os membros de campanha embutidos no resultado de outro tipo de cenário não trazem nenhuma: o documento externo traz-a. Não contém números.

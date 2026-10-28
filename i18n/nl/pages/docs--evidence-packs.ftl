@@ -187,3 +187,11 @@ seg-9c361736bf27 = Het is een technisch dossier en geen juridisch oordeel en gee
 seg-68bcf43b4e27 = <s1>Vorige</s1>Lijndekking
 
 seg-09c0b5fa6e52 = <s1>Volgende</s1>Optische verbindingen door de atmosfeer
+
+seg-bd3169455cd0 = Het bewijslabel ({ "0.40" })
+
+seg-6fe796d2b15f = Een pakket dat door { "0.40" } of later is gebouwd draagt, binnen <c1/>, een vermelding <c2/> (het niveau, <c3/>, <c4/> of <c5/>, het zwakste van de rijen ervan, en de id's en eisen van de rijen van de verificatiematrix waarop de inhoud van het pakket berust: de rij voor pakketintegriteit, de rijen voor receiver-trust, en voor die pakketten de rijen voor jammertest-scoring of round-trip) en <c6/> <c7/>. Het staat binnen <c8/>, dus de bestandshash van het manifest, de hashketen en de handtekening dekken het: het wijzigen ervan laat de verificatie falen. <c9/> meldt het niveau en de rij-id's.
+
+seg-15b4e784361a = De wijziging is additief en alleen voorwaarts. De <c1/> van het manifest blijft <c2/>: de normatieve tekst hierboven zegt dat een verificatieprogramma die waarde MOET vinden, en het clean-room-verificatieprogramma in <c3/> doet dat. De minorversie wordt daarom gedragen door <c4/> (afwezig bij een pakket van vóór { "0.40" }, wat { "1.0" } betekent), niet door een nieuwe string <c5/>. Een pakket van vóór { "0.40" } heeft geen label en wordt ongewijzigd geverifieerd; <c6/> zegt "no evidence label (pre-0.40 pack)". De tests zijn <c7/> (inclusief de vastgelegde pakketten van vóór 0.40 met een onafhankelijke referentie) en <c8/>.
+
+seg-218641620d3e = <s1>Volgende</s1>Datapartners en bevorderende rijen

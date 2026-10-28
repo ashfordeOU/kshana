@@ -7711,3 +7711,235 @@ dat-1868c76f244c = din egen vært
 
 # studio/data/capabilities.json
 dat-4c20ebade87f = χ²₁ NP-detektor · lukket form og Monte Carlo P_fa/P_md stemmer overens
+
+dat-338478a8723e = { "1" } scenarietype i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-cd5eb1698a87 = { "14" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-60cc193bcc29 = { "2" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-b73627a5b6d7 = { "24" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-fd22a00f9aa5 = { "5" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-ef1e661614eb = { "6" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-9379a089776e = { "7" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-25d6ecf7e78d = { "9" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…
+
+dat-90999a1f6b23 = { "92" } af { "92" } typer, { "3300" } af { "3300" } numeriske felter
+
+dat-e069e927e712 = Et urscenarie, hvor det klassiske ur tager støjen fra en målt log (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Et urscenarie med en målt log ved siden af den simulerede holdover (`[clock_log]`).
+
+dat-6e2cb362b6ee = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, ud fra positionsrapporter fra ADS-B (NIC/NACp) eller AIS: radiosigtlinje på en 4/3-jordradius fra rapporthøjden og et højdeinterval for senderantennen, en begrænset effektiv rækkevidde for den ukendte effekt, hvor berørte enheder trækker posterioren mod deres rækkevidde, og uberørte enheder med sigtlinje skubber imod, grupperet i sessioner i tid og rum. Output er områder med højeste tæthed ved angivne konfidensniveauer, et posterior-tyngdepunkt med en momentellipse, sessionens start, slut, varighed, berørt areal og antal forskellige fly over offentliggørelsesminimum, en døgnprofil og timer pr. dag. Uden terræn; én kilde pr. session; troværdigheden er betinget af modellen. Valgfri fusion med en TDOA-positionsbestemmelse fra geolokalisering.
+
+dat-7c2ec7378a5c = En énaksel-håndberegning af prædiktion og opdatering i testen; Clohessy-Wiltshire-overgangen er den, som cw_dynamics kontrollerer mod en uafhængig numerisk integration. Sensorerne er ILLUSTRATIVE, og intet virkeligt rendezvous sammenlignes
+
+dat-9c42080d805e = Vejledende software, ikke certificeret navigationsudstyr.
+
+dat-3ab21add7c07 = En missionstråd i Artemis-klassen: fejlbudgettet for navigation og tidssynkronisering for én kæde af faser, fra opsendelse
+
+dat-6ba64899cc4a = Valg af sprog
+
+dat-1886310b3396 = Kreditering og rettigheder
+
+dat-3ab0b8db8085 = Afhængigheder og licenser
+
+dat-ce766cce1a7d = At drive holdoveren med dit eget ur: [clock_fit]
+
+dat-6fd0ece9147e = Senderområde (interference-map locate)
+
+dat-fe6d68d3c1f9 = Kovarians ved indflyvningsgrænsefladen, korridorsandsynlighed, maksimal deceleration og landingsfodaftryk (`entry`)
+
+dat-f6759242b1a9 = Fejl og deres koder
+
+dat-0488b2056745 = Hver medfølgende scenariefil ({ "192" }), grupperet efter type, med dens vigtigste indstillinger.
+
+dat-c0206ef96894 = Alle scenarietyper, motoren v{ $version } fordeler over ({ "92" }), ordnet under { "13" } familier.
+
+dat-59385aaf8a98 = Nøjagtig lighed med den eksisterende type for ét sted og monotonikontroller i testene. Relæsættet er ILLUSTRATIVE, og ingen overflademåling sammenlignes
+
+dat-6ed624c1c297 = Fire scenarietyper, hver også en fasetype i grænsefladen mission-thread (src/mission_thread/): de…
+
+dat-ed7ff984ba53 = Referencesystemer og tidsskalaer
+
+dat-36619fa31a07 = Jordnetværkets dækning og sporingsandel for en trådfase (`[ground_network]` i `mission-thread`)
+
+dat-626be4f0752e = Håndberegninger i testene (vinkelsigmaen er den vinkelrette hastighedssigma divideret med farten; Gauss-massen i en korridor). Den plane indflyvning er motorens egen, og Allen-Eggers-formen er en lukket sammenligning; ingen fløjet indflyvning sammenlignes
+
+dat-1d6764bb725d = Håndberegninger i testene (den retlinede vækst i kovariansen, den gennemsnitlige sideriske rotation, den sekulære månetid) og, kun for Månens tilstand, de indlagte udsnit af DE440-kernen mod fastlåste JPL Horizons-værdier (værst { "2.6" } m og { "7e-6" } m/s). Ingen missionsdata sammenlignes med kæden; dens faser er rækker for sig. Dokumentet er en angivet kæde med ILLUSTRATIVE input, kun offentlige kilder og ingen støtte fra nogen rumfartsorganisation
+
+dat-a8beacb2b7c6 = Hvordan et dokument angiver en fase
+
+dat-f4f6c97c58d7 = Hvordan en kørsel fungerer på et andet sprog (reglen om at køre to gange)
+
+dat-18ddc744e88f = Hvordan en indsendelse kontrolleres
+
+dat-b233043f785b = Installér Kshana MCP-serveren (v{ $version })
+
+dat-bc70cb57a31f = Interferenskildeområde: et muligt senderområde ud fra positionsrapporter fra fly og skibe
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
+
+dat-f1881d3fd450 = JPL Horizons-efemerider for LRO og CAPSTONE mod tærskler præregistreret i xval/mission-thread-lunar/PREREGISTRATION.md (Ændringerne { "1" } til { "6" }). LRO: MET, { "33" } m største 3D-forskel og { "2.4" } m RMS radialt mod { "500" } m og { "60" } m. CAPSTONE: NOT MET, en forskel i slutposition på { "136.8" } km mod { "25" } km og en forskel i periapsis på { "28.4" } km mod { "10" } km, årsagerne ikke isoleret. Rækken er modelleret, fordi CAPSTONE-tærsklen ikke nås, og sammenligningen afprøver den delte propagator, ikke noget filter, signal eller budget
+
+dat-203f52ed49d1 = JPL Horizons-mål -1023 (NASAs navigationsbane som fløjet efter TLI), mod tærskler præregistreret i xval/mission-thread/PREREGISTRATION.md (Ændring { "1" } ændrer kun anmodningens spænd). NOT MET og fastslået som misset: { "45.3" } km største positionsforskel mod { "5" } km og { "0.249" } m/s hastighedsforskel ved { "72" } timer mod { "0.05" } m/s. En diagnose skrevet efter afgørelsen placerer missen i fem impulsive hastighedstrin på { "0.09" } til { "0.22" } m/s i referencen (den præregistrerede opfattelse, at vinduet ikke rummede nogen brænding, var forkert); over de øvrige { "67" } timer gengiver modellen den næste timetilstand med en median på { "0.38" } m. Afprøver kun middeltilstanden for én kystbue: ingen kovarians, intet filter, ingen opdatering og ingen anden fase
+
+dat-021bd19116af = Kendte begrænsninger
+
+dat-61ab3ea0293c = Kshana mærker hver funktion i et maskinkontrolleret register (verifikationsmatrix).
+
+dat-0002d522fae4 = Budget for landingsspredning ved et polart sted på Månen (`lunar-descent`)
+
+dat-141c646761d9 = Opsendelse og opstigning til en parkeringsbane med GNSS-erhvervelse og fading (`launch-ascent`)
+
+dat-252a4ca5d8cd = Liouvilles sætning (determinanten af tilstandsovergangsmatricen for den konservative del er en) og en finere differens i testene; middeltilstanden sammenlignes med en offentlig bane i rækken nedenfor, som den ikke rammer. Brændingsfejlen, opdateringerne og kovariansen sammenlignes ikke med noget
+
+dat-1b090eb926b7 = Lokalisering af motoren
+
+dat-5482eb8e992e = Månestart: den drevne opstigning fra et sted på overfladen ved sydpolen (Artemis-klassen) til rendezvous i { "100" } km
+
+dat-b5499ac7fa90 = Spredning ved månelanding med den virkelige LOLA-DEM for sydpolen: budgettet for en drevet nedstigning til et sted ved sydpolen (Artemis-klassen), fra…
+
+dat-c064ed689649 = Spredning ved månelanding: budgettet for en drevet nedstigning til et sted ved sydpolen (Artemis-klassen), fra
+
+dat-e576d5088076 = Rendezvous ved Månen i en elliptisk polar bane: relativ navigation til en docking i stil med Orion og landingsfartøj i en
+
+dat-7459ee1f4efa = Rendezvous ved Månen: relativ navigation til en docking i stil med Orion og landingsfartøj i en cirkulær polar bane på { "100" } km
+
+dat-25f2f7c5048f = Tilgængelighed af PNT og tidssynkronisering på månens overflade efter sted og årstid (steder ved sydpolen i Artemis-klassen).
+
+dat-fdedddcf211b = Tilgængelighed af PNT og tidssynkronisering på månens overflade efter sted og årstid med det virkelige LOLA-terræn ved sydpolen
+
+dat-f250522ecad3 = lunar-ascent (scenarietype)
+
+dat-afded8513758 = lunar-descent (scenarietype)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (scenarietype)
+
+dat-4ea2873d47bd = lunar-surface (scenarietype)
+
+dat-d2b23c8c0cb8 = Missionstråde
+
+dat-42ff804cc994 = Missionstråde (familie af scenarietyper)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+dat-5b23ee4808db = mission-thread (scenarietype)
+
+dat-f6f0757c4934 = MODELLED budget for landingsspredning ved en drevet nedstigning til et sted ved sydpolen (Artemis-klassen).
+
+dat-64ba276bb1f8 = MODELLED budget for landingsspredning ved en drevet nedstigning til et sted ved sydpolen (Artemis-klassen). Pr.…
+
+dat-84797c24853b = MODELLED fejlbudget for navigation og tidssynkronisering for en angivet kæde af missionsfaser, fra opsendelse til indflyvning…
+
+dat-eee427a562f9 = MODELLED drevet opstigning fra et sted på overfladen ved sydpolen til rendezvous-banen og position-hastigheds…
+
+dat-a5d5120ad3dd = MODELLED relativ navigation til en docking i stil med Orion og landingsfartøj i en lav månebane eller en elliptisk polar…
+
+dat-6cb24469351b = MODELLED tilgængelighed af positionering og tidssynkronisering på overfladen efter sted og årstid for steder ved sydpolen i Artemis-klassen.
+
+dat-61218243092c = MODELLED tilgængelighed af positionering og tidssynkronisering på overfladen efter sted og årstid for steder ved sydpolen i Artemis-klassen.…
+
+dat-dd872eabd06d = Fejlbudget for navigation og tidssynkronisering for en kæde af missionsfaser fra opsendelse til indflyvning (`mission-thread`)
+
+dat-7557b6b1b3a2 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS NOT ASSESSABLE (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
+
+dat-c61600fc3590 = På målte data
+
+dat-edfd6919d948 = Partnerdata: hvad målte data kunne opgradere en MODELLED-række til
+
+dat-5bd5efbe5a8c = Drevet opstigning fra et polart sted på Månen til en indsætningsbane (`lunar-ascent`)
+
+dat-5c095f4884b4 = Relativ navigation til docking i en månebane (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Relativ navigation til dockingomhyllingen i lav jordbane over sensorstrækninger (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Rækker, en partners data kunne opgradere
+
+dat-c069be5250fc = Selvkonsistens under en præregistrering (xval/mission-thread-lunar/PREREGISTRATION.md, resultater og estimatorens historik i RESULTS.md): den gennemsnitlige NEES for den relative tilstand er { "5.85" } til { "5.93" } mod båndet { "5.2" } til { "6.8" } i fire konfigurationer, MET på det fjerde estimatordesign, efter at tre sekventielle filterdesign missede; referencen og estimatoren deler én kraftmodel, så dette siger intet om modelfejl. Den propagator, den deler, sammenlignes med LRO og CAPSTONE i en række nedenfor
+
+dat-bb8b8191a0f6 = Tilgængelighed af positionering og tidssynkronisering på overfladen efter sted og årstid ved månepolerne (`lunar-surface`)
+
+dat-11e9ad0e8321 = Fasen `entry`: returkysten for `tli-and-cruise` uden brænding, der ender ved indflyvningsgrænsefladen; flyvebaneafvigelsen og dens sigma fra den fulde kovarians ved en gradient med endelig differens; sandsynligheden for, at vinklen ligger inden for en angivet korridor; den maksimale deceleration ved den nominelle vinkel og ved begge korridorkanter fra motorens plane ballistiske punktmasse-indflyvning (skip-out registreret) ved siden af den lukkede Allen-Eggers-form; landingsfodaftrykket fra en angivet følsomhed i nedrækkevidde og grænsefladekovariansen på tværs af banens plan. Hverken løft, styring eller opvarmning modelleres
+
+dat-5fedd1cdf670 = Fasen `launch-ascent`: en position- og hastighedskovarians med konstant hastighed og hvid accelerationsstøj (dødregningsklassen), en GNSS-positionsbestemmelse med angivet nøjagtighed anvendt efter erhvervelsestiden og uden for angivne fadings, et ur med bias og drift, der disciplineres af de samme positionsbestemmelser, og tilstanden ved indsætning i parkeringsbanen
+
+dat-4feb3a9f775b = Fasen `leo-rendezvous`: den relative tilstand i målets LVLH-akser med den lukkede Clohessy-Wiltshire-overgang, en 6x6 Kalman-kovarians med hvid accelerationsstøj og positionsopdateringer, hvis varians er sensorens ved den aktuelle afstand, over strækninger af en angiven sensor (ILLUSTRATIVE optisk kamera, lidar og radioafstandsmåling); dockingvinduet er tiden fra det tidspunkt, hvor den relative sigma holder sig inden for indfangningsomhyllingen, til fasens slutning. Jagerens absolutte kovarians gives videre uændret, og en række siger det
+
+dat-238413a36808 = Typen og fasen `lunar-ascent`: den inertielle fejlmodel med fem tilstande pr. akse kørt over en drevet opstigning med specifik kraft langs banen, støttet af AFS-positionsbestemmelser og månetid, som rapporterer den position- og hastighedskovarians ved indsætning, der føres til banen, og spredningen ved motorafbrydelse (rapporteret, ikke ført videre)
+
+dat-9fe860d16f1f = Typen og fasen `lunar-descent`: en inertiel fejlmodel med fem tilstande pr. akse (position, hastighed, accelerometerbias, hældning, gyrobias) over en drevet nedstigning, støttet af AFS-positionsbestemmelser (selvstændige eller differentielle, med det urstøttede tilfælde med tre relæer), en terrænrelativ positionsbestemmelse (motorens terrain-nav-matcher på syntetisk relief eller en Cramer-Rao-grænse på en LOLA-DEM med en apertur-problem-regel) og månetid, med en Monte Carlo-ellipse for berøringspunktet
+
+dat-ba0cc6e0ae77 = Typen og fasen `lunar-orbit-rendezvous`: et fælles batch-Gauss-Newton-estimat for to køretøjer over buen (enogtyve parametre: begge tilstande og vedvarende positionsbiaser i signal i rummet, fælles og uafhængige), opbygget over en fjerdedel, en halvdel og hele buen med trinhalvering, ud fra en absolut positionsbestemmelse pr. køretøj (grænse for AFS-pilotkodesporing, ILLUSTRATIVE relæsæt) og en krydslinkafstand, under cratens månekraftmodel; den gennemsnitlige normaliserede estimeringsfejl i anden, Clohessy-Wiltshire-kontrollen på en cirkulær bane og den 6x6-kovarians, der gives videre
+
+dat-955283daf32d = Typen og fasen `lunar-surface`: relætilgængelighed og PDOP, sigtbarhed af Jorden og Solen og et disciplineret overfladeur for hvert sted og hver årstid, med terrænhorisonten fra `moonlight-service-volume`; en kørsel for ét sted er lig med den types tilgængelighed og PDOP til sidste bit
+
+dat-571779bc241a = Typen `mission-thread`: et dokument af faser, hver en af otte registrerede typer, kørt i rækkefølge, hvor 6x6-kovariansen, uret og referencesystemet gives videre efter en angiven regel (`carry`; `inflate`, hvid accelerationsstøj over et angivet hul på en retlinet model; `reacquire`, dødregning og derefter kildens gulv, aldrig under det, aldrig en nulstilling); konverteringer af referencesystem GCRF, MCI og MCMF og af tidsskala via TT, hver sin budgetrække, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve; marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. Hvert tal er et angivet input eller en model af et
+
+dat-36aa30c0c245 = Fasen `tli-and-cruise`: middeltilstanden fra motorens Cowell-propagator (Jorden som punktmasse og J2, Solen og Månen som tredjelegemer, Månen fra trådens DE440-kerne, hvor den dækker segmentet, og Solen fra den analytiske serie); kovariansen ved en fremadrettet differens-tilstandsovergangsmatrix af denne propagering (den nominelle kørsel og seks forstyrrede kørsler pr. segment) med hvid accelerationsstøj; TLI-brændingens størrelse og retningsfejl; `gnss-ssv`-positionsbestemmelser, hvis tilgængelighed og PDOP kommer fra gennemløbet af rumservicevolumen langs en oskulerende bane, der står i for buen; afstands- og afstandshastighedssporing langs den geocentriske retning skaleret med jordnetværkets driftsandel, med opdatering på Joseph-form
+
+dat-826b5ff3a004 = De { "92" } indbyggede scenarietyper, som kshana::api::run_toml fordeler over, hver med sin ene linje…
+
+dat-4ad8b288fa02 = Funktionskortene og alle { "401" } rækker i verifikationsmatricen.
+
+dat-85ad15fcf6cb = Propageringen af den cislunare middeltilstand mod den offentlige bane for Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = Den lukkede inertielle drift og monotonikontroller i testene. Ingen fløjet opstigning sammenlignes
+
+dat-1b1e2bdeb2a2 = Den lukkede inertielle drift, de genbrugte typers egne resultater og kalibreringen af 3-sigma-ellipsen (andelen inden for stemmer overens med forventningen) i testene. Ingen fløjet eller afprøvet landing sammenlignes
+
+dat-bc68a493fe5d = Det komplette, maskinkontrollerede evidensregister: { "401" } rækker — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Dokumentet
+
+dat-b07afbb33f4b = De otte fasetyper
+
+dat-ddc15e493a03 = Motorens tekst til mennesker findes på { "17" } sprog ved siden af engelsk: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Evidensetiketten ({ "0.40" })
+
+dat-ac0745dcf97a = Evidensetiketten på hvert tal
+
+dat-21d73819d31c = Evidensetiketten og de output, der ikke bærer nogen
+
+dat-88641ee424ff = Overlayet af jordnetværk
+
+dat-5c091b15d738 = Jordnetværkets overlay: stationer med en mindste elevation, køretøjets sigtbarhed på en angivet geometri (indflyvningstilstanden fløjet to-legemer med J2, Månens position for krydstoget eller en angivet andel), stationsoverdragelser, der hver taber en angivet tid, og den resulterende andel, der gives videre til fasens opdateringsrate for jordsporing; det længste interval uden station i sigte er en budgetrække
+
+dat-576667f29670 = Propageringen med månekraftmodellen mod offentlige rekonstruerede baner for månesatellitter og cislunare baner
+
+dat-5025f9f26401 = Månesegmentet i missionstråden i Artemis-klassen
+
+dat-2d1fe075cab5 = Propageringen af middeltilstanden i fasen `tli-and-cruise` (Cowell, Jorden som punktmasse og J2, Solen og Månen som tredjelegemer, Månen fra et DE440-udsnit) sammenlignet med den offentlige JPL Horizons-bane for Artemis I over en kystbue på { "72" } timer fra 2022-11-16 { "18" }:{ "00" } TDB, ved epoker hver { "12" }. time, under tærskler fastsat i en indlagt fil før kørslen
+
+dat-510e796c2898 = Missionstråden
+
+dat-cba533186d05 = Den propagator, månetyperne deler (GRAIL GL0660B grad og orden { "150" }, Jorden og Solen som tredjelegemer, relativitet, DE440-månorientering), sammenlignet med de offentlige JPL Horizons-baner for LRO ({ "24" } timer, prøver hvert { "10" }. minut) og CAPSTONE (ét omløb på { "6.5" } dage, prøver hver time), under tærskler fastsat i en indlagt fil før kørslen
+
+dat-16451dd503da = Riccati-ligevægtstilstanden og håndberegningen af prædiktionen i testene. Intet her modellerer en løfteraket eller en modtager; hvert tal er et angivet input
+
+dat-09d31ea90146 = Trans-lunar injektion og cislunart krydstogt: propageret middeltilstand og kovarians med sporingsopdateringer (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Hvad en overdragelse gør
+
+dat-3727a96cc814 = Hvad hver fase gør
+
+dat-703c52a91b91 = Hvad der lokaliseres, og hvad der aldrig gør
+
+dat-93572ee1f44a = Hvad evidensen er
+
+dat-8796a5569e10 = Hvad etiketterne betyder
+
+dat-bceb988a4263 = Hvad der skal sendes
+
+dat-82201a0b07b0 = Nyt i { "0.40" }
+
+dat-b3d9ac894036 = Dit eget ur
+
+dat-286487acb3db = Kontroller af zenit- og antipodegeometri og den forventede sigtbarhed af et fjernt mål i testene. Intet virkeligt netværk, ingen antenne og ingen tidsplan modelleres

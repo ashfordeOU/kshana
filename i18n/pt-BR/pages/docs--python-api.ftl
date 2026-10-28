@@ -501,3 +501,5 @@ seg-4a457afc63fb = <s1>Próximo</s1>npm e WebAssembly
 
 # text
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = regiões estimadas de emissores a partir de texto CSV de ADS-B ou AIS: <c1/>, cada uma rotulada MODELLED; regiões com confiança declarada com um centroide e uma elipse de incerteza, nunca um ponto isolado; apenas agregados, e uma região não é a posição de ninguém nem uma constatação da causa

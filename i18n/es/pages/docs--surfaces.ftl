@@ -1109,3 +1109,79 @@ seg-4e3bbacda9ac = <s1>Anterior</s1>Uso de Kshana desde un agente
 
 # text
 seg-c5fbfab85e01 = <s1>Siguiente</s1>Plugin de JetBrains
+
+seg-6555ff9a6d8e = Salida
+
+seg-12471a4b2b57 = Región del emisor (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (aún no incluido; las superficies de Rust, Python y WASM lo cubren)
+
+seg-dff1bfe0263e = <b>N/A</b> (la publicación de regiones de emisores en el observatorio público es una decisión aparte del propietario y está desactivada)
+
+seg-ec2d91e2f867 = Comprobación de envíos de socios de datos (formato y metadatos de un envío de datos medidos, <c1/>; no puntúa nada)
+
+seg-c16a5ff8218b = <b>N/A</b> (la comprobación lee archivos locales y su SHA-256; la API de Rust es la superficie de biblioteca y la CLI es la herramienta)
+
+seg-ed29039d1dc0 = <b>N/A</b> (no hay sistema de archivos en la compilación para navegador)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP rechaza por diseño las fuentes de archivo (solo texto en línea))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (los comandos de barra llaman a herramientas MCP, y esta comprobación necesita archivos en disco)
+
+seg-be971c31e0de = <b>N/A</b> (las acciones de JetBrains están ligadas a un archivo seleccionado; un envío es una carpeta)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio no tiene acceso al sistema de archivos; ejecute el comando)
+
+seg-521b58a1080e = Presupuesto de errores de navegación y temporización de una cadena de fases de misión desde el lanzamiento hasta la entrada: ocho tipos de fase, reglas de traspaso, conversiones de marco y de escala de tiempo, una superposición de la red terrestre, el margen frente a los requisitos indicados y el eslabón más débil (tipo de escenario <c1/>; <c2/>; MODELLED, entradas ILLUSTRATIVE, de carácter consultivo; solo fuentes públicas, sin respaldo)
+
+seg-6b451021b87a = <c1/> (desde una copia del repositorio: lee un recorte confirmado del kernel de la Luna)
+
+seg-ac3e013b5217 = <c1/> (<c2/> es una clave de archivo y se rechaza; sin un kernel la Luna es la serie analítica y la fila de conversión lo indica)
+
+seg-e957474f44a8 = <c1/> (solo en línea; la clave del kernel se rechaza)
+
+seg-1c1729fafe99 = <b>N/A</b> (no hay cuaderno; el ejemplo se ejecuta en cualquier cuaderno mediante <c1/> desde una copia del repositorio)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (aún no incluido)
+
+seg-ab52a3469f6a = Regiones estimadas del emisor, MODELLED; los directorios de trazas y <c1/> son solo de línea de comandos
+
+seg-5f1ce275acbd = Lee un archivo de envío y su archivo de datos en disco y verifica el SHA-256; ninguna de esas superficies tiene la carpeta. Solo formato y metadatos, nada puntuado; véase <c1/>
+
+seg-fc9ab9f71553 = La etiqueta de evidencia y las salidas que no llevan ninguna
+
+seg-b1e4bcc2ac09 = Cada figura y tabla que escribe una ejecución lleva su nivel de evidencia (<c1/>, <c2/> o <c3/>, el más débil de las filas del registro que la respaldan) y los identificadores de esas filas, en cada superficie que ejecuta un escenario: el JSON de resultados (clave <c4/>), el SVG del gráfico (elemento de metadatos y una línea bajo el trazado) y la tabla CSV (líneas de comentario <c5/>). La misma etiqueta está en las salidas de receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, el informe de ruta del mapa de interferencias, y dentro del <c11/> de cada paquete de evidencias (firmado; <c12/> lo informa). Los identificadores de fila son estables (<c13/> y ocho dígitos hexadecimales, la columna <c14/> de <c15/>).
+
+seg-c66058f24f0e = Estas salidas no llevan etiqueta, cada una por un motivo indicado (la lista es <c1/> en <c2/>, que falla con un escritor que ni está etiquetado ni figura en la lista):
+
+seg-04ca90423b80 = Por qué no lleva etiqueta
+
+seg-a90c022c4dea = archivos de resultados de kshana-bench
+
+seg-9f3f0adbcfe6 = un esquema fijo fijado por los compromisos de datos reservados; cada uno lleva su propio <c1/> (MODELLED o medido)
+
+seg-9bb126104f12 = productos diarios del observatorio de interferencias (GeoJSON, PNG, JSON de incidentes)
+
+seg-ddbc60cb14ac = un esquema publicado y congelado; las salvedades de la nota del método los acompañan
+
+seg-874cb55d3457 = archivos de celda, de tabla de puntuación y de informe de la campaña de iq
+
+seg-8c8cb4bd5110 = fijados por resumen criptográfico; cada uno indica la tabla de puntuación de la campaña que reexpone
+
+seg-8d2645e93451 = muestras IQ, metadatos de SigMF y SDR, referencia de escena, flujos de épocas y de eventos de seguimiento, registros de sesiones en vivo
+
+seg-9fa872028a08 = archivos ligados a un formato y flujos de registros que leen otras herramientas
+
+seg-6c77071a0d03 = exportaciones SP3, OMM, OEM, CZML, KML, GeoJSON, STK, de movimiento de test bench y NMEA; el flujo de formación NMEA
+
+seg-5c1b92afa402 = archivos ligados a un formato que leen herramientas de terceros
+
+seg-b5c79a0e395c = formatos de transmisión de telemetría (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = definidos por sus formatos de transmisión
+
+seg-3ba06004fc14 = documentos generados (el propio registro, el estudio confirmado y las tablas de datos)
+
+seg-8be4943acd00 = no son la salida de una ejecución

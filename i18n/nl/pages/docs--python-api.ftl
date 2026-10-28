@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>Vorige</s1>Koude-atoominterferometer
 seg-4a457afc63fb = <s1>Volgende</s1>npm en WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = geschatte zendergebieden uit ADS-B- of AIS-CSV-tekst: <c1/>, elk gelabeld als MODELLED; gebieden bij een vermeld betrouwbaarheidsniveau met een zwaartepunt en een onzekerheidsellips, nooit een kaal punt; alleen geaggregeerd, en een gebied is niet de positie van wie dan ook en geen vaststelling van de oorzaak

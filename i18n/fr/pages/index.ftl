@@ -1124,3 +1124,25 @@ seg-f4d3b1f5b1b4 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · 
 seg-3287261002dd = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
 
 seg-510663384be1 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+
+seg-070972f642de = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation du lancement à l'entrée
+
+seg-4970f874d334 = Le segment lunaire : rendez-vous, descente, surface et ascension
+
+seg-8ca6e2046901 = Une région d'émetteur estimée à partir de rapports ADS-B ou AIS
+
+seg-003a3b9b63ea = Journaux d'horloge mesurés, et holdover piloté par une série ajustée
+
+seg-448b11c86f48 = Partenaires de données : les lignes que des données mesurées pourraient promouvoir
+
+seg-5858e5d1f7c5 = Une étiquette de preuve sur chaque figure et chaque tableau qu'une exécution écrit
+
+seg-bd28ef5c376e = Dix-sept langues en plus de l'anglais
+
+seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
+
+seg-b9961ed25282 = Nouveau dans la v{ $version } : un fil de mission, une étiquette de preuve sur chaque figure et dix-sept langues
+
+seg-653cf3198094 = { "176" } capacités sur { "401" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
+
+seg-76b213d03caa = Les { "92" } types de scénario, gratuits et sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.

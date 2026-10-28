@@ -12,7 +12,7 @@ seg-33555d61ddc6 = Fonte: <c1/>
 seg-618393657d01 = <c1/> (tipo de cenário)
 
 # text
-seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-78cba87823f7 = Holdover do relógio face à especificação; conjunto Monte Carlo opcional (execuções > { "1" }).
@@ -96,3 +96,16 @@ seg-e06f9a5a0291 = <s1>Anterior</s1>cislunar-observability
 
 # text
 seg-aba9395185fa = <s1>Seguinte</s1>combined-altpnt
+
+# text
+# c1: scenarios/
+seg-d1beb62cf742 = { "6" } cenários incluídos usam este tipo; os demais estão em <a1><c1/></a1>.
+
+# text
+# c1: mission-thread
+# c2: carry
+# c3: inflate
+seg-936e96edf423 = <b>MODELLED</b> O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado Testes: <a1>field_units_global.rs</a1>.
+
+# text
+seg-3319b18ac61f = e mais { "1" } na matriz.

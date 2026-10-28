@@ -114,3 +114,5 @@ seg-4e2b759aff17 = Das Diagramm, das die Engine für scenarios/optical-atmospher
 
 # attr:alt
 seg-5cea5229815e = Das Diagramm, das die Engine für scenarios/hybrid-optical-rf.toml schreibt, Szenarioart hybrid-optical-rf
+
+seg-22449071fb11 = <s1>Zurück</s1>Missionsstränge

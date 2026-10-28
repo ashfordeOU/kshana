@@ -2269,3 +2269,101 @@ seg-48460c0538b9 = Resilient PNT Conformance Framework, mappat via klausulnummer
 seg-e51289a1e835 = EASA:s vägledning om GNSS-störning (luftfart)
 
 seg-4fa26d67951e = EASA:s vägledning för luftfart, mappad via klausulnummer
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Välj en av { "193" } scenariofiler fördelade på { "92" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
+
+seg-d5c6110302e9 = Ett uppdragsflöde i Artemis-klass, en evidensetikett på varje siffra och sjutton språk.
+
+seg-8597c65432ed = Koppla ihop faserna i ett månuppdrag till en gemensam felbudget för navigering och tidssynkronisering, uppskatta var en källa till försämrade positionsrapporter kan finnas, läs in uppmätta klockloggar, se evidensnivån på varje siffra som en körning skriver, och använd kommandoraden, rapporterna och Studio på sjutton språk. Varje förmåga bär den etikett som registret har för den, och en etikett anger bara det som har kontrollerats. Rådgivande programvara, inte typgodkänd navigationsutrustning: operatören är fortsatt ansvarig.
+
+seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
+
+seg-982a4a7cf0db = Typen mission-thread kopplar ihop faser (uppskjutning och stigning, rendezvous i låg omloppsbana runt jorden, trans-lunar injektion och färd, månfaserna, återinträde) och för över kovariansen för position och hastighet från varje fas till nästa, med överlämningsreglerna, omvandlingarna av referenssystem och tidsskalor, marginalen mot angivna krav och den svagaste länken, alla skrivna som budgetrader.
+
+seg-17c9cc6c2d40 = Kontrollerat: jämförelsen med Artemis I nådde inte sin tröskel ({ "45.3" } km mot { "5" } km); raden förblir MODELLED
+
+seg-946487626f87 = Vyn för uppdragsflödet i Kshana Studio
+
+seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
+
+seg-b6c35bf141e7 = Fyra scenariotyper, var och en också en fas i uppdragsflödet: relativ navigering till dockning i månbana, budgeten för landningsspridning vid en plats nära sydpolen, tillgänglighet för positionering och tidssynkronisering per plats och årstid, samt stigningen tillbaka till rendezvousbanan.
+
+seg-ce097df855a9 = Kontrollerat: trösklar fastställda i förväg; en nådd, en inte nådd, ingen uppluckrad
+
+seg-8ca6e2046901 = Ett uppskattat område för sändaren utifrån ADS-B- eller AIS-rapporter
+
+seg-ca6383e426f9 = Var en källa till försämrade positionsrapporter kan finnas, som områden på { "50" }, { "90" } och { "95" } procent med en tyngdpunkt och dess osäkerhetsellips, aldrig en enskild punkt, samt sessioner i tid.
+
+seg-27af464d0674 = Kontrollerat: fastställd i förväg; båda källorna kunde inte bedömas, så ingenting hävdas
+
+seg-003a3b9b63ea = Uppmätta klockloggar och en holdover som styrs av en anpassad serie
+
+seg-f51fa2a40db8 = Läs en uppmätt klocklogg i åtta format (RINEX clock, TimeLab, TICC, linuxptp, chrony) till en fasserie för typerna clock och telecom-timing, och anpassa bruset i en uppmätt serie för att styra en holdover.
+
+seg-6e9140563c53 = Kontrollerat: trösklar fastställda i förväg; missar redovisade och fastlåsta
+
+seg-448b11c86f48 = Datapartner: vilka rader uppmätta data kan lyfta
+
+seg-56b0201d930c = Vilka modellerade registerrader uppmätta data från en partner kan lyfta, vilka format som accepteras, och hur ett bidrag kontrolleras, poängsätts mot en tröskel som fastställts i förväg och tillgodoräknas.
+
+seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning skriver
+
+seg-d1c4250b2a7e = Varje resultatfil, diagram och tabell som en körning skriver anger nu vilken nivå den vilar på (validerad, modellerad eller partner, den svagaste av dess rader) och namnger de rader i verifieringsmatrisen som ligger bakom den, avlästa från matrisen och inte inskrivna.
+
+seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
+
+seg-1e4a6a5931d3 = Kommandoraden, rapporterna, dokumentationssidorna och Studio finns på sjutton språk vid sidan av engelska.
+
+seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }
+
+seg-1e0afa852323 = Fyra jämförelser som fastställts i förväg kördes en gång efter godkännandet och nådde sina trösklar, och varje poäng är modellerad.
+
+seg-ed10ac59ed87 = Alla { "193" } scenariofiler fördelade på { "92" } typer, grupperade efter område; { "180" } är inbyggda i motorn, och <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> körs från arkivet med kommandoraden. Pricken visar registerstatusen för typens modul där registret nämner den. En fil med en registrerad körning öppnar den i Kshana Studio; de andra öppnar sin post i scenarioreferensen, med filen och kommandot som kör den.
+
+seg-c381cfa99bb0 = Ett klockscenario där den klassiska klockan tar bruset från en uppmätt logg (`[clock_fit]`).
+
+seg-328cd04eef87 = Ett klockscenario med en uppmätt logg vid sidan av den simulerade holdovern (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering för en kedja av faser, från uppskjutning
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Månstigning: den drivna stigningen från en plats vid sydpolen (Artemis-klass) till rendezvous på { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Spridning vid månlandning: budgeten för en driven nedstigning till en plats nära sydpolen (Artemis-klass), från
+
+seg-bd7c53737f55 = Spridning vid månlandning med den verkliga LOLA-DEM:en för sydpolen: budgeten för en driven nedstigning till en plats nära sydpolen (Artemis-klass), från…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Rendezvous vid månen: relativ navigering för en dockning i Orion-landarstil i en cirkulär polär bana på { "100" } km
+
+seg-6ce976854c44 = Rendezvous vid månen i en elliptisk polär bana: relativ navigering för en dockning i Orion-landarstil i en
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = PNT och tidssynkronisering på månytan: tillgänglighet per plats och årstid (platser nära sydpolen i Artemis-klass).
+
+seg-0ecc50eafdbe = PNT och tidssynkronisering på månytan: tillgänglighet per plats och årstid med den verkliga LOLA-terrängen vid sydpolen
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriska fält

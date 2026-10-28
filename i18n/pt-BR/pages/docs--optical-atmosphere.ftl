@@ -173,3 +173,5 @@ seg-83b30e1ca261 = <s1>Anterior</s1>Pacotes de evidências
 
 # text
 seg-1474b58fb35a = <s1>Próximo</s1>Temporização de slot
+
+seg-50f25bceca3c = <s1>Anterior</s1>Parceiros de dados e linhas promovidas

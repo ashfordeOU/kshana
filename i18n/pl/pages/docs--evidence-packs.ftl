@@ -187,3 +187,11 @@ seg-9c361736bf27 = Jest zapisem technicznym, a nie opinią prawną ani certyfika
 seg-68bcf43b4e27 = <s1>Poprzednia</s1>Pokrycie linii
 
 seg-09c0b5fa6e52 = <s1>Następna</s1>Łącza optyczne przez atmosferę
+
+seg-bd3169455cd0 = Etykieta dowodowa ({ "0.40" })
+
+seg-6fe796d2b15f = Pakiet wykonany przez { "0.40" } lub nowszą wersję niesie, wewnątrz <c1/>, wpis <c2/> (poziom, <c3/>, <c4/> lub <c5/>, czyli najsłabszy status wśród jego wierszy, oraz identyfikatory i wymagania wierszy macierzy weryfikacji, na których opiera się zawartość pakietu: wiersz integralności pakietu, wiersze receiver-trust oraz wiersze jammertest-scoring lub pełnej pętli dla tych pakietów) i <c6/> <c7/>. Jest wewnątrz <c8/>, więc skrót pliku manifestu, łańcuch skrótów i podpis go obejmują: jego zmiana powoduje niepowodzenie weryfikacji. <c9/> podaje poziom i identyfikatory wierszy.
+
+seg-15b4e784361a = Zmiana jest addytywna i tylko w przód. <c1/> manifestu pozostaje <c2/>: normatywny tekst powyżej mówi, że weryfikator MUSI znaleźć tę wartość, i weryfikator czystego pomieszczenia w <c3/> ją znajduje. Wersja podrzędna jest więc niesiona przez <c4/> (nieobecne w pakiecie wykonanym przed { "0.40" }, co oznacza { "1.0" }), a nie przez nowy ciąg <c5/>. Pakiet wykonany przed { "0.40" } nie ma etykiety i weryfikuje się bez zmian; <c6/> mówi „no evidence label (pre-0.40 pack)”. Testy to <c7/> (w tym zatwierdzone pakiety wzorcowe sprzed 0.40) i <c8/>.
+
+seg-218641620d3e = <s1>Dalej</s1>Partnerzy danych i awansowane wiersze

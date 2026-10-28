@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = Onderwerppagina: <a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>Vorige</s1>gnss-sim
 
 seg-9df48482a140 = <s1>Volgende</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> De fase <c1/>: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit de DE440-kernel van de keten waar die het segment dekt en de zon uit de analytische serie
+
+seg-6a26b9ab59fe = Onderwerppagina: <a1>MISSION-THREAD.md</a1>

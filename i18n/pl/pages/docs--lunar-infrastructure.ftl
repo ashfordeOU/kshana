@@ -55,3 +55,5 @@ seg-6334f82991d3 = Niespełnione i przypięte testami, które potwierdzają chyb
 seg-1d3bffc2fd02 = <s1>Poprzednia</s1>Nawigacja użytkowników kosmicznych (gnss-ssv)
 
 seg-90932eed0074 = <s1>Następna</s1>Pozycjonowanie, nawigacja i czas na LEO
+
+seg-c3b27dfb7bca = <s1>Następna</s1>Wątek misji: od startu do wejścia w atmosferę

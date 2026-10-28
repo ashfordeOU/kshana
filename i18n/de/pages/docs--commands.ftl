@@ -145,3 +145,7 @@ seg-74240229d57b = <s1>Zurück</s1>Jeder Szenariotyp, nach Familie
 
 # text
 seg-b3cc5b769c99 = <s1>Weiter</s1>Jede Oberfläche
+
+seg-09dab71efd9d = prüft Format und Metadaten einer Einreichung eines Datenpartners und liest ihre Datendatei mit den Readern der Engine; bewertet nichts
+
+seg-57686575b81d = Partnerdaten

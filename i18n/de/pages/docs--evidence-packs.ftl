@@ -477,3 +477,11 @@ seg-09c0b5fa6e52 = <s1>Weiter</s1>Optische Strecken durch die Atmosphäre
 
 # text
 seg-245fe1f87b08 = Datei
+
+seg-bd3169455cd0 = Die Nachweiskennzeichnung ({ "0.40" })
+
+seg-6fe796d2b15f = Ein mit { "0.40" } oder später erstelltes Paket trägt in <c1/> einen Eintrag <c2/> (die Stufe, <c3/>, <c4/> oder <c5/>, die der schwächste Status unter seinen Zeilen ist, sowie die Kennungen und Anforderungen der Zeilen der Verifikationsmatrix, auf denen der Inhalt des Pakets beruht: die Zeile zur Paketintegrität, die Zeilen zu receiver-trust und für diese Pakete die Zeilen zur Jammertest-Bewertung oder zum Rundlauf) und <c6/> <c7/>. Er liegt innerhalb von <c8/>, sodass der Datei-Hash des Manifests, die Hash-Kette und die Signatur ihn abdecken: Eine Änderung lässt die Verifikation fehlschlagen. <c9/> meldet die Stufe und die Zeilenkennungen.
+
+seg-15b4e784361a = Die Änderung ist additiv und nur vorwärtsgerichtet. Das <c1/> des Manifests bleibt <c2/>: Der normative Text oben sagt, dass ein Verifizierer diesen Wert finden MUSS, und der Clean-Room-Verifizierer in <c3/> tut das. Die Nebenversion wird daher von <c4/> getragen (bei einem vor { "0.40" } erstellten Paket abwesend, was { "1.0" } bedeutet), nicht von einer neuen Zeichenfolge <c5/>. Ein vor { "0.40" } erstelltes Paket hat keine Kennzeichnung und wird unverändert verifiziert; <c6/> sagt „no evidence label (pre-0.40 pack)“. Die Tests sind <c7/> (einschließlich der eingecheckten Orakelpakete vor 0.40) und <c8/>.
+
+seg-218641620d3e = <s1>Weiter</s1>Datenpartner und befördernde Zeilen

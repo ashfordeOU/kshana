@@ -89,3 +89,5 @@ seg-309c70f2f4f8 = ITU-R P.840 (statistik for skyers flydende vand), P.1814 og P
 seg-83b30e1ca261 = <s1>Forrige</s1>Bevispakker
 
 seg-1474b58fb35a = <s1>Næste</s1>Slottidssynkronisering
+
+seg-50f25bceca3c = <s1>Forrige</s1>Datapartnere og rækker, der kan opgraderes

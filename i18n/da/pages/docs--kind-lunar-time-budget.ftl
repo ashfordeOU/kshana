@@ -47,3 +47,5 @@ seg-5eaed32490ca = Reproducerbarhed af det lunare tidsfejlbudget er MODELLED, ik
 seg-988e99fc26be = <s1>Forrige</s1>lunar-station-coverage
 
 seg-a0992d394960 = <s1>Næste</s1>lunar-time-offset
+
+seg-b851d30fe736 = <s1>Forrige</s1>lunar-surface

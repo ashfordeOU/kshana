@@ -61,3 +61,5 @@ seg-4b59ac409819 = Avvägning kvant mot klassisk för PNT & GNSS-nekad resiliens
 seg-e6498fae3ba7 = <s1>Föregående</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Nästa</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

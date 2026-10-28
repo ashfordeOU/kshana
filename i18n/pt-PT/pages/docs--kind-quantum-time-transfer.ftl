@@ -7,7 +7,7 @@ seg-f42465f7d066 = ns
 seg-37d16b499bc5 = dB
 
 # text
-seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-849c08d3ce70 = Página da família: <a1>Relógios, temporização e holdover</a1>
@@ -89,3 +89,6 @@ seg-d3665be74ff1 = <s1>Anterior</s1>quantum-gnss-free-nav
 
 # text
 seg-0d4b1f97541f = <s1>Seguinte</s1>quantum-trade
+
+# text
+seg-a349aa76b0ed = PARTNER

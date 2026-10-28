@@ -837,3 +837,5 @@ seg-d10b07c40c97 = Begin bij <a1>Installeren</a1>
 seg-0e6be0d623f6 = <b>Nu gratis:</b> alles in de open engine. Commerciële licentie op de open kern: gesloten of propriëtaire integratie zonder AGPL-verplichtingen.
 
 seg-9b505908a6e2 = Kshana <b>stuurt geen radiohardware aan en zendt niets uit</b>. Het bevat een software-GNSS-ontvanger voor vastgelegde en gegenereerde IQ en kan synthetische basisband-IQ-bestanden schrijven, maar het is <b>geen RF-signaalgeneratorhardware</b> en <b>geen hardwarematige of gecertificeerde GNSS-ontvanger</b>. Het is een instrument voor studie en afweging: het simuleert wat jamming, spoofing en signaalverlies doen met een navigatie- en tijdsynchronisatieoplossing, en vertelt u welke van zijn antwoorden zijn getoetst aan een onafhankelijke externe referentie. <b>Geen vluchtproduct.</b>
+
+seg-ecb96b67c4e9 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed

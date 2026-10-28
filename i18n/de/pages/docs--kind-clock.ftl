@@ -96,3 +96,9 @@ seg-aba9395185fa = <s1>Weiter</s1>combined-altpnt
 
 # text
 seg-debc2f07db78 = true
+
+seg-d1beb62cf742 = { "6" } mitgelieferte Szenarien verwenden diese Art; die übrigen stehen in <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Die Art <c1/>: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (<c2/>; <c3/>, weißes Beschleunigungsrauschen über eine genannte Lücke Tests: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = und { "1" } weitere in der Matrix.

@@ -2269,3 +2269,101 @@ seg-ae99396c03bd = tegenover onafhankelijke numpy/scipy-pariteitsalgebra
 seg-51828c93731b = De lineaire algebra die een zelfreferentiële lunaire constellatie nodig heeft om haar eigen fouten te detecteren zonder grondreferentie: de gewogen pariteitsprojector in de pseudo-inverse-vorm voor rangdeficiënte stelsels die de ijk van datum en tijdschaal doorstaat, de detecteerbaarheid per knooppunt, de minimaal detecteerbare bias van Baarda, en detect/identify-aantallen voor Byzantijnse block-spark over echte DE440-geometrie tussen knooppunten.
 
 seg-e3bf7fd64c35 = Raamwerk voor veerkrachtige PNT van het Amerikaanse DHS
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Kies een van { "193" } scenariobestanden in { "92" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
+
+seg-d5c6110302e9 = Een missieketen in Artemis-klasse, een bewijslabel bij elk cijfer en zeventien talen.
+
+seg-8597c65432ed = Koppel de fasen van een maanmissie aan elkaar in één foutenbudget voor navigatie en tijdsynchronisatie, schat waar een bron van verslechterde positiemeldingen zich kan bevinden, lees gemeten klokloggen, zie het bewijsniveau bij elk cijfer dat een run schrijft, en gebruik de opdrachtregel, de rapporten en Studio in zeventien talen. Elke mogelijkheid draagt het label dat het register ervoor bijhoudt, en een label benoemt alleen wat is gecontroleerd. Adviserende software, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk.
+
+seg-070972f642de = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van lancering tot terugkeer
+
+seg-982a4a7cf0db = De soort missieketen koppelt fasen aan elkaar (lancering en opstijging, rendez-vous in een lage baan om de aarde, trans-lunaire injectie en vlucht, de maanfasen, terugkeer) en neemt de covariantie van positie en snelheid van elke fase mee naar de volgende, met de overdrachtsregels, de omzettingen van referentiestelsel en tijdschaal, de marge ten opzichte van de gestelde eisen en de zwakste schakel, elk als budgetrijen vastgelegd.
+
+seg-17c9cc6c2d40 = Gecontroleerd: de vergelijking met Artemis I haalde haar drempel niet ({ "45.3" } km tegenover { "5" } km); de rij blijft MODELLED
+
+seg-946487626f87 = Weergave van de missieketen in Kshana Studio
+
+seg-4970f874d334 = Het maansegment: rendez-vous, afdaling, oppervlak en opstijging
+
+seg-b6c35bf141e7 = Vier scenariosoorten, elk ook een fase van de missieketen: relatieve navigatie tot koppeling in een maanbaan, het budget voor de landingsspreiding op een locatie bij de zuidpool, beschikbaarheid van positiebepaling en tijdsynchronisatie per locatie en seizoen, en de opstijging terug naar de rendez-vousbaan.
+
+seg-ce097df855a9 = Gecontroleerd: vooraf vastgelegde drempels; één gehaald, één niet gehaald, geen enkele versoepeld
+
+seg-8ca6e2046901 = Een geschat zendergebied uit ADS-B- of AIS-meldingen
+
+seg-ca6383e426f9 = Waar een bron van verslechterde positiemeldingen zich kan bevinden, als gebieden van { "50" }, { "90" } en { "95" } procent met een zwaartepunt en zijn onzekerheidsellips, nooit als kaal punt, en sessies in de tijd.
+
+seg-27af464d0674 = Gecontroleerd: vooraf vastgelegd; beide bronnen niet te beoordelen, dus er wordt niets beweerd
+
+seg-003a3b9b63ea = Gemeten klokloggen, en een holdover aangestuurd door een gefitte reeks
+
+seg-f51fa2a40db8 = Lees een gemeten kloklog in acht formaten (RINEX clock, TimeLab, TICC, linuxptp, chrony) in tot één fasereeks voor de soorten klok en telecomtijdsynchronisatie, en fit de ruis van een gemeten reeks om een holdover aan te sturen.
+
+seg-6e9140563c53 = Gecontroleerd: drempels vooraf vastgelegd; missers vermeld en vastgezet
+
+seg-448b11c86f48 = Datapartners: welke rijen gemeten data kan bevorderen
+
+seg-56b0201d930c = Welke gemodelleerde registerrijen gemeten data van een partner kan bevorderen, welke formaten worden geaccepteerd, en hoe een inzending wordt gecontroleerd, gescoord tegen een vooraf vastgelegde drempel en toegekend.
+
+seg-5858e5d1f7c5 = Een bewijslabel bij elk cijfer en elke tabel die een run schrijft
+
+seg-d1c4250b2a7e = Elk resultaatbestand, elke grafiek en elke tabel die een run schrijft, vermeldt nu op welk niveau het berust (gevalideerd, gemodelleerd of partner, het zwakste van zijn rijen) en noemt de rijen van de verificatiematrix erachter, afgelezen uit de matrix en niet getypt.
+
+seg-bd28ef5c376e = Zeventien talen naast het Engels
+
+seg-1e4a6a5931d3 = De opdrachtregel, de rapporten, de documentatiepagina's en Studio zijn beschikbaar in zeventien talen naast het Engels.
+
+seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
+
+seg-1e0afa852323 = Vier vooraf vastgelegde vergelijkingen zijn na de akkoordverklaring eenmaal uitgevoerd en haalden hun drempels, en elke score is gemodelleerd.
+
+seg-ed10ac59ed87 = Alle { "193" } scenariobestanden in { "92" } soorten, gegroepeerd per domein; { "180" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register die noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarioreferentie, met het bestand en de opdracht die het uitvoert.
+
+seg-c381cfa99bb0 = Een klokscenario waarvan de klassieke klok de ruis van een gemeten log overneemt (`[clock_fit]`).
+
+seg-328cd04eef87 = Een klokscenario met een gemeten log naast de gesimuleerde holdover (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van één keten van fasen, vanaf de lancering
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Maanopstijging: de aangedreven opstijging vanaf een locatie bij de zuidpool (Artemis-klasse) naar het rendez-vous op { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Spreiding van de maanlanding: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), vanaf de
+
+seg-bd7c53737f55 = Spreiding van de maanlanding met het echte LOLA-DEM van de zuidpool: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), vanaf de…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Rendez-vous bij de maan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een cirkelvormige poolbaan van { "100" } km
+
+seg-6ce976854c44 = Rendez-vous bij de maan in een elliptische poolbaan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen (locaties bij de zuidpool in Artemis-klasse).
+
+seg-0ecc50eafdbe = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen met het echte LOLA-terrein van de zuidpool
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } van { "92" } soorten, { "3300" } van { "3300" } numerieke velden

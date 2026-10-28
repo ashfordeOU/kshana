@@ -291,3 +291,7 @@ seg-ec064f62f7dc = <s1>Anterior</s1>Servidor MCP: modo HTTP autoalojado
 
 # text
 seg-1f44dbd65ce3 = <s1>Siguiente</s1>Dónde se puede acceder a cada capacidad
+
+seg-e3949a1e6082 = Región del emisor (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: una región factible bajo línea de visión radioeléctrica, no una posición. Informe la región con su nivel de confianza indicado junto con el centroide y su elipse, nunca el centroide solo; diga <c1/> cuando los datos no la acoten; diga que depende del modelo (comprobada solo con datos sintéticos; la comparación preregistrada con Jammertest se ejecutó una vez y fue NOT ASSESSABLE para ambas fuentes, de modo que no se probó nada externamente). Redacción neutra: «región estimada del emisor»; no nombre ni dé a entender nunca quién o qué hay detrás de una fuente, un Estado, una fuerza o una intención. Solo agregados; no intente recuperar identificadores. La publicación de regiones de emisores en el observatorio público está desactivada.

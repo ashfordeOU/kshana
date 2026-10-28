@@ -103,3 +103,5 @@ seg-1d3bffc2fd02 = <s1>Anterior</s1>Navegação de usuários no espaço (gnss-ss
 
 # text
 seg-90932eed0074 = <s1>Próxima</s1>Posicionamento, navegação e temporização em LEO
+
+seg-c3b27dfb7bca = <s1>Próximo</s1>Sequência de missão: do lançamento à reentrada

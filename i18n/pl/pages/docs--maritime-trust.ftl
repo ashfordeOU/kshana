@@ -80,7 +80,7 @@ seg-5dd62cd853c6 = Może <b>wstrzymać prawidłowe rozwiązanie pozycji</b> (fa�
 
 seg-a284a3ec9dfe = Oczekuje <b>czystego strumienia tekstowego NMEA { "0183" }</b>. Ramki binarne wmieszane w strumień są przekazywane bez zmian, ale <c1/> może wtedy trafić między bajty ramki.
 
-seg-0c919698fa92 = <b>Nie ma zatwierdzenia typu</b>, a nic w nim nie zostało ocenione względem IEC { "61108" } ani IEC { "61162" }. Za nawigację statku odpowiada nadal operator.
+seg-0c919698fa92 = <b>Nie jest to sprzęt z zatwierdzeniem typu</b>, a nic w nim nie zostało ocenione względem IEC { "61108" } ani IEC { "61162" }. Za nawigację statku odpowiada nadal operator.
 
 seg-9e3ea39c38cf = <s1>Poprzednia</s1>Zaufanie do odbiornika
 

@@ -47,3 +47,5 @@ seg-5eaed32490ca = De reproduceerbaarheid van het tijdfoutbudget voor de maan is
 seg-988e99fc26be = <s1>Vorige</s1>lunar-station-coverage
 
 seg-a0992d394960 = <s1>Volgende</s1>lunar-time-offset
+
+seg-b851d30fe736 = <s1>Vorige</s1>lunar-surface

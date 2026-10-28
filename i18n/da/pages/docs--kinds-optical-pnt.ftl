@@ -39,3 +39,5 @@ seg-6a6f8eea5767 = <b>Register:</b> ingen matrixrække nævner denne type; motor
 seg-a4baaf1fbb8c = <s1>Forrige</s1>Missionsanalyse forbindelser og rumoperationer
 
 seg-48792381ba0b = <s1>Næste</s1>Rumbrugernavigation
+
+seg-22449071fb11 = <s1>Forrige</s1>Missionstråde
