@@ -535,7 +535,15 @@ async function cataloguesCmd(args) {
   const { opt } = args2opt(args, { tree: 'site', root: 'i18n', langs: '' });
   const { stageCatalogues } = await import('./i18n-share.mjs');
   const n = stageCatalogues(opt.root, opt.tree, opt.langs.split(',').filter(Boolean));
-  console.log(`catalogues: ${(n / 1e6).toFixed(1)} MB staged in ${opt.tree}/i18n`);
+  console.log(`catalogues: ${(n / 1e6).toFixed(1)} MB staged in ${opt.tree}/i18n (comments and blank lines stripped; only the files the browser fetches)`);
+}
+
+/** prune-data: remove the per-language data copies no page requests (RUNTIME_DATA in tools/i18n-share.mjs). Run after `verify`. */
+async function pruneDataCmd(args) {
+  const { opt } = args2opt(args, { tree: 'site', spec: 'i18n/data-spec.json', langs: '' });
+  const { pruneData } = await import('./i18n-share.mjs');
+  const r = pruneData(opt.tree, opt.langs.split(',').filter(Boolean), opt.spec);
+  console.log(`prune-data: removed ${r.removed.length} unread language data file(s), ${(r.bytes / 1e6).toFixed(2)} MB`);
 }
 
 /** sitemaps: sitemap.xml becomes an index of sitemap-en.xml and every <lang>/sitemap.xml (pages at least 80 % translated only). */
@@ -983,7 +991,7 @@ async function firstpaint(args) {
 
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), 'share-engine': async () => shareEngineCmd(rest), catalogues: async () => cataloguesCmd(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), 'share-engine': async () => shareEngineCmd(rest), catalogues: async () => cataloguesCmd(rest), 'prune-data': async () => pruneDataCmd(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

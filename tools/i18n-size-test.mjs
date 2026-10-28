@@ -80,10 +80,10 @@ const t5 = mk('t5'); put(t5, 'studio/other.js', 'fetch(base + "pkg/kshana_bg.was
 assert.throws(() => shareEngine(t5), /does not rewrite/);
 assert.ok(existsSync(join(t5, 'studio/pkg/kshana_bg.wasm')) && readFileSync(join(t5, 'studio/app.js'), 'utf8').includes('"./pkg/kshana_bg.wasm"'), 'a refused run changes nothing');
 
-// ---- stageCatalogues: English and the built languages, the six run-time files, nothing else
+// ---- stageCatalogues: English and the built languages, the five files the browser fetches, nothing else (more in tools/i18n-catalogues-test.mjs)
 const cat = join(tmp, 'cat'), site = join(tmp, 'catsite');
-for (const l of ['en', 'de', 'ja', 'fr']) for (const f of [...RUNTIME_CATALOGUES, 'data.ftl', 'REVIEW.md']) if (!(l === 'ja' && f === 'engine.ftl')) put(cat, `${l}/${f}`, bytes(10));
+for (const l of ['en', 'de', 'ja', 'fr']) for (const f of [...RUNTIME_CATALOGUES, 'engine.ftl', 'data.ftl', 'REVIEW.md']) if (!(l === 'ja' && f === 'ui.ftl')) put(cat, `${l}/${f}`, 'a = ' + bytes(8) + '\n');
 const n = stageCatalogues(cat, site, ['de', 'ja']);
-assert.equal(n, 10 * (6 + 6 + 5), 'en, de and ja (ja has no engine.ftl); fr is not built');
-assert.ok(existsSync(join(site, 'i18n/de/studio-js.ftl')) && !existsSync(join(site, 'i18n/de/data.ftl')) && !existsSync(join(site, 'i18n/fr')) && !existsSync(join(site, 'i18n/de/REVIEW.md')), 'only the run-time catalogues of built languages');
+assert.equal(n, 13 * (5 + 5 + 4), 'en, de and ja (ja has no ui.ftl); fr is not built');
+assert.ok(existsSync(join(site, 'i18n/de/studio-js.ftl')) && !existsSync(join(site, 'i18n/de/engine.ftl')) && !existsSync(join(site, 'i18n/de/data.ftl')) && !existsSync(join(site, 'i18n/fr')) && !existsSync(join(site, 'i18n/de/REVIEW.md')), 'only the run-time catalogues of built languages');
 console.log('size test passed');
