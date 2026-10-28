@@ -4246,8 +4246,6 @@ seg-c97e87cbcdd5 = BibTeX for motoren
 
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
-
 seg-65185cb68d6b = Fejlbudget for navigation og tidssynkronisering for en kæde af missionsfaser fra opsendelse til indflyvning (<c1/>)
 
 seg-86a132e1a243 = Typen <c1/>: et dokument af faser, hver en af otte registrerede typer, kørt i rækkefølge, hvor 6x6-kovariansen, uret og referencesystemet gives videre efter en angiven regel (<c2/>; <c3/>, hvid accelerationsstøj over et angivet hul på en retlinet model; <c4/>, dødregning og derefter kildens gulv, aldrig under det, aldrig en nulstilling); konverteringer af referencesystem GCRF, MCI og MCMF og af tidsskala via TT, hver sin budgetrække, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve; marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. Hvert tal er et angivet input eller en model af et
@@ -4332,16 +4330,6 @@ seg-7a254b7d5498 = Verifikationsmatrix, én celle pr. funktion i registerets ræ
 
 seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "401" } rækker · intet scenarie eller seed: motorens eget register
 
-seg-015ecb5cddc3 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-e26b6fdc705b = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-66defa1494fc = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-4c54e96a1832 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-3d202a56e836 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
 seg-77bfad0f4f88 = { "176" }<s1>af { "401" } valideret</s1>
 
 seg-222c46a96ec3 = Verifikationsmatrix: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere, { "401" } i alt
@@ -4387,3 +4375,15 @@ seg-b393e1b5fcfc = Alle { "401" }
 seg-3df9e327c036 = Modelleret { "221" }
 
 seg-7fa6f2e0de57 = Valideringsregister, { "401" } rækker, kan rulles
+
+seg-df43ce08ec0e = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-613de9424706 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-d2c2b9393166 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-6b46b5866660 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+
+seg-958dfeda6dbf = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-3a1b15ffddc1 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed

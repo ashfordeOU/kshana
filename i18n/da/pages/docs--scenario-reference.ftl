@@ -748,8 +748,6 @@ seg-6c7d25f672fb = MODELLED tilgængelighed af positionering og tidssynkroniseri
 
 seg-1ec485468daa = MODELLED fejlbudget for navigation og tidssynkronisering for en angivet kæde af missionsfaser, fra opsendelse til indflyvning: opsendelse og opstigning, rendezvous og docking i lav jordbane (kan gentages), trans-lunar injektion og cislunart krydstogt, rendezvous i månebane, nedstigning, ophold på overfladen, opstigning samt returflyvning og indflyvning, hver fase en af otte registrerede typer med sine egne sensorer og sit eget filter. 6x6-kovariansen, uret og referencesystemet gives videre fra fase til fase efter en angiven regel (carry, inflate eller reacquire); konverteringer af referencesystem og tidsskala (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er deres egne budgetrækker, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve. Et valgfrit overlay af jordnetværk sætter hver fases sporingsandel. Rapporterer budgettet pr. fase (1-sigma ved indgang, spids og udgang, hvert bidrag med sin enhed), marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. MODELLED: hvert tal er et angivet input; kæden følger én stak, og intet køretøj modelleres. Kun offentlige kilder; ikke tilknyttet eller støttet af nogen rumfartsorganisation; vejledende software, ikke certificeret navigationsudstyr.
 
-seg-5b4a725bea4e = Hver medfølgende scenariefil ({ "192" }), grupperet efter type. Beskrivelsen er filens egen headerkommentar; nøgleparametrene er dens indstillinger på øverste niveau. Status læser verifikationsmatricen for typens modul. <b>Åbn i Kshana Studio</b> åbner den optagede kørsel.
-
 seg-d2b1e58dea11 = Et urscenarie, hvor det klassiske ur tager støjen fra en målt log (<c1/>).
 
 seg-760090cd3247 = Et urscenarie med en målt log ved siden af den simulerede holdover (<c1/>).
@@ -777,3 +775,5 @@ seg-ce9f26be0623 = Tilgængelighed af PNT og tidssynkronisering på månens over
 seg-ce858063d300 = type mission-thread
 
 seg-0bd19840e50d = En missionstråd i Artemis-klassen: fejlbudgettet for navigation og tidssynkronisering for én kæde af faser, fra opsendelse til indflyvning, bygget på offentligt materiale om operationskoncepter.
+
+seg-1b2e1e1b5c38 = Hver medfølgende scenariefil ({ "193" }), grupperet efter type. Beskrivelsen er filens egen headerkommentar; nøgleparametrene er dens indstillinger på øverste niveau. Status læser verifikationsmatricen for typens modul. <b>Åbn i Kshana Studio</b> åbner den optagede kørsel.

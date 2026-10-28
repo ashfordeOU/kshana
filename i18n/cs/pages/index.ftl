@@ -698,12 +698,6 @@ seg-905e5eef45e5 = <b>{ "12" } požadavků</b> ověřeno proti skutečným běhe
 
 seg-7d9ee2bfbb90 = Najděte, kde se váš čas rozbije, dřív než se rozbije.
 
-seg-f4d3b1f5b1b4 = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
-
-seg-3287261002dd = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
-
-seg-510663384be1 = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
-
 seg-070972f642de = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času od startu po vstup do atmosféry
 
 seg-4970f874d334 = Lunární část: setkání, sestup, povrch a výstup
@@ -725,3 +719,9 @@ seg-b9961ed25282 = Novinky ve v{ $version }: misijní vlákno, štítek důkazů
 seg-653cf3198094 = { "176" } z { "401" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
 
 seg-76b213d03caa = Všech { "92" } druhů scénářů, zdarma bez omezení funkcí, deterministických podle scénáře, seedu a verze enginu.
+
+seg-cff488aa106d = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-fddfe8b260be = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+
+seg-388f14eb6d8d = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }

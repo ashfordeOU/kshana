@@ -1119,12 +1119,6 @@ seg-905e5eef45e5 = <b>{ "12" } exigences</b> vérifiées par rapport à de vraie
 # text
 seg-7d9ee2bfbb90 = Trouvez où votre synchronisation temporelle casse, avant qu'elle ne casse.
 
-seg-f4d3b1f5b1b4 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
-seg-3287261002dd = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
-
-seg-510663384be1 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
 seg-070972f642de = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation du lancement à l'entrée
 
 seg-4970f874d334 = Le segment lunaire : rendez-vous, descente, surface et ascension
@@ -1146,3 +1140,9 @@ seg-b9961ed25282 = Nouveau dans la v{ $version } : un fil de mission, une étiq
 seg-653cf3198094 = { "176" } capacités sur { "401" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
 
 seg-76b213d03caa = Les { "92" } types de scénario, gratuits et sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.
+
+seg-cff488aa106d = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+
+seg-fddfe8b260be = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+
+seg-388f14eb6d8d = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }

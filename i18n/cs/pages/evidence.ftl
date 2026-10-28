@@ -4285,8 +4285,6 @@ seg-c97e87cbcdd5 = BibTeX pro engine
 
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
-
 seg-65185cb68d6b = Rozpočet chyb navigace a času řetězce fází mise od startu po vstup do atmosféry (<c1/>)
 
 seg-86a132e1a243 = Druh <c1/>: dokument fází, z nichž každá je jedním z osmi registrovaných druhů, spouštěných postupně, přičemž kovariance 6x6, hodiny a soustava se předávají podle stanoveného pravidla (<c2/>; <c3/>, šum bílého zrychlení po stanovenou mezeru na modelu přímočarého pohybu; <c4/>, dead reckoning a pak spodní mez zdroje, nikdy pod ni, nikdy reset); převody soustav GCRF, MCI a MCMF a převody časových stupnic přes TT, každý jako samostatný řádek rozpočtu, se stavem Měsíce z volitelného výřezu jádra DE440 a analytickou řadou jako stanovenou záložní možností; rezerva vůči stanovenému požadavku, nejslabší článek, události a obrázek časové osy. Každé číslo je stanovený vstup nebo model vstupu
@@ -4371,16 +4369,6 @@ seg-7a254b7d5498 = Verifikační matice, jedna buňka na schopnost v pořadí re
 
 seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, generováno z <c2/> · { "401" } řádků · žádný scénář ani seed: vlastní registr enginu
 
-seg-015ecb5cddc3 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-e26b6fdc705b = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-66defa1494fc = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-4c54e96a1832 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-3d202a56e836 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
 seg-77bfad0f4f88 = { "176" }<s1>z { "401" } ověřeno</s1>
 
 seg-222c46a96ec3 = Verifikační matice: { "176" } ověřeno, { "221" } modelováno, { "4" } ve vlastnictví partnera, celkem { "401" }
@@ -4426,3 +4414,15 @@ seg-b393e1b5fcfc = Všech { "401" }
 seg-3df9e327c036 = Modelováno { "221" }
 
 seg-7fa6f2e0de57 = Registr validace, { "401" } řádků, posouvatelný
+
+seg-df43ce08ec0e = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-613de9424706 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-d2c2b9393166 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-6b46b5866660 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+
+seg-958dfeda6dbf = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-3a1b15ffddc1 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu

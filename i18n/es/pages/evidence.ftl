@@ -6553,8 +6553,6 @@ seg-dd838d199a0d = Superficies en forma cerrada (InternalConsistency): la depres
 # text
 seg-eb6d3be85fec = Referencia: las afirmaciones numéricas de cinco fuentes públicas registradas con URL, fecha de obtención, SHA-256 y licencia en tests/fixtures/lunar_station/SOURCES.md (arXiv:2602.08432v3; presentaciones del IOAG Cislunar PNT Workshop { "2025" } y { "2026" }; UNOOSA ICG WG-B Lunar PNT, junio de { "2024" }), transcritas con referencias de página en tests/fixtures/lunar_station_published/CLAIMS.md. Los umbrales, casos y entradas se preregistraron en tests/fixtures/lunar_station_published/PREREGISTRATION.md (revisión { "2" }, 05bf9a19, confirmada por separado antes de la ejecución). { "0.36" } primera ejecución, un hallazgo (se mantiene MODELLED): { "1" } de { "6" } umbrales se superan. La cobertura es { "0.00" } en ambos círculos frente a >= { "0.95" }, y el error p95 3-D corregido es { "280.6" } m ({ "300" } km) y { "293.0" } m con latencia de { "600" } s, frente a <= { "1.5" } m. El umbral decimétrico (K4) no podía superarse con el ruido de código de { "0.30" } m de las fuentes, lo que refleja un conflicto entre las fuentes y no un resultado del modelo. K6 se supera (razón { "1.39" } frente a <= { "1.5" }), pero como razón de dos cifras dominadas por la geometría no es evidencia sobre la decorrelación en ningún sentido. Causa: los elementos de los satélites no son públicos, y con los elementos ILLUSTRATIVE del árbol un usuario y la estación comparten cuatro satélites por encima de { "5" } grados solo en el { "8.2" } % ({ "300" } km) y el { "6.3" } % ({ "600" } km) de las épocas, con geometría casi singular (p95 sin corregir { "3.8" } km frente a < { "10" } m de las fuentes). Las simulaciones de las fuentes usaron un filtro, una restricción de altura y tres satélites en vista común, lo que el tipo de escenario instantáneo no modela. Por tanto, la comparación ni confirma ni refuta el 'submétrico en todo el polo sur' publicado. Muestra que el resultado de este modelo depende de órbitas que no están publicadas. No es una afirmación sobre ningún sistema real; no está afiliado a ningún organismo ni avalado por él
 
-seg-52dab8f79eed = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
-
 seg-65185cb68d6b = Presupuesto de errores de navegación y temporización de una cadena de fases de misión desde el lanzamiento hasta la entrada (<c1/>)
 
 seg-86a132e1a243 = El tipo de escenario <c1/>: un documento de fases, cada una de uno de ocho tipos registrados, ejecutadas en orden con la covarianza de 6x6, el reloj y el marco transmitidos bajo una regla indicada (<c2/>; <c3/>, ruido de aceleración blanco sobre un intervalo indicado en un modelo de línea recta; <c4/>, navegación a estima y luego el piso de la fuente, nunca por debajo de él, nunca un reinicio); conversiones de marco GCRF, MCI y MCMF y conversiones de escala de tiempo a través de TT, cada una con su propia fila de presupuesto, con el estado de la Luna a partir de un recorte opcional del kernel DE440 y la serie analítica como alternativa indicada; el margen frente a un requisito indicado, el eslabón más débil, los eventos y una figura de línea de tiempo. Cada número es una entrada indicada o un modelo de una de ellas
@@ -6639,16 +6637,6 @@ seg-7a254b7d5498 = Matriz de verificación, una celda por capacidad en el orden 
 
 seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "401" } filas · sin escenario ni semilla: el propio registro del motor
 
-seg-015ecb5cddc3 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-e26b6fdc705b = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-66defa1494fc = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-4c54e96a1832 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-3d202a56e836 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
 seg-77bfad0f4f88 = { "176" }<s1>de { "401" } validadas</s1>
 
 seg-222c46a96ec3 = Matriz de verificación: { "176" } validadas, { "221" } modeladas, { "4" } propiedad de socios, { "401" } en total
@@ -6694,3 +6682,15 @@ seg-b393e1b5fcfc = Todas { "401" }
 seg-3df9e327c036 = Modeladas { "221" }
 
 seg-7fa6f2e0de57 = Registro de validación, { "401" } filas, con desplazamiento
+
+seg-df43ce08ec0e = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-613de9424706 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-d2c2b9393166 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-6b46b5866660 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
+
+seg-958dfeda6dbf = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-3a1b15ffddc1 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla

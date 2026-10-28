@@ -224,8 +224,6 @@ seg-0cf0b9fb9184 = <s1>Skenaariotyypit</s1><s2>{ "92" } sisäänrakennettua sken
 
 seg-9d5c233c72b4 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen skenaariotyyppi, jonka moottori v{ $version } ohjaa ({ "92" }), jaoteltuna { "13" } perheeseen.</s2>
 
-seg-2c002a7b7640 = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
-
 seg-f5987c9d9fde = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "401" } riviä — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "401" } riviä.</s2>
@@ -241,3 +239,5 @@ seg-cecb9535c0a1 = <s1>Kuu ja kuunläheinen avaruus</s1><s2>{ "24" } skenaarioty
 seg-1dd7c80e18a7 = <s1>Tehtäväketjut</s1><s2>{ "1" } skenaariotyyppi moottorissa v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…</s2>
 
 seg-f0e26f01a361 = { "92" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
+
+seg-a1f33bd571ed = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "193" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>

@@ -9451,8 +9451,6 @@ dat-9c42080d805e = Software de caráter consultivo, não um equipamento de naveg
 
 dat-fe6d68d3c1f9 = Covariância na interface de reentrada, probabilidade do corredor, desaceleração máxima e área de pouso (`entry`)
 
-dat-0488b2056745 = Todos os arquivos de cenário incluídos ({ "192" }), agrupados por tipo, com suas principais configurações.
-
 dat-c0206ef96894 = Todos os tipos de cenário que o motor v{ $version } distribui ({ "92" }), organizados em { "13" } famílias.
 
 dat-6ed624c1c297 = Quatro tipos de cenário, cada um também um tipo de fase da interface de sequência de missão (src/mission_thread/): eles…
@@ -9528,3 +9526,5 @@ dat-ddc15e493a03 = O texto do motor voltado às pessoas está em { "17" } idioma
 dat-2d1fe075cab5 = A propagação do estado médio da fase `tli-and-cruise` (Cowell, massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir de um recorte do DE440) comparada com a trajetória pública do JPL Horizons da Artemis I ao longo de um arco inercial de { "72" } h a partir de 2022-11-16 { "18" }:{ "00" } TDB, em épocas de { "12" } horas, sob limiares fixados em um arquivo versionado antes da execução
 
 dat-09d31ea90146 = Injeção trans-lunar e cruzeiro cislunar: estado médio e covariância propagados com atualizações de rastreamento (`tli-and-cruise`)
+
+dat-b8b659cbbefa = Todos os arquivos de cenário incluídos ({ "193" }), agrupados por tipo, com suas principais configurações.

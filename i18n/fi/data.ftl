@@ -8032,8 +8032,6 @@ dat-fe6d68d3c1f9 = Paluurajapinnan kovarianssi, koridoritodennäköisyys, huippu
 
 dat-f6759242b1a9 = Virheet ja niiden koodit
 
-dat-0488b2056745 = Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä keskeisine asetuksineen.
-
 dat-c0206ef96894 = Jokainen skenaariotyyppi, johon moottori v{ $version } ohjaa ({ "92" }), jaoteltuna { "13" } perheeseen.
 
 dat-59385aaf8a98 = Täsmällinen yhtäsuuruus olemassa olevan tyypin kanssa yhdelle paikalle sekä monotonisuustarkistukset testeissä. Välityssolmujen joukko on ILLUSTRATIVE, eikä mitään pintamittausta verrata
@@ -8219,3 +8217,5 @@ dat-82201a0b07b0 = Uutta versiossa { "0.40" }
 dat-b3d9ac894036 = Oma kellosi
 
 dat-286487acb3db = Zeniitin ja antipodin geometriatarkistukset sekä kaukaisen kohteen odotettu näkyvyys testeissä. Mitään todellista verkkoa, antennia tai aikataulua ei mallinneta
+
+dat-b8b659cbbefa = Jokainen mukana toimitettu skenaariotiedosto ({ "193" }) tyypeittäin ryhmiteltynä keskeisine asetuksineen.

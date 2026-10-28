@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.40.0, build ac05b72 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 3395218 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build ac05b72 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 3395218 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-92scenario kinds 180bundled scenario files 401capabilities in the verification matrix 176/401validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+92scenario kinds 181bundled scenario files 401capabilities in the verification matrix 176/401validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 ## New in v0.40.0: a mission thread, an evidence label on every figure, and seventeen languages
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.40.0, build ac05b72 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 3395218 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.40.0, build ac05b72 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 3395218 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -454,9 +454,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.40.0, build ac05b72 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 3395218 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build ac05b72 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 3395218 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1037,7 +1037,7 @@ Orbit view
 
 engine v0.40.0t = 0 sReal engine run, replayed
 
-Engine v0.40.0, build ac05b72 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 3395218 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -1249,7 +1249,7 @@ URL: https://kshana.dev/capabilities
 Title: Capabilities: GNSS, clocks, orbits, Moon and Mars · Kshana
 ========================================================================
 
-Engine v0.40.0 92 scenario kinds 193 scenario files Real runs
+Engine v0.40.0 92 scenario kinds 194 scenario files Real runs
 
 Capabilities
 # One engine for the whole failure chain.
@@ -1792,7 +1792,7 @@ Every chart on this page is a scenario file the engine ran. In Kshana Studio you
 -
 ### Start from any scenario
 
-Pick one of 193 scenario files across 92 kinds, or write your own. kshana kinds --json lists every kind with its fields, and kshana example prints a file to start from.
+Pick one of 194 scenario files across 92 kinds, or write your own. kshana kinds --json lists every kind with its fields, and kshana example prints a file to start from.
 The library in Kshana Studio
 
 -
@@ -1978,7 +1978,7 @@ Read more
 Free core
 ## Every bundled scenario, on one map.
 
-All 193 scenario files across 92 kinds, grouped by domain; 180 are bundled into the engine, and celeste-iod-classical-pilot-signals, celeste-iod-end-to-end, celeste-iod-fused-pvt, leo-navmsg-celeste-iod, leo-pass-celeste-iod-multiband, lunar-descent-lola, lunar-llr-datum, lunar-station-coverage-terrain, lunar-station-geodesy-baseline, lunar-station-geodesy-with-station, lunar-surface-terrain, mission-thread-artemis-class, quantum-pnt-demonstrator.suite run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+All 194 scenario files across 92 kinds, grouped by domain; 181 are bundled into the engine, and celeste-iod-classical-pilot-signals, celeste-iod-end-to-end, celeste-iod-fused-pvt, leo-navmsg-celeste-iod, leo-pass-celeste-iod-multiband, lunar-descent-lola, lunar-llr-datum, lunar-station-coverage-terrain, lunar-station-geodesy-baseline, lunar-station-geodesy-with-station, lunar-surface-terrain, mission-thread-artemis-class, quantum-pnt-demonstrator.suite run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 ### Earth GNSS and interference15
 
@@ -1996,9 +1996,9 @@ gnss-insautomotive-urban-canyongnss-insgnss-ins-aviationgnss-ins-maritimegnss-in
 
 clockclock-ensembleclock-fitted-logclock-holdoverclock-holdover-labsrclock-measured-logholdover-testholdover-test-exampleholdover-test-ptp4lslot-timingslot-timing-ocxo-leosweepsweep-clock-stabilitytelecom-timingtelecom-prtc-holdover-24htelecom-synce-eectelecom-tie-ingesttime-transfer-budgettime-transfer-budgettimetransfertimetransfer
 
-### Orbits and mission analysis34
+### Orbits and mission analysis35
 
-acm-linkacm-linkaocsaocs-slewaocs-slew-mekfaperture-duty-cycleaperture-duty-cycleascent-lossesascent-lossesattitude-budgetattitude-budgetconstellation-designconstellation-multi-gnss-coverageleo-pnt-mega-shelllunar-relay-constellationcontact-schedulecontact-scheduleentry-heatingentry-heating-stardusteo-coverageeo-coverageeo-radiometryeo-radiometryephemerisephemerisgnss-ssvgnss-ssv-formation-heognss-ssv-heognss-ssv-lunar-weakgnss-ssv-nav-lunargnss-ssv-shelllaunch-windowlaunch-windowlink-budgetlink-budgetmission-threadmission-thread-artemis-classoem-interopoem-interoporbitorbit-gnss-challengedorbit-molniyaorbit-multignssorbit-real-tleorbit-rinexorbit-sgp4-gpsorbit-urban-canyon-skylinepassespassesreentryreentryspace-packetspace-packetspace-weatherspace-weather
+acm-linkacm-linkaocsaocs-slewaocs-slew-mekfaperture-duty-cycleaperture-duty-cycleascent-lossesascent-lossesattitude-budgetattitude-budgetconstellation-designconstellation-multi-gnss-coverageleo-pnt-mega-shelllunar-relay-constellationcontact-schedulecontact-scheduleentry-heatingentry-heating-stardusteo-coverageeo-coverageeo-radiometryeo-radiometryephemerisephemerisgnss-ssvgnss-ssv-formation-heognss-ssv-heognss-ssv-lunar-weakgnss-ssv-nav-lunargnss-ssv-shelllaunch-windowlaunch-windowlink-budgetlink-budgetmission-threadmission-thread-artemis-classmission-thread-shortoem-interopoem-interoporbitorbit-gnss-challengedorbit-molniyaorbit-multignssorbit-real-tleorbit-rinexorbit-sgp4-gpsorbit-urban-canyon-skylinepassespassesreentryreentryspace-packetspace-packetspace-weatherspace-weather
 
 ### Low Earth orbit (LEO) PNT28
 
@@ -2435,7 +2435,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.40.0, build ac05b72 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.40.0, build 3395218 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2451,7 +2451,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.40.0, build ac05b72 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.40.0, build 3395218 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2467,7 +2467,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.40.0, build ac05b72 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.40.0, build 3395218 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2481,7 +2481,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build ac05b72 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 3395218 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2495,7 +2495,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.40.0, build ac05b72 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.40.0, build 3395218 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2511,7 +2511,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.40.0, build ac05b72 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.40.0, build 3395218 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -8602,7 +8602,7 @@ Terminal · kshana v0.40.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.40.0 (build ac05b72):
+A recorded command-line session, engine v0.40.0 (build 3395218):
 
 - $ kshana --version: kshana 0.40.0
 
@@ -9706,7 +9706,7 @@ Who it is for
 
 What is included
 
-- All 92 scenario kinds and 180 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+- All 92 scenario kinds and 181 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 - The full verification matrix: 176 of 401 capabilities validated against independent oracles, the rest labelled Modelled
 
@@ -10263,7 +10263,7 @@ Everything here is rendered at build time from Markdown files tracked in the Ksh
 
 - Capability domainsEvery capability of the public map, by domain, with its ledger label.
 
-- Scenario referenceEvery bundled scenario file (192), grouped by kind, with its key settings.
+- Scenario referenceEvery bundled scenario file (193), grouped by kind, with its key settings.
 
 - Result schemaEvery run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
 
@@ -11754,7 +11754,7 @@ A lunar-integrity scenario evaluates cislunar PNT: it runs a lunar south-pole AR
 
 A lunar-time-offset scenario reports the relativistic Earth–Moon clock rate — the basis of a Lunar Coordinate Time scale (LTC/TCL). A first-principles post-Newtonian identity sums the self-potential difference (IAU L_G geoid potential minus the Moon's surface self-potential) and the Moon's kinetic (second-order Doppler) term to a secular rate of ≈ 57 µs/day, reported with the published 56–59 µs/day band; it also gives the accumulated LTC−TT offset over a horizon and an inverse-variance ensemble (a lunar paper-clock). MODELLED — the headline figure is reference-dependent (Earth geoid vs lunar selenoid, averaging window), which is why a band, not a single certified number, is reported (scenarios/lunar-time-offset.toml).
 
-See scenarios/ for at least one worked example of every kind (92 kinds, 192 scenario .toml files + 1 suite manifest — several kinds ship more than one example). Not every kind has a file named after it: lunar-integrity → scenarios/lunanet-araim.toml and gravity-map → scenarios/gps-denied-gravity-nav.toml are two of several such. List the dispatchable kinds at any time with cargo run -- --validate <file> errors, the Python list_kinds(), or the MCP list_scenario_kinds tool.
+See scenarios/ for at least one worked example of every kind (92 kinds, 193 scenario .toml files + 1 suite manifest — several kinds ship more than one example). Not every kind has a file named after it: lunar-integrity → scenarios/lunanet-araim.toml and gravity-map → scenarios/gps-denied-gravity-nav.toml are two of several such. List the dispatchable kinds at any time with cargo run -- --validate <file> errors, the Python list_kinds(), or the MCP list_scenario_kinds tool.
 
 Output
 
@@ -15653,7 +15653,7 @@ Title: Scenario reference · Kshana docs
 
 # Scenario reference
 
-Every bundled scenario file (192), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. Open in Kshana Studio opens the recorded run.
+Every bundled scenario file (193), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. Open in Kshana Studio opens the recorded run.
 
 ## acm-link#
 
@@ -18717,6 +18717,25 @@ step_s = 300.0
 
 Not yet on GitHub
 
+### mission-thread-short.toml
+
+kind mission-threadnot matched to a ledger module by name
+
+A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of trans-lunar cruise and the return and entry, with the Moon's position from the analytic series (no kernel file). It is the bundled companion of mission-thread-artemis-class, which reads a Moon kernel cut from a checkout.
+
+```
+kind = "mission-thread"
+title = "Short mission thread, launch to entry (ILLUSTRATIVE)"
+seed = 20261028
+epoch_utc = "2028-01-01T00:00:00Z"
+frame = "gcrf"
+x = [5285007.866, 1880185.649, 3025316.817, -137.105, 385.389, 0.0]
+sigma_pos_m = 10.0
+sigma_vel_mps = 0.01
+```
+
+Open in Kshana Studio · Not yet on GitHub
+
 ## moonlight-service-volume#
 
 Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.
@@ -20231,7 +20250,7 @@ The result documents differ kind by kind, so the exporter recognises the shapes 
 
 Traces with a unit share a panel when their magnitudes are within a factor of 100, so a 50 ns guard does not flatten a 2 ns error. At most 6 panels of 6 traces are drawn; the rest are listed under omitted. Traces over 2,400 samples are thinned by an even stride that keeps the last sample, and a waterfall over 96 × 120 cells is averaged down (in power, for decibel cells, so a narrow jammer is not diluted).
 
-A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with no time series to animate, and nothing is written. With kshana 0.40.0, 94 of the 192 runnable scenario files (every file except a study suite) animate and 98 are refused. cargo test --test animation -- --nocapture prints the census.
+A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with no time series to animate, and nothing is written. With kshana 0.40.0, 94 of the 193 runnable scenario files (every file except a study suite) animate and 99 are refused. cargo test --test animation -- --nocapture prints the census.
 
 Among the LEO kinds, every bundled leo-pass, leo-pnt-chain and leo-ppp scenario animates. leo-pvt animates in its Doppler, joint-positioning and timing modes (a timing run needs trace = true, which makes every row report its time error and predicted sigma at every epoch) and is refused in its polar-coverage mode. leo-navmsg animates its mid-pass update and is refused for the encoding, fit-interval and model-comparison analyses. leo-signal and ntn-positioning results carry no time axis and are refused.
 
@@ -34576,7 +34595,9 @@ No new features: one command-line fix, dependency updates in the cross-validatio
 
 ### Security#
 
-Dependency updates in the cross-validation tooling (xval/); no shipped crate, wheel or package changes.
+One dependency update in the shipped library (the first entry), the rest in the cross-validation tooling (xval/).
+
+- p256, p384 and p521 0.13 to 0.14 (with elliptic-curve 0.14.3, ecdsa 0.17.0 and crypto-bigint 0.5.5 to 0.7.10; also the direct crypto-bigint dependency, now 0.7) clear RUSTSEC-2026-0387, timing variability in crypto-bigint 0.5.5. Kshana uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC 3161 timestamp tokens) and signs only in tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
 
 - memmap2 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (xval/anise-lunar-od, xval/anise-mars-od); the locks also re-sync the in-repo kshana path dependency.
 

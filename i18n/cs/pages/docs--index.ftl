@@ -224,8 +224,6 @@ seg-0cf0b9fb9184 = <s1>Druhy scénářů</s1><s2>{ "92" } vestavěných druhů s
 
 seg-9d5c233c72b4 = <s1>Každý druh scénáře podle rodiny</s1><s2>Každý druh scénáře, který engine v{ $version } rozděluje ({ "92" }), zařazený do { "13" } rodin.</s2>
 
-seg-2c002a7b7640 = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>
-
 seg-f5987c9d9fde = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Reference schopností</s1><s2>Karty schopností a všech { "401" } řádků verifikační matice.</s2>
@@ -241,3 +239,5 @@ seg-cecb9535c0a1 = <s1>Lunární a cislunární</s1><s2>{ "24" } druhů scéná�
 seg-1dd7c80e18a7 = <s1>Vlákna misí</s1><s2>{ "1" } druh scénáře enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje, nikoli…</s2>
 
 seg-f0e26f01a361 = { "92" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.
+
+seg-a1f33bd571ed = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "193" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>

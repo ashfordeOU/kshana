@@ -9364,9 +9364,6 @@ dat-fe6d68d3c1f9 = Covariância na interface de reentrada, probabilidade do corr
 dat-f6759242b1a9 = Erros e os seus códigos
 
 # data/search.json
-dat-0488b2056745 = Todos os ficheiros de cenário incluídos ({ "192" }), agrupados por tipo, com as suas principais configurações.
-
-# data/search.json
 dat-c0206ef96894 = Todos os tipos de cenário que o motor v{ $version } distribui ({ "92" }), organizados em { "13" } famílias.
 
 # data/verification-matrix.json
@@ -9644,3 +9641,5 @@ dat-b3d9ac894036 = O seu próprio relógio
 
 # data/verification-matrix.json
 dat-286487acb3db = Verificações de geometria de zénite e antípoda e a visibilidade esperada de um alvo distante nos testes. Nenhuma rede, antena ou escala real é modelada
+
+dat-b8b659cbbefa = Todos os ficheiros de cenário incluídos ({ "193" }), agrupados por tipo, com as suas principais configurações.

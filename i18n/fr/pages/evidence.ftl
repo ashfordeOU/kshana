@@ -6553,8 +6553,6 @@ seg-7dfedc40da6a = Le bloc facultatif [time_lab] du scénario lunar-time-budget 
 # text
 seg-b915c06fa3f1 = skyline::PRESETS : quatre géométries REPRESENTATIVE avec les dimensions énoncées de la note de conception et une ligne de provenance chacune : city-street (un canyon, rue { "0" } deg, { "20" } m entre des murs de { "30" } m, antenne { "1.5" } m), harbour-approach (secteurs : ouvert vers le large sur { "180" } deg, bâtiments de quai { "8" } deg sur { "90" } deg, la digue { "3" } deg), fjord (relief : parois à { "600" } m au-dessus de l'antenne à { "1.5" } km de part et d'autre d'un chenal nord-sud, chute de courbure appliquée), container-terminal (secteurs : piles de conteneurs { "12" } deg sur la moitié côté terre, flèches de grues { "35" } deg et { "25" } deg sur deux secteurs étroits) ; modifiables champ par champ
 
-seg-52dab8f79eed = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
-
 seg-65185cb68d6b = Budget d'erreur de navigation et de synchronisation d'une chaîne de phases de mission, du lancement à l'entrée (<c1/>)
 
 seg-86a132e1a243 = Le type <c1/> : un document de phases, chacune d'un des huit types enregistrés, exécutées dans l'ordre avec la covariance 6x6, l'horloge et le référentiel transmis selon une règle déclarée (<c2/> ; <c3/>, bruit d'accélération blanc sur un intervalle déclaré avec un modèle en ligne droite ; <c4/>, estime puis plancher de la source, jamais en dessous, jamais une réinitialisation) ; conversions de référentiel GCRF, MCI et MCMF et conversions d'échelle de temps via TT, chacune avec sa propre ligne de budget, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée ; la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. Chaque nombre est une entrée déclarée ou un modèle d'une entrée
@@ -6639,16 +6637,6 @@ seg-7a254b7d5498 = Matrice de vérification, une cellule par capacité dans l'or
 
 seg-a2f63c51d2c7 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "401" } lignes · aucun scénario ni graine : le registre propre du moteur
 
-seg-015ecb5cddc3 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-e26b6fdc705b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-66defa1494fc = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-4c54e96a1832 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-3d202a56e836 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
 seg-77bfad0f4f88 = { "176" }<s1>sur { "401" } vérifiées</s1>
 
 seg-222c46a96ec3 = Matrice de vérification : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire, { "401" } au total
@@ -6694,3 +6682,15 @@ seg-b393e1b5fcfc = Toutes { "401" }
 seg-3df9e327c036 = Modélisées { "221" }
 
 seg-7fa6f2e0de57 = Registre de validation, { "401" } lignes, défilable
+
+seg-df43ce08ec0e = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-613de9424706 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-d2c2b9393166 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-6b46b5866660 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
+
+seg-958dfeda6dbf = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-3a1b15ffddc1 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine

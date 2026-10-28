@@ -4254,8 +4254,6 @@ seg-bc499c388907 = Radiofrekvensstörning
 
 seg-0411e7a125dd = <s1>{ "20" } juni { "2026" }</s1> · arXiv:{ "2606.22054" } · version { "2" }
 
-seg-52dab8f79eed = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
-
 seg-65185cb68d6b = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde (<c1/>)
 
 seg-86a132e1a243 = Typen <c1/>: ett dokument med faser, var och en av åtta registrerade typer, körda i ordning med 6x6-kovariansen, klockan och referenssystemet överlämnade enligt en angiven regel (<c2/>; <c3/>, vitt accelerationsbrus över ett angivet glapp på en rätlinjig modell; <c4/>, dödräkning och därefter källans golv, aldrig under det, aldrig en återställning); omvandlingar av referenssystem mellan GCRF, MCI och MCMF samt av tidsskalor via TT, var och en en egen budgetrad, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv; marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. Varje tal är en angiven indata eller en modell av en sådan
@@ -4340,16 +4338,6 @@ seg-7a254b7d5498 = Verifieringsmatris, en cell per förmåga i registerordning: 
 
 seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "401" } rader · inget scenario eller frö: motorns eget register
 
-seg-015ecb5cddc3 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-e26b6fdc705b = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-66defa1494fc = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-4c54e96a1832 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-3d202a56e836 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
 seg-77bfad0f4f88 = { "176" }<s1>av { "401" } validerade</s1>
 
 seg-222c46a96ec3 = Verifieringsmatris: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner, { "401" } totalt
@@ -4395,3 +4383,15 @@ seg-b393e1b5fcfc = Alla { "401" }
 seg-3df9e327c036 = Modellerade { "221" }
 
 seg-7fa6f2e0de57 = Valideringsregister, { "401" } rader, rullningsbart
+
+seg-df43ce08ec0e = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-613de9424706 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-d2c2b9393166 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-6b46b5866660 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
+
+seg-958dfeda6dbf = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-3a1b15ffddc1 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

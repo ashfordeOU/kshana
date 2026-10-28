@@ -6553,8 +6553,6 @@ seg-c97e87cbcdd5 = BibTeX do motor
 # text
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
-
 seg-65185cb68d6b = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão, do lançamento à reentrada (<c1/>)
 
 seg-86a132e1a243 = O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registrados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado em um modelo de linha reta; <c4/>, navegação por estima e depois o piso da fonte, nunca abaixo dele, nunca uma reinicialização); conversões de referencial GCRF, MCI e MCMF e conversões de escala de tempo via TT, cada uma como sua própria linha do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada; a margem em relação a um requisito declarado, o elo mais fraco, os eventos e uma figura de linha do tempo. Todo número é uma entrada declarada ou um modelo dela
@@ -6639,16 +6637,6 @@ seg-7a254b7d5498 = Matriz de verificação, uma célula por capacidade na ordem 
 
 seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "401" } linhas · sem cenário nem semente: o registro do próprio motor
 
-seg-015ecb5cddc3 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-e26b6fdc705b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-66defa1494fc = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-4c54e96a1832 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-3d202a56e836 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
 seg-77bfad0f4f88 = { "176" }<s1>de { "401" } validadas</s1>
 
 seg-222c46a96ec3 = Matriz de verificação: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros, { "401" } no total
@@ -6694,3 +6682,15 @@ seg-b393e1b5fcfc = Todas { "401" }
 seg-3df9e327c036 = Modeladas { "221" }
 
 seg-7fa6f2e0de57 = Registro de validação, { "401" } linhas, rolável
+
+seg-df43ce08ec0e = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-613de9424706 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-d2c2b9393166 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-6b46b5866660 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
+
+seg-958dfeda6dbf = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-3a1b15ffddc1 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

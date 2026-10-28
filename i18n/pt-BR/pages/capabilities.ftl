@@ -3618,8 +3618,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Escolha entre { "193" } arquivos de cenário em { "92" } tipos de cenário, ou escreva o seu. <c1/> lista todos os tipos de cenário com seus campos, e <c2/> imprime um arquivo para você começar.
-
 seg-d5c6110302e9 = Uma sequência de missão de classe Artemis, um rótulo de evidência em cada valor e dezessete idiomas.
 
 seg-8597c65432ed = Encadeie as fases de uma missão lunar em um único orçamento de erro de navegação e temporização, estime onde pode estar uma fonte de relatos de posição degradados, leia registros de relógio medidos, veja o nível de evidência em cada valor que uma execução grava e use a linha de comando, os relatórios e o Studio em dezessete idiomas. Cada capacidade traz o rótulo que o registro mantém para ela, e um rótulo nomeia apenas o que foi verificado. Software de caráter consultivo, não um equipamento de navegação homologado: o operador continua responsável.
@@ -3666,8 +3664,6 @@ seg-7fae5de5ebf1 = kshana-bench: a recampanha da { "0.40" }
 
 seg-1e0afa852323 = Quatro comparações com limiar fixado antecipadamente foram executadas uma vez após a aprovação interna e atingiram seus limiares, e toda pontuação é modelada.
 
-seg-ed10ac59ed87 = Todos os { "193" } arquivos de cenário em { "92" } tipos de cenário, agrupados por domínio; { "180" } estão incorporados ao motor, e <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> são executados a partir do repositório com a linha de comando. O ponto mostra o estado no registro do módulo do tipo de cenário, onde o registro o nomeia. Um arquivo com uma execução gravada a abre no Kshana Studio; os demais abrem sua entrada na referência de cenários, com o arquivo e o comando que o executa.
-
 seg-c381cfa99bb0 = Um cenário de relógio cujo relógio clássico assume o ruído de um registro medido (`[clock_fit]`).
 
 seg-328cd04eef87 = Um cenário de relógio com um registro medido ao lado do holdover simulado (`[clock_log]`).
@@ -3701,3 +3697,7 @@ seg-0ecc50eafdbe = Disponibilidade de PNT e temporização na superfície lunar 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } de { "92" } tipos de cenário, { "3300" } de { "3300" } campos numéricos
+
+seg-237402dbe93a = Escolha entre { "194" } arquivos de cenário em { "92" } tipos de cenário, ou escreva o seu. <c1/> lista todos os tipos de cenário com seus campos, e <c2/> imprime um arquivo para você começar.
+
+seg-ace118a5dc36 = Todos os { "194" } arquivos de cenário em { "92" } tipos de cenário, agrupados por domínio; { "181" } estão incorporados ao motor, e <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> são executados a partir do repositório com a linha de comando. O ponto mostra o estado no registro do módulo do tipo de cenário, onde o registro o nomeia. Um arquivo com uma execução gravada a abre no Kshana Studio; os demais abrem sua entrada na referência de cenários, com o arquivo e o comando que o executa.

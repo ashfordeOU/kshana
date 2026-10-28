@@ -3123,7 +3123,7 @@ seg-9b33c9203ca2 = A <c1/> scenario reports the <b>relativistic Earth–Moon clo
 # c7: cargo run -- --validate <file>
 # c8: list_kinds()
 # c9: list_scenario_kinds
-seg-b14326430bd8 = See <c1/> for at least one worked example of every kind ({ "92" } kinds, { "192" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-e2d733f93455 = See <c1/> for at least one worked example of every kind ({ "92" } kinds, { "193" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Output

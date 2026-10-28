@@ -243,8 +243,13 @@ feed writing to a closed socket still gets its write error. <code>tests/cli_clos
 program starts, so the first write fails on every run.</li>
 </ul>
 <h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
-<p>Dependency updates in the cross-validation tooling (<code>xval/</code>); no shipped crate, wheel or package changes.</p>
+<p>One dependency update in the shipped library (the first entry), the rest in the cross-validation tooling (<code>xval/</code>).</p>
 <ul>
+<li><code>p256</code>, <code>p384</code> and <code>p521</code> 0.13 to 0.14 (with <code>elliptic-curve</code> 0.14.3, <code>ecdsa</code> 0.17.0 and <code>crypto-bigint</code> 0.5.5 to 0.7.10; also
+the direct <code>crypto-bigint</code> dependency, now 0.7) clear RUSTSEC-2026-0387, timing variability in <code>crypto-bigint</code> 0.5.5. Kshana
+uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC 3161 timestamp tokens) and signs only in
+tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The
+library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).</li>
 <li><code>memmap2</code> 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (<code>xval/anise-lunar-od</code>, <code>xval/anise-mars-od</code>);
 the locks also re-sync the in-repo <code>kshana</code> path dependency.</li>
 <li><code>pillow</code> 12.3.0 to 13.0.0 and <code>certifi</code> 2026.7.22 to 2026.10.19 in the oracle environment pins

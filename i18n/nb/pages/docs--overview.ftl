@@ -1970,8 +1970,8 @@ seg-11041e6beb65 = De { "92" } innebygde scenariotypene med beskrivelser og obli
 
 seg-abf70d11a088 = hele den åpne motoren, alle { "92" } scenariotyper, ingen funksjonsbegrensning
 
-seg-b14326430bd8 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "92" } typer, { "192" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.
-
 seg-824001fa6734 = laboratorier og produsenter som har målte data
 
 seg-df3ca402513f = hvilke MODELLED-rader en målt klokke- eller IMU-registrering kan løfte, formatene, hvordan en innsending kontrolleres (<c1/>), skåres og krediteres
+
+seg-e2d733f93455 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "92" } typer, { "193" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.

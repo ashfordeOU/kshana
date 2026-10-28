@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Wybierz jeden ze { "193" } plików scenariuszy w { "92" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
-
 seg-d5c6110302e9 = Wątek misji klasy Artemis, etykieta dowodowa przy każdej wartości i siedemnaście języków.
 
 seg-8597c65432ed = Połącz fazy misji księżycowej w jeden budżet błędu nawigacji i czasu, oszacuj, gdzie może znajdować się źródło pogorszonych raportów pozycji, odczytuj zmierzone dzienniki zegara, zobacz poziom dowodowy przy każdej wartości zapisywanej przez przebieg i korzystaj z wiersza poleceń, raportów i Studio w siedemnastu językach. Każda możliwość nosi etykietę, jaką ma dla niej rejestr, a etykieta nazywa tylko to, co zostało sprawdzone. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu: za nawigację odpowiada nadal operator.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
 
 seg-1e0afa852323 = Cztery porównania zarejestrowane wstępnie zostały uruchomione raz po zatwierdzeniu i osiągnęły swoje progi, a każdy wynik jest obliczony z modelu.
 
-seg-ed10ac59ed87 = Wszystkie { "193" } pliki scenariuszy w { "92" } rodzajach, pogrupowane według dziedziny; { "180" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.
-
 seg-c381cfa99bb0 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (`[clock_fit]`).
 
 seg-328cd04eef87 = Scenariusz zegara ze zmierzonym dziennikiem obok symulowanego holdover (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Dostępność PNT i czasu na powierzchni Księżyca według m
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } z { "92" } rodzajów, { "3300" } z { "3300" } pól liczbowych
+
+seg-237402dbe93a = Wybierz jeden ze { "194" } plików scenariuszy w { "92" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
+
+seg-ace118a5dc36 = Wszystkie { "194" } pliki scenariuszy w { "92" } rodzajach, pogrupowane według dziedziny; { "181" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.

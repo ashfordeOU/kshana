@@ -3618,8 +3618,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Choisissez parmi { "193" } fichiers de scénario répartis en { "92" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
-
 seg-d5c6110302e9 = Un fil de mission de classe Artemis, une étiquette de preuve sur chaque figure et dix-sept langues.
 
 seg-8597c65432ed = Enchaînez les phases d'une mission lunaire en un seul budget d'erreur de navigation et de synchronisation, estimez où peut se trouver une source de rapports de position dégradés, lisez des journaux d'horloge mesurés, voyez le niveau de preuve sur chaque figure qu'une exécution écrit, et utilisez la ligne de commande, les rapports et le Studio en dix-sept langues. Chaque capacité porte l'étiquette que le registre lui attribue, et une étiquette ne nomme que ce qui a été vérifié. Logiciel à titre consultatif, et non un équipement de navigation homologué : l'opérateur reste responsable.
@@ -3666,8 +3664,6 @@ seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
 
 seg-1e0afa852323 = Quatre comparaisons préenregistrées ont été exécutées une seule fois après validation et ont atteint leurs seuils, et chaque score est modélisé.
 
-seg-ed10ac59ed87 = Les { "193" } fichiers de scénario répartis en { "92" } types, regroupés par domaine ; { "180" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans { -brand } Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
-
 seg-c381cfa99bb0 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (`[clock_fit]`).
 
 seg-328cd04eef87 = Un scénario d'horloge avec un journal mesuré à côté du holdover simulé (`[clock_log]`).
@@ -3701,3 +3697,7 @@ seg-0ecc50eafdbe = Disponibilité du PNT et de la synchronisation temporelle en 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } types sur { "92" }, { "3300" } champs numériques sur { "3300" }
+
+seg-237402dbe93a = Choisissez parmi { "194" } fichiers de scénario répartis en { "92" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
+
+seg-ace118a5dc36 = Les { "194" } fichiers de scénario répartis en { "92" } types, regroupés par domaine ; { "181" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans { -brand } Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
