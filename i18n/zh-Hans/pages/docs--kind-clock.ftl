@@ -55,3 +55,9 @@ seg-46ed0b786244 = 主题页面：<a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>上一页</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>下一页</s1>combined-altpnt
+
+seg-d1beb62cf742 = 有{ "6" }个内置场景使用此类型；其余的在<a1><c1/></a1>中。
+
+seg-936e96edf423 = <b>MODELLED</b> <c1/>类型：由多个阶段组成的文档，每个阶段是八种已注册类型之一，按顺序运行，6x6协方差、时钟和坐标系依所述规则向后交接（<c2/>；<c3/>，对所述间隔施加白加速度噪声 测试：<a1>field_units_global.rs</a1>。
+
+seg-3319b18ac61f = 矩阵中另有{ "1" }项。

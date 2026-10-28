@@ -57,3 +57,5 @@ seg-598a7d6ba1e7 = <s1>上一页</s1>lunar-joint-od-clock
 seg-54b1c9200aae = <s1>下一页</s1>lunar-station-coverage
 
 seg-e4da113cbe18 = 引擎为scenarios/lunar-llr-datum.toml生成的图表，类型为lunar-llr-datum
+
+seg-2053999af5ef = <s1>下一页</s1>lunar-orbit-rendezvous

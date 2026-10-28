@@ -69,3 +69,5 @@ seg-0316a3f12053 = <c1/> GitHub Actions工作流部署的是发布标签，而�
 seg-6aa2e78078ae = <s1>上一页</s1>术语表
 
 seg-419353a4fb30 = <s1>下一页</s1>教程
+
+seg-74dc3fad6ee7 = <s1>上一页</s1>语言

@@ -41,3 +41,5 @@ seg-01fa469abd95 = 月球距离上的地球GNSS为MODELLED，而不是经独立�
 seg-2fd936b76f4a = <s1>上一页</s1>contact-schedule
 
 seg-95a5aa0adeb3 = <s1>下一页</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

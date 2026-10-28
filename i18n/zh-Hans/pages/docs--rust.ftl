@@ -141,3 +141,31 @@ seg-68274ce67506 = <b>GNSS IQ实验室</b>（<c1/>）：针对录制的和合成
 seg-6dc7d52fef11 = <s1>上一页</s1>npm与WebAssembly
 
 seg-8ff56af64ec2 = <s1>下一页</s1>MCP服务器
+
+seg-c9a297cc51e9 = { "401" }项能力中有{ "176" }项已对照独立的外部参考基准（oracle）验证
+
+seg-7b53ee712a36 = <b>{ "401" }项能力中有{ "176" }项</b>已对照独立的外部参考基准（oracle）验证；{ "221" }项如实标注为已建模，{ "4" }项由合作方负责。每项能力在经机器核对的台账中带有一个标签：VALIDATED（独立的外部参考基准（oracle）一致：真实数据、独立实现或已发布的参考向量）、MODELLED（内部自洽，并明确说明）或PARTNER（由硬件合作方负责）。核对项包括：AIAA（美国航空航天学会）2006-6753的全部{ "666" }个SGP4（简化通用摄动{ "4" }）向量，一致至{ "4.12" } mm，以及Cowell力模型对照Orekit { "12.2" }一致至{ "0.08" } m。
+
+seg-b59781ecf257 = 一项能力如何赢得其标签：能力、参考基准（oracle）、测试、台账标签。全部{ "401" }项能力的验证状态：{ "176" }项已验证，{ "221" }项已建模，{ "4" }项由合作方负责
+
+seg-d0b2811a3d3c = 引擎有{ "92" }种场景类型；<c1/>列出它们及其字段。{ "0.38.0" }中新增：<c2/>（针对在GNSS轨道之上、周围和以外的航天器的GNSS信号）和<c3/>（作为导航与大地测量基础设施的月球轨道与月面），均为MODELLED，以及<c4/>（对照ITU-T模板的时间误差记录）。
+
+seg-8e9fbc5f2e72 = 内置场景类型kind在语言lang下的描述，来自目录（该语言没有其翻译时为英文）；对不是内置类型的名称返回None。
+
+seg-06e503c23c30 = [kind_description_in]，使用当前语言（[crate::i18n::current]）。
+
+seg-2549a4e06eff = [list_scenario_kinds_json]，每条描述使用语言lang（--lang接受的标签，如de或zh-Hans）；名称和字段列表在每种语言中相同，对于英文，该文档与[list_scenario_kinds_json]逐字节一致。
+
+seg-3a25e30a0dc9 = 为使用语言lang的用户运行[run_toml]（标签如de、pt-BR、zh-Hans、en-XA）。
+
+seg-6691825fa5e6 = [run_toml_lang]的两次运行分开保存：英文运行，其json和csv为机器文件；对于其他语言，则是用该语言运行的结果，供人阅读的一切内容都出自它。
+
+seg-1fd1f547d2b3 = [run_toml_bilingual]的第二遍单独执行：用语言lang将场景运行一次，只返回供人阅读的内容。
+
+seg-ae75df85e545 = 为使用语言lang的用户运行[run_scenario]；见[run_toml_lang]。
+
+seg-28e05e08ff76 = 用语言lang运行src，如果失败，则把失败描述为一个JSON对象{ "{" }"kind": <kind_tag>, "code": <稳定代码或null>, "message": <该语言的文本>{ "}" }。
+
+seg-24fe823a994a = 去掉证据标签（[crate::evidence_label]）的json；若不带标签则保持不变。
+
+seg-c0444d838311 = 从其JSON、SVG和CSV中去掉证据标签的out，与标签出现之前该次运行生成的内容逐字节一致；不带标签的输出保持不变。

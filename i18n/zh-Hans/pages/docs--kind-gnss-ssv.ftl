@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = 主题页面：<a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>上一页</s1>gnss-sim
 
 seg-9df48482a140 = <s1>下一页</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> <c1/>阶段：平均状态由引擎的Cowell传播器给出（地球点质量和J2、作为第三体的太阳和月球；月球取自任务链的DE440星历文件（在其覆盖该航段时），太阳取自解析级
+
+seg-6a26b9ab59fe = 主题页面：<a1>MISSION-THREAD.md</a1>
