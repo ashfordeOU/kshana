@@ -174,14 +174,15 @@ jobs:
           # web/build.sh stages the wasm-pack package twice (pkg/ and studio/pkg/): one copy goes up, the Studio reads it from /pkg/.
           node tools/i18n.mjs share-engine --tree site
           # The run-time catalogues: the pages and the Studio fetch /i18n/<lang>/<file>.ftl in the visitor's language (and English as the per-message
-          # fallback). Only the five files the browser fetches ship (ui, glossary, studio-js, studio-pages, site-js; engine.ftl and the page and data
-          # catalogues are not read by any page), stripped of comments and blank lines (the same messages: tools/i18n-catalogues-test.mjs), and the
+          # fallback). Only the files the browser fetches ship (ui, glossary, studio-js, studio-pages, site-js, and for each built language engine.ftl, which
+          # the Studio registers with the WebAssembly engine so its own text comes out in the language; the page and data catalogues are not read by any
+          # page), stripped of comments and blank lines (the same messages: tools/i18n-catalogues-test.mjs), and the
           # per-language data files no page requests are dropped (prune-data; verify has already read them).
           if [ -n "$langs" ]; then node tools/i18n.mjs prune-data --tree site --langs "$langs"; fi
           node tools/i18n.mjs catalogues --tree site --langs "$langs"
           # the cap is on the whole tree the deploy uploads, the engine package included (the tree has pkg/kshana_bg.wasm or this fails)
           node tools/i18n.mjs size --tree site --dist /nonexistent --cap 500
-      - name: The deployed tree in a real browser (catalogues load, the language is the page's, the Evidence ladder draws, nothing it needs is missing)
+      - name: The deployed tree in a real browser (catalogues load, the language is the page's, the Evidence ladder draws, the engine's text comes out in the language, nothing it needs is missing)
         # Served as uploaded, with nothing from web/ behind it: a file the deploy leaves out answers 404 here as it would on kshana.dev.
         run: |
           set -euo pipefail

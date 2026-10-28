@@ -193,7 +193,7 @@ export function createL10n({ base, fetchText, storage = null, languages = [], do
       return code;
     },
     /** The page calls this once the engine is ready: its catalogue for the current language is registered then, and on every change. */
-    async attachEngine(fn) { registerEngine = fn; await registerCurrent(); for (const h of hooks.slice()) { try { h(lang); } catch { /* ignore */ } } },
+    async attachEngine(fn) { registerEngine = fn; await registerCurrent(); if (lang === "en") return; for (const h of hooks.slice()) { try { h(lang); } catch { /* ignore */ } } },
     /** Choose and load the page's language: ?lang=, the stored choice, then the browser's languages. */
     async init(search = "") {
       const code = chooseLang({ search, storage, languages, available });

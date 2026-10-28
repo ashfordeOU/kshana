@@ -59,6 +59,9 @@ export const ENGINE_FNS = Object.freeze([
   "jammertest_score",
   // 0.38 (fit the hybrid/fusion sensor parameters from a stationary IMU log)
   "imu_fit",
+  // 0.40 (the engine's own text in the reader's language: the page registers i18n/<lang>/engine.ftl, then asks for the run's summary and chart in that language)
+  "register_catalogue",
+  "run_human",
 ]);
 
 // The functions the 0.35 tools pages call. A page checks engineHas() before offering a button.
@@ -152,6 +155,9 @@ export function createEngineClient({ spawn, local, defer, init } = {}) {
   let worker = null;
   let ready = false;
   let mode = spawn ? "worker" : "local";
+  // Engine catalogues the page registered (tag -> ftl text). The engine keeps them per instance, so a worker spawned later (after a cancel
+  // or a crash) and the main-thread fallback get them again.
+  const catalogues = new Map();
 
   function settle(reply) {
     const p = pending.get(reply.id);
@@ -173,6 +179,7 @@ export function createEngineClient({ spawn, local, defer, init } = {}) {
     worker = null;
     ready = false;
     mode = "local";
+    for (const [tag, text] of catalogues) dispatch(local, { id: 0, fn: "register_catalogue", args: [tag, text] });
     for (const p of pending.values()) runLocal(p.msg);
   }
 
@@ -187,6 +194,7 @@ export function createEngineClient({ spawn, local, defer, init } = {}) {
     worker = w;
     ready = false;
     if (init !== undefined) w.postMessage({ init });
+    for (const [tag, text] of catalogues) w.postMessage({ id: nextId++, fn: "register_catalogue", args: [tag, text] }); // the reply has no waiting call and is ignored
     w.addEventListener("message", (ev) => {
       if (w !== worker) return; // a terminated worker's late message
       const data = ev.data || {};
@@ -231,6 +239,11 @@ export function createEngineClient({ spawn, local, defer, init } = {}) {
         if (mode === "worker") worker.postMessage(msg);
         else runLocal(msg);
       });
+    },
+    // Use `ftl` as the engine's catalogue of language `tag` (the text of i18n/<lang>/engine.ftl). Rejects when the engine refuses it
+    // (an unsupported tag, text that does not parse, an engine package without register_catalogue): the page then stays in English.
+    register(tag, ftl) {
+      return this.call("register_catalogue", tag, ftl).then((v) => { catalogues.set(tag, ftl); return v; });
     },
     // Terminate the worker, reject every in-flight call with EngineCancelled, and
     // spawn a fresh worker. Returns false (and does nothing) on the fallback path.

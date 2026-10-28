@@ -13,12 +13,20 @@
 //     draw without a script error; capabilities.json carries the constellation keys the page colours by;
 //   * /studio/?lang=<lang>: kshanaL10n.lang equals the language, ui, glossary, studio-js and studio-pages answer 200, a [data-l10n] element shows the
 //     language's text.
+//   * the engine's own text (skipped with --no-engine: the deploy-tree job of i18n.yml builds without the WebAssembly package, pages.yml's real-tree step
+//     runs it): the Studio runs the bundled scenario acm-link, in English on /studio/ and in each language on /<lang>/studio/ (the stub that carries the
+//     language) then /studio/?scenario=acm-link&lang=<lang>. The page's summary and engine chart must equal what the same engine, loaded from the tree's
+//     /pkg and given the tree's i18n/<lang>/engine.ftl, returns in Node (run_human); carry a phrase of that catalogue that English lacks; keep every
+//     number and every caps token of the English run; the result JSON on the page must equal the English run's. The English page must not request any
+//     engine.ftl and its summary and chart are byte-identical to the engine's own English (run_all in Node) and to the recording made by the native engine.
 // Every same-origin request must answer 200 except the language-copy probes of fetchData/importData (a 404 on /<lang>/<path> falls back to the English
 // file, by design) and, with --no-engine, the engine package. Needs Playwright (NODE_PATH=/opt/node22/lib/node_modules).
 import http from 'node:http';
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { TIER_TOKENS } from './i18n-lang.mjs';
 
 const argv = process.argv.slice(2);
 const opt = { tree: '', langs: 'de,ja', noEngine: false };
@@ -128,6 +136,74 @@ for (const lang of langs) {
 // the English Studio loads its own catalogue and stays English
 await visit('/studio/?lang=en', '/studio/?lang=en', async (page) => { const l = await page.evaluate(() => window.kshanaL10n && window.kshanaL10n.lang); ok(l === 'en', `/studio/?lang=en: kshanaL10n.lang is "${l}"`); });
 
+// the engine's own text in the Studio (real WebAssembly package; not in the --no-engine tree)
+if (!opt.noEngine) {
+  const SCEN = 'acm-link';
+  const eng = await import(pathToFileURL(join(opt.tree, 'pkg', 'kshana.js')).href);
+  await eng.default({ module_or_path: readFileSync(join(opt.tree, 'pkg', 'kshana_bg.wasm')) });
+  const toml = readFileSync(join(opt.tree, 'studio', 'scenarios', `${SCEN}.toml`), 'utf8');
+  const nativeEn = JSON.parse(eng.run_all(toml));
+  const recorded = JSON.parse(readFileSync(join(opt.tree, 'studio', 'recorded', `${SCEN}.json`), 'utf8'));
+  const digits = (x) => x.match(/\d+/g) || [];
+  const tokens = (x) => { const out = []; let rest = x; for (const tk of [...TIER_TOKENS].sort((a, b) => b.length - a.length)) { const re = new RegExp(`(?<![A-Z])${tk}(?![A-Z])`, 'g'); out.push(...(rest.match(re) || []).map(() => tk)); rest = rest.replace(re, ' '); } return out.sort(); };
+  const svgText = (x) => [...x.matchAll(/>([^<>]+)</g)].map((m) => m[1]).join(' '); // the words and numbers a chart prints, not its coordinates
+  const PHRASE = { de: 'gegenüber', ja: 'パス' }; // a phrase of the summary that i18n/<lang>/engine.ftl supplies and English lacks
+  // run the scenario on a page; resolve with what the page shows once the live run (and, in a language, its translated text) has settled
+  const studioRun = async (path, label, expect) => {
+    const out = {};
+    await visit(path, label, async (page, seen) => {
+      const read = () => page.evaluate(async () => {
+        const img = document.querySelector('#ts-engine img');
+        return { live: !!document.querySelector('#hl-badges .badge.live'), summary: (document.querySelector('#summary') || {}).textContent || '', json: (document.querySelector('#json') || {}).textContent || '',
+          svg: img ? await (await fetch(img.src)).text() : '', lang: window.kshanaL10n && window.kshanaL10n.lang, fallback: window.kshanaL10n && window.kshanaL10n.engineFallback };
+      });
+      const t0 = Date.now(); let r = await read();
+      while ((!r.live || r.summary !== expect.summary || r.svg !== expect.svg) && Date.now() - t0 < 120000) { await page.waitForTimeout(500); r = await read(); }
+      await page.waitForTimeout(2500); // a later change (a second render, a stray fetch) would show here
+      const r2 = await read();
+      out.page = r2; out.settled = r.live && r.summary === expect.summary && r.svg === expect.svg; out.seen = seen.map(([u]) => u);
+    });
+    return out;
+  };
+  // English: untouched
+  let enPage = null;
+  {
+    const r = await studioRun(`/studio/?scenario=${SCEN}`, `/studio/?scenario=${SCEN} (English)`, { summary: nativeEn.summary, svg: nativeEn.svg });
+    ok(r.page.live, `English Studio: the live engine ran ${SCEN}`);
+    ok(r.page.lang === 'en', `English Studio: kshanaL10n.lang is "${r.page.lang}"`);
+    ok(r.page.summary === nativeEn.summary, `English Studio: the summary is the engine's own English ("${r.page.summary}")`);
+    ok(r.page.svg === nativeEn.svg, 'English Studio: the engine chart is byte-identical to the engine\'s own English');
+    ok(r.page.summary === recorded.summary && r.page.svg === recorded.svg, 'English Studio: summary and chart equal the recording made by the native engine');
+    ok(r.page.json.length > 100, 'English Studio: the result JSON is shown');
+    ok(!r.seen.some((u) => /engine\.ftl$/.test(u)), `English Studio: no engine.ftl is requested (${r.seen.filter((u) => /\.ftl$/.test(u)).join(', ')})`);
+    enPage = r.page;
+  }
+  for (const lang of langs) {
+    eng.register_catalogue(lang, readFileSync(join(opt.tree, 'i18n', lang, 'engine.ftl'), 'utf8'));
+    const want = eng.run_human(toml, lang);
+    // the stub the language switch and the links use carries the language to the Studio
+    await visit(`/${lang}/studio/`, `/${lang}/studio/`, async (page) => {
+      const r = await page.evaluate(() => ({ path: location.pathname, search: location.search, lang: window.kshanaL10n && window.kshanaL10n.lang }));
+      ok(r.path === '/studio/' && r.search.includes(`lang=${lang}`) && r.lang === lang, `/${lang}/studio/ opens the Studio in ${lang} (${r.path}${r.search}, lang ${r.lang})`);
+    });
+    const r = await studioRun(`/studio/?scenario=${SCEN}&lang=${lang}`, `/studio/?scenario=${SCEN}&lang=${lang}`, want);
+    const p = r.page, L = `${lang} Studio`;
+    ok(p.live && p.lang === lang && !p.fallback, `${L}: live engine, language ${p.lang}, no English fallback for the engine text`);
+    ok(r.seen.includes(`/i18n/${lang}/engine.ftl`), `${L}: /i18n/${lang}/engine.ftl was requested and answered 200`);
+    ok(fileOk(`i18n/${lang}/engine.ftl`), `${L}: i18n/${lang}/engine.ftl ships in the tree`);
+    ok(!r.seen.includes('/i18n/en/engine.ftl'), `${L}: English engine.ftl is not requested`);
+    ok(r.settled && p.summary === want.summary, `${L}: the summary is the engine's ${lang} text ("${p.summary}", expected "${want.summary}")`);
+    ok(p.svg === want.svg, `${L}: the engine chart is the engine's ${lang} text`);
+    ok(p.summary !== nativeEn.summary && p.svg !== nativeEn.svg, `${L}: engine text differs from English`);
+    const cat = readFileSync(join(opt.tree, 'i18n', lang, 'engine.ftl'), 'utf8');
+    ok(cat.includes(PHRASE[lang]) && p.summary.includes(PHRASE[lang]) && !nativeEn.summary.includes(PHRASE[lang]), `${L}: the summary carries "${PHRASE[lang]}" from i18n/${lang}/engine.ftl`);
+    ok(JSON.stringify(digits(p.summary)) === JSON.stringify(digits(nativeEn.summary)), `${L}: summary numbers unchanged (${digits(p.summary)} vs ${digits(nativeEn.summary)})`);
+    ok(JSON.stringify(digits(svgText(p.svg))) === JSON.stringify(digits(svgText(nativeEn.svg))), `${L}: the chart's numbers are unchanged (${digits(svgText(p.svg))} vs ${digits(svgText(nativeEn.svg))})`);
+    ok(JSON.stringify(tokens(p.summary)) === JSON.stringify(tokens(nativeEn.summary)) && tokens(p.summary).length > 0, `${L}: summary caps tokens unchanged (${tokens(p.summary)})`);
+    ok(JSON.stringify(tokens(svgText(p.svg))) === JSON.stringify(tokens(svgText(nativeEn.svg))), `${L}: chart caps tokens unchanged`);
+    ok(p.json === enPage.json, `${L}: the result JSON is the English run's`);
+  }
+}
 // the constellation designer colours constellations by key: every key of every language copy of capabilities.json is one the page knows
 {
   const src = readFileSync(join(opt.tree, 'js', 'capabilities.mjs'), 'utf8');
@@ -140,9 +216,11 @@ await visit('/studio/?lang=en', '/studio/?lang=en', async (page) => { const l = 
     ok(keys.length > 100 && keys.every((k) => known.includes(k)), `${lang}: every constellation and satellite key of capabilities.json is one CONST_C knows`);
   }
 }
-// the catalogues in the tree: only the five files the browser fetches, only built languages
+// the catalogues in the tree: only the files the browser fetches, only built languages; engine.ftl for the built languages only (English is built into the engine)
 for (const lang of ['en', ...langs]) for (const f of ['ui.ftl', 'glossary.ftl', 'studio-js.ftl', 'studio-pages.ftl', 'site-js.ftl']) ok(fileOk(`i18n/${lang}/${f}`), `i18n/${lang}/${f} ships`);
-for (const lang of ['en', ...langs]) for (const f of ['engine.ftl', 'data.ftl']) ok(!existsSync(join(opt.tree, 'i18n', lang, f)), `i18n/${lang}/${f} does not ship (no page fetches it)`);
+for (const lang of langs) ok(fileOk(`i18n/${lang}/engine.ftl`), `i18n/${lang}/engine.ftl ships (the Studio registers it with the engine)`);
+ok(!existsSync(join(opt.tree, 'i18n', 'en', 'engine.ftl')), 'i18n/en/engine.ftl does not ship (the English catalogue is compiled into the engine)');
+for (const lang of ['en', ...langs]) ok(!existsSync(join(opt.tree, 'i18n', lang, 'data.ftl')), `i18n/${lang}/data.ftl does not ship (no page fetches it)`);
 await browser.close(); server.close();
 console.log(`${checks} checks, ${failures} failure(s)`);
 process.exit(failures ? 1 : 0);

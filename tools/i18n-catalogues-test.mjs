@@ -6,7 +6,7 @@ import { readFileSync, readdirSync, existsSync, mkdtempSync, mkdirSync, writeFil
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { FluentParser } from './vendor/fluent-syntax-0.19.0.mjs';
-import { stripFtl, stageCatalogues, pruneData, RUNTIME_CATALOGUES, RUNTIME_DATA } from './i18n-share.mjs';
+import { stripFtl, stageCatalogues, pruneData, RUNTIME_CATALOGUES, RUNTIME_DATA, ENGINE_CATALOGUE } from './i18n-share.mjs';
 
 const read = (p) => readFileSync(p, 'utf8');
 const put = (root, rel, data) => { const p = join(root, rel); mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, data); };
@@ -38,19 +38,22 @@ for (const lang of readdirSync('i18n')) {
   }
 }
 assert.ok(checked >= 5, 'real catalogues were compared');
+assert.ok(readdirSync('i18n').filter((l) => l !== 'en' && existsSync(join('i18n', l, ENGINE_CATALOGUE))).length >= 17, 'engine.ftl of every language is among the compared files');
 console.log(`stripped ${checked} catalogue files identical in messages: ${total} -> ${stripped} bytes`);
 
 // ---- the run-time list against the sources
 const l10n = read('web/studio/lib/l10n.mjs');
 const defaults = /files = \[([^\]]*)\]/.exec(l10n)[1].match(/"([^"]+)"/g).map((x) => x.slice(1, -1));
 const siteFiles = /kshanaL10nFiles=\[([^\]]*)\]/.exec(read('tools/i18n-site.mjs'))[1].match(/"([^"]+)"/g).map((x) => x.slice(1, -1));
-assert.deepEqual([...new Set([...defaults, ...siteFiles])].sort(), [...RUNTIME_CATALOGUES].sort(), 'the shipped catalogues are exactly the Studio default files plus the translated site pages files');
-// engine.ftl is fetched only through attachEngine; no page calls it
+assert.deepEqual([...new Set([...defaults, ...siteFiles, ENGINE_CATALOGUE])].sort(), [...RUNTIME_CATALOGUES].sort(), 'the shipped catalogues are exactly the Studio default files, the translated site pages files and engine.ftl');
+// engine.ftl is fetched only through attachEngine, and the only page code that calls it is the Studio's engine-text module, which app.js and advanced.js start
 const callers = [];
 const walk = (d) => { for (const e of readdirSync(d, { withFileTypes: true })) { const p = join(d, e.name); if (e.isDirectory()) { if (e.name !== 'pkg' && e.name !== 'node_modules') walk(p); } else if (/\.(m?js|html)$/.test(e.name) && !/\.test\.mjs$/.test(e.name) && /attachEngine\(|registerEngine\s*:/.test(read(p).replace(/\/\/.*$/gm, ''))) callers.push(p); } };
 walk('web');
-assert.deepEqual(callers.filter((p) => !/studio\/lib\/l10n\.mjs$/.test(p)), [], 'no page calls attachEngine or passes registerEngine, so engine.ftl is never fetched');
-assert.ok(!RUNTIME_CATALOGUES.includes('engine.ftl') && !RUNTIME_CATALOGUES.includes('data.ftl'));
+assert.deepEqual(callers.filter((p) => !/studio\/lib\/l10n\.mjs$/.test(p)), ['web/studio/lib/engine-text.mjs'], 'the only caller of attachEngine is the Studio engine-text module');
+for (const f of ['web/studio/app.js', 'web/studio/advanced.js']) assert.ok(/attachEngineText\(S\.engine\)/.test(read(f)) && /localiseEngineText\(run\)/.test(read(f)), `${f} registers the engine catalogue and localises each live run`);
+assert.ok(/l\.lang !== "en"/.test(read('web/studio/lib/engine-text.mjs')) && /if \(lang === "en"\) return/.test(l10n), 'English never registers an engine catalogue: attachEngine skips it, engine-text answers null');
+assert.ok(RUNTIME_CATALOGUES.includes('engine.ftl') && !RUNTIME_CATALOGUES.includes('data.ftl'));
 // the loader asks for nothing but `${base}${lang}/${file}` (and engine.ftl above)
 assert.deepEqual([...l10n.matchAll(/fetchText\(`([^`]+)`\)/g)].map((m) => m[1]).sort(), ['${base}${code}/${f}', '${base}${lang}/engine.ftl']);
 
@@ -79,9 +82,9 @@ console.log(`data copies: ${RUNTIME_DATA.length} of ${spec.length} listed files 
 const tmp = mkdtempSync(join(tmpdir(), 'cat-')), cat = join(tmp, 'cat'), site = join(tmp, 'site');
 for (const l of ['en', 'de', 'ja', 'fr']) for (const f of [...RUNTIME_CATALOGUES, 'engine.ftl', 'data.ftl', 'REVIEW.md']) put(cat, `${l}/${f}`, `# c\n\nmsg = ${l} ${f}\n`);
 const n = stageCatalogues(cat, site, ['de', 'ja']);
-assert.equal(n, ['en', 'de', 'ja'].reduce((a, l) => a + RUNTIME_CATALOGUES.reduce((b, f) => b + `msg = ${l} ${f}\n`.length, 0), 0));
-for (const l of ['en', 'de', 'ja']) for (const f of RUNTIME_CATALOGUES) assert.equal(read(join(site, 'i18n', l, f)), `msg = ${l} ${f}\n`);
-for (const x of ['i18n/de/engine.ftl', 'i18n/de/data.ftl', 'i18n/de/REVIEW.md', 'i18n/fr']) assert.ok(!existsSync(join(site, x)), `${x} is not shipped`);
+assert.equal(n, ['en', 'de', 'ja'].reduce((a, l) => a + RUNTIME_CATALOGUES.filter((f) => !(l === 'en' && f === ENGINE_CATALOGUE)).reduce((b, f) => b + `msg = ${l} ${f}\n`.length, 0), 0));
+for (const l of ['en', 'de', 'ja']) for (const f of RUNTIME_CATALOGUES.filter((f) => !(l === 'en' && f === ENGINE_CATALOGUE))) assert.equal(read(join(site, 'i18n', l, f)), `msg = ${l} ${f}\n`);
+for (const x of ['i18n/en/engine.ftl', 'i18n/de/data.ftl', 'i18n/de/REVIEW.md', 'i18n/fr']) assert.ok(!existsSync(join(site, x)), `${x} is not shipped`);
 const dt = join(tmp, 'dt');
 for (const f of spec) put(dt, `de/${f}`, 'x');
 const r = pruneData(dt, ['de'], 'i18n/data-spec.json');
