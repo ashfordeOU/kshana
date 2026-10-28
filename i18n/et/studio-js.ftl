@@ -10853,3 +10853,7 @@ js-trust-track-start = algus
 js-trust-unknown-agreement = kokkulangevus, mida see leht ei tunne
 
 js-trust-yes = jah
+
+js-mthread-limiting-phase = Mootor nimetab selle faasi piirava allika kui { $source }: faasi allikas, mitte selle tabeli üks rida.
+
+js-mthread-limiting-row = mootori piirav allikas
