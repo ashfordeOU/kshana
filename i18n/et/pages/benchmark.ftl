@@ -29,7 +29,7 @@ seg-0ac1117a39b8 = kshana-benchi edetabel
 seg-b71ad83b27ad = Tulemusfailid, mis on hinnatud versiooni <c1/> all. Rida ütleb, et see fail sai sellel jaotusel selle tulemuse. See ei tähenda, et keegi oleks mõnda toodet hinnanud või heaks kiitnud, ning ühtegi organisatsiooni ei nimetata toetajana.
 
 # text
-seg-6a2052a10b6e = Nõuandev: modelleeritud või mõõdetud nimetatud etalonide suhtes, mitte heakskiit, sertifitseerimine ega standardi järgimise väide. Tulemus kirjeldab logi või korpust, mitte kunagi toodet.
+seg-6a2052a10b6e = Nõuandev: modelleeritud või mõõdetud teatatud etalonide suhtes; mitte heakskiit, sertifitseerimine ega vastavusavaldus. Skoor kirjeldab logi või korpust, mitte kunagi toodet.
 
 # text
 seg-2918ee229bdd = Ülesanne (a): tuvastamine vastuvõtja logidest

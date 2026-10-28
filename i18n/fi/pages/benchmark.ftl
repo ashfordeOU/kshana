@@ -18,7 +18,7 @@ seg-0ac1117a39b8 = kshana-bench-tulostaulu
 
 seg-b71ad83b27ad = Tulostiedostot, jotka on pisteytetty määrittelyn <c1/> mukaan. Rivi kertoo, että tämä tiedosto sai tämän pistemäärän tässä jaossa. Se ei tarkoita, että kukaan olisi arvioinut tai hyväksynyt mitään tuotetta, eikä mitään organisaatiota nimetä tukijaksi.
 
-seg-6a2052a10b6e = Ohjeellinen: mallinnettu tai mitattu ilmoitettuja viitteitä vasten; ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuusvakuutus. Pistemäärä kuvaa lokia tai aineistoa, ei koskaan tuotetta.
+seg-6a2052a10b6e = Ohjeellinen: mallinnettu tai mitattu ilmoitettuja vertailukohtia vasten; ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuusvakuutus. Pistemäärä kuvaa lokia tai aineistoa, ei koskaan tuotetta.
 
 seg-2918ee229bdd = Tehtävä (a): havaitseminen vastaanottimen lokeista
 

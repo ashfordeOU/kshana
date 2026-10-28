@@ -26,7 +26,7 @@ seg-0ac1117a39b8 = kshana-bench-Rangliste
 seg-b71ad83b27ad = Ergebnisdateien, gewertet nach <c1/>. Eine Zeile besagt, dass diese Datei auf dieser Aufteilung diesen Wert erzielt hat. Sie bedeutet nicht, dass irgendein Produkt von irgendjemandem bewertet oder genehmigt wurde, und keine Organisation wird als Befürworter genannt.
 
 # text
-seg-6a2052a10b6e = Nur beratend: modelliert oder gegen genannte Referenzen gemessen, keine Genehmigung, keine Zertifizierung und keine Konformitätserklärung. Ein Wert beschreibt ein Log oder einen Korpus, niemals ein Produkt.
+seg-6a2052a10b6e = Hinweis: aus einem Modell berechnet oder gegen angegebene Referenzen gemessen, keine Genehmigung, Zertifizierung oder Konformitätsaussage. Ein Wert beschreibt ein Log oder einen Korpus, nie ein Produkt.
 
 # text
 seg-2918ee229bdd = Aufgabe (a): Erkennung auf Empfänger-Logs
