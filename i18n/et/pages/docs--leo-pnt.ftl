@@ -725,3 +725,5 @@ seg-ee3c5b58e6fa = <s1>Eelmine</s1>Kuu orbiit ja pind taristuna
 
 # text
 seg-6b951d6413c8 = <s1>Järgmine</s1>LEO signaalikujundused
+
+seg-9bfe27f7ebc5 = <s1>Eelmine</s1>Missiooniahel: Kuu lõik

@@ -3773,3 +3773,5 @@ seg-c5da9d350518 = <s1>Eelmine</s1>Mõistete lühikursus
 
 # text
 seg-670504be0531 = <s1>Järgmine</s1>Stuudio juhend
+
+seg-6c10aaedf2fc = <s1>Järgmine</s1>Keeled

@@ -1153,3 +1153,47 @@ seg-67f767701c6d = <s1>Eelmine</s1>Võimekuse valdkonnad
 
 # text
 seg-ea79a68b0587 = <s1>Järgmine</s1>Tulemuse skeem
+
+seg-944145b95b4a = Kuu pinna PNT ja ajastuse kättesaadavus asukoha ja aastaaja järgi (Artemis-klassi lõunapolaarsed alad).
+
+seg-f942b36a11c4 = GitHubis veel mitte
+
+seg-ae3053a1f6c8 = MODELLED mootoriga tõus lõunapolaarselt pinnaalalt kohtumisorbiidile ja asendi ja kiiruse kovariatsioon, mille see orbiidile tagasi kannab (Artemis-klass). Lunar-descent viieolekuline telgede kaupa inertsiaalne veamudel (asend, kiirus, kiirendusmõõtja nihe, orientatsioonikalle, güroskoobi nihe, mida juhib erijõud) töötab kõigil kolmel asukoha teljel pinnaolekust, millega faas siseneb; AFS asendifikseering ILLUSTRATIVE LCNS-klassi konstellatsiooni nähtavatest releedest (eraldiseisev või diferentsiaalne, kasutades liigi lunar-differential-pnt korrektsioonilingi jääki, kus kella toetatakse siis, kui nähtavad on ainult kolm releed) tehakse öeldud intervalliga, kusjuures Kuu aeg siseneb läbi sõiduki kella ja ajamärgi viga mööda rada. Esitab suletud kujuga inertsiaalsed allikad, abivahendi panuse, ablatsiooni, navigatsiooni 1-sigmad tõusul, mootori väljalülituse hajuvuse navigatsioonivalmiduse kõrval ja täieliku 6x6 MCI kovariatsiooni sisenemisel koos säilitatud asendi ja kiiruse korrelatsiooniga. MODELLED: illustratiivne IMU klass, erijõud, releekomplekt ja väljalülituse hajuvus; vead hoitakse startimisalase telgedes; nominaalne väljumisolek on asendaja. Ei ole agentuuri toetatud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+seg-2cd0d5385530 = MODELLED maandumishajuvuse eelarve mootoriga laskumisel lõunapooluse piirkonna maandumiskohta (Artemis-klass). Iga horisontaaltelje kohta juhib viieoleklist inertsiaalvea mudelit (asukoht, kiirus, kiirendusmõõturi nihe, asendi kalle, güroskoobi nihe) laskumise erijõud; järjestikune filter võtab asukohafiksid lubatud abivahenditest: AFS-fiks ILLUSTRATIVE LCNS-klassi satelliidikonstellatsiooni nähtavatelt releesatelliitidelt (eraldiseisvalt või diferentsiaalselt, kasutades lunar-differential-pnt paranduslingi jääki, kusjuures kella abistatakse siis, kui nähtavad on ainult kolm releesatelliiti), ja reljeefipõhine fiks (crate'i TERCOM/SITAN sobitaja sünteetilisel reljeefil või päris LOLA lõunapooluse DEM-i kõrgusakna sobitamise Cramér-Rao tõke). Kuu aeg siseneb fiksides sõiduki kella kaudu (lunar-time-offset LTC-TT nihe või selle avaldatud ribast tulenev määramatus) ning ajamärgi veana mööda trajektoori. Esitab 3-sigma maandumiselliipsi, R95, suletud kujuga inertsiaalallikad, iga abivahendi panuse, iga abivahendite kombinatsiooni ablatsiooni, ellipsi Monte Carlo kalibreerimise ja edasi antud kovariatsiooni. MODELLED: illustratiivne IMU klass, releekomplekt, laskumisprofiil ja juhtimisliige; reljeefinavigatsioon kasutab sünteetilist reljeefi Maa meetriskaalal; AFS kättesaadavus on üks epohh tasasel maskil. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-2deefd8c547b = MODELLED suhteline navigatsioon Orioni ja maandurit ühendava dokkimise jaoks madalal Kuu orbiidil või elliptilisel polaarorbiidil (Artemis-klass). Jälitaja ja sihtmärk lendavad samal orbiidil crate'i Kuu jõumudeli all; ühine 21-parameetriline partii Gauss-Newtoni hinnang üle kaare (kaks sõiduki olekut ja püsivad signaali ruumis nihked) ühendab ühe absoluutse asukohafiksi sõiduki kohta ILLUSTRATIVE LCNS-klassi releekomplektist (Kuu taha jäävad releesatelliidid jäetakse välja, vaja on nelja, ühisrežiimi signaali ruumis viga tühistub sõidukite vahel) ja ristlingi kauguse, kusjuures kauguse mõõtmise täpsus tuleneb LunaNet AFS piloodi koodijälgimise tõkkest. Esitab formaalse ja Monte Carlo suhtelise asukoha- ja kiirusvea sihtmärgi LVLH telgedes, fiksi kättesaadavuse, keskmise normaliseeritud hinnangu vea ruudu selle oodatud väärtuse suhtes ning iga katse, mille iteratsioon ei koondunud, gravitatsioonihälbete eiramisest tuleneva triivi ja edasi antud täieliku 6x6 kovariatsiooni. Ringjuhu korral rakendub suletud kujuga Hilli/Clohessy-Wiltshire'i kontroll. MODELLED: illustratiivne releekomplekt, veaeelarve ja eeldused; tõeolek ja hindaja jagavad üht jõumudelit, seega kontrollib NEES omavahelist kooskõla, mitte mudeli viga. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-6c7d25f672fb = MODELLED pinnapositsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja kaupa Artemis-klassi lõunapooluse piirkonna kohtades. Iga koha ja aastaaja (epohh ja sellele järgnev aken) kohta esitab releepositsioneerimise (neli või enam ILLUSTRATIVE LCNS-klassi konstellatsiooni releesatelliiti nähtaval ja PDOP alla läve, samadest funktsioonidest nagu moonlight-service-volume ja, reljeefiosaga, lunar-station-coverage reljeefi kiirtega läbi käidud silueti põhjal), kas Maa ja Päike on koha horisondi kohal (analüütiline Päike, Kuu ja Kuu orientatsioon, libratsioon kaasa arvatud, mis aastaajaga muutub) ning ajastuse kättesaadavuse (nähtaval on relee või Maa) koos pikima lõiguga, mil ei ole kumbagi, st holdover, mille pinnakell peab üle elama. Ühe koha tulemus võrdub moonlight-service-volume tulemusega bitini. MODELLED: illustratiivne Kepleri releekomplekt keskmise pöörlemisega Kuul; releenäitaja aastaajaga ei muutu; reljeef on { "1200" } m LOLA väljalõige. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-1ec485468daa = MODELLED navigatsiooni- ja ajastusvea eelarve nimetatud missioonifaaside ahelale starditest sisenemiseni: start ja tõus, madala Maa orbiidi kohtumine ja dokkimine (korratav), Kuule suunav siirdepõletus (TLI) ja tsislunaarne lend, Kuu orbiidil kohtumine, laskumine, viibimine pinnal, tõus ning tagasitulek ja sisenemine, iga faas üks kaheksast registreeritud liigist oma andurite ja filtriga. 6x6 kovariatsioon, kell ja tugisüsteem antakse faasist faasi edasi nimetatud reegli järgi (kanna edasi, paisuta või omanda uuesti); tugisüsteemide ja ajaskaalade teisendused (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) on eraldi eelarveread, kusjuures Kuu olek pärineb valikulisest DE440 kerneli väljalõikest ja analüütiline rida on nimetatud varuvariant. Valikuline maajaamade võrgu kate määrab iga faasi jälgimistööpõhimõtte. Esitab faasipõhise eelarve (sisenemise, tipu ja väljumise 1-sigmad, iga panus koos ühikuga), varu nimetatud nõude suhtes, nõrgima lüli, sündmused ja ajajoone joonise. MODELLED: iga arv on nimetatud sisend; ahel järgib ühte pinu ja ühtegi sõidukit ei modelleerita. Ainult avalikud allikad; ühegi agentuuriga sidumata ja nende poolt heaks kiitmata; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-5b4a725bea4e = Iga kaasasolev stsenaariumifail ({ "192" }), liikide kaupa. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülataseme seaded. Olek loeb liigi mooduli kohta kontrollimaatriksit. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
+
+seg-d2b1e58dea11 = Kella stsenaarium, mille klassikaline kell võtab mõõdetud logi müra (<c1/>).
+
+seg-760090cd3247 = Kella stsenaarium, kus simuleeritud holdover-i kõrval on mõõdetud logi (<c1/>).
+
+seg-d7ed02b28987 = liik lunar-ascent
+
+seg-e92ba974379b = Kuult startimine: mootoritega tõus lõunapolaarselt pinnakohalt (Artemis-klass) { "100" } km kohtumisorbiidile ning positsiooni-kiiruse kovariatsioon, mille see orbiidile kaasa kannab.
+
+seg-d9f4bc0e8795 = liik lunar-descent
+
+seg-224175962a12 = Kuule maandumise hajuvus: mootoritega laskumise eelarve lõunapolaarsele kohale (Artemis-klass), laskumisastme inertsiaalsest triivist ning sellest, kui palju igaüks – maastikusuhteline navigatsioon, LunaNeti signaalid ja Kuu aeg – seda vähendab.
+
+seg-138dbcd1aece = Kuule maandumise hajuvus päris LOLA lõunapolaarse DEM-iga: mootoritega laskumise eelarve lõunapolaarsele kohale (Artemis-klass), laskumisastme inertsiaalsest triivist ning sellest, kui palju igaüks – maastikusuhteline navigatsioon, LunaNeti signaalid ja Kuu aeg – seda vähendab.
+
+seg-7d99c01a7740 = liik lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Kuuorbiidi kohtumine: suhteline navigatsioon Orioni ja maanduri stiilis dokkimise jaoks { "100" } km ringikujulisel polaarsel madalal Kuu orbiidil (Artemis-klass), Kuu gravitatsioonivälja ja LunaNeti-laadsete signaalidega.
+
+seg-9f740b874e14 = Kuuorbiidi kohtumine elliptilisel polaarorbiidil: suhteline navigatsioon Orioni ja maanduri stiilis dokkimise jaoks { "100" } km × { "3000" } km polaarorbiidil, mille periapsis on lõunapooluse kohal (Artemis-klass), Kuu gravitatsioonivälja ja LunaNeti-laadsete signaalidega.
+
+seg-d1fc00782fe9 = liik lunar-surface
+
+seg-ce9f26be0623 = Kuu pinna PNT ja ajastuse kättesaadavus kohtade ja aastaaegade kaupa päris LOLA lõunapolaarse maastikuhorisondiga (Artemis-klassi lõunapolaarsed kohad).
+
+seg-ce858063d300 = liik mission-thread
+
+seg-0bd19840e50d = Artemis-klassi missiooniahel: ühe faasiahela navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni, koostatud avalikust kasutuskontseptsiooni materjalist.

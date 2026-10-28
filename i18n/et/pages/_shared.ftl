@@ -633,3 +633,17 @@ seg-58c4d7218e70 = Reprodutseeritavus ja tarkvara kvaliteedi tagamine on MODELLE
 
 # text
 seg-1bf3d5817274 = Kõik liigid: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Keeled
+
+seg-aaf9c6896126 = Andmepartnerid ja edutavad read
+
+seg-3b31855a40e7 = Missiooniahel: startimisest sisenemiseni
+
+seg-0cf138405411 = Missiooniahel: Kuu lõik
+
+seg-5fee8df421d2 = Missiooniahelad
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = maatriksi rea stabiilne id (ID

@@ -291,3 +291,7 @@ seg-ec064f62f7dc = <s1>Eelmine</s1>MCP server: isehostitav HTTP-režiim
 
 # text
 seg-1f44dbd65ce3 = <s1>Järgmine</s1>Kust on iga võimekus kättesaadav
+
+seg-e3949a1e6082 = Kiirgusallika piirkond (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: teostatav piirkond raadionähtavuse korral, mitte fikseering. Esita piirkond selle öeldud usaldusnivool koos tsentroidi ja selle ellipsiga, mitte kunagi ainult tsentroidi; ütle <c1/>, kui andmed seda ei kitsenda; ütle, et see sõltub mudelist (kontrollitud ainult sünteetilistel andmetel; eelregistreeritud Jammertesti võrdlus käivitati üks kord ja oli mõlema allika puhul NOT ASSESSABLE, seega midagi ei testitud väliselt). Neutraalne sõnastus: „hinnanguline kiirgusallika piirkond“; ära kunagi nimeta ega vihja, kes või mis seisab allika, riigi, jõu või kavatsuse taga. Ainult koond; ära püüa tuvastajaid taastada. Kiirgusallika piirkondade avaldamine avalikus observatooriumis on välja lülitatud.

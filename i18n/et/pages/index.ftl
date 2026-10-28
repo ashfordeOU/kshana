@@ -1124,3 +1124,25 @@ seg-f4d3b1f5b1b4 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> 
 seg-3287261002dd = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
 
 seg-510663384be1 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
+
+seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
+
+seg-8ca6e2046901 = Hinnanguline kiirgusallika piirkond ADS-B või AIS teadete põhjal
+
+seg-003a3b9b63ea = Mõõdetud kellalogid ja sobitatud reaga käitatud holdover
+
+seg-448b11c86f48 = Andmepartnerid: milliseid ridu mõõdetud andmed võiksid edutada
+
+seg-5858e5d1f7c5 = Tõendimärgis igal arvul ja tabelil, mille käivitus kirjutab
+
+seg-bd28ef5c376e = Seitseteist keelt lisaks inglise keelele
+
+seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
+
+seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt igal näitajal ja seitseteist keelt
+
+seg-653cf3198094 = { "176" } võimekust { "401" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
+
+seg-76b213d03caa = Kõik { "92" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.

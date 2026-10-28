@@ -3603,3 +3603,101 @@ seg-e51289a1e835 = EASA GNSS-i häirete juhend (lennundus)
 
 # text
 seg-4fa26d67951e = EASA juhend lennunduse jaoks, kaardistatud klausli numbri järgi
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Vali üks { "193" } stsenaariumifailist { "92" } liigi hulgast või kirjuta oma fail. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib faili, millest alustada.
+
+seg-d5c6110302e9 = Artemis-klassi missiooniahel, tõendimärgis igal arvul ja seitseteist keelt.
+
+seg-8597c65432ed = Aheldab Kuu missiooni faasid üheks navigatsiooni- ja ajastusvea eelarveks, hindab, kus võib asuda halvenenud positsiooniteadete allikas, loeb mõõdetud kellalogisid, näitab tõendustaset igal arvul, mille käivitus kirjutab, ning võimaldab kasutada käsurida, aruandeid ja Studiot seitsmeteistkümnes keeles. Iga võimekus kannab silti, mille register selle kohta hoiab, ja silt nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutus jääb operaatorile.
+
+seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
+
+seg-982a4a7cf0db = Missiooniahela liik aheldab faasid (start ja tõus, kohtumine madalal Maa orbiidil, Kuule suunav üleminek ja lend, Kuu faasid, sisenemine) ning kannab asendi ja kiiruse kovariatsiooni ühest faasist järgmisse; üleandmisreeglid, tugisüsteemide ja ajaskaalade teisendused, varu seatud nõuete suhtes ja nõrgim lüli on kõik kirjutatud eelarveridadena.
+
+seg-17c9cc6c2d40 = Kontrollitud: Artemis I võrdlus jäi oma läveni jõudmata ({ "45.3" } km versus { "5" } km); rida jääb MODELLED
+
+seg-946487626f87 = Missiooniahela vaade Kshana Studios
+
+seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
+
+seg-b6c35bf141e7 = Neli stsenaariumi liiki, millest igaüks on ka missiooniahela faas: suhteline navigatsioon dokkimiseni Kuu orbiidil, maandumishajuvuse eelarve lõunapolaarsel alal, positsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja järgi ning tõus tagasi kohtumisorbiidile.
+
+seg-ce097df855a9 = Kontrollitud: eelregistreeritud läved; üks täidetud, üks täitmata, ühtegi pole lõdvendatud
+
+seg-8ca6e2046901 = Hinnanguline kiirgusallika piirkond ADS-B või AIS teadete põhjal
+
+seg-ca6383e426f9 = Kus võib asuda halvenenud positsiooniteadete allikas: piirkondadena { "50" }, { "90" } ja { "95" } protsendi juures koos tsentroidi ja selle määramatuse ellipsiga, mitte kunagi paljas punkt, ning ajas sessioonidena.
+
+seg-27af464d0674 = Kontrollitud: eelregistreeritud; mõlemad allikad pole hinnatavad, seega midagi ei väideta
+
+seg-003a3b9b63ea = Mõõdetud kellalogid ja sobitatud reaga käitatud holdover
+
+seg-f51fa2a40db8 = Loe mõõdetud kellalogi kaheksas vormingus (RINEX clock, TimeLab, TICC, linuxptp, chrony) üheks faasireaks kella ja telekomi ajastuse liikide jaoks ning sobita mõõdetud rea müra, et käitada sellega holdover.
+
+seg-6e9140563c53 = Kontrollitud: läved eelregistreeritud; möödalasked on välja öeldud ja kinnistatud
+
+seg-448b11c86f48 = Andmepartnerid: milliseid ridu mõõdetud andmed võiksid edutada
+
+seg-56b0201d930c = Milliseid modelleeritud registrireid võiksid partneri mõõdetud andmed edutada, millised vormingud on vastuvõetavad ning kuidas esitust kontrollitakse, eelregistreeritud läve vastu hinnatakse ja arvesse võetakse.
+
+seg-5858e5d1f7c5 = Tõendimärgis igal arvul ja tabelil, mille käivitus kirjutab
+
+seg-d1c4250b2a7e = Iga tulemusfail, diagramm ja tabel, mille käivitus kirjutab, ütleb nüüd, millisel tasemel see toetub (validated, modelled või partner, ridadest nõrgim), ning nimetab selle taga olevad kontrollimaatriksi read, mis on loetud maatriksist, mitte käsitsi kirjutatud.
+
+seg-bd28ef5c376e = Seitseteist keelt lisaks inglise keelele
+
+seg-1e4a6a5931d3 = Käsurida, aruanded, dokumentatsioonilehed ja Studio on saadaval seitsmeteistkümnes keeles lisaks inglise keelele.
+
+seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
+
+seg-1e0afa852323 = Neli eelregistreeritud võrdlust käivitati üks kord pärast kinnitamist ja need täitsid oma läved ning kõik skoorid on modelleeritud.
+
+seg-ed10ac59ed87 = Kõik { "193" } stsenaariumifaili { "92" } liigi hulgas, rühmitatud valdkonna järgi; { "180" } on mootorisse sisse ehitatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> käivituvad hoidlast käsureaga. Punkt näitab liigi mooduli registristaatust seal, kus register seda nimetab. Fail, millel on salvestatud käik, avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja seda käitava käsuga.
+
+seg-c381cfa99bb0 = Kella stsenaarium, kus klassikaline kell võtab mõõdetud logi müra (`[clock_fit]`).
+
+seg-328cd04eef87 = Kella stsenaarium, kus mõõdetud logi on simuleeritud holdoveri kõrval (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Artemis-klassi missiooniahel: ühe faasiahela navigatsiooni- ja ajastusvea eelarve alates startimisest
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Kuu tõus: mootoriga tõus lõunapolaarselt pinnaalalt (Artemis-klass) { "100" } km kohtumisorbiidile
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Kuu maandumishajuvus: mootoriga laskumise eelarve lõunapolaarsele alale (Artemis-klass), alates
+
+seg-bd7c53737f55 = Kuu maandumishajuvus päris LOLA lõunapolaarse DEM-iga: mootoriga laskumise eelarve lõunapolaarsele alale (Artemis-klass), alates…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Kuu kohtumine: suhteline navigatsioon Orioni ja maandumismooduli stiilis dokkimiseks { "100" } km ringikujulisel polaarsel
+
+seg-6ce976854c44 = Kuu kohtumine elliptilisel polaarorbiidil: suhteline navigatsioon Orioni ja maandumismooduli stiilis dokkimiseks
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Kuu pinna PNT ja ajastuse kättesaadavus asukoha ja aastaaja järgi (Artemis-klassi lõunapolaarsed alad).
+
+seg-0ecc50eafdbe = Kuu pinna PNT ja ajastuse kättesaadavus asukoha ja aastaaja järgi päris LOLA lõunapolaarse maastikuga
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } liiki { "92" }-st, { "3300" } arvulist välja { "3300" }-st

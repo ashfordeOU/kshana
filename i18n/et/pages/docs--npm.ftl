@@ -217,3 +217,11 @@ seg-4ae905aec2ab = <s1>Eelmine</s1>Python API
 
 # text
 seg-8af548581ae9 = <s1>Järgmine</s1>Rust crate
+
+seg-c9a297cc51e9 = { "401" } võimekusest { "176" } valideeritud sõltumatute väliste etalonide (oraaklite) vastu
+
+seg-7b53ee712a36 = <b>{ "401" } võimekusest { "176" }</b> on valideeritud sõltumatute väliste etalonide (oraaklite) vastu; { "221" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+
+seg-b59781ecf257 = Kuidas võimekus oma sildi teenib: võimekus, etalon (oraakel), test, registri (ledger) silt. Kontrollistaatus kõigi { "401" } võimekuse lõikes: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omad
+
+seg-d0b2811a3d3c = Mootoril on { "92" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).

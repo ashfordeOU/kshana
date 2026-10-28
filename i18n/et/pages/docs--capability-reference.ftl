@@ -4387,3 +4387,85 @@ seg-6eee4b0e40b9 = <s1>Eelmine</s1>Kontrollimaatriks
 
 # text
 seg-c3e7639ccf1a = <s1>Järgmine</s1>Miks read jäävad modelleerituks
+
+seg-69c56cbdda90 = { "92" } liiki { "92" }-st, { "3300" } arvulist välja { "3300" }-st
+
+seg-2fd8f2df3e6e = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "401" } kontrollimaatriksi rida.
+
+seg-65185cb68d6b = Missioonifaaside ahela navigatsiooni- ja ajastusvea eelarve startimisest sisenemiseni (<c1/>)
+
+seg-86a132e1a243 = Liik <c1/>: faaside dokument, millest iga on üks kaheksast registreeritud liigist, käivitatud järjekorras, 6x6 kovariatsiooni, kella ja tugisüsteemi edasiandmisega öeldud reegli järgi (<c2/>; <c3/>, valge kiirendusmüra öeldud vahemiku jooksul sirgjoonelisel mudelil; <c4/>, inertsiaalne edasiliikumine ja seejärel allika alampiir, mitte kunagi sellest allapoole, mitte kunagi lähtestamine); tugisüsteemi teisendused GCRF, MCI ja MCMF ning ajaskaala teisendused läbi TT, igaüks oma eelarveread, Kuu olek valikulisest DE440 kerneli lõigust ja analüütiline rida öeldud varuvariandina; varu öeldud nõude suhtes, nõrgim lüli, sündmused ja ajajoone joonis. Iga arv on öeldud sisend või selle mudel
+
+seg-cf8a0dc4088e = Käsitsiarvutused testides (sirgjoonelise kovariatsiooni kasv, keskmine sideeriline pöörlemine, ilmalik Kuu kella käik) ja ainult Kuu oleku jaoks salvestatud DE440 kerneli lõigud kinnitatud JPL Horizonsi väärtuste vastu (halvim { "2.6" } m ja { "7e-6" } m/s). Missiooniandmeid ahelaga ei võrrelda; selle faasid on omaette read. Dokument on öeldud ahel ILLUSTRATIVE sisenditega, ainult avalike allikatega ja ilma ühegi agentuuri toetuseta
+
+seg-87b2b2459b45 = Start ja tõus parkimisorbiidile GNSS-i hõivamise ja signaali kadumisega (<c1/>)
+
+seg-725e7ce83533 = Faas <c1/>: konstantse kiirusega asendi ja kiiruse kovariatsioon valge kiirendusmüraga (inertsiaalse edasiliikumise klass), öeldud täpsusega GNSS-fikseering, mida rakendatakse pärast hõivamisaega ja väljaspool öeldud signaali kadumisi, samade fikseeringutega distsiplineeritud nihke-ja-triivi kell ning parkimisorbiidile sisenemise olek
+
+seg-22e5c301626e = Riccati püsiseisund ja prognoosi käsitsiarvutus testides. Siin ei modelleerita kanderaketti ega vastuvõtjat; iga arv on öeldud sisend
+
+seg-eb66a49b0306 = Suhteline navigatsioon dokkimisümbriseni madalal Maa orbiidil anduriosade kaupa (<c1/>)
+
+seg-658a0448d80d = Faas <c1/>: suhteline olek sihtmärgi LVLH telgedes suletud kujul Clohessy-Wiltshire'i siirdega, 6x6 Kalmani kovariatsioon valge kiirendusmüraga ja asendiuuendused, mille dispersioon on anduri oma praegusel kaugusel, öeldud anduri osade kaupa (ILLUSTRATIVE optilise kaamera, lidari ja raadiokauguse mõõtmise vormid); dokkimisaken on aeg, millest alates suhteline sigma püsib püüdeümbrises, kuni faasi lõpuni. Jälitaja absoluutne kovariatsioon antakse edasi muutmata ja rida ütleb seda.
+
+seg-97f4aa0575e6 = Ühe telje käsitsiarvutus ennustusele ja uuendusele testis; Clohessy-Wiltshire'i siire on see, mida cw_dynamics kontrollib sõltumatu numbrilise integreerimise vastu. Andurid on ILLUSTRATIVE ja ühtegi päris kohtumist ei võrrelda
+
+seg-b45a8a357faf = Kuule suunav üleminek ja tsislunaarne lend: levitatud keskmine olek ja kovariatsioon jälgimisuuendustega (<c1/>)
+
+seg-ab5c79789754 = Faas <c1/>: keskmine olek mootori Cowelli levitajaga (Maa punktmass ja J2, Päike ja Kuu kolmanda kehana, Kuu lõimest DE440 kernelist seal, kus see lõiku katab, ja Päike analüütilisest reast); kovariatsioon selle levitamise ettapärase diferentsiga olekusiirdemaatriksist (nominaalne käivitus ja kuus häiritud käivitust lõigu kohta) valge kiirendusmüraga; TLI põlemise suuruse ja suuna viga; <c2/> fikseeringud, mille kättesaadavus ja PDOP tulevad kosmoseteenuse ala pühkimisest piki kaart asendavat oskuleerivat orbiiti; kauguse ja kauguskiiruse jälgimine geotsentrilise suuna suunas, skaleeritud maajaamade võrgu töötsükliga, Joseph-vormi uuendusega
+
+seg-86dae517e339 = Liouville'i teoreem (konservatiivse osa olekusiirdemaatriksi determinant on üks) ja peenem diferents testides; keskmist olekut võrreldakse avaliku trajektooriga allolevas reas, mida see ei täida. Põlemisviga, uuendusi ja kovariatsiooni ei võrrelda millegagi
+
+seg-7a3eb4fae324 = Sisenemisliidese kovariatsioon, koridoritõenäosus, tipp-aeglustus ja maandumisjalajälg (<c1/>)
+
+seg-93f07906d7bf = Faas <c1/>: faasi <c2/> tagasipöörduv liuglus ilma põlemiseta, lõpeb sisenemisliidesega; lennutrajektoori nurk ja selle sigma täielikust kovariatsioonist lõplike diferentside gradiendiga; tõenäosus, et nurk on öeldud koridoris; tipp-aeglustus nominaalse nurga juures ja mõlemal koridoriservas mootori tasapinnalisest ballistilisest punktmassi sisenemisest (väljapõrge tuvastatud) Allen-Eggersi suletud kuju kõrval; maandumisjalajälg öeldud allasuunalise tundlikkuse ja orbiiditasandit läbiva liidesekovariatsiooni põhjal. Tõstejõudu, juhtimist ega kuumenemist ei modelleerita
+
+seg-8d5695aad35b = Käsitsiarvutused testides (nurga sigma on ristikiiruse sigma jagatud kiirusega; Gaussi mass koridoris). Tasapinnaline sisenemine on mootori enda ja Allen-Eggersi kuju on suletud kujuga võrdlus; lennanud sisenemist ei võrrelda
+
+seg-3f0951532f6e = Maajaamade võrgu katvus ja jälgimise töötsükkel faasi jaoks (<c1/> liigis <c2/>)
+
+seg-5204af351299 = Maajaamade võrgu pealis: jaamad minimaalse tõusunurgaga, sõiduki nähtavus öeldud geomeetrial (sisenemisolek lennatud kahe keha mudelis koos J2-ga, Kuu asend lennu jaoks või öeldud töötsükkel), jaamavahetused, mis kaotavad igaüks öeldud aja, ja saadud töötsükkel antakse edasi faasi maajälgimise uuendussagedusele; pikim ajavahemik, mil ühtki jaama pole näha, on eelarverida
+
+seg-0d1d229a3ab7 = Zeniidi ja antipoodi geomeetriakontrollid ning kauge sihtmärgi eeldatav nähtavus testides. Päris võrku, antenni ega ajakava ei modelleerita
+
+seg-4ba700726208 = Suhteline navigatsioon dokkimiseni Kuu orbiidil (<c1/>)
+
+seg-2e30e78e49f7 = Liik ja faas <c1/>: ühine kahe sõiduki partii Gauss-Newtoni hinnang kaarel (kakskümmend üks parameetrit: mõlemad olekud ja püsivad signaali kosmoses asendinihked, ühised ja sõltumatud), kasvatatud veerandi, poole ja kogu kaare peale sammu poolitamisega, ühest absoluutsest fikseeringust sõiduki kohta (AFS pilootkoodi jälgimise tõke, ILLUSTRATIVE releekomplekt) ja ristlingi kaugusest, teegi Kuu jõumudeli all; keskmine normaliseeritud hindamisvea ruut, Clohessy-Wiltshire'i kontroll ringorbiidil ja edasi antud 6x6 kovariatsioon
+
+seg-09fa0c35d004 = Isekooskõla eelregistreeringu all (xval/mission-thread-lunar/PREREGISTRATION.md, tulemused ja hindaja ajalugu failis RESULTS.md): suhtelise oleku keskmine NEES on { "5.85" } kuni { "5.93" } vahemiku { "5.2" } kuni { "6.8" } vastu neljas konfiguratsioonis, MET neljanda hindajakujunduse puhul pärast seda, kui kolm järjestikfiltri kujundust jäid lävest mööda; tõeandmed ja hindaja jagavad üht jõumudelit, seega see ei ütle midagi mudelivea kohta. Levitajat, mida see jagab, võrreldakse LRO ja CAPSTONE'iga allolevas reas
+
+seg-c85d7e5e63a3 = Maandumishajuvuse eelarve Kuu polaaralal (<c1/>)
+
+seg-bd88ab3ad105 = Liik ja faas <c1/>: viieolekuline telgede kaupa inertsiaalne veamudel (asend, kiirus, kiirendusmõõtja nihe, kalle, güroskoobi nihe) mootoriga laskumisel, mida toetavad AFS fikseeringud (eraldiseisvad või diferentsiaalsed, kella toetatud kolme releega juhtumiga), maastikusuhteline fikseering (mootori terrain-nav sobitaja sünteetilisel reljeefil või Cramer-Rao tõke LOLA DEM-il avaprobleemi reegliga) ja Kuu aeg, koos Monte Carlo puudutuselliipsiga
+
+seg-a5ddb83a5cf1 = Suletud kujuga inertsiaalne triiv, taaskasutatud liikide enda tulemused ja 3-sigma ellipsi kalibreerimine (sisemine osa on kooskõlas oma ootusega) testides. Lennatud ega testitud maandumist ei võrrelda
+
+seg-8dfc1600cf8c = Pinnapositsioneerimise ja -ajastuse kättesaadavus asukoha ja aastaaja järgi Kuu poolustel (<c1/>)
+
+seg-f91c1da9ab55 = Liik ja faas <c1/>: releede kättesaadavus ja PDOP, Maa ja Päikese nähtavus ning distsiplineeritud pinnakell iga asukoha ja aastaaja kohta, koos liigi <c2/> maastikusiluetiga; ühe asukoha käivitus võrdub selle liigi kättesaadavuse ja PDOP-iga bitipealt
+
+seg-e3a782dce8be = Täpne võrdsus olemasoleva liigiga ühe asukoha jaoks ja monotoonsuskontrollid testides. Releekomplekt on ILLUSTRATIVE ja ühtki pinnamõõtmist ei võrrelda
+
+seg-0db91d70a079 = Mootoriga tõus Kuu polaaralalt sisenemisorbiidile (<c1/>)
+
+seg-b5b1125d515c = Liik ja faas <c1/>: viieolekuline telgede kaupa inertsiaalne veamudel mootoriga tõusul, kus erijõud on piki rada, mida toetavad AFS fikseeringud ja Kuu aeg, esitades orbiidile kantud sisenemise asendi ja kiiruse kovariatsiooni ning mootori väljalülituse hajuvuse (esitatud, mitte edasi kantud)
+
+seg-76e0d23b7483 = Suletud kujuga inertsiaalne triiv ja monotoonsuskontrollid testides. Lennatud tõusu ei võrrelda
+
+seg-1983ce9cc6da = Kuu jõumudeli levitamine avalike rekonstrueeritud Kuu orbiitide ja tsislunaarsete trajektooride vastu
+
+seg-57f53a7d1fa2 = Kuu liikide jagatud levitaja (GRAIL GL0660B järk ja aste { "150" }, Maa ja Päikese kolmandad kehad, relatiivsus, DE440 Kuu orientatsioon) võrreldud LRO ({ "24" } h, { "10" } minuti valimid) ja CAPSTONE'i (üks { "6.5" } päeva tiir, tunnivalimid) avalike JPL Horizonsi trajektooridega, lävede all, mis on enne käivitust kinnitatud salvestatud failis
+
+seg-321d0721970d = JPL Horizonsi kosmoseaparaatide efemeriidid LRO ja CAPSTONE'i jaoks, eelregistreeritud lävede vastu failis xval/mission-thread-lunar/PREREGISTRATION.md (muudatused { "1" } kuni { "6" }). LRO: MET, { "33" } m suurim 3D-erinevus ja { "2.4" } m RMS radiaalne võrreldes { "500" } m ja { "60" } m. CAPSTONE: NOT MET, { "136.8" } km lõppasendi erinevus võrreldes { "25" } km ja { "28.4" } km periapsise erinevus võrreldes { "10" } km, põhjuseid ei eraldatud. Rida on modelleeritud, sest CAPSTONE'i lävi jäi täitmata ja võrdlus testib jagatud levitajat, mitte ühtki filtrit, signaali ega eelarvet
+
+seg-c557d317389a = Tsislunaarse keskmise oleku levitamine avaliku Artemis I trajektoori vastu (<c1/>)
+
+seg-539d4c3e9b56 = Faasi <c1/> keskmise oleku levitamine (Cowell, Maa punktmass ja J2, Päike ja Kuu kolmandate kehadena, Kuu DE440 lõigust) võrreldud Artemis I avaliku JPL Horizonsi trajektooriga { "72" } h liuglusel alates 2022-11-16 { "18" }:{ "00" } TDB, { "12" } tunni epohhidel, lävede all, mis on enne käivitust kinnitatud salvestatud failis
+
+seg-362b1a7b9e5e = JPL Horizonsi sihtmärk -1023 (NASA navigatsiooni lennatud trajektoor pärast TLI-d), eelregistreeritud lävede vastu failis xval/mission-thread/PREREGISTRATION.md (muudatus { "1" } muudab ainult päringu vahemikku). NOT MET ja väidetud kui täitmata: { "45.3" } km suurim asendierinevus võrreldes { "5" } km ja { "0.249" } m/s kiiruse erinevus { "72" } h juures võrreldes { "0.05" } m/s. Pärast otsust kirjutatud diagnostika paigutab möödalaske etalonis viide impulsiivsesse kiirussammu suurusega { "0.09" } kuni { "0.22" } m/s (eelregistreeritud lugemine, et aken ei sisaldanud põlemist, oli vale); ülejäänud { "67" } tunni jooksul taastab mudel järgmise tunnioleku mediaanil { "0.38" } m. Testib ainult ühe liuglusaarkaare keskmist olekut: ei kovariatsiooni, filtrit, uuendust ega muud faasi
+
+seg-150ae9c3d755 = Häirete allika piirkond: teostatav kiirgusallika piirkond õhusõidukite ja laevade positsiooniteadetest
+
+seg-b5c49044a7a1 = Teostatav piirkond, kus võib asuda halvenenud navigatsiooniteadete allikas, ADS-B (NIC/NACp) või AIS positsiooniteadetest: raadionähtavus 4/3 Maa raadiusel teate kõrgusest ja kiirgusallika antenni kõrgusvahemikust, piiratud efektiivne ulatus tundmatu võimsuse jaoks, mõjutatud üksused tõmbavad posterioori oma ulatuse suunas ja mõjutamata nähtavusega üksused suruvad sellele vastu, rühmitatud sessioonideks ajas ja ruumis. Väljund on suurima tihedusega piirkonnad öeldud usaldusnivoodel, posterioori tsentroid momentellipsiga, sessiooni algus, lõpp, kestus, mõjutatud ala ja eristatavate õhusõidukite arv üle avaldamise miinimumi, ööpäevaprofiil ja tunnid päevas. Maastikuvaba; üks allikas sessiooni kohta; usaldusväärsus sõltub mudelist. Valikuline liitmine geolokatsiooni TDOA fikseeringuga.
+
+seg-953a8b4f9f41 = Veel ühtki välist. Ainult sünteetilised ettepoole-tagasi ringid generaatorist, mis jagab hindaja mudelit, seega need kontrollivad koodi ja öeldud tasemete kalibreeringut selle mudeli all ega ütle midagi päris kiirgusallikate kohta. Välist kontrolli avaldatud Jammertest { "2025" } saatjakohtade vastu eelregistreeriti (docs/emitter-region/PREREGISTRATION.md, omaniku poolt enne ühtki hinnatud käivitust kinnitatud) ja käivitati üks kord (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planeeritud sessiooni, vähem kui registreeritud miinimum { "4" }) ja AIS NOT ASSESSABLE (avaldatud sessiooni pole), seega ühtki lävi ei testitud ja rida jääb MODELLED

@@ -1224,3 +1224,11 @@ seg-67341b9eea70 = <b>Midagi muud</b><s1>contact@ashforde.org · kiri läheb ots
 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+seg-3bf5f474beca = Avatud mootor keskel: üks märk iga stsenaariumi liigi kohta ({ "92" }), täidetud, kus liigil on valideeritud registriread, õõnes, kus selle read on modelleeritud, kriips, kus ükski registrimoodul nimega ei vasta. Kshana Pro ja kohandatud uuring asuvad selle ümber ning ühenduvad liikidega, millele nad toetuvad.
+
+seg-f88b6cf10837 = Mootor v{ $version } · { "92" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · stsenaariumi ega algväärtust pole
+
+seg-7a848f1d8304 = Kõik { "92" } stsenaariumi liiki ja { "180" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
+
+seg-cc655ce0b6c8 = Täielik kontrollimaatriks: { "176" } võimekust { "401" }-st on valideeritud sõltumatute etalonide vastu, ülejäänud on märgitud modelleeritud
