@@ -47,3 +47,5 @@ seg-37d29d8303fe = km
 seg-8f1e7d3f5a07 = ファミリーページ：<a1>ミッション解析、リンク、宇宙運用</a1>
 
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-410a790785e7 = <s1>次へ</s1>lunar-ascent

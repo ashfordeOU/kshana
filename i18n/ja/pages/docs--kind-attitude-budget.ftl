@@ -47,3 +47,5 @@ seg-333fca11ac0c = 率直な適用範囲：MODELLEDのスカラー誤差バジ�
 seg-0e27fcef1499 = <s1>前へ</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>次へ</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

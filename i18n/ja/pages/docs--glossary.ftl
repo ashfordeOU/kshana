@@ -2473,3 +2473,5 @@ seg-529f02f85a76 = Lunar Reconnaissance Orbiter Camera（月周回衛星カメ�
 seg-c5da9d350518 = <s1>前へ</s1>概念入門
 
 seg-670504be0531 = <s1>次へ</s1>Studio ガイド
+
+seg-6c10aaedf2fc = <s1>次へ</s1>言語
