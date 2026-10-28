@@ -210,3 +210,8 @@ seg-be1f1afe7424 = <s1>Anterior</s1>Relatórios de execução
 
 # text
 seg-6817433f69f6 = <s1>Seguinte</s1>Exportações e importações de interoperabilidade
+
+# text
+# c1: no time series to animate
+# c2: cargo test --test animation -- --nocapture
+seg-5366f477e688 = Um tipo de cenário cujo resultado não contém nenhuma destas formas (um orçamento de enlace, uma geometria de época única, um resumo de Monte Carlo apenas estatístico, ou o holdover de telecomunicações, cujo resultado publica o hash do registo, mas não o registo) é recusado com <c1/>, e nada é escrito. Com o kshana { $version }, { "94" } dos { "192" } ficheiros de cenário executáveis (todos, exceto uma suíte de estudo) geram animação e { "98" } são recusados. <c2/> imprime a contagem.

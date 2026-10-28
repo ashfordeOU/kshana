@@ -41,3 +41,5 @@ seg-01fa469abd95 = Aarde-GNSS op maanafstand is MODELLED, niet extern getoetst: 
 seg-2fd936b76f4a = <s1>Vorige</s1>contact-schedule
 
 seg-95a5aa0adeb3 = <s1>Volgende</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

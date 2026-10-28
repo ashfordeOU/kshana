@@ -8885,3 +8885,30 @@ seg-15f45d8ccb0f = <s1>Anterior</s1>Onde se situa o Kshana
 
 # text
 seg-cd8a14a9e8ec = <s1>Seguinte</s1>Licenciamento
+
+# text
+seg-1200856c90da = [{ $version }] - 2026-10-28
+
+# text
+seg-05d0c798a196 = A { "0.40" } acrescenta a cadeia da missão de classe Artemis e o seu segmento lunar, uma etiqueta de evidência em cada figura e tabela que uma execução escreve, ingestão e ajuste de relógios medidos, uma verificação de envio de parceiros de dados, uma região estimada de emissor a partir de relatos ADS-B ou AIS, a nova campanha de benchmark da { "0.40" }, e a linha de comandos, os relatórios e o Studio em dezassete idiomas além do inglês (os documentos de máquina permanecem em inglês). A matriz de verificação cresce de { "388" } para { "401" } linhas: { "176" } VALIDATED (inalterado), { "221" } MODELLED (eram { "208" }) e { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED. Os tipos de cenário crescem de { "87" } para { "92" }. Todo limiar que uma comparação com pré-registo não atingiu está declarado abaixo e permanece fixado; nenhum foi relaxado. A declaração consultiva permanece inalterada: o Kshana é um software de caráter consultivo, não um equipamento de navegação homologado e não uma certificação; o operador continua a ser responsável.
+
+# text
+seg-738f33f0ae8a = Limites conhecidos
+
+# text
+seg-d4062fab7ae1 = As execuções em outros idiomas levam cerca do dobro do tempo, porque o cenário é executado duas vezes (uma em inglês para os ficheiros de máquina, outra no idioma escolhido para a pessoa).
+
+# text
+seg-8db6dedc627a = Algumas frases do Studio são montadas a partir de fragmentos e podem não ter artigos em idiomas com género gramatical.
+
+# text
+seg-86e6e35ac846 = As traduções são traduções automáticas que nenhum falante nativo revisou; o inglês é a referência.
+
+# text
+# c1: --lang
+# c2: KSHANA_LANG
+# c3: lang
+# c4: report.html
+# c5: docs/i18n.md
+# c6: REVIEW.md
+seg-dd7ee240b467 = <b>Dezassete idiomas além do inglês</b> para o texto do motor destinado às pessoas e para o site e o Studio: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja, zh-Hans (<c1/>, <c2/>, as variáveis de configuração regional; <c3/> nas chamadas da biblioteca, de Python, de WebAssembly e de MCP). Mensagens e erros da linha de comandos, resumos de execução, textos de gráficos, <c4/>, descrições dos tipos de cenário e as declarações consultivas estão traduzidos; os documentos de máquina (JSON, CSV, códigos de erro, a matriz de verificação) permanecem em inglês, e uma execução em outro idioma executa o cenário uma vez em inglês para os ficheiros de máquina e uma vez no idioma escolhido para a pessoa (<a1><c5/></a1>). <b>As traduções são traduções automáticas, não revistas por falantes nativos; o inglês é a referência</b>; o <c6/> de cada idioma lista o que um revisor deve verificar primeiro, e as páginas do site trazem um aviso a indicá-lo. As palavras de veredito, os níveis de evidência e o âmbito consultivo ("não homologado", "não uma certificação", "o operador continua a ser responsável") são mantidos em todos os idiomas.

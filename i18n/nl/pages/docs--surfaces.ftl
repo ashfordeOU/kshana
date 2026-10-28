@@ -565,3 +565,5 @@ seg-b2fd2a05842f = Training-NMEA is <b>alleen tekst</b>: er wordt geen RF, IQ of
 seg-4e3bbacda9ac = <s1>Vorige</s1>Kshana gebruiken vanuit een agent
 
 seg-c5fbfab85e01 = <s1>Volgende</s1>JetBrains-plug-in
+
+seg-6555ff9a6d8e = Uitvoer

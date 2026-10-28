@@ -5842,3 +5842,7 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = tests unitaires d'interference_map::emitter (aller-retour de projection, valeur de l'horizon, allers-retours synthétiques direct et inverse : l'émetteur connu se trouve dans la région déclarée à peu près au taux déclaré, cas limites, regroupement en sessions, profil, confidentialité et formulation) ; cas locate de tests/interference_map_cli.rs
+
+seg-6875b0d82c59 = Le registre de preuves complet, vérifié par machine : <b>{ "401" } lignes — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Une ligne ne peut être VALIDATED qu'avec une référence externe indépendante (les tests d'invariants de la matrice l'imposent). Les mêmes données, avec des liens cliquables par ligne vers chaque test, module et fixture versionnée, constituent le <em>registre de validation</em> sur <a1>https://kshana.dev</a1>. Voir <a2>MODELLED-RATIONALE.md</a2> pour savoir pourquoi chaque ligne modélisée n'est pas vérifiée en externe.
+
+seg-0a9897a43b5d = { "401" } lignes : { "176" } vérifiées en externe, { "221" } modélisées, { "4" } détenues par un partenaire.

@@ -3126,3 +3126,109 @@ seg-7a0503f925c1 = <s1>Anterior</s1>Referência de capacidades
 
 # text
 seg-b5832e94f926 = <s1>Seguinte</s1>Alegações face à realidade
+
+# text
+# c1: mission-thread
+seg-65185cb68d6b = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão, do lançamento à reentrada (<c1/>)
+
+# text
+# c1: mission-thread
+# c2: carry
+# c3: inflate
+# c4: reacquire
+seg-86a132e1a243 = O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado num modelo de linha reta; <c4/>, navegação por estima e depois o piso da fonte, nunca abaixo dele, nunca uma reinicialização); conversões de referencial GCRF, MCI e MCMF e conversões de escala de tempo via TT, cada uma como sua própria linha do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada; a margem face a um requisito declarado, o elo mais fraco, os eventos e uma figura de cronologia. Todo número é uma entrada declarada ou um modelo dela
+
+# text
+# c1: launch-ascent
+seg-87b2b2459b45 = Lançamento e ascensão a uma órbita de estacionamento com aquisição e desvanecimento de GNSS (<c1/>)
+
+# text
+# c1: launch-ascent
+seg-725e7ce83533 = A fase <c1/>: uma covariância de posição e velocidade de velocidade constante com ruído de aceleração branco (o grau de navegação por estima), uma solução GNSS de precisão declarada aplicada após o tempo de aquisição e fora dos desvanecimentos declarados, um relógio de viés e deriva disciplinado pelas mesmas soluções, e o estado de inserção na órbita de estacionamento
+
+# text
+# c1: leo-rendezvous
+seg-eb66a49b0306 = Navegação relativa até ao envelope de acoplagem em órbita baixa da Terra ao longo de excertos de sensor (<c1/>)
+
+# text
+# c1: leo-rendezvous
+seg-658a0448d80d = A fase <c1/>: o estado relativo nos eixos LVLH do alvo com a transição fechada de Clohessy-Wiltshire, uma covariância de Kalman 6x6 com ruído de aceleração branco e atualizações de posição cuja variância é a do sensor na distância atual, ao longo de excertos de um sensor declarado (formas ILLUSTRATIVE de câmara ótica, lidar e medição de distância por rádio); a janela de acoplagem é o tempo a partir do qual o sigma relativo permanece dentro do envelope de captura até ao fim da fase. A covariância absoluta do veículo perseguidor é transferida sem alteração e uma linha o declara
+
+# text
+# c1: tli-and-cruise
+seg-b45a8a357faf = Injeção trans-lunar e cruzeiro cislunar: estado médio e covariância propagados com atualizações de seguimento (<c1/>)
+
+# text
+# c1: tli-and-cruise
+# c2: gnss-ssv
+seg-ab5c79789754 = A fase <c1/>: o estado médio pelo propagador de Cowell do motor (massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir do kernel DE440 da cadeia onde ele cobre o segmento e o Sol a partir da série analítica); a covariância por uma matriz de transição de estado por diferenças progressivas dessa propagação (a execução nominal e seis execuções perturbadas por segmento) com ruído de aceleração branco; o tamanho e o erro de apontamento da queima TLI; soluções <c2/> cuja disponibilidade e PDOP vêm da varrimento do volume de serviço espacial ao longo de uma órbita osculadora que substitui o arco; seguimento de distância e de taxa de variação da distância ao longo da direção geocêntrica, ponderado pelo ciclo de trabalho da rede terrestre, com a atualização na forma de Joseph
+
+# text
+# c1: entry
+seg-7a3eb4fae324 = Covariância na interface de reentrada, probabilidade do corredor, desaceleração máxima e área de aterragem (<c1/>)
+
+# text
+# c1: entry
+# c2: tli-and-cruise
+seg-93f07906d7bf = A fase <c1/>: o arco inercial de regresso de <c2/> sem queima, terminando na interface de reentrada; o ângulo de trajetória e o seu sigma a partir da covariância completa por um gradiente de diferenças finitas; a probabilidade de o ângulo estar dentro de um corredor declarado; a desaceleração máxima no ângulo nominal e nas duas extremos do corredor a partir da reentrada balística plana de massa pontual do motor (com deteção de ressalto) ao lado da forma fechada de Allen-Eggers; a área de aterragem a partir de uma sensibilidade declarada ao alcance e da covariância na interface através do plano orbital. Nenhuma sustentação, orientação ou aquecimento é modelado
+
+# text
+# c1: [ground_network]
+# c2: mission-thread
+seg-3f0951532f6e = Cobertura da rede terrestre e ciclo de seguimento para uma fase da cadeia (<c1/> de <c2/>)
+
+# text
+seg-5204af351299 = A sobreposição da rede terrestre: estações com uma elevação mínima, a visibilidade do veículo numa geometria declarada (o estado de reentrada voado em dois corpos com J2, a posição da Lua para o cruzeiro, ou um ciclo declarado), transferências entre estações que perdem cada uma um tempo declarado, e o ciclo resultante transmitido à taxa de atualização de seguimento em solo da fase; o maior intervalo sem estação à vista é uma linha do orçamento
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-4ba700726208 = Navegação relativa até à acoplagem numa órbita lunar (<c1/>)
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-2e30e78e49f7 = O tipo de cenário e fase <c1/>: uma estimativa conjunta de Gauss-Newton em lote de dois veículos ao longo do arco (vinte e um parâmetros: os dois estados e enviesamentos persistentes de posição do sinal no espaço, comuns e independentes), ampliada sobre um quarto, metade e todo o arco com redução de passo, a partir de uma solução absoluta por veículo (limite de seguimento de código piloto AFS, conjunto de relés ILLUSTRATIVE) e de uma distância por enlace cruzado, sob o modelo de forças lunares da biblioteca; o erro de estimação normalizado quadrático médio, a verificação de Clohessy-Wiltshire em órbita circular e a covariância 6x6 transferida
+
+# text
+# c1: lunar-descent
+seg-c85d7e5e63a3 = Orçamento de dispersão de aterragem num local polar lunar (<c1/>)
+
+# text
+# c1: lunar-descent
+seg-bd88ab3ad105 = O tipo de cenário e fase <c1/>: um modelo de erro inercial de cinco estados por eixo (posição, velocidade, viés do acelerómetro, inclinação, viés do giroscópio) ao longo de uma descida propulsionada, auxiliado por soluções AFS (isoladas ou diferenciais, com o caso de três relés auxiliado por relógio), uma solução relativa ao terreno (o correlacionador de navegação por terreno do motor sobre relevo sintético, ou um limite de Cramer-Rao sobre um DEM do LOLA com uma regra do problema de abertura) e o tempo lunar, com uma elipse de toque de Monte Carlo
+
+# text
+# c1: lunar-surface
+seg-8dfc1600cf8c = Disponibilidade de posicionamento e temporização na superfície por local e estação nos polos lunares (<c1/>)
+
+# text
+# c1: lunar-surface
+# c2: moonlight-service-volume
+seg-f91c1da9ab55 = O tipo de cenário e fase <c1/>: disponibilidade de relés e PDOP, visibilidade da Terra e do Sol e um relógio de superfície disciplinado para cada local e estação, com o perfil do horizonte do terreno de <c2/>; uma execução de local único é igual, bit a bit, à disponibilidade e ao PDOP desse tipo de cenário
+
+# text
+# c1: lunar-ascent
+seg-0db91d70a079 = Ascensão propulsionada de um local polar lunar a uma órbita de inserção (<c1/>)
+
+# text
+# c1: lunar-ascent
+seg-b5b1125d515c = O tipo de cenário e fase <c1/>: o modelo de erro inercial de cinco estados por eixo executado sobre uma ascensão propulsionada com força específica ao longo da trajetória, auxiliado por soluções AFS e pelo tempo lunar, indicando a covariância de posição e velocidade na inserção levada para a órbita e a dispersão no corte do motor (indicada, não transferida)
+
+# text
+seg-1983ce9cc6da = A propagação do modelo de forças lunares face a trajetórias públicas reconstruídas de orbitadores lunares e cislunares
+
+# text
+seg-57f53a7d1fa2 = O propagador que os tipos de cenário lunares partilham (GRAIL GL0660B de grau e ordem { "150" }, a Terra e o Sol como terceiros corpos, relatividade, orientação lunar DE440) comparado com as trajetórias públicas do JPL Horizons do LRO ({ "24" } h, amostras de { "10" } minutos) e do CAPSTONE (uma revolução de { "6.5" } dias, amostras de uma hora), sob limiares fixados num ficheiro versionado antes da execução
+
+# text
+# c1: tli-and-cruise
+seg-c557d317389a = A propagação do estado médio cislunar face à trajetória pública da Artemis I (<c1/>)
+
+# text
+# c1: tli-and-cruise
+seg-539d4c3e9b56 = A propagação do estado médio da fase <c1/> (Cowell, massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir de um recorte do DE440) comparada com a trajetória pública do JPL Horizons da Artemis I ao longo de um arco inercial de { "72" } h a partir de 2022-11-16 { "18" }:{ "00" } TDB, em épocas de { "12" } horas, sob limiares fixados num ficheiro versionado antes da execução
+
+# text
+seg-150ae9c3d755 = Região da fonte de interferência: uma região viável de emissor a partir de relatos de posição de aeronaves e navios
+
+# text
+seg-b5c49044a7a1 = Uma região viável para onde pode estar uma fonte de relatos de navegação degradados, a partir de relatos de posição ADS-B (NIC/NACp) ou AIS: linha de vista de rádio num raio terrestre de 4/3 a partir da altura do relato e de um intervalo de alturas da antena do emissor, um alcance efetivo limitado para a potência desconhecida, unidades afetadas puxando a posterior para o seu alcance e unidades não afetadas com linha de vista empurrando contra ela, agrupadas em sessões no tempo e no espaço. A saída são regiões de maior densidade em níveis de confiança declarados, um centroide posterior com uma elipse de momentos, início, fim e duração da sessão, área afetada e contagem de aeronaves distintas acima do mínimo de publicação, um perfil por hora do dia e horas por dia. Sem terreno; uma única fonte por sessão; a credibilidade depende do modelo. Fusão opcional com uma solução TDOA da geolocalização.

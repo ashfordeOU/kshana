@@ -71,3 +71,5 @@ seg-ce69d8d2d9d1 = <s1>Vorige</s1>space-weather
 seg-ac2c9c25fbb6 = <s1>Volgende</s1>spoof-detect
 
 seg-9ca82c79430e = <b>MODELLED</b> De soort <c1/> uitgebreid voorbij de L-band: banden gegeven als een voorinstelling voor een signaalontwerp (getekend met elke component, bandbegrensd tot de zendbandbreedte, C/N0 en J/S betrokken op de gevolgde component) of als een aangepaste draaggolf en modulatie Tests: <a1>leo_signal_reference.rs</a1>.
+
+seg-a349aa76b0ed = PARTNER

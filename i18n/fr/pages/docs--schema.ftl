@@ -459,3 +459,5 @@ seg-6585c8a3643d = ClockRun (pour chacun de quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (l'objet fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) L'étiquette de preuve de l'exécution : <c1/> (<c2/>, <c3/> ou <c4/> : le statut le <em>plus faible</em> parmi les lignes, de sorte qu'elle ne prétend jamais à plus que sa ligne la plus faible), <c5/> (<c6/>), <c7/> et <c8/>, un par ligne de la matrice de vérification que l'exécution a mise en jeu (les lignes que liste son rapport avancé, issues de <c9/>) : <c10/> (<c11/> et les { "8" } premiers chiffres hexadécimaux du SHA-256 du texte d'exigence de la ligne), <c12/> et <c13/>, tous lus dans la matrice, aucun saisi à la main. Ajoutée par <c14/> au résultat de chaque type, avant le bloc <c15/> final lorsqu'il y en a un (ce bloc reste la dernière clé) ; <c16/> la retire octet pour octet. Le SVG du graphique et le tableau CSV de la même exécution portent la même étiquette (<c17/> et une ligne visible sous le graphique ; lignes de commentaire <c18/> en tête du CSV). Les membres de campagne intégrés au résultat d'un autre type n'en portent aucune : le document externe en porte une. Ne porte aucun nombre.

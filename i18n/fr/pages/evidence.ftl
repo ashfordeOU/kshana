@@ -6632,3 +6632,65 @@ seg-150ae9c3d755 = Région de la source d'interférence : une région d'émette
 seg-b5c49044a7a1 = Une région admissible pour l'endroit où peut se trouver une source de rapports de navigation dégradés, à partir de rapports de position ADS-B (NIC/NACp) ou AIS : ligne de visée radio sur un rayon terrestre de 4/3 à partir de la hauteur du rapport et d'une plage de hauteurs d'antenne de l'émetteur, une portée effective limitée pour la puissance inconnue, des unités touchées qui tirent la postérieure vers leur portée et des unités non touchées en ligne de visée qui la repoussent, regroupées en sessions dans le temps et dans l'espace. La sortie se compose de régions de plus haute densité à des niveaux de confiance déclarés, d'un centroïde a posteriori avec une ellipse de moments, du début, de la fin et de la durée de la session, de la surface touchée et du nombre d'aéronefs distincts au-dessus du minimum de publication, d'un profil horaire et d'heures par jour. Sans relief ; une seule source par session ; la crédibilité est conditionnelle au modèle. Fusion facultative avec une position TDOA issue de la géolocalisation.
 
 seg-953a8b4f9f41 = Aucune vérification externe pour l'instant. Seulement des allers-retours synthétiques direct-inverse, issus d'un générateur qui partage le modèle de l'estimateur : ils vérifient donc le code et l'étalonnage des niveaux déclarés sous ce modèle, et rien sur les émetteurs réels. Une vérification externe par rapport aux sites d'émetteurs publiés de Jammertest { "2025" } a été préenregistrée (docs/emitter-region/PREREGISTRATION.md, validée par le propriétaire avant toute exécution notée) et exécutée une fois (docs/emitter-region/RESULTS.md) : ADS-B NON ÉVALUABLE ({ "2" } sessions programmées, moins que le minimum enregistré de { "4" }) et AIS NON ÉVALUABLE (aucune session publiée) ; aucun seuil n'a donc été testé et la ligne reste MODELLED
+
+seg-aa7c0a865661 = { "401" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "221" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
+
+seg-7a254b7d5498 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "221" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
+
+seg-a2f63c51d2c7 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "401" } lignes · aucun scénario ni graine : le registre propre du moteur
+
+seg-015ecb5cddc3 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-e26b6fdc705b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-66defa1494fc = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-4c54e96a1832 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-3d202a56e836 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-77bfad0f4f88 = { "176" }<s1>sur { "401" } vérifiées</s1>
+
+seg-222c46a96ec3 = Matrice de vérification : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire, { "401" } au total
+
+seg-cf2aa475bc68 = Le type mission-thread : un document de phases, chacune d'un des huit types enregistrés, exécutées… · modélisé
+
+seg-bdc3223c80e4 = La phase launch-ascent : une covariance de position et de vitesse à vitesse constante avec un bruit blanc… · modélisé
+
+seg-a60883a4b32c = La phase leo-rendezvous : l'état relatif dans les axes LVLH de la cible avec la… · modélisé
+
+seg-a3201e17ddc4 = La phase tli-and-cruise : l'état moyen par le propagateur de Cowell du moteur (masse ponctuelle… · modélisé
+
+seg-a143fdf9c4cb = La phase entry : la croisière retour de tli-and-cruise sans poussée, qui se termine à l'… · modélisé
+
+seg-6c84e2db7d1e = La superposition du réseau au sol : des stations avec une élévation minimale, la visibilité du… · modélisé
+
+seg-256ed84fca2b = Le type et la phase lunar-orbit-rendezvous : une estimation conjointe par lots de Gauss-Newton… · modélisé
+
+seg-6cae40e30a77 = Le type et la phase lunar-descent : un modèle d'erreur inertielle à cinq états par axe (position… · modélisé
+
+seg-2db0710d699f = Le type et la phase lunar-surface : disponibilité des relais et PDOP, visibilité de la Terre et du Soleil… · modélisé
+
+seg-40e993dc4c56 = Le type et la phase lunar-ascent : le modèle d'erreur inertielle à cinq états par axe exécuté sur une… · modélisé
+
+seg-904a8004957d = Le propagateur que partagent les types lunaires (GRAIL GL0660B degré et ordre { "150" }, la Terre et le Soleil… · modélisé
+
+seg-860ca782e2bf = La propagation de l'état moyen de la phase tli-and-cruise (Cowell, masse ponctuelle terrestre et J2… · modélisé
+
+seg-7c7d72cc2036 = Une région admissible pour l'endroit où peut se trouver une source de rapports de navigation dégradés, à partir de l'ADS-B… · modélisé
+
+seg-65feaf4e91ef = Les { "401" } lignes, une ligne chacune.
+
+seg-5668b5581703 = sur { "102" } vérifiées
+
+seg-43f852e4bee8 = sur { "74" } vérifiées
+
+seg-fbb78f11c0dc = sur { "78" } vérifiées
+
+seg-8fe12f6058c6 = sur { "26" } vérifiées
+
+seg-b393e1b5fcfc = Toutes { "401" }
+
+seg-3df9e327c036 = Modélisées { "221" }
+
+seg-7fa6f2e0de57 = Registre de validation, { "401" } lignes, défilable

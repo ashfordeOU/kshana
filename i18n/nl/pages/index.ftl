@@ -703,3 +703,19 @@ seg-f4d3b1f5b1b4 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> �
 seg-3287261002dd = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
 seg-510663384be1 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-070972f642de = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van lancering tot terugkeer
+
+seg-4970f874d334 = Het maansegment: rendez-vous, afdaling, oppervlak en opstijging
+
+seg-8ca6e2046901 = Een geschat zendergebied uit ADS-B- of AIS-meldingen
+
+seg-003a3b9b63ea = Gemeten klokloggen, en een holdover aangestuurd door een gefitte reeks
+
+seg-448b11c86f48 = Datapartners: welke rijen gemeten data kan bevorderen
+
+seg-5858e5d1f7c5 = Een bewijslabel bij elk cijfer en elke tabel die een run schrijft
+
+seg-bd28ef5c376e = Zeventien talen naast het Engels
+
+seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
