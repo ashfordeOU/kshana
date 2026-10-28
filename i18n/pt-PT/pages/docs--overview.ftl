@@ -3751,3 +3751,12 @@ seg-824001fa6734 = laboratórios e fabricantes com dados medidos
 seg-df3ca402513f = que linhas MODELLED poderia promover um registo medido de relógio ou de IMU, os formatos, como um envio é verificado (<c1/>), pontuado e creditado
 
 seg-e2d733f93455 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "193" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Cadeia da missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem face aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "92" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar face à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar face à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Cadeia da missão</a1>, <a2>segmento lunar</a2>). No Studio, a cadeia lê-se em <c6/>.

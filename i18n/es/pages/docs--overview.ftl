@@ -3614,3 +3614,12 @@ seg-824001fa6734 = laboratorios y fabricantes que tienen datos medidos
 seg-df3ca402513f = qué filas MODELLED podría promover un registro medido de reloj o de IMU, los formatos, cómo se comprueba un envío (<c1/>), se puntúa y se acredita
 
 seg-e2d733f93455 = Consulte <c1/> para ver al menos un ejemplo práctico de cada tipo de escenario ({ "92" } tipos de escenario, { "193" } archivos de escenario <c2/> + { "1" } manifiesto de conjunto; varios tipos de escenario incluyen más de un ejemplo). No todos los tipos de escenario tienen un archivo con su nombre: <c3/> → <c4/> y <c5/> → <c6/> son dos de varios casos así. Puede enumerar en cualquier momento los tipos de escenario despachables con los errores de <c7/>, con <c8/> en Python o con la herramienta <c9/> de MCP.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Hilo de misión.</b> El tipo de escenario <c1/> encadena fases desde el lanzamiento hasta la entrada (<c2/>, <c3/>, <c4/>, <c5/> y cuatro tipos de escenario lunares) con reglas de traspaso indicadas, un margen frente a los requisitos indicados y el eslabón más débil; un ejemplo de extremo a extremo de clase Artemis en { "11" } fases (segmentos terrestre y lunar), { "92" } tipos de escenario en total. Cada número es MODELLED. La propagación cislunar frente a la trayectoria pública de Artemis I <b>no alcanza</b> su umbral preregistrado ({ "45.3" } km y { "0.25" } m/s frente a { "5" } km y { "0.05" } m/s; la causa son pequeñas maniobras que el modelo no incluye), y el propagador lunar frente a la órbita de CAPSTONE <b>no alcanza</b> el suyo ({ "136.8" } km frente a { "25" } km al final de una revolución); la comparación con LRO se alcanza. Las filas siguen siendo MODELLED (<a1>Hilo de misión</a1>, <a2>segmento lunar</a2>). En el Studio, el hilo se lee en <c6/>.
