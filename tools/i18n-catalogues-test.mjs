@@ -64,6 +64,7 @@ const must = [
   ['assets/capabilities/capabilities.json', 'web/js/capabilities.mjs', 'fetchData(ROOT + "assets/capabilities/capabilities.json")'], ['assets/capabilities/capabilities.json', 'web/js/cap-hero.mjs', 'fetchData(ROOT + "assets/capabilities/capabilities.json")'],
   ['js/evidence-data.mjs', 'web/js/evidence.mjs', 'importData(new URL("./evidence-data.mjs"'], ['js/developers-data.mjs', 'web/js/developers.mjs', 'importData(new URL("./developers-data.mjs"'], ['js/missions-runs.mjs', 'web/js/missions.mjs', 'importData(new URL("./missions-runs.mjs"'],
   ['studio/channels.json', 'web/studio/app.js', 'fetchData("channels.json")'],
+  ['data/verification-matrix.json', 'web/studio/app.js', 'fetchData("/data/verification-matrix.json")'], ['data/verification-matrix.json', 'web/studio/advanced.js', 'fetchData("/data/verification-matrix.json")'],
 ];
 for (const [f, src, needle] of must) { assert.ok(read(src).includes(needle), `${src} requests ${f}`); assert.ok(RUNTIME_DATA.includes(f) && spec.includes(f)); }
 assert.deepEqual([...new Set(must.map((m) => m[0]))].sort(), [...RUNTIME_DATA].sort());

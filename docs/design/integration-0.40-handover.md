@@ -86,6 +86,7 @@ the metadata files is a placeholder to confirm.
   phases name a source of the phase ("inertial dead reckoning", "relative sensing", "ground tracking") that no row carries; the engine could name the row.
 - `/<lang>/studio/` stubs drop the scenario query by design (they redirect to `/studio/?lang=<lang>`); a deep link with a scenario has to use `/studio/?scenario=…&lang=…`. The browser test uses the direct URL.
 - The `extract` step of `i18n.yml` and the English identity test need an old-tree fixture to compare against; neither runs in CI on a fixed old tree.
+- Per-language data copies as string deltas (restores ~20 MB margin); the 0.40 margin is ~3.8 MB (deploy tree 496.2 MB of 500 MB, now that the Studio reads each language's verification-matrix copy).
 
 ## Native review list (translations)
 

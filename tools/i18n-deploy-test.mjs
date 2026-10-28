@@ -23,9 +23,9 @@
 // file, by design) and, with --no-engine, the engine package. Needs Playwright (NODE_PATH=/opt/node22/lib/node_modules).
 import http from 'node:http';
 import { readFileSync, existsSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { join, extname, dirname } from 'node:path';
 import { createRequire } from 'node:module';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { TIER_TOKENS } from './i18n-lang.mjs';
 
 const argv = process.argv.slice(2);
@@ -202,6 +202,50 @@ if (!opt.noEngine) {
     ok(JSON.stringify(tokens(p.summary)) === JSON.stringify(tokens(nativeEn.summary)) && tokens(p.summary).length > 0, `${L}: summary caps tokens unchanged (${tokens(p.summary)})`);
     ok(JSON.stringify(tokens(svgText(p.svg))) === JSON.stringify(tokens(svgText(nativeEn.svg))), `${L}: chart caps tokens unchanged`);
     ok(p.json === enPage.json, `${L}: the result JSON is the English run's`);
+  }
+}
+// the Studio's verification matrix: "how it was verified" lists the matrix rows of the scenario's engine kinds. The Studio asks the shared
+// /data/verification-matrix.json (lib/t.mjs fetchData), so a language page reads /<lang>/data/verification-matrix.json (the build keeps that copy);
+// English reads the English file and asks for no language copy. A scenario with matrix rows, so the rows are there on every page (needs the engine: the
+// rows are looked up by the engine's kind-to-module table).
+if (!opt.noEngine) {
+  const MX = 'clock-holdover';
+  const digits = (x) => x.match(/\d+/g) || [];
+  const tokens = (x) => { const out = []; for (const tk of [...TIER_TOKENS].sort((a, b) => b.length - a.length)) out.push(...(x.match(new RegExp(`(?<![A-Z])${tk}(?![A-Z])`, 'g')) || []).map(() => tk)); return out; };
+  const en = JSON.parse(readFileSync(join(opt.tree, 'data', 'verification-matrix.json'), 'utf8')).rows;
+  const showRows = async (path, label) => {
+    const out = {};
+    await visit(path, label, async (page, seen) => {
+      const read = () => page.evaluate(() => [...document.querySelectorAll('#how-level ul.mx li')].map((li) => ({ text: li.querySelector(':scope > span:not(.lvl)').textContent, tier: (li.querySelector('.lvl') || {}).className || '' })));
+      const t0 = Date.now(); let rows = await read();
+      while (!rows.length && Date.now() - t0 < 90000) { await page.waitForTimeout(500); rows = await read(); }
+      await page.waitForTimeout(1500);
+      out.rows = await read(); out.seen = seen.map(([u]) => u);
+    });
+    return out;
+  };
+  const e = await showRows(`/studio/?scenario=${MX}`, `/studio/?scenario=${MX} (matrix, English)`);
+  ok(e.rows.length > 0 && e.rows.every((m) => en.some((x) => x.requirement === m.text)), `English Studio: the ${e.rows.length} matrix rows shown are the English ledger's`);
+  ok(e.seen.includes('/data/verification-matrix.json'), 'English Studio: /data/verification-matrix.json (the shared ledger) was fetched');
+  ok(!e.seen.some((u) => langs.some((l) => u.startsWith(`/${l}/data/`))), `English Studio: no /<lang>/data/ file is fetched (${e.seen.filter((u) => /\/data\//.test(u)).join(', ')})`);
+  for (const lang of langs) {
+    const L = `${lang} Studio matrix`;
+    const tr = JSON.parse(readFileSync(join(opt.tree, lang, 'data', 'verification-matrix.json'), 'utf8')).rows;
+    const ftl = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'i18n', lang, 'data.ftl'), 'utf8');
+    const r = await showRows(`/studio/?scenario=${MX}&lang=${lang}`, `/studio/?scenario=${MX}&lang=${lang} (matrix)`);
+    ok(r.seen.includes(`/${lang}/data/verification-matrix.json`), `${L}: /${lang}/data/verification-matrix.json was requested and answered 200`);
+    ok(r.rows.length === e.rows.length && r.rows.length > 0, `${L}: the same ${e.rows.length} rows are shown (${r.rows.length})`);
+    for (const m of r.rows) {
+      const i = tr.findIndex((x) => x.requirement === m.text);
+      ok(i >= 0, `${L}: shown row "${m.text.slice(0, 50)}" is in /${lang}/data/verification-matrix.json`);
+      if (i < 0) continue;
+      ok(m.text !== en[i].requirement && ftl.includes(m.text), `${L}: row ${i} is the ${lang} text of i18n/${lang}/data.ftl ("${m.text.slice(0, 60)}"), not the English`);
+      ok(!r.rows.some((x) => x.text === en[i].requirement), `${L}: the English text of row ${i} is not shown`);
+      ok(JSON.stringify(digits(m.text)) === JSON.stringify(digits(en[i].requirement)), `${L}: row ${i} numbers unchanged (${digits(m.text)} vs ${digits(en[i].requirement)})`);
+      ok(JSON.stringify(tokens(m.text)) === JSON.stringify(tokens(en[i].requirement)), `${L}: row ${i} caps tokens unchanged (${tokens(m.text)})`);
+      ok(m.tier.includes(en[i].status.toLowerCase()), `${L}: row ${i} keeps its tier (${m.tier} for ${en[i].status})`);
+    }
+    ok(r.rows.some((m) => m.text !== en.find((x) => x.requirement === m.text)?.requirement), `${L}: matrix text is not English`);
   }
 }
 // the constellation designer colours constellations by key: every key of every language copy of capabilities.json is one the page knows

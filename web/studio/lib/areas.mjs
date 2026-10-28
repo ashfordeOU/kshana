@@ -30,6 +30,18 @@ export const kindsOfToml = (toml) => { const ks = [...String(toml).matchAll(/^\s
 const tokenRe = (t) => new RegExp(`(^|[^A-Za-z0-9_/.-])${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^A-Za-z0-9_/-]|$)`);
 const moduleMatch = (row, t) => tokenRe(t).test(row.module || "") || tokenRe(t).test(row.tests || "");
 
+// A translated ledger (/<lang>/data/verification-matrix.json) has the same rows in the same order, but its `module` and `tests` prose is
+// translated, and rowsForKind matches module and test names in that prose. Give each translated row the English `module` and `tests` back
+// (the Studio shows neither) so the same rows belong to a kind in every language. Only when the two ledgers line up row by row (same
+// count, status and oracle kind); otherwise the translated rows are returned as they are. Returns the ledger.
+export function restoreMatchFields(translated, english) {
+  const a = translated && translated.rows, b = english && english.rows;
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return translated;
+  if (!a.every((r, i) => r && b[i] && r.status === b[i].status && r.oracle_kind === b[i].oracle_kind)) return translated;
+  a.forEach((r, i) => { r.module = b[i].module; r.tests = b[i].tests; });
+  return translated;
+}
+
 // Indices of the matrix rows that belong to a kind. `kindModules` is the engine's kind -> module names
 // table (kind_modules()); without it a kind matches only its own name.
 export function rowsForKind(kind, rows, kindModules = {}) {

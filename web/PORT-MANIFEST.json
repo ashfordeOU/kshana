@@ -4,11 +4,11 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "fd00530937032890a1c6504356e82e910933aab7",
+   "revision": "4d3f5fd77daae0b3f8a964970a7c37f96fb7cb69",
    "dirty": false
   },
   "studio": {
-   "revision": "fd00530937032890a1c6504356e82e910933aab7",
+   "revision": "4d3f5fd77daae0b3f8a964970a7c37f96fb7cb69",
    "dirty": false
   }
  },
@@ -309,13 +309,13 @@
   "site.css": "5bb4284ecda6c912ad345a24916f2b715cbbf72b51b73ef0e0091ddeb15d39c2",
   "site.js": "111ae7fbcf5cc786be5ad06e0f9815932c2e86658b6187194a3a300c2e340849",
   "sitemap.xml": "c20c6f360bb424c1fc31b20949c8611a8c50a8fe96b87f4aa8000a9800860438",
-  "studio/advanced.js": "2e17beb9d30e2333651df3c39466b90efaf4481a6e11ffbe7e9fd8dfa8ffa8a1",
+  "studio/advanced.js": "10a5dd3de52c973d938a33ca6934e0cc55fa078b8bf2dbc1cb76005d9cecf66f",
   "studio/advanced/advanced.css": "3757ee7f8e3602a1f1fa98b10723a4ee8dfd4989bc38e7dd6819f9f08fa788a6",
   "studio/advanced/dash.css": "8bbffe9e4c9e7310d1fda66febccebb31b466ac807f02be9c8dbcc0ba3132a28",
   "studio/advanced/index.html": "4e101bcbb496d4355c51fb6fc37f4b6098499af2b5fc0a491eb7f6014115329e",
   "studio/ai.png": "1158236f944b3918e70f65af278ae7255152b7222fb9832462e06acf79e5ed9d",
   "studio/app.css": "a552b7a38278004227a7abd1ae94b659b281aa8d7620caf1f626cec48cef4a32",
-  "studio/app.js": "0061513354aae2932ecd65eb9478767e1f62a1d66e95e062bedebfdb2dd603b6",
+  "studio/app.js": "1ce23e20545fa89eaa3f09fb4cf0cb0a2168e25c720d0c112b14c0529f235c78",
   "studio/assets/brand/kshana-mark-mask.png": "7b51df9f7c9cf283572a793cb358c13b63ffd1ce9bd6a9aacea2ba1f2245a830",
   "studio/assets/planets/earth-day-2048.jpg": "3471b38e9bf8f91553bb8f3b55a1b8e2ee7346a80607ed40e6a656309b1994ea",
   "studio/assets/planets/earth-day-256.jpg": "1c4ccf1eff68a32afdffb9c1dfab104cc3a5e35bb22d695febe7571bbed71b20",
@@ -371,8 +371,8 @@
   "studio/interference/interference.js": "6065cd8fcc7be8540add8a229341086dd297515808725264437acb742392462c",
   "studio/lib/abbr.mjs": "8ca6b7f96f7be8074407f7dfdbd5e568a0eff66a0514c6f133e1d0dd79fea123",
   "studio/lib/abbr.test.mjs": "0b54959a8c3f39029a0fa118eaffca45ba42555603a44eb8402149d40de53402",
-  "studio/lib/areas.mjs": "a6fcba45e1d4f31a0460d0b20a528e5c1bc020451e76ae2baa34a03ca2180772",
-  "studio/lib/areas.test.mjs": "3dad079af8aba2746417aa0787b340305d9377bf1177903454ca9de1c29641dd",
+  "studio/lib/areas.mjs": "32e9ff352f7c82883e457227741bf8dafcc1b1b2faf73911f78786745f7ff404",
+  "studio/lib/areas.test.mjs": "28e823799ae860db277c32c7d3af7c297b5871affd573796376aa50377920a8d",
   "studio/lib/catalog.mjs": "81c63a3ec5260a43b471b3ec8a8d27f83ae6e722a65d1256921879495eb715e8",
   "studio/lib/catalog.test.mjs": "9c3c1cc67c4f2ab6bbfea5c9ba1f4a00bb9b7447ade57b4b30c85368fbd96957",
   "studio/lib/chartdl.mjs": "9f8ef01c2a8156443988de2c08c313e0328a3b28819959b2859c6b3fd6415947",
