@@ -7548,3 +7548,5 @@ dat-b3d9ac894036 = Uw eigen klok
 dat-286487acb3db = Controles van de geometrie van zenit en antipode en het verwachte zicht op een ver doel in de tests. Er wordt geen echt netwerk, geen antenne en geen schema gemodelleerd
 
 dat-b8b659cbbefa = Elk meegeleverd scenariobestand ({ "193" }), gegroepeerd per soort, met zijn belangrijkste instellingen.
+
+dat-23cef21a3ad4 = Een korte missieketen die vanuit alleen een binair bestand draait: lancering en opstijging, één rendez-vous in een lage baan om de aarde, één dag van

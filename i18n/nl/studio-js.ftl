@@ -9252,3 +9252,17 @@ js-trust-yes = ja
 js-mthread-limiting-phase = De engine noemt de beperkende bron van deze fase als { $source }: een bron van de fase, niet één rij van deze tabel.
 
 js-mthread-limiting-row = de beperkende bron van de engine
+
+js-cat-mission-thread-short-question = Welke fase heeft langs één stack van lancering tot intrede, via een rendez-vous in een lage baan en een dag translunaire vlucht, de kleinste marge voor navigatie en tijdsynchronisatie? (gemodelleerd)
+
+js-cat-mission-thread-short-title = Korte missieketen, van lancering tot intrede
+
+js-meankind-mthread-big = Langs de keten ligt de kleinste marge ten opzichte van de eis in de fase { $phase }.
+
+js-meankind-mthread-big-source = Langs de keten ligt de kleinste marge ten opzichte van de eis in de fase { $phase }, beperkt door { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fase.
+       *[other] { $n } fasen.
+    }
