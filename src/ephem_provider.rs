@@ -32,7 +32,7 @@
 //! break two otherwise-green CI gates:
 //!
 //! 1. `cargo deny check licenses` — MPL-2.0 sits outside the crate's strict license allow-list; and
-//! 2. the **MSRV 1.75** (minimum supported Rust version) build — cargo 1.75 cannot even parse an
+//! 2. the MSRV build (the crate's declared `rust-version`) — cargo 1.75 cannot even parse an
 //!    edition-2024 manifest in the resolved dependency graph.
 //!
 //! [`KernelEphemeris`] needs neither: it reads the kernel with [`crate::naif_kernel`]. See
