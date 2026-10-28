@@ -9060,3 +9060,16 @@ js-trust-yes = 是
 js-mthread-limiting-phase = 引擎将此阶段的限制来源命名为 { $source }：这是该阶段的来源，而不是此表中的某一行。
 
 js-mthread-limiting-row = 引擎给出的限制来源
+
+js-cat-mission-thread-short-question = 沿同一堆栈从发射到再入，经过一次低轨交会和一天的地月转移巡航，哪个阶段的导航与授时裕量最薄？（模型计算）
+
+js-cat-mission-thread-short-title = 简短任务线程：从发射到再入
+
+js-meankind-mthread-big = 沿该线程，相对其要求裕量最薄的是 { $phase } 阶段。
+
+js-meankind-mthread-big-source = 沿该线程，相对其要求裕量最薄的是 { $phase } 阶段，受 { $source } 限制。
+
+js-meankind-mthread-line =
+    { $n ->
+       *[other] { $n } 个阶段。
+    }

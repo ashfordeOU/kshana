@@ -12190,3 +12190,16 @@ js-trust-yes = はい
 js-mthread-limiting-phase = エンジンはこのフェーズの制限要因を { $source } としています。これはフェーズの要因であり、この表の 一行ではありません。
 
 js-mthread-limiting-row = エンジンが示す制限要因
+
+js-cat-mission-thread-short-question = 打ち上げから再突入まで、低軌道でのランデブーと1日間の月遷移軌道の巡航を経る一連のスタックのうち、航法とタイミングのマージンが最も薄いフェーズはどれか。（モデル計算）
+
+js-cat-mission-thread-short-title = 短いミッションスレッド：打ち上げから再突入まで
+
+js-meankind-mthread-big = スレッド全体で、要求に対するマージンが最も薄いのは { $phase } フェーズです。
+
+js-meankind-mthread-big-source = スレッド全体で、要求に対するマージンが最も薄いのは { $phase } フェーズで、{ $source } によって制限されています。
+
+js-meankind-mthread-line =
+    { $n ->
+       *[other] { $n } フェーズ。
+    }

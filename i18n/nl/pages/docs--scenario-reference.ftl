@@ -777,3 +777,7 @@ seg-ce858063d300 = soort mission-thread
 seg-0bd19840e50d = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van één keten van fasen, van lancering tot terugkeer, opgebouwd uit openbaar materiaal over het operatieconcept.
 
 seg-1b2e1e1b5c38 = Elk meegeleverd scenariobestand ({ "193" }), gegroepeerd per soort. De beschrijving is het eigen kopcommentaar van het bestand; de belangrijkste parameters zijn zijn instellingen op het hoogste niveau. Status leest de verificatiematrix voor de module van de soort. <b>Openen in Kshana Studio</b> opent de vastgelegde run.
+
+seg-a7bfd0a7e587 = Een korte missieketen die vanuit alleen een binair bestand draait: lancering en opstijging, één rendez-vous in een lage baan om de aarde, één dag translunaire vlucht en de terugkeer en intrede, met de positie van de maan uit de analytische reeks (geen kernelbestand). Het is de meegeleverde tegenhanger van mission-thread-artemis-class, die een maankernel leest die uit een checkout is gesneden.
+
+seg-d60c5f13a769 = <a1>Openen in Kshana Studio</a1> · <s1>Nog niet op GitHub</s1>
