@@ -249,7 +249,7 @@ impl WalkerSpec {
         if self.planes == 0 || self.total == 0 {
             return Err(crate::terr!("e-constellation-walker-shell-needs-total-and"));
         }
-        if self.total % self.planes != 0 {
+        if !self.total.is_multiple_of(self.planes) {
             return Err(crate::terr!(
                 "e-constellation-walker-total-is-not-multiple",
                 total = self.total,
@@ -1813,7 +1813,7 @@ impl ConstellationDesignScenario {
         let mut k = 0usize;
         for b in &built {
             for (id, &el) in b.ids.iter().zip(&b.elements) {
-                if self.max_tracks > 0 && k % stride == 0 {
+                if self.max_tracks > 0 && k.is_multiple_of(stride) {
                     let (la, lo) = ground_track(el, &body, self.j2, &times);
                     tracks.push(json!({
                         "constellation": b.name, "id": id, "lat_deg": la, "lon_deg": lo,

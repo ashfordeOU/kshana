@@ -205,7 +205,7 @@ pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
 /// Numerically integrate `g` over `[-half, half]` with `n` Simpson panels
 /// (`n` is forced even).
 fn integrate(half: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
-    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
+    let n = if n.is_multiple_of(2) { n.max(2) } else { n + 1 };
     let h = 2.0 * half / n as f64;
     let mut s = g(-half) + g(half);
     for i in 1..n {
@@ -391,8 +391,8 @@ fn euler_phi(mut m: u64) -> u64 {
     let mut result = m;
     let mut p = 2u64;
     while p * p <= m {
-        if m % p == 0 {
-            while m % p == 0 {
+        if m.is_multiple_of(p) {
+            while m.is_multiple_of(p) {
                 m /= p;
             }
             result -= result / p;
@@ -632,7 +632,7 @@ pub fn simpson(a: f64, b: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
     if b <= a {
         return 0.0;
     }
-    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
+    let n = if n.is_multiple_of(2) { n.max(2) } else { n + 1 };
     let h = (b - a) / n as f64;
     let mut s = g(a) + g(b);
     for i in 1..n {

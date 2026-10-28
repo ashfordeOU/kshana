@@ -57,7 +57,10 @@ fn seqflags_from_u8(v: u8) -> SequenceFlags {
 /// Parse a lowercase hex string ("180240340016") into bytes.
 fn hex_to_bytes(s: &str) -> Vec<u8> {
     let s = s.trim();
-    assert!(s.len() % 2 == 0, "hex string must have even length: '{s}'");
+    assert!(
+        s.len().is_multiple_of(2),
+        "hex string must have even length: '{s}'"
+    );
     (0..s.len())
         .step_by(2)
         .map(|i| {

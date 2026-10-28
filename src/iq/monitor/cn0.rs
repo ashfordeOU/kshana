@@ -156,7 +156,9 @@ impl Cn0Monitor {
         }
         self.series.push(t_s, cn0_dbhz);
         let t0 = *self.t0.get_or_insert(t_s);
-        let take = self.n_seen % self.settings.stride.max(1) as u64 == 0;
+        let take = self
+            .n_seen
+            .is_multiple_of(self.settings.stride.max(1) as u64);
         self.n_seen += 1;
         if !take {
             return;

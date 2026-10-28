@@ -168,7 +168,7 @@ impl SpkSegment {
                 degree = self.degree
             ));
         }
-        if self.kind == SpkType::Hermite13 && self.degree % 2 == 0 {
+        if self.kind == SpkType::Hermite13 && self.degree.is_multiple_of(2) {
             return Err(crate::terr!(
                 "e-spk-writer-type-13-degree-is-not",
                 degree = self.degree
@@ -308,7 +308,7 @@ impl SpkSegment {
             return Err(crate::terr!("e-spk-writer-type-21-segment-needs-at"));
         }
         let dlsize = self.records[0].len();
-        if !(71..=4 * MAXTRM + 11).contains(&dlsize) || (dlsize - 11) % 4 != 0 {
+        if !(71..=4 * MAXTRM + 11).contains(&dlsize) || !(dlsize - 11).is_multiple_of(4) {
             return Err(crate::terr!(
                 "e-spk-writer-difference-line-size-is-not",
                 dlsize = dlsize

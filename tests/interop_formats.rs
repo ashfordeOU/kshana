@@ -185,7 +185,7 @@ fn validate_czml(text: &str) -> Result<Vec<(String, CzmlSampled)>, String> {
             match pos.get("epoch") {
                 Some(e) => {
                     let epoch_s = parse_iso(e.as_str().ok_or("epoch string")?)?;
-                    if nums.len() % 4 != 0 || nums.is_empty() {
+                    if !nums.len().is_multiple_of(4) || nums.is_empty() {
                         return Err(format!("{id}: sampled cartesian must be [t, x, y, z, ...]"));
                     }
                     let samples: Vec<[f64; 4]> =
@@ -843,7 +843,7 @@ fn validate_sigmf(meta: &str, data: &[u8]) -> Result<(), String> {
         "ci8" => 2,
         other => return Err(format!("unexpected datatype {other}")),
     };
-    if data.is_empty() || data.len() % size != 0 {
+    if data.is_empty() || !data.len().is_multiple_of(size) {
         return Err("the data file is a whole, non-zero number of samples".into());
     }
     Ok(())

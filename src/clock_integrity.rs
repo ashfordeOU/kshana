@@ -340,7 +340,7 @@ pub fn run(scn: &Scenario, cfg: &IntegrityCfg) -> Result<IntegrityFom, String> {
     hpls.sort_by(|a, b| a.total_cmp(b));
     let median = (!hpls.is_empty()).then(|| {
         let m = hpls.len() / 2;
-        if hpls.len() % 2 == 0 {
+        if hpls.len().is_multiple_of(2) {
             0.5 * (hpls[m - 1] + hpls[m])
         } else {
             hpls[m]
