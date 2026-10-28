@@ -1112,3 +1112,143 @@ seg-c5fbfab85e01 = <s1>Seguinte</s1>Plugin JetBrains
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Saída
+
+# text
+seg-12471a4b2b57 = Região do emissor (ADS-B, AIS; MODELLED)
+
+# text
+seg-0a58678302e5 = <b>N/A</b> (ainda não incluído; as superfícies Rust, Python e WASM o cobrem)
+
+# text
+seg-dff1bfe0263e = <b>N/A</b> (a publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está desativada)
+
+# text
+# c1: kshana.partner-submission/1
+seg-ec2d91e2f867 = Verificação de envio de parceiro de dados (formato e metadados de um envio de dados medidos, <c1/>; não pontua nada)
+
+# text
+seg-c16a5ff8218b = <b>N/A</b> (a verificação lê ficheiros locais e os seus SHA-256; a API Rust é a superfície de biblioteca e a CLI é a ferramenta)
+
+# text
+seg-ed29039d1dc0 = <b>N/A</b> (sem sistema de ficheiros na build para navegador)
+
+# text
+seg-b3397901ea5f = <b>N/A</b> (o MCP recusa fontes de ficheiro por projeto (apenas texto embutido))
+
+# text
+seg-c5fc0c41b9bb = <b>N/A</b> (os comandos com barra chamam ferramentas do MCP, e esta verificação precisa de ficheiros em disco)
+
+# text
+seg-be971c31e0de = <b>N/A</b> (as ações do JetBrains estão ligadas a um ficheiro selecionado; um envio é uma pasta)
+
+# text
+seg-b9e56d6ab03b = <b>N/A</b> (o Studio não tem acesso ao sistema de ficheiros; execute o comando)
+
+# text
+# c1: mission-thread
+# c2: docs/MISSION-THREAD.md
+seg-521b58a1080e = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão do lançamento à reentrada: oito tipos de fase, regras de transferência, conversões de referencial e de escala de tempo, uma sobreposição de rede terrestre, margem face aos requisitos declarados e o elo mais fraco (tipo de cenário <c1/>; <c2/>; MODELLED, entradas ILLUSTRATIVE, consultivo; apenas fontes públicas, sem aval)
+
+# text
+# c1: kshana scenarios/mission-thread-artemis-class.toml
+seg-6b451021b87a = <c1/> (a partir de um checkout: ele lê um recorte versionado de kernel da Lua)
+
+# text
+# c1: run
+# c2: moon_kernel_path
+seg-ac3e013b5217 = <c1/> (<c2/> é uma chave de ficheiro e é recusada; sem um kernel a Lua é a série analítica e a linha de conversão o declara)
+
+# text
+# c1: run_scenario
+seg-e957474f44a8 = <c1/> (apenas embutido; a chave do kernel é recusada)
+
+# text
+# c1: run
+seg-1c1729fafe99 = <b>N/A</b> (sem notebook; o exemplo é executado em qualquer notebook por meio de <c1/> a partir de um checkout)
+
+# text
+# c1: interference-map locate
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+# text
+seg-743d33b43d99 = N/A (ainda não incluído)
+
+# text
+# c1: --tdoa
+seg-ab52a3469f6a = Regiões estimadas de emissores, MODELLED; diretórios de rastos e <c1/> são apenas de linha de comandos
+
+# text
+# c1: docs/PARTNER-DATA.md
+seg-5f1ce275acbd = Lê um ficheiro de envio e o seu ficheiro de dados em disco e verifica o SHA-256; nenhuma dessas superfícies tem a pasta. Apenas formato e metadados, nada pontuado; veja <c1/>
+
+# text
+seg-fc9ab9f71553 = A etiqueta de evidência e as saídas que não trazem nenhuma
+
+# text
+# c1: VALIDATED
+# c2: MODELLED
+# c3: PARTNER
+# c4: evidence
+# c5: # evidence:
+# c6: jammertest score --json
+# c7: iq acquire
+# c8: iq sweep
+# c9: iq track --summary
+# c10: iq monitor --json
+# c11: config.json
+# c12: kshana evidence verify
+# c13: VM-
+# c14: ID
+# c15: docs/VERIFICATION-MATRIX.md
+seg-b1e4bcc2ac09 = Cada figura e tabela que uma execução escreve traz o seu nível de evidência (<c1/>, <c2/> ou <c3/>, o mais fraco das linhas do registo por trás dele) e os ids dessas linhas, em toda superfície que executa um cenário: o JSON de resultado (chave <c4/>), o SVG do gráfico (elemento de metadados e uma linha sob o gráfico) e a tabela CSV (linhas de comentário <c5/>). A mesma etiqueta está nas saídas de receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, no relatório de rota do mapa de interferência, e dentro do <c11/> de cada pacote de evidências (assinado; <c12/> indica-a). Os ids das linhas são estáveis (<c13/> e oito dígitos hexadecimais, a coluna <c14/> de <c15/>).
+
+# text
+# c1: UNLABELLED_WRITERS
+# c2: tests/evidence_labels_doc_sync.rs
+seg-c66058f24f0e = Estas saídas não trazem etiqueta, cada uma por um motivo declarado (a lista é <c1/> em <c2/>, que falha diante de um escritor que não está etiquetado nem listado):
+
+# text
+seg-04ca90423b80 = Por que não traz etiqueta
+
+# text
+seg-a90c022c4dea = ficheiros de resultado do kshana-bench
+
+# text
+# c1: label
+seg-9f3f0adbcfe6 = um esquema fixo, fixado pelos compromissos do conjunto reservado; cada um traz o seu próprio <c1/> (MODELLED ou measured)
+
+# text
+seg-9bb126104f12 = produtos diários do observatório de interferência (GeoJSON, PNG, JSON de incidentes)
+
+# text
+seg-ddbc60cb14ac = um esquema congelado e publicado; as ressalvas da nota de método os acompanham
+
+# text
+seg-874cb55d3457 = ficheiros de célula, de pontuação e de relatório da campanha IQ
+
+# text
+seg-8c8cb4bd5110 = fixados por resumo; cada um declara a pontuação da campanha que reapresenta
+
+# text
+seg-8d2645e93451 = amostras IQ, metadados SigMF e SDR, referência de cena, fluxos de épocas e de eventos de seguimento, registos de sessões ao vivo
+
+# text
+seg-9fa872028a08 = ficheiros presos a um formato e fluxos de registos lidos por outras ferramentas
+
+# text
+seg-6c77071a0d03 = exportações SP3, OMM, OEM, CZML, KML, GeoJSON, STK, de movimento para test bench e NMEA; o fluxo NMEA de treino
+
+# text
+seg-5c1b92afa402 = ficheiros presos a um formato lidos por ferramentas de terceiros
+
+# text
+seg-b5c79a0e395c = formatos de transmissão de telemetria (Prometheus, OTLP, CEF, LEEF)
+
+# text
+seg-8cd0fdb609e5 = definidos pelos seus formatos de transmissão
+
+# text
+seg-3ba06004fc14 = documentos gerados (o próprio registo, as tabelas de estudo e de dados versionadas)
+
+# text
+seg-8be4943acd00 = não são a saída de uma execução

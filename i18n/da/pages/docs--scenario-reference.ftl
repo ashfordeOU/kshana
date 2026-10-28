@@ -733,3 +733,9 @@ seg-2f09b9930e10 = Se på GitHub
 seg-67f767701c6d = <s1>Forrige</s1>Funktionsområder
 
 seg-ea79a68b0587 = <s1>Næste</s1>Resultatskema
+
+seg-944145b95b4a = Tilgængelighed af PNT og tidssynkronisering på månens overflade efter sted og årstid (steder ved sydpolen i Artemis-klassen).
+
+seg-f942b36a11c4 = Endnu ikke på GitHub
+
+seg-ae3053a1f6c8 = MODELLED drevet opstigning fra et sted på overfladen ved sydpolen til rendezvous-banen og den position-hastighedskovarians, den fører tilbage til banen (Artemis-klassen). Den inertielle fejlmodel med fem tilstande pr. akse fra lunar-descent (position, hastighed, accelerometerbias, attitudehældning, gyrobias, drevet af den specifikke kraft) kører på alle tre stedsakser fra den overfladetilstand, fasen går ind med; en AFS-positionsbestemmelse fra de synlige relæer i en ILLUSTRATIVE konstellation i LCNS-klassen (selvstændig eller differentiel med korrektionslinkets residual fra lunar-differential-pnt, med uret støttet, når kun tre relæer er synlige) tages ved et angivet interval, hvor månetid indgår gennem køretøjets ur og en tidsmærkefejl langs banen. Rapporterer de lukkede inertielle kilder, støttens bidrag, ablationen, navigationens 1-sigma over opstigningen, spredningen ved motorafbrydelse ved siden af navigationsviden og den fulde 6x6 MCI-kovarians ved indsætning med position-hastighedskorrelationen bevaret. MODELLED: illustrativ IMU-klasse, specifik kraft, relæsæt og spredning ved afbrydelse; fejl holdt i affyringsstedets akser; den nominelle sluttilstand er en stand-in. Ikke støttet af nogen rumfartsorganisation; vejledende software, ikke certificeret navigationsudstyr.

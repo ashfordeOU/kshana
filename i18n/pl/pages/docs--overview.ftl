@@ -1893,3 +1893,5 @@ seg-20beca58d39e = <a1>Dodaj do Cursor (npx)</a1> · <a2>Dodaj do Cursor (Docker
 seg-aa6b62f0b484 = <a1>Zainstaluj w VS Code (npx)</a1> · <a2>Zainstaluj w VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP to Model Context Protocol. Przypnij wydanie poleceniem <c1/>, <c2/> lub <c3/>. Aby zbudować ze źródeł, zob. <a1>Install and build</a1> w sekcji Reference.
+
+seg-57686575b81d = Dane partnera

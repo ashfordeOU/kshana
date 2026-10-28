@@ -648,3 +648,9 @@ seg-0cf138405411 = Cadeia da missão: o segmento lunar
 
 # text
 seg-5fee8df421d2 = Cadeias da missão
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-a0d832aec3c8 = o id estável da linha da matriz (o ID

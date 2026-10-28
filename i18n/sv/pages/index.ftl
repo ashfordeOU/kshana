@@ -754,3 +754,19 @@ seg-f4d3b1f5b1b4 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · 
 seg-3287261002dd = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
 seg-510663384be1 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
+
+seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
+
+seg-8ca6e2046901 = Ett uppskattat område för sändaren utifrån ADS-B- eller AIS-rapporter
+
+seg-003a3b9b63ea = Uppmätta klockloggar och en holdover som styrs av en anpassad serie
+
+seg-448b11c86f48 = Datapartner: vilka rader uppmätta data kan lyfta
+
+seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning skriver
+
+seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
+
+seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }

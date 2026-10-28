@@ -703,3 +703,19 @@ seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> ·
 seg-3287261002dd = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
 
 seg-510663384be1 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-070972f642de = En missionstråd i Artemis-klassen: fejlbudgettet for navigation og tidssynkronisering fra opsendelse til indflyvning
+
+seg-4970f874d334 = Månesegmentet: rendezvous, nedstigning, overflade og opstigning
+
+seg-8ca6e2046901 = Et estimeret senderområde ud fra ADS-B- eller AIS-rapporter
+
+seg-003a3b9b63ea = Målte urlogs og en holdover drevet af en tilpasset serie
+
+seg-448b11c86f48 = Datapartnere: hvilke rækker målte data kunne opgradere
+
+seg-5858e5d1f7c5 = En evidensetiket på hvert tal og hver tabel, en kørsel skriver
+
+seg-bd28ef5c376e = Sytten sprog ved siden af engelsk
+
+seg-7fae5de5ebf1 = kshana-bench: gen-kampagnen { "0.40" }

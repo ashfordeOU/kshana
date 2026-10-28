@@ -91,3 +91,7 @@ seg-702ea357fbf3 = sposób użycia każdego polecenia; wersja silnika
 seg-74240229d57b = <s1>Poprzednia</s1>Każdy rodzaj scenariusza, według rodziny
 
 seg-b3cc5b769c99 = <s1>Następna</s1>Każda powierzchnia
+
+seg-09dab71efd9d = sprawdza format i metadane zgłoszenia partnera danych i odczytuje jego plik danych czytnikami silnika; niczego nie ocenia
+
+seg-57686575b81d = Dane partnera

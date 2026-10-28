@@ -1,7 +1,7 @@
 # docs--kind-moonlight-service-volume: translations (pt-PT)
 
 # text
-seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-1c1eeb2dcaa0 = Página da família: <a1>Lunar e cislunar</a1>
@@ -84,3 +84,14 @@ seg-f3279128de3b = <s1>Anterior</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Seguinte</s1>ntn-positioning
+
+# text
+seg-e66e2ca31e54 = Página do tópico: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+# text
+# c1: lunar-surface
+# c2: moonlight-service-volume
+seg-25040e105bf7 = <b>MODELLED</b> O tipo de cenário e fase <c1/>: disponibilidade de relés e PDOP, visibilidade da Terra e do Sol e um relógio de superfície disciplinado para cada local e estação, com o perfil do horizonte do terreno de <c2/>; uma execução de local único é igual ao do tipo
+
+# text
+seg-6730fa1b9820 = <s1>Anterior</s1>mission-thread

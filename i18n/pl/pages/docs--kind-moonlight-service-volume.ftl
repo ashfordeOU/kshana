@@ -35,3 +35,9 @@ seg-92cd937a3fb7 = <s1>Następna</s1>ntn-positioning
 seg-8f8871ac8a0f = Strona tematu: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 seg-a2889fb2b42a = Strona tematu: <a1>integrations.md</a1>
+
+seg-e66e2ca31e54 = Strona tematu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Rodzaj i faza <c1/>: dostępność przekaźników i PDOP, widoczność Ziemi i Słońca oraz zdyscyplinowany zegar powierzchniowy dla każdego miejsca i pory roku, z horyzontem terenu z <c2/>; przebieg dla jednego miejsca równa się temu rodzaju
+
+seg-6730fa1b9820 = <s1>Poprzedni</s1>mission-thread

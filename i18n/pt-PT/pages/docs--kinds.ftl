@@ -144,3 +144,9 @@ seg-3040e2ec62b1 = <s1>Anterior</s1>Tipos de cenário
 
 # text
 seg-1d6e6cc607f2 = <s1>Seguinte</s1>Todos os comandos
+
+# attr:alt
+seg-c6bb02c73696 = Folha de contacto dos gráficos que o motor escreve para os tipos de cenário da família Cadeias da missão
+
+# text
+seg-9ad7876b693f = Todos os tipos de cenário que o motor v{ $version } distribui ({ "92" }), organizados em { "13" } famílias. Cada família tem uma página com uma entrada por tipo de cenário (a descrição e os campos do motor, o comando de exemplo, números de destaque de uma execução, as linhas da matriz que o nomeiam e o gráfico que o motor escreve) e uma folha de contacto desses gráficos. Consultivo: saída de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Toda etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED, a menos que a matriz diga o contrário (como uma etiqueta é obtido: a secção Evidence do README).

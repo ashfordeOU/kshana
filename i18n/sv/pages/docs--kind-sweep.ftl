@@ -47,3 +47,5 @@ seg-cb00aca0268d = <b>MODELLED</b> Typens <c1/> sektioner sweep (en till tre pun
 seg-1750fbfc4a99 = <s1>Föregående</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Nästa</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Fasen <c1/>: medeltillståndet med motorns Cowell-propagator (jordens punktmassa och J2, solen och månen som tredje kroppar, månen från trådens DE440-kärna där den täcker segmentet och solen från den analytiska serie

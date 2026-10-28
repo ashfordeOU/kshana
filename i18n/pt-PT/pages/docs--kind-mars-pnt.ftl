@@ -4,7 +4,7 @@
 seg-debc2f07db78 = true
 
 # text
-seg-11e8c29ecb45 = Tipo de cenário do motor v{ $version }, família <a1>Constelações, cobertura e geometria</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-11e8c29ecb45 = Tipo de cenário do motor v{ $version }, família <a1>Constelações, cobertura e geometria</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 # c1: body-pnt
@@ -75,3 +75,6 @@ seg-4be479b81f39 = <s1>Anterior</s1>lunar-vlbi
 
 # text
 seg-2854e6a75833 = <s1>Seguinte</s1>moonlight-service-volume
+
+# text
+seg-6d595f01ffcc = <s1>Seguinte</s1>mission-thread

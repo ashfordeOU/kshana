@@ -71,3 +71,5 @@ seg-ce69d8d2d9d1 = <s1>Poprzednia</s1>space-weather
 seg-ac2c9c25fbb6 = <s1>Następna</s1>spoof-detect
 
 seg-9ca82c79430e = <b>MODELLED</b> Rodzaj <c1/> rozszerzony poza pasmo L: pasma podane jako predefiniowany projekt sygnału (rysowany ze wszystkimi składowymi, ograniczony do szerokości pasma nadawania, C/N0 i J/S odniesione do śledzonej składowej) albo jako własna nośna i modulacja Testy: <a1>leo_signal_reference.rs</a1>.
+
+seg-a349aa76b0ed = PARTNER

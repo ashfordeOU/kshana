@@ -29,3 +29,7 @@ seg-c5e33c7122e2 = Wykres zapisany przez silnik dla scenarios/terrain-nav.toml, 
 seg-0fcad0016c78 = <s1>Poprzednia</s1>telecom-timing
 
 seg-fa50992f818f = <s1>Następna</s1>terrain-slam
+
+seg-e66e2ca31e54 = Strona tematu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Rodzaj i faza <c1/>: pięciostanowy model błędu inercjalnego na oś (pozycja, prędkość, bias akcelerometru, przechył, bias żyroskopu) w trakcie lądowania z napędem, wspomagany pozycjami AFS (samodzielnymi lub różnicowymi, z przypadkiem trzech przekaźników wspomaganych zegarem

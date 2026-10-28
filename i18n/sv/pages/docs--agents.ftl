@@ -149,3 +149,7 @@ seg-203a91deb52c = Använd syntetiska data eller användarens egna. Nämn inte p
 seg-ec064f62f7dc = <s1>Föregående</s1>MCP-server: självhostat HTTP-läge
 
 seg-1f44dbd65ce3 = <s1>Nästa</s1>Var varje förmåga kan nås
+
+seg-e3949a1e6082 = Sändarområde (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: ett möjligt område under radiosikt, inte en positionsbestämning. Redovisa området med sin angivna konfidensnivå tillsammans med tyngdpunkten och dess ellips, aldrig tyngdpunkten ensam; ange <c1/> när data inte avgränsar det; ange att det är villkorat av modellen (kontrollerat enbart på syntetiska data; den förhandsregistrerade Jammertest-jämförelsen kördes en gång och kunde INTE BEDÖMAS för båda källorna, så ingenting testades externt). Neutral formulering: "uppskattat sändarområde"; namnge eller antyd aldrig vem eller vad som står bakom en källa, en stat, en styrka eller en avsikt. Endast aggregerat; försök inte återskapa identifierare. Publicering av sändarområden i det publika observatoriet är avstängd.

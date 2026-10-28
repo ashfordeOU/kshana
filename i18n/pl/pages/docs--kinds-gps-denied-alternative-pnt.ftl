@@ -61,3 +61,5 @@ seg-0d7bf5a4f07e = Nawigacja odniesiona do terenu bez GPS (TERCOM/SITAN): wysoko
 seg-c5e33c7122e2 = Wykres zapisany przez silnik dla scenarios/terrain-nav.toml, rodzaj terrain-nav
 
 seg-6bdc150ab25b = Sekwencyjna (rekurencyjna) nawigacja odniesiona do terenu bez GPS: filtr cząsteczkowy uruchamia model pomiaru dopasowania do terenu epoka po epoce (SITAN jako filtr ciągły), dzięki czemu zmienny w czasie dryf INS jest śledzony wzdłuż trasy, podczas gdy wsadowe terrain-nav odzyskuje tylko jedno stałe przesunięcie.
+
+seg-643fa0f18717 = <b>Rejestr (ledger):</b> MODELLED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-nav</a1>.
