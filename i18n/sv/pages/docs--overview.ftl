@@ -1975,3 +1975,12 @@ seg-824001fa6734 = laboratorier och tillverkare som har uppmätta data
 seg-df3ca402513f = vilka MODELLED-rader en uppmätt klock- eller IMU-post kan lyfta, formaten, hur ett bidrag kontrolleras (<c1/>), poängsätts och tillgodoräknas
 
 seg-e2d733f93455 = Se <c1/> för minst ett genomarbetat exempel för varje typ ({ "92" } typer, { "193" } scenariofiler med <c2/> + { "1" } svitmanifest — flera typer levereras med mer än ett exempel). Inte varje typ har en fil uppkallad efter sig: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de typer som går att anropa när som helst med <c7/> fel, Python <c8/> eller MCP-verktyget <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Uppdragsflöde.</b> Typen <c1/> kopplar ihop faser från uppskjutning till återinträde (<c2/>, <c3/>, <c4/>, <c5/> och fyra månetyper) med angivna överlämningsregler, en marginal mot angivna krav och den svagaste länken; ett helt Artemis-klassexempel över { "11" } faser (jord- och månsegment), { "92" } scenariotyper totalt. Varje tal är MODELLED. Propageringen i cislunart rum mot den offentliga banan för Artemis I <b>missar</b> sin förhandsregistrerade tröskel ({ "45.3" } km och { "0.25" } m/s mot { "5" } km och { "0.05" } m/s; orsaken är små manövrar som modellen inte innehåller), och månens propagator mot CAPSTONE-banan <b>missar</b> ({ "136.8" } km mot { "25" } km vid slutet av ett varv); jämförelsen med LRO nås. Raderna förblir MODELLED (<a1>Uppdragsflöde</a1>, <a2>månsegmentet</a2>). I Studio läses flödet på <c6/>.

@@ -1975,3 +1975,12 @@ seg-824001fa6734 = laboratoria en makers met gemeten data
 seg-df3ca402513f = welke MODELLED rijen een gemeten klok- of IMU-opname zou kunnen bevorderen, de formaten, hoe een inzending wordt gecontroleerd (<c1/>), gescoord en toegekend
 
 seg-e2d733f93455 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "92" } soorten, { "193" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "92" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>). In de Studio wordt de keten gelezen op <c6/>.
