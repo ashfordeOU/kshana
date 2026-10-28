@@ -530,7 +530,7 @@ fn figure(est: &[(&Session, Estimate)], params: &EmitterParams) -> String {
         .filter(|b| b * sc < side / 3.0)
         .fold(1.0, f64::max);
     svg.push_str(&format!(
-        "<path d=\"M{m},{y}L{x},{y}\" stroke=\"#111111\" stroke-width=\"3\"/><text x=\"{m}\" y=\"{t}\" font-size=\"11\" fill=\"#111111\">{}</text>",
+        "<path d=\"M{m},{y}L{x:.1},{y}\" stroke=\"#111111\" stroke-width=\"3\"/><text x=\"{m}\" y=\"{t}\" font-size=\"11\" fill=\"#111111\">{}</text>",
         esc(&crate::t!("interference-map-locate-fig-scale", km = crate::i18n::num(bar, 0))),
         y = 80.0 + side + 16.0,
         x = m + bar * sc,

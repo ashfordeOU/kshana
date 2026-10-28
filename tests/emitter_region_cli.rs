@@ -65,12 +65,21 @@ fn locate(input: &Path, out: &Path, extra: &[&str]) -> Output {
 const STEM: &str = "emitter-adsb-custom-2026-03-01";
 const SUFFIXES: [&str; 4] = [".geojson", "-summary.json", "-sessions.csv", "-figure.svg"];
 
+/// The Kshana version is the one field that changes between releases without any change to the example, so it is
+/// not part of the pin (any version, not only the running one).
 fn normalise_version(text: &str) -> String {
-    let v = env!("CARGO_PKG_VERSION");
-    text.replace(
-        &format!("\"kshana_version\": \"{v}\""),
-        "\"kshana_version\": \"X\"",
-    )
+    let key = "\"kshana_version\": \"";
+    let mut out = String::new();
+    let mut rest = text;
+    while let Some(i) = rest.find(key) {
+        out.push_str(&rest[..i + key.len()]);
+        rest = &rest[i + key.len()..];
+        let end = rest.find('"').unwrap_or(rest.len());
+        out.push('X');
+        rest = &rest[end..];
+    }
+    out.push_str(rest);
+    out
 }
 
 #[test]
