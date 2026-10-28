@@ -46,9 +46,36 @@ export function shareEngine(tree) {
   return { saved: before - SHIM.length, rewritten: plan.map(([f]) => f.slice(tree.length + 1)), status: 'shared' };
 }
 
-/** The catalogues the pages and the Studio load at run time (`<site>/i18n/<lang>/<file>`, web/studio/lib/l10n-boot.mjs): English and each built language.
- *  The build does not stage them by itself; this does, for a deploy that serves translated scripts. Returns the bytes written. */
-export const RUNTIME_CATALOGUES = ['ui.ftl', 'glossary.ftl', 'studio-js.ftl', 'studio-pages.ftl', 'site-js.ftl', 'engine.ftl'];
+/** The catalogues the browser fetches at run time (`<site>/i18n/<lang>/<file>`), for English and each built language.
+ *  Who fetches what (web/studio/lib/l10n-boot.mjs makes the loader; web/studio/lib/l10n.mjs `load` fetches `${base}${lang}/${file}`):
+ *    ui.ftl, glossary.ftl      every Studio page (default `files`) and every translated site page (kshanaL10nFiles, tools/i18n-site.mjs)
+ *    studio-js.ftl, studio-pages.ftl   the Studio pages only (the default `files` of createL10n)
+ *    site-js.ftl               the translated site pages only (kshanaL10nFiles = ui, glossary, site-js)
+ *  The language and English are both loaded (English is the per-id fallback), so each of the five exists for `en` and for every built language.
+ *  Not fetched, so not shipped: engine.ftl (only `registerCurrent` fetches it, and only when a page calls `attachEngine`, which no page does),
+ *  data.ftl and pages/*.ftl (applied into static files at build time). The tests pin this list against the sources. */
+export const RUNTIME_CATALOGUES = ['ui.ftl', 'glossary.ftl', 'studio-js.ftl', 'studio-pages.ftl', 'site-js.ftl'];
+
+/** A catalogue without comments and blank lines: the same messages, terms and attributes (the test compares both with @fluent/syntax).
+ *  Comment lines start in column 0 with `#`; a blank line is kept only where the next non-blank line is indented, because there it
+ *  belongs to a multi-line pattern. */
+export function stripFtl(text) {
+  const lines = text.split('\n');
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (/^#/.test(l)) continue;
+    if (/^\s*$/.test(l)) {
+      let j = i + 1;
+      while (j < lines.length && /^\s*$/.test(lines[j])) j++;
+      if (out.length && j < lines.length && /^[ \t]/.test(lines[j])) out.push('');
+      continue;
+    }
+    out.push(l);
+  }
+  return out.join('\n') + '\n';
+}
+
 export function stageCatalogues(root, tree, langs) {
   let bytes = 0;
   for (const lang of ['en', ...langs.filter((l) => l && l !== 'en')]) {
@@ -57,9 +84,35 @@ export function stageCatalogues(root, tree, langs) {
       if (!existsSync(src)) continue;
       const dst = join(tree, 'i18n', lang, f);
       mkdirSync(dirname(dst), { recursive: true });
-      copyFileSync(src, dst);
+      writeFileSync(dst, stripFtl(readFileSync(src, 'utf8')));
       bytes += statSync(dst).size;
     }
   }
   return bytes;
+}
+
+/** The per-language copies of data files that a page can request (lib/t.mjs fetchData / importData; a translated page /<lang>/... resolves the
+ *  relative path to its own copy, the Studio asks /<lang>/studio/<path>). Consumers, from the sources:
+ *    data/series.json                      web/site.js, web/js/missions.mjs (fetchData)
+ *    data/search.json                      web/site.js (fetchData)
+ *    assets/capabilities/capabilities.json web/js/cap-hero.mjs, web/js/capabilities.mjs (fetchData)
+ *    js/evidence-data.mjs, js/developers-data.mjs, js/missions-runs.mjs   web/js/{evidence,developers,missions}.mjs (importData)
+ *    studio/channels.json                  web/studio/app.js, advanced.js (fetchData("channels.json") from /studio/)
+ *  Every other file i18n/data-spec.json lists is applied at build time or read only in English: data/verification-matrix.json,
+ *  data/card-matrix-map.json, data/standards-matrix-map.json (no fetchData or importData names them; the Studio's own matrix is
+ *  studio/data/verification-matrix.json, which the spec does not list), studio/data/capabilities.json (nothing reads it),
+ *  studio/data/areas.json (read with a plain fetch, so always the English file). */
+export const RUNTIME_DATA = ['data/series.json', 'data/search.json', 'assets/capabilities/capabilities.json', 'js/evidence-data.mjs', 'js/developers-data.mjs', 'js/missions-runs.mjs', 'studio/channels.json'];
+
+/** Remove the language copies no page requests (run after `verify`). Returns { removed: [path], bytes }. */
+export function pruneData(tree, langs, specFile) {
+  const spec = JSON.parse(readFileSync(specFile, 'utf8'));
+  const drop = spec.files.map((f) => f.file).filter((f) => !RUNTIME_DATA.includes(f));
+  let bytes = 0; const removed = [];
+  for (const lang of langs) for (const f of drop) {
+    const p = join(tree, lang, f);
+    if (!existsSync(p)) continue;
+    bytes += statSync(p).size; rmSync(p); removed.push(`${lang}/${f}`);
+  }
+  return { removed, bytes };
 }
