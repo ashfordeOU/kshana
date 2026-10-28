@@ -75,3 +75,5 @@ seg-4be479b81f39 = <s1>Eelmine</s1>lunar-vlbi
 
 # text
 seg-2854e6a75833 = <s1>Järgmine</s1>moonlight-service-volume
+
+seg-6d595f01ffcc = <s1>Järgmine</s1>mission-thread

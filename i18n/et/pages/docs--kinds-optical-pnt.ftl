@@ -114,3 +114,5 @@ seg-a4baaf1fbb8c = <s1>Eelmine</s1>Missioonianalüüs, sidelingid ja kosmoseoper
 
 # text
 seg-48792381ba0b = <s1>Järgmine</s1>Kosmosekasutaja navigatsioon
+
+seg-22449071fb11 = <s1>Eelmine</s1>Missiooniahelad

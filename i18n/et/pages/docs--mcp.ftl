@@ -657,3 +657,5 @@ seg-490ebbefb561 = <s1>Eelmine</s1>Rust crate
 
 # text
 seg-350b6b914734 = <s1>Järgmine</s1>MCP server: kõik paigalduskanalid
+
+seg-492888115662 = { "92" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.

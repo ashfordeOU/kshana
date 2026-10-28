@@ -223,3 +223,37 @@ seg-3c89cfcbbd04 = <s1>Järgmine</s1>Riistvara ohutus
 
 # text
 seg-9b52cd5eb4be = tau0 ja lüngad
+
+seg-9c8042f0d3d7 = <b><c1/></b>: RINEX clock failid, versioonid { "2.00" } ja { "3.00" } kuni { "3.04" } (kaasa arvatud { "3.04" } üheksamärgiline nimeväli). Kirjet <c2/> kontrollitakse ja iga muu versioon lükatakse tagasi, nimetades leitud versiooni: IGS avaldab kellavormingu (<c3/>, <c4/>, <c5/>) kuni { "3.04" }-ni ning RINEX { "4.00" }, { "4.01" } ja { "4.02" } dokumendid defineerivad ainult vaatlus-, navigatsiooni- ja meteoroloogiafailid, seega kellafailil pole versiooni { "4.00" }, mida lugeda. Päist loetakse ainult selle <c6/> jaoks ja see jäetakse vahele kuni <c7/>. Andmekirjetest hoitakse ainult ühe kella <c8/> (satelliidi) ja <c9/> (vastuvõtja või jaama) kirjed, valitud nime järgi. Nende esimene väärtusväli, kella nihe sekundites, on faas. Jätkuread ning <c10/>, <c11/> ja <c12/> kirjed jäetakse vahele. Epohhid on kirje kalendriväljad sekunditena alates 1980-01-06 { "00" }:{ "00" }:{ "00" } faili enda ajasüsteemis, ilma teisenduseta.
+
+seg-b65f4a928891 = <b><c1/></b>: TAPR TICC loenduri logid (TICC Operation Manual, redaktsioonid { "23" } november { "2016" } ja { "15" } detsember { "2025" }, „measurement modes“). Iga andmeväli on sekundid { "12" } kümnendkohaga ({ "11" } vaikimisi püsivarast { "20251101" }: loetakse iga arv kuni { "15" }). Ajatempel loetakse selle kümnendtekstist täisarvuna femtosekundeid, mitte kahendujukomaarvuna, nii et loenduri käivitamisest päevi hiljem võetud logi faas säilitab loenduri enda eraldusvõime: <c2/> ajatemplil { "3.0e5" } s on samm { "5.8e-11" } s, umbes loenduri { "60" } ps.
+
+seg-bb51bfa2a834 = Paired Timestamp režiim trükib samad read kanalite järjekorras ja loetakse Timestamp režiimina; 3-Corner Hat režiim lisab sünteesitud <c1/>, mida loetakse nagu ülal.
+
+seg-220bc7450e83 = Period-režiimi ja Debug-režiimi väljund lükatakse tagasi. Kanal, mille lugemid ei kasva, teatatakse Period-režiimina. Binaarne Timestamp režiim ei ole tekst ja selle fail lükatakse tagasi teatega, mis seda ütleb.
+
+seg-1138c53b3eac = Sinu enda kell
+
+seg-1f9cce016fa0 = Tabel <c1/> kella liigil teatab, kui stabiilne sinu enda kell oli, simulatsiooni kõrval: <c2/> (<c3/>) on <c4/> koos IGS satelliidikella 96 lugemi väljavõttega sisemise TimeLab logina. Asenda <c5/> väljadega <c6/> ja <c7/> oma faili jaoks. Tulemuse plokk <c8/> hoiab, kuidas logi loeti (vorming, <c9/> ja kust see pärines, iga lünk) ning selle ADEV, TDEV ja MTIE; see ei muuda simulatsiooni.
+
+seg-584564d1a734 = Holdoveri käitamine sinu enda kellaga: <c1/>
+
+seg-56799b5fea19 = Logi sobitatakse failis <c1/> oleva seadmekaardi protseduuriga (konditsioneerimine, ruutliige eemaldatud, lag-1 müra tuvastamine, kaalutud vähimruutude meetod valge PM-i, valge FM-i, flicker FM-i ja juhusliku käiguga FM-i jaoks keskmistamisaegadel, kus on vähemalt { "30" } vabadusastet). Nimetatud kell võtab seejärel <c2/>, <c3/>, <c4/> ja sobitatud <c5/>; <c6/> jääb nii, nagu stsenaariumil on, sest logi kannab oma etaloni nihet, mitte kella nihet pärast distsiplineerimist. Valget faasimüra sobitatakse ja esitatakse, aga ei simuleerita. Tulemus saab ploki <c7/> (koefitsiendid, sobituspunktid, käivituse kasutatud väärtused, mis jäeti välja, logi SHA-256) ja kell kannab id-d <c8/>. Tingimusel <c9/> tõmbab ansambel sobitatud kellast (plokk <c10/> vajab <c11/>). Sobitus ilma sagedusmürata, sobitamiseks liiga lühike logi ja muu <c12/> kui <c13/> või <c14/> on vead, mis seda ütlevad. <c15/> on näide ({ "6" } tundi IGS satelliidikella).
+
+seg-fe695061eed3 = Mida teadaoleva müraga võrdlus (<c1/>) näitab ja mida silmas pidada:
+
+seg-90657795ba62 = Täidetud: valge FM-i tase taastatakse { "5" } % piires igal sünteetilisel kirjel, kus see on; sobitatud kaart reprodutseerib tegeliku Alani hälbe teguri { "1.35" } piires igal keskmistamisajal, millel see sobitati; müraeksponent, mille sobitus tuvastab, on võrdne allantoolsi omaga igas punktis (5071A kirjel, kui faasihüpe, mille konditsioneerimine eemaldab, eemaldatakse ka allantoolsi sisendist).
+
+seg-f1ec27a393ae = <b>Täitmata ja testiga kinnistatud:</b> juhusliku käiguga FM taastatakse ainult siis, kui see domineerib kirje pikimatel keskmistamisaegadel, ja isegi siis ühel kolmest { "131 072" } s rea kirjest, mille ristumine on { "3 000" } s juures, andis sobitus selle flicker FM-ile ja triivile. Juhusliku käiguga FM-i ja flicker FM-i jaotus ei ole ühe kirje põhjal usaldusväärne. Käivitus reprodutseerib logi stabiilsuse keskmistamisaegadel, mida logi katab; sealt kaugemal lähevad need kaks valikut lahku (flicker FM on konstantne põrand, juhusliku käiguga FM kasvab keskmistamisaja ruutjuurena).
+
+seg-88ba5ae782d4 = MODELLED: mis-oleks-kui selle kella müra kohta nii, nagu logi seda näitab, mitte kella kalibreering ega selle tulevase käitumise ennustus.
+
+seg-6e88b597bbf0 = Vigane logi on viga, mis nimetab leitu (rida, versioon, puuduv valija), mitte kunagi osaline tulemus: <c1/> kinnistab { "24" } sellist juhtu.
+
+seg-4a05abb27420 = MODELLED. See on parser ja selle väljund toidab hindajaid, mis on mujal allantoolsi vastu valideeritud. Failis <c1/> olevad ühiktestid kasutavad väikeseid käsitsi kirjutatud logisid ning linuxptp ja chrony vormingute jaoks kaustas <c2/> olevaid fikstuure. <c3/> käivitab võrdluse, mis on eelregistreeritud failis <c4/>: kolm algväärtustatud sünteetilist logi, üks vormingu kohta, mida loeb tagasi sõltumatu lugeja, kirjutatud sellelt lehelt sama autori poolt, kusjuures ADEV, TDEV ja MTIE on kontrollitud allantools { "2024.6" } vastu; see võrdlus katab ainult kolm esimest vormingut ning linuxptp ja chrony lugejatel on parseritestid, aga oraaklivõrdlust pole. Selle võrdluse logid on sünteetilised, seega miski seal ei kirjelda päris kella ega loendurit; mõõdetud ridade võrdlust kirjeldatakse allpool.
+
+seg-576211abf0b4 = Mõõdetud andmetel
+
+seg-3c8d10e8bd1c = <c1/> käivitab võrdluse, mis on eelregistreeritud failis <c2/> (kinnitatud enne ühtki fikstuuri või käivitust), nelja mõõdetud rea peal: Stable32 <c3/>, 5071A tseesiumkella esimesed { "65 536" } lugemit vesinikmaseri vastu ning IGS satelliidi G01 ({ "30" } s) ja jaama ABMF ({ "300" } s) kellad 2026-08-02 IGS lõplikust kellast, kaasa pakutud lõiguna koos selle NOTICE-iga. Esimesed kaks ei kanna levitamisluba: neist kirjutatud logid on git-ignoreeritud kaustas <c4/> (<c5/>) ja test ütleb seda ning läbib, kui need puuduvad, kui just pole <c6/>. Iga logi loevad mootor ja sõltumatu lugeja ning ADEV, TDEV ja MTIE-d võrreldakse allantools { "2024.6" } omadega. Kirjutatud failis <c7/>: kaasasoleval lugejal ebaõnnestusid eelregistreeritud läved TICC logide, päise versiooni ja viie veateate puhul; need parandati ja võrdlus käivitati muutmata kujul uuesti. Täidetud, välja arvatud üks paar: sagedusloogi MTIE erineb allantoolsi omast, sest allantools integreerib sageduse miinus selle keskmise (kinnistatud kui NOT MET; samaväärne võrdlus on täidetud). Rida jääb MODELLED: TICC logid on mõõdetud kellaandmed, mis meie skript on loenduri paigutusse ümber kodeerinud (päris TICC salvestust ei leitud), ja etalonlugejal on sama autor kui mootoril.
+
+seg-52778d17f4db = Holdoveri käitamine sinu enda kellaga: [clock_fit]

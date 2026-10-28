@@ -247,3 +247,31 @@ seg-6dc7d52fef11 = <s1>Eelmine</s1>npm ja WebAssembly
 
 # text
 seg-8ff56af64ec2 = <s1>Järgmine</s1>MCP server
+
+seg-c9a297cc51e9 = { "401" } võimekusest { "176" } valideeritud sõltumatute väliste etalonide (oraaklite) vastu
+
+seg-7b53ee712a36 = <b>{ "401" } võimekusest { "176" }</b> on valideeritud sõltumatute väliste etalonide (oraaklite) vastu; { "221" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+
+seg-b59781ecf257 = Kuidas võimekus oma sildi teenib: võimekus, etalon (oraakel), test, registri (ledger) silt. Kontrollistaatus kõigi { "401" } võimekuse lõikes: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omad
+
+seg-d0b2811a3d3c = Mootoril on { "92" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).
+
+seg-8e9fbc5f2e72 = Sisseehitatud stsenaariumi liigi kind kirjeldus keeles lang kataloogist (inglise keeles, kui keeles selle tõlget pole); None nime puhul, mis ei ole sisseehitatud liik.
+
+seg-06e503c23c30 = [kind_description_in] praeguses keeles ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json], kus iga kirjeldus on keeles lang (silt, mida --lang aktsepteerib, näiteks de või zh-Hans); nimed ja väljaloendid on igas keeles samad ning inglise keele puhul on dokument baidi-baidilt identne dokumendiga [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] kasutajale keeles lang (silt, näiteks de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Kaks [run_toml_lang] jooksu hoitud lahus: inglise keele jooks, mille json ja csv on masinafailid, ning teise keele puhul jooks selles keeles kõige jaoks, mida inimene loeb.
+
+seg-1fd1f547d2b3 = [run_toml_bilingual] teine läbimine eraldi: käivita stsenaarium üks kord keeles lang ja tagasta ainult see, mida inimene loeb.
+
+seg-ae75df85e545 = [run_scenario] kasutajale keeles lang; vt [run_toml_lang].
+
+seg-28e05e08ff76 = Käivita src keeles lang ja kui see ebaõnnestub, kirjelda tõrget JSON-objektina { "{" }"kind": <kind_tag>, "code": <stabiilne kood või null>, "message": <tekst selles keeles>{ "}" }.
+
+seg-24fe823a994a = json ilma tõendussildita ([crate::evidence_label]); muutmata, kui sellel silti pole.
+
+seg-c0444d838311 = out koos tõendussildi eemaldamisega selle JSON-ist, SVG-st ja CSV-st, bait-baidilt nii, nagu jooks need tootis enne sildi olemasolu; sildita väljund jääb muutmata.
