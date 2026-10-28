@@ -47,3 +47,5 @@ seg-cb00aca0268d = <b>MODELLED</b> <c1/>类型的sweep（一至三个任意类�
 seg-1750fbfc4a99 = <s1>上一页</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>下一页</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> <c1/>阶段：平均状态由引擎的Cowell传播器给出（地球点质量和J2、作为第三体的太阳和月球；月球取自任务链的DE440星历文件（在其覆盖该航段时），太阳取自解析级

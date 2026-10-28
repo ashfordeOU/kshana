@@ -45,3 +45,5 @@ seg-3f92aec2b92a = 量子PNT系统的故障/异常检测是MODELLED，而非经�
 seg-6524a69e4835 = <s1>上一页</s1>pvt
 
 seg-aa689568cf84 = <s1>下一页</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

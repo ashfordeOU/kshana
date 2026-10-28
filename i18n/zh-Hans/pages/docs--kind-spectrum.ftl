@@ -71,3 +71,5 @@ seg-95879767c438 = 专题页面：<a1>LEO-SIGNAL.md</a1>
 seg-ce69d8d2d9d1 = <s1>上一页</s1>space-weather
 
 seg-ac2c9c25fbb6 = <s1>下一页</s1>spoof-detect
+
+seg-a349aa76b0ed = PARTNER

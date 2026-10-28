@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = 弹道再入走廊（Allen–Eggers）是MODELLED，而非经
 seg-a4b7c16e3fea = <s1>上一页</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>下一页</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> <c1/>阶段：<c2/>的返回滑行，无点火，终止于再入界面；由完整协方差经有限差分梯度得到航迹角及其sigma；该角度处于规定
