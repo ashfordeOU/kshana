@@ -173,3 +173,5 @@ seg-83b30e1ca261 = <s1>Précédent</s1>Paquets de preuves
 
 # text
 seg-1474b58fb35a = <s1>Suivant</s1>Synchronisation des créneaux
+
+seg-50f25bceca3c = <s1>Précédent</s1>Partenaires de données et lignes à promouvoir
