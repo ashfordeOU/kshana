@@ -90,12 +90,11 @@ mod tests {
     /// curve arithmetic itself is the library's.
     #[test]
     fn p521_roundtrip_and_corruption() {
-        use p521::ecdsa::{signature::RandomizedSigner, Signature, SigningKey, VerifyingKey};
-        use rand::SeedableRng;
+        use p521::ecdsa::{signature::Signer, Signature, SigningKey, VerifyingKey};
         let mut scalar = [0x42u8; 66];
         scalar[0] = 0x01; // a P-521 scalar has 521 bits
         let sk = SigningKey::from_slice(&scalar).unwrap();
-        let pk = VerifyingKey::from(&sk).to_encoded_point(true);
+        let pk = VerifyingKey::from(&sk).to_sec1_point(true);
         let key = PublicKey {
             pkid: 2,
             key_type: KeyType::P521,
@@ -103,8 +102,7 @@ mod tests {
         };
         assert_eq!(key.bytes.len(), 67);
         let msg = b"throwaway message";
-        let mut rng = rand_chacha::ChaCha20Rng::seed_from_u64(7);
-        let sig: Signature = sk.try_sign_with_rng(&mut rng, msg).unwrap();
+        let sig: Signature = sk.sign(msg);
         let raw = sig.to_bytes().to_vec();
         assert_eq!(raw.len(), 132);
         assert_eq!(verify(&key, msg, &raw), Ok(()));
