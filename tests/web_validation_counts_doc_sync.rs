@@ -256,7 +256,8 @@ fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
     for needle in [
         "from \"./lib/counts.mjs\"",
         "matrixCounts(ledger)",
-        "fetch(\"data/verification-matrix.json\")",
+        // fetchData is lib/t.mjs's same-origin loader (it prefers a translated copy when one exists)
+        "fetchData(\"data/verification-matrix.json\")",
     ] {
         assert!(
             app.contains(needle),
