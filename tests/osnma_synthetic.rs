@@ -16,7 +16,6 @@ use kshana::osnma::verifier::{
     Chain, Config, Event, FailReason, KrootError, PendingReason, TagResult, TagStatus, Verifier,
 };
 use kshana::osnma::{InavPage, OsnmaStatus, WEEK_S};
-use rand::SeedableRng;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
@@ -861,17 +860,13 @@ impl Signer {
             Self::P256(sk) => PublicKey {
                 pkid,
                 key_type: KeyType::P256,
-                bytes: sk
-                    .verifying_key()
-                    .to_encoded_point(true)
-                    .as_bytes()
-                    .to_vec(),
+                bytes: sk.verifying_key().to_sec1_point(true).as_bytes().to_vec(),
             },
             Self::P521(sk) => PublicKey {
                 pkid,
                 key_type: KeyType::P521,
                 bytes: p521::ecdsa::VerifyingKey::from(sk)
-                    .to_encoded_point(true)
+                    .to_sec1_point(true)
                     .as_bytes()
                     .to_vec(),
             },
@@ -886,9 +881,8 @@ impl Signer {
                 s.to_bytes().to_vec()
             }
             Self::P521(sk) => {
-                use p521::ecdsa::signature::RandomizedSigner as _;
-                let mut rng = rand_chacha::ChaCha20Rng::seed_from_u64(7);
-                let s: p521::ecdsa::Signature = sk.try_sign_with_rng(&mut rng, msg).unwrap();
+                use p521::ecdsa::signature::Signer as _;
+                let s: p521::ecdsa::Signature = sk.sign(msg);
                 s.to_bytes().to_vec()
             }
         }
