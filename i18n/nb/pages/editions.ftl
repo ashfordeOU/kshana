@@ -811,3 +811,11 @@ seg-2e0c129fb875 = <b>Kommersiell lisens</b><s1>Den åpne kjernen, for lukket in
 seg-67341b9eea70 = <b>Noe annet</b><s1>contact@ashforde.org · e-posten går rett til teamet</s1>
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+seg-3bf5f474beca = Den åpne motoren i sentrum: ett merke per scenariotype ({ "92" }), fylt der typen har validerte registerrader, hult der radene er modellerte, en strek der ingen registermodul matcher den på navn. Kshana Pro og den tilpassede studien ligger rundt den og kobles til typene de bygger på.
+
+seg-f88b6cf10837 = Motor v{ $version } · { "92" } typer fra <c1/> · registerstatus fra <c2/> · det Pro og en studie bygger på: nettstedets utgaveregister · ingen scenario eller seed
+
+seg-7a848f1d8304 = Alle { "92" } scenariotyper og { "180" } medfølgende scenarier: native, Python, JavaScript, i nettleseren og over MCP (Model Context Protocol)
+
+seg-cc655ce0b6c8 = Den fulle verifikasjonsmatrisen: { "176" } av { "401" } funksjoner validert mot uavhengige referanser, resten merket modellert

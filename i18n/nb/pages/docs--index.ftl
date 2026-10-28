@@ -217,3 +217,27 @@ seg-35db5b51a590 = <s1>Navigasjon for rombrukere</s1><s2>{ "1" } scenariotype i 
 seg-1acf60cff708 = Ikke tatt med
 
 seg-188c6e41f434 = Dokumenter for vedlikeholdsprosessen blir liggende i repositoriet: docs/RELEASING.md (utgivelsesprosedyre); docs/WHEEL_TAGS.md (pakkingsdetaljer); docs/revisions/ (interne endringsnotater); docs/design/ (interne utformingsnotater); README.pypi.md (PyPI-siden; dokumentasjonen av Python-API-et dekker den); .github/-maler; docs/integrations.md (bygd opp rundt navngitte KI-produkter fra tredjeparter, som dette nettstedet ikke navngir).
+
+seg-fcffac5eb150 = <s1>Språk</s1><s2>Motorens tekst som mennesker leser finnes på { "17" } språk ved siden av engelsk: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Scenariotyper</s1><s2>De { "92" } innebygde scenariotypene som kshana::api::run_toml fordeler over, hver med sin enlinjes…</s2>
+
+seg-9d5c233c72b4 = <s1>Alle scenariotyper, etter familie</s1><s2>Alle scenariotyper motoren v{ $version } fordeler over ({ "92" }), sortert under { "13" } familier.</s2>
+
+seg-2c002a7b7640 = <s1>Scenarioreferanse</s1><s2>Hver medfølgende scenariofil ({ "192" }), gruppert etter type, med nøkkelinnstillingene.</s2>
+
+seg-f5987c9d9fde = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "401" } radene i verifikasjonsmatrisen.</s2>
+
+seg-980f70b29717 = <s1>Datapartnere og rader som kan oppgraderes</s1><s2>Kshana merker hver funksjon i et maskinkontrollert register (verifikasjonsmatrise).</s2>
+
+seg-7c6a541b3bc8 = <s1>Oppdragstråd: fra oppskyting til gjeninntreden</s1><s2>Veiledende programvare, ikke sertifisert navigasjonsutstyr.</s2>
+
+seg-7377c479fed0 = <s1>Oppdragstråd: månesegmentet</s1><s2>Fire scenariotyper, hver også en fasetype i grensesnittet for oppdragstråden (src/mission_thread/): de…</s2>
+
+seg-cecb9535c0a1 = <s1>Måne og cislunart rom</s1><s2>{ "24" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
+
+seg-1dd7c80e18a7 = <s1>Oppdragstråder</s1><s2>{ "1" } scenariotype i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
+
+seg-f0e26f01a361 = { "92" } sider, én for hver scenariotype, med lenker fra <a1>Alle scenariotyper, etter familie</a1>.

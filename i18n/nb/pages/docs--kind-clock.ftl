@@ -55,3 +55,9 @@ seg-46ed0b786244 = Temaside: <a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>Forrige</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Neste</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } medfølgende scenarioer bruker denne typen; de andre ligger i <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Typen <c1/>: et dokument av faser, hver av dem én av åtte registrerte typer, kjørt i rekkefølge med 6x6-kovariansen, klokken og referansesystemet videreført under en oppgitt regel (<c2/>; <c3/>, hvit akselerasjonsstøy over et oppgitt gap Tester: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = og { "1" } til i matrisen.

@@ -39,3 +39,5 @@ seg-6a6f8eea5767 = <b>Register:</b> ingen rad i matrisen nevner denne typen; mot
 seg-a4baaf1fbb8c = <s1>Forrige</s1>Oppdragsanalyse, lenker og romoperasjoner
 
 seg-48792381ba0b = <s1>Neste</s1>Navigasjon for rombrukere
+
+seg-22449071fb11 = <s1>Forrige</s1>Oppdragstråder

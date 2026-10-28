@@ -733,3 +733,47 @@ seg-2f09b9930e10 = Se på GitHub
 seg-67f767701c6d = <s1>Forrige</s1>Funksjonsdomener
 
 seg-ea79a68b0587 = <s1>Neste</s1>Resultatskjema
+
+seg-944145b95b4a = Tilgjengelighet for PNT og tidssynkronisering på månens overflate etter sted og årstid (steder nær sørpolen i Artemis-klassen).
+
+seg-f942b36a11c4 = Ikke på GitHub ennå
+
+seg-ae3053a1f6c8 = MODELLED drevet oppstigning fra et sted på overflaten nær sørpolen til rendezvous-banen, og posisjons-hastighetskovariansen den fører tilbake til bane (Artemis-klassen). Den inertielle feilmodellen med fem tilstander per akse fra lunar-descent (posisjon, hastighet, akselerometerbias, holdningshelling, gyrobias, drevet av den spesifikke kraften) kjøres på alle tre stedsaksene fra overflatetilstanden fasen går inn med; en AFS-posisjonsbestemmelse fra de synlige reléene i en ILLUSTRATIVE konstellasjon i LCNS-klassen (alene, eller differensiell med korreksjonslenkens residual fra lunar-differential-pnt, med klokken støttet når bare tre reléer er synlige) tas ved et oppgitt intervall, med månetid inn gjennom fartøyets klokke og en tidsmerkefeil langs banen. Rapporterer de lukkede inertielle kildene, hjelpemidlets bidrag, ablasjonen, navigasjonens 1-sigma-verdier over oppstigningen, spredningen ved motoravstengning ved siden av navigasjonskunnskapen, og den fulle 6x6 MCI-kovariansen ved innsetting med posisjons-hastighetskorrelasjonen beholdt. MODELLED: illustrativ IMU-klasse, spesifikk kraft, relésett og spredning ved avstengning; feil holdt i akser for oppskytingsstedet; den nominelle utgangstilstanden er en plassholder. Ikke støttet av noe byrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-2cd0d5385530 = MODELLED budsjett for landingsspredning ved et drevet nedstigningsforløp til et sted nær sørpolen (Artemis-class). For hver horisontale akse drives en inertiell feilmodell med fem tilstander (posisjon, hastighet, akselerometerbias, holdningstilt, gyrobias) av nedstigningens spesifikke kraft; et sekvensielt filter tar posisjonsbestemmelser fra de aktiverte hjelpemidlene: en AFS-posisjonsbestemmelse fra de synlige reléene i en ILLUSTRATIVE konstellasjon av LCNS-klasse (frittstående, eller differensiell med korreksjonslinkens restfeil fra lunar-differential-pnt, med klokken hjulpet når bare tre reléer er synlige) og en terrengrelativ posisjonsbestemmelse (crate-ens TERCOM/SITAN-matcher på et syntetisk relieff, eller Cramer-Rao-grensen for matching av et høydevindu i den virkelige LOLA-DEM-en for sørpolområdet). Månetid kommer inn gjennom fartøyets klokke ved posisjonsbestemmelsene (LTC-TT-forskjellen fra lunar-time-offset, eller usikkerheten i det publiserte båndet) og som en tidsmerkefeil langs banen. Rapporterer 3-sigma-landingsellipsen, R95, de lukkede inertielle kildene, hvert hjelpemiddels bidrag, ablasjonen av hver kombinasjon av hjelpemidler, en Monte Carlo-kalibrering av ellipsen og kovariansen som føres videre. MODELLED: illustrativ IMU-klasse, relésett, nedstigningsprofil og styringsledd; terrengnavigasjonen bruker et syntetisk relieff på en jordlig metermålestokk; AFS-tilgjengeligheten er én epoke på en flat maske. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-2deefd8c547b = MODELLED relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en lav månebane eller en elliptisk polarbane (Artemis-class). Et jagerfartøy og et målfartøy flyr i samme bane under crate-ens månekraftmodell; et felles batch Gauss-Newton-estimat med 21 parametere over buen (to fartøytilstander og vedvarende signal-i-rommet-biaser) slår sammen én absolutt posisjonsbestemmelse per fartøy fra et ILLUSTRATIVE relésett av LCNS-klasse (reléer bak Månen utelatt, fire kreves, og den felles signal-i-rommet-feilen opphever seg mellom fartøyene) og en tverrlinkavstand, med avstandspresisjon fra kodesporingsgrensen på LunaNet AFS-pilotsignalet. Rapporterer den formelle og Monte Carlo-baserte relative posisjons- og hastighetsfeilen i målfartøyets LVLH-akser, tilgjengeligheten av posisjonsbestemmelser, den midlere normaliserte estimeringsfeilen i annen potens (NEES) mot forventet verdi, og enhver prøve der iterasjonen ikke konvergerte, driften ved å se bort fra gravitasjonsharmoniske og den fulle 6x6-kovariansen som føres videre. En lukket Hill/Clohessy-Wiltshire-kontroll gjelder for det sirkulære tilfellet. MODELLED: illustrativt relésett, feilbudsjett og priorer; referansen og estimatoren deler én kraftmodell, så NEES kontrollerer selvkonsistens og ikke modellfeil. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-6c7d25f672fb = MODELLED tilgjengelighet av overflateposisjonering og tidssynkronisering etter sted og årstid for steder nær sørpolen i Artemis-class. For hvert sted og hver årstid (en epoke og et vindu etter den) rapporteres relépositionering (fire eller flere reléer i en ILLUSTRATIVE konstellasjon av LCNS-klasse i sikte og PDOP under en terskel, fra de samme funksjonene som moonlight-service-volume og, med en terrengseksjon, den strålemarsjerte skylinen fra terrenget i lunar-station-coverage), om Jorden og Solen står over stedets horisont (analytisk Sol, Måne og månens orientering, librasjon medregnet, som er det som beveger seg med årstiden), og tilgjengelighet av tidssynkronisering (et relé eller Jorden i sikte) med den lengste perioden uten noen av dem, den holdoveren en overflateklokke må klare. Et resultat for ett sted er lik moonlight-service-volumes helt ned til siste bit. MODELLED: illustrativt keplersk relésett på en måne med middelrotasjon; relétallet endres ikke med årstiden; terrenget er det { "1200" } m store LOLA-utsnittet. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-1ec485468daa = MODELLED budsjett for navigasjons- og tidsfeil for en oppgitt kjede av oppdragsfaser, fra oppskyting til gjeninntreden: oppskyting og stigning, LEO-rendezvous og dokking (kan gjentas), trans-lunar injeksjon og cislunar ferd, månebane-rendezvous, nedstigning, opphold på overflaten, stigning og retur og gjeninntreden, hver fase én av åtte registrerte typer med egne sensorer og eget filter. 6x6-kovariansen, klokken og rammen føres fra fase til fase etter en oppgitt regel (videreføre, utvide eller gjenerverve); omregninger mellom rammer og tidsskalaer (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er egne budsjettrader, med Månens tilstand fra et valgfritt DE440-kjerneutsnitt og den analytiske serien som oppgitt reserveløsning. Et valgfritt overlegg for bakkenettverk setter sporingsandelen for hver fase. Rapporterer budsjettet per fase (inngangs-, topp- og utgangs-1-sigma, hvert bidrag med sin enhet), marginen mot et oppgitt krav, det svakeste leddet, hendelsene og en tidslinjefigur. MODELLED: hvert tall er en oppgitt inndata; kjeden følger én stakk, og ingen fartøy er modellert. Bare offentlige kilder; ikke tilknyttet eller støttet av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-5b4a725bea4e = Hver medfølgende scenariofil ({ "192" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på øverste nivå. Status leser verifikasjonsmatrisen for typens modul. <b>Open in Kshana Studio</b> åpner den registrerte kjøringen.
+
+seg-d2b1e58dea11 = Et klokkescenario der den klassiske klokken tar støyen fra en målt logg (<c1/>).
+
+seg-760090cd3247 = Et klokkescenario med en målt logg ved siden av den simulerte holdoveren (<c1/>).
+
+seg-d7ed02b28987 = type lunar-ascent
+
+seg-e92ba974379b = Månestigning: den drevne stigningen fra et sørpolart overflatested (Artemis-klassen) til rendezvous-banen på { "100" } km, og kovariansen for posisjon og hastighet den bærer videre til banen.
+
+seg-d9f4bc0e8795 = type lunar-descent
+
+seg-224175962a12 = Spredning ved månelanding: budsjettet for en drevet nedstigning til et sørpolart sted (Artemis-klassen), fra treghetsdriften til nedstigningsstabelen og hva terrengrelativ navigasjon, LunaNet-signaler og måletid hver fjerner av den.
+
+seg-138dbcd1aece = Spredning ved månelanding med den virkelige LOLA-DEM-en for sørpolen: budsjettet for en drevet nedstigning til et sørpolart sted (Artemis-klassen), fra treghetsdriften til nedstigningsstabelen og hva terrengrelativ navigasjon, LunaNet-signaler og måletid hver fjerner av den.
+
+seg-7d99c01a7740 = type lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Rendezvous ved Månen: relativ navigasjon for en dokking i Orion-landerstil i en sirkulær polar lav månebane på { "100" } km (Artemis-klassen), med et månegravitasjonsfelt og LunaNet-lignende signaler.
+
+seg-9f740b874e14 = Rendezvous ved Månen i en elliptisk polar bane: relativ navigasjon for en dokking i Orion-landerstil i en polar bane på { "100" } km ganger { "3000" } km med periapsis over sørpolen (Artemis-klassen), med et månegravitasjonsfelt og LunaNet-lignende signaler.
+
+seg-d1fc00782fe9 = type lunar-surface
+
+seg-ce9f26be0623 = Tilgjengelighet av PNT og tidssynkronisering på månens overflate etter sted og årstid med den virkelige LOLA-terrenghorisonten for sørpolen (sørpolare steder i Artemis-klassen).
+
+seg-ce858063d300 = type mission-thread
+
+seg-0bd19840e50d = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering for én kjede av faser, fra oppskyting til gjeninntreden, bygget på offentlig materiale om operasjonskonsept.

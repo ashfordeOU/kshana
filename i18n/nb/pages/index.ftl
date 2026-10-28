@@ -703,3 +703,25 @@ seg-f4d3b1f5b1b4 = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · 
 seg-3287261002dd = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
 seg-510663384be1 = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+
+seg-070972f642de = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering fra oppskyting til gjeninntreden
+
+seg-4970f874d334 = Månesegmentet: rendezvous, nedstigning, overflate og oppstigning
+
+seg-8ca6e2046901 = En estimert senderregion fra ADS-B- eller AIS-rapporter
+
+seg-003a3b9b63ea = Målte klokkelogger, og en holdover drevet av en tilpasset serie
+
+seg-448b11c86f48 = Datapartnere: hvilke rader målte data kan oppgradere
+
+seg-5858e5d1f7c5 = En evidensetikett på hver figur og tabell en kjøring skriver
+
+seg-bd28ef5c376e = Sytten språk ved siden av engelsk
+
+seg-7fae5de5ebf1 = kshana-bench: den nye kampanjen for { "0.40" }
+
+seg-b9961ed25282 = Nytt i v{ $version }: en oppdragstråd, en bevismerkelapp på hvert tall og sytten språk
+
+seg-653cf3198094 = { "176" } av { "401" } funksjoner stemmer med uavhengige eksterne referanser; resten er merket modellert, høyt og tydelig.
+
+seg-76b213d03caa = Alle { "92" } scenariotyper, gratis og uten funksjonsbegrensning, deterministiske ut fra scenario, seed og motorversjon.

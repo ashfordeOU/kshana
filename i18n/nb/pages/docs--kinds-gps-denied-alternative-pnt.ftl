@@ -61,3 +61,5 @@ seg-ab895b157152 = <b>Register:</b> ingen rad i matrisen nevner denne typen; mot
 seg-c0ef7d676ec1 = <s1>Forrige</s1>GNSS-målinger, posisjonsbestemmelse og integritet
 
 seg-54b45b00a2f0 = <s1>Neste</s1>Treghets-, fusjons- og kvantesensorer
+
+seg-643fa0f18717 = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>terrain-nav</a1>.

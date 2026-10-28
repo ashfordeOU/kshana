@@ -49,3 +49,7 @@ seg-db27cc015952 = Dekning og nøyaktighetskart for referansestasjon på månen 
 seg-6ac5bd1500a8 = <s1>Forrige</s1>lunar-llr-datum
 
 seg-625c1973128e = <s1>Neste</s1>lunar-time-budget
+
+seg-bf7d64a925dd = <s1>Forrige</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Neste</s1>lunar-surface
