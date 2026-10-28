@@ -218,7 +218,18 @@ seg-3cc8ba4d1be6 = The command line exits quietly with status { "141" } when its
 
 # text
 # c1: xval/
-seg-2a47e785cc1d = Dependency updates in the cross-validation tooling (<c1/>); no shipped crate, wheel or package changes.
+seg-29d014d29790 = One dependency update in the shipped library (the first entry), the rest in the cross-validation tooling (<c1/>).
+
+# text
+# c1: p256
+# c2: p384
+# c3: p521
+# c4: elliptic-curve
+# c5: ecdsa
+# c6: crypto-bigint
+# c7: crypto-bigint
+# c8: crypto-bigint
+seg-6b6a960ca7cf = <c1/>, <c2/> and <c3/> { "0.13" } to { "0.14" } (with <c4/> { "0.14.3" }, <c5/> { "0.17.0" } and <c6/> { "0.5.5" } to { "0.7.10" }; also the direct <c7/> dependency, now { "0.7" }) clear RUSTSEC-2026-0387, timing variability in <c8/> { "0.5.5" }. Kshana uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC { "3161" } timestamp tokens) and signs only in tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
 
 # text
 # c1: memmap2

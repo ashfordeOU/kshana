@@ -4271,8 +4271,6 @@ seg-c97e87cbcdd5 = BibTeX moottorille
 
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
-
 seg-65185cb68d6b = Tehtävävaiheiden ketjun navigoinnin ja ajoituksen virhebudjetti laukaisusta paluuseen (<c1/>)
 
 seg-86a132e1a243 = Tyyppi <c1/>: vaiheiden asiakirja, jossa kukin vaihe on yksi kahdeksasta rekisteröidystä tyypistä, ajetaan järjestyksessä ja 6x6-kovarianssi, kello ja koordinaatisto siirretään eteenpäin ilmoitetun säännön mukaan (<c2/>; <c3/>, valkoinen kiihtyvyyskohina ilmoitetun välin yli suoraviivaisella mallilla; <c4/>, dead reckoning ja sitten lähteen lattia, ei koskaan sen alle, ei koskaan nollausta); koordinaatistomuunnokset GCRF, MCI ja MCMF sekä aika-asteikkomuunnokset TT:n kautta, kukin oma budjettirivinsä, ja Kuun tila valinnaisesta DE440-kernelin leikkeestä sekä analyyttinen sarja ilmoitettuna varavaihtoehtona; marginaali ilmoitettua vaatimusta vasten, heikoin lenkki, tapahtumat ja aikajanakuva. Jokainen luku on ilmoitettu syöte tai sen malli
@@ -4357,16 +4355,6 @@ seg-7a254b7d5498 = Varmennusmatriisi, yksi solu per ominaisuus kirjanpidon järj
 
 seg-a2f63c51d2c7 = Moottori v{ $version } · <c1/>, generoitu tiedostosta <c2/> · { "401" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
 
-seg-015ecb5cddc3 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-e26b6fdc705b = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-66defa1494fc = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-4c54e96a1832 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-3d202a56e836 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-77bfad0f4f88 = { "176" }<s1>/ { "401" } validoitu</s1>
 
 seg-222c46a96ec3 = Varmennusmatriisi: { "176" } validoitu, { "221" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "401" }
@@ -4412,3 +4400,15 @@ seg-b393e1b5fcfc = Kaikki { "401" }
 seg-3df9e327c036 = Mallinnettu { "221" }
 
 seg-7fa6f2e0de57 = Validointikirjanpito, { "401" } riviä, vieritettävä
+
+seg-df43ce08ec0e = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-613de9424706 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-d2c2b9393166 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-6b46b5866660 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
+
+seg-958dfeda6dbf = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-3a1b15ffddc1 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua

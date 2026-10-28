@@ -1168,8 +1168,6 @@ seg-6c7d25f672fb = Disponibilité du positionnement et de la synchronisation tem
 
 seg-1ec485468daa = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée : lancement et ascension, rendez-vous et amarrage en orbite basse terrestre (répétable), injection trans-lunaire et croisière cislunaire, rendez-vous en orbite lunaire, descente, séjour en surface, ascension, puis retour et entrée, chaque phase étant l'un des huit types enregistrés avec ses propres capteurs et son propre filtre. La covariance 6x6, l'horloge et le référentiel sont transmis d'une phase à l'autre selon une règle déclarée (carry, inflate ou reacquire) ; les conversions de référentiel et d'échelle de temps (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sont des lignes de budget à part, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée. Une superposition facultative du réseau au sol fixe le cycle de suivi de chaque phase. Rapporte le budget par phase (1-sigma à l'entrée, au pic et à la sortie, chaque contribution avec son unité), la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. MODELLED : chaque nombre est une entrée déclarée ; la chaîne suit un seul empilement et aucun véhicule n'est modélisé. Sources publiques seulement ; sans affiliation ni aval d'aucune agence ; logiciel à titre consultatif, et non un équipement de navigation certifié.
 
-seg-5b4a725bea4e = Chaque fichier de scénario fourni ({ "192" }), regroupé par type. La description est le commentaire d'en-tête propre au fichier ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type. <b>Ouvrir dans { -brand } Studio</b> ouvre l'exécution enregistrée.
-
 seg-d2b1e58dea11 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (<c1/>).
 
 seg-760090cd3247 = Un scénario d'horloge avec un journal mesuré à côté du holdover simulé (<c1/>).
@@ -1197,3 +1195,5 @@ seg-ce9f26be0623 = Disponibilité du PNT et de la synchronisation temporelle en 
 seg-ce858063d300 = type mission-thread
 
 seg-0bd19840e50d = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, du lancement à l'entrée, construit à partir de documents publics de concept d'opérations.
+
+seg-1b2e1e1b5c38 = Chaque fichier de scénario fourni ({ "193" }), regroupé par type. La description est le commentaire d'en-tête propre au fichier ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type. <b>Ouvrir dans { -brand } Studio</b> ouvre l'exécution enregistrée.

@@ -3618,8 +3618,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Wählen Sie eine von { "193" } Szenariodateien aus { "92" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
-
 seg-d5c6110302e9 = Ein Missionsstrang im Stil von Artemis, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen.
 
 seg-8597c65432ed = Verketten Sie die Phasen einer Mondmission zu einem gemeinsamen Fehlerbudget für Navigation und Zeitgebung, schätzen Sie, wo sich eine Quelle gestörter Positionsmeldungen befinden kann, lesen Sie gemessene Uhrenlogs, sehen Sie die Evidenzstufe an jeder Zahl, die ein Lauf schreibt, und nutzen Sie Befehlszeile, Berichte und Studio in siebzehn Sprachen. Jede Fähigkeit trägt die Kennzeichnung, die das Register für sie führt, und eine Kennzeichnung benennt nur, was geprüft wurde. Beratende Software, keine typzugelassene Navigationsausrüstung: Der Betreiber bleibt verantwortlich.
@@ -3666,8 +3664,6 @@ seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
 
 seg-1e0afa852323 = Vier vorab festgelegte Vergleiche wurden nach der Freigabe einmal ausgeführt und haben ihre Zielwerte erreicht, und jeder Wert ist modelliert.
 
-seg-ed10ac59ed87 = Alle { "193" } Szenariodateien aus { "92" } Arten, nach Bereich gruppiert; { "180" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls der Art, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet diesen in Kshana Studio; die übrigen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.
-
 seg-c381cfa99bb0 = Ein Uhrenszenario, dessen klassische Uhr das Rauschen eines gemessenen Logs übernimmt (`[clock_fit]`).
 
 seg-328cd04eef87 = Ein Uhrenszenario mit einem gemessenen Log neben dem simulierten holdover (`[clock_log]`).
@@ -3701,3 +3697,7 @@ seg-0ecc50eafdbe = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche na
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } von { "92" } Arten, { "3300" } von { "3300" } numerischen Feldern
+
+seg-237402dbe93a = Wählen Sie eine von { "194" } Szenariodateien aus { "92" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
+
+seg-ace118a5dc36 = Alle { "194" } Szenariodateien aus { "92" } Arten, nach Bereich gruppiert; { "181" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls der Art, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet diesen in Kshana Studio; die übrigen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.

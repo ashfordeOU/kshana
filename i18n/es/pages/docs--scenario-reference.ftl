@@ -1168,8 +1168,6 @@ seg-6c7d25f672fb = Disponibilidad MODELLED de posicionamiento y temporización e
 
 seg-1ec485468daa = Presupuesto de errores de navegación y temporización MODELLED de una cadena indicada de fases de misión, desde el lanzamiento hasta la entrada: lanzamiento y ascenso, encuentro y acoplamiento en órbita terrestre baja (repetible), inyección translunar y crucero cislunar, encuentro en órbita lunar, descenso, estancia en la superficie, ascenso y el regreso y la entrada, cada fase uno de ocho tipos registrados con sus propios sensores y filtro. La covarianza de 6x6, el reloj y el marco se transmiten de una fase a otra bajo una regla indicada (carry, inflate o reacquire); las conversiones de marco y de escala de tiempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) son filas de presupuesto propias, con el estado de la Luna a partir de un recorte opcional del kernel DE440 y la serie analítica como alternativa indicada. Una superposición opcional de la red terrestre fija el ciclo de seguimiento de cada fase. Informa del presupuesto por fase (1 sigma de entrada, máximo y salida, cada contribución con su unidad), el margen frente a un requisito indicado, el eslabón más débil, los eventos y una figura de línea de tiempo. MODELLED: cada número es una entrada indicada; la cadena sigue una sola pila y no se modela ningún vehículo. Solo fuentes públicas; sin afiliación ni respaldo de ninguna agencia; software de carácter consultivo, no un equipo de navegación certificado.
 
-seg-5b4a725bea4e = Cada archivo de escenario incluido ({ "192" }), agrupado por tipo de escenario. La descripción es el propio comentario de cabecera del archivo; los parámetros clave son sus ajustes de nivel superior. El estado lee la matriz de verificación para el módulo del tipo de escenario. <b>Abrir en Kshana Studio</b> abre la ejecución registrada.
-
 seg-d2b1e58dea11 = Un escenario de reloj cuyo reloj clásico toma el ruido de un registro medido (<c1/>).
 
 seg-760090cd3247 = Un escenario de reloj con un registro medido junto al holdover simulado (<c1/>).
@@ -1197,3 +1195,5 @@ seg-ce9f26be0623 = Disponibilidad de PNT y temporización en la superficie lunar
 seg-ce858063d300 = tipo de escenario mission-thread
 
 seg-0bd19840e50d = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización de una cadena de fases, desde el lanzamiento hasta la entrada, construido a partir de material público de concepto de operaciones.
+
+seg-1b2e1e1b5c38 = Cada archivo de escenario incluido ({ "193" }), agrupado por tipo de escenario. La descripción es el propio comentario de cabecera del archivo; los parámetros clave son sus ajustes de nivel superior. El estado lee la matriz de verificación para el módulo del tipo de escenario. <b>Abrir en Kshana Studio</b> abre la ejecución registrada.

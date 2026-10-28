@@ -1119,12 +1119,6 @@ seg-905e5eef45e5 = <b>{ "12" } nõuet</b> kontrollitud tegelike jooksutuste vast
 # text
 seg-7d9ee2bfbb90 = Leia, kus teie ajastus puruneb, enne kui see seda teeb.
 
-seg-f4d3b1f5b1b4 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
-
-seg-3287261002dd = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
-
-seg-510663384be1 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
-
 seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
 
 seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
@@ -1146,3 +1140,9 @@ seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt iga
 seg-653cf3198094 = { "176" } võimekust { "401" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
 
 seg-76b213d03caa = Kõik { "92" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.
+
+seg-cff488aa106d = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+seg-fddfe8b260be = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+
+seg-388f14eb6d8d = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }

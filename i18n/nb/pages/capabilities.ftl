@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Velg en av { "193" } scenariofiler fordelt på { "92" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
-
 seg-d5c6110302e9 = En oppdragstråd i Artemis-klassen, en evidensetikett på hver figur og sytten språk.
 
 seg-8597c65432ed = Kjed sammen fasene i et månoppdrag til ett feilbudsjett for navigasjon og tidssynkronisering, anslå hvor en kilde til forringede posisjonsrapporter kan befinne seg, les målte klokkelogger, se evidensnivået på hver figur en kjøring skriver, og bruk kommandolinjen, rapportene og Studio på sytten språk. Hver funksjon har etiketten registeret har for den, og en etikett navngir bare det som ble kontrollert. Veiledende programvare, ikke typegodkjent navigasjonsutstyr: operatøren er fortsatt ansvarlig.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: den nye kampanjen for { "0.40" }
 
 seg-1e0afa852323 = Fire forhåndsregistrerte sammenligninger ble kjørt én gang etter underskrift og nådde tersklene sine, og hver skåre er modellert.
 
-seg-ed10ac59ed87 = Alle { "193" } scenariofiler fordelt på { "92" } typer, gruppert etter domene; { "180" } er innebygd i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> kjøres fra depotet med kommandolinjen. Prikken viser registerstatusen til typens modul der registeret navngir den. En fil med en registrert kjøring åpner den i Kshana Studio; de andre åpner oppføringen sin i scenarioreferansen, med filen og kommandoen som kjører den.
-
 seg-c381cfa99bb0 = Et klokkescenario der den klassiske klokken tar støyen fra en målt logg (`[clock_fit]`).
 
 seg-328cd04eef87 = Et klokkescenario med en målt logg ved siden av den simulerte holdoveren (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Tilgjengelighet for PNT og tidssynkronisering på månens ove
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriske felt
+
+seg-237402dbe93a = Velg en av { "194" } scenariofiler fordelt på { "92" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
+
+seg-ace118a5dc36 = Alle { "194" } scenariofiler fordelt på { "92" } typer, gruppert etter domene; { "181" } er innebygd i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> kjøres fra depotet med kommandolinjen. Prikken viser registerstatusen til typens modul der registeret navngir den. En fil med en registrert kjøring åpner den i Kshana Studio; de andre åpner oppføringen sin i scenarioreferansen, med filen og kommandoen som kjører den.

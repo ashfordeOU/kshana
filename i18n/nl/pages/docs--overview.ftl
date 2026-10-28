@@ -1970,8 +1970,8 @@ seg-11041e6beb65 = De { "92" } ingebouwde scenariosoorten met beschrijvingen + v
 
 seg-abf70d11a088 = de hele open engine, alle { "92" } scenariosoorten, geen functiepoort
 
-seg-b14326430bd8 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "92" } soorten, { "192" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.
-
 seg-824001fa6734 = laboratoria en makers met gemeten data
 
 seg-df3ca402513f = welke MODELLED rijen een gemeten klok- of IMU-opname zou kunnen bevorderen, de formaten, hoe een inzending wordt gecontroleerd (<c1/>), gescoord en toegekend
+
+seg-e2d733f93455 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "92" } soorten, { "193" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.

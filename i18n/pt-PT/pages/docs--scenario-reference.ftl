@@ -1176,9 +1176,6 @@ seg-6c7d25f672fb = Disponibilidade MODELLED de posicionamento e temporização n
 seg-1ec485468daa = Orçamento de erro de navegação e temporização MODELLED de uma cadeia declarada de fases de missão, do lançamento à reentrada: lançamento e ascensão, encontro e acoplagem em órbita baixa da Terra (repetível), injeção trans-lunar e cruzeiro cislunar, encontro em órbita lunar, descida, permanência na superfície, ascensão, regresso e reentrada, cada fase um de oito tipos registados com os seus próprios sensores e filtro. A covariância 6x6, o relógio e o referencial são transferidos de fase em fase sob uma regra declarada (carry, inflate ou reacquire); as conversões de referencial e de escala de tempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) são linhas próprias do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada. Uma sobreposição opcional da rede terrestre define o ciclo de seguimento de cada fase. Indica o orçamento por fase (1-sigmas de entrada, de pico e de saída, cada contribuição com a sua unidade), a margem face a um requisito declarado, o elo mais fraco, os eventos e uma figura de cronologia. MODELLED: todo número é uma entrada declarada; a cadeia segue uma única pilha e nenhum veículo é modelado. Apenas fontes públicas; sem afiliação nem aval de qualquer agência; software de caráter consultivo, não um equipamento de navegação certificado.
 
 # text
-seg-5b4a725bea4e = Todos os ficheiros de cenário incluídos ({ "192" }), agrupados por tipo. A descrição é o comentário de cabeçalho do próprio ficheiro; os parâmetros principais são as suas configurações de nível superior. O estado lê a matriz de verificação para o módulo do tipo de cenário. <b>Abrir no Kshana Studio</b> abre a execução escrita.
-
-# text
 # c1: [clock_fit]
 seg-d2b1e58dea11 = Um cenário de relógio cujo relógio clássico assume o ruído de um registo medido (<c1/>).
 
@@ -1221,3 +1218,5 @@ seg-ce858063d300 = tipo mission-thread
 
 # text
 seg-0bd19840e50d = Uma cadeia da missão de classe Artemis: o orçamento de erro de navegação e temporização de uma cadeia de fases, do lançamento à reentrada, construído a partir de material público de conceito de operações.
+
+seg-1b2e1e1b5c38 = Todos os ficheiros de cenário incluídos ({ "193" }), agrupados por tipo. A descrição é o comentário de cabeçalho do próprio ficheiro; os parâmetros principais são as suas configurações de nível superior. O estado lê a matriz de verificação para o módulo do tipo de cenário. <b>Abrir no Kshana Studio</b> abre a execução escrita.

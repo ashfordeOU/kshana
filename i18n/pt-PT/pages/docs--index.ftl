@@ -337,9 +337,6 @@ seg-0cf0b9fb9184 = <s1>Tipos de cenário</s1><s2>Os { "92" } tipos de cenário i
 seg-9d5c233c72b4 = <s1>Todos os tipos de cenário, por família</s1><s2>Todos os tipos de cenário que o motor v{ $version } inclui ({ "92" }), organizados em { "13" } famílias.</s2>
 
 # text
-seg-2c002a7b7640 = <s1>Referência de cenários</s1><s2>Todos os ficheiros de cenário incluídos ({ "192" }), agrupados por tipo, com as suas principais configurações.</s2>
-
-# text
 seg-f5987c9d9fde = <s1>Matriz de verificação</s1><s2>O registo de evidências completo, verificado por máquina: { "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 # text
@@ -362,3 +359,5 @@ seg-1dd7c80e18a7 = <s1>Cadeias da missão</s1><s2>{ "1" } tipo de cenário do mo
 
 # text
 seg-f0e26f01a361 = { "92" } páginas, uma para cada tipo de cenário, ligadas a partir de <a1>Todos os tipos de cenário, por família</a1>.
+
+seg-a1f33bd571ed = <s1>Referência de cenários</s1><s2>Todos os ficheiros de cenário incluídos ({ "193" }), agrupados por tipo, com as suas principais configurações.</s2>

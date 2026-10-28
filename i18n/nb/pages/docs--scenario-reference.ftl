@@ -748,8 +748,6 @@ seg-6c7d25f672fb = MODELLED tilgjengelighet av overflateposisjonering og tidssyn
 
 seg-1ec485468daa = MODELLED budsjett for navigasjons- og tidsfeil for en oppgitt kjede av oppdragsfaser, fra oppskyting til gjeninntreden: oppskyting og stigning, LEO-rendezvous og dokking (kan gjentas), trans-lunar injeksjon og cislunar ferd, månebane-rendezvous, nedstigning, opphold på overflaten, stigning og retur og gjeninntreden, hver fase én av åtte registrerte typer med egne sensorer og eget filter. 6x6-kovariansen, klokken og rammen føres fra fase til fase etter en oppgitt regel (videreføre, utvide eller gjenerverve); omregninger mellom rammer og tidsskalaer (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er egne budsjettrader, med Månens tilstand fra et valgfritt DE440-kjerneutsnitt og den analytiske serien som oppgitt reserveløsning. Et valgfritt overlegg for bakkenettverk setter sporingsandelen for hver fase. Rapporterer budsjettet per fase (inngangs-, topp- og utgangs-1-sigma, hvert bidrag med sin enhet), marginen mot et oppgitt krav, det svakeste leddet, hendelsene og en tidslinjefigur. MODELLED: hvert tall er en oppgitt inndata; kjeden følger én stakk, og ingen fartøy er modellert. Bare offentlige kilder; ikke tilknyttet eller støttet av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
 
-seg-5b4a725bea4e = Hver medfølgende scenariofil ({ "192" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på øverste nivå. Status leser verifikasjonsmatrisen for typens modul. <b>Open in Kshana Studio</b> åpner den registrerte kjøringen.
-
 seg-d2b1e58dea11 = Et klokkescenario der den klassiske klokken tar støyen fra en målt logg (<c1/>).
 
 seg-760090cd3247 = Et klokkescenario med en målt logg ved siden av den simulerte holdoveren (<c1/>).
@@ -777,3 +775,5 @@ seg-ce9f26be0623 = Tilgjengelighet av PNT og tidssynkronisering på månens over
 seg-ce858063d300 = type mission-thread
 
 seg-0bd19840e50d = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering for én kjede av faser, fra oppskyting til gjeninntreden, bygget på offentlig materiale om operasjonskonsept.
+
+seg-1b2e1e1b5c38 = Hver medfølgende scenariofil ({ "193" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på øverste nivå. Status leser verifikasjonsmatrisen for typens modul. <b>Open in Kshana Studio</b> åpner den registrerte kjøringen.

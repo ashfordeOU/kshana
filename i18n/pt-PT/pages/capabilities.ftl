@@ -3633,11 +3633,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-75f8165faeeb = Escolha entre { "193" } ficheiros de cenário distribuídos por { "92" } tipos de cenário, ou escreva o seu. <c1/> lista todos os tipos de cenário com os respetivos campos, e <c2/> imprime um ficheiro para começar.
-
-# text
 seg-d5c6110302e9 = Uma cadeia da missão de classe Artemis, uma etiqueta de evidência em cada valor e dezassete idiomas.
 
 # text
@@ -3706,22 +3701,6 @@ seg-7fae5de5ebf1 = kshana-bench: a nova campanha da { "0.40" }
 # text
 seg-1e0afa852323 = Quatro comparações com limiar fixado antecipadamente foram executadas uma vez depois de dado o visto final e atingiram os seus limiares, e todas as pontuações são modeladas.
 
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-descent-lola
-# c7: lunar-llr-datum
-# c8: lunar-station-coverage-terrain
-# c9: lunar-station-geodesy-baseline
-# c10: lunar-station-geodesy-with-station
-# c11: lunar-surface-terrain
-# c12: mission-thread-artemis-class
-# c13: quantum-pnt-demonstrator.suite
-seg-ed10ac59ed87 = Todos os { "193" } ficheiros de cenário em { "92" } tipos de cenário, agrupados por domínio; { "180" } estão incorporados no motor, e <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> são executados a partir do repositório com a linha de comandos. O ponto mostra o estado no registo do módulo do tipo de cenário, onde o registo o nomeia. Um ficheiro com uma execução registada abre-a no Kshana Studio; os restantes abrem a sua entrada na referência de cenários, com o ficheiro e o comando que o executa.
-
 # attr:title
 seg-c381cfa99bb0 = Um cenário de relógio cujo relógio clássico assume o ruído de um registo medido (`[clock_fit]`).
 
@@ -3778,3 +3757,7 @@ seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 # text
 seg-69c56cbdda90 = { "92" } de { "92" } tipos de cenário, { "3300" } de { "3300" } campos numéricos
+
+seg-237402dbe93a = Escolha entre { "194" } ficheiros de cenário distribuídos por { "92" } tipos de cenário, ou escreva o seu. <c1/> lista todos os tipos de cenário com os respetivos campos, e <c2/> imprime um ficheiro para começar.
+
+seg-ace118a5dc36 = Todos os { "194" } ficheiros de cenário em { "92" } tipos de cenário, agrupados por domínio; { "181" } estão incorporados no motor, e <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> são executados a partir do repositório com a linha de comandos. O ponto mostra o estado no registo do módulo do tipo de cenário, onde o registo o nomeia. Um ficheiro com uma execução registada abre-a no Kshana Studio; os restantes abrem a sua entrada na referência de cenários, com o ficheiro e o comando que o executa.

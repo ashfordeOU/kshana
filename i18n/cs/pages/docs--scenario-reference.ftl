@@ -748,8 +748,6 @@ seg-6c7d25f672fb = MODELLED dostupnost určování polohy a času na povrchu pod
 
 seg-1ec485468daa = MODELLED rozpočet chyb navigace a času pro uvedený řetězec fází mise od startu po vstup do atmosféry: start a výstup, setkání a dokování na nízké oběžné dráze Země (opakovatelné), trans-lunární injekce a cislunární plavba, setkání na lunární oběžné dráze, sestup, pobyt na povrchu, výstup a návrat a vstup do atmosféry, přičemž každá fáze je jedním z osmi registrovaných druhů s vlastními senzory a filtrem. Kovariance 6x6, hodiny a rámec se předávají z fáze do fáze podle uvedeného pravidla (přenést, nafouknout nebo znovu získat); převody rámců a časových škál (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) jsou samostatné řádky rozpočtu, přičemž stav Měsíce pochází z volitelného výřezu jádra DE440 a analytická řada slouží jako uvedená záloha. Volitelné překrytí pozemní sítí nastavuje sledovací pracovní cyklus každé fáze. Uvádí rozpočet pro jednotlivé fáze (1sigma při vstupu, ve špičce a při výstupu, každý příspěvek s jednotkou), rezervu oproti uvedenému požadavku, nejslabší článek, události a obrázek časové osy. MODELLED: každé číslo je uvedený vstup; řetězec sleduje jeden svazek a žádné vozidlo není modelováno. Pouze veřejné zdroje; bez spojení s žádnou agenturou ani její podpory; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
 
-seg-5b4a725bea4e = Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu. Popis je vlastní hlavičkový komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul daného druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.
-
 seg-d2b1e58dea11 = Scénář hodin, jehož klasické hodiny přebírají šum naměřeného logu (<c1/>).
 
 seg-760090cd3247 = Scénář hodin s naměřeným logem vedle simulovaného holdoveru (<c1/>).
@@ -777,3 +775,5 @@ seg-ce9f26be0623 = Dostupnost PNT a času na lunárním povrchu podle místa a r
 seg-ce858063d300 = druh mission-thread
 
 seg-0bd19840e50d = Misijní vlákno třídy Artemis: rozpočet chyb navigace a času jednoho řetězce fází, od startu po vstup do atmosféry, sestavený z veřejných materiálů koncepce operací.
+
+seg-1b2e1e1b5c38 = Každý přibalený soubor scénáře ({ "193" }), seskupený podle druhu. Popis je vlastní hlavičkový komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul daného druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.

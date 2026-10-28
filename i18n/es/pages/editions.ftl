@@ -1229,6 +1229,6 @@ seg-3bf5f474beca = El motor abierto en el centro: una marca por cada tipo de esc
 
 seg-f88b6cf10837 = Motor v{ $version } · { "92" } tipos de escenario de <c1/> · estado del registro de <c2/> · en qué se apoyan Pro y un estudio: el registro de ediciones del sitio · sin escenario ni semilla
 
-seg-7a848f1d8304 = Los { "92" } tipos de escenario y { "180" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)
-
 seg-cc655ce0b6c8 = La matriz de verificación completa: { "176" } de { "401" } capacidades validadas frente a referencias independientes, el resto etiquetado como modelado
+
+seg-65342d8ef6ad = Los { "92" } tipos de escenario y { "181" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)

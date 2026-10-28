@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Vyberte jeden z { "193" } souborů scénářů napříč { "92" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
-
 seg-d5c6110302e9 = Mise ve stylu Artemis jako jedno vlákno, štítek důkazů u každého čísla a sedmnáct jazyků.
 
 seg-8597c65432ed = Zřetězte fáze lunární mise do jednoho rozpočtu chyb navigace a času, odhadněte, kde se může nacházet zdroj zhoršených hlášení polohy, čtěte změřené záznamy hodin, u každého čísla, které běh zapíše, vidíte úroveň důkazů a používejte příkazový řádek, zprávy a Studio v sedmnácti jazycích. Každá schopnost nese štítek, který pro ni drží registr, a štítek uvádí jen to, co bylo zkontrolováno. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení: za navigaci zůstává odpovědný provozovatel.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
 
 seg-1e0afa852323 = Čtyři předregistrovaná srovnání byla po schválení spuštěna jednou a splnila své prahy a každé skóre je modelované.
 
-seg-ed10ac59ed87 = Všech { "193" } souborů scénářů napříč { "92" } druhy, seskupených podle oblasti; { "180" } je zabudováno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře ve Studiu Kshana; ostatní otevřou svou položku v referenci scénářů se souborem a příkazem, který jej spouští.
-
 seg-c381cfa99bb0 = Scénář hodin, jehož klasické hodiny přebírají šum změřeného záznamu (`[clock_fit]`).
 
 seg-328cd04eef87 = Scénář hodin se změřeným záznamem vedle simulovaného holdoveru (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Dostupnost PNT a času na lunárním povrchu podle místa a r
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } z { "92" } druhů, { "3300" } z { "3300" } číselných polí
+
+seg-237402dbe93a = Vyberte jeden z { "194" } souborů scénářů napříč { "92" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
+
+seg-ace118a5dc36 = Všech { "194" } souborů scénářů napříč { "92" } druhy, seskupených podle oblasti; { "181" } je zabudováno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře ve Studiu Kshana; ostatní otevřou svou položku v referenci scénářů se souborem a příkazem, který jej spouští.

@@ -1168,8 +1168,6 @@ seg-6c7d25f672fb = MODELLED pinnapositsioneerimise ja ajastuse kättesaadavus as
 
 seg-1ec485468daa = MODELLED navigatsiooni- ja ajastusvea eelarve nimetatud missioonifaaside ahelale starditest sisenemiseni: start ja tõus, madala Maa orbiidi kohtumine ja dokkimine (korratav), Kuule suunav siirdepõletus (TLI) ja tsislunaarne lend, Kuu orbiidil kohtumine, laskumine, viibimine pinnal, tõus ning tagasitulek ja sisenemine, iga faas üks kaheksast registreeritud liigist oma andurite ja filtriga. 6x6 kovariatsioon, kell ja tugisüsteem antakse faasist faasi edasi nimetatud reegli järgi (kanna edasi, paisuta või omanda uuesti); tugisüsteemide ja ajaskaalade teisendused (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) on eraldi eelarveread, kusjuures Kuu olek pärineb valikulisest DE440 kerneli väljalõikest ja analüütiline rida on nimetatud varuvariant. Valikuline maajaamade võrgu kate määrab iga faasi jälgimistööpõhimõtte. Esitab faasipõhise eelarve (sisenemise, tipu ja väljumise 1-sigmad, iga panus koos ühikuga), varu nimetatud nõude suhtes, nõrgima lüli, sündmused ja ajajoone joonise. MODELLED: iga arv on nimetatud sisend; ahel järgib ühte pinu ja ühtegi sõidukit ei modelleerita. Ainult avalikud allikad; ühegi agentuuriga sidumata ja nende poolt heaks kiitmata; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
 
-seg-5b4a725bea4e = Iga kaasasolev stsenaariumifail ({ "192" }), liikide kaupa. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülataseme seaded. Olek loeb liigi mooduli kohta kontrollimaatriksit. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
-
 seg-d2b1e58dea11 = Kella stsenaarium, mille klassikaline kell võtab mõõdetud logi müra (<c1/>).
 
 seg-760090cd3247 = Kella stsenaarium, kus simuleeritud holdover-i kõrval on mõõdetud logi (<c1/>).
@@ -1197,3 +1195,5 @@ seg-ce9f26be0623 = Kuu pinna PNT ja ajastuse kättesaadavus kohtade ja aastaaega
 seg-ce858063d300 = liik mission-thread
 
 seg-0bd19840e50d = Artemis-klassi missiooniahel: ühe faasiahela navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni, koostatud avalikust kasutuskontseptsiooni materjalist.
+
+seg-1b2e1e1b5c38 = Iga kaasasolev stsenaariumifail ({ "193" }), liikide kaupa. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülataseme seaded. Olek loeb liigi mooduli kohta kontrollimaatriksit. <b>Ava Kshana Studios</b> avab salvestatud jooksu.

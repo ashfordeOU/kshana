@@ -1977,8 +1977,8 @@ seg-11041e6beb65 = { "92" } vestavěných druhů scénářů s popisy a povinný
 
 seg-abf70d11a088 = celý otevřený engine, všech { "92" } druhů scénářů, bez omezení funkcí
 
-seg-b14326430bd8 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "92" } druhů, { "192" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
-
 seg-824001fa6734 = laboratoře a výrobci, kteří mají naměřená data
 
 seg-df3ca402513f = které řádky MODELLED by mohl povýšit naměřený záznam hodin nebo IMU, formáty, jak se podání kontroluje (<c1/>), hodnotí a připisuje
+
+seg-e2d733f93455 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "92" } druhů, { "193" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.

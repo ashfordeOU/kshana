@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Valitse jokin { "193" } skenaariotiedostosta { "92" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
-
 seg-d5c6110302e9 = Artemis-luokan tehtäväketju, todistemerkintä jokaisessa kuvassa ja seitsemäntoista kieltä.
 
 seg-8597c65432ed = Ketjuta kuutehtävän vaiheet yhdeksi navigoinnin ja ajoituksen virhebudjetiksi, arvioi, missä heikentyneitä paikkaraportteja aiheuttava lähde voi olla, lue mitattuja kellolokeja, näe todisteiden taso jokaisessa ajon kirjoittamassa kuvassa ja käytä komentoriviä, raportteja ja Studiota seitsemällätoista kielellä. Jokaisella ominaisuudella on merkintä, jonka kirjanpito siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite: käyttäjä vastaa edelleen.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: { "0.40" } uusintakampanja
 
 seg-1e0afa852323 = Neljä ennalta rekisteröityä vertailua ajettiin kerran kuittauksen jälkeen ja ne täyttivät kynnyksensä, ja jokainen pistemäärä on mallinnettu.
 
-seg-ed10ac59ed87 = Kaikki { "193" } skenaariotiedostoa { "92" } tyypissä, ryhmiteltyinä alueen mukaan; { "180" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan, kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaarioviitteessä tiedostoineen ja komentoineen, jolla se ajetaan.
-
 seg-c381cfa99bb0 = Kelloskenaario, jossa klassinen kello ottaa kohinansa mitatusta lokista (`[clock_fit]`).
 
 seg-328cd04eef87 = Kelloskenaario, jossa mitattu loki on simuloidun holdoverin rinnalla (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Kuun pinnan PNT:n ja ajoituksen saatavuus kohteen ja vuodenaj
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } / { "92" } tyyppiä, { "3300" } / { "3300" } numeerista kenttää
+
+seg-237402dbe93a = Valitse jokin { "194" } skenaariotiedostosta { "92" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
+
+seg-ace118a5dc36 = Kaikki { "194" } skenaariotiedostoa { "92" } tyypissä, ryhmiteltyinä alueen mukaan; { "181" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan, kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaarioviitteessä tiedostoineen ja komentoineen, jolla se ajetaan.

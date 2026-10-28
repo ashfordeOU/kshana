@@ -5,7 +5,7 @@
 seg-6962adaa6a1f = Generated from the repository's scenario files and verification matrix at build time.
 
 # text
-seg-5b4a725bea4e = Every bundled scenario file ({ "192" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1b2e1e1b5c38 = Every bundled scenario file ({ "193" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
 
 # text
 seg-cb9447893c7f = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
@@ -901,6 +901,12 @@ seg-ce858063d300 = kind mission-thread
 
 # text
 seg-0bd19840e50d = An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch to entry, built from public concept-of-operations material.
+
+# text
+seg-a7bfd0a7e587 = A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of trans-lunar cruise and the return and entry, with the Moon's position from the analytic series (no kernel file). It is the bundled companion of mission-thread-artemis-class, which reads a Moon kernel cut from a checkout.
+
+# text
+seg-d60c5f13a769 = <a1>Open in Kshana Studio</a1> · <s1>Not yet on GitHub</s1>
 
 # text
 seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥{ "4" } sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈{ "30" } m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.

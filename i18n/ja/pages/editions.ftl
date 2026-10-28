@@ -816,6 +816,6 @@ seg-3bf5f474beca = 中心にあるオープンなエンジン：シナリオ kin
 
 seg-f88b6cf10837 = エンジン v{ $version } · <c1/> による { "92" } 種類の kind · <c2/> による台帳のステータス · Pro とスタディが土台とするもの：サイトのエディション登録簿 · シナリオもシードもなし
 
-seg-7a848f1d8304 = { "92" } 種類すべてのシナリオ kind と { "180" } 個の同梱シナリオ：ネイティブ、Python、JavaScript、ブラウザー、そして MCP（Model Context Protocol）経由
-
 seg-cc655ce0b6c8 = 完全な検証マトリクス：{ "401" } 件の機能のうち { "176" } 件を独立したオラクルと照合して確認済み、残りはモデル計算とラベル付け
+
+seg-65342d8ef6ad = { "92" } 種類すべてのシナリオ kind と { "181" } 個の同梱シナリオ：ネイティブ、Python、JavaScript、ブラウザー、そして MCP（Model Context Protocol）経由

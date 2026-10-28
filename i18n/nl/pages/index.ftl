@@ -698,12 +698,6 @@ seg-905e5eef45e5 = <b>{ "12" } eisen</b> gecontroleerd aan de hand van echte run
 
 seg-7d9ee2bfbb90 = Ontdek waar uw tijdsynchronisatie het begeeft, voordat het gebeurt.
 
-seg-f4d3b1f5b1b4 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-3287261002dd = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-510663384be1 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-070972f642de = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van lancering tot terugkeer
 
 seg-4970f874d334 = Het maansegment: rendez-vous, afdaling, oppervlak en opstijging
@@ -725,3 +719,9 @@ seg-b9961ed25282 = Nieuw in v{ $version }: een missieketen, een bewijslabel bij 
 seg-653cf3198094 = { "176" } van { "401" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.
 
 seg-76b213d03caa = Alle { "92" } scenariosoorten, gratis zonder functiepoort, deterministisch uit scenario, seed en engineversie.
+
+seg-cff488aa106d = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-fddfe8b260be = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-388f14eb6d8d = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
