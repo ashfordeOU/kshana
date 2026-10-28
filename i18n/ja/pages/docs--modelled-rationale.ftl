@@ -2049,3 +2049,133 @@ seg-cdcfbbc52ae5 = lunar_jamming::tests（{ "10" } 件の lib テスト：the_co
 seg-88d196f13afa = 自身の閉形式・解析的恒等式と照合して確認済み — 転記ミスや係数の誤りは検出しますが、外部のオラクルではありません — 二つの内部オラクルで、外部のデータセットはありません。({ "1" }) 閉形式の往復：最小検出可能バイアスは、非心度に対する非心カイ二乗の裾を反転して求め（raim::pbias）、得られた非心度を、モニター自身のしきい値で raim::noncentral_chi2_cdf に戻して確認します。これは P_md を返さなければなりません。({ "2" }) 注入と解析：一つの軸の RF 推定値にバイアスを書き込み、cross_raim::run_cross_raim を再実行するため、解析的な非心度と比較される統計量は、モニターが計算したものであり、再導出ではありません。統計量そのもののシード付きモンテカルロは、三つ目のチェックとしてテストに含まれますが、報告書には意図的に含めません。標本推定は遅く、ビット単位で再現可能ではないためです。ExternalDataset は不採用です：この量は、このシナリオのシグマ配分における、このモニターの検出力であり、MDB をスケールするシグマの大きさは、モデルから計算した代表的な入力であって、測定値ではありません。ReferenceImpl も検討した上で不採用としました -- モンテカルロは解析が記述するのと同じ統計量をサンプルするため、転記と係数の誤りは検出しますが、モニターの独立した実装ではありません。{ "0.30" } のラウンド { "2" }（事前登録 0135a9e4）、ブロック（MODELLED のまま）：SciPy { "1.18.1" } の chi2/ncx2/brentq は、五つの構成で、報告書のしきい値（{ "5.4e-12" } 以内）、軸ごとの MDB、検出力曲線、交差倍率、ランプの検出時間（{ "5.3e-10" } 以内）を再現します；注入した故障の統計量には独立したオラクルがなく、シグマの大きさはモデルから計算した入力であるため、範囲設定は所有者の判断を待っています
 
 seg-83724a2a8e06 = hybrid_integrity::tests（検出力曲線は、故障ゼロでの誤警報率から、最小検出可能バイアスでの { "1" } − P_md まで走る；最小検出可能バイアスを、モニター自身が適用したしきい値で noncentral_chi2_cdf に戻すと、すべての軸と公開ヘルパー経由で、{ "1e-9" } まで P_md を返す；RF 推定値に実際に注入したバイアスは、モニター自身の統計量を、手計算した b²/(σ_rf² + σ_opt²) だけちょうど動かす；ノイズなしのバイアスは √(T/λ*)×MDB を超えると検出され、下回ると見逃され、注入した段階はその交差をまたぐ；検出力は故障の大きさに対して単調で、MDB の倍数では四つの軸すべてで同一；200,000 サンプルのシード付きモンテカルロによるモニター統計量は、曲線上の四つの点で解析的な検出力を 4σ 以内で再現する；タイミングの MDB はタイミングのアラート限界より上に固定されており、これは機能ではなく測定された弱点である；Wilson-Hilferty の分位点は、モニターの厳密なしきい値と約 { "4" }% 食い違うことが測定され、使わなかった理由を記録している；ランプの数値はちょうど MDB/rate であり、レートに反比例してスケールし、非正のレートはゼロではなく null を報告する）; tests/hybrid_fault_power_scipy_oracle.rs（report_detection_power_matches_scipy_chi2_and_ncx2; report_detection_power_matches_scipy_with_comparable_sigmas）
+
+seg-65185cb68d6b = 打ち上げから再突入までの一連のミッションフェーズの航法・時刻誤差バジェット（<c1/>）
+
+seg-86a132e1a243 = <c1/> kind：フェーズの文書で、各フェーズは登録済みの八つの kind のいずれかです。フェーズは順に実行され、6x6 共分散、クロック、座標系が、明記した規則のもとで引き継がれます（<c2/>、<c3/>は、直線モデルで明記した区間にわたる白色加速度ノイズ、<c4/>は、推測航法の後にデータ源の下限まで下げますが、それを下回ることも、リセットすることもありません）。GCRF、MCI、MCMF の座標系変換と、TT を経由する時刻系変換は、それぞれが独立したバジェットの行になります。月の状態は任意の DE440 カーネルの切り出しから得て、解析的な級数を明記したフォールバックとします。さらに、明記した要求に対する余裕、最も弱い部分、イベント、タイムラインの図も出力します。すべての数値は、明記した入力か、その入力のモデルです
+
+seg-87b2b2459b45 = GNSS の捕捉とフェードを伴う、駐機軌道までの打ち上げと上昇（<c1/>）
+
+seg-725e7ce83533 = <c1/>フェーズ：白色加速度ノイズを伴う等速の位置・速度共分散（推測航法の水準）、捕捉時間の後で、明記したフェードの外側に適用する、明記した精度の GNSS 測位解、同じ測位解で補正されるバイアスとドリフトのクロック、そして駐機軌道への投入状態
+
+seg-eb66a49b0306 = センサー区間を通じた、低地球軌道でのドッキング領域までの相対航法（<c1/>）
+
+seg-658a0448d80d = <c1/>フェーズ：目標の LVLH 軸での相対状態を、閉じた形の Clohessy-Wiltshire 遷移で表し、白色加速度ノイズを伴う 6x6 のカルマン共分散と、その時点の距離でのセンサーの分散を持つ位置更新を、明記したセンサーの区間（ILLUSTRATIVE な光学カメラ、ライダー、電波測距の形式）にわたって適用します。ドッキング窓は、相対シグマが捕捉領域の内側にとどまり始める時刻からフェーズの終わりまでの時間です。チェイサーの絶対共分散はそのまま引き継がれ、その旨が行に示されます
+
+seg-b45a8a357faf = 月遷移軌道投入と地球・月間空間の巡航：追跡更新を伴う、伝播した平均状態と共分散（<c1/>）
+
+seg-ab5c79789754 = <c1/>フェーズ：平均状態はエンジンの Cowell 伝播器で求めます（地球の点質量と J2、第三体としての太陽と月、月はスレッドの DE440 カーネルがその区間を覆う場合はそれから、太陽は解析的な級数から）。共分散は、その伝播の前進差分による状態遷移行列（区間ごとに、公称の実行と摂動を加えた六回の実行）に、白色加速度ノイズを加えて求めます。これに、TLI 噴射の大きさと指向の誤差、軌道区間の代わりとなる接触軌道に沿った宇宙サービスボリュームのスイープから可用性と PDOP を得る<c2/>の測位解、そして地上ネットワークのデューティで調整した、地心方向に沿った距離と距離変化率の追跡を、Joseph 形式の更新で加えます
+
+seg-7a3eb4fae324 = 再突入インターフェースの共分散、回廊の確率、ピーク減速度、着地フットプリント（<c1/>）
+
+seg-93f07906d7bf = <c1/>フェーズ：噴射を行わない<c2/>の帰還の慣性飛行で、再突入インターフェースで終わります。経路角とそのシグマは、有限差分の勾配により完全な共分散から求めます。角度が明記した回廊の内側にある確率。公称の角度と回廊の両端での、エンジンの平面弾道の点質量による再突入（スキップアウトを検出）によるピーク減速度を、Allen-Eggers の閉形式と並べて示します。着地フットプリントは、明記したダウンレンジ感度と、軌道面に直交する方向のインターフェース共分散から求めます。揚力、誘導、加熱はモデル化していません
+
+seg-3f0951532f6e = スレッドのフェーズに対する地上ネットワークのカバレッジと追跡デューティ（<c2/>の<c1/>）
+
+seg-5204af351299 = 地上ネットワークのオーバーレイ：最小仰角を持つ局、明記した幾何における機体の可視性（二体問題で J2 を加えて飛行させた再突入の状態、巡航での月の位置、あるいは明記したデューティ）、それぞれが明記した時間を失う局間のハンドオーバー、そして得られたデューティをフェーズの地上追跡の更新レートに渡します。どの局からも見えない最長の区間は、バジェットの行になります
+
+seg-4ba700726208 = 月周回軌道でのドッキングまでの相対航法（<c1/>）
+
+seg-2e30e78e49f7 = <c1/> kind とフェーズ：弧にわたる、二機の共同のバッチ Gauss-Newton 推定（二十一個のパラメータ：両機の状態と、共通のものと独立のものを含む、持続的な信号空間の位置バイアス）。弧の四分の一、半分、全体へと、ステップ半減を伴って拡大しながら、各機の絶対測位解（AFS パイロット符号追跡の下限、ILLUSTRATIVE な中継衛星の組）とクロスリンクの距離から、クレートの月の力モデルのもとで求めます。平均の正規化推定誤差の二乗、円軌道での Clohessy-Wiltshire との照合、引き継がれる 6x6 共分散を報告します
+
+seg-c85d7e5e63a3 = 月の極域の着陸地点での着陸分散バジェット（<c1/>）
+
+seg-bd88ab3ad105 = <c1/> kind とフェーズ：動力降下にわたる、軸ごとの五状態の慣性誤差モデル（位置、速度、加速度計バイアス、傾き、ジャイロバイアス）。AFS 測位解（単独、または差動で、クロック補助を伴う三つの中継衛星の場合を含む）、地形相対測位解（合成起伏に対するエンジンの terrain-nav マッチャー、または、アパーチャー問題の規則を伴う LOLA DEM に対するクラメール・ラオ下限）、そして月時刻で補助し、モンテカルロによる着地楕円を求めます
+
+seg-8dfc1600cf8c = 月の極域での、地点と季節ごとの月面測位と時刻の可用性（<c1/>）
+
+seg-f91c1da9ab55 = <c1/> kind とフェーズ：地点と季節ごとの、中継衛星の可用性と PDOP、地球と太陽の可視性、そして規律された月面クロックを、<c2/>の地形スカイラインとともに求めます。単一地点の実行は、その kind の可用性と PDOP とビット単位で一致します
+
+seg-0db91d70a079 = 月の極域の地点から投入軌道までの動力上昇（<c1/>）
+
+seg-b5b1125d515c = <c1/> kind とフェーズ：経路に沿った比力を伴う動力上昇にわたり、軸ごとの五状態の慣性誤差モデルを実行し、AFS 測位解と月時刻で補助して、軌道へ引き継がれる投入時の位置・速度共分散と、エンジン停止時の分散（報告のみで、引き継ぎません）を報告します
+
+seg-1983ce9cc6da = 公開されている再構成された月周回機と地球・月間空間の軌道に対する、月の力モデルの伝播
+
+seg-57f53a7d1fa2 = 月の kind が共有する伝播器（GRAIL GL0660B の次数と位数 { "150" }、地球と太陽の第三体、相対論、DE440 の月の向き）を、LRO（{ "24" } 時間、{ "10" } 分間隔のサンプル）と CAPSTONE（{ "6.5" } 日の一周、一時間間隔のサンプル）の公開 JPL Horizons 軌道と比較します。合格基準は、実行の前にコミット済みのファイルで固定されています
+
+seg-c557d317389a = 公開されている Artemis I の軌道に対する、地球・月間空間の平均状態の伝播（<c1/>）
+
+seg-539d4c3e9b56 = <c1/>フェーズの平均状態の伝播（Cowell、地球の点質量と J2、第三体としての太陽と月、月は DE440 の切り出しから）を、2022-11-16 { "18" }:{ "00" } TDB から { "72" } 時間の慣性飛行の弧について、{ "12" } 時間間隔のエポックで、公開されている Artemis I の JPL Horizons 軌道と比較します。合格基準は、実行の前にコミット済みのファイルで固定されています
+
+seg-150ae9c3d755 = 干渉源の領域：航空機と船舶の位置報告から求めた、成り立ちうる発信源領域
+
+seg-b5c49044a7a1 = ADS-B（NIC/NACp）または AIS の位置報告から、劣化した航法報告の発生源がありうる場所を示す、成り立ちうる領域です。報告の高度と発信源アンテナの高さの範囲から、4/3 地球半径での電波の見通し線を求め、未知の電力に対しては有効到達距離に限りを設け、影響を受けた対象は事後分布をその到達範囲へ引き寄せ、見通し線のある影響を受けていない対象は事後分布を押し戻し、時間と空間でセッションにまとめます。出力は、明記した信頼水準での最高密度領域、モーメント楕円を伴う事後分布の重心、セッションの開始、終了、継続時間、影響を受けた面積、公開下限を超える異なる航空機の数、時刻別のプロファイル、一日あたりの時間数です。地形は考慮せず、セッションごとに発生源は一つとし、信頼度はモデルを前提としたものです。geolocation による TDOA 測位解との任意の融合ができます。
+
+seg-26d9a520eb6a = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける手計算（直線的な共分散の増大、平均の恒星時回転、月の時計の長期的なレート）と、月の状態に限っては、コミット済みの DE440 カーネルの切り出しを、固定した JPL Horizons の値と比べたもの（最悪で { "2.6" } m と { "7e-6" } m/s）。ミッションデータと連鎖の比較は行っておらず、各フェーズは独立した行です。この文書は、ILLUSTRATIVE な入力を持つ明示した連鎖であり、公開情報のみを使用し、いかなる機関の承認も受けていません
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおけるリカッチ方程式の定常状態と予測の手計算。ここでは打ち上げ機も受信機もモデル化しておらず、すべての数値は明示した入力です
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける予測と更新の一軸の手計算。Clohessy-Wiltshire 遷移は、cw_dynamics が独立した数値積分と照合しているものです。センサーは ILLUSTRATIVE であり、実際のランデブーとの比較は行っていません
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおけるリウヴィルの定理（保存部分の状態遷移行列の行列式は一）と、より細かい差分。平均状態は下の行で公開軌道と比べており、そこでは未達です。バーン誤差、更新、共分散は、何とも比較していません
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける手計算（角度の sigma は、垂直方向の速度 sigma を速さで割ったもの。回廊内のガウス分布の質量）。平面再突入はエンジン自身のもので、Allen-Eggers 形式は閉形式の比較です。飛行した再突入との比較は行っていません
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける天頂と対蹠点の幾何のチェックと、遠方のターゲットの期待される可視性。実在のネットワーク、アンテナ、スケジュールはモデル化していません
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — 事前登録に基づく自己整合性（xval/mission-thread-lunar/PREREGISTRATION.md。結果と推定器の履歴は RESULTS.md）：相対状態の平均 NEES は { "5.85" } から { "5.93" } で、四つの構成のいずれでも帯域 { "5.2" } から { "6.8" } の内側にあり、逐次フィルターの三つの設計が未達だったあとの四つ目の推定器設計で MET です。真値と推定器は一つの力モデルを共有するため、モデル誤差については何も言えません。共有する伝播器は、下の行で LRO と CAPSTONE と比較しています
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける、閉形式の慣性ドリフト、再利用した種別自身の結果、そして 3-sigma 楕円の較正（内側に入る割合が期待値と一致）。飛行または試験で実施された着陸との比較は行っていません
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = 同じコードベース内の別の実装と照合しており、テスト対象のユニットからは独立していますが、外部の権威ある基準ではありません — テストにおける、一地点についての既存の種別との完全な一致と、単調性のチェック。中継衛星の構成は ILLUSTRATIVE であり、月面での測定との比較は行っていません
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — テストにおける閉形式の慣性ドリフトと単調性のチェック。飛行した上昇との比較は行っていません
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = 部分的な主張は外部で確認されていますが、機能全体はモデル計算の要素を組み合わせたものであるため、機能は Modelled のままです — LRO と CAPSTONE の JPL Horizons の宇宙機エフェメリスに対し、xval/mission-thread-lunar/PREREGISTRATION.md で事前登録した合格基準（修正 { "1" } から { "6" }）と比較。LRO：MET。最大 3 次元差は { "33" } m、半径方向の RMS は { "2.4" } m（基準はそれぞれ { "500" } m と { "60" } m）。CAPSTONE：NOT MET。終端位置の差は { "136.8" } km（基準 { "25" } km）、接触近点の差は { "28.4" } km（基準 { "10" } km）で、原因は特定できていません。この行が Modelled なのは、CAPSTONE の合格基準が未達であり、この比較が検証するのは共有する伝播器であって、フィルター、信号、バジェットではないためです
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = 部分的な主張は外部で確認されていますが、機能全体はモデル計算の要素を組み合わせたものであるため、機能は Modelled のままです — JPL Horizons のターゲット -1023（NASA の航法による、TLI 後の実飛行軌道）に対し、xval/mission-thread/PREREGISTRATION.md で事前登録した合格基準（修正 { "1" } は要求区間のみを変更）と比較。NOT MET であり、未達として明示しています：最大位置差は { "45.3" } km（基準 { "5" } km）、{ "72" } h での速度差は { "0.249" } m/s（基準 { "0.05" } m/s）。判定のあとに書いた診断では、未達の原因は参照軌道にある { "0.09" } から { "0.22" } m/s の五回のインパルス的な速度変化だとされています（その区間にバーンはなかったという事前登録の見方は誤りでした）。残りの { "67" } 時間については、モデルは次の一時間ごとの状態を中央値 { "0.38" } m で再現します。検証するのは一つのコースト弧の平均状態だけで、共分散、フィルター、更新、他のフェーズは対象外です
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = 自身の閉形式・解析的な恒等式と照合しており、転記や係数の誤りは検出できますが、外部のオラクルではありません — 外部のものはまだありません。順方向・逆方向の合成の往復だけで、推定器と同じモデルを共有する生成器によるものです。そのため、そのモデルのもとでのコードと、明示した水準の較正を確認するだけで、実在の発信源については何も確認していません。公開されている Jammertest { "2025" } の送信地点との外部チェックは、事前登録され（docs/emitter-region/PREREGISTRATION.md。採点を伴ういかなる実行よりも前に所有者が承認）、一回実行されました（docs/emitter-region/RESULTS.md）：ADS-B は NOT ASSESSABLE（予定されたセッションが { "2" } 件で、登録した最小値 { "4" } 件を下回る）、AIS は NOT ASSESSABLE（公開されたセッションなし）であり、合格基準は検証されなかったため、この行は MODELLED のままです
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = interference_map::emitter の単体テスト（投影の往復、地平線の数値、合成の順方向・逆方向の往復：既知の発信源は、明示した領域の内側に、ほぼ明示した割合で入る。エッジケース、セッションのクラスタリング、プロファイル、プライバシーと文言）。tests/interference_map_cli.rs の locate のケース
+
+seg-a2bf08b8e82d = { "221" } 件の機能に MODELLED のラベルを付けています。

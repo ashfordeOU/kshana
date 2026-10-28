@@ -71,3 +71,5 @@ seg-59afd80736c5 = <b>PARTNER</b>提供しません — Kshanaは信号性能を
 seg-cb91473bfdda = トピックページ：<a1>LEO-PNT.md</a1>
 
 seg-3bc1761c76ab = 同梱のシナリオのうち{ "3" }個がこの種類を使用しています。その他は<a1><c1/></a1>にあります。
+
+seg-a349aa76b0ed = PARTNER
