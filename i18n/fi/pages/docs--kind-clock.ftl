@@ -55,3 +55,9 @@ seg-46ed0b786244 = Aihesivu: <a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>Edellinen</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Seuraava</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } mukana toimitettua skenaariota käyttää tätä tyyppiä; muut ovat hakemistossa <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Tyyppi <c1/>: vaiheiden asiakirja, jossa kukin vaihe on yksi kahdeksasta rekisteröidystä tyypistä, ajetaan järjestyksessä ja 6x6-kovarianssi, kello ja koordinaatisto siirretään eteenpäin ilmoitetun säännön mukaan (<c2/>; <c3/>, valkoinen kiihtyvyyskohina ilmoitetun välin yli Testit: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = ja { "1" } lisää matriisissa.

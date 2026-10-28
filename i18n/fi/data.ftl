@@ -7987,3 +7987,235 @@ dat-1868c76f244c = oma isäntäsi
 
 # studio/data/capabilities.json
 dat-4c20ebade87f = χ²₁ NP-ilmaisin · suljetun muodon ja Monte Carlo -P_fa/P_md täsmäävät
+
+dat-338478a8723e = Moottorin v{ $version } { "1" } skenaariotyyppi. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-cd5eb1698a87 = Moottorin v{ $version } { "14" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-60cc193bcc29 = Moottorin v{ $version } { "2" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-b73627a5b6d7 = Moottorin v{ $version } { "24" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-fd22a00f9aa5 = Moottorin v{ $version } { "5" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-ef1e661614eb = Moottorin v{ $version } { "6" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-9379a089776e = Moottorin v{ $version } { "7" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-25d6ecf7e78d = Moottorin v{ $version } { "9" } skenaariotyyppiä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei…
+
+dat-90999a1f6b23 = { "92" } / { "92" } tyyppiä, { "3300" } / { "3300" } numeerista kenttää
+
+dat-e069e927e712 = Kellonskenaario, jossa klassinen kello saa kohinansa mitatusta lokista (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Kellonskenaario, jossa mitattu loki on simuloidun holdoverin rinnalla (`[clock_log]`).
+
+dat-6e2cb362b6ee = Mahdollinen alue sille, missä heikentyneitä navigointiraportteja aiheuttava lähde voi olla, ADS-B- (NIC/NACp) tai AIS-paikkaraporteista: radionäköyhteys 4/3-maapallon säteellä raportin korkeudesta ja lähetinantennin korkeusvälistä, rajoitettu tehollinen kantama tuntemattomalle teholle, kärsineet yksiköt vetävät posteriorin kohti kantamaansa ja kärsimättömät yksiköt, joilla on näköyhteys, työntävät sitä vastaan, ryhmiteltynä istunnoiksi ajassa ja paikassa. Tuloksena on suurimman tiheyden alueet ilmoitetuilla luottamustasoilla, posteriorin painopiste momenttiellipsillä, istunnon alku, loppu, kesto, kärsinyt ala ja eri ilma-alusten lukumäärä julkaisun vähimmäismäärän yläpuolella, vuorokaudenaikaprofiili ja tunnit päivässä. Maastoton; yksi lähde istuntoa kohti; uskottavuus on ehdollinen mallille. Valinnainen fuusio geopaikannuksen TDOA-ratkaisuun.
+
+dat-7c2ec7378a5c = Yhden akselin käsinlasku ennusteesta ja päivityksestä testissä; Clohessy–Wiltshire-siirtymä on se, jota cw_dynamics tarkistaa riippumatonta numeerista integrointia vastaan. Anturit ovat ILLUSTRATIVE, eikä mitään todellista kohtaamista verrata
+
+dat-9c42080d805e = Ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+dat-3ab21add7c07 = Artemis-luokan tehtäväketju: yhden vaiheketjun navigointi- ja ajoitusvirhebudjetti laukaisusta
+
+dat-6ba64899cc4a = Kielen valinta
+
+dat-1886310b3396 = Hyvitys ja oikeudet
+
+dat-3ab0b8db8085 = Riippuvuudet ja lisenssit
+
+dat-ce766cce1a7d = Holdoverin ajaminen omalla kellollasi: [clock_fit]
+
+dat-6fd0ece9147e = Lähetinalue (interference-map locate)
+
+dat-fe6d68d3c1f9 = Paluurajapinnan kovarianssi, koridoritodennäköisyys, huippuhidastuvuus ja laskeutumisjalanjälki (`entry`)
+
+dat-f6759242b1a9 = Virheet ja niiden koodit
+
+dat-0488b2056745 = Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä keskeisine asetuksineen.
+
+dat-c0206ef96894 = Jokainen skenaariotyyppi, johon moottori v{ $version } ohjaa ({ "92" }), jaoteltuna { "13" } perheeseen.
+
+dat-59385aaf8a98 = Täsmällinen yhtäsuuruus olemassa olevan tyypin kanssa yhdelle paikalle sekä monotonisuustarkistukset testeissä. Välityssolmujen joukko on ILLUSTRATIVE, eikä mitään pintamittausta verrata
+
+dat-6ed624c1c297 = Neljä skenaariotyyppiä, joista jokainen on myös mission-thread-rajapinnan vaihetyyppi (src/mission_thread/): ne…
+
+dat-ed7ff984ba53 = Koordinaatistot ja aikaskaalat
+
+dat-36619fa31a07 = Maaverkon peitto ja seurantaosuus tehtäväketjun vaiheelle (`[ground_network]` tyypissä `mission-thread`)
+
+dat-626be4f0752e = Käsinlaskut testeissä (kulman sigma on kohtisuoran nopeuden sigma jaettuna nopeudella; Gaussin massa koridorissa). Tasomainen paluu on moottorin oma ja Allen–Eggers-muoto on suljetun muodon vertailu; mitään lennettyä paluuta ei verrata
+
+dat-1d6764bb725d = Käsinlaskut testeissä (suoraviivaisen kovarianssin kasvu, keskimääräinen sideerinen pyöriminen, kuun kellon sekulaarinopeus) ja, vain Kuun tilalle, tallennetut DE440-kernel-leikkeet lukittuja JPL Horizons -arvoja vastaan (pahin { "2.6" } m ja { "7e-6" } m/s). Ketjua ei verrata mihinkään tehtäväaineistoon; sen vaiheet ovat omia rivejään. Asiakirja on ilmoitettu ketju, jonka syötteet ovat ILLUSTRATIVE, vain julkisia lähteitä eikä minkään viraston kannatusta
+
+dat-a8beacb2b7c6 = Miten asiakirja kuvaa vaiheen
+
+dat-f4f6c97c58d7 = Miten ajo toimii toisella kielellä (kahdesti ajamisen sääntö)
+
+dat-18ddc744e88f = Miten lähetys tarkistetaan
+
+dat-b233043f785b = Asenna Kshana MCP -palvelin (v{ $version })
+
+dat-bc70cb57a31f = Häiriölähteen alue: mahdollinen lähetinalue ilma-alusten ja alusten paikkaraporteista
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = interference_map::emitter-yksikkötestit (projektion edestakainen kierros, horisonttiluku, synteettiset eteen- ja takaisinpäin -kierrokset: tunnettu lähetin on ilmoitetun alueen sisällä suunnilleen ilmoitetulla osuudella, reunatapaukset, istuntojen ryhmittely, profiili, yksityisyys ja sanamuoto); tests/interference_map_cli.rs locate-tapaukset
+
+dat-f1881d3fd450 = JPL Horizonsin avaruusalusten efemeridit LRO:lle ja CAPSTONElle, kynnyksiä vasten, jotka on ennakkorekisteröity tiedostossa xval/mission-thread-lunar/PREREGISTRATION.md (muutokset { "1" }–{ "6" }). LRO: MET, suurin 3D-ero { "33" } m ja radiaalinen RMS { "2.4" } m kynnyksiä { "500" } m ja { "60" } m vastaan. CAPSTONE: NOT MET, loppupaikan ero { "136.8" } km kynnystä { "25" } km vastaan ja periapsiksen ero { "28.4" } km kynnystä { "10" } km vastaan, syitä ei eristetty. Rivi on mallinnettu, koska CAPSTONE-kynnys alitetaan ja vertailu testaa yhteistä propagaattoria, ei mitään suodatinta, signaalia tai budjettia
+
+dat-203f52ed49d1 = JPL Horizons -kohde -1023 (NASAn navigoinnin lennetty TLI:n jälkeinen rata), kynnyksiä vasten, jotka on ennakkorekisteröity tiedostossa xval/mission-thread/PREREGISTRATION.md (muutos { "1" } muuttaa vain pyyntöjaksoa). NOT MET ja todettu alitetuksi: suurin paikkaero { "45.3" } km kynnystä { "5" } km vastaan ja nopeusero { "0.249" } m/s ajanhetkellä { "72" } h kynnystä { "0.05" } m/s vastaan. Tuomion jälkeen kirjoitettu diagnostiikka sijoittaa alituksen viiteen impulsiiviseen nopeusaskeleeseen, joiden suuruus on { "0.09" }–{ "0.22" } m/s, viitteessä (ennalta rekisteröity tulkinta, että ikkunassa ei ollut polttoa, oli väärä); muiden { "67" } tunnin aikana malli toistaa seuraavan tuntitilan mediaanitarkkuudella { "0.38" } m. Testaa vain yhden vapaan lentokaaren keskitilaa: ei kovarianssia, suodatinta, päivitystä eikä muuta vaihetta
+
+dat-021bd19116af = Tunnetut rajoitukset
+
+dat-61ab3ea0293c = Kshana merkitsee jokaisen ominaisuuden koneellisesti tarkistettuun kirjanpitoon (ledger) (varmennusmatriisi).
+
+dat-0002d522fae4 = Laskeutumishajontabudjetti kuun napa-alueen paikalla (`lunar-descent`)
+
+dat-141c646761d9 = Laukaisu ja nousu parkkiradalle GNSS-hakuineen ja häipymineen (`launch-ascent`)
+
+dat-252a4ca5d8cd = Liouvillen lause (konservatiivisen osan tilansiirtymämatriisin determinantti on yksi) ja hienompi differenssi testeissä; keskitilaa verrataan julkiseen rataan alla olevalla rivillä, ja se ei täytä kynnystä. Polttovirhettä, päivityksiä ja kovarianssia ei verrata mihinkään
+
+dat-1b090eb926b7 = Moottorin lokalisointi
+
+dat-5482eb8e992e = Kuun nousu: moottoroitu nousu etelänapaiselta pintapaikalta (Artemis-luokka) { "100" } km:n kohtaamisradalle
+
+dat-b5499ac7fa90 = Kuun laskeutumishajonta todellisella LOLA-etelänapa-DEMillä: moottoroidun laskun budjetti etelänapaiselle paikalle (Artemis-luokka), perustuen…
+
+dat-c064ed689649 = Kuun laskeutumishajonta: moottoroidun laskun budjetti etelänapaiselle paikalle (Artemis-luokka), perustuen
+
+dat-e576d5088076 = Kuun kohtaaminen elliptisellä napaisella radalla: suhteellinen navigointi Orion–laskeutuja-tyyppiseen telakointiin
+
+dat-7459ee1f4efa = Kuun kohtaaminen: suhteellinen navigointi Orion–laskeutuja-tyyppiseen telakointiin { "100" } km:n pyöreällä napaisella
+
+dat-25f2f7c5048f = Kuun pinnan PNT:n ja ajoituksen saatavuus paikan ja kauden mukaan (Artemis-luokan etelänapaiset paikat).
+
+dat-fdedddcf211b = Kuun pinnan PNT:n ja ajoituksen saatavuus paikan ja kauden mukaan todellisella LOLA-etelänapamaastolla
+
+dat-f250522ecad3 = lunar-ascent (skenaariotyyppi)
+
+dat-afded8513758 = lunar-descent (skenaariotyyppi)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (skenaariotyyppi)
+
+dat-4ea2873d47bd = lunar-surface (skenaariotyyppi)
+
+dat-d2b23c8c0cb8 = Tehtäväketjut
+
+dat-42ff804cc994 = Tehtäväketjut (skenaariotyyppiperhe)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (raportin yksikkölohko)
+
+dat-5b23ee4808db = mission-thread (skenaariotyyppi)
+
+dat-f6f0757c4934 = Moottoroidun laskun laskeutumishajontabudjetti etelänapaiselle paikalle (Artemis-luokka), taso MODELLED.
+
+dat-64ba276bb1f8 = Moottoroidun laskun laskeutumishajontabudjetti etelänapaiselle paikalle (Artemis-luokka), taso MODELLED. Kullakin…
+
+dat-84797c24853b = Ilmoitetun tehtävävaiheketjun navigointi- ja ajoitusvirhebudjetti, taso MODELLED, laukaisusta paluuseen…
+
+dat-eee427a562f9 = Moottoroitu nousu etelänapaiselta pintapaikalta kohtaamisradalle (taso MODELLED) sekä paikka–nopeus…
+
+dat-a5d5120ad3dd = Suhteellinen navigointi (taso MODELLED) Orion–laskeutuja-tyyppiseen telakointiin matalalla kuun kiertoradalla tai elliptisellä napaisella…
+
+dat-6cb24469351b = Pinnan paikannuksen ja ajoituksen saatavuus paikan ja kauden mukaan Artemis-luokan etelänapaisilla paikoilla, taso MODELLED.
+
+dat-61218243092c = Pinnan paikannuksen ja ajoituksen saatavuus paikan ja kauden mukaan Artemis-luokan etelänapaisilla paikoilla, taso MODELLED.…
+
+dat-dd872eabd06d = Laukaisusta paluuseen ulottuvan tehtävävaiheketjun navigointi- ja ajoitusvirhebudjetti (`mission-thread`)
+
+dat-7557b6b1b3a2 = Ulkoista tarkistusta ei vielä ole. Vain synteettisiä eteen–taakse-kierroksia generaattorista, joka jakaa estimaattorin mallin, joten ne tarkistavat koodin ja ilmoitettujen tasojen kalibroinnin sen mallin alla eivätkä kerro mitään todellisista lähettimistä. Ulkoinen tarkistus julkaistuja Jammertest { "2025" } -lähetinpaikkoja vasten ennakkorekisteröitiin (docs/emitter-region/PREREGISTRATION.md, omistaja vahvisti sen allekirjoituksellaan ennen mitään pisteytettyä ajoa) ja ajettiin kerran (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } aikataulutettua istuntoa, vähemmän kuin rekisteröity vähimmäismäärä { "4" }) ja AIS NOT ASSESSABLE (ei julkaistua istuntoa), joten mitään kynnystä ei testattu ja rivi pysyy tasolla MODELLED
+
+dat-c61600fc3590 = Mitatusta datasta
+
+dat-edfd6919d948 = Kumppanidata: mikä mitattu data voisi nostaa tasoa riville, jonka taso on MODELLED
+
+dat-5bd5efbe5a8c = Moottoroitu nousu kuun napa-alueen paikalta injektioradalle (`lunar-ascent`)
+
+dat-5c095f4884b4 = Suhteellinen navigointi telakointiin kuun kiertoradalla (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Suhteellinen navigointi telakointikaistaan matalalla Maan kiertoradalla anturiosuuksien yli (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Rivit, joita kumppanin data voisi nostaa
+
+dat-c069be5250fc = Sisäinen johdonmukaisuus ennakkorekisteröinnin alla (xval/mission-thread-lunar/PREREGISTRATION.md, tulokset ja estimaattorin historia tiedostossa RESULTS.md): suhteellisen tilan keskimääräinen NEES on { "5.85" }–{ "5.93" } vyöhykkeellä { "5.2" }–{ "6.8" } neljässä konfiguraatiossa, MET neljännellä estimaattorisuunnitelmalla sen jälkeen, kun kolme peräkkäissuodatinsuunnitelmaa alitti kynnyksen; totuus ja estimaattori jakavat yhden voimamallin, joten tämä ei kerro mitään mallivirheestä. Sen jakamaa propagaattoria verrataan LRO:hon ja CAPSTONEen alla olevalla rivillä
+
+dat-bb8b8191a0f6 = Pinnan paikannuksen ja ajoituksen saatavuus paikan ja kauden mukaan kuun navoilla (`lunar-surface`)
+
+dat-11e9ad0e8321 = Vaihe `entry`: tli-and-cruise-vaiheen paluuliuku ilman polttoa, päättyen paluurajapintaan; lentoratakulma ja sen sigma täydestä kovarianssista äärellisen differenssin gradientilla; todennäköisyys, että kulma on ilmoitetun koridorin sisällä; huippuhidastuvuus nimelliskulmalla ja koridorin molemmissa reunoissa moottorin tasomaisesta ballistisesta pistemassapaluusta (ulos kimpoaminen havaittu) Allen–Eggers-suljetun muodon rinnalla; laskeutumisjalanjälki ilmoitetusta loppumatkan herkkyydestä ja rajapinnan kovarianssista rataa vasten kohtisuoraan. Nostoa, ohjausta tai lämpenemistä ei mallinneta
+
+dat-5fedd1cdf670 = Vaihe `launch-ascent`: vakionopeuksinen paikka- ja nopeuskovarianssi valkoisella kiihtyvyyskohinalla (kuolleen laskennan luokka), ilmoitetun tarkkuuden GNSS-paikkaratkaisu, jota sovelletaan hakuajan jälkeen ja ilmoitettujen häipymien ulkopuolella, vinouma- ja ajautumakello, jota samat paikkaratkaisut ohjaavat, sekä parkkiratainjektion tila
+
+dat-4feb3a9f775b = Vaihe `leo-rendezvous`: suhteellinen tila kohteen LVLH-akseleissa suljetun muodon Clohessy–Wiltshire-siirtymällä, 6x6-Kalman-kovarianssi valkoisella kiihtyvyyskohinalla ja paikkapäivitykset, joiden varianssi on anturin varianssi nykyisellä etäisyydellä, ilmoitetun anturin osuuksien yli (ILLUSTRATIVE optinen kamera, lidar ja radioetäisyysmittaus); telakointi-ikkuna on aika siitä hetkestä, kun suhteellinen sigma pysyy kaappausverhokäyrän sisällä, vaiheen loppuun. Takaa-ajajan absoluuttinen kovarianssi luovutetaan muuttumattomana, ja rivi sanoo sen
+
+dat-238413a36808 = Tyyppi ja vaihe `lunar-ascent`: viiden tilan akselikohtainen inertiavirhemalli ajettuna moottoroidun nousun yli, jossa ominaisvoima on radan suuntainen, AFS-paikkaratkaisujen ja kuun ajan tukemana, ja joka raportoi radalle kuljetetun injektiopaikan ja -nopeuden kovarianssin sekä moottorin sammutushajonnan (raportoitu, ei kuljetettu)
+
+dat-9fe860d16f1f = Tyyppi ja vaihe `lunar-descent`: viiden tilan akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin vinouma, kallistus, gyron vinouma) moottoroidun laskun yli, AFS-paikkaratkaisujen (yksinään tai differentiaalisena, kellotuetun kolmen välityssolmun tapauksen kanssa), maastosuhteellisen paikkaratkaisun (moottorin maastonavigoinnin sovitin synteettisellä reliefillä tai Cramér–Rao-raja LOLA-DEMillä apertuuriongelman säännön kanssa) ja kuun ajan tukemana, Monte Carlo -kosketusellipsillä
+
+dat-ba0cc6e0ae77 = Tyyppi ja vaihe `lunar-orbit-rendezvous`: yhteinen kahden aluksen eräkohtainen Gauss–Newton-estimaatti kaaren yli (kaksikymmentäyksi parametria: molempien tilat sekä pysyvät signaali-avaruudessa-paikkavinoumat, yhteiset ja riippumattomat), kasvatettuna neljänneksen, puolikkaan ja koko kaaren yli askelpuolituksella, aluskohtaisesta absoluuttisesta paikkaratkaisusta (AFS-pilottikoodin seurantaraja, ILLUSTRATIVE välityssolmujen joukko) ja ristiyhteyden etäisyydestä, kirjaston kuun voimamallin alla; keskimääräinen normalisoitu estimointivirheen neliö, Clohessy–Wiltshire-tarkistus pyöreällä radalla ja eteenpäin luovutettu 6x6-kovarianssi
+
+dat-955283daf32d = Tyyppi ja vaihe `lunar-surface`: välityssolmujen saatavuus ja PDOP, Maan ja Auringon näkyvyys sekä ohjattu pintakello kullekin paikalle ja kaudelle, tyypin `moonlight-service-volume` maastosiluetilla; yhden paikan ajo on bitilleen sama kuin kyseisen tyypin saatavuus ja PDOP
+
+dat-571779bc241a = Tyyppi `mission-thread`: vaiheiden asiakirja, joista jokainen on yksi kahdeksasta rekisteröidystä tyypistä, ajettuna järjestyksessä niin, että 6x6-kovarianssi, kello ja koordinaatisto luovutetaan eteenpäin ilmoitetun säännön mukaan (`carry`; `inflate`, valkoinen kiihtyvyyskohina ilmoitetun aukon yli suoraviivaisella mallilla; `reacquire`, kuollut laskenta ja sitten lähteen lattia, ei koskaan sen alle, ei koskaan nollausta); koordinaatistomuunnokset GCRF, MCI ja MCMF sekä aikaskaalamuunnokset TT:n kautta, kukin oma budjettirivinsä, Kuun tila valinnaisesta DE440-kernel-leikkeestä ja analyyttinen sarja ilmoitettuna varavaihtoehtona; marginaali ilmoitettua vaatimusta vasten, heikoin lenkki, tapahtumat ja aikajanakuvio. Jokainen luku on ilmoitettu syöte tai sen malli
+
+dat-36aa30c0c245 = Vaihe `tli-and-cruise`: keskitila moottorin Cowell-propagaattorilla (Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu ketjun DE440-kernelistä, missä se kattaa jakson, ja Aurinko analyyttisestä sarjasta); kovarianssi tämän propagoinnin eteenpäin-differenssi-tilansiirtymämatriisilla (nimellisajo ja kuusi häirittyä ajoa jaksoa kohti) valkoisella kiihtyvyyskohinalla; TLI-polton koko- ja suuntavirhe; `gnss-ssv`-paikkaratkaisut, joiden saatavuus ja PDOP tulevat avaruuspalvelualueen pyyhkäisystä kaarta edustavaa oskuloivaa rataa pitkin; etäisyyden ja etäisyysnopeuden seuranta geosentristä suuntaa pitkin skaalattuna maaverkon osuudella, Joseph-muotoisella päivityksellä
+
+dat-826b5ff3a004 = Sisäänrakennetut { "92" } skenaariotyyppiä, joihin kshana::api::run_toml ohjaa, kukin yhden rivin…
+
+dat-4ad8b288fa02 = Ominaisuuskortit ja varmennusmatriisin kaikki { "401" } riviä.
+
+dat-85ad15fcf6cb = Kuunläheisen avaruuden keskitilan propagointi julkista Artemis I -rataa vastaan (`tli-and-cruise`)
+
+dat-9210d09891c9 = Suljetun muodon inertiaajautuma ja monotonisuustarkistukset testeissä. Mitään lennettyä nousua ei verrata
+
+dat-1b1e2bdeb2a2 = Suljetun muodon inertiaajautuma, uudelleen käytettyjen tyyppien omat tulokset ja 3-sigma-ellipsin kalibrointi (sisällä oleva osuus vastaa odotusarvoaan) testeissä. Mitään lennettyä tai testattua laskeutumista ei verrata
+
+dat-bc68a493fe5d = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): { "401" } riviä — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Asiakirja
+
+dat-b07afbb33f4b = Kahdeksan vaihetyyppiä
+
+dat-ddc15e493a03 = Moottorin ihmisille näkyvä teksti on englannin lisäksi { "17" } kielellä: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Todistemerkintä ({ "0.40" })
+
+dat-ac0745dcf97a = Todistemerkintä jokaisessa luvussa
+
+dat-21d73819d31c = Todistemerkintä ja tulosteet, jotka eivät kanna sellaista
+
+dat-88641ee424ff = Maaverkon peittokerros
+
+dat-5c091b15d738 = Maaverkon peittokerros: asemat, joilla on pienin korkeuskulma, ajoneuvon näkyvyys ilmoitetulla geometrialla (paluutila lennettynä kahden kappaleen mallilla ja J2:lla, Kuun paikka matkan aikana tai ilmoitettu osuus), asemaluovutukset, joista kukin menettää ilmoitetun ajan, sekä tuloksena oleva osuus, joka välitetään vaiheen maaseurannan päivitystaajuudelle; pisin väli, jona yksikään asema ei ole näkyvissä, on budjettirivi
+
+dat-576667f29670 = Kuun voimamallin propagointi julkisia rekonstruoituja kuun kiertäjien ja kuunläheisen avaruuden ratoja vastaan
+
+dat-5025f9f26401 = Artemis-luokan tehtäväketjun kuun osuus
+
+dat-2d1fe075cab5 = Vaiheen `tli-and-cruise` keskitilan propagointi (Cowell, Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu DE440-leikkeestä) verrattuna Artemis I:n julkiseen JPL Horizons -rataan { "72" } h:n vapaan lentokaaren yli alkaen 2022-11-16 { "18" }:{ "00" } TDB, { "12" } tunnin epookeilla, kynnyksillä, jotka on kiinnitetty tallennettuun tiedostoon ennen ajoa
+
+dat-510e796c2898 = Tehtäväketju
+
+dat-cba533186d05 = Kuun tyyppien jakama propagaattori (GRAIL GL0660B aste ja kertaluku { "150" }, Maa ja Aurinko kolmansina kappaleina, suhteellisuus, DE440-kuun orientaatio) verrattuna LRO:n ({ "24" } h, { "10" } minuutin näytteet) ja CAPSTONEn (yksi { "6.5" } vuorokauden kierros, tunnin näytteet) julkisiin JPL Horizons -ratoihin kynnyksillä, jotka on kiinnitetty tallennettuun tiedostoon ennen ajoa
+
+dat-16451dd503da = Riccatin tasapainotila ja ennusteen käsinlasku testeissä. Mikään tässä ei mallinna kantorakettia eikä vastaanotinta; jokainen luku on ilmoitettu syöte
+
+dat-09d31ea90146 = Kuulle suuntaava injektio ja kuunläheinen matkalento: propagoitu keskitila ja kovarianssi seurantapäivityksineen (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Mitä luovutus tekee
+
+dat-3727a96cc814 = Mitä kukin vaihe tekee
+
+dat-703c52a91b91 = Mikä lokalisoidaan ja mikä ei koskaan
+
+dat-93572ee1f44a = Mitä todisteet ovat
+
+dat-8796a5569e10 = Mitä merkinnät tarkoittavat
+
+dat-bceb988a4263 = Mitä lähettää
+
+dat-82201a0b07b0 = Uutta versiossa { "0.40" }
+
+dat-b3d9ac894036 = Oma kellosi
+
+dat-286487acb3db = Zeniitin ja antipodin geometriatarkistukset sekä kaukaisen kohteen odotettu näkyvyys testeissä. Mitään todellista verkkoa, antennia tai aikataulua ei mallinneta

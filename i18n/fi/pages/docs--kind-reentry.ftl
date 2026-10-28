@@ -71,3 +71,5 @@ seg-a4b7c16e3fea = <s1>Edellinen</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Seuraava</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Vaihe <c1/>: lajin <c2/> paluurannikko ilman polttoa, päättyen ilmakehän tulorajapintaan; lentoratakulma ja sen sigma täydestä kovarianssista differenssigradientilla; todennäköisyys, että kulma on määritellyn

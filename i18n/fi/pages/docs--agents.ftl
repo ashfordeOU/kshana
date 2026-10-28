@@ -149,3 +149,7 @@ seg-203a91deb52c = Käytä synteettistä dataa tai käyttäjän omaa dataa. Äl�
 seg-ec064f62f7dc = <s1>Edellinen</s1>MCP-palvelin: itse ylläpidetty HTTP-tila
 
 seg-1f44dbd65ce3 = <s1>Seuraava</s1>Mistä kukin ominaisuus on käytettävissä
+
+seg-e3949a1e6082 = Lähetinalue (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: mahdollinen alue radion näköyhteyden oletuksella, ei paikannus. Ilmoita alue ilmoitetulla luottamustasolla painopisteen ja sen ellipsin kanssa, ei koskaan pelkkää painopistettä; sano <c1/>, kun data ei kavenna sitä; sano sen olevan ehdollinen mallille (tarkistettu vain synteettisellä datalla; ennalta rekisteröity Jammertest-vertailu ajettiin kerran ja oli NOT ASSESSABLE molemmille lähteille, joten mitään ei testattu ulkoisesti). Neutraali sanamuoto: ”arvioitu lähetinalue”; älä koskaan nimeä tai vihjaa, kuka tai mikä on lähteen, valtion, joukon tai aikomuksen takana. Vain aggregaatti; älä yritä palauttaa tunnisteita. Lähetinalueiden julkaiseminen julkisessa observatoriossa on pois päältä.
