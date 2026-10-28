@@ -96,3 +96,9 @@ seg-e06f9a5a0291 = <s1>Eelmine</s1>cislunar-observability
 
 # text
 seg-aba9395185fa = <s1>Järgmine</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } kaasasolevat stsenaariumi kasutab seda liiki; ülejäänud on kaustas <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Liik <c1/>: faaside dokument, millest iga on üks kaheksast registreeritud liigist, käivitatud järjekorras, 6x6 kovariatsiooni, kella ja tugisüsteemi edasiandmisega öeldud reegli järgi (<c2/>; <c3/>, valge kiirendusmüra öeldud vahemiku jooksul Testid: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = ja veel { "1" } maatriksis.

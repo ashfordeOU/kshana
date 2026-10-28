@@ -477,3 +477,11 @@ seg-68bcf43b4e27 = <s1>Eelmine</s1>Ridade katvus
 
 # text
 seg-09c0b5fa6e52 = <s1>Järgmine</s1>Optilised lingid läbi atmosfääri
+
+seg-bd3169455cd0 = Tõendimärgis ({ "0.40" })
+
+seg-6fe796d2b15f = Versiooniga { "0.40" } või hilisemaga ehitatud pakett kannab failis <c1/> kirjet <c2/> (tase, <c3/>, <c4/> või <c5/>, mis on selle ridade nõrgim staatus, ning nende kontrollimaatriksi ridade id-d ja nõuded, millele paketi sisu toetub: paketi terviklikkuse rida, receiver-trust read ning jammertest-scoring või round-trip read nende pakettide jaoks) ja <c6/> <c7/>. See on failis <c8/>, seega manifesti faili räsi, räsiahel ja allkiri katavad seda: selle muutmine ebaõnnestub kontrollimisel. <c9/> teatab taseme ja ridade id-d.
+
+seg-15b4e784361a = Muudatus on lisanduv ja ainult edasi suunatud. Manifesti <c1/> jääb <c2/>: ülaltoodud normatiivne tekst ütleb, et kontrollija PEAB selle väärtuse leidma, ja kaustas <c3/> olev puhta ruumi kontrollija teeb seda. Väiksem versioon kantakse seega väljas <c4/> (puudub enne { "0.40" } tehtud paketil, tähendab { "1.0" }), mitte uues stringis <c5/>. Enne { "0.40" } tehtud pakett ei kanna silti ja kontrollitakse muutumatuna; <c6/> ütleb „no evidence label (pre-0.40 pack)“. Testid on <c7/> (kaasa arvatud kinnitatud pre-0.40 oraakelpaketid) ja <c8/>.
+
+seg-218641620d3e = <s1>Järgmine</s1>Andmepartnerid ja edutavad read

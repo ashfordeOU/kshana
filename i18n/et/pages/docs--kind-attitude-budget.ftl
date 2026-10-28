@@ -81,3 +81,5 @@ seg-0e27fcef1499 = <s1>Eelmine</s1>ascent-losses
 
 # text
 seg-946c453cbf0f = <s1>Järgmine</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

@@ -173,3 +173,5 @@ seg-c0ef7d676ec1 = <s1>Eelmine</s1>GNSS-i mõõtmised, positsioneerimine ja terv
 
 # text
 seg-54b45b00a2f0 = <s1>Järgmine</s1>Inertsiaal-, liitmis- ja kvantandurid
+
+seg-643fa0f18717 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>terrain-nav</a1>.

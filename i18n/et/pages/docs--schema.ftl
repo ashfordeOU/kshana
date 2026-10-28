@@ -459,3 +459,5 @@ seg-6585c8a3643d = ClockRun (kumbki väljadest quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (objekt fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Jooksu tõendussilt: <c1/> (<c2/>, <c3/> või <c4/>: ridade <em>nõrgeim</em> olek, nii et see ei väida kunagi rohkem kui selle nõrgeim rida), <c5/> (<c6/>), <c7/> ja <c8/>, üks iga kontrollimaatriksi rea kohta, mida jooks kasutas (read, mida selle täiendatud aruanne loetleb, allikast <c9/>): <c10/> (<c11/> ja rea nõude teksti SHA-256 esimesed { "8" } kuueteistkümnendnumbrit), <c12/> ja <c13/>, kõik loetud maatriksist, ükski käsitsi kirjutamata. Lisab <c14/> iga liigi tulemusele enne lõpus olevat <c15/> plokki, kui see on olemas (see plokk jääb viimaseks võtmeks); <c16/> eemaldab selle bait-baidilt. Sama jooksu diagrammi SVG ja CSV-tabel kannavad sama silti (<c17/> ja nähtav joon diagrammi all; <c18/> kommentaaread CSV ees). Teise liigi tulemusse põimitud kampaania liikmed ei kanna ühtegi: väline dokument kannab. Ei sisalda arve.

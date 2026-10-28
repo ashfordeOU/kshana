@@ -103,3 +103,5 @@ seg-1d3bffc2fd02 = <s1>Eelmine</s1>Kosmosekasutaja navigatsioon (gnss-ssv)
 
 # text
 seg-90932eed0074 = <s1>Järgmine</s1>LEO positsioneerimine, navigatsioon ja aeg
+
+seg-c3b27dfb7bca = <s1>Järgmine</s1>Missiooniahel: start kuni sisenemine

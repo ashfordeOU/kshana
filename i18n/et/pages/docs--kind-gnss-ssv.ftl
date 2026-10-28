@@ -138,3 +138,7 @@ seg-c9ac9a99bcbb = <s1>Eelmine</s1>gnss-sim
 
 # text
 seg-9df48482a140 = <s1>Järgmine</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> Faas <c1/>: keskmine olek mootori Cowelli levitajaga (Maa punktmass ja J2, Päike ja Kuu kolmandate kehadena, Kuu lõimest DE440 kernelist seal, kus see lõiku katab, ja Päike analüütilisest serie
+
+seg-6a26b9ab59fe = Teemaleht: <a1>MISSION-THREAD.md</a1>

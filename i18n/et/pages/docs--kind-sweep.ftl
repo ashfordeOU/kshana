@@ -87,3 +87,5 @@ seg-1750fbfc4a99 = <s1>Eelmine</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Järgmine</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Faas <c1/>: keskmine olek mootori Cowelli levitajaga (Maa punktmass ja J2, Päike ja Kuu kolmandate kehadena, Kuu lõimest DE440 kernelist seal, kus see lõiku katab, ja Päike analüütilisest serie
