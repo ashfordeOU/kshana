@@ -49,3 +49,5 @@ seg-9d67411151e3 = GNSS-vapaa kvanttinavigointi on MODELLED, ei validoitu: sitä
 seg-e1d502e1ed6d = <s1>Edellinen</s1>quantum-anomaly-detect
 
 seg-1f3705925b3c = <s1>Seuraava</s1>quantum-time-transfer
+
+seg-a349aa76b0ed = PARTNER

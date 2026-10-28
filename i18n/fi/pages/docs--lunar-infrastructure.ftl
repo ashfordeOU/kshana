@@ -55,3 +55,5 @@ seg-6334f82991d3 = Eivät täyty. Ne on kiinnitetty testeillä, jotka toteavat t
 seg-1d3bffc2fd02 = <s1>Edellinen</s1>Avaruuskäyttäjän navigointi (gnss-ssv)
 
 seg-90932eed0074 = <s1>Seuraava</s1>LEO-paikannus, -navigointi ja -ajanmääritys
+
+seg-c3b27dfb7bca = <s1>Seuraava</s1>Tehtäväketju: laukaisusta paluuseen

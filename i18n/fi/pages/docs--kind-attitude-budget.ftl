@@ -47,3 +47,5 @@ seg-333fca11ac0c = REHELLINEN RAJAUS: MODELLED skalaarinen virhebudjetti -- lait
 seg-0e27fcef1499 = <s1>Edellinen</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>Seuraava</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

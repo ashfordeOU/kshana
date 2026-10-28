@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Seuraava</s1>Todellisten TLE-tietojen käyttö
 seg-6585c8a3643d = ClockRun (kumpikin: quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (objekti fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Ajon todistemerkintä: <c1/> (<c2/>, <c3/> tai <c4/>: rivien <em>heikoin</em> tila, joten se ei koskaan väitä enempää kuin heikoin rivinsä), <c5/> (<c6/>), <c7/> ja <c8/>, yksi jokaista ajon käyttämää varmennusmatriisin riviä kohti (rivit, jotka sen lisäraportti luettelee, lähteestä <c9/>): <c10/> (<c11/> ja rivin vaatimustekstin SHA-256:n { "8" } ensimmäistä heksadesimaalinumeroa), <c12/> ja <c13/>, kaikki luettu matriisista, mitään ei kirjoitettu käsin. Funktio <c14/> lisää sen jokaisen tyypin tulokseen, ennen loppuosan lohkoa <c15/>, kun sellainen on (tuo lohko pysyy viimeisenä avaimena); <c16/> poistaa sen tavu tavulta. Saman ajon kaavion SVG ja CSV-taulukko kantavat saman merkinnän (<c17/> ja näkyvä rivi kaavion alla; kommenttirivit <c18/> CSV:n edessä). Toisen tyypin tulokseen upotetut kampanjajäsenet eivät kanna sellaista: ulompi asiakirja kantaa. Ei sisällä lukuja.

@@ -71,3 +71,5 @@ seg-1750fbfc4a99 = <s1>Edellinen</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Seuraava</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Vaihe <c1/>: keskitila moottorin Cowell-propagaattorilla (Maa pistemassana ja J2, Aurinko ja Kuu kolmansina kappaleina, Kuu ketjun DE440-kernelistä, missä se kattaa osuuden, ja Aurinko analyyttisestä sarj

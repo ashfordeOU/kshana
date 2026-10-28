@@ -167,3 +167,5 @@ seg-568c484ce9a0 = <b>Kirjanpito (ledger):</b> VALIDATED. Koko sivu, jolla ovat 
 seg-41996765fcf1 = <s1>Edellinen</s1>Kuu ja Maa–Kuu-avaruus
 
 seg-1951c46fe429 = <s1>Seuraava</s1>Optinen PNT
+
+seg-e77c46e23e67 = <s1>Seuraava</s1>Tehtäväketjut

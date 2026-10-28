@@ -51,3 +51,5 @@ seg-6e9f5dfca6b0 = Luotettu kvanttiajoitus (ajansiirto + turvallinen jakelu + po
 seg-d3665be74ff1 = <s1>Edellinen</s1>quantum-gnss-free-nav
 
 seg-0d4b1f97541f = <s1>Seuraava</s1>quantum-trade
+
+seg-a349aa76b0ed = PARTNER

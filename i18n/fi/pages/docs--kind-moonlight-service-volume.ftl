@@ -35,3 +35,9 @@ seg-2ff91fe31123 = REHELLISYYS: MODELLED-yhdistelmä. DOP-geometria on validoitu
 seg-f3279128de3b = <s1>Edellinen</s1>mars-pnt
 
 seg-92cd937a3fb7 = <s1>Seuraava</s1>ntn-positioning
+
+seg-e66e2ca31e54 = Aihesivu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Laji ja vaihe <c1/>: releiden saatavuus ja PDOP, Maan ja Auringon näkyvyys sekä kuriin saatettu pinnan kello kullekin kohteelle ja vuodenajalle, lajin <c2/> maastotaivaanrantaviivalla; yhden kohteen ajo on bitilleen sama kuin sen lajin
+
+seg-6730fa1b9820 = <s1>Edellinen</s1>mission-thread

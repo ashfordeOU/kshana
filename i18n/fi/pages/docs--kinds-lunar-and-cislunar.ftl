@@ -227,3 +227,47 @@ seg-41e50e49da99 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä
 seg-09f7f99d04a6 = <s1>Edellinen</s1>Matalan Maan kiertoradan navigointi
 
 seg-74c6bf83988e = <s1>Seuraava</s1>Tehtäväanalyysin yhteydet ja avaruusoperaatiot
+
+seg-ae3053a1f6c8 = MODELLED moottoroitu nousu etelänapa-alueen pintakohteesta kohtaamiskiertoradalle ja kiertoradalle takaisin kuljetettu paikka-nopeuskovarianssi (Artemis-luokka). Tyypin lunar-descent viiden tilan akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, asennon kallistus, gyron harha, jota ajaa ominaisvoima) ajetaan kaikilla kolmella kohdeakselilla pintatilasta, jolla vaihe alkaa; AFS-paikannus ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (itsenäinen tai differentiaalinen käyttäen tyypin lunar-differential-pnt korjauslinkin jäännöstä, kello tuettuna, kun vain kolme relettä on näkyvissä) otetaan ilmoitetulla välillä, ja Kuun aika tulee ajoneuvon kellon ja ajanmerkintävirheen kautta radan suunnassa. Raportoi suljetun muodon inertiaalilähteet, avustuksen osuuden, ablaation, navigoinnin 1-sigmat nousun yli, moottorin katkaisuhajonnan navigointitiedon rinnalla ja täyden 6x6 MCI-kovarianssin insertiossa paikka-nopeuskorrelaatio säilytettynä. MODELLED: havainnollinen IMU-luokka, ominaisvoima, relejoukko ja katkaisuhajonta; virheet pidetään laukaisukohteen akseleissa; nimellinen poistumistila on paikanpitäjä. Ei viraston tukema; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+seg-463a919e84d5 = Moottorin kirjoittama kaavio tiedostolle scenarios/lunar-ascent.toml, tyyppi lunar-ascent
+
+seg-2cd0d5385530 = MODELLED laskeutumishajonnan budjetti moottoroidulle laskeutumiselle etelänapa-alueen kohteeseen (Artemis-luokka). Kutakin vaaka-akselia kohden viisitilainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, asennon kallistuma, gyron harha) saa herätteensä laskeutumisen ominaisvoimasta; peräkkäinen suodin ottaa paikkakorjaukset käytössä olevista apuvälineistä: AFS-korjaus ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (yksinään tai differentiaalisena käyttäen lunar-differential-pnt-lajin korjauslinkin jäännöstä, kellon ollessa tuettu, kun vain kolme relettä on näkyvissä) sekä maastosuhteellinen korjaus (paketin TERCOM/SITAN-sovitin synteettisellä reliefillä tai todellisen LOLA-etelänapa-DEM:n korkeusikkunan sovituksen Cramér–Rao-raja). Kuun aika tulee mukaan ajoneuvon kellon kautta korjausten hetkillä (lunar-time-offset-lajin LTC-TT-siirtymä tai sen julkaistun kaistan epävarmuus) ja ratakoordinaatin suuntaisena aikaleimavirheenä. Raportoi 3-sigma-laskeutumiselliipsin, R95:n, suljetun muodon inertialähteet, kunkin apuvälineen osuuden, jokaisen apuvälinekombinaation ablaation, ellipsin Monte Carlo -kalibroinnin ja eteenpäin siirretyn kovarianssin. MODELLED: havainnollistava IMU-luokka, releiden joukko, laskeutumisprofiili ja ohjaustermi; maastonavigointi käyttää synteettistä reliefiä maan metrimittakaavassa; AFS-saatavuus on yksi epookki tasaisella maskilla. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-8073ece4c900 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/lunar-descent.toml, laji lunar-descent
+
+seg-2deefd8c547b = MODELLED suhteellinen navigointi Orion–laskeutuja-tyyppiselle telakoinnille matalalla Kuun kiertoradalla tai elliptisellä napakiertoradalla (Artemis-luokka). Takaa-ajaja ja kohde lentävät samaa rataa paketin Kuun voimamallin mukaan; yhteinen 21-parametrinen eräpohjainen Gauss–Newton-estimaatti kaaren yli (kaksi ajoneuvon tilaa ja pysyvät signaalitien harhat) yhdistää ajoneuvokohtaisen absoluuttisen paikkakorjauksen ILLUSTRATIVE LCNS-luokan releiden joukosta (Kuun taakse jäävät releet pudotetaan, neljä tarvitaan, yhteismoodin signaalitien virhe kumoutuu ajoneuvojen välillä) ja ristikkäislinkin etäisyysmittauksen, jonka etäisyysmittauksen tarkkuus tulee LunaNet AFS -pilotin koodiseurannan rajasta. Raportoi muodollisen ja Monte Carlo -suhteellisen paikka- ja nopeusvirheen kohteen LVLH-akseleissa, korjausten saatavuuden, keskimääräisen normalisoidun estimointivirheen neliön suhteessa odotusarvoonsa, kaikki kokeet, joiden iteraatio ei suppennut, gravitaatioharmonisten sivuuttamisesta aiheutuvan ajautuman sekä eteenpäin siirretyn täyden 6x6-kovarianssin. Suljetun muodon Hill/Clohessy–Wiltshire-tarkistus koskee ympyräratatapausta. MODELLED: havainnollistava releiden joukko, virhebudjetti ja priorit; totuus ja estimaattori käyttävät samaa voimamallia, joten NEES tarkistaa itsejohdonmukaisuutta eikä mallivirhettä. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-d97b2505ac72 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/lunar-orbit-rendezvous.toml, laji lunar-orbit-rendezvous
+
+seg-6c7d25f672fb = MODELLED pinnan paikannus- ja ajoitussaatavuus kohteen ja vuodenajan mukaan Artemis-luokan etelänapa-alueen kohteille. Kullekin kohteelle ja vuodenajalle (epookki ja sen jälkeinen ikkuna) raportoidaan releillä paikannus (neljä tai useampi ILLUSTRATIVE LCNS-luokan tähdistön relettä näkyvissä ja PDOP kynnyksen alla, samoilla funktioilla kuin moonlight-service-volume-lajissa ja maastolohkon kanssa lunar-station-coverage-lajin maaston säteenseurannalla laskettu taivaanrantaviiva), ovatko Maa ja Aurinko kohteen horisontin yläpuolella (analyyttinen Aurinko, Kuu ja Kuun orientaatio, libraatio mukaan lukien, mikä liikkuu vuodenajan mukana) sekä ajoituksen saatavuus (rele tai Maa näkyvissä) pisimmän jakson kanssa, jolloin kumpaakaan ei ole, eli holdover, jonka pinnan kellon on kestettävä. Yhden kohteen tulos on bitilleen sama kuin moonlight-service-volume-lajin. MODELLED: havainnollistava Kepler-releiden joukko keskimääräisesti pyörivällä Kuulla; releiden luku ei muutu vuodenajan mukana; maasto on { "1200" } m LOLA-leikkaus. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-94b84de6c958 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/lunar-surface.toml, laji lunar-surface
+
+seg-8350d49efd47 = { "24" } skenaariolajia, moottori v{ $version }. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva nimike on moottorin tai varmennusmatriisin; laji on MODELLED, ellei matriisi toisin sano (miten nimike ansaitaan: README:n Evidence-osio).
+
+seg-3505720b0990 = MODELLED moottoroitu nousu etelänapa-alueen pintakohteesta kohtaamiskiertoradalle sekä paikan ja nopeuden kovarianssi, jonka se kuljettaa takaisin kiertoradalle (Artemis-luokka).
+
+seg-9d18dfb871ed = MODELLED pinnan paikannus- ja ajoitussaatavuus kohteen ja vuodenajan mukaan Artemis-luokan etelänapa-alueen kohteille.
+
+seg-a8d90ed1d52f = MODELLED laskeutumishajonnan budjetti moottoroidulle laskeutumiselle etelänapa-alueen kohteeseen (Artemis-luokka).
+
+seg-737aa6f80fe3 = MODELLED suhteellinen navigointi Orion–laskeutuja-tyyppiselle telakoinnille matalalla Kuun kiertoradalla tai elliptisellä napakiertoradalla (Artemis-luokka).
+
+seg-66982ad26e2b = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-ecdaa89c9219 = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>lunar-ascent</a1>.
+
+seg-6f1fd4e8089d = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-e403a675bcc4 = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>lunar-surface</a1>.
+
+seg-aa1a7b2ca934 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+seg-059a45d0512e = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>lunar-descent</a1>.
+
+seg-1618206b62b1 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+seg-d1f8d70eb309 = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>lunar-orbit-rendezvous</a1>.
+
+seg-f87c103758f3 = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>moonlight-service-volume</a1>.
