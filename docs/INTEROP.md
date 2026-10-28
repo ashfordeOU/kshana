@@ -440,6 +440,7 @@ stale.
 | `mars-pnt-transfer.toml` | `mars-pnt` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `meo-leo-fused-pvt.toml` | `leo-pvt` | no [9] | no [9] | no [9] | no [9] | no [2] |
 | `mission-thread-artemis-class.toml` | `mission-thread` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `mission-thread-short.toml` | `mission-thread` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `moonlight-service-volume.toml` | `moonlight-service-volume` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `multi-band-jamming-waterfall.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | no [17] |
 | `ntn-5g-positioning.toml` | `ntn-positioning` | no [9] | no [9] | no [9] | no [9] | no [2] |
