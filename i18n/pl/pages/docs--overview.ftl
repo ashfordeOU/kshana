@@ -1916,7 +1916,7 @@ seg-88439b6ddd78 = <c1/> sprawdza format zgłoszenia i niczego nie ocenia (<a1><
 
 seg-c571cf207dd4 = Obszar emitera.
 
-seg-5cf9c8d0440e = <c1/> podaje obszar i elipsę, nigdy goły punkt, na podstawie raportów ADS-B lub AIS. Porównanie przeprowadzone raz z lokalizacjami nadajników Jammertest { "2025" } daje wynik <b>NIEMOŻLIWE DO OCENY</b> dla obu źródeł (zbyt mało zaplanowanych sesji w otwartych danych), więc wiersz pozostaje MODELLED (<a1>Mapa zakłóceń</a1>).
+seg-5cf9c8d0440e = <c1/> podaje obszar i elipsę, nigdy goły punkt, na podstawie raportów ADS-B lub AIS. Porównanie przeprowadzone raz z lokalizacjami nadajników Jammertest { "2025" } daje wynik <b>NOT ASSESSABLE</b> dla obu źródeł (zbyt mało zaplanowanych sesji w otwartych danych), więc wiersz pozostaje MODELLED (<a1>Mapa zakłóceń</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> Ponowna kampania { "0.40" } osiąga A3, D3 (oba EXPLORATORY), R3 i R4; A2, D1 i R1 pozostają NOT MET (<a1>Bench</a1>).
 

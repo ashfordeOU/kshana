@@ -8582,7 +8582,7 @@ dat-f6f0757c4934 = MODELLED budget för landningsspridning för en driven nedsti
 
 dat-6cb24469351b = MODELLED tillgänglighet för positionering och tidssynkronisering på ytan per plats och årstid för platser nära sydpolen i Artemis-klass.
 
-dat-7557b6b1b3a2 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B INTE BEDÖMBAR ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS INTE BEDÖMBAR (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
+dat-7557b6b1b3a2 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
 
 dat-c61600fc3590 = På uppmätta data
 

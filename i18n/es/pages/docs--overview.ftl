@@ -3555,7 +3555,7 @@ seg-88439b6ddd78 = <c1/> comprueba el formato de un envío y no puntúa nada (<a
 
 seg-c571cf207dd4 = Región del emisor.
 
-seg-5cf9c8d0440e = <c1/> da una región y una elipse, nunca un punto aislado, a partir de informes ADS-B o AIS. Comparado una vez con los emplazamientos de transmisores de Jammertest { "2025" }, el resultado es <b>NO EVALUABLE</b> para ambas fuentes (demasiado pocas sesiones programadas en los datos abiertos), de modo que la fila sigue siendo MODELLED (<a1>Mapa de interferencias</a1>).
+seg-5cf9c8d0440e = <c1/> da una región y una elipse, nunca un punto aislado, a partir de informes ADS-B o AIS. Comparado una vez con los emplazamientos de transmisores de Jammertest { "2025" }, el resultado es <b>NOT ASSESSABLE</b> para ambas fuentes (demasiado pocas sesiones programadas en los datos abiertos), de modo que la fila sigue siendo MODELLED (<a1>Mapa de interferencias</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> La recampaña de { "0.40" } alcanza A3, D3 (ambos EXPLORATORY), R3 y R4; A2, D1 y R1 siguen NOT MET (<a1>Bench</a1>).
 

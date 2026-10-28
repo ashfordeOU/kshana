@@ -8339,7 +8339,7 @@ dat-61218243092c = MODELLED: dostępność pozycjonowania i czasu na powierzchni
 
 dat-dd872eabd06d = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (`mission-thread`)
 
-dat-7557b6b1b3a2 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NIEMOŻLIWE DO OCENY ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NIEMOŻLIWE DO OCENY (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
+dat-7557b6b1b3a2 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NOT ASSESSABLE (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
 
 dat-c61600fc3590 = Na zmierzonych danych
 
