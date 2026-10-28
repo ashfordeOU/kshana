@@ -77,3 +77,5 @@ seg-a4b7c16e3fea = <s1>Anterior</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Seguinte</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> A fase <c1/>: o trecho inercial de retorno de <c2/> sem queima, terminando na interface de reentrada; o ângulo de trajetória e seu sigma a partir da covariância completa por um gradiente de diferenças finitas; a probabilidade de o ângulo estar dentro de um declar

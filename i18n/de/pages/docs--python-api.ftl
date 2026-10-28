@@ -501,3 +501,5 @@ seg-4a457afc63fb = <s1>Weiter</s1>npm und WebAssembly
 
 # text
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = geschätzte Senderregionen aus ADS-B- oder AIS-CSV-Text: <c1/>, jede als MODELLED gekennzeichnet; Regionen bei genannter Konfidenz mit einem Schwerpunkt und einer Unsicherheitsellipse, nie ein bloßer Punkt; nur aggregiert, und eine Region ist nicht die Position von irgendjemandem und kein Befund der Ursache

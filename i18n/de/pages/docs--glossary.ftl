@@ -3773,3 +3773,5 @@ seg-670504be0531 = <s1>Weiter</s1>Studio-Leitfaden
 
 # text
 seg-13fb20435df3 = <b>VALIDATED.</b> In einfachen Worten: <em>gegen die Antwort eines anderen geprüft.</em> Die Ausgabe der Fähigkeit wurde mit einer unabhängigen externen Referenz verglichen — echten Messdaten, einer unabhängigen, von jemand anderem geschriebenen Bibliothek oder veröffentlichten Referenzwerten — und stimmte innerhalb einer angegebenen Toleranz überein. Eine Prüfung in der Continuous Integration weist eine Zeile der Stufe VALIDATED zurück, die keine externe Referenz nennt.
+
+seg-6c10aaedf2fc = <s1>Weiter</s1>Sprachen

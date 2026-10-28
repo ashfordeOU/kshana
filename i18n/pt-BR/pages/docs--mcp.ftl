@@ -657,3 +657,5 @@ seg-490ebbefb561 = <s1>Anterior</s1>Crate Rust
 
 # text
 seg-350b6b914734 = <s1>Próxima</s1>Servidor MCP: todos os canais de instalação
+
+seg-492888115662 = Os { "92" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido.

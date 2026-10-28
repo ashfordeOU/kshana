@@ -84,3 +84,9 @@ seg-f3279128de3b = <s1>Anterior</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Próximo</s1>ntn-positioning
+
+seg-e66e2ca31e54 = Página do tópico: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> O tipo de cenário e fase <c1/>: disponibilidade de relés e PDOP, visibilidade da Terra e do Sol e um relógio de superfície disciplinado para cada local e estação, com o perfil do horizonte do terreno de <c2/>; uma execução de local único é igual ao do tipo
+
+seg-6730fa1b9820 = <s1>Anterior</s1>mission-thread

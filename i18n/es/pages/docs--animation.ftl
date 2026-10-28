@@ -210,3 +210,5 @@ seg-be1f1afe7424 = <s1>Anterior</s1>Informes de ejecución
 
 # text
 seg-6817433f69f6 = <s1>Siguiente</s1>Exportaciones e importaciones de interoperabilidad
+
+seg-5366f477e688 = Un tipo de escenario cuyo resultado no lleva ninguna de estas formas (un balance de enlace, una geometría de una sola época, un resumen Monte Carlo solo de estadísticas, o el holdover de telecomunicaciones, cuyo resultado publica el hash del registro pero no el registro) se rechaza con <c1/>, y no se escribe nada. Con kshana { $version }, { "94" } de los { "192" } archivos de escenario ejecutables (todos salvo un conjunto de estudio) se animan y { "98" } se rechazan. <c2/> imprime el censo.

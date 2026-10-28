@@ -657,3 +657,5 @@ seg-490ebbefb561 = <s1>Zurück</s1>Rust-Crate
 
 # text
 seg-350b6b914734 = <s1>Weiter</s1>MCP-Server: jeder Installationskanal
+
+seg-492888115662 = Die { "92" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann.

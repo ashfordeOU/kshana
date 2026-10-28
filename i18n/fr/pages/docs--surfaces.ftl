@@ -1109,3 +1109,5 @@ seg-4e3bbacda9ac = <s1>Précédent</s1>Utiliser Kshana depuis un agent
 
 # text
 seg-c5fbfab85e01 = <s1>Suivant</s1>Extension JetBrains
+
+seg-6555ff9a6d8e = Sortie

@@ -87,3 +87,5 @@ seg-1750fbfc4a99 = <s1>Anterior</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Siguiente</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> La fase <c1/>: el estado medio mediante el propagador de Cowell del motor (masa puntual terrestre y J2, el Sol y la Luna como terceros cuerpos, la Luna a partir del kernel DE440 del hilo donde cubre el segmento y el Sol a partir de la serie analít

@@ -144,3 +144,7 @@ seg-3040e2ec62b1 = <s1>Anterior</s1>Tipos de escenario
 
 # text
 seg-1d6e6cc607f2 = <s1>Siguiente</s1>Todos los comandos
+
+seg-c6bb02c73696 = Hoja de contactos de los gráficos que escribe el motor para los tipos de escenario de la familia Hilos de misión
+
+seg-9ad7876b693f = Cada tipo de escenario que despacha el motor v{ $version } ({ "92" }), clasificado en { "13" } familias. Cada familia tiene una página con una entrada por tipo de escenario (la descripción y los campos del motor, el comando de ejemplo, cifras destacadas de una ejecución, las filas de la matriz que lo nombran y el gráfico que escribe el motor) y una hoja de contactos de esos gráficos. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Cada etiqueta de aquí es la del motor o la de la matriz de verificación; un tipo de escenario es MODELLED salvo que la matriz diga otra cosa (cómo se obtiene una etiqueta: la sección Evidence del README).

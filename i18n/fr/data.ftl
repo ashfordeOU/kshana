@@ -8502,3 +8502,235 @@ dat-1868c76f244c = votre propre hôte
 
 # studio/data/capabilities.json
 dat-4c20ebade87f = détecteur NP χ²₁ · P_fa/P_md analytique et Monte-Carlo concordent
+
+dat-338478a8723e = { "1" } type de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-cd5eb1698a87 = { "14" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-60cc193bcc29 = { "2" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-b73627a5b6d7 = { "24" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-fd22a00f9aa5 = { "5" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-ef1e661614eb = { "6" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-9379a089776e = { "7" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-25d6ecf7e78d = { "9" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, et non…
+
+dat-90999a1f6b23 = { "92" } types sur { "92" }, { "3300" } champs numériques sur { "3300" }
+
+dat-e069e927e712 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Un scénario d'horloge avec un journal mesuré à côté du holdover simulé (`[clock_log]`).
+
+dat-6e2cb362b6ee = Une région admissible pour l'endroit où peut se trouver une source de rapports de navigation dégradés, à partir de rapports de position ADS-B (NIC/NACp) ou AIS : ligne de visée radio sur un rayon terrestre de 4/3 à partir de la hauteur du rapport et d'une plage de hauteurs d'antenne de l'émetteur, une portée effective limitée pour la puissance inconnue, des unités touchées qui tirent la postérieure vers leur portée et des unités non touchées en ligne de visée qui la repoussent, regroupées en sessions dans le temps et dans l'espace. La sortie se compose de régions de plus haute densité à des niveaux de confiance déclarés, d'un centroïde a posteriori avec une ellipse de moments, du début, de la fin et de la durée de la session, de la surface touchée et du nombre d'aéronefs distincts au-dessus du minimum de publication, d'un profil horaire et d'heures par jour. Sans relief ; une seule source par session ; la crédibilité est conditionnelle au modèle. Fusion facultative avec une position TDOA issue de la géolocalisation.
+
+dat-7c2ec7378a5c = Un calcul à la main à un axe de la prédiction et de la mise à jour dans le test ; la transition de Clohessy-Wiltshire est celle que cw_dynamics vérifie par rapport à une intégration numérique indépendante. Les capteurs sont ILLUSTRATIVE et aucun rendez-vous réel n'est comparé
+
+dat-9c42080d805e = Logiciel à titre consultatif, et non un équipement de navigation certifié.
+
+dat-3ab21add7c07 = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, depuis le lancement
+
+dat-6ba64899cc4a = Choisir la langue
+
+dat-1886310b3396 = Crédits et droits
+
+dat-3ab0b8db8085 = Dépendances et licences
+
+dat-ce766cce1a7d = Piloter le holdover avec votre propre horloge : [clock_fit]
+
+dat-6fd0ece9147e = Région de l'émetteur (interference-map locate)
+
+dat-fe6d68d3c1f9 = Covariance à l'interface d'entrée, probabilité de corridor, décélération maximale et empreinte d'atterrissage (`entry`)
+
+dat-f6759242b1a9 = Les erreurs et leurs codes
+
+dat-0488b2056745 = Chaque fichier de scénario fourni ({ "192" }), regroupé par type, avec ses principaux réglages.
+
+dat-c0206ef96894 = Chaque type de scénario que le moteur v{ $version } aiguille ({ "92" }), classé dans { "13" } familles.
+
+dat-59385aaf8a98 = Égalité exacte avec le type existant pour un site, et vérifications de monotonie, dans les tests. L'ensemble de relais est ILLUSTRATIVE et aucune mesure en surface n'est comparée
+
+dat-6ed624c1c297 = Quatre types de scénario, chacun aussi un type de phase de l'interface de fil de mission (src/mission_thread/) : ils…
+
+dat-ed7ff984ba53 = Référentiels et échelles de temps
+
+dat-36619fa31a07 = Couverture du réseau au sol et cycle de suivi pour une phase d'un fil (`[ground_network]` de `mission-thread`)
+
+dat-626be4f0752e = Calculs à la main dans les tests (le sigma d'angle est le sigma de vitesse perpendiculaire divisé par la vitesse ; la masse gaussienne dans un corridor). L'entrée plane est celle du moteur et la forme d'Allen-Eggers est une comparaison en forme analytique ; aucune entrée réellement effectuée en vol n'est comparée
+
+dat-1d6764bb725d = Calculs à la main dans les tests (la croissance de la covariance en ligne droite, la rotation sidérale moyenne, le taux séculaire de l'horloge lunaire) et, pour l'état de la Lune seulement, les découpes versionnées du noyau DE440 par rapport à des valeurs JPL Horizons épinglées (au pire { "2.6" } m et { "7e-6" } m/s). Aucune donnée de mission n'est comparée avec la chaîne ; ses phases sont des lignes à part. Le document est une chaîne déclarée avec des entrées ILLUSTRATIVE, des sources publiques seulement et sans aucune caution d'une agence
+
+dat-a8beacb2b7c6 = Comment un document énonce une phase
+
+dat-f4f6c97c58d7 = Comment une exécution fonctionne dans une autre langue (la règle de la double exécution)
+
+dat-18ddc744e88f = Comment une soumission est vérifiée
+
+dat-b233043f785b = Installer le serveur MCP de { -brand } (v{ $version })
+
+dat-bc70cb57a31f = Région de la source d'interférence : une région d'émetteur admissible à partir de rapports de position d'aéronefs et de navires
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = tests unitaires d'interference_map::emitter (aller-retour de projection, valeur de l'horizon, allers-retours synthétiques direct et inverse : l'émetteur connu se trouve dans la région déclarée à peu près au taux déclaré, cas limites, regroupement en sessions, profil, confidentialité et formulation) ; cas locate de tests/interference_map_cli.rs
+
+dat-f1881d3fd450 = Éphémérides de véhicules spatiaux JPL Horizons pour LRO et CAPSTONE, par rapport à des seuils préenregistrés dans xval/mission-thread-lunar/PREREGISTRATION.md (amendements { "1" } à { "6" }). LRO : MET, { "33" } m de plus grand écart 3-D et { "2.4" } m RMS radial contre { "500" } m et { "60" } m. CAPSTONE : NOT MET, un écart de position finale de { "136.8" } km contre { "25" } km et un écart de périapse de { "28.4" } km contre { "10" } km, les causes n'étant pas isolées. La ligne est modélisée parce que le seuil de CAPSTONE n'est pas atteint et que la comparaison teste le propagateur partagé, et non un filtre, un signal ou un budget
+
+dat-203f52ed49d1 = JPL Horizons cible -1023 (la trajectoire post-TLI telle que volée de la navigation de la NASA), par rapport à des seuils préenregistrés dans xval/mission-thread/PREREGISTRATION.md (l'amendement { "1" } ne modifie que l'intervalle de la requête). NOT MET, et affirmé comme manqué : { "45.3" } km de plus grand écart de position contre { "5" } km, et { "0.249" } m/s d'écart de vitesse à { "72" } h contre { "0.05" } m/s. Un diagnostic rédigé après le verdict situe l'écart dans cinq sauts de vitesse impulsifs de { "0.09" } à { "0.22" } m/s dans la référence (la lecture préenregistrée selon laquelle la fenêtre ne comportait aucune poussée était erronée) ; sur les { "67" } autres heures, le modèle reproduit l'état horaire suivant avec une médiane de { "0.38" } m. Ne teste que l'état moyen d'un seul arc en vol libre : ni covariance, ni filtre, ni mise à jour, ni autre phase
+
+dat-021bd19116af = Limites connues
+
+dat-61ab3ea0293c = { -brand } étiquette chaque capacité dans un registre vérifié par machine (matrice de vérification).
+
+dat-0002d522fae4 = Budget de dispersion à l'atterrissage sur un site polaire lunaire (`lunar-descent`)
+
+dat-141c646761d9 = Lancement et ascension vers une orbite de stationnement avec acquisition et évanouissement GNSS (`launch-ascent`)
+
+dat-252a4ca5d8cd = Le théorème de Liouville (le déterminant de la matrice de transition d'état de la partie conservative vaut un) et une différence plus fine dans les tests ; l'état moyen est comparé à une trajectoire publique dans la ligne ci-dessous, qu'il n'atteint pas. L'erreur de poussée, les mises à jour et la covariance ne sont comparées à rien
+
+dat-1b090eb926b7 = Localisation du moteur
+
+dat-5482eb8e992e = Ascension lunaire : l'ascension propulsée depuis un site de surface polaire sud (classe Artemis) jusqu'au rendez-vous à { "100" } km
+
+dat-b5499ac7fa90 = Dispersion à l'atterrissage lunaire avec le véritable MNT polaire sud LOLA : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de…
+
+dat-c064ed689649 = Dispersion à l'atterrissage lunaire : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de la
+
+dat-e576d5088076 = Rendez-vous lunaire en orbite polaire elliptique : navigation relative pour un amarrage de type Orion-atterrisseur sur une
+
+dat-7459ee1f4efa = Rendez-vous lunaire : navigation relative pour un amarrage de type Orion-atterrisseur sur une orbite polaire circulaire à { "100" } km
+
+dat-25f2f7c5048f = Disponibilité du PNT et de la synchronisation temporelle en surface lunaire par site et par saison (sites polaires sud de classe Artemis).
+
+dat-fdedddcf211b = Disponibilité du PNT et de la synchronisation temporelle en surface lunaire par site et par saison avec le véritable terrain polaire sud LOLA
+
+dat-f250522ecad3 = lunar-ascent (type de scénario)
+
+dat-afded8513758 = lunar-descent (type de scénario)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (type de scénario)
+
+dat-4ea2873d47bd = lunar-surface (type de scénario)
+
+dat-d2b23c8c0cb8 = Fils de mission
+
+dat-42ff804cc994 = Fils de mission (famille de types de scénario)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (le bloc d'unités du rapport)
+
+dat-5b23ee4808db = mission-thread (type de scénario)
+
+dat-f6f0757c4934 = Budget de dispersion à l'atterrissage MODELLED pour une descente propulsée vers un site polaire sud (classe Artemis).
+
+dat-64ba276bb1f8 = Budget de dispersion à l'atterrissage MODELLED pour une descente propulsée vers un site polaire sud (classe Artemis). Par…
+
+dat-84797c24853b = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée…
+
+dat-eee427a562f9 = Ascension propulsée MODELLED depuis un site de surface polaire sud jusqu'à l'orbite de rendez-vous, et la position-vitesse…
+
+dat-a5d5120ad3dd = Navigation relative MODELLED pour un amarrage de type Orion-atterrisseur sur une orbite lunaire basse ou une orbite polaire elliptique…
+
+dat-6cb24469351b = Disponibilité du positionnement et de la synchronisation temporelle en surface MODELLED par site et par saison pour des sites polaires sud de classe Artemis.
+
+dat-61218243092c = Disponibilité du positionnement et de la synchronisation temporelle en surface MODELLED par site et par saison pour des sites polaires sud de classe Artemis.…
+
+dat-dd872eabd06d = Budget d'erreur de navigation et de synchronisation d'une chaîne de phases de mission, du lancement à l'entrée (`mission-thread`)
+
+dat-7557b6b1b3a2 = Aucune vérification externe pour l'instant. Seulement des allers-retours synthétiques direct-inverse, issus d'un générateur qui partage le modèle de l'estimateur : ils vérifient donc le code et l'étalonnage des niveaux déclarés sous ce modèle, et rien sur les émetteurs réels. Une vérification externe par rapport aux sites d'émetteurs publiés de Jammertest { "2025" } a été préenregistrée (docs/emitter-region/PREREGISTRATION.md, validée par le propriétaire avant toute exécution notée) et exécutée une fois (docs/emitter-region/RESULTS.md) : ADS-B NON ÉVALUABLE ({ "2" } sessions programmées, moins que le minimum enregistré de { "4" }) et AIS NON ÉVALUABLE (aucune session publiée) ; aucun seuil n'a donc été testé et la ligne reste MODELLED
+
+dat-c61600fc3590 = Sur des données mesurées
+
+dat-edfd6919d948 = Données d'un partenaire : quelles données mesurées pourraient promouvoir une ligne MODELLED
+
+dat-5bd5efbe5a8c = Ascension propulsée depuis un site polaire lunaire jusqu'à une orbite d'insertion (`lunar-ascent`)
+
+dat-5c095f4884b4 = Navigation relative jusqu'à l'amarrage en orbite lunaire (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Navigation relative jusqu'à l'enveloppe d'amarrage en orbite basse terrestre sur des segments de capteur (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Lignes que les données d'un partenaire pourraient promouvoir
+
+dat-c069be5250fc = Autocohérence sous un préenregistrement (xval/mission-thread-lunar/PREREGISTRATION.md, résultats et historique de l'estimateur dans RESULTS.md) : l'erreur d'estimation normalisée moyenne au carré de l'état relatif est de { "5.85" } à { "5.93" } contre la bande de { "5.2" } à { "6.8" } dans quatre configurations, MET à la quatrième conception d'estimateur après l'échec de trois conceptions de filtre séquentiel ; la vérité et l'estimateur partagent un même modèle de forces, ce qui ne dit donc rien de l'erreur de modèle. Le propagateur qu'il partage est comparé à LRO et CAPSTONE dans une ligne ci-dessous
+
+dat-bb8b8191a0f6 = Disponibilité du positionnement et de la synchronisation temporelle en surface par site et par saison aux pôles lunaires (`lunar-surface`)
+
+dat-11e9ad0e8321 = La phase `entry` : la croisière retour de `tli-and-cruise` sans poussée, qui se termine à l'interface d'entrée ; l'angle de trajectoire et son sigma à partir de la covariance complète par un gradient aux différences finies ; la probabilité que l'angle soit à l'intérieur d'un corridor déclaré ; la décélération maximale à l'angle nominal et aux deux bords du corridor à partir de l'entrée balistique plane à point matériel du moteur (rebond hors de l'atmosphère détecté), à côté de la forme analytique d'Allen-Eggers ; l'empreinte d'atterrissage à partir d'une sensibilité en distance déclarée et de la covariance à l'interface dans le plan transverse de l'orbite. Ni portance, ni guidage, ni échauffement ne sont modélisés
+
+dat-5fedd1cdf670 = La phase `launch-ascent` : une covariance de position et de vitesse à vitesse constante avec un bruit d'accélération blanc (le niveau de l'estime), un point GNSS de précision déclarée appliqué après l'instant d'acquisition et hors des évanouissements déclarés, une horloge à biais et dérive asservie par les mêmes points, et l'état d'insertion en orbite de stationnement
+
+dat-4feb3a9f775b = La phase `leo-rendezvous` : l'état relatif dans les axes LVLH de la cible avec la transition de Clohessy-Wiltshire en forme analytique, une covariance de Kalman 6x6 avec un bruit d'accélération blanc et des mises à jour de position dont la variance est celle du capteur à la distance courante, sur des segments d'un capteur déclaré (formes ILLUSTRATIVE de caméra optique, de lidar et de télémétrie radio) ; la fenêtre d'amarrage est le temps écoulé depuis l'instant où le sigma relatif reste dans l'enveloppe de capture jusqu'à la fin de la phase. La covariance absolue du chasseur est transmise telle quelle et une ligne le dit
+
+dat-238413a36808 = Le type et la phase `lunar-ascent` : le modèle d'erreur inertielle à cinq états par axe exécuté sur une ascension propulsée avec une force spécifique le long de la trajectoire, aidé par des points AFS et le temps lunaire, qui rapporte la covariance de position et de vitesse à l'insertion transmise à l'orbite et la dispersion à la coupure des moteurs (rapportée, non transmise)
+
+dat-9fe860d16f1f = Le type et la phase `lunar-descent` : un modèle d'erreur inertielle à cinq états par axe (position, vitesse, biais d'accéléromètre, inclinaison, biais de gyroscope) sur une descente propulsée, aidé par des points AFS (autonomes ou différentiels, avec le cas à trois relais aidé par l'horloge), un point relatif au terrain (le comparateur de navigation sur terrain du moteur sur un relief synthétique, ou une borne de Cramer-Rao sur un MNT LOLA avec une règle du problème d'ouverture) et le temps lunaire, avec une ellipse de toucher Monte Carlo
+
+dat-ba0cc6e0ae77 = Le type et la phase `lunar-orbit-rendezvous` : une estimation conjointe par lots de Gauss-Newton à deux véhicules sur l'arc (vingt et un paramètres : les deux états et des biais de position persistants du signal dans l'espace, communs et indépendants), élargie sur un quart, une moitié puis la totalité de l'arc avec réduction du pas de moitié, à partir d'un point absolu par véhicule (borne de suivi du code pilote AFS, ensemble de relais ILLUSTRATIVE) et d'une distance par liaison croisée, sous le modèle de forces lunaires de la crate ; l'erreur d'estimation normalisée moyenne au carré, la vérification de Clohessy-Wiltshire sur une orbite circulaire et la covariance 6x6 transmise
+
+dat-955283daf32d = Le type et la phase `lunar-surface` : disponibilité des relais et PDOP, visibilité de la Terre et du Soleil et horloge de surface asservie pour chaque site et chaque saison, avec la ligne d'horizon du terrain de `moonlight-service-volume` ; une exécution à site unique égale la disponibilité et le PDOP de ce type au bit près
+
+dat-571779bc241a = Le type `mission-thread` : un document de phases, chacune d'un des huit types enregistrés, exécutées dans l'ordre avec la covariance 6x6, l'horloge et le référentiel transmis selon une règle déclarée (`carry` ; `inflate`, bruit d'accélération blanc sur un intervalle déclaré avec un modèle en ligne droite ; `reacquire`, estime puis plancher de la source, jamais en dessous, jamais une réinitialisation) ; conversions de référentiel GCRF, MCI et MCMF et conversions d'échelle de temps via TT, chacune avec sa propre ligne de budget, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée ; la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. Chaque nombre est une entrée déclarée ou un modèle d'une entrée
+
+dat-36aa30c0c245 = La phase `tli-and-cruise` : l'état moyen par le propagateur de Cowell du moteur (masse ponctuelle terrestre et J2, le Soleil et la Lune comme corps tiers, la Lune issue du noyau DE440 du fil là où il couvre le segment et le Soleil issu de la série analytique) ; la covariance par une matrice de transition d'état aux différences finies progressives de cette propagation (l'exécution nominale et six exécutions perturbées par segment) avec un bruit d'accélération blanc ; la taille et l'erreur de pointage de la poussée TLI ; des points `gnss-ssv` dont la disponibilité et le PDOP proviennent du balayage du volume de service spatial le long d'une orbite osculatrice tenant lieu d'arc ; un suivi en distance et en vitesse radiale selon la direction géocentrique, mis à l'échelle par le cycle du réseau au sol, avec la mise à jour de forme de Joseph
+
+dat-826b5ff3a004 = Les { "92" } types de scénario intégrés sur lesquels kshana::api::run_toml aiguille, chacun avec sa description en une ligne…
+
+dat-4ad8b288fa02 = Les fiches de capacités et les { "401" } lignes de la matrice de vérification.
+
+dat-85ad15fcf6cb = La propagation de l'état moyen cislunaire par rapport à la trajectoire publique d'Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = La dérive inertielle en forme analytique et des vérifications de monotonie dans les tests. Aucune ascension réellement effectuée en vol n'est comparée
+
+dat-1b1e2bdeb2a2 = La dérive inertielle en forme analytique, les résultats propres des types réutilisés et l'étalonnage de l'ellipse à 3 sigma (la fraction à l'intérieur concorde avec ce qui est attendu) dans les tests. Aucun atterrissage réel ou testé n'est comparé
+
+dat-bc68a493fe5d = Le registre de preuves complet, vérifié par machine : { "401" } lignes — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Le document
+
+dat-b07afbb33f4b = Les huit types de phase
+
+dat-ddc15e493a03 = Le texte du moteur destiné aux personnes existe en { "17" } langues en plus de l'anglais : nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = L'étiquette de preuve ({ "0.40" })
+
+dat-ac0745dcf97a = L'étiquette de preuve sur chaque figure
+
+dat-21d73819d31c = L'étiquette de preuve, et les sorties qui n'en portent aucune
+
+dat-88641ee424ff = La superposition du réseau au sol
+
+dat-5c091b15d738 = La superposition du réseau au sol : des stations avec une élévation minimale, la visibilité du véhicule sur une géométrie déclarée (l'état d'entrée volé en deux corps avec J2, la position de la Lune pour la croisière, ou un cycle déclaré), des transferts entre stations qui font perdre chacun un temps déclaré, et le cycle qui en résulte transmis à la cadence de mise à jour du suivi au sol de la phase ; le plus long intervalle sans station en vue est une ligne de budget
+
+dat-576667f29670 = La propagation du modèle de forces lunaires par rapport à des trajectoires publiques reconstituées d'orbiteurs lunaires et cislunaires
+
+dat-5025f9f26401 = Le segment lunaire du fil de mission de classe Artemis
+
+dat-2d1fe075cab5 = La propagation de l'état moyen de la phase `tli-and-cruise` (Cowell, masse ponctuelle terrestre et J2, le Soleil et la Lune comme corps tiers, la Lune issue d'une découpe DE440) comparée à la trajectoire publique JPL Horizons d'Artemis I sur un arc en vol libre de { "72" } h à partir du 2022-11-16 { "18" }:{ "00" } TDB, à des époques de { "12" } heures, sous des seuils fixés dans un fichier versionné avant l'exécution
+
+dat-510e796c2898 = Le fil de mission
+
+dat-cba533186d05 = Le propagateur que partagent les types lunaires (GRAIL GL0660B degré et ordre { "150" }, la Terre et le Soleil comme corps tiers, relativité, orientation lunaire DE440) comparé aux trajectoires publiques JPL Horizons de LRO ({ "24" } h, échantillons de { "10" } minutes) et de CAPSTONE (une révolution de { "6.5" } jours, échantillons d'une heure), sous des seuils fixés dans un fichier versionné avant l'exécution
+
+dat-16451dd503da = L'état stationnaire de Riccati et le calcul à la main de la prédiction dans les tests. Rien ici ne modélise un lanceur ou un récepteur ; chaque nombre est une entrée déclarée
+
+dat-09d31ea90146 = Injection trans-lunaire et croisière cislunaire : état moyen et covariance propagés avec des mises à jour de suivi (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Ce que fait un transfert
+
+dat-3727a96cc814 = Ce que fait chaque phase
+
+dat-703c52a91b91 = Ce qui est localisé et ce qui ne l'est jamais
+
+dat-93572ee1f44a = Ce que sont les preuves
+
+dat-8796a5569e10 = Ce que signifient les étiquettes
+
+dat-bceb988a4263 = Quoi envoyer
+
+dat-82201a0b07b0 = Nouveautés de { "0.40" }
+
+dat-b3d9ac894036 = Votre propre horloge
+
+dat-286487acb3db = Vérifications de géométrie au zénith et à l'antipode et visibilité attendue d'une cible lointaine dans les tests. Aucun réseau, aucune antenne et aucun calendrier réels ne sont modélisés

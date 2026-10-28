@@ -362,3 +362,5 @@ seg-5db5a7c812ca = Das Diagramm, das die Engine für scenarios/oem-interop.toml 
 
 # attr:alt
 seg-9696283a95ae = Das Diagramm, das die Engine für scenarios/launch-window.toml schreibt, Szenarioart launch-window
+
+seg-e77c46e23e67 = <s1>Weiter</s1>Missionsstränge

@@ -77,3 +77,5 @@ seg-a4b7c16e3fea = <s1>Précédent</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Suivant</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> La phase <c1/> : la croisière retour de <c2/> sans poussée, qui se termine à l'interface d'entrée ; l'angle de trajectoire et son sigma à partir de la covariance complète par un gradient aux différences finies ; la probabilité que l'angle soit à l'intérieur d'un cor
