@@ -1486,7 +1486,14 @@ mod tests {
     /// The pre-registered B1 as recorded in xval/mission-thread-lunar/RESULTS.md: mean NEES of the relative
     /// state in [5.2, 6.8] for each configuration at both stated C/N0 values. It is MET with the batch
     /// estimator; the sequential filter it replaced missed it (the history is in RESULTS.md).
+    // Four configurations of 200 trials over a one-hour arc: about 110 s in a release build and many
+    // minutes in a debug one. The debug `cargo test` skips it and the `lunar-rendezvous-b1` CI job runs
+    // it in release (the same arrangement as the IQ campaigns).
     #[test]
+    #[cfg_attr(
+        debug_assertions,
+        ignore = "heavy Monte Carlo (pre-registered B1): run in release"
+    )]
     fn b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations() {
         for (orbit, cn0, nees) in b1_matrix() {
             assert!(
