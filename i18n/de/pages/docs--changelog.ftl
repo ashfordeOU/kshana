@@ -8947,3 +8947,5 @@ seg-a4b6bfcb9984 = Nichts hiervon ist VALIDATED: Die Zeilen mit unabhängiger Re
 seg-29d014d29790 = Eine Abhängigkeitsaktualisierung in der ausgelieferten Bibliothek (der erste Eintrag), die übrigen in den Werkzeugen zur Kreuzvalidierung (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> und <c3/> { "0.13" } auf { "0.14" } (mit <c4/> { "0.14.3" }, <c5/> { "0.17.0" } und <c6/> { "0.5.5" } auf { "0.7.10" }; ebenso die direkte Abhängigkeit <c7/>, jetzt { "0.7" }) beheben RUSTSEC-2026-0387, eine Zeitvariabilität in <c8/> { "0.5.5" }. Kshana verwendet diese Crates nur zur Prüfung öffentlicher Signaturen (der Galileo-OSNMA-Wurzelschlüssel und RFC-{ "3161" }-Zeitstempeltoken) und signiert nur in Tests mit Wegwerfschlüsseln, daher war die praktische Gefährdung null; das Upgrade beseitigt die Warnung ohne Ignore-Eintrag. Die Lock-Dateien der Bibliothek und des MCP ändern sich beide; kein Verifikationsergebnis ändert sich (die Vektortests für OSNMA und Zeitstempel bestehen unverändert).
+
+seg-1a4cda9d1486 = Die minimal unterstützte Rust-Version ist jetzt { "1.88" } (erforderlich durch die Behebung von RUSTSEC-2026-0387).
