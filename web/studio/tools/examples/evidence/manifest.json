@@ -1,7 +1,7 @@
 {
   "format": "kshana-evidence/1",
   "title": "Synthetic demonstration pack",
-  "engine_version": "0.39.0",
+  "engine_version": "0.40.0",
   "created_utc": "2026-01-01T00:00:00Z",
   "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
   "window": {
@@ -24,8 +24,8 @@
   },
   "signer": {
     "algorithm": "ed25519",
-    "public_key": "b5ae93684dc0fac606044bf2e4f8da69eb7452e26ef610904bc3d837c4026869",
-    "fingerprint": "e7bfa473e51311e485ae7be414b38394"
+    "public_key": "97754b9fa90f233221b15d0f52f0ab92ab59ae42acd66e7ace48344d256d5334",
+    "fingerprint": "99f67462949c00d8e3e8815576252dab"
   },
   "artifacts": [
     {
@@ -38,24 +38,24 @@
     {
       "name": "config.json",
       "role": "configuration and every threshold",
-      "bytes": 6468,
-      "sha256": "2107cf3fb27ea9e17a712b9c7096b67c604ec29440fd5862795212bb1d278d5f",
-      "link": "6efb7c1757405be8586aa1f8f5a4436c85e5f1aa77549309cfc851432b1d41f2"
+      "bytes": 7561,
+      "sha256": "2e9a4d37b8928609cea4e6294b00077706bfb600226e948f058ef20ef5711d3e",
+      "link": "280067912afd0f9ed6bb864a3795d5519dbf95133117244facf9c4311201e9fb"
     },
     {
       "name": "epochs.json",
       "role": "per-epoch results and reasons",
       "bytes": 84377,
       "sha256": "798b068df668d69676e75152ad9391eb0241c94f13b4fc52b2035bab2d3d3181",
-      "link": "dcc4d340a71acc7f3b8dceace939772d6ef789e8917b92fa02d31fedc3863c6a"
+      "link": "1d17cb96181792ed20f9f58879d5633256a16cbd2758ec349ad54d0d4e1a4055"
     },
     {
       "name": "summary.html",
       "role": "human-readable summary",
-      "bytes": 21169,
-      "sha256": "425db12f3eaa3ee10e85d9495387ee77a303d85e1f059d54914faac7037ec336",
-      "link": "c546a96c0bb07459e488092e8099aa81dba6e9631c51e2166158d62639073954"
+      "bytes": 22490,
+      "sha256": "d7d63db731f1033a4761246e449d64d96ed7a3c9679e1685c3d99cf6ac46c5d5",
+      "link": "701c6a75d6f2c508f9f20275a68c506fa107726da1f3be9efebec4a2ac2abdd2"
     }
   ],
-  "chain_head": "c546a96c0bb07459e488092e8099aa81dba6e9631c51e2166158d62639073954"
+  "chain_head": "701c6a75d6f2c508f9f20275a68c506fa107726da1f3be9efebec4a2ac2abdd2"
 }

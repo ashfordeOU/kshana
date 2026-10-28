@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.39.0",
+  "engine_version": "0.40.0",
   "scenario_hash": "1ce2687e8ded87c7fcb679798d3887c994934dc791b43fed638e9d5d87f0264a",
   "seed": 20260928,
   "kind": "campaign",
@@ -9,7 +9,7 @@
   "reproducibility": {
     "campaign_hash": "1ce2687e8ded87c7fcb679798d3887c994934dc791b43fed638e9d5d87f0264a",
     "runs_total": 8,
-    "run_digest": "70ecec54840a50d25543baba8cda6b0d140df028a8979dda0329ac57ee0b3111"
+    "run_digest": "46253b3c9d316bad0d4d681e72b9e0c73eb406a7247655c84216797a9dbd057c"
   },
   "timeline": {
     "step_s": 1.0,
@@ -938,7 +938,7 @@
           {
             "kind": "clock",
             "scenario_hash": "b09542b32bc509a402c8b746d528e324897588b935310c920e0b1979f6c8cb23",
-            "result_sha256": "56ef228a9852f8d691750c824970ced833bd2220bfbe0ca37f7624903063a976",
+            "result_sha256": "7d7ff2e8d81e197b787221711b578f2628fcb90564c17427cf5edc6f46d0b0f9",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -948,7 +948,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "74c1bbf14a8ecfb816774430d191ab2cb3699bf4be5f23e5c143ede4649d4b64",
-            "result_sha256": "becb7b6612c9ce6942cdfbac08eaf9b641553b36fad01cbc6eddbae3fc30a31a",
+            "result_sha256": "58dd87bc3140b6511ceada83a4f38c96e7a58390244c31869b0841504351af64",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",
@@ -981,7 +981,7 @@
           {
             "kind": "clock",
             "scenario_hash": "bffed370138c01a1903ec695b60782765b0ec9f0f66bf6d76edf4163f874b3b0",
-            "result_sha256": "d63c4825e34a646a36a666261cf2563d06521a1fb173fd3f4d59c0c0573d7317",
+            "result_sha256": "ee7de3b4ebd83fc7cbe6c3429430a5e928d7bae9cd9f7223990b4a86ca4cfc2e",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -991,7 +991,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "e99658478aa441b41983abe722848f17abd4117a035b93d47948d442f7cef759",
-            "result_sha256": "10e0029a91a8d08c8ed6fb36d9cb53462143782c0793d3cf71199e344247ebc9",
+            "result_sha256": "b739b449b3fd14e5f236e43fc4e030451c20f5f15d9b17b2781c976b432e2c9f",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",
@@ -1012,7 +1012,7 @@
           {
             "kind": "clock",
             "scenario_hash": "8fe9dc92a620015a9fb6de6d866d56e70d7b9a902dd075cdb36019b13b796cf5",
-            "result_sha256": "1a9d322233077f9bacc9cf67f80c4ab1a80d1e259814be416b19071c2cb2ca20",
+            "result_sha256": "22b643837e0f73514c15b4816a910c84373715883006d4a315336d43e5be73e2",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -1022,7 +1022,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "14c9955a2cda6b223e3742ecce6859107c95ab33f45534b6d13990db3891766d",
-            "result_sha256": "a9e86dd6f585e5604668cbb306013116ca1b01987e8b5f30c6e19b33816aca0e",
+            "result_sha256": "f58c56152e56ac6df2b2cc1ce5ba52aaf503a4c79248be91c52bd07b3276ee0e",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",
@@ -8481,6 +8481,78 @@
       "provenance": "computed",
       "unit": "s"
     }
+  },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-27e53cda",
+        "requirement": "Frequency stability characterisation",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-3cfc418d",
+        "requirement": "Integrity (RAIM/ARAIM/SBAS)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-bb79da35",
+        "requirement": "GNSS geometry / dilution of precision (DOP)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-1e6c81a8",
+        "requirement": "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-7a590be8",
+        "requirement": "GNSS-denied clock holdover",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4ca6b7c4",
+        "requirement": "Onboard clock state estimation",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-ab66f655",
+        "requirement": "Spoofing detection",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4189e731",
+        "requirement": "Navigation RF payload & antenna hardware design",
+        "status": "PARTNER"
+      },
+      {
+        "id": "VM-e1de9d23",
+        "requirement": "Closed-form L-band signal power spectral densities and spectral separation coefficients",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-ec2500ac",
+        "requirement": "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-2d5c1f5c",
+        "requirement": "SigMF recording input and output, and Welch spectral estimates of complex IQ",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-f9c068a3",
+        "requirement": "A chained mission across scenario kinds on one shared timeline",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "PARTNER"
   },
   "figure_tiers": {
     "figures": [],

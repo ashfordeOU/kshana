@@ -72,7 +72,7 @@
     }
   ],
   "duration_s": 60.0,
-  "engine_version": "0.39.0",
+  "engine_version": "0.40.0",
   "iq": {
     "centre_hz": 1575420000.0,
     "comparison": {
@@ -619,7 +619,7 @@
         "global": {
           "core:datatype": "cf32_le",
           "core:description": "kshana spectrum model snapshot (synthetic)",
-          "core:recorder": "kshana 0.39.0",
+          "core:recorder": "kshana 0.40.0",
           "core:sample_rate": 20480000.0,
           "core:version": "1.0.0"
         }
@@ -11690,6 +11690,43 @@
       58.0,
       59.0
     ]
+  },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4189e731",
+        "requirement": "Navigation RF payload & antenna hardware design",
+        "status": "PARTNER"
+      },
+      {
+        "id": "VM-e1de9d23",
+        "requirement": "Closed-form L-band signal power spectral densities and spectral separation coefficients",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-ec2500ac",
+        "requirement": "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-2d5c1f5c",
+        "requirement": "SigMF recording input and output, and Welch spectral estimates of complex IQ",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-42081bd2",
+        "requirement": "Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "PARTNER"
   },
   "figure_tiers": {
     "figures": [
