@@ -19,6 +19,20 @@ test("the engine's Artemis-class result is read in full", () => {
   for (const p of M.phases) assert.equal(p.tier, "MODELLED", "every phase carries the engine's own label");
 });
 
+test("every phase's budget table carries every row of the engine result, the five lunar phases included", () => {
+  const raw = JSON.parse(REC.json);
+  assert.equal(M.phases.length, raw.phases.length);
+  const lunar = M.phases.filter((p) => p.kind.startsWith("lunar-"));
+  assert.deepEqual(lunar.map((p) => p.id), ["lunar-orbit", "descent", "surface", "ascent-lunar", "redock"]);
+  raw.phases.forEach((rp, i) => {
+    const b = budgetTable(M, i);
+    assert.equal(b.rows.length, rp.budget_rows.length, `${rp.id}: every budget row is in the table`);
+    assert.deepEqual([...b.rows.map((r) => r.source)].sort(), rp.budget_rows.map((r) => String(r.source)).sort(), `${rp.id}: the same contributions, none added or dropped`);
+    assert.deepEqual([...b.rows.map((r) => r.sigma)].sort(), rp.budget_rows.map((r) => r.sigma).sort(), `${rp.id}: the engine's own numbers`);
+  });
+  assert.deepEqual(lunar.map((p) => budgetTable(M, p.index).rows.length), [8, 7, 2, 3, 4], "rows per lunar phase in the recorded 0.40.0 result");
+});
+
 test("a result of another schema or kind is refused, and a missing field is null, not invented", () => {
   assert.ok(readThread({ schema: "kshana-result/1" }).error);
   assert.ok(readThread(null).error);

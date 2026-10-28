@@ -4,12 +4,12 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "12407062728f34fb292f4638b2c8108c705848cf",
+   "revision": "cf2eb90d9ea0a23a4c7a552990d3ab5d2800263e",
    "dirty": false
   },
   "studio": {
-   "revision": "12407062728f34fb292f4638b2c8108c705848cf",
-   "dirty": true
+   "revision": "cf2eb90d9ea0a23a4c7a552990d3ab5d2800263e",
+   "dirty": false
   }
  },
  "files": {
@@ -358,7 +358,7 @@
   "studio/holdover/holdover.css": "fb2f4b810cb2b97566955ef4f9ddbc88553af02bd3d6368877a95ac1d3e3b661",
   "studio/holdover/holdover.js": "9f30b99e38b88d4c1a51eb4ac1f2df2023d6029504a8649c65beb8e7515a996e",
   "studio/holdover/index.html": "06a80cd9ff011b12ab342f11d2794c1557cdcb1b53a37f6fb9ba6cf2f5475dde",
-  "studio/index.html": "d6140fba54dcbb3f5bbf5ddc632076ffe9aef213842240444421193167642436",
+  "studio/index.html": "ce19d9b4cbdf042a4291036884ac1f0b01edc03798b8e6edec84f603e1fbf9e4",
   "studio/interference/demo/adsb-custom-2026-03-01.geojson": "354dbb943b39be904f40525d51c0432233ff7301af28ed70e1157ee4aec3805e",
   "studio/interference/demo/adsb-custom-2026-03-02.geojson": "6f33d8f58745f2d10830163faafe7288488028fb221bfca3e06df71b71f533ac",
   "studio/interference/demo/ais-custom-2026-03-01.geojson": "0f870dec322bf70a5a1e79a2242cdefa95ebeda7aea9ea5894d70824aa8bd97b",
@@ -429,7 +429,7 @@
   "studio/lib/meaning.mjs": "0584d2fa132b46426d54ba8d650dde9393f3cb16807a62dd2e088855d5a0a7d9",
   "studio/lib/meaning.test.mjs": "b1d5fdec07fc5608805cee1d42afd3283e3cd21faf2a25a4e7c499f82119eb69",
   "studio/lib/mission-thread.mjs": "165c6eea110abeec0f00f38b8a1215468293e272ec106eeb84b3c8474cbb04a5",
-  "studio/lib/mission-thread.test.mjs": "bc82eae071a68b0e12f12cf4a88c67d853711c60314b7409fdd8ba80e63739c4",
+  "studio/lib/mission-thread.test.mjs": "80e6fd052079124663376e37bc2c094af6f72c764b889d7c6cd682c84c0f7ef6",
   "studio/lib/observatory.mjs": "581a22495eb86444df080e014a58a9b7869e4acfff820107bc84b093d7a27390",
   "studio/lib/observatory.test.mjs": "fe0c0a73a80f5a875bd5621e69881d034dff5308fdf045e6bd3ee1f44e206b10",
   "studio/lib/optical.mjs": "03049241ed347dc27f1a7c2f635bbe209f652f2f5df3f0fa998d6464c9b24096",
@@ -465,7 +465,7 @@
   "studio/lib/stages.mjs": "55eba6b86cfc06fb553cf9be78895efb44080a83279664fa5714c2fef99ad93c",
   "studio/lib/stages.test.mjs": "68c46422d912e0fd70493c9246641d9f7771961a5d8bc6bb37ba6a469708c868",
   "studio/lib/svgsafe.mjs": "e4706ae1bdbdb06f312ce6137ad222abd131150a3af3d8e750e9a05725d73fb5",
-  "studio/lib/svgsafe.test.mjs": "74210ab88f9cc6a614628636d5023b7d66b831fba7db6e13fffb0b5f082fc755",
+  "studio/lib/svgsafe.test.mjs": "fc469164dd829530754ef53fe674b3711a46d92a01751fb096d4b9ef649b1756",
   "studio/lib/sweep.mjs": "b39033d323c0c202804ac1d279eab13b598d83cde76bc54b9f7c03b085d97c12",
   "studio/lib/sweep.test.mjs": "b9d6f83955b36f56f42ceab8f4e1833f86888ecc38b5ac1bbcc86a6e5f17f4a0",
   "studio/lib/t.mjs": "bf06da2c15fc89e408864400663d7b0fae89420de77a1ccc857307d48d01a2c0",
