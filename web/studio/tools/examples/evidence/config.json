@@ -9,6 +9,34 @@
     "jam_ind_median": null,
     "tracked_median": 13.0
   },
+  "config_version": "1.1",
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-f7f6e62d",
+        "requirement": "Geometry-aware trust classification: satellite geometry beside the receiver-trust score and a class on every deduction",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-f220938a",
+        "requirement": "Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-834a5b4f",
+        "requirement": "Maritime trust score: the aggregation of the monitors' evidence into a 0-100 score and its three bands",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-a66b5cd1",
+        "requirement": "Evidence pack integrity: signature, hash chain and verification procedure",
+        "status": "VALIDATED"
+      }
+    ],
+    "tier": "MODELLED"
+  },
   "geometry_model": {
     "azimuth_gap_deg": 180.0,
     "cap_in_force": 15.0,

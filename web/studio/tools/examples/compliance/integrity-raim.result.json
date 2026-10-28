@@ -4399,6 +4399,33 @@
       "unit": "m"
     }
   },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-3cfc418d",
+        "requirement": "Integrity (RAIM/ARAIM/SBAS)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-bb79da35",
+        "requirement": "GNSS geometry / dilution of precision (DOP)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-1e6c81a8",
+        "requirement": "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "MODELLED"
+  },
   "figure_tiers": {
     "figures": [],
     "legend": "VALIDATED: checked against an independent external oracle. MODELLED: first-principles or published-formula model, internally tested, with no external oracle to a stated tolerance. applicable=false: the figure is emitted for continuity but does not answer a question this scenario asks",
