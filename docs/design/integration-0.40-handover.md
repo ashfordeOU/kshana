@@ -84,3 +84,9 @@ the metadata files is a placeholder to confirm.
   `mission-thread` scenarios and the clock-log scenarios (`clock-fitted-log`, `clock-measured-log`); `check_features` lists them under NO_STUDIO.
 - The mission-thread view flags a budget row as the limiting source only where the engine's `limiting_source` is one of its rows. The Earth
   phases name a source of the phase ("inertial dead reckoning", "relative sensing", "ground tracking") that no row carries; the engine could name the row.
+- `/<lang>/studio/` stubs drop the scenario query by design (they redirect to `/studio/?lang=<lang>`); a deep link with a scenario has to use `/studio/?scenario=…&lang=…`. The browser test uses the direct URL.
+- The `extract` step of `i18n.yml` and the English identity test need an old-tree fixture to compare against; neither runs in CI on a fixed old tree.
+
+## Native review list (translations)
+
+- The German engine catalogue leaves the word "gain" in English in the ACM/CCM link-budget summary ("gain x1.59"); a native reviewer should choose the German term for each language's engine text that keeps it.
