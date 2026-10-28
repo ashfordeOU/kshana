@@ -98,8 +98,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 200,
-   "reason": "identifier and public API: scenario names, and the reasons a scenario is repository-only, returned by the public `repo_only_reason` as `&'static str`"
+   "count": 201,
+   "reason": "bundled scenario file name mission-thread-short.toml (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
