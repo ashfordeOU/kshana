@@ -47,3 +47,5 @@ seg-8784979d6569 = dBW
 seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
+
+seg-ca1c7e92b98e = <s1>Назад</s1>lunar-ascent
