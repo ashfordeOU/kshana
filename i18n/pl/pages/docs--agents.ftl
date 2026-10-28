@@ -149,3 +149,7 @@ seg-203a91deb52c = Używaj danych syntetycznych lub własnych danych użytkownik
 seg-ec064f62f7dc = <s1>Poprzednia</s1>Serwer MCP: tryb HTTP hostowany samodzielnie
 
 seg-1f44dbd65ce3 = <s1>Następna</s1>Gdzie każda możliwość jest dostępna
+
+seg-e3949a1e6082 = Obszar emitera (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: obszar dopuszczalny przy łączności radiowej w linii wzroku, a nie pozycja. Podawaj obszar z jego deklarowanym poziomem ufności wraz z centroidem i jego elipsą, nigdy sam centroid; pisz <c1/>, gdy dane go nie zawężają; pisz, że jest zależny od modelu (sprawdzono tylko na danych syntetycznych; porównanie z Jammertest zarejestrowane wstępnie uruchomiono raz i dla obu źródeł było ono NOT ASSESSABLE, więc nic nie zostało przetestowane zewnętrznie). Neutralne sformułowanie: „szacowany obszar emitera”; nigdy nie nazywaj ani nie sugeruj, kto lub co stoi za źródłem, państwa, sił ani zamiaru. Tylko zbiorczo; nie próbuj odzyskiwać identyfikatorów. Publikowanie obszarów emiterów w publicznym obserwatorium jest wyłączone.

@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Nästa</s1>Använda verkliga TLE:er
 seg-6585c8a3643d = ClockRun (var och en av quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (objektet fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Körningens evidensetikett: <c1/> (<c2/>, <c3/> eller <c4/>: den <em>svagaste</em> statusen bland raderna, så den hävdar aldrig mer än sin svagaste rad), <c5/> (<c6/>), <c7/> och <c8/>, en per rad i verifieringsmatrisen som körningen använde (de rader som dess avancerade rapport listar, från <c9/>): <c10/> (<c11/> och de första { "8" } hexsiffrorna i SHA-256 för radens kravtext), <c12/> och <c13/>, alla lästa från matrisen, inga inskrivna. Läggs till av <c14/> i varje typs resultat, före det avslutande blocket <c15/> när det finns ett (det blocket förblir den sista nyckeln); <c16/> tar bort den byte för byte. Diagrammets SVG och CSV-tabellen från samma körning bär samma etikett (<c17/> och en synlig rad under diagrammet; kommentarsraderna <c18/> först i CSV). Kampanjmedlemmar som är inbäddade i en annan typs resultat bär ingen: det yttre dokumentet gör det. Bär inga tal.

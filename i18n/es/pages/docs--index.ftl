@@ -326,3 +326,27 @@ seg-1acf60cff708 = No incluido
 
 # text
 seg-188c6e41f434 = Los documentos del proceso de los responsables permanecen en el repositorio: docs/RELEASING.md (procedimiento de publicación); docs/WHEEL_TAGS.md (detalle de empaquetado); docs/revisions/ (notas internas de cambios); docs/design/ (notas internas de diseño); README.pypi.md (la página de PyPI; la documentación de la API de Python la cubre); plantillas de .github/; docs/integrations.md (organizado en torno a productos de IA de terceros con nombre, que este sitio no nombra).
+
+seg-fcffac5eb150 = <s1>Idiomas</s1><s2>El texto del motor dirigido a las personas está en { "17" } idiomas además del inglés: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Tipos de escenario</s1><s2>Los { "92" } tipos de escenario integrados sobre los que despacha kshana::api::run_toml, cada uno con su una línea de…</s2>
+
+seg-9d5c233c72b4 = <s1>Todos los tipos de escenario, por familia</s1><s2>Cada tipo de escenario que despacha el motor v{ $version } ({ "92" }), clasificado en { "13" } familias.</s2>
+
+seg-2c002a7b7640 = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "192" }), agrupado por tipo de escenario, con sus ajustes principales.</s2>
+
+seg-f5987c9d9fde = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "401" } filas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "401" } filas de la matriz de verificación.</s2>
+
+seg-980f70b29717 = <s1>Socios de datos y filas que promover</s1><s2>Kshana etiqueta cada capacidad en un registro verificado por máquina (matriz de verificación).</s2>
+
+seg-7c6a541b3bc8 = <s1>Hilo de misión: del lanzamiento a la entrada</s1><s2>Software de carácter consultivo, no un equipo de navegación certificado.</s2>
+
+seg-7377c479fed0 = <s1>Hilo de misión: el segmento lunar</s1><s2>Cuatro tipos de escenario, cada uno también un tipo de fase de la interfaz del hilo de misión (src/mission_thread/): ellos…</s2>
+
+seg-cecb9535c0a1 = <s1>Lunar y cislunar</s1><s2>{ "24" } tipos de escenario del motor v{ $version }. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
+
+seg-1dd7c80e18a7 = <s1>Hilos de misión</s1><s2>{ "1" } tipo de escenario del motor v{ $version }. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
+
+seg-f0e26f01a361 = { "92" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.

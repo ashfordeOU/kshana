@@ -149,3 +149,7 @@ seg-203a91deb52c = Brug syntetiske data eller brugerens egne. Nævn ikke persone
 seg-ec064f62f7dc = <s1>Forrige</s1>MCP-server: selvhostet HTTP-tilstand
 
 seg-1f44dbd65ce3 = <s1>Næste</s1>Hvor hver funktion kan nås
+
+seg-e3949a1e6082 = Senderområde (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: et muligt område under radiosigtlinje, ikke en positionsbestemmelse. Angiv området med dets angivne konfidens sammen med tyngdepunktet og dets ellipse, aldrig tyngdepunktet alene; skriv <c1/>, når data ikke indsnævrer det; skriv, at det er betinget af modellen (kun kontrolleret på syntetiske data; den præregistrerede Jammertest-sammenligning blev kørt én gang og var NOT ASSESSABLE for begge kilder, så intet blev afprøvet eksternt). Neutral formulering: "estimeret senderområde"; nævn eller antyd aldrig, hvem eller hvad der står bag en kilde, en stat, en styrke eller et forsæt. Kun aggregeret; forsøg ikke at genskabe identifikatorer. Offentliggørelse af senderområder i det offentlige observatorium er slået fra.

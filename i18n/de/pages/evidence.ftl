@@ -6541,3 +6541,143 @@ seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, be
 seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — PUBLIC-DOMAIN-Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
 
 seg-52dab8f79eed = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
+
+seg-65185cb68d6b = Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt (<c1/>)
+
+seg-86a132e1a243 = Die Art <c1/>: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (<c2/>; <c3/>, weißes Beschleunigungsrauschen über eine genannte Lücke bei einem geradlinigen Modell; <c4/>, Koppelnavigation, dann die Quellgrenze, nie darunter, nie ein Zurücksetzen); Umrechnungen der Bezugssysteme GCRF, MCI und MCMF und der Zeitskalen über TT, jede mit eigener Budgetzeile, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient; die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. Jede Zahl ist eine genannte Eingabe oder ein Modell einer solchen
+
+seg-cf8a0dc4088e = Handrechnungen in den Tests (das geradlinige Kovarianzwachstum, die mittlere siderische Rotation, die säkulare Mondtaktrate) und, nur für den Zustand des Mondes, die eingecheckten DE440-Kernel-Ausschnitte gegen festgelegte JPL-Horizons-Werte (schlechtester Wert { "2.6" } m und { "7e-6" } m/s). Es werden keine Missionsdaten mit der Kette verglichen; ihre Phasen sind eigene Zeilen. Das Dokument ist eine genannte Kette mit ILLUSTRATIVE Eingaben, nur öffentlichen Quellen und ohne Billigung durch eine Agentur
+
+seg-87b2b2459b45 = Start und Aufstieg in eine Parkbahn mit GNSS-Erfassung und -Abschwächung (<c1/>)
+
+seg-725e7ce83533 = Die Phase <c1/>: eine Positions- und Geschwindigkeitskovarianz bei konstanter Geschwindigkeit mit weißem Beschleunigungsrauschen (die Güte der Koppelnavigation), eine GNSS-Lösung genannter Genauigkeit, die nach der Erfassungszeit und außerhalb genannter Abschwächungen angewandt wird, eine Uhr mit Bias und Drift, die von denselben Lösungen geführt wird, und der Zustand beim Einschwenken in die Parkbahn
+
+seg-22e5c301626e = Der stationäre Riccati-Zustand und die Handrechnung der Vorhersage in den Tests. Nichts hier modelliert eine Trägerrakete oder einen Empfänger; jede Zahl ist eine genannte Eingabe
+
+seg-eb66a49b0306 = Relativnavigation bis zur Andockhülle in niedriger Erdumlaufbahn über Sensorabschnitte (<c1/>)
+
+seg-658a0448d80d = Die Phase <c1/>: der Relativzustand in den LVLH-Achsen des Ziels mit dem geschlossenen Clohessy-Wiltshire-Übergang, eine 6x6-Kalman-Kovarianz mit weißem Beschleunigungsrauschen und Positionsaktualisierungen, deren Varianz die des Sensors bei der aktuellen Entfernung ist, über Abschnitte eines genannten Sensors (ILLUSTRATIVE Formen für optische Kamera, Lidar und Funkentfernungsmessung); das Andockfenster ist die Zeit ab dem Punkt, an dem das relative Sigma innerhalb der Fanghülle bleibt, bis zum Ende der Phase. Die absolute Kovarianz des Verfolgers wird unverändert weitergegeben, und eine Zeile sagt das
+
+seg-97f4aa0575e6 = Eine einachsige Handrechnung von Vorhersage und Aktualisierung im Test; der Clohessy-Wiltshire-Übergang ist derjenige, den cw_dynamics gegen eine unabhängige numerische Integration prüft. Die Sensoren sind ILLUSTRATIVE, und es wird kein reales Rendezvous verglichen
+
+seg-b45a8a357faf = Translunare Injektion und cislunarer Flug: fortgeschriebener Mittelwertzustand und Kovarianz mit Tracking-Aktualisierungen (<c1/>)
+
+seg-ab5c79789754 = Die Phase <c1/>: der Mittelwertzustand durch den Cowell-Propagator der Engine (Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus dem DE440-Kernel des Strangs, wo dieser das Segment abdeckt, und die Sonne aus der analytischen Reihe); die Kovarianz durch eine Zustandsübergangsmatrix aus Vorwärtsdifferenzen dieser Fortschreibung (der nominale Lauf und sechs gestörte Läufe je Segment) mit weißem Beschleunigungsrauschen; die Größe und der Richtungsfehler des TLI-Manövers; <c2/>-Lösungen, deren Verfügbarkeit und PDOP aus dem Sweep des Raumdienstvolumens entlang einer oskulierenden Bahn stammen, die den Bogen vertritt; Entfernungs- und Entfernungsratenverfolgung entlang der geozentrischen Richtung, skaliert mit der Einsatzdauer des Bodennetzes, mit der Aktualisierung in Joseph-Form
+
+seg-86dae517e339 = Der Satz von Liouville (die Determinante der Zustandsübergangsmatrix des konservativen Anteils ist eins) und eine feinere Differenz in den Tests; der Mittelwertzustand wird in der Zeile darunter mit einer öffentlichen Trajektorie verglichen, die er verfehlt. Der Manöverfehler, die Aktualisierungen und die Kovarianz werden mit nichts verglichen
+
+seg-7a3eb4fae324 = Kovarianz an der Eintrittsschnittstelle, Korridorwahrscheinlichkeit, Spitzenverzögerung und Landeellipse (<c1/>)
+
+seg-93f07906d7bf = Die Phase <c1/>: der Rückflug von <c2/> ohne Manöver bis zur Eintrittsschnittstelle; der Bahnneigungswinkel und sein Sigma aus der vollen Kovarianz durch einen Differenzengradienten; die Wahrscheinlichkeit, dass der Winkel innerhalb eines genannten Korridors liegt; die Spitzenverzögerung beim nominalen Winkel und an beiden Korridorrändern aus dem ebenen ballistischen Punktmasse-Wiedereintritt der Engine (Abprallen erkannt) neben der geschlossenen Allen-Eggers-Form; die Landeellipse aus einer genannten Reichweitenempfindlichkeit und der Schnittstellenkovarianz quer zur Bahnebene. Auftrieb, Lenkung und Erwärmung werden nicht modelliert
+
+seg-8d5695aad35b = Handrechnungen in den Tests (das Sigma des Winkels ist das senkrechte Geschwindigkeitssigma geteilt durch die Geschwindigkeit; die Gauß-Masse in einem Korridor). Der ebene Wiedereintritt ist der eigene der Engine, und die Allen-Eggers-Form ist ein Vergleich in geschlossener Form; kein geflogener Wiedereintritt wird verglichen
+
+seg-3f0951532f6e = Abdeckung des Bodennetzes und Verfolgungsdauer für eine Phase des Strangs (<c1/> von <c2/>)
+
+seg-5204af351299 = Die Überlagerung des Bodennetzes: Stationen mit einer Mindesthöhe, die Sichtbarkeit des Fahrzeugs bei einer genannten Geometrie (der Eintrittszustand, zweikörperig mit J2 geflogen, die Position des Mondes für den Flug oder eine genannte Einsatzdauer), Stationsübergaben, die je eine genannte Zeit verlieren, und die daraus folgende Einsatzdauer, die an die Aktualisierungsrate der Bodenverfolgung der Phase weitergegeben wird; das längste Intervall ohne Station in Sicht ist eine Budgetzeile
+
+seg-0d1d229a3ab7 = Prüfungen der Geometrie von Zenit und Antipode und die erwartete Sichtbarkeit eines fernen Ziels in den Tests. Es werden kein reales Netz, keine reale Antenne und kein realer Zeitplan modelliert
+
+seg-4ba700726208 = Relativnavigation bis zum Andocken in einer Mondumlaufbahn (<c1/>)
+
+seg-2e30e78e49f7 = Die Art und Phase <c1/>: eine gemeinsame Gauß-Newton-Batchschätzung zweier Fahrzeuge über den Bogen (einundzwanzig Parameter: beide Zustände und beständige Positionsbiase im Signalraum, gemeinsame und unabhängige), über ein Viertel, die Hälfte und den ganzen Bogen mit Schrittweitenhalbierung ausgebaut, aus einer absoluten Lösung je Fahrzeug (Schranke der AFS-Pilotcodeverfolgung, ILLUSTRATIVE Relaisgruppe) und einer Querverbindungsentfernung, unter dem Mondkraftmodell des Crates; der mittlere normierte quadrierte Schätzfehler, die Clohessy-Wiltshire-Prüfung auf einer Kreisbahn und die weitergegebene 6x6-Kovarianz
+
+seg-09fa0c35d004 = Selbstkonsistenz unter einer Vorregistrierung (xval/mission-thread-lunar/PREREGISTRATION.md, Ergebnisse und die Geschichte der Schätzer in RESULTS.md): Der mittlere NEES des Relativzustands beträgt { "5.85" } bis { "5.93" } gegenüber dem Band { "5.2" } bis { "6.8" } in vier Konfigurationen, MET beim vierten Schätzerentwurf, nachdem drei Entwürfe mit sequentiellem Filter verfehlt wurden; die Wahrheit und der Schätzer teilen ein Kraftmodell, daher sagt dies nichts über Modellfehler aus. Der gemeinsam genutzte Propagator wird in einer Zeile darunter mit LRO und CAPSTONE verglichen
+
+seg-c85d7e5e63a3 = Landestreuungsbudget an einem Standort am Mondpol (<c1/>)
+
+seg-bd88ab3ad105 = Die Art und Phase <c1/>: ein inertiales Fehlermodell mit fünf Zuständen je Achse (Position, Geschwindigkeit, Beschleunigungsmesser-Bias, Neigung, Kreisel-Bias) über einen angetriebenen Abstieg, gestützt durch AFS-Lösungen (eigenständig oder differenziell, mit dem uhrgestützten Fall mit drei Relais), eine geländerelative Lösung (der Terrain-Nav-Abgleicher der Engine auf synthetischem Relief oder eine Cramer-Rao-Schranke auf einem LOLA-DEM mit einer Blendenproblem-Regel) und Mondzeit, mit einer Monte-Carlo-Aufsetzellipse
+
+seg-a5ddb83a5cf1 = Die geschlossene inertiale Drift, die eigenen Ergebnisse der wiederverwendeten Arten und die Kalibrierung der 3-Sigma-Ellipse (der Anteil darin stimmt mit seiner Erwartung überein) in den Tests. Keine geflogene oder getestete Landung wird verglichen
+
+seg-8dfc1600cf8c = Positionierungs- und Zeitgebungsverfügbarkeit an der Oberfläche nach Standort und Jahreszeit an den Mondpolen (<c1/>)
+
+seg-f91c1da9ab55 = Die Art und Phase <c1/>: Relaisverfügbarkeit und PDOP, Erd- und Sonnensichtbarkeit und eine geführte Oberflächenuhr für jeden Standort und jede Jahreszeit, mit dem Geländehorizont von <c2/>; ein Lauf an einem einzelnen Standort ist bitgenau gleich der Verfügbarkeit und dem PDOP dieser Art
+
+seg-e3a782dce8be = Exakte Gleichheit mit der bestehenden Art für einen Standort sowie Monotonieprüfungen in den Tests. Die Relaisgruppe ist ILLUSTRATIVE, und keine Oberflächenmessung wird verglichen
+
+seg-0db91d70a079 = Angetriebener Aufstieg von einem Standort am Mondpol in eine Einschwenkbahn (<c1/>)
+
+seg-b5b1125d515c = Die Art und Phase <c1/>: das inertiale Fehlermodell mit fünf Zuständen je Achse über einen angetriebenen Aufstieg mit spezifischer Kraft entlang des Pfads, gestützt durch AFS-Lösungen und Mondzeit, mit Angabe der in die Umlaufbahn getragenen Positions- und Geschwindigkeitskovarianz beim Einschwenken und der Streuung beim Triebwerksabschalten (angegeben, nicht weitergetragen)
+
+seg-76e0d23b7483 = Die geschlossene inertiale Drift und Monotonieprüfungen in den Tests. Kein geflogener Aufstieg wird verglichen
+
+seg-1983ce9cc6da = Die Fortschreibung mit dem Mondkraftmodell gegen öffentliche rekonstruierte Trajektorien von Mondorbitern und cislunaren Flugkörpern
+
+seg-57f53a7d1fa2 = Der von den Mondarten gemeinsam genutzte Propagator (GRAIL GL0660B Grad und Ordnung { "150" }, Erde und Sonne als dritte Körper, Relativität, DE440-Mondorientierung), verglichen mit den öffentlichen JPL-Horizons-Trajektorien von LRO ({ "24" } h, Stichproben im Abstand von { "10" } Minuten) und CAPSTONE (ein Umlauf von { "6.5" } Tagen, Stichproben im Stundenabstand), unter Zielwerten, die vor dem Lauf in einer eingecheckten Datei festgelegt wurden
+
+seg-321d0721970d = JPL-Horizons-Ephemeriden der Raumfahrzeuge LRO und CAPSTONE, gegen Zielwerte, die in xval/mission-thread-lunar/PREREGISTRATION.md vorab festgelegt wurden (Änderungen { "1" } bis { "6" }). LRO: MET, { "33" } m größte 3D-Differenz und { "2.4" } m RMS radial gegenüber { "500" } m und { "60" } m. CAPSTONE: NOT MET, eine Differenz der Endposition von { "136.8" } km gegenüber { "25" } km und eine Perilundifferenz von { "28.4" } km gegenüber { "10" } km, die Ursachen nicht isoliert. Die Zeile ist modelliert, weil der CAPSTONE-Zielwert verfehlt wird und der Vergleich den gemeinsam genutzten Propagator prüft, nicht einen Filter, ein Signal oder ein Budget
+
+seg-c557d317389a = Die cislunare Mittelwertfortschreibung gegen die öffentliche Trajektorie von Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Die Mittelwertfortschreibung der Phase <c1/> (Cowell, Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus einem DE440-Ausschnitt), verglichen mit der öffentlichen JPL-Horizons-Trajektorie von Artemis I über einen Freiflugbogen von { "72" } h ab 2022-11-16 { "18" }:{ "00" } TDB, in Epochen im Abstand von { "12" } Stunden, unter Zielwerten, die vor dem Lauf in einer eingecheckten Datei festgelegt wurden
+
+seg-362b1a7b9e5e = JPL-Horizons-Ziel -1023 (die tatsächlich geflogene Post-TLI-Trajektorie der NASA-Navigation), gegen Zielwerte, die in xval/mission-thread/PREREGISTRATION.md vorab festgelegt wurden (Änderung { "1" } ändert nur die angeforderte Zeitspanne). NOT MET und als verfehlt festgeschrieben: { "45.3" } km größte Positionsdifferenz gegenüber { "5" } km und { "0.249" } m/s Geschwindigkeitsdifferenz bei { "72" } h gegenüber { "0.05" } m/s. Eine nach dem Urteil geschriebene Diagnose verortet die Verfehlung in fünf impulsiven Geschwindigkeitsschritten von { "0.09" } bis { "0.22" } m/s in der Referenz (die vorab festgelegte Annahme, dass das Fenster kein Manöver enthielt, war falsch); über die übrigen { "67" } Stunden gibt das Modell den jeweils nächsten Stundenzustand mit einem Median von { "0.38" } m wieder. Prüft nur den Mittelwertzustand eines einzelnen Freiflugbogens: keine Kovarianz, keinen Filter, keine Aktualisierung und keine andere Phase
+
+seg-150ae9c3d755 = Region einer Störquelle: eine zulässige Senderregion aus Positionsmeldungen von Flugzeugen und Schiffen
+
+seg-b5c49044a7a1 = Eine zulässige Region dafür, wo sich eine Quelle gestörter Navigationsmeldungen befinden kann, aus ADS-B- (NIC/NACp) oder AIS-Positionsmeldungen: Funksicht bei einem 4/3-Erdradius aus der Meldehöhe und einem Höhenbereich der Senderantenne, eine begrenzte effektive Reichweite für die unbekannte Leistung, wobei betroffene Einheiten die Posterior zu ihrer Reichweite ziehen und unbetroffene Einheiten mit Funksicht dagegen drücken, gruppiert zu Sitzungen in Zeit und Raum. Die Ausgabe sind Regionen höchster Dichte bei genannten Konfidenzniveaus, ein Posterior-Schwerpunkt mit einer Momentellipse, Beginn, Ende und Dauer der Sitzung, betroffene Fläche und Anzahl unterschiedlicher Flugzeuge über dem Veröffentlichungsminimum, ein Tagesgangprofil und Stunden pro Tag. Geländefrei; eine einzelne Quelle je Sitzung; die Glaubwürdigkeit hängt vom Modell ab. Optionale Fusion mit einer TDOA-Lösung aus der Geolokalisierung.
+
+seg-953a8b4f9f41 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Rundläufe aus einem Generator, der das Modell des Schätzers teilt; sie prüfen also den Code und die Kalibrierung der genannten Niveaus unter diesem Modell und nichts über reale Sender. Eine externe Prüfung gegen die veröffentlichten Senderstandorte des Jammertests { "2025" } wurde vorab festgelegt (docs/emitter-region/PREREGISTRATION.md, vom Eigentümer vor jedem bewerteten Lauf freigegeben) und einmal ausgeführt (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplante Sitzungen, weniger als das registrierte Minimum von { "4" }) und AIS NOT ASSESSABLE (keine veröffentlichte Sitzung), sodass kein Zielwert getestet wurde und die Zeile MODELLED bleibt
+
+seg-aa7c0a865661 = { "401" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "221" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
+
+seg-7a254b7d5498 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "221" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
+
+seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "401" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
+
+seg-015ecb5cddc3 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-e26b6fdc705b = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-66defa1494fc = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-4c54e96a1832 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-3d202a56e836 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-77bfad0f4f88 = { "176" }<s1>von { "401" } validiert</s1>
+
+seg-222c46a96ec3 = Verifikationsmatrix: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern, { "401" } insgesamt
+
+seg-cf2aa475bc68 = Die Art mission-thread: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt… · Modelliert
+
+seg-bdc3223c80e4 = Die Phase launch-ascent: eine Positions- und Geschwindigkeitskovarianz bei konstanter Geschwindigkeit mit weißem… · Modelliert
+
+seg-a60883a4b32c = Die Phase leo-rendezvous: der Relativzustand in den LVLH-Achsen des Ziels mit dem… · Modelliert
+
+seg-a3201e17ddc4 = Die Phase tli-and-cruise: der Mittelwertzustand durch den Cowell-Propagator der Engine (Erde als Punktmasse… · Modelliert
+
+seg-a143fdf9c4cb = Die Phase entry: der Rückflug von tli-and-cruise ohne Manöver, endend an der Eintrittsschnittstelle… · Modelliert
+
+seg-6c84e2db7d1e = Die Bodennetz-Überlagerung: Stationen mit einer Mindesthöhe, die Sichtbarkeit des… · Modelliert
+
+seg-256ed84fca2b = Die Art und Phase lunar-orbit-rendezvous: eine gemeinsame Gauß-Newton-Batchschätzung zweier Fahrzeuge… · Modelliert
+
+seg-6cae40e30a77 = Die Art und Phase lunar-descent: ein inertiales Fehlermodell mit fünf Zuständen je Achse (Position… · Modelliert
+
+seg-2db0710d699f = Die Art und Phase lunar-surface: Relaisverfügbarkeit und PDOP, Erd- und Sonnensichtbarkeit… · Modelliert
+
+seg-40e993dc4c56 = Die Art und Phase lunar-ascent: das inertiale Fehlermodell mit fünf Zuständen je Achse über einen… · Modelliert
+
+seg-904a8004957d = Der von den Mondarten gemeinsam genutzte Propagator (GRAIL GL0660B Grad und Ordnung { "150" }, Erde und Sonne… · Modelliert
+
+seg-860ca782e2bf = Die Mittelwertfortschreibung der Phase tli-and-cruise (Cowell, Erde als Punktmasse und J2… · Modelliert
+
+seg-7c7d72cc2036 = Eine zulässige Region dafür, wo sich eine Quelle gestörter Navigationsmeldungen befinden kann, aus ADS-B… · Modelliert
+
+seg-65feaf4e91ef = Alle { "401" } Zeilen, jede in einer eigenen Zeile.
+
+seg-5668b5581703 = von { "102" } validiert
+
+seg-43f852e4bee8 = von { "74" } validiert
+
+seg-fbb78f11c0dc = von { "78" } validiert
+
+seg-8fe12f6058c6 = von { "26" } validiert
+
+seg-b393e1b5fcfc = Alle { "401" }
+
+seg-3df9e327c036 = Modelliert { "221" }
+
+seg-7fa6f2e0de57 = Validierungsregister, { "401" } Zeilen, scrollbar

@@ -173,3 +173,5 @@ seg-83b30e1ca261 = <s1>Anterior</s1>Paquetes de evidencias
 
 # text
 seg-1474b58fb35a = <s1>Siguiente</s1>Temporización de ranuras
+
+seg-50f25bceca3c = <s1>Anterior</s1>Socios de datos y filas que promover

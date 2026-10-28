@@ -31,3 +31,5 @@ seg-2516c4208769 = DOP-understøttelse med fyr på månens overflade er MODELLED
 seg-ebb9724de60a = <s1>Forrige</s1>lunar-attack-surface
 
 seg-ca9b68783354 = <s1>Næste</s1>lunar-differential-pnt
+
+seg-b81e98467952 = <s1>Næste</s1>lunar-descent

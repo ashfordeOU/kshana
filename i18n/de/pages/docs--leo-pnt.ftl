@@ -725,3 +725,5 @@ seg-592a6cf625c5 = Zeilen VALIDATED zu LEO-PNT:
 
 # text
 seg-922761c46f8a = Zeilen MODELLED zu LEO-PNT: jeder Signalentwurf und jede Bandabwägung, der Mehrband-Wasserfall, jeder Überflug und jede Streckenbilanz als Ganzes, die Voreinstellungen, Positionslösungen mit geringer Energie, die Anpassung und die Formate der Nachricht, Doppler- und gemeinsame Positionierung, PPP-Konvergenz, NTN-Positionierung, Zeitübertragung, polare Abdeckung, die durchgängige Kette, die Spoofing-Monitore und die Ionosphärensondierung sowie jede Kampagne (eine Kampagne setzt Typen zusammen und fügt keine Physik hinzu; ihre Zusammensetzungsidentitäten werden getestet, <a1>CAMPAIGNS.md</a1>). Keine LEO-C/N0, kein Entfernungsmessfehler und keine Positionierungskennzahl wird mit einer Messung irgendeines Satelliten verglichen.
+
+seg-9bfe27f7ebc5 = <s1>Zurück</s1>Missionsstrang: das Mondsegment

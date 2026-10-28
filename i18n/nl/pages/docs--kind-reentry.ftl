@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = Het ballistische terugkeercorridor (Allen–Eggers) is MODELL
 seg-a4b7c16e3fea = <s1>Vorige</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Volgende</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> De fase <c1/>: de terugvlucht van <c2/> zonder brand, eindigend bij het terugkeerinterface; de baanhoek en zijn sigma uit de volledige covariantie met een eindige-differentiegradiënt; de kans dat de hoek binnen een ver

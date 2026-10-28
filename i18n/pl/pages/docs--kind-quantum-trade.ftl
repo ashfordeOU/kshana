@@ -61,3 +61,5 @@ seg-4b59ac409819 = Bilans PNT kwantowy a klasyczny i odporność bez GNSS ({ "13
 seg-e6498fae3ba7 = <s1>Poprzednia</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Następna</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

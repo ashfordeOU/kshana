@@ -8885,3 +8885,190 @@ seg-15f45d8ccb0f = <s1>Anterior</s1>Onde se situa o Kshana
 
 # text
 seg-cd8a14a9e8ec = <s1>Seguinte</s1>Licenciamento
+
+# text
+seg-1200856c90da = [{ $version }] - 2026-10-28
+
+# text
+seg-05d0c798a196 = A { "0.40" } acrescenta a cadeia da missão de classe Artemis e o seu segmento lunar, uma etiqueta de evidência em cada figura e tabela que uma execução escreve, ingestão e ajuste de relógios medidos, uma verificação de envio de parceiros de dados, uma região estimada de emissor a partir de relatos ADS-B ou AIS, a nova campanha de benchmark da { "0.40" }, e a linha de comandos, os relatórios e o Studio em dezassete idiomas além do inglês (os documentos de máquina permanecem em inglês). A matriz de verificação cresce de { "388" } para { "401" } linhas: { "176" } VALIDATED (inalterado), { "221" } MODELLED (eram { "208" }) e { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED. Os tipos de cenário crescem de { "87" } para { "92" }. Todo limiar que uma comparação com pré-registo não atingiu está declarado abaixo e permanece fixado; nenhum foi relaxado. A declaração consultiva permanece inalterada: o Kshana é um software de caráter consultivo, não um equipamento de navegação homologado e não uma certificação; o operador continua a ser responsável.
+
+# text
+seg-738f33f0ae8a = Limites conhecidos
+
+# text
+seg-d4062fab7ae1 = As execuções em outros idiomas levam cerca do dobro do tempo, porque o cenário é executado duas vezes (uma em inglês para os ficheiros de máquina, outra no idioma escolhido para a pessoa).
+
+# text
+seg-8db6dedc627a = Algumas frases do Studio são montadas a partir de fragmentos e podem não ter artigos em idiomas com género gramatical.
+
+# text
+seg-86e6e35ac846 = As traduções são traduções automáticas que nenhum falante nativo revisou; o inglês é a referência.
+
+# text
+# c1: --lang
+# c2: KSHANA_LANG
+# c3: lang
+# c4: report.html
+# c5: docs/i18n.md
+# c6: REVIEW.md
+seg-dd7ee240b467 = <b>Dezassete idiomas além do inglês</b> para o texto do motor destinado às pessoas e para o site e o Studio: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja, zh-Hans (<c1/>, <c2/>, as variáveis de configuração regional; <c3/> nas chamadas da biblioteca, de Python, de WebAssembly e de MCP). Mensagens e erros da linha de comandos, resumos de execução, textos de gráficos, <c4/>, descrições dos tipos de cenário e as declarações consultivas estão traduzidos; os documentos de máquina (JSON, CSV, códigos de erro, a matriz de verificação) permanecem em inglês, e uma execução em outro idioma executa o cenário uma vez em inglês para os ficheiros de máquina e uma vez no idioma escolhido para a pessoa (<a1><c5/></a1>). <b>As traduções são traduções automáticas, não revistas por falantes nativos; o inglês é a referência</b>; o <c6/> de cada idioma lista o que um revisor deve verificar primeiro, e as páginas do site trazem um aviso a indicá-lo. As palavras de veredito, os níveis de evidência e o âmbito consultivo ("não homologado", "não uma certificação", "o operador continua a ser responsável") são mantidos em todos os idiomas.
+
+# text
+# c1: kshana interference-map locate
+# c2: geolocation
+# c3: interference_map::api::emitter_regions_from_*
+# c4: interference_emitter_regions
+# c5: VM-bc70cb57
+# c6: docs/emitter-region/RESULTS.md
+# c7: examples/emitter-region/
+# c8: docs/INTERFERENCE-MAP.md
+seg-7a95c263ecec = <c1/>: uma <b>região estimada de emissor</b> a partir de relatos ADS-B ou AIS. Uma posterior sobre onde pode estar uma fonte de relatos de posição degradados (linha de vista de rádio num raio terrestre de 4/3, altura da antena e potência do emissor marginalizadas, aeronaves afetadas a puxar e aeronaves não afetadas com linha de vista a empurrar em sentido contrário), escrita como regiões a { "50" }, { "90" } e { "95" }%, um centroide com a respetiva elipse de incerteza (nunca um ponto isolado), sessões no tempo (início, fim, duração, área afetada, aeronaves distintas acima do mínimo de publicação), um perfil por hora do dia e horas por dia, com fusão opcional de uma solução TDOA de <c2/>. Saídas: GeoJSON, resumo em JSON, CSV de sessões e uma figura SVG, cada uma com a licença, a atribuição, o id do método, as hipóteses, os limites e a sua etiqueta de evidência. Biblioteca <c3/>, Python e WebAssembly <c4/>. MODELLED (linha <c5/> do registo; a matriz tem agora { "401" } linhas, { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER); calibrada apenas com dados sintéticos, com a comparação com os locais de emissores do Jammertest { "2025" } fixada antecipadamente e executada uma vez: ADS-B e AIS ambos NOT ASSESSABLE (poucas sessões programadas nos dados abertos), portanto a linha permanece MODELLED (<c6/>). Formulação neutra, apenas agregados; a publicação de regiões de emissores no observatório público permanece desativada. Há um exemplo sintético em <c7/> (<a1><c8/></a1>).
+
+# text
+seg-b8f971ebf318 = Registos de relógio medidos.
+
+# text
+# c1: src/clock_log.rs
+# c2: ptp4l
+# c3: phc2sys
+# c4: ts2phc
+# c5: telecom-timing
+# c6: [series.clock_log]
+# c7: [clock_log]
+# c8: measured
+# c9: clock-measured-log
+# c10: docs/CLOCK-LOG-FORMATS.md
+# c11: f64
+# c12: tests/fixtures/clock_log_real/RESULTS.md
+seg-59b240848747 = <c1/> lê um registo de relógio medido numa única série de fase: oito formatos (RINEX clock, TimeLab, TICC, linuxptp <c2/>, <c3/> e <c4/>, seguimento e estatísticas do chrony), cada um um subconjunto documentado; qualquer coisa fora dele é recusada com um erro que nomeia o que foi encontrado. É usado por <c5/> (<c6/>) e pelo tipo de cenário de relógio (<c7/>, que acrescenta um bloco <c8/> com o SHA-256 do registo e as ADEV, TDEV e MTIE sobrepostas), com o cenário incluído <c9/> (<a1><c10/></a1>). Comparado com o allantools em dados públicos reais face a limiares fixados antecipadamente: a primeira execução <b>não atingiu</b> B1 ({ "5" } de { "11" } casos, todos com carimbos de tempo TICC mantidos como <c11/>), B2, B3 ({ "7" } de { "24" } casos) e B4 (a versão do cabeçalho não era verificada); após as correções B1, B3 e B4 são atingidos e B2 é atingido, exceto por um par de MTIE, que está fixado e não é um defeito do motor (o allantools { "2024.6" } remove a frequência média antes de integrar; face ao seu MTIE em modo de fase, o motor concorda dentro de { "1e-10" }). A linha permanece MODELLED (<c12/>).
+
+# text
+# c1: [clock_fit]
+# c2: src/clock_fit.rs
+# c3: clock-fitted-log
+# c4: tests/clock_fit_known_noise.rs
+# c5: fitted
+# c6: tests/fixtures/clock_fit/RESULTS.md
+seg-400a39dbf3dd = <b>Um holdover conduzido por uma série medida ajustada</b>: o <c1/> do tipo de cenário de relógio ajusta o ruído de uma série medida e conduz o holdover a partir dele (<c2/>, cenário incluído <c3/>). Comparação com pré-registo: F1(b), F3 e F4 atingidos; F1(a) (recuperar o FM de passeio aleatório registado) <b>NOT MET</b> nos registos C3 (não identificável por construção) e em dois de três registos C4 (FM de passeio aleatório absorvido pelo FM de cintilação e pela deriva); F2 (identificação do ruído face ao allantools) atingido em onze de doze registos e D3 e <b>NOT MET</b> em D2 como registado (atingido em condições equivalentes). Todas as falhas estão fixadas (<c4/>); o bloco <c5/> e o holdover conduzido por ele permanecem MODELLED (<c6/>).
+
+# text
+# c1: agc_k_sigma
+# c2: xval/bench/RESULTS-0.40.md
+seg-f1f15e102774 = <b>A nova campanha de benchmark da { "0.40" }</b>, com pré-registo e assinatura do responsável antes de qualquer execução: A3 (EXPLORATORY, a AUC de bootstrap agrupado por pasta de <c1/>, quantil de { "2.5" } % { "0.8502" } contra { "0.80" }), D3 (EXPLORATORY, três de cinco detetores excedem uma lacuna de otimismo de { "0.05" } na escala { "0.25" }), R3 (AUC { "1.0" }) e R4 (P_fa { "0.0" }, P_d { "1.0" }): todos MET, todos MODELLED. A2, D1 e R1 não foram tocados e permanecem <b>NOT MET</b>; nada aqui os encerra (<c2/>, <a1>Bench</a1>).
+
+# text
+# c1: kshana partner check <submission.toml>
+# c2: kshana.partner-submission/1
+# c3: examples/partner-submission/
+seg-b13f2dae66ea = <c1/>: verifica o formato e os metadados de um envio de parceiro de dados (<c2/>: dispositivo, ficheiro de dados e SHA-256, como foi obtido, as linhas MODELLED às quais é oferecido, licença, declarações) e lê os dados com os leitores de registo de relógio ou de IMU do próprio motor. Não pontua nada e não valida nada. Há um exemplo sintético em <c3/>.
+
+# text
+# c1: docs/PARTNER-DATA.md
+# c2: docs/drafts/PARTNER-OUTREACH.md
+seg-823e1abc7f92 = <c1/>: que linhas MODELLED do registo poderiam ser promovidas por dados medidos, os formatos aceites, como um envio é verificado, pontuado face a um limiar fixado antecipadamente e creditado, e o que PARTNER e VALIDATED significam cada um; uma nota de divulgação em rascunho para o responsável em <c2/> (nada é enviado).
+
+# attr:title
+seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
+
+# text
+# c1: gnss-ssv
+# c2: lunar-infrastructure
+# c3: xval/gnss-ssv/PREREGISTRATION-v2.md
+# c4: xval/lunar-infra/PREREGISTRATION-v2.md
+# c5: gnss-ssv
+# c6: xval/gnss-ssv/RESULTS-v2.md
+# c7: lunar-infrastructure
+# c8: xval/lunar-infra/RESULTS-v2.md
+# c9: kshana::lambda::{erfc_accurate, normal_cdf_accurate, bootstrap_success_rate_accurate}
+seg-ddd45d39e8a9 = <b>Segundas campanhas para os limiares não atingidos de <c1/> e <c2/></b>, executadas conforme o pré-registo (<s1><c3/></s1>, <s2><c4/></s2>; assinadas antes de qualquer execução). Toda falha original permanece NOT MET e fixada. <c5/>: o controlo reproduz a execução { "1" } célula por célula; cinco ablações de leitura única trazem { "2" } das { "78" } células não atingidas para dentro da tolerância (EXPLORATORY, sem limiar); o novo limiar S7b (um formato de transmissão com atenuação e piso ajustado em painéis Classic IIR) é NOT MET nos painéis IIR-M em { "3.83" } a { "3.95" } dB contra { "3" } dB; a campanha de receção publicada reservada não foi executada (nenhuma fonte fixada) (<s3><c6/></s3>). <c7/>: os novos limiares C3a, C3b (um limite de deteção de cerca de { "3e-9" } m/s2), Q3a, Q3b (uma CDF normal precisa elimina a diferença de { "1.7e-6" }) e G3'' são atingidos como limiares próprios, e G3' com priores ilustrativos é atingido e etiquetado como EXPLORATORY (<s4><c8/></s4>). Tudo permanece MODELLED. Novos itens públicos: <c9/>.
+
+# text
+# c1: evidence
+# c2: # evidence:
+# c3: VALIDATED
+# c4: MODELLED
+# c5: PARTNER
+# c6: VM-
+# c7: ID
+# c8: docs/VERIFICATION-MATRIX.md
+# c9: tests/fixtures/evidence_ids.txt
+# c10: jammertest score
+# c11: iq acquire/sweep/track/monitor
+# c12: config.json
+# c13: config_version
+# c14: kshana evidence verify
+# c15: tests/evidence_labels_doc_sync.rs
+# c16: docs/SURFACES.md
+# c17: docs/revisions/STUDIO15-evidence-label-0.40.md
+seg-bc89e70f4d36 = <b>Uma etiqueta de evidência em cada figura e tabela que uma execução escreve.</b> O JSON de resultado tem uma chave <c1/>, o SVG do gráfico tem um elemento de metadados e uma linha sob o gráfico, e a tabela CSV tem linhas de comentário <c2/>: o nível (<c3/>, <c4/> ou <c5/>, o mais fraco das linhas) e os ids das linhas da matriz de verificação em que a execução assenta. Linhas e estados são lidos da matriz, não escritos à mão; os ids são estáveis (<c6/> e oito dígitos hexadecimais, uma nova coluna <c7/> em <c8/>, uma lista congelada em <c9/>). Também em receiver-trust, <c10/>, <c11/>, no relatório de exposição de rota e, dentro do <c12/> assinado, em todo pacote de evidências (<c13/> { "1.1" }; <c14/> indica o nível; pacotes feitos antes da { "0.40" } são verificados sem alteração). <c15/> falha se uma figura não tem etiqueta, se uma etiqueta discorda da matriz ou se um novo escritor de ficheiros não está etiquetado nem listado com um motivo. As saídas que não trazem etiqueta estão listadas em <c16/>. Os três gráficos de demonstração do README foram renderizados de novo com a etiqueta (retirá-lo restaura os bytes antigos; <c17/>). Nenhuma afirmação mudou.
+
+# text
+# c1: mission-thread
+# c2: scenarios/mission-thread-artemis-class.toml
+# c3: docs/MISSION-THREAD.md
+# c4: launch-ascent
+# c5: leo-rendezvous
+# c6: tli-and-cruise
+# c7: gnss-ssv
+# c8: entry
+# c9: carry
+# c10: inflate
+# c11: reacquire
+# c12: xval/mission-thread/PREREGISTRATION.md
+# c13: xval/mission-thread/RESULTS.md
+seg-8abd87414bc4 = O tipo de cenário <c1/> (<c2/>, <c3/>): o orçamento de erro de navegação e temporização de uma cadeia de fases do lançamento à reentrada, com todo número MODELLED e toda entrada declarada. Oito tipos de fase: <c4/>, <c5/> (covariância relativa de Clohessy-Wiltshire ao longo de excertos de sensor, janela de acoplagem), <c6/> (propagação de Cowell com uma matriz de transição de estado por diferenças finitas, erro de queima, atualizações <c7/> e de seguimento em solo, a Lua a partir de um recorte opcional do kernel DE440), <c8/> (sigma do ângulo de trajetória, probabilidade do corredor, desaceleração máxima nas extremos do corredor, área de aterragem) e os quatro tipos lunares. Regras de transferência (<c9/>, <c10/>, <c11/>), conversões de referencial e de escala de tempo como linhas próprias do orçamento, uma sobreposição opcional da rede terrestre que define o ciclo de seguimento de cada fase, a margem face aos requisitos declarados e o elo mais fraco. O exemplo segue a sequência de uma apresentação pública de conceito de operações da NASA com números ILLUSTRATIVE: um exemplo de ponta a ponta de classe Artemis em { "11" } fases, segmentos terrestre e lunar. A propagação cislunar foi comparada com a trajetória pública da Artemis I ao longo de um arco de { "72" } h face a um limiar fixado em <c12/> antes da execução: <b>NOT MET</b> ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s). O diagnóstico situa a falha em cinco pequenos eventos impulsivos na referência; entre eles o modelo de forças reproduz os estados horários com mediana de { "0.4" } m. A linha permanece MODELLED (<c13/>).
+
+# text
+# c1: mission-thread
+# c2: src/mission_thread/lunar/
+seg-67cad0a9c0c4 = O segmento lunar da cadeia da missão de classe Artemis: quatro tipos de cenário, cada um também um tipo de fase da interface <c1/> (<c2/>), todos MODELLED.
+
+# text
+# c1: lunar-orbit-rendezvous
+# c2: scenarios/lunar-orbit-rendezvous.toml
+# c3: ...-elfo.toml
+seg-63066076a0a8 = <c1/>: navegação relativa até à acoplagem numa órbita polar circular de { "100" } km ou numa órbita polar elíptica de { "100" } km por { "3000" } km (<c2/>, <c3/>). Uma estimativa de Gauss-Newton em lote ao longo do arco funde uma solução absoluta por veículo a partir de um conjunto ilustrativo de relés de classe LCNS, um erro persistente do sinal no espaço (comum aos dois veículos e independente) e uma distância por enlace cruzado, sob o modelo de forças lunares da biblioteca. Indica a posição e a velocidade relativas nos eixos locais do alvo, a disponibilidade da solução, o erro de estimação normalizado quadrático médio face ao valor esperado, o custo de ignorar os harmónicos da gravidade, os modelos terminais de sensor relativo ao lado do valor só de sinais e a covariância 6x6 transferida.
+
+# text
+# c1: lunar-descent
+# c2: scenarios/lunar-descent.toml
+# c3: lunar-descent-lola.toml
+# c4: lunar-differential-pnt
+# c5: terrain-nav
+# c6: lunar-time-offset
+seg-a2d67bb5cfb3 = <c1/>: o orçamento de dispersão de aterragem num local polar sul (<c2/>; <c3/> lê o DEM do LOLA a partir de um checkout): um modelo de erro inercial de cinco estados por eixo, uma solução AFS (isolada ou diferencial, usando o resíduo do enlace de correção de <c4/>), uma solução relativa ao terreno (o correlacionador <c5/> sobre o seu relevo sintético, ou o limite de Cramer-Rao da correlação com o DEM do LOLA) e o tempo lunar por meio do relógio do veículo (<c6/>). Informa a elipse de aterragem de 3 sigma, cada combinação de auxílios e uma calibração de Monte Carlo da elipse.
+
+# text
+# c1: lunar-surface
+# c2: scenarios/lunar-surface.toml
+# c3: lunar-surface-terrain.toml
+# c4: moonlight-service-volume
+seg-1babf99e8d56 = <c1/>: disponibilidade de posicionamento e temporização por local e estação (<c2/>; <c3/> acrescenta o horizonte do LOLA por traçado de raios): o valor de posicionamento de local único é igual, bit a bit, ao de <c4/>; o que varia com a estação é a visibilidade da Terra e do Sol obtida das efemérides analíticas.
+
+# text
+# c1: lunar-ascent
+# c2: scenarios/lunar-ascent.toml
+seg-bae659d0ff4d = <c1/>: a ascensão até à órbita de encontro e a covariância de posição e velocidade levada de volta à órbita (<c2/>), com a dispersão no corte do motor indicada ao lado.
+
+# text
+# c1: docs/MISSION-THREAD-LUNAR.md
+# c2: xval/mission-thread-lunar/
+seg-106be12d960f = <c1/>; o pré-registo, as suas alterações e todos os resultados, inclusive as falhas, em <c2/>.
+
+# text
+# c1: xval/mission-thread-lunar/PREREGISTRATION.md
+seg-5e8880c28a67 = Fixado antecipadamente em <c1/> antes de qualquer execução, com seis alterações datadas (cada uma feita antes da obtenção dos dados, exceto a Alteração { "6" }, que corrige um erro aritmético numa contagem de estados após a obtenção e antes de qualquer resultado de A2; toda emenda está divulgada no ficheiro). Nenhum limiar foi relaxado.
+
+# text
+seg-90adc3a3c58b = A1 (o propagador face à trajetória reconstruída do LRO do JPL Horizons, { "24" } h): <b>MET</b>, uma diferença 3-D máxima de { "33" } m contra um limiar de { "500" } m e uma diferença radial RMS de { "2.4" } m contra { "60" } m.
+
+# text
+# c1: tests/mission_thread_lunar_oracles.rs
+seg-69f903a278eb = A2 (o mesmo propagador face à NRHO do CAPSTONE ao longo de uma revolução de 6,5 dias): <b>NOT MET</b>, uma diferença de posição final de { "136.8" } km contra um limiar de { "25" } km e uma diferença de raio de periapsia osculador de { "28.4" } km contra { "10" } km. A linha permanece MODELLED, e a falha está fixada por <c1/>.
+
+# text
+# c1: xval/mission-thread-lunar/RESULTS.md
+seg-32fcafe8fa07 = B1 (a consistência da estimativa do encontro com o seu próprio modelo) é MET no quarto projeto de estimador, NEES médio de { "5.85" } a { "5.93" } contra um intervalo de [{ "5.2" }, { "6.8" }]; os três projetos anteriores, um filtro de Kalman estendido em três variantes, não a atingiram. Uma quinta alteração, feita depois de o cenário de { "2" } h incluído ter levado { "4" } de { "50" } tentativas a um mínimo local (NEES médio { "1e9" }), executa o ajuste de Gauss-Newton sobre um arco crescente com redução de passo; B1 não muda com ela e os cenários incluídos dão { "6.51" } e { "6.33" }. O histórico está em <c1/>.
+
+# text
+seg-a4b6bfcb9984 = Nada aqui é VALIDATED: as linhas de referência independente testam o propagador partilhado, e não um filtro de navegação, um sinal ou um orçamento.

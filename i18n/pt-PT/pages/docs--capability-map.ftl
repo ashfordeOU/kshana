@@ -957,3 +957,28 @@ seg-441b67566d5a = <s1>Anterior</s1>Reprodutibilidade
 
 # text
 seg-861984989d07 = <s1>Seguinte</s1>Normas e interoperabilidade
+
+# text
+# c1: kshana kinds --json
+# c2: mission-thread
+# c3: lunar-orbit-rendezvous
+# c4: lunar-descent
+# c5: lunar-surface
+# c6: lunar-ascent
+# c7: holdover-test
+# c8: gnss-ssv
+# c9: lunar-infrastructure
+# c10: optical-atmosphere
+# c11: acm-link
+# c12: aocs
+# c13: ascent-losses
+# c14: contact-schedule
+# c15: entry-heating
+# c16: eo-radiometry
+# c17: lunar-station-coverage
+# c18: time-transfer-budget
+# c19: src/holdover.rs
+# c20: QuantumNavBudget
+# c21: CodeFamily
+# c22: src/verification.rs
+seg-982b83588ec1 = Atualizado em 2026-10-28 para o motor { $version } ({ "92" } tipos de cenário, a partir de <c1/>; novos na { $version }: <c2/>, <c3/>, <c4/>, <c5/> e <c6/>). 2026-10-22: motor { "0.39.0" }, { "87" } tipos, nenhum tipo novo. 2026-10-19: motor { "0.38.0" }, { "87" } tipos (novos na { "0.38.0" }: <c7/>, <c8/> e <c9/>). 2026-10-18: { "84" } tipos (novo na { "0.37" }: <c10/>). 2026-10-16: { "83" } tipos (novos na { "0.36" }: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/> e <c18/>). 2026-10-10: motor { "0.35.0" }, { "75" } tipos, nenhum tipo novo. 2026-10-09 e 2026-10-08: revisões anteriores. 2026-10-04: a linha Nav-signal anota a camada IQ da { "0.31.0" }. 2026-09-29: linhas de LEO-PNT, espectro, PNT do sistema solar / de qualquer corpo, campanha e saída adicionadas. Antes: alinhado à matriz de 27 linhas de capacidades da grande auditoria de 2026-06-02; linha de PNT de espaço profundo / Marte adicionada na { "v0.17.0" }. As adições de PNT quântico (holdover de relógio sem GNSS <c19/>, orçamento composto de navegação inercial-quântica por estima <c20/>, estudo de compromisso de projeto de códigos de alcance <c21/>, matriz de verificação verificada por máquina <c22/>) foram incorporadas às linhas de Temporização, sensor de PNT quântico, Nav-signal e V&V — cada uma etiquetada como validada ou modelada conforme a sua referência independente real.

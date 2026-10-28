@@ -7259,3 +7259,235 @@ dat-1868c76f244c = Ihr eigener Host
 
 # studio/data/capabilities.json
 dat-4c20ebade87f = χ²₁-NP-Detektor · geschlossene Form und Monte-Carlo-P_fa/P_md stimmen überein
+
+dat-338478a8723e = { "1" } Szenarioart der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-cd5eb1698a87 = { "14" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-60cc193bcc29 = { "2" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-b73627a5b6d7 = { "24" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-fd22a00f9aa5 = { "5" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-ef1e661614eb = { "6" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-9379a089776e = { "7" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-25d6ecf7e78d = { "9" } Szenarioarten der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…
+
+dat-90999a1f6b23 = { "92" } von { "92" } Arten, { "3300" } von { "3300" } numerischen Feldern
+
+dat-e069e927e712 = Ein Uhrenszenario, dessen klassische Uhr das Rauschen eines gemessenen Logs übernimmt (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Ein Uhrenszenario mit einem gemessenen Log neben dem simulierten holdover (`[clock_log]`).
+
+dat-6e2cb362b6ee = Eine zulässige Region dafür, wo sich eine Quelle gestörter Navigationsmeldungen befinden kann, aus ADS-B- (NIC/NACp) oder AIS-Positionsmeldungen: Funksicht bei einem 4/3-Erdradius aus der Meldehöhe und einem Höhenbereich der Senderantenne, eine begrenzte effektive Reichweite für die unbekannte Leistung, wobei betroffene Einheiten die Posterior zu ihrer Reichweite ziehen und unbetroffene Einheiten mit Funksicht dagegen drücken, gruppiert zu Sitzungen in Zeit und Raum. Die Ausgabe sind Regionen höchster Dichte bei genannten Konfidenzniveaus, ein Posterior-Schwerpunkt mit einer Momentellipse, Beginn, Ende und Dauer der Sitzung, betroffene Fläche und Anzahl unterschiedlicher Flugzeuge über dem Veröffentlichungsminimum, ein Tagesgangprofil und Stunden pro Tag. Geländefrei; eine einzelne Quelle je Sitzung; die Glaubwürdigkeit hängt vom Modell ab. Optionale Fusion mit einer TDOA-Lösung aus der Geolokalisierung.
+
+dat-7c2ec7378a5c = Eine einachsige Handrechnung von Vorhersage und Aktualisierung im Test; der Clohessy-Wiltshire-Übergang ist derjenige, den cw_dynamics gegen eine unabhängige numerische Integration prüft. Die Sensoren sind ILLUSTRATIVE, und es wird kein reales Rendezvous verglichen
+
+dat-9c42080d805e = Beratende Software, keine zertifizierte Navigationsausrüstung.
+
+dat-3ab21add7c07 = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette, vom Start
+
+dat-6ba64899cc4a = Die Sprache wählen
+
+dat-1886310b3396 = Anrechnung und Rechte
+
+dat-3ab0b8db8085 = Abhängigkeiten und Lizenzen
+
+dat-ce766cce1a7d = Den holdover mit Ihrer eigenen Uhr antreiben: [clock_fit]
+
+dat-6fd0ece9147e = Senderregion (interference-map locate)
+
+dat-fe6d68d3c1f9 = Kovarianz an der Eintrittsschnittstelle, Korridorwahrscheinlichkeit, Spitzenverzögerung und Landeellipse (`entry`)
+
+dat-f6759242b1a9 = Fehler und ihre Codes
+
+dat-0488b2056745 = Jede mitgelieferte Szenariodatei ({ "192" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.
+
+dat-c0206ef96894 = Jede Szenarioart, auf die die Engine v{ $version } verteilt ({ "92" }), eingeordnet in { "13" } Familien.
+
+dat-59385aaf8a98 = Exakte Gleichheit mit der bestehenden Art für einen Standort sowie Monotonieprüfungen in den Tests. Die Relaisgruppe ist ILLUSTRATIVE, und keine Oberflächenmessung wird verglichen
+
+dat-6ed624c1c297 = Vier Szenarioarten, jede zugleich eine Phasenart der Schnittstelle des Missionsstrangs (src/mission_thread/): sie…
+
+dat-ed7ff984ba53 = Bezugssysteme und Zeitskalen
+
+dat-36619fa31a07 = Abdeckung des Bodennetzes und Verfolgungsdauer für eine Phase des Strangs (`[ground_network]` von `mission-thread`)
+
+dat-626be4f0752e = Handrechnungen in den Tests (das Sigma des Winkels ist das senkrechte Geschwindigkeitssigma geteilt durch die Geschwindigkeit; die Gauß-Masse in einem Korridor). Der ebene Wiedereintritt ist der eigene der Engine, und die Allen-Eggers-Form ist ein Vergleich in geschlossener Form; kein geflogener Wiedereintritt wird verglichen
+
+dat-1d6764bb725d = Handrechnungen in den Tests (das geradlinige Kovarianzwachstum, die mittlere siderische Rotation, die säkulare Mondtaktrate) und, nur für den Zustand des Mondes, die eingecheckten DE440-Kernel-Ausschnitte gegen festgelegte JPL-Horizons-Werte (schlechtester Wert { "2.6" } m und { "7e-6" } m/s). Es werden keine Missionsdaten mit der Kette verglichen; ihre Phasen sind eigene Zeilen. Das Dokument ist eine genannte Kette mit ILLUSTRATIVE Eingaben, nur öffentlichen Quellen und ohne Billigung durch eine Agentur
+
+dat-a8beacb2b7c6 = Wie ein Dokument eine Phase angibt
+
+dat-f4f6c97c58d7 = Wie ein Lauf in einer anderen Sprache abläuft (die Regel des doppelten Laufs)
+
+dat-18ddc744e88f = Wie eine Einreichung geprüft wird
+
+dat-b233043f785b = Den Kshana-MCP-Server installieren (v{ $version })
+
+dat-bc70cb57a31f = Region einer Störquelle: eine zulässige Senderregion aus Positionsmeldungen von Flugzeugen und Schiffen
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = Unit-Tests von interference_map::emitter (Projektions-Rundlauf, Horizontwert, synthetische Vorwärts- und Rückwärts-Rundläufe: Der bekannte Sender liegt etwa mit der genannten Rate innerhalb der genannten Region, Randfälle, Sitzungsclustering, Profil, Datenschutz und Formulierung); Fälle von locate in tests/interference_map_cli.rs
+
+dat-f1881d3fd450 = JPL-Horizons-Ephemeriden der Raumfahrzeuge LRO und CAPSTONE, gegen Zielwerte, die in xval/mission-thread-lunar/PREREGISTRATION.md vorab festgelegt wurden (Änderungen { "1" } bis { "6" }). LRO: MET, { "33" } m größte 3D-Differenz und { "2.4" } m RMS radial gegenüber { "500" } m und { "60" } m. CAPSTONE: NOT MET, eine Differenz der Endposition von { "136.8" } km gegenüber { "25" } km und eine Perilundifferenz von { "28.4" } km gegenüber { "10" } km, die Ursachen nicht isoliert. Die Zeile ist modelliert, weil der CAPSTONE-Zielwert verfehlt wird und der Vergleich den gemeinsam genutzten Propagator prüft, nicht einen Filter, ein Signal oder ein Budget
+
+dat-203f52ed49d1 = JPL-Horizons-Ziel -1023 (die tatsächlich geflogene Post-TLI-Trajektorie der NASA-Navigation), gegen Zielwerte, die in xval/mission-thread/PREREGISTRATION.md vorab festgelegt wurden (Änderung { "1" } ändert nur die angeforderte Zeitspanne). NOT MET und als verfehlt festgeschrieben: { "45.3" } km größte Positionsdifferenz gegenüber { "5" } km und { "0.249" } m/s Geschwindigkeitsdifferenz bei { "72" } h gegenüber { "0.05" } m/s. Eine nach dem Urteil geschriebene Diagnose verortet die Verfehlung in fünf impulsiven Geschwindigkeitsschritten von { "0.09" } bis { "0.22" } m/s in der Referenz (die vorab festgelegte Annahme, dass das Fenster kein Manöver enthielt, war falsch); über die übrigen { "67" } Stunden gibt das Modell den jeweils nächsten Stundenzustand mit einem Median von { "0.38" } m wieder. Prüft nur den Mittelwertzustand eines einzelnen Freiflugbogens: keine Kovarianz, keinen Filter, keine Aktualisierung und keine andere Phase
+
+dat-021bd19116af = Bekannte Grenzen
+
+dat-61ab3ea0293c = Kshana kennzeichnet jede Fähigkeit in einem maschinengeprüften Register (Verifikationsmatrix).
+
+dat-0002d522fae4 = Landestreuungsbudget an einem Standort am Mondpol (`lunar-descent`)
+
+dat-141c646761d9 = Start und Aufstieg in eine Parkbahn mit GNSS-Erfassung und -Abschwächung (`launch-ascent`)
+
+dat-252a4ca5d8cd = Der Satz von Liouville (die Determinante der Zustandsübergangsmatrix des konservativen Anteils ist eins) und eine feinere Differenz in den Tests; der Mittelwertzustand wird in der Zeile darunter mit einer öffentlichen Trajektorie verglichen, die er verfehlt. Der Manöverfehler, die Aktualisierungen und die Kovarianz werden mit nichts verglichen
+
+dat-1b090eb926b7 = Lokalisierung der Engine
+
+dat-5482eb8e992e = Mondaufstieg: der angetriebene Aufstieg von einem Oberflächenstandort am Südpol (Artemis-Klasse) zum Rendezvous in { "100" } km
+
+dat-b5499ac7fa90 = Landestreuung auf dem Mond mit dem echten LOLA-DEM des Südpols: das Budget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse), von…
+
+dat-c064ed689649 = Landestreuung auf dem Mond: das Budget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse), von der
+
+dat-e576d5088076 = Mondrendezvous in einer elliptischen Polarbahn: Relativnavigation für ein Andocken im Stil von Orion und Lander in einer
+
+dat-7459ee1f4efa = Mondrendezvous: Relativnavigation für ein Andocken im Stil von Orion und Lander in einer kreisförmigen Polarbahn in { "100" } km
+
+dat-25f2f7c5048f = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche nach Standort und Jahreszeit (Standorte am Südpol im Artemis-Stil).
+
+dat-fdedddcf211b = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche nach Standort und Jahreszeit mit dem echten LOLA-Gelände des Südpols
+
+dat-f250522ecad3 = lunar-ascent (Szenarioart)
+
+dat-afded8513758 = lunar-descent (Szenarioart)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (Szenarioart)
+
+dat-4ea2873d47bd = lunar-surface (Szenarioart)
+
+dat-d2b23c8c0cb8 = Missionsstränge
+
+dat-42ff804cc994 = Missionsstränge (Familie von Szenarioarten)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+dat-5b23ee4808db = mission-thread (Szenarioart)
+
+dat-f6f0757c4934 = MODELLED Landestreuungsbudget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse).
+
+dat-64ba276bb1f8 = MODELLED Landestreuungsbudget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse). Je…
+
+dat-84797c24853b = MODELLED Fehlerbudget für Navigation und Zeitgebung einer genannten Kette von Missionsphasen, vom Start bis zum Wiedereintritt…
+
+dat-eee427a562f9 = MODELLED angetriebener Aufstieg von einem Oberflächenstandort am Südpol in die Rendezvous-Umlaufbahn und die Positions-Geschwindigkeits…
+
+dat-a5d5120ad3dd = MODELLED Relativnavigation für ein Andocken im Stil von Orion und Lander in einer niedrigen Mondumlaufbahn oder einer elliptischen Polar…
+
+dat-6cb24469351b = MODELLED Verfügbarkeit von Positionierung und Zeitgebung an der Oberfläche nach Standort und Jahreszeit für Standorte am Südpol im Artemis-Stil.
+
+dat-61218243092c = MODELLED Verfügbarkeit von Positionierung und Zeitgebung an der Oberfläche nach Standort und Jahreszeit für Standorte am Südpol im Artemis-Stil….
+
+dat-dd872eabd06d = Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt (`mission-thread`)
+
+dat-7557b6b1b3a2 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Rundläufe aus einem Generator, der das Modell des Schätzers teilt; sie prüfen also den Code und die Kalibrierung der genannten Niveaus unter diesem Modell und nichts über reale Sender. Eine externe Prüfung gegen die veröffentlichten Senderstandorte des Jammertests { "2025" } wurde vorab festgelegt (docs/emitter-region/PREREGISTRATION.md, vom Eigentümer vor jedem bewerteten Lauf freigegeben) und einmal ausgeführt (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplante Sitzungen, weniger als das registrierte Minimum von { "4" }) und AIS NOT ASSESSABLE (keine veröffentlichte Sitzung), sodass kein Zielwert getestet wurde und die Zeile MODELLED bleibt
+
+dat-c61600fc3590 = An gemessenen Daten
+
+dat-edfd6919d948 = Partnerdaten: was gemessene Daten an einer MODELLED-Zeile befördern könnten
+
+dat-5bd5efbe5a8c = Angetriebener Aufstieg von einem Standort am Mondpol in eine Einschwenkbahn (`lunar-ascent`)
+
+dat-5c095f4884b4 = Relativnavigation bis zum Andocken in einer Mondumlaufbahn (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Relativnavigation bis zur Andockhülle in niedriger Erdumlaufbahn über Sensorabschnitte (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Zeilen, die die Daten eines Partners befördern könnten
+
+dat-c069be5250fc = Selbstkonsistenz unter einer Vorregistrierung (xval/mission-thread-lunar/PREREGISTRATION.md, Ergebnisse und die Geschichte der Schätzer in RESULTS.md): Der mittlere NEES des Relativzustands beträgt { "5.85" } bis { "5.93" } gegenüber dem Band { "5.2" } bis { "6.8" } in vier Konfigurationen, MET beim vierten Schätzerentwurf, nachdem drei Entwürfe mit sequentiellem Filter verfehlt wurden; die Wahrheit und der Schätzer teilen ein Kraftmodell, daher sagt dies nichts über Modellfehler aus. Der gemeinsam genutzte Propagator wird in einer Zeile darunter mit LRO und CAPSTONE verglichen
+
+dat-bb8b8191a0f6 = Die Verfügbarkeit von Positionierung und Zeitgebung an der Oberfläche nach Standort und Jahreszeit an den Mondpolen (`lunar-surface`)
+
+dat-11e9ad0e8321 = Die Phase `entry`: der Rückflug von `tli-and-cruise` ohne Manöver bis zur Eintrittsschnittstelle; der Bahnneigungswinkel und sein Sigma aus der vollen Kovarianz durch einen Differenzengradienten; die Wahrscheinlichkeit, dass der Winkel innerhalb eines genannten Korridors liegt; die Spitzenverzögerung beim nominalen Winkel und an beiden Korridorrändern aus dem ebenen ballistischen Punktmasse-Wiedereintritt der Engine (Abprallen erkannt) neben der geschlossenen Allen-Eggers-Form; die Landeellipse aus einer genannten Reichweitenempfindlichkeit und der Schnittstellenkovarianz quer zur Bahnebene. Auftrieb, Lenkung und Erwärmung werden nicht modelliert
+
+dat-5fedd1cdf670 = Die Phase `launch-ascent`: eine Positions- und Geschwindigkeitskovarianz bei konstanter Geschwindigkeit mit weißem Beschleunigungsrauschen (die Güte der Koppelnavigation), eine GNSS-Lösung genannter Genauigkeit, die nach der Erfassungszeit und außerhalb genannter Abschwächungen angewandt wird, eine Uhr mit Bias und Drift, die von denselben Lösungen geführt wird, und der Zustand beim Einschwenken in die Parkbahn
+
+dat-4feb3a9f775b = Die Phase `leo-rendezvous`: der Relativzustand in den LVLH-Achsen des Ziels mit dem geschlossenen Clohessy-Wiltshire-Übergang, eine 6x6-Kalman-Kovarianz mit weißem Beschleunigungsrauschen und Positionsaktualisierungen, deren Varianz die des Sensors bei der aktuellen Entfernung ist, über Abschnitte eines genannten Sensors (ILLUSTRATIVE Formen für optische Kamera, Lidar und Funkentfernungsmessung); das Andockfenster ist die Zeit ab dem Punkt, an dem das relative Sigma innerhalb der Fanghülle bleibt, bis zum Ende der Phase. Die absolute Kovarianz des Verfolgers wird unverändert weitergegeben, und eine Zeile sagt das
+
+dat-238413a36808 = Die Art und Phase `lunar-ascent`: das inertiale Fehlermodell mit fünf Zuständen je Achse über einen angetriebenen Aufstieg mit spezifischer Kraft entlang des Pfads, gestützt durch AFS-Lösungen und Mondzeit, mit Angabe der in die Umlaufbahn getragenen Positions- und Geschwindigkeitskovarianz beim Einschwenken und der Streuung beim Triebwerksabschalten (angegeben, nicht weitergetragen)
+
+dat-9fe860d16f1f = Die Art und Phase `lunar-descent`: ein inertiales Fehlermodell mit fünf Zuständen je Achse (Position, Geschwindigkeit, Beschleunigungsmesser-Bias, Neigung, Kreisel-Bias) über einen angetriebenen Abstieg, gestützt durch AFS-Lösungen (eigenständig oder differenziell, mit dem uhrgestützten Fall mit drei Relais), eine geländerelative Lösung (der Terrain-Nav-Abgleicher der Engine auf synthetischem Relief oder eine Cramer-Rao-Schranke auf einem LOLA-DEM mit einer Blendenproblem-Regel) und Mondzeit, mit einer Monte-Carlo-Aufsetzellipse
+
+dat-ba0cc6e0ae77 = Die Art und Phase `lunar-orbit-rendezvous`: eine gemeinsame Gauß-Newton-Batchschätzung zweier Fahrzeuge über den Bogen (einundzwanzig Parameter: beide Zustände und beständige Positionsbiase im Signalraum, gemeinsame und unabhängige), über ein Viertel, die Hälfte und den ganzen Bogen mit Schrittweitenhalbierung ausgebaut, aus einer absoluten Lösung je Fahrzeug (Schranke der AFS-Pilotcodeverfolgung, ILLUSTRATIVE Relaisgruppe) und einer Querverbindungsentfernung, unter dem Mondkraftmodell des Crates; der mittlere normierte quadrierte Schätzfehler, die Clohessy-Wiltshire-Prüfung auf einer Kreisbahn und die weitergegebene 6x6-Kovarianz
+
+dat-955283daf32d = Die Art und Phase `lunar-surface`: Relaisverfügbarkeit und PDOP, Erd- und Sonnensichtbarkeit und eine geführte Oberflächenuhr für jeden Standort und jede Jahreszeit, mit dem Geländehorizont von `moonlight-service-volume`; ein Lauf an einem einzelnen Standort ist bitgenau gleich der Verfügbarkeit und dem PDOP dieser Art
+
+dat-571779bc241a = Die Art `mission-thread`: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (`carry`; `inflate`, weißes Beschleunigungsrauschen über eine genannte Lücke bei einem geradlinigen Modell; `reacquire`, Koppelnavigation, dann die Quellgrenze, nie darunter, nie ein Zurücksetzen); Umrechnungen der Bezugssysteme GCRF, MCI und MCMF und der Zeitskalen über TT, jede mit eigener Budgetzeile, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient; die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. Jede Zahl ist eine genannte Eingabe oder ein Modell einer solchen
+
+dat-36aa30c0c245 = Die Phase `tli-and-cruise`: der Mittelwertzustand durch den Cowell-Propagator der Engine (Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus dem DE440-Kernel des Strangs, wo dieser das Segment abdeckt, und die Sonne aus der analytischen Reihe); die Kovarianz durch eine Zustandsübergangsmatrix aus Vorwärtsdifferenzen dieser Fortschreibung (der nominale Lauf und sechs gestörte Läufe je Segment) mit weißem Beschleunigungsrauschen; die Größe und der Richtungsfehler des TLI-Manövers; `gnss-ssv`-Lösungen, deren Verfügbarkeit und PDOP aus dem Sweep des Raumdienstvolumens entlang einer oskulierenden Bahn stammen, die den Bogen vertritt; Entfernungs- und Entfernungsratenverfolgung entlang der geozentrischen Richtung, skaliert mit der Einsatzdauer des Bodennetzes, mit der Aktualisierung in Joseph-Form
+
+dat-826b5ff3a004 = Die { "92" } eingebauten Szenarioarten, auf die kshana::api::run_toml verteilt, jede mit ihrer einzeiligen…
+
+dat-4ad8b288fa02 = Die Fähigkeitskarten und alle { "401" } Zeilen der Verifikationsmatrix.
+
+dat-85ad15fcf6cb = Die cislunare Mittelwertfortschreibung gegen die öffentliche Trajektorie von Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = Die geschlossene inertiale Drift und Monotonieprüfungen in den Tests. Kein geflogener Aufstieg wird verglichen
+
+dat-1b1e2bdeb2a2 = Die geschlossene inertiale Drift, die eigenen Ergebnisse der wiederverwendeten Arten und die Kalibrierung der 3-Sigma-Ellipse (der Anteil darin stimmt mit seiner Erwartung überein) in den Tests. Keine geflogene oder getestete Landung wird verglichen
+
+dat-bc68a493fe5d = Das vollständige, maschinengeprüfte Nachweisregister: { "401" } Zeilen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Das Dokument
+
+dat-b07afbb33f4b = Die acht Phasenarten
+
+dat-ddc15e493a03 = Der menschenlesbare Text der Engine liegt in { "17" } Sprachen neben Englisch vor: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Die Nachweiskennzeichnung ({ "0.40" })
+
+dat-ac0745dcf97a = Die Nachweiskennzeichnung an jeder Zahl
+
+dat-21d73819d31c = Die Nachweiskennzeichnung und die Ausgaben, die keine tragen
+
+dat-88641ee424ff = Die Bodennetz-Überlagerung
+
+dat-5c091b15d738 = Die Überlagerung des Bodennetzes: Stationen mit einer Mindesthöhe, die Sichtbarkeit des Fahrzeugs bei einer genannten Geometrie (der Eintrittszustand, zweikörperig mit J2 geflogen, die Position des Mondes für den Flug oder eine genannte Einsatzdauer), Stationsübergaben, die je eine genannte Zeit verlieren, und die daraus folgende Einsatzdauer, die an die Aktualisierungsrate der Bodenverfolgung der Phase weitergegeben wird; das längste Intervall ohne Station in Sicht ist eine Budgetzeile
+
+dat-576667f29670 = Die Fortschreibung mit dem Mondkraftmodell gegen öffentliche rekonstruierte Trajektorien von Mondorbitern und cislunaren Flugkörpern
+
+dat-5025f9f26401 = Das Mondsegment des Missionsstrangs im Stil von Artemis
+
+dat-2d1fe075cab5 = Die Mittelwertfortschreibung der Phase `tli-and-cruise` (Cowell, Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus einem DE440-Ausschnitt), verglichen mit der öffentlichen JPL-Horizons-Trajektorie von Artemis I über einen Freiflugbogen von { "72" } h ab 2022-11-16 { "18" }:{ "00" } TDB, in Epochen im Abstand von { "12" } Stunden, unter Zielwerten, die vor dem Lauf in einer eingecheckten Datei festgelegt wurden
+
+dat-510e796c2898 = Der Missionsstrang
+
+dat-cba533186d05 = Der von den Mondarten gemeinsam genutzte Propagator (GRAIL GL0660B Grad und Ordnung { "150" }, Erde und Sonne als dritte Körper, Relativität, DE440-Mondorientierung), verglichen mit den öffentlichen JPL-Horizons-Trajektorien von LRO ({ "24" } h, Stichproben im Abstand von { "10" } Minuten) und CAPSTONE (ein Umlauf von { "6.5" } Tagen, Stichproben im Stundenabstand), unter Zielwerten, die vor dem Lauf in einer eingecheckten Datei festgelegt wurden
+
+dat-16451dd503da = Der stationäre Riccati-Zustand und die Handrechnung der Vorhersage in den Tests. Nichts hier modelliert eine Trägerrakete oder einen Empfänger; jede Zahl ist eine genannte Eingabe
+
+dat-09d31ea90146 = Translunare Injektion und cislunarer Flug: fortgeschriebener Mittelwertzustand und Kovarianz mit Tracking-Aktualisierungen (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Was eine Übergabe tut
+
+dat-3727a96cc814 = Was jede Phase tut
+
+dat-703c52a91b91 = Was lokalisiert wird und was nie
+
+dat-93572ee1f44a = Was der Nachweis ist
+
+dat-8796a5569e10 = Was die Kennzeichnungen bedeuten
+
+dat-bceb988a4263 = Was zu senden ist
+
+dat-82201a0b07b0 = Was neu ist in { "0.40" }
+
+dat-b3d9ac894036 = Ihre eigene Uhr
+
+dat-286487acb3db = Prüfungen der Geometrie von Zenit und Antipode und die erwartete Sichtbarkeit eines fernen Ziels in den Tests. Es werden kein reales Netz, keine reale Antenne und kein realer Zeitplan modelliert

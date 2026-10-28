@@ -9508,3 +9508,9 @@ js-trust-track-start = início
 js-trust-unknown-agreement = um acordo que esta página não conhece
 
 js-trust-yes = sim
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-limiting-phase = O motor nomeia a fonte limitante desta fase como { $source }: uma fonte da fase, não uma linha desta tabela.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-limiting-row = a fonte limitante do motor

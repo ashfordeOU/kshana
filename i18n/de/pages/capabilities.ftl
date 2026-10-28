@@ -3603,3 +3603,101 @@ seg-e51289a1e835 = EASA-Leitlinie zu GNSS-Störungen (Luftfahrt)
 
 # text
 seg-4fa26d67951e = EASA-Leitlinie für die Luftfahrt, nach Abschnittsnummer zugeordnet
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Wählen Sie eine von { "193" } Szenariodateien aus { "92" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
+
+seg-d5c6110302e9 = Ein Missionsstrang im Stil von Artemis, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen.
+
+seg-8597c65432ed = Verketten Sie die Phasen einer Mondmission zu einem gemeinsamen Fehlerbudget für Navigation und Zeitgebung, schätzen Sie, wo sich eine Quelle gestörter Positionsmeldungen befinden kann, lesen Sie gemessene Uhrenlogs, sehen Sie die Evidenzstufe an jeder Zahl, die ein Lauf schreibt, und nutzen Sie Befehlszeile, Berichte und Studio in siebzehn Sprachen. Jede Fähigkeit trägt die Kennzeichnung, die das Register für sie führt, und eine Kennzeichnung benennt nur, was geprüft wurde. Beratende Software, keine typzugelassene Navigationsausrüstung: Der Betreiber bleibt verantwortlich.
+
+seg-070972f642de = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung vom Start bis zum Wiedereintritt
+
+seg-982a4a7cf0db = Die Art Missionsstrang verkettet Phasen (Start und Aufstieg, Rendezvous in niedriger Erdumlaufbahn, translunare Injektion und Flug, die Mondphasen, Wiedereintritt) und trägt die Positions- und Geschwindigkeitskovarianz aus jeder Phase in die nächste, wobei die Übergaberegeln, die Umrechnungen von Bezugssystem und Zeitskala, die Marge gegenüber den genannten Anforderungen und das schwächste Glied jeweils als Budgetzeilen geschrieben werden.
+
+seg-17c9cc6c2d40 = Geprüft: Der Vergleich mit Artemis I hat seinen Zielwert verfehlt ({ "45.3" } km gegenüber { "5" } km); die Zeile bleibt MODELLED
+
+seg-946487626f87 = Ansicht des Missionsstrangs in Kshana Studio
+
+seg-4970f874d334 = Das Mondsegment: Rendezvous, Abstieg, Oberfläche und Aufstieg
+
+seg-b6c35bf141e7 = Vier Szenarioarten, jede zugleich eine Phase des Missionsstrangs: Relativnavigation bis zum Andocken in der Mondumlaufbahn, das Landestreuungsbudget an einem Standort am Südpol, die Verfügbarkeit von Positionierung und Zeitgebung nach Standort und Jahreszeit sowie der Aufstieg zurück in die Rendezvous-Umlaufbahn.
+
+seg-ce097df855a9 = Geprüft: vorab festgelegte Zielwerte; einer erreicht, einer nicht erreicht, keiner gelockert
+
+seg-8ca6e2046901 = Eine geschätzte Senderregion aus ADS-B- oder AIS-Meldungen
+
+seg-ca6383e426f9 = Wo sich eine Quelle gestörter Positionsmeldungen befinden kann, als Regionen zu { "50" }, { "90" } und { "95" } Prozent mit einem Schwerpunkt und seiner Unsicherheitsellipse, nie als bloßer Punkt, sowie Sitzungen in der Zeit.
+
+seg-27af464d0674 = Geprüft: vorab festgelegt; beide Quellen nicht beurteilbar, daher wird nichts behauptet
+
+seg-003a3b9b63ea = Gemessene Uhrenlogs und ein holdover, der von einer angepassten Reihe angetrieben wird
+
+seg-f51fa2a40db8 = Lesen Sie ein gemessenes Uhrenlog in acht Formaten (RINEX clock, TimeLab, TICC, linuxptp, chrony) in eine Phasenreihe für die Uhren- und Telekom-Zeitgebungsarten ein und passen Sie das Rauschen einer gemessenen Reihe an, um einen holdover anzutreiben.
+
+seg-6e9140563c53 = Geprüft: Zielwerte vorab festgelegt; Verfehlungen benannt und festgeschrieben
+
+seg-448b11c86f48 = Datenpartner: welche Zeilen gemessene Daten befördern könnten
+
+seg-56b0201d930c = Welche modellierten Registerzeilen gemessene Daten eines Partners befördern könnten, die akzeptierten Formate und wie eine Einreichung geprüft, an einem vorab festgelegten Zielwert bewertet und angerechnet wird.
+
+seg-5858e5d1f7c5 = Eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt
+
+seg-d1c4250b2a7e = Jede Ergebnisdatei, jedes Diagramm und jede Tabelle, die ein Lauf schreibt, nennt nun die Evidenzstufe, auf der sie beruht (validiert, modelliert oder Partner, die schwächste ihrer Zeilen), und benennt die dahinterstehenden Zeilen der Verifikationsmatrix, aus der Matrix gelesen und nicht getippt.
+
+seg-bd28ef5c376e = Siebzehn Sprachen neben Englisch
+
+seg-1e4a6a5931d3 = Die Befehlszeile, die Berichte, die Dokumentationsseiten und das Studio stehen in siebzehn Sprachen neben Englisch zur Verfügung.
+
+seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
+
+seg-1e0afa852323 = Vier vorab festgelegte Vergleiche wurden nach der Freigabe einmal ausgeführt und haben ihre Zielwerte erreicht, und jeder Wert ist modelliert.
+
+seg-ed10ac59ed87 = Alle { "193" } Szenariodateien aus { "92" } Arten, nach Bereich gruppiert; { "180" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls der Art, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet diesen in Kshana Studio; die übrigen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.
+
+seg-c381cfa99bb0 = Ein Uhrenszenario, dessen klassische Uhr das Rauschen eines gemessenen Logs übernimmt (`[clock_fit]`).
+
+seg-328cd04eef87 = Ein Uhrenszenario mit einem gemessenen Log neben dem simulierten holdover (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette, vom Start
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Mondaufstieg: der angetriebene Aufstieg von einem Oberflächenstandort am Südpol (Artemis-Klasse) zum Rendezvous in { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Landestreuung auf dem Mond: das Budget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse), von der
+
+seg-bd7c53737f55 = Landestreuung auf dem Mond mit dem echten LOLA-DEM des Südpols: das Budget für einen angetriebenen Abstieg zu einem Standort am Südpol (Artemis-Klasse), von…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Mondrendezvous: Relativnavigation für ein Andocken im Stil von Orion und Lander in einer kreisförmigen Polarbahn in { "100" } km
+
+seg-6ce976854c44 = Mondrendezvous in einer elliptischen Polarbahn: Relativnavigation für ein Andocken im Stil von Orion und Lander in einer
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche nach Standort und Jahreszeit (Standorte am Südpol im Artemis-Stil).
+
+seg-0ecc50eafdbe = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche nach Standort und Jahreszeit mit dem echten LOLA-Gelände des Südpols
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } von { "92" } Arten, { "3300" } von { "3300" } numerischen Feldern

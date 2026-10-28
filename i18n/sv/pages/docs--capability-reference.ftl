@@ -2833,3 +2833,85 @@ seg-05ded40b17d2 = Ingen extern oberoende referens: ROS-noden kördes inte på e
 seg-6eee4b0e40b9 = <s1>Föregående</s1>Verifieringsmatris
 
 seg-c3e7639ccf1a = <s1>Nästa</s1>Varför rader förblir Modelled
+
+seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriska fält
+
+seg-2fd8f2df3e6e = De { "61" } förmågekorten från <c1/>, därefter alla { "401" } rader i verifieringsmatrisen.
+
+seg-65185cb68d6b = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde (<c1/>)
+
+seg-86a132e1a243 = Typen <c1/>: ett dokument med faser, var och en av åtta registrerade typer, körda i ordning med 6x6-kovariansen, klockan och referenssystemet överlämnade enligt en angiven regel (<c2/>; <c3/>, vitt accelerationsbrus över ett angivet glapp på en rätlinjig modell; <c4/>, dödräkning och därefter källans golv, aldrig under det, aldrig en återställning); omvandlingar av referenssystem mellan GCRF, MCI och MCMF samt av tidsskalor via TT, var och en en egen budgetrad, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv; marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. Varje tal är en angiven indata eller en modell av en sådan
+
+seg-cf8a0dc4088e = Handberäkningar i testerna (den rätlinjiga tillväxten av kovariansen, den genomsnittliga sideriska rotationen, den sekulära hastigheten hos månklockan) och, enbart för månens tillstånd, de incheckade DE440-utsnitten mot fastlåsta värden från JPL Horizons (sämst { "2.6" } m och { "7e-6" } m/s). Inga uppdragsdata jämförs med kedjan; dess faser är rader för sig. Dokumentet är en angiven kedja med ILLUSTRATIVE indata, enbart offentliga källor och inget stöd från någon rymdorganisation
+
+seg-87b2b2459b45 = Uppskjutning och stigning till en parkeringsbana med GNSS-inhämtning och bortfall (<c1/>)
+
+seg-725e7ce83533 = Fasen <c1/>: en kovarians för position och hastighet med konstant hastighet och vitt accelerationsbrus (dödräkningsklassen), en GNSS-positionsbestämning med angiven noggrannhet som tillämpas efter inhämtningstiden och utanför angivna bortfall, en klocka med bias och drift som styrs av samma positionsbestämningar, samt insättningstillståndet i parkeringsbanan
+
+seg-22e5c301626e = Riccati-jämviktstillståndet och handberäkningen av prediktionen i testerna. Ingenting här modellerar en bärraket eller en mottagare; varje tal är en angiven indata
+
+seg-eb66a49b0306 = Relativ navigering till dockningsenveloppen i låg omloppsbana runt jorden över sensorsträckor (<c1/>)
+
+seg-658a0448d80d = Fasen <c1/>: det relativa tillståndet i målets LVLH-axlar med Clohessy-Wiltshire-övergången i sluten form, en 6x6-Kalmankovarians med vitt accelerationsbrus och positionsuppdateringar vars varians är sensorns vid aktuellt avstånd, över sträckor med en angiven sensor (ILLUSTRATIVE optisk kamera, lidar och radioavståndsmätning); dockningsfönstret är tiden från den punkt där den relativa sigman håller sig inom infångningsenveloppen till slutet av fasen. Jagarens absoluta kovarians överlämnas oförändrad och en rad anger det
+
+seg-97f4aa0575e6 = En endimensionell handberäkning av prediktion och uppdatering i testet; Clohessy-Wiltshire-övergången är den som cw_dynamics kontrollerar mot en oberoende numerisk integration. Sensorerna är ILLUSTRATIVE och ingen verklig rendezvous jämförs
+
+seg-b45a8a357faf = Trans-lunar injektion och färd i cislunart rum: propagerat medeltillstånd och kovarians med spårningsuppdateringar (<c1/>)
+
+seg-ab5c79789754 = Fasen <c1/>: medeltillståndet med motorns Cowell-propagator (jordens punktmassa och J2, solen och månen som tredje kroppar, månen från trådens DE440-kärna där den täcker segmentet och solen från den analytiska serien); kovariansen med en tillståndsövergångsmatris framåtdifferens av den propagationen (den nominella körningen och sex störda körningar per segment) med vitt accelerationsbrus; TLI-brännarens storlek och riktningsfel; <c2/>-positionsbestämningar vars tillgänglighet och PDOP kommer från svepet över rymdtjänstvolymen längs en oskulerande bana som står i för bågen; avstånds- och avståndshastighetsspårning längs den geocentriska riktningen skalad med markstationsnätets driftcykel, med uppdatering i Joseph-form
+
+seg-86dae517e339 = Liouvilles sats (determinanten för tillståndsövergångsmatrisen för den konservativa delen är ett) och en finare differens i testerna; medeltillståndet jämförs med en offentlig bana i raden nedan, som det missar. Brännfelet, uppdateringarna och kovariansen jämförs inte med någonting
+
+seg-7a3eb4fae324 = Kovarians vid återinträdesgränssnittet, korridorsannolikhet, maximal retardation och landningsområde (<c1/>)
+
+seg-93f07906d7bf = Fasen <c1/>: returfärden för <c2/> utan brännare, som slutar vid återinträdesgränssnittet; banvinkeln och dess sigma ur hela kovariansen med en gradient av finita differenser; sannolikheten att vinkeln ligger inom en angiven korridor; den maximala retardationen vid den nominella vinkeln och vid båda korridorkanterna från motorns plana ballistiska punktmassa-återinträde (utstudsning detekteras) bredvid Allen-Eggers slutna form; landningsområdet från en angiven känslighet i sträckriktningen och gränssnittskovariansen tvärs banplanet. Ingen lyftkraft, styrning eller uppvärmning modelleras
+
+seg-8d5695aad35b = Handberäkningar i testerna (vinkelns sigma är den vinkelräta hastighetens sigma delat med farten; Gauss-massan i en korridor). Det plana återinträdet är motorns eget och Allen-Eggers-formen är en jämförelse i sluten form; inget genomfört återinträde jämförs
+
+seg-3f0951532f6e = Täckning och spårningsdrift för markstationsnätet för en trådfas (<c1/> i <c2/>)
+
+seg-5204af351299 = Överlägget för markstationsnätet: stationer med en lägsta elevation, fordonets synlighet på en angiven geometri (återinträdestillståndet flugen tvåkropps med J2, månens position för färden, eller en angiven driftcykel), stationsöverlämningar som förlorar en angiven tid vardera, och den resulterande driftcykeln som förs över till uppdateringsfrekvensen för fasens markspårning; det längsta intervallet utan någon station i sikte är en budgetrad
+
+seg-0d1d229a3ab7 = Kontroller av zenit- och antipodgeometri samt den förväntade synligheten för ett avlägset mål i testerna. Inget verkligt nät, ingen antenn och inget schema modelleras
+
+seg-4ba700726208 = Relativ navigering till dockning i en månbana (<c1/>)
+
+seg-2e30e78e49f7 = Typen och fasen <c1/>: en gemensam Gauss-Newton-skattning i satser för två fordon över bågen (tjugoett parametrar: båda tillstånden och bestående positionsbias i signal i rymden, gemensamma och oberoende), uppbyggd över en kvarts, en halv och hela bågen med stegfyrdelning, från en absolut positionsbestämning per fordon (AFS-pilotkodens spårningsgräns, ILLUSTRATIVE reläuppsättning) och ett avstånd över länken mellan fordonen, under cratens månkraftmodell; det genomsnittliga normaliserade kvadratiska skattningsfelet, Clohessy-Wiltshire-kontrollen på en cirkulär bana och den överlämnade 6x6-kovariansen
+
+seg-09fa0c35d004 = Självkonsistens under en förhandsregistrering (xval/mission-thread-lunar/PREREGISTRATION.md, resultat och skattarens historik i RESULTS.md): den genomsnittliga NEES för det relativa tillståndet är { "5.85" } till { "5.93" } mot bandet { "5.2" } till { "6.8" } i fyra konfigurationer, MET på den fjärde skattarutformningen efter att tre utformningar med sekventiella filter missat; referensen och skattaren delar en kraftmodell, så detta säger ingenting om modellfel. Propagatorn den delar jämförs med LRO och CAPSTONE i en rad nedan
+
+seg-c85d7e5e63a3 = Budget för landningsspridning vid en polarplats på månen (<c1/>)
+
+seg-bd88ab3ad105 = Typen och fasen <c1/>: en inertiell felmodell med fem tillstånd per axel (position, hastighet, accelerometerbias, lutning, gyrobias) över en driven nedstigning, stödd av AFS-positionsbestämningar (fristående eller differentiella, med fallet med tre reläer och klockstöd), en terrängrelativ positionsbestämning (motorns terrängmatchare på syntetiskt relief, eller en Cramer-Rao-gräns på en LOLA-DEM med en regel för bländarproblemet) och månens tid, med en Monte Carlo-ellips för beröringspunkten
+
+seg-a5ddb83a5cf1 = Den inertiella driften i sluten form, de återanvända typernas egna resultat och kalibreringen av 3-sigma-ellipsen (andelen innanför stämmer med sin förväntan) i testerna. Ingen genomförd eller testad landning jämförs
+
+seg-8dfc1600cf8c = Tillgänglighet för positionering och tidssynkronisering på ytan per plats och årstid vid månens poler (<c1/>)
+
+seg-f91c1da9ab55 = Typen och fasen <c1/>: reläers tillgänglighet och PDOP, synlighet för jorden och solen samt en styrd ytklocka för varje plats och årstid, med terrängsiluetten från <c2/>; en körning för en enda plats ger exakt samma tillgänglighet och PDOP som den typen, bit för bit
+
+seg-e3a782dce8be = Exakt likhet med den befintliga typen för en plats, samt monotonicitetskontroller, i testerna. Reläuppsättningen är ILLUSTRATIVE och ingen ytmätning jämförs
+
+seg-0db91d70a079 = Driven stigning från en polarplats på månen till en insättningsbana (<c1/>)
+
+seg-b5b1125d515c = Typen och fasen <c1/>: den inertiella felmodellen med fem tillstånd per axel körd över en driven stigning med specifik kraft längs banan, stödd av AFS-positionsbestämningar och månens tid, som redovisar kovariansen för position och hastighet vid insättningen som förs vidare till banan och spridningen vid motoravstängning (redovisad, inte förd vidare)
+
+seg-76e0d23b7483 = Den inertiella driften i sluten form och monotonicitetskontroller i testerna. Ingen genomförd stigning jämförs
+
+seg-1983ce9cc6da = Propageringen med månens kraftmodell mot offentliga rekonstruerade banor för månsatelliter och cislunara banor
+
+seg-57f53a7d1fa2 = Propagatorn som månens typer delar (GRAIL GL0660B grad och ordning { "150" }, jorden och solen som tredje kroppar, relativitet, DE440-månorientering) jämförd med de offentliga JPL Horizons-banorna för LRO ({ "24" } h, prov var { "10" }:e minut) och CAPSTONE (ett varv på { "6.5" } dygn, prov varje timme), under trösklar som fastställdes i en incheckad fil före körningen
+
+seg-321d0721970d = JPL Horizons rymdfarkostefemerider för LRO och CAPSTONE, mot trösklar som fastställts i förväg i xval/mission-thread-lunar/PREREGISTRATION.md (tillägg { "1" } till { "6" }). LRO: MET, { "33" } m största 3D-skillnad och { "2.4" } m radiellt RMS mot { "500" } m och { "60" } m. CAPSTONE: NOT MET, en skillnad i slutposition på { "136.8" } km mot { "25" } km och en skillnad i periapsis på { "28.4" } km mot { "10" } km, orsakerna är inte isolerade. Raden är modellerad eftersom CAPSTONE-tröskeln inte nås och jämförelsen testar den delade propagatorn, inte något filter, någon signal eller budget
+
+seg-c557d317389a = Propageringen av medeltillståndet i cislunart rum mot den offentliga banan för Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Propageringen av medeltillståndet i fasen <c1/> (Cowell, jordens punktmassa och J2, solen och månen som tredje kroppar, månen från ett DE440-utsnitt) jämförd med den offentliga JPL Horizons-banan för Artemis I över en frirörelsebåge på { "72" } h från 2022-11-16 { "18" }:{ "00" } TDB, vid epoker var { "12" }:e timme, under trösklar som fastställdes i en incheckad fil före körningen
+
+seg-362b1a7b9e5e = JPL Horizons mål -1023 (NASA:s navigationsbana som flugits efter TLI), mot trösklar som fastställts i förväg i xval/mission-thread/PREREGISTRATION.md (tillägg { "1" } ändrar bara den begärda tidsspannet). NOT MET och fastslaget som missat: { "45.3" } km största positionsskillnad mot { "5" } km, och { "0.249" } m/s hastighetsskillnad vid { "72" } h mot { "0.05" } m/s. En diagnostik som skrevs efter utfallet placerar missen i fem impulsiva hastighetssteg på { "0.09" } till { "0.22" } m/s i referensen (den förhandsregistrerade bedömningen att fönstret inte innehöll någon brännare var fel); under de övriga { "67" } timmarna återger modellen nästa timtillstånd med en median på { "0.38" } m. Testar bara medeltillståndet för en enda frirörelsebåge: ingen kovarians, inget filter, ingen uppdatering och ingen annan fas
+
+seg-150ae9c3d755 = Område för störkälla: ett möjligt sändarområde utifrån positionsrapporter från flygplan och fartyg
+
+seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B-rapporter (NIC/NACp) eller AIS-positionsrapporter: radiosikt på en 4/3-jordradie från rapporthöjden och ett höjdintervall för sändarantennen, en begränsad effektiv räckvidd för den okända effekten, påverkade enheter som drar posteriorn mot sin räckvidd och opåverkade enheter med sikt som trycker emot den, grupperade i sessioner i tid och rum. Utdata är områden med högst täthet vid angivna konfidensnivåer, en posteriortyngdpunkt med en momentellips, sessionens start, slut, varaktighet, påverkad yta och antal skilda flygplan över publiceringsminimum, en profil över dygnet och timmar per dag. Terrängfritt; en enda källa per session; trovärdigheten är villkorad av modellen. Valfri fusion med en TDOA-positionsbestämning från geolokalisering.
+
+seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED

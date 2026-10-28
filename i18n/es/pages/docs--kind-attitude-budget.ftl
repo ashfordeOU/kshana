@@ -81,3 +81,5 @@ seg-0e27fcef1499 = <s1>Anterior</s1>ascent-losses
 
 # text
 seg-946c453cbf0f = <s1>Siguiente</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

@@ -1109,3 +1109,79 @@ seg-52638393d72d = List Scenario Kinds
 
 # text
 seg-c853beadb55e = REPRESENTATIVE Voreinstellungen mit Herkunft
+
+seg-6555ff9a6d8e = Ausgabe
+
+seg-12471a4b2b57 = Senderregion (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (noch nicht getragen; die Oberflächen Rust, Python und WASM decken es ab)
+
+seg-dff1bfe0263e = <b>N/A</b> (das Veröffentlichen von Senderregionen im öffentlichen Observatorium ist eine gesonderte Entscheidung des Eigentümers und ist ausgeschaltet)
+
+seg-ec2d91e2f867 = Prüfung der Einreichung eines Datenpartners (Format und Metadaten einer Einreichung gemessener Daten, <c1/>; bewertet nichts)
+
+seg-c16a5ff8218b = <b>N/A</b> (die Prüfung liest lokale Dateien und ihre SHA-256; die Rust-API ist die Bibliotheksoberfläche und die CLI das Werkzeug)
+
+seg-ed29039d1dc0 = <b>N/A</b> (kein Dateisystem im Browser-Build)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP lehnt Dateiquellen bewusst ab (nur Inline-Text))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (Slash-Befehle rufen MCP-Werkzeuge auf, und diese Prüfung braucht Dateien auf dem Datenträger)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrains-Aktionen sind an eine ausgewählte Datei gebunden; eine Einreichung ist ein Ordner)
+
+seg-b9e56d6ab03b = <b>N/A</b> (das Studio hat keinen Dateisystemzugriff; führen Sie den Befehl aus)
+
+seg-521b58a1080e = Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt: acht Phasenarten, Übergaberegeln, Umrechnungen von Bezugssystem und Zeitskala, eine Bodennetz-Überlagerung, Marge gegenüber genannten Anforderungen und das schwächste Glied (Szenarioart <c1/>; <c2/>; MODELLED, ILLUSTRATIVE Eingaben, beratend; nur öffentliche Quellen, keine Billigung)
+
+seg-6b451021b87a = <c1/> (aus einem Checkout: Es liest einen eingecheckten Ausschnitt des Mondkernels)
+
+seg-ac3e013b5217 = <c1/> (<c2/> ist ein Dateischlüssel und wird abgelehnt; ohne Kernel ist der Mond die analytische Reihe, und die Umrechnungszeile sagt das)
+
+seg-e957474f44a8 = <c1/> (nur Inline; der Kernel-Schlüssel wird abgelehnt)
+
+seg-1c1729fafe99 = <b>N/A</b> (kein Notebook; das Beispiel läuft in jedem Notebook über <c1/> aus einem Checkout)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (noch nicht getragen)
+
+seg-ab52a3469f6a = Geschätzte Senderregionen, MODELLED; Spurverzeichnisse und <c1/> gibt es nur in der Befehlszeile
+
+seg-5f1ce275acbd = Liest eine Einreichungsdatei und ihre Datendatei auf dem Datenträger und verifiziert den SHA-256; keine dieser Oberflächen hat den Ordner. Nur Format und Metadaten, nichts bewertet; siehe <c1/>
+
+seg-fc9ab9f71553 = Die Nachweiskennzeichnung und die Ausgaben, die keine tragen
+
+seg-b1e4bcc2ac09 = Jede Zahl und Tabelle, die ein Lauf schreibt, trägt ihre Evidenzstufe (<c1/>, <c2/> oder <c3/>, die schwächste der Registerzeilen dahinter) und die Kennungen dieser Zeilen, auf jeder Oberfläche, die ein Szenario ausführt: das Ergebnis-JSON (Schlüssel <c4/>), die Diagramm-SVG (Metadatenelement und eine Zeile unter der Grafik) und die CSV-Tabelle (Kommentarzeilen <c5/>). Dieselbe Kennzeichnung steht auf den Ausgaben von receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, dem Routenbericht der Störungskarte und innerhalb von <c11/> jedes Nachweispakets (signiert; <c12/> meldet sie). Die Zeilenkennungen sind stabil (<c13/> und acht Hexadezimalziffern, die Spalte <c14/> von <c15/>).
+
+seg-c66058f24f0e = Diese Ausgaben tragen keine Kennzeichnung, jede aus einem genannten Grund (die Liste ist <c1/> in <c2/>, das bei einem Schreiber fehlschlägt, der weder gekennzeichnet noch aufgelistet ist):
+
+seg-04ca90423b80 = Warum sie keine Kennzeichnung trägt
+
+seg-a90c022c4dea = Ergebnisdateien von kshana-bench
+
+seg-9f3f0adbcfe6 = ein festes Schema, das durch die Verpflichtungen der zurückgehaltenen Datensätze festgelegt ist; jede trägt ihr eigenes <c1/> (MODELLED oder gemessen)
+
+seg-9bb126104f12 = tägliche Produkte des Störungsobservatoriums (GeoJSON, PNG, Vorfall-JSON)
+
+seg-ddbc60cb14ac = ein eingefrorenes, veröffentlichtes Schema; die Einschränkungen des Methodenhinweises reisen mit ihnen
+
+seg-874cb55d3457 = Zellen-, Scorecard- und Berichtsdateien der IQ-Kampagne
+
+seg-8c8cb4bd5110 = per Digest festgelegt; jede nennt die Kampagnen-Scorecard, die sie wiedergibt
+
+seg-8d2645e93451 = IQ-Abtastwerte, SigMF- und SDR-Metadaten, Szenenwahrheit, Epochen- und Ereignisströme der Verfolgung, Logs von Live-Sitzungen
+
+seg-9fa872028a08 = formatgebundene Dateien und Aufzeichnungsströme, die von anderen Werkzeugen gelesen werden
+
+seg-6c77071a0d03 = SP3-, OMM-, OEM-, CZML-, KML-, GeoJSON-, STK-, Prüfstandsbewegungs- und NMEA-Exporte; der NMEA-Schulungsstrom
+
+seg-5c1b92afa402 = formatgebundene Dateien, die von Werkzeugen Dritter gelesen werden
+
+seg-b5c79a0e395c = Telemetrie-Übertragungsformate (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = durch ihre Übertragungsformate festgelegt
+
+seg-3ba06004fc14 = erzeugte Dokumente (das Register selbst, die eingecheckten Studien- und Datentabellen)
+
+seg-8be4943acd00 = nicht die Ausgabe eines Laufs

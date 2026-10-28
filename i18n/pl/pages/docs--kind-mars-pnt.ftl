@@ -39,3 +39,5 @@ seg-a16f2332397c = lmo
 seg-c564dca90854 = Wykres, który silnik zapisuje dla scenarios/mars-pnt-lmo.toml, rodzaj mars-pnt
 
 seg-83c3a84f6b98 = <b>VALIDATED</b> Odzyskanie stanu epoki [r,v] z odległości od stacji naziemnych za pomocą wsadowego korektora różnicowego Gaussa–Newtona i filtra sekwencyjnego, w modelu sił dwóch ciał+J2. Wyrocznia (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — niezależna zewnętrzna biblioteka estymacji na dopasowanym modelu sił; odzyskany stan epoki i RMS reszt po dopasowaniu zgadzają się do <{ "1e-3" } m bez szumu i <{ "3" } m przy poziomie szumu { "5" } m
+
+seg-6d595f01ffcc = <s1>Następny</s1>mission-thread

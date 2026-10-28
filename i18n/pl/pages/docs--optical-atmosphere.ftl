@@ -89,3 +89,5 @@ seg-83b30e1ca261 = <s1>Poprzednia</s1>Pakiety dowodowe
 seg-1474b58fb35a = <s1>Następna</s1>Taktowanie slotów
 
 seg-53a7343c076e = Twierdzenie
+
+seg-50f25bceca3c = <s1>Poprzednia</s1>Partnerzy danych i awansowane wiersze

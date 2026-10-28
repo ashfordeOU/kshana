@@ -223,3 +223,107 @@ seg-3c89cfcbbd04 = <s1>Seguinte</s1>Segurança do hardware
 
 # text
 seg-9b52cd5eb4be = tau0 e lacunas
+
+# text
+# c1: rinex-clk
+# c2: RINEX VERSION / TYPE
+# c3: rinex_clock300.txt
+# c4: 302
+# c5: 304
+# c6: TIME SYSTEM ID
+# c7: END OF HEADER
+# c8: AS
+# c9: AR
+# c10: CR
+# c11: DR
+# c12: MS
+seg-9c8042f0d3d7 = <b><c1/></b>: ficheiros de relógio RINEX, versões { "2.00" } e { "3.00" } a { "3.04" } (incluindo o campo de nome de nove caracteres da { "3.04" }). O registo <c2/> é verificado e qualquer outra versão é recusada, nomeando a versão encontrada: o IGS publica o formato de relógio (<c3/>, <c4/>, <c5/>) até à { "3.04" }, e os documentos RINEX { "4.00" }, { "4.01" } e { "4.02" } definem apenas ficheiros de observação, de navegação e meteorológicos, portanto não existe versão { "4.00" } do ficheiro de relógio a ler. O cabeçalho é lido apenas para o seu <c6/> e é ignorado até <c7/>. Dos registos de dados, apenas os registos <c8/> (satélite) e <c9/> (recetor ou estação) de um relógio, selecionado pelo nome, são mantidos. O seu primeiro campo de valor, o viés do relógio em segundos, é a fase. As linhas de continuação e os registos <c10/>, <c11/> e <c12/> são ignorados. As épocas são os campos de calendário do registo, em segundos a partir de 1980-01-06 { "00" }:{ "00" }:{ "00" } no sistema de tempo do próprio ficheiro, sem conversão.
+
+# text
+# c1: ticc
+# c2: f64
+seg-b65f4a928891 = <b><c1/></b>: registos do contador TICC da TAPR (Manual de Operação do TICC, revisões de { "23" } de novembro de { "2016" } e { "15" } de dezembro de { "2025" }, "modos de medição"). Todo campo de dados é em segundos com { "12" } casas decimais ({ "11" } por predefinição a partir do firmware { "20251101" }: qualquer quantidade até { "15" } é lida). Um carimbo de tempo é lido a partir do seu texto decimal como um número inteiro de femtossegundos, e não como um número binário de ponto flutuante, de modo que a fase de um registo obtido dias após o início do contador mantém a resolução própria do contador: um carimbo de tempo <c2/> em { "3.0e5" } s tem um espaçamento de { "5.8e-11" } s, cerca dos { "60" } ps do contador.
+
+# text
+# c1: chC
+seg-bb51bfa2a834 = O modo Paired Timestamp imprime as mesmas linhas na ordem dos canais e é lido como modo Timestamp; o modo 3-Corner Hat acrescenta o <c1/> sintetizado, lido como acima.
+
+# text
+seg-220bc7450e83 = A saída dos modos Period e Debug é recusada. Um canal cujas leituras não crescem é comunicado como modo Period. O modo Binary Timestamp não é texto, e um ficheiro nesse modo é recusado com uma mensagem que o diz.
+
+# text
+seg-1138c53b3eac = O seu próprio relógio
+
+# text
+# c1: [clock_log]
+# c2: scenarios/clock-measured-log.toml
+# c3: kshana example clock-measured-log
+# c4: clock-holdover.toml
+# c5: text
+# c6: path
+# c7: format
+# c8: measured
+# c9: tau0
+seg-1f9cce016fa0 = Uma tabela <c1/> no tipo de cenário de relógio indica quão estável foi o seu próprio relógio, ao lado da simulação: <c2/> (<c3/>) é <c4/> com um excerto de 96 leituras de um relógio de satélite do IGS como um registo TimeLab embutido. Substitua <c5/> por <c6/> e <c7/> para o seu próprio ficheiro. O bloco <c8/> no resultado contém como o registo foi lido (formato, <c9/> e a origem, cada lacuna) e as suas ADEV, TDEV e MTIE; ele não altera a simulação.
+
+# text
+# c1: [clock_fit]
+seg-584564d1a734 = Conduzir o holdover com o seu próprio relógio: <c1/>
+
+# text
+# c1: src/clock_library/card.rs
+# c2: q_wf = h_0 / 2
+# c3: q_rw = 2 pi^2 h_-2
+# c4: flicker_floor = sqrt(2 ln 2 h_-1)
+# c5: drift
+# c6: y0
+# c7: fitted
+# c8: measured:<12 hex of the phase hash>
+# c9: runs > 1
+# c10: measured
+# c11: runs = 1
+# c12: replaces
+# c13: quantum
+# c14: classical
+# c15: scenarios/clock-fitted-log.toml
+seg-56799b5fea19 = O registo é ajustado com o procedimento de cartão de dispositivo de <c1/> (condicionamento, remoção do termo quadrático, identificação do ruído de desfasamento 1, mínimos quadrados ponderados em PM branco, FM branco, FM de cintilação e FM de passeio aleatório nos tempos de média com pelo menos { "30" } graus de liberdade). O relógio nomeado passa então a usar <c2/>, <c3/>, <c4/> e o <c5/> ajustado; <c6/> permanece como está no cenário, porque um registo traz o deslocamento da sua referência, e não o do relógio após a disciplina. O ruído de fase branco é ajustado e indicado, mas não simulado. O resultado ganha um bloco <c7/> (os coeficientes, os pontos de ajuste, os valores usados pela execução, o que foi deixado de fora, o SHA-256 do registo) e o relógio recebe o id <c8/>. Com <c9/> o conjunto sorteia a partir do relógio ajustado (o bloco <c10/> exige <c11/>). Um ajuste sem ruído de frequência, um registo curto demais para ajustar e um <c12/> diferente de <c13/> ou <c14/> são erros que o dizem. <c15/> é um exemplo ({ "6" } horas de um relógio de satélite do IGS).
+
+# text
+# c1: tests/fixtures/clock_fit/RESULTS.md
+seg-fe695061eed3 = O que a comparação com ruído conhecido (<c1/>) mostra e o que se deve ter em mente:
+
+# text
+seg-90657795ba62 = Atingido: o nível de FM branco é recuperado dentro de { "5" } % em todo registo sintético que o tem; o cartão ajustado reproduz o desvio de Allan verdadeiro dentro de um fator de { "1.35" } em todo tempo de média em que foi ajustado; o expoente de ruído que o ajuste identifica é igual ao do allantools em todos os pontos (no registo 5071A, depois que o salto de fase que o condicionamento remove é removido também da entrada do allantools).
+
+# text
+seg-f1ec27a393ae = <b>Não atingido, e fixado pelo teste:</b> o FM de passeio aleatório só é recuperado quando domina os maiores tempos de média do registo e, mesmo assim, num de três registos de uma série de { "131 072" } s com cruzamento em { "3 000" } s, o ajuste atribuiu-o ao FM de cintilação e à deriva. A divisão entre FM de passeio aleatório e FM de cintilação não é fiável a partir de um único registo. A execução reproduz a estabilidade do registo nos tempos de média que o registo cobre; além deles as duas escolhas divergem (o FM de cintilação é um piso constante, o FM de passeio aleatório cresce com a raiz quadrada do tempo de média).
+
+# text
+seg-88ba5ae782d4 = MODELLED: um cenário hipotético para o ruído desse relógio como o registo o mostra, não uma calibração do relógio e não uma previsão do seu comportamento futuro.
+
+# text
+# c1: tests/clock_log_real_allantools.rs
+seg-6e88b597bbf0 = Um registo malformado é um erro que nomeia o que foi encontrado (a linha, a versão, o seletor ausente), nunca um resultado parcial: <c1/> fixa { "24" } desses casos.
+
+# text
+# c1: src/clock_log.rs
+# c2: tests/fixtures/clock_log/linuxptp_chrony/
+# c3: tests/clock_log_allantools.rs
+# c4: tests/fixtures/clock_log/PREREGISTRATION.md
+seg-4a05abb27420 = MODELLED. Este é um analisador, e a sua saída alimenta estimadores que são validados em outro local face ao allantools. Os testes unitários de <c1/> usam pequenos registos escritos à mão e, para os formatos linuxptp e chrony, os ficheiros de teste de <c2/>. <c3/> executa a comparação fixada antecipadamente em <c4/>: três registos sintéticos com semente, um por formato, relidos por um leitor independente escrito a partir desta página pelo mesmo autor, com as ADEV, TDEV e MTIE verificadas face ao allantools { "2024.6" }; essa comparação cobre apenas os três primeiros formatos, e os leitores de linuxptp e chrony têm testes de analisador, mas nenhuma comparação com referência independente. Os registos dessa comparação são sintéticos, portanto nada ali descreve um relógio ou contador real; a comparação com séries medidas é descrita abaixo.
+
+# text
+seg-576211abf0b4 = Com dados medidos
+
+# text
+# c1: tests/clock_log_real_allantools.rs
+# c2: tests/fixtures/clock_log_real/PREREGISTRATION.md
+# c3: PHASE.DAT
+# c4: realdata-cache/
+# c5: scripts/gen_clock_log_real_ref.py
+# c6: KSHANA_REQUIRE_REALDATA=1
+# c7: tests/fixtures/clock_log_real/RESULTS.md
+seg-3c8d10e8bd1c = <c1/> executa a comparação fixada antecipadamente em <c2/> (versionada antes de qualquer ficheiro de teste ou execução) em quatro séries medidas: o <c3/> do Stable32, as primeiras { "65 536" } leituras de um relógio de césio 5071A contra um maser de hidrogénio, e os relógios do satélite G01 do IGS ({ "30" } s) e da estação ABMF ({ "300" } s) a partir do relógio final do IGS de 2026-08-02, como um recorte incorporado com o seu NOTICE. Os dois primeiros não têm concessão de redistribuição: os registos escritos a partir deles estão em <c4/>, ignorado pelo git (<c5/>), e o teste di-lo e passa quando estão ausentes, a menos que <c6/>. Cada registo é lido pelo motor e por um leitor independente, e ADEV, TDEV e MTIE são comparados com o allantools { "2024.6" }. Registado em <c7/>: no leitor distribuído, os registos TICC, a versão do cabeçalho e cinco mensagens de erro falharam nos limiares fixados antecipadamente; foram corrigidos e a comparação foi executada de novo sem alterações. Atingido, exceto um par: o MTIE de um registo de frequência difere do do allantools, porque o allantools integra a frequência menos a à sua média (fixado como NOT MET; a comparação em condições equivalentes é atingida). A linha permanece MODELLED: os registos TICC são dados de relógio medidos recodificados no formato do contador pelo nosso script (nenhuma captura TICC real foi encontrada), e o leitor de referência tem o mesmo autor que o do motor.
+
+# text
+seg-52778d17f4db = Conduzir o holdover com o seu próprio relógio: [clock_fit]

@@ -173,3 +173,5 @@ seg-c0ef7d676ec1 = <s1>Précédent</s1>Mesures GNSS, positionnement et intégrit
 
 # text
 seg-54b45b00a2f0 = <s1>Suivant</s1>Inertiel, fusion et capteurs quantiques
+
+seg-643fa0f18717 = <b>Registre :</b> MODELLED. Page complète, avec les entrées, les résultats, les preuves et les limites : <a1>terrain-nav</a1>.

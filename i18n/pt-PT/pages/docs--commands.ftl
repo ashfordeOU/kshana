@@ -145,3 +145,9 @@ seg-74240229d57b = <s1>Anterior</s1>Todos os tipos de cenário, por família
 
 # text
 seg-b3cc5b769c99 = <s1>Seguinte</s1>Todas as superfícies
+
+# text
+seg-09dab71efd9d = verifica o formato e os metadados de um envio de parceiro de dados e lê o seu ficheiro de dados com os leitores do motor; não pontua nada
+
+# text
+seg-57686575b81d = Dados de parceiros

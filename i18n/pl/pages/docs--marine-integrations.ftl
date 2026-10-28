@@ -164,7 +164,7 @@ seg-5e2a2e8af941 = Wskaźnik jest tak dobry, jak kontrole, które za nim stoją,
 
 seg-be1ed291f7c3 = Żadna wartość na tej stronie nie jest zmierzoną częstością detekcji ani fałszywych alarmów. Powyższe testy sprawdzają okablowanie na tekście syntetycznym; nic nie mówią o tym, jak jakikolwiek monitor radzi sobie z prawdziwymi zakłóceniami.
 
-seg-97d775b504c6 = Bez zatwierdzenia typu; operator nadal ponosi odpowiedzialność.
+seg-97d775b504c6 = Nie jest to sprzęt z zatwierdzeniem typu; operator nadal ponosi odpowiedzialność.
 
 seg-69222f7d5068 = <s1>Poprzednia</s1>Mapa zakłóceń: źródła danych i licencje
 

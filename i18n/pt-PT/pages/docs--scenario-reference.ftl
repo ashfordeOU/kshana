@@ -1153,3 +1153,71 @@ seg-67f767701c6d = <s1>Anterior</s1>Domínios de capacidade
 
 # text
 seg-ea79a68b0587 = <s1>Seguinte</s1>Esquema de resultados
+
+# attr:title, text
+seg-944145b95b4a = Disponibilidade de PNT e temporização na superfície lunar por local e estação (locais polares sul de classe Artemis).
+
+# text
+seg-f942b36a11c4 = Ainda não está no GitHub
+
+# text
+seg-ae3053a1f6c8 = Ascensão propulsionada MODELLED de um local de superfície polar sul até à órbita de encontro, e a covariância de posição e velocidade que ela leva de volta à órbita (classe Artemis). O modelo de erro inercial de cinco estados por eixo de lunar-descent (posição, velocidade, enviesamento do acelerómetro, inclinação de atitude, enviesamento do giroscópio, conduzido pela força específica) é executado nos três eixos do local a partir do estado de superfície com que a fase começa; uma solução de posição AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE de classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) é obtida num intervalo declarado, com o tempo lunar a entrar pelo relógio do veículo e um erro de marcação temporal ao longo da trajetória. Indica as fontes inerciais em forma fechada, a contribuição do auxílio, a ablação, os 1-sigmas de navegação ao longo da ascensão, a dispersão no corte do motor ao lado do conhecimento de navegação, e a covariância MCI 6x6 completa na inserção com a correlação posição-velocidade mantida. MODELLED: classe de IMU, força específica, conjunto de relés e dispersão no corte ilustrativos; erros mantidos nos eixos do local de lançamento; o estado nominal de saída é um substituto. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+# text
+seg-2cd0d5385530 = Orçamento de dispersão de aterragem MODELLED para uma descida propulsionada a um local polar sul (classe Artemis). Por eixo horizontal, um modelo de erro inercial de cinco estados (posição, velocidade, enviesamento do acelerómetro, inclinação de atitude, enviesamento do giroscópio) é conduzido pela força específica da descida; um filtro sequencial recebe soluções de posição dos auxílios ativados: uma solução AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE de classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) e uma solução relativa ao terreno (o correlacionador TERCOM/SITAN da biblioteca sobre um relevo sintético, ou o limite de Cramer-Rao da correlação de uma janela de elevação do DEM polar sul real do LOLA). O tempo lunar entra pelo relógio do veículo nas soluções (o desvio LTC-TT de lunar-time-offset, ou a incerteza do seu intervalo publicado) e como um erro de marcação de tempo ao longo da trajetória. Indica a elipse de aterragem de 3 sigma, R95, as fontes inerciais em forma fechada, a contribuição de cada auxílio, a ablação de cada combinação de auxílios, uma calibração de Monte Carlo da elipse e a covariância transferida. MODELLED: classe de IMU, conjunto de relés, perfil de descida e termo de orientação ilustrativos; terrain-nav usa um relevo sintético em escala métrica terrestre; a disponibilidade de AFS é de uma época com uma máscara plana. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+# text
+seg-2deefd8c547b = Navegação relativa MODELLED para uma acoplagem no estilo Orion-módulo de aterragem numa órbita lunar baixa ou numa órbita polar elíptica (classe Artemis). Um veículo perseguidor e um alvo voam na mesma órbita sob o modelo de forças lunares da biblioteca; uma estimativa conjunta de Gauss-Newton em lote de 21 parâmetros ao longo do arco (dois estados de veículo e enviesamentos persistentes do sinal no espaço) funde uma solução absoluta de posição por veículo a partir de um conjunto de relés ILLUSTRATIVE de classe LCNS (relés atrás da Lua descartados, quatro necessários, o erro de modo comum do sinal no espaço a cancelar-se entre os veículos) e uma distância por enlace cruzado, com a precisão de medição de distância vinda do limite de seguimento de código do piloto AFS da LunaNet. Indica o erro relativo formal e de Monte Carlo de posição e velocidade nos eixos LVLH do alvo, a disponibilidade das soluções, o erro de estimação normalizado quadrático médio face ao valor esperado, e qualquer tentativa cuja iteração não convergiu, a deriva por ignorar os harmónicos da gravidade e a covariância 6x6 completa transferida. Uma verificação de Hill/Clohessy-Wiltshire em forma fechada aplica-se ao caso circular. MODELLED: conjunto de relés, orçamento de erro e priores ilustrativos; a referência e o estimador partilham um único modelo de forças, de modo que o NEES verifica a autoconsistência e não o erro do modelo. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+# text
+seg-6c7d25f672fb = Disponibilidade MODELLED de posicionamento e temporização na superfície por local e estação para locais polares sul de classe Artemis. Para cada local e estação (uma época e uma janela após ela) indica o posicionamento por relés (quatro ou mais relés de uma constelação ILLUSTRATIVE de classe LCNS à vista e PDOP abaixo de um limite, a partir das mesmas funções de moonlight-service-volume e, com uma secção de terreno, o horizonte por traçado de raios do terreno de lunar-station-coverage), se a Terra e o Sol estão acima do horizonte do local (Sol, Lua e orientação lunar analíticos, libração incluída, que é o que varia com a estação) e a disponibilidade de temporização (um relé ou a Terra à vista) com o maior intervalo sem nenhum dos dois, o holdover que um relógio de superfície precisa atravessar. Um resultado de local único é igual, bit a bit, ao de moonlight-service-volume. MODELLED: conjunto de relés kepleriano ilustrativo numa Lua de rotação média; o valor dos relés não muda com a estação; o terreno é o recorte de { "1200" } m do LOLA. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+# text
+seg-1ec485468daa = Orçamento de erro de navegação e temporização MODELLED de uma cadeia declarada de fases de missão, do lançamento à reentrada: lançamento e ascensão, encontro e acoplagem em órbita baixa da Terra (repetível), injeção trans-lunar e cruzeiro cislunar, encontro em órbita lunar, descida, permanência na superfície, ascensão, regresso e reentrada, cada fase um de oito tipos registados com os seus próprios sensores e filtro. A covariância 6x6, o relógio e o referencial são transferidos de fase em fase sob uma regra declarada (carry, inflate ou reacquire); as conversões de referencial e de escala de tempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) são linhas próprias do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada. Uma sobreposição opcional da rede terrestre define o ciclo de seguimento de cada fase. Indica o orçamento por fase (1-sigmas de entrada, de pico e de saída, cada contribuição com a sua unidade), a margem face a um requisito declarado, o elo mais fraco, os eventos e uma figura de cronologia. MODELLED: todo número é uma entrada declarada; a cadeia segue uma única pilha e nenhum veículo é modelado. Apenas fontes públicas; sem afiliação nem aval de qualquer agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+# text
+seg-5b4a725bea4e = Todos os ficheiros de cenário incluídos ({ "192" }), agrupados por tipo. A descrição é o comentário de cabeçalho do próprio ficheiro; os parâmetros principais são as suas configurações de nível superior. O estado lê a matriz de verificação para o módulo do tipo de cenário. <b>Abrir no Kshana Studio</b> abre a execução escrita.
+
+# text
+# c1: [clock_fit]
+seg-d2b1e58dea11 = Um cenário de relógio cujo relógio clássico assume o ruído de um registo medido (<c1/>).
+
+# text
+# c1: [clock_log]
+seg-760090cd3247 = Um cenário de relógio com um registo medido ao lado do holdover simulado (<c1/>).
+
+# text
+seg-d7ed02b28987 = tipo lunar-ascent
+
+# text
+seg-e92ba974379b = Ascensão lunar: a ascensão propulsionada a partir de um local de superfície polar sul (classe Artemis) até à órbita de encontro a { "100" } km, e a covariância de posição e velocidade que ela leva de volta à órbita.
+
+# text
+seg-d9f4bc0e8795 = tipo lunar-descent
+
+# text
+seg-224175962a12 = Dispersão de aterragem lunar: o orçamento de uma descida propulsionada a um local polar sul (classe Artemis), a partir da deriva inercial do conjunto de descida e do que a navegação relativa ao terreno, os sinais da LunaNet e o tempo lunar retiram dele.
+
+# text
+seg-138dbcd1aece = Dispersão de aterragem lunar com o DEM polar sul real do LOLA: o orçamento de uma descida propulsionada a um local polar sul (classe Artemis), a partir da deriva inercial do conjunto de descida e do que a navegação relativa ao terreno, os sinais da LunaNet e o tempo lunar retiram dele.
+
+# text
+seg-7d99c01a7740 = tipo lunar-orbit-rendezvous
+
+# text
+seg-9e4cfcc9fc3e = Encontro lunar: navegação relativa para uma acoplagem no estilo Orion-módulo de aterragem numa órbita lunar baixa polar circular de { "100" } km (classe Artemis), com um campo gravitacional lunar e sinais no estilo LunaNet.
+
+# text
+seg-9f740b874e14 = Encontro lunar numa órbita polar elíptica: navegação relativa para uma acoplagem no estilo Orion-módulo de aterragem numa órbita polar de { "100" } km por { "3000" } km com periapsia sobre o polo sul (classe Artemis), com um campo gravitacional lunar e sinais no estilo LunaNet.
+
+# text
+seg-d1fc00782fe9 = tipo lunar-surface
+
+# text
+seg-ce9f26be0623 = Disponibilidade de PNT e temporização na superfície lunar por local e estação com o horizonte de terreno polar sul real do LOLA (locais polares sul de classe Artemis).
+
+# text
+seg-ce858063d300 = tipo mission-thread
+
+# text
+seg-0bd19840e50d = Uma cadeia da missão de classe Artemis: o orçamento de erro de navegação e temporização de uma cadeia de fases, do lançamento à reentrada, construído a partir de material público de conceito de operações.

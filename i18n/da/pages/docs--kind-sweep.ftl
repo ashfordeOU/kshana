@@ -47,3 +47,5 @@ seg-cb00aca0268d = <b>MODELLED</b> Afsnittene sweep og monte_carlo i typen <c1/>
 seg-1750fbfc4a99 = <s1>Forrige</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Næste</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Fasen <c1/>: middeltilstanden fra motorens Cowell-propagator (Jorden som punktmasse og J2, Solen og Månen som tredjelegemer, Månen fra trådens DE440-kerne, hvor den dækker segmentet, og Solen fra den analytiske serie

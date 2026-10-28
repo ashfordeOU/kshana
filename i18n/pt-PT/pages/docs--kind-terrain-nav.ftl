@@ -1,7 +1,7 @@
 # docs--kind-terrain-nav: translations (pt-PT)
 
 # text
-seg-216efc4e6fba = Tipo de cenário do motor v{ $version }, família <a1>PNT alternativo sem GPS</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-216efc4e6fba = Tipo de cenário do motor v{ $version }, família <a1>PNT alternativo sem GPS</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-619127334cf3 = Nenhuma linha da matriz nomeia este tipo de cenário pelo nome; o rótulo do seu resultado é o do próprio motor, acima.
@@ -63,3 +63,10 @@ seg-0fcad0016c78 = <s1>Anterior</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Seguinte</s1>terrain-slam
+
+# text
+seg-e66e2ca31e54 = Página do tópico: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+# text
+# c1: lunar-descent
+seg-d5da9ee3c152 = <b>MODELLED</b> O tipo de cenário e fase <c1/>: um modelo de erro inercial de cinco estados por eixo (posição, velocidade, enviesamento do acelerómetro, inclinação, enviesamento do giroscópio) ao longo de uma descida propulsionada, auxiliado por soluções AFS (isoladas ou diferenciais, com o caso de três rel

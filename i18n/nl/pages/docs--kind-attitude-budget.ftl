@@ -47,3 +47,5 @@ seg-333fca11ac0c = EERLIJKE REIKWIJDTE: MODELLED scalair foutbudget -- een pre-h
 seg-0e27fcef1499 = <s1>Vorige</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>Volgende</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

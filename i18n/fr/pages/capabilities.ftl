@@ -3603,3 +3603,101 @@ seg-d9110ecdc1a0 = Scénarios hypothétiques de techniques d'amélioration pour 
 
 # attr:title
 seg-e671128cedbc = Pertes à l'ascension en virage gravitationnel d'un lanceur bi-étage kérosène/oxygène ILLUSTRATIVE (aucun réel
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Choisissez parmi { "193" } fichiers de scénario répartis en { "92" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
+
+seg-d5c6110302e9 = Un fil de mission de classe Artemis, une étiquette de preuve sur chaque figure et dix-sept langues.
+
+seg-8597c65432ed = Enchaînez les phases d'une mission lunaire en un seul budget d'erreur de navigation et de synchronisation, estimez où peut se trouver une source de rapports de position dégradés, lisez des journaux d'horloge mesurés, voyez le niveau de preuve sur chaque figure qu'une exécution écrit, et utilisez la ligne de commande, les rapports et le Studio en dix-sept langues. Chaque capacité porte l'étiquette que le registre lui attribue, et une étiquette ne nomme que ce qui a été vérifié. Logiciel à titre consultatif, et non un équipement de navigation homologué : l'opérateur reste responsable.
+
+seg-070972f642de = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation du lancement à l'entrée
+
+seg-982a4a7cf0db = Le type mission-thread enchaîne des phases (lancement et ascension, rendez-vous en orbite basse terrestre, injection trans-lunaire et croisière, les phases lunaires, entrée) et transmet la covariance de position et de vitesse de chaque phase à la suivante ; les règles de transfert, les conversions de référentiel et d'échelle de temps, la marge par rapport aux exigences déclarées et le maillon le plus faible sont chacun écrits sous forme de lignes de budget.
+
+seg-17c9cc6c2d40 = Vérifié : la comparaison avec Artemis I n'a pas atteint son seuil ({ "45.3" } km contre { "5" } km) ; la ligne reste MODELLED
+
+seg-946487626f87 = Vue du fil de mission dans { -brand } Studio
+
+seg-4970f874d334 = Le segment lunaire : rendez-vous, descente, surface et ascension
+
+seg-b6c35bf141e7 = Quatre types de scénario, chacun aussi une phase du fil de mission : navigation relative jusqu'à l'amarrage en orbite lunaire, budget de dispersion à l'atterrissage sur un site polaire sud, disponibilité du positionnement et de la synchronisation temporelle par site et par saison, et ascension de retour vers l'orbite de rendez-vous.
+
+seg-ce097df855a9 = Vérifié : seuils préenregistrés ; un atteint, un non atteint, aucun assoupli
+
+seg-8ca6e2046901 = Une région d'émetteur estimée à partir de rapports ADS-B ou AIS
+
+seg-ca6383e426f9 = Où peut se trouver une source de rapports de position dégradés, sous forme de régions à { "50" }, { "90" } et { "95" } % avec un centroïde et son ellipse d'incertitude, jamais un simple point, et de sessions dans le temps.
+
+seg-27af464d0674 = Vérifié : préenregistré ; les deux sources ne sont pas évaluables, donc rien n'est affirmé
+
+seg-003a3b9b63ea = Journaux d'horloge mesurés, et holdover piloté par une série ajustée
+
+seg-f51fa2a40db8 = Lisez un journal d'horloge mesuré dans huit formats (RINEX clock, TimeLab, TICC, linuxptp, chrony) pour en tirer une série de phase unique pour les types horloge et synchronisation télécom, et ajustez le bruit d'une série mesurée pour piloter un holdover.
+
+seg-6e9140563c53 = Vérifié : seuils préenregistrés ; les échecs sont énoncés et épinglés
+
+seg-448b11c86f48 = Partenaires de données : les lignes que des données mesurées pourraient promouvoir
+
+seg-56b0201d930c = Quelles lignes modélisées du registre des données mesurées d'un partenaire pourraient promouvoir, les formats acceptés, et comment une soumission est vérifiée, notée par rapport à un seuil préenregistré et créditée.
+
+seg-5858e5d1f7c5 = Une étiquette de preuve sur chaque figure et chaque tableau qu'une exécution écrit
+
+seg-d1c4250b2a7e = Chaque fichier de résultat, graphique et tableau qu'une exécution écrit indique désormais sur quel niveau il repose (vérifié, modélisé ou partenaire, le plus faible de ses lignes) et nomme les lignes de la matrice de vérification qui le fondent, lues dans la matrice et non saisies à la main.
+
+seg-bd28ef5c376e = Dix-sept langues en plus de l'anglais
+
+seg-1e4a6a5931d3 = La ligne de commande, les rapports, les pages de documentation et le Studio sont disponibles en dix-sept langues en plus de l'anglais.
+
+seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
+
+seg-1e0afa852323 = Quatre comparaisons préenregistrées ont été exécutées une seule fois après validation et ont atteint leurs seuils, et chaque score est modélisé.
+
+seg-ed10ac59ed87 = Les { "193" } fichiers de scénario répartis en { "92" } types, regroupés par domaine ; { "180" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans { -brand } Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
+
+seg-c381cfa99bb0 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (`[clock_fit]`).
+
+seg-328cd04eef87 = Un scénario d'horloge avec un journal mesuré à côté du holdover simulé (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, depuis le lancement
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Ascension lunaire : l'ascension propulsée depuis un site de surface polaire sud (classe Artemis) jusqu'au rendez-vous à { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Dispersion à l'atterrissage lunaire : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de la
+
+seg-bd7c53737f55 = Dispersion à l'atterrissage lunaire avec le véritable MNT polaire sud LOLA : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Rendez-vous lunaire : navigation relative pour un amarrage de type Orion-atterrisseur sur une orbite polaire circulaire à { "100" } km
+
+seg-6ce976854c44 = Rendez-vous lunaire en orbite polaire elliptique : navigation relative pour un amarrage de type Orion-atterrisseur sur une
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Disponibilité du PNT et de la synchronisation temporelle en surface lunaire par site et par saison (sites polaires sud de classe Artemis).
+
+seg-0ecc50eafdbe = Disponibilité du PNT et de la synchronisation temporelle en surface lunaire par site et par saison avec le véritable terrain polaire sud LOLA
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } types sur { "92" }, { "3300" } champs numériques sur { "3300" }

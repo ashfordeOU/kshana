@@ -77,3 +77,5 @@ seg-a4b7c16e3fea = <s1>Anterior</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Siguiente</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> La fase <c1/>: la deriva de regreso de <c2/> sin maniobra, que termina en la interfaz de entrada; el ángulo de trayectoria de vuelo y su sigma a partir de la covarianza completa mediante un gradiente por diferencias finitas; la probabilidad de que el ángulo esté dentro de un co

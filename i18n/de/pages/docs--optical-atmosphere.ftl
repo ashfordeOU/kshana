@@ -173,3 +173,5 @@ seg-1474b58fb35a = <s1>Weiter</s1>Slot-Zeitgebung
 
 # text
 seg-2442f7529fbb = Zeile der Stufe MODELLED; Numerik gegen ein unabhängiges mpmath-Programm geprüft
+
+seg-50f25bceca3c = <s1>Zurück</s1>Datenpartner und befördernde Zeilen

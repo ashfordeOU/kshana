@@ -477,3 +477,11 @@ seg-68bcf43b4e27 = <s1>Anterior</s1>Cobertura de linhas
 
 # text
 seg-09c0b5fa6e52 = <s1>Próxima</s1>Enlaces ópticos através da atmosfera
+
+seg-bd3169455cd0 = O rótulo de evidência ({ "0.40" })
+
+seg-6fe796d2b15f = Um pacote criado pela { "0.40" } ou posterior traz, dentro de <c1/>, uma entrada <c2/> (o nível, <c3/>, <c4/> ou <c5/>, que é o estado mais fraco entre suas linhas, e os ids e requisitos das linhas da matriz de verificação em que o conteúdo do pacote se apoia: a linha de integridade do pacote, as linhas de receiver-trust e as linhas de pontuação do jammertest ou de ida e volta para esses pacotes) e <c6/> <c7/>. Está dentro de <c8/>, de modo que o hash do arquivo do manifesto, a cadeia de hashes e a assinatura o cobrem: alterá-lo faz a verificação falhar. <c9/> informa o nível e os ids das linhas.
+
+seg-15b4e784361a = A mudança é aditiva e apenas para frente. O <c1/> do manifesto permanece <c2/>: o texto normativo acima diz que um verificador DEVE encontrar esse valor, e o verificador de sala limpa em <c3/> o encontra. A versão menor é portanto carregada por <c4/> (ausente em um pacote feito antes da { "0.40" }, significando { "1.0" }), e não por uma nova cadeia <c5/>. Um pacote feito antes da { "0.40" } não tem rótulo e é verificado sem alteração; <c6/> diz "no evidence label (pre-0.40 pack)". Os testes são <c7/> (incluindo os pacotes de referência independente pré-0.40 versionados) e <c8/>.
+
+seg-218641620d3e = <s1>Próximo</s1>Parceiros de dados e linhas promovidas

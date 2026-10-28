@@ -61,3 +61,5 @@ seg-4b59ac409819 = Afweging van PNT quantum tegenover klassiek & GNSS-ontzegde v
 seg-e6498fae3ba7 = <s1>Vorige</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Volgende</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

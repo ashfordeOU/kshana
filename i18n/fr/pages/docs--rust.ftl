@@ -247,3 +247,31 @@ seg-6dc7d52fef11 = <s1>Précédent</s1>npm et WebAssembly
 
 # text
 seg-8ff56af64ec2 = <s1>Suivant</s1>Serveur MCP
+
+seg-c9a297cc51e9 = { "176" } capacités sur { "401" } vérifiées par rapport à des références externes indépendantes
+
+seg-7b53ee712a36 = <b>{ "176" } sur { "401" }</b> capacités vérifiées par rapport à des références externes indépendantes ; { "221" } honnêtement étiquetées modélisées, { "4" } détenues par un partenaire. Chaque capacité porte une étiquette dans un registre vérifié par machine : VALIDATED (une référence externe indépendante concorde : données réelles, implémentation indépendante ou vecteurs de référence publiés), MODELLED (cohérent en interne, et dit à voix haute) ou PARTNER (un partenaire matériel la détient). Parmi les vérifications : les { "666" } vecteurs SGP4 (Simplified General Perturbations { "4" }) de l'AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 à { "4.12" } mm, et le modèle de forces de Cowell à { "0.08" } m près par rapport à Orekit { "12.2" }.
+
+seg-b59781ecf257 = Comment une capacité obtient son étiquette : capacité, référence indépendante, test, étiquette du registre. L'état de vérification sur l'ensemble des { "401" } capacités : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire
+
+seg-d0b2811a3d3c = Le moteur compte { "92" } types de scénario ; <c1/> les liste avec leurs champs. Nouveaux dans la version { "0.38.0" } : <c2/> (signaux GNSS pour des véhicules spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps comparé aux masques de l'ITU-T).
+
+seg-8e9fbc5f2e72 = La description du type de scénario intégré kind dans lang, tirée du catalogue (l'anglais lorsque la langue n'en a pas de traduction) ; None pour un nom qui n'est pas un type intégré.
+
+seg-06e503c23c30 = [kind_description_in] dans la langue courante ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] avec chaque description dans lang (une balise comme celle que prend --lang, telle que de ou zh-Hans) ; les noms et les listes de champs sont les mêmes dans toutes les langues, et pour l'anglais le document est identique octet pour octet à [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] pour un utilisateur dans la langue lang (une balise telle que de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Les deux exécutions de [run_toml_lang] gardées séparées : l'exécution anglaise, dont le json et le csv sont les fichiers machine, et, pour une autre langue, l'exécution dans cette langue pour tout ce qu'une personne lit.
+
+seg-1fd1f547d2b3 = La seconde passe de [run_toml_bilingual] seule : exécuter le scénario une fois dans lang et ne renvoyer que ce qu'une personne lit.
+
+seg-ae75df85e545 = [run_scenario] pour un utilisateur dans la langue lang ; voir [run_toml_lang].
+
+seg-28e05e08ff76 = Exécute src dans la langue lang et, en cas d'échec, décrit l'échec comme un objet JSON { "{" }"kind": <kind_tag>, "code": <code stable ou null>, "message": <texte dans la langue>{ "}" }.
+
+seg-24fe823a994a = json sans l'étiquette de preuve ([crate::evidence_label]) ; inchangé s'il n'en porte aucune.
+
+seg-c0444d838311 = out avec l'étiquette de preuve retirée de son JSON, de son SVG et de son CSV, octet pour octet tel que l'exécution les produisait avant l'existence de l'étiquette ; une sortie sans étiquette est inchangée.

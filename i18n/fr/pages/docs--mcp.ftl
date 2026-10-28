@@ -657,3 +657,5 @@ seg-490ebbefb561 = <s1>Précédent</s1>Crate Rust
 
 # text
 seg-350b6b914734 = <s1>Suivant</s1>Serveur MCP : tous les canaux d'installation
+
+seg-492888115662 = Les { "92" } types de scénario intégrés, avec leurs descriptions et leurs champs obligatoires et facultatifs — pour que l'agent puisse construire un scénario valide.

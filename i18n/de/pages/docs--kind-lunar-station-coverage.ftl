@@ -118,3 +118,7 @@ seg-922b8656fcae = Das Diagramm, das die Engine für scenarios/lunar-station-cov
 # text
 # c1: lunar-station-coverage
 seg-d547d600ee2d = <b>MODELLED</b> Monte-Carlo-Durchlauf des Modells für lunares differentielles PNT über ein Nutzergitter am Südpol und einen Tag an Epochen (die Szenarioart <c1/>): für eine differentielle R. Orakel (InternalConsistency): Arithmetik, von einem unabhängigen numpy-Skript an exportierten Fällen neu berechnet (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; vorab registriert in tests/fixtures/lunar_station/PREREGISTRATION.md, allein eingecheckt in 9caedf97 vor dem ersten Lauf): bei { "20" } Fällen mit allen eingeschalteten Fehlertermen sind die sichtbaren Mengen und der Status identisch, die rohen Entfernungsfehler stimmen auf { "1.4e-14" } m überein, die Positionsfehlervektoren und -beträge auf { "1.4e-9" } m gegen
+
+seg-bf7d64a925dd = <s1>Zurück</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Weiter</s1>lunar-surface

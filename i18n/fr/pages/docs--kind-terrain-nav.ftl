@@ -63,3 +63,7 @@ seg-0fcad0016c78 = <s1>Précédent</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Suivant</s1>terrain-slam
+
+seg-e66e2ca31e54 = Page thématique : <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Le type et la phase <c1/> : un modèle d'erreur inertielle à cinq états par axe (position, vitesse, biais d'accéléromètre, inclinaison, biais de gyroscope) sur une descente propulsée, aidé par des points AFS (autonomes ou différentiels, avec le cas à trois relais aidé par l'horloge

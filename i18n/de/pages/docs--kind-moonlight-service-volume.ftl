@@ -84,3 +84,9 @@ seg-f8988314faf2 = <c1/> (Szenarioart)
 
 # text
 seg-28c6a5644152 = Modellierte Analyse des lunaren Navigations-Service-Volumens aus einer ILLUSTRATIVE Mondorbit-Konstellation der Moonlight/LCNS-Klasse aus öffentlichen Quellen (nicht mit der ESA verbunden): Sie überstreicht ein selenographisches Breiten-/Längengitter über einen Zeithorizont und gibt DOP / Abdeckung / Verfügbarkeit (≥{ "4" } Satelliten UND PDOP < Schwellwert) sowie eine verallgemeinerte lunare ARAIM-Schutzniveau-Hüllkurve (HPL/VPL) über das Volumen aus. Die DOP-Geometrie VERWENDET den gnss_lib_py-VALIDATED-Kern (crate::orbit::dop) wieder; das Schutzniveau VERWENDET die lunare ARAIM-Maschinerie LunaNet LNIS (crate::lunar, σ_URE≈{ "30" } m) wieder und reduziert sich als Sonderfall auf das bestehende Südpol-Schutzniveau. Zusammensetzung der Stufe MODELLED: ein kreisförmiger/elliptischer Kepler-Relaissatz (nicht die reale differenzialkorrigierte LCNS/NRHO-Ephemeride), ein Mond mit mittlerer Rotation (keine Libration/kein präzedierender Pol). Deterministisch (reine Geometrie). Kein TRL, keine Flugerfahrung, keine Billigung durch eine Agentur.
+
+seg-e66e2ca31e54 = Themenseite: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Die Art und Phase <c1/>: Relaisverfügbarkeit und PDOP, Erd- und Sonnensichtbarkeit und eine geführte Oberflächenuhr für jeden Standort und jede Jahreszeit, mit dem Geländehorizont von <c2/>; ein Lauf an einem einzelnen Standort ist gleich dem dieser Art
+
+seg-6730fa1b9820 = <s1>Zurück</s1>mission-thread

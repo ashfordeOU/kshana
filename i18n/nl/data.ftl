@@ -7316,3 +7316,235 @@ dat-a08318993154 = Criteria van Yang Yuanxi (de subset waartoe de kwaliteitsmate
 dat-1868c76f244c = uw eigen host
 
 dat-4c20ebade87f = χ²₁ NP-detector · gesloten-vorm en Monte-Carlo-P_fa/P_md komen overeen
+
+dat-338478a8723e = { "1" } scenariosoort van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-cd5eb1698a87 = { "14" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-60cc193bcc29 = { "2" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-b73627a5b6d7 = { "24" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-fd22a00f9aa5 = { "5" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-ef1e661614eb = { "6" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-9379a089776e = { "7" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-25d6ecf7e78d = { "9" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen…
+
+dat-90999a1f6b23 = { "92" } van { "92" } soorten, { "3300" } van { "3300" } numerieke velden
+
+dat-e069e927e712 = Een klokscenario waarvan de klassieke klok de ruis van een gemeten log overneemt (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Een klokscenario met een gemeten log naast de gesimuleerde holdover (`[clock_log]`).
+
+dat-6e2cb362b6ee = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B- (NIC/NACp) of AIS-positiemeldingen: radiolijnzicht op een 4/3-aardstraal vanaf de meldingshoogte en een bereik van antennehoogtes van de zender, een beperkt effectief bereik voor het onbekende vermogen, getroffen eenheden die de posterior naar hun bereik trekken en niet getroffen eenheden met lijnzicht die ertegen duwen, gegroepeerd in sessies in tijd en ruimte. De uitvoer bestaat uit gebieden met de hoogste dichtheid op vermelde betrouwbaarheidsniveaus, een posterior-zwaartepunt met een momentenellips, begin, einde, duur van de sessie, getroffen oppervlak en aantal onderscheiden vliegtuigen boven het publicatieminimum, een profiel per tijdstip van de dag en uren per dag. Terreinvrij; één bron per sessie; de geloofwaardigheid hangt van het model af. Optionele fusie met een TDOA-positiebepaling uit geolocatie.
+
+dat-7c2ec7378a5c = Een eenassige handberekening van de voorspelling en de update in de test; de Clohessy-Wiltshire-overgang is degene die cw_dynamics tegen een onafhankelijke numerieke integratie controleert. De sensoren zijn ILLUSTRATIVE en er wordt geen echt rendez-vous vergeleken
+
+dat-9c42080d805e = Adviserende software, geen gecertificeerde navigatieapparatuur.
+
+dat-3ab21add7c07 = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van één keten van fasen, vanaf de lancering
+
+dat-6ba64899cc4a = De taal kiezen
+
+dat-1886310b3396 = Vermelding en rechten
+
+dat-3ab0b8db8085 = Afhankelijkheden en licenties
+
+dat-ce766cce1a7d = De holdover aansturen met uw eigen klok: [clock_fit]
+
+dat-6fd0ece9147e = Zendergebied (interference-map locate)
+
+dat-fe6d68d3c1f9 = Covariantie bij het terugkeerinterface, corridorkans, piekvertraging en landingsvoetafdruk (`entry`)
+
+dat-f6759242b1a9 = Fouten en hun codes
+
+dat-0488b2056745 = Elk meegeleverd scenariobestand ({ "192" }), gegroepeerd per soort, met zijn belangrijkste instellingen.
+
+dat-c0206ef96894 = Elke scenariosoort die de engine v{ $version } verdeelt ({ "92" }), ingedeeld in { "13" } families.
+
+dat-59385aaf8a98 = Exacte gelijkheid met de bestaande soort voor één locatie, en monotoniciteitscontroles, in de tests. De relaisset is ILLUSTRATIVE en er wordt geen oppervlaktemeting vergeleken
+
+dat-6ed624c1c297 = Vier scenariosoorten, elk ook een fasesoort van de interface van de missieketen (src/mission_thread/): ze…
+
+dat-ed7ff984ba53 = Referentiestelsels en tijdschalen
+
+dat-36619fa31a07 = Dekking van het grondnetwerk en trackingbezetting voor een fase van de keten (`[ground_network]` van `mission-thread`)
+
+dat-626be4f0752e = Handberekeningen in de tests (de sigma van de hoek is de loodrechte snelheidssigma gedeeld door de snelheid; de gaussische massa in een corridor). De vlakke terugkeer is die van de engine zelf en de vorm van Allen-Eggers is een vergelijking in gesloten vorm; er wordt geen gevlogen terugkeer vergeleken
+
+dat-1d6764bb725d = Handberekeningen in de tests (de groei van de covariantie langs een rechte lijn, de gemiddelde siderische rotatie, de seculiere klokgang van de maan) en, alleen voor de toestand van de maan, de vastgelegde DE440-kernelsneden tegen vastgezette JPL Horizons-waarden (slechtste { "2.6" } m en { "7e-6" } m/s). Er worden geen missiedata met de keten vergeleken; de fasen ervan zijn rijen op zich. Het document is een vermelde keten met ILLUSTRATIVE invoer, alleen openbare bronnen en zonder goedkeuring van een ruimtevaartorganisatie
+
+dat-a8beacb2b7c6 = Hoe een document een fase vermeldt
+
+dat-f4f6c97c58d7 = Hoe een run in een andere taal werkt (de regel van twee keer uitvoeren)
+
+dat-18ddc744e88f = Hoe een inzending wordt gecontroleerd
+
+dat-b233043f785b = De Kshana MCP-server installeren (v{ $version })
+
+dat-bc70cb57a31f = Bron van interferentie: een haalbaar zendergebied uit positiemeldingen van vliegtuigen en schepen
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
+
+dat-f1881d3fd450 = JPL Horizons-ephemeriden van ruimtevaartuigen voor LRO en CAPSTONE, tegen drempels die vooraf zijn vastgelegd in xval/mission-thread-lunar/PREREGISTRATION.md (Amendementen { "1" } tot { "6" }). LRO: MET, { "33" } m grootste 3D-verschil en { "2.4" } m RMS radiaal tegen { "500" } m en { "60" } m. CAPSTONE: NOT MET, een eindpositieverschil van { "136.8" } km tegen { "25" } km en een periapsisverschil van { "28.4" } km tegen { "10" } km, de oorzaken niet afgezonderd. De rij is gemodelleerd omdat de CAPSTONE-drempel is gemist en de vergelijking de gedeelde propagator test, geen filter, signaal of budget
+
+dat-203f52ed49d1 = JPL Horizons-doel -1023 (het door de NASA-navigatie als gevlogen vastgelegde traject na TLI), tegen drempels die vooraf zijn vastgelegd in xval/mission-thread/PREREGISTRATION.md (Amendement { "1" } wijzigt alleen de aangevraagde tijdspanne). NOT MET en als gemist vastgesteld: { "45.3" } km grootste positieverschil tegen { "5" } km, en { "0.249" } m/s snelheidsverschil bij { "72" } uur tegen { "0.05" } m/s. Een na het oordeel geschreven diagnose plaatst de misser in vijf impulsieve snelheidsstappen van { "0.09" } tot { "0.22" } m/s in de referentie (de vooraf vastgelegde lezing dat het venster geen brand bevatte was onjuist); over de overige { "67" } uur reproduceert het model de volgende uurtoestand tot een mediaan van { "0.38" } m. Test alleen de gemiddelde toestand van één vluchtboog: geen covariantie, filter, update of andere fase
+
+dat-021bd19116af = Bekende beperkingen
+
+dat-61ab3ea0293c = Kshana labelt elke mogelijkheid in een machinaal gecontroleerd register (verificatiematrix).
+
+dat-0002d522fae4 = Budget voor landingsspreiding bij een maanpoollocatie (`lunar-descent`)
+
+dat-141c646761d9 = Lancering en opstijging naar een parkeerbaan met GNSS-acquisitie en signaalverlies (`launch-ascent`)
+
+dat-252a4ca5d8cd = De stelling van Liouville (de determinant van de toestandsovergangsmatrix van het conservatieve deel is één) en een fijnere differentie in de tests; de gemiddelde toestand wordt vergeleken met een openbaar traject in de rij hieronder, dat hij mist. De brandfout, de updates en de covariantie worden met niets vergeleken
+
+dat-1b090eb926b7 = Lokalisatie van de engine
+
+dat-5482eb8e992e = Maanopstijging: de aangedreven opstijging vanaf een locatie bij de zuidpool (Artemis-klasse) naar het rendez-vous op { "100" } km
+
+dat-b5499ac7fa90 = Spreiding van de maanlanding met het echte LOLA-DEM van de zuidpool: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), vanaf de…
+
+dat-c064ed689649 = Spreiding van de maanlanding: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), vanaf de
+
+dat-e576d5088076 = Rendez-vous bij de maan in een elliptische poolbaan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een
+
+dat-7459ee1f4efa = Rendez-vous bij de maan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een cirkelvormige poolbaan van { "100" } km
+
+dat-25f2f7c5048f = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen (locaties bij de zuidpool in Artemis-klasse).
+
+dat-fdedddcf211b = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen met het echte LOLA-terrein van de zuidpool
+
+dat-f250522ecad3 = lunar-ascent (scenariosoort)
+
+dat-afded8513758 = lunar-descent (scenariosoort)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (scenariosoort)
+
+dat-4ea2873d47bd = lunar-surface (scenariosoort)
+
+dat-d2b23c8c0cb8 = Missieketens
+
+dat-42ff804cc994 = Missieketens (familie van scenariosoorten)
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (het eenhedenblok van het rapport)
+
+dat-5b23ee4808db = mission-thread (scenariosoort)
+
+dat-f6f0757c4934 = MODELLED budget voor de landingsspreiding bij een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse).
+
+dat-64ba276bb1f8 = MODELLED budget voor de landingsspreiding bij een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse). Per…
+
+dat-84797c24853b = MODELLED foutenbudget voor navigatie en tijdsynchronisatie van een vermelde keten van missiefasen, van lancering tot terugkeer…
+
+dat-eee427a562f9 = MODELLED aangedreven opstijging vanaf een locatie op het maanoppervlak bij de zuidpool naar de rendez-vousbaan, en de covariantie van positie en snelheid…
+
+dat-a5d5120ad3dd = MODELLED relatieve navigatie voor een koppeling in de stijl van Orion en lander in een lage maanbaan of een elliptische pool…
+
+dat-6cb24469351b = MODELLED beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen voor locaties bij de zuidpool in Artemis-klasse.
+
+dat-61218243092c = MODELLED beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen voor locaties bij de zuidpool in Artemis-klasse.…
+
+dat-dd872eabd06d = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer (`mission-thread`)
+
+dat-7557b6b1b3a2 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
+
+dat-c61600fc3590 = Op gemeten data
+
+dat-edfd6919d948 = Partnerdata: wat gemeten data een MODELLED rij zou kunnen bevorderen
+
+dat-5bd5efbe5a8c = Opstijging met aandrijving vanaf een maanpoollocatie naar een insertiebaan (`lunar-ascent`)
+
+dat-5c095f4884b4 = Relatieve navigatie tot koppeling in een maanbaan (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Relatieve navigatie naar de koppelingsenvelop in een lage baan om de aarde over sensortrajecten (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Rijen die de data van een partner zou kunnen bevorderen
+
+dat-c069be5250fc = Zelfconsistentie onder een preregistratie (xval/mission-thread-lunar/PREREGISTRATION.md, resultaten en de geschiedenis van de schatter in RESULTS.md): de gemiddelde NEES van de relatieve toestand is { "5.85" } tot { "5.93" } tegen de band { "5.2" } tot { "6.8" } in vier configuraties, MET bij het vierde schatterontwerp nadat drie ontwerpen met een opeenvolgend filter hadden gemist; de referentie en de schatter delen één krachtenmodel, dus dit zegt niets over modelfouten. De propagator die ze delen wordt in een rij hieronder met LRO en CAPSTONE vergeleken
+
+dat-bb8b8191a0f6 = Beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen bij de maanpolen (`lunar-surface`)
+
+dat-11e9ad0e8321 = De fase `entry`: de terugvlucht van `tli-and-cruise` zonder brand, eindigend bij het terugkeerinterface; de baanhoek en zijn sigma uit de volledige covariantie met een eindige-differentiegradiënt; de kans dat de hoek binnen een vermelde corridor ligt; de piekvertraging bij de nominale hoek en bij beide corridorranden uit de vlakke ballistische puntmassa-terugkeer van de engine (skip-out gedetecteerd) naast de gesloten vorm van Allen-Eggers; de landingsvoetafdruk uit een vermelde gevoeligheid voor de afstand in vliegrichting en de covariantie bij het interface dwars op het baanvlak. Er wordt geen lift, geleiding of verhitting gemodelleerd
+
+dat-5fedd1cdf670 = De fase `launch-ascent`: een covariantie van positie en snelheid bij constante snelheid met witte versnellingsruis (de klasse van koppelnavigatie), een GNSS-positiebepaling van vermelde nauwkeurigheid die na de acquisitietijd en buiten vermelde signaalverliezen wordt toegepast, een klok met bias en drift die door dezelfde positiebepalingen wordt gestuurd, en de toestand bij insertie in de parkeerbaan
+
+dat-4feb3a9f775b = De fase `leo-rendezvous`: de relatieve toestand in de LVLH-assen van het doel met de Clohessy-Wiltshire-overgang in gesloten vorm, een 6x6-Kalman-covariantie met witte versnellingsruis en positie-updates waarvan de variantie die van de sensor op de actuele afstand is, over trajecten van een vermelde sensor (ILLUSTRATIVE optische camera, lidar en radioafstandsmeting); het koppelvenster is de tijd vanaf het moment waarop de relatieve sigma binnen de vangenvelop blijft tot het einde van de fase. De absolute covariantie van de achtervolger wordt ongewijzigd doorgegeven en een rij zegt dat
+
+dat-238413a36808 = De soort en fase `lunar-ascent`: het traagheidsfoutenmodel met vijf toestanden per as, uitgevoerd over een aangedreven opstijging met specifieke kracht langs het pad, ondersteund door AFS-positiebepalingen en maantijd, dat de covariantie van positie en snelheid bij insertie rapporteert die naar de baan wordt meegenomen en de spreiding bij motoruitschakeling (gerapporteerd, niet meegenomen)
+
+dat-9fe860d16f1f = De soort en fase `lunar-descent`: een traagheidsfoutenmodel met vijf toestanden per as (positie, snelheid, bias van de versnellingsmeter, kanteling, gyrobias) over een aangedreven afdaling, ondersteund door AFS-positiebepalingen (zelfstandig of differentieel, met het klokondersteunde geval met drie relais), een terreinrelatieve positiebepaling (de terreinnavigatie-matcher van de engine op synthetisch reliëf, of een Cramér-Rao-grens op een LOLA-DEM met een regel voor het aperture-probleem) en maantijd, met een Monte Carlo-ellips voor de landingsplaats
+
+dat-ba0cc6e0ae77 = De soort en fase `lunar-orbit-rendezvous`: een gezamenlijke batch-Gauss-Newton-schatting voor twee voertuigen over de boog (eenentwintig parameters: beide toestanden en blijvende positiebiassen in het signaal in de ruimte, gemeenschappelijk en onafhankelijk), opgebouwd over een kwart, de helft en de hele boog met staphalvering, uit een absolute positiebepaling per voertuig (AFS-pilootcode-trackinggrens, ILLUSTRATIVE relaisset) en een crosslink-afstand, onder het maankrachtenmodel van de crate; de gemiddelde genormaliseerde gekwadrateerde schattingsfout, de Clohessy-Wiltshire-controle op een cirkelbaan en de doorgegeven 6x6-covariantie
+
+dat-955283daf32d = De soort en fase `lunar-surface`: beschikbaarheid van relais en PDOP, zicht op aarde en zon en een gestuurde oppervlakteklok voor elke locatie en elk seizoen, met de terreinhorizon van `moonlight-service-volume`; een run voor één locatie is bitgelijk aan de beschikbaarheid en PDOP van die soort
+
+dat-571779bc241a = De soort `mission-thread`: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (`carry`; `inflate`, witte versnellingsruis over een vermelde onderbreking op een model met rechte lijn; `reacquire`, koppelnavigatie en daarna de bronvloer, nooit eronder, nooit een reset); omzettingen van referentiestelsel GCRF, MCI en MCMF en omzettingen van tijdschaal via TT, elk een eigen budgetrij, met de toestand van de maan uit een optionele DE440-kernelsnede en de analytische reeks als vermelde terugval; de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. Elk getal is een vermelde invoer of een model daarvan
+
+dat-36aa30c0c245 = De fase `tli-and-cruise`: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit de DE440-kernel van de keten waar die het segment dekt en de zon uit de analytische reeks); de covariantie met een voorwaartse-differentie-toestandsovergangsmatrix van die voortplanting (de nominale run en zes verstoorde runs per segment) met witte versnellingsruis; de grootte en richtingsfout van de TLI-brandperiode; `gnss-ssv`-positiebepalingen waarvan de beschikbaarheid en PDOP uit de sweep van het ruimteservicevolume langs een osculerende baan komen die de boog vervangt; afstands- en afstandssnelheidstracking langs de geocentrische richting, geschaald met de bezettingsgraad van het grondnetwerk, met de update in Joseph-vorm
+
+dat-826b5ff3a004 = De { "92" } ingebouwde scenariosoorten waarover kshana::api::run_toml verdeelt, elk met zijn ene regel…
+
+dat-4ad8b288fa02 = De mogelijkheidskaarten en alle { "401" } rijen van de verificatiematrix.
+
+dat-85ad15fcf6cb = De voortplanting van de gemiddelde cislunaire toestand tegen het openbare traject van Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = De traagheidsdrift in gesloten vorm en monotoniciteitscontroles in de tests. Er wordt geen gevlogen opstijging vergeleken
+
+dat-1b1e2bdeb2a2 = De traagheidsdrift in gesloten vorm, de eigen resultaten van de hergebruikte soorten en de kalibratie van de 3-sigma-ellips (het deel erbinnen komt overeen met de verwachting) in de tests. Er wordt geen gevlogen of beproefde landing vergeleken
+
+dat-bc68a493fe5d = Het volledige, machinaal gecontroleerde bewijsregister: { "401" } rijen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-a072f7a6e8d5 = Het document
+
+dat-b07afbb33f4b = De acht fasesoorten
+
+dat-ddc15e493a03 = De menselijk leesbare tekst van de engine staat in { "17" } talen naast het Engels: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Het bewijslabel ({ "0.40" })
+
+dat-ac0745dcf97a = Het bewijslabel bij elk cijfer
+
+dat-21d73819d31c = Het bewijslabel, en de uitvoer die er geen draagt
+
+dat-88641ee424ff = De overlay van het grondnetwerk
+
+dat-5c091b15d738 = De overlay van het grondnetwerk: stations met een minimale elevatie, het zicht op het voertuig bij een vermelde geometrie (de terugkeertoestand tweelichamen gevlogen met J2, de positie van de maan voor de vlucht, of een vermelde bezettingsgraad), stationsoverdrachten die elk een vermelde tijd kosten, en de resulterende bezettingsgraad die aan de updatefrequentie van de grondtracking van de fase wordt doorgegeven; het langste interval zonder station in zicht is een budgetrij
+
+dat-576667f29670 = De voortplanting met het maankrachtenmodel tegen openbare gereconstrueerde trajecten van maanorbiters en cislunaire trajecten
+
+dat-5025f9f26401 = Het maansegment van de missieketen in Artemis-klasse
+
+dat-2d1fe075cab5 = De voortplanting van de gemiddelde toestand van de fase `tli-and-cruise` (Cowell, aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit een DE440-snede) vergeleken met het openbare JPL Horizons-traject van Artemis I over een vluchtboog van { "72" } uur vanaf 2022-11-16 { "18" }:{ "00" } TDB, op epochen van { "12" } uur, onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+dat-510e796c2898 = De missieketen
+
+dat-cba533186d05 = De propagator die de maansoorten delen (GRAIL GL0660B graad en orde { "150" }, aarde en zon als derde lichamen, relativiteit, DE440-maanoriëntatie) vergeleken met de openbare JPL Horizons-trajecten van LRO ({ "24" } uur, samples van { "10" } minuten) en CAPSTONE (één omloop van { "6.5" } dagen, samples van een uur), onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+dat-16451dd503da = De stationaire Riccati-toestand en de handberekening van de voorspelling in de tests. Niets hier modelleert een draagraket of een ontvanger; elk getal is een vermelde invoer
+
+dat-09d31ea90146 = Trans-lunaire injectie en cislunaire vlucht: voortgeplante gemiddelde toestand en covariantie met trackingupdates (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Wat een overdracht doet
+
+dat-3727a96cc814 = Wat elke fase doet
+
+dat-703c52a91b91 = Wat wordt gelokaliseerd en wat nooit
+
+dat-93572ee1f44a = Wat het bewijs is
+
+dat-8796a5569e10 = Wat de labels betekenen
+
+dat-bceb988a4263 = Wat u moet sturen
+
+dat-82201a0b07b0 = Wat is er nieuw in { "0.40" }
+
+dat-b3d9ac894036 = Uw eigen klok
+
+dat-286487acb3db = Controles van de geometrie van zenit en antipode en het verwachte zicht op een ver doel in de tests. Er wordt geen echt netwerk, geen antenne en geen schema gemodelleerd

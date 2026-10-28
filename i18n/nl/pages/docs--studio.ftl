@@ -69,3 +69,5 @@ seg-0316a3f12053 = De GitHub Actions-workflow <c1/> rolt een releasetag uit, nie
 seg-6aa2e78078ae = <s1>Vorige</s1>Verklarende woordenlijst
 
 seg-419353a4fb30 = <s1>Volgende</s1>Handleidingen
+
+seg-74dc3fad6ee7 = <s1>Vorige</s1>Talen

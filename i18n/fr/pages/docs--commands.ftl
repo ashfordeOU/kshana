@@ -145,3 +145,7 @@ seg-74240229d57b = <s1>Précédent</s1>Chaque type de scénario, par famille
 
 # text
 seg-b3cc5b769c99 = <s1>Suivant</s1>Chaque surface
+
+seg-09dab71efd9d = vérifie le format et les métadonnées d'une soumission de partenaire de données et lit son fichier de données avec les lecteurs du moteur ; ne note rien
+
+seg-57686575b81d = Données de partenaires

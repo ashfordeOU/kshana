@@ -16,7 +16,7 @@ seg-d1c11e493795 = As varreduras de parâmetros e os conjuntos de Monte Carlo co
 seg-cb91473bfdda = Página do tópico: <a1>LEO-PNT.md</a1>
 
 # text
-seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-c61e88721556 = Tipo de cenário do motor v{ $version }, família <a1>Relógios, temporização e holdover</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-a8d92406e428 = Relógio ótico de rede de estrôncio, meta para uso espacial sigma_y
@@ -87,3 +87,7 @@ seg-1750fbfc4a99 = <s1>Anterior</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Seguinte</s1>telecom-timing
+
+# text
+# c1: tli-and-cruise
+seg-795e0409fa5a = <b>MODELLED</b> A fase <c1/>: o estado médio pelo propagador de Cowell do motor (massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir do kernel DE440 da cadeia onde ele cobre o segmento e o Sol a partir da série analít

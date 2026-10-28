@@ -3126,3 +3126,133 @@ seg-7dfedc40da6a = El bloque opcional [time_lab] del escenario lunar-time-budget
 
 # text
 seg-b915c06fa3f1 = skyline::PRESETS: cuatro geometrías REPRESENTATIVE con las dimensiones indicadas en la nota de diseño y una línea de procedencia cada una: city-street (un cañón, calle { "0" } grados, { "20" } m entre muros de { "30" } m, antena { "1.5" } m), harbour-approach (sectores: abierto hacia el mar en { "180" } grados, edificios de muelle { "8" } grados en { "90" } grados, el rompeolas { "3" } grados), fjord (terreno: paredes { "600" } m por encima de la antena a { "1.5" } km a cada lado de un canal norte-sur, caída por curvatura aplicada), container-terminal (sectores: pilas { "12" } grados sobre la mitad hacia tierra, plumas de grúa { "35" } grados y { "25" } grados sobre dos sectores estrechos); sobrescribible campo por campo
+
+seg-65185cb68d6b = Presupuesto de errores de navegación y temporización de una cadena de fases de misión desde el lanzamiento hasta la entrada (<c1/>)
+
+seg-86a132e1a243 = El tipo de escenario <c1/>: un documento de fases, cada una de uno de ocho tipos registrados, ejecutadas en orden con la covarianza de 6x6, el reloj y el marco transmitidos bajo una regla indicada (<c2/>; <c3/>, ruido de aceleración blanco sobre un intervalo indicado en un modelo de línea recta; <c4/>, navegación a estima y luego el piso de la fuente, nunca por debajo de él, nunca un reinicio); conversiones de marco GCRF, MCI y MCMF y conversiones de escala de tiempo a través de TT, cada una con su propia fila de presupuesto, con el estado de la Luna a partir de un recorte opcional del kernel DE440 y la serie analítica como alternativa indicada; el margen frente a un requisito indicado, el eslabón más débil, los eventos y una figura de línea de tiempo. Cada número es una entrada indicada o un modelo de una de ellas
+
+seg-87b2b2459b45 = Lanzamiento y ascenso a una órbita de estacionamiento con adquisición y desvanecimiento de GNSS (<c1/>)
+
+seg-725e7ce83533 = La fase <c1/>: una covarianza de posición y velocidad de velocidad constante con ruido de aceleración blanco (el grado de navegación a estima), una posición GNSS de precisión indicada aplicada tras el tiempo de adquisición y fuera de los desvanecimientos indicados, un reloj de sesgo y deriva disciplinado por las mismas posiciones, y el estado de inserción en la órbita de estacionamiento
+
+seg-eb66a49b0306 = Navegación relativa hasta la envolvente de acoplamiento en órbita terrestre baja a lo largo de tramos de sensor (<c1/>)
+
+seg-658a0448d80d = La fase <c1/>: el estado relativo en los ejes LVLH del objetivo con la transición de Clohessy-Wiltshire de forma cerrada, una covarianza de Kalman de 6x6 con ruido de aceleración blanco y actualizaciones de posición cuya varianza es la del sensor a la distancia actual, a lo largo de tramos de un sensor indicado (formas ILLUSTRATIVE de cámara óptica, lidar y medición de distancia por radio); la ventana de acoplamiento es el tiempo desde que el sigma relativo permanece dentro de la envolvente de captura hasta el final de la fase. La covarianza absoluta del perseguidor se transmite sin cambios y una fila lo indica
+
+seg-b45a8a357faf = Inyección translunar y crucero cislunar: estado medio y covarianza propagados con actualizaciones de seguimiento (<c1/>)
+
+seg-ab5c79789754 = La fase <c1/>: el estado medio mediante el propagador de Cowell del motor (masa puntual terrestre y J2, el Sol y la Luna como terceros cuerpos, la Luna a partir del kernel DE440 del hilo donde cubre el segmento y el Sol a partir de la serie analítica); la covarianza mediante una matriz de transición de estado por diferencias hacia adelante de esa propagación (la ejecución nominal y seis ejecuciones perturbadas por segmento) con ruido de aceleración blanco; el tamaño y el error de apuntamiento de la maniobra TLI; posiciones <c2/> cuya disponibilidad y PDOP proceden del barrido del volumen de servicio espacial a lo largo de una órbita osculatriz que sustituye al arco; seguimiento de distancia y velocidad de distancia a lo largo de la dirección geocéntrica, escalado por el ciclo de la red terrestre, con la actualización de forma de Joseph
+
+seg-7a3eb4fae324 = Covarianza en la interfaz de entrada, probabilidad de corredor, deceleración máxima y huella de aterrizaje (<c1/>)
+
+seg-93f07906d7bf = La fase <c1/>: la deriva de regreso de <c2/> sin maniobra, que termina en la interfaz de entrada; el ángulo de trayectoria de vuelo y su sigma a partir de la covarianza completa mediante un gradiente por diferencias finitas; la probabilidad de que el ángulo esté dentro de un corredor indicado; la deceleración máxima en el ángulo nominal y en ambos bordes del corredor a partir de la entrada balística plana de masa puntual del propio motor (con detección de rebote) junto a la forma cerrada de Allen-Eggers; la huella de aterrizaje a partir de una sensibilidad indicada en el sentido del alcance y la covarianza de la interfaz a través del plano orbital. No se modela sustentación, guiado ni calentamiento
+
+seg-3f0951532f6e = Cobertura de la red terrestre y ciclo de seguimiento para una fase del hilo (<c1/> de <c2/>)
+
+seg-5204af351299 = La superposición de la red terrestre: estaciones con una elevación mínima, la visibilidad del vehículo en una geometría indicada (el estado de entrada volado en dos cuerpos con J2, la posición de la Luna para el crucero, o un ciclo indicado), traspasos entre estaciones que pierden cada uno un tiempo indicado, y el ciclo resultante transmitido a la tasa de actualización de seguimiento terrestre de la fase; el intervalo más largo sin ninguna estación a la vista es una fila de presupuesto
+
+seg-4ba700726208 = Navegación relativa hasta el acoplamiento en una órbita lunar (<c1/>)
+
+seg-2e30e78e49f7 = El tipo de escenario y fase <c1/>: una estimación conjunta por lotes de Gauss-Newton de dos vehículos a lo largo del arco (veintiún parámetros: ambos estados y sesgos persistentes de posición de la señal en el espacio, comunes e independientes), ampliada sobre un cuarto, la mitad y todo el arco con reducción de paso a la mitad, a partir de una posición absoluta por vehículo (cota de seguimiento de código del piloto AFS, conjunto de relés ILLUSTRATIVE) y una distancia de enlace cruzado, bajo el modelo de fuerzas lunar del crate; el error de estimación normalizado cuadrático medio, la comprobación de Clohessy-Wiltshire en una órbita circular y la covarianza de 6x6 transmitida
+
+seg-c85d7e5e63a3 = Presupuesto de dispersión de aterrizaje en un emplazamiento polar lunar (<c1/>)
+
+seg-bd88ab3ad105 = El tipo de escenario y fase <c1/>: un modelo de error inercial de cinco estados por eje (posición, velocidad, sesgo del acelerómetro, inclinación, sesgo del giróscopo) durante un descenso propulsado, ayudado por posiciones AFS (autónomas o diferenciales, con el caso de tres relés asistido por reloj), una posición relativa al terreno (el correlador terrain-nav del motor sobre relieve sintético, o una cota de Cramer-Rao sobre un DEM de LOLA con una regla del problema de apertura) y la hora lunar, con una elipse de toma de contacto por Monte Carlo
+
+seg-8dfc1600cf8c = Disponibilidad de posicionamiento y temporización en la superficie por emplazamiento y estación en los polos lunares (<c1/>)
+
+seg-f91c1da9ab55 = El tipo de escenario y fase <c1/>: disponibilidad de relés y PDOP, visibilidad de la Tierra y del Sol y un reloj de superficie disciplinado para cada emplazamiento y estación, con el horizonte de terreno de <c2/>; una ejecución de un solo emplazamiento iguala la disponibilidad y el PDOP de ese tipo de escenario bit a bit
+
+seg-0db91d70a079 = Ascenso propulsado desde un emplazamiento polar lunar a una órbita de inserción (<c1/>)
+
+seg-b5b1125d515c = El tipo de escenario y fase <c1/>: el modelo de error inercial de cinco estados por eje ejecutado durante un ascenso propulsado con fuerza específica a lo largo de la trayectoria, ayudado por posiciones AFS y la hora lunar, que informa de la covarianza de posición y velocidad de inserción transportada a la órbita y de la dispersión al corte del motor (informada, no transportada)
+
+seg-1983ce9cc6da = La propagación con el modelo de fuerzas lunar frente a trayectorias públicas reconstruidas de orbitadores lunares y cislunares
+
+seg-57f53a7d1fa2 = El propagador que comparten los tipos de escenario lunares (GRAIL GL0660B de grado y orden { "150" }, la Tierra y el Sol como terceros cuerpos, relatividad, orientación lunar DE440) comparado con las trayectorias públicas de JPL Horizons de LRO ({ "24" } h, muestras cada { "10" } minutos) y CAPSTONE (una revolución de { "6.5" } días, muestras cada hora), bajo umbrales fijados en un archivo confirmado antes de la ejecución
+
+seg-c557d317389a = La propagación del estado medio cislunar frente a la trayectoria pública de Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = La propagación del estado medio de la fase <c1/> (Cowell, masa puntual terrestre y J2, el Sol y la Luna como terceros cuerpos, la Luna a partir de un recorte de DE440) comparada con la trayectoria pública de Artemis I de JPL Horizons a lo largo de un arco de deriva de { "72" } h desde 2022-11-16 { "18" }:{ "00" } TDB, en épocas cada { "12" } horas, bajo umbrales fijados en un archivo confirmado antes de la ejecución
+
+seg-150ae9c3d755 = Región de la fuente de interferencia: una región factible del emisor a partir de informes de posición de aeronaves y buques
+
+seg-b5c49044a7a1 = Una región factible para la ubicación de una fuente de informes de navegación degradada, a partir de informes de posición ADS-B (NIC/NACp) o AIS: línea de visión radioeléctrica con un radio terrestre de 4/3 desde la altura del informe y un intervalo de alturas de antena del emisor, un alcance efectivo limitado para la potencia desconocida, unidades afectadas que atraen la distribución a posteriori hacia su alcance y unidades no afectadas con línea de visión que la empujan en sentido contrario, agrupadas en sesiones en el tiempo y el espacio. La salida son regiones de máxima densidad con niveles de confianza indicados, un centroide a posteriori con una elipse de momentos, el inicio, el final y la duración de la sesión, el área afectada y el número de aeronaves distintas por encima del mínimo de publicación, un perfil de la hora del día y las horas por día. Sin terreno; una sola fuente por sesión; la credibilidad depende del modelo. Fusión opcional con una posición TDOA de la geolocalización.
+
+seg-26d9a520eb6a = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Cálculos manuales en las pruebas (el crecimiento de la covarianza en línea recta, la rotación sidérea media, la tasa secular del reloj lunar) y, solo para el estado de la Luna, los recortes del kernel DE440 confirmados frente a valores fijados de JPL Horizons (el peor { "2.6" } m y { "7e-6" } m/s). No se compara ningún dato de misión con la cadena; sus fases son filas propias. El documento es una cadena declarada con entradas ILLUSTRATIVE, solo fuentes públicas y sin respaldo de ninguna agencia
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — El estado estacionario de Riccati y el cálculo manual de la predicción en las pruebas. Nada de aquí modela un vehículo de lanzamiento ni un receptor; cada número es una entrada indicada
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Un cálculo manual de un solo eje de la predicción y la actualización en la prueba; la transición de Clohessy-Wiltshire es la que cw_dynamics comprueba frente a una integración numérica independiente. Los sensores son ILLUSTRATIVE y no se compara ningún encuentro real
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — El teorema de Liouville (el determinante de la matriz de transición de estado de la parte conservativa es uno) y una diferencia más fina en las pruebas; el estado medio se compara con una trayectoria pública en la fila siguiente, que no alcanza. El error de maniobra, las actualizaciones y la covarianza no se comparan con nada
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Cálculos manuales en las pruebas (el sigma del ángulo es el sigma de la velocidad perpendicular dividido por la velocidad; la masa gaussiana en un corredor). La entrada plana es la propia del motor y la forma de Allen-Eggers es una comparación de forma cerrada; no se compara ninguna entrada real en vuelo
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Comprobaciones de geometría de cenit y antípoda y la visibilidad esperada de un objetivo distante en las pruebas. No se modela ninguna red, antena ni programación reales
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Autoconsistencia bajo un preregistro (xval/mission-thread-lunar/PREREGISTRATION.md, resultados e historial del estimador en RESULTS.md): el NEES medio del estado relativo es de { "5.85" } a { "5.93" } frente a la banda de { "5.2" } a { "6.8" } en cuatro configuraciones, MET con el cuarto diseño de estimador tras fallar tres diseños de filtro secuencial; la verdad de referencia y el estimador comparten un modelo de fuerzas, de modo que esto no dice nada sobre el error del modelo. El propagador que comparten se compara con LRO y CAPSTONE en una fila más abajo
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — La deriva inercial de forma cerrada, los resultados propios de los tipos de escenario reutilizados y la calibración de la elipse de 3 sigma (la fracción interior coincide con su valor esperado) en las pruebas. No se compara ningún aterrizaje en vuelo ni ensayado
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = comprobado frente a una implementación separada de este mismo código: independiente de la unidad probada, pero sin autoridad externa — Igualdad exacta con el tipo de escenario existente para un emplazamiento, y comprobaciones de monotonicidad, en las pruebas. El conjunto de relés es ILLUSTRATIVE y no se compara ninguna medición de superficie
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — La deriva inercial de forma cerrada y comprobaciones de monotonicidad en las pruebas. No se compara ningún ascenso en vuelo
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = una subafirmación se comprueba externamente, pero la capacidad completa compone piezas modeladas, de modo que la capacidad sigue siendo modelada — Efemérides de nave de JPL Horizons para LRO y CAPSTONE, frente a umbrales fijados de antemano en xval/mission-thread-lunar/PREREGISTRATION.md (enmiendas { "1" } a { "6" }). LRO: MET, { "33" } m de mayor diferencia 3D y { "2.4" } m RMS radial frente a { "500" } m y { "60" } m. CAPSTONE: NOT MET, una diferencia de posición final de { "136.8" } km frente a { "25" } km y una diferencia de periapsis de { "28.4" } km frente a { "10" } km, sin haberse aislado las causas. La fila es modelada porque el umbral de CAPSTONE no se alcanza y la comparación prueba el propagador compartido, no ningún filtro, señal ni presupuesto
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = una subafirmación se comprueba externamente, pero la capacidad completa compone piezas modeladas, de modo que la capacidad sigue siendo modelada — JPL Horizons objetivo -1023 (la trayectoria posterior a la TLI tal como voló, de la navegación de la NASA), frente a umbrales fijados de antemano en xval/mission-thread/PREREGISTRATION.md (la enmienda { "1" } cambia solo el intervalo solicitado). NOT MET y declarado como no alcanzado: { "45.3" } km de mayor diferencia de posición frente a { "5" } km, y { "0.249" } m/s de diferencia de velocidad a { "72" } h frente a { "0.05" } m/s. Un diagnóstico escrito después del veredicto sitúa el fallo en cinco pasos de velocidad impulsivos de { "0.09" } a { "0.22" } m/s en la referencia (la lectura fijada de antemano de que la ventana no contenía ninguna maniobra era errónea); durante las otras { "67" } horas el modelo reproduce el siguiente estado horario con una mediana de { "0.38" } m. Prueba solo el estado medio de un único arco de inercia: sin covarianza, filtro, actualización ni otra fase
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = comprobado frente a su propia identidad analítica / de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa — Ninguna externa todavía. Solo ejecuciones sintéticas de ida y vuelta directa e inversa, de un generador que comparte el modelo del estimador, por lo que comprueban el código y la calibración de los niveles indicados bajo ese modelo y nada sobre emisores reales. Una comprobación externa frente a los emplazamientos de transmisores publicados de Jammertest { "2025" } se preregistró (docs/emitter-region/PREREGISTRATION.md, aprobada por el propietario antes de cualquier ejecución puntuada) y se ejecutó una vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sesiones programadas, menos del mínimo registrado de { "4" }) y AIS NOT ASSESSABLE (ninguna sesión publicada), de modo que no se probó ningún umbral y la fila sigue siendo MODELLED
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = pruebas unitarias de interference_map::emitter (ida y vuelta de la proyección, cifra del horizonte, ida y vuelta sintéticas directa e inversa: el emisor conocido queda dentro de la región indicada con aproximadamente la tasa indicada, casos límite, agrupación en sesiones, perfil, privacidad y redacción); casos de locate de tests/interference_map_cli.rs
+
+seg-a2bf08b8e82d = { "221" } capacidades etiquetadas como MODELLED.

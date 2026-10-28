@@ -63,3 +63,7 @@ seg-0fcad0016c78 = <s1>Anterior</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Siguiente</s1>terrain-slam
+
+seg-e66e2ca31e54 = Página del tema: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> El tipo de escenario y fase <c1/>: un modelo de error inercial de cinco estados por eje (posición, velocidad, sesgo del acelerómetro, inclinación, sesgo del giróscopo) durante un descenso propulsado, ayudado por posiciones AFS (autónomas o diferenciales, con el caso de tres rel

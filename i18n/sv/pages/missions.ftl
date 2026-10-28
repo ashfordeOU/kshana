@@ -837,3 +837,5 @@ seg-1d3b81df1579 = <s1><c1/>sweep-nd</s1><c2/><s2>Ett parametersvep över många
 seg-9a86ef058d27 = Öppna i Kshana Studio
 
 seg-e1acd19a6ac6 = Jämför utgåvorna
+
+seg-ecb96b67c4e9 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

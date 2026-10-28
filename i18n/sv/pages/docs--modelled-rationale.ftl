@@ -2029,3 +2029,133 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-7a0503f925c1 = <s1>Föregående</s1>Förmågereferens
 
 seg-b5832e94f926 = <s1>Nästa</s1>Påståenden mot verkligheten
+
+seg-65185cb68d6b = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde (<c1/>)
+
+seg-86a132e1a243 = Typen <c1/>: ett dokument med faser, var och en av åtta registrerade typer, körda i ordning med 6x6-kovariansen, klockan och referenssystemet överlämnade enligt en angiven regel (<c2/>; <c3/>, vitt accelerationsbrus över ett angivet glapp på en rätlinjig modell; <c4/>, dödräkning och därefter källans golv, aldrig under det, aldrig en återställning); omvandlingar av referenssystem mellan GCRF, MCI och MCMF samt av tidsskalor via TT, var och en en egen budgetrad, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv; marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. Varje tal är en angiven indata eller en modell av en sådan
+
+seg-87b2b2459b45 = Uppskjutning och stigning till en parkeringsbana med GNSS-inhämtning och bortfall (<c1/>)
+
+seg-725e7ce83533 = Fasen <c1/>: en kovarians för position och hastighet med konstant hastighet och vitt accelerationsbrus (dödräkningsklassen), en GNSS-positionsbestämning med angiven noggrannhet som tillämpas efter inhämtningstiden och utanför angivna bortfall, en klocka med bias och drift som styrs av samma positionsbestämningar, samt insättningstillståndet i parkeringsbanan
+
+seg-eb66a49b0306 = Relativ navigering till dockningsenveloppen i låg omloppsbana runt jorden över sensorsträckor (<c1/>)
+
+seg-658a0448d80d = Fasen <c1/>: det relativa tillståndet i målets LVLH-axlar med Clohessy-Wiltshire-övergången i sluten form, en 6x6-Kalmankovarians med vitt accelerationsbrus och positionsuppdateringar vars varians är sensorns vid aktuellt avstånd, över sträckor med en angiven sensor (ILLUSTRATIVE optisk kamera, lidar och radioavståndsmätning); dockningsfönstret är tiden från den punkt där den relativa sigman håller sig inom infångningsenveloppen till slutet av fasen. Jagarens absoluta kovarians överlämnas oförändrad och en rad anger det
+
+seg-b45a8a357faf = Trans-lunar injektion och färd i cislunart rum: propagerat medeltillstånd och kovarians med spårningsuppdateringar (<c1/>)
+
+seg-ab5c79789754 = Fasen <c1/>: medeltillståndet med motorns Cowell-propagator (jordens punktmassa och J2, solen och månen som tredje kroppar, månen från trådens DE440-kärna där den täcker segmentet och solen från den analytiska serien); kovariansen med en tillståndsövergångsmatris framåtdifferens av den propagationen (den nominella körningen och sex störda körningar per segment) med vitt accelerationsbrus; TLI-brännarens storlek och riktningsfel; <c2/>-positionsbestämningar vars tillgänglighet och PDOP kommer från svepet över rymdtjänstvolymen längs en oskulerande bana som står i för bågen; avstånds- och avståndshastighetsspårning längs den geocentriska riktningen skalad med markstationsnätets driftcykel, med uppdatering i Joseph-form
+
+seg-7a3eb4fae324 = Kovarians vid återinträdesgränssnittet, korridorsannolikhet, maximal retardation och landningsområde (<c1/>)
+
+seg-93f07906d7bf = Fasen <c1/>: returfärden för <c2/> utan brännare, som slutar vid återinträdesgränssnittet; banvinkeln och dess sigma ur hela kovariansen med en gradient av finita differenser; sannolikheten att vinkeln ligger inom en angiven korridor; den maximala retardationen vid den nominella vinkeln och vid båda korridorkanterna från motorns plana ballistiska punktmassa-återinträde (utstudsning detekteras) bredvid Allen-Eggers slutna form; landningsområdet från en angiven känslighet i sträckriktningen och gränssnittskovariansen tvärs banplanet. Ingen lyftkraft, styrning eller uppvärmning modelleras
+
+seg-3f0951532f6e = Täckning och spårningsdrift för markstationsnätet för en trådfas (<c1/> i <c2/>)
+
+seg-5204af351299 = Överlägget för markstationsnätet: stationer med en lägsta elevation, fordonets synlighet på en angiven geometri (återinträdestillståndet flugen tvåkropps med J2, månens position för färden, eller en angiven driftcykel), stationsöverlämningar som förlorar en angiven tid vardera, och den resulterande driftcykeln som förs över till uppdateringsfrekvensen för fasens markspårning; det längsta intervallet utan någon station i sikte är en budgetrad
+
+seg-4ba700726208 = Relativ navigering till dockning i en månbana (<c1/>)
+
+seg-2e30e78e49f7 = Typen och fasen <c1/>: en gemensam Gauss-Newton-skattning i satser för två fordon över bågen (tjugoett parametrar: båda tillstånden och bestående positionsbias i signal i rymden, gemensamma och oberoende), uppbyggd över en kvarts, en halv och hela bågen med stegfyrdelning, från en absolut positionsbestämning per fordon (AFS-pilotkodens spårningsgräns, ILLUSTRATIVE reläuppsättning) och ett avstånd över länken mellan fordonen, under cratens månkraftmodell; det genomsnittliga normaliserade kvadratiska skattningsfelet, Clohessy-Wiltshire-kontrollen på en cirkulär bana och den överlämnade 6x6-kovariansen
+
+seg-c85d7e5e63a3 = Budget för landningsspridning vid en polarplats på månen (<c1/>)
+
+seg-bd88ab3ad105 = Typen och fasen <c1/>: en inertiell felmodell med fem tillstånd per axel (position, hastighet, accelerometerbias, lutning, gyrobias) över en driven nedstigning, stödd av AFS-positionsbestämningar (fristående eller differentiella, med fallet med tre reläer och klockstöd), en terrängrelativ positionsbestämning (motorns terrängmatchare på syntetiskt relief, eller en Cramer-Rao-gräns på en LOLA-DEM med en regel för bländarproblemet) och månens tid, med en Monte Carlo-ellips för beröringspunkten
+
+seg-8dfc1600cf8c = Tillgänglighet för positionering och tidssynkronisering på ytan per plats och årstid vid månens poler (<c1/>)
+
+seg-f91c1da9ab55 = Typen och fasen <c1/>: reläers tillgänglighet och PDOP, synlighet för jorden och solen samt en styrd ytklocka för varje plats och årstid, med terrängsiluetten från <c2/>; en körning för en enda plats ger exakt samma tillgänglighet och PDOP som den typen, bit för bit
+
+seg-0db91d70a079 = Driven stigning från en polarplats på månen till en insättningsbana (<c1/>)
+
+seg-b5b1125d515c = Typen och fasen <c1/>: den inertiella felmodellen med fem tillstånd per axel körd över en driven stigning med specifik kraft längs banan, stödd av AFS-positionsbestämningar och månens tid, som redovisar kovariansen för position och hastighet vid insättningen som förs vidare till banan och spridningen vid motoravstängning (redovisad, inte förd vidare)
+
+seg-1983ce9cc6da = Propageringen med månens kraftmodell mot offentliga rekonstruerade banor för månsatelliter och cislunara banor
+
+seg-57f53a7d1fa2 = Propagatorn som månens typer delar (GRAIL GL0660B grad och ordning { "150" }, jorden och solen som tredje kroppar, relativitet, DE440-månorientering) jämförd med de offentliga JPL Horizons-banorna för LRO ({ "24" } h, prov var { "10" }:e minut) och CAPSTONE (ett varv på { "6.5" } dygn, prov varje timme), under trösklar som fastställdes i en incheckad fil före körningen
+
+seg-c557d317389a = Propageringen av medeltillståndet i cislunart rum mot den offentliga banan för Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Propageringen av medeltillståndet i fasen <c1/> (Cowell, jordens punktmassa och J2, solen och månen som tredje kroppar, månen från ett DE440-utsnitt) jämförd med den offentliga JPL Horizons-banan för Artemis I över en frirörelsebåge på { "72" } h från 2022-11-16 { "18" }:{ "00" } TDB, vid epoker var { "12" }:e timme, under trösklar som fastställdes i en incheckad fil före körningen
+
+seg-150ae9c3d755 = Område för störkälla: ett möjligt sändarområde utifrån positionsrapporter från flygplan och fartyg
+
+seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B-rapporter (NIC/NACp) eller AIS-positionsrapporter: radiosikt på en 4/3-jordradie från rapporthöjden och ett höjdintervall för sändarantennen, en begränsad effektiv räckvidd för den okända effekten, påverkade enheter som drar posteriorn mot sin räckvidd och opåverkade enheter med sikt som trycker emot den, grupperade i sessioner i tid och rum. Utdata är områden med högst täthet vid angivna konfidensnivåer, en posteriortyngdpunkt med en momentellips, sessionens start, slut, varaktighet, påverkad yta och antal skilda flygplan över publiceringsminimum, en profil över dygnet och timmar per dag. Terrängfritt; en enda källa per session; trovärdigheten är villkorad av modellen. Valfri fusion med en TDOA-positionsbestämning från geolokalisering.
+
+seg-26d9a520eb6a = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Handberäkningar i testerna (den rätlinjiga tillväxten av kovariansen, den genomsnittliga sideriska rotationen, den sekulära hastigheten hos månklockan) och, enbart för månens tillstånd, de incheckade DE440-utsnitten mot fastlåsta värden från JPL Horizons (sämst { "2.6" } m och { "7e-6" } m/s). Inga uppdragsdata jämförs med kedjan; dess faser är rader för sig. Dokumentet är en angiven kedja med ILLUSTRATIVE indata, enbart offentliga källor och inget stöd från någon rymdorganisation
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Riccati-jämviktstillståndet och handberäkningen av prediktionen i testerna. Ingenting här modellerar en bärraket eller en mottagare; varje tal är en angiven indata
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — En endimensionell handberäkning av prediktion och uppdatering i testet; Clohessy-Wiltshire-övergången är den som cw_dynamics kontrollerar mot en oberoende numerisk integration. Sensorerna är ILLUSTRATIVE och ingen verklig rendezvous jämförs
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Liouvilles sats (determinanten för tillståndsövergångsmatrisen för den konservativa delen är ett) och en finare differens i testerna; medeltillståndet jämförs med en offentlig bana i raden nedan, som det missar. Brännfelet, uppdateringarna och kovariansen jämförs inte med någonting
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Handberäkningar i testerna (vinkelns sigma är den vinkelräta hastighetens sigma delat med farten; Gauss-massan i en korridor). Det plana återinträdet är motorns eget och Allen-Eggers-formen är en jämförelse i sluten form; inget genomfört återinträde jämförs
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Kontroller av zenit- och antipodgeometri samt den förväntade synligheten för ett avlägset mål i testerna. Inget verkligt nät, ingen antenn och inget schema modelleras
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Självkonsistens under en förhandsregistrering (xval/mission-thread-lunar/PREREGISTRATION.md, resultat och skattarens historik i RESULTS.md): den genomsnittliga NEES för det relativa tillståndet är { "5.85" } till { "5.93" } mot bandet { "5.2" } till { "6.8" } i fyra konfigurationer, MET på den fjärde skattarutformningen efter att tre utformningar med sekventiella filter missat; referensen och skattaren delar en kraftmodell, så detta säger ingenting om modellfel. Propagatorn den delar jämförs med LRO och CAPSTONE i en rad nedan
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Den inertiella driften i sluten form, de återanvända typernas egna resultat och kalibreringen av 3-sigma-ellipsen (andelen innanför stämmer med sin förväntan) i testerna. Ingen genomförd eller testad landning jämförs
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = kontrollerad mot en separat implementation i samma kodbas — oberoende av enheten som testas, men inte externt auktoritativ — Exakt likhet med den befintliga typen för en plats, samt monotonicitetskontroller, i testerna. Reläuppsättningen är ILLUSTRATIVE och ingen ytmätning jämförs
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Den inertiella driften i sluten form och monotonicitetskontroller i testerna. Ingen genomförd stigning jämförs
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = ett delpåstående kontrolleras externt, men hela förmågan sätter ihop modellerade delar, så förmågan förblir modellerad — JPL Horizons rymdfarkostefemerider för LRO och CAPSTONE, mot trösklar som fastställts i förväg i xval/mission-thread-lunar/PREREGISTRATION.md (tillägg { "1" } till { "6" }). LRO: MET, { "33" } m största 3D-skillnad och { "2.4" } m radiellt RMS mot { "500" } m och { "60" } m. CAPSTONE: NOT MET, en skillnad i slutposition på { "136.8" } km mot { "25" } km och en skillnad i periapsis på { "28.4" } km mot { "10" } km, orsakerna är inte isolerade. Raden är modellerad eftersom CAPSTONE-tröskeln inte nås och jämförelsen testar den delade propagatorn, inte något filter, någon signal eller budget
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = ett delpåstående kontrolleras externt, men hela förmågan sätter ihop modellerade delar, så förmågan förblir modellerad — JPL Horizons mål -1023 (NASA:s navigationsbana som flugits efter TLI), mot trösklar som fastställts i förväg i xval/mission-thread/PREREGISTRATION.md (tillägg { "1" } ändrar bara den begärda tidsspannet). NOT MET och fastslaget som missat: { "45.3" } km största positionsskillnad mot { "5" } km, och { "0.249" } m/s hastighetsskillnad vid { "72" } h mot { "0.05" } m/s. En diagnostik som skrevs efter utfallet placerar missen i fem impulsiva hastighetssteg på { "0.09" } till { "0.22" } m/s i referensen (den förhandsregistrerade bedömningen att fönstret inte innehöll någon brännare var fel); under de övriga { "67" } timmarna återger modellen nästa timtillstånd med en median på { "0.38" } m. Testar bara medeltillståndet för en enda frirörelsebåge: ingen kovarians, inget filter, ingen uppdatering och ingen annan fas
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens — Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
+
+seg-a2bf08b8e82d = { "221" } förmågor märkta MODELLED.

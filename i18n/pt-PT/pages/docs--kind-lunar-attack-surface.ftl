@@ -16,7 +16,7 @@ seg-cc2ad9e12064 = <b>MODELLED</b> Orçamento de enlace de J/S geométrico, C/N�
 seg-143f3f1cc521 = A resiliência a jamming em ambientes sem GNSS é MODELLED, não validada: verificada contra a sua própria identidade analítica / de forma fechada — deteta erros de transcrição e de coeficientes, mas não é uma referência independente externa. (matriz de verificação (docs/MODELLED-RATIONALE.md))
 
 # text
-seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-1c1eeb2dcaa0 = Página da família: <a1>Lunar e cislunar</a1>
@@ -104,3 +104,6 @@ seg-1a1799e01ac4 = <s1>Anterior</s1>link-budget
 
 # text
 seg-4b0efe4b9b85 = <s1>Seguinte</s1>lunar-beacon
+
+# text
+seg-ca1c7e92b98e = <s1>Anterior</s1>lunar-ascent

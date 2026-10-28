@@ -837,3 +837,5 @@ seg-d10b07c40c97 = Zacznij od: <a1>Instalacja</a1>
 seg-0e6be0d623f6 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Licencja komercyjna otwartego rdzenia: integracja zamknięta lub własnościowa bez zobowiązań AGPL.
 
 seg-9b505908a6e2 = Kshana <b>nie steruje żadnym sprzętem radiowym i niczego nie nadaje</b>. Zawiera programowy odbiornik GNSS dla zarejestrowanych i wygenerowanych próbek IQ i może zapisywać syntetyczne pliki IQ w paśmie podstawowym, ale <b>nie jest sprzętowym generatorem sygnału RF</b> ani <b>sprzętowym lub certyfikowanym odbiornikiem GNSS</b>. Jest narzędziem do badań i analizy kompromisów: symuluje, co zagłuszanie, spoofing i utrata sygnału robią z rozwiązaniem nawigacyjnym i czasowym, i wskazuje, które z jego odpowiedzi zostały sprawdzone względem niezależnego wzorca. <b>To nie jest produkt lotniczy.</b>
+
+seg-ecb96b67c4e9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

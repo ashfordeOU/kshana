@@ -648,3 +648,47 @@ seg-09f7f99d04a6 = <s1>Anterior</s1>Navegação em órbita baixa da Terra
 
 # text
 seg-74c6bf83988e = <s1>Seguinte</s1>Análise de missão, enlaces e operações espaciais
+
+seg-ae3053a1f6c8 = Ascensão propulsada MODELLED de um local de superfície polar sul até a órbita de encontro, e a covariância de posição e velocidade que ela leva de volta à órbita (classe Artemis). O modelo de erro inercial de cinco estados por eixo de lunar-descent (posição, velocidade, viés do acelerômetro, inclinação de atitude, viés do giroscópio, conduzido pela força específica) é executado nos três eixos do local a partir do estado de superfície com que a fase começa; uma solução de posição AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE de classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) é obtida em um intervalo declarado, com o tempo lunar entrando pelo relógio do veículo e um erro de marcação de tempo ao longo da trajetória. Informa as fontes inerciais em forma fechada, a contribuição do auxílio, a ablação, os 1-sigmas de navegação ao longo da ascensão, a dispersão no corte do motor ao lado do conhecimento de navegação, e a covariância MCI 6x6 completa na inserção com a correlação posição-velocidade mantida. MODELLED: classe de IMU, força específica, conjunto de relés e dispersão no corte ilustrativos; erros mantidos nos eixos do local de lançamento; o estado nominal de saída é um substituto. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+seg-463a919e84d5 = O gráfico que o motor grava para scenarios/lunar-ascent.toml, tipo lunar-ascent
+
+seg-2cd0d5385530 = Orçamento de dispersão de pouso MODELLED para uma descida propulsada a um local polar sul (classe Artemis). Por eixo horizontal, um modelo de erro inercial de cinco estados (posição, velocidade, viés do acelerômetro, inclinação de atitude, viés do giroscópio) é conduzido pela força específica da descida; um filtro sequencial recebe soluções de posição dos auxílios habilitados: uma solução AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE de classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) e uma solução relativa ao terreno (o correlacionador TERCOM/SITAN da biblioteca sobre um relevo sintético, ou o limite de Cramer-Rao da correlação de uma janela de elevação do DEM polar sul real do LOLA). O tempo lunar entra pelo relógio do veículo nas soluções (o deslocamento LTC-TT de lunar-time-offset, ou a incerteza de sua faixa publicada) e como um erro de marcação de tempo ao longo da trajetória. Informa a elipse de pouso de 3 sigma, R95, as fontes inerciais em forma fechada, a contribuição de cada auxílio, a ablação de cada combinação de auxílios, uma calibração de Monte Carlo da elipse e a covariância transferida. MODELLED: classe de IMU, conjunto de relés, perfil de descida e termo de guiagem ilustrativos; terrain-nav usa um relevo sintético em escala métrica terrestre; a disponibilidade de AFS é de uma época com uma máscara plana. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+seg-8073ece4c900 = O gráfico que o motor grava para scenarios/lunar-descent.toml, tipo lunar-descent
+
+seg-2deefd8c547b = Navegação relativa MODELLED para uma acoplagem no estilo Orion-módulo de pouso em uma órbita lunar baixa ou em uma órbita polar elíptica (classe Artemis). Um veículo perseguidor e um alvo voam a mesma órbita sob o modelo de forças lunares da biblioteca; uma estimativa conjunta de Gauss-Newton em lote de 21 parâmetros ao longo do arco (dois estados de veículo e viéses persistentes do sinal no espaço) funde uma solução absoluta de posição por veículo a partir de um conjunto de relés ILLUSTRATIVE de classe LCNS (relés atrás da Lua descartados, quatro necessários, o erro de modo comum do sinal no espaço se cancelando entre os veículos) e uma distância por enlace cruzado, com a precisão de medição de distância vinda do limite de rastreamento de código do piloto AFS da LunaNet. Informa o erro relativo formal e de Monte Carlo de posição e velocidade nos eixos LVLH do alvo, a disponibilidade das soluções, o erro de estimação normalizado quadrático médio em relação ao valor esperado, e qualquer tentativa cuja iteração não convergiu, a deriva por ignorar os harmônicos da gravidade e a covariância 6x6 completa transferida. Uma verificação de Hill/Clohessy-Wiltshire em forma fechada se aplica ao caso circular. MODELLED: conjunto de relés, orçamento de erro e priores ilustrativos; a referência e o estimador compartilham um único modelo de forças, de modo que o NEES verifica a autoconsistência e não o erro do modelo. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+seg-d97b2505ac72 = O gráfico que o motor grava para scenarios/lunar-orbit-rendezvous.toml, tipo lunar-orbit-rendezvous
+
+seg-6c7d25f672fb = Disponibilidade MODELLED de posicionamento e temporização na superfície por local e estação para locais polares sul de classe Artemis. Para cada local e estação (uma época e uma janela após ela) informa o posicionamento por relés (quatro ou mais relés de uma constelação ILLUSTRATIVE de classe LCNS à vista e PDOP abaixo de um limite, a partir das mesmas funções de moonlight-service-volume e, com uma seção de terreno, o horizonte por traçado de raios do terreno de lunar-station-coverage), se a Terra e o Sol estão acima do horizonte do local (Sol, Lua e orientação lunar analíticos, libração incluída, que é o que varia com a estação) e a disponibilidade de temporização (um relé ou a Terra à vista) com o maior trecho de nenhum dos dois, o holdover que um relógio de superfície precisa atravessar. Um resultado de local único é igual, bit a bit, ao de moonlight-service-volume. MODELLED: conjunto de relés kepleriano ilustrativo em uma Lua de rotação média; o valor dos relés não muda com a estação; o terreno é o recorte de { "1200" } m do LOLA. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
+
+seg-94b84de6c958 = O gráfico que o motor grava para scenarios/lunar-surface.toml, tipo lunar-surface
+
+seg-8350d49efd47 = { "24" } tipos de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Todo rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED, a menos que a matriz diga o contrário (como um rótulo é obtido: a seção Evidence do README).
+
+seg-3505720b0990 = Ascensão propulsada MODELLED de um local de superfície polar sul até a órbita de encontro, e a covariância de posição e velocidade que ela leva de volta à órbita (classe Artemis).
+
+seg-9d18dfb871ed = Disponibilidade MODELLED de posicionamento e temporização na superfície por local e estação para locais polares sul de classe Artemis.
+
+seg-a8d90ed1d52f = Orçamento de dispersão de pouso MODELLED para uma descida propulsada a um local polar sul (classe Artemis).
+
+seg-737aa6f80fe3 = Navegação relativa MODELLED para uma acoplagem no estilo Orion-módulo de pouso em uma órbita lunar baixa ou em uma órbita polar elíptica (classe Artemis).
+
+seg-66982ad26e2b = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-ecdaa89c9219 = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-ascent</a1>.
+
+seg-6f1fd4e8089d = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-e403a675bcc4 = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-surface</a1>.
+
+seg-aa1a7b2ca934 = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+seg-059a45d0512e = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-descent</a1>.
+
+seg-1618206b62b1 = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+seg-d1f8d70eb309 = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-orbit-rendezvous</a1>.
+
+seg-f87c103758f3 = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>moonlight-service-volume</a1>.

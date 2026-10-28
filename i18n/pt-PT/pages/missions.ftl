@@ -1456,3 +1456,8 @@ seg-0e6be0d623f6 = <b>Gratuito hoje:</b> tudo o que está no motor aberto. Licen
 
 # text
 seg-9b505908a6e2 = O Kshana <b>não comanda nenhum equipamento de rádio nem transmite nada</b>. Inclui um recetor GNSS de software para IQ registado e gerado e pode escrever ficheiros IQ sintéticos em banda de base, mas <b>não é equipamento gerador de sinais RF</b> nem <b>um recetor GNSS de hardware ou certificado</b>. É um instrumento de estudo e de compromissos de projeto: simula o que o jamming, o spoofing e a perda de sinal fazem a uma solução de navegação e temporização e diz-lhe quais das suas respostas são validadas. <b>Não é um produto de voo.</b>
+
+# text
+# c1: ac05b72
+# c2: constellation-multi-gnss-coverage.toml
+seg-ecb96b67c4e9 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

@@ -633,3 +633,24 @@ seg-58c4d7218e70 = A reprodutibilidade e a garantia de software são MODELLED, n
 
 # text
 seg-1bf3d5817274 = Todos os tipos: <a1>KINDS.md</a1>
+
+# text
+seg-6867c09f7613 = Idiomas
+
+# text
+seg-aaf9c6896126 = Parceiros de dados e linhas promovidas
+
+# text
+seg-3b31855a40e7 = Cadeia da missão: do lançamento à reentrada
+
+# text
+seg-0cf138405411 = Cadeia da missão: o segmento lunar
+
+# text
+seg-5fee8df421d2 = Cadeias da missão
+
+# text
+seg-37d29d8303fe = km
+
+# text
+seg-a0d832aec3c8 = o id estável da linha da matriz (o ID
