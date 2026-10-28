@@ -174,6 +174,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC 3161 timestamp tokens) and signs only in
   tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The
   library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
+- Minimum supported Rust is now 1.88 (required by the RUSTSEC-2026-0387 fix).
 - `memmap2` 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (`xval/anise-lunar-od`, `xval/anise-mars-od`);
   the locks also re-sync the in-repo `kshana` path dependency.
 - `pillow` 12.3.0 to 13.0.0 and `certifi` 2026.7.22 to 2026.10.19 in the oracle environment pins
