@@ -3269,3 +3269,5 @@ seg-a4b6bfcb9984 = Nic tu nie jest VALIDATED: wiersze wyroczni testują wspólny
 seg-29d014d29790 = Jedna aktualizacja zależności w dostarczanej bibliotece (pierwszy wpis), pozostałe w narzędziach do walidacji krzyżowej (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> i <c3/> z { "0.13" } do { "0.14" } (wraz z <c4/> { "0.14.3" }, <c5/> { "0.17.0" } i <c6/> z { "0.5.5" } do { "0.7.10" }; także bezpośrednia zależność <c7/>, obecnie { "0.7" }) usuwają RUSTSEC-2026-0387, zmienność czasu wykonania w <c8/> { "0.5.5" }. Kshana używa tych crate'ów wyłącznie do weryfikacji podpisów publicznych (klucz główny Galileo OSNMA i tokeny znaczników czasu RFC { "3161" }), a podpisuje tylko w testach jednorazowymi kluczami, więc praktyczne narażenie było zerowe; aktualizacja usuwa ostrzeżenie bez wpisu ignorowania. Pliki blokad biblioteki i MCP zmieniają się oba; żaden wynik weryfikacji się nie zmienia (testy wektorowe OSNMA i znaczników czasu przechodzą bez zmian).
+
+seg-1a4cda9d1486 = Minimalna obsługiwana wersja Rust to teraz { "1.88" } (wymagana przez poprawkę RUSTSEC-2026-0387).

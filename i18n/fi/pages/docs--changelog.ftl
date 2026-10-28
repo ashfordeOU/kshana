@@ -3269,3 +3269,6 @@ seg-a4b6bfcb9984 = Mikään tässä ei ole VALIDATED: oraakkelirivit testaavat j
 seg-29d014d29790 = Yksi riippuvuuspäivitys toimitetussa kirjastossa (ensimmäinen merkintä), loput ristiinvalidointityökaluissa (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versiosta { "0.13" } versioon { "0.14" } (samalla <c4/> { "0.14.3" }, <c5/> { "0.17.0" } ja <c6/> versiosta { "0.5.5" } versioon { "0.7.10" }; myös suora <c7/>-riippuvuus, nyt { "0.7" }) poistavat neuvonnan RUSTSEC-2026-0387 (ajoitusvaihtelu paketissa <c8/> { "0.5.5" }). Kshana käyttää näitä kirjastoja vain julkisten allekirjoitusten varmentamiseen (Galileo OSNMA -juuriavain ja RFC { "3161" } -aikaleimatunnisteet) ja allekirjoittaa vain testeissä kertakäyttöisillä avaimilla, joten käytännön altistus oli olematon; päivitys poistaa neuvonnan ilman ohitusmerkintää. Kirjaston ja MCP:n lukitustiedostot muuttuvat molemmat; mikään varmennustulos ei muutu (OSNMA- ja aikaleimavektoritestit läpäistään muuttumattomina).
+
+# text
+seg-1a4cda9d1486 = Pienin tuettu Rust-versio on nyt { "1.88" } (vaaditaan RUSTSEC-2026-0387-korjauksessa).

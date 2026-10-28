@@ -295,3 +295,7 @@ seg-490ebbefb561 = <s1>Föregående</s1>Rust-crate
 seg-350b6b914734 = <s1>Nästa</s1>MCP-server: alla installationskanaler
 
 seg-492888115662 = De { "92" } inbyggda scenariotyperna med beskrivningar + obligatoriska/valfria fält — så att agenten kan konstruera ett giltigt scenario.
+
+seg-a4a0e399a31e = <c1/> lägger <c2/> på din <c3/> (vanligen <c4/>). Servern talar JSON-RPC (JSON remote procedure call) över stdio; loggar går till stderr. Att bygga från källkod kräver en Rust-verktygskedja ≥ { "1.88" } (den lagade SDK:n <c5/> { "2" }.x kräver det, och det gör även biblioteket <c6/>); Docker-avbilden behöver ingen.
+
+seg-0757e15070d4 = Servern är en <b>fristående crate utanför arbetsytan</b> med egen <c1/>, så att den officiella Rust-MCP-SDK:n (software development kit) <c2/> och dess asynkrona körmiljö aldrig hamnar i beroendegrafen för den publicerade crate:n <c3/>: en biblioteks- eller Python-användare kompilerar inte en server de inte kör. (Den delades först ut eftersom <c4/> är <b>edition { "2024" }</b> och kräver rustc ≥ { "1.85" }, medan huvudcrate:n då lovade { "1.75" }. Biblioteket och den här servern deklarerar nu båda { "1.88" }, golvet för den säkerhetslagade <c5/> { "2" }.x och för de uppgraderade RustCrypto-crate:ena.) Kontinuerlig integration (CI) styr den här crate:n för sig — tester och <c6/> mot dess låsfil. rmcp:s licensträd är rent (Apache-2.0/MIT/BSD), så, till skillnad från korsvalideringscrate:n <c7/> som den i övrigt speglar, handlar uppdelningen inte om licensiering.

@@ -3269,3 +3269,5 @@ seg-a4b6bfcb9984 = Niets hiervan is VALIDATED: de rijen met een onafhankelijke r
 seg-29d014d29790 = Eén afhankelijkheidsupdate in de meegeleverde bibliotheek (het eerste item), de rest in de tooling voor kruisvalidatie (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> en <c3/> { "0.13" } naar { "0.14" } (met <c4/> { "0.14.3" }, <c5/> { "0.17.0" } en <c6/> { "0.5.5" } naar { "0.7.10" }; ook de directe afhankelijkheid <c7/>, nu { "0.7" }) verhelpen RUSTSEC-2026-0387, variatie in de uitvoeringstijd in <c8/> { "0.5.5" }. Kshana gebruikt deze crates alleen om openbare handtekeningen te verifiëren (de Galileo OSNMA-rootsleutel en RFC { "3161" }-tijdstempeltokens) en ondertekent alleen in tests met wegwerpsleutels, dus de praktische blootstelling was nihil; de upgrade verwijdert de RUSTSEC-melding zonder ignore-regel. De lockbestanden van de bibliotheek en van MCP verschuiven allebei; geen verificatieresultaat verandert (de OSNMA- en tijdstempelvectortests slagen ongewijzigd).
+
+seg-1a4cda9d1486 = Minimaal ondersteunde Rust is nu { "1.88" } (vereist door de fix voor RUSTSEC-2026-0387).

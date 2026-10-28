@@ -295,3 +295,9 @@ seg-490ebbefb561 = <s1>Předchozí</s1>Crate Rustu
 seg-350b6b914734 = <s1>Další</s1>Server MCP: každý instalační kanál
 
 seg-492888115662 = { "92" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli, aby agent mohl sestavit platný scénář.
+
+# text
+seg-a4a0e399a31e = <c1/> umístí <c2/> do vaší <c3/> (typicky <c4/>). Server komunikuje JSON-RPC (JSON remote procedure call) přes stdio; logy jdou na stderr. Sestavení ze zdrojů vyžaduje toolchain Rustu ≥ { "1.88" } (vyžaduje jej opravené SDK <c5/> { "2" }.x, stejně jako knihovna <c6/>); obraz Dockeru nepotřebuje nic.
+
+# text
+seg-0757e15070d4 = Server je <b>samostatný crate vyňatý z workspace</b> s vlastním <c1/>, takže oficiální Rust MCP SDK (sada pro vývoj softwaru) <c2/> a jeho asynchronní runtime nikdy nevstoupí do grafu závislostí publikovaného crate <c3/>: uživatel knihovny nebo Pythonu nekompiluje server, který nespouští. (Původně byl oddělen proto, že <c4/> je <b>edice { "2024" }</b> a vyžaduje rustc ≥ { "1.85" }, zatímco hlavní crate tehdy slibovaly { "1.75" }. Knihovna i tento server nyní deklarují { "1.88" }, minimum bezpečnostně opraveného <c5/> { "2" }.x a aktualizovaných crate z RustCrypto.) Kontinuální integrace (CI) tento crate hlídá samostatně — testy a <c6/> proti jeho lockfile. Licenční strom rmcp je čistý (Apache-2.0/MIT/BSD), takže na rozdíl od křížově validačního crate <c7/>, který jinak kopíruje, oddělení nesouvisí s licencováním.
