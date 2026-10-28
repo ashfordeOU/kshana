@@ -96,7 +96,7 @@ pinned by a test.
   link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments), 92 scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory
   **misses** its pre-registered bar (45.3 km and 0.25 m/s against 5 km and 0.05 m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE
   orbit **misses** (136.8 km against 25 km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED
-  ([Mission thread](docs/MISSION-THREAD.md), [lunar segment](docs/MISSION-THREAD-LUNAR.md)).
+  ([Mission thread](docs/MISSION-THREAD.md), [lunar segment](docs/MISSION-THREAD-LUNAR.md)). In the Studio the thread is read at `/studio/mission-thread/`.
 - **Evidence labels.** Every figure and table a run writes carries the tier and the ledger row ids it rests on, read from the matrix.
 - **Measured clocks.** Eight clock-log formats are read ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)) and a fitted
   series can drive the holdover. Against pre-registered bars the fit **misses** F1(a) on five of six records and F2 on one; both
