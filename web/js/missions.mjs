@@ -303,7 +303,8 @@ async function cone(fig) {
   const budget = parseFloat(fig.getAttribute("data-budget")), hold = parseFloat(fig.getAttribute("data-hold"));
   const by = {};
   for (const [n, x, y] of d.rows.slice(1)) if (x >= 0 && Number.isFinite(y)) (by[n] ||= []).push([x, y]);
-  const names = Object.keys(by).filter((n) => !/budget/.test(n));
+  // the budget line is the series that sits at the budget value throughout: found by its numbers, not by the words of its (translated) name
+  const names = Object.keys(by).filter((n) => !by[n].every(([, y]) => Math.abs(y - budget) <= 0.5));
   const T = Math.max(...names.map((n) => by[n][by[n].length - 1][0])), Ym = budget * 3;
   const W = 400, H = 280, ml = 46, mr = 14, mt = 48, mb = 38, cy = mt + (H - mt - mb) / 2;
   const X = (t) => ml + (t / T) * (W - ml - mr), Y = (v) => cy - (Math.min(v, Ym) / Ym) * ((H - mt - mb) / 2);
@@ -566,7 +567,9 @@ function figChips(name) {
   if (d && d.chips) return d.chips; // headline figures read from the run's result by src/tools/gen_missions_runs.py
   if (d && d.kind === "campaign") return d.members.map((m) => [`${fx(m.metrics.availability * 100, 0)} %`, t("js-site-missions-chip-tracking-held", "{ $label } tracking held", { label: m.label })]);
   // the engine's own one-line summary, less its hash and kind tags
-  const seg = c.summary.split(/\s\|\s/).map((x) => x.trim()).filter((x) => !/^campaign [0-9a-f]{8,}$/.test(x) && !/^scenario [\w-]+$/.test(x) && x !== RUNS.cards[name].title);
+  // `lead` (src/tools/gen_missions_runs.py) counts the summary's leading tag segments ("campaign <hash>", "scenario <name>"): they are dropped by position,
+  // because the words of the tag are translated on the language pages
+  const seg = c.summary.split(/\s\|\s/).map((x) => x.trim()).slice(c.lead || 0);
   const sum = [[t("js-site-missions-chip-engine", "Engine:"), seg.slice(0, 3).join(" · ")]];
   sum.sum = true;
   return sum;

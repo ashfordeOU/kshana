@@ -34,6 +34,10 @@ jobs:
         run: node tools/i18n.mjs status | tee -a "$GITHUB_STEP_SUMMARY"
       - name: The pseudo-locale catalogue is valid
         run: node tools/i18n.mjs pseudo && node tools/i18n.mjs check en-XA
+      - name: String-literal rule (a changed, dropped or added literal is caught)
+        run: node tools/i18n-lits-test.mjs
+      - name: Run-time catalogues (only the files the browser fetches, stripped with identical messages, only the data copies a page requests)
+        run: node tools/i18n-catalogues-test.mjs
 
   pseudo-locale:
     runs-on: ubuntu-latest
@@ -47,16 +51,20 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm i playwright@1.57.0 >/dev/null && npx playwright install --with-deps chromium
           echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
-      - name: Build the trees (shared images, English with the switcher, the pseudo-locale)
+      - name: Build the trees (shared images, the pseudo-locale)
         run: |
           set -euo pipefail
           cp -r web "$RUNNER_TEMP/site"
           node tools/i18n.mjs images --tree "$RUNNER_TEMP/site"
           node tools/i18n.mjs pseudo
           node tools/i18n.mjs apply en-XA --src "$RUNNER_TEMP/site" --out "$RUNNER_TEMP/dist"
-          node tools/i18n.mjs english --src "$RUNNER_TEMP/site"
       - name: Applied pages keep every number, code span and link of the English page
+        # This runs BEFORE `english`, as in pages.yml: `english` rewrites the English pages in place (the language switcher's links and the hreflang
+        # alternates for every language), and verify compares the link targets of an applied page with those of the English page it came from, so
+        # after `english` every page reports "link targets differ" (217 of them, one per page) for links the applied page was never meant to carry.
         run: node tools/i18n.mjs verify en-XA --src "$RUNNER_TEMP/site" --dist "$RUNNER_TEMP/dist"
+      - name: English pages get the switcher, the detection script and the hreflang links
+        run: node tools/i18n.mjs english --src "$RUNNER_TEMP/site"
       - name: Digit-integrity rule
         run: node tools/i18n-digits-test.mjs
       - name: Caps-token rule
@@ -71,3 +79,35 @@ jobs:
         run: node tools/i18n-firstpaint-test.mjs
       - name: Pseudo-locale test (hard-coded text, overflow at 1440 and 390 px)
         run: node tools/i18n-pseudo-test.mjs --dist "$RUNNER_TEMP/dist" --src "$RUNNER_TEMP/site" --all
+
+  deploy-tree:
+    # The tree pages.yml would upload, built here for German and Japanese (no engine package: the Studio's engine page is not under test), served as it
+    # is in a real browser: the run-time catalogues answer 200 under /i18n/<lang>/, kshanaL10n.lang is the page's language on /<lang>/ and in the Studio,
+    # and /<lang>/evidence draws its Orbit ladder (the page looks rows up by key, not by the words of a translated label).
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install Playwright (Chromium) and the font tools
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm i playwright@1.57.0 >/dev/null && npx playwright install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
+          python3 -m pip install --quiet fonttools brotli
+      - name: Build the deploy-style tree (the translation step of pages.yml, German and Japanese)
+        run: |
+          set -euo pipefail
+          T="$RUNNER_TEMP/deploy"
+          mkdir -p "$T"
+          rsync -a --exclude '*.test.mjs' --exclude 'smoke.mjs' --exclude 'build.sh' --exclude '/README.md' --exclude '/tools/' --exclude '/PORT-MANIFEST.json' web/ "$T/"
+          node tools/i18n.mjs images --tree "$T"
+          node tools/i18n.mjs apply de ja --src "$T" --out "$T" --langs de,ja
+          python3 tools/i18n-fonts.py --tree "$T" ja
+          node tools/i18n.mjs sitemaps --tree "$T"
+          node tools/i18n.mjs english --src "$T" --langs de,ja
+          node tools/i18n.mjs prune-data --tree "$T" --langs de,ja
+          node tools/i18n.mjs catalogues --tree "$T" --langs de,ja
+      - name: Catalogues load, the language is the page's, the Evidence ladder draws
+        run: node tools/i18n-deploy-test.mjs --tree "$RUNNER_TEMP/deploy" --langs de,ja --no-engine

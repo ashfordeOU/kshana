@@ -734,7 +734,8 @@ function sizeRenderer(renderer, camera, host) {
 // ================================================================== 05 constellation designer
 const cdWin = document.getElementById("cdWin");
 if (cdWin) onNear(cdWin, () => data().then((d) => initCD(d)).catch((e) => console.warn("constellations:", e)), "700px");
-const CONST_C = { GPS: "#3DDCF7", Galileo: "#F45CCB", BeiDou: "#FFB547", GLONASS: "#EAF0FF", "LEO-PNT": "#3DDCF7", "Lunar relay": "#FFB547" };
+// keyed by the constellation's `key` (capabilities.json, src/tools/gen_capabilities.py), never by its name: the name is translated on the language pages
+const CONST_C = { gps: "#3DDCF7", galileo: "#F45CCB", beidou: "#FFB547", glonass: "#EAF0FF", "leo-pnt": "#3DDCF7", "lunar-relay": "#FFB547" };
 const SHELL_C = ["#3DDCF7", "#F45CCB", "#FFB547", "#EAF0FF"];
 function initCD(d) {
   const eng = d.engine, designs = d.constellations;
@@ -779,7 +780,7 @@ function initCD(d) {
         bar, t("js-site-capabilities-cd-work-ratio", "{ $pct } % after the latitude prefilter · { $dop } DOP solutions", { pct: n(w.prefilter_ratio * 100, 1), dop: ni(w.dop_solutions) }));
     }
     legend.replaceChildren();
-    const names = c.walker ? c.walker.map((s, j) => [t("js-site-capabilities-cd-legend-shell", "shell { $n } · { $inc }°", { n: j + 1, inc: n(s.inc, 1) }), SHELL_C[j % 4]]) : c.constellations.map((k) => [k.name, CONST_C[k.name] || "#3DDCF7"]);
+    const names = c.walker ? c.walker.map((s, j) => [t("js-site-capabilities-cd-legend-shell", "shell { $n } · { $inc }°", { n: j + 1, inc: n(s.inc, 1) }), SHELL_C[j % 4]]) : c.constellations.map((k) => [k.name, CONST_C[k.key] || "#3DDCF7"]);
     for (const [nm, col] of names) { const s = el("span"); const i2 = el("i"); i2.style.setProperty("--c", col); s.append(i2, document.createTextNode(nm)); legend.append(s); }
     $("#cdSpan").textContent = t("js-site-capabilities-cd-span", "of { $dur }, looped", { dur: dur(c.times[c.times.length - 1]) });
     $("#cdFootNote").textContent = c.walker
@@ -841,7 +842,7 @@ function makeCDView(THREE, designs, hud) {
     if (cache[cc.file]) return cache[cc.file];
     const R = cc.radius_km, w = cc.rot_deg_s * Math.PI / 180, T = cc.times;
     const tracked = cc.sats.map((s) => ({
-      col: new THREE.Color(cc.walker ? SHELL_C[(+(s.id.match(/^S(\d+)/) || [0, 1])[1] - 1) % 4] : CONST_C[s.c] || "#3DDCF7"),
+      col: new THREE.Color(cc.walker ? SHELL_C[(+(s.id.match(/^S(\d+)/) || [0, 1])[1] - 1) % 4] : CONST_C[s.key] || "#3DDCF7"),
       u: s.lat.map((la, k) => llr(THREE, la, s.lon[k] + (w * T[k]) * 180 / Math.PI, 1)),
       r: s.r_km ? s.r_km.map((x) => x / R) : null, a: s.a_km / R,
     }));

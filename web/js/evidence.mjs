@@ -255,11 +255,11 @@ function drawCowell(host, W, E = 0) {
 
 // ------------------------------------------------------------------ 4 · every orbit residual on one logarithmic scale
 function drawLadder(host, W, E = 0) {
-  const O = D.orbits, bar = O.bar_m, by = (set, f) => O.rows.find((r) => r.set === set && f(r.run));
-  const g8a = by("Galileo E11", (r) => r.startsWith("CI") && r.includes("Tier 1")), g8b = by("Galileo E11", (r) => r.includes("Tier 2"));
-  const g24 = by("Galileo E11", (r) => r.startsWith("Full-arc"));
-  const swd = by("Swarm-A", (r) => r.includes("dynamic (")), swr = by("Swarm-A", (r) => r.includes("reduced-dynamic"));
-  const lrd = by("LRO", (r) => r.includes("dynamic (")), lrr = by("LRO", (r) => r.includes("reduced-dynamic"));
+  // rows are found by their `key` (src/tools/gen_evidence_data.py ORBIT_KEYS), never by the words of the run label: the label is translated on the language pages
+  const O = D.orbits, bar = O.bar_m, by = (key) => { const r = O.rows.find((x) => x.key === key); if (!r) throw new Error(`evidence-data: no orbit row ${key}`); return r; };
+  const g8a = by("galileo-ci-tier1"), g8b = by("galileo-ci-tier2"), g24 = by("galileo-full-arc");
+  const swd = by("swarm-dynamic"), swr = by("swarm-reduced-dynamic");
+  const lrd = by("lro-dynamic"), lrr = by("lro-reduced-dynamic");
   const rt = (r) => t("js-site-evidence-ladder-rt-arc", "{ $arc } arc · degree and order { $do } · { $n } observations", { arc: r.arc, do: r.do, n: r.n }) + "\n" + t("js-site-evidence-ladder-rt-rtn", "radial { $r } m · along-track { $a } m · cross-track { $c } m", { r: r.rtn_m[0], a: r.rtn_m[1], c: r.rtn_m[2] });
   const lanes = [
     [t("js-site-evidence-ladder-sgp4", "SGP4 against the AIAA vectors, worst"), [[D.sgp4.worst_m, 1, t("js-site-evidence-ladder-tip-sgp4", "«SGP4 · worst of { $n } vectors» · { $worst }", { n: D.sgp4.n, worst: len(D.sgp4.worst_m) })]]],

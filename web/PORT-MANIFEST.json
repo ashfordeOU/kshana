@@ -4,11 +4,11 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "0ef4fba1b7f74893c5f09fd2a12d14657e277d1a",
+   "revision": "fd00530937032890a1c6504356e82e910933aab7",
    "dirty": false
   },
   "studio": {
-   "revision": "0ef4fba1b7f74893c5f09fd2a12d14657e277d1a",
+   "revision": "fd00530937032890a1c6504356e82e910933aab7",
    "dirty": false
   }
  },
@@ -18,7 +18,7 @@
   "assets/brand/apple-touch-icon.png": "53d876bcf56498c7ef294fcc3d1540eaa2c02f0ab9c3664fcce375e04a68e71f",
   "assets/brand/kshana-mark-mask.png": "7b51df9f7c9cf283572a793cb358c13b63ffd1ce9bd6a9aacea2ba1f2245a830",
   "assets/capabilities/bodies.jpg": "f0ea5544ee4acf231149d58a58b5c39da95146ea77fa982175a93ac82ea5a3dc",
-  "assets/capabilities/capabilities.json": "c472bd5445884aeaa9d4d1ecbbeb170a6f8a724b7dabf5d8b0d65b8c50f5d07b",
+  "assets/capabilities/capabilities.json": "3329b9d618024b95010726dbfe6c3fb23a5075e3ca14737ebd9b300c8e61e279",
   "assets/missions-runs/campaign-shared-jammer-sea-road.report.html": "a8e688c34f3faf226fd91d9ea27419b12e5229db6938d50336bd7d2b9e06e726",
   "assets/missions-runs/europa-surface-pnt.report.html": "54ab1fad242b1d5bd370b723713096a2ae9e4565f3826e9e6058a1ceb6640b4e",
   "assets/missions-runs/leo-pnt-mega-shell.report.html": "199cee18aeeb92b2082751d6428449c86a5d6efcfe8518e9712d976a2de1c575",
@@ -284,17 +284,17 @@
   "evidence.html": "231761139b6b852c212bded03f9bc466aab243a94561ee243e8c87e67e28ddaf",
   "index.html": "f6863c22a024e73ea2d3295866a79f0b8b0d8a50c4e159e39b503b3c846ddc4c",
   "js/cap-hero.mjs": "708359577c749ba3e31fcb1783e746ffaabcb60f1e7add52bb1cc2629e6e0d13",
-  "js/capabilities.mjs": "9c5deb6d988952b100b5c8f1ceb2f38d41921612f02f67719056c11e30cc4238",
+  "js/capabilities.mjs": "0204c03125f79bf43b05f9806c260dab0f75a44176fcd75f04053d79a35d14da",
   "js/developers-data.mjs": "fdd4880d1993e36d86212ae3bcd63df2d9fa26007fd962d128ec51d8a820aa41",
   "js/developers.mjs": "7ca830573c562a73bc794a6a5bf6800b461c641db03635f6d2a0bc65378f857d",
   "js/editions.mjs": "fcb285e11cacb285e15a851a3b08197cdfd3cadfdb044dc24a334248988b1f0b",
-  "js/evidence-data.mjs": "dafb2ce05b2fd1e8befdc8735281641cd21a5c9833b4dbf5dbe53602bb284ecd",
-  "js/evidence.mjs": "72073474852befc900d6e29316127ebafe9c3c3287fd477ded129fa4d09e84b9",
+  "js/evidence-data.mjs": "f24f0f4005507db7cb6b78c874ec6ee84d3ce86496e02f89c5add00811d28e25",
+  "js/evidence.mjs": "029e7528ae367b77bab060615865b91be1c4de26bbd0cd638b26429481329b2c",
   "js/home-waterfall.mjs": "014795bb6eda1faab24c10c77d800278c7d766b333eda8305922aa950d6edc94",
   "js/home.mjs": "0d0c71a33af1711420b621783a207d8f23041ad8f8f59f885640c2de1c7fa266",
   "js/mcp-player.mjs": "b7367f462632833d24175a0bf71c2e1193daf8e1b55c999c32c12ec689415f9c",
-  "js/missions-runs.mjs": "a4c317d7bd2c7ab78a4982ec95d06e55de6557457a6bfdab32d4c1b09f25b88d",
-  "js/missions.mjs": "fc7316f765031d733b5edee8b6d386858783849bb5690e3dc62ce7bf8df52164",
+  "js/missions-runs.mjs": "517af63c9c47d1d09665e9a0a4c54dfbb5d08e6dd243117a100c5cb6d57a93e4",
+  "js/missions.mjs": "f0a46e797c7e91db25adebc68f0033b19302b76b65ecc7963977a111ec233dfe",
   "js/obsglobe.mjs": "5b0b773c09dfcbee77e155316095f8b2bbf4b3f33189513b7afed0c2739dcf35",
   "js/pro-power.mjs": "a90f6a8a1dbf388106660a3a4185bcea2bfb5910a0d237bbd5fdae5ad9519927",
   "js/studio-links.mjs": "57a672fe6f1e997f24ecf9f306937a318ce5043114206b91f6282abcc2fa7f87",
