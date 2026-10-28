@@ -131,7 +131,11 @@ impl Ctx {
             &self.tag_msg(None, PRNA, gst, 1, &navdata(PRNA, gst - 30, 0)),
         );
         // MACSEQ over the Tag-Info of the flexible slots (positions 1 and 3 of the table).
-        let flex_idx: Vec<usize> = if gst % 60 == 0 { vec![0, 2] } else { vec![0] };
+        let flex_idx: Vec<usize> = if gst.is_multiple_of(60) {
+            vec![0, 2]
+        } else {
+            vec![0]
+        };
         let mut ms = BitWriter::new();
         ms.push(u64::from(PRNA), 8);
         ms.push(u64::from(kshana::osnma::gst_pack(gst)), 32);
@@ -277,7 +281,7 @@ struct Plan {
 
 fn plan(gst: u32) -> Plan {
     // MACLT 34, first message: 00S FLX 04S FLX 12S 00E ; second: 00S FLX 00E 12S 00E 12E
-    let first = gst % 60 == 0;
+    let first = gst.is_multiple_of(60);
     let tags = if first {
         vec![(PRN_X, 0), (PRNA, 4), (PRN_X, 0), (PRNA, 12), (PRN_X, 0)]
     } else {

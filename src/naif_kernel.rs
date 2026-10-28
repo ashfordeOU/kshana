@@ -246,7 +246,7 @@ impl Chebyshev2 {
         let intlen = file.word(last - 2)?;
         let rsize = file.word(last - 1)? as usize;
         let n = file.word(last)? as usize;
-        if rsize < 5 || (rsize - 2) % 3 != 0 || intlen <= 0.0 || n == 0 {
+        if rsize < 5 || !(rsize - 2).is_multiple_of(3) || intlen <= 0.0 || n == 0 {
             return Err(crate::terr!(
                 "e-naif-kernel-malformed-type-segment-rsize-intlen",
                 rsize = rsize,

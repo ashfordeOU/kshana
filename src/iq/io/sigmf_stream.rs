@@ -306,7 +306,7 @@ impl SigmfStream {
                 }
                 prev = c.sample_start;
             }
-            if s0 * frame_bits % 8 != 0 {
+            if !(s0 * frame_bits).is_multiple_of(8) {
                 return Err(IqError::Format(crate::terr!(
                     "e-iq-io-sigmf-stream-first-capture-does-not-start",
                     name = p.name

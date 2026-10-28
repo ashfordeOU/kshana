@@ -53,7 +53,7 @@ pub fn parse_vector_csv(text: &str, start_gst: u32) -> Result<Vec<InavPage>, Str
                 v1 = n + 1
             ));
         }
-        if hex.len() * 4 < nbits || nbits % PAGE_BITS != 0 {
+        if hex.len() * 4 < nbits || !nbits.is_multiple_of(PAGE_BITS) {
             return Err(crate::terr!(
                 "e-osnma-input-line-bit-count-does-not",
                 v1 = n + 1

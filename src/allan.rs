@@ -413,7 +413,7 @@ pub fn theo1_tau(tau0: Seconds, m: usize) -> f64 {
 pub fn theo1(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
     let n = phase.len();
     assert!(
-        m >= 2 && m % 2 == 0,
+        m >= 2 && m.is_multiple_of(2),
         "Theo1 requires an even averaging factor m >= 2"
     );
     assert!(n > m, "need more than m phase samples for Theo1");
@@ -578,7 +578,11 @@ pub fn theoh_curve(phase: &[f64], tau0: Seconds) -> Vec<TheoHPoint> {
         last_em = em;
         // Octave-ish growth in the effective tau, kept even.
         let next = (em * 2).max(em + 2);
-        em = if next % 2 == 0 { next } else { next + 1 };
+        em = if next.is_multiple_of(2) {
+            next
+        } else {
+            next + 1
+        };
     }
     // Cap the curve at the terminal averaging factor if the octave grid stopped short.
     if em_max >= 2 && last_em < em_max {

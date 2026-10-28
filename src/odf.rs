@@ -192,7 +192,7 @@ fn ramp(rec: &[u8]) -> OdfRamp {
 /// Parse an ODF from its bytes. Errors when the length is not a whole number of 36-byte
 /// records or no orbit-data group is found.
 pub fn parse_odf(bytes: &[u8]) -> Result<Odf, String> {
-    if bytes.is_empty() || bytes.len() % 36 != 0 {
+    if bytes.is_empty() || !bytes.len().is_multiple_of(36) {
         return Err(crate::terr!(
             "e-odf-bytes-is-not-whole-number",
             bytes = bytes.len()

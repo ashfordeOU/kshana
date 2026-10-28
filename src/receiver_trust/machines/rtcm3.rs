@@ -274,7 +274,7 @@ mod tests {
     impl W {
         fn put(&mut self, v: u64, n: usize) {
             for i in (0..n).rev() {
-                if self.1 % 8 == 0 {
+                if self.1.is_multiple_of(8) {
                     self.0.push(0);
                 }
                 let bit = ((v >> i) & 1) as u8;

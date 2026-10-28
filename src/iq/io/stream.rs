@@ -155,7 +155,7 @@ impl<R: Read + Seek> IqReader<R> {
     /// a byte boundary (always true except for some packed 2-bit positions).
     pub fn seek_to_sample(&mut self, k: u64) -> Result<(), IqError> {
         let bits = k * self.channels as u64 * self.format.bits_per_sample() as u64;
-        if bits % 8 != 0 {
+        if !bits.is_multiple_of(8) {
             return Err(IqError::Format(crate::terr!(
                 "e-iq-io-stream-sample-of-does-not-start",
                 k = k,
