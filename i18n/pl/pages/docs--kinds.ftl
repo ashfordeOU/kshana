@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Źródło: <c1/>
 
 seg-6c7831311d4e = Rodzaje scenariuszy według rodzin
 
-seg-6bed0bef75bc = Każdy rodzaj scenariusza obsługiwany przez silnik v{ $version } ({ "87" }), uporządkowany w { "12" } rodzin. Każda rodzina ma stronę z jednym wpisem na rodzaj (opis i pola z silnika, przykładowe polecenie, kluczowe liczby z przebiegu, wiersze macierzy, które go wymieniają, oraz wykres zapisywany przez silnik) i arkusz miniatur tych wykresów. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
-
 seg-d23eaa8bc98b = Rodziny
 
 seg-3ac9e578414c = Zegary, synchronizacja czasu i holdover

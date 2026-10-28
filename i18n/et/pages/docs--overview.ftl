@@ -514,9 +514,6 @@ seg-fdd71491d5b0 = Pideva integratsiooni staatus harus main
 seg-fa8a7ec005a9 = Reakatvus ligikaudu { "95" } % kaustast src/, mõõdetud failis docs/COVERAGE.md ja nõutav { "85" } % pidevas integratsioonis
 
 # text
-seg-af101c048e7e = { "176" } võimekust { "388" }-st VALIDATED sõltumatu välise sõltumatu etaloni vastu, kontrollimaatriksist
-
-# text
 seg-6499faeb5966 = SonarQube Cloudi kvaliteedivärava staatus
 
 # text
@@ -542,9 +539,6 @@ seg-904baf07192f = Harjuta minutit, mil GNSS vaikib. Kshana missioonikonsool, jo
 
 # text
 seg-d435b868c53d = Sisukord
-
-# text
-seg-161fa1263086 = <a1>Mis on uut versioonis { "0.39" }</a1>, <a2>Mis on uut versioonis { "0.38" }</a2> ja <a3>{ "0.38" } põhjalikult</a3>: jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborist tagasi ringlus, kshana-bench, vaatluskeskus, eksportijad, optiline, <a4>kosmosekasutaja navigatsioon</a4> ja <a5>Kuu infrastruktuur</a5>
 
 # text
 seg-b4569d43b652 = <a1>Kshana Studio</a1> ja iga Studio leht
@@ -880,20 +874,11 @@ seg-1b484c7d2d35 = Ava <a1>kshana.dev/studio</a1> ja kogu mootor töötab brause
 # text
 seg-503f53e7874b = <b>Lihtne vaade</b> on koht, kus Studio avaneb. See algab küsimustest (mitut satelliiti ma näen, kas ma saan oma asukohafiksi usaldada, kui kaua kell aega hoiab, mida segaja minu vastuvõtjaga teeb) ja kaardist kõigest, mida mootor suudab, iga valdkond oma valideeritud meetodite osaga. Stsenaariumi avamisel tuleb vastus esimesena: üks lihtne lause, kirjutatud selle järgi, mida stsenaarium mõõdab, seejärel selle põhiarvud ja diagramm. Kuvatud on kuni viis seadet, need, mis vastust kõige enam muudavad; ülejäänud ootavad jaotises <b>Täpsemad seaded</b>. <b>Kuidas see arvutatakse</b> selgitab meetodit ja <b>Uurijatele</b> annab mootori enda arvud, stsenaariumifaili, koodi selle Pythonist käitamiseks ja viite.
 
-# attr:alt
-seg-c45a4adf8209 = Kshana Studio, lihtne vaade, kaasatud stsenaariumil integrity-raim, mootor { "v0.38.0" } töötab kohapeal. Küsimus: kas geomeetria täidab häirepiire (horisontaalne ja vertikaalne kaitsetase)? Vastus esimesena, märgitud Live result: Jah, enamasti: { "95.3" } % ajast { "12" } h jooksul. Vastuvõtja veapiir jäi häirepiiride ({ "40" } m horisontaalne ja { "50" } m vertikaalne) alla { "344" } kontrollil { "361" }-st ja ükski fiks ei olnud eksitav. Põhiarvud: aeg, mil fiksi saab usaldada, { "95.3" } %, pikim lünk { "10" } min, tüüpiline veapiir { "6.5" } / { "13" } m, eksitavad fiksid { "0" }. Selle kõrval Try other settings viie seadega (ulatusviga, kaks häirepiiri, kestus ja kõrgusnurga mask) ja Run again, seejärel kokkupandud jaotised Advanced settings (veel { "13" }), How this is computed ({ "8" } valideeritud, { "6" } modelleeritud) ja For researchers. All on selle tulemuse vaated ja kaitsetasemed, joonistatud häirepiiri vastu.
-
 # text
 seg-6767f63a1153 = <b>Täpsem vaade</b> on täielik armatuurlaud: stsenaariumiteek, viis nummerdatud sammu (Vali, Sea, Käivita, Loe tulemusi, Jaga või ekspordi), põhiarvud PASS ja FAIL märkidega seal, kus käitus esitab läve, ning iga paneel: ülevaade, diagrammid, kaardid, taasesitus, mootori aruanne ja eksport. Üks otsingukast jõuab stsenaariumite, valdkondade ja nende sees olevate väljadeni ning kuni neli käitust saab kinnitada ja kõrvuti võrrelda.
 
 # text
 seg-48e01a0f5cb8 = Lihtsa vaate avaekraan ja täpsem vaade pärast käitust
-
-# attr:alt
-seg-1af317b46992 = Kshana Studio, lihtne vaade, avaekraan, pealkirjaga What would you like to find out?, mootor { "v0.38.0" } töötab ja ülemisel ribal kolm linki: Training debrief, Interference map ja Receiver trust. Neli küsimust: mitut satelliiti ma näen kõikjal Maal, kas ma saan oma asukohafiksi usaldada, kui kaua kell saab aega hoida ilma satelliitideta ja mida segaja minu vastuvõtjaga teeb. Esimese all selle salvestatud tulemus: vähemalt { "22" } satelliiti nähtaval igas kohas ja { "31" } keskmiselt GPS-i, Galileo, BeiDou ja GLONASS-iga koos, fiks võimalik { "100" } % kohtadest ja aegadest, nähtavate satelliitide maailmakaardil, nupuga Open this result. Selle kõrval Everything Kshana can do: { "16" } valdkonda ja { "139" } kohe käitatavat stsenaariumi, iga paan väikese diagrammiga salvestatud käitusest ja oma valideeritud meetodite osaga, ning registri (ledger) { "173" } { "350" } võimekusest valideeritud.
-
-# attr:alt
-seg-3fed18478b21 = Kshana Studio, täpsem vaade, pärast kaasatud stsenaariumi constellation-multi-gnss-coverage (Four GNSS constellations, one map) käitust, mootor { "v0.38.0" } töötab kohapeal. Vasakul stsenaariumiteek, { "139" } stsenaariumi { "16" } valdkonnas. Viis sammu Choose, Set, Run, Read results ja Share or export, praegune on samm { "4" }. Põhiarvud: { "102" } satelliiti, kättesaadavus { "100" } % (PASS), mediaan asukoha täpsuse halvenemise tegur (PDOP) { "0.95" } (PASS), PDOP 95. protsentiil { "1.105" } (PASS), { "31.03" } satelliiti nähtaval keskmiselt ja { "22" } vähimalt. All paneelirida valitud Coverage-ga, taasesitusriba, maailmakaart keskmisest PDOP-ist vahemikus { "0.831" } kuni { "1.0853" } iga joonistatud satelliidiga ja ülemaailmse katvuse arvud.
 
 # text
 # c1: web/README.md
@@ -904,14 +889,6 @@ seg-655d43f8ee92 = Sait
 
 # text
 seg-8a4b804467d2 = Ülejäänud <a1>kshana.dev</a1> on ehitatud selle repositooriumi enda failidest ja mootori käitustest: missioonid, võimekused, tõendite register (ledger), avaldatud uuringud ja väljaanded.
-
-# attr:alt
-seg-88302efebc1a = Kolm kshana.dev lehte kõrvuti. Avalehe hero: nimerida Kshana · क्षण · täpne hetk pealkirja Rehearse the minute GNSS goes dark kohal, koos tegeliku mootori { "v0.38.0" } käituse missioonikonsooliga (gloobus ja kolm reaalajas diagrammi: kella ajaviga, kandja ja müra tihedus ning kaitsetase). Tõendid, Published research: viis arXivi artiklit, mis tuginevad avatud mootorile, uusim mootori arvuga. Väljaanded, Kshana Pro, sama mootor, võimendatud: Free käitab ühe stsenaariumi, Pro vastab programmi küsimusele.
-
-# text
-# c1: kshana kinds
-# c2: docs/SCENARIOS.md
-seg-eabb798bbe4e = Üks mootor katab kogu rikkeahela, esimesest segatud satelliidist kella holdover-i viimase nanosekundini. Mootoril on { "87" } stsenaariumi liiki; <c1/> loetleb need ja <a1><c2/></a1> dokumenteerib iga välja.
 
 # text
 seg-921d30a36374 = kuidas segaja võtab GNSS-i L-riba, riba kaupa, sekund sekundi haaval
@@ -1474,71 +1451,6 @@ seg-458a3953b3b2 = start, tõus, sisenemine, asend, lingid, kontaktide planeerim
 seg-7df7f7116a7c = aheldatud missioonid, pühkimised ja ansamblid, mis on ehitatud teistest liikidest
 
 # text
-# c1: kshana <scenario.toml>
-# c2: kshana --help
-# c3: --study
-# c4: --validate
-# c5: kinds
-# c6: example
-# c7: receiver-trust
-# c8: live
-# c9: evidence
-# c10: evidence
-# c11: keygen
-# c12: verify
-# c13: attach-timestamp
-# c14: round-trip
-# c15: jammertest
-# c16: import
-# c17: score
-# c18: trust-telemetry
-# c19: imu-fit
-# c20: nmea-scenario
-# c21: interference-map
-# c22: adsb
-# c23: ais
-# c24: daily
-# c25: sensitivity
-# c26: fetch-land
-# c27: route-exposure
-# c28: bench
-# c29: spec
-# c30: truth
-# c31: cases
-# c32: score
-# c33: baseline
-# c34: seal
-# c35: reveal-check
-# c36: manifest
-# c37: verify-manifest
-# c38: validate
-# c39: leaderboard
-# c40: bench-export
-# c41: compliance-report
-# c42: lunanet-afs-check
-# c43: standards-pack
-# c44: osnma
-# c45: iq
-# c46: scene
-# c47: acquire
-# c48: track
-# c49: sweep
-# c50: labfit
-# c51: campaign
-# c52: conditions
-# c53: frontend
-# c54: monitor
-# c55: inventory
-# c56: info
-# c57: extract
-# c58: convert
-# c59: decimate
-# c60: sky
-# c61: skyline
-# c62: docs/COMMANDS.md
-seg-ab2c09d44cb7 = <c1/> käivitab stsenaariumi; iga teine käsk on alamkäsk ja <c2/> prindib neist kõigist kasutusjuhised. Käsud on <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (koos <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> ja <c61/>. <a1><c62/></a1> annab iga käsu otstarbe, kontrollitud näite ja selle dokumentatsioonilehe.
-
-# text
 # c1: gnss_lib_py
 # c2: docs/ALL-SURFACES.md
 # c3: docs/SURFACES.md
@@ -1549,9 +1461,6 @@ seg-e46194af8cec = Kuidas käivitus töötab
 
 # text
 seg-aa92d3f2aaa0 = Stsenaarium on TOML-i (Tom's Obvious, Minimal Language) fail: liik, algväärtus (seed) ja parameetrid. Mootor käivitab selle ning kirjutab selle kõrvale tulemuse, diagrammi ja aruande ning eksportid, mida küsid.
-
-# attr:alt
-seg-76e3ec458441 = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algväärtus (seed) ja selle parameetrid) siseneb mootorisse kshana { $version } läbi api::run_toml jaotuse { "87" } stsenaariumi liigi kohal, deterministlik stsenaariumi, algväärtuse (seed) ja mootori versiooni suhtes. Mootor kirjutab result.json, chart.svg, report.html ja report.json, table.csv neile liikidele, mis seda defineerivad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF eksportid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, tehisintellekti assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni.
 
 # text
 seg-63aa55ab596d = See kaasasolev stsenaarium kestab { "2" } h: { "10" } min GNSS-i, seejärel umbes { "1.8" } h, kui GNSS on keelatud. See küsib, kui kaua strontsiumi optiline võre-kell ja kiibimõõtmetega aatomkell (CSAC) hoiavad kumbki aega { "20" } ns täpsusega.
@@ -1648,12 +1557,6 @@ seg-36d838421b86 = Kas ma saan PNT tulemust reprodutseerida, laiendada ja tsitee
 seg-e31cf348fc57 = SGP4 kontrollitud kõigi { "666" } AIAA 2006-6753 etalonvektoriga, halvim asukohaviga { "4.12" } mm
 
 # text
-seg-707e2cf795f6 = <b>{ "176" } võimekust { "388" }-st</b> valideeritud sõltumatute väliste sõltumatute etalonide vastu; { "208" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
-
-# attr:alt
-seg-2f81cf391eae = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } reast. Kokku { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "208" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
-
-# text
 seg-23d73e23b368 = Read
 
 # text
@@ -1664,13 +1567,6 @@ seg-0c1beb3b59cc = kontrollitud analüütilise tõe või simulatsiooni sisemise 
 
 # text
 seg-9dd73106acfc = kuulub riistvarapartnerile; Kshanal pole selle jaoks sõltumatut etaloni
-
-# text
-# c1: src/
-# c2: docs/VERIFICATION-MATRIX.md
-# c3: src/verification.rs
-# c4: docs/MODELLED-RATIONALE.md
-seg-ed47a99fac7f = Mõned kontrollid: kõik { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vektorit { "4.12" } mm täpsusega; Cowelli jõumudel { "0.08" } m täpsusega Orekit { "12.2" } vastu; Galileo { "0.61" } m ja Swarm-A { "0.10" } m täpsusega Euroopa Kosmoseagentuuri (ESA) päris täppisefemeriidide vastu. Testid katavad ligikaudu { "95" } % ridadest failis <c1/>, CI-s nõutakse { "85" } %. Register (ledger) on <a1><c2/></a1>, genereeritud failist <c3/>: <a2>täielik 388-realine maatriks</a2>, ning põhjus, miks igal modelleeritud real puudub väline etalon, on failis <a3><c4/></a3>.
 
 # text
 seg-6fd41f16334e = Kuidas valideerimine töötab, kureeritud tõsteväljavõtte tabel ja tõendusjoonised
@@ -1697,13 +1593,6 @@ seg-9908a7f56956 = Küpsus on öeldud ausalt: optilise kella ja optilise lingi a
 
 # text
 seg-ee66ab516e01 = Valideerimine ühe pilguga
-
-# text
-# c1: src/verification.rs
-# c2: docs/VALIDATION.md
-# c3: kshana-validation-summary.html
-# c4: cargo run --bin validation_report
-seg-557da03648c5 = Iga rida jõustatakse CI-s nimetatud testiga. See tabel on <b>kureeritud tõsteväljavõte</b>; täielik masinkontrollitud maatriks on <b>{ "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), täieliku tõendusega (ja sellega, mida ausalt <em>pole</em> veel valideeritud) failis <a1><c2/></a1> ning väljalaske kohta käivas artefaktis <a2><c3/></a2> (genereeritud käsuga <c4/>, SLSA-ga atesteeritud — Supply-chain Levels for Software Artifacts).
 
 # text
 # c1: CI
@@ -2117,9 +2006,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % rida</b> failis <c1/>, välja arvatud <c2/> ja
 # text
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM mootor)
 
-# attr:alt
-seg-9fcd5cdd129d = Kuidas võimekus oma sildi teenib: nõue viitab moodulile kataloogis src, testile kataloogis tests, välisele sõltumatule etalonile (sõltumatu etalon; päris andmestik, sõltumatu etalonteostus või avaldatud vektorid), staatusele — CI-s jõustatud kaitsega, et ühtegi võimekust ei saa valideerida ilma välise sõltumatu etalonita. Hetkearvud: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri, kokku { "388" }
-
 # text
 seg-5262ee45dd08 = Kuidas võimekus oma sildi teenib — CI-s jõustatud invariant: ei ole välist sõltumatut etaloni ⇒ ei saa olla valideeritud · <a1>SVG</a1>
 
@@ -2131,12 +2017,6 @@ seg-c550a4bde1ff = SGP4/SDP4 halvima juhu asukohaviga vs AIAA 2006-6753 etalon r
 
 # text
 seg-2ad422aac6a1 = Üleval: iga valideeritud rida on konstruktsiooni järgi toetatud välise andmestikuga. All: SGP4 kattub ametliku etaloniga igas režiimis (halvim { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-# attr:alt
-seg-faadba4f1f85 = Kontrolli staatus kõigil { "388" } võimekusel: { "176" } valideeritud (kontrollitud välise sõltumatu etaloni vastu), { "208" } modelleeritud, { "4" } partneri omandis
-
-# text
-seg-6c1edff3e035 = { "176" } valideeritud · { "208" } modelleeritud · { "4" } partneri — <a1>SVG</a1>
 
 # text
 # c1: tools/gen_readme_blocks.py
@@ -2164,14 +2044,6 @@ seg-8d953358d683 = ava <a1>https://kshana.dev</a1>
 seg-a594acff8553 = Lõik, mis nimetab kolmanda osapoole tehisintellekti kliente, on siit välja jäetud; see on GitHubis failis <a1>README.md</a1>.
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-d48f3f0dec08 = <a1>Lisa Cursorisse (npx)</a1> · <a2>Lisa Cursorisse (Docker)</a2> · <c1/>
-
-# text
-# c1: npx -y kshana-mcp@0.39.0
-seg-ad59014f9c8e = <a1>Paigalda VS Code'i (npx)</a1> · <a2>Paigalda VS Code'i (Docker)</a2> · <c1/>
-
-# text
 seg-2593c6d52c90 = laadi väljalaskest alla kshana-mcp-<target> ja kontrolli seda SHA256SUMS vastu
 
 # text
@@ -2191,12 +2063,6 @@ seg-7849acc8e680 = Kshana JetBrains Marketplace'is
 
 # text
 seg-48a01a252537 = Ehitub Rust { "1.85" } või uuemaga, Cargo.tomli rust-version
-
-# text
-# c1: cargo install kshana --version 0.39.0
-# c2: pip install kshana==0.39.0
-# c3: npm install kshana@0.39.0
-seg-8edd16ad3672 = MCP on Model Context Protocol. Kinnita väljalase käsuga <c1/>, <c2/> või <c3/>. Lähtekoodist ehitamiseks vt <a1>Install and build</a1> jaotises Reference.
 
 # text
 seg-152cb43de2f3 = Stsenaariumi käivitamine Pythonist ja WebAssemblyst
@@ -2221,14 +2087,8 @@ seg-f589eb87e902 = npm-pakett on kogu mootor, kompileeritud WebAssemblyks. Node.
 # text
 seg-7488a0b0a215 = Keskmes on üks avatud mootor ja iga pind käivitab seda: käsurida, Rusti teek, Python, WebAssembly ja Kshana Studio, MCP server, Dockeri kujutis ja JetBrainsi pistikprogramm. Sama stsenaariumifail annab igaühel samad baidid. Kshana Pro asub selle peal eraldi pealisehitusena, mis sõltub mootorist ega harruta seda kunagi.
 
-# attr:alt
-seg-9d69cf43cd40 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } AGPL-3.0 all, koos api::run_toml-iga, mis on tüübitud jaotus üle iga liigi, ja { "388" } võimekuse kontrollregistriga (ledger) ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Selle ümber käivitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Dockeri kujutis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: „Kshana“). Selle all on Kshana Pro, omandiõigusega pealisehitus, mis sõltub avatud mootorist teegina, ei harruta seda kunagi ega lisa ühtegi füüsikalist mudelit.
-
 # text
 seg-9ac1f9e2d1b1 = Mootori sees: valdkonnakihid ja kontrollregister (ledger)
-
-# attr:alt
-seg-9bc9a971bdb4 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP server ja JetBrainsi pistikprogramm) jõuavad ühe api::run_toml-ini, mis on tüübitud jaotus üle { "87" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja liitmine, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Mars ja kaugkosmos ning missioonid ja uuringud, ühisel tuumal, kõik ristviidatud kontrollmooduliga, masinkontrollitud { "388" } võimekuse maatriksiga, mis on iga sildi ainus tõeallikas.
 
 # text
 # c1: kshana
@@ -2339,9 +2199,6 @@ seg-4a458fb861f4 = Stsenaariumid ja aruanded
 
 # text
 seg-44d509180c56 = Käivita stsenaarium TOML-i (Tom's Obvious, Minimal Language) definitsioonist
-
-# text
-seg-87e30294e0dc = { "87" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike/valikuliste väljadega — et agent saaks koostada kehtiva stsenaariumi
 
 # text
 seg-ef28db290e2b = Eelkontroll: parsi TOML ja tuvasta selle liik käivitamata
@@ -2526,9 +2383,6 @@ seg-22377c58ecb2 = Kogu mootor on tasuta. Kshana Pro ja kohandatud uuringud on m
 
 # text
 seg-a91762c0aabe = Tasuta
-
-# text
-seg-eedfcdbe2b1c = kogu avatud mootor, kõik { "87" } stsenaariumi liiki, ilma funktsioonipiiranguta
 
 # text
 seg-af56c940e13a = omandiõigusega pealisehitus samale mootorile, lepingu alusel
@@ -3063,18 +2917,6 @@ seg-ec221fc5ace5 = Stsenaarium <c1/> hindab <b>tsislunaarset</b> PNT-d: see käi
 # c2: L_G
 # c3: scenarios/lunar-time-offset.toml
 seg-9b33c9203ca2 = Stsenaarium <c1/> esitab <b>relativistliku Maa–Kuu kella käigu</b> — Kuu koordinaataja skaala (LTC/TCL) aluse. Esimeste printsiipide post-Newtoni samasus liidab omapotentsiaali erinevuse (IAU <c2/> geoidi potentsiaal miinus Kuu pinna omapotentsiaal) ja Kuu kineetilise (teise järgu Doppleri) liikme sekulaarseks käiguks ≈ { "57" } µs/päevas, esitatuna koos avaldatud { "56" }–{ "59" } µs/päevas ribaga; see annab ka kogunenud LTC−TT nihke horisondi kohta ja pöördvariatsiooni ansambli (Kuu paberkell). <b>MODELLED</b> — põhinäitaja on <em>etalonist sõltuv</em> (Maa geoid vs Kuu selenoid, keskmistamisaken), mistõttu esitatakse riba, mitte ühtegi sertifitseeritud arvu (<c3/>).
-
-# text
-# c1: scenarios/
-# c2: .toml
-# c3: lunar-integrity
-# c4: scenarios/lunanet-araim.toml
-# c5: gravity-map
-# c6: scenarios/gps-denied-gravity-nav.toml
-# c7: cargo run -- --validate <file>
-# c8: list_kinds()
-# c9: list_scenario_kinds
-seg-f1efe0de99b8 = Vt <c1/>, kus on vähemalt üks töönäide iga liigi kohta ({ "87" } liiki, { "182" } stsenaariumi <c2/> faili + { "1" } komplekti manifest — mitu liiki tarnitakse rohkem kui ühe näitega). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Jaotatavad liigid saab igal ajal loetleda vigadega <c7/>, Pythoni <c8/> või MCP tööriistaga <c9/>.
 
 # text
 # c1: adev_curve
@@ -3684,3 +3526,9 @@ seg-2658a9477dd9 = <s1>Järgmine</s1>Mõistete sissejuhatus
 
 # text
 seg-90a95738b32d = Kuu taristu (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Lisa Cursorisse (npx)</a1> · <a2>Lisa Cursorisse (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Paigalda VS Code'i (npx)</a1> · <a2>Paigalda VS Code'i (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP on Model Context Protocol. Kinnita väljalase käsuga <c1/>, <c2/> või <c3/>. Lähtekoodist ehitamiseks vt <a1>Install and build</a1> jaotises Reference.

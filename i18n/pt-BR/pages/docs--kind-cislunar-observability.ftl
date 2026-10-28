@@ -51,9 +51,6 @@ seg-84781b6fff48 = GDOP indefinido (posto deficiente / singula
 seg-856eb311f24b = “indefinido” (texto como o documento declara
 
 # text
-seg-1767b216650d = definido
-
-# text
 seg-fc5d34345fdd = Rótulo do resultado (o do motor): observabilidade MODELLED de constelação cislunar planar (P6). Núcleo VALIDATED: o POSTO observável é um limiar de valor singular revelador de posto, verificado de forma cruzada contra o posto de autovalores do gramiano; o espectro de autovalores do gramiano obedece aos invariantes espectrais (traço = soma dos autovalores, det = produto dos autovalores, Frobenius^{ "2" } = soma dos autovalores^{ "2" }
 
 # attr:alt

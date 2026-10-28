@@ -90,8 +90,6 @@ seg-f7f2a6c0cd15 = Lähde: <c1/>
 
 seg-6c7831311d4e = Skenaariolajit perheittäin
 
-seg-6bed0bef75bc = Jokainen moottorin v{ $version } lähettämä skenaariolaji ({ "87" }), jaoteltuna { "12" } perheeseen. Jokaisella perheellä on sivu, jolla on yksi merkintä lajia kohden (moottorin kuvaus ja kentät, esimerkkikomento, ajon pääluvut, lajin nimeävät matriisirivit ja moottorin kirjoittama kaavio) sekä yleiskuva näistä kaavioista. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; laji on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).
-
 seg-d23eaa8bc98b = Perheet
 
 seg-3ac9e578414c = Kellot, ajoitus ja holdover

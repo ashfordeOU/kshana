@@ -96,8 +96,6 @@ seg-a240ef37dc6d = Kilde: <c1/>
 
 seg-befef5f2f8dd = Måne og cislunart rum (scenarietypefamilie)
 
-seg-f964724ea446 = { "20" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
-
 seg-369e7cfcc1d3 = Emnesider: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Kør én: <c1/>. Alle familier: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Kontaktark med de diagrammer, som motoren skriver for typerne i familien Måne og cislunart rum
@@ -181,8 +179,6 @@ seg-d9e24a9a8c0c = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <
 seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, evidens og begrænsninger: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Obligatoriske felter: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

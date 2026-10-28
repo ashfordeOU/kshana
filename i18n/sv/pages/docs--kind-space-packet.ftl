@@ -24,10 +24,6 @@ seg-e3235e4d3760 = Exemplet <c1/> anger bland annat:
 
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
-seg-5b3bc9761db4 = Först
-
-seg-52036320db9b = TM
-
 seg-f336ba92871f = Resultatetikett (motorns egen): CCSDS 133.0-B Space Packet, ramning av primärhuvudet — exakt, deterministisk bitlayout, rundtur kodning↔avkodning verifierad; INTE en certifiering av överensstämmelse (ingen logik för sekundärhuvud / CRC / segmentering utöver flaggorna)
 
 seg-ff1f36904d38 = <b>VALIDATED</b> Kodning/avkodning av primärhuvudet i CCSDS 133.0-B Space Packet (version/typ/sek-huvud/APID/sekvensflaggor/räknare/datalängd) + ett ramningsscenario. Tester: <a1>ccsds_space_packet_reference.rs</a1>.

@@ -2508,23 +2508,15 @@ seg-6d3d0f8c9b7c = Poproś o ocenę Pro
 
 seg-8f101c803442 = Każda możliwość nosi <s1>swój dowód.</s1>
 
-seg-9ef28b622a43 = { "388" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "208" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
-
 seg-4f6445e5dd61 = Macierz weryfikacji <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = Wstrzymaj przesuwanie
 
 seg-ae9e2459836c = możliwości
 
-seg-4adb5411062e = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "208" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
-
 seg-f97cb6bf8202 = Najedź na komórkę lub ustaw na niej fokus, by przeczytać jej możliwość i wyrocznię, która ją ocenia.
 
 seg-8a1cef0b9561 = Sprawdzone: niezależna zewnętrzna wyrocznia się zgadza
-
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "388" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
 
 seg-d5c32303297d = Przeczytaj rejestr
 
@@ -2559,10 +2551,6 @@ seg-55fc928e19ae = wyrocznia · wektory weryfikacyjne AIAA 2006-6753
 
 seg-1d60624d525d = Jak to sprawdzono
 
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 # c1: orbit-sgp4-gps.toml
 # c2: 17
 seg-58ca3da25e69 = Otwórz w { -brand } Studio: ten sam propagator, <c1/><s1> · ziarno (seed) <c2/></s1>
@@ -2585,10 +2573,6 @@ seg-87734f6c52a2 = Jeden kwadrat na przypadek SciPy, pogrupowane według jądra.
 
 seg-4957eddb39ed = wyrocznia · SciPy
 
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 # c1: integrity-raim.toml
 # c2: 7
 seg-011e33e27f59 = Otwórz w { -brand } Studio: jądro w działaniu, <c1/><s1> · ziarno (seed) <c2/></s1>
@@ -2604,10 +2588,6 @@ seg-16e820be9d20 = Względem biblioteki dynamiki lotu Orekit { "12.2" } w każde
 seg-2b1ea60e99a7 = Różnica pozycji w czasie, dla każdego poziomu sił.
 
 seg-75344d6c427a = wyrocznia · Orekit { "12.2" }
-
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
 seg-44988f3835ce = Brak widoku w { -brand } Studio: to porównanie działa jako test silnika.
 
@@ -2625,10 +2605,6 @@ seg-f5b078c26ba8 = Każda reszta w skali logarytmicznej od milimetra do dwudzies
 
 seg-6670ead3fa91 = wyrocznia · precyzyjne efemerydy ESA, odtworzona trajektoria księżycowego orbitera, Orekit { "12.2" }, wektory AIAA
 
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-57c9f4e60efa = Brak widoku w { -brand } Studio: precyzyjne wyznaczanie orbity działa jako testy silnika.
 
 seg-f8f25ec2345b = Zegary · stabilność
@@ -2641,10 +2617,6 @@ seg-e0c144321893 = Odtwarza wartości referencyjne z NIST (National Institute of
 seg-5d3372dbff1f = Cztery odchylenia względem czasu uśredniania, z opublikowanymi wartościami jako pierścieniami.
 
 seg-9993e306ae64 = wyrocznia · NIST SP { "1065" }
-
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
 # c1: clock-holdover.toml
 # c2: 42
@@ -2665,10 +2637,6 @@ seg-46c1dbe5c6bc = Zmierzony i przewidziany błąd czasu względem czasu dryfu o
 
 seg-449f52c56c67 = wyrocznia · zmierzony zapis zegara cezowego
 
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 # c1: slot-timing-ocxo-leo.toml
 seg-c131867720cc = Otwórz w { -brand } Studio: to samo odwrócenie, <c1/><s1> · deterministyczne</s1>
 
@@ -2678,11 +2646,7 @@ seg-b19592bc5242 = Sprawdzone oznacza, że zgadza się niezależne źródło zew
 
 seg-800e31fc8f7d = Ocenione możliwości
 
-seg-1d2c8132218d = { "176" }<s1>z { "388" } sprawdzonych</s1>
-
 seg-e61158f71854 = Najedź na komórkę
-
-seg-b66d124aa8dd = Macierz weryfikacji: { "176" } sprawdzonych, { "208" } modelowanych, { "4" } należących do partnera, { "388" } łącznie
 
 seg-d814d33d2b1e = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise… · Sprawdzone
 
@@ -3486,27 +3450,17 @@ seg-5af3d58e83fa = <b>Z Pro:</b> <b>dossier misji</b> sprawdza każde wymaganie 
 
 seg-400016e22379 = Rejestr walidacji
 
-seg-6ef0eb045293 = Wszystkie { "388" } wierszy, po jednej linii.
-
 seg-20ec758fe328 = Każdy wiersz podaje swoje wymaganie, status i moduł, który je realizuje. Otwórz wiersz, by zobaczyć jego wyrocznię i testy, lub wybierz dziedzinę, by zawęzić.
 
 seg-08f2354cb22b = Filtruj według dziedziny
 
 seg-f5a2e020b47e = Według dziedziny: długość paska to liczba wierszy, kolor to status. Wybierz jedną, by filtrować.
 
-seg-d8691ddf3170 = z { "93" } sprawdzonych
-
 seg-0272bc18f675 = z { "19" } sprawdzonych
-
-seg-d6687397eae9 = z { "73" } sprawdzonych
 
 seg-38ec110ef886 = Orbity, układy odniesienia i geometria
 
-seg-8d3ad903cd18 = z { "76" } sprawdzonych
-
 seg-a1c022c60fb6 = Inercjalne, fuzja i alternatywne PNT
-
-seg-223bf21e1d9b = z { "25" } sprawdzonych
 
 seg-b355dc732d29 = Sygnały i zakłócenia
 
@@ -3516,19 +3470,13 @@ seg-d6c43e56d4cc = Analiza misji, zapewnienie jakości i inne
 
 seg-5516d9825527 = z { "55" } sprawdzonych
 
-seg-d5b6224d2ec4 = Wszystkie { "388" }
-
 seg-7038fab8b00c = Sprawdzone { "176" }
-
-seg-2bca452c28dd = Modelowane { "208" }
 
 seg-ba89c1119b21 = Należące do partnera { "4" }
 
 seg-cd12d85e2beb = Przeszukaj rejestr
 
 seg-f014d784ebe3 = Szukaj wymagania, wyroczni, modułu lub testu
-
-seg-d0352364053e = Rejestr walidacji, { "388" } wierszy, z przewijaniem
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } przypadków: dziesięć rekordów prawa potęgowego Kasdina, b = { "0" } do -4, jako dane fazy i częstotliwości, af = { "1" } do { "64" }; alpha_int i d identyczne, najgorsze |d alpha| { "9.6e-13" } i |d rho| { "4.8e-13" }…</s1>
 
@@ -4307,3 +4255,5 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX silnika
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)

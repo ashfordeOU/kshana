@@ -848,8 +848,6 @@ seg-7718b39ae2c6 = Jokainen tämän sivun kaavio on skenaariotiedosto, jonka moo
 
 seg-24194ccdcdca = Aloita mistä tahansa skenaariosta
 
-seg-da4764e4d161 = Valitse jokin { "183" } skenaariotiedostosta { "87" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
-
 seg-5dd293dd429b = Kirjasto Kshana Studiossa
 
 seg-2ae31e21c5d8 = Aseta satelliitit ja satelliittitähdistöt
@@ -962,33 +960,11 @@ seg-58a8a796c8cb = viitetarkistukset
 
 seg-3cbba5a3ab3b = Uutta, v{ $version }
 
-seg-850aca04de28 = Jokainen tyyppi, jokainen komento ja benchmarkin alitukset.
-
-seg-c530da682cca = Ei uutta moottorin ominaisuutta: tulokset ovat samat kuin versiossa { "0.38.0" }. Dokumentaatiossa on nyt sivu jokaiselle skenaariotyypille sekä luettelo jokaisesta komennosta ja jokaisesta pinnasta, ja benchmark-sivu kertoo jokaisen kynnyksen, joka ei täyttynyt. Komentorivi myös päättyy hiljaa, kun sen tulostusputki sulkeutuu. Jokaisella ominaisuudella on merkintä, jonka kirjanpito (ledger) siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto.
-
-seg-c5fc0ca71fae = Jokainen skenaariotyyppi, yksi sivu kullekin
-
-seg-86ff766b2c1d = Kaikki { "87" } skenaariotyyppiä jaoteltuna perheisiin, kullekin tyypille oma sivu: mitä se tekee, sen syötteet, esimerkkiajon tulokset, sen merkinnän taustalla olevat kirjanpitorivit (ledger) ja oraakkelit (riippumaton vertailu), sen raportin ilmoittamat rajoitukset ja moottorin kirjoittama kaavio.
-
 seg-a0b63210b807 = Lue lisää
-
-seg-ccee5886cf25 = Jokainen komento, jokainen pinta
-
-seg-6630acb722ae = Jokainen komento esimerkillä, jonka voi ajaa checkoutista, ja jokainen pinta (komentorivi, Python, Rust, WebAssembly, MCP-palvelin, liitännäiskomennot, skillit ja Studio-sivut) komentoineen ja tyyppeineen sekä syy siellä, missä niitä ei ole.
-
-seg-4ef6dcd0a58b = Mikä pinta kantaa minkä ominaisuuden
-
-seg-678872a862dc = Yksi sivu luettelee jokaiselle komennolle ja tyypille, mikä pinta sen kantaa ja mikä ei, syineen, ominaisuusalueiden ja niiden kirjanpitomerkintöjen (ledger) rinnalla.
 
 seg-29e58493fdd4 = Mallinnettu
 
-seg-8e092e49bdeb = kshana-bench: kynnykset, jotka eivät täyttyneet, ilmoitettuina
-
-seg-df8f792ffa97 = Benchmark-sivu luettelee nyt jokaisen kynnyksen, joka ei täyttynyt, sellaisena kuin tulostiedosto sen kirjaa, ja kertoo, ettei yhtäkään kynnystä ole höllennetty.
-
 seg-54dce6366d5a = Jokainen mukana toimitettu skenaario yhdellä kartalla.
-
-seg-761213eb3ce0 = Kaikki { "183" } skenaariotiedostoa { "87" } tyypissä, ryhmiteltyinä alueen mukaan; { "173" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan (ledger), kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaariohakuteoksessa tiedostoineen ja komentoineen, jolla se ajetaan.
 
 seg-f53c36555404 = Suodata kirjanpidon tilan mukaan
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Kellon holdover -skenaarion Monte Carlo -ensemble.
 seg-6f80bcd98ce4 = Kshanan viiteskenaario: { "2" } h ajo, { "10" } min GNSS-synkronointi, sitten ~{ "1.8" } h estettynä.
 
 seg-4a194573e324 = Variantti: laboratoriotason strontium-optinen kello vs. CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Holdover-testi, sisäänluvun esimerkki: aikavirhetallenne, jonka holdover-test-tyyppi pisteyttää
 
@@ -1977,8 +1951,6 @@ seg-cab165105f32 = Vaatimus–moduuli–testi–oraakkeli–tila-ristiviittaus, 
 seg-ac19e38bed11 = <b>CI</b> jatkuva integrointi (continuous integration) · <b>CSV</b> pilkuilla erotetut arvot (comma-separated values) · <b>NIST</b> National Institute of Standards and Technology · <b>AIAA</b> American Institute of Aeronautics and Astronautics · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> International GNSS Service
 
 seg-190cdf3ca8dc = Yksikkö ja alkuperä jokaisella raportoidulla suureella
-
-seg-1c7bb8c3e887 = { "87" } / { "87" } lajia, { "3127" } / { "3127" } numeerista kenttää
 
 seg-3e7fb040a7c4 = Jokaisella skenaarion tuottamalla numeerisella kentällä on yksikkö ja suljetusta sanastosta otettu alkuperäluokka sekä määritelmä, jos sellainen on, ja ne julkaistaan koneluettavana skeemana moottorin rinnalla. Kiristyvä portti ajaa jokaisen sisäänrakennetun lajin ja hylkää kentän, jolla ei ole yhtään; lajit, jotka eivät vielä ole täydellisiä, nimetään yksitellen sen syyn kanssa, miksi kukin on yhä avoin, ja lista voi vain lyhentyä. Raportit, jotka ilmoittavat omat vakionsa (yksisuuntainen linkkibudjetti, optinen ja RF-budjetti), antavat lukijan laskea pääluvun uudelleen pelkästä raportista.
 

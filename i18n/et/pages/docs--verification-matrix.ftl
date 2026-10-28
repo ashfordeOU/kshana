@@ -5692,9 +5692,6 @@ seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendr
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
 
 # text
-seg-af826b47d00e = { "388" } rida: { "176" } väliselt kontrollitud, { "208" } modelleeritud, { "4" } partneri omanduses.
-
-# text
 seg-6bb40f180cf0 = <s1>Eelmine</s1>Kontrolli olek
 
 # text
@@ -5703,9 +5700,6 @@ seg-defb46c5bc80 = <s1>Järgmine</s1>Võimekuste kataloog
 # text
 # c1: docs/VERIFICATION-MATRIX.md
 seg-e8e0e0618afa = Allikas: <c1/>
-
-# text
-seg-4cb1d67922ed = Täielik masinkontrollitud tõenduste register (ledger): <b>{ "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult välise sõltumatu etaloni korral (maatriksi invariantsuse testid jõustavad seda). Samad andmed koos klõpsatavate rea kaupa linkidega igale testile, moodulile ja sisestatud fikstuurile on <em>Validation ledger</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida ei ole välisvalideeritud.
 
 # text
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)

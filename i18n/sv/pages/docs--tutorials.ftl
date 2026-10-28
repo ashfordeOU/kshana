@@ -128,8 +128,6 @@ seg-c889e5e77121 = Undervisningsfilen för <b>säkerhet</b> använder <c1/> inte
 
 seg-89fef83a9d54 = Hela katalogen över scenariotyper
 
-seg-648bb07212cd = Motorn väljer väg utifrån scenariots <c1/>. Tabellen nedan listar de vanligaste typerna (de åtta handledningsområdena ovan samt deras närmaste grannar). Den är <b>inte</b> den fullständiga uppsättningen: <c2/> returnerar alla <c3/> inbyggda typer. Den funktionen (tillgänglig som <c4/> i bindningarna för Python och WebAssembly (WASM), och som <c5/> på kommandoraden) är den auktoritativa, alltid aktuella katalogen, och <a1><c6/></a1> är dess genererade uppräkning, ett avsnitt per typ med de obligatoriska och valfria TOML-fälten. <c7/> säkerställer att varje typ som en handledning dokumenterar är en verklig typ att välja väg efter, så ingenting i den här tabellen kan nämna en typ som inte finns.
-
 seg-0f744a3a7193 = Klock-holdover mot specifikation; valfritt Monte Carlo-ensemble (<c1/>).
 
 seg-9a2564fdc86a = Tröghetsbaserad dödräkning i 1-DOF (en frihetsgrad) under ett GNSS-avbrott.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Oberoende referens för klockstabilitetens samband</b>: NI
 seg-36be39f17e35 = <s1>Föregående</s1>Studio-guide
 
 seg-6f6204737a87 = <s1>Nästa</s1>{ "1" } · Din första bana
+
+seg-2fa9e002b3a2 = Motorn väljer väg utifrån scenariots <c1/>. Tabellen nedan listar de vanligaste typerna (de åtta handledningsområdena ovan samt deras närmaste grannar). Den är <b>inte</b> den fullständiga uppsättningen: <c2/> returnerar alla <c3/> inbyggda typer. Den funktionen (tillgänglig som <c4/> i bindningarna för Python och WebAssembly (WASM), och som <c5/> på kommandoraden) är den auktoritativa, alltid aktuella katalogen, och <a1><c6/></a1> är dess genererade uppräkning, ett avsnitt per typ med de obligatoriska och valfria TOML-fälten. <c7/> säkerställer att varje typ som en handledning dokumenterar är en verklig typ att välja väg efter, så ingenting i den här tabellen kan nämna en typ som inte finns.

@@ -1350,11 +1350,6 @@ seg-7718b39ae2c6 = Chaque graphique de cette page est un fichier de scénario qu
 seg-24194ccdcdca = Partir de n'importe quel scénario
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-da4764e4d161 = Choisissez parmi { "183" } fichiers de scénario répartis en { "87" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
-
-# text
 seg-5dd293dd429b = La bibliothèque dans Kshana Studio
 
 # text
@@ -1533,56 +1528,13 @@ seg-58a8a796c8cb = vérifications de référence
 seg-3cbba5a3ab3b = Nouveautés de la v{ $version }
 
 # text
-seg-850aca04de28 = Chaque type, chaque commande, et les échecs du benchmark.
-
-# text
-seg-c530da682cca = Aucune nouvelle fonctionnalité du moteur : les résultats sont ceux de la { "0.38.0" }. La documentation comporte désormais une page pour chaque type de scénario et une liste de chaque commande et de chaque surface, et la page du benchmark indique chaque seuil qui n'a pas été atteint. La ligne de commande se termine aussi sans bruit quand son tube de sortie se ferme. Chaque capacité porte l'étiquette que le registre lui attribue, et une étiquette ne nomme que ce qui a été vérifié. Logiciel à titre consultatif.
-
-# text
-seg-c5fc0ca71fae = Chaque type de scénario, une page chacun
-
-# text
-seg-86ff766b2c1d = Les { "87" } types de scénario classés par familles, avec une page pour chaque type : ce qu'il fait, ses entrées, les résultats d'une exécution d'exemple, les lignes du registre et les références indépendantes derrière son étiquette, les limites que son rapport énonce et le graphique que le moteur produit.
-
-# text
 seg-a0b63210b807 = En savoir plus
-
-# text
-seg-ccee5886cf25 = Chaque commande, chaque surface
-
-# text
-seg-6630acb722ae = Chaque commande avec un exemple que vous pouvez exécuter depuis une copie du dépôt, et chaque surface (ligne de commande, Python, Rust, WebAssembly, le serveur MCP, les commandes du plugin, les skills et les pages du Studio) avec les commandes et les types qu'elle porte et la raison là où elle ne les porte pas.
-
-# text
-seg-4ef6dcd0a58b = Quelle surface porte quelle capacité
-
-# text
-seg-678872a862dc = Une page indique, pour chaque commande et chaque type, quelle surface le porte et lesquelles ne le portent pas, avec la raison, à côté des domaines de capacités et de leurs étiquettes du registre.
 
 # text
 seg-29e58493fdd4 = Modélisé
 
 # text
-seg-8e092e49bdeb = kshana-bench : les seuils qui n'ont pas été atteints, énoncés
-
-# text
-seg-df8f792ffa97 = La page du benchmark liste désormais chaque seuil qui n'a pas été atteint, tel que le fichier de résultats le consigne, et indique qu'aucun seuil n'est assoupli.
-
-# text
 seg-54dce6366d5a = Chaque scénario fourni, sur une seule carte.
-
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = Les { "183" } fichiers de scénario répartis en { "87" } types, regroupés par domaine ; { "173" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans Kshana Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
 
 # attr:aria-label
 seg-f53c36555404 = Filtrer par état au registre
@@ -1833,10 +1785,6 @@ seg-6f80bcd98ce4 = Scénario de référence Kshana : exécution de { "2" } h, { 
 
 # attr:title
 seg-4a194573e324 = Variante : horloge optique au strontium de qualité laboratoire par rapport à une CSAC.
-
-# text
-# c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 # attr:title
 seg-ef238a2781ad = Test de holdover, exemple d'ingestion : un enregistrement d'erreur de temps noté par le type holdover-test
@@ -3163,9 +3111,6 @@ seg-ac19e38bed11 = <b>CI</b> intégration continue · <b>CSV</b> valeurs sépar�
 
 # text
 seg-190cdf3ca8dc = Unité et provenance sur chaque grandeur rapportée
-
-# text
-seg-1c7bb8c3e887 = { "87" } types sur { "87" }, { "3127" } champs numériques sur { "3127" }
 
 # text
 seg-3e7fb040a7c4 = Chaque champ numérique qu'émet un scénario porte une unité et une classe de provenance tirées d'un vocabulaire fermé, avec une définition là où elle existe, publiées sous forme de schéma lisible par machine à côté du moteur. Une barrière à cliquet exécute chaque type intégré et échoue sur un champ qui n'en porte aucune ; les types pas encore complets sont nommés un par un avec la raison pour laquelle chacun est encore ouvert, et la liste ne peut que rétrécir. Les rapports qui énoncent leurs propres constantes — le bilan de liaison simple sens, le budget optique et RF — permettent à un lecteur de recalculer le chiffre principal à partir du seul rapport.

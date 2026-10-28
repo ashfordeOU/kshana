@@ -3122,9 +3122,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: o formato que a ponte gnss_lib_py escreve, processado por receiver-trust); os testes Python das pontes são integrations/ros2/kshana_trust/test/test_bridge.py (ponte com um motor simulado), integrations/ros2/kshana_trust/test/test_engine_integration.py (o wheel real pontua como nominal uma posição estável e como não fiável um salto de { "1.1" } km) e integrations/gnss_lib_py/test_bridge.py (gnss_lib_py real { "1.1.0" } e o wheel), executados com pytest, não com cargo
 
 # text
-seg-e7d71a9d77a6 = { "208" } capacidades etiquetadas como MODELLED.
-
-# text
 seg-7a0503f925c1 = <s1>Anterior</s1>Referência de capacidades
 
 # text

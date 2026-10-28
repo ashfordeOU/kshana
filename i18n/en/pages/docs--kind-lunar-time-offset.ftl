@@ -52,6 +52,9 @@ seg-96b65f604cc2 = Honesty: MODELLED, not certified. The headline us/day figure 
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 
 # text
+seg-e66e2ca31e54 = Topic page: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+# text
 seg-e4552368a6a7 = <s1>Previous</s1>lunar-time-budget
 
 # text

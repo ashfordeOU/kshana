@@ -48,9 +48,6 @@ seg-864d84810a5c = [g8262-eec-option-1, g8262-eec-option-2, g8262-1-eeec]
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-98151954f217 = false
-
-# text
 seg-01b1287f233b = Result label (the engine's): MODELLED — time error, MTIE and TDEV checked against transcribed ITU-T masks. The estimators are validated against allantools; the mask tables are transcriptions of the named Recommendations; a synthetic holdover is a model built from public datasheet figures, not a measurement of any unit. Not a co
 
 # attr:alt

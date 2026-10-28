@@ -141,27 +141,11 @@ seg-f325b20ba911 = Escolha uma forma de iniciar o servidor
 seg-f7b7c7f2eb0d = Cada cliente abaixo aceita uma de três definições de servidor. Iniciam o mesmo servidor:
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-e40d4a54025f = <b>npx (Node)</b> (precisa de Node { "18" }+): <c1/>
-
-# text
-# c1: docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.39.0
-seg-11aa05e3bace = <b>Docker</b> (precisa de Docker): <c1/>
-
-# text
 # c1: kshana-mcp
 seg-d5fce7d58cfc = <b>kshana-mcp no PATH</b> (precisa do binário (brew, scoop, winget, cargo ou uma descarga de versão)): <c1/>
 
 # text
 seg-c320bcbc9bcd = Ligações de um clique
-
-# text
-# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zOS4wIl19
-seg-0281dbe84644 = Cursor, npx (Node): <a1>ligação web</a1> · <c1/>
-
-# text
-# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM5LjAiXX0=
-seg-405f915ef73a = Cursor, Docker: <a1>ligação web</a1> · <c1/>
 
 # text
 # c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoia3NoYW5hLW1jcCIsImFyZ3MiOltdfQ==
@@ -175,10 +159,6 @@ seg-2befff4cecb5 = VS Code, Docker: <a1>abrir</a1> · <a2>Insiders</a2>
 
 # text
 seg-7a1f43b83429 = VS Code, kshana-mcp no PATH: <a1>abrir</a1> · <a2>Insiders</a2>
-
-# text
-# c1: goose://extension?cmd=npx&arg=-y&arg=kshana-mcp%400.39.0&timeout=300&id=kshana&name=Kshana&description=Kshana%20PNT-resilience%20simulator%20%28advisory%29
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 # text
 seg-13df6618e070 = Outro cliente
@@ -273,3 +253,13 @@ seg-04c1f05fb027 = <s1>Anterior</s1>Servidor MCP
 
 # text
 seg-eba757f29814 = <s1>Seguinte</s1>Servidor MCP: modo HTTP em alojamento próprio
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (precisa de Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (precisa de Docker): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>ligação web</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>ligação web</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

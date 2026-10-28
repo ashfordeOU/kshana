@@ -41,9 +41,6 @@ seg-3589a089c89d = The example <c1/> sets, among others:
 seg-4dbe1423bb57 = { "60" } LEO
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-85b65d194f0d = { "96" } LEO
 
 # text

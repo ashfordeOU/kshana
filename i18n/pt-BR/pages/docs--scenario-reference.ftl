@@ -577,9 +577,6 @@ seg-ccb244e60d60 = Transferência bidirecional de tempo/frequência óptica vers
 seg-1007e9b9abdc = ESA Celeste IOD, configuração de sinal nº 1, todas as bandas em uma passagem. predefinição WORKSHOP.
 
 # text
-seg-1e4d5b2f4810 = Todo arquivo de cenário incluído ({ "182" }), agrupado por tipo de cenário. A descrição é o comentário de cabeçalho do próprio arquivo; os parâmetros-chave são suas configurações de nível superior. O status lê a matriz de verificação para o módulo do tipo de cenário. <b>Abrir no Kshana Studio</b> abre a execução registrada.
-
-# text
 seg-e701392324d0 = tipo de cenário acm-link
 
 # text

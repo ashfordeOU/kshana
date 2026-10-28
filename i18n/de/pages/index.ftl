@@ -107,19 +107,7 @@ seg-4248eb5c3aef = Holdover
 seg-a51c36133548 = Zeitgebungsmasken
 
 # text
-seg-c5fc0ca71fae = Jeder Szenariotyp, je eine Seite
-
-# text
-seg-ccee5886cf25 = Jeder Befehl, jede Oberfläche
-
-# text
-seg-4ef6dcd0a58b = Welche Oberfläche welche Fähigkeit trägt
-
-# text
 seg-29e58493fdd4 = Modelliert
-
-# text
-seg-8e092e49bdeb = kshana-bench: die verfehlten Zielwerte, offen genannt
 
 # text
 seg-bd4da5bc989d = Aus dem Repository erzeugt
@@ -590,11 +578,6 @@ seg-47d596393831 = Reale Ereignisse
 # text
 seg-5630c799cec1 = Woher jede Kurve stammt
 
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
-
 # attr:title
 seg-f70fa3b93b11 = Der eigene Bericht der Engine zu diesem Lauf
 
@@ -606,11 +589,6 @@ seg-c459bc5805bb = Die Szenariodatei, die gelaufen ist
 
 # text
 seg-f18f76c10709 = <s1><a1>Bericht</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
 # text
 seg-f2d2f2263e63 = Die Konsole, die drei Karten und das Protokoll geben einen verketteten Lauf mit { "6" } Phasen und { "18" } Mitgliedsläufen auf seinem Raster von { "10" } s wieder (T+{ "01" }:{ "16" }:{ "10" } Missionszeit). Die Bahnen sind die { "102" } Satelliten von GPS, Galileo, BeiDou und GLONASS aus dem Konstellationslauf, jeweils als kreisförmige Zweikörperbahn aus der Bodenspur der Engine zurückgewonnen (schlechteste Abweichung { "0.0034" }°), Radien zur Darstellung gestaucht. Verbindungen werden zu Satelliten über der Maske von { "10" }° des Konstellationslaufs gezeichnet ({ "25" }° in der Phase des Integritätsalarms, der Maske der Wiedererfassung der Kampagne), durch ihr Jamming abgedunkelt und im Holdover getrennt. Erde: NASA Blue Marble und Black Marble. Kshana Studio gibt den verketteten Lauf in Ihrem Browser wieder; der eigene Bericht der Engine und der Befehl reproduzieren jeden Lauf.
@@ -633,9 +611,6 @@ seg-3a3535770138 = <s1>Aufsätze auf arXiv, aufgebaut auf der offenen Engine</s1
 
 # text
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>läuft im Browser als WebAssembly, ohne Installation</s2>
-
-# text
-seg-9b3429f89f21 = Neu in v{ $version }: jede Art, jeder Befehl und die Fehlschläge des Benchmarks
 
 # text
 seg-471b95f0c08f = <a1>Was jede tut und was geprüft wurde</a1> · <a2>Jeder Installationskanal</a2>
@@ -806,11 +781,6 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 
 # text
 seg-dc2eb6c3c2a4 = PL = Schutzniveau · AL = Alarmgrenze · INS = Inertialnavigationssystem
-
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
 # text
 seg-0588364091ec = Vom ersten gestörten Satelliten bis zur letzten Nanosekunde des Uhr-Holdovers: Signale, Sensoren, Uhren, Bahnen und Integrität in einem Simulator. Jedes Bild unten ist ein realer Lauf der Engine und sagt, welcher.
@@ -1065,12 +1035,6 @@ seg-43ceda17e71c = Offener Kern · kostenlos · AGPL-3.0
 seg-0230217b1110 = Jeder, der Position oder Zeit aus GNSS bezieht, ist exponiert: Jamming, Spoofing und Signalverlust treffen Fahrzeuge, Netze, Stromnetze und Raumfahrzeuge gleichermaßen.
 
 # text
-seg-9e88a1981d1e = { "176" } von { "388" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; der Rest ist offen als modelliert gekennzeichnet.
-
-# text
-seg-4b41ffeb0030 = Alle { "87" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Startwert und Engine-Version.
-
-# text
 seg-0af87a1caff4 = Derselbe Kern unter einer kommerziellen Lizenz, für geschlossene Integration.
 
 # text
@@ -1153,3 +1117,9 @@ seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
 # text
 # c1: 
 seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dieselbe Engine, verstärkt: { "608" } Entwürfe, eine Pareto-Front</s2>
+
+seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+
+seg-3287261002dd = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+
+seg-510663384be1 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }

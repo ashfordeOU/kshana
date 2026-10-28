@@ -2026,8 +2026,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formatet som bryggan till gnss_lib_py skriver, körd genom receiver-trust); Python-testen för bryggorna är integrations/ros2/kshana_trust/test/test_bridge.py (brygga med en låtsasmotor), integrations/ros2/kshana_trust/test/test_engine_integration.py (det verkliga hjulet poängsätter en stabil positionsbestämning som nominell och ett hopp på { "1.1" } km som ej betrott) och integrations/gnss_lib_py/test_bridge.py (verkliga gnss_lib_py { "1.1.0" } och hjulet), körda med pytest, inte av cargo
 
-seg-e7d71a9d77a6 = { "208" } förmågor märkta MODELLED.
-
 seg-7a0503f925c1 = <s1>Föregående</s1>Förmågereferens
 
 seg-b5832e94f926 = <s1>Nästa</s1>Påståenden mot verkligheten

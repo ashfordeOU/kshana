@@ -51,16 +51,7 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 seg-c33e3cbba749 = arcsec
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-4d208b6c0eb8 = day
-
-# text
-seg-a3697ad561db = Hz
-
-# text
-seg-cc723fa4fafa = sgp4 (TLE)
 
 # attr:alt
 seg-0fd3c58fde09 = The chart the engine writes for scenarios/ephemeris.toml, kind ephemeris

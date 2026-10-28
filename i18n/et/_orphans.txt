@@ -1,0 +1,557 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+# text
+# c1: kshana kinds --json
+# c2: kshana example
+seg-da4764e4d161 = Vali üks { "183" } stsenaariumifailist { "87" } liigi hulgast või kirjuta oma. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib alustamiseks faili.
+
+# Every kind, every command, and the benchmark's misses.
+# text
+seg-850aca04de28 = Iga liik, iga käsk ja benchmarki möödalasud.
+
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+# text
+seg-c530da682cca = Uut mootori funktsiooni pole: tulemused on versiooni { "0.38.0" } omad. Dokumentatsioonis on nüüd leht iga stsenaariumi liigi kohta ning loend kõigist käskudest ja kõigist liidestest ning benchmarki leht nimetab iga täitmata läve. Käsurida lõpetab nüüd vaikselt, kui selle väljundtoru sulgub. Iga võimekus kannab märgist, mille register (ledger) selle kohta hoiab, ja märgis nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara.
+
+# Every scenario kind, one page each
+# text
+seg-c5fc0ca71fae = Iga stsenaariumi liik, üks leht igaühele
+
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+# text
+seg-86ff766b2c1d = Kõik { "87" } stsenaariumi liiki, rühmitatud perekondadesse, igaühel oma leht: mida see teeb, selle sisendid, näidiskäigu tulemused, selle märgise taga olevad registri (ledger) read ja sõltumatu etalon, aruandes nimetatud piirangud ja mootori kirjutatav diagramm.
+
+# Every command, every surface
+# text
+seg-ccee5886cf25 = Iga käsk, iga liides
+
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+# text
+seg-6630acb722ae = Iga käsk koos näitega, mida saab hoidla koopiast (checkout) käivitada, ja iga liides (käsurida, Python, Rust, WebAssembly, MCP-server, pluginakäsud, oskused ja Studio lehed) koos käskude ja liikidega, mida see toetab, ning põhjendusega seal, kus ei toeta.
+
+# Which surface carries which capability
+# text
+seg-4ef6dcd0a58b = Millist võimekust milline liides toetab
+
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+# text
+seg-678872a862dc = Üks leht loetleb iga käsu ja liigi kohta, milline liides seda toetab ja milline mitte, koos põhjendusega, võimekusvaldkondade ja nende registrimärgiste (ledger) kõrval.
+
+# kshana-bench: the bars that were not met, stated
+# text
+seg-8e092e49bdeb = kshana-bench: täitmata läved, välja öeldud
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+# text
+seg-df8f792ffa97 = Benchmarki leht loetleb nüüd iga täitmata läve, nii nagu tulemusfail neid registreerib, ja ütleb, et ühtegi lävi ei lõdvendata.
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+# text
+# c1: celeste-iod-classical-pilot-signals
+# c2: celeste-iod-end-to-end
+# c3: celeste-iod-fused-pvt
+# c4: leo-navmsg-celeste-iod
+# c5: leo-pass-celeste-iod-multiband
+# c6: lunar-llr-datum
+# c7: lunar-station-coverage-terrain
+# c8: lunar-station-geodesy-baseline
+# c9: lunar-station-geodesy-with-station
+# c10: quantum-pnt-demonstrator.suite
+seg-761213eb3ce0 = Kõik { "183" } stsenaariumifaili { "87" } liigi hulgas, rühmitatud valdkonna järgi; { "173" } on mootorisse kaasatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> käivituvad hoidlast käsurealt. Punkt näitab liigi mooduli registri (ledger) olekut seal, kus register seda nimetab. Salvestatud käiguga fail avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja käsuga, mis seda käivitab.
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+# text
+# c1: clock
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+# text
+seg-1c7bb8c3e887 = { "87" } liiki { "87" }-st, { "3127" } arvvälja { "3127" }-st
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+# text
+# c1: no time series to animate
+# c2: cargo test --test animation -- --nocapture
+seg-b68ce4aa301f = Liik, mille tulemus ei kanna ühtegi neist kujudest (lingibilanss, ühe epohhi geomeetria, ainult statistikaga Monte Carlo kokkuvõte või telekommunikatsiooni holdover, mille tulemus avaldab kirje räsi, aga mitte kirjet), lükatakse tagasi teatega <c1/> ja midagi ei kirjutata. Kshana { $version } puhul animeeruvad { "89" } { "182" }-st käivitatavast stsenaariumifailist (iga fail peale uuringukomplekti) ja { "93" } lükatakse tagasi. <c2/> prindib loenduse.
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+# text
+# c1: kshana kinds --json
+# c2: holdover-test
+# c3: gnss-ssv
+# c4: lunar-infrastructure
+# c5: optical-atmosphere
+# c6: acm-link
+# c7: aocs
+# c8: ascent-losses
+# c9: contact-schedule
+# c10: entry-heating
+# c11: eo-radiometry
+# c12: lunar-station-coverage
+# c13: time-transfer-budget
+# c14: src/holdover.rs
+# c15: QuantumNavBudget
+# c16: CodeFamily
+# c17: src/verification.rs
+seg-a887cfc920f6 = Uuendatud 2026-10-22 mootori { $version } jaoks ({ "87" } stsenaariumi liiki, allikast <c1/>; versioonis { $version } uut liiki ei ole). 2026-10-19: mootor { "0.38.0" }, { "87" } liiki (uued versioonis { "0.38.0" }: <c2/>, <c3/> ja <c4/>). 2026-10-18: { "84" } liiki (uus versioonis { "0.37" }: <c5/>). 2026-10-16: { "83" } liiki (uued versioonis { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> ja <c13/>). 2026-10-10: mootor { "0.35.0" }, { "75" } liiki, uusi liiki ei ole. 2026-10-09 ja 2026-10-08: eelmised redaktsioonid. 2026-10-04: Nav-signaali rida märgib versiooni { "0.31.0" } IQ kihti. 2026-09-29: lisatud LEO-PNT, spektri, päikesesüsteemi / mis tahes keha PNT, kampaania ja väljundite read. Varem: joondatud 2026-06-02 suure auditi 27-realise võimekusmaatriksiga; süvakosmose / Marsi PNT rida lisati versioonis { "v0.17.0" }. Kvant-PNT täiendused (GNSS-ita kella holdover <c14/>, koostatud kvant-inertsiaalse dead-reckoning-i eelarve <c15/>, kaugusmõõtmise koodi kavandi kompromiss <c16/>, masinkontrollitud kontrollimaatriks <c17/>) on voldutud ridadesse Ajastus, Kvant-PNT anduri, Nav-signaali ja V&V — igaüks sildistatud kontrollituks-või-modelleerituks vastavalt oma tegelikule sõltumatule etalonile.
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+# text
+seg-1c7bb8c3e887 = { "87" } liiki { "87" }-st, { "3127" } arvvälja { "3127" }-st
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+# text
+# c1: web/capabilities.json
+seg-6f44f45f6bf9 = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "388" } kontrollimaatriksi rida.
+
+# [{ $version }] - 2026-10-22
+# text
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+# text
+# c1: rinex-clk
+# c2: TIME SYSTEM ID
+# c3: END OF HEADER
+# c4: AS
+# c5: AR
+# c6: CR
+# c7: DR
+# c8: MS
+seg-7f608c733407 = <b><c1/></b>: RINEX-i kellafailid, versioonid { "2" } ja { "3.00" } kuni { "3.04" } (sh { "3.04" } üheksamärgiline nimeväli). Päist loetakse ainult välja <c2/> jaoks ja see jäetakse vahele kuni reani <c3/>. Andmekirjetest hoitakse ainult ühe nime järgi valitud kella kirjed <c4/> (satelliit) ja <c5/> (vastuvõtja või jaam). Nende esimene väärtusväli, kella nihe sekundites, on faas. Jätkuread ning kirjed <c6/>, <c7/> ja <c8/> jäetakse vahele. Epohhid on kirje kalendriväljad sekunditena alates 1980-01-06 { "00" }:{ "00" }:{ "00" } faili enda ajasüsteemis, ilma teisenduseta.
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+# text
+# c1: ticc
+seg-3d8853fa9c92 = <b><c1/></b>: TAPR TICC loenduri logid (TICC Operation Manual, { "23" }. novembri { "2016" } redaktsioon, „measurement modes“). Iga andmeväli on sekundid { "12" } kümnendkohaga.
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+# text
+seg-75301936698f = Perioodi režiimi ja silumisrežiimi väljund lükatakse tagasi. Kanal, mille lugemid ei kasva, esitatakse perioodi režiimina.
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+# text
+# c1: src/clock_log.rs
+# c2: tests/fixtures/clock_log/linuxptp_chrony/
+# c3: tests/clock_log_allantools.rs
+# c4: tests/fixtures/clock_log/PREREGISTRATION.md
+seg-fe7d27a473aa = MODELLED. See on parser ja selle väljund toidab hindajaid, mis on mujal valideeritud allantoolsi vastu. Moodulis <c1/> olevad ühiktestid kasutavad väikesi käsitsi kirjutatud logisid ning linuxptp ja chrony vormingute puhul testandmestikke kataloogis <c2/>. <c3/> käitab võrdluse, mis on eelregistreeritud failis <c4/>: kolm algväärtusega sünteetilist logi, üks vormingu kohta, mida loeb tagasi sõltumatu lugeja, mille sama autor kirjutas sellelt lehelt, kusjuures ADEV, TDEV ja MTIE kontrollitakse allantools { "2024.6" } vastu; see võrdlus katab ainult esimest kolme vormingut ning linuxptp ja chrony lugejatel on parseritestid, kuid sõltumatu etaloniga võrdlust pole. Logid on sünteetilised, seega ei kirjelda siin miski päris kella ega loendurit.
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+# text
+seg-1da177a1654b = <s1>Kuu ja tsislunaarne ruum</s1><s2>Mootori v{ $version } { "20" } stsenaariumi liiki. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+# text
+seg-0144518c94fc = { "87" } lehte, üks iga stsenaariumi liigi kohta, millele viitab leht <a1>Kõik stsenaariumi liigid perekondade kaupa</a1>.
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+# text
+seg-78756a9f6704 = <s1>Stsenaariumi liigid</s1><s2>{ "87" } sisseehitatud stsenaariumi liiki, mille vahel kshana::api::run_toml jaotab, igaühel oma üherealine…</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+# text
+seg-051029eb3525 = <s1>Iga stsenaariumi liik perekonniti</s1><s2>Iga stsenaariumi liik, mida mootor v{ $version } jaotab ({ "87" }), { "12" } perekonna all.</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+# text
+seg-76a9b614dada = <s1>Stsenaariumi viide</s1><s2>Iga kaasasolev stsenaariumifail ({ "182" }) liigiti rühmitatud koos oma põhiseadetega.</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+# text
+seg-c387a74ffabb = <s1>Kontrollimaatriks</s1><s2>Täielik, masinkontrollitud tõenditeregister (ledger): { "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+# text
+seg-be02c7f0d48e = <s1>Võimekuse viide</s1><s2>Võimekuse kaardid ja kontrollimaatriksi kõik { "388" } rida.</s2>
+
+# defined
+# text
+seg-1767b216650d = määratud
+
+# sgp4 (TLE)
+# text
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+# text
+seg-25da07e56aa8 = kvant- vs klassikalise PNT anomaaliate tuvastami
+
+# classical baseline
+# text
+seg-a6551a61cf69 = klassikaline lähtetase
+
+# First
+# text
+seg-5b3bc9761db4 = Esimene
+
+# TM
+# text
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+# text
+seg-9bd19903f577 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>terrain-nav</a1>.
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+# text
+seg-f964724ea446 = { "20" } stsenaariumi liiki mootorist v{ $version }. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+# text
+seg-204901ae3684 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>moonlight-service-volume</a1>.
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+# text
+seg-6bed0bef75bc = Iga stsenaariumi liik, mida mootor v{ $version } käivitab ({ "87" }), on jaotatud { "12" } perekonda. Igal perekonnal on leht, kus on üks kirje iga liigi kohta (mootori kirjeldus ja väljad, näidiskäsk, käivitusest saadud peamised arvud, seda liiki nimetavad maatriksiread ja mootori kirjutatud diagramm), ning nende diagrammide kontaktleht. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+# text
+seg-a30b46501cff = { "87" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.
+
+# { "208" } capabilities labelled MODELLED.
+# text
+seg-e7d71a9d77a6 = { "208" } võimekust sildiga MODELLED.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+# text
+seg-ebe636986f46 = { "176" } võimekust { "388" }-st valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+# text
+seg-2d2c47db0c1f = <b>{ "176" } { "388" }-st</b> võimekust on valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu; { "208" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline sõltumatu etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+# attr:alt
+seg-44f7862c45a2 = Kuidas võimekus oma sildi teenib: võimekus, sõltumatu etalon, test, registri (ledger) silt. Kontrollistaatus kõigi { "388" } võimekuse lõikes: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omad
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+# text
+seg-af101c048e7e = { "176" } võimekust { "388" }-st VALIDATED sõltumatu välise sõltumatu etaloni vastu, kontrollimaatriksist
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+# text
+seg-161fa1263086 = <a1>Mis on uut versioonis { "0.39" }</a1>, <a2>Mis on uut versioonis { "0.38" }</a2> ja <a3>{ "0.38" } põhjalikult</a3>: jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborist tagasi ringlus, kshana-bench, vaatluskeskus, eksportijad, optiline, <a4>kosmosekasutaja navigatsioon</a4> ja <a5>Kuu infrastruktuur</a5>
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+# attr:alt
+seg-c45a4adf8209 = Kshana Studio, lihtne vaade, kaasatud stsenaariumil integrity-raim, mootor { "v0.38.0" } töötab kohapeal. Küsimus: kas geomeetria täidab häirepiire (horisontaalne ja vertikaalne kaitsetase)? Vastus esimesena, märgitud Live result: Jah, enamasti: { "95.3" } % ajast { "12" } h jooksul. Vastuvõtja veapiir jäi häirepiiride ({ "40" } m horisontaalne ja { "50" } m vertikaalne) alla { "344" } kontrollil { "361" }-st ja ükski fiks ei olnud eksitav. Põhiarvud: aeg, mil fiksi saab usaldada, { "95.3" } %, pikim lünk { "10" } min, tüüpiline veapiir { "6.5" } / { "13" } m, eksitavad fiksid { "0" }. Selle kõrval Try other settings viie seadega (ulatusviga, kaks häirepiiri, kestus ja kõrgusnurga mask) ja Run again, seejärel kokkupandud jaotised Advanced settings (veel { "13" }), How this is computed ({ "8" } valideeritud, { "6" } modelleeritud) ja For researchers. All on selle tulemuse vaated ja kaitsetasemed, joonistatud häirepiiri vastu.
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+# attr:alt
+seg-1af317b46992 = Kshana Studio, lihtne vaade, avaekraan, pealkirjaga What would you like to find out?, mootor { "v0.38.0" } töötab ja ülemisel ribal kolm linki: Training debrief, Interference map ja Receiver trust. Neli küsimust: mitut satelliiti ma näen kõikjal Maal, kas ma saan oma asukohafiksi usaldada, kui kaua kell saab aega hoida ilma satelliitideta ja mida segaja minu vastuvõtjaga teeb. Esimese all selle salvestatud tulemus: vähemalt { "22" } satelliiti nähtaval igas kohas ja { "31" } keskmiselt GPS-i, Galileo, BeiDou ja GLONASS-iga koos, fiks võimalik { "100" } % kohtadest ja aegadest, nähtavate satelliitide maailmakaardil, nupuga Open this result. Selle kõrval Everything Kshana can do: { "16" } valdkonda ja { "139" } kohe käitatavat stsenaariumi, iga paan väikese diagrammiga salvestatud käitusest ja oma valideeritud meetodite osaga, ning registri (ledger) { "173" } { "350" } võimekusest valideeritud.
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+# attr:alt
+seg-3fed18478b21 = Kshana Studio, täpsem vaade, pärast kaasatud stsenaariumi constellation-multi-gnss-coverage (Four GNSS constellations, one map) käitust, mootor { "v0.38.0" } töötab kohapeal. Vasakul stsenaariumiteek, { "139" } stsenaariumi { "16" } valdkonnas. Viis sammu Choose, Set, Run, Read results ja Share or export, praegune on samm { "4" }. Põhiarvud: { "102" } satelliiti, kättesaadavus { "100" } % (PASS), mediaan asukoha täpsuse halvenemise tegur (PDOP) { "0.95" } (PASS), PDOP 95. protsentiil { "1.105" } (PASS), { "31.03" } satelliiti nähtaval keskmiselt ja { "22" } vähimalt. All paneelirida valitud Coverage-ga, taasesitusriba, maailmakaart keskmisest PDOP-ist vahemikus { "0.831" } kuni { "1.0853" } iga joonistatud satelliidiga ja ülemaailmse katvuse arvud.
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+# attr:alt
+seg-88302efebc1a = Kolm kshana.dev lehte kõrvuti. Avalehe hero: nimerida Kshana · क्षण · täpne hetk pealkirja Rehearse the minute GNSS goes dark kohal, koos tegeliku mootori { "v0.38.0" } käituse missioonikonsooliga (gloobus ja kolm reaalajas diagrammi: kella ajaviga, kandja ja müra tihedus ning kaitsetase). Tõendid, Published research: viis arXivi artiklit, mis tuginevad avatud mootorile, uusim mootori arvuga. Väljaanded, Kshana Pro, sama mootor, võimendatud: Free käitab ühe stsenaariumi, Pro vastab programmi küsimusele.
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+# text
+# c1: kshana kinds
+# c2: docs/SCENARIOS.md
+seg-eabb798bbe4e = Üks mootor katab kogu rikkeahela, esimesest segatud satelliidist kella holdover-i viimase nanosekundini. Mootoril on { "87" } stsenaariumi liiki; <c1/> loetleb need ja <a1><c2/></a1> dokumenteerib iga välja.
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+# text
+# c1: kshana <scenario.toml>
+# c2: kshana --help
+# c3: --study
+# c4: --validate
+# c5: kinds
+# c6: example
+# c7: receiver-trust
+# c8: live
+# c9: evidence
+# c10: evidence
+# c11: keygen
+# c12: verify
+# c13: attach-timestamp
+# c14: round-trip
+# c15: jammertest
+# c16: import
+# c17: score
+# c18: trust-telemetry
+# c19: imu-fit
+# c20: nmea-scenario
+# c21: interference-map
+# c22: adsb
+# c23: ais
+# c24: daily
+# c25: sensitivity
+# c26: fetch-land
+# c27: route-exposure
+# c28: bench
+# c29: spec
+# c30: truth
+# c31: cases
+# c32: score
+# c33: baseline
+# c34: seal
+# c35: reveal-check
+# c36: manifest
+# c37: verify-manifest
+# c38: validate
+# c39: leaderboard
+# c40: bench-export
+# c41: compliance-report
+# c42: lunanet-afs-check
+# c43: standards-pack
+# c44: osnma
+# c45: iq
+# c46: scene
+# c47: acquire
+# c48: track
+# c49: sweep
+# c50: labfit
+# c51: campaign
+# c52: conditions
+# c53: frontend
+# c54: monitor
+# c55: inventory
+# c56: info
+# c57: extract
+# c58: convert
+# c59: decimate
+# c60: sky
+# c61: skyline
+# c62: docs/COMMANDS.md
+seg-ab2c09d44cb7 = <c1/> käivitab stsenaariumi; iga teine käsk on alamkäsk ja <c2/> prindib neist kõigist kasutusjuhised. Käsud on <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (koos <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> ja <c61/>. <a1><c62/></a1> annab iga käsu otstarbe, kontrollitud näite ja selle dokumentatsioonilehe.
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+# attr:alt
+seg-76e3ec458441 = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algväärtus (seed) ja selle parameetrid) siseneb mootorisse kshana { $version } läbi api::run_toml jaotuse { "87" } stsenaariumi liigi kohal, deterministlik stsenaariumi, algväärtuse (seed) ja mootori versiooni suhtes. Mootor kirjutab result.json, chart.svg, report.html ja report.json, table.csv neile liikidele, mis seda defineerivad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF eksportid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, tehisintellekti assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni.
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+# text
+seg-707e2cf795f6 = <b>{ "176" } võimekust { "388" }-st</b> valideeritud sõltumatute väliste sõltumatute etalonide vastu; { "208" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+# attr:alt
+seg-2f81cf391eae = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, sõltumatu etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } reast. Kokku { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "208" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+# text
+# c1: src/
+# c2: docs/VERIFICATION-MATRIX.md
+# c3: src/verification.rs
+# c4: docs/MODELLED-RATIONALE.md
+seg-ed47a99fac7f = Mõned kontrollid: kõik { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vektorit { "4.12" } mm täpsusega; Cowelli jõumudel { "0.08" } m täpsusega Orekit { "12.2" } vastu; Galileo { "0.61" } m ja Swarm-A { "0.10" } m täpsusega Euroopa Kosmoseagentuuri (ESA) päris täppisefemeriidide vastu. Testid katavad ligikaudu { "95" } % ridadest failis <c1/>, CI-s nõutakse { "85" } %. Register (ledger) on <a1><c2/></a1>, genereeritud failist <c3/>: <a2>täielik 388-realine maatriks</a2>, ning põhjus, miks igal modelleeritud real puudub väline etalon, on failis <a3><c4/></a3>.
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+# text
+# c1: src/verification.rs
+# c2: docs/VALIDATION.md
+# c3: kshana-validation-summary.html
+# c4: cargo run --bin validation_report
+seg-557da03648c5 = Iga rida jõustatakse CI-s nimetatud testiga. See tabel on <b>kureeritud tõsteväljavõte</b>; täielik masinkontrollitud maatriks on <b>{ "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), täieliku tõendusega (ja sellega, mida ausalt <em>pole</em> veel valideeritud) failis <a1><c2/></a1> ning väljalaske kohta käivas artefaktis <a2><c3/></a2> (genereeritud käsuga <c4/>, SLSA-ga atesteeritud — Supply-chain Levels for Software Artifacts).
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+# attr:alt
+seg-9fcd5cdd129d = Kuidas võimekus oma sildi teenib: nõue viitab moodulile kataloogis src, testile kataloogis tests, välisele sõltumatule etalonile (sõltumatu etalon; päris andmestik, sõltumatu etalonteostus või avaldatud vektorid), staatusele — CI-s jõustatud kaitsega, et ühtegi võimekust ei saa valideerida ilma välise sõltumatu etalonita. Hetkearvud: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri, kokku { "388" }
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+# attr:alt
+seg-faadba4f1f85 = Kontrolli staatus kõigil { "388" } võimekusel: { "176" } valideeritud (kontrollitud välise sõltumatu etaloni vastu), { "208" } modelleeritud, { "4" } partneri omandis
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+# text
+seg-6c1edff3e035 = { "176" } valideeritud · { "208" } modelleeritud · { "4" } partneri — <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+# attr:alt
+seg-9d69cf43cd40 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } AGPL-3.0 all, koos api::run_toml-iga, mis on tüübitud jaotus üle iga liigi, ja { "388" } võimekuse kontrollregistriga (ledger) ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Selle ümber käivitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Dockeri kujutis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: „Kshana“). Selle all on Kshana Pro, omandiõigusega pealisehitus, mis sõltub avatud mootorist teegina, ei harruta seda kunagi ega lisa ühtegi füüsikalist mudelit.
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+# attr:alt
+seg-9bc9a971bdb4 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP server ja JetBrainsi pistikprogramm) jõuavad ühe api::run_toml-ini, mis on tüübitud jaotus üle { "87" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja liitmine, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Mars ja kaugkosmos ning missioonid ja uuringud, ühisel tuumal, kõik ristviidatud kontrollmooduliga, masinkontrollitud { "388" } võimekuse maatriksiga, mis on iga sildi ainus tõeallikas.
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+# text
+seg-87e30294e0dc = { "87" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike/valikuliste väljadega — et agent saaks koostada kehtiva stsenaariumi
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+# text
+seg-eedfcdbe2b1c = kogu avatud mootor, kõik { "87" } stsenaariumi liiki, ilma funktsioonipiiranguta
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+# text
+# c1: scenarios/
+# c2: .toml
+# c3: lunar-integrity
+# c4: scenarios/lunanet-araim.toml
+# c5: gravity-map
+# c6: scenarios/gps-denied-gravity-nav.toml
+# c7: cargo run -- --validate <file>
+# c8: list_kinds()
+# c9: list_scenario_kinds
+seg-f1efe0de99b8 = Vt <c1/>, kus on vähemalt üks töönäide iga liigi kohta ({ "87" } liiki, { "182" } stsenaariumi <c2/> faili + { "1" } komplekti manifest — mitu liiki tarnitakse rohkem kui ühe näitega). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Jaotatavad liigid saab igal ajal loetleda vigadega <c7/>, Pythoni <c8/> või MCP tööriistaga <c9/>.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+# text
+seg-ebe636986f46 = { "176" } võimekust { "388" }-st valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+# text
+seg-2d2c47db0c1f = <b>{ "176" } { "388" }-st</b> võimekust on valideeritud sõltumatute väliste sõltumatute etalonide (sõltumatute etalonide) vastu; { "208" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline sõltumatu etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+# attr:alt
+seg-44f7862c45a2 = Kuidas võimekus oma sildi teenib: võimekus, sõltumatu etalon, test, registri (ledger) silt. Kontrollistaatus kõigi { "388" } võimekuse lõikes: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omad
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+# text
+seg-1e4d5b2f4810 = Iga kaasasolev stsenaariumifail ({ "182" }), rühmitatud liigi järgi. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülemise taseme seaded. Olek loeb liigi mooduli kontrollimaatriksist. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+# text
+# c1: kshana::api::run_toml
+seg-843d88cee576 = { "87" } sisseehitatud stsenaariumi liiki, mille vahel <c1/> edastab, igaühel oma ühe rea kirjeldus ning nõutud / valikulised TOML-i (Tom's Obvious, Minimal Language) väljad.
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+# text
+seg-af826b47d00e = { "388" } rida: { "176" } väliselt kontrollitud, { "208" } modelleeritud, { "4" } partneri omanduses.
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+# text
+seg-4cb1d67922ed = Täielik masinkontrollitud tõenduste register (ledger): <b>{ "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult välise sõltumatu etaloni korral (maatriksi invariantsuse testid jõustavad seda). Samad andmed koos klõpsatavate rea kaupa linkidega igale testile, moodulile ja sisestatud fikstuurile on <em>Validation ledger</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida ei ole välisvalideeritud.
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+# text
+seg-0adcadeb3854 = Avatud mootor keskel: üks märk stsenaariumi liigi kohta ({ "87" }), täidetud, kui liigil on kontrollitud registrirea, õõnes, kui selle read on modelleeritud, kriips, kui ükski registrimoodul seda nime järgi ei vasta. Kshana Pro ja tellimusuuring paiknevad selle ümber ja ühenduvad liikidega, millele need toetuvad.
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+# text
+# c1: src/api.rs
+# c2: web/data/verification-matrix.json
+seg-9e896ee62ea0 = Mootor v{ $version } · { "87" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · ilma stsenaariumi ja algväärtuseta (seed)
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+# text
+seg-abe5c7257cda = Kõik { "87" } stsenaariumi liiki ja { "173" } komplekti kuuluvat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+# text
+seg-1434952d1bc8 = Täielik kontrollimaatriks: { "176" } { "388" } võimekusest kontrollitud sõltumatute etalonide (sõltumatute etalonide) vastu, ülejäänud märgitud modelleeritud
+
+# All { "388" } rows, one line each.
+# text
+seg-6ef0eb045293 = Kõik { "388" } rida, igaüks ühel real.
+
+# of { "93" } validated
+# text
+seg-d8691ddf3170 = { "93" }-st kontrollitud
+
+# of { "73" } validated
+# text
+seg-d6687397eae9 = { "73" }-st kontrollitud
+
+# of { "76" } validated
+# text
+seg-8d3ad903cd18 = { "76" }-st kontrollitud
+
+# of { "25" } validated
+# text
+seg-223bf21e1d9b = { "25" }-st kontrollitud
+
+# All { "388" }
+# text
+seg-d5b6224d2ec4 = Kõik { "388" }
+
+# Modelled { "208" }
+# text
+seg-2bca452c28dd = Modelleeritud { "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+# attr:aria-label
+seg-d0352364053e = Valideerimise register (ledger), { "388" } rida, keritav
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+# text
+seg-9ef28b622a43 = { "388" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste sõltumatute etalonide vastu. <b>{ "208" } ausalt märgistatud kui modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+# attr:aria-label
+seg-4adb5411062e = Kontrollimaatriks, üks lahter võimekuse kohta registri (ledger) järjekorras: { "176" } valideeritud (täidetud ruudud), { "208" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liiguvad lahtrite vahel; võimekus ja selle sõltumatu etalon loetakse ette allpool.
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+# text
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "388" } rida · stsenaariumi ega algväärtust (seed) ei ole: mootori enda register (ledger)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: tests/numerical_cowell_propagator_reference.rs
+seg-2e80a89ee20a = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
+
+# { "176" }<s1>of { "388" } validated</s1>
+# text
+seg-1d2c8132218d = { "176" }<s1>{ "388" }-st valideeritud</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+# attr:aria-label
+seg-b66d124aa8dd = Kontrollimaatriks: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omanduses, kokku { "388" }
+
+# Every scenario kind, one page each
+# text
+seg-c5fc0ca71fae = Iga stsenaariumi liik, üks leht igaühele
+
+# Every command, every surface
+# text
+seg-ccee5886cf25 = Iga käsk, iga liides
+
+# Which surface carries which capability
+# text
+seg-4ef6dcd0a58b = Millist võimekust milline liides toetab
+
+# kshana-bench: the bars that were not met, stated
+# text
+seg-8e092e49bdeb = kshana-bench: täitmata läved, välja öeldud
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+# text
+seg-9b3429f89f21 = Uut versioonis v{ $version }: iga liik, iga käsk ja võrdlusaluse möödalasud
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+# text
+seg-9e88a1981d1e = { "388" }-st võimekusest { "176" } nõustub sõltumatute väliste sõltumatute etalonidega; ülejäänud on märgistatud kui modelleeritud, valjusti.
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+# text
+seg-4b41ffeb0030 = Kõik { "87" } stsenaariumi liiki, tasuta ilma funktsioonilukuta, deterministlikud stsenaariumist, algväärtusest (seed) ja mootori versioonist.
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# text
+# c1: fc21ac4
+# c2: constellation-multi-gnss-coverage.toml
+seg-597a57467277 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, ilma algväärtuseta

@@ -207,7 +207,7 @@ seg-a9db9b0675e2 = Deployment
 seg-0316a3f12053 = The <c1/> GitHub Actions workflow deploys a release tag, not <c2/>: <c3/> dispatches it once a release is published, and a manual dispatch redeploys a named tag. It runs <c4/>, stages <c5/> without the tests, the build script, <c6/>, the manifest and this file, and publishes the result to GitHub Pages.
 
 # text
-seg-6aa2e78078ae = <s1>Previous</s1>Glossary
+seg-74dc3fad6ee7 = <s1>Previous</s1>Languages
 
 # text
 seg-419353a4fb30 = <s1>Next</s1>Tutorials

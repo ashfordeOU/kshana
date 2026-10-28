@@ -45,6 +45,9 @@ seg-c4f955d5f506 = availability
 seg-7bcf77278958 = { "22" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
+seg-a349aa76b0ed = PARTNER
+
+# text
 seg-38faa927b2bd = lin
 
 # text

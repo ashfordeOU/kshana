@@ -62,9 +62,6 @@ seg-8974ff39f695 = parametric
 seg-1d65b71c5de0 = { "5" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-8ac8f00f6c77 = 1/m^{ "3" }
 
 # text
@@ -86,6 +83,10 @@ seg-07c94d5ad15c = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a nine-state ext
 # c1: gnss-ssv
 # c2: [formation]
 seg-41bfe74c6f6f = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced pseud
+
+# text
+# c1: tli-and-cruise
+seg-795e0409fa5a = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
 
 # text
 # c1: gnss-ssv
@@ -133,6 +134,9 @@ seg-4881f925ea7f = Family page: <a1>Space-user navigation</a1>
 
 # text
 seg-4b72df59b3f9 = Topic page: <a1>SSV.md</a1>
+
+# text
+seg-6a26b9ab59fe = Topic page: <a1>MISSION-THREAD.md</a1>
 
 # text
 seg-c9ac9a99bcbb = <s1>Previous</s1>gnss-sim

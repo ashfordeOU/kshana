@@ -32,9 +32,6 @@ seg-bbc8f38627f1 = Das Format basiert auf <a1>Keep a Changelog</a1>, und dieses 
 seg-985f7b4c001a = Unveröffentlicht
 
 # text
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
-# text
 seg-a2f583aadd0b = Keine neuen Funktionen: eine Korrektur an der Befehlszeile, Abhängigkeitsaktualisierungen im Werkzeug für die Kreuzvalidierung und Dokumentation. Die Ergebnisse der Engine sind gegenüber { "0.38.0" } unverändert.
 
 # text

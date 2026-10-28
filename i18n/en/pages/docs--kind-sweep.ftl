@@ -58,6 +58,10 @@ seg-4636d450ef60 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s
 seg-0aae0574c5e6 = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
 
 # text
+# c1: tli-and-cruise
+seg-795e0409fa5a = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
+
+# text
 # c1: campaign
 seg-cb00aca0268d = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard d Tests: <a1>campaign_composition_reference.rs</a1>.
 

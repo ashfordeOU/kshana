@@ -848,8 +848,6 @@ seg-7718b39ae2c6 = Hvert diagram på denne siden er en scenariofil motoren har k
 
 seg-24194ccdcdca = Start fra et hvilket som helst scenario
 
-seg-da4764e4d161 = Velg en av { "183" } scenariofiler fordelt på { "87" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
-
 seg-5dd293dd429b = Biblioteket i Kshana Studio
 
 seg-2ae31e21c5d8 = Angi satellittene og konstellasjonene
@@ -962,33 +960,11 @@ seg-58a8a796c8cb = referansekontroller
 
 seg-3cbba5a3ab3b = Nytt i v{ $version }
 
-seg-850aca04de28 = Hver type, hver kommando og benchmarkens bom.
-
-seg-c530da682cca = Ingen ny motorfunksjon: resultatene er de samme som i { "0.38.0" }. Dokumentasjonen har nå en side for hver scenariotype og en liste over hver kommando og hver flate, og benchmark-siden oppgir hver terskel som ikke ble nådd. Kommandolinjen avslutter også stille når utdatarøret lukkes. Hver funksjon har merkelappen registeret har for den, og en merkelapp navngir bare det som ble kontrollert. Veiledende programvare.
-
-seg-c5fc0ca71fae = Hver scenariotype, én side hver
-
-seg-86ff766b2c1d = Alle { "87" } scenariotyper ordnet i familier, med en side for hver type: hva den gjør, inndataene, resultatene av en eksempelkjøring, registerradene og de uavhengige referansene bak merkelappen, begrensningene rapporten oppgir og diagrammet motoren skriver.
-
 seg-a0b63210b807 = Les mer
-
-seg-ccee5886cf25 = Hver kommando, hver flate
-
-seg-6630acb722ae = Hver kommando med et eksempel du kan kjøre fra en utsjekking, og hver flate (kommandolinje, Python, Rust, WebAssembly, MCP-serveren, plugin-kommandoene, skillene og Studio-sidene) med kommandoene og typene den bærer, og årsaken der den ikke gjør det.
-
-seg-4ef6dcd0a58b = Hvilken flate bærer hvilken funksjon
-
-seg-678872a862dc = Én side lister, for hver kommando og type, hvilken flate som bærer den og hvilke som ikke gjør det, med årsak, ved siden av funksjonsdomenene og deres registermerkelapper.
 
 seg-29e58493fdd4 = Modellert
 
-seg-8e092e49bdeb = kshana-bench: tersklene som ikke ble nådd, oppgitt
-
-seg-df8f792ffa97 = Benchmark-siden lister nå hver terskel som ikke ble nådd, slik resultatfilen registrerer dem, og sier at ingen terskel er løsnet.
-
 seg-54dce6366d5a = Hvert medfølgende scenario, på ett kart.
-
-seg-761213eb3ce0 = Alle { "183" } scenariofiler fordelt på { "87" } typer, gruppert etter domene; { "173" } er innebygd i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> kjøres fra depotet med kommandolinjen. Prikken viser registerstatusen til typens modul der registeret navngir den. En fil med en registrert kjøring åpner den i Kshana Studio; de andre åpner oppføringen sin i scenarioreferansen, med filen og kommandoen som kjører den.
 
 seg-f53c36555404 = Filtrer etter registerstatus
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Monte Carlo-ensemble av scenarioet for klokkens holdover.
 seg-6f80bcd98ce4 = Kshana referansescenario: kjøring på { "2" } t, { "10" } min GNSS-synkronisering, deretter ~{ "1.8" } t nektet.
 
 seg-4a194573e324 = Variant: strontium optisk klokke av laboratoriekvalitet mot CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Holdover-test, eksempel på innlesing: en tidsfeilregistrering skåret av holdover-test-typen
 
@@ -1977,8 +1951,6 @@ seg-cab165105f32 = En kryssreferanse fra krav til modul til test til uavhengig r
 seg-ac19e38bed11 = <b>CI</b> kontinuerlig integrasjon · <b>CSV</b> kommaseparerte verdier · <b>NIST</b> National Institute of Standards and Technology · <b>AIAA</b> American Institute of Aeronautics and Astronautics · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> International GNSS Service
 
 seg-190cdf3ca8dc = Enhet og proveniens for hver rapporterte størrelse
-
-seg-1c7bb8c3e887 = { "87" } av { "87" } typer, { "3127" } av { "3127" } numeriske felt
 
 seg-3e7fb040a7c4 = Hvert numerisk felt et scenario sender ut har en enhet og en proveniensklasse hentet fra et lukket vokabular, med en definisjon der en finnes, publisert som et maskinlesbart skjema ved siden av motoren. En skrittvis stram port kjører hver innebygde type og feiler på et felt som mangler begge; typene som ennå ikke er komplette, navngis én etter én med grunnen til at hver fortsatt er åpen, og listen kan bare bli kortere. Rapporter som oppgir sine egne konstanter, som linkbudsjettet for én vei og budsjettet for optisk og RF, lar en leser regne ut hovedtallet på nytt fra rapporten alene.
 

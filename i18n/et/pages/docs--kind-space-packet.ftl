@@ -45,12 +45,6 @@ seg-e3235e4d3760 = Näide <c1/> määrab muu hulgas:
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = Esimene
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Tulemuse silt (mootori oma): CCSDS 133.0-B kosmosepaketi primaarpäise raamistamine — täpne, deterministlik bitipaigutus, kodeerimine↔dekodeerimine edasi-tagasi läbimine kontrollitud; MITTE standardi järgimise sertifitseerimine (lippudest kaugemale ulatuvat sekundaarpäise / CRC / segmenteerimise loogikat ei ole)
 
 # attr:alt

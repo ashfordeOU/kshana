@@ -144,8 +144,6 @@ seg-cab165105f32 = Křížový odkaz požadavek–modul–test–orákulum–sta
 
 seg-190cdf3ca8dc = Jednotka a původ u každé uváděné veličiny
 
-seg-1c7bb8c3e887 = { "87" } z { "87" } druhů, { "3127" } z { "3127" } číselných polí
-
 seg-3e7fb040a7c4 = Každé číselné pole, které scénář vydává, nese jednotku a třídu původu z uzavřeného slovníku, s definicí tam, kde existuje, publikované jako strojově čitelné schéma vedle enginu. Postupně zpřísňovaná brána spouští každý vestavěný druh a selže na poli, které žádné nenese; druhy, které ještě nejsou úplné, jsou pojmenovány jeden po druhém s důvodem, proč je každý dosud otevřený, a seznam se může jen zkracovat. Zprávy, které uvádějí vlastní konstanty, tedy rozpočet jednosměrného spoje a optický a rádiový rozpočet, umožňují čtenáři přepočítat hlavní hodnotu jen z této zprávy.
 
 seg-0e1a01c9158a = Rozpočty startu, návratu do atmosféry, pokrytí a zamíření
@@ -317,8 +315,6 @@ seg-d6476863f862 = Schopnost
 seg-ad856ad710eb = Stav
 
 seg-6962adaa6a1f = Vygenerováno při sestavení ze souborů scénářů a verifikační matice v repozitáři.
-
-seg-6f44f45f6bf9 = { "61" } karet schopností z <c1/>, poté všech { "388" } řádků verifikační matice.
 
 seg-30200bb5be58 = Spusťte orbit-sgp4-gps.toml v Kshana Studio
 

@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = Het voorbeeld <c1/> stelt onder meer in:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
-
 seg-2f1d14239d1a = De grafiek die de engine schrijft voor scenarios/quantum-anomaly-detect.toml, soort quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytische binormale ROC AUC = Φ(μ/(σ√{ "2" })) en de minimaal detecteerbare storing σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) die ten grondslag liggen aan de kwantumstoringsdetectoren en anomaliedetectoren. Onafhankelijke referentie (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), beide BSD-3-Clause — onafhankelijke bibliotheken die dezelfde eenduidig gedefinieerde Gauss-staart-/AUC-grootheden berekenen, overeenkomend tot op de A&S-erf-ondergrens (~{ "7e-8" }). Het daarop voortbouwende voordeel van quantum ten opzichte van klassiek blijft MODELLED

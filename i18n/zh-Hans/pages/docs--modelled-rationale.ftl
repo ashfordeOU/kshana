@@ -2013,8 +2013,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs（rtklib_pos_runs_as_a_receiver_log：gnss_lib_py桥接写出的格式，经receiver-trust运行）；各桥接的Python测试为integrations/ros2/kshana_trust/test/test_bridge.py（带模拟引擎的桥接）、integrations/ros2/kshana_trust/test/test_engine_integration.py（真实的wheel把稳定的定位结果评为正常，把{ "1.1" } km的跳变评为不可信）和integrations/gnss_lib_py/test_bridge.py（真实的gnss_lib_py { "1.1.0" }与该wheel），用pytest运行，而不是用cargo运行
 
-seg-e7d71a9d77a6 = { "208" }项能力被标为MODELLED。
-
 seg-7a0503f925c1 = <s1>上一页</s1>能力参考
 
 seg-b5832e94f926 = <s1>下一页</s1>对现实的论断

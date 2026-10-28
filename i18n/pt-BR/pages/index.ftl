@@ -110,19 +110,7 @@ seg-4248eb5c3aef = Holdover
 seg-a51c36133548 = Máscaras de temporização
 
 # text
-seg-c5fc0ca71fae = Todo tipo de cenário, uma página para cada
-
-# text
-seg-ccee5886cf25 = Todo comando, toda superfície
-
-# text
-seg-4ef6dcd0a58b = Qual superfície traz qual capacidade
-
-# text
 seg-29e58493fdd4 = Modelado
-
-# text
-seg-8e092e49bdeb = kshana-bench: os limiares não atingidos, declarados
 
 # text
 seg-bd4da5bc989d = Gerado a partir do repositório
@@ -603,11 +591,6 @@ seg-47d596393831 = Eventos reais
 # text
 seg-5630c799cec1 = De onde vem cada traço
 
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
-
 # attr:title
 seg-f70fa3b93b11 = O relatório do próprio motor sobre esta execução
 
@@ -619,11 +602,6 @@ seg-c459bc5805bb = O arquivo de cenário que foi executado
 
 # text
 seg-f18f76c10709 = <s1><a1>Relatório</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
 
 # text
 seg-f2d2f2263e63 = O console, os três cartões e o registro reproduzem uma execução encadeada de { "6" } fases e { "18" } execuções-membro em sua grade de { "10" } s (T+{ "01" }:{ "16" }:{ "10" } de tempo de missão). As órbitas são os { "102" } satélites de GPS, Galileo, BeiDou e GLONASS da execução da constelação, cada um recuperado como uma órbita circular de dois corpos a partir da trilha no solo do motor (pior resíduo { "0.0034" }°), com raios comprimidos para exibição. Os enlaces são traçados para satélites acima da máscara de { "10" }° da execução da constelação ({ "25" }° na fase de alarme de integridade, a máscara de readquisição da campanha), esmaecidos pela interferência e cortados no holdover. Terra: NASA Blue Marble e Black Marble. O Kshana Studio reproduz a execução encadeada no seu navegador; o relatório do próprio motor e o comando reproduzem cada execução.
@@ -646,9 +624,6 @@ seg-3a3535770138 = <s1>artigos no arXiv construídos sobre o motor aberto</s1><s
 
 # text
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>roda no navegador como WebAssembly, sem instalação</s2>
-
-# text
-seg-9b3429f89f21 = Novo na v{ $version }: todo tipo de cenário, todo comando e as falhas do benchmark
 
 # text
 seg-471b95f0c08f = <a1>O que cada um faz e o que foi verificado</a1> · <a2>Todos os canais de instalação</a2>
@@ -819,11 +794,6 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 
 # text
 seg-dc2eb6c3c2a4 = PL = nível de proteção · AL = limite de alerta · INS = sistema de navegação inercial
-
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
 
 # text
 seg-0588364091ec = Do primeiro satélite interferido ao último nanossegundo de holdover do relógio: sinais, sensores, relógios, órbitas e integridade em um só simulador. Cada imagem abaixo é uma execução real do motor e diz qual.
@@ -1081,12 +1051,6 @@ seg-43ceda17e71c = Núcleo aberto · gratuito · AGPL-3.0
 seg-0230217b1110 = Quem quer que obtenha posição ou tempo do GNSS está exposto: interferência, spoofing e perda de sinal atingem igualmente veículos, redes, redes elétricas e espaçonaves.
 
 # text
-seg-9e88a1981d1e = { "176" } de { "388" } capacidades concordam com referências independentes externas; as demais são rotuladas como modeladas, abertamente.
-
-# text
-seg-4b41ffeb0030 = Todos os { "87" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.
-
-# text
 seg-0af87a1caff4 = O mesmo núcleo sob uma licença comercial, para integração fechada.
 
 # text
@@ -1154,3 +1118,9 @@ seg-905e5eef45e5 = <b>{ "12" } requisitos</b> verificados com execuções reais,
 
 # text
 seg-7d9ee2bfbb90 = Descubra onde a sua temporização quebra, antes que ela quebre.
+
+seg-f4d3b1f5b1b4 = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+seg-3287261002dd = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
+
+seg-510663384be1 = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }

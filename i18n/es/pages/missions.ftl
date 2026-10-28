@@ -1192,11 +1192,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Ejecución real del motor, reproducida
 
 # text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-597a57467277 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-# text
 seg-f1313464b7c9 = Órbitas: repropagadas a partir de los propios elementos de la ejecución y comprobadas frente a las trazas sobre el suelo del motor. Planetas: imágenes de la NASA.
 
 # text

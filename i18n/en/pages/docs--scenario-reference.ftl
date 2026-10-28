@@ -5,7 +5,7 @@
 seg-6962adaa6a1f = Generated from the repository's scenario files and verification matrix at build time.
 
 # text
-seg-1e4d5b2f4810 = Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-5b4a725bea4e = Every bundled scenario file ({ "192" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
 
 # text
 seg-cb9447893c7f = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
@@ -192,10 +192,21 @@ seg-9c3bc8bbd361 = kind clock
 seg-7d2d780c5649 = Monte Carlo ensemble of the clock-holdover scenario.
 
 # text
+# c1: [clock_fit]
+seg-d2b1e58dea11 = A clock scenario whose classical clock takes the noise of a measured log (<c1/>).
+
+# text
+seg-f942b36a11c4 = Not yet on GitHub
+
+# text
 seg-ddd9856d154a = Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied. Clock white-FM noise calibrated to published sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validated against simulated Allan deviation in tests/calibration.rs (~{ "2" }%).
 
 # text
 seg-460f63835b3f = Variant: laboratory-grade strontium optical clock vs CSAC. Lab Sr clocks reach sigma_y({ "1" } s) = { "4.8e-17" } (Oelker et al. { "2019" }, Nature Photonics).
+
+# text
+# c1: [clock_log]
+seg-760090cd3247 = A clock scenario with a measured log beside the simulated holdover (<c1/>).
 
 # text
 seg-f496b7f4c63a = GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.
@@ -647,6 +658,15 @@ seg-a440eecbe1c9 = kind link-budget
 seg-a1cb069aec22 = One-way link budget demonstrator (comms & link budgets, trade-study tier).
 
 # text
+seg-ae3053a1f6c8 = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class). The five-state per-axis inertial error model of lunar-descent (position, velocity, accelerometer bias, attitude tilt, gyro bias, driven by the specific force) runs on all three site axes from the surface state the phase enters with; an AFS position fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) is taken at a stated interval, with lunar time entering through the vehicle clock and a time-tag error along track. Reports the closed-form inertial sources, the aid's contribution, the ablation, the navigation 1-sigmas over the ascent, the engine cutoff dispersion beside the navigation knowledge, and the full 6x6 MCI covariance at insertion with the position-velocity correlation kept. MODELLED: illustrative IMU class, specific force, relay set and cutoff dispersion; errors held in the launch site axes; the nominal exit state is a stand-in. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+seg-d7ed02b28987 = kind lunar-ascent
+
+# text
+seg-e92ba974379b = Lunar ascent: the powered ascent from a south-polar surface site (Artemis-class) to the { "100" } km rendezvous orbit, and the position-velocity covariance it carries back to orbit.
+
+# text
 seg-004c56ded47f = Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports ({ "1" }) the AFS received power and its power SURPLUS versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 25x-rounded / 28x-unrounded linear-factor reconciliation. REVISED (rule R4): this reported a { "15.6" } dB power DEFICIT and a 32x/36x factor until the GPS reference was corrected from -125 / -128.5 (which are the dBm figures) to -155 / -158.5 dBW, the ICD-GPS-200 values the jamming module has always carried. The sign inverts: the modelled lunar AFS signal is { "14.4" } dB STRONGER than terrestrial GPS L1 C/A, not weaker. The received power itself did not move by a bit, and the linear factor is the old one over exactly { "1000" }, which is exactly the { "30" } dB dBm-to-dBW offset; ({ "2" }) the required attacker transmit power to spoof (J/S = { "3" } dB) and to deny (J/S = { "30" } dB) at each standoff, the inverse of the J/S link; ({ "3" }) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [{ "2" } J1(x)/x]^{ "2" }), an altitude-limited sub-hemispheric cap whose limb is NOT captured; ({ "4" }) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted { "3" } dB threshold; ({ "5" }) the airless-body geometric horizon reach of a raised surface transmitter; and ({ "6" }) the OSNMA/TESLA authentication budget ({ "20" } bit/s overhead = ~{ "40" } % of a { "50" } bit/s AFS nav message, key-disclosure latency, { "2" }^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.
 
 # text
@@ -663,6 +683,18 @@ seg-4486fa88f989 = kind lunar-beacon
 
 # attr:title, text
 seg-7cc84b0d7998 = Surface-beacon augmentation of a lunar orbital navigation service.
+
+# text
+seg-2cd0d5385530 = MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). Per horizontal axis a five-state inertial error model (position, velocity, accelerometer bias, attitude tilt, gyro bias) is driven by the descent's specific force; a sequential filter takes position fixes from the enabled aids: an AFS fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) and a terrain-relative fix (the crate's TERCOM/SITAN matcher on a synthetic relief, or the Cramer-Rao bound of matching an elevation window of the real LOLA south-polar DEM). Lunar time enters through the vehicle clock at the fixes (the LTC-TT offset of lunar-time-offset, or the uncertainty of its published band) and as a time-tag error along track. Reports the 3-sigma landing ellipse, R95, the closed-form inertial sources, each aid's contribution, the ablation of every aid combination, a Monte Carlo calibration of the ellipse, and the covariance handed on. MODELLED: illustrative IMU class, relay set, descent profile and guidance term; terrain-nav uses a synthetic relief on an Earth metre scale; AFS availability is one epoch on a flat mask. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+seg-d9f4bc0e8795 = kind lunar-descent
+
+# text
+seg-224175962a12 = Lunar landing dispersion: the budget for a powered descent to a south-polar site (Artemis-class), from the inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time each take off it.
+
+# text
+seg-138dbcd1aece = Lunar landing dispersion with the real LOLA south-polar DEM: the budget for a powered descent to a south-polar site (Artemis-class), from the inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time each take off it.
 
 # text
 seg-8ac5ac006ae7 = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → { "0" } as baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.
@@ -769,6 +801,18 @@ seg-f0aad2150389 = Lunar reference station geodesy, BASELINE: today's five retro
 seg-fb08183a8243 = Lunar reference station geodesy, WITH STATION: the five retroreflector arrays plus one retroreflector and one VLBI beacon at a south-polar lunar reference station site.
 
 # text
+seg-2deefd8c547b = MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). A chaser and a target fly the same orbit under the crate's lunar force model; a joint 21-parameter batch Gauss-Newton estimate over the arc (two vehicle states and persistent signal-in-space biases) fuses an absolute position fix per vehicle from an ILLUSTRATIVE LCNS-class relay set (relays behind the Moon dropped, four needed, the common-mode signal-in-space error cancelling between the vehicles) and a crosslink range, with ranging precision from the code-tracking bound on the LunaNet AFS pilot. Reports the formal and Monte Carlo relative position and velocity error in the target LVLH axes, fix availability, the mean normalised estimation error squared against its expected value, and any trial whose iteration did not converge, the drift from ignoring the gravity harmonics, and the full 6x6 covariance handed on. A closed-form Hill/Clohessy-Wiltshire check applies to the circular case. MODELLED: illustrative relay set, error budget and priors; the truth and the estimator share one force model, so the NEES checks self-consistency and not model error. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+seg-7d99c01a7740 = kind lunar-orbit-rendezvous
+
+# text
+seg-9e4cfcc9fc3e = Lunar rendezvous: relative navigation for an Orion-lander style docking in a { "100" } km circular polar low lunar orbit (Artemis-class), with a lunar gravity field and LunaNet-style signals.
+
+# text
+seg-9f740b874e14 = Lunar rendezvous in an elliptical polar orbit: relative navigation for an Orion-lander style docking in a { "100" } km by { "3000" } km polar orbit with periapsis over the south pole (Artemis-class), with a lunar gravity field and LunaNet-style signals.
+
+# text
 seg-f7ea776e70c9 = Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs. A differential reference station at a known south-polar site corrects a stated constellation (illustrative Keplerian or a tabulated ephemeris) with a stated signal-in-space error, survey error, correction latency and link quantization; per point and over the region it reports the percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability, coverage against a stated threshold, DO-229E protection levels, the coverage radius per azimuth and the correction-link budget at the station and at the worst point. Not a statement about the performance of any real system; not affiliated with or endorsed by any agency. MODELLED.
 
 # text
@@ -782,6 +826,18 @@ seg-e1a3830ad9ed = Lunar reference-station coverage under the PUBLICLY STATED as
 
 # text
 seg-d168096a3514 = Lunar reference-station coverage with terrain: the bundled lunar-station-coverage scenario with a per-site horizon ray-marched over a real lunar digital elevation model at the station and at every user point, in place of the flat elevation mask alone.
+
+# text
+seg-6c7d25f672fb = MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. For each site and season (an epoch and a window after it) it reports relay positioning (four or more relays of an ILLUSTRATIVE LCNS-class constellation in view and PDOP under a threshold, from the same functions as moonlight-service-volume and, with a terrain section, the ray-marched skyline of lunar-station-coverage's terrain), whether the Earth and the Sun are above the site's horizon (analytic Sun, Moon and lunar orientation, libration included, which is what moves with the season), and timing availability (a relay or the Earth in view) with the longest stretch of neither, the holdover a surface clock must ride out. A single-site result equals moonlight-service-volume's to the bit. MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the { "1200" } m LOLA crop. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+seg-d1fc00782fe9 = kind lunar-surface
+
+# attr:title, text
+seg-944145b95b4a = Lunar surface PNT and timing availability by site and season (Artemis-class south-polar sites).
+
+# text
+seg-ce9f26be0623 = Lunar surface PNT and timing availability by site and season with the real LOLA south-polar terrain horizon (Artemis-class south-polar sites).
 
 # text
 seg-cac3a0bcbfc6 = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+{ "1" }{ "}" }, floors τ^{ "0" }, measurement τ^{ "{" }-1/2{ "}" }) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.
@@ -836,6 +892,15 @@ seg-852783147633 = Mars PNT — a fixed surface user (a lander / rover on the ro
 
 # text
 seg-1b2748b538ae = Mars PNT — a Mars transfer / capture user (a high, eccentric areocentric arc — the long arc a vehicle flies on approach / in a capture orbit) navigated against the simulated MARCONI relay constellation through the joint one-way/two-way radiometric fusion estimator.
+
+# text
+seg-1ec485468daa = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
+
+# text
+seg-ce858063d300 = kind mission-thread
+
+# text
+seg-0bd19840e50d = An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch to entry, built from public concept-of-operations material.
 
 # text
 seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥{ "4" } sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈{ "30" } m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.

@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Naast die tijdarray worden <c1/> (<c2/>, <c3/>, <c4/>) de fas
 
 seg-608c4fed9e98 = Traces met een eenheid delen een paneel wanneer hun grootte binnen een factor { "100" } ligt, zodat een guard van { "50" } ns een fout van { "2" } ns niet afvlakt. Er worden hoogstens { "6" } panelen van { "6" } traces getekend; de rest staat onder <c1/>. Traces van meer dan { "2,400" } samples worden uitgedund met een gelijkmatige stap die de laatste sample behoudt, en een waterfall van meer dan { "96" } × { "120" } cellen wordt gemiddeld verkleind (in vermogen, voor decibelcellen, zodat een smalle jammer niet wordt verdund).
 
-seg-b68ce4aa301f = Een soort waarvan het resultaat geen van deze vormen heeft (een linkbudget, een geometrie van één epoch, een Monte Carlo-samenvatting met alleen statistieken, of de telecom-holdover, waarvan het resultaat de hash van het record publiceert maar niet het record) wordt geweigerd met <c1/>, en er wordt niets geschreven. Met kshana { $version } animeren { "89" } van de { "182" } uitvoerbare scenariobestanden (elk bestand behalve een studiesuite) en worden er { "93" } geweigerd. <c2/> drukt de telling af.
-
 seg-c386389e4f1d = Onder de LEO-soorten animeert elk meegeleverd scenario <c1/>, <c2/> en <c3/>. <c4/> animeert in zijn modi Doppler, gezamenlijke positiebepaling en tijdsynchronisatie (een tijdsynchronisatierun heeft <c5/> nodig, waardoor elke rij bij elke epoch zijn tijdfout en voorspelde sigma rapporteert) en wordt geweigerd in zijn modus poolbedekking. <c6/> animeert zijn update halverwege de overpassing en wordt geweigerd voor de analyses van codering, fitinterval en modelvergelijking. Resultaten van <c7/> en <c8/> hebben geen tijdas en worden geweigerd.
 
 seg-eb31ec7a07b7 = Determinisme

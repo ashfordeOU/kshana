@@ -110,19 +110,7 @@ seg-4248eb5c3aef = Holdover
 seg-a51c36133548 = Máscaras de temporización
 
 # text
-seg-c5fc0ca71fae = Cada tipo de escenario, una página por cada uno
-
-# text
-seg-ccee5886cf25 = Cada comando, cada superficie
-
-# text
-seg-4ef6dcd0a58b = Qué superficie incluye qué capacidad
-
-# text
 seg-29e58493fdd4 = Modelado
-
-# text
-seg-8e092e49bdeb = kshana-bench: los umbrales que no se alcanzaron, indicados
 
 # text
 seg-bd4da5bc989d = Generado a partir del repositorio
@@ -603,11 +591,6 @@ seg-47d596393831 = Eventos reales
 # text
 seg-5630c799cec1 = De dónde sale cada traza
 
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
-
 # attr:title
 seg-f70fa3b93b11 = El propio informe del motor sobre esta ejecución
 
@@ -619,11 +602,6 @@ seg-c459bc5805bb = El archivo de escenario que se ejecutó
 
 # text
 seg-f18f76c10709 = <s1><a1>Informe</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
 # text
 seg-f2d2f2263e63 = La consola, las tres tarjetas y el registro reproducen una única ejecución encadenada de { "6" } fases y { "18" } ejecuciones miembro sobre su cuadrícula de { "10" } s (T+{ "01" }:{ "16" }:{ "10" } de tiempo de misión). Las órbitas son los { "102" } satélites de GPS, Galileo, BeiDou y GLONASS de la ejecución de la constelación, cada uno recuperado como una órbita circular de dos cuerpos a partir de la traza en tierra del motor (peor residuo { "0.0034" }°), con radios comprimidos para la visualización. Los enlaces se dibujan hacia los satélites por encima de la máscara de { "10" }° de la ejecución de la constelación ({ "25" }° en la fase de alarma de integridad, la máscara de readquisición de la campaña), atenuados por su jamming y cortados en holdover. Tierra: NASA Blue Marble y Black Marble. Kshana Studio reproduce la ejecución encadenada en su navegador; el propio informe del motor y el comando reproducen cada ejecución.
@@ -646,9 +624,6 @@ seg-3a3535770138 = <s1>artículos en arXiv construidos sobre el motor abierto</s
 
 # text
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>se ejecuta en el navegador como WebAssembly, sin instalación</s2>
-
-# text
-seg-9b3429f89f21 = Novedades en v{ $version }: cada tipo de escenario, cada comando y los fallos del benchmark
 
 # text
 seg-471b95f0c08f = <a1>Qué hace cada uno y qué se comprobó</a1> · <a2>Todos los canales de instalación</a2>
@@ -819,11 +794,6 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 
 # text
 seg-dc2eb6c3c2a4 = PL = nivel de protección · AL = límite de alerta · INS = sistema de navegación inercial
-
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
 
 # text
 seg-0588364091ec = Desde el primer satélite perturbado por jamming hasta el último nanosegundo de holdover del reloj: señales, sensores, relojes, órbitas e integridad en un solo simulador. Cada imagen de abajo es una ejecución real del motor, e indica cuál.
@@ -1081,12 +1051,6 @@ seg-43ceda17e71c = Núcleo abierto · gratis · AGPL-3.0
 seg-0230217b1110 = Quien obtiene posición o tiempo del GNSS está expuesto: el jamming, el spoofing y la pérdida de señal afectan por igual a vehículos, redes, redes eléctricas y naves espaciales.
 
 # text
-seg-9e88a1981d1e = { "176" } de { "388" } capacidades coinciden con referencias independientes externas; el resto se etiqueta como modelado, a las claras.
-
-# text
-seg-4b41ffeb0030 = Los { "87" } tipos de escenario, gratis y sin restricción de funciones, deterministas a partir del escenario, la semilla y la versión del motor.
-
-# text
 seg-0af87a1caff4 = El mismo núcleo bajo licencia comercial, para integración cerrada.
 
 # text
@@ -1154,3 +1118,9 @@ seg-905e5eef45e5 = <b>{ "12" } requisitos</b> comprobados frente a ejecuciones r
 
 # text
 seg-7d9ee2bfbb90 = Descubra dónde falla su temporización, antes de que falle.
+
+seg-f4d3b1f5b1b4 = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+
+seg-3287261002dd = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-510663384be1 = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }

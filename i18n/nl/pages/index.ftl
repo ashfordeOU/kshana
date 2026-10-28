@@ -260,15 +260,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Tijdsynchronisatiemaskers
 
-seg-c5fc0ca71fae = Elke scenariosoort, elk een eigen pagina
-
-seg-ccee5886cf25 = Elke opdracht, elk oppervlak
-
-seg-4ef6dcd0a58b = Welk oppervlak welke mogelijkheid draagt
-
 seg-29e58493fdd4 = Berekend uit een model
-
-seg-8e092e49bdeb = kshana-bench: de drempels die niet zijn gehaald, vermeld
 
 seg-f42465f7d066 = ns
 
@@ -362,8 +354,6 @@ seg-47d596393831 = Echte gebeurtenissen
 
 seg-5630c799cec1 = Waar elk spoor vandaan komt
 
-seg-46b6db21c09b = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-f70fa3b93b11 = Het eigen rapport van de engine over deze run
 
 seg-d32a11c090e1 = Het resultaat van de engine, ongewijzigd
@@ -371,8 +361,6 @@ seg-d32a11c090e1 = Het resultaat van de engine, ongewijzigd
 seg-c459bc5805bb = Het scenariobestand dat is uitgevoerd
 
 seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-seg-c043a94c7564 = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
 seg-f2d2f2263e63 = De console, de drie kaarten en het logboek spelen één geketende run af van { "6" } fasen en { "18" } deelruns op zijn raster van { "10" } s (T+{ "01" }:{ "16" }:{ "10" } missietijd). De banen zijn de { "102" } satellieten van GPS, Galileo, BeiDou en GLONASS uit de constellatierun, elk teruggewonnen als cirkelvormige tweelichamenbaan uit het grondspoor van de engine (slechtste residu { "0.0034" }°), met voor de weergave samengedrukte stralen. Verbindingen worden getekend naar satellieten boven het masker van { "10" }° van de constellatierun ({ "25" }° in de fase van het integriteitsalarm, het heroverwervingsmasker van de campagne), gedimd door de jamming en doorgesneden in holdover. Aarde: NASA Blue Marble en Black Marble. Kshana Studio speelt de geketende run af in uw browser; het eigen rapport van de engine en de opdracht reproduceren elke run.
 
@@ -387,8 +375,6 @@ seg-d2c0888d98f6 = getoetst aan onafhankelijke externe referenties
 seg-3a3535770138 = <s1>artikelen op arXiv gebouwd op de open engine</s1><s2>Lees het onderzoek <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>draait in de browser als WebAssembly, zonder installatie</s2>
-
-seg-9b3429f89f21 = Nieuw in v{ $version }: elke soort, elke opdracht en de missers van de benchmark
 
 seg-471b95f0c08f = <a1>Wat elk doet en wat is gecontroleerd</a1> · <a2>Elk installatiekanaal</a2>
 
@@ -501,8 +487,6 @@ seg-63a70a989509 = Herstel
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } missietijd · de geketende run, niet drie runs naast elkaar
 
 seg-dc2eb6c3c2a4 = PL = beschermingsniveau · AL = alarmgrens · INS = traagheidsnavigatiesysteem
-
-seg-b85e60e05c9f = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 seg-0588364091ec = Van de eerste gejamde satelliet tot de laatste nanoseconde klok-holdover: signalen, sensoren, klokken, banen en integriteit in één simulator. Elk beeld hieronder is een echte enginerun en zegt welke.
 
@@ -670,10 +654,6 @@ seg-43ceda17e71c = Open kern · gratis · AGPL-3.0
 
 seg-0230217b1110 = Iedereen die positie of tijd aan GNSS ontleent, is kwetsbaar: jamming, spoofing en signaalverlies treffen voertuigen, netwerken, elektriciteitsnetten en ruimtevaartuigen even goed.
 
-seg-9e88a1981d1e = { "176" } van { "388" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop gelabeld als berekend uit een model.
-
-seg-4b41ffeb0030 = Alle { "87" } scenariosoorten, gratis en zonder functiebeperking, deterministisch uit scenario, seed en engineversie.
-
 seg-0af87a1caff4 = Dezelfde kern onder een commerciële licentie, voor gesloten integratie.
 
 seg-f6406933eb77 = De engine installeren
@@ -717,3 +697,9 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Missiedossier</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } eisen</b> gecontroleerd aan de hand van echte runs, pdf van 21 pagina's (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Ontdek waar uw tijdsynchronisatie het begeeft, voordat het gebeurt.
+
+seg-f4d3b1f5b1b4 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-3287261002dd = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-510663384be1 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

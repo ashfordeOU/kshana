@@ -848,8 +848,6 @@ seg-7718b39ae2c6 = Každý graf na této stránce je soubor scénáře, který e
 
 seg-24194ccdcdca = Začněte z libovolného scénáře
 
-seg-da4764e4d161 = Vyberte jeden z { "183" } souborů scénářů napříč { "87" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
-
 seg-5dd293dd429b = Knihovna v Kshana Studiu
 
 seg-2ae31e21c5d8 = Nastavte družice a konstelace
@@ -962,33 +960,11 @@ seg-58a8a796c8cb = referenční kontroly
 
 seg-3cbba5a3ab3b = Novinky ve verzi v{ $version }
 
-seg-850aca04de28 = Každý druh, každý příkaz a nesplněné prahy benchmarku.
-
-seg-c530da682cca = Žádná nová funkce enginu: výsledky jsou ty z verze { "0.38.0" }. Dokumentace má nyní stránku pro každý druh scénáře a seznam každého příkazu a každého rozhraní a stránka benchmarku uvádí každý práh, který nebyl splněn. Příkazový řádek také skončí tiše, když se zavře jeho výstupní roura. Každá schopnost nese označení, které pro ni drží registr, a označení uvádí jen to, co bylo zkontrolováno. Software pouze poradního charakteru.
-
-seg-c5fc0ca71fae = Každý druh scénáře, jedna stránka pro každý
-
-seg-86ff766b2c1d = Všech { "87" } druhů scénářů zařazených do rodin, s jednou stránkou pro každý druh: co dělá, jeho vstupy, výsledky ukázkového běhu, řádky registru a orákula za jeho označením, omezení, která uvádí jeho zpráva, a graf, který engine zapisuje.
-
 seg-a0b63210b807 = Číst dále
-
-seg-ccee5886cf25 = Každý příkaz, každé rozhraní
-
-seg-6630acb722ae = Každý příkaz s příkladem, který lze spustit z checkoutu, a každé rozhraní (příkazový řádek, Python, Rust, WebAssembly, server MCP, příkazy pluginu, skills a stránky Studia) s příkazy a druhy, které nese, a s důvodem tam, kde je nenese.
-
-seg-4ef6dcd0a58b = Které rozhraní nese kterou schopnost
-
-seg-678872a862dc = Jedna stránka uvádí pro každý příkaz a druh, které rozhraní jej nese a které ne, s důvodem, vedle oblastí schopností a jejich označení v registru.
 
 seg-29e58493fdd4 = Modelováno
 
-seg-8e092e49bdeb = kshana-bench: prahy, které nebyly splněny, uvedeny
-
-seg-df8f792ffa97 = Stránka benchmarku nyní uvádí každý práh, který nebyl splněn, tak jak je zaznamenává soubor s výsledky, a říká, že žádný práh není zmírněn.
-
 seg-54dce6366d5a = Každý přibalený scénář na jedné mapě.
-
-seg-761213eb3ce0 = Všech { "183" } souborů scénářů napříč { "87" } druhy, seskupených podle oblasti; { "173" } je přibaleno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře v Kshana Studiu; ostatní otevřou svůj záznam v referenci scénářů se souborem a příkazem, který jej spustí.
 
 seg-f53c36555404 = Filtrovat podle stavu v registru
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Soubor Monte Carlo scénáře holdoveru hodin.
 seg-6f80bcd98ce4 = Referenční scénář Kshana: běh { "2" } h, { "10" } min synchronizace GNSS, poté ~{ "1.8" } h bez GNSS.
 
 seg-4a194573e324 = Varianta: laboratorní optické hodiny se stronciem vs. CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Test holdoveru, příklad načtení: záznam časové chyby vyhodnocený druhem holdover-test
 
@@ -1607,8 +1581,6 @@ seg-cab165105f32 = Křížový odkaz požadavek–modul–test–orákulum–sta
 seg-ac19e38bed11 = <b>CI</b> průběžná integrace · <b>CSV</b> hodnoty oddělené čárkami · <b>NIST</b> Národní institut pro standardy a technologie · <b>AIAA</b> Americký institut pro letectví a kosmonautiku · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> Mezinárodní služba GNSS
 
 seg-190cdf3ca8dc = Jednotka a původ u každé uváděné veličiny
-
-seg-1c7bb8c3e887 = { "87" } z { "87" } druhů, { "3127" } z { "3127" } číselných polí
 
 seg-3e7fb040a7c4 = Každé číselné pole, které scénář vydává, nese jednotku a třídu původu z uzavřeného slovníku, s definicí tam, kde existuje, publikované jako strojově čitelné schéma vedle enginu. Postupně zpřísňovaná brána spouští každý vestavěný druh a selže na poli, které žádné nenese; druhy, které ještě nejsou úplné, jsou pojmenovány jeden po druhém s důvodem, proč je každý dosud otevřený, a seznam se může jen zkracovat. Zprávy, které uvádějí vlastní konstanty, tedy rozpočet jednosměrného spoje a optický a rádiový rozpočet, umožňují čtenáři přepočítat hlavní hodnotu jen z této zprávy.
 

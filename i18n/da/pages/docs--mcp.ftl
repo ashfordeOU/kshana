@@ -94,8 +94,6 @@ seg-2a56e1f52830 = Værktøjer
 
 seg-b847694d91b5 = Kør et scenarie ud fra en TOML-definition (Tom's Obvious, Minimal Language); returnerer oversigten og hele resultat-JSON (JavaScript Object Notation: kvalitetsmål, kurver). Valgfri <c1/> returnerer diagrammet som SVG (Scalable Vector Graphics).
 
-seg-a30b46501cff = De { "87" } indbyggede scenarietyper med beskrivelser og obligatoriske/valgfrie felter, så agenten kan bygge et gyldigt scenarie.
-
 seg-3c00da00ec30 = Forhåndskontrol: fortolk TOML-filen og find dens type uden at køre den.
 
 seg-4516fd1e665c = De medfølgende referencescenarier som JSON: hver <c1/>, dens <c2/> og én sætning om, hvad den viser. Valgfrit filter <c3/>. Hvert eksempel kan køres, som det står, så dette er den hurtigste vej til en gyldig TOML for en type.

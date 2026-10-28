@@ -284,10 +284,6 @@ seg-f6ff1c8c78db = Jälgimissilmuse lukustuse kadu: C/N0 -> lukustus/lukustuse v
 seg-45cb12242d59 = Allikas: <c1/>
 
 # text
-# c1: kshana::api::run_toml
-seg-843d88cee576 = { "87" } sisseehitatud stsenaariumi liiki, mille vahel <c1/> edastab, igaühel oma ühe rea kirjeldus ning nõutud / valikulised TOML-i (Tom's Obvious, Minimal Language) väljad.
-
-# text
 # c1: api::list_scenario_kinds()
 # c2: cargo run --bin gen_validation_artifacts
 # c3: list_scenario_kinds

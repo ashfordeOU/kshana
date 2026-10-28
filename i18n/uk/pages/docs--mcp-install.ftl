@@ -86,17 +86,9 @@ seg-f325b20ba911 = Оберіть спосіб запуску сервера
 
 seg-f7b7c7f2eb0d = Кожен клієнт нижче приймає одне з трьох визначень сервера. Вони запускають той самий сервер:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (потрібен Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (потрібен Docker): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp у PATH</b> (потрібен виконуваний файл (brew, scoop, winget, cargo або завантаження випуску)): <c1/>
 
 seg-c320bcbc9bcd = Посилання в один клік
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>веб-посилання</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>веб-посилання</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp у PATH: <a1>веб-посилання</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>відкрити</a1> · <a2>Insider
 seg-2befff4cecb5 = VS Code, Docker: <a1>відкрити</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp у PATH: <a1>відкрити</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = Інший клієнт
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> обслуговує ті самі інструмент
 seg-04c1f05fb027 = <s1>Попередня</s1>Сервер MCP
 
 seg-eba757f29814 = <s1>Наступна</s1>Сервер MCP: режим HTTP із самостійним розміщенням
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (потрібен Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (потрібен Docker): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>веб-посилання</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>веб-посилання</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

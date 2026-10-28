@@ -32,8 +32,6 @@ seg-f2cc0830b53f = Příklad <c1/> mimo jiné nastavuje:
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = klasický základ
-
 seg-f5fa445702c6 = Popisek výsledku (z enginu): MODELLED — kvantifikuje (nikdy neověřuje) hodiny/čidlo partnera; nebylo prokázáno za letu
 
 seg-c74c63ffd859 = Graf, který engine zapisuje pro scenarios/quantum-trade.toml, druh quantum-trade

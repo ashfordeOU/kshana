@@ -16,9 +16,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>der präzise Augenb
 seg-3b861b2f08b8 = Version v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } von { "388" } Fähigkeiten gegen unabhängige externe Referenzen validiert
-
-# text
 seg-6a1906d8d4ad = Etwa { "95" } % Zeilenabdeckung, in der kontinuierlichen Integration mit { "85" } % als Schwelle
 
 # text
@@ -35,12 +32,6 @@ seg-d1153c5e9112 = Proben Sie die Minute, in der GNSS ausfällt
 
 # text
 seg-d1a3f78ad8e0 = Probieren Sie es zuerst aus, ohne etwas zu installieren: <a1>Kshana Studio</a1> führt die gesamte Engine in Ihrem Browser aus, zu WebAssembly kompiliert, und lädt nichts hoch.
-
-# text
-seg-2d2c47db0c1f = <b>{ "176" } von { "388" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "208" } ehrlich als modelliert gekennzeichnet, { "4" } im Besitz von Partnern. Jede Fähigkeit trägt eine Kennzeichnung in einem maschinengeprüften Register: VALIDATED (eine unabhängige externe Referenz stimmt überein: reale Daten, eine unabhängige Implementierung oder veröffentlichte Referenzvektoren), MODELLED (intern konsistent, und offen so benannt) oder PARTNER (ein Hardwarepartner besitzt sie). Zu den Prüfungen gehören: alle { "666" } Vektoren von SGP4 (Simplified General Perturbations { "4" }) aus AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 auf { "4.12" } mm und das Cowell-Kraftmodell auf { "0.08" } m gegen Orekit { "12.2" }.
-
-# attr:alt
-seg-44f7862c45a2 = Wie eine Fähigkeit ihre Kennzeichnung verdient: Fähigkeit, Referenz, Test, Kennzeichnung im Register. Der Verifikationsstatus über alle { "388" } Fähigkeiten: { "176" } validiert, { "208" } modelliert, { "4" } im Besitz von Partnern
 
 # text
 seg-12a295fba8a5 = Jede Fähigkeit in der Verifikationsmatrix ist als <b>validiert</b> (gegen eine unabhängige externe Referenz geprüft), <b>modelliert</b> oder <b>vom Partner verantwortet</b> gekennzeichnet; Angaben zu optischen Uhren sind Weltraumziele auf Bodenhardware (noch keine optische Strontium-Uhr ist geflogen). Die Reife ist über die Bereiche hinweg <em>nicht</em> einheitlich: Erd-PNT ist gegen reale Daten validiert; die Navigation im tiefen Weltraum und zum Mars ist modelliert, wobei nur ihre Bausteine (Lichtlaufzeit, Planetenpositionen) gegen externe unabhängige Referenzen validiert sind; die Bahnbestimmung (OD, orbit determination) für reale Missionen im tiefen Weltraum steht auf der Roadmap.

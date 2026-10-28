@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = 示例<c1/>设置了以下内容等：
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = 量子与经典PNT异常检
-
 seg-2f1d14239d1a = 引擎为scenarios/quantum-anomaly-detect.toml（类型quantum-anomaly-detect）绘制的图表
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b>解析的双正态ROC AUC = Φ(μ/(σ√{ "2" }))与最小可检测故障 σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d))，支撑量子故障与异常检测器。参考基准（ExternalDataset）：scipy { "1.17" }（Cephes ndtr/ndtri）+ scikit-learn roc_auc_score（Pedregosa等，JMLR { "2011" }），均为BSD-3-Clause，是计算同样唯一确定的高斯尾部/AUC量的独立库，一致到A&S-erf底限（约{ "7e-8" }）。其上构建的量子对经典优势仍为MODELLED

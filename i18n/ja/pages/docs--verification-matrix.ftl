@@ -3100,8 +3100,6 @@ seg-83724a2a8e06 = hybrid_integrity::tests（検出力曲線は、故障ゼロ�
 
 seg-e8e0e0618afa = 出典：<c1/>
 
-seg-4cb1d67922ed = 機械で検査される完全なエビデンスの台帳：<b>{ "388" } 行——{ "176" } 行が VALIDATED、{ "208" } 行が MODELLED、{ "4" } 行が PARTNER</b>。行が VALIDATED となれるのは、独立した外部オラクルがある場合だけです（マトリクスの不変条件のテストがこれを強制します）。同じデータは、各テスト、モジュール、コミット済みフィクスチャへの行ごとのクリック可能なリンク付きで、<a1>https://kshana.dev</a1> の<em>検証台帳</em>にあります。モデル計算の各行が外部で検証されていない理由は、<a2>MODELLED-RATIONALE.md</a2> を参照してください。
-
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs（{ "140" } ケース：Kasdin のべき乗則記録十本、b = { "0" } から -4、位相データと周波数データの両方、af = { "1" } から { "64" }。alpha_int と d は一致し、最悪の |d alpha| は { "9.6e-13" }、|d rho| は { "4.8e-13" }（基準は { "1e-9" }）。事前登録済み 2ec76864）、allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
@@ -3737,8 +3735,6 @@ seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_fin
 seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
 
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay)、tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-seg-af826b47d00e = { "388" } 行：{ "176" } 行は外部の参照と照合して確認済み、{ "208" } 行はモデルから計算、{ "4" } 行はパートナーの所管です。
 
 seg-6bb40f180cf0 = <s1>前へ</s1>検証ステータス
 

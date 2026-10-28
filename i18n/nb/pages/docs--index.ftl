@@ -22,17 +22,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvante mot klassisk</s1><s2>Avslutningen. Du k
 
 seg-50dd8e4077fd = <s1>Gjennomarbeidet eksempel: pipeline med flere verktøy</s1><s2>Dette følger én bane gjennom scenariotypene for standardbasert interoperabilitet og oppdragsanalyse fra ende til…</s2>
 
-seg-78756a9f6704 = <s1>Scenariotyper</s1><s2>De { "87" } innebygde scenariotypene som kshana::api::run_toml fordeler over, hver med sin enlinjes…</s2>
-
-seg-051029eb3525 = <s1>Alle scenariotyper, etter familie</s1><s2>Alle scenariotyper motoren v{ $version } fordeler over ({ "87" }), sortert under { "12" } familier.</s2>
-
 seg-86b2b5f29f35 = <s1>Alle kommandoer</s1><s2>kshana <scenario.toml> kjører et scenario; alle andre kommandoer er underkommandoer. kshana --help skriver ut bruken…</s2>
 
 seg-e847b803a7a9 = <s1>Alle flater</s1><s2>Én motor, de samme resultatene overalt. docs/SURFACES.md viser, for hver kommando og type, hvilken flate…</s2>
 
 seg-dcd149f1b172 = <s1>Funksjonsområder</s1><s2>Hver funksjon i det offentlige kartet, etter område, med sin registermerking.</s2>
-
-seg-76a9b614dada = <s1>Scenarioreferanse</s1><s2>Hver medfølgende scenariofil ({ "182" }), gruppert etter type, med nøkkelinnstillingene.</s2>
 
 seg-58cdc99dfc9e = <s1>Resultatskjema</s1><s2>Hver kjøring skriver en versjonert, selvbeskrivende JSON-artefakt (JavaScript Object Notation) ved siden av scenarioet.</s2>
 
@@ -47,10 +41,6 @@ seg-b57457566406 = <s1>Animasjonseksport</s1><s2>--animate gjør en kjørings ti
 seg-6e9c30a894e9 = <s1>Interoperabilitetseksport og -import</s1><s2>En kjøring skriver et resultatdokument, et diagram og en rapport. --export skriver også scenarioets geometri, eller dets…</s2>
 
 seg-ea5f09561b29 = <s1>Valideringsstatus</s1><s2>Om toleranser. «Validert» nedenfor betyr at en kalibreringstest slår fast at den simulerte statistikken stemmer med…</s2>
-
-seg-c387a74ffabb = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "388" } rader — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "388" } radene i verifikasjonsmatrisen.</s2>
 
 seg-ae0276d1d945 = <s1>Hvorfor rader forblir modellerte</s1><s2>Disse funksjonene er implementert ut fra publisert fysikk eller førsteprinsipper, med tester, men er ærlig talt…</s2>
 
@@ -218,15 +208,11 @@ seg-69525243f8f1 = <s1>Jamming, spoofing og spekteret</s1><s2>{ "6" } scenarioty
 
 seg-0541e0421253 = <s1>Navigasjon i lav jordbane</s1><s2>{ "7" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
 
-seg-1da177a1654b = <s1>Måne og cislunart rom</s1><s2>{ "20" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
-
 seg-671dc0d705c5 = <s1>Oppdragsanalyse, linker og romoperasjoner</s1><s2>{ "14" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
 
 seg-5de091b18fe4 = <s1>Optisk PNT</s1><s2>{ "2" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
 
 seg-35db5b51a590 = <s1>Navigasjon for rombrukere</s1><s2>{ "1" } scenariotype i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke…</s2>
-
-seg-0144518c94fc = { "87" } sider, én for hver scenariotype, med lenker fra <a1>Alle scenariotyper, etter familie</a1>.
 
 seg-1acf60cff708 = Ikke tatt med
 

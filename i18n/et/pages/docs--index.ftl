@@ -16,9 +16,6 @@ seg-69525243f8f1 = <s1>Segamine, spuufimine ja raadiospekter</s1><s2>Mootori v{ 
 seg-0541e0421253 = <s1>Madala Maa orbiidi navigatsioon</s1><s2>Mootori v{ $version } { "7" } stsenaariumi liiki. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
 
 # text
-seg-1da177a1654b = <s1>Kuu ja tsislunaarne ruum</s1><s2>Mootori v{ $version } { "20" } stsenaariumi liiki. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
-
-# text
 seg-671dc0d705c5 = <s1>Missioonianalüüs, sideliinid ja kosmoseoperatsioonid</s1><s2>Mootori v{ $version } { "14" } stsenaariumi liiki. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
 
 # text
@@ -26,9 +23,6 @@ seg-5de091b18fe4 = <s1>Optiline PNT</s1><s2>Mootori v{ $version } { "2" } stsena
 
 # text
 seg-35db5b51a590 = <s1>Kosmosekasutaja navigatsioon</s1><s2>Mootori v{ $version } { "1" } stsenaariumi liik. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
-
-# text
-seg-0144518c94fc = { "87" } lehte, üks iga stsenaariumi liigi kohta, millele viitab leht <a1>Kõik stsenaariumi liigid perekondade kaupa</a1>.
 
 # text
 seg-1acf60cff708 = Kaasamata
@@ -70,12 +64,6 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvant versus klassikaline</s1><s2>Lõputöö. 
 seg-50dd8e4077fd = <s1>Lahendatud näide: mitme tööriista torujuhe</s1><s2>See viib ühe trajektoori läbi standarditel põhineva koostalitlusvõime ja missioonianalüüsi stsenaariumi liikide otsast lõpuni…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Stsenaariumi liigid</s1><s2>{ "87" } sisseehitatud stsenaariumi liiki, mille vahel kshana::api::run_toml jaotab, igaühel oma üherealine…</s2>
-
-# text
-seg-051029eb3525 = <s1>Iga stsenaariumi liik perekonniti</s1><s2>Iga stsenaariumi liik, mida mootor v{ $version } jaotab ({ "87" }), { "12" } perekonna all.</s2>
-
-# text
 seg-86b2b5f29f35 = <s1>Iga käsk</s1><s2>kshana <scenario.toml> käivitab stsenaariumi; iga teine käsk on alamkäsk. kshana --help trükib kasutusjuhendi…</s2>
 
 # text
@@ -83,9 +71,6 @@ seg-e847b803a7a9 = <s1>Iga pind</s1><s2>Üks mootor, kõikjal samad tulemused. d
 
 # text
 seg-dcd149f1b172 = <s1>Võimekuse valdkonnad</s1><s2>Avaliku kaardi iga võimekus valdkonniti koos oma registri (ledger) märgisega.</s2>
-
-# text
-seg-76a9b614dada = <s1>Stsenaariumi viide</s1><s2>Iga kaasasolev stsenaariumifail ({ "182" }) liigiti rühmitatud koos oma põhiseadetega.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Tulemuse skeem</s1><s2>Iga käivitus kirjutab stsenaariumi kõrvale versioonitud, isekirjeldava JSON-artefakti (JavaScript Object Notation).</s2>
@@ -107,12 +92,6 @@ seg-6e9c30a894e9 = <s1>Koostalitlusvõime eksport ja import</s1><s2>Käivitus ki
 
 # text
 seg-ea5f09561b29 = <s1>Valideerimise seis</s1><s2>Tolerantsidest. „Valideeritud“ tähendab allpool, et kalibreerimistest väidab, et simuleeritud statistik vastab…</s2>
-
-# text
-seg-c387a74ffabb = <s1>Kontrollimaatriks</s1><s2>Täielik, masinkontrollitud tõenditeregister (ledger): { "388" } rida — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-# text
-seg-be02c7f0d48e = <s1>Võimekuse viide</s1><s2>Võimekuse kaardid ja kontrollimaatriksi kõik { "388" } rida.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Miks read jäävad modelleerituks</s1><s2>Need võimekused on realiseeritud avaldatud või esimestest printsiipidest lähtuvast füüsikast koos testidega, kuid on ausalt…</s2>

@@ -185,6 +185,9 @@ seg-1d74ec198f47 = Concepts primer
 seg-994b233a49f2 = Glossary
 
 # text
+seg-6867c09f7613 = Languages
+
+# text
 seg-b00de957b1dd = Tutorials
 
 # text
@@ -270,6 +273,9 @@ seg-9fb5cc8ccff2 = Line coverage
 
 # text
 seg-ee5e71e5814c = Evidence packs
+
+# text
+seg-aaf9c6896126 = Data partners and promoting rows
 
 # text
 seg-08470262400b = Optical links through the atmosphere
@@ -383,6 +389,12 @@ seg-b770787b83e0 = Space-user navigation (gnss-ssv)
 seg-5932af2e818b = Lunar orbit and surface as infrastructure
 
 # text
+seg-3b31855a40e7 = Mission thread: launch to entry
+
+# text
+seg-0cf138405411 = Mission thread: the lunar segment
+
+# text
 seg-779c17b10afe = Low Earth orbit (LEO) navigation
 
 # text
@@ -489,6 +501,9 @@ seg-9ca21a59f82c = Low earth orbit navigation
 
 # text
 seg-764a2bc9f87f = Mission analysis links and space operations
+
+# text
+seg-5fee8df421d2 = Mission threads
 
 # text
 seg-7bf9196127b4 = Optical pnt
@@ -615,7 +630,10 @@ seg-5aa75472f59d = The scalar results of that run, with the units the engine sta
 seg-dfd41abc16b5 = Result
 
 # text
-seg-0df8f55cbe06 = deg
+seg-37d29d8303fe = km
+
+# text
+seg-a0d832aec3c8 = the stable id of the matrix row (the ID
 
 # text
 seg-4798bca2d7a7 = MODELLED: the <a1>verification matrix</a1> rows that name this kind.
@@ -634,3 +652,6 @@ seg-58c4d7218e70 = Reproducibility & software assurance is MODELLED, not validat
 
 # text
 seg-1bf3d5817274 = All kinds: <a1>KINDS.md</a1>
+
+# text
+seg-0df8f55cbe06 = deg

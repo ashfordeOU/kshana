@@ -94,8 +94,6 @@ seg-2a56e1f52830 = Narzędzia
 
 seg-b847694d91b5 = Uruchamia scenariusz z definicji TOML (Tom's Obvious, Minimal Language); zwraca podsumowanie + pełny wynik JSON (JavaScript Object Notation: wskaźniki jakości, krzywe). Opcjonalny <c1/> zwraca wykres jako SVG (Scalable Vector Graphics).
 
-seg-a30b46501cff = { "87" } wbudowanych rodzajów scenariuszy z opisami oraz polami wymaganymi i opcjonalnymi, aby agent mógł zbudować poprawny scenariusz.
-
 seg-3c00da00ec30 = Kontrola wstępna: analizuje TOML i wykrywa jego rodzaj, bez uruchamiania.
 
 seg-4516fd1e665c = Dołączone scenariusze wzorcowe jako JSON: każdy z <c1/>, swoim <c2/> i jednym zdaniem o tym, co pokazuje. Opcjonalny filtr <c3/>. Każdy przykład działa w takiej postaci, jaka jest, więc to najszybsza droga do poprawnego TOML dla danego rodzaju.

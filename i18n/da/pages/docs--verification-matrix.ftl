@@ -3064,8 +3064,6 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 
 seg-e8e0e0618afa = Kilde: <c1/>
 
-seg-4cb1d67922ed = Det komplette, maskinkontrollerede evidensregister: <b>{ "388" } rækker — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. En række må kun være VALIDATED med en uafhængig ekstern reference (matrixens invarianttests gennemtvinger det). De samme data, med klikbare links pr. række til hver test, hvert modul og hver indlæst fixture, udgør <em>valideringsregisteret</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for, hvorfor hver Modelled-række ikke er eksternt valideret.
-
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tilfælde: ti Kasdin-potenslovsregistreringer, b = { "0" } til -4, som fase- og frekvensdata, af = { "1" } til { "64" }; alpha_int og d identiske, værste |d alpha| { "9.6e-13" } og |d rho| { "4.8e-13" } mod { "1e-9" }; præregistreret 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
@@ -3701,8 +3699,6 @@ seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_fin
 seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
 
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-seg-af826b47d00e = { "388" } rækker: { "176" } valideret eksternt, { "208" } modelleret, { "4" } ejet af partnere.
 
 seg-6bb40f180cf0 = <s1>Forrige</s1>Valideringsstatus
 

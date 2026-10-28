@@ -32,7 +32,7 @@ seg-b88a2a9497c2 = Tool
 seg-b847694d91b5 = Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition; returns the summary + full result JSON (JavaScript Object Notation: figures of merit, curves). Optional <c1/> returns the chart as SVG (Scalable Vector Graphics).
 
 # text
-seg-a30b46501cff = The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-492888115662 = The { "92" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
 
 # text
 seg-3c00da00ec30 = Pre-flight check: parse the TOML and detect its kind, without running.

@@ -24,10 +24,6 @@ seg-e3235e4d3760 = Eksemplet <c1/> angiver blandt andet:
 
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
-seg-5b3bc9761db4 = Første
-
-seg-52036320db9b = TM
-
 seg-f336ba92871f = Resultatetiket (motorens egen): indramning af primær header for CCSDS 133.0-B Space Packet — nøjagtigt, deterministisk bitlayout, rundtur mellem kodning og afkodning verificeret; IKKE en certificering af overensstemmelse (ingen logik for sekundær header, CRC eller segmentering ud over flagene)
 
 seg-af1cf9aa9938 = Diagrammet, som motoren skriver for scenarios/space-packet.toml, type space-packet

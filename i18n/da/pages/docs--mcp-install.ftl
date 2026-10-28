@@ -86,17 +86,9 @@ seg-f325b20ba911 = Vælg en måde at starte serveren på
 
 seg-f7b7c7f2eb0d = Hver klient nedenfor tager en af tre serverdefinitioner. De starter den samme server:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (kræver Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (kræver Docker): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp på PATH</b> (kræver binærfilen (brew, scoop, winget, cargo eller en downloadet udgivelse)): <c1/>
 
 seg-c320bcbc9bcd = Links med ét klik
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>weblink</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>weblink</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp på PATH: <a1>weblink</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>åbn</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code, Docker: <a1>åbn</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp på PATH: <a1>åbn</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = En anden klient
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> leverer de samme værktøjer over streamable HTTP til e
 seg-04c1f05fb027 = <s1>Forrige</s1>MCP-server
 
 seg-eba757f29814 = <s1>Næste</s1>MCP-server: selvhostet HTTP-tilstand
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (kræver Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (kræver Docker): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>weblink</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>weblink</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

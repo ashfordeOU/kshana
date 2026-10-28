@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Bron: <c1/>
 
 seg-6c7831311d4e = Scenariosoorten, per familie
 
-seg-6bed0bef75bc = Elke scenariosoort die de engine v{ $version } afhandelt ({ "87" }), ingedeeld in { "12" } families. Elke familie heeft een pagina met één onderdeel per soort (de beschrijving en velden van de engine, de voorbeeldopdracht, kerncijfers uit een run, de matrixrijen die de soort noemen en de grafiek die de engine schrijft) en een contactblad met die grafieken. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
-
 seg-d23eaa8bc98b = Families
 
 seg-3ac9e578414c = Klokken, tijdsynchronisatie en holdover

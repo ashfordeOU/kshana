@@ -34,12 +34,6 @@ seg-a164328ef8cd = <s1>{ "3" } · Cuántico frente a clásico</s1><s2>El proyect
 seg-50dd8e4077fd = <s1>Ejemplo resuelto: cadena de varias herramientas</s1><s2>Esto recorre una trayectoria a través de los tipos de escenario de interoperabilidad basada en estándares y de análisis de misión, de principio a…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Tipos de escenario</s1><s2>Los { "87" } tipos de escenario integrados sobre los que despacha kshana::api::run_toml, cada uno con su…</s2>
-
-# text
-seg-051029eb3525 = <s1>Todos los tipos de escenario, por familia</s1><s2>Todos los tipos de escenario que despacha el motor v{ $version } ({ "87" }), clasificados en { "12" } familias.</s2>
-
-# text
 seg-86b2b5f29f35 = <s1>Todos los comandos</s1><s2>kshana <scenario.toml> ejecuta un escenario; todos los demás comandos son subcomandos. kshana --help imprime el uso…</s2>
 
 # text
@@ -47,9 +41,6 @@ seg-e847b803a7a9 = <s1>Todas las superficies</s1><s2>Un motor, los mismos result
 
 # text
 seg-dcd149f1b172 = <s1>Dominios de capacidad</s1><s2>Todas las capacidades del mapa público, por dominio, con su etiqueta del registro.</s2>
-
-# text
-seg-76a9b614dada = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "182" }), agrupado por tipo, con sus ajustes clave.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Esquema de resultados</s1><s2>Cada ejecución escribe un artefacto JSON (JavaScript Object Notation) versionado y autodescriptivo junto al escenario.</s2>
@@ -71,12 +62,6 @@ seg-6e9c30a894e9 = <s1>Exportaciones e importaciones de interoperabilidad</s1><s
 
 # text
 seg-ea5f09561b29 = <s1>Estado de validación</s1><s2>Sobre las tolerancias. "Validado" más abajo significa que una prueba de calibración afirma que el estadístico simulado coincide con el…</s2>
-
-# text
-seg-c387a74ffabb = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "388" } filas — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-# text
-seg-be02c7f0d48e = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "388" } filas de la matriz de verificación.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Por qué las filas siguen siendo modeladas</s1><s2>Estas capacidades están implementadas a partir de física publicada o de primeros principios y con pruebas, pero con honestidad…</s2>
@@ -328,9 +313,6 @@ seg-69525243f8f1 = <s1>Jamming, spoofing y el espectro</s1><s2>{ "6" } tipos de 
 seg-0541e0421253 = <s1>Navegación en órbita terrestre baja</s1><s2>{ "7" } tipos de escenario del motor v{ $version }. Consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
 
 # text
-seg-1da177a1654b = <s1>Lunar y cislunar</s1><s2>{ "20" } tipos de escenario del motor v{ $version }. Consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
-
-# text
 seg-671dc0d705c5 = <s1>Enlaces de análisis de misión y operaciones espaciales</s1><s2>{ "14" } tipos de escenario del motor v{ $version }. Consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
 
 # text
@@ -338,9 +320,6 @@ seg-5de091b18fe4 = <s1>PNT óptico</s1><s2>{ "2" } tipos de escenario del motor 
 
 # text
 seg-35db5b51a590 = <s1>Navegación de usuarios espaciales</s1><s2>{ "1" } tipo de escenario del motor v{ $version }. Consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no…</s2>
-
-# text
-seg-0144518c94fc = { "87" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.
 
 # text
 seg-1acf60cff708 = No incluido

@@ -46,9 +46,6 @@ seg-6c0897da2efa = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-8c6bb203352d = The example <c1/> sets, among others:
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-a3697ad561db = Hz
 
 # text
@@ -56,6 +53,9 @@ seg-9521a296d617 = dBi
 
 # text
 seg-b054c73f22e5 = no value
+
+# text
+seg-a349aa76b0ed = PARTNER
 
 # attr:alt
 seg-cf1dce5fc824 = The chart the engine writes for scenarios/earth-gnss-lunar.toml, kind earth-gnss-lunar

@@ -165,11 +165,6 @@ seg-0edf8c38f9eb = Ao lado desse array de tempo, <c1/> (<c2/>, <c3/>, <c4/>) tor
 seg-608c4fed9e98 = Traços com unidade compartilham um painel quando suas magnitudes estão dentro de um fator de { "100" }, de modo que uma guarda de { "50" } ns não achata um erro de { "2" } ns. No máximo { "6" } painéis de { "6" } traços são desenhados; o resto é listado em <c1/>. Traços com mais de { "2,400" } amostras são reduzidos por um passo uniforme que mantém a última amostra, e uma cascata com mais de { "96" } × { "120" } células é calculada em média (em potência, para células em decibéis, de modo que um jammer estreito não seja diluído).
 
 # text
-# c1: no time series to animate
-# c2: cargo test --test animation -- --nocapture
-seg-b68ce4aa301f = Um tipo de cenário cujo resultado não traz nenhuma dessas formas (um orçamento de enlace, uma geometria de época única, um resumo Monte Carlo somente de estatísticas, ou o holdover de telecomunicações, cujo resultado publica o hash do registro mas não o registro) é recusado com <c1/>, e nada é gravado. Com o kshana { $version }, { "89" } dos { "182" } arquivos de cenário executáveis (todo arquivo exceto uma suíte de estudo) animam e { "93" } são recusados. <c2/> imprime o levantamento.
-
-# text
 # c1: leo-pass
 # c2: leo-pnt-chain
 # c3: leo-ppp

@@ -22,10 +22,6 @@ seg-e3235e4d3760 = Het voorbeeld <c1/> stelt onder meer in:
 
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
-seg-5b3bc9761db4 = Eerste
-
-seg-52036320db9b = TM
-
 seg-f336ba92871f = Resultaatlabel (van de engine): CCSDS 133.0-B Space Packet-framing van de primaire header — exacte, deterministische bitindeling, rondreis van codering↔decodering geverifieerd; GEEN certificering van conformiteit (geen logica voor secundaire header / CRC / segmentatie buiten de vlaggen)
 
 seg-af1cf9aa9938 = De grafiek die de engine schrijft voor scenarios/space-packet.toml, soort space-packet

@@ -324,8 +324,6 @@ seg-fdd71491d5b0 = Stan ciągłej integracji na main
 
 seg-fa8a7ec005a9 = Pokrycie linii około { "95" } % w src/, zmierzone w docs/COVERAGE.md i z progiem { "85" } % w ciągłej integracji
 
-seg-af101c048e7e = { "176" } z { "388" } możliwości VALIDATED względem niezależnej wyroczni zewnętrznej, według macierzy weryfikacji
-
 seg-6499faeb5966 = Stan bramki jakości SonarQube Cloud
 
 seg-ca94ec23de8d = <a1><s1>Licencja: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI 10.5281/zenodo.20528627, rekord koncepcyjny Zenodo każdego wydania</s2></a2>
@@ -343,8 +341,6 @@ seg-72cbdfddc323 = <a1>Otwórz Kshana Studio</a1> · <a2>Instalacja</a2> · <a3>
 seg-904baf07192f = Przećwicz minutę, w której GNSS gaśnie. Konsola misji Kshana, narysowana na podstawie prawdziwego przebiegu silnika v{ $version }: połączona kampania campaign-jam-spoof-holdover-integrity (ziarno { "20260928" }, { "6" } faz, { "18" } przebiegów składowych w T+{ "01" }:{ "16" }:{ "10" }) oraz { "102" } satelitów GPS, Galileo, BeiDou i GLONASS z constellation-multi-gnss-coverage, każdy narysowany na kołowej orbicie dwóch ciał odtworzonej ze śladu naziemnego silnika, z promieniami skompresowanymi na potrzeby wyświetlania. Błąd czasu zegara osiąga szczyt { "62.7" } ns wobec strażnika { "50" } ns, stosunek nośnej do szumu spada do -12.2 dB-Hz wobec dolnej granicy { "25" } dB-Hz, a pionowy poziom ochrony sięga { "135.4" } m wobec limitu alarmu { "50" } m.
 
 seg-d435b868c53d = Spis treści
-
-seg-161fa1263086 = <a1>Co nowego w { "0.39" }</a1>, <a2>Co nowego w { "0.38" }</a2> oraz <a3>{ "0.38" } szczegółowo</a3>: ocena jammertest, własne flagi odbiornika, wejścia maszynowe, czas i holdover, pakiety norm, LunaNet AFS, pełna pętla laboratoryjna, kshana-bench, obserwatorium, eksportery, optyka, <a4>nawigacja użytkowników przestrzeni kosmicznej</a4> i <a5>infrastruktura księżycowa</a5>
 
 seg-b4569d43b652 = <a1>Kshana Studio</a1> i każda strona Studio
 
@@ -538,15 +534,9 @@ seg-1b484c7d2d35 = Otwórz <a1>kshana.dev/studio</a1>, a cały silnik działa w 
 
 seg-503f53e7874b = <b>Widok prosty</b> to ten, w którym otwiera się Studio. Zaczyna od pytań (ile satelitów widzę, czy mogę ufać swojej pozycji, jak długo zegar utrzyma czas, co zagłuszacz robi z moim odbiornikiem) i od mapy wszystkiego, co silnik potrafi, z udziałem metod sprawdzonych względem niezależnych wzorców w każdym obszarze. Otwórz scenariusz, a najpierw pojawia się odpowiedź: jedno zwykłe zdanie, napisane pod to, co dany scenariusz mierzy, potem jego kluczowe wartości i wykres. Widocznych jest najwyżej pięć ustawień, tych, które najbardziej zmieniają odpowiedź; reszta czeka w <b>Ustawieniach zaawansowanych</b>. <b>Jak to jest obliczane</b> objaśnia metodę, a <b>Dla badaczy</b> podaje własne wartości silnika, plik scenariusza, kod do uruchomienia go z Pythona i sposób cytowania.
 
-seg-c45a4adf8209 = Kshana Studio, widok prosty, na dołączonym scenariuszu integrity-raim, silnik { "v0.38.0" } działa lokalnie. Pytanie: czy geometria mieści się w limitach alarmu (poziomy i pionowy poziom ochrony)? Najpierw odpowiedź, oznaczona jako Wynik na żywo: Tak, w większości: przez { "95.3" } % z { "12" } h. Granica błędu odbiornika pozostała poniżej limitów alarmu ({ "40" } m w poziomie i { "50" } m w pionie) w { "344" } z { "361" } sprawdzeń i żadna pozycja nie była myląca. Kluczowe wartości: czas, w którym pozycji można ufać { "95.3" } %, najdłuższa przerwa { "10" } min, typowa granica błędu { "6.5" } / { "13" } m, mylące pozycje { "0" }. Obok Wypróbuj inne ustawienia z pięcioma z nich (błąd odległości, dwa limity alarmu, czas trwania i maska elewacji) i Uruchom ponownie, a potem zwinięte sekcje Ustawienia zaawansowane (jeszcze { "13" }), Jak to jest obliczane ({ "8" } sprawdzonych względem niezależnych wzorców, { "6" } obliczonych na podstawie modelu) i Dla badaczy. Poniżej widoki tego wyniku i poziomy ochrony naniesione na limit alarmu.
-
 seg-6767f63a1153 = <b>Widok zaawansowany</b> to pełny panel: biblioteka scenariuszy, pięć ponumerowanych kroków (Wybierz, Ustaw, Uruchom, Odczytaj wyniki, Udostępnij lub eksportuj), kluczowe wartości z oznaczeniami PASS i FAIL tam, gdzie przebieg podaje próg, oraz każdy panel: przegląd, wykresy, mapy, odtwarzanie, raport silnika i eksporty. Jedno pole wyszukiwania sięga do scenariuszy, dziedzin i pól w nich, a do czterech przebiegów można przypiąć i porównać obok siebie.
 
 seg-48e01a0f5cb8 = Ekran otwierający widoku prostego i widok zaawansowany po przebiegu
-
-seg-1af317b46992 = Kshana Studio, widok prosty, ekran otwierający, zatytułowany Co chciałbyś ustalić?, z silnikiem { "v0.38.0" } na żywo i, na górnym pasku, trzema linkami: Omówienie szkolenia, Mapa zakłóceń i Zaufanie do odbiornika. Cztery pytania: ile satelitów widzę w dowolnym miejscu na Ziemi, czy mogę ufać swojej pozycji, jak długo zegar utrzyma czas bez satelitów i co zagłuszacz robi z moim odbiornikiem. Pod pierwszym jego zapisany wynik: co najmniej { "22" } satelitów w zasięgu w każdym miejscu i { "31" } średnio przy łącznym użyciu GPS, Galileo, BeiDou i GLONASS, pozycja możliwa w { "100" } % miejsc i czasów, na mapie świata satelitów w zasięgu, z przyciskiem Otwórz ten wynik. Obok Wszystko, co potrafi Kshana: { "16" } obszarów i { "139" } gotowych do uruchomienia scenariuszy, każdy kafel z małym wykresem z zapisanego przebiegu i udziałem metod sprawdzonych względem niezależnych wzorców, oraz { "173" } z { "350" } możliwości sprawdzonych względem niezależnych wzorców w rejestrze.
-
-seg-3fed18478b21 = Kshana Studio, widok zaawansowany, po przebiegu dołączonego scenariusza constellation-multi-gnss-coverage (Cztery konstelacje GNSS, jedna mapa), silnik { "v0.38.0" } działa lokalnie. Po lewej biblioteka scenariuszy, { "139" } scenariuszy w { "16" } dziedzinach. Pięć kroków Wybierz, Ustaw, Uruchom, Odczytaj wyniki i Udostępnij lub eksportuj, z bieżącym krokiem { "4" }. Kluczowe wartości: { "102" } satelitów, dostępność { "100" } % (PASS), mediana współczynnika rozmycia dokładności pozycji (PDOP) { "0.95" } (PASS), 95. percentyl PDOP { "1.105" } (PASS), średnio { "31.03" } satelitów w zasięgu i { "22" } najmniej. Poniżej rząd paneli z wybranym Pokryciem, pasek odtwarzania, mapa świata średniego PDOP od { "0.831" } do { "1.0853" } z narysowanym każdym satelitą oraz globalne wartości pokrycia.
 
 seg-6d955a8881fd = Źródło Studio i jego uwagi do budowania są w <a1><c1/></a1>.
 
@@ -554,13 +544,9 @@ seg-655d43f8ee92 = Witryna
 
 seg-8a4b804467d2 = Reszta <a1>kshana.dev</a1> jest budowana z własnych plików tego repozytorium i przebiegów silnika: misje, możliwości, rejestr dowodowy, opublikowane badania i wydania.
 
-seg-88302efebc1a = Trzy strony kshana.dev obok siebie. Strona główna, hero: wiersz z nazwą Kshana · क्षण · the precise instant nad nagłówkiem Przećwicz minutę, w której GNSS gaśnie, z konsolą misji prawdziwego przebiegu silnika { "v0.38.0" } (glob i trzy wykresy na żywo: błąd czasu zegara, stosunek nośnej do szumu i poziom ochrony). Dowody, Opublikowane badania: pięć prac na arXiv zbudowanych na otwartym silniku, najnowsza z wartością silnika. Wydania, Kshana Pro, ten sam silnik, wzmocniony: Free uruchamia jeden scenariusz, Pro odpowiada na pytanie programu.
-
 seg-b66ff9ca2ff4 = Strumień szkoleniowy ze scenariusza coastal-drag-off (silnik v{ $version }, ziarno { "22" }, { "25" } minut przy jednym rozwiązaniu na { "10" } s z dziennika instruktora). Mapa pokazuje prawdziwy tor statku i tor raportowany przez odbiornik: zgadzają się, dopóki nie zaczyna się zaplanowane odciąganie pozycji w { "421" } s, po czym raportowany tor oddala się od prawdziwego, podczas gdy odbiornik utrzymuje ważne rozwiązanie, i wraca skokiem, gdy zdarzenie kończy się w { "1140" } s. Obok widać odległość między oboma torami w czasie oraz średnią gęstość nośnej do szumu raportowaną przez odbiornik, która rośnie do jednego podwyższonego poziomu na czas trwania zdarzenia. Syntetyczne dane szkoleniowe wygenerowane przez Kshana. Wyłącznie do szkoleń i testów: nigdy nie podawaj tego strumienia do żywych systemów nawigacyjnych statku. Wyłącznie doradczo: nie jest to sprzęt nawigacyjny z zatwierdzeniem typu. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator. Pozycje, daty i tory są zmyślone.
 
 seg-26ab8544afba = Wskaźnik zaufania podczas jednego syntetycznego rejsu, z rzeczywistego przebiegu silnika v{ $version } na examples/maritime-trust (zmyślony dziennik NMEA promu na trasie Tallinn–Helsinki, { "3001" } epok przy { "1" } Hz). Trzy pasy dzielą jedną oś czasu. Góra: odległość między pozycją zgłaszaną przez odbiornik a rzeczywistą pozycją statku, która pozostaje w granicach kilku metrów do około { "1576" } s, gdy zaplanowane w dzienniku odciągnięcie pozycji ją odsuwa, podczas gdy odbiornik nadal zgłasza ważne rozwiązanie pozycji. Środek: wskaźnik zaufania od { "0" } do { "100" }, nieobliczany w pierwszych { "300" } s kalibracji, w przedziale nominalnym (co najmniej { "90" }) do odciągnięcia pozycji, a potem spadający przez przedział obniżony (co najmniej { "55" }) do przedziału braku zaufania. Dół: przedział każdej epoki jako kolorowa wstęga z jego nazwą. Wynik ma charakter doradczy. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC { "61108" }, IEC { "61162" }): za nawigację statku odpowiada nadal operator. Dziennik jest zmyślony, aby pokazać format i monitory; nie jest pomiarem i nic nie mówi o tym, jak poradziłby sobie jakikolwiek odbiornik.
-
-seg-eabb798bbe4e = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity po ostatnią nanosekundę holdover zegara. Silnik ma { "87" } rodzajów scenariuszy; <c1/> je wymienia, a <a1><c2/></a1> dokumentuje każde pole.
 
 seg-921d30a36374 = jak zagłuszacz (jammer) zajmuje pasmo L GNSS, pasmo po paśmie, sekunda po sekundzie
 
@@ -814,15 +800,11 @@ seg-458a3953b3b2 = start, wznoszenie, wejście w atmosferę, orientacja, łącza
 
 seg-7df7f7116a7c = misje łańcuchowe, przeglądy i zespoły zbudowane z innych rodzajów
 
-seg-ab2c09d44cb7 = <c1/> uruchamia scenariusz; każde inne polecenie jest podpoleceniem, a <c2/> wypisuje sposób użycia wszystkich. Polecenia to <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (z <c8/> i <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> i <c61/>. <a1><c62/></a1> podaje przeznaczenie każdego z nich, zweryfikowany przykład i jego stronę w dokumentacji.
-
 seg-4061734355a4 = Jeden silnik, te same wyniki wszędzie: wiersz poleceń, biblioteka Rust, Python, JavaScript i WebAssembly, serwer MCP z poleceniami wtyczek i umiejętnościami, Kshana Studio (każda strona działa w przeglądarce, bez instalacji, nic nie jest wysyłane), integracje ROS { "2" }, Signal K, OpenCPN, GNSS-SDR i <c1/>, zestawy wdrożeniowe systemd, Docker i Grafana oraz wtyczka JetBrains. <a1><c2/></a1> wymienia je wraz ze sposobem uzyskania każdego oraz nazwami wszystkich poleceń wtyczek, umiejętności i stron Studio; <a2><c3/></a2> podaje dla każdego polecenia i rodzaju, która powierzchnia go obsługuje, a która nie, wraz z powodem.
 
 seg-e46194af8cec = Jak działa przebieg
 
 seg-aa92d3f2aaa0 = Scenariusz to plik TOML (Tom's Obvious, Minimal Language): rodzaj, ziarno i parametry. Silnik go uruchamia i zapisuje obok wynik, wykres i raport oraz zażądane eksporty.
-
-seg-76e3ec458441 = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "87" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
 
 seg-63aa55ab596d = Ten dołączony scenariusz trwa { "2" } h: { "10" } min z GNSS, a potem około { "1.8" } h bez GNSS. Pyta, jak długo optyczny zegar na sieci strontowej i atomowy zegar w skali chipa (CSAC) utrzymują czas w granicach { "20" } ns.
 
@@ -886,10 +868,6 @@ seg-36d838421b86 = Czy mogę odtworzyć, rozszerzyć i zacytować wynik PNT, aż
 
 seg-e31cf348fc57 = SGP4 sprawdzone względem wszystkich { "666" } wektorów referencyjnych AIAA 2006-6753, najgorszy błąd położenia { "4.12" } mm
 
-seg-707e2cf795f6 = <b>{ "176" } z { "388" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "208" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
-
-seg-2f81cf391eae = Jak możliwość zyskuje swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, i etykietę, która z tego wynika. Wiersz może być VALIDATED tylko z niezależną wyrocznią zewnętrzną; w przeciwnym razie jest MODELLED, albo PARTNER, gdy odpowiada za niego partner sprzętowy. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, OD wsadowe/sekwencyjne, wyrocznia: wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER z { "388" } wierszy. Łącznie { "176" } możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "208" } kolejnych uczciwie oznaczono jako MODELLED, a { "4" } należy do PARTNER.
-
 seg-23d73e23b368 = Wiersze
 
 seg-d16e0aac11d5 = niezależna wyrocznia zewnętrzna się zgadza: rzeczywiste dane, niezależna implementacja lub opublikowane wektory referencyjne
@@ -897,8 +875,6 @@ seg-d16e0aac11d5 = niezależna wyrocznia zewnętrzna się zgadza: rzeczywiste da
 seg-0c1beb3b59cc = sprawdzone względem prawdy analitycznej lub samospójności symulacji i powiedziane wprost
 
 seg-9dd73106acfc = odpowiada za to partner sprzętowy; Kshana nie ma dla tego wyroczni
-
-seg-ed47a99fac7f = Kilka z kontroli: wszystkie { "666" } wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; model sił Cowella do { "0.08" } m względem Orekit { "12.2" }; Galileo do { "0.61" } m i Swarm-A do { "0.10" } m względem rzeczywistych precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy obejmują około { "95" } % pokrycia linii <c1/>, z progiem { "85" } % w CI. Rejestr (ledger) to <a1><c2/></a1>, generowany z <c3/>: <a2>pełna macierz 388 wierszy</a2> oraz powód, dla którego każdy wiersz obliczony z modelu nie ma zewnętrznej wyroczni, w <a3><c4/></a3>.
 
 seg-6fd41f16334e = Jak działa walidacja, wyselekcjonowana tabela najważniejszych wyników i wykresy dowodowe
 
@@ -913,8 +889,6 @@ seg-47e49f21e7b8 = <c1/>. <c2/> to wymusza; przebiegi kwantowe i klasyczne używ
 seg-9908a7f56956 = Dojrzałość jest podana uczciwie: wartości zegarów optycznych i łączy optycznych to wyniki <em>celów / demonstratorów naziemnych</em>, a nie lotów.
 
 seg-ee66ab516e01 = Walidacja w skrócie
-
-seg-557da03648c5 = Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to <b>wyselekcjonowane najważniejsze wyniki</b>; pełna, sprawdzana maszynowo macierz ma <b>{ "388" } wierszy — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), z kompletnymi dowodami (i tym, co uczciwie <em>nie</em> jest jeszcze sprawdzone) w <a1><c2/></a1> oraz w artefakcie <a2><c3/></a2> dla każdego wydania (generowanym przez <c4/>, z atestacją SLSA — Supply-chain Levels for Software Artifacts).
 
 seg-bae9b226350a = Kolumna <b>Status</b> podaje <em>rodzaj</em> dowodu, zgodnie z drabiną walidacji powyżej: <b>VALIDATED</b> = sprawdzone względem niezależnej wyroczni zewnętrznej (rzeczywiste dane, niezależna biblioteka lub opublikowane wektory referencyjne); <b>MODELLED</b> = sprawdzone względem prawdy analitycznej lub samospójności symulacji (bez niezależnego zewnętrznego zbioru danych). VALIDATED opisuje <em>metodę</em> sprawdzania, a nie zaliczenie/niezaliczenie — uczciwe niedotrafienie względem rzeczywistej wyroczni zewnętrznej pozostaje VALIDATED, natomiast porównanie, którego żaden wiersz macierzy nie wymienia jako wyroczni (dopasowanie LRO — Lunar Reconnaissance Orbiter — powyżej), jest pokazane jako MODELLED. Wiersze <c1/> to zabezpieczenia procesu, a nie wskaźniki jakości. Kilka wysp rzeczywistych danych (mierzony zegar cezowy, Stable32 PHASE.DAT oraz kontrole OPS-SAT/ICGEM, gdzie surowe wejścia nie mają licencji na redystrybucję) jest <b>bramkowanych danymi</b>: test wypisuje komunikat o pominięciu i pozostaje zielony, gdy wejścia brakuje, a publiczne liczby referencyjne są zatwierdzone w <c2/>. Surowe wejścia odtworzysz odpowiednim <c3/>.
 
@@ -1158,8 +1132,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % linii</b> w <c1/> z wyłączeniem <c2/> i <c3/
 
 seg-b2789a3e7ebe = cargo-tarpaulin (silnik LLVM)
 
-seg-9fcd5cdd129d = Jak możliwość zyskuje swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (rzeczywisty zbiór danych, niezależna implementacja referencyjna lub opublikowane wektory), na status — ze strażnikiem wymuszanym w CI, że żadna możliwość nie może być uznana za sprawdzoną bez zewnętrznej wyroczni. Bieżące liczby: { "176" } sprawdzonych, { "208" } obliczonych z modelu, { "4" } partnera, { "388" } łącznie
-
 seg-5262ee45dd08 = Jak możliwość zyskuje swoją etykietę — niezmiennik wymuszany w CI: brak zewnętrznej wyroczni ⇒ nie może być uznana za sprawdzoną · <a1>SVG</a1>
 
 seg-452fea06dd30 = Czym poparte jest każde twierdzenie: kolumna sprawdzonych to { "176" } z { "176" } ExternalDataset z konstrukcji (wymuszane w CI); wiersze obliczone z modelu są uczciwie oznaczone jako InternalConsistency, ReferenceImpl lub ExternalDataset; wiersze partnera nie mają wyroczni Kshana
@@ -1167,10 +1139,6 @@ seg-452fea06dd30 = Czym poparte jest każde twierdzenie: kolumna sprawdzonych to
 seg-c550a4bde1ff = Najgorszy błąd położenia SGP4/SDP4 względem odniesienia AIAA 2006-6753 według reżimu, skala logarytmiczna: każdy reżim jest znacznie poniżej tolerancji AIAA, najgorszy przypadek { "4.12" } mm w reżimie głębokiej przestrzeni bez rezonansu
 
 seg-2ad422aac6a1 = Góra: każdy sprawdzony wiersz jest poparty zewnętrznym zbiorem danych z konstrukcji. Dół: SGP4 zgadza się z oficjalnym odniesieniem w każdym reżimie (najgorzej { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-seg-faadba4f1f85 = Stan weryfikacji wszystkich { "388" } możliwości: { "176" } sprawdzonych (względem zewnętrznej wyroczni), { "208" } obliczonych z modelu, { "4" } należących do partnera
-
-seg-6c1edff3e035 = { "176" } sprawdzonych · { "208" } obliczonych z modelu · { "4" } partnera — <a1>SVG</a1>
 
 seg-a9d8031cdcf8 = Każda możliwość z publicznej mapy, według dziedziny, z etykietą z rejestru (ledger). Tabela dziedzin jest zapisywana przez <a1><c1/></a1> z <c2/>, tego samego pliku, który czyta mapa wszystkiego w Studio.
 
@@ -1186,10 +1154,6 @@ seg-8d953358d683 = otwórz <a1>https://kshana.dev</a1>
 
 seg-a594acff8553 = Fragment wymieniający zewnętrznych klientów AI został tu pominięty; jest w <a1>README.md</a1> na GitHubie.
 
-seg-d48f3f0dec08 = <a1>Dodaj do Cursor (npx)</a1> · <a2>Dodaj do Cursor (Docker)</a2> · <c1/>
-
-seg-ad59014f9c8e = <a1>Zainstaluj w VS Code (npx)</a1> · <a2>Zainstaluj w VS Code (Docker)</a2> · <c1/>
-
 seg-2593c6d52c90 = pobierz kshana-mcp-<target> z wydania i sprawdź go względem SHA256SUMS
 
 seg-1999be2916fa = wyszukaj io.github.ashfordeOU/kshana-mcp
@@ -1204,8 +1168,6 @@ seg-7849acc8e680 = Kshana w JetBrains Marketplace
 
 seg-48a01a252537 = Buduje się z Rust { "1.85" } lub nowszym, czyli rust-version z Cargo.toml
 
-seg-8edd16ad3672 = MCP to Model Context Protocol. Przypnij wydanie poleceniem <c1/>, <c2/> lub <c3/>. Aby zbudować ze źródeł, zob. <a1>Install and build</a1> w sekcji Reference.
-
 seg-152cb43de2f3 = Uruchom scenariusz z Pythona i z WebAssembly
 
 seg-58ea673e61fc = Poza <c1/> moduł udostępnia <c2/> (JSON, SVG i jednowierszowe podsumowanie naraz), <c3/>, <c4/>, <c5/> / <c6/> oraz <c7/>; zob. <a1><c8/></a1>.
@@ -1214,11 +1176,7 @@ seg-f589eb87e902 = Pakiet npm to cały silnik skompilowany do WebAssembly. W Nod
 
 seg-7488a0b0a215 = Jeden otwarty silnik jest w centrum i każda powierzchnia go uruchamia: wiersz poleceń, biblioteka Rust, Python, WebAssembly i Kshana Studio, serwer MCP, obraz Docker i wtyczka JetBrains. Ten sam plik scenariusza daje te same bajty na każdej. Kshana Pro stoi na wierzchu jako osobna nakładka, która zależy od silnika i nigdy go nie rozwidla.
 
-seg-9d69cf43cd40 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "388" } możliwości ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
-
 seg-9ac1f9e2d1b1 = Wnętrze silnika: warstwy dziedzinowe i rejestr weryfikacji
-
-seg-9bc9a971bdb4 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "87" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "388" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
 
 seg-4e894b853889 = <b>Jeden silnik, wiele drzwi wejściowych.</b> Jeden rdzeń w Rust (<c1/>) uruchamia każdy scenariusz, dostępny przez CLI, rozszerzenie Pythona, moduł WebAssembly w przeglądarce, <b>serwer MCP</b> dla agentów AI i <b>wtyczkę do JetBrains IDE</b> — wszystkie zbiegają się w jednym dyspozytorze <c2/>. Wewnątrz pakiety czujników podłączają się do wspólnego interfejsu modeli błędów; obok nich znajdują się <b>warstwa układów odniesienia</b> (precesja–nutacja IAU 2006/2000A i redukcja GCRS↔ITRS oparta na CIO), <b>warstwa astrodynamiki/numeryczna</b> (analityczny SGP4/SDP4 <b>oraz</b> numeryczny propagator Cowella z modelem sił EGM2008/perturbacji, projektowaniem manewrów i wyznaczaniem orbity), <b>warstwa integralności/GNSS</b> (RAIM/ARAIM, SBAS, dziedzina pomiaru, zagłuszanie, cislunar), <b>warstwa fuzji / alt-PNT</b> (estymatory GNSS/INS oraz dopasowywacze map grawitacji/terenu/magnetyzmu), <b>warstwa głębokiej przestrzeni i Księżyca</b> (radiometryczne Mars-PNT i zestaw PNT księżycowego, z poziomem dowodowym każdego elementu w macierzy — czas LTC, VLBI, wspólne OD+zegar, realizacja układu odniesienia, obszar usługi, różnicowy PNT, interoperacyjność), <b>warstwa analizy misji</b> (budżety startu / wejścia w atmosferę / pokrycia / wskazywania / przelotu / łącza oraz środowisko pogody kosmicznej) oraz otwarta <b>warstwa badań odporności i uczenia maszynowego</b> (ocena odporności RPCF, luka optymizmu zakłóceń RF i demonstrator PNT z wykorzystaniem kwantowym), której odtwarzalne artefakty opierają się na sprawdzonych jądrach.
 
@@ -1279,8 +1237,6 @@ seg-b7ea176e9993 = { "49" } narzędzi
 seg-4a458fb861f4 = Scenariusze i raporty
 
 seg-44d509180c56 = Uruchom scenariusz z definicji TOML (Tom's Obvious, Minimal Language)
-
-seg-87e30294e0dc = { "87" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
 
 seg-ef28db290e2b = Kontrola wstępna: sparsuj TOML i wykryj jego rodzaj, bez uruchamiania
 
@@ -1375,8 +1331,6 @@ seg-d958c43ba8c1 = Podpisany pakiet laboratoryjnej weryfikacji w obie strony: sc
 seg-22377c58ecb2 = Cały silnik jest bezpłatny. Kshana Pro i badania na zamówienie są dla programów, które potrzebują więcej, a każda płatna droga zaczyna się od wiadomości: nie ma tu cen.
 
 seg-a91762c0aabe = Bezpłatnie
-
-seg-eedfcdbe2b1c = cały otwarty silnik, wszystkie { "87" } rodzajów scenariuszy, bez blokad funkcji
 
 seg-af56c940e13a = zastrzeżona nakładka na ten sam silnik, na podstawie umowy
 
@@ -1573,8 +1527,6 @@ seg-5841e4eac5a5 = Rodzaje <b>alt-PNT bez GPS</b> nawigują bez żadnego GNSS, d
 seg-ec221fc5ace5 = Scenariusz <c1/> ocenia PNT <b>cislunarne</b>: wykonuje przebieg poziomu ochrony ARAIM na południowym biegunie Księżyca względem zestawu przekaźników LunaNet/LNIS i uczciwie raportuje lukę integralności: lunarne σ_URE rzędu ~{ "30" } m podnosi poziom ochrony znacznie ponad limit alarmowy { "50" } m, więc usługa jest <em>niedostępna</em> według reguł integralności w stylu lotniczym (<c2/>).
 
 seg-9b33c9203ca2 = Scenariusz <c1/> raportuje <b>relatywistyczne tempo zegara Ziemia–Księżyc</b>, podstawę skali Lunar Coordinate Time (LTC/TCL). Tożsamość postnewtonowska z pierwszych zasad sumuje różnicę potencjałów własnych (potencjał geoidy IAU <c2/> minus potencjał własny powierzchni Księżyca) i człon kinetyczny Księżyca (Doppler drugiego rzędu) do wiekowego tempa ≈ { "57" } µs/dobę, podawanego z opublikowanym pasmem { "56" }–{ "59" } µs/dobę; podaje też skumulowane przesunięcie LTC−TT na horyzoncie oraz zespół z odwrotnością wariancji (księżycowy zegar papierowy). <b>MODELLED</b>: wartość nagłówkowa <em>zależy od odniesienia</em> (geoida Ziemi a selenoida Księżyca, okno uśredniania), dlatego podawane jest pasmo, a nie pojedyncza liczba uznana za wiążącą (<c3/>).
-
-seg-f1efe0de99b8 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "87" } rodzajów, { "182" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
 
 seg-ee0d7a833f44 = Artefakt wyniku to wersjonowany, samoopisujący się JSON: szeregi czasowe poszczególnych kroków, ocenione wskaźniki jakości, aktywne specyfikacje modeli (z pochodzeniem), ziarno, <b>skrót scenariusza</b> (dzięki któremu każdy wykres można odtworzyć z pliku) oraz, dla każdego zegara, <c1/> (<c2/>): nakładające się odchylenie Allana dla czasów uśredniania rozmieszczonych oktawowo (standardowy sposób odczytu stabilności zegara), teraz z <b>pasmem ufności { "95" }% zależnym od typu szumu</b> przy każdym punkcie (typ potęgowy zapisu jest rozpoznawany z nachylenia zmodyfikowanego odchylenia Allana, a przedział χ² używa odpowiadających mu efektywnych stopni swobody NIST SP { "1065" }). Plac zabaw w przeglądarce rysuje go jako wykres log-log „Stabilność zegara (ADEV)”. (MDEV, TDEV i HDEV są dostępne jako estymatory biblioteczne; eksportowaną krzywą wyniku jest nakładające się ADEV.) Każde pole, z jednostkami i wskazaniem źródła, jest udokumentowane w <a1><c3/></a1>.
 
@@ -1935,3 +1887,9 @@ seg-7d2b42ba7454 = Bertone i in. — <em>Earth and Space Science</em> { "8" }({ 
 seg-2658a9477dd9 = <s1>Dalej</s1>Wprowadzenie do pojęć
 
 seg-90a95738b32d = Infrastruktura księżycowa (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Dodaj do Cursor (npx)</a1> · <a2>Dodaj do Cursor (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Zainstaluj w VS Code (npx)</a1> · <a2>Zainstaluj w VS Code (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP to Model Context Protocol. Przypnij wydanie poleceniem <c1/>, <c2/> lub <c3/>. Aby zbudować ze źródeł, zob. <a1>Install and build</a1> w sekcji Reference.

@@ -113,6 +113,12 @@ seg-e3cb5ed7a0f6 = the scored standards packs
 seg-028684a0cf3d = Standards packs
 
 # text
+seg-09dab71efd9d = checks the format and metadata of a data-partner submission and reads its data file with the engine's readers; scores nothing
+
+# text
+seg-57686575b81d = Partner data
+
+# text
 seg-2d2bb8b8e7e7 = which satellites' navigation data a receiver can authenticate
 
 # text

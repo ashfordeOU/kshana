@@ -86,17 +86,9 @@ seg-f325b20ba911 = 选择启动服务器的方式
 
 seg-f7b7c7f2eb0d = 下面的每个客户端采用三种服务器定义之一。它们启动的是同一个服务器：
 
-seg-e40d4a54025f = <b>npx（Node）</b>（需要Node { "18" }+）：<c1/>
-
-seg-11aa05e3bace = <b>Docker</b>（需要Docker）：<c1/>
-
 seg-d5fce7d58cfc = <b>PATH中的kshana-mcp</b>（需要该可执行文件（brew、scoop、winget、cargo或下载发布版本））：<c1/>
 
 seg-c320bcbc9bcd = 一键链接
-
-seg-0281dbe84644 = Cursor，npx（Node）：<a1>网页链接</a1> · <c1/>
-
-seg-405f915ef73a = Cursor，Docker：<a1>网页链接</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor，PATH中的kshana-mcp：<a1>网页链接</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code，npx（Node）：<a1>打开</a1> · <a2>Insiders</a2
 seg-2befff4cecb5 = VS Code，Docker：<a1>打开</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code，PATH中的kshana-mcp：<a1>打开</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose，npx：<c1/>
 
 seg-13df6618e070 = 其他客户端
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = 对于无法运行本地进程的客户端，<c1/>通过strea
 seg-04c1f05fb027 = <s1>上一页</s1>MCP服务器
 
 seg-eba757f29814 = <s1>下一页</s1>MCP服务器：自行托管的HTTP模式
+
+seg-4ccbbc19fe86 = <b>npx（Node）</b>（需要Node { "18" }+）：<c1/>
+
+seg-77230eb344ea = <b>Docker</b>（需要Docker）：<c1/>
+
+seg-3398eea8e332 = Cursor，npx（Node）：<a1>网页链接</a1> · <c1/>
+
+seg-67009baafb3b = Cursor，Docker：<a1>网页链接</a1> · <c1/>
+
+seg-6918cd89f776 = Goose，npx：<c1/>

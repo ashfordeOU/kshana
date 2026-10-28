@@ -20,9 +20,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>o instante preciso<
 seg-3b861b2f08b8 = Versão v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } de { "388" } capacidades validadas face a referências independentes externas
-
-# text
 seg-6a1906d8d4ad = Cerca de { "95" }% de cobertura de linhas, com um mínimo de { "85" }% na integração contínua
 
 # text
@@ -42,12 +39,6 @@ seg-d284448743af = O Kshana repete jamming, spoofing e holdover de relógio quan
 
 # text
 seg-d1a3f78ad8e0 = Experimente primeiro sem nada para instalar: o <a1>Kshana Studio</a1> executa o motor completo no seu navegador, compilado para WebAssembly, e não carrega nada.
-
-# text
-seg-2d2c47db0c1f = <b>{ "176" } de { "388" }</b> capacidades validadas face a referências independentes externas; { "208" } com a etiqueta honesta de modeladas, { "4" } da responsabilidade de parceiros. Cada capacidade tem uma etiqueta num registo verificado por máquina: VALIDATED (uma referência independente externa concorda: dados reais, uma implementação independente ou vetores de referência publicados), MODELLED (internamente consistente, e dito em voz alta) ou PARTNER (um parceiro de hardware é o responsável). Entre as verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) da AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm, e o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }.
-
-# attr:alt
-seg-44f7862c45a2 = Como uma capacidade ganha a sua etiqueta: capacidade, referência independente, teste, etiqueta do registo. O estado de verificação em todas as { "388" } capacidades: { "176" } validadas, { "208" } modeladas, { "4" } da responsabilidade de parceiros
 
 # text
 seg-d662055d817f = O pacote é um módulo ES (ECMAScript, JavaScript padrão) com uma carga WebAssembly, construído para o navegador. Inicialize-o uma vez e depois chame o motor de forma síncrona. A única diferença entre o navegador e o Node.js é a forma como o binário WebAssembly é carregado.

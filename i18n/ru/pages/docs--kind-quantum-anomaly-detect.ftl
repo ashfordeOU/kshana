@@ -16,8 +16,6 @@ seg-c2b10c0bdaf8 = Пример <c1/> задаёт, среди прочего:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
-
 seg-2f1d14239d1a = График, который движок строит для scenarios/quantum-anomaly-detect.toml, вид quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Аналитический бинормальный ROC AUC = Φ(μ/(σ√{ "2" })) и минимально обнаружимая неисправность σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), лежащие в основе квантовых детекторов неисправностей и аномалий. Оракул (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), обе под BSD-3-Clause — независимые библиотеки, вычисляющие те же однозначно определённые величины гауссова хвоста и AUC, совпадение до порога A&S-erf (~{ "7e-8" }). Преимущество квантового над классическим, построенное поверх, остаётся MODELLED

@@ -3186,15 +3186,11 @@ seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendr
 
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs（b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns、b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1、b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns、b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay、b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay）；tests/iq_signal_matrix.rs（lunanet_afs_i、lunanet_afs_q）
 
-seg-af826b47d00e = { "388" }行：{ "176" }行经外部验证，{ "208" }行由模型计算，{ "4" }行由合作方负责。
-
 seg-6bb40f180cf0 = <s1>上一页</s1>验证状态
 
 seg-defb46c5bc80 = <s1>下一页</s1>能力参考
 
 seg-e8e0e0618afa = 来源：<c1/>
-
-seg-4cb1d67922ed = 完整的、经机器检查的证据台账（ledger）：<b>{ "388" }行——{ "176" }行VALIDATED，{ "208" }行MODELLED，{ "4" }行PARTNER</b>。只有存在独立的外部参考基准（oracle）时，一行才可以是VALIDATED（矩阵不变量测试对此强制执行）。同样的数据，连同指向每项测试、模块和已提交固定数据的可点击逐行链接，就是<a1>https://kshana.dev</a1>上的<em>验证台账</em>。每个Modelled行为何没有经过外部验证，见<a2>MODELLED-RATIONALE.md</a2>。
 
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 

@@ -898,26 +898,6 @@ seg-fdbb9db68f1d = keine
 seg-86709f7f67c0 = TRL ~{ "3" }; noch keine Zitate/Verträge von Agenturen (siehe Strategienotizen)
 
 # text
-# c1: kshana kinds --json
-# c2: holdover-test
-# c3: gnss-ssv
-# c4: lunar-infrastructure
-# c5: optical-atmosphere
-# c6: acm-link
-# c7: aocs
-# c8: ascent-losses
-# c9: contact-schedule
-# c10: entry-heating
-# c11: eo-radiometry
-# c12: lunar-station-coverage
-# c13: time-transfer-budget
-# c14: src/holdover.rs
-# c15: QuantumNavBudget
-# c16: CodeFamily
-# c17: src/verification.rs
-seg-a887cfc920f6 = Aktualisiert am 2026-10-22 für Engine { $version } ({ "87" } Szenarioarten, aus <c1/>; keine neue Art in { $version }). 2026-10-19: Engine { "0.38.0" }, { "87" } Arten (neu in { "0.38.0" }: <c2/>, <c3/> und <c4/>). 2026-10-18: { "84" } Arten (neu in { "0.37" }: <c5/>). 2026-10-16: { "83" } Arten (neu in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> und <c13/>). 2026-10-10: Engine { "0.35.0" }, { "75" } Arten, keine neue Art. 2026-10-09 und 2026-10-08: frühere Überarbeitungen. 2026-10-04: Die Zeile Navigationssignal vermerkt die IQ-Schicht { "0.31.0" }. 2026-09-29: Zeilen zu LEO-PNT, Spektrum, Sonnensystem / PNT um jeden Körper, Kampagne und Ausgaben hinzugefügt. Früher: abgeglichen mit der Fähigkeitsmatrix mit 27 Zeilen des großen Audits vom 2026-06-02; Zeile zu PNT im tiefen Raum / Mars in { "v0.17.0" } hinzugefügt. Ergänzungen zu Quanten-PNT (GNSS-verweigerter Uhren-holdover <c14/>, zusammengesetztes Fehlerbudget der quanteninertialen Koppelnavigation <c15/>, Entwurfsabgleich von Entfernungscodes <c16/>, maschinengeprüfte Verifikationsmatrix <c17/>) wurden in die Zeilen Zeitgebung, Quanten-PNT-Sensor, Navigationssignal und V&V eingearbeitet, jeweils entweder als validiert oder als modelliert gekennzeichnet, je nach ihrer tatsächlichen unabhängigen Referenz.
-
-# text
 # c1: src/impairment_eval.rs
 # c2: src/quantum_trade.rs
 # c3: σ_y²(τ)=q_wf/τ + q_rw·τ/3 + q_drift·τ³/20

@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Obok tej tablicy czasu <c1/> (<c2/>, <c3/>, <c4/>) stają si�
 
 seg-608c4fed9e98 = Ślady z jednostką dzielą panel, gdy ich wielkości mieszczą się w czynniku { "100" }, więc ochrona { "50" } ns nie spłaszcza błędu { "2" } ns. Rysuje się najwyżej { "6" } paneli po { "6" } śladów; reszta jest wymieniona w <c1/>. Ślady powyżej { "2,400" } próbek są przerzedzane równym krokiem, który zachowuje ostatnią próbkę, a wykres kaskadowy powyżej { "96" } × { "120" } komórek jest uśredniany (w mocy, dla komórek w decybelach, aby wąski zagłuszacz nie został rozmyty).
 
-seg-b68ce4aa301f = Rodzaj, którego wynik nie niesie żadnego z tych kształtów (bilans łącza, geometria jednej epoki, podsumowanie wyłącznie statystyczne Monte Carlo albo holdover telekomunikacyjny, którego wynik publikuje skrót zapisu, lecz nie sam zapis), jest odrzucany z komunikatem <c1/>, a nic nie jest zapisywane. W kshana { $version } { "89" } z { "182" } plików scenariuszy możliwych do uruchomienia (każdy plik poza zestawem badań) daje animację, a { "93" } jest odrzucanych. <c2/> wypisuje spis.
-
 seg-c386389e4f1d = Wśród rodzajów LEO animuje się każdy dołączony scenariusz <c1/>, <c2/> i <c3/>. <c4/> animuje się w trybach Dopplera, wspólnego pozycjonowania i synchronizacji czasu (przebieg synchronizacji czasu wymaga <c5/>, co sprawia, że każdy wiersz podaje swój błąd czasu i przewidywane sigma w każdej epoce) i jest odrzucany w trybie pokrycia biegunowego. <c6/> animuje swoją aktualizację w środku przelotu i jest odrzucany dla analiz kodowania, przedziału dopasowania i porównania modeli. Wyniki <c7/> i <c8/> nie mają osi czasu i są odrzucane.
 
 seg-eb31ec7a07b7 = Determinizm

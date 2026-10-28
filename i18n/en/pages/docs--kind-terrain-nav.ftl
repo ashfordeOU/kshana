@@ -48,7 +48,8 @@ seg-96e3607379e0 = The example <c1/> sets, among others:
 seg-c5e33c7122e2 = The chart the engine writes for scenarios/terrain-nav.toml, kind terrain-nav
 
 # text
-seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
+# c1: lunar-descent
+seg-d5da9ee3c152 = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-rela
 
 # text
 seg-0df60ac6343f = <b>MODELLED</b> Gravity-map matching, terrain-referenced (TERCOM/SITAN), magnetic anomaly. Oracle (InternalConsistency): IGRF-14 coefficients; first-principles matched-filter CRLB. The real-field gravity benchmark's field is externally checked (row 'Gravity-anomaly synthesis from a spherical-harmonic model'), but its navigation outcome has no external oracle
@@ -58,6 +59,9 @@ seg-d776abd5691c = Alternative / complementary PNT is MODELLED, not validated: c
 
 # text
 seg-98133e74f88a = Family page: <a1>GPS-denied alternative PNT</a1>
+
+# text
+seg-e66e2ca31e54 = Topic page: <a1>MISSION-THREAD-LUNAR.md</a1>
 
 # text
 seg-0fcad0016c78 = <s1>Previous</s1>telecom-timing

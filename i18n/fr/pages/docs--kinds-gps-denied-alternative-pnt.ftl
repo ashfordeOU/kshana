@@ -107,9 +107,6 @@ seg-c2187e8291f9 = <b>Registre :</b> aucune ligne de la matrice ne nomme ce typ
 seg-b1ff6f0e1769 = Champs obligatoires : <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Facultatifs : <c13/>, <c14/>, <c15/>.
 
 # text
-seg-9bd19903f577 = <b>Registre :</b> aucune ligne de la matrice ne nomme ce type ; le moteur étiquette lui-même son résultat. Page complète, avec les entrées, les résultats, les preuves et les limites : <a1>terrain-nav</a1>.
-
-# text
 # c1: dem_seed
 # c2: start_lat_deg
 # c3: start_lon_deg

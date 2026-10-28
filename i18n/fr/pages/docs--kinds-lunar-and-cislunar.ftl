@@ -146,9 +146,6 @@ seg-a240ef37dc6d = Source : <c1/>
 seg-befef5f2f8dd = Lunaire et cislunaire (famille de types de scénario)
 
 # text
-seg-f964724ea446 = { "20" } types de scénario du moteur v{ $version }. À titre consultatif : sortie d'analyse d'un outil de recherche et d'ingénierie, pas un équipement de navigation homologué et pas un service de sauvegarde de la vie humaine. Chaque libellé ici est celui du moteur ou de la matrice de vérification ; un type est MODELLED sauf indication contraire de la matrice (comment un libellé s'obtient : la section Evidence du README).
-
-# text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
 seg-369e7cfcc1d3 = Pages thématiques : <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. En exécuter une : <c1/>. Toutes les familles : <a4>KINDS.md</a4>.
 
@@ -407,9 +404,6 @@ seg-4f05fad4b146 = <b>Registre :</b> VALIDATED. Page complète, avec les entré
 # c25: epoch_utc
 # c26: terrain
 seg-8d9e0277303e = Champs obligatoires : aucun. Facultatifs : <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-# text
-seg-204901ae3684 = <b>Registre :</b> aucune ligne de la matrice ne nomme ce type ; le moteur étiquette lui-même son résultat. Page complète, avec les entrées, les résultats, les preuves et les limites : <a1>moonlight-service-volume</a1>.
 
 # text
 # c1: n_sats

@@ -4751,9 +4751,6 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-e8e0e0618afa = Fonte: <c1/>
 
 # text
-seg-4cb1d67922ed = O registro de evidências completo, verificado por máquina: <b>{ "388" } linhas — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com links clicáveis por linha para cada teste, módulo e fixture versionada, são o <em>Registro de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
-
-# text
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 # text
@@ -5709,9 +5706,6 @@ seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendr
 
 # text
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-# text
-seg-af826b47d00e = { "388" } linhas: { "176" } validadas externamente, { "208" } modeladas, { "4" } de responsabilidade do parceiro.
 
 # text
 seg-6bb40f180cf0 = <s1>Anterior</s1>Situação da validação

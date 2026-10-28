@@ -10,15 +10,11 @@ seg-69525243f8f1 = <s1>Zagłuszanie (jamming), spoofing i widmo</s1><s2>{ "6" } 
 
 seg-0541e0421253 = <s1>Nawigacja na niskiej orbicie okołoziemskiej</s1><s2>{ "7" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
 
-seg-1da177a1654b = <s1>Księżyc i przestrzeń cislunarna</s1><s2>{ "20" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
-
 seg-671dc0d705c5 = <s1>Analiza misji, łącza i operacje kosmiczne</s1><s2>{ "14" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
 
 seg-5de091b18fe4 = <s1>Optyczne PNT</s1><s2>{ "2" } rodzaje scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
 
 seg-35db5b51a590 = <s1>Nawigacja użytkownika kosmicznego</s1><s2>{ "1" } rodzaj scenariusza silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
-
-seg-0144518c94fc = { "87" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
 
 seg-1acf60cff708 = Nie uwzględniono
 
@@ -46,17 +42,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kwantowo kontra klasycznie</s1><s2>Zwieńczeni
 
 seg-50dd8e4077fd = <s1>Opracowany przykład: potok wielu narzędzi</s1><s2>Prowadzi jedną trajektorię przez rodzaje scenariuszy zgodne ze standardami współdziałania i analizy misji od początku do…</s2>
 
-seg-78756a9f6704 = <s1>Rodzaje scenariuszy</s1><s2>{ "87" } wbudowanych rodzajów scenariuszy, między które rozdziela kshana::api::run_toml, każdy z jego jednowierszowym…</s2>
-
-seg-051029eb3525 = <s1>Każdy rodzaj scenariusza, według rodziny</s1><s2>Każdy rodzaj scenariusza, który rozdziela silnik v{ $version } ({ "87" }), przypisany do { "12" } rodzin.</s2>
-
 seg-86b2b5f29f35 = <s1>Każde polecenie</s1><s2>kshana <scenario.toml> uruchamia scenariusz; każde inne polecenie jest podpoleceniem. kshana --help wypisuje użycie…</s2>
 
 seg-e847b803a7a9 = <s1>Każda powierzchnia</s1><s2>Jeden silnik, te same wyniki wszędzie. docs/SURFACES.md wymienia dla każdego polecenia i rodzaju, która powierzchnia…</s2>
 
 seg-dcd149f1b172 = <s1>Domeny możliwości</s1><s2>Każda możliwość z publicznej mapy, według domeny, z etykietą w rejestrze (ledger).</s2>
-
-seg-76a9b614dada = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "182" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>
 
 seg-58cdc99dfc9e = <s1>Schemat wyniku</s1><s2>Każdy przebieg zapisuje obok scenariusza wersjonowany, samoopisujący się artefakt JSON (JavaScript Object Notation).</s2>
 
@@ -71,10 +61,6 @@ seg-b57457566406 = <s1>Eksport animacji</s1><s2>--animate zamienia szereg czasow
 seg-6e9c30a894e9 = <s1>Eksporty i importy współdziałania</s1><s2>Przebieg zapisuje dokument wyniku, wykres i raport. --export zapisuje też geometrię scenariusza lub jego…</s2>
 
 seg-ea5f09561b29 = <s1>Status walidacji</s1><s2>O tolerancjach. „Sprawdzone względem niezależnego wzorca” poniżej oznacza, że test kalibracyjny stwierdza, iż symulowana statystyka zgadza się z…</s2>
-
-seg-c387a74ffabb = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "388" } wierszy — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "388" } wierszy macierzy weryfikacji.</s2>
 
 seg-ae0276d1d945 = <s1>Dlaczego wiersze pozostają obliczone na podstawie modelu</s1><s2>Te możliwości są zaimplementowane na podstawie opublikowanej lub pierwszozasadowej fizyki, z testami, ale rzetelnie…</s2>
 

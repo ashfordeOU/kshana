@@ -5,7 +5,7 @@
 seg-8f101c803442 = Every capability wears <s1>its evidence.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-aa7c0a865661 = { "401" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "221" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
 
 # text
 seg-4f6445e5dd61 = Verification matrix <b>v{ $version }</b>
@@ -26,7 +26,7 @@ seg-29e58493fdd4 = Modelled
 seg-ae9e2459836c = capabilities
 
 # attr:aria-label
-seg-4adb5411062e = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-7a254b7d5498 = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "221" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
 
 # text
 seg-f97cb6bf8202 = Hover or focus a cell to read its capability and the oracle that grades it.
@@ -37,7 +37,7 @@ seg-8a1cef0b9561 = Validated: an independent external oracle agrees
 # text
 # c1: web/data/verification-matrix.json
 # c2: src/verification.rs
-seg-582c4a762fc5 = Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, generated from <c2/> · { "401" } rows · no scenario or seed: the engine's own ledger
 
 # text
 seg-d5c32303297d = Read the ledger
@@ -113,9 +113,9 @@ seg-55fc928e19ae = oracle · AIAA 2006-6753 verification vectors
 seg-1d60624d525d = How it was checked
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-015ecb5cddc3 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -150,9 +150,9 @@ seg-87734f6c52a2 = One square per SciPy case, grouped by kernel.
 seg-4957eddb39ed = oracle · SciPy
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-e26b6fdc705b = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -178,9 +178,9 @@ seg-2b1ea60e99a7 = Position difference against time, per force tier.
 seg-75344d6c427a = oracle · Orekit { "12.2" }
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-66defa1494fc = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -208,8 +208,8 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+# c2: ac05b72
+seg-52dab8f79eed = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -234,9 +234,9 @@ seg-5d3372dbff1f = Four deviations against averaging time, with the published va
 seg-9993e306ae64 = oracle · NIST SP { "1065" }
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-4c54e96a1832 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -266,9 +266,9 @@ seg-46c1dbe5c6bc = Measured and predicted time error against coast time, and the
 seg-449f52c56c67 = oracle · measured caesium record
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-3d202a56e836 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml
@@ -284,13 +284,13 @@ seg-b19592bc5242 = Validated means an independent external source agrees: publis
 seg-800e31fc8f7d = Capabilities graded
 
 # text
-seg-1d2c8132218d = { "176" }<s1>of { "388" } validated</s1>
+seg-77bfad0f4f88 = { "176" }<s1>of { "401" } validated</s1>
 
 # text
 seg-e61158f71854 = Hover a cell
 
 # attr:aria-label
-seg-b66d124aa8dd = Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-222c46a96ec3 = Verification matrix: { "176" } validated, { "221" } modelled, { "4" } partner-owned, { "401" } in total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise… · Validated
@@ -1166,6 +1166,42 @@ seg-9bd04213bd7b = The gnss-ssv kind's [navigation] mode: a nine-state extended 
 seg-59b78f3897ba = The gnss-ssv kind's [formation] mode: a chief and deputies each run the absolute filter… · Modelled
 
 # attr:title
+seg-cf2aa475bc68 = The mission-thread kind: a document of phases, each one of eight registered kinds, run… · Modelled
+
+# attr:title
+seg-bdc3223c80e4 = The launch-ascent phase: a constant-velocity position and velocity covariance with white… · Modelled
+
+# attr:title
+seg-a60883a4b32c = The leo-rendezvous phase: the relative state in the target's LVLH axes with the… · Modelled
+
+# attr:title
+seg-a3201e17ddc4 = The tli-and-cruise phase: the mean state by the engine's Cowell propagator (Earth point… · Modelled
+
+# attr:title
+seg-a143fdf9c4cb = The entry phase: the return coast of tli-and-cruise with no burn, ending at the entry… · Modelled
+
+# attr:title
+seg-6c84e2db7d1e = The ground-network overlay: stations with a minimum elevation, the visibility of the… · Modelled
+
+# attr:title
+seg-256ed84fca2b = The lunar-orbit-rendezvous kind and phase: a joint two-vehicle batch Gauss-Newton… · Modelled
+
+# attr:title
+seg-6cae40e30a77 = The lunar-descent kind and phase: a five-state per-axis inertial error model (position… · Modelled
+
+# attr:title
+seg-2db0710d699f = The lunar-surface kind and phase: relay availability and PDOP, Earth and Sun visibility… · Modelled
+
+# attr:title
+seg-40e993dc4c56 = The lunar-ascent kind and phase: the five-state per-axis inertial error model run over a… · Modelled
+
+# attr:title
+seg-904a8004957d = The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun… · Modelled
+
+# attr:title
+seg-860ca782e2bf = The mean-state propagation of the tli-and-cruise phase (Cowell, Earth point mass and J2… · Modelled
+
+# attr:title
 seg-41d36946a448 = inertial::cai_error_terms (library functions, not yet reachable from a scenario kind)… · Modelled
 
 # attr:title
@@ -1361,6 +1397,9 @@ seg-43a58d2f2e32 = Synthetic bridge NMEA { "0183" } streams for crew training (k
 seg-b53303d52991 = The reading of the ADS-B navigation accuracy and integrity codes the map uses (the EPU… · Validated
 
 # attr:title
+seg-7c7d72cc2036 = A feasible region for where a source of degraded navigation reports can be, from ADS-B… · Modelled
+
+# attr:title
 seg-3e274aa29264 = GNSS trust (score, band, reasons, gate and, on request, position) as Prometheus text… · Validated
 
 # attr:title
@@ -1496,7 +1535,7 @@ seg-5af3d58e83fa = <b>With Pro:</b> a <b>mission dossier</b> checks every requir
 seg-400016e22379 = Validation ledger
 
 # text
-seg-6ef0eb045293 = All { "388" } rows, one line each.
+seg-65feaf4e91ef = All { "401" } rows, one line each.
 
 # text
 seg-20ec758fe328 = Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
@@ -1508,7 +1547,7 @@ seg-08f2354cb22b = Filter by domain
 seg-f5a2e020b47e = By domain: bar length is rows, colour is status. Pick one to filter.
 
 # text
-seg-d8691ddf3170 = of { "93" } validated
+seg-5668b5581703 = of { "102" } validated
 
 # text
 seg-0272bc18f675 = of { "19" } validated
@@ -1517,7 +1556,7 @@ seg-0272bc18f675 = of { "19" } validated
 seg-abd931555717 = Clocks and timing
 
 # text
-seg-d6687397eae9 = of { "73" } validated
+seg-43f852e4bee8 = of { "74" } validated
 
 # text
 seg-501d3a72ea43 = Integrity
@@ -1526,13 +1565,13 @@ seg-501d3a72ea43 = Integrity
 seg-38ec110ef886 = Orbits, frames and geometry
 
 # text
-seg-8d3ad903cd18 = of { "76" } validated
+seg-fbb78f11c0dc = of { "78" } validated
 
 # text
 seg-a1c022c60fb6 = Inertial, fusion and alternative PNT
 
 # text
-seg-223bf21e1d9b = of { "25" } validated
+seg-8fe12f6058c6 = of { "26" } validated
 
 # text
 seg-b355dc732d29 = Signals and interference
@@ -1550,13 +1589,13 @@ seg-5516d9825527 = of { "55" } validated
 seg-85db75e49de8 = Filter by status
 
 # text
-seg-d5b6224d2ec4 = All { "388" }
+seg-b393e1b5fcfc = All { "401" }
 
 # text
 seg-7038fab8b00c = Validated { "176" }
 
 # text
-seg-2bca452c28dd = Modelled { "208" }
+seg-3df9e327c036 = Modelled { "221" }
 
 # text
 seg-ba89c1119b21 = Partner-owned { "4" }
@@ -1568,7 +1607,7 @@ seg-cd12d85e2beb = Search the ledger
 seg-f014d784ebe3 = Search requirement, oracle, module or test
 
 # attr:aria-label
-seg-d0352364053e = Validation ledger, { "388" } rows, scrollable
+seg-7fa6f2e0de57 = Validation ledger, { "401" } rows, scrollable
 
 # text
 seg-1603e76bcf66 = Power-law noise identification by lag-1 autocorrelation
@@ -4851,6 +4890,142 @@ seg-f67eb29d4483 = The <c1/> kind's <c2/> mode: a chief and deputies each run th
 seg-69c078b57fc8 = The same simulated truth as the absolute filter: the relative filter's error against the true relative state, and the check that it does at least as well as subtracting two independent absolute fixes. No flight formation data is compared
 
 # text
+# c1: mission-thread
+seg-65185cb68d6b = Navigation and timing error budget of a chain of mission phases from launch to entry (<c1/>)
+
+# text
+# c1: mission-thread
+# c2: carry
+# c3: inflate
+# c4: reacquire
+seg-86a132e1a243 = The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated gap on a straight-line model; <c4/>, dead reckoning then the source floor, never below it, never a reset); frame conversions GCRF, MCI and MCMF and timescale conversions through TT, each its own budget row, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback; the margin against a stated requirement, the weakest link, the events and a timeline figure. Every number is a stated input or a model of one
+
+# text
+seg-cf8a0dc4088e = Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst { "2.6" } m and { "7e-6" } m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agency endorsement
+
+# text
+# c1: launch-ascent
+seg-87b2b2459b45 = Launch and ascent to a parking orbit with GNSS acquisition and fade (<c1/>)
+
+# text
+# c1: launch-ascent
+seg-725e7ce83533 = The <c1/> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-drift clock disciplined by the same fixes, and the parking-orbit insertion state
+
+# text
+seg-22e5c301626e = The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
+
+# text
+# c1: leo-rendezvous
+seg-eb66a49b0306 = Relative navigation to the docking envelope in low Earth orbit over sensor legs (<c1/>)
+
+# text
+# c1: leo-rendezvous
+seg-658a0448d80d = The <c1/> phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the current range, over legs of a stated sensor (ILLUSTRATIVE optical camera, lidar and radio-ranging forms); the docking window is the time from which the relative sigma stays inside the capture envelope to the end of the phase. The chaser's absolute covariance is handed on unchanged and a row says so
+
+# text
+seg-97f4aa0575e6 = A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
+
+# text
+# c1: tli-and-cruise
+seg-b45a8a357faf = Trans-lunar injection and cislunar cruise: propagated mean state and covariance with tracking updates (<c1/>)
+
+# text
+# c1: tli-and-cruise
+# c2: gnss-ssv
+seg-ab5c79789754 = The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic series); the covariance by a forward-difference state-transition matrix of that propagation (the nominal run and six perturbed runs per segment) with white acceleration noise; the TLI burn's size and pointing error; <c2/> fixes whose availability and PDOP come from the space-service-volume sweep along an osculating orbit standing in for the arc; range and range-rate tracking along the geocentric direction scaled by the ground-network duty, with the Joseph-form update
+
+# text
+seg-86dae517e339 = Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
+
+# text
+# c1: entry
+seg-7a3eb4fae324 = Entry interface covariance, corridor probability, peak deceleration and landing footprint (<c1/>)
+
+# text
+# c1: entry
+# c2: tli-and-cruise
+seg-93f07906d7bf = The <c1/> phase: the return coast of <c2/> with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a stated corridor; the peak deceleration at the nominal angle and at both corridor edges from the engine's planar ballistic point-mass entry (skip-out detected) beside the Allen-Eggers closed form; the landing footprint from a stated downrange sensitivity and the interface covariance across the orbit plane. No lift, guidance or heating is modelled
+
+# text
+seg-8d5695aad35b = Hand calculations in the tests (the angle sigma is the perpendicular velocity sigma over the speed; the Gaussian mass in a corridor). The planar entry is the engine's own and the Allen-Eggers form is a closed-form comparison; no flown entry is compared
+
+# text
+# c1: [ground_network]
+# c2: mission-thread
+seg-3f0951532f6e = Ground-network coverage and tracking duty for a thread phase (<c1/> of <c2/>)
+
+# text
+seg-5204af351299 = The ground-network overlay: stations with a minimum elevation, the visibility of the vehicle on a stated geometry (the entry state flown two-body with J2, the Moon's position for the cruise, or a stated duty), station handovers that lose a stated time each, and the resulting duty passed to the phase's ground-tracking update rate; the longest interval with no station in view is a budget row
+
+# text
+seg-0d1d229a3ab7 = Zenith and antipode geometry checks and the expected visibility of a distant target in the tests. No real network, antenna or schedule is modelled
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-4ba700726208 = Relative navigation to docking in a lunar orbit (<c1/>)
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-2e30e78e49f7 = The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a half and the whole arc with step halving, from an absolute fix per vehicle (AFS pilot code-tracking bound, ILLUSTRATIVE relay set) and a crosslink range, under the crate's lunar force model; the mean normalised estimation error squared, the Clohessy-Wiltshire check on a circular orbit and the 6x6 covariance handed on
+
+# text
+seg-09fa0c35d004 = Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is { "5.85" } to { "5.93" } against the band { "5.2" } to { "6.8" } in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The propagator it shares is compared with LRO and CAPSTONE in a row below
+
+# text
+# c1: lunar-descent
+seg-c85d7e5e63a3 = Landing-dispersion budget at a lunar polar site (<c1/>)
+
+# text
+# c1: lunar-descent
+seg-bd88ab3ad105 = The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-relay case), a terrain-relative fix (the engine's terrain-nav matcher on synthetic relief, or a Cramer-Rao bound on a LOLA DEM with an aperture-problem rule) and lunar time, with a Monte Carlo touchdown ellipse
+
+# text
+seg-a5ddb83a5cf1 = The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
+
+# text
+# c1: lunar-surface
+seg-8dfc1600cf8c = Surface positioning and timing availability by site and season at the lunar poles (<c1/>)
+
+# text
+# c1: lunar-surface
+# c2: moonlight-service-volume
+seg-f91c1da9ab55 = The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that kind's availability and PDOP to the bit
+
+# text
+seg-e3a782dce8be = Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
+
+# text
+# c1: lunar-ascent
+seg-0db91d70a079 = Powered ascent from a lunar polar site to an insertion orbit (<c1/>)
+
+# text
+# c1: lunar-ascent
+seg-b5b1125d515c = The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance carried to orbit and the engine-cutoff dispersion (reported, not carried)
+
+# text
+seg-76e0d23b7483 = The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared
+
+# text
+seg-1983ce9cc6da = The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories
+
+# text
+seg-57f53a7d1fa2 = The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the public JPL Horizons trajectories of LRO ({ "24" } h, { "10" } minute samples) and CAPSTONE (one { "6.5" } day revolution, one hour samples), under bars fixed in a committed file before the run
+
+# text
+seg-321d0721970d = JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the CAPSTONE bar is missed and the comparison tests the shared propagator, not any filter, signal or budget
+
+# text
+# c1: tli-and-cruise
+seg-c557d317389a = The cislunar mean-state propagation against the public Artemis I trajectory (<c1/>)
+
+# text
+# c1: tli-and-cruise
+seg-539d4c3e9b56 = The mean-state propagation of the <c1/> phase (Cowell, Earth point mass and J2, the Sun and Moon third bodies, the Moon from a DE440 cut) compared with the public JPL Horizons trajectory of Artemis I over a { "72" } h coast arc from 2022-11-16 { "18" }:{ "00" } TDB, at { "12" } hour epochs, under bars fixed in a committed file before the run
+
+# text
+seg-362b1a7b9e5e = JPL Horizons target -1023 (the NASA navigation as-flown post-TLI trajectory), against bars pre-registered in xval/mission-thread/PREREGISTRATION.md (Amendment { "1" } changes only the request span). NOT MET and asserted as missed: { "45.3" } km largest position difference against { "5" } km, and { "0.249" } m/s velocity difference at { "72" } h against { "0.05" } m/s. A diagnostic written after the verdict places the miss in five impulsive velocity steps of { "0.09" } to { "0.22" } m/s in the reference (the pre-registered reading that the window held no burn was wrong); over the other { "67" } hours the model reproduces the next hourly state to a median of { "0.38" } m. Tests the mean state of one coast arc only: no covariance, filter, update or other phase
+
+# text
 seg-7038f6902820 = Cold-atom interferometer error terms: Raman laser-phase noise, wavefront-curvature bias and fringe-ambiguity resolution
 
 # text
@@ -5595,6 +5770,15 @@ seg-71cff2a675e8 = The reading of the ADS-B navigation accuracy and integrity co
 
 # text
 seg-beee15333c89 = WHAT IS EXTERNALLY CHECKED, stated narrowly: five independent implementations read the same synthetic inputs. ({ "1" }) pyModeS { "2.21" } decodes synthetic DF17 operational-status and airborne-position frames; Kshana's NACp EPU bounds agree to { "0.5" } m (largest difference { "0.4" } m), its NIC containment bounds for codes { "5" } to { "11" } agree to { "1" } m, and its low and good classes put all { "12" } NACp codes and every NIC code the oracle produces ({ "0" } to { "11" }) on the same side of the thresholds the oracle's bounds imply ({ "0" } disagreements). ({ "2" }) pyais { "3.3.0" } decodes AIVDM type { "1" } sentences whose payload bits the script packs from the raw ITU-R M.1371 field values; Kshana refuses exactly the decoded not-available positions (latitude { "91" }, longitude { "181" }) and speed ({ "102.3" } kn), and keeps { "0" } to { "102.2" } kn as decoded ({ "0" } disagreements over { "94" } frames). ({ "3" }) shapely { "2.2.0" } covers() on cell polygons agrees with grid::Grid::cell_of for { "1770" } points over cell sizes { "0.5" }, { "0.25" }, { "1" } and { "0.07" } degrees, including near-edge points, both poles and the antimeridian ({ "0" } disagreements). ({ "4" }) shapely { "2.2.0" } route/cell intersection with GeographicLib { "2.1" } WGS84 geodesic lengths agrees with route exposure on { "8" } synthetic routes, including two that cross the antimeridian: total length to { "0.6" }% (largest difference { "0.49" }%, the sphere against the ellipsoid) and each cell state's length to { "0.6" }% plus { "125" } m per piece (largest { "21" }% of that tolerance). ({ "5" }) shapely { "2.2.0" } contains() with pyproj azimuthal-equidistant distance to the coastline agrees with the { "2000" } m inland mask on { "992" } lattice-centre points around four synthetic islands, one with a lake ({ "0" } disagreements; { "4" } points within { "20" } m of the buffer were excluded and counted). The tolerances were fixed in tests/fixtures/interference_map_ref/PREREGISTRATION.md before any comparison, and not changed after; two defects in the synthetic inputs found by the first run are recorded there. WHAT IS NOT: Kshana does not decode raw Mode S frames or AIVDM sentences, so this validates its reading of already-decoded values, not a decoder. The oracle's NIC containment radii for codes { "1" }, { "2" } and { "4" } differ from DO-260B ({ "20" }, { "8" } and { "2" } NM), so only codes { "5" } to { "11" } are compared numerically. The ({ "0" }, { "0" }) position rule, the altitude floor, the source-type filter, the identifier hashing, the thresholds and statistics of the method, and the cell size choice are Kshana's own and are not checked against anything. The route comparison uses the same straight-in-latitude-and-longitude path definition on both sides, so it checks lengths and cell assignment, not that this path is the right one for a vessel or aircraft. Nothing here shows that a flagged cell is interference. Inputs are synthetic; the oracle fixtures are written by scripts/gen_interference_map_ref.py (pyModeS is GPL-3.0 and is used in that offline script only; CI needs no Python).
+
+# text
+seg-150ae9c3d755 = Interference source region: a feasible emitter region from aircraft and ship position reports
+
+# text
+seg-b5c49044a7a1 = A feasible region for where a source of degraded navigation reports can be, from ADS-B (NIC/NACp) or AIS position reports: radio line of sight on a 4/3-earth radius from the report height and an emitter antenna height range, a limited effective range for the unknown power, affected units pulling the posterior toward their reach and unaffected units with line of sight pushing against it, grouped into sessions in time and space. Output is highest-density regions at stated confidence levels, a posterior centroid with a moment ellipse, session start, end, duration, affected area and distinct-aircraft count above the publication minimum, a time-of-day profile and hours per day. Terrain-free; a single source per session; the credibility is conditional on the model. Optional fusion with a TDOA fix from geolocation.
+
+# text
+seg-953a8b4f9f41 = None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest { "2025" } transmitter sites was pre-registered (docs/emitter-region/PREREGISTRATION.md, signed off by the owner before any scored run) and run once (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } scheduled sessions, fewer than the registered minimum of { "4" }) and AIS NOT ASSESSABLE (no published session), so no bar was tested and the row stays MODELLED
 
 # text
 seg-57ace69bdf1a = Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON

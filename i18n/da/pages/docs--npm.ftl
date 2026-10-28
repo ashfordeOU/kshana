@@ -12,8 +12,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>det præcise øjebl
 
 seg-3b861b2f08b8 = Udgave v{ $version }
 
-seg-ebe636986f46 = { "176" } af { "388" } funktioner valideret mod uafhængige eksterne referencer
-
 seg-6a1906d8d4ad = Cirka { "95" }% linjedækning, med en grænse på { "85" }% i kontinuerlig integration
 
 seg-a9f4f2795fb5 = Licens: AGPL-3.0-only eller en kommerciel licens
@@ -27,10 +25,6 @@ seg-d1153c5e9112 = Øv det minut, hvor GNSS går i sort
 seg-d284448743af = Kshana afspiller jamming, spoofing og urets holdover, når GNSS-signaler (Global Navigation Satellite System) svigter, og fortæller dig, hvor længe et system holder tid og position inden for sit budget, og hvilket ur eller hvilken sensor der giver mest margin. Dette er WebAssembly-pakken: hele motoren i JavaScript, i browseren eller i Node.js. Hver kørsel kan gengives bit for bit ud fra scenariet, seedet og motorversionen.
 
 seg-d1a3f78ad8e0 = Prøv det først uden at installere noget: <a1>Kshana Studio</a1> kører hele motoren i din browser, kompileret til WebAssembly, og uploader ingenting.
-
-seg-2d2c47db0c1f = <b>{ "176" } af { "388" }</b> funktioner valideret mod uafhængige eksterne referencer; { "208" } ærligt mærket modelleret, { "4" } ejet af partnere. Hver funktion bærer ét mærke i et maskinkontrolleret register: VALIDATED (en uafhængig ekstern reference er enig: rigtige data, en uafhængig implementering eller offentliggjorte referencevektorer), MODELLED (internt konsistent, og det siges åbent) eller PARTNER (en hardwarepartner ejer den). Blandt kontrollerne: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm og Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Hvordan en funktion tjener sit mærke: funktion, uafhængig reference, test, registermærke. Verifikationsstatus på tværs af alle { "388" } funktioner: { "176" } valideret, { "208" } modelleret, { "4" } ejet af partnere
 
 seg-d662055d817f = Pakken er et ES-modul (ECMAScript, standard-JavaScript) med en WebAssembly-nyttelast, bygget til browseren. Initialisér den én gang, og kald derefter motoren synkront. Den eneste forskel mellem browseren og Node.js er, hvordan WebAssembly-binæren indlæses.
 

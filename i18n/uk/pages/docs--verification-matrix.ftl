@@ -3071,8 +3071,6 @@ seg-371e708b8b8f = iq::channel::scint (Scintillation, ScintParams); realdata::sc
 
 seg-e8e0e0618afa = Джерело: <c1/>
 
-seg-4cb1d67922ed = Повний, перевірений машиною реєстр доказів: <b>{ "388" } рядків — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Рядок може бути VALIDATED лише за наявності незалежного зовнішнього оракула (це забезпечують інваріантні тести матриці). Ті самі дані, із клікабельними посиланнями для кожного рядка на тест, модуль і закомічену фікстуру, подано як <em>реєстр валідації</em> на <a1>https://kshana.dev</a1>. Чому кожен змодельований рядок не перевірено за зовнішнім еталоном, див. у <a2>MODELLED-RATIONALE.md</a2>.
-
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 seg-b04cb81fc402 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } випадків: десять записів зі степеневим законом за Касдіним, b = { "0" } до -4, як дані фази та частоти, af = { "1" } до { "64" }; alpha_int і d ідентичні, найгірші |d alpha| { "9.6e-13" } і |d rho| { "4.8e-13" } проти { "1e-9" }; попередньо зареєстровано 2ec76864); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
@@ -3708,8 +3706,6 @@ seg-9e651a7f8dc9 = tests/iq_signals_gps_l1c.rs (c1_l1cp_and_l1cd_initial_and_fin
 seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendre_bits); iq::signals::lunanet_tables; iq::lunanet_afs::check_spec
 
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-seg-af826b47d00e = { "388" } рядків: { "176" } зовнішньо перевірено, { "208" } обчислено за моделлю, { "4" } належать партнеру.
 
 seg-6bb40f180cf0 = <s1>Назад</s1>Стан валідації
 

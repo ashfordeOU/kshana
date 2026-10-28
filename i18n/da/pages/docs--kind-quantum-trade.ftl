@@ -32,8 +32,6 @@ seg-f2cc0830b53f = Eksemplet <c1/> angiver blandt andet:
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = klassisk baseline
-
 seg-f5fa445702c6 = Resultatetiket (motorens egen): MODELLED — kvantificerer (validerer aldrig) et partnerur eller en partnersensor; ikke demonstreret i flyvning
 
 seg-c74c63ffd859 = Diagrammet, som motoren skriver for scenarios/quantum-trade.toml, type quantum-trade

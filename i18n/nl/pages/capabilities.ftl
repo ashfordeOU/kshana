@@ -198,8 +198,6 @@ seg-ac19e38bed11 = <b>CI</b> continue integratie · <b>CSV</b> door komma's gesc
 
 seg-190cdf3ca8dc = Eenheid en herkomst bij elke gerapporteerde grootheid
 
-seg-1c7bb8c3e887 = { "87" } van { "87" } soorten, { "3127" } van { "3127" } numerieke velden
-
 seg-3e7fb040a7c4 = Elk numeriek veld dat een scenario uitgeeft, draagt een eenheid en een herkomstklasse uit een gesloten vocabulaire, met een definitie waar die bestaat, gepubliceerd als machineleesbaar schema naast de engine. Een stapsgewijs aangescherpte poort draait elke ingebouwde soort en faalt bij een veld dat er geen draagt; de soorten die nog niet compleet zijn, worden een voor een genoemd met de reden waarom elk nog openstaat, en de lijst kan alleen korter worden. Rapporten die hun eigen constanten vermelden — het eenrichtingslinkbudget, het optische en RF-budget — laten een lezer de kopwaarde uit het rapport alleen herberekenen.
 
 seg-8cd7b0aba374 = <b>RF</b> radiofrequentie
@@ -1364,8 +1362,6 @@ seg-7718b39ae2c6 = Elke grafiek op deze pagina is een scenariobestand dat de eng
 
 seg-24194ccdcdca = Begin bij een willekeurig scenario
 
-seg-da4764e4d161 = Kies een van { "183" } scenariobestanden in { "87" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
-
 seg-5dd293dd429b = De bibliotheek in Kshana Studio
 
 seg-2ae31e21c5d8 = De satellieten en constellaties instellen
@@ -1478,33 +1474,11 @@ seg-58a8a796c8cb = referentiecontroles
 
 seg-3cbba5a3ab3b = Nieuw in v{ $version }
 
-seg-850aca04de28 = Elke soort, elke opdracht en de missers van de benchmark.
-
-seg-c530da682cca = Geen nieuwe functie van de engine: de resultaten zijn die van { "0.38.0" }. De documentatie heeft nu een pagina voor elke scenariosoort en een lijst van elke opdracht en elk oppervlak, en de benchmarkpagina vermeldt elke drempel die niet is gehaald. De opdrachtregel sluit ook stil af wanneer zijn uitvoerpijp sluit. Elke mogelijkheid draagt het label dat het register ervoor bevat, en een label noemt alleen wat is gecontroleerd. Adviserende software.
-
-seg-c5fc0ca71fae = Elke scenariosoort, elk een eigen pagina
-
-seg-86ff766b2c1d = Alle { "87" } scenariosoorten ingedeeld in families, met een pagina voor elke soort: wat hij doet, zijn invoer, de resultaten van een voorbeeldrun, de registerrijen en onafhankelijke referenties achter zijn label, de beperkingen die zijn rapport vermeldt en de grafiek die de engine schrijft.
-
 seg-a0b63210b807 = Meer lezen
-
-seg-ccee5886cf25 = Elke opdracht, elk oppervlak
-
-seg-6630acb722ae = Elke opdracht met een voorbeeld dat u vanuit een checkout kunt uitvoeren, en elk oppervlak (opdrachtregel, Python, Rust, WebAssembly, de MCP-server, de pluginopdrachten, de skills en de Studio-pagina's) met de opdrachten en soorten die het draagt, en de reden waar het dat niet doet.
-
-seg-4ef6dcd0a58b = Welk oppervlak welke mogelijkheid draagt
-
-seg-678872a862dc = Eén pagina somt voor elke opdracht en soort op welk oppervlak hem draagt en welke niet, met de reden, naast de mogelijkheidsdomeinen en hun registerlabels.
 
 seg-29e58493fdd4 = Berekend uit een model
 
-seg-8e092e49bdeb = kshana-bench: de drempels die niet zijn gehaald, vermeld
-
-seg-df8f792ffa97 = De benchmarkpagina vermeldt nu elke drempel die niet is gehaald, zoals het resultatenbestand ze vastlegt, en zegt dat geen enkele drempel is versoepeld.
-
 seg-54dce6366d5a = Elk meegeleverd scenario, op één kaart.
-
-seg-761213eb3ce0 = Alle { "183" } scenariobestanden in { "87" } soorten, gegroepeerd per domein; { "173" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register hem noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarionaslag, met het bestand en de opdracht die het uitvoert.
 
 seg-f53c36555404 = Filteren op registerstatus
 
@@ -1661,8 +1635,6 @@ seg-7d2d780c5649 = Monte Carlo-ensemble van het scenario voor klok-holdover.
 seg-6f80bcd98ce4 = Referentiescenario van Kshana: run van { "2" } u, { "10" } min GNSS-synchronisatie en daarna ~{ "1.8" } u zonder.
 
 seg-4a194573e324 = Variant: strontium-optische klok van laboratoriumkwaliteit tegenover CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Holdovertest, invoervoorbeeld: een tijdfoutregistratie gescoord door de soort holdover-test
 

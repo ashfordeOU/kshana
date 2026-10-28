@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Kilde: <c1/>
 
 seg-6c7831311d4e = Scenariotyper etter familie
 
-seg-6bed0bef75bc = Hver scenariotype motoren v{ $version } kan kjøre ({ "87" }), ordnet i { "12" } familier. Hver familie har en side med én oppføring per type (motorens beskrivelse og felt, eksempelkommandoen, nøkkeltall fra en kjøring, matriseradene som nevner den, og diagrammet motoren skriver) og et kontaktark med disse diagrammene. Veiledende: analyseresultat fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste. Hver etikett her er motorens eller verifikasjonsmatrisens; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett oppnås: README-ens Evidence-avsnitt).
-
 seg-d23eaa8bc98b = Familier
 
 seg-3ac9e578414c = Klokker, tidssynkronisering og holdover

@@ -34,12 +34,6 @@ seg-a164328ef8cd = <s1>{ "3" } · Quântico contra clássico</s1><s2>O projeto f
 seg-50dd8e4077fd = <s1>Exemplo prático: pipeline com várias ferramentas</s1><s2>Este exemplo percorre uma trajetória pelos tipos de cenário de interoperabilidade baseada em padrões e de análise de missão, de ponta a…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Tipos de cenário</s1><s2>Os { "87" } tipos de cenário embutidos sobre os quais kshana::api::run_toml despacha, cada um com sua linha única…</s2>
-
-# text
-seg-051029eb3525 = <s1>Todos os tipos de cenário, por família</s1><s2>Todos os tipos de cenário que o motor v{ $version } despacha ({ "87" }), organizados em { "12" } famílias.</s2>
-
-# text
 seg-86b2b5f29f35 = <s1>Todos os comandos</s1><s2>kshana <scenario.toml> executa um cenário; todos os outros comandos são subcomandos. kshana --help imprime o uso…</s2>
 
 # text
@@ -47,9 +41,6 @@ seg-e847b803a7a9 = <s1>Todas as superfícies</s1><s2>Um motor, os mesmos resulta
 
 # text
 seg-dcd149f1b172 = <s1>Domínios de capacidade</s1><s2>Todas as capacidades do mapa público, por domínio, com seu rótulo no registro.</s2>
-
-# text
-seg-76a9b614dada = <s1>Referência de cenários</s1><s2>Todos os arquivos de cenário incluídos ({ "182" }), agrupados por tipo de cenário, com suas configurações principais.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Esquema de resultado</s1><s2>Cada execução grava um artefato JSON (JavaScript Object Notation) versionado e autodescritivo ao lado do cenário.</s2>
@@ -71,12 +62,6 @@ seg-6e9c30a894e9 = <s1>Exportações e importações de interoperabilidade</s1><
 
 # text
 seg-ea5f09561b29 = <s1>Situação da validação</s1><s2>Sobre as tolerâncias. "validado" abaixo significa que um teste de calibração afirma que a estatística simulada coincide com…</s2>
-
-# text
-seg-c387a74ffabb = <s1>Matriz de verificação</s1><s2>O registro de evidências completo e verificado por máquina: { "388" } linhas — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-# text
-seg-be02c7f0d48e = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "388" } linhas da matriz de verificação.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Por que as linhas continuam modeladas</s1><s2>Estas capacidades são implementadas a partir de física publicada ou de primeiros princípios, com testes, mas são honestamente…</s2>
@@ -328,9 +313,6 @@ seg-69525243f8f1 = <s1>Jamming, spoofing e o espectro</s1><s2>{ "6" } tipos de c
 seg-0541e0421253 = <s1>Navegação em órbita terrestre baixa</s1><s2>{ "7" } tipos de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não…</s2>
 
 # text
-seg-1da177a1654b = <s1>Lunar e cislunar</s1><s2>{ "20" } tipos de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não…</s2>
-
-# text
 seg-671dc0d705c5 = <s1>Análise de missão, enlaces e operações espaciais</s1><s2>{ "14" } tipos de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não…</s2>
 
 # text
@@ -338,9 +320,6 @@ seg-5de091b18fe4 = <s1>PNT óptico</s1><s2>{ "2" } tipos de cenário do motor v{
 
 # text
 seg-35db5b51a590 = <s1>Navegação de usuário espacial</s1><s2>{ "1" } tipo de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não…</s2>
-
-# text
-seg-0144518c94fc = { "87" } páginas, uma para cada tipo de cenário, com link a partir de <a1>Todos os tipos de cenário, por família</a1>.
 
 # text
 seg-1acf60cff708 = Não incluído

@@ -10,8 +10,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>přesný okamžik</
 
 seg-3b861b2f08b8 = Vydání v{ $version }
 
-seg-ebe636986f46 = { "176" } z { "388" } schopností ověřeno proti nezávislým vnějším orákulím
-
 seg-6a1906d8d4ad = Pokrytí řádků zhruba { "95" } %, v nepřetržité integraci s hranicí { "85" } %
 
 seg-a9f4f2795fb5 = Licence: AGPL-3.0-only, nebo komerční licence
@@ -23,10 +21,6 @@ seg-7fcbe854ebc4 = Nacvičte minutu, kdy GNSS zhasne: konzole mise Kshana, vykre
 seg-d1153c5e9112 = Nacvičte minutu, kdy GNSS zhasne
 
 seg-d1a3f78ad8e0 = Vyzkoušejte jej nejdřív bez jakékoli instalace: <a1>Kshana Studio</a1> spouští celý engine ve vašem prohlížeči, přeložený do WebAssembly, a nic nenahrává.
-
-seg-2d2c47db0c1f = <b>{ "176" } z { "388" }</b> schopností ověřeno proti nezávislým vnějším orákulím; { "208" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jeden štítek ve strojově kontrolovaném registru: VALIDATED (nezávislé vnější orákulum souhlasí: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní a řečeno otevřeně) nebo PARTNER (odpovídá za ni hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 do { "4.12" } mm a silový model Cowell do { "0.08" } m proti Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Jak si schopnost získá štítek: schopnost, orákulum, test, štítek v registru. Stav ověření napříč všemi { "388" } schopnostmi: { "176" } ověřeno, { "208" } modelováno, { "4" } ve vlastnictví partnera
 
 seg-12a295fba8a5 = Každá schopnost ve verifikační matici je označena jako <b>ověřená</b> (zkontrolovaná proti nezávislému vnějšímu orákulu), <b>modelovaná</b> nebo <b>ve vlastnictví partnera</b>; údaje o optických hodinách jsou cíle pro vesmír na pozemním hardwaru (žádné optické hodiny se stronciem dosud nelétaly). Zralost <em>není</em> napříč oblastmi jednotná – PNT pro Zemi je ověřeno proti skutečným datům; navigace v hlubokém vesmíru a na Marsu je modelovaná, přičemž proti vnějším orákulím jsou ověřeny jen její stavební bloky (světelný čas, polohy planet); skutečné OD (určování oběžné dráhy) pro mise v hlubokém vesmíru je na plánu rozvoje.
 

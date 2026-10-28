@@ -115,7 +115,7 @@ seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 seg-8f8871ac8a0f = Topic page: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 # text
-seg-6ac5bd1500a8 = <s1>Previous</s1>lunar-llr-datum
+seg-bf7d64a925dd = <s1>Previous</s1>lunar-orbit-rendezvous
 
 # text
-seg-625c1973128e = <s1>Next</s1>lunar-time-budget
+seg-0525bddd21ee = <s1>Next</s1>lunar-surface

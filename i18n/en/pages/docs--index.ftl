@@ -17,6 +17,9 @@ seg-e4efccd2bdda = <s1>Concepts primer</s1><s2>This page explains what Kshana do
 seg-71f46a2f8186 = <s1>Glossary</s1><s2>Plain-language definitions of the terms used in Kshana.</s2>
 
 # text
+seg-fcffac5eb150 = <s1>Languages</s1><s2>The engine's human-facing text is in { "17" } languages beside English: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+# text
 seg-7ea453376f5d = <s1>Studio guide</s1><s2>Kshana Studio: run the engine in your browser, no install.</s2>
 
 # text
@@ -35,10 +38,10 @@ seg-a164328ef8cd = <s1>{ "3" } · Quantum against classical</s1><s2>The capstone
 seg-50dd8e4077fd = <s1>Worked example: multi-tool pipeline</s1><s2>This walks one trajectory through the standards-based interop and mission-analysis scenario kinds end to…</s2>
 
 # text
-seg-78756a9f6704 = <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-0cf0b9fb9184 = <s1>Scenario kinds</s1><s2>The { "92" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
 
 # text
-seg-051029eb3525 = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-9d5c233c72b4 = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "92" }), filed under { "13" } families.</s2>
 
 # text
 seg-86b2b5f29f35 = <s1>Every command</s1><s2>kshana <scenario.toml> runs a scenario; every other command is a subcommand. kshana --help prints the usage…</s2>
@@ -50,7 +53,7 @@ seg-e847b803a7a9 = <s1>Every surface</s1><s2>One engine, the same results everyw
 seg-dcd149f1b172 = <s1>Capability domains</s1><s2>Every capability of the public map, by domain, with its ledger label.</s2>
 
 # text
-seg-76a9b614dada = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-2c002a7b7640 = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "192" }), grouped by kind, with its key settings.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Result schema</s1><s2>Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.</s2>
@@ -74,10 +77,10 @@ seg-6e9c30a894e9 = <s1>Interoperability exports and imports</s1><s2>A run writes
 seg-ea5f09561b29 = <s1>Validation status</s1><s2>On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…</s2>
 
 # text
-seg-c387a74ffabb = <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-f5987c9d9fde = <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 # text
-seg-be02c7f0d48e = <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-1c5265085fb6 = <s1>Capability reference</s1><s2>The capability cards and all { "401" } rows of the verification matrix.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Why rows stay Modelled</s1><s2>These capabilities are implemented from published or first-principles physics with tests, but are honestly…</s2>
@@ -102,6 +105,9 @@ seg-723d7d3b63f7 = <s1>Line coverage</s1><s2>The "~{ "95" } % line coverage" on 
 
 # text
 seg-2be2b2fd36d3 = <s1>Evidence packs</s1><s2>A pack is a technical record, not a legal opinion.</s2>
+
+# text
+seg-980f70b29717 = <s1>Data partners and promoting rows</s1><s2>Kshana labels every capability in a machine-checked ledger (verification matrix).</s2>
 
 # text
 seg-811fff6541fb = <s1>Optical links through the atmosphere</s1><s2>The optical-atmosphere scenario kind answers how often an optical link to the ground works, why it fails…</s2>
@@ -227,6 +233,12 @@ seg-98919bcd801c = <s1>Space-user navigation (gnss-ssv)</s1><s2>Advisory only. M
 seg-39391db85b5c = <s1>Lunar orbit and surface as infrastructure</s1><s2>The designs, inputs and bars were fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any study…</s2>
 
 # text
+seg-7c6a541b3bc8 = <s1>Mission thread: launch to entry</s1><s2>Advisory software, not certified navigation equipment.</s2>
+
+# text
+seg-7377c479fed0 = <s1>Mission thread: the lunar segment</s1><s2>Four scenario kinds, each also a phase kind of the mission-thread interface (src/mission_thread/): they…</s2>
+
+# text
 seg-360565300367 = <s1>LEO positioning, navigation and timing</s1><s2>LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit (LEO), alongside or…</s2>
 
 # text
@@ -329,10 +341,13 @@ seg-69525243f8f1 = <s1>Jamming spoofing and the spectrum</s1><s2>{ "6" } scenari
 seg-0541e0421253 = <s1>Low earth orbit navigation</s1><s2>{ "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-1da177a1654b = <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-cecb9535c0a1 = <s1>Lunar and cislunar</s1><s2>{ "24" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
 seg-671dc0d705c5 = <s1>Mission analysis links and space operations</s1><s2>{ "14" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+
+# text
+seg-1dd7c80e18a7 = <s1>Mission threads</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
 seg-5de091b18fe4 = <s1>Optical pnt</s1><s2>{ "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
@@ -341,7 +356,7 @@ seg-5de091b18fe4 = <s1>Optical pnt</s1><s2>{ "2" } scenario kinds of the engine 
 seg-35db5b51a590 = <s1>Space user navigation</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-0144518c94fc = { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-f0e26f01a361 = { "92" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
 
 # text
 seg-1acf60cff708 = Not included

@@ -15,7 +15,7 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>the precise instant
 seg-3b861b2f08b8 = Release v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } of { "388" } capabilities validated against independent external oracles
+seg-c9a297cc51e9 = { "176" } of { "401" } capabilities validated against independent external oracles
 
 # text
 seg-6a1906d8d4ad = About { "95" }% line coverage, gated at { "85" }% in continuous integration
@@ -39,10 +39,10 @@ seg-d284448743af = Kshana replays jamming, spoofing and clock holdover when GNSS
 seg-d1a3f78ad8e0 = Try it first with nothing to install: <a1>Kshana Studio</a1> runs the whole engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 # text
-seg-2d2c47db0c1f = <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-7b53ee712a36 = <b>{ "176" } of { "401" }</b> capabilities validated against independent external oracles; { "221" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
 
 # attr:alt
-seg-44f7862c45a2 = How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-b59781ecf257 = How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "401" } capabilities: { "176" } Validated, { "221" } Modelled, { "4" } Partner-owned
 
 # text
 seg-3d770dd786e4 = Usage

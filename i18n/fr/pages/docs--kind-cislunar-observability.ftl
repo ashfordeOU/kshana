@@ -51,9 +51,6 @@ seg-84781b6fff48 = GDOP indéfini (à rang déficient / singula
 seg-856eb311f24b = « indéfini » (texte tel que l'indique le document
 
 # text
-seg-1767b216650d = défini
-
-# text
 seg-fc5d34345fdd = Étiquette du résultat (celle du moteur) : observabilité MODELLED d'une constellation cislunaire plane (P6). Cœur VALIDATED : le RANG observable est un seuil de valeur singulière révélateur du rang, recoupé avec le rang propre du Gramien ; le spectre propre du Gramien obéit aux invariants spectraux (trace = somme des val. propres, det = produit des val. propres, Frobenius^{ "2" } = somme des val. propres^{ "2" }
 
 # attr:alt

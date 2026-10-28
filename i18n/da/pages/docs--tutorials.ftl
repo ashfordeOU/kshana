@@ -128,8 +128,6 @@ seg-c889e5e77121 = Undervisningsfilen for <b>sikkerhed</b> bruger <c1/> indeni: 
 
 seg-89fef83a9d54 = Det fulde katalog over scenarietyper
 
-seg-648bb07212cd = Motoren vælger efter scenariets <c1/>. Tabellen nedenfor viser de mest brugte kinds (de otte tutorial-områder ovenfor og deres nærmeste naboer). Den er <b>ikke</b> den komplette mængde: <c2/> returnerer alle <c3/> indbyggede kinds. Den funktion (tilgængelig som <c4/> i bindingerne til Python og WebAssembly (WASM) og som <c5/> på kommandolinjen) er det autoritative, altid opdaterede katalog, og <a1><c6/></a1> er dens genererede oversigt, ét afsnit pr. kind med de påkrævede og valgfrie TOML-felter. <c7/> sikrer, at hver kind, en tutorial dokumenterer, er en rigtig dispatch-kind, så intet i denne tabel kan nævne en kind, der ikke findes.
-
 seg-0f744a3a7193 = Ur-holdover mod specifikation; valgfrit Monte Carlo-ensemble (<c1/>).
 
 seg-9a2564fdc86a = 1-DOF (én frihedsgrad) inertial dødregning under et GNSS-udfald.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Uafhængig reference for urstabilitetsrelationer</b>: NIST
 seg-36be39f17e35 = <s1>Forrige</s1>Studio-guide
 
 seg-6f6204737a87 = <s1>Næste</s1>{ "1" } · Din første bane
+
+seg-2fa9e002b3a2 = Motoren vælger efter scenariets <c1/>. Tabellen nedenfor viser de mest brugte kinds (de otte tutorial-områder ovenfor og deres nærmeste naboer). Den er <b>ikke</b> den komplette mængde: <c2/> returnerer alle <c3/> indbyggede kinds. Den funktion (tilgængelig som <c4/> i bindingerne til Python og WebAssembly (WASM) og som <c5/> på kommandolinjen) er det autoritative, altid opdaterede katalog, og <a1><c6/></a1> er dens genererede oversigt, ét afsnit pr. kind med de påkrævede og valgfrie TOML-felter. <c7/> sikrer, at hver kind, en tutorial dokumenterer, er en rigtig dispatch-kind, så intet i denne tabel kan nævne en kind, der ikke findes.

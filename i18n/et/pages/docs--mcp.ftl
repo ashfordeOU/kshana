@@ -152,9 +152,6 @@ seg-2a56e1f52830 = Tööriistad
 seg-b847694d91b5 = Käivitab stsenaariumi TOML (Tom's Obvious, Minimal Language) määratlusest; tagastab kokkuvõtte + täieliku tulemuse JSON-i (JavaScript Object Notation: kvaliteedinäitajad, kõverad). Valikuline <c1/> tagastab diagrammi SVG-na (Scalable Vector Graphics).
 
 # text
-seg-a30b46501cff = { "87" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.
-
-# text
 seg-3c00da00ec30 = Eelkontroll: parsib TOML-i ja tuvastab selle liigi käivitamata.
 
 # text

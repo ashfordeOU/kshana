@@ -56,7 +56,9 @@ seg-0d935e7c43da = The example <c1/> sets, among others:
 seg-edb738273a3a = The chart the engine writes for scenarios/moonlight-service-volume.toml, kind moonlight-service-volume
 
 # text
-seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
+# c1: lunar-surface
+# c2: moonlight-service-volume
+seg-25040e105bf7 = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that kind's
 
 # text
 seg-1974d1d64c9c = <b>VALIDATED</b> Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume. Oracle (ExternalDataset): Independent third-party authority ANISE { "0.10.2" } astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana's Newton-Raphson Kepler; per-satellite MCI position agrees to <{ "1e-3" } m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters
@@ -78,10 +80,10 @@ seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 seg-8f8871ac8a0f = Topic page: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 # text
-seg-a2889fb2b42a = Topic page: <a1>integrations.md</a1>
+seg-e66e2ca31e54 = Topic page: <a1>MISSION-THREAD-LUNAR.md</a1>
 
 # text
-seg-f3279128de3b = <s1>Previous</s1>mars-pnt
+seg-6730fa1b9820 = <s1>Previous</s1>mission-thread
 
 # text
 seg-92cd937a3fb7 = <s1>Next</s1>ntn-positioning

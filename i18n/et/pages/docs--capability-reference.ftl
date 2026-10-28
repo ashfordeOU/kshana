@@ -397,9 +397,6 @@ seg-cab165105f32 = Nõue → moodul → test → sõltumatu etalon → olek rist
 seg-190cdf3ca8dc = Ühik ja päritolu igal esitataval suurusel
 
 # text
-seg-1c7bb8c3e887 = { "87" } liiki { "87" }-st, { "3127" } arvvälja { "3127" }-st
-
-# text
 seg-3e7fb040a7c4 = Iga arvväli, mille stsenaarium väljastab, kannab ühikut ja päritoluklassi suletud sõnavarast, definitsiooniga seal, kus see on olemas, avaldatud masinloetava skeemina mootori kõrval. Ratšetiga värav käivitab iga sisseehitatud liigi ja kukub läbi väljal, mis ei kanna ühtegi; veel mittetäielikud liigid nimetatakse ükshaaval koos põhjusega, miks iga on endiselt lahtine, ja loend saab ainult kahaneda. Aruanded, mis esitavad oma konstandid — ühesuunaline lingibilanss, optiline ja RF bilanss — võimaldavad lugejal põhinäitaja ainuüksi aruandest uuesti arvutada.
 
 # text
@@ -656,10 +653,6 @@ seg-ad856ad710eb = Staatus
 
 # text
 seg-6962adaa6a1f = Genereeritud ehitusajal hoidla stsenaariumifailidest ja kontrollimaatriksist.
-
-# text
-# c1: web/capabilities.json
-seg-6f44f45f6bf9 = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "388" } kontrollimaatriksi rida.
 
 # text
 seg-30200bb5be58 = Käivita orbit-sgp4-gps.toml rakenduses Kshana Studio

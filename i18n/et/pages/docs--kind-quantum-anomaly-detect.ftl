@@ -50,9 +50,6 @@ seg-c2b10c0bdaf8 = Näide <c1/> määrab muu hulgas:
 # text
 seg-f44afe581836 = { $version }
 
-# text
-seg-25da07e56aa8 = kvant- vs klassikalise PNT anomaaliate tuvastami
-
 # attr:alt
 seg-2f1d14239d1a = Diagramm, mille mootor kirjutab failile scenarios/quantum-anomaly-detect.toml, liik quantum-anomaly-detect
 

@@ -165,11 +165,6 @@ seg-0edf8c38f9eb = Neben diesem Zeit-Array werden <c1/> (<c2/>, <c3/>, <c4/>) zu
 seg-608c4fed9e98 = Kurven mit einer Einheit teilen sich ein Feld, wenn ihre Größenordnungen innerhalb eines Faktors von { "100" } liegen, sodass ein Schutzintervall von { "50" } ns einen Fehler von { "2" } ns nicht einebnet. Es werden höchstens { "6" } Felder mit je { "6" } Kurven gezeichnet; der Rest wird unter <c1/> aufgeführt. Kurven mit mehr als { "2,400" } Abtastwerten werden mit einer gleichmäßigen Schrittweite ausgedünnt, die den letzten Abtastwert erhält, und ein Wasserfall mit mehr als { "96" } × { "120" } Zellen wird herunter gemittelt (in Leistung, bei Dezibelzellen, sodass ein schmalbandiger Störer nicht verdünnt wird).
 
 # text
-# c1: no time series to animate
-# c2: cargo test --test animation -- --nocapture
-seg-b68ce4aa301f = Eine Art, deren Ergebnis keine dieser Formen enthält (ein Link-Budget, eine Geometrie einer einzelnen Epoche, eine reine Statistik-Zusammenfassung einer Monte-Carlo-Simulation oder das Telekom-holdover, dessen Ergebnis den Hash des Nachweises veröffentlicht, aber nicht den Nachweis), wird mit <c1/> abgelehnt, und es wird nichts geschrieben. Mit kshana { $version } lassen sich { "89" } der { "182" } ausführbaren Szenariodateien (jede Datei außer einer Studien-Suite) animieren, und { "93" } werden abgelehnt. <c2/> gibt die Zählung aus.
-
-# text
 # c1: leo-pass
 # c2: leo-pnt-chain
 # c3: leo-ppp

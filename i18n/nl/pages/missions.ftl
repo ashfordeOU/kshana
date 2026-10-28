@@ -662,8 +662,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Echte enginerun, afgespeeld
 
-seg-597a57467277 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
 seg-f1313464b7c9 = Banen: opnieuw gepropageerd uit de eigen elementen van de run en gecontroleerd aan de hand van de grondsporen van de engine. Planeten: NASA-beelden.
 
 seg-6c981f00d37d = <b>Met Pro:</b> de ontwerpoptimalisatie voert een hele ontwerpruimte van constellaties rond de aarde, de maan of Mars door deze engine en geeft zijn <b>Pareto-front</b> terug, waarbij elk ontwerp op het front als gewoon scenariobestand wordt uitgeschreven. <a1>Bekijk een echt front</a1>

@@ -228,16 +228,6 @@ seg-c889e5e77121 = Le fichier pédagogique pour la <b>sécurité</b> utilise <c1
 seg-89fef83a9d54 = Le catalogue complet des types de scénario
 
 # text
-# c1: kind
-# c2: src/api.rs::list_scenario_kinds()
-# c3: 87
-# c4: list_kinds()
-# c5: kshana kinds --json
-# c6: SCENARIOS.md
-# c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = Le moteur aiguille selon le <c1/> du scénario. Le tableau ci-dessous liste les types les plus couramment utilisés (les huit domaines des tutoriels ci-dessus et leurs voisins les plus proches). Ce n'est <b>pas</b> l'ensemble complet : <c2/> renvoie les <c3/> types intégrés. Cette fonction (exposée sous le nom <c4/> dans les liaisons Python et WebAssembly (WASM), et sous la forme <c5/> en ligne de commande) est le catalogue de référence, toujours à jour, et <a1><c6/></a1> en est l'énumération générée, une section par type avec les champs TOML obligatoires et facultatifs. <c7/> impose que chaque type documenté par un tutoriel soit un véritable type d'aiguillage ; rien dans ce tableau ne peut donc nommer un type qui n'existe pas.
-
-# text
 # c1: runs > 1
 seg-0f744a3a7193 = Holdover d'horloge par rapport à la spécification ; ensemble Monte-Carlo facultatif (<c1/>).
 
@@ -445,3 +435,5 @@ seg-36be39f17e35 = <s1>Précédent</s1>Guide du Studio
 
 # text
 seg-6f6204737a87 = <s1>Suivant</s1>{ "1" } · Votre première orbite
+
+seg-2fa9e002b3a2 = Le moteur aiguille selon le <c1/> du scénario. Le tableau ci-dessous liste les types les plus couramment utilisés (les huit domaines des tutoriels ci-dessus et leurs voisins les plus proches). Ce n'est <b>pas</b> l'ensemble complet : <c2/> renvoie les <c3/> types intégrés. Cette fonction (exposée sous le nom <c4/> dans les liaisons Python et WebAssembly (WASM), et sous la forme <c5/> en ligne de commande) est le catalogue de référence, toujours à jour, et <a1><c6/></a1> en est l'énumération générée, une section par type avec les champs TOML obligatoires et facultatifs. <c7/> impose que chaque type documenté par un tutoriel soit un véritable type d'aiguillage ; rien dans ce tableau ne peut donc nommer un type qui n'existe pas.

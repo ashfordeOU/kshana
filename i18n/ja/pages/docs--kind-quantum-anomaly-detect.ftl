@@ -16,8 +16,6 @@ seg-c2b10c0bdaf8 = 例の <c1/> では、とりわけ次を設定しています
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = 量子と古典の PNT 異常検出
-
 seg-2f1d14239d1a = エンジンが scenarios/quantum-anomaly-detect.toml（種類 quantum-anomaly-detect）に対して出力するグラフ
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> 解析的な二正規 ROC AUC = Φ(μ/(σ√{ "2" })) と、量子故障・異常検出器の基礎となる最小検出可能故障 σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d))。オラクル（ExternalDataset）：scipy { "1.17" }（Cephes ndtr/ndtri）と scikit-learn roc_auc_score（Pedregosa ら、JMLR { "2011" }）、どちらも BSD-3-Clause — 一意に定義されたガウス裾・AUC の量を計算する独立したライブラリで、A&S の erf フロア（約 { "7e-8" }）まで一致。その上に構築した量子対古典の優位性は MODELLED のまま

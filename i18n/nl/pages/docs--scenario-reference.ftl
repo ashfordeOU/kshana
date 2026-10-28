@@ -374,8 +374,6 @@ seg-9a2bb9809aed = Tweewegs-tijd- en frequentieoverdracht via satelliet tussen t
 
 seg-ccb244e60d60 = Optische versus RF-tweewegs-tijd-/frequentieoverdracht.
 
-seg-1e4d5b2f4810 = Elk meegeleverd scenariobestand ({ "182" }), gegroepeerd per soort. De beschrijving is de eigen koptekstopmerking van het bestand; de sleutelparameters zijn zijn instellingen op het hoogste niveau. De status leest de verificatiematrix voor de module van de soort. <b>Openen in Kshana Studio</b> opent de vastgelegde run.
-
 seg-e701392324d0 = soort acm-link
 
 seg-c4d65df7ab98 = niet op naam gekoppeld aan een registermodule

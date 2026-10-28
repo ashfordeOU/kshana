@@ -228,16 +228,6 @@ seg-c889e5e77121 = El archivo didáctico de <b>seguridad</b> usa <c1/> en su int
 seg-89fef83a9d54 = El catálogo completo de tipos de escenario
 
 # text
-# c1: kind
-# c2: src/api.rs::list_scenario_kinds()
-# c3: 87
-# c4: list_kinds()
-# c5: kshana kinds --json
-# c6: SCENARIOS.md
-# c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = El motor despacha según el <c1/> del escenario. La tabla siguiente enumera los tipos de escenario de uso más habitual (los ocho dominios de los tutoriales anteriores y sus vecinos más próximos). <b>No</b> es el conjunto completo: <c2/> devuelve los <c3/> tipos de escenario integrados. Esa función (expuesta como <c4/> en los enlaces de Python y de WebAssembly (WASM), y como <c5/> en la línea de comandos) es el catálogo de referencia, siempre actualizado, y <a1><c6/></a1> es su enumeración generada, con una sección por tipo y los campos TOML obligatorios y opcionales. <c7/> exige que todo tipo de escenario que documenta un tutorial sea un tipo de despacho real, de modo que nada de esta tabla puede nombrar un tipo de escenario que no exista.
-
-# text
 # c1: runs > 1
 seg-0f744a3a7193 = Holdover del reloj frente a la especificación; conjunto Monte Carlo opcional (<c1/>).
 
@@ -445,3 +435,5 @@ seg-36be39f17e35 = <s1>Anterior</s1>Guía de Studio
 
 # text
 seg-6f6204737a87 = <s1>Siguiente</s1>{ "1" } · Su primera órbita
+
+seg-2fa9e002b3a2 = El motor despacha según el <c1/> del escenario. La tabla siguiente enumera los tipos de escenario de uso más habitual (los ocho dominios de los tutoriales anteriores y sus vecinos más próximos). <b>No</b> es el conjunto completo: <c2/> devuelve los <c3/> tipos de escenario integrados. Esa función (expuesta como <c4/> en los enlaces de Python y de WebAssembly (WASM), y como <c5/> en la línea de comandos) es el catálogo de referencia, siempre actualizado, y <a1><c6/></a1> es su enumeración generada, con una sección por tipo y los campos TOML obligatorios y opcionales. <c7/> exige que todo tipo de escenario que documenta un tutorial sea un tipo de despacho real, de modo que nada de esta tabla puede nombrar un tipo de escenario que no exista.

@@ -38,8 +38,6 @@ seg-c2187e8291f9 = <b>Registr:</b> žádný řádek matice tento druh neuvádí;
 
 seg-b1ff6f0e1769 = Povinná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Volitelná: <c13/>, <c14/>, <c15/>.
 
-seg-9bd19903f577 = <b>Registr:</b> žádný řádek matice tento druh neuvádí; engine označuje svůj výsledek sám. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>terrain-nav</a1>.
-
 seg-3ec7b38184b7 = Povinná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Volitelná: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
 
 seg-7c777178ee8f = <b>Registr:</b> žádný řádek matice tento druh neuvádí; engine označuje svůj výsledek sám. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>terrain-slam</a1>.

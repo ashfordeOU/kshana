@@ -264,8 +264,6 @@ seg-cab165105f32 = Vaatimus–moduuli–testi–oraakkeli–tila-ristiviittaus, 
 
 seg-190cdf3ca8dc = Yksikkö ja alkuperä jokaisella raportoidulla suureella
 
-seg-1c7bb8c3e887 = { "87" } / { "87" } lajia, { "3127" } / { "3127" } numeerista kenttää
-
 seg-3e7fb040a7c4 = Jokaisella skenaarion tuottamalla numeerisella kentällä on yksikkö ja suljetusta sanastosta otettu alkuperäluokka sekä määritelmä, jos sellainen on, ja ne julkaistaan koneluettavana skeemana moottorin rinnalla. Kiristyvä portti ajaa jokaisen sisäänrakennetun lajin ja hylkää kentän, jolla ei ole yhtään; lajit, jotka eivät vielä ole täydellisiä, nimetään yksitellen sen syyn kanssa, miksi kukin on yhä avoin, ja lista voi vain lyhentyä. Raportit, jotka ilmoittavat omat vakionsa (yksisuuntainen linkkibudjetti, optinen ja RF-budjetti), antavat lukijan laskea pääluvun uudelleen pelkästä raportista.
 
 seg-0e1a01c9158a = Laukaisun, paluun, kattavuuden ja suuntauksen budjetit
@@ -437,8 +435,6 @@ seg-d6476863f862 = Ominaisuus
 seg-ad856ad710eb = Tila
 
 seg-6962adaa6a1f = Tuotettu arkiston skenaariotiedostoista ja varmennusmatriisista käännösvaiheessa.
-
-seg-6f44f45f6bf9 = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "388" } riviä.
 
 seg-30200bb5be58 = Aja orbit-sgp4-gps.toml Kshana Studiossa
 

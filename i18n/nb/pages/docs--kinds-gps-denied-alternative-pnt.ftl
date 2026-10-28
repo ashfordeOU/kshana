@@ -46,8 +46,6 @@ seg-c2187e8291f9 = <b>Register:</b> ingen rad i matrisen nevner denne typen; mot
 
 seg-b1ff6f0e1769 = Obligatoriske felt: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Valgfrie: <c13/>, <c14/>, <c15/>.
 
-seg-9bd19903f577 = <b>Register:</b> ingen rad i matrisen nevner denne typen; motoren merker selv resultatet sitt. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>terrain-nav</a1>.
-
 seg-3ec7b38184b7 = Obligatoriske felt: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Valgfrie: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
 
 seg-7c777178ee8f = <b>Register:</b> ingen rad i matrisen nevner denne typen; motoren merker selv resultatet sitt. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>terrain-slam</a1>.

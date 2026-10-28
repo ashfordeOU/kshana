@@ -1797,8 +1797,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: format zapisywany przez most gnss_lib_py, przepuszczony przez receiver-trust); testy w Pythonie mostów to integrations/ros2/kshana_trust/test/test_bridge.py (most z atrapą silnika), integrations/ros2/kshana_trust/test/test_engine_integration.py (prawdziwy pakiet wheel ocenia stałe rozwiązanie jako nominalne, a skok o { "1.1" } km jako niegodny zaufania) i integrations/gnss_lib_py/test_bridge.py (prawdziwy gnss_lib_py { "1.1.0" } i pakiet wheel), uruchamiane przez pytest, a nie przez cargo
 
-seg-e7d71a9d77a6 = { "208" } możliwości oznaczonych MODELLED.
-
 seg-7a0503f925c1 = <s1>Poprzednia</s1>Opis możliwości
 
 seg-b5832e94f926 = <s1>Następna</s1>Twierdzenia wobec rzeczywistości

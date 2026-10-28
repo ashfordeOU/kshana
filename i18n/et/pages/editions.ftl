@@ -159,14 +159,6 @@ seg-0cad5afda483 = Telli hindamine
 # text
 seg-b366150de755 = Telli uuring
 
-# text
-seg-0adcadeb3854 = Avatud mootor keskel: üks märk stsenaariumi liigi kohta ({ "87" }), täidetud, kui liigil on kontrollitud registrirea, õõnes, kui selle read on modelleeritud, kriips, kui ükski registrimoodul seda nime järgi ei vasta. Kshana Pro ja tellimusuuring paiknevad selle ümber ja ühenduvad liikidega, millele need toetuvad.
-
-# text
-# c1: src/api.rs
-# c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Mootor v{ $version } · { "87" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · ilma stsenaariumi ja algväärtuseta (seed)
-
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Väljaannete võrdlus
 
@@ -226,12 +218,6 @@ seg-21989d609ae7 = Teadlased, üliõpilased ja retsensendid, kes vajavad arve, m
 
 # text
 seg-3b6d727a2d38 = Arendajad, kes ühendavad mootori koodi, CI (pidev integreerimine) komplekti või tehisintellekti (AI) assistendiga
-
-# text
-seg-abe5c7257cda = Kõik { "87" } stsenaariumi liiki ja { "173" } komplekti kuuluvat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
-
-# text
-seg-1434952d1bc8 = Täielik kontrollimaatriks: { "176" } { "388" } võimekusest kontrollitud sõltumatute etalonide (sõltumatute etalonide) vastu, ülejäänud märgitud modelleeritud
 
 # text
 seg-9b8eb955fecf = Iga tulemus on varustatud stsenaariumi räsi, algväärtuse (seed) ja mootori versiooniga ning kirjutatud JSON (JavaScript Object Notation), CSV (komadega eraldatud väärtused) tabelite ja SVG (Scalable Vector Graphics) diagrammidena

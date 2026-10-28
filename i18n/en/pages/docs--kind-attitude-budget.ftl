@@ -31,9 +31,6 @@ seg-7cf112b1bcc3 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 seg-91ebbc89f9bb = The example <c1/> sets, among others:
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-c33e3cbba749 = arcsec
 
 # text
@@ -41,6 +38,9 @@ seg-36df1bc710ab = alignment
 
 # text
 seg-d45f0ee66587 = kg*m^{ "2" }
+
+# text
+seg-a349aa76b0ed = PARTNER
 
 # text
 seg-3e3ce4fa89aa = N*m

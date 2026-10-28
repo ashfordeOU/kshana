@@ -194,8 +194,6 @@ seg-f6ff1c8c78db = Seurantasilmukan lukituksen menetys: C/N0 -> lukitus/lukituks
 
 seg-45cb12242d59 = Lähde: <c1/>
 
-seg-843d88cee576 = { "87" } sisäänrakennettua skenaariotyyppiä, joiden yli <c1/> välittää, kukin yhden rivin kuvauksineen ja vaadittuine / valinnaisine TOML-kenttineen (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Tämä tiedosto on <b>generoitu</b> lähteestä <c1/> — ainoasta totuuden lähteestä — komennolla <c2/>; muokkaa lähdettä, ei tätä tiedostoa. Jokainen sidos (Python-paketti, MCP (Model Context Protocol) -palvelimen työkalu <c3/> ja WebAssembly (WASM) -leikkikenttä) paljastaa saman luettelon, joten tässä lueteltu on täsmälleen se, mitä jokainen pinta voi ajaa. Kuvaukset ovat tiiviitä eivätkä aina avaa lyhenteitään; jokainen on selitetty tiedostossa <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Jokaisen skenaarion on asetettava ylätasolla <c2/>, lukuun ottamatta tyyppiä <c1/>: asiakirja ilman kenttää <c3/> ajetaan tyyppinä <c4/>, minkä vuoksi <c5/> ei toistu minkään tyypin alla olevissa pakollisissa kentissä. Pakollinen merkintä voi nimetä vaihtoehtoja: <c6/> erottaa muodot, joista vähintään yhden on oltava läsnä, ja <c7/> yhdistää kentät, joiden on esiinnyttävä yhdessä, joten <c8/> luetaan ”<c9/>, tai <c10/> ja <c11/>”.

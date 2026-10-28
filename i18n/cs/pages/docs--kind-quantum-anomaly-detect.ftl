@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = Příklad <c1/> mimo jiné nastavuje:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = kvantová vs. klasická detekce anomálií PNT
-
 seg-2f1d14239d1a = Graf, který engine zapisuje pro scenarios/quantum-anomaly-detect.toml, druh quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytická binormální ROC AUC = Φ(μ/(σ√{ "2" })) a minimální detekovatelná porucha σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) podpírající detektory kvantových poruch a anomálií. Orákulum (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), obojí BSD-3-Clause — nezávislé knihovny počítající tytéž jednoznačně definované veličiny gaussovského chvostu / AUC, shodné až na podlahu A&S-erf (~{ "7e-8" }). Kvantová výhoda postavená nad tím zůstává MODELLED

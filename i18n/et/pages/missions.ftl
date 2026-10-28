@@ -1192,11 +1192,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Tegelik mootori käik, taasesitatud
 
 # text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-597a57467277 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, ilma algväärtuseta
-
-# text
 seg-f1313464b7c9 = Orbiidid: uuesti propageeritud käigu enda elementidest ja kontrollitud mootori maapealsete jälgede vastu. Planeedid: NASA pildid.
 
 # text

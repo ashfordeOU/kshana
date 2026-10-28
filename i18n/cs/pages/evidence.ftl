@@ -2547,21 +2547,15 @@ seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
 
 seg-8f101c803442 = Každá schopnost nese <s1>své důkazy.</s1>
 
-seg-9ef28b622a43 = { "388" } schopností, každá ohodnocená. <b>{ "176" } ověřeno</b> proti nezávislým vnějším orákulům. <b>{ "208" } poctivě označeno jako modelované.</b> { "4" } ve vlastnictví partnera. Nic se nezaokrouhluje nahoru.
-
 seg-4f6445e5dd61 = Verifikační matice <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = Pozastavit průchod
 
 seg-ae9e2459836c = schopností
 
-seg-4adb5411062e = Verifikační matice, jedna buňka na schopnost v pořadí registru: { "176" } ověřeno (plné čtverce), { "208" } modelováno (prázdné čtverce), { "4" } ve vlastnictví partnera (kosočtverce). Šipkami se pohybujete mezi buňkami; schopnost a její orákulum se přečtou níže.
-
 seg-f97cb6bf8202 = Najetím nebo zaměřením na buňku si přečtete její schopnost a orákulum, které ji hodnotí.
 
 seg-8a1cef0b9561 = Ověřeno: nezávislé vnější orákulum souhlasí
-
-seg-582c4a762fc5 = Engine v{ $version } · <c1/>, vygenerováno z <c2/> · { "388" } řádků · žádný scénář ani seed: vlastní registr enginu
 
 seg-d5c32303297d = Přečtěte si registr
 
@@ -2595,8 +2589,6 @@ seg-55fc928e19ae = orákulum · ověřovací vektory AIAA 2006-6753
 
 seg-1d60624d525d = Jak bylo ověřeno
 
-seg-6adbc42697f9 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
 seg-58ca3da25e69 = Otevřít v Kshana Studio: tentýž propagátor, <c1/><s1> · seed <c2/></s1>
 
 seg-813d6d41b891 = Zkopírovat příkaz, který to reprodukuje
@@ -2617,8 +2609,6 @@ seg-87734f6c52a2 = Jeden čtverec na každý případ SciPy, seskupeno podle já
 
 seg-4957eddb39ed = orákulum · SciPy
 
-seg-c5d5cf50c8a9 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
 seg-011e33e27f59 = Otevřít v Kshana Studio: jádro v praxi, <c1/><s1> · seed <c2/></s1>
 
 seg-e02df7620fc7 = Numerické (Cowellovo) šíření oběžné dráhy oproti Orekitu na 24hodinovém oblouku: nejhorší rozdíl { "0.08" } m v úrovních sil { "1" } až { "5" }.
@@ -2632,8 +2622,6 @@ seg-16e820be9d20 = Oproti knihovně letové dynamiky Orekit { "12.2" } v každé
 seg-2b1ea60e99a7 = Rozdíl polohy oproti času, pro každou úroveň sil.
 
 seg-75344d6c427a = orákulum · Orekit { "12.2" }
-
-seg-2e80a89ee20a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
 seg-44988f3835ce = Žádný pohled v Kshana Studio: toto porovnání běží jako test enginu.
 
@@ -2651,8 +2639,6 @@ seg-f5b078c26ba8 = Každé reziduum v logaritmickém měřítku od jednoho milim
 
 seg-6670ead3fa91 = orákulum · přesné efemeridy ESA, rekonstruovaná trajektorie lunárního orbiteru, Orekit { "12.2" }, vektory AIAA
 
-seg-6ce9be05ab08 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
-
 seg-57c9f4e60efa = Žádný pohled v Kshana Studio: určování přesné oběžné dráhy běží jako testy enginu.
 
 seg-f8f25ec2345b = Hodiny · stabilita
@@ -2664,8 +2650,6 @@ seg-e0c144321893 = Reprodukuje referenční hodnoty publikace NIST (National Ins
 seg-5d3372dbff1f = Čtyři odchylky oproti průměrovací době, s publikovanými hodnotami jako kroužky.
 
 seg-9993e306ae64 = orákulum · NIST SP { "1065" }
-
-seg-2a2794bda50f = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
 seg-fc6a00946a11 = Otevřít v Kshana Studio: odhadovače na hodinách, <c1/><s1> · seed <c2/></s1>
 
@@ -2683,8 +2667,6 @@ seg-46c1dbe5c6bc = Změřená a předpovězená časová chyba oproti době dob�
 
 seg-449f52c56c67 = orákulum · změřený záznam cesia
 
-seg-275351654591 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
 seg-c131867720cc = Otevřít v Kshana Studio: tatáž inverze, <c1/><s1> · deterministické</s1>
 
 seg-05dd599ce14a = Jedna buňka na každou schopnost.
@@ -2693,11 +2675,7 @@ seg-b19592bc5242 = Ověřeno znamená, že souhlasí nezávislý vnější zdroj
 
 seg-800e31fc8f7d = Ohodnocené schopnosti
 
-seg-1d2c8132218d = { "176" }<s1>z { "388" } ověřeno</s1>
-
 seg-e61158f71854 = Najeďte na buňku
-
-seg-b66d124aa8dd = Verifikační matice: { "176" } ověřeno, { "208" } modelováno, { "4" } ve vlastnictví partnera, celkem { "388" }
 
 seg-d814d33d2b1e = allan::lag1_noise_id: autokorelační identifikace šumu se zpožděním 1 podle Rileyho a Greenhalla ({ "2004" })… · Ověřeno
 
@@ -3501,27 +3479,17 @@ seg-5af3d58e83fa = <b>S edicí Pro:</b> <b>dosier mise</b> ověří každý pož
 
 seg-400016e22379 = Registr validace
 
-seg-6ef0eb045293 = Všech { "388" } řádků, každý na jednom řádku.
-
 seg-20ec758fe328 = Každý řádek uvádí svůj požadavek, svůj stav a modul, který jej implementuje. Otevřete řádek pro jeho orákulum a testy, nebo vyberte doménu a zúžte výběr.
 
 seg-08f2354cb22b = Filtrovat podle domény
 
 seg-f5a2e020b47e = Podle domény: délka sloupce je počet řádků, barva je stav. Výběrem jedné filtrujete.
 
-seg-d8691ddf3170 = z { "93" } ověřeno
-
 seg-0272bc18f675 = z { "19" } ověřeno
-
-seg-d6687397eae9 = z { "73" } ověřeno
 
 seg-38ec110ef886 = Oběžné dráhy, soustavy a geometrie
 
-seg-8d3ad903cd18 = z { "76" } ověřeno
-
 seg-a1c022c60fb6 = Inerciální navigace, fúze a alternativní PNT
-
-seg-223bf21e1d9b = z { "25" } ověřeno
 
 seg-b355dc732d29 = Signály a interference
 
@@ -3531,19 +3499,13 @@ seg-d6c43e56d4cc = Analýza misí, zajištění a ostatní
 
 seg-5516d9825527 = z { "55" } ověřeno
 
-seg-d5b6224d2ec4 = Všech { "388" }
-
 seg-7038fab8b00c = Ověřeno { "176" }
-
-seg-2bca452c28dd = Modelováno { "208" }
 
 seg-ba89c1119b21 = V odpovědnosti partnera { "4" }
 
 seg-cd12d85e2beb = Prohledat registr
 
 seg-f014d784ebe3 = Hledat požadavek, orákulum, modul nebo test
-
-seg-d0352364053e = Registr validace, { "388" } řádků, posuvný
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } případů: deset záznamů mocninných zákonů Kasdin, b = { "0" } až -4, jako fázová a frekvenční data, af = { "1" } až { "64" }; alpha_int a d shodné, nejhorší |d alpha| { "9.6e-13" } a |d rho| { "4.8e-13" }…</s1>
 
@@ -4322,3 +4284,5 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX pro engine
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu

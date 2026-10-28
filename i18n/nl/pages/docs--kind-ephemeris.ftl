@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = dag
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = De grafiek die de engine schrijft voor scenarios/ephemeris.toml, soort ephemeris
 
 seg-d291f20074f0 = <b>VALIDATED</b> Aardrotatie uit een tweedelige UT1-juliaanse datum op het baanpad, zodat de aardvaste positie de microseconde behoudt die een enkele f64-datum verliest (ongeveer { "3e-9" } rad nabij { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, de TEME-conventie, op de twee delen), cio:

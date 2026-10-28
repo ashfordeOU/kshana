@@ -68,8 +68,6 @@ seg-f7f2a6c0cd15 = Kilde: <c1/>
 
 seg-6c7831311d4e = Scenarietyper, efter familie
 
-seg-6bed0bef75bc = Hver scenarietype, som motoren v{ $version } kan afvikle ({ "87" }), ordnet under { "12" } familier. Hver familie har en side med ét afsnit pr. type (motorens beskrivelse og felter, eksempelkommandoen, nøgletal fra en kørsel, de matrixrækker, der nævner den, og det diagram, motoren skriver) og et kontaktark med disse diagrammer. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en safety-of-life-tjeneste. Hver betegnelse her er motorens eller verifikationsmatricens; en type er MODELLED, medmindre matricen angiver andet (hvordan en betegnelse opnås: afsnittet Evidens i README).
-
 seg-d23eaa8bc98b = Familier
 
 seg-3ac9e578414c = Ure, tidssynkronisering og holdover

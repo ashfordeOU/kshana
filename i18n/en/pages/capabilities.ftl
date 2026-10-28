@@ -1140,12 +1140,24 @@ seg-ce3c91e4723a = <c1/><s1>earth-gnss-lunar</s1>
 seg-c029937550c1 = <c1/><s1>lunar-integrity</s1>
 
 # text
+# c1: lunar-ascent
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+# text
 # c1: lunar-attack-surface
 seg-1d7a7791d53b = <c1/><s1>lunar-attack-surface</s1>
 
 # text
 # c1: lunar-beacon
 seg-265b6ecb7379 = <c1/><s1>lunar-beacon</s1>
+
+# text
+# c1: lunar-descent
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+# text
+# c1: lunar-descent-lola
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
 
 # text
 # c1: lunar-differential-pnt
@@ -1200,6 +1212,14 @@ seg-b68e5507716a = <c1/><s1>lunar-joint-od-clock</s1>
 seg-d7f5e907b738 = <c1/><s1>lunar-llr-datum</s1>
 
 # text
+# c1: lunar-orbit-rendezvous
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+# text
+# c1: lunar-orbit-rendezvous-elfo
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+# text
 # c1: lunar-station-coverage
 seg-7e21855da484 = <c1/><s1>lunar-station-coverage</s1>
 
@@ -1222,6 +1242,14 @@ seg-a6e27aceebee = <c1/><s1>lunar-llr-datum</s1>
 # text
 # c1: lunar-station-time-lab
 seg-588b71ad33ea = <c1/><s1>lunar-time-budget</s1>
+
+# text
+# c1: lunar-surface
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+# text
+# c1: lunar-surface-terrain
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
 # text
 # c1: lunar-time-budget
@@ -1350,7 +1378,7 @@ seg-24194ccdcdca = Start from any scenario
 # text
 # c1: kshana kinds --json
 # c2: kshana example
-seg-da4764e4d161 = Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-75f8165faeeb = Pick one of { "193" } scenario files across { "92" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
 
 # text
 seg-5dd293dd429b = The library in Kshana Studio
@@ -1534,40 +1562,79 @@ seg-58a8a796c8cb = reference checks
 seg-3cbba5a3ab3b = New in v{ $version }
 
 # text
-seg-850aca04de28 = Every kind, every command, and the benchmark's misses.
+seg-d5c6110302e9 = An Artemis-class mission thread, an evidence label on every figure, and seventeen languages.
 
 # text
-seg-c530da682cca = No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
-
-# text
-seg-c5fc0ca71fae = Every scenario kind, one page each
-
-# text
-seg-86ff766b2c1d = All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
-
-# text
-seg-a0b63210b807 = Read more
-
-# text
-seg-ccee5886cf25 = Every command, every surface
-
-# text
-seg-6630acb722ae = Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
-
-# text
-seg-4ef6dcd0a58b = Which surface carries which capability
-
-# text
-seg-678872a862dc = One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-8597c65432ed = Chain the phases of a lunar mission into one navigation and timing error budget, estimate where a source of degraded position reports can be, read measured clock logs, see the evidence tier on every figure a run writes, and use the command line, reports and Studio in seventeen languages. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software, not type-approved navigation equipment: the operator remains responsible.
 
 # text
 seg-29e58493fdd4 = Modelled
 
 # text
-seg-8e092e49bdeb = kshana-bench: the bars that were not met, stated
+seg-070972f642de = An Artemis-class mission thread: the navigation and timing error budget from launch to entry
 
 # text
-seg-df8f792ffa97 = The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-982a4a7cf0db = The mission-thread kind chains phases (launch and ascent, rendezvous in low Earth orbit, trans-lunar injection and cruise, the lunar phases, entry) and carries the position and velocity covariance from each phase into the next, with the handover rules, the frame and timescale conversions, the margin against stated requirements and the weakest link each written as budget rows.
+
+# text
+seg-17c9cc6c2d40 = Checked: the Artemis I comparison missed its bar ({ "45.3" } km against { "5" } km); the row stays MODELLED
+
+# text
+seg-a0b63210b807 = Read more
+
+# text
+seg-946487626f87 = Mission thread view in Kshana Studio
+
+# text
+seg-4970f874d334 = The lunar segment: rendezvous, descent, surface and ascent
+
+# text
+seg-b6c35bf141e7 = Four scenario kinds, each also a phase of the mission thread: relative navigation to docking in lunar orbit, the landing-dispersion budget at a south-polar site, positioning and timing availability by site and season, and the ascent back to the rendezvous orbit.
+
+# text
+seg-ce097df855a9 = Checked: pre-registered bars; one met, one not met, none loosened
+
+# text
+seg-8ca6e2046901 = An estimated emitter region from ADS-B or AIS reports
+
+# text
+seg-ca6383e426f9 = Where a source of degraded position reports can be, as regions at { "50" }, { "90" } and { "95" } per cent with a centroid and its uncertainty ellipse, never a bare point, and sessions in time.
+
+# text
+seg-27af464d0674 = Checked: pre-registered; both sources not assessable, so nothing is claimed
+
+# text
+seg-003a3b9b63ea = Measured clock logs, and a holdover driven by a fitted series
+
+# text
+seg-f51fa2a40db8 = Read a measured clock log in eight formats (RINEX clock, TimeLab, TICC, linuxptp, chrony) into one phase series for the clock and telecom-timing kinds, and fit the noise of a measured series to drive a holdover.
+
+# text
+seg-6e9140563c53 = Checked: bars pre-registered; misses stated and pinned
+
+# text
+seg-448b11c86f48 = Data partners: which rows measured data could promote
+
+# text
+seg-56b0201d930c = Which modelled ledger rows measured data from a partner could promote, the formats accepted, and how a submission is checked, scored against a pre-registered bar and credited.
+
+# text
+seg-5858e5d1f7c5 = An evidence label on every figure and table a run writes
+
+# text
+seg-d1c4250b2a7e = Each result file, chart and table a run writes now says which tier it rests on (validated, modelled or partner, the weakest of its rows) and names the verification-matrix rows behind it, read from the matrix and not typed.
+
+# text
+seg-bd28ef5c376e = Seventeen languages beside English
+
+# text
+seg-1e4a6a5931d3 = The command line, the reports, the documentation pages and the Studio are available in seventeen languages beside English.
+
+# text
+seg-7fae5de5ebf1 = kshana-bench: the { "0.40" } re-campaign
+
+# text
+seg-1e0afa852323 = Four pre-registered comparisons were run once after sign-off and met their bars, and every score is modelled.
 
 # text
 seg-54dce6366d5a = Every bundled scenario, on one map.
@@ -1578,12 +1645,15 @@ seg-54dce6366d5a = Every bundled scenario, on one map.
 # c3: celeste-iod-fused-pvt
 # c4: leo-navmsg-celeste-iod
 # c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+# c6: lunar-descent-lola
+# c7: lunar-llr-datum
+# c8: lunar-station-coverage-terrain
+# c9: lunar-station-geodesy-baseline
+# c10: lunar-station-geodesy-with-station
+# c11: lunar-surface-terrain
+# c12: mission-thread-artemis-class
+# c13: quantum-pnt-demonstrator.suite
+seg-ed10ac59ed87 = All { "193" } scenario files across { "92" } kinds, grouped by domain; { "180" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 # attr:aria-label
 seg-f53c36555404 = Filter by ledger status
@@ -1836,14 +1906,20 @@ seg-eb15b725f77d = <c1/><a1>terrain-slam</a1>
 seg-7d2d780c5649 = Monte Carlo ensemble of the clock-holdover scenario.
 
 # attr:title
+seg-c381cfa99bb0 = A clock scenario whose classical clock takes the noise of a measured log (`[clock_fit]`).
+
+# attr:title
 seg-6f80bcd98ce4 = Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied.
 
 # attr:title
 seg-4a194573e324 = Variant: laboratory-grade strontium optical clock vs CSAC.
 
+# attr:title
+seg-328cd04eef87 = A clock scenario with a measured log beside the simulated holdover (`[clock_log]`).
+
 # text
 # c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
 
 # attr:title
 seg-ef238a2781ad = Holdover test, ingestion example: a time-error record scored by the holdover-test kind
@@ -2017,6 +2093,13 @@ seg-a1cb069aec22 = One-way link budget demonstrator (comms & link budgets, trade
 # text
 # c1: link-budget
 seg-fb8345aba877 = <c1/><a1>link-budget</a1>
+
+# attr:title
+seg-5ab9475613b4 = An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch
+
+# text
+# c1: mission-thread
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
 
 # attr:title, text
 seg-97847b33c55b = CCSDS OEM interoperability-bridge demonstrator (GMAT / Orekit / STK interop).
@@ -2221,6 +2304,13 @@ seg-358425c82db5 = Lunar south-pole integrity: an Artemis-region landed receiver
 # c1: lunar-integrity
 seg-88f11ae051f7 = <c1/><a1>lunanet-araim</a1>
 
+# attr:title
+seg-fd3af0bea7c3 = Lunar ascent: the powered ascent from a south-polar surface site (Artemis-class) to the { "100" } km rendezvous
+
+# text
+# c1: lunar-ascent
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
 # attr:title, text
 seg-7a9b909b0918 = Lunar surface-navigation signal-security attack surface (paper P1).
 
@@ -2234,6 +2324,16 @@ seg-7cc84b0d7998 = Surface-beacon augmentation of a lunar orbital navigation ser
 # text
 # c1: lunar-beacon
 seg-ed5c4a79b454 = <c1/><a1>lunar-beacon</a1>
+
+# attr:title
+seg-d164c858b994 = Lunar landing dispersion: the budget for a powered descent to a south-polar site (Artemis-class), from the
+
+# attr:title
+seg-bd7c53737f55 = Lunar landing dispersion with the real LOLA south-polar DEM: the budget for a powered descent to a south-polar site (Artemis-class), from…
+
+# text
+# c1: lunar-descent
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
 
 # attr:title, text
 seg-cda1df2b3136 = Lunar DIFFERENTIAL PNT — a lunar DGNSS / SBAS analogue.
@@ -2313,6 +2413,16 @@ seg-af84db25497a = Lunar reference station geodesy, WITH STATION: the five retro
 seg-e99cc7996d2a = <c1/><a1>lunar-llr-datum</a1><a2>lunar-station-geodesy-baseline</a2><a3>lunar-station-geodesy-with-station</a3>
 
 # attr:title
+seg-d357b95a37b0 = Lunar rendezvous: relative navigation for an Orion-lander style docking in a { "100" } km circular polar
+
+# attr:title
+seg-6ce976854c44 = Lunar rendezvous in an elliptical polar orbit: relative navigation for an Orion-lander style docking in a
+
+# text
+# c1: lunar-orbit-rendezvous
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+# attr:title
 seg-388c71d9a21a = Lunar reference-station coverage: what positioning accuracy and protection level a user
 
 # attr:title
@@ -2334,6 +2444,16 @@ seg-8ea4372cb851 = Coordinated Lunar Time (LTC) end-to-end time-error budget ove
 # text
 # c1: lunar-time-budget
 seg-a37050edde94 = <c1/><a1>lunar-station-time-lab</a1><a2>lunar-time-budget</a2>
+
+# attr:title, text
+seg-944145b95b4a = Lunar surface PNT and timing availability by site and season (Artemis-class south-polar sites).
+
+# attr:title
+seg-0ecc50eafdbe = Lunar surface PNT and timing availability by site and season with the real LOLA south-polar terrain
+
+# text
+# c1: lunar-surface
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 # attr:title, text
 seg-b1989c67a1b5 = Lunar coordinate time (LTC/TCL): the relativistic Earth-Moon clock rate.
@@ -3181,7 +3301,7 @@ seg-ac19e38bed11 = <b>CI</b> continuous integration · <b>CSV</b> comma-separate
 seg-190cdf3ca8dc = Unit and provenance on every reported quantity
 
 # text
-seg-1c7bb8c3e887 = { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-69c56cbdda90 = { "92" } of { "92" } kinds, { "3300" } of { "3300" } numeric fields
 
 # text
 seg-3e7fb040a7c4 = Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants — the one-way link budget, the optical and RF budget — let a reader recompute the headline from the report alone.

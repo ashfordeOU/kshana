@@ -24,10 +24,6 @@ seg-e3235e4d3760 = Příklad <c1/> mimo jiné nastavuje:
 
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
-seg-5b3bc9761db4 = První
-
-seg-52036320db9b = TM
-
 seg-f336ba92871f = Popisek výsledku (z enginu): rámcování primární hlavičky CCSDS 133.0-B Space Packet — přesné, deterministické bitové uspořádání, round-trip kódování↔dekódování ověřen; NENÍ to certifikace shody (bez logiky sekundární hlavičky / CRC / segmentace nad rámec příznaků)
 
 seg-af1cf9aa9938 = Graf, který engine zapisuje pro scenarios/space-packet.toml, druh space-packet

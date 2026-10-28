@@ -281,10 +281,6 @@ seg-f6ff1c8c78db = Perte d'accrochage de la boucle de poursuite : C/N0 -> accro
 seg-45cb12242d59 = Source : <c1/>
 
 # text
-# c1: kshana::api::run_toml
-seg-843d88cee576 = Les { "87" } types de scénario intégrés sur lesquels <c1/> aiguille l'exécution, chacun avec sa description d'une ligne et ses champs TOML (Tom's Obvious, Minimal Language) obligatoires et facultatifs.
-
-# text
 # c1: api::list_scenario_kinds()
 # c2: cargo run --bin gen_validation_artifacts
 # c3: list_scenario_kinds

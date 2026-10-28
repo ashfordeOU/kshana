@@ -846,8 +846,6 @@ seg-7718b39ae2c6 = Varje diagram på den här sidan är en scenariofil som motor
 
 seg-24194ccdcdca = Börja från vilket scenario som helst
 
-seg-da4764e4d161 = Välj en av { "183" } scenariofiler fördelade på { "87" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
-
 seg-5dd293dd429b = Biblioteket i Kshana Studio
 
 seg-2ae31e21c5d8 = Ange satelliter och konstellationer
@@ -962,33 +960,11 @@ seg-58a8a796c8cb = referenskontroller
 
 seg-3cbba5a3ab3b = Nytt i v{ $version }
 
-seg-850aca04de28 = Varje typ, varje kommando och benchmarkens missar.
-
-seg-c530da682cca = Ingen ny motorfunktion: resultaten är desamma som i { "0.38.0" }. Dokumentationen har nu en sida för varje scenariotyp och en lista över varje kommando och varje yta, och benchmark-sidan anger varje tröskel som inte nåddes. Kommandoraden avslutas också tyst när dess utdatakanal stängs. Varje förmåga bär den etikett som registret har för den, och en etikett anger bara det som har kontrollerats. Rådgivande programvara.
-
-seg-c5fc0ca71fae = Varje scenariotyp, en sida vardera
-
-seg-86ff766b2c1d = Alla { "87" } scenariotyper ordnade under familjer, med en sida för varje typ: vad den gör, dess indata, resultaten av en exempelkörning, registerraderna och de oberoende referenser som ligger bakom dess etikett, de begränsningar som dess rapport anger och diagrammet som motorn skriver.
-
 seg-a0b63210b807 = Läs mer
-
-seg-ccee5886cf25 = Varje kommando, varje yta
-
-seg-6630acb722ae = Varje kommando med ett exempel som du kan köra från en utcheckning, och varje yta (kommandoraden, Python, Rust, WebAssembly, MCP-servern, plugin-kommandona, skills och Studio-sidorna) med de kommandon och typer den bär och skälet där den inte gör det.
-
-seg-4ef6dcd0a58b = Vilken yta som bär vilken förmåga
-
-seg-678872a862dc = En sida listar, för varje kommando och typ, vilken yta som bär den och vilka som inte gör det, med skälet, bredvid förmågeområdena och deras registeretiketter.
 
 seg-29e58493fdd4 = Modelled
 
-seg-8e092e49bdeb = kshana-bench: tröskelvärdena som inte nåddes, angivna
-
-seg-df8f792ffa97 = Benchmark-sidan listar nu varje tröskel som inte nåddes, så som resultatfilen registrerar dem, och säger att ingen tröskel har lättats.
-
 seg-54dce6366d5a = Varje medföljande scenario, på en karta.
-
-seg-761213eb3ce0 = Alla { "183" } scenariofiler fördelade på { "87" } typer, grupperade efter område; { "173" } är inbyggda i motorn, och <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> körs från arkivet med kommandoraden. Pricken visar registerstatus för typens modul där registret anger den. En fil med en inspelad körning öppnar den i Kshana Studio; de andra öppnar sin post i scenarioreferensen, med filen och kommandot som kör den.
 
 seg-f53c36555404 = Filtrera efter registerstatus
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Monte Carlo-ensemble av scenariot för klock-holdover.
 seg-6f80bcd98ce4 = Kshana-referensscenario: körning på { "2" } h, { "10" } min GNSS-synk och sedan ~{ "1.8" } h nekad.
 
 seg-4a194573e324 = Variant: strontiumbaserad optisk klocka av laboratorieklass mot CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Holdover-test, exempel på inläsning: en tidsfelsregistrering poängsatt av typen holdover-test
 
@@ -1977,8 +1951,6 @@ seg-cab165105f32 = En korsreferens från krav till modul till test till oberoend
 seg-ac19e38bed11 = <b>CI</b> kontinuerlig integration · <b>CSV</b> kommaavgränsade värden · <b>NIST</b> National Institute of Standards and Technology · <b>AIAA</b> American Institute of Aeronautics and Astronautics · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> International GNSS Service
 
 seg-190cdf3ca8dc = Enhet och proveniens för varje redovisad storhet
-
-seg-1c7bb8c3e887 = { "87" } av { "87" } slag, { "3127" } av { "3127" } numeriska fält
 
 seg-3e7fb040a7c4 = Varje numeriskt fält som ett scenario ger ut har en enhet och en proveniensklass hämtad ur ett slutet ordförråd, med en definition där en sådan finns, publicerad som ett maskinläsbart schema bredvid motorn. En spärr som bara kan skärpas kör varje inbyggt slag och misslyckas på ett fält som saknar dem; de slag som ännu inte är kompletta namnges ett och ett med skälet till att vart och ett fortfarande är öppet, och listan kan bara bli kortare. Rapporter som anger sina egna konstanter, till exempel länkbudgeten för envägslänk och budgeten för optisk länk och RF-länk, låter en läsare räkna om huvudresultatet utifrån rapporten ensam.
 

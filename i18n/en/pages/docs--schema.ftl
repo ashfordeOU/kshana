@@ -140,6 +140,27 @@ seg-aa665b955931 = The classical sensor's run, for comparison.
 seg-152ae43896b3 = Per-field unit/provenance map for this document, keyed by field path. See §Units and provenance below.
 
 # text
+# c1: tier
+# c2: VALIDATED
+# c3: MODELLED
+# c4: PARTNER
+# c5: matrix
+# c6: docs/VERIFICATION-MATRIX.md
+# c7: id_rule
+# c8: rows
+# c9: advanced_report::KIND_CAPABILITIES
+# c10: id
+# c11: VM-
+# c12: requirement
+# c13: status
+# c14: api::run_toml
+# c15: figure_tiers
+# c16: evidence_label::strip_json
+# c17: <metadata id="kshana-evidence">
+# c18: # evidence:
+seg-d17376a1ea92 = ({ "0.40" }) The evidence label of the run: <c1/> (<c2/>, <c3/> or <c4/>: the <em>weakest</em> status among the rows, so it never claims more than its weakest row), <c5/> (<c6/>), <c7/> and <c8/>, one per verification-matrix row the run exercised (the rows its advanced report lists, from <c9/>): <c10/> (<c11/> and the first { "8" } hex digits of the SHA-256 of the row's requirement text), <c12/> and <c13/>, all read from the matrix, none typed. Added by <c14/> to every kind's result, before the trailing <c15/> block when there is one (that block stays the last key); <c16/> removes it byte for byte. The chart SVG and the CSV table of the same run carry the same label (<c17/> and a visible line under the chart; <c18/> comment lines in front of the CSV). Campaign members embedded in another kind's result carry none: the outer document does. Carries no numbers.
+
+# text
 # c1: figures
 # c2: path
 # c3: quantum.fom.timing_p95_ns

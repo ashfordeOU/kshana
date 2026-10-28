@@ -18,7 +18,7 @@ seg-fdd71491d5b0 = Continuous integration status on main
 seg-fa8a7ec005a9 = Line coverage near { "95" } % of src/, measured in docs/COVERAGE.md and gated at { "85" } % in continuous integration
 
 # text
-seg-af101c048e7e = { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-0c39fcb3527f = { "176" } of { "401" } capabilities VALIDATED against an independent external oracle, from the verification matrix
 
 # text
 seg-6499faeb5966 = SonarQube Cloud quality gate status
@@ -54,7 +54,7 @@ seg-d435b868c53d = Contents
 seg-d1153c5e9112 = Rehearse the minute GNSS goes dark
 
 # text
-seg-161fa1263086 = <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+seg-467bb88ec415 = <a1>What's new in { "0.40" }</a1>, <a2>What's new in { "0.39" }</a2>, <a3>What's new in { "0.38" }</a3>, and <a4>{ "0.38" } in depth</a4>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a5>space-user navigation</a5> and <a6>lunar infrastructure</a6>
 
 # text
 seg-b4569d43b652 = <a1>Kshana Studio</a1> and every Studio page
@@ -85,6 +85,49 @@ seg-fc81e99583fe = Every run is reproducible bit for bit from the scenario, the 
 
 # text
 seg-f2bf8028e0d4 = <b>Status: v{ $version }.</b> A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the <a1>plain-language primer</a1> and the <a2>glossary</a2>.
+
+# text
+seg-cafc1c9c4d58 = What's new in { "0.40" }
+
+# text
+seg-59a31376fa3d = { "0.40" } adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now { "401" } rows: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+seg-ab5eec8db03e = <b>Mission thread.</b> The <c1/> kind chains phases from launch to entry (<c2/>, <c3/>, <c4/>, <c5/> and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over { "11" } phases (Earth and lunar segments), { "92" } scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory <b>misses</b> its pre-registered bar ({ "45.3" } km and { "0.25" } m/s against { "5" } km and { "0.05" } m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit <b>misses</b> ({ "136.8" } km against { "25" } km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (<a1>Mission thread</a1>, <a2>lunar segment</a2>).
+
+# text
+seg-5bd16655cace = <b>Evidence labels.</b> Every figure and table a run writes carries the tier and the ledger row ids it rests on, read from the matrix.
+
+# text
+# c1: docs/CLOCK-LOG-FORMATS.md
+seg-e79fca859317 = <b>Measured clocks.</b> Eight clock-log formats are read (<a1><c1/></a1>) and a fitted series can drive the holdover. Against pre-registered bars the fit <b>misses</b> F1(a) on five of six records and F2 on one; both stay MODELLED (<a2>Changelog</a2>).
+
+# text
+seg-cda13679ad81 = Data partners.
+
+# text
+# c1: kshana partner check
+# c2: docs/PARTNER-DATA.md
+seg-88439b6ddd78 = <c1/> checks the format of a submission and scores nothing (<a1><c2/></a1>).
+
+# text
+seg-c571cf207dd4 = Emitter region.
+
+# text
+# c1: kshana interference-map locate
+seg-5cf9c8d0440e = <c1/> gives a region and an ellipse, never a bare point, from ADS-B or AIS reports. Compared once with the Jammertest { "2025" } transmitter sites, the result is <b>NOT ASSESSABLE</b> for both sources (too few scheduled sessions in the open data), so the row stays MODELLED (<a1>Interference map</a1>).
+
+# text
+seg-5b1f193d1f85 = <b>Benchmark.</b> The { "0.40" } re-campaign meets A3, D3 (both EXPLORATORY), R3 and R4; A2, D1 and R1 stay NOT MET (<a1>Bench</a1>).
+
+# text
+# c1: docs/i18n.md
+seg-04cc50904993 = <b>Languages.</b> nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja and zh-Hans, as <b>machine translations that no native speaker has reviewed</b>; English is the reference, and non-English runs take about twice as long (<a1><c1/></a1>).
 
 # text
 seg-5557533d0c52 = What's new in { "0.39" }
@@ -427,7 +470,7 @@ seg-7ddfa195b5e4 = The Moon's orbit and surface as navigation and geodetic infra
 seg-18fc4ba766df = Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine v{ $version } on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant ({ "400" } trials each). Mean normalised difference q is { "5.81" } with no model error and { "5.95" } with an injected acceleration error of { "3e-10" } m/s2, against { "6" } expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the { "95" } % point is { "0.040" } and { "0.052" }; the bar for detecting the injected error was at least { "0.5" }, so it is NOT MET (C3): the onboard solution is known to about { "352" } m against { "23" } m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
-seg-4c08262e2556 = Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } arc lengths, a Monte Carlo of { "400" } draws each, written by scenarios/carrier-phase-scored.toml). { "1" } day: success { "1.0" } % (standard error { "0.5" } %), { "134" } ambiguities, orbiter position sigma { "45.6" } m float and { "18.5" } m fixed; { "2" } day: success { "0.5" } % (standard error { "0.4" } %), { "259" } ambiguities, orbiter position sigma { "21.5" } m float and { "8.7" } m fixed; { "3" } day: success { "2.8" } % (standard error { "0.8" } %), { "375" } ambiguities, orbiter position sigma { "6.3" } m float and { "2.1" } m fixed. Integer fixing is not achieved: success stays between { "1" } % and { "3" } % at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-47949eaeac72 = Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } arc lengths, a Monte Carlo of { "401" } draws each, written by scenarios/carrier-phase-scored.toml). { "1" } day: success { "1.0" } % (standard error { "0.5" } %), { "134" } ambiguities, orbiter position sigma { "45.6" } m float and { "18.5" } m fixed; { "2" } day: success { "0.5" } % (standard error { "0.4" } %), { "259" } ambiguities, orbiter position sigma { "21.5" } m float and { "8.7" } m fixed; { "3" } day: success { "2.8" } % (standard error { "0.8" } %), { "375" } ambiguities, orbiter position sigma { "6.3" } m float and { "2.1" } m fixed. Integer fixing is not achieved: success stays between { "1" } % and { "3" } % at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
 seg-7e5b10641b20 = Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine v{ $version } on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from { "0.98" } m to { "0.046" } m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to { "1.0" } % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of { "1" } m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
@@ -448,7 +491,7 @@ seg-1b484c7d2d35 = Open <a1>kshana.dev/studio</a1> and the whole engine runs in 
 seg-503f53e7874b = <b>The Simple view</b> is where the Studio opens. It starts from questions (how many satellites can I see, can I trust my position fix, how long can a clock keep time, what does a jammer do to my receiver) and from a map of everything the engine can do, each area with its share of validated methods. Open a scenario and the answer comes first: one plain sentence, written for what that scenario measures, then its key figures and a chart. At most five settings are on show, the ones that change the answer most; the rest wait under <b>Advanced settings</b>. <b>How this is computed</b> explains the method, and <b>For researchers</b> gives the engine's own figures, the scenario file, the code to run it from Python and the citation.
 
 # attr:alt
-seg-c45a4adf8209 = Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-91d06a3fa705 = Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v{ $version } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
 
 # text
 seg-6767f63a1153 = <b>The Advanced view</b> is the full dashboard: the scenario library, five numbered steps (Choose, Set, Run, Read results, Share or export), the key figures with PASS and FAIL chips where the run states a threshold, and every panel: overview, charts, maps, replay, the engine's report and exports. One search box reaches scenarios, domains and the fields inside them, and you can pin up to four runs and compare them side by side.
@@ -457,10 +500,10 @@ seg-6767f63a1153 = <b>The Advanced view</b> is the full dashboard: the scenario 
 seg-48e01a0f5cb8 = The Simple view's opening screen, and the Advanced view after a run
 
 # attr:alt
-seg-1af317b46992 = Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-69022d84094d = Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v{ $version } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
 
 # attr:alt
-seg-3fed18478b21 = Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-5d3bb72c6490 = Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v{ $version } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
 
 # text
 # c1: web/README.md
@@ -473,12 +516,12 @@ seg-655d43f8ee92 = The site
 seg-8a4b804467d2 = The rest of <a1>kshana.dev</a1> is built from this repository's own files and engine runs: missions, capabilities, the evidence ledger, the published research and the editions.
 
 # attr:alt
-seg-88302efebc1a = Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-b8f6321e9e0d = Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v{ $version } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the six arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
 
 # text
 # c1: kshana kinds
 # c2: docs/SCENARIOS.md
-seg-eabb798bbe4e = One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-9d447be4caed = One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "92" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
 
 # text
 seg-d6476863f862 = Capability
@@ -548,6 +591,13 @@ seg-80f3f0aae42c = Interference map
 
 # text
 seg-2b5cf9bc7921 = where aircraft and ships reported degraded navigation data, and how much of a route it touches
+
+# text
+seg-d3d6b030b588 = Emitter region
+
+# text
+# c1: kshana interference-map locate
+seg-56eee3458645 = where, under stated assumptions, a source of degraded position reports can be: regions at stated confidence, a centroid with its ellipse, never a point (MODELLED; <c1/>)
 
 # text
 seg-e58c5cb97690 = a signed, offline-verifiable technical record of a vessel's log window and what the engine computed from it, for an incident report (advisory, not type-approved navigation equipment)
@@ -1188,6 +1238,9 @@ seg-179dc850c643 = Mission analysis, links and space operations
 seg-458a3953b3b2 = launch, ascent, entry, attitude, links, contact planning and file formats
 
 # text
+seg-ee28beafac1a = the navigation and timing error budget of a chain of phases from launch to entry
+
+# text
 seg-7df7f7116a7c = chained missions, sweeps and ensembles built from the other kinds
 
 # text
@@ -1234,26 +1287,28 @@ seg-7df7f7116a7c = chained missions, sweeps and ensembles built from the other k
 # c41: compliance-report
 # c42: lunanet-afs-check
 # c43: standards-pack
-# c44: osnma
-# c45: iq
-# c46: scene
-# c47: acquire
-# c48: track
-# c49: sweep
-# c50: labfit
-# c51: campaign
-# c52: conditions
-# c53: frontend
-# c54: monitor
-# c55: inventory
-# c56: info
-# c57: extract
-# c58: convert
-# c59: decimate
-# c60: sky
-# c61: skyline
-# c62: docs/COMMANDS.md
-seg-ab2c09d44cb7 = <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+# c44: partner
+# c45: check
+# c46: osnma
+# c47: iq
+# c48: scene
+# c49: acquire
+# c50: track
+# c51: sweep
+# c52: labfit
+# c53: campaign
+# c54: conditions
+# c55: frontend
+# c56: monitor
+# c57: inventory
+# c58: info
+# c59: extract
+# c60: convert
+# c61: decimate
+# c62: sky
+# c63: skyline
+# c64: docs/COMMANDS.md
+seg-34e44a492cad = <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> and <c63/>. <a1><c64/></a1> gives each one's purpose, a verified example and its docs page.
 
 # text
 # c1: gnss_lib_py
@@ -1268,7 +1323,7 @@ seg-e46194af8cec = How a run works
 seg-aa92d3f2aaa0 = A scenario is a TOML (Tom's Obvious, Minimal Language) file: a kind, a seed and the parameters. The engine runs it and writes the result, a chart and a report beside it, and the exports you ask for.
 
 # attr:alt
-seg-76e3ec458441 = How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-c472e0e5a3a5 = How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "92" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
 
 # text
 seg-63aa55ab596d = This bundled scenario runs { "2" } h: { "10" } min of GNSS, then about { "1.8" } h with GNSS denied. It asks how long a strontium optical lattice clock and a chip-scale atomic clock (CSAC) each hold time to within { "20" } ns.
@@ -1368,10 +1423,10 @@ seg-36d838421b86 = Can I reproduce, extend and cite a PNT result, down to the se
 seg-e31cf348fc57 = SGP4 checked against all { "666" } AIAA 2006-6753 reference vectors, worst position error { "4.12" } mm
 
 # text
-seg-707e2cf795f6 = <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-9f5426cbbf4a = <b>{ "176" } of { "401" }</b> capabilities validated against independent external oracles; { "221" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
 
 # attr:alt
-seg-2f81cf391eae = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-54ac34405621 = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER of { "401" } rows. In all, { "176" } capabilities validated against independent external oracles; { "221" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
 
 # text
 seg-c5ce76c91ff7 = Label
@@ -1402,7 +1457,7 @@ seg-9dd73106acfc = owned by a hardware partner; Kshana holds no oracle for it
 # c2: docs/VERIFICATION-MATRIX.md
 # c3: src/verification.rs
 # c4: docs/MODELLED-RATIONALE.md
-seg-ed47a99fac7f = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-42fa293e1bb4 = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 401-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
 
 # text
 seg-6fd41f16334e = How validation works, the curated highlight table and the evidence figures
@@ -1428,6 +1483,23 @@ seg-47e49f21e7b8 = <c1/>. <c2/> enforces it; quantum and classical runs use inde
 seg-9908a7f56956 = Maturity is stated honestly: optical-clock and optical-link figures are <em>targets / ground-demonstrator</em> results, not flown.
 
 # text
+seg-e7f7d0e51698 = The evidence label on every figure
+
+# text
+# c1: evidence
+# c2: <metadata id="kshana-evidence">
+# c3: # evidence:
+# c4: comment='#'
+# c5: VALIDATED
+# c6: MODELLED
+# c7: PARTNER
+# c8: VM-
+# c9: docs/VERIFICATION-MATRIX.md
+# c10: docs/SCHEMA.md
+# c11: tests/evidence_labels_doc_sync.rs
+seg-58ce18b8e642 = Every figure and table a run writes says how far to trust it, and which ledger rows that rests on. The result JSON has an <c1/> key, the chart SVG a line under the plot (and a <c2/> element), and the CSV table <c3/> comment lines in front (read with <c4/>). It names a tier, <c5/>, <c6/> or <c7/>, and the ids (<c8/> and eight hex digits) of the verification-matrix rows the run exercised. The tier is the weakest of those rows, so a run that leans on one modelled row is labelled MODELLED however many validated rows sit beside it; the label can never claim more than the ledger does. Rows, statuses and ids are read from the matrix, not typed (<a1><c9/></a1>, <a2><c10/></a2>), and <c11/> fails if a figure has no label or a label disagrees with the matrix.
+
+# text
 seg-ee66ab516e01 = Validation at a glance
 
 # text
@@ -1435,7 +1507,7 @@ seg-ee66ab516e01 = Validation at a glance
 # c2: docs/VALIDATION.md
 # c3: kshana-validation-summary.html
 # c4: cargo run --bin validation_report
-seg-557da03648c5 = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-06fc56dd3edb = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
 
 # text
 # c1: CI
@@ -1853,7 +1925,7 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % line</b> on <c1/> excluding <c2/> and <c3/>, g
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM engine)
 
 # attr:alt
-seg-9fcd5cdd129d = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-4c4dfa02be15 = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "221" } Modelled, { "4" } Partner, { "401" } total
 
 # text
 seg-5262ee45dd08 = How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a1>SVG</a1>
@@ -1868,10 +1940,10 @@ seg-c550a4bde1ff = SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 ref
 seg-2ad422aac6a1 = Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
 
 # attr:alt
-seg-faadba4f1f85 = Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-3f48a70a707a = Verification status across all { "401" } capabilities: { "176" } Validated (checked vs external oracle), { "221" } Modelled, { "4" } Partner-owned
 
 # text
-seg-6c1edff3e035 = { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-35a4412348e1 = { "176" } Validated · { "221" } Modelled · { "4" } Partner — <a1>SVG</a1>
 
 # text
 # c1: tools/gen_readme_blocks.py
@@ -1944,8 +2016,8 @@ seg-a594acff8553 = A passage naming third-party AI clients is left out here; it 
 seg-13641146503d = Cursor (one click)
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-d48f3f0dec08 = <a1>Add to Cursor (npx)</a1> · <a2>Add to Cursor (Docker)</a2> · <c1/>
+# c1: npx -y kshana-mcp@0.40.0
+seg-20beca58d39e = <a1>Add to Cursor (npx)</a1> · <a2>Add to Cursor (Docker)</a2> · <c1/>
 
 # text
 seg-f8c77f4d7864 = Every MCP install snippet
@@ -1954,8 +2026,8 @@ seg-f8c77f4d7864 = Every MCP install snippet
 seg-3bd13fe295f4 = VS Code (one click)
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-ad59014f9c8e = <a1>Install in VS Code (npx)</a1> · <a2>Install in VS Code (Docker)</a2> · <c1/>
+# c1: npx -y kshana-mcp@0.40.0
+seg-aa6b62f0b484 = <a1>Install in VS Code (npx)</a1> · <a2>Install in VS Code (Docker)</a2> · <c1/>
 
 # text
 seg-fea7b394cdde = npx
@@ -2033,10 +2105,10 @@ seg-7849acc8e680 = Kshana on the JetBrains Marketplace
 seg-48a01a252537 = Builds with Rust { "1.85" } or newer, the rust-version in Cargo.toml
 
 # text
-# c1: cargo install kshana --version 0.39.0
-# c2: pip install kshana==0.39.0
-# c3: npm install kshana@0.39.0
-seg-8edd16ad3672 = MCP is the Model Context Protocol. Pin a release with <c1/>, <c2/> or <c3/>. To build from source, see <a1>Install and build</a1> under Reference.
+# c1: cargo install kshana --version 0.40.0
+# c2: pip install kshana==0.40.0
+# c3: npm install kshana@0.40.0
+seg-8e176aa32cd3 = MCP is the Model Context Protocol. Pin a release with <c1/>, <c2/> or <c3/>. To build from source, see <a1>Install and build</a1> under Reference.
 
 # text
 seg-152cb43de2f3 = Run a scenario from Python and from WebAssembly
@@ -2062,13 +2134,13 @@ seg-f589eb87e902 = The npm package is the whole engine compiled to WebAssembly. 
 seg-7488a0b0a215 = One open engine sits at the centre, and every surface runs it: the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro sits on top as a separate overlay that depends on the engine and never forks it.
 
 # attr:alt
-seg-9d69cf43cd40 = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-cdf946112863 = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "401" } capabilities ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
 
 # text
 seg-9ac1f9e2d1b1 = Inside the engine: the domain layers and the verification ledger
 
 # attr:alt
-seg-9bc9a971bdb4 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-656df854409a = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "92" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "401" } capabilities that is the single source of truth for every label.
 
 # text
 # c1: kshana
@@ -2275,7 +2347,7 @@ seg-b88a2a9497c2 = Tool
 seg-44d509180c56 = Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition
 
 # text
-seg-87e30294e0dc = The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-11041e6beb65 = The { "92" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
 
 # text
 seg-ef28db290e2b = Pre-flight check: parse the TOML and detect its kind, without running
@@ -2496,7 +2568,7 @@ seg-a613a7447e3f = Custom study
 seg-f917e7fcac09 = What it is
 
 # text
-seg-eedfcdbe2b1c = the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-abf70d11a088 = the whole open engine, all { "92" } scenario kinds, no feature gate
 
 # text
 seg-af56c940e13a = a proprietary overlay on the same engine, under contract
@@ -3051,7 +3123,7 @@ seg-9b33c9203ca2 = A <c1/> scenario reports the <b>relativistic Earth–Moon clo
 # c7: cargo run -- --validate <file>
 # c8: list_kinds()
 # c9: list_scenario_kinds
-seg-f1efe0de99b8 = See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-b14326430bd8 = See <c1/> for at least one worked example of every kind ({ "92" } kinds, { "192" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Output
@@ -3327,6 +3399,16 @@ seg-8e3663e418ee = plain-language definitions of every term
 
 # text
 seg-0da03b91d8e2 = every kind the engine dispatches: what it does, its fields, an example command, its ledger rows and the chart the engine writes for it
+
+# text
+seg-57686575b81d = Partner data
+
+# text
+seg-824001fa6734 = laboratories and makers holding measured data
+
+# text
+# c1: kshana partner check
+seg-df3ca402513f = which MODELLED rows a measured clock or IMU record could promote, the formats, how a submission is checked (<c1/>), scored and credited
 
 # text
 seg-eabf661d9ad4 = developers / reviewers

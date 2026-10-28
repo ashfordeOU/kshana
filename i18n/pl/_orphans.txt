@@ -1,0 +1,324 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-da4764e4d161 = Wybierz jeden ze { "183" } plików scenariuszy w { "87" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
+
+# Every kind, every command, and the benchmark's misses.
+seg-850aca04de28 = Każdy rodzaj, każde polecenie i niespełnione progi benchmarku.
+
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+seg-c530da682cca = Brak nowej funkcji silnika: wyniki są takie jak w { "0.38.0" }. Dokumentacja ma teraz stronę dla każdego rodzaju scenariusza oraz listę każdego polecenia i każdej powierzchni, a strona benchmarku podaje każdy próg, który nie został spełniony. Wiersz poleceń kończy się też po cichu, gdy zamyka się jego potok wyjściowy. Każda możliwość nosi etykietę, jaką ma dla niej rejestr, a etykieta nazywa tylko to, co zostało sprawdzone. Oprogramowanie wyłącznie doradcze.
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Każdy rodzaj scenariusza, po jednej stronie
+
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+seg-86ff766b2c1d = Wszystkie { "87" } rodzajów scenariuszy uporządkowane w rodziny, z osobną stroną dla każdego rodzaju: co robi, jakie ma wejścia, wyniki przykładowego przebiegu, wiersze rejestru i wyrocznie stojące za jego etykietą, ograniczenia podane w jego raporcie oraz wykres zapisywany przez silnik.
+
+# Every command, every surface
+seg-ccee5886cf25 = Każde polecenie, każda powierzchnia
+
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+seg-6630acb722ae = Każde polecenie z przykładem, który można uruchomić z kopii repozytorium, oraz każda powierzchnia (wiersz poleceń, Python, Rust, WebAssembly, serwer MCP, polecenia wtyczki, skille i strony Studio) z poleceniami i rodzajami, które obsługuje, oraz z powodem tam, gdzie czegoś nie obsługuje.
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Która powierzchnia obsługuje którą możliwość
+
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-678872a862dc = Jedna strona wymienia, dla każdego polecenia i rodzaju, która powierzchnia go obsługuje, a która nie, wraz z powodem, obok dziedzin możliwości i ich etykiet z rejestru.
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: progi, które nie zostały spełnione, podane wprost
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-df8f792ffa97 = Strona benchmarku wymienia teraz każdy próg, który nie został spełniony, tak jak zapisuje je plik wyników, i mówi, że żaden próg nie jest luzowany.
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-761213eb3ce0 = Wszystkie { "183" } pliki scenariuszy w { "87" } rodzajach, pogrupowane według dziedziny; { "173" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } z { "87" } rodzajów, { "3127" } z { "3127" } pól liczbowych
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+seg-b68ce4aa301f = Rodzaj, którego wynik nie niesie żadnego z tych kształtów (bilans łącza, geometria jednej epoki, podsumowanie wyłącznie statystyczne Monte Carlo albo holdover telekomunikacyjny, którego wynik publikuje skrót zapisu, lecz nie sam zapis), jest odrzucany z komunikatem <c1/>, a nic nie jest zapisywane. W kshana { $version } { "89" } z { "182" } plików scenariuszy możliwych do uruchomienia (każdy plik poza zestawem badań) daje animację, a { "93" } jest odrzucanych. <c2/> wypisuje spis.
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+seg-a887cfc920f6 = Zaktualizowano 2026-10-22 dla silnika { $version } ({ "87" } rodzajów scenariuszy, z <c1/>; brak nowego rodzaju w { $version }). 2026-10-19: silnik { "0.38.0" }, { "87" } rodzajów (nowe w { "0.38.0" }: <c2/>, <c3/> i <c4/>). 2026-10-18: { "84" } rodzaje (nowy w { "0.37" }: <c5/>). 2026-10-16: { "83" } rodzajów (nowe w { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> i <c13/>). 2026-10-10: silnik { "0.35.0" }, { "75" } rodzajów, bez nowego rodzaju. 2026-10-09 i 2026-10-08: poprzednie wersje. 2026-10-04: wiersz Nav-signal odnotowuje warstwę IQ { "0.31.0" }. 2026-09-29: dodano wiersze LEO-PNT, spektrum, układu Słonecznego / PNT wokół dowolnego ciała, kampanii i wyników. Wcześniej: wyrównano z macierzą 27 wierszy możliwości z wielkiego audytu z 2026-06-02; wiersz nawigacji PNT w głębokim kosmosie / na Marsie dodano w { "v0.17.0" }. Dodatki kwantowego PNT (holdover zegara bez GNSS <c14/>, złożony budżet nawigacji zliczeniowej kwantowo-inercjalnej <c15/>, kompromis projektowy kodów dalmierczych <c16/>, maszynowo sprawdzana macierz weryfikacji <c17/>) wprowadzono do wierszy Timing, Quantum-PNT-sensor, Nav-signal i V&V — każdy oznaczony jako sprawdzony względem wzorca lub obliczony z modelu, zależnie od faktycznego wzorca.
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" } z { "87" } rodzajów, { "3127" } z { "3127" } pól liczbowych
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+seg-6f44f45f6bf9 = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "388" } wierszy macierzy weryfikacji.
+
+# [{ $version }] - 2026-10-22
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+seg-7f608c733407 = <b><c1/></b>: pliki zegara RINEX, wersje { "2" } oraz od { "3.00" } do { "3.04" } (w tym dziewięcioznakowe pole nazwy z { "3.04" }). Nagłówek jest czytany tylko dla <c2/> i pomijany do <c3/>. Spośród rekordów danych zachowywane są tylko rekordy <c4/> (satelita) i <c5/> (odbiornik lub stacja) jednego zegara, wybranego po nazwie. Ich pierwsze pole wartości, bias zegara w sekundach, jest fazą. Linie kontynuacji oraz rekordy <c6/>, <c7/> i <c8/> są pomijane. Epoki to pola kalendarzowe rekordu, jako sekundy od 1980-01-06 { "00" }:{ "00" }:{ "00" } we własnym systemie czasu pliku, bez konwersji.
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+seg-3d8853fa9c92 = <b><c1/></b>: dzienniki licznika TAPR TICC (TICC Operation Manual, wersja z { "23" } listopada { "2016" }, „measurement modes”). Każde pole danych to sekundy z { "12" } miejscami po przecinku.
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+seg-75301936698f = Wyjście trybu okresu i trybu debugowania jest odrzucane. Kanał, którego odczyty nie rosną, jest zgłaszany jako tryb okresu.
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-fe7d27a473aa = MODELLED. To jest parser, a jego wynik zasila estymatory sprawdzane gdzie indziej względem allantools. Testy jednostkowe w <c1/> używają małych ręcznie napisanych dzienników, a dla formatów linuxptp i chrony zestawów danych z <c2/>. <c3/> uruchamia porównanie zarejestrowane wstępnie w <c4/>: trzy syntetyczne dzienniki z ziarnem, po jednym na format, odczytane z powrotem przez niezależny czytnik napisany na podstawie tej strony przez tego samego autora, z ADEV, TDEV i MTIE sprawdzonymi względem allantools { "2024.6" }; porównanie to obejmuje tylko pierwsze trzy formaty, a czytniki linuxptp i chrony mają testy parsera, lecz nie mają porównania z wyrocznią. Dzienniki są syntetyczne, więc nic tu nie opisuje prawdziwego zegara ani licznika.
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>Księżyc i przestrzeń cislunarna</s1><s2>{ "20" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-0144518c94fc = { "87" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-78756a9f6704 = <s1>Rodzaje scenariuszy</s1><s2>{ "87" } wbudowanych rodzajów scenariuszy, między które rozdziela kshana::api::run_toml, każdy z jego jednowierszowym…</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>Każdy rodzaj scenariusza, według rodziny</s1><s2>Każdy rodzaj scenariusza, który rozdziela silnik v{ $version } ({ "87" }), przypisany do { "12" } rodzin.</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-76a9b614dada = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "182" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-c387a74ffabb = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "388" } wierszy — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-be02c7f0d48e = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "388" } wierszy macierzy weryfikacji.</s2>
+
+# defined
+seg-1767b216650d = określony
+
+# sgp4 (TLE)
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+seg-25da07e56aa8 = detekcja anomalii PNT kwantowa a klasyczna
+
+# classical baseline
+seg-a6551a61cf69 = klasyczny punkt odniesienia
+
+# First
+seg-5b3bc9761db4 = Pierwszy
+
+# TM
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+seg-9bd19903f577 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>terrain-nav</a1>.
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = { "20" } rodzajów scenariuszy silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-204901ae3684 = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>moonlight-service-volume</a1>.
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6bed0bef75bc = Każdy rodzaj scenariusza obsługiwany przez silnik v{ $version } ({ "87" }), uporządkowany w { "12" } rodzin. Każda rodzina ma stronę z jednym wpisem na rodzaj (opis i pola z silnika, przykładowe polecenie, kluczowe liczby z przebiegu, wiersze macierzy, które go wymieniają, oraz wykres zapisywany przez silnik) i arkusz miniatur tych wykresów. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-a30b46501cff = { "87" } wbudowanych rodzajów scenariuszy z opisami oraz polami wymaganymi i opcjonalnymi, aby agent mógł zbudować poprawny scenariusz.
+
+# { "208" } capabilities labelled MODELLED.
+seg-e7d71a9d77a6 = { "208" } możliwości oznaczonych MODELLED.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } z { "388" } możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } z { "388" }</b> możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni; { "208" } uczciwie oznaczonych jako obliczone na podstawie modelu, { "4" } należące do partnera. Każda możliwość nosi jedną etykietę w sprawdzanym maszynowo rejestrze (ledger): VALIDATED (niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory wzorcowe), MODELLED (wewnętrznie spójne i powiedziane wprost) lub PARTNER (odpowiada za to partner sprzętowy). Wśród kontroli: wszystkie { "666" } wektorów SGP4 (Simplified General Perturbations { "4" }) z AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 z dokładnością do { "4.12" } mm oraz model sił Cowella z dokładnością do { "0.08" } m względem Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "388" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "208" } obliczonych na podstawie modelu, { "4" } należących do partnera
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-af101c048e7e = { "176" } z { "388" } możliwości VALIDATED względem niezależnej wyroczni zewnętrznej, według macierzy weryfikacji
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+seg-161fa1263086 = <a1>Co nowego w { "0.39" }</a1>, <a2>Co nowego w { "0.38" }</a2> oraz <a3>{ "0.38" } szczegółowo</a3>: ocena jammertest, własne flagi odbiornika, wejścia maszynowe, czas i holdover, pakiety norm, LunaNet AFS, pełna pętla laboratoryjna, kshana-bench, obserwatorium, eksportery, optyka, <a4>nawigacja użytkowników przestrzeni kosmicznej</a4> i <a5>infrastruktura księżycowa</a5>
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-c45a4adf8209 = Kshana Studio, widok prosty, na dołączonym scenariuszu integrity-raim, silnik { "v0.38.0" } działa lokalnie. Pytanie: czy geometria mieści się w limitach alarmu (poziomy i pionowy poziom ochrony)? Najpierw odpowiedź, oznaczona jako Wynik na żywo: Tak, w większości: przez { "95.3" } % z { "12" } h. Granica błędu odbiornika pozostała poniżej limitów alarmu ({ "40" } m w poziomie i { "50" } m w pionie) w { "344" } z { "361" } sprawdzeń i żadna pozycja nie była myląca. Kluczowe wartości: czas, w którym pozycji można ufać { "95.3" } %, najdłuższa przerwa { "10" } min, typowa granica błędu { "6.5" } / { "13" } m, mylące pozycje { "0" }. Obok Wypróbuj inne ustawienia z pięcioma z nich (błąd odległości, dwa limity alarmu, czas trwania i maska elewacji) i Uruchom ponownie, a potem zwinięte sekcje Ustawienia zaawansowane (jeszcze { "13" }), Jak to jest obliczane ({ "8" } sprawdzonych względem niezależnych wzorców, { "6" } obliczonych na podstawie modelu) i Dla badaczy. Poniżej widoki tego wyniku i poziomy ochrony naniesione na limit alarmu.
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-1af317b46992 = Kshana Studio, widok prosty, ekran otwierający, zatytułowany Co chciałbyś ustalić?, z silnikiem { "v0.38.0" } na żywo i, na górnym pasku, trzema linkami: Omówienie szkolenia, Mapa zakłóceń i Zaufanie do odbiornika. Cztery pytania: ile satelitów widzę w dowolnym miejscu na Ziemi, czy mogę ufać swojej pozycji, jak długo zegar utrzyma czas bez satelitów i co zagłuszacz robi z moim odbiornikiem. Pod pierwszym jego zapisany wynik: co najmniej { "22" } satelitów w zasięgu w każdym miejscu i { "31" } średnio przy łącznym użyciu GPS, Galileo, BeiDou i GLONASS, pozycja możliwa w { "100" } % miejsc i czasów, na mapie świata satelitów w zasięgu, z przyciskiem Otwórz ten wynik. Obok Wszystko, co potrafi Kshana: { "16" } obszarów i { "139" } gotowych do uruchomienia scenariuszy, każdy kafel z małym wykresem z zapisanego przebiegu i udziałem metod sprawdzonych względem niezależnych wzorców, oraz { "173" } z { "350" } możliwości sprawdzonych względem niezależnych wzorców w rejestrze.
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-3fed18478b21 = Kshana Studio, widok zaawansowany, po przebiegu dołączonego scenariusza constellation-multi-gnss-coverage (Cztery konstelacje GNSS, jedna mapa), silnik { "v0.38.0" } działa lokalnie. Po lewej biblioteka scenariuszy, { "139" } scenariuszy w { "16" } dziedzinach. Pięć kroków Wybierz, Ustaw, Uruchom, Odczytaj wyniki i Udostępnij lub eksportuj, z bieżącym krokiem { "4" }. Kluczowe wartości: { "102" } satelitów, dostępność { "100" } % (PASS), mediana współczynnika rozmycia dokładności pozycji (PDOP) { "0.95" } (PASS), 95. percentyl PDOP { "1.105" } (PASS), średnio { "31.03" } satelitów w zasięgu i { "22" } najmniej. Poniżej rząd paneli z wybranym Pokryciem, pasek odtwarzania, mapa świata średniego PDOP od { "0.831" } do { "1.0853" } z narysowanym każdym satelitą oraz globalne wartości pokrycia.
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-88302efebc1a = Trzy strony kshana.dev obok siebie. Strona główna, hero: wiersz z nazwą Kshana · क्षण · the precise instant nad nagłówkiem Przećwicz minutę, w której GNSS gaśnie, z konsolą misji prawdziwego przebiegu silnika { "v0.38.0" } (glob i trzy wykresy na żywo: błąd czasu zegara, stosunek nośnej do szumu i poziom ochrony). Dowody, Opublikowane badania: pięć prac na arXiv zbudowanych na otwartym silniku, najnowsza z wartością silnika. Wydania, Kshana Pro, ten sam silnik, wzmocniony: Free uruchamia jeden scenariusz, Pro odpowiada na pytanie programu.
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-eabb798bbe4e = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity po ostatnią nanosekundę holdover zegara. Silnik ma { "87" } rodzajów scenariuszy; <c1/> je wymienia, a <a1><c2/></a1> dokumentuje każde pole.
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+seg-ab2c09d44cb7 = <c1/> uruchamia scenariusz; każde inne polecenie jest podpoleceniem, a <c2/> wypisuje sposób użycia wszystkich. Polecenia to <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (z <c8/> i <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> i <c61/>. <a1><c62/></a1> podaje przeznaczenie każdego z nich, zweryfikowany przykład i jego stronę w dokumentacji.
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-76e3ec458441 = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "87" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-707e2cf795f6 = <b>{ "176" } z { "388" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "208" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-2f81cf391eae = Jak możliwość zyskuje swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, i etykietę, która z tego wynika. Wiersz może być VALIDATED tylko z niezależną wyrocznią zewnętrzną; w przeciwnym razie jest MODELLED, albo PARTNER, gdy odpowiada za niego partner sprzętowy. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, OD wsadowe/sekwencyjne, wyrocznia: wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER z { "388" } wierszy. Łącznie { "176" } możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "208" } kolejnych uczciwie oznaczono jako MODELLED, a { "4" } należy do PARTNER.
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-ed47a99fac7f = Kilka z kontroli: wszystkie { "666" } wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; model sił Cowella do { "0.08" } m względem Orekit { "12.2" }; Galileo do { "0.61" } m i Swarm-A do { "0.10" } m względem rzeczywistych precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy obejmują około { "95" } % pokrycia linii <c1/>, z progiem { "85" } % w CI. Rejestr (ledger) to <a1><c2/></a1>, generowany z <c3/>: <a2>pełna macierz 388 wierszy</a2> oraz powód, dla którego każdy wiersz obliczony z modelu nie ma zewnętrznej wyroczni, w <a3><c4/></a3>.
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-557da03648c5 = Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to <b>wyselekcjonowane najważniejsze wyniki</b>; pełna, sprawdzana maszynowo macierz ma <b>{ "388" } wierszy — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), z kompletnymi dowodami (i tym, co uczciwie <em>nie</em> jest jeszcze sprawdzone) w <a1><c2/></a1> oraz w artefakcie <a2><c3/></a2> dla każdego wydania (generowanym przez <c4/>, z atestacją SLSA — Supply-chain Levels for Software Artifacts).
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-9fcd5cdd129d = Jak możliwość zyskuje swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (rzeczywisty zbiór danych, niezależna implementacja referencyjna lub opublikowane wektory), na status — ze strażnikiem wymuszanym w CI, że żadna możliwość nie może być uznana za sprawdzoną bez zewnętrznej wyroczni. Bieżące liczby: { "176" } sprawdzonych, { "208" } obliczonych z modelu, { "4" } partnera, { "388" } łącznie
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-faadba4f1f85 = Stan weryfikacji wszystkich { "388" } możliwości: { "176" } sprawdzonych (względem zewnętrznej wyroczni), { "208" } obliczonych z modelu, { "4" } należących do partnera
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-6c1edff3e035 = { "176" } sprawdzonych · { "208" } obliczonych z modelu · { "4" } partnera — <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-9d69cf43cd40 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "388" } możliwości ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-9bc9a971bdb4 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "87" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "388" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-87e30294e0dc = { "87" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-eedfcdbe2b1c = cały otwarty silnik, wszystkie { "87" } rodzajów scenariuszy, bez blokad funkcji
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-f1efe0de99b8 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "87" } rodzajów, { "182" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "176" } z { "388" } możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "176" } z { "388" }</b> możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni; { "208" } uczciwie oznaczonych jako obliczone na podstawie modelu, { "4" } należące do partnera. Każda możliwość nosi jedną etykietę w sprawdzanym maszynowo rejestrze (ledger): VALIDATED (niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory wzorcowe), MODELLED (wewnętrznie spójne i powiedziane wprost) lub PARTNER (odpowiada za to partner sprzętowy). Wśród kontroli: wszystkie { "666" } wektorów SGP4 (Simplified General Perturbations { "4" }) z AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 z dokładnością do { "4.12" } mm oraz model sił Cowella z dokładnością do { "0.08" } m względem Orekit { "12.2" }.
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "388" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "208" } obliczonych na podstawie modelu, { "4" } należących do partnera
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1e4d5b2f4810 = Każdy dołączony plik scenariusza ({ "182" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-843d88cee576 = { "87" } wbudowanych rodzajów scenariuszy, po których <c1/> kieruje wywołania, każdy z jednozdaniowym opisem i polami TOML (Tom's Obvious, Minimal Language) wymaganymi i opcjonalnymi.
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-4cb1d67922ed = Kompletny, sprawdzany maszynowo rejestr dowodów: <b>{ "388" } wierszy — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Wiersz może być VALIDATED tylko przy niezależnej zewnętrznej wyroczni (wymuszają to testy niezmienników macierzy). Te same dane, z klikalnymi odnośnikami wierszy do każdego testu, modułu i zatwierdzonego fixture, to <em>rejestr walidacji</em> na <a1>https://kshana.dev</a1>. W <a2>MODELLED-RATIONALE.md</a2> wyjaśniono, dlaczego każdy wiersz obliczony z modelu nie jest zewnętrznie sprawdzony.
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+seg-af826b47d00e = { "388" } wierszy: { "176" } sprawdzonych zewnętrznie, { "208" } modelowanych, { "4" } należących do partnera.
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0adcadeb3854 = Otwarty silnik pośrodku: jeden znacznik na rodzaj scenariusza ({ "87" }), wypełniony tam, gdzie dany rodzaj ma w rejestrze wiersze sprawdzone niezależnie, pusty tam, gdzie jego wiersze są modelowane, kreska tam, gdzie żaden moduł rejestru nie pasuje do niego z nazwy. Kshana Pro i badanie na zamówienie leżą wokół niego i łączą się z rodzajami, na których się opierają.
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+# c1: src/api.rs
+# c2: web/data/verification-matrix.json
+seg-9e896ee62ea0 = Silnik v{ $version } · { "87" } rodzajów z <c1/> · status w rejestrze z <c2/> · na czym opierają się Pro i badanie: rejestr wydań serwisu · bez scenariusza i ziarna (seed)
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-abe5c7257cda = Wszystkie { "87" } rodzaje scenariuszy i { "173" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-1434952d1bc8 = Pełna macierz weryfikacji: { "176" } z { "388" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-9ef28b622a43 = { "388" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "208" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-4adb5411062e = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "208" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+# c1: web/data/verification-matrix.json
+# c2: src/verification.rs
+seg-582c4a762fc5 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "388" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/sgp4_verification.rs
+seg-6adbc42697f9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/raim_reference.rs
+seg-c5d5cf50c8a9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/numerical_cowell_propagator_reference.rs
+seg-2e80a89ee20a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/allan_nist_sp1065_1000point.rs
+seg-2a2794bda50f = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+# c1: fc21ac4
+# c2: tests/slot_timing_cs5071a_holdout.rs
+seg-275351654591 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# { "176" }<s1>of { "388" } validated</s1>
+seg-1d2c8132218d = { "176" }<s1>z { "388" } sprawdzonych</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-b66d124aa8dd = Macierz weryfikacji: { "176" } sprawdzonych, { "208" } modelowanych, { "4" } należących do partnera, { "388" } łącznie
+
+# All { "388" } rows, one line each.
+seg-6ef0eb045293 = Wszystkie { "388" } wierszy, po jednej linii.
+
+# of { "93" } validated
+seg-d8691ddf3170 = z { "93" } sprawdzonych
+
+# of { "73" } validated
+seg-d6687397eae9 = z { "73" } sprawdzonych
+
+# of { "76" } validated
+seg-8d3ad903cd18 = z { "76" } sprawdzonych
+
+# of { "25" } validated
+seg-223bf21e1d9b = z { "25" } sprawdzonych
+
+# All { "388" }
+seg-d5b6224d2ec4 = Wszystkie { "388" }
+
+# Modelled { "208" }
+seg-2bca452c28dd = Modelowane { "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+seg-d0352364053e = Rejestr walidacji, { "388" } wierszy, z przewijaniem
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = Każdy rodzaj scenariusza, po jednej stronie
+
+# Every command, every surface
+seg-ccee5886cf25 = Każde polecenie, każda powierzchnia
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = Która powierzchnia obsługuje którą możliwość
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench: progi, które nie zostały spełnione, podane wprost
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+seg-9b3429f89f21 = Nowość w v{ $version }: każdy rodzaj, każde polecenie i chybienia benchmarku
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+seg-9e88a1981d1e = { "176" } z { "388" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-4b41ffeb0030 = Wszystkie { "87" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-597a57467277 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

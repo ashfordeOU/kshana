@@ -61,4 +61,4 @@ seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 seg-ebb9724de60a = <s1>Previous</s1>lunar-attack-surface
 
 # text
-seg-ca9b68783354 = <s1>Next</s1>lunar-differential-pnt
+seg-b81e98467952 = <s1>Next</s1>lunar-descent

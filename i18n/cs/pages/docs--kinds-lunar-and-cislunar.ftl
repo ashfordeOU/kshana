@@ -96,8 +96,6 @@ seg-a240ef37dc6d = Zdroj: <c1/>
 
 seg-befef5f2f8dd = Lunární a cislunární (rodina druhů scénářů)
 
-seg-f964724ea446 = { "20" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází od enginu nebo z verifikační matice; druh je MODELLED, pokud matice neříká jinak (jak se označení získává: část Evidence v README).
-
 seg-369e7cfcc1d3 = Tematické stránky: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Spusťte jednu: <c1/>. Všechny rodiny: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Přehledový list grafů, které engine zapisuje pro druhy z rodiny Lunární a cislunární
@@ -181,8 +179,6 @@ seg-d9e24a9a8c0c = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4
 seg-4f05fad4b146 = <b>Registr:</b> VALIDATED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Registr:</b> žádný řádek matice tento druh neuvádí; engine označuje svůj výsledek sám. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

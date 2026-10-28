@@ -104,9 +104,6 @@ seg-f7f2a6c0cd15 = Fuente: <c1/>
 seg-6c7831311d4e = Tipos de escenario, por familia
 
 # text
-seg-6bed0bef75bc = Todos los tipos de escenario que despacha el motor v{ $version } ({ "87" }), clasificados en { "12" } familias. Cada familia tiene una página con una entrada por tipo de escenario (la descripción y los campos del motor, el comando de ejemplo, cifras destacadas de una ejecución, las filas de la matriz que lo nombran y el gráfico que escribe el motor) y una hoja de contactos de esos gráficos. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Cada etiqueta de aquí es la del motor o la de la matriz de verificación; un tipo de escenario es MODELLED salvo que la matriz diga otra cosa (cómo se obtiene una etiqueta: la sección Evidence del README).
-
-# text
 seg-d23eaa8bc98b = Familias
 
 # text

@@ -64,9 +64,6 @@ seg-f2cc0830b53f = O exemplo <c1/> define, entre outros:
 seg-ee5bcbbe0167 = csac
 
 # text
-seg-a6551a61cf69 = linha de base clássica
-
-# text
 seg-f5fa445702c6 = Etiqueta de resultado (a do motor): MODELLED — quantifica (nunca valida) um relógio/sensor de parceiro; não demonstrado em voo
 
 # attr:alt

@@ -77,9 +77,6 @@ seg-84781b6fff48 = GDOP undefiniert (rangdefizient / singulä
 seg-856eb311f24b = „undefined“ (Text, wie das Dokument ihn angibt
 
 # text
-seg-1767b216650d = definiert
-
-# text
 seg-fc5d34345fdd = Ergebnisbezeichnung (die der Engine): MODELLED Beobachtbarkeit einer ebenen cislunaren Konstellation (P6). VALIDATED Kern: Der beobachtbare RANG ist eine rangaufdeckende Singulärwertschwelle, gegengeprüft mit dem Eigenrang der Gram-Matrix; das Eigenspektrum der Gram-Matrix gehorcht den spektralen Invarianten (Spur = Summe eig, Det = Produkt eig, Frobenius^{ "2" } = Summe eig^{ "2" }
 
 # text

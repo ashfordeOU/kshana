@@ -43,9 +43,6 @@ seg-687f2930a40d = downlink
 seg-9fd02351d844 = ms
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-e794d481aed4 = plane
 
 # text
@@ -60,12 +57,6 @@ seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a
 
 # text
 seg-9799bd5f9fdb = nm
-
-# text
-seg-37d16b499bc5 = dB
-
-# text
-seg-7707c45d1d30 = dBm
 
 # text
 seg-0fd6a569077f = Result label (the engine's): MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the

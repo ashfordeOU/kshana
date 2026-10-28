@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP niet gedefinieerd (rangdeficiënt / singula
 
 seg-856eb311f24b = “niet gedefinieerd” (tekst zoals het document het stelt
 
-seg-1767b216650d = gedefinieerd
-
 seg-fc5d34345fdd = Resultaatlabel (van de engine): MODELLED waarneembaarheid van een vlakke cislunaire constellatie (P6). VALIDATED kern: de waarneembare RANG is een rangonthullende singulierewaardedrempel die is gecontroleerd tegen de eigenrang van de gramiaan; het eigenwaardenspectrum van de gramiaan voldoet aan de spectrale invarianten (trace = som eig, det = product eig, Frobenius^{ "2" } = som eig^{ "2" }
 
 seg-f15bbf30b0dd = De grafiek die de engine schrijft voor scenarios/cislunar-observability.toml, kind cislunar-observability

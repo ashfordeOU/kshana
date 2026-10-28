@@ -275,10 +275,6 @@ seg-f6ff1c8c78db = Pérdida de enganche del lazo de seguimiento: C/N0 -> enganch
 seg-45cb12242d59 = Fuente: <c1/>
 
 # text
-# c1: kshana::api::run_toml
-seg-843d88cee576 = Los { "87" } tipos de escenario integrados sobre los que despacha <c1/>, cada uno con su descripción de una línea y sus campos TOML (Tom's Obvious, Minimal Language) obligatorios y opcionales.
-
-# text
 # c1: api::list_scenario_kinds()
 # c2: cargo run --bin gen_validation_artifacts
 # c3: list_scenario_kinds

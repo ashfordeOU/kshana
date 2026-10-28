@@ -104,9 +104,6 @@ seg-f7f2a6c0cd15 = Fonte: <c1/>
 seg-6c7831311d4e = Tipos de cenário, por família
 
 # text
-seg-6bed0bef75bc = Todo tipo de cenário que o mecanismo v{ $version } despacha ({ "87" }), organizado em { "12" } famílias. Cada família tem uma página com uma entrada por tipo (a descrição e os campos do mecanismo, o comando de exemplo, números de destaque de uma execução, as linhas da matriz que o citam e o gráfico que o mecanismo gera) e uma folha de contatos desses gráficos. Consultivo: resultado de análise de uma ferramenta de pesquisa e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Todo rótulo aqui é do mecanismo ou da matriz de verificação; um tipo é MODELLED a menos que a matriz diga o contrário (como um rótulo é obtido: a seção Evidence do README).
-
-# text
 seg-d23eaa8bc98b = Famílias
 
 # text

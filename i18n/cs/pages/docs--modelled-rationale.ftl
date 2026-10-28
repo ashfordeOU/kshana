@@ -2030,8 +2030,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formát, který zapisuje most gnss_lib_py, vedený přes receiver-trust); testy mostů v Pythonu jsou integrations/ros2/kshana_trust/test/test_bridge.py (most s atrapou enginu), integrations/ros2/kshana_trust/test/test_engine_integration.py (skutečné kolo (wheel) ohodnotí stálé zaměření jako nominální a skok o { "1.1" } km jako nedůvěryhodný) a integrations/gnss_lib_py/test_bridge.py (skutečný gnss_lib_py { "1.1.0" } a kolo (wheel)), spouštěné pomocí pytest, nikoli pomocí cargo
 
-seg-e7d71a9d77a6 = { "208" } schopností označených jako MODELLED.
-
 seg-7a0503f925c1 = <s1>Předchozí</s1>Přehled schopností
 
 seg-b5832e94f926 = <s1>Další</s1>Tvrzení vůči realitě
