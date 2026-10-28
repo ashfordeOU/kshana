@@ -61,7 +61,7 @@ fn every_bundled_scenario_is_deterministic() {
             .and_then(|n| n.to_str())
             .unwrap_or_default()
             .to_string();
-        let src = fs::read_to_string(path).expect("read scenario");
+        let src = corpus::scenario_source(path);
         let out = kshana::api::run_toml(&src).unwrap_or_else(|e| {
             if run == 0 {
                 panic!("bundled scenario {name} failed to run: {e}")

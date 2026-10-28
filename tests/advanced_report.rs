@@ -27,7 +27,6 @@
 use kshana::advanced_report::{build, sha256_hex, Invocation, Report};
 use kshana::portable_math::PortableFloat;
 use serde_json::Value;
-use std::fs;
 
 #[path = "support/corpus.rs"]
 mod corpus;
@@ -37,7 +36,7 @@ fn runnable_scenarios() -> Vec<std::path::PathBuf> {
 }
 
 fn report_of(path: &std::path::Path) -> (kshana::api::RunOutput, String, Report) {
-    let src = fs::read_to_string(path).expect("read scenario");
+    let src = corpus::scenario_source(path);
     let out = kshana::api::run_toml(&src)
         .unwrap_or_else(|e| panic!("{} failed to run: {e}", path.display()));
     let inv = Invocation {

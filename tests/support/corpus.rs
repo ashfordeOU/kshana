@@ -43,6 +43,36 @@ pub fn runnable_scenarios() -> Vec<PathBuf> {
     v
 }
 
+/// The text of a bundled scenario as the corpus walks run it.
+///
+/// Two scenarios, `lunar-orbit-rendezvous` and its ELFO variant, run 50 Monte Carlo trials of a two-hour
+/// arc: about 19 s each in a release build and, in a debug build on a slow runner, long enough to put
+/// the determinism walk over its CI budget on 0.40. The walks check properties of the code (the same
+/// bytes twice, a report that builds, an animation that renders), none of which depends on how many
+/// trials the Monte Carlo draws, so they run those two files with `n_trials = 4`: the same kind, arc,
+/// step and code path, fewer draws. Every other file is run exactly as shipped, and the full 50-trial
+/// runs stay covered where results are compared (the recorded runs and the release scenario checks).
+/// Set `KSHANA_CORPUS_FULL=1` to walk the files as shipped.
+pub fn scenario_source(path: &Path) -> String {
+    let text = std::fs::read_to_string(path).expect("read scenario");
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .unwrap_or_default();
+    let heavy = matches!(
+        name,
+        "lunar-orbit-rendezvous.toml" | "lunar-orbit-rendezvous-elfo.toml"
+    );
+    if !heavy || std::env::var_os("KSHANA_CORPUS_FULL").is_some() {
+        return text;
+    }
+    assert!(
+        text.contains("\nn_trials = 50\n"),
+        "{name} no longer says `n_trials = 50`: update tests/support/corpus.rs"
+    );
+    text.replace("\nn_trials = 50\n", "\nn_trials = 4\n")
+}
+
 /// How many worker threads [`par_map`] uses for `n` items: `KSHANA_CORPUS_THREADS` if set
 /// (1 restores the old serial walk), otherwise the machine's available parallelism,
 /// never more than `n` and never fewer than 1.

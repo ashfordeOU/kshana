@@ -616,6 +616,21 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Lab-fit follow-up campaigns (release)
         run: cargo test --release --test iq_labfit_followup -- --test-threads 1
+  # The pre-registered B1 of the lunar-orbit-rendezvous kind (xval/mission-thread-lunar/RESULTS.md): mean
+  # NEES in [5.2, 6.8] for both orbits at both C/N0 values, 200 trials each. About 110 s in a release
+  # build; the debug `cargo test` skips it (cfg_attr(debug_assertions, ignore)) so the debug jobs stay
+  # inside their budgets.
+  lunar-rendezvous-b1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Pre-registered B1 of the lunar rendezvous kind (release)
+        run: cargo test --release --lib -p kshana lunar_rendezvous::tests::b1_ -- --test-threads 1
   public-standalone:
     runs-on: ubuntu-latest
     timeout-minutes: 30
