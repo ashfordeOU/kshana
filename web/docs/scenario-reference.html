@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scenario reference · Kshana docs</title>
-<meta name="description" content="Every bundled scenario file (192), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
+<meta name="description" content="Every bundled scenario file (193), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://kshana.dev/docs/scenario-reference">
 <meta property="og:title" content="Scenario reference · Kshana docs">
-<meta property="og:description" content="Every bundled scenario file (192), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
+<meta property="og:description" content="Every bundled scenario file (193), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
 <meta property="og:image" content="https://kshana.dev/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
 <meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 401 capabilities validated against external oracles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Scenario reference · Kshana docs">
-<meta name="twitter:description" content="Every bundled scenario file (192), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
+<meta name="twitter:description" content="Every bundled scenario file (193), grouped by kind. The description is the file&#x27;s own header comment; the key parameters are its top-level settings.">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
 <meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 401 capabilities validated against external oracles.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Scenario reference", "item": "https://kshana.dev/docs/scenario-reference"}]}</script>
@@ -84,7 +84,7 @@
   <article class="docs-main">
     <div class="docs-meta"><span>Scenarios</span><span>Generated from the repository's scenario files and verification matrix at build time.</span></div>
     <div class="prose"><h1 id="scenario-reference">Scenario reference</h1>
-<p>Every bundled scenario file (192), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.</p>
+<p>Every bundled scenario file (193), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.</p>
 <h2 id="kind-acm-link">acm-link<a class="anchor" href="#kind-acm-link" aria-label="Link to this section">#</a></h2>
 <p>One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.</p>
 <div class="ref-card" id="acm-link"><h3>acm-link.toml</h3><div class="ref-meta"><span>kind acm-link</span><span>not matched to a ledger module by name</span></div><p>DVB-S2 adaptive coding and modulation (ACM) along one satellite's passes over one station. Along a pass the slant range and elevation change, so the downlink Es/N0 changes. The run picks, at each step, the most efficient MODCOD whose ETSI EN 302 307-1 Table 13 threshold plus an implementation margin the link clears. It reports each pass's Es/N0 range and the data volume ACM moves, against the constant-coding baseline that closes at the mask elevation and the longest range.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;acm-link&quot;</span>
@@ -1358,6 +1358,14 @@ provenance = <span class="hljs-string">&quot;Cold-atom (Rb-87 D2) interferometri
 <span class="hljs-attr">min_elevation_deg</span> = <span class="hljs-number">10.0</span>
 <span class="hljs-attr">handover_gap_s</span> = <span class="hljs-number">120.0</span>
 <span class="hljs-attr">step_s</span> = <span class="hljs-number">300.0</span></code></pre><p><span class="not-pushed">Not yet on GitHub</span></p></div>
+<div class="ref-card" id="mission-thread-short"><h3>mission-thread-short.toml</h3><div class="ref-meta"><span>kind mission-thread</span><span>not matched to a ledger module by name</span></div><p>A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of trans-lunar cruise and the return and entry, with the Moon's position from the analytic series (no kernel file). It is the bundled companion of mission-thread-artemis-class, which reads a Moon kernel cut from a checkout.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;mission-thread&quot;</span>
+<span class="hljs-attr">title</span> = <span class="hljs-string">&quot;Short mission thread, launch to entry (ILLUSTRATIVE)&quot;</span>
+<span class="hljs-attr">seed</span> = <span class="hljs-number">20261028</span>
+<span class="hljs-attr">epoch_utc</span> = <span class="hljs-string">&quot;2028-01-01T00:00:00Z&quot;</span>
+<span class="hljs-attr">frame</span> = <span class="hljs-string">&quot;gcrf&quot;</span>
+<span class="hljs-attr">x</span> = [<span class="hljs-number">5285007.866</span>, <span class="hljs-number">1880185.649</span>, <span class="hljs-number">3025316.817</span>, -<span class="hljs-number">137.105</span>, <span class="hljs-number">385.389</span>, <span class="hljs-number">0.0</span>]
+<span class="hljs-attr">sigma_pos_m</span> = <span class="hljs-number">10.0</span>
+<span class="hljs-attr">sigma_vel_mps</span> = <span class="hljs-number">0.01</span></code></pre><p><a href="/studio/?scenario=mission-thread-short&amp;tab=overview">Open in Kshana Studio</a> · <span class="not-pushed">Not yet on GitHub</span></p></div>
 <h2 id="kind-moonlight-service-volume">moonlight-service-volume<a class="anchor" href="#kind-moonlight-service-volume" aria-label="Link to this section">#</a></h2>
 <p>Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP &lt; threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.</p>
 <div class="ref-card" id="moonlight-service-volume"><h3>moonlight-service-volume.toml</h3><div class="ref-meta"><span>kind moonlight-service-volume</span><span>not matched to a ledger module by name</span></div><p>Lunar navigation SERVICE-VOLUME analysis — Moonlight / LCNS-class constellation.</p><pre data-lang="scenario · toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;moonlight-service-volume&quot;</span>

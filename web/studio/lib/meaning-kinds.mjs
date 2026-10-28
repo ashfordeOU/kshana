@@ -499,6 +499,17 @@ function cislunarArc(r) {
   return { big: t("js-meankind-arc-big", "The estimator recovers the orbit once it has { $dur } of the { $h } h arc.", { dur: dur(h * 3600), h: f(r.arc_hours) }), line: num(r.n_spacecraft) ? t("js-meankind-arc-line", "{ $n } spacecraft, { $observable } measurements.", { n: r.n_spacecraft, observable: words(r.observable || "") }) : "" };
 }
 
+// ---------------------------------------------------------------- 0.40 kinds
+function missionThread(r) {
+  const w = r.weakest_link;
+  if (!w || typeof w.phase_id !== "string" || !w.phase_id || !Array.isArray(r.phases) || !r.phases.length) return null;
+  const av = { phase: words(w.phase_id), source: typeof w.limiting_source === "string" && w.limiting_source ? w.limiting_source : "" };
+  const big = av.source
+    ? t("js-meankind-mthread-big-source", "Along the thread the thinnest margin against its requirement is in the { $phase } phase, limited by { $source }.", av)
+    : t("js-meankind-mthread-big", "Along the thread the thinnest margin against its requirement is in the { $phase } phase.", av);
+  return { big, line: t("js-meankind-mthread-line", { one: "{ $n } phase.", other: "{ $n } phases." }, { n: r.phases.length }) };
+}
+
 // ---------------------------------------------------------------- 0.36 kinds
 function acmLink(r) {
   if (!has(r, "acm_gain", "acm_volume_mbit", "ccm_volume_mbit", "pass_count")) return null;
@@ -630,5 +641,5 @@ export const KIND_TEMPLATES = {
   "lunar-interop-export": lunarInterop, "lunar-vlbi": lunarVlbi, "lunar-vlbi-fim": lunarVlbiFim, "lunar-frame-campaign": lunarFrameCampaign,
   "lunar-llr-datum": lunarLlr, "cislunar-observability": cislunarObs, "cislunar-arc-recovery": cislunarArc,
   "acm-link": acmLink, aocs, "ascent-losses": ascentLosses, "contact-schedule": contactSchedule, "entry-heating": entryHeating,
-  "eo-radiometry": eoRadiometry, "time-transfer-budget": timeTransferBudget, "optical-atmosphere": opticalAtmosphere,
+  "mission-thread": missionThread, "eo-radiometry": eoRadiometry, "time-transfer-budget": timeTransferBudget, "optical-atmosphere": opticalAtmosphere,
 };
