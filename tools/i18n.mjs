@@ -430,7 +430,7 @@ async function apply(args) {
       const dbundle = L.bundleFor(lang, [join(opt.root, lang, 'data.ftl')], { localise: false });
       const tr = (str) => { const m = dbundle.getMessage(D.dataId(str)); if (!m || !m.value) return null; try { return dbundle.formatPattern(m.value, { version: VERSION }); } catch { return null; } };
       const r = D.applyData(opt.src, join(opt.out, lang), spec, tr);
-      report.push(`${lang}: ${r.replaced} of ${r.total} data strings translated`);
+      report.push(`${lang}: ${r.replaced} of ${r.total} data strings translated${r.shared.length ? `, ${r.shared.length} data file(s) untranslated and not copied (the English file is served): ${r.shared.join(', ')}` : ''}`);
     } catch (e) { if (e.code !== 'ENOENT') throw e; }
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
@@ -496,17 +496,46 @@ function images(args) {
   console.log(`images: ${uses} inlined images (${distinct.size} distinct files in ${opt.dir}); HTML ${(before / 1e6).toFixed(1)} MB -> ${(after / 1e6).toFixed(1)} MB`);
 }
 
-/** size: bytes of the English tree and of each language tree; fails when the whole deploy tree is over the cap (check.py rule 12 says 500 MB). */
-function size(args) {
-  const { opt } = args2opt(args, { tree: 'web', dist: 'dist', cap: '500' });
-  const du = (d) => { let n = 0; if (!existsSync(d)) return 0; for (const e of readdirSync(d, { withFileTypes: true })) { const p = join(d, e.name); n += e.isDirectory() ? du(p) : statSync(p).size; } return n; };
-  const en = du(opt.tree);
-  console.log(`English tree: ${(en / 1e6).toFixed(1)} MB (${opt.tree})`);
-  let langs = 0;
-  if (existsSync(opt.dist)) for (const l of readdirSync(opt.dist)) { const n = du(join(opt.dist, l)); langs += n; console.log(`  ${l}: ${(n / 1e6).toFixed(1)} MB`); }
-  const total = en + langs, cap = +opt.cap * 1e6;
-  console.log(`total ${(total / 1e6).toFixed(1)} MB, cap ${opt.cap} MB: ${total > cap ? 'OVER' : 'ok'}`);
+/** size: bytes of the whole deploy tree, by top-level directory and file class, and fails when it is over the cap (check.py rule 12b says 500 MB).
+ *  The cap is measured on the tree the deploy uploads: English, every language tree and the engine package (pkg/), summed file sizes.
+ *  --dist DIR adds a separate directory of language trees (a local run); --no-engine allows a tree without pkg/kshana_bg.wasm. */
+async function size(args) {
+  const L = await lang();
+  const { opt } = args2opt(args, { tree: 'web', dist: 'dist', cap: '500', noEngine: false, breakdown: false, json: false });
+  const known = [...L.LANGS, 'en-XA'];
+  const { measureTree } = await import('./i18n-size.mjs');
+  const r = measureTree(opt.tree, known);
+  const langs = new Map();
+  if (existsSync(opt.dist)) for (const l of readdirSync(opt.dist)) { const n = measureTree(join(opt.dist, l), known); langs.set(l, n); }
+  const mb = (n) => `${(n / 1e6).toFixed(1)} MB`;
+  console.log(`tree ${opt.tree}: ${mb(r.total)} in ${r.files} files (${mb(r.byGroup.en)} English, ${mb(r.byGroup.lang)} in ${r.langs.length} language trees: ${r.langs.join(' ') || 'none'})`);
+  for (const [l, n] of langs) console.log(`  ${l}: ${mb(n.total)}`);
+  if (opt.breakdown) {
+    console.log('by top-level entry:'); for (const [k, v] of [...r.byTop].sort((a, b) => b[1] - a[1])) console.log(`  ${mb(v).padStart(9)}  ${k}`);
+    console.log('by class (English | language trees):'); for (const k of [...r.byClass.keys()].sort((a, b) => (r.byClass.get(b).en + r.byClass.get(b).lang) - (r.byClass.get(a).en + r.byClass.get(a).lang))) { const c = r.byClass.get(k); console.log(`  ${k.padEnd(8)} ${mb(c.en).padStart(9)} | ${mb(c.lang).padStart(9)}`); }
+  }
+  const total = r.total + [...langs.values()].reduce((a, n) => a + n.total, 0), cap = +opt.cap * 1e6;
+  const engine = existsSync(join(opt.tree, 'pkg', 'kshana_bg.wasm'));
+  if (opt.json) { console.log(JSON.stringify({ total, cap, engine, files: r.files, english: r.byGroup.en, languages: r.byGroup.lang, langs: r.langs, byTop: Object.fromEntries(r.byTop), byClass: Object.fromEntries(r.byClass) })); process.exit(total > cap || (!engine && !opt.noEngine) ? 1 : 0); }
+  if (!engine && !opt.noEngine) { console.error('size: the tree has no pkg/kshana_bg.wasm, so this is not the deploy tree and the figure would leave out the engine (stage it with web/build.sh, or pass --no-engine)'); process.exit(1); }
+  console.log(`total ${mb(total)}, cap ${opt.cap} MB${engine ? ' (engine package counted)' : ''}: ${total > cap ? 'OVER' : 'ok'}`);
   if (total > cap) process.exit(1);
+}
+
+/** share-engine: keep one copy of the wasm package in the deploy tree (tools/i18n-share.mjs). */
+async function shareEngineCmd(args) {
+  const { opt } = args2opt(args, { tree: 'site' });
+  const { shareEngine } = await import('./i18n-share.mjs');
+  const r = shareEngine(opt.tree);
+  console.log(`share-engine: ${r.status}${r.saved ? `, ${(r.saved / 1e6).toFixed(1)} MB saved` : ''}${r.rewritten.length ? `; rewrote ${r.rewritten.join(', ')}` : ''}`);
+}
+
+/** catalogues: stage the run-time catalogues (English and the built languages) at <tree>/i18n/<lang>/ (tools/i18n-share.mjs). */
+async function cataloguesCmd(args) {
+  const { opt } = args2opt(args, { tree: 'site', root: 'i18n', langs: '' });
+  const { stageCatalogues } = await import('./i18n-share.mjs');
+  const n = stageCatalogues(opt.root, opt.tree, opt.langs.split(',').filter(Boolean));
+  console.log(`catalogues: ${(n / 1e6).toFixed(1)} MB staged in ${opt.tree}/i18n`);
 }
 
 /** sitemaps: sitemap.xml becomes an index of sitemap-en.xml and every <lang>/sitemap.xml (pages at least 80 % translated only). */
@@ -954,7 +983,7 @@ async function firstpaint(args) {
 
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), 'share-engine': async () => shareEngineCmd(rest), catalogues: async () => cataloguesCmd(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }
