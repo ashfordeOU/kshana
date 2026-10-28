@@ -2011,3 +2011,55 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-7a0503f925c1 = <s1>Forrige</s1>Funktionsreference
 
 seg-b5832e94f926 = <s1>Næste</s1>Krav over for virkeligheden
+
+seg-65185cb68d6b = Fejlbudget for navigation og tidssynkronisering for en kæde af missionsfaser fra opsendelse til indflyvning (<c1/>)
+
+seg-86a132e1a243 = Typen <c1/>: et dokument af faser, hver en af otte registrerede typer, kørt i rækkefølge, hvor 6x6-kovariansen, uret og referencesystemet gives videre efter en angiven regel (<c2/>; <c3/>, hvid accelerationsstøj over et angivet hul på en retlinet model; <c4/>, dødregning og derefter kildens gulv, aldrig under det, aldrig en nulstilling); konverteringer af referencesystem GCRF, MCI og MCMF og af tidsskala via TT, hver sin budgetrække, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve; marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. Hvert tal er et angivet input eller en model af et
+
+seg-87b2b2459b45 = Opsendelse og opstigning til en parkeringsbane med GNSS-erhvervelse og fading (<c1/>)
+
+seg-725e7ce83533 = Fasen <c1/>: en position- og hastighedskovarians med konstant hastighed og hvid accelerationsstøj (dødregningsklassen), en GNSS-positionsbestemmelse med angivet nøjagtighed anvendt efter erhvervelsestiden og uden for angivne fadings, et ur med bias og drift, der disciplineres af de samme positionsbestemmelser, og tilstanden ved indsætning i parkeringsbanen
+
+seg-eb66a49b0306 = Relativ navigation til dockingomhyllingen i lav jordbane over sensorstrækninger (<c1/>)
+
+seg-658a0448d80d = Fasen <c1/>: den relative tilstand i målets LVLH-akser med den lukkede Clohessy-Wiltshire-overgang, en 6x6 Kalman-kovarians med hvid accelerationsstøj og positionsopdateringer, hvis varians er sensorens ved den aktuelle afstand, over strækninger af en angiven sensor (ILLUSTRATIVE optisk kamera, lidar og radioafstandsmåling); dockingvinduet er tiden fra det tidspunkt, hvor den relative sigma holder sig inden for indfangningsomhyllingen, til fasens slutning. Jagerens absolutte kovarians gives videre uændret, og en række siger det
+
+seg-b45a8a357faf = Trans-lunar injektion og cislunart krydstogt: propageret middeltilstand og kovarians med sporingsopdateringer (<c1/>)
+
+seg-ab5c79789754 = Fasen <c1/>: middeltilstanden fra motorens Cowell-propagator (Jorden som punktmasse og J2, Solen og Månen som tredjelegemer, Månen fra trådens DE440-kerne, hvor den dækker segmentet, og Solen fra den analytiske serie); kovariansen ved en fremadrettet differens-tilstandsovergangsmatrix af denne propagering (den nominelle kørsel og seks forstyrrede kørsler pr. segment) med hvid accelerationsstøj; TLI-brændingens størrelse og retningsfejl; <c2/>-positionsbestemmelser, hvis tilgængelighed og PDOP kommer fra feltet af rumservicevolumen langs en oskulerende bane, der står i for buen; afstands- og afstandshastighedssporing langs den geocentriske retning skaleret med jordnetværkets driftsandel, med opdatering på Joseph-form
+
+seg-7a3eb4fae324 = Kovarians ved indflyvningsgrænsefladen, korridorsandsynlighed, maksimal deceleration og landingsfodaftryk (<c1/>)
+
+seg-93f07906d7bf = Fasen <c1/>: returkysten for <c2/> uden brænding, der ender ved indflyvningsgrænsefladen; flyvebaneafvigelsen og dens sigma fra den fulde kovarians ved en gradient med endelig differens; sandsynligheden for, at vinklen ligger inden for en angivet korridor; den maksimale deceleration ved den nominelle vinkel og ved begge korridorkanter fra motorens plane ballistiske punktmasse-indflyvning (skip-out registreret) ved siden af den lukkede Allen-Eggers-form; landingsfodaftrykket fra en angiven følsomhed i nedrækkevidde og grænsefladekovariansen på tværs af banens plan. Hverken løft, styring eller opvarmning modelleres
+
+seg-3f0951532f6e = Jordnetværkets dækning og sporingsandel for en trådfase (<c1/> i <c2/>)
+
+seg-5204af351299 = Jordnetværkets overlay: stationer med en mindste elevation, køretøjets sigtbarhed på en angivet geometri (indflyvningstilstanden fløjet to-legemer med J2, Månens position for krydstoget eller en angivet andel), stationsoverdragelser, der hver taber en angivet tid, og den resulterende andel, der gives videre til fasens opdateringsrate for jordsporing; det længste interval uden station i sigte er en budgetrække
+
+seg-4ba700726208 = Relativ navigation til docking i en månebane (<c1/>)
+
+seg-2e30e78e49f7 = Typen og fasen <c1/>: et fælles batch-Gauss-Newton-estimat for to køretøjer over buen (enogtyve parametre: begge tilstande og vedvarende positionsbiaser i signal-i-rummet, fælles og uafhængige), opbygget over en fjerdedel, en halvdel og hele buen med trinhalvering, ud fra en absolut positionsbestemmelse pr. køretøj (grænse for AFS-pilotkodesporing, ILLUSTRATIVE relæsæt) og en krydslinkafstand, under cratens månekraftmodel; den gennemsnitlige normaliserede estimeringsfejl i anden, Clohessy-Wiltshire-kontrollen på en cirkulær bane og den 6x6-kovarians, der gives videre
+
+seg-c85d7e5e63a3 = Budget for landingsspredning på et polart sted på Månen (<c1/>)
+
+seg-bd88ab3ad105 = Typen og fasen <c1/>: en inertiel fejlmodel med fem tilstande pr. akse (position, hastighed, accelerometerbias, hældning, gyrobias) over en drevet nedstigning, støttet af AFS-positionsbestemmelser (selvstændige eller differentielle, med det urstøttede tilfælde med tre relæer), en terrænrelativ positionsbestemmelse (motorens terrain-nav-matcher på syntetisk relief eller en Cramer-Rao-grænse på en LOLA-DEM med en apertur-problem-regel) og månetid, med en Monte Carlo-ellipse for berøringspunktet
+
+seg-8dfc1600cf8c = Tilgængelighed af positionering og tidssynkronisering på overfladen efter sted og årstid ved månepolerne (<c1/>)
+
+seg-f91c1da9ab55 = Typen og fasen <c1/>: relætilgængelighed og PDOP, sigtbarhed af Jorden og Solen og et disciplineret overfladeur for hvert sted og hver årstid, med terrænhorisonten fra <c2/>; en kørsel for ét sted er lig med den types tilgængelighed og PDOP til sidste bit
+
+seg-0db91d70a079 = Drevet opstigning fra et polart sted på Månen til en indsætningsbane (<c1/>)
+
+seg-b5b1125d515c = Typen og fasen <c1/>: den inertielle fejlmodel med fem tilstande pr. akse kørt over en drevet opstigning med specifik kraft langs banen, støttet af AFS-positionsbestemmelser og månetid, som rapporterer den position- og hastighedskovarians ved indsætning, der føres til banen, og spredningen ved motorafbrydelse (rapporteret, ikke ført videre)
+
+seg-1983ce9cc6da = Propageringen med månekraftmodellen mod offentlige rekonstruerede baner for månesatellitter og cislunare baner
+
+seg-57f53a7d1fa2 = Den propagator, månetyperne deler (GRAIL GL0660B grad og orden { "150" }, Jorden og Solen som tredjelegemer, relativitet, DE440-månorientering), sammenlignet med de offentlige JPL Horizons-baner for LRO ({ "24" } timer, prøver hvert { "10" }. minut) og CAPSTONE (ét omløb på { "6.5" } dage, prøver hver time), under tærskler fastsat i en indlagt fil før kørslen
+
+seg-c557d317389a = Propageringen af den cislunare middeltilstand mod den offentlige bane for Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Propageringen af middeltilstanden i fasen <c1/> (Cowell, Jorden som punktmasse og J2, Solen og Månen som tredjelegemer, Månen fra et DE440-udsnit) sammenlignet med den offentlige JPL Horizons-bane for Artemis I over en kystbue på { "72" } timer fra 2022-11-16 { "18" }:{ "00" } TDB, ved epoker hver { "12" }. time, under tærskler fastsat i en indlagt fil før kørslen
+
+seg-150ae9c3d755 = Interferenskildeområde: et muligt senderområde ud fra positionsrapporter fra fly og skibe
+
+seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, ud fra positionsrapporter fra ADS-B (NIC/NACp) eller AIS: radiosigtlinje på en 4/3-jordradius fra rapporthøjden og et højdeinterval for senderantennen, en begrænset effektiv rækkevidde for den ukendte effekt, hvor berørte enheder trækker posterioren mod deres rækkevidde, og uberørte enheder med sigtlinje skubber imod, grupperet i sessioner i tid og rum. Output er områder med højeste tæthed ved angivne konfidensniveauer, et posterior-tyngdepunkt med en momentellipse, sessionens start, slut, varighed, berørt areal og antal forskellige fly over offentliggørelsesminimum, en døgnprofil og timer pr. dag. Uden terræn; én kilde pr. session; troværdigheden er betinget af modellen. Valgfri fusion med en TDOA-positionsbestemmelse fra geolokalisering.

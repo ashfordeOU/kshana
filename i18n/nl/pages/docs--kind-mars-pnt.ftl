@@ -39,3 +39,5 @@ seg-a16f2332397c = lmo
 seg-c564dca90854 = De grafiek die de engine schrijft voor scenarios/mars-pnt-lmo.toml, soort mars-pnt
 
 seg-83c3a84f6b98 = <b>VALIDATED</b> Herstel van een epochtoestand [r,v] uit afstanden van grondstations via een Gauss–Newton-batchcorrector voor differentiële correctie en een sequentieel filter, over een tweelichamen+J2-krachtmodel. Onafhankelijke referentie (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — een onafhankelijke schattingsbibliotheek van een derde partij op een afgestemd krachtmodel; herstelde epochtoestand + RMS van het residu na de fit komen overeen tot <{ "1e-3" } m zonder ruis en <{ "3" } m bij een ruisvloer van { "5" } m
+
+seg-6d595f01ffcc = <s1>Volgende</s1>mission-thread

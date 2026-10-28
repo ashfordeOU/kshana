@@ -1148,3 +1148,12 @@ seg-bd28ef5c376e = Dezassete idiomas além do inglês
 
 # text
 seg-7fae5de5ebf1 = kshana-bench: a nova campanha da { "0.40" }
+
+# text
+seg-b9961ed25282 = Novidades da v{ $version }: uma cadeia da missão, uma etiqueta de evidência em cada figura e dezassete idiomas
+
+# text
+seg-653cf3198094 = { "176" } de { "401" } capacidades concordam com referências independentes externas; as demais são etiquetadas como modeladas, em voz alta.
+
+# text
+seg-76b213d03caa = Todos os { "92" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.

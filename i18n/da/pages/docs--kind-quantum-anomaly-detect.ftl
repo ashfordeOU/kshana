@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Detektion af fejl og anomalier for kvante-PNT-systemer er MOD
 seg-6524a69e4835 = <s1>Forrige</s1>pvt
 
 seg-aa689568cf84 = <s1>Næste</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

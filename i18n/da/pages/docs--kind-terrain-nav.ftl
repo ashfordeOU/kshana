@@ -29,3 +29,5 @@ seg-c5e33c7122e2 = Diagrammet, som motoren skriver for scenarios/terrain-nav.tom
 seg-0fcad0016c78 = <s1>Forrige</s1>telecom-timing
 
 seg-fa50992f818f = <s1>Næste</s1>terrain-slam
+
+seg-e66e2ca31e54 = Emneside: <a1>MISSION-THREAD-LUNAR.md</a1>

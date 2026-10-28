@@ -10,7 +10,7 @@ seg-f42465f7d066 = ns
 seg-37d29d8303fe = km
 
 # text
-seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-1c1eeb2dcaa0 = Página da família: <a1>Lunar e cislunar</a1>
@@ -101,3 +101,9 @@ seg-2b8455001710 = <s1>Anterior</s1>lunar-beacon
 
 # text
 seg-dca7482d9d75 = <s1>Seguinte</s1>lunar-frame-campaign
+
+# text
+seg-e66e2ca31e54 = Página do tópico: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+# text
+seg-f9d918743ec6 = <s1>Anterior</s1>lunar-descent

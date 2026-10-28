@@ -55,3 +55,9 @@ seg-46ed0b786244 = Onderwerppagina: <a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>Vorige</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Volgende</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } meegeleverde scenario's gebruiken deze soort; de andere staan in <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> De soort <c1/>: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (<c2/>; <c3/>, witte versnellingsruis over een vermelde onderbreking Tests: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = en { "1" } meer in de matrix.

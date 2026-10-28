@@ -91,3 +91,7 @@ seg-702ea357fbf3 = användningen av varje kommando; motorns version
 seg-74240229d57b = <s1>Föregående</s1>Alla scenariosorter, per familj
 
 seg-b3cc5b769c99 = <s1>Nästa</s1>Alla ytor
+
+seg-09dab71efd9d = kontrollerar format och metadata i ett bidrag från en datapartner och läser dess datafil med motorns läsare; poängsätter ingenting
+
+seg-57686575b81d = Partnerdata

@@ -91,3 +91,7 @@ seg-702ea357fbf3 = brugen af hver kommando; motorversionen
 seg-74240229d57b = <s1>Forrige</s1>Hver scenarietype, efter familie
 
 seg-b3cc5b769c99 = <s1>Næste</s1>Hver flade
+
+seg-09dab71efd9d = kontrollerer format og metadata for en indsendelse fra en datapartner og læser dens datafil med motorens læsere; scorer intet
+
+seg-57686575b81d = Partnerdata

@@ -91,3 +91,7 @@ seg-702ea357fbf3 = het gebruik van elke opdracht; de engineversie
 seg-74240229d57b = <s1>Vorige</s1>Elk scenariotype, per familie
 
 seg-b3cc5b769c99 = <s1>Volgende</s1>Elk oppervlak
+
+seg-09dab71efd9d = controleert het formaat en de metadata van een inzending van een datapartner en leest het databestand met de lezers van de engine; scoort niets
+
+seg-57686575b81d = Partnerdata

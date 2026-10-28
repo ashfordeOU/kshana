@@ -2269,3 +2269,101 @@ seg-48460c0538b9 = ramy zgodności odpornego PNT, odwzorowane według numeru kla
 seg-e51289a1e835 = Wytyczne EASA dotyczące zakłóceń GNSS (lotnictwo)
 
 seg-4fa26d67951e = Wytyczne EASA dla lotnictwa, odwzorowane według numeru klauzuli
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Wybierz jeden ze { "193" } plików scenariuszy w { "92" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
+
+seg-d5c6110302e9 = Wątek misji klasy Artemis, etykieta dowodowa przy każdej wartości i siedemnaście języków.
+
+seg-8597c65432ed = Połącz fazy misji księżycowej w jeden budżet błędu nawigacji i czasu, oszacuj, gdzie może znajdować się źródło pogorszonych raportów pozycji, odczytuj zmierzone dzienniki zegara, zobacz poziom dowodowy przy każdej wartości zapisywanej przez przebieg i korzystaj z wiersza poleceń, raportów i Studio w siedemnastu językach. Każda możliwość nosi etykietę, jaką ma dla niej rejestr, a etykieta nazywa tylko to, co zostało sprawdzone. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu: za nawigację odpowiada nadal operator.
+
+seg-070972f642de = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu od startu do wejścia w atmosferę
+
+seg-982a4a7cf0db = Rodzaj wątku misji łączy fazy (start i wznoszenie, spotkanie na niskiej orbicie okołoziemskiej, wtrysk translunarny i lot, fazy księżycowe, wejście w atmosferę) i przenosi kowariancję pozycji i prędkości z każdej fazy do następnej; zasady przekazania, konwersje układów odniesienia i skal czasu, margines względem podanych wymagań oraz najsłabsze ogniwo są zapisane jako wiersze budżetu.
+
+seg-17c9cc6c2d40 = Sprawdzono: porównanie z Artemis I nie osiągnęło progu ({ "45.3" } km wobec { "5" } km); wiersz pozostaje MODELLED
+
+seg-946487626f87 = Widok wątku misji w Kshana Studio
+
+seg-4970f874d334 = Segment księżycowy: spotkanie, lądowanie, powierzchnia i wznoszenie
+
+seg-b6c35bf141e7 = Cztery rodzaje scenariuszy, każdy także fazą wątku misji: nawigacja względna do połączenia na orbicie księżycowej, budżet rozrzutu lądowania w miejscu przy biegunie południowym, dostępność pozycjonowania i czasu według miejsca i pory roku oraz wznoszenie z powrotem na orbitę spotkania.
+
+seg-ce097df855a9 = Sprawdzono: progi zarejestrowane wstępnie; jeden spełniony, jeden niespełniony, żaden nie został poluzowany
+
+seg-8ca6e2046901 = Szacowany obszar emitera na podstawie raportów ADS-B lub AIS
+
+seg-ca6383e426f9 = Gdzie może znajdować się źródło pogorszonych raportów pozycji, jako obszary na poziomach { "50" }, { "90" } i { "95" } procent z centroidem i jego elipsą niepewności, nigdy jako goły punkt, oraz sesje w czasie.
+
+seg-27af464d0674 = Sprawdzono: zarejestrowane wstępnie; oba źródła niemożliwe do oceny, więc nic nie jest twierdzone
+
+seg-003a3b9b63ea = Zmierzone dzienniki zegara i holdover sterowany dopasowaną serią
+
+seg-f51fa2a40db8 = Odczytaj zmierzony dziennik zegara w ośmiu formatach (RINEX clock, TimeLab, TICC, linuxptp, chrony) do jednej serii fazy dla rodzajów zegara i synchronizacji telekomunikacyjnej oraz dopasuj szum zmierzonej serii, aby sterować holdover.
+
+seg-6e9140563c53 = Sprawdzono: progi zarejestrowane wstępnie; niespełnione podane wprost i przypięte
+
+seg-448b11c86f48 = Partnerzy danych: które wiersze mogłyby awansować dzięki zmierzonym danym
+
+seg-56b0201d930c = Które modelowane wiersze rejestru mogłyby awansować dzięki zmierzonym danym od partnera, jakie formaty są przyjmowane oraz jak zgłoszenie jest sprawdzane, oceniane względem progu zarejestrowanego wstępnie i zaliczane.
+
+seg-5858e5d1f7c5 = Etykieta dowodowa przy każdej wartości i tabeli zapisywanej przez przebieg
+
+seg-d1c4250b2a7e = Każdy plik wyników, wykres i tabela zapisywane przez przebieg mówią teraz, na jakim poziomie się opierają (sprawdzone względem wzorca, obliczone z modelu lub partnera, według najsłabszego z ich wierszy) i nazywają wiersze macierzy weryfikacji, które za nimi stoją, odczytane z macierzy, a nie wpisane ręcznie.
+
+seg-bd28ef5c376e = Siedemnaście języków obok angielskiego
+
+seg-1e4a6a5931d3 = Wiersz poleceń, raporty, strony dokumentacji i Studio są dostępne w siedemnastu językach obok angielskiego.
+
+seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
+
+seg-1e0afa852323 = Cztery porównania zarejestrowane wstępnie zostały uruchomione raz po zatwierdzeniu i osiągnęły swoje progi, a każdy wynik jest obliczony z modelu.
+
+seg-ed10ac59ed87 = Wszystkie { "193" } pliki scenariuszy w { "92" } rodzajach, pogrupowane według dziedziny; { "180" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.
+
+seg-c381cfa99bb0 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (`[clock_fit]`).
+
+seg-328cd04eef87 = Scenariusz zegara ze zmierzonym dziennikiem obok symulowanego holdover (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu jednego łańcucha faz, od startu
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Wznoszenie z Księżyca: wznoszenie z napędem z miejsca na powierzchni przy biegunie południowym (klasa Artemis) do spotkania na wysokości { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Rozrzut lądowania na Księżycu: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z
+
+seg-bd7c53737f55 = Rozrzut lądowania na Księżycu z rzeczywistym DEM LOLA okolic bieguna południowego: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Spotkanie na orbicie księżycowej: nawigacja względna do połączenia w stylu Orion–lądownik na kołowej orbicie polarnej o wysokości { "100" } km
+
+seg-6ce976854c44 = Spotkanie na eliptycznej orbicie polarnej Księżyca: nawigacja względna do połączenia w stylu Orion–lądownik na
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Dostępność PNT i czasu na powierzchni Księżyca według miejsca i pory roku (miejsca przy biegunie południowym, klasa Artemis).
+
+seg-0ecc50eafdbe = Dostępność PNT i czasu na powierzchni Księżyca według miejsca i pory roku z rzeczywistym ukształtowaniem terenu LOLA przy biegunie południowym
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } z { "92" } rodzajów, { "3300" } z { "3300" } pól liczbowych

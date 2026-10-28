@@ -1893,3 +1893,5 @@ seg-20beca58d39e = <a1>Føj til Cursor (npx)</a1> · <a2>Føj til Cursor (Docker
 seg-aa6b62f0b484 = <a1>Installér i VS Code (npx)</a1> · <a2>Installér i VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP er Model Context Protocol. Fastlås en udgivelse med <c1/>, <c2/> eller <c3/>. Hvis du vil bygge fra kildekode, se <a1>Installation og bygning</a1> under Reference.
+
+seg-57686575b81d = Partnerdata

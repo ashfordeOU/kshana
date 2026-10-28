@@ -1893,3 +1893,5 @@ seg-20beca58d39e = <a1>Toevoegen aan Cursor (npx)</a1> · <a2>Toevoegen aan Curs
 seg-aa6b62f0b484 = <a1>Installeren in VS Code (npx)</a1> · <a2>Installeren in VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP is het Model Context Protocol. Pin een release met <c1/>, <c2/> of <c3/>. Om vanuit de broncode te bouwen, zie <a1>Installeren en bouwen</a1> onder Naslag.
+
+seg-57686575b81d = Partnerdata

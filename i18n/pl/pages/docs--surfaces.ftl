@@ -565,3 +565,5 @@ seg-b2fd2a05842f = Szkoleniowy NMEA to <b>wyłącznie tekst</b>: nie syntezuje s
 seg-4e3bbacda9ac = <s1>Poprzednia</s1>Używanie Kshana z poziomu agenta
 
 seg-c5fbfab85e01 = <s1>Następna</s1>Wtyczka JetBrains
+
+seg-6555ff9a6d8e = Wynik

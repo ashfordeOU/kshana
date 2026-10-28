@@ -9,7 +9,7 @@ seg-a83b25413fd8 = Fonte: <c1/>
 seg-92b24377c9be = <c1/> (tipo de cenário)
 
 # text
-seg-216efc4e6fba = Tipo de cenário do motor v{ $version }, família <a1>PNT alternativo sem GPS</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-216efc4e6fba = Tipo de cenário do motor v{ $version }, família <a1>PNT alternativo sem GPS</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-f496b7f4c63a = Navegador combinado de gravidade + campo magnético + terreno sem GPS: três canais de campo escalares fundidos a cada ponto de passagem para uma correção de deriva mais precisa (CRLB menor) do que qualquer campo isolado.

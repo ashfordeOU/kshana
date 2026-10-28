@@ -703,3 +703,19 @@ seg-f4d3b1f5b1b4 = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c
 seg-3287261002dd = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
 seg-510663384be1 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-070972f642de = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu od startu do wejścia w atmosferę
+
+seg-4970f874d334 = Segment księżycowy: spotkanie, lądowanie, powierzchnia i wznoszenie
+
+seg-8ca6e2046901 = Szacowany obszar emitera na podstawie raportów ADS-B lub AIS
+
+seg-003a3b9b63ea = Zmierzone dzienniki zegara i holdover sterowany dopasowaną serią
+
+seg-448b11c86f48 = Partnerzy danych: które wiersze mogłyby awansować dzięki zmierzonym danym
+
+seg-5858e5d1f7c5 = Etykieta dowodowa przy każdej wartości i tabeli zapisywanej przez przebieg
+
+seg-bd28ef5c376e = Siedemnaście języków obok angielskiego
+
+seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }

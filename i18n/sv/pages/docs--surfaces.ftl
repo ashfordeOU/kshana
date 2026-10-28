@@ -565,3 +565,5 @@ seg-b2fd2a05842f = Utbildnings-NMEA är <b>endast text</b>: ingen RF, IQ eller v
 seg-4e3bbacda9ac = <s1>Föregående</s1>Använda Kshana från en agent
 
 seg-c5fbfab85e01 = <s1>Nästa</s1>JetBrains-plugin
+
+seg-6555ff9a6d8e = Utdata

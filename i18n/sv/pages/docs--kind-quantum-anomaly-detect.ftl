@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Fel-/anomalidetektering för kvant-PNT-system är MODELLED, i
 seg-6524a69e4835 = <s1>Föregående</s1>pvt
 
 seg-aa689568cf84 = <s1>Nästa</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

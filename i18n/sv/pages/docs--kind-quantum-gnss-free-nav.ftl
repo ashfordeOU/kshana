@@ -49,3 +49,5 @@ seg-9d67411151e3 = GNSS-fri kvantnavigering är MODELLED, inte validerad: kontro
 seg-e1d502e1ed6d = <s1>Föregående</s1>quantum-anomaly-detect
 
 seg-1f3705925b3c = <s1>Nästa</s1>quantum-time-transfer
+
+seg-a349aa76b0ed = PARTNER
