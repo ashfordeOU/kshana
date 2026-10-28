@@ -3555,7 +3555,7 @@ seg-88439b6ddd78 = <c1/> prüft das Format einer Einreichung und bewertet nichts
 
 seg-c571cf207dd4 = Senderregion.
 
-seg-5cf9c8d0440e = <c1/> gibt aus ADS-B- oder AIS-Meldungen eine Region und eine Ellipse an, nie einen bloßen Punkt. Einmal mit den Senderstandorten des Jammertests { "2025" } verglichen, ist das Ergebnis für beide Quellen <b>NICHT BEURTEILBAR</b> (zu wenige geplante Sitzungen in den offenen Daten), sodass die Zeile MODELLED bleibt (<a1>Störungskarte</a1>).
+seg-5cf9c8d0440e = <c1/> gibt aus ADS-B- oder AIS-Meldungen eine Region und eine Ellipse an, nie einen bloßen Punkt. Einmal mit den Senderstandorten des Jammertests { "2025" } verglichen, ist das Ergebnis für beide Quellen <b>NOT ASSESSABLE</b> (zu wenige geplante Sitzungen in den offenen Daten), sodass die Zeile MODELLED bleibt (<a1>Störungskarte</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> Die Neukampagne { "0.40" } erreicht A3, D3 (beide EXPLORATORY), R3 und R4; A2, D1 und R1 bleiben NOT MET (<a1>Bench</a1>).
 

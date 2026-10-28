@@ -1916,7 +1916,7 @@ seg-88439b6ddd78 = <c1/> kontrollerer formatet på en indsendelse og scorer inte
 
 seg-c571cf207dd4 = Senderområde.
 
-seg-5cf9c8d0440e = <c1/> giver et område og en ellipse, aldrig et bart punkt, ud fra ADS-B- eller AIS-rapporter. Sammenlignet én gang med senderpladserne i Jammertest { "2025" } er resultatet <b>IKKE VURDERBAR</b> for begge kilder (for få planlagte sessioner i de åbne data), så rækken forbliver MODELLED (<a1>Interferenskort</a1>).
+seg-5cf9c8d0440e = <c1/> giver et område og en ellipse, aldrig et bart punkt, ud fra ADS-B- eller AIS-rapporter. Sammenlignet én gang med senderpladserne i Jammertest { "2025" } er resultatet <b>NOT ASSESSABLE</b> for begge kilder (for få planlagte sessioner i de åbne data), så rækken forbliver MODELLED (<a1>Interferenskort</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> Gen-kampagnen { "0.40" } når A3, D3 (begge EXPLORATORY), R3 og R4; A2, D1 og R1 forbliver NOT MET (<a1>Bench</a1>).
 

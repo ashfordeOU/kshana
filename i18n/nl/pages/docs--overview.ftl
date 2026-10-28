@@ -1916,7 +1916,7 @@ seg-88439b6ddd78 = <c1/> controleert het formaat van een inzending en scoort nie
 
 seg-c571cf207dd4 = Zendergebied.
 
-seg-5cf9c8d0440e = <c1/> geeft een gebied en een ellips, nooit een kaal punt, uit ADS-B- of AIS-meldingen. Eenmaal vergeleken met de zenderlocaties van Jammertest { "2025" } is het resultaat <b>NIET TE BEOORDELEN</b> voor beide bronnen (te weinig geplande sessies in de open data), dus de rij blijft MODELLED (<a1>Interferentiekaart</a1>).
+seg-5cf9c8d0440e = <c1/> geeft een gebied en een ellips, nooit een kaal punt, uit ADS-B- of AIS-meldingen. Eenmaal vergeleken met de zenderlocaties van Jammertest { "2025" } is het resultaat <b>NOT ASSESSABLE</b> voor beide bronnen (te weinig geplande sessies in de open data), dus de rij blijft MODELLED (<a1>Interferentiekaart</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> De herhaalcampagne van { "0.40" } haalt A3, D3 (beide EXPLORATORY), R3 en R4; A2, D1 en R1 blijven NOT MET (<a1>Bench</a1>).
 
