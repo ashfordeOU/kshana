@@ -8219,3 +8219,5 @@ dat-b3d9ac894036 = Oma kellosi
 dat-286487acb3db = Zeniitin ja antipodin geometriatarkistukset sekä kaukaisen kohteen odotettu näkyvyys testeissä. Mitään todellista verkkoa, antennia tai aikataulua ei mallinneta
 
 dat-b8b659cbbefa = Jokainen mukana toimitettu skenaariotiedosto ({ "193" }) tyypeittäin ryhmiteltynä keskeisine asetuksineen.
+
+dat-23cef21a3ad4 = Lyhyt tehtäväketju, joka toimii pelkästä binääristä: laukaisu ja nousu, yksi kohtaaminen matalalla Maan kiertoradalla, yhden päivän

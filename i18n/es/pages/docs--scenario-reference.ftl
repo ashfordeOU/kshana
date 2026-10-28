@@ -1197,3 +1197,7 @@ seg-ce858063d300 = tipo de escenario mission-thread
 seg-0bd19840e50d = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización de una cadena de fases, desde el lanzamiento hasta la entrada, construido a partir de material público de concepto de operaciones.
 
 seg-1b2e1e1b5c38 = Cada archivo de escenario incluido ({ "193" }), agrupado por tipo de escenario. La descripción es el propio comentario de cabecera del archivo; los parámetros clave son sus ajustes de nivel superior. El estado lee la matriz de verificación para el módulo del tipo de escenario. <b>Abrir en Kshana Studio</b> abre la ejecución registrada.
+
+seg-a7bfd0a7e587 = Un hilo de misión corto que se ejecuta a partir de un único binario: lanzamiento y ascenso, un encuentro en órbita terrestre baja, un día de crucero translunar, y el regreso y la entrada, con la posición de la Luna a partir de la serie analítica (sin archivo de kernel). Es el acompañante incluido de mission-thread-artemis-class, que lee un kernel lunar extraído de un checkout.
+
+seg-d60c5f13a769 = <a1>Abrir en Kshana Studio</a1> · <s1>Aún no está en GitHub</s1>

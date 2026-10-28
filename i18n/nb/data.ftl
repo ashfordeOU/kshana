@@ -7211,3 +7211,5 @@ dat-b3d9ac894036 = Din egen klokke
 dat-286487acb3db = Sjekker av zenit- og antipodegeometri og forventet synlighet av et fjernt mål i testene. Intet virkelig nettverk, antenne eller tidsplan er modellert
 
 dat-b8b659cbbefa = Hver medfølgende scenariofil ({ "193" }), gruppert etter type, med nøkkelinnstillingene.
+
+dat-23cef21a3ad4 = En kort oppdragstråd som kjører utelukkende fra en binærfil: oppskyting og stigning, ett rendezvous i lav jordbane, én dag med

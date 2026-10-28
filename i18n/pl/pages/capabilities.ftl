@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } z { "92" } rodzajów, { "3300" } z { "3300" } pól l
 seg-237402dbe93a = Wybierz jeden ze { "194" } plików scenariuszy w { "92" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
 
 seg-ace118a5dc36 = Wszystkie { "194" } pliki scenariuszy w { "92" } rodzajach, pogrupowane według dziedziny; { "181" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.
+
+seg-f4ad26be58c2 = Krótki wątek misji uruchamiany wyłącznie z pliku binarnego: start i wznoszenie, jedno spotkanie na niskiej orbicie okołoziemskiej (rendezvous), jeden dzień
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

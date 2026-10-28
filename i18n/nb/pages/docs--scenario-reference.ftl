@@ -777,3 +777,7 @@ seg-ce858063d300 = type mission-thread
 seg-0bd19840e50d = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering for én kjede av faser, fra oppskyting til gjeninntreden, bygget på offentlig materiale om operasjonskonsept.
 
 seg-1b2e1e1b5c38 = Hver medfølgende scenariofil ({ "193" }), gruppert etter type. Beskrivelsen er filens egen toppkommentar; nøkkelparameterne er innstillingene på øverste nivå. Status leser verifikasjonsmatrisen for typens modul. <b>Open in Kshana Studio</b> åpner den registrerte kjøringen.
+
+seg-a7bfd0a7e587 = En kort oppdragstråd som kjører utelukkende fra en binærfil: oppskyting og stigning, ett rendezvous i lav jordbane, én dag translunar ferd samt returen og innflyvingen, med Månens posisjon fra den analytiske rekken (ingen kjernefil). Den er den medfølgende følgesvennen til mission-thread-artemis-class, som leser en månekjerne skåret ut fra en checkout.
+
+seg-d60c5f13a769 = <a1>Åpne i Kshana Studio</a1> · <s1>Ikke på GitHub ennå</s1>

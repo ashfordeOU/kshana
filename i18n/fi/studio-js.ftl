@@ -9345,3 +9345,17 @@ js-trust-yes = kyllä
 js-mthread-limiting-phase = Moottori nimeää tämän vaiheen rajoittavaksi lähteeksi { $source }: vaiheen lähde, ei yksi tämän taulukon rivi.
 
 js-mthread-limiting-row = moottorin rajoittava lähde
+
+js-cat-mission-thread-short-question = Millä vaiheella on ohuin navigointi- ja ajoitusmarginaali yhdellä ketjulla laukaisusta sisääntuloon, matalan kiertoradan kohtaamisen ja yhden Kuuhun suuntautuvan siirtymälennon päivän kautta? (mallinnettu)
+
+js-cat-mission-thread-short-title = Lyhyt tehtäväketju, laukaisusta sisääntuloon
+
+js-meankind-mthread-big = Ketjussa ohuin marginaali vaatimukseen nähden on vaiheessa { $phase }.
+
+js-meankind-mthread-big-source = Ketjussa ohuin marginaali vaatimukseen nähden on vaiheessa { $phase }, rajoittajana { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } vaihe.
+       *[other] { $n } vaihetta.
+    }

@@ -10713,3 +10713,17 @@ js-trust-yes = ja
 js-mthread-limiting-phase = Motorn anger den begränsande källan för den här fasen som { $source }: en källa för fasen, inte en rad i den här tabellen.
 
 js-mthread-limiting-row = motorns begränsande källa
+
+js-cat-mission-thread-short-question = Längs en stack från uppskjutning till inträde, genom ett rendezvous i låg omloppsbana och en dags translunär färd, vilken fas har den tunnaste marginalen för navigering och tidssynkronisering? (modellerad)
+
+js-cat-mission-thread-short-title = Kort uppdragsflöde, från uppskjutning till inträde
+
+js-meankind-mthread-big = Längs flödet finns den tunnaste marginalen mot kravet i fasen { $phase }.
+
+js-meankind-mthread-big-source = Längs flödet finns den tunnaste marginalen mot kravet i fasen { $phase }, begränsad av { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fas.
+       *[other] { $n } faser.
+    }

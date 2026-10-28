@@ -9528,3 +9528,5 @@ dat-2d1fe075cab5 = A propagação do estado médio da fase `tli-and-cruise` (Cow
 dat-09d31ea90146 = Injeção trans-lunar e cruzeiro cislunar: estado médio e covariância propagados com atualizações de rastreamento (`tli-and-cruise`)
 
 dat-b8b659cbbefa = Todos os arquivos de cenário incluídos ({ "193" }), agrupados por tipo, com suas principais configurações.
+
+dat-23cef21a3ad4 = Um fio da missão curto que roda a partir de um único binário: lançamento e ascensão, um encontro em órbita terrestre baixa, um dia de

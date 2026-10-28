@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } af { "92" } typer, { "3300" } af { "3300" } numerisk
 seg-237402dbe93a = Vælg en af { "194" } scenariefiler fordelt på { "92" } typer, eller skriv din egen. <c1/> viser hver type med dens felter, og <c2/> udskriver en fil at starte fra.
 
 seg-ace118a5dc36 = Alle { "194" } scenariefiler fordelt på { "92" } typer, grupperet efter domæne; { "181" } er indbygget i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> køres fra repositoriet med kommandolinjen. Prikken viser registerstatus for typens modul, hvor registeret nævner det. En fil med en optaget kørsel åbner den i Kshana Studio; de øvrige åbner deres post i scenariehenvisningen med filen og den kommando, der kører den.
+
+seg-f4ad26be58c2 = En kort missionstråd, der kører alene fra en binær fil: opsendelse og opstigning, ét rendezvous i lav jordbane, én dag af
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

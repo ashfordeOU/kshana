@@ -792,3 +792,7 @@ seg-ce858063d300 = tyyppi mission-thread
 seg-0bd19840e50d = Artemis-luokan tehtäväketju: yhden vaiheketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen ilmakehään, rakennettu julkisesta toimintakonseptiaineistosta.
 
 seg-1b2e1e1b5c38 = Jokainen mukana toimitettu skenaariotiedosto ({ "193" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylimmän tason asetukset. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studiossa</b> avaa tallennetun ajon.
+
+seg-a7bfd0a7e587 = Lyhyt tehtäväketju, joka toimii pelkästä binääristä: laukaisu ja nousu, yksi kohtaaminen matalalla Maan kiertoradalla, yksi päivä Kuuhun suuntautuvaa siirtymälentoa sekä paluu ja sisääntulo, Kuun sijainti analyyttisestä sarjasta (ei kernel-tiedostoa). Se on ketjun mission-thread-artemis-class mukana toimitettu vastine, joka lukee tarkistuksesta leikatun Kuu-kernelin.
+
+seg-d60c5f13a769 = <a1>Avaa Kshana Studiossa</a1> · <s1>Ei vielä GitHubissa</s1>

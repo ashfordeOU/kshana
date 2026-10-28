@@ -8734,3 +8734,5 @@ dat-b3d9ac894036 = Votre propre horloge
 dat-286487acb3db = Vérifications de géométrie au zénith et à l'antipode et visibilité attendue d'une cible lointaine dans les tests. Aucun réseau, aucune antenne et aucun calendrier réels ne sont modélisés
 
 dat-b8b659cbbefa = Chaque fichier de scénario fourni ({ "193" }), regroupé par type, avec ses principaux réglages.
+
+dat-23cef21a3ad4 = Un court fil de mission qui s'exécute à partir d'un seul binaire : lancement et ascension, un rendez-vous en orbite basse terrestre, un jour de

@@ -10839,3 +10839,18 @@ js-trust-yes = sim
 js-mthread-limiting-phase = O motor nomeia a fonte limitante desta fase como { $source }: uma fonte da fase, não uma linha desta tabela.
 
 js-mthread-limiting-row = a fonte limitante do motor
+
+js-cat-mission-thread-short-question = Ao longo de uma mesma pilha, do lançamento à entrada, passando por um encontro em órbita baixa e um dia de cruzeiro translunar, qual fase tem a margem de navegação e temporização mais estreita? (modelado)
+
+js-cat-mission-thread-short-title = Fio da missão curto, do lançamento à entrada
+
+js-meankind-mthread-big = Ao longo do fio, a margem mais estreita em relação ao seu requisito está na fase { $phase }.
+
+js-meankind-mthread-big-source = Ao longo do fio, a margem mais estreita em relação ao seu requisito está na fase { $phase }, limitada por { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fase.
+        [many] { $n } fases.
+       *[other] { $n } fases.
+    }
