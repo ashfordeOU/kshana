@@ -18,7 +18,7 @@ seg-0ac1117a39b8 = tabela wyników kshana-bench
 
 seg-b71ad83b27ad = Pliki wyników punktowane według <c1/>. Wiersz mówi, że ten plik uzyskał tę wartość na tym podziale. Nie oznacza, że jakikolwiek produkt został przez kogokolwiek oceniony lub zatwierdzony, i żadna organizacja nie jest wskazana jako popierająca.
 
-seg-6a2052a10b6e = Wyłącznie doradczo: wyniki obliczone z modelu lub zmierzone względem podanych wzorców; nie jest to zatwierdzenie, certyfikacja ani oświadczenie o zgodności. Wynik opisuje log lub korpus, nigdy produkt.
+seg-6a2052a10b6e = Wyłącznie doradczo: modelowane lub mierzone względem podanych wzorców; nie jest to zatwierdzenie, certyfikacja ani oświadczenie o zgodności. Wynik opisuje log lub korpus, nigdy produkt.
 
 seg-2918ee229bdd = Zadanie (a): detekcja na logach odbiornika
 

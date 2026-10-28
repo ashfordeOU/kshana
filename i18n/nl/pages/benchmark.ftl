@@ -18,7 +18,7 @@ seg-0ac1117a39b8 = kshana-bench-scorebord
 
 seg-b71ad83b27ad = Resultaatbestanden gescoord onder <c1/>. Een rij zegt dat dit bestand dit getal scoorde op deze splitsing. Het betekent niet dat een product door wie dan ook is beoordeeld of goedgekeurd, en er wordt geen organisatie als voorspreker genoemd.
 
-seg-6a2052a10b6e = Alleen adviserend: berekend uit een model of gemeten ten opzichte van vermelde referenties; geen goedkeuring, certificering of verklaring van conformiteit. Een score beschrijft een log of corpus, nooit een product.
+seg-6a2052a10b6e = Adviserend: gemodelleerd of gemeten tegen vermelde referenties, geen goedkeuring, certificering of verklaring van conformiteit. Een score beschrijft een log of corpus, nooit een product.
 
 seg-2918ee229bdd = Taak (a): detectie op ontvangerlogs
 

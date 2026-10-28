@@ -29,7 +29,7 @@ seg-0ac1117a39b8 = Quadro de classificação do kshana-bench
 seg-b71ad83b27ad = Arquivos de resultados pontuados sob <c1/>. Uma linha diz que este arquivo obteve esta pontuação nesta divisão. Isso não significa que algum produto tenha sido classificado ou aprovado por quem quer que seja, e nenhuma organização é citada como avalista.
 
 # text
-seg-6a2052a10b6e = Consultivo: modelado ou medido em relação a referências declaradas, não é uma aprovação, uma certificação nem uma declaração de aderência à norma. Uma pontuação descreve um registro ou um corpus, nunca um produto.
+seg-6a2052a10b6e = Consultivo: modelado ou medido em relação a referências indicadas, não uma aprovação, certificação nem declaração de conformidade. Uma pontuação descreve um registro ou um corpus, nunca um produto.
 
 # text
 seg-2918ee229bdd = Tarefa (a): detecção em registros de receptor

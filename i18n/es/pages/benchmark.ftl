@@ -29,7 +29,7 @@ seg-0ac1117a39b8 = Clasificación de kshana-bench
 seg-b71ad83b27ad = Archivos de resultados puntuados con <c1/>. Una fila dice que este archivo obtuvo esta puntuación en esta partición. No significa que nadie haya calificado ni aprobado ningún producto, y ninguna organización figura como avalista.
 
 # text
-seg-6a2052a10b6e = Solo orientativo: modelado o medido frente a referencias declaradas, no una aprobación, una certificación ni una declaración de ajuste a la norma. Una puntuación describe un registro o un corpus, nunca un producto.
+seg-6a2052a10b6e = Orientativo: calculado a partir de un modelo o medido frente a referencias indicadas, no una aprobación, una certificación ni una declaración de conformidad. Una puntuación describe un registro o un corpus, nunca un producto.
 
 # text
 seg-2918ee229bdd = Tarea (a): detección en registros de receptor
