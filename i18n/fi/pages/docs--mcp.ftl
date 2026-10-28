@@ -293,3 +293,5 @@ seg-75bf2d74642d = Lisenssi: AGPL-3.0-only, GNU Affero General Public License ve
 seg-490ebbefb561 = <s1>Edellinen</s1>Rust-crate
 
 seg-350b6b914734 = <s1>Seuraava</s1>MCP-palvelin: kaikki asennuskanavat
+
+seg-492888115662 = { "92" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.

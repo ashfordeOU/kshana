@@ -47,3 +47,5 @@ seg-95be70748647 = Fangstfotavtrykk mot høyde og strålebredde er MODELLED, ikk
 seg-1a1799e01ac4 = <s1>Forrige</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>Neste</s1>lunar-beacon
+
+seg-ca1c7e92b98e = <s1>Forrige</s1>lunar-ascent

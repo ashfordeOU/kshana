@@ -31,3 +31,5 @@ seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
 seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho výsledku je vlastní označení enginu uvedené výše.
 
 seg-4d208b6c0eb8 = den
+
+seg-e66e2ca31e54 = Stránka tématu: <a1>MISSION-THREAD-LUNAR.md</a1>

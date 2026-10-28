@@ -293,3 +293,5 @@ seg-75bf2d74642d = Lisens: AGPL-3.0-only, GNU Affero General Public License vers
 seg-490ebbefb561 = <s1>Forrige</s1>Rust-crate
 
 seg-350b6b914734 = <s1>Neste</s1>MCP-server: alle installasjonskanaler
+
+seg-492888115662 = De { "92" } innebygde scenariotypene med beskrivelser og påkrevde/valgfrie felt, slik at agenten kan bygge et gyldig scenario.

@@ -47,3 +47,5 @@ seg-d717412c4f06 = 链路预算报告的自我说明为MODELLED，而非已与�
 seg-ffbc9de75306 = <s1>上一页</s1>leo-signal
 
 seg-59d4cb995cb9 = <s1>下一页</s1>lunar-attack-surface
+
+seg-410a790785e7 = <s1>下一页</s1>lunar-ascent

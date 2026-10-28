@@ -89,3 +89,5 @@ seg-d3665be74ff1 = <s1>Eelmine</s1>quantum-gnss-free-nav
 
 # text
 seg-0d4b1f97541f = <s1>Järgmine</s1>quantum-trade
+
+seg-a349aa76b0ed = PARTNER

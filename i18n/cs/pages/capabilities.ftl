@@ -2269,3 +2269,101 @@ seg-0f359c118090 = Pozorovatelnost poruch autonomní volné sítě
 seg-ae99396c03bd = vs nezávislá algebra parity v numpy/scipy
 
 seg-51828c93731b = Lineární algebra, kterou samoreferenční lunární konstelace potřebuje k detekci vlastních poruch bez pozemní reference: vážený paritní projektor ve tvaru pseudoinverze s nedostatkem hodnosti, který přežije kalibr datumu a časové stupnice, detekovatelnost pro jednotlivé uzly, Baardova minimální detekovatelná odchylka a počty detekce/identifikace byzantských blokových jisker nad skutečnou geometrií mezi uzly DE440.
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Vyberte jeden z { "193" } souborů scénářů napříč { "92" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
+
+seg-d5c6110302e9 = Mise ve stylu Artemis jako jedno vlákno, štítek důkazů u každého čísla a sedmnáct jazyků.
+
+seg-8597c65432ed = Zřetězte fáze lunární mise do jednoho rozpočtu chyb navigace a času, odhadněte, kde se může nacházet zdroj zhoršených hlášení polohy, čtěte změřené záznamy hodin, u každého čísla, které běh zapíše, vidíte úroveň důkazů a používejte příkazový řádek, zprávy a Studio v sedmnácti jazycích. Každá schopnost nese štítek, který pro ni drží registr, a štítek uvádí jen to, co bylo zkontrolováno. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení: za navigaci zůstává odpovědný provozovatel.
+
+seg-070972f642de = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času od startu po vstup do atmosféry
+
+seg-982a4a7cf0db = Druh mission-thread zřetězuje fáze (start a výstup, setkání na nízké oběžné dráze Země, trans-lunární injekce a přelet, lunární fáze, vstup do atmosféry) a přenáší kovarianci polohy a rychlosti z každé fáze do další; pravidla předání, převody soustav a časových stupnic, rezerva vůči stanoveným požadavkům a nejslabší článek jsou každé zapsány jako řádky rozpočtu.
+
+seg-17c9cc6c2d40 = Zkontrolováno: srovnání s Artemis I nesplnilo svůj práh ({ "45.3" } km oproti { "5" } km); řádek zůstává MODELLED
+
+seg-946487626f87 = Pohled na vlákno mise ve Studiu Kshana
+
+seg-4970f874d334 = Lunární část: setkání, sestup, povrch a výstup
+
+seg-b6c35bf141e7 = Čtyři druhy scénářů, z nichž každý je zároveň fází vlákna mise: relativní navigace až k dokování na lunární oběžné dráze, rozpočet rozptylu přistání na jihopolárním místě, dostupnost určování polohy a času podle místa a roční doby a výstup zpět na oběžnou dráhu setkání.
+
+seg-ce097df855a9 = Zkontrolováno: předregistrované prahy; jeden splněn, jeden nesplněn, žádný nezmírněn
+
+seg-8ca6e2046901 = Odhadovaná oblast zdroje rušení z hlášení ADS-B nebo AIS
+
+seg-ca6383e426f9 = Kde se může nacházet zdroj zhoršených hlášení polohy, jako oblasti na úrovni { "50" }, { "90" } a { "95" } procent s těžištěm a jeho elipsou nejistoty, nikdy jako holý bod, a relace v čase.
+
+seg-27af464d0674 = Zkontrolováno: předregistrováno; oba zdroje nehodnotitelné, takže se nic netvrdí
+
+seg-003a3b9b63ea = Změřené záznamy hodin a holdover řízený nafitovanou řadou
+
+seg-f51fa2a40db8 = Načtěte změřený záznam hodin v osmi formátech (RINEX clock, TimeLab, TICC, linuxptp, chrony) do jedné fázové řady pro druhy clock a telecom-timing a nafitujte šum změřené řady, aby řídil holdover.
+
+seg-6e9140563c53 = Zkontrolováno: prahy předregistrovány; nesplnění uvedena a zafixována
+
+seg-448b11c86f48 = Datoví partneři: které řádky by mohla povýšit změřená data
+
+seg-56b0201d930c = Které modelované řádky registru by mohla povýšit změřená data od partnera, jaké formáty se přijímají a jak se podání kontroluje, hodnotí proti předregistrovanému prahu a připisuje.
+
+seg-5858e5d1f7c5 = Štítek důkazů u každého čísla a každé tabulky, které běh zapíše
+
+seg-d1c4250b2a7e = Každý výsledný soubor, graf a tabulka, které běh zapíše, nyní uvádí, na které úrovni stojí (ověřeno, modelováno nebo partner, podle nejslabšího ze svých řádků), a jmenuje řádky verifikační matice, které za ním stojí; čte se z matice a nepíše se ručně.
+
+seg-bd28ef5c376e = Sedmnáct jazyků vedle angličtiny
+
+seg-1e4a6a5931d3 = Příkazový řádek, zprávy, stránky dokumentace a Studio jsou k dispozici v sedmnácti jazycích vedle angličtiny.
+
+seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
+
+seg-1e0afa852323 = Čtyři předregistrovaná srovnání byla po schválení spuštěna jednou a splnila své prahy a každé skóre je modelované.
+
+seg-ed10ac59ed87 = Všech { "193" } souborů scénářů napříč { "92" } druhy, seskupených podle oblasti; { "180" } je zabudováno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře ve Studiu Kshana; ostatní otevřou svou položku v referenci scénářů se souborem a příkazem, který jej spouští.
+
+seg-c381cfa99bb0 = Scénář hodin, jehož klasické hodiny přebírají šum změřeného záznamu (`[clock_fit]`).
+
+seg-328cd04eef87 = Scénář hodin se změřeným záznamem vedle simulovaného holdoveru (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času jednoho řetězce fází, od startu
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Lunární výstup: motorický výstup z jihopolárního povrchového místa (ve stylu Artemis) na setkání ve výšce { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Rozptyl lunárního přistání: rozpočet motorického sestupu na jihopolární místo (ve stylu Artemis), od
+
+seg-bd7c53737f55 = Rozptyl lunárního přistání se skutečným jihopolárním DEM z LOLA: rozpočet motorického sestupu na jihopolární místo (ve stylu Artemis), od…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Lunární setkání: relativní navigace pro dokování ve stylu Orion-lander na kruhové polární dráze ve výšce { "100" } km
+
+seg-6ce976854c44 = Lunární setkání na eliptické polární dráze: relativní navigace pro dokování ve stylu Orion-lander na
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby (jihopolární místa ve stylu Artemis).
+
+seg-0ecc50eafdbe = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby se skutečným jihopolárním terénem z LOLA
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } z { "92" } druhů, { "3300" } z { "3300" } číselných polí

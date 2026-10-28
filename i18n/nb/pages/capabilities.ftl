@@ -2269,3 +2269,101 @@ seg-48460c0538b9 = rammeverk for robust PNT, kartlagt etter klausulnummer
 seg-e51289a1e835 = EASA-veiledning om GNSS-interferens (luftfart)
 
 seg-4fa26d67951e = EASA-veiledning for luftfart, kartlagt etter klausulnummer
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Velg en av { "193" } scenariofiler fordelt på { "92" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
+
+seg-d5c6110302e9 = En oppdragstråd i Artemis-klassen, en evidensetikett på hver figur og sytten språk.
+
+seg-8597c65432ed = Kjed sammen fasene i et månoppdrag til ett feilbudsjett for navigasjon og tidssynkronisering, anslå hvor en kilde til forringede posisjonsrapporter kan befinne seg, les målte klokkelogger, se evidensnivået på hver figur en kjøring skriver, og bruk kommandolinjen, rapportene og Studio på sytten språk. Hver funksjon har etiketten registeret har for den, og en etikett navngir bare det som ble kontrollert. Veiledende programvare, ikke typegodkjent navigasjonsutstyr: operatøren er fortsatt ansvarlig.
+
+seg-070972f642de = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering fra oppskyting til gjeninntreden
+
+seg-982a4a7cf0db = Typen oppdragstråd kjeder sammen faser (oppskyting og stigning, rendezvous i lav jordbane, trans-lunar injeksjon og seilas, månefasene, gjeninntreden) og fører posisjons- og hastighetskovariansen fra hver fase videre til den neste, med overleveringsreglene, konverteringene av referansesystem og tidsskala, marginen mot oppgitte krav og det svakeste leddet, hver skrevet som budsjettrader.
+
+seg-17c9cc6c2d40 = Kontrollert: sammenligningen med Artemis I bommet på terskelen ({ "45.3" } km mot { "5" } km); raden forblir MODELLED
+
+seg-946487626f87 = Visningen av oppdragstråden i Kshana Studio
+
+seg-4970f874d334 = Månesegmentet: rendezvous, nedstigning, overflate og oppstigning
+
+seg-b6c35bf141e7 = Fire scenariotyper, hver også en fase i oppdragstråden: relativ navigasjon til dokking i månebane, budsjettet for landingsspredning på et sted nær sørpolen, tilgjengelighet for posisjonering og tidssynkronisering etter sted og årstid, og oppstigningen tilbake til rendezvous-banen.
+
+seg-ce097df855a9 = Kontrollert: forhåndsregistrerte terskler; én nådd, én ikke nådd, ingen løsnet
+
+seg-8ca6e2046901 = En estimert senderregion fra ADS-B- eller AIS-rapporter
+
+seg-ca6383e426f9 = Hvor en kilde til forringede posisjonsrapporter kan befinne seg, som regioner på { "50" }, { "90" } og { "95" } prosent med et tyngdepunkt og dets usikkerhetsellipse, aldri et bart punkt, og økter i tid.
+
+seg-27af464d0674 = Kontrollert: forhåndsregistrert; begge kildene kunne ikke vurderes, så ingenting påstås
+
+seg-003a3b9b63ea = Målte klokkelogger, og en holdover drevet av en tilpasset serie
+
+seg-f51fa2a40db8 = Les en målt klokkelogg i åtte formater (RINEX clock, TimeLab, TICC, linuxptp, chrony) til én faseserie for klokke- og teletidssynkroniseringstypene, og tilpass støyen i en målt serie for å drive en holdover.
+
+seg-6e9140563c53 = Kontrollert: terskler forhåndsregistrert; bom oppgitt og festet
+
+seg-448b11c86f48 = Datapartnere: hvilke rader målte data kan oppgradere
+
+seg-56b0201d930c = Hvilke modellerte registerrader målte data fra en partner kan oppgradere, hvilke formater som godtas, og hvordan en innsending kontrolleres, skåres mot en forhåndsregistrert terskel og krediteres.
+
+seg-5858e5d1f7c5 = En evidensetikett på hver figur og tabell en kjøring skriver
+
+seg-d1c4250b2a7e = Hver resultatfil, hvert diagram og hver tabell som en kjøring skriver, oppgir nå hvilket nivå det hviler på (validert, modellert eller partner, det svakeste av radene) og navngir radene i verifikasjonsmatrisen bak seg, lest fra matrisen og ikke skrevet inn.
+
+seg-bd28ef5c376e = Sytten språk ved siden av engelsk
+
+seg-1e4a6a5931d3 = Kommandolinjen, rapportene, dokumentasjonssidene og Studio er tilgjengelige på sytten språk ved siden av engelsk.
+
+seg-7fae5de5ebf1 = kshana-bench: den nye kampanjen for { "0.40" }
+
+seg-1e0afa852323 = Fire forhåndsregistrerte sammenligninger ble kjørt én gang etter underskrift og nådde tersklene sine, og hver skåre er modellert.
+
+seg-ed10ac59ed87 = Alle { "193" } scenariofiler fordelt på { "92" } typer, gruppert etter domene; { "180" } er innebygd i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> kjøres fra depotet med kommandolinjen. Prikken viser registerstatusen til typens modul der registeret navngir den. En fil med en registrert kjøring åpner den i Kshana Studio; de andre åpner oppføringen sin i scenarioreferansen, med filen og kommandoen som kjører den.
+
+seg-c381cfa99bb0 = Et klokkescenario der den klassiske klokken tar støyen fra en målt logg (`[clock_fit]`).
+
+seg-328cd04eef87 = Et klokkescenario med en målt logg ved siden av den simulerte holdoveren (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering for én kjede av faser, fra oppskyting
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Oppstigning fra månen: den drevne oppstigningen fra et sted på overflaten nær sørpolen (Artemis-klassen) til rendezvous på { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Spredning ved månelanding: budsjettet for en drevet nedstigning til et sted nær sørpolen (Artemis-klassen), fra
+
+seg-bd7c53737f55 = Spredning ved månelanding med den virkelige LOLA DEM for sørpolområdet: budsjettet for en drevet nedstigning til et sted nær sørpolen (Artemis-klassen), fra…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Rendezvous i månebane: relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en sirkulær polar bane på { "100" } km
+
+seg-6ce976854c44 = Rendezvous i en elliptisk polar månebane: relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Tilgjengelighet for PNT og tidssynkronisering på månens overflate etter sted og årstid (steder nær sørpolen i Artemis-klassen).
+
+seg-0ecc50eafdbe = Tilgjengelighet for PNT og tidssynkronisering på månens overflate etter sted og årstid med det virkelige LOLA-terrenget nær sørpolen
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriske felt

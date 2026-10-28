@@ -81,3 +81,37 @@ seg-0f061f726ec5 = <s1>Předchozí</s1>Test holdoveru a časovací hardware ve s
 seg-3c89cfcbbd04 = <s1>Další</s1>Bezpečnost hardwaru
 
 seg-9b52cd5eb4be = tau0 a mezery
+
+seg-9c8042f0d3d7 = <b><c1/></b>: soubory hodin RINEX, verze { "2.00" } a { "3.00" } až { "3.04" } (včetně devítiznakového pole jména ve verzi { "3.04" }). Záznam <c2/> se kontroluje a každá jiná verze je odmítnuta s uvedením nalezené verze: IGS zveřejňuje formát hodin (<c3/>, <c4/>, <c5/>) až do { "3.04" } a dokumenty RINEX { "4.00" }, { "4.01" } a { "4.02" } definují jen soubory pozorování, navigace a meteorologické, takže verze { "4.00" } souboru hodin ke čtení neexistuje. Hlavička se čte jen kvůli <c6/> a přeskakuje se až po <c7/>. Z datových záznamů se ponechávají jen záznamy <c8/> (družice) a <c9/> (přijímač nebo stanice) jedněch hodin vybraných podle jména. Jejich první hodnotové pole, předpětí hodin v sekundách, je fáze. Pokračovací řádky a záznamy <c10/>, <c11/> a <c12/> se přeskakují. Epochy jsou kalendářní pole záznamu, jako sekundy od 1980-01-06 { "00" }:{ "00" }:{ "00" } ve vlastní časové soustavě souboru, bez převodu.
+
+seg-b65f4a928891 = <b><c1/></b>: záznamy čítače TAPR TICC (TICC Operation Manual, revize z { "23" }. listopadu { "2016" } a { "15" }. prosince { "2025" }, „measurement modes“). Každé datové pole jsou sekundy s { "12" } desetinnými místy (výchozí { "11" } od firmwaru { "20251101" }: čte se libovolný počet až { "15" }). Časové razítko se čte z desetinného textu jako celé číslo femtosekund, nikoli jako binární číslo s plovoucí řádovou čárkou, takže fáze záznamu pořízeného dny po spuštění čítače zachovává vlastní rozlišení čítače: časové razítko <c2/> při { "3.0e5" } s má rozestup { "5.8e-11" } s, asi { "60" } ps čítače.
+
+seg-bb51bfa2a834 = Režim Paired Timestamp tiskne stejné řádky v pořadí kanálů a čte se jako režim Timestamp; režim 3-Corner Hat přidává syntetizovaný <c1/>, čtený jak je uvedeno výše.
+
+seg-220bc7450e83 = Výstup režimů Period a Debug je odmítnut. Kanál, jehož odečty neroste, je hlášen jako režim Period. Binární režim Timestamp není text a soubor v něm je odmítnut se zprávou, která to říká.
+
+seg-1138c53b3eac = Vaše vlastní hodiny
+
+seg-1f9cce016fa0 = Tabulka <c1/> u druhu clock uvádí, jak stabilní byly vaše vlastní hodiny, vedle simulace: <c2/> (<c3/>) je <c4/> s výřezem 96 odečtů hodin družice IGS jako vloženým záznamem TimeLab. Nahraďte <c5/> hodnotami <c6/> a <c7/> pro svůj soubor. Blok <c8/> ve výsledku obsahuje, jak byl záznam přečten (formát, <c9/> a odkud pochází, každá mezera) a jeho ADEV, TDEV a MTIE; simulaci nemění.
+
+seg-584564d1a734 = Řízení holdoveru vlastními hodinami: <c1/>
+
+seg-56799b5fea19 = Záznam se fituje postupem karty zařízení z <c1/> (úprava, odstranění kvadratické složky, identifikace šumu s lagem 1, vážené nejmenší čtverce v bílém PM, bílém FM, flicker FM a random-walk FM při časech průměrování s alespoň { "30" } stupni volnosti). Pojmenované hodiny pak přebírají <c2/>, <c3/>, <c4/> a nafitovaný <c5/>; <c6/> zůstává, jak jej má scénář, protože záznam nese ofset své reference, nikoli hodin po disciplinaci. Bílý fázový šum se fituje a uvádí, ale nesimuluje. Výsledek získává blok <c7/> (koeficienty, body fitu, hodnoty, které běh použil, co bylo vynecháno, SHA-256 záznamu) a hodiny nesou id <c8/>. S <c9/> čerpá soubor běhů z nafitovaných hodin (blok <c10/> potřebuje <c11/>). Fit bez frekvenčního šumu, záznam příliš krátký na fit a <c12/> jiný než <c13/> nebo <c14/> jsou chyby, které to říkají. <c15/> je příklad ({ "6" } hodin hodin družice IGS).
+
+seg-fe695061eed3 = Co ukazuje srovnání na známém šumu (<c1/>) a co mít na paměti:
+
+seg-90657795ba62 = Splněno: úroveň bílého FM se obnoví do { "5" } % na každém syntetickém záznamu, který jej má; nafitovaná karta reprodukuje skutečnou Allanovu odchylku v rozmezí faktoru { "1.35" } při každém času průměrování, pro který byla fitována; exponent šumu, který fit identifikuje, se rovná exponentu z allantools v každém bodě (na záznamu 5071A poté, co je fázový skok, který úprava odstraní, odstraněn i ze vstupu allantools).
+
+seg-f1ec27a393ae = <b>Nesplněno a zafixováno testem:</b> random-walk FM se obnoví jen tehdy, když dominuje nejdelším časům průměrování záznamu, a i tehdy jen u jednoho ze tří záznamů řady o { "131 072" } s s překřížením při { "3 000" } s; fit jej přiřadil flicker FM a driftu. Rozdělení mezi random-walk FM a flicker FM není z jednoho záznamu spolehlivé. Běh reprodukuje stabilitu záznamu v časech průměrování, které záznam pokrývá; za nimi se obě volby rozcházejí (flicker FM je konstantní podlaha, random-walk FM roste jako druhá odmocnina času průměrování).
+
+seg-88ba5ae782d4 = MODELLED: scénář „co kdyby“ pro šum těchto hodin tak, jak jej záznam ukazuje, nikoli kalibrace hodin ani předpověď jejich budoucího chování.
+
+seg-6e88b597bbf0 = Chybně utvořený záznam je chyba, která uvádí, co bylo nalezeno (řádek, verzi, chybějící volič), nikdy částečný výsledek: <c1/> zafixovává { "24" } takových případů.
+
+seg-4a05abb27420 = MODELLED. Toto je parser a jeho výstup krmí odhadovače, které jsou jinde validovány proti allantools. Jednotkové testy v <c1/> používají malé ručně psané záznamy a pro formáty linuxptp a chrony fixtury v <c2/>. <c3/> spouští srovnání předregistrované v <c4/>: tři syntetické záznamy se seedem, po jednom na formát, načtené zpět nezávislou čtečkou napsanou podle této stránky týmž autorem, s ADEV, TDEV a MTIE zkontrolovanými proti allantools { "2024.6" }; toto srovnání pokrývá jen první tři formáty a čtečky linuxptp a chrony mají testy parseru, ale žádné srovnání s orákulem. Záznamy tohoto srovnání jsou syntetické, takže nic z toho nepopisuje skutečné hodiny ani čítač; srovnání na změřených řadách je popsáno níže.
+
+seg-576211abf0b4 = Na změřených datech
+
+seg-3c8d10e8bd1c = <c1/> spouští srovnání předregistrované v <c2/> (odevzdané před jakoukoli fixturou či během) na čtyřech změřených řadách: <c3/> ze Stable32, prvních { "65 536" } odečtů cesiových hodin 5071A proti vodíkovému maseru a hodinách družice IGS G01 ({ "30" } s) a stanice ABMF ({ "300" } s) z finálních hodin IGS ze 2026-08-02, jako vendorovaný výřez s jeho NOTICE. První dvě nenesou povolení k redistribuci: záznamy z nich zapsané jsou v <c4/> ignorovaném gitem (<c5/>) a test to uvádí a při jejich nepřítomnosti projde, pokud není <c6/>. Každý záznam čte engine i nezávislá čtečka a ADEV, TDEV a MTIE se porovnávají s allantools { "2024.6" }. Zaznamenáno v <c7/>: u dodávané čtečky selhaly na předregistrovaných prazích záznamy TICC, verze hlavičky a pět chybových zpráv; byly opraveny a srovnání bylo znovu spuštěno beze změny. Splněno kromě jednoho páru: MTIE frekvenčního záznamu se liší od allantools, protože allantools integruje frekvenci minus její střední hodnotu (zafixováno jako NOT MET; srovnání na stejném základě je splněno). Řádek zůstává MODELLED: záznamy TICC jsou změřená data hodin překódovaná naším skriptem do rozvržení čítače (žádný skutečný záznam z TICC nebyl nalezen) a referenční čtečka má stejného autora jako ta v enginu.
+
+seg-52778d17f4db = Řízení holdoveru vlastními hodinami: [clock_fit]

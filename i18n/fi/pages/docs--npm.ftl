@@ -214,3 +214,11 @@ seg-4ae905aec2ab = <s1>Edellinen</s1>Python-rajapinta
 
 # text
 seg-8af548581ae9 = <s1>Seuraava</s1>Rust-paketti
+
+seg-c9a297cc51e9 = { "176" } / { "401" } kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten
+
+seg-7b53ee712a36 = <b>{ "176" } / { "401" }</b> kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten; { "221" } rehellisesti merkitty mallinnetuksi, { "4" } kumppanin omistamaa. Jokaisella kyvykkyydellä on yksi nimike koneellisesti tarkistetussa kirjanpidossa: VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut viitevektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani omistaa sen). Tarkistuksiin kuuluvat muun muassa kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) julkaisusta AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vasten.
+
+seg-b59781ecf257 = Miten kyvykkyys ansaitsee nimikkeensä: kyvykkyys, oraakkeli, testi, kirjanpidon nimike. Varmennustila kaikissa { "401" } kyvykkyydessä: { "176" } validoitua, { "221" } mallinnettua, { "4" } kumppanin omistamaa
+
+seg-d0b2811a3d3c = Moottorissa on { "92" } skenaariolajia; <c1/> luettelee ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-kiertoratojen yläpuolella, ympärillä ja ohi) ja <c3/> (Kuun kiertorata ja pinta navigointi- ja geodeettisena infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vasten).

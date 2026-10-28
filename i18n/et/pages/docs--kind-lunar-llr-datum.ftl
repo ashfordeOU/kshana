@@ -108,3 +108,5 @@ seg-598a7d6ba1e7 = <s1>Eelmine</s1>lunar-joint-od-clock
 
 # text
 seg-54b1c9200aae = <s1>Järgmine</s1>lunar-station-coverage
+
+seg-2053999af5ef = <s1>Järgmine</s1>lunar-orbit-rendezvous

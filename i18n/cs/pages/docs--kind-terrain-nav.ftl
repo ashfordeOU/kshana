@@ -29,3 +29,7 @@ seg-c5e33c7122e2 = Graf, který engine zapisuje pro scenarios/terrain-nav.toml, 
 seg-0fcad0016c78 = <s1>Předchozí</s1>telecom-timing
 
 seg-fa50992f818f = <s1>Další</s1>terrain-slam
+
+seg-e66e2ca31e54 = Stránka tématu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Druh a fáze <c1/>: pětistavový model inerciální chyby pro každou osu (poloha, rychlost, bias akcelerometru, náklon, bias gyroskopu) při motorickém sestupu, podporovaný určeními AFS (samostatně nebo diferenciálně, s podporou hodin při třech relé

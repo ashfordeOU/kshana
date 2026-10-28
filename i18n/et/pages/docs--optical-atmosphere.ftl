@@ -173,3 +173,5 @@ seg-83b30e1ca261 = <s1>Eelmine</s1>Tõendipaketid
 
 # text
 seg-1474b58fb35a = <s1>Järgmine</s1>Ajapesa ajastus
+
+seg-50f25bceca3c = <s1>Eelmine</s1>Andmepartnerid ja edutatavad read

@@ -75,3 +75,7 @@ seg-c9ac9a99bcbb = <s1>前へ</s1>gnss-sim
 seg-9df48482a140 = <s1>次へ</s1>gravity-map
 
 seg-37d29d8303fe = km
+
+seg-795e0409fa5a = <b>MODELLED</b> <c1/>フェーズ：平均状態はエンジンの Cowell 伝播器で求めます（地球の点質量と J2、第三体としての太陽と月、月はスレッドの DE440 カーネルがその区間を覆う場合はそれから、太陽は解析的な級
+
+seg-6a26b9ab59fe = トピックページ：<a1>MISSION-THREAD.md</a1>

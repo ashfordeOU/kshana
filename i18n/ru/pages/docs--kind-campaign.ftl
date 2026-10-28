@@ -61,3 +61,5 @@ seg-c4ed27a559df = Тематическая страница: <a1>RESILIENCE-CRO
 seg-774e035da605 = <s1>Назад</s1>body-pnt
 
 seg-fadd92303a4d = <s1>Далее</s1>cislunar-arc-recovery
+
+seg-a349aa76b0ed = PARTNER

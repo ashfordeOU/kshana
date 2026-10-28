@@ -2269,3 +2269,101 @@ seg-48460c0538b9 = kestävän PNT:n Conformance Framework, kartoitettu kohdenume
 seg-e51289a1e835 = EASAn GNSS-häiriöohjeistus (ilmailu)
 
 seg-4fa26d67951e = EASAn ohjeistus ilmailulle, kartoitettu kohdenumeron mukaan
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Valitse jokin { "193" } skenaariotiedostosta { "92" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
+
+seg-d5c6110302e9 = Artemis-luokan tehtäväketju, todistemerkintä jokaisessa kuvassa ja seitsemäntoista kieltä.
+
+seg-8597c65432ed = Ketjuta kuutehtävän vaiheet yhdeksi navigoinnin ja ajoituksen virhebudjetiksi, arvioi, missä heikentyneitä paikkaraportteja aiheuttava lähde voi olla, lue mitattuja kellolokeja, näe todisteiden taso jokaisessa ajon kirjoittamassa kuvassa ja käytä komentoriviä, raportteja ja Studiota seitsemällätoista kielellä. Jokaisella ominaisuudella on merkintä, jonka kirjanpito siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite: käyttäjä vastaa edelleen.
+
+seg-070972f642de = Artemis-luokan tehtäväketju: navigoinnin ja ajoituksen virhebudjetti laukaisusta ilmakehään paluuseen
+
+seg-982a4a7cf0db = Tehtäväketjutyyppi ketjuttaa vaiheet (laukaisu ja nousu, kohtaaminen matalalla Maan kiertoradalla, Kuuhun suuntautuva siirtoratainjektio ja matka, kuuvaiheet, paluu) ja kuljettaa paikan ja nopeuden kovarianssin vaiheesta seuraavaan; siirtosäännöt, koordinaatisto- ja aika-asteikkomuunnokset, marginaali ilmoitettuja vaatimuksia vasten ja heikoin lenkki kirjataan kukin budjettiriveiksi.
+
+seg-17c9cc6c2d40 = Tarkistettu: Artemis I -vertailu ei täyttänyt kynnystään ({ "45.3" } km, kun kynnys oli { "5" } km); rivi pysyy MODELLED
+
+seg-946487626f87 = Tehtäväketjunäkymä Kshana Studiossa
+
+seg-4970f874d334 = Kuusegmentti: kohtaaminen, lasku, pinta ja nousu
+
+seg-b6c35bf141e7 = Neljä skenaariotyyppiä, jotka ovat kukin myös tehtäväketjun vaihe: suhteellinen navigointi telakointiin Kuun kiertoradalla, laskeutumishajonnan budjetti etelänapa-alueen kohteessa, paikannuksen ja ajoituksen saatavuus kohteen ja vuodenajan mukaan sekä nousu takaisin kohtaamiskiertoradalle.
+
+seg-ce097df855a9 = Tarkistettu: ennalta rekisteröidyt kynnykset; yksi täyttyi, yksi ei täyttynyt, yhtäkään ei höllennetty
+
+seg-8ca6e2046901 = Arvioitu lähetinalue ADS-B- tai AIS-raporteista
+
+seg-ca6383e426f9 = Missä heikentyneitä paikkaraportteja aiheuttava lähde voi olla: alueina, joiden taso on { "50" }, { "90" } ja { "95" } prosenttia, painopisteineen ja sen epävarmuusellipsineen, ei koskaan pelkkänä pisteenä, sekä istuntoina ajassa.
+
+seg-27af464d0674 = Tarkistettu: ennalta rekisteröity; kumpikaan lähde ei ollut arvioitavissa, joten mitään ei väitetä
+
+seg-003a3b9b63ea = Mitatut kellolokit ja sovitetun sarjan ajama holdover
+
+seg-f51fa2a40db8 = Lue mitattu kellolokki kahdeksassa formaatissa (RINEX clock, TimeLab, TICC, linuxptp, chrony) yhdeksi vaihesarjaksi kelloa ja telecom-timing-tyyppejä varten ja sovita mitatun sarjan kohina ajamaan holdoveria.
+
+seg-6e9140563c53 = Tarkistettu: kynnykset ennalta rekisteröityjä; alitukset ilmoitettu ja kiinnitetty
+
+seg-448b11c86f48 = Datakumppanit: mitkä rivit mitattu data voisi ylentää
+
+seg-56b0201d930c = Mitkä mallinnetut kirjanpitorivit kumppanin mitattu data voisi ylentää, sallitut formaatit sekä miten lähetys tarkistetaan, pisteytetään ennalta rekisteröityä kynnystä vasten ja hyvitetään.
+
+seg-5858e5d1f7c5 = Todistemerkintä jokaisessa ajon kirjoittamassa kuvassa ja taulukossa
+
+seg-d1c4250b2a7e = Jokainen ajon kirjoittama tulostiedosto, kaavio ja taulukko kertoo nyt, mihin tasoon se perustuu (validoitu, mallinnettu tai kumppanin, sen rivien heikoin), ja nimeää taustalla olevat varmennusmatriisin rivit; ne luetaan matriisista, eikä niitä kirjoiteta käsin.
+
+seg-bd28ef5c376e = Seitsemäntoista kieltä englannin rinnalla
+
+seg-1e4a6a5931d3 = Komentorivi, raportit, dokumentaatiosivut ja Studio ovat saatavilla seitsemällätoista kielellä englannin rinnalla.
+
+seg-7fae5de5ebf1 = kshana-bench: { "0.40" } uusintakampanja
+
+seg-1e0afa852323 = Neljä ennalta rekisteröityä vertailua ajettiin kerran kuittauksen jälkeen ja ne täyttivät kynnyksensä, ja jokainen pistemäärä on mallinnettu.
+
+seg-ed10ac59ed87 = Kaikki { "193" } skenaariotiedostoa { "92" } tyypissä, ryhmiteltyinä alueen mukaan; { "180" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan, kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaarioviitteessä tiedostoineen ja komentoineen, jolla se ajetaan.
+
+seg-c381cfa99bb0 = Kelloskenaario, jossa klassinen kello ottaa kohinansa mitatusta lokista (`[clock_fit]`).
+
+seg-328cd04eef87 = Kelloskenaario, jossa mitattu loki on simuloidun holdoverin rinnalla (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Artemis-luokan tehtäväketju: yhden vaiheketjun navigoinnin ja ajoituksen virhebudjetti, alkaen laukaisusta
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Kuun nousu: moottoroitu nousu etelänapa-alueen pintakohteesta (Artemis-luokka) kohtaamiskiertoradalle ({ "100" } km)
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Kuun laskeutumishajonta: budjetti moottoroidulle laskulle etelänapa-alueen kohteeseen (Artemis-luokka), alkaen
+
+seg-bd7c53737f55 = Kuun laskeutumishajonta todellisella LOLA-etelänapa-DEM:llä: budjetti moottoroidulle laskulle etelänapa-alueen kohteeseen (Artemis-luokka), alkaen…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Kuun kohtaaminen: suhteellinen navigointi Orion-laskeutuja-tyyliseen telakointiin ympyränmuotoisella napakiertoradalla ({ "100" } km)
+
+seg-6ce976854c44 = Kuun kohtaaminen elliptisellä napakiertoradalla: suhteellinen navigointi Orion-laskeutuja-tyyliseen telakointiin kiertoradalla
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Kuun pinnan PNT:n ja ajoituksen saatavuus kohteen ja vuodenajan mukaan (Artemis-luokan etelänapa-alueen kohteet).
+
+seg-0ecc50eafdbe = Kuun pinnan PNT:n ja ajoituksen saatavuus kohteen ja vuodenajan mukaan todellisella LOLA-etelänapamaastolla
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } / { "92" } tyyppiä, { "3300" } / { "3300" } numeerista kenttää

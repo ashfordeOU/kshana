@@ -47,3 +47,5 @@ seg-988e99fc26be = <s1>Попередній</s1>lunar-station-coverage
 seg-a0992d394960 = <s1>Наступний</s1>lunar-time-offset
 
 seg-51362910dcb7 = Цей різновид використовують { "2" } вбудовані сценарії; решта — у <a1><c1/></a1>.
+
+seg-b851d30fe736 = <s1>Назад</s1>lunar-surface

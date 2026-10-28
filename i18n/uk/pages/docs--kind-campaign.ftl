@@ -61,3 +61,5 @@ seg-774e035da605 = <s1>Попередній</s1>body-pnt
 seg-fadd92303a4d = <s1>Наступний</s1>cislunar-arc-recovery
 
 seg-8784979d6569 = dBW
+
+seg-a349aa76b0ed = PARTNER

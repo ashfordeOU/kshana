@@ -565,3 +565,79 @@ seg-c5fbfab85e01 = <s1>Další</s1>Plugin JetBrains
 seg-d5b5bdf6081c = Rust
 
 seg-40a7552d2ba9 = MCP
+
+seg-6555ff9a6d8e = Výstup
+
+seg-12471a4b2b57 = Oblast emitoru (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (dosud nepodporováno; pokrývají to rozhraní Rust, Python a WASM)
+
+seg-dff1bfe0263e = <b>N/A</b> (zveřejňování oblastí emitorů ve veřejné observatoři je samostatné rozhodnutí vlastníka a je vypnuto)
+
+seg-ec2d91e2f867 = Kontrola podání dat od partnera (formát a metadata podání naměřených dat, <c1/>; nic nehodnotí)
+
+seg-c16a5ff8218b = <b>N/A</b> (kontrola čte místní soubory a jejich SHA-256; rozhraní Rust API je knihovní rozhraní a CLI je nástroj)
+
+seg-ed29039d1dc0 = <b>N/A</b> (v sestavení pro prohlížeč není souborový systém)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP souborové zdroje záměrně odmítá (pouze vložený text))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (příkazy se lomítkem volají nástroje MCP a tato kontrola potřebuje soubory na disku)
+
+seg-be971c31e0de = <b>N/A</b> (akce JetBrains jsou vázány na jeden vybraný soubor; podání je složka)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio nemá přístup k souborovému systému; spusťte příkaz)
+
+seg-521b58a1080e = Rozpočet chyb navigace a času řetězce misijních fází od startu po vstup do atmosféry: osm druhů fází, pravidla předávání, převody soustav a časových škál, překryv pozemní sítě, rezerva vůči uvedeným požadavkům a nejslabší článek (druh scénáře <c1/>; <c2/>; MODELLED, vstupy ILLUSTRATIVE, poradní; pouze veřejné zdroje, žádná podpora)
+
+seg-6b451021b87a = <c1/> (z checkoutu: čte zapsaný výřez lunárního jádra)
+
+seg-ac3e013b5217 = <c1/> (<c2/> je klíč souboru a je odmítnut; bez jádra je Měsíc analytická řada a řádek převodu to uvádí)
+
+seg-e957474f44a8 = <c1/> (pouze vložený text; klíč jádra je odmítnut)
+
+seg-1c1729fafe99 = <b>N/A</b> (žádný notebook; příklad běží v libovolném notebooku přes <c1/> z checkoutu)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (dosud nepodporováno)
+
+seg-ab52a3469f6a = Odhadnuté oblasti emitorů, MODELLED; adresáře stop a <c1/> jsou pouze v příkazovém řádku
+
+seg-5f1ce275acbd = Čte soubor podání a jeho datový soubor na disku a ověřuje SHA-256; žádné z těchto rozhraní nemá složku. Pouze formát a metadata, nic se nehodnotí; viz <c1/>
+
+seg-fc9ab9f71553 = Štítek důkazů a výstupy, které žádný nenesou
+
+seg-b1e4bcc2ac09 = Každé číslo a každá tabulka, které běh zapíše, nese svou úroveň důkazů (<c1/>, <c2/> nebo <c3/>, nejslabší z řádků registru, které za ním stojí) a identifikátory těchto řádků, na každém rozhraní, které spouští scénář: výsledné JSON (klíč <c4/>), graf SVG (prvek metadat a řádek pod grafem) a tabulka CSV (řádky komentářů <c5/>). Tentýž štítek je na výstupech důvěry v přijímač (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, zprávě o trase mapy interference a uvnitř <c11/> každého balíčku důkazů (podepsaného; <c12/> jej hlásí). Identifikátory řádků jsou stabilní (<c13/> a osm hexadecimálních číslic, sloupec <c14/> v <c15/>).
+
+seg-c66058f24f0e = Tyto výstupy nenesou štítek, každý z uvedeného důvodu (seznam je <c1/> v <c2/>, který selže u zapisovače, jenž není ani označen, ani uveden):
+
+seg-04ca90423b80 = Proč nenese štítek
+
+seg-a90c022c4dea = výsledné soubory kshana-bench
+
+seg-9f3f0adbcfe6 = pevné schéma pinované závazky holdoutu; každý nese vlastní <c1/> (MODELLED nebo naměřeno)
+
+seg-9bb126104f12 = denní produkty observatoře interference (GeoJSON, PNG, JSON incidentů)
+
+seg-ddbc60cb14ac = zmrazené zveřejněné schéma; výhrady poznámky o metodě je provázejí
+
+seg-874cb55d3457 = soubory buněk, skórekarty a zprávy kampaně IQ
+
+seg-8c8cb4bd5110 = pinováno digestem; každý uvádí skórekartu kampaně, kterou přeformulovává
+
+seg-8d2645e93451 = vzorky IQ, metadata SigMF a SDR, referenční scéna, proudy epoch a událostí trasy, logy živých relací
+
+seg-9fa872028a08 = soubory vázané na formát a proudy záznamů čtené jinými nástroji
+
+seg-6c77071a0d03 = exporty SP3, OMM, OEM, CZML, KML, GeoJSON, STK, pohybu zkušební stolice a NMEA; trénovací proud NMEA
+
+seg-5c1b92afa402 = soubory vázané na formát čtené nástroji třetích stran
+
+seg-b5c79a0e395c = telemetrické přenosové formáty (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = definované svými přenosovými formáty
+
+seg-3ba06004fc14 = generované dokumenty (samotný registr, zapsané tabulky studií a dat)
+
+seg-8be4943acd00 = nejsou výstupem běhu

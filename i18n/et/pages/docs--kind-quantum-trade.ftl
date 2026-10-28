@@ -110,3 +110,5 @@ seg-e6498fae3ba7 = <s1>Eelmine</s1>quantum-time-transfer
 
 # text
 seg-50d4bbb7486b = <s1>Järgmine</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

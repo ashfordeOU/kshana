@@ -47,3 +47,5 @@ seg-333fca11ac0c = ЧЕСТНЫЕ ГРАНИЦЫ: MODELLED скалярный б
 seg-0e27fcef1499 = <s1>Назад</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>Далее</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

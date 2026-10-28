@@ -89,3 +89,5 @@ seg-309c70f2f4f8 = ITU-R P.840 (statistikk for skyens væskevann), P.1814 og P.1
 seg-83b30e1ca261 = <s1>Forrige</s1>Bevispakker
 
 seg-1474b58fb35a = <s1>Neste</s1>Tidsluker
+
+seg-50f25bceca3c = <s1>Forrige</s1>Datapartnere og opprykk av rader

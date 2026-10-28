@@ -31,3 +31,5 @@ seg-2516c4208769 = Доповнення DOP місячними наземним�
 seg-ebb9724de60a = <s1>Попередній</s1>lunar-attack-surface
 
 seg-ca9b68783354 = <s1>Наступний</s1>lunar-differential-pnt
+
+seg-b81e98467952 = <s1>Далі</s1>lunar-descent

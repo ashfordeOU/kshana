@@ -31,3 +31,5 @@ seg-96b65f604cc2 = Rehellisyys: MODELLED, ei sertifioitu. Otsikkoluku us/vrk rii
 seg-e4552368a6a7 = <s1>Edellinen</s1>lunar-time-budget
 
 seg-777dc23bac6a = <s1>Seuraava</s1>lunar-vlbi-fim
+
+seg-e66e2ca31e54 = Aihesivu: <a1>MISSION-THREAD-LUNAR.md</a1>

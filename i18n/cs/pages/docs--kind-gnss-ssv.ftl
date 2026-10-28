@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = Tematická stránka: <a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>Předchozí</s1>gnss-sim
 
 seg-9df48482a140 = <s1>Další</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> Fáze <c1/>: střední stav propagátorem Cowell z enginu (Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z jádra DE440 vlákna, kde pokrývá úsek, a Slunce z analytické řady
+
+seg-6a26b9ab59fe = Stránka tématu: <a1>MISSION-THREAD.md</a1>

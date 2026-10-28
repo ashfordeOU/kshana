@@ -12593,3 +12593,7 @@ js-trust-unknown-agreement = shoda, kterou tato stránka nezná
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
 js-trust-yes = ano
+
+js-mthread-limiting-phase = Engine označuje limitující zdroj této fáze jako { $source }: zdroj fáze, nikoli jeden řádek této tabulky.
+
+js-mthread-limiting-row = limitující zdroj podle enginu
