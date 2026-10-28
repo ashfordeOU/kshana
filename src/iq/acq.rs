@@ -542,7 +542,7 @@ impl CfarConfig {
 
     fn check(&self, samples_per_period: usize) -> Result<(), String> {
         let n = self.reference_cells;
-        if n < 2 || n % 2 != 0 {
+        if n < 2 || !n.is_multiple_of(2) {
             return Err(crate::terr!("e-iq-acq-cfar-reference-cells-must-be", n = n));
         }
         if self.stride_lags == 0 {

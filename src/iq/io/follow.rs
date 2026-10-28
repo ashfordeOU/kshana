@@ -112,7 +112,7 @@ pub fn open_sigmf_follow(
     let capture = meta.captures.first();
     let start = capture.map(|c| c.sample_start).unwrap_or(0);
     let bits = start * format.bits_per_sample() as u64;
-    if bits % 8 != 0 {
+    if !bits.is_multiple_of(8) {
         return Err(IqError::Format(crate::terr!(
             "e-iq-io-follow-the-capture-does-not-start",
             meta_path = meta_path.display()

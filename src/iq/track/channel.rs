@@ -435,7 +435,7 @@ impl Channel {
         let close = match (self.ppb, edge) {
             (Some(ppb), Some(edge)) => {
                 let rel = (k + 1 + ppb as u64 - edge as u64) % ppb as u64;
-                rel % self.core.config().coherent_periods as u64 == 0
+                rel.is_multiple_of(self.core.config().coherent_periods as u64)
             }
             (Some(_), None) => true,
             (None, _) => self.block_periods >= self.core.config().coherent_periods,
@@ -559,7 +559,7 @@ impl Channel {
         self.window.push(p);
         let (closes, valid) = match (self.ppb, edge) {
             (Some(ppb), Some(edge)) => {
-                let last = (k + 1 + ppb as u64 - edge as u64) % ppb as u64 == 0;
+                let last = (k + 1 + ppb as u64 - edge as u64).is_multiple_of(ppb as u64);
                 (last, last && self.window.len() == self.window_len)
             }
             (Some(_), None) => (self.window.len() >= self.window_len, false),

@@ -73,7 +73,7 @@ fn strict_check(line: &str) {
         "GSA" => fields(19),
         "GSV" => {
             assert!(
-                f.len() == 5 || (f.len() - 5) % 4 == 0 && f.len() <= 21,
+                f.len() == 5 || (f.len() - 5).is_multiple_of(4) && f.len() <= 21,
                 "{line}"
             );
             assert!(

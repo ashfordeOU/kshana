@@ -302,7 +302,7 @@ impl BitWriter {
     fn push_bits(&mut self, v: u64, bits: u8) {
         for k in (0..bits).rev() {
             let bit = (v >> k) & 1;
-            if self.nbits % 8 == 0 {
+            if self.nbits.is_multiple_of(8) {
                 self.bytes.push(0);
             }
             if bit == 1 {

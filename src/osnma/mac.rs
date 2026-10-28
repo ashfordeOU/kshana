@@ -47,7 +47,7 @@ pub fn compute(mf: MacFn, key: &[u8], msg: &[u8]) -> Result<Vec<u8>, MacError> {
 /// The `bits` most significant bits of `mac`, left-aligned (the rest zero), as bytes.
 pub fn truncate(mac: &[u8], bits: usize) -> Vec<u8> {
     let mut out = mac[..bits.div_ceil(8).min(mac.len())].to_vec();
-    if bits % 8 != 0 {
+    if !bits.is_multiple_of(8) {
         if let Some(last) = out.last_mut() {
             *last &= 0xFF << (8 - bits % 8);
         }
