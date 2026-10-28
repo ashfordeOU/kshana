@@ -162,6 +162,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("mars-pnt-surface"),
     bundled!("mars-pnt-transfer"),
     bundled!("meo-leo-fused-pvt"),
+    bundled!("mission-thread-short"),
     bundled!("moonlight-service-volume"),
     bundled!("multi-band-jamming-waterfall"),
     bundled!("ntn-5g-positioning"),
