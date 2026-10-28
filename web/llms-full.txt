@@ -11222,7 +11222,7 @@ Grafana dashboard |  import kshana-grafana-*.json from the release |  Dashboard 
 
 Reference-build image |  docker pull ghcr.io/ashfordeou/kshana-reference-build |  Marine integrations |
 
-Kshana on the JetBrains Marketplace Builds with Rust 1.85 or newer, the rust-version in Cargo.toml
+Kshana on the JetBrains Marketplace Builds with Rust 1.88 or newer, the rust-version in Cargo.toml
 
 MCP is the Model Context Protocol. Pin a release with cargo install kshana --version 0.40.0, pip install kshana==0.40.0 or npm install kshana@0.40.0. To build from source, see Install and build under Reference.
 
@@ -11576,7 +11576,7 @@ Install & build from source
 
 ### Install & build#
 
-Requires a Rust toolchain (≥ 1.85, the rust-version in Cargo.toml; developed on 1.93).
+Requires a Rust toolchain (≥ 1.88, the rust-version in Cargo.toml; developed on 1.93).
 
 ```
 git clone https://github.com/ashfordeOU/kshana
@@ -11870,7 +11870,7 @@ Troubleshooting
 
 ### Troubleshooting#
 
-cargo build fails on an old toolchain. Kshana needs Rust ≥ 1.85. Update with rustup update.
+cargo build fails on an old toolchain. Kshana needs Rust ≥ 1.88. Update with rustup update.
 
 Building the Python extension fails to link on macOS (Undefined symbols … _Py…). A Python extension resolves its symbols at load time. maturin sets the right linker flag automatically — use maturin develop --features python rather than a bare cargo build.
 
@@ -32605,7 +32605,7 @@ cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
 
 kshana-mcp --http 127.0.0.1:8080 serves the same tools over streamable HTTP at /mcp. It binds loopback only; a non-loopback address needs --allow-remote and a bearer token in KSHANA_MCP_HTTP_TOKEN; the IQ file tools are off; request size, time and concurrency are capped; no CORS header is sent. Kshana does not host an endpoint: you self-host it. See docs/deploy/mcp-http.md.
 
-cargo install puts kshana-mcp on your PATH (typically ~/.cargo/bin/kshana-mcp). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ 1.88 (the patched rmcp 2.x SDK needs it; the kshana library itself needs only 1.85); the Docker image needs none.
+cargo install puts kshana-mcp on your PATH (typically ~/.cargo/bin/kshana-mcp). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ 1.88 (the patched rmcp 2.x SDK needs it, and so does the kshana library); the Docker image needs none.
 
 ## Register it with a client#
 
@@ -32672,7 +32672,7 @@ Once registered, ask your assistant things like:
 
 ## Design note — why a separate crate#
 
-The server is a standalone, workspace-excluded crate with its own Cargo.lock, so the official Rust MCP SDK (software development kit) rmcp and its async runtime never enter the published kshana crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because rmcp is edition 2024, needing rustc ≥ 1.85, while the main crate then promised 1.75. The library now declares 1.85; this server declares 1.88, the floor of the security-patched rmcp 2.x.) Continuous integration (CI) gates this crate on its own — tests and cargo deny against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the xval/anise-frames cross-validation crate it otherwise mirrors, the split is not about licensing.
+The server is a standalone, workspace-excluded crate with its own Cargo.lock, so the official Rust MCP SDK (software development kit) rmcp and its async runtime never enter the published kshana crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because rmcp is edition 2024, needing rustc ≥ 1.85, while the main crate then promised 1.75. The library and this server now both declare 1.88, the floor of the security-patched rmcp 2.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and cargo deny against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the xval/anise-frames cross-validation crate it otherwise mirrors, the split is not about licensing.
 
 License: AGPL-3.0-only, the GNU Affero General Public License version 3 only (or a commercial licence from Ashforde OÜ; see the repository's LICENSING.md).
 
@@ -34598,6 +34598,8 @@ No new features: one command-line fix, dependency updates in the cross-validatio
 One dependency update in the shipped library (the first entry), the rest in the cross-validation tooling (xval/).
 
 - p256, p384 and p521 0.13 to 0.14 (with elliptic-curve 0.14.3, ecdsa 0.17.0 and crypto-bigint 0.5.5 to 0.7.10; also the direct crypto-bigint dependency, now 0.7) clear RUSTSEC-2026-0387, timing variability in crypto-bigint 0.5.5. Kshana uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC 3161 timestamp tokens) and signs only in tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
+
+- Minimum supported Rust is now 1.88 (required by the RUSTSEC-2026-0387 fix).
 
 - memmap2 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (xval/anise-lunar-od, xval/anise-mars-od); the locks also re-sync the in-repo kshana path dependency.
 

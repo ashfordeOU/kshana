@@ -1166,8 +1166,6 @@ seg-ad016bbbea54 = zaimportuj kshana-grafana-*.json z wydania
 
 seg-7849acc8e680 = Kshana w JetBrains Marketplace
 
-seg-48a01a252537 = Buduje się z Rust { "1.85" } lub nowszym, czyli rust-version z Cargo.toml
-
 seg-152cb43de2f3 = Uruchom scenariusz z Pythona i z WebAssembly
 
 seg-58ea673e61fc = Poza <c1/> moduł udostępnia <c2/> (JSON, SVG i jednowierszowe podsumowanie naraz), <c3/>, <c4/>, <c5/> / <c6/> oraz <c7/>; zob. <a1><c8/></a1>.
@@ -1466,8 +1464,6 @@ seg-63d3e74d233c = Instalacja i budowanie ze źródeł
 
 seg-5dc0fc90ac79 = Instalacja i budowanie
 
-seg-792f12b05230 = Wymaga toolchainu Rust (≥ { "1.85" }, czyli <c1/> w Cargo.toml; rozwijane na { "1.93" }).
-
 seg-14380916caba = Użycie: pełny wiersz poleceń
 
 seg-a3536fe2dc4e = Uruchom dowolny scenariusz; CLI rozpoznaje go po polu <c1/> scenariusza i zapisuje obok niego <c2/>, <c3/>, <c4/> i <c5/>, a dla rodzajów, które publikują tabelę, także <c6/>. Raport (strona HyperText Markup Language (HTML) i dokument JSON o tej samej treści) zawiera podsumowanie dla kadry kierowniczej, każde wejście z jego jednostką, wyniki i wykresy, tabele przeglądu kampanii, Monte Carlo lub łańcucha, oś zdarzeń, etykietę VALIDATED / MODELLED / PARTNER i źródło każdej możliwości użytej w przebiegu, to, czego nie modeluje, oraz zapis odtwarzalności (wersja silnika, skróty Secure Hash Algorithm 256-bit (SHA-256), ziarno, platforma i dokładne polecenie). Z przeglądarki drukuje się do czystego pliku PDF (Portable Document Format) na papierze A4 lub Letter; sam silnik nie zapisuje żadnego PDF. Zob. <a1><c7/></a1>.
@@ -1581,8 +1577,6 @@ seg-ed251e142b29 = <b>Jak zamodelować własny czujnik?</b> Napisz scenariusz <c
 seg-f40679da402e = <b>Czy jest bezpłatny do użytku komercyjnego?</b> Tak, na licencji AGPL-3.0, także w warunkach komercyjnych, o ile przestrzegasz copyleftu AGPL (w szczególności: jeśli zmodyfikujesz Kshana i udostępnisz ją przez sieć, musisz udostępnić tym użytkownikom swój zmodyfikowany kod źródłowy). Jeśli to Ci nie odpowiada, np. musisz osadzić Kshana w zastrzeżonym produkcie lub uruchamiać zamkniętą usługę sieciową, licencja komercyjna jest dostępna od Ashforde® OÜ; zob. <a1><c1/></a1> i <a2>Wsparcie</a2>.
 
 seg-47e61b61094b = Rozwiązywanie problemów
-
-seg-9bf11ed19b33 = <b><c1/> kończy się błędem na starym toolchainie.</b> Kshana wymaga Rust ≥ { "1.85" }. Zaktualizuj poleceniem <c2/>.
 
 seg-0cb99cc9fa83 = <b>Budowanie rozszerzenia Pythona kończy się błędem konsolidacji w macOS</b> (<c1/>). Rozszerzenie Pythona rozwiązuje swoje symbole w czasie ładowania. <c2/> ustawia właściwą flagę konsolidatora automatycznie: użyj <c3/> zamiast samego <c4/>.
 
@@ -1984,3 +1978,9 @@ seg-e2d733f93455 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykł
 # c5: entry
 # c6: /studio/mission-thread/
 seg-88b7afd3df20 = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "92" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>). W Studio wątek odczytuje się pod adresem <c6/>.
+
+seg-ac2d3dd91aa2 = Buduje się z Rust { "1.88" } lub nowszym, czyli rust-version z Cargo.toml
+
+seg-48991660376d = Wymaga toolchainu Rust (≥ { "1.88" }, czyli <c1/> w Cargo.toml; rozwijane na { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> kończy się błędem na starym toolchainie.</b> Kshana wymaga Rust ≥ { "1.88" }. Zaktualizuj poleceniem <c2/>.

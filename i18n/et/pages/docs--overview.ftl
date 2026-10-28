@@ -2062,9 +2062,6 @@ seg-ad016bbbea54 = impordi kshana-grafana-*.json väljalaskest
 seg-7849acc8e680 = Kshana JetBrains Marketplace'is
 
 # text
-seg-48a01a252537 = Ehitub Rust { "1.85" } või uuemaga, Cargo.tomli rust-version
-
-# text
 seg-152cb43de2f3 = Stsenaariumi käivitamine Pythonist ja WebAssemblyst
 
 # text
@@ -2609,10 +2606,6 @@ seg-63d3e74d233c = Paigaldamine ja lähtekoodist ehitamine
 seg-5dc0fc90ac79 = Paigaldamine ja ehitamine
 
 # text
-# c1: rust-version
-seg-792f12b05230 = Nõuab Rusti tööriistaahelat (≥ { "1.85" }, Cargo.tomli <c1/>; arendatud versioonil { "1.93" }).
-
-# text
 seg-14380916caba = Kasutus: käsurida täies mahus
 
 # text
@@ -3015,11 +3008,6 @@ seg-f40679da402e = <b>Kas see on kommertskasutuseks tasuta?</b> Jah — AGPL-3.0
 
 # text
 seg-47e61b61094b = Tõrkeotsing
-
-# text
-# c1: cargo build
-# c2: rustup update
-seg-9bf11ed19b33 = <b><c1/> ebaõnnestub vanal tööriistaahelal.</b> Kshana vajab Rusti ≥ { "1.85" }. Uuenda käsuga <c2/>.
 
 # text
 # c1: Undefined symbols … _Py…
@@ -3616,3 +3604,9 @@ seg-df3ca402513f = millised MODELLED read võiks mõõdetud kella- või IMU-salv
 seg-e2d733f93455 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "92" } liiki, { "193" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.
 
 seg-88b7afd3df20 = <b>Missiooniahel.</b> Liik <c1/> ahelab faase starditest sisenemiseni (<c2/>, <c3/>, <c4/>, <c5/> ja neli Kuu liiki) nimetatud üleandmisreeglite, varu nimetatud nõuete suhtes ja nõrgima lülliga; otsast lõpuni Artemis-klassi näide { "11" } faasi kohta (Maa ja Kuu lõigud), kokku { "92" } stsenaariumi liiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu <b>jääb möödalaskmiseks</b> oma eelregistreeritud lävendi suhtes ({ "45.3" } km ja { "0.25" } m/s võrreldes läviga { "5" } km ja { "0.05" } m/s; põhjus on väikesed manöövrid, mida mudel ei sisalda) ning Kuu levitaja CAPSTONE'i orbiidi vastu <b>jääb möödalaskmiseks</b> ({ "136.8" } km võrreldes läviga { "25" } km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED (<a1>Missiooniahel</a1>, <a2>Kuu lõik</a2>). Studios loetakse ahelat aadressil <c6/>.
+
+seg-ac2d3dd91aa2 = Ehitub Rust { "1.88" } või uuemaga, Cargo.tomli rust-version
+
+seg-48991660376d = Nõuab Rusti tööriistaahelat (≥ { "1.88" }, Cargo.tomli <c1/>; arendatud versioonil { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> ebaõnnestub vanal tööriistaahelal.</b> Kshana vajab Rusti ≥ { "1.88" }. Uuenda käsuga <c2/>.

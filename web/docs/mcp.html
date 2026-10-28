@@ -506,8 +506,8 @@ CORS header is sent. Kshana does not host an endpoint: you self-host it. See
 <a href="/docs/mcp-http">docs/deploy/mcp-http.md</a>.</p>
 <p><code>cargo install</code> puts <code>kshana-mcp</code> on your <code>PATH</code> (typically <code>~/.cargo/bin/kshana-mcp</code>).
 The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust
-toolchain ≥ 1.88 (the patched <code>rmcp</code> 2.x SDK needs it; the <code>kshana</code> library itself needs
-only 1.85); the Docker image needs none.</p>
+toolchain ≥ 1.88 (the patched <code>rmcp</code> 2.x SDK needs it, and so does the <code>kshana</code> library); the
+Docker image needs none.</p>
 <h2 id="register-it-with-a-client">Register it with a client<a class="anchor" href="#register-it-with-a-client" aria-label="Link to this section">#</a></h2>
 <p>Virtually every MCP client uses the same <code>mcpServers</code> config block — register the
 <code>kshana-mcp</code> binary by absolute path:</p>
@@ -562,8 +562,8 @@ outage; what&#39;s the quantum-vs-classical holdover?&quot;</em> → <code>run_s
 official Rust MCP SDK (software development kit) <code>rmcp</code> and its async runtime never enter the published <code>kshana</code>
 crate&#39;s dependency graph: a library or Python user does not compile a server they do not
 run. (It was first split out because <code>rmcp</code> is <strong>edition 2024</strong>, needing rustc ≥ 1.85,
-while the main crate then promised 1.75. The library now declares 1.85; this server
-declares 1.88, the floor of the security-patched <code>rmcp</code> 2.x.) Continuous integration (CI)
+while the main crate then promised 1.75. The library and this server now both declare 1.88,
+the floor of the security-patched <code>rmcp</code> 2.x and of the upgraded RustCrypto crates.) Continuous integration (CI)
 gates this crate on its own — tests and <code>cargo deny</code> against its lockfile. rmcp&#39;s licence tree is clean
 (Apache-2.0/MIT/BSD), so, unlike the <code>xval/anise-frames</code> cross-validation crate it
 otherwise mirrors, the split is not about licensing.</p>
