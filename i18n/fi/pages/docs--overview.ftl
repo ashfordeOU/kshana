@@ -2045,8 +2045,8 @@ seg-11041e6beb65 = { "92" } sisäänrakennettua skenaariotyyppiä kuvauksineen s
 
 seg-abf70d11a088 = koko avoin moottori, kaikki { "92" } skenaariotyyppiä, ei ominaisuusrajoitusta
 
-seg-b14326430bd8 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "92" } tyyppiä, { "192" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.
-
 seg-824001fa6734 = laboratoriot ja valmistajat, joilla on mitattua dataa
 
 seg-df3ca402513f = mitkä rivit, joiden taso on MODELLED, mitattu kello- tai IMU-tallenne voisi nostaa, muodot, miten lähetys tarkistetaan (<c1/>), pisteytetään ja hyvitetään
+
+seg-e2d733f93455 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "92" } tyyppiä, { "193" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.

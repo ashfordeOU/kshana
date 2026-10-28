@@ -748,8 +748,6 @@ seg-6c7d25f672fb = MODELLED: dostępność pozycjonowania i czasu na powierzchni
 
 seg-1ec485468daa = MODELLED: budżet błędu nawigacji i czasu podanego łańcucha faz misji, od startu do wejścia w atmosferę: start i wznoszenie, spotkanie i połączenie na niskiej orbicie okołoziemskiej (powtarzalne), wtrysk translunarny i lot cislunarny, spotkanie na orbicie księżycowej, lądowanie, pobyt na powierzchni, wznoszenie oraz powrót i wejście w atmosferę, każda faza jednym z ośmiu zarejestrowanych rodzajów z własnymi czujnikami i filtrem. Kowariancja 6x6, zegar i układ odniesienia są przekazywane z fazy do fazy według podanej zasady (carry, inflate lub reacquire); konwersje układów odniesienia i skal czasu (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) są osobnymi wierszami budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem. Opcjonalna nakładka sieci naziemnej ustala cykl śledzenia każdej fazy. Podaje budżet każdej fazy (1-sigmy na wejściu, w szczycie i na wyjściu, każdy wkład z jednostką), margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. MODELLED: każda liczba jest podanym wejściem; łańcuch podąża za jednym stosem i żaden pojazd nie jest modelowany. Tylko źródła publiczne; bez powiązań z żadną agencją i bez jej poparcia; oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.
 
-seg-5b4a725bea4e = Każdy dołączony plik scenariusza ({ "192" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
-
 seg-d2b1e58dea11 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (<c1/>).
 
 seg-760090cd3247 = Scenariusz zegara ze zmierzonym dziennikiem obok symulowanego holdover (<c1/>).
@@ -777,3 +775,5 @@ seg-ce9f26be0623 = Dostępność PNT i czasu na powierzchni Księżyca według m
 seg-ce858063d300 = rodzaj mission-thread
 
 seg-0bd19840e50d = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu jednego łańcucha faz, od startu do wejścia w atmosferę, zbudowany na podstawie publicznych materiałów koncepcji operacji.
+
+seg-1b2e1e1b5c38 = Każdy dołączony plik scenariusza ({ "193" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.

@@ -224,8 +224,6 @@ seg-0cf0b9fb9184 = <s1>Scenarietyper</s1><s2>De { "92" } indbyggede scenarietype
 
 seg-9d5c233c72b4 = <s1>Alle scenarietyper, efter familie</s1><s2>Alle scenarietyper, motoren v{ $version } fordeler over ({ "92" }), ordnet under { "13" } familier.</s2>
 
-seg-2c002a7b7640 = <s1>Scenariehenvisning</s1><s2>Alle medfølgende scenariefiler ({ "192" }), grupperet efter type, med deres vigtigste indstillinger.</s2>
-
 seg-f5987c9d9fde = <s1>Verifikationsmatrix</s1><s2>Det komplette, maskinkontrollerede evidensregister: { "401" } rækker — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Funktionsreference</s1><s2>Funktionskortene og alle { "401" } rækker i verifikationsmatricen.</s2>
@@ -241,3 +239,5 @@ seg-cecb9535c0a1 = <s1>Måne og cislunart rum</s1><s2>{ "24" } scenarietyper i m
 seg-1dd7c80e18a7 = <s1>Missionstråde</s1><s2>{ "1" } scenarietype i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…</s2>
 
 seg-f0e26f01a361 = { "92" } sider, én for hver scenarietype, der er linket fra <a1>Alle scenarietyper, efter familie</a1>.
+
+seg-a1f33bd571ed = <s1>Scenariehenvisning</s1><s2>Alle medfølgende scenariefiler ({ "193" }), grupperet efter type, med deres vigtigste indstillinger.</s2>

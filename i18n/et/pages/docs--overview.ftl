@@ -3609,8 +3609,8 @@ seg-11041e6beb65 = { "92" } sisseehitatud stsenaariumi liiki koos kirjelduste ni
 
 seg-abf70d11a088 = kogu avatud mootor, kõik { "92" } stsenaariumi liiki, ilma funktsioonipiiranguta
 
-seg-b14326430bd8 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "92" } liiki, { "192" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.
-
 seg-824001fa6734 = laboratooriumid ja valmistajad, kelle käes on mõõteandmed
 
 seg-df3ca402513f = millised MODELLED read võiks mõõdetud kella- või IMU-salvestis edutada, vormingud ning kuidas esitatut kontrollitakse (<c1/>), hinnatakse ja tunnustatakse
+
+seg-e2d733f93455 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "92" } liiki, { "193" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.

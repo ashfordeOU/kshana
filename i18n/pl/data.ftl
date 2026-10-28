@@ -8247,8 +8247,6 @@ dat-fe6d68d3c1f9 = Kowariancja na granicy wejścia w atmosferę, prawdopodobień
 
 dat-f6759242b1a9 = Błędy i ich kody
 
-dat-0488b2056745 = Każdy dołączony plik scenariusza ({ "192" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.
-
 dat-c0206ef96894 = Każdy rodzaj scenariusza, który rozdziela silnik v{ $version } ({ "92" }), przypisany do { "13" } rodzin.
 
 dat-59385aaf8a98 = Dokładna równość z istniejącym rodzajem dla jednego miejsca oraz kontrole monotoniczności w testach. Zestaw przekaźników jest ILLUSTRATIVE i nie porównuje się żadnego pomiaru z powierzchni
@@ -8434,3 +8432,5 @@ dat-82201a0b07b0 = Co nowego w { "0.40" }
 dat-b3d9ac894036 = Twój własny zegar
 
 dat-286487acb3db = Kontrole geometrii zenitu i antypodu oraz oczekiwana widoczność odległego celu w testach. Nie modeluje się żadnej rzeczywistej sieci, anteny ani harmonogramu
+
+dat-b8b659cbbefa = Każdy dołączony plik scenariusza ({ "193" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.

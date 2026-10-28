@@ -51,7 +51,10 @@ fn catalog_block(name: &str) -> Vec<String> {
         // rows are `["x.toml", ...` or, since the i18n conversion, `row("x.toml", ...`; the not-in-browser keys are
         // `"x.toml": ...` or `get "x.toml"() { ... }`
         let t = line.trim_start().trim_start_matches('[');
-        let t = t.strip_prefix("row(").or_else(|| t.strip_prefix("get ")).unwrap_or(t);
+        let t = t
+            .strip_prefix("row(")
+            .or_else(|| t.strip_prefix("get "))
+            .unwrap_or(t);
         if let Some(rest) = t.strip_prefix('"') {
             if let Some(q) = rest.find('"') {
                 out.push(rest[..q].to_string());

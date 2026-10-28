@@ -2284,8 +2284,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Kies een van { "193" } scenariobestanden in { "92" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
-
 seg-d5c6110302e9 = Een missieketen in Artemis-klasse, een bewijslabel bij elk cijfer en zeventien talen.
 
 seg-8597c65432ed = Koppel de fasen van een maanmissie aan elkaar in één foutenbudget voor navigatie en tijdsynchronisatie, schat waar een bron van verslechterde positiemeldingen zich kan bevinden, lees gemeten klokloggen, zie het bewijsniveau bij elk cijfer dat een run schrijft, en gebruik de opdrachtregel, de rapporten en Studio in zeventien talen. Elke mogelijkheid draagt het label dat het register ervoor bijhoudt, en een label benoemt alleen wat is gecontroleerd. Adviserende software, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk.
@@ -2332,8 +2330,6 @@ seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
 
 seg-1e0afa852323 = Vier vooraf vastgelegde vergelijkingen zijn na de akkoordverklaring eenmaal uitgevoerd en haalden hun drempels, en elke score is gemodelleerd.
 
-seg-ed10ac59ed87 = Alle { "193" } scenariobestanden in { "92" } soorten, gegroepeerd per domein; { "180" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register die noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarioreferentie, met het bestand en de opdracht die het uitvoert.
-
 seg-c381cfa99bb0 = Een klokscenario waarvan de klassieke klok de ruis van een gemeten log overneemt (`[clock_fit]`).
 
 seg-328cd04eef87 = Een klokscenario met een gemeten log naast de gesimuleerde holdover (`[clock_log]`).
@@ -2367,3 +2363,7 @@ seg-0ecc50eafdbe = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppe
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } van { "92" } soorten, { "3300" } van { "3300" } numerieke velden
+
+seg-237402dbe93a = Kies een van { "194" } scenariobestanden in { "92" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
+
+seg-ace118a5dc36 = Alle { "194" } scenariobestanden in { "92" } soorten, gegroepeerd per domein; { "181" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register die noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarioreferentie, met het bestand en de opdracht die het uitvoert.

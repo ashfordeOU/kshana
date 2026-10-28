@@ -748,8 +748,6 @@ seg-6c7d25f672fb = MODELLED tillgänglighet för positionering och tidssynkronis
 
 seg-1ec485468daa = MODELLED felbudget för navigering och tidssynkronisering för en angiven kedja av uppdragsfaser, från uppskjutning till återinträde: uppskjutning och stigning, rendezvous och dockning i låg omloppsbana runt jorden (kan upprepas), trans-lunar injektion och färd i cislunart rum, rendezvous i månbana, nedstigning, vistelse på ytan, stigning samt återfärd och återinträde, varje fas en av åtta registrerade typer med egna sensorer och filter. 6x6-kovariansen, klockan och referenssystemet överlämnas från fas till fas enligt en angiven regel (carry, inflate eller reacquire); omvandlingar av referenssystem och tidsskalor (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) är egna budgetrader, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv. Ett valfritt överlägg för markstationsnät anger spårningsdriften för varje fas. Redovisar budgeten per fas (1-sigman vid inträde, topp och utträde, varje bidrag med sin enhet), marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. MODELLED: varje tal är en angiven indata; kedjan följer en enda stack och inget fordon modelleras. Enbart offentliga källor; inte knuten till eller stödd av någon rymdorganisation; rådgivande programvara, inte certifierad navigationsutrustning.
 
-seg-5b4a725bea4e = Varje medföljande scenariofil ({ "192" }), grupperad efter typ. Beskrivningen är filens egen rubrikkommentar; nyckelparametrarna är dess inställningar på översta nivån. Status läser verifieringsmatrisen för typens modul. <b>Öppna i Kshana Studio</b> öppnar den registrerade körningen.
-
 seg-d2b1e58dea11 = Ett klockscenario där den klassiska klockan tar bruset från en uppmätt logg (<c1/>).
 
 seg-760090cd3247 = Ett klockscenario med en uppmätt logg vid sidan av den simulerade holdovern (<c1/>).
@@ -777,3 +775,5 @@ seg-ce9f26be0623 = PNT och tidssynkronisering på månytan: tillgänglighet per 
 seg-ce858063d300 = typ mission-thread
 
 seg-0bd19840e50d = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering för en kedja av faser, från uppskjutning till återinträde, byggd på offentligt material om driftkoncept.
+
+seg-1b2e1e1b5c38 = Varje medföljande scenariofil ({ "193" }), grupperad efter typ. Beskrivningen är filens egen rubrikkommentar; nyckelparametrarna är dess inställningar på översta nivån. Status läser verifieringsmatrisen för typens modul. <b>Öppna i Kshana Studio</b> öppnar den registrerade körningen.

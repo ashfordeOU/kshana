@@ -763,8 +763,6 @@ seg-6c7d25f672fb = MODELLED pinnan paikannus- ja ajoitussaatavuus kohteen ja vuo
 
 seg-1ec485468daa = MODELLED navigointi- ja ajoitusvirhebudjetti määritellylle tehtävävaiheiden ketjulle laukaisusta paluuseen: laukaisu ja nousu, matalan Maan kiertoradan kohtaaminen ja telakointi (toistettava), Kuuhun siirtyvä injektio ja kuunläheinen risteily, Kuun kiertoradan kohtaaminen, laskeutuminen, oleskelu pinnalla, nousu sekä paluu ja ilmakehään tulo, kukin vaihe yksi kahdeksasta rekisteröidystä lajista omine antureineen ja suotimineen. 6x6-kovarianssi, kello ja koordinaatisto siirretään vaiheesta toiseen määritellyn säännön mukaan (kanna, paisuta tai hanki uudelleen); koordinaatisto- ja aikaskaalamuunnokset (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) ovat omia budjettirivejään, ja Kuun tila tulee valinnaisesta DE440-kernelin leikkauksesta ja analyyttinen sarja on ilmoitettu varakeino. Valinnainen maaverkon peitto asettaa kunkin vaiheen seurantatyökuorman. Raportoi vaihekohtaisen budjetin (tulo-, huippu- ja poistumis-1-sigmat, jokainen osuus yksikköineen), marginaalin määriteltyyn vaatimukseen nähden, heikoimman lenkin, tapahtumat ja aikajanakuvan. MODELLED: jokainen luku on ilmoitettu syöte; ketju noudattaa yhtä pinoa, eikä mitään ajoneuvoa mallinneta. Vain julkisia lähteitä; ei ole sidoksissa mihinkään virastoon eikä sen hyväksymä; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
 
-seg-5b4a725bea4e = Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylimmän tason asetukset. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studiossa</b> avaa tallennetun ajon.
-
 seg-d2b1e58dea11 = Kellonskenaario, jossa klassinen kello saa kohinansa mitatusta lokista (<c1/>).
 
 seg-760090cd3247 = Kellonskenaario, jossa mitattu loki on simuloidun holdoverin rinnalla (<c1/>).
@@ -792,3 +790,5 @@ seg-ce9f26be0623 = Kuun pinnan PNT:n ja ajoituksen saatavuus paikan ja kauden mu
 seg-ce858063d300 = tyyppi mission-thread
 
 seg-0bd19840e50d = Artemis-luokan tehtäväketju: yhden vaiheketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen ilmakehään, rakennettu julkisesta toimintakonseptiaineistosta.
+
+seg-1b2e1e1b5c38 = Jokainen mukana toimitettu skenaariotiedosto ({ "193" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylimmän tason asetukset. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studiossa</b> avaa tallennetun ajon.

@@ -3609,8 +3609,8 @@ seg-11041e6beb65 = Les { "92" } types de scénario intégrés, avec leurs descri
 
 seg-abf70d11a088 = tout le moteur ouvert, les { "92" } types de scénario, sans restriction de fonctionnalités
 
-seg-b14326430bd8 = Voir <c1/> pour au moins un exemple travaillé de chaque type ({ "92" } types, { "192" } fichiers de scénario <c2/> + { "1" } manifeste de suite — plusieurs types fournissent plus d'un exemple). Tous les types n'ont pas un fichier portant leur nom : <c3/> → <c4/> et <c5/> → <c6/> en sont deux parmi plusieurs. Listez les types répartissables à tout moment avec les erreurs de <c7/>, le <c8/> de Python, ou l'outil MCP <c9/>.
-
 seg-824001fa6734 = laboratoires et fabricants détenant des données mesurées
 
 seg-df3ca402513f = quelles lignes MODELLED un enregistrement d'horloge ou d'IMU mesuré pourrait promouvoir, les formats, comment une soumission est vérifiée (<c1/>), notée et créditée
+
+seg-e2d733f93455 = Voir <c1/> pour au moins un exemple travaillé de chaque type ({ "92" } types, { "193" } fichiers de scénario <c2/> + { "1" } manifeste de suite — plusieurs types fournissent plus d'un exemple). Tous les types n'ont pas un fichier portant leur nom : <c3/> → <c4/> et <c5/> → <c6/> en sont deux parmi plusieurs. Listez les types répartissables à tout moment avec les erreurs de <c7/>, le <c8/> de Python, ou l'outil MCP <c9/>.

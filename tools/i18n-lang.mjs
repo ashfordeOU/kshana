@@ -673,3 +673,82 @@ export function statusFiles(root, lang) {
   if (existsSync(ep)) { const en = messageBlocks(readText(ep)).map((m) => m.id); const lp = join(root, lang, 'engine.ftl'); const have = new Set(existsSync(lp) ? messageBlocks(readText(lp)).map((m) => m.id) : []); rows.push({ file: 'engine.ftl', translated: en.filter((i) => have.has(i)).length, total: en.length }); }
   return rows;
 }
+
+
+/** ---- renumber: carry translations over an English change that moved only digits (or only a code span) ---- */
+
+const digitKey = (skel) => plainKey(skel).replace(/\d+/g, '#');
+const runs = (s) => s.match(/\d+/g) || [];
+
+/** The translation `tr` of the old English `oldSkel`, for the new English `newSkel` that differs from it only in digit runs: every digit run of the
+ *  translation that equals an old run is replaced by the new run at the same place of the English (by value, so the translation's word order and
+ *  number formatting stay). Null when the segments differ by more than digits, the run counts differ, the translation's runs are not the old English's
+ *  runs, or one old value would become two different new values. */
+export function renumberText(oldSkel, newSkel, tr) {
+  if (digitKey(oldSkel) !== digitKey(newSkel)) return null;
+  const o = runs(oldSkel), n = runs(newSkel), t = runs(tr);
+  if (o.length !== n.length || t.length !== o.length) return null;
+  if ([...o].sort().join() !== [...t].sort().join()) return null;
+  const map = new Map();
+  for (let i = 0; i < o.length; i++) { if (map.has(o[i]) && map.get(o[i]) !== n[i]) return null; map.set(o[i], n[i]); }
+  return tr.replace(/\d+/g, (d) => map.get(d));
+}
+
+/** Old English of a whole-file catalogue at a git revision: Map id -> first line of the message. */
+export function oldEnglishFile(rev, file, root = 'i18n') {
+  const text = execFileSync('git', ['show', `${rev}:${root}/en/${file}`], { encoding: 'utf8', maxBuffer: 1 << 28 });
+  return new Map([...text.matchAll(/^([A-Za-z][\w-]*) = (.*)$/gm)].map((m) => [m[1], m[2]]));
+}
+
+/** Carry the translations of `lang` whose English segment changed only in digit runs (or kept its text and changed its id) to the new id.
+ *  `oldPages` = oldEnglish(rev), `oldData` = oldEnglishFile(rev, 'data.ftl'). Only i18n/<lang>/pages/*.ftl and data.ftl are touched. Returns per catalogue
+ *  {carried, left:[{id, why}]}; `left` are new English ids with no translation that had an old counterpart. */
+export function renumberLang(root, lang, oldPages, oldData, { dryRun = false } = {}) {
+  const res = { pages: { carried: 0, left: [], carriedIds: [] }, data: { carried: 0, left: [], carriedIds: [] } };
+  const run = (cat, oldMap, enMap, translations, remove, merge) => {
+    const added = [...enMap.keys()].filter((i) => !oldMap.has(i) && !translations.has(i));
+    const removed = [...oldMap.keys()].filter((i) => !enMap.has(i) && translations.has(i)).sort();
+    const chunks = [], used = [];
+    for (const a of added) {
+      const cands = removed.filter((r) => digitKey(oldMap.get(r)) === digitKey(enMap.get(a)));
+      if (!cands.length) continue;
+      // The same old English may stand under several ids (a repeated line on several pages): all alike when their skeletons are equal.
+      const skels = new Set(cands.map((r) => oldMap.get(r)));
+      if (skels.size !== 1) { res[cat].left.push({ id: a, why: 'several different old segments' }); continue; }
+      const r = cands[0];
+      const tr = renumberText(oldMap.get(r), enMap.get(a), translations.get(r));
+      if (tr === null) { res[cat].left.push({ id: a, why: 'digits not mappable' }); continue; }
+      chunks.push(`${a} = ${tr}`); used.push(...cands);
+    }
+    if (dryRun || !chunks.length) { res[cat].carried = chunks.length; return; }
+    const r = merge(chunks.join('\n\n') + '\n');
+    const rej = new Set(r.rejected.map((x) => x.id));
+    for (const c of chunks) { const id = c.split(' ')[0]; if (rej.has(id)) res[cat].left.push({ id, why: 'rejected by the checks' }); else { res[cat].carried++; res[cat].carriedIds.push(id); } }
+    remove(new Set(used));
+  };
+  // pages
+  {
+    const { where } = pageMessages(root);
+    const en = new Map();
+    for (const f of new Set([...where.values()].flatMap((x) => [...x]))) for (const m of readText(join(root, 'en', 'pages', f)).matchAll(/^(seg-[0-9a-f]{12}) = (.*)$/gm)) en.set(m[1], m[2]);
+    const dir = join(root, lang, 'pages');
+    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.ftl')) : [];
+    const tr = new Map();
+    for (const f of files) for (const b of readText(join(dir, f)).split(/\n\n+/)) { const m = /^(seg-[0-9a-f]{12}) = ([\s\S]*)$/m.exec(b); if (m) tr.set(m[1], m[2].trim()); }
+    run('pages', oldPages, en, tr,
+      (ids) => { for (const f of files) { const t = readText(join(dir, f)); const keep = t.split(/\n\n+/).filter((b) => { const m = /^(seg-[0-9a-f]{12})/m.exec(b); return !(m && ids.has(m[1])); }); if (keep.length !== t.split(/\n\n+/).length) writeFileSync(join(dir, f), keep.join('\n\n').trimEnd() + '\n'); } },
+      (text) => mergeTranslations(root, lang, [text]));
+  }
+  // data
+  {
+    const enB = messageBlocks(readText(join(root, 'en', 'data.ftl')));
+    const en = new Map(enB.map((m) => [m.id, m.text.split('\n').filter((l) => !l.startsWith('#'))[0].replace(/^[^=]*= ?/, '')]));
+    const lp = join(root, lang, 'data.ftl');
+    const lb = existsSync(lp) ? messageBlocks(readText(lp)) : [];
+    const tr = new Map(lb.map((m) => [m.id, m.text.split('\n').filter((l) => !l.startsWith('#')).join('\n').replace(/^[^=]*= ?/, '')]));
+    run('data', oldData, en, tr,
+      (ids) => { const t = readText(lp); const bl = t.split(/\n\n+/); const keep = bl.filter((b) => { const m = /^(dat-[0-9a-f]{12}) =/m.exec(b); return !(m && ids.has(m[1])); }); if (keep.length !== bl.length) writeFileSync(lp, keep.join('\n\n').trimEnd() + '\n'); },
+      (text) => mergeFile(root, lang, 'data.ftl', [text]));
+  }
+  return res;
+}

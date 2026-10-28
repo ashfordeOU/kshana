@@ -817,6 +817,6 @@ seg-3bf5f474beca = Avoin moottori keskellä: yksi merkki skenaariotyyppiä kohti
 
 seg-f88b6cf10837 = Moottori v{ $version } · { "92" } tyyppiä lähteestä <c1/> · kirjanpidon tila lähteestä <c2/> · mihin Pro ja tutkimus perustuvat: sivuston editioiden rekisteri · ei skenaariota eikä siemenlukua
 
-seg-7a848f1d8304 = Kaikki { "92" } skenaariotyyppiä ja { "180" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
-
 seg-cc655ce0b6c8 = Koko varmennusmatriisi: { "401" } ominaisuudesta { "176" } validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi
+
+seg-65342d8ef6ad = Kaikki { "92" } skenaariotyyppiä ja { "181" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta

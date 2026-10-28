@@ -333,8 +333,6 @@ seg-0cf0b9fb9184 = <s1>Szenarioarten</s1><s2>Die { "92" } eingebauten Szenarioar
 
 seg-9d5c233c72b4 = <s1>Jede Szenarioart nach Familie</s1><s2>Jede Szenarioart, auf die die Engine v{ $version } verteilt ({ "92" }), eingeordnet in { "13" } Familien.</s2>
 
-seg-2c002a7b7640 = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "192" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
-
 seg-f5987c9d9fde = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "401" } Zeilen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "401" } Zeilen der Verifikationsmatrix.</s2>
@@ -350,3 +348,5 @@ seg-cecb9535c0a1 = <s1>Mond und cislunar</s1><s2>{ "24" } Szenarioarten der Engi
 seg-1dd7c80e18a7 = <s1>Missionsstränge</s1><s2>{ "1" } Szenarioart der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…</s2>
 
 seg-f0e26f01a361 = { "92" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.
+
+seg-a1f33bd571ed = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "193" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>

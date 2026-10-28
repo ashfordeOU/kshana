@@ -7939,8 +7939,6 @@ dat-6fd0ece9147e = Oblast emitoru (interference-map locate)
 
 dat-fe6d68d3c1f9 = Kovariance na rozhraní vstupu, pravděpodobnost koridoru, špičkové zpomalení a stopa přistání (`entry`)
 
-dat-0488b2056745 = Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu, s jeho klíčovými nastaveními.
-
 dat-c0206ef96894 = Každý druh scénáře, přes který engine v{ $version } rozděluje ({ "92" }), zařazený do { "13" } rodin.
 
 dat-59385aaf8a98 = Přesná shoda se stávajícím druhem pro jedno místo a kontroly monotonie v testech. Sada relé je ILLUSTRATIVE a žádné měření povrchu se neporovnává
@@ -8128,3 +8126,5 @@ dat-286487acb3db = Kontroly geometrie zenitu a antipodu a očekávaná viditelno
 dat-6ed624c1c297 = Čtyři druhy scénářů, každý také druhem fáze rozhraní mission-thread (src/mission_thread/): ony…
 
 dat-ed7ff984ba53 = Soustavy a časové škály
+
+dat-b8b659cbbefa = Každý přibalený soubor scénáře ({ "193" }), seskupený podle druhu, s jeho klíčovými nastaveními.
