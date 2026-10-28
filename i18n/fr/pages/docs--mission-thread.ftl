@@ -89,3 +89,9 @@ seg-467b14d7ef59 = <c1/> : <c2/> (indice, identifiant, type, temps, étiquette,
 seg-a3c40c51c2ff = Ce que sont les preuves
 
 seg-1168810d4407 = L'étiquette du fil est l'étiquette de la phase la plus faible, et chaque phase est MODELLED. Le propagateur lunaire est comparé à LRO et CAPSTONE (<s1><c1/></s1>) ; l'arc cislunaire est comparé à une trajectoire publique de Horizons (<s2><c2/></s2>). Une ligne atteint ou manque un seuil fixé dans un fichier versionné avant l'exécution, et un échec est consigné comme un échec. Rien n'est VALIDATED sauf si le registre le dit.
+
+seg-ee3c5b58e6fa = <s1>Précédent</s1>Orbite et surface lunaires comme infrastructure
+
+seg-b963f8a02aed = <s1>Suivant</s1>Fil de mission : le segment lunaire
+
+seg-af81a8087ca7 = entry

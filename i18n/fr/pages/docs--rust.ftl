@@ -247,3 +247,11 @@ seg-6dc7d52fef11 = <s1>Précédent</s1>npm et WebAssembly
 
 # text
 seg-8ff56af64ec2 = <s1>Suivant</s1>Serveur MCP
+
+seg-c9a297cc51e9 = { "176" } capacités sur { "401" } vérifiées par rapport à des références externes indépendantes
+
+seg-7b53ee712a36 = <b>{ "176" } sur { "401" }</b> capacités vérifiées par rapport à des références externes indépendantes ; { "221" } honnêtement étiquetées modélisées, { "4" } détenues par un partenaire. Chaque capacité porte une étiquette dans un registre vérifié par machine : VALIDATED (une référence externe indépendante concorde : données réelles, implémentation indépendante ou vecteurs de référence publiés), MODELLED (cohérent en interne, et dit à voix haute) ou PARTNER (un partenaire matériel la détient). Parmi les vérifications : les { "666" } vecteurs SGP4 (Simplified General Perturbations { "4" }) de l'AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 à { "4.12" } mm, et le modèle de forces de Cowell à { "0.08" } m près par rapport à Orekit { "12.2" }.
+
+seg-b59781ecf257 = Comment une capacité obtient son étiquette : capacité, référence indépendante, test, étiquette du registre. L'état de vérification sur l'ensemble des { "401" } capacités : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire
+
+seg-d0b2811a3d3c = Le moteur compte { "92" } types de scénario ; <c1/> les liste avec leurs champs. Nouveaux dans la version { "0.38.0" } : <c2/> (signaux GNSS pour des véhicules spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps comparé aux masques de l'ITU-T).

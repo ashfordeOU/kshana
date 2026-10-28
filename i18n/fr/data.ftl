@@ -8729,7 +8729,7 @@ dat-8796a5569e10 = Ce que signifient les étiquettes
 
 dat-bceb988a4263 = Quoi envoyer
 
-dat-82201a0b07b0 = Nouveautés de { "0.40" }
+dat-82201a0b07b0 = Nouveautés de la version { "0.40" }
 
 dat-b3d9ac894036 = Votre propre horloge
 
