@@ -156,7 +156,7 @@ language, for the summary, the chart and <code>report.html</code>. English is on
 <p>Measured, native, release build, English then <code>--lang de</code> (seconds): leo-navmsg-fit-interval-trade 9.2 -&gt; 17.9,
 cislunar-arc-recovery 7.8 -&gt; 14.1, lunar-station-coverage 7.8 -&gt; 15.0, clock-ensemble 5.8 -&gt; 11.6,
 leo-navmsg-model-comparison 5.1 -&gt; 10.5, leo-ppp-convergence 2.8 -&gt; 6.2; every other bundled scenario is under
-4 s; all 173 bundled scenarios take 64 s in English. The cost is exactly twice for another language. WebAssembly
+4 s; the 173 scenarios bundled when this was measured took 64 s in English together. The cost is exactly twice for another language. WebAssembly
 was not measured (no wasm-bindgen here); at the browser factor of about 4 it is a minute for the slowest kind.</p>
 <p>A page avoids the wait by showing the English result at once and calling <code>run_human(toml, lang)</code> afterwards: that
 is the second run alone, it returns <code>{summary, svg}</code>, and the Studio can say &quot;translating...&quot; until it arrives.</p>
