@@ -67,8 +67,9 @@ test("the budget of a phase: every row with its unit and label, the largest posi
   assert.equal(b.phase.id, "ascent");
   assert.equal(b.rows.length, 3);
   assert.equal(b.rows[0].sigma, 60.67742578587196, "largest first");
-  assert.equal(b.rows[0].limiting, true);
-  assert.equal(b.rows.filter((r) => r.limiting).length, 1);
+  assert.equal(b.limitingSource, "inertial dead reckoning", "the engine's own name for what limits the phase");
+  assert.equal(b.limitingInTable, false, "the engine names a source of the phase, not a row: no row is flagged in its place");
+  assert.equal(b.rows.filter((r) => r.limiting).length, 0);
   assert.deepEqual(b.rows.map((r) => r.unit).sort(), ["m", "m", "s"]);
   assert.ok(b.rows.every((r) => r.tier === "MODELLED"));
   assert.equal(b.rows[0].shown, "60.7 m");
@@ -107,4 +108,46 @@ test("text in the SVG is escaped", () => {
   const evil = { schema: SCHEMA, phases: [{ id: "<img src=x onerror=1>", kind: "k", start: 0, end: 10, peak_sigma_pos_m: 5, requirement: { max_pos_m: 9 } }], timeline: [{ phase_index: 0, t_s: 0, sigma_pos_m: 4 }, { phase_index: 0, t_s: 10, sigma_pos_m: 5 }] };
   const svg = timelineSvg(readThread(evil).model, { metric: "pos" });
   assert.doesNotMatch(svg, /<img/);
+});
+
+// The engine is the authority on what limits a phase: the view flags the row whose source is exactly the engine's `limiting_source`,
+// in every phase. Where the engine names a source of the phase that no row carries (the Earth phases), no row is flagged and the view
+// states the engine's text; the largest row is never flagged in its place.
+test("the limiting row of EVERY phase is the engine's limiting_source, nothing else", () => {
+  const engine = JSON.parse(REC.json).phases;
+  assert.equal(engine.length, M.phases.length);
+  let inTable = 0, named = 0;
+  engine.forEach((ep, i) => {
+    assert.equal(typeof ep.limiting_source, "string", `phase ${ep.id} has an engine limiting_source`);
+    assert.ok(ep.limiting_source.length > 0, ep.id);
+    const b = budgetTable(M, i);
+    assert.equal(b.phase.id, ep.id);
+    assert.equal(b.limitingSource, ep.limiting_source, `${ep.id}: the view states the engine's text`);
+    const exact = ep.budget_rows.filter((r) => r.source === ep.limiting_source);
+    const flagged = b.rows.filter((r) => r.limiting);
+    assert.equal(b.limitingInTable, exact.length > 0, ep.id);
+    if (exact.length) {
+      inTable++;
+      assert.equal(flagged.length, 1, `${ep.id}: exactly one row flagged`);
+      assert.equal(flagged[0].source, ep.limiting_source, `${ep.id}: the flagged row is the engine's`);
+      assert.equal(flagged[0].sigma, exact[0].sigma, ep.id);
+      assert.equal(flagged[0].unit, exact[0].unit, ep.id);
+    } else {
+      named++;
+      assert.equal(flagged.length, 0, `${ep.id}: the engine's source "${ep.limiting_source}" is not a row; none is flagged`);
+    }
+  });
+  assert.equal(inTable + named, engine.length);
+  assert.ok(inTable >= 1, "at least the lunar phases carry the engine's source as a row");
+});
+
+test("a surface phase is limited by its timing floor (unit s), not by the larger position row", () => {
+  const i = M.phases.findIndex((p) => p.kind === "lunar-surface");
+  assert.ok(i >= 0);
+  const b = budgetTable(M, i);
+  const f = b.rows.filter((r) => r.limiting);
+  assert.equal(f.length, 1);
+  assert.equal(f[0].unit, "s");
+  assert.match(f[0].source, /timing floor/);
+  assert.ok(b.rows.some((r) => r.unit === "m" && r.limiting === false), "the position row is shown but not flagged");
 });

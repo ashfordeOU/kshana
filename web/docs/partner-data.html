@@ -171,8 +171,8 @@ never a promise.</p>
 <p>Start with the first two: they decide whether the per-class holdover floors and the quantum-versus-classical trade
 rest on any measured data of their own.</p>
 <h2 id="what-to-send">What to send<a class="anchor" href="#what-to-send" aria-label="Link to this section">#</a></h2>
-<p>A submission is two files in one folder: the data and a small description of it, <code>submission.toml</code>
-(<code>kshana.partner-submission/1</code>; a worked, made-up example is <code>examples/partner-submission/</code>).</p>
+<p>A submission is two files in one folder: the data and a small description of it, a TOML file
+(<code>kshana.partner-submission/1</code>; a worked, made-up example is <code>examples/partner-submission/submission.toml</code>).</p>
 <p><strong>Clock data.</strong> One of the formats Kshana reads (see <a href="/docs/clock-log-formats">clock-log formats</a>): TAPR TICC logs,
 TimeLab-style ASCII phase or frequency, RINEX clock, linuxptp <code>ptp4l</code>, <code>phc2sys</code> and <code>ts2phc</code> logs, chrony tracking and
 statistics logs. Phase is preferred over frequency; state the units and the sample interval. Give the longest
@@ -199,7 +199,7 @@ description), anything under export control or restricted by agreement, and any 
 <h2 id="how-a-submission-is-checked">How a submission is checked<a class="anchor" href="#how-a-submission-is-checked" aria-label="Link to this section">#</a></h2>
 <ol>
 <li><p><strong>Format and metadata, by you or us, before anything runs.</strong></p>
-<pre data-lang="shell"><code class="hljs language-bash">kshana partner check submission.toml          <span class="hljs-comment"># add --json for a machine-readable report</span></code></pre>
+<pre data-lang="shell"><code class="hljs language-bash">kshana partner check &lt;submission.toml&gt;          <span class="hljs-comment"># add --json for a machine-readable report</span></code></pre>
 <p>It confirms the schema, the required fields, the hash, the licence and attribution rules, that the target rows exist and
 are MODELLED, that the data reads with the engine&#39;s own reader, and it reports what it read (samples, interval, span,
 gaps) and warns about records that are short. Exit status 0 means complete and readable; 1 lists what to fix. <strong>It

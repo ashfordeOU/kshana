@@ -13569,7 +13569,7 @@ Every error message has a stable code, the message id in capitals (e-clock-versi
 
 A machine file must not depend on the language. A run in another language therefore executes the scenario twice: once in English, whose result.json, report.json and CSV are the machine files, and once in the user's language, for the summary, the chart and report.html. English is one run, byte for byte what it was before.
 
-Measured, native, release build, English then --lang de (seconds): leo-navmsg-fit-interval-trade 9.2 -> 17.9, cislunar-arc-recovery 7.8 -> 14.1, lunar-station-coverage 7.8 -> 15.0, clock-ensemble 5.8 -> 11.6, leo-navmsg-model-comparison 5.1 -> 10.5, leo-ppp-convergence 2.8 -> 6.2; every other bundled scenario is under 4 s; all 173 bundled scenarios take 64 s in English. The cost is exactly twice for another language. WebAssembly was not measured (no wasm-bindgen here); at the browser factor of about 4 it is a minute for the slowest kind.
+Measured, native, release build, English then --lang de (seconds): leo-navmsg-fit-interval-trade 9.2 -> 17.9, cislunar-arc-recovery 7.8 -> 14.1, lunar-station-coverage 7.8 -> 15.0, clock-ensemble 5.8 -> 11.6, leo-navmsg-model-comparison 5.1 -> 10.5, leo-ppp-convergence 2.8 -> 6.2; every other bundled scenario is under 4 s; the 173 scenarios bundled when this was measured took 64 s in English together. The cost is exactly twice for another language. WebAssembly was not measured (no wasm-bindgen here); at the browser factor of about 4 it is a minute for the slowest kind.
 
 A page avoids the wait by showing the English result at once and calling run_human(toml, lang) afterwards: that is the second run alone, it returns {summary, svg}, and the Studio can say "translating..." until it arrives.
 
@@ -24895,7 +24895,7 @@ Start with the first two: they decide whether the per-class holdover floors and 
 
 ## What to send#
 
-A submission is two files in one folder: the data and a small description of it, submission.toml (kshana.partner-submission/1; a worked, made-up example is examples/partner-submission/).
+A submission is two files in one folder: the data and a small description of it, a TOML file (kshana.partner-submission/1; a worked, made-up example is examples/partner-submission/submission.toml).
 
 Clock data. One of the formats Kshana reads (see clock-log formats): TAPR TICC logs, TimeLab-style ASCII phase or frequency, RINEX clock, linuxptp ptp4l, phc2sys and ts2phc logs, chrony tracking and statistics logs. Phase is preferred over frequency; state the units and the sample interval. Give the longest uninterrupted record you have: stability at long averaging times needs days, and a record under a day is accepted but warned about.
 
@@ -24925,7 +24925,7 @@ Not to send. Anything personal or with contact details (the checker refuses an e
 Format and metadata, by you or us, before anything runs.
 
 ```
-kshana partner check submission.toml          # add --json for a machine-readable report
+kshana partner check <submission.toml>          # add --json for a machine-readable report
 ```
 
 It confirms the schema, the required fields, the hash, the licence and attribution rules, that the target rows exist and are MODELLED, that the data reads with the engine's own reader, and it reports what it read (samples, interval, span, gaps) and warns about records that are short. Exit status 0 means complete and readable; 1 lists what to fix. It does not score the data, validate a row or promise it will be used.
@@ -32099,7 +32099,7 @@ Every capability in the verification matrix is labelled validated (checked again
 
 ## Capabilities#
 
-The engine has 87 scenario kinds; kshana kinds lists them with their fields. New in 0.38.0: gnss-ssv (GNSS signals for spacecraft above, around and past the GNSS orbits) and lunar-infrastructure (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and holdover-test (a time-error record against the ITU-T masks).
+The engine has 92 scenario kinds; kshana kinds lists them with their fields. New in 0.38.0: gnss-ssv (GNSS signals for spacecraft above, around and past the GNSS orbits) and lunar-infrastructure (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and holdover-test (a time-error record against the ITU-T masks).
 
 - Spectrum: how a jammer takes the GNSS L band, band by band.
 
@@ -32311,7 +32311,7 @@ Every capability in the verification matrix is labelled validated (checked again
 
 ## Capabilities#
 
-The engine has 87 scenario kinds; kshana kinds lists them with their fields. New in 0.38.0: gnss-ssv (GNSS signals for spacecraft above, around and past the GNSS orbits) and lunar-infrastructure (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and holdover-test (a time-error record against the ITU-T masks).
+The engine has 92 scenario kinds; kshana kinds lists them with their fields. New in 0.38.0: gnss-ssv (GNSS signals for spacecraft above, around and past the GNSS orbits) and lunar-infrastructure (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and holdover-test (a time-error record against the ITU-T masks).
 
 - Spectrum: how a jammer takes the GNSS L band, band by band.
 

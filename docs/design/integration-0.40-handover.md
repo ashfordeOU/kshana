@@ -78,3 +78,9 @@ the metadata files is a placeholder to confirm.
 
 - `docs/RECEIVER-TRUST.md` and `docs/SKYLINE.md` link to `docs/design/2026-10-12-geometry-and-skyline-design.md`, which has never been in
   the repository. Reword or drop the links; left as they are for 0.40 because changing them moves translated page segments.
+- `web/capabilities.json`: the "Unit and provenance" card states the measured counts (92 of 92 kinds, 3300 of 3300 emitted numeric fields) by
+  hand; it needs a generator from the `field_units_global` test (`--nocapture`), so the card cannot drift from the gate.
+- The Studio library lacks the four lunar kinds (`lunar-orbit-rendezvous`, `lunar-descent`, `lunar-surface`, `lunar-ascent`), the
+  `mission-thread` scenarios and the clock-log scenarios (`clock-fitted-log`, `clock-measured-log`); `check_features` lists them under NO_STUDIO.
+- The mission-thread view flags a budget row as the limiting source only where the engine's `limiting_source` is one of its rows. The Earth
+  phases name a source of the phase ("inertial dead reckoning", "relative sensing", "ground tracking") that no row carries; the engine could name the row.

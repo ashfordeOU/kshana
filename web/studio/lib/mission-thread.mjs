@@ -86,15 +86,21 @@ export function phaseTable(m) {
   }));
 }
 
-/** The budget of one phase: every contribution with its unit and label, the largest first; the row that sets the peak is flagged `limiting`. */
+/** The budget of one phase: every contribution with its unit and label, the largest first. The engine names the phase's limiting source
+ *  (`limiting_source`); the row whose source is exactly that name is flagged `limiting`, whatever its unit (a timing floor limits a surface
+ *  phase although its row is in seconds). When the engine's name is a source of the phase rather than one row of the table (the Earth
+ *  phases name "inertial dead reckoning", "relative sensing", "ground tracking" ...), no row is flagged: the page does not pick the
+ *  largest row in its place. `limitingSource` is the engine's text either way; `limitingInTable` says whether a row carries it. */
 export function budgetTable(m, phaseIndex) {
   const p = m.phases[phaseIndex] || m.phases[0];
   const rows = p.rows.map((r, i) => ({ ...r, order: i, shown: fmtSigma(r.sigma, r.unit) }));
   const posRows = rows.filter((r) => r.unit === "m" && r.sigma !== null);
   const max = posRows.reduce((a, r) => (r.sigma > a ? r.sigma : a), -Infinity);
+  const flagged = p.limiting ? rows.findIndex((r) => r.source === p.limiting) : -1;
   const sorted = [...rows].sort((a, b) => (b.sigma ?? -1) - (a.sigma ?? -1));
   return {
-    phase: p, rows: sorted.map((r) => ({ ...r, limiting: r.unit === "m" && r.sigma !== null && r.sigma === max, bar: r.unit === "m" && isFinite(max) && max > 0 && r.sigma !== null ? Math.max(0, Math.min(1, r.sigma / max)) : null })),
+    phase: p, limitingSource: p.limiting, limitingInTable: flagged >= 0,
+    rows: sorted.map((r) => ({ ...r, limiting: r.order === flagged, bar: r.unit === "m" && isFinite(max) && max > 0 && r.sigma !== null ? Math.max(0, Math.min(1, r.sigma / max)) : null })),
     peak: { pos: fmtSigma(p.peak.pos, "m"), vel: fmtSigma(p.peak.vel, "m/s"), time: fmtSigma(p.peak.time, "s") },
     entry: { pos: fmtSigma(p.entry.pos, "m"), vel: fmtSigma(p.entry.vel, "m/s"), time: fmtSigma(p.entry.time, "s") },
     exit: { pos: fmtSigma(p.exit.pos, "m"), vel: fmtSigma(p.exit.vel, "m/s"), time: fmtSigma(p.exit.time, "s") },
