@@ -125,11 +125,15 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
 
     let app = std::fs::read_to_string("web/studio/lib/catalog.mjs")
         .expect("read web/studio/lib/catalog.mjs");
-    // The catalogue rows are `["<file>.toml", ...` — match the file in that position
+    // The catalogue rows are `row("<file>.toml", ...` (formerly `["<file>.toml", ...`) — match the file in that position
     // only, so a scenario merely mentioned in a comment does not count as offered.
     let offered: BTreeSet<String> = app
         .lines()
-        .filter_map(|l| l.trim().strip_prefix("[\""))
+        .filter_map(|l| {
+            let l = l.trim();
+            // `["<file>.toml", ...` before the string conversion, `row("<file>.toml", ...` since
+            l.strip_prefix("[\"").or_else(|| l.strip_prefix("row(\""))
+        })
         .filter_map(|r| r.split_once("\","))
         .map(|(f, _)| f.to_string())
         .filter(|f| f.ends_with(".toml"))
