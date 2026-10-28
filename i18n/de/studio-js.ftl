@@ -9325,3 +9325,7 @@ js-trust-track-start = Beginn
 js-trust-unknown-agreement = eine Übereinstimmung, die diese Seite nicht kennt
 
 js-trust-yes = ja
+
+js-mthread-limiting-phase = Die Engine nennt als begrenzende Quelle dieser Phase { $source }: eine Quelle der Phase, nicht eine Zeile dieser Tabelle.
+
+js-mthread-limiting-row = die begrenzende Quelle der Engine
