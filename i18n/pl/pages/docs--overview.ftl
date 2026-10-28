@@ -1975,3 +1975,12 @@ seg-824001fa6734 = laboratoria i producenci posiadający zmierzone dane
 seg-df3ca402513f = które wiersze MODELLED mógłby awansować zmierzony zapis zegara lub IMU, jakie formaty, jak zgłoszenie jest sprawdzane (<c1/>), oceniane i zaliczane
 
 seg-e2d733f93455 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "92" } rodzajów, { "193" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "92" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>). W Studio wątek odczytuje się pod adresem <c6/>.

@@ -1975,3 +1975,12 @@ seg-824001fa6734 = laboratorier og produsenter som har målte data
 seg-df3ca402513f = hvilke MODELLED-rader en målt klokke- eller IMU-registrering kan løfte, formatene, hvordan en innsending kontrolleres (<c1/>), skåres og krediteres
 
 seg-e2d733f93455 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "92" } typer, { "193" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Oppdragstråd.</b> Typen <c1/> kjeder sammen faser fra oppskyting til gjeninntreden (<c2/>, <c3/>, <c4/>, <c5/> og fire lunare typer) med oppgitte overleveringsregler, en margin mot oppgitte krav og det svakeste leddet; et ende-til-ende-eksempel i stil med Artemis-class over { "11" } faser (jord- og månesegmenter), { "92" } scenariotyper til sammen. Hvert tall er MODELLED. Den cislunare propageringen mot den offentlige banekurven for Artemis I <b>bommer</b> på sin forhåndsregistrerte terskel ({ "45.3" } km og { "0.25" } m/s mot { "5" } km og { "0.05" } m/s; årsaken er små manøvrer modellen ikke inkluderer), og den lunare propagatoren mot CAPSTONE-banen <b>bommer</b> ({ "136.8" } km mot { "25" } km ved slutten av én omløpstid); sammenligningen med LRO er oppfylt. Radene forblir MODELLED (<a1>Oppdragstråd</a1>, <a2>månesegmentet</a2>). I Studio leses tråden på <c6/>.
