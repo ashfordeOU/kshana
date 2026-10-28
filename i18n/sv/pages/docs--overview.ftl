@@ -1916,7 +1916,7 @@ seg-88439b6ddd78 = <c1/> kontrollerar formatet på ett bidrag och poängsätter 
 
 seg-c571cf207dd4 = Sändarområde.
 
-seg-5cf9c8d0440e = <c1/> ger ett område och en ellips, aldrig en enskild punkt, utifrån ADS-B- eller AIS-rapporter. Jämfört en gång med sändarplatserna i Jammertest { "2025" } är resultatet <b>INTE BEDÖMBART</b> för båda källorna (för få schemalagda sessioner i öppna data), så raden förblir MODELLED (<a1>Störningskarta</a1>).
+seg-5cf9c8d0440e = <c1/> ger ett område och en ellips, aldrig en enskild punkt, utifrån ADS-B- eller AIS-rapporter. Jämfört en gång med sändarplatserna i Jammertest { "2025" } är resultatet <b>NOT ASSESSABLET</b> för båda källorna (för få schemalagda sessioner i öppna data), så raden förblir MODELLED (<a1>Störningskarta</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> Omkampanjen { "0.40" } når A3, D3 (båda EXPLORATORY), R3 och R4; A2, D1 och R1 förblir NOT MET (<a1>Bench</a1>).
 

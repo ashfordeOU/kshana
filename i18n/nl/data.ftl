@@ -7453,7 +7453,7 @@ dat-61218243092c = MODELLED beschikbaarheid van positiebepaling en tijdsynchroni
 
 dat-dd872eabd06d = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer (`mission-thread`)
 
-dat-7557b6b1b3a2 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NIET TE BEOORDELEN ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NIET TE BEOORDELEN (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
+dat-7557b6b1b3a2 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
 
 dat-c61600fc3590 = Op gemeten data
 

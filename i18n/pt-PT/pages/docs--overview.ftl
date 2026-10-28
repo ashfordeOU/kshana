@@ -3576,7 +3576,7 @@ seg-c571cf207dd4 = Região do emissor.
 
 # text
 # c1: kshana interference-map locate
-seg-5cf9c8d0440e = <c1/> fornece uma região e uma elipse, nunca um ponto isolado, a partir de relatos ADS-B ou AIS. Comparado uma vez com os locais de emissores do Jammertest { "2025" }, o resultado é <b>não avaliável</b> para as duas fontes (poucas sessões programadas nos dados abertos), portanto a linha permanece MODELLED (<a1>Mapa de interferência</a1>).
+seg-5cf9c8d0440e = <c1/> fornece uma região e uma elipse, nunca um ponto isolado, a partir de relatos ADS-B ou AIS. Comparado uma vez com os locais de emissores do Jammertest { "2025" }, o resultado é <b>NOT ASSESSABLE</b> para as duas fontes (poucas sessões programadas nos dados abertos), portanto a linha permanece MODELLED (<a1>Mapa de interferência</a1>).
 
 # text
 seg-5b1f193d1f85 = <b>Benchmark.</b> A nova campanha da { "0.40" } atinge A3, D3 (ambos EXPLORATORY), R3 e R4; A2, D1 e R1 permanecem NOT MET (<a1>Bench</a1>).

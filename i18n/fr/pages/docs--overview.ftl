@@ -3555,7 +3555,7 @@ seg-88439b6ddd78 = <c1/> vérifie le format d'une soumission et ne note rien (<a
 
 seg-c571cf207dd4 = Région de l'émetteur.
 
-seg-5cf9c8d0440e = <c1/> donne une région et une ellipse, jamais un simple point, à partir de rapports ADS-B ou AIS. Comparé une fois avec les sites d'émetteurs de Jammertest { "2025" }, le résultat est <b>NON ÉVALUABLE</b> pour les deux sources (trop peu de sessions programmées dans les données ouvertes), de sorte que la ligne reste MODELLED (<a1>Carte d'interférence</a1>).
+seg-5cf9c8d0440e = <c1/> donne une région et une ellipse, jamais un simple point, à partir de rapports ADS-B ou AIS. Comparé une fois avec les sites d'émetteurs de Jammertest { "2025" }, le résultat est <b>NOT ASSESSABLE</b> pour les deux sources (trop peu de sessions programmées dans les données ouvertes), de sorte que la ligne reste MODELLED (<a1>Carte d'interférence</a1>).
 
 seg-5b1f193d1f85 = <b>Benchmark.</b> La nouvelle campagne { "0.40" } atteint A3, D3 (tous deux EXPLORATORY), R3 et R4 ; A2, D1 et R1 restent NOT MET (<a1>Bench</a1>).
 
