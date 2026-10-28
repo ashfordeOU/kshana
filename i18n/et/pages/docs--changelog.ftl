@@ -8947,3 +8947,6 @@ seg-a4b6bfcb9984 = Siin pole midagi VALIDATED: oraaklirid testivad jagatud levit
 seg-29d014d29790 = Üks sõltuvusuuendus tarnitud teegis (esimene kirje), ülejäänud ristvalideerimise tööriistades (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versioonilt { "0.13" } versioonile { "0.14" } (koos <c4/> { "0.14.3" }, <c5/> { "0.17.0" } ja <c6/> versioonilt { "0.5.5" } versioonile { "0.7.10" }; samuti otsene <c7/> sõltuvus, nüüd { "0.7" }) kõrvaldavad nõuande RUSTSEC-2026-0387 (ajastuse varieeruvus teegis <c8/> { "0.5.5" }). Kshana kasutab neid teeke ainult avalike allkirjade kontrollimiseks (Galileo OSNMA juurvõti ja RFC { "3161" } ajatemplitõendid) ning allkirjastab ainult testides ühekordsete võtmetega, nii et praktiline ekspositsioon oli olematu; uuendus eemaldab nõuande ilma eira-kirjeta. Teegi ja MCP lukufailid liiguvad mõlemad; ükski kontrollitulemus ei muutu (OSNMA ja ajatempli vektoritestid läbivad muutmata kujul).
+
+# text
+seg-1a4cda9d1486 = Minimaalne toetatud Rusti versioon on nüüd { "1.88" } (nõutud RUSTSEC-2026-0387 parandusega).
