@@ -1166,8 +1166,6 @@ seg-ad016bbbea54 = importera kshana-grafana-*.json från utgåvan
 
 seg-7849acc8e680 = Kshana på JetBrains Marketplace
 
-seg-48a01a252537 = Byggs med Rust { "1.85" } eller nyare, rust-version i Cargo.toml
-
 seg-152cb43de2f3 = Kör ett scenario från Python och från WebAssembly
 
 seg-58ea673e61fc = Utöver <c1/> exponerar modulen <c2/> (JSON, SVG och enradssammanfattningen på en gång), <c3/>, <c4/>, <c5/> / <c6/> och <c7/>; se <a1><c8/></a1>.
@@ -1466,8 +1464,6 @@ seg-63d3e74d233c = Installera och bygga från källkod
 
 seg-5dc0fc90ac79 = Installera och bygga
 
-seg-792f12b05230 = Kräver en Rust-verktygskedja (≥ { "1.85" }, <c1/> i Cargo.toml; utvecklad på { "1.93" }).
-
 seg-14380916caba = Användning: hela kommandoraden
 
 seg-a3536fe2dc4e = Kör vilket scenario som helst; CLI skickar vidare efter scenariots fält <c1/> och skriver <c2/>, <c3/>, <c4/> och <c5/> bredvid det, plus <c6/> för de typer som publicerar en tabell. Rapporten (en HyperText Markup Language-sida (HTML) och ett JSON-dokument med samma innehåll) innehåller en sammanfattning för ledningen, varje indata med sin enhet, resultaten och diagrammen, en kampanjs svep-, Monte Carlo- eller kedjetabeller, en händelsetidslinje, märkningen VALIDATED / MODELLED / PARTNER och källan för varje förmåga som körningen använde, vad som inte är modellerat och en reproducerbarhetspost (motorversion, kontrollsummor med Secure Hash Algorithm 256-bit (SHA-256), frö, plattform och det exakta kommandot). Den skrivs ut till en ren PDF-fil (Portable Document Format) från webbläsaren på papper i A4 eller Letter; motorn skriver ingen PDF själv. Se <a1><c7/></a1>.
@@ -1581,8 +1577,6 @@ seg-ed251e142b29 = <b>Hur modellerar jag min egen sensor?</b> Skriv ett scenario
 seg-f40679da402e = <b>Är det gratis för kommersiell användning?</b> Ja — under AGPL-3.0, även i kommersiella sammanhang, så länge du respekterar AGPL:s copyleft (framför allt: om du ändrar Kshana och erbjuder det över ett nätverk måste du erbjuda de användarna din ändrade källkod). Om det inte passar dig — till exempel om du behöver bädda in Kshana i en proprietär produkt eller driva en sluten nättjänst — finns en kommersiell licens från Ashforde® OÜ; se <a1><c1/></a1> och <a2>Support</a2>.
 
 seg-47e61b61094b = Felsökning
-
-seg-9bf11ed19b33 = <b><c1/> misslyckas med en gammal verktygskedja.</b> Kshana kräver Rust ≥ { "1.85" }. Uppdatera med <c2/>.
 
 seg-0cb99cc9fa83 = <b>Bygget av Python-tillägget misslyckas att länka på macOS</b> (<c1/>). Ett Python-tillägg löser sina symboler vid inläsning. <c2/> sätter rätt länkflagga automatiskt — använd <c3/> i stället för ett fristående <c4/>.
 
@@ -1984,3 +1978,9 @@ seg-e2d733f93455 = Se <c1/> för minst ett genomarbetat exempel för varje typ (
 # c5: entry
 # c6: /studio/mission-thread/
 seg-88b7afd3df20 = <b>Uppdragsflöde.</b> Typen <c1/> kopplar ihop faser från uppskjutning till återinträde (<c2/>, <c3/>, <c4/>, <c5/> och fyra månetyper) med angivna överlämningsregler, en marginal mot angivna krav och den svagaste länken; ett helt Artemis-klassexempel över { "11" } faser (jord- och månsegment), { "92" } scenariotyper totalt. Varje tal är MODELLED. Propageringen i cislunart rum mot den offentliga banan för Artemis I <b>missar</b> sin förhandsregistrerade tröskel ({ "45.3" } km och { "0.25" } m/s mot { "5" } km och { "0.05" } m/s; orsaken är små manövrar som modellen inte innehåller), och månens propagator mot CAPSTONE-banan <b>missar</b> ({ "136.8" } km mot { "25" } km vid slutet av ett varv); jämförelsen med LRO nås. Raderna förblir MODELLED (<a1>Uppdragsflöde</a1>, <a2>månsegmentet</a2>). I Studio läses flödet på <c6/>.
+
+seg-ac2d3dd91aa2 = Byggs med Rust { "1.88" } eller nyare, rust-version i Cargo.toml
+
+seg-48991660376d = Kräver en Rust-verktygskedja (≥ { "1.88" }, <c1/> i Cargo.toml; utvecklad på { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> misslyckas med en gammal verktygskedja.</b> Kshana kräver Rust ≥ { "1.88" }. Uppdatera med <c2/>.

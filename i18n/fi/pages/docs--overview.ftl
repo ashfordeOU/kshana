@@ -1241,8 +1241,6 @@ seg-ad016bbbea54 = tuo kshana-grafana-*.json julkaisusta
 
 seg-7849acc8e680 = Kshana: JetBrains Marketplace
 
-seg-48a01a252537 = Rakentuu Rustin versiolla { "1.85" } tai uudemmalla; vaatimus on kenttä rust-version tiedostossa Cargo.toml
-
 seg-152cb43de2f3 = Skenaarion ajo Pythonista ja WebAssemblysta
 
 seg-58ea673e61fc = Funktion <c1/> lisäksi moduuli tarjoaa seuraavat: <c2/> (JSON, SVG ja yhden rivin yhteenveto kerralla), <c3/>, <c4/>, <c5/> / <c6/> ja <c7/>; katso <a1><c8/></a1>.
@@ -1541,8 +1539,6 @@ seg-63d3e74d233c = Asennus ja rakentaminen lähdekoodista
 
 seg-5dc0fc90ac79 = Asennus ja rakentaminen
 
-seg-792f12b05230 = Vaatii Rust-työkaluketjun (≥ { "1.85" }, kenttä <c1/> tiedostossa Cargo.toml; kehitetty versiolla { "1.93" }).
-
 seg-14380916caba = Käyttö: komentorivi kokonaisuudessaan
 
 seg-a3536fe2dc4e = Aja mikä tahansa skenaario; CLI jakaa skenaarion kentän <c1/> mukaan ja kirjoittaa sen viereen tiedostot <c2/>, <c3/>, <c4/> ja <c5/> — sekä <c6/> lajeille, jotka julkaisevat taulukon. Raportti (HyperText Markup Language (HTML) -sivu ja JSON-asiakirja samalla sisällöllä) sisältää tiivistelmän, jokaisen syötteen yksikköineen, tulokset ja kaaviot, kampanjan pyyhkäisy-, Monte Carlo- tai ketjutaulukot, tapahtuma-aikajanan, jokaisen ajossa käytetyn ominaisuuden VALIDATED / MODELLED / PARTNER -merkinnän ja lähteen, sen mitä ei mallinneta sekä toistettavuustietueen (moottorin versio, Secure Hash Algorithm 256-bit (SHA-256) -tiivisteet, siemenluku, alusta ja tarkka komento). Se tulostuu selaimesta siistiksi PDF-tiedostoksi (Portable Document Format) A4- tai Letter-paperille; moottori ei kirjoita PDF:ää itse. Katso <a1><c7/></a1>.
@@ -1656,8 +1652,6 @@ seg-ed251e142b29 = <b>Miten mallinnan oman anturini?</b> Kirjoita skenaario <c1/
 seg-f40679da402e = <b>Onko se ilmainen kaupalliseen käyttöön?</b> Kyllä — AGPL-3.0:n alaisena, myös kaupallisissa ympäristöissä, kunhan noudatat AGPL:n copyleft-ehtoja (erityisesti: jos muokkaat Kshanaa ja tarjoat sitä verkon yli, sinun on tarjottava näille käyttäjille muokattu lähdekoodisi). Jos tämä ei sovi — esim. tarvitset Kshanan upotettuna suljettuun tuotteeseen tai ajat suljettua verkkopalvelua — Ashforde® OÜ tarjoaa kaupallisen lisenssin; katso <a1><c1/></a1> ja <a2>Tuki</a2>.
 
 seg-47e61b61094b = Vianmääritys
-
-seg-9bf11ed19b33 = <b><c1/> epäonnistuu vanhalla työkaluketjulla.</b> Kshana vaatii Rustin ≥ { "1.85" }. Päivitä komennolla <c2/>.
 
 seg-0cb99cc9fa83 = <b>Python-laajennuksen rakentaminen epäonnistuu linkitykseen macOS:llä</b> (<c1/>). Python-laajennus ratkaisee symbolinsa latausaikana. <c2/> asettaa oikean linkkerilipun automaattisesti — käytä komentoa <c3/> pelkän <c4/> sijaan.
 
@@ -2052,3 +2046,9 @@ seg-df3ca402513f = mitkä rivit, joiden taso on MODELLED, mitattu kello- tai IMU
 seg-e2d733f93455 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "92" } tyyppiä, { "193" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.
 
 seg-88b7afd3df20 = <b>Tehtäväketju.</b> Laji <c1/> ketjuttaa vaiheet laukaisusta paluuseen (<c2/>, <c3/>, <c4/>, <c5/> ja neljä Kuun lajia) määriteltyine siirtosääntöineen, marginaalilla määriteltyihin vaatimuksiin nähden ja heikoimmalla lenkillä; päästä päähän ulottuva Artemis-luokan esimerkki { "11" } vaiheella (Maan ja Kuun osuudet), yhteensä { "92" } skenaariolajia. Jokainen luku on MODELLED. Kuunläheinen propagointi julkista Artemis I:n lentorataa vasten <b>jää vajaaksi</b> ennakkorekisteröidystä kynnyksestään ({ "45.3" } km ja { "0.25" } m/s kynnyksiä { "5" } km ja { "0.05" } m/s vasten; syynä ovat pienet ohjausliikkeet, joita malli ei sisällä), ja Kuun propagaattori CAPSTONE-rataa vasten <b>jää vajaaksi</b> ({ "136.8" } km kynnystä { "25" } km vasten yhden kierroksen lopussa); LRO-vertailu täyttyy. Rivit pysyvät MODELLED-tasolla (<a1>Tehtäväketju</a1>, <a2>Kuun osuus</a2>). Studiossa ketju luetaan osoitteessa <c6/>.
+
+seg-ac2d3dd91aa2 = Rakentuu Rustin versiolla { "1.88" } tai uudemmalla; vaatimus on kenttä rust-version tiedostossa Cargo.toml
+
+seg-48991660376d = Vaatii Rust-työkaluketjun (≥ { "1.88" }, kenttä <c1/> tiedostossa Cargo.toml; kehitetty versiolla { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> epäonnistuu vanhalla työkaluketjulla.</b> Kshana vaatii Rustin ≥ { "1.88" }. Päivitä komennolla <c2/>.

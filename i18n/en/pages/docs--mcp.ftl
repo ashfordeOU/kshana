@@ -552,7 +552,7 @@ seg-4f248ed3e597 = <c1/> serves the same tools over streamable HTTP at <c2/>. It
 # c4: ~/.cargo/bin/kshana-mcp
 # c5: rmcp
 # c6: kshana
-seg-60f55b197ac2 = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it; the <c6/> library itself needs only { "1.85" }); the Docker image needs none.
+seg-a4a0e399a31e = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
 
 # text
 seg-2f3216082425 = Register it with a client
@@ -651,7 +651,7 @@ seg-942dc8abe0ec = Design note — why a separate crate
 # c5: rmcp
 # c6: cargo deny
 # c7: xval/anise-frames
-seg-ce6d0ecab448 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library now declares { "1.85" }; this server declares { "1.88" }, the floor of the security-patched <c5/> { "2" }.x.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-0757e15070d4 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
 
 # text
 seg-75bf2d74642d = License: AGPL-3.0-only, the GNU Affero General Public License version { "3" } only (or a commercial licence from Ashforde OÜ; see the repository's <a1>LICENSING.md</a1>).

@@ -1166,8 +1166,6 @@ seg-ad016bbbea54 = importeer kshana-grafana-*.json uit de release
 
 seg-7849acc8e680 = Kshana op de JetBrains Marketplace
 
-seg-48a01a252537 = Bouwt met Rust { "1.85" } of nieuwer, de rust-version in Cargo.toml
-
 seg-152cb43de2f3 = Een scenario draaien vanuit Python en vanuit WebAssembly
 
 seg-58ea673e61fc = Naast <c1/> biedt de module <c2/> (JSON, SVG en de samenvatting van één regel tegelijk), <c3/>, <c4/>, <c5/> / <c6/> en <c7/>; zie <a1><c8/></a1>.
@@ -1466,8 +1464,6 @@ seg-63d3e74d233c = Installeren en bouwen vanuit de broncode
 
 seg-5dc0fc90ac79 = Installeren en bouwen
 
-seg-792f12b05230 = Vereist een Rust-toolchain (≥ { "1.85" }, de <c1/> in Cargo.toml; ontwikkeld op { "1.93" }).
-
 seg-14380916caba = Gebruik: de opdrachtregel in zijn geheel
 
 seg-a3536fe2dc4e = Draai een willekeurig scenario; de CLI dispatcht op het veld <c1/> van het scenario en schrijft <c2/>, <c3/>, <c4/> en <c5/> ernaast — plus <c6/> voor de soorten die een tabel publiceren. Het rapport (een HyperText Markup Language-pagina (HTML) en een JSON-document met dezelfde inhoud) bevat een managementsamenvatting, elke invoer met zijn eenheid, de resultaten en grafieken, de sweep-, Monte Carlo- of ketentabellen van een campagne, een tijdlijn van gebeurtenissen, het label VALIDATED / MODELLED / PARTNER en de bron van elke mogelijkheid die de run heeft gebruikt, wat niet is gemodelleerd en een reproduceerbaarheidsrecord (engineversie, Secure Hash Algorithm 256-bit (SHA-256)-digests, seed, platform en de exacte opdracht). Het wordt vanuit de browser op A4- of Letter-papier afgedrukt naar een schoon PDF-bestand (Portable Document Format); de engine schrijft zelf geen PDF. Zie <a1><c7/></a1>.
@@ -1581,8 +1577,6 @@ seg-ed251e142b29 = <b>Hoe modelleer ik mijn eigen sensor?</b> Schrijf een scenar
 seg-f40679da402e = <b>Is het gratis voor commercieel gebruik?</b> Ja — onder de AGPL-3.0, ook in commerciële omgevingen, zolang u de copyleft van de AGPL naleeft (met name: als u Kshana wijzigt en via een netwerk aanbiedt, moet u die gebruikers uw gewijzigde broncode aanbieden). Als dat u niet past — bijvoorbeeld omdat u Kshana in een propriëtair product moet inbedden of een gesloten netwerkdienst draait — is een commerciële licentie verkrijgbaar bij Ashforde® OÜ; zie <a1><c1/></a1> en <a2>Ondersteuning</a2>.
 
 seg-47e61b61094b = Probleemoplossing
-
-seg-9bf11ed19b33 = <b><c1/> mislukt met een oude toolchain.</b> Kshana vereist Rust ≥ { "1.85" }. Werk bij met <c2/>.
 
 seg-0cb99cc9fa83 = <b>Het bouwen van de Python-extensie mislukt bij het linken op macOS</b> (<c1/>). Een Python-extensie lost zijn symbolen op tijdens het laden. <c2/> stelt automatisch de juiste linkervlag in — gebruik <c3/> in plaats van een kale <c4/>.
 
@@ -1984,3 +1978,9 @@ seg-e2d733f93455 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke
 # c5: entry
 # c6: /studio/mission-thread/
 seg-88b7afd3df20 = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "92" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>). In de Studio wordt de keten gelezen op <c6/>.
+
+seg-ac2d3dd91aa2 = Bouwt met Rust { "1.88" } of nieuwer, de rust-version in Cargo.toml
+
+seg-48991660376d = Vereist een Rust-toolchain (≥ { "1.88" }, de <c1/> in Cargo.toml; ontwikkeld op { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> mislukt met een oude toolchain.</b> Kshana vereist Rust ≥ { "1.88" }. Werk bij met <c2/>.

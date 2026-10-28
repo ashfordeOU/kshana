@@ -1166,8 +1166,6 @@ seg-ad016bbbea54 = importujte kshana-grafana-*.json z vydání
 
 seg-7849acc8e680 = Kshana na JetBrains Marketplace
 
-seg-48a01a252537 = Sestavuje se s Rustem { "1.85" } nebo novějším, tedy rust-version v Cargo.toml
-
 seg-152cb43de2f3 = Spuštění scénáře z Pythonu a z WebAssembly
 
 seg-58ea673e61fc = Kromě <c1/> modul zpřístupňuje <c2/> (JSON, SVG a jednořádkové shrnutí najednou), <c3/>, <c4/>, <c5/> / <c6/> a <c7/>; viz <a1><c8/></a1>.
@@ -1466,8 +1464,6 @@ seg-63d3e74d233c = Instalace a sestavení ze zdrojů
 
 seg-5dc0fc90ac79 = Instalace a sestavení
 
-seg-792f12b05230 = Vyžaduje toolchain Rustu (≥ { "1.85" }, tedy <c1/> v Cargo.toml; vyvíjeno na { "1.93" }).
-
 seg-14380916caba = Použití: příkazová řádka v plném rozsahu
 
 seg-a3536fe2dc4e = Spusťte libovolný scénář; CLI se řídí polem <c1/> scénáře a vedle něj zapíše <c2/>, <c3/>, <c4/> a <c5/> — plus <c6/> pro druhy, které publikují tabulku. Zpráva (stránka HyperText Markup Language (HTML) a dokument JSON se stejným obsahem) obsahuje shrnutí pro vedení, každý vstup s jeho jednotkou, výsledky a grafy, u kampaně tabulky průchodu, Monte Carlo nebo řetězců, časovou osu událostí, označení VALIDATED / MODELLED / PARTNER a zdroj každé schopnosti, kterou běh použil, co není modelováno a záznam reprodukovatelnosti (verze enginu, výtahy Secure Hash Algorithm 256-bit (SHA-256), seed, platforma a přesný příkaz). Z prohlížeče se vytiskne do čistého souboru PDF (Portable Document Format) na papír A4 nebo Letter; engine žádné PDF nezapisuje. Viz <a1><c7/></a1>.
@@ -1581,8 +1577,6 @@ seg-ed251e142b29 = <b>Jak namodeluji vlastní senzor?</b> Napište scénář <c1
 seg-f40679da402e = <b>Je to zdarma pro komerční použití?</b> Ano — pod AGPL-3.0, včetně komerčního prostředí, pokud dodržujete copyleft licence AGPL (zejména: pokud { -brand } upravíte a nabízíte jej přes síť, musíte těmto uživatelům nabídnout svůj upravený zdroj). Pokud vám to nevyhovuje — např. potřebujete { -brand } zabudovat do proprietárního produktu nebo provozovat uzavřenou síťovou službu — je u Ashforde® OÜ k dispozici komerční licence; viz <a1><c1/></a1> a <a2>Podpora</a2>.
 
 seg-47e61b61094b = Řešení problémů
-
-seg-9bf11ed19b33 = <b><c1/> selže na starém toolchainu.</b> { -brand } potřebuje Rust ≥ { "1.85" }. Aktualizujte pomocí <c2/>.
 
 seg-0cb99cc9fa83 = <b>Sestavení rozšíření pro Python se na macOS nepodaří slinkovat</b> (<c1/>). Rozšíření pro Python řeší své symboly při načtení. <c2/> nastaví správný příznak linkeru automaticky — použijte <c3/> místo holého <c4/>.
 
@@ -1984,3 +1978,9 @@ seg-df3ca402513f = které řádky MODELLED by mohl povýšit naměřený záznam
 seg-e2d733f93455 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "92" } druhů, { "193" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
 
 seg-88b7afd3df20 = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "92" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>). Ve Studiu se vlákno čte na <c6/>.
+
+seg-ac2d3dd91aa2 = Sestavuje se s Rustem { "1.88" } nebo novějším, tedy rust-version v Cargo.toml
+
+seg-48991660376d = Vyžaduje toolchain Rustu (≥ { "1.88" }, tedy <c1/> v Cargo.toml; vyvíjeno na { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> selže na starém toolchainu.</b> { -brand } potřebuje Rust ≥ { "1.88" }. Aktualizujte pomocí <c2/>.
