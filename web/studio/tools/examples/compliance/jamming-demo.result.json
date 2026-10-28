@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.39.0",
+  "engine_version": "0.40.0",
   "scenario_hash": "5aac34b045c7b765b09af732dc1c31a3df63cac3196db719d70f73a8b8e137ee",
   "seed": 1,
   "jammer_present": true,
@@ -4214,6 +4214,28 @@
       "provenance": "input",
       "unit": "1"
     }
+  },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-4c656dcb",
+        "requirement": "GNSS-denied jamming resilience",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4189e731",
+        "requirement": "Navigation RF payload & antenna hardware design",
+        "status": "PARTNER"
+      }
+    ],
+    "tier": "PARTNER"
   },
   "figure_tiers": {
     "figures": [

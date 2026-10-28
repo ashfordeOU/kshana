@@ -70,13 +70,15 @@ import { readOptical } from "./optical.mjs";
 import { readHoldover } from "./holdover.mjs";
 import { readReport } from "./lunar-station.mjs";
 const rec = (f) => JSON.parse(readFileSync(new URL(`../recorded/${f}.json`, import.meta.url), "utf8"));
+// A recording made before the engine wrote the label: the engine at 0.40 writes it into every result, so the fixture drops it.
+const withoutEv = (r) => { const j = JSON.parse(r.json); delete j.evidence; return { ...r, json: JSON.stringify(j) }; };
 const withEv = (r) => { const j = JSON.parse(r.json); j.evidence = RUN.evidence; return { ...r, json: JSON.stringify(j) }; };
 const READERS = [["gnss-ssv-heo", readSsv, (x) => x.model], ["lunar-infrastructure-od-consistency", readLi, (x) => x.model], ["optical-atmosphere-network", readOptical, (x) => x.model],
   ["holdover-test-example", readHoldover, (x) => x.model], ["lunar-station-coverage", readReport, (x) => x.report ? x : x]];
 
 test("each page's reader passes the label to its model, and shows nothing for a recording without one", () => {
   for (const [file, read, pick] of READERS) {
-    const old = rec(file);
+    const old = withoutEv(rec(file));
     const a = read(old);
     assert.ok(!a.error, `${file}: ${a.error}`);
     assert.equal(badgeModel(pick(a)), null, `${file}: an older recording has no badge`);

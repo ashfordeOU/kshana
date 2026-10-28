@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.39.0",
+  "engine_version": "0.40.0",
   "scenario_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
   "seed": 20260928,
   "kind": "campaign",
@@ -9,7 +9,7 @@
   "reproducibility": {
     "campaign_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
     "runs_total": 18,
-    "run_digest": "08b8960f3e98bff25c2e155bac8fa1c083191aef4c4582c81c223ea54e32585b"
+    "run_digest": "90f96a7802d597098eb6bda14d8ebd3bf8ab5e4da4a3815cc002df08402ccd4a"
   },
   "timeline": {
     "step_s": 10.0,
@@ -485,7 +485,7 @@
           {
             "kind": "clock",
             "scenario_hash": "d4da90e954e1d68930c87b9dc48041b4a3b9832c827ea7cc1c1e0ff4e8a20438",
-            "result_sha256": "35fd0636f80f9cd286b181f904407d7e73b144ec42eac2503745f7fd80c87ae5",
+            "result_sha256": "da0de5b8d29a398cdc7bc9088a96c7ef1bdf10fdd85ab93b892ab0753721ad0f",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -495,7 +495,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "483c8c2a267acab9844ef5bfb3770b653299a8205263a55fb9d8c10c001746a2",
-            "result_sha256": "f16083effe5c8c52c390c7b6ee58545e416286caaa3b05e7dc7670f1b4f8b1bc",
+            "result_sha256": "5fe09a49cf2eda9a0342ee131f2562156e57dc0ce5bf215b970ce7df8ef5e846",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -526,7 +526,7 @@
           {
             "kind": "clock",
             "scenario_hash": "0dd9a496b773256492e347b2d28ded1d761a27c5069ff5de4ce16c6475d37c25",
-            "result_sha256": "a1117b823b88ba7b16db97bae18a65cfb40cd0fd814daf5283dd7d14b79926f0",
+            "result_sha256": "527dfabeb9d1072d04de77cd2d4f301a12e70bfa4b6f82d56773b8bc8e39ea13",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -536,7 +536,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "93fbea21183af82364ed49744563cfe012e5233bd7f84d5b69221eeb45ce0fd8",
-            "result_sha256": "befefa033336534836e7e41359c1f8d4207505609d7034fc8a64b1c33de08a1b",
+            "result_sha256": "df6fd8060ca3d8c1ebcd509e90f26ea88a2161eb8e88ba24260daf7924068036",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -567,7 +567,7 @@
           {
             "kind": "spoof",
             "scenario_hash": "6cd5f6feff2688f565fa83004717d8e1de3d98b6d8fc644aca3021caf51e3385",
-            "result_sha256": "d080898541b58324bd02af3c027649ccf75f7c278f9b6166c07bfc6e5762e8f3",
+            "result_sha256": "5bdc3f0ee3570c394c387782643779121f27a2c55238a45d5e699a0c98118a7f",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -584,7 +584,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "4a0fd4e9846a0a2cdd4c6d602b306ca177cb25644f997db88a156702d7496eda",
-            "result_sha256": "6bfe59622b85e511098110d96b60b57f1a459ed3bc704c9b326546803561b0c4",
+            "result_sha256": "8dab7fd16fd8a83e2bd81766d7aa9696015ae0e68df424998cd3cfaf4736979c",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -607,7 +607,7 @@
           {
             "kind": "clock",
             "scenario_hash": "fe79ef3fa52973de2c73fe538216d8368786db1b6feaef2717b67a0a120de4b7",
-            "result_sha256": "8ba3cb9927f7388f771cccdfa30820b4b811ecece8000309175b0404f72ad1c8",
+            "result_sha256": "20e077cab8d073f097b19d7afba15ffb2171813c80e8fe2bab17e8c36530ed41",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -617,7 +617,7 @@
           {
             "kind": "gnss-ins",
             "scenario_hash": "d4af0f1ca24ffeb686708d000fa41badbe4a890632e98a3d103b5acc65e03b81",
-            "result_sha256": "430d48eb77b0643ce0c0b8b57e53318b79f5043c955d73a586bf5cf0e29dce18",
+            "result_sha256": "6b6236da9614bb67304d30585e6c1efabff87349485d6a8699cb6e3947f803dd",
             "skip_s": 100.0,
             "channels": [
               "position_error_m",
@@ -627,7 +627,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "5aac34b045c7b765b09af732dc1c31a3df63cac3196db719d70f73a8b8e137ee",
-            "result_sha256": "581c5c68d22e81c012c1a061adf4033d8d49360a27d678373fc2eb5277660240",
+            "result_sha256": "6c1ca646074495cc79b404969936be78ea859148e68d6647f073737648106a24",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -650,7 +650,7 @@
           {
             "kind": "clock",
             "scenario_hash": "aa45c79cbf4a729dae794cd853fbd137ab300ccf306e437ee4ce51e324aa4718",
-            "result_sha256": "95afb38273095cf1605fbddbf4ea37ce721c5bf8f671e77346d796ba609c597a",
+            "result_sha256": "6c88add7ea720e561f2987746708c14692611f8a3ba9bf5367efb352e6012780",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -660,7 +660,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "6bd5540243b45c172b7570c519f102c8e3e0bda3cc22058d8dfc6fe7235fbd00",
-            "result_sha256": "fe4919e678e2248b94e55e9a8ed7c1d661023614a44eefcfd46f79dca4dad9a3",
+            "result_sha256": "f6f4b3b6fdb3e91375b7b9119b07ab5776817153b5d1647a3c97f845ef204707",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -691,7 +691,7 @@
           {
             "kind": "clock",
             "scenario_hash": "c49b88ca240046ff0089da19fd2c8e0109067fa49cee7988454c85e0928326d2",
-            "result_sha256": "369d091f580e0794ee54a29e5ee56a9c6a1af0bce577074fb7dacc04e54ec2ad",
+            "result_sha256": "66aae43e31ddd83cf0f076323e0cd15cceba8ac28dd134d038a241794069f848",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -701,7 +701,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "483c8c2a267acab9844ef5bfb3770b653299a8205263a55fb9d8c10c001746a2",
-            "result_sha256": "f16083effe5c8c52c390c7b6ee58545e416286caaa3b05e7dc7670f1b4f8b1bc",
+            "result_sha256": "5fe09a49cf2eda9a0342ee131f2562156e57dc0ce5bf215b970ce7df8ef5e846",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -5487,6 +5487,78 @@
       "provenance": "computed",
       "unit": "s"
     }
+  },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-27e53cda",
+        "requirement": "Frequency stability characterisation",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-3cfc418d",
+        "requirement": "Integrity (RAIM/ARAIM/SBAS)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-bb79da35",
+        "requirement": "GNSS geometry / dilution of precision (DOP)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-1e6c81a8",
+        "requirement": "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-7a590be8",
+        "requirement": "GNSS-denied clock holdover",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4ca6b7c4",
+        "requirement": "Onboard clock state estimation",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-3d1e2932",
+        "requirement": "Quantum inertial sensor performance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-1e713796",
+        "requirement": "GNSS/INS sensor fusion",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-4c656dcb",
+        "requirement": "GNSS-denied jamming resilience",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-ab66f655",
+        "requirement": "Spoofing detection",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-4189e731",
+        "requirement": "Navigation RF payload & antenna hardware design",
+        "status": "PARTNER"
+      },
+      {
+        "id": "VM-f9c068a3",
+        "requirement": "A chained mission across scenario kinds on one shared timeline",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "PARTNER"
   },
   "figure_tiers": {
     "figures": [],
