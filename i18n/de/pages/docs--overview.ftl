@@ -3614,3 +3614,12 @@ seg-824001fa6734 = Labore und Hersteller, die gemessene Daten besitzen
 seg-df3ca402513f = welche MODELLED-Zeilen eine gemessene Uhren- oder IMU-Aufzeichnung befördern könnte, die Formate, wie eine Einreichung geprüft (<c1/>), bewertet und angerechnet wird
 
 seg-e2d733f93455 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "92" } Arten, { "193" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Missionsstrang.</b> Die Art <c1/> verkettet Phasen vom Start bis zum Wiedereintritt (<c2/>, <c3/>, <c4/>, <c5/> und vier Mondarten) mit genannten Übergaberegeln, einer Marge gegenüber genannten Anforderungen und dem schwächsten Glied; ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen (Erd- und Mondsegmente), insgesamt { "92" } Szenarioarten. Jede Zahl ist MODELLED. Die cislunare Fortschreibung gegen die öffentliche Trajektorie von Artemis I <b>verfehlt</b> ihren vorab festgelegten Zielwert ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s; die Ursache sind kleine Manöver, die das Modell nicht enthält), und der Mondpropagator gegen die CAPSTONE-Umlaufbahn <b>verfehlt</b> ihn ({ "136.8" } km gegenüber { "25" } km am Ende eines Umlaufs); der Vergleich mit LRO ist erreicht. Die Zeilen bleiben MODELLED (<a1>Missionsstrang</a1>, <a2>Mondsegment</a2>). Im Studio wird der Strang unter <c6/> gelesen.
