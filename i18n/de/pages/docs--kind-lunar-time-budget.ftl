@@ -84,3 +84,5 @@ seg-66a794432751 = MODELLED durchgängiges Zeitfehlerbudget der koordinierten Mo
 # text
 # c1: lunar-time-budget
 seg-f7cd4fcfc62d = <c1/> (Szenarioart)
+
+seg-b851d30fe736 = <s1>Zurück</s1>lunar-surface

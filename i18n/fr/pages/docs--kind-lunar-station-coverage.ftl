@@ -118,3 +118,7 @@ seg-6ac5bd1500a8 = <s1>Précédent</s1>lunar-llr-datum
 
 # text
 seg-625c1973128e = <s1>Suivant</s1>lunar-time-budget
+
+seg-bf7d64a925dd = <s1>Précédent</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Suivant</s1>lunar-surface

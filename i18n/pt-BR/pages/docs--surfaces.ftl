@@ -1109,3 +1109,79 @@ seg-4e3bbacda9ac = <s1>Anterior</s1>Uso do Kshana a partir de um agente
 
 # text
 seg-c5fbfab85e01 = <s1>Próximo</s1>Plugin do JetBrains
+
+seg-6555ff9a6d8e = Saída
+
+seg-12471a4b2b57 = Região do emissor (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (ainda não incluído; as superfícies Rust, Python e WASM o cobrem)
+
+seg-dff1bfe0263e = <b>N/A</b> (a publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está desativada)
+
+seg-ec2d91e2f867 = Verificação de envio de parceiro de dados (formato e metadados de um envio de dados medidos, <c1/>; não pontua nada)
+
+seg-c16a5ff8218b = <b>N/A</b> (a verificação lê arquivos locais e seus SHA-256; a API Rust é a superfície de biblioteca e a CLI é a ferramenta)
+
+seg-ed29039d1dc0 = <b>N/A</b> (sem sistema de arquivos na build para navegador)
+
+seg-b3397901ea5f = <b>N/A</b> (o MCP recusa fontes de arquivo por projeto (apenas texto embutido))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (os comandos com barra chamam ferramentas do MCP, e esta verificação precisa de arquivos em disco)
+
+seg-be971c31e0de = <b>N/A</b> (as ações do JetBrains estão ligadas a um arquivo selecionado; um envio é uma pasta)
+
+seg-b9e56d6ab03b = <b>N/A</b> (o Studio não tem acesso ao sistema de arquivos; execute o comando)
+
+seg-521b58a1080e = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão do lançamento à reentrada: oito tipos de fase, regras de transferência, conversões de referencial e de escala de tempo, uma sobreposição de rede terrestre, margem em relação aos requisitos declarados e o elo mais fraco (tipo de cenário <c1/>; <c2/>; MODELLED, entradas ILLUSTRATIVE, consultivo; apenas fontes públicas, sem aval)
+
+seg-6b451021b87a = <c1/> (a partir de um checkout: ele lê um recorte versionado de kernel da Lua)
+
+seg-ac3e013b5217 = <c1/> (<c2/> é uma chave de arquivo e é recusada; sem um kernel a Lua é a série analítica e a linha de conversão o declara)
+
+seg-e957474f44a8 = <c1/> (apenas embutido; a chave do kernel é recusada)
+
+seg-1c1729fafe99 = <b>N/A</b> (sem notebook; o exemplo é executado em qualquer notebook por meio de <c1/> a partir de um checkout)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (ainda não incluído)
+
+seg-ab52a3469f6a = Regiões estimadas de emissores, MODELLED; diretórios de rastros e <c1/> são apenas de linha de comando
+
+seg-5f1ce275acbd = Lê um arquivo de envio e seu arquivo de dados em disco e verifica o SHA-256; nenhuma dessas superfícies tem a pasta. Apenas formato e metadados, nada pontuado; veja <c1/>
+
+seg-fc9ab9f71553 = O rótulo de evidência e as saídas que não trazem nenhum
+
+seg-b1e4bcc2ac09 = Cada figura e tabela que uma execução grava traz seu nível de evidência (<c1/>, <c2/> ou <c3/>, o mais fraco das linhas do registro por trás dele) e os ids dessas linhas, em toda superfície que executa um cenário: o JSON de resultado (chave <c4/>), o SVG do gráfico (elemento de metadados e uma linha sob o gráfico) e a tabela CSV (linhas de comentário <c5/>). O mesmo rótulo está nas saídas de receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, no relatório de rota do mapa de interferência, e dentro do <c11/> de cada pacote de evidências (assinado; <c12/> o informa). Os ids das linhas são estáveis (<c13/> e oito dígitos hexadecimais, a coluna <c14/> de <c15/>).
+
+seg-c66058f24f0e = Estas saídas não trazem rótulo, cada uma por um motivo declarado (a lista é <c1/> em <c2/>, que falha diante de um gravador que não está rotulado nem listado):
+
+seg-04ca90423b80 = Por que não traz rótulo
+
+seg-a90c022c4dea = arquivos de resultado do kshana-bench
+
+seg-9f3f0adbcfe6 = um esquema fixo, fixado pelos compromissos do conjunto reservado; cada um traz seu próprio <c1/> (MODELLED ou measured)
+
+seg-9bb126104f12 = produtos diários do observatório de interferência (GeoJSON, PNG, JSON de incidentes)
+
+seg-ddbc60cb14ac = um esquema congelado e publicado; as ressalvas da nota de método os acompanham
+
+seg-874cb55d3457 = arquivos de célula, de placar e de relatório da campanha IQ
+
+seg-8c8cb4bd5110 = fixados por resumo; cada um declara o placar da campanha que reapresenta
+
+seg-8d2645e93451 = amostras IQ, metadados SigMF e SDR, referência de cena, fluxos de épocas e de eventos de rastreamento, registros de sessões ao vivo
+
+seg-9fa872028a08 = arquivos presos a um formato e fluxos de registros lidos por outras ferramentas
+
+seg-6c77071a0d03 = exportações SP3, OMM, OEM, CZML, KML, GeoJSON, STK, de movimento para test bench e NMEA; o fluxo NMEA de treinamento
+
+seg-5c1b92afa402 = arquivos presos a um formato lidos por ferramentas de terceiros
+
+seg-b5c79a0e395c = formatos de transmissão de telemetria (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = definidos por seus formatos de transmissão
+
+seg-3ba06004fc14 = documentos gerados (o próprio registro, as tabelas de estudo e de dados versionadas)
+
+seg-8be4943acd00 = não são a saída de uma execução

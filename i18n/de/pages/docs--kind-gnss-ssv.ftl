@@ -138,3 +138,7 @@ seg-a9e1798308df = Limb-Strahl-Effekte von Ionosphäre, Plasmasphäre und Atmosp
 # text
 # c1: kshana kinds --json
 seg-e9c2dedbc971 = MODELLED GNSS-Verfügbarkeit und Linkstärke im Space Service Volume und darüber hinaus: Für einen Nutzer auf einer Kugel (der globalen Schale des ICG-Booklets) oder auf einer Kepler-Bahn (LEO bis Mondtransfer) zählt es je Konstellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) und für alle zusammen die Signale, die oberhalb einer C/N0-Schwelle nutzbar sind - Verfügbarkeit von mindestens einem und von vier Signalen, maximale Ausfalldauer, empfangenes C/N0, (Szenarioarten-Katalog (<c1/>))
+
+seg-795e0409fa5a = <b>MODELLED</b> Die Phase <c1/>: der Mittelwertzustand durch den Cowell-Propagator der Engine (Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus dem DE440-Kernel des Strangs, wo dieser das Segment abdeckt, und die Sonne aus der analytischen Reih
+
+seg-6a26b9ab59fe = Themenseite: <a1>MISSION-THREAD.md</a1>

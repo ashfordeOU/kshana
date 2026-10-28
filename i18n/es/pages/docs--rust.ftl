@@ -247,3 +247,31 @@ seg-6dc7d52fef11 = <s1>Anterior</s1>npm y WebAssembly
 
 # text
 seg-8ff56af64ec2 = <s1>Siguiente</s1>Servidor MCP
+
+seg-c9a297cc51e9 = { "176" } de { "401" } capacidades validadas frente a referencias independientes externas
+
+seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas frente a referencias independientes externas; { "221" } etiquetadas con franqueza como modeladas, { "4" } propiedad de socios. Cada capacidad lleva una etiqueta en un registro verificado por máquina: VALIDATED (una referencia independiente externa coincide: datos reales, una implementación independiente o vectores de referencia publicados), MODELLED (internamente consistente, y dicho en voz alta) o PARTNER (un socio de hardware es su propietario). Entre las comprobaciones: los { "666" } vectores SGP4 (Simplified General Perturbations { "4" }) de AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 con { "4.12" } mm, y el modelo de fuerzas de Cowell con { "0.08" } m frente a Orekit { "12.2" }.
+
+seg-b59781ecf257 = Cómo gana una capacidad su etiqueta: capacidad, referencia independiente, prueba, etiqueta del registro. El estado de verificación de las { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } propiedad de socios
+
+seg-d0b2811a3d3c = El motor tiene { "92" } tipos de escenario; <c1/> los enumera con sus campos. Nuevos en { "0.38.0" }: <c2/> (señales GNSS para naves por encima, alrededor y más allá de las órbitas GNSS) y <c3/> (órbita y superficie lunares como infraestructura de navegación y geodésica), ambos MODELLED, y <c4/> (un registro de error de tiempo frente a las máscaras ITU-T).
+
+seg-8e9fbc5f2e72 = La descripción del tipo de escenario integrado kind en lang, tomada del catálogo (en inglés cuando el idioma no tiene traducción de ella); None para un nombre que no es un tipo de escenario integrado.
+
+seg-06e503c23c30 = [kind_description_in] en el idioma actual ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] con cada descripción en lang (una etiqueta como las que admite --lang, por ejemplo de o zh-Hans); los nombres y las listas de campos son los mismos en todos los idiomas, y para el inglés el documento es idéntico byte a byte a [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] para un usuario en el idioma lang (una etiqueta como de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Las dos ejecuciones de [run_toml_lang] por separado: la ejecución en inglés, cuyos json y csv son los archivos de máquina, y, para otro idioma, la ejecución en ese idioma para todo lo que lee una persona.
+
+seg-1fd1f547d2b3 = La segunda pasada de [run_toml_bilingual] por sí sola: ejecuta el escenario una vez en lang y devuelve solo lo que lee una persona.
+
+seg-ae75df85e545 = [run_scenario] para un usuario en el idioma lang; véase [run_toml_lang].
+
+seg-28e05e08ff76 = Ejecuta src en el idioma lang y, si falla, describe el fallo como un objeto JSON { "{" }"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>{ "}" }.
+
+seg-24fe823a994a = json sin la etiqueta de evidencia ([crate::evidence_label]); sin cambios si no lleva ninguna.
+
+seg-c0444d838311 = out con la etiqueta de evidencia eliminada de su JSON, SVG y CSV, byte por byte tal como los produjo la ejecución antes de que existiera la etiqueta; una salida sin etiqueta no cambia.

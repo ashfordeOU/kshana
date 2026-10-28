@@ -114,3 +114,5 @@ seg-774e035da605 = <s1>Zurück</s1>body-pnt
 
 # text
 seg-fadd92303a4d = <s1>Weiter</s1>cislunar-arc-recovery
+
+seg-a349aa76b0ed = PARTNER

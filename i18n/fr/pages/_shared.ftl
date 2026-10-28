@@ -633,3 +633,17 @@ seg-58c4d7218e70 = La reproductibilité et l'assurance logicielle sont MODELLED,
 
 # text
 seg-1bf3d5817274 = Tous les types de scénario : <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Langues
+
+seg-aaf9c6896126 = Partenaires de données et lignes à promouvoir
+
+seg-3b31855a40e7 = Fil de mission : du lancement à l'entrée
+
+seg-0cf138405411 = Fil de mission : le segment lunaire
+
+seg-5fee8df421d2 = Fils de mission
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = l'identifiant stable de la ligne de la matrice (l'ID

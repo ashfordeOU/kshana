@@ -459,3 +459,5 @@ seg-6585c8a3643d = ClockRun (cada um de quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (o objeto fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) O rótulo de evidência da execução: <c1/> (<c2/>, <c3/> ou <c4/>: o estado <em>mais fraco</em> entre as linhas, de modo que nunca afirma mais que sua linha mais fraca), <c5/> (<c6/>), <c7/> e <c8/>, um por linha da matriz de verificação que a execução exercitou (as linhas que seu relatório avançado lista, a partir de <c9/>): <c10/> (<c11/> e os primeiros { "8" } dígitos hexadecimais do SHA-256 do texto do requisito da linha), <c12/> e <c13/>, todos lidos da matriz, nenhum digitado. Acrescentado por <c14/> ao resultado de todo tipo de cenário, antes do bloco <c15/> final quando há um (esse bloco continua sendo a última chave); <c16/> o remove byte a byte. O SVG do gráfico e a tabela CSV da mesma execução trazem o mesmo rótulo (<c17/> e uma linha visível sob o gráfico; linhas de comentário <c18/> na frente do CSV). Os membros de campanha embutidos no resultado de outro tipo de cenário não trazem nenhum: o documento externo o traz. Não contém números.

@@ -6554,3 +6554,143 @@ seg-c97e87cbcdd5 = BibTeX do motor
 seg-24ff0a7466d6 = BibTeX
 
 seg-52dab8f79eed = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
+
+seg-65185cb68d6b = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão, do lançamento à reentrada (<c1/>)
+
+seg-86a132e1a243 = O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registrados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado em um modelo de linha reta; <c4/>, navegação por estima e depois o piso da fonte, nunca abaixo dele, nunca uma reinicialização); conversões de referencial GCRF, MCI e MCMF e conversões de escala de tempo via TT, cada uma como sua própria linha do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada; a margem em relação a um requisito declarado, o elo mais fraco, os eventos e uma figura de linha do tempo. Todo número é uma entrada declarada ou um modelo dela
+
+seg-cf8a0dc4088e = Cálculos manuais nos testes (o crescimento retilíneo da covariância, a rotação sideral média, a taxa secular do relógio lunar) e, apenas para o estado da Lua, os recortes de kernel DE440 versionados em relação a valores fixados do JPL Horizons (pior caso { "2.6" } m e { "7e-6" } m/s). Nenhum dado de missão é comparado com a cadeia; suas fases são linhas próprias. O documento é uma cadeia declarada com entradas ILLUSTRATIVE, apenas fontes públicas e sem aval de agência alguma
+
+seg-87b2b2459b45 = Lançamento e ascensão a uma órbita de estacionamento com aquisição e desvanecimento de GNSS (<c1/>)
+
+seg-725e7ce83533 = A fase <c1/>: uma covariância de posição e velocidade de velocidade constante com ruído de aceleração branco (o grau de navegação por estima), uma solução GNSS de precisão declarada aplicada após o tempo de aquisição e fora dos desvanecimentos declarados, um relógio de viés e deriva disciplinado pelas mesmas soluções, e o estado de inserção na órbita de estacionamento
+
+seg-22e5c301626e = O estado estacionário de Riccati e o cálculo manual da predição nos testes. Nada aqui modela um veículo lançador ou um receptor; todo número é uma entrada declarada
+
+seg-eb66a49b0306 = Navegação relativa até o envelope de acoplagem em órbita baixa da Terra ao longo de trechos de sensor (<c1/>)
+
+seg-658a0448d80d = A fase <c1/>: o estado relativo nos eixos LVLH do alvo com a transição fechada de Clohessy-Wiltshire, uma covariância de Kalman 6x6 com ruído de aceleração branco e atualizações de posição cuja variância é a do sensor na distância atual, ao longo de trechos de um sensor declarado (formas ILLUSTRATIVE de câmera óptica, lidar e medição de distância por rádio); a janela de acoplagem é o tempo a partir do qual o sigma relativo permanece dentro do envelope de captura até o fim da fase. A covariância absoluta do veículo perseguidor é transferida sem alteração e uma linha o declara
+
+seg-97f4aa0575e6 = Um cálculo manual em um eixo da predição e da atualização no teste; a transição de Clohessy-Wiltshire é a que cw_dynamics confere com uma integração numérica independente. Os sensores são ILLUSTRATIVE e nenhum encontro real é comparado
+
+seg-b45a8a357faf = Injeção trans-lunar e cruzeiro cislunar: estado médio e covariância propagados com atualizações de rastreamento (<c1/>)
+
+seg-ab5c79789754 = A fase <c1/>: o estado médio pelo propagador de Cowell do motor (massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir do kernel DE440 da sequência onde ele cobre o segmento e o Sol a partir da série analítica); a covariância por uma matriz de transição de estado por diferenças progressivas dessa propagação (a execução nominal e seis execuções perturbadas por segmento) com ruído de aceleração branco; o tamanho e o erro de apontamento da queima TLI; soluções <c2/> cuja disponibilidade e PDOP vêm da varredura do volume de serviço espacial ao longo de uma órbita osculadora que substitui o arco; rastreamento de distância e de taxa de variação da distância ao longo da direção geocêntrica, ponderado pelo ciclo de trabalho da rede terrestre, com a atualização na forma de Joseph
+
+seg-86dae517e339 = O teorema de Liouville (o determinante da matriz de transição de estado da parte conservativa é um) e uma diferença mais fina nos testes; o estado médio é comparado com uma trajetória pública na linha abaixo, que ele não atinge. O erro da queima, as atualizações e a covariância não são comparados com nada
+
+seg-7a3eb4fae324 = Covariância na interface de reentrada, probabilidade do corredor, desaceleração máxima e área de pouso (<c1/>)
+
+seg-93f07906d7bf = A fase <c1/>: o trecho inercial de retorno de <c2/> sem queima, terminando na interface de reentrada; o ângulo de trajetória e seu sigma a partir da covariância completa por um gradiente de diferenças finitas; a probabilidade de o ângulo estar dentro de um corredor declarado; a desaceleração máxima no ângulo nominal e nas duas bordas do corredor a partir da reentrada balística plana de massa pontual do motor (com detecção de rebote) ao lado da forma fechada de Allen-Eggers; a área de pouso a partir de uma sensibilidade declarada ao alcance e da covariância na interface através do plano orbital. Nenhuma sustentação, guiagem ou aquecimento é modelado
+
+seg-8d5695aad35b = Cálculos manuais nos testes (o sigma do ângulo é o sigma da velocidade perpendicular sobre a velocidade; a massa gaussiana em um corredor). A reentrada plana é a do próprio motor e a forma de Allen-Eggers é uma comparação em forma fechada; nenhuma reentrada voada é comparada
+
+seg-3f0951532f6e = Cobertura da rede terrestre e ciclo de rastreamento para uma fase da sequência (<c1/> de <c2/>)
+
+seg-5204af351299 = A sobreposição da rede terrestre: estações com uma elevação mínima, a visibilidade do veículo em uma geometria declarada (o estado de reentrada voado em dois corpos com J2, a posição da Lua para o cruzeiro, ou um ciclo declarado), transferências entre estações que perdem cada uma um tempo declarado, e o ciclo resultante repassado à taxa de atualização de rastreamento em solo da fase; o maior intervalo sem estação à vista é uma linha do orçamento
+
+seg-0d1d229a3ab7 = Verificações de geometria de zênite e antípoda e a visibilidade esperada de um alvo distante nos testes. Nenhuma rede, antena ou programação reais são modeladas
+
+seg-4ba700726208 = Navegação relativa até a acoplagem em uma órbita lunar (<c1/>)
+
+seg-2e30e78e49f7 = O tipo de cenário e fase <c1/>: uma estimativa conjunta de Gauss-Newton em lote de dois veículos ao longo do arco (vinte e um parâmetros: os dois estados e viéses persistentes de posição do sinal no espaço, comuns e independentes), ampliada sobre um quarto, metade e todo o arco com redução de passo, a partir de uma solução absoluta por veículo (limite de rastreamento de código piloto AFS, conjunto de relés ILLUSTRATIVE) e de uma distância por enlace cruzado, sob o modelo de forças lunares da biblioteca; o erro de estimação normalizado quadrático médio, a verificação de Clohessy-Wiltshire em órbita circular e a covariância 6x6 transferida
+
+seg-09fa0c35d004 = Autoconsistência sob um pré-registro (xval/mission-thread-lunar/PREREGISTRATION.md, resultados e histórico do estimador em RESULTS.md): o NEES médio do estado relativo é de { "5.85" } a { "5.93" } contra a faixa de { "5.2" } a { "6.8" } em quatro configurações, MET no quarto projeto de estimador depois que três projetos de filtro sequencial falharam; a referência e o estimador compartilham um único modelo de forças, portanto isso nada diz sobre o erro do modelo. O propagador que ele compartilha é comparado com o LRO e o CAPSTONE em uma linha abaixo
+
+seg-c85d7e5e63a3 = Orçamento de dispersão de pouso em um local polar lunar (<c1/>)
+
+seg-bd88ab3ad105 = O tipo de cenário e fase <c1/>: um modelo de erro inercial de cinco estados por eixo (posição, velocidade, viés do acelerômetro, inclinação, viés do giroscópio) ao longo de uma descida propulsada, auxiliado por soluções AFS (isoladas ou diferenciais, com o caso de três relés auxiliado por relógio), uma solução relativa ao terreno (o correlacionador de navegação por terreno do motor sobre relevo sintético, ou um limite de Cramer-Rao sobre um DEM do LOLA com uma regra do problema de abertura) e o tempo lunar, com uma elipse de toque de Monte Carlo
+
+seg-a5ddb83a5cf1 = A deriva inercial em forma fechada, os resultados próprios dos tipos reutilizados e a calibração da elipse de 3 sigma (a fração interna concorda com a esperada) nos testes. Nenhum pouso voado ou testado é comparado
+
+seg-8dfc1600cf8c = Disponibilidade de posicionamento e temporização na superfície por local e estação nos polos lunares (<c1/>)
+
+seg-f91c1da9ab55 = O tipo de cenário e fase <c1/>: disponibilidade de relés e PDOP, visibilidade da Terra e do Sol e um relógio de superfície disciplinado para cada local e estação, com o perfil do horizonte do terreno de <c2/>; uma execução de local único é igual, bit a bit, à disponibilidade e ao PDOP desse tipo de cenário
+
+seg-e3a782dce8be = Igualdade exata com o tipo de cenário existente para um local, e verificações de monotonicidade, nos testes. O conjunto de relés é ILLUSTRATIVE e nenhuma medição de superfície é comparada
+
+seg-0db91d70a079 = Ascensão propulsada de um local polar lunar a uma órbita de inserção (<c1/>)
+
+seg-b5b1125d515c = O tipo de cenário e fase <c1/>: o modelo de erro inercial de cinco estados por eixo executado sobre uma ascensão propulsada com força específica ao longo da trajetória, auxiliado por soluções AFS e pelo tempo lunar, informando a covariância de posição e velocidade na inserção levada à órbita e a dispersão no corte do motor (informada, não transferida)
+
+seg-76e0d23b7483 = A deriva inercial em forma fechada e verificações de monotonicidade nos testes. Nenhuma ascensão voada é comparada
+
+seg-1983ce9cc6da = A propagação do modelo de forças lunares em relação a trajetórias públicas reconstruídas de orbitadores lunares e cislunares
+
+seg-57f53a7d1fa2 = O propagador que os tipos de cenário lunares compartilham (GRAIL GL0660B de grau e ordem { "150" }, a Terra e o Sol como terceiros corpos, relatividade, orientação lunar DE440) comparado com as trajetórias públicas do JPL Horizons do LRO ({ "24" } h, amostras de { "10" } minutos) e do CAPSTONE (uma revolução de { "6.5" } dias, amostras de uma hora), sob limiares fixados em um arquivo versionado antes da execução
+
+seg-321d0721970d = Efemérides de espaçonaves do JPL Horizons para o LRO e o CAPSTONE, em relação a limiares fixados antecipadamente em xval/mission-thread-lunar/PREREGISTRATION.md (Emendas { "1" } a { "6" }). LRO: MET, { "33" } m de maior diferença 3-D e { "2.4" } m RMS radial contra { "500" } m e { "60" } m. CAPSTONE: NOT MET, uma diferença de posição final de { "136.8" } km contra { "25" } km e uma diferença de periapsia de { "28.4" } km contra { "10" } km, as causas não isoladas. A linha é modelada porque o limiar do CAPSTONE não é atingido e a comparação testa o propagador compartilhado, e não qualquer filtro, sinal ou orçamento
+
+seg-c557d317389a = A propagação do estado médio cislunar em relação à trajetória pública da Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = A propagação do estado médio da fase <c1/> (Cowell, massa pontual da Terra e J2, o Sol e a Lua como terceiros corpos, a Lua a partir de um recorte do DE440) comparada com a trajetória pública do JPL Horizons da Artemis I ao longo de um arco inercial de { "72" } h a partir de 2022-11-16 { "18" }:{ "00" } TDB, em épocas de { "12" } horas, sob limiares fixados em um arquivo versionado antes da execução
+
+seg-362b1a7b9e5e = JPL Horizons alvo -1023 (a trajetória pós-TLI como voada, da navegação da NASA), em relação a limiares fixados antecipadamente em xval/mission-thread/PREREGISTRATION.md (a Emenda { "1" } altera apenas o intervalo solicitado). NOT MET e declarado como não atingido: { "45.3" } km de maior diferença de posição contra { "5" } km, e { "0.249" } m/s de diferença de velocidade em { "72" } h contra { "0.05" } m/s. Um diagnóstico escrito após o veredito situa a falha em cinco passos impulsivos de velocidade de { "0.09" } a { "0.22" } m/s na referência (a leitura fixada antecipadamente de que a janela não continha queima estava errada); nas outras { "67" } horas o modelo reproduz o estado horário seguinte com mediana de { "0.38" } m. Testa apenas o estado médio de um único arco inercial: nenhuma covariância, filtro, atualização ou outra fase
+
+seg-150ae9c3d755 = Região da fonte de interferência: uma região viável de emissor a partir de relatos de posição de aeronaves e navios
+
+seg-b5c49044a7a1 = Uma região viável para onde pode estar uma fonte de relatos de navegação degradados, a partir de relatos de posição ADS-B (NIC/NACp) ou AIS: linha de visada de rádio em um raio terrestre de 4/3 a partir da altura do relato e de uma faixa de alturas da antena do emissor, um alcance efetivo limitado para a potência desconhecida, unidades afetadas puxando a posterior para o seu alcance e unidades não afetadas com linha de visada empurrando contra ela, agrupadas em sessões no tempo e no espaço. A saída são regiões de maior densidade em níveis de confiança declarados, um centroide posterior com uma elipse de momentos, início, fim e duração da sessão, área afetada e contagem de aeronaves distintas acima do mínimo de publicação, um perfil por hora do dia e horas por dia. Sem terreno; uma única fonte por sessão; a credibilidade depende do modelo. Fusão opcional com uma solução TDOA da geolocalização.
+
+seg-953a8b4f9f41 = Nenhuma externa ainda. Apenas ciclos diretos-inversos sintéticos, de um gerador que compartilha o modelo do estimador, de modo que verificam o código e a calibração dos níveis declarados sob esse modelo e nada sobre emissores reais. Uma verificação externa em relação aos locais de transmissores publicados do Jammertest { "2025" } foi fixada antecipadamente (docs/emitter-region/PREREGISTRATION.md, aprovada pelo responsável antes de qualquer execução pontuada) e executada uma vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sessões programadas, menos que o mínimo registrado de { "4" }) e AIS NOT ASSESSABLE (nenhuma sessão publicada), portanto nenhum limiar foi testado e a linha permanece MODELLED
+
+seg-aa7c0a865661 = { "401" } capacidades, cada uma avaliada. <b>{ "176" } validadas</b> em relação a referências independentes externas. <b>{ "221" } rotuladas com honestidade como modeladas.</b> { "4" } pertencentes a parceiros. Nada é arredondado para cima.
+
+seg-7a254b7d5498 = Matriz de verificação, uma célula por capacidade na ordem do registro: { "176" } validadas (quadrados preenchidos), { "221" } modeladas (quadrados vazados), { "4" } pertencentes a parceiros (losangos). As teclas de seta movem entre as células; a capacidade e sua referência independente são lidas abaixo.
+
+seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "401" } linhas · sem cenário nem semente: o registro do próprio motor
+
+seg-015ecb5cddc3 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-e26b6fdc705b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-66defa1494fc = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-4c54e96a1832 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-3d202a56e836 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-77bfad0f4f88 = { "176" }<s1>de { "401" } validadas</s1>
+
+seg-222c46a96ec3 = Matriz de verificação: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros, { "401" } no total
+
+seg-cf2aa475bc68 = O tipo de cenário mission-thread: um documento de fases, cada uma de um de oito tipos registrados, execu… · Modelada
+
+seg-bdc3223c80e4 = A fase launch-ascent: uma covariância de posição e velocidade de velocidade constante com ruído… · Modelada
+
+seg-a60883a4b32c = A fase leo-rendezvous: o estado relativo nos eixos LVLH do alvo com a… · Modelada
+
+seg-a3201e17ddc4 = A fase tli-and-cruise: o estado médio pelo propagador de Cowell do motor (massa pontual da Terra… · Modelada
+
+seg-a143fdf9c4cb = A fase entry: o trecho inercial de retorno de tli-and-cruise sem queima, terminando na… · Modelada
+
+seg-6c84e2db7d1e = A sobreposição da rede terrestre: estações com uma elevação mínima, a visibilidade do… · Modelada
+
+seg-256ed84fca2b = O tipo de cenário e fase lunar-orbit-rendezvous: uma estimativa conjunta de Gauss-Newton em lote de dois veículos… · Modelada
+
+seg-6cae40e30a77 = O tipo de cenário e fase lunar-descent: um modelo de erro inercial de cinco estados por eixo (posição… · Modelada
+
+seg-2db0710d699f = O tipo de cenário e fase lunar-surface: disponibilidade de relés e PDOP, visibilidade da Terra e do Sol… · Modelada
+
+seg-40e993dc4c56 = O tipo de cenário e fase lunar-ascent: o modelo de erro inercial de cinco estados por eixo executado sobre uma… · Modelada
+
+seg-904a8004957d = O propagador que os tipos de cenário lunares compartilham (GRAIL GL0660B de grau e ordem { "150" }, a Terra e o Sol… · Modelada
+
+seg-860ca782e2bf = A propagação do estado médio da fase tli-and-cruise (Cowell, massa pontual da Terra e J2… · Modelada
+
+seg-7c7d72cc2036 = Uma região viável para onde pode estar uma fonte de relatos de navegação degradados, a partir de ADS-B… · Modelada
+
+seg-65feaf4e91ef = Todas as { "401" } linhas, uma linha para cada.
+
+seg-5668b5581703 = de { "102" } validadas
+
+seg-43f852e4bee8 = de { "74" } validadas
+
+seg-fbb78f11c0dc = de { "78" } validadas
+
+seg-8fe12f6058c6 = de { "26" } validadas
+
+seg-b393e1b5fcfc = Todas { "401" }
+
+seg-3df9e327c036 = Modeladas { "221" }
+
+seg-7fa6f2e0de57 = Registro de validação, { "401" } linhas, rolável

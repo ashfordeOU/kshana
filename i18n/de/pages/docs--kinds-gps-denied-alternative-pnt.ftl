@@ -173,3 +173,5 @@ seg-d78bd011956c = <b>Register:</b> keine Matrixzeile nennt diese Szenarioart; d
 
 # text
 seg-d9fdaf3208ca = GPS-verweigerte alternative PNT (Szenarioarten-Familie)
+
+seg-643fa0f18717 = <b>Register:</b> MODELLED. Vollständige Seite mit den Eingaben, Ergebnissen, Nachweisen und Einschränkungen: <a1>terrain-nav</a1>.

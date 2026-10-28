@@ -84,3 +84,9 @@ seg-f3279128de3b = <s1>Précédent</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Suivant</s1>ntn-positioning
+
+seg-e66e2ca31e54 = Page thématique : <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Le type et la phase <c1/> : disponibilité des relais et PDOP, visibilité de la Terre et du Soleil et horloge de surface asservie pour chaque site et chaque saison, avec la ligne d'horizon du terrain de <c2/> ; une exécution à site unique égale celle de ce type
+
+seg-6730fa1b9820 = <s1>Précédent</s1>mission-thread

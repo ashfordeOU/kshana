@@ -101,3 +101,7 @@ seg-dca7482d9d75 = <s1>Siguiente</s1>lunar-frame-campaign
 
 # text
 seg-8ac5ac006ae7 = PNT DIFERENCIAL lunar modelado (un análogo lunar de DGNSS/SBAS): una estación de referencia de clase NovaMoon en una ubicación selenográfica CONOCIDA calcula correcciones diferenciales por satélite a partir de una constelación ILLUSTRATIVE de clase Moonlight/LCNS de fuentes públicas (NovaMoon se menciona solo como CLASE de sistema, sin afiliación a la ESA), y un usuario desplazado baseline_km las aplica de modo que los errores de órbita + reloj de MODO COMÚN se cancelan. El término de reloj se cancela EXACTAMENTE (una identidad algebraica); el término de órbita deja solo la proyección de la diferencia de línea de visión, que → { "0" } cuando la línea base → { "0" } (el suelo de decorrelación espacial) y crece ≈ linealmente con la línea base. Informa del error de posición 3D del usuario CON y SIN correcciones, el factor de reducción, la curva de error frente a línea base y un nivel de protección del usuario que REUTILIZA la maquinaria SBAS DO-229E (crate::sbas) con el residuo diferencial σ. MODELLED: identidad de cancelación exacta + modelo de decorrelación de primer orden; no validado con datos reales; sin TRL/herencia/respaldo de ninguna agencia. Determinista si tiene semilla.
+
+seg-e66e2ca31e54 = Página del tema: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-f9d918743ec6 = <s1>Anterior</s1>lunar-descent

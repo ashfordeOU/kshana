@@ -725,3 +725,5 @@ seg-ee3c5b58e6fa = <s1>Anterior</s1>Órbita e superfície lunares como infraestr
 
 # text
 seg-6b951d6413c8 = <s1>Próxima</s1>Projetos de sinal LEO
+
+seg-9bfe27f7ebc5 = <s1>Anterior</s1>Sequência de missão: o segmento lunar

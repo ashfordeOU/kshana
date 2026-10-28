@@ -133,3 +133,5 @@ seg-ce69d8d2d9d1 = <s1>Précédent</s1>space-weather
 
 # text
 seg-ac2c9c25fbb6 = <s1>Suivant</s1>spoof-detect
+
+seg-a349aa76b0ed = PARTNER

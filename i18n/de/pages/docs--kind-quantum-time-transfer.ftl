@@ -89,3 +89,5 @@ seg-09760f892c7b = Das Diagramm, das die Engine für scenarios/quantum-time-tran
 # text
 # c1: kshana kinds --json
 seg-b51e62b8dc63 = MODELLED vertrauenswürdige Quantenzeitkette: ein durchgängiges Zeitübertragungsbudget mit Quanten- (optische Gitteruhr + Verschränkungs-/Einzelphotonenstrecke) gegen klassisch (CSAC + RF-Zweiweg), ein wiederverwendetes Zeitgebungs-Schutzniveau + eine Sicherheitsgütezahl gegen Verzögerungs-/Replay-Angriffe (1-P_md), eine Erkennungswahrscheinlichkeit für Uhrenanomalien + CUSUM-Latenz und der Quanten-gegen-klassisch-Trade als ehrliche TradeEvidence mit einem Repräsentativitäts- + Gaps-to-flight-Eintrag. (Szenarioarten-Katalog (<c1/>))
+
+seg-a349aa76b0ed = PARTNER

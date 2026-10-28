@@ -3532,3 +3532,5 @@ seg-20beca58d39e = <a1>Ajouter à Cursor (npx)</a1> · <a2>Ajouter à Cursor (Do
 seg-aa6b62f0b484 = <a1>Installer dans VS Code (npx)</a1> · <a2>Installer dans VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP est le Model Context Protocol. Épinglez une version avec <c1/>, <c2/> ou <c3/>. Pour compiler depuis les sources, voir <a1>Installer et compiler</a1> sous Référence.
+
+seg-57686575b81d = Données de partenaires
