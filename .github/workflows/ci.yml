@@ -128,19 +128,19 @@ jobs:
     # green while pinned at 1.75.0 — Cargo.lock is lockfile v4, which cargo before 1.78
     # refuses to parse at all, so a genuine 1.75.0 run could not have compiled one line.
     # RUSTUP_TOOLCHAIN sits at precedence 2, above the toolchain file, and is what actually
-    # pins the compiler here. Measured: `RUSTUP_TOOLCHAIN=1.85.0 cargo build --all --locked`
+    # pins the compiler here. Measured: `RUSTUP_TOOLCHAIN=1.88.0 cargo build --all --locked`
     # is clean in 32s on this tree.
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       # Keep in lockstep with `rust-version` in Cargo.toml. The guard step below fails the
       # job if the two disagree, so the pin cannot drift out from under the claim again.
-      RUSTUP_TOOLCHAIN: 1.85.0
+      RUSTUP_TOOLCHAIN: 1.88.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
-          toolchain: 1.85.0
+          toolchain: 1.88.0
       - name: Assert the compiler in use IS the declared MSRV
         # Grades both halves of what this job claims: that RUSTUP_TOOLCHAIN really did beat
         # rust-toolchain.toml, and that the pin above still equals the rust-version the

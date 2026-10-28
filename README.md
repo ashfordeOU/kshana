@@ -1161,7 +1161,7 @@ v0.40.0 from the same tagged commit.
 | Reference-build image | `docker pull ghcr.io/ashfordeou/kshana-reference-build` | [Marine integrations](https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md) |
 <!-- channels:end -->
 
-<p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
+<p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.88 or newer, the rust-version in Cargo.toml"></a></p>
 
 MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.40.0`,
 `pip install kshana==0.40.0` or `npm install kshana@0.40.0`. To build from source, see
@@ -1617,7 +1617,7 @@ The long material, collapsed. Every document is listed in [Documentation](#docum
 
 ### Install & build
 
-Requires a Rust toolchain (≥ 1.85, the `rust-version` in Cargo.toml; developed on 1.93).
+Requires a Rust toolchain (≥ 1.88, the `rust-version` in Cargo.toml; developed on 1.93).
 
 ```bash
 git clone https://github.com/ashfordeOU/kshana
@@ -2215,7 +2215,7 @@ licence is available from Ashforde® OÜ; see [`LICENSING.md`](LICENSING.md) and
 
 ### Troubleshooting
 
-**`cargo build` fails on an old toolchain.** Kshana needs Rust ≥ 1.85. Update with
+**`cargo build` fails on an old toolchain.** Kshana needs Rust ≥ 1.88. Update with
 `rustup update`.
 
 **Building the Python extension fails to link on macOS** (`Undefined symbols … _Py…`).
