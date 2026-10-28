@@ -660,3 +660,7 @@ seg-350b6b914734 = <s1>Seguinte</s1>Servidor MCP: todos os canais de instalaçã
 
 # text
 seg-492888115662 = Os { "92" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido.
+
+seg-a4a0e399a31e = <c1/> coloca <c2/> no seu <c3/> (tipicamente <c4/>). O servidor fala JSON-RPC (JSON remote procedure call) sobre stdio; os registos vão para o stderr. Compilar a partir do código-fonte exige uma cadeia de ferramentas Rust ≥ { "1.88" } (o SDK <c5/> { "2" }.x corrigido exige-o, tal como a biblioteca <c6/>); a imagem Docker não exige nenhuma.
+
+seg-0757e15070d4 = O servidor é um <b>crate autónomo, excluído do workspace</b>, com o seu próprio <c1/>, pelo que o SDK (software development kit) oficial de MCP para Rust, <c2/>, e o seu runtime assíncrono nunca entram no grafo de dependências do crate <c3/> publicado: quem usa a biblioteca ou Python não compila um servidor que não executa. (Foi separado primeiro porque <c4/> é <b>edition { "2024" }</b>, o que exige rustc ≥ { "1.85" }, enquanto o crate principal prometia então { "1.75" }. A biblioteca e este servidor declaram agora ambos { "1.88" }, o mínimo do <c5/> { "2" }.x corrigido em segurança e dos crates RustCrypto atualizados.) A integração contínua (CI) condiciona este crate por si só — testes e <c6/> face ao seu ficheiro de bloqueio. A árvore de licenças do rmcp está limpa (Apache-2.0/MIT/BSD), pelo que, ao contrário do crate de validação cruzada <c7/>, que de resto espelha, a separação não tem que ver com licenciamento.

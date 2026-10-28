@@ -8947,3 +8947,5 @@ seg-a4b6bfcb9984 = Nada de aquí es VALIDATED: las filas de referencia independi
 seg-29d014d29790 = Una actualización de dependencia en la biblioteca distribuida (la primera entrada), el resto en las herramientas de validación cruzada (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> y <c3/> { "0.13" } a { "0.14" } (con <c4/> { "0.14.3" }, <c5/> { "0.17.0" } y <c6/> { "0.5.5" } a { "0.7.10" }; también la dependencia directa <c7/>, ahora { "0.7" }) resuelven RUSTSEC-2026-0387, una variabilidad de tiempo de ejecución en <c8/> { "0.5.5" }. Kshana usa estos crates solo para verificar firmas públicas (la clave raíz de Galileo OSNMA y los tokens de sello de tiempo RFC { "3161" }) y solo firma en pruebas con claves desechables, así que la exposición práctica era nula; la actualización elimina el aviso sin una entrada de exclusión. Los archivos de bloqueo de la biblioteca y del MCP cambian los dos; ningún resultado de verificación cambia (las pruebas de vectores de OSNMA y de sello de tiempo pasan sin cambios).
+
+seg-1a4cda9d1486 = La versión mínima compatible de Rust es ahora { "1.88" } (exigida por la corrección de RUSTSEC-2026-0387).

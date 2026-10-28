@@ -3269,3 +3269,5 @@ seg-a4b6bfcb9984 = Ingenting her er VALIDATED: radene for uavhengig referanse te
 seg-29d014d29790 = Én avhengighetsoppdatering i det leverte biblioteket (den første oppføringen), resten i verktøyene for kryssvalidering (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> og <c3/> { "0.13" } til { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } og <c6/> { "0.5.5" } til { "0.7.10" }; også den direkte avhengigheten <c7/>, nå { "0.7" }) utbedrer RUSTSEC-2026-0387, tidsvariasjon i <c8/> { "0.5.5" }. Kshana bruker disse crate-ene bare til å verifisere offentlige signaturer (rotnøkkelen for Galileo OSNMA og RFC { "3161" }-tidsstempeltokener) og signerer bare i tester med engangsnøkler, så den praktiske eksponeringen var null; oppgraderingen fjerner varselet uten en ignorer-oppføring. Bibliotekets og MCPs låsefiler flyttes begge; ingen verifiseringsresultater endres (vektortestene for OSNMA og tidsstempler består uendret).
+
+seg-1a4cda9d1486 = Laveste støttede Rust-versjon er nå { "1.88" } (kreves av rettelsen for RUSTSEC-2026-0387).
