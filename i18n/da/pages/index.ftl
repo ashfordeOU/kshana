@@ -698,12 +698,6 @@ seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrolleret mod ægte kørsler, PDF på
 
 seg-7d9ee2bfbb90 = Find ud af, hvor din tidssynkronisering går i stykker, før den gør det.
 
-seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-3287261002dd = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
-
-seg-510663384be1 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-070972f642de = En missionstråd i Artemis-klassen: fejlbudgettet for navigation og tidssynkronisering fra opsendelse til indflyvning
 
 seg-4970f874d334 = Månesegmentet: rendezvous, nedstigning, overflade og opstigning
@@ -725,3 +719,9 @@ seg-b9961ed25282 = Nyt i v{ $version }: en missionstråd, en evidensetiket på h
 seg-653cf3198094 = { "176" } af { "401" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
 
 seg-76b213d03caa = Alle { "92" } scenarietyper, gratis uden funktionsspærring, deterministiske ud fra scenarie, seed og motorversion.
+
+seg-cff488aa106d = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-fddfe8b260be = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+
+seg-388f14eb6d8d = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

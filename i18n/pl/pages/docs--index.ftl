@@ -224,8 +224,6 @@ seg-0cf0b9fb9184 = <s1>Rodzaje scenariuszy</s1><s2>{ "92" } wbudowanych rodzajó
 
 seg-9d5c233c72b4 = <s1>Każdy rodzaj scenariusza, według rodziny</s1><s2>Każdy rodzaj scenariusza, który rozdziela silnik v{ $version } ({ "92" }), przypisany do { "13" } rodzin.</s2>
 
-seg-2c002a7b7640 = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "192" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>
-
 seg-f5987c9d9fde = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "401" } wierszy — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "401" } wierszy macierzy weryfikacji.</s2>
@@ -241,3 +239,5 @@ seg-cecb9535c0a1 = <s1>Księżyc i przestrzeń cislunarna</s1><s2>{ "24" } rodza
 seg-1dd7c80e18a7 = <s1>Wątki misji</s1><s2>{ "1" } rodzaj scenariusza silnika v{ $version }. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie…</s2>
 
 seg-f0e26f01a361 = { "92" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
+
+seg-a1f33bd571ed = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "193" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>

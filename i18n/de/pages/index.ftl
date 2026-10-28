@@ -1118,12 +1118,6 @@ seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
 # c1: 
 seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dieselbe Engine, verstärkt: { "608" } Entwürfe, eine Pareto-Front</s2>
 
-seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
-
-seg-3287261002dd = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
-
-seg-510663384be1 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
-
 seg-070972f642de = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung vom Start bis zum Wiedereintritt
 
 seg-4970f874d334 = Das Mondsegment: Rendezvous, Abstieg, Oberfläche und Aufstieg
@@ -1145,3 +1139,9 @@ seg-b9961ed25282 = Neu in v{ $version }: ein Missionsstrang, eine Nachweiskennze
 seg-653cf3198094 = { "176" } von { "401" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
 
 seg-76b213d03caa = Alle { "92" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.
+
+seg-cff488aa106d = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+
+seg-fddfe8b260be = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+
+seg-388f14eb6d8d = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }

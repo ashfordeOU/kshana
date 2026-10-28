@@ -1970,8 +1970,8 @@ seg-11041e6beb65 = De { "92" } inbyggda scenariotyperna med beskrivningar + obli
 
 seg-abf70d11a088 = hela den öppna motorn, alla { "92" } scenariotyper, ingen funktionsspärr
 
-seg-b14326430bd8 = Se <c1/> för minst ett genomarbetat exempel för varje typ ({ "92" } typer, { "192" } scenariofiler med <c2/> + { "1" } svitmanifest — flera typer levereras med mer än ett exempel). Inte varje typ har en fil uppkallad efter sig: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de typer som går att anropa när som helst med <c7/> fel, Python <c8/> eller MCP-verktyget <c9/>.
-
 seg-824001fa6734 = laboratorier och tillverkare som har uppmätta data
 
 seg-df3ca402513f = vilka MODELLED-rader en uppmätt klock- eller IMU-post kan lyfta, formaten, hur ett bidrag kontrolleras (<c1/>), poängsätts och tillgodoräknas
+
+seg-e2d733f93455 = Se <c1/> för minst ett genomarbetat exempel för varje typ ({ "92" } typer, { "193" } scenariofiler med <c2/> + { "1" } svitmanifest — flera typer levereras med mer än ett exempel). Inte varje typ har en fil uppkallad efter sig: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de typer som går att anropa när som helst med <c7/> fel, Python <c8/> eller MCP-verktyget <c9/>.

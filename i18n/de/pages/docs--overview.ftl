@@ -3609,8 +3609,8 @@ seg-11041e6beb65 = Die { "92" } eingebauten Szenarioarten mit Beschreibungen + P
 
 seg-abf70d11a088 = die gesamte offene Engine, alle { "92" } Szenarioarten, ohne Funktionssperre
 
-seg-b14326430bd8 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "92" } Arten, { "192" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.
-
 seg-824001fa6734 = Labore und Hersteller, die gemessene Daten besitzen
 
 seg-df3ca402513f = welche MODELLED-Zeilen eine gemessene Uhren- oder IMU-Aufzeichnung befördern könnte, die Formate, wie eine Einreichung geprüft (<c1/>), bewertet und angerechnet wird
+
+seg-e2d733f93455 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "92" } Arten, { "193" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.

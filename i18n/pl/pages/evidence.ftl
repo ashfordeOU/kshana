@@ -4256,8 +4256,6 @@ seg-c97e87cbcdd5 = BibTeX silnika
 
 seg-24ff0a7466d6 = BibTeX
 
-seg-52dab8f79eed = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-65185cb68d6b = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (<c1/>)
 
 seg-86a132e1a243 = Rodzaj <c1/>: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (<c2/>; <c3/>, szum białego przyspieszenia na podanym odstępie w modelu prostoliniowym; <c4/>, nawigacja zliczeniowa, a potem dolna granica źródła, nigdy poniżej niej, nigdy zerowanie); konwersje układów GCRF, MCI i MCMF oraz konwersje skal czasu przez TT, każda jako osobny wiersz budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem; margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. Każda liczba jest podanym wejściem albo modelem takiego wejścia
@@ -4342,16 +4340,6 @@ seg-7a254b7d5498 = Macierz weryfikacji, jedna komórka na możliwość w kolejno
 
 seg-a2f63c51d2c7 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "401" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
 
-seg-015ecb5cddc3 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-e26b6fdc705b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-66defa1494fc = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-4c54e96a1832 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-3d202a56e836 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-77bfad0f4f88 = { "176" }<s1>z { "401" } sprawdzonych</s1>
 
 seg-222c46a96ec3 = Macierz weryfikacji: { "176" } sprawdzonych, { "221" } modelowanych, { "4" } należących do partnera, { "401" } łącznie
@@ -4397,3 +4385,15 @@ seg-b393e1b5fcfc = Wszystkie { "401" }
 seg-3df9e327c036 = Modelowane { "221" }
 
 seg-7fa6f2e0de57 = Rejestr walidacji, { "401" } wierszy, z przewijaniem
+
+seg-df43ce08ec0e = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-613de9424706 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-d2c2b9393166 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-6b46b5866660 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-958dfeda6dbf = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-3a1b15ffddc1 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

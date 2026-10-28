@@ -1378,7 +1378,7 @@ seg-24194ccdcdca = Start from any scenario
 # text
 # c1: kshana kinds --json
 # c2: kshana example
-seg-75f8165faeeb = Pick one of { "193" } scenario files across { "92" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-237402dbe93a = Pick one of { "194" } scenario files across { "92" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
 
 # text
 seg-5dd293dd429b = The library in Kshana Studio
@@ -1653,7 +1653,7 @@ seg-54dce6366d5a = Every bundled scenario, on one map.
 # c11: lunar-surface-terrain
 # c12: mission-thread-artemis-class
 # c13: quantum-pnt-demonstrator.suite
-seg-ed10ac59ed87 = All { "193" } scenario files across { "92" } kinds, grouped by domain; { "180" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-ace118a5dc36 = All { "194" } scenario files across { "92" } kinds, grouped by domain; { "181" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 # attr:aria-label
 seg-f53c36555404 = Filter by ledger status
@@ -2097,9 +2097,12 @@ seg-fb8345aba877 = <c1/><a1>link-budget</a1>
 # attr:title
 seg-5ab9475613b4 = An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch
 
+# attr:title
+seg-f4ad26be58c2 = A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of
+
 # text
 # c1: mission-thread
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
 
 # attr:title, text
 seg-97847b33c55b = CCSDS OEM interoperability-bridge demonstrator (GMAT / Orekit / STK interop).

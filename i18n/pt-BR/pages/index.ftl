@@ -1119,12 +1119,6 @@ seg-905e5eef45e5 = <b>{ "12" } requisitos</b> verificados com execuções reais,
 # text
 seg-7d9ee2bfbb90 = Descubra onde a sua temporização quebra, antes que ela quebre.
 
-seg-f4d3b1f5b1b4 = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
-
-seg-3287261002dd = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
-
-seg-510663384be1 = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
-
 seg-070972f642de = Uma sequência de missão de classe Artemis: o orçamento de erro de navegação e temporização do lançamento à reentrada
 
 seg-4970f874d334 = O segmento lunar: encontro, descida, superfície e ascensão
@@ -1146,3 +1140,9 @@ seg-b9961ed25282 = Novidades da v{ $version }: uma sequência de missão, um ró
 seg-653cf3198094 = { "176" } de { "401" } capacidades concordam com referências independentes externas; as demais são rotuladas como modeladas, em voz alta.
 
 seg-76b213d03caa = Todos os { "92" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.
+
+seg-cff488aa106d = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+seg-fddfe8b260be = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
+
+seg-388f14eb6d8d = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }

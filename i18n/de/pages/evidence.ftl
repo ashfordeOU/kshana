@@ -6540,8 +6540,6 @@ seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, be
 # text
 seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — PUBLIC-DOMAIN-Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
 
-seg-52dab8f79eed = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
-
 seg-65185cb68d6b = Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt (<c1/>)
 
 seg-86a132e1a243 = Die Art <c1/>: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (<c2/>; <c3/>, weißes Beschleunigungsrauschen über eine genannte Lücke bei einem geradlinigen Modell; <c4/>, Koppelnavigation, dann die Quellgrenze, nie darunter, nie ein Zurücksetzen); Umrechnungen der Bezugssysteme GCRF, MCI und MCMF und der Zeitskalen über TT, jede mit eigener Budgetzeile, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient; die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. Jede Zahl ist eine genannte Eingabe oder ein Modell einer solchen
@@ -6626,16 +6624,6 @@ seg-7a254b7d5498 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreih
 
 seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "401" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
 
-seg-015ecb5cddc3 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-e26b6fdc705b = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-66defa1494fc = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-4c54e96a1832 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-3d202a56e836 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
 seg-77bfad0f4f88 = { "176" }<s1>von { "401" } validiert</s1>
 
 seg-222c46a96ec3 = Verifikationsmatrix: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern, { "401" } insgesamt
@@ -6681,3 +6669,15 @@ seg-b393e1b5fcfc = Alle { "401" }
 seg-3df9e327c036 = Modelliert { "221" }
 
 seg-7fa6f2e0de57 = Validierungsregister, { "401" } Zeilen, scrollbar
+
+seg-df43ce08ec0e = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-613de9424706 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-d2c2b9393166 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-6b46b5866660 = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
+
+seg-958dfeda6dbf = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-3a1b15ffddc1 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed

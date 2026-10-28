@@ -935,6 +935,19 @@ async function migrate(args) {
   }
 }
 
+/** renumber [langs]: carry translations over an English change that only moved digits (192 to 193) or only a code span: the new id gets the translation with the digit runs substituted (--from-rev names the revision of the old English, default HEAD). Pages and data.ftl only. */
+async function renumber(args) {
+  const L = await lang();
+  const { opt, pos } = args2opt(args, { root: 'i18n', fromRev: 'HEAD', gitPath: 'i18n', dryRun: false, list: false });
+  const oldP = L.oldEnglish(opt.fromRev, opt.gitPath), oldD = L.oldEnglishFile(opt.fromRev, 'data.ftl', opt.gitPath);
+  const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l, 'pages')));
+  for (const l of langs) {
+    const r = L.renumberLang(opt.root, l, oldP, oldD, { dryRun: opt.dryRun });
+    console.log(`renumber ${l}: pages ${r.pages.carried} carried, ${r.pages.left.length} left; data ${r.data.carried} carried, ${r.data.left.length} left${opt.dryRun ? ' (dry run)' : ''}`);
+    for (const c of ['pages', 'data']) for (const x of r[c].left) console.log(`  left ${c} ${x.id}: ${x.why}`);
+  }
+}
+
 /** data --src DIR --out i18n/en/data.ftl [--check]: the prose of the JSON files in i18n/data-spec.json as one English catalogue. */
 async function dataCmd(args) {
   const D = await import('./i18n-data.mjs');
@@ -991,7 +1004,7 @@ async function firstpaint(args) {
 
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), 'share-engine': async () => shareEngineCmd(rest), catalogues: async () => cataloguesCmd(rest), 'prune-data': async () => pruneDataCmd(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), renumber: () => renumber(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), 'share-engine': async () => shareEngineCmd(rest), catalogues: async () => cataloguesCmd(rest), 'prune-data': async () => pruneDataCmd(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

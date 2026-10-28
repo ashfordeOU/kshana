@@ -470,6 +470,9 @@ dat-22f4ef767e4e = A seeded Monte Carlo ensemble through a campaign, on a case w
 dat-bf1aa298962c = A ship entering a harbour under a shore jammer, with the quay buildings ahead taking the
 
 # data/search.json
+dat-23cef21a3ad4 = A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of
+
+# data/search.json
 dat-fd6f3f62472b = A signal design
 
 # data/search.json
@@ -2129,7 +2132,7 @@ dat-ff5b73c0368c = EU NIS2 Directive, Article { "21" }: what Kshana supports evi
 dat-0d03e418ffb7 = Euler's rotational equations of motion (I ω̇ = τ − ω × Iω, principal-axis and general inertia tensor) coupled to quaternion attitude kinematics (q̇ = ½ q ⊗ ω) and propagated with a fixed-step RK4 integrator that re-normalises the quaternion each step
 
 # data/search.json
-dat-0488b2056745 = Every bundled scenario file ({ "192" }), grouped by kind, with its key settings.
+dat-b8b659cbbefa = Every bundled scenario file ({ "193" }), grouped by kind, with its key settings.
 
 # data/search.json
 dat-aad102ace39c = Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the…

@@ -3618,8 +3618,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
 
-seg-75f8165faeeb = Vali üks { "193" } stsenaariumifailist { "92" } liigi hulgast või kirjuta oma fail. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib faili, millest alustada.
-
 seg-d5c6110302e9 = Artemis-klassi missiooniahel, tõendimärgis igal arvul ja seitseteist keelt.
 
 seg-8597c65432ed = Aheldab Kuu missiooni faasid üheks navigatsiooni- ja ajastusvea eelarveks, hindab, kus võib asuda halvenenud positsiooniteadete allikas, loeb mõõdetud kellalogisid, näitab tõendustaset igal arvul, mille käivitus kirjutab, ning võimaldab kasutada käsurida, aruandeid ja Studiot seitsmeteistkümnes keeles. Iga võimekus kannab silti, mille register selle kohta hoiab, ja silt nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutus jääb operaatorile.
@@ -3666,8 +3664,6 @@ seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
 
 seg-1e0afa852323 = Neli eelregistreeritud võrdlust käivitati üks kord pärast kinnitamist ja need täitsid oma läved ning kõik skoorid on modelleeritud.
 
-seg-ed10ac59ed87 = Kõik { "193" } stsenaariumifaili { "92" } liigi hulgas, rühmitatud valdkonna järgi; { "180" } on mootorisse sisse ehitatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> käivituvad hoidlast käsureaga. Punkt näitab liigi mooduli registristaatust seal, kus register seda nimetab. Fail, millel on salvestatud käik, avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja seda käitava käsuga.
-
 seg-c381cfa99bb0 = Kella stsenaarium, kus klassikaline kell võtab mõõdetud logi müra (`[clock_fit]`).
 
 seg-328cd04eef87 = Kella stsenaarium, kus mõõdetud logi on simuleeritud holdoveri kõrval (`[clock_log]`).
@@ -3701,3 +3697,7 @@ seg-0ecc50eafdbe = Kuu pinna PNT ja ajastuse kättesaadavus asukoha ja aastaaja 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
 seg-69c56cbdda90 = { "92" } liiki { "92" }-st, { "3300" } arvulist välja { "3300" }-st
+
+seg-237402dbe93a = Vali üks { "194" } stsenaariumifailist { "92" } liigi hulgast või kirjuta oma fail. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib faili, millest alustada.
+
+seg-ace118a5dc36 = Kõik { "194" } stsenaariumifaili { "92" } liigi hulgas, rühmitatud valdkonna järgi; { "181" } on mootorisse sisse ehitatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> käivituvad hoidlast käsureaga. Punkt näitab liigi mooduli registristaatust seal, kus register seda nimetab. Fail, millel on salvestatud käik, avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja seda käitava käsuga.

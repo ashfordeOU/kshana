@@ -816,6 +816,6 @@ seg-3bf5f474beca = Den öppna motorn i mitten: ett märke per scenariotyp ({ "92
 
 seg-f88b6cf10837 = Motor v{ $version } · { "92" } typer från <c1/> · registerstatus från <c2/> · vad Pro och en studie bygger på: webbplatsens utgåveregister · inget scenario eller frö
 
-seg-7a848f1d8304 = Alla { "92" } scenariotyper och { "180" } medföljande scenarier: nativt, Python, JavaScript, i webbläsaren och över MCP (Model Context Protocol)
-
 seg-cc655ce0b6c8 = Den fullständiga verifieringsmatrisen: { "176" } av { "401" } förmågor validerade mot oberoende referenser, resten märkta som modellerade
+
+seg-65342d8ef6ad = Alla { "92" } scenariotyper och { "181" } medföljande scenarier: nativt, Python, JavaScript, i webbläsaren och över MCP (Model Context Protocol)

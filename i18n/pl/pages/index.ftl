@@ -698,12 +698,6 @@ seg-905e5eef45e5 = <b>{ "12" } wymagań</b> sprawdzonych na rzeczywistych przebi
 
 seg-7d9ee2bfbb90 = Sprawdź, gdzie załamuje się synchronizacja czasu, zanim to nastąpi.
 
-seg-f4d3b1f5b1b4 = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
-
-seg-3287261002dd = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-510663384be1 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
-
 seg-070972f642de = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu od startu do wejścia w atmosferę
 
 seg-4970f874d334 = Segment księżycowy: spotkanie, lądowanie, powierzchnia i wznoszenie
@@ -725,3 +719,9 @@ seg-b9961ed25282 = Nowość w v{ $version }: wątek misji, etykieta dowodowa prz
 seg-653cf3198094 = { "176" } z { "401" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
 
 seg-76b213d03caa = Wszystkie { "92" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
+
+seg-cff488aa106d = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-fddfe8b260be = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-388f14eb6d8d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }

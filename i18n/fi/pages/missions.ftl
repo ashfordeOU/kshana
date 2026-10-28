@@ -838,4 +838,4 @@ seg-0e6be0d623f6 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Avoimen
 
 seg-9b505908a6e2 = Kshana <b>ei ohjaa radiolaitteistoa eikä lähetä mitään</b>. Siihen kuuluu ohjelmistopohjainen GNSS-vastaanotin tallennetulle ja tuotetulle IQ-datalle, ja se voi kirjoittaa synteettisiä kantataajuisia IQ-tiedostoja, mutta se <b>ei ole radiotaajuinen signaaligeneraattorilaitteisto</b> eikä <b>laitteisto- tai sertifioitu GNSS-vastaanotin</b>. Se on tutkimus- ja vaihtoehtovertailuväline: se simuloi, mitä häirintä, harhautus ja signaalin menetys tekevät navigointi- ja ajoitusratkaisulle, ja kertoo, mitkä sen vastauksista on validoitu. <b>Ei lentotuote.</b>
 
-seg-ecb96b67c4e9 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-8575c0837e28 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua

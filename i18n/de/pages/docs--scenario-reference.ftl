@@ -1168,8 +1168,6 @@ seg-6c7d25f672fb = MODELLED Verfügbarkeit von Positionierung und Zeitgebung an 
 
 seg-1ec485468daa = MODELLED Fehlerbudget für Navigation und Zeitgebung einer genannten Kette von Missionsphasen, vom Start bis zum Wiedereintritt: Start und Aufstieg, Rendezvous und Andocken in niedriger Erdumlaufbahn (wiederholbar), translunare Injektion und cislunarer Flug, Rendezvous in der Mondumlaufbahn, Abstieg, Aufenthalt an der Oberfläche, Aufstieg sowie Rückkehr und Wiedereintritt, jede Phase eine von acht registrierten Arten mit eigenen Sensoren und eigenem Filter. Die 6x6-Kovarianz, die Uhr und das Bezugssystem werden nach einer genannten Regel von Phase zu Phase weitergegeben (carry, inflate oder reacquire); Umrechnungen von Bezugssystem und Zeitskala (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sind eigene Budgetzeilen, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient. Eine optionale Bodennetz-Überlagerung legt den Verfolgungseinsatz jeder Phase fest. Sie gibt das Budget je Phase an (Eintritts-, Spitzen- und Austritts-1-Sigma, jeder Beitrag mit seiner Einheit), die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. MODELLED: Jede Zahl ist eine genannte Eingabe; die Kette folgt einem Stapel, und es wird kein Fahrzeug modelliert. Nur öffentliche Quellen; weder mit einer Agentur verbunden noch von ihr gebilligt; beratende Software, keine zertifizierte Navigationsausrüstung.
 
-seg-5b4a725bea4e = Jede mitgelieferte Szenariodatei ({ "192" }), nach Art gruppiert. Die Beschreibung ist der eigene Kopfkommentar der Datei; die Schlüsselparameter sind ihre Einstellungen auf oberster Ebene. Der Status liest die Verifikationsmatrix für das Modul der Art. <b>In Kshana Studio öffnen</b> öffnet den aufgezeichneten Lauf.
-
 seg-d2b1e58dea11 = Ein Uhrenszenario, dessen klassische Uhr das Rauschen eines gemessenen Logs übernimmt (<c1/>).
 
 seg-760090cd3247 = Ein Uhrenszenario mit einem gemessenen Log neben dem simulierten holdover (<c1/>).
@@ -1197,3 +1195,5 @@ seg-ce9f26be0623 = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche na
 seg-ce858063d300 = Art mission-thread
 
 seg-0bd19840e50d = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette, vom Start bis zum Wiedereintritt, aufgebaut aus öffentlichem Material zum Einsatzkonzept.
+
+seg-1b2e1e1b5c38 = Jede mitgelieferte Szenariodatei ({ "193" }), nach Art gruppiert. Die Beschreibung ist der eigene Kopfkommentar der Datei; die Schlüsselparameter sind ihre Einstellungen auf oberster Ebene. Der Status liest die Verifikationsmatrix für das Modul der Art. <b>In Kshana Studio öffnen</b> öffnet den aufgezeichneten Lauf.

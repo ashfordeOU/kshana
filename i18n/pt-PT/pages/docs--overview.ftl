@@ -3744,20 +3744,10 @@ seg-11041e6beb65 = Os { "92" } tipos de cenário incorporados com descrições +
 seg-abf70d11a088 = todo o motor aberto, todos os { "92" } tipos de cenário, sem restrição de recursos
 
 # text
-# c1: scenarios/
-# c2: .toml
-# c3: lunar-integrity
-# c4: scenarios/lunanet-araim.toml
-# c5: gravity-map
-# c6: scenarios/gps-denied-gravity-nav.toml
-# c7: cargo run -- --validate <file>
-# c8: list_kinds()
-# c9: list_scenario_kinds
-seg-b14326430bd8 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "192" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
-
-# text
 seg-824001fa6734 = laboratórios e fabricantes com dados medidos
 
 # text
 # c1: kshana partner check
 seg-df3ca402513f = que linhas MODELLED poderia promover um registo medido de relógio ou de IMU, os formatos, como um envio é verificado (<c1/>), pontuado e creditado
+
+seg-e2d733f93455 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "193" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
