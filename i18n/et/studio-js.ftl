@@ -10857,3 +10857,17 @@ js-trust-yes = jah
 js-mthread-limiting-phase = Mootor nimetab selle faasi piirava allika kui { $source }: faasi allikas, mitte selle tabeli üks rida.
 
 js-mthread-limiting-row = mootori piirav allikas
+
+js-cat-mission-thread-short-question = Millises faasis on navigatsiooni- ja ajastusvaru kõige väiksem ühel ahelal stardist sisenemiseni, läbi madala orbiidi kohtumise ja ühe päeva Kuule suunduvat transferlendu? (modelleeritud)
+
+js-cat-mission-thread-short-title = Lühike missiooniahel, stardist sisenemiseni
+
+js-meankind-mthread-big = Ahelas on nõudega võrreldes kõige väiksem varu faasis { $phase }.
+
+js-meankind-mthread-big-source = Ahelas on nõudega võrreldes kõige väiksem varu faasis { $phase }, piiravaks teguriks { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } faas.
+       *[other] { $n } faasi.
+    }

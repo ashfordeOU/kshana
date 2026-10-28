@@ -3701,3 +3701,7 @@ seg-69c56cbdda90 = { "92" } liiki { "92" }-st, { "3300" } arvulist välja { "330
 seg-237402dbe93a = Vali üks { "194" } stsenaariumifailist { "92" } liigi hulgast või kirjuta oma fail. <c1/> loetleb iga liigi koos selle väljadega ja <c2/> trükib faili, millest alustada.
 
 seg-ace118a5dc36 = Kõik { "194" } stsenaariumifaili { "92" } liigi hulgas, rühmitatud valdkonna järgi; { "181" } on mootorisse sisse ehitatud ning <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> käivituvad hoidlast käsureaga. Punkt näitab liigi mooduli registristaatust seal, kus register seda nimetab. Fail, millel on salvestatud käik, avab selle Kshana Studios; teised avavad oma kirje stsenaariumide teatmikus koos failiga ja seda käitava käsuga.
+
+seg-f4ad26be58c2 = Lühike missiooniahel, mis töötab ainult binaarfailist: start ja tõus, üks kohtumine madalal Maa orbiidil, üks päev
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

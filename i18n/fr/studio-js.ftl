@@ -9524,3 +9524,18 @@ js-trust-yes = oui
 js-mthread-limiting-phase = Le moteur désigne { $source } comme la source limitante de cette phase : une source de la phase, et non une ligne de ce tableau.
 
 js-mthread-limiting-row = la source limitante du moteur
+
+js-cat-mission-thread-short-question = Le long d'une même pile, du lancement à l'entrée, en passant par un rendez-vous en orbite basse et un jour de croisière translunaire, quelle phase a la marge de navigation et de synchronisation la plus mince ? (modélisé)
+
+js-cat-mission-thread-short-title = Court fil de mission, du lancement à l'entrée
+
+js-meankind-mthread-big = Le long du fil, la marge la plus mince par rapport à son exigence se trouve dans la phase { $phase }.
+
+js-meankind-mthread-big-source = Le long du fil, la marge la plus mince par rapport à son exigence se trouve dans la phase { $phase }, limitée par { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } phase.
+        [many] { $n } phases.
+       *[other] { $n } phases.
+    }

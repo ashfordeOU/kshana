@@ -1197,3 +1197,7 @@ seg-ce858063d300 = Art mission-thread
 seg-0bd19840e50d = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette, vom Start bis zum Wiedereintritt, aufgebaut aus öffentlichem Material zum Einsatzkonzept.
 
 seg-1b2e1e1b5c38 = Jede mitgelieferte Szenariodatei ({ "193" }), nach Art gruppiert. Die Beschreibung ist der eigene Kopfkommentar der Datei; die Schlüsselparameter sind ihre Einstellungen auf oberster Ebene. Der Status liest die Verifikationsmatrix für das Modul der Art. <b>In Kshana Studio öffnen</b> öffnet den aufgezeichneten Lauf.
+
+seg-a7bfd0a7e587 = Ein kurzer Missionsstrang, der allein aus einer Binärdatei läuft: Start und Aufstieg, ein Rendezvous im niedrigen Erdorbit, ein Tag translunarer Flugphase sowie Rückkehr und Eintritt, mit der Mondposition aus der analytischen Reihe (keine Kernel-Datei). Er ist das mitgelieferte Gegenstück zu mission-thread-artemis-class, das einen aus einem Checkout geschnittenen Mond-Kernel liest.
+
+seg-d60c5f13a769 = <a1>In Kshana Studio öffnen</a1> · <s1>Noch nicht auf GitHub</s1>

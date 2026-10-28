@@ -3701,3 +3701,7 @@ seg-69c56cbdda90 = { "92" } von { "92" } Arten, { "3300" } von { "3300" } numeri
 seg-237402dbe93a = Wählen Sie eine von { "194" } Szenariodateien aus { "92" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
 
 seg-ace118a5dc36 = Alle { "194" } Szenariodateien aus { "92" } Arten, nach Bereich gruppiert; { "181" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls der Art, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet diesen in Kshana Studio; die übrigen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.
+
+seg-f4ad26be58c2 = Ein kurzer Missionsstrang, der allein aus einer Binärdatei läuft: Start und Aufstieg, ein Rendezvous im niedrigen Erdorbit, ein Tag von
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

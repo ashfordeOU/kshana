@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } / { "92" } tyyppiä, { "3300" } / { "3300" } numeeri
 seg-237402dbe93a = Valitse jokin { "194" } skenaariotiedostosta { "92" } tyypissä tai kirjoita oma. <c1/> luettelee jokaisen tyypin kenttineen, ja <c2/> tulostaa tiedoston, josta aloittaa.
 
 seg-ace118a5dc36 = Kaikki { "194" } skenaariotiedostoa { "92" } tyypissä, ryhmiteltyinä alueen mukaan; { "181" } on niputettu moottoriin, ja <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> ajetaan arkistosta komentorivillä. Piste näyttää tyypin moduulin kirjanpitotilan, kun kirjanpito nimeää sen. Tiedosto, jolla on tallennettu ajo, avaa sen Kshana Studiossa; muut avaavat merkintänsä skenaarioviitteessä tiedostoineen ja komentoineen, jolla se ajetaan.
+
+seg-f4ad26be58c2 = Lyhyt tehtäväketju, joka toimii pelkästä binääristä: laukaisu ja nousu, yksi kohtaaminen matalalla Maan kiertoradalla, yhden päivän
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

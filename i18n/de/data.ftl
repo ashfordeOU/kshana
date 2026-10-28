@@ -7491,3 +7491,5 @@ dat-b3d9ac894036 = Ihre eigene Uhr
 dat-286487acb3db = Prüfungen der Geometrie von Zenit und Antipode und die erwartete Sichtbarkeit eines fernen Ziels in den Tests. Es werden kein reales Netz, keine reale Antenne und kein realer Zeitplan modelliert
 
 dat-b8b659cbbefa = Jede mitgelieferte Szenariodatei ({ "193" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.
+
+dat-23cef21a3ad4 = Ein kurzer Missionsstrang, der allein aus einer Binärdatei läuft: Start und Aufstieg, ein Rendezvous im niedrigen Erdorbit, ein Tag von

@@ -12699,3 +12699,19 @@ js-trust-yes = tak
 js-mthread-limiting-phase = Silnik wskazuje ograniczające źródło tej fazy jako { $source }: źródło fazy, a nie jeden wiersz tej tabeli.
 
 js-mthread-limiting-row = ograniczające źródło silnika
+
+js-cat-mission-thread-short-question = W której fazie, wzdłuż jednego stosu od startu do wejścia w atmosferę, przez spotkanie na niskiej orbicie i dzień lotu translunarnego, margines nawigacji i czasu jest najmniejszy? (modelowane)
+
+js-cat-mission-thread-short-title = Krótki wątek misji, od startu do wejścia w atmosferę
+
+js-meankind-mthread-big = Wzdłuż wątku najmniejszy margines względem wymagania występuje w fazie { $phase }.
+
+js-meankind-mthread-big-source = Wzdłuż wątku najmniejszy margines względem wymagania występuje w fazie { $phase }, ograniczony przez { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } faza.
+        [few] { $n } fazy.
+        [many] { $n } faz.
+       *[other] { $n } fazy.
+    }

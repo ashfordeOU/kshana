@@ -12597,3 +12597,19 @@ js-trust-yes = ano
 js-mthread-limiting-phase = Engine označuje limitující zdroj této fáze jako { $source }: zdroj fáze, nikoli jeden řádek této tabulky.
 
 js-mthread-limiting-row = limitující zdroj podle enginu
+
+js-cat-mission-thread-short-question = Ve které fázi je rezerva navigace a časování nejtenčí podél jednoho řetězce od startu po vstup, přes setkání na nízké dráze a jeden den translunárního letu? (modelováno)
+
+js-cat-mission-thread-short-title = Krátké vlákno mise, od startu po vstup
+
+js-meankind-mthread-big = Podél vlákna je nejtenčí rezerva vůči požadavku ve fázi { $phase }.
+
+js-meankind-mthread-big-source = Podél vlákna je nejtenčí rezerva vůči požadavku ve fázi { $phase }, omezená zdrojem { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fáze.
+        [few] { $n } fáze.
+        [many] { $n } fáze.
+       *[other] { $n } fází.
+    }

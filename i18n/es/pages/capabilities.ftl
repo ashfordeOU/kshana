@@ -3701,3 +3701,7 @@ seg-69c56cbdda90 = { "92" } de { "92" } tipos de escenario, { "3300" } de { "330
 seg-237402dbe93a = Elija uno de { "194" } archivos de escenario repartidos en { "92" } tipos de escenario, o escriba el suyo. <c1/> enumera cada tipo de escenario con sus campos, y <c2/> imprime un archivo para empezar.
 
 seg-ace118a5dc36 = Los { "194" } archivos de escenario repartidos en { "92" } tipos de escenario, agrupados por ámbito; { "181" } están incluidos en el motor, y <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se ejecutan desde el repositorio con la línea de comandos. El punto muestra el estado en el registro del módulo del tipo de escenario cuando el registro lo nombra. Un archivo con una ejecución registrada la abre en Kshana Studio; los demás abren su entrada en la referencia de escenarios, con el archivo y el comando que lo ejecuta.
+
+seg-f4ad26be58c2 = Un hilo de misión corto que se ejecuta a partir de un único binario: lanzamiento y ascenso, un encuentro en órbita terrestre baja, un día de
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

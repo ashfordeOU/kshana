@@ -777,3 +777,7 @@ seg-ce858063d300 = druh mission-thread
 seg-0bd19840e50d = Misijní vlákno třídy Artemis: rozpočet chyb navigace a času jednoho řetězce fází, od startu po vstup do atmosféry, sestavený z veřejných materiálů koncepce operací.
 
 seg-1b2e1e1b5c38 = Každý přibalený soubor scénáře ({ "193" }), seskupený podle druhu. Popis je vlastní hlavičkový komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul daného druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.
+
+seg-a7bfd0a7e587 = Krátké vlákno mise, které běží jen z binárního souboru: start a výstup, jedno setkání na nízké oběžné dráze Země, jeden den translunárního letu a návrat a vstup do atmosféry, s polohou Měsíce z analytické řady (bez souboru jádra). Je to přibalený protějšek vlákna mission-thread-artemis-class, které čte jádro Měsíce vyříznuté z checkoutu.
+
+seg-d60c5f13a769 = <a1>Otevřít v Kshana Studio</a1> · <s1>Zatím není na GitHubu</s1>

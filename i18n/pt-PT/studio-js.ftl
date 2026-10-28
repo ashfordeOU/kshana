@@ -9514,3 +9514,18 @@ js-mthread-limiting-phase = O motor nomeia a fonte limitante desta fase como { $
 
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
 js-mthread-limiting-row = a fonte limitante do motor
+
+js-cat-mission-thread-short-question = Ao longo de uma mesma pilha, do lançamento à entrada, passando por um encontro em órbita baixa e um dia de cruzeiro translunar, qual fase tem a margem de navegação e temporização mais estreita? (modelado)
+
+js-cat-mission-thread-short-title = Cadeia da missão curta, do lançamento à entrada
+
+js-meankind-mthread-big = Ao longo da cadeia, a margem mais estreita face ao seu requisito está na fase { $phase }.
+
+js-meankind-mthread-big-source = Ao longo da cadeia, a margem mais estreita face ao seu requisito está na fase { $phase }, limitada por { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fase.
+        [many] { $n } fases.
+       *[other] { $n } fases.
+    }
