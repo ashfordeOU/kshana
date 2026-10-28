@@ -19,3 +19,8 @@ assert.deepEqual(capsCounts('NEEDS  INPUT'), {}, 'only the exact label');
 assert.deepEqual(capsCounts('GREEN_CHECK and AGREEN and status_GREEN'), {}, 'GREEN inside an identifier or word is not the label');
 assert.deepEqual(capsCounts('CI is GREEN'), { GREEN: 1 });
 console.log('caps test (NEEDS INPUT, GREEN) passed');
+assert.ok(TIER_TOKENS.includes('NOT ASSESSABLE'), 'NOT ASSESSABLE is counted');
+assert.deepEqual(capsCounts('verdict NOT ASSESSABLE, then NOT ASSESSABLE'), { 'NOT ASSESSABLE': 2 }, 'a pre-registered verdict, one token per occurrence');
+assert.deepEqual(capsCounts('not assessable here'), {}, 'a lowercase phrase is words');
+assert.deepEqual(capsCounts('NOT MET and NOT ASSESSABLE'), { 'NOT MET': 1, 'NOT ASSESSABLE': 1 });
+console.log('caps test (NOT ASSESSABLE) passed');
