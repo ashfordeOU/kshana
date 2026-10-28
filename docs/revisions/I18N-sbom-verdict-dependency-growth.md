@@ -51,3 +51,32 @@ The procedure above was re-run against the final `Cargo.lock` (0.40.0, all 0.40 
 every other value is unchanged; only `sbom_sha256` moved, to `7b90839a5ab454a67f0b60b23d4e1bee481137173c828ecdab107c7faeb18076`,
 because the SBOM names the `kshana` component's own version. The fixture was re-generated and the test passes (1 of 1); the
 record is in `STUDIO15-pins-0.40.0-version.md`.
+
+## 2026-10-28: re-generated again for RUSTSEC-2026-0387 (crypto-bigint 0.5.5)
+
+Reason: the advisory (timing variability in `crypto-bigint` 0.5.5, reached through `elliptic-curve` 0.13.8 by `p256`, `p384` and
+`p521` 0.13) failed `cargo deny` in CI. The fix upgrades the RustCrypto stack, so the dependency list changed, not the version:
+`p256`, `p384`, `p521` 0.13 to 0.14, `elliptic-curve` 0.14.3, `ecdsa` 0.17.0, `crypto-bigint` 0.5.5 to 0.7.10 (also the direct
+dependency used by the RSA public-key operation of `src/evidence/tsa.rs`), in both `Cargo.lock` and `mcp/kshana-mcp/Cargo.lock`.
+Kshana only verifies public signatures with these crates, so the exposure was nil; the upgrade is the safer rule than an ignore
+entry (none was added).
+
+The lock moves by 29 crates added and 12 removed (net +17): added `base16ct` 1.0.0, `block-buffer` 0.12.1, `cmov`, `const-oid` 0.10.2,
+`cpubits`, `cpufeatures` 0.3.1, `crypto-bigint` 0.7.10, `crypto-common` 0.2.2, `ctutils`, `der` 0.8.3, `digest` 0.11.3, `ecdsa` 0.17.0,
+`elliptic-curve` 0.14.3, `ff` 0.14.0, `fiat-crypto` 0.3.0, `group` 0.14.0, `hmac` 0.13.0, `hybrid-array`, `p256`, `p384`, `p521`
+(0.14.0), `primefield`, `primeorder` 0.14.0, `rand_core` 0.10.1, `rfc6979` 0.6.0, `sec1` 0.8.1, `sha2` 0.11.1, `signature` 3.0.0,
+`wnaf`; removed the 0.13-era `base16ct` 0.2.0, `crypto-bigint` 0.5.5, `ecdsa` 0.16.9, `elliptic-curve` 0.13.8, `ff` 0.13.1,
+`group` 0.13.0, `p256` 0.13.2, `p384` 0.13.1, `p521` 0.13.3, `primeorder` 0.13.6, `rfc6979` 0.4.0, `sec1` 0.7.3.
+
+What moved in the pinned verdict (the only pin that moved; the version-bearing pins and every other pin are untouched):
+
+| key | before (integ/0.40.0-rc2) | after |
+|---|---|---|
+| `component_count` | 127 | 144 |
+| `raw_schema_errors` | 113 | 130 |
+| `compound_count` | 113 | 130 |
+| `sbom_sha256` | `7b90839a5ab454a67f0b60b23d4e1bee481137173c828ecdab107c7faeb18076` | `bd7ba406234570446bf28d47b54e4ce79350251cacfb5a1284111b6e4414f2e8` |
+
+Unchanged: `spec_version` 1.5, `spdx_enum_size` 613, `normalized_schema_errors` 0, `atomic_ids_all_valid_spdx` 1, the atomic and
+compound identifier lists (every new crate carries an expression already in the list). Procedure and command lines: the section
+above. The OSNMA and timestamp vector tests pass unchanged with the new curves.
