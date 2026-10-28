@@ -26,8 +26,8 @@
 //! Not checked: revocation (no CRL or OCSP), name constraints, policy constraints, the
 //! token's nonce or policy. Verification uses public data only.
 
-use crypto_bigint::modular::runtime_mod::{DynResidue, DynResidueParams};
-use crypto_bigint::{Encoding, U4096};
+use crypto_bigint::modular::{FixedMontyForm, FixedMontyParams};
+use crypto_bigint::{Odd, U4096};
 use sha1::Sha1;
 use sha2::{Digest, Sha256, Sha384, Sha512};
 
@@ -522,9 +522,12 @@ fn rsa_public(n: &[u8], e: &[u8], s: &[u8]) -> Result<Vec<u8>, String> {
     if ss >= nn {
         return Err(crate::terr!("e-evidence-tsa-rsa-signature-out-of-range"));
     }
-    let params = DynResidueParams::new(&nn);
-    let m = DynResidue::new(&ss, params).pow(&ee).retrieve();
-    Ok(m.to_be_bytes()[512 - k..].to_vec())
+    // The modulus was checked odd above, so `Odd::new` always yields a value.
+    let odd = Option::<Odd<U4096>>::from(Odd::new(nn))
+        .ok_or_else(|| crate::terr!("e-evidence-tsa-rsa-modulus-not-odd"))?;
+    let params = FixedMontyParams::new(odd);
+    let m = FixedMontyForm::new(&ss, &params).pow(&ee).retrieve();
+    Ok(m.to_be_bytes().as_slice()[512 - k..].to_vec())
 }
 
 fn verify_pkcs1(n: &[u8], e: &[u8], hash: Hash, msg: &[u8], sig: &[u8]) -> Result<(), String> {
