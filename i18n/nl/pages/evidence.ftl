@@ -4397,3 +4397,65 @@ seg-150ae9c3d755 = Bron van interferentie: een haalbaar zendergebied uit positie
 seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B- (NIC/NACp) of AIS-positiemeldingen: radiolijnzicht op een 4/3-aardstraal vanaf de meldingshoogte en een bereik van antennehoogtes van de zender, een beperkt effectief bereik voor het onbekende vermogen, getroffen eenheden die de posterior naar hun bereik trekken en niet getroffen eenheden met lijnzicht die ertegen duwen, gegroepeerd in sessies in tijd en ruimte. De uitvoer bestaat uit gebieden met de hoogste dichtheid op vermelde betrouwbaarheidsniveaus, een posterior-zwaartepunt met een momentenellips, begin, einde, duur van de sessie, getroffen oppervlak en aantal onderscheiden vliegtuigen boven het publicatieminimum, een profiel per tijdstip van de dag en uren per dag. Terreinvrij; één bron per sessie; de geloofwaardigheid hangt van het model af. Optionele fusie met een TDOA-positiebepaling uit geolocatie.
 
 seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NIET TE BEOORDELEN ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NIET TE BEOORDELEN (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
+
+seg-aa7c0a865661 = { "401" } mogelijkheden, elk beoordeeld. <b>{ "176" } gevalideerd</b> tegen onafhankelijke externe referenties. <b>{ "221" } eerlijk gelabeld als gemodelleerd.</b> { "4" } in handen van een partner. Er wordt niets naar boven afgerond.
+
+seg-7a254b7d5498 = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } gevalideerd (gevulde vierkanten), { "221" } gemodelleerd (holle vierkanten), { "4" } in handen van een partner (ruiten). Met de pijltjestoetsen gaat u tussen cellen; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
+
+seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "401" } rijen · geen scenario of seed: het eigen register van de engine
+
+seg-015ecb5cddc3 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-e26b6fdc705b = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-66defa1494fc = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-4c54e96a1832 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-3d202a56e836 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-77bfad0f4f88 = { "176" }<s1>van { "401" } gevalideerd</s1>
+
+seg-222c46a96ec3 = Verificatiematrix: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner, { "401" } in totaal
+
+seg-cf2aa475bc68 = De soort missieketen: een document met fasen, elk een van acht geregistreerde soorten, uitgevoerd… · Gemodelleerd
+
+seg-bdc3223c80e4 = De fase launch-ascent: een covariantie van positie en snelheid bij constante snelheid met witte… · Gemodelleerd
+
+seg-a60883a4b32c = De fase leo-rendezvous: de relatieve toestand in de LVLH-assen van het doel met de… · Gemodelleerd
+
+seg-a3201e17ddc4 = De fase tli-and-cruise: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als punt… · Gemodelleerd
+
+seg-a143fdf9c4cb = De fase entry: de terugvlucht van tli-and-cruise zonder brand, eindigend bij het terugkeer… · Gemodelleerd
+
+seg-6c84e2db7d1e = De overlay van het grondnetwerk: stations met een minimale elevatie, het zicht op de… · Gemodelleerd
+
+seg-256ed84fca2b = De soort en fase lunar-orbit-rendezvous: een gezamenlijke batch-Gauss-Newton voor twee voertuigen… · Gemodelleerd
+
+seg-6cae40e30a77 = De soort en fase lunar-descent: een traagheidsfoutenmodel met vijf toestanden per as (positie… · Gemodelleerd
+
+seg-2db0710d699f = De soort en fase lunar-surface: beschikbaarheid van relais en PDOP, zicht op aarde en zon… · Gemodelleerd
+
+seg-40e993dc4c56 = De soort en fase lunar-ascent: het traagheidsfoutenmodel met vijf toestanden per as, uitgevoerd over een… · Gemodelleerd
+
+seg-904a8004957d = De propagator die de maansoorten delen (GRAIL GL0660B graad en orde { "150" }, aarde en zon… · Gemodelleerd
+
+seg-860ca782e2bf = De voortplanting van de gemiddelde toestand van de fase tli-and-cruise (Cowell, aarde als puntmassa en J2… · Gemodelleerd
+
+seg-7c7d72cc2036 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B… · Gemodelleerd
+
+seg-65feaf4e91ef = Alle { "401" } rijen, elk op één regel.
+
+seg-5668b5581703 = van { "102" } gevalideerd
+
+seg-43f852e4bee8 = van { "74" } gevalideerd
+
+seg-fbb78f11c0dc = van { "78" } gevalideerd
+
+seg-8fe12f6058c6 = van { "26" } gevalideerd
+
+seg-b393e1b5fcfc = Alle { "401" }
+
+seg-3df9e327c036 = Gemodelleerd { "221" }
+
+seg-7fa6f2e0de57 = Validatieregister, { "401" } rijen, scrollbaar

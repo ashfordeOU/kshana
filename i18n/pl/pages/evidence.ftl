@@ -4335,3 +4335,65 @@ seg-150ae9c3d755 = Obszar źródła zakłóceń: dopuszczalny obszar emitera na 
 seg-b5c49044a7a1 = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie raportów pozycji ADS-B (NIC/NACp) lub AIS: łączność radiowa w linii wzroku na promieniu 4/3 Ziemi z wysokości raportu i zakresu wysokości anteny emitera, ograniczony efektywny zasięg dla nieznanej mocy, dotknięte jednostki przyciągające rozkład a posteriori ku swojemu zasięgowi oraz niedotknięte jednostki z linią wzroku odpychające go, pogrupowane w sesje w czasie i przestrzeni. Wynik to obszary o najwyższej gęstości na podanych poziomach ufności, centroid a posteriori z elipsą momentów, początek, koniec i czas trwania sesji, obszar dotknięty oraz liczba odrębnych statków powietrznych powyżej minimum publikacji, profil pory dnia i godziny na dobę. Bez terenu; jedno źródło na sesję; wiarygodność jest zależna od modelu. Opcjonalne połączenie z pozycją TDOA z geolokalizacji.
 
 seg-953a8b4f9f41 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NIEMOŻLIWE DO OCENY ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NIEMOŻLIWE DO OCENY (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
+
+seg-aa7c0a865661 = { "401" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "221" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
+
+seg-7a254b7d5498 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "221" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
+
+seg-a2f63c51d2c7 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "401" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
+
+seg-015ecb5cddc3 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-e26b6fdc705b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-66defa1494fc = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-4c54e96a1832 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-3d202a56e836 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-77bfad0f4f88 = { "176" }<s1>z { "401" } sprawdzonych</s1>
+
+seg-222c46a96ec3 = Macierz weryfikacji: { "176" } sprawdzonych, { "221" } modelowanych, { "4" } należących do partnera, { "401" } łącznie
+
+seg-cf2aa475bc68 = Rodzaj mission-thread: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych… · Modelowane
+
+seg-bdc3223c80e4 = Faza launch-ascent: kowariancja pozycji i prędkości o stałej prędkości z białym… · Modelowane
+
+seg-a60883a4b32c = Faza leo-rendezvous: stan względny w osiach LVLH celu z… · Modelowane
+
+seg-a3201e17ddc4 = Faza tli-and-cruise: stan średni z propagatora Cowella silnika (masa punktowa Ziemi… · Modelowane
+
+seg-a143fdf9c4cb = Faza entry: lot powrotny tli-and-cruise bez impulsu, kończący się na granicy… · Modelowane
+
+seg-6c84e2db7d1e = Nakładka sieci naziemnej: stacje z minimalną elewacją, widoczność… · Modelowane
+
+seg-256ed84fca2b = Rodzaj i faza lunar-orbit-rendezvous: wspólne wsadowe oszacowanie Gaussa-Newtona dwóch pojazdów… · Modelowane
+
+seg-6cae40e30a77 = Rodzaj i faza lunar-descent: pięciostanowy model błędu inercjalnego na oś (pozycja… · Modelowane
+
+seg-2db0710d699f = Rodzaj i faza lunar-surface: dostępność przekaźników i PDOP, widoczność Ziemi i Słońca… · Modelowane
+
+seg-40e993dc4c56 = Rodzaj i faza lunar-ascent: pięciostanowy model błędu inercjalnego na oś uruchomiony dla… · Modelowane
+
+seg-904a8004957d = Propagator wspólny dla rodzajów księżycowych (GRAIL GL0660B stopnia i rzędu { "150" }, Ziemia i Słońce… · Modelowane
+
+seg-860ca782e2bf = Propagacja stanu średniego fazy tli-and-cruise (Cowell, masa punktowa Ziemi i J2… · Modelowane
+
+seg-7c7d72cc2036 = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie ADS-B… · Modelowane
+
+seg-65feaf4e91ef = Wszystkie { "401" } wierszy, po jednej linii.
+
+seg-5668b5581703 = z { "102" } sprawdzonych
+
+seg-43f852e4bee8 = z { "74" } sprawdzonych
+
+seg-fbb78f11c0dc = z { "78" } sprawdzonych
+
+seg-8fe12f6058c6 = z { "26" } sprawdzonych
+
+seg-b393e1b5fcfc = Wszystkie { "401" }
+
+seg-3df9e327c036 = Modelowane { "221" }
+
+seg-7fa6f2e0de57 = Rejestr walidacji, { "401" } wierszy, z przewijaniem

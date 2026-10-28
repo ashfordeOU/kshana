@@ -747,3 +747,33 @@ seg-2deefd8c547b = MODELLED relatieve navigatie voor een koppeling in de stijl v
 seg-6c7d25f672fb = MODELLED beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen voor locaties bij de zuidpool in Artemis-klasse. Voor elke locatie en elk seizoen (een epoche en een venster daarna) rapporteert het positiebepaling met relais (vier of meer relais van een ILLUSTRATIVE constellatie van LCNS-klasse in zicht en PDOP onder een drempel, uit dezelfde functies als moonlight-service-volume en, met een terreinsectie, de met ray-marching bepaalde horizon van het terrein van lunar-station-coverage), of de aarde en de zon boven de horizon van de locatie staan (analytische zon, maan en maanoriëntatie, libratie inbegrepen, wat met het seizoen verandert), en de beschikbaarheid van tijdsynchronisatie (een relais of de aarde in zicht) met de langste periode van geen van beide, de holdover die een oppervlakteklok moet overbruggen. Een resultaat voor één locatie is bitgelijk aan dat van moonlight-service-volume. MODELLED: illustratieve Kepler-relaisset op een maan met gemiddelde rotatie; het cijfer voor de relais verandert niet met het seizoen; het terrein is de LOLA-uitsnede van { "1200" } m. Niet door een ruimtevaartorganisatie onderschreven; adviserende software, geen gecertificeerde navigatieapparatuur.
 
 seg-1ec485468daa = MODELLED foutenbudget voor navigatie en tijdsynchronisatie van een vermelde keten van missiefasen, van lancering tot terugkeer: lancering en opstijging, rendez-vous en koppeling in een lage baan om de aarde (herhaalbaar), trans-lunaire injectie en cislunaire vlucht, rendez-vous in een maanbaan, afdaling, verblijf op het oppervlak, opstijging en de terugvlucht en terugkeer, elke fase een van acht geregistreerde soorten met eigen sensoren en filter. De 6x6-covariantie, de klok en het referentiestelsel worden van fase tot fase doorgegeven volgens een vermelde regel (carry, inflate of reacquire); omzettingen van referentiestelsel en tijdschaal (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) zijn eigen budgetrijen, met de toestand van de maan uit een optionele DE440-kernelsnede en de analytische reeks als vermelde terugval. Een optionele overlay van het grondnetwerk bepaalt de trackingbezetting van elke fase. Rapporteert het budget per fase (1-sigma's bij binnenkomst, piek en uitgang, elke bijdrage met zijn eenheid), de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. MODELLED: elk getal is een vermelde invoer; de keten volgt één stack en er wordt geen voertuig gemodelleerd. Alleen openbare bronnen; niet verbonden aan of onderschreven door enig agentschap; adviserende software, geen gecertificeerde navigatieapparatuur.
+
+seg-5b4a725bea4e = Elk meegeleverd scenariobestand ({ "192" }), gegroepeerd per soort. De beschrijving is het eigen kopcommentaar van het bestand; de belangrijkste parameters zijn zijn instellingen op het hoogste niveau. Status leest de verificatiematrix voor de module van de soort. <b>Openen in Kshana Studio</b> opent de vastgelegde run.
+
+seg-d2b1e58dea11 = Een klokscenario waarvan de klassieke klok de ruis van een gemeten log overneemt (<c1/>).
+
+seg-760090cd3247 = Een klokscenario met een gemeten log naast de gesimuleerde holdover (<c1/>).
+
+seg-d7ed02b28987 = soort lunar-ascent
+
+seg-e92ba974379b = Maanopstijging: de aangedreven opstijging vanaf een locatie op het oppervlak bij de zuidpool (Artemis-klasse) naar de rendez-vousbaan van { "100" } km, en de covariantie van positie en snelheid die ze terug naar de baan meeneemt.
+
+seg-d9f4bc0e8795 = soort lunar-descent
+
+seg-224175962a12 = Spreiding van de maanlanding: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), uit de traagheidsdrift van de afdalingsstack en wat terreinrelatieve navigatie, LunaNet-signalen en maantijd er elk van afhalen.
+
+seg-138dbcd1aece = Spreiding van de maanlanding met de echte LOLA-DEM van de zuidpool: het budget voor een aangedreven afdaling naar een locatie bij de zuidpool (Artemis-klasse), uit de traagheidsdrift van de afdalingsstack en wat terreinrelatieve navigatie, LunaNet-signalen en maantijd er elk van afhalen.
+
+seg-7d99c01a7740 = soort lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Rendez-vous bij de maan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een cirkelvormige lage poolbaan om de maan van { "100" } km (Artemis-klasse), met een zwaartekrachtveld van de maan en signalen in de stijl van LunaNet.
+
+seg-9f740b874e14 = Rendez-vous bij de maan in een elliptische poolbaan: relatieve navigatie voor een koppeling in de stijl van Orion en lander in een poolbaan van { "100" } km bij { "3000" } km met het periapsis boven de zuidpool (Artemis-klasse), met een zwaartekrachtveld van de maan en signalen in de stijl van LunaNet.
+
+seg-d1fc00782fe9 = soort lunar-surface
+
+seg-ce9f26be0623 = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen met de echte terreinhorizon van LOLA bij de zuidpool (locaties bij de zuidpool in Artemis-klasse).
+
+seg-ce858063d300 = soort mission-thread
+
+seg-0bd19840e50d = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van één keten van fasen, van lancering tot terugkeer, opgebouwd uit openbaar materiaal over het operatieconcept.

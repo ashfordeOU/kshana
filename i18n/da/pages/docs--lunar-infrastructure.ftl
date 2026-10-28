@@ -55,3 +55,5 @@ seg-6334f82991d3 = Ikke nået, og fastholdt af tests, der hævder, at tærsklen 
 seg-1d3bffc2fd02 = <s1>Forrige</s1>Navigation for brugere i rummet (gnss-ssv)
 
 seg-90932eed0074 = <s1>Næste</s1>Positionering, navigation og tidssynkronisering i LEO
+
+seg-c3b27dfb7bca = <s1>Næste</s1>Missionstråd: fra opsendelse til indflyvning

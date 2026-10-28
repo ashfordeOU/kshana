@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>Poprzednia</s1>Interferometr na zimnych atomach
 seg-4a457afc63fb = <s1>Następna</s1>npm i WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = szacowane obszary emitera z tekstu CSV ADS-B lub AIS: <c1/>, każdy oznaczony MODELLED; obszary na podanej ufności z centroidem i elipsą niepewności, nigdy goły punkt; tylko zbiorczo, a obszar nie jest pozycją niczyją ani ustaleniem przyczyny

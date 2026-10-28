@@ -81,3 +81,11 @@ seg-d059e9fc67e1 = Vrij en opensource onder de <b>GNU AGPL-3.0-only</b> (de GNU 
 seg-4ae905aec2ab = <s1>Vorige</s1>Python-API
 
 seg-8af548581ae9 = <s1>Volgende</s1>Rust-crate
+
+seg-c9a297cc51e9 = { "176" } van { "401" } mogelijkheden gevalideerd tegen onafhankelijke externe referenties
+
+seg-7b53ee712a36 = <b>{ "176" } van { "401" }</b> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "221" } eerlijk gelabeld als gemodelleerd, { "4" } in handen van een partner. Elke mogelijkheid draagt één label in een machinaal gecontroleerd register: VALIDATED (een onafhankelijke externe referentie komt overeen: echte data, een onafhankelijke implementatie of gepubliceerde referentievectoren), MODELLED (intern consistent, en hardop gezegd) of PARTNER (een hardwarepartner is eigenaar). Onder de controles: alle { "666" } SGP4-vectoren (Simplified General Perturbations { "4" }) van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tot { "4.12" } mm, en het Cowell-krachtenmodel tot { "0.08" } m tegen Orekit { "12.2" }.
+
+seg-b59781ecf257 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "401" } mogelijkheden: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner
+
+seg-d0b2811a3d3c = De engine heeft { "92" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).

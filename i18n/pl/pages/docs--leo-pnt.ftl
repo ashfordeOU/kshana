@@ -407,3 +407,5 @@ seg-a08e67a32d60 = Łańcuch jest MODELLED: nie dodaje żadnej fizyki, a każdy 
 seg-ee3c5b58e6fa = <s1>Poprzednia</s1>Orbita i powierzchnia Księżyca jako infrastruktura
 
 seg-6b951d6413c8 = <s1>Następna</s1>Projekty sygnałów LEO
+
+seg-9bfe27f7ebc5 = <s1>Poprzednia</s1>Wątek misji: segment księżycowy

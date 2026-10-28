@@ -61,3 +61,5 @@ seg-ab895b157152 = <b>Register:</b> ingen matrisrad nämner den här typen; moto
 seg-c0ef7d676ec1 = <s1>Föregående</s1>GNSS-mätningar positionsbestämning och integritet
 
 seg-54b45b00a2f0 = <s1>Nästa</s1>Tröghets- fusions- och kvantsensorer
+
+seg-643fa0f18717 = <b>Register:</b> MODELLED. Hela sidan, med indata, resultat, evidens och begränsningar: <a1>terrain-nav</a1>.

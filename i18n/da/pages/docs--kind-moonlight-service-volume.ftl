@@ -37,3 +37,7 @@ seg-f3279128de3b = <s1>Forrige</s1>mars-pnt
 seg-92cd937a3fb7 = <s1>Næste</s1>ntn-positioning
 
 seg-e66e2ca31e54 = Emneside: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Typen og fasen <c1/>: relætilgængelighed og PDOP, sigtbarhed af Jorden og Solen og et disciplineret overfladeur for hvert sted og hver årstid, med terrænhorisonten fra <c2/>; en kørsel for ét sted er lig med den types
+
+seg-6730fa1b9820 = <s1>Forrige</s1>mission-thread

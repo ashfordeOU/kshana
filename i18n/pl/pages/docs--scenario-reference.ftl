@@ -747,3 +747,33 @@ seg-2deefd8c547b = MODELLED: nawigacja względna do połączenia w stylu Orion�
 seg-6c7d25f672fb = MODELLED: dostępność pozycjonowania i czasu na powierzchni według miejsca i pory roku dla miejsc przy biegunie południowym klasy Artemis. Dla każdego miejsca i pory roku (epoka i okno po niej) podaje pozycjonowanie przekaźnikami (cztery lub więcej przekaźników konstelacji klasy LCNS ILLUSTRATIVE w zasięgu i PDOP poniżej progu, z tych samych funkcji co moonlight-service-volume oraz, z sekcją terenu, horyzont terenu lunar-station-coverage śledzony promieniem), czy Ziemia i Słońce są nad horyzontem miejsca (analityczne Słońce, Księżyc i orientacja księżycowa, z libracją, co zmienia się z porą roku) oraz dostępność czasu (przekaźnik lub Ziemia w zasięgu) z najdłuższym odcinkiem, na którym nie ma żadnego z nich, czyli holdover, który zegar powierzchniowy musi przetrwać. Wynik dla jednego miejsca równa się wynikowi moonlight-service-volume co do bitu. MODELLED: ilustracyjny keplerowski zestaw przekaźników na Księżycu o średniej rotacji; wartość dla przekaźników nie zmienia się z porą roku; teren to wycinek LOLA { "1200" } m. Bez poparcia agencji; oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.
 
 seg-1ec485468daa = MODELLED: budżet błędu nawigacji i czasu podanego łańcucha faz misji, od startu do wejścia w atmosferę: start i wznoszenie, spotkanie i połączenie na niskiej orbicie okołoziemskiej (powtarzalne), wtrysk translunarny i lot cislunarny, spotkanie na orbicie księżycowej, lądowanie, pobyt na powierzchni, wznoszenie oraz powrót i wejście w atmosferę, każda faza jednym z ośmiu zarejestrowanych rodzajów z własnymi czujnikami i filtrem. Kowariancja 6x6, zegar i układ odniesienia są przekazywane z fazy do fazy według podanej zasady (carry, inflate lub reacquire); konwersje układów odniesienia i skal czasu (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) są osobnymi wierszami budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem. Opcjonalna nakładka sieci naziemnej ustala cykl śledzenia każdej fazy. Podaje budżet każdej fazy (1-sigmy na wejściu, w szczycie i na wyjściu, każdy wkład z jednostką), margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. MODELLED: każda liczba jest podanym wejściem; łańcuch podąża za jednym stosem i żaden pojazd nie jest modelowany. Tylko źródła publiczne; bez powiązań z żadną agencją i bez jej poparcia; oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.
+
+seg-5b4a725bea4e = Każdy dołączony plik scenariusza ({ "192" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
+
+seg-d2b1e58dea11 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (<c1/>).
+
+seg-760090cd3247 = Scenariusz zegara ze zmierzonym dziennikiem obok symulowanego holdover (<c1/>).
+
+seg-d7ed02b28987 = rodzaj lunar-ascent
+
+seg-e92ba974379b = Wznoszenie z Księżyca: wznoszenie z napędem z miejsca na powierzchni przy biegunie południowym (klasa Artemis) na orbitę spotkania o wysokości { "100" } km oraz kowariancja pozycji i prędkości, którą przenosi z powrotem na orbitę.
+
+seg-d9f4bc0e8795 = rodzaj lunar-descent
+
+seg-224175962a12 = Rozrzut lądowania na Księżycu: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z dryfu inercjalnego zestawu lądowania i tego, co z niego zabierają nawigacja względem terenu, sygnały LunaNet i czas księżycowy.
+
+seg-138dbcd1aece = Rozrzut lądowania na Księżycu z rzeczywistym DEM LOLA okolic bieguna południowego: budżet lądowania z napędem w miejscu przy biegunie południowym (klasa Artemis), z dryfu inercjalnego zestawu lądowania i tego, co z niego zabierają nawigacja względem terenu, sygnały LunaNet i czas księżycowy.
+
+seg-7d99c01a7740 = rodzaj lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Spotkanie na orbicie księżycowej: nawigacja względna do połączenia w stylu Orion–lądownik na kołowej polarnej niskiej orbicie księżycowej o wysokości { "100" } km (klasa Artemis), z księżycowym polem grawitacyjnym i sygnałami w stylu LunaNet.
+
+seg-9f740b874e14 = Spotkanie na eliptycznej orbicie polarnej Księżyca: nawigacja względna do połączenia w stylu Orion–lądownik na orbicie polarnej { "100" } km na { "3000" } km z perycentrum nad biegunem południowym (klasa Artemis), z księżycowym polem grawitacyjnym i sygnałami w stylu LunaNet.
+
+seg-d1fc00782fe9 = rodzaj lunar-surface
+
+seg-ce9f26be0623 = Dostępność PNT i czasu na powierzchni Księżyca według miejsca i pory roku z rzeczywistym horyzontem terenu LOLA przy biegunie południowym (miejsca przy biegunie południowym, klasa Artemis).
+
+seg-ce858063d300 = rodzaj mission-thread
+
+seg-0bd19840e50d = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu jednego łańcucha faz, od startu do wejścia w atmosferę, zbudowany na podstawie publicznych materiałów koncepcji operacji.

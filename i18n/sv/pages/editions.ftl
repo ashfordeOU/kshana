@@ -811,3 +811,11 @@ seg-67341b9eea70 = <b>Något annat</b><s1>contact@ashforde.org · e-posten går 
 seg-9a86ef058d27 = Öppna i Kshana Studio
 
 seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
+
+seg-3bf5f474beca = Den öppna motorn i mitten: ett märke per scenariotyp ({ "92" }), fyllt där typen har validerade registerrader, ihåligt där dess rader är modellerade, ett streck där ingen registermodul matchar den på namn. Kshana Pro och den skräddarsydda studien sitter runt den och kopplas till de typer de bygger på.
+
+seg-f88b6cf10837 = Motor v{ $version } · { "92" } typer från <c1/> · registerstatus från <c2/> · vad Pro och en studie bygger på: webbplatsens utgåveregister · inget scenario eller frö
+
+seg-7a848f1d8304 = Alla { "92" } scenariotyper och { "180" } medföljande scenarier: nativt, Python, JavaScript, i webbläsaren och över MCP (Model Context Protocol)
+
+seg-cc655ce0b6c8 = Den fullständiga verifieringsmatrisen: { "176" } av { "401" } förmågor validerade mot oberoende referenser, resten märkta som modellerade
