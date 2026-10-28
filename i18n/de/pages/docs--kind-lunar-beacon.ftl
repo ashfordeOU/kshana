@@ -61,3 +61,5 @@ seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und ci
 
 # text
 seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>
+
+seg-b81e98467952 = <s1>Weiter</s1>lunar-descent

@@ -86,3 +86,5 @@ seg-2fd936b76f4a = <s1>Précédent</s1>contact-schedule
 
 # text
 seg-95a5aa0adeb3 = <s1>Suivant</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

@@ -141,3 +141,31 @@ seg-68274ce67506 = <b>GNSS IQ-laboratorium</b> (<c1/>): scener, erhvervelse, spo
 seg-6dc7d52fef11 = <s1>Forrige</s1>npm og WebAssembly
 
 seg-8ff56af64ec2 = <s1>Næste</s1>MCP-server
+
+seg-c9a297cc51e9 = { "176" } af { "401" } funktioner valideret mod uafhængige eksterne referencer
+
+seg-7b53ee712a36 = <b>{ "176" } af { "401" }</b> funktioner valideret mod uafhængige eksterne referencer; { "221" } ærligt betegnet modelleret, { "4" } ejet af partnere. Hver funktion bærer én etiket i et maskinkontrolleret register: VALIDATED (en uafhængig ekstern reference stemmer overens: virkelige data, en uafhængig implementering eller offentliggjorte referencevektorer), MODELLED (internt konsistent og sagt højt) eller PARTNER (en hardwarepartner ejer den). Blandt kontrollerne: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm og Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }.
+
+seg-b59781ecf257 = Hvordan en funktion opnår sin etiket: funktion, uafhængig reference, test, registeretiket. Verifikationsstatus på tværs af alle { "401" } funktioner: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere
+
+seg-d0b2811a3d3c = Motoren har { "92" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).
+
+seg-8e9fbc5f2e72 = Beskrivelsen af den indbyggede scenarietype kind på sproget lang, fra kataloget (engelsk, når sproget ikke har nogen oversættelse af den); None for et navn, der ikke er en indbygget type.
+
+seg-06e503c23c30 = [kind_description_in] på det aktuelle sprog ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] med hver beskrivelse på sproget lang (en kode, som --lang tager, såsom de eller zh-Hans); navnene og feltlisterne er de samme på alle sprog, og for engelsk er dokumentet byte-identisk med [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] for en bruger på sproget lang (en kode som de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = De to kørsler af [run_toml_lang] holdt adskilt: den engelske kørsel, hvis json og csv er maskinfilerne, og, for et andet sprog, kørslen på det sprog til alt, et menneske læser.
+
+seg-1fd1f547d2b3 = Den anden gennemgang af [run_toml_bilingual] alene: kør scenariet én gang på sproget lang og returnér kun det, et menneske læser.
+
+seg-ae75df85e545 = [run_scenario] for en bruger på sproget lang; se [run_toml_lang].
+
+seg-28e05e08ff76 = Kør src på sproget lang og, hvis det fejler, beskriv fejlen som et JSON-objekt { "{" }"kind": <kind_tag>, "code": <stable code or null>, "message": <text in the language>{ "}" }.
+
+seg-24fe823a994a = json uden evidensetiketten ([crate::evidence_label]); uændret, hvis den ikke bærer nogen.
+
+seg-c0444d838311 = out med evidensetiketten fjernet fra dens JSON, SVG og CSV, byte for byte som kørslen frembragte dem, før etiketten fandtes; et output uden etiket er uændret.

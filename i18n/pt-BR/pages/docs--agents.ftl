@@ -291,3 +291,7 @@ seg-ec064f62f7dc = <s1>Anterior</s1>Servidor MCP: modo HTTP auto-hospedado
 
 # text
 seg-1f44dbd65ce3 = <s1>Próximo</s1>Onde cada capacidade é acessível
+
+seg-e3949a1e6082 = Região do emissor (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: uma região viável sob linha de visada de rádio, não uma posição determinada. Informe a região no nível de confiança declarado, com o centroide e sua elipse, nunca o centroide isolado; diga <c1/> quando os dados não a restringem; diga que ela depende do modelo (verificada apenas com dados sintéticos; a comparação com o Jammertest, fixada antecipadamente, foi executada uma vez e foi NOT ASSESSABLE para as duas fontes, portanto nada foi testado externamente). Redação neutra: "região estimada do emissor"; nunca nomeie nem insinue quem ou o que está por trás de uma fonte, um Estado, uma força ou uma intenção. Apenas agregados; não tente recuperar identificadores. A publicação de regiões de emissores no observatório público está desativada.

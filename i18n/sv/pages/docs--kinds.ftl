@@ -95,3 +95,7 @@ seg-6339abe5314a = Familj
 seg-3040e2ec62b1 = <s1>Föregående</s1>Scenariotyper
 
 seg-1d6e6cc607f2 = <s1>Nästa</s1>Alla kommandon
+
+seg-c6bb02c73696 = Kontaktark med de diagram som motorn skriver för typerna i familjen Uppdragsflöden
+
+seg-9ad7876b693f = Varje scenariotyp som motorn v{ $version } fördelar över ({ "92" }), ordnad under { "13" } familjer. Varje familj har en sida med en post per typ (motorns beskrivning och fält, exempelkommandot, nyckeltal från en körning, de matrisrader som nämner den och diagrammet som motorn skriver) och ett kontaktark med de diagrammen. Rådgivande: analysresultat från ett forsknings- och ingenjörsverktyg, inte typgodkänd navigationsutrustning och inte en säkerhetskritisk tjänst. Varje etikett här är motorns eller verifieringsmatrisens; en typ är MODELLED om inte matrisen säger något annat (hur en etikett förtjänas: avsnittet Evidens i README).

@@ -77,3 +77,5 @@ seg-621a18c07044 = Das Diagramm, das die Engine für scenarios/sweep-nd-inertial
 # text
 # c1: sweep-nd
 seg-c7e5582d0b24 = <c1/> (Szenarioart)
+
+seg-a349aa76b0ed = PARTNER

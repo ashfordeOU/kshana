@@ -3532,3 +3532,232 @@ seg-20beca58d39e = <a1>Adicionar ao Cursor (npx)</a1> · <a2>Adicionar ao Cursor
 seg-aa6b62f0b484 = <a1>Instalar no VS Code (npx)</a1> · <a2>Instalar no VS Code (Docker)</a2> · <c1/>
 
 seg-8e176aa32cd3 = MCP é o Model Context Protocol. Fixe uma versão com <c1/>, <c2/> ou <c3/>. Para compilar a partir do código-fonte, consulte <a1>Instalar e compilar</a1> em Referência.
+
+# text
+seg-57686575b81d = Dados de parceiros
+
+# text
+seg-0c39fcb3527f = { "176" } de { "401" } capacidades VALIDATED face a uma referência independente externa, a partir da matriz de verificação
+
+# text
+seg-467bb88ec415 = <a1>Novidades da { "0.40" }</a1>, <a2>Novidades da { "0.39" }</a2>, <a3>Novidades da { "0.38" }</a3> e <a4>a { "0.38" } em detalhe</a4>: pontuação do jammertest, os próprios indicadores do recetor, entradas de máquina, temporização e holdover, pacotes de normas, LunaNet AFS, o ciclo de ida e volta no laboratório, kshana-bench, o observatório, exportadores, ótica, <a5>navegação de utilizadores no espaço</a5> e <a6>infraestrutura lunar</a6>
+
+# text
+seg-cafc1c9c4d58 = Novidades da { "0.40" }
+
+# text
+seg-59a31376fa3d = A { "0.40" } acrescenta um orçamento de erro em nível de missão, etiqueta cada figura e tabela com o seu nível de evidência, lê registos de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e está disponível em dezassete idiomas além do inglês. O registo agora tem { "401" } linhas: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+seg-ab5eec8db03e = <b>Cadeia da missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem face aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "92" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar face à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar face à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Cadeia da missão</a1>, <a2>segmento lunar</a2>).
+
+# text
+seg-5bd16655cace = <b>Etiquetas de evidência.</b> Cada figura e tabela que uma execução escreve traz o nível e os ids das linhas do registo em que assenta, lidos da matriz.
+
+# text
+# c1: docs/CLOCK-LOG-FORMATS.md
+seg-e79fca859317 = <b>Relógios medidos.</b> Oito formatos de registo de relógio são lidos (<a1><c1/></a1>) e uma série ajustada pode conduzir o holdover. Face a limiares fixados antecipadamente, o ajuste <b>não atinge</b> F1(a) em cinco de seis registos e F2 num; ambos permanecem MODELLED (<a2>Registo de alterações</a2>).
+
+# text
+seg-cda13679ad81 = Parceiros de dados.
+
+# text
+# c1: kshana partner check
+# c2: docs/PARTNER-DATA.md
+seg-88439b6ddd78 = <c1/> verifica o formato de um envio e não pontua nada (<a1><c2/></a1>).
+
+# text
+seg-c571cf207dd4 = Região do emissor.
+
+# text
+# c1: kshana interference-map locate
+seg-5cf9c8d0440e = <c1/> fornece uma região e uma elipse, nunca um ponto isolado, a partir de relatos ADS-B ou AIS. Comparado uma vez com os locais de emissores do Jammertest { "2025" }, o resultado é <b>NOT ASSESSABLE</b> para as duas fontes (poucas sessões programadas nos dados abertos), portanto a linha permanece MODELLED (<a1>Mapa de interferência</a1>).
+
+# text
+seg-5b1f193d1f85 = <b>Benchmark.</b> A nova campanha da { "0.40" } atinge A3, D3 (ambos EXPLORATORY), R3 e R4; A2, D1 e R1 permanecem NOT MET (<a1>Bench</a1>).
+
+# text
+# c1: docs/i18n.md
+seg-04cc50904993 = <b>Idiomas.</b> nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja e zh-Hans, como <b>traduções automáticas que nenhum falante nativo revisou</b>; o inglês é a referência, e as execuções noutros idiomas levam cerca do dobro do tempo (<a1><c1/></a1>).
+
+# attr:alt
+seg-47949eaeac72 = Resolução da ambiguidade inteira da fase da portadora entre estações da superfície lunar e um orbitador, a partir do resultado versionado da execução pontuada do motor v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } comprimentos de arco, um Monte Carlo de { "401" } sorteios cada, escrito por scenarios/carrier-phase-scored.toml). { "1" } dia: sucesso { "1.0" } % (erro-padrão { "0.5" } %), { "134" } ambiguidades, sigma de posição do orbitador { "45.6" } m flutuante e { "18.5" } m fixado; { "2" } dias: sucesso { "0.5" } % (erro-padrão { "0.4" } %), { "259" } ambiguidades, sigma de posição do orbitador { "21.5" } m flutuante e { "8.7" } m fixado; { "3" } dias: sucesso { "2.8" } % (erro-padrão { "0.8" } %), { "375" } ambiguidades, sigma de posição do orbitador { "6.3" } m flutuante e { "2.1" } m fixado. A resolução inteira não é alcançada: o sucesso permanece entre { "1" } % e { "3" } % a { "25" } dBi, e a { "12" } dBi registados o problema não pode ser formado. MODELLED: um modelo restrito de três corpos com simplificações declaradas e entradas ilustrativas, não uma medição de qualquer grandeza lunar. Consultivo: saída de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana.
+
+# attr:alt
+seg-91d06a3fa705 = Kshana Studio, visão simples, no cenário incluído integrity-raim, motor v{ $version } em execução local. A pergunta: a geometria respeita os limites de alerta (nível de proteção horizontal e vertical)? A resposta primeiro, marcada como Resultado ao vivo: Sim, na maior parte: em { "95.3" } % das { "12" } h. O limite de erro do recetor permaneceu abaixo dos limites de alerta ({ "40" } m horizontal e { "50" } m vertical) em { "344" } de { "361" } verificações, e nenhuma solução foi enganosa. Números principais: tempo em que a solução é fiável { "95.3" } %, maior lacuna { "10" } min, limite de erro típico { "6.5" } / { "13" } m, soluções enganosas { "0" }. Ao lado, Experimente outras configurações com cinco delas (o erro de distância, os dois limites de alerta, a duração e a máscara de elevação) e Executar de novo, depois as secções recolhidas Configurações avançadas ({ "13" } a mais), Como isto é calculado ({ "8" } validados, { "6" } modelados) e Para investigadores. Abaixo, as visualizações desse resultado e os níveis de proteção traçados face ao limite de alerta.
+
+# attr:alt
+seg-69022d84094d = Kshana Studio, visão simples, ecrã inicial, com o título O que gostaria de descobrir?, com o motor v{ $version } ativo e, na barra superior, três ligações: Relatório de treino, Mapa de interferência e Confiança no recetor. Quatro perguntas: quantos satélites posso ver em qualquer lugar da Terra, posso confiar na minha solução de posição, por quanto tempo um relógio mantém a hora sem satélites, e o que um jammer faz ao meu recetor. Abaixo da primeira, o seu resultado escrito: pelo menos { "22" } satélites à vista em todos os lugares e { "31" } em média com GPS, Galileo, BeiDou e GLONASS juntos, uma solução possível em { "100" } % dos lugares e momentos, num mapa-múndi de satélites à vista, com um botão Abrir este resultado. Ao lado, Tudo o que o Kshana pode fazer: { "16" } áreas e { "139" } cenários prontos para executar, cada bloco com um pequeno gráfico de uma execução escrita e a sua parcela de métodos validados, e as { "173" } de { "350" } capacidades do registo validadas.
+
+# attr:alt
+seg-5d3bb72c6490 = Kshana Studio, visão avançada, após uma execução do cenário incluído constellation-multi-gnss-coverage (Quatro constelações GNSS, um mapa), motor v{ $version } em execução local. À esquerda, a biblioteca de cenários, { "139" } cenários em { "16" } domínios. Os cinco passos Escolher, Ajustar, Executar, Ler resultados e Partilhar ou exportar, com o passo { "4" } atual. Números principais: { "102" } satélites, disponibilidade { "100" } % (PASS), diluição de precisão da posição (PDOP) mediana { "0.95" } (PASS), percentil 95 do PDOP { "1.105" } (PASS), { "31.03" } satélites à vista em média e { "22" } no mínimo. Abaixo, a fila de painéis com Cobertura selecionada, a barra de reprodução, um mapa-múndi do PDOP médio de { "0.831" } a { "1.0853" } com todos os satélites desenhados, e os números da cobertura global.
+
+# attr:alt
+seg-b8f6321e9e0d = Três páginas do kshana.dev lado a lado. O destaque do Início: a linha do nome Kshana · क्षण · o instante preciso acima do título Ensaie o minuto em que o GNSS se apaga, com o consola de missão de uma execução real do motor v{ $version } (um globo e três gráficos ao vivo: erro de tempo do relógio, densidade de portadora para ruído e nível de proteção). Evidências, Investigação publicada: os seis artigos do arXiv construídos sobre o motor aberto, o mais recente com uma figura do motor. Edições, Kshana Pro, o mesmo motor, ampliado: o Free executa um cenário, o Pro responde à pergunta do programa.
+
+# text
+# c1: kshana kinds
+# c2: docs/SCENARIOS.md
+seg-9d447be4caed = Um único motor cobre toda a cadeia de falhas, do primeiro satélite sob interferência ao último nanossegundo de holdover do relógio. O motor tem { "92" } tipos de cenário; <c1/> os lista e <a1><c2/></a1> documenta cada campo.
+
+# text
+seg-d3d6b030b588 = Região do emissor
+
+# text
+# c1: kshana interference-map locate
+seg-56eee3458645 = onde, sob hipóteses declaradas, pode estar uma fonte de relatos de posição degradados: regiões com confiança declarada, um centroide com a respetiva elipse, nunca um ponto (MODELLED; <c1/>)
+
+# text
+seg-ee28beafac1a = o orçamento de erro de navegação e temporização de uma cadeia de fases do lançamento à reentrada
+
+# text
+# c1: kshana <scenario.toml>
+# c2: kshana --help
+# c3: --study
+# c4: --validate
+# c5: kinds
+# c6: example
+# c7: receiver-trust
+# c8: live
+# c9: evidence
+# c10: evidence
+# c11: keygen
+# c12: verify
+# c13: attach-timestamp
+# c14: round-trip
+# c15: jammertest
+# c16: import
+# c17: score
+# c18: trust-telemetry
+# c19: imu-fit
+# c20: nmea-scenario
+# c21: interference-map
+# c22: adsb
+# c23: ais
+# c24: daily
+# c25: sensitivity
+# c26: fetch-land
+# c27: route-exposure
+# c28: bench
+# c29: spec
+# c30: truth
+# c31: cases
+# c32: score
+# c33: baseline
+# c34: seal
+# c35: reveal-check
+# c36: manifest
+# c37: verify-manifest
+# c38: validate
+# c39: leaderboard
+# c40: bench-export
+# c41: compliance-report
+# c42: lunanet-afs-check
+# c43: standards-pack
+# c44: partner
+# c45: check
+# c46: osnma
+# c47: iq
+# c48: scene
+# c49: acquire
+# c50: track
+# c51: sweep
+# c52: labfit
+# c53: campaign
+# c54: conditions
+# c55: frontend
+# c56: monitor
+# c57: inventory
+# c58: info
+# c59: extract
+# c60: convert
+# c61: decimate
+# c62: sky
+# c63: skyline
+# c64: docs/COMMANDS.md
+seg-34e44a492cad = <c1/> executa um cenário; todo outro comando é um subcomando, e <c2/> imprime o uso de todos eles. Os comandos são <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (com <c8/> e <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> e <c63/>. <a1><c64/></a1> dá a finalidade de cada um, um exemplo verificado e a sua página de documentação.
+
+# attr:alt
+seg-c472e0e5a3a5 = Como uma execução flui. Um ficheiro TOML de cenário (um tipo, uma semente e os seus parâmetros) entra no motor, kshana { $version }, pelo despacho api::run_toml sobre { "92" } tipos de cenário, determinístico a partir do cenário, da semente e da versão do motor. O motor escreve result.json, chart.svg, report.html e report.json, uma table.csv para os tipos de cenário que definem uma, e, a pedido, exportações SP3, CCSDS OMM e OEM, CZML, KML, GeoJSON, STK e SigMF; uma suíte escreve study.json e study.html. Esses ficheiros alimentam o Kshana Studio no navegador, um assistente de IA por meio do servidor kshana-mcp e a integração contínua.
+
+# text
+seg-9f5426cbbf4a = <b>{ "176" } de { "401" }</b> capacidades validadas face a referências independentes externas; { "221" } etiquetadas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e a etiqueta que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
+
+# attr:alt
+seg-54ac34405621 = Como uma capacidade obtém a sua etiqueta. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação na integração contínua e a etiqueta que resulta. Uma linha só pode ser VALIDATED com uma referência independente externa; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é o responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, DO em lote/sequencial, referência independente: vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, etiqueta VALIDATED. Contagens ao vivo: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER de { "401" } linhas. No total, { "176" } capacidades validadas face a referências independentes externas; outras { "221" } são etiquetadas com honestidade como MODELLED e { "4" } pertencem a PARTNER.
+
+# text
+# c1: src/
+# c2: docs/VERIFICATION-MATRIX.md
+# c3: src/verification.rs
+# c4: docs/MODELLED-RATIONALE.md
+seg-42fa293e1bb4 = Algumas das verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm; o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }; o Galileo até { "0.61" } m e o Swarm-A até { "0.10" } m face a efemérides precisas reais da Agência Espacial Europeia (ESA). Os testes mantêm cerca de { "95" } % de cobertura de linhas de <c1/>, com um mínimo de { "85" } % exigido na CI. O registo é <a1><c2/></a1>, gerado a partir de <c3/>: a <a2>matriz completa de 401 linhas</a2>, e por que cada linha modelada não tem referência independente externa em <a3><c4/></a3>.
+
+# text
+seg-e7f7d0e51698 = A etiqueta de evidência em cada figura
+
+# text
+# c1: evidence
+# c2: <metadata id="kshana-evidence">
+# c3: # evidence:
+# c4: comment='#'
+# c5: VALIDATED
+# c6: MODELLED
+# c7: PARTNER
+# c8: VM-
+# c9: docs/VERIFICATION-MATRIX.md
+# c10: docs/SCHEMA.md
+# c11: tests/evidence_labels_doc_sync.rs
+seg-58ce18b8e642 = Cada figura e tabela que uma execução escreve diz até que ponto confiar nela e em quais linhas do registo ela assenta. O JSON de resultado tem uma chave <c1/>, o SVG do gráfico tem uma linha sob o gráfico (e um elemento <c2/>), e a tabela CSV tem linhas de comentário <c3/> no início (lidas com <c4/>). Ele nomeia um nível, <c5/>, <c6/> ou <c7/>, e os ids (<c8/> e oito dígitos hexadecimais) das linhas da matriz de verificação que a execução exercitou. O nível é o mais fraco dessas linhas, de modo que uma execução que assenta numa linha modelada é etiquetada MODELLED por mais linhas validadas que haja ao lado; a etiqueta nunca pode afirmar mais do que o registo. Linhas, estados e ids são lidos da matriz, não escritos à mão (<a1><c9/></a1>, <a2><c10/></a2>), e <c11/> falha se uma figura não tem etiqueta ou se uma etiqueta discorda da matriz.
+
+# text
+# c1: src/verification.rs
+# c2: docs/VALIDATION.md
+# c3: kshana-validation-summary.html
+# c4: cargo run --bin validation_report
+seg-06fc56dd3edb = Cada linha é imposta por um teste nomeado na CI. Esta tabela é um <b>destaque selecionado</b>; a matriz completa, verificada por máquina, tem <b>{ "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), com as evidências completas (e o que honestamente <em>ainda não</em> é validado) em <a1><c2/></a1> e o artefacto <a2><c3/></a2> de cada versão (gerado por <c4/>, atestado pelo SLSA — Supply-chain Levels for Software Artifacts).
+
+# attr:alt
+seg-4c4dfa02be15 = Como uma capacidade obtém a sua etiqueta: um requisito corresponde a um módulo em src, a um teste em tests, a uma referência independente externa (conjunto de dados real, implementação de referência independente ou vetores publicados), a um estado — com uma proteção imposta pela CI de que nenhuma capacidade pode ser validada sem uma referência independente externa. Contagens ao vivo: { "176" } validadas, { "221" } modeladas, { "4" } de parceiros, { "401" } no total
+
+# attr:alt
+seg-3f48a70a707a = Estado de verificação das { "401" } capacidades: { "176" } validadas (verificadas face a uma referência independente externa), { "221" } modeladas, { "4" } pertencentes a parceiros
+
+# text
+seg-35a4412348e1 = { "176" } validadas · { "221" } modeladas · { "4" } de parceiros — <a1>SVG</a1>
+
+# attr:alt
+seg-cdf946112863 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registo de verificação de { "401" } capacidades ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Em torno, cada superfície executa o mesmo motor: linha de comandos (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
+
+# attr:alt
+seg-656df854409a = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "92" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "401" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.
+
+# text
+seg-11041e6beb65 = Os { "92" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido
+
+# text
+seg-abf70d11a088 = todo o motor aberto, todos os { "92" } tipos de cenário, sem restrição de recursos
+
+# text
+# c1: scenarios/
+# c2: .toml
+# c3: lunar-integrity
+# c4: scenarios/lunanet-araim.toml
+# c5: gravity-map
+# c6: scenarios/gps-denied-gravity-nav.toml
+# c7: cargo run -- --validate <file>
+# c8: list_kinds()
+# c9: list_scenario_kinds
+seg-b14326430bd8 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "192" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
+
+# text
+seg-824001fa6734 = laboratórios e fabricantes com dados medidos
+
+# text
+# c1: kshana partner check
+seg-df3ca402513f = que linhas MODELLED poderia promover um registo medido de relógio ou de IMU, os formatos, como um envio é verificado (<c1/>), pontuado e creditado

@@ -77,3 +77,5 @@ seg-05ce408c2dbb = kg/m^{ "2" }
 
 # text
 seg-195347c63a8a = m/s^{ "2" }
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Die Phase <c1/>: der Rückflug von <c2/> ohne Manöver bis zur Eintrittsschnittstelle; der Bahnneigungswinkel und sein Sigma aus der vollen Kovarianz durch einen Differenzengradienten; die Wahrscheinlichkeit, dass der Winkel innerhalb eines gen

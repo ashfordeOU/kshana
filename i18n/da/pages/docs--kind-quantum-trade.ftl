@@ -61,3 +61,5 @@ seg-4b59ac409819 = Afvejning mellem kvante og klassisk PNT og GNSS-nægtet modst
 seg-e6498fae3ba7 = <s1>Forrige</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Næste</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

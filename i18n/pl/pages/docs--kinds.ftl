@@ -95,3 +95,7 @@ seg-6339abe5314a = Rodzina
 seg-3040e2ec62b1 = <s1>Poprzedni</s1>Rodzaje scenariuszy
 
 seg-1d6e6cc607f2 = <s1>Następny</s1>Wszystkie polecenia
+
+seg-c6bb02c73696 = Arkusz miniatur wykresów zapisywanych przez silnik dla rodzajów z rodziny Wątki misji
+
+seg-9ad7876b693f = Każdy rodzaj scenariusza obsługiwany przez silnik v{ $version } ({ "92" }), uporządkowany w { "13" } rodzin. Każda rodzina ma stronę z jednym wpisem na rodzaj (opis i pola z silnika, przykładowe polecenie, kluczowe liczby z przebiegu, wiersze macierzy, które go wymieniają, oraz wykres zapisywany przez silnik) i arkusz miniatur tych wykresów. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynieryjnego; nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia. Każda etykieta tutaj pochodzi z silnika lub z macierzy weryfikacji; rodzaj ma status MODELLED, chyba że macierz stanowi inaczej (jak zdobywa się etykietę: sekcja Evidence w README).

@@ -47,3 +47,5 @@ seg-1750fbfc4a99 = <s1>Poprzednia</s1>sweep-nd
 seg-de5468ac32fc = <s1>Następna</s1>telecom-timing
 
 seg-8b701f465117 = logarytmiczna
+
+seg-795e0409fa5a = <b>MODELLED</b> Faza <c1/>: stan średni z propagatora Cowella silnika (masa punktowa Ziemi i J2, Słońce i Księżyc jako ciała trzecie, Księżyc z jądra DE440 wątku tam, gdzie obejmuje on segment, a Słońce z serii analitycznej

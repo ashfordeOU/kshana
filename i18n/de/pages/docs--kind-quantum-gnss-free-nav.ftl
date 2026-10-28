@@ -83,3 +83,5 @@ seg-af35cccc4e2c = MODELLED GNSS-freie Quantennavigation: während eines GNSS-Au
 # text
 # c1: quantum-gnss-free-nav
 seg-cfa59601df4a = <c1/> (Szenarioart)
+
+seg-a349aa76b0ed = PARTNER

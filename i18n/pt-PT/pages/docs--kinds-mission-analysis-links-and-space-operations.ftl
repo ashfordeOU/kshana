@@ -362,3 +362,6 @@ seg-41996765fcf1 = <s1>Anterior</s1>Lunar e cislunar
 
 # text
 seg-1951c46fe429 = <s1>Seguinte</s1>PNT ótica
+
+# text
+seg-e77c46e23e67 = <s1>Seguinte</s1>Cadeias da missão

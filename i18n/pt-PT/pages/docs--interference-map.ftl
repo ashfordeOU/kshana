@@ -660,3 +660,95 @@ seg-1fc1794d9388 = Método ADS-B (kshana-interference-map/adsb/v2)
 
 # text
 seg-a3a97ab49ed1 = Método AIS (kshana-interference-map/ais/v2)
+
+# text
+# c1: interference-map locate
+seg-e3949a1e6082 = Região do emissor (<c1/>)
+
+# attr:title
+seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
+
+# text
+# c1: kshana interference-map locate
+# c2: VM-bc70cb57
+# c3: emitter-region/PREREGISTRATION.md
+seg-4fc5a1dcc963 = <c1/> estima <b>onde pode estar uma fonte de interferência</b> a partir dos mesmos relatos abertos ADS-B ou AIS: uma região em níveis de confiança declarados, um centroide com uma elipse de incerteza e as sessões no tempo. Nunca devolve um ponto isolado. <b>MODELLED</b> (linha <c2/> do registo): a física é a linha de vista de rádio dos manuais, a credibilidade das regiões depende do modelo, e a única verificação externa é a comparação com o Jammertest fixada antecipadamente em <s1><c3/></s1>. A publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está <b>desativada</b>: o observatório não lê este módulo, e um teste fixa-o.
+
+# text
+# c1: --levels 0.5,0.9,0.95
+# c2: --cell-km
+# c3: --session-gap-min
+# c4: --emitter-height-m min,max
+# c5: --ship-height-m
+# c6: --tdoa fix.json
+seg-194d573cb817 = Opções: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fundir uma solução TDOA; abaixo). Qualquer opção que difira do valor fixado antecipadamente é anunciada como "não é o método fixado antecipadamente". Os ficheiros nunca são substituídos.
+
+# text
+seg-5767c749117a = <b>Modelo.</b> Os relatos são agrupados em <em>unidades</em> (uma aeronave ou embarcação num intervalo de 2 minutos), cada uma <em>afetada</em> (ADS-B: pelo menos metade dos seus relatos tem NIC ou NACp baixo pela regra do próprio mapa; AIS: uma velocidade ou salto implausível, ou uma posição no interior do continente face à linha de costa) ou não. Uma aeronave ou embarcação só conta com pelo menos { "5" } bons relatos na entrada (a mesma proteção de linha de base de equipamento do mapa). As unidades afetadas são agrupadas em <em>sessões</em>: um intervalo de mais de { "30" } minutos separa no tempo e, dentro de um agrupamento no tempo, duas unidades pertencem ao mesmo grupo quando um único emissor poderia estar ao alcance de ambas. Para uma sessão, cada posição candidata numa grelha recebe uma verossimilhança:
+
+# text
+# c1: h
+# c2: h_e
+# c3: 4.122 (sqrt h + sqrt h_e)
+# c4: h_e
+seg-0e3abeb21526 = <b>Linha de vista.</b> Uma aeronave à altura <c1/> e uma antena de emissor em <c2/> veem-se mutuamente até <c3/> km num raio terrestre de 4/3. <c4/> é marginalizada sobre { "2" } a { "100" } m ({ "8" } valores espaçados logaritmicamente).
+
+# text
+seg-75f5afea310e = <b>Potência.</b> A potência do emissor é desconhecida, portanto um alcance efetivo de { "12" } km a { "426" } km (em passos de { "1.25" }) ou "apenas linha de vista" limita o alcance, marginalizado com peso igual. O limite do alcance é suave: uma unidade conta como ao alcance com um peso que cai linearmente ao longo de { "15" }% do alcance de cada lado (pelo menos três quartos de uma célula da grelha), porque o terreno, o diagrama da antena e o trajeto não são conhecidos com precisão melhor do que essa.
+
+# text
+seg-ff9cf5fc9fbe = <b>Afetadas e não afetadas.</b> Uma aeronave ou embarcação é <em>suscetível</em> com probabilidade { "0.6" } (o equipamento recetor, a antena e o trajeto do sinal diferem), uma unidade de uma suscetível dentro do alcance é afetada com probabilidade { "0.9" }, e qualquer outra unidade é afetada com a probabilidade de fundo { "0.03" } (outras causas). A suscetibilidade é uma propriedade latente da aeronave, somada por aeronave, assim como uma falha persistente de equipamento (probabilidade { "0.03" }: todas as unidades dessa aeronave são afetadas onde quer que ela esteja), o que impede que um transponder defeituoso arraste a região. Assim, uma aeronave <b>afetada</b> puxa a posterior para posições que a alcançam, e uma <b>aeronave não afetada com linha de vista</b> empurra contra posições que a teriam alcançado no máximo com o peso de uma aeronave, por mais relatos que tenha enviado, enquanto uma aeronave não afetada sem linha de vista nada diz.
+
+# text
+seg-51e09cf3944c = <b>Sem terreno.</b> O terreno, a formação de condutas e a difração não são modelados (o terreno só pode remover a linha de vista).
+
+# text
+# c1: docs/emitter-region/PREREGISTRATION.md
+seg-b966c198786a = <b>Atenuação.</b> O logaritmo da verossimilhança é multiplicado por { "0.3" } (uma posterior de potência). A evidência do modelo é mais dependente e os seus extremos menos nítidos do que a independência que a verossimilhança supõe, e em dados sintéticos com essas falhas as regiões sem atenuação continham a fonte verdadeira em proporção bem inferior à declarada; { "0.3" } foi escolhido apenas com dados sintéticos (a derivação está em <c1/>, secção { "8" }).
+
+# text
+# c1: unconstrained
+seg-4488bddfd8da = A posterior fornece <b>regiões de maior densidade</b> nos níveis declarados (aninhadas; polígonos com furos quando necessário), o <b>centroide</b> ponderado pela posterior e a sua <b>elipse de momentos</b> (escalada a { "95" }% sob uma gaussiana; os polígonos, e não a elipse, são os níveis calibrados). A grelha é grosseira (cerca de { "5" } a { "10" } km) sobre todo o domínio e toda célula grosseira que contém massa é dividida { "4" } por { "4" }. O <b>enviesamento de cobertura</b> é tratado condicionando a onde existem relatos: uma região é larga onde havia poucas aeronaves, e uma sessão cuja região de { "95" }% ocupa mais de { "80" }% de do seu domínio de busca é informada como <c1/> sem centroide.
+
+# text
+# c1: 5
+# c2: null
+seg-2ee93e45c01e = <b>Sessões e perfil.</b> Cada sessão publicada tem início, fim, duração, a área das células de 0,5 grau que contêm uma unidade afetada e pelo menos { "5" } aeronaves ou embarcações distintas, as contagens de afetadas e observadas distintas, e a contraevidência (distintas não afetadas com linha de vista ao centroide; retida abaixo de { "5" }). Uma sessão com menos de <c1/> aeronaves ou embarcações afetadas distintas é retida e contada. O perfil fornece, por hora UTC do dia, as aeronaves afetadas distintas (<c2/> abaixo de { "5" }) e os minutos de tempo de sessão, e as horas de tempo de sessão por dia UTC.
+
+# text
+seg-857aad210cde = Fusão TDOA opcional.
+
+# text
+# c1: --tdoa fix.json
+# c2: {"receivers": [[lat, lon, height_m], ...], "tdoa_s": [...], "sigma_s": 1e-7, "start": [lat, lon]}
+# c3: tdoa_s[i]
+# c4: i+1
+# c5: geolocation::tdoa_predict
+# c6: geolocation::tdoa_crlb_on_sphere
+seg-fcfc554b4f3d = <c1/> recebe <c2/> (pelo menos três recetores; <c3/> é o recetor <c4/> menos o recetor { "0" }). A posição é resolvida na superfície da Terra por Gauss-Newton sobre <c5/>, a sua covariância é <c6/>, e a gaussiana é multiplicada na posterior. O limite de Cramer-Rao é um limite inferior sobre um modelo, não uma precisão medida.
+
+# text
+# c1: emitter-<source>-<dataset>-<day>
+# c2: .geojson
+# c3: -summary.json
+# c4: -sessions.csv
+# c5: -figure.svg
+# c6: kshana-interference-map/emitter-region/v1
+# c7: # evidence
+# c8: evidence
+# c9: examples/emitter-region/
+# c10: regenerate.sh
+seg-55c1c9c80601 = <b>Saídas</b> (<c1/>): <c2/> (região MultiPolygon por nível e sessão, o polígono da elipse, o ponto do centroide que leva a respetiva elipse), <c3/>, <c4/>, <c5/>. Cada uma incorpora a licença do conjunto de dados, a URL da licença e a atribuição, o id do método <c6/>, todos os parâmetros, as hipóteses e os limites, e traz a sua <b>etiqueta de evidência</b> (nível MODELLED, ids das linhas do registo; a faixa sob a figura, linhas <c7/> na tabela, um membro <c8/> no JSON). Os ficheiros de máquina são em inglês qualquer que seja o idioma; o texto da figura e as linhas da linha de comandos são localizados. Há um exemplo sintético em <c9/> (<c10/>).
+
+# text
+# c1: null
+seg-7f93e7987855 = <b>Privacidade e formulação.</b> Nenhum identificador de aeronave ou embarcação aparece em qualquer saída; nenhuma posição de relato é desenhada; uma sessão precisa de pelo menos { "5" } aeronaves ou embarcações distintas; contagens abaixo de { "5" } são <c1/>. A formulação é neutra: "região estimada do emissor", "região da fonte de interferência". Uma região não é a posição de ninguém, não é uma constatação da causa e nada diz sobre quem ou o que está por trás de uma fonte; o teste de formulação ampliado verifica nas saídas as palavras de atores, intenção e conflito.
+
+# text
+# c1: emitter-region/PREREGISTRATION.md
+# c2: emitter-region/RESULTS.md
+# c3: unconstrained
+seg-5298b30a7857 = <b>Limites.</b> A credibilidade depende do modelo. Em dados sintéticos (um gerador que partilha o modelo, com extremos de alcance incertos em { "15" }% por aeronave, falhas persistentes de equipamento, potência desconhecida e altura de antena desconhecida) a região de { "95" }% continha a fonte verdadeira em { "0.99" } (geometria de aeronaves) e { "1.00" } (geometria de navios) das sessões e a região de { "50" }% em cerca de { "0.77" }: os níveis são conservadores, pelo expoente da verossimilhança de { "0.3" }, e o erro do centroide de uma sessão tem mediana de { "23" } km (aeronaves) e { "12" } km (navios). A calibração é verificada apenas com dados sintéticos; a comparação com o Jammertest foi fixada antecipadamente (<c1/>) e executada uma vez: NOT ASSESSABLE para as duas fontes (<c2/>). Uma fonte por sessão; várias fontes próximas parecem uma só. Uma causa regional (uma avaria de constelação, clima espacial) dá uma região que não é uma fonte. O ADS-B fornece poucos relatos fora do espaço aéreo movimentado, e apenas cerca de um quarto dos pontos de rasto do readsb traz NIC e NACp, de modo que áreas esparsas dão regiões largas ou nenhuma ({ "31" }% das sessões de geometria de navios foram <c3/>).
+
+# text
+seg-d8eb178ef226 = Região do emissor (interference-map locate)

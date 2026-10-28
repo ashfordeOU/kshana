@@ -144,3 +144,7 @@ seg-cc031b964086 = Kontaktbogen der Diagramme, die die Engine für die Szenarioa
 
 # attr:alt
 seg-f044822c2fab = Kontaktbogen der Diagramme, die die Engine für die Szenarioarten der Familie Konstellationen, Abdeckung und Geometrie schreibt
+
+seg-c6bb02c73696 = Kontaktbogen der Diagramme, die die Engine für die Arten der Familie Missionsstränge schreibt
+
+seg-9ad7876b693f = Jede Szenarioart, auf die die Engine v{ $version } verteilt ({ "92" }), eingeordnet in { "13" } Familien. Jede Familie hat eine Seite mit einem Eintrag je Art (die Beschreibung und die Felder der Engine, der Beispielbefehl, Kennzahlen aus einem Lauf, die Matrixzeilen, die sie nennen, und das Diagramm, das die Engine schreibt) und einen Kontaktbogen dieser Diagramme. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit des Lebens. Jede Kennzeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Kennzeichnung erworben wird: der Abschnitt Evidenz der README).

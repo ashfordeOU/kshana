@@ -565,3 +565,79 @@ seg-b2fd2a05842f = Utbildnings-NMEA är <b>endast text</b>: ingen RF, IQ eller v
 seg-4e3bbacda9ac = <s1>Föregående</s1>Använda Kshana från en agent
 
 seg-c5fbfab85e01 = <s1>Nästa</s1>JetBrains-plugin
+
+seg-6555ff9a6d8e = Utdata
+
+seg-12471a4b2b57 = Sändarområde (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (bärs ännu inte; ytorna Rust, Python och WASM täcker den)
+
+seg-dff1bfe0263e = <b>N/A</b> (att publicera sändarområden i det publika observatoriet är ett separat beslut av ägaren och är avstängt)
+
+seg-ec2d91e2f867 = Kontroll av bidrag från datapartner (format och metadata i ett bidrag med uppmätta data, <c1/>; poängsätter ingenting)
+
+seg-c16a5ff8218b = <b>N/A</b> (kontrollen läser lokala filer och deras SHA-256; Rust-API:et är bibliotekets yta och kommandoraden är verktyget)
+
+seg-ed29039d1dc0 = <b>N/A</b> (inget filsystem i webbläsarbygget)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP avvisar filkällor av utformning (endast infogad text))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (snedstreckskommandon anropar MCP-verktyg, och den här kontrollen behöver filer på disk)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrains-åtgärder är bundna till en vald fil; ett bidrag är en mapp)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio har ingen åtkomst till filsystemet; kör kommandot)
+
+seg-521b58a1080e = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde: åtta fastyper, överlämningsregler, omvandlingar av referenssystem och tidsskalor, ett överlägg för markstationsnät, marginal mot angivna krav och den svagaste länken (scenariotyp <c1/>; <c2/>; MODELLED, ILLUSTRATIVE indata, rådgivande; enbart offentliga källor, inget stöd)
+
+seg-6b451021b87a = <c1/> (från en utcheckning: den läser ett incheckat utsnitt av en månkärna)
+
+seg-ac3e013b5217 = <c1/> (<c2/> är en filnyckel och avvisas; utan en kärna är månen den analytiska serien och omvandlingsraden säger det)
+
+seg-e957474f44a8 = <c1/> (endast infogat; kärnnyckeln avvisas)
+
+seg-1c1729fafe99 = <b>N/A</b> (ingen anteckningsbok; exemplet körs i vilken anteckningsbok som helst via <c1/> från en utcheckning)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (bärs ännu inte)
+
+seg-ab52a3469f6a = Uppskattade sändarområden, MODELLED; spårkataloger och <c1/> finns bara på kommandoraden
+
+seg-5f1ce275acbd = Läser en bidragsfil och dess datafil på disk och verifierar SHA-256; ingen av de ytorna har mappen. Endast format och metadata, ingenting poängsätts; se <c1/>
+
+seg-fc9ab9f71553 = Evidensetiketten, och de utdata som saknar den
+
+seg-b1e4bcc2ac09 = Varje siffra och tabell som en körning skriver bär sin evidensnivå (<c1/>, <c2/> eller <c3/>, den svagaste av registerraderna bakom den) och id:na för de raderna, på varje yta som kör ett scenario: resultat-JSON (nyckeln <c4/>), diagrammets SVG (metadataelement och en rad under diagrammet) och CSV-tabellen (kommentarsraderna <c5/>). Samma etikett finns på utdata från receiver-trust (kommandoraden, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, rapporten om ruttexponering från störningskartan, och inuti <c11/> i varje bevispaket (signerat; <c12/> redovisar den). Rad-id:na är stabila (<c13/> och åtta hexsiffror, kolumnen <c14/> i <c15/>).
+
+seg-c66058f24f0e = Dessa utdata bär ingen etikett, var och en av ett angivet skäl (listan är <c1/> i <c2/>, som misslyckas för en skrivare som varken är märkt eller förtecknad):
+
+seg-04ca90423b80 = Varför den saknar etikett
+
+seg-a90c022c4dea = resultatfiler från kshana-bench
+
+seg-9f3f0adbcfe6 = ett fast schema som låses av åtagandena för undanhållna datamängder; var och en bär sin egen <c1/> (MODELLED eller uppmätt)
+
+seg-9bb126104f12 = dagliga produkter från störningsobservatoriet (GeoJSON, PNG, incident-JSON)
+
+seg-ddbc60cb14ac = ett fruset, publicerat schema; metodnotens förbehåll följer med dem
+
+seg-874cb55d3457 = celler, resultattavlor och rapportfiler från IQ-kampanjer
+
+seg-8c8cb4bd5110 = fastlåsta med digest; var och en anger den resultattavla för kampanjen som den återger
+
+seg-8d2645e93451 = IQ-prov, SigMF- och SDR-metadata, referens för scenen, ström av epoker och händelser från spårning, loggar från live-sessioner
+
+seg-9fa872028a08 = formatbundna filer och postströmmar som läses av andra verktyg
+
+seg-6c77071a0d03 = exporter i SP3, OMM, OEM, CZML, KML, GeoJSON, STK, rörelse för testbänk och NMEA; NMEA-övningsströmmen
+
+seg-5c1b92afa402 = formatbundna filer som läses av verktyg från tredje part
+
+seg-b5c79a0e395c = trådformat för telemetri (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = definierade av sina trådformat
+
+seg-3ba06004fc14 = genererade dokument (själva registret, de incheckade studie- och datatabellerna)
+
+seg-8be4943acd00 = inte utdata från en körning

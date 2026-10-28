@@ -3603,3 +3603,101 @@ seg-d9110ecdc1a0 = Hipótesis de técnicas de mejora para un emplazamiento en ti
 
 # attr:title
 seg-e671128cedbc = Pérdidas de ascenso con giro gravitatorio de un lanzador ILLUSTRATIVE de dos etapas de queroseno/oxígeno (sin
+
+seg-6863297d8dbc = <c1/><s1>lunar-ascent</s1>
+
+seg-4331bce87556 = <c1/><s1>lunar-descent</s1>
+
+seg-f57e1eabe615 = <c1/><s1>lunar-descent</s1>
+
+seg-b4098b8acd66 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
+
+seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
+
+seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
+
+seg-75f8165faeeb = Elija uno de { "193" } archivos de escenario repartidos en { "92" } tipos de escenario, o escriba el suyo. <c1/> enumera cada tipo de escenario con sus campos, y <c2/> imprime un archivo para empezar.
+
+seg-d5c6110302e9 = Un hilo de misión de clase Artemis, una etiqueta de evidencia en cada figura y diecisiete idiomas.
+
+seg-8597c65432ed = Encadene las fases de una misión lunar en un único presupuesto de errores de navegación y temporización, estime dónde puede estar una fuente de informes de posición degradados, lea registros de reloj medidos, vea el nivel de evidencia en cada figura que escribe una ejecución, y use la línea de comandos, los informes y Studio en diecisiete idiomas. Cada capacidad lleva la etiqueta que el registro tiene para ella, y una etiqueta nombra solo lo que se comprobó. Software de carácter consultivo, no un equipo de navegación homologado: el operador sigue siendo responsable.
+
+seg-070972f642de = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización desde el lanzamiento hasta la entrada
+
+seg-982a4a7cf0db = El tipo de escenario mission-thread encadena fases (lanzamiento y ascenso, encuentro en órbita terrestre baja, inyección translunar y crucero, las fases lunares, entrada) y transporta la covarianza de posición y velocidad de cada fase a la siguiente; las reglas de traspaso, las conversiones de marco y de escala de tiempo, el margen frente a los requisitos indicados y el eslabón más débil se escriben cada uno como filas de presupuesto.
+
+seg-17c9cc6c2d40 = Comprobado: la comparación con Artemis I no alcanzó su umbral ({ "45.3" } km frente a { "5" } km); la fila sigue siendo MODELLED
+
+seg-946487626f87 = Vista del hilo de misión en Kshana Studio
+
+seg-4970f874d334 = El segmento lunar: encuentro, descenso, superficie y ascenso
+
+seg-b6c35bf141e7 = Cuatro tipos de escenario, cada uno también una fase del hilo de misión: navegación relativa hasta el acoplamiento en órbita lunar, el presupuesto de dispersión de aterrizaje en un emplazamiento polar sur, la disponibilidad de posicionamiento y temporización por emplazamiento y estación, y el ascenso de regreso a la órbita de encuentro.
+
+seg-ce097df855a9 = Comprobado: umbrales preregistrados; uno alcanzado, uno no alcanzado, ninguno relajado
+
+seg-8ca6e2046901 = Una región estimada del emisor a partir de informes ADS-B o AIS
+
+seg-ca6383e426f9 = Dónde puede estar una fuente de informes de posición degradados, como regiones al { "50" }, { "90" } y { "95" } por ciento con un centroide y su elipse de incertidumbre, nunca un punto aislado, y sesiones en el tiempo.
+
+seg-27af464d0674 = Comprobado: preregistrado; ambas fuentes no evaluables, de modo que no se afirma nada
+
+seg-003a3b9b63ea = Registros de reloj medidos y un holdover conducido por una serie ajustada
+
+seg-f51fa2a40db8 = Lea un registro de reloj medido en ocho formatos (RINEX clock, TimeLab, TICC, linuxptp, chrony) como una única serie de fase para los tipos de escenario de reloj y de temporización de telecomunicaciones, y ajuste el ruido de una serie medida para conducir un holdover.
+
+seg-6e9140563c53 = Comprobado: umbrales preregistrados; los fallos se indican y quedan fijados
+
+seg-448b11c86f48 = Socios de datos: qué filas podrían promover los datos medidos
+
+seg-56b0201d930c = Qué filas modeladas del registro podrían promover los datos medidos de un socio, los formatos admitidos, y cómo se comprueba, se puntúa frente a un umbral preregistrado y se acredita un envío.
+
+seg-5858e5d1f7c5 = Una etiqueta de evidencia en cada figura y tabla que escribe una ejecución
+
+seg-d1c4250b2a7e = Cada archivo de resultados, gráfico y tabla que escribe una ejecución indica ahora en qué nivel se apoya (validated, modelled o partner, el más débil de sus filas) y nombra las filas de la matriz de verificación que lo respaldan, leídas de la matriz y no escritas a mano.
+
+seg-bd28ef5c376e = Diecisiete idiomas además del inglés
+
+seg-1e4a6a5931d3 = La línea de comandos, los informes, las páginas de documentación y Studio están disponibles en diecisiete idiomas además del inglés.
+
+seg-7fae5de5ebf1 = kshana-bench: la recampaña de { "0.40" }
+
+seg-1e0afa852323 = Cuatro comparaciones preregistradas se ejecutaron una vez tras la aprobación y alcanzaron sus umbrales, y toda puntuación es modelada.
+
+seg-ed10ac59ed87 = Los { "193" } archivos de escenario repartidos en { "92" } tipos de escenario, agrupados por ámbito; { "180" } están incluidos en el motor, y <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se ejecutan desde el repositorio con la línea de comandos. El punto muestra el estado en el registro del módulo del tipo de escenario cuando el registro lo nombra. Un archivo con una ejecución registrada la abre en Kshana Studio; los demás abren su entrada en la referencia de escenarios, con el archivo y el comando que lo ejecuta.
+
+seg-c381cfa99bb0 = Un escenario de reloj cuyo reloj clásico toma el ruido de un registro medido (`[clock_fit]`).
+
+seg-328cd04eef87 = Un escenario de reloj con un registro medido junto al holdover simulado (`[clock_log]`).
+
+seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>clock-holdover</a3><a4>clock-holdover-labsr</a4><a5>clock-measured-log</a5>
+
+seg-5ab9475613b4 = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización de una cadena de fases, desde el lanzamiento
+
+seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
+
+seg-fd3af0bea7c3 = Ascenso lunar: el ascenso propulsado desde un emplazamiento de superficie polar sur (clase Artemis) hasta el encuentro a { "100" } km
+
+seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
+
+seg-d164c858b994 = Dispersión del aterrizaje lunar: el presupuesto de un descenso propulsado a un emplazamiento polar sur (clase Artemis), desde el
+
+seg-bd7c53737f55 = Dispersión del aterrizaje lunar con el DEM polar sur real de LOLA: el presupuesto de un descenso propulsado a un emplazamiento polar sur (clase Artemis), desde…
+
+seg-318bf7b45976 = <c1/><a1>lunar-descent</a1><a2>lunar-descent-lola</a2>
+
+seg-d357b95a37b0 = Encuentro lunar: navegación relativa para un acoplamiento al estilo Orion-módulo de aterrizaje en una órbita polar circular de { "100" } km
+
+seg-6ce976854c44 = Encuentro lunar en una órbita polar elíptica: navegación relativa para un acoplamiento al estilo Orion-módulo de aterrizaje en una
+
+seg-e784ac982535 = <c1/><a1>lunar-orbit-rendezvous</a1><a2>lunar-orbit-rendezvous-elfo</a2>
+
+seg-944145b95b4a = Disponibilidad de PNT y temporización en la superficie lunar por emplazamiento y estación (emplazamientos polares sur de clase Artemis).
+
+seg-0ecc50eafdbe = Disponibilidad de PNT y temporización en la superficie lunar por emplazamiento y estación con el terreno polar sur real de LOLA
+
+seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
+
+seg-69c56cbdda90 = { "92" } de { "92" } tipos de escenario, { "3300" } de { "3300" } campos numéricos

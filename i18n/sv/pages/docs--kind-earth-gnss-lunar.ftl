@@ -41,3 +41,5 @@ seg-01fa469abd95 = Jord-GNSS på månavstånd är MODELLED, inte validerad: kont
 seg-2fd936b76f4a = <s1>Föregående</s1>contact-schedule
 
 seg-95a5aa0adeb3 = <s1>Nästa</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

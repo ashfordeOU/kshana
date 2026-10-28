@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Volgende</s1>Echte TLE's gebruiken
 seg-6585c8a3643d = ClockRun (elk van quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (het object fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Het bewijslabel van de run: <c1/> (<c2/>, <c3/> of <c4/>: de <em>zwakste</em> status onder de rijen, dus het beweert nooit meer dan zijn zwakste rij), <c5/> (<c6/>), <c7/> en <c8/>, een per rij van de verificatiematrix die de run heeft gebruikt (de rijen die zijn geavanceerde rapport noemt, uit <c9/>): <c10/> (<c11/> en de eerste { "8" } hexadecimale cijfers van de SHA-256 van de eistekst van de rij), <c12/> en <c13/>, alle uit de matrix gelezen, niets getypt. Toegevoegd door <c14/> aan het resultaat van elke soort, vóór het afsluitende blok <c15/> wanneer er een is (dat blok blijft de laatste sleutel); <c16/> verwijdert het byte voor byte. De grafiek-SVG en de CSV-tabel van dezelfde run dragen hetzelfde label (<c17/> en een zichtbare regel onder de grafiek; <c18/>-commentaarregels vóór de CSV). Campagneleden die in het resultaat van een andere soort zijn ingebed dragen er geen: het buitenste document wel. Bevat geen getallen.

@@ -419,3 +419,17 @@ seg-1fc08d2f0209 = Wat het eigen rapport van de run zegt dat niet is gemodelleer
 seg-58c4d7218e70 = Reproduceerbaarheid en softwarewaarborging is MODELLED, niet extern getoetst: een deelclaim wordt extern gecontroleerd, maar de hele mogelijkheid is samengesteld uit gemodelleerde onderdelen, dus de mogelijkheid blijft gemodelleerd. (verificatiematrix (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Alle kinds: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Talen
+
+seg-aaf9c6896126 = Datapartners en bevorderende rijen
+
+seg-3b31855a40e7 = Missieketen: van lancering tot terugkeer
+
+seg-0cf138405411 = Missieketen: het maansegment
+
+seg-5fee8df421d2 = Missieketens
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = de stabiele id van de matrixrij (de ID

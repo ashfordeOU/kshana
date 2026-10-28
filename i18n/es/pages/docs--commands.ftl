@@ -145,3 +145,7 @@ seg-74240229d57b = <s1>Anterior</s1>Todos los tipos de escenario, por familia
 
 # text
 seg-b3cc5b769c99 = <s1>Siguiente</s1>Todas las superficies
+
+seg-09dab71efd9d = comprueba el formato y los metadatos de un envío de un socio de datos y lee su archivo de datos con los lectores del motor; no puntúa nada
+
+seg-57686575b81d = Datos de socios

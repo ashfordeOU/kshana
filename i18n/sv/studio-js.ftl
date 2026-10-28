@@ -10709,3 +10709,7 @@ js-trust-track-start = start
 js-trust-unknown-agreement = en grad av samstämmighet som den här sidan inte känner till
 
 js-trust-yes = ja
+
+js-mthread-limiting-phase = Motorn anger den begränsande källan för den här fasen som { $source }: en källa för fasen, inte en rad i den här tabellen.
+
+js-mthread-limiting-row = motorns begränsande källa

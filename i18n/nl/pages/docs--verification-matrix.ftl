@@ -3776,3 +3776,137 @@ seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_pri
 seg-6bb40f180cf0 = <s1>Vorige</s1>Validatiestatus
 
 seg-defb46c5bc80 = <s1>Volgende</s1>Mogelijkhedenreferentie
+
+seg-65185cb68d6b = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer (<c1/>)
+
+seg-86a132e1a243 = De soort <c1/>: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (<c2/>; <c3/>, witte versnellingsruis over een vermelde onderbreking op een model met rechte lijn; <c4/>, koppelnavigatie en daarna de bronvloer, nooit eronder, nooit een reset); omzettingen van referentiestelsel GCRF, MCI en MCMF en omzettingen van tijdschaal via TT, elk een eigen budgetrij, met de toestand van de maan uit een optionele DE440-kernelsnede en de analytische reeks als vermelde terugval; de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. Elk getal is een vermelde invoer of een model daarvan
+
+seg-cf8a0dc4088e = Handberekeningen in de tests (de groei van de covariantie langs een rechte lijn, de gemiddelde siderische rotatie, de seculiere klokgang van de maan) en, alleen voor de toestand van de maan, de vastgelegde DE440-kernelsneden tegen vastgezette JPL Horizons-waarden (slechtste { "2.6" } m en { "7e-6" } m/s). Er worden geen missiedata met de keten vergeleken; de fasen ervan zijn rijen op zich. Het document is een vermelde keten met ILLUSTRATIVE invoer, alleen openbare bronnen en zonder goedkeuring van een ruimtevaartorganisatie
+
+seg-87b2b2459b45 = Lancering en opstijging naar een parkeerbaan met GNSS-acquisitie en signaalverlies (<c1/>)
+
+seg-725e7ce83533 = De fase <c1/>: een covariantie van positie en snelheid bij constante snelheid met witte versnellingsruis (de klasse van koppelnavigatie), een GNSS-positiebepaling van vermelde nauwkeurigheid die na de acquisitietijd en buiten vermelde signaalverliezen wordt toegepast, een klok met bias en drift die door dezelfde positiebepalingen wordt gestuurd, en de toestand bij insertie in de parkeerbaan
+
+seg-22e5c301626e = De stationaire Riccati-toestand en de handberekening van de voorspelling in de tests. Niets hier modelleert een draagraket of een ontvanger; elk getal is een vermelde invoer
+
+seg-eb66a49b0306 = Relatieve navigatie naar de koppelingsenvelop in een lage baan om de aarde over sensortrajecten (<c1/>)
+
+seg-658a0448d80d = De fase <c1/>: de relatieve toestand in de LVLH-assen van het doel met de Clohessy-Wiltshire-overgang in gesloten vorm, een 6x6-Kalman-covariantie met witte versnellingsruis en positie-updates waarvan de variantie die van de sensor op de actuele afstand is, over trajecten van een vermelde sensor (ILLUSTRATIVE optische camera, lidar en radioafstandsmeting); het koppelvenster is de tijd vanaf het moment waarop de relatieve sigma binnen de vangenvelop blijft tot het einde van de fase. De absolute covariantie van de achtervolger wordt ongewijzigd doorgegeven en een rij zegt dat
+
+seg-97f4aa0575e6 = Een eenassige handberekening van de voorspelling en de update in de test; de Clohessy-Wiltshire-overgang is degene die cw_dynamics tegen een onafhankelijke numerieke integratie controleert. De sensoren zijn ILLUSTRATIVE en er wordt geen echt rendez-vous vergeleken
+
+seg-b45a8a357faf = Trans-lunaire injectie en cislunaire vlucht: voortgeplante gemiddelde toestand en covariantie met trackingupdates (<c1/>)
+
+seg-ab5c79789754 = De fase <c1/>: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit de DE440-kernel van de keten waar die het segment dekt en de zon uit de analytische reeks); de covariantie met een voorwaartse-differentie-toestandsovergangsmatrix van die voortplanting (de nominale run en zes verstoorde runs per segment) met witte versnellingsruis; de grootte en richtingsfout van de TLI-brandperiode; <c2/>-positiebepalingen waarvan de beschikbaarheid en PDOP uit de sweep van het ruimteservicevolume langs een osculerende baan komen die de boog vervangt; afstands- en afstandssnelheidstracking langs de geocentrische richting, geschaald met de bezettingsgraad van het grondnetwerk, met de update in Joseph-vorm
+
+seg-86dae517e339 = De stelling van Liouville (de determinant van de toestandsovergangsmatrix van het conservatieve deel is één) en een fijnere differentie in de tests; de gemiddelde toestand wordt vergeleken met een openbaar traject in de rij hieronder, dat hij mist. De brandfout, de updates en de covariantie worden met niets vergeleken
+
+seg-7a3eb4fae324 = Covariantie bij het terugkeerinterface, corridorkans, piekvertraging en landingsvoetafdruk (<c1/>)
+
+seg-93f07906d7bf = De fase <c1/>: de terugkeervlucht van <c2/> zonder brand, eindigend bij het terugkeerinterface; de baanhoek en zijn sigma uit de volledige covariantie met een eindige-differentiegradiënt; de kans dat de hoek binnen een vermelde corridor ligt; de piekvertraging bij de nominale hoek en bij beide corridorranden uit de vlakke ballistische puntmassa-terugkeer van de engine (skip-out gedetecteerd) naast de gesloten vorm van Allen-Eggers; de landingsvoetafdruk uit een vermelde gevoeligheid voor de afstand in vliegrichting en de covariantie bij het interface dwars op het baanvlak. Er wordt geen lift, geleiding of verhitting gemodelleerd
+
+seg-8d5695aad35b = Handberekeningen in de tests (de sigma van de hoek is de loodrechte snelheidssigma gedeeld door de snelheid; de gaussische massa in een corridor). De vlakke terugkeer is die van de engine zelf en de vorm van Allen-Eggers is een vergelijking in gesloten vorm; er wordt geen gevlogen terugkeer vergeleken
+
+seg-3f0951532f6e = Dekking van het grondnetwerk en trackingbezetting voor een fase van de keten (<c1/> van <c2/>)
+
+seg-5204af351299 = De overlay van het grondnetwerk: stations met een minimale elevatie, het zicht op het voertuig bij een vermelde geometrie (de terugkeertoestand tweelichamen gevlogen met J2, de positie van de maan voor de vlucht, of een vermelde bezettingsgraad), stationsoverdrachten die elk een vermelde tijd kosten, en de resulterende bezettingsgraad die aan de updatefrequentie van de grondtracking van de fase wordt doorgegeven; het langste interval zonder station in zicht is een budgetrij
+
+seg-0d1d229a3ab7 = Controles van de geometrie van zenit en antipode en het verwachte zicht op een ver doel in de tests. Er wordt geen echt netwerk, geen antenne en geen schema gemodelleerd
+
+seg-4ba700726208 = Relatieve navigatie tot koppeling in een maanbaan (<c1/>)
+
+seg-2e30e78e49f7 = De soort en fase <c1/>: een gezamenlijke batch-Gauss-Newton-schatting voor twee voertuigen over de boog (eenentwintig parameters: beide toestanden en blijvende positiebiassen in het signaal in de ruimte, gemeenschappelijk en onafhankelijk), opgebouwd over een kwart, de helft en de hele boog met staphalvering, uit een absolute positiebepaling per voertuig (AFS-pilootcode-trackinggrens, ILLUSTRATIVE relaisset) en een crosslink-afstand, onder het maankrachtenmodel van de crate; de gemiddelde genormaliseerde gekwadrateerde schattingsfout, de Clohessy-Wiltshire-controle op een cirkelbaan en de doorgegeven 6x6-covariantie
+
+seg-09fa0c35d004 = Zelfconsistentie onder een preregistratie (xval/mission-thread-lunar/PREREGISTRATION.md, resultaten en de geschiedenis van de schatter in RESULTS.md): de gemiddelde NEES van de relatieve toestand is { "5.85" } tot { "5.93" } tegen de band { "5.2" } tot { "6.8" } in vier configuraties, MET bij het vierde schatterontwerp nadat drie ontwerpen met een opeenvolgend filter hadden gemist; de referentie en de schatter delen één krachtenmodel, dus dit zegt niets over modelfouten. De propagator die ze delen wordt in een rij hieronder met LRO en CAPSTONE vergeleken
+
+seg-c85d7e5e63a3 = Budget voor landingsspreiding bij een maanpoollocatie (<c1/>)
+
+seg-bd88ab3ad105 = De soort en fase <c1/>: een traagheidsfoutenmodel met vijf toestanden per as (positie, snelheid, versnellingsmetersbias, kanteling, gyrobias) over een aangedreven afdaling, ondersteund door AFS-positiebepalingen (zelfstandig of differentieel, met het klokondersteunde geval met drie relais), een terreinrelatieve positiebepaling (de terreinnavigatie-matcher van de engine op synthetisch reliëf, of een Cramér-Rao-grens op een LOLA-DEM met een regel voor het aperture-probleem) en maantijd, met een Monte Carlo-ellips voor de landingsplaats
+
+seg-a5ddb83a5cf1 = De traagheidsdrift in gesloten vorm, de eigen resultaten van de hergebruikte soorten en de kalibratie van de 3-sigma-ellips (het deel erbinnen komt overeen met de verwachting) in de tests. Er wordt geen gevlogen of beproefde landing vergeleken
+
+seg-8dfc1600cf8c = Beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen bij de maanpolen (<c1/>)
+
+seg-f91c1da9ab55 = De soort en fase <c1/>: relaisbeschikbaarheid en PDOP, zicht op aarde en zon en een gestuurde oppervlakteklok voor elke locatie en elk seizoen, met de terreinhorizon van <c2/>; een run voor één locatie is bitgelijk aan de beschikbaarheid en PDOP van die soort
+
+seg-e3a782dce8be = Exacte gelijkheid met de bestaande soort voor één locatie, en monotoniciteitscontroles, in de tests. De relaisset is ILLUSTRATIVE en er wordt geen oppervlaktemeting vergeleken
+
+seg-0db91d70a079 = Aangedreven opstijging van een maanpoollocatie naar een insertiebaan (<c1/>)
+
+seg-b5b1125d515c = De soort en fase <c1/>: het traagheidsfoutenmodel met vijf toestanden per as, uitgevoerd over een aangedreven opstijging met specifieke kracht langs het pad, ondersteund door AFS-positiebepalingen en maantijd, dat de covariantie van positie en snelheid bij insertie rapporteert die naar de baan wordt meegenomen en de spreiding bij motoruitschakeling (gerapporteerd, niet meegenomen)
+
+seg-76e0d23b7483 = De traagheidsdrift in gesloten vorm en monotoniciteitscontroles in de tests. Er wordt geen gevlogen opstijging vergeleken
+
+seg-1983ce9cc6da = De voortplanting met het maankrachtenmodel tegen openbare gereconstrueerde trajecten van maanorbiters en cislunaire trajecten
+
+seg-57f53a7d1fa2 = De propagator die de maansoorten delen (GRAIL GL0660B graad en orde { "150" }, aarde en zon als derde lichamen, relativiteit, DE440-maanoriëntatie) vergeleken met de openbare JPL Horizons-trajecten van LRO ({ "24" } uur, samples van { "10" } minuten) en CAPSTONE (één omloop van { "6.5" } dagen, samples van een uur), onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+seg-321d0721970d = JPL Horizons-ephemeriden van ruimtevaartuigen voor LRO en CAPSTONE, tegen drempels die vooraf zijn vastgelegd in xval/mission-thread-lunar/PREREGISTRATION.md (Amendementen { "1" } tot { "6" }). LRO: MET, { "33" } m grootste 3D-verschil en { "2.4" } m RMS radiaal tegen { "500" } m en { "60" } m. CAPSTONE: NOT MET, een eindpositieverschil van { "136.8" } km tegen { "25" } km en een periapsisverschil van { "28.4" } km tegen { "10" } km, de oorzaken niet afgezonderd. De rij is gemodelleerd omdat de CAPSTONE-drempel is gemist en de vergelijking de gedeelde propagator test, geen filter, signaal of budget
+
+seg-c557d317389a = De voortplanting van de gemiddelde cislunaire toestand tegen het openbare traject van Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = De voortplanting van de gemiddelde toestand van de fase <c1/> (Cowell, aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit een DE440-snede) vergeleken met het openbare JPL Horizons-traject van Artemis I over een vluchtboog van { "72" } uur vanaf 2022-11-16 { "18" }:{ "00" } TDB, op epochen van { "12" } uur, onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+seg-362b1a7b9e5e = JPL Horizons-doel -1023 (het door de NASA-navigatie als gevlogen vastgelegde traject na TLI), tegen drempels die vooraf zijn vastgelegd in xval/mission-thread/PREREGISTRATION.md (Amendement { "1" } wijzigt alleen de aangevraagde tijdspanne). NOT MET en als gemist vastgesteld: { "45.3" } km grootste positieverschil tegen { "5" } km, en { "0.249" } m/s snelheidsverschil bij { "72" } uur tegen { "0.05" } m/s. Een na het oordeel geschreven diagnose plaatst de misser in vijf impulsieve snelheidsstappen van { "0.09" } tot { "0.22" } m/s in de referentie (de vooraf vastgelegde lezing dat het venster geen brand bevatte was onjuist); over de overige { "67" } uur reproduceert het model de volgende uurtoestand tot een mediaan van { "0.38" } m. Test alleen de gemiddelde toestand van één vluchtboog: geen covariantie, filter, update of andere fase
+
+seg-150ae9c3d755 = Bron van interferentie: een haalbaar zendergebied uit positiemeldingen van vliegtuigen en schepen
+
+seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B- (NIC/NACp) of AIS-positiemeldingen: radiolijnzicht op een 4/3-aardstraal vanaf de meldingshoogte en een bereik van antennehoogtes van de zender, een beperkt effectief bereik voor het onbekende vermogen, getroffen eenheden die de posterior naar hun bereik trekken en niet getroffen eenheden met lijnzicht die ertegen duwen, gegroepeerd in sessies in tijd en ruimte. De uitvoer bestaat uit gebieden met de hoogste dichtheid op vermelde betrouwbaarheidsniveaus, een posterior-zwaartepunt met een momentenellips, begin, einde, duur van de sessie, getroffen oppervlak en aantal onderscheiden vliegtuigen boven het publicatieminimum, een profiel per tijdstip van de dag en uren per dag. Terreinvrij; één bron per sessie; de geloofwaardigheid hangt van het model af. Optionele fusie met een TDOA-positiebepaling uit geolocatie.
+
+seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
+
+seg-e9650a618b38 = ID
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (het eenhedenblok van het rapport)
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (voorbeeld)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (voorbeeld)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
+
+seg-6875b0d82c59 = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "401" } rijen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
+
+seg-0a9897a43b5d = { "401" } rijen: { "176" } extern gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner.

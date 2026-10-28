@@ -161,3 +161,5 @@ seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Fuld side med input, resultater, 
 seg-41996765fcf1 = <s1>Forrige</s1>Måne og cislunart rum
 
 seg-1951c46fe429 = <s1>Næste</s1>Optisk PNT
+
+seg-e77c46e23e67 = <s1>Næste</s1>Missionstråde

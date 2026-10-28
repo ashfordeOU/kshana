@@ -293,3 +293,5 @@ seg-75bf2d74642d = Licencja: AGPL-3.0-only, GNU Affero General Public License we
 seg-490ebbefb561 = <s1>Poprzednia</s1>Crate Rust
 
 seg-350b6b914734 = <s1>Następna</s1>Serwer MCP: wszystkie kanały instalacji
+
+seg-492888115662 = { "92" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz.

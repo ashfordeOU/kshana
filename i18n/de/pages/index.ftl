@@ -1123,3 +1123,25 @@ seg-f4d3b1f5b1b4 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> �
 seg-3287261002dd = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
 seg-510663384be1 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+
+seg-070972f642de = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung vom Start bis zum Wiedereintritt
+
+seg-4970f874d334 = Das Mondsegment: Rendezvous, Abstieg, Oberfläche und Aufstieg
+
+seg-8ca6e2046901 = Eine geschätzte Senderregion aus ADS-B- oder AIS-Meldungen
+
+seg-003a3b9b63ea = Gemessene Uhrenlogs und ein holdover, der von einer angepassten Reihe angetrieben wird
+
+seg-448b11c86f48 = Datenpartner: welche Zeilen gemessene Daten befördern könnten
+
+seg-5858e5d1f7c5 = Eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt
+
+seg-bd28ef5c376e = Siebzehn Sprachen neben Englisch
+
+seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
+
+seg-b9961ed25282 = Neu in v{ $version }: ein Missionsstrang, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen
+
+seg-653cf3198094 = { "176" } von { "401" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
+
+seg-76b213d03caa = Alle { "92" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.

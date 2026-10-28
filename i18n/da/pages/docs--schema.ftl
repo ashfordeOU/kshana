@@ -185,3 +185,5 @@ seg-b988dcc329a4 = <s1>Næste</s1>Brug af virkelige TLE'er
 seg-6585c8a3643d = ClockRun (hver af quantum / classical)
 
 seg-299f8a9643f1 = FoMScores (objektet fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) Kørslens evidensetiket: <c1/> (<c2/>, <c3/> eller <c4/>: den <em>svageste</em> status blandt rækkerne, så den aldrig hævder mere end sin svageste række), <c5/> (<c6/>), <c7/> og <c8/>, én pr. verifikationsmatrixrække, kørslen brugte (de rækker, dens avancerede rapport opfører, fra <c9/>): <c10/> (<c11/> og de første { "8" } hex-cifre af SHA-256 for rækkens kravtekst), <c12/> og <c13/>, alle læst fra matricen, ingen skrevet ind. Tilføjet af <c14/> til hver types resultat, før den afsluttende blok <c15/>, når der er en (den blok forbliver den sidste nøgle); <c16/> fjerner den byte for byte. Diagram-SVG og CSV-tabellen fra den samme kørsel bærer den samme etiket (<c17/> og en synlig linje under diagrammet; kommentarlinjer <c18/> foran CSV'en). Kampagnemedlemmer, der er indlejret i en anden types resultat, bærer ingen: det ydre dokument gør. Bærer ingen tal.

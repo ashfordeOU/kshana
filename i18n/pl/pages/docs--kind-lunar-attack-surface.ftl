@@ -47,3 +47,5 @@ seg-95be70748647 = Obszar przechwycenia w funkcji wysokości i szerokości wiąz
 seg-1a1799e01ac4 = <s1>Poprzedni</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>Następny</s1>lunar-beacon
+
+seg-ca1c7e92b98e = <s1>Poprzedni</s1>lunar-ascent

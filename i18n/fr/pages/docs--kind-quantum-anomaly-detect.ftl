@@ -80,3 +80,5 @@ seg-6524a69e4835 = <s1>Précédent</s1>pvt
 
 # text
 seg-aa689568cf84 = <s1>Suivant</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

@@ -108,3 +108,5 @@ seg-bd78e9277435 = <s1>Anterior</s1>integrity
 
 # text
 seg-1d5e7a4b87e9 = <s1>Próximo</s1>launch-window
+
+seg-a349aa76b0ed = PARTNER

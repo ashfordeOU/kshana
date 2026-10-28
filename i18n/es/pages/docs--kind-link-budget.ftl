@@ -83,3 +83,5 @@ seg-ffbc9de75306 = <s1>Anterior</s1>leo-signal
 
 # text
 seg-59d4cb995cb9 = <s1>Siguiente</s1>lunar-attack-surface
+
+seg-410a790785e7 = <s1>Siguiente</s1>lunar-ascent

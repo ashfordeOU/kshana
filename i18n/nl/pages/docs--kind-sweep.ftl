@@ -47,3 +47,5 @@ seg-1750fbfc4a99 = <s1>Vorige</s1>sweep-nd
 seg-de5468ac32fc = <s1>Volgende</s1>telecom-timing
 
 seg-8b701f465117 = log
+
+seg-795e0409fa5a = <b>MODELLED</b> De fase <c1/>: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit de DE440-kernel van de keten waar die het segment dekt en de zon uit de analytische serie

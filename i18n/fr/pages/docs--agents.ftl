@@ -291,3 +291,7 @@ seg-ec064f62f7dc = <s1>Précédent</s1>Serveur MCP : mode HTTP auto-hébergé
 
 # text
 seg-1f44dbd65ce3 = <s1>Suivant</s1>Où chaque capacité est accessible
+
+seg-e3949a1e6082 = Région de l'émetteur (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b> : une région admissible sous ligne de visée radio, et non une position. Indiquez la région à son niveau de confiance déclaré avec le centroïde et son ellipse, jamais le centroïde seul ; dites <c1/> lorsque les données ne la resserrent pas ; dites qu'elle est conditionnelle au modèle (vérifiée sur des données synthétiques seulement ; la comparaison préenregistrée de Jammertest a été exécutée une fois et était NOT ASSESSABLE pour les deux sources, donc rien n'a été testé en externe). Formulation neutre : « région d'émetteur estimée » ; ne nommez ni n'impliquez jamais qui ou quoi est derrière une source, un État, une force ou une intention. Agrégat seulement ; n'essayez pas de retrouver des identifiants. La publication des régions d'émetteurs dans l'observatoire public est désactivée.

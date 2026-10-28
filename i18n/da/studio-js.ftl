@@ -10728,3 +10728,7 @@ js-trust-track-start = start
 js-trust-unknown-agreement = en overensstemmelse, som denne side ikke kender
 
 js-trust-yes = ja
+
+js-mthread-limiting-phase = Motoren angiver denne fases begrænsende kilde som { $source }: en kilde til fasen, ikke én række i denne tabel.
+
+js-mthread-limiting-row = motorens begrænsende kilde

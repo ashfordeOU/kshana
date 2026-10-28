@@ -45,3 +45,5 @@ seg-621a18c07044 = Diagrammet, som motoren skriver for scenarios/sweep-nd-inerti
 seg-ce006a6715e9 = <s1>Forrige</s1>spoof
 
 seg-b9f8771ffd3d = <s1>Næste</s1>sweep
+
+seg-a349aa76b0ed = PARTNER

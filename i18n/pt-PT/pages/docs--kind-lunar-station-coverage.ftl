@@ -8,7 +8,7 @@ seg-9feefecdcf67 = rafs
 seg-cd04f5662884 = MODELLED. (catálogo de tipos (<c1/>))
 
 # text
-seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada rótulo aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
+seg-1f17ef6a853e = Tipo de cenário do motor v{ $version }, família <a1>Lunar e cislunar</a1>. Consultivo: resultado de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Cada etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED salvo indicação em contrário da matriz (como se obtém um rótulo: a secção Evidence do README).
 
 # text
 seg-1c1eeb2dcaa0 = Página da família: <a1>Lunar e cislunar</a1>
@@ -118,3 +118,9 @@ seg-6ac5bd1500a8 = <s1>Anterior</s1>lunar-llr-datum
 
 # text
 seg-625c1973128e = <s1>Seguinte</s1>lunar-time-budget
+
+# text
+seg-bf7d64a925dd = <s1>Anterior</s1>lunar-orbit-rendezvous
+
+# text
+seg-0525bddd21ee = <s1>Seguinte</s1>lunar-surface

@@ -11116,3 +11116,7 @@ js-trust-unknown-agreement = una coincidencia que esta página no conoce
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
 js-trust-yes = sí
+
+js-mthread-limiting-phase = El motor indica como fuente limitante de esta fase { $source }: una fuente de la fase, no una fila de esta tabla.
+
+js-mthread-limiting-row = la fuente limitante del motor

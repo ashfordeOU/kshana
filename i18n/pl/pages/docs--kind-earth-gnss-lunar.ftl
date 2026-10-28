@@ -41,3 +41,5 @@ seg-01fa469abd95 = Earth-GNSS w odległości księżycowej jest MODELLED, nie je
 seg-2fd936b76f4a = <s1>Poprzedni</s1>contact-schedule
 
 seg-95a5aa0adeb3 = <s1>Następny</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

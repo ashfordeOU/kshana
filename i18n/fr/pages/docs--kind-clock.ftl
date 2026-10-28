@@ -96,3 +96,9 @@ seg-e06f9a5a0291 = <s1>Précédent</s1>cislunar-observability
 
 # text
 seg-aba9395185fa = <s1>Suivant</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } scénarios fournis utilisent ce type ; les autres se trouvent dans <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Le type <c1/> : un document de phases, chacune d'un des huit types enregistrés, exécutées dans l'ordre avec la covariance 6x6, l'horloge et le référentiel transmis selon une règle déclarée (<c2/> ; <c3/>, bruit d'accélération blanc sur un intervalle déclaré Tests : <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = et { "1" } autre dans la matrice.

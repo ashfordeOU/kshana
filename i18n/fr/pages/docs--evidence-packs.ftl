@@ -477,3 +477,11 @@ seg-68bcf43b4e27 = <s1>Précédent</s1>Couverture de lignes
 
 # text
 seg-09c0b5fa6e52 = <s1>Suivant</s1>Liaisons optiques à travers l'atmosphère
+
+seg-bd3169455cd0 = L'étiquette de preuve ({ "0.40" })
+
+seg-6fe796d2b15f = Un paquet créé par la version { "0.40" } ou ultérieure porte, dans <c1/>, une entrée <c2/> (le niveau, <c3/>, <c4/> ou <c5/>, qui est le statut le plus faible parmi ses lignes, ainsi que les identifiants et les exigences des lignes de la matrice de vérification sur lesquelles repose le contenu du paquet : la ligne d'intégrité du paquet, les lignes receiver-trust, et les lignes de notation jammertest ou d'aller-retour pour ces paquets) et <c6/> <c7/>. Elle se trouve dans <c8/>, de sorte que le hachage de fichier du manifeste, la chaîne de hachage et la signature la couvrent : la modifier fait échouer la vérification. <c9/> indique le niveau et les identifiants de lignes.
+
+seg-15b4e784361a = Le changement est additif et à sens unique. Le <c1/> du manifeste reste <c2/> : le texte normatif ci-dessus dit qu'un vérificateur DOIT trouver cette valeur, et le vérificateur indépendant de <c3/> le fait. La version mineure est donc portée par <c4/> (absente pour un paquet créé avant { "0.40" }, ce qui signifie { "1.0" }), et non par une nouvelle chaîne <c5/>. Un paquet créé avant { "0.40" } n'a pas d'étiquette et se vérifie sans changement ; <c6/> indique « no evidence label (pre-0.40 pack) ». Les tests sont <c7/> (y compris les paquets de référence antérieurs à la version 0.40 versionnés) et <c8/>.
+
+seg-218641620d3e = <s1>Suivant</s1>Partenaires de données et lignes à promouvoir

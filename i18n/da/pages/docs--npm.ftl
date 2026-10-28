@@ -81,3 +81,11 @@ seg-d059e9fc67e1 = Gratis og open source under <b>GNU AGPL-3.0-only</b> (GNU Aff
 seg-4ae905aec2ab = <s1>Forrige</s1>Python API
 
 seg-8af548581ae9 = <s1>Næste</s1>Rust-crate
+
+seg-c9a297cc51e9 = { "176" } af { "401" } funktioner valideret mod uafhængige eksterne referencer
+
+seg-7b53ee712a36 = <b>{ "176" } af { "401" }</b> funktioner valideret mod uafhængige eksterne referencer; { "221" } ærligt betegnet modelleret, { "4" } ejet af partnere. Hver funktion bærer én etiket i et maskinkontrolleret register: VALIDATED (en uafhængig ekstern reference stemmer overens: virkelige data, en uafhængig implementering eller offentliggjorte referencevektorer), MODELLED (internt konsistent og sagt højt) eller PARTNER (en hardwarepartner ejer den). Blandt kontrollerne: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm og Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }.
+
+seg-b59781ecf257 = Hvordan en funktion opnår sin etiket: funktion, uafhængig reference, test, registeretiket. Verifikationsstatus på tværs af alle { "401" } funktioner: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere
+
+seg-d0b2811a3d3c = Motoren har { "92" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).

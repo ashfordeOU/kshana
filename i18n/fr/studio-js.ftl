@@ -9520,3 +9520,7 @@ js-trust-track-start = début
 js-trust-unknown-agreement = un accord que cette page ne connaît pas
 
 js-trust-yes = oui
+
+js-mthread-limiting-phase = Le moteur désigne { $source } comme la source limitante de cette phase : une source de la phase, et non une ligne de ce tableau.
+
+js-mthread-limiting-row = la source limitante du moteur

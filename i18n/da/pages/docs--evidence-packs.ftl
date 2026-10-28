@@ -187,3 +187,11 @@ seg-9c361736bf27 = Den er en teknisk registrering og ikke en juridisk udtalelse 
 seg-68bcf43b4e27 = <s1>Forrige</s1>Linjedækning
 
 seg-09c0b5fa6e52 = <s1>Næste</s1>Optiske links gennem atmosfæren
+
+seg-bd3169455cd0 = Evidensetiketten ({ "0.40" })
+
+seg-6fe796d2b15f = En pakke bygget af { "0.40" } eller senere bærer inde i <c1/> en post <c2/> (niveauet, <c3/>, <c4/> eller <c5/>, som er den svageste status blandt dens rækker, og id'erne og kravene for de verifikationsmatrixrækker, pakkens indhold hviler på: rækken for pakkeintegritet, rækkerne for receiver-trust og rækkerne for jammertest-scoring eller rundtur for disse pakker) og <c6/> <c7/>. Den ligger inde i <c8/>, så manifestets filhash, hashkæden og signaturen dækker den: at ændre den får verificeringen til at fejle. <c9/> rapporterer niveauet og række-id'erne.
+
+seg-15b4e784361a = Ændringen er additiv og kun fremadrettet. Manifestets <c1/> forbliver <c2/>: den normative tekst ovenfor siger, at en verifikator SKAL finde den værdi, og clean-room-verifikatoren i <c3/> gør det. Den mindre version bæres derfor af <c4/> (fraværende i en pakke lavet før { "0.40" }, hvilket betyder { "1.0" }), ikke af en ny streng <c5/>. En pakke lavet før { "0.40" } har ingen etiket og verificeres uændret; <c6/> siger "no evidence label (pre-0.40 pack)". Testene er <c7/> (herunder de indlagte uafhængige pakker fra før 0.40) og <c8/>.
+
+seg-218641620d3e = <s1>Næste</s1>Datapartnere og rækker, der kan opgraderes

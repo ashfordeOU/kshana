@@ -84,3 +84,9 @@ seg-92cd937a3fb7 = <s1>Siguiente</s1>ntn-positioning
 
 # text
 seg-28c6a5644152 = Análisis modelado del volumen de servicio de navegación lunar a partir de una constelación en órbita lunar ILLUSTRATIVE, de fuentes públicas, de clase Moonlight/LCNS (sin afiliación con la ESA): barre una cuadrícula selenográfica de latitud y longitud a lo largo de un horizonte temporal e indica DOP, cobertura y disponibilidad (≥{ "4" } satélites Y PDOP < umbral), además de una envolvente generalizada de nivel de protección (HPL/VPL) de ARAIM lunar sobre el volumen. La geometría de DOP REUTILIZA el núcleo gnss_lib_py-VALIDATED (crate::orbit::dop); el nivel de protección REUTILIZA la maquinaria de ARAIM lunar LNIS de LunaNet (crate::lunar, σ_URE≈{ "30" } m) y se reduce al nivel de protección del polo sur existente como caso particular. Composición MODELLED: un conjunto de relés kepleriano circular o elíptico (no las efemérides reales LCNS/NRHO corregidas diferencialmente), una Luna de rotación media (sin libración ni polo con precesión). Determinista (geometría pura). Sin TRL, herencia de vuelo ni respaldo de agencia alguna.
+
+seg-e66e2ca31e54 = Página del tema: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> El tipo de escenario y fase <c1/>: disponibilidad de relés y PDOP, visibilidad de la Tierra y del Sol y un reloj de superficie disciplinado para cada emplazamiento y estación, con el horizonte de terreno de <c2/>; una ejecución de un solo emplazamiento iguala el de ese tipo de escenario
+
+seg-6730fa1b9820 = <s1>Anterior</s1>mission-thread

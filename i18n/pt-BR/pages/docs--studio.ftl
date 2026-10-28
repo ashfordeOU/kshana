@@ -210,3 +210,5 @@ seg-6aa2e78078ae = <s1>Anterior</s1>Glossário
 
 # text
 seg-419353a4fb30 = <s1>Próximo</s1>Tutoriais
+
+seg-74dc3fad6ee7 = <s1>Anterior</s1>Idiomas

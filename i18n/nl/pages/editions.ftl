@@ -811,3 +811,11 @@ seg-2e0c129fb875 = <b>Commerciële licentie</b><s1>De open kern, voor gesloten i
 seg-67341b9eea70 = <b>Iets anders</b><s1>contact@ashforde.org · mail gaat rechtstreeks naar het team</s1>
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
+
+seg-3bf5f474beca = De open engine in het midden: één teken per scenariosoort ({ "92" }), gevuld waar de soort gevalideerde registerrijen heeft, hol waar zijn rijen gemodelleerd zijn, een streepje waar geen registermodule er op naam mee overeenkomt. Kshana Pro en de studie op maat staan eromheen en verbinden met de soorten waarop ze voortbouwen.
+
+seg-f88b6cf10837 = Engine v{ $version } · { "92" } soorten uit <c1/> · registerstatus uit <c2/> · waarop Pro en een studie voortbouwen: het register van edities van de site · geen scenario of seed
+
+seg-7a848f1d8304 = Alle { "92" } scenariosoorten en { "180" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)
+
+seg-cc655ce0b6c8 = De volledige verificatiematrix: { "176" } van { "401" } mogelijkheden gevalideerd tegen onafhankelijke referenties, de rest gelabeld als gemodelleerd

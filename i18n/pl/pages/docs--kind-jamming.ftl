@@ -59,3 +59,5 @@ seg-d7f1fc7f30a6 = Strona tematu: <a1>SPECTRUM.md</a1>
 seg-bd78e9277435 = <s1>Poprzedni</s1>integrity
 
 seg-1d5e7a4b87e9 = <s1>Następny</s1>launch-window
+
+seg-a349aa76b0ed = PARTNER

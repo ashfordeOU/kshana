@@ -459,3 +459,5 @@ seg-6585c8a3643d = ClockRun (jeweils quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (das fom-Objekt)
+
+seg-d17376a1ea92 = ({ "0.40" }) Die Nachweiskennzeichnung des Laufs: <c1/> (<c2/>, <c3/> oder <c4/>: der <em>schwächste</em> Status unter den Zeilen, sodass sie nie mehr behauptet als ihre schwächste Zeile), <c5/> (<c6/>), <c7/> und <c8/>, eine je Zeile der Verifikationsmatrix, die der Lauf beansprucht hat (die Zeilen, die sein erweiterter Bericht aus <c9/> auflistet): <c10/> (<c11/> und die ersten { "8" } Hexadezimalziffern des SHA-256 des Anforderungstexts der Zeile), <c12/> und <c13/>, alle aus der Matrix gelesen, keine getippt. Von <c14/> zum Ergebnis jeder Art hinzugefügt, vor dem nachgestellten Block <c15/>, wenn es einen gibt (dieser Block bleibt der letzte Schlüssel); <c16/> entfernt sie Byte für Byte. Die Diagramm-SVG und die CSV-Tabelle desselben Laufs tragen dieselbe Kennzeichnung (<c17/> und eine sichtbare Zeile unter dem Diagramm; Kommentarzeilen <c18/> vor der CSV). In das Ergebnis einer anderen Art eingebettete Kampagnenmitglieder tragen keine: Das äußere Dokument trägt sie. Enthält keine Zahlen.

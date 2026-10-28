@@ -633,3 +633,17 @@ seg-58c4d7218e70 = La reproducibilidad y el aseguramiento del software son MODEL
 
 # text
 seg-1bf3d5817274 = Todos los tipos de escenario: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Idiomas
+
+seg-aaf9c6896126 = Socios de datos y filas que promover
+
+seg-3b31855a40e7 = Hilo de misión: del lanzamiento a la entrada
+
+seg-0cf138405411 = Hilo de misión: el segmento lunar
+
+seg-5fee8df421d2 = Hilos de misión
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = el identificador estable de la fila de la matriz (el ID

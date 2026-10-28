@@ -51,3 +51,7 @@ seg-8f8871ac8a0f = Onderwerppagina: <a1>LUNAR-REFERENCE-STATION.md</a1>
 seg-2b8455001710 = <s1>Vorige</s1>lunar-beacon
 
 seg-dca7482d9d75 = <s1>Volgende</s1>lunar-frame-campaign
+
+seg-e66e2ca31e54 = Onderwerppagina: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-f9d918743ec6 = <s1>Vorige</s1>lunar-descent

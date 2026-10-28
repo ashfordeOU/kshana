@@ -565,3 +565,79 @@ seg-b2fd2a05842f = Szkoleniowy NMEA to <b>wyłącznie tekst</b>: nie syntezuje s
 seg-4e3bbacda9ac = <s1>Poprzednia</s1>Używanie Kshana z poziomu agenta
 
 seg-c5fbfab85e01 = <s1>Następna</s1>Wtyczka JetBrains
+
+seg-6555ff9a6d8e = Wynik
+
+seg-12471a4b2b57 = Obszar emitera (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (jeszcze nieobsługiwane; pokrywają to powierzchnie Rust, Python i WASM)
+
+seg-dff1bfe0263e = <b>N/A</b> (publikowanie obszarów emiterów w publicznym obserwatorium jest osobną decyzją właściciela i jest wyłączone)
+
+seg-ec2d91e2f867 = Sprawdzenie zgłoszenia partnera danych (format i metadane zgłoszenia zmierzonych danych, <c1/>; niczego nie ocenia)
+
+seg-c16a5ff8218b = <b>N/A</b> (sprawdzenie odczytuje pliki lokalne i ich SHA-256; API Rust jest powierzchnią biblioteki, a CLI narzędziem)
+
+seg-ed29039d1dc0 = <b>N/A</b> (brak systemu plików w kompilacji dla przeglądarki)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP z założenia odrzuca źródła plikowe (tylko tekst w treści))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (polecenia ukośnikowe wywołują narzędzia MCP, a to sprawdzenie potrzebuje plików na dysku)
+
+seg-be971c31e0de = <b>N/A</b> (akcje JetBrains są powiązane z jednym wybranym plikiem; zgłoszenie jest folderem)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio nie ma dostępu do systemu plików; uruchom polecenie)
+
+seg-521b58a1080e = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę: osiem rodzajów faz, zasady przekazania, konwersje układów odniesienia i skal czasu, nakładka sieci naziemnej, margines względem podanych wymagań i najsłabsze ogniwo (rodzaj scenariusza <c1/>; <c2/>; MODELLED, wejścia ILLUSTRATIVE, doradczo; tylko źródła publiczne, bez poparcia)
+
+seg-6b451021b87a = <c1/> (z kopii repozytorium: odczytuje zatwierdzony wycinek jądra Księżyca)
+
+seg-ac3e013b5217 = <c1/> (<c2/> jest kluczem pliku i jest odrzucany; bez jądra Księżyc pochodzi z serii analitycznej, a wiersz konwersji o tym mówi)
+
+seg-e957474f44a8 = <c1/> (tylko w treści; klucz jądra jest odrzucany)
+
+seg-1c1729fafe99 = <b>N/A</b> (brak notatnika; przykład działa w każdym notatniku przez <c1/> z kopii repozytorium)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (jeszcze nieobsługiwane)
+
+seg-ab52a3469f6a = Szacowane obszary emitera, MODELLED; katalogi śladów i <c1/> są tylko w wierszu poleceń
+
+seg-5f1ce275acbd = Odczytuje plik zgłoszenia i jego plik danych na dysku oraz weryfikuje SHA-256; żadna z tych powierzchni nie ma folderu. Tylko format i metadane, nic nie jest oceniane; zob. <c1/>
+
+seg-fc9ab9f71553 = Etykieta dowodowa i wyniki, które jej nie niosą
+
+seg-b1e4bcc2ac09 = Każda wartość i tabela zapisywana przez przebieg niesie swój poziom dowodowy (<c1/>, <c2/> lub <c3/>, według najsłabszego z wierszy rejestru, które za nią stoją) i identyfikatory tych wierszy, na każdej powierzchni uruchamiającej scenariusz: JSON wyniku (klucz <c4/>), SVG wykresu (element metadanych i wiersz pod wykresem) oraz tabela CSV (<c5/> wierszy komentarza). Ta sama etykieta jest przy wynikach receiver-trust (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, raporcie trasy mapy zakłóceń oraz wewnątrz <c11/> każdego pakietu dowodowego (podpisanego; <c12/> ją podaje). Identyfikatory wierszy są stabilne (<c13/> i osiem cyfr szesnastkowych, kolumna <c14/> w <c15/>).
+
+seg-c66058f24f0e = Te wyniki nie niosą etykiety, każdy z podanego powodu (lista to <c1/> w <c2/>, który kończy się niepowodzeniem dla zapisującego, który nie jest ani oznaczony, ani wymieniony):
+
+seg-04ca90423b80 = Dlaczego nie niesie etykiety
+
+seg-a90c022c4dea = pliki wyników kshana-bench
+
+seg-9f3f0adbcfe6 = stały schemat przypięty zobowiązaniami zapieczętowanego zbioru; każdy niesie własne <c1/> (MODELLED lub zmierzone)
+
+seg-9bb126104f12 = dobowe produkty obserwatorium zakłóceń (GeoJSON, PNG, JSON incydentu)
+
+seg-ddbc60cb14ac = zamrożony, opublikowany schemat; zastrzeżenia noty o metodzie podróżują razem z nimi
+
+seg-874cb55d3457 = komórka kampanii IQ, karta wyników i pliki raportu
+
+seg-8c8cb4bd5110 = przypięte skrótem; każdy podaje kartę wyników kampanii, którą powtarza
+
+seg-8d2645e93451 = próbki IQ, SigMF i metadane SDR, wzorzec sceny, strumienie epok i zdarzeń śledzenia, dzienniki sesji na żywo
+
+seg-9fa872028a08 = pliki związane z formatem i strumienie zapisów czytane przez inne narzędzia
+
+seg-6c77071a0d03 = eksporty SP3, OMM, OEM, CZML, KML, GeoJSON, STK, ruchu stanowiska testowego i NMEA; strumień NMEA do szkolenia
+
+seg-5c1b92afa402 = pliki związane z formatem czytane przez narzędzia firm trzecich
+
+seg-b5c79a0e395c = formaty przewodowe telemetrii (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = określone przez ich formaty przewodowe
+
+seg-3ba06004fc14 = wygenerowane dokumenty (sam rejestr, zatwierdzone tabele badań i danych)
+
+seg-8be4943acd00 = nie są wynikiem przebiegu

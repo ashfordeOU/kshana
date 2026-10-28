@@ -47,3 +47,5 @@ seg-d717412c4f06 = Självbeskrivningen i länkbudgetrapporten är MODELLED, inte
 seg-ffbc9de75306 = <s1>Föregående</s1>leo-signal
 
 seg-59d4cb995cb9 = <s1>Nästa</s1>lunar-attack-surface
+
+seg-410a790785e7 = <s1>Nästa</s1>lunar-ascent
