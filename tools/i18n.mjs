@@ -434,6 +434,8 @@ async function apply(args) {
     } catch (e) { if (e.code !== 'ENOENT') throw e; }
     report.push(`${lang}: ${T} segments translated, ${M} left in English, ${pages.length} pages`);
   }
+  const fp = await firstpaintTree(opt.out, opt.root);
+  if (fp) report.push(`first-paint map: ${fp.length} languages`);
   console.log(report.join('\n'));
 }
 
@@ -911,9 +913,48 @@ async function dataCmd(args) {
   console.log(`data: ${r.count} messages from ${spec.files.length} JSON files into ${opt.out}`);
 }
 
+/** The first-paint map: the Studio's two inline-script messages (the "Recorded result" chip and hero line), per built language, from
+ *  i18n/<lang>/studio-js.ftl (ids js-app-source-recorded and js-app-source-recorded-loading, the same t() sites app.js uses), with the
+ *  version left as the token %V. Returns { map, tag }: tag is the <script id="kshana-fp"> element. */
+export const FP_IDS = { r: 'js-app-source-recorded', l: 'js-app-source-recorded-loading' };
+export async function firstpaintMap(root, langs) {
+  const L = await lang();
+  const map = {};
+  for (const lg of langs) {
+    const f = join(root, lg, 'studio-js.ftl');
+    if (!existsSync(f)) continue;
+    const b = L.bundleFor(lg, [f]);
+    const e = {};
+    for (const [k, id] of Object.entries(FP_IDS)) { const m = b.getMessage(id); if (m && m.value) { try { const v = b.formatPattern(m.value, { version: '%V' }); if (v.includes('%V')) e[k] = v; } catch { /* English */ } } }
+    if (e.r && e.l) map[lg] = e;
+  }
+  const json = JSON.stringify(map).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+  return { map, tag: `<script id="kshana-fp">window.kshanaFP=${json}</script>` };
+}
+const FP_RE = /<script id="kshana-fp">[\s\S]*?<\/script>\n?/;
+/** Writes the map into <tree>/studio/index.html (replacing an earlier one), for every <tree>/<lang>/studio/ stub present. Returns the languages, or null without a Studio page. */
+export async function firstpaintTree(tree, root = 'i18n') {
+  const page = join(tree, 'studio', 'index.html');
+  if (!existsSync(page)) return null;
+  const L = await lang();
+  const { map, tag } = await firstpaintMap(root, [...L.LANGS, 'en-XA'].filter((lg) => existsSync(join(tree, lg, 'studio', 'index.html'))));
+  let html = readFileSync(page, 'utf8').replace(FP_RE, '');
+  const end = html.indexOf('</head>');
+  if (end < 0) throw new Error(`firstpaint: ${page} has no </head>`);
+  writeFileSync(page, html.slice(0, end) + tag + '\n' + html.slice(end)); // after the charset meta, before the body's classic script that reads it
+  return Object.keys(map);
+}
+/** firstpaint --tree DIR [--root i18n]: write the first-paint map into DIR/studio/index.html (apply does this too). */
+async function firstpaint(args) {
+  const { opt } = args2opt(args, { tree: '', root: 'i18n' });
+  if (!opt.tree) { console.error('usage: node tools/i18n.mjs firstpaint --tree <built site> [--root i18n]'); process.exit(2); }
+  const r = await firstpaintTree(opt.tree, opt.root);
+  console.log(r ? `firstpaint: ${r.length} languages in ${opt.tree}/studio/index.html` : `firstpaint: no ${opt.tree}/studio/index.html`);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
+  const run = { extract: async () => extract(rest), status: () => status(rest), check: () => check(rest), pseudo: () => pseudo(rest), apply: () => apply(rest), images: async () => images(rest), data: () => dataCmd(rest), migrate: () => migrate(rest), 'studio-pages': async () => studioPages(rest), jsx: async () => jsx(rest), firstpaint: async () => firstpaint(rest), todo: () => todo(rest), merge: () => merge(rest), csslint: async () => csslint(rest), verify: () => verify(rest), langs: () => langsCmd(rest), sitemaps: async () => sitemaps(rest), size: async () => size(rest), english: () => english(rest) }[cmd];
   if (run) await run();
   else if (!cmd) { console.error('usage: node tools/i18n.mjs extract|apply|check|status|pseudo|csslint'); process.exit(2); }
   else { console.error(`i18n: '${cmd}' is not built yet`); process.exit(2); }

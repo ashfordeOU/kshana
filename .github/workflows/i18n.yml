@@ -63,5 +63,7 @@ jobs:
         run: node tools/i18n-caps-test.mjs
       - name: Language negotiation
         run: node tools/i18n-negotiation-test.mjs --en "$RUNNER_TEMP/site"
+      - name: First-paint map (the Studio's inline words follow the language)
+        run: node tools/i18n-firstpaint-test.mjs
       - name: Pseudo-locale test (hard-coded text, overflow at 1440 and 390 px)
         run: node tools/i18n-pseudo-test.mjs --dist "$RUNNER_TEMP/dist" --src "$RUNNER_TEMP/site" --all
