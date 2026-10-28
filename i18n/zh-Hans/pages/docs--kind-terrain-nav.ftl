@@ -29,3 +29,7 @@ seg-c5e33c7122e2 = 引擎为scenarios/terrain-nav.toml（场景类型terrain-nav
 seg-0fcad0016c78 = <s1>上一页</s1>telecom-timing
 
 seg-fa50992f818f = <s1>下一页</s1>terrain-slam
+
+seg-e66e2ca31e54 = 主题页面：<a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> <c1/>类型与阶段：针对动力下降的五状态逐轴惯性误差模型（位置、速度、加速度计偏置、倾斜、陀螺偏置），由AFS修正辅助（独立或差分，含时钟辅助的三中继

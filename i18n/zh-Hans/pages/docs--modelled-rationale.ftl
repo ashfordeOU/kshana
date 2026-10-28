@@ -2016,3 +2016,133 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs（rtklib_pos_runs_as_a_recei
 seg-7a0503f925c1 = <s1>上一页</s1>能力参考
 
 seg-b5832e94f926 = <s1>下一页</s1>对现实的论断
+
+seg-65185cb68d6b = 从发射到再入的一串任务阶段的导航与授时误差预算（<c1/>）
+
+seg-86a132e1a243 = <c1/>类型：由多个阶段组成的文档，每个阶段是八种已注册类型之一，按顺序运行，6x6协方差、时钟和坐标系依所述规则向后交接（<c2/>；<c3/>，在直线模型上对所述间隔施加白加速度噪声；<c4/>，先航位推算，再取来源下限，绝不低于它，也绝不复位）；GCRF、MCI和MCMF之间的坐标系转换以及经由TT的时间标度转换，各为单独的预算行，月球状态取自可选的DE440星历裁切文件，并以解析级数作为所述的后备；相对既定需求的余量、最薄弱环节、事件和一张时间线图。每个数字要么是既定输入，要么是对既定输入的建模
+
+seg-87b2b2459b45 = 发射与上升至停泊轨道，含GNSS捕获与衰落（<c1/>）
+
+seg-725e7ce83533 = <c1/>阶段：带白加速度噪声的匀速位置与速度协方差（航位推算等级）、在捕获时间之后且在所述衰落之外施加的、具有所述精度的GNSS定位解、由同一批定位解校准的偏差加漂移时钟，以及停泊轨道入轨状态
+
+seg-eb66a49b0306 = 在各传感器弧段上，近地轨道内到对接包络的相对导航（<c1/>）
+
+seg-658a0448d80d = <c1/>阶段：目标LVLH轴系中的相对状态，采用闭式Clohessy-Wiltshire转移矩阵、带白加速度噪声的6x6卡尔曼协方差，以及方差为传感器在当前距离处方差的位置更新，覆盖所述传感器的各弧段（ILLUSTRATIVE 的光学相机、激光雷达和无线电测距形式）；对接窗口是从相对sigma保持在捕获包络之内的时刻到该阶段结束的时间。追踪器的绝对协方差原样交接，并有一行说明这一点
+
+seg-b45a8a357faf = 地月转移注入与地月巡航：含跟踪更新的平均状态与协方差传播（<c1/>）
+
+seg-ab5c79789754 = <c1/>阶段：平均状态由引擎的Cowell传播器给出（地球点质量和J2、作为第三体的太阳和月球；月球取自任务链的DE440星历文件（在其覆盖该航段时），太阳取自解析级数）；协方差由该传播的前向差分状态转移矩阵给出（每个航段一次名义运行加六次扰动运行），并带白加速度噪声；TLI点火的大小与指向误差；<c2/>定位解，其可用性和PDOP来自沿一条充当该弧段的密切轨道所做的空间服务体积扫描；沿地心方向的距离与距离变化率跟踪，按地面网络占空比缩放，并采用Joseph形式更新
+
+seg-7a3eb4fae324 = 再入界面协方差、走廊概率、峰值减速度和着陆足迹（<c1/>）
+
+seg-93f07906d7bf = <c1/>阶段：<c2/>的返回滑行段，不点火，终止于再入界面；飞行路径角及其sigma由完整协方差经有限差分梯度得出；该角处于所述走廊之内的概率；在名义角和走廊两个边缘处的峰值减速度，取自引擎的平面弹道质点再入（检测跳出），并与Allen-Eggers闭式解并列；着陆足迹由所述的下程灵敏度和穿越轨道面的界面协方差得出。未对升力、制导或热流建模
+
+seg-3f0951532f6e = 某任务阶段的地面网络覆盖与跟踪占空比（<c2/>的<c1/>）
+
+seg-5204af351299 = 地面网络叠加层：设有最低仰角的测站、飞行器在所述几何下的可见性（再入状态按带J2的二体问题飞行，巡航段取月球位置，或取所述占空比）、每次损失所述时间的测站切换，以及传给该阶段地面跟踪更新率的最终占空比；任何测站都不可见的最长间隔是一条预算行
+
+seg-4ba700726208 = 月球轨道上对接的相对导航（<c1/>）
+
+seg-2e30e78e49f7 = <c1/>类型与阶段：在弧段上对两个飞行器做联合批处理Gauss-Newton估计（二十一个参数：两者的状态，以及持续存在的信号在空间中的位置偏差，含共同部分和独立部分），按四分之一、二分之一和整段弧段逐步扩展并采用步长减半，输入为每个飞行器的一个绝对定位解（AFS导频码跟踪界，ILLUSTRATIVE 的中继集）和一个交联测距，采用该库的月球力模型；平均归一化估计误差平方、圆轨道上的Clohessy-Wiltshire检验，以及向后交接的6x6协方差
+
+seg-1983ce9cc6da = 月球力模型传播对照公开的重建月球轨道器和地月轨迹
+
+seg-57f53a7d1fa2 = 各月球类型共用的传播器（GRAIL GL0660B，阶次{ "150" }，地球和太阳作为第三体，相对论，DE440月球定向），与LRO（{ "24" } h，{ "10" }分钟采样）和CAPSTONE（一个{ "6.5" }天的周期，一小时采样）的JPL Horizons公开轨迹比较，判据在运行前已固定于一个已提交的文件中
+
+seg-c557d317389a = 地月平均状态传播对照公开的阿尔忒弥斯 I 轨迹（<c1/>）
+
+seg-539d4c3e9b56 = <c1/>阶段的平均状态传播（Cowell，地球点质量和J2，作为第三体的太阳和月球，月球取自DE440裁切文件），与阿尔忒弥斯 I 在{ "72" } h滑行弧段上的JPL Horizons公开轨迹比较，起点为2022-11-16 { "18" }:{ "00" } TDB，每隔{ "12" }小时取一个历元，判据在运行前已固定于一个已提交的文件中
+
+seg-150ae9c3d755 = 干扰源区域：由飞机和船舶位置报告得出的可行发射源区域
+
+seg-b5c49044a7a1 = 由ADS-B（NIC/NACp）或AIS位置报告得出的、降质导航报告来源可能所在位置的可行区域：按报告高度和发射源天线高度范围、在4/3地球半径下的无线电视距；针对未知功率的有限有效距离；受影响的单元把后验拉向其可达范围，而具有视距的未受影响单元则把后验推离之，并按时间和空间归并为时段。输出为所述置信水平下的最高密度区域、带矩椭圆的后验质心、时段起止、持续时间、受影响面积以及高于发布下限的不同飞机数量、一日内的时段分布以及每日小时数。不含地形；每个时段只有一个来源；可信度以模型为条件。可选与来自地理定位的TDOA定位解融合。
+
+seg-26d9a520eb6a = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的手算（直线协方差增长、平均恒星自转、长期月球时钟速率），以及仅针对月球状态，已提交的DE440星历截取对照固定的JPL Horizons数值（最差{ "2.6" } m和{ "7e-6" } m/s）。没有任何任务数据与该链路作比较；其各阶段是各自独立的行。该文档是一条给定的链路，输入为ILLUSTRATIVE，仅使用公开资料，且没有任何机构背书
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的Riccati稳态和预测的手算。这里没有对运载火箭或接收机建模；每个数值都是给定的输入
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中对预测与更新的单轴手算；Clohessy-Wiltshire转移即cw_dynamics对照独立数值积分所检验的那一个。传感器为ILLUSTRATIVE，没有与任何真实交会作比较
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的Liouville定理（保守部分的状态转移矩阵行列式为一）和更细的差分；平均状态与下一行中的公开轨迹作了比较，二者不符。点火误差、更新和协方差没有与任何东西作比较
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的手算（角度sigma是垂直速度sigma除以速度；走廊内的高斯质量）。平面再入是引擎自带的，Allen-Eggers形式是闭式对照；没有与任何已飞行的再入作比较
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的天顶与对跖点几何检查，以及远处目标的预期可见性。没有对任何真实的网络、天线或调度建模
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——预先登记下的自洽性（xval/mission-thread-lunar/PREREGISTRATION.md，结果和估计器的演变历史见RESULTS.md）：相对状态的平均NEES为{ "5.85" }至{ "5.93" }，判据区间为{ "5.2" }至{ "6.8" }，在四种配置下均如此，在第四种估计器设计上MET，此前三种序贯滤波器设计均未达标；真值和估计器共用同一个力模型，因此这说明不了任何模型误差。它所共用的传播器在下面一行中与LRO和CAPSTONE作了比较
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的闭式惯性漂移、被复用类型自身的结果，以及3σ 椭圆的标定（椭圆内比例与其期望相符）。没有与任何已飞行或已试验的着陆作比较
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = 对照本代码库内一个独立的实现进行检查，独立于被测单元，但不具外部权威性——在测试中，单站点时与现有类型完全相等，并通过单调性检查。中继星集合为ILLUSTRATIVE，没有与任何地表测量作比较
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——测试中的闭式惯性漂移和单调性检查。没有与任何已飞行的上升作比较
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = 某一子声明经外部核对，但整项能力由模型计算得出的部分组合而成，因此该能力仍为已建模——JPL Horizons对LRO和CAPSTONE的航天器星历，对照xval/mission-thread-lunar/PREREGISTRATION.md中预先登记的判据（修订{ "1" }至{ "6" }）。LRO：MET，最大3-D差异{ "33" } m，径向RMS { "2.4" } m，判据分别为{ "500" } m和{ "60" } m。CAPSTONE：NOT MET，末端位置差异{ "136.8" } km，判据为{ "25" } km，近心点差异{ "28.4" } km，判据为{ "10" } km，原因未能分离。该行为已建模，是因为CAPSTONE的判据未达到，且该比较检验的是共用的传播器，而不是任何滤波器、信号或预算
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = 某一子声明经外部核对，但整项能力由模型计算得出的部分组合而成，因此该能力仍为已建模——JPL Horizons目标 -1023（NASA导航的实飞TLI后轨迹），对照xval/mission-thread/PREREGISTRATION.md中预先登记的判据（修订{ "1" }仅更改请求的时间跨度）。NOT MET，并按未达标断言：最大位置差异{ "45.3" } km，判据为{ "5" } km；{ "72" } h处速度差异{ "0.249" } m/s，判据为{ "0.05" } m/s。在给出判定之后写成的诊断，把未达标归因于参考轨迹中五次脉冲式速度阶跃，大小为{ "0.09" }至{ "0.22" } m/s（预先登记的该时间窗内无点火的判断是错误的）；在其余{ "67" }小时内，模型复现下一小时状态的中位数误差为{ "0.38" } m。仅检验一条滑行弧段的平均状态：不涉及协方差、滤波器、更新或其他阶段
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = 对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）——目前没有外部核对。只有合成的正向-反向往返，所用生成器与估计器共用同一模型，因此它们检查的是代码以及该模型下所规定水平的标定，对真实发射源则一无所知。对照已发布的Jammertest { "2025" }发射站点的外部核对已预先登记（docs/emitter-region/PREREGISTRATION.md，在任何计分运行之前由所有者签署确认），并运行了一次（docs/emitter-region/RESULTS.md）：ADS-B为NOT ASSESSABLE（{ "2" }个预定会话，少于登记的最低{ "4" }个），AIS为NOT ASSESSABLE（没有已发布的会话），因此没有任何判据得到检验，该行仍为MODELLED
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = interference_map::emitter单元测试（投影往返、地平线数值、合成的正向与反向往返：已知发射源以大致规定的比率落在规定区域内、边界情形、会话聚类、配置、隐私与措辞）；tests/interference_map_cli.rs的locate用例
+
+seg-a2bf08b8e82d = { "221" }项能力被标为MODELLED。
+
+seg-c85d7e5e63a3 = 月球极区着陆点的着陆散布预算（<c1/>）
+
+seg-bd88ab3ad105 = <c1/> 类型与阶段：针对动力下降的五状态逐轴惯性误差模型（位置、速度、加速度计偏差、倾斜、陀螺偏差），由 AFS 定位（独立或差分，含时钟辅助的三中继情形）、地形相对定位（引擎在合成地形上的地形导航匹配器，或在 LOLA DEM 上带孔径问题规则的 Cramer-Rao 界）以及月球时间辅助，并给出蒙特卡洛触地椭圆
+
+seg-8dfc1600cf8c = 月球极区按站点和季节划分的地表定位与授时可用性（<c1/>）
+
+seg-f91c1da9ab55 = <c1/> 类型与阶段：每个站点和季节的中继可用性与 PDOP、地球与太阳可见性以及受驯服的地表时钟，并带有 <c2/> 的地形天际线；单站点运行与该类型的可用性和 PDOP 逐位一致
+
+seg-0db91d70a079 = 从月球极区站点到入轨轨道的动力上升（<c1/>）
+
+seg-b5b1125d515c = <c1/> 类型与阶段：沿航迹带有比力的动力上升过程中运行的五状态逐轴惯性误差模型，由 AFS 定位和月球时间辅助，报告传递至轨道的入轨位置与速度协方差以及发动机关机散布（仅报告，不传递）

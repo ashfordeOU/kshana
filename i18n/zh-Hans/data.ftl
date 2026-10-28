@@ -6197,3 +6197,235 @@ dat-4d509256e890 = 一次运行接收一份接触计划（aos_s/los_s 窗口列�
 dat-3f3e98fcc168 = 一个与框架对齐的评分引擎（DHS RPCF 类别），将架构的模拟行为映射为各维度子分数，然后检验任何单一综合分数或成熟度等级是否能作为决策的稳定依据——通过 Dirichlet 权重单纯形、Kendall-tau 排名不稳定性、top-1 胜者翻转率以及共模多样性塌缩（Hill-N2）——并附带带完整性哈希的保证报告。可通过 cargo run --example resilience_report 复现。与 RPCF v2.0 对齐的建模合成架构；这是一次自我评估，而非认证。
 
 dat-4a036f537d6c = DSN 轨道数据文件（TRK-2-18）的读取器：36 字节记录组（文件标签、标识符、轨道数据、各测站斜坡、钟差、摘要、文件结束），以及每条轨道数据记录中自 { "1950" } 起的时间标记、下行与上行延迟、观测量、测站、数据类型、频段、有效性、通道、航天器、46 位参考频率和压缩时间；斜坡的起止时间、速率和起始频率。在此基础上构建了带斜坡的2-way X 波段多普勒模型（积分上行斜坡、含 Shapiro 与对流层的往返光行时、经 IAU 2006/2000A CIO 链和 IERS EOP 的 DSN 测站、测站时间）以及火星轨道器批处理定轨（GMM-3 场、第三体、SRP、阻力）。
+
+dat-338478a8723e = 引擎v{ $version }的{ "1" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-cd5eb1698a87 = 引擎v{ $version }的{ "14" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-60cc193bcc29 = 引擎v{ $version }的{ "2" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-b73627a5b6d7 = 引擎v{ $version }的{ "24" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-fd22a00f9aa5 = 引擎v{ $version }的{ "5" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-ef1e661614eb = 引擎v{ $version }的{ "6" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-9379a089776e = 引擎v{ $version }的{ "7" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-25d6ecf7e78d = 引擎v{ $version }的{ "9" }种场景类型。仅供参考：研究与工程工具的分析输出，不是…
+
+dat-90999a1f6b23 = { "92" }种类型中的{ "92" }种，{ "3300" }个数值字段中的{ "3300" }个
+
+dat-e069e927e712 = 一个时钟场景，其经典时钟采用实测日志的噪声（`[clock_fit]`）。
+
+dat-7b70d5db0ca0 = 一个时钟场景，在模拟的守时旁附有实测日志（`[clock_log]`）。
+
+dat-6e2cb362b6ee = 导航报告劣化的来源可能所在的可行区域，来自ADS-B（NIC/NACp）或AIS位置报告：依据报告高度和发射天线高度范围，按4/3地球半径计算无线电视距；对未知功率取有限的有效作用距离；受影响的单位把后验拉向其作用范围，有视距而未受影响的单位则把后验推离，按时间和空间归并为会话。输出为所述置信水平下的最高密度区域、带矩椭圆的后验质心、会话的开始、结束、持续时间、受影响面积和超过公布下限的不同飞机数量、时段分布以及每天的小时数。不含地形；每个会话只有单一来源；可信度以模型为条件。可选择与来自地理定位的TDOA定位结果融合。
+
+dat-7c2ec7378a5c = 测试中对预测和更新做的单轴手算；Clohessy-Wiltshire转移矩阵就是cw_dynamics对照独立数值积分核对过的那一个。传感器为ILLUSTRATIVE，没有与任何真实交会做比较
+
+dat-9c42080d805e = 仅供参考的软件，不是经认证的导航设备。
+
+dat-3ab21add7c07 = Artemis级任务线程：由一串阶段构成的导航和授时误差预算，从发射
+
+dat-6ba64899cc4a = 选择语言
+
+dat-1886310b3396 = 署名与权利
+
+dat-3ab0b8db8085 = 依赖项与许可
+
+dat-ce766cce1a7d = 用你自己的时钟驱动守时：[clock_fit]
+
+dat-6fd0ece9147e = 发射源区域（interference-map locate）
+
+dat-fe6d68d3c1f9 = 再入界面协方差、走廊概率、峰值减速度和着陆足迹（`entry`）
+
+dat-f6759242b1a9 = 错误及其代码
+
+dat-0488b2056745 = 每个随附的场景文件（{ "192" }个），按类型分组，附其关键设置。
+
+dat-c0206ef96894 = 引擎v{ $version }所分派的每种场景类型（{ "92" }种），归入{ "13" }个类型族。
+
+dat-59385aaf8a98 = 测试中，对某一站点与既有类型完全相等，以及单调性检查。中继集合为ILLUSTRATIVE，没有与任何地表测量做比较
+
+dat-6ed624c1c297 = 四种场景类型，每种同时也是任务线程接口（src/mission_thread/）的一种阶段类型：它们……
+
+dat-ed7ff984ba53 = 坐标系与时间尺度
+
+dat-36619fa31a07 = 任务线程某阶段的地面网络覆盖和跟踪占空比（`mission-thread`的`[ground_network]`）
+
+dat-626be4f0752e = 测试中的手算（角度的sigma为垂直速度sigma除以速率；走廊内的高斯质量）。平面再入为引擎自有，Allen-Eggers形式为闭式比较；没有与任何实际飞行的再入做比较
+
+dat-1d6764bb725d = 测试中的手算（直线协方差增长、平均恒星时自转、月球时钟的长期速率），并且仅针对月球状态，将已提交的DE440内核截取文件与固定的JPL Horizons值比较（最差为{ "2.6" } m和{ "7e-6" } m/s）。没有任务数据与该链路做比较；其各阶段是各自独立的行。该文档是一条所述的链路，输入为ILLUSTRATIVE，仅用公开来源，没有任何机构背书
+
+dat-a8beacb2b7c6 = 文档如何表述一个阶段
+
+dat-f4f6c97c58d7 = 引擎如何用另一种语言运行（运行两次规则）
+
+dat-18ddc744e88f = 提交如何检查
+
+dat-b233043f785b = 安装Kshana MCP服务器（v{ $version }）
+
+dat-bc70cb57a31f = 干扰源区域：根据飞机和船舶位置报告得出的可行发射源区域
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = interference_map::emitter单元测试（投影往返、视距地平线数值、合成的正向和逆向往返：已知发射源以大约所述比率落在所述区域内，边界情形，会话聚类，分布，隐私和措辞）；tests/interference_map_cli.rs中的locate用例
+
+dat-f1881d3fd450 = 对照LRO和CAPSTONE的JPL Horizons航天器星历，判据已在xval/mission-thread-lunar/PREREGISTRATION.md中预先登记（修订{ "1" }至{ "6" }）。LRO：MET，最大3-D差异{ "33" } m，径向RMS为{ "2.4" } m，对照判据{ "500" } m和{ "60" } m。CAPSTONE：NOT MET，终点位置差异{ "136.8" } km，对照判据{ "25" } km，近拱点差异{ "28.4" } km，对照判据{ "10" } km，原因未能分离。该行为由模型计算，因为CAPSTONE的判据未达到，且该比较检验的是共用的传播器，而非任何滤波器、信号或预算
+
+dat-203f52ed49d1 = JPL Horizons目标-1023（NASA的导航实际飞行TLI后轨迹），判据已在xval/mission-thread/PREREGISTRATION.md中预先登记（修订{ "1" }仅改变请求的时间跨度）。NOT MET，并已断言为未达到：最大位置差异{ "45.3" } km，对照判据{ "5" } km；{ "72" } h处的速度差异为{ "0.249" } m/s，对照判据{ "0.05" } m/s。在判定之后写成的一项诊断，将未达到的原因定位于参考中的五次脉冲式速度步进，大小为{ "0.09" }至{ "0.22" } m/s（预先登记的“该窗口内没有点火”的判断是错误的）；在其余{ "67" }小时中，模型复现下一个每小时状态的中位数误差为{ "0.38" } m。仅检验单一滑行弧段的平均状态：不涉及协方差、滤波器、更新或其他阶段
+
+dat-021bd19116af = 已知局限
+
+dat-61ab3ea0293c = Kshana在经机器检查的台账（验证矩阵）中为每项能力标注标签。
+
+dat-0002d522fae4 = 月球极地站点的着陆散布预算（`lunar-descent`）
+
+dat-141c646761d9 = 发射与上升至停泊轨道，含GNSS捕获和衰落（`launch-ascent`）
+
+dat-252a4ca5d8cd = 刘维尔定理（保守部分的状态转移矩阵行列式为一）以及测试中更精细的差分；平均状态与下一行中的公开轨迹做了比较，且未达到。点火误差、更新和协方差没有与任何内容做比较
+
+dat-1b090eb926b7 = 引擎的本地化
+
+dat-5482eb8e992e = 月面上升：从南极地区的月面站点（Artemis级）起飞，动力上升至{ "100" } km的交会
+
+dat-b5499ac7fa90 = 采用真实LOLA南极DEM的月面着陆散布：动力下降至南极地区站点（Artemis级）的预算，取决于……
+
+dat-c064ed689649 = 月面着陆散布：动力下降至南极地区站点（Artemis级）的预算，取决于
+
+dat-e576d5088076 = 椭圆极轨道上的月球交会：对Orion与着陆器式对接的相对导航，位于
+
+dat-7459ee1f4efa = 月球交会：在{ "100" } km圆形极地对Orion与着陆器式对接的相对导航
+
+dat-25f2f7c5048f = 按站点和季节的月面PNT和授时可用性（Artemis级南极站点）。
+
+dat-fdedddcf211b = 按站点和季节的月面PNT和授时可用性，采用真实的LOLA南极地形
+
+dat-f250522ecad3 = lunar-ascent（场景类型）
+
+dat-afded8513758 = lunar-descent（场景类型）
+
+dat-0ecc667216ea = lunar-orbit-rendezvous（场景类型）
+
+dat-4ea2873d47bd = lunar-surface（场景类型）
+
+dat-d2b23c8c0cb8 = 任务线程
+
+dat-42ff804cc994 = 任务线程（场景类型族）
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs（报告的单位块）
+
+dat-5b23ee4808db = mission-thread（场景类型）
+
+dat-f6f0757c4934 = MODELLED的着陆散布预算，针对动力下降至南极地区站点（Artemis级）。
+
+dat-64ba276bb1f8 = MODELLED的着陆散布预算，针对动力下降至南极地区站点（Artemis级）。每……
+
+dat-84797c24853b = MODELLED的导航和授时误差预算，针对一串所述任务阶段，从发射到再入……
+
+dat-eee427a562f9 = MODELLED的从南极地区月面站点到交会轨道的动力上升，以及位置—速度……
+
+dat-a5d5120ad3dd = MODELLED的相对导航，针对低月轨道或椭圆极轨道上Orion与着陆器式对接……
+
+dat-6cb24469351b = MODELLED的按站点和季节的地表定位和授时可用性，针对Artemis级南极站点。
+
+dat-61218243092c = MODELLED的按站点和季节的地表定位和授时可用性，针对Artemis级南极站点。……
+
+dat-dd872eabd06d = 从发射到再入的一串任务阶段的导航和授时误差预算（`mission-thread`）
+
+dat-7557b6b1b3a2 = 目前尚无外部核对。仅有合成的正向—逆向往返，来自与估计器共用模型的生成器，因此它们检验的是代码以及该模型下所述水平的校准，对真实的发射源则什么也说明不了。曾预先登记（docs/emitter-region/PREREGISTRATION.md，在任何评分运行之前由所有者签字确认）对已发布的Jammertest { "2025" }发射机站点做外部核对，并运行了一次（docs/emitter-region/RESULTS.md）：ADS-B为NOT ASSESSABLE（{ "2" }个已安排的会话，少于登记的最小值{ "4" }个），AIS为NOT ASSESSABLE（没有已发布的会话），因此没有检验任何判据，该行仍为MODELLED
+
+dat-c61600fc3590 = 关于实测数据
+
+dat-edfd6919d948 = 合作方数据：哪些实测数据可以提升MODELLED行
+
+dat-5bd5efbe5a8c = 从月球极地站点动力上升至入轨轨道（`lunar-ascent`）
+
+dat-5c095f4884b4 = 月球轨道上直至对接的相对导航（`lunar-orbit-rendezvous`）
+
+dat-3285c0183c5b = 近地轨道上经传感器各段直至对接包络的相对导航（`leo-rendezvous`）
+
+dat-a3f40e7b5f38 = 合作方的数据可能提升的行
+
+dat-c069be5250fc = 预先登记下的自洽性（xval/mission-thread-lunar/PREREGISTRATION.md，结果和估计器的演变历史见RESULTS.md）：相对状态的平均NEES在四种配置中为{ "5.85" }至{ "5.93" }，对照区间{ "5.2" }至{ "6.8" }，在第四种估计器设计上MET，此前三种序贯滤波器设计均未达到；真值和估计器共用同一个力模型，因此这对模型误差什么也说明不了。它所共用的传播器在下面一行中与LRO和CAPSTONE做了比较
+
+dat-bb8b8191a0f6 = 月球两极按站点和季节的地表定位和授时可用性（`lunar-surface`）
+
+dat-11e9ad0e8321 = `entry`阶段：`tli-and-cruise`的返回滑行段，无点火，终止于再入界面；航迹角及其sigma，由完整协方差通过有限差分梯度得出；该角度位于所述走廊内的概率；在名义角度和两个走廊边缘处的峰值减速度，来自引擎的平面弹道质点再入（检出跳出），并列Allen-Eggers闭式解；着陆足迹，来自所述的下行距离灵敏度和穿过轨道面的界面协方差。不对升力、制导或加热建模
+
+dat-5fedd1cdf670 = `launch-ascent`阶段：带白噪声加速度的匀速位置和速度协方差（航位推算级别）、在捕获时间之后且在所述衰落之外施加的所述精度的GNSS定位、由同样的定位校准的偏差加漂移时钟，以及停泊轨道入轨状态
+
+dat-4feb3a9f775b = `leo-rendezvous`阶段：目标LVLH坐标轴中的相对状态，采用闭式Clohessy-Wiltshire转移矩阵、带白噪声加速度的6x6 Kalman协方差，以及方差取当前距离下传感器值的位置更新，在所述传感器的各段上进行（ILLUSTRATIVE的光学相机、激光雷达和无线电测距形式）；对接窗口是从相对sigma保持在捕获包络之内的时刻到该阶段结束的时间。追踪器的绝对协方差原样传递，并有一行对此加以说明
+
+dat-238413a36808 = `lunar-ascent`类型和阶段：五状态的逐轴惯性误差模型，运行于沿路径有比力的动力上升段，由AFS定位和月球时间辅助，报告带入轨道的入轨位置和速度协方差，以及发动机关机散布（仅报告，不带入）
+
+dat-9fe860d16f1f = `lunar-descent`类型和阶段：五状态（位置、速度、加速度计偏置、倾斜、陀螺偏置）的逐轴惯性误差模型，运行于动力下降段，由AFS定位（独立或差分，含钟差辅助的三中继情形）、地形相对定位（引擎在合成地形起伏上的地形导航匹配器，或在LOLA DEM上带孔径问题规则的Cramer-Rao下界）和月球时间辅助，并给出蒙特卡罗着陆椭圆
+
+dat-ba0cc6e0ae77 = `lunar-orbit-rendezvous`类型和阶段：在弧段上对两飞行器的联合批处理Gauss-Newton估计（二十一个参数：两个状态，以及持续存在的空间信号位置偏差，含共同和独立两部分），按四分之一、一半和整段弧段逐步扩大，并带步长减半，输入为每个飞行器一个绝对定位（AFS导频码跟踪下界，ILLUSTRATIVE中继集合）和一个交联测距，采用本crate的月球力模型；平均归一化估计误差平方、圆轨道上的Clohessy-Wiltshire检查，以及传递下去的6x6协方差
+
+dat-955283daf32d = `lunar-surface`类型和阶段：每个站点和季节的中继可用性和PDOP、地球和太阳可见性，以及受校准的地表时钟，地形天际线取自`moonlight-service-volume`；单站点运行与该类型的可用性和PDOP逐位相等
+
+dat-571779bc241a = `mission-thread`类型：一份由各阶段构成的文档，每个阶段为八种已注册类型之一，依次运行，6x6协方差、时钟和坐标系按所述规则传递下去（`carry`；`inflate`，在直线模型上对所述间隔加入白噪声加速度；`reacquire`，先航位推算，然后取来源下限，绝不低于该下限，绝不重置）；GCRF、MCI和MCMF之间的坐标系转换，以及经由TT的时间尺度转换，各自是独立的预算行，月球状态取自可选的DE440内核截取文件，解析级数为所述的回退；相对所述需求的裕度、最薄弱环节、事件和时间线图。每个数字都是所述的输入，或是对输入的一个模型
+
+dat-36aa30c0c245 = `tli-and-cruise`阶段：平均状态由引擎的Cowell传播器给出（地球质点和J2，太阳和月球作为第三体，月球取自该线程的DE440内核，凡其覆盖该段处，太阳取自解析级数）；协方差由该传播的前向差分状态转移矩阵（每段一次名义运行和六次扰动运行）加白噪声加速度得出；TLI点火的大小和指向误差；`gnss-ssv`定位，其可用性和PDOP来自沿一条代表该弧段的密切轨道的空间服务体积扫描；沿地心方向的测距和测距率跟踪，按地面网络占空比缩放，并采用Joseph形式的更新
+
+dat-826b5ff3a004 = kshana::api::run_toml所分派的{ "92" }种内置场景类型，每种附有一行……
+
+dat-4ad8b288fa02 = 能力卡片以及验证矩阵的全部{ "401" }行。
+
+dat-85ad15fcf6cb = 地月空间平均状态传播与公开的Artemis I轨迹的比较（`tli-and-cruise`）
+
+dat-9210d09891c9 = 测试中的闭式惯性漂移和单调性检查。没有与任何实际飞行的上升做比较
+
+dat-1b1e2bdeb2a2 = 测试中的闭式惯性漂移、被复用类型自身的结果，以及3-sigma椭圆的校准（落在其内的比例与预期一致）。没有与任何实际飞行或试验的着陆做比较
+
+dat-bc68a493fe5d = 完整的、经机器检查的证据台账：{ "401" }行——{ "176" }行VALIDATED，{ "221" }行MODELLED，{ "4" }行PARTNER。
+
+dat-a072f7a6e8d5 = 文档
+
+dat-b07afbb33f4b = 八种阶段类型
+
+dat-ddc15e493a03 = 除英文外，引擎面向人的文本有{ "17" }种语言：nl、pl、pt-BR、pt-PT、fi、sv、da、nb、cs……
+
+dat-52e25e87386c = 证据标签（{ "0.40" }）
+
+dat-ac0745dcf97a = 每个图表上的证据标签
+
+dat-21d73819d31c = 证据标签，以及不带标签的输出
+
+dat-88641ee424ff = 地面网络叠加层
+
+dat-5c091b15d738 = 地面网络叠加层：带最低仰角的测站，飞行器在所述几何下的可见性（再入状态按带J2的二体问题飞行，巡航段取月球位置，或取所述占空比），每次损失所述时间的测站交接，以及由此得出的占空比，传给该阶段的地面跟踪更新率；无任何测站可见的最长间隔是一个预算行
+
+dat-576667f29670 = 月球力模型传播与公开的重建月球轨道器和地月空间轨迹的比较
+
+dat-5025f9f26401 = Artemis级任务线程的月球段
+
+dat-2d1fe075cab5 = `tli-and-cruise`阶段的平均状态传播（Cowell，地球质点和J2，太阳和月球作为第三体，月球取自DE440截取文件），与Artemis I在{ "72" } h滑行弧段上的公开JPL Horizons轨迹做比较，该弧段始于2022-11-16 { "18" }:{ "00" } TDB，每隔{ "12" }小时取一个历元，判据在运行之前固定于一个已提交的文件中
+
+dat-510e796c2898 = 任务线程
+
+dat-cba533186d05 = 各月球类型共用的传播器（GRAIL GL0660B的阶次{ "150" }，地球和太阳作为第三体，相对论，DE440月球定向），与LRO（{ "24" } h，{ "10" }分钟采样）和CAPSTONE（一圈{ "6.5" }天的轨道，每小时采样）的公开JPL Horizons轨迹做比较，判据在运行之前固定于一个已提交的文件中
+
+dat-16451dd503da = 测试中的Riccati稳态和预测的手算。这里没有任何内容对运载火箭或接收机建模；每个数字都是所述的输入
+
+dat-09d31ea90146 = 地月转移入轨和地月空间巡航：传播得到的平均状态和协方差，带跟踪更新（`tli-and-cruise`）
+
+dat-4eb3b882ecad = 交接做什么
+
+dat-3727a96cc814 = 每个阶段做什么
+
+dat-703c52a91b91 = 哪些内容被本地化，哪些绝不被本地化
+
+dat-93572ee1f44a = 证据是什么
+
+dat-8796a5569e10 = 标签的含义
+
+dat-bceb988a4263 = 应发送什么
+
+dat-82201a0b07b0 = { "0.40" }版新增内容
+
+dat-b3d9ac894036 = 你自己的时钟
+
+dat-286487acb3db = 测试中的天顶和对跖点几何检查，以及远处目标的预期可见性。没有对任何真实的网络、天线或调度建模
