@@ -18,7 +18,7 @@ seg-0ac1117a39b8 = kshana-bench-toppliste
 
 seg-b71ad83b27ad = Resultatfiler skåret under <c1/>. En rad sier at denne filen fikk denne skåren på denne delingen. Den betyr ikke at noe produkt er vurdert eller godkjent av noen, og ingen organisasjon er oppgitt som støttespiller.
 
-seg-6a2052a10b6e = Veiledende: modellert eller målt mot oppgitte referanser, ikke en godkjenning, sertifisering eller samsvarserklæring. En skår beskriver en logg eller et korpus, aldri et produkt.
+seg-6a2052a10b6e = Veiledende: modellberegnet eller målt mot oppgitte referanser, ikke en godkjenning, sertifisering eller erklæring om samsvar. En score beskriver en logg eller et korpus, aldri et produkt.
 
 seg-2918ee229bdd = Oppgave (a): deteksjon i mottakerlogger
 

@@ -16,7 +16,7 @@ seg-0ac1117a39b8 = kshana-bench resultattavla
 
 seg-b71ad83b27ad = Resultatfiler poängsatta enligt <c1/>. En rad säger att den här filen fick det här värdet på den här delmängden. Det betyder inte att någon produkt har betygsatts eller godkänts av någon, och ingen organisation anges som stödjande.
 
-seg-6a2052a10b6e = Rådgivande: modellerat eller uppmätt mot angivna referenser, inte ett godkännande, en certifiering eller ett utlåtande om överensstämmelse. En poäng beskriver en logg eller en datamängd, aldrig en produkt.
+seg-6a2052a10b6e = Rådgivande: modellerat eller uppmätt mot angivna referenser, inte ett godkännande, en certifiering eller ett utlåtande om överensstämmelse. En poäng beskriver en logg eller ett korpus, aldrig en produkt.
 
 seg-2918ee229bdd = Uppgift (a): detektering på mottagarloggar
 

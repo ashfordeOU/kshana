@@ -29,7 +29,7 @@ seg-0ac1117a39b8 = Classement kshana-bench
 seg-b71ad83b27ad = Fichiers de résultats notés selon <c1/>. Une ligne indique que ce fichier a obtenu ce score sur cette partition. Cela ne signifie pas qu'un produit a été évalué ou approuvé par qui que ce soit, et aucune organisation n'est citée comme garante.
 
 # text
-seg-6a2052a10b6e = À titre consultatif : modélisé ou mesuré par rapport à des références indiquées, et non une approbation, une certification ni une déclaration de respect de la norme. Un score décrit un journal ou un corpus, jamais un produit.
+seg-6a2052a10b6e = À titre consultatif : modélisé ou mesuré par rapport à des références indiquées, et non une approbation, une certification ou une déclaration de conformité. Une note décrit un journal ou un corpus, jamais un produit.
 
 # text
 seg-2918ee229bdd = Tâche (a) : détection sur les journaux de récepteur

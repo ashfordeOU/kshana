@@ -18,7 +18,7 @@ seg-0ac1117a39b8 = žebříček kshana-bench
 
 seg-b71ad83b27ad = Soubory s výsledky vyhodnocené podle <c1/>. Řádek říká, že tento soubor dosáhl tohoto skóre na tomto rozdělení dat. Neznamená to, že by kdokoli ohodnotil nebo schválil jakýkoli produkt, a žádná organizace není uvedena jako podporovatel.
 
-seg-6a2052a10b6e = Pouze poradní charakter: modelováno nebo měřeno vůči uvedeným referencím, nejde o schválení, certifikaci ani prohlášení o shodě. Skóre popisuje záznam nebo korpus, nikdy produkt.
+seg-6a2052a10b6e = Pouze poradní charakter: modelováno nebo měřeno vůči uvedeným referencím; nejde o schválení, certifikaci ani prohlášení o shodě. Skóre popisuje záznam nebo korpus, nikdy produkt.
 
 seg-2918ee229bdd = Úloha (a): detekce v záznamech přijímače
 
