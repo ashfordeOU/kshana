@@ -41,13 +41,7 @@ seg-8784979d6569 = dBW
 seg-37d16b499bc5 = dB
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-debc2f07db78 = true
-
-# text
-seg-a3697ad561db = Hz
 
 # text
 seg-ebb923e1a3b5 = Result label (the engine's): One-way link budget over the CCSDS { "401" } / DSN 810-005 link equation (EIRP − FSPL − L_other + G/T − k); a deterministic engineering calculation from the supplied inputs, NOT a calibrated terminal datasheet
@@ -83,4 +77,4 @@ seg-8f1e7d3f5a07 = Family page: <a1>Mission analysis, links and space operations
 seg-ffbc9de75306 = <s1>Previous</s1>leo-signal
 
 # text
-seg-59d4cb995cb9 = <s1>Next</s1>lunar-attack-surface
+seg-410a790785e7 = <s1>Next</s1>lunar-ascent

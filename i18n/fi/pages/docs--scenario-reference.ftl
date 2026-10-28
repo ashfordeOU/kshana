@@ -389,8 +389,6 @@ seg-9a2bb9809aed = Kaksisuuntainen satelliittiaika- ja taajuudensiirto kahden as
 # text
 seg-ccb244e60d60 = Optinen vastaan RF-kaksisuuntainen aika- ja taajuudensiirto.
 
-seg-1e4d5b2f4810 = Jokainen mukana toimitettu skenaariotiedosto ({ "182" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylätason asetuksia. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studio -työkalussa</b> avaa tallennetun ajon.
-
 seg-e701392324d0 = tyyppi acm-link
 
 seg-c4d65df7ab98 = ei yhdistetty nimen perusteella kirjanpidon (ledger) moduuliin

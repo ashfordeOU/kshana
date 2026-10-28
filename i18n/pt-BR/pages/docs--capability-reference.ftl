@@ -397,9 +397,6 @@ seg-cab165105f32 = Uma referência cruzada requisito-módulo-teste-referência i
 seg-190cdf3ca8dc = Unidade e proveniência em toda grandeza informada
 
 # text
-seg-1c7bb8c3e887 = { "87" } de { "87" } tipos de cenário, { "3127" } de { "3127" } campos numéricos
-
-# text
 seg-3e7fb040a7c4 = Todo campo numérico que um cenário emite traz uma unidade e uma classe de proveniência extraída de um vocabulário fechado, com uma definição quando existe, publicado como um esquema legível por máquina ao lado do motor. Um gate em catraca executa todo tipo de cenário embutido e falha em um campo que não traga nenhum; os tipos de cenário ainda não completos são nomeados um a um com o motivo de cada um ainda estar em aberto, e a lista só pode diminuir. Relatórios que declaram suas próprias constantes, o orçamento de enlace unidirecional e o orçamento óptico e de RF, permitem que o leitor recalcule o número principal apenas a partir do relatório.
 
 # text
@@ -656,10 +653,6 @@ seg-ad856ad710eb = Status
 
 # text
 seg-6962adaa6a1f = Gerado a partir dos arquivos de cenário e da matriz de verificação do repositório no momento da compilação.
-
-# text
-# c1: web/capabilities.json
-seg-6f44f45f6bf9 = Os { "61" } cartões de capacidades de <c1/>, e depois todas as { "388" } linhas da matriz de verificação.
 
 # text
 seg-30200bb5be58 = Executar orbit-sgp4-gps.toml no Kshana Studio

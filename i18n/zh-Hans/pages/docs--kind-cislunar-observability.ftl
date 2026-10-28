@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP未定义（秩亏 / 奇异
 
 seg-856eb311f24b = “undefined”（文本，按文档所述
 
-seg-1767b216650d = 已定义
-
 seg-fc5d34345fdd = 结果标签（引擎给出的）：MODELLED平面地月空间星座可观测性（P6）。VALIDATED的核心：可观测秩是揭示秩的奇异值阈值，并与格拉姆矩阵特征秩交叉检查；格拉姆矩阵特征谱服从谱不变量（trace = sum eig，det = prod eig，Frobenius^{ "2" } = sum eig^{ "2" }
 
 seg-f15bbf30b0dd = 引擎为scenarios/cislunar-observability.toml（类型cislunar-observability）生成的图表

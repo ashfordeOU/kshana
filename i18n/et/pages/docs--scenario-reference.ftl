@@ -577,9 +577,6 @@ seg-9a2bb9809aed = Kahesuunaline satelliitaja ja sageduse edastus kahe jaama vah
 seg-ccb244e60d60 = Optiline vs RF kahesuunaline aja/sageduse edastus.
 
 # text
-seg-1e4d5b2f4810 = Iga kaasasolev stsenaariumifail ({ "182" }), rühmitatud liigi järgi. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülemise taseme seaded. Olek loeb liigi mooduli kontrollimaatriksist. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
-
-# text
 seg-e701392324d0 = liik acm-link
 
 # text

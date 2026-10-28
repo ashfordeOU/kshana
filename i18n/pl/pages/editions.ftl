@@ -106,12 +106,6 @@ seg-0cad5afda483 = Poproś o ocenę
 
 seg-b366150de755 = Zamów badanie
 
-seg-0adcadeb3854 = Otwarty silnik pośrodku: jeden znacznik na rodzaj scenariusza ({ "87" }), wypełniony tam, gdzie dany rodzaj ma w rejestrze wiersze sprawdzone niezależnie, pusty tam, gdzie jego wiersze są modelowane, kreska tam, gdzie żaden moduł rejestru nie pasuje do niego z nazwy. Kshana Pro i badanie na zamówienie leżą wokół niego i łączą się z rodzajami, na których się opierają.
-
-# c1: src/api.rs
-# c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Silnik v{ $version } · { "87" } rodzajów z <c1/> · status w rejestrze z <c2/> · na czym opierają się Pro i badanie: rejestr wydań serwisu · bez scenariusza i ziarna (seed)
-
 seg-e1acd19a6ac6 = Porównaj wydania
 
 seg-352b6af14482 = Licencja otwartego rdzenia
@@ -151,10 +145,6 @@ seg-abc6bb005249 = Inżynierowie pojazdów, sieci, sieci elektroenergetycznych i
 seg-21989d609ae7 = Badacze, studenci i recenzenci, którzy potrzebują wartości możliwych do odtworzenia i zacytowania
 
 seg-3b6d727a2d38 = Programiści włączający silnik do kodu, zestawu CI (ciągła integracja) lub asystenta AI (sztuczna inteligencja)
-
-seg-abe5c7257cda = Wszystkie { "87" } rodzaje scenariuszy i { "173" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)
-
-seg-1434952d1bc8 = Pełna macierz weryfikacji: { "176" } z { "388" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane
 
 seg-9b8eb955fecf = Każdy wynik opatrzony skrótem scenariusza, ziarnem (seed) i wersją silnika oraz zapisany jako JSON (JavaScript Object Notation), tabele CSV (wartości rozdzielane przecinkami) i wykresy SVG (Scalable Vector Graphics)
 

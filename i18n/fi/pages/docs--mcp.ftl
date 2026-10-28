@@ -94,8 +94,6 @@ seg-2a56e1f52830 = Työkalut
 
 seg-b847694d91b5 = Aja skenaario TOML-määrityksestä (Tom's Obvious, Minimal Language); palauttaa yhteenvedon sekä koko tulos-JSONin (JavaScript Object Notation: laatumittarit, käyrät). Valinnainen <c1/> palauttaa kaavion SVG-muodossa (Scalable Vector Graphics).
 
-seg-a30b46501cff = { "87" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.
-
 seg-3c00da00ec30 = Ennakkotarkistus: jäsentää TOML:n ja tunnistaa sen lajin ajamatta sitä.
 
 seg-4516fd1e665c = Mukana toimitetut vertailuskenaariot JSONina: kunkin nimi (<c1/>), laji (<c2/>) ja yksi lause siitä, mitä se näyttää. Valinnainen suodatin <c3/>. Jokainen esimerkki ajetaan sellaisenaan, joten tämä on nopein tie kelvolliseen TOML:ään tiettyä lajia varten.

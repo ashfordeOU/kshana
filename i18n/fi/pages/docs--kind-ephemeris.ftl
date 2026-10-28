@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = day
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/ephemeris.toml, skenaariotyyppi ephemeris
 
 seg-d291f20074f0 = <b>VALIDATED</b> Maan pyöriminen kaksiosaisesta UT1-Julian-päivämäärästä rataketjussa, joten Maan mukana pyörivä paikka säilyttää mikrosekunnin, jonka yksittäinen f64-päivämäärä menettää (noin { "3e-9" } rad lähellä vuotta { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, TEME-konventio, kahdelle osalle), cio:

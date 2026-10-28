@@ -45,12 +45,6 @@ seg-e3235e4d3760 = L'exemple <c1/> définit, entre autres :
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = Premier
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Libellé du résultat (celui du moteur) : encapsulation de l'en-tête primaire CCSDS 133.0-B Space Packet — disposition de bits exacte et déterministe, aller-retour encodage↔décodage vérifié ; PAS une attestation de respect de la norme (pas de logique d'en-tête secondaire, de CRC ou de segmentation au-delà des indicateurs)
 
 # attr:alt

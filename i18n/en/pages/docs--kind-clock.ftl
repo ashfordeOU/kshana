@@ -45,7 +45,7 @@ seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
 
 # text
 # c1: scenarios/
-seg-0cd8dc81045c = { "4" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
 seg-debc2f07db78 = true
@@ -61,6 +61,15 @@ seg-e1b9b2d674eb = <b>MODELLED</b> clock_log::read_input: one parser layer that 
 
 # text
 seg-eddb613a2a2f = <b>MODELLED</b> clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out a
+
+# text
+# c1: mission-thread
+# c2: carry
+# c3: inflate
+seg-936e96edf423 = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated gap Tests: <a1>field_units_global.rs</a1>.
+
+# text
+seg-3319b18ac61f = and { "1" } more in the matrix.
 
 # text
 seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14

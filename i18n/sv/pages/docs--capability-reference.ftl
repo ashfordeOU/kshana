@@ -264,8 +264,6 @@ seg-cab165105f32 = En korsreferens från krav till modul till test till oberoend
 
 seg-190cdf3ca8dc = Enhet och proveniens för varje redovisad storhet
 
-seg-1c7bb8c3e887 = { "87" } av { "87" } slag, { "3127" } av { "3127" } numeriska fält
-
 seg-3e7fb040a7c4 = Varje numeriskt fält som ett scenario ger ut har en enhet och en proveniensklass hämtad ur ett slutet ordförråd, med en definition där en sådan finns, publicerad som ett maskinläsbart schema bredvid motorn. En spärr som bara kan skärpas kör varje inbyggt slag och misslyckas på ett fält som saknar dem; de slag som ännu inte är kompletta namnges ett och ett med skälet till att vart och ett fortfarande är öppet, och listan kan bara bli kortare. Rapporter som anger sina egna konstanter, till exempel länkbudgeten för envägslänk och budgeten för optisk länk och RF-länk, låter en läsare räkna om huvudresultatet utifrån rapporten ensam.
 
 seg-0e1a01c9158a = Budgetar för uppskjutning, återinträde, täckning och pekning
@@ -437,8 +435,6 @@ seg-d6476863f862 = Förmåga
 seg-ad856ad710eb = Status
 
 seg-6962adaa6a1f = Genereras vid bygget från förvarets scenariofiler och verifieringsmatris.
-
-seg-6f44f45f6bf9 = De { "61" } förmågekorten från <c1/>, därefter alla { "388" } rader i verifieringsmatrisen.
 
 seg-30200bb5be58 = Kör orbit-sgp4-gps.toml i Kshana Studio
 

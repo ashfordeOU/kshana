@@ -142,12 +142,12 @@ seg-f325b20ba911 = Pick a way to start the server
 seg-f7b7c7f2eb0d = Each client below takes one of three server definitions. They start the same server:
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-e40d4a54025f = <b>npx (Node)</b> (needs Node { "18" }+): <c1/>
+# c1: npx -y kshana-mcp@0.40.0
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (needs Node { "18" }+): <c1/>
 
 # text
-# c1: docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.39.0
-seg-11aa05e3bace = <b>Docker</b> (needs Docker): <c1/>
+# c1: docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0
+seg-77230eb344ea = <b>Docker</b> (needs Docker): <c1/>
 
 # text
 # c1: kshana-mcp
@@ -157,12 +157,12 @@ seg-d5fce7d58cfc = <b>kshana-mcp on PATH</b> (needs the binary (brew, scoop, win
 seg-c320bcbc9bcd = One-click links
 
 # text
-# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zOS4wIl19
-seg-0281dbe84644 = Cursor, npx (Node): <a1>web link</a1> · <c1/>
+# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19
+seg-3398eea8e332 = Cursor, npx (Node): <a1>web link</a1> · <c1/>
 
 # text
-# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM5LjAiXX0=
-seg-405f915ef73a = Cursor, Docker: <a1>web link</a1> · <c1/>
+# c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0=
+seg-67009baafb3b = Cursor, Docker: <a1>web link</a1> · <c1/>
 
 # text
 # c1: cursor://anysphere.cursor-deeplink/mcp/install?name=kshana&config=eyJjb21tYW5kIjoia3NoYW5hLW1jcCIsImFyZ3MiOltdfQ==
@@ -178,8 +178,8 @@ seg-2befff4cecb5 = VS Code, Docker: <a1>open</a1> · <a2>Insiders</a2>
 seg-7a1f43b83429 = VS Code, kshana-mcp on PATH: <a1>open</a1> · <a2>Insiders</a2>
 
 # text
-# c1: goose://extension?cmd=npx&arg=-y&arg=kshana-mcp%400.39.0&timeout=300&id=kshana&name=Kshana&description=Kshana%20PNT-resilience%20simulator%20%28advisory%29
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
+# c1: goose://extension?cmd=npx&arg=-y&arg=kshana-mcp%400.40.0&timeout=300&id=kshana&name=Kshana&description=Kshana%20PNT-resilience%20simulator%20%28advisory%29
+seg-6918cd89f776 = Goose, npx: <c1/>
 
 # text
 seg-13df6618e070 = Another client

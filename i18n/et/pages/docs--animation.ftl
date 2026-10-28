@@ -165,11 +165,6 @@ seg-0edf8c38f9eb = Selle ajamassiivi kõrval muutuvad <c1/> (<c2/>, <c3/>, <c4/>
 seg-608c4fed9e98 = Ühikuga jooned jagavad paneeli, kui nende suurusjärgud on teguri { "100" } piires, nii et { "50" } ns kaitse ei lamedda { "2" } ns viga. Joonistatakse kuni { "6" } paneeli { "6" } joonega; ülejäänud on loetletud väljas <c1/>. Jooned üle { "2,400" } näidise hõrendatakse ühtlase sammuga, mis säilitab viimase näidise, ja juga-diagramm üle { "96" } × { "120" } lahtri keskmistatakse (võimsuses, detsibellilahtrite puhul, et kitsas segaja ei lahjeneks).
 
 # text
-# c1: no time series to animate
-# c2: cargo test --test animation -- --nocapture
-seg-b68ce4aa301f = Liik, mille tulemus ei kanna ühtegi neist kujudest (lingibilanss, ühe epohhi geomeetria, ainult statistikaga Monte Carlo kokkuvõte või telekommunikatsiooni holdover, mille tulemus avaldab kirje räsi, aga mitte kirjet), lükatakse tagasi teatega <c1/> ja midagi ei kirjutata. Kshana { $version } puhul animeeruvad { "89" } { "182" }-st käivitatavast stsenaariumifailist (iga fail peale uuringukomplekti) ja { "93" } lükatakse tagasi. <c2/> prindib loenduse.
-
-# text
 # c1: leo-pass
 # c2: leo-pnt-chain
 # c3: leo-ppp

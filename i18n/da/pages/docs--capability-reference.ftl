@@ -264,8 +264,6 @@ seg-cab165105f32 = En krydsreference fra krav til modul til test til uafhængig 
 
 seg-190cdf3ca8dc = Enhed og proveniens på hver rapporteret størrelse
 
-seg-1c7bb8c3e887 = { "87" } af { "87" } arter, { "3127" } af { "3127" } numeriske felter
-
 seg-3e7fb040a7c4 = Hvert numerisk felt, et scenarie udsender, bærer en enhed og en proveniensklasse fra et lukket vokabular, med en definition, hvor en findes, offentliggjort som et maskinlæsbart skema ved siden af motoren. En ratchet-port kører hver indbygget art og fejler på et felt, der ikke har nogen; de arter, der endnu ikke er komplette, nævnes én for én med grunden til, at hver stadig er åben, og listen kan kun blive kortere. Rapporter, der angiver deres egne konstanter, som linkbudgettet for envejs og budgettet for optik og RF, lader en læser genberegne hovedtallet ud fra rapporten alene.
 
 seg-0e1a01c9158a = Budgetter for opsendelse, genindtræden, dækning og pegning
@@ -437,8 +435,6 @@ seg-d6476863f862 = Funktion
 seg-ad856ad710eb = Status
 
 seg-6962adaa6a1f = Genereret ud fra repositoriets scenariefiler og verifikationsmatrix ved bygning.
-
-seg-6f44f45f6bf9 = De { "61" } funktionskort fra <c1/>, derefter alle { "388" } rækker i verifikationsmatricen.
 
 seg-30200bb5be58 = Kør orbit-sgp4-gps.toml i Kshana Studio
 

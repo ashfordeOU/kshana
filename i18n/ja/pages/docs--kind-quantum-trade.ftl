@@ -18,8 +18,6 @@ seg-f2cc0830b53f = 例の <c1/> では、とりわけ次を設定しています
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = 古典的なベースライン
-
 seg-f5fa445702c6 = 結果ラベル（エンジンによるもの）：MODELLED — パートナーの時計・センサーを定量化するだけで、確認はしません。飛行での実証はありません
 
 seg-c74c63ffd859 = エンジンが scenarios/quantum-trade.toml（種類 quantum-trade）に対して出力するグラフ

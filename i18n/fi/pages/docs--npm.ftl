@@ -17,9 +17,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>tarkka hetki</em></
 seg-3b861b2f08b8 = Julkaisu v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } / { "388" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan
-
-# text
 seg-6a1906d8d4ad = Noin { "95" } %:n rivikattavuus, jatkuvassa integroinnissa kynnyksenä { "85" } %
 
 # text
@@ -39,12 +36,6 @@ seg-d284448743af = Kshana toistaa häirintää (jamming), harhautusta (spoofing)
 
 # text
 seg-d1a3f78ad8e0 = Kokeile ensin ilman asennusta: <a1>Kshana Studio</a1> ajaa koko moottorin selaimessasi WebAssemblyksi käännettynä eikä lähetä mitään.
-
-# text
-seg-2d2c47db0c1f = <b>{ "176" } / { "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "208" } rehellisesti merkitty mallinnetuiksi, { "4" } kumppanin omistamaa. Jokaisella ominaisuudella on yksi tunniste koneellisesti tarkistetussa kirjanpidossa (ledger): VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: oikea data, riippumaton toteutus tai julkaistut vertailuvektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani vastaa). Tarkistuksiin kuuluvat: kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) AIAA:n (American Institute of Aeronautics and Astronautics) asiakirjasta 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vastaan.
-
-# attr:alt
-seg-44f7862c45a2 = Kuinka ominaisuus ansaitsee tunnisteensa: ominaisuus, oraakkeli, testi, kirjanpidon tunniste. Varmennuksen tila kaikissa { "388" } ominaisuudessa: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa
 
 # text
 seg-d662055d817f = Paketti on ES-moduuli (ECMAScript, standardi JavaScript), jonka mukana on WebAssembly-hyötykuorma, rakennettu selainta varten. Alusta se kerran ja kutsu sitten moottoria synkronisesti. Ainoa ero selaimen ja Node.js:n välillä on se, miten WebAssembly-binääri ladataan.

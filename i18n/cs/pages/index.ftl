@@ -68,15 +68,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Časové masky
 
-seg-c5fc0ca71fae = Každý druh scénáře, jedna stránka pro každý
-
-seg-ccee5886cf25 = Každý příkaz, každé rozhraní
-
-seg-4ef6dcd0a58b = Které rozhraní nese kterou schopnost
-
 seg-29e58493fdd4 = Modelováno
-
-seg-8e092e49bdeb = kshana-bench: prahy, které nebyly splněny, uvedeny
 
 seg-bd4da5bc989d = Generováno z repozitáře
 
@@ -362,8 +354,6 @@ seg-47d596393831 = Skutečné události
 
 seg-5630c799cec1 = Odkud každá stopa pochází
 
-seg-46b6db21c09b = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
-
 seg-f70fa3b93b11 = Vlastní zpráva enginu o tomto běhu
 
 seg-d32a11c090e1 = Výsledek enginu, beze změny
@@ -371,8 +361,6 @@ seg-d32a11c090e1 = Výsledek enginu, beze změny
 seg-c459bc5805bb = Soubor scénáře, který běžel
 
 seg-f18f76c10709 = <s1><a1>Zpráva</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-seg-c043a94c7564 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
 
 seg-f2d2f2263e63 = Konzole, tři karty a protokol přehrávají jeden zřetězený běh o { "6" } fázích a { "18" } dílčích bězích na jeho mřížce { "10" } s (T+{ "01" }:{ "16" }:{ "10" } času mise). Oběžné dráhy jsou { "102" } družic GPS, Galileo, BeiDou a GLONASS z běhu konstelace, každá obnovená jako kruhová dvoutělesová dráha z pozemní stopy enginu (nejhorší reziduum { "0.0034" }°), poloměry stlačeny pro zobrazení. Spoje jsou kresleny k družicím nad maskou { "10" }° běhu konstelace ({ "25" }° ve fázi integritního alarmu, maska opětovné akvizice kampaně), zeslabené rušením a v holdoveru přerušené. Země: NASA Blue Marble a Black Marble. Kshana Studio přehrává zřetězený běh ve vašem prohlížeči; vlastní zpráva enginu a příkaz každý běh reprodukují.
 
@@ -387,8 +375,6 @@ seg-d2c0888d98f6 = ověřeno proti nezávislým vnějším orákulům
 seg-3a3535770138 = <s1>článků na arXiv postavených na otevřeném enginu</s1><s2>Přečtěte si výzkum <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>běží v prohlížeči jako WebAssembly, bez instalace</s2>
-
-seg-9b3429f89f21 = Novinky ve v{ $version }: každý kind, každý příkaz a nezdary benchmarku
 
 seg-471b95f0c08f = <a1>Co každý dělá a co bylo ověřeno</a1> · <a2>Každý instalační kanál</a2>
 
@@ -501,8 +487,6 @@ seg-63a70a989509 = Zotavení
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } času mise · zřetězený běh, nikoli tři běhy vedle sebe
 
 seg-dc2eb6c3c2a4 = PL = ochranná úroveň · AL = mezní hodnota výstrahy · INS = inerciální navigační systém
-
-seg-b85e60e05c9f = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
 
 seg-0588364091ec = Od první rušené družice po poslední nanosekundu holdoveru hodin: signály, senzory, hodiny, oběžné dráhy a integrita v jednom simulátoru. Každý obrázek níže je skutečný běh enginu a uvádí který.
 
@@ -670,10 +654,6 @@ seg-43ceda17e71c = Otevřené jádro · zdarma · AGPL-3.0
 
 seg-0230217b1110 = Každý, kdo bere polohu nebo čas z GNSS, je vystaven: rušení, spoofing a ztráta signálu dopadají stejně na vozidla, sítě, rozvodné soustavy i kosmické lodě.
 
-seg-9e88a1981d1e = { "176" } ze { "388" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
-
-seg-4b41ffeb0030 = Všech { "87" } kindů scénářů, zdarma bez omezení funkcí, deterministické ze scénáře, seedu a verze enginu.
-
 seg-0af87a1caff4 = Totéž jádro pod komerční licencí, pro uzavřenou integraci.
 
 seg-f6406933eb77 = Nainstalujte engine
@@ -717,3 +697,9 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Dosier mise</s1></a1>
 seg-905e5eef45e5 = <b>{ "12" } požadavků</b> ověřeno proti skutečným během, 21stránkové PDF (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Najděte, kde se váš čas rozbije, dřív než se rozbije.
+
+seg-f4d3b1f5b1b4 = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-3287261002dd = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+
+seg-510663384be1 = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }

@@ -32,9 +32,6 @@ seg-bbc8f38627f1 = El formato se basa en <a1>Keep a Changelog</a1>, y este proye
 seg-985f7b4c001a = Sin publicar
 
 # text
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
-# text
 seg-a2f583aadd0b = Sin funciones nuevas: una corrección en la línea de comandos, actualizaciones de dependencias en las herramientas de validación cruzada y documentación. Los resultados del motor no cambian respecto a { "0.38.0" }.
 
 # text

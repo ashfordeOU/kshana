@@ -94,8 +94,6 @@ seg-2a56e1f52830 = Nástroje
 
 seg-b847694d91b5 = Spustí scénář z definice v TOML (Tom's Obvious, Minimal Language); vrátí shrnutí a úplný výsledek ve formátu JSON (JavaScript Object Notation: ukazatele kvality, křivky). Volitelný <c1/> vrátí graf jako SVG (Scalable Vector Graphics).
 
-seg-a30b46501cff = { "87" } vestavěných druhů scénářů s popisy a povinnými či volitelnými poli, aby agent mohl sestavit platný scénář.
-
 seg-3c00da00ec30 = Předběžná kontrola: zpracuje TOML a zjistí jeho druh, aniž by jej spustila.
 
 seg-4516fd1e665c = Přibalené referenční scénáře ve formátu JSON: každý s <c1/>, svým <c2/> a jednou větou o tom, co ukazuje. Volitelný filtr <c3/>. Každý příklad běží tak, jak je, takže jde o nejrychlejší cestu k platnému TOML pro daný druh.

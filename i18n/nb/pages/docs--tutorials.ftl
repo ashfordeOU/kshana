@@ -128,8 +128,6 @@ seg-c889e5e77121 = Undervisningsfilen for <b>sikkerhet</b> bruker <c1/> inni: si
 
 seg-89fef83a9d54 = Den fullstendige katalogen over scenariotyper
 
-seg-648bb07212cd = Motoren velger ut fra scenarioets <c1/>. Tabellen nedenfor lister de mest brukte typene (de åtte veiledningsområdene ovenfor pluss deres nærmeste naboer). Den er <b>ikke</b> det fullstendige settet: <c2/> returnerer alle <c3/> innebygde typer. Den funksjonen (eksponert som <c4/> i bindingene for Python og WebAssembly (WASM), og som <c5/> på kommandolinjen) er den autoritative, alltid oppdaterte katalogen, og <a1><c6/></a1> er den genererte oppregningen av den, ett avsnitt per type med de påkrevde og valgfrie TOML-feltene. <c7/> sørger for at hver type en veiledning dokumenterer, er en ekte type, så ingenting i denne tabellen kan navngi en type som ikke finnes.
-
 seg-0f744a3a7193 = Klokkens holdover mot spesifikasjonen; valgfritt Monte Carlo-ensemble (<c1/>).
 
 seg-9a2564fdc86a = 1-DOF (én frihetsgrad) inertiell dødregning under et GNSS-utfall.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Referanse for klokkestabilitetssammenhenger</b>: NIST (Nat
 seg-36be39f17e35 = <s1>Forrige</s1>Studio-veiledning
 
 seg-6f6204737a87 = <s1>Neste</s1>{ "1" } · Din første bane
+
+seg-2fa9e002b3a2 = Motoren velger ut fra scenarioets <c1/>. Tabellen nedenfor lister de mest brukte typene (de åtte veiledningsområdene ovenfor pluss deres nærmeste naboer). Den er <b>ikke</b> det fullstendige settet: <c2/> returnerer alle <c3/> innebygde typer. Den funksjonen (eksponert som <c4/> i bindingene for Python og WebAssembly (WASM), og som <c5/> på kommandolinjen) er den autoritative, alltid oppdaterte katalogen, og <a1><c6/></a1> er den genererte oppregningen av den, ett avsnitt per type med de påkrevde og valgfrie TOML-feltene. <c7/> sørger for at hver type en veiledning dokumenterer, er en ekte type, så ingenting i denne tabellen kan navngi en type som ikke finnes.

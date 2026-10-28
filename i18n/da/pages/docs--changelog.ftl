@@ -20,8 +20,6 @@ seg-bbc8f38627f1 = Formatet bygger på <a1>Keep a Changelog</a1>, og dette proje
 
 seg-985f7b4c001a = Ikke udgivet
 
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
 seg-a2f583aadd0b = Ingen nye funktioner: én rettelse af kommandolinjen, opdateringer af afhængigheder i værktøjerne til krydsvalidering og dokumentation. Motorens resultater er uændrede fra { "0.38.0" }.
 
 seg-c9a8a5898ced = Rettet

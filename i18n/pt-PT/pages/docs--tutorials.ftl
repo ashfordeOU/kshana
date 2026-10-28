@@ -228,16 +228,6 @@ seg-c889e5e77121 = O ficheiro didático de <b>segurança</b> usa <c1/> no interi
 seg-89fef83a9d54 = O catálogo completo de tipos de cenário
 
 # text
-# c1: kind
-# c2: src/api.rs::list_scenario_kinds()
-# c3: 87
-# c4: list_kinds()
-# c5: kshana kinds --json
-# c6: SCENARIOS.md
-# c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = O motor despacha com base no <c1/> do cenário. A tabela abaixo lista os tipos de cenário mais usados (os oito domínios dos tutoriais acima mais os vizinhos mais próximos). <b>Não</b> é o conjunto completo: <c2/> devolve todos os <c3/> tipos de cenário incorporados. Essa função (exposta como <c4/> nas ligações Python e WebAssembly (WASM), e como <c5/> na linha de comandos) é o catálogo de referência, sempre atual, e <a1><c6/></a1> é a sua enumeração gerada, com uma secção por tipo de cenário e os campos TOML obrigatórios e opcionais. <c7/> garante que todos os tipos de cenário que um tutorial documenta são tipos de despacho reais, pelo que nada nesta tabela pode nomear um tipo de cenário que não existe.
-
-# text
 # c1: runs > 1
 seg-0f744a3a7193 = Holdover do relógio face à especificação; ensemble de Monte Carlo opcional (<c1/>).
 
@@ -445,3 +435,5 @@ seg-36be39f17e35 = <s1>Anterior</s1>Guia do Studio
 
 # text
 seg-6f6204737a87 = <s1>Seguinte</s1>{ "1" } · A sua primeira órbita
+
+seg-2fa9e002b3a2 = O motor despacha com base no <c1/> do cenário. A tabela abaixo lista os tipos de cenário mais usados (os oito domínios dos tutoriais acima mais os vizinhos mais próximos). <b>Não</b> é o conjunto completo: <c2/> devolve todos os <c3/> tipos de cenário incorporados. Essa função (exposta como <c4/> nas ligações Python e WebAssembly (WASM), e como <c5/> na linha de comandos) é o catálogo de referência, sempre atual, e <a1><c6/></a1> é a sua enumeração gerada, com uma secção por tipo de cenário e os campos TOML obrigatórios e opcionais. <c7/> garante que todos os tipos de cenário que um tutorial documenta são tipos de despacho reais, pelo que nada nesta tabela pode nomear um tipo de cenário que não existe.

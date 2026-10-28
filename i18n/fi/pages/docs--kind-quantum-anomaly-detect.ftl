@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = Esimerkki <c1/> asettaa muun muassa:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
-
 seg-2f1d14239d1a = Moottorin kirjoittama kaavio skenaariolle scenarios/quantum-anomaly-detect.toml, tyyppi quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analyyttinen binormaali ROC AUC = Φ(μ/(σ√{ "2" })) ja pienin havaittava vika σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) kvanttivika- ja poikkeamailmaisimien perustana. Oraakkeli (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), molemmat BSD-3-Clause — riippumattomat kirjastot, jotka laskevat samat yksikäsitteisesti määritellyt Gaussin hännän / AUC-suureet, täsmäten A&S-erf-lattiaan (~{ "7e-8" }). Tämän päälle rakennettu kvantti-vs.-klassinen etu pysyy tasolla MODELLED

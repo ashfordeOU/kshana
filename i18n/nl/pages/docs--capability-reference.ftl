@@ -138,8 +138,6 @@ seg-cab165105f32 = Een kruisverwijzing van eis naar module naar test naar onafha
 
 seg-190cdf3ca8dc = Eenheid en herkomst bij elke gerapporteerde grootheid
 
-seg-1c7bb8c3e887 = { "87" } van { "87" } soorten, { "3127" } van { "3127" } numerieke velden
-
 seg-3e7fb040a7c4 = Elk numeriek veld dat een scenario uitgeeft, draagt een eenheid en een herkomstklasse uit een gesloten vocabulaire, met een definitie waar die bestaat, gepubliceerd als machineleesbaar schema naast de engine. Een stapsgewijs aangescherpte poort draait elke ingebouwde soort en faalt bij een veld dat er geen draagt; de soorten die nog niet compleet zijn, worden een voor een genoemd met de reden waarom elk nog openstaat, en de lijst kan alleen korter worden. Rapporten die hun eigen constanten vermelden — het eenrichtingslinkbudget, het optische en RF-budget — laten een lezer de kopwaarde uit het rapport alleen herberekenen.
 
 seg-0e1a01c9158a = Budgetten voor lancering, terugkeer, dekking en richting
@@ -437,8 +435,6 @@ seg-d6476863f862 = Mogelijkheid
 seg-ad856ad710eb = Status
 
 seg-6962adaa6a1f = Bij het bouwen gegenereerd uit de scenariobestanden en de verificatiematrix van de repository.
-
-seg-6f44f45f6bf9 = De { "61" } mogelijkhedenkaarten uit <c1/>, daarna alle { "388" } rijen van de verificatiematrix.
 
 seg-30200bb5be58 = orbit-sgp4-gps.toml uitvoeren in Kshana Studio
 

@@ -128,8 +128,6 @@ seg-c889e5e77121 = Het leerbestand voor <b>beveiliging</b> gebruikt <c1/> binnen
 
 seg-89fef83a9d54 = De volledige catalogus van scenariosoorten
 
-seg-648bb07212cd = De engine schakelt op de <c1/> van het scenario. De tabel hieronder somt de meestgebruikte soorten op (de acht tutorialdomeinen hierboven plus hun naaste buren). Het is <b>niet</b> de complete verzameling: <c2/> geeft alle <c3/> ingebouwde soorten terug. Die functie (beschikbaar als <c4/> in de Python- en WebAssembly-bindings (WASM), en als <c5/> op de opdrachtregel) is de gezaghebbende, altijd actuele catalogus, en <a1><c6/></a1> is de gegenereerde opsomming ervan, één sectie per soort met de verplichte en optionele TOML-velden. <c7/> dwingt af dat elke soort die een tutorial beschrijft een echte dispatchsoort is, zodat niets in deze tabel een soort kan noemen die niet bestaat.
-
 seg-0f744a3a7193 = Klok-holdover tegenover specificatie; optioneel Monte-Carlo-ensemble (<c1/>).
 
 seg-9a2564fdc86a = 1-DOF (één vrijheidsgraad) inertiële dead-reckoning tijdens een GNSS-uitval.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Onafhankelijke referentie voor klokstabiliteitsrelaties</b
 seg-36be39f17e35 = <s1>Vorige</s1>Studiogids
 
 seg-6f6204737a87 = <s1>Volgende</s1>{ "1" } · Uw eerste baan
+
+seg-2fa9e002b3a2 = De engine schakelt op de <c1/> van het scenario. De tabel hieronder somt de meestgebruikte soorten op (de acht tutorialdomeinen hierboven plus hun naaste buren). Het is <b>niet</b> de complete verzameling: <c2/> geeft alle <c3/> ingebouwde soorten terug. Die functie (beschikbaar als <c4/> in de Python- en WebAssembly-bindings (WASM), en als <c5/> op de opdrachtregel) is de gezaghebbende, altijd actuele catalogus, en <a1><c6/></a1> is de gegenereerde opsomming ervan, één sectie per soort met de verplichte en optionele TOML-velden. <c7/> dwingt af dat elke soort die een tutorial beschrijft een echte dispatchsoort is, zodat niets in deze tabel een soort kan noemen die niet bestaat.

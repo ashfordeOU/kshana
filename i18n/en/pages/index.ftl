@@ -91,9 +91,9 @@ seg-47d596393831 = Real events
 seg-5630c799cec1 = Where every trace comes from
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-f4d3b1f5b1b4 = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-9a86ef058d27 = Open in Kshana Studio
@@ -117,9 +117,9 @@ seg-f18f76c10709 = <s1><a1>Report</a1><a2>JSON</a2><a3>TOML</a3></s1>
 seg-a0ef302e2458 = Copy command
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-3287261002dd = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-f2d2f2263e63 = The console, the three cards and the log replay one chained run of { "6" } phases and { "18" } member runs on its { "10" } s grid (T+{ "01" }:{ "16" }:{ "10" } of mission time). The orbits are the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual { "0.0034" }°), radii compressed for display. Links are drawn to satellites above the constellation run's { "10" }° mask ({ "25" }° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
@@ -147,22 +147,34 @@ seg-3a3535770138 = <s1>papers on arXiv built on the open engine</s1><s2>Read the
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>runs in the browser as WebAssembly, no install</s2>
 
 # text
-seg-9b3429f89f21 = New in v{ $version }: every kind, every command, and the benchmark's misses
-
-# text
-seg-c5fc0ca71fae = Every scenario kind, one page each
-
-# text
-seg-ccee5886cf25 = Every command, every surface
-
-# text
-seg-4ef6dcd0a58b = Which surface carries which capability
+seg-b9961ed25282 = New in v{ $version }: a mission thread, an evidence label on every figure, and seventeen languages
 
 # text
 seg-29e58493fdd4 = Modelled
 
 # text
-seg-8e092e49bdeb = kshana-bench: the bars that were not met, stated
+seg-070972f642de = An Artemis-class mission thread: the navigation and timing error budget from launch to entry
+
+# text
+seg-4970f874d334 = The lunar segment: rendezvous, descent, surface and ascent
+
+# text
+seg-8ca6e2046901 = An estimated emitter region from ADS-B or AIS reports
+
+# text
+seg-003a3b9b63ea = Measured clock logs, and a holdover driven by a fitted series
+
+# text
+seg-448b11c86f48 = Data partners: which rows measured data could promote
+
+# text
+seg-5858e5d1f7c5 = An evidence label on every figure and table a run writes
+
+# text
+seg-bd28ef5c376e = Seventeen languages beside English
+
+# text
+seg-7fae5de5ebf1 = kshana-bench: the { "0.40" } re-campaign
 
 # text
 seg-471b95f0c08f = <a1>What each one does and what was checked</a1> · <a2>Every install channel</a2>
@@ -370,9 +382,9 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial navigation system
 
 # text
-# c1: fc21ac4
+# c1: ac05b72
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-510663384be1 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-4051fcd29291 = One engine for the whole failure chain.
@@ -1046,10 +1058,10 @@ seg-12f050093898 = Why everyone needs it
 seg-0230217b1110 = Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
 # text
-seg-9e88a1981d1e = { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+seg-653cf3198094 = { "176" } of { "401" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 # text
-seg-4b41ffeb0030 = All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-76b213d03caa = All { "92" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
 # text
 seg-0af87a1caff4 = The same core under a commercial licence, for closed integration.

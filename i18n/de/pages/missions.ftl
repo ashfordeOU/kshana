@@ -844,11 +844,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Realer Lauf der Engine, wiedergegeben
 
 # text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-597a57467277 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
-
-# text
 seg-f1313464b7c9 = Bahnen: aus den eigenen Elementen des Laufs neu propagiert und gegen die Bodenspuren der Engine geprüft. Planeten: NASA-Bilder.
 
 # text

@@ -46,8 +46,6 @@ seg-c2187e8291f9 = <b>Register:</b> ingen matrixrække nævner denne type; motor
 
 seg-b1ff6f0e1769 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Valgfrie: <c13/>, <c14/>, <c15/>.
 
-seg-9bd19903f577 = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>terrain-nav</a1>.
-
 seg-3ec7b38184b7 = Obligatoriske felter: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Valgfrie: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>.
 
 seg-7c777178ee8f = <b>Register:</b> ingen matrixrække nævner denne type; motoren betegner selv sit resultat. Fuld side med input, resultater, evidens og begrænsninger: <a1>terrain-slam</a1>.

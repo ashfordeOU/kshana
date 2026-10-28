@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP määrittelemätön (asteeltaan vajaa / singula
 
 seg-856eb311f24b = ”määrittelemätön” (teksti sellaisena kuin asiakirja ilmoittaa
 
-seg-1767b216650d = määritelty
-
 seg-fc5d34345fdd = Tulosnimike (moottorin oma): MODELLED tasomaisen kuunläheisen satelliittitähdistön havaittavuus (P6). VALIDATED ydin: havaittava ASTE on asteen paljastava singulaariarvokynnys, joka on ristiintarkistettu Gramin matriisin ominaisarvoasteella; Gramin matriisin ominaisarvospektri noudattaa spektri-invariantteja (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
 
 seg-f15bbf30b0dd = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/cislunar-observability.toml, skenaariotyyppi cislunar-observability

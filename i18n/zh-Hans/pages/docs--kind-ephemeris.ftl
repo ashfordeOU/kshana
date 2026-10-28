@@ -32,8 +32,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = 天
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = 引擎为scenarios/ephemeris.toml（类型ephemeris）生成的图表
 
 seg-d291f20074f0 = <b>VALIDATED</b>轨道路径上由两部分UT1儒略日得到的地球自转，使地固位置保留单个f64日期所丢失的微秒量级精度（{ "2020" }年前后约{ "3e-9" } rad）：jd2::gmst82（IAU { "1982" } GMST，即TEME约定，作用于两部分），cio:

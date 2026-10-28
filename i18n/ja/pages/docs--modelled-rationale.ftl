@@ -1345,8 +1345,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log：gnss_lib_py のブリッジが書き出す形式を receiver-trust に通す)；ブリッジの Python テストは、integrations/ros2/kshana_trust/test/test_bridge.py（モックエンジンによるブリッジ）、integrations/ros2/kshana_trust/test/test_engine_integration.py（実際の wheel が、定常的な測位解を nominal、{ "1.1" } km のジャンプを untrusted と採点する）、integrations/gnss_lib_py/test_bridge.py（実際の gnss_lib_py { "1.1.0" } と wheel）で、cargo ではなく pytest で実行します
 
-seg-e7d71a9d77a6 = MODELLED とラベル付けされた { "208" } 件の機能。
-
 seg-7a0503f925c1 = <s1>前へ</s1>機能リファレンス
 
 seg-b5832e94f926 = <s1>次へ</s1>現実に対する主張

@@ -9,7 +9,7 @@ seg-a240ef37dc6d = Source: <c1/>
 seg-befef5f2f8dd = Lunar and cislunar (scenario kind family)
 
 # text
-seg-f964724ea446 = { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-8350d49efd47 = { "24" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 # c1: kshana scenarios/lunar-infrastructure-od-consistency.toml
@@ -35,6 +35,18 @@ seg-240eb5858113 = Modelled relativistic Earth–Moon clock rate (Lunar Coordina
 
 # text
 seg-177bff8d753e = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the c
+
+# text
+seg-3505720b0990 = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class).
+
+# text
+seg-9d18dfb871ed = MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites.
+
+# text
+seg-a8d90ed1d52f = MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class).
+
+# text
+seg-737aa6f80fe3 = MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class).
 
 # text
 seg-df0437ef8324 = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon.
@@ -150,6 +162,148 @@ seg-d6aa5d645fb7 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 
 # attr:alt
 seg-56fe184f2a12 = The chart the engine writes for scenarios/lunar-time-budget.toml, kind lunar-time-budget
+
+# text
+seg-ae3053a1f6c8 = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class). The five-state per-axis inertial error model of lunar-descent (position, velocity, accelerometer bias, attitude tilt, gyro bias, driven by the specific force) runs on all three site axes from the surface state the phase enters with; an AFS position fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) is taken at a stated interval, with lunar time entering through the vehicle clock and a time-tag error along track. Reports the closed-form inertial sources, the aid's contribution, the ablation, the navigation 1-sigmas over the ascent, the engine cutoff dispersion beside the navigation knowledge, and the full 6x6 MCI covariance at insertion with the position-velocity correlation kept. MODELLED: illustrative IMU class, specific force, relay set and cutoff dispersion; errors held in the launch site axes; the nominal exit state is a stand-in. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+# c1: site_lat_deg
+# c2: site_lon_deg
+# c3: ascent_s
+# c4: specific_force_m_s2
+# c5: insertion_altitude_km
+# c6: accel_bias_ug
+# c7: align_arcmin
+# c8: gyro_bias_deg_per_hr
+# c9: surface_pos_sigma_m
+# c10: surface_vel_sigma_m_s
+# c11: cutoff_sigma_m_s
+# c12: afs_mode
+# c13: n_relays
+# c14: mask_deg
+# c15: afs_cn0_dbhz
+# c16: sis_ure_m
+# c17: afs_first_fix_s
+# c18: afs_interval_s
+# c19: baseline_km
+# c20: lunar_time_mode
+# c21: time_since_sync_days
+seg-66982ad26e2b = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+# text
+seg-ecdaa89c9219 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>lunar-ascent</a1>.
+
+# attr:alt
+seg-463a919e84d5 = The chart the engine writes for scenarios/lunar-ascent.toml, kind lunar-ascent
+
+# text
+seg-6c7d25f672fb = MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. For each site and season (an epoch and a window after it) it reports relay positioning (four or more relays of an ILLUSTRATIVE LCNS-class constellation in view and PDOP under a threshold, from the same functions as moonlight-service-volume and, with a terrain section, the ray-marched skyline of lunar-station-coverage's terrain), whether the Earth and the Sun are above the site's horizon (analytic Sun, Moon and lunar orientation, libration included, which is what moves with the season), and timing availability (a relay or the Earth in view) with the longest stretch of neither, the holdover a surface clock must ride out. A single-site result equals moonlight-service-volume's to the bit. MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the { "1200" } m LOLA crop. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+# c1: sites
+# c2: season_dates
+# c3: window_days
+# c4: step_min
+# c5: stay_days
+# c6: timing_floor_s
+# c7: n_sats
+# c8: sma_km
+# c9: eccentricity
+# c10: inc_deg
+# c11: argp_deg
+# c12: mask_deg
+# c13: pdop_threshold
+# c14: earth_mask_deg
+# c15: sun_mask_deg
+# c16: terrain
+seg-6f1fd4e8089d = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+# text
+seg-e403a675bcc4 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>lunar-surface</a1>.
+
+# attr:alt
+seg-94b84de6c958 = The chart the engine writes for scenarios/lunar-surface.toml, kind lunar-surface
+
+# text
+seg-2cd0d5385530 = MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). Per horizontal axis a five-state inertial error model (position, velocity, accelerometer bias, attitude tilt, gyro bias) is driven by the descent's specific force; a sequential filter takes position fixes from the enabled aids: an AFS fix from the visible relays of an ILLUSTRATIVE LCNS-class constellation (standalone, or differential using the correction-link residual of lunar-differential-pnt, with the clock aided when only three relays are visible) and a terrain-relative fix (the crate's TERCOM/SITAN matcher on a synthetic relief, or the Cramer-Rao bound of matching an elevation window of the real LOLA south-polar DEM). Lunar time enters through the vehicle clock at the fixes (the LTC-TT offset of lunar-time-offset, or the uncertainty of its published band) and as a time-tag error along track. Reports the 3-sigma landing ellipse, R95, the closed-form inertial sources, each aid's contribution, the ablation of every aid combination, a Monte Carlo calibration of the ellipse, and the covariance handed on. MODELLED: illustrative IMU class, relay set, descent profile and guidance term; terrain-nav uses a synthetic relief on an Earth metre scale; AFS availability is one epoch on a flat mask. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+# c1: site_lat_deg
+# c2: site_lon_deg
+# c3: more_site_lats_deg
+# c4: descent_s
+# c5: specific_force_m_s2
+# c6: horizontal_speed_m_s
+# c7: accel_bias_ug
+# c8: align_arcmin
+# c9: gyro_bias_deg_per_hr
+# c10: carried_pos_sigma_m
+# c11: carried_vel_sigma_m_s
+# c12: guidance_sigma_m
+# c13: afs_mode
+# c14: n_relays
+# c15: mask_deg
+# c16: afs_cn0_dbhz
+# c17: sis_ure_m
+# c18: afs_first_fix_s
+# c19: afs_interval_s
+# c20: baseline_km
+# c21: trn_source
+# c22: trn_fix_time_s
+# c23: trn_altimeter_sigma_m
+# c24: trn_map_sigma_m
+# c25: dem_descriptor
+# c26: trn_window_m
+# c27: trn_height_sigma_m
+# c28: trn_registration_sigma_m
+# c29: lunar_time_mode
+# c30: time_since_sync_days
+# c31: n_trials
+# c32: seed
+seg-aa1a7b2ca934 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+# text
+seg-059a45d0512e = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>lunar-descent</a1>.
+
+# attr:alt
+seg-8073ece4c900 = The chart the engine writes for scenarios/lunar-descent.toml, kind lunar-descent
+
+# text
+seg-2deefd8c547b = MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). A chaser and a target fly the same orbit under the crate's lunar force model; a joint 21-parameter batch Gauss-Newton estimate over the arc (two vehicle states and persistent signal-in-space biases) fuses an absolute position fix per vehicle from an ILLUSTRATIVE LCNS-class relay set (relays behind the Moon dropped, four needed, the common-mode signal-in-space error cancelling between the vehicles) and a crosslink range, with ranging precision from the code-tracking bound on the LunaNet AFS pilot. Reports the formal and Monte Carlo relative position and velocity error in the target LVLH axes, fix availability, the mean normalised estimation error squared against its expected value, and any trial whose iteration did not converge, the drift from ignoring the gravity harmonics, and the full 6x6 covariance handed on. A closed-form Hill/Clohessy-Wiltshire check applies to the circular case. MODELLED: illustrative relay set, error budget and priors; the truth and the estimator share one force model, so the NEES checks self-consistency and not model error. Not agency-endorsed; advisory software, not certified navigation equipment.
+
+# text
+# c1: orbit
+# c2: sma_km
+# c3: eccentricity
+# c4: inc_deg
+# c5: argp_deg
+# c6: mean_anomaly_deg
+# c7: separation_m
+# c8: arc_s
+# c9: step_s
+# c10: n_relays
+# c11: afs_cn0_dbhz
+# c12: isl_cn0_dbhz
+# c13: integration_s
+# c14: sis_ure_m
+# c15: common_mode_fraction
+# c16: target_pos_sigma_m
+# c17: target_vel_sigma_m_s
+# c18: carried_pos_sigma_m
+# c19: carried_vel_sigma_m_s
+# c20: filter_model
+# c21: n_trials
+# c22: seed
+# c23: conv_threshold_m
+# c24: gravity_table_path
+# c25: gravity_degree
+seg-1618206b62b1 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+# text
+seg-d1f8d70eb309 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>lunar-orbit-rendezvous</a1>.
+
+# attr:alt
+seg-d97b2505ac72 = The chart the engine writes for scenarios/lunar-orbit-rendezvous.toml, kind lunar-orbit-rendezvous
 
 # text
 seg-e01f77d493a0 = Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. The default analytic path is MODELLED and carries the frame-consistency, xp=yp={ "0" } polar-motion and plane-wave-vs-near-field caveats. Setting planetary_kernel_path, earth_orientation_kernel_path and moon_orientation_kernel_path runs the kernel path instead (DE440, MOON_PA_DE440, ITRF93; converged barycentric light times; adds the epoch's beacon and station partials), whose Newtonian delay and partials agree with NAIF SPICE converged light times to { "0.06" } ps and { "7.4e-9" }. Not validated against real VLBI data.
@@ -347,7 +501,7 @@ seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILL
 seg-8d9e0277303e = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
 
 # text
-seg-204901ae3684 = <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-f87c103758f3 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
 
 # attr:alt
 seg-edb738273a3a = The chart the engine writes for scenarios/moonlight-service-volume.toml, kind moonlight-service-volume

@@ -565,9 +565,6 @@ seg-9a2bb9809aed = Transferencia bidireccional de tiempo y frecuencia por satél
 seg-ccb244e60d60 = Transferencia bidireccional de tiempo y frecuencia óptica frente a RF.
 
 # text
-seg-1e4d5b2f4810 = Cada archivo de escenario incluido ({ "182" }), agrupado por tipo de escenario. La descripción es el comentario de cabecera del propio archivo; los parámetros clave son sus ajustes de nivel superior. El estado se lee de la matriz de verificación para el módulo del tipo de escenario. <b>Abrir en Kshana Studio</b> abre la ejecución registrada.
-
-# text
 seg-e701392324d0 = tipo de escenario acm-link
 
 # text

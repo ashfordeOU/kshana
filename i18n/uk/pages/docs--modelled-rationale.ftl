@@ -948,8 +948,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: формат, який записує міст gnss_lib_py, прогнаний через receiver-trust); тести мостів на Python — це integrations/ros2/kshana_trust/test/test_bridge.py (міст із імітованим рушієм), integrations/ros2/kshana_trust/test/test_engine_integration.py (справжнє колесо оцінює стабільне визначення як номінальне, а стрибок на { "1.1" } км — як недовірене) та integrations/gnss_lib_py/test_bridge.py (справжній gnss_lib_py { "1.1.0" } і колесо), запускаються за допомогою pytest, а не cargo
 
-seg-e7d71a9d77a6 = { "208" } можливостей позначено MODELLED.
-
 seg-7a0503f925c1 = <s1>Назад</s1>Довідник можливостей
 
 seg-b5832e94f926 = <s1>Далі</s1>Твердження проти реальності

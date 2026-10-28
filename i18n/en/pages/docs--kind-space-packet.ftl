@@ -40,12 +40,6 @@ seg-2ac27c1e55c0 = octet
 seg-f5bc99396b7d = { "00" } { "64" } { "40" } { "00" } { "00" } 1F
 
 # text
-seg-5b3bc9761db4 = First
-
-# text
-seg-52036320db9b = TM
-
-# text
 seg-f336ba92871f = Result label (the engine's): CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification (no secondary header / CRC / segmentation logic beyond the flags)
 
 # attr:alt

@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP nedefinováno (s deficitem hodnosti / singulár
 
 seg-856eb311f24b = „undefined“ (text, jak jej uvádí dokum
 
-seg-1767b216650d = definováno
-
 seg-fc5d34345fdd = Označení výsledku (z enginu): MODELLED pozorovatelnost rovinné cislunární konstelace (P6). VALIDATED jádro: pozorovatelná HODNOST je práh singulárních čísel odhalující hodnost, zkontrolovaný proti hodnosti z vlastních čísel Gramiánu; spektrum vlastních čísel Gramiánu splňuje spektrální invarianty (stopa = součet vl. čísel, det = součin vl. čísel, Frobenius^{ "2" } = součet vl. čísel^{ "2" }
 
 seg-f15bbf30b0dd = Graf, který engine zapisuje pro scenarios/cislunar-observability.toml, druh cislunar-observability

@@ -10,8 +10,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>det presise øyebli
 
 seg-3b861b2f08b8 = Utgivelse v{ $version }
 
-seg-ebe636986f46 = { "176" } av { "388" } funksjoner validert mot uavhengige eksterne referanser
-
 seg-6a1906d8d4ad = Omtrent { "95" } % linjedekning, med krav på { "85" } % i kontinuerlig integrasjon
 
 seg-a9f4f2795fb5 = Lisens: AGPL-3.0-only, eller en kommersiell lisens
@@ -23,10 +21,6 @@ seg-7fcbe854ebc4 = Øv på minuttet GNSS går i svart: Kshanas oppdragskonsoll, 
 seg-d1153c5e9112 = Øv på minuttet GNSS går i svart
 
 seg-d1a3f78ad8e0 = Prøv det først uten noe å installere: <a1>Kshana Studio</a1> kjører hele motoren i nettleseren din, kompilert til WebAssembly, og laster ikke opp noe.
-
-seg-2d2c47db0c1f = <b>{ "176" } av { "388" }</b> funksjoner validert mot uavhengige eksterne referanser; { "208" } ærlig merket som modellert, { "4" } eid av partnere. Hver funksjon har én merkelapp i et maskinkontrollert register: VALIDATED (en uavhengig ekstern referanse stemmer: reelle data, en uavhengig implementering eller publiserte referansevektorer), MODELLED (internt konsistent, og sagt høyt) eller PARTNER (en maskinvarepartner eier den). Blant kontrollene: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm, og Cowell-kraftmodellen til { "0.08" } m mot Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "388" } funksjoner: { "176" } validert, { "208" } modellert, { "4" } eid av partnere
 
 seg-12a295fba8a5 = Hver funksjon i verifikasjonsmatrisen er merket <b>validert</b> (kontrollert mot en uavhengig ekstern referanse), <b>modellert</b> eller <b>eid av partner</b>; tallene for optiske klokker er romformål på bakkemaskinvare (ingen optisk strontiumklokke har fløyet). Modenheten er <em>ikke</em> lik på tvers av områder — Earth PNT er validert mot reelle data; dypromsnavigasjon og Mars-navigasjon er modellert, og bare byggeklossene (lystid, planetposisjoner) er validert mot eksterne referanser; banebestemmelse (OD) for reelle dypromsoppdrag står på veikartet.
 

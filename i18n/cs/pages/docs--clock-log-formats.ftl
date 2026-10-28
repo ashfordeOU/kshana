@@ -18,8 +18,6 @@ seg-2f464fe709c9 = Bez tabulky se oba druhy zpracovávají, hashují a uváděj�
 
 seg-c931c5ec2f4a = Formáty
 
-seg-7f608c733407 = <b><c1/></b>: soubory hodin RINEX, verze { "2" } a { "3.00" } až { "3.04" } (včetně devítiznakového pole názvu ve verzi { "3.04" }). Hlavička se čte jen kvůli <c2/> a přeskakuje se až do <c3/>. Z datových záznamů se uchovávají jen záznamy <c4/> (družice) a <c5/> (přijímač nebo stanice) jedněch hodin vybraných podle názvu. Jejich první pole hodnoty, posun hodin v sekundách, je fáze. Pokračovací řádky a záznamy <c6/>, <c7/> a <c8/> se přeskakují. Epochy jsou kalendářní pole záznamu, jako sekundy od 1980-01-06 { "00" }:{ "00" }:{ "00" } ve vlastní časové soustavě souboru, bez převodu.
-
 seg-0b758195e7eb = <b><c1/></b>: ASCII záznamy fáze nebo frekvence ve stylu TimeLab, prostá textová forma, kterou TimeLab exportuje a kterou čtou jeho import ASCII a Stable32. Na řádku je jedno čtení: buď jediný sloupec s rovnoměrným <c2/>, nebo dva sloupce <c3/>. Sloupce mohou být odděleny mezerami, čárkami nebo středníky.
 
 seg-a7ae9e712bea = Řádky začínající <c1/>, <c2/> nebo <c3/> jsou komentáře. Komentář ve tvaru <c4/> (nebo <c5/>) nastavuje <c6/> (s), <c7/> (<c8/>, <c9/>, <c10/>, <c11/> nebo <c12/>, pro fázi), <c13/> (<c14/> nebo <c15/>) nebo <c16/> (<c17/> nebo <c18/>, pro první ze dvou sloupců).
@@ -30,13 +28,9 @@ seg-84f4b59bcdbf = Frekvenční data (relativní frekvence) se přijímají pouz
 
 seg-8cc445eb84f3 = Binární soubory TimeLab a projektové soubory <c1/> se nečtou.
 
-seg-3d8853fa9c92 = <b><c1/></b>: záznamy čítače TAPR TICC (TICC Operation Manual, revize z { "23" }. listopadu { "2016" }, „measurement modes“). Každé datové pole jsou sekundy s { "12" } desetinnými místy.
-
 seg-3af6e4e7bc73 = Řádky režimu Timestamp (<c1/>, <c2/>) a kanál pseudočasových značek režimu TimeLab (<c3/>) jsou časové značky událostí. Fáze vybraného kanálu je jeho časová značka minus nominální tik: <c4/>, kde <c5/> je celý počet <c6/> od první události. Zmeškaná událost je mezera.
 
 seg-cecf9df4ff10 = Řádky režimu Interval (<c1/> nebo jakýkoli štítek začínající <c2/>) se čtou přímo jako fáze, jedno čtení na <c3/>. Scénář musí uvést <c4/>, protože řádek nenese čas.
-
-seg-75301936698f = Výstup režimů Period a Debug se odmítá. Kanál, jehož čtení nerostou, je hlášen jako režim Period.
 
 seg-5ec2509907dd = Řádky začínající <c1/> a řádky, které nemají tvar <c2/> (například úvodní nabídka), se přeskakují a počítají.
 
@@ -81,8 +75,6 @@ seg-593c998b65e0 = <c1/>: ponechat nejdelší souvislý úsek bez mezer;
 seg-f184ce746389 = <c1/>: doplnit vnitřní mezery lineární interpolací a uvést počet doplněných.
 
 seg-1f3dc3429615 = Estimátory potřebují záznam bez mezer, a proto se mezery řeší zde.
-
-seg-fe7d27a473aa = MODELLED. Toto je parser a jeho výstup napájí estimátory, které jsou jinde ověřeny proti allantools. Jednotkové testy v <c1/> používají malé ručně psané záznamy a u formátů linuxptp a chrony fixtures v <c2/>. <c3/> spouští srovnání předregistrované v <c4/>: tři seedem řízené syntetické záznamy, po jednom na formát, zpětně přečtené nezávislým čtecím modulem napsaným podle této stránky týmž autorem, s ADEV, TDEV a MTIE zkontrolovanými proti allantools { "2024.6" }; toto srovnání pokrývá jen první tři formáty a čtecí moduly linuxptp a chrony mají testy parseru, ale žádné srovnání s orákulem. Záznamy jsou syntetické, takže nic zde nepopisuje skutečné hodiny ani čítač.
 
 seg-0f061f726ec5 = <s1>Předchozí</s1>Test holdoveru a časovací hardware ve smyčce
 

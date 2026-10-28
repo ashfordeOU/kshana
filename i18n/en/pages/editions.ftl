@@ -41,12 +41,12 @@ seg-a613a7447e3f = Custom study
 seg-b366150de755 = Request a study
 
 # text
-seg-0adcadeb3854 = The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-3bf5f474beca = The open engine at the centre: one mark per scenario kind ({ "92" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
 
 # text
 # c1: src/api.rs
 # c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-f88b6cf10837 = Engine v{ $version } · { "92" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
 
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Compare the editions
@@ -109,10 +109,10 @@ seg-21989d609ae7 = Researchers, students and reviewers who need figures they can
 seg-3b6d727a2d38 = Developers wiring the engine into code, a CI (continuous integration) suite or an AI (artificial intelligence) assistant
 
 # text
-seg-abe5c7257cda = All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-7a848f1d8304 = All { "92" } scenario kinds and { "180" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 # text
-seg-1434952d1bc8 = The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-cc655ce0b6c8 = The full verification matrix: { "176" } of { "401" } capabilities validated against independent oracles, the rest labelled Modelled
 
 # text
 seg-9b8eb955fecf = Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts

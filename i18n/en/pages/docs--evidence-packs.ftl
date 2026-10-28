@@ -409,6 +409,32 @@ seg-f7d908c6bf38 = The pack is verified exactly when the failure set is empty. W
 seg-b0d74519122d = <b>Timestamp token.</b> A token is a DER <c1/> whose content type is CMS SignedData ({ "1.2.840.113549.1.7.2" }) and whose encapsulated content type is <c2/> ({ "1.2.840.113549.1.9.16.1.4" }); a response is a DER <c3/> (a <c4/> followed by the token) whose status is { "0" } or { "1" }. The <c5/>'s message imprint algorithm must be SHA-256, SHA-384 or SHA-512 with a digest of that algorithm's length, and its <c6/> a real UTC calendar time. Indefinite-length BER is not accepted. The authority's signature and certificate chain are checked only when trusted anchors are given (<c7/>, below).
 
 # text
+seg-bd3169455cd0 = The evidence label ({ "0.40" })
+
+# text
+# c1: config.json
+# c2: evidence
+# c3: VALIDATED
+# c4: MODELLED
+# c5: PARTNER
+# c6: config_version
+# c7: "1.1"
+# c8: config.json
+# c9: kshana evidence verify
+seg-6fe796d2b15f = A pack built by { "0.40" } or later carries, inside <c1/>, an <c2/> entry (the tier, <c3/>, <c4/> or <c5/>, which is the weakest status among its rows, and the ids and requirements of the verification-matrix rows the pack's contents rest on: the pack-integrity row, the receiver-trust rows, and the jammertest-scoring or round-trip rows for those packs) and <c6/> <c7/>. It is inside <c8/>, so the manifest's file hash, the hash chain and the signature cover it: changing it fails verification. <c9/> reports the tier and the row ids.
+
+# text
+# c1: format
+# c2: kshana-evidence/1
+# c3: scripts/
+# c4: config_version
+# c5: format
+# c6: kshana evidence verify
+# c7: tests/evidence_pack_label.rs
+# c8: tests/evidence_labels_doc_sync.rs
+seg-15b4e784361a = The change is additive and forward-only. The manifest's <c1/> stays <c2/>: the normative text above says a verifier MUST find that value, and the clean-room verifier in <c3/> does. The minor version is therefore carried by <c4/> (absent for a pack made before { "0.40" }, meaning { "1.0" }), not by a new <c5/> string. A pack made before { "0.40" } has no label and verifies unchanged; <c6/> says "no evidence label (pre-0.40 pack)". The tests are <c7/> (including the committed pre-0.40 oracle packs) and <c8/>.
+
+# text
 seg-2156bf4dabb3 = RFC { "3161" } timestamp (optional)
 
 # text
@@ -477,4 +503,4 @@ seg-9c361736bf27 = It is a technical record and not a legal opinion or a certifi
 seg-68bcf43b4e27 = <s1>Previous</s1>Line coverage
 
 # text
-seg-09c0b5fa6e52 = <s1>Next</s1>Optical links through the atmosphere
+seg-218641620d3e = <s1>Next</s1>Data partners and promoting rows

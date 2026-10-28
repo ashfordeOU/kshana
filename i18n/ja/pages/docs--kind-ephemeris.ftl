@@ -20,8 +20,6 @@ seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 
 
 seg-4d208b6c0eb8 = 日
 
-seg-cc723fa4fafa = sgp4 (TLE)
-
 seg-0fd3c58fde09 = エンジンが scenarios/ephemeris.toml（種別 ephemeris）について出力するグラフ
 
 seg-d291f20074f0 = <b>VALIDATED</b> 軌道経路上の二部構成 UT1 ユリウス日から地球自転を求めることで、地球固定座標の位置が、単一の f64 日付では失われるマイクロ秒を保ちます（{ "2020" }年付近で約{ "3e-9" } rad）：jd2::gmst82（IAU { "1982" } GMST、二部に対する TEME の規約）、cio:

@@ -43,17 +43,6 @@ seg-2f464fe709c9 = Sans la table, les deux types de scénario sont analysés, ha
 seg-c931c5ec2f4a = Les formats
 
 # text
-# c1: rinex-clk
-# c2: TIME SYSTEM ID
-# c3: END OF HEADER
-# c4: AS
-# c5: AR
-# c6: CR
-# c7: DR
-# c8: MS
-seg-7f608c733407 = <b><c1/></b> : fichiers d'horloge RINEX, versions { "2" } et { "3.00" } à { "3.04" } (y compris le champ de nom à neuf caractères de la { "3.04" }). L'en-tête n'est lu que pour son <c2/> et est sauté jusqu'à <c3/>. Parmi les enregistrements de données, seuls les enregistrements <c4/> (satellite) et <c5/> (récepteur ou station) d'une horloge, sélectionnée par son nom, sont conservés. Leur premier champ de valeur, le biais d'horloge en secondes, est la phase. Les lignes de continuation et les enregistrements <c6/>, <c7/> et <c8/> sont sautés. Les époques sont les champs calendaires de l'enregistrement, en secondes depuis le 1980-01-06 { "00" }:{ "00" }:{ "00" } dans l'échelle de temps propre au fichier, sans conversion.
-
-# text
 # c1: timelab
 # c2: tau0
 # c3: time value
@@ -92,10 +81,6 @@ seg-84f4b59bcdbf = Les données de fréquence (fréquence fractionnaire) ne sont
 seg-8cc445eb84f3 = Les fichiers de projet binaires et <c1/> de TimeLab ne sont pas lus.
 
 # text
-# c1: ticc
-seg-3d8853fa9c92 = <b><c1/></b> : journaux du compteur TICC du TAPR (manuel d'utilisation du TICC, révision du { "23" } novembre { "2016" }, « modes de mesure »). Chaque champ de données est en secondes avec { "12" } décimales.
-
-# text
 # c1: <seconds> chA
 # c2: <seconds> chB
 # c3: chC
@@ -110,9 +95,6 @@ seg-3af6e4e7bc73 = Les lignes du mode Timestamp (<c1/>, <c2/>) et le canal de ps
 # c3: tau0
 # c4: tau0_s
 seg-cecf9df4ff10 = Les lignes du mode Interval (<c1/>, ou toute étiquette commençant par <c2/>) sont lues directement comme phase, une lecture par <c3/>. Le scénario doit indiquer <c4/>, car la ligne ne porte aucun temps.
-
-# text
-seg-75301936698f = La sortie des modes Period et Debug est refusée. Un canal dont les lectures ne croissent pas est signalé comme étant en mode Period.
 
 # text
 # c1: #
@@ -232,13 +214,6 @@ seg-f184ce746389 = <c1/> : combler les trous intérieurs par interpolation liné
 
 # text
 seg-1f3dc3429615 = Les estimateurs exigent un enregistrement sans trou, c'est pourquoi les trous sont traités ici.
-
-# text
-# c1: src/clock_log.rs
-# c2: tests/fixtures/clock_log/linuxptp_chrony/
-# c3: tests/clock_log_allantools.rs
-# c4: tests/fixtures/clock_log/PREREGISTRATION.md
-seg-fe7d27a473aa = MODELLED. Il s'agit d'un analyseur, et sa sortie alimente des estimateurs validés ailleurs par rapport à allantools. Les tests unitaires de <c1/> utilisent de petits journaux écrits à la main et, pour les formats linuxptp et chrony, les jeux d'essai de <c2/>. <c3/> exécute la comparaison préenregistrée dans <c4/> : trois journaux synthétiques avec graine, un par format, relus par un lecteur indépendant écrit à partir de cette page par le même auteur, avec l'ADEV, le TDEV et le MTIE vérifiés par rapport à allantools { "2024.6" } ; cette comparaison ne couvre que les trois premiers formats, et les lecteurs linuxptp et chrony ont des tests d'analyseur mais aucune comparaison avec une référence indépendante. Les journaux sont synthétiques, de sorte que rien ici ne décrit une horloge ou un compteur réels.
 
 # text
 seg-0f061f726ec5 = <s1>Précédent</s1>Test de holdover et matériel de synchronisation temporelle dans la boucle

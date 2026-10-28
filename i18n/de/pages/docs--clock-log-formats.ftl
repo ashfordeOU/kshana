@@ -43,17 +43,6 @@ seg-2f464fe709c9 = Ohne die Tabelle werden beide Typen exakt wie zuvor geparst, 
 seg-c931c5ec2f4a = Die Formate
 
 # text
-# c1: rinex-clk
-# c2: TIME SYSTEM ID
-# c3: END OF HEADER
-# c4: AS
-# c5: AR
-# c6: CR
-# c7: DR
-# c8: MS
-seg-7f608c733407 = <b><c1/></b>: RINEX-Uhrdateien, Versionen { "2" } und { "3.00" } bis { "3.04" } (einschließlich des Namensfelds mit neun Zeichen in { "3.04" }). Der Header wird nur auf <c2/> gelesen und bis <c3/> übersprungen. Von den Datensätzen werden nur die Datensätze <c4/> (Satellit) und <c5/> (Empfänger oder Station) einer Uhr behalten, die nach Namen ausgewählt wird. Ihr erstes Wertefeld, der Uhrenbias in Sekunden, ist die Phase. Fortsetzungszeilen und die Datensätze <c6/>, <c7/> und <c8/> werden übersprungen. Die Epochen sind die Kalenderfelder des Datensatzes, als Sekunden ab 1980-01-06 { "00" }:{ "00" }:{ "00" } im eigenen Zeitsystem der Datei, ohne Umrechnung.
-
-# text
 # c1: timelab
 # c2: tau0
 # c3: time value
@@ -92,10 +81,6 @@ seg-84f4b59bcdbf = Frequenzdaten (relative Frequenz) werden nur als einzelne Spa
 seg-8cc445eb84f3 = Binäre Projektdateien von TimeLab und Projektdateien <c1/> werden nicht gelesen.
 
 # text
-# c1: ticc
-seg-3d8853fa9c92 = <b><c1/></b>: Logs des Zählers TAPR TICC (TICC Operation Manual, Revision vom { "23" }. November { "2016" }, „measurement modes“). Jedes Datenfeld ist in Sekunden mit { "12" } Dezimalstellen angegeben.
-
-# text
 # c1: <seconds> chA
 # c2: <seconds> chB
 # c3: chC
@@ -110,9 +95,6 @@ seg-3af6e4e7bc73 = Zeilen im Timestamp-Modus (<c1/>, <c2/>) und der Pseudo-Zeits
 # c3: tau0
 # c4: tau0_s
 seg-cecf9df4ff10 = Zeilen im Intervall-Modus (<c1/> oder jede mit <c2/> beginnende Bezeichnung) werden direkt als Phase gelesen, ein Messwert je <c3/>. Das Szenario muss <c4/> angeben, weil die Zeile keine Zeit enthält.
-
-# text
-seg-75301936698f = Ausgaben im Perioden-Modus und im Debug-Modus werden zurückgewiesen. Ein Kanal, dessen Messwerte nicht ansteigen, wird als Perioden-Modus gemeldet.
 
 # text
 # c1: #
@@ -232,13 +214,6 @@ seg-f184ce746389 = <c1/>: innere Lücken durch lineare Interpolation füllen und
 
 # text
 seg-1f3dc3429615 = Die Schätzer brauchen eine lückenlose Aufzeichnung, weshalb Lücken hier aufgelöst werden.
-
-# text
-# c1: src/clock_log.rs
-# c2: tests/fixtures/clock_log/linuxptp_chrony/
-# c3: tests/clock_log_allantools.rs
-# c4: tests/fixtures/clock_log/PREREGISTRATION.md
-seg-fe7d27a473aa = MODELLED. Dies ist ein Parser, und seine Ausgabe speist Schätzer, die an anderer Stelle gegen allantools validiert sind. Die Unit-Tests in <c1/> verwenden kleine, von Hand geschriebene Logs und für die Formate von linuxptp und chrony die Fixtures in <c2/>. <c3/> führt den in <c4/> vorregistrierten Vergleich aus: drei synthetische Logs mit Seed, eines je Format, von einem unabhängigen Leser zurückgelesen, der anhand dieser Seite vom selben Autor geschrieben wurde, wobei ADEV, TDEV und MTIE gegen allantools { "2024.6" } geprüft werden; dieser Vergleich deckt nur die ersten drei Formate ab, und die Leser für linuxptp und chrony haben Parser-Tests, aber keinen Vergleich mit einer unabhängigen Referenz. Die Logs sind synthetisch, sodass nichts hier eine reale Uhr oder einen realen Zähler beschreibt.
 
 # text
 seg-0f061f726ec5 = <s1>Zurück</s1>Holdover-Test und Zeitgebungs-Hardware in der Schleife

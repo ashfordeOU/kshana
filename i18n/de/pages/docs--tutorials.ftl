@@ -228,16 +228,6 @@ seg-c889e5e77121 = Die Lehrdatei für <b>Sicherheit</b> verwendet innen <c1/>: D
 seg-89fef83a9d54 = Der vollständige Katalog der Szenarioarten
 
 # text
-# c1: kind
-# c2: src/api.rs::list_scenario_kinds()
-# c3: 87
-# c4: list_kinds()
-# c5: kshana kinds --json
-# c6: SCENARIOS.md
-# c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = Die Engine verzweigt nach dem Feld <c1/> des Szenarios. Die Tabelle unten listet die am häufigsten verwendeten Arten (die acht Tutorial-Bereiche oben plus ihre nächsten Nachbarn). Sie ist <b>nicht</b> die vollständige Menge: <c2/> gibt alle <c3/> eingebauten Arten zurück. Diese Funktion (als <c4/> in den Bindungen für Python und WebAssembly (WASM) und als <c5/> in der Befehlszeile verfügbar) ist der maßgebliche, stets aktuelle Katalog, und <a1><c6/></a1> ist ihre erzeugte Aufzählung, ein Abschnitt je Art mit den erforderlichen und optionalen TOML-Feldern. <c7/> stellt sicher, dass jede in einem Tutorial dokumentierte Art eine reale Dispatch-Art ist, sodass nichts in dieser Tabelle eine nicht existierende Art nennen kann.
-
-# text
 # c1: runs > 1
 seg-0f744a3a7193 = Uhren-Holdover gegen Vorgabe; optionales Monte-Carlo-Ensemble (<c1/>).
 
@@ -445,3 +435,5 @@ seg-36be39f17e35 = <s1>Zurück</s1>Studio-Anleitung
 
 # text
 seg-6f6204737a87 = <s1>Weiter</s1>{ "1" } · Ihre erste Umlaufbahn
+
+seg-2fa9e002b3a2 = Die Engine verzweigt nach dem Feld <c1/> des Szenarios. Die Tabelle unten listet die am häufigsten verwendeten Arten (die acht Tutorial-Bereiche oben plus ihre nächsten Nachbarn). Sie ist <b>nicht</b> die vollständige Menge: <c2/> gibt alle <c3/> eingebauten Arten zurück. Diese Funktion (als <c4/> in den Bindungen für Python und WebAssembly (WASM) und als <c5/> in der Befehlszeile verfügbar) ist der maßgebliche, stets aktuelle Katalog, und <a1><c6/></a1> ist ihre erzeugte Aufzählung, ein Abschnitt je Art mit den erforderlichen und optionalen TOML-Feldern. <c7/> stellt sicher, dass jede in einem Tutorial dokumentierte Art eine reale Dispatch-Art ist, sodass nichts in dieser Tabelle eine nicht existierende Art nennen kann.

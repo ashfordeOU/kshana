@@ -848,8 +848,6 @@ seg-7718b39ae2c6 = Każdy wykres na tej stronie to plik scenariusza, który uruc
 
 seg-24194ccdcdca = Zacznij od dowolnego scenariusza
 
-seg-da4764e4d161 = Wybierz jeden ze { "183" } plików scenariuszy w { "87" } rodzajach albo napisz własny. <c1/> wypisuje każdy rodzaj z jego polami, a <c2/> drukuje plik, od którego można zacząć.
-
 seg-5dd293dd429b = Biblioteka w Kshana Studio
 
 seg-2ae31e21c5d8 = Ustaw satelity i konstelacje
@@ -962,33 +960,11 @@ seg-58a8a796c8cb = kontrole wzorcowe
 
 seg-3cbba5a3ab3b = Nowości w v{ $version }
 
-seg-850aca04de28 = Każdy rodzaj, każde polecenie i niespełnione progi benchmarku.
-
-seg-c530da682cca = Brak nowej funkcji silnika: wyniki są takie jak w { "0.38.0" }. Dokumentacja ma teraz stronę dla każdego rodzaju scenariusza oraz listę każdego polecenia i każdej powierzchni, a strona benchmarku podaje każdy próg, który nie został spełniony. Wiersz poleceń kończy się też po cichu, gdy zamyka się jego potok wyjściowy. Każda możliwość nosi etykietę, jaką ma dla niej rejestr, a etykieta nazywa tylko to, co zostało sprawdzone. Oprogramowanie wyłącznie doradcze.
-
-seg-c5fc0ca71fae = Każdy rodzaj scenariusza, po jednej stronie
-
-seg-86ff766b2c1d = Wszystkie { "87" } rodzajów scenariuszy uporządkowane w rodziny, z osobną stroną dla każdego rodzaju: co robi, jakie ma wejścia, wyniki przykładowego przebiegu, wiersze rejestru i wyrocznie stojące za jego etykietą, ograniczenia podane w jego raporcie oraz wykres zapisywany przez silnik.
-
 seg-a0b63210b807 = Czytaj dalej
-
-seg-ccee5886cf25 = Każde polecenie, każda powierzchnia
-
-seg-6630acb722ae = Każde polecenie z przykładem, który można uruchomić z kopii repozytorium, oraz każda powierzchnia (wiersz poleceń, Python, Rust, WebAssembly, serwer MCP, polecenia wtyczki, skille i strony Studio) z poleceniami i rodzajami, które obsługuje, oraz z powodem tam, gdzie czegoś nie obsługuje.
-
-seg-4ef6dcd0a58b = Która powierzchnia obsługuje którą możliwość
-
-seg-678872a862dc = Jedna strona wymienia, dla każdego polecenia i rodzaju, która powierzchnia go obsługuje, a która nie, wraz z powodem, obok dziedzin możliwości i ich etykiet z rejestru.
 
 seg-29e58493fdd4 = Obliczone z modelu
 
-seg-8e092e49bdeb = kshana-bench: progi, które nie zostały spełnione, podane wprost
-
-seg-df8f792ffa97 = Strona benchmarku wymienia teraz każdy próg, który nie został spełniony, tak jak zapisuje je plik wyników, i mówi, że żaden próg nie jest luzowany.
-
 seg-54dce6366d5a = Każdy dołączony scenariusz, na jednej mapie.
-
-seg-761213eb3ce0 = Wszystkie { "183" } pliki scenariuszy w { "87" } rodzajach, pogrupowane według dziedziny; { "173" } jest dołączonych do silnika, a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> uruchamia się z repozytorium za pomocą wiersza poleceń. Kropka pokazuje status rejestru dla modułu danego rodzaju, tam gdzie rejestr go podaje. Plik z zarejestrowanym przebiegiem otwiera go w Kshana Studio; pozostałe otwierają swój wpis w opisie scenariuszy, z plikiem i poleceniem, które go uruchamia.
 
 seg-f53c36555404 = Filtruj według statusu w rejestrze
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Zespół Monte Carlo scenariusza holdover zegara.
 seg-6f80bcd98ce4 = Scenariusz wzorcowy Kshana: przebieg { "2" } h, { "10" } min synchronizacji GNSS, a potem ~{ "1.8" } h bez niej.
 
 seg-4a194573e324 = Wariant: laboratoryjny zegar optyczny na stroncie a CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Test holdover, przykład wczytywania: zapis błędu czasu oceniany przez rodzaj holdover-test
 
@@ -1977,8 +1951,6 @@ seg-cab165105f32 = Odsyłacz wymaganie–moduł–test–wyrocznia–status, gen
 seg-ac19e38bed11 = <b>CI</b> ciągła integracja · <b>CSV</b> wartości rozdzielane przecinkami · <b>NIST</b> Narodowy Instytut Standardów i Technologii · <b>AIAA</b> Amerykański Instytut Aeronautyki i Astronautyki · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> Międzynarodowa Służba GNSS
 
 seg-190cdf3ca8dc = Jednostka i pochodzenie przy każdej raportowanej wielkości
-
-seg-1c7bb8c3e887 = { "87" } z { "87" } rodzajów, { "3127" } z { "3127" } pól liczbowych
 
 seg-3e7fb040a7c4 = Każde pole liczbowe emitowane przez scenariusz niesie jednostkę i klasę pochodzenia z zamkniętego słownika, z definicją tam, gdzie istnieje, publikowane jako schemat czytelny maszynowo obok silnika. Bramka z zapadką uruchamia każdy wbudowany rodzaj i kończy się niepowodzeniem na polu, które nie niesie żadnego z tych elementów; rodzaje jeszcze niekompletne są wymienione jeden po drugim z powodem, dla którego każdy pozostaje otwarty, a lista może się tylko kurczyć. Raporty, które podają własne stałe — jednokierunkowy budżet łącza, budżet optyczny i radiowy — pozwalają czytelnikowi przeliczyć wartość nagłówkową wyłącznie na podstawie raportu.
 

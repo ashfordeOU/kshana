@@ -1,0 +1,310 @@
+# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.
+
+# Pick one of { "183" } scenario files across { "87" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-da4764e4d161 = 在{ "87" }种类型的{ "183" }个场景文件中任选一个，或自行编写。<c1/>列出每种类型及其字段，<c2/>则打印出一个可作为起点的文件。
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" }种中的{ "87" }种，{ "3127" }个数值字段中的{ "3127" }个
+
+# Every kind, every command, and the benchmark's misses.
+seg-850aca04de28 = 每种类型、每条命令，以及基准测试中未达到判据之处。
+
+# No new engine feature: the results are those of { "0.38.0" }. The documentation now has a page for every scenario kind and a list of every command and every surface, and the benchmark page states each bar that was not met. The command line also exits quietly when its output pipe closes. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software.
+seg-c530da682cca = 没有新的引擎功能：结果与{ "0.38.0" }相同。文档现在为每种场景类型提供一个页面，并列出每条命令和每个入口，基准测试页面注明每一条未达到的判据。命令行在输出管道关闭时也会安静退出。每项能力都带有台账（ledger）中为其记录的标签，而标签只说明已核对过的内容。仅供参考的软件。
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = 每种场景类型，各有一页
+
+# All { "87" } scenario kinds filed under families, with a page for each kind: what it does, its inputs, the results of an example run, the ledger rows and oracles behind its label, the limitations its report states and the chart the engine writes.
+seg-86ff766b2c1d = 全部{ "87" }种场景类型按系列归档，每种类型有一个页面：它做什么、输入、示例运行的结果、其标签背后的台账（ledger）行和参考基准（oracle，独立参照）、其报告所述的局限，以及引擎生成的图表。
+
+# Every command, every surface
+seg-ccee5886cf25 = 每条命令，每个入口
+
+# Every command with an example you can run from a checkout, and every surface (command line, Python, Rust, WebAssembly, the MCP server, the plugin commands, the skills and the Studio pages) with the commands and kinds it carries and the reason where it does not.
+seg-6630acb722ae = 每条命令均附可在代码检出副本中运行的示例，每个入口（命令行、Python、Rust、WebAssembly、MCP服务器、插件命令、技能和Studio页面）均列出其所支持的命令和类型，不支持之处则注明原因。
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = 哪个入口支持哪项能力
+
+# One page lists, for every command and kind, which surface carries it and which do not, with the reason, beside the capability domains and their ledger labels.
+seg-678872a862dc = 一个页面针对每条命令和每种类型列出哪些入口支持、哪些不支持并说明原因，旁边是能力领域及其台账（ledger）标签。
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench：未达到的判据，逐一列明
+
+# The benchmark page now lists every bar that was not met, as the results file records them, and says that no bar is loosened.
+seg-df8f792ffa97 = 基准测试页面现在列出每一条未达到的判据，与结果文件的记录一致，并说明没有任何判据被放宽。
+
+# All { "183" } scenario files across { "87" } kinds, grouped by domain; { "173" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-761213eb3ce0 = 共{ "183" }个场景文件，涵盖{ "87" }种类型，按领域分组；其中{ "173" }个内置于引擎，而<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>、<c8/>、<c9/>、<c10/>通过命令行从代码仓库运行。圆点显示台账（ledger）中列出该类型模块时所记录的状态。有已记录运行的文件会在Kshana Studio中打开该运行；其余文件则打开其在场景参考中的条目，并附有文件及运行它的命令。
+
+# <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
+
+# A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "89" } of the { "182" } runnable scenario files (every file except a study suite) animate and { "93" } are refused. <c2/> prints the census.
+seg-b68ce4aa301f = 结果中没有上述任何形状的类型（链路预算、单历元几何、仅含统计量的蒙特卡罗汇总，或其结果只公布记录的哈希而不公布记录本身的电信守时）会被拒绝，提示<c1/>，且不写入任何内容。对于kshana { $version }，在{ "182" }个可运行的场景文件（除研究套件外的每个文件）中，有{ "89" }个可制作动画，{ "93" }个被拒绝。<c2/>会打印这份普查。
+
+# Updated 2026-10-22 for engine { $version } ({ "87" } scenario kinds, from <c1/>; no new kind in { $version }). 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c2/>, <c3/> and <c4/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c5/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and <c13/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c14/>, composed quantum-inertial dead-reckoning budget <c15/>, ranging-code design-trade <c16/>, machine-checked verification matrix <c17/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+seg-a887cfc920f6 = 于2026-10-22针对引擎{ $version }更新（{ "87" }个场景类型，来自<c1/>；{ $version }中无新增类型）。2026-10-19：引擎{ "0.38.0" }，{ "87" }个类型（{ "0.38.0" }中新增：<c2/>、<c3/>和<c4/>）。2026-10-18：{ "84" }个类型（{ "0.37" }中新增：<c5/>）。2026-10-16：{ "83" }个类型（{ "0.36" }中新增：<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/>和<c13/>）。2026-10-10：引擎{ "0.35.0" }，{ "75" }个类型，无新增类型。2026-10-09和2026-10-08：先前的修订。2026-10-04：导航信号一行注明了{ "0.31.0" }的IQ层。2026-09-29：新增LEO-PNT、频谱、太阳系 / 任意天体PNT、测评活动和输出各行。更早：与2026-06-02总审计的27行能力矩阵对齐；深空 / 火星PNT一行已在{ "v0.17.0" }中新增。量子PNT的新增内容（GNSS拒止条件下的时钟守时<c14/>、组合的量子惯性航位推算预算<c15/>、测距码设计权衡<c16/>、机器核查的验证矩阵<c17/>）已并入授时、量子PNT传感器、导航信号和V&V各行——每一项都按其实际的参考基准标注为经独立核对或由模型计算得出。
+
+# { "87" } of { "87" } kinds, { "3127" } of { "3127" } numeric fields
+seg-1c7bb8c3e887 = { "87" }种中的{ "87" }种，{ "3127" }个数值字段中的{ "3127" }个
+
+# The { "61" } capability cards from <c1/>, then all { "388" } rows of the verification matrix.
+seg-6f44f45f6bf9 = 来自<c1/>的{ "61" }张能力卡片，之后是验证矩阵的全部{ "388" }行。
+
+# [{ $version }] - 2026-10-22
+seg-66749e5be121 = [{ $version }] - 2026-10-22
+
+# <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+seg-7f608c733407 = <b><c1/></b>：RINEX时钟文件，版本{ "2" }以及{ "3.00" }至{ "3.04" }（包括{ "3.04" }的九字符名称字段）。文件头仅读取其<c2/>，并一直跳到<c3/>。在数据记录中，仅保留按名称选定的某一时钟的<c4/>（卫星）和<c5/>（接收机或站）记录。它们的第一个值字段，即以秒为单位的钟差，就是相位。续行以及<c6/>、<c7/>和<c8/>记录被跳过。历元取自记录的日历字段，表示为自1980-01-06 { "00" }:{ "00" }:{ "00" }起、以文件自身时间系统计的秒数，不做转换。
+
+# <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+seg-3d8853fa9c92 = <b><c1/></b>：TAPR TICC计数器的日志（TICC Operation Manual，{ "2016" }年11月{ "23" }日修订版，“measurement modes”）。每个数据字段都是秒，带{ "12" }位小数。
+
+# Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+seg-75301936698f = 周期模式和调试模式的输出会被拒绝。读数不递增的通道会被报告为周期模式。
+
+# MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-fe7d27a473aa = MODELLED。这是一个解析器，其输出送入已在别处对照allantools完成验证的估计器。<c1/>中的单元测试使用手写的小型日志，对于linuxptp和chrony格式则使用<c2/>中的测试夹具。<c3/>运行<c4/>中预先登记的比较：三份带随机种子的合成日志，每种格式一份，由同一作者依据本页另行编写的独立读取器读回，并将ADEV、TDEV和MTIE对照allantools { "2024.6" }核对；该比较仅涵盖前三种格式，linuxptp和chrony的读取器有解析器测试，但没有与参考基准（oracle，独立参照）的比较。这些日志是合成的，因此这里没有任何内容描述真实的时钟或计数器。
+
+# <s1>Scenario kinds</s1><s2>The { "87" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-78756a9f6704 = <s1>场景类型</s1><s2>kshana::api::run_toml所分派的{ "87" }种内置场景类型，每种都附有一行……</s2>
+
+# <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families.</s2>
+seg-051029eb3525 = <s1>按系列列出的所有场景类型</s1><s2>引擎v{ $version }所分派的每种场景类型（{ "87" }种），归入{ "12" }个系列。</s2>
+
+# <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "182" }), grouped by kind, with its key settings.</s2>
+seg-76a9b614dada = <s1>场景参考</s1><s2>全部随附的场景文件（{ "182" }个），按类别分组，并列出其关键设置。</s2>
+
+# <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
+seg-c387a74ffabb = <s1>验证矩阵</s1><s2>完整的、经机器检查的证据台账（ledger）：{ "388" }行——{ "176" }行VALIDATED，{ "208" }行MODELLED，{ "4" }行PARTNER。</s2>
+
+# <s1>Capability reference</s1><s2>The capability cards and all { "388" } rows of the verification matrix.</s2>
+seg-be02c7f0d48e = <s1>能力参考</s1><s2>能力卡片，以及验证矩阵的全部{ "388" }行。</s2>
+
+# <s1>Lunar and cislunar</s1><s2>{ "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+seg-1da177a1654b = <s1>月球与地月空间</s1><s2>引擎v{ $version }的{ "20" }个场景类别。仅供参考：研究与工程工具的分析输出，不是…</s2>
+
+# { "87" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-0144518c94fc = 共{ "87" }个页面，每个场景类别一页，链接自<a1>按类别族列出的全部场景类别</a1>。
+
+# defined
+seg-1767b216650d = 已定义
+
+# sgp4 (TLE)
+seg-cc723fa4fafa = sgp4 (TLE)
+
+# quantum vs classical PNT anomaly detecti
+seg-25da07e56aa8 = 量子与经典PNT异常检
+
+# classical baseline
+seg-a6551a61cf69 = 经典基线
+
+# First
+seg-5b3bc9761db4 = 首个
+
+# TM
+seg-52036320db9b = TM
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>terrain-nav</a1>.
+seg-9bd19903f577 = <b>台账：</b>没有矩阵行点名此类型；引擎自行给结果打标签。完整页面（含输入、结果、证据与局限）：<a1>terrain-nav</a1>。
+
+# { "20" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-f964724ea446 = { "20" }个场景类型，来自引擎v{ $version }。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为MODELLED（标签如何获得，见README的“证据”一节）。
+
+# <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>moonlight-service-volume</a1>.
+seg-204901ae3684 = <b>台账：</b>没有矩阵行点名此类型；引擎自行给结果打标签。完整页面（含输入、结果、证据与局限）：<a1>moonlight-service-volume</a1>。
+
+# Every scenario kind the engine v{ $version } dispatches ({ "87" }), filed under { "12" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-6bed0bef75bc = 引擎v{ $version }所分派的每个场景类型（{ "87" }个），归入{ "12" }个类型族。每个类型族都有一个页面，每个类型一条条目（引擎的描述和字段、示例命令、一次运行的主要数值、点名它的矩阵行，以及引擎生成的图表），外加这些图表的缩略总览。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为MODELLED（标签如何获得，见README的“证据”一节）。
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-a30b46501cff = { "87" }种内置场景类型，附说明及必填/选填字段，使智能体能够构造出有效的场景。
+
+# { "208" } capabilities labelled MODELLED.
+seg-e7d71a9d77a6 = { "208" }项能力被标为MODELLED。
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "388" }项能力中有{ "176" }项已对照独立的外部基准（oracle）核对
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "388" }项能力中有{ "176" }项</b>已对照独立的外部基准（oracle）核对；{ "208" }项如实标为由模型计算得出，{ "4" }项由合作方负责。每项能力在经机器检查的台账（ledger）中都带有一个标签：VALIDATED（独立的外部基准（oracle）一致：真实数据、独立实现或已发布的参考向量）、MODELLED（内部自洽，并明确说明）或PARTNER（由硬件合作方负责）。检查包括：AIAA（美国航空航天学会）2006-6753的全部{ "666" }个SGP4（简化通用摄动{ "4" }）向量，精度达{ "4.12" } mm，以及对照Orekit { "12.2" }的Cowell力模型，精度达{ "0.08" } m。
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = 一项能力如何赢得其标签：能力、基准（oracle）、测试、台账标签。全部{ "388" }项能力的验证状态：{ "176" }项已与外部参考核对，{ "208" }项由模型计算得出，{ "4" }项由合作方负责
+
+# { "176" } of { "388" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-af101c048e7e = 根据验证矩阵，{ "388" }项能力中有{ "176" }项经独立的外部参考基准（oracle）核对为VALIDATED
+
+# <a1>What's new in { "0.39" }</a1>, <a2>What's new in { "0.38" }</a2>, and <a3>{ "0.38" } in depth</a3>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a4>space-user navigation</a4> and <a5>lunar infrastructure</a5>
+seg-161fa1263086 = <a1>{ "0.39" }版新增内容</a1>、<a2>{ "0.38" }版新增内容</a2>，以及<a3>{ "0.38" }版详解</a3>：Jammertest评分、接收机自身的标志、机器输入、授时与守时、标准包、LunaNet AFS、实验室往返、kshana-bench、观测台、导出器、光学、<a4>空间用户导航</a4>和<a5>月球基础设施</a5>
+
+# Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.38.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-c45a4adf8209 = Kshana Studio，简易视图，内置场景integrity-raim，引擎{ "v0.38.0" }在本地运行。问题：几何构型是否满足告警限值（水平和垂直保护级）？答案最先给出，标记为实时结果：是，大体如此：在{ "12" } h中占{ "95.3" } %。接收机的误差界限在{ "361" }次检查中的{ "344" }次保持在告警限值（水平{ "40" } m、垂直{ "50" } m）之内，且没有出现误导性的定位解。关键数据：定位解可被信任的时间{ "95.3" } %，最长间隔{ "10" } min，典型误差界限{ "6.5" } / { "13" } m，误导性定位解{ "0" }个。旁边是“尝试其他设置”，含五项设置（测距误差、两个告警限值、时长和仰角截止）以及“再次运行”，然后是折叠的各部分：高级设置（另有{ "13" }项）、计算方式（{ "8" }项经验证，{ "6" }项为模型）以及面向研究人员。下方是本结果的各个视图，以及对照告警限值绘出的保护级。
+
+# Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.38.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-1af317b46992 = Kshana Studio，简易视图，开始界面，标题为“你想了解什么？”，引擎{ "v0.38.0" }在线，顶栏有三个链接：训练复盘、干扰地图和接收机信任度。四个问题：在地球上任何地方能看到多少颗卫星、我能否信任我的定位解、没有卫星时时钟能守时多久，以及干扰机会对我的接收机造成什么影响。第一个问题下方是其已记录的结果：GPS、Galileo、BeiDou和GLONASS合用时，每个地点至少可见{ "22" }颗卫星，平均{ "31" }颗，在{ "100" } % 的地点和时刻可以定位，配有一张可见卫星数的世界地图，以及一个“打开此结果”按钮。旁边是“Kshana能做的一切”：{ "16" }个领域和{ "139" }个即用场景，每个图块带有一张来自已记录运行的小图表及其经验证方法所占的比例，以及台账中{ "350" }项能力里已验证的{ "173" }项。
+
+# Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.38.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-3fed18478b21 = Kshana Studio，高级视图，运行内置场景constellation-multi-gnss-coverage（四个GNSS星座，一张地图）之后，引擎{ "v0.38.0" }在本地运行。左侧是场景库，{ "16" }个领域中共{ "139" }个场景。五个步骤：选择、设置、运行、查看结果、分享或导出，当前为第{ "4" }步。关键数据：{ "102" }颗卫星，可用性{ "100" } %（PASS），位置精度因子（PDOP）中位数{ "0.95" }（PASS），PDOP第95百分位{ "1.105" }（PASS），平均可见{ "31.03" }颗卫星，最少{ "22" }颗。下方是面板行，选中“覆盖”，另有回放栏、一张从{ "0.831" }到{ "1.0853" }的平均PDOP世界地图（画出了每一颗卫星），以及全球覆盖数据。
+
+# Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.38.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-88302efebc1a = kshana.dev的三个页面并排。首页主视觉：名称行Kshana · क्षण · 精确的瞬间，位于标题“预演GNSS失效的那一分钟”之上，配有引擎{ "v0.38.0" }一次真实运行的任务控制台（一个地球和三张实时图表：时钟钟差、载噪比密度和保护级）。证据，已发表的研究：基于开放引擎的五篇arXiv论文，最新一篇附有引擎图表。版本，Kshana Pro，同一个引擎，能力放大：Free运行一个场景，Pro回答项目的问题。
+
+# One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "87" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-eabb798bbe4e = 一个引擎涵盖整条失效链，从第一颗被干扰的卫星到时钟守时（holdover）的最后一纳秒。引擎有{ "87" }种场景类型；<c1/>列出它们，<a1><c2/></a1>记录每一个字段。
+
+# <c1/> runs a scenario; every other command is a subcommand, and <c2/> prints the usage of all of them. The commands are <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (with <c8/> and <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> and <c61/>. <a1><c62/></a1> gives each one's purpose, a verified example and its docs page.
+seg-ab2c09d44cb7 = <c1/>运行一个场景；其他每个命令都是子命令，<c2/>会打印所有命令的用法。这些命令是<c3/>、<c4/>、<c5/>、<c6/>、<c7/>（含<c8/>和<c9/>）、<c10/>（<c11/>、<c12/>、<c13/>、<c14/>）、<c15/>（<c16/>、<c17/>）、<c18/>、<c19/>、<c20/>、<c21/>（<c22/>、<c23/>、<c24/>、<c25/>、<c26/>）、<c27/>、<c28/>（<c29/>、<c30/>、<c31/>、<c32/>、<c33/>、<c34/>、<c35/>、<c36/>、<c37/>、<c38/>、<c39/>）、<c40/>、<c41/>、<c42/>、<c43/>、<c44/>、<c45/>（<c46/>、<c47/>、<c48/>、<c49/>、<c50/>、<c51/>、<c52/>、<c53/>、<c54/>、<c55/>、<c56/>、<c57/>、<c58/>、<c59/>）、<c60/>和<c61/>。<a1><c62/></a1>给出每个命令的用途、一个经验证的示例及其文档页面。
+
+# How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "87" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-76e3ec458441 = 一次运行的流程。一个场景TOML文件（类型、随机种子及其参数）进入引擎kshana { $version }，经由api::run_toml在{ "87" }种场景类型上分派，由场景、随机种子和引擎版本确定性地决定。引擎写出result.json、chart.svg、report.html和report.json，为定义了表格的类型写出table.csv，并按需写出SP3、CCSDS OMM和OEM、CZML、KML、GeoJSON、STK和SigMF导出文件；一个套件会写出study.json和study.html。这些文件供浏览器中的Kshana Studio、通过kshana-mcp服务器接入的AI助手以及持续集成使用。
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-707e2cf795f6 = <b>{ "388" }项能力中有{ "176" }项</b>已对照独立的外部参考基准（oracle）检验；{ "208" }项如实标注为由模型计算得出。验证矩阵的每一行都写明一项能力、用来核对它的参考基准、运行该核对的测试，以及随之得出的标签。持续集成（CI）使得没有独立的外部参考基准就无法把某项能力称为VALIDATED。
+
+# How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER of { "388" } rows. In all, { "176" } capabilities validated against independent external oracles; { "208" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-2f81cf391eae = 一项能力如何获得其标签。验证矩阵的每一行都写明一项能力、用来核对它的参考基准、在持续集成中运行该核对的测试，以及随之得出的标签。只有具备独立的外部参考基准时，一行才可以是VALIDATED；否则为MODELLED，而由硬件合作方负责的则为PARTNER。示例：SGP4/SDP4、Cowell 6-DOF + 摄动、批处理/序贯定轨，参考基准为AIAA 2006-6753 SGP4验证向量，测试为tests/sgp4_verification.rs，标签为VALIDATED。实时计数：{ "388" }行中{ "176" }行VALIDATED，{ "208" }行MODELLED，{ "4" }行PARTNER。总计{ "176" }项能力已对照独立的外部参考基准检验；另有{ "208" }项如实标注为MODELLED，{ "4" }项由PARTNER负责。
+
+# A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 388-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-ed47a99fac7f = 部分核对项：全部{ "666" }个AIAA（美国航空航天学会）2006-6753 SGP4（Simplified General Perturbations { "4" }）向量，吻合至{ "4.12" } mm；Cowell力模型对照Orekit { "12.2" }，吻合至{ "0.08" } m；Galileo吻合至{ "0.61" } m，Swarm-A吻合至{ "0.10" } m，均对照欧洲空间局（ESA）的真实精密星历。测试使<c1/>的行覆盖率接近{ "95" } %，在CI中以{ "85" } % 为门限。台账为<a1><c2/></a1>，由<c3/>生成：<a2>完整的388行矩阵</a2>，以及每一行由模型计算得出的结果为何没有外部参考基准，见<a3><c4/></a3>。
+
+# Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-557da03648c5 = 每一行都由CI中一个具名的测试强制执行。本表是<b>精选要点</b>；完整的机器检查矩阵共有<b>{ "388" }行——{ "176" }行VALIDATED，{ "208" }行MODELLED，{ "4" }行PARTNER</b>（<c1/>），完整的证据（以及哪些确实<em>尚未</em>经独立检验）见<a1><c2/></a1>和每个版本的<a2><c3/></a2>工件（由<c4/>生成，带SLSA证明——软件工件供应链级别）。
+
+# How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "208" } Modelled, { "4" } Partner, { "388" } total
+seg-9fcd5cdd129d = 一项能力如何获得其标签：需求对应src中的某个模块，对应tests中的某项测试，对应某个外部参考基准（oracle，即真实数据集、独立的参考实现或已发布的测试向量），再对应一个状态；并由CI强制执行一道防护：没有外部参考基准的能力不能被标为已核对。实时计数：已核对{ "176" }项，已建模{ "208" }项，合作方负责{ "4" }项，共{ "388" }项
+
+# Verification status across all { "388" } capabilities: { "176" } Validated (checked vs external oracle), { "208" } Modelled, { "4" } Partner-owned
+seg-faadba4f1f85 = 全部{ "388" }项能力的验证状态：已核对{ "176" }项（已与外部参考基准核对），已建模{ "208" }项，合作方负责{ "4" }项
+
+# { "176" } Validated · { "208" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-6c1edff3e035 = { "176" }项已核对 · { "208" }项已建模 · { "4" }项合作方负责 — <a1>SVG</a1>
+
+# Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "388" } capabilities ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-9d69cf43cd40 = Kshana的架构：中心是一个开放的引擎，即AGPL-3.0下的kshana { $version }，带有api::run_toml、对每种类型的类型化分派，以及含{ "388" }项能力的验证台账（{ "176" }项VALIDATED，{ "208" }项MODELLED，{ "4" }项PARTNER）。围绕它，每个界面运行同一个引擎：命令行（cargo install kshana）；Rust库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP服务器（cargo install kshana-mcp）；Docker镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains插件（Marketplace：“Kshana”）。其下方是Kshana Pro，一个专有叠加层，以库的形式依赖开放的引擎，绝不分叉它，也不增加任何物理模型。
+
+# Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "87" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "388" } capabilities that is the single source of truth for every label.
+seg-9bc9a971bdb4 = Kshana的分层架构。五个入口（命令行、Python、JavaScript与WebAssembly、MCP服务器和JetBrains插件）都通向同一个api::run_toml，即对{ "87" }种类型的类型化分派。其下是八个领域层：时间与坐标系、时钟与授时、惯性与融合、GNSS与完好性、天体动力学、LEO PNT、月球、火星与深空，以及任务与研究，建立在共享的核心之上，全部由验证模块交叉引用；该模块是对{ "388" }项能力经机器检查的矩阵，是每个标签的唯一事实来源。
+
+# The { "87" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-87e30294e0dc = { "87" }种内置场景类型，附说明及必填/选填字段，以便智能体构造出有效的场景
+
+# the whole open engine, all { "87" } scenario kinds, no feature gate
+seg-eedfcdbe2b1c = 整个开放引擎，全部{ "87" }种场景类型，没有功能限制
+
+# See <c1/> for at least one worked example of every kind ({ "87" } kinds, { "182" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-f1efe0de99b8 = 每种类型至少有一个可用示例，见<c1/>（{ "87" }种类型，{ "182" }个场景<c2/>文件 + { "1" }个套件清单：有些类型附带不止一个示例）。并非每种类型都有以其命名的文件：<c3/> → <c4/>和<c5/> → <c6/>就是其中两例。可随时用<c7/>报错信息、Python的<c8/>或MCP的<c9/>工具列出可分派的类型。
+
+# { "176" } of { "388" } capabilities validated against independent external oracles
+seg-ebe636986f46 = { "388" }项能力中有{ "176" }项已对照独立的外部基准（oracle）核对
+
+# <b>{ "176" } of { "388" }</b> capabilities validated against independent external oracles; { "208" } honestly labelled Modelled, { "4" } partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all { "666" } SGP4 (Simplified General Perturbations { "4" }) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to { "4.12" } mm, and the Cowell force model to { "0.08" } m against Orekit { "12.2" }.
+seg-2d2c47db0c1f = <b>{ "388" }项能力中有{ "176" }项</b>已对照独立的外部基准（oracle）核对；{ "208" }项如实标为由模型计算得出，{ "4" }项由合作方负责。每项能力在经机器检查的台账（ledger）中都带有一个标签：VALIDATED（独立的外部基准（oracle）一致：真实数据、独立实现或已发布的参考向量）、MODELLED（内部自洽，并明确说明）或PARTNER（由硬件合作方负责）。检查包括：AIAA（美国航空航天学会）2006-6753的全部{ "666" }个SGP4（简化通用摄动{ "4" }）向量，精度达{ "4.12" } mm，以及对照Orekit { "12.2" }的Cowell力模型，精度达{ "0.08" } m。
+
+# How a capability earns its label: capability, oracle, test, ledger label. The verification status across all { "388" } capabilities: { "176" } Validated, { "208" } Modelled, { "4" } Partner-owned
+seg-44f7862c45a2 = 一项能力如何赢得其标签：能力、基准（oracle）、测试、台账标签。全部{ "388" }项能力的验证状态：{ "176" }项已与外部参考核对，{ "208" }项由模型计算得出，{ "4" }项由合作方负责
+
+# Every bundled scenario file ({ "182" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-1e4d5b2f4810 = 每个内置场景文件（{ "182" }个），按类型分组。描述取自文件自身的头部注释；关键参数是其顶层设置。状态读取该类型模块在验证矩阵中的记录。<b>在Kshana Studio中打开</b>会打开所记录的运行。
+
+# The { "87" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-843d88cee576 = <c1/>所调度的{ "87" }个内置场景类型，每个都带有一行描述及其必需/可选的TOML（Tom的显而易见的最小语言）字段。
+
+# { "388" } rows: { "176" } externally validated, { "208" } modelled, { "4" } partner-owned.
+seg-af826b47d00e = { "388" }行：{ "176" }行经外部验证，{ "208" }行由模型计算，{ "4" }行由合作方负责。
+
+# The complete, machine-checked evidence ledger: <b>{ "388" } rows — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-4cb1d67922ed = 完整的、经机器检查的证据台账（ledger）：<b>{ "388" }行——{ "176" }行VALIDATED，{ "208" }行MODELLED，{ "4" }行PARTNER</b>。只有存在独立的外部参考基准（oracle）时，一行才可以是VALIDATED（矩阵不变量测试对此强制执行）。同样的数据，连同指向每项测试、模块和已提交固定数据的可点击逐行链接，就是<a1>https://kshana.dev</a1>上的<em>验证台账</em>。每个Modelled行为何没有经过外部验证，见<a2>MODELLED-RATIONALE.md</a2>。
+
+# The open engine at the centre: one mark per scenario kind ({ "87" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0adcadeb3854 = 位于中心的开源引擎：每种场景类型（{ "87" }种）一个标记，该类型有已验证的台账行时为实心，其台账行为Modelled时为空心，没有台账模块按名称与之匹配时为短横线。Kshana Pro和定制研究环绕在其周围，并与它们所依托的类型相连。
+
+# Engine v{ $version } · { "87" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-9e896ee62ea0 = 引擎v{ $version } · 来自<c1/>的{ "87" }种类型 · 来自<c2/>的台账状态 · Pro和研究所依托的内容：网站的版本登记表 · 无场景或随机种子
+
+# All { "87" } scenario kinds and { "173" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-abe5c7257cda = 全部{ "87" }种场景类型和{ "173" }个内置场景：原生、Python、JavaScript、浏览器内以及通过MCP（模型上下文协议）
+
+# The full verification matrix: { "176" } of { "388" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-1434952d1bc8 = 完整的验证矩阵：{ "388" }项能力中有{ "176" }项已对照独立的参考基准（oracle）验证，其余标注为由模型计算
+
+# { "388" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "208" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-9ef28b622a43 = { "388" }项能力，每项都已分级。<b>{ "176" }项已验证</b>，对照的是独立的外部参考基准（oracle）。<b>{ "208" }项如实标注为由模型计算。</b>{ "4" }项由合作方负责。没有任何向上取整。
+
+# Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "208" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-4adb5411062e = 验证矩阵，每项能力一个单元格，按台账顺序排列：{ "176" }项已验证（实心方块），{ "208" }项由模型计算（空心方块），{ "4" }项由合作方负责（菱形）。方向键在单元格之间移动；下方会读出该能力及其参考基准（oracle）。
+
+# Engine v{ $version } · <c1/>, generated from <c2/> · { "388" } rows · no scenario or seed: the engine's own ledger
+seg-582c4a762fc5 = 引擎v{ $version } · <c1/>，由<c2/>生成 · { "388" }行 · 无场景或随机种子：引擎自身的台账
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-6adbc42697f9 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-c5d5cf50c8a9 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2e80a89ee20a = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-2a2794bda50f = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-275351654591 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# { "176" }<s1>of { "388" } validated</s1>
+seg-1d2c8132218d = { "176" }<s1>项（共{ "388" }项）已验证</s1>
+
+# Verification matrix: { "176" } validated, { "208" } modelled, { "4" } partner-owned, { "388" } in total
+seg-b66d124aa8dd = 验证矩阵：{ "176" }项已验证，{ "208" }项由模型计算，{ "4" }项由合作方负责，共{ "388" }项
+
+# All { "388" } rows, one line each.
+seg-6ef0eb045293 = 全部{ "388" }行，每行一条。
+
+# of { "93" } validated
+seg-d8691ddf3170 = { "93" }项中经独立核对的
+
+# of { "73" } validated
+seg-d6687397eae9 = { "73" }项中经独立核对的
+
+# of { "76" } validated
+seg-8d3ad903cd18 = { "76" }项中经独立核对的
+
+# of { "25" } validated
+seg-223bf21e1d9b = { "25" }项中经独立核对的
+
+# All { "388" }
+seg-d5b6224d2ec4 = 全部{ "388" }
+
+# Modelled { "208" }
+seg-2bca452c28dd = 由模型计算{ "208" }
+
+# Validation ledger, { "388" } rows, scrollable
+seg-d0352364053e = 验证台账（ledger），{ "388" }行，可滚动
+
+# Every scenario kind, one page each
+seg-c5fc0ca71fae = 每种场景类型，各有一页
+
+# Every command, every surface
+seg-ccee5886cf25 = 每条命令，每个入口
+
+# Which surface carries which capability
+seg-4ef6dcd0a58b = 哪个入口支持哪项能力
+
+# kshana-bench: the bars that were not met, stated
+seg-8e092e49bdeb = kshana-bench：未达到的判据，逐一列明
+
+# New in v{ $version }: every kind, every command, and the benchmark's misses
+seg-9b3429f89f21 = v{ $version }新增：每种类型、每条命令，以及基准测试的未达项
+
+# { "176" } of { "388" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+seg-9e88a1981d1e = { "176" }项（共{ "388" }项）能力与独立的外部参考基准（oracle）一致；其余的明确标为由模型计算。
+
+# All { "87" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-4b41ffeb0030 = 全部{ "87" }种场景类型，免费且没有功能门槛，由场景、随机种子和引擎版本确定性地决定。
+
+# Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-597a57467277 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子

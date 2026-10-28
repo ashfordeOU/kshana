@@ -397,9 +397,6 @@ seg-cab165105f32 = Ein Querverweis von Anforderung über Modul und Test zu unabh
 seg-190cdf3ca8dc = Einheit und Herkunft bei jeder berichteten Größe
 
 # text
-seg-1c7bb8c3e887 = { "87" } von { "87" } Typen, { "3127" } von { "3127" } numerischen Feldern
-
-# text
 seg-3e7fb040a7c4 = Jedes numerische Feld, das ein Szenario ausgibt, trägt eine Einheit und eine Herkunftsklasse aus einem geschlossenen Vokabular, mit einer Definition, wo es eine gibt, veröffentlicht als maschinenlesbares Schema neben der Engine. Ein Gate mit Ratsche lässt jeden eingebauten Typ laufen und scheitert an einem Feld, das keines von beidem trägt; die noch nicht vollständigen Typen werden einzeln mit dem Grund genannt, warum jeder noch offen ist, und die Liste kann nur schrumpfen. Berichte, die ihre eigenen Konstanten nennen — das Ein-Weg-Link-Budget, das optische und das HF-Budget —, lassen einen Leser die Kennzahl allein aus dem Bericht neu berechnen.
 
 # text
@@ -656,10 +653,6 @@ seg-ad856ad710eb = Status
 
 # text
 seg-6962adaa6a1f = Beim Build aus den Szenariodateien und der Verifikationsmatrix des Repositorys erzeugt.
-
-# text
-# c1: web/capabilities.json
-seg-6f44f45f6bf9 = Die { "61" } Fähigkeitskarten aus <c1/>, dann alle { "388" } Zeilen der Verifikationsmatrix.
 
 # text
 seg-30200bb5be58 = orbit-sgp4-gps.toml in Kshana Studio ausführen

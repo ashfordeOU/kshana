@@ -3913,9 +3913,6 @@ seg-6d3d0f8c9b7c = Solicitar uma avaliação do Pro
 seg-8f101c803442 = Toda capacidade traz <s1>a sua evidência.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } capacidades, cada uma avaliada. <b>{ "176" } validadas</b> contra referências independentes externas. <b>{ "208" } honestamente rotuladas como modeladas.</b> { "4" } de responsabilidade do parceiro. Nada é arredondado para cima.
-
-# text
 seg-4f6445e5dd61 = Matriz de verificação <b>v{ $version }</b>
 
 # attr:aria-label
@@ -3924,19 +3921,11 @@ seg-d9f0aabb4262 = Pausar a varredura
 # text
 seg-ae9e2459836c = capacidades
 
-# attr:aria-label
-seg-4adb5411062e = Matriz de verificação, uma célula por capacidade na ordem do registro: { "176" } validadas (quadrados cheios), { "208" } modeladas (quadrados vazados), { "4" } de responsabilidade do parceiro (losangos). As teclas de seta movem entre as células; a capacidade e sua referência independente são lidas abaixo.
-
 # text
 seg-f97cb6bf8202 = Passe o cursor ou foque uma célula para ler sua capacidade e a referência independente que a avalia.
 
 # text
 seg-8a1cef0b9561 = Validado: uma referência independente externa concorda
-
-# text
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Motor v{ $version } · <c1/>, gerado a partir de <c2/> · { "388" } linhas · nenhum cenário nem semente: o próprio registro do motor
 
 # text
 seg-d5c32303297d = Leia o registro
@@ -3988,11 +3977,6 @@ seg-55fc928e19ae = referência independente · vetores de verificação AIAA 200
 seg-1d60624d525d = Como foi verificado
 
 # text
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
 # c1: orbit-sgp4-gps.toml
 # c2: 17
 seg-58ca3da25e69 = Abrir no Kshana Studio: o mesmo propagador, <c1/><s1> · semente <c2/></s1>
@@ -4025,11 +4009,6 @@ seg-87734f6c52a2 = Um quadrado por caso do SciPy, agrupado por núcleo.
 seg-4957eddb39ed = referência independente · SciPy
 
 # text
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
 # c1: integrity-raim.toml
 # c2: 7
 seg-011e33e27f59 = Abrir no Kshana Studio: o núcleo em ação, <c1/><s1> · semente <c2/></s1>
@@ -4051,11 +4030,6 @@ seg-2b1ea60e99a7 = Diferença de posição contra o tempo, por nível de forças
 
 # text
 seg-75344d6c427a = referência independente · Orekit { "12.2" }
-
-# text
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
 # text
 seg-44988f3835ce = Sem visão no Kshana Studio: esta comparação roda como um teste do motor.
@@ -4082,11 +4056,6 @@ seg-f5b078c26ba8 = Cada resíduo em uma escala logarítmica de um milímetro a v
 seg-6670ead3fa91 = referência independente · efemérides precisas da ESA, a trajetória reconstruída do orbitador lunar, Orekit { "12.2" }, vetores da AIAA
 
 # text
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
-
-# text
 seg-57c9f4e60efa = Sem visão no Kshana Studio: a determinação precisa de órbita roda como testes do motor.
 
 # text
@@ -4104,11 +4073,6 @@ seg-5d3372dbff1f = Quatro desvios contra o tempo de média, com os valores publi
 
 # text
 seg-9993e306ae64 = referência independente · NIST SP { "1065" }
-
-# text
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
 # text
 # c1: clock-holdover.toml
@@ -4138,11 +4102,6 @@ seg-46c1dbe5c6bc = Erro de tempo medido e previsto contra o tempo de inércia, e
 seg-449f52c56c67 = referência independente · registro medido de césio
 
 # text
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-# text
 # c1: slot-timing-ocxo-leo.toml
 seg-c131867720cc = Abrir no Kshana Studio: a mesma inversão, <c1/><s1> · determinístico</s1>
 
@@ -4156,13 +4115,7 @@ seg-b19592bc5242 = Validado significa que uma fonte externa independente concord
 seg-800e31fc8f7d = Capacidades avaliadas
 
 # text
-seg-1d2c8132218d = { "176" }<s1>de { "388" } validadas</s1>
-
-# text
 seg-e61158f71854 = Passe o cursor sobre uma célula
-
-# attr:aria-label
-seg-b66d124aa8dd = Matriz de verificação: { "176" } validadas, { "208" } modeladas, { "4" } de responsabilidade do parceiro, { "388" } no total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: o ruído por autocorrelação de defasagem 1 de Riley e Greenhall ({ "2004" })… · Validado
@@ -5368,9 +5321,6 @@ seg-5af3d58e83fa = <b>Com o Pro:</b> um <b>dossiê de missão</b> verifica cada 
 seg-400016e22379 = Registro de validação
 
 # text
-seg-6ef0eb045293 = Todas as { "388" } linhas, uma por linha.
-
-# text
 seg-20ec758fe328 = Cada linha nomeia seu requisito, seu status e o módulo que o implementa. Abra uma linha para ver sua referência independente e seus testes, ou escolha um domínio para restringir.
 
 # attr:aria-label
@@ -5380,25 +5330,13 @@ seg-08f2354cb22b = Filtrar por domínio
 seg-f5a2e020b47e = Por domínio: o comprimento da barra é o número de linhas, a cor é o status. Escolha um para filtrar.
 
 # text
-seg-d8691ddf3170 = de { "93" } validadas
-
-# text
 seg-0272bc18f675 = de { "19" } validadas
-
-# text
-seg-d6687397eae9 = de { "73" } validadas
 
 # text
 seg-38ec110ef886 = Órbitas, referenciais e geometria
 
 # text
-seg-8d3ad903cd18 = de { "76" } validadas
-
-# text
 seg-a1c022c60fb6 = Inercial, fusão e PNT alternativo
-
-# text
-seg-223bf21e1d9b = de { "25" } validadas
 
 # text
 seg-b355dc732d29 = Sinais e interferência
@@ -5413,13 +5351,7 @@ seg-d6c43e56d4cc = Análise de missão, garantia e outros
 seg-5516d9825527 = de { "55" } validadas
 
 # text
-seg-d5b6224d2ec4 = Todas { "388" }
-
-# text
 seg-7038fab8b00c = Validadas { "176" }
-
-# text
-seg-2bca452c28dd = Modeladas { "208" }
 
 # text
 seg-ba89c1119b21 = De responsabilidade do parceiro { "4" }
@@ -5429,9 +5361,6 @@ seg-cd12d85e2beb = Pesquisar no registro
 
 # attr:placeholder
 seg-f014d784ebe3 = Pesquisar requisito, referência independente, módulo ou teste
-
-# attr:aria-label
-seg-d0352364053e = Registro de validação, { "388" } linhas, com rolagem
 
 # text
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } casos: dez registros de lei de potência de Kasdin, b = { "0" } a -4, como dados de fase e de frequência, af = { "1" } a { "64" }; alpha_int e d idênticos, pior |d alpha| { "9.6e-13" } e |d rho| { "4.8e-13" }…</s1>
@@ -6623,3 +6552,5 @@ seg-c97e87cbcdd5 = BibTeX do motor
 
 # text
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente

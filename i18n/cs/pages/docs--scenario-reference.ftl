@@ -374,8 +374,6 @@ seg-9a2bb9809aed = Obousměrný družicový přenos času a frekvence mezi dvěm
 
 seg-ccb244e60d60 = Optický oproti RF obousměrný přenos času/frekvence.
 
-seg-1e4d5b2f4810 = Každý přibalený soubor scénáře ({ "182" }), seskupený podle druhu. Popis je vlastní úvodní komentář souboru; klíčové parametry jsou jeho nastavení nejvyšší úrovně. Stav se čte z verifikační matice pro modul druhu. <b>Otevřít v Kshana Studio</b> otevře zaznamenaný běh.
-
 seg-e701392324d0 = druh acm-link
 
 seg-c4d65df7ab98 = nepřiřazeno k modulu registru podle názvu

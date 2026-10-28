@@ -104,9 +104,6 @@ seg-f7f2a6c0cd15 = Source: <c1/>
 seg-6c7831311d4e = Stsenaariumi liigid perekondade kaupa
 
 # text
-seg-6bed0bef75bc = Iga stsenaariumi liik, mida mootor v{ $version } käivitab ({ "87" }), on jaotatud { "12" } perekonda. Igal perekonnal on leht, kus on üks kirje iga liigi kohta (mootori kirjeldus ja väljad, näidiskäsk, käivitusest saadud peamised arvud, seda liiki nimetavad maatriksiread ja mootori kirjutatud diagramm), ning nende diagrammide kontaktleht. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
-
-# text
 seg-d23eaa8bc98b = Perekonnad
 
 # text

@@ -397,9 +397,6 @@ seg-cab165105f32 = Un référencement croisé exigence-module-test-référence i
 seg-190cdf3ca8dc = Unité et provenance sur chaque grandeur rapportée
 
 # text
-seg-1c7bb8c3e887 = { "87" } types sur { "87" }, { "3127" } champs numériques sur { "3127" }
-
-# text
 seg-3e7fb040a7c4 = Chaque champ numérique qu'émet un scénario porte une unité et une classe de provenance tirées d'un vocabulaire fermé, avec une définition là où elle existe, publiées sous forme de schéma lisible par machine à côté du moteur. Une barrière à cliquet exécute chaque type intégré et échoue sur un champ qui n'en porte aucune ; les types pas encore complets sont nommés un par un avec la raison pour laquelle chacun est encore ouvert, et la liste ne peut que rétrécir. Les rapports qui énoncent leurs propres constantes — le bilan de liaison simple sens, le budget optique et RF — permettent à un lecteur de recalculer le chiffre principal à partir du seul rapport.
 
 # text
@@ -656,10 +653,6 @@ seg-ad856ad710eb = État
 
 # text
 seg-6962adaa6a1f = Généré à partir des fichiers de scénarios et de la matrice de vérification du dépôt au moment de la construction.
-
-# text
-# c1: web/capabilities.json
-seg-6f44f45f6bf9 = Les { "61" } cartes de capacités de <c1/>, puis les { "388" } lignes de la matrice de vérification.
 
 # text
 seg-30200bb5be58 = Exécuter orbit-sgp4-gps.toml dans Kshana Studio

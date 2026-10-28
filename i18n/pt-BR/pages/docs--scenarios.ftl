@@ -284,10 +284,6 @@ seg-f6ff1c8c78db = Perda de travamento do loop de rastreamento: C/N0 -> travado/
 seg-45cb12242d59 = Fonte: <c1/>
 
 # text
-# c1: kshana::api::run_toml
-seg-843d88cee576 = Os { "87" } tipos de cenário incorporados sobre os quais <c1/> despacha, cada um com sua descrição de uma linha e seus campos TOML (Tom's Obvious, Minimal Language) obrigatórios / opcionais.
-
-# text
 # c1: api::list_scenario_kinds()
 # c2: cargo run --bin gen_validation_artifacts
 # c3: list_scenario_kinds

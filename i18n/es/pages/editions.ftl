@@ -159,14 +159,6 @@ seg-0cad5afda483 = Solicitar una evaluación
 # text
 seg-b366150de755 = Solicitar un estudio
 
-# text
-seg-0adcadeb3854 = El motor abierto en el centro: una marca por tipo de escenario ({ "87" }), rellena donde el tipo tiene filas validadas en el registro, hueca donde sus filas son modeladas, un guion donde ningún módulo del registro le corresponde por nombre. Kshana Pro y el estudio a medida lo rodean y se conectan con los tipos sobre los que se construyen.
-
-# text
-# c1: src/api.rs
-# c2: web/data/verification-matrix.json
-seg-9e896ee62ea0 = Motor v{ $version } · { "87" } tipos de escenario de <c1/> · estado del registro de <c2/> · sobre qué se construyen Pro y un estudio: el registro de ediciones del sitio · sin escenario ni semilla
-
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Comparar las ediciones
 
@@ -226,12 +218,6 @@ seg-21989d609ae7 = Investigadores, estudiantes y revisores que necesitan cifras 
 
 # text
 seg-3b6d727a2d38 = Desarrolladores que integran el motor en código, en una suite de CI (integración continua) o en un asistente de IA (inteligencia artificial)
-
-# text
-seg-abe5c7257cda = Los { "87" } tipos de escenario y los { "173" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)
-
-# text
-seg-1434952d1bc8 = La matriz de verificación completa: { "176" } de { "388" } capacidades validadas frente a referencias independientes, y el resto etiquetado como modelado
 
 # text
 seg-9b8eb955fecf = Cada resultado lleva el sello del hash del escenario, la semilla y la versión del motor, y se escribe como JSON (JavaScript Object Notation), tablas CSV (valores separados por comas) y gráficos SVG (Scalable Vector Graphics)

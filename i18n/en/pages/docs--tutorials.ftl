@@ -210,12 +210,12 @@ seg-89fef83a9d54 = The full scenario-kind catalogue
 # text
 # c1: kind
 # c2: src/api.rs::list_scenario_kinds()
-# c3: 87
+# c3: 92
 # c4: list_kinds()
 # c5: kshana kinds --json
 # c6: SCENARIOS.md
 # c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = The engine dispatches on the scenario’s <c1/>. The table below lists the most commonly-used kinds (the eight tutorial domains above plus their nearest neighbours). It is <b>not</b> the complete set: <c2/> returns all <c3/> built-in kinds. That function (exposed as <c4/> in the Python and WebAssembly (WASM) bindings, and as <c5/> on the command line) is the authoritative, always-current catalogue, and <a1><c6/></a1> is its generated enumeration, one section per kind with the required and optional TOML fields. <c7/> enforces that every kind a tutorial documents is a real dispatch kind, so nothing in this table can name a kind that does not exist.
+seg-2fa9e002b3a2 = The engine dispatches on the scenario’s <c1/>. The table below lists the most commonly-used kinds (the eight tutorial domains above plus their nearest neighbours). It is <b>not</b> the complete set: <c2/> returns all <c3/> built-in kinds. That function (exposed as <c4/> in the Python and WebAssembly (WASM) bindings, and as <c5/> on the command line) is the authoritative, always-current catalogue, and <a1><c6/></a1> is its generated enumeration, one section per kind with the required and optional TOML fields. <c7/> enforces that every kind a tutorial documents is a real dispatch kind, so nothing in this table can name a kind that does not exist.
 
 # text
 # c1: runs > 1

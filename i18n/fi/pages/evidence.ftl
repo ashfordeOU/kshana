@@ -2509,21 +2509,15 @@ seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
 
 seg-8f101c803442 = Jokainen ominaisuus kantaa <s1>omia todisteitaan.</s1>
 
-seg-9ef28b622a43 = { "388" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitua</b> riippumattomia ulkoisia oraakkeleita vasten. <b>{ "208" } rehellisesti merkittyä mallinnetuksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
-
 seg-4f6445e5dd61 = Varmennusmatriisi <b>v{ $version }</b>
 
 seg-d9f0aabb4262 = Keskeytä pyyhkäisy
 
 seg-ae9e2459836c = ominaisuutta
 
-seg-4adb5411062e = Varmennusmatriisi, yksi solu ominaisuutta kohti kirjanpidon (ledger) järjestyksessä: { "176" } validoitua (täytetyt neliöt), { "208" } mallinnettua (onttoja neliöitä), { "4" } kumppanin omistamaa (vinoneliöt). Nuolinäppäimet siirtävät solusta toiseen; ominaisuus ja sen oraakkeli luetaan alla.
-
 seg-f97cb6bf8202 = Vie osoitin solun päälle tai kohdista siihen nähdäksesi sen ominaisuuden ja oraakkelin, joka sen arvioi.
 
 seg-8a1cef0b9561 = Validoitu: riippumaton ulkoinen oraakkeli on samaa mieltä
-
-seg-582c4a762fc5 = Moottori v{ $version } · <c1/>, tuotettu tiedostosta <c2/> · { "388" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
 
 seg-d5c32303297d = Lue kirjanpito (ledger)
 
@@ -2557,8 +2551,6 @@ seg-55fc928e19ae = oraakkeli · AIAA 2006-6753 -varmennusvektorit
 
 seg-1d60624d525d = Miten se tarkistettiin
 
-seg-6adbc42697f9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-58ca3da25e69 = Avaa Kshana Studio -sovelluksessa: sama propagaattori, <c1/><s1> · siemenluku <c2/></s1>
 
 seg-813d6d41b891 = Kopioi komento, joka toistaa sen
@@ -2579,8 +2571,6 @@ seg-87734f6c52a2 = Yksi neliö SciPy-tapausta kohti, ryhmiteltynä ytimen mukaan
 
 seg-4957eddb39ed = oraakkeli · SciPy
 
-seg-c5d5cf50c8a9 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-011e33e27f59 = Avaa Kshana Studio -sovelluksessa: ydin työssä, <c1/><s1> · siemenluku <c2/></s1>
 
 seg-e02df7620fc7 = Numeerinen (Cowell) radan propagointi Orekitia vasten 24 tunnin kaarella: pahin ero { "0.08" } m voimatasoilla { "1" }–{ "5" }.
@@ -2594,8 +2584,6 @@ seg-16e820be9d20 = Orekit { "12.2" } -lentodynamiikkakirjastoa vasten jokaisella
 seg-2b1ea60e99a7 = Paikkaero ajan funktiona voimatasoittain.
 
 seg-75344d6c427a = oraakkeli · Orekit { "12.2" }
-
-seg-2e80a89ee20a = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
 seg-44988f3835ce = Ei Kshana Studio -näkymää: tämä vertailu ajetaan moottoritestinä.
 
@@ -2613,8 +2601,6 @@ seg-f5b078c26ba8 = Jokainen jäännös logaritmisella asteikolla millimetristä 
 
 seg-6670ead3fa91 = oraakkeli · ESA:n tarkat efemeridit, Kuun kiertäjän rekonstruoitu rata, Orekit { "12.2" }, AIAA-vektorit
 
-seg-6ce9be05ab08 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
-
 seg-57c9f4e60efa = Ei Kshana Studio -näkymää: tarkka radanmääritys ajetaan moottoritesteinä.
 
 seg-f8f25ec2345b = Kellot · vakaus
@@ -2626,8 +2612,6 @@ seg-e0c144321893 = Toistaa NIST:n (National Institute of Standards and Technolog
 seg-5d3372dbff1f = Neljä poikkeamaa keskiarvoistusajan funktiona, julkaistut arvot renkaina.
 
 seg-9993e306ae64 = oraakkeli · NIST SP { "1065" }
-
-seg-2a2794bda50f = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
 seg-fc6a00946a11 = Avaa Kshana Studio -sovelluksessa: estimaattorit kellolla, <c1/><s1> · siemenluku <c2/></s1>
 
@@ -2645,8 +2629,6 @@ seg-46c1dbe5c6bc = Mitattu ja ennustettu aikavirhe vapaakuluajan funktiona sekä
 
 seg-449f52c56c67 = oraakkeli · mitattu cesiumtallenne
 
-seg-275351654591 = Moottori v{ $version }, versio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-c131867720cc = Avaa Kshana Studio -sovelluksessa: sama käänteisfunktio, <c1/><s1> · deterministinen</s1>
 
 seg-05dd599ce14a = Yksi solu ominaisuutta kohti.
@@ -2655,11 +2637,7 @@ seg-b19592bc5242 = Validoitu tarkoittaa, että riippumaton ulkoinen lähde on sa
 
 seg-800e31fc8f7d = Arvioidut ominaisuudet
 
-seg-1d2c8132218d = { "176" }<s1>validoitu, yhteensä { "388" }</s1>
-
 seg-e61158f71854 = Vie osoitin solun päälle
-
-seg-b66d124aa8dd = Varmennusmatriisi: { "176" } validoitua, { "208" } mallinnettua, { "4" } kumppanin omistamaa, yhteensä { "388" }
 
 seg-d814d33d2b1e = allan::lag1_noise_id: Riley ja Greenhall ({ "2004" }) lag-1-autokorrelaatiokohinan tunnistus… · Validoitu
 
@@ -3463,27 +3441,17 @@ seg-5af3d58e83fa = <b>Pro-versiolla:</b> <b>tehtävädossier</b> tarkistaa jokai
 
 seg-400016e22379 = Validoinnin kirjanpito (ledger)
 
-seg-6ef0eb045293 = Kaikki { "388" } riviä, yksi rivi kutakin kohden.
-
 seg-20ec758fe328 = Jokainen rivi nimeää vaatimuksensa, tilansa ja sen toteuttavan moduulin. Avaa rivi nähdäksesi sen oraakkelin ja testit tai valitse toimiala rajataksesi.
 
 seg-08f2354cb22b = Suodata toimialan mukaan
 
 seg-f5a2e020b47e = Toimialoittain: palkin pituus on rivien määrä, väri on tila. Valitse yksi suodattaaksesi.
 
-seg-d8691ddf3170 = { "93" } rivistä validoitu
-
 seg-0272bc18f675 = { "19" } rivistä validoitu
-
-seg-d6687397eae9 = { "73" } rivistä validoitu
 
 seg-38ec110ef886 = Radat, koordinaatistot ja geometria
 
-seg-8d3ad903cd18 = { "76" } rivistä validoitu
-
 seg-a1c022c60fb6 = Inertia, fuusio ja vaihtoehtoinen PNT
-
-seg-223bf21e1d9b = { "25" } rivistä validoitu
 
 seg-b355dc732d29 = Signaalit ja häiriöt
 
@@ -3493,19 +3461,13 @@ seg-d6c43e56d4cc = Tehtäväanalyysi, varmistus ja muut
 
 seg-5516d9825527 = { "55" } rivistä validoitu
 
-seg-d5b6224d2ec4 = Kaikki { "388" }
-
 seg-7038fab8b00c = Validoitu { "176" }
-
-seg-2bca452c28dd = Mallinnettu { "208" }
 
 seg-ba89c1119b21 = Kumppanin omistama { "4" }
 
 seg-cd12d85e2beb = Hae kirjanpidosta
 
 seg-f014d784ebe3 = Hae vaatimusta, oraakkelia, moduulia tai testiä
-
-seg-d0352364053e = Validoinnin kirjanpito, { "388" } riviä, vieritettävä
 
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } tapausta: kymmenen Kasdinin potenssilakitallennetta, b = { "0" } … -4, vaihe- ja taajuusdatana, af = { "1" } … { "64" }; alpha_int ja d identtiset, huonoin |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" }…</s1>
 
@@ -4308,3 +4270,5 @@ seg-41d86044a528 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simu
 seg-c97e87cbcdd5 = BibTeX moottorille
 
 seg-24ff0a7466d6 = BibTeX
+
+seg-52dab8f79eed = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua

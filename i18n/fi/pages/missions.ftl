@@ -662,8 +662,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Todellinen moottoriajo, toistettuna
 
-seg-597a57467277 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-f1313464b7c9 = Radat: edetetty uudelleen ajon omista elementeistä ja tarkistettu moottorin maanpintajälkiä vasten. Planeetat: NASAn kuvamateriaali.
 
 seg-6c981f00d37d = <b>Prolla:</b> suunnitteluoptimoija ajaa tämän moottorin läpi kokonaisen satelliittitähdistön suunnitteluavaruuden Maan, Kuun tai Marsin ympärillä ja palauttaa sen <b>Pareto-rintaman</b>, jokainen rintaman suunnitelma kirjoitettuna tavallisena skenaariotiedostona. <a1>Katso todellinen rintama</a1>

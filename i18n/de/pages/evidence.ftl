@@ -3871,9 +3871,6 @@ seg-ac7e1a5e344a = Pro
 seg-8f101c803442 = Jede Fähigkeit trägt <s1>ihren Nachweis.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } Fähigkeiten, jede bewertet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "208" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
-
-# text
 seg-4f6445e5dd61 = Verifikationsmatrix <b>v{ $version }</b>
 
 # attr:aria-label
@@ -3882,19 +3879,11 @@ seg-d9f0aabb4262 = Den Durchlauf anhalten
 # text
 seg-ae9e2459836c = Fähigkeiten
 
-# attr:aria-label
-seg-4adb5411062e = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "208" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Die Pfeiltasten wechseln zwischen den Zellen; die Fähigkeit und ihre Referenz werden unten vorgelesen.
-
 # text
 seg-f97cb6bf8202 = Fahren Sie mit der Maus über eine Zelle oder fokussieren Sie sie, um ihre Fähigkeit und die Referenz zu lesen, die sie bewertet.
 
 # text
 seg-8a1cef0b9561 = Validiert: eine unabhängige externe Referenz stimmt überein
-
-# text
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "388" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
 
 # text
 seg-d5c32303297d = Das Register lesen
@@ -3945,11 +3934,6 @@ seg-55fc928e19ae = unabhängige Referenz · AIAA-2006-6753-Verifikationsvektoren
 # text
 seg-1d60624d525d = Wie es geprüft wurde
 
-# text
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
 # attr:title
 seg-813d6d41b891 = Den Befehl kopieren, der es reproduziert
 
@@ -3978,11 +3962,6 @@ seg-87734f6c52a2 = Ein Quadrat je SciPy-Fall, nach Kernel gruppiert.
 seg-4957eddb39ed = unabhängige Referenz · SciPy
 
 # text
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-# text
 seg-e02df7620fc7 = Numerische Bahnpropagation (Cowell) gegen Orekit über einen Bogen von 24 Stunden: schlechteste Abweichung { "0.08" } m in den Kraftstufen { "1" } bis { "5" }.
 
 # text
@@ -3999,11 +3978,6 @@ seg-2b1ea60e99a7 = Positionsabweichung über der Zeit, je Kraftstufe.
 
 # text
 seg-75344d6c427a = unabhängige Referenz · Orekit { "12.2" }
-
-# text
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
 # text
 seg-44988f3835ce = Keine Ansicht in Kshana Studio: Dieser Vergleich läuft als Engine-Test.
@@ -4030,11 +4004,6 @@ seg-f5b078c26ba8 = Jedes Residuum auf einer logarithmischen Skala von einem Mill
 seg-6670ead3fa91 = unabhängige Referenz · präzise Ephemeriden der ESA, die rekonstruierte Trajektorie des Mondorbiters, Orekit { "12.2" }, AIAA-Vektoren
 
 # text
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
-
-# text
 seg-57c9f4e60efa = Keine Ansicht in Kshana Studio: Die präzise Bahnbestimmung läuft als Engine-Tests.
 
 # text
@@ -4052,11 +4021,6 @@ seg-5d3372dbff1f = Vier Abweichungen über der Mittelungszeit, mit den veröffen
 
 # text
 seg-9993e306ae64 = unabhängige Referenz · NIST SP { "1065" }
-
-# text
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
 # text
 seg-4f484b09471e = Holdover-Vorhersage an einer gemessenen Cäsium-Uhr-Aufzeichnung: vorhergesagt zu gemessen zwischen { "0.84" } und { "1.03" }, innerhalb des vorab festgelegten Faktors von { "1.5" }.
@@ -4081,11 +4045,6 @@ seg-46c1dbe5c6bc = Gemessener und vorhergesagter Zeitfehler über der Coast-Zeit
 seg-449f52c56c67 = unabhängige Referenz · gemessene Cäsium-Aufzeichnung
 
 # text
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-# text
 seg-05dd599ce14a = Eine Zelle je Fähigkeit.
 
 # text
@@ -4095,13 +4054,7 @@ seg-b19592bc5242 = Validiert heißt, dass eine unabhängige externe Quelle über
 seg-800e31fc8f7d = Bewertete Fähigkeiten
 
 # text
-seg-1d2c8132218d = { "176" }<s1>von { "388" } validiert</s1>
-
-# text
 seg-e61158f71854 = Mit der Maus über eine Zelle fahren
-
-# attr:aria-label
-seg-b66d124aa8dd = Verifikationsmatrix: { "176" } validiert, { "208" } modelliert, { "4" } im Besitz von Partnern, { "388" } insgesamt
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: das Rauschen der Lag-1-Autokorrelation nach Riley und Greenhall ({ "2004" })… · validiert
@@ -5301,9 +5254,6 @@ seg-1d17589ad647 = Raumfahrzeugbus-Entwicklung, Navigationsnutzlast und Antennen
 seg-400016e22379 = Validierungsregister
 
 # text
-seg-6ef0eb045293 = Alle { "388" } Zeilen, je eine Zeile.
-
-# text
 seg-20ec758fe328 = Jede Zeile nennt ihre Anforderung, ihren Status und das Modul, das sie implementiert. Öffnen Sie eine Zeile für ihre Referenz und ihre Tests, oder wählen Sie einen Bereich, um sie einzugrenzen.
 
 # attr:aria-label
@@ -5313,25 +5263,13 @@ seg-08f2354cb22b = Nach Bereich filtern
 seg-f5a2e020b47e = Nach Bereich: Die Balkenlänge ist die Zeilenzahl, die Farbe ist der Status. Wählen Sie einen aus, um zu filtern.
 
 # text
-seg-d8691ddf3170 = von { "93" } validiert
-
-# text
 seg-0272bc18f675 = von { "19" } validiert
-
-# text
-seg-d6687397eae9 = von { "73" } validiert
 
 # text
 seg-38ec110ef886 = Bahnen, Bezugssysteme und Geometrie
 
 # text
-seg-8d3ad903cd18 = von { "76" } validiert
-
-# text
 seg-a1c022c60fb6 = Inertial, Fusion und alternatives PNT
-
-# text
-seg-223bf21e1d9b = von { "25" } validiert
 
 # text
 seg-b355dc732d29 = Signale und Störung
@@ -5346,13 +5284,7 @@ seg-d6c43e56d4cc = Missionsanalyse, Sicherung und Sonstiges
 seg-5516d9825527 = von { "55" } validiert
 
 # text
-seg-d5b6224d2ec4 = Alle { "388" }
-
-# text
 seg-7038fab8b00c = Validiert { "176" }
-
-# text
-seg-2bca452c28dd = Modelliert { "208" }
 
 # text
 seg-ba89c1119b21 = Beim Partner { "4" }
@@ -5362,9 +5294,6 @@ seg-cd12d85e2beb = Das Register durchsuchen
 
 # attr:placeholder
 seg-f014d784ebe3 = Anforderung, Referenz, Modul oder Test suchen
-
-# attr:aria-label
-seg-d0352364053e = Validierungsregister, { "388" } Zeilen, scrollbar
 
 # text
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } Fälle: zehn Kasdin-Potenzgesetz-Aufzeichnungen, b = { "0" } bis -4, als Phasen- und Frequenzdaten, af = { "1" } bis { "64" }; alpha_int und d identisch, schlechtestes |d alpha| { "9.6e-13" } und |d rho| { "4.8e-13" }…</s1>
@@ -6610,3 +6539,5 @@ seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, be
 
 # text
 seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — PUBLIC-DOMAIN-Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
+
+seg-52dab8f79eed = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed

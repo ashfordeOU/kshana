@@ -44,13 +44,13 @@ seg-f2cc0830b53f = The example <c1/> sets, among others:
 seg-ee5bcbbe0167 = csac
 
 # text
+seg-a349aa76b0ed = PARTNER
+
+# text
 seg-98151954f217 = false
 
 # text
 seg-debc2f07db78 = true
-
-# text
-seg-a6551a61cf69 = classical baseline
 
 # text
 seg-f5fa445702c6 = Result label (the engine's): MODELLED — quantifies (never validates) a partner clock/sensor; not flight-demonstrated

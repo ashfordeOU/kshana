@@ -32,8 +32,6 @@ seg-f2cc0830b53f = Esimerkki <c1/> asettaa muun muassa:
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = klassinen lähtötaso
-
 seg-f5fa445702c6 = Tuloksen nimike (moottorin oma): MODELLED — kvantifioi (ei koskaan validoi) kumppanin kelloa/anturia; ei osoitettu lennolla
 
 seg-c74c63ffd859 = Moottorin kirjoittama kaavio skenaariolle scenarios/quantum-trade.toml, tyyppi quantum-trade

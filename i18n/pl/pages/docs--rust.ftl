@@ -10,8 +10,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>precyzyjna chwila</
 
 seg-3b861b2f08b8 = Wydanie v{ $version }
 
-seg-ebe636986f46 = { "176" } z { "388" } możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni
-
 seg-6a1906d8d4ad = Około { "95" }% pokrycia linii, z progiem { "85" }% w ciągłej integracji
 
 seg-a9f4f2795fb5 = Licencja: AGPL-3.0-only lub licencja komercyjna
@@ -23,10 +21,6 @@ seg-7fcbe854ebc4 = Przećwicz minutę, w której GNSS gaśnie: konsola misji Ksh
 seg-d1153c5e9112 = Przećwicz minutę, w której GNSS gaśnie
 
 seg-d1a3f78ad8e0 = Wypróbuj go najpierw bez niczego do instalowania: <a1>Kshana Studio</a1> uruchamia cały silnik w przeglądarce, skompilowany do WebAssembly, i niczego nie wysyła.
-
-seg-2d2c47db0c1f = <b>{ "176" } z { "388" }</b> możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni; { "208" } uczciwie oznaczonych jako obliczone na podstawie modelu, { "4" } należące do partnera. Każda możliwość nosi jedną etykietę w sprawdzanym maszynowo rejestrze (ledger): VALIDATED (niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory wzorcowe), MODELLED (wewnętrznie spójne i powiedziane wprost) lub PARTNER (odpowiada za to partner sprzętowy). Wśród kontroli: wszystkie { "666" } wektorów SGP4 (Simplified General Perturbations { "4" }) z AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 z dokładnością do { "4.12" } mm oraz model sił Cowella z dokładnością do { "0.08" } m względem Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "388" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "208" } obliczonych na podstawie modelu, { "4" } należących do partnera
 
 seg-12a295fba8a5 = Każda możliwość w macierzy weryfikacji jest oznaczona jako <b>sprawdzona</b> (względem niezależnej wyroczni zewnętrznej), <b>obliczona na podstawie modelu</b> lub <b>należąca do partnera</b>; wartości zegarów optycznych to cele kosmiczne na sprzęcie naziemnym (żaden optyczny zegar strontowy nie poleciał w kosmos). Dojrzałość <em>nie</em> jest jednolita w różnych dziedzinach — PNT dla Ziemi jest sprawdzone względem prawdziwych danych; nawigacja w przestrzeni kosmicznej i na Marsie jest obliczona na podstawie modelu, a względem zewnętrznych wyroczni sprawdzone są tylko jej elementy składowe (czas przelotu światła, położenia planet); OD (wyznaczanie orbity) dla prawdziwych misji w przestrzeni kosmicznej jest w planach.
 

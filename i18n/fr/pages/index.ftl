@@ -110,19 +110,7 @@ seg-4248eb5c3aef = Holdover
 seg-a51c36133548 = Gabarits de synchronisation temporelle
 
 # text
-seg-c5fc0ca71fae = Chaque type de scénario, une page chacun
-
-# text
-seg-ccee5886cf25 = Chaque commande, chaque surface
-
-# text
-seg-4ef6dcd0a58b = Quelle surface porte quelle capacité
-
-# text
 seg-29e58493fdd4 = Modélisé
-
-# text
-seg-8e092e49bdeb = kshana-bench : les seuils qui n'ont pas été atteints, énoncés
 
 # text
 seg-bd4da5bc989d = Généré à partir du dépôt
@@ -603,11 +591,6 @@ seg-47d596393831 = Événements réels
 # text
 seg-5630c799cec1 = D'où vient chaque tracé
 
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-46b6db21c09b = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
 # attr:title
 seg-f70fa3b93b11 = Le rapport propre du moteur sur cette exécution
 
@@ -619,11 +602,6 @@ seg-c459bc5805bb = Le fichier de scénario qui a été exécuté
 
 # text
 seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-# text
-# c1: fc21ac4
-# c2: constellation-multi-gnss-coverage.toml
-seg-c043a94c7564 = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
 
 # text
 seg-f2d2f2263e63 = La console, les trois cartes et le journal rejouent une exécution enchaînée de { "6" } phases et { "18" } exécutions membres sur sa grille de { "10" } s (T+{ "01" }:{ "16" }:{ "10" } de temps de mission). Les orbites sont les { "102" } satellites de GPS, Galileo, BeiDou et GLONASS de l'exécution de constellation, chacune retrouvée comme une orbite képlérienne circulaire à partir de la trace au sol du moteur (pire résidu { "0.0034" }°), rayons compressés pour l'affichage. Les liaisons sont tracées vers les satellites au-dessus du masque de { "10" }° de l'exécution de constellation ({ "25" }° dans la phase d'alarme d'intégrité, le masque de réacquisition de la campagne), atténuées par son brouillage et coupées en holdover. Terre : NASA Blue Marble et Black Marble. Kshana Studio rejoue l'exécution enchaînée dans votre navigateur ; le rapport propre du moteur et la commande reproduisent chaque exécution.
@@ -646,9 +624,6 @@ seg-3a3535770138 = <s1>articles sur arXiv fondés sur le moteur ouvert</s1><s2>L
 
 # text
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>s'exécute dans le navigateur en WebAssembly, sans installation</s2>
-
-# text
-seg-9b3429f89f21 = Nouveautés de la v{ $version } : chaque type de scénario, chaque commande, et les échecs du benchmark
 
 # text
 seg-471b95f0c08f = <a1>Ce que fait chacun et ce qui a été vérifié</a1> · <a2>Tous les canaux d'installation</a2>
@@ -819,11 +794,6 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 
 # text
 seg-dc2eb6c3c2a4 = PL = niveau de protection · AL = limite d'alerte · INS = système de navigation inertielle
-
-# text
-# c1: fc21ac4
-# c2: campaign-jam-spoof-holdover-integrity.toml
-seg-b85e60e05c9f = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
 
 # text
 seg-0588364091ec = Du premier satellite brouillé à la dernière nanoseconde de holdover d'horloge : signaux, capteurs, horloges, orbites et intégrité dans un seul simulateur. Chaque image ci-dessous est une vraie exécution du moteur, et dit laquelle.
@@ -1081,12 +1051,6 @@ seg-43ceda17e71c = Noyau ouvert · gratuit · AGPL-3.0
 seg-0230217b1110 = Quiconque tire sa position ou son heure du GNSS est exposé : le brouillage, le leurrage et la perte de signal touchent aussi bien les véhicules, les réseaux, les réseaux électriques que les engins spatiaux.
 
 # text
-seg-9e88a1981d1e = { "176" } capacités sur { "388" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
-
-# text
-seg-4b41ffeb0030 = Les { "87" } types de scénario, gratuits sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.
-
-# text
 seg-0af87a1caff4 = Le même noyau sous licence commerciale, pour une intégration fermée.
 
 # text
@@ -1154,3 +1118,9 @@ seg-905e5eef45e5 = <b>{ "12" } exigences</b> vérifiées par rapport à de vraie
 
 # text
 seg-7d9ee2bfbb90 = Trouvez où votre synchronisation temporelle casse, avant qu'elle ne casse.
+
+seg-f4d3b1f5b1b4 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+
+seg-3287261002dd = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+
+seg-510663384be1 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }

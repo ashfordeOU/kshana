@@ -152,9 +152,6 @@ seg-2a56e1f52830 = Outils
 seg-b847694d91b5 = Exécute un scénario à partir d'une définition TOML (Tom's Obvious, Minimal Language) ; renvoie le résumé + le JSON de résultat complet (JavaScript Object Notation : chiffres de mérite, courbes). L'option <c1/> renvoie le graphique en SVG (Scalable Vector Graphics).
 
 # text
-seg-a30b46501cff = Les { "87" } types de scénario intégrés avec descriptions + champs obligatoires/facultatifs, afin que l'agent puisse construire un scénario valide.
-
-# text
 seg-3c00da00ec30 = Vérification préalable : analyse le TOML et détecte son type, sans l'exécuter.
 
 # text

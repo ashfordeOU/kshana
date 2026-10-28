@@ -10,8 +10,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>det precisa ögonbl
 
 seg-3b861b2f08b8 = Utgåva v{ $version }
 
-seg-ebe636986f46 = { "176" } av { "388" } förmågor validerade mot oberoende externa referenser
-
 seg-6a1906d8d4ad = Cirka { "95" } % radtäckning, med spärr vid { "85" } % i kontinuerlig integration
 
 seg-a9f4f2795fb5 = Licens: AGPL-3.0-only, eller en kommersiell licens
@@ -23,10 +21,6 @@ seg-7fcbe854ebc4 = Öva på minuten då GNSS går i mörker: Kshanas uppdragskon
 seg-d1153c5e9112 = Öva på minuten då GNSS går i mörker
 
 seg-d1a3f78ad8e0 = Prova först utan att installera något: <a1>Kshana Studio</a1> kör hela motorn i din webbläsare, kompilerad till WebAssembly, och laddar inte upp något.
-
-seg-2d2c47db0c1f = <b>{ "176" } av { "388" }</b> förmågor validerade mot oberoende externa referenser; { "208" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga har en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsekvent, och uttalat öppet) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Hur en förmåga får sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatus för alla { "388" } förmågor: { "176" } validerade, { "208" } modellerade, { "4" } ägda av partner
 
 seg-12a295fba8a5 = Varje förmåga i verifieringsmatrisen är märkt <b>validerad</b> (kontrollerad mot en oberoende extern referens), <b>modellerad</b> eller <b>ägd av partner</b>; siffrorna för optiska klockor är rymdmål på markhårdvara (ingen optisk strontiumklocka har flugit). Mognaden är <em>inte</em> enhetlig mellan områden — PNT på jorden är validerad mot verkliga data; navigering i djuprymden och vid Mars är modellerad, där bara byggstenarna (ljustid, planetpositioner) är validerade mot externa referenser; banbestämning (OD) för verkliga djuprymdsuppdrag finns på färdplanen.
 

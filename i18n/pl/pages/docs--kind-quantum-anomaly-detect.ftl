@@ -26,8 +26,6 @@ seg-c2b10c0bdaf8 = Przykład <c1/> ustawia między innymi:
 
 seg-f44afe581836 = { $version }
 
-seg-25da07e56aa8 = detekcja anomalii PNT kwantowa a klasyczna
-
 seg-2f1d14239d1a = Wykres zapisany przez silnik dla scenarios/quantum-anomaly-detect.toml, rodzaj quantum-anomaly-detect
 
 seg-af9aaf95d4f8 = <b>VALIDATED</b> Analityczne dwunormalne AUC krzywej ROC = Φ(μ/(σ√{ "2" })) i minimalna wykrywalna usterka σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)), na których opierają się kwantowe detektory usterek i anomalii. Wyrocznia (ExternalDataset): scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa i in., JMLR { "2011" }), obie na licencji BSD-3-Clause — niezależne biblioteki obliczające te same jednoznacznie zdefiniowane wielkości ogona rozkładu gaussowskiego i AUC, zgodne do podłogi erf z A&S (~{ "7e-8" }). Przewaga kwantowego nad klasycznym zbudowana na tej podstawie pozostaje MODELLED

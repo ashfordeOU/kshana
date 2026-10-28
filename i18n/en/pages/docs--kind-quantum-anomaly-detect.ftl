@@ -34,13 +34,10 @@ seg-335b8d87e27d = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-c2b10c0bdaf8 = The example <c1/> sets, among others:
 
 # text
+seg-a349aa76b0ed = PARTNER
+
+# text
 seg-f44afe581836 = { $version }
-
-# text
-seg-25da07e56aa8 = quantum vs classical PNT anomaly detecti
-
-# text
-seg-29e58493fdd4 = Modelled
 
 # attr:alt
 seg-2f1d14239d1a = The chart the engine writes for scenarios/quantum-anomaly-detect.toml, kind quantum-anomaly-detect

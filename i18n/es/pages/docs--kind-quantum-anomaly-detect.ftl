@@ -50,9 +50,6 @@ seg-c2b10c0bdaf8 = El ejemplo <c1/> establece, entre otros:
 # text
 seg-f44afe581836 = { $version }
 
-# text
-seg-25da07e56aa8 = detección de anomalías de PNT cuántico frente a clásico
-
 # attr:alt
 seg-2f1d14239d1a = El gráfico que el motor genera para scenarios/quantum-anomaly-detect.toml, tipo de escenario quantum-anomaly-detect
 

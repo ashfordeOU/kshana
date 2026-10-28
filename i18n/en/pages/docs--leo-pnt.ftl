@@ -722,7 +722,7 @@ seg-bf44ba47e48b = writes the result, the chart, the advanced report (which embe
 seg-a08e67a32d60 = The chain is MODELLED: it adds no physics, and each stage keeps its own labels. The positioning stage's C/N0 model is a straight line in sin(elevation), so a pass-specific shape is reduced to two numbers; the message stage models no orbit determination, which is why <c1/> is a stated input ({ "0.25" } m in the bundled scenarios, representative of the decimetre-level on-board orbit determination and steered chip-scale clock the ATOMIC payload reports: <a1>https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a1>).
 
 # text
-seg-ee3c5b58e6fa = <s1>Previous</s1>Lunar orbit and surface as infrastructure
+seg-9bfe27f7ebc5 = <s1>Previous</s1>Mission thread: the lunar segment
 
 # text
 seg-6b951d6413c8 = <s1>Next</s1>LEO signal designs

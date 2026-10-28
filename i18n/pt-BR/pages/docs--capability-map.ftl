@@ -908,26 +908,6 @@ seg-fdbb9db68f1d = nenhuma
 seg-86709f7f67c0 = TRL ~{ "3" }; ainda sem citações/contratos de agências (veja as notas de estratégia)
 
 # text
-# c1: kshana kinds --json
-# c2: holdover-test
-# c3: gnss-ssv
-# c4: lunar-infrastructure
-# c5: optical-atmosphere
-# c6: acm-link
-# c7: aocs
-# c8: ascent-losses
-# c9: contact-schedule
-# c10: entry-heating
-# c11: eo-radiometry
-# c12: lunar-station-coverage
-# c13: time-transfer-budget
-# c14: src/holdover.rs
-# c15: QuantumNavBudget
-# c16: CodeFamily
-# c17: src/verification.rs
-seg-a887cfc920f6 = Atualizado em 2026-10-22 para o motor { $version } ({ "87" } tipos de cenário, a partir de <c1/>; nenhum tipo de cenário novo na { $version }). 2026-10-19: motor { "0.38.0" }, { "87" } tipos de cenário (novos na { "0.38.0" }: <c2/>, <c3/> e <c4/>). 2026-10-18: { "84" } tipos de cenário (novo na { "0.37" }: <c5/>). 2026-10-16: { "83" } tipos de cenário (novos na { "0.36" }: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> e <c13/>). 2026-10-10: motor { "0.35.0" }, { "75" } tipos de cenário, nenhum tipo de cenário novo. 2026-10-09 e 2026-10-08: revisões anteriores. 2026-10-04: a linha de sinal de navegação registra a camada IQ da { "0.31.0" }. 2026-09-29: adicionadas as linhas de LEO-PNT, espectro, sistema solar / PNT em qualquer corpo, campanhas e saídas. Antes disso: alinhado com a matriz de 27 linhas de capacidades da grande auditoria de 2026-06-02; linha de PNT de espaço profundo / Marte adicionada na { "v0.17.0" }. Adições de PNT quântico (holdover de relógio sem GNSS <c14/>, orçamento composto de navegação estimada inercial quântica <c15/>, compromisso de projeto de códigos de distância <c16/>, matriz de verificação verificada por máquina <c17/>) incorporadas às linhas de Temporização, Sensores de PNT quântico, Sinal de navegação e V&V, cada uma rotulada como validada ou modelada segundo sua referência independente real.
-
-# text
 # c1: src/impairment_eval.rs
 # c2: src/quantum_trade.rs
 # c3: σ_y²(τ)=q_wf/τ + q_rw·τ/3 + q_drift·τ³/20

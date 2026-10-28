@@ -662,8 +662,6 @@ seg-8cc7ceade324 = t = { "0" } s
 
 seg-1bd3b0f6eb7e = Skutečný běh enginu, přehraný
 
-seg-597a57467277 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
-
 seg-f1313464b7c9 = Dráhy: znovu propagované z vlastních elementů běhu a ověřené proti pozemním stopám enginu. Planety: snímky NASA.
 
 seg-6c981f00d37d = <b>S edicí Pro:</b> optimalizátor návrhu projede celý návrhový prostor konstelace kolem Země, Měsíce nebo Marsu tímto enginem a vrátí jeho <b>Paretovu frontu</b>, přičemž každý návrh na frontě je zapsán jako prostý soubor scénáře. <a1>Zobrazit skutečnou frontu</a1>

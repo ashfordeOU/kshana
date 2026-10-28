@@ -43,6 +43,9 @@ seg-f85a85f0c7e4 = MHz
 seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
 
 # text
+seg-a349aa76b0ed = PARTNER
+
+# text
 seg-a3697ad561db = Hz
 
 # text

@@ -22,17 +22,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvante mod klassisk</s1><s2>Afslutningen. Du k
 
 seg-50dd8e4077fd = <s1>Gennemarbejdet eksempel: pipeline med flere værktøjer</s1><s2>Her føres én bane gennem de standardbaserede scenarietyper til interoperabilitet og missionsanalyse fra ende til…</s2>
 
-seg-78756a9f6704 = <s1>Scenarietyper</s1><s2>De { "87" } indbyggede scenarietyper, som kshana::api::run_toml fordeler over, hver med sin ene linje…</s2>
-
-seg-051029eb3525 = <s1>Alle scenarietyper, efter familie</s1><s2>Alle scenarietyper, motoren v{ $version } fordeler over ({ "87" }), ordnet under { "12" } familier.</s2>
-
 seg-86b2b5f29f35 = <s1>Alle kommandoer</s1><s2>kshana <scenario.toml> kører et scenarie; hver anden kommando er en underkommando. kshana --help udskriver brugen…</s2>
 
 seg-e847b803a7a9 = <s1>Alle flader</s1><s2>Én motor, de samme resultater overalt. docs/SURFACES.md angiver for hver kommando og type, hvilken flade…</s2>
 
 seg-dcd149f1b172 = <s1>Funktionsområder</s1><s2>Alle funktioner i det offentlige kort, efter område, med deres mærkning i registeret.</s2>
-
-seg-76a9b614dada = <s1>Scenariehenvisning</s1><s2>Alle medfølgende scenariefiler ({ "182" }), grupperet efter type, med deres vigtigste indstillinger.</s2>
 
 seg-58cdc99dfc9e = <s1>Resultatskema</s1><s2>Hver kørsel skriver en versioneret, selvbeskrivende JSON-artefakt (JavaScript Object Notation) ved siden af scenariet.</s2>
 
@@ -47,10 +41,6 @@ seg-b57457566406 = <s1>Animationseksport</s1><s2>--animate gør en kørsels tids
 seg-6e9c30a894e9 = <s1>Eksport og import til interoperabilitet</s1><s2>En kørsel skriver et resultatdokument, et diagram og en rapport. --export skriver også scenariets geometri eller dets…</s2>
 
 seg-ea5f09561b29 = <s1>Valideringsstatus</s1><s2>Om tolerancer. "Valideret" betyder nedenfor, at en kalibreringstest påviser, at den simulerede statistik stemmer med…</s2>
-
-seg-c387a74ffabb = <s1>Verifikationsmatrix</s1><s2>Det komplette, maskinkontrollerede evidensregister: { "388" } rækker — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Funktionsreference</s1><s2>Funktionskortene og alle { "388" } rækker i verifikationsmatricen.</s2>
 
 seg-ae0276d1d945 = <s1>Hvorfor rækker forbliver modellerede</s1><s2>Disse funktioner er implementeret ud fra offentliggjort fysik eller fysik fra første principper med tests, men er ærligt…</s2>
 
@@ -218,15 +208,11 @@ seg-69525243f8f1 = <s1>Jamming, spoofing og spektret</s1><s2>{ "6" } scenarietyp
 
 seg-0541e0421253 = <s1>Navigation i lav jordbane</s1><s2>{ "7" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og udviklingsværktøj, ikke…</s2>
 
-seg-1da177a1654b = <s1>Måne og cislunart rum</s1><s2>{ "20" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og udviklingsværktøj, ikke…</s2>
-
 seg-671dc0d705c5 = <s1>Missionsanalyse, forbindelser og rumoperationer</s1><s2>{ "14" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og udviklingsværktøj, ikke…</s2>
 
 seg-5de091b18fe4 = <s1>Optisk PNT</s1><s2>{ "2" } scenarietyper i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og udviklingsværktøj, ikke…</s2>
 
 seg-35db5b51a590 = <s1>Navigation for rumbrugere</s1><s2>{ "1" } scenarietype i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og udviklingsværktøj, ikke…</s2>
-
-seg-0144518c94fc = { "87" } sider, én for hver scenarietype, der er linket fra <a1>Alle scenarietyper, efter familie</a1>.
 
 seg-1acf60cff708 = Ikke medtaget
 

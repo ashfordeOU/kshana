@@ -45,14 +45,18 @@ seg-c931c5ec2f4a = The formats
 
 # text
 # c1: rinex-clk
-# c2: TIME SYSTEM ID
-# c3: END OF HEADER
-# c4: AS
-# c5: AR
-# c6: CR
-# c7: DR
-# c8: MS
-seg-7f608c733407 = <b><c1/></b>: RINEX clock files, versions { "2" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The header is read only for its <c2/> and is skipped up to <c3/>. Of the data records, only the <c4/> (satellite) and <c5/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c6/>, <c7/> and <c8/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
+# c2: RINEX VERSION / TYPE
+# c3: rinex_clock300.txt
+# c4: 302
+# c5: 304
+# c6: TIME SYSTEM ID
+# c7: END OF HEADER
+# c8: AS
+# c9: AR
+# c10: CR
+# c11: DR
+# c12: MS
+seg-9c8042f0d3d7 = <b><c1/></b>: RINEX clock files, versions { "2.00" } and { "3.00" } to { "3.04" } (including the { "3.04" } nine-character name field). The <c2/> record is checked and any other version is refused, naming the version found: IGS publishes the clock format (<c3/>, <c4/>, <c5/>) up to { "3.04" }, and the RINEX { "4.00" }, { "4.01" } and { "4.02" } documents define observation, navigation and meteorological files only, so there is no version { "4.00" } of the clock file to read. The header is read only for its <c6/> and is skipped up to <c7/>. Of the data records, only the <c8/> (satellite) and <c9/> (receiver or station) records of one clock, selected by name, are kept. Their first value field, the clock bias in seconds, is the phase. Continuation lines and the <c10/>, <c11/> and <c12/> records are skipped. Epochs are the record's calendar fields, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } in the file's own time system, with no conversion.
 
 # text
 # c1: timelab
@@ -94,7 +98,8 @@ seg-8cc445eb84f3 = TimeLab's binary and <c1/> project files are not read.
 
 # text
 # c1: ticc
-seg-3d8853fa9c92 = <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revision of { "23" } November { "2016" }, "measurement modes"). Every data field is seconds with { "12" } decimal places.
+# c2: f64
+seg-b65f4a928891 = <b><c1/></b>: logs of the TAPR TICC counter (TICC Operation Manual, revisions of { "23" } November { "2016" } and { "15" } December { "2025" }, "measurement modes"). Every data field is seconds with { "12" } decimal places ({ "11" } by default from firmware { "20251101" }: any count up to { "15" } is read). A time stamp is read from its decimal text as a whole number of femtoseconds, not as a binary float, so the phase of a log taken days after the counter started keeps the counter's own resolution: an <c2/> time stamp at { "3.0e5" } s has a spacing of { "5.8e-11" } s, about the counter's { "60" } ps.
 
 # text
 # c1: <seconds> chA
@@ -113,7 +118,11 @@ seg-3af6e4e7bc73 = Timestamp-mode lines (<c1/>, <c2/>) and the TimeLab mode's ps
 seg-cecf9df4ff10 = Interval-mode lines (<c1/>, or any label starting <c2/>) are read directly as phase, one reading per <c3/>. The scenario must state <c4/>, because the line carries no time.
 
 # text
-seg-75301936698f = Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode.
+# c1: chC
+seg-bb51bfa2a834 = Paired Timestamp mode prints the same lines in channel order and is read as Timestamp mode; 3-Corner Hat mode adds the synthesised <c1/>, read as above.
+
+# text
+seg-220bc7450e83 = Period-mode and Debug-mode output is refused. A channel whose readings do not increase is reported as Period mode. Binary Timestamp mode is not text, and a file of it is refused with a message that says so.
 
 # text
 # c1: #
@@ -235,11 +244,78 @@ seg-f184ce746389 = <c1/>: fill interior gaps by linear interpolation, and report
 seg-1f3dc3429615 = The estimators need a gap-free record, which is why gaps are resolved here.
 
 # text
+seg-1138c53b3eac = Your own clock
+
+# text
+# c1: [clock_log]
+# c2: scenarios/clock-measured-log.toml
+# c3: kshana example clock-measured-log
+# c4: clock-holdover.toml
+# c5: text
+# c6: path
+# c7: format
+# c8: measured
+# c9: tau0
+seg-1f9cce016fa0 = A <c1/> table on the clock kind reports how stable your own clock was, beside the simulation: <c2/> (<c3/>) is <c4/> with a 96-reading extract of an IGS satellite clock as an inline TimeLab log. Replace <c5/> with <c6/> and <c7/> for your own file. The <c8/> block in the result holds how the log was read (format, <c9/> and where it came from, every gap) and its ADEV, TDEV and MTIE; it does not change the simulation.
+
+# text
+# c1: [clock_fit]
+seg-584564d1a734 = Driving the holdover with your own clock: <c1/>
+
+# text
+# c1: src/clock_library/card.rs
+# c2: q_wf = h_0 / 2
+# c3: q_rw = 2 pi^2 h_-2
+# c4: flicker_floor = sqrt(2 ln 2 h_-1)
+# c5: drift
+# c6: y0
+# c7: fitted
+# c8: measured:<12 hex of the phase hash>
+# c9: runs > 1
+# c10: measured
+# c11: runs = 1
+# c12: replaces
+# c13: quantum
+# c14: classical
+# c15: scenarios/clock-fitted-log.toml
+seg-56799b5fea19 = The log is fitted with the device-card procedure of <c1/> (conditioning, quadratic removed, lag-1 noise identification, weighted least squares in white PM, white FM, flicker FM and random-walk FM at the averaging times with at least { "30" } degrees of freedom). The named clock then takes <c2/>, <c3/>, <c4/> and the fitted <c5/>; <c6/> stays as the scenario has it, because a log carries the offset of its reference, not of the clock after discipline. White phase noise is fitted and reported but not simulated. The result gains a <c7/> block (the coefficients, the fit points, the values the run used, what was left out, the log's SHA-256) and the clock carries the id <c8/>. With <c9/> the ensemble draws from the fitted clock (the <c10/> block needs <c11/>). A fit with no frequency noise, a log too short to fit and a <c12/> other than <c13/> or <c14/> are errors that say so. <c15/> is an example ({ "6" } hours of an IGS satellite clock).
+
+# text
+# c1: tests/fixtures/clock_fit/RESULTS.md
+seg-fe695061eed3 = What the comparison on known noise (<c1/>) shows, and what to keep in mind:
+
+# text
+seg-90657795ba62 = Met: the white-FM level is recovered within { "5" } % on every synthetic record that has it; the fitted card reproduces the true Allan deviation within a factor of { "1.35" } at every averaging time it was fitted at; the noise exponent the fit identifies equals allantools' at every point (on the 5071A record, once the phase step the conditioning removes is removed from allantools' input too).
+
+# text
+seg-f1ec27a393ae = <b>Not met, and pinned by the test:</b> random-walk FM is recovered only when it dominates the longest averaging times of the record, and even then in one of three records of a { "131 072" } s series with a crossover at { "3 000" } s, the fit gave it to flicker FM and to the drift. The split between random-walk FM and flicker FM is not reliable from one record. The run reproduces the log's stability over the averaging times the log covers; beyond them the two choices diverge (flicker FM is a constant floor, random-walk FM grows as the square root of the averaging time).
+
+# text
+seg-88ba5ae782d4 = MODELLED: a what-if for that clock's noise as the log shows it, not a calibration of the clock and not a prediction of its future behaviour.
+
+# text
+# c1: tests/clock_log_real_allantools.rs
+seg-6e88b597bbf0 = A malformed log is an error that names what was found (the line, the version, the missing selector), never a partial result: <c1/> pins { "24" } such cases.
+
+# text
 # c1: src/clock_log.rs
 # c2: tests/fixtures/clock_log/linuxptp_chrony/
 # c3: tests/clock_log_allantools.rs
 # c4: tests/fixtures/clock_log/PREREGISTRATION.md
-seg-fe7d27a473aa = MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs are synthetic, so nothing here describes a real clock or counter.
+seg-4a05abb27420 = MODELLED. This is a parser, and its output feeds estimators that are validated elsewhere against allantools. The unit tests in <c1/> use small hand-written logs, and for the linuxptp and chrony formats the fixtures in <c2/>. <c3/> runs the comparison pre-registered in <c4/>: three seeded synthetic logs, one per format, read back by an independent reader written from this page by the same author, with the ADEV, TDEV and MTIE checked against allantools { "2024.6" }; that comparison covers the first three formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs of that comparison are synthetic, so nothing there describes a real clock or counter; the comparison on measured series is described below.
+
+# text
+seg-576211abf0b4 = On measured data
+
+# text
+# c1: tests/clock_log_real_allantools.rs
+# c2: tests/fixtures/clock_log_real/PREREGISTRATION.md
+# c3: PHASE.DAT
+# c4: realdata-cache/
+# c5: scripts/gen_clock_log_real_ref.py
+# c6: KSHANA_REQUIRE_REALDATA=1
+# c7: tests/fixtures/clock_log_real/RESULTS.md
+seg-3c8d10e8bd1c = <c1/> runs the comparison pre-registered in <c2/> (committed before any fixture or run) on four measured series: the Stable32 <c3/>, the first { "65 536" } readings of a 5071A caesium clock against a hydrogen maser, and the clocks of IGS satellite G01 ({ "30" } s) and station ABMF ({ "300" } s) from the IGS final clock of 2026-08-02, as a vendored cut with its NOTICE. The first two carry no redistribution grant: the logs written from them are in the git-ignored <c4/> (<c5/>), and the test says so and passes when they are absent unless <c6/>. Each log is read by the engine and by an independent reader, and ADEV, TDEV and MTIE are compared with allantools { "2024.6" }. Recorded in <c7/>: on the shipped reader the TICC logs, the header version and five error messages failed the pre-registered bars; they were fixed and the comparison re-run unchanged. Met, except one pair: the MTIE of a frequency log differs from allantools', because allantools integrates the frequency minus its mean (pinned as NOT MET; the like-for-like comparison is met). The row stays MODELLED: the TICC logs are measured clock data re-encoded into the counter's layout by our script (no real TICC capture was found), and the reference reader has the same author as the engine's.
 
 # text
 seg-0f061f726ec5 = <s1>Previous</s1>Holdover test and timing hardware in the loop
@@ -249,3 +325,6 @@ seg-3c89cfcbbd04 = <s1>Next</s1>Hardware safety
 
 # text
 seg-9b52cd5eb4be = tau0 and gaps
+
+# text
+seg-52778d17f4db = Driving the holdover with your own clock: [clock_fit]

@@ -96,8 +96,6 @@ seg-a240ef37dc6d = Bron: <c1/>
 
 seg-befef5f2f8dd = Maan en cislunair (familie van scenariosoorten)
 
-seg-f964724ea446 = { "20" } scenariosoorten van de engine v{ $version }. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen veiligheidsdienst voor mensenlevens. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders aangeeft (hoe een label wordt verdiend: het onderdeel Bewijs van de README).
-
 seg-369e7cfcc1d3 = Themapagina's: <a1>LUNAR-REFERENCE-STATION</a1>, <a2>LUNAR-INFRASTRUCTURE</a2>, <a3>LUNANET-AFS</a3>. Voer er een uit: <c1/>. Alle families: <a4>KINDS.md</a4>.
 
 seg-15b8e26dc24b = Contactblad met de grafieken die de engine schrijft voor de soorten van de familie Maan en cislunair
@@ -181,8 +179,6 @@ seg-d9e24a9a8c0c = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/
 seg-4f05fad4b146 = <b>Register:</b> VALIDATED. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>lunar-llr-datum</a1>.
 
 seg-8d9e0277303e = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>.
-
-seg-204901ae3684 = <b>Register:</b> geen matrixrij noemt deze soort; de engine labelt zijn eigen resultaat. Volledige pagina, met de invoer, resultaten, bewijs en beperkingen: <a1>moonlight-service-volume</a1>.
 
 seg-6fe67fa619d0 = Verplichte velden: geen. Optioneel: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 

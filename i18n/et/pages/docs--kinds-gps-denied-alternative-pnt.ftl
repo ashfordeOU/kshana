@@ -107,9 +107,6 @@ seg-c2187e8291f9 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei 
 seg-b1ff6f0e1769 = Kohustuslikud väljad: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Valikulised: <c13/>, <c14/>, <c15/>.
 
 # text
-seg-9bd19903f577 = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>terrain-nav</a1>.
-
-# text
 # c1: dem_seed
 # c2: start_lat_deg
 # c3: start_lon_deg

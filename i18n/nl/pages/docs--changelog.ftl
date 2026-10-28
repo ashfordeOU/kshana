@@ -20,8 +20,6 @@ seg-bbc8f38627f1 = Het formaat is gebaseerd op <a1>Keep a Changelog</a1> en dit 
 
 seg-985f7b4c001a = Niet uitgebracht
 
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
 seg-a2f583aadd0b = Geen nieuwe functies: één reparatie van de opdrachtregel, afhankelijkheidsupdates in de tooling voor kruiscontrole en documentatie. De resultaten van de engine zijn ongewijzigd ten opzichte van { "0.38.0" }.
 
 seg-c9a8a5898ced = Opgelost

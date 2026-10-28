@@ -20,8 +20,6 @@ seg-bbc8f38627f1 = Muoto perustuu <a1>Keep a Changelog</a1> -ohjeeseen, ja täm�
 
 seg-985f7b4c001a = Julkaisematon
 
-seg-66749e5be121 = [{ $version }] - 2026-10-22
-
 seg-a2f583aadd0b = Ei uusia ominaisuuksia: yksi komentorivikorjaus, riippuvuuspäivityksiä ristiinvalidointityökaluissa ja dokumentaatiota. Moottorin tulokset ovat muuttumattomia versioon { "0.38.0" } nähden.
 
 seg-c9a8a5898ced = Korjattu

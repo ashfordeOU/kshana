@@ -103,4 +103,4 @@ seg-6334f82991d3 = Not met, and pinned by tests that assert the miss: C3 (the in
 seg-1d3bffc2fd02 = <s1>Previous</s1>Space-user navigation (gnss-ssv)
 
 # text
-seg-90932eed0074 = <s1>Next</s1>LEO positioning, navigation and timing
+seg-c3b27dfb7bca = <s1>Next</s1>Mission thread: launch to entry

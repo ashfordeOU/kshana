@@ -4930,9 +4930,6 @@ seg-5af3d58e83fa = <b>Pro-ga:</b> <b>missioonidossier</b> kontrollib iga nõuet 
 seg-400016e22379 = Valideerimise register (ledger)
 
 # text
-seg-6ef0eb045293 = Kõik { "388" } rida, igaüks ühel real.
-
-# text
 seg-20ec758fe328 = Iga rida nimetab oma nõuet, olekut ja seda teostavat moodulit. Ava rida, et näha selle sõltumatut etaloni ja teste, või vali valdkond, et neid kitsendada.
 
 # attr:aria-label
@@ -4942,25 +4939,13 @@ seg-08f2354cb22b = Filtreeri valdkonna järgi
 seg-f5a2e020b47e = Valdkonna järgi: tulba pikkus on ridade arv, värv on olek. Filtreerimiseks vali üks.
 
 # text
-seg-d8691ddf3170 = { "93" }-st kontrollitud
-
-# text
 seg-0272bc18f675 = { "19" }-st kontrollitud
-
-# text
-seg-d6687397eae9 = { "73" }-st kontrollitud
 
 # text
 seg-38ec110ef886 = Orbiidid, tugisüsteemid ja geomeetria
 
 # text
-seg-8d3ad903cd18 = { "76" }-st kontrollitud
-
-# text
 seg-a1c022c60fb6 = Inertsiaal-, liit- ja alternatiivne PNT
-
-# text
-seg-223bf21e1d9b = { "25" }-st kontrollitud
 
 # text
 seg-b355dc732d29 = Signaalid ja häired
@@ -4975,13 +4960,7 @@ seg-d6c43e56d4cc = Missioonianalüüs, kvaliteedi tagamine ja muu
 seg-5516d9825527 = { "55" }-st kontrollitud
 
 # text
-seg-d5b6224d2ec4 = Kõik { "388" }
-
-# text
 seg-7038fab8b00c = Kontrollitud { "176" }
-
-# text
-seg-2bca452c28dd = Modelleeritud { "208" }
 
 # text
 seg-ba89c1119b21 = Partneri omanduses { "4" }
@@ -4991,9 +4970,6 @@ seg-cd12d85e2beb = Otsi registrist (ledger)
 
 # attr:placeholder
 seg-f014d784ebe3 = Otsi nõuet, sõltumatut etaloni, moodulit või testi
-
-# attr:aria-label
-seg-d0352364053e = Valideerimise register (ledger), { "388" } rida, keritav
 
 # text
 seg-e5d71dca6c1c = <s1>tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } juhtu: kümme Kasdini astmeseaduse kirjet, b = { "0" } kuni -4, faasi- ja sagedusandmetena, af = { "1" } kuni { "64" }; alpha_int ja d identsed, halvim |d alpha| { "9.6e-13" } ja |d rho| { "4.8e-13" }…</s1>
@@ -6193,9 +6169,6 @@ seg-6d3d0f8c9b7c = Taotle Pro hindamist
 seg-8f101c803442 = Iga võimekus kannab <s1>oma tõendit.</s1>
 
 # text
-seg-9ef28b622a43 = { "388" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste sõltumatute etalonide vastu. <b>{ "208" } ausalt märgistatud kui modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
-
-# text
 seg-4f6445e5dd61 = Kontrollimaatriks <b>v{ $version }</b>
 
 # attr:aria-label
@@ -6204,19 +6177,11 @@ seg-d9f0aabb4262 = Peata pühkimine
 # text
 seg-ae9e2459836c = võimekust
 
-# attr:aria-label
-seg-4adb5411062e = Kontrollimaatriks, üks lahter võimekuse kohta registri (ledger) järjekorras: { "176" } valideeritud (täidetud ruudud), { "208" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liiguvad lahtrite vahel; võimekus ja selle sõltumatu etalon loetakse ette allpool.
-
 # text
 seg-f97cb6bf8202 = Lahtri võimekuse ja seda hindava sõltumatu etaloni nägemiseks liigu sellele kursoriga või fokuseeri see.
 
 # text
 seg-8a1cef0b9561 = Valideeritud: sõltumatu väline sõltumatu etalon nõustub
-
-# text
-# c1: web/data/verification-matrix.json
-# c2: src/verification.rs
-seg-582c4a762fc5 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "388" } rida · stsenaariumi ega algväärtust (seed) ei ole: mootori enda register (ledger)
 
 # text
 seg-d5c32303297d = Loe registrit (ledger)
@@ -6268,11 +6233,6 @@ seg-55fc928e19ae = sõltumatu etalon · AIAA 2006-6753 kontrollvektorid
 seg-1d60624d525d = Kuidas seda kontrolliti
 
 # text
-# c1: fc21ac4
-# c2: tests/sgp4_verification.rs
-seg-6adbc42697f9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
-
-# text
 # c1: orbit-sgp4-gps.toml
 # c2: 17
 seg-58ca3da25e69 = Ava rakenduses Kshana Studio: sama propagaator, <c1/><s1> · algväärtus (seed) <c2/></s1>
@@ -6305,11 +6265,6 @@ seg-87734f6c52a2 = Üks ruut SciPy juhtumi kohta, rühmitatud tuuma järgi.
 seg-4957eddb39ed = sõltumatu etalon · SciPy
 
 # text
-# c1: fc21ac4
-# c2: tests/raim_reference.rs
-seg-c5d5cf50c8a9 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
-
-# text
 # c1: integrity-raim.toml
 # c2: 7
 seg-011e33e27f59 = Ava rakenduses Kshana Studio: tuum tegevuses, <c1/><s1> · algväärtus (seed) <c2/></s1>
@@ -6331,11 +6286,6 @@ seg-2b1ea60e99a7 = Asendi erinevus ajas, jõumudeli taseme kaupa.
 
 # text
 seg-75344d6c427a = sõltumatu etalon · Orekit { "12.2" }
-
-# text
-# c1: fc21ac4
-# c2: tests/numerical_cowell_propagator_reference.rs
-seg-2e80a89ee20a = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
 
 # text
 seg-44988f3835ce = Kshana Studio vaadet ei ole: see võrdlus jookseb mootori testina.
@@ -6362,11 +6312,6 @@ seg-f5b078c26ba8 = Iga jääk logaritmilisel skaalal ühest millimeetrist kahek�
 seg-6670ead3fa91 = sõltumatu etalon · ESA täpsed efemeriidid, Kuu orbiiteri rekonstrueeritud trajektoor, Orekit { "12.2" }, AIAA vektorid
 
 # text
-# c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: fc21ac4
-seg-6ce9be05ab08 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
-
-# text
 seg-57c9f4e60efa = Kshana Studio vaadet ei ole: täpne orbiidi määramine jookseb mootori testidena.
 
 # text
@@ -6384,11 +6329,6 @@ seg-5d3372dbff1f = Neli hälvet keskmistamisaja vastu, avaldatud väärtused rin
 
 # text
 seg-9993e306ae64 = sõltumatu etalon · NIST SP { "1065" }
-
-# text
-# c1: fc21ac4
-# c2: tests/allan_nist_sp1065_1000point.rs
-seg-2a2794bda50f = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
 
 # text
 # c1: clock-holdover.toml
@@ -6418,11 +6358,6 @@ seg-46c1dbe5c6bc = Mõõdetud ja ennustatud ajaviga sõiduaja vastu ning suhtear
 seg-449f52c56c67 = sõltumatu etalon · mõõdetud tseesiumsalvestus
 
 # text
-# c1: fc21ac4
-# c2: tests/slot_timing_cs5071a_holdout.rs
-seg-275351654591 = Mootor v{ $version }, ehitus <c1/> · <c2/> · deterministlik, algväärtust (seed) ei ole
-
-# text
 # c1: slot-timing-ocxo-leo.toml
 seg-c131867720cc = Ava rakenduses Kshana Studio: sama pöördülesanne, <c1/><s1> · deterministlik</s1>
 
@@ -6436,13 +6371,7 @@ seg-b19592bc5242 = Valideeritud tähendab, et sõltumatu väline allikas nõustu
 seg-800e31fc8f7d = Hinnatud võimekused
 
 # text
-seg-1d2c8132218d = { "176" }<s1>{ "388" }-st valideeritud</s1>
-
-# text
 seg-e61158f71854 = Vii kursor lahtrile
-
-# attr:aria-label
-seg-b66d124aa8dd = Kontrollimaatriks: { "176" } valideeritud, { "208" } modelleeritud, { "4" } partneri omanduses, kokku { "388" }
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: Riley ja Greenhalli ({ "2004" }) lag-1 autokorrelatsiooni müra… · Valideeritud
@@ -6623,3 +6552,5 @@ seg-a8818aea1c75 = IAU 2006/2000A pretsessioon-nutatsioon, CIO GCRS↔ITRS, liig
 
 # attr:title
 seg-3713cbb8eb72 = UTC kalendrikuupäev ja kellaaeg kaheosaliseks UTC Juliuse kuupäevaks SOFA dtf2d abil… · Valideeritud
+
+seg-52dab8f79eed = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole

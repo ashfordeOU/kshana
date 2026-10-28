@@ -339,9 +339,6 @@ seg-fdd71491d5b0 = Jatkuvan integroinnin tila haarassa main
 seg-fa8a7ec005a9 = Rivikattavuus lähellä { "95" } % hakemistosta src/, mitattu tiedostossa docs/COVERAGE.md ja jatkuvassa integroinnissa kynnyksenä { "85" } %
 
 # text
-seg-af101c048e7e = { "176" } / { "388" } ominaisuutta VALIDATED riippumatonta ulkoista oraakkelia vastaan, varmennusmatriisin mukaan
-
-# text
 seg-6499faeb5966 = SonarQube Cloudin laatuportin tila
 
 # text
@@ -367,9 +364,6 @@ seg-904baf07192f = Harjoittele hetkeä, kun GNSS sammuu. Kshanan tehtäväkonsol
 
 # text
 seg-d435b868c53d = Sisältö
-
-# text
-seg-161fa1263086 = <a1>Uutta versiossa { "0.39" }</a1>, <a2>Uutta versiossa { "0.38" }</a2> ja <a3>{ "0.38" } perusteellisesti</a3>: jammertest-pisteytys, vastaanottimen omat liput, konesyötteet, ajoitus ja holdover, standardipaketit, LunaNet AFS, laboratorion kiertoajo, kshana-bench, observatorio, viejät, optinen, <a4>avaruuskäyttäjän navigointi</a4> ja <a5>kuun infrastruktuuri</a5>
 
 # text
 seg-b4569d43b652 = <a1>Kshana Studio</a1> ja jokainen Studio-sivu
@@ -619,25 +613,15 @@ seg-1b484c7d2d35 = Avaa <a1>kshana.dev/studio</a1>, niin koko moottori toimii se
 
 seg-503f53e7874b = <b>Yksinkertainen näkymä</b> on se, jossa Studio avautuu. Se alkaa kysymyksistä (kuinka monta satelliittia näen, voinko luottaa paikannukseeni, kuinka kauan kello pitää aikaa, mitä häirintälähetin tekee vastaanottimelleni) ja kartasta kaikesta, mitä moottori osaa, jokaisen alueen validoitujen menetelmien osuuden kanssa. Avaa skenaario, niin vastaus tulee ensin: yksi selkeä lause, kirjoitettu sille, mitä skenaario mittaa, sitten sen keskeiset luvut ja kaavio. Enintään viisi asetusta on esillä, ne jotka muuttavat vastausta eniten; loput odottavat kohdassa <b>Lisäasetukset</b>. <b>Näin tämä lasketaan</b> selittää menetelmän, ja <b>Tutkijoille</b> antaa moottorin omat luvut, skenaariotiedoston, koodin sen ajamiseksi Pythonista ja viitteen.
 
-seg-c45a4adf8209 = Kshana Studio, Yksinkertainen näkymä, mukana toimitetulla skenaariolla integrity-raim, moottori { "v0.38.0" } toimii paikallisesti. Kysymys: täyttääkö geometria hälytysrajat (vaaka- ja pystysuuntainen suojaustaso)? Vastaus ensin, merkittynä Live result: Kyllä, enimmäkseen: { "95.3" } % ajasta { "12" } h. Vastaanottimen virherajat pysyivät hälytysrajojen alla ({ "40" } m vaaka- ja { "50" } m pystysuunnassa) { "344" } tarkistuksessa { "361" }:stä, eikä yksikään paikannus ollut harhaanjohtava. Keskeiset luvut: aika, jolloin paikannukseen voi luottaa { "95.3" } %, pisin katko { "10" } min, tyypillinen virheraja { "6.5" } / { "13" } m, harhaanjohtavat paikannukset { "0" }. Vieressä Try other settings viidellä asetuksella (etäisyysvirhe, kaksi hälytysrajaa, kesto ja korkeuskulmamaski) ja Run again, sitten suljetut osiot Advanced settings ({ "13" } lisää), How this is computed ({ "8" } validoitu, { "6" } mallinnettu) ja For researchers. Alla tämän tuloksen näkymät ja suojaustasot piirrettynä hälytysrajaa vasten.
-
 seg-6767f63a1153 = <b>Laaja näkymä</b> on koko hallintanäkymä: skenaariokirjasto, viisi numeroitua vaihetta (Choose, Set, Run, Read results, Share or export), keskeiset luvut PASS- ja FAIL-merkeillä, kun ajo ilmoittaa kynnyksen, sekä jokainen paneeli: yleiskuva, kaaviot, kartat, toisto, moottorin raportti ja viennit. Yhdellä hakukentällä pääsee skenaarioihin, alueisiin ja niiden sisällä oleviin kenttiin, ja voit kiinnittää enintään neljä ajoa ja verrata niitä rinnakkain.
 
 seg-48e01a0f5cb8 = Yksinkertaisen näkymän aloitusnäyttö ja Laaja näkymä ajon jälkeen
-
-seg-1af317b46992 = Kshana Studio, Yksinkertainen näkymä, aloitusnäyttö, otsikko What would you like to find out?, moottori { "v0.38.0" } käynnissä ja yläpalkissa kolme linkkiä: Training debrief, Interference map ja Receiver trust. Neljä kysymystä: kuinka monta satelliittia näen missä tahansa Maan päällä, voinko luottaa paikannukseeni, kuinka kauan kello pitää aikaa ilman satelliitteja ja mitä häirintälähetin tekee vastaanottimelleni. Ensimmäisen alla sen tallennettu tulos: vähintään { "22" } satelliittia näkyvissä jokaisessa paikassa ja { "31" } keskimäärin GPS:llä, Galileolla, BeiDoulla ja GLONASSilla yhdessä, paikannus mahdollinen { "100" } %:ssa paikoista ja ajoista, näkyvien satelliittien maailmankartalla, ja painike Open this result. Vieressä Everything Kshana can do: { "16" } aluetta ja { "139" } ajovalmista skenaariota, jokaisessa ruudussa pieni kaavio tallennetusta ajosta ja sen validoitujen menetelmien osuus, ja kirjanpidon { "173" }/{ "350" } ominaisuutta validoitu.
-
-seg-3fed18478b21 = Kshana Studio, Laaja näkymä, mukana toimitetun skenaarion constellation-multi-gnss-coverage (Four GNSS constellations, one map) ajon jälkeen, moottori { "v0.38.0" } toimii paikallisesti. Vasemmalla skenaariokirjasto, { "139" } skenaariota { "16" } alueella. Viisi vaihetta Choose, Set, Run, Read results ja Share or export, vaihe { "4" } kuluvana. Keskeiset luvut: { "102" } satelliittia, saatavuus { "100" } % (PASS), paikan tarkkuuden heikkenemiskertoimen (PDOP) mediaani { "0.95" } (PASS), PDOP:n 95. persentiili { "1.105" } (PASS), keskimäärin { "31.03" } satelliittia näkyvissä ja { "22" } vähimmillään. Alla paneelirivi, jossa Coverage on valittuna, toistopalkki, maailmankartta keskimääräisestä PDOP:sta välillä { "0.831" }–{ "1.0853" } kaikki satelliitit piirrettyinä sekä maailmanlaajuiset kattavuusluvut.
 
 seg-6d955a8881fd = Studion lähdekoodi ja sen rakennusmuistiinpanot ovat tiedostossa <a1><c1/></a1>.
 
 seg-655d43f8ee92 = Sivusto
 
 seg-8a4b804467d2 = Loput sivustosta <a1>kshana.dev</a1> rakennetaan tämän tietovaraston omista tiedostoista ja moottoriajoista: tehtävät, ominaisuudet, todistekirjanpito, julkaistu tutkimus ja versiot.
-
-seg-88302efebc1a = Kolme kshana.dev-sivua rinnakkain. Etusivun pääosa: nimirivi Kshana · क्षण · the precise instant otsikon Rehearse the minute GNSS goes dark yläpuolella sekä moottorin { "v0.38.0" } todellisen ajon tehtäväkonsoli (maapallo ja kolme reaaliaikaista kaaviota: kellon aikavirhe, kantoaalto-kohinatiheys ja suojaustaso). Evidence, Published research: viisi avoimeen moottoriin perustuvaa arXiv-artikkelia, uusimmassa moottorin kuva. Editions, Kshana Pro, sama moottori vahvistettuna: Free ajaa yhden skenaarion, Pro vastaa ohjelman kysymykseen.
-
-seg-eabb798bbe4e = Yksi moottori kattaa koko vikaketjun, ensimmäisestä häirityistä satelliitista kellon holdoverin viimeiseen nanosekuntiin. Moottorissa on { "87" } skenaariotyyppiä; <c1/> listaa ne ja <a1><c2/></a1> dokumentoi jokaisen kentän.
 
 seg-921d30a36374 = miten häirintälähetin valtaa GNSS:n L-kaistan, kaista kaistalta, sekunti sekunnilta
 
@@ -891,15 +875,11 @@ seg-458a3953b3b2 = laukaisu, nousu, paluu, asento, linkit, yhteydenpidon suunnit
 
 seg-7df7f7116a7c = ketjutetut tehtävät, pyyhkäisyt ja ensemblet, jotka on rakennettu muista tyypeistä
 
-seg-ab2c09d44cb7 = <c1/> ajaa skenaarion; jokainen muu komento on alikomento, ja <c2/> tulostaa niiden kaikkien käyttöohjeen. Komennot ovat <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (komennoilla <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> ja <c61/>. <a1><c62/></a1> kertoo jokaisen tarkoituksen, varmennetun esimerkin ja sen dokumentaatiosivun.
-
 seg-4061734355a4 = Yksi moottori, samat tulokset kaikkialla: komentorivi, Rust-kirjasto, Python, JavaScript ja WebAssembly, MCP-palvelin liitännäiskomentoineen ja taitoineen, Kshana Studio (jokainen sivu toimii selaimessa, ei asennusta, mitään ei lähetetä palvelimelle), ROS { "2" }-, Signal K-, OpenCPN-, GNSS-SDR- ja <c1/>-integraatiot, systemd-, Docker- ja Grafana-käyttöönottopaketit sekä JetBrains-laajennus. <a1><c2/></a1> listaa ne ja kertoo, miten kunkin saa, sekä kaikkien liitännäiskomentojen, taitojen ja Studio-sivujen nimet; <a2><c3/></a2> kertoo jokaisesta komennosta ja tyypistä, mikä pinta sen kantaa ja mikä ei, syineen.
 
 seg-e46194af8cec = Miten ajo toimii
 
 seg-aa92d3f2aaa0 = Skenaario on TOML-tiedosto (Tom's Obvious, Minimal Language): tyyppi, siemenluku ja parametrit. Moottori ajaa sen ja kirjoittaa tuloksen, kaavion ja raportin sen viereen sekä pyytämäsi viennit.
-
-seg-76e3ec458441 = Miten ajo etenee. Skenaarion TOML-tiedosto (tyyppi, siemenluku ja sen parametrit) menee moottoriin, kshana { $version }, api::run_toml-jakelun kautta { "87" } skenaariotyypin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille tyypeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa tiedostot study.json ja study.html. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integrointia.
 
 seg-63aa55ab596d = Tämä mukana tuleva skenaario kestää { "2" } h: { "10" } min GNSS:ää, sitten noin { "1.8" } h GNSS estettynä. Se kysyy, kuinka kauan strontiumoptinen hilakello ja sirutason atomikello (CSAC) kumpikin pitävät ajan { "20" } ns:n sisällä.
 
@@ -963,10 +943,6 @@ seg-36d838421b86 = Voinko toistaa, laajentaa ja siteerata PNT-tuloksen aina siem
 
 seg-e31cf348fc57 = SGP4 tarkistettu kaikkia { "666" } AIAA 2006-6753 -vertailuvektoria vasten, suurin paikkavirhe { "4.12" } mm
 
-seg-707e2cf795f6 = <b>{ "176" }/{ "388" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen, ja tunnisteen, joka siitä seuraa. Jatkuva integrointi (CI) tekee mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakkelia.
-
-seg-2f81cf391eae = Miten ominaisuus ansaitsee tunnisteensa. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, testin, joka ajaa tarkistuksen jatkuvassa integroinnissa, ja tunnisteen, joka siitä seuraa. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED tai PARTNER, kun laitteistokumppani omistaa sen. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, erä-/sekventiaalinen OD, oraakkeli AIAA 2006-6753 SGP4 -varmennusvektorit, testi tests/sgp4_verification.rs, tunniste VALIDATED. Tämänhetkiset määrät: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER { "388" } rivistä. Kaiken kaikkiaan { "176" } ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; { "208" } lisää on rehellisesti merkitty MODELLED ja { "4" } on PARTNER-merkittyjä.
-
 seg-23d73e23b368 = Rivit
 
 seg-d16e0aac11d5 = riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut vertailuvektorit
@@ -974,8 +950,6 @@ seg-d16e0aac11d5 = riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen d
 seg-0c1beb3b59cc = tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten, ja sanottu ääneen
 
 seg-9dd73106acfc = laitteistokumppanin omistama; Kshanalla ei ole siitä oraakkelia
-
-seg-ed47a99fac7f = Muutamia tarkistuksia: kaikki { "666" } AIAA:n (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektoria (Simplified General Perturbations { "4" }) tarkkuuteen { "4.12" } mm; Cowellin voimamalli tarkkuuteen { "0.08" } m Orekit { "12.2" }:ta vasten; Galileo tarkkuuteen { "0.61" } m ja Swarm-A tarkkuuteen { "0.10" } m Euroopan avaruusjärjestön (ESA) todellisia tarkkoja efemeridejä vasten. Testit kattavat noin { "95" } % rivikattavuuden hakemistosta <c1/>, kynnys CI:ssä { "85" } %. Kirjanpito on <a1><c2/></a1>, generoitu tiedostosta <c3/>: <a2>koko 388 rivin matriisi</a2> ja syy, miksi millään mallinnetulla rivillä ei ole ulkoista oraakkelia, tiedostossa <a3><c4/></a3>.
 
 seg-6fd41f16334e = Miten validointi toimii, valikoitu kohokohtataulukko ja todistekuvat
 
@@ -990,8 +964,6 @@ seg-47e49f21e7b8 = <c1/>. <c2/> valvoo sitä; kvantti- ja klassiset ajot käytt�
 seg-9908a7f56956 = Kypsyys ilmoitetaan rehellisesti: optisen kellon ja optisen linkin luvut ovat <em>tavoitteita / maassa tehtyjä demonstraattorituloksia</em>, eivät lennettyjä.
 
 seg-ee66ab516e01 = Validointi yhdellä silmäyksellä
-
-seg-557da03648c5 = Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on <b>valikoitu kohokohtaluettelo</b>; täysi koneellisesti tarkistettu matriisi on <b>{ "388" } riviä — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), täydellä näytöllä (ja sillä, mitä rehellisesti <em>ei</em> vielä ole validoitu) tiedostossa <a1><c2/></a1> ja julkaisukohtaisessa <a2><c3/></a2>-artefaktissa (tuottanut <c4/>, SLSA-todennettu — Supply-chain Levels for Software Artifacts).
 
 seg-bae9b226350a = <b>Status</b>-sarake kertoo todisteen <em>lajin</em>, yllä olevan validointiportaikon mukaisesti: <b>VALIDATED</b> = tarkistettu riippumatonta ulkoista oraakkelia vasten (todellinen data, riippumaton kirjasto tai julkaistut vertailuvektorit); <b>MODELLED</b> = tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten (ei riippumatonta ulkoista aineistoa). VALIDATED kuvaa tarkistuksen <em>menetelmää</em>, ei läpäisyä tai hylkäystä — rehellinen epäonnistuminen todellista ulkoista oraakkelia vasten pysyy VALIDATED, kun taas vertailu, jota mikään matriisin rivi ei nimeä oraakkeliksi (yllä oleva LRO-sovitus), näytetään tunnisteella MODELLED. <c1/>-rivit ovat prosessisuojia, eivät laatumittareita. Muutama todellisen datan saareke (mitattu cesiumkello, Stable32 PHASE.DAT sekä OPS-SAT/ICGEM-tarkistukset, joissa raakasyötteillä ei ole uudelleenjakelulupaa) on <b>datan portittamia</b>: testi tulostaa ohitusilmoituksen ja pysyy vihreänä, kun syöte puuttuu, ja julkiset vertailuluvut on tallennettu hakemistoon <c2/>. Toista raakasyötteet vastaavalla <c3/>-komennolla.
 
@@ -1235,8 +1207,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % rivikattavuus</b> kohteessa <c1/> ilman tiedos
 
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM-moottori)
 
-seg-9fcd5cdd129d = Miten ominaisuus ansaitsee merkintänsä: vaatimus kartoitetaan src-hakemiston moduuliin, tests-hakemiston testiin, ulkoiseen oraakkeliin (todellinen aineisto, riippumaton viitetoteutus tai julkaistut vektorit) ja tilaan — CI valvoo, ettei mikään ominaisuus voi olla validoitu ilman ulkoista oraakkelia. Ajantasaiset luvut: validoitu { "176" }, mallinnettu { "208" }, kumppani { "4" }, yhteensä { "388" }
-
 seg-5262ee45dd08 = Miten ominaisuus ansaitsee merkintänsä — CI:n valvoma invariantti: ei ulkoista oraakkelia ⇒ ei voi olla validoitu · <a1>SVG</a1>
 
 seg-452fea06dd30 = Miten kukin väite perustellaan: validoitu-sarakkeessa on ExternalDataset-rivejä { "176" } / { "176" } rakenteen perusteella (CI valvoo); mallinnettu-rivit on rehellisesti merkitty InternalConsistency, ReferenceImpl tai ExternalDataset; kumppanin riveillä ei ole Kshana-oraakkelia
@@ -1244,10 +1214,6 @@ seg-452fea06dd30 = Miten kukin väite perustellaan: validoitu-sarakkeessa on Ext
 seg-c550a4bde1ff = SGP4/SDP4:n pahimman tapauksen paikkavirhe AIAA 2006-6753 -viitteeseen verrattuna alueittain, logaritminen asteikko: jokainen alue on selvästi AIAA-toleranssin alapuolella, pahin tapaus { "4.12" } mm syvän avaruuden ei-resonanssialueella
 
 seg-2ad422aac6a1 = Ylhäällä: jokaisen validoidun rivin tukena on ulkoinen aineisto rakenteen perusteella. Alhaalla: SGP4 vastaa virallista viitettä kaikilla alueilla (pahin { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-seg-faadba4f1f85 = Varmennustila kaikille ominaisuuksille (yhteensä { "388" }): validoitu { "176" } (tarkistettu ulkoista oraakkelia vastaan), mallinnettu { "208" }, kumppanin omistama { "4" }
-
-seg-6c1edff3e035 = { "176" } validoitu · { "208" } mallinnettu · { "4" } kumppani — <a1>SVG</a1>
 
 seg-a9d8031cdcf8 = Julkisen kartan jokainen ominaisuus toimialueittain ja sen kirjanpidon (ledger) merkintä. Toimialuetaulukon kirjoittaa <a1><c1/></a1> tiedostosta <c2/>; saman tiedoston lukee myös Studion kaiken kartta.
 
@@ -1263,10 +1229,6 @@ seg-8d953358d683 = avaa <a1>https://kshana.dev</a1>
 
 seg-a594acff8553 = Kolmannen osapuolen tekoälyasiakkaita nimeävä kohta on jätetty tästä pois; se on GitHubissa tiedostossa <a1>README.md</a1>.
 
-seg-d48f3f0dec08 = <a1>Lisää Cursor-sovellukseen (npx)</a1> · <a2>Lisää Cursor-sovellukseen (Docker)</a2> · <c1/>
-
-seg-ad59014f9c8e = <a1>Asenna VS Code -sovellukseen (npx)</a1> · <a2>Asenna VS Code -sovellukseen (Docker)</a2> · <c1/>
-
 seg-2593c6d52c90 = lataa julkaisusta kshana-mcp-<target> ja tarkista se tiedostoa SHA256SUMS vasten
 
 seg-1999be2916fa = hae io.github.ashfordeOU/kshana-mcp
@@ -1281,8 +1243,6 @@ seg-7849acc8e680 = Kshana: JetBrains Marketplace
 
 seg-48a01a252537 = Rakentuu Rustin versiolla { "1.85" } tai uudemmalla; vaatimus on kenttä rust-version tiedostossa Cargo.toml
 
-seg-8edd16ad3672 = MCP on Model Context Protocol. Kiinnitä julkaisu komennolla <c1/>, <c2/> tai <c3/>. Lähdekoodista rakentamisesta kerrotaan Viite-osiossa kohdassa <a1>Asennus ja rakentaminen</a1>.
-
 seg-152cb43de2f3 = Skenaarion ajo Pythonista ja WebAssemblysta
 
 seg-58ea673e61fc = Funktion <c1/> lisäksi moduuli tarjoaa seuraavat: <c2/> (JSON, SVG ja yhden rivin yhteenveto kerralla), <c3/>, <c4/>, <c5/> / <c6/> ja <c7/>; katso <a1><c8/></a1>.
@@ -1291,11 +1251,7 @@ seg-f589eb87e902 = npm-paketti on koko moottori käännettynä WebAssembly-muoto
 
 seg-7488a0b0a215 = Keskellä on yksi avoin moottori, ja jokainen pinta ajaa sitä: komentorivi, Rust-kirjasto, Python, WebAssembly ja Kshana Studio, MCP-palvelin, Docker-kuva ja JetBrains-lisäosa. Sama skenaariotiedosto tuottaa jokaisella samat tavut. Kshana Pro on päällä erillisenä kerroksena, joka riippuu moottorista eikä koskaan haarauta sitä.
 
-seg-9d69cf43cd40 = Kshanan arkkitehtuuri: yksi avoin moottori keskellä, kshana { $version } AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty jakelu kaikille lajeille ja { "388" } ominaisuuden varmennuskirjanpito ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). Sen ympärillä jokainen pinta ajaa samaa moottoria: komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-kuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-lisäosa (Marketplace: ”Kshana”). Sen alla on Kshana Pro, suljettu kerros, joka käyttää avointa moottoria kirjastona eikä koskaan haarauta sitä eikä lisää mitään fysikaalista mallia.
-
 seg-9ac1f9e2d1b1 = Moottorin sisällä: toimialuekerrokset ja varmennuskirjanpito
-
-seg-9bc9a971bdb4 = Kshanan arkkitehtuuri kerroksittain. Viisi sisäänkäyntiä (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-lisäosa) johtavat yhteen funktioon api::run_toml, tyypitettyyn jakeluun, jossa on { "87" } laji. Sen alla on kahdeksan toimialuekerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä tehtävät ja tutkimukset, yhteisen ytimen päällä, ja kaikkia ristiviittaa varmennusmoduuli, koneellisesti tarkistettu { "388" } ominaisuuden matriisi, joka on kaikkien merkintöjen ainoa totuuden lähde.
 
 seg-4e894b853889 = <b>Yksi moottori, monta sisäänkäyntiä.</b> Yksi Rust-ydin (<c1/>) ajaa jokaisen skenaarion, ja siihen pääsee CLI:llä, Python-laajennuksella, selaimessa toimivalla WebAssembly-moduulilla, tekoälyagenteille tarkoitetulla <b>MCP-palvelimella</b> ja <b>JetBrains IDE -lisäosalla</b> — kaikki johtavat yhteen <c2/>-jakeluun. Sisällä anturipaketit liitetään yhteiseen virhemallirajapintaan; niiden rinnalla ovat <b>koordinaatistokerros</b> (IAU 2006/2000A -prekessio–nutaatio ja CIO-pohjainen GCRS↔ITRS-redusointi), <b>astrodynamiikka- ja numeriikkakerros</b> (analyyttinen SGP4/SDP4 <b>sekä</b> numeerinen Cowell-propagaattori EGM2008-/häiriövoimamalleineen, ohjaussuunnittelu ja radanmääritys), <b>eheys-/GNSS-kerros</b> (RAIM/ARAIM, SBAS, mittausalue, häirintä, kuunläheinen), <b>fuusio- / alt-PNT-kerros</b> (GNSS/INS-estimaattorit sekä gravitaatio-, maasto- ja magneettikarttasovittimet), <b>syvän avaruuden ja Kuun kerros</b> (radiometrinen Mars-PNT ja Kuun PNT-paketti, jonka jokaisen osan todistetaso on matriisissa — LTC-aika, VLBI, yhteinen OD+kello, koordinaatiston toteutus, palvelutilavuus, differentiaalinen PNT, yhteentoimivuus), <b>tehtävänanalyysikerros</b> (laukaisu / paluu / kattavuus / suuntaus / ohitus / linkkibudjetit ja avaruussääympäristö) sekä avoin <b>kestävyys- ja koneoppimistutkimusten kerros</b> (RPCF-kestävyyspisteytys, RF-häiriöiden optimismikuilu ja kvantti-PNT-demonstraattori), jonka toistettavat artefaktit nojaavat validoituihin ytimiin.
 
@@ -1356,8 +1312,6 @@ seg-b7ea176e9993 = { "49" } työkalua
 seg-4a458fb861f4 = Skenaariot ja raportit
 
 seg-44d509180c56 = Aja skenaario TOML-määrityksestä (Tom's Obvious, Minimal Language)
-
-seg-87e30294e0dc = { "87" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion
 
 seg-ef28db290e2b = Ennakkotarkistus: jäsennä TOML ja tunnista sen laji ajamatta sitä
 
@@ -1452,8 +1406,6 @@ seg-d958c43ba8c1 = Allekirjoitettu laboratorion kiertopaketti: skenaario, <c1/>-
 seg-22377c58ecb2 = Koko moottori on ilmainen. Kshana Pro ja räätälöidyt tutkimukset on tarkoitettu ohjelmille, jotka tarvitsevat enemmän, ja jokainen maksullinen reitti alkaa viestillä: täällä ei ole hintoja.
 
 seg-a91762c0aabe = Ilmainen
-
-seg-eedfcdbe2b1c = koko avoin moottori, kaikki { "87" } skenaariolajia, ei ominaisuuksien porttia
 
 seg-af56c940e13a = suljettu kerros samalla moottorilla, sopimuksella
 
@@ -1650,8 +1602,6 @@ seg-5841e4eac5a5 = <b>GPS:stä riippumattomat alt-PNT</b>-lajit navigoivat ilman
 seg-ec221fc5ace5 = <c1/>-skenaario arvioi <b>kuunläheisen</b> PNT:n: se ajaa Kuun etelänavan ARAIM-suojaustasokierroksen LunaNet/LNIS-releiden joukkoa vasten ja raportoi rehellisesti eheyskuilun — noin { "30" } m:n Kuun σ_URE nostaa suojaustason selvästi { "50" } m:n hälytysrajan yläpuolelle, joten palvelu on <em>ei saatavilla</em> ilmailutyyppisillä eheyssäännöillä (<c2/>).
 
 seg-9b33c9203ca2 = <c1/>-skenaario raportoi <b>relativistisen Maa–Kuu-kellonopeuden</b> — Kuun koordinaattiaika-asteikon (LTC/TCL) perustan. Perusperiaatteista johdettu post-Newtonin identiteetti summaa itsepotentiaalien eron (IAU <c2/> -geoidin potentiaali miinus Kuun pinnan itsepotentiaali) ja Kuun liike-energiatermin (toisen kertaluvun Doppler) sekulaarinopeudeksi ≈ { "57" } µs/vrk, raportoituna julkaistun { "56" }–{ "59" } µs/vrk -kaistan kanssa; se antaa myös kertyneen LTC−TT-siirtymän aikajänteellä sekä käänteisvarianssijoukon (Kuun paperikello). <b>MODELLED</b> — pääluku on <em>vertailusta riippuva</em> (Maan geoidi vs. Kuun selenoidi, keskiarvotusikkuna), minkä vuoksi raportoidaan kaista eikä yksittäinen sertifioitu luku (<c3/>).
-
-seg-f1efe0de99b8 = Katso hakemisto <c1/>: jokaisesta lajista on vähintään yksi toimiva esimerkki ({ "87" } lajia, { "182" } skenaario<c2/>-tiedostoa + { "1" } sarjamanifesti — useasta lajista on toimitettu useampi esimerkki). Kaikilla lajeilla ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat lajit voi luetella milloin tahansa virheillä <c7/>, Pythonin <c8/> tai MCP-työkalulla <c9/>.
 
 seg-ee0d7a833f44 = Tulosartefakti on versioitu, itsekuvaava JSON: askelkohtainen aikasarja, pisteytetyt laatumittarit, aktiiviset mallimäärittelyt (alkuperätietoineen), siemenluku, <b>skenaarion tiiviste</b> — jotta mikä tahansa kaavio voidaan toistaa tiedostosta — ja kullekin kellolle <c1/> (<c2/>): limittyvä Allanin poikkeama oktaavivälein valituilla keskiarvotusajoilla — vakiotapa lukea kellon vakautta — nyt <b>kohinatyyppikohtaisella { "95" } %:n luottamuskaistalla</b> pisteittäin (tallenteen potenssilakityyppi tunnistetaan sen muunnetusta Allan-kaltevuudesta, ja χ²-väli käyttää vastaavia NIST SP { "1065" } -efektiivisiä vapausasteita). Selaimen leikkikenttä piirtää sen log-log-kaaviona ”Clock stability (ADEV)”. (MDEV, TDEV ja HDEV ovat saatavilla kirjastoestimaattoreina; viety tulosraja on limittyvä ADEV.) Jokainen kenttä yksiköineen ja lähdeviitteineen on dokumentoitu tiedostossa <a1><c3/></a1>.
 
@@ -2012,3 +1962,9 @@ seg-7d2b42ba7454 = Bertone et al. — <em>Earth and Space Science</em> { "8" }({
 seg-2658a9477dd9 = <s1>Seuraava</s1>Käsiteopas
 
 seg-90a95738b32d = Kuun infrastruktuuri (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Lisää Cursor-sovellukseen (npx)</a1> · <a2>Lisää Cursor-sovellukseen (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Asenna VS Code -sovellukseen (npx)</a1> · <a2>Asenna VS Code -sovellukseen (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP on Model Context Protocol. Kiinnitä julkaisu komennolla <c1/>, <c2/> tai <c3/>. Lähdekoodista rakentamisesta kerrotaan Viite-osiossa kohdassa <a1>Asennus ja rakentaminen</a1>.

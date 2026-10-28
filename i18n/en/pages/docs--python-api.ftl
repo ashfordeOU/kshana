@@ -253,6 +253,10 @@ seg-0ffb65c8f5f3 = a trust stream (<c1/>) or <c2/> result as Prometheus text, CE
 seg-c1ab3dbbe2f2 = a GNSS interference map from ADS-B or AIS CSV text: one dict per UTC day with <c1/> GeoJSON (aggregate only; a degraded cell does not name interference as the cause)
 
 # text
+# c1: {stem, geojson, summary, csv, svg, sessions_published, sessions_withheld}
+seg-a4c68601516f = estimated emitter regions from ADS-B or AIS CSV text: <c1/>, each labelled MODELLED; regions at stated confidence with a centroid and an uncertainty ellipse, never a bare point; aggregate only, and a region is not the position of anyone nor a finding of the cause
+
+# text
 seg-ff4bc7fdbce7 = share of a route through degraded cells of those maps, as JSON text (not a forecast; unobserved cells are not evidence of a clear route)
 
 # text

@@ -128,8 +128,6 @@ seg-c889e5e77121 = Výukový soubor pro <b>bezpečnost</b> uvnitř používá <c
 
 seg-89fef83a9d54 = Úplný katalog druhů scénářů
 
-seg-648bb07212cd = Engine rozlišuje podle <c1/> scénáře. Tabulka níže uvádí nejčastěji používané druhy (osm výše uvedených tutoriálových domén a jejich nejbližší sousedy). <b>Není</b> to úplná množina: <c2/> vrací všech <c3/> vestavěných druhů. Tato funkce (zpřístupněná jako <c4/> ve vazbách Pythonu a WebAssembly (WASM) a jako <c5/> na příkazovém řádku) je směrodatným, vždy aktuálním katalogem a <a1><c6/></a1> je její generovaný výčet, jedna sekce na druh s povinnými a volitelnými poli TOML. <c7/> vynucuje, aby každý druh, který tutoriál dokumentuje, byl skutečným druhem rozlišení, takže tato tabulka nemůže uvádět druh, který neexistuje.
-
 seg-0f744a3a7193 = Holdover hodin vůči specifikaci; volitelný soubor Monte Carlo (<c1/>).
 
 seg-9a2564fdc86a = 1-DOF (jeden stupeň volnosti) inerciální dead-reckoning během výpadku GNSS.
@@ -243,3 +241,5 @@ seg-d33aa34b2762 = <b>Orákulum vztahů stability hodin</b>: NIST (Národní ins
 seg-36be39f17e35 = <s1>Předchozí</s1>Průvodce Studiem
 
 seg-6f6204737a87 = <s1>Další</s1>{ "1" } · Vaše první oběžná dráha
+
+seg-2fa9e002b3a2 = Engine rozlišuje podle <c1/> scénáře. Tabulka níže uvádí nejčastěji používané druhy (osm výše uvedených tutoriálových domén a jejich nejbližší sousedy). <b>Není</b> to úplná množina: <c2/> vrací všech <c3/> vestavěných druhů. Tato funkce (zpřístupněná jako <c4/> ve vazbách Pythonu a WebAssembly (WASM) a jako <c5/> na příkazovém řádku) je směrodatným, vždy aktuálním katalogem a <a1><c6/></a1> je její generovaný výčet, jedna sekce na druh s povinnými a volitelnými poli TOML. <c7/> vynucuje, aby každý druh, který tutoriál dokumentuje, byl skutečným druhem rozlišení, takže tato tabulka nemůže uvádět druh, který neexistuje.

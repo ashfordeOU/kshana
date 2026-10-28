@@ -178,8 +178,6 @@ seg-f6ff1c8c78db = Tab af lås i sporingssløjfen: C/N0 -> lås/oplåsning MED H
 
 seg-45cb12242d59 = Kilde: <c1/>
 
-seg-843d88cee576 = De { "87" } indbyggede scenarietyper, som <c1/> afsender over, hver med sin beskrivelse på én linje og sine påkrævede / valgfrie felter i TOML (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Denne fil er <b>genereret</b> ud fra <c1/> — den eneste sandhedskilde — af <c2/>; redigér kilden, ikke denne fil. Hver binding (Python-pakken, værktøjet <c3/> i Model Context Protocol (MCP)-serveren og WebAssembly (WASM)-legepladsen) udstiller dette samme katalog, så det, der er opregnet her, er præcis det, hver flade kan køre. Beskrivelserne er kortfattede og udvider ikke altid deres forkortelser; hver eneste er skrevet ud i <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Hvert scenarie undtagen <c1/> skal også sætte <c2/> på øverste niveau: et dokument uden <c3/> kører som <c4/>, og derfor gentages <c5/> ikke i nogen types påkrævede felter nedenfor. En påkrævet post kan nævne alternativer: <c6/> adskiller former, hvoraf mindst én skal være til stede, og <c7/> forbinder felter, der skal optræde sammen, så <c8/> læses som "a <c9/>, or an <c10/> with an <c11/>".

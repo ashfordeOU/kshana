@@ -3122,9 +3122,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: formaat, mida gnss_lib_py sild kirjutab, käitatud läbi receiver-trust'i); sildade Pythoni testid on integrations/ros2/kshana_trust/test/test_bridge.py (sild mock-mootoriga), integrations/ros2/kshana_trust/test/test_engine_integration.py (päris wheel hindab püsiva fiksi nominaalseks ja { "1.1" } km hüppe usaldamatuks) ja integrations/gnss_lib_py/test_bridge.py (päris gnss_lib_py { "1.1.0" } ja wheel), käitatud pytestiga, mitte cargoga
 
 # text
-seg-e7d71a9d77a6 = { "208" } võimekust sildiga MODELLED.
-
-# text
 seg-7a0503f925c1 = <s1>Eelmine</s1>Võimekuste viide
 
 # text

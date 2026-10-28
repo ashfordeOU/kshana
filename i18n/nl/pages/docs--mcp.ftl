@@ -94,8 +94,6 @@ seg-2a56e1f52830 = Hulpmiddelen
 
 seg-b847694d91b5 = Een scenario draaien vanuit een TOML-definitie (Tom's Obvious, Minimal Language); geeft de samenvatting plus de volledige resultaat-JSON (JavaScript Object Notation: kwaliteitsmaten, curven) terug. Met de optionele <c1/> komt de grafiek terug als SVG (Scalable Vector Graphics).
 
-seg-a30b46501cff = De { "87" } ingebouwde scenariosoorten met beschrijvingen plus verplichte en optionele velden, zodat de agent een geldig scenario kan opstellen.
-
 seg-3c00da00ec30 = Controle vooraf: de TOML parsen en de soort ervan bepalen, zonder te draaien.
 
 seg-4516fd1e665c = De meegeleverde referentiescenario's als JSON: elk met zijn <c1/>, zijn <c2/> en één zin over wat het toont. Optioneel filter <c3/>. Elk voorbeeld draait zoals het is, dus dit is de snelste weg naar een geldige TOML voor een soort.

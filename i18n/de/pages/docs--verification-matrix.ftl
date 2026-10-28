@@ -4727,9 +4727,6 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-e8e0e0618afa = Quelle: <c1/>
 
 # text
-seg-4cb1d67922ed = Das vollständige, maschinell geprüfte Register der Nachweise: <b>{ "388" } Zeilen — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen dies). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Prüfkörper, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede Zeile mit Status modelliert nicht extern validiert ist.
-
-# text
 seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 
 # text
@@ -5685,9 +5682,6 @@ seg-b289551b0bb5 = iq::signals::lunanet (afs_i_bits, afs_q_primary_bits, legendr
 
 # text
 seg-176e3b9ea0e7 = tests/lunanet_afs_codes.rs (b1_afs_i_gold_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b2_the_legendre_sequence_of_length_10223_is_the_printed_table_d1, b3_afs_q_primary_codes_match_the_printed_first_and_last_24_chips_for_all_210_prns, b1b_not_met_the_printed_g2_state_is_not_the_state_after_the_printed_delay, b1c_post_hoc_the_printed_g2_state_is_the_state_after_2047_minus_the_delay); tests/iq_signal_matrix.rs (lunanet_afs_i, lunanet_afs_q)
-
-# text
-seg-af826b47d00e = { "388" } Zeilen: { "176" } extern validiert, { "208" } modelliert, { "4" } im Besitz von Partnern.
 
 # text
 seg-6bb40f180cf0 = <s1>Zurück</s1>Validierungsstatus

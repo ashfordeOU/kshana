@@ -43,17 +43,6 @@ seg-2f464fe709c9 = Ilma tabelita parsitakse, räsitakse ja esitatakse mõlemad s
 seg-c931c5ec2f4a = Vormingud
 
 # text
-# c1: rinex-clk
-# c2: TIME SYSTEM ID
-# c3: END OF HEADER
-# c4: AS
-# c5: AR
-# c6: CR
-# c7: DR
-# c8: MS
-seg-7f608c733407 = <b><c1/></b>: RINEX-i kellafailid, versioonid { "2" } ja { "3.00" } kuni { "3.04" } (sh { "3.04" } üheksamärgiline nimeväli). Päist loetakse ainult välja <c2/> jaoks ja see jäetakse vahele kuni reani <c3/>. Andmekirjetest hoitakse ainult ühe nime järgi valitud kella kirjed <c4/> (satelliit) ja <c5/> (vastuvõtja või jaam). Nende esimene väärtusväli, kella nihe sekundites, on faas. Jätkuread ning kirjed <c6/>, <c7/> ja <c8/> jäetakse vahele. Epohhid on kirje kalendriväljad sekunditena alates 1980-01-06 { "00" }:{ "00" }:{ "00" } faili enda ajasüsteemis, ilma teisenduseta.
-
-# text
 # c1: timelab
 # c2: tau0
 # c3: time value
@@ -92,10 +81,6 @@ seg-84f4b59bcdbf = Sageduse andmeid (suhteline sagedus) aktsepteeritakse ainult 
 seg-8cc445eb84f3 = TimeLabi binaar- ja <c1/> projektifaile ei loeta.
 
 # text
-# c1: ticc
-seg-3d8853fa9c92 = <b><c1/></b>: TAPR TICC loenduri logid (TICC Operation Manual, { "23" }. novembri { "2016" } redaktsioon, „measurement modes“). Iga andmeväli on sekundid { "12" } kümnendkohaga.
-
-# text
 # c1: <seconds> chA
 # c2: <seconds> chB
 # c3: chC
@@ -110,9 +95,6 @@ seg-3af6e4e7bc73 = Ajatempli režiimi read (<c1/>, <c2/>) ja TimeLabi režiimi p
 # c3: tau0
 # c4: tau0_s
 seg-cecf9df4ff10 = Intervalli režiimi read (<c1/> või mis tahes silt, mis algab <c2/>) loetakse otse faasina, üks lugem <c3/> kohta. Stsenaarium peab ütlema <c4/>, sest rida ei sisalda aega.
-
-# text
-seg-75301936698f = Perioodi režiimi ja silumisrežiimi väljund lükatakse tagasi. Kanal, mille lugemid ei kasva, esitatakse perioodi režiimina.
 
 # text
 # c1: #
@@ -232,13 +214,6 @@ seg-f184ce746389 = <c1/>: täida sisemised lüngad lineaarse interpolatsiooniga 
 
 # text
 seg-1f3dc3429615 = Hindajad vajavad lüngavaba kirjet, mistõttu lüngad lahendatakse siin.
-
-# text
-# c1: src/clock_log.rs
-# c2: tests/fixtures/clock_log/linuxptp_chrony/
-# c3: tests/clock_log_allantools.rs
-# c4: tests/fixtures/clock_log/PREREGISTRATION.md
-seg-fe7d27a473aa = MODELLED. See on parser ja selle väljund toidab hindajaid, mis on mujal valideeritud allantoolsi vastu. Moodulis <c1/> olevad ühiktestid kasutavad väikesi käsitsi kirjutatud logisid ning linuxptp ja chrony vormingute puhul testandmestikke kataloogis <c2/>. <c3/> käitab võrdluse, mis on eelregistreeritud failis <c4/>: kolm algväärtusega sünteetilist logi, üks vormingu kohta, mida loeb tagasi sõltumatu lugeja, mille sama autor kirjutas sellelt lehelt, kusjuures ADEV, TDEV ja MTIE kontrollitakse allantools { "2024.6" } vastu; see võrdlus katab ainult esimest kolme vormingut ning linuxptp ja chrony lugejatel on parseritestid, kuid sõltumatu etaloniga võrdlust pole. Logid on sünteetilised, seega ei kirjelda siin miski päris kella ega loendurit.
 
 # text
 seg-0f061f726ec5 = <s1>Eelmine</s1>Holdover-test ja ajastusriistvara ahelas

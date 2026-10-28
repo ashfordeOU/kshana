@@ -16,9 +16,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>el instante preciso
 seg-3b861b2f08b8 = Versión v{ $version }
 
 # text
-seg-ebe636986f46 = { "176" } de { "388" } capacidades validadas frente a referencias independientes externas
-
-# text
 seg-6a1906d8d4ad = Cerca del { "95" }% de cobertura de líneas, con un mínimo del { "85" }% exigido en la integración continua
 
 # text
@@ -35,12 +32,6 @@ seg-d1153c5e9112 = Ensaye el minuto en que el GNSS se apaga
 
 # text
 seg-d1a3f78ad8e0 = Pruébelo primero sin instalar nada: <a1>Kshana Studio</a1> ejecuta todo el motor en su navegador, compilado a WebAssembly, y no sube nada.
-
-# text
-seg-2d2c47db0c1f = <b>{ "176" } de { "388" }</b> capacidades validadas frente a referencias independientes externas; { "208" } etiquetadas con honestidad como modeladas, { "4" } propiedad de un socio. Cada capacidad lleva una etiqueta en un registro comprobado por máquina: VALIDATED (concuerda una referencia independiente externa: datos reales, una implementación independiente o vectores de referencia publicados), MODELLED (internamente coherente, y declarado en voz alta) o PARTNER (la posee un socio de hardware). Entre las comprobaciones: los { "666" } vectores SGP4 (Simplified General Perturbations { "4" }) de AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 hasta { "4.12" } mm, y el modelo de fuerzas de Cowell hasta { "0.08" } m frente a Orekit { "12.2" }.
-
-# attr:alt
-seg-44f7862c45a2 = Cómo gana una capacidad su etiqueta: capacidad, referencia independiente, prueba, etiqueta del registro. El estado de verificación de las { "388" } capacidades: { "176" } validadas, { "208" } modeladas, { "4" } propiedad de un socio
 
 # text
 seg-12a295fba8a5 = Cada capacidad de la matriz de verificación se etiqueta como <b>validada</b> (comprobada frente a una referencia independiente externa), <b>modelada</b> o <b>propiedad de un socio</b>; las cifras de relojes ópticos son objetivos espaciales sobre hardware de tierra (ningún reloj óptico de estroncio ha volado). La madurez <em>no</em> es uniforme entre dominios: el PNT terrestre está validado con datos reales; la navegación del espacio profundo y de Marte está modelada, con solo sus bloques constructivos (tiempo de luz, posiciones planetarias) validados frente a referencias independientes externas; la determinación de órbita (OD) del espacio profundo en misiones reales está en la hoja de ruta.

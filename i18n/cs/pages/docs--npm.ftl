@@ -13,8 +13,6 @@ seg-32c82b87acd6 = <b>Kshana · <s1>क्षण</s1> · <em>přesný okamžik</
 
 seg-3b861b2f08b8 = Vydání v{ $version }
 
-seg-ebe636986f46 = { "176" } z { "388" } schopností ověřeno proti nezávislým vnějším orákulím
-
 seg-6a1906d8d4ad = Pokrytí řádků zhruba { "95" } %, v nepřetržité integraci s hranicí { "85" } %
 
 seg-a9f4f2795fb5 = Licence: AGPL-3.0-only, nebo komerční licence
@@ -28,10 +26,6 @@ seg-d1153c5e9112 = Nacvičte minutu, kdy GNSS zhasne
 seg-d284448743af = Kshana přehrává rušení, podvržení signálu (spoofing) a holdover hodin (udržení času), když signály GNSS (globálního družicového navigačního systému) selžou, a říká vám, jak dlouho systém udrží čas a polohu v rámci svého rozpočtu a které hodiny nebo který senzor přinese největší rezervu. Toto je balíček WebAssembly: celý engine v JavaScriptu, v prohlížeči nebo v Node.js. Každý běh je reprodukovatelný bit po bitu ze scénáře, seedu a verze enginu.
 
 seg-d1a3f78ad8e0 = Vyzkoušejte jej nejdřív bez jakékoli instalace: <a1>Kshana Studio</a1> spouští celý engine ve vašem prohlížeči, přeložený do WebAssembly, a nic nenahrává.
-
-seg-2d2c47db0c1f = <b>{ "176" } z { "388" }</b> schopností ověřeno proti nezávislým vnějším orákulím; { "208" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jeden štítek ve strojově kontrolovaném registru: VALIDATED (nezávislé vnější orákulum souhlasí: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní a řečeno otevřeně) nebo PARTNER (odpovídá za ni hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 do { "4.12" } mm a silový model Cowell do { "0.08" } m proti Orekit { "12.2" }.
-
-seg-44f7862c45a2 = Jak si schopnost získá štítek: schopnost, orákulum, test, štítek v registru. Stav ověření napříč všemi { "388" } schopnostmi: { "176" } ověřeno, { "208" } modelováno, { "4" } ve vlastnictví partnera
 
 seg-d662055d817f = Balíček je modul ES (ECMAScript, standardní JavaScript) s obsahem WebAssembly, určený pro prohlížeč. Inicializujte jej jednou a poté volejte engine synchronně. Jediný rozdíl mezi prohlížečem a Node.js je v tom, jak se načte binární soubor WebAssembly.
 

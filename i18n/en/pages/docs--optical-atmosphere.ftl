@@ -170,7 +170,7 @@ seg-f485b4e9ece4 = Churnside, <em>Aperture averaging of optical scintillations i
 seg-309c70f2f4f8 = ITU-R P.840 (cloud liquid-water statistics), P.1814 and P.1817 (free-space-optics methods).
 
 # text
-seg-83b30e1ca261 = <s1>Previous</s1>Evidence packs
+seg-50f25bceca3c = <s1>Previous</s1>Data partners and promoting rows
 
 # text
 seg-1474b58fb35a = <s1>Next</s1>Slot timing

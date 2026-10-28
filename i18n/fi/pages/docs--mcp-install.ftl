@@ -86,17 +86,9 @@ seg-f325b20ba911 = Valitse tapa käynnistää palvelin
 
 seg-f7b7c7f2eb0d = Jokainen alla oleva asiakas ottaa yhden kolmesta palvelinmäärityksestä. Ne käynnistävät saman palvelimen:
 
-seg-e40d4a54025f = <b>npx (Node)</b> (vaatii version Node { "18" }+): <c1/>
-
-seg-11aa05e3bace = <b>Docker</b> (vaatii Dockerin): <c1/>
-
 seg-d5fce7d58cfc = <b>kshana-mcp PATH:ssa</b> (vaatii binäärin (brew, scoop, winget, cargo tai julkaisulataus)): <c1/>
 
 seg-c320bcbc9bcd = Yhden napsautuksen linkit
-
-seg-0281dbe84644 = Cursor, npx (Node): <a1>verkkolinkki</a1> · <c1/>
-
-seg-405f915ef73a = Cursor, Docker: <a1>verkkolinkki</a1> · <c1/>
 
 seg-cb98a41e1860 = Cursor, kshana-mcp PATH:ssa: <a1>verkkolinkki</a1> · <c1/>
 
@@ -105,8 +97,6 @@ seg-adf55784a59e = VS Code, npx (Node): <a1>avaa</a1> · <a2>Insiders</a2>
 seg-2befff4cecb5 = VS Code, Docker: <a1>avaa</a1> · <a2>Insiders</a2>
 
 seg-7a1f43b83429 = VS Code, kshana-mcp PATH:ssa: <a1>avaa</a1> · <a2>Insiders</a2>
-
-seg-a9ea65a68ba3 = Goose, npx: <c1/>
 
 seg-13df6618e070 = Toinen asiakas
 
@@ -159,3 +149,13 @@ seg-db567a4e1a61 = <c1/> tarjoaa samat työkalut streamable HTTP:n yli asiakkaal
 seg-04c1f05fb027 = <s1>Edellinen</s1>MCP-palvelin
 
 seg-eba757f29814 = <s1>Seuraava</s1>MCP-palvelin: itse ylläpidetty HTTP-tila
+
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (vaatii version Node { "18" }+): <c1/>
+
+seg-77230eb344ea = <b>Docker</b> (vaatii Dockerin): <c1/>
+
+seg-3398eea8e332 = Cursor, npx (Node): <a1>verkkolinkki</a1> · <c1/>
+
+seg-67009baafb3b = Cursor, Docker: <a1>verkkolinkki</a1> · <c1/>
+
+seg-6918cd89f776 = Goose, npx: <c1/>

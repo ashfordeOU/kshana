@@ -51,9 +51,6 @@ seg-84781b6fff48 = GDOP indefinido (deficiente en rango / singula
 seg-856eb311f24b = “undefined” (texto tal como lo indica el documento
 
 # text
-seg-1767b216650d = definido
-
-# text
 seg-fc5d34345fdd = Etiqueta del resultado (la del motor): observabilidad MODELLED de una constelación cislunar plana (P6). Núcleo VALIDATED: el RANGO observable es un umbral de valores singulares que revela el rango, contrastado con el rango de valores propios del gramiano; el espectro de valores propios del gramiano obedece a los invariantes espectrales (traza = suma de valores propios, det = producto de valores propios, Frobenius^{ "2" } = suma de valores propios^{ "2" }
 
 # attr:alt

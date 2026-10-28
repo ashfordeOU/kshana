@@ -32,8 +32,6 @@ seg-f2cc0830b53f = Przykład <c1/> ustawia między innymi:
 
 seg-ee5bcbbe0167 = csac
 
-seg-a6551a61cf69 = klasyczny punkt odniesienia
-
 seg-f5fa445702c6 = Etykieta wyniku (silnika): MODELLED — ilościowo ocenia (nigdy nie sprawdza) zegar lub czujnik partnera; nie wykazano w locie
 
 seg-c74c63ffd859 = Wykres zapisany przez silnik dla scenarios/quantum-trade.toml, rodzaj quantum-trade

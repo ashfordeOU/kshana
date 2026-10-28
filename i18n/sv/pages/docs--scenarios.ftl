@@ -178,8 +178,6 @@ seg-f6ff1c8c78db = Tracking-slingans förlust av låsning: C/N0 -> lås/olås ME
 
 seg-45cb12242d59 = Källa: <c1/>
 
-seg-843d88cee576 = De { "87" } inbyggda scenariotyper som <c1/> skickar vidare över, var och en med sin enradsbeskrivning och sina obligatoriska / valfria TOML-fält (Tom's Obvious, Minimal Language).
-
 seg-2860d14bd619 = Den här filen är <b>genererad</b> från <c1/> — den enda sanningskällan — av <c2/>; redigera källan, inte den här filen. Varje bindning (Python-paketet, verktyget <c3/> i MCP-servern (Model Context Protocol) och WebAssembly-lekplatsen (WASM)) exponerar samma katalog, så det som listas här är exakt vad varje yta kan köra. Beskrivningarna är kortfattade och skriver inte alltid ut sina förkortningar; varje förkortning är utskriven i <a1>GLOSSARY.md</a1>.
 
 seg-28b0dbf53a2c = Varje scenario utom <c1/> måste också sätta <c2/> på översta nivån: ett dokument utan <c3/> körs som <c4/>, vilket är skälet till att <c5/> inte upprepas bland någon typs obligatoriska fält nedan. En obligatorisk post kan ange alternativ: <c6/> skiljer former av vilka minst en måste finnas och <c7/> förenar fält som måste förekomma tillsammans, så <c8/> läses "ett <c9/>, eller en <c10/> med en <c11/>".

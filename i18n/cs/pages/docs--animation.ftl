@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Vedle tohoto časového pole se <c1/> (<c2/>, <c3/>, <c4/>) s
 
 seg-608c4fed9e98 = Stopy s jednotkou sdílejí panel, jsou-li jejich velikosti do faktoru { "100" }, takže ochrana { "50" } ns nezplošťuje chybu { "2" } ns. Vykresleno je nejvýše { "6" } panelů po { "6" } stopách; zbytek je uveden pod <c1/>. Stopy nad { "2,400" } vzorků se ztenčí rovnoměrným krokem, který ponechá poslední vzorek, a waterfall nad { "96" } × { "120" } buněk se průměruje (ve výkonu, u decibelových buněk, takže úzký rušič není zředěn).
 
-seg-b68ce4aa301f = Druh, jehož výsledek nenese žádný z těchto tvarů (rozpočet spoje, geometrie jedné epochy, shrnutí Monte Carlo pouze se statistikami nebo telekomunikační holdover, jehož výsledek zveřejňuje hash záznamu, ale ne záznam), je odmítnut s <c1/> a nic se nezapíše. S kshana { $version } se { "89" } ze { "182" } spustitelných souborů scénářů (každý soubor kromě sady studií) animuje a { "93" } je odmítnuto. <c2/> vytiskne soupis.
-
 seg-c386389e4f1d = Mezi druhy LEO se animuje každý přibalený scénář <c1/>, <c2/> a <c3/>. <c4/> se animuje ve svých režimech Doppler, společného určování polohy a časování (běh časování potřebuje <c5/>, což způsobí, že každý řádek hlásí svou časovou chybu a předpovězené sigma v každé epoše) a v režimu polárního pokrytí je odmítnut. <c6/> animuje svou aktualizaci uprostřed přeletu a je odmítnut pro analýzy kódování, intervalu proložení a porovnání modelů. Výsledky <c7/> a <c8/> nenesou časovou osu a jsou odmítnuty.
 
 seg-eb31ec7a07b7 = Determinismus

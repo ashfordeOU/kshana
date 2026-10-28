@@ -1347,11 +1347,6 @@ seg-7718b39ae2c6 = Jedes Diagramm auf dieser Seite ist eine Szenariodatei, die d
 seg-24194ccdcdca = Mit einem beliebigen Szenario beginnen
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-da4764e4d161 = Wählen Sie eine von { "183" } Szenariodateien aus { "87" } Typen oder schreiben Sie eine eigene. <c1/> listet jeden Typ mit seinen Feldern auf, und <c2/> gibt eine Datei zum Ausgangspunkt aus.
-
-# text
 seg-5dd293dd429b = Die Bibliothek in Kshana Studio
 
 # text
@@ -1533,56 +1528,13 @@ seg-58a8a796c8cb = Referenzprüfungen
 seg-3cbba5a3ab3b = Neu in v{ $version }
 
 # text
-seg-850aca04de28 = Jeder Typ, jeder Befehl und die Verfehlungen des Benchmarks.
-
-# text
-seg-c530da682cca = Keine neue Engine-Funktion: Die Ergebnisse sind die von { "0.38.0" }. Die Dokumentation hat nun eine Seite für jeden Szenariotyp sowie eine Liste jedes Befehls und jeder Oberfläche, und die Benchmark-Seite nennt jeden Zielwert, der nicht erreicht wurde. Die Befehlszeile beendet sich außerdem still, wenn ihre Ausgabe-Pipe geschlossen wird. Jede Fähigkeit trägt die Kennzeichnung, die das Register für sie führt, und eine Kennzeichnung benennt nur, was geprüft wurde. Beratende Software.
-
-# text
-seg-c5fc0ca71fae = Jeder Szenariotyp, je eine Seite
-
-# text
-seg-86ff766b2c1d = Alle { "87" } Szenariotypen nach Familien eingeordnet, mit einer Seite für jeden Typ: was er tut, seine Eingaben, die Ergebnisse eines Beispiellaufs, die Registerzeilen und unabhängigen Referenzen hinter seiner Kennzeichnung, die im Bericht genannten Einschränkungen und das Diagramm, das die Engine schreibt.
-
-# text
 seg-a0b63210b807 = Mehr lesen
-
-# text
-seg-ccee5886cf25 = Jeder Befehl, jede Oberfläche
-
-# text
-seg-6630acb722ae = Jeder Befehl mit einem Beispiel, das Sie aus einem Checkout ausführen können, und jede Oberfläche (Befehlszeile, Python, Rust, WebAssembly, der MCP-Server, die Plugin-Befehle, die Skills und die Studio-Seiten) mit den Befehlen und Typen, die sie trägt, und dem Grund, wo sie es nicht tut.
-
-# text
-seg-4ef6dcd0a58b = Welche Oberfläche welche Fähigkeit trägt
-
-# text
-seg-678872a862dc = Eine Seite führt für jeden Befehl und Typ auf, welche Oberfläche ihn trägt und welche nicht, mit Begründung, neben den Fähigkeitsbereichen und ihren Register-Kennzeichnungen.
 
 # text
 seg-29e58493fdd4 = Modelliert
 
 # text
-seg-8e092e49bdeb = kshana-bench: die verfehlten Zielwerte, offen genannt
-
-# text
-seg-df8f792ffa97 = Die Benchmark-Seite führt nun jeden Zielwert auf, der nicht erreicht wurde, so wie die Ergebnisdatei ihn festhält, und sagt, dass kein Zielwert gelockert wird.
-
-# text
 seg-54dce6366d5a = Jedes mitgelieferte Szenario auf einer Karte.
-
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = Alle { "183" } Szenariodateien aus { "87" } Typen, nach Fachgebiet gruppiert; { "173" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls des Typs, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet ihn in Kshana Studio; die anderen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.
 
 # attr:aria-label
 seg-f53c36555404 = Nach Registerstatus filtern
@@ -1839,10 +1791,6 @@ seg-6f80bcd98ce4 = Kshana-Referenzszenario: Lauf von { "2" } h, { "10" } min GNS
 
 # attr:title
 seg-4a194573e324 = Variante: Strontium-Uhr in Laborqualität gegenüber CSAC.
-
-# text
-# c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 # attr:title
 seg-ef238a2781ad = Holdover-Test, Beispiel zur Einspeisung: eine Zeitfehleraufzeichnung, vom Typ holdover-test bewertet
@@ -3178,9 +3126,6 @@ seg-ac19e38bed11 = <b>CI</b> kontinuierliche Integration · <b>CSV</b> kommagetr
 
 # text
 seg-190cdf3ca8dc = Einheit und Herkunft bei jeder berichteten Größe
-
-# text
-seg-1c7bb8c3e887 = { "87" } von { "87" } Typen, { "3127" } von { "3127" } numerischen Feldern
 
 # text
 seg-3e7fb040a7c4 = Jedes numerische Feld, das ein Szenario ausgibt, trägt eine Einheit und eine Herkunftsklasse aus einem geschlossenen Vokabular, mit einer Definition, wo es eine gibt, veröffentlicht als maschinenlesbares Schema neben der Engine. Ein Gate mit Ratsche lässt jeden eingebauten Typ laufen und scheitert an einem Feld, das keines von beidem trägt; die noch nicht vollständigen Typen werden einzeln mit dem Grund genannt, warum jeder noch offen ist, und die Liste kann nur schrumpfen. Berichte, die ihre eigenen Konstanten nennen — das Ein-Weg-Link-Budget, das optische und das HF-Budget —, lassen einen Leser die Kennzahl allein aus dem Bericht neu berechnen.

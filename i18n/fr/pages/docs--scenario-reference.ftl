@@ -571,9 +571,6 @@ seg-9a2bb9809aed = Transfert bidirectionnel de temps et de fréquence par satell
 seg-ccb244e60d60 = Transfert bidirectionnel de temps/fréquence optique contre RF.
 
 # text
-seg-1e4d5b2f4810 = Chaque fichier de scénario fourni ({ "182" }), regroupé par type de scénario. La description est le commentaire d'en-tête du fichier lui-même ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type de scénario. <b>Ouvrir dans Kshana Studio</b> ouvre l'exécution enregistrée.
-
-# text
 seg-e701392324d0 = type de scénario acm-link
 
 # text

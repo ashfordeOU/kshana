@@ -66,15 +66,7 @@ seg-4248eb5c3aef = Holdover
 
 seg-a51c36133548 = Tidsmasker
 
-seg-c5fc0ca71fae = Varje scenariotyp, en sida vardera
-
-seg-ccee5886cf25 = Varje kommando, varje yta
-
-seg-4ef6dcd0a58b = Vilken yta som bär vilken förmåga
-
 seg-29e58493fdd4 = Modelled
-
-seg-8e092e49bdeb = kshana-bench: tröskelvärdena som inte nåddes, angivna
 
 seg-bd4da5bc989d = Genererad från arkivet
 
@@ -405,8 +397,6 @@ seg-47d596393831 = Verkliga händelser
 
 seg-5630c799cec1 = Varifrån varje kurva kommer
 
-seg-46b6db21c09b = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
-
 seg-f70fa3b93b11 = Motorns egen rapport om den här körningen
 
 seg-d32a11c090e1 = Motorns resultat, oförändrat
@@ -414,8 +404,6 @@ seg-d32a11c090e1 = Motorns resultat, oförändrat
 seg-c459bc5805bb = Scenariofilen som kördes
 
 seg-f18f76c10709 = <s1><a1>Rapport</a1><a2>JSON</a2><a3>TOML</a3></s1>
-
-seg-c043a94c7564 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
 seg-f2d2f2263e63 = Konsolen, de tre korten och loggen återspelar en kedjad körning med { "6" } faser och { "18" } medlemskörningar på dess rutnät om { "10" } s (T+{ "01" }:{ "16" }:{ "10" } uppdragstid). Banorna är de { "102" } satelliterna i GPS, Galileo, BeiDou och GLONASS från konstellationskörningen, var och en återvunnen som en cirkulär tvåkroppsbana ur motorns markspår (sämsta residual { "0.0034" }°), med radier komprimerade för visning. Länkar ritas till satelliter över konstellationskörningens mask på { "10" }° ({ "25" }° i fasen med integritetslarm, kampanjens mask för återförvärv), dämpade av dess jamming och avbrutna i holdover. Jorden: NASA Blue Marble och Black Marble. Kshana Studio återspelar den kedjade körningen i din webbläsare; motorns egen rapport och kommandot återskapar varje körning.
 
@@ -430,8 +418,6 @@ seg-d2c0888d98f6 = validerade mot oberoende externa referenser
 seg-3a3535770138 = <s1>artiklar på arXiv byggda på den öppna motorn</s1><s2>Läs forskningen <c1/></s2>
 
 seg-c44c0fbefc2c = <s1>WASM</s1><s2>körs i webbläsaren som WebAssembly, ingen installation</s2>
-
-seg-9b3429f89f21 = Nytt i v{ $version }: varje typ, varje kommando och benchmarkens missar
 
 seg-471b95f0c08f = <a1>Vad var och en gör och vad som kontrollerats</a1> · <a2>Varje installationskanal</a2>
 
@@ -544,8 +530,6 @@ seg-63a70a989509 = Återhämtning
 seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" } uppdragstid · den kedjade körningen, inte tre körningar sida vid sida
 
 seg-dc2eb6c3c2a4 = PL = skyddsnivå · AL = larmgräns · INS = tröghetsnavigeringssystem
-
-seg-b85e60e05c9f = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
 
 seg-0588364091ec = Från den första störda satelliten till den sista nanosekunden av klock-holdover: signaler, sensorer, klockor, banor och integritet i en och samma simulator. Varje bild nedan är en verklig motorkörning och anger vilken.
 
@@ -711,10 +695,6 @@ seg-43ceda17e71c = Öppen kärna · gratis · AGPL-3.0
 
 seg-0230217b1110 = Alla som hämtar position eller tid från GNSS är utsatta: jamming, spoofing och signalförlust drabbar fordon, nät, elnät och rymdfarkoster på samma sätt.
 
-seg-9e88a1981d1e = { "176" } av { "388" } förmågor stämmer med oberoende externa referenser; resten är märkta Modelled, öppet och tydligt.
-
-seg-4b41ffeb0030 = Alla { "87" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.
-
 seg-0af87a1caff4 = Samma kärna under en kommersiell licens, för sluten integrering.
 
 seg-f6406933eb77 = Installera motorn
@@ -768,3 +748,9 @@ seg-b366150de755 = Beställ en studie
 seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
 
 seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samma motor, förstärkt: { "608" } utformningar, en Pareto-front</s2>
+
+seg-f4d3b1f5b1b4 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+seg-3287261002dd = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-510663384be1 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }

@@ -514,9 +514,6 @@ seg-fdd71491d5b0 = Estado de la integración continua en main
 seg-fa8a7ec005a9 = Cobertura de líneas cercana al { "95" } % de src/, medida en docs/COVERAGE.md y con un mínimo del { "85" } % exigido en la integración continua
 
 # text
-seg-af101c048e7e = { "176" } de { "388" } capacidades VALIDATED frente a una referencia independiente externa, según la matriz de verificación
-
-# text
 seg-6499faeb5966 = Estado de la puerta de calidad de SonarQube Cloud
 
 # text
@@ -542,9 +539,6 @@ seg-904baf07192f = Ensaye el minuto en que el GNSS se apaga. La consola de misi�
 
 # text
 seg-d435b868c53d = Contenido
-
-# text
-seg-161fa1263086 = <a1>Novedades de { "0.39" }</a1>, <a2>Novedades de { "0.38" }</a2> y <a3>{ "0.38" } en detalle</a3>: puntuación de jammertest, las banderas propias del receptor, entradas de máquina, temporización y holdover, paquetes de normas, LunaNet AFS, el ciclo completo de laboratorio, kshana-bench, el observatorio, exportadores, óptica, <a4>navegación de usuarios espaciales</a4> e <a5>infraestructura lunar</a5>
 
 # text
 seg-b4569d43b652 = <a1>Kshana Studio</a1> y cada página de Studio
@@ -880,20 +874,11 @@ seg-1b484c7d2d35 = Abra <a1>kshana.dev/studio</a1> y todo el motor se ejecuta en
 # text
 seg-503f53e7874b = <b>La vista Simple</b> es con la que se abre Studio. Parte de preguntas (cuántos satélites puedo ver, puedo confiar en mi posición, cuánto tiempo puede un reloj mantener la hora, qué le hace un jammer a mi receptor) y de un mapa de todo lo que puede hacer el motor, cada área con su proporción de métodos validados. Abra un escenario y la respuesta va primero: una frase llana, escrita para lo que mide ese escenario, luego sus cifras clave y un gráfico. Como máximo se muestran cinco ajustes, los que más cambian la respuesta; el resto espera bajo <b>Ajustes avanzados</b>. <b>Cómo se calcula esto</b> explica el método, y <b>Para investigadores</b> da las cifras propias del motor, el archivo de escenario, el código para ejecutarlo desde Python y la cita.
 
-# attr:alt
-seg-c45a4adf8209 = Kshana Studio, vista Simple, con el escenario incluido integrity-raim, motor { "v0.38.0" } ejecutándose en local. La pregunta: ¿la geometría satisface los límites de alerta (nivel de protección horizontal y vertical)? La respuesta primero, marcada Resultado en vivo: Sí, en su mayor parte: durante el { "95.3" } % de las { "12" } h. La cota de error del receptor se mantuvo por debajo de los límites de alerta ({ "40" } m horizontal y { "50" } m vertical) en { "344" } de { "361" } comprobaciones, y ninguna posición fue engañosa. Cifras clave: tiempo en que se puede confiar en la posición { "95.3" } %, mayor intervalo { "10" } min, cota de error típica { "6.5" } / { "13" } m, posiciones engañosas { "0" }. Junto a ello, Probar otros ajustes con cinco de ellos (el error de distancia, los dos límites de alerta, la duración y la máscara de elevación) y Ejecutar de nuevo, y luego las secciones plegadas Ajustes avanzados ({ "13" } más), Cómo se calcula esto ({ "8" } validados, { "6" } modelados) y Para investigadores. Debajo, las vistas de este resultado y los niveles de protección representados frente al límite de alerta.
-
 # text
 seg-6767f63a1153 = <b>La vista Avanzada</b> es el panel completo: la biblioteca de escenarios, cinco pasos numerados (Elegir, Ajustar, Ejecutar, Leer resultados, Compartir o exportar), las cifras clave con etiquetas PASS y FAIL donde la ejecución declara un umbral, y todos los paneles: resumen, gráficos, mapas, repetición, el informe del motor y exportaciones. Un cuadro de búsqueda llega a escenarios, dominios y los campos que contienen, y puede fijar hasta cuatro ejecuciones y compararlas lado a lado.
 
 # text
 seg-48e01a0f5cb8 = La pantalla inicial de la vista Simple, y la vista Avanzada tras una ejecución
-
-# attr:alt
-seg-1af317b46992 = Kshana Studio, vista Simple, pantalla inicial, titulada ¿Qué le gustaría averiguar?, con el motor { "v0.38.0" } activo y, en la barra superior, tres enlaces: Análisis posterior de formación, Mapa de interferencias y Confianza en el receptor. Cuatro preguntas: cuántos satélites puedo ver en cualquier lugar de la Tierra, puedo confiar en mi posición, cuánto tiempo puede un reloj mantener la hora sin satélites y qué le hace un jammer a mi receptor. Bajo la primera, su resultado registrado: al menos { "22" } satélites a la vista en todos los lugares y { "31" } de media con GPS, Galileo, BeiDou y GLONASS juntos, una posición posible en el { "100" } % de lugares y momentos, en un mapa mundial de satélites a la vista, con un botón Abrir este resultado. Junto a él, Todo lo que Kshana puede hacer: { "16" } áreas y { "139" } escenarios listos para ejecutar, cada recuadro con un pequeño gráfico de una ejecución registrada y su proporción de métodos validados, y las { "173" } de { "350" } capacidades validadas del registro.
-
-# attr:alt
-seg-3fed18478b21 = Kshana Studio, vista Avanzada, tras una ejecución del escenario incluido constellation-multi-gnss-coverage (Cuatro constelaciones GNSS, un mapa), motor { "v0.38.0" } ejecutándose en local. A la izquierda la biblioteca de escenarios, { "139" } escenarios en { "16" } dominios. Los cinco pasos Elegir, Ajustar, Ejecutar, Leer resultados y Compartir o exportar, con el paso { "4" } actual. Cifras clave: { "102" } satélites, disponibilidad { "100" } % (PASS), dilución de la precisión de posición (PDOP) mediana { "0.95" } (PASS), percentil 95 del PDOP { "1.105" } (PASS), { "31.03" } satélites a la vista de media y { "22" } como mínimo. Debajo, la fila de paneles con Cobertura seleccionada, la barra de repetición, un mapa mundial del PDOP medio de { "0.831" } a { "1.0853" } con todos los satélites dibujados, y las cifras de cobertura global.
 
 # text
 # c1: web/README.md
@@ -904,14 +889,6 @@ seg-655d43f8ee92 = El sitio
 
 # text
 seg-8a4b804467d2 = El resto de <a1>kshana.dev</a1> se construye a partir de los propios archivos de este repositorio y de ejecuciones del motor: misiones, capacidades, el registro de evidencias, la investigación publicada y las ediciones.
-
-# attr:alt
-seg-88302efebc1a = Tres páginas de kshana.dev lado a lado. La portada: la línea del nombre Kshana · क्षण · el instante preciso sobre el titular Ensaye el minuto en que el GNSS se apaga, con la consola de misión de una ejecución real del motor { "v0.38.0" } (un globo y tres gráficos en vivo: error de tiempo del reloj, densidad de portadora a ruido y nivel de protección). Evidencias, Investigación publicada: los cinco artículos de arXiv construidos sobre el motor abierto, el más reciente con una figura del motor. Ediciones, Kshana Pro, el mismo motor, amplificado: Free ejecuta un escenario, Pro responde a la pregunta del programa.
-
-# text
-# c1: kshana kinds
-# c2: docs/SCENARIOS.md
-seg-eabb798bbe4e = Un solo motor cubre toda la cadena de fallos, desde el primer satélite interferido hasta el último nanosegundo de holdover del reloj. El motor tiene { "87" } tipos de escenario; <c1/> los lista y <a1><c2/></a1> documenta cada campo.
 
 # text
 seg-921d30a36374 = cómo un jammer se apodera de la banda L del GNSS, banda por banda, segundo a segundo
@@ -1474,71 +1451,6 @@ seg-458a3953b3b2 = lanzamiento, ascenso, reentrada, actitud, enlaces, planificac
 seg-7df7f7116a7c = misiones encadenadas, barridos y conjuntos construidos a partir de los demás tipos de escenario
 
 # text
-# c1: kshana <scenario.toml>
-# c2: kshana --help
-# c3: --study
-# c4: --validate
-# c5: kinds
-# c6: example
-# c7: receiver-trust
-# c8: live
-# c9: evidence
-# c10: evidence
-# c11: keygen
-# c12: verify
-# c13: attach-timestamp
-# c14: round-trip
-# c15: jammertest
-# c16: import
-# c17: score
-# c18: trust-telemetry
-# c19: imu-fit
-# c20: nmea-scenario
-# c21: interference-map
-# c22: adsb
-# c23: ais
-# c24: daily
-# c25: sensitivity
-# c26: fetch-land
-# c27: route-exposure
-# c28: bench
-# c29: spec
-# c30: truth
-# c31: cases
-# c32: score
-# c33: baseline
-# c34: seal
-# c35: reveal-check
-# c36: manifest
-# c37: verify-manifest
-# c38: validate
-# c39: leaderboard
-# c40: bench-export
-# c41: compliance-report
-# c42: lunanet-afs-check
-# c43: standards-pack
-# c44: osnma
-# c45: iq
-# c46: scene
-# c47: acquire
-# c48: track
-# c49: sweep
-# c50: labfit
-# c51: campaign
-# c52: conditions
-# c53: frontend
-# c54: monitor
-# c55: inventory
-# c56: info
-# c57: extract
-# c58: convert
-# c59: decimate
-# c60: sky
-# c61: skyline
-# c62: docs/COMMANDS.md
-seg-ab2c09d44cb7 = <c1/> ejecuta un escenario; todos los demás comandos son subcomandos, y <c2/> imprime el uso de todos ellos. Los comandos son <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (con <c8/> y <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/>, <c45/> (<c46/>, <c47/>, <c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>), <c60/> y <c61/>. <a1><c62/></a1> da la finalidad de cada uno, un ejemplo verificado y su página de documentación.
-
-# text
 # c1: gnss_lib_py
 # c2: docs/ALL-SURFACES.md
 # c3: docs/SURFACES.md
@@ -1549,9 +1461,6 @@ seg-e46194af8cec = Cómo funciona una ejecución
 
 # text
 seg-aa92d3f2aaa0 = Un escenario es un archivo TOML (Tom's Obvious, Minimal Language): un tipo de escenario, una semilla y los parámetros. El motor lo ejecuta y escribe junto a él el resultado, un gráfico y un informe, y las exportaciones que se soliciten.
-
-# attr:alt
-seg-76e3ec458441 = Cómo fluye una ejecución. Un archivo TOML de escenario (un tipo de escenario, una semilla y sus parámetros) entra en el motor, kshana { $version }, a través del despacho api::run_toml sobre { "87" } tipos de escenario, determinista a partir del escenario, la semilla y la versión del motor. El motor escribe result.json, chart.svg, report.html y report.json, un table.csv para los tipos de escenario que lo definen y, bajo petición, exportaciones SP3, CCSDS OMM y OEM, CZML, KML, GeoJSON, STK y SigMF; una suite escribe study.json y study.html. Esos archivos alimentan Kshana Studio en el navegador, a un asistente de IA a través del servidor kshana-mcp y la integración continua.
 
 # text
 seg-63aa55ab596d = Este escenario incluido dura { "2" } h: { "10" } min de GNSS y después unas { "1.8" } h con el GNSS denegado. Plantea cuánto tiempo mantienen la hora, con un margen de { "20" } ns, un reloj óptico de red de estroncio y un reloj atómico de escala de chip (CSAC).
@@ -1648,12 +1557,6 @@ seg-36d838421b86 = ¿Puedo reproducir, ampliar y citar un resultado PNT, hasta l
 seg-e31cf348fc57 = SGP4 contrastado con los { "666" } vectores de referencia de AIAA 2006-6753, error de posición más desfavorable de { "4.12" } mm
 
 # text
-seg-707e2cf795f6 = <b>{ "176" } de { "388" }</b> capacidades validadas frente a referencias independientes externas; { "208" } etiquetadas con honestidad como modeladas. Cada fila de la matriz de verificación nombra una capacidad, la referencia independiente frente a la que se contrasta, la prueba que ejecuta la comprobación y la etiqueta que se deriva. La integración continua (CI) hace imposible llamar VALIDATED a una capacidad sin una referencia independiente externa.
-
-# attr:alt
-seg-2f81cf391eae = Cómo gana una capacidad su etiqueta. Cada fila de la matriz de verificación nombra una capacidad, la referencia independiente frente a la que se contrasta, la prueba que ejecuta la comprobación en integración continua y la etiqueta que se deriva. Una fila solo puede ser VALIDATED con una referencia independiente externa; si no, es MODELLED, o PARTNER cuando la posee un socio de hardware. Ejemplo: SGP4/SDP4, Cowell 6-DOF + perturbaciones, OD por lotes/secuencial, referencia independiente vectores de verificación SGP4 de AIAA 2006-6753, prueba tests/sgp4_verification.rs, etiqueta VALIDATED. Recuentos en vivo: { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER de { "388" } filas. En total, { "176" } capacidades validadas frente a referencias independientes externas; otras { "208" } están etiquetadas con honestidad como MODELLED y { "4" } son propiedad de un PARTNER.
-
-# text
 seg-23d73e23b368 = Filas
 
 # text
@@ -1664,13 +1567,6 @@ seg-0c1beb3b59cc = contrastado con la verdad analítica o con la autoconsistenci
 
 # text
 seg-9dd73106acfc = propiedad de un socio de hardware; Kshana no tiene ninguna referencia independiente para ello
-
-# text
-# c1: src/
-# c2: docs/VERIFICATION-MATRIX.md
-# c3: src/verification.rs
-# c4: docs/MODELLED-RATIONALE.md
-seg-ed47a99fac7f = Algunas de las comprobaciones: los { "666" } vectores SGP4 (Simplified General Perturbations { "4" }) de AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 con { "4.12" } mm; el modelo de fuerzas de Cowell con { "0.08" } m frente a Orekit { "12.2" }; Galileo con { "0.61" } m y Swarm-A con { "0.10" } m frente a efemérides precisas reales de la Agencia Espacial Europea (ESA). Las pruebas mantienen cerca de un { "95" } % de cobertura de líneas de <c1/>, con umbral de { "85" } % en CI. El registro es <a1><c2/></a1>, generado a partir de <c3/>: la <a2>matriz completa de 388 filas</a2>, y por qué cada fila modelada no tiene referencia independiente externa en <a3><c4/></a3>.
 
 # text
 seg-6fd41f16334e = Cómo funciona la validación, la tabla de aspectos destacados y las figuras de evidencia
@@ -1697,13 +1593,6 @@ seg-9908a7f56956 = La madurez se declara con honestidad: las cifras del reloj ó
 
 # text
 seg-ee66ab516e01 = La validación de un vistazo
-
-# text
-# c1: src/verification.rs
-# c2: docs/VALIDATION.md
-# c3: kshana-validation-summary.html
-# c4: cargo run --bin validation_report
-seg-557da03648c5 = Cada fila se hace valer mediante una prueba con nombre en CI. Esta tabla es una <b>selección de aspectos destacados</b>; la matriz completa comprobada por máquina tiene <b>{ "388" } filas — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER</b> (<c1/>), con la evidencia completa (y lo que, con honestidad, <em>no</em> está validado todavía) en <a1><c2/></a1> y el artefacto <a2><c3/></a2> de cada versión (generado por <c4/>, con atestación SLSA — Supply-chain Levels for Software Artifacts).
 
 # text
 # c1: CI
@@ -2117,9 +2006,6 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % de líneas</b> en <c1/> excluyendo <c2/> y <c3
 # text
 seg-b2789a3e7ebe = cargo-tarpaulin (motor LLVM)
 
-# attr:alt
-seg-9fcd5cdd129d = Cómo gana una capacidad su etiqueta: el requisito se asigna a un módulo de src, a una prueba de tests, a una referencia independiente externa (conjunto de datos real, implementación de referencia independiente o vectores publicados) y a un estado — con una salvaguarda aplicada por CI de que ninguna capacidad puede quedar validada sin una referencia independiente externa. Recuentos en vivo: { "176" } validadas, { "208" } modeladas, { "4" } de socio, { "388" } en total
-
 # text
 seg-5262ee45dd08 = Cómo gana una capacidad su etiqueta — el invariante aplicado por CI: sin referencia independiente externa ⇒ no puede quedar validada · <a1>SVG</a1>
 
@@ -2131,12 +2017,6 @@ seg-c550a4bde1ff = Error de posición en el caso más desfavorable de SGP4/SDP4 
 
 # text
 seg-2ad422aac6a1 = Arriba: cada fila validada está respaldada por un conjunto de datos externo, por construcción. Abajo: SGP4 coincide con la referencia oficial en todos los regímenes (caso más desfavorable { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
-
-# attr:alt
-seg-faadba4f1f85 = Estado de verificación de las { "388" } capacidades: { "176" } validadas (contrastadas con una referencia independiente externa), { "208" } modeladas, { "4" } propiedad de un socio
-
-# text
-seg-6c1edff3e035 = { "176" } validadas · { "208" } modeladas · { "4" } de socio — <a1>SVG</a1>
 
 # text
 # c1: tools/gen_readme_blocks.py
@@ -2164,14 +2044,6 @@ seg-8d953358d683 = abrir <a1>https://kshana.dev</a1>
 seg-a594acff8553 = Aquí se omite un pasaje que nombra clientes de IA de terceros; está en <a1>README.md</a1> en GitHub.
 
 # text
-# c1: npx -y kshana-mcp@0.39.0
-seg-d48f3f0dec08 = <a1>Añadir a Cursor (npx)</a1> · <a2>Añadir a Cursor (Docker)</a2> · <c1/>
-
-# text
-# c1: npx -y kshana-mcp@0.39.0
-seg-ad59014f9c8e = <a1>Instalar en VS Code (npx)</a1> · <a2>Instalar en VS Code (Docker)</a2> · <c1/>
-
-# text
 seg-2593c6d52c90 = descargue kshana-mcp-<target> de la versión y compárelo con SHA256SUMS
 
 # text
@@ -2191,12 +2063,6 @@ seg-7849acc8e680 = Kshana en el JetBrains Marketplace
 
 # text
 seg-48a01a252537 = Se compila con Rust { "1.85" } o posterior, la rust-version de Cargo.toml
-
-# text
-# c1: cargo install kshana --version 0.39.0
-# c2: pip install kshana==0.39.0
-# c3: npm install kshana@0.39.0
-seg-8edd16ad3672 = MCP es el Model Context Protocol. Fije una versión con <c1/>, <c2/> o <c3/>. Para compilar desde el código fuente, consulte <a1>Instalar y compilar</a1> en Referencia.
 
 # text
 seg-152cb43de2f3 = Ejecutar un escenario desde Python y desde WebAssembly
@@ -2221,14 +2087,8 @@ seg-f589eb87e902 = El paquete npm es el motor completo compilado a WebAssembly. 
 # text
 seg-7488a0b0a215 = Un motor abierto está en el centro y cada superficie lo ejecuta: la línea de comandos, la biblioteca de Rust, Python, WebAssembly y Kshana Studio, el servidor MCP, la imagen de Docker y el complemento de JetBrains. El mismo archivo de escenario da los mismos bytes en cada una. Kshana Pro se sitúa por encima como una capa independiente que depende del motor y nunca lo bifurca.
 
-# attr:alt
-seg-9d69cf43cd40 = Arquitectura de Kshana: un motor abierto en el centro, kshana { $version } bajo la AGPL-3.0, con api::run_toml, un despacho tipado sobre todos los tipos de escenario, y el registro de verificación de { "388" } capacidades ({ "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER). A su alrededor, cada superficie ejecuta el mismo motor: línea de comandos (cargo install kshana); biblioteca de Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagen de Docker (ghcr.io/ashfordeou/kshana-mcp); complemento de JetBrains (Marketplace: "Kshana"). Por debajo, Kshana Pro, una capa propietaria que depende del motor abierto como biblioteca, nunca lo bifurca y no añade ningún modelo físico.
-
 # text
 seg-9ac1f9e2d1b1 = Dentro del motor: las capas de dominio y el registro de verificación
-
-# attr:alt
-seg-9bc9a971bdb4 = Arquitectura de Kshana por capas. Cinco puertas de entrada (línea de comandos, Python, JavaScript y WebAssembly, el servidor MCP y el complemento de JetBrains) llegan a un único api::run_toml, un despacho tipado sobre { "87" } tipos de escenario. Por debajo hay ocho capas de dominio: tiempo y marcos, relojes y temporización, inercial y fusión, GNSS e integridad, astrodinámica, PNT LEO, Luna, Marte y espacio profundo, y misiones y estudios, sobre un núcleo compartido, todas con referencias cruzadas del módulo de verificación, la matriz comprobada por máquina de { "388" } capacidades que es la única fuente de verdad de cada etiqueta.
 
 # text
 # c1: kshana
@@ -2339,9 +2199,6 @@ seg-4a458fb861f4 = Escenarios e informes
 
 # text
 seg-44d509180c56 = Ejecutar un escenario a partir de una definición TOML (Tom's Obvious, Minimal Language)
-
-# text
-seg-87e30294e0dc = Los { "87" } tipos de escenario integrados con descripciones + campos obligatorios/opcionales — para que el agente pueda construir un escenario válido
 
 # text
 seg-ef28db290e2b = Comprobación previa: analizar el TOML y detectar su tipo de escenario, sin ejecutarlo
@@ -2526,9 +2383,6 @@ seg-22377c58ecb2 = Todo el motor es gratuito. Kshana Pro y los estudios a medida
 
 # text
 seg-a91762c0aabe = Gratis
-
-# text
-seg-eedfcdbe2b1c = todo el motor abierto, los { "87" } tipos de escenario, sin restricciones de funciones
 
 # text
 seg-af56c940e13a = una capa propietaria sobre el mismo motor, bajo contrato
@@ -3063,18 +2917,6 @@ seg-ec221fc5ace5 = Un escenario <c1/> evalúa el PNT <b>cislunar</b>: ejecuta un
 # c2: L_G
 # c3: scenarios/lunar-time-offset.toml
 seg-9b33c9203ca2 = Un escenario <c1/> informa de la <b>tasa relativista del reloj Tierra–Luna</b> — la base de una escala de Tiempo Coordenado Lunar (LTC/TCL). Una identidad postnewtoniana de primeros principios suma la diferencia de potencial propio (potencial del geoide de la IAU <c2/> menos el potencial propio de la superficie de la Luna) y el término cinético de la Luna (efecto Doppler de segundo orden) hasta una tasa secular de ≈ { "57" } µs/día, informada con la banda publicada de { "56" }–{ "59" } µs/día; también da el desfase LTC−TT acumulado a lo largo de un horizonte y un conjunto por varianza inversa (un reloj de papel lunar). <b>MODELLED</b> — la cifra principal <em>depende de la referencia</em> (geoide terrestre frente a selenoide lunar, ventana de promediado), por lo que se informa una banda y no un único número certificado (<c3/>).
-
-# text
-# c1: scenarios/
-# c2: .toml
-# c3: lunar-integrity
-# c4: scenarios/lunanet-araim.toml
-# c5: gravity-map
-# c6: scenarios/gps-denied-gravity-nav.toml
-# c7: cargo run -- --validate <file>
-# c8: list_kinds()
-# c9: list_scenario_kinds
-seg-f1efe0de99b8 = Véase <c1/> para al menos un ejemplo trabajado de cada tipo ({ "87" } tipos, { "182" } archivos de escenario <c2/> + { "1" } manifiesto de suite — varios tipos incluyen más de un ejemplo). No todos los tipos tienen un archivo con su nombre: <c3/> → <c4/> y <c5/> → <c6/> son dos de varios casos así. Puede consultar en cualquier momento los tipos despachables con los errores de <c7/>, con <c8/> de Python o con la herramienta <c9/> de MCP.
 
 # text
 # c1: adev_curve
@@ -3684,3 +3526,9 @@ seg-2658a9477dd9 = <s1>Siguiente</s1>Introducción a los conceptos
 
 # text
 seg-90a95738b32d = Infraestructura lunar (lunar-infrastructure)
+
+seg-20beca58d39e = <a1>Añadir a Cursor (npx)</a1> · <a2>Añadir a Cursor (Docker)</a2> · <c1/>
+
+seg-aa6b62f0b484 = <a1>Instalar en VS Code (npx)</a1> · <a2>Instalar en VS Code (Docker)</a2> · <c1/>
+
+seg-8e176aa32cd3 = MCP es el Model Context Protocol. Fije una versión con <c1/>, <c2/> o <c3/>. Para compilar desde el código fuente, consulte <a1>Instalar y compilar</a1> en Referencia.

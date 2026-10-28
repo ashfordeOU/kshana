@@ -37,13 +37,13 @@ seg-6b03fa15a60d = The example <c1/> sets, among others:
 seg-37d16b499bc5 = dB
 
 # text
+seg-a349aa76b0ed = PARTNER
+
+# text
 seg-f42465f7d066 = ns
 
 # text
 seg-a3697ad561db = Hz
-
-# text
-seg-f44afe581836 = { $version }
 
 # attr:alt
 seg-09760f892c7b = The chart the engine writes for scenarios/quantum-time-transfer.toml, kind quantum-time-transfer

@@ -82,8 +82,6 @@ seg-213540a79b77 = Baner og konstellationer
 
 seg-9a2a5f0a8a02 = Solsystemet
 
-seg-850aca04de28 = Alle typer, alle kommandoer og benchmarkens misser.
-
 seg-6d41d7d30d5a = Gør det til dit eget
 
 seg-a8eba5d8ef3f = Scenarieatlas
@@ -850,8 +848,6 @@ seg-7718b39ae2c6 = Hvert diagram på denne side er en scenariefil, motoren har k
 
 seg-24194ccdcdca = Start fra et hvilket som helst scenarie
 
-seg-da4764e4d161 = Vælg en af { "183" } scenariefiler fordelt på { "87" } typer, eller skriv din egen. <c1/> viser hver type med dens felter, og <c2/> udskriver en fil at starte fra.
-
 seg-5dd293dd429b = Biblioteket i Kshana Studio
 
 seg-2ae31e21c5d8 = Fastlæg satellitterne og konstellationerne
@@ -964,31 +960,11 @@ seg-58a8a796c8cb = referencekontroller
 
 seg-3cbba5a3ab3b = Nyt i v{ $version }
 
-seg-c530da682cca = Ingen ny motorfunktion: resultaterne er de samme som i { "0.38.0" }. Dokumentationen har nu en side for hver scenarietype og en liste over alle kommandoer og alle flader, og benchmarksiden angiver hver tærskel, der ikke blev nået. Kommandolinjen afslutter også stille, når dens outputrør lukkes. Hver funktion bærer den etiket, som registeret har for den, og en etiket angiver kun det, der blev kontrolleret. Vejledende software.
-
-seg-c5fc0ca71fae = Alle scenarietyper, en side til hver
-
-seg-86ff766b2c1d = Alle { "87" } scenarietyper ordnet under familier, med en side til hver type: hvad den gør, dens input, resultaterne af en eksempelkørsel, de registerrækker og uafhængige referencer, der ligger bag dens etiket, de begrænsninger, dens rapport angiver, og det diagram, motoren skriver.
-
 seg-a0b63210b807 = Læs mere
-
-seg-ccee5886cf25 = Alle kommandoer, alle flader
-
-seg-6630acb722ae = Alle kommandoer med et eksempel, du kan køre fra et checkout, og alle flader (kommandolinje, Python, Rust, WebAssembly, MCP-serveren, plugin-kommandoerne, skills og Studio-siderne) med de kommandoer og typer, de omfatter, og med begrundelsen, hvor de ikke gør det.
-
-seg-4ef6dcd0a58b = Hvilken flade bærer hvilken funktion
-
-seg-678872a862dc = Én side viser for hver kommando og type, hvilken flade der bærer den, og hvilke der ikke gør, med begrundelsen, ved siden af funktionsdomænerne og deres registeretiketter.
 
 seg-29e58493fdd4 = Modelleret
 
-seg-8e092e49bdeb = kshana-bench: de tærskler, der ikke blev nået, opgivet
-
-seg-df8f792ffa97 = Benchmarksiden viser nu hver tærskel, der ikke blev nået, som resultatfilen registrerer dem, og oplyser, at ingen tærskel er lempet.
-
 seg-54dce6366d5a = Alle medfølgende scenarier på ét kort.
-
-seg-761213eb3ce0 = Alle { "183" } scenariefiler fordelt på { "87" } typer, grupperet efter domæne; { "173" } er indbygget i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> køres fra repositoriet med kommandolinjen. Prikken viser registerstatus for typens modul, hvor registeret nævner det. En fil med en optaget kørsel åbner den i Kshana Studio; de øvrige åbner deres indgang i scenariereferencen med filen og den kommando, der kører den.
 
 seg-f53c36555404 = Filtrér efter registerstatus
 
@@ -1145,8 +1121,6 @@ seg-7d2d780c5649 = Monte Carlo-ensemble af scenariet med holdover for uret.
 seg-6f80bcd98ce4 = Referencescenarie for Kshana: kørsel på { "2" } timer, { "10" } min GNSS-synkronisering og derefter ~{ "1.8" } timer uden.
 
 seg-4a194573e324 = Variant: optisk strontiumur af laboratoriekvalitet mod CSAC.
-
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 seg-ef238a2781ad = Holdover-test, indlæsningseksempel: en tidsfejlsoptegnelse, der scores af typen holdover-test
 
@@ -1977,8 +1951,6 @@ seg-cab165105f32 = En krydsreference fra krav til modul til test til uafhængig 
 seg-ac19e38bed11 = <b>CI</b> kontinuerlig integration · <b>CSV</b> kommaseparerede værdier · <b>NIST</b> National Institute of Standards and Technology · <b>AIAA</b> American Institute of Aeronautics and Astronautics · <b>SOFA</b> Standards of Fundamental Astronomy · <b>IGS</b> International GNSS Service
 
 seg-190cdf3ca8dc = Enhed og proveniens på hver rapporteret størrelse
-
-seg-1c7bb8c3e887 = { "87" } af { "87" } arter, { "3127" } af { "3127" } numeriske felter
 
 seg-3e7fb040a7c4 = Hvert numerisk felt, et scenarie udsender, bærer en enhed og en proveniensklasse fra et lukket vokabular, med en definition, hvor en findes, offentliggjort som et maskinlæsbart skema ved siden af motoren. En ratchet-port kører hver indbygget art og fejler på et felt, der ikke har nogen; de arter, der endnu ikke er komplette, nævnes én for én med grunden til, at hver stadig er åben, og listen kan kun blive kortere. Rapporter, der angiver deres egne konstanter, som linkbudgettet for envejs og budgettet for optik og RF, lader en læser genberegne hovedtallet ud fra rapporten alene.
 

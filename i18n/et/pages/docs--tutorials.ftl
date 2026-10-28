@@ -228,16 +228,6 @@ seg-c889e5e77121 = <b>Turvalisuse</b> õppefail kasutab sees faili <c1/>: turval
 seg-89fef83a9d54 = Stsenaariumi liikide täielik kataloog
 
 # text
-# c1: kind
-# c2: src/api.rs::list_scenario_kinds()
-# c3: 87
-# c4: list_kinds()
-# c5: kshana kinds --json
-# c6: SCENARIOS.md
-# c7: tests/tutorials.rs::tutorial_scenarios_use_real_kinds
-seg-648bb07212cd = Mootor jaotab töö stsenaariumi <c1/>-id põhjal. Allolev tabel loetleb kõige sagedamini kasutatavad liigid (ülalolevad kaheksa õpetuse valdkonda ja nende lähimad naabrid). See <b>ei ole</b> täielik hulk: <c2/> tagastab kõik <c3/> sisseehitatud liiki. See funktsioon (Pythoni ja WebAssembly (WASM) sidumistes <c4/> ning käsureal <c5/>) on autoriteetne, alati ajakohane kataloog ja <a1><c6/></a1> on selle genereeritud loend, üks jaotis liigi kohta koos nõutavate ja valikuliste TOML väljadega. <c7/> tagab, et iga liik, mida õpetus dokumenteerib, on tegelik jaotusliik, nii et ükski rida selles tabelis ei saa nimetada liiki, mida pole olemas.
-
-# text
 # c1: runs > 1
 seg-0f744a3a7193 = Kella holdover spetsifikatsiooni vastu; valikuline Monte Carlo ansambel (<c1/>).
 
@@ -445,3 +435,5 @@ seg-36be39f17e35 = <s1>Eelmine</s1>Studio juhend
 
 # text
 seg-6f6204737a87 = <s1>Järgmine</s1>{ "1" } · Esimene orbiit
+
+seg-2fa9e002b3a2 = Mootor jaotab töö stsenaariumi <c1/>-id põhjal. Allolev tabel loetleb kõige sagedamini kasutatavad liigid (ülalolevad kaheksa õpetuse valdkonda ja nende lähimad naabrid). See <b>ei ole</b> täielik hulk: <c2/> tagastab kõik <c3/> sisseehitatud liiki. See funktsioon (Pythoni ja WebAssembly (WASM) sidumistes <c4/> ning käsureal <c5/>) on autoriteetne, alati ajakohane kataloog ja <a1><c6/></a1> on selle genereeritud loend, üks jaotis liigi kohta koos nõutavate ja valikuliste TOML väljadega. <c7/> tagab, et iga liik, mida õpetus dokumenteerib, on tegelik jaotusliik, nii et ükski rida selles tabelis ei saa nimetada liiki, mida pole olemas.

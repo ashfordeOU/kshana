@@ -45,9 +45,6 @@ seg-1115464be513 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-3f32e0fea066 = The example <c1/> sets, among others:
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-549a6103e711 = bit
 
 # text
@@ -98,7 +95,10 @@ seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
 seg-8f8871ac8a0f = Topic page: <a1>LUNAR-REFERENCE-STATION.md</a1>
 
 # text
-seg-2b8455001710 = <s1>Previous</s1>lunar-beacon
+seg-e66e2ca31e54 = Topic page: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+# text
+seg-f9d918743ec6 = <s1>Previous</s1>lunar-descent
 
 # text
 seg-dca7482d9d75 = <s1>Next</s1>lunar-frame-campaign

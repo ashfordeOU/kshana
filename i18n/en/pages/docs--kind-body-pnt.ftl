@@ -40,9 +40,6 @@ seg-3f1989254167 = The example <c1/> sets, among others:
 seg-5b561b4fd201 = Mars
 
 # text
-seg-37d29d8303fe = km
-
-# text
 seg-debc2f07db78 = true
 
 # text

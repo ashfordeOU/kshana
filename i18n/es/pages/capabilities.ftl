@@ -1350,11 +1350,6 @@ seg-7718b39ae2c6 = Cada gráfico de esta página es un archivo de escenario que 
 seg-24194ccdcdca = Empiece desde cualquier escenario
 
 # text
-# c1: kshana kinds --json
-# c2: kshana example
-seg-da4764e4d161 = Elija uno de { "183" } archivos de escenario repartidos en { "87" } tipos de escenario, o escriba el suyo. <c1/> enumera cada tipo de escenario con sus campos, y <c2/> imprime un archivo para empezar.
-
-# text
 seg-5dd293dd429b = La biblioteca de Kshana Studio
 
 # text
@@ -1533,56 +1528,13 @@ seg-58a8a796c8cb = comprobaciones de referencia
 seg-3cbba5a3ab3b = Novedades de la v{ $version }
 
 # text
-seg-850aca04de28 = Cada tipo de escenario, cada comando y los fallos del benchmark.
-
-# text
-seg-c530da682cca = Ninguna función nueva del motor: los resultados son los de { "0.38.0" }. La documentación tiene ahora una página para cada tipo de escenario y una lista de cada comando y cada superficie, y la página del benchmark indica cada umbral que no se alcanzó. La línea de comandos también termina en silencio cuando se cierra su tubería de salida. Cada capacidad lleva la etiqueta que el registro tiene para ella, y una etiqueta nombra solo lo que se comprobó. Software de carácter consultivo.
-
-# text
-seg-c5fc0ca71fae = Cada tipo de escenario, una página por cada uno
-
-# text
-seg-86ff766b2c1d = Los { "87" } tipos de escenario clasificados por familias, con una página para cada tipo: qué hace, sus entradas, los resultados de una ejecución de ejemplo, las filas del registro y las referencias independientes que respaldan su etiqueta, las limitaciones que indica su informe y el gráfico que escribe el motor.
-
-# text
 seg-a0b63210b807 = Leer más
-
-# text
-seg-ccee5886cf25 = Cada comando, cada superficie
-
-# text
-seg-6630acb722ae = Cada comando con un ejemplo que puede ejecutar desde una copia del repositorio, y cada superficie (línea de comandos, Python, Rust, WebAssembly, el servidor MCP, los comandos del complemento, las skills y las páginas de Studio) con los comandos y tipos de escenario que incluye y el motivo cuando no los incluye.
-
-# text
-seg-4ef6dcd0a58b = Qué superficie incluye qué capacidad
-
-# text
-seg-678872a862dc = Una página enumera, para cada comando y tipo de escenario, qué superficie lo incluye y cuáles no, con el motivo, junto a los ámbitos de capacidad y sus etiquetas del registro.
 
 # text
 seg-29e58493fdd4 = Modelado
 
 # text
-seg-8e092e49bdeb = kshana-bench: los umbrales que no se alcanzaron, indicados
-
-# text
-seg-df8f792ffa97 = La página del benchmark enumera ahora cada umbral que no se alcanzó, tal como los registra el archivo de resultados, e indica que ningún umbral se ha relajado.
-
-# text
 seg-54dce6366d5a = Todos los escenarios incluidos, en un solo mapa.
-
-# text
-# c1: celeste-iod-classical-pilot-signals
-# c2: celeste-iod-end-to-end
-# c3: celeste-iod-fused-pvt
-# c4: leo-navmsg-celeste-iod
-# c5: leo-pass-celeste-iod-multiband
-# c6: lunar-llr-datum
-# c7: lunar-station-coverage-terrain
-# c8: lunar-station-geodesy-baseline
-# c9: lunar-station-geodesy-with-station
-# c10: quantum-pnt-demonstrator.suite
-seg-761213eb3ce0 = Los { "183" } archivos de escenario repartidos en { "87" } tipos de escenario, agrupados por ámbito; { "173" } están incluidos en el motor, y <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/> se ejecutan desde el repositorio con la línea de comandos. El punto muestra el estado en el registro del módulo del tipo de escenario cuando el registro lo nombra. Un archivo con una ejecución registrada la abre en Kshana Studio; los demás abren su entrada en la referencia de escenarios, con el archivo y el comando que lo ejecuta.
 
 # attr:aria-label
 seg-f53c36555404 = Filtrar por estado en el registro
@@ -1833,10 +1785,6 @@ seg-6f80bcd98ce4 = Escenario de referencia de Kshana: ejecución de { "2" } h, {
 
 # attr:title
 seg-4a194573e324 = Variante: reloj óptico de estroncio de grado de laboratorio frente a CSAC.
-
-# text
-# c1: clock
-seg-40ae5078b131 = <c1/><a1>clock-ensemble</a1><a2>clock-holdover</a2><a3>clock-holdover-labsr</a3>
 
 # attr:title
 seg-ef238a2781ad = Prueba de holdover, ejemplo de ingesta: un registro de error de tiempo puntuado por el tipo de escenario holdover-test
@@ -3160,9 +3108,6 @@ seg-ac19e38bed11 = <b>CI</b> integración continua · <b>CSV</b> valores separad
 
 # text
 seg-190cdf3ca8dc = Unidad y procedencia en cada magnitud indicada
-
-# text
-seg-1c7bb8c3e887 = { "87" } de { "87" } tipos de escenario, { "3127" } de { "3127" } campos numéricos
 
 # text
 seg-3e7fb040a7c4 = Cada campo numérico que emite un escenario lleva una unidad y una clase de procedencia tomada de un vocabulario cerrado, con una definición cuando existe, publicado como un esquema legible por máquina junto al motor. Una compuerta de trinquete ejecuta cada tipo de escenario integrado y falla ante un campo que no lleve ninguna; los tipos de escenario aún incompletos se nombran uno por uno con el motivo por el que sigue abierto cada uno, y la lista solo puede reducirse. Los informes que indican sus propias constantes — el presupuesto de enlace unidireccional, el presupuesto óptico y de RF — permiten al lector recalcular la cifra principal solo a partir del informe.

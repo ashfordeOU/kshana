@@ -111,7 +111,7 @@ seg-6a6f8eea5767 = <b>Ledger:</b> no matrix row names this kind; the engine labe
 seg-5cea5229815e = The chart the engine writes for scenarios/hybrid-optical-rf.toml, kind hybrid-optical-rf
 
 # text
-seg-a4baaf1fbb8c = <s1>Previous</s1>Mission analysis links and space operations
+seg-22449071fb11 = <s1>Previous</s1>Mission threads
 
 # text
 seg-48792381ba0b = <s1>Next</s1>Space user navigation

@@ -2054,9 +2054,6 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: gnss_lib_py-silta kirjoittaa tämän muodon, ja se ajetaan receiver-trust-komennolla); siltojen Python-testit ovat integrations/ros2/kshana_trust/test/test_bridge.py (silta mock-moottorilla), integrations/ros2/kshana_trust/test/test_engine_integration.py (oikea wheel pisteyttää vakaan paikkaratkaisun nominaaliksi ja { "1.1" } km:n hypyn ei-luotetuksi) ja integrations/gnss_lib_py/test_bridge.py (oikea gnss_lib_py { "1.1.0" } ja wheel), ajetaan pytestillä, ei cargolla
 
 # text
-seg-e7d71a9d77a6 = { "208" } ominaisuutta merkitty tilaan MODELLED.
-
-# text
 seg-7a0503f925c1 = <s1>Edellinen</s1>Ominaisuusviite
 
 # text

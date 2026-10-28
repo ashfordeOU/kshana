@@ -107,9 +107,6 @@ seg-c2187e8291f9 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo d
 seg-b1ff6f0e1769 = Campos obligatorios: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>. Opcionales: <c13/>, <c14/>, <c15/>.
 
 # text
-seg-9bd19903f577 = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>terrain-nav</a1>.
-
-# text
 # c1: dem_seed
 # c2: start_lat_deg
 # c3: start_lon_deg

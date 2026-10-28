@@ -24,8 +24,6 @@ seg-84781b6fff48 = GDOP undefined (rank-deficient / singula
 
 seg-856eb311f24b = “undefined” (text as the document states
 
-seg-1767b216650d = defined
-
 seg-fc5d34345fdd = Resultatetikett (motorens): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
 
 seg-f15bbf30b0dd = Diagrammet motoren skriver for scenarios/cislunar-observability.toml, typen cislunar-observability

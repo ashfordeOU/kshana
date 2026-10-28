@@ -60,8 +60,6 @@ seg-0edf8c38f9eb = Bredvid den tidsarrayen blir <c1/> (<c2/>, <c3/>, <c4/>) fasr
 
 seg-608c4fed9e98 = Spår med en enhet delar panel när deras storlek ligger inom en faktor { "100" }, så att en vakt på { "50" } ns inte plattar till ett fel på { "2" } ns. Högst { "6" } paneler med { "6" } spår ritas; resten listas under <c1/>. Spår över { "2,400" } sampel tunnas ut med ett jämnt steg som behåller det sista samplet, och ett vattenfall över { "96" } × { "120" } celler medelvärdesbildas nedåt (i effekt, för decibelceller, så att en smal jammer inte späds ut).
 
-seg-b68ce4aa301f = En typ vars resultat inte bär någon av dessa former (en länkbudget, en geometri för en enda epok, en sammanfattning av enbart Monte Carlo-statistik, eller telekomholdovern, vars resultat publicerar registreringens hash men inte registreringen) avvisas med <c1/>, och ingenting skrivs. Med kshana { $version } animeras { "89" } av de { "182" } körbara scenariofilerna (varje fil utom en studiesvit) och { "93" } avvisas. <c2/> skriver ut sammanställningen.
-
 seg-c386389e4f1d = Bland LEO-typerna animeras varje medföljande scenario av typen <c1/>, <c2/> och <c3/>. <c4/> animeras i sina lägen Doppler, gemensam positionering och tidssynkronisering (en tidssynkroniseringskörning behöver <c5/>, vilket gör att varje rad rapporterar sitt tidsfel och sin predikterade sigma vid varje epok) och avvisas i sitt läge för polär täckning. <c6/> animeras för sin uppdatering mitt i passagen och avvisas för analyserna av kodning, anpassningsintervall och modelljämförelse. Resultaten <c7/> och <c8/> har ingen tidsaxel och avvisas.
 
 seg-eb31ec7a07b7 = Determinism

@@ -60,9 +60,6 @@ seg-f2cc0830b53f = Das Beispiel <c1/> setzt unter anderem:
 seg-ee5bcbbe0167 = csac
 
 # text
-seg-a6551a61cf69 = klassische Basislinie
-
-# text
 seg-f5fa445702c6 = Ergebnisbezeichnung (die der Engine): MODELLED — quantifiziert (validiert nie) eine Partneruhr/einen Partnersensor; nicht im Flug demonstriert
 
 # text

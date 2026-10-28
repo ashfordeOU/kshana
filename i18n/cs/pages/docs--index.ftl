@@ -22,17 +22,11 @@ seg-a164328ef8cd = <s1>{ "3" } · Kvantové proti klasickému</s1><s2>Vrcholný 
 
 seg-50dd8e4077fd = <s1>Propracovaný příklad: řetězec více nástrojů</s1><s2>Provede jednu trajektorii druhy scénářů založenými na standardech pro interoperabilitu a analýzu misí od začátku do…</s2>
 
-seg-78756a9f6704 = <s1>Druhy scénářů</s1><s2>{ "87" } vestavěných druhů scénářů, mezi které rozděluje kshana::api::run_toml, každý s jednořádkovým…</s2>
-
-seg-051029eb3525 = <s1>Každý druh scénáře podle rodiny</s1><s2>Každý druh scénáře, který engine v{ $version } rozděluje ({ "87" }), zařazený do { "12" } rodin.</s2>
-
 seg-86b2b5f29f35 = <s1>Každý příkaz</s1><s2>kshana <scenario.toml> spustí scénář; každý další příkaz je podpříkaz. kshana --help vypíše nápovědu…</s2>
 
 seg-e847b803a7a9 = <s1>Každý povrch</s1><s2>Jeden engine, všude stejné výsledky. docs/SURFACES.md uvádí pro každý příkaz a druh, který povrch…</s2>
 
 seg-dcd149f1b172 = <s1>Oblasti schopností</s1><s2>Každá schopnost veřejné mapy podle oblasti, s jejím označením v registru.</s2>
-
-seg-76a9b614dada = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "182" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>
 
 seg-58cdc99dfc9e = <s1>Schéma výsledku</s1><s2>Každý běh zapisuje vedle scénáře verzovaný, samopopisný artefakt JSON (JavaScript Object Notation).</s2>
 
@@ -47,10 +41,6 @@ seg-b57457566406 = <s1>Export animace</s1><s2>--animate promění časovou řadu
 seg-6e9c30a894e9 = <s1>Exporty a importy pro interoperabilitu</s1><s2>Běh zapíše dokument výsledku, graf a zprávu. --export zapíše také geometrii scénáře, nebo jeho…</s2>
 
 seg-ea5f09561b29 = <s1>Stav validace</s1><s2>O tolerancích. „Ověřeno“ níže znamená, že kalibrační test tvrdí, že simulovaná statistika odpovídá…</s2>
-
-seg-c387a74ffabb = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "388" } řádků — { "176" } VALIDATED, { "208" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-be02c7f0d48e = <s1>Reference schopností</s1><s2>Karty schopností a všech { "388" } řádků verifikační matice.</s2>
 
 seg-ae0276d1d945 = <s1>Proč řádky zůstávají modelované</s1><s2>Tyto schopnosti jsou implementovány z publikované fyziky nebo fyziky z prvních principů a s testy, ale jsou poctivě…</s2>
 
@@ -218,15 +208,11 @@ seg-69525243f8f1 = <s1>Rušení, spoofing a spektrum</s1><s2>{ "6" } druhů scé
 
 seg-0541e0421253 = <s1>Navigace z nízké oběžné dráhy Země</s1><s2>{ "7" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…</s2>
 
-seg-1da177a1654b = <s1>Lunární a cislunární</s1><s2>{ "20" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…</s2>
-
 seg-671dc0d705c5 = <s1>Analýza misí, spoje a kosmické operace</s1><s2>{ "14" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…</s2>
 
 seg-5de091b18fe4 = <s1>Optické PNT</s1><s2>{ "2" } druhy scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…</s2>
 
 seg-35db5b51a590 = <s1>Navigace uživatelů ve vesmíru</s1><s2>{ "1" } druh scénáře enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…</s2>
-
-seg-0144518c94fc = { "87" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.
 
 seg-1acf60cff708 = Nezahrnuto
 
