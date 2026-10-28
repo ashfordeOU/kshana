@@ -295,3 +295,9 @@ seg-490ebbefb561 = <s1>Edellinen</s1>Rust-crate
 seg-350b6b914734 = <s1>Seuraava</s1>MCP-palvelin: kaikki asennuskanavat
 
 seg-492888115662 = { "92" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.
+
+# text
+seg-a4a0e399a31e = <c1/> asentaa binäärin <c2/> polkuun <c3/> (tyypillisesti <c4/>). Palvelin puhuu JSON-RPC:tä (JSON remote procedure call) stdion yli; lokit menevät stderriin. Lähdekoodista rakentaminen vaatii Rust-työkaluketjun ≥ { "1.88" } (korjattu SDK <c5/> { "2" }.x vaatii sen, ja niin vaatii myös kirjasto <c6/>); Docker-image ei vaadi mitään.
+
+# text
+seg-0757e15070d4 = Palvelin on <b>itsenäinen, työtilan ulkopuolelle jätetty crate</b>, jolla on oma <c1/>, joten virallinen Rust MCP SDK (software development kit) <c2/> ja sen asynkroninen ajonaikainen ympäristö eivät koskaan päädy julkaistun craten <c3/> riippuvuuskuvaajaan: kirjasto- tai Python-käyttäjä ei käännä palvelinta, jota ei aja. (Se erotettiin ensin, koska <c4/> käyttää <b>editionia { "2024" }</b>, mikä vaatii rustc ≥ { "1.85" }, kun pääcrate lupasi silloin { "1.75" }. Kirjasto ja tämä palvelin ilmoittavat nyt molemmat { "1.88" }, tietoturvakorjatun version <c5/> { "2" }.x ja päivitettyjen RustCrypto-cratejen alarajan.) Jatkuva integrointi (CI) portittaa tämän craten erikseen — testit ja <c6/> sen omaa lukitustiedostoa vasten. rmcp:n lisenssipuu on puhdas (Apache-2.0/MIT/BSD), joten toisin kuin ristiinvalidointicrate <c7/>, jota se muuten peilaa, jako ei johdu lisensoinnista.

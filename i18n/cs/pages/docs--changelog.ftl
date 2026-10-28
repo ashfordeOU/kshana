@@ -3269,3 +3269,6 @@ seg-a4b6bfcb9984 = Nic zde není VALIDATED: řádky s orákuly testují sdílen�
 seg-29d014d29790 = Jedna aktualizace závislosti v dodávané knihovně (první položka), zbytek v nástrojích křížové validace (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> a <c3/> z verze { "0.13" } na { "0.14" } (spolu s <c4/> { "0.14.3" }, <c5/> { "0.17.0" } a <c6/> z verze { "0.5.5" } na { "0.7.10" }; také přímá závislost <c7/>, nyní { "0.7" }) odstraňují upozornění RUSTSEC-2026-0387, kolísání časování v <c8/> { "0.5.5" }. Kshana tyto knihovny používá jen k ověřování veřejných podpisů (kořenový klíč Galileo OSNMA a časová razítka RFC { "3161" }) a podepisuje jen v testech jednorázovými klíči, takže praktická expozice byla nulová; aktualizace odstraňuje upozornění bez položky ignorování. Zámkové soubory knihovny i MCP se mění oba; žádný výsledek ověření se nemění (testy vektorů OSNMA a časových razítek procházejí beze změny).
+
+# text
+seg-1a4cda9d1486 = Minimální podporovaná verze Rustu je nyní { "1.88" } (vyžaduje ji oprava RUSTSEC-2026-0387).

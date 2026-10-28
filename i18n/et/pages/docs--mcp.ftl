@@ -659,3 +659,9 @@ seg-490ebbefb561 = <s1>Eelmine</s1>Rust crate
 seg-350b6b914734 = <s1>Järgmine</s1>MCP server: kõik paigalduskanalid
 
 seg-492888115662 = { "92" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.
+
+# text
+seg-a4a0e399a31e = <c1/> paneb <c2/> teie teele <c3/> (tavaliselt <c4/>). Server räägib JSON-RPC-d (JSON remote procedure call) stdio kaudu; logid lähevad stderr-i. Lähtekoodist ehitamine vajab Rusti tööriistaahelat ≥ { "1.88" } (parandatud <c5/> { "2" }.x SDK vajab seda ja nii ka teek <c6/>); Dockeri kujutis ei vaja ühtki.
+
+# text
+seg-0757e15070d4 = Server on <b>eraldiseisev, tööruumist välja jäetud crate</b> oma failiga <c1/>, nii et ametlik Rusti MCP SDK (tarkvaraarenduskomplekt) <c2/> ja selle asünkroonne käituskeskkond ei satu kunagi avaldatud <c3/> crate'i sõltuvusgraafi: teegi või Pythoni kasutaja ei kompileeri serverit, mida ta ei käita. (See eraldati esmalt seetõttu, et <c4/> on <b>edition { "2024" }</b>, mis vajab rustc ≥ { "1.85" }, samas kui põhicrate lubas siis { "1.75" }. Teek ja see server deklareerivad nüüd mõlemad { "1.88" }, mis on turvaparandusega <c5/> { "2" }.x ja uuendatud RustCrypto cratede alampiir.) Pidev integreerimine (CI) kontrollib seda crate'i eraldi — testid ja <c6/> selle lukufaili vastu. rmcp litsentsipuu on puhas (Apache-2.0/MIT/BSD), seega erinevalt ristvalideerimise crate'ist <c7/>, mida see muidu järgib, ei ole eraldamine litsentsimise pärast.
