@@ -44,8 +44,8 @@ rest on any measured data of their own.
 
 ## What to send
 
-A submission is two files in one folder: the data and a small description of it, `submission.toml`
-(`kshana.partner-submission/1`; a worked, made-up example is `examples/partner-submission/`).
+A submission is two files in one folder: the data and a small description of it, a TOML file
+(`kshana.partner-submission/1`; a worked, made-up example is `examples/partner-submission/submission.toml`).
 
 **Clock data.** One of the formats Kshana reads (see [clock-log formats](CLOCK-LOG-FORMATS.md)): TAPR TICC logs,
 TimeLab-style ASCII phase or frequency, RINEX clock, linuxptp `ptp4l`, `phc2sys` and `ts2phc` logs, chrony tracking and
@@ -78,7 +78,7 @@ description), anything under export control or restricted by agreement, and any 
 1. **Format and metadata, by you or us, before anything runs.**
 
    ```sh
-   kshana partner check submission.toml          # add --json for a machine-readable report
+   kshana partner check <submission.toml>          # add --json for a machine-readable report
    ```
 
    It confirms the schema, the required fields, the hash, the licence and attribution rules, that the target rows exist and
