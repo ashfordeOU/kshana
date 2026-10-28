@@ -187,6 +187,10 @@ console.log("svgsafe.test.mjs: entity-expansion checks passed");
 // the node checks above stand alone; set SVGSAFE_BROWSER=1 to make a missing browser a failure.
 import { createRequire } from "node:module";
 import fs from "node:fs";
+// Playwright looks for its browsers in ~/.cache/ms-playwright unless PLAYWRIGHT_BROWSERS_PATH says otherwise; a shell without
+// the variable then crashes the launch ("Executable doesn't exist"). Use the installed set, the same way PLAYWRIGHT_MODULE
+// above defaults to the installed module. Nothing is skipped: with no browser at all the launch still fails the test.
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH && !process.env.CHROMIUM && fs.existsSync("/opt/pw-browsers")) process.env.PLAYWRIGHT_BROWSERS_PATH = "/opt/pw-browsers";
 let chromium = null;
 try {
   chromium = createRequire((process.env.PLAYWRIGHT_MODULE || "/opt/node-tools/node_modules") + "/")("playwright").chromium;
