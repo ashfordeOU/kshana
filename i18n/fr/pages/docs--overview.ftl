@@ -3614,3 +3614,12 @@ seg-824001fa6734 = laboratoires et fabricants détenant des données mesurées
 seg-df3ca402513f = quelles lignes MODELLED un enregistrement d'horloge ou d'IMU mesuré pourrait promouvoir, les formats, comment une soumission est vérifiée (<c1/>), notée et créditée
 
 seg-e2d733f93455 = Voir <c1/> pour au moins un exemple travaillé de chaque type ({ "92" } types, { "193" } fichiers de scénario <c2/> + { "1" } manifeste de suite — plusieurs types fournissent plus d'un exemple). Tous les types n'ont pas un fichier portant leur nom : <c3/> → <c4/> et <c5/> → <c6/> en sont deux parmi plusieurs. Listez les types répartissables à tout moment avec les erreurs de <c7/>, le <c8/> de Python, ou l'outil MCP <c9/>.
+
+# text
+# c1: mission-thread
+# c2: launch-ascent
+# c3: leo-rendezvous
+# c4: tli-and-cruise
+# c5: entry
+# c6: /studio/mission-thread/
+seg-88b7afd3df20 = <b>Fil de mission.</b> Le type <c1/> enchaîne des phases du lancement à l'entrée (<c2/>, <c3/>, <c4/>, <c5/> et quatre types lunaires) avec des règles de transfert déclarées, une marge par rapport à des exigences déclarées et le maillon le plus faible ; un exemple de bout en bout de classe Artemis sur { "11" } phases (segments terrestre et lunaire), { "92" } types de scénario au total. Chaque nombre est MODELLED. La propagation cislunaire par rapport à la trajectoire publique d'Artemis I <b>n'atteint pas</b> son seuil préenregistré ({ "45.3" } km et { "0.25" } m/s contre { "5" } km et { "0.05" } m/s ; la cause est de petites manœuvres que le modèle n'inclut pas), et le propagateur lunaire par rapport à l'orbite de CAPSTONE <b>n'atteint pas</b> le sien ({ "136.8" } km contre { "25" } km à la fin d'une révolution) ; la comparaison avec LRO est atteinte. Les lignes restent MODELLED (<a1>Fil de mission</a1>, <a2>segment lunaire</a2>). Dans le Studio, le fil se lit à <c6/>.
