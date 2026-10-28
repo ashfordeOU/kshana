@@ -72,9 +72,9 @@ seg-60864f168701 = 地上ラボ / 観測ロケット
 
 seg-84a68aeb467d = Kshana の光時計の数値は、<em>地上ハードウェアでの宇宙目標</em>です。飛行実績のある光時計は存在せず、README と結果の来歴にもその旨を明記しています。
 
-seg-a204c1b854fa = ベンチマーク：ISS 上の ACES/PHARAO（{ "2025" } 年4月から運用中）
+seg-a204c1b854fa = ベンチマーク：ISS 上の ACES/PHARAO（{ "2025" } 年四月から運用中）
 
-seg-fb88de1257bd = ESA（欧州宇宙機関）の <b>ACES/PHARAO</b> ペイロード（ACES：Atomic Clock Ensemble in Space、PHARAO：Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite）は、レーザー冷却セシウム時計と能動型水素メーザーから成り、{ "2025" } 年4月から ISS（国際宇宙ステーション）で運用されており、現在の軌道上の時計安定度の運用ベンチマークです（数日間の積分後の目標分数安定度は { "1e-16" } 程度）。Kshana の光時計モデルは、ACES が飛行で示したセシウム/メーザーの性能より<em>意欲的な</em>、地上ラボの目標を表しています。Kshana の光学の数値を「実際に飛行したもの」と比較する際は、ACES/PHARAO が誠実な基準点ですが、これはマイクロ波/メーザーのシステムであり、光格子時計ではありません。
+seg-fb88de1257bd = ESA（欧州宇宙機関）の <b>ACES/PHARAO</b> ペイロード（ACES：Atomic Clock Ensemble in Space、PHARAO：Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite）は、レーザー冷却セシウム時計と能動型水素メーザーから成り、{ "2025" } 年四月から ISS（国際宇宙ステーション）で運用されており、現在の軌道上の時計安定度の運用ベンチマークです（数日間の積分後の目標分数安定度は { "1e-16" } 程度）。Kshana の光時計モデルは、ACES が飛行で示したセシウム/メーザーの性能より<em>意欲的な</em>、地上ラボの目標を表しています。Kshana の光学の数値を「実際に飛行したもの」と比較する際は、ACES/PHARAO が誠実な基準点ですが、これはマイクロ波/メーザーのシステムであり、光格子時計ではありません。
 
 seg-9d2e850cb986 = ACES の軌道上での正確な性能の数値は、ESA が結果を公表した時点で、その公表結果から引用する必要があります。ここで重要なのは特定の数値ではなく<em>成熟度の差</em>です。Kshana の光学の数値は目標であり、飛行時の性能ではありません。
 
