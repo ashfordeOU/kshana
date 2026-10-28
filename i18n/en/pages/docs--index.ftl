@@ -53,7 +53,7 @@ seg-e847b803a7a9 = <s1>Every surface</s1><s2>One engine, the same results everyw
 seg-dcd149f1b172 = <s1>Capability domains</s1><s2>Every capability of the public map, by domain, with its ledger label.</s2>
 
 # text
-seg-2c002a7b7640 = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "192" }), grouped by kind, with its key settings.</s2>
+seg-a1f33bd571ed = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "193" }), grouped by kind, with its key settings.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Result schema</s1><s2>Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.</s2>

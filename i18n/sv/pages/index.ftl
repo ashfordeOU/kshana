@@ -749,12 +749,6 @@ seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
 
 seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samma motor, förstärkt: { "608" } utformningar, en Pareto-front</s2>
 
-seg-f4d3b1f5b1b4 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
-
-seg-3287261002dd = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-510663384be1 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
-
 seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
 
 seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
@@ -776,3 +770,9 @@ seg-b9961ed25282 = Nytt i v{ $version }: ett uppdragsflöde, en evidensetikett p
 seg-653cf3198094 = { "176" } av { "401" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.
 
 seg-76b213d03caa = Alla { "92" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.
+
+seg-cff488aa106d = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+seg-fddfe8b260be = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-388f14eb6d8d = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }

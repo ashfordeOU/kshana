@@ -8547,8 +8547,6 @@ dat-fe6d68d3c1f9 = Covarianza en la interfaz de entrada, probabilidad de corredo
 
 dat-f6759242b1a9 = Errores y sus códigos
 
-dat-0488b2056745 = Cada archivo de escenario incluido ({ "192" }), agrupado por tipo de escenario, con sus ajustes principales.
-
 dat-c0206ef96894 = Cada tipo de escenario que despacha el motor v{ $version } ({ "92" }), clasificado en { "13" } familias.
 
 dat-59385aaf8a98 = Igualdad exacta con el tipo de escenario existente para un emplazamiento, y comprobaciones de monotonicidad, en las pruebas. El conjunto de relés es ILLUSTRATIVE y no se compara ninguna medición de superficie
@@ -8734,3 +8732,5 @@ dat-82201a0b07b0 = Novedades de { "0.40" }
 dat-b3d9ac894036 = Su propio reloj
 
 dat-286487acb3db = Comprobaciones de geometría de cenit y antípoda y la visibilidad esperada de un objetivo distante en las pruebas. No se modela ninguna red, antena ni programación reales
+
+dat-b8b659cbbefa = Cada archivo de escenario incluido ({ "193" }), agrupado por tipo de escenario, con sus ajustes principales.

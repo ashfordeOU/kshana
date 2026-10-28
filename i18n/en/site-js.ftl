@@ -47,214 +47,214 @@ js-site-capabilities-bd-fig-lead = Time since GNSS was lost on the log axis, a {
 # src/js/capabilities.mjs:695
 js-site-capabilities-bd-fig-tail = The lines are the engine's short-coast growth laws and their root-sum-square; the crossings come from its full nine-state (Schuler) error model, which bounds the bias terms, so on long coasts each crossing comes a little later than the line reaches it. The bars: the same crossings for four IMU grades.
 
-# src/js/capabilities.mjs:816
+# src/js/capabilities.mjs:817
 js-site-capabilities-cd-canvas-aria = Constellation around its body, real imagery: drag or arrow keys to turn, plus and minus to zoom
 
-# src/js/capabilities.mjs:746
+# src/js/capabilities.mjs:747
 js-site-capabilities-cd-design-meta = { $n } satellites · { $body } · { $file }
 
-# src/js/capabilities.mjs:788
+# src/js/capabilities.mjs:789
 js-site-capabilities-cd-foot-frozen = Each satellite follows the engine's own track; the frozen-orbit radius comes from the shell's elements.
 
-# src/js/capabilities.mjs:789
+# src/js/capabilities.mjs:790
 js-site-capabilities-cd-foot-mean-motion = Each satellite follows the engine's own track, at the radius its mean motion implies.
 
-# src/js/capabilities.mjs:786
+# src/js/capabilities.mjs:787
 js-site-capabilities-cd-foot-walker = All { $n } satellites are placed from the shells' own Walker parameters (checked against the engine's { $shown } tracks: worst { $deg }°); trails are the engine's { $shown } tracks.
 
-# src/js/capabilities.mjs:819
+# src/js/capabilities.mjs:820
 js-site-capabilities-cd-hud-body = { $body } · «{ $n }» satellites
 
-# src/js/capabilities.mjs:820
+# src/js/capabilities.mjs:821
 js-site-capabilities-cd-hud-mission = Mission «{ $time }»
 
-# src/js/capabilities.mjs:782
+# src/js/capabilities.mjs:783
 js-site-capabilities-cd-legend-shell = shell { $n } · { $inc }°
 
-# src/js/capabilities.mjs:803
+# src/js/capabilities.mjs:804
 js-site-capabilities-cd-map-availability = Share of the run with PDOP ≤ { $limit } (0 to 100 %)
 
-# src/js/capabilities.mjs:804
+# src/js/capabilities.mjs:805
 js-site-capabilities-cd-map-pdop = Mean PDOP per { $step }° cell ({ $lo } to { $hi }; brighter is better)
 
-# src/js/capabilities.mjs:805
+# src/js/capabilities.mjs:806
 js-site-capabilities-cd-map-visible = Mean satellites in view ({ $lo } to { $hi })
 
-# src/js/capabilities.mjs:757
+# src/js/capabilities.mjs:758
 js-site-capabilities-cd-metric-availability = Availability
 
-# src/js/capabilities.mjs:757
+# src/js/capabilities.mjs:758
 js-site-capabilities-cd-metric-pdop = Mean PDOP
 
-# src/js/capabilities.mjs:757
+# src/js/capabilities.mjs:758
 js-site-capabilities-cd-metric-visible = In view
 
-# src/js/capabilities.mjs:809
+# src/js/capabilities.mjs:810
 js-site-capabilities-cd-no-webgl = 3-D view needs WebGL; the coverage map and figures are the same run.
 
-# src/js/capabilities.mjs:812
+# src/js/capabilities.mjs:813
 js-site-capabilities-cd-pause = Pause the orbits
 
-# src/js/capabilities.mjs:812
+# src/js/capabilities.mjs:813
 js-site-capabilities-cd-play = Play the orbits
 
-# src/js/capabilities.mjs:749
+# src/js/capabilities.mjs:750
 js-site-capabilities-cd-shell = { $name }: Walker { $pattern } { $total }/{ $planes }/{ $phasing } · { $alt } km · { $inc }°
 
-# src/js/capabilities.mjs:750
+# src/js/capabilities.mjs:751
 js-site-capabilities-cd-slots = { $name }: { $n } satellites, operator's slot table
 
-# src/js/capabilities.mjs:784
+# src/js/capabilities.mjs:785
 js-site-capabilities-cd-span = of { $dur }, looped
 
-# src/js/capabilities.mjs:770
+# src/js/capabilities.mjs:771
 js-site-capabilities-cd-stat-in-view = Mean in view
 
-# src/js/capabilities.mjs:771
+# src/js/capabilities.mjs:772
 js-site-capabilities-cd-stat-mask = Mask · run
 
-# src/js/capabilities.mjs:769
+# src/js/capabilities.mjs:770
 js-site-capabilities-cd-stat-median = Median PDOP
 
-# src/js/capabilities.mjs:767
+# src/js/capabilities.mjs:768
 js-site-capabilities-cd-stat-pdop = PDOP ≤ { $limit }, whole { $body }
 
-# src/js/capabilities.mjs:766
+# src/js/capabilities.mjs:767
 js-site-capabilities-cd-stat-satellites = Satellites
 
-# src/js/capabilities.mjs:768
+# src/js/capabilities.mjs:769
 js-site-capabilities-cd-stat-worst = Worst site
 
-# src/js/capabilities.mjs:741
+# src/js/capabilities.mjs:742
 js-site-capabilities-cd-title-gnss = Four GNSS together
 
-# src/js/capabilities.mjs:741
+# src/js/capabilities.mjs:742
 js-site-capabilities-cd-title-leo = Low-Earth-orbit mega-constellation
 
-# src/js/capabilities.mjs:741
+# src/js/capabilities.mjs:742
 js-site-capabilities-cd-title-lunar = Lunar relay set
 
-# src/js/capabilities.mjs:779
+# src/js/capabilities.mjs:780
 js-site-capabilities-cd-work-ratio = { $pct } % after the latitude prefilter · { $dop } DOP solutions
 
-# src/js/capabilities.mjs:778
+# src/js/capabilities.mjs:779
 js-site-capabilities-cd-work-tests = { $after } satellite-point tests of { $brute } a brute-force scan would make
 
-# src/js/capabilities.mjs:777
+# src/js/capabilities.mjs:778
 js-site-capabilities-cd-work-title = Visibility work
 
-# src/js/capabilities.mjs:942
+# src/js/capabilities.mjs:943
 js-site-capabilities-cg-cn0-sub = C/N0 against the tracking floor
 
-# src/js/capabilities.mjs:942
+# src/js/capabilities.mjs:943
 js-site-capabilities-cg-cn0-title = Carrier-to-noise density
 
-# src/js/capabilities.mjs:1028
+# src/js/capabilities.mjs:1029
 js-site-capabilities-cg-compose-availability = Availability
 
-# src/js/capabilities.mjs:1028
+# src/js/capabilities.mjs:1029
 js-site-capabilities-cg-compose-fewest = Fewest tracked
 
-# src/js/capabilities.mjs:1028
+# src/js/capabilities.mjs:1029
 js-site-capabilities-cg-compose-js = Mean J/S
 
-# src/js/capabilities.mjs:1037
+# src/js/capabilities.mjs:1038
 js-site-capabilities-cg-compose-text = One jammer, { $power } { $unit }, at one place, bound into { $n } member runs of the ‹{ $kind }› kind: a ship in a strait and a car on a coast road see the same cause and get different answers.
 
-# src/js/capabilities.mjs:973
+# src/js/capabilities.mjs:974
 js-site-capabilities-cg-log-campaign = campaign { $file } · { $phases } phases · { $runs } member runs
 
-# src/js/capabilities.mjs:974
+# src/js/capabilities.mjs:975
 js-site-capabilities-cg-log-phase = phase { $name } starts
 
-# src/js/capabilities.mjs:974
+# src/js/capabilities.mjs:975
 js-site-capabilities-cg-log-phase-carries = phase { $name } starts · carries { $carried }
 
-# src/js/capabilities.mjs:1017
+# src/js/capabilities.mjs:1018
 js-site-capabilities-cg-monte-axis = final clock error over { $n } seeds ({ $path })
 
-# src/js/capabilities.mjs:1022
+# src/js/capabilities.mjs:1023
 js-site-capabilities-cg-monte-ci = Mean, 95 % interval
 
-# src/js/capabilities.mjs:1022
+# src/js/capabilities.mjs:1023
 js-site-capabilities-cg-monte-mean = Mean
 
-# src/js/capabilities.mjs:1016
+# src/js/capabilities.mjs:1017
 js-site-capabilities-cg-monte-p05 = 5th
 
-# src/js/capabilities.mjs:1022
+# src/js/capabilities.mjs:1023
 js-site-capabilities-cg-monte-p05-p95 = 5th to 95th
 
-# src/js/capabilities.mjs:1016
+# src/js/capabilities.mjs:1017
 js-site-capabilities-cg-monte-p50 = median
 
-# src/js/capabilities.mjs:1016
+# src/js/capabilities.mjs:1017
 js-site-capabilities-cg-monte-p95 = 95th
 
-# src/js/capabilities.mjs:1022
+# src/js/capabilities.mjs:1023
 js-site-capabilities-cg-monte-std = Standard deviation
 
-# src/js/capabilities.mjs:1020
+# src/js/capabilities.mjs:1021
 js-site-capabilities-cg-monte-text = The same ‹{ $kind }› scenario run { $n } times from base seed { $seed }, one seed each: the spread of the free-running clock's final error, with its 95 % confidence interval on the mean.
 
-# src/js/capabilities.mjs:969
+# src/js/capabilities.mjs:970
 js-site-capabilities-cg-not-in-phase = not in this phase
 
-# src/js/capabilities.mjs:972
+# src/js/capabilities.mjs:973
 js-site-capabilities-cg-now = Phase { $n } of { $total }: { $name } · { $from } to { $to }
 
-# src/js/capabilities.mjs:940
+# src/js/capabilities.mjs:941
 js-site-capabilities-cg-phase-title = { $name }: { $from } to { $to } · ended by { $by } · member kinds { $kinds }
 
-# src/js/capabilities.mjs:944
+# src/js/capabilities.mjs:945
 js-site-capabilities-cg-pl-sub = against the alert limit
 
-# src/js/capabilities.mjs:944
+# src/js/capabilities.mjs:945
 js-site-capabilities-cg-pl-title = Protection level
 
-# src/js/capabilities.mjs:945
+# src/js/capabilities.mjs:946
 js-site-capabilities-cg-pos-sub = against its budget · log
 
-# src/js/capabilities.mjs:945
+# src/js/capabilities.mjs:946
 js-site-capabilities-cg-pos-title = Inertial position error
 
-# src/js/capabilities.mjs:1022
+# src/js/capabilities.mjs:1023
 js-site-capabilities-cg-range = { $lo } to { $hi }
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-all-lost = All lost from
 
-# src/js/capabilities.mjs:998
+# src/js/capabilities.mjs:999
 js-site-capabilities-cg-sweep-axis = jammer transmit power ({ $key })
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-first-loss = First loss
 
-# src/js/capabilities.mjs:1003
+# src/js/capabilities.mjs:1004
 js-site-capabilities-cg-sweep-lg-availability = availability
 
-# src/js/capabilities.mjs:1003
+# src/js/capabilities.mjs:1004
 js-site-capabilities-cg-sweep-lg-js = mean J/S
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-never = never
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-nodes = Nodes
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-none = none
 
-# src/js/capabilities.mjs:1005
+# src/js/capabilities.mjs:1006
 js-site-capabilities-cg-sweep-span = J/S span
 
-# src/js/capabilities.mjs:1002
+# src/js/capabilities.mjs:1003
 js-site-capabilities-cg-sweep-text = One ‹{ $kind }› scenario, run once per node as the jammer's transmit power steps from { $from } to { $to } { $unit }. Availability under jamming (solid) and mean J/S (dashed) come from each member run's own figures of merit.
 
-# src/js/capabilities.mjs:943
+# src/js/capabilities.mjs:944
 js-site-capabilities-cg-te-sub = against its guard
 
-# src/js/capabilities.mjs:943
+# src/js/capabilities.mjs:944
 js-site-capabilities-cg-te-title = Clock time error
 
 # src/js/capabilities.mjs:109
@@ -263,19 +263,19 @@ js-site-capabilities-copy = Copy
 # src/js/capabilities.mjs:108
 js-site-capabilities-copy-aria = Copy the command that reproduces the run: kshana { $file }
 
-# src/js/capabilities.mjs:1387
+# src/js/capabilities.mjs:1388
 js-site-capabilities-cz-best = Best PDOP
 
-# src/js/capabilities.mjs:1374
+# src/js/capabilities.mjs:1375
 js-site-capabilities-cz-failed = The recorded run could not be loaded here; open it in the Studio instead.
 
-# src/js/capabilities.mjs:1386
+# src/js/capabilities.mjs:1387
 js-site-capabilities-cz-fix = Samples with a position fix
 
-# src/js/capabilities.mjs:1386
+# src/js/capabilities.mjs:1387
 js-site-capabilities-cz-fix-value = { $n } of { $total } ({ $pct }%)
 
-# src/js/capabilities.mjs:1388
+# src/js/capabilities.mjs:1389
 js-site-capabilities-cz-median = Median PDOP
 
 # src/js/capabilities.mjs:90
@@ -287,13 +287,13 @@ js-site-capabilities-engine-build = Engine v{ $version }, build
 # src/js/capabilities.mjs:104
 js-site-capabilities-engine-report = Engine report
 
-# src/js/capabilities.mjs:1287
+# src/js/capabilities.mjs:1288
 js-site-capabilities-globe-aria = { $name } on its real imagery ({ $credit }). Drag or use the arrow keys to turn it; plus and minus zoom.
 
-# src/js/capabilities.mjs:1334
+# src/js/capabilities.mjs:1335
 js-site-capabilities-ho-ends = run ends at { $t }
 
-# src/js/capabilities.mjs:1337
+# src/js/capabilities.mjs:1338
 js-site-capabilities-ho-past-guard = past guard
 
 # src/js/capabilities.mjs:92
@@ -305,28 +305,28 @@ js-site-capabilities-open-in-studio = Open in { $studio }
 # src/js/capabilities.mjs:104
 js-site-capabilities-open-report = Open the engine's report
 
-# src/js/capabilities.mjs:1186
+# src/js/capabilities.mjs:1187
 js-site-capabilities-orrery-aria = The solar system at the run's epoch: drag or arrow keys to turn, plus and minus to zoom
 
-# src/js/capabilities.mjs:1228
+# src/js/capabilities.mjs:1229
 js-site-capabilities-orrery-bodies = { $n } bodies · observer «{ $observer }»
 
-# src/js/capabilities.mjs:1227
+# src/js/capabilities.mjs:1228
 js-site-capabilities-orrery-epoch = Epoch «{ $epoch }» · TDB (Barycentric Dynamical Time), Julian date { $jd }
 
-# src/js/capabilities.mjs:1134
+# src/js/capabilities.mjs:1135
 js-site-capabilities-pnt-chart-title = relays in view (line) · Earth above the horizon (shaded) · four needed for a fix
 
-# src/js/capabilities.mjs:1121
+# src/js/capabilities.mjs:1122
 js-site-capabilities-pnt-kicker = Positioning at this body · body-pnt kind
 
-# src/js/capabilities.mjs:1124
+# src/js/capabilities.mjs:1125
 js-site-capabilities-pnt-lander = A lander at { $lat }°, { $lon }° on the surface navigates on the relays, with a two-way range from Earth whenever Earth is above the horizon (one-way light time { $min } min). Availability: { $a } % on the relays alone, { $b } % with the Earth link.
 
-# src/js/capabilities.mjs:1125
+# src/js/capabilities.mjs:1126
 js-site-capabilities-pnt-orbiter = An orbiting user navigates on the relays, with a two-way range from Earth whenever Earth is above the horizon (one-way light time { $min } min). Availability: { $a } % on the relays alone, { $b } % with the Earth link.
 
-# src/js/capabilities.mjs:1121
+# src/js/capabilities.mjs:1122
 js-site-capabilities-pnt-relays = { $n } relays at { $alt } km around { $body }
 
 # src/js/capabilities.mjs:97
@@ -395,78 +395,78 @@ js-site-capabilities-six-spoof-detects = { $id } detects
 # src/js/capabilities.mjs:550
 js-site-capabilities-six-spoof-fig = «{ $id }» detects at { $s } s (bound { $ns } ns)
 
-# src/js/capabilities.mjs:1085
+# src/js/capabilities.mjs:1086
 js-site-capabilities-ss-angle = Angle from the Sun
 
-# src/js/capabilities.mjs:1053
+# src/js/capabilities.mjs:1054
 js-site-capabilities-ss-credit = Imagery: { $credits }. * Map stops short of the poles; the gap takes the map's polar mean colour. Saturn's rings: { $ring } ({ $licence }).
 
-# src/js/capabilities.mjs:1083
+# src/js/capabilities.mjs:1084
 js-site-capabilities-ss-days = { $v } days
 
-# src/js/capabilities.mjs:1076
+# src/js/capabilities.mjs:1077
 js-site-capabilities-ss-frame-origin = Frame origin
 
-# src/js/capabilities.mjs:1084
+# src/js/capabilities.mjs:1085
 js-site-capabilities-ss-from-sun = From the Sun
 
-# src/js/capabilities.mjs:1088
+# src/js/capabilities.mjs:1089
 js-site-capabilities-ss-gloss = NAIF: the body code of NASA's Navigation and Ancillary Information Facility. GM: gravitational parameter. J2: oblateness term. IAU pole: the International Astronomical Union rotation pole, as right ascension (RA) and declination (Dec).
 
-# src/js/capabilities.mjs:1082
+# src/js/capabilities.mjs:1083
 js-site-capabilities-ss-j2-none = none published
 
-# src/js/capabilities.mjs:1077
+# src/js/capabilities.mjs:1078
 js-site-capabilities-ss-kind = { $class } · NAIF { $naif }
 
-# src/js/capabilities.mjs:1077
+# src/js/capabilities.mjs:1078
 js-site-capabilities-ss-kind-of = { $class } of { $parent } · NAIF { $naif }
 
-# src/js/capabilities.mjs:1085
+# src/js/capabilities.mjs:1086
 js-site-capabilities-ss-light-time = Light time from { $observer }
 
-# src/js/capabilities.mjs:1091
+# src/js/capabilities.mjs:1092
 js-site-capabilities-ss-link = { $from } to { $to }, one-way light time { $one }, round trip { $two }
 
-# src/js/capabilities.mjs:1091
+# src/js/capabilities.mjs:1092
 js-site-capabilities-ss-links-lead =
     { $n ->
         [one] Link this run computes:
        *[other] Links this run computes:
     }
 
-# src/js/capabilities.mjs:1094
+# src/js/capabilities.mjs:1095
 js-site-capabilities-ss-moons =
     { $n ->
         [one] Its moon, to scale, at the epoch
        *[other] Its moons, to scale, at the epoch
     }
 
-# src/js/capabilities.mjs:1106
+# src/js/capabilities.mjs:1107
 js-site-capabilities-ss-nominal-error = nominal error { $km } km in distance
 
-# src/js/capabilities.mjs:1103
+# src/js/capabilities.mjs:1104
 js-site-capabilities-ss-north = Seen from the north of the ecliptic.
 
-# src/js/capabilities.mjs:1083
+# src/js/capabilities.mjs:1084
 js-site-capabilities-ss-period = Orbital period
 
-# src/js/capabilities.mjs:1083
+# src/js/capabilities.mjs:1084
 js-site-capabilities-ss-period-about = Period about { $parent }
 
-# src/js/capabilities.mjs:1086
+# src/js/capabilities.mjs:1087
 js-site-capabilities-ss-pole = IAU pole (RA, Dec)
 
-# src/js/capabilities.mjs:1081
+# src/js/capabilities.mjs:1082
 js-site-capabilities-ss-radius = Mean radius
 
-# src/js/capabilities.mjs:1080
+# src/js/capabilities.mjs:1081
 js-site-capabilities-ss-retrograde = { $v } h, retrograde
 
-# src/js/capabilities.mjs:1082
+# src/js/capabilities.mjs:1083
 js-site-capabilities-ss-rotation = Sidereal rotation
 
-# src/js/capabilities.mjs:1083
+# src/js/capabilities.mjs:1084
 js-site-capabilities-ss-years = { $v } years
 
 # src/js/capabilities.mjs:653
@@ -490,13 +490,13 @@ js-site-capabilities-st-normal = normal operation
 # src/js/capabilities.mjs:651
 js-site-capabilities-st-unavailable = unavailable: bound above the limit
 
-# src/js/capabilities.mjs:1408
+# src/js/capabilities.mjs:1409
 js-site-capabilities-studio-embedded = { $studio }, embedded: the orbit-multignss run
 
-# src/js/capabilities.mjs:1406
+# src/js/capabilities.mjs:1407
 js-site-capabilities-studio-load = Load { $studio } here
 
-# src/js/capabilities.mjs:1410
+# src/js/capabilities.mjs:1411
 js-site-capabilities-studio-outline = Show the outline again
 
 # src/js/capabilities.mjs:259
@@ -1290,58 +1290,58 @@ js-site-menu-close = Close the menu
 # src/site.js:72
 js-site-menu-open = Open the menu
 
-# src/js/missions.mjs:658
+# src/js/missions.mjs:661
 js-site-missions-avail-title = Availability: share of the run with PDOP ≤ { $limit }
 
-# src/js/missions.mjs:657
+# src/js/missions.mjs:660
 js-site-missions-avail-uniform = { $v } % in every cell
 
-# src/js/missions.mjs:880
+# src/js/missions.mjs:883
 js-site-missions-chart-error-title = position error (m, log)
 
-# src/js/missions.mjs:875
+# src/js/missions.mjs:878
 js-site-missions-chart-four = four needed for a fix
 
-# src/js/missions.mjs:875
+# src/js/missions.mjs:878
 js-site-missions-chart-four-short = four for a fix
 
-# src/js/missions.mjs:885
+# src/js/missions.mjs:888
 js-site-missions-chart-lg-earth = Earth visible
 
-# src/js/missions.mjs:885
+# src/js/missions.mjs:888
 js-site-missions-chart-lg-error-earth = error, relays and Earth range
 
-# src/js/missions.mjs:885
+# src/js/missions.mjs:888
 js-site-missions-chart-lg-error-relays = error, relays only
 
-# src/js/missions.mjs:885
+# src/js/missions.mjs:888
 js-site-missions-chart-lg-relays = relays in view
 
-# src/js/missions.mjs:876
+# src/js/missions.mjs:879
 js-site-missions-chart-relays-title = relays in view · shaded: Earth above the horizon
 
-# src/js/missions.mjs:564
+# src/js/missions.mjs:565
 js-site-missions-chip-at-pdop = at PDOP ≤ { $limit }
 
-# src/js/missions.mjs:570
+# src/js/missions.mjs:573
 js-site-missions-chip-engine = Engine:
 
-# src/js/missions.mjs:565
+# src/js/missions.mjs:566
 js-site-missions-chip-fix-earth = fix, with Earth
 
-# src/js/missions.mjs:564
+# src/js/missions.mjs:565
 js-site-missions-chip-median-pdop = median PDOP
 
-# src/js/missions.mjs:565
+# src/js/missions.mjs:566
 js-site-missions-chip-relays = relays
 
-# src/js/missions.mjs:565
+# src/js/missions.mjs:566
 js-site-missions-chip-rms = RMS error
 
-# src/js/missions.mjs:564
+# src/js/missions.mjs:565
 js-site-missions-chip-satellites = satellites
 
-# src/js/missions.mjs:567
+# src/js/missions.mjs:568
 js-site-missions-chip-tracking-held = { $label } tracking held
 
 # src/js/missions.mjs:284
@@ -1359,70 +1359,70 @@ js-site-missions-clocks-sigma = σy(1 s) { $sigma }
 # src/js/missions.mjs:290
 js-site-missions-clocks-title = { $clock }: { $ns } ns after one day, σy(1 s) { $sigma }
 
-# src/js/missions.mjs:311
+# src/js/missions.mjs:312
 js-site-missions-cone-aria = Position-error cone since GNSS was lost
 
-# src/js/missions.mjs:314
+# src/js/missions.mjs:315
 js-site-missions-cone-axis-x = time since GNSS was lost (s)
 
-# src/js/missions.mjs:315
+# src/js/missions.mjs:316
 js-site-missions-cone-axis-y = position error (m)
 
-# src/js/missions.mjs:322
+# src/js/missions.mjs:323
 js-site-missions-cone-budget = ±{ $m } m budget
 
-# src/js/missions.mjs:327
+# src/js/missions.mjs:328
 js-site-missions-cone-clipped = clipped at ±{ $m } m
 
-# src/js/missions.mjs:324
+# src/js/missions.mjs:325
 js-site-missions-cone-leaves = leaves at { $s } s
 
-# src/js/missions.mjs:335
+# src/js/missions.mjs:336
 js-site-missions-cone-readout = t { $t } s · { $errors }
 
-# src/js/missions.mjs:479
+# src/js/missions.mjs:480
 js-site-missions-copy-command = Copy command
 
-# src/js/missions.mjs:479
+# src/js/missions.mjs:480
 js-site-missions-copy-title = Copy the command that reproduces it
 
-# src/js/missions.mjs:987
+# src/js/missions.mjs:990
 js-site-missions-deterministic = deterministic
 
-# src/js/missions.mjs:487
+# src/js/missions.mjs:488
 js-site-missions-engine-build = Engine v{ $version }, build
 
-# src/js/missions.mjs:590
+# src/js/missions.mjs:593
 js-site-missions-engine-build-commit = Engine v{ $version }, build { $commit }
 
-# src/js/missions.mjs:393
+# src/js/missions.mjs:394
 js-site-missions-fp-aria = Jamming footprint map. Arrow keys move between cells, Enter opens that run.
 
-# src/js/missions.mjs:370
+# src/js/missions.mjs:371
 js-site-missions-fp-aria-svg = Jamming footprint around the jammer
 
-# src/js/missions.mjs:388
+# src/js/missions.mjs:389
 js-site-missions-fp-darker = darker = higher mean J/S · { $step } km cells · { $n } engine runs
 
-# src/js/missions.mjs:381
+# src/js/missions.mjs:382
 js-site-missions-fp-jammer = jammer
 
-# src/js/missions.mjs:385
+# src/js/missions.mjs:386
 js-site-missions-fp-lg-held = tracking held
 
-# src/js/missions.mjs:385
+# src/js/missions.mjs:386
 js-site-missions-fp-lg-lost = every satellite lost
 
-# src/js/missions.mjs:385
+# src/js/missions.mjs:386
 js-site-missions-fp-lg-some = some epochs lost
 
-# src/js/missions.mjs:418
+# src/js/missions.mjs:419
 js-site-missions-fp-open = Open this run in { $studio }
 
-# src/js/missions.mjs:419
+# src/js/missions.mjs:420
 js-site-missions-fp-read = about { $km } km from the jammer · mean J/S { $js } dB · tracking availability { $av }
 
-# src/js/missions.mjs:382
+# src/js/missions.mjs:383
 js-site-missions-fp-ship = the scenario's ship
 
 # src/js/missions.mjs:209
@@ -1443,267 +1443,267 @@ js-site-missions-grades-speed = at { $v } m/s
 # src/js/missions.mjs:221
 js-site-missions-grades-this = this scenario
 
-# src/js/missions.mjs:1206
+# src/js/missions.mjs:1209
 js-site-missions-hud-earth-link = Earth link
 
-# src/js/missions.mjs:1271
+# src/js/missions.mjs:1274
 js-site-missions-hud-link-above = Earth link · above the horizon
 
-# src/js/missions.mjs:1271
+# src/js/missions.mjs:1274
 js-site-missions-hud-link-occulted = Earth link · occulted
 
-# src/js/missions.mjs:1203
+# src/js/missions.mjs:1206
 js-site-missions-hud-orbiter = Orbiter
 
-# src/js/missions.mjs:1204
+# src/js/missions.mjs:1207
 js-site-missions-hud-receiver = Receiver
 
-# src/js/missions.mjs:1203
+# src/js/missions.mjs:1206
 js-site-missions-hud-relays = Relays
 
-# src/js/missions.mjs:1204
+# src/js/missions.mjs:1207
 js-site-missions-hud-selected-lat = selected latitude
 
-# src/js/missions.mjs:814
+# src/js/missions.mjs:817
 js-site-missions-info-in-view = In view
 
-# src/js/missions.mjs:814
+# src/js/missions.mjs:817
 js-site-missions-info-in-view-value = { $mean } mean · { $fewest } fewest
 
-# src/js/missions.mjs:814
+# src/js/missions.mjs:817
 js-site-missions-info-pdop-above = { $pdop }, above { $limit }
 
-# src/js/missions.mjs:475
+# src/js/missions.mjs:476
 js-site-missions-json-title = The engine's result, unmodified
 
-# src/js/missions.mjs:464
+# src/js/missions.mjs:465
 js-site-missions-json-unavailable = JSON unavailable
 
-# src/js/missions.mjs:648
+# src/js/missions.mjs:651
 js-site-missions-key-avail = Availability
 
-# src/js/missions.mjs:855
+# src/js/missions.mjs:858
 js-site-missions-key-pdop-title = Mean PDOP (position dilution of precision)
 
-# src/js/missions.mjs:648
+# src/js/missions.mjs:651
 js-site-missions-key-vis = Satellites in view
 
-# src/js/missions.mjs:648
+# src/js/missions.mjs:651
 js-site-missions-key-vis-short = In view
 
-# src/js/missions.mjs:595
+# src/js/missions.mjs:598
 js-site-missions-leo-grid = of the grid at PDOP ≤ { $limit }
 
-# src/js/missions.mjs:595
+# src/js/missions.mjs:598
 js-site-missions-leo-in-view = in view on average
 
-# src/js/missions.mjs:595
+# src/js/missions.mjs:598
 js-site-missions-leo-shells = satellites in four shells
 
-# src/js/missions.mjs:809
+# src/js/missions.mjs:812
 js-site-missions-map-aria = { $title } over { $body }, by 10 degree cell. Arrow keys move the receiver; its cell is read out below.
 
-# src/js/missions.mjs:853
+# src/js/missions.mjs:856
 js-site-missions-map-colour-by = Colour the map by
 
-# src/js/missions.mjs:715
+# src/js/missions.mjs:718
 js-site-missions-map-fewest-in-view = fewest in view
 
-# src/js/missions.mjs:712
+# src/js/missions.mjs:715
 js-site-missions-map-grey = grey: no fix
 
-# src/js/missions.mjs:711
+# src/js/missions.mjs:714
 js-site-missions-map-hatched = hatched: above the PDOP limit of { $limit }
 
-# src/js/missions.mjs:774
+# src/js/missions.mjs:777
 js-site-missions-map-in-view = in view
 
-# src/js/missions.mjs:839
+# src/js/missions.mjs:842
 js-site-missions-map-live = { $cell }: { $rows }
 
-# src/js/missions.mjs:715
+# src/js/missions.mjs:718
 js-site-missions-map-mean-in-view = mean in view
 
-# src/js/missions.mjs:715
+# src/js/missions.mjs:718
 js-site-missions-map-mean-pdop = mean PDOP
 
-# src/js/missions.mjs:715
+# src/js/missions.mjs:718
 js-site-missions-map-pdop-limit = PDOP limit { $limit }
 
-# src/js/missions.mjs:509
+# src/js/missions.mjs:510
 js-site-missions-matrix-caption = Scenario files by sector (rows) and failure mode (columns). Select a count to open that sector.
 
-# src/js/missions.mjs:523
+# src/js/missions.mjs:524
 js-site-missions-matrix-cell =
     { $n ->
         [one] { $sector }, { $mode }: { $n } scenario file
        *[other] { $sector }, { $mode }: { $n } scenario files
     }
 
-# src/js/missions.mjs:525
+# src/js/missions.mjs:526
 js-site-missions-matrix-files =
     { $n ->
         [one] { $n } file:
        *[other] { $n } files:
     }
 
-# src/js/missions.mjs:510
+# src/js/missions.mjs:511
 js-site-missions-matrix-sector = Sector
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-int = Interference
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-itg = Integrity
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-nav = Coasting
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-orb = Geometry
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-spf = Spoofing
 
-# src/js/missions.mjs:492
+# src/js/missions.mjs:493
 js-site-missions-mode-tim = Timing
 
-# src/js/missions.mjs:925
+# src/js/missions.mjs:928
 js-site-missions-n-of-total = { $n } of { $total }
 
-# src/js/missions.mjs:651
+# src/js/missions.mjs:654
 js-site-missions-no-fix = no fix
 
-# src/js/missions.mjs:487
+# src/js/missions.mjs:488
 js-site-missions-no-seed = deterministic, no seed
 
-# src/js/missions.mjs:471
+# src/js/missions.mjs:472
 js-site-missions-open-in-studio = Open in { $studio }
 
-# src/js/missions.mjs:472
+# src/js/missions.mjs:473
 js-site-missions-open-report = Open the engine's report
 
-# src/js/missions.mjs:954
+# src/js/missions.mjs:957
 js-site-missions-ow-chart-aria = Receiver response over the run for { $name }: relays in view, and position error with relays only and with the Earth range
 
-# src/js/missions.mjs:994
+# src/js/missions.mjs:997
 js-site-missions-ow-chip-epochs = epochs
 
-# src/js/missions.mjs:994
+# src/js/missions.mjs:997
 js-site-missions-ow-chip-mask = mask
 
-# src/js/missions.mjs:998
+# src/js/missions.mjs:1001
 js-site-missions-ow-chip-orbiter = orbiter
 
-# src/js/missions.mjs:999
+# src/js/missions.mjs:1002
 js-site-missions-ow-chip-range = range σ
 
-# src/js/missions.mjs:998
+# src/js/missions.mjs:1001
 js-site-missions-ow-chip-relays = relays
 
-# src/js/missions.mjs:998
+# src/js/missions.mjs:1001
 js-site-missions-ow-chip-relays-value = { $planes } × { $per } at { $alt } km, { $inc }°
 
-# src/js/missions.mjs:994
+# src/js/missions.mjs:997
 js-site-missions-ow-chip-span = span
 
-# src/js/missions.mjs:989
+# src/js/missions.mjs:992
 js-site-missions-ow-count-relays = { $n } relays and an orbiter · { $body }
 
-# src/js/missions.mjs:989
+# src/js/missions.mjs:992
 js-site-missions-ow-count-sats = { $n } satellites · { $body }
 
-# src/js/missions.mjs:987
+# src/js/missions.mjs:990
 js-site-missions-ow-engine = engine v{ $version } · build { $commit }
 
-# src/js/missions.mjs:991
+# src/js/missions.mjs:994
 js-site-missions-ow-lat-label = Receiver latitude
 
-# src/js/missions.mjs:940
+# src/js/missions.mjs:943
 js-site-missions-ow-map-aria = Receiver response for { $name }: a map of the { $body } by 10 degree cell, with mean and fewest satellites in view and mean PDOP by latitude beside it
 
-# src/js/missions.mjs:1008
+# src/js/missions.mjs:1011
 js-site-missions-ow-note-imagery = { $body } imagery: NASA.
 
-# src/js/missions.mjs:1007
+# src/js/missions.mjs:1010
 js-site-missions-ow-note-rebuilt = Orbits: the relays and the orbiter rebuilt from the scenario exactly as the engine builds them; the satellites-in-view count they give equals the engine's at all { $n } epochs.
 
-# src/js/missions.mjs:1006
+# src/js/missions.mjs:1009
 js-site-missions-ow-note-sats = Orbits: the run's satellites re-propagated here and checked against all { $n } ground-track samples the engine wrote (worst { $deg }°).
 
-# src/js/missions.mjs:1008
+# src/js/missions.mjs:1011
 js-site-missions-ow-note-scaled = Orbit radii are scaled for display; planes, phasing and periods are the run's.
 
-# src/js/missions.mjs:1008
+# src/js/missions.mjs:1011
 js-site-missions-ow-note-tracks = The engine wrote ground tracks for { $shown } of the { $total } satellites; all { $total } are drawn from its shells.
 
-# src/js/missions.mjs:1005
+# src/js/missions.mjs:1008
 js-site-missions-ow-note-walker = Orbits: the run's Walker shells re-propagated here and checked against all { $n } ground-track samples the engine wrote (worst { $deg }°).
 
-# src/js/missions.mjs:994
+# src/js/missions.mjs:997
 js-site-missions-ow-off = off
 
-# src/js/missions.mjs:994
+# src/js/missions.mjs:997
 js-site-missions-ow-on = on
 
-# src/js/missions.mjs:1025
+# src/js/missions.mjs:1028
 js-site-missions-ow-pause = Pause the orbits
 
-# src/js/missions.mjs:1025
+# src/js/missions.mjs:1028
 js-site-missions-ow-play = Play the orbits
 
-# src/js/missions.mjs:1012
+# src/js/missions.mjs:1015
 js-site-missions-ow-time = t = { $time }
 
-# src/js/missions.mjs:997
+# src/js/missions.mjs:1000
 js-site-missions-ow-time-label = Mission time
 
-# src/js/missions.mjs:978
+# src/js/missions.mjs:981
 js-site-missions-ow-valuetext = { $time }, { $n } relays in view
 
-# src/js/missions.mjs:667
+# src/js/missions.mjs:670
 js-site-missions-pdop-title = Mean PDOP (position dilution of precision), log scale, lower is better
 
-# src/js/missions.mjs:474
+# src/js/missions.mjs:475
 js-site-missions-report = Report
 
-# src/js/missions.mjs:474
+# src/js/missions.mjs:475
 js-site-missions-report-title = The engine's own report of this run
 
-# src/js/missions.mjs:928
+# src/js/missions.mjs:931
 js-site-missions-ro-above-horizon = above horizon
 
-# src/js/missions.mjs:919
+# src/js/missions.mjs:922
 js-site-missions-ro-availability = Availability, PDOP ≤ { $limit }
 
-# src/js/missions.mjs:928
+# src/js/missions.mjs:931
 js-site-missions-ro-earth-light = Earth · light time { $s } s
 
-# src/js/missions.mjs:926
+# src/js/missions.mjs:929
 js-site-missions-ro-error-relays = Position error, relays only
 
-# src/js/missions.mjs:928
+# src/js/missions.mjs:931
 js-site-missions-ro-occulted = occulted
 
-# src/js/missions.mjs:922
+# src/js/missions.mjs:925
 js-site-missions-ro-place-availability = At { $place }: availability
 
-# src/js/missions.mjs:921
+# src/js/missions.mjs:924
 js-site-missions-ro-place-in-view = At { $place }: in view, mean · fewest
 
-# src/js/missions.mjs:925
+# src/js/missions.mjs:928
 js-site-missions-ro-relays = Relays in view
 
-# src/js/missions.mjs:918
+# src/js/missions.mjs:921
 js-site-missions-ro-satellites = Satellites
 
-# src/js/missions.mjs:927
+# src/js/missions.mjs:930
 js-site-missions-ro-with-earth = With the Earth range
 
-# src/js/missions.mjs:1295
+# src/js/missions.mjs:1298
 js-site-missions-run-failed = The recorded run could not be loaded here; open it in { $studio } from the link below.
 
-# src/js/missions.mjs:487
+# src/js/missions.mjs:488
 js-site-missions-seed = seed { $seed }
 
 # src/js/missions.mjs:241
@@ -1730,44 +1730,44 @@ js-site-missions-spoof-readout = t { $t } s · offset { $offset } ns
 # src/js/missions.mjs:246
 js-site-missions-spoof-spec = spec { $v } ns
 
-# src/js/missions.mjs:615
+# src/js/missions.mjs:618
 js-site-missions-sr-aria = { $members }; shared jammer { $power } dBW
 
-# src/js/missions.mjs:615
+# src/js/missions.mjs:618
 js-site-missions-sr-aria-member = { $label }: tracking held { $held } %, mean jammer-to-signal ratio { $js } dB, fewest satellites tracked { $min }
 
-# src/js/missions.mjs:607
+# src/js/missions.mjs:610
 js-site-missions-sr-car = Car
 
-# src/js/missions.mjs:612
+# src/js/missions.mjs:615
 js-site-missions-sr-fewest = fewest tracked
 
-# src/js/missions.mjs:610
+# src/js/missions.mjs:613
 js-site-missions-sr-held = tracking held
 
-# src/js/missions.mjs:611
+# src/js/missions.mjs:614
 js-site-missions-sr-mean-js = mean J/S
 
-# src/js/missions.mjs:607
+# src/js/missions.mjs:610
 js-site-missions-sr-ship = Ship
 
-# src/js/missions.mjs:1302
+# src/js/missions.mjs:1305
 js-site-missions-swipe =
     { $n ->
         [one] Swipe for all { $n } scenario file
        *[other] Swipe for all { $n } scenario files
     }
 
-# src/js/missions.mjs:478
+# src/js/missions.mjs:479
 js-site-missions-toml-download-title = Download the scenario file that ran
 
-# src/js/missions.mjs:477
+# src/js/missions.mjs:478
 js-site-missions-toml-title = The scenario file that ran
 
-# src/js/missions.mjs:663
+# src/js/missions.mjs:666
 js-site-missions-vis-title = Satellites in view, mean over the run
 
-# src/js/missions.mjs:662
+# src/js/missions.mjs:665
 js-site-missions-vis-uniform = { $v } in every cell
 
 # src/site.js:418

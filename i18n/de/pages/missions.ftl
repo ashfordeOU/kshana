@@ -1229,4 +1229,4 @@ seg-9a86ef058d27 = In Kshana Studio öffnen
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Editionen vergleichen
 
-seg-ecb96b67c4e9 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-8575c0837e28 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed

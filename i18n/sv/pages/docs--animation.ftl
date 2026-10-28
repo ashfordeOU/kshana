@@ -84,4 +84,4 @@ seg-be1f1afe7424 = <s1>Föregående</s1>Körningsrapporter
 
 seg-6817433f69f6 = <s1>Nästa</s1>Interoperabilitetsexporter och -importer
 
-seg-5366f477e688 = En typ vars resultat inte bär någon av dessa former (en länkbudget, en geometri för en enda epok, en sammanfattning av enbart statistik från Monte Carlo, eller telecom-holdovern, vars resultat publicerar postens hash men inte posten) avvisas med <c1/>, och ingenting skrivs. Med kshana { $version } kan { "94" } av de { "192" } körbara scenariofilerna (alla filer utom en studiesvit) animeras och { "98" } avvisas. <c2/> skriver ut sammanställningen.
+seg-51cd8d5f527b = En typ vars resultat inte bär någon av dessa former (en länkbudget, en geometri för en enda epok, en sammanfattning av enbart statistik från Monte Carlo, eller telecom-holdovern, vars resultat publicerar postens hash men inte posten) avvisas med <c1/>, och ingenting skrivs. Med kshana { $version } kan { "94" } av de { "193" } körbara scenariofilerna (alla filer utom en studiesvit) animeras och { "99" } avvisas. <c2/> skriver ut sammanställningen.

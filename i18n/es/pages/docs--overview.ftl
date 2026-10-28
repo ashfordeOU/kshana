@@ -3609,8 +3609,8 @@ seg-11041e6beb65 = Los { "92" } tipos de escenario integrados con descripciones 
 
 seg-abf70d11a088 = todo el motor abierto, los { "92" } tipos de escenario, sin restricción de funciones
 
-seg-b14326430bd8 = Consulte <c1/> para ver al menos un ejemplo práctico de cada tipo de escenario ({ "92" } tipos de escenario, { "192" } archivos de escenario <c2/> + { "1" } manifiesto de conjunto; varios tipos de escenario incluyen más de un ejemplo). No todos los tipos de escenario tienen un archivo con su nombre: <c3/> → <c4/> y <c5/> → <c6/> son dos de varios casos así. Puede enumerar en cualquier momento los tipos de escenario despachables con los errores de <c7/>, con <c8/> en Python o con la herramienta <c9/> de MCP.
-
 seg-824001fa6734 = laboratorios y fabricantes que tienen datos medidos
 
 seg-df3ca402513f = qué filas MODELLED podría promover un registro medido de reloj o de IMU, los formatos, cómo se comprueba un envío (<c1/>), se puntúa y se acredita
+
+seg-e2d733f93455 = Consulte <c1/> para ver al menos un ejemplo práctico de cada tipo de escenario ({ "92" } tipos de escenario, { "193" } archivos de escenario <c2/> + { "1" } manifiesto de conjunto; varios tipos de escenario incluyen más de un ejemplo). No todos los tipos de escenario tienen un archivo con su nombre: <c3/> → <c4/> y <c5/> → <c6/> son dos de varios casos así. Puede enumerar en cualquier momento los tipos de escenario despachables con los errores de <c7/>, con <c8/> en Python o con la herramienta <c9/> de MCP.
