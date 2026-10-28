@@ -1197,3 +1197,7 @@ seg-ce858063d300 = type mission-thread
 seg-0bd19840e50d = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, du lancement à l'entrée, construit à partir de documents publics de concept d'opérations.
 
 seg-1b2e1e1b5c38 = Chaque fichier de scénario fourni ({ "193" }), regroupé par type. La description est le commentaire d'en-tête propre au fichier ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type. <b>Ouvrir dans { -brand } Studio</b> ouvre l'exécution enregistrée.
+
+seg-a7bfd0a7e587 = Un court fil de mission qui s'exécute à partir d'un seul binaire : lancement et ascension, un rendez-vous en orbite basse terrestre, un jour de croisière translunaire, puis le retour et l'entrée, avec la position de la Lune issue de la série analytique (sans fichier de noyau). C'est le compagnon fourni de mission-thread-artemis-class, qui lit un noyau lunaire extrait d'un checkout.
+
+seg-d60c5f13a769 = <a1>Ouvrir dans Kshana Studio</a1> · <s1>Pas encore sur GitHub</s1>

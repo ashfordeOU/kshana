@@ -8734,3 +8734,5 @@ dat-b3d9ac894036 = Su propio reloj
 dat-286487acb3db = Comprobaciones de geometría de cenit y antípoda y la visibilidad esperada de un objetivo distante en las pruebas. No se modela ninguna red, antena ni programación reales
 
 dat-b8b659cbbefa = Cada archivo de escenario incluido ({ "193" }), agrupado por tipo de escenario, con sus ajustes principales.
+
+dat-23cef21a3ad4 = Un hilo de misión corto que se ejecuta a partir de un único binario: lanzamiento y ascenso, un encuentro en órbita terrestre baja, un día de

@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } z { "92" } druhů, { "3300" } z { "3300" } číseln�
 seg-237402dbe93a = Vyberte jeden z { "194" } souborů scénářů napříč { "92" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
 
 seg-ace118a5dc36 = Všech { "194" } souborů scénářů napříč { "92" } druhy, seskupených podle oblasti; { "181" } je zabudováno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře ve Studiu Kshana; ostatní otevřou svou položku v referenci scénářů se souborem a příkazem, který jej spouští.
+
+seg-f4ad26be58c2 = Krátké vlákno mise, které běží jen z binárního souboru: start a výstup, jedno setkání na nízké oběžné dráze Země, jeden den
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

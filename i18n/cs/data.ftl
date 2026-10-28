@@ -8128,3 +8128,5 @@ dat-6ed624c1c297 = Čtyři druhy scénářů, každý také druhem fáze rozhran
 dat-ed7ff984ba53 = Soustavy a časové škály
 
 dat-b8b659cbbefa = Každý přibalený soubor scénáře ({ "193" }), seskupený podle druhu, s jeho klíčovými nastaveními.
+
+dat-23cef21a3ad4 = Krátké vlákno mise, které běží jen z binárního souboru: start a výstup, jedno setkání na nízké oběžné dráze Země, jeden den

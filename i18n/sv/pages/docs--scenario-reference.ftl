@@ -777,3 +777,7 @@ seg-ce858063d300 = typ mission-thread
 seg-0bd19840e50d = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering för en kedja av faser, från uppskjutning till återinträde, byggd på offentligt material om driftkoncept.
 
 seg-1b2e1e1b5c38 = Varje medföljande scenariofil ({ "193" }), grupperad efter typ. Beskrivningen är filens egen rubrikkommentar; nyckelparametrarna är dess inställningar på översta nivån. Status läser verifieringsmatrisen för typens modul. <b>Öppna i Kshana Studio</b> öppnar den registrerade körningen.
+
+seg-a7bfd0a7e587 = Ett kort uppdragsflöde som körs enbart från en binärfil: uppskjutning och uppstigning, ett rendezvous i låg omloppsbana runt jorden, en dag translunär färd samt återfärd och inträde, med månens position från den analytiska serien (ingen kernelfil). Det är den medföljande följeslagaren till mission-thread-artemis-class, som läser en månkernel utskuren från en checkout.
+
+seg-d60c5f13a769 = <a1>Öppna i Kshana Studio</a1> · <s1>Ännu inte på GitHub</s1>

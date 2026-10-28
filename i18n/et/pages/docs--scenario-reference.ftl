@@ -1197,3 +1197,7 @@ seg-ce858063d300 = liik mission-thread
 seg-0bd19840e50d = Artemis-klassi missiooniahel: ühe faasiahela navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni, koostatud avalikust kasutuskontseptsiooni materjalist.
 
 seg-1b2e1e1b5c38 = Iga kaasasolev stsenaariumifail ({ "193" }), liikide kaupa. Kirjeldus on faili enda päisekommentaar; põhiparameetrid on selle ülataseme seaded. Olek loeb liigi mooduli kohta kontrollimaatriksit. <b>Ava Kshana Studios</b> avab salvestatud jooksu.
+
+seg-a7bfd0a7e587 = Lühike missiooniahel, mis töötab ainult binaarfailist: start ja tõus, üks kohtumine madalal Maa orbiidil, üks päev Kuule suunduvat transferlendu ning tagasitulek ja sisenemine, Kuu asukoht analüütilisest reast (kernelifaili pole). See on ahela mission-thread-artemis-class kaasapandud kaaslane, mis loeb väljavõttest lõigatud Kuu kernelit.
+
+seg-d60c5f13a769 = <a1>Ava Kshana Studios</a1> · <s1>Pole veel GitHubis</s1>

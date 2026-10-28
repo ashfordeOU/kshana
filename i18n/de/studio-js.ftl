@@ -9329,3 +9329,17 @@ js-trust-yes = ja
 js-mthread-limiting-phase = Die Engine nennt als begrenzende Quelle dieser Phase { $source }: eine Quelle der Phase, nicht eine Zeile dieser Tabelle.
 
 js-mthread-limiting-row = die begrenzende Quelle der Engine
+
+js-cat-mission-thread-short-question = Welche Phase hat entlang eines Stacks vom Start bis zum Eintritt, über ein Rendezvous im niedrigen Orbit und einen Tag translunarer Flugphase, die geringste Navigations- und Zeitgebungsmarge? (modelliert)
+
+js-cat-mission-thread-short-title = Kurzer Missionsstrang, Start bis Eintritt
+
+js-meankind-mthread-big = Entlang des Strangs liegt die geringste Marge gegenüber ihrer Anforderung in der Phase { $phase }.
+
+js-meankind-mthread-big-source = Entlang des Strangs liegt die geringste Marge gegenüber ihrer Anforderung in der Phase { $phase }, begrenzt durch { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } Phase.
+       *[other] { $n } Phasen.
+    }

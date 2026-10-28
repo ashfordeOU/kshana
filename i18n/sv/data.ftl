@@ -8735,3 +8735,5 @@ dat-2d1fe075cab5 = Propageringen av medeltillståndet i fasen `tli-and-cruise` (
 dat-09d31ea90146 = Trans-lunar injektion och färd i cislunart rum: propagerat medeltillstånd och kovarians med spårningsuppdateringar (`tli-and-cruise`)
 
 dat-b8b659cbbefa = Varje medföljande scenariofil ({ "193" }), grupperad efter typ, med dess viktigaste inställningar.
+
+dat-23cef21a3ad4 = Ett kort uppdragsflöde som körs enbart från en binärfil: uppskjutning och uppstigning, ett rendezvous i låg omloppsbana runt jorden, en dag av

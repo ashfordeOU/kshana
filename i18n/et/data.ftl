@@ -7214,3 +7214,5 @@ dat-b3d9ac894036 = Teie oma kell
 dat-286487acb3db = Seniidi ja antipoodi geomeetria kontrollid ning kauge sihtmärgi eeldatav nähtavus testides. Ühtegi päris võrku, antenni ega ajakava ei modelleerita
 
 dat-b8b659cbbefa = Iga kaasasolev stsenaariumifail ({ "193" }), liikide kaupa, koos selle põhiseadetega.
+
+dat-23cef21a3ad4 = Lühike missiooniahel, mis töötab ainult binaarfailist: start ja tõus, üks kohtumine madalal Maa orbiidil, üks päev

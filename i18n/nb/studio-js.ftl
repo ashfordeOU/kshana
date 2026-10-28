@@ -9444,3 +9444,17 @@ js-trust-yes = ja
 js-mthread-limiting-phase = Motoren navngir den begrensende kilden for denne fasen som { $source }: en kilde for fasen, ikke én rad i denne tabellen.
 
 js-mthread-limiting-row = motorens begrensende kilde
+
+js-cat-mission-thread-short-question = Langs én stakk fra oppskyting til innflyving, gjennom et rendezvous i lav bane og én dags translunar ferd, hvilken fase har den tynneste marginen for navigasjon og tidssynkronisering? (modellert)
+
+js-cat-mission-thread-short-title = Kort oppdragstråd, fra oppskyting til innflyving
+
+js-meankind-mthread-big = Langs tråden er den tynneste marginen mot kravet i fasen { $phase }.
+
+js-meankind-mthread-big-source = Langs tråden er den tynneste marginen mot kravet i fasen { $phase }, begrenset av { $source }.
+
+js-meankind-mthread-line =
+    { $n ->
+        [one] { $n } fase.
+       *[other] { $n } faser.
+    }

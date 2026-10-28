@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numerisk
 seg-237402dbe93a = Välj en av { "194" } scenariofiler fördelade på { "92" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
 
 seg-ace118a5dc36 = Alla { "194" } scenariofiler fördelade på { "92" } typer, grupperade efter område; { "181" } är inbyggda i motorn, och <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> körs från arkivet med kommandoraden. Pricken visar registerstatusen för typens modul där registret nämner den. En fil med en registrerad körning öppnar den i Kshana Studio; de andra öppnar sin post i scenarioreferensen, med filen och kommandot som kör den.
+
+seg-f4ad26be58c2 = Ett kort uppdragsflöde som körs enbart från en binärfil: uppskjutning och uppstigning, ett rendezvous i låg omloppsbana runt jorden, en dag av
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>

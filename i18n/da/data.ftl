@@ -7943,3 +7943,5 @@ dat-b3d9ac894036 = Dit eget ur
 dat-286487acb3db = Kontroller af zenit- og antipodegeometri og den forventede sigtbarhed af et fjernt mål i testene. Intet virkeligt netværk, ingen antenne og ingen tidsplan modelleres
 
 dat-b8b659cbbefa = Hver medfølgende scenariefil ({ "193" }), grupperet efter type, med dens vigtigste indstillinger.
+
+dat-23cef21a3ad4 = En kort missionstråd, der kører alene fra en binær fil: opsendelse og opstigning, ét rendezvous i lav jordbane, én dag af

@@ -9643,3 +9643,5 @@ dat-b3d9ac894036 = O seu próprio relógio
 dat-286487acb3db = Verificações de geometria de zénite e antípoda e a visibilidade esperada de um alvo distante nos testes. Nenhuma rede, antena ou escala real é modelada
 
 dat-b8b659cbbefa = Todos os ficheiros de cenário incluídos ({ "193" }), agrupados por tipo, com as suas principais configurações.
+
+dat-23cef21a3ad4 = Uma cadeia da missão curta que corre a partir de um único binário: lançamento e ascensão, um encontro em órbita terrestre baixa, um dia de

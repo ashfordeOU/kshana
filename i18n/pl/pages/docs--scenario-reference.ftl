@@ -777,3 +777,7 @@ seg-ce858063d300 = rodzaj mission-thread
 seg-0bd19840e50d = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu jednego łańcucha faz, od startu do wejścia w atmosferę, zbudowany na podstawie publicznych materiałów koncepcji operacji.
 
 seg-1b2e1e1b5c38 = Każdy dołączony plik scenariusza ({ "193" }), pogrupowany według rodzaju. Opis to własny komentarz nagłówkowy pliku; kluczowe parametry to jego ustawienia najwyższego poziomu. Status odczytuje macierz weryfikacji dla modułu danego rodzaju. <b>Otwórz w Kshana Studio</b> otwiera zarejestrowany przebieg.
+
+seg-a7bfd0a7e587 = Krótki wątek misji uruchamiany wyłącznie z pliku binarnego: start i wznoszenie, jedno spotkanie na niskiej orbicie okołoziemskiej (rendezvous), jeden dzień lotu translunarnego oraz powrót i wejście w atmosferę, z położeniem Księżyca z szeregu analitycznego (bez pliku kernela). Jest dołączonym towarzyszem mission-thread-artemis-class, który odczytuje kernel Księżyca wycięty z kopii repozytorium (checkout).
+
+seg-d60c5f13a769 = <a1>Otwórz w Kshana Studio</a1> · <s1>Jeszcze nie na GitHubie</s1>

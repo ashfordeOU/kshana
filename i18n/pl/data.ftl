@@ -8434,3 +8434,5 @@ dat-b3d9ac894036 = Twój własny zegar
 dat-286487acb3db = Kontrole geometrii zenitu i antypodu oraz oczekiwana widoczność odległego celu w testach. Nie modeluje się żadnej rzeczywistej sieci, anteny ani harmonogramu
 
 dat-b8b659cbbefa = Każdy dołączony plik scenariusza ({ "193" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.
+
+dat-23cef21a3ad4 = Krótki wątek misji uruchamiany wyłącznie z pliku binarnego: start i wznoszenie, jedno spotkanie na niskiej orbicie okołoziemskiej (rendezvous), jeden dzień

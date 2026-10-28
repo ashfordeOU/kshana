@@ -3701,3 +3701,7 @@ seg-69c56cbdda90 = { "92" } types sur { "92" }, { "3300" } champs numériques su
 seg-237402dbe93a = Choisissez parmi { "194" } fichiers de scénario répartis en { "92" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
 
 seg-ace118a5dc36 = Les { "194" } fichiers de scénario répartis en { "92" } types, regroupés par domaine ; { "181" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans { -brand } Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
+
+seg-f4ad26be58c2 = Un court fil de mission qui s'exécute à partir d'un seul binaire : lancement et ascension, un rendez-vous en orbite basse terrestre, un jour de
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
