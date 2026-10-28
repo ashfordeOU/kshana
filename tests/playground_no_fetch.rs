@@ -37,8 +37,8 @@ fn bundle() -> BTreeMap<String, String> {
     serde_json::from_str(&text).expect("the bundle is a JSON object of file -> text")
 }
 
-/// The first quoted string of each array row in the `export const NAME = [ ... ];` or
-/// the keys of `export const NAME = { ... };` block of the catalogue.
+/// The first quoted string of each array row (`["x", ...` or `row("x", ...`) in the `export const NAME = [ ... ];` or
+/// the keys (`"x":` or `get "x"()`) of the `export const NAME = { ... };` block of the catalogue.
 fn catalog_block(name: &str) -> Vec<String> {
     let src = std::fs::read_to_string(root().join("web/studio/lib/catalog.mjs")).unwrap();
     let start = src
@@ -48,7 +48,10 @@ fn catalog_block(name: &str) -> Vec<String> {
     let end = body.find("\n};").or_else(|| body.find("\n];")).unwrap();
     let mut out = Vec::new();
     for line in body[..end].lines().skip(1) {
+        // rows are `["x.toml", ...` or, since the i18n conversion, `row("x.toml", ...`; the not-in-browser keys are
+        // `"x.toml": ...` or `get "x.toml"() { ... }`
         let t = line.trim_start().trim_start_matches('[');
+        let t = t.strip_prefix("row(").or_else(|| t.strip_prefix("get ")).unwrap_or(t);
         if let Some(rest) = t.strip_prefix('"') {
             if let Some(q) = rest.find('"') {
                 out.push(rest[..q].to_string());
