@@ -1,9 +1,9 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "ac05b723ca9fbdae1f8fe3999391b820aebaeeb2",
+ "engine_commit": "339521841a159ffa0594dd73fe8a7c5483841676",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-10-28T00:51:40.479Z",
+ "recorded_utc": "2026-10-28T11:28:24.653Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
@@ -1786,6 +1786,18 @@
    "report": true,
    "animation": true,
    "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "mission-thread-short.toml": {
+   "file": "mission-thread-short.json.gz",
+   "bytes": 23123,
+   "unpacked_bytes": 91542,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the mission-thread result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
    "exports": [],
    "export_files": 0,
    "export_files_stored": 0,
