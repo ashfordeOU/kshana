@@ -171,6 +171,9 @@ jobs:
             node tools/i18n.mjs sitemaps --tree site
           fi
           node tools/i18n.mjs english --src site --langs "$langs"
+          # web/build.sh stages the wasm-pack package twice (pkg/ and studio/pkg/): one copy goes up, the Studio reads it from /pkg/.
+          node tools/i18n.mjs share-engine --tree site
+          # the cap is on the whole tree the deploy uploads, the engine package included (the tree has pkg/kshana_bg.wasm or this fails)
           node tools/i18n.mjs size --tree site --dist /nonexistent --cap 500
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3

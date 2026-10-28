@@ -1,6 +1,6 @@
 // Data catalogues: the prose of the JSON files a page or the Studio shows (design v2, section 7 and the owner's "everything"). One message per
 // distinct English string, id dat-<sha12>; the build writes a translated copy of each file under <lang>/ and the pages load it (lib/t.mjs fetchData).
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -66,15 +66,23 @@ export function dataFtl(strings, fmt) {
   return { text: lines.join('\n'), count: ids.size };
 }
 
-/** A translated copy of each spec file: `tr(string)` returns the translation or null (the English stays). Returns the number of strings replaced. */
+/** A translated copy of each spec file: `tr(string)` returns the translation or null (the English stays). A file in which no string
+ *  was translated is NOT written (and a stale copy is removed): the pages fall back to the English file (lib/t.mjs fetchData and
+ *  importData load `/<lang>/<file>` and use the English one when it is missing), so the deploy keeps one copy of it, not one per language.
+ *  Returns the strings replaced and seen, and the files left out. */
 export function applyData(src, out, spec, tr) {
   let replaced = 0, total = 0;
+  const shared = [];
   for (const f of spec.files) {
     const p = join(src, f.file);
     if (!existsSync(p)) continue;
     const { json: j, header } = readJsonFile(p, f);
-    walkProse(j, skipSet(spec, f), (s, set) => { total++; const t = tr(s); if (t !== null && t !== undefined) { set(t); replaced++; } });
-    writeJsonFile(join(out, f.file), f, j, header);
+    let n = 0;
+    walkProse(j, skipSet(spec, f), (s, set) => { total++; const t = tr(s); if (t !== null && t !== undefined) { set(t); n++; } });
+    replaced += n;
+    const dst = join(out, f.file);
+    if (n === 0) { rmSync(dst, { force: true }); shared.push(f.file); continue; }
+    writeJsonFile(dst, f, j, header);
   }
-  return { replaced, total };
+  return { replaced, total, shared };
 }

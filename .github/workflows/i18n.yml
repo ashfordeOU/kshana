@@ -61,6 +61,10 @@ jobs:
         run: node tools/i18n-digits-test.mjs
       - name: Caps-token rule
         run: node tools/i18n-caps-test.mjs
+      - name: migrate keeps earlier orphans (appends, dedupes by id)
+        run: node tools/i18n-migrate-test.mjs
+      - name: Deploy size accounting, untranslated data files left out, one engine package
+        run: node tools/i18n-size-test.mjs
       - name: Language negotiation
         run: node tools/i18n-negotiation-test.mjs --en "$RUNNER_TEMP/site"
       - name: First-paint map (the Studio's inline words follow the language)
