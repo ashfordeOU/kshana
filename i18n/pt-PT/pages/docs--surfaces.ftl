@@ -1109,3 +1109,6 @@ seg-4e3bbacda9ac = <s1>Anterior</s1>Utilizar o Kshana a partir de um agente
 
 # text
 seg-c5fbfab85e01 = <s1>Seguinte</s1>Plugin JetBrains
+
+# attr:aria-label, text
+seg-6555ff9a6d8e = Saída

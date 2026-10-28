@@ -3207,3 +3207,17 @@ seg-899815063eb1 = <c1/> zodat de software kan worden geciteerd.
 seg-15f45d8ccb0f = <s1>Vorige</s1>Waar Kshana staat
 
 seg-cd8a14a9e8ec = <s1>Volgende</s1>Licenties
+
+seg-1200856c90da = [{ $version }] - 2026-10-28
+
+seg-05d0c798a196 = { "0.40" } voegt de missieketen in Artemis-klasse en het maansegment ervan toe, een bewijslabel bij elk cijfer en elke tabel die een run schrijft, het inlezen en fitten van gemeten klokken, een controle van inzendingen van datapartners, een geschat zendergebied uit ADS-B- of AIS-meldingen, de herhaalcampagne van de benchmark van { "0.40" }, en de opdrachtregel, de rapporten en Studio in zeventien talen naast het Engels (machinedocumenten blijven Engels). De verificatiematrix groeit van { "388" } naar { "401" } rijen: { "176" } VALIDATED (ongewijzigd), { "221" } MODELLED (was { "208" }) en { "4" } PARTNER. Geen enkele rij is bevorderd naar VALIDATED. De scenariosoorten groeien van { "87" } naar { "92" }. Elke drempel die een vooraf vastgelegde vergelijking miste, wordt hieronder vermeld en blijft vastgezet; geen enkele is versoepeld. De adviserende verklaring is ongewijzigd: Kshana is adviserende software, geen typegoedgekeurde navigatieapparatuur en geen certificering; de exploitant blijft verantwoordelijk.
+
+seg-738f33f0ae8a = Bekende beperkingen
+
+seg-d4062fab7ae1 = Runs in een andere taal dan het Engels duren ongeveer twee keer zo lang, omdat het scenario twee keer wordt uitgevoerd (eenmaal in het Engels voor de machinebestanden, eenmaal in de gekozen taal voor de gebruiker).
+
+seg-8db6dedc627a = Sommige zinnen in Studio worden uit fragmenten samengesteld en kunnen lidwoorden missen in talen met grammaticaal geslacht.
+
+seg-86e6e35ac846 = De vertalingen zijn machinevertalingen die geen moedertaalspreker heeft beoordeeld; het Engels is de referentie.
+
+seg-dd7ee240b467 = <b>Zeventien talen naast het Engels</b> voor de menselijk leesbare tekst van de engine en voor de site en Studio: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs, uk, ru, de, fr, es, et, ja, zh-Hans (<c1/>, <c2/>, de omgevingsvariabelen voor de taal; <c3/> bij aanroepen van de bibliotheek, Python, WebAssembly en MCP). Berichten en fouten van de opdrachtregel, samenvattingen van runs, grafiektekst, <c4/>, beschrijvingen van soorten en de adviezen zijn vertaald; machinedocumenten (JSON, CSV, foutcodes, de verificatiematrix) blijven Engels, en een run in een andere taal voert het scenario eenmaal uit in het Engels voor de machinebestanden en eenmaal in de gekozen taal voor de gebruiker (<a1><c5/></a1>). <b>De vertalingen zijn machinevertalingen, niet beoordeeld door moedertaalsprekers; het Engels is de referentie</b>; de <c6/> van elke taal vermeldt wat een beoordelaar eerst moet nakijken, en de sitepagina's dragen een melding die dat zegt. Oordeelwoorden, bewijsniveaus en de reikwijdte van het advies ("niet typegoedgekeurd", "geen certificering", "de exploitant blijft verantwoordelijk") blijven in elke taal behouden.

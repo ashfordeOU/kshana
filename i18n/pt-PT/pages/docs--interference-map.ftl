@@ -660,3 +660,7 @@ seg-1fc1794d9388 = Método ADS-B (kshana-interference-map/adsb/v2)
 
 # text
 seg-a3a97ab49ed1 = Método AIS (kshana-interference-map/ais/v2)
+
+# text
+# c1: interference-map locate
+seg-e3949a1e6082 = Região do emissor (<c1/>)

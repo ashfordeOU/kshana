@@ -83,3 +83,6 @@ seg-e1d502e1ed6d = <s1>Anterior</s1>quantum-anomaly-detect
 
 # text
 seg-1f3705925b3c = <s1>Seguinte</s1>quantum-time-transfer
+
+# text
+seg-a349aa76b0ed = PARTNER

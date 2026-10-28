@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Detectie van storingen/anomalieën voor kwantum-PNT-systemen 
 seg-6524a69e4835 = <s1>Vorige</s1>pvt
 
 seg-aa689568cf84 = <s1>Volgende</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

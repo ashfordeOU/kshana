@@ -331,3 +331,5 @@ seg-7f13ee5d254e = <s1>Volgende</s1>Interferentiekaart: gegevensbronnen en licen
 seg-1fc1794d9388 = ADS-B-methode (kshana-interference-map/adsb/v2)
 
 seg-a3a97ab49ed1 = AIS-methode (kshana-interference-map/ais/v2)
+
+seg-e3949a1e6082 = Zendergebied (<c1/>)

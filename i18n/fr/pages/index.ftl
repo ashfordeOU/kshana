@@ -1140,3 +1140,9 @@ seg-5858e5d1f7c5 = Une étiquette de preuve sur chaque figure et chaque tableau 
 seg-bd28ef5c376e = Dix-sept langues en plus de l'anglais
 
 seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
+
+seg-b9961ed25282 = Nouveau dans la v{ $version } : un fil de mission, une étiquette de preuve sur chaque figure et dix-sept langues
+
+seg-653cf3198094 = { "176" } capacités sur { "401" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
+
+seg-76b213d03caa = Les { "92" } types de scénario, gratuits et sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.

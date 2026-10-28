@@ -1167,3 +1167,33 @@ seg-2deefd8c547b = Navigation relative MODELLED pour un amarrage de type Orion-a
 seg-6c7d25f672fb = Disponibilité du positionnement et de la synchronisation temporelle en surface MODELLED par site et par saison pour des sites polaires sud de classe Artemis. Pour chaque site et chaque saison (une époque et une fenêtre après elle), elle rapporte le positionnement par relais (quatre relais ou plus d'une constellation ILLUSTRATIVE de classe LCNS en vue et PDOP sous un seuil, issus des mêmes fonctions que moonlight-service-volume et, avec une section de terrain, la ligne d'horizon tracée par rayons du terrain de lunar-station-coverage), si la Terre et le Soleil sont au-dessus de l'horizon du site (Soleil, Lune et orientation lunaire analytiques, libration comprise, ce qui varie avec la saison), et la disponibilité de la synchronisation temporelle (un relais ou la Terre en vue) avec la plus longue période sans aucun des deux, le holdover qu'une horloge de surface doit traverser. Un résultat à site unique égale celui de moonlight-service-volume au bit près. MODELLED : ensemble de relais képlériens illustratif sur une Lune à rotation moyenne ; le chiffre des relais ne change pas avec la saison ; le terrain est la découpe LOLA de { "1200" } m. Sans aval d'aucune agence ; logiciel à titre consultatif, et non un équipement de navigation certifié.
 
 seg-1ec485468daa = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée : lancement et ascension, rendez-vous et amarrage en orbite basse terrestre (répétable), injection trans-lunaire et croisière cislunaire, rendez-vous en orbite lunaire, descente, séjour en surface, ascension, puis retour et entrée, chaque phase étant l'un des huit types enregistrés avec ses propres capteurs et son propre filtre. La covariance 6x6, l'horloge et le référentiel sont transmis d'une phase à l'autre selon une règle déclarée (carry, inflate ou reacquire) ; les conversions de référentiel et d'échelle de temps (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sont des lignes de budget à part, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée. Une superposition facultative du réseau au sol fixe le cycle de suivi de chaque phase. Rapporte le budget par phase (1-sigma à l'entrée, au pic et à la sortie, chaque contribution avec son unité), la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. MODELLED : chaque nombre est une entrée déclarée ; la chaîne suit un seul empilement et aucun véhicule n'est modélisé. Sources publiques seulement ; sans affiliation ni aval d'aucune agence ; logiciel à titre consultatif, et non un équipement de navigation certifié.
+
+seg-5b4a725bea4e = Chaque fichier de scénario fourni ({ "192" }), regroupé par type. La description est le commentaire d'en-tête propre au fichier ; les paramètres clés sont ses réglages de premier niveau. Le statut lit la matrice de vérification pour le module du type. <b>Ouvrir dans { -brand } Studio</b> ouvre l'exécution enregistrée.
+
+seg-d2b1e58dea11 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (<c1/>).
+
+seg-760090cd3247 = Un scénario d'horloge avec un journal mesuré à côté du holdover simulé (<c1/>).
+
+seg-d7ed02b28987 = type lunar-ascent
+
+seg-e92ba974379b = Ascension lunaire : l'ascension propulsée depuis un site de surface polaire sud (classe Artemis) jusqu'à l'orbite de rendez-vous à { "100" } km, et la covariance de position et de vitesse qu'elle reporte en orbite.
+
+seg-d9f4bc0e8795 = type lunar-descent
+
+seg-224175962a12 = Dispersion à l'atterrissage lunaire : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de la dérive inertielle de l'empilement de descente et de ce que la navigation relative au terrain, les signaux LunaNet et le temps lunaire en retirent chacun.
+
+seg-138dbcd1aece = Dispersion à l'atterrissage lunaire avec le véritable MNT polaire sud LOLA : le budget d'une descente propulsée vers un site polaire sud (classe Artemis), à partir de la dérive inertielle de l'empilement de descente et de ce que la navigation relative au terrain, les signaux LunaNet et le temps lunaire en retirent chacun.
+
+seg-7d99c01a7740 = type lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Rendez-vous lunaire : navigation relative pour un amarrage de type Orion-atterrisseur sur une orbite lunaire basse polaire circulaire à { "100" } km (classe Artemis), avec un champ de gravité lunaire et des signaux de type LunaNet.
+
+seg-9f740b874e14 = Rendez-vous lunaire en orbite polaire elliptique : navigation relative pour un amarrage de type Orion-atterrisseur sur une orbite polaire de { "100" } km sur { "3000" } km avec le périapse au-dessus du pôle sud (classe Artemis), avec un champ de gravité lunaire et des signaux de type LunaNet.
+
+seg-d1fc00782fe9 = type lunar-surface
+
+seg-ce9f26be0623 = Disponibilité du PNT et de la synchronisation temporelle en surface lunaire par site et par saison avec le véritable horizon du terrain polaire sud LOLA (sites polaires sud de classe Artemis).
+
+seg-ce858063d300 = type mission-thread
+
+seg-0bd19840e50d = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, du lancement à l'entrée, construit à partir de documents publics de concept d'opérations.
