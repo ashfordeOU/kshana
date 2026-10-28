@@ -322,3 +322,6 @@ seg-4b41ffeb0030 = Все { "87" } видов сценариев бесплат�
 # c1: fc21ac4
 # c2: constellation-multi-gnss-coverage.toml
 seg-597a57467277 = Движок v{ $version }, сборка <c1/> · <c2/> · детерминированный, без seed
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = В движке { "87" } видов сценариев; <c1/> перечисляет их с полями. Новое в { "0.38.0" }: <c2/> (сигналы ГНСС для космических аппаратов выше орбит ГНСС, на них и за их пределами) и <c3/> (лунная орбита и поверхность как навигационная и геодезическая инфраструктура), оба MODELLED, и <c4/> (запись ошибки времени относительно масок ITU-T).

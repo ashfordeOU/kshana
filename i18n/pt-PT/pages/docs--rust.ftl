@@ -37,13 +37,6 @@ seg-d1a3f78ad8e0 = Experimente primeiro sem nada para instalar: o <a1>Kshana Stu
 seg-12a295fba8a5 = Cada capacidade da matriz de verificação é etiquetada como <b>validada</b> (verificada face a uma referência independente externa), <b>modelada</b> ou <b>da responsabilidade de parceiros</b>; os valores dos relógios óticos são objetivos espaciais em hardware de solo (nenhum relógio ótico de estrôncio voou). A maturidade <em>não</em> é uniforme entre domínios — o PNT terrestre é validado face a dados reais; a navegação no espaço profundo e em Marte é modelada, com apenas os seus blocos de construção (tempo de luz, posições dos planetas) validados face a referências independentes externas; a determinação de órbita (OD) em espaço profundo de missões reais consta do roteiro.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = O motor tem { "87" } tipos de cenário; <c1/> lista-os com os seus campos. Novidades da versão { "0.38.0" }: <c2/> (sinais GNSS para naves acima, em redor e para além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).
-
-# text
 seg-68ed88ec0b32 = <b>Espetro</b>: como um emissor de jamming ocupa a banda L do GNSS, banda a banda.
 
 # text

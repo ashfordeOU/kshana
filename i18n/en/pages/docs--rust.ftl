@@ -199,7 +199,7 @@ seg-12a295fba8a5 = Every capability in the verification matrix is labelled <b>va
 # c2: gnss-ssv
 # c3: lunar-infrastructure
 # c4: holdover-test
-seg-3de57431d3e6 = The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-d0b2811a3d3c = The engine has { "92" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
 
 # text
 seg-68ed88ec0b32 = <b>Spectrum</b>: how a jammer takes the GNSS L band, band by band.

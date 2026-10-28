@@ -37,13 +37,6 @@ seg-d1a3f78ad8e0 = Pruébelo primero sin instalar nada: <a1>Kshana Studio</a1> e
 seg-12a295fba8a5 = Cada capacidad de la matriz de verificación se etiqueta como <b>validada</b> (comprobada frente a una referencia independiente externa), <b>modelada</b> o <b>propiedad de un socio</b>; las cifras de relojes ópticos son objetivos espaciales sobre hardware de tierra (ningún reloj óptico de estroncio ha volado). La madurez <em>no</em> es uniforme entre dominios: el PNT terrestre está validado con datos reales; la navegación del espacio profundo y de Marte está modelada, con solo sus bloques constructivos (tiempo de luz, posiciones planetarias) validados frente a referencias independientes externas; la determinación de órbita (OD) del espacio profundo en misiones reales está en la hoja de ruta.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = El motor tiene { "87" } tipos de escenario; <c1/> los lista con sus campos. Novedades de { "0.38.0" }: <c2/> (señales GNSS para naves por encima, alrededor y más allá de las órbitas GNSS) y <c3/> (órbita y superficie lunares como infraestructura de navegación y geodésica), ambos MODELLED, y <c4/> (un registro de error de tiempo frente a las máscaras de la UIT-T).
-
-# text
 seg-68ed88ec0b32 = <b>Espectro</b>: cómo un jammer se apodera de la banda L del GNSS, banda por banda.
 
 # text

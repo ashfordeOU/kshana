@@ -581,7 +581,14 @@ export function migrateLang(root, lang, old, { dryRun = false } = {}) {
     }
     if (changed && !dryRun) writeFileSync(join(dir, f), keep.join('\n\n').trimEnd() + '\n');
   }
-  if (orphanBlocks.length && !dryRun) writeFileSync(join(root, lang, '_orphans.txt'), `# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.\n\n${orphanBlocks.join('\n\n')}\n`);
+  if (orphanBlocks.length && !dryRun) {
+    // Append to what is there: an earlier migration's orphans are recoverable work, not to be overwritten. A block whose id is already kept is not repeated.
+    const op = join(root, lang, '_orphans.txt'), head = '# Translations whose English segment no longer exists (the English changed, or it could not be carried over). Kept so work can be recovered; not read by the build.';
+    const prev = existsSync(op) ? readText(op).replace(head, '').trim() : '';
+    const kept = new Set([...prev.matchAll(/^(seg-[0-9a-f]{12}) =/gm)].map((x) => x[1]));
+    const fresh = orphanBlocks.filter((b) => { const m = /^(seg-[0-9a-f]{12}) =/m.exec(b); if (m && kept.has(m[1])) return false; if (m) kept.add(m[1]); return true; });
+    writeFileSync(op, `${head}\n\n${[...(prev ? [prev] : []), ...fresh].join('\n\n')}\n`);
+  }
   if (chunks.length && !dryRun) {
     const r = mergeTranslations(root, lang, [chunks.join('\n\n') + '\n']);
     if (r.rejected.length) retag.push(...r.rejected.map((x) => x.id));

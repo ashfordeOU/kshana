@@ -37,13 +37,6 @@ seg-d1a3f78ad8e0 = Probieren Sie es zuerst aus, ohne etwas zu installieren: <a1>
 seg-12a295fba8a5 = Jede Fähigkeit in der Verifikationsmatrix ist als <b>validiert</b> (gegen eine unabhängige externe Referenz geprüft), <b>modelliert</b> oder <b>vom Partner verantwortet</b> gekennzeichnet; Angaben zu optischen Uhren sind Weltraumziele auf Bodenhardware (noch keine optische Strontium-Uhr ist geflogen). Die Reife ist über die Bereiche hinweg <em>nicht</em> einheitlich: Erd-PNT ist gegen reale Daten validiert; die Navigation im tiefen Weltraum und zum Mars ist modelliert, wobei nur ihre Bausteine (Lichtlaufzeit, Planetenpositionen) gegen externe unabhängige Referenzen validiert sind; die Bahnbestimmung (OD, orbit determination) für reale Missionen im tiefen Weltraum steht auf der Roadmap.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = Die Engine kennt { "87" } Szenariotypen; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, im Bereich und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und geodätische Infrastruktur), beide MODELLED, sowie <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).
-
-# text
 seg-68ed88ec0b32 = <b>Spektrum</b>: wie ein Jammer das GNSS-L-Band belegt, Band für Band.
 
 # text

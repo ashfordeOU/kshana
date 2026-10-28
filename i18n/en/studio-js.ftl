@@ -9807,7 +9807,7 @@ js-mthread-bcol-source = Contribution
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
 js-mthread-budget-caption = { $phase }: 1-sigma at entry { $entry }, at the peak { $peak }, at exit { $exit } (position); each contribution below, largest first.
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:131
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:137
 js-mthread-chart-title = { $metric } against mission elapsed time, one band per phase
 
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
@@ -9873,10 +9873,16 @@ js-mthread-layout-phases = Equal width per phase
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
 js-mthread-layout-time = True mission time
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:148
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:154
 js-mthread-limit-title = { $phase }: the stated limit, { $limit }
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:163
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+js-mthread-limiting-phase = The engine names the limiting source of this phase as { $source }: a source of the phase, not one row of this table.
+
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+js-mthread-limiting-row = the engine's limiting source
+
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:169
 js-mthread-log-scale = logarithmic scale
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
@@ -9885,13 +9891,13 @@ js-mthread-margin-met = { $m }× the limit, met
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
 js-mthread-margin-missed = { $m }× the limit, not met
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:113
 js-mthread-metric-pos = Position, 1-sigma
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:113
 js-mthread-metric-time = Clock bias, 1-sigma
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:107
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:113
 js-mthread-metric-vel = Velocity, 1-sigma
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
@@ -9906,7 +9912,7 @@ js-mthread-no-phases = the result holds no phases
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:84
 js-mthread-no-requirement = no limit stated
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:127
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:133
 js-mthread-no-series = The result holds no samples of this quantity.
 
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
@@ -9939,9 +9945,6 @@ js-mthread-prov = Every label on this page is the engine's own; the page copies 
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
 js-mthread-recorded = The engine's recorded result (version { $version }): an illustrative chain built from public mission descriptions; the numbers are modelled and stand for nothing real.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
-js-mthread-sets-peak = sets the peak
-
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
 js-mthread-too-large = That file is larger than { $mb } MB; it is not read.
 
@@ -9951,7 +9954,7 @@ js-mthread-weak-line = The weakest link is the phase <b>{ $phase }</b>: { $margi
 # 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-weakest-flag = weakest link
 
-# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:158
+# 2026-10-01-studio-rebuild/lib/mission-thread.mjs:164
 js-mthread-weakest-mark = weakest link
 
 # 2026-10-01-studio-rebuild/lib/observatory.mjs:147

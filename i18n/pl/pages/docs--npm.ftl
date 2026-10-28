@@ -42,8 +42,6 @@ seg-ceee5ddc0c36 = W wersji WebAssembly każdy punkt wejścia to osobne wywołan
 
 seg-12a295fba8a5 = Każda możliwość w macierzy weryfikacji jest oznaczona jako <b>sprawdzona</b> (względem niezależnej wyroczni zewnętrznej), <b>obliczona na podstawie modelu</b> lub <b>należąca do partnera</b>; wartości zegarów optycznych to cele kosmiczne na sprzęcie naziemnym (żaden optyczny zegar strontowy nie poleciał w kosmos). Dojrzałość <em>nie</em> jest jednolita w różnych dziedzinach — PNT dla Ziemi jest sprawdzone względem prawdziwych danych; nawigacja w przestrzeni kosmicznej i na Marsie jest obliczona na podstawie modelu, a względem zewnętrznych wyroczni sprawdzone są tylko jej elementy składowe (czas przelotu światła, położenia planet); OD (wyznaczanie orbity) dla prawdziwych misji w przestrzeni kosmicznej jest w planach.
 
-seg-3de57431d3e6 = Silnik ma { "87" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).
-
 seg-68ed88ec0b32 = <b>Widmo</b>: jak zagłuszacz zajmuje pasmo L GNSS, pasmo po paśmie.
 
 seg-f04a0aeeee33 = <b>Zegary i synchronizacja czasu</b>: holdover względem progu, transfer czasu oraz holdover telekomunikacyjny względem masek sektora normalizacji Międzynarodowego Związku Telekomunikacyjnego (ITU-T).

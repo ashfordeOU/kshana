@@ -320,3 +320,11 @@ seg-4b41ffeb0030 = Kaikki { "87" } skenaariolajia, ilmaiseksi ilman ominaisuusra
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+# text
+# c1: kshana kinds
+# c2: gnss-ssv
+# c3: lunar-infrastructure
+# c4: holdover-test
+seg-3de57431d3e6 = Moottorissa on { "87" } skenaariolajia; <c1/> listaa ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-ratojen yläpuolella, ympärillä ja ohi) ja <c3/> (kuun kiertorata ja pinta navigointi- ja geodeettisenä infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vastaan).

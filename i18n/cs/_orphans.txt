@@ -308,3 +308,10 @@ seg-4b41ffeb0030 = Všech { "87" } kindů scénářů, zdarma bez omezení funkc
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+# c1: kshana kinds
+# c2: gnss-ssv
+# c3: lunar-infrastructure
+# c4: holdover-test
+seg-3de57431d3e6 = Engine má { "87" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické lodě nad dráhami GNSS, v jejich okolí a za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).

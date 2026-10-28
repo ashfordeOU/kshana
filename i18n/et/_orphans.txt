@@ -555,3 +555,11 @@ seg-4b41ffeb0030 = Kõik { "87" } stsenaariumi liiki, tasuta ilma funktsiooniluk
 # c1: fc21ac4
 # c2: constellation-multi-gnss-coverage.toml
 seg-597a57467277 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, ilma algväärtuseta
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+# text
+# c1: kshana kinds
+# c2: gnss-ssv
+# c3: lunar-infrastructure
+# c4: holdover-test
+seg-3de57431d3e6 = Mootoril on { "87" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).
