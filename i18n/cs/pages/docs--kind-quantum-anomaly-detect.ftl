@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Detekce poruch/anomálií pro kvantové systémy PNT je MODEL
 seg-6524a69e4835 = <s1>Předchozí</s1>pvt
 
 seg-aa689568cf84 = <s1>Další</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

@@ -187,3 +187,11 @@ seg-9c361736bf27 = Je to technický záznam, nikoli právní stanovisko ani cert
 seg-68bcf43b4e27 = <s1>Předchozí</s1>Pokrytí řádků
 
 seg-09c0b5fa6e52 = <s1>Další</s1>Optické spoje atmosférou
+
+seg-bd3169455cd0 = Štítek důkazů ({ "0.40" })
+
+seg-6fe796d2b15f = Balíček vytvořený verzí { "0.40" } nebo novější nese uvnitř <c1/> položku <c2/> (úroveň, <c3/>, <c4/> nebo <c5/>, což je nejslabší stav mezi jeho řádky, a id a požadavky řádků verifikační matice, na nichž obsah balíčku stojí: řádek integrity balíčku, řádky receiver-trust a řádky jammertest-scoring nebo round-trip pro tyto balíčky) a <c6/> <c7/>. Je uvnitř <c8/>, takže hash souboru z manifestu, hashový řetězec a podpis jej pokrývají: jeho změna ověření nesplní. <c9/> uvádí úroveň a id řádků.
+
+seg-15b4e784361a = Změna je aditivní a jen dopředná. <c1/> manifestu zůstává <c2/>: normativní text výše říká, že ověřovač MUSÍ najít tuto hodnotu, a ověřovač clean-room v <c3/> ji najde. Podverze je proto nesena v <c4/> (u balíčku vytvořeného před { "0.40" } chybí, což znamená { "1.0" }), nikoli novým řetězcem <c5/>. Balíček vytvořený před { "0.40" } nemá štítek a ověřuje se beze změny; <c6/> říká „no evidence label (pre-0.40 pack)“. Testy jsou <c7/> (včetně odevzdaných balíčků orákul před 0.40) a <c8/>.
+
+seg-218641620d3e = <s1>Další</s1>Datoví partneři a povyšované řádky

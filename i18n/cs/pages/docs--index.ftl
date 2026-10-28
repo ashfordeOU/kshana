@@ -217,3 +217,27 @@ seg-35db5b51a590 = <s1>Navigace uživatelů ve vesmíru</s1><s2>{ "1" } druh sc�
 seg-1acf60cff708 = Nezahrnuto
 
 seg-188c6e41f434 = Dokumenty procesu správců zůstávají v repozitáři: docs/RELEASING.md (postup vydání); docs/WHEEL_TAGS.md (podrobnosti balení); docs/revisions/ (interní poznámky ke změnám); docs/design/ (interní návrhové poznámky); README.pypi.md (stránka na PyPI; pokrývá ji dokumentace rozhraní Python); šablony .github/; docs/integrations.md (organizováno kolem pojmenovaných produktů AI třetích stran, které tento web nejmenuje).
+
+seg-fcffac5eb150 = <s1>Jazyky</s1><s2>Text enginu určený lidem je v { "17" } jazycích vedle angličtiny: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Druhy scénářů</s1><s2>{ "92" } vestavěných druhů scénářů, mezi něž kshana::api::run_toml rozděluje volání, každý s jeho jednořádkovým…</s2>
+
+seg-9d5c233c72b4 = <s1>Každý druh scénáře podle rodiny</s1><s2>Každý druh scénáře, který engine v{ $version } rozděluje ({ "92" }), zařazený do { "13" } rodin.</s2>
+
+seg-2c002a7b7640 = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>
+
+seg-f5987c9d9fde = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Reference schopností</s1><s2>Karty schopností a všech { "401" } řádků verifikační matice.</s2>
+
+seg-980f70b29717 = <s1>Datoví partneři a povyšované řádky</s1><s2>Kshana označuje každou schopnost ve strojově kontrolovaném registru (verifikační matice).</s2>
+
+seg-7c6a541b3bc8 = <s1>Vlákno mise: od startu po vstup do atmosféry</s1><s2>Software pouze poradního charakteru, nikoli certifikované navigační zařízení.</s2>
+
+seg-7377c479fed0 = <s1>Vlákno mise: lunární část</s1><s2>Čtyři druhy scénářů, z nichž každý je zároveň druhem fáze rozhraní mission-thread (src/mission_thread/): ony…</s2>
+
+seg-cecb9535c0a1 = <s1>Lunární a cislunární</s1><s2>{ "24" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje, nikoli…</s2>
+
+seg-1dd7c80e18a7 = <s1>Vlákna misí</s1><s2>{ "1" } druh scénáře enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje, nikoli…</s2>
+
+seg-f0e26f01a361 = { "92" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.

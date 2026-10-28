@@ -47,3 +47,5 @@ seg-333fca11ac0c = ČESTNÝ ROZSAH: MODELLED skalární rozpočet chyb -- dopln�
 seg-0e27fcef1499 = <s1>Předchozí</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>Další</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

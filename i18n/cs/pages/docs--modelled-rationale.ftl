@@ -2033,3 +2033,133 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-7a0503f925c1 = <s1>Předchozí</s1>Přehled schopností
 
 seg-b5832e94f926 = <s1>Další</s1>Tvrzení vůči realitě
+
+seg-65185cb68d6b = Rozpočet chyb navigace a času řetězce fází mise od startu po vstup do atmosféry (<c1/>)
+
+seg-86a132e1a243 = Druh <c1/>: dokument fází, z nichž každá je jedním z osmi registrovaných druhů, spouštěných postupně, přičemž kovariance 6x6, hodiny a soustava se předávají podle stanoveného pravidla (<c2/>; <c3/>, šum bílého zrychlení po stanovenou mezeru na modelu přímočarého pohybu; <c4/>, dead reckoning a pak spodní mez zdroje, nikdy pod ni, nikdy reset); převody soustav GCRF, MCI a MCMF a převody časových stupnic přes TT, každý jako samostatný řádek rozpočtu, se stavem Měsíce z volitelného výřezu jádra DE440 a analytickou řadou jako stanovenou záložní možností; rezerva vůči stanovenému požadavku, nejslabší článek, události a obrázek časové osy. Každé číslo je stanovený vstup nebo model vstupu
+
+seg-87b2b2459b45 = Start a výstup na parkovací dráhu se získáním signálu GNSS a jeho výpadky (<c1/>)
+
+seg-725e7ce83533 = Fáze <c1/>: kovariance polohy a rychlosti při konstantní rychlosti se šumem bílého zrychlení (třída dead reckoning), určení polohy GNSS o stanovené přesnosti použité po době získání signálu a mimo stanovené výpadky, hodiny s předpětím a driftem disciplinované týmiž určeními polohy a stav vložení na parkovací dráhu
+
+seg-eb66a49b0306 = Relativní navigace k dokovací obálce na nízké oběžné dráze Země po úsecích senzorů (<c1/>)
+
+seg-658a0448d80d = Fáze <c1/>: relativní stav v osách LVLH cíle s uzavřeným tvarem přechodu Clohessy-Wiltshire, kalman kovariance 6x6 se šumem bílého zrychlení a aktualizacemi polohy, jejichž rozptyl je rozptylem senzoru při aktuální vzdálenosti, po úsecích stanoveného senzoru (ILLUSTRATIVE optická kamera, lidar a rádiové určování vzdálenosti); dokovací okno je doba od okamžiku, kdy relativní sigma zůstává uvnitř záchytné obálky, do konce fáze. Absolutní kovariance chaseru se předává beze změny a řádek to uvádí
+
+seg-b45a8a357faf = Trans-lunární injekce a cislunární přelet: propagovaný střední stav a kovariance s aktualizacemi ze sledování (<c1/>)
+
+seg-ab5c79789754 = Fáze <c1/>: střední stav propagátorem Cowell z enginu (Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z jádra DE440 vlákna, kde pokrývá úsek, a Slunce z analytické řady); kovariance přes matici přechodu stavu z dopředných diferencí této propagace (nominální běh a šest rušených běhů na úsek) se šumem bílého zrychlení; velikost a chyba nasměrování manévru TLI; určení polohy <c2/>, jejichž dostupnost a PDOP pocházejí z rozmítání prostoru služby kosmického uživatele podél oskulační dráhy nahrazující oblouk; sledování vzdálenosti a rychlosti změny vzdálenosti podél geocentrického směru, škálované vytížením pozemní sítě, s aktualizací v Josephově tvaru
+
+seg-7a3eb4fae324 = Kovariance na rozhraní vstupu, pravděpodobnost koridoru, maximální zpomalení a stopa přistání (<c1/>)
+
+seg-93f07906d7bf = Fáze <c1/>: návratový volný let z <c2/> bez manévru, končící na rozhraní vstupu; úhel dráhy letu a jeho sigma z úplné kovariance konečnědiferenčním gradientem; pravděpodobnost, že úhel leží uvnitř stanoveného koridoru; maximální zpomalení při nominálním úhlu a na obou okrajích koridoru z rovinného balistického vstupu hmotného bodu z enginu (s detekcí odrazu) vedle uzavřeného tvaru Allen-Eggers; stopa přistání ze stanovené citlivosti na vzdálenost po dráze a z kovariance rozhraní napříč rovinou dráhy. Nemodeluje se vztlak, naváděcí systém ani ohřev
+
+seg-3f0951532f6e = Pokrytí pozemní sítí a vytížení sledování pro fázi vlákna (<c1/> z <c2/>)
+
+seg-5204af351299 = Překryv pozemní sítě: stanice s minimální elevací, viditelnost vozidla na stanovené geometrii (stav vstupu letěný jako dvoutělesový s J2, poloha Měsíce pro přelet nebo stanovené vytížení), předávání mezi stanicemi, z nichž každé ztrácí stanovený čas, a výsledné vytížení předané rychlosti aktualizací sledování ze Země dané fáze; nejdelší interval bez stanice ve výhledu je řádek rozpočtu
+
+seg-4ba700726208 = Relativní navigace k dokování na lunární oběžné dráze (<c1/>)
+
+seg-2e30e78e49f7 = Druh a fáze <c1/>: společný dávkový odhad Gauss-Newton dvou vozidel přes oblouk (jedenadvacet parametrů: oba stavy a trvalé chyby polohy signálu ve vesmíru, společné i nezávislé), rostoucí o čtvrtinu, polovinu a celý oblouk s půlením kroku, z absolutního určení polohy na vozidlo (mez sledování kódu pilotního signálu AFS, ILLUSTRATIVE sada relé) a vzdálenosti křížového spoje, v lunárním silovém modelu cratu; střední normalizovaná kvadratická chyba odhadu, kontrola Clohessy-Wiltshire na kruhové dráze a předávaná kovariance 6x6
+
+seg-c85d7e5e63a3 = Rozpočet rozptylu přistání na lunárním polárním místě (<c1/>)
+
+seg-bd88ab3ad105 = Druh a fáze <c1/>: pětistavový inerciální model chyb po osách (poloha, rychlost, bias akcelerometru, náklon, bias gyroskopu) při motorickém sestupu, podporovaný určeními polohy AFS (samostatnými nebo diferenčními, s případem hodin podporovaných třemi relé), určením polohy vůči terénu (porovnávač terrain-nav z enginu na syntetickém reliéfu, nebo mez Cramér-Rao na DEM z LOLA s pravidlem apertury) a lunárním časem, s Monte Carlo elipsou dosedu
+
+seg-8dfc1600cf8c = Dostupnost určování polohy a času na povrchu podle místa a roční doby na lunárních pólech (<c1/>)
+
+seg-f91c1da9ab55 = Druh a fáze <c1/>: dostupnost relé a PDOP, viditelnost Země a Slunce a disciplinované povrchové hodiny pro každé místo a roční dobu, s terénním obzorem z <c2/>; běh pro jedno místo se rovná dostupnosti a PDOP tohoto druhu až na bit
+
+seg-0db91d70a079 = Motorický výstup z lunárního polárního místa na dráhu vložení (<c1/>)
+
+seg-b5b1125d515c = Druh a fáze <c1/>: pětistavový inerciální model chyb po osách běžící přes motorický výstup se specifickou silou podél trajektorie, podporovaný určeními polohy AFS a lunárním časem, uvádějící kovarianci polohy a rychlosti při vložení přenášenou na dráhu a rozptyl vypnutí motoru (uváděný, nepřenášený)
+
+seg-1983ce9cc6da = Propagace lunárním silovým modelem proti veřejným rekonstruovaným trajektoriím lunárních orbiterů a cislunárních těles
+
+seg-57f53a7d1fa2 = Propagátor, který sdílejí lunární druhy (GRAIL GL0660B stupně a řádu { "150" }, Země a Slunce jako třetí tělesa, relativita, lunární orientace DE440), porovnaný s veřejnými trajektoriemi JPL Horizons pro LRO ({ "24" } h, vzorky po { "10" } minutách) a CAPSTONE (jeden oběh { "6.5" } dne, vzorky po hodině) podle prahů zafixovaných v odevzdaném souboru před během
+
+seg-c557d317389a = Propagace středního stavu v cislunárním prostoru proti veřejné trajektorii Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = Propagace středního stavu fáze <c1/> (Cowell, Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z výřezu DE440) porovnaná s veřejnou trajektorií Artemis I z JPL Horizons přes { "72" } h oblouk volného letu od 2022-11-16 { "18" }:{ "00" } TDB, v epochách po { "12" } hodinách, podle prahů zafixovaných v odevzdaném souboru před během
+
+seg-150ae9c3d755 = Oblast zdroje rušení: přípustná oblast zdroje z hlášení polohy letadel a lodí
+
+seg-b5c49044a7a1 = Přípustná oblast, kde se může nacházet zdroj zhoršených navigačních hlášení, z hlášení polohy ADS-B (NIC/NACp) nebo AIS: rádiová přímá viditelnost na poloměru 4/3 Země z výšky hlášení a rozsahu výšek antény zdroje, omezený efektivní dosah pro neznámý výkon, dotčené jednotky přitahující posterior k svému dosahu a nedotčené jednotky s přímou viditelností působící proti, seskupené do relací v čase a prostoru. Výstupem jsou oblasti nejvyšší hustoty na stanovených úrovních spolehlivosti, těžiště posterioru s momentovou elipsou, začátek, konec a trvání relace, dotčená plocha a počet odlišných letadel nad minimem pro zveřejnění, denní profil a hodiny za den. Bez terénu; jeden zdroj na relaci; věrohodnost je podmíněna modelem. Volitelná fúze s určením polohy TDOA z geolocation.
+
+seg-26d9a520eb6a = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Ruční výpočty v testech (růst kovariance po přímce, průměrná siderická rotace, sekulární lunární rychlost hodin) a pouze pro stav Měsíce zapsané výřezy jádra DE440 proti připnutým hodnotám JPL Horizons (nejhorší { "2.6" } m a { "7e-6" } m/s). S řetězcem se neporovnávají žádná data mise; jeho fáze jsou samostatné řádky. Dokument je uvedený řetězec s ILLUSTRATIVE vstupy, pouze z veřejných zdrojů a bez podpory agentury
+
+seg-308cb3c31a16 = mission_thread (scenario, handover, conversions, budget, phase)
+
+seg-65bd744f29c6 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+seg-d77218b48910 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Ustálený stav Riccatiho rovnice a ruční výpočet predikce v testech. Nic zde nemodeluje nosnou raketu ani přijímač; každé číslo je uvedený vstup
+
+seg-9e5314dc6b0a = mission_thread::earth::launch (LaunchAscent)
+
+seg-083f9245ff63 = mission_thread::earth::launch::tests::with_gnss_the_sigma_settles_near_the_fix_and_an_outage_lets_it_grow; mission_thread::earth::launch::tests::before_acquisition_the_sigma_only_grows_and_a_longer_acquisition_is_worse; mission_thread::earth::launch::tests::a_phase_that_does_not_list_gnss_never_uses_it; mission_thread::earth::launch::tests::bad_models_and_entries_are_refused; mission_thread::earth::filter::tests::repeated_updates_reach_the_riccati_steady_state
+
+seg-24aae90bcf56 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Jednoosý ruční výpočet predikce a aktualizace v testu; přechod Clohessyho–Wiltshirea je ten, který cw_dynamics kontroluje proti nezávislé numerické integraci. Senzory jsou ILLUSTRATIVE a neporovnává se žádné skutečné setkání
+
+seg-da26dd6773fb = mission_thread::earth::rendezvous (LeoRendezvous); cw_dynamics; mission_thread::sensors
+
+seg-940d19eaea64 = mission_thread::earth::rendezvous::tests::the_relative_sigma_falls_through_the_legs_and_opens_a_docking_window; mission_thread::earth::rendezvous::tests::without_relative_sensing_the_sigma_only_grows_and_no_window_opens; mission_thread::earth::rendezvous::tests::the_covariance_recursion_matches_a_one_axis_hand_calculation; mission_thread::earth::rendezvous::tests::bad_models_and_a_duration_mismatch_are_refused; mission_thread::sensors::tests::the_cross_range_error_grows_with_range_and_the_floor_dominates_up_close
+
+seg-4bbee1892183 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Liouvilleova věta (determinant matice přechodu stavu konzervativní části je jedna) a jemnější diference v testech; střední stav se porovnává s veřejnou trajektorií v řádku níže, kterou nesplňuje. Chyba zážehu, aktualizace a kovariance se s ničím neporovnávají
+
+seg-88b5123a7c1f = mission_thread::earth::tli_cruise (TliCruise); propagator; ssv::sweep
+
+seg-be98276d9788 = mission_thread::earth::tli_cruise::tests::the_stm_is_symplectic_for_the_conservative_part_and_matches_a_finer_difference; mission_thread::earth::tli_cruise::tests::with_no_tracking_the_covariance_is_the_stm_propagation_of_the_entry_and_the_burn; mission_thread::earth::tli_cruise::tests::range_tracking_shrinks_the_line_of_sight_and_leaves_the_plane_of_the_sky; mission_thread::earth::tli_cruise::tests::the_thread_kernel_serves_the_moon_inside_its_window_and_the_series_outside; mission_thread::earth::tli_cruise::tests::gnss_ssv_fixes_are_applied_where_the_sweep_finds_four_signals; mission_thread::earth::tli_cruise::tests::a_phase_that_lists_a_source_the_model_lacks_is_refused_and_unknown_keys_too
+
+seg-2dc8a48d5ffe = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Ruční výpočty v testech (sigma úhlu je sigma kolmé rychlosti dělená rychlostí; gaussovská hmota v koridoru). Rovinný vstup je vlastní vstup enginu a forma Allen–Eggers je srovnání v uzavřeném tvaru; neporovnává se žádný uskutečněný vstup
+
+seg-6057015a7a7c = mission_thread::earth::entry (Entry); reentry
+
+seg-dcb831f6f492 = mission_thread::earth::entry::tests::the_flight_path_angle_and_its_sigma_follow_the_velocity_error_over_the_speed; mission_thread::earth::entry::tests::the_corridor_probability_is_the_gaussian_mass_inside; mission_thread::earth::entry::tests::the_phase_reports_the_interface_the_corridor_the_peaks_and_the_footprint; mission_thread::earth::entry::tests::the_steep_edge_peaks_higher_and_a_limit_below_it_is_flagged; mission_thread::earth::entry::tests::bad_corridors_unknown_keys_and_burn_keys_are_refused
+
+seg-2a78aa543666 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Kontroly geometrie zenitu a antipodu a očekávaná viditelnost vzdáleného cíle v testech. Nemodeluje se žádná skutečná síť, anténa ani rozvrh
+
+seg-f937752c7a50 = mission_thread::earth::ground_network::tests::a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not; mission_thread::earth::ground_network::tests::the_moon_is_in_view_of_three_well_spread_stations_most_of_the_time; mission_thread::earth::ground_network::tests::handover_losses_reduce_the_duty_and_never_below_zero; mission_thread::earth::ground_network::tests::a_stated_duty_is_passed_through_and_bad_documents_are_refused; mission_thread::scenario::tests::the_overlay_sets_the_tracking_duty_of_a_phase_that_lists_ground_tracking
+
+seg-addac2398a5e = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Vnitřní konzistence podle předregistrace (xval/mission-thread-lunar/PREREGISTRATION.md, výsledky a historie odhadovače v RESULTS.md): střední NEES relativního stavu je { "5.85" } až { "5.93" } oproti pásmu { "5.2" } až { "6.8" } ve čtyřech konfiguracích, MET u čtvrtého návrhu odhadovače poté, co tři návrhy se sekvenčním filtrem práh nesplnily; skutečnost a odhadovač sdílejí jeden model sil, takže to nic neříká o chybě modelu. Propagátor, který sdílí, se porovnává s LRO a CAPSTONE v řádku níže
+
+seg-75f11c7aa6bc = lunar_rendezvous (LunarRendezvousScenario); lunar_phase; mission_thread::lunar
+
+seg-995afbdc6a9f = lunar_rendezvous::tests::b1_mean_nees_is_inside_the_registered_band_in_all_four_configurations; lunar_rendezvous::tests::circular_cw_check_is_within_the_pre_registered_bar; lunar_rendezvous::tests::same_seed_gives_identical_documents; lunar_rendezvous::tests::b6_handover_without_a_measurement_only_propagates; mission_thread::lunar::tests::every_phase_runs_and_returns_a_modelled_outcome; tests/mission_thread_lunar_oracles.rs
+
+seg-3270c832c0fe = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Inerciální drift v uzavřeném tvaru, vlastní výsledky znovu použitých druhů a kalibrace 3sigma elipsy (podíl uvnitř odpovídá očekávání) v testech. Neporovnává se žádné uskutečněné ani zkoušené přistání
+
+seg-2c293a58fb25 = lunar_landing (LunarLandingScenario); lunar_phase; terrain_nav
+
+seg-7ac44470d95d = lunar_landing::tests::b4_with_no_aid_the_landing_error_is_the_closed_form_inertial_drift; lunar_landing::tests::b4_each_aid_reports_exactly_what_the_reused_kind_gives; lunar_landing::tests::b3_ellipse_calibration; lunar_landing::tests::a_plane_gives_no_fix_the_aperture_problem; lunar_landing::tests::a_bowl_matches_the_closed_form_bound; lunar_landing::tests::three_relays_make_the_fix_depend_on_the_clock
+
+seg-a8b9da63334b = kontroluje se proti samostatné implementaci v téže kódové základně, nezávislé na testované jednotce, ale není vnějším autoritativním zdrojem — Přesná rovnost s existujícím druhem pro jedno místo a kontroly monotonie v testech. Sada relé je ILLUSTRATIVE a neporovnává se žádné měření na povrchu
+
+seg-dd3ab355cb4f = lunar_surface_map (LunarSurfaceMapScenario); lunar_phase
+
+seg-6b6210646fdd = lunar_surface_map::tests::b5_equals_the_service_volume_for_a_single_site; lunar_surface_map::tests::b5_equals_the_service_volume_with_the_real_terrain; lunar_surface_map::tests::terrain_never_adds_availability; lunar_surface_map::tests::timing_is_at_least_either_source_and_the_season_moves_the_earth_and_sun; lunar_surface_map::tests::same_inputs_give_identical_documents
+
+seg-aa4a409d28b4 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Inerciální drift v uzavřeném tvaru a kontroly monotonie v testech. Neporovnává se žádný uskutečněný výstup
+
+seg-b95197d3e058 = lunar_ascent (LunarAscentScenario); lunar_phase
+
+seg-977149f40c72 = lunar_ascent::tests::with_no_aid_the_insertion_error_is_the_closed_form_inertial_drift; lunar_ascent::tests::the_aid_never_hurts_and_the_velocity_is_carried_with_its_correlation; lunar_ascent::tests::a_stale_tt_clock_costs_a_three_relay_fix; lunar_ascent::tests::the_same_inputs_give_identical_documents
+
+seg-581586ff816c = dílčí tvrzení je zkontrolováno externě, ale celá schopnost skládá dohromady modelované části, takže schopnost zůstává vypočtena z modelu — efemeridy kosmických lodí JPL Horizons pro LRO a CAPSTONE proti prahům předregistrovaným v xval/mission-thread-lunar/PREREGISTRATION.md (dodatky { "1" } až { "6" }). LRO: MET, největší 3D rozdíl { "33" } m a radiální RMS { "2.4" } m oproti { "500" } m a { "60" } m. CAPSTONE: NOT MET, rozdíl koncové polohy { "136.8" } km oproti { "25" } km a rozdíl perigea { "28.4" } km oproti { "10" } km, příčiny nebyly izolovány. Řádek je vypočten z modelu, protože práh CAPSTONE je nesplněn a srovnání testuje sdílený propagátor, nikoli žádný filtr, signál ani rozpočet
+
+seg-48ac8187364f = lunar_od (LunarForceModel); precise_od; mission_thread_lunar_oracles (example)
+
+seg-7372185d4dd9 = tests/mission_thread_lunar_oracles.rs::the_stored_numbers_meet_or_miss_the_registered_bars_as_recorded; tests/mission_thread_lunar_oracles.rs::the_fixtures_match_their_recorded_hashes
+
+seg-7ce4f3fbb3c4 = dílčí tvrzení je zkontrolováno externě, ale celá schopnost skládá dohromady modelované části, takže schopnost zůstává vypočtena z modelu — JPL Horizons cíl -1023 (navigační trajektorie NASA po TLI podle skutečného letu) proti prahům předregistrovaným v xval/mission-thread/PREREGISTRATION.md (dodatek { "1" } mění pouze požadovaný rozsah). NOT MET a prosazeno jako nesplněné: největší rozdíl polohy { "45.3" } km oproti { "5" } km a rozdíl rychlosti { "0.249" } m/s při { "72" } h oproti { "0.05" } m/s. Diagnostika napsaná po verdiktu umisťuje nesplnění do pěti impulsních změn rychlosti { "0.09" } až { "0.22" } m/s v referenci (předregistrované čtení, že okno neobsahovalo žádný zážeh, bylo chybné); během ostatních { "67" } hodin model reprodukuje další hodinový stav s mediánem { "0.38" } m. Testuje pouze střední stav jednoho volného oblouku: žádnou kovarianci, filtr, aktualizaci ani jinou fázi
+
+seg-7089ca12dbe0 = mission_thread::earth::tli_cruise; propagator; mission_thread_oracle (example)
+
+seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_registered_bars_as_recorded; tests/mission_thread_oracle.rs::the_diagnostic_places_the_miss_in_five_impulsive_events_not_in_the_force_model; tests/mission_thread_oracle.rs::the_kernel_cut_and_the_recorded_inputs_match_their_hashes
+
+seg-2630978c5675 = kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum — Zatím žádná vnější. Pouze syntetické přímo-inverzní okružní zkoušky z generátoru, který sdílí model odhadovače, takže kontrolují kód a kalibraci uvedených úrovní za tímto modelem a nic o skutečných vysílačích. Vnější kontrola proti zveřejněným místům vysílačů Jammertest { "2025" } byla předregistrována (docs/emitter-region/PREREGISTRATION.md, schválena vlastníkem před jakýmkoli hodnoceným během) a provedena jednou (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } plánované relace, méně než registrované minimum { "4" }) a AIS NOT ASSESSABLE (žádná zveřejněná relace), takže se netestoval žádný práh a řádek zůstává MODELLED
+
+seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
+
+seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
+
+seg-a2bf08b8e82d = { "221" } schopností označeno MODELLED.

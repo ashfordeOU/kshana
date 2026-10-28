@@ -49,3 +49,5 @@ seg-9d67411151e3 = Kvantová navigace bez GNSS je MODELLED, nikoli ověřená: z
 seg-e1d502e1ed6d = <s1>Předchozí</s1>quantum-anomaly-detect
 
 seg-1f3705925b3c = <s1>Další</s1>quantum-time-transfer
+
+seg-a349aa76b0ed = PARTNER

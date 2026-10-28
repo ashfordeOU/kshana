@@ -331,3 +331,39 @@ seg-7f13ee5d254e = <s1>Další</s1>Mapa interference: zdroje dat a licence
 seg-1fc1794d9388 = Metoda ADS-B (kshana-interference-map/adsb/v2)
 
 seg-a3a97ab49ed1 = Metoda AIS (kshana-interference-map/ais/v2)
+
+seg-e3949a1e6082 = Oblast zdroje rušení (<c1/>)
+
+seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
+
+seg-4fc5a1dcc963 = <c1/> odhaduje, <b>kde se může nacházet zdroj rušení</b>, ze stejných otevřených hlášení ADS-B nebo AIS: oblast na stanovených úrovních spolehlivosti, těžiště s elipsou nejistoty a relace v čase. Nikdy nevrací holý bod. <b>MODELLED</b> (řádek registru <c2/>): fyzika je učebnicová rádiová přímá viditelnost, věrohodnost oblastí je podmíněna modelem a jedinou externí kontrolou je srovnání Jammertest předregistrované v <s1><c3/></s1>. Zveřejňování oblastí zdrojů rušení ve veřejné observatoři je samostatné rozhodnutí vlastníka a je <b>vypnuto</b>: observatoř tento modul nečte a test to zafixovává.
+
+seg-194d573cb817 = Volby: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fúze určení polohy TDOA; níže). Každá volba, která se liší od předregistrované hodnoty, je oznámena jako „not the pre-registered method“. Soubory se nikdy nepřepisují.
+
+seg-5767c749117a = <b>Model.</b> Hlášení se řadí do <em>jednotek</em> (jedno letadlo nebo plavidlo v jednom 2minutovém košíku), každá je <em>dotčená</em> (ADS-B: nejméně polovina jejích hlášení má nízké NIC nebo NACp podle vlastního pravidla mapy; AIS: nepravděpodobná rychlost nebo skok, nebo poloha ve vnitrozemí od pobřeží) nebo ne. Letadlo nebo plavidlo se počítá, jen když má ve vstupu alespoň { "5" } dobrých hlášení (táž pojistka základní výbavy jako u mapy). Dotčené jednotky se seskupují do <em>relací</em>: mezera delší než { "30" } minut dělí v čase a uvnitř časového shluku k sobě patří dvě jednotky, když by oběma mohl být v dosahu jeden zdroj. Pro jednu relaci dostane každá kandidátní poloha na mřížce věrohodnost:
+
+seg-0e3abeb21526 = <b>Přímá viditelnost.</b> Letadlo ve výšce <c1/> a anténa zdroje ve výšce <c2/> se vidí navzájem až na <c3/> km na poloměru 4/3 Země. <c4/> je marginalizováno přes { "2" } až { "100" } m ({ "8" } hodnot rozložených logaritmicky).
+
+seg-75f5afea310e = <b>Výkon.</b> Výkon zdroje je neznámý, takže efektivní dosah od { "12" } km do { "426" } km (kroky po { "1.25" }) nebo „jen přímá viditelnost“ omezuje dosah, marginalizováno se stejnou váhou. Okraj dosahu je měkký: jednotka se počítá jako v dosahu s váhou, která klesá lineárně přes { "15" } % dosahu na každé straně (alespoň tři čtvrtiny buňky mřížky), protože terén, anténní diagram a dráha nejsou známy lépe.
+
+seg-ff9cf5fc9fbe = <b>Dotčené a nedotčené.</b> Letadlo nebo plavidlo je <em>náchylné</em> s pravděpodobností { "0.6" } (výbava přijímače, anténa a dráha signálu se liší), jednotka náchylného v dosahu je dotčená s pravděpodobností { "0.9" } a jakákoli jiná jednotka je dotčená s pravděpodobností pozadí { "0.03" } (jiné příčiny). Náchylnost je latentní vlastnost letadla, sečtená po letadlech, stejně jako trvalá závada výbavy (pravděpodobnost { "0.03" }: všechny jednotky toho letadla jsou dotčené, ať je kdekoli), což brání vadnému transpondéru táhnout oblast. Takže <b>dotčené</b> letadlo táhne posterior k polohám, které je dosáhnou, a <b>nedotčené letadlo s přímou viditelností</b> tlačí proti polohám, které by je dosáhly, nejvýše o váhu jednoho letadla, bez ohledu na počet odeslaných hlášení, zatímco nedotčené letadlo bez přímé viditelnosti neříká nic.
+
+seg-51e09cf3944c = <b>Bez terénu.</b> Terén, vlnovodné šíření a difrakce se nemodelují (terén může přímou viditelnost jen odebrat).
+
+seg-b966c198786a = <b>Temperování.</b> Logaritmus věrohodnosti se násobí { "0.3" } (mocninný posterior). Důkazy modelu jsou závislejší a jeho okraje méně ostré než nezávislost, kterou věrohodnost předpokládá, a na syntetických datech s těmito vadami netemperované oblasti držely skutečný zdroj hluboko pod svou stanovenou mírou; { "0.3" } bylo zvoleno jen na syntetických datech (odvození je v <c1/>, oddíl { "8" }).
+
+seg-4488bddfd8da = Posterior dává <b>oblasti nejvyšší hustoty</b> na stanovených úrovních (vnořené; mnohoúhelníky s dírami, kde je třeba), <b>těžiště</b> vážené posteriorem a jeho <b>momentovou elipsu</b> (škálovanou na { "95" } % při gaussovském rozdělení; kalibrovanými úrovněmi jsou mnohoúhelníky, nikoli elipsa). Mřížka je hrubá (asi { "5" } až { "10" } km) přes celou doménu a každá hrubá buňka s hmotou je rozdělena { "4" } na { "4" }. <b>Zkreslení pokrytí</b> se řeší podmíněním tím, kde hlášení existují: oblast je široká tam, kde bylo málo letadel, a relace, jejíž { "95" } % oblast vyplní více než { "80" } % její prohledávané domény, se uvádí <c1/> bez těžiště.
+
+seg-2ee93e45c01e = <b>Relace a profil.</b> Každá zveřejněná relace má začátek, konec, trvání, plochu buněk 0.5 stupně, které obsahují dotčenou jednotku a alespoň { "5" } odlišných letadel nebo plavidel, počty odlišných dotčených a pozorovaných a protidůkaz (odlišné nedotčené s přímou viditelností k těžišti; zadrženo pod { "5" }). Relace s méně než <c1/> odlišnými dotčenými letadly nebo plavidly se zadrží a započítá. Profil udává podle hodiny dne UTC odlišná dotčená letadla (<c2/> pod { "5" }) a minuty času relace a hodiny času relace za den UTC.
+
+seg-857aad210cde = Volitelná fúze TDOA.
+
+seg-fcfc554b4f3d = <c1/> přijímá <c2/> (alespoň tři přijímače; <c3/> je přijímač <c4/> minus přijímač { "0" }). Poloha se řeší na povrchu Země metodou Gauss-Newton na <c5/>, její kovariance je <c6/> a gaussovské rozdělení se násobí do posterioru. Mez Cramér-Rao je dolní mez na modelu, nikoli změřená přesnost.
+
+seg-55c1c9c80601 = <b>Výstupy</b> (<c1/>): <c2/> (oblast MultiPolygon na úroveň a relaci, polygon elipsy, bod těžiště nesoucí svou elipsu), <c3/>, <c4/>, <c5/>. Každý vkládá licenci datové sady, URL licence a uvedení autorství, id metody <c6/>, každý parametr, předpoklady a omezení a nese svůj <b>štítek důkazů</b> (úroveň MODELLED, id řádků registru; pruh pod obrázkem, řádky <c7/> v tabulce, člen <c8/> v JSON). Strojové soubory jsou anglicky bez ohledu na jazyk; text obrázku a řádky příkazového řádku jsou lokalizovány. Syntetický příklad je v <c9/> (<c10/>).
+
+seg-7f93e7987855 = <b>Soukromí a formulace.</b> V žádném výstupu se neobjeví identifikátor letadla ani plavidla; nekreslí se žádná poloha hlášení; relace potřebuje alespoň { "5" } odlišných letadel nebo plavidel; počty pod { "5" } jsou <c1/>. Formulace je neutrální: „odhadovaná oblast zdroje rušení“, „oblast zdroje rušení“. Oblast není polohou nikoho, není zjištěním příčiny a nic neříká o tom, kdo nebo co za zdrojem stojí; rozšířený test formulací kontroluje, zda výstupy neobsahují slova o aktérech, záměru a konfliktu.
+
+seg-5298b30a7857 = <b>Omezení.</b> Věrohodnost je podmíněna modelem. Na syntetických datech (generátor sdílející model, s okraji dosahu nejistými o { "15" } % na letadlo, trvalými závadami výbavy, neznámým výkonem a neznámou výškou antény) { "95" } % oblast obsahovala skutečný zdroj v { "0.99" } (geometrie letadel) a { "1.00" } (geometrie lodí) relací a { "50" } % oblast asi v { "0.77" }: úrovně jsou konzervativní, o exponent věrohodnosti { "0.3" }, a chyba těžiště relace má medián { "23" } km (letadla) a { "12" } km (lodě). Kalibrace je kontrolována jen na syntetických datech; srovnání Jammertest bylo předregistrováno (<c1/>) a provedeno jednou: NOT ASSESSABLE pro oba zdroje (<c2/>). Jeden zdroj na relaci; několik blízkých zdrojů vypadá jako jeden. Regionální příčina (výpadek konstelace, kosmické počasí) dává oblast, která není zdrojem. ADS-B dává mimo rušný vzdušný prostor málo hlášení a jen asi čtvrtina bodů stopy readsb nese NIC a NACp, takže řídké oblasti dávají široké nebo žádné oblasti ({ "31" } % relací s geometrií lodí bylo <c3/>).
+
+seg-d8eb178ef226 = Oblast zdroje rušení (interference-map locate)
