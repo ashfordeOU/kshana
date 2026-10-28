@@ -59,3 +59,5 @@ seg-8784979d6569 = dBW
 seg-37d16b499bc5 = dB
 
 seg-37d29d8303fe = km
+
+seg-a349aa76b0ed = PARTNER

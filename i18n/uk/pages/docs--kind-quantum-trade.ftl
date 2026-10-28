@@ -61,3 +61,5 @@ seg-bb07c8ee153f = <b>PARTNER</b> Не надається — лише моде�
 seg-debc2f07db78 = true
 
 seg-98151954f217 = false
+
+seg-a349aa76b0ed = PARTNER

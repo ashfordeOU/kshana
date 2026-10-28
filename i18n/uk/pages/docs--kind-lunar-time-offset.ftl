@@ -31,3 +31,5 @@ seg-96b65f604cc2 = Чесність: MODELLED, не сертифіковано. 
 seg-e4552368a6a7 = <s1>Попередній</s1>lunar-time-budget
 
 seg-777dc23bac6a = <s1>Наступний</s1>lunar-vlbi-fim
+
+seg-e66e2ca31e54 = Тематична сторінка: <a1>MISSION-THREAD-LUNAR.md</a1>
