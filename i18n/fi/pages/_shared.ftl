@@ -419,3 +419,17 @@ seg-1fc08d2f0209 = Mitä ajon oma raportti sanoo olevan mallintamatta tai valido
 seg-58c4d7218e70 = Toistettavuus ja ohjelmistovarmistus on MODELLED, ei validoitu: alaväite tarkistetaan ulkoisesti, mutta koko kyvykkyys kokoaa yhteen mallinnettuja osia, joten kyvykkyys pysyy mallinnettuna. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))
 
 seg-1bf3d5817274 = Kaikki lajit: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Kielet
+
+seg-aaf9c6896126 = Datakumppanit ja ylentävät rivit
+
+seg-3b31855a40e7 = Tehtäväketju: laukaisusta paluuseen
+
+seg-0cf138405411 = Tehtäväketju: kuusegmentti
+
+seg-5fee8df421d2 = Tehtäväketjut
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = matriisirivin vakaa tunniste (ID

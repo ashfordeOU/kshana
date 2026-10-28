@@ -84,3 +84,9 @@ seg-f3279128de3b = <s1>Eelmine</s1>mars-pnt
 
 # text
 seg-92cd937a3fb7 = <s1>Järgmine</s1>ntn-positioning
+
+seg-e66e2ca31e54 = Teemaleht: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Liik ja faas <c1/>: releede kättesaadavus ja PDOP, Maa ja Päikese nähtavus ning distsiplineeritud pinnakell iga koha ja aastaaja kohta, liigi <c2/> reljeefisiluetiga; ühe koha käivitus võrdub selle liigi
+
+seg-6730fa1b9820 = <s1>Eelmine</s1>mission-thread

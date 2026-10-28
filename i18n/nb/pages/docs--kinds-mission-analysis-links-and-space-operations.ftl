@@ -161,3 +161,5 @@ seg-568c484ce9a0 = <b>Register:</b> VALIDATED. Fullstendig side, med inndata, re
 seg-41996765fcf1 = <s1>Forrige</s1>Måne og cislunart
 
 seg-1951c46fe429 = <s1>Neste</s1>Optisk PNT
+
+seg-e77c46e23e67 = <s1>Neste</s1>Oppdragstråder

@@ -40,3 +40,5 @@ seg-6a6f8eea5767 = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä
 seg-a4baaf1fbb8c = <s1>Edellinen</s1>Tehtäväanalyysin yhteydet ja avaruusoperaatiot
 
 seg-48792381ba0b = <s1>Seuraava</s1>Avaruuskäyttäjän navigointi
+
+seg-22449071fb11 = <s1>Edellinen</s1>Tehtäväketjut

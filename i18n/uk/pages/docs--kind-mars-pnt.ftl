@@ -39,3 +39,5 @@ seg-4be479b81f39 = <s1>Попередній</s1>lunar-vlbi
 seg-2854e6a75833 = <s1>Наступний</s1>moonlight-service-volume
 
 seg-debc2f07db78 = true
+
+seg-6d595f01ffcc = <s1>Далі</s1>mission-thread

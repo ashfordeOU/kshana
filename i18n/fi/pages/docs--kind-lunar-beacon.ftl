@@ -31,3 +31,5 @@ seg-2516c4208769 = Kuun pintamajakoiden DOP-täydennys on MODELLED, ei validoitu
 seg-ebb9724de60a = <s1>Edellinen</s1>lunar-attack-surface
 
 seg-ca9b68783354 = <s1>Seuraava</s1>lunar-differential-pnt
+
+seg-b81e98467952 = <s1>Seuraava</s1>lunar-descent

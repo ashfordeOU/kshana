@@ -9341,3 +9341,7 @@ js-trust-track-start = alku
 js-trust-unknown-agreement = vastaavuus, jota tämä sivu ei tunne
 
 js-trust-yes = kyllä
+
+js-mthread-limiting-phase = Moottori nimeää tämän vaiheen rajoittavaksi lähteeksi { $source }: vaiheen lähde, ei yksi tämän taulukon rivi.
+
+js-mthread-limiting-row = moottorin rajoittava lähde

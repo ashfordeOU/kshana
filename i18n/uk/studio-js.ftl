@@ -9525,3 +9525,7 @@ js-trust-track-start = початок
 js-trust-unknown-agreement = збіг, якого ця сторінка не знає
 
 js-trust-yes = так
+
+js-mthread-limiting-phase = Рушій називає обмежувальне джерело цієї фази як { $source }: джерело фази, а не один рядок цієї таблиці.
+
+js-mthread-limiting-row = обмежувальне джерело за рушієм

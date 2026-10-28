@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>上一页</s1>冷原子干涉仪
 seg-4a457afc63fb = <s1>下一页</s1>npm与WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = 根据ADS-B或AIS的CSV文本估计发射源区域：<c1/>，每项都标为MODELLED；区域以所述置信度给出，带质心和不确定性椭圆，绝不是单独一个点；仅作汇总，区域不是任何人的位置，也不是对成因的结论

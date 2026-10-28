@@ -91,3 +91,7 @@ seg-702ea357fbf3 = jokaisen komennon käyttöohje; moottorin versio
 seg-74240229d57b = <s1>Edellinen</s1>Jokainen skenaariolaji perheittäin
 
 seg-b3cc5b769c99 = <s1>Seuraava</s1>Jokainen pinta
+
+seg-09dab71efd9d = tarkistaa datakumppanin lähetyksen formaatin ja metatiedot ja lukee sen datatiedoston moottorin lukijoilla; ei pisteytä mitään
+
+seg-57686575b81d = Kumppanidata

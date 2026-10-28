@@ -75,3 +75,7 @@ seg-4b72df59b3f9 = Temaside: <a1>SSV.md</a1>
 seg-c9ac9a99bcbb = <s1>Forrige</s1>gnss-sim
 
 seg-9df48482a140 = <s1>Neste</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> Fasen <c1/>: middeltilstanden fra motorens Cowell-propagator (jordens punktmasse og J2, Solen og Månen som tredje legemer, Månen fra oppdragstrådens DE440-kjerne der den dekker segmentet og Solen fra den analytiske serie
+
+seg-6a26b9ab59fe = Temaside: <a1>MISSION-THREAD.md</a1>

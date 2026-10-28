@@ -142,3 +142,31 @@ seg-68274ce67506 = <b>Laboratoř GNSS IQ</b> (<c1/>): scény, akvizice, sledová
 seg-6dc7d52fef11 = <s1>Předchozí</s1>npm a WebAssembly
 
 seg-8ff56af64ec2 = <s1>Další</s1>Server MCP
+
+seg-c9a297cc51e9 = { "176" } z { "401" } schopností ověřeno proti nezávislým vnějším orákulům
+
+seg-7b53ee712a36 = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "221" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jedno označení ve strojově kontrolovaném registru: VALIDATED (souhlasí nezávislé vnější orákulum: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní, a řečeno otevřeně) nebo PARTNER (vlastní ho hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 na { "4.12" } mm a model sil Cowell na { "0.08" } m proti Orekit { "12.2" }.
+
+seg-b59781ecf257 = Jak schopnost získává své označení: schopnost, orákulum, test, označení v registru. Stav ověření napříč všemi { "401" } schopnostmi: { "176" } ověřeno, { "221" } modelováno, { "4" } ve vlastnictví partnera
+
+seg-d0b2811a3d3c = Engine má { "92" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické prostředky nad drahami GNSS, kolem nich i za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).
+
+seg-8e9fbc5f2e72 = Popis vestavěného druhu scénáře kind v jazyce lang z katalogu (anglicky, pokud jazyk nemá jeho překlad); None pro název, který není vestavěným druhem.
+
+seg-06e503c23c30 = [kind_description_in] v aktuálním jazyce ([crate::i18n::current]).
+
+seg-2549a4e06eff = [list_scenario_kinds_json] s každým popisem v jazyce lang (značka, jakou přijímá --lang, například de nebo zh-Hans); názvy a seznamy polí jsou v každém jazyce stejné a pro angličtinu je dokument bajt po bajtu shodný s [list_scenario_kinds_json].
+
+seg-3a25e30a0dc9 = [run_toml] pro uživatele v jazyce lang (značka jako de, pt-BR, zh-Hans, en-XA).
+
+seg-6691825fa5e6 = Dva běhy [run_toml_lang] držené odděleně: anglický běh, jehož json a csv jsou strojové soubory, a pro jiný jazyk běh v tomto jazyce pro vše, co čte člověk.
+
+seg-1fd1f547d2b3 = Druhý průchod [run_toml_bilingual] samostatně: spustí scénář jednou v jazyce lang a vrátí pouze to, co čte člověk.
+
+seg-ae75df85e545 = [run_scenario] pro uživatele v jazyce lang; viz [run_toml_lang].
+
+seg-28e05e08ff76 = Spustí src v jazyce lang a pokud selže, popíše selhání jako objekt JSON { "{" }"kind": <kind_tag>, "code": <stabilní kód nebo null>, "message": <text v daném jazyce>{ "}" }.
+
+seg-24fe823a994a = json bez štítku důkazů ([crate::evidence_label]); beze změny, pokud žádný nenese.
+
+seg-c0444d838311 = out se štítkem důkazů odstraněným z jeho JSON, SVG a CSV, bajt po bajtu tak, jak je běh vytvořil, než štítek existoval; výstup bez štítku zůstává beze změny.

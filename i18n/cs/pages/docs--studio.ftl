@@ -69,3 +69,5 @@ seg-0316a3f12053 = Workflow GitHub Actions <c1/> nasazuje značku vydání, niko
 seg-6aa2e78078ae = <s1>Předchozí</s1>Glosář
 
 seg-419353a4fb30 = <s1>Další</s1>Tutoriály
+
+seg-74dc3fad6ee7 = <s1>Předchozí</s1>Jazyky

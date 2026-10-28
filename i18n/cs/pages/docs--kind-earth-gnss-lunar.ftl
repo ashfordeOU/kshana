@@ -41,3 +41,5 @@ seg-01fa469abd95 = Earth-GNSS ve lunární vzdálenosti je MODELLED, nikoli ově
 seg-2fd936b76f4a = <s1>Předchozí</s1>contact-schedule
 
 seg-95a5aa0adeb3 = <s1>Další</s1>entry-heating
+
+seg-a349aa76b0ed = PARTNER

@@ -55,3 +55,5 @@ seg-6334f82991d3 = Ikke nådd, og låst av tester som slår fast bommen: C3 (må
 seg-1d3bffc2fd02 = <s1>Forrige</s1>Navigasjon for rombrukere (gnss-ssv)
 
 seg-90932eed0074 = <s1>Neste</s1>Posisjonering, navigasjon og tidssynkronisering i LEO
+
+seg-c3b27dfb7bca = <s1>Neste</s1>Oppdragstråd: fra oppskyting til gjeninntreden

@@ -47,3 +47,5 @@ seg-95be70748647 = Kaappauksen jalanjälki korkeuden ja keilanleveyden funktiona
 seg-1a1799e01ac4 = <s1>Edellinen</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>Seuraava</s1>lunar-beacon
+
+seg-ca1c7e92b98e = <s1>Edellinen</s1>lunar-ascent

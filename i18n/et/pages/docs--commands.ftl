@@ -145,3 +145,7 @@ seg-74240229d57b = <s1>Eelmine</s1>Iga stsenaariumi liik perekondade kaupa
 
 # text
 seg-b3cc5b769c99 = <s1>Järgmine</s1>Iga pind
+
+seg-09dab71efd9d = kontrollib andmepartneri esituse vormingut ja metaandmeid ning loeb selle andmefaili mootori lugejatega; ei hinda midagi
+
+seg-57686575b81d = Partneri andmed

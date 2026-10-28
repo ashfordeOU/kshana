@@ -501,3 +501,5 @@ seg-4a457afc63fb = <s1>Järgmine</s1>npm ja WebAssembly
 
 # text
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = hinnangulised emitterpiirkonnad ADS-B või AIS CSV-tekstist: <c1/>, igaüks märgitud MODELLED; piirkonnad nimetatud usaldusnivool koos tsentroidi ja määramatuse ellipsiga, mitte kunagi paljas punkt; ainult koond ning piirkond ei ole kellegi asukoht ega põhjuse tuvastus

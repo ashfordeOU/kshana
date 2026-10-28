@@ -31,3 +31,5 @@ seg-96b65f604cc2 = Ærlighet: MODELLED, ikke sertifisert. Hovedtallet i us/døgn
 seg-e4552368a6a7 = <s1>Forrige</s1>lunar-time-budget
 
 seg-777dc23bac6a = <s1>Neste</s1>lunar-vlbi-fim
+
+seg-e66e2ca31e54 = Temaside: <a1>MISSION-THREAD-LUNAR.md</a1>

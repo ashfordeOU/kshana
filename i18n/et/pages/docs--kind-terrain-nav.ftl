@@ -63,3 +63,7 @@ seg-0fcad0016c78 = <s1>Eelmine</s1>telecom-timing
 
 # text
 seg-fa50992f818f = <s1>Järgmine</s1>terrain-slam
+
+seg-e66e2ca31e54 = Teemaleht: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Liik ja faas <c1/>: viieoleklik inertsiaalvea mudel iga horisontaaltelje kohta (asukoht, kiirus, kiirendusmõõturi nihe, kalle, güroskoobi nihe) mootoriga laskumisel, mida abistavad AFS-fiksid (eraldiseisvad või diferentsiaalsed, kella abistamisega kolme-rele

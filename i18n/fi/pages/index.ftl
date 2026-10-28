@@ -709,3 +709,25 @@ seg-f4d3b1f5b1b4 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> �
 seg-3287261002dd = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
 seg-510663384be1 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-070972f642de = Artemis-luokan tehtäväketju: navigoinnin ja ajoituksen virhebudjetti laukaisusta ilmakehään paluuseen
+
+seg-4970f874d334 = Kuusegmentti: kohtaaminen, lasku, pinta ja nousu
+
+seg-8ca6e2046901 = Arvioitu lähetinalue ADS-B- tai AIS-raporteista
+
+seg-003a3b9b63ea = Mitatut kellolokit ja sovitetun sarjan ajama holdover
+
+seg-448b11c86f48 = Datakumppanit: mitkä rivit mitattu data voisi ylentää
+
+seg-5858e5d1f7c5 = Todistemerkintä jokaisessa ajon kirjoittamassa kuvassa ja taulukossa
+
+seg-bd28ef5c376e = Seitsemäntoista kieltä englannin rinnalla
+
+seg-7fae5de5ebf1 = kshana-bench: { "0.40" } uusintakampanja
+
+seg-b9961ed25282 = Uutta versiossa v{ $version }: tehtäväketju, todistemerkintä jokaisessa luvussa ja seitsemäntoista kieltä
+
+seg-653cf3198094 = { "401" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
+
+seg-76b213d03caa = Kaikki { "92" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.

@@ -69,3 +69,5 @@ seg-0316a3f12053 = GitHub Actions-arbeidsflyten <c1/> ruller ut en utgivelsesmer
 seg-6aa2e78078ae = <s1>Forrige</s1>Ordliste
 
 seg-419353a4fb30 = <s1>Neste</s1>Veiledninger
+
+seg-74dc3fad6ee7 = <s1>Forrige</s1>Språk

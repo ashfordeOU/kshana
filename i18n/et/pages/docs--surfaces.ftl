@@ -1109,3 +1109,79 @@ seg-4e3bbacda9ac = <s1>Eelmine</s1>Kshana kasutamine agendist
 
 # text
 seg-c5fbfab85e01 = <s1>Järgmine</s1>JetBrainsi pistikprogramm
+
+seg-6555ff9a6d8e = Väljund
+
+seg-12471a4b2b57 = Emitterpiirkond (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (veel kaasa võtmata; Rusti, Pythoni ja WASM-i pinnad katavad selle)
+
+seg-dff1bfe0263e = <b>N/A</b> (emitterpiirkondade avaldamine avalikus observatooriumis on eraldi omaniku otsus ja see on välja lülitatud)
+
+seg-ec2d91e2f867 = Andmepartneri esituse kontroll (mõõteandmete esituse vorming ja metaandmed, <c1/>; ei hinda midagi)
+
+seg-c16a5ff8218b = <b>N/A</b> (kontroll loeb kohalikke faile ja nende SHA-256; Rusti API on teegipind ja CLI on tööriist)
+
+seg-ed29039d1dc0 = <b>N/A</b> (brauseriversioonil pole failisüsteemi)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP keeldub failiallikatest konstruktsiooni järgi (ainult tekst otse))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (kaldkriipsukäsud kutsuvad MCP tööriistu ja see kontroll vajab kettal olevaid faile)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrainsi toimingud on seotud ühe valitud failiga; esitus on kaust)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studiol puudub failisüsteemi ligipääs; käivitage käsk)
+
+seg-521b58a1080e = Navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni kulgevast missioonifaaside ahelast: kaheksa faasiliiki, üleandmisreeglid, tugisüsteemi- ja ajaskaalamuundused, maajaamade võrgu pealiskiht, varu nimetatud nõuete suhtes ja nõrgim lüli (stsenaariumi liik <c1/>; <c2/>; MODELLED, ILLUSTRATIVE sisendid, nõuandev; ainult avalikud allikad, ilma toetuseta)
+
+seg-6b451021b87a = <c1/> (väljavõtte kataloogist: see loeb kaasatud Kuu kerneli väljalõiget)
+
+seg-ac3e013b5217 = <c1/> (<c2/> on failivõti ja sellest keeldutakse; ilma kernelita on Kuu analüütiline rida ja muundusrida ütleb seda)
+
+seg-e957474f44a8 = <c1/> (ainult otse; kerneli võtmest keeldutakse)
+
+seg-1c1729fafe99 = <b>N/A</b> (märkmikku pole; näide töötab mis tahes märkmikus käsuga <c1/> väljavõtte kataloogist)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (veel kaasa võtmata)
+
+seg-ab52a3469f6a = Hinnangulised emitterpiirkonnad, MODELLED; jälgede kataloogid ja <c1/> on ainult käsureal
+
+seg-5f1ce275acbd = Loeb esituse faili ja selle andmefaili kettalt ning kontrollib SHA-256; ühelgi neist pindadest pole kausta. Ainult vorming ja metaandmed, midagi ei hinnata; vt <c1/>
+
+seg-fc9ab9f71553 = Tõendussilt ja väljundid, mis seda ei kanna
+
+seg-b1e4bcc2ac09 = Iga jooksu kirjutatud näitaja ja tabel kannab oma tõendustaset (<c1/>, <c2/> või <c3/>, selle taga olevate registrite ridade nõrgeim) ja nende ridade tunnuseid igal pinnal, mis stsenaariumi käivitab: tulemuse JSON (võti <c4/>), diagrammi SVG (metaandmete element ja joon graafiku all) ja CSV-tabel (<c5/> kommentaaread). Sama silt on vastuvõtja usaldusväärsuse väljundites (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, häirekaardi marsruudiaruandes ning iga tõendipaketi <c11/> sees (allkirjastatud; <c12/> teatab seda). Rea tunnused on stabiilsed (<c13/> ja kaheksa kuueteistkümnendnumbrit, veerg <c14/> failis <c15/>).
+
+seg-c66058f24f0e = Need väljundid ei kanna silti, igaüks nimetatud põhjusel (loend on <c1/> failis <c2/>, mis ebaõnnestub kirjutaja puhul, mis pole märgitud ega loetletud):
+
+seg-04ca90423b80 = Miks see silti ei kanna
+
+seg-a90c022c4dea = kshana-bench tulemusfailid
+
+seg-9f3f0adbcfe6 = fikseeritud skeem, mille kinnitavad tagasihoitud kohustused; igaüks kannab oma <c1/> (MODELLED või mõõdetud)
+
+seg-9bb126104f12 = häirete observatooriumi päevatooted (GeoJSON, PNG, intsidendi JSON)
+
+seg-ddbc60cb14ac = külmutatud, avaldatud skeem; meetodimärkuse hoiatused liiguvad nendega kaasa
+
+seg-874cb55d3457 = IQ kampaania lahtri, tulemuskaardi ja aruande failid
+
+seg-8c8cb4bd5110 = räsiga kinnitatud; igaüks ütleb, millise kampaania tulemuskaardi see kordab
+
+seg-8d2645e93451 = IQ valimid, SigMF ja SDR-i metaandmed, stseeni tegelik olek, jälgimise epohhi- ja sündmusvood, otseseansside logid
+
+seg-9fa872028a08 = vormingusidusad failid ja kirjevood, mida loevad teised tööriistad
+
+seg-6c77071a0d03 = SP3, OMM, OEM, CZML, KML, GeoJSON, STK, katsestendi liikumise ja NMEA eksport; NMEA treeningvoog
+
+seg-5c1b92afa402 = vormingusidusad failid, mida loevad kolmandate osapoolte tööriistad
+
+seg-b5c79a0e395c = telemeetria edastusvormingud (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = määratud nende edastusvormingutega
+
+seg-3ba06004fc14 = genereeritud dokumendid (register ise, sisse viidud uuringu- ja andmetabelid)
+
+seg-8be4943acd00 = ei ole jooksu väljund

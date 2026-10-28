@@ -55,3 +55,9 @@ seg-46ed0b786244 = トピックページ：<a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>前へ</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>次へ</s1>combined-altpnt
+
+seg-d1beb62cf742 = この kind を使う同梱シナリオは { "6" } 件です。その他は<a1><c1/></a1>にあります。
+
+seg-936e96edf423 = <b>MODELLED</b> <c1/> kind：フェーズの文書で、各フェーズは登録済みの八つの kind のいずれかです。フェーズは順に実行され、6x6 共分散、クロック、座標系が、明記した規則のもとで引き継がれます（<c2/>、<c3/>は、明記した区間にわたる白色加速度ノイズ テスト：<a1>field_units_global.rs</a1>。
+
+seg-3319b18ac61f = ほかに { "1" } 件がマトリクスにあります。

@@ -166,3 +166,5 @@ seg-c0ef7d676ec1 = <s1>Edellinen</s1>GNSS-mittaukset, paikannus ja eheys
 
 # text
 seg-54b45b00a2f0 = <s1>Seuraava</s1>Inertia-anturit, fuusio ja kvanttianturit
+
+seg-643fa0f18717 = <b>Kirjanpito:</b> MODELLED. Koko sivu syötteineen, tuloksineen, todisteineen ja rajoituksineen: <a1>terrain-nav</a1>.

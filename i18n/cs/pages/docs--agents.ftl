@@ -149,3 +149,7 @@ seg-203a91deb52c = Používejte syntetická nebo vlastní data uživatele. Ve v�
 seg-ec064f62f7dc = <s1>Předchozí</s1>Server MCP: samostatně provozovaný režim HTTP
 
 seg-1f44dbd65ce3 = <s1>Další</s1>Kde je která schopnost dostupná
+
+seg-e3949a1e6082 = Oblast zdroje rušení (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: přípustná oblast při rádiové přímé viditelnosti, nikoli určení polohy. Uvádějte oblast na stanovené úrovni spolehlivosti s těžištěm a jeho elipsou, nikdy samotné těžiště; napište <c1/>, když data oblast nezúží; napište, že je podmíněna modelem (zkontrolováno jen na syntetických datech; předregistrované srovnání Jammertest proběhlo jednou a pro oba zdroje bylo NOT ASSESSABLE, takže se externě nic neověřovalo). Neutrální formulace: „odhadovaná oblast zdroje rušení“; nikdy nejmenujte ani nenaznačujte, kdo nebo co za zdrojem stojí, ať jde o stát, sílu či záměr. Pouze agregovaně; nepokoušejte se obnovovat identifikátory. Zveřejňování oblastí zdrojů rušení ve veřejné observatoři je vypnuto.

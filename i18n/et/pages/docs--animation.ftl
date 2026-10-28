@@ -210,3 +210,5 @@ seg-be1f1afe7424 = <s1>Eelmine</s1>Käivituse aruanded
 
 # text
 seg-6817433f69f6 = <s1>Järgmine</s1>Koostalitluse ekspordid ja impordid
+
+seg-5366f477e688 = Liik, mille tulemus ei kanna ühtegi neist kujudest (link budget, ühe epohhi geomeetria, ainult statistikat andev Monte Carlo kokkuvõte või telekomi holdover, mille tulemus avaldab kirje räsi, aga mitte kirjet), lükatakse tagasi teatega <c1/> ja midagi ei kirjutata. Kshana { $version } puhul animeeritakse { "94" } { "192" }-st käivitatavast stsenaariumifailist (kõik failid peale uuringukomplekti) ja { "98" } lükatakse tagasi. <c2/> trükib loenduse.

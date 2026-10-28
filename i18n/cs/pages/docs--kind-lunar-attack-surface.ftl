@@ -47,3 +47,5 @@ seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho
 seg-a3697ad561db = Hz
 
 seg-9521a296d617 = dBi
+
+seg-ca1c7e92b98e = <s1>Předchozí</s1>lunar-ascent

@@ -55,3 +55,5 @@ seg-6334f82991d3 = Nesplněno a připnuto testy, které tvrdí nezdar: C3 (metri
 seg-1d3bffc2fd02 = <s1>Předchozí</s1>Navigace uživatelů ve vesmíru (gnss-ssv)
 
 seg-90932eed0074 = <s1>Další</s1>Určování polohy, navigace a času na LEO
+
+seg-c3b27dfb7bca = <s1>Další</s1>Vlákno mise: od startu po vstup do atmosféry

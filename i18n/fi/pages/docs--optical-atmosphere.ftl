@@ -169,3 +169,5 @@ seg-83b30e1ca261 = <s1>Edellinen</s1>Todistepaketit
 
 # text
 seg-1474b58fb35a = <s1>Seuraava</s1>Aikavälin ajoitus
+
+seg-50f25bceca3c = <s1>Edellinen</s1>Datakumppanit ja ylentävät rivit
