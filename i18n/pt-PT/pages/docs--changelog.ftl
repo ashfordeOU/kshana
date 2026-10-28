@@ -9076,3 +9076,5 @@ seg-a4b6bfcb9984 = Nada aqui é VALIDATED: as linhas de referência independente
 seg-29d014d29790 = Uma atualização de dependência na biblioteca distribuída (a primeira entrada), o restante nas ferramentas de validação cruzada (<c1/>).
 
 seg-6b6a960ca7cf = <c1/>, <c2/> e <c3/> { "0.13" } para { "0.14" } (com <c4/> { "0.14.3" }, <c5/> { "0.17.0" } e <c6/> { "0.5.5" } para { "0.7.10" }; também a dependência direta <c7/>, agora { "0.7" }) resolvem RUSTSEC-2026-0387, uma variabilidade de tempo de execução em <c8/> { "0.5.5" }. O Kshana usa estes crates apenas para verificar assinaturas públicas (a chave raiz Galileo OSNMA e os tokens de carimbo temporal RFC { "3161" }) e só assina em testes com chaves descartáveis, pelo que a exposição prática era nula; a atualização remove o aviso sem uma entrada de exclusão. Os ficheiros de bloqueio da biblioteca e do MCP mudam ambos; nenhum resultado de verificação muda (os testes de vetores de OSNMA e de carimbo temporal passam sem alteração).
+
+seg-1a4cda9d1486 = A versão mínima suportada do Rust é agora { "1.88" } (exigida pela correção do RUSTSEC-2026-0387).
