@@ -57,3 +57,5 @@ seg-598a7d6ba1e7 = <s1>Попередній</s1>lunar-joint-od-clock
 seg-54b1c9200aae = <s1>Наступний</s1>lunar-station-coverage
 
 seg-3068552e4ab4 = VALIDATED: рядки <a1>матриці верифікації</a1>, що називають цей різновид.
+
+seg-2053999af5ef = <s1>Далі</s1>lunar-orbit-rendezvous

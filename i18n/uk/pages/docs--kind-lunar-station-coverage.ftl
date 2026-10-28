@@ -49,3 +49,7 @@ seg-6ac5bd1500a8 = <s1>Попередній</s1>lunar-llr-datum
 seg-625c1973128e = <s1>Наступний</s1>lunar-time-budget
 
 seg-cd04f5662884 = MODELLED. (каталог різновидів (<c1/>))
+
+seg-bf7d64a925dd = <s1>Назад</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Далі</s1>lunar-surface

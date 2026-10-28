@@ -51,3 +51,7 @@ seg-2b8455001710 = <s1>Попередній</s1>lunar-beacon
 seg-dca7482d9d75 = <s1>Наступний</s1>lunar-frame-campaign
 
 seg-37d29d8303fe = km
+
+seg-e66e2ca31e54 = Тематична сторінка: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-f9d918743ec6 = <s1>Назад</s1>lunar-descent
