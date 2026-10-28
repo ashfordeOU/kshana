@@ -138,3 +138,7 @@ seg-c9ac9a99bcbb = <s1>Anterior</s1>gnss-sim
 
 # text
 seg-9df48482a140 = <s1>Siguiente</s1>gravity-map
+
+seg-795e0409fa5a = <b>MODELLED</b> La fase <c1/>: el estado medio mediante el propagador de Cowell del motor (masa puntual terrestre y J2, el Sol y la Luna como terceros cuerpos, la Luna a partir del kernel DE440 del hilo donde cubre el segmento y el Sol a partir de la serie analít
+
+seg-6a26b9ab59fe = Página del tema: <a1>MISSION-THREAD.md</a1>

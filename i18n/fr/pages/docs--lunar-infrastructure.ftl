@@ -103,3 +103,5 @@ seg-1d3bffc2fd02 = <s1>Précédent</s1>Navigation des utilisateurs de l'espace (
 
 # text
 seg-90932eed0074 = <s1>Suivant</s1>Positionnement, navigation et synchronisation temporelle LEO
+
+seg-c3b27dfb7bca = <s1>Suivant</s1>Fil de mission : du lancement à l'entrée

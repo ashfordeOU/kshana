@@ -75,3 +75,5 @@ seg-4be479b81f39 = <s1>Anterior</s1>lunar-vlbi
 
 # text
 seg-2854e6a75833 = <s1>Siguiente</s1>moonlight-service-volume
+
+seg-6d595f01ffcc = <s1>Siguiente</s1>mission-thread

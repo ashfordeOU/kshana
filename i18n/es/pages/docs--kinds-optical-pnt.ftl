@@ -114,3 +114,5 @@ seg-a4baaf1fbb8c = <s1>Anterior</s1>Análisis de misión, enlaces y operaciones 
 
 # text
 seg-48792381ba0b = <s1>Siguiente</s1>Navegación de usuarios espaciales
+
+seg-22449071fb11 = <s1>Anterior</s1>Hilos de misión

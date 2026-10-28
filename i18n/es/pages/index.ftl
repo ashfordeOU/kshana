@@ -1124,3 +1124,25 @@ seg-f4d3b1f5b1b4 = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <
 seg-3287261002dd = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
 seg-510663384be1 = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+
+seg-070972f642de = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización desde el lanzamiento hasta la entrada
+
+seg-4970f874d334 = El segmento lunar: encuentro, descenso, superficie y ascenso
+
+seg-8ca6e2046901 = Una región estimada del emisor a partir de informes ADS-B o AIS
+
+seg-003a3b9b63ea = Registros de reloj medidos y un holdover conducido por una serie ajustada
+
+seg-448b11c86f48 = Socios de datos: qué filas podrían promover los datos medidos
+
+seg-5858e5d1f7c5 = Una etiqueta de evidencia en cada figura y tabla que escribe una ejecución
+
+seg-bd28ef5c376e = Diecisiete idiomas además del inglés
+
+seg-7fae5de5ebf1 = kshana-bench: la recampaña de { "0.40" }
+
+seg-b9961ed25282 = Novedades de v{ $version }: un hilo de misión, una etiqueta de evidencia en cada figura y diecisiete idiomas
+
+seg-653cf3198094 = { "176" } de { "401" } capacidades coinciden con referencias independientes externas; el resto se etiqueta como modelado, en voz alta.
+
+seg-76b213d03caa = Los { "92" } tipos de escenario, gratis y sin restricción de funciones, deterministas a partir del escenario, la semilla y la versión del motor.

@@ -80,3 +80,5 @@ seg-7b465c2bb7cf = MODELLED Fehler-/Anomalieerkennung für Quanten-PNT-Systeme: 
 # text
 # c1: quantum-anomaly-detect
 seg-ad4ce0110e8d = <c1/> (Szenarioart)
+
+seg-a349aa76b0ed = PARTNER

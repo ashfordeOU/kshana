@@ -144,3 +144,7 @@ seg-3040e2ec62b1 = <s1>Précédent</s1>Types de scénario
 
 # text
 seg-1d6e6cc607f2 = <s1>Suivant</s1>Toutes les commandes
+
+seg-c6bb02c73696 = Planche-contact des graphiques que le moteur écrit pour les types de la famille Fils de mission
+
+seg-9ad7876b693f = Chaque type de scénario que le moteur v{ $version } aiguille ({ "92" }), classé dans { "13" } familles. Chaque famille a une page avec une entrée par type (la description et les champs du moteur, la commande d'exemple, les chiffres clés d'une exécution, les lignes de la matrice qui le nomment, et le graphique que le moteur écrit) et une planche-contact de ces graphiques. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non un équipement de navigation homologué ni un service de sauvegarde de la vie humaine. Chaque étiquette ici est celle du moteur ou de la matrice de vérification ; un type de scénario est MODELLED sauf si la matrice dit le contraire (comment une étiquette s'acquiert : la section Evidence du README).

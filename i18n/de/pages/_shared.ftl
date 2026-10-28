@@ -633,3 +633,17 @@ seg-58c4d7218e70 = Reproduzierbarkeit und Software-Assurance ist MODELLED, nicht
 
 # text
 seg-1bf3d5817274 = Alle Arten: <a1>KINDS.md</a1>
+
+seg-6867c09f7613 = Sprachen
+
+seg-aaf9c6896126 = Datenpartner und befördernde Zeilen
+
+seg-3b31855a40e7 = Missionsstrang: vom Start bis zum Wiedereintritt
+
+seg-0cf138405411 = Missionsstrang: das Mondsegment
+
+seg-5fee8df421d2 = Missionsstränge
+
+seg-37d29d8303fe = km
+
+seg-a0d832aec3c8 = die stabile Kennung der Matrixzeile (die ID

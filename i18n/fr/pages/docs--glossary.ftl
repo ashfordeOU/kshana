@@ -3773,3 +3773,5 @@ seg-c5da9d350518 = <s1>Précédent</s1>Introduction aux concepts
 
 # text
 seg-670504be0531 = <s1>Suivant</s1>Guide du Studio
+
+seg-6c10aaedf2fc = <s1>Suivant</s1>Langues

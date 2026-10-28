@@ -477,3 +477,11 @@ seg-09c0b5fa6e52 = <s1>Siguiente</s1>Enlaces ópticos a través de la atmósfera
 
 # text
 seg-245fe1f87b08 = Archivo
+
+seg-bd3169455cd0 = La etiqueta de evidencia ({ "0.40" })
+
+seg-6fe796d2b15f = Un paquete creado con { "0.40" } o posterior lleva, dentro de <c1/>, una entrada <c2/> (el nivel, <c3/>, <c4/> o <c5/>, que es el estado más débil entre sus filas, y los identificadores y requisitos de las filas de la matriz de verificación en que se apoya el contenido del paquete: la fila de integridad del paquete, las filas de receiver-trust, y las filas de puntuación de jammertest o de ida y vuelta para esos paquetes) y <c6/> <c7/>. Está dentro de <c8/>, de modo que el hash del archivo del manifiesto, la cadena de hashes y la firma lo cubren: cambiarlo hace fallar la verificación. <c9/> informa del nivel y de los identificadores de fila.
+
+seg-15b4e784361a = El cambio es aditivo y solo hacia adelante. El <c1/> del manifiesto sigue siendo <c2/>: el texto normativo anterior dice que un verificador DEBE encontrar ese valor, y el verificador independiente de <c3/> lo hace. Por tanto, la versión menor la lleva <c4/> (ausente en un paquete creado antes de { "0.40" }, lo que significa { "1.0" }), no una nueva cadena <c5/>. Un paquete creado antes de { "0.40" } no tiene etiqueta y se verifica sin cambios; <c6/> dice «no evidence label (pre-0.40 pack)». Las pruebas son <c7/> (incluidos los paquetes de referencia confirmados anteriores a la 0.40) y <c8/>.
+
+seg-218641620d3e = <s1>Siguiente</s1>Socios de datos y filas que promover

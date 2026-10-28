@@ -110,3 +110,5 @@ seg-c74c63ffd859 = Das Diagramm, das die Engine für scenarios/quantum-trade.tom
 # text
 # c1: quantum-trade
 seg-f9af2813532e = <c1/> (Szenarioart)
+
+seg-a349aa76b0ed = PARTNER

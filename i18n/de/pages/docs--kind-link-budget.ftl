@@ -83,3 +83,5 @@ seg-a3697ad561db = Hz
 
 # text
 seg-cec5c06d38af = <b>MODELLED</b> Mondeigenes Störer-zu-Signal-Verhältnis, effektives C/N₀ und Verlust der Aufschaltung für einen selenographischen Oberflächennutzer unter einem Störer an der Mondoberfläche (oder erhöht) über der illustrativen Moonlight/LCNS-artigen Konstellation aus öffentlichen Quellen.
+
+seg-410a790785e7 = <s1>Weiter</s1>lunar-ascent

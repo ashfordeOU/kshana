@@ -87,3 +87,5 @@ seg-1750fbfc4a99 = <s1>Précédent</s1>sweep-nd
 
 # text
 seg-de5468ac32fc = <s1>Suivant</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> La phase <c1/> : l'état moyen par le propagateur de Cowell du moteur (masse ponctuelle terrestre et J2, le Soleil et la Lune comme corps tiers, la Lune issue du noyau DE440 du fil là où il couvre le segment et le Soleil issu de la sér

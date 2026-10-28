@@ -101,3 +101,7 @@ seg-f1e7283d2e15 = MODELLED — exakte Aufhebungsidentität + Dekorrelationsmode
 
 # text
 seg-8ac5ac006ae7 = Modelliertes lunares DIFFERENTIELLES PNT (ein lunares Analogon zu DGNSS/SBAS): Eine Referenzstation der Klasse NovaMoon an einem BEKANNTEN selenographischen Ort berechnet differentielle Korrekturen je Satellit aus einer ILLUSTRATIVE Konstellation der Klasse Moonlight/LCNS aus öffentlichen Quellen (NovaMoon nur als Systemklasse genannt, ohne Verbindung zur ESA), und ein um baseline_km versetzter Nutzer wendet sie an, sodass sich die gleichtaktigen Bahn- + Uhrenfehler aufheben. Der Uhrenterm hebt sich EXAKT auf (eine algebraische Identität); der Bahnterm hinterlässt nur die Projektion der Sichtliniendifferenz, die für Basislinie → { "0" } gegen { "0" } geht (die Untergrenze der räumlichen Dekorrelation) und etwa linear mit der Basislinie wächst. Es werden der 3D-Positionsfehler des Nutzers MIT gegenüber OHNE Korrekturen, der Reduktionsfaktor, die Kurve Fehler gegen Basislinie und ein Schutzniveau des Nutzers ausgegeben, das die SBAS-Maschinerie nach DO-229E (crate::sbas) MIT dem differentiellen Restfehler σ WIEDERVERWENDET. MODELLED — exakte Aufhebungsidentität + Dekorrelationsmodell erster Ordnung; nicht mit realen Daten validiert; kein TRL/Flugerbe/keine Billigung durch eine Agentur. Deterministisch, wenn mit Seed erzeugt.
+
+seg-e66e2ca31e54 = Themenseite: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-f9d918743ec6 = <s1>Zurück</s1>lunar-descent

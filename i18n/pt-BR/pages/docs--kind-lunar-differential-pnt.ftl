@@ -101,3 +101,7 @@ seg-2b8455001710 = <s1>Anterior</s1>lunar-beacon
 
 # text
 seg-dca7482d9d75 = <s1>Próximo</s1>lunar-frame-campaign
+
+seg-e66e2ca31e54 = Página do tópico: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-f9d918743ec6 = <s1>Anterior</s1>lunar-descent

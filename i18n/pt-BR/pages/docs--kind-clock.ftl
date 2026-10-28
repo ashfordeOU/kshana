@@ -96,3 +96,9 @@ seg-e06f9a5a0291 = <s1>Anterior</s1>cislunar-observability
 
 # text
 seg-aba9395185fa = <s1>Próximo</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } cenários incluídos usam este tipo; os demais estão em <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registrados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado Testes: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = e mais { "1" } na matriz.

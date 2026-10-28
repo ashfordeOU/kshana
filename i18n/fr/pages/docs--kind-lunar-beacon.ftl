@@ -61,3 +61,5 @@ seg-ebb9724de60a = <s1>Précédent</s1>lunar-attack-surface
 
 # text
 seg-ca9b68783354 = <s1>Suivant</s1>lunar-differential-pnt
+
+seg-b81e98467952 = <s1>Suivant</s1>lunar-descent

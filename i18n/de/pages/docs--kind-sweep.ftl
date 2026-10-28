@@ -87,3 +87,5 @@ seg-c784b8f22f12 = Das Diagramm, das die Engine für scenarios/sweep-clock-stabi
 # text
 # c1: campaign
 seg-cb00aca0268d = <b>MODELLED</b> Die Abschnitte sweep (ein bis drei gepunktete Schlüssel einer beliebigen Szenarioart, auf den Achsenwerten des generischen Sweeps, optional ein Ensemble an jedem Knoten) und monte_carlo der Szenarioart <c1/>: Realisierung k läuft bei base_seed + k; jede Metrik gibt Mittelwert, Standardab Tests: <a1>campaign_composition_reference.rs</a1>.
+
+seg-795e0409fa5a = <b>MODELLED</b> Die Phase <c1/>: der Mittelwertzustand durch den Cowell-Propagator der Engine (Erde als Punktmasse und J2, Sonne und Mond als dritte Körper, der Mond aus dem DE440-Kernel des Strangs, wo dieser das Segment abdeckt, und die Sonne aus der analytischen Reih

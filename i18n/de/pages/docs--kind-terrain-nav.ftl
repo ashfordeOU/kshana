@@ -63,3 +63,7 @@ seg-7bfd6d049799 = <c1/> (Szenarioart)
 
 # attr:alt
 seg-c5e33c7122e2 = Das Diagramm, das die Engine für scenarios/terrain-nav.toml schreibt, Art terrain-nav
+
+seg-e66e2ca31e54 = Themenseite: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Die Art und Phase <c1/>: ein inertiales Fehlermodell mit fünf Zuständen je Achse (Position, Geschwindigkeit, Beschleunigungsmesser-Bias, Neigung, Kreisel-Bias) über einen angetriebenen Abstieg, gestützt durch AFS-Lösungen (eigenständig oder differenziell, mit dem uhrgestützten Fall mit drei Relai

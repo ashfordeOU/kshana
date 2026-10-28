@@ -291,3 +291,7 @@ seg-ec064f62f7dc = <s1>Zurück</s1>MCP-Server: selbst gehosteter HTTP-Modus
 
 # text
 seg-1f44dbd65ce3 = <s1>Weiter</s1>Wo jede Fähigkeit erreichbar ist
+
+seg-e3949a1e6082 = Senderregion (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: eine zulässige Region unter Funksichtverbindung, keine Positionsbestimmung. Geben Sie die Region mit ihrer genannten Konfidenz zusammen mit dem Schwerpunkt und seiner Ellipse an, nie den Schwerpunkt allein; sagen Sie <c1/>, wenn die Daten sie nicht eingrenzen; sagen Sie, dass sie vom Modell abhängt (nur an synthetischen Daten geprüft; der vorab festgelegte Jammertest-Vergleich wurde einmal ausgeführt und war für beide Quellen NICHT BEURTEILBAR, es wurde also extern nichts getestet). Neutrale Formulierung: „geschätzte Senderregion“; benennen oder unterstellen Sie nie, wer oder was hinter einer Quelle, einem Staat, einer Streitmacht oder einer Absicht steht. Nur aggregiert; versuchen Sie nicht, Kennungen wiederherzustellen. Das Veröffentlichen von Senderregionen im öffentlichen Observatorium ist ausgeschaltet.

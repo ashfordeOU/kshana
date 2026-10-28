@@ -501,3 +501,5 @@ seg-4a457afc63fb = <s1>Siguiente</s1>npm y WebAssembly
 
 # text
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = regiones estimadas del emisor a partir de texto CSV de ADS-B o AIS: <c1/>, cada una etiquetada MODELLED; regiones con una confianza indicada con un centroide y una elipse de incertidumbre, nunca un punto aislado; solo agregados, y una región no es la posición de nadie ni una determinación de la causa

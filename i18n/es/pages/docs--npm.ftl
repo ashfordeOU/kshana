@@ -217,3 +217,11 @@ seg-4ae905aec2ab = <s1>Anterior</s1>API de Python
 
 # text
 seg-8af548581ae9 = <s1>Siguiente</s1>Crate de Rust
+
+seg-c9a297cc51e9 = { "176" } de { "401" } capacidades validadas frente a referencias independientes externas
+
+seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas frente a referencias independientes externas; { "221" } etiquetadas con franqueza como modeladas, { "4" } propiedad de socios. Cada capacidad lleva una etiqueta en un registro verificado por máquina: VALIDATED (una referencia independiente externa coincide: datos reales, una implementación independiente o vectores de referencia publicados), MODELLED (internamente consistente, y dicho en voz alta) o PARTNER (un socio de hardware es su propietario). Entre las comprobaciones: los { "666" } vectores SGP4 (Simplified General Perturbations { "4" }) de AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 con { "4.12" } mm, y el modelo de fuerzas de Cowell con { "0.08" } m frente a Orekit { "12.2" }.
+
+seg-b59781ecf257 = Cómo gana una capacidad su etiqueta: capacidad, referencia independiente, prueba, etiqueta del registro. El estado de verificación de las { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } propiedad de socios
+
+seg-d0b2811a3d3c = El motor tiene { "92" } tipos de escenario; <c1/> los enumera con sus campos. Nuevos en { "0.38.0" }: <c2/> (señales GNSS para naves por encima, alrededor y más allá de las órbitas GNSS) y <c3/> (órbita y superficie lunares como infraestructura de navegación y geodésica), ambos MODELLED, y <c4/> (un registro de error de tiempo frente a las máscaras ITU-T).

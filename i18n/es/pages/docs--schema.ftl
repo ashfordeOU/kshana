@@ -459,3 +459,5 @@ seg-6585c8a3643d = ClockRun (cada uno de quantum / classical)
 
 # text
 seg-299f8a9643f1 = FoMScores (el objeto fom)
+
+seg-d17376a1ea92 = ({ "0.40" }) La etiqueta de evidencia de la ejecución: <c1/> (<c2/>, <c3/> o <c4/>: el estado <em>más débil</em> entre las filas, de modo que nunca afirma más que su fila más débil), <c5/> (<c6/>), <c7/> y <c8/>, una por cada fila de la matriz de verificación que ejercitó la ejecución (las filas que enumera su informe avanzado, de <c9/>): <c10/> (<c11/> y los primeros { "8" } dígitos hexadecimales del SHA-256 del texto del requisito de la fila), <c12/> y <c13/>, todo leído de la matriz, nada escrito a mano. La añade <c14/> al resultado de cada tipo de escenario, antes del bloque <c15/> final cuando lo hay (ese bloque sigue siendo la última clave); <c16/> la elimina byte por byte. El SVG del gráfico y la tabla CSV de la misma ejecución llevan la misma etiqueta (<c17/> y una línea visible bajo el gráfico; líneas de comentario <c18/> por delante del CSV). Los miembros de campaña incrustados en el resultado de otro tipo de escenario no llevan ninguna: la lleva el documento exterior. No lleva números.

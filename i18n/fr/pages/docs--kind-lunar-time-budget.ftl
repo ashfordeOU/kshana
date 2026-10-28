@@ -84,3 +84,5 @@ seg-988e99fc26be = <s1>Précédent</s1>lunar-station-coverage
 
 # text
 seg-a0992d394960 = <s1>Suivant</s1>lunar-time-offset
+
+seg-b851d30fe736 = <s1>Précédent</s1>lunar-surface
