@@ -2059,9 +2059,6 @@ seg-ad016bbbea54 = kshana-grafana-*.json aus dem Release importieren
 seg-7849acc8e680 = Kshana im JetBrains Marketplace
 
 # text
-seg-48a01a252537 = Baut mit Rust { "1.85" } oder neuer, der rust-version in Cargo.toml
-
-# text
 seg-152cb43de2f3 = Ein Szenario aus Python und aus WebAssembly ausführen
 
 # text
@@ -2603,10 +2600,6 @@ seg-63d3e74d233c = Installation & Build aus dem Quelltext
 seg-5dc0fc90ac79 = Installation & Build
 
 # text
-# c1: rust-version
-seg-792f12b05230 = Erfordert eine Rust-Toolchain (≥ { "1.85" }, die <c1/> in Cargo.toml; entwickelt mit { "1.93" }).
-
-# text
 seg-14380916caba = Verwendung: die Kommandozeile im Ganzen
 
 # text
@@ -3003,11 +2996,6 @@ seg-f40679da402e = <b>Ist es für die kommerzielle Nutzung kostenlos?</b> Ja —
 
 # text
 seg-47e61b61094b = Fehlerbehebung
-
-# text
-# c1: cargo build
-# c2: rustup update
-seg-9bf11ed19b33 = <b><c1/> schlägt mit einer alten Toolchain fehl.</b> Kshana braucht Rust ≥ { "1.85" }. Aktualisieren Sie mit <c2/>.
 
 # text
 # c1: Undefined symbols … _Py…
@@ -3623,3 +3611,9 @@ seg-e2d733f93455 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jede
 # c5: entry
 # c6: /studio/mission-thread/
 seg-88b7afd3df20 = <b>Missionsstrang.</b> Die Art <c1/> verkettet Phasen vom Start bis zum Wiedereintritt (<c2/>, <c3/>, <c4/>, <c5/> und vier Mondarten) mit genannten Übergaberegeln, einer Marge gegenüber genannten Anforderungen und dem schwächsten Glied; ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen (Erd- und Mondsegmente), insgesamt { "92" } Szenarioarten. Jede Zahl ist MODELLED. Die cislunare Fortschreibung gegen die öffentliche Trajektorie von Artemis I <b>verfehlt</b> ihren vorab festgelegten Zielwert ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s; die Ursache sind kleine Manöver, die das Modell nicht enthält), und der Mondpropagator gegen die CAPSTONE-Umlaufbahn <b>verfehlt</b> ihn ({ "136.8" } km gegenüber { "25" } km am Ende eines Umlaufs); der Vergleich mit LRO ist erreicht. Die Zeilen bleiben MODELLED (<a1>Missionsstrang</a1>, <a2>Mondsegment</a2>). Im Studio wird der Strang unter <c6/> gelesen.
+
+seg-ac2d3dd91aa2 = Baut mit Rust { "1.88" } oder neuer, der rust-version in Cargo.toml
+
+seg-48991660376d = Erfordert eine Rust-Toolchain (≥ { "1.88" }, die <c1/> in Cargo.toml; entwickelt mit { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> schlägt mit einer alten Toolchain fehl.</b> Kshana braucht Rust ≥ { "1.88" }. Aktualisieren Sie mit <c2/>.

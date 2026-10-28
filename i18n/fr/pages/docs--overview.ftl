@@ -2062,9 +2062,6 @@ seg-ad016bbbea54 = importez kshana-grafana-*.json depuis la version publiée
 seg-7849acc8e680 = Kshana sur le JetBrains Marketplace
 
 # text
-seg-48a01a252537 = Se compile avec Rust { "1.85" } ou plus récent, la rust-version de Cargo.toml
-
-# text
 seg-152cb43de2f3 = Exécuter un scénario depuis Python et depuis WebAssembly
 
 # text
@@ -2609,10 +2606,6 @@ seg-63d3e74d233c = Installer et compiler depuis les sources
 seg-5dc0fc90ac79 = Installer et compiler
 
 # text
-# c1: rust-version
-seg-792f12b05230 = Nécessite une chaîne d'outils Rust (≥ { "1.85" }, le champ <c1/> de Cargo.toml ; développé avec la { "1.93" }).
-
-# text
 seg-14380916caba = Utilisation : la ligne de commande en détail
 
 # text
@@ -3015,11 +3008,6 @@ seg-f40679da402e = <b>Est-il gratuit pour un usage commercial ?</b> Oui — sous
 
 # text
 seg-47e61b61094b = Dépannage
-
-# text
-# c1: cargo build
-# c2: rustup update
-seg-9bf11ed19b33 = <b><c1/> échoue avec une ancienne chaîne d'outils.</b> Kshana nécessite Rust ≥ { "1.85" }. Mettez à jour avec <c2/>.
 
 # text
 # c1: Undefined symbols … _Py…
@@ -3623,3 +3611,9 @@ seg-e2d733f93455 = Voir <c1/> pour au moins un exemple travaillé de chaque type
 # c5: entry
 # c6: /studio/mission-thread/
 seg-88b7afd3df20 = <b>Fil de mission.</b> Le type <c1/> enchaîne des phases du lancement à l'entrée (<c2/>, <c3/>, <c4/>, <c5/> et quatre types lunaires) avec des règles de transfert déclarées, une marge par rapport à des exigences déclarées et le maillon le plus faible ; un exemple de bout en bout de classe Artemis sur { "11" } phases (segments terrestre et lunaire), { "92" } types de scénario au total. Chaque nombre est MODELLED. La propagation cislunaire par rapport à la trajectoire publique d'Artemis I <b>n'atteint pas</b> son seuil préenregistré ({ "45.3" } km et { "0.25" } m/s contre { "5" } km et { "0.05" } m/s ; la cause est de petites manœuvres que le modèle n'inclut pas), et le propagateur lunaire par rapport à l'orbite de CAPSTONE <b>n'atteint pas</b> le sien ({ "136.8" } km contre { "25" } km à la fin d'une révolution) ; la comparaison avec LRO est atteinte. Les lignes restent MODELLED (<a1>Fil de mission</a1>, <a2>segment lunaire</a2>). Dans le Studio, le fil se lit à <c6/>.
+
+seg-ac2d3dd91aa2 = Se compile avec Rust { "1.88" } ou plus récent, la rust-version de Cargo.toml
+
+seg-48991660376d = Nécessite une chaîne d'outils Rust (≥ { "1.88" }, le champ <c1/> de Cargo.toml ; développé avec la { "1.93" }).
+
+seg-dc95335b5131 = <b><c1/> échoue avec une ancienne chaîne d'outils.</b> Kshana nécessite Rust ≥ { "1.88" }. Mettez à jour avec <c2/>.

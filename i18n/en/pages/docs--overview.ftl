@@ -2103,7 +2103,7 @@ seg-29a25feb563a = Reference-build image
 seg-7849acc8e680 = Kshana on the JetBrains Marketplace
 
 # text
-seg-48a01a252537 = Builds with Rust { "1.85" } or newer, the rust-version in Cargo.toml
+seg-ac2d3dd91aa2 = Builds with Rust { "1.88" } or newer, the rust-version in Cargo.toml
 
 # text
 # c1: cargo install kshana --version 0.40.0
@@ -2803,7 +2803,7 @@ seg-5dc0fc90ac79 = Install & build
 
 # text
 # c1: rust-version
-seg-792f12b05230 = Requires a Rust toolchain (≥ { "1.85" }, the <c1/> in Cargo.toml; developed on { "1.93" }).
+seg-48991660376d = Requires a Rust toolchain (≥ { "1.88" }, the <c1/> in Cargo.toml; developed on { "1.93" }).
 
 # text
 seg-14380916caba = Usage: the command line in full
@@ -3233,7 +3233,7 @@ seg-47e61b61094b = Troubleshooting
 # text
 # c1: cargo build
 # c2: rustup update
-seg-9bf11ed19b33 = <b><c1/> fails on an old toolchain.</b> Kshana needs Rust ≥ { "1.85" }. Update with <c2/>.
+seg-dc95335b5131 = <b><c1/> fails on an old toolchain.</b> Kshana needs Rust ≥ { "1.88" }. Update with <c2/>.
 
 # text
 # c1: Undefined symbols … _Py…

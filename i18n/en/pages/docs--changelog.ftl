@@ -232,6 +232,9 @@ seg-29d014d29790 = One dependency update in the shipped library (the first entry
 seg-6b6a960ca7cf = <c1/>, <c2/> and <c3/> { "0.13" } to { "0.14" } (with <c4/> { "0.14.3" }, <c5/> { "0.17.0" } and <c6/> { "0.5.5" } to { "0.7.10" }; also the direct <c7/> dependency, now { "0.7" }) clear RUSTSEC-2026-0387, timing variability in <c8/> { "0.5.5" }. Kshana uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC { "3161" } timestamp tokens) and signs only in tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
 
 # text
+seg-1a4cda9d1486 = Minimum supported Rust is now { "1.88" } (required by the RUSTSEC-2026-0387 fix).
+
+# text
 # c1: memmap2
 # c2: xval/anise-lunar-od
 # c3: xval/anise-mars-od
