@@ -498,6 +498,33 @@
   // app.js and its modules start once the first paint is on screen (or at once when there is
   // nothing to paint early), so on a slow link they do not compete with it for the first bytes.
   var started = false;
+  // The words the Studio writes itself ("Recorded result · v1.2.3") in the viewer's language before its modules load: the build puts
+  // window.kshanaFP = {lang: {r, l}} (%V for the version, from studio-js.ftl) in the head; the language follows l10n.mjs (?lang=, the
+  // stored kshana-lang, then the browser's languages); no map or no entry gives the English, and the module t() writes the same words later.
+  function fpText(kind, en, v) {
+    var m = window.kshanaFP, s = null;
+    try {
+      if (m) {
+        var lg = (/[?&]lang=([\w-]+)/.exec(location.search) || [])[1], st = null;
+        try { st = localStorage.getItem("kshana-lang"); } catch (e) {}
+        if (!(lg && (lg === "en" || m[lg]))) lg = st && (st === "en" || m[st]) ? st : null;
+        if (!lg) {
+          var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
+          for (var i = 0; i < ls.length && !lg; i++) {
+            var t = String(ls[i]).toLowerCase(), b = t.split("-")[0], c = null;
+            if (b === "en") lg = "en";
+            else if (b === "pt") c = /^pt-(pt|ao|mz|cv|gw|st|tl|mo)$/.test(t) ? "pt-PT" : "pt-BR";
+            else if (b === "no" || b === "nn" || b === "nb") c = "nb";
+            else if (b === "zh") { if (/^zh-(tw|hk|mo|hant)/.test(t)) lg = "en"; else c = "zh-Hans"; }
+            else for (var k in m) if (k.toLowerCase() === b) c = k;
+            if (c && m[c]) lg = c;
+          }
+        }
+        s = lg && m[lg] && m[lg][kind];
+      }
+    } catch (e) { s = null; }
+    return (s || en).split("%V").join(v);
+  }
   function startApp() { if (started) return; started = true; var m = document.createElement("script"); m.type = "module"; m.src = "app.js"; document.body.appendChild(m); }
   setTimeout(startApp, 4000); // never wait longer than this for the early paint
   try {
@@ -519,7 +546,7 @@
         $("home").hidden = true; $("task").hidden = false; document.body.dataset.screen = "task"; document.body.dataset.fp = name;
         var k = $("sc-domain"); k.style.setProperty("--c", e.c); k.querySelector("span").textContent = e.k;
         $("sc-title").textContent = e.t; $("sc-question").textContent = e.u;
-        var chip = el("span", "chip-s2 rec loading"); chip.appendChild(el("i")); chip.appendChild(document.createTextNode("Recorded result · v" + d.engine_version + " · engine loading"));
+        var chip = el("span", "chip-s2 rec loading"); chip.appendChild(el("i")); chip.appendChild(document.createTextNode(fpText("l", "Recorded result · v%V · engine loading", d.engine_version)));
         $("m-chips").replaceChildren(chip);
         $("m-big").textContent = e.b; $("m-line").textContent = e.l;
         var figs = $("figs"); figs.replaceChildren(); figs.dataset.n = String(e.f.length);
@@ -527,7 +554,7 @@
         $("kpis-wrap").hidden = !e.f.length;
       } else if (!keys.length || (keys.length === 1 && q.get("theme"))) {
         $("home").hidden = false; document.body.dataset.screen = "home"; document.body.dataset.fp = "home";
-        $("hero-answer").textContent = d.hero.answer; $("hero-rec").textContent = "Recorded result · v" + d.engine_version;
+        $("hero-answer").textContent = d.hero.answer; $("hero-rec").textContent = fpText("r", "Recorded result · v%V", d.engine_version);
         $("hero-figs").replaceChildren.apply($("hero-figs"), d.hero.f.map(function (c) { var n = el("div"); n.appendChild(el("dt", "", c[0])); var v = el("dd", "", c[1]); if (c[2]) v.appendChild(el("small", "", c[2])); n.appendChild(v); return n; }));
       }
     }).catch(function () {}).then(function () { requestAnimationFrame(function () { setTimeout(startApp, 0); }); });
