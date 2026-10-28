@@ -12186,3 +12186,7 @@ js-trust-track-start = 開始
 js-trust-unknown-agreement = このページが把握していない一致状況
 
 js-trust-yes = はい
+
+js-mthread-limiting-phase = エンジンはこのフェーズの制限要因を { $source } としています。これはフェーズの要因であり、この表の 一行ではありません。
+
+js-mthread-limiting-row = エンジンが示す制限要因
