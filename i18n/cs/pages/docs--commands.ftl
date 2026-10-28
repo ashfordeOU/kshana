@@ -91,3 +91,7 @@ seg-702ea357fbf3 = použití každého příkazu; verze enginu
 seg-74240229d57b = <s1>Předchozí</s1>Každý druh scénáře podle rodiny
 
 seg-b3cc5b769c99 = <s1>Další</s1>Každá plocha
+
+seg-09dab71efd9d = kontroluje formát a metadata podání datového partnera a čte jeho datový soubor čtečkami enginu; nic nehodnotí
+
+seg-57686575b81d = Data partnerů

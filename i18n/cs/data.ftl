@@ -7896,3 +7896,235 @@ dat-a08318993154 = Kritéria Yang Yuanxi (podmnožina, ke které promlouvají uk
 dat-1868c76f244c = vlastní hostitel
 
 dat-4c20ebade87f = detektor χ²₁ NP · uzavřený tvar a Monte Carlo P_fa/P_md souhlasí
+
+dat-338478a8723e = { "1" } druh scénáře enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-cd5eb1698a87 = { "14" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-60cc193bcc29 = { "2" } druhy scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-b73627a5b6d7 = { "24" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-fd22a00f9aa5 = { "5" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-ef1e661614eb = { "6" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-9379a089776e = { "7" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-25d6ecf7e78d = { "9" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o…
+
+dat-90999a1f6b23 = { "92" } z { "92" } druhů, { "3300" } z { "3300" } číselných polí
+
+dat-e069e927e712 = Scénář hodin, jehož klasické hodiny přebírají šum naměřeného logu (`[clock_fit]`).
+
+dat-7b70d5db0ca0 = Scénář hodin s naměřeným logem vedle simulovaného holdoveru (`[clock_log]`).
+
+dat-6e2cb362b6ee = Přípustná oblast, kde může být zdroj zhoršených navigačních hlášení, z hlášení polohy ADS-B (NIC/NACp) nebo AIS: přímá rádiová viditelnost při poloměru Země 4/3 z výšky hlášení a rozsahu výšek antény emitoru, omezený efektivní dosah pro neznámý výkon, dotčené jednotky přitahující posterior k jejich dosahu a nedotčené jednotky s přímou viditelností proti němu tlačící, seskupené do relací v čase a prostoru. Výstupem jsou oblasti nejvyšší hustoty při uvedených úrovních spolehlivosti, těžiště posterioru s momentovou elipsou, začátek, konec a trvání relace, dotčená plocha a počet odlišných letadel nad minimem pro zveřejnění, denní profil a hodiny za den. Bez terénu; jediný zdroj na relaci; věrohodnost je podmíněna modelem. Volitelná fúze s TDOA určením polohy z geolokace.
+
+dat-7c2ec7378a5c = Jednoosý ruční výpočet predikce a aktualizace v testu; přechod Clohessy-Wiltshire je ten, který cw_dynamics kontroluje proti nezávislé numerické integraci. Senzory jsou ILLUSTRATIVE a žádné skutečné setkání na oběžné dráze se neporovnává
+
+dat-9c42080d805e = Software pouze poradního charakteru, nikoli typově schválené navigační zařízení.
+
+dat-3ab21add7c07 = Misijní vlákno třídy Artemis: rozpočet chyb navigace a času jednoho řetězce fází, od startu
+
+dat-6ba64899cc4a = Volba jazyka
+
+dat-1886310b3396 = Uvedení autora a práva
+
+dat-3ab0b8db8085 = Závislosti a licence
+
+dat-ce766cce1a7d = Řízení holdoveru vlastními hodinami: [clock_fit]
+
+dat-6fd0ece9147e = Oblast emitoru (interference-map locate)
+
+dat-fe6d68d3c1f9 = Kovariance na rozhraní vstupu, pravděpodobnost koridoru, špičkové zpomalení a stopa přistání (`entry`)
+
+dat-0488b2056745 = Každý přibalený soubor scénáře ({ "192" }), seskupený podle druhu, s jeho klíčovými nastaveními.
+
+dat-c0206ef96894 = Každý druh scénáře, přes který engine v{ $version } rozděluje ({ "92" }), zařazený do { "13" } rodin.
+
+dat-59385aaf8a98 = Přesná shoda se stávajícím druhem pro jedno místo a kontroly monotonie v testech. Sada relé je ILLUSTRATIVE a žádné měření povrchu se neporovnává
+
+dat-f6759242b1a9 = Chyby a jejich kódy
+
+dat-36619fa31a07 = Pokrytí pozemní sítí a doba sledování pro fázi vlákna (`[ground_network]` v `mission-thread`)
+
+dat-626be4f0752e = Ruční výpočty v testech (sigma úhlu je sigma kolmé rychlosti dělená rychlostí; Gaussova hmota v koridoru). Planární vstup je vlastní vstup enginu a forma Allen-Eggers je porovnání v uzavřeném tvaru; žádný skutečně uskutečněný vstup se neporovnává
+
+dat-1d6764bb725d = Ruční výpočty v testech (růst kovariance po přímce, střední siderická rotace, sekulární lunární rychlost hodin) a, jen pro stav Měsíce, zapsané výřezy jádra DE440 proti pinovaným hodnotám JPL Horizons (nejhorší { "2.6" } m a { "7e-6" } m/s). S řetězcem se neporovnávají žádná data z mise; jeho fáze jsou řádky samy o sobě. Dokument je uvedený řetězec s ILLUSTRATIVE vstupy, pouze veřejnými zdroji a bez jakékoli podpory agentury
+
+dat-a8beacb2b7c6 = Jak dokument uvádí fázi
+
+dat-f4f6c97c58d7 = Jak běh funguje v jiném jazyce (pravidlo dvou běhů)
+
+dat-18ddc744e88f = Jak se podání kontroluje
+
+dat-b233043f785b = Instalace serveru Kshana MCP (v{ $version })
+
+dat-bc70cb57a31f = Oblast zdroje interference: přípustná oblast emitoru z hlášení polohy letadel a lodí
+
+dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), `kshana interference-map locate`
+
+dat-44ec8a882a2f = jednotkové testy interference_map::emitter (projekce tam a zpět, údaj horizontu, syntetické přímé a inverzní oběhy: známý emitor leží uvnitř uvedené oblasti přibližně uvedenou měrou, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
+
+dat-f1881d3fd450 = Efemeridy kosmických lodí LRO a CAPSTONE z JPL Horizons, proti prahům předregistrovaným v xval/mission-thread-lunar/PREREGISTRATION.md (dodatky { "1" } až { "6" }). LRO: MET, největší 3D rozdíl { "33" } m a { "2.4" } m RMS radiálně proti { "500" } m a { "60" } m. CAPSTONE: NOT MET, rozdíl koncové polohy { "136.8" } km proti { "25" } km a rozdíl periapsidy { "28.4" } km proti { "10" } km, příčiny nebyly izolovány. Řádek je modelovaný, protože práh CAPSTONE není splněn a porovnání testuje sdílený propagátor, nikoli žádný filtr, signál ani rozpočet
+
+dat-203f52ed49d1 = Cíl -1023 v JPL Horizons (trajektorie po TLI skutečně letěná podle navigace NASA) proti prahům předregistrovaným v xval/mission-thread/PREREGISTRATION.md (dodatek { "1" } mění jen rozsah požadavku). NOT MET a potvrzeno jako nesplněné: největší rozdíl polohy { "45.3" } km proti { "5" } km a rozdíl rychlosti { "0.249" } m/s v { "72" } h proti { "0.05" } m/s. Diagnostika napsaná po verdiktu klade nesplnění do pěti impulzních změn rychlosti po { "0.09" } až { "0.22" } m/s v referenci (předregistrovaný výklad, že okno neobsahovalo žádný zážeh, byl chybný); po zbylých { "67" } hodin model reprodukuje další hodinový stav s mediánem { "0.38" } m. Testuje jen střední stav jednoho setrvačného oblouku: žádnou kovarianci, filtr, aktualizaci ani jinou fázi
+
+dat-021bd19116af = Známá omezení
+
+dat-61ab3ea0293c = Kshana označuje každou schopnost ve strojově kontrolovaném registru (verifikační matice).
+
+dat-0002d522fae4 = Rozpočet rozptylu přistání na lunárním polárním místě (`lunar-descent`)
+
+dat-141c646761d9 = Start a výstup na parkovací dráhu se vstupem signálu GNSS a jeho výpadky (`launch-ascent`)
+
+dat-252a4ca5d8cd = Liouvilleova věta (determinant matice přechodu stavu konzervativní části je jedna) a jemnější diference v testech; střední stav se porovnává s veřejnou trajektorií v řádku níže, kterou nesplňuje. Chyba zážehu, aktualizace a kovariance se s ničím neporovnávají
+
+dat-1b090eb926b7 = Lokalizace enginu
+
+dat-5482eb8e992e = Lunar ascent: řízený výstup z jižního polárního povrchového místa (třída Artemis) na rendezvousovou dráhu ve výšce { "100" } km
+
+dat-b5499ac7fa90 = Rozptyl lunárního přistání se skutečným jižním polárním DEM z LOLA: rozpočet řízeného sestupu na jižní polární místo (třída Artemis) z…
+
+dat-c064ed689649 = Rozptyl lunárního přistání: rozpočet řízeného sestupu na jižní polární místo (třída Artemis) z
+
+dat-e576d5088076 = Lunární rendezvous na eliptické polární dráze: relativní navigace pro dokování typu Orion–lander v
+
+dat-7459ee1f4efa = Lunární rendezvous: relativní navigace pro dokování typu Orion–lander na kruhové polární dráze { "100" } km
+
+dat-25f2f7c5048f = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby (jižní polární místa třídy Artemis).
+
+dat-fdedddcf211b = Dostupnost PNT a času na lunárním povrchu podle místa a roční doby se skutečným horizontem terénu jižního pólu z LOLA
+
+dat-f250522ecad3 = lunar-ascent (druh scénáře)
+
+dat-afded8513758 = lunar-descent (druh scénáře)
+
+dat-0ecc667216ea = lunar-orbit-rendezvous (druh scénáře)
+
+dat-4ea2873d47bd = lunar-surface (druh scénáře)
+
+dat-d2b23c8c0cb8 = Misijní vlákna
+
+dat-42ff804cc994 = Misijní vlákna (rodina druhů scénářů)
+
+dat-7557b6b1b3a2 = Zatím žádné vnější. Pouze syntetické oběhy přímo-inverzně, z generátoru, který sdílí model odhadovače, takže kontrolují kód a kalibraci uvedených úrovní za tohoto modelu a o skutečných emitorech nic. Vnější kontrola proti zveřejněným místům vysílačů Jammertest { "2025" } byla předregistrována (docs/emitter-region/PREREGISTRATION.md, schválena vlastníkem před jakýmkoli hodnoceným během) a provedena jednou (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } plánované relace, méně než předregistrované minimum { "4" }) a AIS NOT ASSESSABLE (žádná zveřejněná relace), takže žádný práh nebyl testován a řádek zůstává MODELLED
+
+dat-5b23ee4808db = mission-thread (druh scénáře)
+
+dat-f6f0757c4934 = Rozpočet rozptylu přistání MODELLED pro řízený sestup na jižní polární místo (třída Artemis).
+
+dat-64ba276bb1f8 = Rozpočet rozptylu přistání MODELLED pro řízený sestup na jižní polární místo (třída Artemis). Na…
+
+dat-84797c24853b = Rozpočet chyb navigace a času MODELLED pro uvedený řetězec misijních fází, od startu po vstup…
+
+dat-eee427a562f9 = Řízený výstup MODELLED z jižního polárního povrchového místa na rendezvousovou dráhu a kovariance polohy a rychlosti…
+
+dat-a5d5120ad3dd = Relativní navigace MODELLED pro dokování typu Orion–lander na nízké lunární dráze nebo eliptické polární…
+
+dat-6cb24469351b = Dostupnost určování polohy a času na povrchu MODELLED podle místa a roční doby pro jižní polární místa třídy Artemis.
+
+dat-61218243092c = Dostupnost určování polohy a času na povrchu MODELLED podle místa a roční doby pro jižní polární místa třídy Artemis.…
+
+dat-f3c7f8c0ec93 = mission_thread::scenario::tests::a_thread_runs_hands_over_converts_and_names_the_weakest_link; mission_thread::scenario::tests::bad_documents_fail_with_the_reason; mission_thread::handover::tests::inflate_never_shrinks_a_sigma_and_matches_the_hand_calculation; mission_thread::handover::tests::reacquire_sets_an_axis_to_the_floor_only_where_the_floor_is_smaller; mission_thread::conversions::tests::mci_mcmf_round_trip_returns_the_state_and_the_covariance; mission_thread::conversions::tests::tt_to_ltc_shifts_bias_and_drift_by_the_secular_rate_and_back; mission_thread::conversions::tests::the_committed_kernel_cuts_agree_with_pinned_horizons_values; tests/field_units_global.rs (the report's units block)
+
+dat-dd872eabd06d = Rozpočet chyb navigace a času řetězce misijních fází od startu po vstup do atmosféry (`mission-thread`)
+
+dat-c61600fc3590 = O naměřených datech
+
+dat-edfd6919d948 = Data od partnerů: jaká naměřená data by mohla povýšit řádek MODELLED
+
+dat-5bd5efbe5a8c = Řízený výstup z lunárního polárního místa na inzerční dráhu (`lunar-ascent`)
+
+dat-5c095f4884b4 = Relativní navigace k dokování na lunární dráze (`lunar-orbit-rendezvous`)
+
+dat-3285c0183c5b = Relativní navigace k obálce dokování na nízké oběžné dráze Země po úsecích senzorů (`leo-rendezvous`)
+
+dat-a3f40e7b5f38 = Řádky, které by data partnera mohla povýšit
+
+dat-c069be5250fc = Vnitřní konzistence podle předregistrace (xval/mission-thread-lunar/PREREGISTRATION.md, výsledky a historie odhadovače v RESULTS.md): střední NEES relativního stavu je { "5.85" } až { "5.93" } proti pásmu { "5.2" } až { "6.8" } ve čtyřech konfiguracích, MET u čtvrtého návrhu odhadovače po třech návrzích sekvenčního filtru, které práh nesplnily; pravda i odhadovač sdílejí jeden silový model, takže to o chybě modelu neříká nic. Propagátor, který sdílí, je porovnán s LRO a CAPSTONE v řádku níže
+
+dat-bb8b8191a0f6 = Dostupnost určování polohy a času na povrchu podle místa a roční doby na lunárních pólech (`lunar-surface`)
+
+dat-11e9ad0e8321 = Fáze `entry`: návratová setrvačná dráha z `tli-and-cruise` bez zážehu, končící na rozhraní vstupu; úhel dráhy letu a jeho sigma z úplné kovariance konečnědiferenčním gradientem; pravděpodobnost, že úhel leží v uvedeném koridoru; špičkové zpomalení při nominálním úhlu a na obou okrajích koridoru z planárního balistického vstupu hmotného bodu enginu (odraz ven detekován) vedle uzavřeného tvaru Allen-Eggers; stopa přistání z uvedené citlivosti dolet a kovariance na rozhraní napříč rovinou dráhy. Nemodeluje se vztlak, naváděcí systém ani ohřev
+
+dat-5fedd1cdf670 = Fáze `launch-ascent`: kovariance polohy a rychlosti s konstantní rychlostí a bílým šumem zrychlení (třída dead reckoning), určení polohy GNSS uvedené přesnosti použité po době zachycení a mimo uvedené výpadky, hodiny s biasem a driftem disciplinované týmiž určeními a stav vložení na parkovací dráhu
+
+dat-4feb3a9f775b = Fáze `leo-rendezvous`: relativní stav v osách LVLH cíle s přechodem Clohessy-Wiltshire v uzavřeném tvaru, kovariance Kalmanova filtru 6x6 s bílým šumem zrychlení a aktualizace polohy, jejichž rozptyl je rozptylem senzoru při aktuální vzdálenosti, po úsecích uvedeného senzoru (ILLUSTRATIVE optická kamera, lidar a radiové měření vzdálenosti); okno dokování je doba od okamžiku, kdy relativní sigma zůstává uvnitř obálky zachycení, do konce fáze. Absolutní kovariance pronásledovatele se předává beze změny a řádek to uvádí
+
+dat-238413a36808 = Druh a fáze `lunar-ascent`: pětistavový inerciální model chyb po osách běžící přes řízený výstup se specifickou silou po dráze, podporovaný určeními AFS a lunárním časem, hlásící kovarianci polohy a rychlosti při vložení přenesenou na dráhu a rozptyl při vypnutí motoru (hlášený, nepřenášený)
+
+dat-9fe860d16f1f = Druh a fáze `lunar-descent`: pětistavový inerciální model chyb po osách (poloha, rychlost, bias akcelerometru, náklon, bias gyroskopu) přes řízený sestup, podporovaný určeními AFS (samostatnými nebo diferenčními, s případem tří relé podporovaným hodinami), terénně relativním určením (porovnávač terénní navigace enginu na syntetickém reliéfu nebo mez Cramera-Raa na DEM z LOLA s pravidlem problému apertury) a lunárním časem, s elipsou dosedu Monte Carlo
+
+dat-ba0cc6e0ae77 = Druh a fáze `lunar-orbit-rendezvous`: společný dvouvozidlový dávkový odhad Gauss-Newton přes oblouk (dvacet jedna parametrů: oba stavy a trvalé biasy polohy signálu v prostoru, společné i nezávislé), rozšiřovaný přes čtvrtinu, polovinu a celý oblouk s půlením kroku, z jednoho absolutního určení na vozidlo (mez sledování pilotního kódu AFS, ILLUSTRATIVE sada relé) a měření vzdálenosti crosslinkem, v lunárním silovém modelu knihovny; střední normalizovaná kvadratická chyba odhadu, kontrola Clohessy-Wiltshire na kruhové dráze a předaná kovariance 6x6
+
+dat-955283daf32d = Druh a fáze `lunar-surface`: dostupnost relé a PDOP, viditelnost Země a Slunce a disciplinované povrchové hodiny pro každé místo a roční dobu, s terénním obzorem z `moonlight-service-volume`; běh pro jedno místo se rovná dostupnosti a PDOP tohoto druhu do posledního bitu
+
+dat-571779bc241a = Druh `mission-thread`: dokument fází, každá z osmi registrovaných druhů, spouštěných v pořadí, s kovariancí 6x6, hodinami a soustavou předávanými podle uvedeného pravidla (`carry`; `inflate`, bílý šum zrychlení přes uvedenou mezeru v modelu přímé dráhy; `reacquire`, dead reckoning, pak mez zdroje, nikdy pod ní, nikdy reset); převody soustav GCRF, MCI a MCMF a převody časových škál přes TT, každý svým vlastním rozpočtovým řádkem, se stavem Měsíce z volitelného výřezu jádra DE440 a analytickou řadou jako uvedenou náhradou; rezerva vůči uvedenému požadavku, nejslabší článek, události a obrázek časové osy. Každé číslo je uvedený vstup nebo model jednoho z nich
+
+dat-36aa30c0c245 = Fáze `tli-and-cruise`: střední stav propagátorem Cowell enginu (Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z jádra DE440 vlákna, kde pokrývá úsek, a Slunce z analytické řady); kovariance dopřednou diferenční maticí přechodu stavu této propagace (nominální běh a šest rušených běhů na úsek) s bílým šumem zrychlení; velikost a chyba směru zážehu TLI; určení `gnss-ssv`, jejichž dostupnost a PDOP pocházejí z rozmítání prostorového servisního objemu podél oskulační dráhy zastupující oblouk; sledování vzdálenosti a rychlosti změny vzdálenosti po geocentrickém směru škálované dobou provozu pozemní sítě, s aktualizací v Josephově tvaru
+
+dat-826b5ff3a004 = { "92" } vestavěných druhů scénářů, přes které kshana::api::run_toml rozděluje, každý s jednořádkovým…
+
+dat-4ad8b288fa02 = Karty schopností a všech { "401" } řádků verifikační matice.
+
+dat-bc68a493fe5d = Úplný, strojově kontrolovaný registr důkazů: { "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+
+dat-85ad15fcf6cb = Propagace středního stavu v cislunárním prostoru proti veřejné trajektorii Artemis I (`tli-and-cruise`)
+
+dat-9210d09891c9 = Uzavřený tvar inerciálního driftu a kontroly monotonie v testech. Žádný skutečně uskutečněný výstup se neporovnává
+
+dat-1b1e2bdeb2a2 = Uzavřený tvar inerciálního driftu, vlastní výsledky znovupoužitých druhů a kalibrace elipsy 3 sigma (podíl uvnitř souhlasí s očekáváním) v testech. Žádné uskutečněné ani testované přistání se neporovnává
+
+dat-a072f7a6e8d5 = Dokument
+
+dat-b07afbb33f4b = Osm druhů fází
+
+dat-ddc15e493a03 = Lidský text enginu je vedle angličtiny v { "17" } jazycích: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…
+
+dat-52e25e87386c = Štítek důkazů ({ "0.40" })
+
+dat-ac0745dcf97a = Štítek důkazů u každého čísla
+
+dat-21d73819d31c = Štítek důkazů a výstupy, které žádný nenesou
+
+dat-88641ee424ff = Překryv pozemní sítě
+
+dat-5c091b15d738 = Překryv pozemní sítě: stanice s minimální elevací, viditelnost vozidla při uvedené geometrii (vstupní stav letěný jako dvě tělesa s J2, poloha Měsíce pro plavbu nebo uvedená doba provozu), předávání mezi stanicemi, z nichž každé ztrácí uvedený čas, a výsledná doba provozu předaná rychlosti aktualizace pozemního sledování fáze; nejdelší interval bez stanice v dohledu je rozpočtový řádek
+
+dat-576667f29670 = Propagace lunárním silovým modelem proti veřejným rekonstruovaným trajektoriím lunárních orbiterů a cislunárních těles
+
+dat-5025f9f26401 = Lunární úsek misijního vlákna třídy Artemis
+
+dat-2d1fe075cab5 = Propagace středního stavu fáze `tli-and-cruise` (Cowell, Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z výřezu DE440) porovnaná s veřejnou trajektorií Artemis I z JPL Horizons přes { "72" } h setrvačného oblouku od 2022-11-16 { "18" }:{ "00" } TDB, v epochách po { "12" } hodinách, podle prahů stanovených v zapsaném souboru před během
+
+dat-510e796c2898 = Misijní vlákno
+
+dat-cba533186d05 = Propagátor, který lunární druhy sdílejí (GRAIL GL0660B stupeň a řád { "150" }, Země a Slunce jako třetí tělesa, relativita, lunární orientace DE440) porovnaný s veřejnými trajektoriemi z JPL Horizons pro LRO ({ "24" } h, vzorky po { "10" } minutách) a CAPSTONE (jeden { "6.5" } denní oběh, vzorky po hodině), podle prahů stanovených v zapsaném souboru před během
+
+dat-16451dd503da = Ustálený stav Riccatiho rovnice a ruční výpočet predikce v testech. Nic zde nemodeluje nosnou raketu ani přijímač; každé číslo je uvedený vstup
+
+dat-09d31ea90146 = Translunární injekce a cislunární plavba: propagovaný střední stav a kovariance s aktualizacemi sledování (`tli-and-cruise`)
+
+dat-4eb3b882ecad = Co předání dělá
+
+dat-3727a96cc814 = Co dělá každá fáze
+
+dat-703c52a91b91 = Co je lokalizováno a co nikdy
+
+dat-93572ee1f44a = Čím jsou důkazy
+
+dat-8796a5569e10 = Co štítky znamenají
+
+dat-bceb988a4263 = Co poslat
+
+dat-82201a0b07b0 = Novinky ve verzi { "0.40" }
+
+dat-b3d9ac894036 = Vaše vlastní hodiny
+
+dat-286487acb3db = Kontroly geometrie zenitu a antipodu a očekávaná viditelnost vzdáleného cíle v testech. Nemodeluje se žádná skutečná síť, anténa ani rozvrh
+
+dat-6ed624c1c297 = Čtyři druhy scénářů, každý také druhem fáze rozhraní mission-thread (src/mission_thread/): ony…
+
+dat-ed7ff984ba53 = Soustavy a časové škály

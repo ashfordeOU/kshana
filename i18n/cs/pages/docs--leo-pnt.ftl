@@ -407,3 +407,5 @@ seg-a08e67a32d60 = Řetězec je MODELLED: nepřidává žádnou fyziku a každý
 seg-ee3c5b58e6fa = <s1>Předchozí</s1>Oběžná dráha a povrch Měsíce jako infrastruktura
 
 seg-6b951d6413c8 = <s1>Další</s1>Návrhy signálů LEO
+
+seg-9bfe27f7ebc5 = <s1>Předchozí</s1>Vlákno mise: lunární segment

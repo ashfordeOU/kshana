@@ -55,3 +55,9 @@ seg-46ed0b786244 = Tematická stránka: <a1>RECEIVER-TRUST.md</a1>
 seg-e06f9a5a0291 = <s1>Předchozí</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Další</s1>combined-altpnt
+
+seg-d1beb62cf742 = { "6" } přibalených scénářů používá tento druh; ostatní jsou v <a1><c1/></a1>.
+
+seg-936e96edf423 = <b>MODELLED</b> Druh <c1/>: dokument fází, z nichž každá je jedním z osmi registrovaných druhů, spouštěných postupně, přičemž kovariance 6x6, hodiny a soustava se předávají podle stanoveného pravidla (<c2/>; <c3/>, šum bílého zrychlení po stanovenou mezeru Testy: <a1>field_units_global.rs</a1>.
+
+seg-3319b18ac61f = a { "1" } další v matici.

@@ -95,3 +95,7 @@ seg-6339abe5314a = Rodina
 seg-3040e2ec62b1 = <s1>Předchozí</s1>Druhy scénářů
 
 seg-1d6e6cc607f2 = <s1>Další</s1>Každý příkaz
+
+seg-c6bb02c73696 = Přehledový list grafů, které engine zapisuje pro druhy rodiny Vlákna mise
+
+seg-9ad7876b693f = Každý druh scénáře, který engine v{ $version } obsluhuje ({ "92" }), zařazený do { "13" } rodin. Každá rodina má stránku s jedním záznamem pro každý druh (popis a pole enginu, ukázkový příkaz, hlavní čísla z běhu, řádky matice, které druh uvádějí, a graf, který engine zapisuje) a přehledový list těchto grafů. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
