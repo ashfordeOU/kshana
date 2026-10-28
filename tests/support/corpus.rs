@@ -59,13 +59,24 @@ pub fn scenario_source(path: &Path) -> String {
         .file_name()
         .and_then(|n| n.to_str())
         .unwrap_or_default();
+    if std::env::var_os("KSHANA_CORPUS_FULL").is_some() {
+        return text;
+    }
+    light_source(name, text)
+}
+
+/// [`scenario_source`] on text already read: the two heavy files get `n_trials = 4`, anything else is
+/// returned untouched. A checkout with CRLF line ends (`core.autocrlf` on a Windows runner) is
+/// normalised to LF first, for the two heavy files only, so the match does not depend on the checkout.
+pub fn light_source(name: &str, text: String) -> String {
     let heavy = matches!(
         name,
         "lunar-orbit-rendezvous.toml" | "lunar-orbit-rendezvous-elfo.toml"
     );
-    if !heavy || std::env::var_os("KSHANA_CORPUS_FULL").is_some() {
+    if !heavy {
         return text;
     }
+    let text = text.replace("\r\n", "\n");
     assert!(
         text.contains("\nn_trials = 50\n"),
         "{name} no longer says `n_trials = 50`: update tests/support/corpus.rs"
