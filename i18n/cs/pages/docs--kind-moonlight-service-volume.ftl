@@ -35,3 +35,9 @@ seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a 
 seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
 
 seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho výsledku je vlastní označení enginu uvedené výše.
+
+seg-e66e2ca31e54 = Stránka tématu: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> Druh a fáze <c1/>: dostupnost relé a PDOP, viditelnost Země a Slunce a disciplinované povrchové hodiny pro každé místo a období, s horizontem terénu z <c2/>; běh pro jedno místo se rovná výsledku tohoto druhu
+
+seg-6730fa1b9820 = <s1>Předchozí</s1>mission-thread

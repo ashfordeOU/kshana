@@ -47,3 +47,5 @@ seg-5eaed32490ca = 月球时间误差预算的可复现性为MODELLED，而非�
 seg-988e99fc26be = <s1>上一页</s1>lunar-station-coverage
 
 seg-a0992d394960 = <s1>下一页</s1>lunar-time-offset
+
+seg-b851d30fe736 = <s1>上一页</s1>lunar-surface

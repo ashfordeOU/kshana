@@ -47,3 +47,5 @@ seg-95be70748647 = 捕获足迹随高度和波束宽度的变化为MODELLED，�
 seg-1a1799e01ac4 = <s1>上一页</s1>link-budget
 
 seg-4b0efe4b9b85 = <s1>下一页</s1>lunar-beacon
+
+seg-ca1c7e92b98e = <s1>上一页</s1>lunar-ascent

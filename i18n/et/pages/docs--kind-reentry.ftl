@@ -77,3 +77,5 @@ seg-a4b7c16e3fea = <s1>Eelmine</s1>realtime-frame-eop
 
 # text
 seg-6166a1c21525 = <s1>Järgmine</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Faas <c1/>: liigi <c2/> tagasirand ilma impulsita, lõppedes sisenemispiiril; trajektoori kaldenurk ja selle sigma täielikust kovariatsioonist lõplike vahede gradiendiga; tõenäosus, et nurk jääb nimetatud

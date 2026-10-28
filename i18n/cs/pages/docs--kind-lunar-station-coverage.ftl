@@ -49,3 +49,7 @@ seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a 
 seg-1c1eeb2dcaa0 = Stránka rodiny: <a1>Lunární a cislunární</a1>
 
 seg-3bc1761c76ab = Tento druh používají { "3" } přibalené scénáře; ostatní jsou v <a1><c1/></a1>.
+
+seg-bf7d64a925dd = <s1>Předchozí</s1>lunar-orbit-rendezvous
+
+seg-0525bddd21ee = <s1>Další</s1>lunar-surface

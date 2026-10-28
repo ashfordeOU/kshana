@@ -69,3 +69,5 @@ seg-0316a3f12053 = GitHub Actions -työnkulku <c1/> ottaa käyttöön julkaisutu
 seg-6aa2e78078ae = <s1>Edellinen</s1>Sanasto
 
 seg-419353a4fb30 = <s1>Seuraava</s1>Opastukset
+
+seg-74dc3fad6ee7 = <s1>Edellinen</s1>Kielet

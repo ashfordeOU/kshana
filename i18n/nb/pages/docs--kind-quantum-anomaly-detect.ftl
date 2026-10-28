@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Feil- og anomalideteksjon for kvante-PNT-systemer er MODELLED
 seg-6524a69e4835 = <s1>Forrige</s1>pvt
 
 seg-aa689568cf84 = <s1>Neste</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

@@ -407,3 +407,5 @@ seg-a08e67a32d60 = Ketju on MODELLED: se ei lisää fysiikkaa, ja jokainen vaihe
 seg-ee3c5b58e6fa = <s1>Edellinen</s1>Kuun rata ja pinta infrastruktuurina
 
 seg-6b951d6413c8 = <s1>Seuraava</s1>LEO-signaalimallit
+
+seg-9bfe27f7ebc5 = <s1>Edellinen</s1>Tehtäväketju: Kuun osuus

@@ -223,3 +223,47 @@ seg-41e50e49da99 = <b>Register:</b> ingen rad i matrisen nevner denne typen; mot
 seg-09f7f99d04a6 = <s1>Forrige</s1>Navigasjon i lav jordbane
 
 seg-74c6bf83988e = <s1>Neste</s1>Oppdragsanalyse, lenker og romoperasjoner
+
+seg-ae3053a1f6c8 = MODELLED drevet oppstigning fra et sted på overflaten nær sørpolen til rendezvous-banen, og posisjons-hastighetskovariansen den fører tilbake til bane (Artemis-klassen). Den inertielle feilmodellen med fem tilstander per akse fra lunar-descent (posisjon, hastighet, akselerometerbias, holdningshelling, gyrobias, drevet av den spesifikke kraften) kjøres på alle tre stedsaksene fra overflatetilstanden fasen går inn med; en AFS-posisjonsbestemmelse fra de synlige reléene i en ILLUSTRATIVE konstellasjon i LCNS-klassen (alene, eller differensiell med korreksjonslenkens residual fra lunar-differential-pnt, med klokken støttet når bare tre reléer er synlige) tas ved et oppgitt intervall, med månetid inn gjennom fartøyets klokke og en tidsmerkefeil langs banen. Rapporterer de lukkede inertielle kildene, hjelpemidlets bidrag, ablasjonen, navigasjonens 1-sigma-verdier over oppstigningen, spredningen ved motoravstengning ved siden av navigasjonskunnskapen, og den fulle 6x6 MCI-kovariansen ved innsetting med posisjons-hastighetskorrelasjonen beholdt. MODELLED: illustrativ IMU-klasse, spesifikk kraft, relésett og spredning ved avstengning; feil holdt i akser for oppskytingsstedet; den nominelle utgangstilstanden er en plassholder. Ikke støttet av noe byrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-463a919e84d5 = Diagrammet motoren skriver for scenarios/lunar-ascent.toml, typen lunar-ascent
+
+seg-2cd0d5385530 = MODELLED budsjett for landingsspredning ved et drevet nedstigningsforløp til et sted nær sørpolen (Artemis-class). For hver horisontale akse drives en inertiell feilmodell med fem tilstander (posisjon, hastighet, akselerometerbias, holdningstilt, gyrobias) av nedstigningens spesifikke kraft; et sekvensielt filter tar posisjonsbestemmelser fra de aktiverte hjelpemidlene: en AFS-posisjonsbestemmelse fra de synlige reléene i en ILLUSTRATIVE konstellasjon av LCNS-klasse (frittstående, eller differensiell med korreksjonslinkens restfeil fra lunar-differential-pnt, med klokken hjulpet når bare tre reléer er synlige) og en terrengrelativ posisjonsbestemmelse (crate-ens TERCOM/SITAN-matcher på et syntetisk relieff, eller Cramer-Rao-grensen for matching av et høydevindu i den virkelige LOLA-DEM-en for sørpolområdet). Månetid kommer inn gjennom fartøyets klokke ved posisjonsbestemmelsene (LTC-TT-forskjellen fra lunar-time-offset, eller usikkerheten i det publiserte båndet) og som en tidsmerkefeil langs banen. Rapporterer 3-sigma-landingsellipsen, R95, de lukkede inertielle kildene, hvert hjelpemiddels bidrag, ablasjonen av hver kombinasjon av hjelpemidler, en Monte Carlo-kalibrering av ellipsen og kovariansen som føres videre. MODELLED: illustrativ IMU-klasse, relésett, nedstigningsprofil og styringsledd; terrengnavigasjonen bruker et syntetisk relieff på en jordlig metermålestokk; AFS-tilgjengeligheten er én epoke på en flat maske. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-8073ece4c900 = Diagrammet motoren skriver for scenarios/lunar-descent.toml, typen lunar-descent
+
+seg-2deefd8c547b = MODELLED relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en lav månebane eller en elliptisk polarbane (Artemis-class). Et jagerfartøy og et målfartøy flyr i samme bane under crate-ens månekraftmodell; et felles batch Gauss-Newton-estimat med 21 parametere over buen (to fartøytilstander og vedvarende signal-i-rommet-biaser) slår sammen én absolutt posisjonsbestemmelse per fartøy fra et ILLUSTRATIVE relésett av LCNS-klasse (reléer bak Månen utelatt, fire kreves, og den felles signal-i-rommet-feilen opphever seg mellom fartøyene) og en tverrlinkavstand, med avstandspresisjon fra kodesporingsgrensen på LunaNet AFS-pilotsignalet. Rapporterer den formelle og Monte Carlo-baserte relative posisjons- og hastighetsfeilen i målfartøyets LVLH-akser, tilgjengeligheten av posisjonsbestemmelser, den midlere normaliserte estimeringsfeilen i annen potens (NEES) mot forventet verdi, og enhver prøve der iterasjonen ikke konvergerte, driften ved å se bort fra gravitasjonsharmoniske og den fulle 6x6-kovariansen som føres videre. En lukket Hill/Clohessy-Wiltshire-kontroll gjelder for det sirkulære tilfellet. MODELLED: illustrativt relésett, feilbudsjett og priorer; referansen og estimatoren deler én kraftmodell, så NEES kontrollerer selvkonsistens og ikke modellfeil. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-d97b2505ac72 = Diagrammet motoren skriver for scenarios/lunar-orbit-rendezvous.toml, typen lunar-orbit-rendezvous
+
+seg-6c7d25f672fb = MODELLED tilgjengelighet av overflateposisjonering og tidssynkronisering etter sted og årstid for steder nær sørpolen i Artemis-class. For hvert sted og hver årstid (en epoke og et vindu etter den) rapporteres relépositionering (fire eller flere reléer i en ILLUSTRATIVE konstellasjon av LCNS-klasse i sikte og PDOP under en terskel, fra de samme funksjonene som moonlight-service-volume og, med en terrengseksjon, den strålemarsjerte skylinen fra terrenget i lunar-station-coverage), om Jorden og Solen står over stedets horisont (analytisk Sol, Måne og månens orientering, librasjon medregnet, som er det som beveger seg med årstiden), og tilgjengelighet av tidssynkronisering (et relé eller Jorden i sikte) med den lengste perioden uten noen av dem, den holdoveren en overflateklokke må klare. Et resultat for ett sted er lik moonlight-service-volumes helt ned til siste bit. MODELLED: illustrativt keplersk relésett på en måne med middelrotasjon; relétallet endres ikke med årstiden; terrenget er det { "1200" } m store LOLA-utsnittet. Ikke godkjent av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.
+
+seg-94b84de6c958 = Diagrammet motoren skriver for scenarios/lunar-surface.toml, typen lunar-surface
+
+seg-8350d49efd47 = { "24" } scenariotyper i motoren v{ $version }. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en safety-of-life-tjeneste. Hver etikett her er motorens eller verifikasjonsmatrisens; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett oppnås: avsnittet Evidence i README).
+
+seg-3505720b0990 = MODELLED drevet stigning fra et overflatested nær sørpolen til rendezvous-banen, og kovariansen for posisjon og hastighet den bærer tilbake til banen (Artemis-class).
+
+seg-9d18dfb871ed = MODELLED tilgjengelighet av overflateposisjonering og tidssynkronisering etter sted og årstid for steder nær sørpolen i Artemis-class.
+
+seg-a8d90ed1d52f = MODELLED budsjett for landingsspredning ved et drevet nedstigningsforløp til et sted nær sørpolen (Artemis-class).
+
+seg-737aa6f80fe3 = MODELLED relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en lav månebane eller en elliptisk polarbane (Artemis-class).
+
+seg-66982ad26e2b = Påkrevde felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-ecdaa89c9219 = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>lunar-ascent</a1>.
+
+seg-6f1fd4e8089d = Påkrevde felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-e403a675bcc4 = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>lunar-surface</a1>.
+
+seg-aa1a7b2ca934 = Påkrevde felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+seg-059a45d0512e = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>lunar-descent</a1>.
+
+seg-1618206b62b1 = Påkrevde felt: ingen. Valgfrie: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+seg-d1f8d70eb309 = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>lunar-orbit-rendezvous</a1>.
+
+seg-f87c103758f3 = <b>Register:</b> MODELLED. Fullstendig side, med inndata, resultater, evidens og begrensninger: <a1>moonlight-service-volume</a1>.

@@ -161,3 +161,5 @@ seg-be4e928a5865 = 複数の衛星と複数の地上局に対する地上コン�
 seg-e26b549579e2 = scenarios/contact-schedule.toml（種類contact-schedule）についてエンジンが書き出すグラフ
 
 seg-af1cf9aa9938 = エンジンが scenarios/space-packet.toml（kind space-packet）用に書き出すチャート
+
+seg-e77c46e23e67 = <s1>次へ</s1>ミッションスレッド

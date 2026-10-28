@@ -223,3 +223,47 @@ seg-41e50e49da99 = <b>Registr:</b> žádný řádek matice tento druh neuvádí;
 seg-09f7f99d04a6 = <s1>Předchozí</s1>Navigace na nízké oběžné dráze Země
 
 seg-74c6bf83988e = <s1>Další</s1>Analýza misí, spoje a vesmírné operace
+
+seg-ae3053a1f6c8 = MODELLED motorický výstup z jihopolárního povrchového místa na oběžnou dráhu setkání a kovariance polohy a rychlosti, kterou přenáší zpět na dráhu (ve stylu Artemis). Pětistavový inerciální model chyb po osách z lunar-descent (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu, buzený specifickou silou) běží na všech třech osách místa od povrchového stavu, s nímž fáze vstupuje; určení polohy AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatné, nebo diferenční s využitím rezidua korekčního spoje z lunar-differential-pnt, s podporou hodin, když jsou viditelná jen tři relé) se pořizuje v stanoveném intervalu, přičemž lunární čas vstupuje přes hodiny vozidla a chyba časové značky podél dráhy. Uvádí uzavřené inerciální zdroje, příspěvek podpory, ablaci, navigační 1 sigma po dobu výstupu, rozptyl vypnutí motoru vedle navigační znalosti a úplnou kovarianci 6x6 MCI při vložení se zachovanou korelací polohy a rychlosti. MODELLED: ilustrační třída IMU, specifická síla, sada relé a rozptyl vypnutí; chyby držené v osách místa startu; nominální výstupní stav je zástupný. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-463a919e84d5 = Graf, který engine zapisuje pro scenarios/lunar-ascent.toml, druh lunar-ascent
+
+seg-2cd0d5385530 = MODELLED rozpočet rozptylu přistání pro motorický sestup na místo u jižního pólu (třída Artemis). Pro každou horizontální osu je pětistavový model inerciální chyby (poloha, rychlost, bias akcelerometru, náklon polohy, bias gyroskopu) řízen měrnou silou sestupu; sekvenční filtr přijímá polohové určení z povolených pomůcek: určení AFS z viditelných relé ILLUSTRATIVE konstelace třídy LCNS (samostatně, nebo diferenciálně s využitím rezidua korekčního spoje z lunar-differential-pnt, s podporou hodin, jsou-li viditelná jen tři relé) a určení podle terénu (porovnávač TERCOM/SITAN v crate na syntetickém reliéfu, nebo Cramérova–Raova mez porovnávání výškového okna skutečného jihopolárního DEM z LOLA). Lunární čas vstupuje přes hodiny vozidla při určeních (posun LTC-TT z lunar-time-offset nebo nejistota jeho zveřejněného pásma) a jako chyba časové značky podél dráhy. Uvádí 3sigma elipsu přistání, R95, inerciální zdroje v uzavřeném tvaru, příspěvek každé pomůcky, ablaci každé kombinace pomůcek, kalibraci elipsy metodou Monte Carlo a předávanou kovarianci. MODELLED: ilustrativní třída IMU, sada relé, profil sestupu a naváděcí člen; navigace podle terénu používá syntetický reliéf v měřítku metrů na Zemi; dostupnost AFS je jedna epocha na plochém prahu. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-8073ece4c900 = Graf, který engine zapisuje pro scenarios/lunar-descent.toml, druh lunar-descent
+
+seg-2deefd8c547b = MODELLED relativní navigace pro dokování ve stylu Orion–lander na nízké lunární oběžné dráze nebo eliptické polární dráze (třída Artemis). Chaser a cíl létají po téže dráze podle lunárního modelu sil v crate; společný dávkový odhad Gauss–Newton s 21 parametry přes oblouk (dva stavy vozidel a trvalé biasy signálu v prostoru) slučuje absolutní polohové určení pro každé vozidlo ze sady relé ILLUSTRATIVE třídy LCNS (relé za Měsícem se vyřadí, potřeba jsou čtyři, společná složka chyby signálu v prostoru se mezi vozidly vyruší) a křížový odhad vzdálenosti, s přesností měření vzdálenosti danou mezí sledování kódu na pilotu LunaNet AFS. Uvádí formální chybu relativní polohy a rychlosti i chybu metodou Monte Carlo v osách LVLH cíle, dostupnost určení, střední normalizovanou kvadratickou chybu odhadu oproti její očekávané hodnotě a každý pokus, jehož iterace nezkonvergovala, drift vzniklý zanedbáním gravitačních harmonických a úplnou kovarianci 6x6 předávanou dál. Pro kruhový případ platí kontrola v uzavřeném tvaru podle Hilla/Clohessyho–Wiltshirea. MODELLED: ilustrativní sada relé, rozpočet chyb a apriorní hodnoty; skutečnost a odhadovač sdílejí jeden model sil, takže NEES kontroluje vnitřní konzistenci a nikoli chybu modelu. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-d97b2505ac72 = Graf, který engine zapisuje pro scenarios/lunar-orbit-rendezvous.toml, druh lunar-orbit-rendezvous
+
+seg-6c7d25f672fb = MODELLED dostupnost určování polohy a času na povrchu podle místa a ročního období pro jihopolární místa třídy Artemis. Pro každé místo a období (epochu a okno po ní) uvádí polohování pomocí relé (čtyři a více relé ILLUSTRATIVE konstelace třídy LCNS ve výhledu a PDOP pod prahem, ze stejných funkcí jako moonlight-service-volume a s oddílem terénu také s horizontem vykresleným metodou ray-marching z terénu lunar-station-coverage), zda jsou Země a Slunce nad horizontem místa (analytická poloha Slunce a Měsíce a orientace Měsíce, včetně librace, která se s ročním obdobím mění), a dostupnost času (relé nebo Země ve výhledu) s nejdelším úsekem, kdy není ani jedno, tedy s holdoverem, který musí povrchové hodiny překlenout. Výsledek pro jedno místo se rovná výsledku moonlight-service-volume na bit. MODELLED: ilustrativní keplerovská sada relé na Měsíci s průměrnou rotací; údaj o relé se s ročním obdobím nemění; terén je výřez LOLA { "1200" } m. Bez podpory agentury; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
+
+seg-94b84de6c958 = Graf, který engine zapisuje pro scenarios/lunar-surface.toml, druh lunar-surface
+
+seg-8350d49efd47 = { "24" } druhů scénářů enginu v{ $version }. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každé označení zde pochází z enginu nebo z verifikační matice; druh je MODELLED, pokud matice neuvádí jinak (jak se označení získává: oddíl Evidence v README).
+
+seg-3505720b0990 = MODELLED motorický výstup z jihopolárního povrchového místa na oběžnou dráhu setkání a kovariance polohy a rychlosti, kterou si nese zpět na oběžnou dráhu (třída Artemis).
+
+seg-9d18dfb871ed = MODELLED dostupnost určování polohy a času na povrchu podle místa a ročního období pro jihopolární místa třídy Artemis.
+
+seg-a8d90ed1d52f = MODELLED rozpočet rozptylu přistání pro motorický sestup na místo u jižního pólu (třída Artemis).
+
+seg-737aa6f80fe3 = MODELLED relativní navigace pro dokování ve stylu Orion–lander na nízké lunární oběžné dráze nebo eliptické polární dráze (třída Artemis).
+
+seg-66982ad26e2b = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-ecdaa89c9219 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-ascent</a1>.
+
+seg-6f1fd4e8089d = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-e403a675bcc4 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-surface</a1>.
+
+seg-aa1a7b2ca934 = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+seg-059a45d0512e = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-descent</a1>.
+
+seg-1618206b62b1 = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+seg-d1f8d70eb309 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-orbit-rendezvous</a1>.
+
+seg-f87c103758f3 = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>moonlight-service-volume</a1>.

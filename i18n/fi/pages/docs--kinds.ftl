@@ -117,3 +117,7 @@ seg-6339abe5314a = Perhe
 seg-3040e2ec62b1 = <s1>Edellinen</s1>Skenaariolajit
 
 seg-1d6e6cc607f2 = <s1>Seuraava</s1>Jokainen komento
+
+seg-c6bb02c73696 = Yhteenvetokuva kaavioista, jotka moottori kirjoittaa Tehtäväketjut-perheen lajeille
+
+seg-9ad7876b693f = Jokainen skenaariolaji, jonka moottori v{ $version } ohjaa suoritettavaksi ({ "92" }), jaoteltuna { "13" } perheeseen. Jokaisella perheellä on sivu, jossa on yksi merkintä kutakin lajia kohden (moottorin kuvaus ja kentät, esimerkkikomento, ajon tunnusluvut, sitä nimeävät matriisin rivit ja moottorin kirjoittama kaavio), sekä näiden kaavioiden yhteenvetokuva. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva nimike on moottorin tai varmennusmatriisin; laji on MODELLED, ellei matriisi toisin sano (miten nimike ansaitaan: README:n Evidence-osio).

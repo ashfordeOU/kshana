@@ -703,3 +703,25 @@ seg-f4d3b1f5b1b4 = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2
 seg-3287261002dd = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
 
 seg-510663384be1 = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-070972f642de = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času od startu po vstup do atmosféry
+
+seg-4970f874d334 = Lunární část: setkání, sestup, povrch a výstup
+
+seg-8ca6e2046901 = Odhadovaná oblast zdroje rušení z hlášení ADS-B nebo AIS
+
+seg-003a3b9b63ea = Změřené záznamy hodin a holdover řízený nafitovanou řadou
+
+seg-448b11c86f48 = Datoví partneři: které řádky by mohla povýšit změřená data
+
+seg-5858e5d1f7c5 = Štítek důkazů u každého čísla a každé tabulky, které běh zapíše
+
+seg-bd28ef5c376e = Sedmnáct jazyků vedle angličtiny
+
+seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
+
+seg-b9961ed25282 = Novinky ve v{ $version }: misijní vlákno, štítek důkazů u každého čísla a sedmnáct jazyků
+
+seg-653cf3198094 = { "176" } z { "401" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
+
+seg-76b213d03caa = Všech { "92" } druhů scénářů, zdarma bez omezení funkcí, deterministických podle scénáře, seedu a verze enginu.

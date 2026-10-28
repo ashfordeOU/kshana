@@ -29,3 +29,7 @@ seg-c5e33c7122e2 = Diagrammet motoren skriver for scenarios/terrain-nav.toml, ty
 seg-0fcad0016c78 = <s1>Forrige</s1>telecom-timing
 
 seg-fa50992f818f = <s1>Neste</s1>terrain-slam
+
+seg-e66e2ca31e54 = Temaside: <a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-d5da9ee3c152 = <b>MODELLED</b> Typen og fasen <c1/>: en inertiell feilmodell med fem tilstander per akse (posisjon, hastighet, akselerometerbias, tilt, gyrobias) over et drevet nedstigningsforløp, hjulpet av AFS-posisjonsbestemmelser (frittstående eller differensielle, med den klokkehjulpne tre-rel

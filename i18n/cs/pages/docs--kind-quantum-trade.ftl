@@ -61,3 +61,5 @@ seg-4b59ac409819 = Obchodní srovnání kvantového a klasického PNT a odolnost
 seg-e6498fae3ba7 = <s1>Předchozí</s1>quantum-time-transfer
 
 seg-50d4bbb7486b = <s1>Další</s1>realtime-frame-eop
+
+seg-a349aa76b0ed = PARTNER

@@ -326,3 +326,27 @@ seg-c4fc43121c22 = <s1>Kellad, ajastus ja holdover</s1><s2>{ "9" } stsenaariumi 
 
 # text
 seg-d4b063147d18 = <s1>Konstellatsioonide katvus ja geomeetria</s1><s2>{ "7" } stsenaariumi liiki mootorist v{ $version }. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte…</s2>
+
+seg-fcffac5eb150 = <s1>Keeled</s1><s2>Mootori inimesele mõeldud tekst on { "17" } keeles lisaks inglise keelele: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
+
+seg-0cf0b9fb9184 = <s1>Stsenaariumi liigid</s1><s2>{ "92" } sisseehitatud stsenaariumi liiki, mille vahel kshana::api::run_toml jaotab, igaühel selle üherealine…</s2>
+
+seg-9d5c233c72b4 = <s1>Iga stsenaariumi liik, perekondade kaupa</s1><s2>Iga stsenaariumi liik, mida mootor v{ $version } jaotab ({ "92" }), paigutatud { "13" } perekonda.</s2>
+
+seg-2c002a7b7640 = <s1>Stsenaariumide teatmik</s1><s2>Iga kaasasolev stsenaariumifail ({ "192" }), rühmitatud liigi järgi, koos selle põhiseadetega.</s2>
+
+seg-f5987c9d9fde = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "401" } rida — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-1c5265085fb6 = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "401" } kontrollimaatriksi rida.</s2>
+
+seg-980f70b29717 = <s1>Andmepartnerid ja edutavad read</s1><s2>Kshana märgib iga võimekuse masinkontrollitud registris (kontrollimaatriks).</s2>
+
+seg-7c6a541b3bc8 = <s1>Missiooniahel: startimisest sisenemiseni</s1><s2>Nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.</s2>
+
+seg-7377c479fed0 = <s1>Missiooniahel: Kuu lõik</s1><s2>Neli stsenaariumi liiki, millest igaüks on ka missiooniahela liidese (src/mission_thread/) faasiliik: need…</s2>
+
+seg-cecb9535c0a1 = <s1>Kuu ja tsislunaarne</s1><s2>Mootori v{ $version } { "24" } stsenaariumi liiki. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus, mitte…</s2>
+
+seg-1dd7c80e18a7 = <s1>Missiooniahelad</s1><s2>Mootori v{ $version } { "1" } stsenaariumi liik. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus, mitte…</s2>
+
+seg-f0e26f01a361 = { "92" } lehte, üks iga stsenaariumi liigi kohta, viidatud lehelt <a1>Iga stsenaariumi liik, perekondade kaupa</a1>.

@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>Edellinen</s1>Kylmäatomi-interferometri
 seg-4a457afc63fb = <s1>Seuraava</s1>npm ja WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = arvioidut lähetinalueet ADS-B- tai AIS-CSV-tekstistä: <c1/>, kukin merkitty MODELLED; alueet ilmoitetulla luottamustasolla painopisteen ja epävarmuusellipsin kanssa, ei koskaan pelkkä piste; vain koosteena, ja alue ei ole kenenkään sijainti eikä syyn määritys

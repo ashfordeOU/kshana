@@ -187,3 +187,11 @@ seg-9c361736bf27 = Se on tekninen tietue eikä oikeudellinen lausunto tai sertif
 seg-68bcf43b4e27 = <s1>Edellinen</s1>Rivikattavuus
 
 seg-09c0b5fa6e52 = <s1>Seuraava</s1>Optiset yhteydet ilmakehän läpi
+
+seg-bd3169455cd0 = Todistemerkintä ({ "0.40" })
+
+seg-6fe796d2b15f = Versiolla { "0.40" } tai myöhemmin rakennettu paketti sisältää tiedoston <c1/> sisällä merkinnän <c2/> (taso, <c3/>, <c4/> tai <c5/>, joka on rivien heikoin tila, sekä niiden varmennusmatriisin rivien tunnisteet ja vaatimukset, joihin paketin sisältö perustuu: paketin eheysrivi, receiver-trust-rivit sekä jammertest-pisteytyksen tai kiertoajon rivit näille paketeille) ja kentän <c6/> arvolla <c7/>. Se on tiedoston <c8/> sisällä, joten manifestin tiedostotiiviste, tiivisteketju ja allekirjoitus kattavat sen: sen muuttaminen epäonnistuttaa varmennuksen. <c9/> raportoi tason ja rivitunnisteet.
+
+seg-15b4e784361a = Muutos on additiivinen ja vain eteenpäin. Manifestin <c1/> pysyy arvossa <c2/>: yllä oleva normatiivinen teksti sanoo, että varmentajan on löydettävä tämä arvo, ja hakemiston <c3/> clean-room-varmentaja löytää sen. Pieni versio kulkee siksi kentässä <c4/> (puuttuu ennen { "0.40" } tehdystä paketista, tarkoittaen { "1.0" }), ei uudella merkkijonolla <c5/>. Ennen { "0.40" } tehdyssä paketissa ei ole merkintää, ja se varmentuu muuttumattomana; <c6/> sanoo ”no evidence label (pre-0.40 pack)”. Testit ovat <c7/> (mukaan lukien kirjatut pre-0.40-oraakkelipaketit) ja <c8/>.
+
+seg-218641620d3e = <s1>Seuraava</s1>Datakumppanit ja ylentävät rivit

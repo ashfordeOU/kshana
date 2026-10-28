@@ -35,3 +35,9 @@ seg-2ff91fe31123 = 诚实声明：MODELLED组合。DOP几何通过复用经核�
 seg-f3279128de3b = <s1>上一页</s1>mars-pnt
 
 seg-92cd937a3fb7 = <s1>下一页</s1>ntn-positioning
+
+seg-e66e2ca31e54 = 主题页面：<a1>MISSION-THREAD-LUNAR.md</a1>
+
+seg-25040e105bf7 = <b>MODELLED</b> <c1/>类型与阶段：每个站点和季节的中继星可用性与PDOP、地球和太阳可见性以及受约束的地表时钟，并带有<c2/>的地形天际线；单站点运行与该类型的结果相等
+
+seg-6730fa1b9820 = <s1>上一页</s1>mission-thread

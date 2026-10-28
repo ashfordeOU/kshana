@@ -748,3 +748,47 @@ seg-2f09b9930e10 = Näytä GitHub-sivustolla
 seg-67f767701c6d = <s1>Edellinen</s1>Ominaisuusalueet
 
 seg-ea79a68b0587 = <s1>Seuraava</s1>Tulosskeema
+
+seg-944145b95b4a = Kuun pinnan PNT:n ja ajoituksen saatavuus kohteen ja vuodenajan mukaan (Artemis-luokan etelänapa-alueen kohteet).
+
+seg-f942b36a11c4 = Ei vielä GitHubissa
+
+seg-ae3053a1f6c8 = MODELLED moottoroitu nousu etelänapa-alueen pintakohteesta kohtaamiskiertoradalle ja kiertoradalle takaisin kuljetettu paikka-nopeuskovarianssi (Artemis-luokka). Tyypin lunar-descent viiden tilan akselikohtainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, asennon kallistus, gyron harha, jota ajaa ominaisvoima) ajetaan kaikilla kolmella kohdeakselilla pintatilasta, jolla vaihe alkaa; AFS-paikannus ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (itsenäinen tai differentiaalinen käyttäen tyypin lunar-differential-pnt korjauslinkin jäännöstä, kello tuettuna, kun vain kolme relettä on näkyvissä) otetaan ilmoitetulla välillä, ja Kuun aika tulee ajoneuvon kellon ja ajanmerkintävirheen kautta radan suunnassa. Raportoi suljetun muodon inertiaalilähteet, avustuksen osuuden, ablaation, navigoinnin 1-sigmat nousun yli, moottorin katkaisuhajonnan navigointitiedon rinnalla ja täyden 6x6 MCI-kovarianssin insertiossa paikka-nopeuskorrelaatio säilytettynä. MODELLED: havainnollinen IMU-luokka, ominaisvoima, relejoukko ja katkaisuhajonta; virheet pidetään laukaisukohteen akseleissa; nimellinen poistumistila on paikanpitäjä. Ei viraston tukema; ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.
+
+seg-2cd0d5385530 = MODELLED laskeutumishajonnan budjetti moottoroidulle laskeutumiselle etelänapa-alueen kohteeseen (Artemis-luokka). Kutakin vaaka-akselia kohden viisitilainen inertiavirhemalli (paikka, nopeus, kiihtyvyysmittarin harha, asennon kallistuma, gyron harha) saa herätteensä laskeutumisen ominaisvoimasta; peräkkäinen suodin ottaa paikkakorjaukset käytössä olevista apuvälineistä: AFS-korjaus ILLUSTRATIVE LCNS-luokan tähdistön näkyvistä releistä (yksinään tai differentiaalisena käyttäen lunar-differential-pnt-lajin korjauslinkin jäännöstä, kellon ollessa tuettu, kun vain kolme relettä on näkyvissä) sekä maastosuhteellinen korjaus (paketin TERCOM/SITAN-sovitin synteettisellä reliefillä tai todellisen LOLA-etelänapa-DEM:n korkeusikkunan sovituksen Cramér–Rao-raja). Kuun aika tulee mukaan ajoneuvon kellon kautta korjausten hetkillä (lunar-time-offset-lajin LTC-TT-siirtymä tai sen julkaistun kaistan epävarmuus) ja ratakoordinaatin suuntaisena aikaleimavirheenä. Raportoi 3-sigma-laskeutumiselliipsin, R95:n, suljetun muodon inertialähteet, kunkin apuvälineen osuuden, jokaisen apuvälinekombinaation ablaation, ellipsin Monte Carlo -kalibroinnin ja eteenpäin siirretyn kovarianssin. MODELLED: havainnollistava IMU-luokka, releiden joukko, laskeutumisprofiili ja ohjaustermi; maastonavigointi käyttää synteettistä reliefiä maan metrimittakaavassa; AFS-saatavuus on yksi epookki tasaisella maskilla. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-2deefd8c547b = MODELLED suhteellinen navigointi Orion–laskeutuja-tyyppiselle telakoinnille matalalla Kuun kiertoradalla tai elliptisellä napakiertoradalla (Artemis-luokka). Takaa-ajaja ja kohde lentävät samaa rataa paketin Kuun voimamallin mukaan; yhteinen 21-parametrinen eräpohjainen Gauss–Newton-estimaatti kaaren yli (kaksi ajoneuvon tilaa ja pysyvät signaalitien harhat) yhdistää ajoneuvokohtaisen absoluuttisen paikkakorjauksen ILLUSTRATIVE LCNS-luokan releiden joukosta (Kuun taakse jäävät releet pudotetaan, neljä tarvitaan, yhteismoodin signaalitien virhe kumoutuu ajoneuvojen välillä) ja ristikkäislinkin etäisyysmittauksen, jonka etäisyysmittauksen tarkkuus tulee LunaNet AFS -pilotin koodiseurannan rajasta. Raportoi muodollisen ja Monte Carlo -suhteellisen paikka- ja nopeusvirheen kohteen LVLH-akseleissa, korjausten saatavuuden, keskimääräisen normalisoidun estimointivirheen neliön suhteessa odotusarvoonsa, kaikki kokeet, joiden iteraatio ei suppennut, gravitaatioharmonisten sivuuttamisesta aiheutuvan ajautuman sekä eteenpäin siirretyn täyden 6x6-kovarianssin. Suljetun muodon Hill/Clohessy–Wiltshire-tarkistus koskee ympyräratatapausta. MODELLED: havainnollistava releiden joukko, virhebudjetti ja priorit; totuus ja estimaattori käyttävät samaa voimamallia, joten NEES tarkistaa itsejohdonmukaisuutta eikä mallivirhettä. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-6c7d25f672fb = MODELLED pinnan paikannus- ja ajoitussaatavuus kohteen ja vuodenajan mukaan Artemis-luokan etelänapa-alueen kohteille. Kullekin kohteelle ja vuodenajalle (epookki ja sen jälkeinen ikkuna) raportoidaan releillä paikannus (neljä tai useampi ILLUSTRATIVE LCNS-luokan tähdistön relettä näkyvissä ja PDOP kynnyksen alla, samoilla funktioilla kuin moonlight-service-volume-lajissa ja maastolohkon kanssa lunar-station-coverage-lajin maaston säteenseurannalla laskettu taivaanrantaviiva), ovatko Maa ja Aurinko kohteen horisontin yläpuolella (analyyttinen Aurinko, Kuu ja Kuun orientaatio, libraatio mukaan lukien, mikä liikkuu vuodenajan mukana) sekä ajoituksen saatavuus (rele tai Maa näkyvissä) pisimmän jakson kanssa, jolloin kumpaakaan ei ole, eli holdover, jonka pinnan kellon on kestettävä. Yhden kohteen tulos on bitilleen sama kuin moonlight-service-volume-lajin. MODELLED: havainnollistava Kepler-releiden joukko keskimääräisesti pyörivällä Kuulla; releiden luku ei muutu vuodenajan mukana; maasto on { "1200" } m LOLA-leikkaus. Ei minkään viraston suosittelema; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-1ec485468daa = MODELLED navigointi- ja ajoitusvirhebudjetti määritellylle tehtävävaiheiden ketjulle laukaisusta paluuseen: laukaisu ja nousu, matalan Maan kiertoradan kohtaaminen ja telakointi (toistettava), Kuuhun siirtyvä injektio ja kuunläheinen risteily, Kuun kiertoradan kohtaaminen, laskeutuminen, oleskelu pinnalla, nousu sekä paluu ja ilmakehään tulo, kukin vaihe yksi kahdeksasta rekisteröidystä lajista omine antureineen ja suotimineen. 6x6-kovarianssi, kello ja koordinaatisto siirretään vaiheesta toiseen määritellyn säännön mukaan (kanna, paisuta tai hanki uudelleen); koordinaatisto- ja aikaskaalamuunnokset (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) ovat omia budjettirivejään, ja Kuun tila tulee valinnaisesta DE440-kernelin leikkauksesta ja analyyttinen sarja on ilmoitettu varakeino. Valinnainen maaverkon peitto asettaa kunkin vaiheen seurantatyökuorman. Raportoi vaihekohtaisen budjetin (tulo-, huippu- ja poistumis-1-sigmat, jokainen osuus yksikköineen), marginaalin määriteltyyn vaatimukseen nähden, heikoimman lenkin, tapahtumat ja aikajanakuvan. MODELLED: jokainen luku on ilmoitettu syöte; ketju noudattaa yhtä pinoa, eikä mitään ajoneuvoa mallinneta. Vain julkisia lähteitä; ei ole sidoksissa mihinkään virastoon eikä sen hyväksymä; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
+
+seg-5b4a725bea4e = Jokainen mukana toimitettu skenaariotiedosto ({ "192" }) tyypeittäin ryhmiteltynä. Kuvaus on tiedoston oma otsikkokommentti; keskeiset parametrit ovat sen ylimmän tason asetukset. Tila luetaan tyypin moduulin varmennusmatriisista. <b>Avaa Kshana Studiossa</b> avaa tallennetun ajon.
+
+seg-d2b1e58dea11 = Kellonskenaario, jossa klassinen kello saa kohinansa mitatusta lokista (<c1/>).
+
+seg-760090cd3247 = Kellonskenaario, jossa mitattu loki on simuloidun holdoverin rinnalla (<c1/>).
+
+seg-d7ed02b28987 = tyyppi lunar-ascent
+
+seg-e92ba974379b = Kuun nousu: moottoroitu nousu etelänapaiselta pintapaikalta (Artemis-luokka) { "100" } km:n kohtaamisradalle sekä paikka–nopeus-kovarianssi, jonka se kuljettaa radalle.
+
+seg-d9f4bc0e8795 = tyyppi lunar-descent
+
+seg-224175962a12 = Kuun laskeutumishajonta: moottoroidun laskun budjetti etelänapaiselle paikalle (Artemis-luokka), laskeutumiskokoonpanon inertiaajautumasta ja siitä, mitä maastosuhteellinen navigointi, LunaNet-signaalit ja kuun aika kukin siitä poistavat.
+
+seg-138dbcd1aece = Kuun laskeutumishajonta todellisella LOLA-etelänapa-DEMillä: moottoroidun laskun budjetti etelänapaiselle paikalle (Artemis-luokka), laskeutumiskokoonpanon inertiaajautumasta ja siitä, mitä maastosuhteellinen navigointi, LunaNet-signaalit ja kuun aika kukin siitä poistavat.
+
+seg-7d99c01a7740 = tyyppi lunar-orbit-rendezvous
+
+seg-9e4cfcc9fc3e = Kuun kohtaaminen: suhteellinen navigointi Orion–laskeutuja-tyyppiseen telakointiin { "100" } km:n pyöreällä napaisella matalalla kuun kiertoradalla (Artemis-luokka), kuun gravitaatiokentällä ja LunaNet-tyylisillä signaaleilla.
+
+seg-9f740b874e14 = Kuun kohtaaminen elliptisellä napaisella radalla: suhteellinen navigointi Orion–laskeutuja-tyyppiseen telakointiin { "100" } km:n ja { "3000" } km:n napaisella radalla, jonka periapsis on etelänavan yllä (Artemis-luokka), kuun gravitaatiokentällä ja LunaNet-tyylisillä signaaleilla.
+
+seg-d1fc00782fe9 = tyyppi lunar-surface
+
+seg-ce9f26be0623 = Kuun pinnan PNT:n ja ajoituksen saatavuus paikan ja kauden mukaan todellisella LOLA-etelänapamaaston horisontilla (Artemis-luokan etelänapaiset paikat).
+
+seg-ce858063d300 = tyyppi mission-thread
+
+seg-0bd19840e50d = Artemis-luokan tehtäväketju: yhden vaiheketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen ilmakehään, rakennettu julkisesta toimintakonseptiaineistosta.

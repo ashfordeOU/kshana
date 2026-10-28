@@ -149,3 +149,7 @@ seg-ec064f62f7dc = <s1>Forrige</s1>MCP-server: selvdrevet HTTP-modus
 seg-1f44dbd65ce3 = <s1>Neste</s1>Hvor hver funksjon er tilgjengelig
 
 seg-e47db9be47ea = Himmelgeometri, horisontprofil
+
+seg-e3949a1e6082 = Senderregion (<c1/>)
+
+seg-46b2efcb9bec = <b>MODELLED</b>: en mulig region under radiosiktlinje, ikke en posisjonsbestemmelse. Oppgi regionen med oppgitt konfidensnivå sammen med tyngdepunktet og ellipsen, aldri tyngdepunktet alene; si <c1/> når dataene ikke snevrer den inn; si at den er betinget av modellen (kontrollert bare på syntetiske data; den forhåndsregistrerte Jammertest-sammenligningen ble kjørt én gang og var NOT ASSESSABLE for begge kilder, så ingenting ble testet eksternt). Nøytral ordlyd: «estimert senderregion»; navngi eller antyd aldri hvem eller hva som står bak en kilde, en stat, en styrke eller et forsett. Bare aggregert; ikke prøv å gjenvinne identifikatorer. Publisering av senderregioner i det offentlige observatoriet er av.

@@ -41,3 +41,5 @@ seg-95a5aa0adeb3 = <s1>Наступний</s1>entry-heating
 seg-37d29d8303fe = km
 
 seg-b054c73f22e5 = немає значення
+
+seg-a349aa76b0ed = PARTNER

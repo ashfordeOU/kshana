@@ -144,3 +144,7 @@ seg-3040e2ec62b1 = <s1>Eelmine</s1>Stsenaariumi liigid
 
 # text
 seg-1d6e6cc607f2 = <s1>Järgmine</s1>Kõik käsud
+
+seg-c6bb02c73696 = Perekonna Missiooniahelad liikide jaoks mootori joonistatud diagrammide kontaktleht
+
+seg-9ad7876b693f = Iga stsenaariumi liik, mida mootor v{ $version } käivitab ({ "92" }), on jaotatud { "13" } perekonda. Igal perekonnal on leht, kus on üks kirje iga liigi kohta (mootori kirjeldus ja väljad, näidiskäsk, käivitusest saadud peamised arvud, seda liiki nimetavad maatriksiread ja mootori kirjutatud diagramm), ning nende diagrammide kontaktleht. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).

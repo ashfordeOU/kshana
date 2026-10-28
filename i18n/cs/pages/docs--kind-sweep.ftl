@@ -47,3 +47,5 @@ seg-cb00aca0268d = <b>MODELLED</b> Sekce sweep (jeden až tři klíče s tečkam
 seg-1750fbfc4a99 = <s1>Předchozí</s1>sweep-nd
 
 seg-de5468ac32fc = <s1>Další</s1>telecom-timing
+
+seg-795e0409fa5a = <b>MODELLED</b> Fáze <c1/>: střední stav propagátorem Cowell z enginu (Země jako hmotný bod a J2, Slunce a Měsíc jako třetí tělesa, Měsíc z jádra DE440 vlákna, kde pokrývá úsek, a Slunce z analytické řady

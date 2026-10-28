@@ -72,9 +72,9 @@ seg-60864f168701 = 地面实验室／探空火箭
 
 seg-84a68aeb467d = { -brand }中的光钟指标是<em>地面硬件上的空间目标</em>。目前不存在已飞行的光钟；README和结果出处对此有明确说明。
 
-seg-a204c1b854fa = 基准：国际空间站上的ACES/PHARAO（自{ "2025" }年4月起运行）
+seg-a204c1b854fa = 基准：国际空间站上的ACES/PHARAO（自{ "2025" }年四月起运行）
 
-seg-fb88de1257bd = ESA（欧洲空间局）的<b>ACES/PHARAO</b>有效载荷（ACES：空间原子钟组；PHARAO：轨道冷原子原子钟项目，Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite）——一台激光冷却铯钟加一台主动氢脉泽，自{ "2025" }年4月起在国际空间站（ISS）上运行——是目前在轨运行的时钟稳定度基准（几天积分后的目标分数稳定度约为{ "1e-16" }量级）。{ -brand }的光钟模型代表一个比ACES已飞行的铯钟／脉泽性能<em>更激进</em>的地面实验室目标；将{ -brand }的光钟数值与“实际飞行过的水平”作比较时，ACES/PHARAO才是诚实的参照点，而且它是微波／脉泽系统，不是光晶格钟。
+seg-fb88de1257bd = ESA（欧洲空间局）的<b>ACES/PHARAO</b>有效载荷（ACES：空间原子钟组；PHARAO：轨道冷原子原子钟项目，Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite）——一台激光冷却铯钟加一台主动氢脉泽，自{ "2025" }年四月起在国际空间站（ISS）上运行——是目前在轨运行的时钟稳定度基准（几天积分后的目标分数稳定度约为{ "1e-16" }量级）。{ -brand }的光钟模型代表一个比ACES已飞行的铯钟／脉泽性能<em>更激进</em>的地面实验室目标；将{ -brand }的光钟数值与“实际飞行过的水平”作比较时，ACES/PHARAO才是诚实的参照点，而且它是微波／脉泽系统，不是光晶格钟。
 
 seg-9d2e850cb986 = ACES确切的在轨性能指标应在ESA发布结果后据其引用；这里要说明的是<em>成熟度差距</em>，而非某个具体数值——{ -brand }的光钟指标是目标，不是已飞行的性能。
 

@@ -51,3 +51,5 @@ seg-6e9f5dfca6b0 = 可信量子授时（时间传递 + 安全分发 + 异常）�
 seg-d3665be74ff1 = <s1>上一页</s1>quantum-gnss-free-nav
 
 seg-0d4b1f97541f = <s1>下一页</s1>quantum-trade
+
+seg-a349aa76b0ed = PARTNER

@@ -565,3 +565,79 @@ seg-b2fd2a05842f = Trenings-NMEA er <b>bare tekst</b>: ingen RF, IQ eller bølge
 seg-4e3bbacda9ac = <s1>Forrige</s1>Bruke Kshana fra en agent
 
 seg-c5fbfab85e01 = <s1>Neste</s1>JetBrains-plugin
+
+seg-6555ff9a6d8e = Utdata
+
+seg-12471a4b2b57 = Senderområde (ADS-B, AIS; MODELLED)
+
+seg-0a58678302e5 = <b>N/A</b> (ennå ikke ført; flatene Rust, Python og WASM dekker det)
+
+seg-dff1bfe0263e = <b>N/A</b> (å publisere senderområder i det offentlige observatoriet er en egen eierbeslutning og er slått av)
+
+seg-ec2d91e2f867 = Kontroll av innsending fra datapartner (format og metadata for en innsending av målte data, <c1/>; skårer ingenting)
+
+seg-c16a5ff8218b = <b>N/A</b> (kontrollen leser lokale filer og deres SHA-256; Rust-API-et er bibliotekflaten og CLI-et er verktøyet)
+
+seg-ed29039d1dc0 = <b>N/A</b> (ingen filsystem i nettleserbygget)
+
+seg-b3397901ea5f = <b>N/A</b> (MCP avviser filkilder med vilje (bare innebygd tekst))
+
+seg-c5fc0c41b9bb = <b>N/A</b> (skråstrekkommandoer kaller MCP-verktøy, og denne kontrollen trenger filer på disk)
+
+seg-be971c31e0de = <b>N/A</b> (JetBrains-handlinger er bundet til én valgt fil; en innsending er en mappe)
+
+seg-b9e56d6ab03b = <b>N/A</b> (Studio har ikke tilgang til filsystemet; kjør kommandoen)
+
+seg-521b58a1080e = Feilbudsjett for navigasjon og tidssynkronisering for en kjede av oppdragsfaser fra oppskyting til gjeninntreden: åtte fasetyper, overleveringsregler, konvertering mellom referansesystemer og tidsskalaer, et overlegg for bakkenettverk, margin mot oppgitte krav og det svakeste leddet (scenariotype <c1/>; <c2/>; MODELLED, ILLUSTRATIVE inngangsverdier, veiledende; bare offentlige kilder, ingen støtte fra noen)
+
+seg-6b451021b87a = <c1/> (fra en utsjekk: den leser et committet utsnitt av Måne-kjernen)
+
+seg-ac3e013b5217 = <c1/> (<c2/> er en filnøkkel og avvises; uten en kjerne er Månen den analytiske rekken, og konverteringsraden sier det)
+
+seg-e957474f44a8 = <c1/> (bare innebygd; kjernenøkkelen avvises)
+
+seg-1c1729fafe99 = <b>N/A</b> (ingen notatbok; eksempelet kjører i en hvilken som helst notatbok gjennom <c1/> fra en utsjekk)
+
+seg-39e5b9fc3560 = <c1/> (CSV)
+
+seg-743d33b43d99 = N/A (ennå ikke ført)
+
+seg-ab52a3469f6a = Estimerte senderområder, MODELLED; sporkataloger og <c1/> finnes bare på kommandolinjen
+
+seg-5f1ce275acbd = Leser en innsendingsfil og datafilen den peker til på disk og verifiserer SHA-256; ingen av disse flatene har mappen. Bare format og metadata, ingenting skåres; se <c1/>
+
+seg-fc9ab9f71553 = Bevismerkelappen, og utdataene som ikke har noen
+
+seg-b1e4bcc2ac09 = Hvert tall og hver tabell en kjøring skriver, bærer sitt bevisnivå (<c1/>, <c2/> eller <c3/>, det svakeste av registerradene bak det) og id-ene til disse radene, på hver flate som kjører et scenario: resultat-JSON (<c4/>-nøkkel), diagram-SVG (metadataelement og en linje under plottet) og CSV-tabellen (<c5/>-kommentarlinjer). Den samme merkelappen finnes på utdataene for mottakertillit (CLI, MCP, Python), <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, rutterapporten for interferenskartet, og inne i <c11/> i hver bevispakke (signert; <c12/> rapporterer den). Rad-id-ene er stabile (<c13/> og åtte heksadesimale sifre, kolonnen <c14/> i <c15/>).
+
+seg-c66058f24f0e = Disse utdataene har ingen merkelapp, hver av en oppgitt grunn (listen er <c1/> i <c2/>, som feiler på en skriver som verken er merket eller oppført):
+
+seg-04ca90423b80 = Hvorfor den ikke har noen merkelapp
+
+seg-a90c022c4dea = kshana-bench-resultatfiler
+
+seg-9f3f0adbcfe6 = et fast skjema festet av forpliktelsene for det tilbakeholdte datasettet; hver bærer sin egen <c1/> (MODELLED eller målt)
+
+seg-9bb126104f12 = daglige produkter fra interferensobservatoriet (GeoJSON, PNG, hendelses-JSON)
+
+seg-ddbc60cb14ac = et fryst, publisert skjema; metodenotatets forbehold følger med dem
+
+seg-874cb55d3457 = IQ-kampanjens celle-, scorekort- og rapportfiler
+
+seg-8c8cb4bd5110 = festet med digest; hver oppgir kampanjescorekortet den gjengir
+
+seg-8d2645e93451 = IQ-sampler, SigMF- og SDR-metadata, scenereferanse, sporepoke- og hendelsesstrømmer, loggene fra levende økter
+
+seg-9fa872028a08 = formatbundne filer og postestrømmer lest av andre verktøy
+
+seg-6c77071a0d03 = SP3-, OMM-, OEM-, CZML-, KML-, GeoJSON-, STK-, testbenk-bevegelses- og NMEA-eksporter; NMEA-treningsstrømmen
+
+seg-5c1b92afa402 = formatbundne filer lest av tredjepartsverktøy
+
+seg-b5c79a0e395c = telemetriformater på tråden (Prometheus, OTLP, CEF, LEEF)
+
+seg-8cd0fdb609e5 = definert av formatene på tråden
+
+seg-3ba06004fc14 = genererte dokumenter (selve registeret, de committede studie- og datatabellene)
+
+seg-8be4943acd00 = ikke utdata fra en kjøring

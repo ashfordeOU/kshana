@@ -43,3 +43,5 @@ seg-cfc345f0dc0d = Ballistisk gjeninntrengingskorridor (Allen–Eggers) er MODEL
 seg-a4b7c16e3fea = <s1>Forrige</s1>realtime-frame-eop
 
 seg-6166a1c21525 = <s1>Neste</s1>slot-timing
+
+seg-33b3bf4992c9 = <b>MODELLED</b> Fasen <c1/>: returferden til <c2/> uten brenn, som ender ved gjeninntredensgrensesnittet; banevinkelen og dens sigma fra den fulle kovariansen med en endelig-differanse-gradient; sannsynligheten for at vinkelen ligger innenfor en opp

@@ -45,3 +45,5 @@ seg-3f92aec2b92a = Vika-/poikkeamahavaitseminen kvantti-PNT-järjestelmille on M
 seg-6524a69e4835 = <s1>Edellinen</s1>pvt
 
 seg-aa689568cf84 = <s1>Seuraava</s1>quantum-gnss-free-nav
+
+seg-a349aa76b0ed = PARTNER

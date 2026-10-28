@@ -47,3 +47,5 @@ seg-333fca11ac0c = 诚实范围：MODELLED的标量误差预算，是Basilisk/42
 seg-0e27fcef1499 = <s1>上一页</s1>ascent-losses
 
 seg-946c453cbf0f = <s1>下一页</s1>body-pnt
+
+seg-a349aa76b0ed = PARTNER

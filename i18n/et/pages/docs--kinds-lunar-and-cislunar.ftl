@@ -648,3 +648,47 @@ seg-09f7f99d04a6 = <s1>Eelmine</s1>Madala Maa orbiidi navigatsioon
 
 # text
 seg-74c6bf83988e = <s1>Järgmine</s1>Missioonianalüüs, sidelingid ja kosmoseoperatsioonid
+
+seg-ae3053a1f6c8 = MODELLED mootoriga tõus lõunapolaarselt pinnaalalt kohtumisorbiidile ja asendi ja kiiruse kovariatsioon, mille see orbiidile tagasi kannab (Artemis-klass). Lunar-descent viieolekuline telgede kaupa inertsiaalne veamudel (asend, kiirus, kiirendusmõõtja nihe, orientatsioonikalle, güroskoobi nihe, mida juhib erijõud) töötab kõigil kolmel asukoha teljel pinnaolekust, millega faas siseneb; AFS asendifikseering ILLUSTRATIVE LCNS-klassi konstellatsiooni nähtavatest releedest (eraldiseisev või diferentsiaalne, kasutades liigi lunar-differential-pnt korrektsioonilingi jääki, kus kella toetatakse siis, kui nähtavad on ainult kolm releed) tehakse öeldud intervalliga, kusjuures Kuu aeg siseneb läbi sõiduki kella ja ajamärgi viga mööda rada. Esitab suletud kujuga inertsiaalsed allikad, abivahendi panuse, ablatsiooni, navigatsiooni 1-sigmad tõusul, mootori väljalülituse hajuvuse navigatsioonivalmiduse kõrval ja täieliku 6x6 MCI kovariatsiooni sisenemisel koos säilitatud asendi ja kiiruse korrelatsiooniga. MODELLED: illustratiivne IMU klass, erijõud, releekomplekt ja väljalülituse hajuvus; vead hoitakse startimisalase telgedes; nominaalne väljumisolek on asendaja. Ei ole agentuuri toetatud; nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.
+
+seg-463a919e84d5 = Diagramm, mille mootor kirjutab failile scenarios/lunar-ascent.toml, liik lunar-ascent
+
+seg-2cd0d5385530 = MODELLED maandumishajuvuse eelarve mootoriga laskumisel lõunapooluse piirkonna maandumiskohta (Artemis-klass). Iga horisontaaltelje kohta juhib viieoleklist inertsiaalvea mudelit (asukoht, kiirus, kiirendusmõõturi nihe, asendi kalle, güroskoobi nihe) laskumise erijõud; järjestikune filter võtab asukohafiksid lubatud abivahenditest: AFS-fiks ILLUSTRATIVE LCNS-klassi satelliidikonstellatsiooni nähtavatelt releesatelliitidelt (eraldiseisvalt või diferentsiaalselt, kasutades lunar-differential-pnt paranduslingi jääki, kusjuures kella abistatakse siis, kui nähtavad on ainult kolm releesatelliiti), ja reljeefipõhine fiks (crate'i TERCOM/SITAN sobitaja sünteetilisel reljeefil või päris LOLA lõunapooluse DEM-i kõrgusakna sobitamise Cramér-Rao tõke). Kuu aeg siseneb fiksides sõiduki kella kaudu (lunar-time-offset LTC-TT nihe või selle avaldatud ribast tulenev määramatus) ning ajamärgi veana mööda trajektoori. Esitab 3-sigma maandumiselliipsi, R95, suletud kujuga inertsiaalallikad, iga abivahendi panuse, iga abivahendite kombinatsiooni ablatsiooni, ellipsi Monte Carlo kalibreerimise ja edasi antud kovariatsiooni. MODELLED: illustratiivne IMU klass, releekomplekt, laskumisprofiil ja juhtimisliige; reljeefinavigatsioon kasutab sünteetilist reljeefi Maa meetriskaalal; AFS kättesaadavus on üks epohh tasasel maskil. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-8073ece4c900 = Mootori joonistatud diagramm failile scenarios/lunar-descent.toml, liik lunar-descent
+
+seg-2deefd8c547b = MODELLED suhteline navigatsioon Orioni ja maandurit ühendava dokkimise jaoks madalal Kuu orbiidil või elliptilisel polaarorbiidil (Artemis-klass). Jälitaja ja sihtmärk lendavad samal orbiidil crate'i Kuu jõumudeli all; ühine 21-parameetriline partii Gauss-Newtoni hinnang üle kaare (kaks sõiduki olekut ja püsivad signaali ruumis nihked) ühendab ühe absoluutse asukohafiksi sõiduki kohta ILLUSTRATIVE LCNS-klassi releekomplektist (Kuu taha jäävad releesatelliidid jäetakse välja, vaja on nelja, ühisrežiimi signaali ruumis viga tühistub sõidukite vahel) ja ristlingi kauguse, kusjuures kauguse mõõtmise täpsus tuleneb LunaNet AFS piloodi koodijälgimise tõkkest. Esitab formaalse ja Monte Carlo suhtelise asukoha- ja kiirusvea sihtmärgi LVLH telgedes, fiksi kättesaadavuse, keskmise normaliseeritud hinnangu vea ruudu selle oodatud väärtuse suhtes ning iga katse, mille iteratsioon ei koondunud, gravitatsioonihälbete eiramisest tuleneva triivi ja edasi antud täieliku 6x6 kovariatsiooni. Ringjuhu korral rakendub suletud kujuga Hilli/Clohessy-Wiltshire'i kontroll. MODELLED: illustratiivne releekomplekt, veaeelarve ja eeldused; tõeolek ja hindaja jagavad üht jõumudelit, seega kontrollib NEES omavahelist kooskõla, mitte mudeli viga. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-d97b2505ac72 = Mootori joonistatud diagramm failile scenarios/lunar-orbit-rendezvous.toml, liik lunar-orbit-rendezvous
+
+seg-6c7d25f672fb = MODELLED pinnapositsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja kaupa Artemis-klassi lõunapooluse piirkonna kohtades. Iga koha ja aastaaja (epohh ja sellele järgnev aken) kohta esitab releepositsioneerimise (neli või enam ILLUSTRATIVE LCNS-klassi konstellatsiooni releesatelliiti nähtaval ja PDOP alla läve, samadest funktsioonidest nagu moonlight-service-volume ja, reljeefiosaga, lunar-station-coverage reljeefi kiirtega läbi käidud silueti põhjal), kas Maa ja Päike on koha horisondi kohal (analüütiline Päike, Kuu ja Kuu orientatsioon, libratsioon kaasa arvatud, mis aastaajaga muutub) ning ajastuse kättesaadavuse (nähtaval on relee või Maa) koos pikima lõiguga, mil ei ole kumbagi, st holdover, mille pinnakell peab üle elama. Ühe koha tulemus võrdub moonlight-service-volume tulemusega bitini. MODELLED: illustratiivne Kepleri releekomplekt keskmise pöörlemisega Kuul; releenäitaja aastaajaga ei muutu; reljeef on { "1200" } m LOLA väljalõige. Agentuuri heakskiitu ei ole; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
+
+seg-94b84de6c958 = Mootori joonistatud diagramm failile scenarios/lunar-surface.toml, liik lunar-surface
+
+seg-8350d49efd47 = { "24" } stsenaariumi liiki mootorist v{ $version }. Nõuandev: uurimis- ja inseneeriatööriista analüüsitulemus; mitte tüübikinnitust omav navigatsiooniseade ega inimelu ohutusega seotud teenus. Iga siinne silt on mootori või kontrollimaatriksi oma; liik on MODELLED, kui maatriks ei ütle teisiti (kuidas silt teenitakse: README jaotis Evidence).
+
+seg-3505720b0990 = MODELLED mootoriga tõus lõunapooluse pinnakohast kohtumisorbiidile ja positsiooni-kiiruse kovariatsioon, mille see orbiidile tagasi kannab (Artemis-klass).
+
+seg-9d18dfb871ed = MODELLED pinnapositsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja kaupa Artemis-klassi lõunapooluse piirkonna kohtades.
+
+seg-a8d90ed1d52f = MODELLED maandumishajuvuse eelarve mootoriga laskumisel lõunapooluse piirkonna maandumiskohta (Artemis-klass).
+
+seg-737aa6f80fe3 = MODELLED suhteline navigatsioon Orioni ja maandurit ühendava dokkimise jaoks madalal Kuu orbiidil või elliptilisel polaarorbiidil (Artemis-klass).
+
+seg-66982ad26e2b = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
+
+seg-ecdaa89c9219 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-ascent</a1>.
+
+seg-6f1fd4e8089d = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+
+seg-e403a675bcc4 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-surface</a1>.
+
+seg-aa1a7b2ca934 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>.
+
+seg-059a45d0512e = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-descent</a1>.
+
+seg-1618206b62b1 = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>.
+
+seg-d1f8d70eb309 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-orbit-rendezvous</a1>.
+
+seg-f87c103758f3 = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>moonlight-service-volume</a1>.

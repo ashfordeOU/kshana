@@ -197,3 +197,5 @@ seg-82379c29d438 = <s1>Forrige</s1>Kaldatom-interferometer
 seg-4a457afc63fb = <s1>Neste</s1>npm og WebAssembly
 
 seg-dbbce10a12d2 = RunOutput
+
+seg-a4c68601516f = estimerte senderområder fra ADS-B- eller AIS-CSV-tekst: <c1/>, hver merket MODELLED; områder ved oppgitt konfidens med et tyngdepunkt og en usikkerhetsellipse, aldri et bart punkt; bare aggregert, og et område er ikke posisjonen til noen og heller ikke et funn om årsaken

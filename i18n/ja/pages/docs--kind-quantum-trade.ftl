@@ -61,3 +61,5 @@ seg-debc2f07db78 = true
 seg-98151954f217 = false
 
 seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }：この種類を挙げている<a1>検証マトリクス</a1>の行。
+
+seg-a349aa76b0ed = PARTNER
