@@ -9333,3 +9333,7 @@ js-trust-track-start = начало
 js-trust-unknown-agreement = вариант согласия, которого эта страница не знает
 
 js-trust-yes = да
+
+js-mthread-limiting-phase = Движок называет ограничивающий источник этой фазы как { $source }: источник фазы, а не одна строка этой таблицы.
+
+js-mthread-limiting-row = ограничивающий источник по данным движка
