@@ -2367,3 +2367,7 @@ seg-69c56cbdda90 = { "92" } van { "92" } soorten, { "3300" } van { "3300" } nume
 seg-237402dbe93a = Kies een van { "194" } scenariobestanden in { "92" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
 
 seg-ace118a5dc36 = Alle { "194" } scenariobestanden in { "92" } soorten, gegroepeerd per domein; { "181" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register die noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarioreferentie, met het bestand en de opdracht die het uitvoert.
+
+seg-f4ad26be58c2 = Een korte missieketen die vanuit alleen een binair bestand draait: lancering en opstijging, één rendez-vous in een lage baan om de aarde, één dag van
+
+seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
