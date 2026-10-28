@@ -27,6 +27,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
+import { attachEngineText, localiseRun } from "./lib/engine-text.mjs";
 import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, needsNewerEngine, engineCaps, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
@@ -108,13 +109,14 @@ async function bootEngine() {
       await mod.default({ module_or_path: wasm }); // fails here if the host blocks WebAssembly
       S.version = mod.version();
       S.caps = engineCaps(mod);
-      const local = { run: mod.run, run_all: mod.run_all, summary: mod.summary, chart_svg: mod.chart_svg, table_csv: mod.table_csv, export_sp3: mod.export_sp3, export_omm: mod.export_omm, export_oem: mod.export_oem };
+      const local = { run: mod.run, run_all: mod.run_all, summary: mod.summary, chart_svg: mod.chart_svg, table_csv: mod.table_csv, export_sp3: mod.export_sp3, export_omm: mod.export_omm, export_oem: mod.export_oem, register_catalogue: mod.register_catalogue, run_human: mod.run_human };
       S.engine = createEngineClient({
         spawn: typeof Worker === "function" ? () => new Worker(new URL("./lib/engine-worker.mjs", import.meta.url), { type: "module" }) : null,
         local,
         defer: (fn) => setTimeout(fn, 20),
         init: wasm,
       });
+      await attachEngineText(S.engine); // a non-English page: the engine's catalogue for its language is registered before the first run
       S.mode = "live";
       return;
     } catch (e) {
@@ -273,12 +275,18 @@ async function runScenario() {
   if (S.history.length > 25) S.history.pop();
   renderRun(run);
   renderHistory();
+  localiseEngineText(run); // a non-English page: the summary and the chart text follow in the reader's language
   const ranVars = { time: run.at.toLocaleTimeString(), run: S.runCount, secs: (ms / 1000).toFixed(1) };
   setStatus(S.mode === "live"
     ? (ms >= 1000 ? t("js-adv-status-ran-locally-secs", "Ran locally at { $time }, run { $run }, { $secs } s.", ranVars) : t("js-adv-status-ran-locally", "Ran locally at { $time }, run { $run }.", ranVars))
     : (ms >= 1000 ? t("js-adv-status-recorded-shown-secs", "Recorded run shown at { $time }, run { $run }, { $secs } s.", ranVars) : t("js-adv-status-recorded-shown", "Recorded run shown at { $time }, run { $run }.", ranVars)), "ran");
   const sum = $("summary");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
+}
+
+// The engine's text for a live run in the reader's language (lib/engine-text.mjs); the English run is shown first and stays the machine result.
+function localiseEngineText(run) {
+  localiseRun(S.engine, run).then((changed) => { if (changed && S.run === run) renderRun(run); }).catch(() => { /* English stays */ });
 }
 
 // A bundled scenario that needs a newer engine than the one running here: show its recording (made with a new

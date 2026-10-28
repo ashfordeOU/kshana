@@ -46,15 +46,19 @@ export function shareEngine(tree) {
   return { saved: before - SHIM.length, rewritten: plan.map(([f]) => f.slice(tree.length + 1)), status: 'shared' };
 }
 
+/** The engine's catalogue (the file name; English is built into the engine, so it is staged for built languages only). */
+export const ENGINE_CATALOGUE = 'engine.ftl';
 /** The catalogues the browser fetches at run time (`<site>/i18n/<lang>/<file>`), for English and each built language.
  *  Who fetches what (web/studio/lib/l10n-boot.mjs makes the loader; web/studio/lib/l10n.mjs `load` fetches `${base}${lang}/${file}`):
  *    ui.ftl, glossary.ftl      every Studio page (default `files`) and every translated site page (kshanaL10nFiles, tools/i18n-site.mjs)
  *    studio-js.ftl, studio-pages.ftl   the Studio pages only (the default `files` of createL10n)
  *    site-js.ftl               the translated site pages only (kshanaL10nFiles = ui, glossary, site-js)
- *  The language and English are both loaded (English is the per-id fallback), so each of the five exists for `en` and for every built language.
- *  Not fetched, so not shipped: engine.ftl (only `registerCurrent` fetches it, and only when a page calls `attachEngine`, which no page does),
- *  data.ftl and pages/*.ftl (applied into static files at build time). The tests pin this list against the sources. */
-export const RUNTIME_CATALOGUES = ['ui.ftl', 'glossary.ftl', 'studio-js.ftl', 'studio-pages.ftl', 'site-js.ftl'];
+ *  The language and English are both loaded (English is the per-id fallback), so each of these five exists for `en` and for every built language.
+ *    engine.ftl                the Studio's engine text: a non-English Studio page fetches /i18n/<lang>/engine.ftl once the WebAssembly engine has loaded and
+ *                              registers it (register_catalogue; web/studio/lib/engine-text.mjs, l10n.mjs `registerCurrent`). Built languages only: the English
+ *                              catalogue is compiled into the engine and register_catalogue refuses "en", so an English page never fetches one and none ships.
+ *  Not fetched, so not shipped: data.ftl and pages/*.ftl (applied into static files at build time). The tests pin this list against the sources. */
+export const RUNTIME_CATALOGUES = ['ui.ftl', 'glossary.ftl', 'studio-js.ftl', 'studio-pages.ftl', 'site-js.ftl', ENGINE_CATALOGUE];
 
 /** A catalogue without comments and blank lines: the same messages, terms and attributes (the test compares both with @fluent/syntax).
  *  Comment lines start in column 0 with `#`; a blank line is kept only where the next non-blank line is indented, because there it
@@ -80,6 +84,7 @@ export function stageCatalogues(root, tree, langs) {
   let bytes = 0;
   for (const lang of ['en', ...langs.filter((l) => l && l !== 'en')]) {
     for (const f of RUNTIME_CATALOGUES) {
+      if (f === ENGINE_CATALOGUE && lang === 'en') continue;
       const src = join(root, lang, f);
       if (!existsSync(src)) continue;
       const dst = join(tree, 'i18n', lang, f);
