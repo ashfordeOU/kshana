@@ -555,3 +555,11 @@ seg-4b41ffeb0030 = Les { "87" } types de scénario, gratuits sans restriction de
 # c1: fc21ac4
 # c2: constellation-multi-gnss-coverage.toml
 seg-597a57467277 = Moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+# text
+# c1: kshana kinds
+# c2: gnss-ssv
+# c3: lunar-infrastructure
+# c4: holdover-test
+seg-3de57431d3e6 = Le moteur compte { "87" } types de scénario ; <c1/> les liste avec leurs champs. Nouveau dans { "0.38.0" } : <c2/> (signaux GNSS pour des engins spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps par rapport aux masques de l'UIT-T).

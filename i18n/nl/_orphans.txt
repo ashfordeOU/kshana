@@ -308,3 +308,6 @@ seg-4b41ffeb0030 = Alle { "87" } scenariosoorten, gratis en zonder functiebeperk
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = De engine heeft { "87" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutregistratie tegenover de ITU-T-maskers).

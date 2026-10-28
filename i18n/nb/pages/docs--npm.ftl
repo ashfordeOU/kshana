@@ -42,8 +42,6 @@ seg-ceee5ddc0c36 = På WebAssembly-siden er hvert inngangspunkt et eget kall: <c
 
 seg-12a295fba8a5 = Hver funksjon i verifikasjonsmatrisen er merket <b>validert</b> (kontrollert mot en uavhengig ekstern referanse), <b>modellert</b> eller <b>eid av partner</b>; tallene for optiske klokker er romformål på bakkemaskinvare (ingen optisk strontiumklokke har fløyet). Modenheten er <em>ikke</em> lik på tvers av områder — Earth PNT er validert mot reelle data; dypromsnavigasjon og Mars-navigasjon er modellert, og bare byggeklossene (lystid, planetposisjoner) er validert mot eksterne referanser; banebestemmelse (OD) for reelle dypromsoppdrag står på veikartet.
 
-seg-3de57431d3e6 = Motoren har { "87" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).
-
 seg-68ed88ec0b32 = <b>Spektrum</b>: hvordan en jammer tar GNSS L-båndet, bånd for bånd.
 
 seg-f04a0aeeee33 = <b>Klokker og tidssynkronisering</b>: holdover mot en terskel, tidsoverføring og telekom-holdover mot maskene til standardiseringssektoren i Den internasjonale teleunion (ITU-T).

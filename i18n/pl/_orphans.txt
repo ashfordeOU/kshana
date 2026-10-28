@@ -322,3 +322,6 @@ seg-4b41ffeb0030 = Wszystkie { "87" } rodzajów scenariuszy, za darmo, bez bramk
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = Silnik ma { "87" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).

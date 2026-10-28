@@ -118,10 +118,9 @@ seg-078be7f5769f = Start with the first two: they decide whether the per-class h
 seg-c325655738e0 = What to send
 
 # text
-# c1: submission.toml
-# c2: kshana.partner-submission/1
-# c3: examples/partner-submission/
-seg-6906fb2919bc = A submission is two files in one folder: the data and a small description of it, <c1/> (<c2/>; a worked, made-up example is <c3/>).
+# c1: kshana.partner-submission/1
+# c2: examples/partner-submission/submission.toml
+seg-ca24fa511ffe = A submission is two files in one folder: the data and a small description of it, a TOML file (<c1/>; a worked, made-up example is <c2/>).
 
 # text
 # c1: ptp4l

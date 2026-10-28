@@ -308,3 +308,6 @@ seg-4b41ffeb0030 = { "87" }種類すべてのシナリオを、機能制限な�
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = エンジンには { "87" } 個のシナリオ種別があり、<c1/> がそのフィールドとともに一覧を表示します。{ "0.38.0" } の新機能：<c2/>（GNSS の軌道の上、周辺、その先にある宇宙機のための GNSS 信号）と <c3/>（航法と測地のインフラとしての月の軌道と表面）で、どちらも MODELLED、そして <c4/>（ITU-T のマスクに対する時刻誤差の記録）。

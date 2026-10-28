@@ -172,7 +172,7 @@ seg-204df30d9ca2 = A machine file must not depend on the language. A run in anot
 
 # text
 # c1: --lang de
-seg-f68d19f253ca = Measured, native, release build, English then <c1/> (seconds): leo-navmsg-fit-interval-trade { "9.2" } -> { "17.9" }, cislunar-arc-recovery { "7.8" } -> { "14.1" }, lunar-station-coverage { "7.8" } -> { "15.0" }, clock-ensemble { "5.8" } -> { "11.6" }, leo-navmsg-model-comparison { "5.1" } -> { "10.5" }, leo-ppp-convergence { "2.8" } -> { "6.2" }; every other bundled scenario is under { "4" } s; all { "173" } bundled scenarios take { "64" } s in English. The cost is exactly twice for another language. WebAssembly was not measured (no wasm-bindgen here); at the browser factor of about { "4" } it is a minute for the slowest kind.
+seg-b7447d4cd5a8 = Measured, native, release build, English then <c1/> (seconds): leo-navmsg-fit-interval-trade { "9.2" } -> { "17.9" }, cislunar-arc-recovery { "7.8" } -> { "14.1" }, lunar-station-coverage { "7.8" } -> { "15.0" }, clock-ensemble { "5.8" } -> { "11.6" }, leo-navmsg-model-comparison { "5.1" } -> { "10.5" }, leo-ppp-convergence { "2.8" } -> { "6.2" }; every other bundled scenario is under { "4" } s; the { "173" } scenarios bundled when this was measured took { "64" } s in English together. The cost is exactly twice for another language. WebAssembly was not measured (no wasm-bindgen here); at the browser factor of about { "4" } it is a minute for the slowest kind.
 
 # text
 # c1: run_human(toml, lang)

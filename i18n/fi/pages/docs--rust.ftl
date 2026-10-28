@@ -34,13 +34,6 @@ seg-d1a3f78ad8e0 = Kokeile ensin ilman asennusta: <a1>Kshana Studio</a1> ajaa ko
 seg-12a295fba8a5 = Jokainen varmennusmatriisin ominaisuus on merkitty tilaan <b>validoitu</b> (tarkistettu riippumatonta ulkoista oraakkelia vastaan), <b>mallinnettu</b> tai <b>kumppanin omistama</b>; optisten kellojen luvut ovat avaruustavoitteita maanpäällisellä laitteistolla (strontium-optista kelloa ei ole lennetty). Kypsyys <em>ei</em> ole tasaista eri aloilla: Maan PNT on validoitu oikeaa dataa vastaan; syväavaruuden ja Marsin navigointi on mallinnettua, ja vain sen rakennuspalikat (valon kulkuaika, planeettojen paikat) on validoitu ulkoisia oraakkeleita vastaan; oikean tehtävän syväavaruuden radanmääritys (OD, orbit determination) on tiekartalla.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = Moottorissa on { "87" } skenaariolajia; <c1/> listaa ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-ratojen yläpuolella, ympärillä ja ohi) ja <c3/> (kuun kiertorata ja pinta navigointi- ja geodeettisenä infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vastaan).
-
-# text
 seg-68ed88ec0b32 = <b>Spektri</b>: miten häirintälähde valtaa GNSS:n L-kaistan, kaista kerrallaan.
 
 # text

@@ -308,3 +308,6 @@ seg-4b41ffeb0030 = 全部{ "87" }种场景类型，免费且没有功能门槛�
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = 该引擎有{ "87" }种场景类型；<c1/>会列出它们及其字段。{ "0.38.0" }中新增：<c2/>（面向位于GNSS轨道之上、周围和之外的航天器的GNSS信号）和<c3/>（作为导航和大地测量基础设施的月球轨道与月面），两者均为MODELLED，以及<c4/>（对照ITU-T模板的时间误差记录）。
