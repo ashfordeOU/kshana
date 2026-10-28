@@ -308,3 +308,6 @@ seg-4b41ffeb0030 = Alla { "87" } scenariotyper, gratis och utan funktionsspärr,
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 seg-597a57467277 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# The engine has { "87" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+seg-3de57431d3e6 = Motorn har { "87" } scenariotyper; <c1/> listar dem med deras fält. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månens bana och yta som navigerings- och geodetisk infrastruktur), båda MODELLED, och <c4/> (en tidsfelspost mot ITU-T-masker).

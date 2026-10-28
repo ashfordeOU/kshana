@@ -42,8 +42,6 @@ seg-ceee5ddc0c36 = Op het WebAssembly-vlak is elk toegangspunt een afzonderlijke
 
 seg-12a295fba8a5 = Elke mogelijkheid in de verificatiematrix is gelabeld <b>getoetst aan een onafhankelijke externe referentie</b>, <b>modelmatig</b> of <b>in eigendom van een partner</b>; de cijfers voor optische klokken zijn ruimtedoelen op grondhardware (er is nog geen optische strontiumklok gevlogen). De maturiteit is <em>niet</em> uniform over de domeinen — PNT op aarde is getoetst aan echte data; navigatie in de diepe ruimte en op Mars is modelmatig, waarbij alleen de bouwstenen (lichttijd, planeetposities) zijn getoetst aan externe onafhankelijke referenties; baanbepaling (orbit determination) in de diepe ruimte voor echte missies staat op de roadmap.
 
-seg-3de57431d3e6 = De engine heeft { "87" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutregistratie tegenover de ITU-T-maskers).
-
 seg-68ed88ec0b32 = <b>Spectrum</b>: hoe een jammer de GNSS L-band inneemt, band voor band.
 
 seg-f04a0aeeee33 = <b>Klokken en tijdsynchronisatie</b>: holdover tegenover een drempel, tijdoverdracht, en telecom-holdover tegenover de maskers van de standaardisatiesector van de International Telecommunication Union (ITU-T).

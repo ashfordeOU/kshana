@@ -136,12 +136,6 @@ seg-ceee5ddc0c36 = Na straně WebAssembly je každý vstupní bod samostatné vo
 
 seg-12a295fba8a5 = Každá schopnost ve verifikační matici je označena jako <b>ověřená</b> (zkontrolovaná proti nezávislému vnějšímu orákulu), <b>modelovaná</b> nebo <b>ve vlastnictví partnera</b>; údaje o optických hodinách jsou cíle pro vesmír na pozemním hardwaru (žádné optické hodiny se stronciem dosud nelétaly). Zralost <em>není</em> napříč oblastmi jednotná – PNT pro Zemi je ověřeno proti skutečným datům; navigace v hlubokém vesmíru a na Marsu je modelovaná, přičemž proti vnějším orákulím jsou ověřeny jen její stavební bloky (světelný čas, polohy planet); skutečné OD (určování oběžné dráhy) pro mise v hlubokém vesmíru je na plánu rozvoje.
 
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = Engine má { "87" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické lodě nad dráhami GNSS, v jejich okolí a za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).
-
 seg-68ed88ec0b32 = <b>Spektrum</b>: jak jammer zabírá pásmo L GNSS, pásmo po pásmu.
 
 seg-f04a0aeeee33 = <b>Hodiny a časování</b>: holdover proti prahu, přenos času a telekomunikační holdover proti maskám normalizačního sektoru Mezinárodní telekomunikační unie (ITU-T).

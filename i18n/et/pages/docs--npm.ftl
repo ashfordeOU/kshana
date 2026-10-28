@@ -158,13 +158,6 @@ seg-ceee5ddc0c36 = WebAssembly-liideses on iga sisenemispunkt eraldi kutse: <c1/
 seg-12a295fba8a5 = Iga võimekus kontrollimaatriksis on märgistatud kui <b>valideeritud</b> (kontrollitud sõltumatu välise etaloni vastu), <b>modelleeritud</b> või <b>partneri omad</b>; optiliste kellade arvud on kosmoseesmärgid maapealsel riistvaral (ükski strontsiumi optiline kell ei ole lennanud). Küpsus ei ole valdkonniti <em>ühtlane</em> — Maa PNT on valideeritud tegelike andmete vastu; kaugkosmose ja Marsi navigatsioon on modelleeritud, ainult selle ehituskivid (valguse levi aeg, planeetide asukohad) on valideeritud väliste sõltumatute etalonide vastu; tegeliku missiooni kaugkosmose OD (orbiidi määramine) on teekaardil.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = Mootoril on { "87" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).
-
-# text
 seg-68ed88ec0b32 = <b>Spekter</b>: kuidas segaja võtab GNSS-i L-riba, riba kaupa.
 
 # text

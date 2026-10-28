@@ -37,13 +37,6 @@ seg-d1a3f78ad8e0 = Essayez d'abord sans rien installer : <a1>Kshana Studio</a1>
 seg-12a295fba8a5 = Chaque capacité de la matrice de vérification est étiquetée <b>validée</b> (vérifiée par rapport à une référence externe indépendante), <b>modélisée</b> ou <b>détenue par un partenaire</b> ; les valeurs des horloges optiques sont des objectifs spatiaux sur du matériel au sol (aucune horloge optique au strontium n'a volé). La maturité n'est <em>pas</em> uniforme selon les domaines — le PNT terrestre est validé par rapport à des données réelles ; la navigation en espace lointain et sur Mars est modélisée, seuls ses éléments constitutifs (temps de lumière, positions des planètes) étant validés par rapport à des références externes ; la détermination d'orbite (OD) de missions réelles en espace lointain figure sur la feuille de route.
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-3de57431d3e6 = Le moteur compte { "87" } types de scénario ; <c1/> les liste avec leurs champs. Nouveau dans { "0.38.0" } : <c2/> (signaux GNSS pour des engins spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps par rapport aux masques de l'UIT-T).
-
-# text
 seg-68ed88ec0b32 = <b>Spectre</b> : comment un brouilleur prend la bande L du GNSS, bande par bande.
 
 # text
