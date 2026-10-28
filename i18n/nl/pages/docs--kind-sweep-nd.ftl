@@ -45,3 +45,5 @@ seg-ce006a6715e9 = <s1>Vorige</s1>spoof
 seg-b9f8771ffd3d = <s1>Volgende</s1>sweep
 
 seg-8b701f465117 = log
+
+seg-a349aa76b0ed = PARTNER

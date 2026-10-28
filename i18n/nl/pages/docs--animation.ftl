@@ -83,3 +83,5 @@ seg-9dfb9596ecf3 = Sweep-, Monte Carlo- en compose-campagnes hebben geen tijdas 
 seg-be1f1afe7424 = <s1>Vorige</s1>Runrapporten
 
 seg-6817433f69f6 = <s1>Volgende</s1>Interoperabiliteitsexports en -imports
+
+seg-5366f477e688 = Een soort waarvan het resultaat geen van deze vormen bevat (een linkbudget, een geometrie voor één epoche, een Monte Carlo-samenvatting met alleen statistiek, of de telecom-holdover, waarvan het resultaat de hash van de opname publiceert maar niet de opname zelf) wordt geweigerd met <c1/>, en er wordt niets geschreven. Met kshana { $version } worden { "94" } van de { "192" } uitvoerbare scenariobestanden (elk bestand behalve een studiesuite) geanimeerd en worden { "98" } geweigerd. <c2/> drukt de telling af.

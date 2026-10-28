@@ -1153,3 +1153,6 @@ seg-67f767701c6d = <s1>Anterior</s1>Domínios de capacidade
 
 # text
 seg-ea79a68b0587 = <s1>Seguinte</s1>Esquema de resultados
+
+# attr:title, text
+seg-944145b95b4a = Disponibilidade de PNT e temporização na superfície lunar por local e estação (locais polares sul de classe Artemis).

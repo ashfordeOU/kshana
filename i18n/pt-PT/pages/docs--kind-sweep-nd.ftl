@@ -77,3 +77,6 @@ seg-ce006a6715e9 = <s1>Anterior</s1>spoof
 
 # text
 seg-b9f8771ffd3d = <s1>Seguinte</s1>sweep
+
+# text
+seg-a349aa76b0ed = PARTNER

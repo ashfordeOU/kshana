@@ -733,3 +733,5 @@ seg-2f09b9930e10 = Bekijken op GitHub
 seg-67f767701c6d = <s1>Vorige</s1>Capabilitydomeinen
 
 seg-ea79a68b0587 = <s1>Volgende</s1>Resultaatschema
+
+seg-944145b95b4a = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppervlak per locatie en seizoen (locaties bij de zuidpool in Artemis-klasse).

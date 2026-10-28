@@ -2062,3 +2062,55 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-7a0503f925c1 = <s1>Vorige</s1>Mogelijkhedenreferentie
 
 seg-b5832e94f926 = <s1>Volgende</s1>Claims tegenover de werkelijkheid
+
+seg-65185cb68d6b = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer (<c1/>)
+
+seg-86a132e1a243 = De soort <c1/>: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (<c2/>; <c3/>, witte versnellingsruis over een vermelde onderbreking op een model met rechte lijn; <c4/>, koppelnavigatie en daarna de bronvloer, nooit eronder, nooit een reset); omzettingen van referentiestelsel GCRF, MCI en MCMF en omzettingen van tijdschaal via TT, elk een eigen budgetrij, met de toestand van de maan uit een optionele DE440-kernelsnede en de analytische reeks als vermelde terugval; de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. Elk getal is een vermelde invoer of een model daarvan
+
+seg-87b2b2459b45 = Lancering en opstijging naar een parkeerbaan met GNSS-acquisitie en signaalverlies (<c1/>)
+
+seg-725e7ce83533 = De fase <c1/>: een covariantie van positie en snelheid bij constante snelheid met witte versnellingsruis (de klasse van koppelnavigatie), een GNSS-positiebepaling van vermelde nauwkeurigheid die na de acquisitietijd en buiten vermelde signaalverliezen wordt toegepast, een klok met bias en drift die door dezelfde positiebepalingen wordt gestuurd, en de toestand bij insertie in de parkeerbaan
+
+seg-eb66a49b0306 = Relatieve navigatie naar de koppelingsenvelop in een lage baan om de aarde over sensortrajecten (<c1/>)
+
+seg-658a0448d80d = De fase <c1/>: de relatieve toestand in de LVLH-assen van het doel met de Clohessy-Wiltshire-overgang in gesloten vorm, een 6x6-Kalman-covariantie met witte versnellingsruis en positie-updates waarvan de variantie die van de sensor op de actuele afstand is, over trajecten van een vermelde sensor (ILLUSTRATIVE optische camera, lidar en radioafstandsmeting); het koppelvenster is de tijd vanaf het moment waarop de relatieve sigma binnen de vangenvelop blijft tot het einde van de fase. De absolute covariantie van de achtervolger wordt ongewijzigd doorgegeven en een rij zegt dat
+
+seg-b45a8a357faf = Trans-lunaire injectie en cislunaire vlucht: voortgeplante gemiddelde toestand en covariantie met trackingupdates (<c1/>)
+
+seg-ab5c79789754 = De fase <c1/>: de gemiddelde toestand met de Cowell-propagator van de engine (aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit de DE440-kernel van de keten waar die het segment dekt en de zon uit de analytische reeks); de covariantie met een voorwaartse-differentie-toestandsovergangsmatrix van die voortplanting (de nominale run en zes verstoorde runs per segment) met witte versnellingsruis; de grootte en richtingsfout van de TLI-brandperiode; <c2/>-positiebepalingen waarvan de beschikbaarheid en PDOP uit de sweep van het ruimteservicevolume langs een osculerende baan komen die de boog vervangt; afstands- en afstandssnelheidstracking langs de geocentrische richting, geschaald met de bezettingsgraad van het grondnetwerk, met de update in Joseph-vorm
+
+seg-7a3eb4fae324 = Covariantie bij het terugkeerinterface, corridorkans, piekvertraging en landingsvoetafdruk (<c1/>)
+
+seg-93f07906d7bf = De fase <c1/>: de terugkeervlucht van <c2/> zonder brand, eindigend bij het terugkeerinterface; de baanhoek en zijn sigma uit de volledige covariantie met een eindige-differentiegradiënt; de kans dat de hoek binnen een vermelde corridor ligt; de piekvertraging bij de nominale hoek en bij beide corridorranden uit de vlakke ballistische puntmassa-terugkeer van de engine (skip-out gedetecteerd) naast de gesloten vorm van Allen-Eggers; de landingsvoetafdruk uit een vermelde gevoeligheid voor de afstand in vliegrichting en de covariantie bij het interface dwars op het baanvlak. Er wordt geen lift, geleiding of verhitting gemodelleerd
+
+seg-3f0951532f6e = Dekking van het grondnetwerk en trackingbezetting voor een fase van de keten (<c1/> van <c2/>)
+
+seg-5204af351299 = De overlay van het grondnetwerk: stations met een minimale elevatie, het zicht op het voertuig bij een vermelde geometrie (de terugkeertoestand tweelichamen gevlogen met J2, de positie van de maan voor de vlucht, of een vermelde bezettingsgraad), stationsoverdrachten die elk een vermelde tijd kosten, en de resulterende bezettingsgraad die aan de updatefrequentie van de grondtracking van de fase wordt doorgegeven; het langste interval zonder station in zicht is een budgetrij
+
+seg-4ba700726208 = Relatieve navigatie tot koppeling in een maanbaan (<c1/>)
+
+seg-2e30e78e49f7 = De soort en fase <c1/>: een gezamenlijke batch-Gauss-Newton-schatting voor twee voertuigen over de boog (eenentwintig parameters: beide toestanden en blijvende positiebiassen in het signaal in de ruimte, gemeenschappelijk en onafhankelijk), opgebouwd over een kwart, de helft en de hele boog met staphalvering, uit een absolute positiebepaling per voertuig (AFS-pilootcode-trackinggrens, ILLUSTRATIVE relaisset) en een crosslink-afstand, onder het maankrachtenmodel van de crate; de gemiddelde genormaliseerde gekwadrateerde schattingsfout, de Clohessy-Wiltshire-controle op een cirkelbaan en de doorgegeven 6x6-covariantie
+
+seg-c85d7e5e63a3 = Budget voor landingsspreiding bij een maanpoollocatie (<c1/>)
+
+seg-bd88ab3ad105 = De soort en fase <c1/>: een traagheidsfoutenmodel met vijf toestanden per as (positie, snelheid, versnellingsmetersbias, kanteling, gyrobias) over een aangedreven afdaling, ondersteund door AFS-positiebepalingen (zelfstandig of differentieel, met het klokondersteunde geval met drie relais), een terreinrelatieve positiebepaling (de terreinnavigatie-matcher van de engine op synthetisch reliëf, of een Cramér-Rao-grens op een LOLA-DEM met een regel voor het aperture-probleem) en maantijd, met een Monte Carlo-ellips voor de landingsplaats
+
+seg-8dfc1600cf8c = Beschikbaarheid van positiebepaling en tijdsynchronisatie op het oppervlak per locatie en seizoen bij de maanpolen (<c1/>)
+
+seg-f91c1da9ab55 = De soort en fase <c1/>: relaisbeschikbaarheid en PDOP, zicht op aarde en zon en een gestuurde oppervlakteklok voor elke locatie en elk seizoen, met de terreinhorizon van <c2/>; een run voor één locatie is bitgelijk aan de beschikbaarheid en PDOP van die soort
+
+seg-0db91d70a079 = Aangedreven opstijging van een maanpoollocatie naar een insertiebaan (<c1/>)
+
+seg-b5b1125d515c = De soort en fase <c1/>: het traagheidsfoutenmodel met vijf toestanden per as, uitgevoerd over een aangedreven opstijging met specifieke kracht langs het pad, ondersteund door AFS-positiebepalingen en maantijd, dat de covariantie van positie en snelheid bij insertie rapporteert die naar de baan wordt meegenomen en de spreiding bij motoruitschakeling (gerapporteerd, niet meegenomen)
+
+seg-1983ce9cc6da = De voortplanting met het maankrachtenmodel tegen openbare gereconstrueerde trajecten van maanorbiters en cislunaire trajecten
+
+seg-57f53a7d1fa2 = De propagator die de maansoorten delen (GRAIL GL0660B graad en orde { "150" }, aarde en zon als derde lichamen, relativiteit, DE440-maanoriëntatie) vergeleken met de openbare JPL Horizons-trajecten van LRO ({ "24" } uur, samples van { "10" } minuten) en CAPSTONE (één omloop van { "6.5" } dagen, samples van een uur), onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+seg-c557d317389a = De voortplanting van de gemiddelde cislunaire toestand tegen het openbare traject van Artemis I (<c1/>)
+
+seg-539d4c3e9b56 = De voortplanting van de gemiddelde toestand van de fase <c1/> (Cowell, aarde als puntmassa en J2, zon en maan als derde lichamen, de maan uit een DE440-snede) vergeleken met het openbare JPL Horizons-traject van Artemis I over een vluchtboog van { "72" } uur vanaf 2022-11-16 { "18" }:{ "00" } TDB, op epochen van { "12" } uur, onder drempels die vóór de run in een vastgelegd bestand zijn vastgezet
+
+seg-150ae9c3d755 = Bron van interferentie: een haalbaar zendergebied uit positiemeldingen van vliegtuigen en schepen
+
+seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B- (NIC/NACp) of AIS-positiemeldingen: radiolijnzicht op een 4/3-aardstraal vanaf de meldingshoogte en een bereik van antennehoogtes van de zender, een beperkt effectief bereik voor het onbekende vermogen, getroffen eenheden die de posterior naar hun bereik trekken en niet getroffen eenheden met lijnzicht die ertegen duwen, gegroepeerd in sessies in tijd en ruimte. De uitvoer bestaat uit gebieden met de hoogste dichtheid op vermelde betrouwbaarheidsniveaus, een posterior-zwaartepunt met een momentenellips, begin, einde, duur van de sessie, getroffen oppervlak en aantal onderscheiden vliegtuigen boven het publicatieminimum, een profiel per tijdstip van de dag en uren per dag. Terreinvrij; één bron per sessie; de geloofwaardigheid hangt van het model af. Optionele fusie met een TDOA-positiebepaling uit geolocatie.
