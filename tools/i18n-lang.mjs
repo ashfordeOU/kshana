@@ -146,7 +146,7 @@ export function applyPage({ html, segs, bundle, lang, vars = {} }) {
 /** ---- check ---- */
 
 const PLURAL_NEEDS = (lang) => new Intl.PluralRules(BCP47[lang] || lang).resolvedOptions().pluralCategories;
-const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT', 'ILLUSTRATIVE', 'PUBLIC', 'REPRESENTATIVE', 'WORKSHOP', 'MIXED', 'MEASURED', 'NEEDS INPUT', 'GREEN'];
+const TOKENS = ['NOT CORROBORATED', 'NOT MET', 'VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY', 'MET', 'PREDICTION', 'CORROBORATED', 'REFUSED', 'DEGRADED', 'DEFICIENT', 'OBSERVED', 'LOST', 'MISMATCH', 'VERIFIED', 'CONSISTENT', 'INCONSISTENT', 'ILLUSTRATIVE', 'PUBLIC', 'REPRESENTATIVE', 'WORKSHOP', 'MIXED', 'MEASURED', 'NEEDS INPUT', 'GREEN', 'NOT ASSESSABLE'];
 
 /** How many times each all-caps tier, verdict and status token stands in a message text (a { -tier-modelled } term counts as its token; NOT MET is not MET).
  *  A translation must have exactly the English counts: a lowercase "validated" or "modelled" is a word and stays a word, never the label. */
@@ -238,7 +238,7 @@ export function checkLang(root, lang) {
     const e = (gloss && gloss.map.get(id)) || enGloss.map.get(id);
     return e ? textOfPattern(e.value) : null;
   };
-  const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET', 'NOT ASSESSABLE'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
   const rendMap = tokenRenderings(root, lang);
   let n = 0;
   for (const f of [...files, ...engine]) {
@@ -401,7 +401,7 @@ export function mergeTranslations(root, lang, texts, { replace = false } = {}) {
   let added = 0;
   const rend0 = tokenRenderings(root, lang);
   const gl = (() => { const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl')); return (id) => { const e = (g && g.map.get(id)) || (en && en.map.get(id)); return e ? textOfPattern(e.value) : null; }; })();
-  const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const tokenTerm = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET', 'NOT ASSESSABLE'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
   for (const text of texts) {
     const p = new FluentParser({ withSpans: true }).parse(text);
     for (const e of p.body) {
@@ -497,7 +497,7 @@ export function legalSentences(root, lang) {
 export const TIER_TOKENS = TOKENS;
 export function tokenRenderings(root, lang) {
   const g = entriesOf(join(root, lang, 'glossary.ftl')), en = entriesOf(join(root, 'en', 'glossary.ftl'));
-  const term = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
+  const term = (t) => '-' + (['VALIDATED', 'MODELLED', 'PARTNER', 'EXPLORATORY'].includes(t) ? 'tier-' : ['MET', 'NOT MET', 'NOT ASSESSABLE'].includes(t) ? 'verdict-' : 'status-') + t.toLowerCase().replace(/ /g, '-');
   const out = {};
   for (const t of TOKENS) { const e = (g && g.map.get(term(t))) || (en && en.map.get(term(t))); out[t] = e ? plainText(e.value) || t : t; }
   return out;
