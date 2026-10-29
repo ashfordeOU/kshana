@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Forrige</s1>Hvor Kshana står
 
 seg-cd8a14a9e8ec = <s1>Næste</s1>Licensering
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } tilføjer missionstråden i Artemis-klassen og dens månesegment, en evidensetiket på hvert tal og hver tabel, en kørsel skriver, indlæsning og tilpasning af målte ure, en kontrol af datapartneres indsendelser, et estimeret senderområde ud fra ADS-B- eller AIS-rapporter, gen-kampagnen for benchmark { "0.40" } samt kommandolinjen, rapporterne og Studio på sytten sprog ved siden af engelsk (maskindokumenter forbliver engelske). Verifikationsmatricen vokser fra { "388" } til { "401" } rækker: { "176" } VALIDATED (uændret), { "221" } MODELLED (var { "208" }) og { "4" } PARTNER. Ingen række blev opgraderet til VALIDATED. Scenarietyperne vokser fra { "87" } til { "92" }. Hver tærskel, en præregistreret sammenligning missede, er opgivet nedenfor og forbliver fastholdt; ingen blev lempet. Den vejledende erklæring er uændret: Kshana er vejledende software, ikke typegodkendt navigationsudstyr og ikke en certificering; operatøren er fortsat ansvarlig.
 
 seg-738f33f0ae8a = Kendte begrænsninger
@@ -3271,3 +3269,5 @@ seg-29d014d29790 = Én afhængighedsopdatering i det leverede bibliotek (den fø
 seg-6b6a960ca7cf = <c1/>, <c2/> og <c3/> { "0.13" } til { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } og <c6/> { "0.5.5" } til { "0.7.10" }; også den direkte afhængighed <c7/>, nu { "0.7" }) udbedrer RUSTSEC-2026-0387, tidsvariation i <c8/> { "0.5.5" }. Kshana bruger disse crates kun til at verificere offentlige signaturer (Galileo OSNMA-rodnøglen og RFC { "3161" }-tidsstempeltokens) og signerer kun i tests med engangsnøgler, så den praktiske eksponering var nul; opgraderingen fjerner advarslen uden en ignorer-post. Bibliotekets og MCP's låsefiler flytter sig begge; intet verifikationsresultat ændres (OSNMA- og tidsstempelvektortestene består uændret).
 
 seg-1a4cda9d1486 = Den mindst understøttede Rust-version er nu { "1.88" } (kræves af rettelsen for RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

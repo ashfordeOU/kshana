@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Předchozí</s1>Kde { -brand } stojí
 
 seg-cd8a14a9e8ec = <s1>Další</s1>Licencování
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } přidává vlákno mise ve stylu Artemis a jeho lunární část, štítek důkazů u každého čísla a každé tabulky, které běh zapíše, načítání a fitování změřených hodin, kontrolu podání od datových partnerů, odhadovanou oblast zdroje rušení z hlášení ADS-B nebo AIS, rekampaň benchmarku { "0.40" } a příkazový řádek, zprávy a Studio v sedmnácti jazycích vedle angličtiny (strojové dokumenty zůstávají anglicky). Verifikační matice roste ze { "388" } na { "401" } řádků: { "176" } VALIDATED (beze změny), { "221" } MODELLED (bylo { "208" }) a { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED. Druhy scénářů rostou z { "87" } na { "92" }. Každý práh, který předregistrované srovnání nesplnilo, je uveden níže a zůstává zafixován; žádný nebyl zmírněn. Poradní prohlášení se nemění: Kshana je software pouze poradního charakteru, nikoli typově schválené navigační zařízení a nikoli certifikace; za navigaci zůstává odpovědný provozovatel.
 
 seg-738f33f0ae8a = Známá omezení
@@ -3272,3 +3270,5 @@ seg-6b6a960ca7cf = <c1/>, <c2/> a <c3/> z verze { "0.13" } na { "0.14" } (spolu 
 
 # text
 seg-1a4cda9d1486 = Minimální podporovaná verze Rustu je nyní { "1.88" } (vyžaduje ji oprava RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

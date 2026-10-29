@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Vorige</s1>Waar Kshana staat
 
 seg-cd8a14a9e8ec = <s1>Volgende</s1>Licenties
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } voegt de missieketen in Artemis-klasse en het maansegment ervan toe, een bewijslabel bij elk cijfer en elke tabel die een run schrijft, het inlezen en fitten van gemeten klokken, een controle van inzendingen van datapartners, een geschat zendergebied uit ADS-B- of AIS-meldingen, de herhaalcampagne van de benchmark van { "0.40" }, en de opdrachtregel, de rapporten en Studio in zeventien talen naast het Engels (machinedocumenten blijven Engels). De verificatiematrix groeit van { "388" } naar { "401" } rijen: { "176" } VALIDATED (ongewijzigd), { "221" } MODELLED (was { "208" }) en { "4" } PARTNER. Geen enkele rij is bevorderd naar VALIDATED. De scenariosoorten groeien van { "87" } naar { "92" }. Elke drempel die een vooraf vastgelegde vergelijking miste, wordt hieronder vermeld en blijft vastgezet; geen enkele is versoepeld. De adviserende verklaring is ongewijzigd: Kshana is adviserende software, geen typegoedgekeurde navigatieapparatuur en geen certificering; de exploitant blijft verantwoordelijk.
 
 seg-738f33f0ae8a = Bekende beperkingen
@@ -3271,3 +3269,5 @@ seg-29d014d29790 = Eén afhankelijkheidsupdate in de meegeleverde bibliotheek (h
 seg-6b6a960ca7cf = <c1/>, <c2/> en <c3/> { "0.13" } naar { "0.14" } (met <c4/> { "0.14.3" }, <c5/> { "0.17.0" } en <c6/> { "0.5.5" } naar { "0.7.10" }; ook de directe afhankelijkheid <c7/>, nu { "0.7" }) verhelpen RUSTSEC-2026-0387, variatie in de uitvoeringstijd in <c8/> { "0.5.5" }. Kshana gebruikt deze crates alleen om openbare handtekeningen te verifiëren (de Galileo OSNMA-rootsleutel en RFC { "3161" }-tijdstempeltokens) en ondertekent alleen in tests met wegwerpsleutels, dus de praktische blootstelling was nihil; de upgrade verwijdert de RUSTSEC-melding zonder ignore-regel. De lockbestanden van de bibliotheek en van MCP verschuiven allebei; geen verificatieresultaat verandert (de OSNMA- en tijdstempelvectortests slagen ongewijzigd).
 
 seg-1a4cda9d1486 = Minimaal ondersteunde Rust is nu { "1.88" } (vereist door de fix voor RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

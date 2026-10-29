@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Poprzednia</s1>Gdzie mieści się Kshana
 
 seg-cd8a14a9e8ec = <s1>Następna</s1>Licencjonowanie
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } dodaje wątek misji klasy Artemis i jego segment księżycowy, etykietę dowodową przy każdej wartości i tabeli zapisywanej przez przebieg, wczytywanie i dopasowywanie zmierzonych zegarów, sprawdzanie zgłoszeń partnerów danych, szacowany obszar emitera na podstawie raportów ADS-B lub AIS, ponowną kampanię benchmarku { "0.40" } oraz wiersz poleceń, raporty i Studio w siedemnastu językach obok angielskiego (dokumenty maszynowe pozostają po angielsku). Macierz weryfikacji rośnie z { "388" } do { "401" } wierszy: { "176" } VALIDATED (bez zmian), { "221" } MODELLED (było { "208" }) i { "4" } PARTNER. Żaden wiersz nie został awansowany do VALIDATED. Rodzaje scenariuszy rosną z { "87" } do { "92" }. Każdy próg, którego porównanie zarejestrowane wstępnie nie osiągnęło, jest podany poniżej i pozostaje przypięty; żaden nie został poluzowany. Oświadczenie doradcze pozostaje bez zmian: Kshana jest oprogramowaniem wyłącznie doradczym, nie jest sprzętem nawigacyjnym z zatwierdzeniem typu ani certyfikacją; za nawigację odpowiada nadal operator.
 
 seg-738f33f0ae8a = Znane ograniczenia
@@ -3271,3 +3269,5 @@ seg-29d014d29790 = Jedna aktualizacja zależności w dostarczanej bibliotece (pi
 seg-6b6a960ca7cf = <c1/>, <c2/> i <c3/> z { "0.13" } do { "0.14" } (wraz z <c4/> { "0.14.3" }, <c5/> { "0.17.0" } i <c6/> z { "0.5.5" } do { "0.7.10" }; także bezpośrednia zależność <c7/>, obecnie { "0.7" }) usuwają RUSTSEC-2026-0387, zmienność czasu wykonania w <c8/> { "0.5.5" }. Kshana używa tych crate'ów wyłącznie do weryfikacji podpisów publicznych (klucz główny Galileo OSNMA i tokeny znaczników czasu RFC { "3161" }), a podpisuje tylko w testach jednorazowymi kluczami, więc praktyczne narażenie było zerowe; aktualizacja usuwa ostrzeżenie bez wpisu ignorowania. Pliki blokad biblioteki i MCP zmieniają się oba; żaden wynik weryfikacji się nie zmienia (testy wektorowe OSNMA i znaczników czasu przechodzą bez zmian).
 
 seg-1a4cda9d1486 = Minimalna obsługiwana wersja Rust to teraz { "1.88" } (wymagana przez poprawkę RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
