@@ -8886,8 +8886,6 @@ seg-aa081bfd9878 = <c1/> gagne <c2/>, <c3/> et <c4/> (<c5/>), et <c6/> gagne <c7
 # c1: tests/iq_track_memory.rs
 seg-8cb2f8b27bad = Le tas d'une exécution ne croît plus avec la longueur de l'enregistrement : <c1/> le mesure avec un allocateur à comptage ({ "6" }× la longueur, même pic à { "64" } Kio près), avec un témoin montrant que le chemin en mémoire, lui, croît.
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } ajoute le fil de mission de classe Artemis et son segment lunaire, une étiquette de preuve sur chaque figure et chaque tableau qu'une exécution écrit, l'ingestion et l'ajustement d'horloge mesurée, une vérification des soumissions de partenaires de données, une région d'émetteur estimée à partir de rapports ADS-B ou AIS, la nouvelle campagne de benchmark { "0.40" }, ainsi que la ligne de commande, les rapports et le Studio en dix-sept langues en plus de l'anglais (les documents machine restent en anglais). La matrice de vérification passe de { "388" } à { "401" } lignes : { "176" } VALIDATED (inchangé), { "221" } MODELLED (contre { "208" }) et { "4" } PARTNER. Aucune ligne n'a été promue à VALIDATED. Les types de scénario passent de { "87" } à { "92" }. Chaque seuil qu'une comparaison préenregistrée n'a pas atteint est énoncé ci-dessous et reste épinglé ; aucun n'a été assoupli. L'énoncé à titre consultatif est inchangé : { -brand } est un logiciel à titre consultatif, et non un équipement de navigation homologué et pas une certification ; l'opérateur reste responsable.
 
 seg-738f33f0ae8a = Limites connues
@@ -8949,3 +8947,5 @@ seg-29d014d29790 = Une mise à jour de dépendance dans la bibliothèque livrée
 seg-6b6a960ca7cf = <c1/>, <c2/> et <c3/> { "0.13" } vers { "0.14" } (avec <c4/> { "0.14.3" }, <c5/> { "0.17.0" } et <c6/> { "0.5.5" } vers { "0.7.10" } ; aussi la dépendance directe <c7/>, désormais { "0.7" }) corrigent RUSTSEC-2026-0387, une variabilité de temps d'exécution dans <c8/> { "0.5.5" }. Kshana n'utilise ces crates que pour vérifier des signatures publiques (la clé racine Galileo OSNMA et les jetons d'horodatage RFC { "3161" }) et ne signe que dans les tests, avec des clés jetables ; l'exposition pratique était donc nulle ; la mise à niveau supprime l'avis sans entrée d'exclusion. Les fichiers de verrouillage de la bibliothèque et du MCP changent tous les deux ; aucun résultat de vérification ne change (les tests de vecteurs OSNMA et d'horodatage passent sans modification).
 
 seg-1a4cda9d1486 = La version minimale de Rust prise en charge est désormais { "1.88" } (exigée par le correctif de RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

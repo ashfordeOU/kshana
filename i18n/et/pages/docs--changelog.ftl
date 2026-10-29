@@ -8886,8 +8886,6 @@ seg-15f45d8ccb0f = <s1>Eelmine</s1>Kus Kshana asub
 # text
 seg-cd8a14a9e8ec = <s1>Järgmine</s1>Litsentsimine
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } lisab Artemis-klassi missiooniahela ja selle Kuu lõigu, tõendimärgise igale arvule ja tabelile, mille käivitus kirjutab, mõõdetud kella sisselugemise ja sobitamise, andmepartneri esituse kontrolli, ADS-B või AIS teadetest hinnangulise kiirgusallika piirkonna, { "0.40" } võrdlusaluse kordkampaania ning käsurea, aruanded ja Studio seitsmeteistkümnes keeles lisaks inglise keelele (masindokumendid jäävad inglise keelde). Kontrollimaatriks kasvab { "388" } reast { "401" } reani: { "176" } VALIDATED (muutumatu), { "221" } MODELLED (oli { "208" }) ja { "4" } PARTNER. Ühtki rida ei edutatud VALIDATED-iks. Stsenaariumi liigid kasvavad { "87" }-st { "92" }-ni. Iga lävi, mille eelregistreeritud võrdlus täitmata jättis, on allpool öeldud ja jääb kinnitatuks; ühtegi ei lõdvendatud. Nõuande avaldus on muutumatu: Kshana on nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade ega sertifitseerimine; vastutus jääb operaatorile.
 
 seg-738f33f0ae8a = Teadaolevad piirangud
@@ -8950,3 +8948,5 @@ seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versioonilt { "0.13" } versioonile { "0
 
 # text
 seg-1a4cda9d1486 = Minimaalne toetatud Rusti versioon on nüüd { "1.88" } (nõutud RUSTSEC-2026-0387 parandusega).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

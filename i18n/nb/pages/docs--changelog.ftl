@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Forrige</s1>Hvor Kshana står
 
 seg-cd8a14a9e8ec = <s1>Neste</s1>Lisensiering
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } legger til oppdragstråden i Artemis-klassen og månesegmentet, en evidensetikett på hver figur og tabell en kjøring skriver, innlesing og tilpasning av målte klokker, en kontroll av innsendinger fra datapartnere, en estimert senderregion fra ADS-B- eller AIS-rapporter, den nye benchmark-kampanjen for { "0.40" }, og kommandolinjen, rapportene og Studio på sytten språk ved siden av engelsk (maskindokumenter forblir engelske). Verifikasjonsmatrisen vokser fra { "388" } til { "401" } rader: { "176" } VALIDATED (uendret), { "221" } MODELLED (var { "208" }) og { "4" } PARTNER. Ingen rad ble oppgradert til VALIDATED. Scenariotypene vokser fra { "87" } til { "92" }. Hver terskel en forhåndsregistrert sammenligning bommet på, er oppgitt nedenfor og forblir festet; ingen ble løsnet. Den veiledende erklæringen er uendret: Kshana er veiledende programvare, ikke typegodkjent navigasjonsutstyr og ikke en sertifisering; operatøren er fortsatt ansvarlig.
 
 seg-738f33f0ae8a = Kjente begrensninger
@@ -3271,3 +3269,5 @@ seg-29d014d29790 = Én avhengighetsoppdatering i det leverte biblioteket (den f�
 seg-6b6a960ca7cf = <c1/>, <c2/> og <c3/> { "0.13" } til { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } og <c6/> { "0.5.5" } til { "0.7.10" }; også den direkte avhengigheten <c7/>, nå { "0.7" }) utbedrer RUSTSEC-2026-0387, tidsvariasjon i <c8/> { "0.5.5" }. Kshana bruker disse crate-ene bare til å verifisere offentlige signaturer (rotnøkkelen for Galileo OSNMA og RFC { "3161" }-tidsstempeltokener) og signerer bare i tester med engangsnøkler, så den praktiske eksponeringen var null; oppgraderingen fjerner varselet uten en ignorer-oppføring. Bibliotekets og MCPs låsefiler flyttes begge; ingen verifiseringsresultater endres (vektortestene for OSNMA og tidsstempler består uendret).
 
 seg-1a4cda9d1486 = Laveste støttede Rust-versjon er nå { "1.88" } (kreves av rettelsen for RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

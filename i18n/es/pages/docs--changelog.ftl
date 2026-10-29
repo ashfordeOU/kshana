@@ -8886,8 +8886,6 @@ seg-15f45d8ccb0f = <s1>Anterior</s1>Dónde se sitúa Kshana
 # text
 seg-cd8a14a9e8ec = <s1>Siguiente</s1>Licencias
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } añade el hilo de misión de clase Artemis y su segmento lunar, una etiqueta de evidencia en cada figura y tabla que escribe una ejecución, la ingesta y el ajuste de relojes medidos, una comprobación de envíos de socios de datos, una región estimada del emisor a partir de informes ADS-B o AIS, la recampaña del benchmark de { "0.40" }, y la línea de comandos, los informes y Studio en diecisiete idiomas además del inglés (los documentos de máquina siguen en inglés). La matriz de verificación pasa de { "388" } a { "401" } filas: { "176" } VALIDATED (sin cambios), { "221" } MODELLED (antes { "208" }) y { "4" } PARTNER. Ninguna fila se promovió a VALIDATED. Los tipos de escenario pasan de { "87" } a { "92" }. Cada umbral que una comparación preregistrada no alcanzó se indica a continuación y sigue fijado; ninguno se relajó. La declaración de carácter consultivo no cambia: Kshana es un software de carácter consultivo, no un equipo de navegación homologado ni una certificación; el operador sigue siendo responsable.
 
 seg-738f33f0ae8a = Límites conocidos
@@ -8949,3 +8947,5 @@ seg-29d014d29790 = Una actualización de dependencia en la biblioteca distribuid
 seg-6b6a960ca7cf = <c1/>, <c2/> y <c3/> { "0.13" } a { "0.14" } (con <c4/> { "0.14.3" }, <c5/> { "0.17.0" } y <c6/> { "0.5.5" } a { "0.7.10" }; también la dependencia directa <c7/>, ahora { "0.7" }) resuelven RUSTSEC-2026-0387, una variabilidad de tiempo de ejecución en <c8/> { "0.5.5" }. Kshana usa estos crates solo para verificar firmas públicas (la clave raíz de Galileo OSNMA y los tokens de sello de tiempo RFC { "3161" }) y solo firma en pruebas con claves desechables, así que la exposición práctica era nula; la actualización elimina el aviso sin una entrada de exclusión. Los archivos de bloqueo de la biblioteca y del MCP cambian los dos; ningún resultado de verificación cambia (las pruebas de vectores de OSNMA y de sello de tiempo pasan sin cambios).
 
 seg-1a4cda9d1486 = La versión mínima compatible de Rust es ahora { "1.88" } (exigida por la corrección de RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
