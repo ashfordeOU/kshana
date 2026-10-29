@@ -8886,8 +8886,6 @@ seg-83d01411c6d4 = <b>Paritätsdurchgang.</b> JetBrains-Aktionen Validate Scenar
 # c3: _hgt
 seg-ef2b49d4ad48 = <b>Der MCP-Server lehnt <c1/> ab</b> (Nachfolgearbeit zu CAP-06b). Der Pfad der Geländekachel der Szenarioart jamming steht jetzt in <c2/>. Eine Inline-Oberfläche lehnt ein Szenario ab, das einen solchen Pfad nennt, mit einer Meldung, die weder den Pfad noch einen Betriebssystemfehler enthält. Der Wächtertest für Dateiquellen kennzeichnet nun auch Felder, die auf <c3/> enden.
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } fügt den Missionsstrang im Stil von Artemis und sein Mondsegment hinzu, eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt, das Einlesen und Anpassen gemessener Uhren, eine Prüfung für Einreichungen von Datenpartnern, eine geschätzte Senderregion aus ADS-B- oder AIS-Meldungen, die Benchmark-Neukampagne { "0.40" } sowie die Befehlszeile, Berichte und Studio in siebzehn Sprachen neben Englisch (maschinenlesbare Dokumente bleiben Englisch). Die Verifikationsmatrix wächst von { "388" } auf { "401" } Zeilen: { "176" } VALIDATED (unverändert), { "221" } MODELLED (vorher { "208" }) und { "4" } PARTNER. Keine Zeile wurde zu VALIDATED befördert. Die Szenarioarten wachsen von { "87" } auf { "92" }. Jeder Zielwert, den ein vorab festgelegter Vergleich verfehlt hat, ist unten genannt und bleibt festgeschrieben; keiner wurde gelockert. Die Hinweisaussage ist unverändert: Kshana ist beratende Software, keine typzugelassene Navigationsausrüstung und keine Zertifizierung; der Betreiber bleibt verantwortlich.
 
 seg-738f33f0ae8a = Bekannte Grenzen
@@ -8949,3 +8947,5 @@ seg-29d014d29790 = Eine Abhängigkeitsaktualisierung in der ausgelieferten Bibli
 seg-6b6a960ca7cf = <c1/>, <c2/> und <c3/> { "0.13" } auf { "0.14" } (mit <c4/> { "0.14.3" }, <c5/> { "0.17.0" } und <c6/> { "0.5.5" } auf { "0.7.10" }; ebenso die direkte Abhängigkeit <c7/>, jetzt { "0.7" }) beheben RUSTSEC-2026-0387, eine Zeitvariabilität in <c8/> { "0.5.5" }. Kshana verwendet diese Crates nur zur Prüfung öffentlicher Signaturen (der Galileo-OSNMA-Wurzelschlüssel und RFC-{ "3161" }-Zeitstempeltoken) und signiert nur in Tests mit Wegwerfschlüsseln, daher war die praktische Gefährdung null; das Upgrade beseitigt die Warnung ohne Ignore-Eintrag. Die Lock-Dateien der Bibliothek und des MCP ändern sich beide; kein Verifikationsergebnis ändert sich (die Vektortests für OSNMA und Zeitstempel bestehen unverändert).
 
 seg-1a4cda9d1486 = Die minimal unterstützte Rust-Version ist jetzt { "1.88" } (erforderlich durch die Behebung von RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

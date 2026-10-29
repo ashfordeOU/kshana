@@ -15,7 +15,7 @@ seg-bbc8f38627f1 = The format is based on <a1>Keep a Changelog</a1>, and this pr
 seg-985f7b4c001a = Unreleased
 
 # text
-seg-1200856c90da = [{ $version }] - 2026-10-28
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 # text
 seg-05d0c798a196 = { "0.40" } adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes, measured-clock ingest and fitting, a data-partner submission check, an estimated emitter region from ADS-B or AIS reports, the { "0.40" } benchmark re-campaign, and the command line, reports and Studio in seventeen languages beside English (machine documents stay English). The verification matrix grows from { "388" } to { "401" } rows: { "176" } VALIDATED (unchanged), { "221" } MODELLED (was { "208" }) and { "4" } PARTNER. No row was promoted to VALIDATED. The scenario kinds grow from { "87" } to { "92" }. Every bar a pre-registered comparison missed is stated below and stays pinned; none was loosened. The advisory statement is unchanged: Kshana is advisory software, not type-approved navigation equipment and not a certification; the operator remains responsible.

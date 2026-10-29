@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Föregående</s1>Var Kshana står
 
 seg-cd8a14a9e8ec = <s1>Nästa</s1>Licensiering
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } lägger till uppdragsflödet i Artemis-klass och dess månsegment, en evidensetikett på varje siffra och tabell som en körning skriver, inläsning och anpassning av uppmätta klockor, en kontroll av bidrag från datapartner, ett uppskattat sändarområde utifrån ADS-B- eller AIS-rapporter, omkampanjen { "0.40" } för benchmark, samt kommandoraden, rapporterna och Studio på sjutton språk vid sidan av engelska (maskindokument förblir på engelska). Verifieringsmatrisen växer från { "388" } till { "401" } rader: { "176" } VALIDATED (oförändrat), { "221" } MODELLED (tidigare { "208" }) och { "4" } PARTNER. Ingen rad lyftes till VALIDATED. Scenariotyperna växer från { "87" } till { "92" }. Varje tröskel som en förhandsregistrerad jämförelse missade redovisas nedan och förblir fastlåst; ingen luckrades upp. Det rådgivande utlåtandet är oförändrat: Kshana är rådgivande programvara, inte typgodkänd navigationsutrustning och inte en certifiering; operatören är fortsatt ansvarig.
 
 seg-738f33f0ae8a = Kända begränsningar
@@ -3271,3 +3269,5 @@ seg-29d014d29790 = En beroendeuppdatering i det levererade biblioteket (den för
 seg-6b6a960ca7cf = <c1/>, <c2/> och <c3/> { "0.13" } till { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } och <c6/> { "0.5.5" } till { "0.7.10" }; även det direkta beroendet <c7/>, nu { "0.7" }) åtgärdar RUSTSEC-2026-0387, tidsvariation i <c8/> { "0.5.5" }. Kshana använder dessa crates bara för att verifiera publika signaturer (rotnyckeln för Galileo OSNMA och tidsstämpeltoken enligt RFC { "3161" }) och signerar bara i tester med engångsnycklar, så den praktiska exponeringen var noll; uppgraderingen tar bort varningen utan en ignorera-post. Bibliotekets och MCP:s låsfiler flyttas båda; inget verifieringsresultat ändras (vektortesterna för OSNMA och tidsstämplar klarar sig oförändrade).
 
 seg-1a4cda9d1486 = Lägsta Rust-version som stöds är nu { "1.88" } (krävs av korrigeringen för RUSTSEC-2026-0387).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29

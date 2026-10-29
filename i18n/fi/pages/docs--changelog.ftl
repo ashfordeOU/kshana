@@ -3208,8 +3208,6 @@ seg-15f45d8ccb0f = <s1>Edellinen</s1>Mihin Kshana sijoittuu
 
 seg-cd8a14a9e8ec = <s1>Seuraava</s1>Lisensointi
 
-seg-1200856c90da = [{ $version }] - 2026-10-28
-
 seg-05d0c798a196 = { "0.40" } lisää Artemis-luokan tehtäväketjun ja sen kuusegmentin, todistemerkinnän jokaiseen ajon kirjoittamaan kuvaan ja taulukkoon, mitatun kellon sisäänluvun ja sovituksen, datakumppanin lähetyksen tarkistuksen, ADS-B- tai AIS-raporteista arvioidun lähetinalueen, { "0.40" }-benchmarkin uusintakampanjan sekä komentorivin, raportit ja Studion seitsemällätoista kielellä englannin rinnalla (konedokumentit pysyvät englanniksi). Varmennusmatriisin rivimäärä kasvaa luvusta { "388" } lukuun { "401" }: { "176" } VALIDATED (ennallaan), { "221" } MODELLED (oli { "208" }) ja { "4" } PARTNER. Yhtäkään riviä ei ylennetty tilaan VALIDATED. Skenaariotyyppien määrä kasvaa luvusta { "87" } lukuun { "92" }. Jokainen kynnys, jonka ennalta rekisteröity vertailu alitti, ilmoitetaan alla ja pysyy kiinnitettynä; yhtäkään ei höllennetty. Ohjeellinen ilmoitus on ennallaan: Kshana on ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite eikä sertifiointi; käyttäjä vastaa edelleen.
 
 seg-738f33f0ae8a = Tunnetut rajoitukset
@@ -3272,3 +3270,5 @@ seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versiosta { "0.13" } versioon { "0.14" 
 
 # text
 seg-1a4cda9d1486 = Pienin tuettu Rust-versio on nyt { "1.88" } (vaaditaan RUSTSEC-2026-0387-korjauksessa).
+
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
