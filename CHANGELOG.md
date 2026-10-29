@@ -9,7 +9,7 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-## [0.40.0] - 2026-10-28
+## [0.40.0] - 2026-10-29
 
 0.40 adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes,
 measured-clock ingest and fitting, a data-partner submission check, an estimated emitter region from ADS-B or AIS reports, the
