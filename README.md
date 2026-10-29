@@ -100,7 +100,7 @@ pinned by a test.
 - **Evidence labels.** Every figure and table a run writes carries the tier and the ledger row ids it rests on, read from the matrix.
 - **Measured clocks.** Eight clock-log formats are read ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)) and a fitted
   series can drive the holdover. Against pre-registered bars the fit **misses** F1(a) on five of six records and F2 on one; both
-  stay MODELLED ([Changelog](CHANGELOG.md#0400---2026-10-28)).
+  stay MODELLED ([Changelog](CHANGELOG.md#0400---2026-10-29)).
 - **Data partners.** `kshana partner check` checks the format of a submission and scores nothing ([`docs/PARTNER-DATA.md`](docs/PARTNER-DATA.md)).
 - **Emitter region.** `kshana interference-map locate` gives a region and an ellipse, never a bare point, from ADS-B or AIS
   reports. Compared once with the Jammertest 2025 transmitter sites, the result is **NOT ASSESSABLE** for both sources (too few
