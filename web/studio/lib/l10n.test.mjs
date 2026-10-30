@@ -50,11 +50,13 @@ test("negotiation: the browser's languages in order, the site's rules", () => {
   assert.equal(LANGS.length, 17);
 });
 
-test("chooseLang: ?lang= wins and is stored; then the stored choice; then negotiation", () => {
+test("chooseLang: ?lang= wins without being stored; then the stored choice; then negotiation", () => {
   const store = new Map();
   const storage = { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) };
   assert.equal(chooseLang({ search: "?lang=fi", storage, languages: ["de"] }), "fi");
-  assert.equal(store.get(STORAGE_KEY), "fi");
+  assert.equal(store.get(STORAGE_KEY), undefined, "a link with ?lang= does not become the remembered choice");
+  assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "de");
+  store.set(STORAGE_KEY, "fi");
   assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "fi");
   store.set(STORAGE_KEY, "en");
   assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "en", "an explicit English choice wins");
