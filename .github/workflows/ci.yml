@@ -117,6 +117,18 @@ jobs:
           toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: cargo package --locked
+      - name: The tarball fits crates.io's upload limit
+        # crates.io refuses a .crate over 10 MiB (413 Payload Too Large). The v0.40.0 publish was the first to learn that:
+        # the site's translation catalogues under i18n/ were in the package. Fail on a push, with a margin, not at a tag.
+        run: |
+          set -euo pipefail
+          f="$(ls target/package/kshana-*.crate)"
+          size="$(stat -c%s "$f")"
+          limit=10485760
+          warn=$((limit * 95 / 100))
+          echo "$f: $size bytes (crates.io limit $limit)"
+          if [ "$size" -gt "$limit" ]; then echo "::error::$f is $size bytes, over crates.io's $limit-byte limit; exclude what the library does not need in Cargo.toml"; exit 1; fi
+          if [ "$size" -gt "$warn" ]; then echo "::warning::$f is $size bytes, within 5 % of crates.io's limit"; fi
   msrv:
     # Does the crate still build on the OLDEST compiler Cargo.toml promises? That promise
     # is the `rust-version` field, and a consumer stuck on that compiler is its only reader.

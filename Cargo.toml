@@ -33,6 +33,37 @@ rust-version = "1.88"
 # need.)
 exclude = [
     "/web",
+    # The translation catalogues of the site, the Studio and the data (i18n/<lang>/pages, ui.ftl, site-js.ftl and the rest,
+    # about 180 MB) are built into the site by tools/i18n.mjs; the library embeds only i18n/<lang>/engine.ftl
+    # (src/i18n/, include_str!). With them the .crate passed crates.io's 10 MiB upload limit at 0.40.0.
+    "/i18n/README.md",
+    "/i18n/data-spec.json",
+    "/i18n/*/pages",
+    "/i18n/*/REVIEW.md",
+    "/i18n/*/_orphans.txt",
+    "/i18n/*/data.ftl",
+    "/i18n/*/glossary.ftl",
+    "/i18n/*/site-js.ftl",
+    "/i18n/*/studio-js.ftl",
+    "/i18n/*/studio-pages.ftl",
+    "/i18n/*/ui.ftl",
+    "/i18n/en/engine-*.txt",
+    # The integration tests (tests/*.rs and their helpers) run from a checkout, never from the published crate, which
+    # builds only the library; about 6 MB.
+    "/tests/**/*.rs",
+    # Repository tooling, the marine and IDE integrations, the packaging of the other channels and the benchmark
+    # harness are not part of the library; tools/ keeps only the four data files src/ embeds.
+    "/tools/*",
+    "!/tools/egm2008_to70.gfc",
+    "!/tools/finals2000A_2022001.txt",
+    "!/tools/finals2000A_2026.txt",
+    "!/tools/finals2000A_20260930.txt",
+    "/integrations",
+    "/packaging",
+    "/bench",
+    # The changelog and roadmap are read on GitHub and kshana.dev; the crate's page links them.
+    "/CHANGELOG.md",
+    "/ROADMAP.md",
     "/.github",
     # Surface READMEs for the other publish targets (PyPI, npm) — crates.io uses
     # README.crates.md (the `readme` field above); these would only be noise here.
