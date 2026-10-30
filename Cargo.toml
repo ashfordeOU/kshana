@@ -69,6 +69,24 @@ exclude = [
     # README.crates.md (the `readme` field above); these would only be noise here.
     "/README.pypi.md",
     "/README.npm.md",
+    # The machine-translated READMEs (README.<lang>.md, about 6 MB together) are read on GitHub; crates.io shows README.crates.md.
+    "/README.nl.md",
+    "/README.pl.md",
+    "/README.pt-BR.md",
+    "/README.pt-PT.md",
+    "/README.fi.md",
+    "/README.sv.md",
+    "/README.da.md",
+    "/README.nb.md",
+    "/README.cs.md",
+    "/README.uk.md",
+    "/README.ru.md",
+    "/README.de.md",
+    "/README.fr.md",
+    "/README.es.md",
+    "/README.et.md",
+    "/README.ja.md",
+    "/README.zh-Hans.md",
     "/tests/fixtures",
     # ...except the one fixture the LIBRARY itself embeds. src/lunar_orientation.rs holds
     # a top-level `include_str!` of this catalogue, so excluding it makes the published

@@ -44,26 +44,27 @@
 </p>
 
 <p align="center">
-  <strong>Languages:</strong> English ·
-  <span lang="nl">Nederlands</span> ·
-  <span lang="pl">Polski</span> ·
-  <span lang="pt-BR">Português (Brasil)</span> ·
-  <span lang="pt-PT">Português (Portugal)</span> ·
-  <span lang="fi">Suomi</span> ·
-  <span lang="sv">Svenska</span> ·
-  <span lang="da">Dansk</span> ·
-  <span lang="nb">Norsk bokmål</span> ·
-  <span lang="cs">Čeština</span> ·
-  <span lang="uk">Українська</span> ·
-  <span lang="ru">Русский</span> ·
-  <span lang="de">Deutsch</span> ·
-  <span lang="fr">Français</span> ·
-  <span lang="es">Español</span> ·
-  <span lang="et">Eesti</span> ·
-  <span lang="ja">日本語</span> ·
-  <span lang="zh-Hans">简体中文</span><br>
+  <strong>Languages:</strong> <a href="README.md">English</a> ·
+  <a href="README.nl.md"><span lang="nl">Nederlands</span></a> ·
+  <a href="README.pl.md"><span lang="pl">Polski</span></a> ·
+  <a href="README.pt-BR.md"><span lang="pt-BR">Português (Brasil)</span></a> ·
+  <a href="README.pt-PT.md"><span lang="pt-PT">Português (Portugal)</span></a> ·
+  <a href="README.fi.md"><span lang="fi">Suomi</span></a> ·
+  <a href="README.sv.md"><span lang="sv">Svenska</span></a> ·
+  <a href="README.da.md"><span lang="da">Dansk</span></a> ·
+  <a href="README.nb.md"><span lang="nb">Norsk bokmål</span></a> ·
+  <a href="README.cs.md"><span lang="cs">Čeština</span></a> ·
+  <a href="README.uk.md"><span lang="uk">Українська</span></a> ·
+  <a href="README.ru.md"><span lang="ru">Русский</span></a> ·
+  <a href="README.de.md"><span lang="de">Deutsch</span></a> ·
+  <a href="README.fr.md"><span lang="fr">Français</span></a> ·
+  <a href="README.es.md"><span lang="es">Español</span></a> ·
+  <a href="README.et.md"><span lang="et">Eesti</span></a> ·
+  <a href="README.ja.md"><span lang="ja">日本語</span></a> ·
+  <a href="README.zh-Hans.md"><span lang="zh-Hans">简体中文</span></a><br>
   <sub>The command line, run summaries, charts and reports speak each language with <code>--lang &lt;tag&gt;</code>
   (for example <code>kshana scenarios/holdover-test-example.toml --lang de</code>), and so do the Python, WebAssembly and MCP surfaces.
+  Each name opens this README in that language, and the website is translated too (for example <a href="https://kshana.dev/de/">kshana.dev/de/</a>).
   These are machine translations that no native speaker has reviewed yet; English is the reference.
   See <a href="docs/i18n.md">Localisation</a>.</sub>
 </p>
