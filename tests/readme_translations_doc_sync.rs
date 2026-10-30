@@ -18,18 +18,30 @@ fn locales() -> Vec<String> {
 }
 
 fn read(name: &str) -> String {
-    fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join(name)).unwrap_or_else(|_| panic!("{name} is missing"))
+    fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join(name))
+        .unwrap_or_else(|_| panic!("{name} is missing"))
 }
 
 #[test]
 fn every_locale_has_a_translated_readme_that_points_back_to_english() {
     let langs = locales();
-    assert!(langs.len() >= 17, "only {} engine locales found", langs.len());
+    assert!(
+        langs.len() >= 17,
+        "only {} engine locales found",
+        langs.len()
+    );
     for l in &langs {
         let t = read(&format!("README.{l}.md"));
         let first = t.lines().next().unwrap_or("");
-        assert!(first.starts_with('>') && first.contains("(README.md)"), "README.{l}.md must open with the machine-translation note linking to README.md");
-        assert_eq!(t.matches("```").count() % 2, 0, "README.{l}.md has an unbalanced code fence");
+        assert!(
+            first.starts_with('>') && first.contains("(README.md)"),
+            "README.{l}.md must open with the machine-translation note linking to README.md"
+        );
+        assert_eq!(
+            t.matches("```").count() % 2,
+            0,
+            "README.{l}.md has an unbalanced code fence"
+        );
     }
 }
 
@@ -40,9 +52,15 @@ fn every_readme_links_every_language() {
     all.extend(langs.iter().map(|l| format!("README.{l}.md")));
     for f in &all {
         let t = read(f);
-        assert!(t.contains("<a href=\"README.md\">"), "{f}: the language row does not link the English README");
+        assert!(
+            t.contains("<a href=\"README.md\">"),
+            "{f}: the language row does not link the English README"
+        );
         for l in &langs {
-            assert!(t.contains(&format!("<a href=\"README.{l}.md\">")), "{f}: the language row does not link README.{l}.md");
+            assert!(
+                t.contains(&format!("<a href=\"README.{l}.md\">")),
+                "{f}: the language row does not link README.{l}.md"
+            );
         }
     }
 }
@@ -51,6 +69,9 @@ fn every_readme_links_every_language() {
 fn translated_readmes_stay_out_of_the_crate() {
     let manifest = read("Cargo.toml");
     for l in locales() {
-        assert!(manifest.contains(&format!("\"/README.{l}.md\"")), "Cargo.toml does not exclude README.{l}.md from the crate");
+        assert!(
+            manifest.contains(&format!("\"/README.{l}.md\"")),
+            "Cargo.toml does not exclude README.{l}.md from the crate"
+        );
     }
 }
