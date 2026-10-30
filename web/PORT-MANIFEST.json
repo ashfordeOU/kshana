@@ -4,11 +4,11 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "36659562444013c3ab97ffc8910a5e0dc1f8a1c0",
+   "revision": "8d10cf74064be590d66f546345d9a2a964950c48",
    "dirty": false
   },
   "studio": {
-   "revision": "36659562444013c3ab97ffc8910a5e0dc1f8a1c0",
+   "revision": "8d10cf74064be590d66f546345d9a2a964950c48",
    "dirty": false
   }
  },
@@ -419,9 +419,9 @@
   "studio/lib/kpi.mjs": "ff4a66a4705e6398b2c64c224e0ea2da95c5f14542d983ff9a4af433385cd273",
   "studio/lib/kpi.test.mjs": "336cf77b22a99a305e441f3d234c5e43b203a6a0733bc1ba94c1ba2ae407cd33",
   "studio/lib/l10n-boot.mjs": "a0c9f42fdc22f42712522bd30f8480151c7999e0f6262300ea0e696419129fbf",
-  "studio/lib/l10n.mjs": "6b4c9b86a374833b97b10baed3b65529ce9740c72d9ff2183f24d3a25bbedd9b",
-  "studio/lib/l10n.test.mjs": "0cf4d08f35d541536ef212613cfb086600c62080a3ebe25b95b93ff277ac036b",
-  "studio/lib/lang-switch.mjs": "3cc2f12cea4f2dda6d243457e3d0a9bf0a6ad8bc324bcf93d53c9a0ee0db683f",
+  "studio/lib/l10n.mjs": "45cb5de85e6c89ab3e2ee6e8998f27a241758156329024b835dd9f7bed86c52f",
+  "studio/lib/l10n.test.mjs": "6fd9752c2edf0a400b570b09f6127972f525e7546d4c4c9d4125adb21a51e26c",
+  "studio/lib/lang-switch.mjs": "1d90839f7372f5114f8df2678397177fe95783d4cfbe2db9031c987735cfc6a5",
   "studio/lib/lunar-infra.mjs": "7026e166ac532c206ce21fd90919675ce68e86a146a571659b2511e0a958a128",
   "studio/lib/lunar-infra.test.mjs": "0d3e0d14edc3e871f01af1f565ed7cf50736df73d5a757ea134e55d0038c8e75",
   "studio/lib/lunar-station.mjs": "f3c3430a283185384e40b878a39853445d3000e91fe23610a863c3cec9ec6804",

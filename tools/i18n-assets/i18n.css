@@ -18,3 +18,9 @@
 .i18n-advisory{font-size:13px;color:var(--ink-3)}
 @media (max-width:560px){.lang-menu .lang-code{display:none}.lang-menu>summary{min-width:36px;padding-inline:0}.nav .pill .pill-l{display:none}}
 @media (max-width:440px){.nav .brand-t{display:none}.nav .pill{padding-inline:9px}}
+/* On a phone the menu opens under the header across the screen, not anchored to the globe button (which put it off the left edge). */
+@media (max-width:560px){.lang-menu ul{position:fixed;inset-inline-start:auto;inset-inline-end:12px;inset-block-start:58px;inline-size:min(260px,calc(100vw - 24px));min-inline-size:0;max-block-size:calc(100dvh - 72px)}}
+/* At 320-380 px the header row was 13-17 px too wide: the menu button went off the right edge. */
+@media (max-width:380px){.nav-right{gap:4px!important}.nav-right .pill{padding-inline:7px!important}}
+/* A long translated chip label wraps instead of widening the page. */
+@media (max-width:560px){.tag{white-space:normal;max-inline-size:100%}}
