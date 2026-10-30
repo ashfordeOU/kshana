@@ -3,7 +3,7 @@ var L=@LANGS@,p=location.pathname;
 if(/^\/(@RE@)(\/|$)/.test(p)||/^\/studio(\/|$)/.test(p))return;
 var s=null,m=location.search.match(/[?&]lang=([\w-]+)/),want=null,auto=false;
 try{s=localStorage.getItem('kshana-lang')}catch(e){}
-if(m&&L.indexOf(m[1])>=0){want=m[1];try{localStorage.setItem('kshana-lang',want)}catch(e){}}
+if(m&&L.indexOf(m[1])>=0){want=m[1]}
 else if(s)want=s;
 else{auto=true;want=detect()}
 if(!want||want==='en'||L.indexOf(want)<0)return;

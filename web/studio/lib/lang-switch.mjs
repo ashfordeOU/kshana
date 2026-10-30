@@ -1,10 +1,14 @@
 // The language control of the Studio header: a native <select> of the endonyms (accessible, no layout of its own), placed in the
 // header's right-hand group. Choosing a language loads it without a reload and remembers it (localStorage key kshana-lang).
+// Translated toolbar labels are longer than the English ones, so below 1800 px a translated page shows the toolbar buttons as
+// icons (each keeps its label as its accessible name and tooltip), and the toolbar scrolls inside itself rather than widening the page.
 import { LANGS, NAMES } from "./l10n.mjs";
 
 const CSS = `.lang-sel{height:34px;max-width:9.5rem;padding-inline:8px;border:1px solid var(--line-2,rgba(128,128,128,.35));border-radius:10px;background:var(--panel,transparent);color:var(--ink-2,inherit);font:inherit;font-size:13px;cursor:pointer}
 .lang-sel:focus-visible{outline:2px solid var(--tim,#1C4FE0);outline-offset:2px}
-@media (max-width:560px){.lang-sel{max-width:4.2rem}}`;
+@media (max-width:560px){.lang-sel{max-width:4.2rem}}
+.bar-right{min-width:0;overflow-x:auto;scrollbar-width:none}
+@media (max-width:1799px){html:not([lang="en"]) .bar-right .lbl{display:none}}`;
 
 export function mountLangSwitch(doc, l10n) {
   if (!doc || doc.getElementById("lang-sel")) return null;
