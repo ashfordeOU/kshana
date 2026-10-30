@@ -24,3 +24,7 @@
 @media (max-width:380px){.nav-right{gap:4px!important}.nav-right .pill{padding-inline:7px!important}}
 /* A long translated chip label wraps instead of widening the page. */
 @media (max-width:560px){.tag{white-space:normal;max-inline-size:100%}}
+/* The evidence page's two-column list wraps on a phone, so a long translated phrase cannot widen the page. */
+@media (max-width:560px){.ev-eds li{flex-wrap:wrap}.ev-eds li>*{min-width:0;overflow-wrap:anywhere}}
+/* Long compound words in translated headings (German, Finnish, Dutch and others) hyphenate instead of overflowing at 320 px. */
+html:not([lang="en"]) :is(h1,h2,h3,h4){hyphens:auto;overflow-wrap:break-word}
