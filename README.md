@@ -23,6 +23,7 @@
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F401-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 of 401 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.40.0"></a>
+  <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="English and 17 more languages, machine translated"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -40,6 +41,31 @@
   <a href="#research">Research</a> ·
   <a href="docs/CONCEPTS.md">Documentation</a> ·
   <a href="#cite">Cite</a>
+</p>
+
+<p align="center">
+  <strong>Languages:</strong> English ·
+  <span lang="nl">Nederlands</span> ·
+  <span lang="pl">Polski</span> ·
+  <span lang="pt-BR">Português (Brasil)</span> ·
+  <span lang="pt-PT">Português (Portugal)</span> ·
+  <span lang="fi">Suomi</span> ·
+  <span lang="sv">Svenska</span> ·
+  <span lang="da">Dansk</span> ·
+  <span lang="nb">Norsk bokmål</span> ·
+  <span lang="cs">Čeština</span> ·
+  <span lang="uk">Українська</span> ·
+  <span lang="ru">Русский</span> ·
+  <span lang="de">Deutsch</span> ·
+  <span lang="fr">Français</span> ·
+  <span lang="es">Español</span> ·
+  <span lang="et">Eesti</span> ·
+  <span lang="ja">日本語</span> ·
+  <span lang="zh-Hans">简体中文</span><br>
+  <sub>The command line, run summaries, charts and reports speak each language with <code>--lang &lt;tag&gt;</code>
+  (for example <code>kshana scenarios/holdover-test-example.toml --lang de</code>), and so do the Python, WebAssembly and MCP surfaces.
+  These are machine translations that no native speaker has reviewed yet; English is the reference.
+  See <a href="docs/i18n.md">Localisation</a>.</sub>
 </p>
 
 <picture>
