@@ -4,11 +4,11 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "bb3514daa50d5238ef133ad6754f548f17226105",
+   "revision": "36659562444013c3ab97ffc8910a5e0dc1f8a1c0",
    "dirty": false
   },
   "studio": {
-   "revision": "bb3514daa50d5238ef133ad6754f548f17226105",
+   "revision": "36659562444013c3ab97ffc8910a5e0dc1f8a1c0",
    "dirty": false
   }
  },
@@ -312,7 +312,7 @@
   "studio/advanced.js": "10a5dd3de52c973d938a33ca6934e0cc55fa078b8bf2dbc1cb76005d9cecf66f",
   "studio/advanced/advanced.css": "3757ee7f8e3602a1f1fa98b10723a4ee8dfd4989bc38e7dd6819f9f08fa788a6",
   "studio/advanced/dash.css": "8bbffe9e4c9e7310d1fda66febccebb31b466ac807f02be9c8dbcc0ba3132a28",
-  "studio/advanced/index.html": "4e101bcbb496d4355c51fb6fc37f4b6098499af2b5fc0a491eb7f6014115329e",
+  "studio/advanced/index.html": "04013acf20c580efba61b6d49fdb0a1ba965fa7fd92e023993af2e04350d1f12",
   "studio/ai.png": "1158236f944b3918e70f65af278ae7255152b7222fb9832462e06acf79e5ed9d",
   "studio/app.css": "a552b7a38278004227a7abd1ae94b659b281aa8d7620caf1f626cec48cef4a32",
   "studio/app.js": "1ce23e20545fa89eaa3f09fb4cf0cb0a2168e25c720d0c112b14c0529f235c78",
@@ -358,7 +358,7 @@
   "studio/holdover/holdover.css": "fb2f4b810cb2b97566955ef4f9ddbc88553af02bd3d6368877a95ac1d3e3b661",
   "studio/holdover/holdover.js": "9f30b99e38b88d4c1a51eb4ac1f2df2023d6029504a8649c65beb8e7515a996e",
   "studio/holdover/index.html": "06a80cd9ff011b12ab342f11d2794c1557cdcb1b53a37f6fb9ba6cf2f5475dde",
-  "studio/index.html": "2de13f9fa3c7a5b1ed5eeea034f583b60833f4689a5d4c82d8e3b54a3fac4e64",
+  "studio/index.html": "9c76e093dfb3c5b4d5030271b0365a72ac30ae14397b14706642d0a5c0bff624",
   "studio/interference/demo/adsb-custom-2026-03-01.geojson": "354dbb943b39be904f40525d51c0432233ff7301af28ed70e1157ee4aec3805e",
   "studio/interference/demo/adsb-custom-2026-03-02.geojson": "6f33d8f58745f2d10830163faafe7288488028fb221bfca3e06df71b71f533ac",
   "studio/interference/demo/ais-custom-2026-03-01.geojson": "0f870dec322bf70a5a1e79a2242cdefa95ebeda7aea9ea5894d70824aa8bd97b",
@@ -420,7 +420,7 @@
   "studio/lib/kpi.test.mjs": "336cf77b22a99a305e441f3d234c5e43b203a6a0733bc1ba94c1ba2ae407cd33",
   "studio/lib/l10n-boot.mjs": "a0c9f42fdc22f42712522bd30f8480151c7999e0f6262300ea0e696419129fbf",
   "studio/lib/l10n.mjs": "6b4c9b86a374833b97b10baed3b65529ce9740c72d9ff2183f24d3a25bbedd9b",
-  "studio/lib/l10n.test.mjs": "f30e0c3bc6c4e87971844bb380af55a6e446282ea076374127f36b99a7b87b24",
+  "studio/lib/l10n.test.mjs": "0cf4d08f35d541536ef212613cfb086600c62080a3ebe25b95b93ff277ac036b",
   "studio/lib/lang-switch.mjs": "3cc2f12cea4f2dda6d243457e3d0a9bf0a6ad8bc324bcf93d53c9a0ee0db683f",
   "studio/lib/lunar-infra.mjs": "7026e166ac532c206ce21fd90919675ce68e86a146a571659b2511e0a958a128",
   "studio/lib/lunar-infra.test.mjs": "0d3e0d14edc3e871f01af1f565ed7cf50736df73d5a757ea134e55d0038c8e75",
