@@ -55,6 +55,13 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    # The same build settings as ci.yml's check job (no debug info, opt-level 1), so that when this job has to run the
+    # full suite itself it fits on the runner's disk and within the job limit. On the 0.40.0 tag it ran without them:
+    # the linker died with SIGBUS (disk full) and the suite needs more than the old 240-minute cap.
+    env:
+      CARGO_PROFILE_DEV_DEBUG: "0"
+      CARGO_PROFILE_TEST_DEBUG: "0"
+      CARGO_PROFILE_DEV_OPT_LEVEL: "1"
     # This job runs the same fmt + clippy + `cargo test --all` umbrella as ci.yml's
     # `check`, on a tag ref whose cache is usually cold, so it can only be SLOWER than
     # that job — never faster. It must therefore never be capped below it.
@@ -74,7 +81,7 @@ jobs:
     # Kept in lockstep with ci.yml `check` at 240, under the 360 min GitHub hard cap.
     # (The prior comment here claimed this job had no build cache; it does — see the
     # Swatinem/rust-cache step below.)
-    timeout-minutes: 240
+    timeout-minutes: 330
     # actions: read lets the `prior` step below ask whether CI already ran green on this commit.
     permissions:
       contents: read
@@ -85,6 +92,12 @@ jobs:
           ref: ${{ inputs.tag || github.ref }}
           # Full history so the repository-hygiene guard scans every commit message.
           fetch-depth: 0
+      - name: Free runner disk space
+        run: |
+          set -eu
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h /
       # Pinned to the channel in rust-toolchain.toml so the release build matches CI.
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
