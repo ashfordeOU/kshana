@@ -48,6 +48,11 @@ jobs:
     env:
       CARGO_PROFILE_DEV_DEBUG: "0"
       CARGO_PROFILE_TEST_DEBUG: "0"
+      # 2026-10-31, the 0.40.0 release: the unoptimised suite passed every test it reached but was cancelled at GitHub's
+      # 6 h job limit on f11ffecfe (agency_lro alone 77 min; coverage, at opt-level 1, took 4h37m the same day). The
+      # same opt-level 1 the coverage step uses since 2026-10-09: debug assertions and overflow checks stay on, no
+      # test is skipped, reduced or ignored.
+      CARGO_PROFILE_DEV_OPT_LEVEL: "1"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
