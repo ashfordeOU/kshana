@@ -50,11 +50,13 @@ test("negotiation: the browser's languages in order, the site's rules", () => {
   assert.equal(LANGS.length, 17);
 });
 
-test("chooseLang: ?lang= wins and is stored; then the stored choice; then negotiation", () => {
+test("chooseLang: ?lang= wins without being stored; then the stored choice; then negotiation", () => {
   const store = new Map();
   const storage = { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) };
   assert.equal(chooseLang({ search: "?lang=fi", storage, languages: ["de"] }), "fi");
-  assert.equal(store.get(STORAGE_KEY), "fi");
+  assert.equal(store.get(STORAGE_KEY), undefined, "a link with ?lang= does not become the remembered choice");
+  assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "de");
+  store.set(STORAGE_KEY, "fi");
   assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "fi");
   store.set(STORAGE_KEY, "en");
   assert.equal(chooseLang({ search: "", storage, languages: ["de"] }), "en", "an explicit English choice wins");
@@ -176,4 +178,31 @@ test("data-l10n-rich sets the element's HTML from a message, and leaves a script
   assert.equal(el.innerHTML, 'Open <a href="x">the page</a>');
   assert.equal(other.innerHTML, "written by the page's script");
   delete files["en/studio-pages.ftl"]; delete files["pl/studio-pages.ftl"];
+});
+
+test("every rich tag map in the Studio pages pairs an opening tag with its closing tag", async () => {
+  // A map whose "o" held the whole element (<span data-studio-name>Kshana Studio</span>) and no "c" rendered the text
+  // twice and then "undefined" ("Kshana Studio Studioundefined") on every page that loaded a catalogue, English included.
+  const { readFileSync, readdirSync, statSync } = await import("node:fs");
+  const { join, dirname } = await import("node:path");
+  const { fileURLToPath } = await import("node:url");
+  const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+  const pages = [];
+  const walk = (d) => { for (const n of readdirSync(d)) { if (["recorded", "pkg", "data", "assets", "lib", "node_modules"].includes(n)) continue; const p = join(d, n); if (statSync(p).isDirectory()) walk(p); else if (n === "index.html") pages.push(p); } };
+  walk(root);
+  assert.ok(pages.length > 0);
+  const unquote = (s) => s.replace(/&quot;/g, '"').replace(/&amp;/g, "&");
+  let maps = 0;
+  for (const p of pages) {
+    for (const m of readFileSync(p, "utf8").matchAll(/data-l10n-tags="([^"]*)"/g)) {
+      const tags = JSON.parse(unquote(m[1]));
+      for (const [k, v] of Object.entries(tags)) {
+        if (v.h !== undefined) continue;
+        assert.equal(typeof v.c, "string", `${p}: tag ${k} has no closing tag (${v.o})`);
+        assert.ok(!/<\//.test(v.o), `${p}: tag ${k} opens with a whole element (${v.o})`);
+      }
+      maps++;
+    }
+  }
+  assert.ok(maps > 0);
 });

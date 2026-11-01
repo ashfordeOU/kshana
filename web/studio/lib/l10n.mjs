@@ -34,11 +34,11 @@ export function negotiate(languages, available = LANGS) {
   return "en";
 }
 
-/** The language a page shows: ?lang= (also stored), the /<lang>/studio/ stub, the stored choice, then negotiation. */
+/** The language a page shows: ?lang= (the /<lang>/studio/ stub sends it; not stored: only the language control remembers a choice),
+ *  the stored choice, then negotiation. */
 export function chooseLang({ search = "", storage = null, languages = [], available = LANGS }) {
   const m = /[?&]lang=([\w-]+)/.exec(search);
   if (m && (m[1] === "en" || m[1] === PSEUDO || available.includes(m[1])))  { // en-XA is the pseudo-locale of the tests: only ?lang= asks for it
-    try { if (m[1] !== PSEUDO) storage && storage.setItem(STORAGE_KEY, m[1]); } catch { /* per viewer, optional */ }
     return m[1];
   }
   let s = null;
