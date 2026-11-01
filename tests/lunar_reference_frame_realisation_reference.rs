@@ -66,7 +66,11 @@ fn parse_csv(s: &str) -> Vec<f64> {
 }
 
 fn to_points(flat: &[f64]) -> Vec<[f64; 3]> {
-    assert!(flat.len() % 3 == 0, "point flat len {} not /3", flat.len());
+    assert!(
+        flat.len().is_multiple_of(3),
+        "point flat len {} not /3",
+        flat.len()
+    );
     flat.chunks_exact(3).map(|c| [c[0], c[1], c[2]]).collect()
 }
 

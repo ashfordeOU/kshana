@@ -243,7 +243,11 @@ pub fn read_novatel(bytes: &[u8]) -> Result<NovatelRead, String> {
             continue;
         }
         let key = gps_week_ms(r.week, r.ms);
-        let label = format!("GPS week {} TOW {:.3} s", r.week, r.ms as f64 / 1000.0);
+        let label = crate::t!(
+            "receiver-trust-machines-novatel-gps-week-tow",
+            week = r.week,
+            r = crate::i18n::localise_decimal(format!("{:.3}", r.ms as f64 / 1000.0))
+        );
         let ok = match r.id {
             ID_BESTPOS => best_pos(r, map.at(key), &label),
             ID_RANGE => range(r, map.at(key), &label),
@@ -282,8 +286,9 @@ pub fn read_novatel(bytes: &[u8]) -> Result<NovatelRead, String> {
     let timeline_first = map_first(&map).unwrap_or(first);
     let timeline = map.finish(skipped);
     if timeline.epochs.is_empty() && jam.is_empty() {
-        return Err(format!(
-            "no BESTPOS, RANGE or RXSTATUS log was readable ({skipped} records skipped)"
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-novatel-no-bestpos-range-or-rxstatus",
+            skipped = skipped
         ));
     }
     let status = jam

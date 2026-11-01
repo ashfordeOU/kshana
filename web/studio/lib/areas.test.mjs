@@ -2,7 +2,7 @@
 // Tests for the capability map model (areas.mjs) and its generated data. Run with `node lib/areas.test.mjs`.
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
-import { rowsForKind, evidenceMix, validatedShare, sparkPoints, kindsOfToml, kindOfToml, previewOf } from "./areas.mjs";
+import { rowsForKind, evidenceMix, validatedShare, sparkPoints, kindsOfToml, kindOfToml, previewOf, restoreMatchFields } from "./areas.mjs";
 import { SCENARIOS } from "./catalog.mjs";
 
 const read = (f) => readFileSync(new URL(`../${f}`, import.meta.url), "utf8");
@@ -21,6 +21,17 @@ assert.deepEqual([...new Set(rows.map((r) => r.status))].sort(), ["MODELLED", "P
   const table = { "constellation-design": ["constellation"] };
   assert.ok(rowsForKind("constellation-design", rows, table).length >= 3, "alias reaches the constellation rows");
   assert.equal(rowsForKind("constellation-design", rows).length < rowsForKind("constellation-design", rows, table).length, true, "without the table a kind matches its own name only");
+}
+// A translated ledger keeps the English module and test names for matching: the same rows belong to a kind.
+{
+  const tr = JSON.parse(JSON.stringify(matrix));
+  tr.rows.forEach((r) => { r.module = "Übersetzt " + r.module.replace(/[a-z]/g, "x"); r.tests = "Übersetzt"; r.requirement = "Übersetzt"; });
+  assert.equal(rowsForKind("orbit", tr.rows).length, 0, "translated module prose does not match");
+  restoreMatchFields(tr, matrix);
+  assert.deepEqual(rowsForKind("orbit", tr.rows), rowsForKind("orbit", rows));
+  assert.equal(tr.rows[0].requirement, "Übersetzt", "the shown text stays translated");
+  const short = { rows: tr.rows.slice(1).map((r) => ({ ...r, module: "kept" })) };
+  assert.equal(restoreMatchFields(short, matrix).rows[0].module, "kept", "rows that do not line up are left as they are");
 }
 // Mix counts each row once.
 {

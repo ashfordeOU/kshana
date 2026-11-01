@@ -7,6 +7,7 @@
 // colour ramp) is stated in its labels. Tested in stages.test.mjs against real engine output.
 import { esc, fmt, niceTicks, heat, humanKey, SERIES_COLORS } from "./views.mjs";
 import { own } from "./own.mjs";
+import { t } from "./t.mjs";
 
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const AU_M = 149597870700; // the astronomical unit, exact by definition (IAU 2012 Resolution B2)
@@ -36,8 +37,8 @@ export function waterfallFrames(result) {
     out.push({ id, name, path, freq: w.freq_hz, t: w.t_s, psd: w.psd_dbw_per_hz, fMin: w.f_min_hz, fMax: w.f_max_hz, floor, peak: isNum(w.peak_dbw_per_hz) ? w.peak_dbw_per_hz : Math.max(...flat), rowS: w.row_duration_s });
   };
   if (!result) return out;
-  add(result.waterfall, "band", "Whole band", "waterfall");
-  (result.panels || []).forEach((p, i) => add(p, `panel-${i}`, p.name || `Panel ${i + 1}`, `panels[${i}]`));
+  add(result.waterfall, "band", t("js-lib-stages-whole-band", "Whole band"), "waterfall");
+  (result.panels || []).forEach((p, i) => add(p, `panel-${i}`, p.name || t("js-lib-stages-panel-n", "Panel { $n }", { n: i + 1 }), `panels[${i}]`));
   return out;
 }
 
@@ -52,7 +53,7 @@ export function waterfallSvg(frame, opts = {}) {
   const cw = pw / nF;
   const span = frame.peak - frame.floor || 1;
   const level = (v) => Math.round(Math.pow(Math.max(0, Math.min(1, (v - frame.floor) / span)), WF_GAMMA) * 63);
-  let s = `<svg class="chart wf" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Waterfall of power spectral density: frequency across, time down" xmlns="http://www.w3.org/2000/svg">`;
+  let s = `<svg class="chart wf" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(t("js-lib-stages-waterfall-aria", "Waterfall of power spectral density: frequency across, time down"))}" xmlns="http://www.w3.org/2000/svg">`;
   s += `<rect class="c-bg" width="${W}" height="${H}"/><g class="wf-cells" shape-rendering="crispEdges">`;
   // Adjacent cells of one colour level are drawn as one rectangle.
   for (let r = 0; r < nT; r++) {
@@ -72,19 +73,19 @@ export function waterfallSvg(frame, opts = {}) {
     if (x < ml - 0.5 || x > W - mr + 0.5) continue;
     s += `<line class="c-tickm" x1="${x.toFixed(1)}" y1="${mt + ph}" x2="${x.toFixed(1)}" y2="${mt + ph + 4}"/><text class="c-tick" x="${x.toFixed(1)}" y="${mt + ph + 17}" text-anchor="middle">${esc(fmt(v, 5))}</text>`;
   }
-  s += `<text class="c-axis" x="${ml + pw / 2}" y="${H - 6}" text-anchor="middle">frequency (MHz)</text>`;
+  s += `<text class="c-axis" x="${ml + pw / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-lib-stages-frequency-mhz", "frequency (MHz)"))}</text>`;
   const t0 = frame.t[0], t1 = frame.t[nT - 1] + (frame.rowS || 0);
   for (const v of niceTicks(t0, t1, 6)) {
     const y = mt + ((v - t0) / (t1 - t0 || 1)) * ph;
     if (y > mt + ph + 0.5) continue;
     s += `<text class="c-tick" x="${ml - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${esc(fmt(v))}</text>`;
   }
-  s += `<text class="c-axis" x="14" y="${mt + ph / 2}" text-anchor="middle" transform="rotate(-90 14 ${mt + ph / 2})">time (s)</text>`;
+  s += `<text class="c-axis" x="14" y="${mt + ph / 2}" text-anchor="middle" transform="rotate(-90 14 ${mt + ph / 2})">${esc(t("js-lib-stages-time-s", "time (s)"))}</text>`;
   // Carrier of each band inside this frame: a tick on the top edge, named where there is room.
   let lastX = -1e9;
   for (const b of (opts.bands || []).filter((b) => b.centre_hz >= frame.fMin && b.centre_hz <= frame.fMax).sort((a, b) => a.centre_hz - b.centre_hz)) {
     const x = fx(b.centre_hz);
-    s += `<path class="wf-band" d="M${(x - 4).toFixed(1)} ${mt - 7}h8l-4 6z"><title>${esc(b.name)} carrier, ${esc(fmt(b.centre_hz / 1e6, 6))} MHz</title></path>`;
+    s += `<path class="wf-band" d="M${(x - 4).toFixed(1)} ${mt - 7}h8l-4 6z"><title>${esc(t("js-lib-stages-band-carrier", "{ $name } carrier, { $mhz } MHz", { name: b.name, mhz: fmt(b.centre_hz / 1e6, 6) }))}</title></path>`;
     const w = String(b.name).length * 6.1;
     if (x - w / 2 > lastX + 6 && x - w / 2 >= ml - 2 && x + w / 2 <= W - 2) { s += `<text class="c-note wf-name" x="${x.toFixed(1)}" y="${mt - 12}" text-anchor="middle">${esc(b.name)}</text>`; lastX = x + w / 2; }
   }
@@ -96,10 +97,10 @@ export function waterfallSvg(frame, opts = {}) {
 export function spectrumSlice(frame, k) {
   const row = frame.psd[Math.max(0, Math.min(frame.psd.length - 1, k))];
   return {
-    title: `Power spectral density at t = ${fmt(frame.t[k])} s`,
-    series: [{ label: `spectrum at t = ${fmt(frame.t[k])} s`, color: "var(--s-nav)", points: frame.freq.map((f, i) => [f / 1e6, row[i]]) }],
-    xLabel: "frequency (MHz)", yLabel: "power spectral density (dBW/Hz)", unit: "dBW/Hz", xName: "f", xUnit: "MHz",
-    threshold: frame.floor, thresholdLabel: "noise floor", outages: [],
+    title: t("js-lib-stages-psd-at-t", "Power spectral density at t = { $t } s", { t: fmt(frame.t[k]) }),
+    series: [{ label: t("js-lib-stages-spectrum-at-t", "spectrum at t = { $t } s", { t: fmt(frame.t[k]) }), color: "var(--s-nav)", points: frame.freq.map((f, i) => [f / 1e6, row[i]]) }],
+    xLabel: t("js-lib-stages-frequency-mhz", "frequency (MHz)"), yLabel: t("js-lib-stages-psd-axis", "power spectral density (dBW/Hz)"), unit: "dBW/Hz", xName: "f", xUnit: "MHz",
+    threshold: frame.floor, thresholdLabel: t("js-lib-stages-noise-floor", "noise floor"), outages: [],
   };
 }
 
@@ -116,9 +117,9 @@ export function nearestIndex(times, t) {
 // that has moons. [{ id, label }]
 export function orreryViews(result) {
   const bodies = (result && result.bodies) || [];
-  const out = [{ id: "planets", label: "All planets" }];
-  if (bodies.filter((b) => b.parent === "Sun" && b.heliocentric_distance_au <= 2).length > 1) out.push({ id: "inner", label: "Inner planets" });
-  for (const b of bodies) if (bodies.some((m) => m.parent === b.name && b.name !== "Sun")) out.push({ id: `moons:${b.name}`, label: `${b.name} and its moons` });
+  const out = [{ id: "planets", label: t("js-lib-stages-all-planets", "All planets") }];
+  if (bodies.filter((b) => b.parent === "Sun" && b.heliocentric_distance_au <= 2).length > 1) out.push({ id: "inner", label: t("js-lib-stages-inner-planets", "Inner planets") });
+  for (const b of bodies) if (bodies.some((m) => m.parent === b.name && b.name !== "Sun")) out.push({ id: `moons:${b.name}`, label: t("js-lib-stages-body-and-moons", "{ $name } and its moons", { name: b.name }) });
   return out;
 }
 
@@ -137,18 +138,18 @@ export function orrerySvg(result, opts = {}) {
     scale = (d) => (d / max) * R;
     const stepKm = niceTicks(0, max / 1e3, 3).filter((v) => v > 0);
     rings = stepKm.map((km) => ({ r: scale(km * 1e3), label: `${fmt(km, 6)} km` }));
-    scaleNote = "linear scale"; unit = "km";
+    scaleNote = t("js-lib-stages-linear-scale", "linear scale"); unit = "km";
   } else {
     centreName = "Sun";
     const lim = view === "inner" ? 2 : Infinity;
     items = bodies.map((b, i) => ({ b, i })).filter((o) => o.b.parent === "Sun" && o.b.heliocentric_distance_au <= lim).map((o) => ({ ...o, pos: o.b.position_m, track: o.b.track_frame === "heliocentric" ? o.b.track_m : null }));
     const max = Math.max(...items.flatMap((o) => [Math.hypot(o.pos[0], o.pos[1]), ...(o.track || []).map((p) => Math.hypot(p[0], p[1]))])) / AU_M;
-    if (view === "inner") { scale = (d) => (d / AU_M / max) * R; scaleNote = "linear scale"; rings = [0.5, 1, 1.5].filter((a) => a <= max).map((a) => ({ r: scale(a * AU_M), label: `${a} au` })); }
-    else { scale = (d) => Math.sqrt(d / AU_M / max) * R; scaleNote = "square-root distance scale"; rings = [1, 5, 10, 20, 30].filter((a) => a <= max).map((a) => ({ r: scale(a * AU_M), label: `${a} au` })); }
+    if (view === "inner") { scale = (d) => (d / AU_M / max) * R; scaleNote = t("js-lib-stages-linear-scale", "linear scale"); rings = [0.5, 1, 1.5].filter((a) => a <= max).map((a) => ({ r: scale(a * AU_M), label: `${a} au` })); }
+    else { scale = (d) => Math.sqrt(d / AU_M / max) * R; scaleNote = t("js-lib-stages-sqrt-scale", "square-root distance scale"); rings = [1, 5, 10, 20, 30].filter((a) => a <= max).map((a) => ({ r: scale(a * AU_M), label: `${a} au` })); }
     unit = "au";
   }
   const at = (p) => { const d = Math.hypot(p[0], p[1]); if (!d) return [cx, cy]; const r = scale(d); return [cx + (p[0] / d) * r, cy - (p[1] / d) * r]; };
-  let s = `<svg class="chart orrery" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Plan view of ${esc(centreName)} and the bodies around it, ${esc(scaleNote)}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  let s = `<svg class="chart orrery" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(t("js-lib-stages-plan-view-aria", "Plan view of { $centre } and the bodies around it, { $scale }", { centre: centreName, scale: scaleNote }))}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
   // Text already placed, as boxes [x0, y0, x1, y1]: a later label moves or is left out rather than sit on one.
   const boxes = [[cx - 9, cy - 9, cx + 9, cy + 9], ...items.map((o) => { const [x, y] = at(o.pos); return [x - 6, y - 6, x + 6, y + 6]; })];
   const hit = (b) => boxes.some((a) => b[0] < a[2] && b[2] > a[0] && b[1] < a[3] && b[3] > a[1]);
@@ -180,14 +181,14 @@ export function orrerySvg(result, opts = {}) {
   (result.links || []).forEach((l, i) => {
     const a = posOf.get(l.from), b = posOf.get(l.to);
     if (!a || !b) return;
-    s += `<line class="or-link" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"><title>${esc(l.from)} to ${esc(l.to)}: one-way light time ${esc(fmt(l.one_way_light_time_s, 5))} s</title></line>`;
-    shown.push({ name: `${l.from} to ${l.to}`, path: `links[${i}]` });
+    s += `<line class="or-link" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"><title>${esc(t("js-lib-stages-link-light-time", "{ $from } to { $to }: one-way light time { $time } s", { from: l.from, to: l.to, time: fmt(l.one_way_light_time_s, 5) }))}</title></line>`;
+    shown.push({ name: t("js-lib-stages-from-to", "{ $from } to { $to }", { from: l.from, to: l.to }), path: `links[${i}]` });
   });
   s += `<circle class="or-centre" cx="${cx}" cy="${cy}" r="${centreName === "Sun" ? 6 : 8}"/>${centreLabel}`;
   items.forEach((o, k) => {
     const [x, y] = at(o.pos);
     const c = SERIES_COLORS[k % SERIES_COLORS.length];
-    const dist = unit === "au" ? `${fmt(o.b.heliocentric_distance_au, 4)} au from the Sun` : `${fmt(Math.hypot(...o.pos) / 1e3, 6)} km from ${centreName}`;
+    const dist = unit === "au" ? t("js-lib-stages-au-from-sun", "{ $d } au from the Sun", { d: fmt(o.b.heliocentric_distance_au, 4) }) : t("js-lib-stages-km-from-centre", "{ $d } km from { $centre }", { d: fmt(Math.hypot(...o.pos) / 1e3, 6), centre: centreName });
     s += `<circle class="or-body" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" style="fill:${c}"><title>${esc(o.b.name)}: ${esc(dist)}</title></circle>`;
     const w = o.b.name.length * 6.6 + 4;
     for (const [dx, dy, anchor] of [[8, 4, "start"], [-8, 4, "end"], [0, -9, "middle"], [0, 17, "middle"]]) {
@@ -200,7 +201,7 @@ export function orrerySvg(result, opts = {}) {
     }
     shown.push({ name: o.b.name, path: `bodies[${o.i}]` });
   });
-  s += `<text class="c-note" x="12" y="${H - 12}">${esc(scaleNote)} · frame x-y plane, seen from its north pole</text></svg>`;
+  s += `<text class="c-note" x="12" y="${H - 12}">${esc(t("js-lib-stages-orrery-note", "{ $scale } · frame x-y plane, seen from its north pole", { scale: scaleNote }))}</text></svg>`;
   return { svg: s, shown };
 }
 
@@ -227,18 +228,18 @@ export function coverageSvg(result, opts = {}) {
   const px = (l) => ml + ((l + 180) / 360) * pw, py = (l) => mt + ((90 - l) / 180) * ph;
   const vals = cells.flat().filter(isNum);
   const lo = Math.min(...vals), hi = Math.max(...vals);
-  let s = `<svg class="chart cov" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(f.label)} over ${esc((result.body && result.body.name) || "the body")}, by latitude and longitude" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/><g shape-rendering="crispEdges">`;
+  let s = `<svg class="chart cov" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(t("js-lib-stages-coverage-aria", "{ $field } over { $body }, by latitude and longitude", { field: f.label, body: (result.body && result.body.name) || t("js-lib-stages-the-body", "the body") }))}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/><g shape-rendering="crispEdges">`;
   lat.forEach((la, i) => lon.forEach((lo_, j) => {
     const v = cells[i][j];
     if (!isNum(v)) return;
-    const t = hi > lo ? (v - lo) / (hi - lo) : 1;
-    s += `<rect x="${px(lo_ - dLon / 2).toFixed(1)}" y="${py(la + dLat / 2).toFixed(1)}" width="${((dLon / 360) * pw + 0.4).toFixed(1)}" height="${((dLat / 180) * ph + 0.4).toFixed(1)}" style="fill:${heat(f.lowerBetter ? 1 - t : t)}" fill-opacity=".78"><title>lat ${esc(fmt(la))}°, lon ${esc(fmt(lo_))}° · ${esc(f.label)} ${esc(fmt(v, 4))}${esc(f.unit)}</title></rect>`;
+    const frac = hi > lo ? (v - lo) / (hi - lo) : 1;
+    s += `<rect x="${px(lo_ - dLon / 2).toFixed(1)}" y="${py(la + dLat / 2).toFixed(1)}" width="${((dLon / 360) * pw + 0.4).toFixed(1)}" height="${((dLat / 180) * ph + 0.4).toFixed(1)}" style="fill:${heat(f.lowerBetter ? 1 - frac : frac)}" fill-opacity=".78"><title>${esc(t("js-lib-stages-cell-title", "lat { $lat }°, lon { $lon }° · { $field } { $value }", { lat: fmt(la), lon: fmt(lo_), field: f.label, value: fmt(v, 4) + f.unit }))}</title></rect>`;
   }));
   s += `</g>`;
   for (const ring of opts.land || []) s += `<polyline class="c-land cov-land" points="${ring.map(([a, b]) => `${px(a).toFixed(1)},${py(b).toFixed(1)}`).join(" ")}"/>`;
   for (let l = -180; l <= 180; l += 60) s += `<line class="c-grid" x1="${px(l).toFixed(1)}" y1="${mt}" x2="${px(l).toFixed(1)}" y2="${mt + ph}"/><text class="c-tick" x="${px(l).toFixed(1)}" y="${mt + ph + 15}" text-anchor="middle">${l}°</text>`;
   for (let l = -90; l <= 90; l += 30) s += `<line class="c-grid" x1="${ml}" y1="${py(l).toFixed(1)}" x2="${ml + pw}" y2="${py(l).toFixed(1)}"/>${Math.abs(l) < 90 ? `<text class="c-tick" x="${ml - 6}" y="${(py(l) + 4).toFixed(1)}" text-anchor="end">${l}°</text>` : ""}`;
-  s += `<text class="c-axis" x="${ml + pw / 2}" y="${H - 6}" text-anchor="middle">longitude · latitude up the side</text>`;
+  s += `<text class="c-axis" x="${ml + pw / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-lib-stages-longitude-axis", "longitude · latitude up the side"))}</text>`;
   const tr = result.tracks;
   let shownSats = 0;
   if (tr && Array.isArray(tr.satellites) && tr.satellites.length) {
@@ -254,7 +255,7 @@ export function coverageSvg(result, opts = {}) {
         seg.push(`${px(sat.lon_deg[i]).toFixed(1)},${py(sat.lat_deg[i]).toFixed(1)}`);
       }
       flush();
-      s += `<circle class="cov-sat" cx="${px(sat.lon_deg[k]).toFixed(1)}" cy="${py(sat.lat_deg[k]).toFixed(1)}" r="2.6" style="fill:${c}"><title>${esc(sat.constellation)} ${esc(sat.id)} · lat ${esc(fmt(sat.lat_deg[k]))}°, lon ${esc(fmt(sat.lon_deg[k]))}°</title></circle>`;
+      s += `<circle class="cov-sat" cx="${px(sat.lon_deg[k]).toFixed(1)}" cy="${py(sat.lat_deg[k]).toFixed(1)}" r="2.6" style="fill:${c}"><title>${esc(t("js-lib-stages-sat-title", "{ $constellation } { $id } · lat { $lat }°, lon { $lon }°", { constellation: sat.constellation, id: sat.id, lat: fmt(sat.lat_deg[k]), lon: fmt(sat.lon_deg[k]) }))}</title></circle>`;
       shownSats++;
     }
   }
@@ -272,7 +273,7 @@ export function coverageLegend(result) {
 
 const LIMIT = /guard|floor|limit|threshold/;
 const UNIT_ORDER = ["ns", "dB-Hz", "m", "count", "1"];
-const UNIT_TITLE = { ns: "Time error", "dB-Hz": "Carrier-to-noise density", m: "Position and protection", count: "Satellites", 1: "Alarm" };
+const unitTitle = (unit) => ({ ns: t("js-lib-stages-unit-time-error", "Time error"), "dB-Hz": t("js-lib-stages-unit-cn0", "Carrier-to-noise density"), m: t("js-lib-stages-unit-position", "Position and protection"), count: t("js-lib-stages-unit-satellites", "Satellites"), 1: t("js-lib-stages-unit-alarm", "Alarm") })[unit];
 // One chart per unit of the campaign's channels, all on the mission time axis, with the phases
 // as named bands and the events as rules. [{ unit, title, keys, model, opts }]
 export function timelineCharts(result) {
@@ -295,7 +296,7 @@ export function timelineCharts(result) {
       return { label: humanKey(key).replace(/\s*\([^)]*\)$/, ""), color: lim ? "var(--s-int)" : SERIES_COLORS[n++ % SERIES_COLORS.length], dash: lim, points: tl.t_s.map((t, i) => [t, tl.channels[key].values[i]]), key };
     });
     const u = unit === "1" || unit === "count" ? "" : unit;
-    return { unit, title: UNIT_TITLE[unit] || unit, keys, model: { title: UNIT_TITLE[unit] || unit, series, xLabel: "mission time (s)", yLabel: u || (unit === "count" ? "satellites" : "flag"), unit: u, outages: [] }, opts: { bands, vlines, h: 230 } };
+    return { unit, title: unitTitle(unit) || unit, keys, model: { title: unitTitle(unit) || unit, series, xLabel: t("js-lib-stages-mission-time", "mission time (s)"), yLabel: u || (unit === "count" ? t("js-lib-stages-satellites", "satellites") : t("js-lib-stages-flag", "flag")), unit: u, outages: [] }, opts: { bands, vlines, h: 230 } };
   });
 }
 
@@ -315,7 +316,7 @@ const CHAIN_ITEMS = {
   "leo-pvt": ["fusion.gnss.rms_error_3d_m", "fusion.fused.rms_error_3d_m", "fusion.fraction_epochs_with_leo"],
   "leo-ppp": ["ppp.cases[0].median_convergence_min", "ppp.cases[-1].median_convergence_min"],
 };
-const CHAIN_NAME = { "leo-signal": "Signal design", "leo-pass": "Pass and link", "leo-navmsg": "Navigation message", "leo-pvt": "Fused positioning", "leo-ppp": "Precise point positioning" };
+const CHAIN_NAME = ({ "leo-signal": () => t("js-lib-stages-chain-signal", "Signal design"), "leo-pass": () => t("js-lib-stages-chain-pass", "Pass and link"), "leo-navmsg": () => t("js-lib-stages-chain-navmsg", "Navigation message"), "leo-pvt": () => t("js-lib-stages-chain-pvt", "Fused positioning"), "leo-ppp": () => t("js-lib-stages-chain-ppp", "Precise point positioning") });
 const get = (obj, path) => { let v = obj; for (const m of String(path).matchAll(/[^.[\]]+|\[(-?\d+)\]/g)) { if (v === null || v === undefined) return undefined; v = m[1] !== undefined ? v[Number(m[1]) < 0 ? v.length + Number(m[1]) : Number(m[1])] : v[m[0]]; } return v; };
 // The chain's stages in hand-off order, each with the paths of its headline figures and the
 // number of values it hands on: [{ kind, name, items:[path], out }]
@@ -323,7 +324,7 @@ export function chainModel(result) {
   const order = [];
   for (const h of (result && result.handoffs) || []) for (const k of [h.from, h.to]) if (!order.includes(k)) order.push(k);
   return order.map((kind) => ({
-    kind, name: own(CHAIN_NAME, kind) || kind,
+    kind, name: (own(CHAIN_NAME, kind) || (() => kind))(),
     items: (own(CHAIN_ITEMS, kind) || []).map((p) => {
       // A negative index is written out, so the page shows the path the value really has.
       const m = p.match(/^(.*)\[-1\](.*)$/);
@@ -349,9 +350,9 @@ export function histogramSvg(samples, opts = {}) {
   for (const x of v) bins[Math.min(n - 1, Math.floor((x - lo) / bw))].count++;
   const top = Math.max(...bins.map((b) => b.count));
   const px = (x) => ml + ((x - lo) / (hi - lo || 1)) * (W - ml - mr), py = (c) => mt + (1 - c / top) * (H - mt - mb);
-  let s = `<svg class="chart hist" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(opts.title || "Histogram")}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  let s = `<svg class="chart hist" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(opts.title || t("js-lib-stages-histogram", "Histogram"))}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
   for (const t of niceTicks(0, top, 4)) s += `<line class="c-grid" x1="${ml}" y1="${py(t).toFixed(1)}" x2="${W - mr}" y2="${py(t).toFixed(1)}"/><text class="c-tick" x="${ml - 8}" y="${(py(t) + 4).toFixed(1)}" text-anchor="end">${esc(fmt(t))}</text>`;
-  for (const b of bins) s += `<rect class="h-bar" x="${(px(b.x0) + 0.5).toFixed(1)}" y="${py(b.count).toFixed(1)}" width="${Math.max(0.5, px(b.x1) - px(b.x0) - 1).toFixed(1)}" height="${(py(0) - py(b.count)).toFixed(1)}"><title>${esc(fmt(b.x0, 4))} to ${esc(fmt(b.x1, 4))}${opts.unit ? " " + esc(opts.unit) : ""}: ${b.count} runs</title></rect>`;
+  for (const b of bins) s += `<rect class="h-bar" x="${(px(b.x0) + 0.5).toFixed(1)}" y="${py(b.count).toFixed(1)}" width="${Math.max(0.5, px(b.x1) - px(b.x0) - 1).toFixed(1)}" height="${(py(0) - py(b.count)).toFixed(1)}"><title>${esc(t("js-lib-stages-bin-title", "{ $from } to { $to }{ $unit }: { $count } runs", { from: fmt(b.x0, 4), to: fmt(b.x1, 4), unit: opts.unit ? " " + opts.unit : "", count: b.count }))}</title></rect>`;
   for (const t of niceTicks(lo, hi, 6)) s += `<text class="c-tick" x="${px(t).toFixed(1)}" y="${H - mb + 16}" text-anchor="middle">${esc(fmt(t))}</text>`;
   let lastX = -1e9;
   for (const m of opts.marks || []) {
@@ -360,7 +361,7 @@ export function histogramSvg(samples, opts = {}) {
     s += `<line class="c-thr" x1="${x.toFixed(1)}" y1="${mt - 6}" x2="${x.toFixed(1)}" y2="${H - mb}"/>`;
     if (x - lastX > 40) { s += `<text class="c-thr-t" x="${x.toFixed(1)}" y="${mt - 10}" text-anchor="middle">${esc(m.label)}</text>`; lastX = x; }
   }
-  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle">${esc(opts.xLabel || "")}</text><text class="c-axis" x="14" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" transform="rotate(-90 14 ${mt + (H - mt - mb) / 2})">runs</text></svg>`;
+  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle">${esc(opts.xLabel || "")}</text><text class="c-axis" x="14" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" transform="rotate(-90 14 ${mt + (H - mt - mb) / 2})">${esc(t("js-lib-stages-runs", "runs"))}</text></svg>`;
   return { svg: s, bins };
 }
 
@@ -374,7 +375,7 @@ export function geojsonSvg(text, opts = {}) {
   const feats = gj && gj.type === "FeatureCollection" && Array.isArray(gj.features) ? gj.features : [];
   const W = opts.w || 760, H = W / 2;
   const px = (lon) => ((lon + 180) / 360) * W, py = (lat) => ((90 - lat) / 180) * H;
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="The GeoJSON export drawn on a map" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(t("js-lib-stages-geojson-aria", "The GeoJSON export drawn on a map"))}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
   for (let lon = -180; lon <= 180; lon += 30) s += `<line class="c-grid" x1="${px(lon)}" y1="0" x2="${px(lon)}" y2="${H}"/>`;
   for (let lat = -90; lat <= 90; lat += 30) s += `<line class="c-grid" x1="0" y1="${py(lat)}" x2="${W}" y2="${py(lat)}"/>`;
   for (const ring of opts.land || []) s += `<polyline class="c-land" points="${ring.map(([a, b]) => `${px(a).toFixed(1)},${py(b).toFixed(1)}`).join(" ")}"/>`;
@@ -391,7 +392,7 @@ export function geojsonSvg(text, opts = {}) {
     flush();
   };
   feats.forEach((f, i) => {
-    const g = f && f.geometry, name = (f.properties && (f.properties.name || f.properties.role)) || `feature ${i + 1}`;
+    const g = f && f.geometry, name = (f.properties && (f.properties.name || f.properties.role)) || t("js-lib-stages-feature-n", "feature { $n }", { n: i + 1 });
     if (!g) return;
     const c = SERIES_COLORS[i % SERIES_COLORS.length];
     if (g.type === "LineString") { line(g.coordinates, c, name); drawn++; }

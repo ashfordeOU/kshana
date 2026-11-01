@@ -914,7 +914,9 @@ pub fn propagate_tabulated(
 ) -> Result<TabulatedConstellation, String> {
     let per_out = (output_step_s / step_s).round() as usize;
     if per_out == 0 || (per_out as f64 * step_s - output_step_s).abs() > 1e-9 {
-        return Err("the integration step must divide the output step".into());
+        return Err(crate::terr!(
+            "e-lunar-perturbed-the-integration-step-must-divide"
+        ));
     }
     let n_out = (duration_s / output_step_s).round() as usize;
     let mut y: Vec<[f64; 6]> = states0

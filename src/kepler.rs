@@ -63,11 +63,12 @@ pub enum KeplerError {
 impl core::fmt::Display for KeplerError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            KeplerError::InvalidInput => write!(f, "Kepler equation: M or e out of domain"),
-            KeplerError::NonConvergence { residual, iters } => write!(
-                f,
-                "Kepler equation did not converge in {iters} steps (residual {residual:e})"
-            ),
+            KeplerError::InvalidInput => f.write_str(&crate::terr!("e-kepler-out-of-domain")),
+            KeplerError::NonConvergence { residual, iters } => f.write_str(&crate::terr!(
+                "e-kepler-no-convergence",
+                iters = iters,
+                residual = crate::i18n::localise_decimal(format!("{residual:e}"))
+            )),
         }
     }
 }

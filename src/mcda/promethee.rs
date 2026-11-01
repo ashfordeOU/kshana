@@ -133,29 +133,35 @@ pub fn promethee_ii(
 ) -> Result<PrometheeResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("PROMETHEE II: empty decision matrix".into());
+        return Err(crate::terr!(
+            "e-mcda-promethee-promethee-ii-empty-decision-matrix"
+        ));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("PROMETHEE II: no criteria".into());
+        return Err(crate::terr!("e-mcda-promethee-promethee-ii-no-criteria"));
     }
     if types.len() != n || prefs.len() != n {
-        return Err(format!(
-            "PROMETHEE II: {n} weights but {} types / {} preference functions",
-            types.len(),
-            prefs.len()
+        return Err(crate::terr!(
+            "e-mcda-promethee-promethee-ii-weights-but-types",
+            n = n,
+            types = types.len(),
+            prefs = prefs.len()
         ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "PROMETHEE II: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-promethee-promethee-ii-alternative-has-values",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         if row.iter().any(|x| !x.is_finite()) {
-            return Err(format!(
-                "PROMETHEE II: alternative {i} has a non-finite value"
+            return Err(crate::terr!(
+                "e-mcda-promethee-promethee-ii-alternative-has-non",
+                i = i
             ));
         }
     }

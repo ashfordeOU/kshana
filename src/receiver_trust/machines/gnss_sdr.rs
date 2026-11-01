@@ -68,9 +68,9 @@ pub fn read_gnss_sdr_monitor(text: &str) -> Result<Timeline, String> {
     }
     let tl = map.finish(skipped);
     if tl.epochs.is_empty() {
-        return Err(format!(
-            "no GNSS-SDR synchro or pvt record was readable ({skipped} lines skipped); see \
-             integrations/gnss-sdr/README.md for the line format"
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-gnss-sdr-no-gnss-sdr-synchro-or",
+            skipped = skipped
         ));
     }
     Ok(tl)
@@ -95,8 +95,12 @@ fn synchro(v: &Value, map: &mut EpochMap) -> Option<()> {
         .unwrap_or("1C")
         .to_string();
     let e = map.at(key);
-    e.time_label
-        .get_or_insert_with(|| format!("GPS TOW {:.0} s", key as f64 / 1000.0));
+    e.time_label.get_or_insert_with(|| {
+        crate::t!(
+            "receiver-trust-machines-gnss-sdr-gps-tow",
+            v1 = crate::i18n::localise_decimal(format!("{:.0}", key as f64 / 1000.0))
+        )
+    });
     if valid && cn0 > 0.0 {
         if let Some(s) = e.cn0.iter_mut().find(|s| s.sat == sat && s.band == band) {
             s.cn0_dbhz = cn0;
@@ -125,8 +129,15 @@ fn pvt(v: &Value, map: &mut EpochMap, week: &mut Option<i64>) -> Option<()> {
             v.get("utc_time").and_then(Value::as_str),
         ) {
             (_, Some(utc)) if !utc.is_empty() => utc.to_string(),
-            (Some(w), _) => format!("GPS week {w} TOW {tow:.0} s"),
-            _ => format!("GPS TOW {tow:.0} s"),
+            (Some(w), _) => crate::t!(
+                "receiver-trust-ingest-gps-week-tow-2",
+                w = w,
+                tow = crate::i18n::localise_decimal(format!("{:.0}", tow))
+            ),
+            _ => crate::t!(
+                "receiver-trust-ingest-gps-tow",
+                tow = crate::i18n::localise_decimal(format!("{:.0}", tow))
+            ),
         },
     );
     let (lat, lon) = (f(v, "latitude")?, f(v, "longitude")?);

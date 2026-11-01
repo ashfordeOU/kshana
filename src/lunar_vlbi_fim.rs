@@ -514,9 +514,9 @@ impl Datum {
             "anchor-first-station" => Ok(Datum::AnchorFirstStation),
             "free-network" => Ok(Datum::FreeNetwork),
             "all-stations-fixed" => Ok(Datum::AllStationsFixed),
-            other => Err(format!(
-                "unknown datum {other:?}: expected \"anchor-first-station\", \"free-network\" \
-                 or \"all-stations-fixed\""
+            other => Err(crate::terr!(
+                "e-lunar-vlbi-fim-unknown-datum-expected-anchor-first",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -629,18 +629,23 @@ impl LunarVlbiFimScenario {
                 .collect(),
         };
         if raw.len() < 2 {
-            return Err(format!(
-                "a VLBI schedule needs at least 2 stations to form a baseline, got {}",
-                raw.len()
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-vlbi-schedule-needs-at-least",
+                raw = raw.len()
             ));
         }
         for (name, lat, lon, alt) in &raw {
             if !lat.is_finite() || !lon.is_finite() || !alt.is_finite() {
-                return Err(format!("station {name:?} has a non-finite coordinate"));
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-station-has-non-finite-coordinate",
+                    name = format!("{:?}", name)
+                ));
             }
             if !(-90.0..=90.0).contains(lat) {
-                return Err(format!(
-                    "station {name:?} latitude {lat} deg is outside [-90, 90]"
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-station-latitude-deg-is-outside",
+                    name = format!("{:?}", name),
+                    lat = lat
                 ));
             }
         }
@@ -664,10 +669,15 @@ impl LunarVlbiFimScenario {
         let lon = self.beacon_lon_deg.unwrap_or(0.0);
         let alt = self.beacon_alt_m.unwrap_or(0.0);
         if !lat.is_finite() || !lon.is_finite() || !alt.is_finite() {
-            return Err("beacon coordinates must be finite".to_string());
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-beacon-coordinates-must-be-finite"
+            ));
         }
         if !(-90.0..=90.0).contains(&lat) {
-            return Err(format!("beacon latitude {lat} deg is outside [-90, 90]"));
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-beacon-latitude-deg-is-outside",
+                lat = lat
+            ));
         }
         Ok(Selenographic {
             lat_rad: lat.to_radians(),
@@ -680,18 +690,23 @@ impl LunarVlbiFimScenario {
         let arc = self.arc_hours.unwrap_or(24.0);
         let step = self.step_min.unwrap_or(30.0);
         if !arc.is_finite() || arc <= 0.0 {
-            return Err(format!("arc_hours must be positive and finite, got {arc}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-arc-hours-must-be-positive",
+                arc = arc
+            ));
         }
         if !step.is_finite() || step <= 0.0 {
-            return Err(format!("step_min must be positive and finite, got {step}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-step-min-must-be-positive",
+                step = step
+            ));
         }
         let step_h = step / 60.0;
         let n = (arc / step_h).floor() as usize;
         if n > 20_000 {
-            return Err(format!(
-                "schedule of {} epochs is beyond this scenario's 20000-epoch guard; \
-                 lengthen step_min or shorten arc_hours",
-                n + 1
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-schedule-of-epochs-is-beyond",
+                v1 = n + 1
             ));
         }
         Ok((arc, step, n + 1))
@@ -700,8 +715,9 @@ impl LunarVlbiFimScenario {
     fn resolved_sigma(&self) -> Result<f64, String> {
         let s = self.delay_sigma_s.unwrap_or(1.0e-11);
         if !s.is_finite() || s <= 0.0 {
-            return Err(format!(
-                "delay_sigma_s must be positive and finite, got {s}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-delay-sigma-must-be-positive",
+                s = s
             ));
         }
         Ok(s)
@@ -710,8 +726,9 @@ impl LunarVlbiFimScenario {
     fn resolved_mask(&self) -> Result<f64, String> {
         let m = self.elevation_mask_deg.unwrap_or(10.0);
         if !m.is_finite() || !(-90.0..90.0).contains(&m) {
-            return Err(format!(
-                "elevation_mask_deg must be finite and in [-90, 90), got {m}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-elevation-mask-deg-must-be",
+                m = m
             ));
         }
         Ok(m)
@@ -720,7 +737,10 @@ impl LunarVlbiFimScenario {
     fn resolved_rel_tol(&self) -> Result<f64, String> {
         let t = self.rel_tol.unwrap_or(1.0e-9);
         if !t.is_finite() || !(0.0..1.0).contains(&t) {
-            return Err(format!("rel_tol must be finite and in [0, 1), got {t}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-rel-tol-must-be-finite",
+                t = t
+            ));
         }
         Ok(t)
     }
@@ -728,8 +748,9 @@ impl LunarVlbiFimScenario {
     fn resolved_g(&self) -> Result<f64, String> {
         let g = self.equipartition_g.unwrap_or(3.0);
         if !g.is_finite() || g <= 0.0 {
-            return Err(format!(
-                "equipartition_g must be positive and finite, got {g}"
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-equipartition-must-be-positive-and",
+                g = g
             ));
         }
         Ok(g)
@@ -845,8 +866,9 @@ impl LunarVlbiFimScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         let c = self.compute()?;
-        let json = serde_json::to_string_pretty(&c.json)
-            .map_err(|e| format!("serializing lunar-vlbi-fim result: {e}"))?;
+        let json = serde_json::to_string_pretty(&c.json).map_err(|e| {
+            crate::terr!("e-lunar-vlbi-fim-serializing-lunar-vlbi-fim-result", e = e)
+        })?;
         Ok((json, c.summary))
     }
 
@@ -926,21 +948,19 @@ impl LunarVlbiFimScenario {
         )?;
         let estimate_beacon = self.estimate_beacon.unwrap_or(false);
         if datum == Datum::AllStationsFixed && !estimate_beacon {
-            return Err(
-                "datum \"all-stations-fixed\" holds every station fixed, so it estimates \
-                 nothing unless the beacon is estimated: set estimate_beacon = true"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-datum-all-stations-fixed-holds"
+            ));
         }
 
         let (geoms, observations) = self.schedule()?;
         let n_obs = observations.len();
         if n_obs == 0 {
-            return Err(format!(
-                "no observation in the schedule clears the {mask} deg elevation mask at both \
-                 ends of a baseline: {n_epochs} epochs x {} baselines all rejected. Lengthen \
-                 arc_hours, lower elevation_mask_deg, or move the stations.",
-                n_stations * (n_stations - 1) / 2
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-no-observation-in-the-schedule",
+                mask = mask,
+                n_epochs = n_epochs,
+                v1 = n_stations * (n_stations - 1) / 2
             ));
         }
 
@@ -949,7 +969,9 @@ impl LunarVlbiFimScenario {
         let used_layout =
             StateLayout::new(n_stations, &datum.held_fixed(n_stations), estimate_beacon);
         if used_layout.dim() == 0 {
-            return Err("the datum leaves no parameter to estimate".to_string());
+            return Err(crate::terr!(
+                "e-lunar-vlbi-fim-the-datum-leaves-no-parameter"
+            ));
         }
 
         let free_info = information_matrix(
@@ -1096,7 +1118,7 @@ impl LunarVlbiFimScenario {
         }
         if estimate_beacon {
             for ax in ["x", "y", "z"] {
-                parameter_order.push(format!("beacon_mcmf.{ax}"));
+                parameter_order.push(crate::t!("lunar-vlbi-fim-beacon-mcmf", ax = ax));
             }
         }
 
@@ -1164,11 +1186,11 @@ impl LunarVlbiFimScenario {
         let status = if used.full_rank {
             "full-rank: the headline sigma is the inverse of the information matrix".to_string()
         } else {
-            format!(
-                "RANK-DEFICIENT: {} of {} directions are unobservable, so no per-coordinate \
-                 sigma is reported; the observable-subspace value below is a pseudo-inverse \
-                 restricted to the {} observable directions and is NOT a station sigma",
-                used.defect, used.dim, used.rank
+            crate::t!(
+                "lunar-vlbi-fim-rank-deficient-of-directions-are",
+                defect = used.defect,
+                dim = used.dim,
+                rank = used.rank
             )
         };
         let trustworthy = used.full_rank && used.condition.is_finite() && used.condition < 1e12;
@@ -1191,31 +1213,29 @@ impl LunarVlbiFimScenario {
             })
             .collect();
 
-        let summary = format!(
-            "lunar-vlbi-fim | {} stations / {} baselines x {} epochs = {} obs (mask {:.1} deg) | \
-             datum {} | rank {}/{} cond {:.3e} | station sigma {} vs equipartition g={:.0} \
-             {:.4} m (ratio {})",
-            n_stations,
-            n_stations * (n_stations - 1) / 2,
-            n_epochs,
-            n_obs,
-            mask,
-            datum.as_str(),
-            used.rank,
-            used.dim,
-            used.condition,
-            if used.full_rank {
+        let summary = crate::t!(
+            "lunar-vlbi-fim-lunar-vlbi-fim-stations-baselines",
+            n_stations = n_stations,
+            v2 = n_stations * (n_stations - 1) / 2,
+            n_epochs = n_epochs,
+            n_obs = n_obs,
+            mask = crate::i18n::localise_decimal(format!("{:.1}", mask)),
+            datum = datum.as_str(),
+            rank = used.rank,
+            dim = used.dim,
+            condition = crate::i18n::localise_decimal(format!("{:.3e}", used.condition)),
+            v10 = if used.full_rank {
                 format!("{computed_rms:.4} m")
             } else {
                 "UNOBSERVABLE".to_string()
             },
-            g,
-            eq_g,
-            if used.full_rank {
+            g = crate::i18n::localise_decimal(format!("{:.0}", g)),
+            eq_g = crate::i18n::localise_decimal(format!("{:.4}", eq_g)),
+            v13 = if used.full_rank {
                 format!("{:.3}", computed_rms / eq_g)
             } else {
                 "n/a".to_string()
-            },
+            }
         );
 
         let json = serde_json::json!({

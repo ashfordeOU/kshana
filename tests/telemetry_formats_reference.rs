@@ -660,14 +660,17 @@ fn stream_13() -> String {
         let mut geo = serde_json::Map::new();
         geo.insert("status".into(), json!(statuses[k % 4]));
         let opt = |x: f64, keep: bool| if keep { json!(x) } else { Value::Null };
-        if k % 5 != 0 {
-            geo.insert("hdop".into(), opt(0.75 + 0.125 * t, k % 7 != 0));
+        if !k.is_multiple_of(5) {
+            geo.insert("hdop".into(), opt(0.75 + 0.125 * t, !k.is_multiple_of(7)));
         }
-        if k % 6 != 0 {
+        if !k.is_multiple_of(6) {
             geo.insert("pdop".into(), opt(1.5 + 0.0625 * t, k % 5 != 1));
         }
-        geo.insert("n_used".into(), opt(f64::from(4 + i % 9), k % 8 != 0));
-        if k % 3 != 0 {
+        geo.insert(
+            "n_used".into(),
+            opt(f64::from(4 + i % 9), !k.is_multiple_of(8)),
+        );
+        if !k.is_multiple_of(3) {
             geo.insert("vdop".into(), json!(1.0 + 0.03125 * t));
         }
         if let Some(l) = labels[k % labels.len()] {

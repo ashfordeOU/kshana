@@ -6,6 +6,8 @@
 // Live: a cursor steps round the kind ring, reading out each kind and what builds on it; the links of
 // the kind on show flow toward the Pro or study ring. The ring itself holds still, so every mark can be
 // read (and measured) where it is. Reduced motion: the complete still frame.
+import { t, ready } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 const $ = (s, r = document) => r.querySelector(s);
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NS = "http://www.w3.org/2000/svg";
@@ -27,7 +29,7 @@ function init(E) {
   win.classList.add("ready");
   const cx = 260, cy = 210, R0 = 72, RK = 106, RP = 146, RC = 186;
   // kinds in group order, a gap between groups
-  const G = E.groups.map((g) => g[0]).concat(["Other"]);
+  const G = E.groups.map((g) => g[0]).concat([t("js-site-editions-group-other", "Other")]);
   const kinds = E.kinds.map(([k, gi, v, tot]) => ({ k, g: gi < 0 ? G.length - 1 : gi, v, tot }))
     .sort((a, b) => a.g - b.g);
   const gaps = new Set(kinds.map((x, i) => (i && x.g !== kinds[i - 1].g ? i : -1)).filter((i) => i > 0));
@@ -43,8 +45,8 @@ function init(E) {
   S("circle", { cx, cy, r: RC, class: "eo-rc" }, svg);
   S("circle", { cx, cy, r: RP, class: "eo-rp" }, svg);
   const lbl = (x, y, t, cls, anchor) => S("text", { x, y, class: cls, "text-anchor": anchor }, svg, t);
-  { const [px, py] = pol(RC + 10, Math.PI * 0.2); lbl(px, py + 4, "Kshana Pro", "eo-lt p", "start"); }
-  { const [px, py] = pol(RC + 10, Math.PI * 0.8); lbl(px, py + 4, "Custom study", "eo-lt c", "end"); }
+  { const [px, py] = pol(RC + 10, Math.PI * 0.2); lbl(px, py + 4, t("js-site-editions-ring-pro", "Kshana Pro"), "eo-lt p", "start"); }
+  { const [px, py] = pol(RC + 10, Math.PI * 0.8); lbl(px, py + 4, t("js-site-editions-ring-study", "Custom study"), "eo-lt c", "end"); }
   // the turning group: kind marks and the links to the rings
   const rot = S("g", { class: "eo-rot" }, svg);
   const links = S("g", { class: "eo-links" }, rot);
@@ -68,12 +70,11 @@ function init(E) {
   const cursor = S("circle", { r: 11, class: "eo-cur" }, rot);
   // the core
   S("circle", { cx, cy, r: R0, class: "eo-core" }, svg);
-  S("text", { x: cx, y: cy - 16, class: "eo-c1", "text-anchor": "middle" }, svg, "Open core");
-  S("text", { x: cx, y: cy + 8, class: "eo-c2", "text-anchor": "middle" }, svg, `${E.kinds.length} kinds`);
-  S("text", { x: cx, y: cy + 26, class: "eo-c3", "text-anchor": "middle" }, svg, `${E.summary.validated} of ${E.summary.total}`);
-  S("text", { x: cx, y: cy + 39, class: "eo-c3", "text-anchor": "middle" }, svg, "validated");
+  S("text", { x: cx, y: cy - 16, class: "eo-c1", "text-anchor": "middle" }, svg, t("js-site-editions-core-title", "Open core"));
+  S("text", { x: cx, y: cy + 8, class: "eo-c2", "text-anchor": "middle" }, svg, t("js-site-editions-core-kinds", { one: "{ $n } kind", other: "{ $n } kinds" }, { n: E.kinds.length }));
+  S("text", { x: cx, y: cy + 26, class: "eo-c3", "text-anchor": "middle" }, svg, t("js-site-editions-core-validated-of", "{ $validated } of { $total }", { validated: E.summary.validated, total: E.summary.total }));
+  S("text", { x: cx, y: cy + 39, class: "eo-c3", "text-anchor": "middle" }, svg, t("js-site-editions-core-validated", "validated"));
 
-  const LAB = { v: "has validated ledger rows", m: "ledger rows are Modelled", u: "no ledger module matches it by name" };
   let cur = -1, ang = 0;
   function show(i) {
     if (cur >= 0) { kinds[cur].el.classList.remove("on"); (kinds[cur].lines || []).forEach((l) => l.classList.remove("on")); }
@@ -83,9 +84,9 @@ function init(E) {
     const c = document.createElement("code"); c.textContent = x.k;
     const g = document.createElement("span"); g.className = "eo-g"; g.textContent = G[x.g];
     const st = document.createElement("span"); st.className = `eo-st ${x.st}`;
-    st.textContent = x.tot ? `${x.v} of ${x.tot} ledger rows validated` : LAB.u;
+    st.textContent = x.tot ? t("js-site-editions-kind-validated", "{ $v } of { $tot } ledger rows validated", { v: x.v, tot: x.tot }) : t("js-site-editions-kind-no-ledger", "no ledger module matches it by name");
     const by = document.createElement("span"); by.className = "eo-by";
-    by.textContent = x.by ? x.by.map((e) => `${e.lab.replace(/^Pro: /, "Kshana Pro: ")} builds on it`).join(" · ") : "Free in the open core, like every kind";
+    by.textContent = x.by ? x.by.map((e) => t("js-site-editions-builds-on-it", "{ $label } builds on it", { label: e.lab.replace(/^Pro: /, "Kshana Pro: ") })).join(" · ") : t("js-site-editions-free-core", "Free in the open core, like every kind");
     read.append(c, g, st, by);
   }
   // step round the ring, stopping on every kind that Pro or a study builds on
@@ -94,7 +95,7 @@ function init(E) {
   show(Math.max(0, oi));
   let playing = !RM, visible = true, last = 0, acc = 0;
   const btn = $("#eoPlay");
-  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? "Pause the rings" : "Play the rings"); };
+  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? t("js-site-editions-pause", "Pause the rings") : t("js-site-editions-play", "Play the rings")); };
   btn.addEventListener("click", () => { playing = !playing; setBtn(); });
   setBtn();
   if (RM) { btn.hidden = true; return; }

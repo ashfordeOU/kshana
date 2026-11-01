@@ -116,16 +116,17 @@ impl PolyphaseResampler {
     /// A resampler by `up/down` with a stated low-pass design.
     pub fn with_design(up: usize, down: usize, design: FilterDesign) -> Result<Self, IqError> {
         if up == 0 || down == 0 {
-            return Err(IqError::Format(
-                "resampling factors must be positive".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-resampling-factors-must-be-positive"
+            )));
         }
         let ok = design.passband_frac > 0.0
             && design.passband_frac < 1.0
             && design.stopband_atten_db > 0.0;
         if !ok {
-            return Err(IqError::Format(format!(
-                "invalid filter design {design:?}: passband_frac in (0, 1), attenuation > 0"
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-invalid-filter-design-passband-frac",
+                design = format!("{:?}", design)
             )));
         }
         let g = gcd(up, down);
@@ -146,9 +147,9 @@ impl PolyphaseResampler {
     /// run at the upsampled rate and should have unit DC gain.
     pub fn from_taps(up: usize, down: usize, taps: &[f64]) -> Result<Self, IqError> {
         if up == 0 || down == 0 || taps.is_empty() {
-            return Err(IqError::Format(
-                "resampling factors must be positive and the filter non-empty".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-resampling-factors-must-be-positive-2"
+            )));
         }
         let k = taps.len().div_ceil(up);
         let phases: Vec<Vec<f64>> = (0..up)
@@ -368,15 +369,16 @@ impl<S: IqSource> RealIfToBaseband<S> {
     pub fn new(src: S, if_hz: f64, decim: usize, chunk: usize) -> Result<Self, IqError> {
         let fs = src.spec().fs_hz;
         if !(if_hz > 0.0 && if_hz < fs / 2.0) {
-            return Err(IqError::Format(format!(
-                "IF {if_hz} Hz must lie strictly between 0 and half the sample rate ({} Hz)",
-                fs / 2.0
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-if-hz-must-lie-strictly",
+                if_hz = if_hz,
+                v1 = fs / 2.0
             )));
         }
         if decim < 2 {
-            return Err(IqError::Format(
-                "real-IF conversion needs decimation by at least 2 to remove the image".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-resample-real-if-conversion-needs-decimation"
+            )));
         }
         let mixer = Mixer {
             src,

@@ -179,16 +179,25 @@ impl Cn0Profile {
     pub fn parse(text: &str) -> Result<Self, IqError> {
         let t = text.trim_start();
         let p: Cn0Profile = if t.starts_with('{') {
-            serde_json::from_str(t).map_err(|e| IqError::Format(format!("C/N0 profile: {e}")))?
+            serde_json::from_str(t).map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-channel-cn0-profile-n0-profile", e = e))
+            })?
         } else {
-            toml::from_str(t).map_err(|e| IqError::Format(format!("C/N0 profile: {e}")))?
+            toml::from_str(t).map_err(|e| {
+                IqError::Format(crate::terr!("e-iq-channel-cn0-profile-n0-profile", e = e))
+            })?
         };
         p.validate()?;
         Ok(p)
     }
 
     fn validate(&self) -> Result<(), IqError> {
-        let bad = |m: String| Err(IqError::Format(format!("C/N0 profile: {m}")));
+        let bad = |m: String| {
+            Err(IqError::Format(crate::terr!(
+                "e-iq-channel-cn0-profile-n0-profile-2",
+                m = m
+            )))
+        };
         if self.segments.is_empty() {
             return bad("no segments".into());
         }
@@ -196,7 +205,10 @@ impl Cn0Profile {
             match &s.shape {
                 Cn0Shape::Step { at_s, delta_db } => {
                     if !(at_s.is_finite() && delta_db.is_finite()) {
-                        return bad(format!("segment {i}: step values must be finite"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-step-values-must-be",
+                            i = i
+                        ));
                     }
                 }
                 Cn0Shape::Ramp {
@@ -210,28 +222,44 @@ impl Cn0Profile {
                         && to_db.is_finite()
                         && end_s > start_s;
                     if !ok {
-                        return bad(format!("segment {i}: ramp needs end_s > start_s"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-ramp-needs-end-start",
+                            i = i
+                        ));
                     }
                 }
                 Cn0Shape::Points { t_s, db } => {
                     if t_s.is_empty() || t_s.len() != db.len() {
-                        return bad(format!(
-                            "segment {i}: points need equal, non-empty t_s and db"
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-points-need-equal-non",
+                            i = i
                         ));
                     }
                     if !t_s.windows(2).all(|w| w[1] > w[0]) {
-                        return bad(format!("segment {i}: t_s must increase strictly"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-must-increase-strictly",
+                            i = i
+                        ));
                     }
                     if db.iter().chain(t_s).any(|v| !v.is_finite()) {
-                        return bad(format!("segment {i}: points must be finite"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-points-must-be-finite",
+                            i = i
+                        ));
                     }
                 }
                 Cn0Shape::Fade { s4, tau_s, .. } => {
                     if !(*s4 > 0.0 && *s4 <= 1.0) {
-                        return bad(format!("segment {i}: fade s4 must be in (0, 1]"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-fade-s4-must-be",
+                            i = i
+                        ));
                     }
                     if !(*tau_s > 0.0 && tau_s.is_finite()) {
-                        return bad(format!("segment {i}: fade tau_s must be positive"));
+                        return bad(crate::t!(
+                            "iq-channel-cn0-profile-segment-fade-tau-must-be",
+                            i = i
+                        ));
                     }
                 }
             }

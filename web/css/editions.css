@@ -26,8 +26,8 @@
 .ed-why p{color:var(--ink)}
 .ed-row{border-top:1px solid var(--line);padding-top:12px}
 .ed ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
-.ed li{position:relative;padding-left:15px}
-.ed li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
+.ed li{position:relative;padding-inline-start:15px}
+.ed li::before{content:"";position:absolute;inset-inline-start:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
 .ed code{font-size:.92em}
 .ed a:not(.btn){color:var(--cyan)}
 .go{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;align-self:end;padding-top:4px}
@@ -60,7 +60,7 @@
 }
 
 /* ---------------- the open core's dual licence, directly under the editions */
-.lic-free{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:14px 22px;margin-top:14px;padding:18px 20px;border-left:3px solid var(--c)}
+.lic-free{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:14px 22px;margin-top:14px;padding:18px 20px;border-inline-start:3px solid var(--c)}
 .lic-h{display:grid;gap:8px;align-content:start}
 .lic-h h3{font:600 clamp(20px,1.8vw,24px)/1.15 var(--sans);letter-spacing:-.02em}
 .lic-h p,.lic-opt p,.lic-opt li{font-size:14px;line-height:1.5;color:var(--ink-2)}
@@ -71,8 +71,8 @@
 .lic-k{font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
 .lic-opt h4{font:600 16px/1.2 var(--sans);letter-spacing:-.01em;color:var(--ink)}
 .lic-opt ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
-.lic-opt li{position:relative;padding-left:15px}
-.lic-opt li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
+.lic-opt li{position:relative;padding-inline-start:15px}
+.lic-opt li::before{content:"";position:absolute;inset-inline-start:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
 .lic-fit{color:var(--ink-3)!important;font-size:13px!important}
 .lic-go .btn{min-height:40px;font-size:13.5px;white-space:normal;max-width:100%}
 .lic-note{grid-column:1/-1;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
@@ -95,8 +95,8 @@
 .steps{list-style:none;margin:0;padding:0;counter-reset:st;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 @media (max-width:1099.98px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.steps{grid-template-columns:minmax(0,1fr)}}
-.steps li{counter-increment:st;display:block;padding:16px 16px 16px 54px;font-size:14px;line-height:1.5;color:var(--ink-2)}
-.steps li::after{content:counter(st);position:absolute;left:16px;top:15px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--cyan-soft);color:var(--cyan);font:600 12px/1 var(--mono)}
+.steps li{counter-increment:st;display:block;padding-block:16px;padding-inline:54px 16px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.steps li::after{content:counter(st);position:absolute;inset-inline-start:16px;top:15px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--cyan-soft);color:var(--cyan);font:600 12px/1 var(--mono)}
 .steps b{display:block;margin-bottom:4px;color:var(--ink)}
 .steps a{color:var(--cyan);overflow-wrap:anywhere}
 .free-vs-paid{margin-top:14px;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);font-size:14px;color:var(--ink-2)}

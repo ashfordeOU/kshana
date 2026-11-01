@@ -1,0 +1,329 @@
+# An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch
+# to entry, built from public concept-of-operations material.
+#
+# SOURCE OF THE SEQUENCE (public): NASA Human Landing System Program, "Human Landing System (HLS) 101", slide
+# deck dated 24 May 2023 (NASA Technical Reports Server, 20230010065), which shows the Artemis III concept of
+# operations (propellant depot launch, propellant aggregation, lander launch, loiter in a near-rectilinear halo
+# orbit, crew launch, surface expedition, return in the crew vehicle) and lists Artemis IV as adding docking with
+# a lunar-orbit station, more mass to the surface and longer missions. The order of phases below follows that
+# material; the numbers are NOT from it.
+#
+# HONESTY. Every number here is ILLUSTRATIVE: a round figure chosen to make the chain run, not the performance of
+# any vehicle, sensor, station or network. The chain follows one stack as a stated simplification; vehicle
+# changes, crew transfers and the lunar-orbit station are not modelled, the lunar orbits are the 100 km circular
+# and polar ones the lunar kinds fly (not the near-rectilinear halo orbit), and the TLI burn is not targeted: the
+# cislunar phase takes the covariance, and the lunar phases fly their own nominal orbits and take only the
+# covariance, the frame and the clock. The return start state is stated for the same reason. Public sources only;
+# not affiliated with or endorsed by any agency. Advisory software, not certified navigation equipment.
+#
+# The epoch is 2028-01-01 and the Moon comes from the committed 2028 kernel cut (the file is read from a checkout).
+kind = "mission-thread"
+title = "Artemis-class mission thread (ILLUSTRATIVE)"
+seed = 20261024
+epoch_utc = "2028-01-01T00:00:00Z"
+moon_kernel_path = "tests/fixtures/mission_thread/de440s_moon_2028-01-01_2028-04-01.bsp"
+
+[ground_network]
+# Three stations spread in longitude, with stated, ILLUSTRATIVE coordinates and limits.
+min_elevation_deg = 10.0
+handover_gap_s = 120.0
+step_s = 300.0
+
+[[ground_network.stations]]
+id = "west"
+lat_deg = 35.4
+lon_deg = -116.9
+
+[[ground_network.stations]]
+id = "iberia"
+lat_deg = 40.4
+lon_deg = -4.25
+
+[[ground_network.stations]]
+id = "oceania"
+lat_deg = -35.4
+lon_deg = 148.98
+
+[[ground_network.phases]]
+phase = "cruise"
+geometry = "moon-direction"
+
+[[ground_network.phases]]
+phase = "entry"
+geometry = "stated"
+duty = 0.9
+
+[entry]
+# The launch pad at the epoch, in GCRF: 28.5 deg N, 80.6 deg W, rotating with the Earth.
+frame = "gcrf"
+x = [5285007.866, 1880185.649, 3025316.817, -137.105, 385.389, 0.0]
+sigma_pos_m = 10.0
+sigma_vel_mps = 0.01
+timescale = "utc"
+sigma_time_s = 1.0e-7
+sigma_drift_s_per_s = 1.0e-12
+
+# --- Launch to a parking orbit --------------------------------------------------------------------------------
+
+[[phase]]
+id = "ascent"
+kind = "launch-ascent"
+duration_s = 540.0
+nav = ["gnss", "inertial"]
+time = "gnss"
+[phase.requirement]
+max_pos_m = 100.0
+[phase.model]
+gnss_acquire_s = 90.0
+gnss_sigma_pos_m = 5.0
+gnss_sigma_vel_mps = 0.05
+gnss_time_sigma_s = 1.0e-7
+imu_q_acc = 1.0e-3
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+step_s = 1.0
+insertion_alt_m = 185000.0
+insertion_inclination_deg = 28.5
+[[phase.model.fades]]
+start_s = 60.0
+end_s = 150.0
+what = "max-q plume mask"
+[[phase.model.fades]]
+start_s = 300.0
+end_s = 330.0
+what = "staging"
+
+# --- Three propellant-transfer rendezvous and dockings in low Earth orbit (repeats are separate phases) ------
+
+[[phase]]
+id = "rdv-1"
+kind = "leo-rendezvous"
+duration_s = 3000.0
+nav = ["relative-optical", "gnss"]
+time = "gnss"
+[phase.handover]
+# A wait of two days, then GNSS is acquired again: dead reckoning for ten minutes, then the fix floor.
+rule = "reacquire"
+acquire_s = 600.0
+q_acc = 1.0e-9
+floor_pos_m = 8.66
+floor_vel_mps = 0.07
+floor_time_s = 1.0e-7
+[phase.model]
+target_alt_m = 185000.0
+target_abs_sigma_pos_m = 5.0
+target_abs_sigma_vel_mps = 0.005
+capture_pos_m = 0.5
+capture_vel_mps = 0.02
+min_window_s = 300.0
+[[phase.model.legs]]
+range_m = 20000.0
+end_range_m = 1000.0
+duration_s = 1200.0
+sensor = "rf-ranging"
+interval_s = 10.0
+[[phase.model.legs]]
+range_m = 1000.0
+end_range_m = 20.0
+duration_s = 1500.0
+sensor = "optical-camera"
+interval_s = 5.0
+[[phase.model.legs]]
+range_m = 20.0
+end_range_m = 1.0
+duration_s = 300.0
+sensor = "lidar"
+interval_s = 1.0
+
+[[phase]]
+id = "rdv-2"
+kind = "leo-rendezvous"
+duration_s = 3000.0
+nav = ["relative-optical", "gnss"]
+time = "gnss"
+[phase.handover]
+# A wait of two days, then GNSS is acquired again: dead reckoning for ten minutes, then the fix floor.
+rule = "reacquire"
+acquire_s = 600.0
+q_acc = 1.0e-9
+floor_pos_m = 8.66
+floor_vel_mps = 0.07
+floor_time_s = 1.0e-7
+[phase.model]
+target_alt_m = 185000.0
+target_abs_sigma_pos_m = 5.0
+target_abs_sigma_vel_mps = 0.005
+capture_pos_m = 0.5
+capture_vel_mps = 0.02
+min_window_s = 300.0
+[[phase.model.legs]]
+range_m = 20000.0
+end_range_m = 1000.0
+duration_s = 1200.0
+sensor = "rf-ranging"
+interval_s = 10.0
+[[phase.model.legs]]
+range_m = 1000.0
+end_range_m = 20.0
+duration_s = 1500.0
+sensor = "optical-camera"
+interval_s = 5.0
+[[phase.model.legs]]
+range_m = 20.0
+end_range_m = 1.0
+duration_s = 300.0
+sensor = "lidar"
+interval_s = 1.0
+
+[[phase]]
+id = "rdv-3"
+kind = "leo-rendezvous"
+duration_s = 3000.0
+nav = ["relative-optical", "gnss"]
+time = "gnss"
+[phase.model]
+target_alt_m = 185000.0
+target_abs_sigma_pos_m = 5.0
+target_abs_sigma_vel_mps = 0.005
+capture_pos_m = 0.5
+capture_vel_mps = 0.02
+min_window_s = 300.0
+[[phase.model.legs]]
+range_m = 20000.0
+end_range_m = 1000.0
+duration_s = 1200.0
+sensor = "rf-ranging"
+interval_s = 10.0
+[[phase.model.legs]]
+range_m = 1000.0
+end_range_m = 20.0
+duration_s = 1500.0
+sensor = "optical-camera"
+interval_s = 5.0
+[[phase.model.legs]]
+range_m = 20.0
+end_range_m = 1.0
+duration_s = 300.0
+sensor = "lidar"
+interval_s = 1.0
+
+# --- Trans-lunar injection and the cislunar cruise -------------------------------------------------------------
+
+[[phase]]
+id = "cruise"
+kind = "tli-and-cruise"
+duration_s = 345600.0
+nav = ["gnss-ssv", "ground-tracking"]
+time = "ground-clock"
+[phase.requirement]
+max_pos_m = 5000.0
+[phase.model]
+# The nominal parking orbit at the burn (185 km circular, 28.5 deg): the handovers between the rendezvous phases
+# advance a nominal state on a straight line, so the chain states the orbit; the covariance, the clock and the time
+# are the thread's.
+start_state_gcrf = [6563137.0, 0.0, 0.0, 0.0, 6848.755, 3718.571]
+tli_dv_mps = 3130.0
+tli_dv_sigma_fraction = 0.001
+tli_pointing_sigma_rad = 0.001
+step_s = 3600.0
+process_q_acc = 1.0e-13
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+ssv_uere_m = 5.0
+ssv_window_s = 21600.0
+ssv_step_min = 10.0
+ground_range_sigma_m = 10.0
+ground_range_rate_sigma_mps = 0.001
+ground_interval_s = 3600.0
+
+# --- Lunar orbit, descent, surface, ascent, and the redock ---------------------------------------------------
+
+[[phase]]
+id = "lunar-orbit"
+kind = "lunar-orbit-rendezvous"
+duration_s = 3600.0
+nav = ["lunanet", "relative-optical"]
+time = "lunar-time"
+frame = "mci"
+timescale = "ltc"
+[phase.model]
+orbit = "llo"
+arc_s = 3600.0
+step_s = 30.0
+n_trials = 5
+
+[[phase]]
+id = "descent"
+kind = "lunar-descent"
+duration_s = 600.0
+nav = ["lunanet", "trn", "inertial"]
+time = "lunar-time"
+[phase.requirement]
+max_pos_m = 100.0
+[phase.model]
+descent_s = 600.0
+n_trials = 500
+
+[[phase]]
+id = "surface"
+kind = "lunar-surface"
+duration_s = 561600.0
+nav = ["lunanet"]
+time = "lunar-time"
+[phase.model]
+stay_days = 6.5
+window_days = 6.5
+step_min = 30.0
+season_dates = ["2028-01-12"]
+
+[[phase]]
+id = "ascent-lunar"
+kind = "lunar-ascent"
+duration_s = 450.0
+nav = ["lunanet", "inertial"]
+time = "lunar-time"
+[phase.model]
+ascent_s = 450.0
+
+[[phase]]
+id = "redock"
+kind = "lunar-orbit-rendezvous"
+duration_s = 3600.0
+nav = ["lunanet", "relative-optical"]
+time = "lunar-time"
+[phase.model]
+orbit = "llo"
+arc_s = 3600.0
+step_s = 30.0
+n_trials = 5
+
+# --- Return and entry ----------------------------------------------------------------------------------------
+
+[[phase]]
+id = "entry"
+kind = "entry"
+duration_s = 21600.0
+nav = ["ground-tracking"]
+time = "ground-clock"
+frame = "gcrf"
+timescale = "utc"
+[phase.requirement]
+max_pos_m = 5000.0
+[phase.model]
+# The nominal return state 6 hours before the entry interface (a two-body backward integration of an interface
+# state at 122 km, 10.93 km/s, 6 deg below the horizontal); the covariance, the clock and the time are the thread's.
+start_state_gcrf = [-62790259.413, -44485726.468, -25683846.151, 2429.589, 746.8, 431.165]
+step_s = 1800.0
+process_q_acc = 1.0e-13
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+ground_range_sigma_m = 10.0
+ground_range_rate_sigma_mps = 0.001
+ground_interval_s = 1800.0
+interface_alt_m = 121920.0
+ballistic_coeff_kg_m2 = 350.0
+corridor_min_deg = 5.6
+corridor_max_deg = 6.4
+downrange_sensitivity_km_per_deg = 400.0
+flight_time_s = 900.0
+max_decel_g = 12.0

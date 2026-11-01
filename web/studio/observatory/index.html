@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Interference observatory viewer: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -31,42 +32,42 @@
   <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
   <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Interference observatory</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-observatory-interference-observatory">Interference observatory</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap ko">
-  <p class="kicker"><i style="--c:var(--int)"></i>Interference observatory</p>
-  <h1 id="ko-h">What did one day's position reports look like?</h1>
-  <p class="lede">The observatory writes a few files for each UTC day and region: the grid cells with one of three states, an incident list and a manifest. Open the files you have produced here and read them. The page computes nothing and shows only what the files say. It ships no observatory data, fetches nothing, and uploads nothing.</p>
-  <p class="ko-adv" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. A <b>degraded</b> cell means a high share of the aircraft sampled there reported low navigation accuracy that day. <b>No cause is attributed</b>: low accuracy has many causes, and this page names none and no actor. <b>Not observed is not clear.</b> It is not a live view, a warning or a confirmation of anything, and it is not an approval, certification or statement of conformance.</p>
+  <p class="kicker"><i style="--c:var(--int)"></i><span data-l10n-rich="seg-6f2cf14d4623">Interference observatory</span></p>
+  <h1 id="ko-h" data-l10n="studio-observatory-what-did-one-day-s">What did one day's position reports look like?</h1>
+  <p class="lede" data-l10n="studio-observatory-the-observatory-writes-a-few">The observatory writes a few files for each UTC day and region: the grid cells with one of three states, an incident list and a manifest. Open the files you have produced here and read them. The page computes nothing and shows only what the files say. It ships no observatory data, fetches nothing, and uploads nothing.</p>
+  <p class="ko-adv" role="note" data-l10n-rich="seg-d1d22e6868f6" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. A <b>degraded</b> cell means a high share of the aircraft sampled there reported low navigation accuracy that day. <b>No cause is attributed</b>: low accuracy has many causes, and this page names none and no actor. <b>Not observed is not clear.</b> It is not a live view, a warning or a confirmation of anything, and it is not an approval, certification or statement of conformance.</p>
 
   <section class="card ko-open" aria-labelledby="ko-open-h">
-    <div class="card-head"><h2 id="ko-open-h" class="h3">Open a day</h2>
-      <p class="card-note">Choose the files of one or several days together: <code>observatory-adsb-&lt;dataset&gt;-&lt;day&gt;.geojson</code> (needed), <code>.incidents.json</code>, <code>.manifest.json</code> and <code>.png</code>. Files are read in this browser.</p></div>
+    <div class="card-head"><h2 id="ko-open-h" class="h3" data-l10n="studio-observatory-open-a-day">Open a day</h2>
+      <p class="card-note" data-l10n-rich="seg-79cc3b5f93b8" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>observatory-adsb-&amp;lt;dataset&amp;gt;-&amp;lt;day&amp;gt;.geojson</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>.incidents.json</code>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>.manifest.json</code>&quot;},&quot;c4&quot;:{&quot;h&quot;:&quot;<code>.png</code>&quot;}}">Choose the files of one or several days together: <code>observatory-adsb-&lt;dataset&gt;-&lt;day&gt;.geojson</code> (needed), <code>.incidents.json</code>, <code>.manifest.json</code> and <code>.png</code>. Files are read in this browser.</p></div>
     <div class="ko-drop" id="ko-drop">
-      <label class="ko-file btn-primary">Choose files…<input id="ko-files" type="file" multiple accept=".geojson,.json,.png,application/json,application/geo+json,image/png"></label>
-      <span class="ko-or">or drop them here</span>
+      <label class="ko-file btn-primary"><span data-l10n-rich="seg-f4c16e6a9663">Choose files…</span><input id="ko-files" type="file" multiple accept=".geojson,.json,.png,application/json,application/geo+json,image/png"></label>
+      <span class="ko-or" data-l10n="studio-interference-or-drop-them-here">or drop them here</span>
     </div>
-    <p class="ko-status" id="ko-status" role="status" aria-live="polite">Nothing open yet. To make the files: <code>kshana interference-map daily &lt;input&gt; --dataset adsb-lol --day 2026-09-15 --out products/</code>.</p>
+    <p class="ko-status" id="ko-status" role="status" aria-live="polite" data-l10n-rich="seg-c7c10225eaf2" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana interference-map daily &amp;lt;input&amp;gt; --dataset adsb-lol --day 2026-09-15 --out products/</code>&quot;}}">Nothing open yet. To make the files: <code>kshana interference-map daily &lt;input&gt; --dataset adsb-lol --day 2026-09-15 --out products/</code>.</p>
     <ul class="ko-notes" id="ko-notes"></ul>
   </section>
 
   <div id="ko-body" hidden>
     <section class="card ko-day" aria-labelledby="ko-day-h">
       <div class="ko-dayhead">
-        <h2 id="ko-day-h" class="h3">Day</h2>
+        <h2 id="ko-day-h" class="h3" data-l10n-rich="seg-68b7fdfafd42">Day</h2>
         <div class="ko-picker" role="group" aria-label="Day">
-          <button type="button" class="ko-btn" id="ko-prev" aria-label="Previous day">&larr;</button>
-          <select id="ko-pick" aria-label="Day opened"></select>
-          <button type="button" class="ko-btn" id="ko-next" aria-label="Next day">&rarr;</button>
+          <button type="button" class="ko-btn" id="ko-prev" aria-label="Previous day" data-l10n-attr="aria-label:studio-observatory-previous-day" data-l10n="studio-observatory-larr">&larr;</button>
+          <select id="ko-pick" aria-label="Day opened" data-l10n-attr="aria-label:studio-observatory-day-opened"></select>
+          <button type="button" class="ko-btn" id="ko-next" aria-label="Next day" data-l10n-attr="aria-label:studio-observatory-next-day" data-l10n="studio-observatory-rarr">&rarr;</button>
         </div>
       </div>
       <p class="ko-sum" id="ko-sum"></p>
@@ -76,64 +77,65 @@
     </section>
 
     <section class="card ko-legend" aria-labelledby="ko-leg-h">
-      <h2 id="ko-leg-h" class="h3">The three states</h2>
+      <h2 id="ko-leg-h" class="h3" data-l10n="studio-observatory-the-three-states">The three states</h2>
       <ul class="ko-leg" id="ko-leg"></ul>
       <p class="ko-clear" id="ko-clear"></p>
     </section>
 
     <section class="card ko-pic" id="ko-pic" hidden aria-labelledby="ko-pic-h">
-      <h2 id="ko-pic-h" class="h3">The picture the observatory wrote</h2>
-      <p class="card-note">The PNG you opened, as it is. Cells that are not drawn were not observed.</p>
+      <h2 id="ko-pic-h" class="h3" data-l10n="studio-observatory-the-picture-the-observatory-wrote">The picture the observatory wrote</h2>
+      <p class="card-note" data-l10n="studio-observatory-the-png-you-opened-as">The PNG you opened, as it is. Cells that are not drawn were not observed.</p>
       <img id="ko-img" alt="">
     </section>
 
     <div class="ko-grid">
       <section class="card ko-mapc" aria-labelledby="ko-map-h">
-        <h2 id="ko-map-h" class="h3">Cells, drawn from the file</h2>
-        <p class="card-note">Plate carr&eacute;e, no base map. Hover a cell, or use the table, for its state and counts. A place with no cell was not observed.</p>
+        <h2 id="ko-map-h" class="h3" data-l10n="studio-observatory-cells-drawn-from-the-file">Cells, drawn from the file</h2>
+        <p class="card-note" data-l10n="studio-observatory-plate-carr-eacute-e-no">Plate carr&eacute;e, no base map. Hover a cell, or use the table, for its state and counts. A place with no cell was not observed.</p>
         <div id="ko-map" class="ko-mapbox"></div>
-        <p class="ko-read" id="ko-read" role="status" aria-live="polite">Hover or focus a cell for its state.</p>
+        <p class="ko-read" id="ko-read" role="status" aria-live="polite" data-l10n="studio-observatory-hover-or-focus-a-cell">Hover or focus a cell for its state.</p>
       </section>
       <section class="card ko-inc" aria-labelledby="ko-inc-h">
-        <h2 id="ko-inc-h" class="h3">Incidents</h2>
+        <h2 id="ko-inc-h" class="h3" data-l10n-rich="seg-aed6b80b551b">Incidents</h2>
         <p class="card-note" id="ko-inc-note"></p>
         <div class="ko-tablewrap"><table class="tbl" id="ko-inc"></table></div>
       </section>
     </div>
 
     <section class="card ko-cells" aria-labelledby="ko-cells-h">
-      <div class="ko-dayhead"><h2 id="ko-cells-h" class="h3">Every cell in the file</h2>
-        <label class="ko-flt">Show <select id="ko-flt"><option value="all">all states</option><option value="degraded">degraded</option><option value="not_degraded">not degraded</option><option value="not_observed">not observed</option></select></label></div>
-      <p class="card-note">A count the file withholds (fewer than 5 aircraft) reads &ldquo;withheld&rdquo;, never 0.</p>
+      <div class="ko-dayhead"><h2 id="ko-cells-h" class="h3" data-l10n="studio-observatory-every-cell-in-the-file">Every cell in the file</h2>
+        <label class="ko-flt"><span data-l10n-rich="seg-705d50a526aa">Show</span> <select id="ko-flt"><option value="all" data-l10n-rich="seg-aeb5496025cc">all states</option><option value="degraded" data-l10n-rich="seg-2672b7f55371">degraded</option><option value="not_degraded" data-l10n-rich="seg-378ee89e4bd3">not degraded</option><option value="not_observed" data-l10n-rich="seg-c7d4820fefdf">not observed</option></select></label></div>
+      <p class="card-note" data-l10n="studio-observatory-a-count-the-file-withholds">A count the file withholds (fewer than 5 aircraft) reads &ldquo;withheld&rdquo;, never 0.</p>
       <div class="ko-tablewrap"><table class="tbl" id="ko-cells"></table></div>
       <button type="button" class="ko-btn" id="ko-more" hidden></button>
     </section>
 
     <section class="card ko-files" aria-labelledby="ko-files-h">
-      <h2 id="ko-files-h" class="h3">Files and their hashes</h2>
+      <h2 id="ko-files-h" class="h3" data-l10n="studio-observatory-files-and-their-hashes">Files and their hashes</h2>
       <p class="card-note" id="ko-files-note"></p>
       <div class="ko-tablewrap"><table class="tbl" id="ko-files-t"></table></div>
       <dl class="ko-kv" id="ko-stats"></dl>
     </section>
 
     <section class="card ko-data" aria-labelledby="ko-data-h">
-      <h2 id="ko-data-h" class="h3">Dataset, licence and notice</h2>
+      <h2 id="ko-data-h" class="h3" data-l10n="studio-observatory-dataset-licence-and-notice">Dataset, licence and notice</h2>
       <dl class="ko-kv" id="ko-data"></dl>
       <p class="ko-notice" id="ko-notice"></p>
     </section>
   </div>
 
-  <section class="ko-fine" aria-label="About this page">
-    <h2 class="h3">What this page does and does not show</h2>
+  <section class="ko-fine" aria-label="About this page" data-l10n-attr="aria-label:studio-interference-about-this-page">
+    <h2 class="h3" data-l10n="studio-observatory-what-this-page-does-and">What this page does and does not show</h2>
     <ul>
-      <li>Products are released at least 24 hours after the end of the UTC day, on cells of 0.5 degrees or coarser. This is never a live view and it never says &ldquo;now&rdquo;.</li>
-      <li>It shows no cause, no country, no force and no source of interference, no alert, no comparison between places or days, and no AIS. ADS-B and AIS are never combined.</li>
-      <li>Every figure is MODELLED: there is no ground truth and no external oracle. The method note is <code>docs/observatory/METHOD.md</code> in the repository.</li>
-      <li>The page ships none of the observatory's products. Publishing them is the owner's decision.</li>
+      <li data-l10n="studio-observatory-products-are-released-at-least">Products are released at least 24 hours after the end of the UTC day, on cells of 0.5 degrees or coarser. This is never a live view and it never says &ldquo;now&rdquo;.</li>
+      <li data-l10n="studio-observatory-it-shows-no-cause-no">It shows no cause, no country, no force and no source of interference, no alert, no comparison between places or days, and no AIS. ADS-B and AIS are never combined.</li>
+      <li data-l10n-rich="seg-ff19c890942d" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>docs/observatory/METHOD.md</code>&quot;}}">Every figure is MODELLED: there is no ground truth and no external oracle. The method note is <code>docs/observatory/METHOD.md</code> in the repository.</li>
+      <li data-l10n="studio-observatory-the-page-ships-none-of">The page ships none of the observatory's products. Publishing them is the owner's decision.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="observatory/observatory.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

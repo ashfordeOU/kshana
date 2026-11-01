@@ -1,0 +1,19 @@
+{
+  "note": "Sources of the CJK subsets (SIL Open Font License 1.1, Google Noto Sans JP and SC, static TTFs from the npm package @expo-google-fonts/*). Fetched once with `npm pack`, hash-checked, never committed.",
+  "ja": {
+    "package": "@expo-google-fonts/noto-sans-jp@0.4.4",
+    "family": "Noto Sans JP",
+    "files": {
+      "400": {"path": "package/400Regular/NotoSansJP_400Regular.ttf", "sha256": "6255ea4692e97ef27330304fb96fd650f9111f868cd585fcf2802d42823930e5"},
+      "600": {"path": "package/600SemiBold/NotoSansJP_600SemiBold.ttf", "sha256": "92eff4421bb0b7c6f4c02a5d2dcec3bd13d3a1251a36e459b8077fe9ef90ee6f"}
+    }
+  },
+  "zh-Hans": {
+    "package": "@expo-google-fonts/noto-sans-sc@0.4.4",
+    "family": "Noto Sans SC",
+    "files": {
+      "400": {"path": "package/400Regular/NotoSansSC_400Regular.ttf", "sha256": "d45f67f0a7c0ca3f256950777ce6a61cc7ce5f9696d02900cbbaac25f8aa7d16"},
+      "600": {"path": "package/600SemiBold/NotoSansSC_600SemiBold.ttf", "sha256": "b5eb7510dff58e0626c72c0861d83a3ed2be1d03047cf90a623682b8667bc5ff"}
+    }
+  }
+}
