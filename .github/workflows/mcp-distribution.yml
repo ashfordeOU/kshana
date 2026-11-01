@@ -203,6 +203,10 @@ jobs:
           git commit -m "New version: AshfordeOU.KshanaMcp version ${VERSION}"
           git push --force origin "$branch"
           if gh api "repos/microsoft/winget-pkgs/contents/manifests/a/AshfordeOU/KshanaMcp" >/dev/null 2>&1; then kind="New version"; else kind="New package"; fi
+          # A re-run for the same version (a moved tag rebuilds the assets) force-pushes new manifests to the same branch,
+          # which updates the pull request already open; opening a second one fails, so that case is a success.
+          existing="$(gh pr list --repo microsoft/winget-pkgs --head "$branch" --author "$me" --state open --json url --jq '.[0].url' 2>/dev/null || true)"
+          if [ -n "$existing" ]; then echo "::notice::the winget pull request for ${VERSION} is already open and now carries these manifests: $existing"; exit 0; fi
           gh pr create --repo microsoft/winget-pkgs --base master --head "$me:$branch" \
             --title "${kind}: AshfordeOU.KshanaMcp version ${VERSION}" \
             --body "Kshana MCP server ${VERSION}, a portable binary from https://github.com/ashfordeOU/kshana/releases/tag/v${VERSION}. The manifests are generated from the release's SHA256SUMS. Advisory software, not type-approved navigation equipment."

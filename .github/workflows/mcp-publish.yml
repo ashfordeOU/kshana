@@ -62,7 +62,8 @@ jobs:
     # The linux/arm64 half builds under emulation. At v0.29.0 the engine crate alone took
     # about 25 minutes there and the job hit the old 45-minute limit while compiling the
     # last crate (v0.28.0 finished in 27 minutes). 90 leaves room as the engine grows.
-    timeout-minutes: 90
+    # 0.40.0: the arm64 build under QEMU was cancelled at 90 minutes on slow hosted runners.
+    timeout-minutes: 180
     if: ${{ startsWith(github.ref, 'refs/tags/v') && inputs.publish_image }}
     environment:
       name: ghcr-image
