@@ -232,11 +232,15 @@ pub fn parse_dsn_stations(text: &str) -> Result<BTreeMap<u16, DsnStation>, Strin
                 .split_whitespace()
                 .map(|x| {
                     x.parse::<f64>()
-                        .map_err(|e| format!("DSS-{id} {field}: {e}"))
+                        .map_err(|e| crate::terr!("e-mars-od-dss", id = id, field = field, e = e))
                 })
                 .collect::<Result<_, _>>()?;
             if v.len() != 3 {
-                return Err(format!("DSS-{id} {field}: expected 3 values"));
+                return Err(crate::terr!(
+                    "e-mars-od-dss-expected-values",
+                    id = id,
+                    field = field
+                ));
             }
             Ok([v[0] * 1e3, v[1] * 1e3, v[2] * 1e3])
         };
@@ -249,7 +253,11 @@ pub fn parse_dsn_stations(text: &str) -> Result<BTreeMap<u16, DsnStation>, Strin
                 dxyz.insert(id, nums()?.map(|x| x * 1e-3));
             }
             "EPOCH" if !val.contains("2003-JAN-01/00:00") => {
-                return Err(format!("DSS-{id} epoch is not 2003-JAN-01: {}", val.trim()));
+                return Err(crate::terr!(
+                    "e-mars-od-dss-epoch-is-not-2003",
+                    id = id,
+                    val = val.trim()
+                ));
             }
             _ => {}
         }
@@ -258,7 +266,7 @@ pub fn parse_dsn_stations(text: &str) -> Result<BTreeMap<u16, DsnStation>, Strin
     for (id, p) in xyz {
         let v = *dxyz
             .get(&id)
-            .ok_or_else(|| format!("DSS-{id} has no DXYZ"))?;
+            .ok_or_else(|| crate::terr!("e-mars-od-dss-has-no-dxyz", id = id))?;
         out.insert(
             id,
             DsnStation {
@@ -625,23 +633,23 @@ impl DopplerModel {
         let st = self
             .stations
             .get(&p.station)
-            .ok_or_else(|| format!("no coordinates for DSS {}", p.station))?;
+            .ok_or_else(|| crate::terr!("e-mars-od-no-coordinates-for-dss", station = p.station))?;
         let ramps = self
             .ramps
             .get(&p.station)
-            .ok_or_else(|| format!("no ramps for DSS {}", p.station))?;
+            .ok_or_else(|| crate::terr!("e-mars-od-no-ramps-for-dss", station = p.station))?;
         let t3e = p.t3s.plus(p.tc);
         let rs = self.round_trip(traj, st, p.t3s)?;
         let re = self.round_trip(traj, st, t3e)?;
         let js = ramps
             .integral_minus_ref(p.t3s, -rs.tau_s, 0.0)
-            .ok_or("ramp table does not cover the interval")?;
+            .ok_or_else(|| crate::terr!("e-mars-od-ramp-table-does-not-cover"))?;
         let je = ramps
             .integral_minus_ref(p.t3s, p.tc - re.tau_s, p.tc)
-            .ok_or("ramp table does not cover the interval")?;
+            .ok_or_else(|| crate::terr!("e-mars-od-ramp-table-does-not-cover"))?;
         let jw = ramps
             .integral_minus_ref(p.t3s, 0.0, p.tc)
-            .ok_or("ramp table does not cover the interval")?;
+            .ok_or_else(|| crate::terr!("e-mars-od-ramp-table-does-not-cover"))?;
         // Cycles transmitted between t1s and t1e, less f_c·Tc:
         // ∫_{t3s}^{t3e} f_T − (∫_{t3e−τe}^{t3e} f_T − ∫_{t3s−τs}^{t3s} f_T), each about f_c.
         let sent = jw - (ramps.f_ref * (re.tau_s - rs.tau_s) + (je - js));
@@ -775,7 +783,10 @@ impl DenseTrajectory {
         let x = (et - self.t0) / self.h;
         let i = x.floor();
         if i < 0.0 || i as usize + 1 >= self.states.len() {
-            return Err(format!("epoch {et} outside the integrated span"));
+            return Err(crate::terr!(
+                "e-mars-od-epoch-outside-the-integrated-span",
+                et = et
+            ));
         }
         let i = i as usize;
         let s = x - i as f64;
@@ -977,7 +988,7 @@ fn cholesky_solve(a: &[Vec<f64>], b: &[f64]) -> Result<Vec<f64>, String> {
             }
             if i == j {
                 if s <= 0.0 {
-                    return Err("normal matrix is not positive definite".into());
+                    return Err(crate::terr!("e-mars-od-normal-matrix-is-not-positive"));
                 }
                 l[i][i] = s.sqrt();
             } else {
@@ -1018,8 +1029,22 @@ pub fn fit(
     settings: &FitSettings,
 ) -> Result<FitResult, String> {
     // The integration span: one round-trip before the first point to after the last.
-    let et_first = et_of_utc(points.first().ok_or("no points")?.t3s).total() - 2_000.0;
-    let et_last = et_of_utc(points.last().ok_or("no points")?.t3s).total() + 600.0;
+    let et_first = et_of_utc(
+        points
+            .first()
+            .ok_or_else(|| crate::terr!("e-mars-od-no-points"))?
+            .t3s,
+    )
+    .total()
+        - 2_000.0;
+    let et_last = et_of_utc(
+        points
+            .last()
+            .ok_or_else(|| crate::terr!("e-mars-od-no-points"))?
+            .t3s,
+    )
+    .total()
+        + 600.0;
     let (t_begin, t_end) = (et_first.min(epoch), et_last.max(epoch));
     let integ = |x: &[f64; 8]| -> Result<DenseTrajectory, String> {
         let fp = ForceParams {
@@ -1141,8 +1166,22 @@ pub fn fit_damped(
     guess_params: ForceParams,
     settings: &FitSettings,
 ) -> Result<FitResult, String> {
-    let et_first = et_of_utc(points.first().ok_or("no points")?.t3s).total() - 2_000.0;
-    let et_last = et_of_utc(points.last().ok_or("no points")?.t3s).total() + 600.0;
+    let et_first = et_of_utc(
+        points
+            .first()
+            .ok_or_else(|| crate::terr!("e-mars-od-no-points"))?
+            .t3s,
+    )
+    .total()
+        - 2_000.0;
+    let et_last = et_of_utc(
+        points
+            .last()
+            .ok_or_else(|| crate::terr!("e-mars-od-no-points"))?
+            .t3s,
+    )
+    .total()
+        + 600.0;
     let (t_begin, t_end) = (et_first.min(epoch), et_last.max(epoch));
     let integ = |x: &[f64; 8]| -> Result<DenseTrajectory, String> {
         let fp = ForceParams {
@@ -1223,7 +1262,7 @@ pub fn fit_damped(
         }
         let d: Vec<f64> = (0..8).map(|p| n[p][p].sqrt()).collect();
         if d.iter().any(|v| v.is_nan() || *v <= 0.0) {
-            return Err("a parameter has no partial on the kept points".into());
+            return Err(crate::terr!("e-mars-od-parameter-has-no-partial-on"));
         }
         let ns: Vec<Vec<f64>> = (0..8)
             .map(|p| (0..8).map(|q| n[p][q] / (d[p] * d[q])).collect())

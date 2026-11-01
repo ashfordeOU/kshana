@@ -200,9 +200,9 @@ impl SatMotion {
                 tsince0_min,
                 jd0,
             } => {
-                let (rk, vk) = prop
-                    .propagate(tsince0_min + t / 60.0)
-                    .map_err(|code| format!("SGP4 error code {code} at t = {t} s"))?;
+                let (rk, vk) = prop.propagate(tsince0_min + t / 60.0).map_err(|code| {
+                    crate::terr!("e-leo-link-geometry-sgp4-error-code-at", code = code, t = t)
+                })?;
                 let jd = jd0 + t / 86_400.0;
                 let r_teme = scale(rk, 1e3);
                 let v_teme = scale(vk, 1e3);
@@ -477,10 +477,10 @@ pub fn design_pass(user: &UserMotion, req: &PassRequest) -> Result<(Elements, f6
     let (phi, lam_user) = geocentric_lat_lon(u_state.r_ecef);
     let s = phi.psin() / inc.psin();
     if s.abs() > 1.0 {
-        return Err(format!(
-            "an orbit inclined {:.2} deg never passes over latitude {:.2} deg",
-            inc.to_degrees(),
-            phi.to_degrees()
+        return Err(crate::terr!(
+            "e-leo-link-geometry-an-orbit-inclined-deg-never",
+            inc = crate::i18n::localise_decimal(format!("{:.2}", inc.to_degrees())),
+            phi = crate::i18n::localise_decimal(format!("{:.2}", phi.to_degrees()))
         ));
     }
     let u_star = match req.direction {
@@ -545,7 +545,9 @@ pub fn design_pass(user: &UserMotion, req: &PassRequest) -> Result<(Elements, f6
     let sign = if req.east { 1.0 } else { -1.0 };
     let (mut near, mut far) = (0.0_f64, 0.6_f64);
     if maxel(d_peak + sign * far)? > target {
-        return Err("the requested maximum elevation is below the horizon reach".into());
+        return Err(crate::terr!(
+            "e-leo-link-geometry-the-requested-maximum-elevation-is"
+        ));
     }
     for _ in 0..60 {
         let mid = 0.5 * (near + far);

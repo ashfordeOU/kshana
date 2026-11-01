@@ -45,9 +45,9 @@ fn parse_clock_name(name: &str) -> Result<LunarClock, String> {
         "passive-h-maser" | "phm" => Ok(LunarClock::Phm),
         "rafs" => Ok(LunarClock::Rafs),
         "mini-rafs" => Ok(LunarClock::MiniRafs),
-        other => Err(format!(
-            "unknown clock {other:?}; expected one of optical-master, \
-             passive-h-maser, rafs, mini-rafs"
+        other => Err(crate::terr!(
+            "e-lunar-time-budget-scenario-unknown-clock-expected-one-of",
+            other = format!("{:?}", other)
         )),
     }
 }
@@ -143,9 +143,9 @@ impl LunarTimeBudgetScenario {
     fn resolve_crossover_clocks(&self) -> Result<Vec<LunarClock>, String> {
         match &self.clocks {
             None => Ok(LunarClock::all().to_vec()),
-            Some(names) if names.is_empty() => {
-                Err("clocks must name at least one clock class".to_string())
-            }
+            Some(names) if names.is_empty() => Err(crate::terr!(
+                "e-lunar-time-budget-scenario-clocks-must-name-at-least"
+            )),
             Some(names) => names.iter().map(|n| parse_clock_name(n)).collect(),
         }
     }
@@ -162,15 +162,22 @@ impl LunarTimeBudgetScenario {
         let hi = self.tau_max_s.unwrap_or(1.0e7);
         let ppd = self.points_per_decade.unwrap_or(8);
         if !(lo.is_finite() && lo > 0.0) {
-            return Err(format!("tau_min_s must be finite and positive, got {lo}"));
+            return Err(crate::terr!(
+                "e-lunar-time-budget-scenario-tau-min-must-be-finite",
+                lo = lo
+            ));
         }
         if !(hi.is_finite() && hi > lo) {
-            return Err(format!(
-                "tau_max_s must be finite and greater than tau_min_s ({lo}), got {hi}"
+            return Err(crate::terr!(
+                "e-lunar-time-budget-scenario-tau-max-must-be-finite",
+                lo = lo,
+                hi = hi
             ));
         }
         if ppd == 0 {
-            return Err("points_per_decade must be ≥ 1".to_string());
+            return Err(crate::terr!(
+                "e-lunar-time-budget-scenario-points-per-decade-must-be"
+            ));
         }
         let decades = (hi / lo).plog10();
         let n = (decades * ppd as f64).round() as i64 + 1;
@@ -227,22 +234,26 @@ impl LunarTimeBudgetScenario {
         s.push_str("i,tau_s,term,x_s,grows_with_tau\n");
         for (i, tau) in budget.tau_s.iter().enumerate() {
             for t in &budget.terms {
-                let x = t
-                    .x_s
-                    .get(i)
-                    .copied()
-                    .ok_or_else(|| format!("term {} is shorter than the tau grid", t.name))?;
+                let x = t.x_s.get(i).copied().ok_or_else(|| {
+                    crate::terr!(
+                        "e-lunar-time-budget-scenario-term-is-shorter-than-the",
+                        name = t.name
+                    )
+                })?;
                 s.push_str(&format!(
                     "{},{:.12e},{},{:.6e},{}\n",
                     i, tau, t.name, x, t.grows_with_tau
                 ));
             }
-            let total = budget
-                .x_sigma_s
-                .get(i)
-                .copied()
-                .ok_or_else(|| "x_sigma_s is shorter than the tau grid".to_string())?;
-            s.push_str(&format!("{},{:.12e},total,{:.6e},false\n", i, tau, total));
+            let total = budget.x_sigma_s.get(i).copied().ok_or_else(|| {
+                crate::terr!("e-lunar-time-budget-scenario-sigma-is-shorter-than-the")
+            })?;
+            s.push_str(&crate::t!(
+                "lunar-time-budget-scenario-total-false",
+                i = i,
+                tau = crate::i18n::localise_decimal(format!("{:.12e}", tau)),
+                total = crate::i18n::localise_decimal(format!("{:.6e}", total))
+            ));
         }
         Ok(s)
     }
@@ -287,29 +298,51 @@ impl LunarTimeBudgetScenario {
         let json = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
 
         let x_1day_ns = x_clock_ns(clock, 86_400.0);
-        let summary = format!(
-            "lunar-time-budget | clock {} | 7-term x_Σ(τ) over {} τ-points \
-             ({:.0}–{:.0e} s) | crossover τ {:.3e} s (x {:.3e} s) | frame floor \
-             {:.3e} s | clock x(1 d) {:.3} ns (MODELLED)",
-            budget.clock,
-            taus.len(),
-            taus.first().copied().unwrap_or(0.0),
-            taus.last().copied().unwrap_or(0.0),
-            budget.crossover_tau_s,
-            budget.crossover_x_s,
-            budget.frame_term_s,
-            x_1day_ns,
-        );
         let summary = match &lab {
-            None => summary,
-            Some(lab) => {
-                format!(
-                    "{summary} | time lab: {} {} to LTC, x(1 d) {:.3} ns (MODELLED)",
-                    lab.clock_name(),
-                    lab.mode(),
-                    lab.total_at(86_400.0) * 1e9
-                )
-            }
+            None => crate::t!(
+                "lunar-time-budget-scenario-lunar-time-budget-clock-term",
+                clock = budget.clock,
+                taus = taus.len(),
+                taus2 = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    taus.first().copied().unwrap_or(0.0)
+                )),
+                taus3 = crate::i18n::localise_decimal(format!(
+                    "{:.0e}",
+                    taus.last().copied().unwrap_or(0.0)
+                )),
+                crossover_tau_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_tau_s)),
+                crossover_x_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_x_s)),
+                frame_term_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.frame_term_s)),
+                x_1day_ns = crate::i18n::localise_decimal(format!("{:.3}", x_1day_ns))
+            ),
+            Some(lab) => crate::t!(
+                "lunar-time-budget-scenario-lunar-time-budget-clock-term-time-lab",
+                clock = budget.clock,
+                taus = taus.len(),
+                taus2 = crate::i18n::localise_decimal(format!(
+                    "{:.0}",
+                    taus.first().copied().unwrap_or(0.0)
+                )),
+                taus3 = crate::i18n::localise_decimal(format!(
+                    "{:.0e}",
+                    taus.last().copied().unwrap_or(0.0)
+                )),
+                crossover_tau_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_tau_s)),
+                crossover_x_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.crossover_x_s)),
+                frame_term_s =
+                    crate::i18n::localise_decimal(format!("{:.3e}", budget.frame_term_s)),
+                x_1day_ns = crate::i18n::localise_decimal(format!("{:.3}", x_1day_ns)),
+                lab = lab.clock_name(),
+                lab2 = lab.mode(),
+                lab3 =
+                    crate::i18n::localise_decimal(format!("{:.3}", lab.total_at(86_400.0) * 1e9))
+            ),
         };
         Ok((json, summary))
     }

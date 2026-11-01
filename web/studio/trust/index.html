@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Maritime trust view: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -30,58 +31,58 @@
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <pattern id="mt-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="mt-hatch-bg"/><path d="M0 0v6" class="mt-hatch-line"/></pattern>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Maritime trust</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-tools-maritime-trust">Maritime trust</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap mt">
-  <p class="kicker"><i style="--c:var(--nav)"></i>Maritime trust</p>
-  <h1 id="mt-h">Can the bridge trust this fix?</h1>
-  <p class="lede">Open a <code>kshana receiver-trust</code> run for a vessel. Kshana scores every position fix from 0 to 100 from what the receiver already puts on the bus, and says which checks reduced it. Files you open here are read in this page and never uploaded.</p>
+  <p class="kicker"><i style="--c:var(--nav)"></i><span data-l10n-rich="seg-1ae32cd48edc">Maritime trust</span></p>
+  <h1 id="mt-h" data-l10n="studio-trust-can-the-bridge-trust-this">Can the bridge trust this fix?</h1>
+  <p class="lede" data-l10n-rich="seg-a96454c73df8" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana receiver-trust</code>&quot;}}">Open a <code>kshana receiver-trust</code> run for a vessel. Kshana scores every position fix from 0 to 100 from what the receiver already puts on the bus, and says which checks reduced it. Files you open here are read in this page and never uploaded.</p>
 
-  <p class="mt-advice" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. The score and the gate are aids to the navigator's judgement. The operator stays responsible for the safe navigation of the vessel and for any decision to rely on, or stop relying on, a fix. A fix with no alarm is not thereby a good fix.</p>
+  <p class="mt-advice" role="note" data-l10n-rich="seg-4cf2ce011002" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. The score and the gate are aids to the navigator's judgement. The operator stays responsible for the safe navigation of the vessel and for any decision to rely on, or stop relying on, a fix. A fix with no alarm is not thereby a good fix.</p>
 
   <section class="card mt-load" aria-labelledby="mt-load-h">
-    <div class="card-head"><h2 id="mt-load-h" class="h3">Open a run</h2>
-      <p class="card-note">Pick a result JSON (<code>session.result.json</code>) or the live JSON lines (<code>--json trust.jsonl</code>). A stream carries no position: add the NMEA log it came from to draw the track. A truth file (<code>t_s,true_lat_deg,true_lon_deg</code>) exists only for synthetic data and adds the true track.</p></div>
+    <div class="card-head"><h2 id="mt-load-h" class="h3" data-l10n="studio-trust-open-a-run">Open a run</h2>
+      <p class="card-note" data-l10n-rich="seg-5b054f718a73" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>session.result.json</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>--json trust.jsonl</code>&quot;},&quot;c3&quot;:{&quot;h&quot;:&quot;<code>t_s,true_lat_deg,true_lon_deg</code>&quot;}}">Pick a result JSON (<code>session.result.json</code>) or the live JSON lines (<code>--json trust.jsonl</code>). A stream carries no position: add the NMEA log it came from to draw the track. A truth file (<code>t_s,true_lat_deg,true_lon_deg</code>) exists only for synthetic data and adds the true track.</p></div>
     <div class="mt-drop" id="mt-drop">
-      <label class="mt-file btn-primary">Choose files…<input id="mt-files" type="file" multiple accept=".json,.jsonl,.ndjson,.csv,.nmea,.txt,.log,text/*,application/json"></label>
-      <span class="mt-or">or drop them here</span>
-      <button class="mt-demo" id="mt-demo" type="button">Open the synthetic demo</button>
-      <button class="mt-demo" id="mt-geo-demo" type="button">Open the masked-sky demo (geometry, 0.36)</button>
+      <label class="mt-file btn-primary"><span data-l10n-rich="seg-f4c16e6a9663">Choose files…</span><input id="mt-files" type="file" multiple accept=".json,.jsonl,.ndjson,.csv,.nmea,.txt,.log,text/*,application/json"></label>
+      <span class="mt-or" data-l10n="studio-interference-or-drop-them-here">or drop them here</span>
+      <button class="mt-demo" id="mt-demo" type="button" data-l10n="studio-interference-open-the-synthetic-demo">Open the synthetic demo</button>
+      <button class="mt-demo" id="mt-geo-demo" type="button" data-l10n="studio-trust-open-the-masked-sky-demo">Open the masked-sky demo (geometry, 0.36)</button>
     </div>
-    <p class="mt-status" id="mt-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <p class="mt-status" id="mt-status" role="status" aria-live="polite" data-l10n="studio-interference-nothing-open-yet">Nothing open yet.</p>
     <ul class="mt-notes" id="mt-notes"></ul>
   </section>
 
   <section class="card mt-load" aria-labelledby="mt-score-h">
-    <div class="card-head"><h2 id="mt-score-h" class="h3">Score an NMEA log here</h2>
-      <p class="card-note">Run the engine in this browser on a vessel's NMEA 0183 log and see the result in the view below. The log is read in this page and never uploaded. It must be an excerpt of at most 2 MiB (about 20,000 epochs) and must hold the five-minute calibration window. The settings are the vessel's limits and the score's weights, as in a session file.</p></div>
+    <div class="card-head"><h2 id="mt-score-h" class="h3" data-l10n="studio-trust-score-an-nmea-log-here">Score an NMEA log here</h2>
+      <p class="card-note" data-l10n="studio-trust-run-the-engine-in-this">Run the engine in this browser on a vessel's NMEA 0183 log and see the result in the view below. The log is read in this page and never uploaded. It must be an excerpt of at most 2 MiB (about 20,000 epochs) and must hold the five-minute calibration window. The settings are the vessel's limits and the score's weights, as in a session file.</p></div>
     <div class="mt-drop">
-      <label class="mt-file btn-primary">Choose an NMEA log…<input id="mt-nmea" type="file" accept=".nmea,.txt,.log,text/*"></label>
-      <button class="mt-demo" id="mt-score-demo" type="button">Score the synthetic demo log</button>
+      <label class="mt-file btn-primary"><span data-l10n-rich="seg-37ea0a422530">Choose an NMEA log…</span><input id="mt-nmea" type="file" accept=".nmea,.txt,.log,text/*"></label>
+      <button class="mt-demo" id="mt-score-demo" type="button" data-l10n="studio-trust-score-the-synthetic-demo-log">Score the synthetic demo log</button>
     </div>
-    <details class="mt-gloss"><summary>Session settings (TOML)</summary>
-      <textarea id="mt-session" class="mt-toml" rows="10" spellcheck="false" aria-label="Session settings in TOML"></textarea>
-      <p class="mt-notes-line">Starts from the demo's settings: edit the vessel's speed, acceleration and turn-rate limits to match yours. A settings file for your own vessel can be pasted here.</p>
+    <details class="mt-gloss"><summary data-l10n="studio-trust-session-settings-toml">Session settings (TOML)</summary>
+      <textarea id="mt-session" class="mt-toml" rows="10" spellcheck="false" aria-label="Session settings in TOML" data-l10n-attr="aria-label:studio-trust-session-settings-in-toml"></textarea>
+      <p class="mt-notes-line" data-l10n="studio-trust-starts-from-the-demo-s">Starts from the demo's settings: edit the vessel's speed, acceleration and turn-rate limits to match yours. A settings file for your own vessel can be pasted here.</p>
     </details>
     <p class="mt-status" id="mt-score-status" role="status" aria-live="polite"></p>
   </section>
 
   <section class="card mt-load mt-jt" aria-labelledby="mt-jt-h">
-    <div class="card-head"><h2 id="mt-jt-h" class="h3">Jammertest scorecard</h2>
-      <p class="card-note">Open the scorecard <code>kshana jammertest score</code> writes: a receiver-trust run scored against the scheduled slots of a published test plan, per test (detected, late, missed, not evaluable) with latency and recovery, and the false alarms outside the slots. The slots are the plan's, not recorded on-air times, so every figure is <b>MODELLED</b>. The file is read here and never uploaded.</p></div>
+    <div class="card-head"><h2 id="mt-jt-h" class="h3" data-l10n="studio-trust-jammertest-scorecard">Jammertest scorecard</h2>
+      <p class="card-note" data-l10n-rich="seg-90ecc8f95c90" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana jammertest score</code>&quot;},&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">Open the scorecard <code>kshana jammertest score</code> writes: a receiver-trust run scored against the scheduled slots of a published test plan, per test (detected, late, missed, not evaluable) with latency and recovery, and the false alarms outside the slots. The slots are the plan's, not recorded on-air times, so every figure is <b>MODELLED</b>. The file is read here and never uploaded.</p></div>
     <div class="mt-drop">
-      <label class="mt-file btn-primary">Choose a scorecard…<input id="mt-jt-file" type="file" accept=".json,application/json"></label>
+      <label class="mt-file btn-primary"><span data-l10n-rich="seg-00334e02e230">Choose a scorecard…</span><input id="mt-jt-file" type="file" accept=".json,application/json"></label>
     </div>
-    <p class="mt-status" id="mt-jt-status" role="status" aria-live="polite">No scorecard open.</p>
+    <p class="mt-status" id="mt-jt-status" role="status" aria-live="polite" data-l10n="studio-trust-no-scorecard-open">No scorecard open.</p>
     <div id="mt-jt-out" hidden>
       <p class="mt-offset" id="mt-jt-label"></p>
       <p class="mt-advice" id="mt-jt-assess" role="note" hidden></p>
@@ -91,54 +92,54 @@
   </section>
 
   <section class="card mt-load" aria-labelledby="mt-gen-h">
-    <div class="card-head"><h2 id="mt-gen-h" class="h3">Generic receiver-trust run (not a vessel)</h2>
-      <p class="card-note">For a fixed or unspecified receiver, <code>kshana receiver-trust</code> checks a GNSS log against its own calibration window and says when it stopped looking like itself. It gives states and alarms, not the 0 to 100 vessel score. Run the illustrative example (a made-up log with a jammer from 120 s to 240 s) or your own NMEA log under the same settings. The log is read here and never uploaded.</p></div>
-    <p class="mt-adv" role="note"><b>Advisory software.</b> Not type-approved navigation equipment. An alarm is an observation about the log, not a finding about the cause, and no alarm is not a guarantee that a fix is good.</p>
+    <div class="card-head"><h2 id="mt-gen-h" class="h3" data-l10n="studio-trust-generic-receiver-trust-run-not">Generic receiver-trust run (not a vessel)</h2>
+      <p class="card-note" data-l10n-rich="seg-ee9aad877fd8" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana receiver-trust</code>&quot;}}">For a fixed or unspecified receiver, <code>kshana receiver-trust</code> checks a GNSS log against its own calibration window and says when it stopped looking like itself. It gives states and alarms, not the 0 to 100 vessel score. Run the illustrative example (a made-up log with a jammer from 120 s to 240 s) or your own NMEA log under the same settings. The log is read here and never uploaded.</p></div>
+    <p class="mt-adv" role="note" data-l10n-rich="seg-d090e9a62367" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory software.</b> Not type-approved navigation equipment. An alarm is an observation about the log, not a finding about the cause, and no alarm is not a guarantee that a fix is good.</p>
     <div class="mt-drop">
-      <button class="mt-demo" id="mt-gen-demo" type="button">Run the illustrative jamming example</button>
-      <label class="mt-file btn-primary">Choose a receiver log…<input id="mt-gen-file" type="file"></label>
-      <label class="mt-field">Log format <select id="mt-gen-format" aria-describedby="mt-gen-fmt-note"></select></label>
-      <label class="mt-field"><span><input id="mt-gen-vessel" type="checkbox"> Score as a vessel (moving platform, 0 to 100)</span></label>
-      <button class="mt-demo" id="mt-gen-run" type="button" disabled>Assess the chosen file</button>
+      <button class="mt-demo" id="mt-gen-demo" type="button" data-l10n="studio-trust-run-the-illustrative-jamming-example">Run the illustrative jamming example</button>
+      <label class="mt-file btn-primary"><span data-l10n-rich="seg-0d0bb4db64fb">Choose a receiver log…</span><input id="mt-gen-file" type="file"></label>
+      <label class="mt-field"><span data-l10n-rich="seg-9c7eb1d43601">Log format</span> <select id="mt-gen-format" aria-describedby="mt-gen-fmt-note"></select></label>
+      <label class="mt-field"><span><input id="mt-gen-vessel" type="checkbox"> <span data-l10n-rich="seg-b1cde8d570b5">Score as a vessel (moving platform, 0 to 100)</span></span></label>
+      <button class="mt-demo" id="mt-gen-run" type="button" disabled data-l10n="studio-trust-assess-the-chosen-file">Assess the chosen file</button>
     </div>
-    <p class="mt-none" id="mt-gen-fmt-note">The format is guessed from the file name; change it here when it is wrong, then assess again. NovAtel OEM7, RTCM 3 and Septentrio SBF are binary formats; they are sent to the engine as they are, in this browser.</p>
-    <details class="mt-gloss"><summary>IMU file (optional): a second sensor for the heading</summary>
-      <p class="mt-none">An IMU log on the receiver log's clock fills the heading the heading-versus-course monitor reads wherever the receiver log carries none. Only a vessel session uses it.</p>
+    <p class="mt-none" id="mt-gen-fmt-note" data-l10n="studio-trust-the-format-is-guessed-from">The format is guessed from the file name; change it here when it is wrong, then assess again. NovAtel OEM7, RTCM 3 and Septentrio SBF are binary formats; they are sent to the engine as they are, in this browser.</p>
+    <details class="mt-gloss"><summary data-l10n="studio-trust-imu-file-optional-a-second">IMU file (optional): a second sensor for the heading</summary>
+      <p class="mt-none" data-l10n="studio-trust-an-imu-log-on-the">An IMU log on the receiver log's clock fills the heading the heading-versus-course monitor reads wherever the receiver log carries none. Only a vessel session uses it.</p>
       <div class="mt-drop">
-        <label class="mt-file btn-primary">Choose an IMU file…<input id="mt-gen-imu" type="file" accept=".csv,.txt,text/*"></label>
-        <label class="mt-field">IMU format <select id="mt-gen-imu-format"></select></label>
-        <label class="mt-field">Heading at its first sample, degrees true <input id="mt-gen-imu-h0" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
-        <label class="mt-field">Added to the IMU clock, s <input id="mt-gen-imu-off" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
-        <label class="mt-field"><input id="mt-gen-imu-down" type="checkbox" checked> Body z points down (NED/FRD)</label>
-        <button class="mt-chip" id="mt-gen-imu-clear" type="button">Remove the IMU file</button>
+        <label class="mt-file btn-primary"><span data-l10n-rich="seg-7215c8a86474">Choose an IMU file…</span><input id="mt-gen-imu" type="file" accept=".csv,.txt,text/*"></label>
+        <label class="mt-field"><span data-l10n-rich="seg-136566d2e34c">IMU format</span> <select id="mt-gen-imu-format"></select></label>
+        <label class="mt-field"><span data-l10n-rich="seg-186b5b52ddc2">Heading at its first sample, degrees true</span> <input id="mt-gen-imu-h0" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label class="mt-field"><span data-l10n-rich="seg-36f3531ff640">Added to the IMU clock, s</span> <input id="mt-gen-imu-off" type="text" inputmode="decimal" value="0" spellcheck="false"></label>
+        <label class="mt-field"><input id="mt-gen-imu-down" type="checkbox" checked> <span data-l10n-rich="seg-23ab7d124079">Body z points down (NED/FRD)</span></label>
+        <button class="mt-chip" id="mt-gen-imu-clear" type="button" data-l10n="studio-trust-remove-the-imu-file">Remove the IMU file</button>
       </div>
-      <p class="mt-status" id="mt-gen-imu-status" role="status" aria-live="polite">No IMU file.</p>
+      <p class="mt-status" id="mt-gen-imu-status" role="status" aria-live="polite" data-l10n="studio-trust-no-imu-file">No IMU file.</p>
     </details>
-    <details class="mt-gloss"><summary>Session settings (TOML, the log is supplied inline)</summary>
-      <textarea id="mt-gen-toml" class="mt-toml" rows="12" spellcheck="false" aria-label="Receiver-trust session settings in TOML"></textarea></details>
+    <details class="mt-gloss"><summary data-l10n="studio-trust-session-settings-toml-the-log">Session settings (TOML, the log is supplied inline)</summary>
+      <textarea id="mt-gen-toml" class="mt-toml" rows="12" spellcheck="false" aria-label="Receiver-trust session settings in TOML" data-l10n-attr="aria-label:studio-trust-receiver-trust-session-settings-in"></textarea></details>
     <p class="mt-status" id="mt-gen-status" role="status" aria-live="polite"></p>
     <div id="mt-gen-out"></div>
   </section>
 
   <div id="mt-run" hidden>
     <p class="mt-adv" id="mt-adv" role="note"></p>
-    <section class="mt-bar card" aria-label="Time cursor and filters">
+    <section class="mt-bar card" aria-label="Time cursor and filters" data-l10n-attr="aria-label:studio-trust-time-cursor-and-filters">
       <button class="mt-play" id="mt-play" type="button" aria-label="Play"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
-      <label class="mt-speed">Speed <select id="mt-speed" aria-label="Replay speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
-      <input class="mt-slider" id="mt-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in epochs">
+      <label class="mt-speed"><span data-l10n-rich="seg-4f96553dab9e">Speed</span> <select id="mt-speed" aria-label="Replay speed" data-l10n-attr="aria-label:studio-training-replay-speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
+      <input class="mt-slider" id="mt-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in epochs" data-l10n-attr="aria-label:studio-trust-time-cursor-in-epochs">
       <output class="mt-readout" id="mt-readout" for="mt-slider"></output>
       <div class="mt-tools">
-        <button type="button" id="mt-first-ded" class="mt-chip">First deduction</button>
-        <button type="button" id="mt-first-unt" class="mt-chip">First untrusted</button>
-        <label class="mt-chip chk"><input type="checkbox" id="mt-filter"> Only degraded and untrusted</label>
-        <label class="mt-chip chk" id="mt-truth-wrap"><input type="checkbox" id="mt-truth" checked> True track</label>
+        <button type="button" id="mt-first-ded" class="mt-chip" data-l10n="studio-trust-first-deduction">First deduction</button>
+        <button type="button" id="mt-first-unt" class="mt-chip" data-l10n="studio-trust-first-untrusted">First untrusted</button>
+        <label class="mt-chip chk"><input type="checkbox" id="mt-filter"> <span data-l10n-rich="seg-b4bf08d8b815">Only degraded and untrusted</span></label>
+        <label class="mt-chip chk" id="mt-truth-wrap"><input type="checkbox" id="mt-truth" checked> <span data-l10n-rich="seg-861fbd3d2940">True track</span></label>
       </div>
       <p class="mt-live" id="mt-live" aria-live="polite" aria-atomic="true"></p>
     </section>
 
     <div class="mt-grid">
       <section class="card mt-track" aria-labelledby="mt-track-h">
-        <div class="card-head"><h3 id="mt-track-h">Receiver-reported track</h3>
+        <div class="card-head"><h3 id="mt-track-h" data-l10n="studio-trust-receiver-reported-track">Receiver-reported track</h3>
           <p class="card-note" id="mt-track-note"></p></div>
         <div class="mt-svgbox"><svg id="mt-track-svg" role="img" aria-labelledby="mt-track-h mt-track-desc"></svg></div>
         <p class="sr" id="mt-track-desc"></p>
@@ -147,69 +148,70 @@
       </section>
 
       <section class="card mt-sky" aria-labelledby="mt-sky-h">
-        <div class="card-head"><h3 id="mt-sky-h">Sky at the cursor</h3>
-          <p class="card-note">The satellites the log's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the log lists satellites and hears none of them (a blocked sky and a jammed signal look the same here). Nominal constellation, not an ephemeris for the log's date.</p></div>
+        <div class="card-head"><h3 id="mt-sky-h" data-l10n="studio-training-sky-at-the-cursor">Sky at the cursor</h3>
+          <p class="card-note" data-l10n="studio-trust-the-satellites-the-log-s">The satellites the log's own GSV lists. A filled marker has a signal strength; a hollow one is listed with none; a shaded sector is where the log lists satellites and hears none of them (a blocked sky and a jammed signal look the same here). Nominal constellation, not an ephemeris for the log's date.</p></div>
         <div class="mt-skybox"><svg id="mt-sky-svg" viewBox="0 0 240 240" role="img" aria-labelledby="mt-sky-h mt-sky-cap"></svg></div>
         <p class="mt-offset" id="mt-sky-cap" aria-live="off"></p>
       </section>
 
       <section class="card mt-time" aria-labelledby="mt-time-h">
-        <div class="card-head"><h3 id="mt-time-h">Score over time</h3>
-          <p class="card-note">Score 0 to 100. Dashed lines are the band edges; the strips underneath are the band and the gate. Drag or click to move the time cursor; the arrow keys step it.</p></div>
-        <div class="mt-svgbox"><svg id="mt-time-svg" tabindex="0" role="slider" aria-label="Score timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></svg></div>
-        <h4 class="mt-h4">Monitors <small id="mt-strips-note"></small></h4>
-        <div class="mt-svgbox"><svg id="mt-strips-svg" role="img" aria-label="Each monitor's alarm ratio over time"></svg></div>
+        <div class="card-head"><h3 id="mt-time-h" data-l10n="studio-trust-score-over-time">Score over time</h3>
+          <p class="card-note" data-l10n="studio-trust-score-0-to-100-dashed">Score 0 to 100. Dashed lines are the band edges; the strips underneath are the band and the gate. Drag or click to move the time cursor; the arrow keys step it.</p></div>
+        <div class="mt-svgbox"><svg id="mt-time-svg" tabindex="0" role="slider" aria-label="Score timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" data-l10n-attr="aria-label:studio-trust-score-timeline-time-cursor"></svg></div>
+        <h4 class="mt-h4"><span data-l10n-rich="seg-18d7538bc56d">Monitors</span> <small id="mt-strips-note"></small></h4>
+        <div class="mt-svgbox"><svg id="mt-strips-svg" role="img" aria-label="Each monitor's alarm ratio over time" data-l10n-attr="aria-label:studio-trust-each-monitor-s-alarm-ratio"></svg></div>
       </section>
 
       <section class="card mt-reasons" aria-labelledby="mt-reasons-h">
-        <div class="card-head"><h3 id="mt-reasons-h">Reasons at the cursor</h3>
-          <p class="card-note" id="mt-reasons-note">Points each check took off this epoch, largest first. Click a check to mark where it was above its onset.</p></div>
+        <div class="card-head"><h3 id="mt-reasons-h" data-l10n="studio-trust-reasons-at-the-cursor">Reasons at the cursor</h3>
+          <p class="card-note" id="mt-reasons-note" data-l10n="studio-trust-points-each-check-took-off">Points each check took off this epoch, largest first. Click a check to mark where it was above its onset.</p></div>
         <div id="mt-reasons"></div>
       </section>
 
       <section class="card mt-gate" aria-labelledby="mt-gate-h">
-        <div class="card-head"><h3 id="mt-gate-h">Gate</h3><p class="card-note" id="mt-gate-note"></p></div>
+        <div class="card-head"><h3 id="mt-gate-h" data-l10n-rich="seg-c822f981cfcf">Gate</h3><p class="card-note" id="mt-gate-note"></p></div>
         <p class="mt-gate-now" id="mt-gate-now"></p>
-        <p class="mt-pksht"><span>Latest <code>$PKSHT</code></span><code id="mt-pksht"></code></p>
+        <p class="mt-pksht" data-l10n-rich="seg-672ddb26b9f5" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>$PKSHT</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code id=\&quot;mt-pksht\&quot;></code>&quot;}}">Latest <code>$PKSHT</code><code id="mt-pksht"></code></p>
       </section>
 
       <section class="card mt-geo" aria-labelledby="mt-geo-h">
-        <div class="card-head"><h3 id="mt-geo-h">Geometry at the cursor</h3>
-          <p class="card-note">The satellite geometry, always shown: its label (good, fair or poor) and the DOPs. A masked sky (a hull, a quay, a fjord wall) is natural degradation, told apart from attack-like inconsistency. The score takes points for geometry only when it is poor, at most 15, and never below the degraded band.</p></div>
+        <div class="card-head"><h3 id="mt-geo-h" data-l10n="studio-trust-geometry-at-the-cursor">Geometry at the cursor</h3>
+          <p class="card-note" data-l10n="studio-trust-the-satellite-geometry-always-shown">The satellite geometry, always shown: its label (good, fair or poor) and the DOPs. A masked sky (a hull, a quay, a fjord wall) is natural degradation, told apart from attack-like inconsistency. The score takes points for geometry only when it is poor, at most 15, and never below the degraded band.</p></div>
         <p class="mt-geo-now" id="mt-geo-now"></p>
         <ul class="mt-geo-flags" id="mt-geo-flags"></ul>
         <dl class="mt-setgrid mt-geo-rows" id="mt-geo-rows"></dl>
       </section>
 
       <section class="card mt-self" id="mt-self-card" aria-labelledby="mt-self-h" hidden>
-        <div class="card-head"><h3 id="mt-self-h">The receiver's own flag</h3>
-          <p class="card-note">What the receiver itself says about spoofing and jamming (u-blox UBX-NAV-STATUS and UBX-SEC-SIG), set beside Kshana's monitors. The codes are the receiver's; neither detector is ground truth, and agreement is not validation. The flag changes no score.</p></div>
+        <div class="card-head"><h3 id="mt-self-h" data-l10n="studio-trust-the-receiver-s-own-flag">The receiver's own flag</h3>
+          <p class="card-note" data-l10n="studio-trust-what-the-receiver-itself-says">What the receiver itself says about spoofing and jamming (u-blox UBX-NAV-STATUS and UBX-SEC-SIG), set beside Kshana's monitors. The codes are the receiver's; neither detector is ground truth, and agreement is not validation. The flag changes no score.</p></div>
         <p class="mt-geo-now" id="mt-self-now"></p>
         <dl class="mt-setgrid mt-geo-rows" id="mt-self-rows"></dl>
-        <h4 class="mt-h4">Over the run</h4>
+        <h4 class="mt-h4" data-l10n="studio-trust-over-the-run">Over the run</h4>
         <p class="mt-offset" id="mt-self-sum-note"></p>
         <dl class="mt-setgrid mt-geo-rows" id="mt-self-sum"></dl>
       </section>
 
       <section class="card mt-set" aria-labelledby="mt-set-h">
-        <div class="card-head"><h3 id="mt-set-h">What the score used</h3><p class="card-note">Read from the run, read-only.</p></div>
+        <div class="card-head"><h3 id="mt-set-h" data-l10n="studio-trust-what-the-score-used">What the score used</h3><p class="card-note" data-l10n="studio-trust-read-from-the-run-read">Read from the run, read-only.</p></div>
         <div id="mt-set"></div>
       </section>
     </div>
   </div>
 
-  <section class="mt-fine" aria-label="About this view">
-    <h2 class="h3">What this view does and does not show</h2>
+  <section class="mt-fine" aria-label="About this view" data-l10n-attr="aria-label:studio-trust-about-this-view">
+    <h2 class="h3" data-l10n="studio-trust-what-this-view-does-and">What this view does and does not show</h2>
     <ul>
-      <li>The demo is <b>synthetic text</b>: a made-up NMEA log of a ferry on an illustrative Tallinn to Helsinki route, with a made-up position drag-off partway through. It models no radio signal and is not a measurement or a chart.</li>
-      <li>In the demo the receiver reports a <b>valid fix throughout</b> (GGA quality 1, RMC status A). The trust score is what falls. The gap between the reported and the true track is the point of the view.</li>
-      <li>NMEA-only checks cannot see a spoofer that reproduces the whole constellation with a self-consistent position, velocity, heading, power and clock, nor a replay of recorded real signals. A fix with no alarm is not thereby a good fix.</li>
-      <li><b>Geometry</b> (runs from engine 0.36): a deduction classed as geometry is a statement about the sky the log reports, not a finding that no attack occurred. A spoofer can fake a poor sky; a stated HDOP the reported sky does not explain is therefore classed as inconsistency, never as geometry. "Geometry unknown" means the log has no GSV or GSA; it is not a good sky.</li>
-      <li>Nothing on this page is a measure of how the checks perform on real interference. The score mapping and every weight are fixed before a log is scored, with no learning and nothing fitted to events.</li>
+      <li data-l10n-rich="seg-334e4b6450b1" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">The demo is <b>synthetic text</b>: a made-up NMEA log of a ferry on an illustrative Tallinn to Helsinki route, with a made-up position drag-off partway through. It models no radio signal and is not a measurement or a chart.</li>
+      <li data-l10n-rich="seg-39fbb4638eb8" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}">In the demo the receiver reports a <b>valid fix throughout</b> (GGA quality 1, RMC status A). The trust score is what falls. The gap between the reported and the true track is the point of the view.</li>
+      <li data-l10n="studio-trust-nmea-only-checks-cannot-see">NMEA-only checks cannot see a spoofer that reproduces the whole constellation with a self-consistent position, velocity, heading, power and clock, nor a replay of recorded real signals. A fix with no alarm is not thereby a good fix.</li>
+      <li data-l10n-rich="seg-22dc260f0f19" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Geometry</b> (runs from engine 0.36): a deduction classed as geometry is a statement about the sky the log reports, not a finding that no attack occurred. A spoofer can fake a poor sky; a stated HDOP the reported sky does not explain is therefore classed as inconsistency, never as geometry. "Geometry unknown" means the log has no GSV or GSA; it is not a good sky.</li>
+      <li data-l10n="studio-trust-nothing-on-this-page-is">Nothing on this page is a measure of how the checks perform on real interference. The score mapping and every weight are fixed before a log is scored, with no learning and nothing fitted to events.</li>
     </ul>
   </section>
 </div>
 </main>
 <script type="module" src="trust/trust.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

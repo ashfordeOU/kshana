@@ -468,11 +468,11 @@ impl NtnScenario {
             ("step_s", step),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("{w} must be positive"));
+                return Err(crate::terr!("e-leo-fusion-ntn-must-be-positive", w = w));
             }
         }
         if !(sync.is_finite() && sync >= 0.0) || duration / step > 5000.0 {
-            return Err("sync_error_m must be non-negative and the run at most 5000 epochs".into());
+            return Err(crate::terr!("e-leo-fusion-ntn-sync-error-must-be-non"));
         }
         let signals = if self.signal.is_empty() {
             vec![
@@ -492,7 +492,9 @@ impl NtnScenario {
             .iter()
             .any(|s| !(s.bandwidth_hz.is_finite() && s.bandwidth_hz > 0.0))
         {
-            return Err("every signal needs a positive bandwidth".into());
+            return Err(crate::terr!(
+                "e-leo-fusion-ntn-every-signal-needs-positive-bandwidth"
+            ));
         }
         let cfgs = if self.system.is_empty() {
             default_systems()
@@ -599,29 +601,40 @@ impl NtnScenario {
             o.insert("units".into(), crate::field_schema::units_block(NTN_UNITS));
         }
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
-        let mut summary = format!(
-            "5G NTN positioning at {:.1} MHz, C/N0 {:.0} to {:.0} dB-Hz, {} satellites ({:.1} in view)\n",
-            r.carrier_hz / 1e6,
-            r.cn0_dbhz[0],
-            r.cn0_dbhz[1],
-            r.n_satellites,
-            r.mean_in_view
+        let mut summary = crate::t!(
+            "leo-fusion-ntn-5g-ntn-positioning-at-mhz",
+            r = crate::i18n::localise_decimal(format!("{:.1}", r.carrier_hz / 1e6)),
+            r2 = crate::i18n::localise_decimal(format!("{:.0}", r.cn0_dbhz[0])),
+            r3 = crate::i18n::localise_decimal(format!("{:.0}", r.cn0_dbhz[1])),
+            n_satellites = r.n_satellites,
+            mean_in_view = crate::i18n::localise_decimal(format!("{:.1}", r.mean_in_view))
         );
         for s in &r.signals {
-            summary.push_str(&format!(
-                "  {}: {:.0} kHz, CRB range {:.2} to {:.2} m; median formal 3D {} m, RMS error {} m\n",
-                s.name,
-                s.bandwidth_hz / 1e3,
-                s.range_sigma_zenith_m,
-                s.range_sigma_mask_m,
-                s.toa_median_sigma_3d_m.map(|v| format!("{v:.2}")).unwrap_or("n/a".into()),
-                s.toa_rms_error_3d_m.map(|v| format!("{v:.2}")).unwrap_or("n/a".into()),
+            summary.push_str(&crate::t!(
+                "leo-fusion-ntn-khz-crb-range-to-median",
+                name = s.name,
+                s = crate::i18n::localise_decimal(format!("{:.0}", s.bandwidth_hz / 1e3)),
+                range_sigma_zenith_m =
+                    crate::i18n::localise_decimal(format!("{:.2}", s.range_sigma_zenith_m)),
+                range_sigma_mask_m =
+                    crate::i18n::localise_decimal(format!("{:.2}", s.range_sigma_mask_m)),
+                s2 = s
+                    .toa_median_sigma_3d_m
+                    .map(|v| format!("{v:.2}"))
+                    .unwrap_or("n/a".into()),
+                s3 = s
+                    .toa_rms_error_3d_m
+                    .map(|v| format!("{v:.2}"))
+                    .unwrap_or("n/a".into())
             ));
         }
         if let Some(d) = &r.doppler_pass {
-            summary.push_str(&format!(
-                "  one-satellite Doppler pass: {} samples over {:.0} s, horizontal error {:.1} m\n",
-                d.n_obs, d.duration_s, d.horizontal_error_m
+            summary.push_str(&crate::t!(
+                "leo-fusion-ntn-one-satellite-doppler-pass-samples",
+                n_obs = d.n_obs,
+                duration_s = crate::i18n::localise_decimal(format!("{:.0}", d.duration_s)),
+                horizontal_error_m =
+                    crate::i18n::localise_decimal(format!("{:.1}", d.horizontal_error_m))
             ));
         }
         Ok((json, summary, ntn_svg(&r)))
@@ -633,12 +646,12 @@ fn ntn_svg(r: &NtnReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "5G NTN positioning: Cramér-Rao range bound by bandwidth",
-        &format!(
-            "{:.1} MHz · C/N0 {:.0}-{:.0} dB-Hz · MODELLED",
-            r.carrier_hz / 1e6,
-            r.cn0_dbhz[0],
-            r.cn0_dbhz[1]
+        &crate::t!("leo-fusion-ntn-chart-title"),
+        &crate::t!(
+            "leo-fusion-ntn-mhz-n0-db-hz-modelled",
+            r = crate::i18n::localise_decimal(format!("{:.1}", r.carrier_hz / 1e6)),
+            r2 = crate::i18n::localise_decimal(format!("{:.0}", r.cn0_dbhz[0])),
+            r3 = crate::i18n::localise_decimal(format!("{:.0}", r.cn0_dbhz[1]))
         ),
     );
     let (ml, top, pw, ph) = (90.0, 80.0, 760.0, 260.0);
@@ -647,7 +660,7 @@ fn ntn_svg(r: &NtnReport) -> String {
         top,
         pw,
         top + ph,
-        "range one-sigma (log10 m): bar = mask to zenith C/N0; dot = RMS 3D fix error",
+        &crate::t!("leo-fusion-ntn-chart-caption"),
     ));
     let vals: Vec<f64> = r
         .signals
@@ -701,9 +714,11 @@ fn ntn_svg(r: &NtnReport) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text></svg>",
+        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{} m</text></svg>",
         top + 10.0,
-        top + ph
+        crate::i18n::num(hi, 0),
+        top + ph,
+        crate::i18n::num(lo, 0)
     ));
     s
 }

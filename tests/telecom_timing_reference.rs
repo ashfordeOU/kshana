@@ -181,6 +181,7 @@ fn telecom_timing_kind_round_trips_through_the_dispatch() {
                 .starts_with("ITU-T G.827"));
         }
         let csv = a.csv.expect("the kind publishes a CSV table");
+        let csv = kshana::evidence_label::strip_csv(&csv).expect("an evidence label");
         assert!(csv.starts_with("tau_s,mtie_ns,tdev_ns"));
         assert!(a.svg.contains("<svg") && a.svg.contains("MTIE"));
         assert!(a.summary.contains("telecom-timing"));

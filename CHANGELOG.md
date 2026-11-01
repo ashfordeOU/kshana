@@ -9,6 +9,149 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.40.0] - 2026-10-29
+
+0.40 adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes,
+measured-clock ingest and fitting, a data-partner submission check, an estimated emitter region from ADS-B or AIS reports, the
+0.40 benchmark re-campaign, and the command line, reports and Studio in seventeen languages beside English (machine documents stay
+English). The verification matrix grows from 388 to 401 rows: 176 VALIDATED (unchanged), 221 MODELLED (was 208) and 4 PARTNER. No
+row was promoted to VALIDATED. The scenario kinds grow from 87 to 92. Every bar a pre-registered comparison missed is stated below
+and stays pinned; none was loosened. The advisory statement is unchanged: Kshana is advisory software, not type-approved navigation
+equipment and not a certification; the operator remains responsible.
+
+### Known limits
+
+- Non-English runs take about twice as long, because the scenario runs twice (once in English for the machine files, once in the
+  chosen language for the person).
+- Some Studio sentences are assembled from fragments and may lack articles in languages that have grammatical gender.
+- The translations are machine translations that no native speaker has reviewed; English is the reference.
+
+### Added
+
+- **Seventeen languages beside English** for the engine's human-facing text and the site and Studio: nl, pl, pt-BR, pt-PT, fi, sv,
+  da, nb, cs, uk, ru, de, fr, es, et, ja, zh-Hans (`--lang`, `KSHANA_LANG`, the locale variables; `lang` on the library, Python,
+  WebAssembly and MCP calls). Command-line messages and errors, run summaries, chart text, `report.html`, kind descriptions and the
+  advisories are translated; machine documents (JSON, CSV, error codes, the verification matrix) stay English, and a non-English run
+  executes the scenario once in English for the machine files and once in the chosen language for the person
+  ([`docs/i18n.md`](docs/i18n.md)). **The translations are machine translations, not reviewed by native speakers; English is the reference**; each language's
+  `REVIEW.md` lists what a reviewer should check first, and the site pages carry a notice saying so. Verdict words, evidence tiers and
+  the advisory scope ("not type-approved", "not a certification", "the operator remains responsible") are kept in every language.
+- `kshana interference-map locate`: an **estimated emitter region** from ADS-B or AIS reports. A posterior over where a source of
+  degraded position reports can be (radio line of sight on a 4/3-earth radius, emitter antenna height and power marginalised,
+  affected aircraft pulling and unaffected aircraft with line of sight pushing back), written as regions at 50, 90 and 95%, a
+  centroid with its uncertainty ellipse (never a bare point), sessions in time (start, end, duration, affected area, distinct
+  aircraft above the publication minimum), a time-of-day profile and hours per day, with optional fusion of a TDOA fix from
+  `geolocation`. Outputs: GeoJSON, JSON summary, sessions CSV and an SVG figure, each carrying the licence, attribution, method id,
+  assumptions, limits and its evidence label. Library `interference_map::api::emitter_regions_from_*`, Python and WebAssembly
+  `interference_emitter_regions`. MODELLED (ledger row `VM-bc70cb57`; the matrix is now 401 rows, 176 VALIDATED, 221 MODELLED,
+  4 PARTNER); calibrated on synthetic data only, with the comparison against the
+  Jammertest 2025 transmitter sites pre-registered and run once: ADS-B and AIS both NOT ASSESSABLE (too few scheduled sessions in the open data), so the row stays MODELLED (`docs/emitter-region/RESULTS.md`). Neutral wording, aggregate only; publishing
+  emitter regions in the public observatory stays off. A synthetic example is in `examples/emitter-region/`
+  ([`docs/INTERFERENCE-MAP.md`](docs/INTERFERENCE-MAP.md#emitter-region-interference-map-locate)).
+- **Measured clock logs.** `src/clock_log.rs` reads a measured clock log into one phase series: eight formats (RINEX clock, TimeLab,
+  TICC, linuxptp `ptp4l`, `phc2sys` and `ts2phc`, chrony tracking and statistics), each a documented subset; anything outside it is
+  refused with an error that names what was found. It is used by `telecom-timing` (`[series.clock_log]`) and the clock kind
+  (`[clock_log]`, which adds a `measured` block with the log's SHA-256 and the overlapping ADEV, TDEV and MTIE), with the bundled
+  `clock-measured-log` scenario ([`docs/CLOCK-LOG-FORMATS.md`](docs/CLOCK-LOG-FORMATS.md)). Compared with allantools on real public
+  data against pre-registered bars: the first run **missed** B1 (5 of 11 cases, all TICC time stamps held as `f64`), B2, B3 (7 of 24
+  cases) and B4 (the header version was not checked); after the fixes B1, B3 and B4 are met and B2 is met except one MTIE pair, which
+  is pinned and is not an engine defect (allantools 2024.6 removes the mean frequency before it integrates; against its phase-mode
+  MTIE the engine agrees within 1e-10). The row stays MODELLED (`tests/fixtures/clock_log_real/RESULTS.md`).
+- **A holdover driven by a fitted measured series**: the clock kind's `[clock_fit]` fits the noise of a measured series and
+  drives the holdover from it (`src/clock_fit.rs`, bundled `clock-fitted-log` scenario). Pre-registered comparison: F1(b), F3 and
+  F4 met; F1(a) (recovering the registered random-walk FM) **NOT MET** on the C3 records (unidentifiable by construction) and on two
+  of three C4 records (random-walk FM absorbed by flicker FM and drift); F2 (noise identification against allantools) met on
+  eleven of twelve records and D3 and **NOT MET** on D2 as registered (met like-for-like). All misses are pinned
+  (`tests/clock_fit_known_noise.rs`); the `fitted` block and the holdover driven by it stay MODELLED
+  (`tests/fixtures/clock_fit/RESULTS.md`).
+- **The 0.40 benchmark re-campaign**, pre-registered with the owner's sign-off before any run: A3 (EXPLORATORY, the folder-clustered
+  bootstrap AUC of `agc_k_sigma`, 2.5 % quantile 0.8502 against 0.80), D3 (EXPLORATORY, three of five detectors exceed an
+  optimism gap of 0.05 at scale 0.25), R3 (AUC 1.0) and R4 (P_fa 0.0, P_d 1.0): all MET, all MODELLED. A2, D1 and R1 are untouched
+  and stay **NOT MET**; nothing here closes them (`xval/bench/RESULTS-0.40.md`, [Bench](docs/BENCH.md)).
+- `kshana partner check <submission.toml>`: checks the format and metadata of a data-partner submission
+  (`kshana.partner-submission/1`: device, data file and SHA-256, how it was taken, the MODELLED rows it is offered against, licence,
+  statements) and reads the data with the engine's own clock-log or IMU readers. It scores nothing and validates nothing. A synthetic
+  example is in `examples/partner-submission/`.
+- `docs/PARTNER-DATA.md`: which MODELLED ledger rows measured data could promote, the formats accepted, how a submission is checked,
+  scored against a pre-registered bar and credited, and what PARTNER and VALIDATED each mean; a draft outreach note for the owner in
+  `docs/drafts/PARTNER-OUTREACH.md` (nothing is sent).
+- **Second campaigns for the `gnss-ssv` and `lunar-infrastructure` bars not met**, run as pre-registered
+  ([`xval/gnss-ssv/PREREGISTRATION-v2.md`](xval/gnss-ssv/PREREGISTRATION-v2.md),
+  [`xval/lunar-infra/PREREGISTRATION-v2.md`](xval/lunar-infra/PREREGISTRATION-v2.md); signed off before any run). Every original
+  miss stays NOT MET and pinned. `gnss-ssv`: the control reproduces run 1 cell for cell; five single-reading ablations bring 2 of
+  the 78 missed cells within tolerance (EXPLORATORY, no bar); the new bar S7b (a roll-off-and-floor transmit shape fitted on Classic
+  IIR panels) is NOT MET on the IIR-M panels at 3.83 to 3.95 dB against 3 dB; the held-out published-reception campaign did not run
+  (no source pinned) ([`xval/gnss-ssv/RESULTS-v2.md`](xval/gnss-ssv/RESULTS-v2.md)). `lunar-infrastructure`: new bars C3a, C3b
+  (a detection limit of about 3e-9 m/s2), Q3a, Q3b (an accurate normal CDF removes the 1.7e-6 difference) and G3'' are met as their own
+  bars, and G3' with illustrative priors is met and labelled EXPLORATORY ([`xval/lunar-infra/RESULTS-v2.md`](xval/lunar-infra/RESULTS-v2.md)).
+  Everything stays MODELLED. New public items: `kshana::lambda::{erfc_accurate, normal_cdf_accurate, bootstrap_success_rate_accurate}`.
+- **An evidence label on every figure and table a run writes.** The result JSON has an `evidence` key, the chart SVG a
+  metadata element and a line under the plot, and the CSV table `# evidence:` comment lines: the tier (`VALIDATED`,
+  `MODELLED` or `PARTNER`, the weakest of the rows) and the ids of the verification-matrix rows the run rests on. Rows
+  and statuses are read from the matrix, not typed; the ids are stable (`VM-` and eight hex digits, a new `ID` column in
+  `docs/VERIFICATION-MATRIX.md`, a frozen list in `tests/fixtures/evidence_ids.txt`). Also on receiver-trust, `jammertest
+  score`, `iq acquire/sweep/track/monitor`, the route exposure report and, inside the signed `config.json`, every
+  evidence pack (`config_version` 1.1; `kshana evidence verify` reports the tier; packs made before 0.40 verify
+  unchanged). `tests/evidence_labels_doc_sync.rs` fails if a figure has no label, a label disagrees with the matrix or a
+  new file writer is neither labelled nor listed with a reason. Outputs that carry none are listed in
+  `docs/SURFACES.md`. The three README demo charts were re-rendered with the label (stripping it restores the old
+  bytes; `docs/revisions/STUDIO15-evidence-label-0.40.md`). No claim changed.
+- The `mission-thread` scenario kind (`scenarios/mission-thread-artemis-class.toml`, `docs/MISSION-THREAD.md`): the
+  navigation and timing error budget of a chain of phases from launch to entry, every number MODELLED and every input stated.
+  Eight phase kinds: `launch-ascent`, `leo-rendezvous` (Clohessy-Wiltshire relative covariance over sensor legs, docking
+  window), `tli-and-cruise` (Cowell propagation with a finite-difference state-transition matrix, burn error, `gnss-ssv` and
+  ground-tracking updates, the Moon from an optional DE440 kernel cut), `entry` (flight-path-angle sigma, corridor
+  probability, peak deceleration at the corridor edges, landing footprint) and the four lunar kinds. Handover rules
+  (`carry`, `inflate`, `reacquire`), frame and timescale conversions as their own budget rows, an optional ground-network
+  overlay that sets each phase's tracking duty, the margin against stated requirements and the weakest link. The example
+  follows the sequence of a public NASA concept-of-operations slide deck with ILLUSTRATIVE numbers: an end-to-end Artemis-class
+  example over 11 phases, Earth and lunar segments.
+  The cislunar propagation was compared with the public Artemis I trajectory over a 72 h arc against a bar fixed in
+  `xval/mission-thread/PREREGISTRATION.md` before the run: **NOT MET** (45.3 km and 0.25 m/s against 5 km and 0.05 m/s). The
+  diagnostic places the miss in five small impulsive events in the reference; between them the force model reproduces the
+  hourly states to a median of 0.4 m. The row stays MODELLED (`xval/mission-thread/RESULTS.md`).
+- The lunar segment of the Artemis-class mission thread: four scenario kinds, each also a phase kind of the
+  `mission-thread` interface (`src/mission_thread/lunar/`), every one MODELLED.
+  - `lunar-orbit-rendezvous`: relative navigation to docking in a 100 km circular polar orbit or a 100 km by 3000 km
+    elliptical polar one (`scenarios/lunar-orbit-rendezvous.toml`, `...-elfo.toml`). A batch Gauss-Newton estimate
+    over the arc fuses an absolute fix per vehicle from an illustrative LCNS-class relay set, a persistent
+    signal-in-space error (common to both vehicles and independent) and a crosslink range, under the crate's lunar
+    force model. It reports the relative position and velocity in the target's local axes, the fix availability, the
+    mean normalised estimation error squared against its expected value, the cost of ignoring the gravity harmonics,
+    the terminal relative-sensor models beside the signals-only figure, and the 6x6 covariance handed on.
+  - `lunar-descent`: the landing-dispersion budget at a south-polar site (`scenarios/lunar-descent.toml`;
+    `lunar-descent-lola.toml` reads the LOLA DEM from a checkout): a five-state per-axis inertial error model, an AFS
+    fix (standalone or differential, using the correction-link residual of `lunar-differential-pnt`), a
+    terrain-relative fix (the `terrain-nav` matcher on its synthetic relief, or the Cramer-Rao bound of matching the
+    LOLA DEM), and lunar time through the vehicle clock (`lunar-time-offset`). It reports the 3-sigma landing
+    ellipse, every aid combination, and a Monte Carlo calibration of the ellipse.
+  - `lunar-surface`: positioning and timing availability by site and season (`scenarios/lunar-surface.toml`;
+    `lunar-surface-terrain.toml` adds the ray-marched LOLA horizon): the single-site positioning figure equals
+    `moonlight-service-volume`'s to the bit; the Earth and Sun visibility from the analytic ephemerides is what moves
+    with the season.
+  - `lunar-ascent`: the ascent to the rendezvous orbit and the position-velocity covariance carried back to orbit
+    (`scenarios/lunar-ascent.toml`), with the engine cutoff dispersion reported beside it.
+  - `docs/MISSION-THREAD-LUNAR.md`; the pre-registration, its amendments and every result, misses included, in
+    `xval/mission-thread-lunar/`.
+
+### Evidence
+
+- Pre-registered in `xval/mission-thread-lunar/PREREGISTRATION.md` before any run, with six dated amendments (each
+  made before the data was fetched, except Amendment 6, which corrects an arithmetic error in a state count after the
+  fetch and before any A2 result; every amendment is disclosed in the file). No bar was loosened.
+- A1 (the propagator against the LRO reconstructed trajectory from JPL Horizons, 24 h): **MET**, a maximum 3-D
+  difference of 33 m against a bar of 500 m and an RMS radial difference of 2.4 m against 60 m.
+- A2 (the same propagator against the CAPSTONE NRHO over one 6.5-day revolution): **NOT MET**, an end position
+  difference of 136.8 km against a bar of 25 km and an osculating periapsis radius difference of 28.4 km against 10 km.
+  The row stays MODELLED, and the miss is pinned by `tests/mission_thread_lunar_oracles.rs`.
+- B1 (the rendezvous estimate's consistency with its own model) is MET on the fourth estimator design, mean NEES 5.85
+  to 5.93 against a band of [5.2, 6.8]; the three earlier designs, an extended Kalman filter in three variants,
+  missed it. A fifth change, made after the shipped 2 h scenario was found to send 4 of 50 trials into a local
+  minimum (mean NEES 1e9), runs the Gauss-Newton fit on a growing arc with step halving; B1 is unchanged by it and
+  the shipped scenarios give 6.51 and 6.33. The history is in `xval/mission-thread-lunar/RESULTS.md`.
+- Nothing here is VALIDATED: the oracle rows test the shared propagator, not a navigation filter, signal or budget.
+
+
 ## [0.39.0] - 2026-10-22
 
 No new features: one command-line fix, dependency updates in the cross-validation tooling, and documentation. The
@@ -24,8 +167,14 @@ engine's results are unchanged from 0.38.0.
 
 ### Security
 
-Dependency updates in the cross-validation tooling (`xval/`); no shipped crate, wheel or package changes.
+One dependency update in the shipped library (the first entry), the rest in the cross-validation tooling (`xval/`).
 
+- `p256`, `p384` and `p521` 0.13 to 0.14 (with `elliptic-curve` 0.14.3, `ecdsa` 0.17.0 and `crypto-bigint` 0.5.5 to 0.7.10; also
+  the direct `crypto-bigint` dependency, now 0.7) clear RUSTSEC-2026-0387, timing variability in `crypto-bigint` 0.5.5. Kshana
+  uses these crates only to verify public signatures (the Galileo OSNMA root key and RFC 3161 timestamp tokens) and signs only in
+  tests with throwaway keys, so the practical exposure was nil; the upgrade removes the advisory without an ignore entry. The
+  library and MCP lock files both move; no verification result changes (the OSNMA and timestamp vector tests pass unchanged).
+- Minimum supported Rust is now 1.88 (required by the RUSTSEC-2026-0387 fix).
 - `memmap2` 0.9.10 to 0.9.11 (RUSTSEC-2026-0186) in the ANISE cross-check locks (`xval/anise-lunar-od`, `xval/anise-mars-od`);
   the locks also re-sync the in-repo `kshana` path dependency.
 - `pillow` 12.3.0 to 13.0.0 and `certifi` 2026.7.22 to 2026.10.19 in the oracle environment pins

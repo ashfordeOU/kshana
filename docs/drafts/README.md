@@ -11,6 +11,7 @@ Each draft needs an explicit owner decision before it moves out of this folder.
 | [TSC-CHARTER-AMENDMENT.md](TSC-CHARTER-AMENDMENT.md) | Proposed Technical Steering Committee section for `GOVERNANCE.md` | Adopt or not; real members are appointed by the owner, never by this draft |
 | [ORACLE-REGISTRY.md](ORACLE-REGISTRY.md) | How an external oracle is proposed, checked and registered | Adopt or not |
 | [LICENSES-SPLIT.md](LICENSES-SPLIT.md) | Proposal for a `LICENSES/` folder: CC-BY-4.0 for spec and compliance text, CC0 for vectors and manifests | Licence decision (owner only) |
+| [PARTNER-OUTREACH.md](PARTNER-OUTREACH.md) | A one-page note asking a laboratory or maker for a measured clock record, with what is done with it and what stays theirs | Send or not, to whom, and the sender line (owner only); nobody has been contacted |
 
 The advisory statement applies: Kshana is a research and engineering tool, not a certified
 navigation or safety-of-life system, and no output here says a product is conformant,

@@ -53,7 +53,9 @@ fn col(header: &[String], names: &[&str]) -> Option<usize> {
 /// not is skipped. Errors when the header lacks a required column or no sample reads.
 pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String> {
     let mut lines = text.lines().filter(|l| !l.trim().is_empty());
-    let head = lines.next().ok_or("the IMU file is empty")?;
+    let head = lines
+        .next()
+        .ok_or_else(|| crate::terr!("e-receiver-trust-machines-imu-the-imu-file-is-empty"))?;
     let header: Vec<String> = head
         .trim_start_matches('#')
         .split(',')
@@ -61,7 +63,11 @@ pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String>
         .collect();
     let idx: [usize; 7] = match format {
         ImuFormat::Csv => {
-            let c = |n: &str| col(&header, &[n]).ok_or_else(|| format!("IMU csv: no `{n}` column"));
+            let c = |n: &str| {
+                col(&header, &[n]).ok_or_else(|| {
+                    crate::terr!("e-receiver-trust-machines-imu-imu-csv-no-column", n = n)
+                })
+            };
             [
                 c("t_s")?,
                 c("gx")?,
@@ -74,10 +80,9 @@ pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String>
         }
         ImuFormat::Euroc => {
             let c = |n: &str| {
-                header
-                    .iter()
-                    .position(|h| h.starts_with(n))
-                    .ok_or_else(|| format!("IMU euroc: no `{n}` column"))
+                header.iter().position(|h| h.starts_with(n)).ok_or_else(|| {
+                    crate::terr!("e-receiver-trust-machines-imu-imu-euroc-no-column", n = n)
+                })
             };
             [
                 c("timestamp")?,
@@ -120,7 +125,9 @@ pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String>
         });
     }
     if out.is_empty() {
-        return Err("the IMU file holds no readable sample".to_string());
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-the-imu-file-holds-no"
+        ));
     }
     Ok(out)
 }

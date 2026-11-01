@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3127,
-    "fields_total": 3127,
+    "fields_described": 3300,
+    "fields_total": 3300,
     "fields_without_units": 0,
-    "kinds_complete": 87,
-    "kinds_total": 87,
+    "kinds_complete": 92,
+    "kinds_total": 92,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -11123,6 +11123,195 @@
       "label": "One-way link budget over the CCSDS 401 / DSN 810-005 link equation (EIRP − FSPL − L_other + G/T − k); a deterministic engineering calculation from the supplied inputs, NOT a calibrated terminal datasheet",
       "source": "defaults"
     },
+    "lunar-ascent": {
+      "complete": true,
+      "fields": {
+        "ablation[].nav_sigma_position_m": {
+          "declared_as": "ablation.nav_sigma_position_m",
+          "definition": "3-D navigation position 1-sigma at insertion for that aid set",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ablation[].nav_sigma_velocity_m_s": {
+          "declared_as": "ablation.nav_sigma_velocity_m_s",
+          "definition": "3-D navigation velocity 1-sigma at insertion for that aid set",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "aids.afs.fix_sigma_east_m": {
+          "definition": "AFS position fix 1-sigma, east, before the time-tag term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fix_sigma_north_m": {
+          "definition": "AFS position fix 1-sigma, north, before the time-tag term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fix_sigma_up_m": {
+          "definition": "AFS position fix 1-sigma, up, before the time-tag term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fixes_used": {
+          "definition": "AFS fixes taken during the ascent",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "aids.afs.relays_visible": {
+          "definition": "relays above the mask at the site",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "aids.time.clock_sigma_s": {
+          "definition": "vehicle clock 1-sigma at the fixes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "aids.time.ltc_offset_us": {
+          "definition": "accumulated LTC-TT offset over the time since synchronisation, from lunar-time-offset",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "us"
+        },
+        "aids.time.time_since_sync_days": {
+          "definition": "time since the vehicle clock was synchronised",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "ascent_s": {
+          "definition": "powered-ascent duration",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "budget_rows[].sigma_m": {
+          "declared_as": "budget_rows.sigma_m",
+          "definition": "per-source 1-sigma in the budget table",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "exit_state.pos_sigma_m[]": {
+          "declared_as": "exit_state.pos_sigma_m",
+          "definition": "carried position 1-sigma per MCI axis at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "exit_state.vel_sigma_m_s[]": {
+          "declared_as": "exit_state.vel_sigma_m_s",
+          "definition": "carried velocity 1-sigma per MCI axis at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "inertial_sources_east[].sigma_m": {
+          "declared_as": "inertial_sources_east.sigma_m",
+          "definition": "position 1-sigma at insertion from one inertial source",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "insertion.cutoff_sigma_per_axis_m_s": {
+          "definition": "engine cutoff velocity dispersion per axis",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m/s"
+        },
+        "insertion.dispersion_velocity_m_s": {
+          "definition": "3-D velocity dispersion at insertion, navigation and cutoff in quadrature",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "insertion.nav_sigma_position_by_axis_m[].sigma_m": {
+          "declared_as": "insertion.nav_sigma_position_by_axis_m.sigma_m",
+          "definition": "position 1-sigma per site axis at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "insertion.nav_sigma_position_m": {
+          "definition": "3-D navigation position 1-sigma at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "insertion.nav_sigma_velocity_by_axis_m_s[].sigma_m_s": {
+          "declared_as": "insertion.nav_sigma_velocity_by_axis_m_s.sigma_m_s",
+          "definition": "velocity 1-sigma per site axis at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "insertion.nav_sigma_velocity_m_s": {
+          "definition": "3-D navigation velocity 1-sigma at insertion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "insertion_altitude_km": {
+          "definition": "insertion altitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "insertion_speed_m_s": {
+          "definition": "circular speed at the insertion altitude",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "series[].nav_sigma_position_m": {
+          "declared_as": "series.nav_sigma_position_m",
+          "definition": "3-D navigation position 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "series[].nav_sigma_velocity_m_s": {
+          "declared_as": "series.nav_sigma_velocity_m_s",
+          "definition": "3-D navigation velocity 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "series[].t_s": {
+          "declared_as": "series.t_s",
+          "definition": "time since liftoff",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "site.lat_deg": {
+          "definition": "site selenographic latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "site.lon_deg": {
+          "definition": "site selenographic longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        }
+      },
+      "fields_described": 28,
+      "fields_total": 28,
+      "fields_without_units": [],
+      "label": "MODELLED",
+      "source": "defaults"
+    },
     "lunar-attack-surface": {
       "complete": true,
       "fields": {
@@ -11520,6 +11709,307 @@
       "fields_without_units": [],
       "label": null,
       "source": "scenarios/lunar-beacon.toml"
+    },
+    "lunar-descent": {
+      "complete": true,
+      "fields": {
+        "ablation[].dispersion_sigma_east_m": {
+          "declared_as": "ablation.dispersion_sigma_east_m",
+          "definition": "landing dispersion 1-sigma including guidance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ablation[].dispersion_sigma_north_m": {
+          "declared_as": "ablation.dispersion_sigma_north_m",
+          "definition": "landing dispersion 1-sigma including guidance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ablation[].nav_sigma_east_m": {
+          "declared_as": "ablation.nav_sigma_east_m",
+          "definition": "navigation 1-sigma at touchdown for that aid set",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ablation[].nav_sigma_north_m": {
+          "declared_as": "ablation.nav_sigma_north_m",
+          "definition": "navigation 1-sigma at touchdown for that aid set",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ablation[].r95_m": {
+          "declared_as": "ablation.r95_m",
+          "definition": "radius holding 95 % of landings for that aid set",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fix_sigma_east_m": {
+          "definition": "AFS position fix 1-sigma, east, before the time-tag term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fix_sigma_north_m": {
+          "definition": "AFS position fix 1-sigma, north, before the time-tag term",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.afs.fixes_used": {
+          "definition": "AFS fixes taken during the descent",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "aids.afs.relays_visible": {
+          "definition": "relays above the mask at the site",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "aids.terrain.fix_sigma_east_m": {
+          "definition": "terrain-relative fix 1-sigma, east",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.terrain.fix_sigma_north_m": {
+          "definition": "terrain-relative fix 1-sigma, north",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.terrain.fix_time_s": {
+          "definition": "time of the terrain-relative fix after the start of the descent",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "aids.terrain.terrain_nav_matched_error_m": {
+          "definition": "residual error of the terrain-nav matcher for the inertial drift at the fix time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "aids.time.clock_sigma_s": {
+          "definition": "vehicle clock 1-sigma at the fixes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "aids.time.ltc_offset_us": {
+          "definition": "accumulated LTC-TT offset over the time since synchronisation, from lunar-time-offset",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "us"
+        },
+        "aids.time.time_since_sync_days": {
+          "definition": "time since the vehicle clock was synchronised",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "budget_rows[].sigma_m": {
+          "declared_as": "budget_rows.sigma_m",
+          "definition": "per-source 1-sigma in the budget table",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "descent_s": {
+          "definition": "powered-descent duration",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "exit_state.pos_sigma_enu_m[]": {
+          "declared_as": "exit_state.pos_sigma_enu_m",
+          "definition": "touchdown position 1-sigma per ENU axis (vertical is an input)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "exit_state.vel_sigma_m_s": {
+          "definition": "touchdown velocity 1-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m/s"
+        },
+        "guidance_sigma_m": {
+          "definition": "guidance dispersion per horizontal axis",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "inertial_only_sigma_east_m": {
+          "definition": "east position 1-sigma at touchdown with no aid",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "inertial_only_sigma_north_m": {
+          "definition": "north position 1-sigma at touchdown with no aid",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "inertial_sources_east[].sigma_m": {
+          "declared_as": "inertial_sources_east.sigma_m",
+          "definition": "position 1-sigma at touchdown from one inertial source",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "inertial_sources_north[].sigma_m": {
+          "declared_as": "inertial_sources_north.sigma_m",
+          "definition": "position 1-sigma at touchdown from one inertial source",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "monte_carlo.expected_fraction": {
+          "definition": "1 - exp(-9/2), the 2-D Gaussian mass inside 3 sigma",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "monte_carlo.fraction_inside_3sigma_ellipse": {
+          "definition": "fraction of simulated landings inside the 3-sigma ellipse",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.mean_nees": {
+          "definition": "mean normalised estimation error squared, 2 expected",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.nees_dof": {
+          "definition": "degrees of freedom of the horizontal error",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "monte_carlo.trials": {
+          "definition": "Monte Carlo landings",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "site.lat_deg": {
+          "definition": "site selenographic latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "site.lon_deg": {
+          "definition": "site selenographic longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sites[].afs_relays_visible": {
+          "declared_as": "sites.afs_relays_visible",
+          "definition": "relays above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sites[].dispersion_r95_m": {
+          "declared_as": "sites.dispersion_r95_m",
+          "definition": "radius holding 95 % of landings",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "sites[].dispersion_sigma_east_m": {
+          "declared_as": "sites.dispersion_sigma_east_m",
+          "definition": "landing dispersion 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "sites[].dispersion_sigma_north_m": {
+          "declared_as": "sites.dispersion_sigma_north_m",
+          "definition": "landing dispersion 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "sites[].inertial_only_r95_m": {
+          "declared_as": "sites.inertial_only_r95_m",
+          "definition": "R95 with no aid, no guidance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "sites[].lat_deg": {
+          "declared_as": "sites.lat_deg",
+          "definition": "site latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "touchdown.dispersion_sigma_east_m": {
+          "definition": "landing dispersion 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.dispersion_sigma_north_m": {
+          "definition": "landing dispersion 1-sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.ellipse_3sigma_major_axis_azimuth_deg": {
+          "definition": "azimuth of the major axis from north towards east",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "touchdown.ellipse_3sigma_semi_major_m": {
+          "definition": "3-sigma ellipse semi-major axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.ellipse_3sigma_semi_minor_m": {
+          "definition": "3-sigma ellipse semi-minor axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.nav_sigma_east_m": {
+          "definition": "navigation 1-sigma at touchdown",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.nav_sigma_north_m": {
+          "definition": "navigation 1-sigma at touchdown",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "touchdown.r95_m": {
+          "definition": "radius holding 95 % of landings",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        }
+      },
+      "fields_described": 46,
+      "fields_total": 46,
+      "fields_without_units": [],
+      "label": "MODELLED",
+      "source": "defaults"
     },
     "lunar-differential-pnt": {
       "complete": true,
@@ -13530,6 +14020,295 @@
       "label": "Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (published). The Moon-centre ephemeris, the IAU 2015 WGCCRE body orientation, and the absence of troposphere, tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks remain MODELLED, and the emitted observed-minus-computed residual is their combined size. The seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule, NOT a solved datum, NOT an LLR analysis and NOT a geodetic product.",
       "source": "defaults"
     },
+    "lunar-orbit-rendezvous": {
+      "complete": true,
+      "fields": {
+        "arc_s": {
+          "definition": "arc length actually run (whole steps)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "budget_rows[].sigma_m": {
+          "declared_as": "budget_rows.sigma_m",
+          "definition": "per-source 1-sigma in the budget table",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "common_mode_fraction": {
+          "definition": "share of the signal-in-space variance common to both vehicles",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "converged_at_s": {
+          "definition": "first time the formal 3-D relative position 1-sigma is at or below the threshold",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cw_check.max_position_difference_m": {
+          "definition": "closed-form Hill propagation against the numerical two-body relative orbit, one orbit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "cw_check.ratio_to_separation": {
+          "definition": "that difference over the separation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "cw_check.separation_m": {
+          "definition": "separation used for the check",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "exit_state.pos_sigma_m[]": {
+          "declared_as": "exit_state.pos_sigma_m",
+          "definition": "chaser absolute position 1-sigma per MCI axis at the end",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "exit_state.vel_sigma_m_s[]": {
+          "declared_as": "exit_state.vel_sigma_m_s",
+          "definition": "chaser absolute velocity 1-sigma per MCI axis at the end",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "final_rel_pos_sigma_lvlh_m.along": {
+          "definition": "formal 1-sigma, target LVLH axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "final_rel_pos_sigma_lvlh_m.cross": {
+          "definition": "formal 1-sigma, target LVLH axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "final_rel_pos_sigma_lvlh_m.radial": {
+          "definition": "formal 1-sigma, target LVLH axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "final_rel_pos_sigma_lvlh_m.total": {
+          "definition": "root sum square of the three axes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fix_availability": {
+          "definition": "fraction of epochs with at least four unobstructed relays for both vehicles",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.mean_gauss_newton_iterations": {
+          "definition": "mean Gauss-Newton iterations to converge",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.mean_nees": {
+          "definition": "mean normalised estimation error squared of the relative state; 6 expected for a consistent estimate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.mean_nees_position": {
+          "definition": "mean NEES of the relative position alone; 3 expected",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.mean_nees_velocity": {
+          "definition": "mean NEES of the relative velocity alone; 3 expected",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.nees_dof": {
+          "definition": "degrees of freedom of the relative state",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "monte_carlo.non_converged_trials": {
+          "definition": "trials whose Gauss-Newton iteration did not reach its step tolerance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "monte_carlo.rms_rel_pos_error_lvlh_m.along": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "monte_carlo.rms_rel_pos_error_lvlh_m.cross": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "monte_carlo.rms_rel_pos_error_lvlh_m.radial": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "monte_carlo.rms_rel_vel_error_lvlh_mm_s.along": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mm/s"
+        },
+        "monte_carlo.rms_rel_vel_error_lvlh_mm_s.cross": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mm/s"
+        },
+        "monte_carlo.rms_rel_vel_error_lvlh_mm_s.radial": {
+          "definition": "RMS error over trials",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mm/s"
+        },
+        "monte_carlo.trials": {
+          "definition": "Monte Carlo trials",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "n_relays": {
+          "definition": "relays in the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "orbit.argp_deg": {
+          "definition": "argument of periapsis",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.eccentricity": {
+          "definition": "target eccentricity",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "orbit.inc_deg": {
+          "definition": "target inclination",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.mean_anomaly_deg": {
+          "definition": "target mean anomaly at the start of the arc",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.period_s": {
+          "definition": "Keplerian period of the target",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "orbit.sma_km": {
+          "definition": "target semi-major axis",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "relative_sensors[].pos_sigma_m": {
+          "declared_as": "relative_sensors.pos_sigma_m",
+          "definition": "the sensor's 3-D relative position 1-sigma at that range (ILLUSTRATIVE parameters)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "relative_sensors[].range_m": {
+          "declared_as": "relative_sensors.range_m",
+          "definition": "range at which the sensor model is evaluated",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "relative_sensors[].vel_sigma_m_s": {
+          "declared_as": "relative_sensors.vel_sigma_m_s",
+          "definition": "the sensor's relative velocity 1-sigma per axis at that range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "separation_m": {
+          "definition": "initial along-track separation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "series[].rel_pos_sigma_m": {
+          "declared_as": "series.rel_pos_sigma_m",
+          "definition": "formal 3-D relative position 1-sigma from the data to that time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "series[].rel_vel_sigma_mm_s": {
+          "declared_as": "series.rel_vel_sigma_mm_s",
+          "definition": "formal 3-D relative velocity 1-sigma from the data to that time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mm/s"
+        },
+        "series[].t_s": {
+          "declared_as": "series.t_s",
+          "definition": "time since the start of the arc",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "sigma_afs_thermal_m": {
+          "definition": "code-tracking bound on the AFS pilot at the stated C/N0",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "sigma_isl_m": {
+          "definition": "code-tracking bound on the crosslink at its C/N0",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "sigma_sis_m": {
+          "definition": "signal-in-space user range error, LNIS nominal",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "unmodelled_gravity_relative_drift_m": {
+          "definition": "relative-position drift over the arc from ignoring the harmonics, no measurements",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        }
+      },
+      "fields_described": 45,
+      "fields_total": 45,
+      "fields_without_units": [],
+      "label": "MODELLED",
+      "source": "defaults"
+    },
     "lunar-station-coverage": {
       "complete": true,
       "fields": {
@@ -14356,6 +15135,214 @@
       "label": "MODELLED",
       "source": "tests/fixtures/lunar_station/gate.toml"
     },
+    "lunar-surface": {
+      "complete": true,
+      "fields": {
+        "cells[].earth_visible": {
+          "declared_as": "cells.earth_visible",
+          "definition": "fraction of epochs with the Earth above the mask and the horizon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "cells[].lat_deg": {
+          "declared_as": "cells.lat_deg",
+          "definition": "site latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "cells[].lon_deg": {
+          "declared_as": "cells.lon_deg",
+          "definition": "site longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "cells[].longest_position_gap_h": {
+          "declared_as": "cells.longest_position_gap_h",
+          "definition": "longest stretch without positioning",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "cells[].longest_timing_gap_h": {
+          "declared_as": "cells.longest_timing_gap_h",
+          "definition": "longest stretch with neither a relay nor the Earth in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "cells[].position_availability": {
+          "declared_as": "cells.position_availability",
+          "definition": "fraction of epochs with four or more relays in view and PDOP under the threshold",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "cells[].relay_timing_availability": {
+          "declared_as": "cells.relay_timing_availability",
+          "definition": "fraction of epochs with at least one relay in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "cells[].season_start_jd_utc": {
+          "declared_as": "cells.season_start_jd_utc",
+          "definition": "Julian Date of the season start, 00:00 UTC",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "cells[].site_index": {
+          "declared_as": "cells.site_index",
+          "definition": "index of the site",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "cells[].sun_visible": {
+          "declared_as": "cells.sun_visible",
+          "definition": "fraction of epochs with the Sun's centre above the mask and the horizon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "cells[].timing_availability": {
+          "declared_as": "cells.timing_availability",
+          "definition": "fraction of epochs with a relay or the Earth in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "exit_state.clock_sigma_s": {
+          "definition": "surface clock 1-sigma handed on",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "exit_state.longest_timing_gap_h": {
+          "definition": "longest stretch with no timing source, over sites and seasons",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "exit_state.stay_days": {
+          "definition": "time on the surface the phase spans",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "exit_state.timing_floor_s": {
+          "definition": "1-sigma of a clock disciplined by a source in view",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s"
+        },
+        "mask_deg": {
+          "definition": "flat elevation mask for relays",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "n_epochs_per_window": {
+          "definition": "epochs in each window",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "n_relays": {
+          "definition": "relays in the illustrative constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "n_seasons": {
+          "definition": "seasons mapped",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "n_sites": {
+          "definition": "sites mapped",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "pdop_threshold": {
+          "definition": "PDOP under which positioning counts as available",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "sites[].lat_deg": {
+          "declared_as": "sites.lat_deg",
+          "definition": "site latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sites[].lon_deg": {
+          "declared_as": "sites.lon_deg",
+          "definition": "site longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sites[].max_sats": {
+          "declared_as": "sites.max_sats",
+          "definition": "most relays in view over the window",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sites[].min_sats": {
+          "declared_as": "sites.min_sats",
+          "definition": "fewest relays in view over the window",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sites[].pdop_max": {
+          "declared_as": "sites.pdop_max",
+          "definition": "largest PDOP over epochs with four or more relays",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sites[].pdop_mean": {
+          "declared_as": "sites.pdop_mean",
+          "definition": "mean PDOP over epochs with four or more relays",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sites[].site_index": {
+          "declared_as": "sites.site_index",
+          "definition": "index of the site",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "step_min": {
+          "definition": "epoch step",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "min"
+        },
+        "window_days": {
+          "definition": "window after each season start",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        }
+      },
+      "fields_described": 30,
+      "fields_total": 30,
+      "fields_without_units": [],
+      "label": "MODELLED",
+      "source": "defaults"
+    },
     "lunar-time-budget": {
       "complete": true,
       "fields": {
@@ -15109,6 +16096,160 @@
       "fields_without_units": [],
       "label": null,
       "source": "defaults"
+    },
+    "mission-thread": {
+      "complete": true,
+      "fields": {
+        "phases[].budget_rows[].sigma": {
+          "definition": "1-sigma of one budget line; the row's `unit` field gives its unit (m, m/s, s or deg)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "see the sibling `unit` field"
+        },
+        "phases[].duration_s": {
+          "definition": "phase length as the document states it",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "phases[].end_s": {
+          "definition": "mission elapsed time at phase exit",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "phases[].entry_sigma_pos_m": {
+          "definition": "1-sigma position at phase entry, after the handover and conversions",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].entry_sigma_time_s": {
+          "definition": "1-sigma clock bias at phase entry",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].entry_sigma_vel_mps": {
+          "definition": "1-sigma velocity at phase entry",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].events[].t_s": {
+          "definition": "mission elapsed time of the event",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "phases[].exit_sigma_pos_m": {
+          "definition": "1-sigma position at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].exit_sigma_time_s": {
+          "definition": "1-sigma clock bias at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].exit_sigma_vel_mps": {
+          "definition": "1-sigma velocity at phase exit",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].index": {
+          "definition": "zero-based position of the phase in the thread",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "phases[].margin": {
+          "definition": "smallest ratio of a stated limit to the phase's peak: above 1 meets the requirement",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "phases[].peak_sigma_pos_m": {
+          "definition": "largest 1-sigma position over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "phases[].peak_sigma_time_s": {
+          "definition": "largest 1-sigma clock bias over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "phases[].peak_sigma_vel_mps": {
+          "definition": "largest 1-sigma velocity over the phase",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "phases[].requirement.max_pos_m": {
+          "definition": "the position limit the phase must meet, when stated",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "phases[].start_s": {
+          "definition": "mission elapsed time at phase entry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "seed": {
+          "definition": "the thread seed; each phase's seed is derived from it and the phase id",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "timeline[].phase_index": {
+          "definition": "index of the phase the sample belongs to",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "timeline[].sigma_pos_m": {
+          "definition": "1-sigma position at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "timeline[].sigma_time_s": {
+          "definition": "1-sigma clock bias at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "timeline[].sigma_vel_mps": {
+          "definition": "1-sigma velocity at the sample",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "timeline[].t_s": {
+          "definition": "mission elapsed time of the sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "weakest_link.margin": {
+          "definition": "limit over peak position, velocity or time of the weakest phase: above 1 meets the stated requirement",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        }
+      },
+      "fields_described": 24,
+      "fields_total": 24,
+      "fields_without_units": [],
+      "label": null,
+      "source": "scenarios/mission-thread-artemis-class.toml"
     },
     "moonlight-service-volume": {
       "complete": true,

@@ -18,8 +18,11 @@ pub mod adsb;
 pub mod ais;
 pub mod api;
 pub mod cli;
+pub mod emitter;
+pub mod emitter_out;
 pub mod grid;
 pub mod land;
+pub mod locate_cli;
 pub mod observatory;
 pub mod output;
 pub mod route;
@@ -96,8 +99,12 @@ impl Header {
     }
 
     pub fn require(&self, name: &str) -> Result<usize, MapError> {
-        self.col(name)
-            .ok_or_else(|| MapError::Format(format!("missing required column `{name}`")))
+        self.col(name).ok_or_else(|| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-missing-required-column",
+                name = name
+            ))
+        })
     }
 }
 
@@ -114,9 +121,9 @@ pub(crate) fn stream_csv<R: std::io::BufRead, C>(
     let mut parse_header = Some(parse_header);
     loop {
         line.clear();
-        let n = reader
-            .read_line(&mut line)
-            .map_err(|e| MapError::Io(format!("cannot read input: {e}")))?;
+        let n = reader.read_line(&mut line).map_err(|e| {
+            MapError::Io(crate::terr!("e-interference-map-cannot-read-input", e = e))
+        })?;
         if n == 0 {
             break;
         }
@@ -137,9 +144,9 @@ pub(crate) fn stream_csv<R: std::io::BufRead, C>(
         }
     }
     if cols.is_none() {
-        return Err(MapError::Format(
-            "empty input: a header row is required".into(),
-        ));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-empty-input-header-row-is"
+        )));
     }
     Ok(())
 }

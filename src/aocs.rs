@@ -154,24 +154,22 @@ impl AocsConfig {
     /// wheel-reduced form is positive-definite.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.k.is_finite() && self.k > 0.0 && self.p.is_finite() && self.p > 0.0) {
-            return Err("gains K and P must be finite and positive".into());
+            return Err(crate::terr!("e-aocs-gains-and-must-be-finite"));
         }
         if self.wheels.len() < 3 {
-            return Err("at least three reaction wheels are required".into());
+            return Err(crate::terr!("e-aocs-at-least-three-reaction-wheels"));
         }
         for (i, w) in self.wheels.iter().enumerate() {
             let n = dot(w.gs, w.gs).sqrt();
             if (n - 1.0).abs().is_nan() || (n - 1.0).abs() >= 1e-9 {
-                return Err(format!("wheel {i}: spin axis must be a unit vector"));
+                return Err(crate::terr!("e-aocs-wheel-spin-axis-must-be", i = i));
             }
             if !(w.js.is_finite() && w.js > 0.0 && w.u_max.is_finite() && w.u_max > 0.0) {
-                return Err(format!(
-                    "wheel {i}: js and u_max must be finite and positive"
-                ));
+                return Err(crate::terr!("e-aocs-wheel-js-and-max-must", i = i));
             }
         }
         if inv3(&self.gs_gst()).is_none() {
-            return Err("the wheel spin axes do not span three dimensions".into());
+            return Err(crate::terr!("e-aocs-the-wheel-spin-axes-do"));
         }
         let m = self.reduced_inertia();
         let d1 = m[0][0];
@@ -182,14 +180,14 @@ impl AocsConfig {
                 + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
         });
         if !(d1 > 0.0 && d2 > 0.0 && d3.is_some_and(|d| d > 0.0)) {
-            return Err("inertia minus the wheels' spin inertia must be positive-definite".into());
+            return Err(crate::terr!("e-aocs-inertia-minus-the-wheels-spin"));
         }
         for r in 0..3 {
             for c in 0..3 {
                 if !self.inertia[r][c].is_finite()
                     || (self.inertia[r][c] - self.inertia[c][r]).abs() > 1e-9
                 {
-                    return Err("inertia must be finite and symmetric".into());
+                    return Err(crate::terr!("e-aocs-inertia-must-be-finite-and"));
                 }
             }
         }

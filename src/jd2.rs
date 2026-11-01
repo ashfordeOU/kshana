@@ -155,13 +155,23 @@ impl Jd2 {
         second: f64,
     ) -> Result<Self, String> {
         if !(1..=12).contains(&month) || day == 0 || day > 31 || hour > 23 || minute > 59 {
-            return Err(format!(
-                "UTC calendar date out of range: {year}-{month}-{day} {hour}:{minute}"
+            return Err(crate::terr!(
+                "e-jd2-utc-calendar-date-out-of",
+                year = year,
+                month = month,
+                day = day,
+                hour = hour,
+                minute = minute
             ));
         }
         let jdn = jdn_of_calendar(year, month, day);
         if calendar_of_jdn(jdn) != (year, month, day) {
-            return Err(format!("no such calendar date: {year}-{month}-{day}"));
+            return Err(crate::terr!(
+                "e-jd2-no-such-calendar-date",
+                year = year,
+                month = month,
+                day = day
+            ));
         }
         let length = utc_day_length_s(jdn);
         let last_minute = hour == 23 && minute == 59;
@@ -171,8 +181,11 @@ impl Jd2 {
             60.0
         };
         if !(0.0..second_limit).contains(&second) {
-            return Err(format!(
-                "UTC second {second} out of range at {hour}:{minute}"
+            return Err(crate::terr!(
+                "e-jd2-utc-second-out-of-range",
+                second = second,
+                hour = hour,
+                minute = minute
             ));
         }
         let elapsed = 60.0 * (60.0 * hour as f64 + minute as f64) + second;

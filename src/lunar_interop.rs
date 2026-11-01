@@ -653,35 +653,64 @@ pub fn lunar_interop_svg(r: &LunarInteropReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"24\" y=\"30\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">\
-         Lunar interoperability export — CCSDS OEM + KIF (LunaNet/IOAG-aligned)</text>"
+        "<text x=\"24\" y=\"30\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">{}</text>",
+        crate::t!("lunar-interop-chart-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"24\" y=\"58\">REF_FRAME = {} | TIME_SYSTEM = {} | {} states | OEM {} lines</text>",
-        r.frame, r.time_system, r.n_states, r.oem_line_count
+        "<text x=\"24\" y=\"58\">{}</text>",
+        crate::t!(
+            "lunar-interop-chart-header",
+            frame = r.frame,
+            time_system = r.time_system,
+            n_states = r.n_states,
+            oem_lines = r.oem_line_count
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"24\" y=\"82\">artifacts: {}</text>",
-        r.artifacts_emitted.join(", ")
+        "<text x=\"24\" y=\"82\">{}</text>",
+        crate::t!(
+            "lunar-interop-chart-artifacts",
+            list = r.artifacts_emitted.join(", ")
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"24\" y=\"110\" fill=\"{pass_colour}\" font-weight=\"bold\">field conformance: {} ({} present, {} missing, {} data lines)</text>",
-        if r.conformance.pass { "PASS" } else { "FAIL" },
-        r.conformance.present_fields.len(),
-        r.conformance.missing_fields.len(),
-        r.conformance.data_lines,
+        "<text x=\"24\" y=\"110\" fill=\"{pass_colour}\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-interop-chart-conformance",
+            verdict = if r.conformance.pass {
+                crate::t!("lunar-interop-chart-pass")
+            } else {
+                crate::t!("lunar-interop-chart-fail")
+            },
+            present = r.conformance.present_fields.len(),
+            missing = r.conformance.missing_fields.len(),
+            data_lines = r.conformance.data_lines
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"24\" y=\"134\">OEM round-trip: {} | time-metadata round-trip: {} | KIF {} bytes</text>",
-        if r.oem_roundtrip_ok { "OK" } else { "FAIL" },
-        if r.time_metadata_roundtrip_ok { "OK" } else { "FAIL" },
-        r.kif_bytes,
+        "<text x=\"24\" y=\"134\">{}</text>",
+        crate::t!(
+            "lunar-interop-chart-roundtrip",
+            oem = if r.oem_roundtrip_ok {
+                crate::t!("lunar-interop-chart-ok")
+            } else {
+                crate::t!("lunar-interop-chart-fail")
+            },
+            time_metadata = if r.time_metadata_roundtrip_ok {
+                crate::t!("lunar-interop-chart-ok")
+            } else {
+                crate::t!("lunar-interop-chart-fail")
+            },
+            kif_bytes = r.kif_bytes
+        )
     ));
-    svg.push_str(
-        &format!("<text x=\"24\" y=\"170\" font-size=\"11\" fill=\"{MUTED}\">Round-trip / field conformance vs \
-         CCSDS OEM + published LunaNet/IOAG field semantics. MODELLED — not a certified \
-         interoperability conformance test; no agency endorsement.</text>"),
-    );
+    svg.push_str(&format!(
+        "<text x=\"24\" y=\"170\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
+        crate::t!(
+            "lunar-interop-chart-footnote",
+            label = crate::t!("fom-verdict-modelled")
+        )
+    ));
     svg.push_str("</svg>");
     svg
 }

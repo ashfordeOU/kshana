@@ -619,9 +619,9 @@ pub struct QuantumTradeScenario {
 
 fn qt_classical_class(s: &str) -> Result<ClockClass, String> {
     ClockClass::from_id(s).ok_or_else(|| {
-        format!(
-            "unknown baseline_clock_class '{}' (csac|uso|dsac|tcxo|ocxo|rafs)",
-            s.to_ascii_lowercase()
+        crate::terr!(
+            "e-quantum-trade-unknown-baseline-clock-class-csac",
+            s = s.to_ascii_lowercase()
         )
     })
 }
@@ -631,8 +631,9 @@ fn qt_quantum_class(s: &str) -> Result<QuantumClockClass, String> {
         "optical-lattice" => Ok(QuantumClockClass::OpticalLattice),
         "trapped-ion" => Ok(QuantumClockClass::TrappedIon),
         "mercury-ion" => Ok(QuantumClockClass::MercuryIon),
-        other => Err(format!(
-            "unknown candidate_clock_class '{other}' (optical-lattice|trapped-ion|mercury-ion)"
+        other => Err(crate::terr!(
+            "e-quantum-trade-unknown-candidate-clock-class-optical",
+            other = other
         )),
     }
 }
@@ -750,29 +751,31 @@ impl QuantumTradeScenario {
         ) {
             (Some(taus), Some(adevs), _) => {
                 if taus.len() != adevs.len() || taus.len() < 2 {
-                    return Err(
-                        "candidate_adev_taus and candidate_adev_values must be equal-length (>= 2)"
-                            .into(),
-                    );
+                    return Err(crate::terr!(
+                        "e-quantum-trade-candidate-adev-taus-and-candidate"
+                    ));
                 }
-                if taus.iter().chain(adevs.iter()).any(|v| !v.is_finite() || *v <= 0.0) {
-                    return Err("ADEV taus/values must be finite and > 0".into());
+                if taus
+                    .iter()
+                    .chain(adevs.iter())
+                    .any(|v| !v.is_finite() || *v <= 0.0)
+                {
+                    return Err(crate::terr!("e-quantum-trade-adev-taus-values-must-be"));
                 }
                 Ok((
                     ClockSpec::Measured(qparams_from_adev_curve(taus, adevs)),
                     "measured-ADEV",
                 ))
             }
-            (None, None, Some(c)) => Ok((ClockSpec::Quantum(qt_quantum_class(c)?), "quantum-class")),
-            (None, None, None) => Err(
-                "provide either candidate_adev_taus + candidate_adev_values (measured) \
-                 or candidate_clock_class"
-                    .into(),
-            ),
-            _ => Err(
-                "candidate_adev_taus and candidate_adev_values must both be present (or both absent)"
-                    .into(),
-            ),
+            (None, None, Some(c)) => {
+                Ok((ClockSpec::Quantum(qt_quantum_class(c)?), "quantum-class"))
+            }
+            (None, None, None) => Err(crate::terr!(
+                "e-quantum-trade-provide-either-candidate-adev-taus"
+            )),
+            _ => Err(crate::terr!(
+                "e-quantum-trade-candidate-adev-taus-and-candidate-2"
+            )),
         }
     }
 
@@ -783,9 +786,9 @@ impl QuantumTradeScenario {
             || !self.position_threshold_m.is_finite()
             || self.position_threshold_m <= 0.0
         {
-            return Err(
-                "timing_threshold_s and position_threshold_m must be finite and > 0".into(),
-            );
+            return Err(crate::terr!(
+                "e-quantum-trade-timing-threshold-and-position-threshold"
+            ));
         }
         let baseline_clock = ClockSpec::Classical(qt_classical_class(&self.baseline_clock_class)?);
         let (candidate_clock, candidate_source) = self.candidate_clock()?;
@@ -849,18 +852,34 @@ impl QuantumTradeScenario {
                     .collect::<Vec<_>>(),
             },
         });
-        let summary = format!(
-            "quantum-trade | candidate {} | timing holdover {:.0}s vs {:.0}s ({:.2}x) | inertial {:.0}s vs {:.0}s ({:.2}x) | resilience coast {:.0}s{} | MODELLED{}",
-            candidate_source,
-            trade.candidate.timing_holdover_s,
-            trade.baseline.timing_holdover_s,
-            trade.timing_benefit_x,
-            trade.candidate.inertial_holdover_s,
-            trade.baseline.inertial_holdover_s,
-            trade.inertial_benefit_x,
-            envelope.coast_time_s,
-            if envelope.exceeds_horizon { " (>=horizon)" } else { "" },
-            if trade.floor_caveat.is_some() { " [floor-assumed caveat]" } else { "" },
+        let summary = crate::t!(
+            "quantum-trade-quantum-trade-candidate-timing-holdover",
+            candidate_source = candidate_source,
+            timing_holdover_s =
+                crate::i18n::localise_decimal(format!("{:.0}", trade.candidate.timing_holdover_s)),
+            timing_holdover_s2 =
+                crate::i18n::localise_decimal(format!("{:.0}", trade.baseline.timing_holdover_s)),
+            timing_benefit_x =
+                crate::i18n::localise_decimal(format!("{:.2}", trade.timing_benefit_x)),
+            inertial_holdover_s = crate::i18n::localise_decimal(format!(
+                "{:.0}",
+                trade.candidate.inertial_holdover_s
+            )),
+            inertial_holdover_s2 =
+                crate::i18n::localise_decimal(format!("{:.0}", trade.baseline.inertial_holdover_s)),
+            inertial_benefit_x =
+                crate::i18n::localise_decimal(format!("{:.2}", trade.inertial_benefit_x)),
+            coast_time_s = crate::i18n::localise_decimal(format!("{:.0}", envelope.coast_time_s)),
+            v9 = if envelope.exceeds_horizon {
+                " (>=horizon)"
+            } else {
+                ""
+            },
+            v10 = if trade.floor_caveat.is_some() {
+                " [floor-assumed caveat]"
+            } else {
+                ""
+            }
         );
         let json = serde_json::to_string_pretty(&value).map_err(|e| e.to_string())?;
         Ok((json, summary))

@@ -59,8 +59,9 @@ impl Service {
         match s.trim().to_ascii_lowercase().as_str() {
             "navigation" | "nav" => Ok(Service::Navigation),
             "communications" | "comms" | "comm" => Ok(Service::Communications),
-            other => Err(format!(
-                "unknown service '{other}' (expected navigation|nav or communications|comms)"
+            other => Err(crate::terr!(
+                "e-aperture-duty-unknown-service-expected-navigation-nav",
+                other = other
             )),
         }
     }
@@ -112,9 +113,9 @@ impl Arbitration {
                 Ok(Arbitration::CommunicationsPriority)
             }
             "first-come-first-served" | "fcfs" => Ok(Arbitration::FirstComeFirstServed),
-            other => Err(format!(
-                "unknown arbitration policy '{other}' (expected navigation-priority, \
-                 communications-priority or first-come-first-served)"
+            other => Err(crate::terr!(
+                "e-aperture-duty-unknown-arbitration-policy-expected-navigation",
+                other = other
             )),
         }
     }
@@ -285,29 +286,33 @@ pub fn aperture_duty_cycle(
     horizon_end_s: f64,
 ) -> Result<DutyCycle, String> {
     if plan.is_empty() {
-        return Err("a contact plan needs at least one contact window".to_string());
+        return Err(crate::terr!("e-aperture-duty-contact-plan-needs-at-least"));
     }
     if apertures == 0 {
-        return Err("apertures must be >= 1".to_string());
+        return Err(crate::terr!("e-aperture-duty-apertures-must-be"));
     }
     if !horizon_start_s.is_finite() || !horizon_end_s.is_finite() {
-        return Err("the reporting horizon must be finite".to_string());
+        return Err(crate::terr!(
+            "e-aperture-duty-the-reporting-horizon-must-be"
+        ));
     }
     if horizon_end_s <= horizon_start_s {
-        return Err(
-            "the reporting horizon must have positive length (horizon_end_s > horizon_start_s)"
-                .to_string(),
-        );
+        return Err(crate::terr!(
+            "e-aperture-duty-the-reporting-horizon-must-have"
+        ));
     }
     for w in plan {
         if !w.aos_s.is_finite() || !w.los_s.is_finite() {
-            return Err(format!(
-                "contact '{}' has a non-finite aos_s or los_s",
-                w.name
+            return Err(crate::terr!(
+                "e-aperture-duty-contact-has-non-finite-aos",
+                name = w.name
             ));
         }
         if w.los_s <= w.aos_s {
-            return Err(format!("contact '{}' must have los_s > aos_s", w.name));
+            return Err(crate::terr!(
+                "e-aperture-duty-contact-must-have-los-aos",
+                name = w.name
+            ));
         }
     }
 
@@ -541,7 +546,9 @@ impl ApertureDutyCycleScenario {
     pub fn run_json(&self) -> Result<(String, String), String> {
         let policy = Arbitration::parse(&self.arbitration)?;
         if self.contacts.is_empty() {
-            return Err("a contact plan needs at least one [[contacts]] window".to_string());
+            return Err(crate::terr!(
+                "e-aperture-duty-contact-plan-needs-at-least-2"
+            ));
         }
         let mut plan: Vec<ContactWindow> = Vec::with_capacity(self.contacts.len());
         for (i, c) in self.contacts.iter().enumerate() {
@@ -559,9 +566,9 @@ impl ApertureDutyCycleScenario {
         }
         for w in &plan {
             if !w.aos_s.is_finite() || !w.los_s.is_finite() {
-                return Err(format!(
-                    "contact '{}' has a non-finite aos_s or los_s",
-                    w.name
+                return Err(crate::terr!(
+                    "e-aperture-duty-contact-has-non-finite-aos",
+                    name = w.name
                 ));
             }
         }
@@ -699,18 +706,18 @@ impl ApertureDutyCycleScenario {
         });
         json["units"] = units;
 
-        let summary = format!(
-            "aperture-duty-cycle: {} session(s) on {} aperture(s) under {} -> navigation duty \
-             {:.4}, communications duty {:.4}, idle {:.4}; {:.0} s of {:.0} s requested lost to \
-             contention (MODELLED)",
-            d.sessions.len(),
-            d.apertures,
-            d.policy.as_str(),
-            d.navigation_duty,
-            d.communications_duty,
-            d.idle_duty,
-            d.total_outage_s,
-            d.total_requested_s,
+        let summary = crate::t!(
+            "aperture-duty-aperture-duty-cycle-session-on",
+            sessions = d.sessions.len(),
+            apertures = d.apertures,
+            policy = d.policy.as_str(),
+            navigation_duty = crate::i18n::localise_decimal(format!("{:.4}", d.navigation_duty)),
+            communications_duty =
+                crate::i18n::localise_decimal(format!("{:.4}", d.communications_duty)),
+            idle_duty = crate::i18n::localise_decimal(format!("{:.4}", d.idle_duty)),
+            total_outage_s = crate::i18n::localise_decimal(format!("{:.0}", d.total_outage_s)),
+            total_requested_s =
+                crate::i18n::localise_decimal(format!("{:.0}", d.total_requested_s))
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

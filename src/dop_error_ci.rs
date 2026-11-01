@@ -256,10 +256,10 @@ struct Sums {
 /// Run the check on every geometry of [`GEOMETRIES`].
 pub fn run(cfg: &McConfig) -> Result<McReport, String> {
     if cfg.trials < 2 || !(cfg.sigma_m.is_finite() && cfg.sigma_m > 0.0) {
-        return Err("need at least 2 trials and a finite sigma_m > 0".into());
+        return Err(crate::terr!("e-dop-error-ci-need-at-least-trials-and"));
     }
     if !(cfg.alpha_total > 0.0 && cfg.alpha_total < 1.0) {
-        return Err("alpha_total must be in (0, 1)".into());
+        return Err(crate::terr!("e-dop-error-ci-alpha-total-must-be-in"));
     }
     const QUANTITIES: usize = 5;
     let alpha = cfg.alpha_total / (GEOMETRIES.len() * QUANTITIES) as f64;
@@ -269,14 +269,17 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
     let z = normal_quantile(1.0 - alpha / 2.0);
     let bound = z * (2.0 / n).sqrt();
     let user = user_ecef();
-    let (east, north, up) = enu_basis(user).ok_or("no local frame at the user")?;
+    let (east, north, up) =
+        enu_basis(user).ok_or_else(|| crate::terr!("e-dop-error-ci-no-local-frame-at-the"))?;
     // A clock offset of 30 km (100 µs) so the clock state is exercised, not left at zero.
     let clock_m = 30_000.0;
     let mut out = Vec::new();
     let mut all_pass = true;
     for (gi, g) in GEOMETRIES.iter().enumerate() {
-        let sats = sat_positions(user, g.dirs).ok_or("no local frame at the user")?;
-        let d: Dop = dop(user, &sats).ok_or_else(|| format!("{}: singular geometry", g.name))?;
+        let sats = sat_positions(user, g.dirs)
+            .ok_or_else(|| crate::terr!("e-dop-error-ci-no-local-frame-at-the"))?;
+        let d: Dop = dop(user, &sats)
+            .ok_or_else(|| crate::terr!("e-dop-error-ci-singular-geometry", name = g.name))?;
         let mut rng = ChaCha8Rng::seed_from_u64(cfg.seed.wrapping_add(gi as u64));
         let mut sums = Sums::default();
         let mut max_it = 0;
@@ -315,7 +318,7 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
         // Start 1 km off in each axis, as a receiver's a-priori would be.
         let apriori = [user[0] + 1000.0, user[1] - 1000.0, user[2] + 1000.0];
         let clean = solve_spp(&measure(&vec![0.0; sats.len()]), apriori)
-            .ok_or_else(|| format!("{}: no noise-free fix", g.name))?;
+            .ok_or_else(|| crate::terr!("e-dop-error-ci-no-noise-free-fix", name = g.name))?;
         let solver_diff = ((clean.pdop - d.pdop) / d.pdop)
             .abs()
             .max(((clean.gdop - d.gdop) / d.gdop).abs());
@@ -323,8 +326,8 @@ pub fn run(cfg: &McConfig) -> Result<McReport, String> {
             let eps: Vec<f64> = (0..sats.len())
                 .map(|_| StandardNormal.sample(&mut rng))
                 .collect();
-            let fix =
-                solve_spp(&measure(&eps), apriori).ok_or_else(|| format!("{}: no fix", g.name))?;
+            let fix = solve_spp(&measure(&eps), apriori)
+                .ok_or_else(|| crate::terr!("e-dop-error-ci-no-fix", name = g.name))?;
             max_it = max_it.max(fix.iterations);
             let dx = [
                 fix.ecef[0] - user[0],

@@ -17,6 +17,7 @@
 /// WGS-84 equatorial Earth radius, km. Source: NIMA TR8350.2, "Department of
 /// Defense World Geodetic System 1984", Table 3.1 (also IERS Conventions 2010).
 /// Baked, not fetched, so the wireframe globe needs no network.
+import { t } from "./t.mjs";
 export const R_EARTH_KM = 6378.137;
 
 /// Rotation about the x-axis by `rad`. 3×3 row-major number[][].
@@ -161,6 +162,7 @@ function fitView(model, W, H) {
   };
 }
 
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const NUM = (n) => (Math.round(n * 100) / 100).toString();
 
 function polyline(points, stroke, width, opacity) {
@@ -189,8 +191,8 @@ export function orbit3dSvg(model, meta) {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="${BG}"/>`;
   // Baked title + az/el read-out.
-  s += `<text x="16" y="24" font-size="15" font-weight="bold" fill="#bcb3a3">Orbit (ECI, orthographic)</text>`;
-  s += `<text x="16" y="42" fill="#8c8273">az ${NUM(view.az_deg)}° · el ${NUM(view.el_deg)}°</text>`;
+  s += `<text x="16" y="24" font-size="15" font-weight="bold" fill="#bcb3a3">${esc(t("js-lib-orbit3d-title", "Orbit (ECI, orthographic)"))}</text>`;
+  s += `<text x="16" y="42" fill="#8c8273">${esc(t("js-lib-orbit3d-view-angles", "az { $az }° · el { $el }°", { az: NUM(view.az_deg), el: NUM(view.el_deg) }))}</text>`;
 
   const wire = earthWireframe(model.radiusKm || R_EARTH_KM, view);
 
@@ -229,8 +231,8 @@ export function orbit3dSvg(model, meta) {
       const p = track[idx];
       return `<circle cx="${NUM(p.x)}" cy="${NUM(p.y)}" r="3" fill="none" stroke="${C_TRACK}"/><text x="${NUM(p.x + 6)}" y="${NUM(p.y - 6)}" fill="#8c8273" font-size="10">${label}</text>`;
     };
-    s += tick(imin, "perigee");
-    s += tick(imax, "apogee");
+    s += tick(imin, t("js-lib-orbit3d-perigee", "perigee"));
+    s += tick(imax, t("js-lib-orbit3d-apogee", "apogee"));
     // Current / last sample as a filled dot.
     const last = track[track.length - 1];
     s += `<circle cx="${NUM(last.x)}" cy="${NUM(last.y)}" r="3.5" fill="${C_TRACK}"/>`;
@@ -242,7 +244,7 @@ export function orbit3dSvg(model, meta) {
   }
 
   // Provenance footer — identical wording to adevSvg's `prov` line.
-  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · kshana.dev`;
+  const prov = [`Kshana${meta && meta.ver ? " v" + meta.ver : ""}`, ...(meta && meta.hash ? [t("js-lib-orbit3d-prov-scenario", "scenario { $hash }", { hash: String(meta.hash).slice(0, 12) })] : []), "kshana.dev"].join(" · ");
   s += `<text x="${W - 8}" y="${H - 8}" text-anchor="end" fill="#62594b" font-size="10">${prov}</text>`;
   s += `</svg>`;
   return s;

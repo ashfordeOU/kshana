@@ -39,6 +39,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
     (
+        "src/partner.rs",
+        "path",
+        "the partner check reads the file named by the partner's own descriptor, not a scenario \
+         field a surface passes in; `kshana partner check` is command-line only",
+    ),
+    (
         "src/adm.rs",
         "attitude_dir",
         "the CCSDS ADM ATTITUDE_DIR keyword (A2B or B2A) of a parsed message, not a file; \

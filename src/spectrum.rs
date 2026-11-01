@@ -463,13 +463,18 @@ impl JammerCfg {
             .unwrap_or_else(|| format!("jammer-{}-{}", idx + 1, self.waveform.as_str()));
         let centre_hz = self.centre_mhz * 1e6;
         if !(centre_hz.is_finite() && centre_hz > 0.0) {
-            return Err(format!("{name}: centre_mhz must be positive"));
+            return Err(crate::terr!(
+                "e-leo-signal-centre-mhz-must-be-positive",
+                name = name
+            ));
         }
         let bw = |what: &str| -> Result<f64, String> {
             match self.bandwidth_mhz {
                 Some(b) if b.is_finite() && b > 0.0 => Ok(b * 1e6),
-                _ => Err(format!(
-                    "{name}: a {what} jammer needs a positive bandwidth_mhz"
+                _ => Err(crate::terr!(
+                    "e-spectrum-jammer-needs-positive-bandwidth-mhz",
+                    name = name,
+                    what = what
                 )),
             }
         };
@@ -481,8 +486,9 @@ impl JammerCfg {
                 let t = match self.sweep_period_us {
                     Some(t) if t.is_finite() && t > 0.0 => t * 1e-6,
                     _ => {
-                        return Err(format!(
-                            "{name}: a chirp jammer needs a positive sweep_period_us"
+                        return Err(crate::terr!(
+                            "e-spectrum-chirp-jammer-needs-positive-sweep",
+                            name = name
                         ))
                     }
                 };
@@ -490,14 +496,20 @@ impl JammerCfg {
             }
             Waveform::Matched => {
                 let target = self.matched_to.as_deref().ok_or_else(|| {
-                    format!("{name}: a matched jammer needs matched_to = \"<band name>\"")
+                    crate::terr!("e-spectrum-matched-jammer-needs-matched-to", name = name)
                 })?;
                 let b = bands
                     .iter()
                     .find(|b| b.name == target)
                     .cloned()
                     .or_else(|| default_band(target))
-                    .ok_or_else(|| format!("{name}: matched_to names unknown band {target:?}"))?;
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-spectrum-matched-to-names-unknown-band",
+                            name = name,
+                            target = format!("{:?}", target)
+                        )
+                    })?;
                 (
                     main_lobe_null_to_null_hz(&b.modulation),
                     0.0,
@@ -513,15 +525,18 @@ impl JammerCfg {
                     Some((eirp, r, self.rx_gain_dbi)),
                 ),
                 _ => {
-                    return Err(format!(
-                        "{name}: give either received_power_dbw, or eirp_dbw with a positive \
-                         range_m (not both)"
+                    return Err(crate::terr!(
+                        "e-spectrum-give-either-received-power-dbw",
+                        name = name
                     ))
                 }
             };
         let off_s = self.off_s.unwrap_or(f64::INFINITY);
         if off_s <= self.on_s {
-            return Err(format!("{name}: off_s must be later than on_s"));
+            return Err(crate::terr!(
+                "e-spectrum-off-must-be-later-than",
+                name = name
+            ));
         }
         Ok(Jammer {
             name,
@@ -850,17 +865,19 @@ pub struct WelchPsd {
 /// `scipy.signal.welch`.
 pub fn welch_psd(x: &[Cf64], fs_hz: f64, nfft: usize, overlap: f64) -> Result<WelchPsd, String> {
     if !(fs_hz.is_finite() && fs_hz > 0.0) {
-        return Err("welch: the sample rate must be positive".into());
+        return Err(crate::terr!("e-spectrum-welch-the-sample-rate-must"));
     }
     if nfft < 8 || !nfft.is_power_of_two() {
-        return Err(format!(
-            "welch: nfft = {nfft} must be a power of two, at least 8"
+        return Err(crate::terr!(
+            "e-spectrum-welch-nfft-must-be-power",
+            nfft = nfft
         ));
     }
     if x.len() < nfft {
-        return Err(format!(
-            "welch: {} samples is fewer than one {nfft}-point segment",
-            x.len()
+        return Err(crate::terr!(
+            "e-spectrum-welch-samples-is-fewer-than",
+            x = x.len(),
+            nfft = nfft
         ));
     }
     let ov = overlap.clamp(0.0, 0.95);
@@ -923,7 +940,7 @@ pub fn synthesise_iq(
     use crate::portable_distr::{Distribution, StandardNormal};
     use rand::SeedableRng;
     if !n.is_power_of_two() || n < 16 {
-        return Err(format!("iq: n = {n} must be a power of two, at least 16"));
+        return Err(crate::terr!("e-spectrum-iq-must-be-power-of", n = n));
     }
     let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
     let df = fs_hz / n as f64;
@@ -1272,27 +1289,37 @@ fn finite(v: f64) -> Option<f64> {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn read_recording_files(cfg: &RecordingCfg) -> Result<(String, Vec<u8>, String), String> {
-    let meta = std::fs::read_to_string(&cfg.meta_path)
-        .map_err(|e| format!("cannot read recording meta_path {:?}: {e}", cfg.meta_path))?;
+    let meta = std::fs::read_to_string(&cfg.meta_path).map_err(|e| {
+        crate::terr!(
+            "e-spectrum-cannot-read-recording-meta-path",
+            meta_path = format!("{:?}", cfg.meta_path),
+            e = e
+        )
+    })?;
     let data_path =
         cfg.data_path
             .clone()
             .unwrap_or_else(|| match cfg.meta_path.strip_suffix(".sigmf-meta") {
-                Some(stem) => format!("{stem}.sigmf-data"),
-                None => format!("{}.sigmf-data", cfg.meta_path),
+                Some(stem) => {
+                    crate::i18n::in_english(|| crate::t!("spectrum-sigmf-data", stem = stem))
+                }
+                None => crate::i18n::in_english(|| {
+                    crate::t!("spectrum-sigmf-data-2", meta_path = cfg.meta_path)
+                }),
             });
-    let data = std::fs::read(&data_path)
-        .map_err(|e| format!("cannot read recording data {data_path:?}: {e}"))?;
+    let data = std::fs::read(&data_path).map_err(|e| {
+        crate::terr!(
+            "e-spectrum-cannot-read-recording-data",
+            data_path = format!("{:?}", data_path),
+            e = e
+        )
+    })?;
     Ok((meta, data, data_path))
 }
 
 #[cfg(target_arch = "wasm32")]
 fn read_recording_files(_cfg: &RecordingCfg) -> Result<(String, Vec<u8>, String), String> {
-    Err(
-        "recording is not available in the WebAssembly build: pass the SigMF bytes to \
-         kshana::sigmf::read and kshana::spectrum::welch_psd instead"
-            .into(),
-    )
+    Err(crate::terr!("e-spectrum-recording-is-not-available-in"))
 }
 
 impl SpectrumScenario {
@@ -1328,11 +1355,11 @@ impl SpectrumScenario {
                 continue;
             }
             let mut b = default_band(&c.name).ok_or_else(|| {
-                format!(
-                    "unknown band {:?}: the spectrum model has {} and, by name, {} (GLONASS                      channels as glonass-l1of-k<K>, K = -7 to 6); any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
-                    c.name,
-                    BAND_NAMES.join(", "),
-                    MORE_BAND_NAMES.join(", ")
+                crate::terr!(
+                    "e-spectrum-unknown-band-the-spectrum-model",
+                    name = format!("{:?}", c.name),
+                    band_names = BAND_NAMES.join(", "),
+                    more_band_names = MORE_BAND_NAMES.join(", ")
                 )
             })?;
             if let Some(p) = c.signal_power_dbw {
@@ -1340,7 +1367,10 @@ impl SpectrumScenario {
             }
             if let Some(bw) = c.rx_bandwidth_mhz {
                 if !(bw.is_finite() && bw > 0.0) {
-                    return Err(format!("{}: rx_bandwidth_mhz must be positive", c.name));
+                    return Err(crate::terr!(
+                        "e-spectrum-rx-bandwidth-mhz-must-be",
+                        name = c.name
+                    ));
                 }
                 b.rx_bandwidth_hz = bw * 1e6;
             }
@@ -1351,9 +1381,10 @@ impl SpectrumScenario {
                     b.modulation = Modulation::BocSin { m: 1.0, n: 1.0 }
                 }
                 (n, Some(m)) => {
-                    return Err(format!(
-                        "{n}: modulation {m:?} is not selectable (only galileo-e1 takes \
-                         \"mboc\" or \"boc11\")"
+                    return Err(crate::terr!(
+                        "e-spectrum-modulation-is-not-selectable-only",
+                        n = n,
+                        m = format!("{:?}", m)
                     ))
                 }
             }
@@ -1367,45 +1398,50 @@ impl SpectrumScenario {
         let mut b = match (&c.signal, c.centre_mhz) {
             (Some(sig), None) => {
                 let design = crate::leo_signal::public_signal(sig).ok_or_else(|| {
-                    format!(
-                        "{}: signal {sig:?} is not in the signal preset library ({})",
-                        c.name,
-                        crate::leo_signal::public_signal_names().join(", ")
+                    crate::terr!(
+                        "e-spectrum-signal-is-not-in-the",
+                        name = c.name,
+                        sig = format!("{:?}", sig),
+                        v2 = crate::leo_signal::public_signal_names().join(", ")
                     )
                 })?;
                 if c.modulation.is_some() {
-                    return Err(format!(
-                        "{}: a preset signal carries its own modulation; drop `modulation`",
-                        c.name
+                    return Err(crate::terr!(
+                        "e-spectrum-preset-signal-carries-its-own",
+                        name = c.name
                     ));
                 }
                 let p = c
                     .signal_power_dbw
                     .or(design.received_power_dbw)
                     .ok_or_else(|| {
-                        format!(
-                            "{}: signal {sig:?} publishes no received power; give signal_power_dbw",
-                            c.name
+                        crate::terr!(
+                            "e-spectrum-signal-publishes-no-received-power",
+                            name = c.name,
+                            sig = format!("{:?}", sig)
                         )
                     })?;
                 design.to_spectrum_band(&c.name, p)?
             }
             (None, Some(fc)) => {
                 if !(fc.is_finite() && fc > 0.0) {
-                    return Err(format!("{}: centre_mhz must be positive", c.name));
+                    return Err(crate::terr!(
+                        "e-leo-signal-centre-mhz-must-be-positive",
+                        name = c.name
+                    ));
                 }
                 let m = crate::navsignal::parse_modulation(c.modulation.as_deref().ok_or_else(
                     || {
-                        format!(
-                            "{}: a custom band needs `modulation`, e.g. \"BPSK(10)\"",
-                            c.name
+                        crate::terr!(
+                            "e-spectrum-custom-band-needs-modulation-bpsk",
+                            name = c.name
                         )
                     },
                 )?)
                 .map_err(|e| format!("{}: {e}", c.name))?;
-                let p = c
-                    .signal_power_dbw
-                    .ok_or_else(|| format!("{}: a custom band needs signal_power_dbw", c.name))?;
+                let p = c.signal_power_dbw.ok_or_else(|| {
+                    crate::terr!("e-spectrum-custom-band-needs-signal-power", name = c.name)
+                })?;
                 Band {
                     name: c.name.clone(),
                     centre_hz: fc * 1e6,
@@ -1416,22 +1452,25 @@ impl SpectrumScenario {
                 }
             }
             _ => {
-                return Err(format!(
-                    "{}: give either `signal` or `centre_mhz`, not both",
-                    c.name
+                return Err(crate::terr!(
+                    "e-spectrum-give-either-signal-or-centre",
+                    name = c.name
                 ))
             }
         };
         if let Some(bw) = c.rx_bandwidth_mhz {
             if !(bw.is_finite() && bw > 0.0) {
-                return Err(format!("{}: rx_bandwidth_mhz must be positive", c.name));
+                return Err(crate::terr!(
+                    "e-spectrum-rx-bandwidth-mhz-must-be",
+                    name = c.name
+                ));
             }
             b.rx_bandwidth_hz = bw * 1e6;
         }
         if !b.rx_bandwidth_hz.is_finite() || b.rx_bandwidth_hz <= 0.0 {
-            return Err(format!(
-                "{}: give rx_bandwidth_mhz (no main lobe could be located)",
-                c.name
+            return Err(crate::terr!(
+                "e-spectrum-give-rx-bandwidth-mhz-no",
+                name = c.name
             ));
         }
         Ok(b)
@@ -1448,7 +1487,9 @@ impl SpectrumScenario {
             .collect::<Result<Vec<_>, _>>()?;
         let t_sys = system_temp_k(self.receiver.antenna_temp_k, self.receiver.noise_figure_db);
         if !(t_sys.is_finite() && t_sys > 0.0) {
-            return Err("the system noise temperature must be positive".into());
+            return Err(crate::terr!(
+                "e-leo-signal-the-system-noise-temperature-must"
+            ));
         }
         Ok(SpectrumModel {
             bands,
@@ -1459,17 +1500,20 @@ impl SpectrumScenario {
 
     fn validate(&self) -> Result<(usize, usize), String> {
         if !(self.step_s.is_finite() && self.step_s > 0.0) {
-            return Err("step_s must be positive".into());
+            return Err(crate::terr!("e-ephemeris-step-must-be-positive"));
         }
         if !(self.duration_s.is_finite() && self.duration_s >= self.step_s) {
-            return Err("duration_s must be at least one step_s".into());
+            return Err(crate::terr!("e-spectrum-duration-must-be-at-least"));
         }
         let rows = (self.duration_s / self.step_s).round() as usize;
         if rows > 5000 {
-            return Err(format!("{rows} time rows is more than the 5000 allowed"));
+            return Err(crate::terr!(
+                "e-spectrum-time-rows-is-more-than",
+                rows = rows
+            ));
         }
         if self.panels.len() > 8 {
-            return Err("at most 8 extra panels".into());
+            return Err(crate::terr!("e-spectrum-at-most-extra-panels"));
         }
         for p in &self.panels {
             if p.f_max_mhz.partial_cmp(&p.f_min_mhz) != Some(std::cmp::Ordering::Greater)
@@ -1478,9 +1522,9 @@ impl SpectrumScenario {
                 || p.n_freq < 2
                 || p.n_freq > 4096
             {
-                return Err(format!(
-                    "panel {:?}: need f_max_mhz > f_min_mhz and 2 ≤ n_freq ≤ 4096",
-                    p.name
+                return Err(crate::terr!(
+                    "e-spectrum-panel-need-max-mhz-min",
+                    name = format!("{:?}", p.name)
                 ));
             }
         }
@@ -1489,7 +1533,7 @@ impl SpectrumScenario {
             || g.n_freq < 2
             || g.n_freq > 4096
         {
-            return Err("grid: need f_max_mhz > f_min_mhz and 2 ≤ n_freq ≤ 4096".into());
+            return Err(crate::terr!("e-spectrum-grid-need-max-mhz-min"));
         }
         Ok((rows, g.n_freq))
     }
@@ -1792,21 +1836,22 @@ impl SpectrumScenario {
         });
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
         let summary = match &worst {
-            Some((name, c, js)) => format!(
-                "scenario spectrum | {} bands | {} jammers | noise floor {:.1} dBW/Hz | worst band {} min C/N0 {:.1} dB-Hz{}",
-                model.bands.len(),
-                model.jammers.len(),
-                n0_db,
-                name,
-                c,
-                if js.is_finite() {
+            Some((name, c, js)) => crate::t!(
+                "spectrum-scenario-spectrum-bands-jammers-noise",
+                bands = model.bands.len(),
+                jammers = model.jammers.len(),
+                n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db)),
+                name = name,
+                c = crate::i18n::localise_decimal(format!("{:.1}", c)),
+                v6 = if js.is_finite() {
                     format!(" (J/S {js:.1} dB)")
                 } else {
                     String::new()
                 }
             ),
-            None => format!(
-                "scenario spectrum | no bands | noise floor {n0_db:.1} dBW/Hz"
+            None => crate::t!(
+                "spectrum-scenario-spectrum-no-bands-noise",
+                n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db))
             ),
         };
         let svg = if panel_grids.is_empty() {
@@ -1837,14 +1882,14 @@ impl SpectrumScenario {
         c: &IqCfg,
     ) -> Result<(crate::sigmf::Recording, f64), String> {
         if c.log2_samples < 10 || c.log2_samples > 20 {
-            return Err("iq.log2_samples must be between 10 and 20".into());
+            return Err(crate::terr!("e-spectrum-iq-log2-samples-must-be"));
         }
         let n = 1usize << c.log2_samples;
         let fs = c.sample_rate_mhz * 1e6;
         let fc = c.centre_mhz * 1e6;
         let dtype = crate::sigmf::DataType::parse(&c.datatype)?;
         if dtype == crate::sigmf::DataType::Ci8 {
-            return Err("iq.datatype: use cf32_le or ci16_le".into());
+            return Err(crate::terr!("e-spectrum-iq-datatype-use-cf32-le"));
         }
         let x = synthesise_iq(model, fc, fs, n, c.t_s, self.seed)?;
         // Full scale for integer output: four times the RMS keeps clipping negligible.
@@ -2096,9 +2141,10 @@ fn waterfall_svg(
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "L-band spectrum waterfall",
-        &format!(
-            "frequency across, time down, colour = power spectral density (dBW/Hz); noise floor {n0_db:.1} dBW/Hz"
+        &crate::t!("spectrum-chart-title"),
+        &crate::t!(
+            "spectrum-frequency-across-time-down-colour",
+            n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db))
         ),
     );
     // Cells, run-length merged per row on the quantised colour.
@@ -2145,9 +2191,10 @@ fn waterfall_svg(
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         x0 + pw / 2.0,
-        y0 + ph + 34.0
+        y0 + ph + 34.0,
+        crate::t!("spectrum-chart-frequency-mhz")
     ));
     let mut seen: Vec<f64> = Vec::new();
     for b in &model.bands {
@@ -2211,9 +2258,10 @@ fn time_axis(s: &mut String, t_rows: &[f64], x0: f64, y0: f64, ph: f64) {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
+        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\" transform=\"rotate(-90 16 {:.1})\">{}</text>",
         y0 + ph / 2.0,
-        y0 + ph / 2.0
+        y0 + ph / 2.0,
+        crate::t!("ensemble-chart-time-s")
     ));
 }
 
@@ -2239,11 +2287,12 @@ fn colour_bar(
     }
     s.push_str(&format!(
         "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{lo_db:.0}</text>\
-         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{hi_db:.0} dBW/Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         lo_x,
         label_y,
         bx + bw_ + 4.0,
-        label_y
+        label_y,
+        crate::t!("spectrum-dbw-per-hz", level = crate::i18n::num(hi_db, 0))
     ));
 }
 
@@ -2274,7 +2323,7 @@ fn cn0_bars(
         y0,
         bpw,
         y0 + ph,
-        "C/N0 (dB-Hz): nominal (grey) / minimum",
+        &crate::t!("spectrum-chart-cn0-caption"),
     ));
     let cmax = 60.0;
     let xb = |c: f64| bx0 + (c.clamp(0.0, cmax) / cmax) * bpw;
@@ -2294,23 +2343,27 @@ fn cn0_bars(
         s.push_str(&format!(
             "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{AXIS}\"/>\
              <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{col}\"/>\
-             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"{TEXT}\">{} {:.1} / {:.1}</text>",
+             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"{TEXT}\">{} {} / {}</text>",
             yc - st.bar_dy,
             (xb(nom) - bx0).max(0.5),
             yc,
             (xb(min_c) - bx0).max(0.5),
             yc - st.label_dy,
             esc(&b.name),
-            nom,
-            min_c
+            crate::i18n::num(nom, 1),
+            crate::i18n::num(min_c, 1)
         ));
     }
     let xt = xb(thr);
     s.push_str(&format!(
         "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"5 4\"/>\
-         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{CORAL}\">threshold {thr:.0}</text>",
+         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{CORAL}\">{}</text>",
         y0 + ph,
-        y0 + ph + 16.0
+        y0 + ph + 16.0,
+        crate::t!(
+            "spectrum-chart-threshold",
+            thr = crate::i18n::num(thr, 0)
+        )
     ));
     if st.ticks {
         for k in 0..=3 {
@@ -2399,9 +2452,10 @@ fn multi_band_svg(
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "Multi-band spectrum waterfall",
-        &format!(
-            "each panel its own frequency range, one timeline down, one colour scale (dBW/Hz); noise floor {n0_db:.1} dBW/Hz"
+        &crate::t!("spectrum-chart-multi-title"),
+        &crate::t!(
+            "spectrum-each-panel-its-own-frequency",
+            n0_db = crate::i18n::localise_decimal(format!("{:.1}", n0_db))
         ),
     );
     for (i, (name, freq, grid)) in panels.iter().enumerate() {
@@ -2421,10 +2475,10 @@ fn multi_band_svg(
         for (t, anchor) in ["start", "middle", "end"].iter().enumerate() {
             let f = fa + (fb - fa) * t as f64 / 2.0;
             s.push_str(&format!(
-                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"{MUTED}\">{:.1}</text>",
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
                 xf(f),
                 y0 + ph + 16.0,
-                f / 1e6
+                crate::i18n::num(f / 1e6, 1)
             ));
         }
         let mut row = 0usize;
@@ -2444,9 +2498,10 @@ fn multi_band_svg(
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">{}</text>",
         x0 + total_w / 2.0,
-        y0 + ph + 52.0
+        y0 + ph + 52.0,
+        crate::t!("spectrum-chart-frequency-mhz")
     ));
     time_axis(&mut s, t_rows, x0, y0, ph);
     let (bx, by) = (x0, h - 18.0);

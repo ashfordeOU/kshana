@@ -7,20 +7,21 @@ import * as V from "./views.mjs";
 import { buildFomRows, figureTier } from "./tabs.mjs";
 import { fomTier } from "./report.mjs";
 import { numericFields } from "./params.mjs";
+import { t } from "./t.mjs";
 
 // The run's honesty label: VALIDATED, MODELLED or PARTNER, from the result's own label or
 // its per-figure tiers. { tier, text } or null when the result states neither.
 export function honesty(result) {
   if (!result || typeof result !== "object") return null;
-  const t = typeof result.label === "string" ? result.label : typeof result.note === "string" ? result.note : "";
-  const m = t.match(/^(VALIDATED|MODELLED|PARTNER)/);
+  const lab = typeof result.label === "string" ? result.label : typeof result.note === "string" ? result.note : "";
+  const m = lab.match(/^(VALIDATED|MODELLED|PARTNER)/);
   const figs = result.figure_tiers && Array.isArray(result.figure_tiers.figures) ? result.figure_tiers.figures : [];
   const v = figs.filter((f) => f.tier === "VALIDATED").length, mo = figs.filter((f) => f.tier === "MODELLED").length, p = figs.filter((f) => f.tier === "PARTNER").length;
-  if (m) return { tier: m[1], text: t };
+  if (m) return { tier: m[1], text: lab };
   if (figs.length) {
     const tier = p && !v && !mo ? "PARTNER" : v && !mo && !p ? "VALIDATED" : "MODELLED";
-    const parts = [v ? `${v} validated` : "", mo ? `${mo} modelled` : "", p ? `${p} partner-owned` : ""].filter(Boolean).join(", ");
-    return { tier, text: `Figure tiers: ${parts}.` };
+    const parts = [v ? t("js-lib-kpi-n-validated", "{ $n } validated", { n: v }) : "", mo ? t("js-lib-kpi-n-modelled", "{ $n } modelled", { n: mo }) : "", p ? t("js-lib-kpi-n-partner", "{ $n } partner-owned", { n: p }) : ""].filter(Boolean).join(", ");
+    return { tier, text: t("js-lib-kpi-figure-tiers", "Figure tiers: { $parts }.", { parts }) };
   }
   return null;
 }
@@ -115,7 +116,7 @@ function rawHeadline(result, toml = "", max = 6) {
       const path = `timeline.channels.${key}.values[${last}]`, v = K.resolve(r, path);
       if (!num(v)) continue;
       const q = K.quantity(v, ch.unit || "");
-      capFigs.push({ path, label: (K.keyLabel(key).charAt(0).toUpperCase() + K.keyLabel(key).slice(1)), note: ch.label || "", sub: "at the end of the mission", value: v, text: q.text, unit: q.unit });
+      capFigs.push({ path, label: (K.keyLabel(key).charAt(0).toUpperCase() + K.keyLabel(key).slice(1)), note: ch.label || "", sub: t("js-lib-kpi-end-of-mission", "at the end of the mission"), value: v, text: q.text, unit: q.unit });
     }
   }
   if (capFigs.length) return capFigs.map((x) => { const ft = figureTier(r, x.path); return { k: x.label, sub: x.sub, text: x.text, v: x.value, unit: x.unit, tier: ft ? ft.tier : "", title: x.note, path: x.path }; });
@@ -131,16 +132,16 @@ export function stateOf(result, toml, card) {
   const p = card.path || "";
   if (kind === "constellation-design") {
     const thr = K.resolve(result, "inputs.pdop_threshold");
-    if (/availability_pct$/.test(p) && num(card.v)) return card.v >= 100 ? { state: "pass", why: `available everywhere, every epoch${num(thr) ? ` (PDOP, position dilution of precision, under ${V.fmt(thr)})` : ""}` } : { state: "warn", why: `${V.fmt(100 - card.v)} % of the time or places without a fix${num(thr) ? ` at PDOP under ${V.fmt(thr)}` : ""}` };
-    if (/pdop\.(p95|median|max)$/.test(p) && num(thr) && num(card.v)) return card.v <= thr ? { state: "pass", why: `under the PDOP threshold ${V.fmt(thr)}` } : { state: "fail", why: `over the PDOP threshold ${V.fmt(thr)}` };
+    if (/availability_pct$/.test(p) && num(card.v)) return card.v >= 100 ? { state: "pass", why: num(thr) ? t("js-lib-kpi-available-everywhere-pdop", "available everywhere, every epoch (PDOP, position dilution of precision, under { $thr })", { thr: V.fmt(thr) }) : t("js-lib-kpi-available-everywhere", "available everywhere, every epoch") } : { state: "warn", why: num(thr) ? t("js-lib-kpi-no-fix-pdop", "{ $pct } % of the time or places without a fix at PDOP under { $thr }", { pct: V.fmt(100 - card.v), thr: V.fmt(thr) }) : t("js-lib-kpi-no-fix", "{ $pct } % of the time or places without a fix", { pct: V.fmt(100 - card.v) }) };
+    if (/pdop\.(p95|median|max)$/.test(p) && num(thr) && num(card.v)) return card.v <= thr ? { state: "pass", why: t("js-lib-kpi-under-pdop", "under the PDOP threshold { $thr }", { thr: V.fmt(thr) }) } : { state: "fail", why: t("js-lib-kpi-over-pdop", "over the PDOP threshold { $thr }", { thr: V.fmt(thr) }) };
   }
   if (kind === "spectrum") {
     const thr = K.resolve(result, "receiver.tracking_threshold_dbhz");
-    if (/min_cn0_dbhz$/.test(p) && num(thr) && num(card.v)) return card.v >= thr ? { state: "pass", why: `stays above the ${V.fmt(thr)} dB-Hz tracking threshold` } : { state: "fail", why: `drops under the ${V.fmt(thr)} dB-Hz tracking threshold: lock lost` };
+    if (/min_cn0_dbhz$/.test(p) && num(thr) && num(card.v)) return card.v >= thr ? { state: "pass", why: t("js-lib-kpi-stays-above", "stays above the { $thr } dB-Hz tracking threshold", { thr: V.fmt(thr) }) } : { state: "fail", why: t("js-lib-kpi-drops-under", "drops under the { $thr } dB-Hz tracking threshold: lock lost", { thr: V.fmt(thr) }) };
   }
   if (kind === "leo-navmsg" && p === "midpass_update.max_range_jump_m") {
     const thr = K.resolve(result, "midpass_update.threshold_m");
-    if (num(thr) && num(card.v)) return card.v <= thr ? { state: "pass", why: `under the ${V.fmt(thr)} m jump threshold` } : { state: "fail", why: `over the ${V.fmt(thr)} m jump threshold` };
+    if (num(thr) && num(card.v)) return card.v <= thr ? { state: "pass", why: t("js-lib-kpi-under-jump", "under the { $thr } m jump threshold", { thr: V.fmt(thr) }) } : { state: "fail", why: t("js-lib-kpi-over-jump", "over the { $thr } m jump threshold", { thr: V.fmt(thr) }) };
   }
   return null;
 }
@@ -159,7 +160,7 @@ export function kpiDelta(card, prevCards) {
   const p = prevCards.find((x) => kpiKey(x) === kpiKey(card));
   if (!p || !num(p.v)) return null;
   const d = card.v - p.v;
-  if (d === 0) return { d: 0, text: "no change", dir: "flat" };
+  if (d === 0) return { d: 0, text: t("js-lib-kpi-no-change", "no change"), dir: "flat" };
   const rel = p.v !== 0 ? ` (${d > 0 ? "+" : "−"}${Math.abs((d / Math.abs(p.v)) * 100).toFixed(Math.abs(d / p.v) < 0.1 ? 1 : 0)} %)` : "";
   return { d, text: `${d > 0 ? "+" : "−"}${V.fmt(Math.abs(d))}${card.unit ? ` ${card.unit}` : ""}${rel}`, dir: d > 0 ? "up" : "down" };
 }

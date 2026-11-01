@@ -1,0 +1,142 @@
+# A clock scenario with a measured log beside the simulated holdover (`[clock_log]`).
+#
+# The simulation below is clock-holdover.toml, unchanged. The `[clock_log]` table adds a `measured`
+# block to the result: the log is read to a phase series and its overlapping ADEV, TDEV and MTIE are
+# reported at octave averaging factors (docs/CLOCK-LOG-FORMATS.md). The log here is the first 48 minutes
+# (96 readings at 30 s) of the clock of GPS satellite G01 from the IGS final combined clock of
+# 2026-08-02, phase relative to its first reading, in ns, written as a TimeLab-style two-column log
+# (an extract of an IGS product: International GNSS Service, free for any use with attribution). Replace
+# it with your own log by giving `path = "..."` and the `format` (rinex-clk, timelab, ticc, ...) instead
+# of `text`. It describes that log as given; it does not change the simulation and is not a calibration.
+# Kshana reference scenario: 2 h run, 10 min GNSS sync then ~1.8 h denied.
+# Clock white-FM noise calibrated to published sigma_y(1 s): q_wf = sigma_y(1s)^2.
+# Validated against simulated Allan deviation in tests/calibration.rs (~2%).
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[clock_log]
+format = "timelab"
+text = """
+# tau0 = 30
+# units = ns
+0 0.000
+30 -0.266
+60 -0.566
+90 -0.854
+120 -1.147
+150 -1.430
+180 -1.717
+210 -2.013
+240 -2.287
+270 -2.572
+300 -2.876
+330 -3.141
+360 -3.432
+390 -3.718
+420 -3.993
+450 -4.280
+480 -4.573
+510 -4.869
+540 -5.159
+570 -5.435
+600 -5.746
+630 -6.019
+660 -6.309
+690 -6.601
+720 -6.877
+750 -7.142
+780 -7.441
+810 -7.742
+840 -8.042
+870 -8.321
+900 -8.613
+930 -8.869
+960 -9.159
+990 -9.444
+1020 -9.724
+1050 -10.025
+1080 -10.320
+1110 -10.609
+1140 -10.891
+1170 -11.175
+1200 -11.480
+1230 -11.744
+1260 -12.028
+1290 -12.318
+1320 -12.609
+1350 -12.907
+1380 -13.194
+1410 -13.482
+1440 -13.773
+1470 -14.060
+1500 -14.366
+1530 -14.610
+1560 -14.876
+1590 -15.171
+1620 -15.451
+1650 -15.747
+1680 -16.037
+1710 -16.321
+1740 -16.602
+1770 -16.891
+1800 -17.201
+1830 -17.462
+1860 -17.742
+1890 -18.031
+1920 -18.318
+1950 -18.615
+1980 -18.898
+2010 -19.186
+2040 -19.473
+2070 -19.750
+2100 -20.055
+2130 -20.320
+2160 -20.604
+2190 -20.888
+2220 -21.184
+2250 -21.453
+2280 -21.753
+2310 -22.049
+2340 -22.331
+2370 -22.625
+2400 -22.924
+2430 -23.200
+2460 -23.482
+2490 -23.773
+2520 -24.070
+2550 -24.357
+2580 -24.638
+2610 -24.930
+2640 -25.229
+2670 -25.519
+2700 -25.810
+2730 -26.081
+2760 -26.374
+2790 -26.657
+2820 -26.944
+2850 -27.219
+"""

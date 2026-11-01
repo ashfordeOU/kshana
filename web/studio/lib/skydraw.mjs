@@ -3,6 +3,7 @@
 // page's and the exported frame's. The satellites are the log's own GSV (lib/gsv.mjs); the sectors shaded are
 // the azimuths where the log lists satellites and hears none of them. Nothing is computed here but screen
 // positions, by the Geometry view's polar projection (lib/skyplot.mjs). Pure; tested in skydraw.test.mjs.
+import { t } from "./t.mjs";
 import { project, markerPath } from "./skyplot.mjs";
 import { SYS_LABEL, unheardSectors, skyCounts } from "./gsv.mjs";
 
@@ -39,22 +40,22 @@ export function skyMarkup(sats, { size = 240, labels = true } = {}) {
   const parts = [`<circle class="sk-h" cx="${f(cx)}" cy="${f(cy)}" r="${f(R)}"/>`];
   for (const el of [30, 60]) parts.push(`<circle class="sk-ring" cx="${f(cx)}" cy="${f(cy)}" r="${f(((90 - el) / 90) * R)}"/>`);
   parts.push(`<path class="sk-ring" d="M${f(cx)} ${f(cy - R)}V${f(cy + R)}M${f(cx - R)} ${f(cy)}H${f(cx + R)}"/>`);
-  for (const s of unheardSectors(sats)) parts.push(`<path class="sk-un" d="${wedge(s.from, s.to, cx, cy, R)}"><title>${esc(`Satellites listed between azimuth ${s.from} and ${s.to} degrees, none with a signal`)}</title></path>`);
+  for (const s of unheardSectors(sats)) parts.push(`<path class="sk-un" d="${wedge(s.from, s.to, cx, cy, R)}"><title>${esc(t("js-lib-skydraw-unheard-sector", "Satellites listed between azimuth { $from } and { $to } degrees, none with a signal", { from: s.from, to: s.to }))}</title></path>`);
   const ordered = sats.slice().sort((a, b) => (a[4] == null) - (b[4] == null));
   for (const [sys, prn, el, az, snr] of ordered) {
     const p = project(az, el, cx, cy, R), heard = snr != null;
-    parts.push(`<path class="sk-s ${heard ? "sk-heard" : "sk-quiet"} sk-${clsOf(sys)}" d="${markerPath(shapeOf(sys), p.x, p.y, heard ? 5 : 5.5)}"><title>${esc(`${SYS_LABEL[sys] || sys} ${prn}: elevation ${el}, azimuth ${az}, ${heard ? `signal ${snr} dB-Hz` : "listed, no signal"}`)}</title></path>`);
+    parts.push(`<path class="sk-s ${heard ? "sk-heard" : "sk-quiet"} sk-${clsOf(sys)}" d="${markerPath(shapeOf(sys), p.x, p.y, heard ? 5 : 5.5)}"><title>${esc(heard ? t("js-lib-skydraw-sat-heard", "{ $sys } { $prn }: elevation { $el }, azimuth { $az }, signal { $snr } dB-Hz", { sys: SYS_LABEL[sys] || sys, prn, el, az, snr }) : t("js-lib-skydraw-sat-quiet", "{ $sys } { $prn }: elevation { $el }, azimuth { $az }, listed, no signal", { sys: SYS_LABEL[sys] || sys, prn, el, az }))}</title></path>`);
     if (labels) parts.push(`<text class="sk-prn" x="${f(p.x + 7)}" y="${f(p.y + 3)}">${esc(prn)}</text>`);
   }
-  for (const [t, a] of [["N", 0], ["E", 90], ["S", 180], ["W", 270]]) { const p = project(a, 0, cx, cy, R + 9); parts.push(`<text class="sk-lbl" x="${f(p.x)}" y="${f(p.y + 3.5)}">${t}</text>`); }
+  for (const [name, a] of [[t("js-lib-skydraw-north", "N"), 0], [t("js-lib-skydraw-east", "E"), 90], [t("js-lib-skydraw-south", "S"), 180], [t("js-lib-skydraw-west", "W"), 270]]) { const p = project(a, 0, cx, cy, R + 9); parts.push(`<text class="sk-lbl" x="${f(p.x)}" y="${f(p.y + 3.5)}">${esc(name)}</text>`); }
   return parts.join("");
 }
 
 // One sentence for a screen reader, from the log's own satellites.
 export function skyDescribe(sats) {
-  if (!sats || !sats.length) return "No satellites listed in the log at this time.";
+  if (!sats || !sats.length) return t("js-lib-skydraw-none-listed", "No satellites listed in the log at this time.");
   const c = skyCounts(sats), un = unheardSectors(sats);
-  const bits = [`${c.listed} satellites listed, ${c.heard} with a signal${c.meanSnr == null ? "" : `, mean ${c.meanSnr.toFixed(1)} dB-Hz`}`];
-  if (un.length) bits.push(`no signal from ${un.map((s) => `azimuth ${s.from} to ${s.to} degrees`).join(" and ")}`);
+  const bits = [c.meanSnr == null ? t("js-lib-skydraw-describe", "{ $listed } satellites listed, { $heard } with a signal", { listed: c.listed, heard: c.heard }) : t("js-lib-skydraw-describe-mean", "{ $listed } satellites listed, { $heard } with a signal, mean { $snr } dB-Hz", { listed: c.listed, heard: c.heard, snr: c.meanSnr.toFixed(1) })];
+  if (un.length) bits.push(t("js-lib-skydraw-no-signal-from", "no signal from { $sectors }", { sectors: un.map((s) => t("js-lib-skydraw-azimuth-range", "azimuth { $from } to { $to } degrees", { from: s.from, to: s.to })).join(" and ") }));
   return bits.join("; ") + ".";
 }

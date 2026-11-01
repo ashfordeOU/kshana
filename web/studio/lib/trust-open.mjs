@@ -1,21 +1,25 @@
 // Builds the receiver-trust session the generic run sends to the engine: the settings' [log] gets the format the
 // person picked and the file's bytes inline (text for text formats, base64 for binary ones), and an optional IMU
 // file becomes [log.imu]. The browser has no file system, so nothing here names a path. Pure; no DOM.
+import { t } from "./t.mjs";
 import { toBase64 } from "./tools35.mjs";
 
 // What the engine's `[log] format` accepts here (0.38). `binary` formats go in as base64.
 export const LOG_FORMATS = Object.freeze([
-  { id: "nmea", label: "NMEA 0183 (text)", binary: false, exts: ["nmea", "txt", "log"] },
-  { id: "rtklib-pos", label: "RTKLIB .pos solution (text)", binary: false, exts: ["pos"] },
-  { id: "novatel", label: "NovAtel OEM7 (ASCII or binary)", binary: true, exts: ["gps", "asc", "bin", "novatel"] },
-  { id: "rtcm3", label: "RTCM 3 MSM4 / MSM7 (binary)", binary: true, exts: ["rtcm", "rtcm3"] },
-  { id: "gnss-sdr", label: "GNSS-SDR relayed JSON lines (text)", binary: false, exts: ["jsonl", "ndjson"] },
-  { id: "sbf", label: "Septentrio SBF (binary)", binary: true, exts: ["sbf"] },
-  { id: "ubx", label: "u-blox UBX (binary)", binary: true, exts: ["ubx"] },
-  { id: "rinex", label: "RINEX observation (text)", binary: false, exts: ["rnx", "obs"] },
-  { id: "android", label: "Android GNSS Logger (text)", binary: false, exts: [] },
+  { id: "nmea", get label() { return t("js-trust-fmt-nmea", "NMEA 0183 (text)"); }, binary: false, exts: ["nmea", "txt", "log"] },
+  { id: "rtklib-pos", get label() { return t("js-trust-fmt-rtklib-pos", "RTKLIB .pos solution (text)"); }, binary: false, exts: ["pos"] },
+  { id: "novatel", get label() { return t("js-trust-fmt-novatel", "NovAtel OEM7 (ASCII or binary)"); }, binary: true, exts: ["gps", "asc", "bin", "novatel"] },
+  { id: "rtcm3", get label() { return t("js-trust-fmt-rtcm3", "RTCM 3 MSM4 / MSM7 (binary)"); }, binary: true, exts: ["rtcm", "rtcm3"] },
+  { id: "gnss-sdr", get label() { return t("js-trust-fmt-gnss-sdr", "GNSS-SDR relayed JSON lines (text)"); }, binary: false, exts: ["jsonl", "ndjson"] },
+  { id: "sbf", get label() { return t("js-trust-fmt-sbf", "Septentrio SBF (binary)"); }, binary: true, exts: ["sbf"] },
+  { id: "ubx", get label() { return t("js-trust-fmt-ubx", "u-blox UBX (binary)"); }, binary: true, exts: ["ubx"] },
+  { id: "rinex", get label() { return t("js-trust-fmt-rinex", "RINEX observation (text)"); }, binary: false, exts: ["rnx", "obs"] },
+  { id: "android", get label() { return t("js-trust-fmt-android", "Android GNSS Logger (text)"); }, binary: false, exts: [] },
 ]);
-export const IMU_FORMATS = Object.freeze([{ id: "csv", label: "CSV with a header row" }, { id: "euroc", label: "EuRoC MAV imu0 data.csv" }]);
+export const IMU_FORMATS = Object.freeze([
+  { id: "csv", get label() { return t("js-trust-imu-csv", "CSV with a header row"); } },
+  { id: "euroc", get label() { return t("js-trust-imu-euroc", "EuRoC MAV imu0 data.csv"); } },
+]);
 
 export const formatInfo = (id) => LOG_FORMATS.find((f) => f.id === id) || null;
 
@@ -43,10 +47,10 @@ export function sniffFormat(bytes) {
   return "";
 }
 
-const noTriple = (t, what) => { if (String(t).includes("'''")) throw new Error(`${what} contains three single quotes in a row, which cannot be embedded in the settings`); };
+const noTriple = (text, what) => { if (String(text).includes("'''")) throw new Error(t("js-trust-err-triple-quote", "{ $what } contains three single quotes in a row, which cannot be embedded in the settings", { what })); };
 const source = (bytes, text, binary) => {
   if (binary) return `base64 = "${toBase64(bytes)}"`;
-  noTriple(text, "the file");
+  noTriple(text, t("js-trust-err-what-file", "the file"));
   return `text = '''\n${text}'''`;
 };
 
@@ -55,7 +59,7 @@ const source = (bytes, text, binary) => {
 // vessel: true adds `[platform] kind = "vessel"` (heading_sensor when an IMU is given) unless the settings already name a platform.
 export function buildSession(settingsToml, log, imu, vessel = false) {
   const f = formatInfo(log.format);
-  if (!f) throw new Error(`"${log.format}" is not a log format this page can send to the engine`);
+  if (!f) throw new Error(t("js-trust-err-log-format", "\"{ $format }\" is not a log format this page can send to the engine", { format: log.format }));
   const lines = String(settingsToml).replace(/\r\n/g, "\n").split("\n");
   const logBody = () => [`format = "${f.id}"`, source(log.bytes, log.text ?? "", f.binary)].join("\n");
   const out = [];
@@ -74,10 +78,10 @@ export function buildSession(settingsToml, log, imu, vessel = false) {
   if (vessel && !/^\s*\[platform\]/m.test(toml)) toml += `\n[platform]\nkind = "vessel"\n${imu ? "heading_sensor = true\n" : ""}`;
   if (imu) {
     const i = IMU_FORMATS.find((x) => x.id === imu.format);
-    if (!i) throw new Error(`"${imu.format}" is not an IMU format this page reads (csv or euroc)`);
-    if (!Number.isFinite(imu.heading0Deg)) throw new Error("the IMU's heading at its first sample is not a number");
+    if (!i) throw new Error(t("js-trust-err-imu-format", "\"{ $format }\" is not an IMU format this page reads (csv or euroc)", { format: imu.format }));
+    if (!Number.isFinite(imu.heading0Deg)) throw new Error(t("js-trust-err-imu-heading", "the IMU's heading at its first sample is not a number"));
     const off = Number.isFinite(imu.timeOffsetS) ? imu.timeOffsetS : 0;
-    noTriple(imu.text, "the IMU file");
+    noTriple(imu.text, t("js-trust-err-what-imu", "the IMU file"));
     toml += `\n[log.imu]\nformat = "${i.id}"\ntext = '''\n${imu.text}'''\nheading0_deg = ${imu.heading0Deg}\nyaw_axis_down = ${imu.yawAxisDown === false ? "false" : "true"}\ntime_offset_s = ${off}\n`;
   }
   return toml;

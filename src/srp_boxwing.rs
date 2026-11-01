@@ -363,11 +363,14 @@ impl BoxWing {
     /// within `1e-9`, non-zero normals/axes.
     pub fn check(&self) -> Result<(), String> {
         if !(self.mass_kg > 0.0 && self.mass_kg.is_finite()) {
-            return Err(format!("mass_kg must be positive, got {}", self.mass_kg));
+            return Err(crate::terr!(
+                "e-srp-boxwing-mass-kg-must-be-positive",
+                mass_kg = self.mass_kg
+            ));
         }
         for (i, p) in self.panels.iter().enumerate() {
             if !(p.area_m2 >= 0.0 && p.area_m2.is_finite()) {
-                return Err(format!("panel {i}: area must be >= 0"));
+                return Err(crate::terr!("e-srp-boxwing-panel-area-must-be", i = i));
             }
             for (name, c) in [
                 ("absorption", p.absorption),
@@ -375,13 +378,20 @@ impl BoxWing {
                 ("diffuse", p.diffuse),
             ] {
                 if !(0.0..=1.0).contains(&c) {
-                    return Err(format!("panel {i}: {name} = {c} outside [0, 1]"));
+                    return Err(crate::terr!(
+                        "e-srp-boxwing-panel-outside",
+                        i = i,
+                        name = name,
+                        c = c
+                    ));
                 }
             }
             let sum = p.absorption + p.specular + p.diffuse;
             if (sum - 1.0).abs() > 1e-9 {
-                return Err(format!(
-                    "panel {i}: absorption + specular + diffuse = {sum} != 1"
+                return Err(crate::terr!(
+                    "e-srp-boxwing-panel-absorption-specular-diffuse",
+                    i = i,
+                    sum = sum
                 ));
             }
             let dir = match p.kind {
@@ -389,7 +399,7 @@ impl BoxWing {
                 PanelKind::SunPointing { axis_body } => axis_body,
             };
             if norm(dir) == 0.0 {
-                return Err(format!("panel {i}: zero normal/axis"));
+                return Err(crate::terr!("e-srp-boxwing-panel-zero-normal-axis", i = i));
             }
         }
         Ok(())
@@ -729,7 +739,9 @@ fn solve_spd9(a: [[f64; 9]; 9], b: [f64; 9]) -> Result<[f64; 9], String> {
             }
             if i == j {
                 if sum <= 1e-14 * tr {
-                    return Err("ECOM2 normal matrix is singular or ill-conditioned".to_string());
+                    return Err(crate::terr!(
+                        "e-srp-boxwing-ecom2-normal-matrix-is-singular"
+                    ));
                 }
                 l[i][i] = sum.sqrt();
             } else {

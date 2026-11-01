@@ -152,10 +152,10 @@ pub fn score_run(
     opt: &ScoreOptions,
 ) -> Result<Scorecard, String> {
     if events.len() != result.events.len() {
-        return Err(format!(
-            "{} scheduled events but the run scored {}: pass the run's own events",
-            events.len(),
-            result.events.len()
+        return Err(crate::terr!(
+            "e-jammertest-score-scheduled-events-but-the-run",
+            events = events.len(),
+            events2 = result.events.len()
         ));
     }
     let rules_ok = opt.recover_hold_s.is_finite()
@@ -163,7 +163,9 @@ pub fn score_run(
         && opt.guard_s.is_finite()
         && opt.guard_s >= 0.0;
     if !rules_ok {
-        return Err("recover_hold_s must be positive and guard_s not negative".into());
+        return Err(crate::terr!(
+            "e-jammertest-score-recover-hold-must-be-positive"
+        ));
     }
     let epochs = &result.epochs;
     // A test is scored only if its baseline was formed in the clear: its slot starts at least

@@ -4,9 +4,8 @@
 # and its async runtime out of the published `kshana` crate's dependency graph, so a
 # library or Python user never compiles a server they do not run. It was originally
 # forced by the MSRV: rmcp is edition 2024 (rustc >= 1.85), and the root crate then
-# promised 1.75. That reason is gone — the root's `rust-version` is now 1.85 — and the
-# isolation stays for the graph-size reason alone (and lets this crate's own floor sit
-# at 1.88, see `rust-version` below, without moving the library's).
+# promised 1.75. That reason is gone — the root's `rust-version` is now 1.88, the same as this
+# crate's — and the isolation stays for the graph-size reason alone.
 #
 # It is NOT outside CI: the root package declares no `[workspace]` and lists `/mcp` in
 # its `exclude`, so root `cargo` never sees this crate, and ci.yml therefore gates it
@@ -15,9 +14,9 @@
 # lockfile and this crate's Dockerfile through their own entries.
 [package]
 name = "kshana-mcp"
-version = "0.39.0"
+version = "0.40.0"
 edition = "2024"
-# 1.88, three minors above the `kshana` library's 1.85. Three advisories against rmcp
+# 1.88, the same as the `kshana` library's. Three advisories against rmcp
 # < 2.1 (a Streamable-HTTP session-table leak, missing OAuth resource validation, and
 # custom headers leaking across a cross-origin redirect) are fixed only in rmcp 2.x,
 # whose macros pull in darling 0.23, which needs 1.88. This server uses the stdio
@@ -47,7 +46,7 @@ path = "src/main.rs"
 # `bundled-scenarios` compiles the reference scenarios into the library, so
 # `list_example_scenarios` / `get_example_scenario` can hand an agent a runnable scenario
 # of a kind: a registry or image install has no `scenarios/` directory to read.
-kshana = { path = "../..", version = "0.39.0", features = ["bundled-scenarios", "otlp"] }
+kshana = { path = "../..", version = "0.40.0", features = ["bundled-scenarios", "otlp"] }
 rmcp = { version = "2.1", features = ["server", "macros", "transport-io", "transport-streamable-http-server"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util", "net", "signal", "time"] }
 serde = { version = "1", features = ["derive"] }

@@ -3,8 +3,11 @@
 // library tabs are site.js. Data: build.py page data (#kpage, from src/data/mcp-session.json);
 // js/developers-data.mjs (src/tools/gen_developers_data.py) is kept only as a fallback.
 import { mountPlayer } from "./mcp-player.mjs";
-import GEN from "./developers-data.mjs";
+
 import { studioHref } from "./studio-links.mjs";
+import { t, ready, importData } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
+const GEN = (await importData(new URL("./developers-data.mjs", import.meta.url).href)).default;
 
 let D = GEN;
 try { const k = document.getElementById("kpage"); if (k) { const j = JSON.parse(k.textContent); if (j && j.mcp) D = j; } } catch (e) { /* keep the generated module */ }
@@ -36,17 +39,17 @@ function init(C) {
   // provenance: engine, build, capture, and each scenario with its seed
   const pv = $("#dtProv"), src = document.createElement("span"); src.className = "prov-src";
   const cd = (t) => { const c = document.createElement("code"); c.textContent = t; return c; };
-  src.append(`Engine v${C.engine.version}, build `, cd(C.engine.commit), ` · captured ${C.recorded} from `, cd(C.engine.binary), " · ");
+  src.append(t("js-site-developers-engine-build", "Engine v{ $version }, build", { version: C.engine.version }), " ", cd(C.engine.commit), " · ", t("js-site-developers-captured-from", "captured { $recorded } from", { recorded: C.recorded }), " ", cd(C.engine.binary), " · ");
   // Each scenario the session runs opens in the Studio, on the view that reproduces it.
   const STUDIO = (window.KSITE && window.KSITE.studio) || "Kshana Studio";
-  const inStudio = (f) => { const h = studioHref((window.KSITE && window.KSITE.root) || "", f); if (!h) return cd(f); const a = document.createElement("a"); a.className = "prov-file"; a.href = h; a.title = `Open in ${STUDIO}`; a.setAttribute("aria-label", `${f}: open in ${STUDIO}`); a.append(cd(f)); return a; };
-  Object.entries(C.scenarios).forEach(([f, s], i) => { if (i) src.append(", "); src.append(inStudio(f), ` (${s.seed == null ? "deterministic, no seed" : "seed " + s.seed})`); });
-  const more = document.createElement("a"); more.className = "prov-open"; more.href = "#cli"; more.textContent = "What every run writes";
+  const inStudio = (f) => { const h = studioHref((window.KSITE && window.KSITE.root) || "", f); if (!h) return cd(f); const a = document.createElement("a"); a.className = "prov-file"; a.href = h; a.title = t("js-site-developers-open-in-studio", "Open in { $studio }", { studio: STUDIO }); a.setAttribute("aria-label", t("js-site-developers-file-open-in-studio", "{ $file }: open in { $studio }", { file: f, studio: STUDIO })); a.append(cd(f)); return a; };
+  Object.entries(C.scenarios).forEach(([f, s], i) => { if (i) src.append(", "); src.append(inStudio(f), " ", s.seed == null ? t("js-site-developers-no-seed", "(deterministic, no seed)") : t("js-site-developers-seed", "(seed { $seed })", { seed: s.seed })); });
+  const more = document.createElement("a"); more.className = "prov-open"; more.href = "#cli"; more.textContent = t("js-site-developers-what-runs-write", "What every run writes");
   pv.append(src, more);
 
   const line = (cls, text) => { const s = document.createElement("span"); s.className = cls; s.textContent = text; return s; };
   const prompt = () => { const p = document.createElement("span"); p.className = "dt-l"; p.append(line("dt-ps", "$ ")); return p; };
-  const stamp = (s) => line("dt-l dt-dim", `exit ${s.rc} · ${s.ms.toLocaleString("en-GB", { maximumFractionDigits: 1 })} ms`);
+  const stamp = (s) => line("dt-l dt-dim", t("js-site-developers-exit-stamp", "exit { $rc } · { $ms } ms", { rc: s.rc, ms: s.ms.toLocaleString("en-GB", { maximumFractionDigits: 1 }) }));
   const toBottom = () => { term.scrollTop = term.scrollHeight; };
   function full(upto = C.steps.length) {              // the session so far, as a static frame
     code.replaceChildren();
@@ -65,7 +68,7 @@ function init(C) {
     if (!playing || !visible) return;
     if (si >= C.steps.length) {                     // hold, then replay on: the terminal scrolls, it never blanks
       if (phase !== "hold") { phase = "hold"; return sleep(3200); }
-      code.append(line("dt-l dt-dim", "# replaying the recorded session"), "\n");
+      code.append(line("dt-l dt-dim", t("js-site-developers-replaying", "# replaying the recorded session")), "\n");
       while (code.childNodes.length > 120) code.firstChild.remove();
       si = 0; phase = "type"; ci = 0; oi = 0; cur = null; return sleep(600);
     }
@@ -84,7 +87,7 @@ function init(C) {
   }
   function setupBtn(on) {
     const b = $("#dtPlay"); playing = on;
-    const set = () => { b.setAttribute("aria-pressed", String(playing)); b.setAttribute("aria-label", playing ? "Pause the replay" : "Play the replay"); };
+    const set = () => { b.setAttribute("aria-pressed", String(playing)); b.setAttribute("aria-label", playing ? t("js-site-developers-pause", "Pause the replay") : t("js-site-developers-play", "Play the replay")); };
     b.addEventListener("click", () => {
       playing = !playing; set(); clearTimeout(timer);
       if (playing) tick();

@@ -21,185 +21,184 @@ const IO_TIMEOUT: Duration = Duration::from_secs(2);
 
 /// The `ExportMetricsServiceRequest` JSON for the registry's current state at `unix_nano`.
 pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
-    let t = unix_nano.to_string();
-    let start = reg.started_unix_nano().unwrap_or(unix_nano).to_string();
-    let mut metrics: Vec<Value> = Vec::new();
-    if let Some(sc) = reg.score() {
+    crate::i18n::in_english(|| {
+        let t = unix_nano.to_string();
+        let start = reg.started_unix_nano().unwrap_or(unix_nano).to_string();
+        let mut metrics: Vec<Value> = Vec::new();
+        if let Some(sc) = reg.score() {
+            metrics.push(json!({
+                "name": "kshana.trust.score",
+                "description": "Latest GNSS trust score, 0 to 100.",
+                "unit": "1",
+                "gauge": {"dataPoints": [{"asDouble": sc, "timeUnixNano": t}]}
+            }));
+        }
+        let band_points: Vec<Value> = Band::ALL
+            .iter()
+            .map(|b| {
+                json!({
+                    "asInt": i64::from(reg.band() == Some(*b)).to_string(),
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "band", "value": {"stringValue": b.label()}}]
+                })
+            })
+            .collect();
         metrics.push(json!({
-            "name": "kshana.trust.score",
-            "description": "Latest GNSS trust score, 0 to 100.",
+            "name": "kshana.trust.band",
+            "description": "1 for the current trust band, 0 for the others.",
             "unit": "1",
-            "gauge": {"dataPoints": [{"asDouble": sc, "timeUnixNano": t}]}
+            "gauge": {"dataPoints": band_points}
         }));
-    }
-    let band_points: Vec<Value> = Band::ALL
-        .iter()
-        .map(|b| {
-            json!({
-                "asInt": i64::from(reg.band() == Some(*b)).to_string(),
-                "timeUnixNano": t,
-                "attributes": [{"key": "band", "value": {"stringValue": b.label()}}]
+        let epoch_points: Vec<Value> = Band::ALL
+            .iter()
+            .map(|b| {
+                json!({
+                    "asInt": reg.epochs_in(*b).to_string(),
+                    "startTimeUnixNano": start,
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "band", "value": {"stringValue": b.label()}}]
+                })
             })
-        })
-        .collect();
-    metrics.push(json!({
-        "name": "kshana.trust.band",
-        "description": "1 for the current trust band, 0 for the others.",
-        "unit": "1",
-        "gauge": {"dataPoints": band_points}
-    }));
-    let epoch_points: Vec<Value> = Band::ALL
-        .iter()
-        .map(|b| {
-            json!({
-                "asInt": reg.epochs_in(*b).to_string(),
-                "startTimeUnixNano": start,
-                "timeUnixNano": t,
-                "attributes": [{"key": "band", "value": {"stringValue": b.label()}}]
-            })
-        })
-        .collect();
-    metrics.push(json!({
-        "name": "kshana.trust.epochs",
-        "description": "Epochs received, by trust band.",
-        "unit": "1",
-        "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": epoch_points}
-    }));
-    let reason_points: Vec<Value> = reg
-        .reason_epochs()
-        .map(|(r, n)| {
-            json!({
-                "asInt": n.to_string(),
-                "startTimeUnixNano": start,
-                "timeUnixNano": t,
-                "attributes": [{"key": "reason", "value": {"stringValue": r}}]
-            })
-        })
-        .collect();
-    if !reason_points.is_empty() {
+            .collect();
         metrics.push(json!({
+            "name": "kshana.trust.epochs",
+            "description": "Epochs received, by trust band.",
+            "unit": "1",
+            "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": epoch_points}
+        }));
+        let reason_points: Vec<Value> = reg
+            .reason_epochs()
+            .map(|(r, n)| {
+                json!({
+                    "asInt": n.to_string(),
+                    "startTimeUnixNano": start,
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "reason", "value": {"stringValue": r}}]
+                })
+            })
+            .collect();
+        if !reason_points.is_empty() {
+            metrics.push(json!({
             "name": "kshana.trust.reason.epochs",
             "description": "Epochs in which a reason was present, by reason.",
             "unit": "1",
             "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": reason_points}
         }));
-    }
-    if reg.geometry_seen() {
-        // Schema 1.3 inputs only: a 0.35 stream exports exactly what it did.
-        let g = reg.geometry();
-        let status_points: Vec<Value> = GEOMETRY_STATUSES
-            .iter()
-            .map(|st| {
-                json!({
-                    "asInt": i64::from(g.is_some_and(|g| g.status == *st)).to_string(),
-                    "timeUnixNano": t,
-                    "attributes": [{"key": "status", "value": {"stringValue": st}}]
+        }
+        if reg.geometry_seen() {
+            // Schema 1.3 inputs only: a 0.35 stream exports exactly what it did.
+            let g = reg.geometry();
+            let status_points: Vec<Value> = GEOMETRY_STATUSES
+                .iter()
+                .map(|st| {
+                    json!({
+                        "asInt": i64::from(g.is_some_and(|g| g.status == *st)).to_string(),
+                        "timeUnixNano": t,
+                        "attributes": [{"key": "status", "value": {"stringValue": st}}]
+                    })
                 })
-            })
-            .collect();
-        metrics.push(json!({
+                .collect();
+            metrics.push(json!({
             "name": "kshana.geometry.status",
             "description": "1 for the current satellite-geometry status (good, degraded, unknown), 0 for the others.",
             "unit": "1",
             "gauge": {"dataPoints": status_points}
         }));
-        if let Some(g) = g.filter(|g| g.status != "unknown") {
-            metrics.push(json!({
+            if let Some(g) = g.filter(|g| g.status != "unknown") {
+                metrics.push(json!({
                 "name": "kshana.geometry.degraded",
                 "description": "1 if the satellite geometry is degraded, 0 if good.",
                 "unit": "1",
                 "gauge": {"dataPoints": [{"asInt": i64::from(g.status == "degraded").to_string(), "timeUnixNano": t}]}
             }));
-            if let Some(loss) = g.signal_loss {
-                metrics.push(json!({
+                if let Some(loss) = g.signal_loss {
+                    metrics.push(json!({
                     "name": "kshana.geometry.signal_loss",
                     "description": "1 if satellites in view are not tracked while their geometry is good: the signal was lost, not the sky.",
                     "unit": "1",
                     "gauge": {"dataPoints": [{"asInt": i64::from(loss).to_string(), "timeUnixNano": t}]}
                 }));
+                }
             }
-        }
-        for (name, description, v) in [
-            (
-                "kshana.geometry.hdop",
-                "Horizontal dilution of precision.",
-                g.and_then(|g| g.hdop),
-            ),
-            (
-                "kshana.geometry.pdop",
-                "Position dilution of precision.",
-                g.and_then(|g| g.pdop),
-            ),
-            (
-                "kshana.geometry.used_satellites",
-                "Satellites used.",
-                g.and_then(|g| g.n_used),
-            ),
-        ] {
-            if let Some(v) = v {
-                metrics.push(json!({
-                    "name": name,
-                    "description": description,
-                    "unit": "1",
-                    "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
-                }));
+            for (name, description, v) in [
+                (
+                    "kshana.geometry.hdop",
+                    "Horizontal dilution of precision.",
+                    g.and_then(|g| g.hdop),
+                ),
+                (
+                    "kshana.geometry.pdop",
+                    "Position dilution of precision.",
+                    g.and_then(|g| g.pdop),
+                ),
+                (
+                    "kshana.geometry.used_satellites",
+                    "Satellites used.",
+                    g.and_then(|g| g.n_used),
+                ),
+            ] {
+                if let Some(v) = v {
+                    metrics.push(json!({
+                        "name": name,
+                        "description": description,
+                        "unit": "1",
+                        "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
+                    }));
+                }
             }
-        }
-        // The label (0.36: always reported, never scored) and the VDOP, appended, only where
-        // the input carries them.
-        if let Some(label) = g.and_then(|g| g.label) {
-            let points: Vec<Value> = GEOMETRY_LABELS
-                .iter()
-                .map(|l| {
-                    json!({
-                        "asInt": i64::from(label == *l).to_string(),
-                        "timeUnixNano": t,
-                        "attributes": [{"key": "label", "value": {"stringValue": l}}]
+            // The label (0.36: always reported, never scored) and the VDOP, appended, only where
+            // the input carries them.
+            if let Some(label) = g.and_then(|g| g.label) {
+                let points: Vec<Value> = GEOMETRY_LABELS
+                    .iter()
+                    .map(|l| {
+                        json!({
+                            "asInt": i64::from(label == *l).to_string(),
+                            "timeUnixNano": t,
+                            "attributes": [{"key": "label", "value": {"stringValue": l}}]
+                        })
                     })
-                })
-                .collect();
-            metrics.push(json!({
+                    .collect();
+                metrics.push(json!({
                 "name": "kshana.geometry.label",
                 "description": "1 for the current geometry label (good, fair, poor, unknown), 0 for the others; never scored, the score deducts only for poor.",
                 "unit": "1",
                 "gauge": {"dataPoints": points}
             }));
+            }
+            if let Some(v) = g.and_then(|g| g.vdop) {
+                metrics.push(json!({
+                    "name": "kshana.geometry.vdop",
+                    "description": "Vertical dilution of precision.",
+                    "unit": "1",
+                    "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
+                }));
+            }
         }
-        if let Some(v) = g.and_then(|g| g.vdop) {
-            metrics.push(json!({
-                "name": "kshana.geometry.vdop",
-                "description": "Vertical dilution of precision.",
-                "unit": "1",
-                "gauge": {"dataPoints": [{"asDouble": v, "timeUnixNano": t}]}
-            }));
-        }
-    }
-    json!({"resourceMetrics": [{
-        "resource": {"attributes": [
-            {"key": "service.name", "value": {"stringValue": "kshana"}},
-            {"key": "service.version", "value": {"stringValue": reg.version()}}
-        ]},
-        "scopeMetrics": [{"scope": {"name": "kshana.telemetry"}, "metrics": metrics}]
-    }]})
+        json!({"resourceMetrics": [{
+            "resource": {"attributes": [
+                {"key": "service.name", "value": {"stringValue": "kshana"}},
+                {"key": "service.version", "value": {"stringValue": reg.version()}}
+            ]},
+            "scopeMetrics": [{"scope": {"name": "kshana.telemetry"}, "metrics": metrics}]
+        }]})
+    })
 }
 
 /// Split `http://host:port/path` into (`host:port`, `/path`). `https` is refused.
 pub fn parse_endpoint(url: &str) -> Result<(String, String), String> {
     if url.starts_with("https://") {
-        return Err(
-            "https is not supported by the built-in exporter; use a local collector over http"
-                .into(),
-        );
+        return Err(crate::terr!("e-telemetry-otlp-https-is-not-supported-by"));
     }
     let rest = url
         .strip_prefix("http://")
-        .ok_or("endpoint must start with http://")?;
+        .ok_or_else(|| crate::terr!("e-telemetry-otlp-endpoint-must-start-with-http"))?;
     let (hostport, path) = match rest.find('/') {
         Some(i) => (&rest[..i], &rest[i..]),
         None => (rest, "/v1/metrics"),
     };
     if hostport.is_empty() {
-        return Err("endpoint has no host".into());
+        return Err(crate::terr!("e-telemetry-otlp-endpoint-has-no-host"));
     }
     Ok((hostport.to_string(), path.to_string()))
 }
@@ -211,8 +210,8 @@ pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, Str
     let body = build_payload(reg, unix_nano).to_string();
     let addrs = hostport
         .to_socket_addrs()
-        .map_err(|e| format!("resolve {hostport}: {e}"))?;
-    let mut last = format!("no address for {hostport}");
+        .map_err(|e| crate::terr!("e-telemetry-otlp-resolve", hostport = hostport, e = e))?;
+    let mut last = crate::t!("telemetry-otlp-no-address-for", hostport = hostport);
     let mut stream = None;
     for a in addrs {
         match TcpStream::connect_timeout(&a, IO_TIMEOUT) {
@@ -237,7 +236,7 @@ pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, Str
     resp.split_whitespace()
         .nth(1)
         .and_then(|c| c.parse().ok())
-        .ok_or_else(|| "no HTTP status in response".to_string())
+        .ok_or_else(|| crate::terr!("e-telemetry-otlp-no-http-status-in-response"))
 }
 
 /// Exports from a worker thread, so the caller never waits on a collector and never holds a
@@ -256,7 +255,10 @@ impl Exporter {
         let worker = std::thread::spawn(move || {
             for (reg, t) in rx.iter() {
                 if let Err(e) = export(&ep, &reg, t) {
-                    eprintln!("warning: otlp export failed: {e}");
+                    eprintln!(
+                        "{}",
+                        crate::t!("telemetry-otlp-warning-otlp-export-failed", e = e)
+                    );
                 }
             }
         });

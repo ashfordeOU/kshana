@@ -68,8 +68,9 @@ impl ModelKind {
             "kepler16" => Ok(ModelKind::Kepler16),
             "kepler-rac" => {
                 if rac_degrees.iter().any(|&d| d > 7) {
-                    return Err(format!(
-                        "rac_degrees must each be at most 7; got {rac_degrees:?}"
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-fit-rac-degrees-must-each-be",
+                        rac_degrees = format!("{:?}", rac_degrees)
                     ));
                 }
                 Ok(ModelKind::KeplerRac {
@@ -79,14 +80,18 @@ impl ModelKind {
             "liu22" => Ok(ModelKind::Liu22),
             "ecef-poly" => {
                 if !(1..=10).contains(&poly_degree) {
-                    return Err(format!("poly_degree must be 1-10; got {poly_degree}"));
+                    return Err(crate::terr!(
+                        "e-leo-navmsg-fit-poly-degree-must-be-10",
+                        poly_degree = poly_degree
+                    ));
                 }
                 Ok(ModelKind::EcefPoly {
                     degree: poly_degree,
                 })
             }
-            other => Err(format!(
-                "unknown ephemeris model '{other}': use kepler16, kepler-rac, liu22 or ecef-poly"
+            other => Err(crate::terr!(
+                "e-leo-navmsg-fit-unknown-ephemeris-model-use-kepler16",
+                other = other
             )),
         }
     }
@@ -292,14 +297,18 @@ pub fn fit_message(
     sample_s: f64,
 ) -> Result<Fitted, String> {
     if len.is_nan() || len < 10.0 {
-        return Err(format!("fit interval must be at least 10 s; got {len}"));
+        return Err(crate::terr!(
+            "e-leo-navmsg-fit-fit-interval-must-be-at",
+            len = len
+        ));
     }
     let t0 = truth.dt_of(start);
     if t0 < -1e-6 || t0 + len > truth.span_s() + 1e-6 {
-        return Err(format!(
-            "fit window [{t0:.0}, {:.0}] s lies outside the truth arc [0, {:.0}] s",
-            t0 + len,
-            truth.span_s()
+        return Err(crate::terr!(
+            "e-leo-navmsg-fit-fit-window-lies-outside-the",
+            t0 = crate::i18n::localise_decimal(format!("{:.0}", t0)),
+            v1 = crate::i18n::localise_decimal(format!("{:.0}", t0 + len)),
+            truth = crate::i18n::localise_decimal(format!("{:.0}", truth.span_s()))
         ));
     }
     let centre = start.plus(len / 2.0);
@@ -318,8 +327,9 @@ pub fn fit_message(
             let mut coeffs: [Vec<f64>; 3] = Default::default();
             for (ax, c) in coeffs.iter_mut().enumerate() {
                 let ys: Vec<f64> = obs.iter().map(|o| o[ax]).collect();
-                *c = polyfit(&taus, &ys, degree)
-                    .ok_or("ECEF polynomial fit is singular (too few samples for the degree)")?;
+                *c = polyfit(&taus, &ys, degree).ok_or_else(|| {
+                    crate::terr!("e-leo-navmsg-fit-ecef-polynomial-fit-is-singular")
+                })?;
             }
             let model = EphemerisModel::EcefPoly {
                 poly: EcefPoly { t_ref: toe, coeffs },
@@ -352,8 +362,7 @@ pub fn fit_message(
                 }
                 let fitc = |c: usize| -> Result<Vec<f64>, String> {
                     polyfit(&taus, &comps[c], degrees[c]).ok_or_else(|| {
-                        "correction polynomial fit is singular (too few samples for the degree)"
-                            .to_string()
+                        crate::terr!("e-leo-navmsg-fit-correction-polynomial-fit-is-singular")
                     })
                 };
                 EphemerisModel::KeplerRac {
@@ -415,7 +424,8 @@ fn fit_clock(
         // Work in nanoseconds for conditioning.
         ys.push((apparent - rel_user) * 1e9);
     }
-    let c = polyfit(&xs, &ys, 2).ok_or("clock fit is singular")?;
+    let c = polyfit(&xs, &ys, 2)
+        .ok_or_else(|| crate::terr!("e-leo-navmsg-fit-clock-fit-is-singular"))?;
     Ok(ClockPoly {
         toc,
         af0: c[0] * 1e-9,
@@ -560,7 +570,7 @@ fn fit_kepler(
         }
     }
     if !cost.is_finite() {
-        return Err("Keplerian fit diverged".to_string());
+        return Err(crate::terr!("e-leo-navmsg-fit-keplerian-fit-diverged"));
     }
     Ok((p, iters))
 }

@@ -156,7 +156,9 @@ impl Cn0Monitor {
         }
         self.series.push(t_s, cn0_dbhz);
         let t0 = *self.t0.get_or_insert(t_s);
-        let take = self.n_seen % self.settings.stride.max(1) as u64 == 0;
+        let take = self
+            .n_seen
+            .is_multiple_of(self.settings.stride.max(1) as u64);
         self.n_seen += 1;
         if !take {
             return;
@@ -198,14 +200,17 @@ impl Cn0Monitor {
         match self.reference {
             Some((mu, sd)) => {
                 let k = self.settings.shift_db / (2.0 * sd);
-                notes.push((format!("cn0.{l}.baseline_dbhz"), format!("{mu:.3}")));
+                notes.push((
+                    crate::t!("iq-monitor-cn0-cn0-baseline-dbhz", l = l),
+                    format!("{mu:.3}"),
+                ));
                 notes.push((format!("cn0.{l}.sigma_db"), format!("{sd:.3}")));
                 notes.push((
-                    format!("cn0.{l}.arl0_samples_independent"),
+                    crate::t!("iq-monitor-cn0-cn0-arl0-samples-independent", l = l),
                     format!("{:.0}", stats::cusum_arl0(k, self.settings.h)),
                 ));
                 notes.push((
-                    format!("cn0.{l}.arl1_samples_independent"),
+                    crate::t!("iq-monitor-cn0-cn0-arl1-samples-independent", l = l),
                     format!(
                         "{:.1}",
                         stats::cusum_arl(k, self.settings.h, self.settings.shift_db / sd)

@@ -1,0 +1,194 @@
+{
+ "ablations": {
+  "B1": {
+   "S1": {
+    "control_missed": 9,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [
+     "B4 l1 combined MOD1 min"
+    ],
+    "missed_now": 8,
+    "scored_cells": 52
+   },
+   "S2": {
+    "control_missed": 4,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 4,
+    "scored_cells": 52
+   },
+   "S3": {
+    "control_missed": 33,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [
+     "B9@15 l1 combined MOD1 min"
+    ],
+    "missed_now": 32,
+    "scored_cells": 155
+   }
+  },
+  "B2": {
+   "S1": {
+    "control_missed": 9,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 9,
+    "scored_cells": 52
+   },
+   "S2": {
+    "control_missed": 4,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 4,
+    "scored_cells": 52
+   },
+   "S3": {
+    "control_missed": 33,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 33,
+    "scored_cells": 155
+   }
+  },
+  "B3": {
+   "S4": {
+    "control_missed": 24,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 24,
+    "scored_cells": 156
+   },
+   "S5": {
+    "control_missed": 8,
+    "met_cells_now_missed": [
+     "HEO l5 qzss >=4 %"
+    ],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 9,
+    "scored_cells": 26
+   }
+  },
+  "B4": {
+   "S5": {
+    "control_missed": 8,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 8,
+    "scored_cells": 26
+   },
+   "S6": {
+    "control_missed": 0,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 0,
+    "scored_cells": 26
+   }
+  },
+  "B5": {
+   "S1": {
+    "control_missed": 9,
+    "met_cells_now_missed": [],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 9,
+    "scored_cells": 52
+   },
+   "S3": {
+    "control_missed": 33,
+    "met_cells_now_missed": [
+     "B9@20 l1 gps >=4 %",
+     "B9@20 l1 bds MOD1 min",
+     "B9@20 l1 combined >=1 %"
+    ],
+    "missed_cells_now_within_tolerance": [],
+    "missed_now": 36,
+    "scored_cells": 155
+   }
+  }
+ },
+ "leftover_cells": {
+  "S1 B4 l1 combined >=4 %": [],
+  "S1 B4 l1 combined MOD1 min": [
+   "B1"
+  ],
+  "S1 B4 l1 glonass >=1 %": [],
+  "S1 B4 l1 glonass >=4 %": [],
+  "S1 B4 l1 glonass MOD1 min": [],
+  "S1 B4 l5 combined MOD4 min": [],
+  "S1 B4 l5 glonass >=4 %": [],
+  "S1 B4 l5 glonass MOD1 min": [],
+  "S1 B4 l5 glonass MOD4 min": [],
+  "S2 5.2 l1 glonass >=1 %": [],
+  "S2 5.2 l1 glonass >=4 %": [],
+  "S2 5.2 l1 glonass MOD1 min": [],
+  "S2 5.2 l1 glonass MOD4 min": [],
+  "S3 B9@15 l1 combined >=4 %": [],
+  "S3 B9@15 l1 combined MOD1 min": [
+   "B1"
+  ],
+  "S3 B9@15 l1 glonass >=1 %": [],
+  "S3 B9@15 l1 glonass >=4 %": [],
+  "S3 B9@15 l1 glonass MOD1 min": [],
+  "S3 B9@15 l5 combined MOD4 min": [],
+  "S3 B9@15 l5 glonass >=4 %": [],
+  "S3 B9@15 l5 glonass MOD1 min": [],
+  "S3 B9@15 l5 glonass MOD4 min": [],
+  "S3 B9@20 l1 combined >=4 %": [],
+  "S3 B9@20 l1 combined MOD1 min": [],
+  "S3 B9@20 l1 combined MOD4 min": [],
+  "S3 B9@20 l1 glonass >=1 %": [],
+  "S3 B9@20 l1 glonass >=4 %": [],
+  "S3 B9@20 l1 glonass MOD1 min": [],
+  "S3 B9@20 l1 gps >=1 %": [],
+  "S3 B9@20 l5 bds >=4 %": [],
+  "S3 B9@20 l5 combined MOD4 min": [],
+  "S3 B9@20 l5 glonass >=4 %": [],
+  "S3 B9@20 l5 glonass MOD1 min": [],
+  "S3 B9@20 l5 glonass MOD4 min": [],
+  "S3 B9@25 l1 combined >=1 %": [],
+  "S3 B9@25 l1 combined >=4 %": [],
+  "S3 B9@25 l1 combined MOD1 min": [],
+  "S3 B9@25 l1 glonass >=1 %": [],
+  "S3 B9@25 l1 glonass >=4 %": [],
+  "S3 B9@25 l1 glonass MOD1 min": [],
+  "S3 B9@25 l5 combined >=4 %": [],
+  "S3 B9@25 l5 combined MOD1 min": [],
+  "S3 B9@25 l5 combined MOD4 min": [],
+  "S3 B9@25 l5 glonass >=4 %": [],
+  "S3 B9@25 l5 glonass MOD1 min": [],
+  "S3 B9@25 l5 glonass MOD4 min": [],
+  "S4 GEO 0E l1 glonass >=1 %": [],
+  "S4 GEO 0E l5 glonass >=4 %": [],
+  "S4 GEO 120E l1 combined >=4 %": [],
+  "S4 GEO 120E l1 glonass >=1 %": [],
+  "S4 GEO 120E l1 glonass >=4 %": [],
+  "S4 GEO 120E l5 glonass >=1 %": [],
+  "S4 GEO 120E l5 glonass >=4 %": [],
+  "S4 GEO 180E l1 combined >=4 %": [],
+  "S4 GEO 180E l1 glonass >=1 %": [],
+  "S4 GEO 180E l5 glonass >=4 %": [],
+  "S4 GEO 240E l1 combined >=4 %": [],
+  "S4 GEO 240E l1 glonass >=1 %": [],
+  "S4 GEO 240E l1 glonass >=4 %": [],
+  "S4 GEO 240E l5 glonass >=1 %": [],
+  "S4 GEO 240E l5 glonass >=4 %": [],
+  "S4 GEO 300E l1 glonass >=1 %": [],
+  "S4 GEO 300E l1 glonass >=4 %": [],
+  "S4 GEO 300E l5 glonass >=1 %": [],
+  "S4 GEO 300E l5 glonass >=4 %": [],
+  "S4 GEO 60E l1 combined >=4 %": [],
+  "S4 GEO 60E l1 glonass >=1 %": [],
+  "S4 GEO 60E l1 glonass >=4 %": [],
+  "S4 GEO 60E l5 glonass >=1 %": [],
+  "S4 GEO 60E l5 glonass >=4 %": [],
+  "S5 HEO l1 combined >=4 %": [],
+  "S5 HEO l1 galileo >=1 %": [],
+  "S5 HEO l1 glonass >=1 %": [],
+  "S5 HEO l1 glonass >=4 %": [],
+  "S5 HEO l1 qzss >=1 %": [],
+  "S5 HEO l5 glonass >=4 %": [],
+  "S5 HEO l5 navic >=1 %": [],
+  "S5 HEO l5 qzss >=1 %": []
+ },
+ "run1_missed_cells": 78,
+ "run1_missed_cells_fixed_by_any_ablation": 2
+}

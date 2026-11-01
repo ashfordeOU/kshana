@@ -29,10 +29,10 @@ pub(crate) enum Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str(match self {
-            Error::BadVariance => "variance is non-finite in normal distribution",
-            Error::ShapeTooSmall => "shape is not positive in gamma distribution",
-            Error::ScaleTooSmall => "scale is not positive in gamma distribution",
+        f.write_str(&match self {
+            Error::BadVariance => crate::terr!("e-portable-distr-variance-non-finite"),
+            Error::ShapeTooSmall => crate::terr!("e-portable-distr-shape-not-positive"),
+            Error::ScaleTooSmall => crate::terr!("e-portable-distr-scale-not-positive"),
         })
     }
 }

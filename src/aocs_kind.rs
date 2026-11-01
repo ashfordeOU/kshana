@@ -166,7 +166,7 @@ impl AocsScenario {
         for (i, w) in self.wheels.iter().enumerate() {
             let n = (w.axis[0].ppowi(2) + w.axis[1].ppowi(2) + w.axis[2].ppowi(2)).sqrt();
             if !(n.is_finite() && n > 0.0) {
-                return Err(format!("wheels[{i}].axis must be a non-zero finite vector"));
+                return Err(crate::terr!("e-aocs-kind-wheels-axis-must-be-non", i = i));
             }
             let g = [w.axis[0] / n, w.axis[1] / n, w.axis[2] / n];
             for r in 0..3 {
@@ -195,7 +195,10 @@ impl AocsScenario {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-aocs-kind-must-be-finite-and-positive",
+                    n = n
+                ))
             }
         };
         pos(self.duration_s, "duration_s")?;
@@ -204,11 +207,11 @@ impl AocsScenario {
         pos(self.pointing_threshold_deg, "pointing_threshold_deg")?;
         let steps = (self.duration_s / self.dt_s).round();
         if steps > 2.0e6 {
-            return Err("duration_s / dt_s must be at most 2e6 steps".into());
+            return Err(crate::terr!("e-aocs-kind-duration-dt-must-be-at"));
         }
         let every = (self.sample_s / self.dt_s).round();
         if every < 1.0 || ((every * self.dt_s) - self.sample_s).abs() > 1e-9 * self.sample_s {
-            return Err("sample_s must be a whole multiple of dt_s".into());
+            return Err(crate::terr!("e-aocs-kind-sample-must-be-whole-multiple"));
         }
         if self
             .sigma0
@@ -216,11 +219,11 @@ impl AocsScenario {
             .chain(&self.omega0_rad_s)
             .any(|v| !v.is_finite())
         {
-            return Err("sigma0 and omega0_rad_s must be finite".into());
+            return Err(crate::terr!("e-aocs-kind-sigma0-and-omega0-rad-must"));
         }
         for (i, w) in self.wheels.iter().enumerate() {
             if !w.speed0_rpm.is_finite() {
-                return Err(format!("wheels[{i}].speed0_rpm must be finite"));
+                return Err(crate::terr!("e-aocs-kind-wheels-speed0-rpm-must-be", i = i));
             }
         }
         if let Some(e) = &self.estimator {
@@ -240,10 +243,12 @@ impl AocsScenario {
                 "estimator.initial_bias_sigma_rad_s",
             )?;
             if e.gyro_bias0_rad_s.iter().any(|v| !v.is_finite()) {
-                return Err("estimator.gyro_bias0_rad_s must be finite".into());
+                return Err(crate::terr!("e-aocs-kind-estimator-gyro-bias0-rad-must"));
             }
             if e.star_tracker_every_s < self.dt_s {
-                return Err("estimator.star_tracker_every_s must be at least dt_s".into());
+                return Err(crate::terr!(
+                    "e-aocs-kind-estimator-star-tracker-every-must"
+                ));
             }
         }
         Ok((steps as usize, every as usize))
@@ -448,15 +453,28 @@ impl AocsScenario {
                 "wheel_torque_nm": series_torque,
             },
         });
-        let summary = format!(
-            "aocs: {} wheels, {:.0} s slew from {:.2} deg -> {} | final {:.2e} deg | peak wheel {:.0} rpm | {}",
-            n_w,
-            self.duration_s,
-            series_err.first().copied().unwrap_or(f64::NAN),
-            settle.map_or("never settles below the threshold".to_string(), |t| format!("settles below {thr} deg at {t:.1} s")),
-            final_err,
-            peak_speed.iter().cloned().fold(0.0, f64::max) / RPM,
-            if self.estimator.is_some() { "MEKF in the loop (MODELLED)" } else { "true-state loop" },
+        let summary = crate::t!(
+            "aocs-kind-aocs-wheels-slew-from-deg",
+            n_w = n_w,
+            duration_s = crate::i18n::localise_decimal(format!("{:.0}", self.duration_s)),
+            series_err = crate::i18n::localise_decimal(format!(
+                "{:.2}",
+                series_err.first().copied().unwrap_or(f64::NAN)
+            )),
+            settle = settle.map_or(
+                "never settles below the threshold".to_string(),
+                |t| format!("settles below {thr} deg at {t:.1} s")
+            ),
+            final_err = crate::i18n::localise_decimal(format!("{:.2e}", final_err)),
+            peak_speed = crate::i18n::localise_decimal(format!(
+                "{:.0}",
+                peak_speed.iter().cloned().fold(0.0, f64::max) / RPM
+            )),
+            v7 = if self.estimator.is_some() {
+                "MEKF in the loop (MODELLED)"
+            } else {
+                "true-state loop"
+            }
         );
         let text = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((text, summary))

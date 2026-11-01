@@ -122,24 +122,29 @@ impl AdditiveUtility {
     /// and the weights are finite, non-negative, and have a positive sum.
     pub fn new(attributes: Vec<Attribute>, weights: Vec<f64>) -> Result<Self, String> {
         if attributes.is_empty() {
-            return Err("additive utility has no attributes".into());
+            return Err(crate::terr!(
+                "e-mcda-utility-additive-utility-has-no-attributes"
+            ));
         }
         if attributes.len() != weights.len() {
-            return Err(format!(
-                "{} attributes but {} weights",
-                attributes.len(),
-                weights.len()
+            return Err(crate::terr!(
+                "e-mcda-utility-attributes-but-weights",
+                attributes = attributes.len(),
+                weights = weights.len()
             ));
         }
         let mut sum = 0.0;
         for &w in &weights {
             if !w.is_finite() || w < 0.0 {
-                return Err(format!("invalid scaling constant {w}"));
+                return Err(crate::terr!(
+                    "e-mcda-utility-invalid-scaling-constant",
+                    w = w
+                ));
             }
             sum += w;
         }
         if sum <= 0.0 {
-            return Err("scaling constants sum to zero".into());
+            return Err(crate::terr!("e-mcda-utility-scaling-constants-sum-to-zero"));
         }
         Ok(Self {
             attributes,
@@ -151,10 +156,10 @@ impl AdditiveUtility {
     /// by one raw value per attribute. Errors on a length mismatch.
     pub fn evaluate(&self, x: &[f64]) -> Result<f64, String> {
         if x.len() != self.attributes.len() {
-            return Err(format!(
-                "{} attribute values expected, got {}",
-                self.attributes.len(),
-                x.len()
+            return Err(crate::terr!(
+                "e-mcda-utility-attribute-values-expected-got",
+                attributes = self.attributes.len(),
+                x = x.len()
             ));
         }
         let wsum: f64 = self.weights.iter().sum();

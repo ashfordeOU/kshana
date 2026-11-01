@@ -111,6 +111,31 @@ pub mod print {
     pub const CARD: &str = "#F2F2F2";
 }
 
+/// The light-ground map figure of `kshana interference-map locate` (`interference_map::emitter_out`): fixed
+/// colours that are not Observatory theme tokens, so they are not checked against `web/theme.css`.
+pub mod map {
+    /// The page ground.
+    pub const GROUND: &str = "#ffffff";
+    /// The plot area fill.
+    pub const PLOT: &str = "#f7f7f7";
+    /// The plot area border.
+    pub const FRAME: &str = "#999999";
+    /// Title, labels and marks.
+    pub const INK: &str = "#111111";
+    /// Subtitle and the empty-figure message.
+    pub const MUTED: &str = "#444444";
+    /// Footnotes.
+    pub const NOTE: &str = "#555555";
+    /// The 50% region.
+    pub const REGION_50: &str = "#7aa6d8";
+    /// The 90% region.
+    pub const REGION_90: &str = "#4f81bd";
+    /// The 95% region.
+    pub const REGION_95: &str = "#27508a";
+    /// The posterior ellipse.
+    pub const ELLIPSE: &str = "#f0b429";
+}
+
 /// Chart roles. Charts are instrument-dark, so these are the [`dark`] values under the
 /// names chart code reaches for.
 pub mod chart {
@@ -388,11 +413,7 @@ pub fn theme_css(vars: &[(&str, &str, &str)]) -> String {
     };
     let l = block(false);
     let d = block(true);
-    format!(
-        ":root{{{l}color-scheme:light}}\n\
-         @media (prefers-color-scheme:dark){{:root:not([data-theme=\"light\"]){{{d}color-scheme:dark}}}}\n\
-         :root[data-theme=\"dark\"]{{{d}color-scheme:dark}}\n"
-    )
+    crate::t!("palette-root-color-scheme-light-media", l = l, d = d)
 }
 
 /// The standard custom properties of a generated HTML page, for both themes:

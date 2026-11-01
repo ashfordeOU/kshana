@@ -205,21 +205,29 @@ impl ScoringConfig {
     /// Check the settings.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.baseline_window_s.is_finite() && self.baseline_window_s > 0.0) {
-            return Err("scoring.baseline_window_s must be positive".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-score-scoring-baseline-window-must-be"
+            ));
         }
         if !(self.js_bin_db.is_finite() && self.js_bin_db > 0.0) {
-            return Err("scoring.js_bin_db must be positive".into());
+            return Err(crate::terr!("e-iq-campaign-score-scoring-js-bin-db-must"));
         }
         if !(self.reacq_grace_s.is_finite() && self.reacq_grace_s >= 0.0) {
-            return Err("scoring.reacq_grace_s must be >= 0".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-score-scoring-reacq-grace-must-be"
+            ));
         }
         if let Some(h) = self.false_lock_doppler_hz {
             if !(h.is_finite() && h > 0.0) {
-                return Err("scoring.false_lock_doppler_hz must be positive".into());
+                return Err(crate::terr!(
+                    "e-iq-campaign-score-scoring-false-lock-doppler-hz"
+                ));
             }
         }
         if self.false_lock_min_epochs == 0 {
-            return Err("scoring.false_lock_min_epochs must be at least 1".into());
+            return Err(crate::terr!(
+                "e-iq-campaign-score-scoring-false-lock-min-epochs"
+            ));
         }
         Ok(())
     }

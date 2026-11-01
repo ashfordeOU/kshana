@@ -2,16 +2,19 @@
 // Training debrief page: the DOM layer. Everything it knows about the log is in lib/training.mjs.
 // The file is read with File.text() in this page; nothing is sent anywhere.
 import { parseInstructorLog, errorBand, ERROR_BANDS, kindLabel, whatLabel, MAX_BYTES, MAX_BYTES_TEXT, MAX_MOMENTS_SHOWN, eventShape, nearestRow, stepTimeline, sensorCue, describeRow, paramRows, eventExtraRows, peakFacts } from "../lib/training.mjs";
+import { t, ready } from "../lib/t.mjs";
 import { makeProjection, niceLength } from "../lib/trust.mjs";
 import { getEngine } from "../lib/engine-page.mjs";
 import { parseAux, epochAt } from "../lib/gsv.mjs";
 import { skyMarkup, skyDescribe } from "../lib/skydraw.mjs";
 import { ensureSkyCss } from "../lib/skypage.mjs";
 import { vesselPath, rayEnd, ringPx } from "../lib/replay.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
-const DEMOS = [["open-sea-jamming", "Open-sea jamming"], ["coastal-drag-off", "Coastal drag-off"], ["port-approach-time-spoof", "Port-approach time spoof"], ["combined-event", "Combined event"], ["fjord-natural-degradation", "Fjord natural degradation"]];
+// A function, so the titles are made when used (after the language catalogue loads), not once at import.
+const demos = () => [["open-sea-jamming", t("js-training-demo-open-sea-jamming", "Open-sea jamming")], ["coastal-drag-off", t("js-training-demo-coastal-drag-off", "Coastal drag-off")], ["port-approach-time-spoof", t("js-training-demo-port-time-spoof", "Port-approach time spoof")], ["combined-event", t("js-training-demo-combined-event", "Combined event")], ["fjord-natural-degradation", t("js-training-demo-fjord-degradation", "Fjord natural degradation")]];
 const BAND_VAR = { small: "var(--t-small)", medium: "var(--t-medium)", large: "var(--t-large)" };
 const BAND_W = { small: 2.4, medium: 3.2, large: 4 };
 
@@ -29,7 +32,7 @@ function sv(tag, attrs, ...kids) {
 }
 const f1 = (x) => (Math.round(x * 10) / 10).toString();
 const fmtT = (t) => (t >= 120 ? `${Math.floor(t / 60)}:${String(Math.round(t % 60)).padStart(2, "0")}` : `${Math.round(t)} s`);
-const num = (x, d = 1) => (x == null ? "none" : Number(x).toFixed(d));
+const num = (x, d = 1) => (x == null ? t("js-training-none", "none") : Number(x).toFixed(d));
 
 let log = null, cur = 0, playing = false, raf = 0, lastTs = 0, frac = 0, showTruth = true;
 const dyn = {};
@@ -42,33 +45,33 @@ function setNotes(list) { $("tr-notes").replaceChildren(...list.map((t) => el("l
 async function openText(name, text, label) {
   // Nothing in here may leave the page at "Reading…": every failure is said, with the file name.
   try {
-    if (text.length > MAX_BYTES) { setStatus(`${name}: larger than ${MAX_BYTES_TEXT}. This page reads logs up to that size.`, true); setNotes([]); return; }
+    if (text.length > MAX_BYTES) { setStatus(t("js-training-err-too-large", "{ $name }: larger than { $max }. This page reads logs up to that size.", { name, max: MAX_BYTES_TEXT }), true); setNotes([]); return; }
     const r = parseInstructorLog(text, name);
     if (r.error) { setStatus(r.error, true); setNotes([]); return; }
     aux = pendingAux; pendingAux = null;
     openLog(r.log);
-    setStatus(label || `Opened ${name}: ${log.track.length} log rows over ${Math.round(log.durationS)} s.`);
+    setStatus(label || t("js-training-opened", "Opened { $name }: { $rows } log rows over { $secs } s.", { name, rows: log.track.length, secs: Math.round(log.durationS) }));
     setNotes(log.warnings);
-  } catch (e) { setStatus(`${name}: could not be read or drawn (${e && e.message ? e.message : e}).`, true); }
+  } catch (e) { setStatus(t("js-training-err-read-or-draw", "{ $name }: could not be read or drawn ({ $reason }).", { name, reason: e && e.message ? e.message : e }), true); }
 }
 async function openFile(file) {
   if (!file) return;
   pendingAux = null;
-  setStatus("Reading…");
+  setStatus(t("js-training-reading", "Reading…"));
   try {
-    if (file.size > MAX_BYTES) { setStatus(`${file.name}: larger than ${MAX_BYTES_TEXT}. This page reads logs up to that size.`, true); return; }
+    if (file.size > MAX_BYTES) { setStatus(t("js-training-err-too-large", "{ $name }: larger than { $max }. This page reads logs up to that size.", { name: file.name, max: MAX_BYTES_TEXT }), true); return; }
     await openText(file.name, await file.text());
-  } catch (e) { setStatus(`${file.name}: could not be read (${e && e.message ? e.message : e}).`, true); }
+  } catch (e) { setStatus(t("js-training-err-read", "{ $name }: could not be read ({ $reason }).", { name: file.name, reason: e && e.message ? e.message : e }), true); }
 }
 async function openDemo(name, title) {
-  setStatus(`Opening ${title}…`);
+  setStatus(t("js-training-opening", "Opening { $title }…", { title }));
   try {
     const r = await fetch(`training/demo/${name}.instructor.json`);
-    if (!r.ok) throw new Error("the file did not load");
+    if (!r.ok) throw new Error(t("js-training-err-file-not-loaded", "the file did not load"));
     pendingAux = null;
     try { const a = await fetch(`replay/data/${name}.aux.json`); if (a.ok) pendingAux = await a.json(); } catch (e) { /* no sky for this one */ }
-    await openText(`${name}.instructor.json`, await r.text(), `Synthetic library scenario "${title}", written by kshana nmea-scenario. Invented positions and dates; no real vessel or recording.`);
-  } catch (e) { setStatus(`${title} could not be opened: ${e.message}.`, true); }
+    await openText(`${name}.instructor.json`, await r.text(), t("js-training-library-label", "Synthetic library scenario \"{ $title }\", written by { $command }. Invented positions and dates; no real vessel or recording.", { title, command: "kshana nmea-scenario" }));
+  } catch (e) { setStatus(t("js-training-err-demo-open", "{ $title } could not be opened: { $reason }.", { title, reason: e.message }), true); }
 }
 
 // ---------- drawing ----------
@@ -83,16 +86,16 @@ function openLog(l) {
   stop(); ensureSkyCss();
   log = l; cur = 0;
   $("tr-run").hidden = false;
-  $("tr-warning").textContent = log.warning || "Synthetic training data. For training and testing only: never feed this stream to a vessel's live navigation systems.";
+  $("tr-warning").textContent = log.warning || t("js-training-default-warning", "Synthetic training data. For training and testing only: never feed this stream to a vessel's live navigation systems.");
   $("tr-name").textContent = log.scenario || log.name;
   $("tr-desc").textContent = log.description;
   const note = $("tr-note"); note.replaceChildren();
-  if (log.trainerNote) note.append(el("h4", {}, "Trainer note"), el("p", {}, log.trainerNote));
-  const facts = [["Start (UTC)", log.startUtc], ["Duration", `${Math.round(log.durationS)} s`], ["Seed", log.seed], ["Events injected", String(log.events.length)],
-    ["Largest position error", log.stats.maxErrM == null ? "none reported" : `${Math.round(log.stats.maxErrM)} m at T+${Math.round(log.stats.maxErrAtS)} s`],
-    ["Largest time offset", Math.abs(log.stats.maxTimeOffS) < 0.05 ? "none" : `${log.stats.maxTimeOffS > 0 ? "+" : ""}${log.stats.maxTimeOffS.toFixed(1)} s`],
+  if (log.trainerNote) note.append(el("h4", {}, t("js-training-trainer-note", "Trainer note")), el("p", {}, log.trainerNote));
+  const facts = [[t("js-training-fact-start", "Start (UTC)"), log.startUtc], [t("js-training-fact-duration", "Duration"), `${Math.round(log.durationS)} s`], [t("js-training-fact-seed", "Seed"), log.seed], [t("js-training-fact-events", "Events injected"), String(log.events.length)],
+    [t("js-training-fact-max-error", "Largest position error"), log.stats.maxErrM == null ? t("js-training-none-reported", "none reported") : t("js-training-max-error-at", "{ $m } m at T+{ $s } s", { m: Math.round(log.stats.maxErrM), s: Math.round(log.stats.maxErrAtS) })],
+    [t("js-training-fact-max-time-offset", "Largest time offset"), Math.abs(log.stats.maxTimeOffS) < 0.05 ? t("js-training-none", "none") : `${log.stats.maxTimeOffS > 0 ? "+" : ""}${log.stats.maxTimeOffS.toFixed(1)} s`],
     ...peakFacts(log),
-    ["Time with no fix", log.stats.spans.length ? log.stats.spans.map((s) => `T+${Math.round(s.from)} to ${Math.round(s.to)} s`).join(", ") : "none"]];
+    [t("js-training-fact-no-fix", "Time with no fix"), log.stats.spans.length ? log.stats.spans.map((sp) => t("js-training-span-no-fix", "T+{ $from } to { $to } s", { from: Math.round(sp.from), to: Math.round(sp.to) })).join(", ") : t("js-training-none", "none")]];
   $("tr-facts").replaceChildren(...facts.map(([k, v]) => el("div", {}, el("dt", {}, k), el("dd", {}, v))));
   $("tr-slider").max = String(log.track.length - 1);
   layout(); drawTrack(); drawTimeline(); drawEvents(); drawTimelineList(); drawLegend();
@@ -126,10 +129,10 @@ function drawTrack() {
   });
   for (const r of runs) svg.append(sv("path", { d: path(r.idx, (x) => x.rep), fill: "none", stroke: BAND_VAR[r.band], "stroke-width": BAND_W[r.band], "stroke-linecap": "round", "stroke-linejoin": "round" }));
   const [sx, sy] = px(log.track[0].truth), last = log.track[log.track.length - 1], [ex, ey] = px(last.truth);
-  svg.append(sv("circle", { cx: sx, cy: sy, r: 5, fill: "var(--ink)" }), sv("text", { x: sx + 8, y: sy + 4 }, "start"), sv("rect", { x: ex - 4.5, y: ey - 4.5, width: 9, height: 9, fill: "var(--ink)" }), sv("text", { x: ex + 8, y: ey + 4 }, "end"));
+  svg.append(sv("circle", { cx: sx, cy: sy, r: 5, fill: "var(--ink)" }), sv("text", { x: sx + 8, y: sy + 4 }, t("js-training-track-start", "start")), sv("rect", { x: ex - 4.5, y: ey - 4.5, width: 9, height: 9, fill: "var(--ink)" }), sv("text", { x: ex + 8, y: ey + 4 }, t("js-training-track-end", "end")));
   const len = niceLength(span * 0.3), lenPx = len * k;
   svg.append(sv("path", { d: `M${pad} 580 h${f1(lenPx)} m0 -4 v8 m0 -4 M${pad} 576 v8`, class: "ax", style: "stroke:var(--ink)" }), sv("text", { x: pad, y: 570 }, len >= 1000 ? `${len / 1000} km` : `${len} m`),
-    sv("path", { d: "M570 44 v-26 m-5 8 l5 -8 l5 8", class: "ax", style: "stroke:var(--ink)" }), sv("text", { x: 563, y: 58 }, "N"));
+    sv("path", { d: "M570 44 v-26 m-5 8 l5 -8 l5 8", class: "ax", style: "stroke:var(--ink)" }), sv("text", { x: 563, y: 58 }, t("js-training-north", "N")));
   dyn.link = sv("line", { stroke: "var(--ink)", "stroke-width": 1.2, "stroke-dasharray": "3 2" });
   dyn.truDot = sv("circle", { r: 5, fill: "var(--bg)", stroke: "var(--ink)", "stroke-width": 1.8 });
   dyn.repDot = sv("circle", { r: 7, fill: "none", stroke: "var(--tim)", "stroke-width": 2.5 });
@@ -138,7 +141,7 @@ function drawTrack() {
   dyn.glyph = sv("path", { class: "tr-glyph" });
   dyn.k = k;
   svg.append(dyn.ring, dyn.link, dyn.truDot, dyn.repDot, dyn.hdgRay, dyn.glyph);
-  $("tr-track-desc").textContent = `True track and reported track, north up. Largest position error ${log.stats.maxErrM == null ? "none" : Math.round(log.stats.maxErrM) + " m"}. ${log.stats.spans.length} period(s) with no fix.`;
+  $("tr-track-desc").textContent = t("js-training-track-desc", "True track and reported track, north up. Largest position error { $error }. { $periods } period(s) with no fix.", { error: log.stats.maxErrM == null ? t("js-training-none", "none") : Math.round(log.stats.maxErrM) + " m", periods: log.stats.spans.length });
   svg.onpointerdown = (ev) => { svg.setPointerCapture?.(ev.pointerId); trackPointer(ev); };
   svg.onpointermove = (ev) => { if (ev.buttons) trackPointer(ev); };
 }
@@ -151,8 +154,8 @@ function trackPointer(ev) {
 }
 
 function drawLegend() {
-  const li = ERROR_BANDS.map((b) => el("li", { style: `--c:${BAND_VAR[b.id]}` }, el("i", {}), `Reported, ${b.label} from true`));
-  li.push(el("li", { style: "--c:var(--ink-3)" }, el("i", { class: "thin" }), "True track"), el("li", { style: "--c:var(--t-lost)" }, el("i", { class: "dots" }), "No fix: the receiver reported nothing"));
+  const li = ERROR_BANDS.map((b) => el("li", { style: `--c:${BAND_VAR[b.id]}` }, el("i", {}), t("js-training-legend-reported", "Reported, { $band } from true", { band: b.label })));
+  li.push(el("li", { style: "--c:var(--ink-3)" }, el("i", { class: "thin" }), t("js-training-legend-true", "True track")), el("li", { style: "--c:var(--t-lost)" }, el("i", { class: "dots" }), t("js-training-legend-no-fix", "No fix: the receiver reported nothing")));
   $("tr-legend").replaceChildren(...li);
 }
 
@@ -163,7 +166,7 @@ function drawTimeline() {
   const rows = [];
   let y = 6;
   const L = TL.L, R = TL.R;
-  const label = (txt, yy, tip) => { const t = sv("text", { x: L - 8, y: yy, "text-anchor": "end", class: "rowlbl" }, txt); if (tip) t.append(sv("title", {}, tip)); svg.append(t); };
+  const label = (txt, yy, tip) => { const tx = sv("text", { x: L - 8, y: yy, "text-anchor": "end", class: "rowlbl" }, txt); if (tip) tx.append(sv("title", {}, tip)); svg.append(tx); };
   // events
   log.events.forEach((e) => {
     const h = 18, base = y + h;
@@ -174,23 +177,23 @@ function drawTimeline() {
     y += h + 6;
   });
   // moments
-  label("moments", y + 11);
+  label(t("js-training-row-moments", "moments"), y + 11);
   for (const m of log.timeline) {
     const x = xOf(m.t_s), bad = m.what === "fix-lost";
     const d = sv("path", { d: `M${f1(x)} ${y + 2} l5 5 l-5 5 l-5 -5z`, class: `mom${bad ? " lost" : ""}` });
-    d.append(sv("title", {}, `T+${Math.round(m.t_s)} s ${whatLabel(m.what)}: ${m.text}`));
+    d.append(sv("title", {}, t("js-training-moment-title", "T+{ $s } s { $what }: { $text }", { s: Math.round(m.t_s), what: whatLabel(m.what), text: m.text })));
     svg.append(d);
   }
   y += 22;
   // fix strip
-  label("fix", y + 10);
+  label(t("js-training-row-fix", "fix"), y + 10);
   let a = 0;
   const T = log.track;
   for (let i = 1; i <= T.length; i++) {
     if (i === T.length || T[i].fixValid !== T[a].fixValid) {
       const x0 = xOf(T[a].t_s), x1 = i < T.length ? xOf(T[i].t_s) : xOf(T[T.length - 1].t_s);
       const rc = sv("rect", { x: x0, y, width: Math.max(1, x1 - x0), height: 12, class: T[a].fixValid ? "fix-ok" : "fix-lost" });
-      rc.append(sv("title", {}, `${T[a].fixValid ? "fix reported" : "no fix"}, ${fmtT(T[a].t_s)} to ${fmtT(T[Math.min(i, T.length) - 1].t_s)}`));
+      rc.append(sv("title", {}, (T[a].fixValid ? t("js-training-fix-reported-span", "fix reported, { $from } to { $to }", { from: fmtT(T[a].t_s), to: fmtT(T[Math.min(i, T.length) - 1].t_s) }) : t("js-training-no-fix-span", "no fix, { $from } to { $to }", { from: fmtT(T[a].t_s), to: fmtT(T[Math.min(i, T.length) - 1].t_s) }))));
       svg.append(rc); a = i;
     }
   }
@@ -207,7 +210,7 @@ function drawTimeline() {
     if (lo < 0 && hi > 0) svg.append(sv("line", { x1: L, x2: R, y1: yv(0), y2: yv(0), class: "edge" }));
     label(name, y + 16, undefined);
     svg.append(sv("text", { x: L - 8, y: y + 28, "text-anchor": "end", class: "unit" }, `${unit}`));
-    svg.append(sv("text", { x: R, y: top + 8, "text-anchor": "end", class: "unit" }, `max ${f1(hi)}`));
+    svg.append(sv("text", { x: R, y: top + 8, "text-anchor": "end", class: "unit" }, t("js-training-chart-max", "max { $v }", { v: f1(hi) })));
     let d = "", pen = false;
     for (const r of T) { const v = get(r); if (v == null) { pen = false; continue; } d += `${pen ? "L" : "M"}${f1(xOf(r.t_s))} ${f1(yv(v))}`; pen = true; }
     svg.append(sv("path", { d, class: `ln ${opts.cls || ""}` }));
@@ -218,10 +221,10 @@ function drawTimeline() {
     }
     y += h + 10;
   };
-  line("position error", "m", (r) => r.errM, { min: 0 });
-  line("mean C/N0", "dB-Hz", (r) => r.cn0, { min: 0 });
-  line("satellites", "used / tracked", (r) => r.nUsed, { min: 0, get2: (r) => r.nTracked, max: 1 });
-  line("time offset", "s, reported minus true", (r) => r.timeOff, {});
+  line(t("js-training-chart-position-error", "position error"), "m", (r) => r.errM, { min: 0 });
+  line(t("js-training-chart-mean-cn0", "mean C/N0"), "dB-Hz", (r) => r.cn0, { min: 0 });
+  line(t("js-training-chart-satellites", "satellites"), t("js-training-chart-used-tracked", "used / tracked"), (r) => r.nUsed, { min: 0, get2: (r) => r.nTracked, max: 1 });
+  line(t("js-training-chart-time-offset", "time offset"), t("js-training-chart-s-reported-minus-true", "s, reported minus true"), (r) => r.timeOff, {});
   // axis
   const span = log.t1 - log.t0, step = [10, 30, 60, 120, 300, 600, 1800, 3600].find((s) => span / s <= 10) || 3600;
   for (let t = Math.ceil(log.t0 / step) * step; t <= log.t1; t += step) svg.append(sv("line", { x1: xOf(t), x2: xOf(t), y1: y, y2: y + 5, class: "ax" }), sv("text", { x: xOf(t), y: y + 17, "text-anchor": "middle" }, fmtT(t)));
@@ -257,21 +260,21 @@ function keyStep(ev) {
 function drawEvents() {
   const box = $("tr-events");
   box.replaceChildren();
-  if (!log.events.length) { box.append(el("p", { class: "tr-none" }, "None: this is a clean run.")); return; }
+  if (!log.events.length) { box.append(el("p", { class: "tr-none" }, t("js-training-no-events", "None: this is a clean run."))); return; }
   for (const e of log.events) {
     box.append(el("details", { class: "tr-ev", open: "" }, el("summary", {}, `${e.id}. ${kindLabel(e.p.kind)}${e.p.label ? `: ${e.p.label}` : ""}`),
-      el("p", {}, e.description), e.startUtc ? el("p", { class: "tr-sub" }, `Onset ${e.startUtc}`) : null,
+      el("p", {}, e.description), e.startUtc ? el("p", { class: "tr-sub" }, t("js-training-event-onset", "Onset { $utc }", { utc: e.startUtc })) : null,
       el("dl", { class: "tr-kv" }, [...paramRows(e.p), ...eventExtraRows(e)].flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)]))));
   }
 }
 function drawTimelineList() {
   const ol = $("tr-tlist");
   ol.replaceChildren();
-  if (!log.timeline.length) { ol.append(el("li", { class: "tr-none" }, "No moments recorded.")); return; }
+  if (!log.timeline.length) { ol.append(el("li", { class: "tr-none" }, t("js-training-no-moments", "No moments recorded."))); return; }
   const shown = log.timeline.slice(0, MAX_MOMENTS_SHOWN);
-  $("tr-tl-cap").textContent = log.timeline.length > shown.length ? `First ${shown.length} of ${log.timeline.length} moments shown.` : "";
+  $("tr-tl-cap").textContent = log.timeline.length > shown.length ? t("js-training-moments-shown", "First { $shown } of { $total } moments shown.", { shown: shown.length, total: log.timeline.length }) : "";
   for (const m of shown) {
-    const b = el("button", { type: "button", class: "tr-mom" }, el("b", {}, `T+${Math.round(m.t_s)} s`), " ", el("span", { class: `tr-what${m.what === "fix-lost" ? " lost" : ""}` }, whatLabel(m.what)), m.event != null ? ` (event ${m.event})` : "", el("span", { class: "tr-mtext" }, m.text));
+    const b = el("button", { type: "button", class: "tr-mom" }, el("b", {}, `T+${Math.round(m.t_s)} s`), " ", el("span", { class: `tr-what${m.what === "fix-lost" ? " lost" : ""}` }, whatLabel(m.what)), m.event != null ? ` ${t("js-training-moment-event", "(event { $id })", { id: m.event })}` : "", el("span", { class: "tr-mtext" }, m.text));
     b.onclick = () => { stop(); setCursor(nearestRow(log, m.t_s)); $("tr-time-svg").scrollIntoView?.({ block: "nearest" }); };
     ol.append(el("li", {}, b));
   }
@@ -288,7 +291,7 @@ function setCursor(i) {
   $("tr-slider").value = String(cur);
   const svg = $("tr-time-svg");
   svg.setAttribute("aria-valuenow", String(cur)); svg.setAttribute("aria-valuetext", describeRow(log, cur));
-  $("tr-readout").textContent = `T+${fmtT(r.t_s)} · ${r.fixValid ? "fix" : "no fix"}${r.errM != null ? ` · ${r.errM < 10 ? r.errM.toFixed(1) : Math.round(r.errM)} m` : ""}`;
+  $("tr-readout").textContent = `T+${fmtT(r.t_s)} · ${r.fixValid ? t("js-training-readout-fix", "fix") : t("js-training-readout-no-fix", "no fix")}${r.errM != null ? ` · ${r.errM < 10 ? r.errM.toFixed(1) : Math.round(r.errM)} m` : ""}`;
   if (!playing) $("tr-live").textContent = describeRow(log, cur);
   const [tx, ty] = dyn.px(r.truth);
   dyn.truDot.setAttribute("cx", tx); dyn.truDot.setAttribute("cy", ty);
@@ -324,7 +327,7 @@ function drawVessel(r, tx, ty) {
 function drawSky(r) {
   const svg = $("tr-sky-svg"), cap = $("tr-sky-cap");
   const k = aux ? epochAt(r.t_s, aux.t) : -1;
-  if (k < 0) { svg.innerHTML = '<text x="120" y="124" text-anchor="middle" class="sk-lbl">no GSV</text>'; cap.textContent = "No sky for this log: an instructor log alone has no satellites. Open a library scenario, or generate a stream here and debrief it, to see the satellites its GSV lists."; return; }
+  if (k < 0) { svg.replaceChildren(sv("text", { x: 120, y: 124, "text-anchor": "middle", class: "sk-lbl" }, t("js-training-sky-no-gsv", "no GSV"))); cap.textContent = t("js-training-sky-none", "No sky for this log: an instructor log alone has no satellites. Open a library scenario, or generate a stream here and debrief it, to see the satellites its GSV lists."); return; }
   svg.innerHTML = skyMarkup(aux.sky[k], { size: 240, labels: true });
   cap.textContent = skyDescribe(aux.sky[k]);
 }
@@ -332,23 +335,26 @@ function drawSky(r) {
 function drawNow() {
   const r = log.track[cur], box = $("tr-now");
   box.replaceChildren();
-  $("tr-now-note").textContent = `Log row ${cur + 1} of ${log.track.length}, ${r.utc || ""}`;
+  $("tr-now-note").textContent = t("js-training-log-row", "Log row { $row } of { $total }, { $utc }", { row: cur + 1, total: log.track.length, utc: r.utc || "" });
   const row = (k, a, b) => el("tr", {}, el("th", { scope: "row" }, k), el("td", {}, a), el("td", {}, b));
-  const t = el("table", { class: "tbl tr-cmp" }, el("thead", {}, el("tr", {}, ["", "True", "Reported by the receiver"].map((h) => el("th", { scope: "col" }, h)))),
-    el("tbody", {}, row("Position", `${r.truth[0].toFixed(5)}, ${r.truth[1].toFixed(5)}`, r.rep ? `${r.rep[0].toFixed(5)}, ${r.rep[1].toFixed(5)}` : "no fix: nothing reported"),
-      row("Speed over ground, kn", num(r.trueSog), num(r.repSog)), row("Course over ground, deg", num(r.trueCog), num(r.repCog)),
-      row("Heading (gyro), deg", num(r.trueHdg), "not touched by any event"),
-      row("Position error, m", "", r.errM == null ? "none" : r.errM.toFixed(1)),
-      row("Time offset, s", "", `${r.timeOff > 0 ? "+" : ""}${r.timeOff.toFixed(1)}`),
-      row("Satellites used / tracked", "", `${r.nUsed} / ${r.nTracked}`), row("Mean C/N0, dB-Hz", "", num(r.cn0))));
-  box.append(t);
+  const tbl = el("table", { class: "tbl tr-cmp" }, el("thead", {}, el("tr", {}, ["", t("js-training-col-true", "True"), t("js-training-col-reported", "Reported by the receiver")].map((h) => el("th", { scope: "col" }, h)))),
+    el("tbody", {}, row(t("js-training-row-position", "Position"), `${r.truth[0].toFixed(5)}, ${r.truth[1].toFixed(5)}`, r.rep ? `${r.rep[0].toFixed(5)}, ${r.rep[1].toFixed(5)}` : t("js-training-no-fix-nothing", "no fix: nothing reported")),
+      row(t("js-training-row-sog", "Speed over ground, kn"), num(r.trueSog), num(r.repSog)), row(t("js-training-row-cog", "Course over ground, deg"), num(r.trueCog), num(r.repCog)),
+      row(t("js-training-row-heading", "Heading (gyro), deg"), num(r.trueHdg), t("js-training-not-touched", "not touched by any event")),
+      row(t("js-training-row-error", "Position error, m"), "", r.errM == null ? t("js-training-none", "none") : r.errM.toFixed(1)),
+      row(t("js-training-row-time-offset", "Time offset, s"), "", `${r.timeOff > 0 ? "+" : ""}${r.timeOff.toFixed(1)}`),
+      row(t("js-training-row-sats", "Satellites used / tracked"), "", `${r.nUsed} / ${r.nTracked}`), row(t("js-training-row-cn0", "Mean C/N0, dB-Hz"), "", num(r.cn0))));
+  box.append(tbl);
   const cue = sensorCue(r);
   if (cue && (cue.courseMinusHeadingDeg != null || cue.sogMinusTrueKn != null)) {
-    box.append(el("p", { class: "tr-cue" }, el("b", {}, "Debrief cue. "), `The gyro heading and the log speed are untouched by every event. Here the reported course differs from the gyro heading by ${cue.courseMinusHeadingDeg == null ? "an unknown amount" : Math.abs(cue.courseMinusHeadingDeg).toFixed(1) + "°"}${cue.sogMinusTrueKn == null ? "" : ` and the reported speed from the true speed by ${Math.abs(cue.sogMinusTrueKn).toFixed(1)} kn`}. A current also separates heading from course, so compare with the start of the run.`));
+    const course = cue.courseMinusHeadingDeg == null ? t("js-training-cue-unknown-amount", "an unknown amount") : Math.abs(cue.courseMinusHeadingDeg).toFixed(1) + "°";
+    box.append(el("p", { class: "tr-cue" }, el("b", {}, `${t("js-training-cue-title", "Debrief cue.")} `), cue.sogMinusTrueKn == null
+      ? t("js-training-cue-course", "The gyro heading and the log speed are untouched by every event. Here the reported course differs from the gyro heading by { $course }. A current also separates heading from course, so compare with the start of the run.", { course })
+      : t("js-training-cue-course-speed", "The gyro heading and the log speed are untouched by every event. Here the reported course differs from the gyro heading by { $course } and the reported speed from the true speed by { $speed } kn. A current also separates heading from course, so compare with the start of the run.", { course, speed: Math.abs(cue.sogMinusTrueKn).toFixed(1) })));
   }
-  box.append(el("h4", {}, "Active events"));
-  if (!r.active.length) box.append(el("p", { class: "tr-none" }, "None at this moment."));
-  else box.append(el("ul", { class: "tr-act" }, r.active.map((id) => { const e = log.events.find((x) => x.id === id); return el("li", {}, e ? e.description : `Event ${id}`); })));
+  box.append(el("h4", {}, t("js-training-active-events", "Active events")));
+  if (!r.active.length) box.append(el("p", { class: "tr-none" }, t("js-training-none-now", "None at this moment.")));
+  else box.append(el("ul", { class: "tr-act" }, r.active.map((id) => { const e = log.events.find((x) => x.id === id); return el("li", {}, e ? e.description : t("js-training-event-n", "Event { $id }", { id })); })));
 }
 
 // ---------- playing ----------
@@ -371,12 +377,12 @@ function play() {
   if (!log) return;
   if (cur >= log.track.length - 1) setCursor(0);
   playing = true; lastTs = performance.now(); frac = 0;
-  $("tr-play").setAttribute("aria-label", "Pause"); $("tr-play").firstElementChild.firstElementChild.setAttribute("href", "#i-pause");
+  $("tr-play").setAttribute("aria-label", t("js-training-pause", "Pause")); $("tr-play").firstElementChild.firstElementChild.setAttribute("href", "#i-pause");
   raf = requestAnimationFrame(tick);
 }
 function stop() {
   playing = false; cancelAnimationFrame(raf);
-  const b = $("tr-play"); b.setAttribute("aria-label", "Play"); b.firstElementChild.firstElementChild.setAttribute("href", "#i-play");
+  const b = $("tr-play"); b.setAttribute("aria-label", t("js-training-play", "Play")); b.firstElementChild.firstElementChild.setAttribute("href", "#i-play");
   if (log) $("tr-live").textContent = describeRow(log, cur);
 }
 
@@ -388,39 +394,40 @@ function saveText(name, text) {
 function genStatus(msg, err) { const s = $("tr-gen-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
 async function generate() {
   const out = $("tr-gen-out"); out.replaceChildren();
-  const [name, title] = DEMOS.find(([n]) => n === $("tr-gen-scn").value) || DEMOS[0];
+  const list = demos();
+  const [name, title] = list.find(([n]) => n === $("tr-gen-scn").value) || list[0];
   const seedText = $("tr-gen-seed").value.trim();
-  if (seedText && !/^\d{1,15}$/.test(seedText)) { genStatus("The seed must be a whole number, or empty to use the scenario's own.", true); return; }
-  genStatus("Starting the engine and generating…");
+  if (seedText && !/^\d{1,15}$/.test(seedText)) { genStatus(t("js-training-err-seed", "The seed must be a whole number, or empty to use the scenario's own."), true); return; }
+  genStatus(t("js-training-generating", "Starting the engine and generating…"));
   try {
     const eng = await getEngine();
-    if (!eng.available) { genStatus(`The engine could not start here (${eng.error}). The library scenarios above still open without it.`, true); return; }
-    if (!eng.has("nmea_training")) { genStatus(`This engine build (version ${eng.version}) has no NMEA training generator; it predates this page. The command is kshana nmea-scenario.`, true); return; }
+    if (!eng.available) { genStatus(t("js-training-err-engine-start", "The engine could not start here ({ $reason }). The library scenarios above still open without it.", { reason: eng.error }), true); return; }
+    if (!eng.has("nmea_training")) { genStatus(t("js-training-err-engine-old", "This engine build (version { $version }) has no NMEA training generator; it predates this page. The command is { $command }.", { version: eng.version, command: "kshana nmea-scenario" }), true); return; }
     const r = await fetch(`training/scenarios/${name}.toml`);
-    if (!r.ok) throw new Error("the scenario file did not load");
+    if (!r.ok) throw new Error(t("js-training-err-scenario-not-loaded", "the scenario file did not load"));
     const res = JSON.parse(await eng.call("nmea_training", await r.text(), seedText ? Number(seedText) : NaN));
     const lines = res.nmea.split("\n").filter(Boolean).length;
-    genStatus(`Generated "${title}" with engine ${eng.version}: ${lines.toLocaleString()} NMEA sentences. Synthetic: for training and testing only; never feed it to a vessel's live navigation systems.`);
+    genStatus(t("js-training-generated", "Generated \"{ $title }\" with engine { $version }: { $lines } NMEA sentences. Synthetic: for training and testing only; never feed it to a vessel's live navigation systems.", { title, version: eng.version, lines: lines.toLocaleString() }));
     const stem = name + (seedText ? "-seed" + seedText : "");
-    const b1 = el("button", { type: "button", class: "tr-demo" }, "Download the NMEA stream"); b1.onclick = () => saveText(stem + ".nmea", res.nmea);
-    const b2 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (JSON)"); b2.onclick = () => saveText(stem + ".instructor.json", res.log_json);
-    const b3 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (text)"); b3.onclick = () => saveText(stem + ".instructor.txt", res.log_text);
-    const b4 = el("button", { type: "button", class: "btn-primary" }, "Debrief it now"); b4.onclick = async () => { pendingAux = parseAux(res.nmea, { stepS: 5 }); await openText(stem + ".instructor.json", res.log_json, `Generated here by the engine ("${title}"). Synthetic: invented positions and dates.`); $("tr-run").scrollIntoView?.({ block: "start" }); };
+    const b1 = el("button", { type: "button", class: "tr-demo" }, t("js-training-dl-nmea", "Download the NMEA stream")); b1.onclick = () => saveText(stem + ".nmea", res.nmea);
+    const b2 = el("button", { type: "button", class: "tr-demo" }, t("js-training-dl-log-json", "Download the instructor log (JSON)")); b2.onclick = () => saveText(stem + ".instructor.json", res.log_json);
+    const b3 = el("button", { type: "button", class: "tr-demo" }, t("js-training-dl-log-text", "Download the instructor log (text)")); b3.onclick = () => saveText(stem + ".instructor.txt", res.log_text);
+    const b4 = el("button", { type: "button", class: "btn-primary" }, t("js-training-debrief-now", "Debrief it now")); b4.onclick = async () => { pendingAux = parseAux(res.nmea, { stepS: 5 }); await openText(stem + ".instructor.json", res.log_json, t("js-training-generated-here", "Generated here by the engine (\"{ $title }\"). Synthetic: invented positions and dates.", { title })); $("tr-run").scrollIntoView?.({ block: "start" }); };
     out.replaceChildren(b4, b1, b2, b3);
-  } catch (e) { genStatus(`Could not generate: ${e && e.message ? e.message : e}.`, true); }
+  } catch (e) { genStatus(t("js-training-err-generate", "Could not generate: { $reason }.", { reason: e && e.message ? e.message : e }), true); }
 }
 
 function wire() {
-  $("tr-gen-scn").replaceChildren(...DEMOS.map(([n, t]) => el("option", { value: n }, t)));
+  $("tr-gen-scn").replaceChildren(...demos().map(([n, title]) => el("option", { value: n }, title)));
   $("tr-gen-run").addEventListener("click", generate);
-  $("tr-demos").replaceChildren(...DEMOS.map(([n, t]) => { const b = el("button", { type: "button", class: "tr-demo" }, t); b.onclick = () => openDemo(n, t); return b; }));
+  $("tr-demos").replaceChildren(...demos().map(([n, title]) => { const b = el("button", { type: "button", class: "tr-demo" }, title); b.onclick = () => openDemo(n, title); return b; }));
   $("tr-files").addEventListener("change", (e) => { openFile(e.target.files[0]); e.target.value = ""; });
   const drop = $("tr-drop");
   for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
   for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
   drop.addEventListener("drop", (e) => openFile((e.dataTransfer?.files || [])[0]));
   // Replay is motion: with a reduced-motion preference it starts at 1x and says so.
-  try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) { $("tr-speed").value = "1"; $("tr-live").textContent = "Reduced motion is preferred, so replay starts at 1x. Use the slider or the arrow keys to move without animation."; } } catch (e) { /* no matchMedia */ }
+  try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) { $("tr-speed").value = "1"; $("tr-live").textContent = t("js-training-reduced-motion", "Reduced motion is preferred, so replay starts at 1x. Use the slider or the arrow keys to move without animation."); } } catch (e) { /* no matchMedia */ }
   $("tr-play").addEventListener("click", () => (playing ? stop() : play()));
   $("tr-slider").addEventListener("input", (e) => { if (playing) stop(); setCursor(Number(e.target.value)); });
   $("tr-prev").addEventListener("click", () => { stop(); const m = stepTimeline(log, log.track[cur].t_s, -1); if (m) setCursor(nearestRow(log, m.t_s)); });
@@ -435,7 +442,7 @@ function wire() {
   let rt = 0, lastW = 0;
   addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!log) return; const w = Math.round($("tr-time-svg").parentElement.clientWidth); if (w === lastW) return; lastW = w; layout(); drawTimeline(); setCursor(cur); }, 120); });
   const q = new URLSearchParams(location.search).get("demo");
-  const hit = DEMOS.find(([n]) => n === q);
+  const hit = demos().find(([n]) => n === q);
   if (hit) openDemo(hit[0], hit[1]);
 }
 wire();

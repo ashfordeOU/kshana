@@ -129,24 +129,31 @@ impl PolarDem {
         heights_m: Vec<f32>,
     ) -> Result<Self, String> {
         if lines < 2 || samples < 2 || lines > MAX_DEM_SIDE || samples > MAX_DEM_SIDE {
-            return Err(format!(
-                "dem: lines and samples must be 2 to {MAX_DEM_SIDE}, got {lines} x {samples}"
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-lines-and-samples-must",
+                MAX_DEM_SIDE = MAX_DEM_SIDE,
+                lines = lines,
+                samples = samples
             ));
         }
         if heights_m.len() != lines * samples {
-            return Err(format!(
-                "dem: {} heights for a {lines} x {samples} grid",
-                heights_m.len()
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-heights-for-grid",
+                heights_m = heights_m.len(),
+                lines = lines,
+                samples = samples
             ));
         }
         if !(map_scale_m.is_finite() && map_scale_m > 0.0) {
-            return Err(format!(
-                "dem: map_scale_m must be positive, got {map_scale_m}"
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-map-scale-must-be",
+                map_scale_m = map_scale_m
             ));
         }
         if !(reference_radius_m.is_finite() && reference_radius_m > 0.0) {
-            return Err(format!(
-                "dem: reference_radius_m must be positive, got {reference_radius_m}"
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-reference-radius-must-be",
+                reference_radius_m = reference_radius_m
             ));
         }
         Ok(Self {
@@ -206,51 +213,70 @@ impl PolarDem {
     /// relative to the descriptor's directory; its size and SHA-256 must match the
     /// descriptor.
     pub fn load(descriptor_path: &str) -> Result<(Self, DemEcho), String> {
-        let text = std::fs::read_to_string(descriptor_path)
-            .map_err(|e| format!("dem: cannot read {descriptor_path}: {e}"))?;
-        let d: DemDescriptor =
-            toml::from_str(&text).map_err(|e| format!("dem: {descriptor_path}: {e}"))?;
+        let text = std::fs::read_to_string(descriptor_path).map_err(|e| {
+            crate::terr!(
+                "e-lunar-terrain-dem-cannot-read",
+                descriptor_path = descriptor_path,
+                e = e
+            )
+        })?;
+        let d: DemDescriptor = toml::from_str(&text).map_err(|e| {
+            crate::terr!(
+                "e-lunar-terrain-dem",
+                descriptor_path = descriptor_path,
+                e = e
+            )
+        })?;
         if d.projection != "south-polar-stereographic" {
-            return Err(format!(
-                "dem: projection must be south-polar-stereographic, got {}",
-                d.projection
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-projection-must-be-south",
+                projection = d.projection
             ));
         }
         if d.sample_type != "int16-le" {
-            return Err(format!(
-                "dem: sample_type must be int16-le, got {}",
-                d.sample_type
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-sample-type-must-be",
+                sample_type = d.sample_type
             ));
         }
         let dir = Path::new(descriptor_path)
             .parent()
             .unwrap_or_else(|| Path::new("."));
         let img = dir.join(&d.image);
-        let bytes =
-            std::fs::read(&img).map_err(|e| format!("dem: cannot read {}: {e}", img.display()))?;
+        let bytes = std::fs::read(&img).map_err(|e| {
+            crate::terr!(
+                "e-lunar-terrain-dem-cannot-read-2",
+                img = img.display(),
+                e = e
+            )
+        })?;
         if d.lines > MAX_DEM_SIDE || d.samples > MAX_DEM_SIDE {
-            return Err(format!("dem: grid over the {MAX_DEM_SIDE}-pixel cap"));
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-grid-over-the-pixel",
+                MAX_DEM_SIDE = MAX_DEM_SIDE
+            ));
         }
         if bytes.len() != d.lines * d.samples * 2 {
-            return Err(format!(
-                "dem: {} is {} bytes; {} x {} int16 needs {}",
-                img.display(),
-                bytes.len(),
-                d.lines,
-                d.samples,
-                d.lines * d.samples * 2
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-is-bytes-int16-needs",
+                img = img.display(),
+                bytes = bytes.len(),
+                lines = d.lines,
+                samples = d.samples,
+                d = d.lines * d.samples * 2
             ));
         }
         let digest = hex(&Sha256::digest(&bytes));
         if digest != d.image_sha256.to_ascii_lowercase() {
-            return Err(format!(
-                "dem: {} SHA-256 {digest} does not match the descriptor's {}",
-                img.display(),
-                d.image_sha256
+            return Err(crate::terr!(
+                "e-lunar-terrain-dem-sha-256-does-not",
+                img = img.display(),
+                digest = digest,
+                image_sha256 = d.image_sha256
             ));
         }
         if !(d.scaling_factor.is_finite() && d.scaling_factor > 0.0) {
-            return Err("dem: scaling_factor must be positive".into());
+            return Err(crate::terr!("e-lunar-terrain-dem-scaling-factor-must-be"));
         }
         let heights = bytes
             .chunks_exact(2)
@@ -371,10 +397,10 @@ pub struct DemTileEcho {
 pub fn load_dem_tile(
     path: &str,
 ) -> Result<(crate::realdata::lola_dem::DemTile, DemTileEcho), String> {
-    let text =
-        std::fs::read_to_string(path).map_err(|e| format!("dem_tile: cannot read {path}: {e}"))?;
+    let text = std::fs::read_to_string(path)
+        .map_err(|e| crate::terr!("e-lunar-terrain-dem-tile-cannot-read", path = path, e = e))?;
     let tile = crate::realdata::lola_dem::DemTile::parse(&text)
-        .map_err(|e| format!("dem_tile: {path}: {e}"))?;
+        .map_err(|e| crate::terr!("e-lunar-terrain-dem-tile", path = path, e = e))?;
     let extent_ok = tile.lat_min_deg < tile.lat_max_deg
         && tile.lon_min_deg < tile.lon_max_deg
         && tile.lat_min_deg >= -90.0
@@ -385,8 +411,9 @@ pub fn load_dem_tile(
         || !extent_ok
         || tile.heights_m.iter().any(|h| !h.is_finite())
     {
-        return Err(format!(
-            "dem_tile: {path}: needs at least 2 x 2 points, an increasing extent inside [-90, 90] deg and 360 deg of longitude, and finite heights"
+        return Err(crate::terr!(
+            "e-lunar-terrain-dem-tile-needs-at-least",
+            path = path
         ));
     }
     let echo = DemTileEcho {
@@ -531,29 +558,33 @@ pub fn horizon_profile(
         ("max_range_m", p.max_range_m),
     ] {
         if !(v.is_finite() && v > 0.0) {
-            return Err(format!(
-                "terrain: {what} must be finite and positive, got {v}"
+            return Err(crate::terr!(
+                "e-lunar-terrain-terrain-must-be-finite-and",
+                what = what,
+                v = v
             ));
         }
     }
     if !(p.antenna_height_m.is_finite() && p.antenna_height_m >= 0.0) {
-        return Err(format!(
-            "terrain: antenna_height_m must be finite and not negative, got {}",
-            p.antenna_height_m
+        return Err(crate::terr!(
+            "e-lunar-terrain-terrain-antenna-height-must-be",
+            antenna_height_m = p.antenna_height_m
         ));
     }
     if p.azimuth_step_deg > 90.0 {
-        return Err("terrain: azimuth_step_deg must be at most 90".into());
+        return Err(crate::terr!(
+            "e-lunar-terrain-terrain-azimuth-step-deg-must"
+        ));
     }
     let n_steps = (p.max_range_m / p.range_step_m).floor() as usize;
     if n_steps == 0 || n_steps > 1_000_000 {
-        return Err("terrain: max_range_m / range_step_m must be 1 to 1e6".into());
+        return Err(crate::terr!("e-lunar-terrain-terrain-max-range-range-step"));
     }
     let (east, north, up) = topocentric_basis(site_up);
     let r_ref = field.reference_radius_m();
     let site_h = field
         .height_m(up)
-        .ok_or("terrain: the site is outside the height field")?;
+        .ok_or_else(|| crate::terr!("e-lunar-terrain-terrain-the-site-is-outside"))?;
     let r_obs = r_ref + site_h + p.antenna_height_m;
     let obs = [r_obs * up[0], r_obs * up[1], r_obs * up[2]];
     let n_az = (360.0 / p.azimuth_step_deg - 1e-9).ceil() as usize;
@@ -622,14 +653,16 @@ impl StatedHorizon {
     /// table rules ([`SkylineCfg::build`]).
     pub fn skyline(&self) -> Result<Skyline, String> {
         if self.source.trim().is_empty() {
-            return Err("terrain: a stated horizon needs a non-empty source".into());
+            return Err(crate::terr!(
+                "e-lunar-terrain-terrain-stated-horizon-needs-non"
+            ));
         }
         SkylineCfg {
             table: Some(self.table.clone()),
             ..SkylineCfg::default()
         }
         .build()
-        .map_err(|e| format!("terrain: stated horizon: {e}"))
+        .map_err(|e| crate::terr!("e-lunar-terrain-terrain-stated-horizon", e = e))
     }
 }
 
@@ -739,13 +772,10 @@ impl LunarTerrainCfg {
             && self.station_horizon.is_none()
             && self.user_horizon.is_none()
         {
-            return Err(
-                "terrain: give dem_path, dem_tile_path, station_horizon or user_horizon (or omit [terrain])"
-                    .into(),
-            );
+            return Err(crate::terr!("e-lunar-terrain-terrain-give-dem-path-dem"));
         }
         if self.dem_path.is_some() && self.dem_tile_path.is_some() {
-            return Err("terrain: give dem_path or dem_tile_path, not both".into());
+            return Err(crate::terr!("e-lunar-terrain-terrain-give-dem-path-or"));
         }
         if let Some(s) = &self.station_horizon {
             s.skyline()?;
@@ -754,11 +784,11 @@ impl LunarTerrainCfg {
             s.skyline()?;
         }
         if !(self.max_range_km.is_finite() && self.max_range_km > 0.0) {
-            return Err("terrain: max_range_km must be finite and positive".into());
+            return Err(crate::terr!("e-lunar-terrain-terrain-max-range-km-must"));
         }
         if let Some(r) = self.range_step_m {
             if !(r.is_finite() && r > 0.0) {
-                return Err("terrain: range_step_m must be finite and positive".into());
+                return Err(crate::terr!("e-lunar-terrain-terrain-range-step-must-be"));
             }
         }
         Ok(())
@@ -804,7 +834,14 @@ impl LunarTerrainCfg {
                 up_of(lat_deg, lon_deg),
                 &self.params(dem),
             )
-            .map_err(|e| format!("{e} (site {lat_deg} deg, {lon_deg} deg)"))?;
+            .map_err(|e| {
+                crate::terr!(
+                    "e-lunar-terrain-site-deg-deg",
+                    e = e,
+                    lat_deg = lat_deg,
+                    lon_deg = lon_deg
+                )
+            })?;
             let cfg = SkylineCfg {
                 table: Some(h.table_rows()),
                 ..SkylineCfg::default()
@@ -955,9 +992,9 @@ impl LunarTerrainCfg {
     pub fn resolve_grid(&self, users: &[(f64, f64)], mask_deg: f64) -> Result<GridTerrain, String> {
         self.validate()?;
         if self.station_horizon.is_some() {
-            return Err(
-                "terrain: station_horizon has no station in this kind; use user_horizon".into(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-terrain-terrain-station-horizon-has-no"
+            ));
         }
         let loaded = self.load_dem()?;
         let grid = loaded.as_ref().map(LoadedDem::grid);

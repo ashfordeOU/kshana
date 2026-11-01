@@ -156,8 +156,12 @@ impl SphericalHarmonicField {
                     re = ff(p[1]).ok();
                 }
                 Some("gfc") if p.len() >= 5 => {
-                    let n: usize = p[1].parse().map_err(|_| "bad degree")?;
-                    let m: usize = p[2].parse().map_err(|_| "bad order")?;
+                    let n: usize = p[1]
+                        .parse()
+                        .map_err(|_| crate::terr!("e-gravity-sh-bad-degree"))?;
+                    let m: usize = p[2]
+                        .parse()
+                        .map_err(|_| crate::terr!("e-gravity-sh-bad-order"))?;
                     if n > nmax {
                         continue;
                     }
@@ -169,18 +173,21 @@ impl SphericalHarmonicField {
                 _ => {}
             }
         }
-        let gm = gm.ok_or("missing earth_gravity_constant / gravity_constant")?;
-        let re = re.ok_or("missing radius")?;
+        let gm =
+            gm.ok_or_else(|| crate::terr!("e-gravity-sh-missing-earth-gravity-constant-gravity"))?;
+        let re = re.ok_or_else(|| crate::terr!("e-gravity-sh-missing-radius"))?;
         // A value can parse yet be non-physical (NaN GM → NaN field; negative GM → repulsive
         // gravity; zero/negative/inf radius). Reject rather than silently fail open.
         if !(gm.is_finite() && gm > 0.0) {
-            return Err("non-physical earth_gravity_constant (must be finite and positive)".into());
+            return Err(crate::terr!(
+                "e-gravity-sh-non-physical-earth-gravity-constant"
+            ));
         }
         if !(re.is_finite() && re > 0.0) {
-            return Err("non-physical radius (must be finite and positive)".into());
+            return Err(crate::terr!("e-gravity-sh-non-physical-radius-must-be"));
         }
         if rows.is_empty() {
-            return Err("no gfc coefficient lines".into());
+            return Err(crate::terr!("e-gravity-sh-no-gfc-coefficient-lines"));
         }
         let mut f = Self::zeros(gm, re, max_n.min(nmax));
         for (n, m, cnm, snm) in rows {
@@ -370,7 +377,7 @@ impl SphericalHarmonicField {
             line.clear();
             let k = reader
                 .read_line(&mut line)
-                .map_err(|e| format!("read error: {e}"))?;
+                .map_err(|e| crate::terr!("e-gravity-sh-read-error", e = e))?;
             if k == 0 {
                 break;
             }
@@ -388,8 +395,10 @@ impl SphericalHarmonicField {
                     "norm" => {
                         let v = it.next().unwrap_or("");
                         if v != "fully_normalized" {
-                            return Err(format!(
-                                "line {lineno}: norm {v:?} is not supported (fully_normalized only)"
+                            return Err(crate::terr!(
+                                "e-gravity-sh-line-norm-is-not-supported",
+                                lineno = lineno,
+                                v = format!("{:?}", v)
                             ));
                         }
                     }
@@ -400,15 +409,19 @@ impl SphericalHarmonicField {
             }
             match key {
                 "gfc" => {
-                    let bad = |what: &str| format!("line {lineno}: bad {what}");
+                    let bad =
+                        |what: &str| crate::t!("gravity-sh-line-bad", lineno = lineno, what = what);
                     let n: usize = it
                         .next()
                         .and_then(|v| v.parse().ok())
                         .ok_or_else(|| bad("degree"))?;
                     if let Some(dm) = declared_max {
                         if n > dm {
-                            return Err(format!(
-                                "line {lineno}: degree {n} above the declared max_degree {dm}"
+                            return Err(crate::terr!(
+                                "e-gravity-sh-line-degree-above-the-declared",
+                                lineno = lineno,
+                                n = n,
+                                dm = dm
                             ));
                         }
                     }
@@ -420,37 +433,50 @@ impl SphericalHarmonicField {
                         .and_then(|v| v.parse().ok())
                         .ok_or_else(|| bad("order"))?;
                     if m > n {
-                        return Err(format!("line {lineno}: order {m} above degree {n}"));
+                        return Err(crate::terr!(
+                            "e-gravity-sh-line-order-above-degree",
+                            lineno = lineno,
+                            m = m,
+                            n = n
+                        ));
                     }
                     let cnm = it.next().and_then(|v| ff(v).ok()).ok_or_else(|| bad("C"))?;
                     let snm = it.next().and_then(|v| ff(v).ok()).ok_or_else(|| bad("S"))?;
                     if !(cnm.is_finite() && snm.is_finite()) {
-                        return Err(bad("coefficient (non-finite)"));
+                        return Err(crate::terr!(
+                            "e-gravity-sh-line-bad-coefficient-non-finite",
+                            lineno = lineno
+                        ));
                     }
                     max_n = max_n.max(n);
                     rows.push((n, m, cnm, snm));
                 }
                 "gfct" | "trnd" | "dot" | "acos" | "asin" => {
-                    return Err(format!(
-                        "line {lineno}: time-variable term `{key}` is not supported (static models only)"
+                    return Err(crate::terr!(
+                        "e-gravity-sh-line-time-variable-term-is",
+                        lineno = lineno,
+                        key = key
                     ));
                 }
                 _ => {}
             }
         }
         if !in_body {
-            return Err("missing end_of_head".into());
+            return Err(crate::terr!("e-gravity-sh-missing-end-of-head"));
         }
-        let gm = gm.ok_or("missing earth_gravity_constant / gravity_constant")?;
-        let re = re.ok_or("missing radius")?;
+        let gm =
+            gm.ok_or_else(|| crate::terr!("e-gravity-sh-missing-earth-gravity-constant-gravity"))?;
+        let re = re.ok_or_else(|| crate::terr!("e-gravity-sh-missing-radius"))?;
         if !(gm.is_finite() && gm > 0.0) {
-            return Err("non-physical earth_gravity_constant (must be finite and positive)".into());
+            return Err(crate::terr!(
+                "e-gravity-sh-non-physical-earth-gravity-constant"
+            ));
         }
         if !(re.is_finite() && re > 0.0) {
-            return Err("non-physical radius (must be finite and positive)".into());
+            return Err(crate::terr!("e-gravity-sh-non-physical-radius-must-be"));
         }
         if rows.is_empty() {
-            return Err("no gfc coefficient lines".into());
+            return Err(crate::terr!("e-gravity-sh-no-gfc-coefficient-lines"));
         }
         let mut f = Self::zeros(gm, re, max_n.min(nmax));
         for (n, m, cnm, snm) in rows {

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
 <meta charset="utf-8">
 <!-- Holdover test: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
 <base href="../">
@@ -15,6 +16,7 @@
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="evidence.css">
 <link rel="stylesheet" href="holdover/holdover.css">
 <link rel="modulepreload" href="lib/holdover.mjs">
 <script>
@@ -31,63 +33,64 @@
   <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
   <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to the view</a>
+<a class="skip" href="#main" data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
 <header class="bar" id="bar">
-  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
-  <nav class="crumb" aria-label="Where you are"><span>Holdover test</span></nav>
+  <a class="brand" href="/" aria-label="Kshana home" data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are" data-l10n-attr="aria-label:studio-where-you-are"><span data-l10n="studio-holdover-holdover-test">Holdover test</span></nav>
   <div class="bar-right">
-    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
-    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="view-switch" href="./" title="Back to the Studio" data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl" data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark" data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
 <main id="main" tabindex="-1">
 <div class="wrap hot">
-  <p class="kicker"><i style="--c:var(--tim)"></i>Holdover test</p>
-  <h1 id="ho-h">How far does the time error go when GNSS is gone?</h1>
-  <p class="lede">The operator pulls GNSS from a timing system, writes down the two times (removed, restored) and keeps the time-error record. Kshana splits the record at those times and <b>measures each step against public ITU-T masks</b>: the baseline while locked, the holdover, the recovery. It does not remove or restore anything, and it reads only the record. The scenario kind is <code>holdover-test</code> (<code>docs/TIMING-HIL.md</code>).</p>
-  <p class="ho-model" role="note"><b>Measured against the mask, not conformance.</b> The result is <b>MODELLED</b>: the step logic, the line fit and the recovery rule are checked on records built from formulas whose answers are known, and no laboratory holdover has been scored against an external oracle. The masks are transcribed from freely downloadable ITU-T Recommendations, and nothing here says that a clock or system meets, or is approved against, any Recommendation. The two times are the operator's statement and are not verified. The records in the two examples are generated for them; they are not measurements. <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and not type-approved timing equipment.</p>
+  <p class="kicker"><i style="--c:var(--tim)"></i><span data-l10n-rich="seg-7881bdeae169">Holdover test</span></p>
+  <h1 id="ho-h" data-l10n="studio-holdover-how-far-does-the-time">How far does the time error go when GNSS is gone?</h1>
+  <p class="lede" data-l10n-rich="seg-45ebbf018bf1" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;},&quot;c1&quot;:{&quot;h&quot;:&quot;<code>holdover-test</code>&quot;},&quot;c2&quot;:{&quot;h&quot;:&quot;<code>docs/TIMING-HIL.md</code>&quot;}}">The operator pulls GNSS from a timing system, writes down the two times (removed, restored) and keeps the time-error record. Kshana splits the record at those times and <b>measures each step against public ITU-T masks</b>: the baseline while locked, the holdover, the recovery. It does not remove or restore anything, and it reads only the record. The scenario kind is <code>holdover-test</code> (<code>docs/TIMING-HIL.md</code>).</p>
+  <p class="ho-model" role="note" data-l10n-rich="seg-74a38bf4a554" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Measured against the mask, not conformance.</b> The result is <b>MODELLED</b>: the step logic, the line fit and the recovery rule are checked on records built from formulas whose answers are known, and no laboratory holdover has been scored against an external oracle. The masks are transcribed from freely downloadable ITU-T Recommendations, and nothing here says that a clock or system meets, or is approved against, any Recommendation. The two times are the operator's statement and are not verified. The records in the two examples are generated for them; they are not measurements. <b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and not type-approved timing equipment.</p>
 
   <section class="card ho-pick" aria-label="Scenario">
-    <div class="ho-tabs" id="ho-tabs" role="tablist" aria-label="Holdover-test scenarios"></div>
+    <div class="ho-tabs" id="ho-tabs" role="tablist" aria-label="Holdover-test scenarios" data-l10n-attr="aria-label:studio-holdover-holdover-test-scenarios"></div>
     <p class="ho-blurb" id="ho-blurb"></p>
-    <div class="ho-open"><label class="ho-chip">Open a result…<input id="ho-files" type="file" accept=".json,application/json"></label>
-      <span class="ho-hint">A result file from <code>kshana holdover-test.toml</code>. The curve is drawn from the record the engine writes into it. Read here; nothing is uploaded.</span></div>
-    <p class="ho-status" id="ho-status" role="status" aria-live="polite">Opening the scenarios…</p>
+    <div class="ho-open"><label class="ho-chip"><span data-l10n-rich="seg-9e02f1f28e0d">Open a result…</span><input id="ho-files" type="file" accept=".json,application/json"></label>
+      <span class="ho-hint" data-l10n-rich="seg-0fc90fa85d7f" data-l10n-tags="{&quot;c1&quot;:{&quot;h&quot;:&quot;<code>kshana holdover-test.toml</code>&quot;}}">A result file from <code>kshana holdover-test.toml</code>. The curve is drawn from the record the engine writes into it. Read here; nothing is uploaded.</span></div>
+    <p class="ho-status" id="ho-status" role="status" aria-live="polite" data-l10n="studio-holdover-opening-the-scenarios">Opening the scenarios…</p>
   </section>
 
   <div id="ho-body" hidden>
     <section class="card ho-verdict" aria-labelledby="ho-verdict-h">
-      <div class="card-head"><h2 id="ho-verdict-h" class="h3">Verdict, step by step</h2><p class="card-note" id="ho-summary"></p></div>
+      <div class="card-head"><h2 id="ho-verdict-h" class="h3" data-l10n="studio-holdover-verdict-step-by-step">Verdict, step by step</h2><span id="ho-evb" class="evb-host"></span><p class="card-note" id="ho-summary"></p></div>
       <ul class="ho-chips" id="ho-chips"></ul>
     </section>
     <section class="card" aria-labelledby="ho-te-h">
-      <div class="card-head"><h2 id="ho-te-h" class="h3">Time error over the record</h2>
-        <p class="card-note">The three phases are shaded; the dashed vertical lines are the two times the operator stated. Dashed horizontal lines are the masks' limits on the maximum absolute time error, each drawn over the step its mask names, and the recovery band; a triangle marks when a budget or the ePRTC-A holdover envelope is first exceeded.</p></div>
+      <div class="card-head"><h2 id="ho-te-h" class="h3" data-l10n="studio-holdover-time-error-over-the-record">Time error over the record</h2>
+        <p class="card-note" data-l10n="studio-holdover-the-three-phases-are-shaded">The three phases are shaded; the dashed vertical lines are the two times the operator stated. Dashed horizontal lines are the masks' limits on the maximum absolute time error, each drawn over the step its mask names, and the recovery band; a triangle marks when a budget or the ePRTC-A holdover envelope is first exceeded.</p></div>
       <div class="ho-figure" id="ho-te"></div>
       <p class="ho-tag" id="ho-te-note"></p>
     </section>
     <div class="ho-grid">
-      <section class="card" aria-labelledby="ho-mtie-h"><div class="card-head"><h3 id="ho-mtie-h">MTIE</h3><p class="card-note">Of the baseline and the holdover; a cross is a mask limit at the time its check was worst.</p></div><div class="ho-figure" id="ho-mtie"></div></section>
-      <section class="card" aria-labelledby="ho-tdev-h"><div class="card-head"><h3 id="ho-tdev-h">TDEV</h3><p class="card-note">The same two steps against the TDEV limits.</p></div><div class="ho-figure" id="ho-tdev"></div></section>
+      <section class="card" aria-labelledby="ho-mtie-h"><div class="card-head"><h3 id="ho-mtie-h" data-l10n-rich="seg-a13eab564243">MTIE</h3><p class="card-note" data-l10n="studio-holdover-of-the-baseline-and-the">Of the baseline and the holdover; a cross is a mask limit at the time its check was worst.</p></div><div class="ho-figure" id="ho-mtie"></div></section>
+      <section class="card" aria-labelledby="ho-tdev-h"><div class="card-head"><h3 id="ho-tdev-h" data-l10n-rich="seg-f155b7ceef1f">TDEV</h3><p class="card-note" data-l10n="studio-holdover-the-same-two-steps-against">The same two steps against the TDEV limits.</p></div><div class="ho-figure" id="ho-tdev"></div></section>
     </div>
     <section class="card" aria-labelledby="ho-num-h">
-      <div class="card-head"><h2 id="ho-num-h" class="h3">The numbers</h2><p class="card-note">Everything below is the engine's, in the units it states.</p></div>
+      <div class="card-head"><h2 id="ho-num-h" class="h3" data-l10n="studio-holdover-the-numbers">The numbers</h2><p class="card-note" data-l10n="studio-holdover-everything-below-is-the-engine">Everything below is the engine's, in the units it states.</p></div>
       <div class="ho-tablewrap"><table class="tbl" id="ho-steps"></table></div>
       <dl class="ho-kv" id="ho-kv"></dl>
     </section>
     <section class="card" aria-labelledby="ho-mask-h">
-      <div class="card-head"><h2 id="ho-mask-h" class="h3">Mask checks</h2><p class="card-note">Each mask is measured on the step its condition names. A mask that needs a longer record than the step gave is INCOMPLETE, never extrapolated; every entry a Recommendation leaves for further study is absent.</p></div>
+      <div class="card-head"><h2 id="ho-mask-h" class="h3" data-l10n="studio-holdover-mask-checks">Mask checks</h2><p class="card-note" data-l10n="studio-holdover-each-mask-is-measured-on">Each mask is measured on the step its condition names. A mask that needs a longer record than the step gave is INCOMPLETE, never extrapolated; every entry a Recommendation leaves for further study is absent.</p></div>
       <div class="ho-tablewrap"><table class="tbl" id="ho-masks"></table></div>
       <div class="ho-tablewrap"><table class="tbl" id="ho-budgets"></table></div>
     </section>
     <section class="card" aria-labelledby="ho-nc-h">
-      <div class="card-head"><h2 id="ho-nc-h" class="h3">What this does not cover</h2></div>
+      <div class="card-head"><h2 id="ho-nc-h" class="h3" data-l10n="studio-holdover-what-this-does-not-cover">What this does not cover</h2></div>
       <ul class="ho-list" id="ho-nc"></ul>
     </section>
   </div>
 </div>
 </main>
 <script type="module" src="holdover/holdover.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
 </body>
 </html>

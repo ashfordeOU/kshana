@@ -1,0 +1,15 @@
+/* The evidence badge (lib/evidence.mjs): the tier chip, "N ledger rows", and the rows on hover, focus or tap. */
+.evb{--ec:var(--nav,#e0a030);position:relative;display:inline-flex;align-items:center;gap:8px;vertical-align:middle;cursor:default;outline:none}
+.evb-validated{--ec:var(--itg,#58c26a)}.evb-modelled{--ec:var(--nav,#e0a030)}.evb-partner{--ec:var(--spf,#d0509a)}
+.evb-chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ec) 45%,transparent);color:var(--ec);font:600 10.5px/1 var(--f-mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}
+.evb-chip i{width:6px;height:6px;border-radius:50%;background:var(--ec)}
+.evb-n{font:500 12px/1 var(--f-mono,ui-monospace,monospace);color:var(--ink-3,#8a96b0)}
+.evb-pop{position:absolute;inset-inline-start:0;top:calc(100% + 6px);z-index:40;display:none;min-width:min(420px,86vw);max-width:min(600px,92vw);padding:10px 12px;border-radius:10px;background:var(--panel-solid,#0f1626);color:var(--ink,#eaf0ff);border:1px solid var(--line,rgba(255,255,255,.14));box-shadow:0 8px 28px rgba(0,0,0,.35);font:400 12px/1.45 var(--f-sans,system-ui,sans-serif);text-align:start}
+.evb:hover .evb-pop,.evb:focus .evb-pop,.evb:focus-within .evb-pop{display:block}
+.evb-pop b{display:block;margin-bottom:6px;font-weight:600}
+.evb-pop ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.evb-pop li{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:baseline}
+.evb-pop code{font:500 11px var(--f-mono,ui-monospace,monospace);color:var(--ink-2,#b6c0d8);white-space:nowrap}
+.evb-st{font:600 10px var(--f-mono,ui-monospace,monospace);font-style:normal;letter-spacing:.06em;color:var(--ec)}
+.evb-st.evb-validated{color:var(--itg,#58c26a)}.evb-st.evb-modelled{color:var(--nav,#e0a030)}.evb-st.evb-partner{color:var(--spf,#d0509a)}
+.evb-pop small{display:block;margin-top:8px;color:var(--ink-3,#8a96b0);font:400 11px var(--f-mono,ui-monospace,monospace)}

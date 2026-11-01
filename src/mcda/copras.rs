@@ -67,33 +67,38 @@ pub fn copras(
 ) -> Result<CoprasResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("COPRAS: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-copras-copras-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("COPRAS: no criteria".into());
+        return Err(crate::terr!("e-mcda-copras-copras-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "COPRAS: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-copras-copras-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     if !types.contains(&Objective::Min) {
-        return Err("COPRAS: requires at least one cost (Min) criterion".into());
+        return Err(crate::terr!("e-mcda-copras-copras-requires-at-least-one"));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "COPRAS: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-copras-copras-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         for (j, &x) in row.iter().enumerate() {
             if !x.is_finite() || x <= 0.0 {
-                return Err(format!(
-                    "COPRAS: alternative {i} criterion {j} value {x} must be finite and > 0"
+                return Err(crate::terr!(
+                    "e-mcda-copras-copras-alternative-criterion-value-must",
+                    i = i,
+                    j = j,
+                    x = x
                 ));
             }
         }

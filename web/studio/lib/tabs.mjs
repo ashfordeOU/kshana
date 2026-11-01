@@ -7,6 +7,7 @@
 // so it stays in step with the A/B and overlay views. Pure data -> arrays; the
 // button row + panel show/hide live in app.js (mountTabs).
 import { COMPARE_METRICS } from "./compare.mjs";
+import { t } from "./t.mjs";
 
 const hasAdev = (b) => b && Array.isArray(b.adev_curve) && b.adev_curve.length > 0;
 
@@ -19,17 +20,17 @@ const hasAdev = (b) => b && Array.isArray(b.adev_curve) && b.adev_curve.length >
 export function tabModel(result, opts) {
   const tabs = [];
   if (result && buildFomRows(result).length > 0) {
-    tabs.push({ id: "fom", label: "Figures of merit" });
+    tabs.push({ id: "fom", label: t("js-lib-tabs-figures-of-merit", "Figures of merit") });
   }
-  tabs.push({ id: "timeseries", label: "Time series" });
+  tabs.push({ id: "timeseries", label: t("js-lib-tabs-time-series", "Time series") });
   if (result && (hasAdev(result.quantum) || hasAdev(result.classical))) {
-    tabs.push({ id: "stability", label: "Stability" });
+    tabs.push({ id: "stability", label: t("js-lib-tabs-stability", "Stability") });
   }
   if (result && Array.isArray(result.eci_track) && result.eci_track.length > 0) {
-    tabs.push({ id: "orbit3d", label: "3D orbit" });
+    tabs.push({ id: "orbit3d", label: t("js-lib-tabs-3d-orbit", "3D orbit") });
   }
   if (opts && opts.sweep) {
-    tabs.push({ id: "sweep", label: "Sweep" });
+    tabs.push({ id: "sweep", label: t("js-lib-tabs-sweep", "Sweep") });
   }
   return tabs;
 }
@@ -63,7 +64,7 @@ export function buildFomRows(result) {
     for (const m of COMPARE_METRICS) {
       const v = fom[m.key];
       if (typeof v !== "number" || !isFinite(v)) continue;
-      const t = figureTier(result, `${clock}.fom.${m.key}`);
+      const ft = figureTier(result, `${clock}.fom.${m.key}`);
       rows.push({
         clock,
         clockLabel,
@@ -71,8 +72,8 @@ export function buildFomRows(result) {
         label: m.label,
         unit: m.unit,
         value: v,
-        tier: t ? t.tier : "",
-        applicable: t ? t.applicable : true,
+        tier: ft ? ft.tier : "",
+        applicable: ft ? ft.applicable : true,
       });
     }
   }

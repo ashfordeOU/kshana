@@ -1,0 +1,625 @@
+{
+  "ablation": "B4",
+  "bars": {
+    "S5": {
+      "cells": [
+        {
+          "cell": "HEO l1 gps >=1 %",
+          "pass": true,
+          "published": 87.3,
+          "scored": true,
+          "sim": 87.97169811320755,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 gps >=4 %",
+          "pass": true,
+          "published": 12.7,
+          "scored": true,
+          "sim": 12.853773584905662,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 gps MOD1 min",
+          "pass": null,
+          "published": 70.0,
+          "scored": false,
+          "sim": 66.0
+        },
+        {
+          "cell": "HEO l1 gps MOD4 min",
+          "pass": null,
+          "published": 1036.0,
+          "scored": false,
+          "sim": 926.0
+        },
+        {
+          "cell": "HEO l1 glonass >=1 %",
+          "pass": false,
+          "published": 98.8,
+          "scored": true,
+          "sim": 58.136792452830186,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 glonass >=4 %",
+          "pass": false,
+          "published": 14.1,
+          "scored": true,
+          "sim": 8.195754716981133,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 glonass MOD1 min",
+          "pass": null,
+          "published": 12.0,
+          "scored": false,
+          "sim": 75.0
+        },
+        {
+          "cell": "HEO l1 glonass MOD4 min",
+          "pass": null,
+          "published": 986.0,
+          "scored": false,
+          "sim": 988.0
+        },
+        {
+          "cell": "HEO l1 galileo >=1 %",
+          "pass": false,
+          "published": 74.3,
+          "scored": true,
+          "sim": 68.45518867924528,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 galileo >=4 %",
+          "pass": true,
+          "published": 9.9,
+          "scored": true,
+          "sim": 10.377358490566039,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 galileo MOD1 min",
+          "pass": null,
+          "published": 85.0,
+          "scored": false,
+          "sim": 85.0
+        },
+        {
+          "cell": "HEO l1 galileo MOD4 min",
+          "pass": null,
+          "published": 1026.0,
+          "scored": false,
+          "sim": 1028.0
+        },
+        {
+          "cell": "HEO l1 bds >=1 %",
+          "pass": true,
+          "published": 88.1,
+          "scored": true,
+          "sim": 86.08490566037736,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 bds >=4 %",
+          "pass": true,
+          "published": 16.1,
+          "scored": true,
+          "sim": 16.9811320754717,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 bds MOD1 min",
+          "pass": null,
+          "published": 51.0,
+          "scored": false,
+          "sim": 51.0
+        },
+        {
+          "cell": "HEO l1 bds MOD4 min",
+          "pass": null,
+          "published": 1008.0,
+          "scored": false,
+          "sim": 684.0
+        },
+        {
+          "cell": "HEO l1 qzss >=1 %",
+          "pass": false,
+          "published": 27.5,
+          "scored": true,
+          "sim": 20.5188679245283,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 qzss >=4 %",
+          "pass": true,
+          "published": 2.5,
+          "scored": true,
+          "sim": 2.063679245283019,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 qzss MOD1 min",
+          "pass": null,
+          "published": 1031.0,
+          "scored": false,
+          "sim": 834.0
+        },
+        {
+          "cell": "HEO l1 qzss MOD4 min",
+          "pass": null,
+          "published": 2175.0,
+          "scored": false,
+          "sim": 1153.0
+        },
+        {
+          "cell": "HEO l1 combined >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 combined >=4 %",
+          "pass": false,
+          "published": 94.5,
+          "scored": true,
+          "sim": 81.07311320754717,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l1 combined MOD1 min",
+          "pass": null,
+          "published": 0.0,
+          "scored": false,
+          "sim": 0.0
+        },
+        {
+          "cell": "HEO l1 combined MOD4 min",
+          "pass": null,
+          "published": 47.0,
+          "scored": false,
+          "sim": 48.0
+        },
+        {
+          "cell": "HEO l5 gps >=1 %",
+          "pass": true,
+          "published": 94.7,
+          "scored": true,
+          "sim": 93.51415094339622,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 gps >=4 %",
+          "pass": true,
+          "published": 17.4,
+          "scored": true,
+          "sim": 17.452830188679243,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 gps MOD1 min",
+          "pass": null,
+          "published": 53.0,
+          "scored": false,
+          "sim": 50.0
+        },
+        {
+          "cell": "HEO l5 gps MOD4 min",
+          "pass": null,
+          "published": 911.0,
+          "scored": false,
+          "sim": 410.0
+        },
+        {
+          "cell": "HEO l5 glonass >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 glonass >=4 %",
+          "pass": false,
+          "published": 55.5,
+          "scored": true,
+          "sim": 15.80188679245283,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 glonass MOD1 min",
+          "pass": null,
+          "published": 0.0,
+          "scored": false,
+          "sim": 0.0
+        },
+        {
+          "cell": "HEO l5 glonass MOD4 min",
+          "pass": null,
+          "published": 133.0,
+          "scored": false,
+          "sim": 770.0
+        },
+        {
+          "cell": "HEO l5 galileo >=1 %",
+          "pass": true,
+          "published": 87.1,
+          "scored": true,
+          "sim": 84.49292452830188,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 galileo >=4 %",
+          "pass": true,
+          "published": 11.6,
+          "scored": true,
+          "sim": 11.96933962264151,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 galileo MOD1 min",
+          "pass": null,
+          "published": 63.0,
+          "scored": false,
+          "sim": 60.0
+        },
+        {
+          "cell": "HEO l5 galileo MOD4 min",
+          "pass": null,
+          "published": 980.0,
+          "scored": false,
+          "sim": 923.0
+        },
+        {
+          "cell": "HEO l5 bds >=1 %",
+          "pass": true,
+          "published": 96.9,
+          "scored": true,
+          "sim": 95.93160377358491,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 bds >=4 %",
+          "pass": true,
+          "published": 26.0,
+          "scored": true,
+          "sim": 27.004716981132077,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 bds MOD1 min",
+          "pass": null,
+          "published": 30.0,
+          "scored": false,
+          "sim": 31.0
+        },
+        {
+          "cell": "HEO l5 bds MOD4 min",
+          "pass": null,
+          "published": 925.0,
+          "scored": false,
+          "sim": 615.0
+        },
+        {
+          "cell": "HEO l5 qzss >=1 %",
+          "pass": false,
+          "published": 32.1,
+          "scored": true,
+          "sim": 23.349056603773587,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 qzss >=4 %",
+          "pass": true,
+          "published": 5.8,
+          "scored": true,
+          "sim": 4.068396226415095,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 qzss MOD1 min",
+          "pass": null,
+          "published": 1021.0,
+          "scored": false,
+          "sim": 813.0
+        },
+        {
+          "cell": "HEO l5 qzss MOD4 min",
+          "pass": null,
+          "published": 1091.0,
+          "scored": false,
+          "sim": 1103.0
+        },
+        {
+          "cell": "HEO l5 navic >=1 %",
+          "pass": false,
+          "published": 35.1,
+          "scored": true,
+          "sim": 14.38679245283019,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 navic >=4 %",
+          "pass": true,
+          "published": 5.8,
+          "scored": true,
+          "sim": 8.431603773584905,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 navic MOD1 min",
+          "pass": null,
+          "published": 989.0,
+          "scored": false,
+          "sim": 972.0
+        },
+        {
+          "cell": "HEO l5 navic MOD4 min",
+          "pass": null,
+          "published": 1091.0,
+          "scored": false,
+          "sim": 1036.0
+        },
+        {
+          "cell": "HEO l5 combined >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 combined >=4 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 99.64622641509435,
+          "tol": 5.0
+        },
+        {
+          "cell": "HEO l5 combined MOD1 min",
+          "pass": null,
+          "published": 0.0,
+          "scored": false,
+          "sim": 0.0
+        },
+        {
+          "cell": "HEO l5 combined MOD4 min",
+          "pass": null,
+          "published": 0.0,
+          "scored": false,
+          "sim": 4.0
+        }
+      ],
+      "statement": "HEO mission (table 5.11)",
+      "verdict": {
+        "failed_cells": 8,
+        "met": false,
+        "scored_cells": 26
+      }
+    },
+    "S6": {
+      "cells": [
+        {
+          "cell": "lunar l1 gps >=1 %",
+          "pass": true,
+          "published": 9.0,
+          "scored": true,
+          "sim": 8.062491281908216,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 gps >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.1438136420700236,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 glonass >=1 %",
+          "pass": true,
+          "published": 8.0,
+          "scored": true,
+          "sim": 7.127911842655879,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 glonass >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.5998047147440368,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 galileo >=1 %",
+          "pass": true,
+          "published": 14.0,
+          "scored": true,
+          "sim": 12.581950062770261,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 galileo >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.0043241735248989,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 bds >=1 %",
+          "pass": true,
+          "published": 14.0,
+          "scored": true,
+          "sim": 13.070163202678199,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 bds >=4 %",
+          "pass": true,
+          "published": 3.0,
+          "scored": true,
+          "sim": 2.24578044357651,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 qzss >=1 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.0043241735248989,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 qzss >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.08369368112707491,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 combined >=1 %",
+          "pass": true,
+          "published": 21.0,
+          "scored": true,
+          "sim": 18.719486678755754,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l1 combined >=4 %",
+          "pass": true,
+          "published": 9.0,
+          "scored": true,
+          "sim": 8.188031803598829,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 gps >=1 %",
+          "pass": true,
+          "published": 12.0,
+          "scored": true,
+          "sim": 11.982145348026224,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 gps >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.297252057469661,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 glonass >=1 %",
+          "pass": true,
+          "published": 33.0,
+          "scored": true,
+          "sim": 27.85604686846143,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 glonass >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.2275073231970988,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 galileo >=1 %",
+          "pass": true,
+          "published": 16.0,
+          "scored": true,
+          "sim": 13.614172130004185,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 galileo >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 1.0043241735248989,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 bds >=1 %",
+          "pass": true,
+          "published": 18.0,
+          "scored": true,
+          "sim": 16.152880457525455,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 bds >=4 %",
+          "pass": true,
+          "published": 5.0,
+          "scored": true,
+          "sim": 4.407867206025945,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 qzss >=1 %",
+          "pass": true,
+          "published": 4.0,
+          "scored": true,
+          "sim": 3.6825219695912956,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 qzss >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.6695494490165993,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 navic >=1 %",
+          "pass": true,
+          "published": 4.0,
+          "scored": true,
+          "sim": 3.487236713628121,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 navic >=4 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 0.23713209652671224,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 combined >=1 %",
+          "pass": true,
+          "published": 36.0,
+          "scored": true,
+          "sim": 30.659785186218443,
+          "tol": 10.0
+        },
+        {
+          "cell": "lunar l5 combined >=4 %",
+          "pass": true,
+          "published": 16.0,
+          "scored": true,
+          "sim": 14.716138931510672,
+          "tol": 10.0
+        }
+      ],
+      "statement": "lunar mission (table 5.13)",
+      "verdict": {
+        "failed_cells": 0,
+        "met": true,
+        "scored_cells": 26
+      }
+    }
+  },
+  "glonass_table_4_2": false,
+  "size": "full"
+}

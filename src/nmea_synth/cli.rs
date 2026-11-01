@@ -11,29 +11,9 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::Duration;
 
-const HELP: &str = "usage: kshana nmea-scenario <scenario.toml> [options]
-
-Writes or streams a synthetic bridge NMEA 0183 set (GGA RMC VTG GSV GSA GNS ZDA HDT VBW)
-for a vessel track with scripted jamming/spoofing events, and an instructor log.
-Training and testing only: never feed it to a vessel's live navigation systems.
-
-options:
-  --out <file.nmea>          write the stream to a file (default <name>.nmea when no
-                             network output is given)
-  --instructor-log <prefix>  write <prefix>.json and <prefix>.txt (default: next to the
-                             file, else <name> in the current directory)
-  --tcp <addr:port|port>     serve the stream over TCP (waits for a client first); a bare
-                             port listens on 127.0.0.1 only. There is no authentication:
-                             anyone who can reach the address can read the stream
-  --udp <addr:port|port>     send one sentence per UDP datagram to this address; a bare
-                             port sends to 127.0.0.1
-  --broadcast                allow --udp to use a broadcast address
-  --wait-clients <n>         clients to wait for before the TCP stream starts (default 1)
-  --realtime                 pace at real time (default for network output)
-  --speed <x>                pace at x times real time; 0 is as fast as possible
-                             (default for files)
-  --seed <n>                 replace the scenario seed
-  --no-marker                omit the synthetic-data marker sentence";
+fn usage() -> String {
+    crate::t!("nmea-synth-cli-usage")
+}
 
 /// A bare port means this machine only (`127.0.0.1:<port>`); a wider address, such as
 /// `0.0.0.0:10110`, has to be asked for in full.
@@ -46,7 +26,7 @@ pub fn localise_addr(a: &str) -> String {
 }
 
 fn fail(msg: impl std::fmt::Display) -> ExitCode {
-    eprintln!("error: {msg}");
+    eprintln!("{}", crate::t!("main-fail", e = msg));
     ExitCode::from(2)
 }
 
@@ -65,11 +45,15 @@ pub fn run_cli(args: &[String]) -> ExitCode {
     let mut seed: Option<u64> = None;
     let mut it = args.iter();
     while let Some(a) = it.next() {
-        let mut val = |name: &str| it.next().cloned().ok_or(format!("{name} needs a value"));
+        let mut val = |name: &str| {
+            it.next()
+                .cloned()
+                .ok_or(crate::t!("bench-cli-needs-value", name = name))
+        };
         let r: Result<(), String> = (|| {
             match a.as_str() {
                 "-h" | "--help" => {
-                    println!("{HELP}");
+                    println!("{}", usage());
                     std::process::exit(0);
                 }
                 "--out" => out = Some(PathBuf::from(val("--out")?)),
@@ -82,14 +66,14 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                 "--wait-clients" => {
                     wait_clients = val("--wait-clients")?
                         .parse()
-                        .map_err(|_| "--wait-clients: not a number")?
+                        .map_err(|_| crate::terr!("e-nmea-synth-cli-wait-clients-not-number"))?
                 }
                 "--speed" => {
                     let x: f64 = val("--speed")?
                         .parse()
-                        .map_err(|_| "--speed: not a number")?;
+                        .map_err(|_| crate::terr!("e-nmea-synth-cli-speed-not-number"))?;
                     if !(x >= 0.0 && x.is_finite()) {
-                        return Err("--speed must be 0 or positive".into());
+                        return Err(crate::terr!("e-nmea-synth-cli-speed-must-be-or-positive"));
                     }
                     speed = Some(x)
                 }
@@ -97,12 +81,14 @@ pub fn run_cli(args: &[String]) -> ExitCode {
                     seed = Some(
                         val("--seed")?
                             .parse()
-                            .map_err(|_| "--seed: not an integer")?,
+                            .map_err(|_| crate::terr!("e-nmea-synth-cli-seed-not-an-integer"))?,
                     )
                 }
-                s if s.starts_with('-') => return Err(format!("unknown option {s}")),
+                s if s.starts_with('-') => {
+                    return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s))
+                }
                 s if path.is_none() => path = Some(s.to_string()),
-                s => return Err(format!("unexpected argument {s}")),
+                s => return Err(crate::terr!("e-nmea-synth-cli-unexpected-argument", s = s)),
             }
             Ok(())
         })();
@@ -111,7 +97,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         }
     }
     let Some(path) = path else {
-        eprintln!("{HELP}");
+        eprintln!("{}", usage());
         return ExitCode::from(2);
     };
     let text = match fs::read_to_string(&path) {
@@ -155,22 +141,37 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         None => PathBuf::from(&scn.scenario.name),
     });
     let (jp, tp) = (
-        PathBuf::from(format!("{}.instructor.json", prefix.display())),
-        PathBuf::from(format!("{}.instructor.txt", prefix.display())),
+        PathBuf::from(crate::i18n::in_english(|| {
+            crate::t!("nmea-synth-cli-instructor-json", prefix = prefix.display())
+        })),
+        PathBuf::from(crate::i18n::in_english(|| {
+            crate::t!("nmea-synth-cli-instructor-txt", prefix = prefix.display())
+        })),
     );
     if let Err(e) = fs::write(&jp, g.log.to_json()).and_then(|_| fs::write(&tp, g.log.to_text())) {
-        return fail(format!("instructor log: {e}"));
+        return fail(crate::t!("nmea-synth-cli-instructor-log", e = e));
     }
     eprintln!("{NOT_FOR_NAVIGATION}");
-    eprintln!("instructor log: {} and {}", jp.display(), tp.display());
+    eprintln!(
+        "{}",
+        crate::t!(
+            "nmea-synth-cli-instructor-log-and",
+            jp = jp.display(),
+            tp = tp.display()
+        )
+    );
 
     let mut server_keepalive = None;
     if let Some(addr) = &tcp {
         match TcpServer::bind(addr.as_str()) {
             Ok(s) => {
                 eprintln!(
-                    "TCP server listening on {}; waiting for {wait_clients} client(s)",
-                    s.local_addr()
+                    "{}",
+                    crate::t!(
+                        "nmea-synth-cli-tcp-server-listening-on-waiting",
+                        s = s.local_addr(),
+                        wait_clients = wait_clients
+                    )
                 );
                 if !s.wait_for_clients(wait_clients, Some(Duration::from_secs(3600))) {
                     return fail("no client connected within an hour");
@@ -199,7 +200,7 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         return fail(format!("stream: {e}"));
     }
     if let Some(p) = &file_path {
-        eprintln!("wrote {}", p.display());
+        eprintln!("{}", crate::t!("main-wrote", path = p.display()));
     }
     ExitCode::SUCCESS
 }

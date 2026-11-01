@@ -62,15 +62,15 @@ impl IqConfig {
         let dir = work_dir.as_ref();
         let canon = dir
             .canonicalize()
-            .map_err(|e| format!("IQ work directory {}: {e}", dir.display()))?;
+            .map_err(|e| kshana::terr!("e-mcp-iq-iq-work-directory", dir = dir.display(), e = e))?;
         if !canon.is_dir() {
-            return Err(format!(
-                "IQ work directory {} is not a directory",
-                dir.display()
+            return Err(kshana::terr!(
+                "e-mcp-iq-iq-work-directory-is-not",
+                dir = dir.display()
             ));
         }
         if max_samples == 0 {
-            return Err("the IQ sample budget must be at least 1".into());
+            return Err(kshana::terr!("e-mcp-iq-the-iq-sample-budget-must"));
         }
         Ok(Self {
             work_dir: Some(canon),
@@ -124,11 +124,13 @@ impl IqConfig {
     /// The work directory, or the refusal that says why there is none.
     fn root(&self) -> Result<&Path, McpError> {
         self.work_dir.as_deref().ok_or_else(|| {
-            bad(format!(
-                "IQ file tools are off: {}",
-                self.disabled_reason
+            bad(kshana::terr!(
+                "e-mcp-iq-iq-file-tools-are-off",
+                reason = self
+                    .disabled_reason
                     .as_deref()
-                    .unwrap_or("no work directory")
+                    .map(str::to_string)
+                    .unwrap_or_else(|| kshana::terr!("e-mcp-iq-no-work-directory"))
             ))
         })
     }
@@ -139,12 +141,12 @@ impl IqConfig {
         let joined = join(root, rel)?;
         let canon = joined
             .canonicalize()
-            .map_err(|e| bad(format!("input `{rel}`: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-input", rel = rel, e = e)))?;
         if !canon.starts_with(root) {
             return Err(outside(rel));
         }
         if !canon.is_file() {
-            return Err(bad(format!("input `{rel}` is not a file")));
+            return Err(bad(kshana::terr!("e-mcp-iq-input-is-not-file", rel = rel)));
         }
         Ok(canon)
     }
@@ -157,12 +159,21 @@ impl IqConfig {
         let name = joined
             .file_name()
             .filter(|n| *n != "." && *n != "..")
-            .ok_or_else(|| bad(format!("output `{rel}` does not name a file")))?
+            .ok_or_else(|| {
+                bad(kshana::terr!(
+                    "e-mcp-iq-output-does-not-name-file",
+                    rel = rel
+                ))
+            })?
             .to_owned();
         let parent = joined.parent().unwrap_or(root);
-        let parent = parent
-            .canonicalize()
-            .map_err(|e| bad(format!("output `{rel}`: its folder: {e}")))?;
+        let parent = parent.canonicalize().map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-iq-output-its-folder",
+                rel = rel,
+                e = e
+            ))
+        })?;
         if !parent.starts_with(root) {
             return Err(outside(rel));
         }
@@ -176,17 +187,22 @@ impl IqConfig {
         if let Ok(meta) = std::fs::symlink_metadata(path) {
             let shown = self.rel(path);
             if meta.file_type().is_symlink() {
-                return Err(bad(format!(
-                    "output `{shown}` is a symlink; refusing to write"
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-output-is-symlink-refusing-to",
+                    shown = shown
                 )));
             }
             if !overwrite {
-                return Err(bad(format!(
-                    "output `{shown}` already exists; pass overwrite: true to replace it"
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-output-already-exists-pass-overwrite",
+                    shown = shown
                 )));
             }
             if !meta.is_file() {
-                return Err(bad(format!("output `{shown}` exists and is not a file")));
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-output-exists-and-is-not",
+                    shown = shown
+                )));
             }
         }
         Ok(())
@@ -218,9 +234,9 @@ impl IqConfig {
                 .canonicalize()
                 .map_err(|e| bad(format!("{}: {e}", data.display())))?;
             if !canon.starts_with(root) {
-                return Err(bad(format!(
-                    "{}: its data file lies outside the IQ work directory",
-                    self.rel(path)
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-its-data-file-lies-outside",
+                    path = self.rel(path)
                 )));
             }
         }
@@ -239,9 +255,9 @@ impl IqConfig {
             .canonicalize()
             .map_err(|e| bad(format!("{}: {e}", path.display())))?;
         if !canon.starts_with(root) {
-            return Err(bad(format!(
-                "{} lies outside the IQ work directory",
-                path.display()
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-lies-outside-the-iq-work",
+                path = path.display()
             )));
         }
         Ok(canon)
@@ -253,14 +269,17 @@ impl IqConfig {
         let root = self.root()?;
         let joined = join(root, rel)?;
         let canon = self.contained(&joined).map_err(|e| {
-            bad(format!(
-                "[input] campaign `{rel}`: {}; the campaign folder must be an existing folder \
-                 inside the IQ work directory",
-                e.message
+            bad(kshana::terr!(
+                "e-mcp-iq-input-campaign-the-campaign-folder",
+                rel = rel,
+                message = e.message
             ))
         })?;
         if !canon.is_dir() {
-            return Err(bad(format!("[input] campaign `{rel}` is not a folder")));
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-input-campaign-is-not-folder",
+                rel = rel
+            )));
         }
         Ok(canon)
     }
@@ -273,28 +292,35 @@ impl IqConfig {
         if joined.exists() {
             let canon = self.contained(&joined)?;
             if !canon.is_dir() {
-                return Err(bad(format!("out_dir `{rel}` is not a folder")));
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-out-dir-is-not-folder",
+                    rel = rel
+                )));
             }
             return Ok(canon);
         }
         let name = joined
             .file_name()
             .filter(|n| *n != "." && *n != "..")
-            .ok_or_else(|| bad(format!("out_dir `{rel}` does not name a folder")))?
+            .ok_or_else(|| bad(kshana::terr!("e-mcp-iq-out-dir-does-not-name", rel = rel)))?
             .to_owned();
         let parent = self.contained(joined.parent().unwrap_or(root))?;
         let full = parent.join(name);
-        std::fs::create_dir(&full).map_err(|e| bad(format!("out_dir `{rel}`: {e}")))?;
+        std::fs::create_dir(&full)
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-out-dir", rel = rel, e = e)))?;
         Ok(full)
     }
 
     /// Refuse a call that would touch more than the budget.
     fn budget(&self, samples: u64, what: &str, remedy: &str) -> Result<(), McpError> {
         if samples > self.max_samples {
-            return Err(bad(format!(
-                "{what} is {samples} samples and one call may process at most {} \
-                 ({IQ_MAX_SAMPLES_ENV}); {remedy}",
-                self.max_samples
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-is-samples-and-one-call",
+                what = what,
+                samples = samples,
+                max_samples = self.max_samples,
+                env = IQ_MAX_SAMPLES_ENV,
+                remedy = remedy
             )));
         }
         Ok(())
@@ -342,7 +368,7 @@ fn outside(rel: &str) -> McpError {
 fn join(root: &Path, rel: &str) -> Result<PathBuf, McpError> {
     let rel = rel.trim();
     if rel.is_empty() {
-        return Err(bad("an empty path was given".into()));
+        return Err(bad(kshana::terr!("e-mcp-iq-an-empty-path-was-given")));
     }
     let p = Path::new(rel);
     Ok(if p.is_absolute() {
@@ -356,7 +382,7 @@ fn join(root: &Path, rel: &str) -> Result<PathBuf, McpError> {
 fn run_cli(args: Vec<String>) -> Result<String, McpError> {
     execute(&args).map_err(|e| match e {
         CommandError::Usage(m) => bad(format!("iq {}: {m}", args[0])),
-        CommandError::Run(m) => bad(format!("iq {} failed: {m}", args[0])),
+        CommandError::Run(m) => bad(kshana::terr!("e-mcp-iq-iq-failed", args = args[0], m = m)),
     })
 }
 
@@ -1156,10 +1182,12 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
         if !(r.rate_hz.is_finite() && r.rate_hz > 0.0) {
-            return Err(bad("rate_hz must be a positive number".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-rate-hz-must-be-positive")));
         }
         if !(r.duration_s.is_finite() && r.duration_s > 0.0) {
-            return Err(bad("duration_s must be a positive number".into()));
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-duration-must-be-positive-number"
+            )));
         }
         let samples = (r.rate_hz * r.duration_s).round() as u64;
         iq.budget(
@@ -1172,7 +1200,10 @@ impl KshanaServer {
         )?;
         let threads = r.threads.unwrap_or(1);
         if !(1..=MAX_THREADS).contains(&threads) {
-            return Err(bad(format!("threads must be 1 to {MAX_THREADS}")));
+            return Err(bad(kshana::terr!(
+                "e-mcp-iq-threads-must-be-to",
+                max_threads = MAX_THREADS
+            )));
         }
         let out = iq.output(&r.out, r.overwrite)?;
         let out_s = out.display().to_string();
@@ -1195,8 +1226,9 @@ impl KshanaServer {
             "csv" => false,
             "jsonl" | "jsonlines" => true,
             other => {
-                return Err(bad(format!(
-                    "truth_format must be csv or jsonl (got {other:?})"
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-truth-format-must-be-csv",
+                    other = format!("{:?}", other)
                 )));
             }
         };
@@ -1244,7 +1276,7 @@ impl KshanaServer {
             let nav = iq.input(nav)?;
             let [lat, lon, alt] = r
                 .rx_pos
-                .ok_or_else(|| bad("broadcast mode (nav) needs rx_pos [lat, lon, alt]".into()))?;
+                .ok_or_else(|| bad(kshana::terr!("e-mcp-iq-broadcast-mode-nav-needs-rx")))?;
             a.opt("--nav", Some(nav.display()))
                 .opt("--rx-pos", Some(format!("{lat},{lon},{alt}")))
                 .opt("--start", r.start_tow_s)
@@ -1253,11 +1285,12 @@ impl KshanaServer {
                 a.opt("--prn", Some(list(&r.prns)));
             }
         } else {
-            let signal = r.signal.as_deref().ok_or_else(|| {
-                bad("a scene needs `signal` (or `nav` for broadcast mode)".into())
-            })?;
+            let signal = r
+                .signal
+                .as_deref()
+                .ok_or_else(|| bad(kshana::terr!("e-mcp-iq-scene-needs-signal-or-nav")))?;
             if r.prns.is_empty() {
-                return Err(bad("a scene needs at least one PRN in `prns`".into()));
+                return Err(bad(kshana::terr!("e-mcp-iq-scene-needs-at-least-one")));
             }
             a.opt("--signal", Some(signal))
                 .opt("--prn", Some(list(&r.prns)))
@@ -1298,7 +1331,7 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
         if r.prns.is_empty() {
-            return Err(bad("prns must list at least one PRN".into()));
+            return Err(bad(kshana::terr!("e-python-prns-must-list-at-least")));
         }
         let rec = iq.input(&r.recording)?;
         let spec = iq.open(&rec, r.raw.as_ref())?.spec;
@@ -1328,9 +1361,9 @@ impl KshanaServer {
             .transpose()?;
         if let Some(p) = &surface_out {
             if r.prns.len() != 1 {
-                return Err(bad(
-                    "surface_out exports one surface: give exactly one PRN".into()
-                ));
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-surface-out-exports-one-surface"
+                )));
             }
             let step = r
                 .doppler_step_hz
@@ -1343,16 +1376,16 @@ impl KshanaServer {
             };
             let cells = bins * (spec.fs_hz * code.period_s()).ceil();
             if cells > SURFACE_MAX_CELLS as f64 {
-                return Err(bad(format!(
-                    "surface_out would hold about {cells:.0} cells (Doppler bins × samples per \
-                     code period; limit {SURFACE_MAX_CELLS}, about {} MB as binary): widen \
-                     doppler_step_hz or narrow doppler_max_hz",
-                    SURFACE_MAX_CELLS * 8 / 1_000_000
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-surface-out-would-hold-about",
+                    cells = kshana::i18n::localise_decimal(format!("{:.0}", cells)),
+                    max_cells = SURFACE_MAX_CELLS,
+                    mb = SURFACE_MAX_CELLS * 8 / 1_000_000
                 )));
             }
             if kshana::iq::acq_surface::SurfaceFormat::from_path(&p.display().to_string()).is_none()
             {
-                return Err(bad("surface_out must end in .csv, .json or .bin".into()));
+                return Err(bad(kshana::terr!("e-mcp-iq-surface-out-must-end-in")));
             }
         }
         let (json_path, scratch) = match &json_out {
@@ -1418,7 +1451,7 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
         if r.prns.is_empty() {
-            return Err(bad("prns must list at least one PRN".into()));
+            return Err(bad(kshana::terr!("e-python-prns-must-list-at-least")));
         }
         let rec = iq.input(&r.recording)?;
         let Opened {
@@ -1427,7 +1460,7 @@ impl KshanaServer {
         if let Some(s) = r.max_seconds
             && !(s.is_finite() && s > 0.0)
         {
-            return Err(bad("max_seconds must be a positive number".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-max-seconds-must-be-positive")));
         }
         let tracked = r
             .max_seconds
@@ -1451,14 +1484,11 @@ impl KshanaServer {
         if let Some(p) = &epochs_out
             && kshana::iq::track::sink::EpochFormat::from_path(&p.display().to_string()).is_none()
         {
-            return Err(bad(
-                "epochs_out must end in .csv, .jsonl or .bin (the format follows the suffix)"
-                    .into(),
-            ));
+            return Err(bad(kshana::terr!("e-mcp-iq-epochs-out-must-end-in")));
         }
         let design = r.design.as_deref().map(|p| iq.input(p)).transpose()?;
         if r.design_name.is_some() && design.is_none() {
-            return Err(bad("design_name needs design".into()));
+            return Err(bad(kshana::terr!("e-python-design-name-needs-design")));
         }
         // The summary comes from the run's own bounded-memory accumulators.
         let summary_path = iq.scratch("json")?;
@@ -1568,7 +1598,7 @@ impl KshanaServer {
         )?;
         let out = iq.output(&r.out, r.overwrite)?;
         if out == input {
-            return Err(bad("out must differ from input".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-out-must-differ-from-input")));
         }
         let sidecar = PathBuf::from(format!("{}.json", out.display()));
         iq.writable(&sidecar, r.overwrite)?;
@@ -1710,8 +1740,13 @@ impl KshanaServer {
         use kshana::iq::campaign::runner::cell_done;
         let iq = &self.iq;
         let out = iq.contained(&join(iq.root()?, &r.out_dir)?)?;
-        let text = std::fs::read_to_string(out.join("campaign.json"))
-            .map_err(|e| bad(format!("{}: no campaign here ({e})", r.out_dir)))?;
+        let text = std::fs::read_to_string(out.join("campaign.json")).map_err(|e| {
+            bad(kshana::terr!(
+                "e-mcp-iq-no-campaign-here",
+                out_dir = r.out_dir,
+                e = e
+            ))
+        })?;
         let p: Plan = serde_json::from_str(&text).map_err(|e| bad(e.to_string()))?;
         let done = p.cells.iter().filter(|c| cell_done(&out, &c.key)).count();
         let digest = std::fs::read_to_string(out.join("DIGEST"))
@@ -1739,16 +1774,14 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
         if r.prns.is_empty() {
-            return Err(bad("prns must list at least one PRN".into()));
+            return Err(bad(kshana::terr!("e-python-prns-must-list-at-least")));
         }
         let lists = r.pll_bws_hz.is_some()
             || r.dll_bws_hz.is_some()
             || r.spacings_chips.is_some()
             || r.coherents.is_some();
         if r.design.is_some() && lists {
-            return Err(bad(
-                "pll_bws_hz, dll_bws_hz, spacings_chips and coherents cannot be combined with design: the sweep runs every design in the file".into(),
-            ));
+            return Err(bad(kshana::terr!("e-mcp-iq-pll-bws-hz-dll-bws")));
         }
         if r.design.is_none() {
             let n = |l: Option<usize>| l.filter(|&n| n > 0).unwrap_or(1);
@@ -1757,9 +1790,9 @@ impl KshanaServer {
                 * n(r.spacings_chips.as_ref().map(Vec::len))
                 * n(r.coherents.as_ref().map(Vec::len));
             if designs * r.prns.len() > 256 {
-                return Err(bad(format!(
-                    "{} (design, PRN) channels; at most 256 per sweep",
-                    designs * r.prns.len()
+                return Err(bad(kshana::terr!(
+                    "e-mcp-iq-design-prn-channels-at-most",
+                    n_channels = designs * r.prns.len()
                 )));
             }
         }
@@ -1770,7 +1803,7 @@ impl KshanaServer {
         if let Some(s) = r.max_seconds
             && !(s.is_finite() && s > 0.0)
         {
-            return Err(bad("max_seconds must be a positive number".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-max-seconds-must-be-positive")));
         }
         let tracked = r
             .max_seconds
@@ -1862,10 +1895,10 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
         if r.signal.is_some() != r.prns.is_some() {
-            return Err(bad("signal and prns go together".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-signal-and-prns-go-together")));
         }
         if r.prns.as_ref().is_some_and(Vec::is_empty) {
-            return Err(bad("prns must list at least one PRN".into()));
+            return Err(bad(kshana::terr!("e-python-prns-must-list-at-least")));
         }
         let rec = iq.input(&r.recording)?;
         let Opened {
@@ -1874,7 +1907,7 @@ impl KshanaServer {
         if let Some(s) = r.max_seconds
             && !(s.is_finite() && s > 0.0)
         {
-            return Err(bad("max_seconds must be a positive number".into()));
+            return Err(bad(kshana::terr!("e-mcp-iq-max-seconds-must-be-positive")));
         }
         let covered = r
             .max_seconds
@@ -1986,7 +2019,7 @@ impl KshanaServer {
         Parameters(r): Parameters<IqConditionsRequest>,
     ) -> Result<CallToolResult, McpError> {
         let v = kshana::surface::iq_test_conditions_inline(&r.conditions, 4 * 1024 * 1024)
-            .map_err(|e| bad(format!("test conditions invalid: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-test-conditions-invalid", e = e)))?;
         reply(v)
     }
 
@@ -2009,7 +2042,8 @@ impl KshanaServer {
             if let Some(input) = sc.input.as_mut() {
                 input.campaign = Some(canon.to_string_lossy().into_owned());
             }
-            let out = run_campaign_scenario(&sc).map_err(|e| bad(format!("labfit failed: {e}")))?;
+            let out = run_campaign_scenario(&sc)
+                .map_err(|e| bad(kshana::terr!("e-mcp-iq-labfit-failed", e = e)))?;
             let report: serde_json::Value =
                 serde_json::from_str(&out.json).map_err(|e| bad(e.to_string()))?;
             return reply(serde_json::json!({
@@ -2020,7 +2054,7 @@ impl KshanaServer {
             }));
         }
         let v = kshana::surface::iq_labfit_inline(&r.toml, CAP)
-            .map_err(|e| bad(format!("labfit failed: {e}")))?;
+            .map_err(|e| bad(kshana::terr!("e-mcp-iq-labfit-failed", e = e)))?;
         reply(v)
     }
 }

@@ -412,8 +412,14 @@ fn main() {
         }
         let dt = t0.elapsed().as_secs_f64();
         println!(
-            "{n} user-epochs x 3 URA values in {dt:.2} s = {:.1} ms per user-epoch ({ok} solvable)",
-            1000.0 * dt / n as f64
+            "{}",
+            kshana::t!(
+                "bin-gen-araim-m3-study-user-epochs-ura-values-in",
+                n = n,
+                dt = kshana::i18n::localise_decimal(format!("{:.2}", dt)),
+                v1 = kshana::i18n::localise_decimal(format!("{:.1}", 1000.0 * dt / n as f64)),
+                ok = ok
+            )
         );
         return;
     }

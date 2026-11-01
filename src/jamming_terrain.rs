@@ -58,9 +58,9 @@ impl TerrainCfg {
     /// Check the section's numbers.
     pub fn check(&self) -> Result<(), String> {
         if self.samples_per_side < 2 {
-            return Err(format!(
-                "terrain.samples_per_side must be at least 2 (got {})",
-                self.samples_per_side
+            return Err(crate::terr!(
+                "e-jamming-terrain-terrain-samples-per-side-must",
+                samples_per_side = self.samples_per_side
             ));
         }
         for (name, v) in [
@@ -69,7 +69,11 @@ impl TerrainCfg {
             ("geoid_undulation_m", self.geoid_undulation_m),
         ] {
             if !v.is_finite() {
-                return Err(format!("terrain.{name} must be finite (got {v})"));
+                return Err(crate::terr!(
+                    "e-jamming-terrain-terrain-must-be-finite-got",
+                    name = name,
+                    v = v
+                ));
             }
         }
         for (name, v) in [
@@ -77,7 +81,11 @@ impl TerrainCfg {
             ("profile_step_m", self.profile_step_m),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("terrain.{name} must be positive (got {v})"));
+                return Err(crate::terr!(
+                    "e-jamming-terrain-terrain-must-be-positive-got",
+                    name = name,
+                    v = v
+                ));
             }
         }
         Ok(())
@@ -85,15 +93,26 @@ impl TerrainCfg {
 
     /// Read the tile.
     pub fn load(&self) -> Result<DemGrid, String> {
-        let bytes = std::fs::read(&self.dem_hgt)
-            .map_err(|e| format!("terrain.dem_hgt {:?}: {e}", self.dem_hgt))?;
+        let bytes = std::fs::read(&self.dem_hgt).map_err(|e| {
+            crate::terr!(
+                "e-jamming-terrain-terrain-dem-hgt",
+                dem_hgt = format!("{:?}", self.dem_hgt),
+                e = e
+            )
+        })?;
         DemGrid::from_srtm_hgt(
             &bytes,
             self.samples_per_side,
             self.ll_lat_deg,
             self.ll_lon_deg,
         )
-        .map_err(|e| format!("terrain.dem_hgt {:?}: {e}", self.dem_hgt))
+        .map_err(|e| {
+            crate::terr!(
+                "e-jamming-terrain-terrain-dem-hgt",
+                dem_hgt = format!("{:?}", self.dem_hgt),
+                e = e
+            )
+        })
     }
 }
 
@@ -182,14 +201,20 @@ pub fn jammer_terrain(
         let lat = p[2].patan2(p[0].phypot(p[1])).to_degrees();
         let lon = p[1].patan2(p[0]).to_degrees();
         if !(dem.lat0_deg..=lat_max).contains(&lat) || !(dem.lon0_deg..=lon_max).contains(&lon) {
-            return Err(format!(
-                "terrain: profile point {points} ({lat:.6}, {lon:.6}) is outside the DEM tile"
+            return Err(crate::terr!(
+                "e-jamming-terrain-terrain-profile-point-is-outside",
+                points = points,
+                lat = crate::i18n::localise_decimal(format!("{:.6}", lat)),
+                lon = crate::i18n::localise_decimal(format!("{:.6}", lon))
             ));
         }
         let terrain = dem.elevation_at(lat, lon);
         if terrain.is_nan() {
-            return Err(format!(
-                "terrain: profile point {points} ({lat:.6}, {lon:.6}) is on a DEM void"
+            return Err(crate::terr!(
+                "e-jamming-terrain-terrain-profile-point-is-on",
+                points = points,
+                lat = crate::i18n::localise_decimal(format!("{:.6}", lat)),
+                lon = crate::i18n::localise_decimal(format!("{:.6}", lon))
             ));
         }
         let d2 = d - d1;

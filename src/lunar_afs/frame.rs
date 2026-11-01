@@ -64,10 +64,16 @@ pub fn spare_bits(n: usize) -> Vec<u8> {
 /// modulo 2 to the 51 outputs and prepended.
 pub fn encode_sb1(fid: u8, toi: u8) -> Result<Vec<u8>, String> {
     if fid > 3 {
-        return Err(format!("FID {fid} does not fit two bits (0..3)"));
+        return Err(crate::terr!(
+            "e-lunar-afs-frame-fid-does-not-fit-two",
+            fid = fid
+        ));
     }
     if toi > 99 {
-        return Err(format!("TOI {toi} outside 0..99 (LSIS-410)"));
+        return Err(crate::terr!(
+            "e-lunar-afs-frame-toi-outside-99-lsis-410",
+            toi = toi
+        ));
     }
     Ok(bch_51_8(((fid as u16) << 7) | toi as u16))
 }
@@ -76,7 +82,10 @@ pub fn encode_sb1(fid: u8, toi: u8) -> Result<Vec<u8>, String> {
 /// correlation the standard describes after Figure 8: returns `(fid, toi)`.
 pub fn decode_sb1(soft: &[f64]) -> Result<(u8, u8), String> {
     if soft.len() != SB1_SYMBOLS {
-        return Err(format!("{SB1_SYMBOLS} subframe-1 symbols expected"));
+        return Err(crate::terr!(
+            "e-lunar-afs-frame-subframe-symbols-expected",
+            SB1_SYMBOLS = SB1_SYMBOLS
+        ));
     }
     // Hypotheses with bit 0 (the MSB) equal to 0; bit 0 is then the sign of the best match.
     let mut best = (0u16, 0.0f64);
@@ -237,11 +246,13 @@ impl FrameCoder {
             || f.sb3.len() != SB34_DATA_BITS
             || f.sb4.len() != SB34_DATA_BITS
         {
-            return Err(format!(
-                "subframe data lengths {}/{}/{} (expected {SB2_DATA_BITS}/{SB34_DATA_BITS}/{SB34_DATA_BITS})",
-                f.sb2.len(),
-                f.sb3.len(),
-                f.sb4.len()
+            return Err(crate::terr!(
+                "e-lunar-afs-frame-subframe-data-lengths-expected",
+                sb2 = f.sb2.len(),
+                sb3 = f.sb3.len(),
+                sb4 = f.sb4.len(),
+                SB2_DATA_BITS = SB2_DATA_BITS,
+                SB34_DATA_BITS = SB34_DATA_BITS
             ));
         }
         let mut coded = self.sb2.encode(&with_crc(&f.sb2))?;
@@ -258,9 +269,10 @@ impl FrameCoder {
     /// first.
     pub fn decode(&self, soft: &[f64], max_iter: usize) -> Result<DecodedFrame, String> {
         if soft.len() != FRAME_SYMBOLS {
-            return Err(format!(
-                "{FRAME_SYMBOLS} symbols expected, {} given",
-                soft.len()
+            return Err(crate::terr!(
+                "e-lunar-afs-frame-symbols-expected-given",
+                FRAME_SYMBOLS = FRAME_SYMBOLS,
+                soft = soft.len()
             ));
         }
         let (fid, toi) = decode_sb1(&soft[SYNC_SYMBOLS..SYNC_SYMBOLS + SB1_SYMBOLS])?;

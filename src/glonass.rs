@@ -215,16 +215,30 @@ pub fn parse_glonass_nav(text: &str) -> Result<Vec<GlonassEphemeris>, String> {
             i += nlines;
             continue;
         }
-        let prn: u8 = col(head, 1, 3)
-            .trim()
-            .parse()
-            .map_err(|_| format!("bad GLONASS PRN in {head:?}"))?;
+        let prn: u8 = col(head, 1, 3).trim().parse().map_err(|_| {
+            crate::terr!("e-glonass-bad-glonass-prn-in", head = format!("{:?}", head))
+        })?;
         let epoch = EpochUtc {
-            year: col(head, 4, 8).trim().parse().map_err(|_| "bad year")?,
-            month: col(head, 9, 11).trim().parse().map_err(|_| "bad month")?,
-            day: col(head, 12, 14).trim().parse().map_err(|_| "bad day")?,
-            hour: col(head, 15, 17).trim().parse().map_err(|_| "bad hour")?,
-            minute: col(head, 18, 20).trim().parse().map_err(|_| "bad minute")?,
+            year: col(head, 4, 8)
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-glonass-bad-year"))?,
+            month: col(head, 9, 11)
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-glonass-bad-month"))?,
+            day: col(head, 12, 14)
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-glonass-bad-day"))?,
+            hour: col(head, 15, 17)
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-glonass-bad-hour"))?,
+            minute: col(head, 18, 20)
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-glonass-bad-minute"))?,
             second: parse_d(col(head, 21, 23))?,
         };
         let minus_tau_n = parse_d(col(head, 23, 42))?;

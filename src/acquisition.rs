@@ -204,9 +204,9 @@ impl PcpsConfig {
     pub fn samples_per_code(&self) -> Result<usize, String> {
         let spc = self.fs_hz / 1000.0;
         if !(spc.is_finite() && spc >= 1.0) || (spc - spc.round()).abs() > 1e-9 {
-            return Err(format!(
-                "sample rate {} Hz is not a whole number of samples per millisecond",
-                self.fs_hz
+            return Err(crate::terr!(
+                "e-acquisition-sample-rate-hz-is-not",
+                fs_hz = self.fs_hz
             ));
         }
         Ok(spc.round() as usize)
@@ -286,25 +286,30 @@ pub struct PcpsGrid {
 pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<PcpsGrid, String> {
     let spc = cfg.samples_per_code()?;
     if cfg.coherent_ms == 0 || cfg.noncoherent == 0 {
-        return Err("coherent_ms and noncoherent must be positive".into());
+        return Err(crate::terr!(
+            "e-acquisition-coherent-ms-and-noncoherent-must"
+        ));
     }
     if !(cfg.doppler_step_hz > 0.0 && cfg.doppler_max_hz >= 0.0) {
-        return Err("the Doppler grid needs a positive step and a non-negative maximum".into());
+        return Err(crate::terr!(
+            "e-acquisition-the-doppler-grid-needs-positive"
+        ));
     }
     if !(cfg.pfa > 0.0 && cfg.pfa < 1.0) {
-        return Err("pfa must lie in (0, 1)".into());
+        return Err(crate::terr!("e-acquisition-pfa-must-lie-in"));
     }
     let block = spc * cfg.coherent_ms;
     let needed = block * cfg.noncoherent;
     if samples.len() < needed {
-        return Err(format!(
-            "{} samples supplied, {needed} needed",
-            samples.len()
+        return Err(crate::terr!(
+            "e-acquisition-samples-supplied-needed",
+            samples = samples.len(),
+            needed = needed
         ));
     }
     let bins = cfg.doppler_bins();
     if bins.is_empty() {
-        return Err("empty Doppler grid".into());
+        return Err(crate::terr!("e-acquisition-empty-doppler-grid"));
     }
     let plan = FftPlan::new(spc);
     let replica = ca_replica(code, cfg.fs_hz, CA_CHIP_RATE_HZ, spc);
@@ -335,7 +340,7 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
     }
     let sigma2 = power / needed as f64;
     if sigma2.is_nan() || sigma2 <= 0.0 {
-        return Err("the samples carry no power".into());
+        return Err(crate::terr!("e-acquisition-the-samples-carry-no-power"));
     }
     for m in 0..cfg.noncoherent {
         let start = m * block;

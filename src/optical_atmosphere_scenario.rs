@@ -365,19 +365,27 @@ impl OpticalAtmosphereScenario {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{n} must be finite and positive"))
+                Err(crate::terr!(
+                    "e-aocs-kind-must-be-finite-and-positive",
+                    n = n
+                ))
             }
         };
         let frac = |v: f64, n: &str| {
             if v.is_finite() && (0.0..=1.0).contains(&v) {
                 Ok(())
             } else {
-                Err(format!("{n} must be in [0, 1]"))
+                Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-must-be-in",
+                    n = n
+                ))
             }
         };
         pos(self.wavelength_nm, "wavelength_nm")?;
         if !(5.0..=90.0).contains(&self.elevation_deg) {
-            return Err("elevation_deg must be in [5, 90]".into());
+            return Err(crate::terr!(
+                "e-optical-atmosphere-scenario-elevation-deg-must-be-in"
+            ));
         }
         pos(self.link.tx_power_w, "link.tx_power_w")?;
         pos(self.link.tx_aperture_m, "link.tx_aperture_m")?;
@@ -402,40 +410,58 @@ impl OpticalAtmosphereScenario {
         )?;
         pos(self.clock.threshold_ns, "clock.threshold_ns")?;
         if !matches!(self.atmosphere.wave.as_str(), "plane" | "spherical") {
-            return Err("atmosphere.wave must be \"plane\" or \"spherical\"".into());
+            return Err(crate::terr!(
+                "e-optical-atmosphere-scenario-atmosphere-wave-must-be-plane"
+            ));
         }
         if !matches!(self.atmosphere.direction.as_str(), "downlink" | "uplink") {
-            return Err("atmosphere.direction must be \"downlink\" or \"uplink\"".into());
+            return Err(crate::terr!(
+                "e-optical-atmosphere-scenario-atmosphere-direction-must-be-downlink"
+            ));
         }
         for t in &self.availability_targets_pct {
             if !(*t > 0.0 && *t < 100.0) {
-                return Err("availability_targets_pct entries must be in (0, 100)".into());
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-availability-targets-pct-entries-must"
+                ));
             }
         }
         if let Some(t) = &self.timeseries {
             pos(t.duration_h, "timeseries.duration_h")?;
             pos(t.step_s, "timeseries.step_s")?;
             if t.duration_h > 8760.0 {
-                return Err("timeseries.duration_h must be at most 8760 (one year)".into());
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-timeseries-duration-must-be-at"
+                ));
             }
             let steps = ((t.duration_h * 3600.0 / t.step_s).round() as usize).max(1);
             if steps > MAX_STEPS {
-                return Err(format!(
-                    "timeseries: {steps} steps is above the {MAX_STEPS} a result carries; raise step_s or shorten duration_h"
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-timeseries-steps-is-above-the",
+                    steps = steps,
+                    MAX_STEPS = MAX_STEPS
                 ));
             }
         }
         for c in &self.clock.classes {
             if crate::optical_outage_holdover::clock_psds(c).is_none() {
-                return Err(format!("unknown clock class \"{c}\""));
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-unknown-clock-class",
+                    c = c
+                ));
             }
         }
         for s in &self.site {
             if s.name.trim().is_empty() {
-                return Err("every site needs a name".into());
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-every-site-needs-name"
+                ));
             }
             if !(-90.0..=90.0).contains(&s.lat_deg) || !(-180.0..=180.0).contains(&s.lon_deg) {
-                return Err(format!("site {}: latitude/longitude out of range", s.name));
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-site-latitude-longitude-out-of",
+                    name = s.name
+                ));
             }
             frac(s.p_cloud, "site.p_cloud")?;
             frac(s.pointing_availability, "site.pointing_availability")?;
@@ -447,7 +473,10 @@ impl OpticalAtmosphereScenario {
                 && s.altitude_m >= 0.0
                 && s.altitude_m < self.atmosphere.top_km * 1000.0)
             {
-                return Err(format!("site {}: altitude_m must be in [0, top)", s.name));
+                return Err(crate::terr!(
+                    "e-optical-atmosphere-scenario-site-altitude-must-be-in",
+                    name = s.name
+                ));
             }
         }
         Ok(())
@@ -717,16 +746,22 @@ impl OpticalAtmosphereScenario {
         }
         let best = order[0];
         let last = rows.last().cloned().unwrap_or(json!({}));
-        let summary = format!(
-            "optical-atmosphere: {} nm at {:.0} deg elevation, margin {:.1} dB before the atmosphere; best site {} {:.2} %; {}-site network {:.2} % independent / {:.2} % correlated weather (MODELLED, advisory)",
-            scn.wavelength_nm,
-            scn.elevation_deg,
-            margin0,
-            scn.site[best].name,
-            100.0 * avail[best],
-            order.len(),
-            last["independent_pct"].as_f64().unwrap_or(f64::NAN),
-            last["correlated_pct"].as_f64().unwrap_or(f64::NAN),
+        let summary = crate::t!(
+            "optical-atmosphere-scenario-optical-atmosphere-nm-at-deg",
+            wavelength_nm = scn.wavelength_nm,
+            elevation_deg = crate::i18n::localise_decimal(format!("{:.0}", scn.elevation_deg)),
+            margin0 = crate::i18n::localise_decimal(format!("{:.1}", margin0)),
+            scn = scn.site[best].name,
+            v5 = crate::i18n::localise_decimal(format!("{:.2}", 100.0 * avail[best])),
+            order = order.len(),
+            last = crate::i18n::localise_decimal(format!(
+                "{:.2}",
+                last["independent_pct"].as_f64().unwrap_or(f64::NAN)
+            )),
+            last2 = crate::i18n::localise_decimal(format!(
+                "{:.2}",
+                last["correlated_pct"].as_f64().unwrap_or(f64::NAN)
+            ))
         );
         // the time-series fields are described only when the run carries them, so a run without the table is the 0.37 document
         let units: Vec<FieldUnit> = UNITS

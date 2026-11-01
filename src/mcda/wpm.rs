@@ -49,30 +49,35 @@ impl WpmResult {
 pub fn wpm(matrix: &[Vec<f64>], weights: &[f64], types: &[Objective]) -> Result<WpmResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("WPM: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-wpm-wpm-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("WPM: no criteria".into());
+        return Err(crate::terr!("e-mcda-wpm-wpm-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "WPM: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-wpm-wpm-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "WPM: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-wpm-wpm-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         for (j, &x) in row.iter().enumerate() {
             if !x.is_finite() || x <= 0.0 {
-                return Err(format!(
-                    "WPM: alternative {i} criterion {j} value {x} must be finite and > 0"
+                return Err(crate::terr!(
+                    "e-mcda-wpm-wpm-alternative-criterion-value-must",
+                    i = i,
+                    j = j,
+                    x = x
                 ));
             }
         }

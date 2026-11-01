@@ -145,17 +145,24 @@ def test_conflict_resilience_per_vector_survival_reachable_from_python():
 
 
 def test_csv_table_matches_the_golden_bytes_and_write_csv_returns_bytes_written(tmp_path):
-    # A kind that publishes a reproducibility table: `.csv` must be the exact golden-pinned
-    # bytes the CLI writes as `<scenario>.table.csv`, and `write_csv` returns the number of
-    # BYTES written (the Rust `RunOutput::write_csv` contract), not characters or rows.
+    # A kind that publishes a reproducibility table: `.csv` must be the exact bytes the CLI writes as
+    # `<scenario>.table.csv`, and `write_csv` returns the number of BYTES written (the Rust
+    # `RunOutput::write_csv` contract), not characters or rows. Since 0.40 those bytes lead with the run's
+    # two evidence-label comment lines; the golden pins the table below them (the Rust golden test strips
+    # the label with `without_evidence_labels` and pins it on its own in tests/evidence_labels_doc_sync.rs).
     toml = (REPO / "scenarios" / "realtime-frame-eop.toml").read_text()
     golden = (REPO / "tests" / "golden" / "realtime-frame-eop.csv").read_text()
     out = kshana.run_typed(toml)
-    assert out.csv == golden
+    label, table = out.csv[: out.csv.index(golden)], out.csv[out.csv.index(golden) :]
+    assert table == golden, "the table under the label is the golden bytes"
+    assert out.csv == label + golden
+    label_lines = label.splitlines()
+    assert len(label_lines) == 2
+    assert label_lines[0].startswith("# evidence: ") and label_lines[1].startswith("# evidence-matrix:")
     dest = tmp_path / "table.csv"
     written = out.write_csv(str(dest))
-    assert written == len(golden.encode("utf-8")) == dest.stat().st_size
-    assert dest.read_text() == golden
+    assert written == len(out.csv.encode("utf-8")) == dest.stat().st_size
+    assert dest.read_text() == out.csv
     assert "csv=" in repr(out)
 
 

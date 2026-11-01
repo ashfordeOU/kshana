@@ -33,7 +33,7 @@ impl GpsL1Ca {
 
 impl SpreadingCode for GpsL1Ca {
     fn name(&self) -> String {
-        format!("GPS L1 C/A PRN {}", self.code.prn)
+        crate::i18n::in_english(|| crate::t!("iq-scene-code-gps-l1-prn", prn = self.code.prn))
     }
     fn chip_rate_hz(&self) -> f64 {
         CA_CHIP_RATE_HZ
