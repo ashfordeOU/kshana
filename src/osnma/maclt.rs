@@ -47,7 +47,7 @@ impl Entry {
     /// The sequence in force for the MACK sent in the sub-frame starting at `gst_sf`:
     /// a two-message sequence starts with the first half of a GST minute.
     pub fn sequence_at(&self, gst_sf: u32) -> &[Slot] {
-        let i = if self.sequences.len() == 2 && gst_sf % 60 != 0 {
+        let i = if self.sequences.len() == 2 && !gst_sf.is_multiple_of(60) {
             1
         } else {
             0

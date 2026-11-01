@@ -286,17 +286,20 @@ impl LunarBeaconScenario {
     pub fn compute(&self) -> Result<LunarBeaconReport, String> {
         let n_sats = self.n_satellites.unwrap_or(6);
         if n_sats < 1 {
-            return Err("n_satellites must be at least 1".to_string());
+            return Err(crate::terr!("e-lunar-beacon-satellites-must-be-at-least"));
         }
         let n_cmp = self.comparison_n_satellites.unwrap_or(24);
         if n_cmp < 1 {
-            return Err("comparison_n_satellites must be at least 1".to_string());
+            return Err(crate::terr!(
+                "e-lunar-beacon-comparison-satellites-must-be-at"
+            ));
         }
         let epoch_s = self.epoch_s.unwrap_or(0.0);
         let mask_deg = self.elevation_mask_deg.unwrap_or(5.0);
         if !(0.0..90.0).contains(&mask_deg) {
-            return Err(format!(
-                "elevation_mask_deg must be in [0, 90); got {mask_deg}"
+            return Err(crate::terr!(
+                "e-lunar-beacon-elevation-mask-deg-must-be",
+                mask_deg = mask_deg
             ));
         }
         let mask = mask_deg.to_radians();
@@ -328,13 +331,25 @@ impl LunarBeaconScenario {
             accuracy: dop_with_beacons(user, ss, bs, mask).map(|d| realized_accuracy(&d, sigma)),
         };
 
-        let before = row(&format!("{n_sats} satellites, no beacons"), &sats, &[]);
+        let before = row(
+            &crate::t!("lunar-beacon-satellites-no-beacons", n_sats = n_sats),
+            &sats,
+            &[],
+        );
         let after = row(
-            &format!("{n_sats} satellites + {n_vis_beacons} visible beacons"),
+            &crate::t!(
+                "lunar-beacon-satellites-visible-beacons",
+                n_sats = n_sats,
+                n_vis_beacons = n_vis_beacons
+            ),
             &sats,
             &beacons,
         );
-        let bigger = row(&format!("{n_cmp} satellites, no beacons"), &sats_cmp, &[]);
+        let bigger = row(
+            &crate::t!("lunar-beacon-satellites-no-beacons-2", n_cmp = n_cmp),
+            &sats_cmp,
+            &[],
+        );
 
         let ratio = |a: &BeaconDopRow, b: &BeaconDopRow| match (a.dop, b.dop) {
             (Some(x), Some(y)) if y.pdop > 0.0 => Some(x.pdop / y.pdop),
@@ -482,21 +497,31 @@ fn units_block() -> serde_json::Value {
 }
 
 fn beacon_json(r: &LunarBeaconReport) -> Result<String, String> {
-    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising beacon report: {e}"))?;
+    let mut doc = serde_json::to_value(r)
+        .map_err(|e| crate::terr!("e-lunar-beacon-serialising-beacon-report", e = e))?;
     match doc.as_object_mut() {
         Some(o) => {
             o.insert("units".into(), units_block());
         }
-        None => return Err("the beacon report must serialise to a JSON object".to_string()),
+        None => {
+            return Err(crate::terr!(
+                "e-lunar-beacon-the-beacon-report-must-serialise"
+            ))
+        }
     }
-    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising beacon report: {e}"))
+    serde_json::to_string_pretty(&doc)
+        .map_err(|e| crate::terr!("e-lunar-beacon-serialising-beacon-report", e = e))
 }
 
 fn fmt_dop(d: &Option<Dop>) -> String {
     match d {
-        Some(d) => format!(
-            "GDOP {:.4}  PDOP {:.4}  HDOP {:.4}  VDOP {:.4}  TDOP {:.4}",
-            d.gdop, d.pdop, d.hdop, d.vdop, d.tdop
+        Some(d) => crate::t!(
+            "lunar-beacon-gdop-pdop-hdop-vdop-tdop",
+            gdop = crate::i18n::localise_decimal(format!("{:.4}", d.gdop)),
+            pdop = crate::i18n::localise_decimal(format!("{:.4}", d.pdop)),
+            hdop = crate::i18n::localise_decimal(format!("{:.4}", d.hdop)),
+            vdop = crate::i18n::localise_decimal(format!("{:.4}", d.vdop)),
+            tdop = crate::i18n::localise_decimal(format!("{:.4}", d.tdop))
         ),
         None => "no solution (fewer than four usable sources, or singular)".to_string(),
     }
@@ -504,32 +529,42 @@ fn fmt_dop(d: &Option<Dop>) -> String {
 
 fn beacon_summary(r: &LunarBeaconReport) -> String {
     let mut s = String::new();
-    s.push_str(&format!(
-        "Lunar surface-beacon augmentation — mask {:.1} deg, epoch +{:.0} s, \
-         per-beacon sigma_URE {:.4} m\n",
-        r.elevation_mask_deg, r.epoch_s, r.sigma_ure_m
+    s.push_str(&crate::t!(
+        "lunar-beacon-lunar-surface-beacon-augmentation-mask",
+        elevation_mask_deg = crate::i18n::localise_decimal(format!("{:.1}", r.elevation_mask_deg)),
+        epoch_s = crate::i18n::localise_decimal(format!("{:.0}", r.epoch_s)),
+        sigma_ure_m = crate::i18n::localise_decimal(format!("{:.4}", r.sigma_ure_m))
     ));
     for row in &r.rows {
-        s.push_str(&format!(
-            "  {:<44}  sats {:>2}  beacons {:>2}  {}\n",
-            row.label,
-            row.n_visible_sats,
-            row.n_visible_beacons,
-            fmt_dop(&row.dop)
+        s.push_str(&crate::t!(
+            "lunar-beacon-sats-beacons",
+            label = format!("{:<44}", row.label),
+            n_visible_sats = format!("{:>2}", row.n_visible_sats),
+            n_visible_beacons = format!("{:>2}", row.n_visible_beacons),
+            fmt_dop = fmt_dop(&row.dop)
         ));
         if let Some(a) = row.accuracy {
-            s.push_str(&format!(
-                "  {:<44}  realised 1-sigma: 3D {:.3} m  H {:.3} m  V {:.3} m\n",
-                "", a.pos_3d_m, a.horizontal_m, a.vertical_m
+            s.push_str(&crate::t!(
+                "lunar-beacon-realised-sigma-3d",
+                v1 = format!("{:<44}", ""),
+                pos_3d_m = crate::i18n::localise_decimal(format!("{:.3}", a.pos_3d_m)),
+                horizontal_m = crate::i18n::localise_decimal(format!("{:.3}", a.horizontal_m)),
+                vertical_m = crate::i18n::localise_decimal(format!("{:.3}", a.vertical_m))
             ));
         }
     }
     match r.beacon_pdop_improvement {
-        Some(f) => s.push_str(&format!("  beacons improve PDOP by {f:.3}x; ",)),
+        Some(f) => s.push_str(&crate::t!(
+            "lunar-beacon-beacons-improve-pdop-by",
+            f = crate::i18n::localise_decimal(format!("{:.3}", f))
+        )),
         None => s.push_str("  beacon improvement undefined (a geometry had no solution); "),
     }
     match r.constellation_pdop_improvement {
-        Some(f) => s.push_str(&format!("a larger constellation instead, {f:.3}x\n")),
+        Some(f) => s.push_str(&crate::t!(
+            "lunar-beacon-larger-constellation-instead",
+            f = crate::i18n::localise_decimal(format!("{:.3}", f))
+        )),
         None => s.push_str("the larger constellation had no solution\n"),
     }
     s.push_str(
@@ -548,8 +583,8 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
          <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     );
     s.push_str(&format!(
-        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"{TITLE}\">\
-         Surface-beacon augmentation — PDOP by configuration</text>"
+        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"{TITLE}\">{}</text>",
+        crate::t!("lunar-beacon-chart-title")
     ));
     let pdops: Vec<f64> = r
         .rows
@@ -572,24 +607,30 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
                 s.push_str(&format!(
                     "<rect x=\"{x0:.0}\" y=\"{y:.0}\" width=\"{len:.1}\" height=\"{bar_h:.0}\" \
                      fill=\"{AMBER}\" opacity=\"0.85\"/>\
-                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"{TITLE}\">PDOP {:.3}</text>",
+                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"{TITLE}\">{}</text>",
                     x0 + len + 10.0,
                     y + bar_h * 0.65,
-                    d.pdop
+                    crate::t!(
+                        "lunar-beacon-chart-pdop",
+                        pdop = crate::i18n::num(d.pdop, 3)
+                    )
                 ));
             }
             None => s.push_str(&format!(
-                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"{CORAL}\">no solution</text>",
-                y + bar_h * 0.65
+                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"{CORAL}\">{}</text>",
+                y + bar_h * 0.65,
+                crate::t!("lunar-beacon-chart-no-solution")
             )),
         }
     }
     s.push_str(&format!(
-        "<text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">lower is better; \
-         per-beacon sigma_URE {:.3} m, mask {:.1} deg</text></svg>",
+        "<text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">{}</text></svg>",
         h - 22.0,
-        r.sigma_ure_m,
-        r.elevation_mask_deg
+        crate::t!(
+            "lunar-beacon-chart-footnote",
+            sigma = crate::i18n::num(r.sigma_ure_m, 3),
+            mask = crate::i18n::num(r.elevation_mask_deg, 1)
+        )
     ));
     s
 }

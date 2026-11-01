@@ -61,7 +61,7 @@ fn every_bundled_scenario_is_deterministic() {
             .and_then(|n| n.to_str())
             .unwrap_or_default()
             .to_string();
-        let src = fs::read_to_string(path).expect("read scenario");
+        let src = corpus::scenario_source(path);
         let out = kshana::api::run_toml(&src).unwrap_or_else(|e| {
             if run == 0 {
                 panic!("bundled scenario {name} failed to run: {e}")
@@ -99,4 +99,22 @@ fn every_bundled_scenario_is_deterministic() {
     eprintln!(
         "determinism: {checked} bundled scenarios byte-identical on re-run ({suites} suite manifest(s) skipped)"
     );
+}
+
+/// The light corpus must find `n_trials = 50` whatever the line ends of the checkout (a Windows runner
+/// with `core.autocrlf` hands the walks CRLF text).
+#[test]
+fn the_light_corpus_substitution_survives_crlf_checkouts() {
+    let lf = "[scenario]\nkind = \"x\"\nn_trials = 50\narc_s = 7200\n".to_string();
+    let crlf = lf.replace('\n', "\r\n");
+    let want = "[scenario]\nkind = \"x\"\nn_trials = 4\narc_s = 7200\n";
+    for name in [
+        "lunar-orbit-rendezvous.toml",
+        "lunar-orbit-rendezvous-elfo.toml",
+    ] {
+        assert_eq!(corpus::light_source(name, lf.clone()), want);
+        assert_eq!(corpus::light_source(name, crlf.clone()), want);
+    }
+    // any other file is returned exactly as read, CRLF included
+    assert_eq!(corpus::light_source("other.toml", crlf.clone()), crlf);
 }

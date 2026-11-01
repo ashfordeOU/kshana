@@ -48,13 +48,15 @@ pub(crate) struct SceneParams {
 /// code phases differ) at a fixed 45° elevation; each carries the Doppler given for it.
 pub(crate) fn build_scene(p: &SceneParams) -> Result<Scene, String> {
     if p.ids.is_empty() {
-        return Err("a scene needs at least one satellite (--prn)".into());
+        return Err(crate::terr!(
+            "e-iq-scene-synthetic-scene-needs-at-least-one"
+        ));
     }
     if !p.dopplers.is_empty() && p.dopplers.len() != 1 && p.dopplers.len() != p.ids.len() {
-        return Err(format!(
-            "--doppler lists {} value(s); give one per --prn ({}) or a single value",
-            p.dopplers.len(),
-            p.ids.len()
+        return Err(crate::terr!(
+            "e-iq-scene-synthetic-doppler-lists-value-give-one",
+            dopplers = p.dopplers.len(),
+            ids = p.ids.len()
         ));
     }
     let codes = p
@@ -102,7 +104,7 @@ pub(crate) fn build_scene(p: &SceneParams) -> Result<Scene, String> {
             NavData::None
         };
         nav.check_modulation(code.data_modulation())
-            .map_err(|e| format!("--data: {} {e}", code.name()))?;
+            .map_err(|e| crate::terr!("e-iq-scene-synthetic-data", code = code.name(), e = e))?;
         scene.add_satellite(SceneSatellite {
             id: *id as u32,
             code: Box::new(code),

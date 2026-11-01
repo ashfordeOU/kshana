@@ -64,22 +64,35 @@ impl SolutionCfg {
     /// Check the section.
     pub fn validate(&self) -> Result<(), String> {
         if !(self.height_sigma_m.is_finite() && self.height_sigma_m > 0.0) {
-            return Err("solution: height_sigma_m must be finite and positive".into());
+            return Err(crate::terr!(
+                "e-lunar-solution-solution-height-sigma-must-be"
+            ));
         }
         if let Some(r) = self.range_sigma_m {
             if !(r.is_finite() && r > 0.0) {
-                return Err("solution: range_sigma_m must be finite and positive".into());
+                return Err(crate::terr!(
+                    "e-lunar-solution-solution-range-sigma-must-be"
+                ));
             }
         }
         match (self.min_satellites, self.height_aided) {
             (4, _) | (3, true) => {}
             (3, false) => {
-                return Err("solution: min_satellites = 3 needs height_aided = true".into())
+                return Err(crate::terr!(
+                    "e-lunar-solution-solution-min-satellites-needs-height"
+                ))
             }
-            (n, _) => return Err(format!("solution: min_satellites must be 3 or 4, got {n}")),
+            (n, _) => {
+                return Err(crate::terr!(
+                    "e-lunar-solution-solution-min-satellites-must-be",
+                    n = n
+                ))
+            }
         }
         if !(1..=144).contains(&self.window_epochs) {
-            return Err("solution: window_epochs must be 1 to 144".into());
+            return Err(crate::terr!(
+                "e-lunar-solution-solution-window-epochs-must-be"
+            ));
         }
         Ok(())
     }

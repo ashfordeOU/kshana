@@ -341,9 +341,9 @@ fn norm(p: &ParamCfg, v: f64) -> f64 {
 
 fn check(cfg: &OptimizeCfg) -> Result<(), String> {
     if cfg.params.is_empty() || cfg.params.len() > 3 {
-        return Err(format!(
-            "an optimisation takes one to three params, got {}",
-            cfg.params.len()
+        return Err(crate::terr!(
+            "e-campaign-optimize-an-optimisation-takes-one-to",
+            params = cfg.params.len()
         ));
     }
     check_name("objective name", &cfg.objective.name)?;
@@ -351,47 +351,64 @@ fn check(cfg: &OptimizeCfg) -> Result<(), String> {
     for p in &cfg.params {
         check_name("param name", &p.name)?;
         if seen.contains(&p.name.as_str()) {
-            return Err(format!("param `{}` is named twice", p.name));
+            return Err(crate::terr!(
+                "e-campaign-optimize-param-is-named-twice",
+                name = p.name
+            ));
         }
         seen.push(&p.name);
         if !(p.lo.is_finite() && p.hi.is_finite() && p.lo < p.hi) {
-            return Err(format!("param `{}`: needs finite lo < hi", p.name));
+            return Err(crate::terr!(
+                "e-campaign-optimize-param-needs-finite-lo-hi",
+                name = p.name
+            ));
         }
         if !matches!(p.scale.as_str(), "lin" | "log") {
-            return Err(format!("param `{}`: scale must be lin or log", p.name));
+            return Err(crate::terr!(
+                "e-campaign-optimize-param-scale-must-be-lin",
+                name = p.name
+            ));
         }
         if p.scale == "log" && p.lo <= 0.0 {
-            return Err(format!(
-                "param `{}`: a log param needs positive bounds",
-                p.name
+            return Err(crate::terr!(
+                "e-campaign-optimize-param-log-param-needs-positive",
+                name = p.name
             ));
         }
         if let Some(s) = p.start {
             if !(s >= p.lo && s <= p.hi) {
-                return Err(format!("param `{}`: start must lie in [lo, hi]", p.name));
+                return Err(crate::terr!(
+                    "e-campaign-optimize-param-start-must-lie-in",
+                    name = p.name
+                ));
             }
         }
         if cfg.method == "grid" && p.steps.is_none_or(|s| s < 2) {
-            return Err(format!(
-                "param `{}`: a grid needs steps of at least two",
-                p.name
+            return Err(crate::terr!(
+                "e-campaign-optimize-param-grid-needs-steps-of",
+                name = p.name
             ));
         }
     }
     match cfg.objective.goal.as_str() {
         "minimize" | "maximize" => {
             if cfg.objective.target.is_some() {
-                return Err("objective.target is only read with goal = \"target\"".into());
+                return Err(crate::terr!(
+                    "e-campaign-optimize-objective-target-is-only-read"
+                ));
             }
         }
         "target" => {
             if !cfg.objective.target.is_some_and(f64::is_finite) {
-                return Err("goal = \"target\" needs a finite objective.target".into());
+                return Err(crate::terr!(
+                    "e-campaign-optimize-goal-target-needs-finite-objective"
+                ));
             }
         }
         other => {
-            return Err(format!(
-                "objective.goal must be minimize, maximize or target, got `{other}`"
+            return Err(crate::terr!(
+                "e-campaign-optimize-objective-goal-must-be-minimize",
+                other = other
             ))
         }
     }
@@ -399,24 +416,34 @@ fn check(cfg: &OptimizeCfg) -> Result<(), String> {
         "grid" => {
             let total: usize = cfg.params.iter().map(|p| p.steps.unwrap_or(0)).product();
             if total > 100_000 {
-                return Err(format!("a grid of {total} nodes is above the 100000 limit"));
+                return Err(crate::terr!(
+                    "e-campaign-optimize-grid-of-nodes-is-above",
+                    total = total
+                ));
             }
         }
         "nelder-mead" => {
             if cfg.params.iter().any(|p| p.steps.is_some()) {
-                return Err("params.steps is only read with method = \"grid\"".into());
+                return Err(crate::terr!(
+                    "e-campaign-optimize-params-steps-is-only-read"
+                ));
             }
             if cfg.max_evals < cfg.params.len() + 1 {
-                return Err("max_evals must cover the initial simplex (params + 1)".into());
+                return Err(crate::terr!("e-campaign-optimize-max-evals-must-cover-the"));
             }
             if !(cfg.step > 0.0 && cfg.step <= 1.0) {
-                return Err("step must lie in (0, 1]".into());
+                return Err(crate::terr!("e-campaign-optimize-step-must-lie-in"));
             }
             if !(cfg.ftol >= 0.0 && cfg.xtol >= 0.0) {
-                return Err("ftol and xtol must be non-negative".into());
+                return Err(crate::terr!("e-campaign-optimize-ftol-and-xtol-must-be"));
             }
         }
-        other => return Err(format!("method must be grid or nelder-mead, got `{other}`")),
+        other => {
+            return Err(crate::terr!(
+                "e-campaign-optimize-method-must-be-grid-or",
+                other = other
+            ))
+        }
     }
     Ok(())
 }
@@ -454,7 +481,7 @@ pub(super) fn run_optimize(cfg: &OptimizeCfg, ledger: &mut Ledger) -> Result<Opt
         for (p, &v) in cfg.params.iter().zip(&coords) {
             crate::sweep::set_dotted(&mut node, &p.key, v)?;
         }
-        let label = format!("optimize eval {}", trace.len());
+        let label = crate::t!("campaign-optimize-optimize-eval", trace = trace.len());
         let (metric, doc) = if runs == 1 {
             let m = ledger.run(label, &node)?;
             (metric_values(&m, &metric_cfg)?[0], m)
@@ -588,28 +615,28 @@ pub(super) fn add_units(b: &mut UnitsBuilder, o: &OptimizeOut) {
     );
     for (name, p) in &o.params {
         b.add(
-            &format!("optimize.params.{name}.lo"),
+            &crate::t!("campaign-optimize-optimize-params-lo", name = name),
             &p.unit,
             Input,
-            &format!("lower bound of the scenario key {}", p.key),
+            &crate::t!("campaign-optimize-lower-bound-of-the-scenario", key = p.key),
         );
         b.add(
-            &format!("optimize.params.{name}.hi"),
+            &crate::t!("campaign-optimize-optimize-params-hi", name = name),
             &p.unit,
             Input,
-            &format!("upper bound of the scenario key {}", p.key),
+            &crate::t!("campaign-optimize-upper-bound-of-the-scenario", key = p.key),
         );
         b.add(
-            &format!("optimize.best_coords.{name}"),
+            &crate::t!("campaign-optimize-optimize-best-coords", name = name),
             &p.unit,
             Computed,
-            &format!("value of the scenario key {} at the best evaluation", p.key),
+            &crate::t!("campaign-optimize-value-of-the-scenario-key", key = p.key),
         );
         b.add(
-            &format!("optimize.trace[].coords.{name}"),
+            &crate::t!("campaign-optimize-optimize-trace-coords", name = name),
             &p.unit,
             Computed,
-            &format!("value of the scenario key {} at this evaluation", p.key),
+            &crate::t!("campaign-optimize-value-of-the-scenario-key-2", key = p.key),
         );
     }
     let u = &o.objective.unit;
@@ -619,14 +646,14 @@ pub(super) fn add_units(b: &mut UnitsBuilder, o: &OptimizeOut) {
             "optimize.objective.target",
             u,
             Input,
-            &format!("target value of {what}"),
+            &crate::t!("campaign-optimize-target-value-of", what = what),
         );
     }
     b.add(
         "optimize.best_metric",
         u,
         Computed,
-        &format!("{what} at the best evaluation"),
+        &crate::t!("campaign-optimize-at-the-best-evaluation", what = what),
     );
     b.add(
         "optimize.best_score",
@@ -638,7 +665,7 @@ pub(super) fn add_units(b: &mut UnitsBuilder, o: &OptimizeOut) {
         "optimize.trace[].metric",
         u,
         Computed,
-        &format!("{what} of this evaluation (the seed mean when runs > 1)"),
+        &crate::t!("campaign-optimize-of-this-evaluation-the-seed", what = what),
     );
 }
 
@@ -657,16 +684,17 @@ pub(super) fn summary_part(o: &OptimizeOut) -> String {
         })
         .collect::<Vec<_>>()
         .join(", ");
-    format!(
-        "optimize `{}` ({} {}) of `{}` by {}: {} evals ({}), best {} at [{at}]",
-        o.objective_name,
-        o.objective.goal,
-        o.objective.target.map_or(String::new(), fmt_num),
-        o.scenario_kind,
-        o.method,
-        o.evals,
-        o.stop_reason,
-        o.best_metric.map_or("n/a".to_string(), fmt_num),
+    crate::t!(
+        "campaign-optimize-optimize-of-by-evals-best",
+        objective_name = o.objective_name,
+        goal = o.objective.goal,
+        o = o.objective.target.map_or(String::new(), fmt_num),
+        scenario_kind = o.scenario_kind,
+        method = o.method,
+        evals = o.evals,
+        stop_reason = o.stop_reason,
+        o2 = o.best_metric.map_or("n/a".to_string(), fmt_num),
+        at = at
     )
     .replace(" () ", " ")
 }

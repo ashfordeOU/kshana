@@ -154,14 +154,19 @@ pub fn encode_data(
     gst: &Gst,
     t: &GalTimeConversion,
 ) -> Result<Vec<u8>, String> {
-    let l = layout(pt).ok_or_else(|| format!("page type {pt} is not encoded here"))?;
+    let l = layout(pt)
+        .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-fnav-page-type-is-not-encoded", pt = pt))?;
     pack(l, |n| page_value(pt, e, iono, gst, t, n))
 }
 
 /// The 244-bit page: data, CRC-24Q, tail.
 pub fn page(data: &[u8]) -> Result<Vec<u8>, String> {
     if data.len() != DATA_BITS {
-        return Err(format!("{} bits, expected {DATA_BITS}", data.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-bits-expected",
+            data = data.len(),
+            DATA_BITS = DATA_BITS
+        ));
     }
     let mut p = data.to_vec();
     push_bits(&mut p, u64::from(crc24q(data)), 24);
@@ -172,13 +177,19 @@ pub fn page(data: &[u8]) -> Result<Vec<u8>, String> {
 /// The 214 data bits of a 244-bit page after checking the CRC and tail.
 pub fn read_page(p: &[u8]) -> Result<Vec<u8>, String> {
     if p.len() != PAGE_BITS {
-        return Err(format!("{} bits, expected {PAGE_BITS}", p.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-bits-expected-2",
+            p = p.len(),
+            PAGE_BITS = PAGE_BITS
+        ));
     }
     if p[238..].iter().any(|&t| t != 0) {
-        return Err("tail bits are not zero".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-tail-bits-are-not-zero"
+        ));
     }
     if crc24q(&p[..DATA_BITS]) != read_bits(p, DATA_BITS, 24) as u32 {
-        return Err("CRC-24Q mismatch".into());
+        return Err(crate::terr!("e-gnss-navmsg-gal-fnav-crc-24q-mismatch"));
     }
     Ok(p[..DATA_BITS].to_vec())
 }
@@ -186,17 +197,26 @@ pub fn read_page(p: &[u8]) -> Result<Vec<u8>, String> {
 /// Decode 214 data bits of page type 1 to 4.
 pub fn decode_data(data: &[u8]) -> Result<(u32, Vec<Decoded>), String> {
     if data.len() != DATA_BITS {
-        return Err(format!("{} bits, expected {DATA_BITS}", data.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-bits-expected",
+            data = data.len(),
+            DATA_BITS = DATA_BITS
+        ));
     }
     let pt = read_bits(data, 0, 6) as u32;
-    let l = layout(pt).ok_or_else(|| format!("page type {pt} is not decoded here"))?;
+    let l = layout(pt)
+        .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-fnav-page-type-is-not-decoded", pt = pt))?;
     Ok((pt, unpack(l, data)?))
 }
 
 /// The 500 transmitted symbols of a 244-bit page.
 pub fn encode_page_symbols(p: &[u8]) -> Result<Vec<u8>, String> {
     if p.len() != PAGE_BITS {
-        return Err(format!("{} bits, expected {PAGE_BITS}", p.len()));
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-bits-expected-2",
+            p = p.len(),
+            PAGE_BITS = PAGE_BITS
+        ));
     }
     let mut state = 0u8;
     let coded = conv_encode(p, &mut state, true);
@@ -209,13 +229,16 @@ pub fn encode_page_symbols(p: &[u8]) -> Result<Vec<u8>, String> {
 /// the decoder's path implies.
 pub fn decode_page_symbols(symbols: &[u8]) -> Result<(Vec<u8>, u32), String> {
     if symbols.len() != PAGE_SYMBOLS {
-        return Err(format!(
-            "{} symbols, expected {PAGE_SYMBOLS}",
-            symbols.len()
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-symbols-expected",
+            symbols = symbols.len(),
+            PAGE_SYMBOLS = PAGE_SYMBOLS
         ));
     }
     if symbols[..12] != bits_of(SYNC)[..] {
-        return Err("synchronisation pattern not found".into());
+        return Err(crate::terr!(
+            "e-gnss-navmsg-gal-fnav-synchronisation-pattern-not-found"
+        ));
     }
     let d = deinterleave(&symbols[12..], INTERLEAVER_COLS, INTERLEAVER_ROWS);
     Ok(viterbi(&d, 0, Some(0), true))
@@ -232,13 +255,16 @@ pub fn ephemeris_from_pages(
             .iter()
             .find(|(k, _)| *k == t)
             .map(|(_, d)| d.as_slice())
-            .ok_or_else(|| format!("page type {t} missing"))
+            .ok_or_else(|| crate::terr!("e-gnss-navmsg-gal-fnav-page-type-missing", t = t))
     };
     let v = |t: u32, n: &str| -> Result<f64, String> { Ok(get(w(t)?, n)?.value) };
     let iod = v(1, "iodnav")?;
     for t in 2..=4 {
         if v(t, "iodnav")? != iod {
-            return Err(format!("IOD_nav of page type {t} differs from page type 1"));
+            return Err(crate::terr!(
+                "e-gnss-navmsg-gal-fnav-iod-nav-of-page-type",
+                t = t
+            ));
         }
     }
     let e = GalEphemeris {

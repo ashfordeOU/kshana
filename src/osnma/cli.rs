@@ -10,26 +10,9 @@ use super::{OsnmaStatus, ADVISORY};
 use serde::Serialize;
 use std::collections::BTreeMap;
 
-const USAGE: &str = "usage: kshana osnma verify <input> [options]
-
-  <input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the
-                             CSV layout of the published test vectors
-  --format pages|vector-csv|ubx
-                             input layout (default: by file content). ubx is a u-blox
-                             byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)
-  --start-gst SECONDS        start time of a vector CSV in GST seconds
-                             (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)
-  --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks
-  --public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point
-  --reference-time SECONDS   present time in GST seconds from an independent source. A single
-                             instant: sub-frames further from it than the tolerance are set
-                             aside, so use it for live or just-recorded data
-  --max-time-error SECONDS   largest distance of a sub-frame from the reference time, below
-                             30 (default 29); needs --reference-time
-  --epochs                   also print every tag result
-  --json                     print JSON instead of text
-
-Exit status: 0 done, 2 usage or input error, 3 a check on some satellite's data failed.";
+fn usage() -> String {
+    crate::t!("osnma-cli-usage")
+}
 
 struct Options {
     input: String,
@@ -57,29 +40,39 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
     };
     let mut it = args.iter();
     while let Some(a) = it.next() {
-        let mut val = |name: &str| it.next().cloned().ok_or(format!("{name} needs a value"));
+        let mut val = |name: &str| {
+            it.next()
+                .cloned()
+                .ok_or(crate::t!("bench-cli-needs-value", name = name))
+        };
         match a.as_str() {
             "--format" => o.format = Some(val("--format")?),
             "--start-gst" => o.start_gst = Some(num(&val("--start-gst")?)?),
             "--reference-time" => o.reference = Some(num(&val("--reference-time")?)?),
             "--max-time-error" => o.max_err = Some(num(&val("--max-time-error")?)?),
             "--merkle-root" => {
-                let b = hex::decode(val("--merkle-root")?).map_err(|_| "bad Merkle root hex")?;
-                o.merkle_root = Some(b.try_into().map_err(|_| "Merkle root must be 32 bytes")?);
+                let b = hex::decode(val("--merkle-root")?)
+                    .map_err(|_| crate::terr!("e-surface-bad-merkle-root-hex"))?;
+                o.merkle_root = Some(
+                    b.try_into()
+                        .map_err(|_| crate::terr!("e-surface-merkle-root-must-be-32"))?,
+                );
             }
             "--public-key" => o.keys.push(parse_key(&val("--public-key")?)?),
             "--epochs" => o.epochs = true,
             "--json" => o.json = true,
-            s if s.starts_with("--") => return Err(format!("unknown option {s}")),
+            s if s.starts_with("--") => {
+                return Err(crate::terr!("e-iq-io-cli-unknown-option", s = s))
+            }
             s if o.input.is_empty() => o.input = s.to_string(),
-            s => return Err(format!("unexpected argument {s}")),
+            s => return Err(crate::terr!("e-nmea-synth-cli-unexpected-argument", s = s)),
         }
     }
     if o.input.is_empty() {
-        return Err("missing input file".into());
+        return Err(crate::terr!("e-osnma-cli-missing-input-file"));
     }
     if o.max_err.is_some() && o.reference.is_none() {
-        return Err("--max-time-error has no effect without --reference-time".into());
+        return Err(crate::terr!("e-osnma-cli-max-time-error-has-no"));
     }
     let cfg = Config {
         max_time_error_s: o.max_err,
@@ -90,23 +83,26 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
 }
 
 fn num(s: &str) -> Result<u32, String> {
-    s.parse().map_err(|_| format!("not a number: {s}"))
+    s.parse()
+        .map_err(|_| crate::terr!("e-osnma-cli-not-number", s = s))
 }
 
 fn parse_key(s: &str) -> Result<PublicKey, String> {
     let p: Vec<&str> = s.split(':').collect();
     let [id, ty, hx] = p[..] else {
-        return Err("public key must be ID:TYPE:HEX".into());
+        return Err(crate::terr!("e-osnma-cli-public-key-must-be-id"));
     };
     let key_type = match ty {
         "p256" => KeyType::P256,
         "p521" => KeyType::P521,
-        _ => return Err("public key type must be p256 or p521".into()),
+        _ => return Err(crate::terr!("e-osnma-cli-public-key-type-must-be")),
     };
     Ok(PublicKey {
-        pkid: id.parse().map_err(|_| "bad public key id")?,
+        pkid: id
+            .parse()
+            .map_err(|_| crate::terr!("e-osnma-cli-bad-public-key-id"))?,
         key_type,
-        bytes: hex::decode(hx).map_err(|_| "bad public key hex")?,
+        bytes: hex::decode(hx).map_err(|_| crate::terr!("e-osnma-cli-bad-public-key-hex"))?,
     })
 }
 
@@ -241,7 +237,7 @@ impl Analysis {
 fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
     let layout = match p.format {
         Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
-        Some(f) => return Err(format!("unknown format {f}")),
+        Some(f) => return Err(crate::terr!("e-osnma-cli-unknown-format", f = f)),
         None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
         None if raw
             .iter()
@@ -260,14 +256,14 @@ fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
         pg
     } else {
         let Ok(text) = String::from_utf8(raw) else {
-            return Err(format!(
-                "{} is not text; use --format ubx for a UBX stream",
-                p.label
+            return Err(crate::terr!(
+                "e-osnma-cli-is-not-text-use-format",
+                label = p.label
             ));
         };
         if layout == "vector-csv" {
             let Some(start) = p.start_gst.or_else(|| input::start_from_filename(p.label)) else {
-                return Err("a vector CSV needs --start-gst or a dated file name".into());
+                return Err(crate::terr!("e-osnma-cli-vector-csv-needs-start-gst"));
             };
             input::parse_vector_csv(&text, start)?
         } else {
@@ -275,7 +271,7 @@ fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
         }
     };
     if p.max_err.is_some() && p.reference.is_none() {
-        return Err("--max-time-error has no effect without --reference-time".into());
+        return Err(crate::terr!("e-osnma-cli-max-time-error-has-no"));
     }
     let mut v = Verifier::new(Config {
         merkle_root: p.merkle_root,
@@ -365,8 +361,11 @@ fn report_json(a: &Analysis, p: &VerifyParams) -> serde_json::Value {
 /// any satellite's data failed a check (the command line's exit status 3). Nothing is read from
 /// or written to disk. The report states the advisory in its `advisory` field.
 pub fn verify_report(raw: Vec<u8>, p: &VerifyParams) -> Result<(serde_json::Value, bool), String> {
-    let a = analyse(raw, p)?;
-    Ok((report_json(&a, p), a.any_failed()))
+    // The report is a machine document: English in every language.
+    crate::i18n::in_english_or_localised_error(|| {
+        let a = analyse(raw.clone(), p)?;
+        Ok((report_json(&a, p), a.any_failed()))
+    })
 }
 
 /// Parse a `ID:TYPE:HEX` trusted public key, as `--public-key` takes it.
@@ -376,26 +375,39 @@ pub fn parse_public_key(s: &str) -> Result<PublicKey, String> {
 
 /// Run the subcommand; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
+    let advisory = crate::legal::text("legal-osnma-advisory");
     // The advisory goes first on every path, errors included.
     if matches!(args.first().map(String::as_str), Some("--help" | "-h")) {
-        println!("{ADVISORY}\n\n{USAGE}");
+        println!("{advisory}\n\n{}", usage());
         return 0;
     }
     if args.first().map(String::as_str) != Some("verify") {
-        eprintln!("{ADVISORY}\n\n{USAGE}");
+        eprintln!("{advisory}\n\n{}", usage());
         return 2;
     }
     let o = match parse_args(&args[1..]) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: {e}\n\n{USAGE}");
+            eprintln!(
+                "{advisory}\n\n{}\n\n{}",
+                crate::t!("main-fail", e = e),
+                usage()
+            );
             return 2;
         }
     };
     let raw = match std::fs::read(&o.input) {
         Ok(t) => t,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: cannot read {}: {e}", o.input);
+            eprintln!(
+                "{}",
+                crate::t!(
+                    "osnma-cli-error-cannot-read",
+                    ADVISORY = advisory,
+                    input = o.input,
+                    e = e
+                )
+            );
             return 2;
         }
     };
@@ -408,18 +420,24 @@ pub fn run(args: &[String]) -> i32 {
         reference: o.reference,
         max_err: o.max_err,
     };
-    let a = match analyse(raw, &params) {
+    // `--json` prints a machine document: it is analysed and built in English in every language.
+    let analysed = if o.json {
+        crate::i18n::in_english_or_localised_error(|| analyse(raw.clone(), &params))
+    } else {
+        analyse(raw, &params)
+    };
+    let a = match analysed {
         Ok(a) => a,
         Err(e) => {
-            eprintln!("{ADVISORY}\n\nerror: {e}");
+            eprintln!("{advisory}\n\n{}", crate::t!("main-fail", e = e));
             return 2;
         }
     };
     if o.json {
-        match serde_json::to_string_pretty(&report_json(&a, &params)) {
+        match serde_json::to_string_pretty(&crate::i18n::in_english(|| report_json(&a, &params))) {
             Ok(s) => println!("{s}"),
             Err(e) => {
-                eprintln!("{ADVISORY}\n\nerror: {e}");
+                eprintln!("{advisory}\n\n{}", crate::t!("main-fail", e = e));
                 return 2;
             }
         }
@@ -448,25 +466,49 @@ fn print_text(a: &Analysis, o: &Options) {
     } = a;
     let overall = *overall;
     {
-        println!("Galileo OSNMA verification\n{ADVISORY}\n");
-        println!("input: {} ({} pages)", o.input, pages);
+        println!(
+            "{}",
+            crate::t!(
+                "osnma-cli-galileo-osnma-verification",
+                ADVISORY = crate::legal::text("legal-osnma-advisory")
+            )
+        );
+        println!(
+            "{}",
+            crate::t!("osnma-cli-input-pages", input = o.input, pages = pages)
+        );
         if let Some(u) = ubx_stats {
             println!(
-                "ubx: {} frames; {} I/NAV pages decoded, {} placed in time ({} bad CRC, {} unplaceable, {} time conflicts)",
-                u.frames, u.inav_pages, pages, u.bad_crc, u.unstamped, u.time_conflicts
+                "{}",
+                crate::t!(
+                    "osnma-cli-ubx-frames-nav-pages-decoded",
+                    frames = u.frames,
+                    inav_pages = u.inav_pages,
+                    pages = pages,
+                    bad_crc = u.bad_crc,
+                    unstamped = u.unstamped,
+                    time_conflicts = u.time_conflicts
+                )
             );
         }
         println!(
-            "overall: {}   NMA status: {}",
-            status_word(overall),
-            nma_status
+            "{}",
+            crate::t!(
+                "osnma-cli-overall-nma-status",
+                status_word = status_word(overall),
+                nma_status = nma_status
+            )
         );
         if *alert {
-            println!("ALERT: a verified OSNMA alert message was received. Stop using OSNMA data; nothing is reported as authenticated.");
+            println!(
+                "{}",
+                crate::t!("osnma-cli-alert-verified-osnma-alert-message")
+            );
         }
         match o.reference {
             None => println!(
-                "freshness: NOT enforced. No reference time was given, so sub-frame times are taken from the input and a replay of old data would authenticate."
+                "{}",
+                crate::t!("osnma-cli-freshness-not-enforced-no-reference")
             ),
             Some(r) => {
                 let set_aside = events
@@ -474,9 +516,13 @@ fn print_text(a: &Analysis, o: &Options) {
                     .filter(|e| matches!(e, Event::TimeRejected { .. }))
                     .count();
                 println!(
-                    "freshness: sub-frames within {} s of the reference time {} are used; {set_aside} were set aside. A reference time is a single instant.",
-                    o.max_err.unwrap_or(29),
-                    input::label(r)
+                    "{}",
+                    crate::t!(
+                        "osnma-cli-freshness-sub-frames-within-of",
+                        max_err = o.max_err.unwrap_or(29),
+                        v2 = input::label(r),
+                        set_aside = set_aside
+                    )
                 );
             }
         }
@@ -490,7 +536,10 @@ fn print_text(a: &Analysis, o: &Options) {
         for (k, n) in &kinds {
             println!("  {k}: {n}");
         }
-        println!("\nsatellite  status          authenticated  failed  pending  discarded  last authenticated");
+        println!(
+            "{}",
+            crate::t!("osnma-cli-satellite-status-authenticated-failed-pending")
+        );
         for (s, st) in sats {
             let prn: u8 = s[1..].parse().unwrap_or(0);
             let c = counts.get(&prn);
@@ -508,7 +557,7 @@ fn print_text(a: &Analysis, o: &Options) {
             );
         }
         if o.epochs {
-            println!("\nepoch (tag sub-frame)      tx   data  adkd  ctr  result");
+            println!("{}", crate::t!("osnma-cli-epoch-tag-sub-frame-tx"));
             for t in tags {
                 println!(
                     "{:<26} E{:02}  E{:02}  {:>4}  {:>3}  {}",

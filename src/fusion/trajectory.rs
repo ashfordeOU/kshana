@@ -186,19 +186,25 @@ pub fn parse_truth_csv(text: &str) -> Result<Vec<CsvState>, String> {
             continue; // header
         }
         let v: Result<Vec<f64>, _> = line.split(',').map(|s| s.trim().parse::<f64>()).collect();
-        let v = v.map_err(|_| format!("trajectory csv line {}: not numbers: {line:?}", k + 1))?;
+        let v = v.map_err(|_| {
+            crate::terr!(
+                "e-fusion-trajectory-trajectory-csv-line-not-numbers",
+                v1 = k + 1,
+                line = format!("{:?}", line)
+            )
+        })?;
         if v.len() != 10 {
-            return Err(format!(
-                "trajectory csv line {}: expected 10 columns, got {}",
-                k + 1,
-                v.len()
+            return Err(crate::terr!(
+                "e-fusion-trajectory-trajectory-csv-line-expected-10",
+                v1 = k + 1,
+                v = v.len()
             ));
         }
         if let Some(last) = out.last() {
             if v[0] <= last.t {
-                return Err(format!(
-                    "trajectory csv line {}: time does not increase",
-                    k + 1
+                return Err(crate::terr!(
+                    "e-fusion-trajectory-trajectory-csv-line-time-does",
+                    v1 = k + 1
                 ));
             }
         }
@@ -214,7 +220,9 @@ pub fn parse_truth_csv(text: &str) -> Result<Vec<CsvState>, String> {
         });
     }
     if out.len() < 2 {
-        return Err("trajectory csv needs at least two rows".into());
+        return Err(crate::terr!(
+            "e-fusion-trajectory-trajectory-csv-needs-at-least"
+        ));
     }
     Ok(out)
 }
@@ -556,10 +564,10 @@ fn interp(rows: &[CsvState], t: f64) -> NavState {
 fn solve_csv_imu(rows: &[CsvState], dt: f64, n: usize) -> Result<Vec<(Vec3, Vec3)>, String> {
     let t0 = rows[0].t;
     if t0 + n as f64 * dt > rows[rows.len() - 1].t + 1e-9 {
-        return Err(format!(
-            "trajectory csv covers {:.1} s but the scenario runs {:.1} s",
-            rows[rows.len() - 1].t - t0,
-            n as f64 * dt
+        return Err(crate::terr!(
+            "e-fusion-trajectory-trajectory-csv-covers-but-the",
+            rows = crate::i18n::localise_decimal(format!("{:.1}", rows[rows.len() - 1].t - t0)),
+            v2 = crate::i18n::localise_decimal(format!("{:.1}", n as f64 * dt))
         ));
     }
     let mut s = rows[0].state;

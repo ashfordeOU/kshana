@@ -130,7 +130,11 @@ impl WeakSignalReceiver {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("receiver.{n} must be a positive number, got {v}"))
+                Err(crate::terr!(
+                    "e-ssv-weak-receiver-must-be-positive-number",
+                    n = n,
+                    v = v
+                ))
             }
         };
         pos("t_coh_s", self.t_coh_s)?;
@@ -144,9 +148,7 @@ impl WeakSignalReceiver {
         pos("dll_t_s", self.dll_t_s)?;
         pos("parallel_cells", self.parallel_cells)?;
         if !(self.pfa_total > 0.0 && self.pfa_total < 1.0 && self.pd > 0.0 && self.pd < 1.0) {
-            return Err(
-                "receiver.pfa_total and receiver.pd must be probabilities in (0, 1)".into(),
-            );
+            return Err(crate::terr!("e-ssv-weak-receiver-pfa-total-and-receiver"));
         }
         Ok(())
     }

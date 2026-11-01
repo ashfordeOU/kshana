@@ -357,6 +357,8 @@ fn the_scenario_result_records_the_score_model_and_the_csv_the_reasons() {
          [score]\nnominal_min = 92.0\n[score.weights]\nsea-level = 10.0\n"
     );
     let out = kshana::receiver_trust::scenario::run_toml(&toml).unwrap();
+    // The evidence label is `#` comment lines in front of the table; the table is read without it.
+    let plain_csv = kshana::evidence_label::strip_csv(&out.csv).expect("an evidence label");
     let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
     let m = &v["score_model"];
     assert_eq!(m["nominal_min"], 92.0);
@@ -373,15 +375,14 @@ fn the_scenario_result_records_the_score_model_and_the_csv_the_reasons() {
         .unwrap()
         .iter()
         .any(|o| o == "marine"));
-    let header = out.csv.lines().nth(1).unwrap();
+    let header = plain_csv.lines().nth(1).unwrap();
     assert!(header.ends_with(",alarms,score,score_reasons"), "{header}");
-    assert!(out
-        .csv
+    assert!(plain_csv
         .lines()
         .next()
         .unwrap()
         .starts_with("# Advisory software"));
-    assert!(out.csv.lines().nth(101).unwrap().contains(",100.0,"));
+    assert!(plain_csv.lines().nth(101).unwrap().contains(",100.0,"));
 }
 
 #[test]

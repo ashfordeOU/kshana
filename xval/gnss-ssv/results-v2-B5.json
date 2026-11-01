@@ -1,0 +1,1740 @@
+{
+  "ablation": "B5",
+  "bars": {
+    "S1": {
+      "cells": [
+        {
+          "cell": "B4 l1 gps >=1 %",
+          "pass": true,
+          "published": 90.5,
+          "scored": true,
+          "sim": 90.56503422236321,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 gps >=4 %",
+          "pass": true,
+          "published": 4.8,
+          "scored": true,
+          "sim": 4.816866302765471,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 gps MOD1 min",
+          "pass": true,
+          "published": 111.0,
+          "scored": true,
+          "sim": 110.0,
+          "sim_never": false,
+          "tol": 27.75
+        },
+        {
+          "cell": "B4 l1 gps MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 glonass >=1 %",
+          "pass": false,
+          "published": 93.9,
+          "scored": true,
+          "sim": 59.13029116393671,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 glonass >=4 %",
+          "pass": false,
+          "published": 7.0,
+          "scored": true,
+          "sim": 0.5470075958789357,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 glonass MOD1 min",
+          "pass": false,
+          "published": 48.0,
+          "scored": true,
+          "sim": 133.0,
+          "sim_never": false,
+          "tol": 12.0
+        },
+        {
+          "cell": "B4 l1 glonass MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 galileo >=1 %",
+          "pass": true,
+          "published": 78.5,
+          "scored": true,
+          "sim": 78.59049832300411,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 galileo >=4 %",
+          "pass": true,
+          "published": 1.2,
+          "scored": true,
+          "sim": 1.25151197961794,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 galileo MOD1 min",
+          "pass": true,
+          "published": 98.0,
+          "scored": true,
+          "sim": 98.0,
+          "sim_never": false,
+          "tol": 24.5
+        },
+        {
+          "cell": "B4 l1 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 bds >=1 %",
+          "pass": true,
+          "published": 97.4,
+          "scored": true,
+          "sim": 97.44677709775883,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 bds >=4 %",
+          "pass": true,
+          "published": 24.1,
+          "scored": true,
+          "sim": 23.95808201433573,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 bds MOD1 min",
+          "pass": true,
+          "published": 45.0,
+          "scored": true,
+          "sim": 45.0,
+          "sim_never": false,
+          "tol": 11.25
+        },
+        {
+          "cell": "B4 l1 bds MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 qzss >=1 %",
+          "pass": true,
+          "published": 26.7,
+          "scored": true,
+          "sim": 26.688285763305625,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 qzss >=4 %",
+          "pass": true,
+          "published": 0.8,
+          "scored": true,
+          "sim": 0.7845140916945677,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l1 combined >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.96972071932574,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 combined >=4 %",
+          "pass": false,
+          "published": 98.1,
+          "scored": true,
+          "sim": 94.47114855003483,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l1 combined MOD1 min",
+          "pass": false,
+          "published": 29.0,
+          "scored": true,
+          "sim": 41.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B4 l1 combined MOD4 min",
+          "pass": true,
+          "published": 93.0,
+          "scored": true,
+          "sim": 104.0,
+          "sim_never": false,
+          "tol": 23.25
+        },
+        {
+          "cell": "B4 l5 gps >=1 %",
+          "pass": true,
+          "published": 96.9,
+          "scored": true,
+          "sim": 96.92385353331133,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 gps >=4 %",
+          "pass": true,
+          "published": 15.6,
+          "scored": true,
+          "sim": 15.673723094274541,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 gps MOD1 min",
+          "pass": true,
+          "published": 77.0,
+          "scored": true,
+          "sim": 77.0,
+          "sim_never": false,
+          "tol": 19.25
+        },
+        {
+          "cell": "B4 l5 gps MOD4 min",
+          "pass": true,
+          "published": 1180.0,
+          "scored": true,
+          "sim": 1180.0,
+          "sim_never": false,
+          "tol": 295.0
+        },
+        {
+          "cell": "B4 l5 glonass >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 98.39413137978539,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 glonass >=4 %",
+          "pass": false,
+          "published": 60.3,
+          "scored": true,
+          "sim": 14.558735047814352,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 glonass MOD1 min",
+          "pass": false,
+          "published": 8.0,
+          "scored": true,
+          "sim": 35.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B4 l5 glonass MOD4 min",
+          "pass": false,
+          "published": 218.0,
+          "scored": true,
+          "sim": 3908.0,
+          "sim_never": false,
+          "tol": 54.5
+        },
+        {
+          "cell": "B4 l5 galileo >=1 %",
+          "pass": true,
+          "published": 93.4,
+          "scored": true,
+          "sim": 93.46730327499073,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 galileo >=4 %",
+          "pass": true,
+          "published": 4.2,
+          "scored": true,
+          "sim": 4.301373165378577,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 galileo MOD1 min",
+          "pass": true,
+          "published": 55.0,
+          "scored": true,
+          "sim": 55.0,
+          "sim_never": false,
+          "tol": 13.75
+        },
+        {
+          "cell": "B4 l5 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l5 bds >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.99753158037981,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 bds >=4 %",
+          "pass": true,
+          "published": 45.4,
+          "scored": true,
+          "sim": 45.43303262755118,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 bds MOD1 min",
+          "pass": true,
+          "published": 7.0,
+          "scored": true,
+          "sim": 6.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B4 l5 bds MOD4 min",
+          "pass": true,
+          "published": 644.0,
+          "scored": true,
+          "sim": 644.0,
+          "sim_never": false,
+          "tol": 161.0
+        },
+        {
+          "cell": "B4 l5 qzss >=1 %",
+          "pass": true,
+          "published": 30.5,
+          "scored": true,
+          "sim": 30.567826343756337,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 qzss >=4 %",
+          "pass": true,
+          "published": 1.5,
+          "scored": true,
+          "sim": 1.4618329473499454,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l5 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l5 navic >=1 %",
+          "pass": true,
+          "published": 36.9,
+          "scored": true,
+          "sim": 36.90584704138709,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 navic >=4 %",
+          "pass": true,
+          "published": 0.6,
+          "scored": true,
+          "sim": 0.6495854352168401,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 navic MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l5 navic MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B4 l5 combined >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 combined >=4 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.96507621840902,
+          "tol": 2.0
+        },
+        {
+          "cell": "B4 l5 combined MOD1 min",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B4 l5 combined MOD4 min",
+          "pass": false,
+          "published": 15.0,
+          "scored": true,
+          "sim": 41.0,
+          "sim_never": false,
+          "tol": 10.0
+        }
+      ],
+      "statement": "upper SSV geometry (table B4)",
+      "verdict": {
+        "failed_cells": 9,
+        "met": false,
+        "scored_cells": 52
+      }
+    },
+    "S3": {
+      "cells": [
+        {
+          "cell": "B9@15 l1 gps >=1 %",
+          "pass": true,
+          "published": 90.5,
+          "scored": true,
+          "sim": 90.56503422236321,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 gps >=4 %",
+          "pass": true,
+          "published": 4.8,
+          "scored": true,
+          "sim": 4.816866302765471,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 gps MOD1 min",
+          "pass": true,
+          "published": 111.0,
+          "scored": true,
+          "sim": 110.0,
+          "sim_never": false,
+          "tol": 27.75
+        },
+        {
+          "cell": "B9@15 l1 gps MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 glonass >=1 %",
+          "pass": false,
+          "published": 93.9,
+          "scored": true,
+          "sim": 59.13029116393671,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 glonass >=4 %",
+          "pass": false,
+          "published": 7.0,
+          "scored": true,
+          "sim": 0.5470075958789357,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 glonass MOD1 min",
+          "pass": false,
+          "published": 48.0,
+          "scored": true,
+          "sim": 133.0,
+          "sim_never": false,
+          "tol": 12.0
+        },
+        {
+          "cell": "B9@15 l1 glonass MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 galileo >=1 %",
+          "pass": true,
+          "published": 78.5,
+          "scored": true,
+          "sim": 78.59049832300411,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 galileo >=4 %",
+          "pass": true,
+          "published": 1.2,
+          "scored": true,
+          "sim": 1.25151197961794,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 galileo MOD1 min",
+          "pass": true,
+          "published": 98.0,
+          "scored": true,
+          "sim": 98.0,
+          "sim_never": false,
+          "tol": 24.5
+        },
+        {
+          "cell": "B9@15 l1 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 bds >=1 %",
+          "pass": true,
+          "published": 97.4,
+          "scored": true,
+          "sim": 97.44677709775883,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 bds >=4 %",
+          "pass": true,
+          "published": 24.1,
+          "scored": true,
+          "sim": 23.95808201433573,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 bds MOD1 min",
+          "pass": true,
+          "published": 45.0,
+          "scored": true,
+          "sim": 45.0,
+          "sim_never": false,
+          "tol": 11.25
+        },
+        {
+          "cell": "B9@15 l1 bds MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 qzss >=1 %",
+          "pass": true,
+          "published": 26.7,
+          "scored": true,
+          "sim": 26.688285763305625,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 qzss >=4 %",
+          "pass": true,
+          "published": 0.8,
+          "scored": true,
+          "sim": 0.7845140916945677,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l1 combined >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.96972071932574,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 combined >=4 %",
+          "pass": false,
+          "published": 98.1,
+          "scored": true,
+          "sim": 94.47114855003483,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l1 combined MOD1 min",
+          "pass": false,
+          "published": 29.0,
+          "scored": true,
+          "sim": 41.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@15 l1 combined MOD4 min",
+          "pass": true,
+          "published": 93.0,
+          "scored": true,
+          "sim": 104.0,
+          "sim_never": false,
+          "tol": 23.25
+        },
+        {
+          "cell": "B9@15 l5 gps >=1 %",
+          "pass": true,
+          "published": 96.9,
+          "scored": true,
+          "sim": 96.92385353331133,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 gps >=4 %",
+          "pass": true,
+          "published": 15.6,
+          "scored": true,
+          "sim": 15.673723094274541,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 gps MOD1 min",
+          "pass": true,
+          "published": 77.0,
+          "scored": true,
+          "sim": 77.0,
+          "sim_never": false,
+          "tol": 19.25
+        },
+        {
+          "cell": "B9@15 l5 gps MOD4 min",
+          "pass": true,
+          "published": 1180.0,
+          "scored": true,
+          "sim": 1180.0,
+          "sim_never": false,
+          "tol": 295.0
+        },
+        {
+          "cell": "B9@15 l5 glonass >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 98.39413137978539,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 glonass >=4 %",
+          "pass": false,
+          "published": 60.3,
+          "scored": true,
+          "sim": 14.558735047814352,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 glonass MOD1 min",
+          "pass": false,
+          "published": 8.0,
+          "scored": true,
+          "sim": 35.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@15 l5 glonass MOD4 min",
+          "pass": false,
+          "published": 218.0,
+          "scored": true,
+          "sim": 3908.0,
+          "sim_never": false,
+          "tol": 54.5
+        },
+        {
+          "cell": "B9@15 l5 galileo >=1 %",
+          "pass": true,
+          "published": 93.4,
+          "scored": true,
+          "sim": 93.46730327499073,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 galileo >=4 %",
+          "pass": true,
+          "published": 4.2,
+          "scored": true,
+          "sim": 4.301373165378577,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 galileo MOD1 min",
+          "pass": true,
+          "published": 55.0,
+          "scored": true,
+          "sim": 55.0,
+          "sim_never": false,
+          "tol": 13.75
+        },
+        {
+          "cell": "B9@15 l5 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l5 bds >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.99753158037981,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 bds >=4 %",
+          "pass": true,
+          "published": 45.4,
+          "scored": true,
+          "sim": 45.43303262755118,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 bds MOD1 min",
+          "pass": true,
+          "published": 7.0,
+          "scored": true,
+          "sim": 6.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@15 l5 bds MOD4 min",
+          "pass": true,
+          "published": 644.0,
+          "scored": true,
+          "sim": 644.0,
+          "sim_never": false,
+          "tol": 161.0
+        },
+        {
+          "cell": "B9@15 l5 qzss >=1 %",
+          "pass": true,
+          "published": 30.5,
+          "scored": true,
+          "sim": 30.567826343756337,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 qzss >=4 %",
+          "pass": true,
+          "published": 1.5,
+          "scored": true,
+          "sim": 1.4618329473499454,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l5 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l5 navic >=1 %",
+          "pass": true,
+          "published": 36.9,
+          "scored": true,
+          "sim": 36.90584704138709,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 navic >=4 %",
+          "pass": true,
+          "published": 0.6,
+          "scored": true,
+          "sim": 0.6495854352168401,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 navic MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l5 navic MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@15 l5 combined >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 combined >=4 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.96507621840902,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@15 l5 combined MOD1 min",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@15 l5 combined MOD4 min",
+          "pass": false,
+          "published": 15.0,
+          "scored": true,
+          "sim": 41.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@20 l1 gps >=1 %",
+          "pass": false,
+          "published": 90.5,
+          "scored": true,
+          "sim": 73.76506902417583,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 gps >=4 %",
+          "pass": false,
+          "published": 4.8,
+          "scored": true,
+          "sim": 0.9573789697075931,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 gps MOD1 min",
+          "pass": true,
+          "published": 111.0,
+          "scored": true,
+          "sim": 113.0,
+          "sim_never": false,
+          "tol": 27.75
+        },
+        {
+          "cell": "B9@20 l1 gps MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 glonass >=1 %",
+          "pass": false,
+          "published": 93.9,
+          "scored": true,
+          "sim": 59.13029116393671,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 glonass >=4 %",
+          "pass": false,
+          "published": 7.0,
+          "scored": true,
+          "sim": 0.5470075958789357,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 glonass MOD1 min",
+          "pass": false,
+          "published": 48.0,
+          "scored": true,
+          "sim": 133.0,
+          "sim_never": false,
+          "tol": 12.0
+        },
+        {
+          "cell": "B9@20 l1 glonass MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 galileo >=1 %",
+          "pass": true,
+          "published": 78.5,
+          "scored": true,
+          "sim": 78.59049832300411,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 galileo >=4 %",
+          "pass": true,
+          "published": 1.2,
+          "scored": true,
+          "sim": 1.25151197961794,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 galileo MOD1 min",
+          "pass": true,
+          "published": 98.0,
+          "scored": true,
+          "sim": 98.0,
+          "sim_never": false,
+          "tol": 24.5
+        },
+        {
+          "cell": "B9@20 l1 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 bds >=1 %",
+          "pass": null,
+          "published": "blank",
+          "scored": false
+        },
+        {
+          "cell": "B9@20 l1 bds >=4 %",
+          "pass": true,
+          "published": 0.6,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 bds MOD1 min",
+          "pass": false,
+          "published": 70.0,
+          "scored": true,
+          "sim": 218.0,
+          "sim_never": false,
+          "tol": 17.5
+        },
+        {
+          "cell": "B9@20 l1 bds MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 qzss >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 qzss >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l1 combined >=1 %",
+          "pass": false,
+          "published": 99.9,
+          "scored": true,
+          "sim": 96.91515695218673,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 combined >=4 %",
+          "pass": false,
+          "published": 89.8,
+          "scored": true,
+          "sim": 44.238267194982036,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l1 combined MOD1 min",
+          "pass": false,
+          "published": 33.0,
+          "scored": true,
+          "sim": 73.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@20 l1 combined MOD4 min",
+          "pass": false,
+          "published": 117.0,
+          "scored": true,
+          "sim": 409.0,
+          "sim_never": false,
+          "tol": 29.25
+        },
+        {
+          "cell": "B9@20 l5 gps >=1 %",
+          "pass": true,
+          "published": 96.9,
+          "scored": true,
+          "sim": 96.92385353331133,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 gps >=4 %",
+          "pass": true,
+          "published": 15.6,
+          "scored": true,
+          "sim": 15.673723094274541,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 gps MOD1 min",
+          "pass": true,
+          "published": 77.0,
+          "scored": true,
+          "sim": 77.0,
+          "sim_never": false,
+          "tol": 19.25
+        },
+        {
+          "cell": "B9@20 l5 gps MOD4 min",
+          "pass": true,
+          "published": 1180.0,
+          "scored": true,
+          "sim": 1180.0,
+          "sim_never": false,
+          "tol": 295.0
+        },
+        {
+          "cell": "B9@20 l5 glonass >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 98.39413137978539,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 glonass >=4 %",
+          "pass": false,
+          "published": 60.3,
+          "scored": true,
+          "sim": 14.558735047814352,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 glonass MOD1 min",
+          "pass": false,
+          "published": 8.0,
+          "scored": true,
+          "sim": 35.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@20 l5 glonass MOD4 min",
+          "pass": false,
+          "published": 218.0,
+          "scored": true,
+          "sim": 3908.0,
+          "sim_never": false,
+          "tol": 54.5
+        },
+        {
+          "cell": "B9@20 l5 galileo >=1 %",
+          "pass": true,
+          "published": 93.4,
+          "scored": true,
+          "sim": 93.46730327499073,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 galileo >=4 %",
+          "pass": true,
+          "published": 4.2,
+          "scored": true,
+          "sim": 4.301373165378577,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 galileo MOD1 min",
+          "pass": true,
+          "published": 55.0,
+          "scored": true,
+          "sim": 55.0,
+          "sim_never": false,
+          "tol": 13.75
+        },
+        {
+          "cell": "B9@20 l5 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l5 bds >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.99497991209793,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 bds >=4 %",
+          "pass": false,
+          "published": 32.4,
+          "scored": true,
+          "sim": 18.971562683086553,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 bds MOD1 min",
+          "pass": true,
+          "published": 7.0,
+          "scored": true,
+          "sim": 6.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@20 l5 bds MOD4 min",
+          "pass": true,
+          "published": 644.0,
+          "scored": true,
+          "sim": 644.0,
+          "sim_never": false,
+          "tol": 161.0
+        },
+        {
+          "cell": "B9@20 l5 qzss >=1 %",
+          "pass": true,
+          "published": 30.5,
+          "scored": true,
+          "sim": 30.567826343756337,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 qzss >=4 %",
+          "pass": true,
+          "published": 1.5,
+          "scored": true,
+          "sim": 1.4618329473499454,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l5 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l5 navic >=1 %",
+          "pass": true,
+          "published": 1.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 navic >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 navic MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l5 navic MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@20 l5 combined >=1 %",
+          "pass": true,
+          "published": 100.0,
+          "scored": true,
+          "sim": 100.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 combined >=4 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 99.94402785910655,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@20 l5 combined MOD1 min",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@20 l5 combined MOD4 min",
+          "pass": false,
+          "published": 15.0,
+          "scored": true,
+          "sim": 41.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@25 l1 gps >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 gps >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 gps MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 gps MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 glonass >=1 %",
+          "pass": false,
+          "published": 93.9,
+          "scored": true,
+          "sim": 23.897620253756635,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 glonass >=4 %",
+          "pass": false,
+          "published": 7.0,
+          "scored": true,
+          "sim": 0.0015488123107036754,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 glonass MOD1 min",
+          "pass": false,
+          "published": 48.0,
+          "scored": true,
+          "sim": 133.0,
+          "sim_never": false,
+          "tol": 12.0
+        },
+        {
+          "cell": "B9@25 l1 glonass MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 galileo >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 galileo >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 galileo MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 bds >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 bds >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 bds MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 bds MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 qzss >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 qzss >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l1 combined >=1 %",
+          "pass": false,
+          "published": 93.9,
+          "scored": true,
+          "sim": 23.897620253756635,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 combined >=4 %",
+          "pass": false,
+          "published": 7.0,
+          "scored": true,
+          "sim": 0.0015488123107036754,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l1 combined MOD1 min",
+          "pass": false,
+          "published": 48.0,
+          "scored": true,
+          "sim": 133.0,
+          "sim_never": false,
+          "tol": 12.0
+        },
+        {
+          "cell": "B9@25 l1 combined MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 gps >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 gps >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 gps MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 gps MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 glonass >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 98.39413137978539,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 glonass >=4 %",
+          "pass": false,
+          "published": 60.3,
+          "scored": true,
+          "sim": 14.558735047814352,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 glonass MOD1 min",
+          "pass": false,
+          "published": 8.0,
+          "scored": true,
+          "sim": 35.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@25 l5 glonass MOD4 min",
+          "pass": false,
+          "published": 218.0,
+          "scored": true,
+          "sim": 3908.0,
+          "sim_never": false,
+          "tol": 54.5
+        },
+        {
+          "cell": "B9@25 l5 galileo >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 galileo >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 galileo MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 galileo MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 bds >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 bds >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 bds MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 bds MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 qzss >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 qzss >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 qzss MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 qzss MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 navic >=1 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 navic >=4 %",
+          "pass": true,
+          "published": 0.0,
+          "scored": true,
+          "sim": 0.0,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 navic MOD1 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 navic MOD4 min",
+          "pass": true,
+          "published": "*",
+          "scored": true,
+          "sim": 20160.0,
+          "sim_never": true
+        },
+        {
+          "cell": "B9@25 l5 combined >=1 %",
+          "pass": true,
+          "published": 99.9,
+          "scored": true,
+          "sim": 98.39413137978539,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 combined >=4 %",
+          "pass": false,
+          "published": 60.3,
+          "scored": true,
+          "sim": 14.558735047814352,
+          "tol": 2.0
+        },
+        {
+          "cell": "B9@25 l5 combined MOD1 min",
+          "pass": false,
+          "published": 8.0,
+          "scored": true,
+          "sim": 35.0,
+          "sim_never": false,
+          "tol": 10.0
+        },
+        {
+          "cell": "B9@25 l5 combined MOD4 min",
+          "pass": false,
+          "published": 218.0,
+          "scored": true,
+          "sim": 3908.0,
+          "sim_never": false,
+          "tol": 54.5
+        }
+      ],
+      "statement": "upper SSV with RF thresholds 15/20/25 dB-Hz (table B9)",
+      "verdict": {
+        "failed_cells": 36,
+        "met": false,
+        "scored_cells": 155
+      }
+    }
+  },
+  "glonass_table_4_2": false,
+  "size": "full"
+}

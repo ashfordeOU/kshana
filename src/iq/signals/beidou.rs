@@ -103,7 +103,7 @@ pub fn b1c_pilot_secondary_bits(prn: u16) -> Result<Vec<u8>, SignalError> {
 /// first and last 24 chips of every PRN (BDS-SIS-ICD-B1C-1.0 Table 5-2).
 pub fn b1c_data(prn: u16) -> Result<SignalCode, SignalError> {
     Ok(SignalCode::new(
-        format!("BeiDou B1C data PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-beidou-beidou-b1c-data-prn", prn = prn)),
         B1C_CHIP_RATE_HZ,
         B1C_HZ,
         bipolar(&b1c_data_bits(prn)?),
@@ -216,7 +216,9 @@ impl ComplexSpreadingCode for B1cPilot {
 pub fn b1c_pilot(prn: u16) -> Result<B1cPilot, SignalError> {
     Ok(B1cPilot {
         code: SignalCode::new(
-            format!("BeiDou B1C pilot PRN {prn}"),
+            crate::i18n::in_english(|| {
+                crate::t!("iq-signals-beidou-beidou-b1c-pilot-prn", prn = prn)
+            }),
             B1C_CHIP_RATE_HZ,
             B1C_HZ,
             bipolar(&b1c_pilot_bits(prn)?),
@@ -287,7 +289,7 @@ pub fn b1i(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&B1I_NH20)
     };
     Ok(SignalCode::new(
-        format!("BeiDou B1I PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-beidou-beidou-b1i-prn", prn = prn)),
         B1I_CHIP_RATE_HZ,
         B1I_HZ,
         bipolar(&bits),

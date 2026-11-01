@@ -85,10 +85,9 @@ pub fn score_timeline(
 ) -> Result<ScoreOutput, String> {
     let log_start_utc = match (req.log_start_utc, timeline.start_label.as_deref()) {
         (Some(t), _) => t,
-        (None, Some(l)) => parse_rfc3339_utc(l).ok_or_else(|| {
-            format!("the log states its start as `{l}`, which is not UTC ISO-8601: give the start explicitly")
-        })?,
-        (None, None) => return Err("the log does not state its start time: give it explicitly".into()),
+        (None, Some(l)) => parse_rfc3339_utc(l)
+            .ok_or_else(|| crate::terr!("e-jammertest-the-log-states-its-start", l = l))?,
+        (None, None) => return Err(crate::terr!("e-jammertest-the-log-does-not-state")),
     };
     let duration_s = timeline.epochs.last().map_or(0.0, |e| e.t_s);
     let imported = match &req.schedule {

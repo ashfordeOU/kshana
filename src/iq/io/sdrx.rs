@@ -37,9 +37,9 @@ impl<R: Read> SdrxSource<R> {
     /// long) laid out as `layout`.
     pub fn new(inner: R, layout: SdrLayout, data_len: u64) -> Result<Self, IqError> {
         if layout.samples_per_chunk() == 0 {
-            return Err(IqError::Format(
-                ".sdrx layout: a chunk holds no whole lump".into(),
-            ));
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-io-sdrx-sdrx-layout-chunk-holds-no"
+            )));
         }
         let remaining = layout.sample_count(data_len as usize) as u64;
         let spec = SampleSpec {
@@ -84,13 +84,15 @@ impl<R: Read> SdrxSource<R> {
             )
             .map_err(|e| IqError::Io(e.to_string()))?;
             if skipped < self.header_left {
-                return Err(IqError::Format(".sdrx data ends inside its header".into()));
+                return Err(IqError::Format(crate::terr!(
+                    "e-iq-io-sdrx-sdrx-data-ends-inside-its"
+                )));
             }
             self.header_left = 0;
         }
         self.inner
             .read_exact(&mut self.unit)
-            .map_err(|e| IqError::Io(format!(".sdrx data: {e}")))?;
+            .map_err(|e| IqError::Io(crate::terr!("e-iq-io-sdrx-sdrx-data", e = e)))?;
         let per = self.layout.samples_per_chunk();
         let n = (per as u64).min(self.remaining) as usize;
         self.decoded = ion_sdr::decode(&self.layout, &self.unit, 0, n).map_err(IqError::Format)?;
@@ -135,9 +137,12 @@ pub fn layout_label(l: &SdrLayout) -> String {
         F::Qi => "qi",
         F::If => "real",
     };
-    format!(
-        "sdrx {}-bit {enc} {fmt} ({} bits/sample)",
-        l.quantization, l.packed_bits
+    crate::t!(
+        "iq-io-sdrx-sdrx-bit-bits-sample",
+        quantization = l.quantization,
+        enc = enc,
+        fmt = fmt,
+        packed_bits = l.packed_bits
     )
 }
 

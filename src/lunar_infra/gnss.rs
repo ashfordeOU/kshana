@@ -93,11 +93,15 @@ impl GnssSpec {
             phasing_f: self.phasing_f.unwrap_or(2.0),
         };
         if w.planes == 0 || w.sats_per_plane == 0 || w.altitude_km <= 0.0 {
-            return Err("gnss: planes, sats_per_plane and altitude_km must be positive".into());
+            return Err(crate::terr!(
+                "e-lunar-infra-gnss-gnss-planes-sats-per-plane"
+            ));
         }
         let eff = self.tx_efficiency.unwrap_or(0.6);
         if !(eff > 0.0 && eff <= 1.0) {
-            return Err("gnss: tx_efficiency must be in (0, 1]".into());
+            return Err(crate::terr!(
+                "e-lunar-infra-gnss-gnss-tx-efficiency-must-be"
+            ));
         }
         Ok(Constellation {
             sats: w.satellites(),

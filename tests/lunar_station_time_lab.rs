@@ -28,6 +28,7 @@ fn run(src: &str) -> Value {
 /// own figures too: additivity is about the scenario document, the block is pinned apart.
 fn run_untiered(src: &str) -> Value {
     let json = run_toml(src).expect("runs").json;
+    let json = kshana::api::without_evidence(&json);
     let json = kshana::api::without_figure_tiers(&json).unwrap_or(json);
     serde_json::from_str(&json).expect("json")
 }
@@ -58,6 +59,9 @@ fn the_block_is_additive() {
     // The long-form table and the default summary are untouched too.
     let a = run_toml("kind = \"lunar-time-budget\"\n").unwrap();
     let b = run_toml("kind = \"lunar-time-budget\"\n[time_lab]\n").unwrap();
+    // The two runs exercise different ledger rows (the block adds one), so their evidence labels differ; the table does not.
+    let a = kshana::api::without_evidence_labels(a);
+    let b = kshana::api::without_evidence_labels(b);
     assert_eq!(a.csv, b.csv);
     assert!(b.summary.starts_with(&a.summary));
 }

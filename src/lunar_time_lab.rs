@@ -143,9 +143,9 @@ pub fn parse_lab_clock(name: &str) -> Result<LunarClock, String> {
         "passive-h-maser" | "phm" => Ok(LunarClock::Phm),
         "rafs" => Ok(LunarClock::Rafs),
         "mini-rafs" => Ok(LunarClock::MiniRafs),
-        other => Err(format!(
-            "time_lab: unknown clock {other:?}; expected one of optical-master, \
-             passive-h-maser, rafs, mini-rafs, or give a device_card instead"
+        other => Err(crate::terr!(
+            "e-lunar-time-lab-time-lab-unknown-clock-expected",
+            other = format!("{:?}", other)
         )),
     }
 }
@@ -182,22 +182,22 @@ impl TimeLabInput {
     pub fn resolve(&self) -> Result<TimeLab, String> {
         let clock = match (&self.clock, &self.device_card) {
             (Some(_), Some(_)) => {
-                return Err("time_lab: give either clock or device_card, not both".to_string())
+                return Err(crate::terr!("e-lunar-time-lab-time-lab-give-either-clock"))
             }
             (_, Some(card)) => {
                 let pts: Vec<(f64, f64, f64)> =
                     card.points.iter().map(|p| (p[0], p[1], p[2])).collect();
-                LabClock::Card(Box::new(
-                    DeviceCard::fit_curve(&card.name, &pts)
-                        .map_err(|e| format!("time_lab: device_card: {e}"))?,
-                ))
+                LabClock::Card(Box::new(DeviceCard::fit_curve(&card.name, &pts).map_err(
+                    |e| crate::terr!("e-lunar-time-lab-time-lab-device-card", e = e),
+                )?))
             }
             (c, None) => LabClock::Named(parse_lab_clock(c.as_deref().unwrap_or("mini-rafs"))?),
         };
         if let Some(n) = self.steer_interval_s {
             if !(n.is_finite() && n > 0.0) {
-                return Err(format!(
-                    "time_lab: steer_interval_s must be finite and positive, got {n}"
+                return Err(crate::terr!(
+                    "e-lunar-time-lab-time-lab-steer-interval-must",
+                    n = n
                 ));
             }
         }
@@ -205,8 +205,10 @@ impl TimeLabInput {
             if v.is_finite() && v >= 0.0 {
                 Ok(v)
             } else {
-                Err(format!(
-                    "time_lab: {name} must be finite and non-negative, got {v}"
+                Err(crate::terr!(
+                    "e-lunar-time-lab-time-lab-must-be-finite",
+                    name = name,
+                    v = v
                 ))
             }
         };
@@ -228,16 +230,14 @@ impl TimeLabInput {
             .clone()
             .unwrap_or_else(|| DEFAULT_THRESHOLDS_NS.to_vec());
         if thresholds_ns.is_empty() || thresholds_ns.iter().any(|t| !(t.is_finite() && *t > 0.0)) {
-            return Err(
-                "time_lab: thresholds_ns must be a non-empty list of positive numbers".to_string(),
-            );
+            return Err(crate::terr!("e-lunar-time-lab-time-lab-thresholds-ns-must"));
         }
         let horizons_s = self
             .horizons_s
             .clone()
             .unwrap_or_else(|| DEFAULT_HORIZONS_S.to_vec());
         if horizons_s.iter().any(|t| !(t.is_finite() && *t > 0.0)) {
-            return Err("time_lab: horizons_s must be positive numbers".to_string());
+            return Err(crate::terr!("e-lunar-time-lab-time-lab-horizons-must-be"));
         }
         Ok(TimeLab {
             clock,
@@ -446,11 +446,13 @@ impl TimeLab {
              rate term is not applied"
                 .to_string()
         } else {
-            format!(
-                "station height not modelled exactly: a {} m one-sigma height error biases the \
-                 rate by {:.6e} ns/day, applied as a linear term since the last steer",
-                self.height_sigma_m,
-                self.height_sigma_m * height_rate_ns_per_day_per_m()
+            crate::t!(
+                "lunar-time-lab-station-height-not-modelled-exactly",
+                height_sigma_m = self.height_sigma_m,
+                value = crate::i18n::localise_decimal(format!(
+                    "{:.6e}",
+                    self.height_sigma_m * height_rate_ns_per_day_per_m()
+                ))
             )
         };
 

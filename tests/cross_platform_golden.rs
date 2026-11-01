@@ -139,7 +139,9 @@ fn bundled_scenarios_match_cross_platform_goldens() {
     for name in SCENARIOS {
         let src = fs::read_to_string(format!("scenarios/{name}.toml"))
             .unwrap_or_else(|e| panic!("read scenarios/{name}.toml: {e}"));
-        let out = kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run {name}: {e}"));
+        let out = kshana::api::without_evidence_labels(
+            kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run {name}: {e}")),
+        );
         let json = match kshana::api::without_figure_tiers(&out.json) {
             Some(stripped) => {
                 assert!(

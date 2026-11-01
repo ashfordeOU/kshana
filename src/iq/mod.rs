@@ -192,8 +192,8 @@ pub enum IqError {
 impl std::fmt::Display for IqError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            IqError::Io(m) => write!(f, "I/O error: {m}"),
-            IqError::Format(m) => write!(f, "format error: {m}"),
+            IqError::Io(m) => f.write_str(&crate::terr!("e-iq-io-error", m = m)),
+            IqError::Format(m) => f.write_str(&crate::terr!("e-iq-format-error", m = m)),
         }
     }
 }

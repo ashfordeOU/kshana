@@ -69,7 +69,7 @@ pub fn tap_fields(n: usize) -> Vec<String> {
     (0..n)
         .flat_map(|k| {
             [
-                format!("x{k}_offset_chips"),
+                crate::t!("iq-track-sink-offset-chips", k = k),
                 format!("x{k}_i"),
                 format!("x{k}_q"),
             ]
@@ -192,10 +192,10 @@ fn check_taps(e: &EpochOutput, n: usize) -> Result<(), IqError> {
     if e.extra.len() == n {
         Ok(())
     } else {
-        Err(IqError::Format(format!(
-            "an epoch carries {} extra taps but the output was set up for {n}: every channel \
-             of a run must use the same extra_taps_chips",
-            e.extra.len()
+        Err(IqError::Format(crate::terr!(
+            "e-iq-track-sink-an-epoch-carries-extra-taps",
+            extra = e.extra.len(),
+            n = n
         )))
     }
 }
@@ -444,14 +444,15 @@ impl EpochRecord {
     pub fn from_slice(b: &[u8], taps: &[f64]) -> Result<Self, IqError> {
         let want = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * taps.len();
         if b.len() != want {
-            return Err(IqError::Format(format!(
-                "a record is {} bytes; expected {want}",
-                b.len()
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-track-sink-record-is-bytes-expected",
+                b = b.len(),
+                want = want
             )));
         }
         let head: &[u8; BINARY_RECORD_BYTES] = b[..BINARY_RECORD_BYTES]
             .try_into()
-            .map_err(|_| IqError::Format("short record".into()))?;
+            .map_err(|_| IqError::Format(crate::terr!("e-iq-track-sink-short-record")))?;
         let mut r = Self::from_bytes(head)?;
         let f = |at: usize| f64::from_le_bytes(b[at..at + 8].try_into().unwrap_or([0; 8]));
         r.extra = taps
@@ -479,8 +480,12 @@ impl EpochRecord {
         };
         let flags = b[5];
         let has = |bit: u8| flags & (1 << bit) != 0;
-        let state = LockState::from_code(b[4])
-            .ok_or_else(|| IqError::Format(format!("unknown lock-state code {}", b[4])))?;
+        let state = LockState::from_code(b[4]).ok_or_else(|| {
+            IqError::Format(crate::terr!(
+                "e-iq-track-sink-unknown-lock-state-code",
+                b = b[4]
+            ))
+        })?;
         Ok(Self {
             channel: u32_at(0),
             epoch: u64_at(8),
@@ -627,20 +632,24 @@ impl<R: BufRead> BinaryEpochReader<R> {
     pub fn new(mut r: R) -> Result<Self, IqError> {
         let mut line = Vec::new();
         r.read_until(b'\n', &mut line).map_err(io)?;
-        let header: EpochHeader = serde_json::from_slice(&line)
-            .map_err(|e| IqError::Format(format!("epoch file header: {e}")))?;
+        let header: EpochHeader = serde_json::from_slice(&line).map_err(|e| {
+            IqError::Format(crate::terr!("e-iq-track-sink-epoch-file-header", e = e))
+        })?;
         if header.schema != EPOCH_SCHEMA {
-            return Err(IqError::Format(format!(
-                "epoch file schema {:?}; expected {EPOCH_SCHEMA:?}",
-                header.schema
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-track-sink-epoch-file-schema-expected",
+                schema = format!("{:?}", header.schema),
+                EPOCH_SCHEMA = format!("{:?}", EPOCH_SCHEMA)
             )));
         }
         let want = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * header.extra_taps_chips.len();
         if header.record_bytes != want {
-            return Err(IqError::Format(format!(
-                "epoch file records are {} bytes; this reader expects {want} \
-                 ({BINARY_RECORD_BYTES} plus {BINARY_TAP_BYTES} per extra tap)",
-                header.record_bytes
+            return Err(IqError::Format(crate::terr!(
+                "e-iq-track-sink-epoch-file-records-are-bytes",
+                record_bytes = header.record_bytes,
+                want = want,
+                BINARY_RECORD_BYTES = BINARY_RECORD_BYTES,
+                BINARY_TAP_BYTES = BINARY_TAP_BYTES
             )));
         }
         Ok(Self { header, r })
@@ -662,8 +671,10 @@ impl<R: BufRead> Iterator for BinaryEpochReader<R> {
             match self.r.read(&mut b[got..]) {
                 Ok(0) if got == 0 => return None,
                 Ok(0) => {
-                    return Some(Err(IqError::Format(format!(
-                        "epoch file ends inside a record ({got} of {size} bytes)"
+                    return Some(Err(IqError::Format(crate::terr!(
+                        "e-iq-track-sink-epoch-file-ends-inside-record",
+                        got = got,
+                        size = size
                     ))))
                 }
                 Ok(n) => got += n,
@@ -925,7 +936,10 @@ impl EpochFormat {
             "csv" => Ok(Self::Csv),
             "jsonl" | "jsonlines" => Ok(Self::Jsonl),
             "bin" | "binary" => Ok(Self::Binary),
-            o => Err(format!("epoch format {o:?}: expected csv, jsonl or bin")),
+            o => Err(crate::terr!(
+                "e-iq-track-sink-epoch-format-expected-csv-jsonl",
+                o = format!("{:?}", o)
+            )),
         }
     }
 
