@@ -23,6 +23,7 @@
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F401-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 of 401 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.40.0"></a>
+  <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="English and 17 more languages, machine translated"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -40,6 +41,32 @@
   <a href="#research">Research</a> ·
   <a href="docs/CONCEPTS.md">Documentation</a> ·
   <a href="#cite">Cite</a>
+</p>
+
+<p align="center">
+  <strong>Languages:</strong> <a href="README.md">English</a> ·
+  <a href="README.nl.md"><span lang="nl">Nederlands</span></a> ·
+  <a href="README.pl.md"><span lang="pl">Polski</span></a> ·
+  <a href="README.pt-BR.md"><span lang="pt-BR">Português (Brasil)</span></a> ·
+  <a href="README.pt-PT.md"><span lang="pt-PT">Português (Portugal)</span></a> ·
+  <a href="README.fi.md"><span lang="fi">Suomi</span></a> ·
+  <a href="README.sv.md"><span lang="sv">Svenska</span></a> ·
+  <a href="README.da.md"><span lang="da">Dansk</span></a> ·
+  <a href="README.nb.md"><span lang="nb">Norsk bokmål</span></a> ·
+  <a href="README.cs.md"><span lang="cs">Čeština</span></a> ·
+  <a href="README.uk.md"><span lang="uk">Українська</span></a> ·
+  <a href="README.ru.md"><span lang="ru">Русский</span></a> ·
+  <a href="README.de.md"><span lang="de">Deutsch</span></a> ·
+  <a href="README.fr.md"><span lang="fr">Français</span></a> ·
+  <a href="README.es.md"><span lang="es">Español</span></a> ·
+  <a href="README.et.md"><span lang="et">Eesti</span></a> ·
+  <a href="README.ja.md"><span lang="ja">日本語</span></a> ·
+  <a href="README.zh-Hans.md"><span lang="zh-Hans">简体中文</span></a><br>
+  <sub>The command line, run summaries, charts and reports speak each language with <code>--lang &lt;tag&gt;</code>
+  (for example <code>kshana scenarios/holdover-test-example.toml --lang de</code>), and so do the Python, WebAssembly and MCP surfaces.
+  Each name opens this README in that language, and the website is translated too (for example <a href="https://kshana.dev/de/">kshana.dev/de/</a>).
+  These are machine translations that no native speaker has reviewed yet; English is the reference.
+  See <a href="docs/i18n.md">Localisation</a>.</sub>
 </p>
 
 <picture>
