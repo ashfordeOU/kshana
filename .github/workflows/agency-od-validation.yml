@@ -32,7 +32,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Fetch the full-day Galileo orbit (ESA0MGNFIN, GPS week 2190 / 2022-001)
         run: |
           set -euo pipefail
@@ -57,7 +57,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Fetch the full-day Swarm-A orbit (SW_OPER_SP3ACOM_2_, 2022-001)
         run: |
           set -euo pipefail
@@ -81,7 +81,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Run the opt-in DE440 LRO fit (release build; asserts the analytic test's bars)
         run: cargo test --release --test agency_lro lro_fit_with_the_opt_in_de440_environment -- --ignored --nocapture
       - name: Information runs (lunar k2 tide and relativity; 24 h arc)
