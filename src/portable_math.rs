@@ -380,14 +380,14 @@ impl FftPlan {
         let mut factors = Vec::new();
         let mut m = n;
         for p in [4usize, 2, 3, 5] {
-            while m % p == 0 {
+            while m.is_multiple_of(p) {
                 factors.push(p);
                 m /= p;
             }
         }
         let mut p = 7;
         while m > 1 {
-            while m % p == 0 {
+            while m.is_multiple_of(p) {
                 factors.push(p);
                 m /= p;
             }

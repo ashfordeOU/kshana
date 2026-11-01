@@ -183,14 +183,14 @@ impl TradeEvidence {
 
     /// One-line human summary.
     pub fn summary(&self) -> String {
-        format!(
-            "{} | seed {} | v{} | quantum wins {}/{} FoMs | {}",
-            self.frame.scenario,
-            self.frame.seed,
-            self.frame.engine_version,
-            self.quantum_wins(),
-            self.foms.len(),
-            self.representativeness.status.tag(),
+        crate::t!(
+            "qtrade-seed-quantum-wins-foms",
+            scenario = self.frame.scenario,
+            seed = self.frame.seed,
+            engine_version = self.frame.engine_version,
+            value = self.quantum_wins(),
+            foms = self.foms.len(),
+            status = self.representativeness.status.tag()
         )
     }
 }

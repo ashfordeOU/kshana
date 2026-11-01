@@ -7,15 +7,23 @@
 // A result without them (a log without those messages, or an older engine) has none, and the view says so rather than drawing
 // a lane of "neither". Pure; tested in trust-selfreport.test.mjs.
 
+import { t } from "./t.mjs";
+
 export const AGREEMENTS = Object.freeze(["both", "receiver-only", "kshana-only", "neither", "calibrating"]);
+// The texts are getters so they are made when read (after the language catalogue loads), not once at import.
 export const AGREEMENT_TEXT = Object.freeze({
-  both: "both flag: the receiver's own flag and a Kshana monitor",
-  "receiver-only": "only the receiver flags: no Kshana monitor alarms",
-  "kshana-only": "only Kshana alarms: the receiver does not flag",
-  neither: "neither flags",
-  calibrating: "inside the calibration window: not compared",
+  get both() { return t("js-trust-agree-both", "both flag: the receiver's own flag and a Kshana monitor"); },
+  get "receiver-only"() { return t("js-trust-agree-receiver-only", "only the receiver flags: no Kshana monitor alarms"); },
+  get "kshana-only"() { return t("js-trust-agree-kshana-only", "only Kshana alarms: the receiver does not flag"); },
+  get neither() { return t("js-trust-agree-neither", "neither flags"); },
+  get calibrating() { return t("js-trust-agree-calibrating", "inside the calibration window: not compared"); },
 });
-export const STATE_TEXT = Object.freeze({ 0: "unknown or not enabled", 1: "none indicated", 2: "indicated", 3: "multiple indications or affirmed" });
+export const STATE_TEXT = Object.freeze({
+  get 0() { return t("js-trust-state-0", "unknown or not enabled"); },
+  get 1() { return t("js-trust-state-1", "none indicated"); },
+  get 2() { return t("js-trust-state-2", "indicated"); },
+  get 3() { return t("js-trust-state-3", "multiple indications or affirmed"); },
+});
 
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const code = (x) => (isNum(x) && x >= 0 && x <= 3 && Number.isInteger(x) ? x : null);
@@ -43,21 +51,29 @@ export function readSelfSummary(s) {
 // The words for the cursor's epoch: a heading and rows of [label, value].
 export function selfReportAt(e) {
   const r = e && e.selfReport;
-  if (!r) return { heading: "The log carries no receiver flag at this time.", rows: [] };
-  const st = (v) => (v == null ? "not in the log" : `${v}: ${STATE_TEXT[v]}`);
+  if (!r) return { heading: t("js-trust-self-none-at-time", "The log carries no receiver flag at this time."), rows: [] };
+  const st = (v) => (v == null ? t("js-trust-self-not-in-log", "not in the log") : t("js-trust-self-code-meaning", "{ $code }: { $meaning }", { code: v, meaning: STATE_TEXT[v] }));
+  const yes = () => t("js-trust-yes", "yes"), no = () => t("js-trust-no", "no");
   return {
-    heading: AGREEMENT_TEXT[r.agreement] || `an agreement this page does not know (${r.odd})`,
-    rows: [["Receiver spoofing state", st(r.spoofing)], ["Receiver jamming state", st(r.jamming)], ["Receiver flags", r.receiverFlag ? "yes (state 2 or more)" : "no"], ["A Kshana monitor alarms", r.kshanaAlarm ? "yes" : "no"]],
+    heading: AGREEMENT_TEXT[r.agreement] || t("js-trust-self-unknown-agreement", "an agreement this page does not know ({ $odd })", { odd: r.odd }),
+    rows: [
+      [t("js-trust-self-row-spoofing", "Receiver spoofing state"), st(r.spoofing)],
+      [t("js-trust-self-row-jamming", "Receiver jamming state"), st(r.jamming)],
+      [t("js-trust-self-row-flags", "Receiver flags"), r.receiverFlag ? t("js-trust-self-yes-state-2", "yes (state 2 or more)") : no()],
+      [t("js-trust-self-row-kshana-alarms", "A Kshana monitor alarms"), r.kshanaAlarm ? yes() : no()],
+    ],
   };
 }
 
 // Plain lines for the summary card.
 export function summaryLines(s) {
   if (!s) return [];
-  const n = (v) => (v == null ? "n/a" : String(v)), t = (v) => (v == null ? "never" : `T+${Math.round(v)} s`);
+  const n = (v) => (v == null ? t("js-trust-na", "n/a") : String(v)), tm = (v) => (v == null ? t("js-trust-never", "never") : `T+${Math.round(v)} s`);
   return [
-    ["Epochs compared (after calibration)", n(s.epochsReported)], ["Receiver flags", n(s.receiverFlagEpochs)], ["Both flag", n(s.both)], ["Only the receiver flags", n(s.receiverOnly)],
-    ["Only Kshana alarms", n(s.kshanaOnly)], ["Neither", n(s.neither)], ["Receiver spoofing flag (state 2+)", n(s.spoofingFlagEpochs)], ["Receiver jamming flag (state 2+)", n(s.jammingFlagEpochs)],
-    ["First receiver flag", t(s.firstReceiverFlagS)], ["First Kshana alarm among those epochs", t(s.firstKshanaAlarmS)],
+    [t("js-trust-sum-epochs-compared", "Epochs compared (after calibration)"), n(s.epochsReported)], [t("js-trust-self-row-flags", "Receiver flags"), n(s.receiverFlagEpochs)],
+    [t("js-trust-sum-both-flag", "Both flag"), n(s.both)], [t("js-trust-sum-only-receiver", "Only the receiver flags"), n(s.receiverOnly)],
+    [t("js-trust-sum-only-kshana", "Only Kshana alarms"), n(s.kshanaOnly)], [t("js-trust-sum-neither", "Neither"), n(s.neither)],
+    [t("js-trust-sum-spoofing-flag", "Receiver spoofing flag (state 2+)"), n(s.spoofingFlagEpochs)], [t("js-trust-sum-jamming-flag", "Receiver jamming flag (state 2+)"), n(s.jammingFlagEpochs)],
+    [t("js-trust-sum-first-receiver", "First receiver flag"), tm(s.firstReceiverFlagS)], [t("js-trust-sum-first-kshana", "First Kshana alarm among those epochs"), tm(s.firstKshanaAlarmS)],
   ];
 }

@@ -705,7 +705,10 @@ fn finite_pos(name: &str, v: f64) -> Result<(), String> {
     if v.is_finite() && v > 0.0 {
         Ok(())
     } else {
-        Err(format!("{name} must be finite and positive"))
+        Err(crate::terr!(
+            "e-entry-eo-ascent-entry-heating-must-be-finite-and-positive",
+            name = name
+        ))
     }
 }
 
@@ -736,8 +739,9 @@ impl EntryHeatingScenario {
                 11_100.0,
             ),
             other => {
-                return Err(format!(
-                    "body must be \"earth\" or \"mars\", got \"{other}\""
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-entry-heating-body-must-be-earth-or",
+                    other = other
                 ))
             }
         };
@@ -754,9 +758,10 @@ impl EntryHeatingScenario {
                 scale_height_m: h,
             },
             (a, b) => {
-                return Err(format!(
-                    "atmosphere \"{a}\" is not available for body \"{b}\" \
-                     (earth: us76|exponential, mars: mars|exponential)"
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-entry-heating-atmosphere-is-not-available-for",
+                    a = a,
+                    b = b
                 ))
             }
         };
@@ -766,40 +771,58 @@ impl EntryHeatingScenario {
         }
         finite_pos("entry_speed_m_s", self.entry_speed_m_s)?;
         if !(self.flight_path_angle_deg > 0.0 && self.flight_path_angle_deg < 90.0) {
-            return Err("flight_path_angle_deg must be in (0, 90) (positive downward)".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-flight-path-angle-deg-must"
+            ));
         }
         if !(self.entry_interface_altitude_m.is_finite()
             && (20_000.0..=1_000_000.0).contains(&self.entry_interface_altitude_m))
         {
-            return Err("entry_interface_altitude_m must be in [20 km, 1000 km]".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-entry-interface-altitude-must-be"
+            ));
         }
         if !(self.latitude_deg.is_finite() && self.latitude_deg.abs() < 89.0) {
-            return Err("latitude_deg must be finite with |latitude| < 89 deg".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-latitude-deg-must-be-finite"
+            ));
         }
         if !self.heading_deg.is_finite() || !self.longitude_deg.is_finite() {
-            return Err("heading_deg and longitude_deg must be finite".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-heading-deg-and-longitude-deg"
+            ));
         }
         finite_pos("mass_kg", self.mass_kg)?;
         finite_pos("drag_coefficient", self.drag_coefficient)?;
         finite_pos("reference_area_m2", self.reference_area_m2)?;
         finite_pos("nose_radius_m", self.nose_radius_m)?;
         if !(self.lift_to_drag.is_finite() && (0.0..=3.0).contains(&self.lift_to_drag)) {
-            return Err("lift_to_drag must be in [0, 3]".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-lift-to-drag-must-be"
+            ));
         }
         if !self.bank_angle_deg.is_finite() {
-            return Err("bank_angle_deg must be finite".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-bank-angle-deg-must-be"
+            ));
         }
         if !(self.step_s.is_finite() && self.step_s > 0.0 && self.step_s <= 1.0) {
-            return Err("step_s must be in (0, 1] s".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-step-must-be-in"
+            ));
         }
         if !(self.terminal_altitude_m.is_finite()
             && self.terminal_altitude_m >= 0.0
             && self.terminal_altitude_m < self.entry_interface_altitude_m)
         {
-            return Err("terminal_altitude_m must be in [0, entry_interface_altitude_m)".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-terminal-altitude-must-be-in"
+            ));
         }
         if !(self.max_time_s.is_finite() && self.max_time_s > 0.0 && self.max_time_s <= 20_000.0) {
-            return Err("max_time_s must be in (0, 20000] s".into());
+            return Err(crate::terr!(
+                "e-entry-eo-ascent-entry-heating-max-time-must-be-in"
+            ));
         }
         let lat = self.latitude_deg.to_radians();
         let r0 = planet.radius_m + self.entry_interface_altitude_m;
@@ -818,8 +841,9 @@ impl EntryHeatingScenario {
                 planet.spin_rad_s,
             ),
             o => {
-                return Err(format!(
-                    "velocity_frame must be inertial|relative, got \"{o}\""
+                return Err(crate::terr!(
+                    "e-entry-eo-ascent-entry-heating-velocity-frame-must-be-inertial",
+                    o = o
                 ))
             }
         };
@@ -950,22 +974,29 @@ impl EntryHeatingScenario {
                     rel(rh.peak_deceleration_m_s2.value, r.peak_deceleration_m_s2.value),
             },
         });
-        let summary = format!(
-            "entry-heating ({}): V_rel {:.0} m/s, γ {:.2}° -> peak {:.1} g at {:.1} km, peak q \
-             {:.0} W/cm² at {:.1} km, heat load {:.0} J/cm², peak q_dyn {:.1} kPa; {} at {:.0} s \
-             (closed form {:.1} g; MODELLED 3-DoF, no radiative/TPS)",
-            self.body,
-            case.speed_m_s,
-            gam_abs.to_degrees(),
-            pk_g,
-            r.peak_deceleration_m_s2.altitude_m / 1000.0,
-            r.peak_heat_flux_w_m2.value / 1e4,
-            r.peak_heat_flux_w_m2.altitude_m / 1000.0,
-            r.heat_load_j_m2 / 1e4,
-            r.peak_dynamic_pressure_pa.value / 1000.0,
-            r.outcome,
-            r.end_time_s,
-            cf_g,
+        let summary = crate::t!(
+            "entry-eo-ascent-entry-heating-entry-heating-rel-peak-at",
+            body = self.body,
+            speed_m_s = crate::i18n::localise_decimal(format!("{:.0}", case.speed_m_s)),
+            gam_abs = crate::i18n::localise_decimal(format!("{:.2}", gam_abs.to_degrees())),
+            pk_g = crate::i18n::localise_decimal(format!("{:.1}", pk_g)),
+            r = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                r.peak_deceleration_m_s2.altitude_m / 1000.0
+            )),
+            r2 = crate::i18n::localise_decimal(format!("{:.0}", r.peak_heat_flux_w_m2.value / 1e4)),
+            r3 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                r.peak_heat_flux_w_m2.altitude_m / 1000.0
+            )),
+            r4 = crate::i18n::localise_decimal(format!("{:.0}", r.heat_load_j_m2 / 1e4)),
+            r5 = crate::i18n::localise_decimal(format!(
+                "{:.1}",
+                r.peak_dynamic_pressure_pa.value / 1000.0
+            )),
+            outcome = r.outcome,
+            end_time_s = crate::i18n::localise_decimal(format!("{:.0}", r.end_time_s)),
+            cf_g = crate::i18n::localise_decimal(format!("{:.1}", cf_g))
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

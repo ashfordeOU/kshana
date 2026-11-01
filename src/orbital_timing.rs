@@ -192,7 +192,11 @@ fn check_inputs(i: &OrbitalTimingInputs) -> Result<(), String> {
         if v.is_finite() && v > 0.0 {
             Ok(())
         } else {
-            Err(format!("{name} must be positive; got {v}"))
+            Err(crate::terr!(
+                "e-orbital-timing-must-be-positive-got",
+                name = name,
+                v = v
+            ))
         }
     };
     pos("altitude_m", i.altitude_m)?;
@@ -201,20 +205,22 @@ fn check_inputs(i: &OrbitalTimingInputs) -> Result<(), String> {
     pos("k", i.k)?;
     pos("cusum_h", i.cusum_h)?;
     if !(i.receiver_time_sigma_s.is_finite() && i.receiver_time_sigma_s >= 0.0) {
-        return Err("receiver_time_sigma_s must be finite and non-negative".into());
+        return Err(crate::terr!("e-orbital-timing-receiver-time-sigma-must-be"));
     }
     if !(i.max_ramp_rate.is_finite() && i.max_ramp_rate >= 0.0) {
-        return Err("max_ramp_rate must be finite and non-negative".into());
+        return Err(crate::terr!("e-orbital-timing-max-ramp-rate-must-be"));
     }
     if !(i.spoofer_min_elevation_rad.is_finite()
         && (0.0..std::f64::consts::FRAC_PI_2).contains(&i.spoofer_min_elevation_rad))
     {
-        return Err("spoofer minimum elevation must be in [0, 90) degrees".into());
+        return Err(crate::terr!(
+            "e-orbital-timing-spoofer-minimum-elevation-must-be"
+        ));
     }
     for c in &i.checks {
         pos("cross-check revisit_s", c.revisit_s)?;
         if !(c.sigma_ns.is_finite() && c.sigma_ns >= 0.0) {
-            return Err("cross-check sigma_ns must be finite and non-negative".into());
+            return Err(crate::terr!("e-orbital-timing-cross-check-sigma-ns-must"));
         }
     }
     Ok(())
@@ -260,21 +266,24 @@ pub fn orbital_timing(i: &OrbitalTimingInputs) -> Result<OrbitalTimingReport, St
                 CrossCheckKind::Crosslink => match c.sats_per_plane {
                     Some(n) if crosslink_neighbour_is_outside_footprint(h, el, n) => (
                         true,
-                        format!(
-                            "the in-plane neighbour, {:.1} degrees ahead, is outside a \
-                             single spoofer's footprint ({:.1} degrees across)",
-                            360.0 / n as f64,
-                            2.0 * lambda.to_degrees()
+                        crate::t!(
+                            "orbital-timing-the-in-plane-neighbour-degrees",
+                            v1 = crate::i18n::localise_decimal(format!("{:.1}", 360.0 / n as f64)),
+                            v2 = crate::i18n::localise_decimal(format!(
+                                "{:.1}",
+                                2.0 * lambda.to_degrees()
+                            ))
                         ),
                     ),
                     Some(n) => (
                         false,
-                        format!(
-                            "the in-plane neighbour, {:.1} degrees ahead, can be inside the \
-                             same spoofer's footprint ({:.1} degrees across), so both clocks \
-                             can be pulled together",
-                            360.0 / n as f64,
-                            2.0 * lambda.to_degrees()
+                        crate::t!(
+                            "orbital-timing-the-in-plane-neighbour-degrees-2",
+                            v1 = crate::i18n::localise_decimal(format!("{:.1}", 360.0 / n as f64)),
+                            v2 = crate::i18n::localise_decimal(format!(
+                                "{:.1}",
+                                2.0 * lambda.to_degrees()
+                            ))
                         ),
                     ),
                     None => (

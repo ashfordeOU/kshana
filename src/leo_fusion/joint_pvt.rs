@@ -221,16 +221,20 @@ pub fn solve(
         .iter()
         .any(|o| !(o.sigma_m.is_finite() && o.sigma_m > 0.0))
     {
-        return Err("every pseudorange needs a positive, finite sigma".into());
+        return Err(crate::terr!(
+            "e-leo-fusion-joint-pvt-every-pseudorange-needs-positive-finite"
+        ));
     }
     let systems: Vec<usize> = obs.iter().map(|o| o.system).collect();
     let (cols, own) = clock_columns(&systems, clocks);
     let n_clock = 1 + own.len();
     let n = 3 + n_clock;
     if obs.len() < n {
-        return Err(format!(
-            "{} pseudoranges cannot resolve {n} unknowns (3 position + {n_clock} clocks)",
-            obs.len()
+        return Err(crate::terr!(
+            "e-leo-fusion-joint-pvt-pseudoranges-cannot-resolve-unknowns-position",
+            obs = obs.len(),
+            n = n,
+            n_clock = n_clock
         ));
     }
     let corrected: Vec<f64> = obs
@@ -249,13 +253,15 @@ pub fn solve(
     for it in 0..max_iter.max(1) {
         iterations = it + 1;
         let user = [x[0], x[1], x[2]];
-        let h = design(user, &sats, &cols, n_clock)
-            .ok_or("a satellite coincides with the position estimate")?;
+        let h = design(user, &sats, &cols, n_clock).ok_or_else(|| {
+            crate::terr!("e-leo-fusion-joint-pvt-satellite-coincides-with-the-position")
+        })?;
         let r: Vec<f64> = (0..obs.len())
             .map(|k| corrected[k] - (norm(sub(sats[k], user)) + x[3 + cols[k]]))
             .collect();
         let (a, b) = normal_equations(&h, &w, &r);
-        let q = inverse(&a).ok_or("the geometry is singular")?;
+        let q = inverse(&a)
+            .ok_or_else(|| crate::terr!("e-leo-fusion-joint-pvt-the-geometry-is-singular"))?;
         let dx = super::geom::mat_vec(&q, &b);
         for i in 0..n {
             x[i] += dx[i];
@@ -265,12 +271,15 @@ pub fn solve(
             break;
         }
     }
-    let q_w = q_w.ok_or("no iteration ran")?;
+    let q_w = q_w.ok_or_else(|| crate::terr!("e-leo-fusion-joint-pvt-no-iteration-ran"))?;
     let user = [x[0], x[1], x[2]];
-    let h = design(user, &sats, &cols, n_clock).ok_or("degenerate final geometry")?;
+    let h = design(user, &sats, &cols, n_clock)
+        .ok_or_else(|| crate::terr!("e-leo-fusion-joint-pvt-degenerate-final-geometry"))?;
     let (a1, _) = normal_equations(&h, &vec![1.0; h.len()], &vec![0.0; h.len()]);
-    let q1 = inverse(&a1).ok_or("the geometry is singular")?;
-    let dop = dop_from_cofactor(&q1, user).ok_or("the DOP is not finite")?;
+    let q1 = inverse(&a1)
+        .ok_or_else(|| crate::terr!("e-leo-fusion-joint-pvt-the-geometry-is-singular"))?;
+    let dop = dop_from_cofactor(&q1, user)
+        .ok_or_else(|| crate::terr!("e-leo-fusion-joint-pvt-the-dop-is-not-finite"))?;
     let (sigma_enu_m, _, _) = project(&q_w, user);
     let chi2: f64 = (0..obs.len())
         .map(|k| {

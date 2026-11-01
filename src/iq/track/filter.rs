@@ -89,7 +89,11 @@ impl LoopFilter {
             Some((o, bn)) => Some((
                 o,
                 natural_frequency(o, bn).ok_or_else(|| {
-                    format!("phase loop needs order 1..=3 and Bn > 0 (got {o}, {bn})")
+                    crate::terr!(
+                        "e-iq-track-filter-phase-loop-needs-order-and",
+                        o = o,
+                        bn = bn
+                    )
                 })?,
             )),
             None => None,
@@ -97,14 +101,22 @@ impl LoopFilter {
         let freq = match freq {
             Some((o, bn)) if o == 1 || o == 2 => Some((
                 o,
-                natural_frequency(o, bn)
-                    .ok_or_else(|| format!("frequency loop needs Bn > 0 (got {bn})"))?,
+                natural_frequency(o, bn).ok_or_else(|| {
+                    crate::terr!("e-iq-track-filter-frequency-loop-needs-bn-got", bn = bn)
+                })?,
             )),
-            Some((o, _)) => return Err(format!("frequency loop order must be 1 or 2 (got {o})")),
+            Some((o, _)) => {
+                return Err(crate::terr!(
+                    "e-iq-track-filter-frequency-loop-order-must-be",
+                    o = o
+                ))
+            }
             None => None,
         };
         if phase.is_none() && freq.is_none() {
-            return Err("a loop filter needs a phase path, a frequency path, or both".into());
+            return Err(crate::terr!(
+                "e-iq-track-filter-loop-filter-needs-phase-path"
+            ));
         }
         Ok(Self {
             phase,

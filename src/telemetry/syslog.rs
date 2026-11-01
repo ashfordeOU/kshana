@@ -90,69 +90,94 @@ fn num(x: f64) -> String {
 /// the score and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
 /// is the sending host.
 pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
-    let mut ext = format!(
-        "cat=gnss-trust dvchost={} cs1Label=band cs1={}",
-        cef_ext_escape(host),
-        s.band.label()
-    );
-    if !s.reasons.is_empty() {
-        ext.push_str(&format!(
-            " cs2Label=reasons cs2={}",
-            cef_ext_escape(&s.reasons.join(","))
-        ));
-    }
-    if let Some(p) = prev {
-        ext.push_str(&format!(" cs3Label=previousBand cs3={}", p.label()));
-    }
-    if let Some(sc) = s.score {
-        ext.push_str(&format!(" cfp1Label=trustScore cfp1={}", num(sc)));
-    }
-    ext.push_str(&format!(
-        " cfp2Label=epochOffsetSeconds cfp2={}",
-        num(s.t_s)
-    ));
-    if let Some(l) = &s.time_label {
-        ext.push_str(&format!(" cs4Label=logTime cs4={}", cef_ext_escape(l)));
-    }
-    if let Some(g) = &s.gate {
-        ext.push_str(&format!(" cs5Label=gate cs5={}", cef_ext_escape(g)));
-    }
-    if let Some(g) = &s.geometry {
-        // Schema 1.3 only, in CEF dictionary custom fields (cs1 to cs5 are taken): cs6 the
-        // geometry status, followed after `;` by the classes of the deductions; cfp3 the HDOP;
-        // cfp4 the PDOP.
-        // From inputs that carry the label (0.36), cs6 gains a third field, the label, after
-        // `;` (the classes field then always present, empty when there are none).
-        let classes = match (g.classes.is_empty(), g.label) {
-            (_, Some(l)) => format!(";{};{l}", g.classes.join(",")),
-            (true, None) => String::new(),
-            (false, None) => format!(";{}", g.classes.join(",")),
-        };
-        ext.push_str(&format!(" cs6Label=geometry cs6={}{classes}", g.status));
-        if let Some(h) = g.hdop {
-            ext.push_str(&format!(" cfp3Label=geometryHdop cfp3={}", num(h)));
-        }
-        if let Some(p) = g.pdop {
-            ext.push_str(&format!(" cfp4Label=geometryPdop cfp4={}", num(p)));
-        }
-        // From inputs that carry the label (0.36): the satellites used in cn1, appended. The
-        // VDOP is not carried: the four floating-point custom fields are taken.
-        if let (Some(_), Some(n)) = (g.label, g.n_used) {
-            ext.push_str(&format!(
-                " cn1Label=geometryUsedSatellites cn1={}",
-                n as i64
+    crate::i18n::in_english(|| {
+        let mut ext = crate::t!(
+            "telemetry-syslog-cat-gnss-trust-dvchost-cs1label",
+            cef_ext_escape = cef_ext_escape(host),
+            band = s.band.label()
+        );
+        if !s.reasons.is_empty() {
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cs2label-reasons-cs2",
+                cef_ext_escape = cef_ext_escape(&s.reasons.join(","))
             ));
         }
-    }
-    format!(
-        "CEF:0|{}|{}|{}|{EVENT_PREFIX}.{}|GNSS trust {}|{}|{ext}",
-        cef_header_escape(VENDOR),
-        cef_header_escape(PRODUCT),
-        cef_header_escape(version),
-        s.band.label(),
-        s.band.label(),
-        cef_severity(s.band)
-    )
+        if let Some(p) = prev {
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cs3label-previousband-cs3",
+                p = p.label()
+            ));
+        }
+        if let Some(sc) = s.score {
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cfp1label-trustscore-cfp1",
+                num = num(sc)
+            ));
+        }
+        ext.push_str(&crate::t!(
+            "telemetry-syslog-cfp2label-epochoffsetseconds-cfp2",
+            num = num(s.t_s)
+        ));
+        if let Some(l) = &s.time_label {
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cs4label-logtime-cs4",
+                cef_ext_escape = cef_ext_escape(l)
+            ));
+        }
+        if let Some(g) = &s.gate {
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cs5label-gate-cs5",
+                cef_ext_escape = cef_ext_escape(g)
+            ));
+        }
+        if let Some(g) = &s.geometry {
+            // Schema 1.3 only, in CEF dictionary custom fields (cs1 to cs5 are taken): cs6 the
+            // geometry status, followed after `;` by the classes of the deductions; cfp3 the HDOP;
+            // cfp4 the PDOP.
+            // From inputs that carry the label (0.36), cs6 gains a third field, the label, after
+            // `;` (the classes field then always present, empty when there are none).
+            let classes = match (g.classes.is_empty(), g.label) {
+                (_, Some(l)) => format!(";{};{l}", g.classes.join(",")),
+                (true, None) => String::new(),
+                (false, None) => format!(";{}", g.classes.join(",")),
+            };
+            ext.push_str(&crate::t!(
+                "telemetry-syslog-cs6label-geometry-cs6",
+                status = g.status,
+                classes = classes
+            ));
+            if let Some(h) = g.hdop {
+                ext.push_str(&crate::t!(
+                    "telemetry-syslog-cfp3label-geometryhdop-cfp3",
+                    num = num(h)
+                ));
+            }
+            if let Some(p) = g.pdop {
+                ext.push_str(&crate::t!(
+                    "telemetry-syslog-cfp4label-geometrypdop-cfp4",
+                    num = num(p)
+                ));
+            }
+            // From inputs that carry the label (0.36): the satellites used in cn1, appended. The
+            // VDOP is not carried: the four floating-point custom fields are taken.
+            if let (Some(_), Some(n)) = (g.label, g.n_used) {
+                ext.push_str(&crate::t!(
+                    "telemetry-syslog-cn1label-geometryusedsatellites-cn1",
+                    v1 = n as i64
+                ));
+            }
+        }
+        crate::t!(
+            "telemetry-syslog-cef-gnss-trust",
+            cef_header_escape = cef_header_escape(VENDOR),
+            cef_header_escape2 = cef_header_escape(PRODUCT),
+            cef_header_escape3 = cef_header_escape(version),
+            EVENT_PREFIX = EVENT_PREFIX,
+            band = s.band.label(),
+            cef_severity = cef_severity(s.band),
+            ext = ext
+        )
+    })
 }
 
 /// The LEEF 2.0 line (no syslog envelope), delimiter `^`.
@@ -163,61 +188,63 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
 /// `geoSignalLoss=1`; from inputs that carry the geometry label (0.36) also `geoLabel`,
 /// `geoPdop`, `geoVdop` and `geoUsed`.
 pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
-    let mut a: Vec<String> = vec![
-        format!("cat={EVENT_PREFIX}"),
-        format!("sev={}", cef_severity(s.band).max(1)),
-        format!("devHost={}", leef_escape(host)),
-        format!("band={}", s.band.label()),
-    ];
-    if let Some(p) = prev {
-        a.push(format!("previousBand={}", p.label()));
-    }
-    if let Some(sc) = s.score {
-        a.push(format!("trustScore={}", num(sc)));
-    }
-    if !s.reasons.is_empty() {
-        a.push(format!("reasons={}", leef_escape(&s.reasons.join(","))));
-    }
-    a.push(format!("epochOffsetSeconds={}", num(s.t_s)));
-    if let Some(l) = &s.time_label {
-        a.push(format!("logTime={}", leef_escape(l)));
-    }
-    if let Some(g) = &s.gate {
-        a.push(format!("gate={}", leef_escape(g)));
-    }
-    if let Some(g) = &s.geometry {
-        a.push(format!("geoStatus={}", g.status));
-        if let Some(h) = g.hdop {
-            a.push(format!("geoHdop={}", num(h)));
+    crate::i18n::in_english(|| {
+        let mut a: Vec<String> = vec![
+            format!("cat={EVENT_PREFIX}"),
+            format!("sev={}", cef_severity(s.band).max(1)),
+            format!("devHost={}", leef_escape(host)),
+            format!("band={}", s.band.label()),
+        ];
+        if let Some(p) = prev {
+            a.push(format!("previousBand={}", p.label()));
         }
-        if !g.classes.is_empty() {
-            a.push(format!("geoClass={}", g.classes.join(",")));
+        if let Some(sc) = s.score {
+            a.push(format!("trustScore={}", num(sc)));
         }
-        if g.signal_loss == Some(true) {
-            a.push("geoSignalLoss=1".into());
+        if !s.reasons.is_empty() {
+            a.push(format!("reasons={}", leef_escape(&s.reasons.join(","))));
         }
-        // From inputs that carry the label (0.36), appended.
-        if let Some(l) = g.label {
-            a.push(format!("geoLabel={l}"));
-            for (k, v) in [
-                ("geoPdop", g.pdop),
-                ("geoVdop", g.vdop),
-                ("geoUsed", g.n_used),
-            ] {
-                if let Some(v) = v {
-                    a.push(format!("{k}={}", num(v)));
+        a.push(format!("epochOffsetSeconds={}", num(s.t_s)));
+        if let Some(l) = &s.time_label {
+            a.push(format!("logTime={}", leef_escape(l)));
+        }
+        if let Some(g) = &s.gate {
+            a.push(format!("gate={}", leef_escape(g)));
+        }
+        if let Some(g) = &s.geometry {
+            a.push(format!("geoStatus={}", g.status));
+            if let Some(h) = g.hdop {
+                a.push(format!("geoHdop={}", num(h)));
+            }
+            if !g.classes.is_empty() {
+                a.push(format!("geoClass={}", g.classes.join(",")));
+            }
+            if g.signal_loss == Some(true) {
+                a.push("geoSignalLoss=1".into());
+            }
+            // From inputs that carry the label (0.36), appended.
+            if let Some(l) = g.label {
+                a.push(format!("geoLabel={l}"));
+                for (k, v) in [
+                    ("geoPdop", g.pdop),
+                    ("geoVdop", g.vdop),
+                    ("geoUsed", g.n_used),
+                ] {
+                    if let Some(v) = v {
+                        a.push(format!("{k}={}", num(v)));
+                    }
                 }
             }
         }
-    }
-    format!(
-        "LEEF:2.0|{}|{}|{}|{EVENT_PREFIX}.{}|^|{}",
-        VENDOR.replace('|', " "),
-        PRODUCT,
-        version.replace('|', " "),
-        s.band.label(),
-        a.join("^")
-    )
+        format!(
+            "LEEF:2.0|{}|{}|{}|{EVENT_PREFIX}.{}|^|{}",
+            VENDOR.replace('|', " "),
+            PRODUCT,
+            version.replace('|', " "),
+            s.band.label(),
+            a.join("^")
+        )
+    })
 }
 
 /// Refuse a host name an RFC 5424 HOSTNAME cannot carry: more than 255 characters, or anything but
@@ -225,13 +252,15 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
 /// multiply the output. Empty is fine (the default name is used).
 pub fn check_host(host: &str) -> Result<(), String> {
     if host.len() > 255 {
-        return Err(format!(
-            "host is {} bytes; a syslog host name is at most 255",
-            host.len()
+        return Err(crate::terr!(
+            "e-telemetry-syslog-host-is-bytes-syslog-host",
+            host = host.len()
         ));
     }
     if !host.chars().all(|c| c.is_ascii_graphic()) {
-        return Err("host must be printable ASCII without spaces".into());
+        return Err(crate::terr!(
+            "e-telemetry-syslog-host-must-be-printable-ascii"
+        ));
     }
     Ok(())
 }
@@ -239,19 +268,21 @@ pub fn check_host(host: &str) -> Result<(), String> {
 /// Wrap a payload in an RFC 5424 envelope: facility local0 (16), `app` `kshana`, message id
 /// `GNSSTRUST`. `timestamp` is RFC 3339 UTC, or `None` for the NILVALUE `-`.
 pub fn rfc5424(band: Band, timestamp: Option<&str>, host: &str, payload: &str) -> String {
-    let pri = 16 * 8 + u32::from(syslog_severity(band));
-    let host = if host.is_empty() { "-" } else { host };
-    // HOSTNAME is at most 255 printable ASCII characters (RFC 5424).
-    let host: String = host
-        .chars()
-        .filter(|c| c.is_ascii_graphic())
-        .take(255)
-        .collect();
-    format!(
-        "<{pri}>1 {} {} kshana - GNSSTRUST - {payload}",
-        timestamp.unwrap_or("-"),
-        if host.is_empty() { "-" } else { &host }
-    )
+    crate::i18n::in_english(|| {
+        let pri = 16 * 8 + u32::from(syslog_severity(band));
+        let host = if host.is_empty() { "-" } else { host };
+        // HOSTNAME is at most 255 printable ASCII characters (RFC 5424).
+        let host: String = host
+            .chars()
+            .filter(|c| c.is_ascii_graphic())
+            .take(255)
+            .collect();
+        format!(
+            "<{pri}>1 {} {} kshana - GNSSTRUST - {payload}",
+            timestamp.unwrap_or("-"),
+            if host.is_empty() { "-" } else { &host }
+        )
+    })
 }
 
 pub use super::time::rfc3339_utc;

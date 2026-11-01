@@ -31,7 +31,13 @@ pub const SIGNAL_NAMES: &[&str] = &[
 /// receiver places it correctly without a separate centre argument.
 pub fn build_code(signal: &str, id: i64) -> Result<SignalCode, String> {
     let prn = || -> Result<u16, String> {
-        u16::try_from(id).map_err(|_| format!("{signal}: PRN {id} is out of range"))
+        u16::try_from(id).map_err(|_| {
+            crate::terr!(
+                "e-iq-signals-by-name-prn-is-out-of-range",
+                signal = signal,
+                id = id
+            )
+        })
     };
     let code = match signal {
         "gps-l1ca" => gps::l1ca(prn()?),
@@ -47,14 +53,19 @@ pub fn build_code(signal: &str, id: i64) -> Result<SignalCode, String> {
         "lunanet-afs-i" => lunanet::afs_i(prn()?),
         "lunanet-afs-q" => lunanet::afs_q(prn()?),
         "glonass-l1of" => {
-            let k = i8::try_from(id)
-                .map_err(|_| format!("GLONASS L1OF frequency channel {id} is outside -7..=6"))?;
+            let k = i8::try_from(id).map_err(|_| {
+                crate::terr!(
+                    "e-iq-signals-by-name-glonass-l1of-frequency-channel-is",
+                    id = id
+                )
+            })?;
             glonass::l1of(k)
         }
         other => {
-            return Err(format!(
-                "unknown signal {other:?}; expected one of: {}",
-                SIGNAL_NAMES.join(", ")
+            return Err(crate::terr!(
+                "e-iq-signals-by-name-unknown-signal-expected-one-of",
+                other = format!("{:?}", other),
+                signal_names = SIGNAL_NAMES.join(", ")
             ))
         }
     };

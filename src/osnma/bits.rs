@@ -31,7 +31,7 @@ impl BitWriter {
     /// Bits above the 64th of a wider run are zero (so `n > 64` zero-extends).
     pub fn push(&mut self, value: u64, n: usize) {
         for k in (0..n).rev() {
-            if self.len % 8 == 0 {
+            if self.len.is_multiple_of(8) {
                 self.bytes.push(0);
             }
             let bit = if k < 64 { ((value >> k) & 1) as u8 } else { 0 };

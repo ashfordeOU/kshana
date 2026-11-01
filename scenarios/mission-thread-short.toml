@@ -1,0 +1,145 @@
+# A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of
+# trans-lunar cruise and the return and entry, with the Moon's position from the analytic series (no kernel file).
+# It is the bundled companion of mission-thread-artemis-class, which reads a Moon kernel cut from a checkout.
+#
+# HONESTY. Every number is ILLUSTRATIVE, a round figure chosen to make the chain run, not the performance of any
+# vehicle, sensor, station or network; the phases are a stated simplification of one stack. MODELLED. Public sources
+# only; not affiliated with or endorsed by any agency. Advisory software, not certified navigation equipment.
+kind = "mission-thread"
+title = "Short mission thread, launch to entry (ILLUSTRATIVE)"
+seed = 20261028
+epoch_utc = "2028-01-01T00:00:00Z"
+
+[entry]
+# The launch pad at the epoch, in GCRF: 28.5 deg N, 80.6 deg W, rotating with the Earth.
+frame = "gcrf"
+x = [5285007.866, 1880185.649, 3025316.817, -137.105, 385.389, 0.0]
+sigma_pos_m = 10.0
+sigma_vel_mps = 0.01
+timescale = "utc"
+sigma_time_s = 1.0e-7
+sigma_drift_s_per_s = 1.0e-12
+
+[[phase]]
+id = "ascent"
+kind = "launch-ascent"
+duration_s = 540.0
+nav = ["gnss", "inertial"]
+time = "gnss"
+[phase.requirement]
+max_pos_m = 100.0
+[phase.model]
+gnss_acquire_s = 90.0
+gnss_sigma_pos_m = 5.0
+gnss_sigma_vel_mps = 0.05
+gnss_time_sigma_s = 1.0e-7
+imu_q_acc = 1.0e-3
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+step_s = 1.0
+insertion_alt_m = 185000.0
+insertion_inclination_deg = 28.5
+[[phase.model.fades]]
+start_s = 60.0
+end_s = 150.0
+what = "max-q plume mask"
+[[phase.model.fades]]
+start_s = 300.0
+end_s = 330.0
+what = "staging"
+
+[[phase]]
+id = "rdv-1"
+kind = "leo-rendezvous"
+duration_s = 3000.0
+nav = ["relative-optical", "gnss"]
+time = "gnss"
+[phase.handover]
+# A wait of two days, then GNSS is acquired again: dead reckoning for ten minutes, then the fix floor.
+rule = "reacquire"
+acquire_s = 600.0
+q_acc = 1.0e-9
+floor_pos_m = 8.66
+floor_vel_mps = 0.07
+floor_time_s = 1.0e-7
+[phase.model]
+target_alt_m = 185000.0
+target_abs_sigma_pos_m = 5.0
+target_abs_sigma_vel_mps = 0.005
+capture_pos_m = 0.5
+capture_vel_mps = 0.02
+min_window_s = 300.0
+[[phase.model.legs]]
+range_m = 20000.0
+end_range_m = 1000.0
+duration_s = 1200.0
+sensor = "rf-ranging"
+interval_s = 10.0
+[[phase.model.legs]]
+range_m = 1000.0
+end_range_m = 20.0
+duration_s = 1500.0
+sensor = "optical-camera"
+interval_s = 5.0
+[[phase.model.legs]]
+range_m = 20.0
+end_range_m = 1.0
+duration_s = 300.0
+sensor = "lidar"
+interval_s = 1.0
+
+[[phase]]
+id = "cruise"
+kind = "tli-and-cruise"
+duration_s = 86400.0
+nav = ["gnss-ssv", "ground-tracking"]
+time = "ground-clock"
+[phase.requirement]
+max_pos_m = 5000.0
+[phase.model]
+# The nominal parking orbit at the burn (185 km circular, 28.5 deg): the handovers between the rendezvous phases
+# advance a nominal state on a straight line, so the chain states the orbit; the covariance, the clock and the time
+# are the thread's.
+start_state_gcrf = [6563137.0, 0.0, 0.0, 0.0, 6848.755, 3718.571]
+tli_dv_mps = 3130.0
+tli_dv_sigma_fraction = 0.001
+tli_pointing_sigma_rad = 0.001
+step_s = 3600.0
+process_q_acc = 1.0e-13
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+ssv_uere_m = 5.0
+ssv_window_s = 21600.0
+ssv_step_min = 10.0
+ground_range_sigma_m = 10.0
+ground_range_rate_sigma_mps = 0.001
+ground_interval_s = 3600.0
+
+[[phase]]
+id = "entry"
+kind = "entry"
+duration_s = 21600.0
+nav = ["ground-tracking"]
+time = "ground-clock"
+frame = "gcrf"
+timescale = "utc"
+[phase.requirement]
+max_pos_m = 5000.0
+[phase.model]
+# The nominal return state 6 hours before the entry interface (a two-body backward integration of an interface
+# state at 122 km, 10.93 km/s, 6 deg below the horizontal); the covariance, the clock and the time are the thread's.
+start_state_gcrf = [-62790259.413, -44485726.468, -25683846.151, 2429.589, 746.8, 431.165]
+step_s = 1800.0
+process_q_acc = 1.0e-13
+clock_q_f = 1.0e-22
+clock_q_d = 1.0e-30
+ground_range_sigma_m = 10.0
+ground_range_rate_sigma_mps = 0.001
+ground_interval_s = 1800.0
+interface_alt_m = 121920.0
+ballistic_coeff_kg_m2 = 350.0
+corridor_min_deg = 5.6
+corridor_max_deg = 6.4
+downrange_sensitivity_km_per_deg = 400.0
+flight_time_s = 900.0
+max_decel_g = 12.0

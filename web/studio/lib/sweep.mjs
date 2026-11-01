@@ -7,6 +7,7 @@
 // sweep.test.mjs; the run() loop and the chart/hover DOM live in app.js.
 import { readScalar, patchScalar } from "./share.mjs";
 import { patchSectionScalar } from "./guided.mjs";
+import { t } from "./t.mjs";
 
 /// Cap on sweep length: run() is synchronous and sub-frame, but a 1000-point
 /// sweep would jank the main thread (no workers in the zero-dep design). Sixty
@@ -56,21 +57,21 @@ export function extractFom(result, clock, metricKey) {
 const isNum = (v) => typeof v === "number" && isFinite(v);
 
 // The per-clock figures of merit a sweep can plot.
-const CLOCK_SWEEP_METRICS = [
-  ["holdover_s", "holdover (s)"],
-  ["timing_rms_ns", "timing RMS (ns)"],
-  ["timing_p95_ns", "timing p95 (ns)"],
-  ["availability", "availability"],
+const clockSweepMetrics = (who) => [
+  ["holdover_s", t("js-lib-sweep-clock-holdover", "{ $who } holdover (s)", { who })],
+  ["timing_rms_ns", t("js-lib-sweep-clock-timing-rms", "{ $who } timing RMS (ns)", { who })],
+  ["timing_p95_ns", t("js-lib-sweep-clock-timing-p95", "{ $who } timing p95 (ns)", { who })],
+  ["availability", t("js-lib-sweep-clock-availability", "{ $who } availability", { who })],
 ];
 
 // The ephemeris / ground-track extrema a sweep can plot. `max_elevation_deg` and
 // `peak_doppler_hz` exist only when the scenario has a ground station.
-const EPHEM_SWEEP_METRICS = [
-  ["max_elevation_deg", "max elevation (°)"],
-  ["peak_doppler_hz", "peak Doppler (Hz)"],
-  ["alt_max_km", "max altitude (km)"],
-  ["alt_min_km", "min altitude (km)"],
-  ["speed_max_m_s", "max speed (m/s)"],
+const ephemSweepMetrics = () => [
+  ["max_elevation_deg", t("js-lib-sweep-max-elevation", "max elevation (°)")],
+  ["peak_doppler_hz", t("js-lib-sweep-peak-doppler", "peak Doppler (Hz)")],
+  ["alt_max_km", t("js-lib-sweep-max-altitude", "max altitude (km)")],
+  ["alt_min_km", t("js-lib-sweep-min-altitude", "min altitude (km)")],
+  ["speed_max_m_s", t("js-lib-sweep-max-speed", "max speed (m/s)")],
 ];
 
 /// The figures of merit that can be plotted against a swept knob for a given run
@@ -85,15 +86,15 @@ export function sweepMetrics(result) {
     const fom = result[clock] && result[clock].fom;
     if (!fom) continue;
     const who = (result[clock].spec && result[clock].spec.id) || clock;
-    for (const [key, label] of CLOCK_SWEEP_METRICS) {
+    for (const [key, label] of clockSweepMetrics(who)) {
       if (isNum(fom[key])) {
-        out.push({ id: `${clock}::${key}`, label: `${who} ${label}`, get: (r) => extractFom(r, clock, key) });
+        out.push({ id: `${clock}::${key}`, label, get: (r) => extractFom(r, clock, key) });
       }
     }
   }
   // The ephemeris pack carries flat top-level extrema (no quantum/classical block).
   if (isNum(result.n_samples) && Array.isArray(result.samples)) {
-    for (const [key, label] of EPHEM_SWEEP_METRICS) {
+    for (const [key, label] of ephemSweepMetrics()) {
       if (isNum(result[key])) {
         out.push({ id: `ephem::${key}`, label, get: (r) => (isNum(r && r[key]) ? r[key] : null) });
       }
@@ -102,6 +103,7 @@ export function sweepMetrics(result) {
   return out;
 }
 
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const NUM = (n) => (Math.round(n * 1000) / 1000).toString();
 
 // Compact axis tick text: plain mid-range, exponential at the extremes.
@@ -133,7 +135,7 @@ export function sweepCurveSvg(points, axis, meta) {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="#0c0b08"/>`;
   s += `<text x="${ml}" y="22" font-size="15" font-weight="bold" fill="#bcb3a3">${axis.title}</text>`;
-  s += `<text x="${ml}" y="40" fill="#8c8273">${axis.yLabel} vs ${axis.xLabel}</text>`;
+  s += `<text x="${ml}" y="40" fill="#8c8273">${esc(t("js-lib-sweep-y-vs-x", "{ $y } vs { $x }", { y: axis.yLabel, x: axis.xLabel }))}</text>`;
 
   // Axes.
   const axisY = H - mb;
@@ -163,7 +165,7 @@ export function sweepCurveSvg(points, axis, meta) {
     for (const p of points) s += `<circle cx="${NUM(px(p.x))}" cy="${NUM(py(p.y))}" r="2.5" fill="${C}"/>`;
   }
 
-  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · kshana.dev`;
+  const prov = [`Kshana${meta && meta.ver ? " v" + meta.ver : ""}`, ...(meta && meta.hash ? [t("js-lib-sweep-prov-scenario", "scenario { $hash }", { hash: String(meta.hash).slice(0, 12) })] : []), "kshana.dev"].join(" · ");
   s += `<text x="${W - mr}" y="${H - 8}" text-anchor="end" fill="#62594b" font-size="10">${prov}</text>`;
   s += `</svg>`;
   return s;

@@ -48,6 +48,11 @@ jobs:
     env:
       CARGO_PROFILE_DEV_DEBUG: "0"
       CARGO_PROFILE_TEST_DEBUG: "0"
+      # 2026-10-31, the 0.40.0 release: the unoptimised suite passed every test it reached but was cancelled at GitHub's
+      # 6 h job limit on f11ffecfe (agency_lro alone 77 min; coverage, at opt-level 1, took 4h37m the same day). The
+      # same opt-level 1 the coverage step uses since 2026-10-09: debug assertions and overflow checks stay on, no
+      # test is skipped, reduced or ignored.
+      CARGO_PROFILE_DEV_OPT_LEVEL: "1"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -117,6 +122,18 @@ jobs:
           toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: cargo package --locked
+      - name: The tarball fits crates.io's upload limit
+        # crates.io refuses a .crate over 10 MiB (413 Payload Too Large). The v0.40.0 publish was the first to learn that:
+        # the site's translation catalogues under i18n/ were in the package. Fail on a push, with a margin, not at a tag.
+        run: |
+          set -euo pipefail
+          f="$(ls target/package/kshana-*.crate)"
+          size="$(stat -c%s "$f")"
+          limit=10485760
+          warn=$((limit * 95 / 100))
+          echo "$f: $size bytes (crates.io limit $limit)"
+          if [ "$size" -gt "$limit" ]; then echo "::error::$f is $size bytes, over crates.io's $limit-byte limit; exclude what the library does not need in Cargo.toml"; exit 1; fi
+          if [ "$size" -gt "$warn" ]; then echo "::warning::$f is $size bytes, within 5 % of crates.io's limit"; fi
   msrv:
     # Does the crate still build on the OLDEST compiler Cargo.toml promises? That promise
     # is the `rust-version` field, and a consumer stuck on that compiler is its only reader.
@@ -128,19 +145,19 @@ jobs:
     # green while pinned at 1.75.0 — Cargo.lock is lockfile v4, which cargo before 1.78
     # refuses to parse at all, so a genuine 1.75.0 run could not have compiled one line.
     # RUSTUP_TOOLCHAIN sits at precedence 2, above the toolchain file, and is what actually
-    # pins the compiler here. Measured: `RUSTUP_TOOLCHAIN=1.85.0 cargo build --all --locked`
+    # pins the compiler here. Measured: `RUSTUP_TOOLCHAIN=1.88.0 cargo build --all --locked`
     # is clean in 32s on this tree.
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       # Keep in lockstep with `rust-version` in Cargo.toml. The guard step below fails the
       # job if the two disagree, so the pin cannot drift out from under the claim again.
-      RUSTUP_TOOLCHAIN: 1.85.0
+      RUSTUP_TOOLCHAIN: 1.88.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
-          toolchain: 1.85.0
+          toolchain: 1.88.0
       - name: Assert the compiler in use IS the declared MSRV
         # Grades both halves of what this job claims: that RUSTUP_TOOLCHAIN really did beat
         # rust-toolchain.toml, and that the pin above still equals the rust-version the
@@ -542,6 +559,14 @@ jobs:
         run: node web/studio/lib/ssv.test.mjs
       - name: Test the lunar-infrastructure view's readers (0.38)
         run: node web/studio/lib/lunar-infra.test.mjs
+      - name: Test the evidence badge's ledger-row reader and CSV lines (0.40)
+        run: node web/studio/lib/evidence.test.mjs
+      - name: Test the Studio localisation core (Fluent bundles, negotiation, fallback) (0.40)
+        run: node web/studio/lib/l10n.test.mjs
+      - name: Test the Studio t() helper and data loaders (0.40)
+        run: node web/studio/lib/t.test.mjs
+      - name: Test the Mission thread view's reader (0.40)
+        run: node web/studio/lib/mission-thread.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
@@ -608,6 +633,21 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Lab-fit follow-up campaigns (release)
         run: cargo test --release --test iq_labfit_followup -- --test-threads 1
+  # The pre-registered B1 of the lunar-orbit-rendezvous kind (xval/mission-thread-lunar/RESULTS.md): mean
+  # NEES in [5.2, 6.8] for both orbits at both C/N0 values, 200 trials each. About 110 s in a release
+  # build; the debug `cargo test` skips it (cfg_attr(debug_assertions, ignore)) so the debug jobs stay
+  # inside their budgets.
+  lunar-rendezvous-b1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Pre-registered B1 of the lunar rendezvous kind (release)
+        run: cargo test --release --lib -p kshana lunar_rendezvous::tests::b1_ -- --test-threads 1
   public-standalone:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -642,6 +682,9 @@ jobs:
         # --lib: the registry lives in the library, and the crate's native-only
         # binaries (e.g. gen_validation_artifacts) are not WASM targets.
         run: cargo build -p kshana --lib --target wasm32-unknown-unknown
+      - name: Build the WebAssembly bindings (the wasm feature, release)
+        # The bindings (src/wasm.rs, the i18n catalogue loader) compile only with --features wasm.
+        run: cargo build -p kshana --lib --release --target wasm32-unknown-unknown --features wasm
   # ---------------------------------------------------------------------------
   # The MCP server crate (mcp/kshana-mcp).
   #

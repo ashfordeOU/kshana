@@ -146,6 +146,20 @@ pub fn geodesic_grid(levels: u32) -> Vec<V3> {
     verts
 }
 
+/// `n` unit vectors on a Fibonacci spiral (golden-angle spacing in longitude, equal steps in the height `z`), the alternative
+/// grid of campaign B1 of `xval/gnss-ssv/PREREGISTRATION-v2.md`. Deterministic.
+pub fn fibonacci_grid(n: usize) -> Vec<V3> {
+    let golden = std::f64::consts::PI * (3.0 - 5f64.sqrt());
+    (0..n)
+        .map(|i| {
+            let z = 1.0 - (2.0 * i as f64 + 1.0) / n as f64;
+            let r = (1.0 - z * z).max(0.0).sqrt();
+            let phi = golden * i as f64;
+            [r * phi.pcos(), r * phi.psin(), z]
+        })
+        .collect()
+}
+
 /// What a single transmitter-to-user link looks like geometrically.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct LinkGeometry {

@@ -9,13 +9,14 @@
 //
 // An engine package older than the page (no 0.35 functions) loads fine; e.has() is false for what it lacks
 // and a call rejects with a message that says so (engine.mjs dispatch).
+import { t } from "./t.mjs";
 import { createEngineClient, errorMessage, ENGINE_FNS, engineHas } from "./engine.mjs";
 
 let booted = null;
 
 async function compileEngine(url) {
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`the engine file returned HTTP ${res.status}`);
+  if (!res.ok) throw new Error(t("js-lib-engine-page-http", "the engine file returned HTTP { $status }", { status: res.status }));
   const wasmType = (res.headers.get("Content-Type") || "").startsWith("application/wasm");
   if (wasmType && typeof WebAssembly.compileStreaming === "function") return WebAssembly.compileStreaming(res);
   return WebAssembly.compile(await res.arrayBuffer());
@@ -37,7 +38,7 @@ export function getEngine() {
       });
       return { available: true, version: mod.version(), has: (fn) => engineHas(local, fn), call: (fn, ...args) => client.call(fn, ...args), client, error: null };
     } catch (e) {
-      return { available: false, version: null, has: () => false, call: () => Promise.reject(new Error("the engine is not running here")), client: null, error: errorMessage(e) };
+      return { available: false, version: null, has: () => false, call: () => Promise.reject(new Error(t("js-lib-engine-page-not-running", "the engine is not running here"))), client: null, error: errorMessage(e) };
     }
   })();
   return booted;

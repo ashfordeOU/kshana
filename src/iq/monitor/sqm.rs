@@ -250,7 +250,7 @@ impl SqmMonitor {
             let idx = match self.pairs.iter().position(|(px, _)| (px - x).abs() < 1e-9) {
                 Some(i) => i,
                 None => {
-                    let name = format!("sqm_pair_{x}");
+                    let name = crate::t!("iq-monitor-sqm-sqm-pair", x = x);
                     self.pairs.push((
                         x,
                         Metric::new(&name, &label, Box::new(move |c| stats::sqm_pair_sd(x, c))),
@@ -289,7 +289,7 @@ impl SqmMonitor {
         let mut series = vec![self.delta.series.clone(), self.ratio.series.clone()];
         series.extend(self.pairs.iter().map(|(_, m)| m.series.clone()));
         let mut notes = vec![(
-            format!("sqm.{}.spacing_chips", self.label),
+            crate::t!("iq-monitor-sqm-sqm-spacing-chips", label = self.label),
             format!("{}", self.spacing),
         )];
         for m in [&self.delta, &self.ratio]
@@ -298,7 +298,11 @@ impl SqmMonitor {
         {
             if let Some((mu, sd)) = m.reference {
                 notes.push((
-                    format!("sqm.{}.{}.baseline", self.label, m.name),
+                    crate::t!(
+                        "iq-monitor-sqm-sqm-baseline",
+                        label = self.label,
+                        name = m.name
+                    ),
                     format!("{mu:.6} ± {sd:.2e} (averaged)"),
                 ));
             }

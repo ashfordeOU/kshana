@@ -117,11 +117,11 @@ impl DemTile {
             .flat_map(|l| l.split_whitespace())
             .map(|t| {
                 t.parse::<f64>()
-                    .map_err(|e| format!("bad number '{t}': {e}"))
+                    .map_err(|e| crate::terr!("e-realdata-lola-dem-bad-number", t = t, e = e))
             });
         let mut next = || {
             nums.next()
-                .ok_or_else(|| "unexpected end of DEM".to_string())?
+                .ok_or_else(|| crate::terr!("e-realdata-lola-dem-unexpected-end-of-dem"))?
         };
         let lat_min_deg = next()?;
         let lat_max_deg = next()?;
@@ -134,7 +134,7 @@ impl DemTile {
             heights_m.push(next()?);
         }
         if n_lat == 0 || n_lon == 0 {
-            return Err("DEM has a zero dimension".into());
+            return Err(crate::terr!("e-realdata-lola-dem-dem-has-zero-dimension"));
         }
         Ok(DemTile {
             lat_min_deg,

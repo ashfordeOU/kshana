@@ -216,9 +216,9 @@ pub fn run(
     let epochs = llr.epochs.unwrap_or(200);
     let osigma = surface.orbiter_range_sigma_m.unwrap_or(1.0);
     if !(sigma > 0.0 && osigma > 0.0) || epochs == 0 {
-        return Err(
-            "llr.sigma_m, surface.orbiter_range_sigma_m and llr.epochs must be positive".into(),
-        );
+        return Err(crate::terr!(
+            "e-lunar-infra-frame-llr-sigma-surface-orbiter-range"
+        ));
     }
     let sta = surface
         .stations

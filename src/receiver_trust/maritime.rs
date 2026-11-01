@@ -164,22 +164,26 @@ impl MaritimeConfig {
             ("time_offset_tol_s", self.time_offset_tol_s),
         ] {
             if !(v.is_finite() && v > 0.0) {
-                return Err(format!("maritime: {name} must be finite and > 0 (got {v})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-maritime-maritime-must-be-finite-and",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if !(self.kin_limit_guard.is_finite()
             && self.kin_limit_guard > 0.0
             && self.kin_limit_guard < 1.0)
         {
-            return Err(format!(
-                "maritime: kin_limit_guard must be in (0, 1) (got {})",
-                self.kin_limit_guard
+            return Err(crate::terr!(
+                "e-receiver-trust-maritime-maritime-kin-limit-guard-must",
+                kin_limit_guard = self.kin_limit_guard
             ));
         }
         if !(self.kin_sog_frac.is_finite() && (0.0..=1.0).contains(&self.kin_sog_frac)) {
-            return Err(format!(
-                "maritime: kin_sog_frac must be in [0, 1] (got {})",
-                self.kin_sog_frac
+            return Err(crate::terr!(
+                "e-receiver-trust-maritime-maritime-kin-sog-frac-must",
+                kin_sog_frac = self.kin_sog_frac
             ));
         }
         for (name, v) in [
@@ -187,14 +191,22 @@ impl MaritimeConfig {
             ("cn0_rise_frac", self.cn0_rise_frac),
         ] {
             if !(v.is_finite() && v > 0.0 && v < 1.0) {
-                return Err(format!("maritime: {name} must be in (0, 1) (got {v})"));
+                return Err(crate::terr!(
+                    "e-receiver-trust-maritime-maritime-must-be-in-got",
+                    name = name,
+                    v = v
+                ));
             }
         }
         if self.cn0_spread_min_sats < 3 {
-            return Err("maritime: cn0_spread_min_sats must be at least 3".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-maritime-maritime-cn0-spread-min-sats"
+            ));
         }
         if self.kin_window_s < 2.0 {
-            return Err("maritime: kin_window_s must be at least 2 s".into());
+            return Err(crate::terr!(
+                "e-receiver-trust-maritime-maritime-kin-window-must-be"
+            ));
         }
         Ok(())
     }

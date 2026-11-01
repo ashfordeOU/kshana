@@ -139,16 +139,27 @@ fn parse_ratio(s: &str) -> Result<f64, String> {
     let s = s.trim();
     let v = match s.split_once('/') {
         Some((a, b)) => {
-            let a: f64 = a.trim().parse().map_err(|_| format!("bad number {s:?}"))?;
-            let b: f64 = b.trim().parse().map_err(|_| format!("bad number {s:?}"))?;
+            let a: f64 = a
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-navsignal-bad-number", s = format!("{:?}", s)))?;
+            let b: f64 = b
+                .trim()
+                .parse()
+                .map_err(|_| crate::terr!("e-navsignal-bad-number", s = format!("{:?}", s)))?;
             a / b
         }
-        None => s.parse().map_err(|_| format!("bad number {s:?}"))?,
+        None => s
+            .parse()
+            .map_err(|_| crate::terr!("e-navsignal-bad-number", s = format!("{:?}", s)))?,
     };
     if v.is_finite() && v > 0.0 {
         Ok(v)
     } else {
-        Err(format!("{s:?} must be a positive number"))
+        Err(crate::terr!(
+            "e-navsignal-must-be-positive-number",
+            s = format!("{:?}", s)
+        ))
     }
 }
 
@@ -158,12 +169,18 @@ fn parse_ratio(s: &str) -> Result<f64, String> {
 /// of [`Modulation::label`] for every label it prints.
 pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
     let t = label.trim().to_ascii_uppercase().replace(' ', "");
-    let (head, rest) = t
-        .split_once('(')
-        .ok_or_else(|| format!("modulation {label:?}: expected NAME(args), e.g. BPSK(10)"))?;
-    let args = rest
-        .strip_suffix(')')
-        .ok_or_else(|| format!("modulation {label:?}: missing closing parenthesis"))?;
+    let (head, rest) = t.split_once('(').ok_or_else(|| {
+        crate::terr!(
+            "e-navsignal-modulation-expected-name-args-bpsk",
+            label = format!("{:?}", label)
+        )
+    })?;
+    let args = rest.strip_suffix(')').ok_or_else(|| {
+        crate::terr!(
+            "e-navsignal-modulation-missing-closing-parenthesis",
+            label = format!("{:?}", label)
+        )
+    })?;
     let parts: Vec<&str> = args.split(',').collect();
     match (head, parts.len()) {
         ("BPSK" | "BPSK-R", 1) => Ok(Modulation::BpskR {
@@ -178,8 +195,9 @@ pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
                 p: parse_ratio(parts[2])?,
             })
         }
-        _ => Err(format!(
-            "modulation {label:?} is not one of BPSK(n), BOC(m,n) or MBOC(6,1,p)"
+        _ => Err(crate::terr!(
+            "e-navsignal-modulation-is-not-one-of",
+            label = format!("{:?}", label)
         )),
     }
 }
@@ -187,7 +205,7 @@ pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
 /// Numerically integrate `g` over `[-half, half]` with `n` Simpson panels
 /// (`n` is forced even).
 fn integrate(half: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
-    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
+    let n = if n.is_multiple_of(2) { n.max(2) } else { n + 1 };
     let h = 2.0 * half / n as f64;
     let mut s = g(-half) + g(half);
     for i in 1..n {
@@ -373,8 +391,8 @@ fn euler_phi(mut m: u64) -> u64 {
     let mut result = m;
     let mut p = 2u64;
     while p * p <= m {
-        if m % p == 0 {
-            while m % p == 0 {
+        if m.is_multiple_of(p) {
+            while m.is_multiple_of(p) {
                 m /= p;
             }
             result -= result / p;
@@ -614,7 +632,7 @@ pub fn simpson(a: f64, b: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
     if b <= a {
         return 0.0;
     }
-    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
+    let n = if n.is_multiple_of(2) { n.max(2) } else { n + 1 };
     let h = (b - a) / n as f64;
     let mut s = g(a) + g(b);
     for i in 1..n {

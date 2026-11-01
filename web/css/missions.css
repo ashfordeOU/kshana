@@ -16,7 +16,7 @@
 .console-bar .live i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px var(--lime-soft);animation:mxPulse 2s infinite}
 .console-bar b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;text-transform:none}
 .console-bar .sep{width:1px;height:12px;background:var(--line-2);flex:none}
-.console-bar .right{margin-left:auto;display:flex;gap:18px;align-items:center}
+.console-bar .right{margin-inline-start:auto;display:flex;gap:18px;align-items:center}
 @keyframes mxPulse{50%{box-shadow:0 0 0 7px transparent}}
 .window{border-radius:18px;overflow:hidden;background:color-mix(in oklab,var(--panel-solid) 88%,transparent);border:1px solid var(--line-2);box-shadow:var(--shadow-lg)}
 .win-bar{display:flex;align-items:center;gap:14px;height:42px;padding:0 14px;border-bottom:1px solid var(--line);background:color-mix(in oklab,var(--bg-2) 60%,transparent)}
@@ -53,10 +53,10 @@
 .mm-body{padding:12px 14px 4px;overflow-x:auto}
 .mm-wait{font-size:13px;color:var(--ink-3);padding:18px 0}
 .mm-t{width:100%;border-collapse:separate;border-spacing:3px;font:500 11px/1.2 var(--mono);color:var(--ink-3)}
-.mm-t th{font-weight:500;text-align:left;white-space:nowrap}
+.mm-t th{font-weight:500;text-align:start;white-space:nowrap}
 .mm-t thead th{text-align:center;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:0 0 6px;vertical-align:bottom}
 .mm-t thead th i{display:block;width:8px;height:8px;border-radius:2px;background:var(--c);margin:0 auto 5px}
-.mm-t tbody th{padding-right:8px;color:var(--ink-2);font-size:11.5px;letter-spacing:0;text-transform:none;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+.mm-t tbody th{padding-inline-end:8px;color:var(--ink-2);font-size:11.5px;letter-spacing:0;text-transform:none;max-width:190px;overflow:hidden;text-overflow:ellipsis}
 .mm-t tbody th button{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;max-width:100%}
 .mm-t tbody th button i{width:6px;height:6px;border-radius:2px;background:var(--c);flex:none}
 .mm-t tbody th button span{overflow:hidden;text-overflow:ellipsis}
@@ -71,11 +71,11 @@
 
 /* ------------------------------------------------------------------ sector console */
 .mw-body{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:560px}
-.sectors{display:flex;flex-direction:column;gap:2px;padding:14px 10px;border-right:1px solid var(--line);margin:0}
+.sectors{display:flex;flex-direction:column;gap:2px;padding:14px 10px;border-inline-end:1px solid var(--line);margin:0}
 .sectors::before{content:"Sectors";font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:4px 8px 10px}
-.sectors button{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;font:400 13px/1.25 var(--sans);color:var(--ink-2);text-align:left;transition:background-color .25s,color .25s;min-height:36px}
+.sectors button{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;font:400 13px/1.25 var(--sans);color:var(--ink-2);text-align:start;transition:background-color .25s,color .25s;min-height:36px}
 .sectors button i{width:7px;height:7px;border-radius:2px;background:var(--ink-4);flex:none;transition:background-color .25s}
-.sectors button::after{content:attr(data-n);margin-left:auto;font:500 10.5px/1 var(--mono);color:var(--ink-3);font-variant-numeric:tabular-nums}
+.sectors button::after{content:attr(data-n);margin-inline-start:auto;font:500 10.5px/1 var(--mono);color:var(--ink-3);font-variant-numeric:tabular-nums}
 .sectors button:hover{background:var(--panel-2);color:var(--ink)}
 .sectors button[aria-selected="true"]{background:color-mix(in oklab,var(--c) 13%,transparent);color:var(--ink)}
 .sectors button[aria-selected="true"] i{background:var(--c);box-shadow:0 0 0 3px color-mix(in oklab,var(--c) 22%,transparent)}
@@ -101,18 +101,18 @@
 .m-chart-l i{width:6px;height:6px;border-radius:2px;background:var(--mc);flex:none}
 .sc-chart .prov{font-size:11px}
 .sc{position:relative;display:flex;flex-direction:column;gap:7px;padding:12px 12px 11px;border-radius:12px;border:1px solid var(--line);background:var(--panel);text-decoration:none;color:inherit;min-width:0;overflow:hidden;transition:border-color .25s var(--obs-ease),transform .25s var(--obs-ease),background-color .25s}
-.sc::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--c);opacity:.8}
+.sc::before{content:"";position:absolute;inset-inline-start:0;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--c);opacity:.8}
 a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,transparent);transform:translateY(-2px);background:var(--panel-2)}
 .sc-k{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font:500 10px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .sc-k i{width:6px;height:6px;border-radius:2px;background:var(--c);flex:none}
-.sc-new,.sc-rel{margin-left:auto;font:500 9.5px/1 var(--mono);letter-spacing:.08em;padding:3px 6px;border-radius:5px}
+.sc-new,.sc-rel{margin-inline-start:auto;font:500 9.5px/1 var(--mono);letter-spacing:.08em;padding:3px 6px;border-radius:5px}
 .sc-new{background:var(--lime-soft);color:var(--lime)}
 .sc-next .sc-new{color:var(--ink)}
 .sc-rel{background:var(--cyan-soft);color:var(--cyan)}
 .sc-f{font:500 12.5px/1.3 var(--mono);color:var(--ink);overflow-wrap:anywhere}
 .sc-d{font-size:13px;line-height:1.45;color:var(--ink-2)}
 .sc-go{margin-top:auto;display:flex;align-items:center;gap:6px;padding-top:4px;font:500 11px/1.2 var(--mono);color:var(--cyan)}
-.sc-go span{color:var(--ink-3);margin-right:auto}
+.sc-go span{color:var(--ink-3);margin-inline-end:auto}
 .sc-go svg{width:11px;height:11px;flex:none}
 .sc-next{grid-column:span 2;background:color-mix(in oklab,var(--cyan) 4%,var(--panel));border-style:dashed;border-color:var(--line-2)}
 .sc-fig{display:flex;flex-wrap:wrap;gap:4px 12px;font:500 11.5px/1.35 var(--mono);color:var(--ink-2)}
@@ -133,7 +133,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .leo-figs .lf span{font:400 10.5px/1.3 var(--mono);color:var(--ink-3)}
 .leo-soon{list-style:none;margin:0;padding:10px 0 0;border-top:1px dashed var(--line-2);display:flex;flex-wrap:wrap;gap:6px}
 .leo-soon li{font:500 11px/1.2 var(--mono);padding:5px 8px;border-radius:7px;border:1px dashed var(--line-3);color:var(--ink-2)}
-.leo-soon li:first-child{border:0;padding-left:0;color:var(--cyan);letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
+.leo-soon li:first-child{border:0;padding-inline-start:0;color:var(--cyan);letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
 .sc-jump{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);color:var(--cyan);text-decoration:none;align-self:flex-start}
 .sc-jump svg{width:13px;height:13px}
 .sr-bars{display:grid;gap:10px}
@@ -144,10 +144,10 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .sr-track{display:block;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
 .sr-fill{display:block;height:100%;width:var(--w);border-radius:99px;background:var(--c);transform-origin:left;transition:transform 1s var(--obs-ease)}
 .js .sr-bars:not(.in) .sr-fill{transform:scaleX(0)}
-.sr-m output{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.sr-m output{color:var(--ink);text-align:end;font-variant-numeric:tabular-nums}
 .m-foot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px 24px;padding-top:14px;border-top:1px solid var(--line)}
 .m-block h4{font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
-.m-block ul{margin:0;padding-left:16px;display:grid;gap:5px;font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+.m-block ul{margin:0;padding-inline-start:16px;display:grid;gap:5px;font-size:13.5px;line-height:1.45;color:var(--ink-2)}
 .m-build{margin-top:10px;font-size:13px;color:var(--ink-2)}
 .m-build a{color:var(--cyan)}
 .m-note{font-size:13px;color:var(--ink-2);padding:10px 12px;border-radius:10px;border:1px dashed var(--line-3)}
@@ -163,10 +163,10 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 
 @media (max-width:1100px){
   .mw-body{grid-template-columns:minmax(0,1fr)}
-  .sectors{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px;gap:6px;scrollbar-width:thin}
+  .sectors{flex-direction:row;overflow-x:auto;border-inline-end:0;border-bottom:1px solid var(--line);padding:10px;gap:6px;scrollbar-width:thin}
   .sectors::before{display:none}
   .sectors button{flex:none;white-space:nowrap;border:1px solid var(--line-2)}
-  .sectors button::after{margin-left:6px}
+  .sectors button::after{margin-inline-start:6px}
 }
 @media (max-width:980px){.mh-grid{grid-template-columns:minmax(0,1fr)}.m-head,.m-foot{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:700px){.m-grid{grid-template-columns:minmax(0,1fr)}.sc-chart,.sc-wide,.sc-next{grid-column:auto;grid-row:auto}}
@@ -178,10 +178,10 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 
 /* ------------------------------------------------------------------ orbit console (Aurora #15, rebuilt) */
 .ow-body{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:0}
-.ow-side{border-right:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.ow-side{border-inline-end:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .ow-side h3{margin:4px 8px 10px;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
 .ow-list{display:flex;flex-direction:column;gap:2px}
-.ow-list button{display:flex;align-items:flex-start;gap:9px;padding:8px 9px;border-radius:9px;text-align:left;color:var(--ink-2);transition:background-color .25s,color .25s;min-width:0}
+.ow-list button{display:flex;align-items:flex-start;gap:9px;padding:8px 9px;border-radius:9px;text-align:start;color:var(--ink-2);transition:background-color .25s,color .25s;min-width:0}
 .ow-list button i{width:7px;height:7px;border-radius:2px;background:var(--ink-4);flex:none;margin-top:5px;transition:background-color .25s}
 .ow-list button span{display:flex;flex-direction:column;gap:3px;min-width:0}
 .ow-list button b{font:500 13px/1.25 var(--sans);color:inherit}
@@ -231,9 +231,9 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .ow-stage{position:relative;flex:1;min-height:300px;aspect-ratio:1;max-height:440px;overflow:hidden;border-radius:10px;background:radial-gradient(circle at 50% 50%,color-mix(in oklab,var(--bg-3) 70%,transparent),transparent 70%);touch-action:pan-y;cursor:grab}
 .ow-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1s var(--obs-ease)}
 .ow-stage.gl-ready canvas{opacity:1}
-.ow-stage .fallback{position:absolute;width:56%;height:auto;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;opacity:.9;transition:opacity .6s;pointer-events:none}
+.ow-stage .fallback{position:absolute;width:56%;height:auto;inset-inline-start:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;opacity:.9;transition:opacity .6s;pointer-events:none}
 .ow-stage.gl-ready .fallback{opacity:0}
-.ow-hud{position:absolute;left:10px;top:8px;right:10px;display:flex;flex-direction:column;gap:5px;font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);pointer-events:none}
+.ow-hud{position:absolute;inset-inline-start:10px;top:8px;inset-inline-end:10px;display:flex;flex-direction:column;gap:5px;font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);pointer-events:none}
 .ow-hud span{display:flex;align-items:center;gap:7px}
 .ow-hud i{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
 .ow-ro{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
@@ -245,10 +245,10 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .ro .v .dot.bad{background:var(--coral)}
 .win-status{height:32px;display:flex;align-items:center;gap:16px;padding:0 16px;border-top:1px solid var(--line);font:400 11px/1 var(--mono);color:var(--ink-3);background:color-mix(in oklab,var(--bg-2) 60%,transparent);white-space:nowrap;overflow:hidden}
 .win-status span{overflow:hidden;text-overflow:ellipsis}
-.win-status .ow-real{margin-left:auto;color:var(--lime)}
+.win-status .ow-real{margin-inline-start:auto;color:var(--lime)}
 .ow-prov{margin-top:12px}
 .ow-note{margin-top:6px;max-width:120ch}
-@media (max-width:1180px){.ow-body{grid-template-columns:minmax(0,1fr)}.ow-side{border-right:0;border-bottom:1px solid var(--line)}.ow-list{flex-direction:row;overflow-x:auto;gap:6px}.ow-list button{flex:none;border:1px solid var(--line-2)}.ow-side .more{display:none}}
+@media (max-width:1180px){.ow-body{grid-template-columns:minmax(0,1fr)}.ow-side{border-inline-end:0;border-bottom:1px solid var(--line)}.ow-list{flex-direction:row;overflow-x:auto;gap:6px}.ow-list button{flex:none;border:1px solid var(--line-2)}.ow-side .more{display:none}}
 @media (max-width:900px){.ow-main{grid-template-columns:minmax(0,1fr)}.ow-orbit{order:-1}.ow-params{grid-template-columns:minmax(0,1fr) auto}.ow-chips{grid-column:1/-1;order:3}.ow-ro{grid-template-columns:repeat(2,minmax(0,1fr))}.ow-stage{max-height:none}}
 @media (max-width:560px){.ow-main{padding:12px}.ow-plot{min-height:220px}.ow-stage{min-height:0}.win-status span:nth-child(2){display:none}}
 
@@ -263,9 +263,9 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .mx-fcard .viz{align-self:end}
 .mx-fk{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .mx-fk i{width:6px;height:6px;border-radius:2px;background:var(--c)}
-.mx-fk .mx-tag{margin-left:auto}
+.mx-fk .mx-tag{margin-inline-start:auto}
 .mx-hits{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-.mx-hits span{font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
+.mx-hits span{font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-inline-end:2px}
 .mx-hits a{font:500 11.5px/1 var(--mono);color:var(--ink-2);text-decoration:none;padding:6px 9px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel-2)}
 .mx-hits a:hover{border-color:var(--c);color:var(--ink)}
 .mx-draw-ready .viz-plot polyline.c-line,.mx-draw-ready .viz-plot polyline.c-track,.mx-draw-ready .viz-plot polyline.c-track-vis{stroke-dasharray:1;stroke-dashoffset:1}
@@ -291,7 +291,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .mx-wait{padding:24px;font-size:13px;color:var(--space-ink-2)}
 .mx-read{font-size:13px;color:var(--ink-2);min-height:2.8em}
 .mx-read b{color:var(--ink)}
-.mx-open{margin-left:6px;font-weight:600;color:var(--cyan);white-space:nowrap}
+.mx-open{margin-inline-start:6px;font-weight:600;color:var(--cyan);white-space:nowrap}
 
 /* chart parts drawn by missions.mjs on the dark chart panels (the shared c-* classes do the rest) */
 .mx-chart .mx-bar{stroke:var(--space-ink-3);stroke-width:3;stroke-linecap:round}
@@ -328,15 +328,15 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 @media (max-width:1100px){.roles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.roles{grid-template-columns:minmax(0,1fr)}}
 .role{display:grid;grid-template-rows:auto 1fr auto auto auto;gap:10px;padding:18px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);min-width:0;position:relative}
-.role::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--c);position:absolute;left:18px;top:22px}
-.role h3{font:600 16px/1.25 var(--sans);letter-spacing:-.01em;padding-left:14px}
+.role::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--c);position:absolute;inset-inline-start:18px;top:22px}
+.role h3{font:600 16px/1.25 var(--sans);letter-spacing:-.01em;padding-inline-start:14px}
 .role p,.role .entry,.role .cue{font-size:13.5px;color:var(--ink-2)}
 .role .entry a{color:var(--cyan)}
-.snip{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 10px;border-radius:10px;background:var(--bg-2);min-width:0}
+.snip{display:flex;align-items:center;gap:8px;padding-block:6px;padding-inline:10px 6px;border-radius:10px;background:var(--bg-2);min-width:0}
 .snip code{flex:1;min-width:0;font-size:12px;overflow-wrap:anywhere}
 .honest{padding-top:clamp(56px,6vw,88px)}
 .sc-fig.sum{display:block;font-size:11px;line-height:1.5;color:var(--ink-2)}
-.sc-fig.sum b{color:var(--ink-3);margin-right:4px}
+.sc-fig.sum b{color:var(--ink-3);margin-inline-end:4px}
 @media (max-width:560px){.mm-body{padding:10px 8px 4px}.mm-t{border-spacing:2px}.mm-t thead th{font-size:0}.mm-t thead th i{margin-bottom:0;width:9px;height:9px}.mm-c{min-width:0;height:24px}.mm-t tbody th{max-width:118px;font-size:11px}}
 
 /* display-matrix fixes (r4-missions-1) */
@@ -390,7 +390,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 :root[data-theme="light"] .ro .v .dot:not(.bad){background:color-mix(in oklab,var(--lime) 62%,#000)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .ro .v .dot:not(.bad){background:color-mix(in oklab,var(--lime) 62%,#000)}}
 .ro .v .dot[hidden]{display:none}
-.ro .v .vt small{margin-left:5px}
+.ro .v .vt small{margin-inline-start:5px}
 
 /* the moving readout next to the time cursor: brighter ink and a halo, it crosses bands and lines */
 .mx-readout{fill:var(--space-ink-2);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}
@@ -412,7 +412,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .owm-body{flex:1;min-height:0;position:relative}
 .owm.narrow .owm-body{flex:none}
 .owm-cv{position:absolute;display:block;border-radius:3px}
-.ow-plot .owm-svg{position:absolute;left:0;top:0;inset:auto;overflow:visible;pointer-events:none}
+.ow-plot .owm-svg{position:absolute;inset-inline-start:0;top:0;inset:auto;overflow:visible;pointer-events:none}
 .owm-hit{position:absolute;cursor:crosshair;border-radius:3px;outline:none;touch-action:manipulation}
 .owm-hit:focus-visible{box-shadow:0 0 0 2px var(--panel-solid),0 0 0 4px var(--ink)}
 .owm-tip{position:absolute;z-index:3;pointer-events:none;min-width:168px;padding:7px 9px;border-radius:8px;background:var(--panel-solid);border:1px solid var(--line-2);box-shadow:var(--shadow-lg);font:400 11px/1.5 var(--mono);color:var(--ink-2)}
@@ -469,16 +469,16 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
    readout labels get two lines instead of an ellipsis */
 .sc-go{flex-wrap:wrap;row-gap:3px}
 .sc-go span{white-space:nowrap}
-.ow-hud{right:auto;padding:8px 10px;border-radius:8px;background:color-mix(in oklab,var(--panel-solid) 78%,transparent);border:1px solid var(--line);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1}
+.ow-hud{inset-inline-end:auto;padding:8px 10px;border-radius:8px;background:color-mix(in oklab,var(--panel-solid) 78%,transparent);border:1px solid var(--line);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1}
 .ow-hud span{text-shadow:none}
 .ro .l{white-space:normal;overflow:visible;text-overflow:clip;min-height:2.6em}
 /* three tiers in two columns: the third takes the whole row instead of leaving a hole beside it */
 .tiers:has(.tier.pro) .tier.custom{grid-column:1/-1}
 /* phones: the failure-mode columns keep their names (set vertically) instead of colour dots alone */
 @media (max-width:560px){
-  .mm-t thead th{font-size:9px;letter-spacing:.04em;writing-mode:vertical-rl;transform:rotate(180deg);text-align:left;vertical-align:bottom;padding:6px 0 0;height:auto}
+  .mm-t thead th{font-size:9px;letter-spacing:.04em;writing-mode:vertical-rl;transform:rotate(180deg);text-align:start;vertical-align:bottom;padding:6px 0 0;height:auto}
   .mm-t thead th i{margin:0 auto 5px}
-  .ow-hud{right:10px;flex-direction:row;flex-wrap:wrap;gap:4px 10px;padding:6px 8px;font-size:9px}
+  .ow-hud{inset-inline-end:10px;flex-direction:row;flex-wrap:wrap;gap:4px 10px;padding:6px 8px;font-size:9px}
 }
 
 /* "With Pro" line: the same quiet note as on Capabilities (capabilities.css), linking the matching Editions section */

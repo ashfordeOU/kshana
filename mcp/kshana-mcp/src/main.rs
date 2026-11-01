@@ -12,24 +12,10 @@ use kshana_mcp::server::KshanaServer;
 use rmcp::ServiceExt;
 use rmcp::transport::stdio;
 
-const USAGE: &str = "\
-kshana-mcp: Model Context Protocol server for the Kshana PNT-resilience simulator.
-
-USAGE:
-    kshana-mcp                      serve over stdio (the default; what MCP clients launch)
-    kshana-mcp --http <addr>        serve streamable HTTP at http://<addr>/mcp
-
-HTTP OPTIONS:
-    --http <addr>               bind address, e.g. 127.0.0.1:8080 (loopback only by default)
-    --allow-remote              permit a non-loopback address; needs KSHANA_MCP_HTTP_TOKEN
-    --allowed-host <host[:port]>  extra Host header accepted (repeatable)
-    --allow-origin <origin>     browser origin accepted (repeatable; none by default)
-    --max-body-bytes <n>        request body cap (default 5242880)
-    --request-timeout-secs <n>  per-request time limit (default 120)
-    --max-concurrent <n>        requests served at once (default 8)
-
-The HTTP transport turns the IQ file tools off. Kshana does not host an endpoint: run it yourself.
-";
+/// The usage text, in the language of the operator (see [`http::operator`]).
+fn usage() -> String {
+    http::operator(|| kshana::t!("mcp-main-usage"))
+}
 
 fn parse_http(args: &[String]) -> Result<Option<HttpConfig>> {
     let mut it = args.iter();
@@ -45,21 +31,29 @@ fn parse_http(args: &[String]) -> Result<Option<HttpConfig>> {
             | "--max-body-bytes"
             | "--request-timeout-secs"
             | "--max-concurrent" => {
-                let v = it
-                    .next()
-                    .ok_or_else(|| anyhow::anyhow!("{a} needs a value"))?;
+                let v = it.next().ok_or_else(|| {
+                    anyhow::anyhow!(kshana::terr!("e-mcp-main-needs-value", a = a))
+                })?;
                 if a == "--http" {
                     cfg = Some(HttpConfig::new(http::parse_addr(v)?));
                 } else {
                     rest.push((a.clone(), v.clone()));
                 }
             }
-            other => bail!("unknown argument `{other}`\n\n{USAGE}"),
+            other => bail!(
+                "{}\n\n{}",
+                http::operator(|| kshana::terr!("e-mcp-main-unknown-argument", other = other)),
+                usage()
+            ),
         }
     }
     let Some(mut cfg) = cfg else {
         if allow_remote || !rest.is_empty() {
-            bail!("HTTP options need --http <addr>\n\n{USAGE}");
+            bail!(
+                "{}\n\n{}",
+                http::operator(|| kshana::terr!("e-mcp-main-http-options-need-http")),
+                usage()
+            );
         }
         return Ok(None);
     };
@@ -96,7 +90,7 @@ async fn main() -> Result<()> {
 
     let args: Vec<String> = std::env::args().skip(1).collect();
     if args.iter().any(|a| a == "--help" || a == "-h") {
-        print!("{USAGE}");
+        print!("{}", usage());
         return Ok(());
     }
     if args.iter().any(|a| a == "--version" || a == "-V") {

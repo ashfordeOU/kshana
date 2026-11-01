@@ -288,15 +288,17 @@ pub struct SeriesStability {
 /// eight or not on a regular grid (within 1e-6 of a step).
 pub fn series_stability(series: &[(f64, f64)]) -> Result<SeriesStability, String> {
     if series.len() < 8 {
-        return Err("at least eight samples are needed".into());
+        return Err(crate::terr!("e-twstft-budget-at-least-eight-samples-are"));
     }
     let step = series[1].0 - series[0].0;
     if !(step.is_finite() && step > 0.0) {
-        return Err("samples must increase in time".into());
+        return Err(crate::terr!(
+            "e-twstft-budget-samples-must-increase-in-time"
+        ));
     }
     for w in series.windows(2) {
         if ((w[1].0 - w[0].0) - step).abs() > 1e-6 * step {
-            return Err("samples must be on a regular grid".into());
+            return Err(crate::terr!("e-twstft-budget-samples-must-be-on-regular"));
         }
     }
     let n = series.len() as f64;

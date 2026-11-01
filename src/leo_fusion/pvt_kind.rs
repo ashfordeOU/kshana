@@ -452,7 +452,9 @@ impl LeoPvtScenario {
         let duration = self.duration_s.unwrap_or(600.0);
         let step = self.step_s.unwrap_or(10.0);
         if !(duration > 0.0 && step > 0.0) || duration / step > 20_000.0 {
-            return Err("duration_s and step_s must be positive with at most 20000 epochs".into());
+            return Err(crate::terr!(
+                "e-leo-fusion-pvt-kind-duration-and-step-must-be"
+            ));
         }
         let cfgs = if self.system.is_empty() {
             default_systems()
@@ -529,7 +531,9 @@ impl LeoPvtScenario {
                 let ls = p.lat_step_deg.unwrap_or(10.0);
                 let os = p.lon_step_deg.unwrap_or(45.0);
                 if !(ls > 0.0 && os > 0.0) {
-                    return Err("polar steps must be positive".into());
+                    return Err(crate::terr!(
+                        "e-leo-fusion-pvt-kind-polar-steps-must-be-positive"
+                    ));
                 }
                 let thr = p.pdop_threshold.unwrap_or(6.0);
                 let mut lats = Vec::new();
@@ -564,8 +568,9 @@ impl LeoPvtScenario {
                     .into();
             }
             m => {
-                return Err(format!(
-                    "mode must be doppler, joint, polar or timing; got {m:?}"
+                return Err(crate::terr!(
+                    "e-leo-fusion-pvt-kind-mode-must-be-doppler-joint",
+                    m = format!("{:?}", m)
                 ))
             }
         }
@@ -592,7 +597,9 @@ impl LeoPvtScenario {
             .filter(|&k| systems[k].role == "leo")
             .collect();
         if leo.is_empty() {
-            return Err("doppler mode needs at least one LEO system".into());
+            return Err(crate::terr!(
+                "e-leo-fusion-pvt-kind-doppler-mode-needs-at-least"
+            ));
         }
         let leo_sys: Vec<System> = leo.iter().map(|&k| systems[k].clone()).collect();
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -954,7 +961,9 @@ impl LeoPvtScenario {
             .cloned()
             .collect();
         if leo.is_empty() {
-            return Err("timing mode needs a LEO system with code ranging".into());
+            return Err(crate::terr!(
+                "e-leo-fusion-pvt-kind-timing-mode-needs-leo-system"
+            ));
         }
         let n_ep = (duration / step).floor() as usize + 1;
         let views: Vec<Vec<super::system::InView>> = (0..n_ep)
@@ -988,8 +997,12 @@ impl LeoPvtScenario {
                 median_meas = median(meas.iter().flatten().copied().collect());
             }
             for c in clocks.iter() {
-                let class = crate::clock_state::ClockClass::from_id(c)
-                    .ok_or_else(|| format!("unknown clock class {c:?}"))?;
+                let class = crate::clock_state::ClockClass::from_id(c).ok_or_else(|| {
+                    crate::terr!(
+                        "e-leo-fusion-pvt-kind-unknown-clock-class",
+                        c = format!("{:?}", c)
+                    )
+                })?;
                 let noise = crate::slot_timing::ClockNoise::from_class(class);
                 // One seed for every row: the rows then share the noise and the UTC-offset
                 // draw, so their differences are the C/N0 and the oscillator alone.
@@ -1038,19 +1051,23 @@ fn f(v: Option<f64>, d: usize) -> String {
 
 /// Text summary.
 pub fn summary(r: &LeoPvtReport) -> String {
-    let mut s = format!(
-        "LEO PVT ({}) at {:.2}, {:.2} over {:.0} s\n",
-        r.mode, r.user_lat_deg, r.user_lon_deg, r.duration_s
+    let mut s = crate::t!(
+        "leo-fusion-pvt-kind-leo-pvt-at-over",
+        mode = r.mode,
+        user_lat_deg = crate::i18n::localise_decimal(format!("{:.2}", r.user_lat_deg)),
+        user_lon_deg = crate::i18n::localise_decimal(format!("{:.2}", r.user_lon_deg)),
+        duration_s = crate::i18n::localise_decimal(format!("{:.0}", r.duration_s))
     );
     for sys in &r.systems {
-        s.push_str(&format!(
-            "  {:<12} {:<4} {:>5} sats at {:>6.0} km, {:.2} MHz{}\n",
-            sys.name,
-            sys.role,
-            sys.n_satellites,
-            sys.mean_altitude_km,
-            sys.carrier_hz / 1e6,
-            if sys.doppler_only {
+        s.push_str(&crate::t!(
+            "leo-fusion-pvt-kind-sats-at-km-mhz",
+            name = format!("{:<12}", sys.name),
+            role = format!("{:<4}", sys.role),
+            n_satellites = format!("{:>5}", sys.n_satellites),
+            mean_altitude_km =
+                crate::i18n::localise_decimal(format!("{:>6.0}", sys.mean_altitude_km)),
+            sys = crate::i18n::localise_decimal(format!("{:.2}", sys.carrier_hz / 1e6)),
+            v6 = if sys.doppler_only {
                 ", Doppler only"
             } else {
                 ""
@@ -1058,69 +1075,85 @@ pub fn summary(r: &LeoPvtReport) -> String {
         ));
     }
     if let Some(d) = &r.doppler {
-        s.push_str(&format!(
-            "  Doppler fix: {} measurements from {} satellites, 3D error {:.2} m (horizontal {:.2} m)\n",
-            d.n_obs, d.n_sats, d.error_3d_m, d.horizontal_error_m
+        s.push_str(&crate::t!(
+            "leo-fusion-pvt-kind-doppler-fix-measurements-from-satellites",
+            n_obs = d.n_obs,
+            n_sats = d.n_sats,
+            error_3d_m = crate::i18n::localise_decimal(format!("{:.2}", d.error_3d_m)),
+            horizontal_error_m =
+                crate::i18n::localise_decimal(format!("{:.2}", d.horizontal_error_m))
         ));
         for w in &d.windows {
-            s.push_str(&format!(
-                "    window {:>6.0} s: {} sats, 3D error {} m\n",
-                w.window_s,
-                w.n_sats,
-                f(w.error_3d_m, 2)
+            s.push_str(&crate::t!(
+                "leo-fusion-pvt-kind-window-sats-3d-error",
+                window_s = crate::i18n::localise_decimal(format!("{:>6.0}", w.window_s)),
+                n_sats = w.n_sats,
+                f = f(w.error_3d_m, 2)
             ));
         }
         for e in &d.envelopes {
-            s.push_str(&format!(
-                "  {} overhead pass: max Doppler {:.0} Hz, rate {:.1} Hz/s, jerk {:.3} Hz/s^2\n",
-                e.system,
-                e.overhead_pass.max_doppler_hz,
-                e.overhead_pass.max_doppler_rate_hz_s,
-                e.overhead_pass.max_doppler_jerk_hz_s2
+            s.push_str(&crate::t!(
+                "leo-fusion-pvt-kind-overhead-pass-max-doppler-hz",
+                system = e.system,
+                max_doppler_hz =
+                    crate::i18n::localise_decimal(format!("{:.0}", e.overhead_pass.max_doppler_hz)),
+                max_doppler_rate_hz_s = crate::i18n::localise_decimal(format!(
+                    "{:.1}",
+                    e.overhead_pass.max_doppler_rate_hz_s
+                )),
+                max_doppler_jerk_hz_s2 = crate::i18n::localise_decimal(format!(
+                    "{:.3}",
+                    e.overhead_pass.max_doppler_jerk_hz_s2
+                ))
             ));
         }
     }
     if let Some(j) = &r.joint {
-        s.push_str(&format!(
-            "  LEO ranging satellite in view on {:.1}% of epochs\n",
-            100.0 * j.fraction_epochs_with_leo
+        s.push_str(&crate::t!(
+            "leo-fusion-pvt-kind-leo-ranging-satellite-in-view",
+            v1 =
+                crate::i18n::localise_decimal(format!("{:.1}", 100.0 * j.fraction_epochs_with_leo))
         ));
         for (n, g) in [
             ("GNSS only", &j.gnss),
             ("LEO only", &j.leo),
             ("fused", &j.fused),
         ] {
-            s.push_str(&format!(
-                "  {n:<10} availability {:.3}, median PDOP {}, RMS 3D error {} m\n",
-                g.availability,
-                f(g.median_pdop, 2),
-                f(g.rms_error_3d_m, 2)
+            s.push_str(&crate::t!(
+                "leo-fusion-pvt-kind-availability-median-pdop-rms-3d",
+                n = format!("{:<10}", n),
+                availability = crate::i18n::localise_decimal(format!("{:.3}", g.availability)),
+                f = f(g.median_pdop, 2),
+                f2 = f(g.rms_error_3d_m, 2)
             ));
         }
     }
     if let Some(p) = &r.polar {
         for row in &p.rows {
-            s.push_str(&format!(
-                "  lat {:>4.1}: VDOP GNSS {} LEO {} fused {}; in view {:.1}/{:.1}\n",
-                row.lat_deg,
-                f(row.gnss.median_vdop, 2),
-                f(row.leo.median_vdop, 2),
-                f(row.fused.median_vdop, 2),
-                row.gnss.mean_in_view,
-                row.leo.mean_in_view
+            s.push_str(&crate::t!(
+                "leo-fusion-pvt-kind-lat-vdop-gnss-leo-fused",
+                lat_deg = crate::i18n::localise_decimal(format!("{:>4.1}", row.lat_deg)),
+                f = f(row.gnss.median_vdop, 2),
+                f2 = f(row.leo.median_vdop, 2),
+                f3 = f(row.fused.median_vdop, 2),
+                mean_in_view =
+                    crate::i18n::localise_decimal(format!("{:.1}", row.gnss.mean_in_view)),
+                mean_in_view2 =
+                    crate::i18n::localise_decimal(format!("{:.1}", row.leo.mean_in_view))
             ));
         }
     }
     if let Some(t) = &r.timing {
         for row in &t.rows {
-            s.push_str(&format!(
-                "  {:<5} C/N0 {:+.0} dB: RMS {:.1} ns, 95% {:.1} ns, max {:.1} ns (in view {:.2})\n",
-                row.clock,
-                row.cn0_offset_db,
-                row.stats.rms_s * 1e9,
-                row.stats.p95_s * 1e9,
-                row.stats.max_abs_s * 1e9,
-                row.stats.fraction_in_view
+            s.push_str(&crate::t!(
+                "leo-fusion-pvt-kind-n0-db-rms-ns-95",
+                clock = format!("{:<5}", row.clock),
+                cn0_offset_db = crate::i18n::localise_decimal(format!("{:+.0}", row.cn0_offset_db)),
+                row = crate::i18n::localise_decimal(format!("{:.1}", row.stats.rms_s * 1e9)),
+                row2 = crate::i18n::localise_decimal(format!("{:.1}", row.stats.p95_s * 1e9)),
+                row3 = crate::i18n::localise_decimal(format!("{:.1}", row.stats.max_abs_s * 1e9)),
+                fraction_in_view =
+                    crate::i18n::localise_decimal(format!("{:.2}", row.stats.fraction_in_view))
             ));
         }
     }
@@ -1129,7 +1162,12 @@ pub fn summary(r: &LeoPvtReport) -> String {
 
 fn svg(r: &LeoPvtReport) -> String {
     let (w, h) = (900.0, 440.0);
-    let mut s = crate::chart::frame_open(w, h, &format!("LEO PVT — {} mode", r.mode), "MODELLED");
+    let mut s = crate::chart::frame_open(
+        w,
+        h,
+        &crate::t!("leo-fusion-pvt-kind-leo-pvt-mode", mode = r.mode),
+        &crate::t!("fom-verdict-modelled"),
+    );
     let (ml, top, pw, ph) = (80.0, 80.0, 780.0, 280.0);
     let mut series: Vec<(Vec<(f64, f64)>, &str)> = Vec::new();
     let (cap, xlab) = if let Some(d) = &r.doppler {
@@ -1141,8 +1179,8 @@ fn svg(r: &LeoPvtReport) -> String {
             BLUE,
         ));
         (
-            "3D Doppler-fix error (log10 m) against window length",
-            "window (s)",
+            crate::t!("leo-fusion-pvt-kind-chart-doppler-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-doppler-x-label"),
         )
     } else if let Some(j) = &r.joint {
         series.push((
@@ -1160,8 +1198,8 @@ fn svg(r: &LeoPvtReport) -> String {
             CYAN,
         ));
         (
-            "median PDOP (blue) and VDOP (amber), log10, against LEO satellites added",
-            "LEO satellites added",
+            crate::t!("leo-fusion-pvt-kind-chart-joint-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-joint-x-label"),
         )
     } else if let Some(p) = &r.polar {
         series.push((
@@ -1186,8 +1224,8 @@ fn svg(r: &LeoPvtReport) -> String {
             CYAN,
         ));
         (
-            "median VDOP (log10): grey GNSS, blue LEO, amber fused",
-            "latitude (deg)",
+            crate::t!("leo-fusion-pvt-kind-chart-polar-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-polar-x-label"),
         )
     } else if let Some(t) = &r.timing {
         let mut clocks: Vec<&str> = t.rows.iter().map(|x| x.clock.as_str()).collect();
@@ -1204,13 +1242,13 @@ fn svg(r: &LeoPvtReport) -> String {
             ));
         }
         (
-            "RMS time error to UTC (log10 ns) against C/N0 offset, one line per oscillator",
-            "C/N0 offset (dB)",
+            crate::t!("leo-fusion-pvt-kind-chart-timing-caption"),
+            crate::t!("leo-fusion-pvt-kind-chart-timing-x-label"),
         )
     } else {
-        ("", "")
+        (String::new(), String::new())
     };
-    s.push_str(&crate::chart::panel_axes(ml, top, pw, top + ph, cap));
+    s.push_str(&crate::chart::panel_axes(ml, top, pw, top + ph, &cap));
     let pts: Vec<(f64, f64)> = series
         .iter()
         .flat_map(|x| x.0.iter().copied())
@@ -1250,11 +1288,19 @@ fn svg(r: &LeoPvtReport) -> String {
             ));
         }
         s.push_str(&format!(
-            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0}</text>\
-             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">{xlab}: {x0:.0} to {x1:.0}</text>",
+            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{}</text>\
+             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             top + 10.0,
+            crate::i18n::num(hi, 0),
             top + ph,
-            top + ph + 24.0
+            crate::i18n::num(lo, 0),
+            top + ph + 24.0,
+            crate::t!(
+                "leo-fusion-pvt-kind-chart-x-range",
+                label = xlab,
+                x0 = crate::i18n::num(x0, 0),
+                x1 = crate::i18n::num(x1, 0)
+            )
         ));
     }
     s.push_str("</svg>");

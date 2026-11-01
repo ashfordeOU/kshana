@@ -485,14 +485,18 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
     svg.push_str(&format!(
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Time-transfer synchronization error (optical vs RF)</text>", ml));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        ml,
+        crate::t!("timetransfer-chart-title")
+    ));
     svg.push_str(&crate::chart::y_axis(
         ml,
         mt,
         pw,
         ph,
         y_max,
-        "sync error (ps)",
+        &crate::t!("timetransfer-chart-y-title"),
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -503,11 +507,14 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
     ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} mm = {:.1} ps</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         thr_y - 4.0,
-        result.range_spec_mm,
-        spec_ps
+        crate::t!(
+            "timetransfer-chart-spec",
+            mm = crate::i18n::num(result.range_spec_mm, 0),
+            ps = crate::i18n::num(spec_ps, 1)
+        )
     ));
     svg.push_str(&format!(
         "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
@@ -518,19 +525,26 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
         points(q)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">measurement time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("timetransfer-chart-x-title")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">RF: {}</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.classical.spec.id)
+        crate::t!(
+            "timetransfer-chart-rf",
+            id = crate::chart::esc(&result.classical.spec.id)
+        )
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">optical: {}</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">{}</text>",
         ml + 10.0,
-        crate::chart::esc(&result.quantum.spec.id)
+        crate::t!(
+            "timetransfer-chart-optical",
+            id = crate::chart::esc(&result.quantum.spec.id)
+        )
     ));
     svg.push_str("</svg>");
     svg

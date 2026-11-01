@@ -168,14 +168,18 @@ pub fn solve(
         .iter()
         .any(|o| !(o.sigma_mps.is_finite() && o.sigma_mps > 0.0))
     {
-        return Err("every range rate needs a positive, finite sigma".into());
+        return Err(crate::terr!(
+            "e-leo-fusion-doppler-every-range-rate-needs-positive"
+        ));
     }
     let with_vel = opts.estimate_velocity;
     let n = if with_vel { 7 } else { 4 };
     let n_meas = obs.len() + usize::from(opts.height_sigma_m.is_some());
     if n_meas < n {
-        return Err(format!(
-            "{n_meas} measurements cannot resolve {n} Doppler unknowns"
+        return Err(crate::terr!(
+            "e-leo-fusion-doppler-measurements-cannot-resolve-doppler-unknowns",
+            n_meas = n_meas,
+            n = n
         ));
     }
     let h_target = height_ref.map(|r| crate::frames::ecef_to_geodetic(r).alt_m);
@@ -221,7 +225,8 @@ pub fn solve(
         iterations = it + 1;
         let (h, r, w) = residuals(&x);
         let (a, b) = normal_equations(&h, &w, &r);
-        let q = inverse(&a).ok_or("the Doppler geometry is singular")?;
+        let q = inverse(&a)
+            .ok_or_else(|| crate::terr!("e-leo-fusion-doppler-the-doppler-geometry-is-singular"))?;
         let dx = super::geom::mat_vec(&q, &b);
         // Damp very large steps so a poor start does not jump through the Earth.
         let step = dx.iter().take(3).map(|d| d * d).sum::<f64>().sqrt();
@@ -237,7 +242,9 @@ pub fn solve(
     }
     let (h, r, w) = residuals(&x);
     let (a, _) = normal_equations(&h, &w, &r);
-    let q = inverse(&a).or(cov).ok_or("no covariance")?;
+    let q = inverse(&a)
+        .or(cov)
+        .ok_or_else(|| crate::terr!("e-leo-fusion-doppler-no-covariance"))?;
     let chi2: f64 = r.iter().zip(&w).map(|(ri, wi)| ri * ri * wi).sum();
     let r0 = [x[0], x[1], x[2]];
     Ok(DopplerFix {

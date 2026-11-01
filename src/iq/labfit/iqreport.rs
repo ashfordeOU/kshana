@@ -93,39 +93,38 @@ fn ci(e: &Estimate, d: usize) -> String {
 
 /// The Markdown summary.
 pub fn to_markdown(r: &LabFitIqReport) -> String {
-    let mut s = format!(
-        "# Lab fit from IQ campaign: {}\n\nSchema `{}`, engine {}. Label: **{}**.\n\n{}\n\n{}\n\n",
-        r.name.as_deref().unwrap_or("(unnamed)"),
-        r.schema,
-        r.engine_version,
-        r.label,
-        r.statement,
-        r.advisory
+    let mut s = crate::t!(
+        "iq-labfit-iqreport-lab-fit-from-iq-campaign",
+        r = r.name.as_deref().unwrap_or("(unnamed)"),
+        schema = r.schema,
+        engine_version = r.engine_version,
+        label = r.label,
+        statement = r.statement,
+        advisory = r.advisory
     );
-    s.push_str(&format!(
-        "Campaign DIGEST `{}`; `campaign.json` SHA-256 `{}`; scenario SHA-256 `{}`; {} cells; \
-         {} bootstrap replicates (seed {}).\n\n",
-        r.inputs.campaign_digest,
-        r.inputs.campaign_json_sha256,
-        r.inputs.scenario_sha256,
-        r.inputs.cells.len(),
-        r.settings.bootstrap,
-        r.settings.seed
+    s.push_str(&crate::t!(
+        "iq-labfit-iqreport-campaign-digest-campaign-json-sha",
+        campaign_digest = r.inputs.campaign_digest,
+        campaign_json_sha256 = r.inputs.campaign_json_sha256,
+        scenario_sha256 = r.inputs.scenario_sha256,
+        cells = r.inputs.cells.len(),
+        bootstrap = r.settings.bootstrap,
+        seed = r.settings.seed
     ));
     for (i, u) in r.fit_units.iter().enumerate() {
-        s.push_str(&format!(
-            "## Unit {i}: {} / {} / {} / {}\n\nStatus: {}. {} recordings, {} satellites, {} \
-             events; {} bins fitted, {} censored.\n\n",
-            u.signal,
-            u.design.name,
-            u.frontend.name,
-            u.jammer_type,
-            u.status,
-            u.data.recordings,
-            u.data.satellites,
-            u.data.events,
-            u.data.bins_used,
-            u.data.bins_censored
+        s.push_str(&crate::t!(
+            "iq-labfit-iqreport-unit-status-recordings-satellites-events",
+            i = i,
+            signal = u.signal,
+            name = u.design.name,
+            name2 = u.frontend.name,
+            jammer_type = u.jammer_type,
+            status = u.status,
+            recordings = u.data.recordings,
+            satellites = u.data.satellites,
+            events = u.data.events,
+            bins_used = u.data.bins_used,
+            bins_censored = u.data.bins_censored
         ));
         if let Some(c) = &u.cn0_model {
             let q = match &c.q_eff {
@@ -136,28 +135,31 @@ pub fn to_markdown(r: &LabFitIqReport) -> String {
                     source,
                 } => format!("{value} ({status}; {source})"),
             };
-            s.push_str(&format!(
-                "C/N0 model ({}): `delta_eff` = {} dB (the identifiable offset, referred to Q = 1); \
-                 `Q_eff` = {q}; `delta` at that Q = {} dB; corr(Q, delta) {}; residual RMS \
-                 {:.3} dB over a {:.1} dB J/S span. Q_eff is not identifiable from C/N0 data \
-                 without an independent power measurement.\n\n",
-                c.q_mode,
-                ci(&c.delta_eff_db, 3),
-                ci(&c.delta_db, 3),
-                om(c.corr_q_delta, 4),
-                c.residual_rms_db,
-                c.span_db
+            s.push_str(&crate::t!(
+                "iq-labfit-iqreport-n0-model-delta-eff-db",
+                q_mode = c.q_mode,
+                ci = ci(&c.delta_eff_db, 3),
+                q = q,
+                ci2 = ci(&c.delta_db, 3),
+                om = om(c.corr_q_delta, 4),
+                residual_rms_db =
+                    crate::i18n::localise_decimal(format!("{:.3}", c.residual_rms_db)),
+                span_db = crate::i18n::localise_decimal(format!("{:.1}", c.span_db))
             ));
             if let Some(why) = &c.q_mode_reason {
-                s.push_str(&format!("Q held at its stated value: {why}.\n\n"));
+                s.push_str(&crate::t!(
+                    "iq-labfit-iqreport-held-at-its-stated-value",
+                    why = why
+                ));
             }
         }
         if let Some(t) = &u.threshold {
-            s.push_str(&format!(
-                "Threshold J/S, direct: median {} dB over {} losses (IQR {}).\n\n",
-                om(t.direct.median_js_db, 2),
-                t.direct.n,
-                t.direct
+            s.push_str(&crate::t!(
+                "iq-labfit-iqreport-threshold-direct-median-db-over",
+                om = om(t.direct.median_js_db, 2),
+                n = t.direct.n,
+                t = t
+                    .direct
                     .iqr
                     .map_or("—".into(), |[a, b]| format!("{a:.2} – {b:.2} dB"))
             ));
@@ -199,28 +201,29 @@ pub fn to_markdown(r: &LabFitIqReport) -> String {
         }
         if let Some(h) = &u.holdout {
             let i = &h.interpolation;
-            s.push_str(&format!(
-                "Hold-out (leave one recording out), interpolation: {} bins, C/N0 RMS {} dB, \
-                 PI90 coverage {}",
-                i.bins,
-                om(i.cn0_rms_db, 3),
-                om(i.bins_pi90_coverage, 3)
+            s.push_str(&crate::t!(
+                "iq-labfit-iqreport-hold-out-leave-one-recording",
+                bins = i.bins,
+                om = om(i.cn0_rms_db, 3),
+                om2 = om(i.bins_pi90_coverage, 3)
             ));
             for g in &i.events {
-                s.push_str(&format!(
-                    "; {}: {} events, loss-time RMS {} s, PI90 coverage {}",
-                    g.model.as_str(),
-                    g.n,
-                    om(g.rms_s, 3),
-                    om(g.pi90_coverage, 3)
+                s.push_str("; ");
+                s.push_str(&crate::t!(
+                    "iq-labfit-iqreport-events-loss-time-rms-pi90",
+                    model = g.model.as_str(),
+                    n = g.n,
+                    om = om(g.rms_s, 3),
+                    om2 = om(g.pi90_coverage, 3)
                 ));
             }
             s.push_str(".\n\n");
         }
         if let Some(v) = &u.validation {
-            s.push_str(&format!(
-                "Validation table SHA-256 `{}` (registered {}):\n\n| bar | limit | value | verdict |\n|---|---|---|---|\n",
-                v.table_sha256, v.registered
+            s.push_str(&crate::t!(
+                "iq-labfit-iqreport-validation-table-sha-256-registered",
+                table_sha256 = v.table_sha256,
+                registered = v.registered
             ));
             for b in &v.bars {
                 s.push_str(&format!(

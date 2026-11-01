@@ -64,6 +64,10 @@ ScenarioKind = Literal[
     "passes",
     "link-budget",
     "lunar-time-budget",
+    "lunar-ascent",
+    "lunar-surface",
+    "lunar-descent",
+    "lunar-orbit-rendezvous",
     "hybrid-optical-rf",
     "cislunar-observability",
     "conflict-resilience",
@@ -105,6 +109,7 @@ ScenarioKind = Literal[
     "optical-atmosphere",
     "holdover-test",
     "gnss-ssv",
+    "mission-thread",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 
@@ -158,6 +163,8 @@ __all__ = [
     "validate_toml",
     "list_kinds",
     "error_kind",
+    "error_info",
+    "run_human",
     "version",
     "receiver_trust",
     "receiver_trust_replay",
@@ -168,6 +175,7 @@ __all__ = [
     "evidence_round_trip",
     "evidence_verify",
     "interference_map",
+    "interference_emitter_regions",
     "bench_export",
     "iq_sweep",
     "iq_info",
@@ -265,17 +273,20 @@ class RunOutput:
         scenario kind emits no table — in which case no file is created."""
     def __repr__(self) -> str: ...
 
-def run(toml: str) -> str:
+def run(toml: str, lang: Optional[str] = None) -> str:
     """Run a scenario (TOML string); return the result document as JSON. Raises
-    ``ValueError`` if the scenario is invalid."""
+    ``ValueError`` if the scenario is invalid. ``lang`` (``de``, ``pt-BR``, ``zh-Hans``, ...) is the
+    language of the error message; the result document is the same in every language."""
 
-def run_full(toml: str) -> tuple[str, str, str]:
-    """Run a scenario; return ``(json, svg, summary)``."""
+def run_full(toml: str, lang: Optional[str] = None) -> tuple[str, str, str]:
+    """Run a scenario; return ``(json, svg, summary)``. The summary and the chart text are in
+    ``lang`` (default English); the JSON is always the English run's."""
 
-def run_typed(toml: str) -> RunOutput:
+def run_typed(toml: str, lang: Optional[str] = None) -> RunOutput:
     """Run a scenario; return a typed :class:`RunOutput` with ``.json``/``.svg``/
     ``.summary``/``.csv``/``.data()``/``.write_csv()``. Raises ``ValueError`` if
-    invalid."""
+    invalid. ``.summary`` and ``.svg`` are in ``lang`` (default English); ``.json`` and ``.csv``
+    are always the English run's."""
 
 def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
@@ -609,6 +620,23 @@ def interference_map(
     text). Aggregate only; a degraded cell does not name interference as the cause.
     Raises ``ValueError`` on bad input."""
 
+def interference_emitter_regions(
+    source: str,
+    csv: str,
+    dataset: str,
+    licence: Optional[str] = None,
+    licence_url: Optional[str] = None,
+    attribution: Optional[str] = None,
+    land_geojson: Optional[str] = None,
+) -> dict[str, Any]:
+    """Estimated emitter regions from ``"adsb"`` or ``"ais"`` CSV text: where, under stated
+    assumptions, a source of the degraded reports could be, as regions at stated confidence levels
+    with a centroid and an uncertainty ellipse, never a bare point. Arguments as
+    ``interference_map``. Keys: ``stem``, ``geojson``, ``summary``, ``csv``, ``svg`` (each labelled
+    with its evidence tier, MODELLED), ``sessions_published``, ``sessions_withheld``. Aggregate
+    only; a region is not the position of anyone and not a finding of the cause. Raises
+    ``ValueError``."""
+
 def route_exposure(
     route: str,
     maps: list[str],
@@ -654,29 +682,41 @@ def skyplot_svg(request: str | dict[str, Any]) -> str:
     """The skyplot of ``request`` (as for ``sky_geometry``) as static SVG text. Raises
     ``ValueError``."""
 
-def scenario_kinds() -> list[KindMeta]:
+def scenario_kinds(lang: Optional[str] = None) -> list[KindMeta]:
     """The available scenario kinds and their metadata (name, description, required
     and optional fields). A required entry is usually one key; ``a|b`` means at
     least one of them and ``a+b`` means all of them together (e.g.
-    ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``."""
+    ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``.
+    ``lang`` (a tag such as ``"de"``; ``None`` is English) is the language of each
+    ``description``; names and fields are the same in every language. Raises
+    ``ValueError`` for an unsupported tag."""
 
-def validate_toml(toml: str) -> list[str]:
+def validate_toml(toml: str, lang: Optional[str] = None) -> list[str]:
     """Validate a scenario TOML string without raising: a list of error messages,
     empty if valid. Executes the scenario, so it surfaces parse, config, and
     runtime errors."""
 
-def list_kinds() -> str:
+def list_kinds(lang: Optional[str] = None) -> str:
     """The scenario kinds and metadata as ONE JSON-array string, not a list.
 
     It returns the same metadata as :func:`scenario_kinds`, serialised; iterating
     the result walks characters, not kinds. It stays a string so existing callers
     do not break. For a Python list of dictionaries call :func:`scenario_kinds`,
-    or ``json.loads(list_kinds())``."""
+    or ``json.loads(list_kinds())``. ``lang`` is as for :func:`scenario_kinds`."""
 
-def error_kind(toml: str) -> Optional[ErrorKind]:
+def error_kind(toml: str, lang: Optional[str] = None) -> Optional[ErrorKind]:
     """Run a scenario; on failure return the structured error *kind* tag
     (``invalid_input``/``non_convergence``/``unsupported``/``io_error``) instead of
     raising. Returns ``None`` on success."""
+
+def run_human(toml: str, lang: str) -> tuple[str, str]:
+    """Run a scenario once in ``lang`` and return ``(summary, svg)``, what a person reads. The result
+    document and CSV are the English run's (:func:`run_typed`), not this run's."""
+
+def error_info(toml: str, lang: Optional[str] = None) -> Optional[dict[str, Any]]:
+    """Why a scenario fails: ``None`` when it runs, else ``{"kind", "code", "message"}``. The message
+    is in ``lang``; ``code`` (``E-...``, or ``None`` when the message has none) is the same in every
+    language, so match on it, never on the message."""
 
 def version() -> str:
     """The engine version (the crate version)."""

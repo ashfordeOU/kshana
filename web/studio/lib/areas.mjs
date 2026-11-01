@@ -18,6 +18,7 @@ import * as V from "./views.mjs";
 import * as K from "./kinds.mjs";
 import * as G from "./stages.mjs";
 import { own } from "./own.mjs";
+import { t } from "./t.mjs";
 
 export const DEFAULT_KIND = "holdover";
 
@@ -28,6 +29,18 @@ export const kindsOfToml = (toml) => { const ks = [...String(toml).matchAll(/^\s
 // A whole module name: not part of a longer name, and not a folder in a file path (src/integrity/...).
 const tokenRe = (t) => new RegExp(`(^|[^A-Za-z0-9_/.-])${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^A-Za-z0-9_/-]|$)`);
 const moduleMatch = (row, t) => tokenRe(t).test(row.module || "") || tokenRe(t).test(row.tests || "");
+
+// A translated ledger (/<lang>/data/verification-matrix.json) has the same rows in the same order, but its `module` and `tests` prose is
+// translated, and rowsForKind matches module and test names in that prose. Give each translated row the English `module` and `tests` back
+// (the Studio shows neither) so the same rows belong to a kind in every language. Only when the two ledgers line up row by row (same
+// count, status and oracle kind); otherwise the translated rows are returned as they are. Returns the ledger.
+export function restoreMatchFields(translated, english) {
+  const a = translated && translated.rows, b = english && english.rows;
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return translated;
+  if (!a.every((r, i) => r && b[i] && r.status === b[i].status && r.oracle_kind === b[i].oracle_kind)) return translated;
+  a.forEach((r, i) => { r.module = b[i].module; r.tests = b[i].tests; });
+  return translated;
+}
 
 // Indices of the matrix rows that belong to a kind. `kindModules` is the engine's kind -> module names
 // table (kind_modules()); without it a kind matches only its own name.
@@ -89,7 +102,7 @@ export function previewOf(result, toml) {
     const p = sm && tryLine(sm, sm.title);
     if (p) return p;
     const hm = V.holdoverModel(result);
-    if (hm) { const q = tryLine(hm, "Holdover"); if (q) return q; }
+    if (hm) { const q = tryLine(hm, t("js-lib-areas-holdover", "Holdover")); if (q) return q; }
     // A coverage map: a coarse heat grid of its first field.
     const cf = G.coverageFields(result);
     if (cf.length && result.grid && Array.isArray(result.grid[cf[0].key])) {
@@ -103,7 +116,7 @@ export function previewOf(result, toml) {
       }
     }
     const gt = V.groundTrack(result);
-    if (gt && Array.isArray(gt.points)) { const q = sparkPoints(gt.points.map((x, i) => [i, x[0] ?? x.lat])); if (q) return { type: "line", title: "Ground track", points: q }; }
+    if (gt && Array.isArray(gt.points)) { const q = sparkPoints(gt.points.map((x, i) => [i, x[0] ?? x.lat])); if (q) return { type: "line", title: t("js-lib-areas-ground-track", "Ground track"), points: q }; }
   } catch { /* a result shape this preview does not know: no preview */ }
   return null;
 }

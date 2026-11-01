@@ -9,6 +9,7 @@
 import { buildRun, parseTruth, makeProjection } from "./trust.mjs";
 import { epochAt, unheardSectors } from "./gsv.mjs";
 import { kindLabel } from "./training.mjs";
+import { t } from "./t.mjs";
 
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -42,7 +43,12 @@ export const fmtDur = (s) => { const r = Math.round(s); return r < 120 ? `${r} s
 
 // ---------- panels ----------
 
-const BAND_LABEL = Object.freeze({ calibrating: "calibrating", nominal: "nominal", degraded: "degraded", untrusted: "untrusted" });
+const BAND_LABEL = Object.freeze({
+  get calibrating() { return t("js-replay-band-calibrating", "calibrating"); },
+  get nominal() { return t("js-replay-band-nominal", "nominal"); },
+  get degraded() { return t("js-replay-band-degraded", "degraded"); },
+  get untrusted() { return t("js-replay-band-untrusted", "untrusted"); },
+});
 export const bandLabel = (b) => (Object.hasOwn(BAND_LABEL, b) ? BAND_LABEL[b] : String(b));
 
 // The scored run's epoch at or before t (the first if t is earlier), or null.
@@ -129,10 +135,10 @@ export function stateAt(panel, t) {
 // The compass words for azimuth sectors [{from, to}]: each quarter of the horizon (north 315-45, east 45-135, south
 // 135-225, west 225-315) that a sector covers by at least 30 degrees, in the order north, east, south, west.
 export function sectorWords(sectors) {
-  const quarters = [["north", 315, 405], ["east", 45, 135], ["south", 135, 225], ["west", 225, 315]];
+  const quarters = [[t("js-replay-dir-north", "north"), 315, 405], [t("js-replay-dir-east", "east"), 45, 135], [t("js-replay-dir-south", "south"), 135, 225], [t("js-replay-dir-west", "west"), 225, 315]];
   const names = quarters.filter(([, a, b]) => sectors.some((s) => [0, 360].some((o) => Math.min(b, s.to + o) - Math.max(a, s.from + o) >= 30))).map(([n]) => n);
-  if (names.length === 4) return "every direction";
-  return names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0] || "";
+  if (names.length === 4) return t("js-replay-every-direction", "every direction");
+  return names.length > 1 ? t("js-replay-dirs-and", "{ $list } and { $last }", { list: names.slice(0, -1).join(", "), last: names[names.length - 1] }) : names[0] || "";
 }
 
 // The stretches of a run where the log lists satellites and hears none in some direction: [{t0, t1, i0, i1, words}],
@@ -184,15 +190,15 @@ const m0 = (m) => (m < 10 ? m.toFixed(1) : Math.round(m).toLocaleString("en-GB")
 function verdictText(panel, v) {
   const bits = [];
   if (v.scored) {
-    if (v.lowest) bits.push(`Lowest trust score ${Math.round(v.lowest.score)} (${bandLabel(v.lowest.band)}) at T+${fmtT(v.lowest.t)}`);
-    if (v.firstBelowNominal == null) bits.push("the score never left the nominal band");
-    else if (v.latencyS != null) bits.push(`first below nominal at T+${fmtT(v.firstBelowNominal)}, ${fmtDur(v.latencyS)} after the first event began (T+${fmtT(v.onsetS)})`);
-    else bits.push(`first below nominal at T+${fmtT(v.firstBelowNominal)}${v.onsetS != null ? `, before the first event's onset (T+${fmtT(v.onsetS)})` : ""}`);
-    if (v.untrustedS) bits.push(`${fmtDur(v.untrustedS)} in the untrusted band`);
-    else if (v.degradedS) bits.push(`${fmtDur(v.degradedS)} degraded, none untrusted`);
-  } else bits.push("Not scored: the engine's trust score is shown for the library runs");
-  if (v.peakErr) bits.push(`largest logged position error ${m0(v.peakErr.m)} m at T+${fmtT(v.peakErr.t)}`);
-  if (v.lostS) bits.push(`no fix for ${fmtDur(v.lostS)}`);
+    if (v.lowest) bits.push(t("js-replay-verdict-lowest", "Lowest trust score { $score } ({ $band }) at T+{ $t }", { score: Math.round(v.lowest.score), band: bandLabel(v.lowest.band), t: fmtT(v.lowest.t) }));
+    if (v.firstBelowNominal == null) bits.push(t("js-replay-verdict-never-left", "the score never left the nominal band"));
+    else if (v.latencyS != null) bits.push(t("js-replay-verdict-first-after", "first below nominal at T+{ $t }, { $dur } after the first event began (T+{ $onset })", { t: fmtT(v.firstBelowNominal), dur: fmtDur(v.latencyS), onset: fmtT(v.onsetS) }));
+    else bits.push(v.onsetS != null ? t("js-replay-verdict-first-before", "first below nominal at T+{ $t }, before the first event's onset (T+{ $onset })", { t: fmtT(v.firstBelowNominal), onset: fmtT(v.onsetS) }) : t("js-replay-verdict-first", "first below nominal at T+{ $t }", { t: fmtT(v.firstBelowNominal) }));
+    if (v.untrustedS) bits.push(t("js-replay-verdict-untrusted", "{ $dur } in the untrusted band", { dur: fmtDur(v.untrustedS) }));
+    else if (v.degradedS) bits.push(t("js-replay-verdict-degraded", "{ $dur } degraded, none untrusted", { dur: fmtDur(v.degradedS) }));
+  } else bits.push(t("js-replay-verdict-not-scored", "Not scored: the engine's trust score is shown for the library runs"));
+  if (v.peakErr) bits.push(t("js-replay-verdict-peak-error", "largest logged position error { $err } m at T+{ $t }", { err: m0(v.peakErr.m), t: fmtT(v.peakErr.t) }));
+  if (v.lostS) bits.push(t("js-replay-verdict-no-fix", "no fix for { $dur }", { dur: fmtDur(v.lostS) }));
   return bits.join("; ") + ".";
 }
 
@@ -208,7 +214,7 @@ const eastNorth = (lat0, lon0, lat, lon) => [((lon - lon0) * Math.PI / 180) * R_
 export function coastFor(panel, coast, world = []) {
   const reg = coast && coast.regions ? coast.regions.find((r) => r.demos.includes(panel.id)) : null;
   let found = null;
-  if (reg) found = { rings: reg.rings, source: `Natural Earth 1:10 million, ${reg.name} window`, box: reg.box, scale: "1:10m" };
+  if (reg) found = { rings: reg.rings, source: t("js-replay-coast-window", "Natural Earth 1:10 million, { $window } window", { window: reg.name }), box: reg.box, scale: "1:10m" };
   else {
     const pts = panel.rows.flatMap((r) => [r.truth, r.rep]).filter(Boolean);
     if (!pts.length || !world.length) return null;
@@ -217,14 +223,16 @@ export function coastFor(panel, coast, world = []) {
     const m = 1; // degrees of margin
     const rings = world.filter((ring) => ring.some(([lo, la]) => lo >= lo0 - m && lo <= lo1 + m && la >= la0 - m && la <= la1 + m));
     if (!rings.length) return null;
-    found = { rings, source: "Natural Earth 1:110 million (the Studio's world outline), coarse", box: [la0 - m, la1 + m, lo0 - m, lo1 + m], scale: "1:110m" };
+    found = { rings, source: t("js-replay-coast-world", "Natural Earth 1:110 million (the Studio's world outline), coarse"), box: [la0 - m, la1 + m, lo0 - m, lo1 + m], scale: "1:110m" };
   }
   // A true track that runs over land at this scale (invented positions in a narrow fjord or a harbour mouth, a coast too
   // coarse to follow) would put the ship ashore. The coast is not drawn for that run, and the map says why.
-  if (found.rings.length && trackOnLand(panel, found.rings)) return { rings: [], hidden: COAST_HIDDEN, source: found.source, box: found.box, scale: found.scale };
+  if (found.rings.length && trackOnLand(panel, found.rings)) return { rings: [], hidden: coastHidden(), source: found.source, box: found.box, scale: found.scale };
   return found;
 }
+// COAST_HIDDEN is the English wording kept for callers that read the constant; the page shows coastHidden(), which follows the language.
 export const COAST_HIDDEN = "coast hidden: this log's invented positions fall on land";
+export const coastHidden = () => t("js-replay-coast-hidden", "coast hidden: this log's invented positions fall on land");
 // Whether any logged true position (the reported one when there is no truth) lies on land; every row is tested.
 export function trackOnLand(panel, rings) {
   for (const r of panel.rows) { const p = r.truth || r.rep; if (p && pointInLand(rings, p[1], p[0])) return true; }

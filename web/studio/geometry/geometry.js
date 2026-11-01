@@ -10,14 +10,16 @@ import { project, unproject, outlinePath, markerPath, niceExtent, ellipseAttrs, 
 import { createGeometryAdapter, SKYLINE_LABELS, readTleInput } from "../lib/geometry-adapter.mjs";
 import { parseSvgMarkup, sanitizeSvg } from "../lib/svgsafe.mjs";
 import { getEngine } from "../lib/engine-page.mjs";
+import { t, ready } from "../lib/t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
 const CX = 200, CY = 200, R = 172;
 // Places to jump to (a convenience: only the coordinates go into the address).
-const PLACES = [
-  ["Oslo harbour, Norway", 59.91, 10.75, 5], ["Tallinn harbour, Estonia", 59.444, 24.765, 10], ["Port of Rotterdam, Netherlands", 51.955, 4.05, 5],
-  ["Geirangerfjord, Norway", 62.101, 7.206, 5], ["Midtown Manhattan, United States", 40.754, -73.984, 15], ["Singapore Strait", 1.264, 103.84, 5], ["Tromsø, Norway", 69.649, 18.956, 10],
+const places = () => [
+  [t("js-geo-place-oslo", "Oslo harbour, Norway"), 59.91, 10.75, 5], [t("js-geo-place-tallinn", "Tallinn harbour, Estonia"), 59.444, 24.765, 10], [t("js-geo-place-rotterdam", "Port of Rotterdam, Netherlands"), 51.955, 4.05, 5],
+  [t("js-geo-place-geiranger", "Geirangerfjord, Norway"), 62.101, 7.206, 5], [t("js-geo-place-manhattan", "Midtown Manhattan, United States"), 40.754, -73.984, 15], [t("js-geo-place-singapore", "Singapore Strait"), 1.264, 103.84, 5], [t("js-geo-place-tromso", "Tromsø, Norway"), 69.649, 18.956, 10],
 ];
 
 function el(tag, attrs, ...kids) {
@@ -34,7 +36,6 @@ function sv(tag, attrs, ...kids) {
 }
 const f1 = (x) => (Math.round(x * 10) / 10).toString();
 const hhmm = (s) => `${Math.floor(s / 3600)} h ${String(Math.floor((s % 3600) / 60)).padStart(2, "0")} min`;
-const NEEDS = "needs engine 0.36";
 
 // ---------------------------------------------------------------- state
 const first = parseState(location.search);
@@ -50,7 +51,7 @@ let adapter = null, features = null;
 let result = null, cloud = null, cloudError = "";
 let ticket = 0;
 
-function setNotes(list) { $("gm-url-notes").replaceChildren(...list.map((t) => el("li", {}, t))); }
+function setNotes(list) { $("gm-url-notes").replaceChildren(...list.map((note) => el("li", {}, note))); }
 setNotes(first.notes);
 
 function writeAddress() {
@@ -62,15 +63,15 @@ function drawSkyScenarios() {
   const box = $("gm-sky-scen"), files = state.sky.kind === "preset" ? SKYLINE_SCENARIOS[state.sky.name] || [] : [];
   const rows = files.map((f) => SCENARIOS.find((x) => x[0] === f)).filter(Boolean);
   box.hidden = !rows.length;
-  box.replaceChildren(...(rows.length ? ["The engine's scenarios under this skyline: ", ...rows.flatMap((r, i) => [i ? "; " : "", el("a", { href: `./?scenario=${encodeURIComponent(r[0].replace(/\.toml$/, ""))}` }, r[2])]), "."] : []));
+  box.replaceChildren(...(rows.length ? [t("js-geo-scenarios-under", "The engine's scenarios under this skyline:"), " ", ...rows.flatMap((r, i) => [i ? "; " : "", el("a", { href: `./?scenario=${encodeURIComponent(r[0].replace(/\.toml$/, ""))}` }, r[2])]), "."] : []));
 }
 
 // ---------------------------------------------------------------- controls
 function fillOnce() {
-  $("gm-place").append(el("option", { value: "" }, "A place…"), ...PLACES.map(([n], i) => el("option", { value: String(i) }, n)));
+  $("gm-place").append(el("option", { value: "" }, t("js-geo-a-place", "A place…")), ...places().map(([n], i) => el("option", { value: String(i) }, n)));
   $("gm-leo").append(...LEO_PRESETS.map((p) => el("option", { value: p }, p)));
-  $("gm-sky").append(el("option", { value: "none" }, "Open horizon"), ...SKYLINE_PRESETS.map((p) => el("option", { value: `p:${p}` }, `Preset: ${SKYLINE_LABELS[p]}`)), el("option", { value: "canyon" }, "Street canyon"), el("option", { value: "table" }, "Drawn on the skyplot"));
-  $("gm-mc").append(...MC_CHOICES.map((n) => el("option", { value: String(n) }, n ? String(n) : "Off")));
+  $("gm-sky").append(el("option", { value: "none" }, t("js-geo-sky-open", "Open horizon")), ...SKYLINE_PRESETS.map((p) => el("option", { value: `p:${p}` }, t("js-geo-sky-preset", "Preset: { $name }", { name: SKYLINE_LABELS[p] }))), el("option", { value: "canyon" }, t("js-geo-sky-canyon", "Street canyon")), el("option", { value: "table" }, t("js-geo-sky-drawn", "Drawn on the skyplot")));
+  $("gm-mc").append(...MC_CHOICES.map((n) => el("option", { value: String(n) }, n ? String(n) : t("js-geo-mc-off", "Off"))));
   const box = $("gm-sys");
   for (const id of ["gps", "galileo", "beidou", "leo"]) {
     const st = styleFor(id);
@@ -84,7 +85,7 @@ function fillControls() {
   $("gm-lat").value = state.lat; $("gm-lon").value = state.lon; $("gm-hgt").value = state.h;
   $("gm-t").max = String(Math.max(86400, state.t)); $("gm-t").value = state.t; $("gm-t-out").textContent = hhmm(state.t);
   // With pasted elements the offset counts from their epoch (the engine adds it), not from the presets' epoch.
-  $("gm-t-from").textContent = tle ? `Offset from your elements' epoch (${tle.epochUtc.replace("T", " ").replace("Z", " UTC")})` : "Offset from the constellations' reference epoch";
+  $("gm-t-from").textContent = tle ? t("js-geo-offset-own", "Offset from your elements' epoch ({ $epoch })", { epoch: tle.epochUtc.replace("T", " ").replace("Z", " UTC") }) : t("js-geo-offset-ref", "Offset from the constellations' reference epoch");
   for (const id of ["gps", "galileo", "beidou"]) $(`gm-sys-${id}`).checked = state.sys.includes(id);
   $("gm-sys-leo").checked = !!state.leo;
   $("gm-leo").value = state.leo || LEO_PRESETS[0];
@@ -103,12 +104,12 @@ function applyFeatures() {
   const off = [];
   $("gm-sys-leo").disabled = !f.systems.leo; $("gm-leo").disabled = !f.systems.leo;
   $("gm-sysl-leo").classList.toggle("off", !f.systems.leo);
-  if (!f.systems.leo) off.push(`LEO: ${NEEDS}.`);
-  if (!f.skyline) off.push(`Applying a skyline ${NEEDS}: here it is drawn only.`);
+  if (!f.systems.leo) off.push(t("js-geo-off-leo", "LEO: needs engine 0.36."));
+  if (!f.skyline) off.push(t("js-geo-off-skyline", "Applying a skyline needs engine 0.36: here it is drawn only."));
   $("gm-sky").querySelector('option[value="canyon"]').disabled = !f.canyon;
-  if (!f.canyon) off.push(`The street-canyon form ${NEEDS}.`);
+  if (!f.canyon) off.push(t("js-geo-canyon-needs", "The street-canyon form needs engine 0.36."));
   $("gm-mc").disabled = !f.monteCarlo; $("gm-seed").disabled = !f.monteCarlo;
-  if (!f.monteCarlo) off.push(`The Monte Carlo cloud ${NEEDS}.`);
+  if (!f.monteCarlo) off.push(t("js-geo-off-monte-carlo", "The Monte Carlo cloud needs engine 0.36."));
   $("gm-svg").hidden = !f.svg;
   $("gm-tle-box").hidden = !f.tle;
   $("gm-sys-note").textContent = off.join(" ");
@@ -134,11 +135,11 @@ function readControls() {
 const skyKey = (s) => JSON.stringify({ ...s, table: s.table ? Array.from(s.table).join() : undefined });
 
 async function commit(next) {
-  if (!next.sys.length && !next.leo) { setNotes(["Pick at least one constellation."]); fillControls(); return; }
+  if (!next.sys.length && !next.leo) { setNotes([t("js-geo-pick-constellation", "Pick at least one constellation.")]); fillControls(); return; }
   const prevSky = skyKey(state.sky);
   const { state: n, refused } = normaliseState(next);
-  const notes = refused.length ? [`Out of range, so kept at the last good value: ${refused.join(", ")}.`] : [];
-  if (next.sky.kind === "canyon" && n.sky.kind !== "canyon") notes.push("The street-canyon values are out of range (azimuth 0 to 359.9°, width 1 to 200 m, heights 0 to 500 m, antenna 0 to 50 m); an open horizon is used.");
+  const notes = refused.length ? [t("js-geo-out-of-range", "Out of range, so kept at the last good value: { $names }.", { names: refused.join(", ") })] : [];
+  if (next.sky.kind === "canyon" && n.sky.kind !== "canyon") notes.push(t("js-geo-canyon-out-of-range", "The street-canyon values are out of range (azimuth 0 to 359.9°, width 1 to 200 m, heights 0 to 500 m, antenna 0 to 50 m); an open horizon is used."));
   setNotes(notes);
   state = n;
   if (skyKey(state.sky) !== prevSky) await loadSky();
@@ -155,18 +156,18 @@ async function loadSky() {
     if (sky.kind === "none") table = emptyTable();
     else if (sky.kind === "table") table = sky.table;
     else if (sky.kind === "preset") { const p = await adapter.preset(sky.name); table = p.table; skyProv = p.provenance; }
-    else if (sky.kind === "canyon") { const t = adapter && (await adapter.profile(sky)); table = t || emptyTable(); skyProv = t ? "The engine's reduction of the canyon to a 360-bin table." : `The street-canyon form ${NEEDS}.`; }
-  } catch (e) { table = emptyTable(); skyProv = `The skyline could not be loaded (${e && e.message ? e.message : e}).`; }
+    else if (sky.kind === "canyon") { const prof = adapter && (await adapter.profile(sky)); table = prof || emptyTable(); skyProv = prof ? t("js-geo-canyon-reduced", "The engine's reduction of the canyon to a 360-bin table.") : t("js-geo-canyon-needs", "The street-canyon form needs engine 0.36."); }
+  } catch (e) { table = emptyTable(); skyProv = t("js-geo-skyline-load-failed", "The skyline could not be loaded ({ $reason }).", { reason: e && e.message ? e.message : e }); }
 }
 
 $("gm-form").addEventListener("change", (ev) => {
-  const t = ev.target;
-  if (t.id === "gm-place") {
-    const p = PLACES[Number(t.value)];
+  const tgt = ev.target;
+  if (tgt.id === "gm-place") {
+    const p = places()[Number(tgt.value)];
     if (p) { $("gm-lat").value = p[1]; $("gm-lon").value = p[2]; $("gm-hgt").value = p[3]; }
-    t.value = "";
+    tgt.value = "";
   }
-  if (["gm-brush", "gm-tle", "gm-tle-epoch"].includes(t.id)) return;
+  if (["gm-brush", "gm-tle", "gm-tle-epoch"].includes(tgt.id)) return;
   commit(readControls());
 });
 $("gm-form").addEventListener("submit", (ev) => ev.preventDefault());
@@ -182,35 +183,35 @@ function setRep() {
   if (!tle) { $("gm-rep").replaceChildren(...REP_NODES.map((n) => n.cloneNode(true))); return; }
   // The engine's own sentence about the sky it drew, once it has answered; until then the page's.
   const said = result && result.backend === "geometry" && result.skyStatement;
-  $("gm-rep").replaceChildren(el("b", {}, `Your own elements at ${tle.epochUtc.replace("T", " ").replace("Z", " UTC")}.`), " ", said || "A dated sky only as good as the elements and their age; the presets are left out.");
+  $("gm-rep").replaceChildren(el("b", {}, t("js-geo-own-elements-at", "Your own elements at { $epoch }.", { epoch: tle.epochUtc.replace("T", " ").replace("Z", " UTC") })), " ", said || t("js-geo-dated-sky", "A dated sky only as good as the elements and their age; the presets are left out."));
 }
 $("gm-tle-use").addEventListener("click", () => {
   const r = readTleInput($("gm-tle").value, $("gm-tle-epoch").value);
   if (r.error) { setNotes([r.error]); return; }
   tle = r.tle;
-  setNotes(["Using your own elements. A link carries only that you used them, not the elements themselves."]);
+  setNotes([t("js-geo-using-own", "Using your own elements. A link carries only that you used them, not the elements themselves.")]);
   setRep(); writeAddress(); fillControls(); schedule();
 });
 $("gm-tle-clear").addEventListener("click", () => { tle = null; $("gm-tle").value = ""; setNotes([]); setRep(); writeAddress(); fillControls(); schedule(); });
 
 $("gm-copy").addEventListener("click", async () => {
   const url = location.origin + location.pathname + buildSearch({ ...state, tle: !!tle }, extra);
-  try { await navigator.clipboard.writeText(url); $("gm-copy-out").textContent = tle ? "Link copied (without your pasted elements: a link opens the presets)." : "Link copied."; }
-  catch { $("gm-copy-out").textContent = `Copy this link: ${url}`; }
+  try { await navigator.clipboard.writeText(url); $("gm-copy-out").textContent = tle ? t("js-geo-link-copied-no-tle", "Link copied (without your pasted elements: a link opens the presets).") : t("js-geo-link-copied", "Link copied."); }
+  catch { $("gm-copy-out").textContent = t("js-geo-copy-link", "Copy this link: { $url }", { url }); }
 });
 
 // The engine's SVG skyplot, only ever adopted through svgsafe (design note section 3.5).
 $("gm-svg").addEventListener("click", async () => {
   try {
     const root = parseSvgMarkup(await adapter.svg(state, tle));
-    if (!root) throw new Error("the engine's SVG was refused");
+    if (!root) throw new Error(t("js-geo-svg-refused", "the engine's SVG was refused"));
     sanitizeSvg(root);
     const blob = new Blob([new XMLSerializer().serializeToString(root)], { type: "image/svg+xml" });
     const a = el("a", { href: URL.createObjectURL(blob), download: "kshana-skyplot.svg" });
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-    $("gm-copy-out").textContent = "Skyplot downloaded.";
-  } catch (e) { $("gm-copy-out").textContent = `The skyplot could not be exported (${e && e.message ? e.message : e}).`; }
+    $("gm-copy-out").textContent = t("js-geo-skyplot-downloaded", "Skyplot downloaded.");
+  } catch (e) { $("gm-copy-out").textContent = t("js-geo-skyplot-export-failed", "The skyplot could not be exported ({ $reason }).", { reason: e && e.message ? e.message : e }); }
 });
 
 $("btn-theme").addEventListener("click", () => {
@@ -240,15 +241,16 @@ function drawPlot() {
   if (mask > 0) kids.push(sv("circle", { cx: CX, cy: CY, r: ((90 - mask) / 90) * R, class: "g-mask" }));
   for (const e of [30, 60]) kids.push(sv("circle", { cx: CX, cy: CY, r: ((90 - e) / 90) * R, class: "g-ring" }));
   for (let a = 0; a < 360; a += 30) { const p = project(a, 0, CX, CY, R); kids.push(sv("line", { x1: CX, y1: CY, x2: p.x, y2: p.y, class: "g-ring" })); }
-  for (const [a, t] of [[0, "N"], [90, "E"], [180, "S"], [270, "W"]]) { const p = project(a, 0, CX, CY, R + 14); kids.push(sv("text", { x: p.x, y: p.y + 4, class: "g-card", "text-anchor": "middle", "aria-hidden": "true" }, t)); }
+  for (const [a, letter] of [[0, t("js-geo-north", "N")], [90, t("js-geo-east", "E")], [180, t("js-geo-south", "S")], [270, t("js-geo-west", "W")]]) { const p = project(a, 0, CX, CY, R + 14); kids.push(sv("text", { x: p.x, y: p.y + 4, class: "g-card", "text-anchor": "middle", "aria-hidden": "true" }, letter)); }
   for (const e of [30, 60]) { const p = project(0, e, CX, CY, R); kids.push(sv("text", { x: p.x + 3, y: p.y - 2, class: "g-tick", "aria-hidden": "true" }, `${e}°`)); }
   const sats = result ? result.sats : [];
   const g = sv("g", { class: "g-sats" });
   for (const s of sats) {
     const st = styleFor(s.sys);
     const p = project(s.az, s.el, CX, CY, R);
-    const what = s.masked ? "hidden by the skyline" : s.used ? "in the solution" : "not used";
-    g.append(sv("path", { d: markerPath(st.shape, p.x, p.y, 6.5), class: `g-sat ${s.masked ? "masked" : s.used ? "used" : "unused"}`, style: `--c:${st.color}` }, sv("title", {}, `${st.label} ${s.id}: azimuth ${s.az}°, elevation ${s.el}°, ${what}`)),
+    const v = { label: st.label, id: s.id, az: s.az, el: s.el };
+    const tip = s.masked ? t("js-geo-sat-masked", "{ $label } { $id }: azimuth { $az }°, elevation { $el }°, hidden by the skyline", v) : s.used ? t("js-geo-sat-used", "{ $label } { $id }: azimuth { $az }°, elevation { $el }°, in the solution", v) : t("js-geo-sat-unused", "{ $label } { $id }: azimuth { $az }°, elevation { $el }°, not used", v);
+    g.append(sv("path", { d: markerPath(st.shape, p.x, p.y, 6.5), class: `g-sat ${s.masked ? "masked" : s.used ? "used" : "unused"}`, style: `--c:${st.color}` }, sv("title", {}, tip)),
       sv("text", { x: p.x + 8.5, y: p.y + 3.5, class: "g-id", "aria-hidden": "true" }, s.id));
   }
   kids.push(g);
@@ -257,7 +259,7 @@ function drawPlot() {
     kids.push(sv("line", { x1: CX, y1: CY, x2: a.x, y2: a.y, class: "g-cursor" }), sv("circle", { cx: b.x, cy: b.y, r: 6, class: "g-cursor-dot" }));
   }
   plot.replaceChildren(...kids);
-  $("gm-plot-desc").textContent = `${describe(table)} ${sats.length} satellites in the plot, ${sats.filter((s) => s.used).length} in the solution.`;
+  $("gm-plot-desc").textContent = [describe(table), t("js-geo-plot-desc", "{ $total } satellites in the plot, { $used } in the solution.", { total: sats.length, used: sats.filter((s) => s.used).length })].join(" ");
 }
 
 // Pointer drawing: a stroke paints every bin it crosses.
@@ -297,7 +299,7 @@ plot.addEventListener("keydown", (ev) => {
   ev.preventDefault();
   const changed = r.table !== table;
   cursor = r.cursor;
-  $("gm-cursor-live").textContent = `Azimuth ${cursor}°, skyline ${elAt(r.table, cursor)}°.`;
+  $("gm-cursor-live").textContent = t("js-geo-cursor-live", "Azimuth { $az }°, skyline { $el }°.", { az: cursor, el: elAt(r.table, cursor) });
   if (changed) { table = r.table; commit({ ...state, sky: { kind: "table", table } }); }
   else drawPlot();
 });
@@ -309,28 +311,36 @@ function drawLegend() {
   $("gm-legend").replaceChildren(...shown.map((s) => {
     const st = styleFor(s);
     const n = sats.filter((x) => x.sys === s);
-    return el("li", {}, sv("svg", { class: "gm-mk", viewBox: "0 0 16 16", "aria-hidden": "true" }, sv("path", { d: markerPath(st.shape, 8, 8, 5), style: `fill:${st.color}` })), `${st.label}: ${n.filter((x) => x.used).length} in the solution of ${n.length}`);
+    return el("li", {}, sv("svg", { class: "gm-mk", viewBox: "0 0 16 16", "aria-hidden": "true" }, sv("path", { d: markerPath(st.shape, 8, 8, 5), style: `fill:${st.color}` })), t("js-geo-legend-item", "{ $label }: { $used } in the solution of { $total }", { label: st.label, used: n.filter((x) => x.used).length, total: n.length }));
   }));
 }
 
 function drawDops() {
   const d = result ? result.dop : {};
   const digits = result ? result.dopDigits : 2;
-  const rows = [["GDOP", "gdop", "geometric"], ["PDOP", "pdop", "position, 3-D"], ["HDOP", "hdop", "horizontal"], ["VDOP", "vdop", "vertical"], ["TDOP", "tdop", "time"]];
-  const na = result && result.backend === "interim" ? NEEDS : "not given";
-  $("gm-dops").replaceChildren(...rows.flatMap(([abbr, k, what]) => {
+  const rows = [
+    ["GDOP", "gdop", t("js-geo-dop-geometric", "geometric"), t("js-geo-dop-geometric-title", "geometric dilution of precision")],
+    ["PDOP", "pdop", t("js-geo-dop-position", "position, 3-D"), t("js-geo-dop-position-title", "position, 3-D dilution of precision")],
+    ["HDOP", "hdop", t("js-geo-dop-horizontal", "horizontal"), t("js-geo-dop-horizontal-title", "horizontal dilution of precision")],
+    ["VDOP", "vdop", t("js-geo-dop-vertical", "vertical"), t("js-geo-dop-vertical-title", "vertical dilution of precision")],
+    ["TDOP", "tdop", t("js-geo-dop-time", "time"), t("js-geo-dop-time-title", "time dilution of precision")],
+  ];
+  const na = result && result.backend === "interim" ? t("js-geo-needs", "needs engine 0.36") : t("js-geo-not-given", "not given");
+  $("gm-dops").replaceChildren(...rows.flatMap(([abbr, k, what, title]) => {
     const v = d && Number.isFinite(d[k]) ? d[k] : null;
-    return [el("dt", {}, el("abbr", { title: `${what} dilution of precision` }, abbr), el("small", {}, what)), el("dd", { class: v === null ? "na" : "" }, v === null ? na : fmtDop(v, digits))];
+    return [el("dt", {}, el("abbr", { title }, abbr), el("small", {}, what)), el("dd", { class: v === null ? "na" : "" }, v === null ? na : fmtDop(v, digits))];
   }));
   const geo = result && result.backend === "geometry";
+  const needs = t("js-geo-needs", "needs engine 0.36"), notGiven = t("js-geo-not-given", "not given");
+  // [label, value, kind]: kind is "na" (the engine did not give it), "num" or "txt".
   const counts = result ? [
-    ["In view", String(result.nVisible)],
-    ["Hidden by the skyline", geo ? String(result.nMasked) : NEEDS],
-    ["In the solution", String(result.nUsed)],
-    ...(Number.isFinite(result.nBelow) ? [["Below the horizon", String(result.nBelow)]] : []),
-    ["Open sky", Number.isFinite(result.openFraction) ? `${Math.round(result.openFraction * 100)} % of the upper hemisphere` : geo ? "not given" : NEEDS],
+    [t("js-geo-count-in-view", "In view"), String(result.nVisible), "num"],
+    [t("js-geo-count-hidden", "Hidden by the skyline"), geo ? String(result.nMasked) : needs, geo ? "num" : "na"],
+    [t("js-geo-count-used", "In the solution"), String(result.nUsed), "num"],
+    ...(Number.isFinite(result.nBelow) ? [[t("js-geo-count-below", "Below the horizon"), String(result.nBelow), "num"]] : []),
+    [t("js-geo-count-open-sky", "Open sky"), Number.isFinite(result.openFraction) ? t("js-geo-open-sky-share", "{ $pct } % of the upper hemisphere", { pct: Math.round(result.openFraction * 100) }) : geo ? notGiven : needs, Number.isFinite(result.openFraction) ? "txt" : "na"],
   ] : [];
-  $("gm-counts").replaceChildren(...counts.flatMap(([k, v]) => [el("dt", {}, k), el("dd", { class: /needs|not given/.test(v) ? "na" : /^\d+$/.test(v) ? "" : "txt" }, v)]));
+  $("gm-counts").replaceChildren(...counts.flatMap(([k, v, kind]) => [el("dt", {}, k), el("dd", { class: kind === "na" ? "na" : kind === "num" ? "" : "txt" }, v)]));
   // Only the engine's numbers: no multiplication here (the 0.35 GSA DOPs are rounded, and no figure is made in the page).
   $("gm-used").textContent = errorLine();
   drawModel();
@@ -340,12 +350,12 @@ function drawDops() {
 // cloud's predicted RMS. With the 0.35 engine the relation is stated without a figure.
 function errorLine() {
   if (!result) return "";
-  if (result.backend !== "geometry") return `Position error ≈ σ_UERE × HDOP horizontally and σ_UERE × VDOP vertically; the figure ${NEEDS}.`;
+  if (result.backend !== "geometry") return t("js-geo-error-line-needs", "Position error ≈ σ_UERE × HDOP horizontally and σ_UERE × VDOP vertically; the figure needs engine 0.36.");
   const e = result.ellipse, bits = [];
-  if (e && Number.isFinite(e.sigmaEastM) && Number.isFinite(e.sigmaNorthM)) bits.push(`1-sigma error east ${f1(e.sigmaEastM)} m, north ${f1(e.sigmaNorthM)} m`);
-  if (cloud && Number.isFinite(cloud.predictedHorizontalM)) bits.push(`horizontal RMS σ_UERE × HDOP = ${f1(cloud.predictedHorizontalM)} m`);
-  if (cloud && Number.isFinite(cloud.predicted3dM)) bits.push(`3-D RMS σ_UERE × PDOP = ${f1(cloud.predicted3dM)} m`);
-  return bits.length ? `With σ_UERE = ${state.uere} m, under the stated error model (engine figures): ${bits.join("; ")}.` : "";
+  if (e && Number.isFinite(e.sigmaEastM) && Number.isFinite(e.sigmaNorthM)) bits.push(t("js-geo-error-sigma", "1-sigma error east { $east } m, north { $north } m", { east: f1(e.sigmaEastM), north: f1(e.sigmaNorthM) }));
+  if (cloud && Number.isFinite(cloud.predictedHorizontalM)) bits.push(t("js-geo-error-rms-h", "horizontal RMS σ_UERE × HDOP = { $m } m", { m: f1(cloud.predictedHorizontalM) }));
+  if (cloud && Number.isFinite(cloud.predicted3dM)) bits.push(t("js-geo-error-rms-3d", "3-D RMS σ_UERE × PDOP = { $m } m", { m: f1(cloud.predicted3dM) }));
+  return bits.length ? t("js-geo-error-line", "With σ_UERE = { $uere } m, under the stated error model (engine figures): { $bits }.", { uere: state.uere, bits: bits.join("; ") }) : "";
 }
 
 // The engine's own label, statement and advisory, shown with its numbers (every 0.36 result carries them).
@@ -363,10 +373,10 @@ function drawError() {
   const c = cloud && cloud.points.length ? cloud : null;
   if (!e && !c) {
     const interim = result && result.backend === "interim";
-    const why = !result ? "Waiting for the engine." : interim ? `The error ellipse and the Monte Carlo cloud ${NEEDS} (its sky_geometry and sky_monte_carlo functions); the engine in this page is older.` : `The engine gave no ellipse for this geometry (too few satellites for a fix, or a singular geometry)${cloudError ? `: ${cloudError}` : ""}.`;
-    svg.replaceChildren(sv("rect", { x: 0, y: 0, width: 400, height: 400, class: "g-errbg" }), sv("text", { x: 200, y: 200, class: "g-empty", "text-anchor": "middle" }, interim ? "Needs engine 0.36" : "No ellipse"));
+    const why = !result ? t("js-geo-why-waiting", "Waiting for the engine.") : interim ? t("js-geo-why-interim", "The error ellipse and the Monte Carlo cloud needs engine 0.36 (its sky_geometry and sky_monte_carlo functions); the engine in this page is older.") : cloudError ? t("js-geo-why-no-ellipse-reason", "The engine gave no ellipse for this geometry (too few satellites for a fix, or a singular geometry): { $reason }.", { reason: cloudError }) : t("js-geo-why-no-ellipse", "The engine gave no ellipse for this geometry (too few satellites for a fix, or a singular geometry).");
+    svg.replaceChildren(sv("rect", { x: 0, y: 0, width: 400, height: 400, class: "g-errbg" }), sv("text", { x: 200, y: 200, class: "g-empty", "text-anchor": "middle" }, interim ? t("js-geo-needs-cap", "Needs engine 0.36") : t("js-geo-no-ellipse", "No ellipse")));
     $("gm-err-desc").textContent = why;
-    $("gm-errfacts").replaceChildren(el("dt", {}, "Why"), el("dd", { class: "na wide" }, why));
+    $("gm-errfacts").replaceChildren(el("dt", {}, t("js-geo-why", "Why")), el("dd", { class: "na wide" }, why));
     return;
   }
   const vals = [];
@@ -379,7 +389,7 @@ function drawError() {
   const kids = [sv("rect", { x: 0, y: 0, width: 400, height: 400, class: "g-errbg" })];
   for (const k of [-1, -0.5, 0.5, 1]) kids.push(sv("line", { x1: cx + k * PX, y1: cy - PX, x2: cx + k * PX, y2: cy + PX, class: "g-ring" }), sv("line", { x1: cx - PX, y1: cy + k * PX, x2: cx + PX, y2: cy + k * PX, class: "g-ring" }));
   kids.push(sv("line", { x1: cx - PX, y1: cy, x2: cx + PX, y2: cy, class: "g-axis" }), sv("line", { x1: cx, y1: cy - PX, x2: cx, y2: cy + PX, class: "g-axis" }));
-  kids.push(sv("text", { x: cx + PX, y: cy - 6, class: "g-tick", "text-anchor": "end" }, `E +${ext} m`), sv("text", { x: cx + 6, y: cy - PX + 10, class: "g-tick" }, `N +${ext} m`));
+  kids.push(sv("text", { x: cx + PX, y: cy - 6, class: "g-tick", "text-anchor": "end" }, t("js-geo-axis-east", "E +{ $ext } m", { ext })), sv("text", { x: cx + 6, y: cy - PX + 10, class: "g-tick" }, t("js-geo-axis-north", "N +{ $ext } m", { ext })));
   if (c) { const g = sv("g", { class: "g-cloud", "aria-hidden": "true" }); for (const p of c.points) g.append(sv("circle", { cx: (cx + p[0] * scale).toFixed(1), cy: (cy - p[1] * scale).toFixed(1), r: 1.6 })); kids.push(g); }
   if (e) {
     if (e95) kids.push(sv("ellipse", { ...ellipseAttrs(e95, cx, cy, scale), class: "g-ell95" }));
@@ -388,23 +398,23 @@ function drawError() {
   svg.replaceChildren(...kids);
   const facts = [];
   if (e) {
-    facts.push(["Ellipse, 1-sigma", `${f1(e.semiMajorM)} m × ${f1(e.semiMinorM)} m, long axis ${Math.round(((e.orientationDeg % 180) + 180) % 180)}° from north`]);
-    if (e95) facts.push([`Ellipse, ${Math.round((e95.confidence ?? 0.95) * 100)} %`, `${f1(e95.semiMajorM)} m × ${f1(e95.semiMinorM)} m${Number.isFinite(e95.scaleK) ? ` (1-sigma × ${e95.scaleK.toFixed(3)})` : ""}`]);
+    facts.push([t("js-geo-fact-ellipse-1s", "Ellipse, 1-sigma"), t("js-geo-fact-ellipse-1s-value", "{ $major } m × { $minor } m, long axis { $deg }° from north", { major: f1(e.semiMajorM), minor: f1(e.semiMinorM), deg: Math.round(((e.orientationDeg % 180) + 180) % 180) })]);
+    if (e95) facts.push([t("js-geo-fact-ellipse-pct", "Ellipse, { $pct } %", { pct: Math.round((e95.confidence ?? 0.95) * 100) }), Number.isFinite(e95.scaleK) ? t("js-geo-fact-ellipse-pct-scaled", "{ $major } m × { $minor } m (1-sigma × { $k })", { major: f1(e95.semiMajorM), minor: f1(e95.semiMinorM), k: e95.scaleK.toFixed(3) }) : t("js-geo-fact-ellipse-pct-value", "{ $major } m × { $minor } m", { major: f1(e95.semiMajorM), minor: f1(e95.semiMinorM) })]);
   }
   if (c) {
-    facts.push(["Monte Carlo", `${c.samples} least-squares solutions, seed ${c.seed ?? state.seed}`]);
-    if (Number.isFinite(c.rmsHorizontalM)) facts.push(["Cloud RMS, horizontal", `${f1(c.rmsHorizontalM)} m${Number.isFinite(c.predictedHorizontalM) ? `, beside σ_UERE × HDOP = ${f1(c.predictedHorizontalM)} m` : ""}`]);
-    if (Number.isFinite(c.rms3dM)) facts.push(["Cloud RMS, 3-D", `${f1(c.rms3dM)} m${Number.isFinite(c.predicted3dM) ? `, beside σ_UERE × PDOP = ${f1(c.predicted3dM)} m` : ""}`]);
-    if (Number.isFinite(c.inside95)) facts.push(["Inside the 95 % ellipse", `${(c.inside95 * 100).toFixed(1)} % of the points`]);
+    facts.push([t("js-geo-fact-mc", "Monte Carlo"), t("js-geo-fact-mc-value", "{ $n } least-squares solutions, seed { $seed }", { n: c.samples, seed: c.seed ?? state.seed })]);
+    if (Number.isFinite(c.rmsHorizontalM)) facts.push([t("js-geo-fact-rms-h", "Cloud RMS, horizontal"), Number.isFinite(c.predictedHorizontalM) ? t("js-geo-fact-rms-h-beside", "{ $rms } m, beside σ_UERE × HDOP = { $predicted } m", { rms: f1(c.rmsHorizontalM), predicted: f1(c.predictedHorizontalM) }) : t("js-geo-fact-rms-value", "{ $rms } m", { rms: f1(c.rmsHorizontalM) })]);
+    if (Number.isFinite(c.rms3dM)) facts.push([t("js-geo-fact-rms-3d", "Cloud RMS, 3-D"), Number.isFinite(c.predicted3dM) ? t("js-geo-fact-rms-3d-beside", "{ $rms } m, beside σ_UERE × PDOP = { $predicted } m", { rms: f1(c.rms3dM), predicted: f1(c.predicted3dM) }) : t("js-geo-fact-rms-value", "{ $rms } m", { rms: f1(c.rms3dM) })]);
+    if (Number.isFinite(c.inside95)) facts.push([t("js-geo-fact-inside", "Inside the 95 % ellipse"), t("js-geo-fact-inside-value", "{ $pct } % of the points", { pct: (c.inside95 * 100).toFixed(1) })]);
   }
   $("gm-errfacts").replaceChildren(...facts.flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)]));
-  $("gm-err-desc").textContent = facts.map(([k, v]) => `${k}: ${v}.`).join(" ");
+  $("gm-err-desc").textContent = facts.map(([k, v]) => t("js-geo-fact-line", "{ $key }: { $value }.", { key: k, value: v })).join(" ");
 }
 
 function drawTable() {
-  const rows = (result ? result.sats : []).map((s) => el("tr", {}, el("td", {}, styleFor(s.sys).label), el("td", {}, s.id), el("td", { class: "num" }, String(s.az)), el("td", { class: "num" }, String(s.el)), el("td", {}, s.masked ? "No: hidden by the skyline" : s.used ? "Yes" : "No")));
-  $("gm-tab-n").textContent = `${rows.length} satellites, the same as the skyplot.`;
-  $("gm-sats").tBodies[0].replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: "5" }, "No satellites to show."))]));
+  const rows = (result ? result.sats : []).map((s) => el("tr", {}, el("td", {}, styleFor(s.sys).label), el("td", {}, s.id), el("td", { class: "num" }, String(s.az)), el("td", { class: "num" }, String(s.el)), el("td", {}, s.masked ? t("js-geo-used-masked", "No: hidden by the skyline") : s.used ? t("js-geo-yes", "Yes") : t("js-geo-no", "No"))));
+  $("gm-tab-n").textContent = t("js-geo-table-count", "{ $n } satellites, the same as the skyplot.", { n: rows.length });
+  $("gm-sats").tBodies[0].replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: "5" }, t("js-geo-no-sats", "No satellites to show.")))]));
 }
 
 function drawAll() { drawPlot(); drawLegend(); drawDops(); drawError(); drawTable(); }
@@ -415,15 +425,15 @@ function schedule() { clearTimeout(timer); drawPlot(); timer = setTimeout(comput
 async function compute() {
   if (!adapter) return;
   const mine = ++ticket;
-  $("gm-engine").textContent = "Computing…";
+  $("gm-engine").textContent = t("js-geo-computing", "Computing…");
   try {
     const r = await adapter.compute(state, tle);
     if (mine !== ticket) return;
     result = r;
     cloud = null; cloudError = "";
-    $("gm-source").textContent = [r.source ? `${r.source}.` : "", r.skySource ? `Sky: ${r.skySource}.` : "", ...r.notes].filter(Boolean).join(" ");
+    $("gm-source").textContent = [r.source ? t("js-geo-source-line", "{ $source }.", { source: r.source }) : "", r.skySource ? t("js-geo-sky-source", "Sky: { $source }.", { source: r.skySource }) : "", ...r.notes].filter(Boolean).join(" ");
     setRep();
-    $("gm-engine").textContent = r.backend === "none" ? r.notes[0] : r.missing.length ? `Ready. Needs engine 0.36: ${r.missing.join(", ")}.` : "Ready.";
+    $("gm-engine").textContent = r.backend === "none" ? r.notes[0] : r.missing.length ? t("js-geo-ready-needs", "Ready. Needs engine 0.36: { $list }.", { list: r.missing.join(", ") }) : t("js-geo-ready", "Ready.");
     drawAll();
     if (features.monteCarlo && state.mc) {
       // A cloud the engine cannot draw (too few satellites for a fix) leaves the sky and the DOPs standing.
@@ -438,7 +448,7 @@ async function compute() {
   } catch (e) {
     if (mine !== ticket) return;
     result = null; cloud = null;
-    $("gm-engine").textContent = `The engine could not compute this sky: ${e && e.message ? e.message : e}`;
+    $("gm-engine").textContent = t("js-geo-compute-failed", "The engine could not compute this sky: { $reason }", { reason: e && e.message ? e.message : e });
     drawAll();
   }
 }
@@ -450,7 +460,7 @@ async function start() {
   const engine = await getEngine();
   adapter = createGeometryAdapter(engine);
   features = adapter.features;
-  if (!engine.available) $("gm-engine").textContent = `The engine is not running in this browser (${engine.error || "WebAssembly is blocked"}).`;
+  if (!engine.available) $("gm-engine").textContent = t("js-geo-engine-not-running", "The engine is not running in this browser ({ $reason }).", { reason: engine.error || t("js-geo-wasm-blocked", "WebAssembly is blocked") });
   applyFeatures();
   await loadSky();
   fillControls();

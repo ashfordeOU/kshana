@@ -144,7 +144,7 @@ same tools:
 
 - **Rust 1.93.0**, from `rust-toolchain.toml`. Every workflow asks
   `dtolnay/rust-toolchain` for that exact version (the `msrv` job alone asks for the
-  minimum supported Rust version, the `rust-version` 1.85 that `Cargo.toml` declares), and `scripts/check-toolchain.sh` fails if any workflow asks
+  minimum supported Rust version, the `rust-version` 1.88 that `Cargo.toml` declares), and `scripts/check-toolchain.sh` fails if any workflow asks
   for anything else, or pipes a downloaded install script into a shell. To move to a new
   compiler, change `rust-toolchain.toml` and every workflow reference together. If the
   new compiler moves a golden value, the build fails, and that is the intended outcome:

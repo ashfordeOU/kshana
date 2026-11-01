@@ -196,19 +196,19 @@ pub struct AdsbReadStats {
 }
 
 /// The code stored for an absent NIC or NACp value in a [`RecordedRow`].
-const NONE_CODE: u8 = 255;
+pub(crate) const NONE_CODE: u8 = 255;
 
 /// One input row as kept by [`AdsbAggregator::record_rows`]. The identifier is the per-run
 /// salted hash used for distinct-counting, never the aircraft address.
 #[derive(Debug, Clone, Copy)]
 pub struct RecordedRow {
-    ts: f64,
-    aid: u64,
-    lat: f64,
-    lon: f64,
-    alt_ft: f64,
-    nic: u8,
-    nacp: u8,
+    pub(crate) ts: f64,
+    pub(crate) aid: u64,
+    pub(crate) lat: f64,
+    pub(crate) lon: f64,
+    pub(crate) alt_ft: f64,
+    pub(crate) nic: u8,
+    pub(crate) nacp: u8,
 }
 
 /// Aggregation state across one input (which may span several UTC days).
@@ -287,9 +287,9 @@ impl AdsbAggregator {
                     src: h.col("source_type"),
                 };
                 if c.nic.is_none() && c.nacp.is_none() {
-                    return Err(MapError::Format(
-                        "need at least one of columns `nic`, `nacp`".into(),
-                    ));
+                    return Err(MapError::Format(crate::terr!(
+                        "e-interference-map-adsb-need-at-least-one-of"
+                    )));
                 }
                 Ok(c)
             },
@@ -424,18 +424,21 @@ impl AdsbAggregator {
             flate2::read::GzDecoder::new(bytes)
                 .take(max_decompressed + 1)
                 .read_to_end(&mut out)
-                .map_err(|e| MapError::Format(format!("gzip: {e}")))?;
+                .map_err(|e| {
+                    MapError::Format(crate::terr!("e-interference-map-adsb-gzip", e = e))
+                })?;
             if out.len() as u64 > max_decompressed {
-                return Err(MapError::Format(
-                    "gzip: decompressed size over the limit".into(),
-                ));
+                return Err(MapError::Format(crate::terr!(
+                    "e-interference-map-adsb-gzip-decompressed-size-over-the"
+                )));
             }
             out
         } else {
             bytes.to_vec()
         };
-        let v: Value = serde_json::from_slice(&text)
-            .map_err(|e| MapError::Format(format!("trace JSON: {e}")))?;
+        let v: Value = serde_json::from_slice(&text).map_err(|e| {
+            MapError::Format(crate::terr!("e-interference-map-adsb-trace-json", e = e))
+        })?;
         let id = v
             .get("icao")
             .and_then(Value::as_str)
@@ -444,9 +447,9 @@ impl AdsbAggregator {
         let (Some(id), Some(base), Some(trace)) =
             (id, base, v.get("trace").and_then(Value::as_array))
         else {
-            return Err(MapError::Format(
-                "trace JSON lacks icao, timestamp or trace".into(),
-            ));
+            return Err(MapError::Format(crate::terr!(
+                "e-interference-map-adsb-trace-json-lacks-icao-timestamp"
+            )));
         };
         for e in trace {
             let Some(e) = e.as_array() else {

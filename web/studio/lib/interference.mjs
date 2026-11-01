@@ -10,6 +10,10 @@
 // file made from the ADS-B source's data carries that source's licence, ODbL 1.0; AIS files are public domain or NLOD 2.0), and so does
 // what a cell means.
 import { parseGeoJson } from "./geojson-layer.mjs";
+import { t } from "./t.mjs";
+
+// Text in the tables below is read through getters, so it follows the language at render time and not at import.
+const lazyList = (fns) => { const a = []; fns.forEach((f, i) => Object.defineProperty(a, i, { get: f, enumerable: true })); return Object.freeze(a); };
 
 // Limits a file is read within.
 export const MAX_BYTES = 16 * 1024 * 1024;
@@ -24,25 +28,33 @@ export const SUPPORTED_FORMATS = [1];
 // What a cell's status means, per source. `tone` picks the colour: bad, ok, none (no call), hold.
 export const STATUSES = Object.freeze({
   adsb: [
-    { id: "degraded", label: "Degraded", tone: "bad", text: "A high share of the sampled aircraft reported low navigation accuracy here that day, well above the day's median cell. It does not say why." },
-    { id: "not_degraded", label: "Not degraded", tone: "ok", text: "Sampled, and the share of aircraft reporting low accuracy did not stand out. Not proof that nothing happened." },
-    { id: "insufficient_sample", label: "Too few aircraft", tone: "none", text: "Published (at least 5 distinct aircraft observed) but fewer than 10 aircraft could be sampled, so no call is made." },
-    { id: "withheld_day_confounded", label: "Day confounded", tone: "hold", text: "The whole day's median cell share was high, which points to a wide-area cause. No cell is declared degraded on such a day; this cell would otherwise have stood out." },
-    { id: "withheld_no_background", label: "No background estimate", tone: "hold", text: "The day's background (the typical share of aircraft reporting low accuracy) could not be estimated from enough cells, so no cell is compared with it and none is called." },
+    { id: "degraded", get label() { return t("js-interf-st-degraded-label", "Degraded"); }, tone: "bad", get text() { return t("js-interf-st-degraded-text", "A high share of the sampled aircraft reported low navigation accuracy here that day, well above the day's median cell. It does not say why."); } },
+    { id: "not_degraded", get label() { return t("js-interf-st-not-degraded-label", "Not degraded"); }, tone: "ok", get text() { return t("js-interf-st-not-degraded-text", "Sampled, and the share of aircraft reporting low accuracy did not stand out. Not proof that nothing happened."); } },
+    { id: "insufficient_sample", get label() { return t("js-interf-st-too-few-label", "Too few aircraft"); }, tone: "none", get text() { return t("js-interf-st-too-few-text", "Published (at least 5 distinct aircraft observed) but fewer than 10 aircraft could be sampled, so no call is made."); } },
+    { id: "withheld_day_confounded", get label() { return t("js-interf-st-confounded-label", "Day confounded"); }, tone: "hold", get text() { return t("js-interf-st-confounded-text", "The whole day's median cell share was high, which points to a wide-area cause. No cell is declared degraded on such a day; this cell would otherwise have stood out."); } },
+    { id: "withheld_no_background", get label() { return t("js-interf-st-no-background-label", "No background estimate"); }, tone: "hold", get text() { return t("js-interf-st-no-background-text", "The day's background (the typical share of aircraft reporting low accuracy) could not be estimated from enough cells, so no cell is compared with it and none is called."); } },
   ],
   ais: [
-    { id: "anomalous", label: "Anomalous", tone: "bad", text: "At least one detector flagged enough distinct vessels here that day (at least 3 vessels and 20% of those observed). Possible causes include interference but also many ordinary ones." },
-    { id: "not_anomalous", label: "Not anomalous", tone: "ok", text: "Observed, and no detector qualified. Not proof that nothing happened." },
+    { id: "anomalous", get label() { return t("js-interf-st-anomalous-label", "Anomalous"); }, tone: "bad", get text() { return t("js-interf-st-anomalous-text", "At least one detector flagged enough distinct vessels here that day (at least 3 vessels and 20% of those observed). Possible causes include interference but also many ordinary ones."); } },
+    { id: "not_anomalous", get label() { return t("js-interf-st-not-anomalous-label", "Not anomalous"); }, tone: "ok", get text() { return t("js-interf-st-not-anomalous-text", "Observed, and no detector qualified. Not proof that nothing happened."); } },
   ],
 });
 export const KIND_LABEL = { adsb: "ADS-B", ais: "AIS" };
 
 // The four states a reader sees, none hidden or merged with another. "Not observed" has no feature.
 export const STATES = Object.freeze([
-  { id: "degraded", label: { adsb: "Degraded", ais: "Anomalous" }, text: { adsb: "A high share of the sampled aircraft reported low navigation accuracy here that day, well above the day's median cell.", ais: "At least one detector flagged enough distinct vessels here that day (at least 3 vessels and 20% of those observed)." } },
-  { id: "clear", label: { adsb: "Clear", ais: "Clear" }, text: { adsb: "Observed with enough aircraft and not flagged. Not proof that nothing happened.", ais: "Observed with enough vessels and not flagged. Not proof that nothing happened." } },
-  { id: "unassessed", label: { adsb: "Unassessed", ais: "Unassessed" }, text: { adsb: "Observed, but too few aircraft could be sampled, the day was confounded, or the day's background could not be estimated, so no call is made.", ais: "Observed, but no call is made." } },
-  { id: "notobserved", label: { adsb: "Not observed", ais: "Not observed" }, text: { adsb: "No cell drawn: too few aircraft were observed to publish it. This is not evidence that the area was clear.", ais: "No cell drawn: too few vessels were observed to publish it. This is not evidence that the area was clear." } },
+  { id: "degraded",
+    label: { get adsb() { return t("js-interf-state-degraded-adsb", "Degraded"); }, get ais() { return t("js-interf-state-degraded-ais", "Anomalous"); } },
+    text: { get adsb() { return t("js-interf-state-degraded-adsb-text", "A high share of the sampled aircraft reported low navigation accuracy here that day, well above the day's median cell."); }, get ais() { return t("js-interf-state-degraded-ais-text", "At least one detector flagged enough distinct vessels here that day (at least 3 vessels and 20% of those observed)."); } } },
+  { id: "clear",
+    label: { get adsb() { return t("js-interf-state-clear-adsb", "Clear"); }, get ais() { return t("js-interf-state-clear-ais", "Clear"); } },
+    text: { get adsb() { return t("js-interf-state-clear-adsb-text", "Observed with enough aircraft and not flagged. Not proof that nothing happened."); }, get ais() { return t("js-interf-state-clear-ais-text", "Observed with enough vessels and not flagged. Not proof that nothing happened."); } } },
+  { id: "unassessed",
+    label: { get adsb() { return t("js-interf-state-unassessed-adsb", "Unassessed"); }, get ais() { return t("js-interf-state-unassessed-ais", "Unassessed"); } },
+    text: { get adsb() { return t("js-interf-state-unassessed-adsb-text", "Observed, but too few aircraft could be sampled, the day was confounded, or the day's background could not be estimated, so no call is made."); }, get ais() { return t("js-interf-state-unassessed-ais-text", "Observed, but no call is made."); } } },
+  { id: "notobserved",
+    label: { get adsb() { return t("js-interf-state-notobs-adsb", "Not observed"); }, get ais() { return t("js-interf-state-notobs-ais", "Not observed"); } },
+    text: { get adsb() { return t("js-interf-state-notobs-adsb-text", "No cell drawn: too few aircraft were observed to publish it. This is not evidence that the area was clear."); }, get ais() { return t("js-interf-state-notobs-ais-text", "No cell drawn: too few vessels were observed to publish it. This is not evidence that the area was clear."); } } },
 ]);
 const STATE_OF = Object.assign(Object.create(null), { degraded: "degraded", anomalous: "degraded", not_degraded: "clear", not_anomalous: "clear", insufficient_sample: "unassessed", withheld_day_confounded: "unassessed", withheld_no_background: "unassessed" });
 export const stateOf = (status) => (typeof status === "string" && STATE_OF[status]) || "unassessed";
@@ -54,11 +66,11 @@ export function stateCounts(map) {
 }
 
 // The caveats that stay visible with every map (docs/INTERFERENCE-MAP.md, Studio map page specification).
-export const KEEP_CAVEATS = Object.freeze([
-  "A degraded or anomalous cell is not a finding of interference. Other causes exist.",
-  "A cell with no colour was not observed. It is not evidence that the area was clear.",
-  "This is a description of past position reports, not a forecast and not a measurement of any receiver.",
-  "Coverage follows the data source; read the coverage notes.",
+export const KEEP_CAVEATS = lazyList([
+  () => t("js-interf-caveat-not-finding", "A degraded or anomalous cell is not a finding of interference. Other causes exist."),
+  () => t("js-interf-caveat-no-colour", "A cell with no colour was not observed. It is not evidence that the area was clear."),
+  () => t("js-interf-caveat-past-reports", "This is a description of past position reports, not a forecast and not a measurement of any receiver."),
+  () => t("js-interf-caveat-coverage", "Coverage follows the data source; read the coverage notes."),
 ]);
 
 // A link only for http(s) addresses; anything else is shown as text.
@@ -72,10 +84,10 @@ export function parseMapFile(text, name = "file") {
   const g = parseGeoJson(text, name);
   if (g.error) return { error: g.error };
   const m = g.layer.meta.kshana_interference_map;
-  if (!isObj(m)) return { error: `${name}: this is GeoJSON but not a Kshana interference map (no kshana_interference_map member).` };
-  if (typeof m.schema !== "string" || !m.schema.startsWith("kshana-interference-map/")) return { error: `${name}: unknown schema ${JSON.stringify(m.schema)}; this page reads ${SCHEMA}.` };
-  if (m.source_kind !== "adsb" && m.source_kind !== "ais") return { error: `${name}: source_kind ${JSON.stringify(m.source_kind)} is neither adsb nor ais.` };
-  if (typeof m.format_version !== "number" || !SUPPORTED_FORMATS.includes(m.format_version)) return { error: `${name}: not a supported Kshana interference map (format_version ${JSON.stringify(m.format_version)}; this page supports ${SUPPORTED_FORMATS.join(", ")}).` };
+  if (!isObj(m)) return { error: t("js-interf-err-not-map", "{ $name }: this is GeoJSON but not a Kshana interference map (no kshana_interference_map member).", { name }) };
+  if (typeof m.schema !== "string" || !m.schema.startsWith("kshana-interference-map/")) return { error: t("js-interf-err-unknown-schema", "{ $name }: unknown schema { $schema }; this page reads { $supported }.", { name, schema: JSON.stringify(m.schema), supported: SCHEMA }) };
+  if (m.source_kind !== "adsb" && m.source_kind !== "ais") return { error: t("js-interf-err-source-kind", "{ $name }: source_kind { $kind } is neither adsb nor ais.", { name, kind: JSON.stringify(m.source_kind) }) };
+  if (typeof m.format_version !== "number" || !SUPPORTED_FORMATS.includes(m.format_version)) return { error: t("js-interf-err-format-version", "{ $name }: not a supported Kshana interference map (format_version { $version }; this page supports { $supported }).", { name, version: JSON.stringify(m.format_version), supported: SUPPORTED_FORMATS.join(", ") }) };
   const kind = m.source_kind;
   const known = new Set(STATUSES[kind].map((s) => s.id));
   const cells = [];
@@ -88,18 +100,20 @@ export function parseMapFile(text, name = "file") {
   }
   const data = isObj(m.data) ? m.data : {};
   const warnings = [];
-  if (g.layer.skipped) warnings.push(`${g.layer.skipped} feature(s) were not valid GeoJSON and were skipped.`);
+  if (g.layer.skipped) warnings.push(t("js-interf-warn-skipped", "{ $count } feature(s) were not valid GeoJSON and were skipped.", { count: g.layer.skipped }));
   const disagree = cells.filter((c) => known.has(c.status) && c.degraded !== (c.status === "degraded" || c.status === "anomalous")).length;
-  if (disagree) warnings.push(`${disagree} cell(s) have a "degraded" flag that disagrees with their status. The status is what is drawn.`);
-  if (unknownStatus.size) warnings.push(`Status value(s) this page does not know: ${[...unknownStatus].join(", ")}. They are drawn as "no call".`);
+  if (disagree) warnings.push(t("js-interf-warn-flag-disagrees", "{ $count } cell(s) have a \"degraded\" flag that disagrees with their status. The status is what is drawn.", { count: disagree }));
+  if (unknownStatus.size) warnings.push(t("js-interf-warn-unknown-status", "Status value(s) this page does not know: { $values }. They are drawn as \"no call\".", { values: [...unknownStatus].join(", ") }));
   const missing = [];
   for (const k of ["licence", "attribution"]) if (!str(data[k]).trim()) missing.push(k);
-  if (missing.length) warnings.push(`This file carries no ${missing.join(" or ")} text. It is shown, but a map without its licence and attribution should not be republished.`);
+  if (missing.length) warnings.push(t("js-interf-warn-no-licence", "This file carries no { $fields } text. It is shown, but a map without its licence and attribution should not be republished.", { fields: missing.join(" or ") }));
   const grid = isObj(m.grid) ? m.grid : {};
-  if (grid.is_preregistered === false) warnings.push(`This file uses a cell size of ${grid.cell_deg}° that is not the pre-registered one${typeof grid.preregistered_cell_deg === "number" ? ` (${grid.preregistered_cell_deg}°)` : ""}: it is not the pre-registered method, so its calls are not comparable with files that use it.`);
+  if (grid.is_preregistered === false) warnings.push(typeof grid.preregistered_cell_deg === "number"
+    ? t("js-interf-warn-cell-size-known", "This file uses a cell size of { $size }° that is not the pre-registered one ({ $registered }°): it is not the pre-registered method, so its calls are not comparable with files that use it.", { size: grid.cell_deg, registered: grid.preregistered_cell_deg })
+    : t("js-interf-warn-cell-size", "This file uses a cell size of { $size }° that is not the pre-registered one: it is not the pre-registered method, so its calls are not comparable with files that use it.", { size: grid.cell_deg }));
   const day = isObj(m.day) ? m.day : {};
-  if (kind === "adsb" && day.day_confounded === true) warnings.push("This day is confounded: no cell was called degraded because of the day\u2019s background (the median cell share was itself high).");
-  if (kind === "ais" && typeof day.on_land_detector === "string" && day.on_land_detector.startsWith("disabled")) warnings.push("The on-land detector was off for this file (no land polygons were supplied).");
+  if (kind === "adsb" && day.day_confounded === true) warnings.push(t("js-interf-warn-day-confounded", "This day is confounded: no cell was called degraded because of the day’s background (the median cell share was itself high)."));
+  if (kind === "ais" && typeof day.on_land_detector === "string" && day.on_land_detector.startsWith("disabled")) warnings.push(t("js-interf-warn-on-land-off", "The on-land detector was off for this file (no land polygons were supplied)."));
   return {
     map: {
       name, kind, date: str(m.date), schema: m.schema, version: str(m.kshana_version), grid: isObj(m.grid) ? m.grid : {},
@@ -118,7 +132,7 @@ export function licenceBlock(data, notice) {
   };
 }
 
-export const statusInfo = (kind, id) => STATUSES[kind].find((s) => s.id === id) || { id, label: id, tone: "none", text: "A status this page does not describe." };
+export const statusInfo = (kind, id) => STATUSES[kind].find((s) => s.id === id) || { id, label: id, tone: "none", get text() { return t("js-interf-status-unknown", "A status this page does not describe."); } };
 
 export function statusCounts(map) {
   const c = {};
@@ -128,25 +142,25 @@ export function statusCounts(map) {
 }
 
 // A count the file gives as null is withheld (fewer than the publication minimum of 5), never zero.
-export const WITHHELD = "withheld (fewer than 5)";
-const ratio = (x) => (typeof x === "number" ? `${Math.round(x * 1000) / 10}%` : WITHHELD);
-const count = (x) => (typeof x === "number" ? x : x === null ? WITHHELD : "");
+export const withheld = () => t("js-interf-withheld", "withheld (fewer than 5)");
+const ratio = (x) => (typeof x === "number" ? `${Math.round(x * 1000) / 10}%` : withheld());
+const count = (x) => (typeof x === "number" ? x : x === null ? withheld() : "");
 
 // Rows [label, value] describing one cell, with what each number means. A null AIS count is a count of
 // one or two, withheld so it cannot single out a vessel.
 export function cellRows(map, cell) {
   const p = cell.props, rows = [];
-  rows.push(["Status", statusInfo(map.kind, cell.status).label]);
+  rows.push([t("js-interf-row-status", "Status"), statusInfo(map.kind, cell.status).label]);
   if (map.kind === "adsb") {
-    rows.push(["Aircraft observed", count(p.aircraft_observed)], ["Aircraft sampled", count(p.aircraft_sampled)], ["Aircraft affected", count(p.aircraft_affected)], ["Affected share", ratio(p.affected_share)]);
+    rows.push([t("js-interf-row-aircraft-observed", "Aircraft observed"), count(p.aircraft_observed)], [t("js-interf-row-aircraft-sampled", "Aircraft sampled"), count(p.aircraft_sampled)], [t("js-interf-row-aircraft-affected", "Aircraft affected"), count(p.aircraft_affected)], [t("js-interf-row-affected-share", "Affected share"), ratio(p.affected_share)]);
   } else {
-    rows.push(["Vessels observed", count(p.vessels_observed)]);
+    rows.push([t("js-interf-row-vessels-observed", "Vessels observed"), count(p.vessels_observed)]);
     const f = isObj(p.vessels_flagged) ? p.vessels_flagged : {};
-    for (const [d, n] of Object.entries(f)) rows.push([`Flagged: ${d.replace(/_/g, " ")}`, n === null ? WITHHELD : n]);
-    rows.push(["Detectors that qualified", Array.isArray(p.detectors) && p.detectors.length ? p.detectors.join(", ").replace(/_/g, " ") : "none"]);
+    for (const [d, n] of Object.entries(f)) rows.push([t("js-interf-row-flagged", "Flagged: { $detector }", { detector: d.replace(/_/g, " ") }), n === null ? withheld() : n]);
+    rows.push([t("js-interf-row-detectors", "Detectors that qualified"), Array.isArray(p.detectors) && p.detectors.length ? p.detectors.join(", ").replace(/_/g, " ") : t("js-interf-none", "none")]);
   }
   const b = cellBounds(cell);
-  rows.push(["Cell", `i ${p.cell_i}, j ${p.cell_j}`], ["Area", `${fmtLat(b.south)} to ${fmtLat(b.north)}, ${fmtLon(b.west)} to ${fmtLon(b.east)}`]);
+  rows.push([t("js-interf-row-cell", "Cell"), `i ${p.cell_i}, j ${p.cell_j}`], [t("js-interf-row-area", "Area"), `${fmtLat(b.south)} to ${fmtLat(b.north)}, ${fmtLon(b.west)} to ${fmtLon(b.east)}`]);
   return rows;
 }
 
@@ -161,7 +175,7 @@ export const fmtLon = (d) => `${Math.abs(d).toFixed(2)}°${d < 0 ? "W" : "E"}`;
 
 // A flat description of a parameter value for the method table.
 export function showValue(v) {
-  if (v === null) return "none";
+  if (v === null) return t("js-interf-none", "none");
   if (typeof v === "object") return JSON.stringify(v);
   return String(v);
 }
@@ -180,7 +194,7 @@ export function groupBySource(maps) {
 export function describeMap(map) {
   const c = statusCounts(map);
   const parts = STATUSES[map.kind].map((s) => `${c[s.id]} ${s.label.toLowerCase()}`);
-  return `${KIND_LABEL[map.kind]} map for ${map.date}: ${map.cells.length} cells drawn, ${parts.join(", ")}. Cells not drawn were not observed.`;
+  return t("js-interf-describe-map", "{ $kind } map for { $date }: { $cells } cells drawn, { $parts }. Cells not drawn were not observed.", { kind: KIND_LABEL[map.kind], date: map.date, cells: map.cells.length, parts: parts.join(", ") });
 }
 
 // Index of the cell containing a [lon, lat], or -1.
@@ -203,11 +217,11 @@ export function cellsForTable(map) {
 export const ROUTE_SCHEMA = "kshana-route-exposure/v1";
 export function parseRouteExposure(text, name = "file") {
   let o;
-  try { o = JSON.parse(String(text).replace(/^\uFEFF/, "")); } catch (e) { return { error: `${name}: not JSON (${e.message}).` }; }
+  try { o = JSON.parse(String(text).replace(/^\uFEFF/, "")); } catch (e) { return { error: t("js-interf-err-not-json", "{ $name }: not JSON ({ $reason }).", { name, reason: e.message }) }; }
   const r = isObj(o) && isObj(o.kshana_route_exposure) ? o.kshana_route_exposure : null;
-  if (!r) return { error: `${name}: not a Kshana route-exposure report (no kshana_route_exposure member).` };
-  if (r.schema !== ROUTE_SCHEMA) return { error: `${name}: schema ${JSON.stringify(r.schema)} is not ${ROUTE_SCHEMA}, which this page reads.` };
-  if (!Array.isArray(r.rows)) return { error: `${name}: no rows[] in this report.` };
+  if (!r) return { error: t("js-interf-err-not-route", "{ $name }: not a Kshana route-exposure report (no kshana_route_exposure member).", { name }) };
+  if (r.schema !== ROUTE_SCHEMA) return { error: t("js-interf-err-route-schema", "{ $name }: schema { $schema } is not { $expected }, which this page reads.", { name, schema: JSON.stringify(r.schema), expected: ROUTE_SCHEMA }) };
+  if (!Array.isArray(r.rows)) return { error: t("js-interf-err-no-rows", "{ $name }: no rows[] in this report.", { name }) };
   const num = (x) => typeof x === "number" && Number.isFinite(x);
   const rows = [];
   let bad = 0;

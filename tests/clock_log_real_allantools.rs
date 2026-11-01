@@ -1,0 +1,598 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! The clock-log comparison on real public data, pre-registered in
+//! tests/fixtures/clock_log_real/PREREGISTRATION.md (and its Addendum 1), committed before any
+//! fixture existed or any comparison was run.
+//!
+//! Four measured series: D1 Stable32 PHASE.DAT, D2 the first 65 536 readings of a 5071A caesium
+//! clock, D3 the IGS clock of satellite G01 and D4 the IGS clock of station ABMF (the last two
+//! vendored as a cut of the IGS final 30 s clock of 2026-08-02, RINEX clock version 3.00). D1 and D2
+//! are third-party data without a redistribution grant: their wrapped logs and reference phase are
+//! written by `scripts/gen_clock_log_real_ref.py` into the git-ignored `realdata-cache/` (override
+//! with `KSHANA_CLOCK_LOG_REAL_PATH`). When they are absent those cases print a skip notice and pass,
+//! unless `KSHANA_REQUIRE_REALDATA=1`, which makes absence a failure; the vendored IGS cases always
+//! run, as do the malformed-input cases (B3).
+//!
+//! B1: counts, `tau0` and its source agree with the independent reader, every phase sample within
+//! 1e-14 s. B2: ADEV, TDEV and MTIE agree with allantools 2024.6 within a relative 1e-10 (1e-9 for
+//! the frequency log) wherever allantools evaluates. B3: each malformed input is an error naming its
+//! cause. B4: RINEX clock versions 2.00 and 3.00 to 3.04 are read and any other is refused.
+use kshana::clock_log::{read_input, ClockLogInput, MeasuredPhaseReport};
+use serde_json::Value;
+use std::path::PathBuf;
+
+const DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/clock_log_real");
+/// The one pair where B2 is NOT MET (the MTIE of the frequency log of D2), pinned in `b2_*`.
+const PINNED_NOT_MET: &str = "d2_TL-F.txt";
+const CUT: &str = "igs_clk_30s_2026214_G01_ABMF.clk";
+
+fn reference() -> Value {
+    serde_json::from_str(&std::fs::read_to_string(format!("{DIR}/reference.json")).unwrap())
+        .unwrap()
+}
+
+fn cache() -> PathBuf {
+    std::env::var_os("KSHANA_CLOCK_LOG_REAL_PATH")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| {
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("realdata-cache/clock_log_real")
+        })
+}
+
+/// One comparison case: the key in reference.json, how to read it, and where its phase lives.
+struct Case {
+    key: String,
+    input: ClockLogInput,
+    cached: bool,
+    tol_rel: f64,
+}
+
+fn cases() -> Vec<Case> {
+    let mut v = Vec::new();
+    for tag in ["d1", "d2"] {
+        let c = cache();
+        let mk = |file: &str, format: &str| ClockLogInput {
+            format: format.into(),
+            path: Some(c.join(file).to_string_lossy().into_owned()),
+            channel: (format == "ticc").then(|| "chA".to_string()),
+            ..Default::default()
+        };
+        v.push(Case {
+            key: format!("{tag}_TL-P.txt"),
+            input: mk(&format!("{tag}_TL-P.txt"), "timelab"),
+            cached: true,
+            tol_rel: 1e-10,
+        });
+        v.push(Case {
+            key: format!("{tag}_TL-F.txt"),
+            input: mk(&format!("{tag}_TL-F.txt"), "timelab"),
+            cached: true,
+            tol_rel: 1e-9,
+        });
+        for t in ["TICC-0", "TICC-3"] {
+            v.push(Case {
+                key: format!("{tag}_{t}.txt"),
+                input: mk(&format!("{tag}_{t}.txt"), "ticc"),
+                cached: true,
+                tol_rel: 1e-10,
+            });
+        }
+    }
+    let c = cache();
+    v.push(Case {
+        key: "d1_TICC-11.txt".into(),
+        input: ClockLogInput {
+            format: "ticc".into(),
+            path: Some(c.join("d1_TICC-11.txt").to_string_lossy().into_owned()),
+            channel: Some("chA".into()),
+            ..Default::default()
+        },
+        cached: true,
+        tol_rel: 1e-10,
+    });
+    for clock in ["G01", "ABMF"] {
+        v.push(Case {
+            key: format!("{CUT}:{clock}"),
+            input: ClockLogInput {
+                format: "rinex-clk".into(),
+                path: Some(format!("{DIR}/{CUT}")),
+                clock: Some(clock.into()),
+                ..Default::default()
+            },
+            cached: false,
+            tol_rel: 1e-10,
+        });
+    }
+    v
+}
+
+/// Whether a cached case can run here; a missing one is a skip, or a failure when required.
+fn available(case: &Case) -> bool {
+    if !case.cached {
+        return true;
+    }
+    let p = case.input.path.as_ref().unwrap();
+    if std::path::Path::new(p).exists() {
+        return true;
+    }
+    assert!(
+        std::env::var("KSHANA_REQUIRE_REALDATA").as_deref() != Ok("1"),
+        "{}: {p} is missing and KSHANA_REQUIRE_REALDATA=1 \
+         (run scripts/fetch_phasedat.sh, scripts/fetch_cs5071a.sh and scripts/gen_clock_log_real_ref.py)",
+        case.key
+    );
+    eprintln!(
+        "SKIP {}: {p} not found (run scripts/gen_clock_log_real_ref.py)",
+        case.key
+    );
+    false
+}
+
+fn reference_phase(case: &Case, want: &Value) -> Vec<f64> {
+    if case.cached {
+        let p = cache().join("ref_phase").join(format!("{}.f64", case.key));
+        let bytes = std::fs::read(&p).unwrap_or_else(|e| panic!("{}: {e}", p.display()));
+        let v: Vec<f64> = bytes
+            .chunks_exact(8)
+            .map(|c| f64::from_le_bytes(c.try_into().unwrap()))
+            .collect();
+        // The cache must be the one the committed reference was made from.
+        use sha2::{Digest, Sha256};
+        let mut h = Sha256::new();
+        for x in &v {
+            h.update(x.to_le_bytes());
+        }
+        assert_eq!(
+            hex::encode(h.finalize()),
+            want["phase_sha256"].as_str().unwrap(),
+            "{}: cached reference phase is not the committed one",
+            case.key
+        );
+        v
+    } else {
+        want["phase_s"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|x| x.as_f64().unwrap())
+            .collect()
+    }
+}
+
+/// Every miss of a bar is collected and reported together, so a run records them all.
+fn finish(bar: &str, misses: Vec<String>) {
+    assert!(
+        misses.is_empty(),
+        "{bar} not met in {} place(s):\n  {}",
+        misses.len(),
+        misses.join("\n  ")
+    );
+}
+
+#[test]
+fn b1_each_log_reads_to_the_reference_phase() {
+    let r = reference();
+    let mut run = 0;
+    let mut misses = Vec::new();
+    for case in cases() {
+        if !available(&case) {
+            continue;
+        }
+        run += 1;
+        let want = &r["cases"][&case.key];
+        let got = match read_input(&case.input) {
+            Ok(g) => g,
+            Err(e) => {
+                misses.push(format!("{}: read failed: {e}", case.key));
+                continue;
+            }
+        };
+        let phase = reference_phase(&case, want);
+        let mut eq = |name: &str, a: String, b: String| {
+            if a != b {
+                misses.push(format!("{}: {name} {a} != reference {b}", case.key));
+            }
+        };
+        eq("n_used", got.n_used.to_string(), phase.len().to_string());
+        for (name, v) in [
+            ("n_grid", got.n_grid),
+            ("n_missing", got.n_missing),
+            ("n_gaps", got.n_gaps),
+            ("n_interpolated", got.n_interpolated),
+        ] {
+            eq(
+                name,
+                v.to_string(),
+                want[name].as_u64().unwrap().to_string(),
+            );
+        }
+        eq(
+            "tau0_s",
+            format!("{:?}", got.tau0_s),
+            format!("{:?}", want["tau0_s"].as_f64().unwrap()),
+        );
+        eq(
+            "tau0_source",
+            got.tau0_source.into(),
+            want["tau0_source"].as_str().unwrap().into(),
+        );
+        let worst = got
+            .phase_s
+            .iter()
+            .zip(&phase)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0_f64, f64::max);
+        eprintln!("{}: largest phase difference {worst:.3e} s", case.key);
+        if worst > 1e-14 {
+            misses.push(format!(
+                "{}: phase differs by {worst:e} s (bar 1e-14)",
+                case.key
+            ));
+        }
+    }
+    assert!(run >= 2, "the vendored IGS cases always run");
+    finish("B1", misses);
+}
+
+/// The reference value at `tau`, if allantools reported one there.
+fn at(curve: &Value, tau: f64) -> Option<f64> {
+    curve.as_array().unwrap().iter().find_map(|p| {
+        let t = p[0].as_f64().unwrap();
+        ((t - tau).abs() <= 1e-9 * tau).then(|| p[1].as_f64().unwrap())
+    })
+}
+
+#[test]
+fn b2_adev_tdev_and_mtie_agree_with_allantools() {
+    let r = reference();
+    let mut misses = Vec::new();
+    for case in cases() {
+        if !available(&case) {
+            continue;
+        }
+        let c = &r["cases"][&case.key]["curves"];
+        let log = match read_input(&case.input) {
+            Ok(l) => l,
+            Err(e) => {
+                misses.push(format!("{}: read failed: {e}", case.key));
+                continue;
+            }
+        };
+        let m = MeasuredPhaseReport::from_phase(log);
+        let mut worst = 0.0_f64;
+        let mut compared = 0usize;
+        let mut unevaluated = Vec::new();
+        let mut pinned: Vec<f64> = Vec::new();
+        let mut check = |name: &str, tau: f64, got: f64| {
+            let Some(want) = at(&c[name], tau) else {
+                unevaluated.push(format!("{name}@{tau}"));
+                return;
+            };
+            let rel = ((got - want) / want).abs();
+            worst = worst.max(rel);
+            compared += 1;
+            if name == "mtie" && case.key == PINNED_NOT_MET {
+                pinned.push(rel);
+            } else if rel > case.tol_rel {
+                misses.push(format!(
+                    "{} {name} at {tau} s: {got:e} vs {want:e} ({rel:e}, bar {:e})",
+                    case.key, case.tol_rel
+                ));
+            }
+        };
+        for p in &m.adev {
+            check("adev", p.tau_s, p.adev);
+        }
+        for p in &m.tdev {
+            check("tdev", p.tau_s, p.tdev_s);
+        }
+        for p in &m.mtie {
+            check("mtie", p.tau_s, p.mtie_s);
+        }
+        if case.key == PINNED_NOT_MET {
+            // B2 is NOT MET here, and pinned as such: the sixteen MTIE values of the frequency log
+            // of D2 differ from allantools' by 1.7e-5 to 6.8e-2 (relative), because allantools
+            // integrates the frequency minus its mean (RESULTS.md). The like-for-like check, the
+            // engine against allantools' phase-mode MTIE of the plain integral, is met.
+            assert_eq!(pinned.len(), 16, "the pinned miss changed");
+            let (lo, hi) = (
+                pinned.iter().cloned().fold(f64::MAX, f64::min),
+                pinned.iter().cloned().fold(0.0, f64::max),
+            );
+            assert!(
+                lo > 1e-5 && lo < 2e-5 && hi > 6e-2 && hi < 7e-2,
+                "pinned miss moved: {lo:e} .. {hi:e}"
+            );
+            let plain = &r["cases"][&case.key]["mtie_of_plain_integral"];
+            for p in &m.mtie {
+                let want = at(plain, p.tau_s).expect("allantools evaluates every window here");
+                let rel = ((p.mtie_s - want) / want).abs();
+                if rel > 1e-10 {
+                    misses.push(format!(
+                        "{} mtie against the plain integral at {} s: {rel:e}",
+                        case.key, p.tau_s
+                    ));
+                }
+            }
+        }
+        let each = m.adev.len();
+        let floor = if case.key.contains("ABMF") { 5 } else { 8 };
+        if each < floor {
+            misses.push(format!(
+                "{}: only {each} averaging factors (non-vacuity {floor})",
+                case.key
+            ));
+        }
+        eprintln!(
+            "{}: {compared} comparisons, largest relative difference {worst:.3e}; not evaluated by allantools: {unevaluated:?}",
+            case.key
+        );
+        // B2 compares where allantools evaluates. It does not evaluate MTIE at the longest
+        // windows (see tests/fixtures/clock_log/RESULTS.md); ADEV and TDEV must all be evaluated.
+        if let Some(u) = unevaluated.iter().find(|u| !u.starts_with("mtie@")) {
+            misses.push(format!("{}: allantools did not evaluate {u}", case.key));
+        }
+    }
+    finish("B2", misses);
+}
+
+// ---- B3: malformed input is an error that names its cause ----------------------------------
+
+fn text_input(format: &str, text: &str) -> ClockLogInput {
+    ClockLogInput {
+        format: format.into(),
+        text: Some(text.into()),
+        ..Default::default()
+    }
+}
+
+fn expect_err(misses: &mut Vec<String>, id: &str, inp: ClockLogInput, phrases: &[&str]) {
+    let e = match std::panic::catch_unwind(|| read_input(&inp)) {
+        Ok(e) => e,
+        Err(_) => {
+            misses.push(format!("{id}: panicked instead of returning an error"));
+            return;
+        }
+    };
+    let msg = match e {
+        Ok(ok) => {
+            misses.push(format!(
+                "{id}: read {} samples instead of failing",
+                ok.n_used
+            ));
+            return;
+        }
+        Err(m) => m,
+    };
+    for p in phrases {
+        if !msg.contains(p) {
+            misses.push(format!("{id}: error {msg:?} does not contain {p:?}"));
+        }
+    }
+}
+
+fn rinex_head(version: &str) -> String {
+    let h = |c: &str, l: &str| format!("{c:<60}{l}\n");
+    h(
+        &format!("{version:>9}           C                   G"),
+        "RINEX VERSION / TYPE",
+    ) + &h("GPS", "TIME SYSTEM ID")
+        + &h("     1    AS", "# / TYPES OF DATA")
+}
+
+fn rinex_rec(name: &str, sec: u32, v: &str) -> String {
+    format!(
+        "AS {name:<4}      2026 08 02 00 {:02} {:9.6}  1   {v}\n",
+        sec / 60,
+        (sec % 60) as f64
+    )
+}
+
+#[test]
+fn b3_malformed_input_is_an_error_that_names_its_cause() {
+    use std::fmt::Write;
+    let mut misses = Vec::new();
+    // E1 to E4: any format
+    expect_err(
+        &mut misses,
+        "E1",
+        text_input("bogus", "1\n"),
+        &["bogus", "rinex-clk", "timelab", "ticc"],
+    );
+    expect_err(
+        &mut misses,
+        "E2",
+        ClockLogInput {
+            format: "timelab".into(),
+            ..Default::default()
+        },
+        &["path", "text"],
+    );
+    expect_err(
+        &mut misses,
+        "E3",
+        ClockLogInput {
+            format: "timelab".into(),
+            path: Some("/nonexistent/dir/no-such.log".into()),
+            ..Default::default()
+        },
+        &["/nonexistent/dir/no-such.log"],
+    );
+    for t in [0.0, -1.0, f64::NAN] {
+        let mut i = text_input("timelab", "1\n2\n3\n");
+        i.tau0_s = Some(t);
+        expect_err(&mut misses, "E4", i, &["tau0"]);
+    }
+    // E5 to E11: TimeLab
+    expect_err(
+        &mut misses,
+        "E5",
+        text_input("timelab", ""),
+        &["no readings"],
+    );
+    expect_err(
+        &mut misses,
+        "E6",
+        text_input("timelab", "# tau0 = 1\n1.0\nfoo bar baz\n"),
+        &["line 3"],
+    );
+    let mut i = text_input("timelab", "# tau0 = 1\n1\n2\n3\n");
+    i.units = Some("furlong".into());
+    expect_err(&mut misses, "E7", i, &["units", "furlong"]);
+    expect_err(
+        &mut misses,
+        "E8",
+        text_input("timelab", "1\n2\n3\n4\n"),
+        &["tau0"],
+    );
+    expect_err(
+        &mut misses,
+        "E9",
+        text_input("timelab", "# tau0 = 1\n1\nnan\n3\n"),
+        &["line 3"],
+    );
+    expect_err(
+        &mut misses,
+        "E10",
+        text_input("timelab", "0 1\n1 2\n1 3\n2 4\n"),
+        &["increas"],
+    );
+    expect_err(
+        &mut misses,
+        "E11",
+        text_input("timelab", "# data = frequency\n0 1e-9\n1 2e-9\n2 3e-9\n"),
+        &["frequency", "single column"],
+    );
+    // E12 to E18: RINEX clock
+    let mut body = String::new();
+    for k in 0..4 {
+        write!(body, "{}", rinex_rec("G01", 30 * k, " 1.000000000000E-04")).unwrap();
+    }
+    let end = format!("{:<60}END OF HEADER\n", "");
+    expect_err(
+        &mut misses,
+        "E12",
+        text_input("rinex-clk", &(rinex_head("4.00") + &end + &body)),
+        &["4.00"],
+    );
+    expect_err(
+        &mut misses,
+        "E13",
+        text_input("rinex-clk", &(rinex_head("3.05") + &end + &body)),
+        &["3.05"],
+    );
+    let mut i = text_input("rinex-clk", &(rinex_head("3.04") + &body));
+    i.clock = Some("G01".into());
+    expect_err(&mut misses, "E14", i, &["END OF HEADER"]);
+    let two = rinex_head("3.04") + &end + &body + &rinex_rec("G02", 0, " 2.000000000000E-04");
+    expect_err(
+        &mut misses,
+        "E15",
+        text_input("rinex-clk", &two),
+        &["clock", "G01", "G02"],
+    );
+    let mut i = text_input("rinex-clk", &two);
+    i.clock = Some("ZZZZ".into());
+    expect_err(&mut misses, "E16", i, &["ZZZZ"]);
+    let bad = rinex_head("3.04")
+        + &end
+        + &rinex_rec("G01", 0, " 1.000000000000E-04")
+        + &rinex_rec("G01", 30, " not-a-number")
+        + &rinex_rec("G01", 60, " 1.000000000000E-04");
+    let mut i = text_input("rinex-clk", &bad);
+    i.clock = Some("G01".into());
+    expect_err(&mut misses, "E17", i, &["clock bias"]);
+    let one = rinex_head("3.04") + &end + &rinex_rec("G01", 0, " 1.000000000000E-04");
+    let mut i = text_input("rinex-clk", &one);
+    i.clock = Some("G01".into());
+    expect_err(&mut misses, "E18", i, &["at least"]);
+    // E19 to E24: TICC
+    expect_err(
+        &mut misses,
+        "E19",
+        text_input("ticc", "# menu\nTAPR TICC\nType any character\n"),
+        &["no readings"],
+    );
+    let two_ch = "1.000000000000 chA\n1.500000000000 chB\n2.000000000000 chA\n2.500000000000 chB\n3.000000000000 chA\n";
+    expect_err(
+        &mut misses,
+        "E20",
+        text_input("ticc", two_ch),
+        &["chA", "chB", "channel"],
+    );
+    let mut i = text_input("ticc", two_ch);
+    i.channel = Some("chZ".into());
+    expect_err(&mut misses, "E21", i, &["chZ"]);
+    let period = "0.000000000100 chA\n0.000000000050 chA\n0.000000000020 chA\n0.000000000010 chA\n";
+    let mut i = text_input("ticc", period);
+    i.channel = Some("chA".into());
+    expect_err(&mut misses, "E22", i, &["Period"]);
+    let ti = "0.000000001000 TI(A->B)\n0.000000001010 TI(A->B)\n0.000000001020 TI(A->B)\n";
+    expect_err(&mut misses, "E23", text_input("ticc", ti), &["tau0_s"]);
+    finish("B3", misses);
+}
+
+#[test]
+fn b3_a_binary_ticc_log_is_refused_not_misread() {
+    // E24: binary timestamp mode is not UTF-8 text. The path reader reports it; there is no
+    // text to give inline, so this goes through a file.
+    // Per-call unique, as tests/source_guards.rs requires: the sequence, not the pid, separates
+    // threads of this one process.
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let p = std::env::temp_dir().join(format!("kshana-ticc-bin-{}-{seq}.log", std::process::id()));
+    std::fs::write(
+        &p,
+        [
+            0xAA_u8, 0x55, 0x00, 0xFF, 0xFE, 0x10, 0x20, 0x80, 0x81, 0x00, 0x00, 0x01,
+        ],
+    )
+    .unwrap();
+    let inp = ClockLogInput {
+        format: "ticc".into(),
+        path: Some(p.to_string_lossy().into_owned()),
+        ..Default::default()
+    };
+    let msg = read_input(&inp).expect_err("E24: binary data was read as text");
+    std::fs::remove_file(&p).ok();
+    assert!(
+        msg.contains("binary") || msg.contains("UTF-8"),
+        "E24: error {msg:?} names neither"
+    );
+}
+
+// ---- B4: RINEX clock versions --------------------------------------------------------------
+
+#[test]
+fn b4_rinex_clock_versions_2_and_3_00_to_3_04_are_read_and_others_refused() {
+    let end = format!("{:<60}END OF HEADER\n", "");
+    let mut body = String::new();
+    for k in 0..4 {
+        body += &rinex_rec("G01", 30 * k, " 1.000000000000E-04");
+    }
+    let mut misses = Vec::new();
+    for v in ["2.00", "3.00", "3.01", "3.02", "3.03", "3.04"] {
+        let mut i = text_input("rinex-clk", &(rinex_head(v) + &end + &body));
+        i.clock = Some("G01".into());
+        if let Err(e) = read_input(&i) {
+            misses.push(format!("version {v} was refused: {e}"));
+        }
+    }
+    for v in ["1.00", "3.05", "4.00", "4.02", "5.00"] {
+        let mut i = text_input("rinex-clk", &(rinex_head(v) + &end + &body));
+        i.clock = Some("G01".into());
+        match read_input(&i) {
+            Ok(r) => misses.push(format!("version {v} was read ({} samples)", r.n_used)),
+            Err(msg) => {
+                if !msg.contains(v) {
+                    misses.push(format!("version {v}: {msg:?} does not name it"));
+                }
+                if !msg.contains("3.04") {
+                    misses.push(format!(
+                        "version {v}: {msg:?} does not name the versions read"
+                    ));
+                }
+            }
+        }
+    }
+    finish("B4", misses);
+}

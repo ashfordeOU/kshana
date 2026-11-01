@@ -368,7 +368,7 @@ impl KernelGeometry {
                 });
             }
         }
-        Err("light time did not converge to 1e-15 s in 30 iterations".into())
+        Err(crate::terr!("e-lunar-vlbi-light-time-did-not-converge"))
     }
 
     /// The near-field VLBI delay `LT(station 2) − LT(station 1)` (s) at the common reception
@@ -852,9 +852,7 @@ impl LunarVlbiScenario {
                 std::path::Path::new(earth),
                 std::path::Path::new(moon),
             )?)),
-            _ => Err("the kernel path needs planetary_kernel_path, \
-                      earth_orientation_kernel_path and moon_orientation_kernel_path together"
-                .to_string()),
+            _ => Err(crate::terr!("e-lunar-vlbi-the-kernel-path-needs-planetary")),
         }
     }
 
@@ -1020,8 +1018,13 @@ pub fn lunar_vlbi_svg(r: &LunarVlbiReport) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar VLBI delay (baseline {:.0} km, beacon range {:.0} km, near-field {:.1} µs)</text>",
-        r.baseline_km, r.beacon_range_km, r.near_field_correction_us
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        crate::t!(
+            "lunar-vlbi-chart-title",
+            baseline = crate::i18n::num(r.baseline_km, 0),
+            range = crate::i18n::num(r.beacon_range_km, 0),
+            near_field = crate::i18n::num(r.near_field_correction_us, 1)
+        )
     ));
     if r.series.len() >= 2 {
         let pts: Vec<String> = r
@@ -1043,11 +1046,14 @@ pub fn lunar_vlbi_svg(r: &LunarVlbiReport) -> String {
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">delay {:.3} µs at epoch · {} samples over {:.1} h</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\">{}</text>",
         h - 18.0,
-        r.delay_s * 1e6,
-        r.samples,
-        r.horizon_hours
+        crate::t!(
+            "lunar-vlbi-chart-footnote",
+            delay = crate::i18n::num(r.delay_s * 1e6, 3),
+            samples = r.samples,
+            hours = crate::i18n::num(r.horizon_hours, 1)
+        )
     ));
     svg.push_str("</svg>");
     svg

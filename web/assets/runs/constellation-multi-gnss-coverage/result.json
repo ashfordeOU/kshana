@@ -13386,6 +13386,33 @@
     "satellites": 102,
     "visible_pairs": 1947600
   },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-cf3cdcd3",
+        "requirement": "Reproducibility & software assurance",
+        "status": "MODELLED"
+      },
+      {
+        "id": "VM-ead7033f",
+        "requirement": "Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-a33da228",
+        "requirement": "Global dilution of precision of the GPS baseline constellation",
+        "status": "VALIDATED"
+      },
+      {
+        "id": "VM-79dd3ee7",
+        "requirement": "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "MODELLED"
+  },
   "figure_tiers": {
     "figures": [
       {

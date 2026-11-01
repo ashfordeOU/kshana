@@ -1,0 +1,7 @@
+flowchart TB
+    SCN["Scenario<br/>motion and events"] --> EXP["bench-export<br/>events and test conditions<br/>kshana.test-conditions/1"]
+    EXP --> OP["Operator, outside Kshana<br/>replays a file through a lab simulator<br/>conducted and shielded, never automated"]
+    OP --> RLOG["Receiver log"]
+    RLOG --> SC["Scoring<br/>receiver-trust or jammertest<br/>against the stated events"]
+    SC --> RT["evidence round-trip<br/>links scenario hash, conditions hash<br/>log hash and score"]
+    RT --> VER["Signed pack<br/>kshana evidence verify"]

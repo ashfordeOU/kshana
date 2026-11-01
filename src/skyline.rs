@@ -328,8 +328,10 @@ impl Skyline {
 
 fn check_elevation(what: &str, el: f64) -> Result<(), String> {
     if !(el.is_finite() && (0.0..90.0).contains(&el)) {
-        return Err(format!(
-            "skyline: {what} must be in [0, 90) degrees, got {el}"
+        return Err(crate::terr!(
+            "e-skyline-skyline-must-be-in-90",
+            what = what,
+            el = el
         ));
     }
     Ok(())
@@ -337,7 +339,11 @@ fn check_elevation(what: &str, el: f64) -> Result<(), String> {
 
 fn check_finite(what: &str, v: f64) -> Result<(), String> {
     if !v.is_finite() {
-        return Err(format!("skyline: {what} must be a finite number, got {v}"));
+        return Err(crate::terr!(
+            "e-skyline-skyline-must-be-finite-number",
+            what = what,
+            v = v
+        ));
     }
     Ok(())
 }
@@ -402,7 +408,7 @@ impl SkylineCfg {
         let width = self
             .width_m
             .or(base.map(|c| c.width_m))
-            .ok_or("skyline: a canyon needs width_m")?;
+            .ok_or_else(|| crate::terr!("e-skyline-skyline-canyon-needs-width"))?;
         let c = Canyon {
             street_az_deg: self
                 .street_az_deg
@@ -433,17 +439,20 @@ impl SkylineCfg {
             check_finite(what, v)?;
         }
         if c.width_m <= 0.0 {
-            return Err(format!(
-                "skyline: width_m must be positive, got {}",
-                c.width_m
+            return Err(crate::terr!(
+                "e-skyline-skyline-width-must-be-positive",
+                width_m = c.width_m
             ));
         }
         if c.height_left_m < 0.0 || c.height_right_m < 0.0 || c.antenna_m < 0.0 {
-            return Err("skyline: canyon heights and antenna_m must be non-negative".into());
+            return Err(crate::terr!("e-skyline-skyline-canyon-heights-and-antenna"));
         }
         if let Some(l) = c.length_m {
             if !(l.is_finite() && l > 0.0) {
-                return Err(format!("skyline: length_m must be positive, got {l}"));
+                return Err(crate::terr!(
+                    "e-skyline-skyline-length-must-be-positive",
+                    l = l
+                ));
             }
         }
         Ok(c)
@@ -451,23 +460,29 @@ impl SkylineCfg {
 
     fn build_table(rows: &[[f64; 2]]) -> Result<Vec<(f64, f64)>, String> {
         if rows.is_empty() {
-            return Err("skyline: table is empty".into());
+            return Err(crate::terr!("e-skyline-skyline-table-is-empty"));
         }
         if rows.len() > MAX_TABLE_ROWS {
-            return Err(format!(
-                "skyline: table has {} rows, over the {MAX_TABLE_ROWS}-row cap",
-                rows.len()
+            return Err(crate::terr!(
+                "e-skyline-skyline-table-has-rows-over",
+                rows = rows.len(),
+                MAX_TABLE_ROWS = MAX_TABLE_ROWS
             ));
         }
         let mut prev = f64::NEG_INFINITY;
         let mut own = Vec::with_capacity(rows.len());
         for &[az, el] in rows {
             if !(az.is_finite() && (0.0..360.0).contains(&az)) {
-                return Err(format!("skyline: table azimuth {az} is outside [0, 360)"));
+                return Err(crate::terr!(
+                    "e-skyline-skyline-table-azimuth-is-outside",
+                    az = az
+                ));
             }
             if az <= prev {
-                return Err(format!(
-                    "skyline: table azimuths must be strictly increasing ({az} follows {prev})"
+                return Err(crate::terr!(
+                    "e-skyline-skyline-table-azimuths-must-be",
+                    az = az,
+                    prev = prev
                 ));
             }
             check_elevation("a table elevation", el)?;
@@ -493,16 +508,19 @@ impl SkylineCfg {
         }
         if let Some(secs) = &self.sectors {
             if sky.sectors.len() + secs.len() > MAX_SECTORS {
-                return Err(format!("skyline: more than {MAX_SECTORS} sectors"));
+                return Err(crate::terr!(
+                    "e-skyline-skyline-more-than-sectors",
+                    MAX_SECTORS = MAX_SECTORS
+                ));
             }
             for s in secs {
                 check_finite("az_from", s.az_from)?;
                 check_finite("az_to", s.az_to)?;
                 if wrap_deg(s.az_from) == wrap_deg(s.az_to) {
-                    return Err(format!(
-                        "skyline: the sector az_from = {} to az_to = {} is empty (a full circle is \
-                         a table or the mask)",
-                        s.az_from, s.az_to
+                    return Err(crate::terr!(
+                        "e-skyline-skyline-the-sector-az-from",
+                        az_from = s.az_from,
+                        az_to = s.az_to
                     ));
                 }
                 check_elevation("a sector el_deg", s.el_deg)?;
@@ -511,17 +529,18 @@ impl SkylineCfg {
         }
         if let Some(pts) = &self.terrain {
             if pts.len() > MAX_TABLE_ROWS {
-                return Err(format!(
-                    "skyline: more than {MAX_TABLE_ROWS} terrain points"
+                return Err(crate::terr!(
+                    "e-skyline-skyline-more-than-terrain-points",
+                    MAX_TABLE_ROWS = MAX_TABLE_ROWS
                 ));
             }
             for p in pts {
                 check_finite("a terrain az", p.az)?;
                 check_finite("a terrain height_m", p.height_m)?;
                 if !(p.distance_m.is_finite() && p.distance_m > 0.0) {
-                    return Err(format!(
-                        "skyline: terrain distance_m must be positive, got {}",
-                        p.distance_m
+                    return Err(crate::terr!(
+                        "e-skyline-skyline-terrain-distance-must-be",
+                        distance_m = p.distance_m
                     ));
                 }
             }
@@ -538,7 +557,7 @@ impl SkylineCfg {
     pub fn source(&self) -> String {
         match (&self.preset, self.has_overrides()) {
             (Some(p), false) => format!("preset:{p}"),
-            (Some(p), true) => format!("preset:{p}+overrides"),
+            (Some(p), true) => crate::t!("skyline-preset-overrides", p = p),
             (None, _) => "custom".into(),
         }
     }
@@ -548,12 +567,13 @@ impl SkylineCfg {
         let user =
             "the geometry stated in the scenario's [skyline] section (MODELLED line of sight)";
         match self.preset.as_deref().and_then(|n| preset(n).ok()) {
-            Some(p) if self.has_overrides() => format!(
-                "{}; with fields overridden or added by {user}",
-                p.provenance
+            Some(p) if self.has_overrides() => crate::t!(
+                "skyline-with-fields-overridden-or-added",
+                provenance = p.provenance,
+                user = user
             ),
             Some(p) => p.provenance.to_string(),
-            None => format!("Stated input: {user}"),
+            None => crate::t!("skyline-stated-input", user = user),
         }
     }
 }
@@ -741,9 +761,10 @@ pub const PRESETS: &[Preset] = &[
 /// Look up a preset by name.
 pub fn preset(name: &str) -> Result<&'static Preset, String> {
     PRESETS.iter().find(|p| p.name == name).ok_or_else(|| {
-        format!(
-            "unknown skyline preset \"{name}\"; known presets: {}",
-            preset_names().join(", ")
+        crate::terr!(
+            "e-skyline-unknown-skyline-preset-known-presets",
+            name = name,
+            preset_names = preset_names().join(", ")
         )
     })
 }

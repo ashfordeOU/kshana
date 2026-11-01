@@ -45,8 +45,9 @@ impl System {
             "glonass" => Ok(System::Glonass),
             "galileo" => Ok(System::Galileo),
             "beidou" | "bds" => Ok(System::Beidou),
-            other => Err(format!(
-                "receiver.systems: unknown constellation {other:?} (gps, glonass, galileo, beidou)"
+            other => Err(crate::terr!(
+                "e-nmea-synth-sky-receiver-systems-unknown-constellation-gps",
+                other = format!("{:?}", other)
             )),
         }
     }

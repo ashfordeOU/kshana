@@ -21,7 +21,8 @@ pub struct BatchResult<T> {
 }
 
 fn to_value<T: Serialize>(v: &T) -> Result<Value, IqError> {
-    serde_json::to_value(v).map_err(|e| IqError::Format(format!("cannot serialise row: {e}")))
+    serde_json::to_value(v)
+        .map_err(|e| IqError::Format(crate::terr!("e-iq-io-report-cannot-serialise-row", e = e)))
 }
 
 fn cell(v: &Value) -> String {

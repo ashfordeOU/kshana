@@ -136,3 +136,4 @@ tests/fixtures/iq_signals/C4_E5aQ.txt
 # kshana-bench baseline result files are committed (they are the leaderboard's input)
 !bench/results/*.result.json
 !bench/results-v1/*.result.json
+/i18n/en-XA/

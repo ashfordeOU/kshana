@@ -2,6 +2,8 @@
 // Kshana Pro output (src/data/pro-power.json). Page data "editions".pro (#kpage): the front
 // designs of each design study (with their free-engine re-run check) and the confidence band.
 // Nothing is typed here; without this script every chart and figure is still on the page.
+import { t, ready } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 let P = null;
@@ -85,10 +87,11 @@ function init() {
   const show = (ri, pi) => {
     const pt = P.design[ri].points[pi];
     const d = pt.designs[0];
-    const more = pt.designs.length > 1 ? ` (+${pt.designs.length - 1} more front design${pt.designs.length > 2 ? "s" : ""} at this point)` : "";
-    put(read, [[`Front design ${d.id}${d.knee ? " · knee" : ""}`], `${more} · ${fmt(pt.sat)} satellites, ${fmt(pt.av)} % availability · ` +
-      `${fmt(d.v.planes)} planes at ${fmt(d.v.altitude_km)} km, ${fmt(d.v.inclination_deg)}° · re-run in the free engine: `,
-      d.free ? [d.sha ? `same SHA-256 ${d.sha.slice(0, 8)}…` : "same result SHA-256 as the index", "span", "ok"] : "not re-run"]);
+    const more = pt.designs.length > 1 ? " " + t("js-site-pro-more-designs", { one: "(+{ $n } more front design at this point)", other: "(+{ $n } more front designs at this point)" }, { n: pt.designs.length - 1 }) : "";
+    put(read, [[d.knee ? t("js-site-pro-front-design-knee", "Front design { $id } · knee", { id: d.id }) : t("js-site-pro-front-design", "Front design { $id }", { id: d.id })],
+      `${more} · ` + t("js-site-pro-design-readout", "{ $sat } satellites, { $av } % availability · { $planes } planes at { $alt } km, { $incl }°",
+        { sat: fmt(pt.sat), av: fmt(pt.av), planes: fmt(d.v.planes), alt: fmt(d.v.altitude_km), incl: fmt(d.v.inclination_deg) }) + " · " + t("js-site-pro-rerun-free", "re-run in the free engine:") + " ",
+      d.free ? [d.sha ? t("js-site-pro-same-sha", "same SHA-256 { $sha }…", { sha: d.sha.slice(0, 8) }) : t("js-site-pro-same-sha-index", "same result SHA-256 as the index"), "span", "ok"] : t("js-site-pro-not-rerun", "not re-run")]);
     $$(".pw-pt", root).forEach((c) => c.classList.toggle("on", c.dataset.pwPt === `${ri}:${pi}`));
   };
   const kneeOf = (ri) => P.design[ri].points.findIndex((p) => p.designs.some((d) => d.knee));
@@ -141,8 +144,8 @@ function init() {
     line.setAttribute("x1", x); line.setAttribute("x2", x);
     dp.setAttribute("cx", x); dp.setAttribute("cy", Y(B.p50[i]));
     ds.setAttribute("cx", x); ds.setAttribute("cy", SY(B.share[i]));
-    if (text) put(bread, [`At ${fmt(B.t[i] / 60, 1)} minutes: 5th to 95th percentile `, [`${fmt(B.p05[i], 1)} to ${fmt(B.p95[i], 1)} ${B.unit}`], " · ",
-      [`${fmt(B.share[i] * 100, 2)} %`], ` of ${fmt(B.n)} runs within ±${fmt(B.limit)} ${B.unit}`]);
+    if (text) put(bread, [t("js-site-pro-band-at", "At { $minutes } minutes: 5th to 95th percentile", { minutes: fmt(B.t[i] / 60, 1) }) + " ", [t("js-site-pro-band-range", "{ $lo } to { $hi } { $unit }", { lo: fmt(B.p05[i], 1), hi: fmt(B.p95[i], 1), unit: B.unit })], " · ",
+      [`${fmt(B.share[i] * 100, 2)} %`], " " + t("js-site-pro-band-runs-within", "of { $n } runs within ±{ $limit } { $unit }", { n: fmt(B.n), limit: fmt(B.limit), unit: B.unit })]);
   };
   const near = (ev) => {
     const r = svg.getBoundingClientRect();

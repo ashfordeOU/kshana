@@ -357,8 +357,9 @@ fn pll_disc(s: &str) -> Result<PllDiscriminator, String> {
         "costas-atan" => PllDiscriminator::CostasAtan,
         "costas-decision-directed" => PllDiscriminator::CostasDecisionDirected,
         o => {
-            return Err(format!(
-                "carrier.pll_discriminator {o:?}: expected atan2, costas-atan or costas-decision-directed"
+            return Err(crate::terr!(
+                "e-iq-track-design-carrier-pll-discriminator-expected-atan2",
+                o = format!("{:?}", o)
             ))
         }
     })
@@ -378,8 +379,9 @@ fn fll_disc(s: &str) -> Result<FllDiscriminator, String> {
         "atan2" => FllDiscriminator::Atan2,
         "atan2-pilot" => FllDiscriminator::Atan2Pilot,
         o => {
-            return Err(format!(
-                "carrier.fll_discriminator {o:?}: expected cross-product, atan2 or atan2-pilot"
+            return Err(crate::terr!(
+                "e-iq-track-design-carrier-fll-discriminator-expected-cross",
+                o = format!("{:?}", o)
             ))
         }
     })
@@ -398,8 +400,9 @@ fn fll_assist(s: &str) -> Result<FllAssist, String> {
     match s {
         "pull-in" => Ok(FllAssist::default()),
         "always" => Ok(FllAssist::Always),
-        o => Err(format!(
-            "carrier.fll_assist {o:?}: expected pull-in or always"
+        o => Err(crate::terr!(
+            "e-iq-track-design-carrier-fll-assist-expected-pull",
+            o = format!("{:?}", o)
         )),
     }
 }
@@ -417,8 +420,9 @@ fn dll_disc(s: &str) -> Result<DllDiscriminator, String> {
         "dot-product" => DllDiscriminator::DotProduct,
         "eml-envelope" => DllDiscriminator::EarlyMinusLateEnvelope,
         o => {
-            return Err(format!(
-                "code.discriminator {o:?}: expected eml-power, dot-product or eml-envelope"
+            return Err(crate::terr!(
+                "e-iq-track-design-code-discriminator-expected-eml-power",
+                o = format!("{:?}", o)
             ))
         }
     })
@@ -501,8 +505,9 @@ impl Resolved {
         let c = &raw.carrier;
         if let Some(k) = &c.kind {
             if !["pll", "fll", "fll-assisted-pll"].contains(&k.as_str()) {
-                return Err(at(format!(
-                    "carrier.kind {k:?}: expected pll, fll or fll-assisted-pll"
+                return Err(at(crate::t!(
+                    "iq-track-design-carrier-kind-expected-pll-fll",
+                    k = format!("{:?}", k)
                 )));
             }
             if *k != self.carrier.kind {
@@ -561,9 +566,10 @@ impl Resolved {
             ),
         ] {
             if given && !allowed {
-                return Err(at(format!(
-                    "carrier.{key} does not apply to carrier.kind = {:?}",
-                    self.carrier.kind
+                return Err(at(crate::t!(
+                    "iq-track-design-carrier-does-not-apply-to",
+                    key = key,
+                    kind = format!("{:?}", self.carrier.kind)
                 )));
             }
         }
@@ -597,8 +603,9 @@ impl Resolved {
         set_some(&mut self.carrier.fll_pull_in_max_s, c.fll_pull_in_max_s);
         if let Some(v) = c.bn_t_max {
             if !(v.is_finite() && v >= 0.0) {
-                return Err(at(format!(
-                    "carrier.bn_t_max {v}: expected a number >= 0 (0 disables the clamp)"
+                return Err(at(crate::t!(
+                    "iq-track-design-carrier-bn-max-expected-number",
+                    v = v
                 )));
             }
             self.carrier.bn_t_max = v;
@@ -650,91 +657,110 @@ impl Resolved {
             if v.is_finite() && v > 0.0 {
                 Ok(())
             } else {
-                Err(format!("{k} must be a positive number (got {v})"))
+                Err(crate::terr!(
+                    "e-iq-track-design-must-be-positive-number-got",
+                    k = k,
+                    v = v
+                ))
             }
         };
         if self.integration.coherent_periods == 0 {
-            return Err("integration.coherent_periods must be at least 1".into());
+            return Err(crate::terr!(
+                "e-iq-track-design-integration-coherent-periods-must-be"
+            ));
         }
         let d = self.integration.spacing_chips;
         if !(d.is_finite() && d > 0.0 && d <= 2.0) {
-            return Err(format!(
-                "integration.spacing_chips must lie in (0, 2] (got {d})"
+            return Err(crate::terr!(
+                "e-iq-track-design-integration-spacing-chips-must-lie",
+                d = d
             ));
         }
         let taps = &self.integration.extra_taps_chips;
         if taps.len() > MAX_EXTRA_TAPS {
-            return Err(format!(
-                "integration.extra_taps_chips holds at most {MAX_EXTRA_TAPS} offsets (got {})",
-                taps.len()
+            return Err(crate::terr!(
+                "e-iq-track-design-integration-extra-taps-chips-holds",
+                MAX_EXTRA_TAPS = MAX_EXTRA_TAPS,
+                taps = taps.len()
             ));
         }
         if let Some(t) = taps
             .iter()
             .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
         {
-            return Err(format!(
-                "integration.extra_taps_chips offsets must be finite and within \
-                 ±{MAX_TAP_OFFSET_CHIPS} chips (got {t})"
+            return Err(crate::terr!(
+                "e-iq-track-design-integration-extra-taps-chips-offsets",
+                MAX_TAP_OFFSET_CHIPS = MAX_TAP_OFFSET_CHIPS,
+                t = t
             ));
         }
         if let (Some(off), Some(on)) = (self.carrier.fll_off_pli, self.carrier.fll_on_pli) {
             if !(on.is_finite() && off.is_finite() && on > -1.0 && on < off && off <= 1.0) {
-                return Err(format!(
-                    "carrier.fll_on_pli ({on}) must be below carrier.fll_off_pli ({off}), \
-                     both in (-1, 1]"
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-fll-on-pli-must",
+                    on = on,
+                    off = off
                 ));
             }
         }
         if let Some(t) = self.carrier.fll_gate_dwell_s {
             if !(t.is_finite() && t >= 0.0) {
-                return Err(format!(
-                    "carrier.fll_gate_dwell_s must be zero or positive (got {t})"
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-fll-gate-dwell-must",
+                    t = t
                 ));
             }
         }
         if let Some(t) = self.carrier.fll_pull_in_max_s {
             if !(t.is_finite() && t > 0.0) {
-                return Err(format!(
-                    "carrier.fll_pull_in_max_s must be positive (got {t})"
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-fll-pull-in-max",
+                    t = t
                 ));
             }
             if self.carrier.fll_assist.as_deref() == Some("always") {
-                return Err(
-                    "carrier.fll_pull_in_max_s applies only to fll_assist = \"pull-in\"".into(),
-                );
+                return Err(crate::terr!("e-iq-track-design-carrier-fll-pull-in-max-2"));
             }
         }
         if let (Some(o), Some(b)) = (self.carrier.pll_order, self.carrier.pll_bw_hz) {
             if !(1..=3).contains(&o) {
-                return Err(format!("carrier.pll_order must be 1, 2 or 3 (got {o})"));
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-pll-order-must-be",
+                    o = o
+                ));
             }
             pos(b, "carrier.pll_bw_hz")?;
         }
         if let (Some(o), Some(b)) = (self.carrier.fll_order, self.carrier.fll_bw_hz) {
             if !(1..=2).contains(&o) {
-                return Err(format!("carrier.fll_order must be 1 or 2 (got {o})"));
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-fll-order-must-be",
+                    o = o
+                ));
             }
             pos(b, "carrier.fll_bw_hz")?;
         }
         if !(1..=2).contains(&self.code.order) {
-            return Err(format!(
-                "code.order must be 1 or 2 (got {})",
-                self.code.order
+            return Err(crate::terr!(
+                "e-iq-track-design-code-order-must-be-or",
+                order = self.code.order
             ));
         }
         pos(self.code.bw_hz, "code.bw_hz")?;
         let pli = self.lock.pli_threshold;
         if !(pli.is_finite() && (-1.0..=1.0).contains(&pli)) {
-            return Err(format!(
-                "lock.pli_threshold must lie in [-1, 1] (got {pli})"
+            return Err(crate::terr!(
+                "e-iq-track-design-lock-pli-threshold-must-lie",
+                pli = pli
             ));
         }
         if self.lock.cn0_windows == 0 {
-            return Err("lock.cn0_windows must be at least 1".into());
+            return Err(crate::terr!("e-iq-track-design-lock-cn0-windows-must-be"));
         }
         if self.lock.cn0_window_periods < 2 {
-            return Err("lock.cn0_window_periods must be at least 2".into());
+            return Err(crate::terr!(
+                "e-iq-track-design-lock-cn0-window-periods-must"
+            ));
         }
         let m = &self.lock.machine;
         pos(m.pull_in_max_s, "lock.pull_in_max_s")?;
@@ -744,33 +770,38 @@ impl Resolved {
         pos(m.reacq_interval_s, "lock.reacq_interval_s")?;
         pos(m.reacq_max_interval_s, "lock.reacq_max_interval_s")?;
         if m.reacq_max_interval_s < m.reacq_interval_s {
-            return Err(format!(
-                "lock.reacq_max_interval_s ({}) must not be below lock.reacq_interval_s ({})",
-                m.reacq_max_interval_s, m.reacq_interval_s
+            return Err(crate::terr!(
+                "e-iq-track-design-lock-reacq-max-interval-must",
+                reacq_max_interval_s = m.reacq_max_interval_s,
+                reacq_interval_s = m.reacq_interval_s
             ));
         }
         if !m.false_lock_margin_db.is_finite() {
-            return Err("lock.false_lock_margin_db must be finite".into());
+            return Err(crate::terr!("e-iq-track-design-lock-false-lock-margin-db"));
         }
         if self.bit_sync.min_votes == 0 {
-            return Err("bit_sync.min_votes must be at least 1".into());
+            return Err(crate::terr!("e-iq-track-design-bit-sync-min-votes-must"));
         }
         pos(self.bit_sync.ratio, "bit_sync.ratio")?;
         let a = &self.acquisition;
         if a.coherent_periods.value() == Some(0) {
-            return Err("acquisition.coherent_periods must be at least 1 (or \"auto\")".into());
+            return Err(crate::terr!(
+                "e-iq-track-design-acquisition-coherent-periods-must-be"
+            ));
         }
         if a.noncoherent == 0 {
-            return Err("acquisition.noncoherent must be at least 1".into());
+            return Err(crate::terr!(
+                "e-iq-track-design-acquisition-noncoherent-must-be-at"
+            ));
         }
         pos(a.doppler_max_hz, "acquisition.doppler_max_hz")?;
         if let Some(s) = a.doppler_step_hz.value() {
             pos(s, "acquisition.doppler_step_hz")?;
         }
         if !(a.pfa > 0.0 && a.pfa < 1.0) {
-            return Err(format!(
-                "acquisition.pfa must lie in (0, 1) (got {})",
-                a.pfa
+            return Err(crate::terr!(
+                "e-iq-track-design-acquisition-pfa-must-lie-in",
+                pfa = a.pfa
             ));
         }
         Ok(())
@@ -1059,10 +1090,12 @@ impl Design {
     /// without `name`) applied on top, re-validated and re-hashed. The CLI uses it for
     /// explicit flags that override a file's design.
     pub fn with_overrides(&self, overrides: &str) -> Result<Self, String> {
-        let raw: RawDesign =
-            toml::from_str(overrides).map_err(|e| format!("design overrides: {e}"))?;
+        let raw: RawDesign = toml::from_str(overrides)
+            .map_err(|e| crate::terr!("e-iq-track-design-design-overrides", e = e))?;
         if raw.name.is_some() || raw.extends.is_some() {
-            return Err("design overrides may not set name or extends".into());
+            return Err(crate::terr!(
+                "e-iq-track-design-design-overrides-may-not-set"
+            ));
         }
         let resolved = self.resolved.clone().apply(&raw, &self.name)?;
         Ok(Self::from_resolved(
@@ -1082,32 +1115,45 @@ pub struct DesignFile {
 impl DesignFile {
     /// Parse and resolve a `kshana.loop-design/1` file. Errors name the design and key.
     pub fn parse(text: &str) -> Result<Self, String> {
-        let raw: RawFile = toml::from_str(text).map_err(|e| format!("loop-design file: {e}"))?;
+        let raw: RawFile = toml::from_str(text)
+            .map_err(|e| crate::terr!("e-iq-track-design-loop-design-file", e = e))?;
         match raw.schema.as_deref() {
             Some(SCHEMA) => {}
             Some(other) => {
-                return Err(format!(
-                    "loop-design file: schema {other:?} is not supported; expected {SCHEMA:?}"
+                return Err(crate::terr!(
+                    "e-iq-track-design-loop-design-file-schema-is",
+                    other = format!("{:?}", other),
+                    SCHEMA = format!("{:?}", SCHEMA)
                 ))
             }
-            None => return Err(format!("loop-design file: missing schema = {SCHEMA:?}")),
+            None => {
+                return Err(crate::terr!(
+                    "e-iq-track-design-loop-design-file-missing-schema",
+                    SCHEMA = format!("{:?}", SCHEMA)
+                ))
+            }
         }
         if raw.design.is_empty() {
-            return Err("loop-design file: no [[design]] tables".into());
+            return Err(crate::terr!("e-iq-track-design-loop-design-file-no-design"));
         }
         let mut by_name: BTreeMap<String, usize> = BTreeMap::new();
         for (i, d) in raw.design.iter().enumerate() {
             let name = d.name.clone().ok_or_else(|| {
-                format!("loop-design file: [[design]] number {} has no name", i + 1)
+                crate::terr!(
+                    "e-iq-track-design-loop-design-file-design-number",
+                    v1 = i + 1
+                )
             })?;
             if name.trim().is_empty() || name == "default" {
-                return Err(format!(
-                    "loop-design file: design name {name:?} is reserved or empty"
+                return Err(crate::terr!(
+                    "e-iq-track-design-loop-design-file-design-name",
+                    name = format!("{:?}", name)
                 ));
             }
             if by_name.insert(name.clone(), i).is_some() {
-                return Err(format!(
-                    "loop-design file: design {name:?} is defined twice"
+                return Err(crate::terr!(
+                    "e-iq-track-design-loop-design-file-design-is",
+                    name = format!("{:?}", name)
                 ));
             }
         }
@@ -1147,11 +1193,13 @@ impl DesignFile {
             None => self
                 .designs
                 .first()
-                .ok_or_else(|| "loop-design file holds no designs".to_string()),
+                .ok_or_else(|| crate::terr!("e-iq-track-design-loop-design-file-holds-no")),
             Some(n) => self.get(n).ok_or_else(|| {
-                format!(
-                    "no design named {n:?}; the file holds {}",
-                    self.designs
+                crate::terr!(
+                    "e-iq-track-design-no-design-named-the-file",
+                    n = format!("{:?}", n),
+                    value = self
+                        .designs
                         .iter()
                         .map(|d| d.name.as_str())
                         .collect::<Vec<_>>()
@@ -1175,8 +1223,9 @@ fn resolve(
     }
     let name = raw[i].name.clone().unwrap_or_default();
     if stack.contains(&i) {
-        return Err(format!(
-            "loop-design file: design {name:?} extends itself (a cycle)"
+        return Err(crate::terr!(
+            "e-iq-track-design-loop-design-file-design-extends",
+            name = format!("{:?}", name)
         ));
     }
     stack.push(i);
@@ -1184,7 +1233,11 @@ fn resolve(
         None | Some("default") => Resolved::builtin(),
         Some(parent) => {
             let j = *by_name.get(parent).ok_or_else(|| {
-                format!("loop-design file: design {name:?} extends unknown design {parent:?}")
+                crate::terr!(
+                    "e-iq-track-design-loop-design-file-design-extends-2",
+                    name = format!("{:?}", name),
+                    parent = format!("{:?}", parent)
+                )
             })?;
             resolve(j, raw, by_name, done, stack)?
         }

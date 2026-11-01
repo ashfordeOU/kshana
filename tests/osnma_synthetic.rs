@@ -16,7 +16,6 @@ use kshana::osnma::verifier::{
     Chain, Config, Event, FailReason, KrootError, PendingReason, TagResult, TagStatus, Verifier,
 };
 use kshana::osnma::{InavPage, OsnmaStatus, WEEK_S};
-use rand::SeedableRng;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
@@ -132,7 +131,11 @@ impl Ctx {
             &self.tag_msg(None, PRNA, gst, 1, &navdata(PRNA, gst - 30, 0)),
         );
         // MACSEQ over the Tag-Info of the flexible slots (positions 1 and 3 of the table).
-        let flex_idx: Vec<usize> = if gst % 60 == 0 { vec![0, 2] } else { vec![0] };
+        let flex_idx: Vec<usize> = if gst.is_multiple_of(60) {
+            vec![0, 2]
+        } else {
+            vec![0]
+        };
         let mut ms = BitWriter::new();
         ms.push(u64::from(PRNA), 8);
         ms.push(u64::from(kshana::osnma::gst_pack(gst)), 32);
@@ -278,7 +281,7 @@ struct Plan {
 
 fn plan(gst: u32) -> Plan {
     // MACLT 34, first message: 00S FLX 04S FLX 12S 00E ; second: 00S FLX 00E 12S 00E 12E
-    let first = gst % 60 == 0;
+    let first = gst.is_multiple_of(60);
     let tags = if first {
         vec![(PRN_X, 0), (PRNA, 4), (PRN_X, 0), (PRNA, 12), (PRN_X, 0)]
     } else {
@@ -861,17 +864,13 @@ impl Signer {
             Self::P256(sk) => PublicKey {
                 pkid,
                 key_type: KeyType::P256,
-                bytes: sk
-                    .verifying_key()
-                    .to_encoded_point(true)
-                    .as_bytes()
-                    .to_vec(),
+                bytes: sk.verifying_key().to_sec1_point(true).as_bytes().to_vec(),
             },
             Self::P521(sk) => PublicKey {
                 pkid,
                 key_type: KeyType::P521,
                 bytes: p521::ecdsa::VerifyingKey::from(sk)
-                    .to_encoded_point(true)
+                    .to_sec1_point(true)
                     .as_bytes()
                     .to_vec(),
             },
@@ -886,9 +885,8 @@ impl Signer {
                 s.to_bytes().to_vec()
             }
             Self::P521(sk) => {
-                use p521::ecdsa::signature::RandomizedSigner as _;
-                let mut rng = rand_chacha::ChaCha20Rng::seed_from_u64(7);
-                let s: p521::ecdsa::Signature = sk.try_sign_with_rng(&mut rng, msg).unwrap();
+                use p521::ecdsa::signature::Signer as _;
+                let s: p521::ecdsa::Signature = sk.sign(msg);
                 s.to_bytes().to_vec()
             }
         }

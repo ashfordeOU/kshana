@@ -442,20 +442,24 @@ pub fn audit_document(doc: &Value) -> DocumentAudit {
 fn entry_fields(entry: &Value) -> Result<(&str, ProvenanceClass, Option<&str>), String> {
     let obj = entry
         .as_object()
-        .ok_or_else(|| "entry is not an object".to_string())?;
+        .ok_or_else(|| crate::terr!("e-field-schema-entry-is-not-an-object"))?;
     let unit = obj
         .get("unit")
         .and_then(|u| u.as_str())
-        .ok_or_else(|| "no `unit` string".to_string())?;
+        .ok_or_else(|| crate::terr!("e-field-schema-no-unit-string"))?;
     if unit.is_empty() {
-        return Err("`unit` is the empty string".to_string());
+        return Err(crate::terr!("e-field-schema-unit-is-the-empty-string"));
     }
     let prov_str = obj
         .get("provenance")
         .and_then(|p| p.as_str())
-        .ok_or_else(|| "no `provenance` string".to_string())?;
-    let provenance = ProvenanceClass::parse(prov_str)
-        .ok_or_else(|| format!("`provenance` {prov_str:?} is outside the vocabulary"))?;
+        .ok_or_else(|| crate::terr!("e-field-schema-no-provenance-string"))?;
+    let provenance = ProvenanceClass::parse(prov_str).ok_or_else(|| {
+        crate::terr!(
+            "e-field-schema-provenance-is-outside-the-vocabulary",
+            prov_str = format!("{:?}", prov_str)
+        )
+    })?;
     let note = obj.get("note").and_then(|n| n.as_str());
     Ok((unit, provenance, note))
 }

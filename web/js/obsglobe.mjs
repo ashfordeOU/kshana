@@ -255,7 +255,7 @@ export class Globe {
     const dist = this.camDist / this.zoom;
     this.camera.position.set(Math.sin(ax) * dist, 0.5 + ay * 2, Math.cos(ax) * dist);
     this.camera.lookAt(0, 0, 0); this.camera.updateMatrixWorld();
-    if (this.earthMat) this.earthMat.uniforms.sun.value.set(-0.55, 0.45, 0.7).normalize();
+    if (this.earthMat) this.earthMat.uniforms.sun.value.set(-0.8, 0.22, 0.56).normalize();
     this.root.updateMatrixWorld(true);
     if (O.labels) {
       this.placeLabel("rx", this.rx, 1);

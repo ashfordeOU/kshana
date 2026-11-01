@@ -21,7 +21,7 @@ fn block(id: u16, rev: u8, tow_ms: u32, wnc: u16, body: &[u8]) -> Vec<u8> {
     data.extend(tow_ms.to_le_bytes());
     data.extend(wnc.to_le_bytes());
     data.extend(body);
-    while (data.len() + 2) % 4 != 0 {
+    while !(data.len() + 2).is_multiple_of(4) {
         data.push(0);
     }
     let len = (data.len() + 2) as u16;
