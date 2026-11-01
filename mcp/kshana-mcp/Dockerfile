@@ -37,7 +37,7 @@ RUN cargo build --release --locked && strip target/release/kshana-mcp
 # bookworm-slim matches the builder's glibc (2.36), so the dynamically linked binary
 # runs as-is. No extra packages: over stdio the server makes no network calls; with
 # `--http` it only listens (see docs/deploy/mcp-http.md).
-FROM debian:bookworm-slim@sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251 AS runtime
+FROM debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3 AS runtime
 
 # Ownership marker that links this image to its entry in the official MCP registry.
 # The registry reads this label to verify `server.json` ↔ image ownership.
