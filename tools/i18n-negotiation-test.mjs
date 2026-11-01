@@ -55,14 +55,14 @@ for (const [langs, stored, path, want] of cases) {
   if (!ok) { fail++; console.log(`FAIL languages=${JSON.stringify(list)} stored=${stored} ${path}: got ${got}, want ${want}`); }
   await ctx.close();
 }
-// a direct /<lang>/ URL does not overwrite the stored choice, a switcher click does
+// a ?lang= link or a direct /<lang>/ URL is not remembered (following a link must not make English unreachable); a switcher click is
 {
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
   await page.goto(base + '/docs/overview?lang=sv', { waitUntil: 'commit' }).catch(() => {});
   await page.waitForTimeout(300);
   const st = await page.evaluate(() => localStorage.getItem('kshana-lang')).catch(() => null);
-  if (st !== 'sv') { fail++; console.log(`FAIL ?lang=sv should store sv, got ${st}`); }
+  if (st !== null) { fail++; console.log(`FAIL ?lang=sv switches the page but must not be remembered, got ${st}`); }
   await ctx.close();
 }
 {
