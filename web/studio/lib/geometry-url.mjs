@@ -16,6 +16,7 @@
 // keys are read, each value must match its exact form and range, and anything else is dropped with a notice,
 // never interpreted. Nothing from the address is put into markup. Pasted TLE text is never in the address.
 // Tested in geometry-url.test.mjs.
+import { t } from "./t.mjs";
 import { decodeTable, encodeTable, BINS } from "./skyline-edit.mjs";
 
 // System codes the address may carry, and the view's names for them.
@@ -115,38 +116,38 @@ export function parseState(search) {
   const extra = {};
   let text = typeof search === "string" ? search : "";
   if (text.startsWith("?")) text = text.slice(1);
-  if (text.length > MAX_QUERY) return { state, notes: [`The address is longer than ${MAX_QUERY} characters, so none of its settings were read.`], extra };
+  if (text.length > MAX_QUERY) return { state, notes: [t("js-lib-geometry-url-too-long", "The address is longer than { $max } characters, so none of its settings were read.", { max: MAX_QUERY })], extra };
   let params;
-  try { params = new URLSearchParams(text); } catch { return { state, notes: ["The address could not be read."], extra }; }
+  try { params = new URLSearchParams(text); } catch { return { state, notes: [t("js-lib-geometry-url-unreadable", "The address could not be read.")], extra }; }
   const seen = new Set();
   for (const [k, v] of params) {
     if (EXTRA.includes(k)) { if (!Object.hasOwn(extra, k) && /^(dark|light)$/.test(v)) extra[k] = v; continue; }
     if (!KEYS.includes(k)) continue;
-    if (seen.has(k)) { notes.push(`"${k}" appears more than once; the first value is used.`); continue; }
+    if (seen.has(k)) { notes.push(t("js-lib-geometry-url-repeated", `"{ $key }" appears more than once; the first value is used.`, { key: k })); continue; }
     seen.add(k);
     if (k === "site") {
       const p = v.split(",");
       const [lat, lon, h] = [readNum(p[0], RANGES.lat), readNum(p[1], RANGES.lon), p.length === 3 ? readNum(p[2], RANGES.h) : 0];
-      if (p.length < 2 || p.length > 3 || lat === null || lon === null || h === null) notes.push("The site is not latitude,longitude[,height] in range; the default site is used.");
+      if (p.length < 2 || p.length > 3 || lat === null || lon === null || h === null) notes.push(t("js-lib-geometry-url-bad-site", "The site is not latitude,longitude[,height] in range; the default site is used."));
       else Object.assign(state, { lat, lon, h });
     } else if (k === "sys") {
       const r = readSys(v);
-      if (!r) notes.push("The constellation list is not G, E, C and at most one L:<LEO preset> this view knows; the default mix is used.");
+      if (!r) notes.push(t("js-lib-geometry-url-bad-sys", "The constellation list is not G, E, C and at most one L:<LEO preset> this view knows; the default mix is used."));
       else {
         Object.assign(state, r);
-        if (r.tle) notes.push("The sender used their own orbital elements (TLE), which a link does not carry; the presets are shown instead.");
+        if (r.tle) notes.push(t("js-lib-geometry-url-own-tle", "The sender used their own orbital elements (TLE), which a link does not carry; the presets are shown instead."));
       }
     } else if (k === "sky") {
       const s = readSky(v);
-      if (!s) notes.push("The skyline is not a preset, a 360-bin table or a canyon in range; an open horizon is used.");
+      if (!s) notes.push(t("js-lib-geometry-url-bad-sky", "The skyline is not a preset, a 360-bin table or a canyon in range; an open horizon is used."));
       else state.sky = s;
     } else if (k === "mc") {
       const n = readNum(v, { min: 0, max: 5000, dp: 0 });
-      if (n === null || !MC_CHOICES.includes(n)) notes.push(`The Monte Carlo sample count is not one of ${MC_CHOICES.join(", ")}; ${DEFAULTS.mc} is used.`);
+      if (n === null || !MC_CHOICES.includes(n)) notes.push(t("js-lib-geometry-url-bad-mc", "The Monte Carlo sample count is not one of { $choices }; { $default } is used.", { choices: MC_CHOICES.join(", "), default: DEFAULTS.mc }));
       else state.mc = n;
     } else {
       const x = readNum(v, RANGES[k]);
-      if (x === null) notes.push(`"${k}" is not a number from ${RANGES[k].min} to ${RANGES[k].max}; the default is used.`);
+      if (x === null) notes.push(t("js-lib-geometry-url-bad-number", `"{ $key }" is not a number from { $min } to { $max }; the default is used.`, { key: k, min: RANGES[k].min, max: RANGES[k].max }));
       else state[k] = x;
     }
   }

@@ -48,19 +48,26 @@ impl Sparse {
             if line.is_empty() {
                 continue;
             }
-            let (r, c) = line
-                .split_once(',')
-                .ok_or_else(|| format!("line {}: expected `row,column`", n + 1))?;
+            let (r, c) = line.split_once(',').ok_or_else(|| {
+                crate::terr!("e-lunar-afs-ldpc-line-expected-row-column", v1 = n + 1)
+            })?;
             let r: u32 = r
                 .trim()
                 .parse()
-                .map_err(|e| format!("line {}: {e}", n + 1))?;
+                .map_err(|e| crate::terr!("e-lunar-afs-ldpc-line", v1 = n + 1, e = e))?;
             let c: u32 = c
                 .trim()
                 .parse()
-                .map_err(|e| format!("line {}: {e}", n + 1))?;
+                .map_err(|e| crate::terr!("e-lunar-afs-ldpc-line", v1 = n + 1, e = e))?;
             if r as usize >= rows || c as usize >= cols {
-                return Err(format!("line {}: ({r},{c}) outside {rows}x{cols}", n + 1));
+                return Err(crate::terr!(
+                    "e-lunar-afs-ldpc-line-outside",
+                    v1 = n + 1,
+                    r = r,
+                    c = c,
+                    rows = rows,
+                    cols = cols
+                ));
             }
             ones.push((r, c));
         }
@@ -165,11 +172,11 @@ impl LdpcCode {
     /// filler bits are appended as zeros.
     pub fn encode_full(&self, info: &[u8]) -> Result<Vec<u8>, String> {
         if info.len() != self.info_bits {
-            return Err(format!(
-                "LDPC {:?}: {} information bits expected, {} given",
-                self.subframe,
-                self.info_bits,
-                info.len()
+            return Err(crate::terr!(
+                "e-lunar-afs-ldpc-ldpc-information-bits-expected-given",
+                subframe = format!("{:?}", self.subframe),
+                info_bits = self.info_bits,
+                info = info.len()
             ));
         }
         let mut s = info.iter().map(|b| b & 1).collect::<Vec<u8>>();

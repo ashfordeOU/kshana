@@ -432,21 +432,28 @@ fn col(line: &str, a: usize, b: usize) -> &str {
 }
 
 fn need<T>(o: Option<T>, what: &str) -> Result<T, String> {
-    o.ok_or_else(|| format!("missing {what}"))
+    o.ok_or_else(|| crate::terr!("e-ionex-missing", what = what))
 }
 
 fn f64_field(line: &str, a: usize, b: usize, what: &str) -> Result<f64, String> {
-    col(line, a, b)
-        .trim()
-        .parse()
-        .map_err(|_| format!("{what}: bad number in {:?}", col(line, a, b)))
+    col(line, a, b).trim().parse().map_err(|_| {
+        crate::terr!(
+            "e-ionex-bad-number-in",
+            what = what,
+            col = format!("{:?}", col(line, a, b))
+        )
+    })
 }
 
 fn epoch_record(line: &str, what: &str) -> Result<IonexEpoch, String> {
     let f = |k: usize| f64_field(line, 6 * k, 6 * k + 6, what);
     let year = f(0)? as i32;
     if year < 1000 {
-        return Err(format!("{what}: two-digit year {year}"));
+        return Err(crate::terr!(
+            "e-ionex-two-digit-year",
+            what = what,
+            year = year
+        ));
     }
     Ok(IonexEpoch {
         year,
@@ -509,7 +516,7 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
         }
     }
     if !header_done {
-        return Err("no END OF HEADER".into());
+        return Err(crate::terr!("e-ionex-no-end-of-header"));
     }
     let header = IonexHeader {
         version: need(version, "IONEX VERSION / TYPE")?,
@@ -527,15 +534,15 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
     let [lat1, lat2, dlat] = header.lat_deg;
     let [lon1, lon2, dlon] = header.lon_deg;
     if header.hgt_km[2] != 0.0 {
-        return Err("height-dependent (3-D) IONEX maps are not supported".into());
+        return Err(crate::terr!("e-ionex-height-dependent-ionex-maps-are"));
     }
     if dlat == 0.0 || dlon == 0.0 {
-        return Err("zero grid step".into());
+        return Err(crate::terr!("e-ionex-zero-grid-step"));
     }
     let n_lat = ((lat2 - lat1) / dlat).round() as i64 + 1;
     let n_lon = ((lon2 - lon1) / dlon).round() as i64 + 1;
     if n_lat < 2 || n_lon < 2 {
-        return Err("grid needs at least 2 x 2 nodes".into());
+        return Err(crate::terr!("e-ionex-grid-needs-at-least-nodes"));
     }
     let (n_lat, n_lon) = (n_lat as usize, n_lon as usize);
     let n_rec = n_lon.div_ceil(16);
@@ -556,9 +563,9 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
         let mut missing = 0usize;
         let mut band = 0usize;
         loop {
-            let rec = lines
-                .next()
-                .ok_or_else(|| format!("map {index}: no {end_label}"))?;
+            let rec = lines.next().ok_or_else(|| {
+                crate::terr!("e-ionex-map-no", index = index, end_label = end_label)
+            })?;
             match ionex_label(rec) {
                 "EPOCH OF CURRENT MAP" => epoch = Some(epoch_record(rec, "EPOCH OF CURRENT MAP")?),
                 "EXPONENT" => map_exp = f64_field(rec, 0, 6, "EXPONENT")? as i32,
@@ -566,8 +573,12 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
                     let band_lat = f64_field(rec, 2, 8, "band latitude")?;
                     let want = lat1 + band as f64 * dlat;
                     if (band_lat - want).abs() > 1e-6 {
-                        return Err(format!(
-                            "map {index}: band {band} latitude {band_lat}, header grid {want}"
+                        return Err(crate::terr!(
+                            "e-ionex-map-band-latitude-header-grid",
+                            index = index,
+                            band = band,
+                            band_lat = band_lat,
+                            want = want
                         ));
                     }
                     let b_lon1 = f64_field(rec, 8, 14, "band LON1")?;
@@ -577,13 +588,17 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
                         || (b_lon2 - lon2).abs() > 1e-6
                         || (b_dlon - dlon).abs() > 1e-6
                     {
-                        return Err(format!("map {index}: band {band} longitudes differ"));
+                        return Err(crate::terr!(
+                            "e-ionex-map-band-longitudes-differ",
+                            index = index,
+                            band = band
+                        ));
                     }
                     let scale = 10f64.ppowi(map_exp);
                     for r in 0..n_rec {
-                        let vrec = lines
-                            .next()
-                            .ok_or_else(|| format!("map {index}: band {band} truncated"))?;
+                        let vrec = lines.next().ok_or_else(|| {
+                            crate::terr!("e-ionex-map-band-truncated", index = index, band = band)
+                        })?;
                         let n = (n_lon - 16 * r).min(16);
                         for k in 0..n {
                             let v = f64_field(vrec, 5 * k, 5 * k + 5, "I5 value")?;
@@ -602,11 +617,15 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
             }
         }
         if band != n_lat || vals.len() != n_lat * n_lon {
-            return Err(format!(
-                "map {index}: {band} bands, header grid has {n_lat}"
+            return Err(crate::terr!(
+                "e-ionex-map-bands-header-grid-has",
+                index = index,
+                band = band,
+                n_lat = n_lat
             ));
         }
-        let epoch = epoch.ok_or_else(|| format!("map {index}: no EPOCH OF CURRENT MAP"))?;
+        let epoch =
+            epoch.ok_or_else(|| crate::terr!("e-ionex-map-no-epoch-of-current", index = index))?;
         let t_s = epoch.seconds_since_day_of(&header.first_epoch);
         let grid = build_grid(lat1, lat2, dlat, lon1, dlon, n_lat, n_lon, &vals);
         let map = IonexFileMap {
@@ -624,14 +643,14 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
         }
     }
     if tec_maps.len() != header.n_maps {
-        return Err(format!(
-            "{} TEC maps, header # OF MAPS IN FILE {}",
-            tec_maps.len(),
-            header.n_maps
+        return Err(crate::terr!(
+            "e-ionex-tec-maps-header-of-maps",
+            tec_maps = tec_maps.len(),
+            n_maps = header.n_maps
         ));
     }
     if tec_maps.windows(2).any(|w| w[1].t_s <= w[0].t_s) {
-        return Err("TEC map epochs not increasing".into());
+        return Err(crate::terr!("e-ionex-tec-map-epochs-not-increasing"));
     }
     Ok(IonexFile {
         header,

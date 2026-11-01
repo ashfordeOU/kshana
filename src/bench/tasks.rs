@@ -67,19 +67,18 @@ fn labels_of(truth: &Value) -> Result<Vec<Labeled>, BenchError> {
     let arr = truth
         .get("labels")
         .and_then(Value::as_array)
-        .ok_or_else(|| BenchError("truth has no `labels` array".into()))?;
+        .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-truth-has-no-labels-array")))?;
     arr.iter()
         .map(|l| {
             Ok(Labeled {
                 id: l
                     .get("id")
                     .and_then(Value::as_str)
-                    .ok_or_else(|| BenchError("a label has no `id`".into()))?
+                    .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-label-has-no-id")))?
                     .to_string(),
-                positive: l
-                    .get("positive")
-                    .and_then(Value::as_bool)
-                    .ok_or_else(|| BenchError("a label has no `positive`".into()))?,
+                positive: l.get("positive").and_then(Value::as_bool).ok_or_else(|| {
+                    BenchError(crate::terr!("e-bench-tasks-label-has-no-positive"))
+                })?,
             })
         })
         .collect()
@@ -89,12 +88,16 @@ fn scores_of(preds: &Value) -> Result<BTreeMap<String, f64>, BenchError> {
     let m = preds
         .get("scores")
         .and_then(Value::as_object)
-        .ok_or_else(|| BenchError("predictions have no `scores` object".into()))?;
+        .ok_or_else(|| {
+            BenchError(crate::terr!(
+                "e-bench-tasks-predictions-have-no-scores-object"
+            ))
+        })?;
     m.iter()
         .map(|(k, v)| {
             v.as_f64()
                 .map(|x| (k.clone(), x))
-                .ok_or_else(|| BenchError(format!("score for `{k}` is not a number")))
+                .ok_or_else(|| BenchError(crate::t!("bench-tasks-score-for-is-not-number", k = k)))
         })
         .collect()
 }
@@ -136,7 +139,10 @@ pub fn a_load(root: &Path, split: Option<Split>) -> Result<ATruth, BenchError> {
     let mut dirs = Vec::new();
     find_scenarios(root, &mut dirs);
     if dirs.is_empty() {
-        return err(format!("no scenario.json under {}", root.display()));
+        return err(crate::t!(
+            "bench-cli-no-scenario-json-under",
+            root = root.display()
+        ));
     }
     let mut t = ATruth {
         labels: Vec::new(),
@@ -221,9 +227,10 @@ pub fn a_baselines(t: &ATruth, split: &str) -> Vec<(Stat, Value)> {
                 .iter()
                 .map(|(id, x)| (id.clone(), x.get(s).unwrap_or(UNDEFINED_SCORE)))
                 .collect();
-            let name = format!(
-                "kshana receiver-trust {} (0.35 default monitor statistic)",
-                s.config_field()
+            let name = crate::t!(
+                "bench-tasks-kshana-receiver-trust-35-default",
+                s = s.config_field(),
+                lit_0_35 = crate::i18n::num(0.35_f64, 2)
             );
             (s, scores_doc("a", split, &name, &scores))
         })
@@ -247,9 +254,9 @@ pub fn d_seed(split: Split, secret: Option<&[u8]>) -> Result<u64, BenchError> {
     match split {
         Split::Dev => Ok(1000),
         Split::Test => Ok(2000),
-        Split::Holdout => secret.map(|s| holdout_seed("d", s)).ok_or_else(|| {
-            BenchError("the holdout is sealed: pass the secret with --seed-file".into())
-        }),
+        Split::Holdout => secret
+            .map(|s| holdout_seed("d", s))
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-the-holdout-is-sealed-pass"))),
     }
 }
 
@@ -443,18 +450,18 @@ fn parse_clocks(text: &str) -> Result<BTreeMap<String, BTreeMap<i64, i64>>, Benc
         }
         let mut f = line.split_whitespace();
         let (Some(k), Some(d)) = (f.next(), f.next()) else {
-            return err(format!("malformed clock line `{line}`"));
+            return err(crate::t!("bench-tasks-malformed-clock-line", line = line));
         };
         let (k, d): (i64, i64) = match (k.parse(), d.parse()) {
             (Ok(k), Ok(d)) => (k, d),
-            _ => return err(format!("malformed clock line `{line}`")),
+            _ => return err(crate::t!("bench-tasks-malformed-clock-line", line = line)),
         };
         acc += d;
         match &cur {
             Some(p) => {
                 out.get_mut(p).map(|m| m.insert(k, acc));
             }
-            None => return err("a clock line comes before any `@<PRN>` header"),
+            None => return err(crate::t!("bench-tasks-clock-line-before-header")),
         }
     }
     Ok(out)
@@ -469,8 +476,10 @@ fn ns(v: i64) -> f64 {
 pub fn c_load(clocks_text: &str, split: Split) -> Result<Vec<CCase>, BenchError> {
     let got = super::sha256_hex(clocks_text.as_bytes());
     if got != C_CLOCKS_SHA256 {
-        return err(format!(
-            "the clock file does not match the pinned SHA-256 (got {got}, want {C_CLOCKS_SHA256})"
+        return err(crate::t!(
+            "bench-tasks-the-clock-file-does-not",
+            got = got,
+            C_CLOCKS_SHA256 = C_CLOCKS_SHA256
         ));
     }
     let sats = parse_clocks(clocks_text)?;
@@ -478,7 +487,7 @@ pub fn c_load(clocks_text: &str, split: Split) -> Result<Vec<CCase>, BenchError>
     let mut cases = Vec::new();
     for prn in c_sats(split) {
         let Some(ph) = sats.get(*prn) else {
-            return err(format!("satellite {prn} is not in the clock file"));
+            return err(crate::t!("bench-tasks-satellite-is-not-in-the", prn = prn));
         };
         let last = ph.keys().next_back().copied().unwrap_or(-1);
         let mut o = C_TRAIN_SAMPLES as i64;
@@ -619,7 +628,7 @@ pub fn c_baseline_doc(baseline: &str, cases: &[CCase], split: &str) -> Value {
         "schema": PREDICTIONS_SCHEMA,
         "task": "c",
         "split": split,
-        "system": {"name": format!("kshana-bench baseline: {baseline}"), "version": SPEC_VERSION},
+        "system": {"name": crate::t!("bench-tasks-kshana-bench-baseline", baseline = baseline), "version": SPEC_VERSION},
         "predictions": preds,
     })
 }
@@ -641,16 +650,20 @@ pub fn score_c(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
     let tarr = truth
         .get("truth")
         .and_then(Value::as_array)
-        .ok_or_else(|| BenchError("task (c) truth has no `truth` array".into()))?;
+        .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-task-truth-has-no-truth")))?;
     let pmap = preds
         .get("predictions")
         .and_then(Value::as_object)
-        .ok_or_else(|| BenchError("task (c) predictions have no `predictions` object".into()))?;
+        .ok_or_else(|| {
+            BenchError(crate::terr!(
+                "e-bench-tasks-task-predictions-have-no-predictions"
+            ))
+        })?;
     if pmap.len() != tarr.len() {
-        return err(format!(
-            "predictions cover {} cases, the truth has {}",
-            pmap.len(),
-            tarr.len()
+        return err(crate::t!(
+            "bench-tasks-predictions-cover-cases-the-truth",
+            pmap = pmap.len(),
+            tarr = tarr.len()
         ));
     }
     let mut sq = vec![0.0f64; horizons.len()];
@@ -660,7 +673,7 @@ pub fn score_c(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
         let id = t
             .get("id")
             .and_then(Value::as_str)
-            .ok_or_else(|| BenchError("a truth entry has no `id`".into()))?;
+            .ok_or_else(|| BenchError(crate::terr!("e-bench-tasks-truth-entry-has-no-id")))?;
         let tv = nums(t.get("truth_ns"), horizons.len(), id)?;
         let pv = nums(pmap.get(id), horizons.len(), id)?;
         for h in 0..horizons.len() {
@@ -694,15 +707,20 @@ pub fn score_c(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
 fn nums(v: Option<&Value>, n: usize, id: &str) -> Result<Vec<f64>, BenchError> {
     let a = v
         .and_then(Value::as_array)
-        .ok_or_else(|| BenchError(format!("case `{id}` has no number array")))?;
+        .ok_or_else(|| BenchError(crate::t!("bench-tasks-case-has-no-number-array", id = id)))?;
     if a.len() != n {
-        return err(format!("case `{id}` needs {n} values, has {}", a.len()));
+        return err(crate::t!(
+            "bench-tasks-case-needs-values-has",
+            id = id,
+            n = n,
+            a = a.len()
+        ));
     }
     a.iter()
         .map(|x| {
-            x.as_f64()
-                .filter(|f| f.is_finite())
-                .ok_or_else(|| BenchError(format!("case `{id}` has a non-finite value")))
+            x.as_f64().filter(|f| f.is_finite()).ok_or_else(|| {
+                BenchError(crate::t!("bench-tasks-case-has-non-finite-value", id = id))
+            })
         })
         .collect()
 }

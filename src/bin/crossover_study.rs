@@ -16,8 +16,10 @@ use std::process::ExitCode;
 
 fn write_json<T: serde::Serialize>(dir: &Path, name: &str, value: &T) -> Result<(), String> {
     let path = dir.join(name);
-    let json = serde_json::to_string_pretty(value).map_err(|e| format!("serialize {name}: {e}"))?;
-    std::fs::write(&path, json).map_err(|e| format!("write {}: {e}", path.display()))?;
+    let json = serde_json::to_string_pretty(value)
+        .map_err(|e| kshana::terr!("e-bin-crossover-study-serialize", name = name, e = e))?;
+    std::fs::write(&path, json)
+        .map_err(|e| kshana::terr!("e-bin-crossover-study-write", path = path.display(), e = e))?;
     eprintln!("wrote {}", path.display());
     Ok(())
 }
@@ -26,7 +28,14 @@ fn main() -> ExitCode {
     let dir = std::env::args().nth(1).unwrap_or_else(|| ".".to_string());
     let dir = Path::new(&dir);
     if let Err(e) = std::fs::create_dir_all(dir) {
-        eprintln!("error: cannot create {}: {e}", dir.display());
+        eprintln!(
+            "{}",
+            kshana::t!(
+                "bin-crossover-study-error-cannot-create",
+                dir = dir.display(),
+                e = e
+            )
+        );
         return ExitCode::FAILURE;
     }
 
@@ -43,9 +52,12 @@ fn main() -> ExitCode {
         }
     }
     eprintln!(
-        "done: inertial {} nodes, clock {} curves (seed 42)",
-        inertial.nodes.len(),
-        clock.curves.len()
+        "{}",
+        kshana::t!(
+            "bin-crossover-study-done-inertial-nodes-clock-curves",
+            nodes = inertial.nodes.len(),
+            curves = clock.curves.len()
+        )
     );
     ExitCode::SUCCESS
 }

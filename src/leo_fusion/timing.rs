@@ -127,10 +127,12 @@ pub fn simulate_traced(
     seed: u64,
 ) -> Result<(TimeTransferStats, Vec<TimeTransferEpoch>), String> {
     if !(dt.is_finite() && dt > 0.0) {
-        return Err("the epoch spacing must be positive".into());
+        return Err(crate::terr!(
+            "e-leo-fusion-timing-the-epoch-spacing-must-be"
+        ));
     }
     if meas_sigma_s.is_empty() {
-        return Err("no epochs".into());
+        return Err(crate::terr!("e-leo-fusion-timing-no-epochs"));
     }
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let n01 = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
@@ -206,7 +208,7 @@ pub fn simulate_traced(
         }
     }
     if errs.is_empty() {
-        return Err("no satellite was ever in view: the receiver never acquired time".into());
+        return Err(crate::terr!("e-leo-fusion-timing-no-satellite-was-ever-in"));
     }
     let mut abs: Vec<f64> = errs.iter().map(|e| e.abs()).collect();
     abs.sort_by(|a, b| a.total_cmp(b));

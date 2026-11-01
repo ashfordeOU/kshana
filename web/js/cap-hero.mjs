@@ -7,6 +7,8 @@
 // Distances are compressed on a log scale (directions are true), body sizes are enlarged and the
 // spin is a display rate; the page says so. Reduced motion: the complete frame at the epoch.
 import { studioHref } from "./studio-links.mjs";
+import { t, ready, fetchData } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 const ROOT = (window.KSITE && window.KSITE.root) || "";
 const STUDIO = (window.KSITE && window.KSITE.studio) || "Kshana Studio";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -17,7 +19,7 @@ const ORDER = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus
 const n = (v, d = 1) => (v == null || !Number.isFinite(v) ? "–" : Number(v).toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }));
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
-if (win) fetch(ROOT + "assets/capabilities/capabilities.json").then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+if (win) fetchData(ROOT + "assets/capabilities/capabilities.json").then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
   .then(init).catch((e) => console.warn("capabilities hero:", e));
 
 function init(d) {
@@ -47,32 +49,34 @@ function init(d) {
   const fmtDate = (dt) => dt.toISOString().slice(0, 10);
   $("#chEpoch").textContent = fmtDate(ep);
   $("#chFile").textContent = sol.file;
-  $("#chRate").textContent = RM ? "The frame at the run's epoch" : `${DAYS_PER_S} days of the run per second`;
+  $("#chRate").textContent = RM ? t("js-site-caphero-rate-epoch", "The frame at the run's epoch") : t("js-site-caphero-rate", "{ $days } days of the run per second", { days: DAYS_PER_S });
   const lab = (b) => (b.label === "VALIDATED" ? "Validated" : "Modelled");
   const lt = (s) => (s == null ? null : s >= 120 ? `${n(s / 60, 1)} min` : `${n(s, 1)} s`);
-  const per = (b) => (b.period_d > 1000 ? n(b.period_d / 365.25, 1) + " years" : n(b.period_d, 1) + " days");
+  const per = (b) => (b.period_d > 1000 ? t("js-site-caphero-period-years", "{ $value } years", { value: n(b.period_d / 365.25, 1) }) : t("js-site-caphero-period-days", "{ $value } days", { value: n(b.period_d, 1) }));
   const list = $("#chList");
-  for (const b of bodies) list.append(el("li", null, `${b.name}: ${lab(b)}, ${n(b.dist_au, 2)} au from the Sun at the epoch, orbital period ${per(b)}${b.light_s != null ? `, light time from ${sol.observer} ${lt(b.light_s)}` : ""}.`));
-  win.setAttribute("aria-label", `The solar system from the engine's solar-system run at ${fmtDate(ep)}: the Sun and ${bodies.length} bodies moving along their engine orbit tracks; ${bodies.filter((b) => b.label === "VALIDATED").length} of the orbits are validated against JPL Horizons.`);
+  for (const b of bodies) list.append(el("li", null, b.light_s != null
+    ? t("js-site-caphero-list-item-light", "{ $name }: { $label }, { $au } au from the Sun at the epoch, orbital period { $period }, light time from { $observer } { $light }.", { name: b.name, label: lab(b), au: n(b.dist_au, 2), period: per(b), observer: sol.observer, light: lt(b.light_s) })
+    : t("js-site-caphero-list-item", "{ $name }: { $label }, { $au } au from the Sun at the epoch, orbital period { $period }.", { name: b.name, label: lab(b), au: n(b.dist_au, 2), period: per(b) })));
+  win.setAttribute("aria-label", t("js-site-caphero-aria", "The solar system from the engine's solar-system run at { $date }: the Sun and { $bodies } bodies moving along their engine orbit tracks; { $valid } of the orbits are validated against JPL Horizons.", { date: fmtDate(ep), bodies: bodies.length, valid: bodies.filter((b) => b.label === "VALIDATED").length }));
   const pv = $("#chProv");
   const src = el("span", "prov-src");
   const code = (t) => el("code", null, t);
-  src.append(`Engine v${sol.engine_version}, build `, code(eng.commit), " · ", code(sol.file), ` · ${sol.seed == null ? "deterministic, no seed" : "seed " + sol.seed} · ${sol.table}`);
-  const more = el("a", "prov-open", "Explore every body"); more.href = "#journey";
+  src.append(t("js-site-caphero-engine-build", "Engine v{ $version }, build", { version: sol.engine_version }), " ", code(eng.commit), " · ", code(sol.file), " · ", sol.seed == null ? t("js-site-caphero-no-seed", "deterministic, no seed") : t("js-site-caphero-seed", "seed { $seed }", { seed: sol.seed }), ` · ${sol.table}`);
+  const more = el("a", "prov-open", t("js-site-caphero-explore", "Explore every body")); more.href = "#journey";
   const tools = el("span", "prov-tools");
-  const fileB = el("button", "prov-x", "TOML"); fileB.type = "button"; fileB.title = "The scenario file that ran";
+  const fileB = el("button", "prov-x", "TOML"); fileB.type = "button"; fileB.title = t("js-site-caphero-file-title", "The scenario file that ran");
   fileB.addEventListener("click", () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([sol.toml], { type: "application/toml" })); a.download = sol.file; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); });
-  const cmd = el("button", "prov-x", "Copy command"); cmd.type = "button"; cmd.dataset.copy = `kshana ${sol.file}`; cmd.title = "Copy the command that reproduces it";
+  const cmd = el("button", "prov-x", t("js-site-caphero-copy-command", "Copy command")); cmd.type = "button"; cmd.dataset.copy = `kshana ${sol.file}`; cmd.title = t("js-site-caphero-copy-title", "Copy the command that reproduces it");
   // The Studio view that reproduces this run (js/studio-links.mjs, from the Studio's own link list).
   const view = studioHref(ROOT, sol.file);
-  const open = view ? el("a", "prov-open", `Open in ${STUDIO}`) : null;
+  const open = view ? el("a", "prov-open", t("js-site-caphero-open-in-studio", "Open in { $studio }", { studio: STUDIO })) : null;
   if (open) open.href = view;
   tools.append(fileB, cmd); pv.append(...[src, open, more, tools].filter(Boolean));
   const cred = {};
   for (const b of [B.Sun, ...bodies]) { const c = img.bodies[b.name]; if (c) (cred[`${c.credit} (${c.licence})`] ||= []).push(b.name); }
-  const det = el("details", "hx-note"); det.append(el("summary", null, "Scale and imagery credits"));
+  const det = el("details", "hx-note"); det.append(el("summary", null, t("js-site-caphero-credits-summary", "Scale and imagery credits")));
   pv.after(det);
-  det.append(el("p", null, "Distances compressed on a log scale, directions true; bodies enlarged, spin at a display rate. Imagery: " + Object.entries(cred).map(([k, v]) => `${v.join(", ")}: ${k}`).join(" · ") + `; Saturn's rings: ${img.ring.credit} (${img.ring.licence}).`));
+  det.append(el("p", null, t("js-site-caphero-credits", "Distances compressed on a log scale, directions true; bodies enlarged, spin at a display rate. Imagery: { $credits }; Saturn's rings: { $ring } ({ $licence }).", { credits: Object.entries(cred).map(([k, v]) => `${v.join(", ")}: ${k}`).join(" · "), ring: img.ring.credit, licence: img.ring.licence })));
 
   // ---- canvas
   const stage = $("#chStage"), cv = document.createElement("canvas"); cv.setAttribute("aria-hidden", "true"); stage.prepend(cv);
@@ -128,8 +132,8 @@ function init(d) {
     const key = b.name + Math.round(Math.hypot(...p) * 100);
     if (key === shown) return; shown = key;
     read.replaceChildren();
-    const bits = [`${n(Math.hypot(...p), 2)} au from the Sun`, `orbit ${per(b)}`];
-    if (b.light_s != null) bits.push(`light time from ${sol.observer} at the epoch ${lt(b.light_s)}`);
+    const bits = [t("js-site-caphero-read-distance", "{ $au } au from the Sun", { au: n(Math.hypot(...p), 2) }), t("js-site-caphero-read-orbit", "orbit { $period }", { period: per(b) })];
+    if (b.light_s != null) bits.push(t("js-site-caphero-read-light", "light time from { $observer } at the epoch { $light }", { observer: sol.observer, light: lt(b.light_s) }));
     read.append(el("b", null, b.name), el("span", `ch-lab ${b.label === "VALIDATED" ? "v" : "m"}`, lab(b)), el("span", null, bits.join(" · ")));
   }
   function draw() {
@@ -178,7 +182,7 @@ function init(d) {
       g.fillText(nm.b.name, x, y);
     }
     const dt = new Date(ep.getTime() + days * 86400000);
-    $("#chClock").textContent = `+${Math.round(days).toLocaleString("en-GB")} days · ${fmtDate(dt)}`;
+    $("#chClock").textContent = t("js-site-caphero-clock", "+{ $days } days · { $date }", { days: Math.round(days).toLocaleString("en-GB"), date: fmtDate(dt) });
   }
   // one Jupiter year of the run, then back to the epoch
   const LOOP = B.Jupiter ? B.Jupiter.period_d : 4332;
@@ -196,8 +200,8 @@ function init(d) {
   if ("IntersectionObserver" in window) new IntersectionObserver((es) => { visible = es[es.length - 1].isIntersecting && !document.hidden; }).observe(stage);
   document.addEventListener("visibilitychange", () => { visible = !document.hidden; });
   const btn = $("#chPlay");
-  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? "Pause the orbits" : "Play the orbits"); };
-  btn.addEventListener("click", () => { playing = !playing; setBtn(); if (playing) $("#chRate").textContent = `${DAYS_PER_S} days of the run per second`; draw(); });
+  const setBtn = () => { btn.setAttribute("aria-pressed", String(playing)); btn.setAttribute("aria-label", playing ? t("js-site-caphero-pause", "Pause the orbits") : t("js-site-caphero-play", "Play the orbits")); };
+  btn.addEventListener("click", () => { playing = !playing; setBtn(); if (playing) $("#chRate").textContent = t("js-site-caphero-rate", "{ $days } days of the run per second", { days: DAYS_PER_S }); draw(); });
   setBtn();
   requestAnimationFrame(frame);
 }

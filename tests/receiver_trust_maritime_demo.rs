@@ -157,6 +157,8 @@ fn every_threshold_the_run_used_is_in_the_session_file() {
 fn the_chart_shows_the_reported_track_by_band_and_the_score() {
     use kshana::palette::chart::{AMBER, CORAL, LIME};
     let out = kshana::receiver_trust::scenario::run_scenario(&load()).unwrap();
+    // The evidence label is `#` comment lines in front of the table; the table is read without it.
+    let plain_csv = kshana::evidence_label::strip_csv(&out.csv).expect("an evidence label");
     let svg = &out.svg;
     assert!(svg.starts_with("<svg ") && svg.ends_with("</svg>"));
     assert!(svg.contains("receiver-reported track") && svg.contains("trust score, 0 to 100"));
@@ -169,7 +171,7 @@ fn the_chart_shows_the_reported_track_by_band_and_the_score() {
     }
     assert!(svg.matches("<polyline").count() >= 4);
     // The CSV of a vessel carries the score and its reasons.
-    let mut lines = out.csv.lines();
+    let mut lines = plain_csv.lines();
     assert!(lines
         .next()
         .unwrap()
@@ -179,7 +181,7 @@ fn the_chart_shows_the_reported_track_by_band_and_the_score() {
     assert!(svg.contains("not type-approved navigation equipment"));
     let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
     assert!(v["advisory"].as_str().unwrap().contains("IEC 61108"));
-    let last = out.csv.lines().last().unwrap();
+    let last = plain_csv.lines().last().unwrap();
     assert!(
         last.contains(",5.9,speed-log:40.0;cn0-spread:30.0;heading-course:19.6;kinematic:4.5"),
         "{last}"

@@ -1,0 +1,182 @@
+{
+  "kshana_emitter_region": {
+    "data": {
+      "attribution": "Contains data under the Norwegian Licence for Open Government Data (NLOD) made available by the Norwegian Coastal Administration, https://data.norge.no/nlod/en/2.0",
+      "coverage_notes": [
+        "Open access excludes fishing vessels under 15 m and recreational craft under 45 m, so the map is biased towards larger ships.",
+        "Coverage is the Norwegian economic zone and the protection zones off Svalbard and Jan Mayen."
+      ],
+      "dataset": "kystverket",
+      "licence": "NLOD-2.0",
+      "licence_url": "https://data.norge.no/nlod/en/2.0",
+      "name": "Norwegian Coastal Administration open AIS data"
+    },
+    "first_day": "2025-09-14",
+    "format_version": 1,
+    "kshana_version": "0.39.0",
+    "last_day": "2025-09-19",
+    "method": {
+      "assumptions": [
+        "Radio horizon on a 4/3-earth radius from the report height and an emitter antenna height range; terrain is not modelled (it can only remove line of sight).",
+        "The emitter's power is unknown: an effective range is marginalised over a fixed list, up to line of sight only.",
+        "Each aircraft or vessel is susceptible with a fixed probability; a unit of a susceptible one within reach is affected with a fixed probability, and any other unit at a background rate.",
+        "One source per session; sessions are split in time by a gap and in space by reach overlap.",
+        "Susceptibility and a persistent equipment fault are latent properties of the aircraft or vessel and are summed out per aircraft, so the units of one aircraft are not counted as independent evidence and an unaffected aircraft with line of sight counts against a position by at most one aircraft.",
+        "The posterior is uniform a priori over the search domain, the cells within reach of at least one affected unit."
+      ],
+      "guards": [
+        "airborne ADS-B reports above the altitude floor only",
+        "an aircraft or vessel counts only with good reports elsewhere in the input (equipment baseline)",
+        "distinct aircraft or vessels are counted, not reports",
+        "sessions with fewer than the publication minimum of distinct aircraft or vessels are not published",
+        "hour-of-day counts below the publication minimum are null"
+      ],
+      "id": "kshana-interference-map/emitter-region/v1",
+      "input_stats": {
+        "aircraft_or_vessels_without_baseline": 12,
+        "reports_used": 1964226,
+        "rows_read": 1964247,
+        "sessions_withheld_below_min_distinct": 8,
+        "source_kind": "ais",
+        "units": 259944,
+        "units_affected": 20
+      },
+      "limits": [
+        "Confidence levels are credibility under this model, not a measured coverage of real sources; the calibration is checked on synthetic data only.",
+        "Coverage bias: a region is wide where few aircraft or vessels were present, and a source with no traffic in reach cannot be located; a region that fills the domain is reported as unconstrained.",
+        "Terrain, ducting and diffraction are not modelled, so a source beyond the horizon or in a shadow can be missed.",
+        "Several simultaneous sources close together look like one, with a larger region.",
+        "A regional cause (a constellation or augmentation outage, space weather) gives a region that is not a source.",
+        "Aggregate only; a session below the publication minimum of distinct aircraft or vessels is withheld."
+      ],
+      "parameters": {
+        "adsb_altitude_floor_ft": 5000.0,
+        "confidence_levels": [
+          0.5,
+          0.9,
+          0.95
+        ],
+        "earth_radius_factor": "4/3",
+        "effective_ranges_km": [
+          12.0,
+          15.0,
+          18.75,
+          23.4375,
+          29.296875,
+          36.62109375,
+          45.7763671875,
+          57.220458984375,
+          71.52557373046875,
+          89.40696716308594,
+          111.75870895385742,
+          139.69838619232178,
+          174.62298274040222,
+          218.27872842550278,
+          272.84841053187847,
+          341.0605131648481,
+          426.3256414560601,
+          "line_of_sight_only"
+        ],
+        "emitter_height_m": [
+          2.0,
+          100.0
+        ],
+        "emitter_height_steps_log_spaced": 8,
+        "horizon_km_per_sqrt_m": 4.1219,
+        "likelihood_temper": 0.3,
+        "max_cells": 12000,
+        "max_refined_cells": 1000,
+        "max_units_per_session": 4000,
+        "min_baseline_good_reports": 5,
+        "p_background": 0.03,
+        "p_detect_unit_given_susceptible_in_reach": 0.9,
+        "p_persistent_fault": 0.03,
+        "p_susceptible": 0.6,
+        "per_aircraft_latent_susceptibility": true,
+        "publication_min_distinct": 5,
+        "reach_softness": 0.15,
+        "refine_factor": 4,
+        "search_cell_km_requested": 5.0,
+        "session_gap_s": 1800.0,
+        "unconstrained_share": 0.8,
+        "unit_affected_report_share": 0.5,
+        "unit_bin_s": 120.0
+      },
+      "summary": "Posterior over candidate emitter positions from radio line of sight to affected and unaffected aircraft or vessels, per session; highest-density regions at stated confidence levels, a posterior centroid and a moment ellipse."
+    },
+    "notice": "Estimated emitter regions: where, under the stated assumptions, a source of the degraded position reports could be. A region is not the position of any aircraft, vessel, person or organisation, is not a finding of the cause, and says nothing about who or what is behind a source. A region can be wrong when the assumptions fail. No aircraft or vessel identifiers appear in this file; a session is published only with at least the minimum number of distinct aircraft or vessels.",
+    "profile": {
+      "hours_per_day": {},
+      "note": "hour counts below the publication minimum are null (withheld), never zero",
+      "utc_hour_distinct_affected": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "utc_hour_session_minutes": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "schema": "kshana-emitter-region/v1",
+    "sessions": [],
+    "sessions_published": 0,
+    "sessions_withheld": 8,
+    "source_kind": "ais"
+  },
+  "evidence": {
+    "id_rule": "the stable id of the matrix row (the ID column): VM- and 8 hex digits, issued once and never reassigned",
+    "matrix": "docs/VERIFICATION-MATRIX.md",
+    "rows": [
+      {
+        "id": "VM-bc70cb57",
+        "requirement": "Interference source region: a feasible emitter region from aircraft and ship position reports",
+        "status": "MODELLED"
+      }
+    ],
+    "tier": "MODELLED"
+  }
+}

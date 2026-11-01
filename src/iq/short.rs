@@ -52,21 +52,29 @@ pub struct ShortRequest {
 /// Check the request against the caps, before any work is done.
 fn check(r: &ShortRequest) -> Result<(), String> {
     if !(r.fs_hz.is_finite() && r.fs_hz > 0.0) {
-        return Err("fs_hz must be a positive number".into());
+        return Err(crate::terr!("e-iq-short-fs-hz-must-be-positive"));
     }
     if !(r.duration_s.is_finite() && r.duration_s > 0.0 && r.duration_s <= MAX_DURATION_S) {
-        return Err(format!("duration_s must be in (0, {MAX_DURATION_S}]"));
+        return Err(crate::terr!(
+            "e-iq-short-duration-must-be-in",
+            MAX_DURATION_S = MAX_DURATION_S
+        ));
     }
     if r.ids.is_empty() || r.ids.len() > MAX_SATELLITES {
-        return Err(format!("ids must hold 1 to {MAX_SATELLITES} satellites"));
+        return Err(crate::terr!(
+            "e-iq-short-ids-must-hold-to-satellites",
+            MAX_SATELLITES = MAX_SATELLITES
+        ));
     }
     if r.dopplers.iter().any(|d| !d.is_finite()) {
-        return Err("dopplers must be finite".into());
+        return Err(crate::terr!("e-iq-short-dopplers-must-be-finite"));
     }
     let n = r.fs_hz * r.duration_s;
     if n > MAX_SAMPLES as f64 {
-        return Err(format!(
-            "{n:.0} samples requested; a short run holds at most {MAX_SAMPLES}"
+        return Err(crate::terr!(
+            "e-iq-short-samples-requested-short-run-holds",
+            n = crate::i18n::localise_decimal(format!("{:.0}", n)),
+            MAX_SAMPLES = MAX_SAMPLES
         ));
     }
     Ok(())

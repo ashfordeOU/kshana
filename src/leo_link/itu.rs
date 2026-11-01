@@ -421,8 +421,9 @@ impl BuildingClass {
         match s {
             "traditional" => Ok(Self::Traditional),
             "thermally-efficient" => Ok(Self::ThermallyEfficient),
-            o => Err(format!(
-                "building class must be traditional or thermally-efficient; got '{o}'"
+            o => Err(crate::terr!(
+                "e-leo-link-itu-building-class-must-be-traditional",
+                o = o
             )),
         }
     }

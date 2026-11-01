@@ -4,6 +4,7 @@
 // synthesised. The SVGs are inline (so they follow the page theme through CSS
 // custom properties) and every scenario-derived string is escaped. Tested in
 // views.test.mjs.
+import { t } from "./t.mjs";
 import { readScalar } from "./share.mjs";
 import { readSectionScalar } from "./guided.mjs";
 
@@ -45,11 +46,17 @@ export const SERIES_COLORS = ["var(--s-tim)", "var(--s-nav)", "var(--s-orb)", "v
 
 // The plotted field of a clock/inertial series sample, with its unit and label.
 const SERIES_FIELDS = [
-  ["error_ns", "ns", "Timing error"],
-  ["error_m", "m", "Position error"],
-  ["sync_error_s", "s", "Synchronisation error"],
-  ["timing_ns", "ns", "Timing error"],
+  ["error_ns", "ns", "timing"],
+  ["error_m", "m", "position"],
+  ["sync_error_s", "s", "sync"],
+  ["timing_ns", "ns", "timing"],
 ];
+// The chart title and y-axis label of a plotted field, in the current language.
+function seriesFieldText(kind) {
+  if (kind === "position") return { title: t("js-lib-views-position-error-run", "Position error over the run"), yLabel: t("js-lib-views-position-error-axis", "position error ({ $unit })", { unit: "m" }) };
+  if (kind === "sync") return { title: t("js-lib-views-sync-error-run", "Synchronisation error over the run"), yLabel: t("js-lib-views-sync-error-axis", "synchronisation error ({ $unit })", { unit: "s" }) };
+  return { title: t("js-lib-views-timing-error-run", "Timing error over the run"), yLabel: t("js-lib-views-timing-error-axis", "timing error ({ $unit })", { unit: "ns" }) };
+}
 
 // Time-series model of a result, or null when the result has no series the
 // playground knows how to draw (the engine's own chart is shown instead).
@@ -63,12 +70,12 @@ export function seriesModel(result, toml = "") {
     const sample = (qs && qs[0]) || cs[0];
     const f = SERIES_FIELDS.find(([k]) => k in sample);
     if (!f) return extraSeriesModel(result);
-    const [key, unit, label] = f;
+    const [key, unit, kind] = f;
     const series = [];
     for (const [s, spec, i] of [[qs, q && q.spec, 0], [cs, c && c.spec, 1]]) {
       if (!s || s.length < 2) continue;
       series.push({
-        label: spec && spec.id ? spec.id : i === 0 ? "quantum" : "classical",
+        label: spec && spec.id ? spec.id : i === 0 ? t("js-lib-views-quantum", "quantum") : t("js-lib-views-classical", "classical"),
         color: SERIES_COLORS[i],
         points: s.filter((p) => typeof p[key] === "number").map((p) => [p.t, p[key]]),
       });
@@ -76,9 +83,9 @@ export function seriesModel(result, toml = "") {
     const thr = typeof result.threshold_ns === "number" && unit === "ns" ? result.threshold_ns
       : typeof result.threshold_m === "number" && unit === "m" ? result.threshold_m : null;
     return {
-      title: `${label} over the run`,
-      xLabel: "time (s)",
-      yLabel: `${label.toLowerCase()} (${unit})`,
+      title: seriesFieldText(kind).title,
+      xLabel: t("js-lib-views-time-s", "time (s)"),
+      yLabel: seriesFieldText(kind).yLabel,
       unit,
       series,
       threshold: thr,
@@ -88,14 +95,14 @@ export function seriesModel(result, toml = "") {
   if (Array.isArray(result.error_growth) && result.error_growth.length > 1) {
     const guard = result.slot && typeof result.slot.guard_ns === "number" ? result.slot.guard_ns : null;
     return {
-      title: "Predicted time error since the last fix",
-      xLabel: "time since last fix (s)",
-      yLabel: "time error (ns)",
+      title: t("js-lib-views-predicted-time-error", "Predicted time error since the last fix"),
+      xLabel: t("js-lib-views-time-since-fix", "time since last fix (s)"),
+      yLabel: t("js-lib-views-time-error-ns", "time error (ns)"),
       unit: "ns",
-      series: [{ label: (result.oscillator && result.oscillator.source) ? `oscillator (${result.oscillator.source})` : "oscillator", color: SERIES_COLORS[0],
+      series: [{ label: (result.oscillator && result.oscillator.source) ? t("js-lib-views-oscillator-source", "oscillator ({ $source })", { source: result.oscillator.source }) : t("js-lib-views-oscillator", "oscillator"), color: SERIES_COLORS[0],
         points: result.error_growth.map((p) => [p.t_s, p.time_error_ns]) }],
       threshold: guard,
-      thresholdLabel: "slot guard",
+      thresholdLabel: t("js-lib-views-slot-guard", "slot guard"),
       outages: [],
     };
   }
@@ -104,16 +111,16 @@ export function seriesModel(result, toml = "") {
   if (Array.isArray(result.epochs) && result.epochs.length > 1 && typeof result.epochs[0].tracking === "number") {
     const tt = (e) => (typeof e.t === "number" ? e.t : e.t_s);
     return {
-      title: "Satellites visible and still tracking",
-      xLabel: "time (s)",
-      yLabel: "satellites",
+      title: t("js-lib-views-satellites-tracking", "Satellites visible and still tracking"),
+      xLabel: t("js-lib-views-time-s", "time (s)"),
+      yLabel: t("js-lib-views-satellites", "satellites"),
       unit: "",
       series: [
-        { label: "visible", color: "var(--s-orb)", points: result.epochs.map((e) => [tt(e), e.visible]) },
-        { label: "tracking", color: "var(--s-int)", points: result.epochs.map((e) => [tt(e), e.tracking]) },
+        { label: t("js-lib-views-visible", "visible"), color: "var(--s-orb)", points: result.epochs.map((e) => [tt(e), e.visible]) },
+        { label: t("js-lib-views-tracking", "tracking"), color: "var(--s-int)", points: result.epochs.map((e) => [tt(e), e.tracking]) },
       ],
       threshold: 4,
-      thresholdLabel: "4 needed for a fix",
+      thresholdLabel: t("js-lib-views-four-needed", "4 needed for a fix"),
       outages: [],
     };
   }
@@ -131,13 +138,13 @@ function extraSeriesModel(result) {
   if (pl) {
     const al = typeof result.al_h_m === "number" ? result.al_h_m : typeof result.alert_limit_m === "number" ? result.alert_limit_m : null;
     return {
-      title: "Protection levels against the alert limit",
-      xLabel: "time (s)", yLabel: "protection level (m)", unit: "m",
+      title: t("js-lib-views-protection-levels", "Protection levels against the alert limit"),
+      xLabel: t("js-lib-views-time-s", "time (s)"), yLabel: t("js-lib-views-protection-level-m", "protection level (m)"), unit: "m",
       series: [
-        { label: "horizontal (HPL)", color: SERIES_COLORS[0], points: pl.filter((e) => Number.isFinite(e.hpl_m)).map((e) => [tOf(e), e.hpl_m]) },
-        { label: "vertical (VPL)", color: SERIES_COLORS[1], points: pl.filter((e) => Number.isFinite(e.vpl_m)).map((e) => [tOf(e), e.vpl_m]) },
+        { label: t("js-lib-views-horizontal-hpl", "horizontal (HPL)"), color: SERIES_COLORS[0], points: pl.filter((e) => Number.isFinite(e.hpl_m)).map((e) => [tOf(e), e.hpl_m]) },
+        { label: t("js-lib-views-vertical-vpl", "vertical (VPL)"), color: SERIES_COLORS[1], points: pl.filter((e) => Number.isFinite(e.vpl_m)).map((e) => [tOf(e), e.vpl_m]) },
       ].filter((s) => s.points.length > 1),
-      threshold: al, thresholdLabel: "horizontal alert limit", outages: [],
+      threshold: al, thresholdLabel: t("js-lib-views-horizontal-alert-limit", "horizontal alert limit"), outages: [],
     };
   }
   const q = result.quantum, c = result.classical;
@@ -147,17 +154,17 @@ function extraSeriesModel(result) {
     const series = [];
     for (const [s, blk, i] of [[cs, c, 0], [qs, q, 1]]) {
       if (!s || s.length < 2) continue;
-      const id = blk && blk.spec && blk.spec.id ? blk.spec.id : i === 0 ? "classical" : "quantum";
-      series.push({ label: `${id} offset`, color: SERIES_COLORS[i * 2], points: s.map((p) => [p.t, Math.abs(p.offset_ns)]) });
-      series.push({ label: `${id} bound`, color: SERIES_COLORS[i * 2 + 1], points: s.map((p) => [p.t, p.bound_ns]) });
+      const id = blk && blk.spec && blk.spec.id ? blk.spec.id : i === 0 ? t("js-lib-views-classical", "classical") : t("js-lib-views-quantum", "quantum");
+      series.push({ label: t("js-lib-views-id-offset", "{ $id } offset", { id }), color: SERIES_COLORS[i * 2], points: s.map((p) => [p.t, Math.abs(p.offset_ns)]) });
+      series.push({ label: t("js-lib-views-id-bound", "{ $id } bound", { id }), color: SERIES_COLORS[i * 2 + 1], points: s.map((p) => [p.t, p.bound_ns]) });
     }
-    return { title: "Spoofed time offset against the detection bound", xLabel: "time (s)", yLabel: "time (ns)", unit: "ns", series, threshold: typeof result.threshold_ns === "number" ? result.threshold_ns : null, outages: [] };
+    return { title: t("js-lib-views-spoofed-offset", "Spoofed time offset against the detection bound"), xLabel: t("js-lib-views-time-s", "time (s)"), yLabel: t("js-lib-views-time-ns", "time (ns)"), unit: "ns", series, threshold: typeof result.threshold_ns === "number" ? result.threshold_ns : null, outages: [] };
   }
   if (Array.isArray(result.points) && result.points.length > 1 && typeof result.points[0].value === "number") {
     const keys = Object.keys(result.points[0]).filter((k) => k !== "value" && typeof result.points[0][k] === "number");
     return {
-      title: `Sweep of ${result.parameter || "a parameter"}: ${result.metric || "metric"}`,
-      xLabel: result.parameter || "value", yLabel: result.metric || "metric", unit: "",
+      title: t("js-lib-views-sweep-of", "Sweep of { $parameter }: { $metric }", { parameter: result.parameter || t("js-lib-views-a-parameter", "a parameter"), metric: result.metric || t("js-lib-views-metric", "metric") }),
+      xLabel: result.parameter || t("js-lib-views-value", "value"), yLabel: result.metric || t("js-lib-views-metric", "metric"), unit: "",
       series: keys.map((k, i) => ({ label: k, color: SERIES_COLORS[i % SERIES_COLORS.length], points: result.points.map((p) => [p.value, p[k]]) })),
       threshold: null, outages: [], logX: result.scale === "log", logY: result.scale === "log",
     };
@@ -167,30 +174,30 @@ function extraSeriesModel(result) {
     const series = [];
     for (const [b, blk, i] of [[cb, c, 0], [qb, q, 1]]) {
       if (!b || b.length < 2) continue;
-      const id = blk && blk.spec && blk.spec.id ? blk.spec.id : i === 0 ? "classical" : "quantum";
-      series.push({ label: `${id} p95`, color: SERIES_COLORS[i * 2], points: b.map((p) => [p.t, p.p95_ns]) });
-      series.push({ label: `${id} median`, color: SERIES_COLORS[i * 2 + 1], points: b.map((p) => [p.t, p.p50_ns]) });
+      const id = blk && blk.spec && blk.spec.id ? blk.spec.id : i === 0 ? t("js-lib-views-classical", "classical") : t("js-lib-views-quantum", "quantum");
+      series.push({ label: t("js-lib-views-id-p95", "{ $id } p95", { id }), color: SERIES_COLORS[i * 2], points: b.map((p) => [p.t, p.p95_ns]) });
+      series.push({ label: t("js-lib-views-id-median", "{ $id } median", { id }), color: SERIES_COLORS[i * 2 + 1], points: b.map((p) => [p.t, p.p50_ns]) });
     }
-    return { title: `Time-error band across ${result.runs || "the"} Monte Carlo runs`, xLabel: "time (s)", yLabel: "time error (ns)", unit: "ns", series, threshold: typeof result.threshold_ns === "number" ? result.threshold_ns : null, outages: [] };
+    return { title: result.runs ? t("js-lib-views-band-runs", "Time-error band across { $runs } Monte Carlo runs", { runs: result.runs }) : t("js-lib-views-band-the-runs", "Time-error band across the Monte Carlo runs"), xLabel: t("js-lib-views-time-s", "time (s)"), yLabel: t("js-lib-views-time-error-ns", "time error (ns)"), unit: "ns", series, threshold: typeof result.threshold_ns === "number" ? result.threshold_ns : null, outages: [] };
   }
   if (Array.isArray(result.estimation) && result.estimation.length > 1 && typeof result.estimation[0].pos_error_3d_m === "number") {
     return {
-      title: "Relay-navigation position error and its 3-sigma bound",
-      xLabel: "time (s)", yLabel: "position (m)", unit: "m",
+      title: t("js-lib-views-relay-error-bound", "Relay-navigation position error and its 3-sigma bound"),
+      xLabel: t("js-lib-views-time-s", "time (s)"), yLabel: t("js-lib-views-position-m", "position (m)"), unit: "m",
       series: [
-        { label: "3-D position error", color: SERIES_COLORS[0], points: result.estimation.map((e) => [e.t, e.pos_error_3d_m]) },
-        { label: "3-sigma bound", color: SERIES_COLORS[1], points: result.estimation.filter((e) => Number.isFinite(e.pos_3sigma_m)).map((e) => [e.t, e.pos_3sigma_m]) },
+        { label: t("js-lib-views-3d-position-error", "3-D position error"), color: SERIES_COLORS[0], points: result.estimation.map((e) => [e.t, e.pos_error_3d_m]) },
+        { label: t("js-lib-views-3-sigma-bound", "3-sigma bound"), color: SERIES_COLORS[1], points: result.estimation.filter((e) => Number.isFinite(e.pos_3sigma_m)).map((e) => [e.t, e.pos_3sigma_m]) },
       ].filter((s) => s.points.length > 1),
       threshold: null, outages: [],
     };
   }
   if (Array.isArray(result.epochs) && result.epochs.length > 1 && typeof result.epochs[0].matched_m === "number") {
     return {
-      title: "Map-matched against free-inertial position error",
-      xLabel: "epoch", yLabel: "position error (m)", unit: "m",
+      title: t("js-lib-views-map-matched-title", "Map-matched against free-inertial position error"),
+      xLabel: t("js-lib-views-epoch", "epoch"), yLabel: t("js-lib-views-position-error-m", "position error (m)"), unit: "m",
       series: [
-        { label: "free inertial", color: SERIES_COLORS[1], points: result.epochs.map((e) => [e.k, e.free_inertial_m]) },
-        { label: "map matched", color: SERIES_COLORS[0], points: result.epochs.map((e) => [e.k, e.matched_m]) },
+        { label: t("js-lib-views-free-inertial", "free inertial"), color: SERIES_COLORS[1], points: result.epochs.map((e) => [e.k, e.free_inertial_m]) },
+        { label: t("js-lib-views-map-matched", "map matched"), color: SERIES_COLORS[0], points: result.epochs.map((e) => [e.k, e.matched_m]) },
       ],
       threshold: null, outages: [],
     };
@@ -239,7 +246,7 @@ export function holdoverModel(result) {
     if (c && c.fom && typeof c.fom.holdover_s === "number") engineFigure.push({ label: c.spec && c.spec.id ? c.spec.id : k, holdover_s: c.fom.holdover_s });
   }
   if (result.result && typeof result.result.breach_after_sync_s === "number") {
-    engineFigure.push({ label: "oscillator", holdover_s: result.result.breach_after_sync_s });
+    engineFigure.push({ label: t("js-lib-views-oscillator", "oscillator"), holdover_s: result.result.breach_after_sync_s });
   }
   return { ...sm, loss, engineFigure, defaultThreshold: sm.threshold };
 }
@@ -373,11 +380,23 @@ const ACRONYMS = { js: "J/S", te: "TE", cn0: "C/N0", pdop: "PDOP", hdop: "HDOP",
   // capitals; the ones a reader is least likely to know are written out.
   leo: "LEO", meo: "MEO", geo: "GEO", uhf: "UHF", utc: "UTC", sisre: "SISRE", rinex: "RINEX", csv: "CSV", cw: "CW", iq: "IQ", psd: "PSD",
   aos: "AOS", tca: "TCA", los: "LOS", rac: "RAC", iod: "IOD", itrf: "ITRF", ilrs: "ILRS", crd: "CRD", mer: "MER", domes: "DOMES", ssc: "SSC",
-  lsb: "LSB", gm: "GM", jd: "JD", tec: "TEC", stec: "slant TEC", tecu: "TECU", ecef: "ECEF", enu: "ENU", tdb: "TDB", tow: "TOW", url: "URL", id: "ID",
-  ppp: "PPP", pvt: "PVT", ntn: "NTN", crc24q: "CRC-24Q", sha256: "SHA-256", tx: "transmit", enbw: "equivalent noise bandwidth", nfft: "FFT length",
-  ttff: "time to first fix", toa: "time of arrival", zwd: "zenith wet delay" };
+  lsb: "LSB", gm: "GM", jd: "JD", tec: "TEC", tecu: "TECU", ecef: "ECEF", enu: "ENU", tdb: "TDB", tow: "TOW", url: "URL", id: "ID",
+  ppp: "PPP", pvt: "PVT", ntn: "NTN", crc24q: "CRC-24Q", sha256: "SHA-256" };
+// The key words written out in full (looked up at render time so they follow the language).
+function writtenOut(w) {
+  switch (w) {
+    case "stec": return t("js-lib-views-word-stec", "slant TEC");
+    case "tx": return t("js-lib-views-word-tx", "transmit");
+    case "enbw": return t("js-lib-views-word-enbw", "equivalent noise bandwidth");
+    case "nfft": return t("js-lib-views-word-nfft", "FFT length");
+    case "ttff": return t("js-lib-views-word-ttff", "time to first fix");
+    case "toa": return t("js-lib-views-word-toa", "time of arrival");
+    case "zwd": return t("js-lib-views-word-zwd", "zenith wet delay");
+    default: return undefined;
+  }
+}
 export function humanKey(k) {
-  const words = String(k).split("_").map((w) => ACRONYMS[w.toLowerCase()] || w).join(" ")
+  const words = String(k).split("_").map((w) => writtenOut(w.toLowerCase()) || ACRONYMS[w.toLowerCase()] || w).join(" ")
     .replace(/\b(dbhz)\b/gi, "dB-Hz").replace(/\b(db)\b/gi, "dB").replace(/\bns\b/g, "(ns)").replace(/\bm s\b/g, "(m/s)")
     .replace(/\b(s)$/, "(s)").replace(/\b(m)$/, "(m)").replace(/\b(km)$/, "(km)").replace(/\b(deg)$/, "(°)").replace(/\b(hz)$/i, "(Hz)");
   return words.charAt(0).toUpperCase() + words.slice(1);
@@ -444,7 +463,7 @@ export function lineChartSvg(model, opts = {}) {
   if (y1 === y0) y1 = y0 + 1;
   const px = (v) => ml + ((fx(v) - x0) / (x1 - x0)) * (W - ml - mr);
   const py = (v) => mt + (1 - (fy(v) - y0) / (y1 - y0)) * (H - mt - mb);
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(model.title || "chart")}" xmlns="http://www.w3.org/2000/svg">`;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(model.title || t("js-lib-views-chart", "chart"))}" xmlns="http://www.w3.org/2000/svg">`;
   s += `<rect class="c-bg" width="${W}" height="${H}" rx="0"/>`;
   // Named spans of the x axis (campaign phases): alternate shading and a label along the top.
   (opts.bands || []).forEach((b, i) => {
@@ -458,9 +477,9 @@ export function lineChartSvg(model, opts = {}) {
     const xa = px(a), xb = px(b);
     s += `<rect class="c-outage" x="${xa.toFixed(1)}" y="${mt}" width="${Math.max(0, xb - xa).toFixed(1)}" height="${H - mt - mb}"/>`;
     // Label one outage only, and only where the band is wide enough to hold the words.
-    if (!noted && xb - xa >= 84) { s += `<text class="c-note" x="${(xa + 6).toFixed(1)}" y="${mt + 14}">GNSS denied</text>`; noted = true; }
+    if (!noted && xb - xa >= 84) { s += `<text class="c-note" x="${(xa + 6).toFixed(1)}" y="${mt + 14}">${esc(t("js-lib-views-gnss-denied", "GNSS denied"))}</text>`; noted = true; }
   }
-  if (!noted && (model.outages || []).length) s += `<text class="c-note" x="${ml + 6}" y="${mt + 14}">shaded: GNSS denied</text>`;
+  if (!noted && (model.outages || []).length) s += `<text class="c-note" x="${ml + 6}" y="${mt + 14}">${esc(t("js-lib-views-shaded-gnss-denied", "shaded: GNSS denied"))}</text>`;
   const xt = opts.logX ? decades(x0, x1) : niceTicks(x0, x1, 6);
   for (const v of xt) {
     const x = opts.logX ? ml + ((v - x0) / (x1 - x0)) * (W - ml - mr) : px(v);
@@ -509,7 +528,7 @@ export function lineChartSvg(model, opts = {}) {
   // Label boxes already on the chart, [x0, y0, x1, y1]: a mark's label moves or is left out rather than sit on one.
   const placed = [];
   if (thrY != null) {
-    const lbl = `${model.thresholdLabel || "threshold"} ${fmt(model.threshold)}${model.unit ? " " + model.unit : ""}`;
+    const lbl = `${model.thresholdLabel || t("js-lib-views-threshold", "threshold")} ${fmt(model.threshold)}${model.unit ? " " + model.unit : ""}`;
     const tw = lbl.length * 6.5 + 8;
     placed.push([W - mr - tw, thrY - 17, W - mr, thrY]);
     s += `<rect class="c-thr-bg" x="${(W - mr - tw).toFixed(1)}" y="${(thrY - 17).toFixed(1)}" width="${tw.toFixed(1)}" height="15" rx="3"/>`;
@@ -575,7 +594,7 @@ export function signalHeatmapSvg(sig, opts = {}) {
   const n = sig.times.length;
   const cw = (W - ml - mr) / n;
   const [lo, hi] = sig.cn0Range;
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${field === "cn0_nominal_dbhz" ? "Nominal (no jammer)" : "Effective"} carrier-to-noise density by satellite and time" xmlns="http://www.w3.org/2000/svg">`;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(field === "cn0_nominal_dbhz" ? t("js-lib-views-heatmap-nominal", "Nominal (no jammer) carrier-to-noise density by satellite and time") : t("js-lib-views-heatmap-effective", "Effective carrier-to-noise density by satellite and time"))}" xmlns="http://www.w3.org/2000/svg">`;
   s += `<rect class="c-bg" width="${W}" height="${H}"/>`;
   sig.prns.forEach((prn, r) => {
     const y = mt + r * rowH;
@@ -586,9 +605,9 @@ export function signalHeatmapSvg(sig, opts = {}) {
       const v = sat[field];
       if (!Number.isFinite(v)) return;
       const lost = Number.isFinite(sig.threshold) ? v < sig.threshold : sat.status === "LOST";
-      const t = hi > lo ? (v - lo) / (hi - lo) : 1;
-      const tip = opts.titles === false ? "" : `<title>t ${esc(fmt(sig.times[c]))} s · PRN ${esc(prn)} · C/N0 ${esc(fmt(v))} dB-Hz${Number.isFinite(sat.js_db) ? ` · J/S ${esc(fmt(sat.js_db))} dB` : ""}${lost ? " · below tracking threshold" : ""}</title>`;
-      s += `<rect x="${(ml + c * cw).toFixed(2)}" y="${y.toFixed(1)}" width="${(cw + 0.4).toFixed(2)}" height="${(rowH - 1.5).toFixed(1)}" style="fill:${heat(t)}"${lost ? ' class="c-lost"' : ""}>${tip}</rect>`;
+      const frac = hi > lo ? (v - lo) / (hi - lo) : 1;
+      const tip = opts.titles === false ? "" : `<title>t ${esc(fmt(sig.times[c]))} s · PRN ${esc(prn)} · C/N0 ${esc(fmt(v))} dB-Hz${Number.isFinite(sat.js_db) ? ` · J/S ${esc(fmt(sat.js_db))} dB` : ""}${lost ? " · " + esc(t("js-lib-views-below-tracking", "below tracking threshold")) : ""}</title>`;
+      s += `<rect x="${(ml + c * cw).toFixed(2)}" y="${y.toFixed(1)}" width="${(cw + 0.4).toFixed(2)}" height="${(rowH - 1.5).toFixed(1)}" style="fill:${heat(frac)}"${lost ? ' class="c-lost"' : ""}>${tip}</rect>`;
     });
   });
   const ticks = niceTicks(sig.times[0], sig.times[n - 1], 6);
@@ -597,7 +616,7 @@ export function signalHeatmapSvg(sig, opts = {}) {
     const x = ml + ((v - sig.times[0]) / span) * (W - ml - mr);
     s += `<text class="c-tick" x="${x.toFixed(1)}" y="${H - mb + 16}" text-anchor="middle">${esc(fmt(v))}</text>`;
   }
-  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">time (s)</text>`;
+  s += `<text class="c-axis" x="${ml + (W - ml - mr) / 2}" y="${H - 6}" text-anchor="middle">${esc(t("js-lib-views-time-s", "time (s)"))}</text>`;
   s += `</svg>`;
   return s;
 }
@@ -619,7 +638,7 @@ export function groundTrackSvg(gt, opts = {}) {
   const W = opts.w || 760, H = W / 2;
   const px = (lon) => ((lon + 180) / 360) * W;
   const py = (lat) => ((90 - lat) / 180) * H;
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Ground track" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(t("js-lib-views-ground-track", "Ground track"))}" xmlns="http://www.w3.org/2000/svg"><rect class="c-bg" width="${W}" height="${H}"/>`;
   for (let lon = -180; lon <= 180; lon += 30) s += `<line class="c-grid" x1="${px(lon)}" y1="0" x2="${px(lon)}" y2="${H}"/>`;
   for (let lat = -90; lat <= 90; lat += 30) s += `<line class="c-grid" x1="0" y1="${py(lat)}" x2="${W}" y2="${py(lat)}"/>`;
   // Real coastlines when a land outline is supplied (Natural Earth, public domain).

@@ -117,27 +117,34 @@ impl ChannelParams {
     pub(crate) fn describe(&self) -> String {
         let mut parts: Vec<String> = Vec::new();
         if let Some(t) = self.iono_stec_tecu {
-            parts.push(format!("iono slant {t} TECU"));
+            parts.push(crate::t!("iq-cli-channel-iono-slant-tecu", t = t));
         }
         if let Some(t) = self.iono_vtec_tecu {
-            parts.push(format!("iono vertical {t} TECU"));
+            parts.push(crate::t!("iq-cli-channel-iono-vertical-tecu", t = t));
         }
         if self.iono_klobuchar {
             parts.push("iono Klobuchar".to_string());
         }
         if self.tropo {
-            parts.push(format!("tropo doy {}", self.tropo_doy));
+            parts.push(crate::t!(
+                "iq-cli-channel-tropo-doy",
+                tropo_doy = self.tropo_doy
+            ));
         }
         if self.s4.is_some() || self.sigma_phi_rad > 0.0 {
-            parts.push(format!(
-                "scint S4={} tau0={}s sigma_phi={}rad",
-                self.s4.unwrap_or(0.0),
-                self.scint_tau0_s,
-                self.sigma_phi_rad
+            parts.push(crate::t!(
+                "iq-cli-channel-scint-s4-tau0-sigma-phi",
+                s4 = self.s4.unwrap_or(0.0),
+                scint_tau0_s = self.scint_tau0_s,
+                sigma_phi_rad = self.sigma_phi_rad
             ));
         }
         if let Some(h) = self.multipath_height_m {
-            parts.push(format!("multipath {h}m {} ground", self.multipath_ground));
+            parts.push(crate::t!(
+                "iq-cli-channel-multipath-ground",
+                h = h,
+                multipath_ground = self.multipath_ground
+            ));
         }
         if self.land_mobile {
             parts.push("land-mobile".to_string());
@@ -159,8 +166,9 @@ fn ground_of(name: &str) -> Result<Ground, String> {
         "dry" => Ok(Ground::DRY),
         "wet" => Ok(Ground::WET),
         "sea" => Ok(Ground::SEA),
-        other => Err(format!(
-            "--multipath-ground must be dry, wet or sea (got {other:?})"
+        other => Err(crate::terr!(
+            "e-iq-cli-channel-multipath-ground-must-be-dry",
+            other = format!("{:?}", other)
         )),
     }
 }
@@ -181,12 +189,12 @@ pub(crate) fn build_channel(
         + usize::from(p.iono_vtec_tecu.is_some())
         + usize::from(p.iono_klobuchar);
     if iono_sources > 1 {
-        return Err("give at most one of --iono-stec, --iono-vtec, --iono-klobuchar".to_string());
+        return Err(crate::terr!("e-iq-cli-channel-give-at-most-one-of"));
     }
     if p.nlos && p.multipath_height_m.is_none() && !p.land_mobile {
-        return Err(
-            "--nlos needs a reflected path: add --multipath-height or --land-mobile".to_string(),
-        );
+        return Err(crate::terr!(
+            "e-iq-cli-channel-nlos-needs-reflected-path-add"
+        ));
     }
     let mut adapter = SceneChannelAdapter::new(carrier_hz);
     if let Some(stec) = p.iono_stec_tecu {

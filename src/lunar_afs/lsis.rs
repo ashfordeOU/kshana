@@ -101,11 +101,10 @@ pub fn cache_present() -> bool {
 
 /// The message a missing or altered cache produces.
 pub fn fetch_hint() -> String {
-    format!(
-        "the LSIS V1.0 data is not in {} (set KSHANA_LSIS_DIR or run xval/lunar-afs/fetch_lsis.sh, \
-         which downloads {LSIS_PDF_URL} and extracts its attachments; they are not redistributed \
-         with Kshana)",
-        cache_dir().display()
+    crate::t!(
+        "lunar-afs-lsis-the-lsis-v1-data-is",
+        cache_dir = cache_dir().display(),
+        LSIS_PDF_URL = LSIS_PDF_URL
     )
 }
 
@@ -115,7 +114,7 @@ pub fn read_verified(name: &str) -> Result<Vec<u8>, String> {
         .iter()
         .find(|(n, _)| *n == name)
         .map(|(_, h)| *h)
-        .ok_or_else(|| format!("{name} is not a pinned LSIS file"))?;
+        .ok_or_else(|| crate::terr!("e-lunar-afs-lsis-is-not-pinned-lsis-file", name = name))?;
     let path = cache_dir().join(name);
     let bytes =
         std::fs::read(&path).map_err(|e| format!("{}: {e}; {}", path.display(), fetch_hint()))?;
@@ -124,10 +123,12 @@ pub fn read_verified(name: &str) -> Result<Vec<u8>, String> {
         .map(|b| format!("{b:02x}"))
         .collect();
     if got != want {
-        return Err(format!(
-            "{} has SHA-256 {got}, expected {want} (pinned to LSIS V1.0 of 29 January 2025); {}",
-            path.display(),
-            fetch_hint()
+        return Err(crate::terr!(
+            "e-lunar-afs-lsis-has-sha-256-expected-pinned",
+            path = path.display(),
+            got = got,
+            want = want,
+            fetch_hint = fetch_hint()
         ));
     }
     Ok(bytes)

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.kshanaL10nReady=new Promise(function(r){window.kshanaL10nResolve=r})</script>
+<meta charset="utf-8">
+<!-- Mission thread: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view). It reads the engine's recorded result (recorded/mission-thread-artemis-class.json) or a result file the person opens; nothing is uploaded. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="A mission as a chain of phases, with the navigation and timing error budget of each phase and the weakest link. Read from the result the engine recorded; nothing is uploaded.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="evidence.css">
+<link rel="stylesheet" href="mission-thread/mission-thread.css">
+<link rel="modulepreload" href="lib/mission-thread.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 16 16"><path d="M4 2.5h1.8v11H4zM13 3v10a.5.5 0 0 1-.8.4L6 8.4a.5.5 0 0 1 0-.8l6.2-5A.5.5 0 0 1 13 3z" fill="currentColor"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 16 16"><path d="M10.2 2.5H12v11h-1.8zM3 3v10a.5.5 0 0 0 .8.4l6.2-5a.5.5 0 0 0 0-.8L3.8 2.6A.5.5 0 0 0 3 3z" fill="currentColor"/></symbol>
+</svg>
+<a class="skip" href="#main"  data-l10n="studio-geometry-skip-to-the-view">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"  data-l10n-attr="aria-label:studio-geometry-kshana-home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span><span data-l10n-rich="seg-ac17942f6859" data-l10n-tags="{&quot;s1&quot;:{&quot;o&quot;:&quot;<span class=\&quot;brand-tag\&quot;>&quot;,&quot;c&quot;:&quot;</span>&quot;}}">Kshana <span class="brand-tag">Studio</span></span></a>
+  <nav class="crumb" aria-label="Where you are"  data-l10n-attr="aria-label:studio-where-you-are"><span  data-l10n="studio-mission-thread-mission-thread">Mission thread</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"  data-l10n-attr="title:studio-geometry-back-to-the-studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl"  data-l10n-rich="seg-334caeae9fba">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"  data-l10n-attr="aria-label:studio-theme;title:studio-theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap mtv">
+  <p class="kicker"><i style="--c:var(--nav)"></i><span data-l10n="studio-mission-thread-mission-thread">Mission thread</span></p>
+  <h1 id="mtv-h" data-l10n="studio-mission-thread-where-does-a-mission-s">Where does a mission's navigation and timing error budget run out?</h1>
+  <p class="lede" data-l10n="studio-mission-thread-a-mission-is-a-chain">A mission is a chain of phases: launch, rendezvous, transfer to the Moon, landing, return. Each phase has its own sensors and its own error budget, and each hands its uncertainty to the next. This page shows the budget of the whole chain, phase by phase, and names the weakest link.</p>
+  <p class="mtv-adv" role="note" data-l10n-rich="seg-2cdf436c4e70" data-l10n-tags="{&quot;b&quot;:{&quot;o&quot;:&quot;<b>&quot;,&quot;c&quot;:&quot;</b>&quot;}}"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and the operator remains responsible. Every number here is MODELLED: a stated input, or a model of one. Nothing on this page is VALIDATED, certified or approved by any agency or programme.</p>
+  <section class="card mtv-pick" aria-label="Result" data-l10n-attr="aria-label:studio-result">
+    <div class="mtv-open">
+      <button class="mtv-btn" id="mtv-example" type="button" data-l10n="studio-mission-thread-open-the-artemis-class-example">Open the Artemis-class example</button>
+      <label class="mtv-btn alt" for="mtv-file" data-l10n="studio-mission-thread-open-a-result-file">Open a result file…</label>
+      <input id="mtv-file" type="file" accept=".json,application/json" hidden>
+    </div>
+    <p class="mtv-status" id="mtv-status" role="status" aria-live="polite"></p>
+  </section>
+  <div id="mtv-body" hidden>
+    <section class="card" aria-labelledby="mtv-head-h">
+      <div class="card-head"><h2 id="mtv-head-h" class="h3" data-l10n="studio-mission-thread-the-thread">The thread</h2><span id="mtv-evb"></span></div>
+      <p class="mtv-weakline" id="mtv-weakline"></p>
+      <dl class="mtv-kv" id="mtv-kv"></dl>
+    </section>
+    <section class="card" aria-labelledby="mtv-chart-h">
+      <div class="card-head"><h2 id="mtv-chart-h" class="h3" data-l10n="studio-mission-thread-error-against-mission-elapsed-time">Error against mission elapsed time</h2></div>
+      <div class="mtv-ctl">
+        <div class="mtv-tabs" id="mtv-metric" role="tablist" aria-label="Quantity"></div>
+        <div class="mtv-tabs" id="mtv-layout" role="group" aria-label="Time axis" data-l10n-attr="aria-label:studio-mission-thread-time-axis"></div>
+      </div>
+      <div class="mtv-scroll" id="mtv-chart"></div>
+      <p class="mtv-note" id="mtv-chart-note"></p>
+    </section>
+    <section class="card" aria-labelledby="mtv-phases-h">
+      <div class="card-head"><h2 id="mtv-phases-h" class="h3" data-l10n="studio-mission-thread-the-phases">The phases</h2></div>
+      <div class="mtv-tablewrap"><table class="mtv-table" id="mtv-phases"></table></div>
+    </section>
+    <section class="card" aria-labelledby="mtv-budget-h">
+      <div class="card-head"><h2 id="mtv-budget-h" class="h3" data-l10n="studio-mission-thread-the-budget-of-one-phase">The budget of one phase</h2><span id="mtv-budget-evb"></span></div>
+      <div class="mtv-pickphase"><label for="mtv-phase-sel" data-l10n-rich="seg-baea4e05ad26">Phase</label><select id="mtv-phase-sel"></select></div>
+      <div class="mtv-grid"><div class="mtv-tablewrap"><table class="mtv-table" id="mtv-budget"></table></div><div><h3 class="h4" id="mtv-events-h" data-l10n-rich="seg-f2be7442bdf2">Events</h3><ol class="mtv-events" id="mtv-events" aria-labelledby="mtv-events-h"></ol></div></div>
+    </section>
+    <p class="mtv-prov" id="mtv-prov"></p>
+  </div>
+</div>
+</main>
+<script type="module" src="mission-thread/mission-thread.js"></script>
+<script type="module" src="lib/l10n-boot.mjs"></script>
+</body>
+</html>

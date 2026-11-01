@@ -24,7 +24,7 @@ FAMILIES = [
     ("Low-Earth-orbit navigation", ("docs/LEO-PNT.md", "docs/LEO-SIGNAL.md", "docs/LEO-PASS.md", "docs/LEO-NAVMSG.md"), "kshana scenarios/leo-pnt-end-to-end.toml",
      ["leo-signal", "leo-pass", "leo-navmsg", "leo-pvt", "leo-ppp", "ntn-positioning", "leo-pnt-chain"]),
     ("Lunar and cislunar", ("docs/LUNAR-REFERENCE-STATION.md", "docs/LUNAR-INFRASTRUCTURE.md", "docs/LUNANET-AFS.md"), "kshana scenarios/lunar-infrastructure-od-consistency.toml",
-     ["lunar-integrity", "lunar-time-offset", "lunar-time-budget", "lunar-vlbi", "lunar-vlbi-fim", "lunar-joint-od-clock", "lunar-frame-realisation",
+     ["lunar-integrity", "lunar-time-offset", "lunar-time-budget", "lunar-ascent", "lunar-surface", "lunar-descent", "lunar-orbit-rendezvous", "lunar-vlbi", "lunar-vlbi-fim", "lunar-joint-od-clock", "lunar-frame-realisation",
       "lunar-frame-campaign", "lunar-llr-datum", "moonlight-service-volume", "lunar-differential-pnt", "lunar-station-coverage", "lunar-beacon",
       "lunar-interop-export", "cislunar-observability", "cislunar-arc-recovery", "lunar-attack-surface", "lunar-jamming", "earth-gnss-lunar",
       "lunar-infrastructure"]),
@@ -33,6 +33,7 @@ FAMILIES = [
     ("Mission analysis, links and space operations", ("docs/ENTRY-EO-ASCENT.md", "docs/CONTACT-SCHEDULING.md", "docs/AOCS.md"), "kshana scenarios/launch-window.toml",
      ["launch-window", "ascent-losses", "reentry", "entry-heating", "eo-coverage", "eo-radiometry", "attitude-budget", "aocs", "link-budget",
       "acm-link", "contact-schedule", "aperture-duty-cycle", "space-packet", "oem-interop"]),
+    ("Mission threads", ("docs/MISSION-THREAD.md", "docs/MISSION-THREAD-LUNAR.md"), "kshana scenarios/mission-thread-artemis-class.toml", ["mission-thread"]),
     ("Campaigns", ("docs/CAMPAIGNS.md",), "kshana scenarios/campaign-jam-spoof-holdover-integrity.toml", ["campaign"]),
 ]
 
@@ -54,5 +55,6 @@ BLURB = {
     "Space-user navigation": "GNSS signals for spacecraft above, around and beyond the GNSS orbits",
     "Optical PNT": "optical links through the atmosphere and optical-plus-RF figures of merit",
     "Mission analysis, links and space operations": "launch, ascent, entry, attitude, links, contact planning and file formats",
+    "Mission threads": "the navigation and timing error budget of a chain of phases from launch to entry",
     "Campaigns": "chained missions, sweeps and ensembles built from the other kinds",
 }

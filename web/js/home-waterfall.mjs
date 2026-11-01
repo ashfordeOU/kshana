@@ -1,13 +1,15 @@
 // Home · L-band console: the spectrum kind's waterfall, replayed from a real engine run.
 // Data: assets/waterfall/home-waterfall.json, written by src/tools/gen_waterfall.py from
 // l-band-waterfall-jamming.toml (and the campaign it drives). Nothing here is synthesised: every
-// cell, C/N0, J/S and lock state is the engine's. Self-contained: no imports, no shared state.
+// cell, C/N0, J/S and lock state is the engine's. Self-contained: no imports but the message helper (t.mjs), no shared state.
+import { t, ready } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 const root = document.getElementById("lband");
 if (root) boot();
 
 function boot() {
   const start = () => fetch("assets/waterfall/home-waterfall.json").then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => init(d)).catch((e) => {
-    const n = root.querySelector(".lb-nojs"); if (n) n.textContent = "The recorded run could not be loaded. The engine's report below shows the same run.";
+    const n = root.querySelector(".lb-nojs"); if (n) n.textContent = t("js-site-waterfall-load-failed", "The recorded run could not be loaded. The engine's report below shows the same run.");
     console.warn("L-band console:", e);
   });
   if (!("IntersectionObserver" in window)) { start(); return; }
@@ -43,7 +45,7 @@ function init(D) {
   const ctx = cv.getContext("2d");
   const N = D.t.length, thr = D.thr, above = D.peak - D.floor;
   const fmt = (x, n = 1) => (x == null ? "–" : Number(x).toFixed(n));
-  const tLab = (s) => `run T+${String(Math.round(s)).padStart(2, "0")} s`;
+  const tLab = (s) => t("js-site-waterfall-run-time", "run T+{ $s } s", { s: String(Math.round(s)).padStart(2, "0") });
 
   // ---------------------------------------------------------------- derived, all from the run
   let col0 = 0;
@@ -54,40 +56,43 @@ function init(D) {
     return { ...b, i, lostAt, rec, seg: segs.findIndex((s) => b.fc >= s.lo && b.fc <= s.hi) };
   });
   const state = (b, k) => (b.st[k] === "X" ? "lost" : b.lostAt >= 0 && k > b.lostAt ? "rec" : "ok");
-  const STATE_TXT = { ok: "Tracking", lost: "Lost lock", rec: "Recovered" };
-  const SHORT_TXT = { ok: "track", lost: "lost", rec: "recov." };
+  const STATE_TXT = { get ok() { return t("js-site-waterfall-state-ok", "Tracking"); }, get lost() { return t("js-site-waterfall-state-lost", "Lost lock"); }, get rec() { return t("js-site-waterfall-state-rec", "Recovered"); } };
+  const STATE_LOW = { get ok() { return t("js-site-waterfall-state-ok-low", "tracking"); }, get lost() { return t("js-site-waterfall-state-lost-low", "lost lock"); }, get rec() { return t("js-site-waterfall-state-rec-low", "recovered"); } };
+  const SHORT_TXT = { get ok() { return t("js-site-waterfall-short-ok", "track"); }, get lost() { return t("js-site-waterfall-short-lost", "lost"); }, get rec() { return t("js-site-waterfall-short-rec", "recov."); } };
   const chirp = D.jammers.find((j) => j.waveform === "chirp");
   const onsetEnd = D.campaign.phases[0].t1;
   const phaseAt = (ts) => (ts < onsetEnd ? 0 : chirp && chirp.off != null && ts < chirp.off ? 1 : 2);
-  const short = (j) => (j.waveform === "chirp" ? "chirp" : j.waveform === "cw" ? "CW tone" : "noise");
+  const short = (j) => (j.waveform === "chirp" ? t("js-site-waterfall-wave-chirp", "chirp") : j.waveform === "cw" ? t("js-site-waterfall-wave-cw", "CW tone") : t("js-site-waterfall-wave-noise", "noise"));
   // Rows where a window shows nothing above the noise floor. Satellite signals sit below the floor,
   // so such a stretch is an empty-looking rectangle; the draw labels it from the run (quietNote).
   const quiet = segs.map((s) => D.psd.map((row) => { for (let i = 0; i < s.n; i++) if (row[s.c0 + i] > 0) return false; return true; }));
   const marks = [];
   for (const j of D.jammers) {
     const seg = segs.findIndex((s) => j.fc >= s.lo && j.fc <= s.hi);
-    marks.push({ row: j.on / D.step_s, seg, txt: `${short(j)} on` });
-    if (j.off != null) marks.push({ row: j.off / D.step_s, seg, txt: `${short(j)} off` });
+    marks.push({ row: j.on / D.step_s, seg, get txt() { return t("js-site-waterfall-jammer-on", "{ $what } on", { what: short(j) }); } });
+    if (j.off != null) marks.push({ row: j.off / D.step_s, seg, get txt() { return t("js-site-waterfall-jammer-off", "{ $what } off", { what: short(j) }); } });
   }
 
   // ---------------------------------------------------------------- static text from the data
   const E = D.engine, S = D.spectrum, C = D.campaign;
-  $("#lbSrc").replaceChildren(`Engine v${E.version} · build `, el("code", "", E.commit), " · ", el("code", "", `${S.file}.toml`), ` · ${S.seed != null ? `seed ${S.seed}` : "deterministic, no seed"}`);
-  $("#lbSrcC").replaceChildren(el("b", "", "Campaign it drives:"), " ", el("code", "", `${C.file}.toml`), ` · seed ${C.seed} · ${C.phases.length} phases over ${C.duration_s} s`);
+  $("#lbSrc").replaceChildren(t("js-site-waterfall-engine-build", "Engine v{ $version } · build", { version: E.version }), " ", el("code", "", E.commit), " · ", el("code", "", `${S.file}.toml`), " · ", S.seed != null ? t("js-site-waterfall-seed", "seed { $seed }", { seed: S.seed }) : t("js-site-waterfall-no-seed", "deterministic, no seed"));
+  $("#lbSrcC").replaceChildren(el("b", "", t("js-site-waterfall-campaign-drives", "Campaign it drives:")), " ", el("code", "", `${C.file}.toml`), " · ", t("js-site-waterfall-campaign-seed", "seed { $seed } · { $phases } phases over { $duration } s", { seed: C.seed, phases: C.phases.length, duration: C.duration_s }));
   $("#lbSrcS").replaceChildren(el("code", "", `${S.file}.toml`), ` · SHA-256 ${S.sha256.slice(0, 12)}…`);
-  $("#lbTitleFile").textContent = `${S.file}.toml · seed ${S.seed}`;
+  $("#lbTitleFile").textContent = `${S.file}.toml · ` + t("js-site-waterfall-seed", "seed { $seed }", { seed: S.seed });
   const ph = C.phases;
   const P = [
-    { c: "var(--lime)", h: `Onset · ${ph[0].t0}–${ph[0].t1} s`, p: `All ${bands.length} bands tracking, until the spectrum run first loses ${bands[0].name} at ${bands[0].first_loss} s.` },
-    { c: "var(--coral)", h: `Holdover · ${ph[1].t1 - ph[1].t0} s, chirp on`, p: `${bands[0].name} ${fmt(ph[1].ca_dbhz)}, ${bands[1].name} ${fmt(ph[1].e1_dbhz)} dB-Hz, under the floor. The clock free-runs: worst ${fmt(ph[1].te_max_ns, 2)} ns against a ${C.guard_ns} ns guard.` },
-    { c: "var(--cyan)", h: `Galileo fallback · ${ph[2].t1 - ph[2].t0} s, CW tone only`, p: `${bands[1].name} back at ${fmt(ph[2].e1_dbhz)} dB-Hz. Integrity monitoring on Galileo alone: protection level ${fmt(ph[2].pl_min_m)}–${fmt(ph[2].pl_max_m)} m, under the ${C.al_m} m alert limit.` },
+    { c: "var(--lime)", h: t("js-site-waterfall-onset-head", "Onset · { $t0 }–{ $t1 } s", { t0: ph[0].t0, t1: ph[0].t1 }), p: t("js-site-waterfall-onset-text", "All { $n } bands tracking, until the spectrum run first loses { $band } at { $s } s.", { n: bands.length, band: bands[0].name, s: bands[0].first_loss }) },
+    { c: "var(--coral)", h: t("js-site-waterfall-holdover-head", "Holdover · { $s } s, chirp on", { s: ph[1].t1 - ph[1].t0 }), p: t("js-site-waterfall-holdover-text", "{ $band0 } { $v0 }, { $band1 } { $v1 } dB-Hz, under the floor. The clock free-runs: worst { $worst } ns against a { $guard } ns guard.", { band0: bands[0].name, v0: fmt(ph[1].ca_dbhz), band1: bands[1].name, v1: fmt(ph[1].e1_dbhz), worst: fmt(ph[1].te_max_ns, 2), guard: C.guard_ns }) },
+    { c: "var(--cyan)", h: t("js-site-waterfall-fallback-head", "Galileo fallback · { $s } s, CW tone only", { s: ph[2].t1 - ph[2].t0 }), p: t("js-site-waterfall-fallback-text", "{ $band } back at { $v } dB-Hz. Integrity monitoring on Galileo alone: protection level { $min }–{ $max } m, under the { $limit } m alert limit.", { band: bands[1].name, v: fmt(ph[2].e1_dbhz), min: fmt(ph[2].pl_min_m), max: fmt(ph[2].pl_max_m), limit: C.al_m }) },
   ];
   const phEls = P.map((x) => { const li = el("li", "", el("b", "", x.h), x.p); li.style.setProperty("--c", x.c); return li; });
   $("#lbPhases").replaceChildren(...phEls);
   // A text version of the whole run for screen readers, one clause per band.
-  $("#lbSummary").textContent = `${N} rows of ${D.step_s} s. ` + bands.map((b) => b.lostAt < 0
-    ? `${b.name} tracks throughout, lowest ${fmt(b.min)} dB-Hz.`
-    : `${b.name} loses lock at ${D.t[b.lostAt]} s${b.rec >= 0 ? ` and recovers at ${D.t[b.rec]} s` : " and stays lost"}, lowest ${fmt(b.min)} dB-Hz.`).join(" ");
+  $("#lbSummary").textContent = t("js-site-waterfall-summary-rows", "{ $n } rows of { $step } s.", { n: N, step: D.step_s }) + " " + bands.map((b) => b.lostAt < 0
+    ? t("js-site-waterfall-summary-tracks", "{ $band } tracks throughout, lowest { $min } dB-Hz.", { band: b.name, min: fmt(b.min) })
+    : b.rec >= 0
+      ? t("js-site-waterfall-summary-recovers", "{ $band } loses lock at { $lost } s and recovers at { $rec } s, lowest { $min } dB-Hz.", { band: b.name, lost: D.t[b.lostAt], rec: D.t[b.rec], min: fmt(b.min) })
+      : t("js-site-waterfall-summary-stays-lost", "{ $band } loses lock at { $lost } s and stays lost, lowest { $min } dB-Hz.", { band: b.name, lost: D.t[b.lostAt], min: fmt(b.min) })).join(" ");
 
   // side-panel bars, one per band in the result (E6 is not modelled, so it is never listed)
   const bars = $("#lbBars");
@@ -99,9 +104,9 @@ function init(D) {
     bars.append(li);
     return { li, fill, v, st };
   });
-  $("#lbFloorTxt").textContent = `${thr} dB-Hz tracking floor`;
+  $("#lbFloorTxt").textContent = t("js-site-waterfall-floor", "{ $thr } dB-Hz tracking floor", { thr });
   $("#lbMax").textContent = `+${Math.round(above)} dB`;
-  $("#lbScaleCap").textContent = `PSD above the ${fmt(D.floor)} dBW/Hz floor · ${D.bin_mhz} MHz × ${D.step_s} s cells`;
+  $("#lbScaleCap").textContent = t("js-site-waterfall-scale-caption", "PSD above the { $floor } dBW/Hz floor · { $bin } MHz × { $step } s cells", { floor: fmt(D.floor), bin: D.bin_mhz, step: D.step_s });
 
   // band chips over their frequency windows
   const chipEls = [];
@@ -111,8 +116,8 @@ function init(D) {
       const btn = el("button", "lb-chip", b.name);
       btn.type = "button"; btn.setAttribute("aria-pressed", "false");
       btn.dataset.full = b.name; btn.dataset.short = b.name.replace(/^(GPS|Galileo) /, ""); btn.dataset.tiny = btn.dataset.short.split(" ")[0];
-      btn.setAttribute("aria-label", `${b.name}, ${b.fc} megahertz: show this band`);
-      btn.title = `${b.name} · ${b.fc} MHz · receiver bandwidth ${b.bw} MHz`;
+      btn.setAttribute("aria-label", t("js-site-waterfall-chip-aria", "{ $band }, { $fc } megahertz: show this band", { band: b.name, fc: b.fc }));
+      btn.title = t("js-site-waterfall-chip-title", "{ $band } · { $fc } MHz · receiver bandwidth { $bw } MHz", { band: b.name, fc: b.fc, bw: b.bw });
       btn.addEventListener("click", () => pin(pinned === b.i ? null : b.i));
       box.append(btn); chipEls[b.i] = btn;
     }
@@ -183,11 +188,11 @@ function init(D) {
   }
 
   // ---------------------------------------------------------------- draw
-  let t = N, hold = 0, hover = null, pinned = null;
+  let tn = N, hold = 0, hover = null, pinned = null;
   function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    const vis = Math.min(N, t), y0 = GT;
+    const vis = Math.min(N, tn), y0 = GT;
     ctx.font = "500 10px 'Geist Mono', ui-monospace, monospace";
     ctx.textBaseline = "middle"; ctx.lineWidth = 1;
     segs.forEach((s, i) => {
@@ -240,7 +245,7 @@ function init(D) {
     // time axis: seconds before now, fixed and in order top to bottom (rows are one step each);
     // run time is in the panel header, and the restart line marks where the replay began
     ctx.fillStyle = css["ink-3"]; ctx.textAlign = "right";
-    ctx.fillText("now", GL - 8, y0 + 5);
+    ctx.fillText(t("js-site-waterfall-axis-now", "now"), GL - 8, y0 + 5);
     for (let s = 10; s < N; s += 10) {
       const y = y0 + (s / D.step_s) * rowH;
       if (y > y0 + PH - 8) continue;
@@ -290,14 +295,14 @@ function init(D) {
     const inBand = bands.filter((b) => b.seg === si);
     const jam = D.jammers.some((j) => j.fc >= segs[si].lo && j.fc <= segs[si].hi && (j.on / D.step_s) <= best.k && (j.off == null || j.off / D.step_s > best.k));
     if (jam) return; // a jammer is on but under the floor: not an empty band, say nothing
-    const head = "No jammer in this band";
+    const head = t("js-site-waterfall-no-jammer-band", "No jammer in this band");
     const SANS = "500 11px 'Geist', ui-sans-serif, system-ui, sans-serif", MONO = "500 10px 'Geist Mono', ui-monospace, monospace";
     const wrap = (txt, font) => { ctx.font = font; const out = []; let cur = ""; for (const w of txt.split(" ")) { const tryL = cur ? `${cur} ${w}` : w; if (!cur || ctx.measureText(tryL).width <= maxW) cur = tryL; else { out.push(cur); cur = w; } } if (cur) out.push(cur); return out; };
     const lines = [];
     for (const l of wrap(head, SANS)) lines.push({ t: l, f: SANS, c: css.ink });
-    for (const l of wrap("signals sit below the noise floor", MONO)) lines.push({ t: l, f: MONO, c: css["ink-2"] });
+    for (const l of wrap(t("js-site-waterfall-below-floor", "signals sit below the noise floor"), MONO)) lines.push({ t: l, f: MONO, c: css["ink-2"] });
     const extra = [];
-    for (const b of inBand) for (const l of wrap(`${b.name} ${fmt(b.cn0[best.k])} dB-Hz · ${STATE_TXT[state(b, best.k)].toLowerCase()}`, MONO)) extra.push({ t: l, f: MONO, c: css["ink-2"], gap: !extra.length });
+    for (const b of inBand) for (const l of wrap(t("js-site-waterfall-quiet-band", "{ $band } { $cn0 } dB-Hz · { $state }", { band: b.name, cn0: fmt(b.cn0[best.k]), state: STATE_LOW[state(b, best.k)] }), MONO)) extra.push({ t: l, f: MONO, c: css["ink-2"], gap: !extra.length });
     const LH = 14, room = bot - top - 12;
     let all = lines.concat(extra);
     if (all.length * LH + 4 > room) all = lines;
@@ -313,8 +318,8 @@ function init(D) {
   }
 
   // ---------------------------------------------------------------- side panel and phases
-  const rowsAbove = (k) => { const v = Math.min(N, t); return k < v ? v - k - 1 : v - k - 1 + N; };
-  const curRow = () => (hover ? hover.k : Math.max(0, Math.min(N - 1, Math.ceil(Math.min(N, t)) - 1)));
+  const rowsAbove = (k) => { const v = Math.min(N, tn); return k < v ? v - k - 1 : v - k - 1 + N; };
+  const curRow = () => (hover ? hover.k : Math.max(0, Math.min(N - 1, Math.ceil(Math.min(N, tn)) - 1)));
   function bandsAtCol(si, ci) {
     const f = segs[si].cols[ci], h = D.bin_mhz / 2;
     return bands.filter((b) => b.seg === si && f + h >= b.fc - b.bw / 2 && f - h <= b.fc + b.bw / 2);
@@ -333,19 +338,19 @@ function init(D) {
     const key = `${k}|${b.i}|${sb != null}|${pinned}`;
     if (key === lastKey) return; lastKey = key;
     const s = state(b, k);
-    $("#lbWho").textContent = sb != null ? (pinned != null ? "Selected band" : "Band under the cursor") : "Worst band";
+    $("#lbWho").textContent = sb != null ? (pinned != null ? t("js-site-waterfall-who-selected", "Selected band") : t("js-site-waterfall-who-cursor", "Band under the cursor")) : t("js-site-waterfall-who-worst", "Worst band");
     $("#lbT").textContent = tLab(D.t[k]);
     const big = $("#lbCn0"); big.firstChild.nodeValue = fmt(b.cn0[k]); big.style.setProperty("--c", cssColor(s));
     $("#lbBand").textContent = b.name;
     const st = $("#lbState"); st.dataset.s = s; st.textContent = STATE_TXT[s]; st.style.setProperty("--c", cssColor(s));
-    $("#lbJs").textContent = b.js[k] == null ? "no jammer in band" : `${fmt(b.js[k])} dB`;
+    $("#lbJs").textContent = b.js[k] == null ? t("js-site-waterfall-no-jammer-in-band", "no jammer in band") : `${fmt(b.js[k])} dB`;
     bands.forEach((x, i) => {
       const e = barEls[i], xs = state(x, k);
       e.fill.style.setProperty("--w", `${Math.max(1, Math.min(100, (x.cn0[k] / 50) * 100))}%`);
       e.fill.style.setProperty("--c", cssColor(xs));
       e.v.textContent = fmt(x.cn0[k]);
       e.st.textContent = SHORT_TXT[xs];
-      e.li.title = `${x.name}: ${fmt(x.cn0[k])} dB-Hz, ${STATE_TXT[xs].toLowerCase()}${x.js[k] == null ? "" : `, J/S ${fmt(x.js[k])} dB`}`;
+      e.li.title = x.js[k] == null ? t("js-site-waterfall-bar-title", "{ $band }: { $cn0 } dB-Hz, { $state }", { band: x.name, cn0: fmt(x.cn0[k]), state: STATE_LOW[xs] }) : t("js-site-waterfall-bar-title-js", "{ $band }: { $cn0 } dB-Hz, { $state }, J/S { $js } dB", { band: x.name, cn0: fmt(x.cn0[k]), state: STATE_LOW[xs], js: fmt(x.js[k]) });
       e.li.classList.toggle("sel", x.i === b.i);
     });
     const p = phaseAt(D.t[k]);
@@ -360,7 +365,7 @@ function init(D) {
   // ---------------------------------------------------------------- tooltip and inspection
   const live = $("#lbLive");
   function hit(px, py) {
-    const vis = Math.min(N, t);
+    const vis = Math.min(N, tn);
     const si = L.findIndex((g) => px >= g.x && px < g.x + g.w);
     if (si < 0 || py < GT || py >= GT + PH) return null;
     const ci = Math.min(segs[si].n - 1, Math.max(0, Math.floor((px - L[si].x) / L[si].cw)));
@@ -372,10 +377,10 @@ function init(D) {
   function tipNodes(h) {
     const s = segs[h.si], f = s.cols[h.ci], v = D.psd[h.k][s.c0 + h.ci] / 10, bs = bandsAtCol(h.si, h.ci);
     const lo = Math.max(s.lo, f - D.bin_mhz / 2), hi = Math.min(s.hi, f + D.bin_mhz / 2);
-    const out = [el("span", "tt-h", `${fmt(lo)}–${fmt(hi)} MHz · ${tLab(D.t[h.k])}`)];
-    out.push(v < 0.05 ? "At the thermal noise floor" : el("span", "", el("b", "", `+${fmt(v)} dB`), " above the noise floor"));
-    for (const b of bs) out.push(el("span", "tt-b", el("b", "", b.name), ` ${fmt(b.cn0[h.k])} dB-Hz · ${STATE_TXT[state(b, h.k)].toLowerCase()}${b.js[h.k] == null ? "" : ` · J/S ${fmt(b.js[h.k])} dB`}`));
-    if (!bs.length) out.push(el("span", "tt-b", "No modelled band's receiver bandwidth covers this column"));
+    const out = [el("span", "tt-h", t("js-site-waterfall-tip-head", "{ $lo }–{ $hi } MHz · { $time }", { lo: fmt(lo), hi: fmt(hi), time: tLab(D.t[h.k]) }))];
+    out.push(v < 0.05 ? t("js-site-waterfall-tip-at-floor", "At the thermal noise floor") : el("span", "", el("b", "", `+${fmt(v)} dB`), " ", t("js-site-waterfall-tip-above-floor", "above the noise floor")));
+    for (const b of bs) out.push(el("span", "tt-b", el("b", "", b.name), " " + t("js-site-waterfall-tip-band", "{ $cn0 } dB-Hz · { $state }", { cn0: fmt(b.cn0[h.k]), state: STATE_LOW[state(b, h.k)] }) + (b.js[h.k] == null ? "" : " · " + t("js-site-waterfall-tip-js", "J/S { $js } dB", { js: fmt(b.js[h.k]) }))));
+    if (!bs.length) out.push(el("span", "tt-b", t("js-site-waterfall-tip-no-band", "No modelled band's receiver bandwidth covers this column")));
     return out;
   }
   function showTip(h, px, py) {
@@ -392,7 +397,7 @@ function init(D) {
     showTip(h, px, py); draw();
     if (say) {
       const bs = bandsAtCol(h.si, h.ci);
-      live.textContent = `${fmt(segs[h.si].cols[h.ci])} megahertz, ${tLab(D.t[h.k])}: ` + (bs.map((b) => `${b.name} ${fmt(b.cn0[h.k])} dB-Hz, ${STATE_TXT[state(b, h.k)]}`).join("; ") || "no modelled band");
+      live.textContent = t("js-site-waterfall-live", "{ $freq } megahertz, { $time }: { $detail }", { freq: fmt(segs[h.si].cols[h.ci]), time: tLab(D.t[h.k]), detail: bs.map((b) => t("js-site-waterfall-live-band", "{ $band } { $cn0 } dB-Hz, { $state }", { band: b.name, cn0: fmt(b.cn0[h.k]), state: STATE_TXT[state(b, h.k)] })).join("; ") || t("js-site-waterfall-live-none", "no modelled band") });
     }
   }
   let hoverPause = false, sticky = false;
@@ -415,7 +420,7 @@ function init(D) {
     if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Escape", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
     if (e.key === "Escape") { release(); return; }
-    const vis = Math.min(N, t), top = Math.max(0, Math.ceil(vis) - 1);
+    const vis = Math.min(N, tn), top = Math.max(0, Math.ceil(vis) - 1);
     let h = hover || { si: segs.length - 1, ci: Math.floor(segs[segs.length - 1].n / 2), k: top };
     const flat = []; segs.forEach((s, si) => { for (let ci = 0; ci < s.n; ci++) flat.push([si, ci]); });
     let fi = flat.findIndex(([a, b]) => a === h.si && b === h.ci);
@@ -439,20 +444,20 @@ function init(D) {
   const btn = $("#lbPlay"), icon = btn.querySelector("path");
   let userPaused = RM.matches, onScreen = true, raf = 0, last = 0;
   function setBtn() {
-    btn.setAttribute("aria-label", userPaused ? "Play the waterfall" : "Pause the waterfall");
+    btn.setAttribute("aria-label", userPaused ? t("js-site-waterfall-play", "Play the waterfall") : t("js-site-waterfall-pause", "Pause the waterfall"));
     icon.setAttribute("d", userPaused ? "M2 1l9 5-9 5z" : "M2.5 1h2.6v10H2.5zM6.9 1h2.6v10H6.9z");
   }
   btn.addEventListener("click", () => {
     userPaused = !userPaused; sticky = false; hoverPause = false; hover = null; tip.classList.remove("on");
-    if (!userPaused && t >= N) { t = 0; hold = 0; }
+    if (!userPaused && tn >= N) { tn = 0; hold = 0; }
     setBtn(); lastKey = ""; draw(); loop();
   });
   function frame(now) {
     raf = 0;
     if (!(!userPaused && onScreen && !hoverPause && !document.hidden)) return;
     const dt = Math.min(0.1, (now - (last || now)) / 1000); last = now;
-    if (t < N) t = Math.min(N, t + dt * ROWS_PER_S);
-    else { hold += dt; if (hold >= HOLD_S) { t = 0; hold = 0; } }
+    if (tn < N) tn = Math.min(N, tn + dt * ROWS_PER_S);
+    else { hold += dt; if (hold >= HOLD_S) { tn = 0; hold = 0; } }
     draw();
     raf = requestAnimationFrame(frame);
   }
@@ -462,7 +467,7 @@ function init(D) {
   }
   if ("IntersectionObserver" in window) new IntersectionObserver((es) => { onScreen = es[es.length - 1].isIntersecting; loop(); }).observe(scope);
   document.addEventListener("visibilitychange", loop);
-  RM.addEventListener?.("change", () => { if (RM.matches) { userPaused = true; t = N; setBtn(); lastKey = ""; draw(); } });
+  RM.addEventListener?.("change", () => { if (RM.matches) { userPaused = true; tn = N; setBtn(); lastKey = ""; draw(); } });
 
   // ---------------------------------------------------------------- theme and size
   const repaint = () => { paintTheme(); lastKey = ""; draw(); };
@@ -476,7 +481,7 @@ function init(D) {
 
   paintTheme(); layout();
   // Reduced motion: the complete run as one static frame. Otherwise the replay starts from T+0.
-  t = RM.matches ? N : 0;
+  tn = RM.matches ? N : 0;
   setBtn();
   root.classList.add("lb-ready");
   draw(); loop();

@@ -143,14 +143,18 @@ fn seg_dist_m(lon: f64, lat: f64, a: (f64, f64), b: (f64, f64)) -> f64 {
 impl LandMask {
     /// Read Polygon or MultiPolygon GeoJSON text; positions count as inland only beyond `buffer_m` metres from the coast.
     pub fn from_geojson_str(text: &str, buffer_m: f64) -> Result<Self, MapError> {
-        let v: Value = serde_json::from_str(text)
-            .map_err(|e| MapError::Format(format!("land polygons: invalid JSON: {e}")))?;
+        let v: Value = serde_json::from_str(text).map_err(|e| {
+            MapError::Format(crate::terr!(
+                "e-interference-map-land-land-polygons-invalid-json",
+                e = e
+            ))
+        })?;
         let mut polys = Vec::new();
         collect_polys(&v, &mut polys);
         if polys.is_empty() {
-            return Err(MapError::Format(
-                "land polygons: no Polygon or MultiPolygon found".into(),
-            ));
+            return Err(MapError::Format(crate::terr!(
+                "e-interference-map-land-land-polygons-no-polygon-or"
+            )));
         }
         let mut edges = Vec::new();
         let mut bands: HashMap<i32, Vec<u32>> = HashMap::new();

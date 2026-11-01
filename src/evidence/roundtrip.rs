@@ -45,10 +45,10 @@ pub fn check_events_agree(
     scn: &scenario::ReceiverTrustScenario,
 ) -> Result<(), String> {
     if tc.events.len() != scn.events.len() {
-        return Err(format!(
-            "the test conditions state {} event(s) but the scoring scenario has {}",
-            tc.events.len(),
-            scn.events.len()
+        return Err(crate::terr!(
+            "e-evidence-roundtrip-the-test-conditions-state-event",
+            events = tc.events.len(),
+            events2 = scn.events.len()
         ));
     }
     let mut a: Vec<_> = tc.events.iter().collect();
@@ -61,10 +61,14 @@ pub fn check_events_agree(
             || (c.offset_s - t_end).abs() > EVENT_TOL_S
             || !kinds_agree(c.kind, t.kind)
         {
-            return Err(format!(
-                "event '{}' in the test conditions ({} s to {} s) does not match '{}' in the \
-                 scoring scenario ({} s to {:?} s)",
-                c.id, c.onset_s, c.offset_s, t.label, t.onset_s, t.end_s
+            return Err(crate::terr!(
+                "e-evidence-roundtrip-event-in-the-test-conditions",
+                id = c.id,
+                onset_s = c.onset_s,
+                offset_s = c.offset_s,
+                label = t.label,
+                onset_s2 = t.onset_s,
+                end_s = format!("{:?}", t.end_s)
             ));
         }
     }
@@ -89,8 +93,10 @@ pub fn build_round_trip_pack(
     if let Some(h) = &tc.recording.sha256 {
         let have = sha256_hex(req.log_bytes);
         if !h.eq_ignore_ascii_case(&have) {
-            return Err(format!(
-                "the log's SHA-256 ({have}) is not the one the test conditions state ({h})"
+            return Err(crate::terr!(
+                "e-evidence-roundtrip-the-log-sha-256-is",
+                have = have,
+                h = h
             ));
         }
     }

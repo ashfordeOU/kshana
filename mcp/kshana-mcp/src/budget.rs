@@ -151,10 +151,9 @@ pub fn check(text: &str) -> Result<(), String> {
     if errors.is_empty() {
         Ok(())
     } else {
-        Err(format!(
-            "work budget exceeded for a call through the MCP server: {}. Run large studies with the \
-             `kshana` command line.",
-            errors.join("; ")
+        Err(kshana::terr!(
+            "e-mcp-budget-work-budget-exceeded-for-call",
+            errors = errors.join("; ")
         ))
     }
 }

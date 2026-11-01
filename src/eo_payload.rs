@@ -38,10 +38,10 @@ pub fn elevation_from_nadir_angle(eta_rad: f64, altitude_m: f64) -> Result<f64, 
     let rho = earth_angular_radius(altitude_m);
     let c = eta_rad.psin() / rho.psin();
     if !(0.0..=1.0).contains(&c) {
-        return Err(format!(
-            "nadir angle {:.2}° exceeds the Earth angular radius {:.2}° (misses Earth)",
-            eta_rad.to_degrees(),
-            rho.to_degrees()
+        return Err(crate::terr!(
+            "e-eo-payload-nadir-angle-exceeds-the-earth",
+            eta_rad = crate::i18n::localise_decimal(format!("{:.2}", eta_rad.to_degrees())),
+            rho = crate::i18n::localise_decimal(format!("{:.2}", rho.to_degrees()))
         ));
     }
     Ok(c.pacos())
@@ -120,9 +120,9 @@ pub fn sun_synchronous_inclination(altitude_m: f64) -> Result<f64, String> {
     let sun_rate = std::f64::consts::TAU / (365.242_189_7 * 86_400.0);
     let c = -sun_rate / (1.5 * n * J2 * (R_EARTH_EQUATORIAL_M / a).ppowi(2));
     if !(-1.0..=1.0).contains(&c) {
-        return Err(format!(
-            "no sun-synchronous inclination at {:.0} km",
-            altitude_m / 1000.0
+        return Err(crate::terr!(
+            "e-eo-payload-no-sun-synchronous-inclination-at",
+            v1 = crate::i18n::localise_decimal(format!("{:.0}", altitude_m / 1000.0))
         ));
     }
     Ok(c.pacos())
@@ -248,29 +248,23 @@ impl EoCoverageScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !self.altitude_km.is_finite() || self.altitude_km <= 0.0 {
-            return Err("altitude_km must be finite and positive".to_string());
+            return Err(crate::terr!("e-attitude-budget-altitude-km-must-be-finite"));
         }
         if !(0.0..90.0).contains(&self.half_fov_deg) || self.half_fov_deg <= 0.0 {
-            return Err("half_fov_deg must be in (0, 90)".to_string());
+            return Err(crate::terr!("e-eo-payload-half-fov-deg-must-be"));
         }
         if !self.ifov_microrad.is_finite() || self.ifov_microrad <= 0.0 {
-            return Err("ifov_microrad must be finite and positive".to_string());
+            return Err(crate::terr!("e-eo-payload-ifov-microrad-must-be-finite"));
         }
         let alt_m = self.altitude_km * 1000.0;
         let rho = earth_angular_radius(alt_m);
         let swath = swath_width(self.half_fov_deg.to_radians(), alt_m)
-            .map_err(|e| format!("half_fov too large: {e}"))?;
+            .map_err(|e| crate::terr!("e-eo-payload-half-fov-too-large", e = e))?;
         let gsd = nadir_gsd(alt_m, self.ifov_microrad);
         let period = circular_period(alt_m);
         let inc = match self.inclination_deg {
             Some(d) if d.is_finite() && d > 0.0 && d < 180.0 => d.to_radians(),
-            Some(_) => {
-                return Err(
-                    "inclination_deg must be in (0, 180) (an equatorial orbit has no \
-                            ascending node)"
-                        .to_string(),
-                )
-            }
+            Some(_) => return Err(crate::terr!("e-eo-payload-inclination-deg-must-be-in")),
             None => sun_synchronous_inclination(alt_m)?,
         };
         let nodal_period = j2_nodal_period(alt_m, inc);
@@ -305,16 +299,15 @@ impl EoCoverageScenario {
             "equatorial_ground_track_spacing_km": spacing / 1000.0,
             "contiguous_equatorial_coverage": contiguous,
         });
-        let summary = format!(
-            "eo-coverage: {:.0} km, ±{:.1}° FOV -> {:.0} km swath, {:.1} m nadir GSD, \
-             access to {:.0} km off-nadir; node spacing {:.0} km ({}) (MODELLED)",
-            self.altitude_km,
-            self.half_fov_deg,
-            swath / 1000.0,
-            gsd,
-            max_access_m / 1000.0,
-            spacing / 1000.0,
-            if contiguous { "contiguous" } else { "gapped" }
+        let summary = crate::t!(
+            "eo-payload-eo-coverage-km-fov-km",
+            altitude_km = crate::i18n::localise_decimal(format!("{:.0}", self.altitude_km)),
+            half_fov_deg = crate::i18n::localise_decimal(format!("{:.1}", self.half_fov_deg)),
+            v3 = crate::i18n::localise_decimal(format!("{:.0}", swath / 1000.0)),
+            gsd = crate::i18n::localise_decimal(format!("{:.1}", gsd)),
+            v5 = crate::i18n::localise_decimal(format!("{:.0}", max_access_m / 1000.0)),
+            v6 = crate::i18n::localise_decimal(format!("{:.0}", spacing / 1000.0)),
+            v7 = if contiguous { "contiguous" } else { "gapped" }
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
         Ok((json, summary))

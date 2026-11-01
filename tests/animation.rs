@@ -375,7 +375,7 @@ fn every_bundled_scenario_with_a_time_series_animates() {
     let paths = corpus::runnable_scenarios();
     let outcomes = corpus::par_map(&paths, |path| {
         let name = path.file_stem().unwrap().to_string_lossy().into_owned();
-        let src = std::fs::read_to_string(path).unwrap();
+        let src = corpus::scenario_source(path);
         let out = kshana::api::run_toml(&src)
             .unwrap_or_else(|e| panic!("bundled scenario {name} failed to run: {e}"));
         match extract_timeline(&out.json, None) {

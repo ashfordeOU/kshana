@@ -108,9 +108,14 @@ impl ConditioningLog {
     /// A one-line human summary.
     pub fn summary(&self) -> String {
         let (g, o, p, b, f) = self.counts();
-        format!(
-            "gaps {g}, phase outliers {o}, phase steps {p}, bursts {b}, frequency steps {f} (robust sigma_y {:.3e})",
-            self.sigma_y
+        crate::t!(
+            "clock-library-condition-gaps-phase-outliers-phase-steps",
+            g = g,
+            o = o,
+            p = p,
+            b = b,
+            f = f,
+            sigma_y = crate::i18n::localise_decimal(format!("{:.3e}", self.sigma_y))
         )
     }
 }

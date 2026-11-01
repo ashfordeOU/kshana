@@ -549,8 +549,9 @@ pub fn to_svg(result: &SpoofResult) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Time-spoof detection: offset vs clock-aided detection bounds</text>",
-        ml
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{}</text>",
+        ml,
+        crate::t!("spoof-chart-title")
     ));
     svg.push_str(&crate::chart::y_axis(
         ml,
@@ -558,7 +559,7 @@ pub fn to_svg(result: &SpoofResult) -> String {
         pw,
         ph,
         y_max,
-        "spoof offset (ns)",
+        &crate::t!("spoof-chart-offset-ns"),
     ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
@@ -574,10 +575,13 @@ pub fn to_svg(result: &SpoofResult) -> String {
         hline(result.threshold_ns)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} ns</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{}</text>",
         ml + 4.0,
         yof(result.threshold_ns) - 4.0,
-        result.threshold_ns
+        crate::t!(
+            "ensemble-chart-spec-threshold",
+            threshold = crate::i18n::num(result.threshold_ns, 0)
+        )
     ));
     // Per-clock detection bounds.
     svg.push_str(&format!(
@@ -593,21 +597,25 @@ pub fn to_svg(result: &SpoofResult) -> String {
         "<polyline fill=\"none\" stroke=\"{INK_3}\" stroke-width=\"2\" points=\"{ramp}\"/>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
-        h - 12.0
+        h - 12.0,
+        crate::t!("ensemble-chart-time-s")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"{MUTED}\">spoof offset</text>",
-        ml + 10.0
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{MUTED}\">{}</text>",
+        ml + 10.0,
+        crate::t!("spoof-chart-spoof-offset")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum detect bound</text>",
-        ml + 10.0
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">{}</text>",
+        ml + 10.0,
+        crate::t!("spoof-chart-quantum-bound")
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"76\" fill=\"{AMBER}\">classical detect bound</text>",
-        ml + 10.0
+        "<text x=\"{:.0}\" y=\"76\" fill=\"{AMBER}\">{}</text>",
+        ml + 10.0,
+        crate::t!("spoof-chart-classical-bound")
     ));
     svg.push_str("</svg>");
     svg
