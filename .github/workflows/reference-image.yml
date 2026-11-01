@@ -34,7 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     # arm64 builds under emulation; the engine compiles from source in the Dockerfile.
     # Same cap as the kshana-mcp image (see mcp-publish.yml).
-    timeout-minutes: 90
+    # 0.40.0: the arm64 build under QEMU was cancelled at 90 minutes on slow hosted runners.
+    timeout-minutes: 180
     permissions:
       contents: read
       packages: write
