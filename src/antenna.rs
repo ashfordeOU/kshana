@@ -722,37 +722,41 @@ pub fn capture_footprint_sweep(
         hp.iter().copied().fold(f64::INFINITY, f64::min),
         hp.iter().copied().fold(f64::NEG_INFINITY, f64::max),
     );
-    let grid = format!(
-        "altitude {a_lo:.0}-{a_hi:.0} m x beamwidth {b_lo:.3}-{b_hi:.3} deg, {} points",
-        points.len()
-    );
+    let a_lo = crate::i18n::localise_decimal(format!("{:.0}", a_lo));
+    let a_hi = crate::i18n::localise_decimal(format!("{:.0}", a_hi));
+    let b_lo = crate::i18n::localise_decimal(format!("{:.3}", b_lo));
+    let b_hi = crate::i18n::localise_decimal(format!("{:.3}", b_hi));
     let statement = if reached {
-        format!(
-            "limb capture IS reached on this grid ({grid}): {} of {} sampled operating points \
-             capture the limb and {} axis crossing(s) were located; the strongest limb J/S \
-             sampled is {:.3} dB at altitude {:.0} m / beamwidth {:.3} deg, against a {:.1} dB \
-             capture threshold.",
-            points.iter().filter(|p| p.limb_captured).count(),
-            points.len(),
-            crossings.len(),
-            b.limb_js_db,
-            b.altitude_m,
-            b.hpbw_deg,
-            thr
+        crate::t!(
+            "antenna-limb-capture-is-reached-on",
+            a_lo = a_lo,
+            a_hi = a_hi,
+            b_lo = b_lo,
+            b_hi = b_hi,
+            points = points.iter().filter(|p| p.limb_captured).count(),
+            points2 = points.len(),
+            crossings = crossings.len(),
+            limb_js_db = crate::i18n::localise_decimal(format!("{:.3}", b.limb_js_db)),
+            altitude_m = crate::i18n::localise_decimal(format!("{:.0}", b.altitude_m)),
+            hpbw_deg = crate::i18n::localise_decimal(format!("{:.3}", b.hpbw_deg)),
+            thr = crate::i18n::localise_decimal(format!("{:.1}", thr))
         )
     } else {
-        format!(
-            "limb capture is NOT reached anywhere on this grid ({grid}) - not zero capture, \
-             but no limb capture: the best limb J/S is {:.3} dB at altitude {:.0} m / beamwidth \
-             {:.3} deg, {:.3} dB short of the {:.1} dB capture threshold; that operating point \
-             would capture the limb at {:.3} dBW transmit power against the {:.3} dBW flown.",
-            b.limb_js_db,
-            b.altitude_m,
-            b.hpbw_deg,
-            shortfall,
-            thr,
-            b.limb_capture_tx_power_dbw,
-            base.p_tx_dbw
+        crate::t!(
+            "antenna-limb-capture-is-not-reached",
+            a_lo = a_lo,
+            a_hi = a_hi,
+            b_lo = b_lo,
+            b_hi = b_hi,
+            points = points.len(),
+            limb_js_db = crate::i18n::localise_decimal(format!("{:.3}", b.limb_js_db)),
+            altitude_m = crate::i18n::localise_decimal(format!("{:.0}", b.altitude_m)),
+            hpbw_deg = crate::i18n::localise_decimal(format!("{:.3}", b.hpbw_deg)),
+            shortfall = crate::i18n::localise_decimal(format!("{:.3}", shortfall)),
+            thr = crate::i18n::localise_decimal(format!("{:.1}", thr)),
+            limb_capture_tx_power_dbw =
+                crate::i18n::localise_decimal(format!("{:.3}", b.limb_capture_tx_power_dbw)),
+            p_tx_dbw = crate::i18n::localise_decimal(format!("{:.3}", base.p_tx_dbw))
         )
     };
 
@@ -807,18 +811,18 @@ impl GainPattern2D {
     ) -> Result<Self, String> {
         let inc = |v: &[f64]| v.windows(2).all(|w| w[1] > w[0]);
         if azimuth_deg.is_empty() || !inc(&azimuth_deg) {
-            return Err("azimuths must strictly increase".into());
+            return Err(crate::terr!("e-antenna-azimuths-must-strictly-increase"));
         }
         if azimuth_deg[azimuth_deg.len() - 1] - azimuth_deg[0] >= 360.0 {
-            return Err("azimuths must span less than 360 deg".into());
+            return Err(crate::terr!("e-antenna-azimuths-must-span-less-than"));
         }
         if off_boresight_deg.len() < 2 || !inc(&off_boresight_deg) {
-            return Err("off-boresight angles must strictly increase".into());
+            return Err(crate::terr!("e-antenna-off-boresight-angles-must-strictly"));
         }
         if gain_db.len() != azimuth_deg.len()
             || gain_db.iter().any(|r| r.len() != off_boresight_deg.len())
         {
-            return Err("gain grid does not match the axes".into());
+            return Err(crate::terr!("e-antenna-gain-grid-does-not-match"));
         }
         Ok(Self {
             azimuth_deg,

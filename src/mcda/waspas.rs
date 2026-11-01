@@ -62,33 +62,41 @@ pub fn waspas(
 ) -> Result<WaspasResult, String> {
     let m = matrix.len();
     if m == 0 {
-        return Err("WASPAS: empty decision matrix".into());
+        return Err(crate::terr!("e-mcda-waspas-waspas-empty-decision-matrix"));
     }
     let n = weights.len();
     if n == 0 {
-        return Err("WASPAS: no criteria".into());
+        return Err(crate::terr!("e-mcda-waspas-waspas-no-criteria"));
     }
     if types.len() != n {
-        return Err(format!(
-            "WASPAS: {} weights but {} criterion types",
-            n,
-            types.len()
+        return Err(crate::terr!(
+            "e-mcda-waspas-waspas-weights-but-criterion-types",
+            n = n,
+            types = types.len()
         ));
     }
     if !(0.0..=1.0).contains(&lambda) || !lambda.is_finite() {
-        return Err(format!("WASPAS: lambda {lambda} must lie in [0, 1]"));
+        return Err(crate::terr!(
+            "e-mcda-waspas-waspas-lambda-must-lie-in",
+            lambda = lambda
+        ));
     }
     for (i, row) in matrix.iter().enumerate() {
         if row.len() != n {
-            return Err(format!(
-                "WASPAS: alternative {i} has {} values but there are {n} criteria",
-                row.len()
+            return Err(crate::terr!(
+                "e-mcda-waspas-waspas-alternative-has-values-but",
+                i = i,
+                row = row.len(),
+                n = n
             ));
         }
         for (j, &x) in row.iter().enumerate() {
             if !x.is_finite() || x <= 0.0 {
-                return Err(format!(
-                    "WASPAS: alternative {i} criterion {j} value {x} must be finite and > 0"
+                return Err(crate::terr!(
+                    "e-mcda-waspas-waspas-alternative-criterion-value-must",
+                    i = i,
+                    j = j,
+                    x = x
                 ));
             }
         }

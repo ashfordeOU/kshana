@@ -67,33 +67,38 @@ pub fn resolve_dataset(spec: &DatasetSpec, kind: Kind) -> Result<Dataset, MapErr
                 || licence_url.trim().is_empty()
                 || attribution.trim().is_empty()
             {
-                return Err(MapError::Format(
-                    "a custom dataset needs licence, licence URL and attribution text".into(),
-                ));
+                return Err(MapError::Format(crate::terr!(
+                    "e-interference-map-api-custom-dataset-needs-licence-licence"
+                )));
             }
             sources::custom(kind, licence, licence_url, attribution)
         }
         DatasetSpec::Preset(key) => sources::preset(key).ok_or_else(|| {
-            MapError::Format(format!(
-                "unknown dataset `{key}`; approved: {}, or a custom dataset",
-                sources::preset_keys().join(", ")
+            MapError::Format(crate::terr!(
+                "e-interference-map-api-unknown-dataset-approved-or-custom",
+                key = key,
+                v1 = sources::preset_keys().join(", ")
             ))
         })?,
     };
     if ds.kind != kind {
-        return Err(MapError::Format(format!(
-            "dataset `{}` is {} data but the input kind is {}",
-            ds.key,
-            ds.kind.as_str(),
-            kind.as_str()
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-dataset-is-data-but-the",
+            key = ds.key,
+            kind = ds.kind.as_str(),
+            kind2 = kind.as_str()
         )));
     }
     Ok(ds)
 }
 
 fn grid(cell_deg: f64) -> Result<Grid, MapError> {
-    Grid::new(cell_deg)
-        .ok_or_else(|| MapError::Format("cell size must be between 0.01 and 10 degrees".into()))
+    Grid::new(cell_deg).ok_or_else(|| {
+        MapError::Format(crate::terr!(
+            "e-interference-map-api-cell-size-must-be-between",
+            lit_0_01 = crate::i18n::num(0.01_f64, 2)
+        ))
+    })
 }
 
 fn day_maps(
@@ -181,6 +186,64 @@ pub fn ais_maps_from_csv(
     ))
 }
 
+/// Estimated emitter regions from ADS-B CSV text (`docs/INTERFERENCE-MAP.md`, "Emitter region"): GeoJSON,
+/// JSON summary, sessions table and figure, each labelled and carrying the licence, attribution, method id,
+/// assumptions and limits. `params` defaults to the pre-registered ones. Aggregate only.
+pub fn emitter_regions_from_adsb_csv(
+    csv: &str,
+    dataset: &DatasetSpec,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Adsb)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut r = super::emitter::AdsbReports::new();
+    r.read_csv(csv)?;
+    let (reports, rows) = r.finish(p.min_alt_ft);
+    super::emitter_out::locate(super::emitter::Source::Adsb, &reports, rows, &ds, &p, None)
+}
+
+/// As [`emitter_regions_from_adsb_csv`], from readsb history trace files (one byte slice per file).
+pub fn emitter_regions_from_readsb_traces(
+    traces: &[&[u8]],
+    dataset: &DatasetSpec,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Adsb)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut r = super::emitter::AdsbReports::new();
+    for t in traces {
+        // A file that cannot be read is skipped, as in the map.
+        let _ = r.read_trace(t);
+    }
+    let (reports, rows) = r.finish(p.min_alt_ft);
+    super::emitter_out::locate(super::emitter::Source::Adsb, &reports, rows, &ds, &p, None)
+}
+
+/// As [`emitter_regions_from_adsb_csv`], from AIS CSV text and an optional land-polygon GeoJSON text for the
+/// inland rule. `ship_height_m` is the receiver height of a vessel's antenna (default 15 m).
+pub fn emitter_regions_from_ais_csv(
+    csv: &str,
+    dataset: &DatasetSpec,
+    land_geojson: Option<&str>,
+    ship_height_m: Option<f64>,
+    params: Option<&super::emitter::EmitterParams>,
+) -> Result<super::emitter_out::LocateOutput, MapError> {
+    let ds = resolve_dataset(dataset, Kind::Ais)?;
+    let p = params
+        .cloned()
+        .unwrap_or_else(super::emitter::EmitterParams::preregistered_v1);
+    let mut land = land_geojson
+        .map(|t| LandMask::from_geojson_str(t, AisParams::PREREGISTERED_V1.land_buffer_m))
+        .transpose()?;
+    let (reports, rows) =
+        super::emitter::ais_reports(csv, land.as_mut(), ship_height_m.unwrap_or(15.0))?;
+    super::emitter_out::locate(super::emitter::Source::Ais, &reports, rows, &ds, &p, None)
+}
+
 /// Route exposure of a route (GeoJSON LineString text, or `lat,lon` CSV text) against maps
 /// given as GeoJSON texts in the v1 format. `from` and `to` are optional inclusive
 /// `YYYY-MM-DD` bounds. Returns the `kshana-route-exposure/v1` report.
@@ -193,7 +256,12 @@ pub fn route_exposure(
     let pts = route::parse_route(route_text)?;
     let bound = |s: Option<&str>, name: &str| -> Result<Option<i64>, MapError> {
         s.map(|s| {
-            parse_day(s).ok_or_else(|| MapError::Format(format!("{name} is not a YYYY-MM-DD date")))
+            parse_day(s).ok_or_else(|| {
+                MapError::Format(crate::terr!(
+                    "e-interference-map-api-is-not-yyyy-mm-dd",
+                    name = name
+                ))
+            })
         })
         .transpose()
     };
@@ -201,13 +269,17 @@ pub fn route_exposure(
     let mut loaded = Vec::new();
     for text in map_geojson {
         let m = route::load_map(text)?;
-        let d = parse_day(&m.date).ok_or_else(|| MapError::Format("map has a bad date".into()))?;
+        let d = parse_day(&m.date).ok_or_else(|| {
+            MapError::Format(crate::terr!("e-interference-map-api-map-has-bad-date"))
+        })?;
         if from_d.is_none_or(|x| d >= x) && to_d.is_none_or(|x| d <= x) {
             loaded.push(m);
         }
     }
     if loaded.is_empty() {
-        return Err(MapError::Format("no map falls in the date range".into()));
+        return Err(MapError::Format(crate::terr!(
+            "e-interference-map-api-no-map-falls-in-the"
+        )));
     }
     loaded.sort_by(|a, b| {
         (a.date.as_str(), a.source_kind.as_str()).cmp(&(b.date.as_str(), b.source_kind.as_str()))

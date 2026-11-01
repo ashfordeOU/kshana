@@ -299,17 +299,19 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
                 problems: Vec::new(),
             };
             if d.fid != 0 {
-                f.problems.push(format!(
-                    "FID {} is reserved for future use (only FID 0 is defined)",
-                    d.fid
+                f.problems.push(crate::t!(
+                    "iq-lunanet-afs-fid-is-reserved-for-future",
+                    fid = d.fid
                 ));
             }
             if u16::from(d.toi) >= TOI_VALUES {
-                f.problems.push(format!("TOI {} is outside 0..=99", d.toi));
+                f.problems
+                    .push(crate::t!("iq-lunanet-afs-toi-is-outside-99", toi = d.toi));
             }
             if sb1_err > 0 {
-                f.problems.push(format!(
-                    "{sb1_err} SB1 symbol(s) disagree with the decoded field"
+                f.problems.push(crate::t!(
+                    "iq-lunanet-afs-sb1-symbol-disagree-with-the",
+                    sb1_err = sb1_err
                 ));
             }
             if i + FRAME_SYMBOLS > symbols.len() {
@@ -325,16 +327,21 @@ pub fn check_symbols(symbols: &[u8], max_sp_errors: usize) -> SymbolReport {
     for w in frames.windows(2) {
         let gap = w[1].offset - w[0].offset;
         if gap != FRAME_SYMBOLS {
-            problems.push(format!(
-                "frames at {} and {} are {gap} symbols apart, not {FRAME_SYMBOLS}",
-                w[0].offset, w[1].offset
+            problems.push(crate::t!(
+                "iq-lunanet-afs-frames-at-and-are-symbols",
+                w = w[0].offset,
+                w2 = w[1].offset,
+                gap = gap,
+                FRAME_SYMBOLS = FRAME_SYMBOLS
             ));
         }
         let want = (u16::from(w[0].toi) + 1) % TOI_VALUES;
         if u16::from(w[1].toi) != want && u16::from(w[0].toi) < TOI_VALUES {
-            problems.push(format!(
-                "TOI {} follows TOI {}, expected {want}",
-                w[1].toi, w[0].toi
+            problems.push(crate::t!(
+                "iq-lunanet-afs-toi-follows-toi-expected",
+                w = w[1].toi,
+                w2 = w[0].toi,
+                want = want
             ));
         }
     }
@@ -389,8 +396,9 @@ pub fn parse_symbol_text(text: &str) -> Result<Vec<u8>, String> {
             '1' => out.push(1),
             c if c.is_whitespace() => {}
             c => {
-                return Err(format!(
-                    "unexpected character {c:?} in a symbol stream (only 0, 1 and white space)"
+                return Err(crate::terr!(
+                    "e-iq-lunanet-afs-unexpected-character-in-symbol-stream",
+                    c = format!("{:?}", c)
                 ))
             }
         }
@@ -421,10 +429,18 @@ fn table_check(
         let c = code(prn);
         let (first, last) = table[usize::from(prn) - 1];
         if pack(&c[..24]) != first {
-            miss.push(format!("{name} PRN {prn}: first 24 chips differ"));
+            miss.push(crate::t!(
+                "iq-lunanet-afs-prn-first-24-chips-differ",
+                name = name,
+                prn = prn
+            ));
         }
         if pack(&c[c.len() - 24..]) != last {
-            miss.push(format!("{name} PRN {prn}: last 24 chips differ"));
+            miss.push(crate::t!(
+                "iq-lunanet-afs-prn-last-24-chips-differ",
+                name = name,
+                prn = prn
+            ));
         }
     }
     (420, miss)
@@ -488,10 +504,7 @@ pub fn check_spec() -> Value {
         &if miss.is_empty() {
             String::new()
         } else {
-            format!(
-                "{} (the document prints A14850 for both PRN 147 and PRN 151; the generator reproduces PRN 151's, so the PRN 147 entry is most likely a misprint in the document)",
-                miss.join("; ")
-            )
+            crate::t!("iq-lunanet-afs-the-document-prints-a14850-for", miss = miss.join("; "))
         },
     ));
     // B5
@@ -523,7 +536,7 @@ pub fn check_spec() -> Value {
         "SB1 worked example (Figure 8): 0x045 encodes to 0x229F61DBB84A0 and decodes to FID 0, TOI 69",
         usize::from(ok6),
         1,
-        &format!("encoded 0x{word:013X}, decoded FID {} TOI {}", d.fid, d.toi),
+        &crate::t!("iq-lunanet-afs-encoded-0x-decoded-fid-toi", word = format!("{:013X}", word), fid = d.fid, toi = d.toi),
     ));
     // B7
     let crc = crc24q_bytes(b"123456789");

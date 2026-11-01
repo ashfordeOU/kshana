@@ -147,7 +147,7 @@ impl OmmFile {
             }
         }
         if out.is_empty() {
-            return Err("OMM export needs full (line 1 + line 2) TLEs; this block has none".into());
+            return Err(crate::terr!("e-omm-omm-export-needs-full-line"));
         }
         Ok(out)
     }
@@ -155,36 +155,67 @@ impl OmmFile {
     /// Serialise to CCSDS OMM KVN (keyword = value) form.
     pub fn to_omm_kvn(&self) -> String {
         let mut s = String::new();
-        s.push_str(&format!("CCSDS_OMM_VERS = {}\n", self.version));
-        s.push_str(&format!("CREATION_DATE = {}\n", self.creation_date));
+        s.push_str(&crate::t!("omm-ccsds-omm-vers", version = self.version));
+        s.push_str(&crate::t!(
+            "ccsds-tdm-creation-date",
+            creation_date = self.creation_date
+        ));
         s.push_str(&format!("ORIGINATOR = {}\n", self.originator));
         s.push_str("META_START\n");
-        s.push_str(&format!("OBJECT_NAME = {}\n", self.object_name));
+        s.push_str(&crate::t!(
+            "oem-object-name",
+            object_name = self.object_name
+        ));
         s.push_str(&format!("OBJECT_ID = {}\n", self.object_id));
-        s.push_str(&format!("CENTER_NAME = {}\n", self.center_name));
-        s.push_str(&format!("REF_FRAME = {}\n", self.ref_frame));
-        s.push_str(&format!("TIME_SYSTEM = {}\n", self.time_system));
-        s.push_str(&format!(
-            "MEAN_ELEMENT_THEORY = {}\n",
-            self.mean_element_theory
+        s.push_str(&crate::t!(
+            "oem-center-name",
+            center_name = self.center_name
+        ));
+        s.push_str(&crate::t!("oem-ref-frame", ref_frame = self.ref_frame));
+        s.push_str(&crate::t!(
+            "ccsds-tdm-time-system",
+            time_system = self.time_system
+        ));
+        s.push_str(&crate::t!(
+            "omm-mean-element-theory",
+            mean_element_theory = self.mean_element_theory
         ));
         s.push_str("META_STOP\n");
         s.push_str(&format!("EPOCH = {}\n", self.epoch));
-        s.push_str(&format!("MEAN_MOTION = {:.8}\n", self.mean_motion_rev_day));
+        s.push_str(&crate::t!(
+            "omm-mean-motion",
+            mean_motion_rev_day =
+                crate::i18n::localise_decimal(format!("{:.8}", self.mean_motion_rev_day))
+        ));
         s.push_str(&format!("ECCENTRICITY = {:.7}\n", self.eccentricity));
         s.push_str(&format!("INCLINATION = {:.4}\n", self.inclination_deg));
-        s.push_str(&format!(
-            "RA_OF_ASC_NODE = {:.4}\n",
-            self.ra_of_asc_node_deg
+        s.push_str(&crate::t!(
+            "omm-ra-of-asc-node",
+            ra_of_asc_node_deg =
+                crate::i18n::localise_decimal(format!("{:.4}", self.ra_of_asc_node_deg))
         ));
-        s.push_str(&format!(
-            "ARG_OF_PERICENTER = {:.4}\n",
-            self.arg_of_pericenter_deg
+        s.push_str(&crate::t!(
+            "omm-arg-of-pericenter",
+            arg_of_pericenter_deg =
+                crate::i18n::localise_decimal(format!("{:.4}", self.arg_of_pericenter_deg))
         ));
-        s.push_str(&format!("MEAN_ANOMALY = {:.4}\n", self.mean_anomaly_deg));
-        s.push_str(&format!("EPHEMERIS_TYPE = {}\n", self.ephemeris_type));
-        s.push_str(&format!("CLASSIFICATION_TYPE = {}\n", self.classification));
-        s.push_str(&format!("NORAD_CAT_ID = {}\n", self.norad_cat_id));
+        s.push_str(&crate::t!(
+            "omm-mean-anomaly",
+            mean_anomaly_deg =
+                crate::i18n::localise_decimal(format!("{:.4}", self.mean_anomaly_deg))
+        ));
+        s.push_str(&crate::t!(
+            "omm-ephemeris-type",
+            ephemeris_type = self.ephemeris_type
+        ));
+        s.push_str(&crate::t!(
+            "omm-classification-type",
+            classification = self.classification
+        ));
+        s.push_str(&crate::t!(
+            "omm-norad-cat-id",
+            norad_cat_id = self.norad_cat_id
+        ));
         s.push_str(&format!("BSTAR = {:.8e}\n", self.bstar));
         s
     }

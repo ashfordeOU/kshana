@@ -1,0 +1,12 @@
+flowchart TB
+    ENG["One engine<br/>api::run_toml<br/>deterministic, seeded, offline"]
+    ENG --> CLI["Command line<br/>cargo install kshana"]
+    ENG --> RUST["Rust library<br/>cargo add kshana"]
+    ENG --> PYW["Python<br/>pip install kshana"]
+    ENG --> WASMN["WebAssembly and npm<br/>npm install kshana"]
+    ENG --> MCPS["MCP server<br/>tools for assistants"]
+    WASMN --> STUD["Kshana Studio<br/>Simple and Advanced views<br/>trust, replay, holdover, optical<br/>lunar, ssv, observatory, tools"]
+    MCPS --> PLUG["Plugin commands and skills"]
+    CLI --> INTG["Integrations<br/>ROS 2, Signal K, OpenCPN<br/>GNSS-SDR, gnss_lib_py"]
+    CLI --> DEPL["Deploy<br/>systemd, Docker, Grafana"]
+    RUST --> JB["JetBrains plugin"]

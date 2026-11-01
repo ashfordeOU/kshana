@@ -77,7 +77,7 @@ fn real(t: &str) -> Result<f64, String> {
     let t = t.trim();
     t.replace(['d', 'D'], "e")
         .parse::<f64>()
-        .map_err(|_| format!("bad real '{t}'"))
+        .map_err(|_| crate::terr!("e-gravity-pds-bad-real", t = t))
 }
 
 /// Parse a SHADR integer field (tolerating a real written for an integer, such as `120.0`).
@@ -90,7 +90,7 @@ fn int(t: &str) -> Result<i64, String> {
     if v.fract() == 0.0 && v.abs() < 1e9 {
         Ok(v as i64)
     } else {
-        Err(format!("bad integer '{t}'"))
+        Err(crate::terr!("e-gravity-pds-bad-integer", t = t))
     }
 }
 
@@ -104,19 +104,23 @@ fn records(text: &str) -> impl Iterator<Item = &str> {
 impl ShadrHeader {
     /// Parse the header (first non-blank) record of a SHADR table.
     pub fn parse(text: &str) -> Result<Self, String> {
-        let line = records(text).next().ok_or("empty SHADR table")?;
+        let line = records(text)
+            .next()
+            .ok_or_else(|| crate::terr!("e-gravity-pds-empty-shadr-table"))?;
         let f: Vec<&str> = line.split(',').collect();
         if f.len() < 6 {
-            return Err(format!(
-                "SHADR header has {} fields, expected at least 6",
-                f.len()
+            return Err(crate::terr!(
+                "e-gravity-pds-shadr-header-has-fields-expected",
+                f = f.len()
             ));
         }
         let deg = int(f[3])?;
         let ord = int(f[4])?;
         let norm = int(f[5])?;
         if deg < 0 || ord < 0 || !(0..=2).contains(&norm) {
-            return Err("SHADR header: negative degree/order or unknown normalization".into());
+            return Err(crate::terr!(
+                "e-gravity-pds-shadr-header-negative-degree-order"
+            ));
         }
         Ok(Self {
             reference_radius_km: real(f[0])?,
@@ -144,21 +148,25 @@ impl SphericalHarmonicField {
     pub fn from_shadr(text: &str, nmax: usize) -> Result<Self, String> {
         let h = ShadrHeader::parse(text)?;
         if h.normalization != 1 {
-            return Err(format!(
-                "SHADR normalization state {} (only fully normalized, state 1, is supported)",
-                h.normalization
+            return Err(crate::terr!(
+                "e-gravity-pds-shadr-normalization-state-only-fully",
+                normalization = h.normalization
             ));
         }
         if h.reference_lon_deg != 0.0 || h.reference_lat_deg != 0.0 {
-            return Err("SHADR reference longitude/latitude must be 0".into());
+            return Err(crate::terr!(
+                "e-gravity-pds-shadr-reference-longitude-latitude-must"
+            ));
         }
         let gm = h.gm_km3_s2 * 1.0e9;
         let re = h.reference_radius_km * 1.0e3;
         if !(gm.is_finite() && gm > 0.0) {
-            return Err("non-physical GM (must be finite and positive)".into());
+            return Err(crate::terr!("e-gravity-pds-non-physical-gm-must-be"));
         }
         if !(re.is_finite() && re > 0.0) {
-            return Err("non-physical reference radius (must be finite and positive)".into());
+            return Err(crate::terr!(
+                "e-gravity-pds-non-physical-reference-radius-must"
+            ));
         }
         let cap = nmax.min(h.degree);
         let mut rows: Vec<(usize, usize, f64, f64)> = Vec::new();
@@ -167,12 +175,21 @@ impl SphericalHarmonicField {
         for (k, line) in records(text).enumerate().skip(1) {
             let f: Vec<&str> = line.split(',').collect();
             if f.len() < 4 {
-                return Err(format!("SHADR record {}: {} fields", k + 1, f.len()));
+                return Err(crate::terr!(
+                    "e-gravity-pds-shadr-record-fields",
+                    v1 = k + 1,
+                    f = f.len()
+                ));
             }
             let n = int(f[0])?;
             let m = int(f[1])?;
             if n < 0 || m < 0 || m > n {
-                return Err(format!("SHADR record {}: bad (n, m) = ({n}, {m})", k + 1));
+                return Err(crate::terr!(
+                    "e-gravity-pds-shadr-record-bad",
+                    v1 = k + 1,
+                    n = n,
+                    m = m
+                ));
             }
             let (n, m) = (n as usize, m as usize);
             if n > cap {
@@ -181,7 +198,10 @@ impl SphericalHarmonicField {
             let c = real(f[2])?;
             let s = real(f[3])?;
             if !(c.is_finite() && s.is_finite()) {
-                return Err(format!("SHADR record {}: non-finite coefficient", k + 1));
+                return Err(crate::terr!(
+                    "e-gravity-pds-shadr-record-non-finite-coefficient",
+                    v1 = k + 1
+                ));
             }
             if n == 0 {
                 have_c00 = true;
@@ -190,7 +210,7 @@ impl SphericalHarmonicField {
             rows.push((n, m, c, s));
         }
         if rows.is_empty() {
-            return Err("no SHADR coefficient records".into());
+            return Err(crate::terr!("e-gravity-pds-no-shadr-coefficient-records"));
         }
         // Completeness: every (n, m) with 2 ≤ n ≤ max_n must be present.
         let mut seen = vec![vec![false; max_n + 1]; max_n + 1];
@@ -199,8 +219,10 @@ impl SphericalHarmonicField {
         }
         for (n, row) in seen.iter().enumerate().skip(2) {
             if let Some(m) = row[..=n].iter().position(|&b| !b) {
-                return Err(format!(
-                    "SHADR table incomplete: missing (n, m) = ({n}, {m})"
+                return Err(crate::terr!(
+                    "e-gravity-pds-shadr-table-incomplete-missing",
+                    n = n,
+                    m = m
                 ));
             }
         }

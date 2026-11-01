@@ -43,6 +43,14 @@ use tokio::sync::Semaphore;
 use tower_http::timeout::TimeoutLayer;
 
 use crate::iq::IqConfig;
+
+/// Run `f` in the language of the person at the terminal that started the server: `KSHANA_LANG`,
+/// `LC_ALL`, `LC_MESSAGES`, `LANG`, else English. It covers the usage text, the refusals to start
+/// and the warning; what a tool call replies follows the `lang` argument of that call, never this.
+pub fn operator<T>(f: impl FnOnce() -> T) -> T {
+    let lang = kshana::i18n::select(None).unwrap_or_else(|_| kshana::i18n::Lang::english());
+    kshana::i18n::with_lang(lang, f)
+}
 use crate::server::KshanaServer;
 
 /// Environment variable holding the bearer token.
@@ -92,28 +100,41 @@ impl HttpConfig {
         let loopback = self.addr.ip().is_loopback();
         if !loopback && !self.allow_remote {
             bail!(
-                "refusing to bind {}: it is not a loopback address. Use 127.0.0.1:<port>, or \
-                 pass --allow-remote (and set {TOKEN_ENV}) to listen beyond this machine",
-                self.addr
+                "{}",
+                operator(|| kshana::terr!(
+                    "e-mcp-http-refusing-to-bind",
+                    addr = self.addr,
+                    token_env = TOKEN_ENV
+                ))
             );
         }
         if !loopback && self.token.as_deref().is_none_or(str::is_empty) {
             bail!(
-                "refusing to bind {}: a non-loopback address needs a bearer token in the \
-                 {TOKEN_ENV} environment variable",
-                self.addr
+                "{}",
+                operator(|| kshana::terr!(
+                    "e-mcp-http-refusing-to-bind-needs-token",
+                    addr = self.addr,
+                    token_env = TOKEN_ENV
+                ))
             );
         }
         if self.token.as_deref().is_some_and(|t| t.len() < 16) {
-            bail!("{TOKEN_ENV} is shorter than 16 characters; use a long random token");
+            bail!(
+                "{}",
+                operator(|| kshana::terr!("e-mcp-http-token-too-short", token_env = TOKEN_ENV))
+            );
         }
         if self.max_body_bytes == 0 || self.max_concurrent == 0 || self.request_timeout.is_zero() {
             bail!(
-                "--max-body-bytes, --max-concurrent and --request-timeout-secs must be above zero"
+                "{}",
+                operator(|| kshana::terr!("e-mcp-http-limits-must-be-above-zero"))
             );
         }
         if self.allowed_origins.iter().any(|o| o.trim() == "*") {
-            bail!("--allow-origin does not accept `*`; name each origin");
+            bail!(
+                "{}",
+                operator(|| kshana::terr!("e-mcp-http-allow-origin-wildcard"))
+            );
         }
         Ok(())
     }
@@ -273,10 +294,8 @@ pub async fn serve(cfg: HttpConfig) -> Result<()> {
     cfg.validate()?;
     if !cfg.addr.ip().is_loopback() {
         eprintln!(
-            "WARNING: kshana-mcp is listening on {} beyond this machine. Anyone who can reach \
-             it and holds the bearer token can run simulations on your hardware. Put TLS in \
-             front of it (a reverse proxy or your platform's HTTPS) and keep the token secret.",
-            cfg.addr
+            "{}",
+            operator(|| kshana::t!("mcp-http-warning-remote", addr = cfg.addr))
         );
     }
     let listener = tokio::net::TcpListener::bind(cfg.addr)

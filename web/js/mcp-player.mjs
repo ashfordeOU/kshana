@@ -5,6 +5,8 @@
 // One step at a time: initialize -> tools/list -> validate_scenario -> run_scenario -> result.
 // Each step shows the request and the reply's key fields; the recorded JSON sits behind "Show JSON".
 import { fmt } from "../studio/lib/views.mjs";
+import { t, ready } from "./t.mjs";
+await ready(); // the page's first catalogue is loaded before text is built
 
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SVGNS = "http://www.w3.org/2000/svg";
@@ -16,38 +18,38 @@ export function mountPlayer(MCP) {
   const stage = $("#mcpStage"), stepList = $("#mcpSteps"), mpRoot = stage && stage.closest(".mp");
   if (!(stage && stepList && mpRoot && MCP)) return false;
   const clk = MCP.clocks.find((c) => c.role === "classical"), clkQ = MCP.clocks.find((c) => c.role === "quantum");
-  $("#mcpLede").textContent = `Recorded ${MCP.recorded} · v${MCP.server.version} · standard input and output · protocol ${MCP.protocol} · exact messages only`;
+  $("#mcpLede").textContent = t("js-site-mcp-lede", "Recorded { $recorded } · v{ $version } · standard input and output · protocol { $protocol } · exact messages only", { recorded: MCP.recorded, version: MCP.server.version, protocol: MCP.protocol });
   const json = (obj) => (typeof obj === "string" ? obj : JSON.stringify(obj, null, 2));
   const svg = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
   // one key field: label + value
   const kv = (k, v, cls = "") => { const d = el("div", `mp-kv ${cls}`.trim()); d.append(el("span", "k", k), el("span", "v", v)); return d; };
   const msg = (dir, head, ...kids) => {
     const m = el("div", `mp-msg ${dir}`);
-    const h = el("div", "mp-dir"); h.append(el("i"), el("span", "", dir === "req" ? "assistant → kshana-mcp" : "kshana-mcp → assistant"), el("b", "", head));
+    const h = el("div", "mp-dir"); h.append(el("i"), el("span", "", dir === "req" ? t("js-site-mcp-dir-request", "assistant → kshana-mcp") : t("js-site-mcp-dir-reply", "kshana-mcp → assistant")), el("b", "", head));
     m.append(h);
     if (kids.length) { const body = el("div", "mp-body"); body.append(...kids); m.append(body); }
     return m;
   };
   const showJson = (label, obj) => {
-    const d = el("details", "mp-json"); const s = el("summary"); s.append(el("span", "", "Show JSON"), el("small", "", label)); d.append(s);
-    const p = el("pre"); p.tabIndex = 0; p.setAttribute("aria-label", `Recorded JSON: ${label}`); p.append(el("code", "", json(obj))); d.append(p);
+    const d = el("details", "mp-json"); const s = el("summary"); s.append(el("span", "", t("js-site-mcp-show-json", "Show JSON")), el("small", "", label)); d.append(s);
+    const p = el("pre"); p.tabIndex = 0; p.setAttribute("aria-label", t("js-site-mcp-recorded-json", "Recorded JSON: { $label }", { label })); p.append(el("code", "", json(obj))); d.append(p);
     return d;
   };
-  const toml = `${MCP.tomlHead.join("\n")}\n… (${MCP.tomlLines - MCP.tomlHead.length} more lines of ${MCP.file})`;
+  const toml = `${MCP.tomlHead.join("\n")}\n${t("js-site-mcp-toml-more", "… ({ $n } more lines of { $file })", { n: MCP.tomlLines - MCP.tomlHead.length, file: MCP.file })}`;
 
   const tools = el("ul", "mp-tools");
   for (const t of MCP.tools) { const li = el("li"); li.append(el("code", "", t.name)); tools.append(li); }
 
   const fom = el("table", "mini mp-fom");
-  fom.append(el("caption", "vh", "Figures of merit returned by run_scenario, per clock"));
-  const hr = el("tr"); hr.append(el("th", "", "Figure of merit"), ...MCP.clocks.map((c) => el("th", "num", c.id))); fom.append(hr);
-  for (const [k, lab] of [["holdover_s", "holdover (s)"], ["timing_p95_ns", "time error, 95th percentile (ns)"], ["timing_rms_ns", "time error, root mean square (ns)"], ["availability", "availability"]]) {
+  fom.append(el("caption", "vh", t("js-site-mcp-fom-caption", "Figures of merit returned by run_scenario, per clock")));
+  const hr = el("tr"); hr.append(el("th", "", t("js-site-mcp-fom-header", "Figure of merit")), ...MCP.clocks.map((c) => el("th", "num", c.id))); fom.append(hr);
+  for (const [k, lab] of [["holdover_s", t("js-site-mcp-fom-holdover", "holdover (s)")], ["timing_p95_ns", t("js-site-mcp-fom-p95", "time error, 95th percentile (ns)")], ["timing_rms_ns", t("js-site-mcp-fom-rms", "time error, root mean square (ns)")], ["availability", t("js-site-mcp-fom-availability", "availability")]]) {
     const tr = el("tr"); tr.append(el("td", "", lab), ...MCP.clocks.map((c) => el("td", "num", fmt(c.fom[k])))); fom.append(tr);
   }
   const fig = el("figure", "mp-fig");
   const plot = el("div", "mp-plot"); plot.setAttribute("role", "img");
-  plot.setAttribute("aria-label", `Time error of ${clkQ.id} and ${clk.id} returned by run_scenario, against the ${fmt(MCP.result.threshold_ns)} ns threshold; GNSS (global navigation satellite system) lost at ${fmt(clk.outage[0])} s`);
-  fig.append(el("figcaption", "", "Drawn from the returned series: each clock's time error against the threshold"), plot);
+  plot.setAttribute("aria-label", t("js-site-mcp-plot-aria", "Time error of { $quantum } and { $classical } returned by run_scenario, against the { $threshold } ns threshold; GNSS (global navigation satellite system) lost at { $lost } s", { quantum: clkQ.id, classical: clk.id, threshold: fmt(MCP.result.threshold_ns), lost: fmt(clk.outage[0]) }));
+  fig.append(el("figcaption", "", t("js-site-mcp-figcaption", "Drawn from the returned series: each clock's time error against the threshold")), plot);
   (() => {
     const all = MCP.clocks.flatMap((c) => c.series.map((p) => p[1]));
     const W = 520, H = 170, x1 = clk.series.at(-1)[0], y0 = Math.min(0, ...all), y1 = Math.max(...all, MCP.result.threshold_ns) * 1.08;
@@ -65,10 +67,10 @@ export function mountPlayer(MCP) {
     const yl = (v, cls) => { const t = el("span", `mp-yl ${cls}`, `${fmt(v)} ns`); t.style.top = `${(Y(v) / H * 100).toFixed(1)}%`; t.setAttribute("aria-hidden", "true"); return t; };
     plot.append(yl(MCP.result.threshold_ns, "t"), yl(0, "z"));
     const ax = el("div", "mp-ax"); ax.setAttribute("aria-hidden", "true");
-    ax.append(el("span", "", "0 s"), el("span", "", "mission time"), el("span", "", `${fmt(x1)} s`));
+    ax.append(el("span", "", "0 s"), el("span", "", t("js-site-mcp-axis-mission-time", "mission time")), el("span", "", `${fmt(x1)} s`));
     fig.append(ax);
     const leg = el("p", "mp-leg");
-    leg.append(el("span", "k-q", clkQ.id), el("span", "k-c", clk.id), el("span", "k-t", `threshold ${fmt(MCP.result.threshold_ns)} ns`), el("span", "k-o", `GNSS lost at ${fmt(clk.outage[0])} s`));
+    leg.append(el("span", "k-q", clkQ.id), el("span", "k-c", clk.id), el("span", "k-t", t("js-site-mcp-legend-threshold", "threshold { $v } ns", { v: fmt(MCP.result.threshold_ns) })), el("span", "k-o", t("js-site-mcp-legend-gnss-lost", "GNSS lost at { $s } s", { s: fmt(clk.outage[0]) })));
     fig.append(leg);
   })();
   const kind = (MCP.validate.match(/`([^`]+)`/) || [, "?"])[1];
@@ -76,26 +78,26 @@ export function mountPlayer(MCP) {
   const steps = [
     { tab: "initialize", name: "initialize", body: [
       msg("req", "initialize", kv("protocolVersion", MCP.protocol)),
-      msg("res", "server identity", kv("name", MCP.server.name, "hi"), kv("version", MCP.server.version, "hi")),
+      msg("res", t("js-site-mcp-server-identity", "server identity"), kv("name", MCP.server.name, "hi"), kv("version", MCP.server.version, "hi")),
       showJson("serverInfo", { serverInfo: MCP.server }),
     ] },
     { tab: "tools/list", name: "tools/list", body: [
       msg("req", "tools/list"),
-      msg("res", `${MCP.tools.length} tools`, tools),
-      showJson(`${MCP.tools.length} tools with descriptions`, MCP.tools.map((t) => ({ name: t.name, description: t.does }))),
+      msg("res", t("js-site-mcp-tool-count", { one: "{ $n } tool", other: "{ $n } tools" }, { n: MCP.tools.length }), tools),
+      showJson(t("js-site-mcp-tools-with-descriptions", { one: "{ $n } tool with descriptions", other: "{ $n } tools with descriptions" }, { n: MCP.tools.length }), MCP.tools.map((t) => ({ name: t.name, description: t.does }))),
     ] },
     { tab: "validate", name: "validate_scenario", body: [
-      msg("req", "validate_scenario", kv("scenario", MCP.file), kv("toml", `${MCP.tomlLines} lines`)),
+      msg("req", "validate_scenario", kv("scenario", MCP.file), kv("toml", t("js-site-mcp-toml-lines", { one: "{ $n } line", other: "{ $n } lines" }, { n: MCP.tomlLines }))),
       msg("res", "validate_scenario", kv("result", MCP.validate.split(":")[0], "ok"), kv("kind", kind, "hi")),
-      showJson("arguments (excerpt)", { name: "validate_scenario", arguments: { toml } }),
+      showJson(t("js-site-mcp-arguments-excerpt", "arguments (excerpt)"), { name: "validate_scenario", arguments: { toml } }),
     ] },
     { tab: "run", name: "run_scenario", body: [
       msg("req", "run_scenario", kv("scenario", MCP.file), kv("seed", String(MCP.result.seed))),
-      msg("res", "run_scenario", kv("engine", MCP.result.engine_version, "hi"), kv("scenario hash", MCP.result.scenario_hash.slice(0, 12)), kv("threshold", `${fmt(MCP.result.threshold_ns)} ns`),
-        ...MCP.clocks.map((c) => kv(`${c.id} holdover`, `${fmt(c.fom.holdover_s)} s`, c.role === "quantum" ? "hi q" : "hi c"))),
-      showJson("summary line and result (excerpt)", `${MCP.summary}\n\n${json(MCP.result)}`),
+      msg("res", "run_scenario", kv("engine", MCP.result.engine_version, "hi"), kv(t("js-site-mcp-scenario-hash", "scenario hash"), MCP.result.scenario_hash.slice(0, 12)), kv(t("js-site-mcp-threshold", "threshold"), `${fmt(MCP.result.threshold_ns)} ns`),
+        ...MCP.clocks.map((c) => kv(t("js-site-mcp-clock-holdover", "{ $clock } holdover", { clock: c.id }), `${fmt(c.fom.holdover_s)} s`, c.role === "quantum" ? "hi q" : "hi c"))),
+      showJson(t("js-site-mcp-summary-excerpt", "summary line and result (excerpt)"), `${MCP.summary}\n\n${json(MCP.result)}`),
     ] },
-    { tab: "result", name: "result: figures of merit", body: (() => { const g = el("div", "mp-result"); const t = el("div", "mp-fomw"); t.append(fom); g.append(t, fig); return [g]; })() },
+    { tab: t("js-site-mcp-tab-result", "result"), get name() { return t("js-site-mcp-step-result", "result: figures of merit"); }, body: (() => { const g = el("div", "mp-result"); const t = el("div", "mp-fomw"); t.append(fom); g.append(t, fig); return [g]; })() },
   ];
 
   // tabs (step dots) + panels
@@ -104,7 +106,7 @@ export function mountPlayer(MCP) {
     const b = el("button"); b.type = "button"; b.setAttribute("role", "tab");
     b.id = `mp-t${i}`; b.setAttribute("aria-controls", `mp-p${i}`);
     b.setAttribute("aria-selected", i === 0 ? "true" : "false"); b.tabIndex = i === 0 ? 0 : -1;
-    b.setAttribute("aria-label", `Step ${i + 1} of ${steps.length}: ${s.name}`);
+    b.setAttribute("aria-label", t("js-site-mcp-step-aria", "Step { $n } of { $total }: { $name }", { n: i + 1, total: steps.length, name: s.name }));
     b.append(el("span", "n", String(i + 1)), el("span", "l", s.tab), el("span", "pg"));
     tabs.push(b);
     const p = el("div", "mp-panel"); p.id = `mp-p${i}`; p.setAttribute("role", "tabpanel"); p.setAttribute("aria-labelledby", b.id); p.tabIndex = 0;
@@ -132,7 +134,7 @@ export function mountPlayer(MCP) {
     cur = i;
     tabs.forEach((t, k) => t.classList.toggle("past", k < i));
     status.setAttribute("aria-live", announce ? "polite" : "off");
-    status.textContent = `Step ${i + 1} of ${steps.length} · ${steps[i].name}`;
+    status.textContent = t("js-site-mcp-step-status", "Step { $n } of { $total } · { $name }", { n: i + 1, total: steps.length, name: steps[i].name });
     prev.disabled = i === 0; next.disabled = i === steps.length - 1;
   };
   const show = (i) => tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i ? "true" : "false"); t.tabIndex = k === i ? 0 : -1; panels[k].hidden = k !== i; });
@@ -153,7 +155,7 @@ export function mountPlayer(MCP) {
     playing = on; clearTimeout(timer);
     if (!on) tabs.forEach((t) => t.classList.remove("run"));
     play.setAttribute("aria-pressed", on ? "true" : "false");
-    play.querySelector("span").textContent = on ? "Pause" : "Play";
+    play.querySelector("span").textContent = on ? t("js-site-mcp-pause", "Pause") : t("js-site-mcp-play", "Play");
     mpRoot.classList.toggle("playing", on);
     if (on) tick();
   };

@@ -44,12 +44,14 @@ pub struct E1Row {
 /// E1 ensemble `j`: base seed 1 000 000 + 1000 j, campaign (bootstrap) seed 20260928 + j.
 pub fn e1(j: usize) -> Result<E1Row, String> {
     let mut v: toml::Value = toml::from_str(E1_SCENARIO).map_err(|e| e.to_string())?;
-    let t = v.as_table_mut().ok_or("E1 scenario is not a table")?;
+    let t = v
+        .as_table_mut()
+        .ok_or_else(|| crate::terr!("e-calibration-ensembles-e1-scenario-is-not-table"))?;
     t.insert("seed".into(), toml::Value::Integer(20_260_928 + j as i64));
     let mc = t
         .get_mut("monte_carlo")
         .and_then(toml::Value::as_table_mut)
-        .ok_or("E1 scenario has no [monte_carlo]")?;
+        .ok_or_else(|| crate::terr!("e-calibration-ensembles-e1-scenario-has-no-monte"))?;
     mc.insert(
         "base_seed".into(),
         toml::Value::Integer(1_000_000 + 1000 * j as i64),
@@ -60,7 +62,7 @@ pub fn e1(j: usize) -> Result<E1Row, String> {
     let m = &doc["monte_carlo"]["metrics"]["final_error"];
     let f = |k: &str| {
         m[k].as_f64()
-            .ok_or_else(|| format!("E1: final_error.{k} missing"))
+            .ok_or_else(|| crate::terr!("e-calibration-ensembles-e1-final-error-missing", k = k))
     };
     let n = f("n")?;
     let (mean, std, lo, hi, p05, p95) = (
@@ -305,13 +307,12 @@ pub fn markdown(r: &Report) -> String {
         ));
     }
     let sigma = e1_sigma_ns();
-    s.push_str(&format!(
-        "\nE1 is `scenarios/campaign-monte-carlo-clock-holdover.toml`, 200 ensembles of 200 \
-         realisations each, against the closed form: mean 0, sigma = {sigma:.6} ns. \
-         Ensemble j uses base seed 1 000 000 + 1000 j and bootstrap seed 20260928 + j. The \
-         largest relative ADEV error was {:.4} for E2 and {:.4} for E3 (across 1, 10 and 100 s).\n",
-        max(r.e2.iter().map(|x| x.rel)),
-        max(r.e3.iter().flat_map(|x| x.rel)),
+    s.push_str(&crate::t!(
+        "calibration-ensembles-e1-is-scenarios-campaign-monte",
+        sigma = crate::i18n::localise_decimal(format!("{:.6}", sigma)),
+        max = crate::i18n::localise_decimal(format!("{:.4}", max(r.e2.iter().map(|x| x.rel)))),
+        max2 =
+            crate::i18n::localise_decimal(format!("{:.4}", max(r.e3.iter().flat_map(|x| x.rel))))
     ));
     s
 }

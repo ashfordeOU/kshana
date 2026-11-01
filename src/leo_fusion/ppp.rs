@@ -260,10 +260,10 @@ pub fn run(
     seed: u64,
 ) -> Result<PppRun, String> {
     if systems.is_empty() {
-        return Err("PPP needs at least one system".into());
+        return Err(crate::terr!("e-leo-fusion-ppp-ppp-needs-at-least-one"));
     }
     if !(duration_s > 0.0 && step_s > 0.0) || duration_s / step_s > 20_000.0 {
-        return Err("duration and step must be positive with at most 20000 epochs".into());
+        return Err(crate::terr!("e-leo-fusion-ppp-duration-and-step-must-be"));
     }
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let n01 = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
@@ -593,10 +593,12 @@ impl PppScenario {
         let cv = self.criterion_vertical_m.unwrap_or(0.1);
         let noise = self.noise.unwrap_or_default();
         if runs == 0 || runs > 200 {
-            return Err("runs must be 1 to 200".into());
+            return Err(crate::terr!("e-leo-fusion-ppp-runs-must-be-to-200"));
         }
         if !(ch > 0.0 && cv > 0.0) {
-            return Err("convergence thresholds must be positive".into());
+            return Err(crate::terr!(
+                "e-leo-fusion-ppp-convergence-thresholds-must-be-positive"
+            ));
         }
         let sites: Vec<PppSiteCfg> = if self.site.is_empty() {
             vec![
@@ -759,20 +761,26 @@ impl PppScenario {
             o.insert("units".into(), crate::field_schema::units_block(PPP_UNITS));
         }
         let json = serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?;
-        let mut summary = format!(
-            "PPP convergence to {:.2} m horizontal / {:.2} m vertical, {} runs per case, {} GNSS satellites\n",
-            r.criterion_horizontal_m, r.criterion_vertical_m, r.runs_per_case, r.n_gnss
+        let mut summary = crate::t!(
+            "leo-fusion-ppp-ppp-convergence-to-horizontal-vertical",
+            criterion_horizontal_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.criterion_horizontal_m)),
+            criterion_vertical_m =
+                crate::i18n::localise_decimal(format!("{:.2}", r.criterion_vertical_m)),
+            runs_per_case = r.runs_per_case,
+            n_gnss = r.n_gnss
         );
         for c in &r.cases {
-            summary.push_str(&format!(
-                "  {:<28} {:>4} LEO  median {} min  converged {:.0}%  NEES mean {:.2}\n",
-                c.name,
-                c.n_leo,
-                c.median_convergence_min
+            summary.push_str(&crate::t!(
+                "leo-fusion-ppp-leo-median-min-converged-nees",
+                name = format!("{:<28}", c.name),
+                n_leo = format!("{:>4}", c.n_leo),
+                c = c
+                    .median_convergence_min
                     .map(|v| format!("{v:.1}"))
                     .unwrap_or("n/a".into()),
-                100.0 * c.fraction_converged,
-                c.nees_mean
+                v4 = crate::i18n::localise_decimal(format!("{:.0}", 100.0 * c.fraction_converged)),
+                nees_mean = crate::i18n::localise_decimal(format!("{:.2}", c.nees_mean))
             ));
         }
         if let Some(li) = &r.li_2019 {
@@ -798,10 +806,10 @@ fn ppp_svg(r: &PppReport) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        "PPP convergence with LEO augmentation",
-        &format!(
-            "median horizontal error across {} runs · MODELLED",
-            r.runs_per_case
+        &crate::t!("leo-fusion-ppp-chart-title"),
+        &crate::t!(
+            "leo-fusion-ppp-median-horizontal-error-across-runs",
+            runs_per_case = r.runs_per_case
         ),
     );
     let (ml, top, pw, ph) = (80.0, 80.0, 780.0, 280.0);
@@ -810,7 +818,7 @@ fn ppp_svg(r: &PppReport) -> String {
         top,
         pw,
         top + ph,
-        "median horizontal error (log10 m) against minutes",
+        &crate::t!("leo-fusion-ppp-chart-caption"),
     ));
     let palette = [INK_3, BLUE, CYAN, LIME, CORAL, MAGENTA, INK_2];
     let n = r
@@ -834,11 +842,11 @@ fn ppp_svg(r: &PppReport) -> String {
             pts.join(" ")
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{}\">{} LEO</text>",
+            "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{}\">{}</text>",
             ml + 10.0 + 90.0 * k as f64,
             top + ph + 30.0,
             palette[k % palette.len()],
-            c.n_leo
+            crate::t!("leo-fusion-ppp-chart-n-leo", n = c.n_leo)
         ));
     }
     let yc = y(r.criterion_horizontal_m);

@@ -2,6 +2,7 @@
 // Helpers for the tools hub (tools/): turning chosen files into the arguments the engine's 0.35 functions take, and
 // engine replies into what the page shows. Pure; tested in tools35.test.mjs. Nothing here reads a file or opens a
 // connection: the page hands over bytes and gets text back.
+import { t } from "./t.mjs";
 
 const dec = new TextDecoder("utf-8", { fatal: true });
 const enc = new TextEncoder();
@@ -38,13 +39,13 @@ export function packFilesJson(files) {
   const out = {};
   const seen = new Set();
   const names = files.map((f) => String(f.path || f.name));
-  for (const n of names) if (!n || n.startsWith("/") || n.includes("\\") || n.split("/").includes("..")) throw new Error(`refused file name: ${n}`);
+  for (const n of names) if (!n || n.startsWith("/") || n.includes("\\") || n.split("/").includes("..")) throw new Error(t("js-tools-refused-file-name", "refused file name: { $name }", { name: n }));
   // The common first folder, when every path has one.
   const top = names.every((n) => n.includes("/")) && new Set(names.map((n) => n.split("/")[0])).size === 1 ? names[0].split("/")[0] + "/" : "";
   files.forEach((f, i) => {
     const name = names[i].slice(top.length);
-    if (!name || name.includes("..") || name.startsWith("/")) throw new Error(`refused file name: ${names[i]}`);
-    if (seen.has(name)) throw new Error(`two files are named ${name}`);
+    if (!name || name.includes("..") || name.startsWith("/")) throw new Error(t("js-tools-refused-file-name", "refused file name: { $name }", { name: names[i] }));
+    if (seen.has(name)) throw new Error(t("js-tools-two-files-same-name", "two files are named { $name }", { name }));
     seen.add(name);
     let text = null;
     try { text = dec.decode(f.bytes); } catch { /* not UTF-8: send as base64 */ }
@@ -59,39 +60,39 @@ export const EXPECTED_PACK_FILES = ["manifest.json", "manifest.sig"];
 export function packProblems(json) {
   const names = Object.keys(json);
   const p = [];
-  for (const f of EXPECTED_PACK_FILES) if (!names.includes(f)) p.push(`${f} is not among the chosen files`);
+  for (const f of EXPECTED_PACK_FILES) if (!names.includes(f)) p.push(t("js-tools-file-not-chosen", "{ $file } is not among the chosen files", { file: f }));
   return p;
 }
 
 // A signer's public key: 64 hex digits, or a .pub file's text. Anything else is refused with a reason.
 export function parsePublicKey(text) {
-  const t = String(text || "").trim();
-  if (!t) return { key: "" };
-  const hex = t.replace(/\s+/g, "").toLowerCase();
-  if (!/^[0-9a-f]{64}$/.test(hex)) return { error: "A public key is 64 hex digits (32 bytes). Nothing else is accepted." };
+  const raw = String(text || "").trim();
+  if (!raw) return { key: "" };
+  const hex = raw.replace(/\s+/g, "").toLowerCase();
+  if (!/^[0-9a-f]{64}$/.test(hex)) return { error: t("js-tools-public-key-format", "A public key is 64 hex digits (32 bytes). Nothing else is accepted.") };
   return { key: hex };
 }
 
 // The engine's verify report (docs/EVIDENCE-PACKS.md): verdict "verified", "intact-signer-not-pinned" or "failed".
 export function verdictView(report) {
   const v = report && report.verdict;
-  if (v === "verified") return { tone: "ok", title: "Verified", text: report.message || "The pack is unchanged and signed by the key you pinned." };
-  if (v === "intact-signer-not-pinned") return { tone: "warn", title: "Intact, but the signer is not pinned", text: report.message || "The pack is intact against the key it names itself, which anyone can generate. Get the signer's public key from the signer by another route and pin it." };
-  return { tone: "bad", title: "Failed", text: report && report.message ? report.message : "Verification failed." };
+  if (v === "verified") return { tone: "ok", title: t("js-tools-verdict-verified-title", "Verified"), text: report.message || t("js-tools-verdict-verified-text", "The pack is unchanged and signed by the key you pinned.") };
+  if (v === "intact-signer-not-pinned") return { tone: "warn", title: t("js-tools-verdict-intact-title", "Intact, but the signer is not pinned"), text: report.message || t("js-tools-verdict-intact-text", "The pack is intact against the key it names itself, which anyone can generate. Get the signer's public key from the signer by another route and pin it.") };
+  return { tone: "bad", title: t("js-tools-verdict-failed-title", "Failed"), text: report && report.message ? report.message : t("js-tools-verdict-failed-text", "Verification failed.") };
 }
 
 // ---------- test bench ----------
 // The engine takes the epoch as YYYY-MM-DDTHH:MM:SS with an optional Z, year 2000 to 2099, every field in range; the
 // page checks first so a typing slip is said at the field.
 export function checkEpoch(text) {
-  const t = String(text || "").trim();
-  if (!t) return { epoch: "" };
-  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z?$/.exec(t);
-  if (!m) return { error: "Use YYYY-MM-DDTHH:MM:SS, with an optional Z (UTC)." };
+  const raw = String(text || "").trim();
+  if (!raw) return { epoch: "" };
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z?$/.exec(raw);
+  if (!m) return { error: t("js-tools-epoch-format", "Use YYYY-MM-DDTHH:MM:SS, with an optional Z (UTC).") };
   const [y, mo, d, h, mi, s] = m.slice(1).map(Number);
   const dim = [31, y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  if (y < 2000 || y > 2099 || mo < 1 || mo > 12 || d < 1 || d > dim[mo - 1] || h > 23 || mi > 59 || s > 59) return { error: "That is not a real UTC instant between the years 2000 and 2099." };
-  return { epoch: t };
+  if (y < 2000 || y > 2099 || mo < 1 || mo > 12 || d < 1 || d > dim[mo - 1] || h > 23 || mi > 59 || s > 59) return { error: t("js-tools-epoch-not-real", "That is not a real UTC instant between the years 2000 and 2099.") };
+  return { epoch: raw };
 }
 
 // The engine's bench reply {files: {suffix: text}, notes, notice} as download entries named <stem>.<suffix>.
@@ -127,18 +128,18 @@ export const MAX_COMPLIANCE_RUNS = 64;
 // ---------- compliance report view ----------
 // The five frameworks and standards of docs/compliance/, by the id the engine writes in each row.
 export const FRAMEWORKS = Object.freeze({
-  "dhs-rpcf": "US DHS Resilient PNT Conformance Framework, v2.0",
-  "imo-ships": "IMO guidance on GNSS interference for ships",
-  "easa-aviation": "EASA guidance on GNSS interference for aviation",
-  "nis2-art21": "EU NIS2 Directive, Article 21",
-  "en-16803": "EN 16803 (by part and clause number only)",
+  get "dhs-rpcf"() { return t("js-tools-fw-dhs-rpcf", "US DHS Resilient PNT Conformance Framework, v2.0"); },
+  get "imo-ships"() { return t("js-tools-fw-imo-ships", "IMO guidance on GNSS interference for ships"); },
+  get "easa-aviation"() { return t("js-tools-fw-easa-aviation", "EASA guidance on GNSS interference for aviation"); },
+  get "nis2-art21"() { return t("js-tools-fw-nis2-art21", "EU NIS2 Directive, Article 21"); },
+  get "en-16803"() { return t("js-tools-fw-en-16803", "EN 16803 (by part and clause number only)"); },
 });
 // What a row's status means, in words that never say a framework is met. The engine's own statement is shown too.
 export const COMPLIANCE_STATUS = Object.freeze({
-  evidenced: { label: "Runs support evidence for this row", short: "Evidenced", rank: 0 },
-  "partly-evidenced": { label: "Runs support evidence for part of this row", short: "Partly", rank: 1 },
-  "not-evidenced": { label: "These runs show nothing for this row", short: "Not evidenced", rank: 2 },
-  "out-of-scope": { label: "Outside what Kshana can show", short: "Out of scope", rank: 3 },
+  evidenced: { get label() { return t("js-tools-status-evidenced-label", "Runs support evidence for this row"); }, get short() { return t("js-tools-status-evidenced-short", "Evidenced"); }, rank: 0 },
+  "partly-evidenced": { get label() { return t("js-tools-status-partly-label", "Runs support evidence for part of this row"); }, get short() { return t("js-tools-status-partly-short", "Partly"); }, rank: 1 },
+  "not-evidenced": { get label() { return t("js-tools-status-not-evidenced-label", "These runs show nothing for this row"); }, get short() { return t("js-tools-status-not-evidenced-short", "Not evidenced"); }, rank: 2 },
+  "out-of-scope": { get label() { return t("js-tools-status-out-of-scope-label", "Outside what Kshana can show"); }, get short() { return t("js-tools-status-out-of-scope-short", "Out of scope"); }, rank: 3 },
 });
 const known = (o, k) => typeof k === "string" && Object.hasOwn(o, k);
 export function complianceView(report) {
@@ -172,17 +173,17 @@ export const statusInfo = (s) => (known(COMPLIANCE_STATUS, s) ? COMPLIANCE_STATU
 // last_authenticated_tag_gst}], events[{kind, count, ...}], tags[{prna, prnd, adkd, ctr, tag_gst, data_gst, nmas,
 // status:{state, reason?}}], pksos, ubx{...}. Galileo System Time is plain seconds: week * 604800 + time of week.
 export const OSNMA_STATUS = Object.freeze({
-  authenticated: { label: "Authenticated", tone: "ok" },
-  failed: { label: "Failed", tone: "bad" },
-  unavailable: { label: "Unavailable", tone: "none" },
-  pending: { label: "Pending", tone: "none" },
-  discarded: { label: "Discarded", tone: "none" },
+  authenticated: { get label() { return t("js-tools-osnma-authenticated", "Authenticated"); }, tone: "ok" },
+  failed: { get label() { return t("js-tools-osnma-failed", "Failed"); }, tone: "bad" },
+  unavailable: { get label() { return t("js-tools-osnma-unavailable", "Unavailable"); }, tone: "none" },
+  pending: { get label() { return t("js-tools-osnma-pending", "Pending"); }, tone: "none" },
+  discarded: { get label() { return t("js-tools-osnma-discarded", "Discarded"); }, tone: "none" },
 });
 export const gstParts = (secs) => (Number.isFinite(secs) ? { week: Math.floor(secs / 604800), tow: secs % 604800 } : null);
-export const gstText = (secs) => { const g = gstParts(secs); return g ? `week ${g.week}, ${g.tow} s` : "none"; };
+export const gstText = (secs) => { const g = gstParts(secs); return g ? t("js-tools-gst-text", "week { $week }, { $tow } s", { week: g.week, tow: g.tow }) : t("js-tools-gst-none", "none"); };
 const tagState = (t) => { const s = t && t.status; return typeof s === "string" ? { state: s, reason: null } : s && typeof s === "object" ? { state: String(s.state || ""), reason: s.reason ? String(s.reason) : null } : { state: "", reason: null }; };
 export function osnmaView(doc) {
-  if (!doc || typeof doc !== "object" || !Array.isArray(doc.satellites) || typeof doc.overall !== "string") return { error: "This is not the JSON of kshana osnma verify --json (it needs overall and satellites)." };
+  if (!doc || typeof doc !== "object" || !Array.isArray(doc.satellites) || typeof doc.overall !== "string") return { error: t("js-tools-osnma-not-json", "This is not the JSON of kshana osnma verify --json (it needs overall and satellites).") };
   const tags = Array.isArray(doc.tags) ? doc.tags.filter((t) => t && typeof t === "object") : [];
   const perSat = new Map();
   for (const t of tags) {
@@ -208,9 +209,15 @@ export function osnmaView(doc) {
 // The reasons a UBX file lost pages, for the line under the table.
 export function ubxLines(u) {
   if (!u) return [];
-  const out = [`${u.frames} UBX frames; ${u.inav_pages} I/NAV pages decoded.`];
-  const lost = [["bad_crc", "failed their CRC"], ["unstamped", "could not be placed in time"], ["time_conflicts", "had a time that conflicted with its neighbours"], ["ignored_sfrbx", "SFRBX messages were ignored (other systems, E5b, alerts, bad checksums)"], ["skipped_bytes", "bytes were skipped between frames"]];
-  for (const [k, w] of lost) if (u[k]) out.push(`${u[k]} ${k === "ignored_sfrbx" || k === "skipped_bytes" ? w : "pages " + w}.`);
+  const out = [t("js-tools-ubx-frames-pages", "{ $frames } UBX frames; { $pages } I/NAV pages decoded.", { frames: u.frames, pages: u.inav_pages })];
+  const lost = {
+    bad_crc: (n) => t("js-tools-ubx-bad-crc", "{ $n } pages failed their CRC.", { n }),
+    unstamped: (n) => t("js-tools-ubx-unstamped", "{ $n } pages could not be placed in time.", { n }),
+    time_conflicts: (n) => t("js-tools-ubx-time-conflicts", "{ $n } pages had a time that conflicted with its neighbours.", { n }),
+    ignored_sfrbx: (n) => t("js-tools-ubx-ignored-sfrbx", "{ $n } SFRBX messages were ignored (other systems, E5b, alerts, bad checksums).", { n }),
+    skipped_bytes: (n) => t("js-tools-ubx-skipped-bytes", "{ $n } bytes were skipped between frames.", { n }),
+  };
+  for (const k of Object.keys(lost)) if (u[k]) out.push(lost[k](u[k]));
   return out;
 }
 

@@ -155,11 +155,22 @@ pub enum EvidenceError {
 impl std::fmt::Display for EvidenceError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            EvidenceError::BadSlice(s) => write!(f, "bad log slice: {s}"),
-            EvidenceError::BadWindow(s) => write!(f, "bad window: {s}"),
-            EvidenceError::BadCreated(s) => write!(f, "bad creation time: {s}"),
-            EvidenceError::BadTimestamp(s) => write!(f, "bad timestamp token: {s}"),
-            EvidenceError::Serialise(s) => write!(f, "cannot serialise: {s}"),
+            EvidenceError::BadSlice(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-log-slice", s = s))
+            }
+            EvidenceError::BadWindow(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-window", s = s))
+            }
+            EvidenceError::BadCreated(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-bad-creation-time", s = s))
+            }
+            EvidenceError::BadTimestamp(s) => f.write_str(&crate::terr!(
+                "e-evidence-bundle-bad-timestamp-token",
+                s = s
+            )),
+            EvidenceError::Serialise(s) => {
+                f.write_str(&crate::terr!("e-evidence-bundle-cannot-serialise", s = s))
+            }
             EvidenceError::BadAttestation(s) => write!(f, "{s}"),
         }
     }
@@ -294,24 +305,28 @@ pub fn create_bundle_attested(
     if !(input.window.from_s.is_finite() && input.window.to_s.is_finite())
         || input.window.from_s > input.window.to_s
     {
-        return Err(EvidenceError::BadWindow(format!(
-            "from {} to {}",
-            input.window.from_s, input.window.to_s
+        return Err(EvidenceError::BadWindow(crate::terr!(
+            "e-evidence-bundle-from-to",
+            from_s = input.window.from_s,
+            to_s = input.window.to_s
         )));
     }
     if let Some(c) = input.created_utc {
         if !crate::telemetry::time::is_rfc3339_utc_z(c) {
-            return Err(EvidenceError::BadCreated(format!(
-                "`{c}` is not a UTC time like 2026-01-02T03:04:05Z"
+            return Err(EvidenceError::BadCreated(crate::terr!(
+                "e-evidence-bundle-is-not-utc-time-like",
+                c = c
             )));
         }
     }
     let (kind, start, end) = match input.slice {
         Some((s, e)) => {
             if s > e || e > input.log_bytes.len() {
-                return Err(EvidenceError::BadSlice(format!(
-                    "{s}..{e} in a log of {} bytes",
-                    input.log_bytes.len()
+                return Err(EvidenceError::BadSlice(crate::terr!(
+                    "e-evidence-bundle-in-log-of-bytes",
+                    s = s,
+                    e = e,
+                    log_bytes = input.log_bytes.len()
                 )));
             }
             (SliceKind::ByteRange, s, e)
@@ -348,15 +363,19 @@ pub fn create_bundle_attested(
             sha256: sha256_hex(&slice_bytes),
         },
     };
-    let summary = html::render(&html::SummaryInput {
-        title: input.title,
-        engine_version: input.engine_version,
-        created_utc: input.created_utc,
-        window: input.window,
-        log: &log,
-        signer: &signer,
-        config: &input.config,
-        epochs: &input.epochs,
+    // summary.html is hashed into the manifest and signed: it is built in English whatever the
+    // language of the run, so a pack's bytes never depend on the language it was made in.
+    let summary = crate::i18n::with_lang(crate::i18n::Lang::english(), || {
+        html::render(&html::SummaryInput {
+            title: input.title,
+            engine_version: input.engine_version,
+            created_utc: input.created_utc,
+            window: input.window,
+            log: &log,
+            signer: &signer,
+            config: &input.config,
+            epochs: &input.epochs,
+        })
     });
 
     let summary = summary.into_bytes();
@@ -394,11 +413,9 @@ pub fn create_bundle_attested(
         let info = super::tsr::parse_token(t).map_err(EvidenceError::BadTimestamp)?;
         let want = super::tsr::imprint_of(&info.hash_alg, &manifest_bytes).unwrap_or_default();
         if want != info.imprint {
-            return Err(EvidenceError::BadTimestamp(
-                "its imprint is not the hash of this pack's manifest.json (a token can only be \
-                 obtained after the pack exists: use `kshana evidence attach-timestamp`)"
-                    .into(),
-            ));
+            return Err(EvidenceError::BadTimestamp(crate::terr!(
+                "e-evidence-bundle-its-imprint-is-not-the"
+            )));
         }
     }
     let sig = sign_detached(seed, &manifest_bytes);
@@ -421,6 +438,34 @@ pub fn create_bundle_attested(
 #[cfg(test)]
 mod tests {
     use super::slice_for_window;
+
+    /// A pack is signed: made in another language it is the same files, byte for byte.
+    #[test]
+    fn a_pack_made_in_another_language_is_the_same_pack() {
+        let log = b"synthetic log bytes\n".repeat(20);
+        let make = || {
+            let input = super::EvidenceInput {
+                title: "t",
+                engine_version: "0.0.0-test",
+                log_format: "nmea",
+                log_file_name: "dir/x.nmea",
+                log_bytes: &log,
+                start_label: None,
+                slice: None,
+                window: super::Window {
+                    from_s: 0.0,
+                    to_s: 2.0,
+                },
+                config: serde_json::json!({"cn0_drop_db": 6.0}),
+                epochs: vec![serde_json::json!({"t_s": 1.0, "state": "nominal", "alarms": []})],
+                created_utc: None,
+            };
+            super::create_bundle(&input, &[9u8; 32], None).unwrap()
+        };
+        let english = make();
+        let xa = crate::i18n::resolve("en-XA").unwrap();
+        assert_eq!(crate::i18n::with_lang(xa, make), english);
+    }
 
     #[test]
     fn window_slice_spans_the_epochs_inside_it() {

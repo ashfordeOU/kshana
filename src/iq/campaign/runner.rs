@@ -364,9 +364,11 @@ pub fn plan(c: &LoadedCampaign, out_dir: &Path, workers: usize) -> Result<Plan, 
         let sha = recording_sha(&opened.data_files, &cache)?;
         if let Some(want) = &tc.recording.sha256 {
             if !want.eq_ignore_ascii_case(&sha) {
-                return Err(format!(
-                    "recording '{}': SHA-256 {sha} does not match the stated {want}",
-                    tc.recording.id
+                return Err(crate::terr!(
+                    "e-iq-campaign-runner-recording-sha-256-does-not",
+                    id = tc.recording.id,
+                    sha = sha,
+                    want = want
                 ));
             }
         }
@@ -532,11 +534,13 @@ pub fn run(c: &LoadedCampaign, out_dir: &Path, opts: &RunOptions) -> Result<RunS
             .create(true)
             .append(true)
             .open(out_dir.join("runs.jsonl"))
-            .map_err(|e| format!("runs.jsonl: {e}"))?,
+            .map_err(|e| crate::terr!("e-iq-campaign-runner-runs-jsonl", e = e))?,
     );
+    // Cell results, runs.jsonl and the failures in the summary are machine files: English in
+    // every language (a worker thread has no language of its own, so it is set here).
     let results = run_batch_items(&items, workers, |item| {
         let t0 = std::time::Instant::now();
-        let r = run_item(c, &plan, item, out_dir);
+        let r = crate::i18n::in_english(|| run_item(c, &plan, item, out_dir));
         let wall = t0.elapsed().as_secs_f64();
         if let Ok(mut f) = log.lock() {
             for &ci in &item.cells {
@@ -685,10 +689,11 @@ fn acquire_all(
         .map(|s| {
             let n = samples_needed(&spec, &s.code, cfg)?;
             if buf.len() < n {
-                return Err(format!(
-                    "{}: recording holds {} samples, {n} needed to acquire",
-                    s.code.name(),
-                    buf.len()
+                return Err(crate::terr!(
+                    "e-iq-campaign-runner-recording-holds-samples-needed-to",
+                    code = s.code.name(),
+                    buf = buf.len(),
+                    n = n
                 ));
             }
             acquire(&buf, &spec, &s.code, cfg).map(|g| g.result)
@@ -793,11 +798,15 @@ fn open_writers(
     let pid = std::process::id();
     let dest = (
         dir.join(format!("{key}.{ext}")),
-        dir.join(format!("{key}.events.jsonl")),
+        dir.join(crate::i18n::in_english(|| {
+            crate::t!("iq-campaign-runner-events-jsonl", key = key)
+        })),
     );
     let tmp = (
         dir.join(format!(".{key}.{ext}.tmp{pid}")),
-        dir.join(format!(".{key}.events.jsonl.tmp{pid}")),
+        dir.join(crate::i18n::in_english(|| {
+            crate::t!("iq-campaign-runner-events-jsonl-tmp", key = key, pid = pid)
+        })),
     );
     let create = |p: &Path| {
         std::fs::File::create(p)

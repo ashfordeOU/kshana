@@ -69,18 +69,25 @@ impl MemoryCodeTable {
             if line.is_empty() {
                 continue;
             }
-            let (label, hex) = line
-                .split_once(';')
-                .ok_or_else(|| SignalError::Table(format!("line {}: no ';'", ln + 1)))?;
+            let (label, hex) = line.split_once(';').ok_or_else(|| {
+                SignalError::Table(crate::terr!("e-iq-signals-galileo-line-no", v1 = ln + 1))
+            })?;
             let number: u16 = label
                 .rsplit('_')
                 .next()
                 .and_then(|n| n.parse().ok())
                 .ok_or_else(|| {
-                    SignalError::Table(format!("line {}: no code number in {label:?}", ln + 1))
+                    SignalError::Table(crate::terr!(
+                        "e-iq-signals-galileo-line-no-code-number-in",
+                        v1 = ln + 1,
+                        label = format!("{:?}", label)
+                    ))
                 })?;
             if codes.iter().any(|(n, _)| *n == number) {
-                return Err(SignalError::Table(format!("code {number} appears twice")));
+                return Err(SignalError::Table(crate::terr!(
+                    "e-iq-signals-galileo-code-appears-twice",
+                    number = number
+                )));
             }
             codes.push((number, hex_to_bits(hex, len)?));
         }
@@ -122,20 +129,22 @@ fn load_user_table(env: &str, file: &str) -> Result<MemoryCodeTable, SignalError
             .join(file)
     });
     let text = std::fs::read_to_string(&path).map_err(|e| {
-        SignalError::Table(format!(
-            "the Galileo E1 memory codes are not bundled (the ICD's terms allow \
-             redistribution only for non-commercial purposes; see LICENSING.md). Supply your \
-             copy of ICD Annex C ({file}) with {env}=<path>, or run \
-             scripts/fetch_galileo_e1_codes.sh in a source checkout ({}: {e})",
-            path.display()
+        SignalError::Table(crate::terr!(
+            "e-iq-signals-galileo-the-galileo-e1-memory-codes",
+            file = file,
+            env = env,
+            path = path.display(),
+            e = e
         ))
     })?;
     let table = MemoryCodeTable::parse(&text, E1_CODE_LEN)?;
     let n = table.numbers().len();
     if n != usize::from(CODES_PER_COMPONENT) {
-        return Err(SignalError::Table(format!(
-            "{}: {n} codes, the ICD defines {CODES_PER_COMPONENT}",
-            path.display()
+        return Err(SignalError::Table(crate::terr!(
+            "e-iq-signals-galileo-codes-the-icd-defines",
+            path = path.display(),
+            n = n,
+            CODES_PER_COMPONENT = CODES_PER_COMPONENT
         )));
     }
     Ok(table)
@@ -167,7 +176,7 @@ pub fn e1b_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         prn,
     })?;
     Ok(SignalCode::new(
-        format!("Galileo E1-B PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e1-prn", prn = prn)),
         E1_CHIP_RATE_HZ,
         E1_HZ,
         bipolar(bits),
@@ -185,7 +194,7 @@ pub fn e1c_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         prn,
     })?;
     Ok(SignalCode::new(
-        format!("Galileo E1-C PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e1-prn-2", prn = prn)),
         E1_CHIP_RATE_HZ,
         E1_HZ,
         bipolar(bits),
@@ -266,7 +275,7 @@ pub fn e5a_i(prn: u16) -> Result<SignalCode, SignalError> {
         E5A_CODE_LEN,
     );
     Ok(SignalCode::new(
-        format!("Galileo E5a-I PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e5a-prn", prn = prn)),
         E5A_CHIP_RATE_HZ,
         E5A_HZ,
         bipolar(&bits),
@@ -287,7 +296,7 @@ pub fn e5a_q(prn: u16) -> Result<SignalCode, SignalError> {
         E5A_CODE_LEN,
     );
     Ok(SignalCode::new(
-        format!("Galileo E5a-Q PRN {prn}"),
+        crate::i18n::in_english(|| crate::t!("iq-signals-galileo-galileo-e5a-prn-2", prn = prn)),
         E5A_CHIP_RATE_HZ,
         E5A_HZ,
         bipolar(&bits),

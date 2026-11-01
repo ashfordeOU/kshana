@@ -3,6 +3,8 @@
 // run under plain node with no WebAssembly build. Run with `node web/engine.test.mjs`.
 import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, ENGINE_FNS_036, ENGINE_FNS_036_MAP, ENGINE_FNS_036_INPUTS, ENGINE_FNS_038, engineHas } from "./engine.mjs";
 import { engineAtLeast, versionParts } from "./engine-page.mjs";
+import { attachEngineText, engineLang, localiseRun } from "./engine-text.mjs";
+import { createL10n } from "./l10n.mjs";
 import assert from "node:assert/strict";
 
 const now = () => new Promise((r) => setTimeout(r, 0));
@@ -162,6 +164,68 @@ const api = {
 {
   assert.equal(busyLabel("Running", 400), "Running…");
   assert.equal(busyLabel("Running", 7300), "Running… 7 s");
+}
+
+// 0.40: the engine's catalogue per language. register() reaches the worker, is replayed to a worker spawned after a cancel, and to the main-thread fallback.
+{
+  const regs = [];
+  const api2 = { ...api, register_catalogue: (tag, text) => { regs.push([tag, text]); }, run_human: (toml, lang) => ({ summary: `${lang}:${toml}`, svg: `<svg lang="${lang}"/>` }) };
+  assert.ok(ENGINE_FNS.includes("register_catalogue") && ENGINE_FNS.includes("run_human"));
+  assert.equal(classifyMessage({ id: 1, fn: "register_catalogue", args: ["de", "a = b"] }), "call");
+  const { spawn, spawned } = fakeWorker({ api: api2 });
+  const c = createEngineClient({ spawn, local: api2 });
+  await c.register("de", "engine-x = x");
+  assert.deepEqual(regs, [["de", "engine-x = x"]]);
+  assert.deepEqual(await c.call("run_human", "t", "de"), { summary: "de:t", svg: '<svg lang="de"/>' });
+  regs.length = 0;
+  c.cancel();
+  await now();
+  assert.equal(spawned.length, 2);
+  assert.deepEqual(regs, [["de", "engine-x = x"]], "the fresh worker is given the registered catalogue again");
+  const bad = createEngineClient({ spawn: null, local: { ...api2, register_catalogue: () => { throw "tag is not supported"; } } });
+  await assert.rejects(bad.register("tlh", "x"), /not supported/, "a refused catalogue rejects");
+  regs.length = 0;
+  const { spawn: spawn3 } = fakeWorker({ api: api2, ready: false, hold: true });
+  const fb = createEngineClient({ spawn: spawn3, local: api2 });
+  await fb.register("ja", "engine-y = y").catch(() => {});
+  assert.equal(fb.mode, "local");
+  assert.ok(regs.some(([t]) => t === "ja"), "the main-thread fallback registers the catalogue too");
+}
+
+// lib/engine-text.mjs: a non-English page registers the catalogue and asks for the run's text in that language; English never does.
+{
+  const files = { "en/ui.ftl": "k = en", "de/ui.ftl": "k = de", "de/engine.ftl": "engine-x = x" };
+  const fetched = [];
+  const mkl = () => createL10n({ base: "/i18n/", fetchText: async (u) => { fetched.push(u); const k = u.replace("/i18n/", ""); if (k in files) return files[k]; throw new Error("404"); }, files: ["ui.ftl"] });
+  const calls = [];
+  const client = { register: async (tag, text) => { calls.push(["register", tag, text]); }, call: async (fn, ...a) => { calls.push([fn, ...a]); return { summary: "Zusammenfassung", svg: "<svg>de</svg>" }; } };
+  const l = mkl(); globalThis.kshanaL10n = l;
+  await l.setLang("en");
+  await attachEngineText(client);
+  assert.equal(engineLang(client), null, "English: no engine language");
+  const run = { mode: "live", toml: "t", summary: "Summary", svg: "<svg>en</svg>" };
+  assert.equal(await localiseRun(client, run), false);
+  assert.deepEqual(calls, [], "English registers nothing and calls nothing");
+  assert.ok(!fetched.some((u) => u.endsWith("engine.ftl")), "English never fetches engine.ftl");
+  await l.setLang("de");
+  assert.deepEqual(calls, [["register", "de", "engine-x = x"]], "the language change registers the catalogue");
+  assert.equal(engineLang(client), "de");
+  assert.equal(await localiseRun(client, run), true);
+  assert.deepEqual([run.summary, run.svg, run.textLang], ["Zusammenfassung", "<svg>de</svg>", "de"]);
+  assert.deepEqual(calls.at(-1), ["run_human", "t", "de"]);
+  await l.setLang("en");
+  assert.equal(engineLang(client), null);
+  assert.equal(await localiseRun(client, run), true, "back to English restores the engine's own text");
+  assert.deepEqual([run.summary, run.svg, run.textLang], ["Summary", "<svg>en</svg>", null]);
+  assert.equal(await localiseRun(client, { mode: "recorded", toml: "t", summary: "S", svg: "" }), false, "a recorded run has no engine to ask");
+  // a catalogue the engine refuses, or none in the tree: English text, no run_human
+  const l2 = mkl(); globalThis.kshanaL10n = l2;
+  await l2.setLang("en");
+  await attachEngineText({ ...client, register: async () => { throw new Error("refused"); } });
+  await l2.setLang("de");
+  assert.equal(l2.engineFallback, true);
+  assert.equal(engineLang(client), null, "a refused catalogue leaves the engine text in English");
+  delete globalThis.kshanaL10n;
 }
 
 console.log("engine.test.mjs: all assertions passed");

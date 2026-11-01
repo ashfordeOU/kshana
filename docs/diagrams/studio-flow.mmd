@@ -1,0 +1,8 @@
+flowchart LR
+    BR["Your browser"] --> WA["Engine compiled to WebAssembly<br/>runs locally, nothing is uploaded"]
+    SRC["Bundled scenarios<br/>or a scenario or log you open"] --> WA
+    WA --> RES["result, chart and report<br/>with units and labels"]
+    RES --> SV["Simple view<br/>the answer first"]
+    RES --> AV["Advanced view<br/>five steps, every panel"]
+    RES --> PG["Pages<br/>trust, training, replay, holdover<br/>optical, geometry, interference<br/>observatory, lunar, ssv, tools"]
+    RES --> EX["Exports<br/>files you save yourself"]

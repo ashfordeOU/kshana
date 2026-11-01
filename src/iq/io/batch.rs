@@ -79,7 +79,13 @@ where
     });
     slots
         .into_iter()
-        .map(|r| r.unwrap_or_else(|| Err("worker exited before processing this input".into())))
+        .map(|r| {
+            r.unwrap_or_else(|| {
+                Err(crate::terr!(
+                    "e-iq-io-batch-worker-exited-before-processing-this"
+                ))
+            })
+        })
         .collect()
 }
 

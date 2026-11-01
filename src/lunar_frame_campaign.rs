@@ -239,9 +239,9 @@ impl StationDatum {
         match name {
             "fixed" => Ok(StationDatum::Fixed),
             "estimated-anchor-first" => Ok(StationDatum::EstimatedAnchorFirst),
-            other => Err(format!(
-                "unknown station_datum {other:?}: expected \"fixed\" or \
-                 \"estimated-anchor-first\""
+            other => Err(crate::terr!(
+                "e-lunar-frame-campaign-unknown-station-datum-expected-fixed",
+                other = format!("{:?}", other)
             )),
         }
     }
@@ -318,18 +318,23 @@ impl LunarFrameCampaignScenario {
                 .collect(),
         };
         if raw.len() < 2 {
-            return Err(format!(
-                "a VLBI campaign needs at least 2 stations to form a baseline, got {}",
-                raw.len()
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-vlbi-campaign-needs-at-least",
+                raw = raw.len()
             ));
         }
         for (name, lat, lon, alt) in &raw {
             if !lat.is_finite() || !lon.is_finite() || !alt.is_finite() {
-                return Err(format!("station {name:?} has a non-finite coordinate"));
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-station-has-non-finite-coordinate",
+                    name = format!("{:?}", name)
+                ));
             }
             if !(-90.0..=90.0).contains(lat) {
-                return Err(format!(
-                    "station {name:?} latitude {lat} deg is outside [-90, 90]"
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-station-latitude-deg-is-outside",
+                    name = format!("{:?}", name),
+                    lat = lat
                 ));
             }
         }
@@ -380,18 +385,23 @@ impl LunarFrameCampaignScenario {
                 .collect(),
         };
         if raw.len() < 3 {
-            return Err(format!(
-                "a seven-parameter Helmert datum needs at least 3 non-collinear beacons, got {}",
-                raw.len()
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-seven-parameter-helmert-datum-needs",
+                raw = raw.len()
             ));
         }
         for (name, _, lat, lon, alt) in &raw {
             if !lat.is_finite() || !lon.is_finite() || !alt.is_finite() {
-                return Err(format!("beacon {name:?} has a non-finite coordinate"));
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-beacon-has-non-finite-coordinate",
+                    name = format!("{:?}", name)
+                ));
             }
             if !(-90.0..=90.0).contains(lat) {
-                return Err(format!(
-                    "beacon {name:?} latitude {lat} deg is outside [-90, 90]"
+                return Err(crate::terr!(
+                    "e-lunar-frame-campaign-beacon-latitude-deg-is-outside",
+                    name = format!("{:?}", name),
+                    lat = lat
                 ));
             }
         }
@@ -415,17 +425,22 @@ impl LunarFrameCampaignScenario {
         let arc = self.arc_hours.unwrap_or(24.0);
         let step = self.step_min.unwrap_or(30.0);
         if !arc.is_finite() || arc <= 0.0 {
-            return Err(format!("arc_hours must be positive and finite, got {arc}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-arc-hours-must-be-positive",
+                arc = arc
+            ));
         }
         if !step.is_finite() || step <= 0.0 {
-            return Err(format!("step_min must be positive and finite, got {step}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-step-min-must-be-positive",
+                step = step
+            ));
         }
         let n = (arc / (step / 60.0)).floor() as usize;
         if n > 5_000 {
-            return Err(format!(
-                "schedule of {} epochs is beyond this scenario's 5000-epoch guard; lengthen \
-                 step_min or shorten arc_hours",
-                n + 1
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-schedule-of-epochs-is-beyond",
+                v1 = n + 1
             ));
         }
         Ok((arc, step, n + 1))
@@ -434,8 +449,9 @@ impl LunarFrameCampaignScenario {
     fn resolved_sigma(&self) -> Result<f64, String> {
         let s = self.delay_sigma_s.unwrap_or(1.0e-11);
         if !s.is_finite() || s <= 0.0 {
-            return Err(format!(
-                "delay_sigma_s must be positive and finite, got {s}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-delay-sigma-must-be-positive",
+                s = s
             ));
         }
         Ok(s)
@@ -444,8 +460,9 @@ impl LunarFrameCampaignScenario {
     fn resolved_mask(&self) -> Result<f64, String> {
         let m = self.elevation_mask_deg.unwrap_or(10.0);
         if !m.is_finite() || !(-90.0..90.0).contains(&m) {
-            return Err(format!(
-                "elevation_mask_deg must be finite and in [-90, 90), got {m}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-elevation-mask-deg-must-be",
+                m = m
             ));
         }
         Ok(m)
@@ -454,8 +471,9 @@ impl LunarFrameCampaignScenario {
     fn resolved_earth_mask(&self) -> Result<f64, String> {
         let m = self.earth_elevation_mask_deg.unwrap_or(0.0);
         if !m.is_finite() || !(-90.0..90.0).contains(&m) {
-            return Err(format!(
-                "earth_elevation_mask_deg must be finite and in [-90, 90), got {m}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-earth-elevation-mask-deg-must",
+                m = m
             ));
         }
         Ok(m)
@@ -464,7 +482,10 @@ impl LunarFrameCampaignScenario {
     fn resolved_rel_tol(&self) -> Result<f64, String> {
         let t = self.rel_tol.unwrap_or(1.0e-9);
         if !t.is_finite() || !(0.0..1.0).contains(&t) {
-            return Err(format!("rel_tol must be finite and in [0, 1), got {t}"));
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-rel-tol-must-be-finite",
+                t = t
+            ));
         }
         Ok(t)
     }
@@ -472,8 +493,9 @@ impl LunarFrameCampaignScenario {
     fn resolved_assumed_sigma(&self) -> Result<f64, String> {
         let s = self.assumed_coordinate_sigma_m.unwrap_or(1.0);
         if !s.is_finite() || s <= 0.0 {
-            return Err(format!(
-                "assumed_coordinate_sigma_m must be positive and finite, got {s}"
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-assumed-coordinate-sigma-must-be",
+                s = s
             ));
         }
         Ok(s)
@@ -484,8 +506,9 @@ impl LunarFrameCampaignScenario {
         match self.solver.as_deref() {
             None | Some("spectral") => Ok(false),
             Some("srif") => Ok(true),
-            Some(other) => Err(format!(
-                "solver must be \"spectral\" or \"srif\", got \"{other}\""
+            Some(other) => Err(crate::terr!(
+                "e-lunar-frame-campaign-solver-must-be-spectral-or",
+                other = other
             )),
         }
     }
@@ -646,11 +669,9 @@ impl LunarFrameCampaignScenario {
         beacons: &[Selenographic],
     ) -> Result<BeaconInformation, String> {
         if self.resolved_station_datum()? != StationDatum::Fixed {
-            return Err(
-                "beacon information per site needs station_datum = \"fixed\"; an estimated \
-                 station datum couples the beacons"
-                    .to_string(),
-            );
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-beacon-information-per-site-needs"
+            ));
         }
         let sigma = self.resolved_sigma()?;
         let sched = self.schedule_for(beacons)?;
@@ -914,8 +935,12 @@ impl LunarFrameCampaignScenario {
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         let c = self.compute()?;
-        let json = serde_json::to_string_pretty(&c.json)
-            .map_err(|e| format!("serializing lunar-frame-campaign result: {e}"))?;
+        let json = serde_json::to_string_pretty(&c.json).map_err(|e| {
+            crate::terr!(
+                "e-lunar-frame-campaign-serializing-lunar-frame-campaign-result",
+                e = e
+            )
+        })?;
         Ok((json, c.summary))
     }
 
@@ -937,12 +962,13 @@ impl LunarFrameCampaignScenario {
         let sched = self.schedule()?;
         let n_obs = sched.observations.len();
         if n_obs == 0 {
-            return Err(format!(
-                "no observation in the campaign clears the {mask} deg Earth-side elevation mask \
-                 at both ends of a baseline AND the {earth_mask} deg mask above the beacon's own \
-                 horizon: {n_epochs} epochs x {} baselines x {n_beacons} beacons all rejected. \
-                 Lengthen arc_hours, lower a mask, or move the stations.",
-                n_stations * (n_stations - 1) / 2
+            return Err(crate::terr!(
+                "e-lunar-frame-campaign-no-observation-in-the-campaign",
+                mask = mask,
+                earth_mask = earth_mask,
+                n_epochs = n_epochs,
+                v1 = n_stations * (n_stations - 1) / 2,
+                n_beacons = n_beacons
             ));
         }
 
@@ -1247,43 +1273,42 @@ impl LunarFrameCampaignScenario {
         let headline_translation =
             number_or_null(datum.full_rank, datum.translation_sigma_norm_m());
         let status = if datum.full_rank {
-            format!(
-                "full-rank: all 7 similarity parameters are constrained by this campaign \
-                 (condition number {:.3e})",
-                datum.condition
+            crate::t!(
+                "lunar-frame-campaign-full-rank-all-similarity-parameters",
+                condition = crate::i18n::localise_decimal(format!("{:.3e}", datum.condition))
             )
         } else {
-            format!(
-                "RANK-DEFICIENT: {} of 7 similarity directions are unobservable from this \
-                 campaign, so NO datum sigma is published; the unobservable directions are \
-                 listed in the seven-parameter basis",
-                datum.defect
+            crate::t!(
+                "lunar-frame-campaign-rank-deficient-of-similarity-directions",
+                defect = datum.defect
             )
         };
 
-        let summary = format!(
-            "lunar-frame-campaign | {n_beacons} beacons x {} baselines x {n_epochs} epochs = \
-             {n_obs} obs (delay sigma {sigma_tau:.3e} s) | station datum {} | Helmert rank {}/7 \
-             cond {:.3e} | datum translation sigma {} vs injected-transform recovery error \
-             {:.4} m (ratio {})",
-            n_stations * (n_stations - 1) / 2,
-            station_datum.as_str(),
-            datum.rank,
-            datum.condition,
-            if datum.full_rank {
+        let summary = crate::t!(
+            "lunar-frame-campaign-lunar-frame-campaign-beacons-baselines",
+            n_beacons = n_beacons,
+            v1 = n_stations * (n_stations - 1) / 2,
+            n_epochs = n_epochs,
+            n_obs = n_obs,
+            sigma_tau = crate::i18n::localise_decimal(format!("{:.3e}", sigma_tau)),
+            station_datum = station_datum.as_str(),
+            rank = datum.rank,
+            condition = crate::i18n::localise_decimal(format!("{:.3e}", datum.condition)),
+            v5 = if datum.full_rank {
                 format!("{:.6} m", datum.translation_sigma_norm_m())
             } else {
                 "UNOBSERVABLE".to_string()
             },
-            injected.trans_err_norm_m,
-            if datum.full_rank {
+            trans_err_norm_m =
+                crate::i18n::localise_decimal(format!("{:.4}", injected.trans_err_norm_m)),
+            v7 = if datum.full_rank {
                 format!(
                     "{:.3}",
                     injected.trans_err_norm_m / datum.translation_sigma_norm_m()
                 )
             } else {
                 "n/a".to_string()
-            },
+            }
         );
 
         let mut json = serde_json::json!({
@@ -1478,13 +1503,11 @@ impl LunarFrameCampaignScenario {
             // Emitted only when a beacon has no observation, so every other report is unchanged.
             let names: Vec<&str> = unobserved.iter().map(|&b| beacons[b].0.as_str()).collect();
             json["unobserved_beacons"] = serde_json::json!(names);
-            json["warning"] = serde_json::Value::from(format!(
-                "{} of {} beacons have no observation in this schedule ({}); they carry no \
-                 information, their sigmas are null, and the datum is realised from the observed \
-                 beacons only",
-                names.len(),
-                beacons.len(),
-                names.join(", ")
+            json["warning"] = serde_json::Value::from(crate::t!(
+                "lunar-frame-campaign-of-beacons-have-no-observation",
+                names = names.len(),
+                beacons = beacons.len(),
+                names2 = names.join(", ")
             ));
         }
         Ok(Computed { json, summary })

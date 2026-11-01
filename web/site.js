@@ -6,6 +6,17 @@
   var ROOT = (window.KSITE && window.KSITE.root) || "";
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  /* Messages: js/t.mjs is a module and this is a classic script, so it is imported dynamically; until it has
+     loaded, t() gives the English written at its call site (the same text t.mjs falls back to). */
+  var tm = null;
+  try { import("./js/t.mjs").then(function (m) { tm = m; }, function () {}); } catch (e) {}
+  function t(id, en, vars) {
+    if (tm) return tm.t(id, en, vars);
+    var s = en;
+    if (en && typeof en === "object") s = (vars && Number(vars.n) === 1 && en.one !== undefined) ? en.one : en.other;
+    return String(s).replace(/\{ \$([A-Za-z0-9_-]+) \}/g, function (_, k) { return vars && vars[k] !== undefined ? String(vars[k]) : ""; });
+  }
+  function fetchData(u) { return import("./js/t.mjs").then(function (m) { return m.fetchData(u); }, function () { return fetch(u); }); }
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -28,7 +39,7 @@
   function toast(m) { if (!toastEl) return; toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("on"); }, 1900); }
   window.KStoast = toast;
   function copyText(text, btn) {
-    var done = function () { if (btn) { btn.classList.add("copied"); setTimeout(function () { btn.classList.remove("copied"); }, 1400); } toast("Copied: " + (text.length > 60 ? text.slice(0, 57) + "…" : text)); };
+    var done = function () { if (btn) { btn.classList.add("copied"); setTimeout(function () { btn.classList.remove("copied"); }, 1400); } toast(t("js-site-toast-copied", "Copied: { $text }", { text: text.length > 60 ? text.slice(0, 57) + "…" : text })); };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
     else { fallback(text); done(); }
   }
@@ -58,7 +69,7 @@
       var open = !links.classList.contains("open");
       links.classList.toggle("open", open);
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
-      menuBtn.setAttribute("aria-label", open ? "Close the menu" : "Open the menu");
+      menuBtn.setAttribute("aria-label", open ? t("js-site-menu-close", "Close the menu") : t("js-site-menu-open", "Open the menu"));
     });
     links.addEventListener("click", function (e) { if (e.target.closest("a")) { links.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); } });
   }
@@ -226,8 +237,8 @@
       $$(".ip-cmd[data-latest]", box).forEach(function (c) {
         var cmd = c.getAttribute(mode === "pinned" ? "data-pinned" : "data-latest");
         var btn = $("button[data-copy]", c); if (!btn) return;
-        btn.setAttribute("data-copy", cmd); btn.setAttribute("aria-label", "Copy: " + cmd);
-        var t = $(".cmd-t", btn); if (t) t.textContent = cmd;
+        btn.setAttribute("data-copy", cmd); btn.setAttribute("aria-label", t("js-site-copy-aria", "Copy: { $cmd }", { cmd: cmd }));
+        var ct = $(".cmd-t", btn); if (ct) ct.textContent = cmd;
       });
       store.set("kshana-install-pin", mode);
     }
@@ -263,10 +274,10 @@
         it.hidden = !hit || (limit && !active && !expanded && n > limit);
       });
       grps.forEach(function (g) { g.hidden = !$$("[data-fl-item]", g).some(function (x) { return !x.hidden; }); });
-      if (count) count.textContent = region ? (s ? n + (n === 1 ? " match" : " matches") : (active ? n + " of " : "") + items.length + (active ? "" : " rows"))
-        : (active ? n + " of " : "") + items.length + (active ? "" : " in all");
+      if (count) count.textContent = region ? (s ? t("js-site-filter-matches", { one: "{ $n } match", other: "{ $n } matches" }, { n: n }) : active ? t("js-site-filter-n-of-m", "{ $n } of { $total }", { n: n, total: items.length }) : t("js-site-filter-rows", "{ $total } rows", { total: items.length }))
+        : (active ? t("js-site-filter-n-of-m", "{ $n } of { $total }", { n: n, total: items.length }) : t("js-site-filter-in-all", "{ $total } in all", { total: items.length }));
       if (region) {
-        region.setAttribute("aria-label", rLabel.replace(/\d+ rows/, (active ? n + " of " + items.length : items.length) + " rows"));
+        region.setAttribute("aria-label", rLabel.replace(/\d+ rows/, active ? t("js-site-filter-n-of-m-rows", "{ $n } of { $total } rows", { n: n, total: items.length }) : t("js-site-filter-rows", "{ $total } rows", { total: items.length })));
         region.scrollTop = 0; edges();
       }
       if (empty) empty.hidden = n > 0;
@@ -320,25 +331,25 @@
     return new XMLSerializer().serializeToString(c).replace(/var\((--[\w-]+)\)/g, function (m, n) { return cssv.getPropertyValue(n).trim() || m; });
   }
   var seriesP = null;
-  function series() { if (!seriesP) seriesP = fetch(ROOT + "data/series.json").then(function (r) { return r.json(); }); return seriesP; }
+  function series() { if (!seriesP) seriesP = fetchData(ROOT + "data/series.json").then(function (r) { return r.json(); }); return seriesP; }
   function csvCell(v) { v = v == null ? "" : String(v); return /[",\n#]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
   function tableCsv(t) { return $$("tr", t).map(function (r) { return $$("th,td", r).map(function (c) { return csvCell(c.textContent.trim()); }).join(","); }).join("\n"); }
   document.addEventListener("click", function (e) {
     var sv = e.target.closest("[data-dl-svg]");
     if (sv) {
       var fig = sv.closest("figure"), svg = fig && $(".viz-plot svg", fig);
-      if (svg) { download((fig.getAttribute("data-viz") || "chart") + (fig.getAttribute("data-variant") ? "-" + fig.getAttribute("data-variant") : "") + ".svg", "image/svg+xml", resolved(svg)); toast("Chart saved as SVG"); }
+      if (svg) { download((fig.getAttribute("data-viz") || "chart") + (fig.getAttribute("data-variant") ? "-" + fig.getAttribute("data-variant") : "") + ".svg", "image/svg+xml", resolved(svg)); toast(t("js-site-toast-svg-saved", "Chart saved as SVG")); }
       return;
     }
     var cv = e.target.closest("[data-dl-csv]");
     if (cv) {
       var id = cv.getAttribute("data-dl-csv"), prev = cv.closest(".prov") && cv.closest(".prov").previousElementSibling;
-      if (prev && prev.tagName === "TABLE") { download(id + ".csv", "text/csv", tableCsv(prev)); toast("Table saved as CSV"); return; }
+      if (prev && prev.tagName === "TABLE") { download(id + ".csv", "text/csv", tableCsv(prev)); toast(t("js-site-toast-table-saved", "Table saved as CSV")); return; }
       series().then(function (d) {
-        var x = d[id]; if (!x) { toast("No data for this chart"); return; }
+        var x = d[id]; if (!x) { toast(t("js-site-toast-no-data", "No data for this chart")); return; }
         download(x.file, "text/csv", x.head.join("\n") + "\n" + x.rows.map(function (r) { return r.map(csvCell).join(","); }).join("\n") + "\n");
-        toast("Data saved as CSV");
-      }, function () { toast("The data file could not be loaded"); });
+        toast(t("js-site-toast-data-saved", "Data saved as CSV"));
+      }, function () { toast(t("js-site-toast-data-failed", "The data file could not be loaded")); });
     }
   });
 
@@ -358,16 +369,16 @@
   var pal = $("#palette"), inp = $("#palInput"), list = $("#palList"), count = $("#palCount");
   var items = null, shown = [], act = 0, lastFocus = null;
   var ACTIONS = [
-    { t: "Launch " + ((window.KSITE && window.KSITE.studio) || "Kshana Studio"), h: "/studio/", k: "Action" },
-    { t: "Switch light or dark theme", a: function () { themeBtn && themeBtn.click(); }, k: "Action" },
-    { t: "Copy: cargo install kshana", a: function () { copyText("cargo install kshana"); }, k: "Action" },
-    { t: "Request a Kshana Pro evaluation", h: "mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation", k: "Action" },
-    { t: "Talk to us about a commercial licence", h: "mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence", k: "Action" },
-    { t: "Request a study", h: "mailto:contact@ashforde.org?subject=Kshana%20study%20request", k: "Action" }
+    { get t() { return t("js-site-action-launch", "Launch { $name }", { name: (window.KSITE && window.KSITE.studio) || "Kshana Studio" }); }, h: "/studio/", k: "Action" },
+    { get t() { return t("js-site-action-theme", "Switch light or dark theme"); }, a: function () { themeBtn && themeBtn.click(); }, k: "Action" },
+    { get t() { return t("js-site-action-copy-install", "Copy: cargo install kshana"); }, a: function () { copyText("cargo install kshana"); }, k: "Action" },
+    { get t() { return t("js-site-action-pro-eval", "Request a Kshana Pro evaluation"); }, h: "mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation", k: "Action" },
+    { get t() { return t("js-site-action-licence", "Talk to us about a commercial licence"); }, h: "mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence", k: "Action" },
+    { get t() { return t("js-site-action-study", "Request a study"); }, h: "mailto:contact@ashforde.org?subject=Kshana%20study%20request", k: "Action" }
   ];
   function load() {
     if (items) return Promise.resolve(items);
-    return fetch(ROOT + "data/search.json").then(function (r) { return r.json(); }).then(function (d) { items = ACTIONS.concat(d); return items; })
+    return fetchData(ROOT + "data/search.json").then(function (r) { return r.json(); }).then(function (d) { items = ACTIONS.concat(d); return items; })
       .catch(function () { items = ACTIONS.slice(); return items; });
   }
   function fuzzy(q, s) {
@@ -395,16 +406,16 @@
       a.className = "pal-item"; a.setAttribute("role", "option"); a.id = "pal-" + i;
       a.setAttribute("aria-selected", i === act ? "true" : "false");
       if (it.h) a.href = /^(https?:|mailto:|\/)/.test(it.h) ? it.h : ROOT + it.h; else a.type = "button";
-      var k = document.createElement("span"); k.className = "k"; k.textContent = it.k || "";
-      var t = document.createElement("span"); t.className = "t"; t.textContent = it.t;
-      a.append(k, t);
+      var k = document.createElement("span"); k.className = "k"; k.textContent = it.k === "Action" ? t("js-site-kind-action", "Action") : it.k || "";
+      var tt = document.createElement("span"); tt.className = "t"; tt.textContent = it.t;
+      a.append(k, tt);
       if (it.d) { var d = document.createElement("span"); d.className = "d"; d.textContent = it.d; a.appendChild(d); }
       a.addEventListener("click", function (e) { if (it.a) { e.preventDefault(); close(); it.a(); } else close(); });
       a.addEventListener("mousemove", function () { if (act !== i) { act = i; mark(); } });
       list.appendChild(a);
     });
     inp.setAttribute("aria-activedescendant", shown.length ? "pal-" + act : "");
-    count.textContent = shown.length ? shown.length + (shown.length === 60 ? "+" : "") + " results" : "No results";
+    count.textContent = shown.length ? t("js-site-palette-results", "{ $count } results", { count: shown.length + (shown.length === 60 ? "+" : "") }) : t("js-site-palette-none", "No results");
   }
   function mark() { $$(".pal-item", list).forEach(function (x, i) { x.setAttribute("aria-selected", i === act ? "true" : "false"); }); var el = document.getElementById("pal-" + act); if (el) el.scrollIntoView({ block: "nearest" }); inp.setAttribute("aria-activedescendant", "pal-" + act); }
   function open() { if (!pal) return; lastFocus = document.activeElement; pal.hidden = false; inp.value = ""; act = 0; render(); load().then(render); setTimeout(function () { inp.focus(); }, 10); }

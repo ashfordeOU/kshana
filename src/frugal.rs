@@ -94,10 +94,12 @@ pub fn frugal_case(
     cost: &CostBracket,
 ) -> Result<FrugalCase, String> {
     if !cost.is_valid() {
-        return Err("cost bracket must be finite, non-negative, ordered low≤nominal≤high, and carry a source".into());
+        return Err(crate::terr!("e-frugal-cost-bracket-must-be-finite"));
     }
     if !(0.0..=1.0).contains(&coverage_fraction) || !(0.0..=1.0).contains(&availability) {
-        return Err("coverage_fraction and availability must be fractions in [0, 1]".into());
+        return Err(crate::terr!(
+            "e-frugal-coverage-fraction-and-availability-must"
+        ));
     }
     let n = total_satellites as f64;
     let coverage_pct = coverage_fraction * 100.0;

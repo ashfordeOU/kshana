@@ -70,11 +70,9 @@ pub fn read_rtklib_pos(text: &str) -> Result<Timeline, String> {
                 if h.contains("x-ecef") {
                     pos = Pos::Ecef;
                 } else if h.contains("latitude(d'") {
-                    return Err(
-                        "RTKLIB .pos with degrees-minutes-seconds positions is not read: \
-                                re-run rnx2rtkp/RTKPOST with decimal degrees (-degf 0)"
-                            .to_string(),
-                    );
+                    return Err(crate::terr!(
+                        "e-receiver-trust-machines-rtklib-rtklib-pos-with-degrees-minutes"
+                    ));
                 }
             }
             continue;

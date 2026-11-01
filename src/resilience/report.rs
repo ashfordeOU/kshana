@@ -80,8 +80,30 @@ pub fn integrity_hash(bytes: &[u8]) -> String {
     hex::encode(h.finalize())
 }
 
-fn row(name: &str, value: f64, tag: &str, basis: &str) -> String {
-    format!("<tr><td>{name}</td><td>{value:.3}</td><td>{tag}</td><td>{basis}</td></tr>")
+fn row(name: &str, value: f64, status: VerificationStatus, basis: &str) -> String {
+    let value = crate::i18n::num(value, 3);
+    let tag = status_word(status);
+    format!("<tr><td>{name}</td><td>{value}</td><td>{tag}</td><td>{basis}</td></tr>")
+}
+
+/// The status tag of a sub-score in the current language (the JSON report carries the English
+/// tag).
+fn status_word(status: VerificationStatus) -> String {
+    match status {
+        VerificationStatus::Validated => crate::t!("fom-verdict-validated"),
+        VerificationStatus::Modelled => crate::t!("fom-verdict-modelled"),
+        VerificationStatus::PartnerOwned => crate::t!("resilience-report-status-partner"),
+    }
+}
+
+/// The header row of one table: `first` is the heading of its first column.
+fn header_row(first: String) -> String {
+    format!(
+        "<tr><th>{first}</th><th>{}</th><th>{}</th><th>{}</th></tr>",
+        crate::t!("resilience-report-th-subscore"),
+        crate::t!("resilience-report-th-status"),
+        crate::t!("resilience-report-th-basis")
+    )
 }
 
 /// Human-readable HTML report. `integrity` is the SHA-256 of the matching JSON
@@ -95,42 +117,65 @@ pub fn assurance_report_html(
     let mut rpcf_rows = String::new();
     for c in TechniqueCategory::all() {
         let d = &profile.rpcf[&c];
-        rpcf_rows.push_str(&row(&format!("{c:?}"), d.value, d.status.tag(), &d.basis));
+        rpcf_rows.push_str(&row(&format!("{c:?}"), d.value, d.status, &d.basis));
     }
     let mut rdrr_rows = String::new();
     for f in RdrrFunction::all() {
         let d = &profile.rdrr[&f];
-        rdrr_rows.push_str(&row(&format!("{f:?}"), d.value, d.status.tag(), &d.basis));
+        rdrr_rows.push_str(&row(&format!("{f:?}"), d.value, d.status, &d.basis));
     }
     let mut yang_rows = String::new();
     for y in YangCriterion::all() {
         let d = &profile.yang[&y];
-        yang_rows.push_str(&row(&format!("{y:?}"), d.value, d.status.tag(), &d.basis));
+        yang_rows.push_str(&row(&format!("{y:?}"), d.value, d.status, &d.basis));
     }
+    // English has always been `<html>` with no language attribute; another language states its tag.
+    let lang = {
+        let l = crate::i18n::current();
+        if l.is_english() {
+            String::new()
+        } else {
+            format!(" lang=\"{}\"", l.tag())
+        }
+    };
+    let title = crate::t!("resilience-report-title");
     format!(
-        "<!doctype html><html><head><meta charset=\"utf-8\">\
-<title>PNT Resilience Self-Assessment</title></head><body>\
-<h1>PNT Resilience Self-Assessment</h1>\
-<p class=\"disclaimer\"><strong>{DISCLAIMER}</strong></p>\
-<p>Engine {ev}, scenario {sc}, seed {seed}. Evidence split: \
-{validated} VALIDATED / {modelled} MODELLED sub-scores. \
-Tentative RPCF Level: {level} ({lb}).</p>\
-<h2>DHS RPCF technique categories</h2><table>\
-<tr><th>Category</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{rpcf}</table>\
-<h2>RethinkPNT functions</h2><table>\
-<tr><th>Function</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{rdrr}</table>\
-<h2>Yang criteria</h2><table>\
-<tr><th>Criterion</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{yang}</table>\
-<p>SHA-256 integrity: <code>{integrity}</code></p>\
+        "<!doctype html><html{lang}><head><meta charset=\"utf-8\">\
+<title>{title}</title></head><body>\
+<h1>{title}</h1>\
+<p class=\"disclaimer\"><strong>{disclaimer}</strong></p>\
+{summary}\
+<h2>{h_rpcf}</h2><table>\
+{th_rpcf}{rpcf}</table>\
+<h2>{h_rdrr}</h2><table>\
+{th_rdrr}{rdrr}</table>\
+<h2>{h_yang}</h2><table>\
+{th_yang}{yang}</table>\
+{integrity_p}\
 <p>{note}</p></body></html>",
-        ev = prov.engine_version,
-        sc = prov.scenario,
-        seed = prov.seed,
-        level = profile.level,
-        lb = profile.level_basis,
+        disclaimer = crate::t!("legal-resilience-disclaimer"),
+        summary = crate::t!(
+            "resilience-report-summary",
+            engine = prov.engine_version,
+            scenario = prov.scenario,
+            seed = prov.seed,
+            n_validated = validated,
+            validated = crate::t!("fom-verdict-validated"),
+            n_modelled = modelled,
+            modelled = crate::t!("fom-verdict-modelled"),
+            level = profile.level,
+            level_basis = profile.level_basis
+        ),
+        h_rpcf = crate::t!("resilience-report-h-rpcf"),
+        h_rdrr = crate::t!("resilience-report-h-rdrr"),
+        h_yang = crate::t!("resilience-report-h-yang"),
+        th_rpcf = header_row(crate::t!("resilience-report-th-category")),
+        th_rdrr = header_row(crate::t!("resilience-report-th-function")),
+        th_yang = header_row(crate::t!("resilience-report-th-criterion")),
         rpcf = rpcf_rows,
         rdrr = rdrr_rows,
         yang = yang_rows,
+        integrity_p = crate::t!("resilience-report-integrity", integrity = integrity),
         note = prov.note,
     )
 }
@@ -197,6 +242,89 @@ mod tests {
             hash,
             integrity_hash(assurance_report_json(&p, &prov()).as_bytes())
         );
+    }
+
+    /// The page as it was written before its text moved to the catalogue (the rows are
+    /// built the same way; the template is the original one).
+    fn page_before_localisation(p: &ResilienceProfile, pv: &Provenance, integrity: &str) -> String {
+        let (validated, modelled) = status_counts(p);
+        let rows = |it: Vec<(String, f64, &str, &str)>| -> String {
+            it.iter()
+                .map(|(n, v, t, b)| {
+                    format!("<tr><td>{n}</td><td>{v:.3}</td><td>{t}</td><td>{b}</td></tr>")
+                })
+                .collect()
+        };
+        let rpcf = rows(
+            TechniqueCategory::all()
+                .into_iter()
+                .map(|c| {
+                    let d = &p.rpcf[&c];
+                    (format!("{c:?}"), d.value, d.status.tag(), d.basis.as_str())
+                })
+                .collect(),
+        );
+        let rdrr = rows(
+            RdrrFunction::all()
+                .into_iter()
+                .map(|f| {
+                    let d = &p.rdrr[&f];
+                    (format!("{f:?}"), d.value, d.status.tag(), d.basis.as_str())
+                })
+                .collect(),
+        );
+        let yang = rows(
+            YangCriterion::all()
+                .into_iter()
+                .map(|y| {
+                    let d = &p.yang[&y];
+                    (format!("{y:?}"), d.value, d.status.tag(), d.basis.as_str())
+                })
+                .collect(),
+        );
+        format!(
+            "<!doctype html><html><head><meta charset=\"utf-8\">\
+<title>PNT Resilience Self-Assessment</title></head><body>\
+<h1>PNT Resilience Self-Assessment</h1>\
+<p class=\"disclaimer\"><strong>{DISCLAIMER}</strong></p>\
+<p>Engine {ev}, scenario {sc}, seed {seed}. Evidence split: \
+{validated} VALIDATED / {modelled} MODELLED sub-scores. \
+Tentative RPCF Level: {level} ({lb}).</p>\
+<h2>DHS RPCF technique categories</h2><table>\
+<tr><th>Category</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{rpcf}</table>\
+<h2>RethinkPNT functions</h2><table>\
+<tr><th>Function</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{rdrr}</table>\
+<h2>Yang criteria</h2><table>\
+<tr><th>Criterion</th><th>Sub-score</th><th>Status</th><th>Basis</th></tr>{yang}</table>\
+<p>SHA-256 integrity: <code>{integrity}</code></p>\
+<p>{note}</p></body></html>",
+            ev = pv.engine_version,
+            sc = pv.scenario,
+            seed = pv.seed,
+            level = p.level,
+            lb = p.level_basis,
+            note = pv.note,
+        )
+    }
+
+    #[test]
+    fn the_english_page_is_the_page_before_localisation_and_another_language_changes_only_text() {
+        let p = profile();
+        let hash = integrity_hash(assurance_report_json(&p, &prov()).as_bytes());
+        let want = page_before_localisation(&p, &prov(), &hash);
+        assert_eq!(assurance_report_html(&p, &prov(), &hash), want);
+        // The JSON report, and so the integrity hash, does not depend on the language.
+        let xa = crate::i18n::resolve("en-XA").unwrap();
+        crate::i18n::with_lang(xa, || {
+            assert_eq!(
+                integrity_hash(assurance_report_json(&p, &prov()).as_bytes()),
+                hash
+            );
+            let html = assurance_report_html(&p, &prov(), &hash);
+            assert!(html.starts_with("<!doctype html><html lang=\"en-XA\">"));
+            assert!(html.contains("[PÑT Réšílíéñçé"), "{html}");
+            assert!(html.contains(&hash));
+        });
     }
 
     #[test]

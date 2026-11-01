@@ -295,12 +295,11 @@ pub fn bounded_rank_from_singular_values(
         };
     }
     let floor_note = if rel_tol < RANK_TOLERANCE_NOISE_FLOOR {
-        format!(
-            " The tolerance is below the f64 rank-read noise floor {RANK_TOLERANCE_NOISE_FLOOR:.3e} \
-             (= sqrt(f64::EPSILON)): its equivalent eigenvalue floor rel_tol^2 = {:.3e} sits under \
-             the rounding noise of the Gram matrix, so the extra directions are arithmetic \
-             residue, not observability.",
-            rel_tol * rel_tol
+        crate::t!(
+            "observability-gramian-the-tolerance-is-below-the",
+            RANK_TOLERANCE_NOISE_FLOOR =
+                crate::i18n::localise_decimal(format!("{:.3e}", RANK_TOLERANCE_NOISE_FLOOR)),
+            v1 = crate::i18n::localise_decimal(format!("{:.3e}", rel_tol * rel_tol))
         )
     } else {
         String::new()
@@ -309,10 +308,14 @@ pub fn bounded_rank_from_singular_values(
         rank: shape_bound,
         counted,
         shape_bound,
-        reason: Some(format!(
-            "rank clamped from the singular-value count {counted} to min(rows, cols) = \
-             min({n_rows}, {n_cols}) = {shape_bound} at rel_tol {rel_tol:.3e}: a {n_rows}x{n_cols} \
-             matrix cannot have rank {counted}.{floor_note}"
+        reason: Some(crate::t!(
+            "observability-gramian-rank-clamped-from-the-singular",
+            counted = counted,
+            n_rows = n_rows,
+            n_cols = n_cols,
+            shape_bound = shape_bound,
+            rel_tol = crate::i18n::localise_decimal(format!("{:.3e}", rel_tol)),
+            floor_note = floor_note
         )),
     }
 }
@@ -749,13 +752,12 @@ pub fn cislunar_gdop(rows: &Mat, rel_tol: f64) -> CislunarGdop {
         return CislunarGdop::Undefined {
             rank: dm.rank,
             defect: n - dm.rank,
-            reason: format!(
-                "GDOP undefined (rank-deficient / singular geometry): rank {} of {} \
-                 states, datum defect {}, condition {}",
-                dm.rank,
-                n,
-                n - dm.rank,
-                if dm.condition.is_finite() {
+            reason: crate::t!(
+                "observability-gramian-gdop-undefined-rank-deficient-singular",
+                rank = dm.rank,
+                n = n,
+                v3 = n - dm.rank,
+                v4 = if dm.condition.is_finite() {
                     format!("{:.3e}", dm.condition)
                 } else {
                     "inf".to_string()
