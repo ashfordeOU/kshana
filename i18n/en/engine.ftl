@@ -10274,6 +10274,7 @@ engine-main-usage =
     { "   " }or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
     { "   " }or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
     { "   " }or: kshana partner check <submission.toml> [--json]
+    { "   " }or: kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -11255,3 +11256,15 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is not a usable TDOA fix f
 engine-e-interference-map-locate-source-required = --source adsb or --source ais is required
 
 engine-e-interference-map-locate-no-evidence-rows = no evidence rows are listed for the locate outputs
+
+engine-e-scenario-version-not-a-number = `schema_version` must be a whole number (this engine reads { $current }), not `{ $value }`
+
+engine-e-scenario-version-zero = `schema_version = 0` is not a scenario schema version; the first is 1
+
+engine-e-scenario-version-newer = this scenario is written for scenario schema version { $stated }, newer than this engine reads ({ $current }); upgrade Kshana to run it
+
+engine-e-scenario-cli-usage = usage: kshana scenario <migrate <scenario.toml> [--in-place] | version>
+
+engine-scenario-cli-migrated = { $path }: now states schema_version = { $to }
+
+engine-scenario-cli-unchanged = { $path }: already states schema_version = { $to }; unchanged

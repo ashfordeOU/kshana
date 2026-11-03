@@ -323,6 +323,7 @@ pub mod rtk_real;
 pub mod run;
 pub mod sbas;
 pub mod scenario;
+pub mod scenario_version;
 pub mod sdr;
 pub mod security;
 pub mod sgp4;
