@@ -355,7 +355,7 @@ jobs:
         # wheels + sdist. (It remains attested and is also a release asset via release.yml.)
         run: |
           mkdir -p sbom
-          mv dist/kshana-sbom.cdx.json sbom/ 2>/dev/null || true
+          mv dist/kshana-sbom.cdx.json sbom/ 2>/dev/null || true  # absent only if the SBOM step above failed, which already fails the job
           ls -l dist
       - name: Publish to PyPI
         # Pinned to a commit SHA, not the mutable `release/v1` branch: this step holds a

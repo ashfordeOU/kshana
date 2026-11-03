@@ -172,6 +172,20 @@ jobs:
                                  else .version = $v end)' \
              server.json > server.tmp && mv server.tmp server.json
           cat server.json
+      - name: Wait until npm and PyPI serve this version
+        # The registry validates every package named in server.json against npm and PyPI; a
+        # version published minutes ago can take a while to appear there, and the registry then
+        # rejects the entry (it did for a sibling project on 2 November 2026). Wait up to 15 min.
+        run: |
+          set -euo pipefail
+          V="$(jq -r .version server.json)"
+          for i in $(seq 1 60); do
+            npm_ok=$(curl -s -o /dev/null -w '%{http_code}' "https://registry.npmjs.org/kshana-mcp/$V")
+            pypi_ok=$(curl -s -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/kshana-mcp/$V/json")
+            if [ "$npm_ok" = 200 ] && [ "$pypi_ok" = 200 ]; then echo "npm and PyPI both serve kshana-mcp $V"; exit 0; fi
+            echo "waiting: npm $npm_ok, PyPI $pypi_ok ($i/60)"; sleep 15
+          done
+          echo "::error::kshana-mcp $V is not served by both npm and PyPI after 15 minutes"; exit 1
       - name: Install mcp-publisher (pinned, checksum-verified)
         # An exact release and its SHA-256, not `releases/latest`: this binary holds the
         # workflow's OIDC identity for the registry, so what runs must be what was

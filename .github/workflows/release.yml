@@ -92,11 +92,27 @@ jobs:
           ref: ${{ inputs.tag || github.ref }}
           # Full history so the repository-hygiene guard scans every commit message.
           fetch-depth: 0
+      - name: Only the newest version tag may publish
+        # Every publishing job needs this job, so stopping here stops the release. A re-pushed or
+        # re-dispatched older tag would otherwise move the "latest" targets (the ghcr :latest
+        # images, the MCP registry entry, the site) back to an old version. A dry run on a branch
+        # (no tag) is not affected.
+        env:
+          TAG: ${{ inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || '') }}
+        run: |
+          set -euo pipefail
+          if [ -z "$TAG" ]; then echo "No tag (dry run on a branch): nothing to guard."; exit 0; fi
+          newest="$(git tag -l 'v[0-9]*' --sort=-version:refname | head -1)"
+          if [ "$TAG" != "$newest" ]; then
+            echo "::error::$TAG is not the newest version tag ($newest); refusing to republish an older version over the current one."
+            exit 1
+          fi
+          echo "$TAG is the newest version tag."
       - name: Free runner disk space
         run: |
           set -eu
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost
-          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true  # clean-up only; a failed prune frees less disk, the job still checks space
           df -h /
       # Pinned to the channel in rust-toolchain.toml so the release build matches CI.
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
@@ -241,6 +257,7 @@ jobs:
               exit 0
             fi
           fi
+          # The bare binary prints its usage and exits non-zero by design; the grep below is the check.
           out="$("$cli" 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \
@@ -506,6 +523,7 @@ jobs:
         run: |
           set -uo pipefail
           chmod +x verify/kshana
+          # The bare binary prints its usage and exits non-zero by design; the grep below is the check.
           out="$(verify/kshana 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \
@@ -572,6 +590,7 @@ jobs:
             gh attestation verify "$name" --repo "$REPO"
             chmod +x "$name"
           done
+          # The bare binary prints its usage and exits non-zero by design; the grep below is the check.
           out="$("./$ASSET" 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \

@@ -112,6 +112,7 @@ jobs:
           PUSH: ${{ steps.mode.outputs.push }}
         run: |
           set -uo pipefail
+          # The bare binary prints its usage and exits non-zero by design; the grep below is the check.
           out="$(docker run --rm --entrypoint /usr/local/bin/kshana kshana-reference-build:smoke 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \
