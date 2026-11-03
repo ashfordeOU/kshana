@@ -116,6 +116,16 @@ reads public registry pages:
 python3 scripts/check_channel_parity.py 0.27.2
 ```
 
+## Only the newest tag publishes
+
+The first step of `verify` refuses any tag that is not the newest `v*` tag, so a re-pushed or
+re-dispatched older tag stops before anything publishes and cannot move the ghcr `:latest`
+images, the MCP registry entry or the site back to an old version. A retry is therefore always
+of the newest tag; a fix to an older release is a new, newer release.
+
+The MCP registry step waits (up to 15 minutes) until npm and PyPI both serve the new
+`kshana-mcp` version, because the registry rejects an entry whose packages it cannot yet see.
+
 ## Retrying
 
 Every publish is idempotent: a version that is already on a registry counts as success,
