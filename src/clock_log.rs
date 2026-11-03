@@ -93,10 +93,19 @@ pub enum ClockLogFormat {
     /// chrony `statistics.log` (estimated offset of each source, s).
     #[serde(rename = "chrony-statistics")]
     ChronyStatistics,
+    /// ntpd `loopstats` (the local clock's offset on each update, s).
+    #[serde(rename = "ntp-loopstats")]
+    NtpLoopstats,
+    /// ntpd `peerstats` (each peer's measured offset, s).
+    #[serde(rename = "ntp-peerstats")]
+    NtpPeerstats,
+    /// White Rabbit PTP core `stat` lines (`key:value`; clock offset `cko`, ps).
+    #[serde(rename = "wr-stat")]
+    WrStat,
 }
 
 /// Format names accepted in a scenario.
-pub const FORMAT_NAMES: [&str; 8] = [
+pub const FORMAT_NAMES: [&str; 11] = [
     "rinex-clk",
     "timelab",
     "ticc",
@@ -105,6 +114,9 @@ pub const FORMAT_NAMES: [&str; 8] = [
     "ts2phc",
     "chrony-tracking",
     "chrony-statistics",
+    "ntp-loopstats",
+    "ntp-peerstats",
+    "wr-stat",
 ];
 
 impl ClockLogFormat {
@@ -119,6 +131,9 @@ impl ClockLogFormat {
             "ts2phc" => Ok(Self::Ts2phc),
             "chrony-tracking" => Ok(Self::ChronyTracking),
             "chrony-statistics" => Ok(Self::ChronyStatistics),
+            "ntp-loopstats" => Ok(Self::NtpLoopstats),
+            "ntp-peerstats" => Ok(Self::NtpPeerstats),
+            "wr-stat" => Ok(Self::WrStat),
             other => Err(crate::terr!(
                 "e-clock-log-unknown-clock-log-format-expected",
                 other = format!("{:?}", other),
@@ -138,6 +153,9 @@ impl ClockLogFormat {
             Self::Ts2phc => "ts2phc",
             Self::ChronyTracking => "chrony-tracking",
             Self::ChronyStatistics => "chrony-statistics",
+            Self::NtpLoopstats => "ntp-loopstats",
+            Self::NtpPeerstats => "ntp-peerstats",
+            Self::WrStat => "wr-stat",
         }
     }
 }
@@ -337,6 +355,10 @@ pub fn parse(
         ClockLogFormat::Ptp4l | ClockLogFormat::Phc2sys | ClockLogFormat::Ts2phc => {
             parse_linuxptp(fmt, text, inp, gaps)
         }
+        ClockLogFormat::NtpLoopstats | ClockLogFormat::NtpPeerstats => {
+            parse_ntp(fmt, text, inp, gaps)
+        }
+        ClockLogFormat::WrStat => parse_wr_stat(text, inp, gaps),
         ClockLogFormat::ChronyTracking | ClockLogFormat::ChronyStatistics => {
             parse_chrony(fmt, text, inp, gaps)
         }
@@ -1301,6 +1323,155 @@ fn parse_chrony(
     .finish_with(gaps)
 }
 
+/// ntpd `loopstats` and `peerstats`: the modified Julian day, the seconds past midnight UTC,
+/// then (loopstats) the offset, frequency, jitter, wander and time constant, or (peerstats) the
+/// peer address, status word, offset, delay, dispersion and jitter. Offsets are in seconds.
+fn parse_ntp(
+    fmt: ClockLogFormat,
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
+    let peer = fmt == ClockLogFormat::NtpPeerstats;
+    let (min_cols, offset_col) = if peer { (8, 4) } else { (7, 2) };
+    let mut by_source: Vec<(String, Vec<TimedOffset>)> = Vec::new();
+    let mut skipped = 0usize;
+    for line in text.lines() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('#') {
+            continue;
+        }
+        let f: Vec<&str> = l.split_whitespace().collect();
+        let reading = (|| {
+            if f.len() < min_cols {
+                return None;
+            }
+            let mjd: i64 = f[0].parse().ok()?;
+            let sec: f64 = f[1]
+                .parse()
+                .ok()
+                .filter(|v: &f64| (0.0..86_401.0).contains(v))?;
+            let offset: f64 = f[offset_col].parse().ok().filter(|v: &f64| v.is_finite())?;
+            // Seconds from 1980-01-06 (MJD 44244), as the other readers count them.
+            let t = (mjd - 44_244) as f64 * 86_400.0 + sec;
+            let source = if peer {
+                f[2].to_string()
+            } else {
+                "local clock".to_string()
+            };
+            Some((
+                source,
+                TimedOffset {
+                    t,
+                    offset,
+                    locked: None,
+                },
+            ))
+        })();
+        let Some((source, r)) = reading else {
+            skipped += 1;
+            continue;
+        };
+        match by_source.iter_mut().find(|(k, _)| *k == source) {
+            Some((_, v)) => v.push(r),
+            None => by_source.push((source, vec![r])),
+        }
+    }
+    let (id, readings) = pick_source(
+        by_source,
+        inp,
+        if peer {
+            "ntpd peerstats"
+        } else {
+            "ntpd loopstats"
+        },
+        "clock",
+    )?;
+    let times: Vec<f64> = readings.iter().map(|r| r.t).collect();
+    let offsets: Vec<f64> = readings.iter().map(|r| r.offset).collect();
+    grid_timed_offsets(
+        fmt,
+        id,
+        &times,
+        &offsets,
+        inp,
+        "s",
+        Some("UTC".into()),
+        skipped,
+    )?
+    .finish_with(gaps)
+}
+
+/// White Rabbit PTP core `stat` lines: white-space separated `key:value` pairs. Read: `sec`
+/// (and `nsec` when present) for the time, `cko` (the clock offset, ps) for the offset, `lock`
+/// for the servo state; other keys are ignored. Readings before the first `lock:1` are a pull-in,
+/// left out and counted, as for linuxptp.
+fn parse_wr_stat(
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
+    let mut readings: Vec<TimedOffset> = Vec::new();
+    let mut skipped = 0usize;
+    for line in text.lines() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('#') {
+            continue;
+        }
+        let get = |key: &str| {
+            l.split_whitespace()
+                .find_map(|tok| tok.strip_prefix(key).and_then(|r| r.strip_prefix(':')))
+        };
+        let reading = (|| {
+            let sec: f64 = get("sec")?.parse().ok()?;
+            let nsec: f64 = get("nsec").map_or(Some(0.0), |v| v.parse().ok())?;
+            let cko_ps: f64 = get("cko")?.parse().ok().filter(|v: &f64| v.is_finite())?;
+            let locked = get("lock").map(|v| v == "1");
+            Some(TimedOffset {
+                t: sec + nsec * 1e-9,
+                offset: cko_ps * 1e-12,
+                locked,
+            })
+        })();
+        match reading {
+            Some(r) => readings.push(r),
+            None => skipped += 1,
+        }
+    }
+    if readings.is_empty() {
+        return Err(crate::terr!("e-clock-log-no-wr-stat"));
+    }
+    let id = "White Rabbit local clock".to_string();
+    let first = if readings.iter().any(|r| r.locked.is_some()) {
+        readings
+            .iter()
+            .position(|r| r.locked == Some(true))
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-clock-log-the-servo-of-never-reached",
+                    id = format!("{:?}", id)
+                )
+            })?
+    } else {
+        0
+    };
+    skipped += first;
+    let kept = &readings[first..];
+    let times: Vec<f64> = kept.iter().map(|r| r.t).collect();
+    let offsets: Vec<f64> = kept.iter().map(|r| r.offset).collect();
+    grid_timed_offsets(
+        ClockLogFormat::WrStat,
+        id,
+        &times,
+        &offsets,
+        inp,
+        "ps",
+        Some("TAI".into()),
+        skipped,
+    )?
+    .finish_with(gaps)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Stability of a normalised series (the `measured` block of the clock kind)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1673,6 +1844,58 @@ TICC startup menu text
     }
 
     #[test]
+    fn ntp_loopstats_read_the_local_clock_offset() {
+        // MJD 61345 = 2026-11-01; the fields after the offset are frequency, jitter, wander, poll.
+        let log = "61345 43200.000 0.000012000 -14.2 0.000002 0.01 6\n\
+                   61345 43264.000 -0.000003000 -14.2 0.000002 0.01 6\n\
+                   61345 43328.000 0.000005000 -14.1 0.000002 0.01 6\n\
+                   not a line\n";
+        let r = run(&inp("ntp-loopstats"), log).unwrap();
+        assert_eq!(r.format, ClockLogFormat::NtpLoopstats);
+        assert_eq!(r.clock, "local clock");
+        assert_eq!(r.tau0_s, 64.0);
+        assert_eq!(r.n_skipped_lines, 1);
+        assert_eq!(r.t0_s, (61_345 - 44_244) as f64 * 86_400.0 + 43_200.0);
+        let want = [12e-6, -3e-6, 5e-6];
+        for (g, w) in r.phase_s.iter().zip(want) {
+            assert!((g - w).abs() < 1e-15, "{g} vs {w}");
+        }
+    }
+
+    #[test]
+    fn ntp_peerstats_need_a_peer_when_there_are_several() {
+        let log = "61345 100.0 192.0.2.1 9614 0.000100 0.002 0.001 0.0001\n\
+                   61345 100.5 192.0.2.2 9414 0.000300 0.003 0.001 0.0001\n\
+                   61345 116.0 192.0.2.1 9614 0.000110 0.002 0.001 0.0001\n\
+                   61345 132.0 192.0.2.1 9614 0.000090 0.002 0.001 0.0001\n";
+        assert!(run(&inp("ntp-peerstats"), log).is_err());
+        let mut i = inp("ntp-peerstats");
+        i.clock = Some("192.0.2.1".into());
+        let r = run(&i, log).unwrap();
+        assert_eq!(r.clock, "192.0.2.1");
+        assert_eq!(r.tau0_s, 16.0);
+        assert_eq!(r.phase_s.len(), 3);
+    }
+
+    #[test]
+    fn wr_stat_reads_the_locked_clock_offset_in_ps() {
+        let log = "lnk:1 rx:10 tx:10 lock:0 sv:1 ss:'SYNC_PHASE' sec:1000 nsec:0 cko:9000 crtt:800000\n\
+                   lnk:1 rx:11 tx:11 lock:1 sv:1 ss:'TRACK_PHASE' sec:1001 nsec:0 cko:12 crtt:800001\n\
+                   lnk:1 rx:12 tx:12 lock:1 sv:1 ss:'TRACK_PHASE' sec:1002 nsec:0 cko:-7 crtt:800001\n\
+                   lnk:1 rx:13 tx:13 lock:1 sv:1 ss:'TRACK_PHASE' sec:1003 nsec:0 cko:3 crtt:800002\n";
+        let r = run(&inp("wr-stat"), log).unwrap();
+        assert_eq!(r.format, ClockLogFormat::WrStat);
+        assert_eq!(r.unit_in, "ps");
+        assert_eq!(r.n_parsed, 3, "the pre-lock reading is left out");
+        let want = [12e-12, -7e-12, 3e-12];
+        for (g, w) in r.phase_s.iter().zip(want) {
+            assert!((g - w).abs() < 1e-21, "{g} vs {w}");
+        }
+        let never = "lock:0 sec:1 cko:5\nlock:0 sec:2 cko:6\n";
+        assert!(run(&inp("wr-stat"), never).is_err());
+    }
+
+    #[test]
     fn ptp4l_reads_the_locked_offsets_in_ns() {
         let r = run(&inp("ptp4l"), &fixture("ptp4l.log")).unwrap();
         assert_eq!(r.format, ClockLogFormat::Ptp4l);
@@ -1810,7 +2033,7 @@ TICC startup menu text
             i.clock = Some("x".into());
             assert!(run(&i, "1\n2\n").unwrap_err().contains("clock applies to"));
         }
-        assert_eq!(FORMAT_NAMES.len(), 8);
+        assert_eq!(FORMAT_NAMES.len(), 11);
         for n in FORMAT_NAMES {
             assert_eq!(ClockLogFormat::from_name(n).unwrap().name(), n);
         }
