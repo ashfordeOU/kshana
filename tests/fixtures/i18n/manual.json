@@ -12897,5 +12897,12 @@
    },
    " vectors pass"
   ]
+ },
+ {
+  "id": "e-clock-log-no-wr-stat",
+  "error": true,
+  "parts": [
+   "the log has no White Rabbit stat line with `sec:` and `cko:` values"
+  ]
  }
 ]
