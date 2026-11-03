@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D12 (0.41), part 1: the transfer optimiser's reference B2, re-run plan
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is a bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is a bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory and is not changed.
 
 ## Why this row
@@ -42,3 +41,7 @@ boundary, the two numbers answer different questions.
 ## Owner decisions at sign-off
 
 1. Run B2g, or park the row (proposed: run it, as it costs one script).
+
+## Sign-off (3 November 2026)
+
+B2 is re-run as a regression. The exploratory B2g is parked and not run in 0.41.

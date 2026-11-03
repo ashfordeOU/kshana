@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D4 (0.41): kshana-bench re-runs (A2, D1, R1), task (a) event-level metrics, task (d) second track
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is an existing bar and is not changed.
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is an existing bar and is not changed.
 All bench scores stay MODELLED.
 
 ## Why this row
@@ -83,3 +82,7 @@ data as described; otherwise they stay NOT MET, pinned, with the new number besi
 2. Seal the task (d) holdout seed now, before any 0.41 task (d) code.
 3. The E1 to E3 scorer bars; the hand-computed fixture is written and committed with the sign-off commit's successor,
    before the scorer is wired into the bench.
+
+## Sign-off (3 November 2026)
+
+The task (d) holdout seed is sealed before any task (d) code. A2 is "not run" unless the archive is pinned before scoring.

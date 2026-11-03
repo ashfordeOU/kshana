@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D3 (0.41): the emitter-region estimator re-run on a later campaign
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Advisory software. Public sources only. Numbers marked *proposed* are new; every other
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Advisory software. Public sources only. Numbers marked *proposed* are new; every other
 number is a bar of [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory (signed off 27 October 2026) and is not
 changed.
 
@@ -75,3 +74,7 @@ would not justify lowering that rule, which is a privacy rule as well as a stati
 
 1. Confirm that the 2026 catalogue may be used for this area-level test (gate 4 reading above), or move D3 to 2027.
 2. Confirm that the v1 parameters are frozen for this run.
+
+## Sign-off (3 November 2026)
+
+D3 moves to Jammertest **2027**, consistent with B3a: the 2026 catalogue is not used for this test. The signed 2025 bars and frozen v1 parameters stand.

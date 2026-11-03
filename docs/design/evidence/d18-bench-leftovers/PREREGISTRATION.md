@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # D18 (0.41): two open items from the 0.38 benchmark and observatory work: no pre-registered bar needed
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## The two items
 
@@ -53,3 +52,7 @@ licence handling in `bench/LICENCES.md` is unchanged (reference only; files are 
 ## Owner decisions at sign-off
 
 1. Build the HDOP scorer from public sources as above (proposed), or wait for lawful access to the paper's full text.
+
+## Sign-off (3 November 2026)
+
+No bar; the HDOP scorer is built from public sources only, and the TEXBAT hash is pinned.

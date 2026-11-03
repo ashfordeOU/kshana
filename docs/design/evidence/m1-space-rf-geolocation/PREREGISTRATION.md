@@ -1,6 +1,6 @@
 # M1: space RF geolocation accuracy: pre-registration
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 Numbers marked *proposed* are for the owner to fix at sign-off. After that, bars may be tightened
 after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers, and its test
 asserts the recorded miss. Public sources only. Advisory software, not certified equipment.
@@ -172,3 +172,7 @@ bounds, labelled as not attained by the shipped solver.
 3. The oracle script for B1 is written and committed before the engine code.
 4. Engine code and tests are written; the comparison runs once; `RESULTS.md` and a test that
    asserts the verdict (a miss included) are committed.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed, with one condition: the published case for bar B2 is an openly readable one. The journal paper named in this file is used only if its values can be read and transcribed lawfully; otherwise an open case meeting the selection rule is named and its values committed before any code. The 50 km formation spacing and T_sys = 500 K are fixed; the radar classes stay, labelled as an upper bound (isotropic EIRP).

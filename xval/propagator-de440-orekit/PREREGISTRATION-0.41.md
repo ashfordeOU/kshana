@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D11 (0.41): the DE440 Sun and Moon bar, re-run after the time and frame chain is fixed
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is a bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is a bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory and is not changed.
 
 ## Why this row
@@ -63,3 +62,7 @@ are on the same time scale and frame, and that the 2024 miss came from that chai
 
 1. Whether a fix on the oracle side (the Orekit driver) is admissible, under the rule in step 2.
 2. The guard bar K.
+
+## Sign-off (3 November 2026)
+
+A fix on the comparison driver's side is admissible only if the cause is diagnosed and committed first, as this file requires.

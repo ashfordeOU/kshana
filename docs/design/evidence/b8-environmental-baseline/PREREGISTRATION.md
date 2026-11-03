@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B8 (0.41): environmental baseline per site and time
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -124,3 +123,7 @@ it); multipath and obstruction; any site-specific RF environment.
 2. The storm-day rule (Kp ≥ 8−, 2015 to 2025, at most 10 days) and the equinox low-latitude set.
 3. Whether the equinox set should use a different year if 2024 RINEX coverage at low latitude is thin (decided from
    availability only, before any observation is opened).
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: 0.5 TECU/min with the stated hourly aggregation, storm days by Kp ≥ 8− over 2015–2025, and the stated equinox-year rule.

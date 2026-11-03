@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D8a (0.41): IQ-layer tracking and C/N0 rows, re-campaign
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Every bar named here is an existing bar and is not changed. Nothing here adds a bar except
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Every bar named here is an existing bar and is not changed. Nothing here adds a bar except
 where marked *proposed*.
 
 ## Why this row
@@ -107,3 +106,7 @@ consistency on synthetic signals, and stays MODELLED whatever happens. No result
 2. Row 1: accept the M2M4 switch as the change (it alters the engine's reported C/N0 and lock behaviour).
 3. Row 2: pin a held-out scintillation record, or leave row 2 out of 0.41.
 4. The D8a / D8b split as drawn here (D8a: rows 1 to 6; D8b: the acquisition hysteresis, monitor timing and ROC rows).
+
+## Sign-off (3 November 2026)
+
+Signed as proposed, with the M2M4 C/N0 estimator as the named change where the file proposes it.

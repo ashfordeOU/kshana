@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D8b (0.41): IQ-layer timing and campaign rows, re-campaign
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Every bar named here is an existing bar and is not changed, except where marked *proposed*.
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Every bar named here is an existing bar and is not changed, except where marked *proposed*.
 
 ## Why this row
 
@@ -67,3 +66,7 @@ say the monitors detect interference in the field: no interference waveform is s
 1. Which rows get a change in 0.41.
 2. Row 7: the informativeness precondition (10 %).
 3. Row 9: accept the window-restart change, which alters the reported ROC of every campaign.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed.

@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # D7 (0.41): the LunaNet AFS printed G2 column: no pre-registered bar needed
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## Why this row
 
@@ -35,3 +34,7 @@ D7 records "no new edition as of <date>" and stays open.
 ## Owner decisions at sign-off
 
 None.
+
+## Sign-off (3 November 2026)
+
+No bar: the same exact check at the specification's next issue.

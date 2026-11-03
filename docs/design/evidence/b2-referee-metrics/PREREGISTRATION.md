@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B2 (0.41): location metrics in the referee
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -113,3 +112,7 @@ numpy only), **committed before the engine implementation**. It contains at leas
 1. Owner signs off this file; it is committed alone.
 2. The truth set and the oracle script are committed (no engine code yet).
 3. The engine metrics are written and the comparison runs once; `RESULTS.md` records it, a miss included.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: the 30 s hold and the 100 m, 500 m, 1 km and 5 km radii. The truth set is committed before any engine code.

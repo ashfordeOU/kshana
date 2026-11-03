@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B3a (0.41): fixed-station emitter locator by power difference (C/N0 and AGC)
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -145,3 +144,7 @@ source or why.
 2. If no public multi-station log dataset is published for 2027, whether a campaign with public multi-station logs from
    another public test event may be named instead (by the same blind rule) or the row waits.
 3. `σ_sh` = 6 dB, the 3 dB C/N0 gate, `min n` = 6, and the L2/L3 caps.
+
+## Sign-off (3 November 2026)
+
+Scored against Jammertest **2027**, not 2026 (the 2026 positions are public, so a 2026 score could not be blind). If no public multi-station logs appear for 2027, the row stays NOT ASSESSABLE. The 6 dB shadowing figure and the minimum of 6 sessions are fixed.

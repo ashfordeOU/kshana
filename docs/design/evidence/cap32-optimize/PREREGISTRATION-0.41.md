@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # D13 (0.41), part 2: campaign optimiser round 1 P2: re-run as a regression; no new bar
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## Why this row
 
@@ -33,3 +32,7 @@ This is a regression check: it confirms the optimiser has not changed, not a new
 
 1. Whether the ledger wording should say "Round 1 P2 NOT MET (protocol error: the box excluded the solution); the
    corrected Round 2 P2' MET" (proposed), without changing either verdict.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: a regression re-run with no new bar.

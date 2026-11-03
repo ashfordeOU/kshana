@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D13 (0.41), part 1: the campaign Monte Carlo percentile check (183 of 200), re-run plan
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is a bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is a bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory and is not changed.
 
 ## Why this row
@@ -45,3 +44,7 @@ at fault. The row stays MODELLED (closed forms on the engine's own model).
 ## Owner decisions at sign-off
 
 1. The c4' tolerance (0.5 sigma).
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: the theory-derived 0.5σ tolerance and B3' (at least 190 of 200).

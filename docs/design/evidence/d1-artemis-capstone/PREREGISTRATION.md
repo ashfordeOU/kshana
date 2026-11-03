@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # D1 (0.41): the Artemis I and CAPSTONE gaps, and where their re-runs are registered
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## Why this file exists
 
@@ -37,3 +36,7 @@ C1 cannot be (C2 is a different question), and A2 is met on re-run only under th
 ## Owner decisions at sign-off
 
 None beyond those in the C3 CAPSTONE file.
+
+## Sign-off (3 November 2026)
+
+No bar of its own; closes through PREREGISTRATION-C2.md and the C3 file.

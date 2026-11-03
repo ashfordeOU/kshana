@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration C3 (0.41): the CAPSTONE NRHO with a corrected force model
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new and are for the owner to fix at sign-off; every other
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new and are for the owner to fix at sign-off; every other
 number is an existing bar and is not changed. Advisory software, not certified navigation equipment. Public sources only.
 
 This file covers only the CAPSTONE part of roadmap item C3. The Artemis I part is pre-registered and signed in
@@ -114,3 +113,7 @@ difference along each window.
 2. Whether A2 counts as met on re-run on C3-R alone or on C3-R plus C3-H (proposed: both).
 3. Whether to run C3-S at all, and its estimation interval for `k`.
 4. Confirm the fresh span F and that no one on this row has fetched it.
+
+## Sign-off (3 November 2026)
+
+M1 (DE440 Sun and Earth, plus Venus and Jupiter) is the single change. The original row counts as met only if the bars hold on the original window **and** on the three held-out windows. C3-S runs as a separately named question with the same bars. The fresh span is fixed as written.

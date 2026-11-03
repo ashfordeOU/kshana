@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D6 (0.41): lunar-infrastructure C3, Q3 and G3, re-run plan and the C3 sweep
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is an existing bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is an existing bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md), [`PREREGISTRATION-amendment-1.md`](PREREGISTRATION-amendment-1.md) or
 [`PREREGISTRATION-v2.md`](PREREGISTRATION-v2.md) and is not changed. Roadmap item D6 is a **gate** item: parts of it run
 only when measured or partner data exist.
@@ -70,3 +69,7 @@ anything new. It is **post hoc** (it follows the C3 miss) and has no bar.
 1. Accept the Q3 re-run with its disclosed known outcome, and the ledger wording above.
 2. Confirm C3 stays "not run" in 0.41 unless measured or partner data arrive.
 3. Pin the G3m prior sources, or accept G3m "not run".
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: the Q3 ledger wording, C3 "not run" in 0.41, and the G3m sources as written.

@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D5 (0.41): the space service volume rows S1 to S5 and S7, re-run plan
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is an existing bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is an existing bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) or [`PREREGISTRATION-v2.md`](PREREGISTRATION-v2.md) and is not changed.
 
 ## Why this row
@@ -75,3 +74,7 @@ test nothing. No S7 re-run is registered in 0.41.
 1. Pin the later edition (or accept R1 "not run").
 2. Pin the R2 source and list its cells (or accept R2 "not run"); confirm the R2 tolerances.
 3. Confirm that S7 is not re-run.
+
+## Sign-off (3 November 2026)
+
+"Not run" unless a later booklet edition and the R2 source and cells are pinned before any comparison.

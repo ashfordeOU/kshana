@@ -1,6 +1,6 @@
 # M3: target information maintenance, validated on public AIS: pre-registration
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 Numbers marked *proposed* are for the owner to fix at sign-off. After that, bars may be tightened
 after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers, and its test
 asserts the recorded miss. Public sources only.
@@ -192,3 +192,7 @@ filter would carry the measured errors as its stated performance.
 3. D is fetched; the parameters are chosen by the grid rule and committed.
 4. H is fetched; the run happens once; `RESULTS.md` and a test that asserts each verdict
    (misses included) are committed.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed, with σ_fix = 1 km. M3 is **not run** until the archive publisher's terms allowing this use are recorded in this file; no data is downloaded before then.
