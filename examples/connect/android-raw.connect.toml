@@ -1,0 +1,21 @@
+# Android raw GNSS measurements (one row per satellite, interleaved position rows).
+schema = "kshana.connect/1"
+
+[source]
+format = "csv"
+comment = "#"
+
+[time]
+column = "utcTimeMillis"
+format = "unix-ms"
+
+[signals]
+# Android constellation codes: 1 GPS, 3 GLONASS, 4 QZSS, 5 BeiDou, 6 Galileo.
+sat = { number_column = "Svid", system_column = "ConstellationType", system_map = { "1" = "G", "3" = "R", "4" = "J", "5" = "C", "6" = "E" } }
+cn0 = { column = "Cn0DbHz", unit = "dB-Hz" }
+band = "L1"
+
+[fix]
+lat = { column = "LatitudeDegrees" }
+lon = { column = "LongitudeDegrees" }
+height = { column = "AltitudeMeters", unit = "m" }

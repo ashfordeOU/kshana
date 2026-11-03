@@ -98,6 +98,60 @@ fn run_obs_cli(args: &[String]) -> ExitCode {
     }
 }
 
+/// `kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file>]`
+/// turns any CSV, TSV, JSON or JSON Lines export into a kshana.obs/1 file through a mapping file
+/// (kshana::connect, docs/CONNECT.md).
+fn run_connect_cli(args: &[String]) -> ExitCode {
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        ExitCode::from(2)
+    };
+    let flag = |name: &str| {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
+        return usage();
+    }
+    let input = &args[1];
+    let (Some(mapping_path), Some(station_path)) = (flag("--mapping"), flag("--station")) else {
+        return usage();
+    };
+    let read = |p: &str| std::fs::read_to_string(p).map_err(|e| e.to_string());
+    let mapping = match read(&mapping_path).and_then(|t| kshana::connect::parse_mapping(&t)) {
+        Ok(m) => m,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let station: kshana::obs::Station =
+        match read(&station_path).and_then(|t| toml::from_str(&t).map_err(|e| e.to_string())) {
+            Ok(s) => s,
+            Err(e) => return fail(&station_path, e),
+        };
+    let text = match read(input)
+        .and_then(|t| kshana::connect::map(&mapping, &t, &station))
+        .and_then(|r| kshana::obs::to_jsonl(&r))
+    {
+        Ok(t) => t,
+        Err(e) => return fail(input, e),
+    };
+    match flag("--out") {
+        Some(out) => match std::fs::write(&out, text) {
+            Ok(()) => ExitCode::SUCCESS,
+            Err(e) => fail(&out, e.to_string()),
+        },
+        None => {
+            print!("{text}");
+            ExitCode::SUCCESS
+        }
+    }
+}
+
 /// `kshana scenario version` prints the scenario schema version this engine reads;
 /// `kshana scenario migrate <file> [--in-place]` upgrades a file to it (stdout, or the file itself).
 fn run_scenario_cli(args: &[String]) -> ExitCode {
@@ -337,6 +391,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // (kshana::obs, docs/OBS-SCHEMA.md). Terminal, local files only.
     if args.get(1).map(String::as_str) == Some("obs") {
         return run_obs_cli(&args[2..]);
+    }
+    // `kshana connect map` maps any tabular or JSON log to kshana.obs/1 through a mapping file
+    // (kshana::connect, docs/CONNECT.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("connect") {
+        return run_connect_cli(&args[2..]);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
