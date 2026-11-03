@@ -2273,7 +2273,9 @@ git-ignored by design.
 Kshana follows [Semantic Versioning](https://semver.org). While pre-1.0 the public
 scenario/result schema may still change; breaking changes are called out explicitly in
 the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
-`scenario + seed + engine version`.
+`scenario + seed + engine version`. What counts as the public surface, the deprecation rule,
+the conditions for 1.0 and the 12-month long-term support from 1.0 are in
+[`docs/STABILITY.md`](docs/STABILITY.md).
 
 **Every `vX.Y.Z` tag publishes all channels automatically, in one order** — the full
 test suite runs on the tagged commit first, nothing is published until it passes, and
