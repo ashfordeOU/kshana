@@ -1,6 +1,8 @@
 # Checks the Apple signing and notarization secrets without signing, notarizing or publishing
-# anything a user receives. Run it by hand (Actions → Apple signing check → Run workflow) after
-# adding or renewing a certificate, an app-specific password or the Team ID.
+# anything a user receives. It runs on the 1st of every month and fails (which emails the owner)
+# when a secret is wrong or a certificate has fewer than 30 days left. Run it by hand too
+# (Actions → Apple signing check → Run workflow) after adding or renewing a certificate, an
+# app-specific password or the Team ID.
 #
 # It:
 #   1. imports both .p12 certificates into a temporary keychain and confirms each is a
@@ -17,6 +19,10 @@ name: Apple signing check
 
 on:
   workflow_dispatch:
+  # Monthly, on the 1st at 07:17 UTC: a failed scheduled run emails the repository owner, and the
+  # run fails when either certificate has fewer than 30 days left, so renewal is never missed.
+  schedule:
+    - cron: "17 7 1 * *"
 
 permissions:
   contents: read
@@ -82,7 +88,7 @@ jobs:
             if ! printf '%s' "$subj" | grep -q "($APPLE_TEAM_ID)"; then
               echo "::error::'$1' certificate is not issued to APPLE_TEAM_ID"; return 1; fi
             echo "ok  $1 certificate for Team ID $APPLE_TEAM_ID, valid until $end ($days days left)"
-            if [ "$days" -lt 30 ]; then echo "::warning::$1 certificate expires in $days days; renew it"; fi
+            if [ "$days" -lt 30 ]; then echo "::error::$1 certificate expires in $days days: renew it in the Apple Developer portal, then update its two secrets"; return 1; fi
             rm -f "$pem"
           }
           check "Developer ID Application"
