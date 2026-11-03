@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! A Monte Carlo run gives the same bytes on one core and on many (crate::par, roadmap L10a).
 //!
-//! PIN-SCOPE:    the result document of the clock-holdover ensemble and of an inertial Monte Carlo,
-//!               run through the command line with KSHANA_THREADS=1 and KSHANA_THREADS=8
+//! PIN-SCOPE:    the result document of every parallel kind (the clock-holdover ensemble, an
+//!               inertial Monte Carlo, a campaign Monte Carlo, the generic and N-D sweeps, the LEO
+//!               PPP ensemble), run through the command line with KSHANA_THREADS=1 and 8
 //! PIN-EXCLUDES: speed (benchmarks are separate); kinds whose runs share one random stream stay
 //!               sequential and are not listed here
 
@@ -59,4 +60,31 @@ fn inertial_monte_carlo() {
     // Twenty runs instead of the file's single run, so the ensemble path is the one exercised.
     let src = src.replacen("seed = 42", "seed = 42\nruns = 20", 1);
     same_bytes_on_one_and_eight("inertial", &src);
+}
+
+fn scenario(name: &str) -> String {
+    std::fs::read_to_string(format!("{}/scenarios/{name}", env!("CARGO_MANIFEST_DIR"))).unwrap()
+}
+
+#[test]
+fn campaign_monte_carlo() {
+    // 24 members instead of 200 keeps the test short; the path is the same.
+    let src =
+        scenario("campaign-monte-carlo-clock-holdover.toml").replacen("runs = 200", "runs = 24", 1);
+    same_bytes_on_one_and_eight("campaign", &src);
+}
+
+#[test]
+fn generic_sweep() {
+    same_bytes_on_one_and_eight("sweep", &scenario("sweep-clock-stability.toml"));
+}
+
+#[test]
+fn nd_sweep() {
+    same_bytes_on_one_and_eight("sweep-nd", &scenario("sweep-nd-inertial.toml"));
+}
+
+#[test]
+fn leo_ppp_ensemble() {
+    same_bytes_on_one_and_eight("leo-ppp", &scenario("leo-ppp-convergence.toml"));
 }

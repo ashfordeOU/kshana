@@ -428,6 +428,31 @@ pub fn terr(id: &str, args: &[(&str, String)]) -> String {
     msg
 }
 
+/// Take the error codes this thread has remembered (a worker hands them to its caller with
+/// [`absorb_codes`], so an error raised on a worker still prints with its code).
+pub fn drain_codes() -> Vec<(String, String)> {
+    CODES.with(|c| std::mem::take(&mut *c.borrow_mut()))
+}
+
+/// Remember codes another thread recorded (see [`drain_codes`]).
+pub fn absorb_codes(codes: Vec<(String, String)>) {
+    if codes.is_empty() {
+        return;
+    }
+    CODES.with(|c| {
+        let mut c = c.borrow_mut();
+        for (text, code) in codes {
+            if !c.iter().any(|(t, _)| *t == text) {
+                c.push((text, code));
+            }
+        }
+        let excess = c.len().saturating_sub(512);
+        if excess > 0 {
+            c.drain(..excess);
+        }
+    });
+}
+
 static VERBOSE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
 
 /// Make [`error_report`] add the code line in every language (`--verbose`).

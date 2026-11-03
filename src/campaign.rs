@@ -951,27 +951,39 @@ struct Ledger {
 
 impl Ledger {
     fn run(&mut self, label: String, scn: &toml::Value) -> Result<Member, String> {
-        let kind = kind_of(scn);
-        if kind == "campaign" {
-            return Err(crate::terr!(
-                "e-campaign-campaign-cannot-contain-campaign",
-                label = label
-            ));
-        }
-        let src = toml::to_string(scn)
-            .map_err(|e| crate::terr!("e-campaign-serialise", label = label, e = e))?;
-        let out = crate::api::run_toml_untiered(&src).map_err(|e| format!("{label}: {e}"))?;
-        let doc: Value = serde_json::from_str(&out.json)
-            .map_err(|e| crate::terr!("e-campaign-result-did-not-parse", label = label, e = e))?;
-        let input = serde_json::to_value(scn).map_err(|e| format!("{label}: {e}"))?;
-        self.runs.push((label, out.json.clone()));
-        Ok(Member {
-            kind,
-            doc,
-            json: out.json,
-            input,
-        })
+        let m = compute_member(&label, scn)?;
+        self.record(label, &m);
+        Ok(m)
     }
+
+    fn record(&mut self, label: String, m: &Member) {
+        self.runs.push((label, m.json.clone()));
+    }
+}
+
+/// Run one member: everything [`Ledger::run`] does except recording it, so that independent
+/// members can run on every core and be recorded afterwards in their original order.
+fn compute_member(label: &str, scn: &toml::Value) -> Result<Member, String> {
+    let label = label.to_string();
+    let kind = kind_of(scn);
+    if kind == "campaign" {
+        return Err(crate::terr!(
+            "e-campaign-campaign-cannot-contain-campaign",
+            label = label
+        ));
+    }
+    let src = toml::to_string(scn)
+        .map_err(|e| crate::terr!("e-campaign-serialise", label = label, e = e))?;
+    let out = crate::api::run_toml_untiered(&src).map_err(|e| format!("{label}: {e}"))?;
+    let doc: Value = serde_json::from_str(&out.json)
+        .map_err(|e| crate::terr!("e-campaign-result-did-not-parse", label = label, e = e))?;
+    let input = serde_json::to_value(scn).map_err(|e| format!("{label}: {e}"))?;
+    Ok(Member {
+        kind,
+        doc,
+        json: out.json,
+        input,
+    })
 }
 
 fn seed_of(scn: &toml::Value, key: &str) -> Result<u64, String> {
@@ -1788,12 +1800,21 @@ fn ensemble(
 ) -> Result<(Vec<Vec<f64>>, Member), String> {
     let mut cols = vec![Vec::with_capacity(runs); metrics.len()];
     let mut first: Option<Member> = None;
-    for k in 0..runs {
+    // The members share nothing: run them on every core, then record and reduce them in seed
+    // order, so the ledger, the columns and the first member are the bytes a plain loop gives,
+    // and the first failing member (by seed) is the error.
+    let computed = crate::par::map_indexed(runs, |k| {
         let seed = base_seed
             .checked_add(k as u64)
             .ok_or_else(|| crate::terr!("e-campaign-seed-overflow-in-the-ensemble"))?;
         let sk = with_seed(scn, seed_key, seed)?;
-        let m = ledger.run(format!("{label}/seed {seed}"), &sk)?;
+        let lbl = format!("{label}/seed {seed}");
+        let m = compute_member(&lbl, &sk)?;
+        Ok::<_, String>((lbl, m))
+    });
+    for c in computed {
+        let (lbl, m) = c?;
+        ledger.record(lbl, &m);
         for (c, v) in cols.iter_mut().zip(metric_values(&m, metrics)?) {
             c.push(v.unwrap_or(f64::NAN));
         }

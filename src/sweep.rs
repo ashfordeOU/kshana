@@ -500,15 +500,23 @@ pub fn nd_sweep_ensemble(
         }
         // Ensemble over seeds at this node (each run() is a single deterministic
         // realisation; varying the seed gives the distribution).
+        // The runs share nothing, so they go on every core; results come back in seed order
+        // and the first failing run (by index) is the error, as in a plain loop.
         let (mut qv, mut cv) = (Vec::with_capacity(runs), Vec::with_capacity(runs));
-        for k in 0..runs {
+        for qc in crate::par::map_indexed(runs, |k| {
             let mut sk = s.clone();
             sk.seed = base
                 .seed
                 .wrapping_add((k as u64).wrapping_mul(0x9e37_79b9_7f4a_7c15));
             let r = crate::run::run(&sk);
-            qv.push(metric_of(&r.quantum.fom, metric)?);
-            cv.push(metric_of(&r.classical.fom, metric)?);
+            Ok::<_, String>((
+                metric_of(&r.quantum.fom, metric)?,
+                metric_of(&r.classical.fom, metric)?,
+            ))
+        }) {
+            let (q, c) = qc?;
+            qv.push(q);
+            cv.push(c);
         }
         let boot = base.seed ^ (flat as u64).wrapping_mul(0x100_0001);
         points.push(NdPointCi {
@@ -797,8 +805,10 @@ fn resolve_units(
     Ok((key_units, metric_units))
 }
 
-/// Evaluate every grid node, in parallel across OS threads on native targets.
-#[cfg(not(target_arch = "wasm32"))]
+/// Evaluate every grid node on the shared worker pool ([`crate::par`]: every core, or
+/// `KSHANA_THREADS`; one thread on WebAssembly). Results come back in flat-index order and the
+/// first failing node (by index) is the error, exactly as a plain loop would give, so the output
+/// never depends on the thread count. A node that panics is reported as an error, not a crash.
 fn eval_grid(
     base: &toml::Value,
     axes: &[GenericAxis],
@@ -807,73 +817,14 @@ fn eval_grid(
     metrics: &[String],
     total: usize,
 ) -> Result<Vec<(GenericNdPoint, Option<serde_json::Value>)>, String> {
-    let nthreads = std::thread::available_parallelism()
-        .map(|n| n.get())
-        .unwrap_or(1)
-        .clamp(1, total.max(1));
-    if nthreads <= 1 || total <= 1 {
-        return (0..total)
-            .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
-            .collect();
-    }
-    let chunk = total.div_ceil(nthreads);
-    #[allow(clippy::type_complexity)]
-    let chunk_results: Vec<
-        Result<Vec<(usize, (GenericNdPoint, Option<serde_json::Value>))>, String>,
-    > = std::thread::scope(|scope| {
-        let handles: Vec<_> = (0..nthreads)
-            .map(|t| {
-                scope.spawn(move || {
-                    let lo = t * chunk;
-                    let hi = ((t + 1) * chunk).min(total);
-                    let mut out = Vec::with_capacity(hi.saturating_sub(lo));
-                    for f in lo..hi {
-                        out.push((f, eval_node(base, axes, axis_values, shape, metrics, f)?));
-                    }
-                    Ok(out)
-                })
-            })
-            .collect();
-        handles
-            .into_iter()
-            .map(|h| {
-                h.join()
-                    .unwrap_or_else(|_| Err(crate::terr!("e-sweep-sweep-worker-thread-panicked")))
-            })
-            .collect()
-    });
-    // Place every node at its exact flat index — order is scheduling-independent.
-    let mut slots: Vec<Option<(GenericNdPoint, Option<serde_json::Value>)>> =
-        (0..total).map(|_| None).collect();
-    for chunk in chunk_results {
-        for (f, p) in chunk? {
-            slots[f] = Some(p);
-        }
-    }
-    Ok(slots
-        .into_iter()
-        // The worker chunks `[t*chunk, (t+1)*chunk)` for `t in 0..nthreads` (with
-        // `chunk = total.div_ceil(nthreads)`) tile `[0, total)` with no gaps, and every
-        // chunk succeeded above (`chunk?`), so every one of the `total` slots was filled.
-        .map(|p| {
-            p.expect("the chunked workers cover every flat index 0..total, so each slot is Some")
-        })
-        .collect())
-}
-
-/// Sequential evaluation for wasm (no OS threads).
-#[cfg(target_arch = "wasm32")]
-fn eval_grid(
-    base: &toml::Value,
-    axes: &[GenericAxis],
-    axis_values: &[Vec<f64>],
-    shape: &[usize],
-    metrics: &[String],
-    total: usize,
-) -> Result<Vec<(GenericNdPoint, Option<serde_json::Value>)>, String> {
-    (0..total)
-        .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
-        .collect()
+    crate::par::map_indexed(total, |f| {
+        std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            eval_node(base, axes, axis_values, shape, metrics, f)
+        }))
+        .unwrap_or_else(|_| Err(crate::terr!("e-sweep-sweep-worker-thread-panicked")))
+    })
+    .into_iter()
+    .collect()
 }
 
 /// Run a generic N-D sweep over any scenario kind. Each grid node is the base
