@@ -1,7 +1,8 @@
-# DRAFT pre-registration C2 (0.41): the Artemis I cruise with the impulsive steps modelled as burns
+# Pre-registration C2 (0.41): the Artemis I cruise with the impulsive steps modelled as burns
 
-**DRAFT. Owner sign-off required before it is committed as a pre-registration. Nothing described here has been run, and no data
-beyond the C1 files has been fetched or inspected.** Advisory software, not certified navigation equipment. Public sources only.
+**Pre-registration, signed off by the owner on 3 November 2026 and committed alone, before any code that implements it, before
+any data beyond the C1 files is fetched, and before any comparison it describes.** Advisory software, not certified navigation
+equipment. Public sources only. The numbers below were *proposed* in the draft and are now fixed; none may change after a first run.
 
 This file proposes a method. It becomes a pre-registration only when the owner signs off and it is committed alone, before any
 code that implements it and before any comparison it describes. Numbers marked *proposed* are for the owner to fix at sign-off;
@@ -91,15 +92,16 @@ decides what that changes. A miss is recorded as a miss.
 * Anything about the covariance, the filters, the updates, the ground-network overlay, the entry analysis or any other phase.
 * Anything about the arcs near a lunar flyby, where a few kilometres of position error is a different sensitivity.
 
-## Open choices for the owner
+## Owner decisions (3 November 2026)
 
-1. The detector threshold (0.01 m/s) and the midpoint convention.
-2. The two bars (2 km, 0.01 m/s) and whether they should be written per window or pooled.
-3. Whether W2 is wanted, and the rule that names it, or whether C2 is W1 only.
-4. Whether a second, independent reference (a different orbit-determination product of the same flight, if a public one exists)
-   should replace or add to the half-hour held-out states, since H shares its source with T.
-5. Whether solar radiation pressure is added to the model for C2 (it is not in C1) and, if so, with what area-to-mass and
-   coefficient, stated before any run.
+1. **Detector:** threshold 0.01 m/s and the midpoint convention, as in §3 and §4.
+2. **Bars:** C2a 2 km and C2b 0.01 m/s, **per window** (not pooled), as in §6. Not widened.
+3. **Windows:** W1 and W2 are both run; W2 is named by the rule in §2 from the published burn times, not from the data.
+4. **Reference:** the half-hour held-out states H from the same source are the only comparison; no second reference is added.
+5. **Solar radiation pressure:** not added; the bars in §6 were derived with it unmodelled.
+
+The order in **Process** below governs. The impulse support in §5 is written and tested on synthetic data after this file is
+committed and before T is fetched.
 
 ## Process
 
