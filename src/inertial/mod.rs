@@ -856,14 +856,21 @@ fn run_accel_ensemble(
 ) -> AccelRun {
     let mut first: Option<AccelRun> = None;
     let (mut rms, mut p95, mut hold) = (Vec::new(), Vec::new(), Vec::new());
-    for k in 0..runs {
+    // Run k depends only on its own seed: every core, results in index order (crate::par).
+    // Only run 0 is kept whole (it is the one reported); the others return their three figures,
+    // so memory does not grow with the number of runs.
+    let all = crate::par::map_indexed(runs, |k| {
         let seed = base_seed.wrapping_add((k as u64).wrapping_mul(0x9e3779b97f4a7c15));
         let run = run_accel(scn, cfg, seed);
-        rms.push(run.fom.pos_rms_m);
-        p95.push(run.fom.pos_p95_m);
-        hold.push(run.fom.holdover_s);
+        let figs = (run.fom.pos_rms_m, run.fom.pos_p95_m, run.fom.holdover_s);
+        (figs, (k == 0).then_some(run))
+    });
+    for ((r, p, h), run) in all {
+        rms.push(r);
+        p95.push(p);
+        hold.push(h);
         if first.is_none() {
-            first = Some(run);
+            first = run;
         }
     }
     // This private function is called only from `run_inertial`, and only inside its
