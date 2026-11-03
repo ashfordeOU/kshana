@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B1a (0.41): the monitoring-network planner (detection and location-accuracy maps, station count and placement)
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -118,3 +117,7 @@ through `σ_τ`); cost (B1b); any claim about a particular site or network.
 2. Whether `P_d,i ≥ 0.5` is the right gate for a station contributing to the accuracy map, or the map should weight by
    `P_d,i`.
 3. The G3 band [0.7, 3.0].
+
+## Sign-off (3 November 2026)
+
+The internal bars are fixed as written. The external case is named, by the five selection rules in this file, before any code that implements the comparison; if no publication meets the rules, the external part is NOT ASSESSABLE. The 0.7–3.0× band is fixed.

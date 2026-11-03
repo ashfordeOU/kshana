@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # D12 (0.41), part 2: LEO Doppler positioning: parked, no pre-registered bar in 0.41
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## Why this row
 
@@ -33,3 +32,7 @@ the recorded misses. Nothing else.
 ## Owner decisions at sign-off
 
 None (parking follows the roadmap's section 1c).
+
+## Sign-off (3 November 2026)
+
+No bar: the row is parked as a maintained family.

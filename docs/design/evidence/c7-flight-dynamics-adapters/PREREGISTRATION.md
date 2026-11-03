@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # C7 (0.41): adapters and notebooks for flight-dynamics tools: no pre-registered bar needed
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 
 ## Why no bar
 
@@ -43,3 +42,7 @@ the tool's propagation; that is a separate comparison with its own registration.
 
 1. Which tool stands for the fourth, file-based class in CI (proposed: one open-source tool, named at sign-off).
 2. Whether STK is part of this test or stays only in C1 (proposed: C1 only, since it is not open source).
+
+## Sign-off (3 November 2026)
+
+No bar. The reference integrations are Orekit, GMAT, Basilisk and one further open tool, named before its adapter is written; STK stays only in C1.

@@ -1,6 +1,6 @@
 # M2: revisit and tip-and-cue latency: pre-registration
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any implementing code or data.**
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.**
 Numbers marked *proposed* are for the owner to fix at sign-off. After that, no assumption and no
 bar changes. A miss is recorded in `RESULTS.md` with its numbers, and its test asserts the
 recorded miss. Public sources only.
@@ -182,3 +182,7 @@ figure, by how much, and what the variants change. It would not mean either simu
 3. The planner and the `tip-and-cue` scenario kind are written and tested on synthetic cases.
 4. The primary run and the variants run once; `RESULTS.md` and a test asserting each verdict
    are committed.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: 10° mask, 45° optical field of regard, the constellation layouts as written, ±25 % per figure and ±15 % per ratio. The outcome is a cross-check of published figures, never VALIDATED; a disagreement is published as found.

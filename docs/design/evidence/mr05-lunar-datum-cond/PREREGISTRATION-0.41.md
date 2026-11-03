@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D14 (0.41), part 1: lunar frame datum from a campaign, re-run plan
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new; every other number is a bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new; every other number is a bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory and is not changed.
 
 ## Why this row
@@ -62,3 +61,7 @@ accuracy: the station network and delay sigma stay illustrative, and clocks, tro
 
 1. Refuse an unobserved beacon (proposed) or report it and continue.
 2. The new fresh-date rule (first accepted day on or after 2027-03-01, every beacon observed at least 10 times).
+
+## Sign-off (3 November 2026)
+
+An unobserved beacon is **refused**, not reported. The fresh-date rule is fixed as written.

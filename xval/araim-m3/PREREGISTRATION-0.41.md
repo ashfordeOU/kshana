@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D15 (0.41): ARAIM Milestone 3 reproduction, reference reconciliation
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** The 12 claims and their bars are those of [`PREREGISTRATION.md`](PREREGISTRATION.md) in
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** The 12 claims and their bars are those of [`PREREGISTRATION.md`](PREREGISTRATION.md) in
 this directory and are not changed. Numbers marked *proposed* are new.
 
 ## Why this row
@@ -65,3 +64,7 @@ bears on certification or approval of any ARAIM service.
 1. The GPS SPS Performance Standard's 24-slot table as the D1 replacement.
 2. Slot A1 as the depleted GPS satellite, with the 24-slot sweep reported only.
 3. Accept the compute cost of the report's 5 by 5 degree grid and 600 s step.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed (the 24-slot GPS baseline, depleted slot A1, 5° grid, 600 s step). The GPS Performance Standard link is verified and recorded before the run.

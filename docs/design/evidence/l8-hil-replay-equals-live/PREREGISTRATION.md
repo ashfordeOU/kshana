@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration L8 (0.41): hardware in the loop, replay equals live
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Every numeric bar here is new and marked *proposed*.
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Every numeric bar here is new and marked *proposed*.
 
 **Timing.** The bench hardware is not bought yet. By the owner's decision of 3 November 2026 the hardware-in-the-loop
 part of L8 moves to 0.41.x; all connectors are built and tested on recorded data in 0.41. The bar is fixed now so that it
@@ -91,3 +90,7 @@ device produced but Kshana never read.
 3. The `run_meta` exclusion list as fixed above.
 4. Confirm the bench purchase and commissioning date (L8 hardware in the loop in 0.41.x); nights count from the first
    night after commissioning and after this file is signed.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: byte-identical outputs except the declared `run_meta` block, 60 and 20 minute runs, 95 % validity, 30 passing nights within 45 days with the stated reset rule. The commissioning date is set when the bench is installed (0.41.x).
