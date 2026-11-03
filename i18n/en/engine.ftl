@@ -10274,6 +10274,8 @@ engine-main-usage =
     { "   " }or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
     { "   " }or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
     { "   " }or: kshana partner check <submission.toml> [--json]
+    { "   " }or: kshana scenario <migrate <scenario.toml> [--in-place] | version>
+    { "   " }or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -11255,3 +11257,40 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is not a usable TDOA fix f
 engine-e-interference-map-locate-source-required = --source adsb or --source ais is required
 
 engine-e-interference-map-locate-no-evidence-rows = no evidence rows are listed for the locate outputs
+
+engine-e-scenario-version-not-a-number = `schema_version` must be a whole number (this engine reads { $current }), not `{ $value }`
+
+engine-e-scenario-version-zero = `schema_version = 0` is not a scenario schema version; the first is 1
+
+engine-e-scenario-version-newer = this scenario is written for scenario schema version { $stated }, newer than this engine reads ({ $current }); upgrade Kshana to run it
+
+engine-e-scenario-cli-usage = usage: kshana scenario <migrate <scenario.toml> [--in-place] | version>
+
+engine-scenario-cli-migrated = { $path }: now states schema_version = { $to }
+
+engine-scenario-cli-unchanged = { $path }: already states schema_version = { $to }; unchanged
+
+
+engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr)
+
+engine-e-obs-bad-line = line { $line } is not a kshana.obs/1 record: { $e }
+
+engine-e-obs-bad-schema = the header states schema `{ $found }`; this engine reads `{ $expected }`
+
+engine-e-obs-no-station-id = the header has no station id
+
+engine-e-obs-not-header = the first record of an observation file must be its header
+
+engine-e-obs-second-header = line { $line } is a second header; one file holds one station
+
+engine-e-obs-time-order = line { $line }: epoch time is not finite or goes backwards
+
+engine-e-obs-bad-iq-ref = line { $line }: the IQ reference needs a path, a positive sample rate and a finite centre frequency
+
+engine-e-obs-bad-alarm = line { $line }: an alarm needs a finite time and a kind
+
+engine-e-obs-station-mismatch = line { $line } belongs to station `{ $found }`, but the header is station `{ $expected }`
+
+engine-e-obs-cli-usage = usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
+
+engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $epochs } epochs, { $alarms } alarms, { $iq } IQ references

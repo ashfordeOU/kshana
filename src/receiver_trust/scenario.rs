@@ -1267,7 +1267,8 @@ pub struct TrustOutput {
 /// command line, the Python bindings, the WebAssembly build and the Model Context
 /// Protocol server share. In the WebAssembly build, files must be given inline.
 pub fn run_toml(src: &str) -> Result<TrustOutput, String> {
-    let scn: ReceiverTrustScenario = toml::from_str(src)
+    let src = crate::scenario_version::strip(src)?;
+    let scn: ReceiverTrustScenario = toml::from_str(&src)
         .map_err(|e| crate::terr!("e-evidence-cli-invalid-receiver-trust-scenario", e = e))?;
     if let Some(k) = scn.kind.as_deref() {
         if k != "receiver-trust" {

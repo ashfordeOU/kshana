@@ -457,13 +457,17 @@ fn aggregate(runs: &[ClockRun]) -> EnsembleClock {
 /// Run the clock-holdover scenario over `scn.runs` realizations and aggregate.
 pub fn run_ensemble(scn: &Scenario) -> EnsembleResult {
     let runs = scn.runs.max(1);
-    let mut q = Vec::with_capacity(runs);
-    let mut c = Vec::with_capacity(runs);
-    for k in 0..runs {
+    // Run k depends only on its own seed, so the runs go on every core and come back in index
+    // order: the same bytes as a plain loop (crate::par).
+    let (q, c): (Vec<_>, Vec<_>) = crate::par::map_indexed(runs, |k| {
         let s = scn.seed.wrapping_add(k as u64);
-        q.push(run_clock(scn, &scn.clock_quantum, s));
-        c.push(run_clock(scn, &scn.clock_classical, s.wrapping_add(GOLDEN)));
-    }
+        (
+            run_clock(scn, &scn.clock_quantum, s),
+            run_clock(scn, &scn.clock_classical, s.wrapping_add(GOLDEN)),
+        )
+    })
+    .into_iter()
+    .unzip();
     EnsembleResult {
         schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
