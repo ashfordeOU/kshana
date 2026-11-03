@@ -1,0 +1,5 @@
+name = "built-in reader: rinex 4.00 observations"
+input = "input.rnx"
+reader = "rinex"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

@@ -1,0 +1,16 @@
+     4.00           OBSERVATION DATA    M                   RINEX VERSION / TYPE
+illustrative file, not a recording                          COMMENT
+CC BY 4.0                                                   LICENSE OF USE
+G    2 C1C S1C                                              SYS / # / OBS TYPES
+E    2 C1X S1X                                              SYS / # / OBS TYPES
+  2026    11     1    12     0    0.0000000     GPS         TIME OF FIRST OBS
+                                                            END OF HEADER
+> 2026 11 01 12 00  0.0000000  0  2
+G05  23456789.123          45.000
+E11  24456789.123          41.500
+> 2026 11 01 12 00 30.0000000  0  2
+G05  23456999.123          31.000
+E11  24456999.123          29.250
+> 2026 11 01 12 01  0.0000000  0  2
+G05  23457209.123          44.000
+E11  24457209.123          40.750
