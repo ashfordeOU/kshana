@@ -14,6 +14,151 @@ fn usage() -> String {
     kshana::t!("main-usage")
 }
 
+/// `kshana obs convert <log> --format <f> --station <station.toml> [--out <file>]` writes a
+/// kshana.obs/1 file from a receiver log; `kshana obs check <file> [--json]` checks one.
+fn run_obs_cli(args: &[String]) -> ExitCode {
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-obs-cli-usage"));
+        ExitCode::from(2)
+    };
+    let flag = |name: &str| {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    match args.first().map(String::as_str) {
+        Some("convert") if args.len() >= 6 => {
+            let log = &args[1];
+            let (Some(format), Some(station_path)) = (flag("--format"), flag("--station")) else {
+                return usage();
+            };
+            let bytes = match std::fs::read(log) {
+                Ok(b) => b,
+                Err(e) => return fail(log, e.to_string()),
+            };
+            let station_src = match std::fs::read_to_string(&station_path) {
+                Ok(s) => s,
+                Err(e) => return fail(&station_path, e.to_string()),
+            };
+            let station: kshana::obs::Station = match toml::from_str(&station_src) {
+                Ok(s) => s,
+                Err(e) => return fail(&station_path, e.to_string()),
+            };
+            let text = match kshana::obs::from_log(&format, &bytes, &station)
+                .and_then(|r| kshana::obs::to_jsonl(&r))
+            {
+                Ok(t) => t,
+                Err(e) => return fail(log, e),
+            };
+            match flag("--out") {
+                Some(out) => match std::fs::write(&out, text) {
+                    Ok(()) => ExitCode::SUCCESS,
+                    Err(e) => fail(&out, e.to_string()),
+                },
+                None => {
+                    print!("{text}");
+                    ExitCode::SUCCESS
+                }
+            }
+        }
+        Some("check") if args.len() == 2 || (args.len() == 3 && args[2] == "--json") => {
+            let path = &args[1];
+            let text = match std::fs::read_to_string(path) {
+                Ok(t) => t,
+                Err(e) => return fail(path, e.to_string()),
+            };
+            match kshana::obs::check(&text) {
+                Ok((_, rep)) => {
+                    if args.len() == 3 {
+                        println!("{}", serde_json::to_string_pretty(&rep).unwrap_or_default());
+                    } else {
+                        println!(
+                            "{}",
+                            kshana::t!(
+                                "obs-check-ok",
+                                path = path.clone(),
+                                station = rep.station.clone(),
+                                epochs = rep.epochs.to_string(),
+                                alarms = rep.alarms.to_string(),
+                                iq = rep.iq_refs.to_string()
+                            )
+                        );
+                    }
+                    ExitCode::SUCCESS
+                }
+                Err(e) => fail(path, e),
+            }
+        }
+        _ => usage(),
+    }
+}
+
+/// `kshana scenario version` prints the scenario schema version this engine reads;
+/// `kshana scenario migrate <file> [--in-place]` upgrades a file to it (stdout, or the file itself).
+fn run_scenario_cli(args: &[String]) -> ExitCode {
+    use kshana::scenario_version as sv;
+    match args.first().map(String::as_str) {
+        Some("version") if args.len() == 1 => {
+            println!("{}", sv::CURRENT);
+            ExitCode::SUCCESS
+        }
+        Some("migrate") if args.len() == 2 || (args.len() == 3 && args[2] == "--in-place") => {
+            let path = &args[1];
+            let src = match std::fs::read_to_string(path) {
+                Ok(s) => s,
+                Err(e) => {
+                    eprintln!("{path}: {e}");
+                    return ExitCode::from(1);
+                }
+            };
+            let m = match sv::migrate(&src) {
+                Ok(m) => m,
+                Err(e) => {
+                    eprintln!("{path}: {e}");
+                    return ExitCode::from(1);
+                }
+            };
+            if args.len() == 3 {
+                if m.changed {
+                    if let Err(e) = std::fs::write(path, &m.source) {
+                        eprintln!("{path}: {e}");
+                        return ExitCode::from(1);
+                    }
+                    eprintln!(
+                        "{}",
+                        kshana::t!(
+                            "scenario-cli-migrated",
+                            path = path.clone(),
+                            to = m.to.to_string()
+                        )
+                    );
+                } else {
+                    eprintln!(
+                        "{}",
+                        kshana::t!(
+                            "scenario-cli-unchanged",
+                            path = path.clone(),
+                            to = m.to.to_string()
+                        )
+                    );
+                }
+            } else {
+                print!("{}", m.source);
+            }
+            ExitCode::SUCCESS
+        }
+        _ => {
+            eprintln!("{}", kshana::terr!("e-scenario-cli-usage"));
+            ExitCode::from(2)
+        }
+    }
+}
+
 /// Format the current system time as a UTC ISO-8601 second-precision stamp
 /// (e.g. `2026-06-23T14:05:09Z`). This is the ONLY clock read in the whole crate:
 /// the library/engine/api stay pure and deterministic, and the timestamp is passed
@@ -182,6 +327,16 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // metadata (docs/PARTNER-DATA.md). Terminal; it reads local files and scores nothing.
     if args.get(1).map(String::as_str) == Some("partner") {
         return kshana::partner::cli::run(&args[2..]);
+    }
+    // `kshana scenario <migrate|version>` states and upgrades a scenario file's schema version
+    // (kshana::scenario_version, docs/SCENARIO-VERSIONS.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("scenario") {
+        return run_scenario_cli(&args[2..]);
+    }
+    // `kshana obs <convert|check>` writes and checks kshana.obs/1 observation files
+    // (kshana::obs, docs/OBS-SCHEMA.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("obs") {
+        return run_obs_cli(&args[2..]);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.

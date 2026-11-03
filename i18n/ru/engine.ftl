@@ -10780,6 +10780,8 @@ engine-main-usage =
     { "   " }или: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
     { "   " }или: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
     { "   " }или: kshana partner check <submission.toml> [--json]
+    { "   " }или: kshana scenario <migrate <scenario.toml> [--in-place] | version>
+    { "   " }или: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }или: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }или: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }или: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)

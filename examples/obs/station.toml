@@ -1,0 +1,8 @@
+# An example station for `kshana obs convert` (kshana.obs/1, docs/OBS-SCHEMA.md).
+id = "example-station-1"
+lat_deg = 59.4400
+lon_deg = 24.7500
+height_m = 30.0
+antenna = "example patch antenna"
+receiver = "example GNSS receiver"
+partner_input = false

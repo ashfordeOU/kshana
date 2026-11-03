@@ -289,6 +289,8 @@ pub mod permalink;
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
 pub mod interference_map;
 pub mod nmea_synth;
+pub mod obs;
+pub mod par;
 mod portable_distr;
 mod portable_distr_tables;
 #[doc(hidden)]
@@ -323,6 +325,7 @@ pub mod rtk_real;
 pub mod run;
 pub mod sbas;
 pub mod scenario;
+pub mod scenario_version;
 pub mod sdr;
 pub mod security;
 pub mod sgp4;
