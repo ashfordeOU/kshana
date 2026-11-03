@@ -10707,7 +10707,7 @@ engine-main-usage =
     { "   " }ou : kshana partner check <submission.toml> [--json]
     { "   " }ou : kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }ou : kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
-    { "   " }ou : kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
+    { "   " }ou : kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless]>
     { "   " }ou : kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }ou : kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)

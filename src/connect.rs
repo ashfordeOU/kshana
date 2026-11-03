@@ -886,6 +886,103 @@ pub fn map(mapping: &Mapping, text: &str, station: &Station) -> Result<Vec<Recor
     Ok(out)
 }
 
+/// A conformance vector (`vector.toml`): an input, how to read it (a mapping file or a built-in
+/// reader), the station, and the observation file it must give, byte for byte (roadmap A7a).
+/// Paths are relative to the vector file.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Vector {
+    /// A short name, shown in the report.
+    pub name: String,
+    /// The input file.
+    pub input: String,
+    /// A `kshana.connect/1` mapping file; or
+    #[serde(default)]
+    pub mapping: Option<String>,
+    /// a built-in reader (`nmea`, `ubx`, `rinex`, ...; as `kshana obs convert --format`).
+    #[serde(default)]
+    pub reader: Option<String>,
+    /// The station file.
+    pub station: String,
+    /// The expected kshana.obs/1 output.
+    pub expected: String,
+}
+
+/// Run a vector: its parsed form, where its expected output lives, and the output produced now.
+pub fn run_vector(path: &std::path::Path) -> Result<(Vector, std::path::PathBuf, String), String> {
+    let at = |p: &str| path.parent().unwrap_or(std::path::Path::new(".")).join(p);
+    let read = |p: &std::path::Path| std::fs::read(p).map_err(|e| format!("{}: {e}", p.display()));
+    let text = String::from_utf8(read(path)?).map_err(|e| format!("{}: {e}", path.display()))?;
+    let v: Vector = toml::from_str(&text).map_err(|e| {
+        crate::terr!(
+            "e-connect-vector-bad",
+            path = path.display().to_string(),
+            e = e.to_string()
+        )
+    })?;
+    let station_text = String::from_utf8_lossy(&read(&at(&v.station))?).into_owned();
+    let station: Station =
+        toml::from_str(&station_text).map_err(|e| format!("{}: {e}", at(&v.station).display()))?;
+    let input = read(&at(&v.input))?;
+    let records = match (&v.mapping, &v.reader) {
+        (Some(m), None) => {
+            let mapping = parse_mapping(&String::from_utf8_lossy(&read(&at(m))?))?;
+            map(&mapping, &String::from_utf8_lossy(&input), &station)?
+        }
+        (None, Some(r)) => crate::obs::from_log(r, &input, &station)?,
+        _ => {
+            return Err(crate::terr!(
+                "e-connect-vector-needs",
+                path = path.display().to_string()
+            ))
+        }
+    };
+    let produced = crate::obs::to_jsonl(&records)?;
+    let expected = at(&v.expected);
+    Ok((v, expected, produced))
+}
+
+/// Every `vector.toml` under `dir` (or `dir` itself when it is a file), in path order.
+pub fn find_vectors(dir: &std::path::Path) -> Vec<std::path::PathBuf> {
+    if dir.is_file() {
+        return vec![dir.to_path_buf()];
+    }
+    let mut out = Vec::new();
+    let mut stack = vec![dir.to_path_buf()];
+    while let Some(d) = stack.pop() {
+        let Ok(rd) = std::fs::read_dir(&d) else {
+            continue;
+        };
+        for e in rd.flatten() {
+            let p = e.path();
+            if p.is_dir() {
+                stack.push(p);
+            } else if p.file_name().is_some_and(|n| n == "vector.toml") {
+                out.push(p);
+            }
+        }
+    }
+    out.sort();
+    out
+}
+
+/// The first line (1-based) where two texts differ, or `None` when they are equal.
+pub fn first_difference(a: &str, b: &str) -> Option<usize> {
+    if a == b {
+        return None;
+    }
+    let (mut la, mut lb) = (a.lines(), b.lines());
+    let mut n = 0;
+    loop {
+        n += 1;
+        match (la.next(), lb.next()) {
+            (Some(x), Some(y)) if x == y => continue,
+            (None, None) => return Some(n),
+            _ => return Some(n),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
