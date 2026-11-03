@@ -29,8 +29,10 @@ fn run_with_threads(scenario: &str, threads: &str, dir: &Path) -> String {
 }
 
 fn same_bytes_on_one_and_eight(name: &str, scenario: &str) {
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
     let base: PathBuf =
-        std::env::temp_dir().join(format!("kshana-par-{name}-{}", std::process::id()));
+        std::env::temp_dir().join(format!("kshana-par-{name}-{}-{seq}", std::process::id()));
     let one = run_with_threads(scenario, "1", &base.join("one"));
     let eight = run_with_threads(scenario, "8", &base.join("eight"));
     assert_eq!(

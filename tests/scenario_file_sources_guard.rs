@@ -39,6 +39,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
     (
+        "src/obs.rs",
+        "path",
+        "a kshana.obs/1 record's reference to an IQ recording, kept as data: src/obs.rs never \
+         opens it, and an observation file is a command-line input (`kshana obs`), never a scenario",
+    ),
+    (
         "src/partner.rs",
         "path",
         "the partner check reads the file named by the partner's own descriptor, not a scenario \
