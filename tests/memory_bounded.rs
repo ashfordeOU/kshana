@@ -83,7 +83,9 @@ fn track_streaming(dir: &Path, rec: &Path, tag: &str) {
 
 #[test]
 fn streaming_track_memory_does_not_grow_with_the_recording_and_json_is_capped() {
-    let dir = std::env::temp_dir().join(format!("kshana-mem-{}", std::process::id()));
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-mem-{}-{seq}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let short = scene(&dir, "short", 2);
     let long = scene(&dir, "long", 8);
