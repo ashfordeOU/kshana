@@ -9775,6 +9775,7 @@ engine-main-usage =
     { "   " }または：kshana partner check <submission.toml> [--json]
     { "   " }または：kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }または：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
+    { "   " }または：kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
     { "   " }または：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)

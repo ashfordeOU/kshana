@@ -1,0 +1,18 @@
+# Illustrative values, not a recording. Columns follow the Android raw GNSS measurement
+# export (the "Raw" records of a logging app), one row per satellite; "Fix" rows carry the
+# position and are interleaved, as such logs do.
+type,utcTimeMillis,Svid,ConstellationType,Cn0DbHz,CarrierFrequencyHz,LatitudeDegrees,LongitudeDegrees,AltitudeMeters
+Raw,1793534400000,5,1,41.2,1575420030,,,
+Raw,1793534400000,12,1,38.7,1575420030,,,
+Raw,1793534400000,11,6,36.9,1575420030,,,
+Raw,1793534400000,23,5,33.1,1561097980,,,
+Fix,1793534400000,,,,,59.43991,24.75012,31.5
+Raw,1793534401000,5,1,40.8,1575420030,,,
+Raw,1793534401000,12,1,31.2,1575420030,,,
+Raw,1793534401000,11,6,30.4,1575420030,,,
+Raw,1793534401000,23,5,27.9,1561097980,,,
+Fix,1793534401000,,,,,59.43993,24.75009,31.2
+Raw,1793534402000,5,1,29.5,1575420030,,,
+Raw,1793534402000,12,1,24.0,1575420030,,,
+Raw,1793534402000,11,6,22.8,1575420030,,,
+Fix,1793534402000,,,,,59.43990,24.75014,30.9

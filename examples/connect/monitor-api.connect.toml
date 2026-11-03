@@ -1,0 +1,23 @@
+# A monitoring service's JSON API: records under /data/epochs, one per satellite, the position
+# in radians inside a nested object.
+schema = "kshana.connect/1"
+
+[source]
+format = "json"
+records = "/data/epochs"
+
+[time]
+column = "ts"
+format = "unix-ms"
+
+[signals]
+sat = { column = "prn" }
+cn0 = { column = "cn0", unit = "dB-Hz" }
+
+[fix]
+lat = { column = "/pos/lat_rad", unit = "rad" }
+lon = { column = "/pos/lon_rad", unit = "rad" }
+height = { column = "/pos/h_m" }
+
+[receiver]
+pdop = { column = "pdop" }

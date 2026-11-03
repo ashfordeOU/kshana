@@ -1,0 +1,13 @@
+{
+  "note": "Illustrative values, not a recording: the shape of a monitoring service's JSON API.",
+  "data": {
+    "epochs": [
+      { "ts": 1793534400000, "prn": "G05", "cn0": 42.5, "pos": { "lat_rad": 1.0374320, "lon_rad": 0.4319993, "h_m": 31.0 }, "pdop": 1.6 },
+      { "ts": 1793534400000, "prn": "E11", "cn0": 39.1 },
+      { "ts": 1793534460000, "prn": "G05", "cn0": 33.0, "pos": { "lat_rad": 1.0374321, "lon_rad": 0.4319994, "h_m": 31.2 }, "pdop": 2.9 },
+      { "ts": 1793534460000, "prn": "E11", "cn0": 28.4 },
+      { "ts": 1793534520000, "prn": "G05", "cn0": 41.9, "pos": { "lat_rad": 1.0374320, "lon_rad": 0.4319993, "h_m": 31.1 }, "pdop": 1.7 },
+      { "ts": 1793534520000, "prn": "E11", "cn0": 38.8 }
+    ]
+  }
+}
