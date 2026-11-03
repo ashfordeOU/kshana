@@ -13,7 +13,8 @@ Please do not open a public issue for security-sensitive reports. We aim to ackn
 within a few business days.
 
 ## Supported versions
-Pre-1.0: only the latest tagged release is supported.
+Pre-1.0: only the latest tagged release is supported. From 1.0, each long-term-support release
+receives security fixes for 12 months after its successor; see [docs/STABILITY.md](docs/STABILITY.md).
 
 ## Memory safety
 The library crate declares `#![forbid(unsafe_code)]` at its crate root (`src/lib.rs`), so
