@@ -10276,6 +10276,7 @@ engine-main-usage =
     { "   " }or: kshana partner check <submission.toml> [--json]
     { "   " }or: kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
+    { "   " }or: kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -11298,3 +11299,45 @@ engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $ep
 engine-e-governor-bad-max-memory = KSHANA_MAX_MEMORY must be a whole number of bytes, optionally with K, M, G or T (for example 2G), not `{ $value }`
 
 engine-e-governor-over-cap = { $output } would hold about { $need } MiB in memory, over the KSHANA_MAX_MEMORY cap of { $cap } MiB; use { $instead }, which streams to disk in a fixed amount of memory, or raise the cap
+
+engine-e-connect-bad-mapping = the mapping file is not valid TOML for kshana.connect/1: { $e }
+
+engine-e-connect-schema = the mapping file states schema `{ $schema }`; this engine reads `{ $want }`
+
+engine-e-connect-unknown-format = unknown source format `{ $format }` (csv, tsv, json, jsonl)
+
+engine-e-connect-unknown-time-format = unknown time format `{ $format }` (rfc3339, unix-s, unix-ms, gps-s, gps-week-tow, pattern)
+
+engine-e-connect-time-needs = this time format needs `{ $what }` in the [time] section
+
+engine-e-connect-unknown-scale = unknown time scale `{ $scale }` (utc, gps, tai)
+
+engine-e-connect-delimiter = the delimiter must be one character, not `{ $delimiter }`
+
+engine-e-connect-signals-layout = [signals] needs either `sat` and `cn0` (one row per satellite) or `wide` (one column per satellite)
+
+engine-e-connect-sat-id = [signals.sat] needs `column`, or `number_column` with `system` or `system_column`
+
+engine-e-connect-bad-sat-name = `{ $sat }` is not a satellite name (one system letter G, R, E, C, J, S or I and its number, as G05)
+
+engine-e-connect-unknown-unit = unknown unit `{ $unit }` for { $field } (accepted: { $accepted })
+
+engine-e-connect-bad-number = line { $line }, column `{ $column }`: `{ $value }` is not a number
+
+engine-e-connect-csv-quote = line { $line }: a quoted field is not closed
+
+engine-e-connect-bad-json = line { $line }: not valid JSON: { $e }
+
+engine-e-connect-json-records = the JSON input has no array of records at `{ $path }`
+
+engine-e-connect-no-rows = the input has no data rows (after the filter, if any)
+
+engine-e-connect-missing-column = the input has no column `{ $column }` that the mapping names
+
+engine-e-connect-bad-time = line { $line }: `{ $value }` is not a time in the `{ $format }` format
+
+engine-e-connect-time-order = line { $line }: the time goes backwards; the input must be in time order
+
+engine-e-connect-bad-sat = line { $line }: `{ $value }` is not a satellite name (G05, E11, ...)
+
+engine-e-connect-cli-usage = usage: kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
