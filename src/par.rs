@@ -33,22 +33,50 @@ where
     map_indexed_on(threads(), n, f)
 }
 
+/// The error codes a worker recorded, handed back to the caller.
+type Codes = Vec<(String, String)>;
+
+thread_local! {
+    /// Set on the pool's own workers: a parallel map nested inside another (a campaign of sweeps)
+    /// runs inline on its worker instead of spawning cores × cores threads.
+    static IN_POOL: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
 /// [`map_indexed`] on exactly `threads` threads (at least one), for callers and tests that fix it.
+/// Inside another parallel map it runs on the calling worker.
 pub fn map_indexed_on<T, F>(threads: usize, n: usize, f: F) -> Vec<T>
 where
     T: Send,
     F: Fn(usize) -> T + Sync,
 {
-    let threads = threads.max(1).min(n.max(1));
+    let nested = IN_POOL.with(|p| p.get());
+    let threads = if nested {
+        1
+    } else {
+        threads.max(1).min(n.max(1))
+    };
     if threads == 1 || cfg!(target_arch = "wasm32") {
         return (0..n).map(f).collect();
     }
     // Contiguous, nearly equal chunks: chunk `t` holds indices [start(t), start(t + 1)).
     let start = |t: usize| t * n / threads;
     let f = &f;
-    let parts: Vec<Vec<T>> = std::thread::scope(|s| {
+    // Each worker speaks the caller's language (an `in_english` block stays English on every
+    // thread, so machine files are the same bytes), and hands back the error codes it recorded so
+    // an error raised on a worker still prints with its code.
+    let lang = crate::i18n::current();
+    let parts: Vec<(Vec<T>, Codes)> = std::thread::scope(|s| {
         let handles: Vec<_> = (0..threads)
-            .map(|t| s.spawn(move || (start(t)..start(t + 1)).map(f).collect::<Vec<T>>()))
+            .map(|t| {
+                let lang = lang.clone();
+                s.spawn(move || {
+                    IN_POOL.with(|p| p.set(true));
+                    let v = crate::i18n::with_lang(lang, || {
+                        (start(t)..start(t + 1)).map(f).collect::<Vec<T>>()
+                    });
+                    (v, crate::i18n::drain_codes())
+                })
+            })
             .collect();
         handles
             .into_iter()
@@ -60,8 +88,9 @@ where
             .collect()
     });
     let mut out = Vec::with_capacity(n);
-    for p in parts {
+    for (p, codes) in parts {
         out.extend(p);
+        crate::i18n::absorb_codes(codes);
     }
     out
 }
@@ -84,6 +113,46 @@ mod tests {
                 "threads {t}"
             );
         }
+    }
+
+    #[test]
+    fn workers_speak_the_callers_language_and_hand_back_error_codes() {
+        let de = crate::i18n::resolve("de").expect("German is in the catalogue");
+        let langs = crate::i18n::with_lang(de.clone(), || {
+            map_indexed_on(4, 8, |_| crate::i18n::current().tag().to_string())
+        });
+        assert!(langs.iter().all(|l| l == de.tag()), "{langs:?}");
+        let msgs = map_indexed_on(4, 8, |k| {
+            crate::terr!(
+                "e-scenario-version-newer",
+                stated = k.to_string(),
+                current = "1"
+            )
+        });
+        for m in &msgs {
+            assert_eq!(
+                crate::i18n::code_of(m).as_deref(),
+                Some("E-SCENARIO-VERSION-NEWER"),
+                "{m}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_nested_map_runs_inline_on_its_worker_and_keeps_order() {
+        let outer = map_indexed_on(4, 6, |i| {
+            let me = std::thread::current().id();
+            let inner = map_indexed_on(8, 5, |j| (std::thread::current().id(), i * 10 + j));
+            assert!(
+                inner.iter().all(|(t, _)| *t == me),
+                "nested map left its worker"
+            );
+            inner.into_iter().map(|(_, v)| v).collect::<Vec<_>>()
+        });
+        let want: Vec<Vec<usize>> = (0..6)
+            .map(|i| (0..5).map(|j| i * 10 + j).collect())
+            .collect();
+        assert_eq!(outer, want);
     }
 
     #[test]
