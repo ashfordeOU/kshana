@@ -14,6 +14,90 @@ fn usage() -> String {
     kshana::t!("main-usage")
 }
 
+/// `kshana obs convert <log> --format <f> --station <station.toml> [--out <file>]` writes a
+/// kshana.obs/1 file from a receiver log; `kshana obs check <file> [--json]` checks one.
+fn run_obs_cli(args: &[String]) -> ExitCode {
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-obs-cli-usage"));
+        ExitCode::from(2)
+    };
+    let flag = |name: &str| {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    match args.first().map(String::as_str) {
+        Some("convert") if args.len() >= 6 => {
+            let log = &args[1];
+            let (Some(format), Some(station_path)) = (flag("--format"), flag("--station")) else {
+                return usage();
+            };
+            let bytes = match std::fs::read(log) {
+                Ok(b) => b,
+                Err(e) => return fail(log, e.to_string()),
+            };
+            let station_src = match std::fs::read_to_string(&station_path) {
+                Ok(s) => s,
+                Err(e) => return fail(&station_path, e.to_string()),
+            };
+            let station: kshana::obs::Station = match toml::from_str(&station_src) {
+                Ok(s) => s,
+                Err(e) => return fail(&station_path, e.to_string()),
+            };
+            let text = match kshana::obs::from_log(&format, &bytes, &station)
+                .and_then(|r| kshana::obs::to_jsonl(&r))
+            {
+                Ok(t) => t,
+                Err(e) => return fail(log, e),
+            };
+            match flag("--out") {
+                Some(out) => match std::fs::write(&out, text) {
+                    Ok(()) => ExitCode::SUCCESS,
+                    Err(e) => fail(&out, e.to_string()),
+                },
+                None => {
+                    print!("{text}");
+                    ExitCode::SUCCESS
+                }
+            }
+        }
+        Some("check") if args.len() == 2 || (args.len() == 3 && args[2] == "--json") => {
+            let path = &args[1];
+            let text = match std::fs::read_to_string(path) {
+                Ok(t) => t,
+                Err(e) => return fail(path, e.to_string()),
+            };
+            match kshana::obs::check(&text) {
+                Ok((_, rep)) => {
+                    if args.len() == 3 {
+                        println!("{}", serde_json::to_string_pretty(&rep).unwrap_or_default());
+                    } else {
+                        println!(
+                            "{}",
+                            kshana::t!(
+                                "obs-check-ok",
+                                path = path.clone(),
+                                station = rep.station.clone(),
+                                epochs = rep.epochs.to_string(),
+                                alarms = rep.alarms.to_string(),
+                                iq = rep.iq_refs.to_string()
+                            )
+                        );
+                    }
+                    ExitCode::SUCCESS
+                }
+                Err(e) => fail(path, e),
+            }
+        }
+        _ => usage(),
+    }
+}
+
 /// `kshana scenario version` prints the scenario schema version this engine reads;
 /// `kshana scenario migrate <file> [--in-place]` upgrades a file to it (stdout, or the file itself).
 fn run_scenario_cli(args: &[String]) -> ExitCode {
@@ -248,6 +332,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // (kshana::scenario_version, docs/SCENARIO-VERSIONS.md). Terminal, local files only.
     if args.get(1).map(String::as_str) == Some("scenario") {
         return run_scenario_cli(&args[2..]);
+    }
+    // `kshana obs <convert|check>` writes and checks kshana.obs/1 observation files
+    // (kshana::obs, docs/OBS-SCHEMA.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("obs") {
+        return run_obs_cli(&args[2..]);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.

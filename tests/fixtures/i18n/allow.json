@@ -1073,6 +1073,10 @@
    "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/obs.rs": {
+   "count": 1,
+   "reason": "identifier: the schema id `kshana.obs/1` written into and matched in every observation file header"
+  },
   "src/observability_gramian.rs": {
    "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
