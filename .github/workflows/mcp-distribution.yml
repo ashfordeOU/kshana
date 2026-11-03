@@ -182,7 +182,7 @@ jobs:
         run: |
           set -euo pipefail
           me="$(gh api user --jq .login)"
-          gh repo fork microsoft/winget-pkgs --clone=false || true
+          gh repo fork microsoft/winget-pkgs --clone=false || true  # the fork usually exists already; the push below fails loudly if it does not
           gh repo sync "$me/winget-pkgs" --force
           # The repository is very large: fetch no file contents but the directory we write.
           # The token goes in an HTTP header set through the environment, never into the clone URL
