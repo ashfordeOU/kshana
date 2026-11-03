@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B5 (0.41): one area trust state from several reference stations
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -116,3 +115,7 @@ suppress such alerts); any statement about the cause of an alert.
 2. Whether K3's "≤ 5 s" is read as the 95th percentile (this draft) or as the maximum.
 3. The station-selection rule and the 14-day quiet fortnight in 2025.
 4. The calibration length (24 h) and the C/N0 template threshold (−6 dB).
+
+## Sign-off (3 November 2026)
+
+Latency is fixed as the 95th percentile ≤ 5 s with a maximum ≤ 10 s. The station-agreement rule, the −6 dB C/N0 threshold, the 24 h calibration and the station and quiet-day selection rules are fixed as written.

@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D2 (0.41): clock-log fit re-run (F1(a), F2 on D2) and measured against self-predicted holdover
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are new. Every other number is an existing bar of
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are new. Every other number is an existing bar of
 [`PREREGISTRATION.md`](PREREGISTRATION.md) in this directory and is not changed.
 
 ## Why this row
@@ -115,3 +114,7 @@ to show what the change does to the prediction.
 1. The Part 1 change (proposed: Hadamard-based joint drift and random-walk FM fit).
 2. Accept that F1(a) on C3 and F2 on D2 stay NOT MET by construction and by design, and are only reported.
 3. The Part 2 bars H1 to H3, the month and the station rule.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed: the Hadamard-based noise identification, the two by-design misses accepted as stated, and the new holdover bars, month and station rule.

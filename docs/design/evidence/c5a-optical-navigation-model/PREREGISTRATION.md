@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration C5a (0.41): the optical-navigation measurement model
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Every numeric bar here is new and marked *proposed*. Advisory software, not certified
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Every numeric bar here is new and marked *proposed*. Advisory software, not certified
 navigation equipment. Public sources only.
 
 ## Why this row
@@ -83,3 +82,7 @@ camera kernels) would be a separate pre-registration.
 
 1. The bar values O1 to O5.
 2. Whether to plan a real-image comparison now or leave it to a later registration (proposed: later).
+
+## Sign-off (3 November 2026)
+
+Signed as proposed (≤ 1 mas, ≤ 1e-6 px, ≤ 1e-4 px end to end, 1e-6 relative). A real-image comparison is a later, separate pre-registration.

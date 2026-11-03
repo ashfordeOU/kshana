@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B4a (0.41): a multi-class benchmark task for jamming, spoofing and meaconing
 
-**Status: Proposed for the owner's sign-off (0.41 phase 2); becomes binding when signed off and committed before any
-implementing code or data.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
+**Status: Signed off by the owner on 3 November 2026 (0.41 phase 2) and committed before any implementing code or data. Numbers marked *proposed* below are now fixed; bars may be tightened after a run, never loosened.** Numbers marked *proposed* are for the owner to fix at sign-off. After sign-off the bars may
 be tightened after a run, never loosened. A miss is recorded in `RESULTS.md` with its numbers and pinned by a test that
 asserts the miss. Public sources only. Advisory software, not certified navigation equipment.
 
@@ -120,3 +119,7 @@ location; waveform identification within a class; any rating of a product.
 3. The minimum-data rule (2 folders, 300 units) and whether the `meaconing` class has enough folders to enter at all;
    if not, the task is three-class in practice and says so.
 4. The B-log class-mapping rule, especially the `meaconing` branch, which has no prior evidence behind it.
+
+## Sign-off (3 November 2026)
+
+Signed as proposed. OAKBAT stays out until its licence terms are obtained. Meaconing is scored only with at least 20 events; with fewer it is reported descriptively and no bar applies to it.
