@@ -16,8 +16,10 @@ for u in "$here"/systemd/*.service; do
   sed -e "s#/usr/local/bin/kshana#$tmp/bin/kshana#g" \
       -e "s#/bin/stty#$tmp/bin/stty#g" \
       -e "s#/etc/kshana/session.toml#$tmp/etc/session.toml#g" "$u" > "$tmp/$n"
-  # every finding fails: syntax, unknown keys, bad values, dependencies. Nothing is filtered out.
-  out="$(systemd-analyze verify "$tmp/$n" 2>&1 || true)"
+  # every finding about this unit fails: syntax, unknown keys, bad values, dependencies. Only findings
+  # about the host's own unit files (lines that start with their path under /usr/lib, /lib, /etc or
+  # /run/systemd) are dropped: a runner image's systemd can warn about its own units, which are not ours.
+  out="$(systemd-analyze verify "$tmp/$n" 2>&1 | grep -vE '^/(usr/lib|lib|etc|run)/systemd/' || true)"
   if [ -n "$out" ]; then echo "FAIL $n"; printf '%s\n' "$out"; fail=1; else echo "ok   $n"; fi
   # guards that verify cannot give: no shell in ExecStart (a pipeline under /bin/sh is dash on Debian, where
   # `set -o pipefail` aborts), the restart policy, and the sandbox keys
