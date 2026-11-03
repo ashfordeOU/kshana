@@ -260,12 +260,12 @@ pub(crate) fn run_extra_taps<'a>(
     Ok(found.map(|(_, t)| t).unwrap_or_default())
 }
 
-/// `--threads <N|auto>`: threads for the per-chunk channel correlation (default 1). The
-/// output does not depend on it.
+/// `--threads <N|auto>`: threads for the per-chunk channel correlation (default and `auto`:
+/// `KSHANA_THREADS`, else every core, see [`crate::par::threads`]). The output does not depend
+/// on it.
 pub(crate) fn threads_from_args(a: &Args) -> Result<usize, Fail> {
     match a.get("--threads") {
-        None => Ok(1),
-        Some("auto") => Ok(std::thread::available_parallelism().map_or(1, |n| n.get())),
+        None | Some("auto") => Ok(crate::par::threads()),
         Some(_) => match a.num::<usize>("--threads").map_err(Fail::Usage)? {
             Some(n) if n >= 1 => Ok(n),
             _ => Err(Fail::Usage(crate::terr!(

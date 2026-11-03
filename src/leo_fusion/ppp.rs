@@ -650,18 +650,21 @@ impl PppScenario {
         for (name, leo) in &cases {
             let mut all = gnss.clone();
             all.extend(leo.iter().cloned());
-            let mut results = Vec::new();
-            for (si, s) in sites.iter().enumerate() {
+            // Every (site, run) pair is independent: run them on every core, in index order,
+            // the first failure (by index) being the error, exactly as the nested loop gave.
+            let results = crate::par::map_indexed(sites.len() * runs, |i| {
+                let (si, r) = (i / runs, i % runs);
+                let s = &sites[si];
                 let site = Site {
                     lat_deg: s.lat_deg,
                     lon_deg: s.lon_deg,
                     height_m: 0.0,
                 };
-                for r in 0..runs {
-                    let seed = seed0.wrapping_add((si * runs + r) as u64);
-                    results.push(run(&all, &site, duration, step, &noise, ch, cv, seed)?);
-                }
-            }
+                let seed = seed0.wrapping_add((si * runs + r) as u64);
+                run(&all, &site, duration, step, &noise, ch, cv, seed)
+            })
+            .into_iter()
+            .collect::<Result<Vec<_>, _>>()?;
             let conv: Vec<Option<f64>> = results
                 .iter()
                 .map(|r| r.convergence_s.map(|c| c / 60.0))
