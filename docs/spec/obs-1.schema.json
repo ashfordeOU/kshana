@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kshana.dev/spec/obs-1.schema.json",
+  "title": "kshana.obs/1 record",
+  "description": "One line of a kshana.obs/1 observation file (JSON Lines). The first line is a header; later lines are epochs and alarms of the header's station. See docs/OBS-SCHEMA.md.",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "oneOf": [
+    {
+      "$ref": "#/$defs/header"
+    },
+    {
+      "$ref": "#/$defs/epoch"
+    },
+    {
+      "$ref": "#/$defs/alarm"
+    }
+  ],
+  "$defs": {
+    "station": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lat_deg": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon_deg": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "height_m": {
+          "type": "number"
+        },
+        "antenna": {
+          "type": "string"
+        },
+        "receiver": {
+          "type": "string"
+        },
+        "firmware": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "partner_input": {
+          "type": "boolean"
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "required": [
+        "type",
+        "schema",
+        "station"
+      ],
+      "properties": {
+        "type": {
+          "const": "header"
+        },
+        "schema": {
+          "const": "kshana.obs/1"
+        },
+        "station": {
+          "$ref": "#/$defs/station"
+        },
+        "source_format": {
+          "type": "string"
+        },
+        "start_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "observables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skipped_records": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "iq_ref": {
+      "type": "object",
+      "required": [
+        "path",
+        "sample_rate_hz",
+        "centre_hz",
+        "offset_samples"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sample_rate_hz": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "centre_hz": {
+          "type": "number"
+        },
+        "offset_samples": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "epoch": {
+      "type": "object",
+      "required": [
+        "type",
+        "station",
+        "t_s"
+      ],
+      "properties": {
+        "type": {
+          "const": "epoch"
+        },
+        "station": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t_s": {
+          "type": "number"
+        },
+        "time_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cn0": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "sat"
+            ],
+            "properties": {
+              "sat": {
+                "type": "string"
+              },
+              "band": {
+                "type": "string"
+              },
+              "cn0_dbhz": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "agc": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "jam_ind": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fix": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "sky": {
+          "type": "array"
+        },
+        "reported_dop": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "self_report": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "marine": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "source_span": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "iq_ref": {
+          "$ref": "#/$defs/iq_ref"
+        }
+      }
+    },
+    "alarm": {
+      "type": "object",
+      "required": [
+        "type",
+        "station",
+        "t_s",
+        "kind",
+        "severity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "alarm"
+        },
+        "station": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t_s": {
+          "type": "number"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "alarm"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

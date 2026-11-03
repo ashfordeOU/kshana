@@ -10576,6 +10576,7 @@ engine-main-usage =
     { "   " }oder: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>
     { "   " }oder: kshana partner check <submission.toml> [--json]
     { "   " }oder: kshana scenario <migrate <scenario.toml> [--in-place] | version>
+    { "   " }oder: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }oder: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }oder: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
