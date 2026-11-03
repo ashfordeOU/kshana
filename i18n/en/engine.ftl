@@ -109,6 +109,8 @@ engine-e-clock-log-the-servo-of-never-reached = the servo of { $id } never reach
 
 engine-e-clock-log-the-log-has-no-chrony = the log has no chrony tracking readings
 
+engine-e-clock-log-no-wr-stat = the log has no White Rabbit stat line with `sec:` and `cko:` values
+
 ## src/acquisition.rs
 
 engine-e-acquisition-sample-rate-hz-is-not = sample rate { $fs_hz } Hz is not a whole number of samples per millisecond

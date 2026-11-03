@@ -2,7 +2,7 @@
 
 `src/clock_log.rs` reads a measured clock log into one normalised phase series: a uniform
 grid of `(time_s, phase_s)` samples, with the sample interval `tau0` stated or found, every
-gap counted and the log's units named. Eight formats are read, each a documented subset.
+gap counted and the log's units named. Eleven formats are read, each a documented subset.
 Anything outside the subset is refused with an error that names what was found, rather
 than read approximately.
 
@@ -26,11 +26,12 @@ Without the table, both kinds parse, hash and report exactly as before.
 ```toml
 [clock_log]                 # or [series.clock_log] in a telecom-timing scenario
 format = "ticc"             # "rinex-clk", "timelab", "ticc", "ptp4l", "phc2sys", "ts2phc",
-                            # "chrony-tracking" or "chrony-statistics"
+                            # "chrony-tracking", "chrony-statistics", "ntp-loopstats",
+                            # "ntp-peerstats" or "wr-stat"
 path = "logs/ticc.txt"      # or text = "..." inline (the only choice in WebAssembly)
 channel = "chA"             # TICC: needed when the log holds more than one channel
 gaps = "linear"             # "refuse" (default), "longest" or "linear"
-# clock = "G08"             # RINEX, linuxptp, chrony: needed when the log holds more than one clock or source
+# clock = "G08"             # RINEX, linuxptp, chrony, ntpd: needed when the log holds more than one clock or source
 # tau0_s = 1.0              # overrides a header and the detected spacing
 # units = "ns"              # TimeLab phase units: s (default), ms, us, ns, ps
 # data = "phase"            # TimeLab: phase (default) or frequency
@@ -141,6 +142,27 @@ documentation. The fixtures in `tests/fixtures/clock_log/linuxptp_chrony/` are w
 Kshana with made-up values (see its `NOTICE.md`); no real log was read, so a layout that
 differs between daemon versions can still be refused or misread. A line that does not match is
 skipped and counted, never guessed.
+
+
+## ntpd and White Rabbit logs
+
+**`ntp-loopstats`**, **`ntp-peerstats`**: ntpd's `loopstats` and `peerstats` statistics files,
+read by column position. Each reading starts with the modified Julian day and the seconds past
+midnight UTC.
+
+- Loopstats: column 3, the local clock's offset on each update, in seconds; one local clock.
+- Peerstats: column 5, a peer's measured offset, in seconds; one series per peer address
+  (column 3), and the log needs `clock = "<address>"` when it holds more than one.
+- Epochs are seconds from 1980-01-06 00:00:00 UTC (MJD 44244), with no leap-second handling.
+  The spacing follows the poll interval; `tau0` is the median spacing, as for chrony.
+- A line that does not have the columns or whose fields are not numbers is skipped and counted.
+
+**`wr-stat`**: the `stat` lines of a White Rabbit PTP core: white-space separated `key:value`
+pairs. The reader needs `sec` (seconds, TAI) and `cko` (the clock offset, picoseconds), reads
+`nsec` when present, and reads `lock` as the servo state: readings before the first `lock:1` are
+a pull-in and are left out and counted, and a log that never locks is refused, as for linuxptp.
+Every other key (`crtt`, `setp`, `mu`, `temp`, ...) is ignored. A line without `sec` and `cko`
+is skipped and counted.
 
 ## `tau0` and gaps
 
