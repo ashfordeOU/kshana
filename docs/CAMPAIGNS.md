@@ -82,7 +82,7 @@ phases on a 10 s grid:
 | Phase | Runs | What the timeline shows |
 |---|---|---|
 | nominal, 600 s | `clock`, `jamming` (no jammer), `integrity` | time error 0 ns; C/N0 43.0 dB-Hz against a 25 dB-Hz floor; vertical protection level 9.1 to 21.6 m against a 50 m alert limit |
-| jamming, 600 s | the same, jammer at -30 dBW, 1 km | C/N0 falls to 27.7 dB-Hz, all 8 satellites still tracking |
+| jamming, 600 s | the same, jammer at -30 dBW, 1 km | C/N0 falls to 30.6 dB-Hz, all 8 satellites still tracking |
 | spoofing, ended at 370 s by `end_at` | `spoof` (0.1 ns/s time ramp), `spoof-detect`, `jamming` | time error ramps to 36 ns; the radio-frequency detector alarms at phase start, the clock-aided monitor at 370 s |
 | holdover, 1800 s | `clock` (denied, carries 37.0 ns), `gnss-ins` (tactical unit coasting), `jamming` at 10 dBW | every satellite lost (C/N0 about -12 dB-Hz); time error 36.4 to 62.7 ns against the 50 ns guard; position error to 24 km |
 | integrity-alarm, 600 s | `clock` (carries 59.6 ns), `jamming` and `integrity` with a 25 deg mask | 5 satellites tracking; protection level 19 to 135 m, missing at 18 of 60 grid times; the carried time error, 52.1 to 61.7 ns, stays above the 50 ns guard, so the alarm is up for the whole phase |
@@ -119,7 +119,7 @@ the campaign declares one. With `runs > 1` every node is a seeded Monte Carlo en
 (realisation `k` at the node's seed plus `k`), reported with the statistics below.
 `scenarios/campaign-sweep-jammer-power.toml` sweeps a jammer 1 km from the receiver from
 -50 to +10 dBW: the mean jammer-to-signal ratio moves exactly 1 dB per dB (12.2 to
-72.2 dB), and availability falls from 1 to 0 between -30 and -25 dBW.
+72.2 dB), and availability falls from 1 to 0 between -25 and -20 dBW.
 
 A dotted key may index an array of tables by position: `system.2.sisre_m` is the
 `sisre_m` of the third `[[system]]` table, and
