@@ -290,6 +290,7 @@ pub mod permalink;
 pub mod interference_map;
 pub mod nmea_synth;
 pub mod obs;
+pub mod par;
 mod portable_distr;
 mod portable_distr_tables;
 #[doc(hidden)]
