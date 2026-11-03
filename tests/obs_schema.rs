@@ -28,7 +28,9 @@ fn kshana(args: &[&str]) -> (i32, String, String) {
 
 #[test]
 fn example_converts_and_checks() {
-    let dir = std::env::temp_dir().join(format!("kshana-obs-{}", std::process::id()));
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-obs-{}-{seq}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();
     let out = dir.join("site.obs.jsonl");
     let (code, _, err) = kshana(&[
