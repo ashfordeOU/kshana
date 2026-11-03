@@ -80,3 +80,10 @@ What moved in the pinned verdict (the only pin that moved; the version-bearing p
 Unchanged: `spec_version` 1.5, `spdx_enum_size` 613, `normalized_schema_errors` 0, `atomic_ids_all_valid_spdx` 1, the atomic and
 compound identifier lists (every new crate carries an expression already in the list). Procedure and command lines: the section
 above. The OSNMA and timestamp vector tests pass unchanged with the new curves.
+
+## Re-run against the final lock (0.41 phase 1, 3 November 2026)
+
+`tests/reproducibility_software_assurance_reference.rs` was re-run on the `Cargo.lock` of main at `b3ac91184` (0.40.0 plus the
+November dependency updates). It passes against the pinned fixture unchanged: the updates moved versions, not the component
+graph the verdict records. No re-bless was needed.
+
