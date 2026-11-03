@@ -2086,6 +2086,44 @@ mod tests {
     }
 
     #[test]
+    fn rinex_4_observations_read_as_3_04() {
+        // RINEX 4.00 observation files keep the 3.0x record layout and add header records
+        // (DOI, LICENSE OF USE, STATION INFORMATION); the same data must give the same epochs.
+        let v3 = rinex_text();
+        let v4 = v3.replacen("     3.04", "     4.00", 1).replacen(
+            &hdr(&[], "END OF HEADER"),
+            &[
+                hdr(&[(0, "https://doi.org/10.0000/example")], "DOI"),
+                hdr(&[(0, "CC BY 4.0")], "LICENSE OF USE"),
+                hdr(
+                    &[(0, "https://example.org/site-log")],
+                    "STATION INFORMATION",
+                ),
+                hdr(&[], "END OF HEADER"),
+            ]
+            .join("\n"),
+            1,
+        );
+        assert!(v4.contains("     4.00") && v4.contains("LICENSE OF USE"));
+        let (a, b) = (read_rinex(&v3).unwrap(), read_rinex(&v4).unwrap());
+        // The byte spans move by exactly the extra header length; everything else is equal.
+        let shift = v4.len() - v3.len();
+        let unspan = |t: &Timeline, by: usize| -> Vec<LogEpoch> {
+            t.epochs
+                .iter()
+                .cloned()
+                .map(|mut e| {
+                    e.source_span = e.source_span.map(|[s, x]| [s - by, x - by]);
+                    e
+                })
+                .collect()
+        };
+        assert_eq!(unspan(&a, 0), unspan(&b, shift));
+        assert_eq!(a.observables, b.observables);
+        assert_eq!(a.start_label, b.start_label);
+    }
+
+    #[test]
     fn rinex_two_epochs_merged_and_windowed() {
         let tl = read_rinex(&rinex_text()).expect("parses");
         assert_eq!(tl.epochs.len(), 2);
