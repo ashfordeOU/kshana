@@ -1285,6 +1285,10 @@
    "count": 20,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/scenario_version.rs": {
+   "count": 1,
+   "reason": "identifier: the TOML root key `schema_version` that the scenario parser matches; not text a person reads"
+  },
   "src/sigmf.rs": {
    "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
