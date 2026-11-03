@@ -74,7 +74,7 @@ jobs:
         with:
           toolchain: 1.93.0
           components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
       - name: Format
@@ -120,7 +120,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - run: cargo package --locked
       - name: The tarball fits crates.io's upload limit
         # crates.io refuses a .crate over 10 MiB (413 Payload Too Large). The v0.40.0 publish was the first to learn that:
@@ -185,7 +185,7 @@ jobs:
       # Docker Hub registry pull times out ("dial tcp ...: i/o timeout"). The
       # binary install has no Docker Hub dependency. cargo-deny reads
       # Cargo.lock + deny.toml and needs no project compilation.
-      - uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+      - uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
         with:
           tool: cargo-deny
       - name: cargo-deny
@@ -261,8 +261,8 @@ jobs:
           # The LLVM source-based coverage engine needs llvm-profdata/llvm-cov,
           # shipped by this component.
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
-      - uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+      - uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
         with:
           tool: cargo-tarpaulin
       - name: Coverage (LLVM engine, enforced line floor)
@@ -339,7 +339,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Cross-platform reproducibility tests
         run: >
           cargo test
@@ -401,7 +401,7 @@ jobs:
       # (publish.yml, pages.yml): an exact version, fetched as a prebuilt binary whose
       # SHA-256 the install action checks against its own manifest.
       - name: Install wasm-pack (pinned)
-        uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+        uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
         with:
           tool: wasm-pack@0.13.1
       - name: Build the WebAssembly module
@@ -595,7 +595,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: IQ monitors in the campaign (release)
         run: cargo test --release --test iq_campaign_monitors --test iq_campaign_roc -- --test-threads 1
   # ---------------------------------------------------------------------------
@@ -615,7 +615,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Lab fit from IQ campaigns (release)
         run: cargo test --release --test iq_labfit_campaign -- --test-threads 1
   # The lab-fit follow-up (docs/design/evidence/labfit-followup/): campaigns S and R and their
@@ -630,7 +630,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Lab-fit follow-up campaigns (release)
         run: cargo test --release --test iq_labfit_followup -- --test-threads 1
   # The pre-registered B1 of the lunar-orbit-rendezvous kind (xval/mission-thread-lunar/RESULTS.md): mean
@@ -645,7 +645,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Pre-registered B1 of the lunar rendezvous kind (release)
         run: cargo test --release --lib -p kshana lunar_rendezvous::tests::b1_ -- --test-threads 1
   public-standalone:
@@ -656,7 +656,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Build the public crate standalone
         run: cargo build -p kshana
       # Scope to the crate's unit tests plus the registry dispatch-seam suite. The
@@ -676,7 +676,7 @@ jobs:
         with:
           toolchain: 1.93.0
           targets: wasm32-unknown-unknown
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: Build the public crate for wasm32-unknown-unknown
         # Proves the registry/assurance seam stays no_std/WASM-safe. Scoped to
         # --lib: the registry lives in the library, and the crate's native-only
@@ -715,7 +715,7 @@ jobs:
         with:
           toolchain: 1.93.0
           components: rustfmt
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           # The crate sits outside the root package and has its own lockfile and target
           # dir, so the cache key has to name it or every run is a cold build.
@@ -777,7 +777,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Prebuilt binary, same as the root `deny` job and for the same reason (no Docker
       # Hub dependency). cargo-deny reads Cargo.lock + deny.toml and compiles nothing.
-      - uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+      - uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
         with:
           tool: cargo-deny
       - name: cargo-deny over the MCP server's own lockfile
