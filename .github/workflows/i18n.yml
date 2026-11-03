@@ -40,7 +40,9 @@ jobs:
         run: node tools/i18n-catalogues-test.mjs
 
   pseudo-locale:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest is now 26.04, where Playwright 1.57 cannot install Chromium. Move to
+    # ubuntu-latest together with a Playwright release that supports it.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -86,7 +88,9 @@ jobs:
     # The tree pages.yml would upload, built here for German and Japanese (no engine package: the Studio's engine page is not under test), served as it
     # is in a real browser: the run-time catalogues answer 200 under /i18n/<lang>/, kshanaL10n.lang is the page's language on /<lang>/ and in the Studio,
     # and /<lang>/evidence draws its Orbit ladder (the page looks rows up by key, not by the words of a translated label).
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest is now 26.04, where Playwright 1.57 cannot install Chromium. Move to
+    # ubuntu-latest together with a Playwright release that supports it.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
