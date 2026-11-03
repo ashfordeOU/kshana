@@ -1290,8 +1290,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/connect.rs": {
-   "count": 10,
-   "reason": "identifiers: the schema id kshana.connect/1, the time-format keyword gps-week-tow, the mapping keys fix.lat, fix.lon and fix.height named in unit errors, and the obs/1 observable names jam_ind and self_report; not text a person reads"
+   "count": 11,
+   "reason": "identifiers: the conformance file name vector.toml, the schema id kshana.connect/1, the time-format keyword gps-week-tow, the mapping keys fix.lat, fix.lon and fix.height named in unit errors, and the obs/1 observable names jam_ind and self_report; not text a person reads"
   },
   "src/governor.rs": {
    "count": 1,

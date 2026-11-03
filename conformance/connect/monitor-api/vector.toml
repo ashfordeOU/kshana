@@ -1,0 +1,5 @@
+name = "connect mapping: monitor-api"
+input = "../../../examples/connect/monitor-api.json"
+mapping = "../../../examples/connect/monitor-api.connect.toml"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

@@ -1,0 +1,5 @@
+name = "connect mapping: android-raw"
+input = "../../../examples/connect/android-raw.csv"
+mapping = "../../../examples/connect/android-raw.connect.toml"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

@@ -75,5 +75,13 @@ in JSON a `column` starting with `/` is a JSON pointer into nested objects.
 - A CSV header without a column the mapping names is a mapping error.
 - The output header's `source_format` is `connect:<format>`.
 
+## Conformance vectors
+
+`conformance/connect/` holds one folder per adapter with a `vector.toml` (input, mapping file or
+built-in reader, station, expected output). `kshana connect check conformance/connect` runs them
+all and exits 1 on any byte difference, naming the first differing line; `--bless` records the
+expected outputs after a reviewed change. CI runs the folder (`tests/connect_conformance.rs`).
+Every new adapter comes with its vector.
+
 Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV
 or JSON Lines is the route for now) and live inputs (A3a).

@@ -10276,7 +10276,7 @@ engine-main-usage =
     { "   " }or: kshana partner check <submission.toml> [--json]
     { "   " }or: kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
-    { "   " }or: kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
+    { "   " }or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless]>
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -11340,4 +11340,20 @@ engine-e-connect-time-order = line { $line }: the time goes backwards; the input
 
 engine-e-connect-bad-sat = line { $line }: `{ $value }` is not a satellite name (G05, E11, ...)
 
-engine-e-connect-cli-usage = usage: kshana connect map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>]
+engine-e-connect-cli-usage = usage: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless]>
+
+engine-e-connect-vector-bad = { $path }: not a valid conformance vector: { $e }
+
+engine-e-connect-vector-needs = { $path }: a vector names either `mapping` or `reader`, exactly one
+
+engine-e-connect-no-vectors = no vector.toml found
+
+engine-connect-check-pass = PASS  { $name }
+
+engine-connect-check-fail = FAIL  { $name }: output differs from the expected file at line { $line }
+
+engine-connect-check-error = ERROR { $path }: { $e }
+
+engine-connect-check-blessed = wrote the expected output of { $name }
+
+engine-connect-check-summary = { $passed } of { $total } vectors pass

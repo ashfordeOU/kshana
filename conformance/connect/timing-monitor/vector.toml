@@ -1,0 +1,5 @@
+name = "connect mapping: timing-monitor"
+input = "../../../examples/connect/timing-monitor.csv"
+mapping = "../../../examples/connect/timing-monitor.connect.toml"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

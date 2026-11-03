@@ -116,6 +116,63 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         eprintln!("{path}: {e}");
         ExitCode::from(1)
     };
+    if args.first().map(String::as_str) == Some("check") && (2..=3).contains(&args.len()) {
+        let bless = args.len() == 3 && args[2] == "--bless";
+        if args.len() == 3 && !bless {
+            return usage();
+        }
+        let vectors = kshana::connect::find_vectors(std::path::Path::new(&args[1]));
+        if vectors.is_empty() {
+            return fail(&args[1], kshana::terr!("e-connect-no-vectors"));
+        }
+        let mut failed = 0usize;
+        for p in &vectors {
+            let shown = p.display().to_string();
+            match kshana::connect::run_vector(p) {
+                Err(e) => {
+                    failed += 1;
+                    println!("{}", kshana::t!("connect-check-error", path = shown, e = e));
+                }
+                Ok((v, expected, produced)) => {
+                    if bless {
+                        if let Err(e) = std::fs::write(&expected, &produced) {
+                            return fail(&expected.display().to_string(), e.to_string());
+                        }
+                        println!("{}", kshana::t!("connect-check-blessed", name = v.name));
+                        continue;
+                    }
+                    let want = std::fs::read_to_string(&expected).unwrap_or_default();
+                    match kshana::connect::first_difference(&want, &produced) {
+                        None => println!("{}", kshana::t!("connect-check-pass", name = v.name)),
+                        Some(line) => {
+                            failed += 1;
+                            println!(
+                                "{}",
+                                kshana::t!(
+                                    "connect-check-fail",
+                                    name = v.name,
+                                    line = line.to_string()
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        println!(
+            "{}",
+            kshana::t!(
+                "connect-check-summary",
+                passed = (vectors.len() - failed).to_string(),
+                total = vectors.len().to_string()
+            )
+        );
+        return if failed == 0 {
+            ExitCode::SUCCESS
+        } else {
+            ExitCode::from(1)
+        };
+    }
     if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
         return usage();
     }
