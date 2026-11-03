@@ -1986,6 +1986,10 @@ pub fn error_info_json(src: &str, lang: &str) -> String {
 }
 
 fn run_toml_in_current_language(src: &str) -> Result<RunOutput, String> {
+    // The optional `schema_version` line is checked and removed first, so a file runs, hashes and
+    // labels exactly as it would without it (crate::scenario_version).
+    let src = crate::scenario_version::strip(src)?;
+    let src = src.as_ref();
     let mut out = run_toml_inner(src, true)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
@@ -2047,6 +2051,8 @@ pub fn run_toml_untiered(src: &str) -> Result<RunOutput, String> {
 /// already carries one. Frozen-prediction kinds
 /// ([`crate::fom_label::FROZEN_PREDICTION_KINDS`]) get none.
 fn run_toml_inner(src: &str, tiers: bool) -> Result<RunOutput, String> {
+    let src = crate::scenario_version::strip(src)?;
+    let src = src.as_ref();
     let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
     let mut out = crate::registry::PackRegistry::with_builtins()
         .build(&kind.to_id(), src)?

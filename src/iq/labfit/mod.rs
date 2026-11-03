@@ -216,7 +216,8 @@ pub fn run_toml_views(src: &str) -> Result<[String; 4], String> {
 /// Parse a TOML scenario and run it. Relative log paths are read relative to the
 /// working directory.
 pub fn run_toml(src: &str) -> Result<LabFitOutput, String> {
+    let src = crate::scenario_version::strip(src)?;
     let sc: LabFitScenario =
-        toml::from_str(src).map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
+        toml::from_str(&src).map_err(|e| crate::terr!("e-iq-labfit-iq-labfit-scenario", e = e))?;
     run_scenario(&sc)
 }

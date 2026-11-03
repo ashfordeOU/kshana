@@ -14,6 +14,67 @@ fn usage() -> String {
     kshana::t!("main-usage")
 }
 
+/// `kshana scenario version` prints the scenario schema version this engine reads;
+/// `kshana scenario migrate <file> [--in-place]` upgrades a file to it (stdout, or the file itself).
+fn run_scenario_cli(args: &[String]) -> ExitCode {
+    use kshana::scenario_version as sv;
+    match args.first().map(String::as_str) {
+        Some("version") if args.len() == 1 => {
+            println!("{}", sv::CURRENT);
+            ExitCode::SUCCESS
+        }
+        Some("migrate") if args.len() == 2 || (args.len() == 3 && args[2] == "--in-place") => {
+            let path = &args[1];
+            let src = match std::fs::read_to_string(path) {
+                Ok(s) => s,
+                Err(e) => {
+                    eprintln!("{path}: {e}");
+                    return ExitCode::from(1);
+                }
+            };
+            let m = match sv::migrate(&src) {
+                Ok(m) => m,
+                Err(e) => {
+                    eprintln!("{path}: {e}");
+                    return ExitCode::from(1);
+                }
+            };
+            if args.len() == 3 {
+                if m.changed {
+                    if let Err(e) = std::fs::write(path, &m.source) {
+                        eprintln!("{path}: {e}");
+                        return ExitCode::from(1);
+                    }
+                    eprintln!(
+                        "{}",
+                        kshana::t!(
+                            "scenario-cli-migrated",
+                            path = path.clone(),
+                            to = m.to.to_string()
+                        )
+                    );
+                } else {
+                    eprintln!(
+                        "{}",
+                        kshana::t!(
+                            "scenario-cli-unchanged",
+                            path = path.clone(),
+                            to = m.to.to_string()
+                        )
+                    );
+                }
+            } else {
+                print!("{}", m.source);
+            }
+            ExitCode::SUCCESS
+        }
+        _ => {
+            eprintln!("{}", kshana::terr!("e-scenario-cli-usage"));
+            ExitCode::from(2)
+        }
+    }
+}
+
 /// Format the current system time as a UTC ISO-8601 second-precision stamp
 /// (e.g. `2026-06-23T14:05:09Z`). This is the ONLY clock read in the whole crate:
 /// the library/engine/api stay pure and deterministic, and the timestamp is passed
@@ -182,6 +243,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // metadata (docs/PARTNER-DATA.md). Terminal; it reads local files and scores nothing.
     if args.get(1).map(String::as_str) == Some("partner") {
         return kshana::partner::cli::run(&args[2..]);
+    }
+    // `kshana scenario <migrate|version>` states and upgrades a scenario file's schema version
+    // (kshana::scenario_version, docs/SCENARIO-VERSIONS.md). Terminal, local files only.
+    if args.get(1).map(String::as_str) == Some("scenario") {
+        return run_scenario_cli(&args[2..]);
     }
     // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
     // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
