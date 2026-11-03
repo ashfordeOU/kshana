@@ -12523,5 +12523,38 @@
    },
    " IQ references"
   ]
+ },
+ {
+  "id": "e-governor-bad-max-memory",
+  "error": true,
+  "parts": [
+   "KSHANA_MAX_MEMORY must be a whole number of bytes, optionally with K, M, G or T (for example 2G), not `",
+   {
+    "var": "value"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "e-governor-over-cap",
+  "error": true,
+  "parts": [
+   {
+    "var": "output"
+   },
+   " would hold about ",
+   {
+    "var": "need"
+   },
+   " MiB in memory, over the KSHANA_MAX_MEMORY cap of ",
+   {
+    "var": "cap"
+   },
+   " MiB; use ",
+   {
+    "var": "instead"
+   },
+   ", which streams to disk in a fixed amount of memory, or raise the cap"
+  ]
  }
 ]

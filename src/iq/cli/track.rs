@@ -356,14 +356,25 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     // One pass to acquire, a fresh pass to track the whole recording.
     let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
-    let mut acq_src = through_frontend(&fe, opened.source)?;
-    let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
-    let inits = acquire_inits(&design, periods_per_bit, &spec, &codes, acq_src.as_mut())?;
-
     let max_samples = a
         .num::<f64>("--max-seconds")
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
+    // `--json` holds every epoch until the end: refuse it up front when it would go over the
+    // KSHANA_MAX_MEMORY cap, before acquisition and tracking spend any time.
+    if a.get("--json").is_some() {
+        let n = max_samples.map_or(opened.n_samples, |m| m.min(opened.n_samples));
+        crate::governor::check(
+            json_bytes_estimate(n, spec.fs_hz, &codes),
+            "--json",
+            "--epochs",
+        )
+        .map_err(Fail::Run)?;
+    }
+    let mut acq_src = through_frontend(&fe, opened.source)?;
+    let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
+    let inits = acquire_inits(&design, periods_per_bit, &spec, &codes, acq_src.as_mut())?;
+
     let track_rec = open_input(&a, 0)?;
     let tracked = max_samples.map_or(track_rec.n_samples, |m| m.min(track_rec.n_samples));
     let mut track_src = through_frontend(&fe, track_rec.source)?;
@@ -453,6 +464,21 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         std::fs::write(p, body).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     Ok(table(&names, &summary.channels) + &warning_lines(&spec, &codes))
+}
+
+/// Memory one held epoch of one channel takes in `--json` (the in-memory record and its share of
+/// the document): measured at about 5.8 KiB in 0.41 (`docs/MEMORY.md`), rounded up.
+const JSON_BYTES_PER_EPOCH: u64 = 6 << 10;
+
+/// What `--json` will hold for `samples` samples at `fs_hz`: one epoch per code period per
+/// channel (the most a coherent setting can give, so the estimate errs high).
+fn json_bytes_estimate(samples: u64, fs_hz: f64, codes: &[SignalCode]) -> u64 {
+    let seconds = samples as f64 / fs_hz.max(1.0);
+    codes
+        .iter()
+        .map(|c| (seconds / c.period_s().max(1e-6)).ceil() as u64)
+        .sum::<u64>()
+        .saturating_mul(JSON_BYTES_PER_EPOCH)
 }
 
 /// The commensurate-sampling findings for `codes` on a stream sampled as `spec`: the chip rate,

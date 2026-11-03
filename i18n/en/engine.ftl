@@ -11294,3 +11294,7 @@ engine-e-obs-station-mismatch = line { $line } belongs to station `{ $found }`, 
 engine-e-obs-cli-usage = usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
 
 engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $epochs } epochs, { $alarms } alarms, { $iq } IQ references
+
+engine-e-governor-bad-max-memory = KSHANA_MAX_MEMORY must be a whole number of bytes, optionally with K, M, G or T (for example 2G), not `{ $value }`
+
+engine-e-governor-over-cap = { $output } would hold about { $need } MiB in memory, over the KSHANA_MAX_MEMORY cap of { $cap } MiB; use { $instead }, which streams to disk in a fixed amount of memory, or raise the cap
