@@ -200,6 +200,7 @@ __all__ = [
     "lunanet_afs_generate",
     "bench_score",
     "bench_leaderboard",
+    "connect_map",
     "osnma_verify",
     "trust_telemetry",
     "imu_fit",
@@ -544,6 +545,12 @@ def lunanet_afs_generate(frames: int = 1, toi0: int = 0) -> str:
     """A test stream of ``frames`` (1 to 100) AFS frames as text of ``0`` and ``1`` with
     placeholder subframes 2 to 4 (not LDPC coded, no message): symbols for testing a checker,
     not a waveform. Raises ``ValueError``."""
+
+def connect_map(mapping: str, station: str, text: str) -> str:
+    """Kshana Connect in memory, as ``kshana connect map``: apply a ``kshana.connect/1`` mapping
+    (TOML text) to a log's text for a station (TOML text) and return the ``kshana.obs/1`` records
+    as JSON-lines text. Nothing is read from or written to disk. Raises ``ValueError`` naming the
+    line and field that failed."""
 
 def osnma_verify(
     data: bytes | str,
