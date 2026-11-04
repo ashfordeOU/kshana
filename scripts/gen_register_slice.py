@@ -20,6 +20,7 @@ STATUS_TEXT = {
     "PARTNER": "PARTNER: native model, waiting for partner data",
     "NOT MET": "NOT MET: native model, scorecard failed, iterating",
 }
+VERDICTS = ("clean", "restricted", "unclear", "unreviewed")
 RANK = {"VALIDATED": 0, "MODELLED": 1, "PARTNER": 2, "NOT MET": 3}
 
 
@@ -49,6 +50,10 @@ def build():
         missing = [r for r in m["rows"] if r not in rows]
         if missing:
             errors.append(f"{m['id']}: rows not in the matrix: {', '.join(missing)}")
+            continue
+        bad = [r.get("model") for r in m["replaces"] if r.get("licence_verdict") not in VERDICTS]
+        if bad:
+            errors.append(f"{m['id']}: licence_verdict must be one of {VERDICTS}: {bad}")
             continue
         sts = [rows[r]["status"] for r in m["rows"]]
         unknown = [s for s in sts if s not in RANK]
