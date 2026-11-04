@@ -324,6 +324,7 @@ pub mod representativeness;
 pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
+pub mod rtcm_ssr;
 pub mod rtk_real;
 pub mod run;
 pub mod sbas;
