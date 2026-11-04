@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Revisions
+
+- Mars short-arc orbit determination, run 2: since portable maths (0.36), the fit takes 11 Jacobian evaluations, B3 is 0.359 km
+  and B4 is 0.523 km (were 12, 0.362 and 0.527). Every verdict is unchanged; B2 stays NOT MET and the row stays MODELLED. The
+  data-gated test was missed by the 0.36 re-baseline. See `docs/revisions/CAP30-run2-portable-math-rebaseline.md`.
+
 ## [0.40.0] - 2026-10-29
 
 0.40 adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes,
