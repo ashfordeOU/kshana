@@ -514,6 +514,15 @@ pub fn interference_map(
     .to_string())
 }
 
+/// Kshana Connect in memory (`kshana connect map`): apply a `kshana.connect/1` mapping (TOML text)
+/// to a log's text for a station (TOML text) and return the `kshana.obs/1` records as JSON-lines
+/// text. Nothing is uploaded.
+#[wasm_bindgen]
+pub fn connect_map(mapping: &str, station: &str, text: &str) -> Result<String, JsValue> {
+    crate::surface::connect_map(mapping, station, text, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Estimated emitter regions from ADS-B or AIS CSV text (arguments as `interference_map`, without the
 /// cell size): where, under stated assumptions, a source of the degraded reports could be, as regions at
 /// stated confidence levels with a centroid and an uncertainty ellipse, never a bare point. Returns a JSON
