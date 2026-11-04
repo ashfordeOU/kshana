@@ -1686,6 +1686,25 @@ pub fn skyplot_svg(request: &str, max_bytes: usize) -> Result<String, String> {
     crate::geometry::skyplot_svg_text(request)
 }
 
+/// Kshana Connect in memory: apply a `kshana.connect/1` mapping (TOML text) to a log's text and
+/// return the `kshana.obs/1` records as JSON lines, as `kshana connect map` writes them. The
+/// station is a TOML station file's text. Nothing is read from or written to disk. `max_bytes`
+/// caps the log, the mapping and the station each.
+pub fn connect_map(
+    mapping_toml: &str,
+    station_toml: &str,
+    text: &str,
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap("mapping", mapping_toml, max_bytes)?;
+    cap("station", station_toml, max_bytes)?;
+    cap("log", text, max_bytes)?;
+    let mapping = crate::connect::parse_mapping(mapping_toml)?;
+    let station: crate::obs::Station = toml::from_str(station_toml).map_err(|e| e.to_string())?;
+    let records = crate::connect::map(&mapping, text, &station)?;
+    crate::obs::to_jsonl(&records)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

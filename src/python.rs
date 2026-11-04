@@ -1985,6 +1985,16 @@ fn interference_emitter_regions<'py>(
     )
 }
 
+/// Kshana Connect in memory (`kshana connect map`, `docs/CONNECT.md`): apply a
+/// `kshana.connect/1` mapping (TOML text) to a log's text for a station (TOML text) and return the
+/// `kshana.obs/1` records as JSON-lines text. Nothing is read from or written to disk. Raises
+/// `ValueError` with the line and field that failed.
+#[pyfunction]
+fn connect_map(mapping: &str, station: &str, text: &str) -> PyResult<String> {
+    crate::surface::connect_map(mapping, station, text, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
 /// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
 /// (`kshana bench-export`, `docs/TEST-BENCH.md`), in memory: nothing is written to disk.
 /// Applies to the `gnss-ins`, `jamming` and `gnss-sim` kinds; others raise `ValueError` with
@@ -2513,6 +2523,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(interference_emitter_regions, m)?)?;
+    m.add_function(wrap_pyfunction!(connect_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
     m.add_function(wrap_pyfunction!(bench_export, m)?)?;
     m.add_function(wrap_pyfunction!(iq_sweep, m)?)?;
