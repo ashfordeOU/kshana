@@ -12904,5 +12904,12 @@
   "parts": [
    "the log has no White Rabbit stat line with `sec:` and `cko:` values"
   ]
+ },
+ {
+  "id": "e-clock-log-no-cggtts-tracks",
+  "error": true,
+  "parts": [
+   "the log has no CGGTTS data line with a valid checksum"
+  ]
  }
 ]

@@ -102,10 +102,13 @@ pub enum ClockLogFormat {
     /// White Rabbit PTP core `stat` lines (`key:value`; clock offset `cko`, ps).
     #[serde(rename = "wr-stat")]
     WrStat,
+    /// BIPM CGGTTS 2E track file (all-in-view `REFSYS`, 0.1 ns; checksums checked).
+    #[serde(rename = "cggtts")]
+    Cggtts,
 }
 
 /// Format names accepted in a scenario.
-pub const FORMAT_NAMES: [&str; 11] = [
+pub const FORMAT_NAMES: [&str; 12] = [
     "rinex-clk",
     "timelab",
     "ticc",
@@ -117,6 +120,7 @@ pub const FORMAT_NAMES: [&str; 11] = [
     "ntp-loopstats",
     "ntp-peerstats",
     "wr-stat",
+    "cggtts",
 ];
 
 impl ClockLogFormat {
@@ -134,6 +138,7 @@ impl ClockLogFormat {
             "ntp-loopstats" => Ok(Self::NtpLoopstats),
             "ntp-peerstats" => Ok(Self::NtpPeerstats),
             "wr-stat" => Ok(Self::WrStat),
+            "cggtts" => Ok(Self::Cggtts),
             other => Err(crate::terr!(
                 "e-clock-log-unknown-clock-log-format-expected",
                 other = format!("{:?}", other),
@@ -156,6 +161,7 @@ impl ClockLogFormat {
             Self::NtpLoopstats => "ntp-loopstats",
             Self::NtpPeerstats => "ntp-peerstats",
             Self::WrStat => "wr-stat",
+            Self::Cggtts => "cggtts",
         }
     }
 }
@@ -359,6 +365,7 @@ pub fn parse(
             parse_ntp(fmt, text, inp, gaps)
         }
         ClockLogFormat::WrStat => parse_wr_stat(text, inp, gaps),
+        ClockLogFormat::Cggtts => parse_cggtts(text, inp, gaps),
         ClockLogFormat::ChronyTracking | ClockLogFormat::ChronyStatistics => {
             parse_chrony(fmt, text, inp, gaps)
         }
@@ -1472,6 +1479,47 @@ fn parse_wr_stat(
     .finish_with(gaps)
 }
 
+/// BIPM CGGTTS 2E: per track start, the median `REFSYS` over satellites (the laboratory
+/// reference minus GNSS system time), or one satellite's with `clock`. Lines whose checksum
+/// fails are left out and counted (see [`crate::cggtts`]). The 16-minute schedule moves 4
+/// minutes a day, so spacing at a day change is uneven; the grid takes the median spacing.
+fn parse_cggtts(
+    text: &str,
+    inp: &ClockLogInput,
+    gaps: GapPolicy,
+) -> Result<NormalisedPhase, String> {
+    let file = crate::cggtts::read_tracks(text);
+    if file.tracks.is_empty() {
+        return Err(crate::terr!("e-clock-log-no-cggtts-tracks"));
+    }
+    let series = crate::cggtts::all_in_view(&file.tracks, inp.clock.as_deref());
+    let id = inp
+        .clock
+        .clone()
+        .unwrap_or_else(|| "all in view".to_string());
+    if series.is_empty() {
+        return Err(crate::terr!(
+            "e-clock-log-no-readings-for-found",
+            what = "CGGTTS",
+            id = format!("{:?}", id),
+            names = "all in view"
+        ));
+    }
+    let times: Vec<f64> = series.iter().map(|e| e.t).collect();
+    let offsets: Vec<f64> = series.iter().map(|e| e.value_s).collect();
+    grid_timed_offsets(
+        ClockLogFormat::Cggtts,
+        id,
+        &times,
+        &offsets,
+        inp,
+        "0.1 ns",
+        Some("UTC".into()),
+        file.bad_checksum + file.malformed,
+    )?
+    .finish_with(gaps)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Stability of a normalised series (the `measured` block of the clock kind)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2033,7 +2081,7 @@ TICC startup menu text
             i.clock = Some("x".into());
             assert!(run(&i, "1\n2\n").unwrap_err().contains("clock applies to"));
         }
-        assert_eq!(FORMAT_NAMES.len(), 11);
+        assert_eq!(FORMAT_NAMES.len(), 12);
         for n in FORMAT_NAMES {
             assert_eq!(ClockLogFormat::from_name(n).unwrap().name(), n);
         }

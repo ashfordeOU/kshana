@@ -111,6 +111,8 @@ engine-e-clock-log-the-log-has-no-chrony = the log has no chrony tracking readin
 
 engine-e-clock-log-no-wr-stat = the log has no White Rabbit stat line with `sec:` and `cko:` values
 
+engine-e-clock-log-no-cggtts-tracks = the log has no CGGTTS data line with a valid checksum
+
 ## src/acquisition.rs
 
 engine-e-acquisition-sample-rate-hz-is-not = sample rate { $fs_hz } Hz is not a whole number of samples per millisecond
