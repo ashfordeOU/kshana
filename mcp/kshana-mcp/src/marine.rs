@@ -383,6 +383,40 @@ pub struct InterferenceMapRequest {
     pub land_geojson: Option<String>,
 }
 
+/// Parameters for [`KshanaServer::interference_emitter_regions`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct EmitterRegionsRequest {
+    /// `"adsb"` or `"ais"`.
+    pub source: String,
+    /// The reports as CSV text, at most 4 MiB, in the format of docs/INTERFERENCE-MAP.md.
+    pub csv: String,
+    /// An approved dataset or `"custom"` (with `licence`, `licence_url`, `attribution`).
+    pub dataset: String,
+    /// For `dataset = "custom"`: the licence name.
+    #[serde(default)]
+    pub licence: Option<String>,
+    /// For `dataset = "custom"`: the licence URL.
+    #[serde(default)]
+    pub licence_url: Option<String>,
+    /// For `dataset = "custom"`: the attribution text.
+    #[serde(default)]
+    pub attribution: Option<String>,
+    /// AIS only: a land-polygon GeoJSON (at most 4 MiB).
+    #[serde(default)]
+    pub land_geojson: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::connect_map`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ConnectMapRequest {
+    /// The `kshana.connect/1` mapping file as TOML text.
+    pub mapping: String,
+    /// The station file as TOML text.
+    pub station: String,
+    /// The log to map, as text, at most 4 MiB.
+    pub text: String,
+}
+
 /// Parameters for [`KshanaServer::route_exposure`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct RouteExposureRequest {
@@ -750,6 +784,52 @@ impl KshanaServer {
         )];
         contents.extend(days.into_iter().map(|d| ContentBlock::text(d.geojson)));
         Ok(CallToolResult::success(contents))
+    }
+
+    #[tool(
+        description = "Estimate emitter regions from openly licensed aircraft (ADS-B) or ship (AIS) reports given as CSV text (`kshana interference-map locate`): where, under stated assumptions, a source of the degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point. Returns `{stem, geojson, summary, csv, svg, sessions_published, sessions_withheld}`, each text labelled with its evidence tier. Aggregate only: a region is not the position of anyone and not a finding of the cause. Input is capped at 4 MiB. Nothing is fetched. Evidence tier: MODELLED."
+    )]
+    fn interference_emitter_regions(
+        &self,
+        Parameters(r): Parameters<EmitterRegionsRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let source = MapSource::parse(&r.source).map_err(bad)?;
+        let custom = (r.licence.is_some() || r.licence_url.is_some() || r.attribution.is_some())
+            .then(|| CustomDataset {
+                licence: r.licence.unwrap_or_default(),
+                licence_url: r.licence_url.unwrap_or_default(),
+                attribution: r.attribution.unwrap_or_default(),
+            });
+        let out = surface::emitter_regions(
+            source,
+            &r.csv,
+            &r.dataset,
+            custom.as_ref(),
+            r.land_geojson.as_deref(),
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(bad)?;
+        reply(serde_json::json!({
+            "stem": out.stem,
+            "geojson": out.geojson,
+            "summary": out.summary,
+            "csv": out.csv,
+            "svg": out.svg,
+            "sessions_published": out.sessions_published,
+            "sessions_withheld": out.sessions_withheld,
+        }))
+    }
+
+    #[tool(
+        description = "Map any receiver, timing or monitoring log to Kshana observations with a `kshana.connect/1` mapping file, no code (`kshana connect map`, docs/CONNECT.md). Takes the mapping and the station as TOML text and the log as text (CSV or JSON, at most 4 MiB) and returns the `kshana.obs/1` records as JSON lines, byte-identical to the command line. A row that cannot be read is an error naming the line and field. Nothing is read from or written to disk."
+    )]
+    fn connect_map(
+        &self,
+        Parameters(r): Parameters<ConnectMapRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let jsonl =
+            surface::connect_map(&r.mapping, &r.station, &r.text, MAX_UPLOAD_BYTES).map_err(bad)?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(jsonl)]))
     }
 
     #[tool(
