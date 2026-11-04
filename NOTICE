@@ -51,7 +51,12 @@ Galileo E1 primary memory codes:
   purposes, so the repository does not carry them; see LICENSING.md.
   Kshana is not developed by, used by, approved by or endorsed by the European Union.
 
-RTCM 3 MSM reader:
+RTCM 3 MSM and SSR readers:
+  src/rtcm_ssr.rs reads RTCM 3 SSR correction messages (1057-1068, 1240-1264) from the same
+  open decoder's field widths, scales and message layouts. Two of its public sample streams
+  (tests/fixtures/rtcm_ssr/pygpsdata-RTCM3.log and pygpsdata-1240-1264.log, from the pyrtcm
+  repository at tag v1.2.0) and the decoded values its test suite records for them are
+  carried as test fixtures under the same BSD 3-Clause licence.
   src/receiver_trust/machines/rtcm3.rs reads RTCM 3 MSM4 and MSM7 observation messages using
   the frame layout, field widths and signal tables published in the open-source decoder pyrtcm
   1.2.0 (https://pypi.org/project/pyrtcm/), used under its BSD 3-Clause licence, reproduced
