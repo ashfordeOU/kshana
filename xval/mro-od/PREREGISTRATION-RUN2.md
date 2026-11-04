@@ -136,3 +136,5 @@ worse than the reconstruction does. The remaining difference lies in the dynamic
 fitted parameters (the drag scale goes to almost zero), not in the measurement model. It is not
 diagnosed here. Under the outcome rule the TRK-2-18 row stays MODELLED. Run 2 is pinned in
 `tests/mro_odf_short_arc_od_oracle.rs` next to run 1, whose verdict stands.
+
+**Later revision (4 Nov 2026):** since the portable-maths merge (`054fa552`), the same run gives 11 evaluations, B3 0.3587 km and B4 0.5228 km. Every verdict is unchanged. See `docs/revisions/CAP30-run2-portable-math-rebaseline.md`.
