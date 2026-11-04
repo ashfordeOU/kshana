@@ -94,6 +94,7 @@ pub mod ccsds_tdm;
 /// The optional Celeste IOD preset: compiled in only when `src/celeste_iod.rs` exists.
 #[cfg(kshana_celeste)]
 pub mod celeste_iod;
+pub mod cggtts;
 pub mod chart;
 pub mod cio;
 mod cio_s06_data;

@@ -164,6 +164,29 @@ a pull-in and are left out and counted, and a log that never locks is refused, a
 Every other key (`crtt`, `setp`, `mu`, `temp`, ...) is ignored. A line without `sec` and `cko`
 is skipped and counted.
 
+## CGGTTS time-transfer files
+
+**`cggtts`**: BIPM CGGTTS version 2E track files, the common-view format that time laboratories
+publish. A data line is one satellite track (`SAT CL MJD STTIME TRKL ELV AZTH REFSV SRSV REFSYS
+... CK`).
+
+- A line counts only when its `CK` checksum holds: the sum, modulo 256, of the byte values of
+  every character before `CK`, including the separating space. Lines that fail are skipped and
+  counted, never dropped silently. The rule was checked on every data line of a public BIPM
+  file (`scripts/fetch_cggtts.sh`, `tests/cggtts_bipm_reference.rs`).
+- `REFSV` and `REFSYS` are in units of 0.1 ns. A field of all 9s is a missing value.
+- The time of a track is its start (`MJD`, `STTIME`, UTC) plus half of `TRKL`, as seconds from
+  1980-01-06 00:00:00 UTC.
+- The phase read is, per track start, the median `REFSYS` over satellites (the laboratory's
+  reference minus GNSS system time), labelled `all in view`. With `clock = "G04"`, one
+  satellite's `REFSYS` only.
+- Tracks follow a 16-minute schedule that moves 4 minutes a day, so the spacing is uneven at a day
+  change; `tau0` is the median spacing (960 s).
+- Two laboratories' files give a common-view difference (`kshana::cggtts::common_view`):
+  `REFSV(a) − REFSV(b)` on the same satellite and track cancels the satellite clock. Its
+  comparison with BIPM Circular T is pre-registered in
+  `docs/design/evidence/r6-1-cggtts/PREREGISTRATION.md`.
+
 ## `tau0` and gaps
 
 When the log carries time stamps and no `tau0` is given, `tau0` is the median spacing of
