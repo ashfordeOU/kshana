@@ -968,3 +968,34 @@ async fn trust_telemetry_renders_each_format_and_refuses_bad_input() {
     assert!(fan.contains("reply") && fan.contains("limit"), "{fan}");
     client.cancel().await.ok();
 }
+
+#[tokio::test]
+async fn connect_map_gives_the_conformance_vector_bytes() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let read = |p: &str| std::fs::read_to_string(root.join(p)).unwrap();
+    let client = connect().await;
+    let t = call(
+        &client,
+        "connect_map",
+        json!({
+            "mapping": read("examples/connect/android-raw.connect.toml"),
+            "station": read("examples/obs/station.toml"),
+            "text": read("examples/connect/android-raw.csv"),
+        }),
+    )
+    .await
+    .expect("connect_map");
+    assert_eq!(
+        t[0],
+        read("conformance/connect/android-raw/expected.obs.jsonl")
+    );
+    let e = call(
+        &client,
+        "connect_map",
+        json!({"mapping": "x", "station": "", "text": "y".repeat(MAX_UPLOAD_BYTES + 1)}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("limit"), "{e}");
+    client.cancel().await.ok();
+}

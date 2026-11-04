@@ -90,6 +90,8 @@ async fn serves_exactly_the_expected_tool_set() {
         "attach_evidence_timestamp",
         "generate_training_nmea",
         "build_interference_map",
+        "interference_emitter_regions",
+        "connect_map",
         "route_exposure",
         "trust_telemetry",
         "fit_imu_log",
