@@ -112,7 +112,7 @@ pub struct DataFile {
     /// SHA-256 of the data file, lower-case hex.
     pub sha256: String,
     /// A clock-log format (`ticc`, `timelab`, `rinex-clk`, `ptp4l`, `phc2sys`, `ts2phc`, `chrony-tracking`,
-    /// `chrony-statistics`, `ntp-loopstats`, `ntp-peerstats`, `wr-stat`) for a clock, or `csv` / `euroc` for an IMU.
+    /// `chrony-statistics`, `ntp-loopstats`, `ntp-peerstats`, `wr-stat`, `cggtts`) for a clock, or `csv` / `euroc` for an IMU.
     pub format: String,
     /// RINEX, linuxptp, chrony: the clock or source to read.
     #[serde(default)]
@@ -513,7 +513,7 @@ fn read_data(
         "clock" => {
             if ClockLogFormat::from_name(&sub.data.format).is_err() {
                 errors.push(format!(
-                    "data.format `{}` is not a clock-log format (ticc, timelab, rinex-clk, ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics, ntp-loopstats, ntp-peerstats, wr-stat)",
+                    "data.format `{}` is not a clock-log format (ticc, timelab, rinex-clk, ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics, ntp-loopstats, ntp-peerstats, wr-stat, cggtts)",
                     sub.data.format
                 ));
                 return;

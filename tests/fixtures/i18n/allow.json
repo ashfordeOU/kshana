@@ -134,8 +134,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/clock_log.rs": {
-   "count": 90,
-   "reason": "machine-document: log-format names (including ntp-loopstats and ntp-peerstats), the clock identifiers written to the result's clock field (local clock, White Rabbit local clock, the ntpd source labels), the RINEX record key `RINEX VERSION / TYPE`, and the units definitions and provenance of the measured-log result JSON"
+   "count": 91,
+   "reason": "machine-document: log-format names (including ntp-loopstats and ntp-peerstats), the clock identifiers written to the result's clock field (local clock, White Rabbit local clock, the ntpd source labels, the CGGTTS all-in-view label), the RINEX record key `RINEX VERSION / TYPE`, and the units definitions and provenance of the measured-log result JSON"
   },
   "src/clock_specs.rs": {
    "count": 3,
