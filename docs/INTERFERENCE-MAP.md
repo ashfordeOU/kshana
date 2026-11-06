@@ -263,6 +263,36 @@ rows per day and source with the four shares (degraded, clear, unassessed, not o
 together, never the degraded share alone, plus the report's `caveats`, and each row's
 `map_licence` and `map_attribution`.
 
+## Live feeds from a local receiver (`interference-map record`)
+
+```sh
+# ADS-B: the aircraft.json readsb or dump1090-fa writes (--write-json), read every second
+kshana interference-map record --source adsb --from /run/readsb/aircraft.json --out adsb-today.csv
+
+# AIS: AIS-catcher (or any AIS receiver) sending NMEA over UDP or TCP, or a pipe
+AIS-catcher -u 127.0.0.1 10110 &
+kshana interference-map record --source ais --from udp:10110 --out ais-today.csv
+```
+
+`record` writes the reports into the CSV formats above as they arrive, flushing each row, so the file is
+the input of `locate`, `adsb` and `ais`: a live run and its replay read the same rows. The output file
+must not exist yet (nothing is overwritten); stop with Ctrl-C or `--max-seconds`.
+
+- **ADS-B** reads readsb `aircraft.json` snapshots: a file read every `--poll-s` seconds (default 1), or
+  one snapshot per line from `-`, `tcp:host:port` or a file. An aircraft becomes a row when its position
+  is newer than its last row (time `now - seen_pos`, to the millisecond). Aircraft on the ground and
+  aircraft without a position are not written. `type` is kept as `source_type`, so non-ADS-B positions
+  (MLAT, TIS-B) are excluded later exactly as in an archive.
+- **AIS** reads `!AIVDM` and `!AIVDO` sentences from `-`, `tcp:host:port`, `udp:port` (bound to the
+  loopback interface; `udp:addr:port` to listen wider) or a file. The checksum is checked and fragments are
+  joined; position reports (types 1, 2, 3, 18 and 19, ITU-R M.1371 layout) become rows. The time is the
+  NMEA 4 TAG block `c:` field when the sentence has one, otherwise the time it arrived.
+
+The identifiers are written as received (ICAO address, MMSI) into the operator's own file, which is sent
+nowhere; the map and region readers hash them with a random salt, as for any other input.
+`tests/interference_map_live.rs` checks that AIS over TCP gives the same file as the same sentences read
+from a file, that each readsb position is written once, and that `locate` reads both files.
+
 ## Emitter region (`interference-map locate`)
 
 `kshana interference-map locate` estimates **where an interference source can be** from the same open ADS-B or

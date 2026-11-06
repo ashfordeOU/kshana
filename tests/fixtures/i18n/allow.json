@@ -161,6 +161,10 @@
    "count": 2,
    "reason": "machine-document: the HTTP/1.1 upgrade request sent to the server, and the <url>: <error> prefix of an operating-system connection error"
   },
+  "src/interference_map/live.rs": {
+   "count": 6,
+   "reason": "machine-document: the two CSV headers of the documented input formats, the CSV row layouts of the ADS-B and AIS reports, the loopback address a bare UDP port binds, and the <source>: <error> prefix of an operating-system error"
+  },
   "src/rts25.rs": {
    "count": 10,
    "reason": "machine-document: the seven activity identifiers accepted on input (kebab-case names of the RTS 25 Annex rows) and the three outcome codes written to the result (within limit, beyond limit, not assessable)"
