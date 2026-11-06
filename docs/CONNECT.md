@@ -133,6 +133,9 @@ same mapping file, into `kshana.obs/1` records.
   --station <station.toml>` prints records as JSON lines as they complete. `--user` with
   `--password-env <VAR>` reads the password from an environment variable, never from the command line.
   `--max-messages <n>` ends the run after n messages and releases the last epoch.
+- Many stations on one broker: subscribe with a wildcard (`--topic 'site/+/raw'`) and add `--per-topic`.
+  Each topic then gets its own feed, and its records carry the station id
+  `<station.id>/<last topic level>`, with one header per station before its first epoch.
 
 ## Live WebSocket input (`kshana::connect_ws`)
 
@@ -149,6 +152,32 @@ subscription, through the same continuous-log feed.
   matches the example in RFC 6455 (`tests/connect_ws.rs`).
 - From the command line: `kshana connect ws <ws://host:port/path> --mapping <connect.toml> --station
   <station.toml> [--header <row>] [--max-messages <n>]`.
+
+## Load test (`kshana connect load-test`)
+
+`kshana connect load-test` runs many synthetic stations through the live feeds: by default 1,000
+stations at 1 Hz for 10 s, each sending one CSV row per epoch in the layout of
+`examples/connect/timing-monitor.csv`. It passes when the feeds keep up with the offered load, 99 % of
+messages take at most 250 ms, and every epoch comes back.
+
+- `--via memory` (default) puts the rows straight into the feeds as fast as they are taken, and measures
+  how many messages one core maps a second.
+- `--via mqtt` has a loopback broker publish every station's rows on its own topic, paced at the real
+  rate. One wildcard subscription splits them per topic, and the test measures the time from a message
+  being sent to its records being returned.
+
+Measured with a release build on one core of a cloud machine on 6 Nov 2026 (1,000 stations, 1 Hz,
+10 s; your machine will differ, so run it there):
+
+| Via | Capacity | Time per message (median / 99th percentile / max) |
+|---|---|---|
+| memory | 40,659 messages/s against 1,000 offered | 0.022 / 0.042 / 0.276 ms |
+| mqtt | (as memory) | 12.9 / 28.5 / 29.7 ms |
+
+Over MQTT, all 1,000 stations send in the same instant each second, so most of that time is a message
+waiting behind the others of its second. `tests/connect_load.rs` runs a smaller load in both modes on
+every change. It also checks that per-topic feeds give each station exactly the epochs of
+`kshana connect map` on its own log.
 
 ## Live conformance kit (`kshana connect check-live`)
 

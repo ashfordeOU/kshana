@@ -190,7 +190,7 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         return run_connect_ws(&args[1], &flag);
     }
     if args.first().map(String::as_str) == Some("mqtt") && args.len() >= 8 {
-        return run_connect_mqtt(&args[1], &flag);
+        return run_connect_mqtt(&args[1], &flag, args.iter().any(|a| a == "--per-topic"));
     }
     if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
         return usage();
@@ -457,7 +457,11 @@ fn run_connect_ws(url: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCode 
 /// [--max-messages <n>]`: subscribe to a broker topic and print `kshana.obs/1` records as JSON lines
 /// (`kshana::connect_mqtt`). The password is read from the named environment variable, never from the
 /// command line. With `--max-messages` the run ends after that many messages and releases the held epoch.
-fn run_connect_mqtt(addr: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCode {
+fn run_connect_mqtt(
+    addr: &str,
+    flag: &dyn Fn(&str) -> Option<String>,
+    per_topic: bool,
+) -> ExitCode {
     use std::io::Write;
     let usage = || {
         eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
@@ -511,19 +515,32 @@ fn run_connect_mqtt(addr: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCo
     };
     let mut out = std::io::stdout().lock();
     let mut bad = None;
-    let r = kshana::connect_mqtt::run(&cfg, &mapping, &station, &mut feed, max, |recs| {
-        match kshana::obs::to_jsonl(&recs) {
-            // A closed standard output (a reader that went away) ends the run quietly.
-            Ok(t) => out
-                .write_all(t.as_bytes())
-                .and_then(|()| out.flush())
-                .is_ok(),
-            Err(e) => {
-                bad = Some(e);
-                false
-            }
+    let mut write = |recs: Vec<kshana::obs::Record>| match kshana::obs::to_jsonl(&recs) {
+        // A closed standard output (a reader that went away) ends the run quietly.
+        Ok(t) => out
+            .write_all(t.as_bytes())
+            .and_then(|()| out.flush())
+            .is_ok(),
+        Err(e) => {
+            bad = Some(e);
+            false
         }
-    });
+    };
+    if per_topic {
+        let mut feeds =
+            match kshana::connect_mqtt::TopicFeeds::new(&mapping, flag("--header").as_deref()) {
+                Ok(f) => f,
+                Err(e) => return fail(&mapping_path, e),
+            };
+        let r = kshana::connect_mqtt::run_per_topic(
+            &cfg, &mapping, &station, &mut feeds, max, &mut write,
+        );
+        return match r.and_then(|_| bad.map_or(Ok(()), Err)) {
+            Err(e) => fail(addr, e),
+            Ok(()) => ExitCode::SUCCESS,
+        };
+    }
+    let r = kshana::connect_mqtt::run(&cfg, &mapping, &station, &mut feed, max, &mut write);
     match r.and_then(|_| bad.map_or(Ok(()), Err)) {
         Err(e) => fail(addr, e),
         Ok(()) => ExitCode::SUCCESS,

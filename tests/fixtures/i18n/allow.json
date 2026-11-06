@@ -133,6 +133,10 @@
    "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/connect_load.rs": {
+   "count": 4,
+   "reason": "machine-document: the synthetic timing-monitor CSV header and row format, and the loopback broker's MQTT topic and client id"
+  },
   "src/connect_live.rs": {
    "count": 6,
    "reason": "machine-document: the loopback test servers' MQTT topic and client id, the HTTP/1.1 upgrade reply, the ws:// URL, and the <path>: <error> prefix of an operating-system error"
@@ -1010,7 +1014,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 54,
+   "count": 56,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {

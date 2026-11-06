@@ -42,18 +42,39 @@ fn per_topic_feeds_keep_stations_apart() {
     let mut feeds = TopicFeeds::new(&mapping, Some(header)).unwrap();
     let mut got = Vec::new();
     for (i, r) in rows.iter().enumerate() {
-        got.extend(feeds.push("site/rx/a", r.as_bytes(), &mapping, &station).unwrap());
+        got.extend(
+            feeds
+                .push("site/rx/a", r.as_bytes(), &mapping, &station)
+                .unwrap(),
+        );
         if i > 0 {
-            got.extend(feeds.push("site/rx/b", rows[i - 1].as_bytes(), &mapping, &station).unwrap());
+            got.extend(
+                feeds
+                    .push("site/rx/b", rows[i - 1].as_bytes(), &mapping, &station)
+                    .unwrap(),
+            );
         }
     }
-    got.extend(feeds.push("site/rx/b", rows[rows.len() - 1].as_bytes(), &mapping, &station).unwrap());
+    got.extend(
+        feeds
+            .push(
+                "site/rx/b",
+                rows[rows.len() - 1].as_bytes(),
+                &mapping,
+                &station,
+            )
+            .unwrap(),
+    );
     got.extend(feeds.flush(&mapping).unwrap());
     assert_eq!(feeds.len(), 2);
     let base = epochs_of(&want, &station.id);
     assert!(!base.is_empty());
     for s in ["a", "b"] {
-        assert_eq!(epochs_of(&got, &format!("{}/{s}", station.id)), base, "station {s}");
+        assert_eq!(
+            epochs_of(&got, &format!("{}/{s}", station.id)),
+            base,
+            "station {s}"
+        );
     }
     let headers: Vec<&str> = got
         .iter()
@@ -69,7 +90,10 @@ fn per_topic_feeds_keep_stations_apart() {
 fn a_small_load_keeps_up_in_memory_and_over_mqtt() {
     let m = run_memory(100, 2.0, 3).unwrap();
     assert_eq!(m.messages, 600);
-    assert_eq!(m.epochs, 600, "every row is an epoch, the last of each station released at the end");
+    assert_eq!(
+        m.epochs, 600,
+        "every row is an epoch, the last of each station released at the end"
+    );
     assert!(m.pass, "{m:?}");
     // Paced in real time: 50 stations at 4 Hz for 2 s takes about 2 s of wall time.
     let q = run_mqtt(50, 4.0, 2).unwrap();
