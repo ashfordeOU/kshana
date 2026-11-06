@@ -176,6 +176,9 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
         return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
     }
+    if args.first().map(String::as_str) == Some("mqtt") && args.len() >= 8 {
+        return run_connect_mqtt(&args[1], &flag);
+    }
     if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
         return usage();
     }
@@ -208,6 +211,101 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         None => {
             print!("{text}");
             ExitCode::SUCCESS
+        }
+    }
+}
+
+/// `kshana connect mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml>
+/// [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>]
+/// [--max-messages <n>]`: subscribe to a broker topic and print `kshana.obs/1` records as JSON lines
+/// (`kshana::connect_mqtt`). The password is read from the named environment variable, never from the
+/// command line. With `--max-messages` the run ends after that many messages and releases the held epoch.
+fn run_connect_mqtt(addr: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCode {
+    use std::io::Write;
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        ExitCode::from(2)
+    };
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    let (Some(topic), Some(mapping_path), Some(station_path)) =
+        (flag("--topic"), flag("--mapping"), flag("--station"))
+    else {
+        return usage();
+    };
+    let read = |p: &str| std::fs::read_to_string(p).map_err(|e| e.to_string());
+    let mapping = match read(&mapping_path).and_then(|t| kshana::connect::parse_mapping(&t)) {
+        Ok(m) => m,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let station: kshana::obs::Station =
+        match read(&station_path).and_then(|t| toml::from_str(&t).map_err(|e| e.to_string())) {
+            Ok(s) => s,
+            Err(e) => return fail(&station_path, e),
+        };
+    let qos = match flag("--qos").as_deref() {
+        None | Some("0") => 0,
+        Some("1") => 1,
+        Some(_) => return usage(),
+    };
+    let max = match flag("--max-messages").map(|v| v.parse::<u64>()) {
+        None => None,
+        Some(Ok(n)) if n > 0 => Some(n),
+        Some(_) => return usage(),
+    };
+    let credentials = match (flag("--user"), flag("--password-env")) {
+        (None, None) => None,
+        (Some(u), Some(var)) => Some((u, std::env::var(var).unwrap_or_default())),
+        _ => return usage(),
+    };
+    let cfg = kshana::connect_mqtt::MqttConfig {
+        addr: addr.to_string(),
+        client_id: flag("--client-id").unwrap_or_else(|| format!("kshana-{}", std::process::id())),
+        topic,
+        qos,
+        credentials,
+        keep_alive_s: 60,
+    };
+    let mut feed = match kshana::connect_mqtt::Feed::new(&mapping, flag("--header").as_deref()) {
+        Ok(f) => f,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let mut sub = match kshana::connect_mqtt::Subscriber::connect(&cfg) {
+        Ok(s) => s,
+        Err(e) => return fail(addr, e),
+    };
+    let mut out = std::io::stdout().lock();
+    let mut seen = 0u64;
+    loop {
+        let recs = match sub.next_payload() {
+            Ok(None) => continue,
+            Ok(Some(p)) => {
+                seen += 1;
+                let mut r = feed.push(&p, &mapping, &station);
+                if max == Some(seen) {
+                    r = r.and_then(|mut a| {
+                        a.extend(feed.flush(&mapping, &station)?);
+                        Ok(a)
+                    });
+                }
+                r
+            }
+            Err(e) => Err(e),
+        };
+        let text = match recs.and_then(|r| kshana::obs::to_jsonl(&r)) {
+            Ok(t) => t,
+            Err(e) => return fail(addr, e),
+        };
+        if out
+            .write_all(text.as_bytes())
+            .and_then(|()| out.flush())
+            .is_err()
+            || max == Some(seen)
+        {
+            sub.disconnect();
+            return ExitCode::SUCCESS;
         }
     }
 }

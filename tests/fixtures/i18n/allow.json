@@ -133,6 +133,10 @@
    "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/connect_mqtt.rs": {
+   "count": 2,
+   "reason": "identifiers: the broker address prefixed to an operating-system connection error (<host:port>: <error>), no prose of its own"
+  },
   "src/connect_watch.rs": {
    "count": 1,
    "reason": "machine-document: the source_format label connect-watch:<format> written to the kshana.obs/1 header"
@@ -998,7 +1002,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 49,
+   "count": 51,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {
