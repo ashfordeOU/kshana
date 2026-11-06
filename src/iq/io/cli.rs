@@ -44,6 +44,9 @@ const VALUE_FLAGS: &[&str] = &[
     "--header",
     "--channels",
     "--channel",
+    "--from",
+    "--max-seconds",
+    "--hw",
 ];
 const SWITCHES: &[&str] = &["--recursive", "--no-hash", "--invert"];
 
@@ -253,6 +256,50 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
                 src = decimator(src, input.format.is_complex(), a)?;
             }
             write_output(Path::new(&a.pos[1]), src.as_mut(), to, gain, limit)
+        }
+        "record" => {
+            need_pos(a, 1, cmd)?;
+            let (Some(format), Some(rate)) = (
+                a.opts.get("--format"),
+                a.num::<f64>("--rate").map_err(Fail::Usage)?,
+            ) else {
+                return Err(Fail::Usage(crate::terr!(
+                    "e-iq-io-record-needs-format-rate"
+                )));
+            };
+            let out = Path::new(&a.pos[0]);
+            let s = out.to_string_lossy();
+            if ![".sigmf-meta", ".sigmf-data", ".sigmf"]
+                .iter()
+                .any(|e| s.ends_with(e))
+            {
+                return Err(Fail::Usage(crate::terr!("e-iq-io-record-out-sigmf")));
+            }
+            let max_s: Option<f64> = a.num("--max-seconds").map_err(Fail::Usage)?;
+            if max_s.is_some_and(|m| !(m.is_finite() && m > 0.0)) {
+                return Err(Fail::Usage(crate::terr!("e-iq-io-record-max-seconds")));
+            }
+            let opts = super::record::RecordOptions {
+                format: SampleFormat::parse(format)?,
+                rate_hz: rate,
+                centre_hz: a.num("--center").map_err(Fail::Usage)?,
+                max_samples: max_s.map(|m| (m * rate).round() as u64),
+                hw: a.opts.get("--hw").cloned(),
+                datetime: Some(super::record::now_iso()),
+                queue_chunks: 64,
+            };
+            let input =
+                super::record::open_input(a.opts.get("--from").map_or("-", String::as_str))?;
+            let st = super::record::record(input, out, &opts)?;
+            Ok(crate::t!(
+                "iq-io-record-wrote",
+                n = st.samples,
+                s = format!("{:.3}", st.samples as f64 / rate),
+                files = format!("{}, {}", st.files.0.display(), st.files.1.display()),
+                high = st.queue_high_water,
+                cap = st.queue_capacity,
+                cut = st.cut_bytes
+            ))
         }
         other => Err(Fail::Usage(crate::t!(
             "iq-io-cli-unknown-iq-command",

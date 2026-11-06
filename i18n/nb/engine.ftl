@@ -10736,6 +10736,7 @@ engine-iq-io-cli-usage =
     { "   " }eller: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }eller: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }eller: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }eller: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }rå inndata uten sidecar tar også: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }inndata med flere strømmer (SigMF med flere kanaler, sammenflettet rå) tar --channel <k> (fra 0; standard 0)
     { " " }formater: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bit i 16 ci12r_le ci12l_be cu12r_le ..., pakket 4 bit ci4_msb cu4_lsb ..., pakket 2 bit c2tc_msb c2sm_lsb r2ob_msb ..., 2 bit per byte c2sm_byte ..., reell r..., Q først ..._qi

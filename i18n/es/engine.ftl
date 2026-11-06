@@ -10983,6 +10983,7 @@ engine-iq-io-cli-usage =
     { "   " }o: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }o: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }o: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }o: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }las entradas en bruto sin archivo auxiliar admiten también: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }las entradas multiflujo (SigMF multicanal, en bruto intercalado) admiten --channel <k> (desde 0; por omisión 0)
     { " " }formatos: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bits en 16 ci12r_le ci12l_be cu12r_le ..., 4 bits empaquetados ci4_msb cu4_lsb ..., 2 bits empaquetados c2tc_msb c2sm_lsb r2ob_msb ..., 2 bits por byte c2sm_byte ..., reales r..., Q primero ..._qi

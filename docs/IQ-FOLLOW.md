@@ -1,9 +1,38 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Watching a recording while it is written, and describing a scene for other tools
 
-Two receive-only additions to `kshana iq` (hardware-safety stage 1, see
-[`HARDWARE-SAFETY.md`](HARDWARE-SAFETY.md)). Neither produces a signal; both only read or describe
-files.
+Three receive-only additions to `kshana iq` (hardware-safety stage 1, see
+[`HARDWARE-SAFETY.md`](HARDWARE-SAFETY.md)). None produces a signal; they read, record or describe
+what a receiver gives them.
+
+## `iq record`: write a capture tool's samples into SigMF
+
+```sh
+rtl_sdr -f 1575420000 -s 2048000 -g 40 - | \
+  kshana iq record capture.sigmf-data --format cu8 --rate 2048000 --center 1575420000 \
+  --hw "RTL-SDR v4, gain 40 dB" --max-seconds 1800
+kshana iq monitor capture.sigmf-meta --follow --power --spectral --json report.json   # alongside
+```
+
+`iq record` takes raw interleaved samples from standard input (`--from -`, the default), a TCP port
+(`--from tcp:host:port`) or a file or named pipe, and writes them **unchanged, byte for byte** into the
+SigMF recording, flushing each piece so a follower sees it at once. The `.sigmf-meta` is written before
+the first sample, with the data type, the rate, the centre frequency, `core:hw` from `--hw` and the start
+time, so `iq monitor --follow` can start as soon as the command does. It stops at the end of the input or
+after `--max-seconds` of signal. A trailing partial sample is cut, so the data file holds whole samples.
+
+Kshana does not touch the radio: the frequency, rate and gain are set on the capture tool's command line,
+and `--format`, `--rate` and `--center` only describe them. The capture tools for the common receivers
+write to standard output: `rtl_sdr` (RTL-SDR, `cu8`), `hackrf_transfer -r -` (HackRF, `ci8`),
+`airspy_rx -r -` (Airspy) and `rx_sdr` (any SoapySDR device: LimeSDR, USRP and others; choose its output
+format to match `--format`).
+
+A reader thread hands the bytes to the writer through a bounded queue of 64 chunks of 256 KiB, so a slow
+disk write does not stall reading. The summary reports the queue's high-water mark: a mark near 64 means
+the disk barely kept up. Samples the radio drops before they reach the pipe are reported by the capture
+tool itself (each prints its own overflow warnings); Kshana cannot see them. `tests/iq_record.rs` checks
+that the recording equals the bytes sent, and that `iq monitor --follow` on the growing file gives the same
+report, byte for byte, as `iq monitor` on the finished one.
 
 ## `iq monitor --follow`: monitor a SigMF file that is still growing
 
@@ -54,8 +83,9 @@ A minimal `.sigmf-meta` for an 8-bit complex recording at 2.046 MHz around the G
 ```
 
 Any receive-only tool that appends interleaved I/Q to a file in one of the SigMF data types
-(`ci8`, `cu8`, `ci16_le`, `cf32_le`, ...) can feed it. Which tool, which gain and which antenna are the
-operator's choices; Kshana contains no capture code and no transmit code. Recording radio signals can
+(`ci8`, `cu8`, `ci16_le`, `cf32_le`, ...) can feed it, and `kshana iq record` (below) writes such a file
+from a capture tool's output. Which tool, which gain and which antenna are the operator's choices; Kshana
+never opens or configures a radio, and contains no transmit code. Recording radio signals can
 raise privacy and legality questions in some places: see the legal notes in
 [`HARDWARE-SAFETY.md`](HARDWARE-SAFETY.md).
 
