@@ -141,6 +141,10 @@
    "count": 1,
    "reason": "machine-document: the source_format label connect-watch:<format> written to the kshana.obs/1 header"
   },
+  "src/connect_ws.rs": {
+   "count": 2,
+   "reason": "machine-document: the HTTP/1.1 upgrade request sent to the server, and the <url>: <error> prefix of an operating-system connection error"
+  },
   "src/rts25.rs": {
    "count": 10,
    "reason": "machine-document: the seven activity identifiers accepted on input (kebab-case names of the RTS 25 Annex rows) and the three outcome codes written to the result (within limit, beyond limit, not assessable)"
@@ -1002,7 +1006,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 51,
+   "count": 52,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {
