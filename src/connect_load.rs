@@ -33,10 +33,13 @@ const HEADER: &str = "week;tow;lat;lon;alt_ft;G05;G12;G25;E11;agc;spoof";
 pub struct LoadReport {
     /// `memory` or `mqtt`.
     pub via: String,
+    /// Stations simulated.
     pub stations: usize,
+    /// Messages a second from each station.
     pub rate_hz: f64,
     /// Seconds of data per station.
     pub seconds: usize,
+    /// Messages taken.
     pub messages: u64,
     /// Epochs returned (each station's last one is released at the end).
     pub epochs: u64,
@@ -48,6 +51,7 @@ pub struct LoadReport {
     pub offered_msgs_per_s: f64,
     /// Time per message, milliseconds: median, 99th percentile, maximum.
     pub latency_ms: [f64; 3],
+    /// Whether the run kept up (see the module documentation).
     pub pass: bool,
 }
 
@@ -83,6 +87,7 @@ fn parts() -> Result<(Mapping, Station), String> {
     Ok((mapping, station))
 }
 
+#[allow(clippy::too_many_arguments)]
 fn report(
     via: &str,
     stations: usize,
