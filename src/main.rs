@@ -186,6 +186,9 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         }
         return run_connect_check_live(&args[1], json);
     }
+    if args.first().map(String::as_str) == Some("nats") && args.len() >= 8 {
+        return run_connect_nats(&args[1], &flag, args.iter().any(|a| a == "--per-topic"));
+    }
     if args.first().map(String::as_str) == Some("ws") && args.len() >= 6 {
         return run_connect_ws(&args[1], &flag);
     }
@@ -374,6 +377,96 @@ fn run_connect_check_live(dir: &str, json: bool) -> ExitCode {
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)
+    }
+}
+
+/// `kshana connect nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml>
+/// [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>]
+/// [--max-messages <n>]`: subscribe to a NATS subject and print `kshana.obs/1` records as JSON lines
+/// (`kshana::connect_nats`). Secrets come from environment variables only.
+fn run_connect_nats(
+    addr: &str,
+    flag: &dyn Fn(&str) -> Option<String>,
+    per_subject: bool,
+) -> ExitCode {
+    use std::io::Write;
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        ExitCode::from(2)
+    };
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    let (Some(subject), Some(mapping_path), Some(station_path)) =
+        (flag("--subject"), flag("--mapping"), flag("--station"))
+    else {
+        return usage();
+    };
+    let read = |p: &str| std::fs::read_to_string(p).map_err(|e| e.to_string());
+    let mapping = match read(&mapping_path).and_then(|t| kshana::connect::parse_mapping(&t)) {
+        Ok(m) => m,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let station: kshana::obs::Station =
+        match read(&station_path).and_then(|t| toml::from_str(&t).map_err(|e| e.to_string())) {
+            Ok(s) => s,
+            Err(e) => return fail(&station_path, e),
+        };
+    let max = match flag("--max-messages").map(|v| v.parse::<u64>()) {
+        None => None,
+        Some(Ok(n)) if n > 0 => Some(n),
+        Some(_) => return usage(),
+    };
+    let env = |var: String| std::env::var(var).unwrap_or_default();
+    let (credentials, token) = match (flag("--user"), flag("--password-env"), flag("--token-env")) {
+        (None, None, None) => (None, None),
+        (Some(u), Some(v), None) => (Some((u, env(v))), None),
+        (None, None, Some(v)) => (None, Some(env(v))),
+        _ => return usage(),
+    };
+    let cfg = kshana::connect_nats::NatsConfig {
+        addr: addr.to_string(),
+        subject,
+        credentials,
+        token,
+    };
+    let header = flag("--header");
+    let mut out = std::io::stdout().lock();
+    let mut bad = None;
+    let mut write = |recs: Vec<kshana::obs::Record>| match kshana::obs::to_jsonl(&recs) {
+        // A closed standard output (a reader that went away) ends the run quietly.
+        Ok(t) => out
+            .write_all(t.as_bytes())
+            .and_then(|()| out.flush())
+            .is_ok(),
+        Err(e) => {
+            bad = Some(e);
+            false
+        }
+    };
+    let r = if per_subject {
+        match kshana::connect_mqtt::TopicFeeds::new(&mapping, header.as_deref()) {
+            Ok(f) => {
+                let mut feeds = f.label("connect-nats");
+                kshana::connect_nats::run_per_subject(
+                    &cfg, &mapping, &station, &mut feeds, max, &mut write,
+                )
+            }
+            Err(e) => return fail(&mapping_path, e),
+        }
+    } else {
+        match kshana::connect_mqtt::Feed::new(&mapping, header.as_deref()) {
+            Ok(f) => {
+                let mut feed = f.label("connect-nats");
+                kshana::connect_nats::run(&cfg, &mapping, &station, &mut feed, max, &mut write)
+            }
+            Err(e) => return fail(&mapping_path, e),
+        }
+    };
+    match r.and_then(|_| bad.map_or(Ok(()), Err)) {
+        Err(e) => fail(addr, e),
+        Ok(()) => ExitCode::SUCCESS,
     }
 }
 

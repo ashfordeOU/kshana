@@ -434,8 +434,8 @@ pub fn run(
 }
 
 /// One feed per topic, for a wildcard subscription that carries many stations. Each topic's records
-/// carry the station id `<station.id>/<last topic level>`; everything else about the station comes
-/// from `station`.
+/// carry the station id `<station.id>/<topic>` (unique, since topics are); everything else about the
+/// station comes from `station`.
 pub struct TopicFeeds {
     feeds: std::collections::BTreeMap<String, (Feed, Station)>,
     header: Option<String>,
@@ -453,6 +453,12 @@ impl TopicFeeds {
         })
     }
 
+    /// Name the input in each header's `source_format` (default `connect-mqtt`).
+    pub fn label(mut self, label: &'static str) -> Self {
+        self.label = label;
+        self
+    }
+
     /// Take one message of `topic`; the records that became complete for that topic's station.
     pub fn push(
         &mut self,
@@ -463,11 +469,7 @@ impl TopicFeeds {
     ) -> Result<Vec<Record>, String> {
         if !self.feeds.contains_key(topic) {
             let mut st = station.clone();
-            st.id = format!(
-                "{}/{}",
-                station.id,
-                topic.rsplit('/').next().unwrap_or(topic)
-            );
+            st.id = format!("{}/{topic}", station.id);
             let feed = Feed::new(mapping, self.header.as_deref())?.label(self.label);
             self.feeds.insert(topic.to_string(), (feed, st));
         }
