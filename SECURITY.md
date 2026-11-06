@@ -30,6 +30,13 @@ Scope, stated precisely, because `forbid` is per-crate:
   under `src/bin/`, the separately published `kshana-mcp` crate and the workspace-excluded
   `xval/` cross-validation crates are separate crate roots and are not covered by it. None
   of them contains `unsafe` today, but that is discipline, not a compiler-enforced property.
+- The C interface, `capi/kshana-capi`, is a separate crate so that the library stays free of
+  `unsafe`. A C caller needs `extern "C"` functions that take raw pointers. The few unsafe
+  operations that needs are in that crate's `src/lib.rs` alone: a null check before every read and
+  write, input capped at 64 MiB, no panic unwinding into C, and strings freed only by
+  `kshana_string_free`. Its review is `capi/kshana-capi/SAFETY.md`, and its own CI job
+  (`capi-check`) builds the C example against both libraries and runs a fuzz pass over its entry
+  points.
 - It says nothing about dependencies. Those are gated separately by
   `cargo deny check advisories licenses bans sources` in CI — for the root crate and,
   as its own job, for the workspace-excluded MCP server crate — and watched by
