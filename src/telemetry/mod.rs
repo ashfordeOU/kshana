@@ -19,3 +19,4 @@ pub mod prometheus;
 pub mod sample;
 pub mod syslog;
 pub mod time;
+pub mod webhook;
