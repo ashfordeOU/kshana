@@ -10302,7 +10302,7 @@ engine-main-usage =
     { "   " }or: kshana partner check <submission.toml> [--json]
     { "   " }or: kshana scenario <migrate <scenario.toml> [--in-place] | version>
     { "   " }or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
-    { "   " }or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once]>
+    { "   " }or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>]>
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
@@ -11360,6 +11360,18 @@ engine-e-connect-no-rows = the input has no data rows (after the filter, if any)
 
 engine-e-connect-watch-json = a single JSON document is not a growing log: watch a jsonl file instead
 
+engine-e-connect-mqtt-closed = the broker closed the connection
+
+engine-e-connect-mqtt-protocol = the broker sent a packet that is not MQTT 3.1.1
+
+engine-e-connect-mqtt-refused = the broker refused the connection (CONNACK return code { $code })
+
+engine-e-connect-mqtt-suback = the broker refused the subscription
+
+engine-e-connect-mqtt-config = the subscription needs a topic, QoS 0 or 1 and a keep-alive of at least one second
+
+engine-e-connect-mqtt-header = a CSV or TSV mapping needs the header row (--header), because publishers send rows only
+
 engine-e-connect-missing-column = the input has no column `{ $column }` that the mapping names
 
 engine-e-connect-bad-time = line { $line }: `{ $value }` is not a time in the `{ $format }` format
@@ -11368,7 +11380,7 @@ engine-e-connect-time-order = line { $line }: the time goes backwards; the input
 
 engine-e-connect-bad-sat = line { $line }: `{ $value }` is not a satellite name (G05, E11, ...)
 
-engine-e-connect-cli-usage = usage: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once]>
+engine-e-connect-cli-usage = usage: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>]>
 
 engine-e-connect-vector-bad = { $path }: not a valid conformance vector: { $e }
 
