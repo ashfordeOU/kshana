@@ -148,3 +148,22 @@ fn a_corrupt_block_is_skipped_and_the_monitors_run_on_the_rest() {
     assert_eq!(r.log.format, kshana::receiver_trust::LogFormat::Sbf);
     // No transmit path: the reader takes bytes and returns a timeline; there is nothing to write to.
 }
+
+/// A log cut inside its last block, or with a stray `$@` whose declared length runs past the end,
+/// ends: the earlier epochs are kept and the unfinished block counts as one skipped record. (The
+/// `sbf_tools` reader used to be iterated to the end, and it reports an unfinished last block
+/// again on every call, so such a log never finished reading.)
+#[test]
+fn a_log_cut_inside_a_block_ends() {
+    let whole = log();
+    let cut = &whole[..whole.len() - 7];
+    let tl = read_sbf(cut);
+    assert_eq!(tl.epochs.len(), 100);
+    assert_eq!(tl.skipped_records, 1);
+
+    let mut stray = log();
+    stray.extend([b'$', b'@', 0, 0, 0x22, 0x0F, 0xA0, 0x0F, 1, 2, 3]);
+    let tl = read_sbf(&stray);
+    assert_eq!(tl.epochs.len(), 100);
+    assert_eq!(tl.skipped_records, 1);
+}

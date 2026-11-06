@@ -717,6 +717,44 @@ fn sbf_letter(c: &sbf_tools::types::Constellation) -> Option<char> {
     })
 }
 
+/// The SBF blocks in `bytes`, and how many `$@` syncs did not start a whole valid block. Each
+/// block is framed here (sync, header, declared length, CRC-16, then the block parse), the way
+/// `sbf_tools`' reader does; a sync whose block fails, or runs past the end of the bytes, counts as
+/// one skipped record and the scan moves on one byte. `sbf_tools`' own reader returns an
+/// incomplete-block error at the end of a stream again on every call, so a log cut inside a block
+/// (or with a stray `$@` near its end) never ended; framing the bytes here ends it.
+fn sbf_blocks(bytes: &[u8]) -> (Vec<sbf_tools::SbfBlock>, usize) {
+    use sbf_tools::{SbfBlock, SbfError, SbfHeader};
+    let (mut out, mut bad, mut p) = (Vec::new(), 0usize, 0usize);
+    while p + 1 < bytes.len() {
+        if bytes[p] != b'$' || bytes[p + 1] != b'@' {
+            p += 1;
+            continue;
+        }
+        let one = || -> Result<(SbfBlock, usize), SbfError> {
+            let h = SbfHeader::parse(&bytes[p + 2..])?;
+            let len = usize::from(h.length);
+            let block = bytes.get(p..p + len).ok_or(SbfError::IncompleteBlock {
+                needed: len,
+                have: bytes.len() - p,
+            })?;
+            h.validate_crc(block)?;
+            SbfBlock::parse(block)
+        };
+        match one() {
+            Ok((block, used)) => {
+                out.push(block);
+                p += used.max(1);
+            }
+            Err(_) => {
+                bad += 1;
+                p += 1;
+            }
+        }
+    }
+    (out, bad)
+}
+
 /// Read a Septentrio SBF stream (read only). `PVTGeodetic` gives the fix, `MeasEpoch` the
 /// per-satellite C/N0 (band = the signal's name, for example `L1CA`), `RFStatus` the count of RF
 /// bands the receiver reports with a non-zero `Info` byte. Epochs are keyed by the block's
@@ -724,8 +762,7 @@ fn sbf_letter(c: &sbf_tools::types::Constellation) -> Option<char> {
 /// block whose time is "do not use" is skipped. Blocks that fail their CRC or do not parse count
 /// as skipped records. Other blocks are ignored; nothing is written anywhere.
 pub fn read_sbf(bytes: &[u8]) -> Timeline {
-    use sbf_tools::{SbfBlock, SbfReader};
-    let mut reader = SbfReader::new(bytes);
+    use sbf_tools::SbfBlock;
     let mut map: BTreeMap<i64, Acc> = BTreeMap::new();
     let gps_epoch_days = days_from_civil(1980, 1, 6);
     let key_of = |tow_ms: u32, wnc: u16, map: &mut BTreeMap<i64, Acc>| -> Option<i64> {
@@ -740,12 +777,8 @@ pub fn read_sbf(bytes: &[u8]) -> Timeline {
         }
         Some(key)
     };
-    let mut bad = 0usize;
-    for block in reader.by_ref() {
-        let Ok(block) = block else {
-            bad += 1;
-            continue;
-        };
+    let (blocks, bad) = sbf_blocks(bytes);
+    for block in blocks {
         match block {
             SbfBlock::PvtGeodetic(p) => {
                 let Some(k) = key_of(p.tow_ms(), p.wnc(), &mut map) else {
@@ -802,8 +835,7 @@ pub fn read_sbf(bytes: &[u8]) -> Timeline {
             _ => {}
         }
     }
-    let st = reader.stats();
-    finalize(map, bad.max((st.crc_errors + st.parse_errors) as usize))
+    finalize(map, bad)
 }
 
 // ---------------------------------------------------------------------------------
