@@ -115,6 +115,7 @@ exclude = [
     # the edition-2024 `rmcp` SDK could not sit in an MSRV-1.75 graph; that reason died
     # when the graph itself went edition-2024 and rust-version moved to 1.85, now 1.88.) See mcp/.
     "/mcp",
+    "/capi",
     # The JetBrains IDE plugin is a standalone Kotlin/Gradle project, not part of the
     # Rust crate at all. See ide/jetbrains/.
     "/ide",

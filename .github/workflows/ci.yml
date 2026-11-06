@@ -731,6 +731,38 @@ jobs:
   # workspace key, run cargo from its directory. Unlike that one, these gate: they run
   # on push and pull_request with everything else in this file.
   # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # C ABI (roadmap A5b): capi/kshana-capi sits outside the root package (like the MCP
+  # crate), so it is gated here: the libraries are built, then the tests check every entry
+  # point, the header against the exports, the C example against the static and shared
+  # libraries, and a fuzz pass. SAFETY.md is the review of its unsafe code.
+  # ---------------------------------------------------------------------------
+  capi-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: capi/kshana-capi
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+        with:
+          workspaces: capi/kshana-capi
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Build the static and shared libraries
+        run: cargo build --locked
+      - name: Test (entry points, header, C example, fuzz)
+        env:
+          KSHANA_REQUIRE_CC: "1"
+          KSHANA_CAPI_FUZZ_ITERATIONS: "5000"
+        run: cargo test --locked
   mcp-check:
     runs-on: ubuntu-latest
     timeout-minutes: 45
