@@ -307,3 +307,68 @@ fn other_kinds_are_not_applicable_with_a_reason() {
         other => panic!("expected NotApplicable, got {other:?}"),
     }
 }
+
+/// The CSV rows cut to a gps-sdr-sim layout, as `docs/TEST-BENCH.md` tells users to give `-u`
+/// and `-x`: columns 1-4 (`time, x, y, z`) or 1 and 8-10 (`time, lat, lon, h`).
+fn cut(csv: &str, cols: &[usize]) -> String {
+    csv.lines()
+        .skip(1)
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            cols.iter().map(|&c| f[c]).collect::<Vec<_>>().join(",")
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+#[test]
+fn simulator_motion_layouts_import_the_exported_trajectory() {
+    let t = traj();
+    let csv = write_motion_csv(&t);
+    let written = read_motion_csv(&csv).unwrap();
+    for (layout, cols, tol_m) in [
+        (SimMotionLayout::Ecef, vec![0, 1, 2, 3], 1e-9),
+        (SimMotionLayout::Llh, vec![0, 7, 8, 9], 2e-4),
+    ] {
+        let got = read_sim_motion(&cut(&csv, &cols), layout).unwrap();
+        assert_eq!(got.len(), written.len());
+        let mut worst_pos: f64 = 0.0;
+        let mut worst_vel: f64 = 0.0;
+        for (a, b) in got.iter().zip(&written) {
+            assert_eq!(a.t_s, b.t_s);
+            let d = (0..3)
+                .map(|k| (a.ecef_m[k] - b.ecef_m[k]).powi(2))
+                .sum::<f64>()
+                .sqrt();
+            let dv = (0..3)
+                .map(|k| (a.v_ecef_m_s[k] - b.v_ecef_m_s[k]).powi(2))
+                .sum::<f64>()
+                .sqrt();
+            worst_pos = worst_pos.max(d);
+            worst_vel = worst_vel.max(dv);
+            assert_eq!((a.heading_deg, a.pitch_deg, a.roll_deg), (0.0, 0.0, 0.0));
+        }
+        println!(
+            "{layout:?}: worst position {worst_pos:.3e} m, worst velocity {worst_vel:.3e} m/s"
+        );
+        assert!(worst_pos <= tol_m, "{layout:?} position {worst_pos}");
+        // Velocity is a central difference of 0.1 s samples, so it differs from the scenario's
+        // velocity by the motion's curvature over one step. Measured on gnss-ins.toml: 0.0753 m/s.
+        assert!(worst_vel < 0.1, "{layout:?} velocity {worst_vel}");
+    }
+}
+
+#[test]
+fn simulator_motion_refuses_bad_rows() {
+    assert!(read_sim_motion("", SimMotionLayout::Ecef).is_err());
+    assert!(read_sim_motion("0,1,2", SimMotionLayout::Ecef).is_err());
+    assert!(read_sim_motion("0,1,2,x", SimMotionLayout::Ecef).is_err());
+    assert!(read_sim_motion("1,1,2,3\n1,1,2,3", SimMotionLayout::Ecef).is_err());
+    let ok = read_sim_motion(
+        "# comment\n0,6378137,0,0\n\n1,6378137,1,0",
+        SimMotionLayout::Ecef,
+    )
+    .unwrap();
+    assert_eq!(ok.len(), 2);
+    assert!((ok[0].v_ecef_m_s[1] - 1.0).abs() < 1e-12);
+}

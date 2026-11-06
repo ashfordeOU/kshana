@@ -1038,6 +1038,109 @@ pub fn files_and_notes_of(t: &Trajectory) -> (Vec<ExportFile>, Vec<String>) {
     (files, notes)
 }
 
+/// The motion layouts of the open-source simulator gps-sdr-sim (MIT): one sample per line.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SimMotionLayout {
+    /// `-u`: `time, x, y, z` (Earth-fixed metres).
+    Ecef,
+    /// `-x`: `time, latitude, longitude, height` (degrees, degrees, metres above the ellipsoid).
+    Llh,
+}
+
+/// Import a simulator motion file in a gps-sdr-sim layout (A2b, RF-simulator motion import).
+///
+/// Lines are comma separated; blank lines and lines starting with `#` are skipped. The time
+/// column must increase. Velocity is the central difference of the Earth-fixed positions (one-sided
+/// at the ends), so it carries the file's own position rounding. Attitude is not in these layouts
+/// and is written as zero, which the importer's caller must state; heading is not the course.
+pub fn read_sim_motion(text: &str, layout: SimMotionLayout) -> Result<Vec<MotionSample>, String> {
+    let mut rows: Vec<(f64, Vec3, Geodetic)> = Vec::new();
+    for (n, line) in text.lines().enumerate() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('#') {
+            continue;
+        }
+        let f: Vec<&str> = l.split(',').map(str::trim).collect();
+        if f.len() < 4 {
+            return Err(crate::terr!(
+                "e-interop-testbench-row-fields-expected",
+                v1 = n + 1,
+                f = f.len(),
+                motion_columns = 4usize
+            ));
+        }
+        let num = |i: usize| -> Result<f64, String> {
+            f[i].parse::<f64>()
+                .ok()
+                .filter(|v| v.is_finite())
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-interop-testbench-row-column-is-not-number",
+                        v1 = n + 1,
+                        motion_columns = i + 1
+                    )
+                })
+        };
+        let t = num(0)?;
+        let (ecef, g) = match layout {
+            SimMotionLayout::Ecef => {
+                let r = [num(1)?, num(2)?, num(3)?];
+                (r, ecef_to_geodetic(r))
+            }
+            SimMotionLayout::Llh => {
+                let g = Geodetic {
+                    lat_rad: num(1)?.to_radians(),
+                    lon_rad: num(2)?.to_radians(),
+                    alt_m: num(3)?,
+                };
+                (geodetic_to_ecef(g), g)
+            }
+        };
+        if let Some(last) = rows.last() {
+            if t <= last.0 {
+                return Err(crate::terr!(
+                    "e-interop-testbench-sim-motion-time-not-increasing",
+                    v1 = n + 1
+                ));
+            }
+        }
+        rows.push((t, ecef, g));
+    }
+    if rows.is_empty() {
+        return Err(crate::terr!("e-interop-testbench-empty-motion-csv"));
+    }
+    let n = rows.len();
+    let vel = |i: usize| -> Vec3 {
+        if n < 2 {
+            return [0.0; 3];
+        }
+        let (a, b) = if i == 0 {
+            (0, 1)
+        } else if i == n - 1 {
+            (n - 2, n - 1)
+        } else {
+            (i - 1, i + 1)
+        };
+        let dt = rows[b].0 - rows[a].0;
+        [0, 1, 2].map(|k| (rows[b].1[k] - rows[a].1[k]) / dt)
+    };
+    Ok(rows
+        .iter()
+        .enumerate()
+        .map(|(i, (t, r, g))| MotionSample {
+            t_s: *t,
+            lat_deg: g.lat_rad.to_degrees(),
+            lon_deg: g.lon_rad.to_degrees(),
+            h_m: g.alt_m,
+            ecef_m: *r,
+            v_ecef_m_s: vel(i),
+            heading_deg: 0.0,
+            pitch_deg: 0.0,
+            roll_deg: 0.0,
+        })
+        .collect())
+}
+
 /// Geodetic position of a sample recomputed from its Earth-fixed position, for checks.
 pub fn geodetic_of_ecef(m: &MotionSample) -> Geodetic {
     ecef_to_geodetic(m.ecef_m)
