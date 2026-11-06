@@ -108,6 +108,23 @@ pre-registered in `xval/testbench-gpssdrsim/PREREGISTRATION.md`):
 - This checks that the files are read as written. It does not check the scenario's physics
   or anything the simulator transmits.
 
+#### Importing a simulator motion file
+
+`kshana::interop::testbench::read_sim_motion` reads the two gps-sdr-sim motion layouts back into
+Kshana motion samples: `Ecef` (`time, x, y, z`, the `-u` layout) and `Llh` (`time, latitude,
+longitude, height`, the `-x` layout). So a trajectory that was prepared for, or recorded from, a
+simulator can be scored or replayed in Kshana.
+
+- Velocity is the central difference of the positions (one-sided at the ends). On the bundled
+  `gnss-ins` export it is within 0.08 m/s of the scenario's velocity, and the position comes back
+  exact (`Ecef`) or within 0.2 mm (`Llh`) (`tests/interop_testbench.rs`).
+- These layouts carry no attitude, so heading, pitch and roll are imported as zero. Do not read
+  the imported heading as the vehicle's heading.
+- The time column must increase. A line with fewer than four fields, or a field that is not a
+  number, is an error that names the line.
+- Other simulators' scenario formats are not imported yet. Their formats are vendor documents, and
+  each needs its own published sample and check first.
+
 ## 2. State what you will score before the run
 
 The events file gives the intervals the scenario defines. Copy `run1.events.toml` into a
