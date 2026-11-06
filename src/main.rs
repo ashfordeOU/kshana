@@ -710,6 +710,117 @@ fn run_connect_mqtt(
     }
 }
 
+/// `kshana ntrip <host:port> [--mount <m>] [--user <u> --password-env <VAR>] [--gga <lat,lon[,h]>]
+/// [--out <file>] [--max-bytes <n>] [--seconds <s>]`: fetch a mountpoint's stream (or, with no
+/// `--mount`, print the source table). The bytes go to `--out` or standard output unchanged; a
+/// count of the RTCM 3 frames goes to standard error at the end.
+fn run_ntrip_cli(args: &[String]) -> ExitCode {
+    use std::io::{Read, Write};
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-ntrip-usage"));
+        ExitCode::from(2)
+    };
+    let Some(addr) = args.first().filter(|a| !a.starts_with("--")) else {
+        return usage();
+    };
+    let flag = |name: &str| {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let credentials = match (flag("--user"), flag("--password-env")) {
+        (None, None) => None,
+        (Some(u), Some(v)) => Some((u, std::env::var(v).unwrap_or_default())),
+        _ => return usage(),
+    };
+    let gga = match flag("--gga") {
+        None => None,
+        Some(v) => {
+            let n: Vec<f64> = v.split(',').filter_map(|x| x.trim().parse().ok()).collect();
+            match n.as_slice() {
+                [lat, lon] => Some(kshana::ntrip::gga(*lat, *lon, 0.0)),
+                [lat, lon, h] => Some(kshana::ntrip::gga(*lat, *lon, *h)),
+                _ => return usage(),
+            }
+        }
+    };
+    let num = |name: &str| flag(name).map(|v| v.parse::<f64>().ok().filter(|x| *x > 0.0));
+    let (max_bytes, seconds) = match (num("--max-bytes"), num("--seconds")) {
+        (Some(None), _) | (_, Some(None)) => return usage(),
+        (a, b) => (a.flatten(), b.flatten()),
+    };
+    let cfg = kshana::ntrip::NtripConfig {
+        addr: addr.clone(),
+        mountpoint: flag("--mount").unwrap_or_default(),
+        credentials,
+        gga,
+    };
+    let mut stream = match kshana::ntrip::NtripStream::open(&cfg) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("{addr}: {e}");
+            return ExitCode::from(1);
+        }
+    };
+    let mut out: Box<dyn Write> = match flag("--out") {
+        Some(p) => match std::fs::File::create(&p) {
+            Ok(f) => Box::new(std::io::BufWriter::new(f)),
+            Err(e) => {
+                eprintln!("{p}: {e}");
+                return ExitCode::from(1);
+            }
+        },
+        None => Box::new(std::io::stdout().lock()),
+    };
+    let started = std::time::Instant::now();
+    let mut count = kshana::ntrip::RtcmCounter::default();
+    let mut total = 0u64;
+    let mut buf = vec![0u8; 16 * 1024];
+    loop {
+        if seconds.is_some_and(|s| started.elapsed().as_secs_f64() >= s)
+            || max_bytes.is_some_and(|m| total as f64 >= m)
+        {
+            break;
+        }
+        let n = match stream.read(&mut buf) {
+            Ok(0) => break,
+            Ok(n) => n,
+            Err(e) => {
+                eprintln!("{addr}: {e}");
+                return ExitCode::from(1);
+            }
+        };
+        let n = max_bytes.map_or(n, |m| n.min((m as u64).saturating_sub(total) as usize));
+        if out.write_all(&buf[..n]).is_err() {
+            break;
+        }
+        if stream.answer != kshana::ntrip::Answer::SourceTable {
+            count.push(&buf[..n]);
+        }
+        total += n as u64;
+    }
+    let _ = out.flush();
+    if stream.answer != kshana::ntrip::Answer::SourceTable {
+        let messages: Vec<String> = count
+            .messages
+            .iter()
+            .map(|(m, n)| format!("{m}x{n}"))
+            .collect();
+        eprintln!(
+            "{}",
+            kshana::t!(
+                "ntrip-summary",
+                bytes = total.to_string(),
+                frames = count.frames.to_string(),
+                bad = count.bad_crc.to_string(),
+                messages = messages.join(" ")
+            )
+        );
+    }
+    ExitCode::SUCCESS
+}
+
 /// `kshana connect watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>]
 /// [--interval <s>] [--once]`: follow a directory of growing or rotating logs and print new
 /// `kshana.obs/1` records as JSON lines (`kshana::connect_watch`). `--once` reads what is there, releases
@@ -1019,6 +1130,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     }
     // `kshana connect map` maps any tabular or JSON log to kshana.obs/1 through a mapping file
     // (kshana::connect, docs/CONNECT.md). Terminal, local files only.
+    // `kshana ntrip <host:port> --mount <m>` fetches an NTRIP stream (RTCM 3) from a caster
+    // (kshana::ntrip; docs/NTRIP.md). Terminal; the bytes go to a file or standard output.
+    if args.get(1).map(String::as_str) == Some("ntrip") {
+        return run_ntrip_cli(&args[2..]);
+    }
     if args.get(1).map(String::as_str) == Some("connect") {
         return run_connect_cli(&args[2..]);
     }

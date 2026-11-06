@@ -11364,6 +11364,16 @@ engine-e-connect-no-rows = the input has no data rows (after the filter, if any)
 
 engine-e-connect-watch-json = a single JSON document is not a growing log: watch a jsonl file instead
 
+engine-e-ntrip-chunk = the caster sent a chunk whose size line is not hexadecimal
+
+engine-e-ntrip-refused = the caster refused the request: { $status }
+
+engine-e-ntrip-no-mountpoint = the caster has no mountpoint { $mountpoint } (it answered with its source table)
+
+engine-e-ntrip-usage = usage: kshana ntrip <host:port> [--mount <name>] [--user <name> --password-env <VAR>] [--gga <lat,lon[,height]>] [--out <file>] [--max-bytes <n>] [--seconds <s>]   (no --mount: print the caster's source table)
+
+engine-ntrip-summary = ntrip: { $bytes } bytes, { $frames } RTCM 3 frames with a valid CRC, { $bad } with a bad CRC; messages { $messages }
+
 engine-e-connect-nats-protocol = the server sent a line that is not the NATS client protocol
 
 engine-e-connect-nats-config = a NATS subscription needs a subject without spaces
