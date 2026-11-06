@@ -11278,7 +11278,7 @@ engine-scenario-cli-migrated = { $path }: now states schema_version = { $to }
 engine-scenario-cli-unchanged = { $path }: already states schema_version = { $to }; unchanged
 
 
-engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr)
+engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450)
 
 engine-e-obs-bad-line = line { $line } is not a kshana.obs/1 record: { $e }
 

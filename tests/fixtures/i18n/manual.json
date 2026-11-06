@@ -12382,7 +12382,7 @@
    {
     "var": "format"
    },
-   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr)"
+   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450)"
   ]
  },
  {

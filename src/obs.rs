@@ -147,6 +147,12 @@ pub enum Record {
 /// Read a log of `format` (`ubx`, `rinex`, `android`, `sbf`, `nmea`, `rtklib-pos`, `novatel`,
 /// `rtcm3`, `gnss-sdr`) into an observation file for `station`.
 pub fn from_log(format: &str, bytes: &[u8], station: &Station) -> Result<Vec<Record>, String> {
+    if format == "iec61162-450" {
+        // Maritime network datagrams: unwrap to NMEA 0183, then read as NMEA (A2c).
+        let u = crate::iec61162_450::unwrap(bytes);
+        let tl = crate::receiver_trust::ingest::read_log(LogFormat::Nmea, u.nmea.as_bytes())?;
+        return Ok(from_timeline(&tl, station, Some(format)));
+    }
     let fmt: LogFormat = serde_json::from_value(serde_json::Value::String(format.to_string()))
         .map_err(|_| crate::terr!("e-obs-unknown-format", format = format.to_string()))?;
     let tl = crate::receiver_trust::ingest::read_log(fmt, bytes)?;
