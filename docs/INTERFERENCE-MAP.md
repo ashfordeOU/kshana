@@ -75,6 +75,18 @@ ADS-B (`kshana interference-map adsb`):
 | `nic`, `nacp` | at least one | integers 0 to 11; empty means not reported |
 | `source_type` | no | if present, only values starting `adsb` are used (MLAT, TIS-B and the like are excluded) |
 
+**ASTERIX CAT021 (air-traffic ADS-B reports), library.** `kshana::asterix_cat021::read` reads a
+recording of EUROCONTROL ASTERIX Category 021 data blocks (edition 2.6 items). `to_adsb_csv` writes the
+CSV above for a stated UTC day, because CAT021 carries the time of day only.
+- NIC is written only for MOPS version 1 or later; version 0 sends NUCp in that field, which is a
+  different scale.
+- NACp comes from the first extension of the quality indicators.
+- Positions use the high-resolution item when present.
+- Every item of the profile is stepped over by its own length rule, so one unused field does not lose
+  the rest of the block.
+- Checked against an independent encoder (`tests/asterix_cat021.rs`); no public recording has been
+  checked yet.
+
 **adsb.lol readsb history, read directly.** The daily archives are a split tar of readsb
 trace files. Extract one as the publisher describes (concatenate the parts, `tar -xf -`),
 then give Kshana the extracted directory, a single `trace_full_*.json` file, or a CSV:

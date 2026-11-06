@@ -75,6 +75,7 @@ pub mod aperture_duty;
 pub mod api;
 pub mod araim_reference;
 pub mod assurance;
+pub mod asterix_cat021;
 pub mod attack_surface;
 pub mod attitude_budget;
 pub mod attitude_dynamics;
