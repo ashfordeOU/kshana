@@ -292,6 +292,7 @@ pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
 pub mod connect;
+pub mod connect_live;
 pub mod connect_mqtt;
 pub mod connect_watch;
 pub mod connect_ws;
