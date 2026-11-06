@@ -316,6 +316,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/iq/cli/scene.rs", "writes IQ scene truth and SigMF/SDR metadata beside the samples: format-bound files read by other tools"),
     ("src/iq/io/cli.rs", "writes converted sample files and SigMF metadata: format-bound"),
     ("src/iq/io/inventory.rs", "writes a file inventory of recordings, a catalogue of inputs"),
+    ("src/iq/io/record.rs", "writes a capture tool's samples, unchanged, and their SigMF metadata: format-bound"),
     ("src/iq/io/sigmf_stream.rs", "writes SigMF sample and metadata files: format-bound"),
     ("src/iq/io/stream.rs", "writes the sample stream of a recording: format-bound"),
     ("src/telemetry/alerts.rs", "writes OASIS CAP 1.2 alert messages: a format-bound file read by alerting systems, each carrying the advisory statement in its description"),

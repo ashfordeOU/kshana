@@ -10509,6 +10509,7 @@ engine-iq-io-cli-usage =
     { "   " }tai: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }tai: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }tai: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }tai: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }raakasyötteet ilman sivutiedostoa ottavat myös: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }monivirtasyötteet (monikanavainen SigMF, lomitettu raaka) ottavat valitsimen --channel <k> (alkaen 0:sta; oletus 0)
     { " " }muodot: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bittinen 16:ssa ci12r_le ci12l_be cu12r_le ..., pakattu 4-bittinen ci4_msb cu4_lsb ..., pakattu 2-bittinen c2tc_msb c2sm_lsb r2ob_msb ..., 2 bittiä tavua kohti c2sm_byte ..., reaalinen r..., Q ensin ..._qi

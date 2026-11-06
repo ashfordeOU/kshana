@@ -10779,6 +10779,7 @@ engine-iq-io-cli-usage =
     { "   " }nebo: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }nebo: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }nebo: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }nebo: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }surové vstupy bez sidecaru přijímají také: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }vstupy s více proudy (vícekanálové SigMF, prokládané surové) přijímají --channel <k> (od 0; výchozí 0)
     { " " }formáty: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12 bitů v 16 ci12r_le ci12l_be cu12r_le ..., zabalené 4bitové ci4_msb cu4_lsb ..., zabalené 2bitové c2tc_msb c2sm_lsb r2ob_msb ..., 2 bity na bajt c2sm_byte ..., reálné r..., Q jako první ..._qi

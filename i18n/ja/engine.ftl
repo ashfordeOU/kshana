@@ -9945,6 +9945,7 @@ engine-iq-io-cli-usage =
     { "   " }または：kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }または：kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }または：kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }または：kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }サイドカーのない raw 入力は次も受け付けます：--format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }マルチストリーム入力（マルチチャネル SigMF、インターリーブされた raw）は --channel <k> を受け付けます（0 から。既定は 0）
     { " " }フォーマット：ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be、16 ビット中の 12 ビット ci12r_le ci12l_be cu12r_le ...、パック 4 ビット ci4_msb cu4_lsb ...、パック 2 ビット c2tc_msb c2sm_lsb r2ob_msb ...、バイトあたり 2 ビット c2sm_byte ...、実数 r...、Q 先頭 ..._qi

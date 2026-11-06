@@ -10526,6 +10526,7 @@ engine-iq-io-cli-usage =
     { "   " }or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }or: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }or: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
     { " " }formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi
@@ -11477,3 +11478,15 @@ engine-adapter-check-fail = FAIL  { $dir }: { $problems }
 engine-adapter-check-summary = { $passed } of { $total } adapters pass
 
 engine-connect-load-report = { $verdict }  { $stations } stations at { $rate } Hz for { $seconds } s over { $via }: { $messages } messages, { $epochs } epochs; capacity { $capacity } messages/s against an offered { $offered }; time per message median { $p50 } ms, 99th percentile { $p99 } ms, max { $max } ms
+
+## src/iq/io/record.rs
+
+engine-e-iq-io-record-needs-format-rate = iq record needs --format <format> and --rate <hz>, as set on the capture tool
+
+engine-e-iq-io-record-out-sigmf = iq record writes a SigMF recording: give an output ending in .sigmf-data, .sigmf-meta or .sigmf
+
+engine-e-iq-io-record-max-seconds = --max-seconds must be a positive number of seconds
+
+engine-e-iq-io-record-rate = the sample rate must be a positive number of Hz
+
+engine-iq-io-record-wrote = recorded { $n } samples ({ $s } s) to { $files }; queue high-water { $high } of { $cap } chunks; { $cut } trailing byte(s) of a partial sample cut

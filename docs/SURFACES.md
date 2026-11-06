@@ -185,6 +185,7 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `iq conditions` | `iq_test_conditions` | N/A | `iq_test_conditions` (text, inline) | `/kshana-iq` | **N/A** (recordings are gigabytes of files; see Note) | | — | |
 | `iq inventory`, `info` | `iq_inventory`, `iq_info` | N/A | `iq_info` | `/kshana-iq` | **N/A** (recordings are gigabytes of files; see Note) | | — | Inventory of a folder is Python and CLI; the MCP server reads one work directory |
 | `iq extract`, `convert`, `decimate` | N/A | N/A | N/A | N/A | **N/A** (see Note) | | — | They rewrite recordings on disk (N/A above) |
+| `iq record` | N/A | N/A | N/A | N/A | N/A | | — | Writes a capture tool's samples into a SigMF recording on disk as they arrive (receive only); see `docs/IQ-FOLLOW.md` |
 | the signal list (`iq --help`) | `iq_signals` | N/A | `iq_signals` | `/kshana-iq` | **N/A** (a list; run `kshana iq --help`) | | — | |
 
 ## Utility functions

@@ -10765,6 +10765,7 @@ engine-iq-io-cli-usage =
     { "   " }või: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }või: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }või: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }või: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }toorsisendid ilma kõrvalfailita võtavad ka: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }mitmevoolised sisendid (mitmekanaliline SigMF, põimitud toor) võtavad --channel <k> (alates 0-st; vaikimisi 0)
     { " " }vormingud: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bitine 16-s ci12r_le ci12l_be cu12r_le ..., pakitud 4-bitine ci4_msb cu4_lsb ..., pakitud 2-bitine c2tc_msb c2sm_lsb r2ob_msb ..., 2-bitine baidi kohta c2sm_byte ..., reaalne r..., Q-ees ..._qi
