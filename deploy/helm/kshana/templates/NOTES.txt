@@ -1,0 +1,4 @@
+Kshana receiver-trust monitor for {{ .Values.input }}.
+Metrics: http://{{ include "kshana.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.metrics.port }}/metrics
+The first epochs are calibration (see the session file). Advisory software, not type-approved
+navigation or timing equipment: the operator stays responsible.

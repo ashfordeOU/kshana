@@ -233,6 +233,7 @@ fn run_connect_check_live(dir: &str, json: bool) -> ExitCode {
         eprintln!("{dir}: {}", kshana::terr!("e-connect-no-vectors"));
         return ExitCode::from(1);
     }
+    // PATH-UNIQUE-WAIVER: one call per `kshana connect check-live` process (a CLI command, never a test thread).
     let scratch = std::env::temp_dir().join(format!("kshana-live-{}", std::process::id()));
     let mut results = Vec::new();
     for p in &vectors {

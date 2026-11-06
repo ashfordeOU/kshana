@@ -1,0 +1,12 @@
+{{- if .Values.grafana.dashboard.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kshana.fullname" . }}-dashboard
+  labels:
+    {{- include "kshana.labels" . | nindent 4 }}
+    {{- toYaml .Values.grafana.dashboard.labels | nindent 4 }}
+data:
+  kshana-gnss-trust.json: |
+    {{- .Files.Get "files/kshana-gnss-trust.json" | nindent 4 }}
+{{- end }}

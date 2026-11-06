@@ -312,6 +312,14 @@ elif ! grep -qE "^LABEL +org\.opencontainers\.image\.version=\"?${ver//./\\.}\"?
   fail=1
 fi
 
+# The Helm chart's appVersion is the image tag it deploys by default (deploy/helm/kshana).
+chart="deploy/helm/kshana/Chart.yaml"
+if ! grep -qE "^appVersion: \"${ver//./\\.}\"$" "$chart"; then
+  echo "FAIL: $chart appVersion is not \"${ver}\"." >&2
+  grep -n '^appVersion' "$chart" >&2 || note "(no appVersion in the chart)"
+  fail=1
+fi
+
 # The Studio's recorded runs carry the engine version that wrote them (the wasm's own
 # version() when the recordings are made), the best runtime marker of which engine the
 # Studio shows. web/studio/channels.json (install strings) is checked in section 5 above.
@@ -379,7 +387,7 @@ and the newest Marketplace change-notes entry; \
 web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; \
 mcp/kshana-mcp/server.json version and image tag; the README example output; \
 the Claude Code plugin manifests, the Signal K and OpenCPN plugin versions, the \
-reference-build image label and, where built, the Studio's packaged wasm; \
+reference-build image label, the Helm chart appVersion and, where built, the Studio's packaged wasm; \
 site chips, footers, llms.txt and changelog page (${SITE_VERSION_MODE}, ${site_issues} issue(s)); ${tag_checked}."
 echo "    Not checked here, and not drifting: crates.io / PyPI / npm read the version out \
 of Cargo.toml at build time; CITATION.cff, codemeta.json and .zenodo.json are pinned to \

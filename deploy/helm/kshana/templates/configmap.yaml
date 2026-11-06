@@ -1,0 +1,11 @@
+{{- if not .Values.existingSessionConfigMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kshana.fullname" . }}-session
+  labels:
+    {{- include "kshana.labels" . | nindent 4 }}
+data:
+  session.toml: |
+    {{- default (.Files.Get "files/session.toml") .Values.session | nindent 4 }}
+{{- end }}

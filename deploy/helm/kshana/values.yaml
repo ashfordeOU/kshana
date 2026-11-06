@@ -1,0 +1,54 @@
+# Kshana receiver-trust monitor (roadmap A6). Read deploy/helm/README.md first.
+
+image:
+  repository: ghcr.io/ashfordeou/kshana-reference-build
+  # Defaults to the chart's appVersion.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+# Where the receiver's NMEA 0183 comes from: host:port of a TCP source (a serial-to-network bridge or a
+# multiplexer). Required.
+input: ""
+
+# The session file (the platform's limits and every threshold; docs/RECEIVER-TRUST.md). Leave empty to
+# use the bundled example (a vessel); set it, or name an existing ConfigMap with key session.toml.
+session: ""
+existingSessionConfigMap: ""
+
+metrics:
+  port: 9464
+  # A ServiceMonitor for the Prometheus Operator.
+  serviceMonitor:
+    enabled: false
+    interval: 15s
+    labels: {}
+
+grafana:
+  # A ConfigMap carrying the dashboard, labelled for the Grafana chart's dashboard sidecar.
+  dashboard:
+    enabled: true
+    labels:
+      grafana_dashboard: "1"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    memory: 128Mi
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
