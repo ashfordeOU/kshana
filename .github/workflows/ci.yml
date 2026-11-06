@@ -601,11 +601,11 @@ jobs:
         env:
           KSHANA_INPUT: 192.0.2.10:10110
           GRAFANA_ADMIN_PASSWORD: ci-only
-          KSHANA_HEADER: "time,sat,band,cn0"
         run: |
           for f in session station connect; do cp "$f.example.toml" "$f.toml"; done
+          # The default profile must resolve without the ingest's settings.
           docker compose -f compose.yml config --quiet
-          docker compose -f compose.yml --profile ingest config --quiet
+          KSHANA_HEADER="time,sat,band,cn0" docker compose -f compose.yml --profile ingest config --quiet
       - name: Helm chart lints and renders
         run: |
           helm lint deploy/helm/kshana --set input=192.0.2.10:10110
