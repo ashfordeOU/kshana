@@ -1397,6 +1397,10 @@
    "count": 245,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/telemetry/cap.rs": {
+   "count": 1,
+   "reason": "machine-document: the CAP identifier prefix written into each message's identifier element"
+  },
   "src/telemetry/cli.rs": {
    "count": 10,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"

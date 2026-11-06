@@ -97,6 +97,10 @@
    "count": 2,
    "reason": "machine-format: the page skeleton (stylesheet text) and an `&mdash;` cell; every text node of the study page is a message"
   },
+  "src/telemetry/cap.rs": {
+   "count": 3,
+   "reason": "machine-format: the OASIS CAP 1.2 XML element templates (element names fixed by the CAP schema; the human text inside them comes from the catalogue)"
+  },
   "src/telemetry/otlp.rs": {
    "count": 1,
    "reason": "machine-format: the HTTP/1.1 request an OTLP exporter sends (protocol text)"

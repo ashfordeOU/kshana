@@ -10,6 +10,7 @@
 //! The sinks read [`sample::TrustSample`] only; [`sample`] is the single adapter between
 //! the engine's trust records and everything here. See `docs/TRUST-TELEMETRY.md`.
 
+pub mod cap;
 pub mod cli;
 pub mod mqtt;
 #[cfg(feature = "otlp")]

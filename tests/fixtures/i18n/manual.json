@@ -12922,5 +12922,100 @@
    },
    ": the time does not increase"
   ]
+ },
+ {
+  "id": "telemetry-cap-headline",
+  "error": false,
+  "parts": [
+   "GNSS trust ",
+   {
+    "var": "band"
+   }
+  ]
+ },
+ {
+  "id": "telemetry-cap-description",
+  "error": false,
+  "parts": [
+   "The GNSS trust band of this receiver changed from ",
+   {
+    "var": "prev"
+   },
+   " to ",
+   {
+    "var": "band"
+   },
+   " at ",
+   {
+    "var": "t"
+   },
+   " s after the start of the record."
+  ]
+ },
+ {
+  "id": "telemetry-cap-reasons",
+  "error": false,
+  "parts": [
+   "Monitors: ",
+   {
+    "var": "reasons"
+   },
+   "."
+  ]
+ },
+ {
+  "id": "telemetry-cap-advisory",
+  "error": false,
+  "parts": [
+   "Advisory software, not type-approved navigation equipment; the operator remains responsible."
+  ]
+ },
+ {
+  "id": "telemetry-cap-event",
+  "error": false,
+  "parts": [
+   "GNSS interference or degradation"
+  ]
+ },
+ {
+  "id": "e-telemetry-cap-bad-status",
+  "error": true,
+  "parts": [
+   "CAP status must be Actual, Exercise, System, Test or Draft, not ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-telemetry-cap-bad-scope",
+  "error": true,
+  "parts": [
+   "CAP scope must be Public, Restricted or Private, not ",
+   {
+    "var": "v"
+   }
+  ]
+ },
+ {
+  "id": "e-telemetry-cap-bad-sender",
+  "error": true,
+  "parts": [
+   "CAP sender must be a non-empty identifier without spaces, commas, < or &"
+  ]
+ },
+ {
+  "id": "e-telemetry-cap-bad-radius",
+  "error": true,
+  "parts": [
+   "CAP area radius must be a positive number of km"
+  ]
+ },
+ {
+  "id": "e-telemetry-cap-no-position",
+  "error": true,
+  "parts": [
+   "a CAP area needs a position: the stream carries none and no station position is configured"
+  ]
  }
 ]

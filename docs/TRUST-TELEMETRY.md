@@ -192,6 +192,27 @@ Empty fields are left out (no `cs2=` without reasons). The host name is cut to 2
 characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
 LEEF values have `^` and line breaks replaced by spaces.
 
+## Common Alerting Protocol (CAP 1.2), library
+
+`kshana::telemetry::cap::alerts` turns the trust stream into OASIS CAP 1.2 messages, the format that
+public-warning, maritime and aviation alerting systems take in. One message is written for each band
+change after calibration:
+
+| Change | `msgType` | `urgency` / `severity` |
+|---|---|---|
+| nominal → degraded | `Alert` | `Expected` / `Moderate` |
+| nominal → untrusted | `Alert` | `Immediate` / `Severe` |
+| degraded ↔ untrusted | `Update` (references the previous message) | as above |
+| back to nominal | `Update` (references the previous message) | `Past` / `Minor`: the all-clear |
+
+- Every message carries the band, the monitors behind it, the score and the advisory statement. Its
+  area is a circle around the receiver's reported position, or the configured station position.
+- `status` (`Actual`, `Exercise`, `System`, `Test`, `Draft`) and `scope` have no default, so an exercise
+  cannot go out as `Actual` by accident.
+- The messages are checked against the OASIS CAP 1.2 schema (`tests/telemetry_cap.rs`; the schema is
+  fetched by `scripts/fetch_cap_xsd.sh`, not vendored). Delivery (HTTP, a CAP hub, an aggregator) is
+  the operator's own; Kshana writes the messages.
+
 ## OpenTelemetry (off by default)
 
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
