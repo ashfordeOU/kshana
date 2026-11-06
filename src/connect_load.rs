@@ -24,8 +24,42 @@ use std::net::TcpListener;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
-const MAPPING: &str = include_str!("../examples/connect/timing-monitor.connect.toml");
-const STATION: &str = include_str!("../examples/obs/station.toml");
+/// The mapping of `examples/connect/timing-monitor.connect.toml`, without its comments. It is written
+/// out here because `examples/` is not in the published crate; `tests/connect_load.rs` keeps the two equal.
+pub const MAPPING: &str = r##"schema = "kshana.connect/1"
+
+[source]
+format = "csv"
+delimiter = ";"
+comment = "#"
+
+[time]
+column = "tow"
+week_column = "week"
+format = "gps-week-tow"
+
+[signals]
+band = "L1"
+wide = { G05 = "G05", G12 = "G12", G25 = "G25", E11 = "E11" }
+
+[fix]
+lat = { column = "lat" }
+lon = { column = "lon" }
+height = { column = "alt_ft", unit = "ft" }
+
+[receiver]
+agc = { column = "agc" }
+spoofing = { column = "spoof" }
+"##;
+/// The station of `examples/obs/station.toml` (kept equal by `tests/connect_load.rs`).
+pub const STATION: &str = r#"id = "example-station-1"
+lat_deg = 59.4400
+lon_deg = 24.7500
+height_m = 30.0
+antenna = "example patch antenna"
+receiver = "example GNSS receiver"
+partner_input = false
+"#;
 const HEADER: &str = "week;tow;lat;lon;alt_ft;G05;G12;G25;E11;agc;spoof";
 
 /// What a load run measured.

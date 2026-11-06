@@ -101,3 +101,24 @@ fn a_small_load_keeps_up_in_memory_and_over_mqtt() {
     assert!(q.pass, "{q:?}");
     assert!(q.wall_s >= 1.7, "paced: {q:?}");
 }
+
+#[test]
+fn the_built_in_mapping_and_station_equal_the_examples() {
+    let read = |p: &str| std::fs::read_to_string(root().join(p)).unwrap();
+    let strip = |t: &str| {
+        t.lines()
+            .filter(|l| !l.trim_start().starts_with('#'))
+            .collect::<Vec<_>>()
+            .join("\n")
+            .trim()
+            .to_string()
+    };
+    assert_eq!(
+        strip(kshana::connect_load::MAPPING),
+        strip(&read("examples/connect/timing-monitor.connect.toml"))
+    );
+    assert_eq!(
+        strip(kshana::connect_load::STATION),
+        strip(&read("examples/obs/station.toml"))
+    );
+}
