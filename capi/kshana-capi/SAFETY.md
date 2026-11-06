@@ -42,9 +42,10 @@ Nothing else is unsafe. `#![deny(unsafe_op_in_unsafe_fn)]` makes every operation
   an internal failure. Set `KSHANA_CAPI_FUZZ_ITERATIONS` for a longer run. `kshana_run_scenario` is
   left out of the fuzz pass on purpose: a changed scenario can validly ask for a very long run.
   Validation covers the same parser.
-
+- The C example also runs under AddressSanitizer (with leak detection) and UndefinedBehaviorSanitizer.
+  Every string the library returns is freed back, and nothing is read or written out of bounds on
+  the C side. The Rust side is not instrumented.
 - The C++, Python (ctypes) and Go (cgo) examples are built and run the same way, and must print
   the same results.
 
-Not done yet: a sanitizer run (AddressSanitizer) of the C example in CI, and the Java (Panama, final
-from Java 22), MATLAB and LabVIEW examples the plan lists.
+Not done yet: the Java (Panama, final from Java 22), MATLAB and LabVIEW examples the plan lists.
