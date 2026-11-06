@@ -30,7 +30,6 @@
 //! `tests/iq_io.rs`).
 
 pub mod format;
-pub mod record;
 pub mod report;
 pub mod resample;
 pub mod sdrx;
@@ -45,6 +44,8 @@ pub mod cli;
 pub mod follow;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod inventory;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod record;
 
 pub use format::{
     decode_samples, encode_samples, BitOrder, Components, Encoding, Endian, Justify, SampleFormat,
