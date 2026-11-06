@@ -761,6 +761,8 @@ jobs:
       - name: Test (entry points, header, C example, fuzz)
         env:
           KSHANA_REQUIRE_CC: "1"
+          # The C++, Python and Go examples run too; the runner image has g++, python3 and Go.
+          KSHANA_REQUIRE_LANGS: "1"
           KSHANA_CAPI_FUZZ_ITERATIONS: "5000"
         run: cargo test --locked
   mcp-check:

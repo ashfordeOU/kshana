@@ -328,3 +328,111 @@ fn random_bytes_into_every_entry_point_never_crash() {
         }
     }
 }
+
+/// Run one language example's command and check the same three lines as the C example.
+#[cfg(target_os = "linux")]
+fn expect_example(name: &str, cmd: &mut Command) {
+    let out = cmd.output().unwrap_or_else(|e| panic!("{name}: {e}"));
+    let text = String::from_utf8_lossy(&out.stdout).to_string();
+    assert!(
+        out.status.success(),
+        "{name}: {text}{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(
+        text.contains(&format!("kshana {}", env!("CARGO_PKG_VERSION"))),
+        "{name}: {text}"
+    );
+    assert!(text.contains("records: 6"), "{name}: {text}");
+    assert!(
+        text.contains("null scenario: 2 (with reason)"),
+        "{name}: {text}"
+    );
+}
+
+/// Whether a tool runs; a missing one fails when KSHANA_REQUIRE_LANGS=1 (CI), else skips.
+fn have(tool: &str, arg: &str) -> bool {
+    let ok = Command::new(tool)
+        .arg(arg)
+        .output()
+        .is_ok_and(|o| o.status.success());
+    if !ok {
+        assert!(
+            std::env::var("KSHANA_REQUIRE_LANGS").as_deref() != Ok("1"),
+            "{tool} is required (KSHANA_REQUIRE_LANGS=1)"
+        );
+        eprintln!("skipped: {tool} not available");
+    }
+    ok
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn the_cpp_python_and_go_examples_run() {
+    let dir = lib_dir();
+    assert!(
+        dir.join("libkshana_capi.a").is_file(),
+        "build the libraries first: `cargo build`"
+    );
+    let crate_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let args: Vec<PathBuf> = [
+        "scenarios/link-budget.toml",
+        "examples/connect/timing-monitor.connect.toml",
+        "examples/obs/station.toml",
+        "examples/connect/timing-monitor.csv",
+    ]
+    .iter()
+    .map(|p| repo().join(p))
+    .collect();
+    let tmp =
+        Path::new(env!("CARGO_TARGET_TMPDIR")).join(format!("capi-langs-{}", std::process::id()));
+    std::fs::create_dir_all(&tmp).unwrap();
+    let staticlib = dir.join("libkshana_capi.a").display().to_string();
+
+    if have("c++", "--version") {
+        let bin = tmp.join("run_and_map_cpp");
+        let out = Command::new("c++")
+            .args(["-std=c++17", "-Wall", "-Wextra", "-Werror", "-I"])
+            .arg(crate_dir.join("include"))
+            .arg(crate_dir.join("examples/cpp/run_and_map.cpp"))
+            .args([staticlib.as_str(), "-lpthread", "-ldl", "-lm", "-o"])
+            .arg(&bin)
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "c++: {}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        expect_example("c++", Command::new(&bin).args(&args));
+    }
+    if have("python3", "--version") {
+        expect_example(
+            "python",
+            Command::new("python3")
+                .args(["-I", "-B"])
+                .arg(crate_dir.join("examples/python/run_and_map.py"))
+                .arg(dir.join("libkshana_capi.so"))
+                .args(&args),
+        );
+    }
+    if have("go", "version") {
+        expect_example(
+            "go",
+            Command::new("go")
+                .args(["run", "."])
+                .args(&args)
+                .current_dir(crate_dir.join("examples/go"))
+                .env("CGO_ENABLED", "1")
+                .env(
+                    "CGO_CFLAGS",
+                    format!("-I{}", crate_dir.join("include").display()),
+                )
+                .env("CGO_LDFLAGS", format!("{staticlib} -lpthread -ldl -lm"))
+                .env("GOFLAGS", "-mod=mod")
+                .env("GOCACHE", tmp.join("gocache"))
+                .env("GOPATH", tmp.join("gopath")),
+        );
+    }
+    let _ = std::fs::remove_dir_all(&tmp);
+}

@@ -43,5 +43,8 @@ Nothing else is unsafe. `#![deny(unsafe_op_in_unsafe_fn)]` makes every operation
   left out of the fuzz pass on purpose: a changed scenario can validly ask for a very long run.
   Validation covers the same parser.
 
-Not done yet: a sanitizer run (AddressSanitizer) of the C example in CI, and the C++, Go, Java,
-MATLAB and LabVIEW examples the plan lists.
+- The C++, Python (ctypes) and Go (cgo) examples are built and run the same way, and must print
+  the same results.
+
+Not done yet: a sanitizer run (AddressSanitizer) of the C example in CI, and the Java (Panama, final
+from Java 22), MATLAB and LabVIEW examples the plan lists.
