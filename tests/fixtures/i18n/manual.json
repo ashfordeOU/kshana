@@ -12911,5 +12911,16 @@
   "parts": [
    "the log has no CGGTTS data line with a valid checksum"
   ]
+ },
+ {
+  "id": "e-interop-testbench-sim-motion-time-not-increasing",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "v1"
+   },
+   ": the time does not increase"
+  ]
  }
 ]

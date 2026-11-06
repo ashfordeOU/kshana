@@ -3140,6 +3140,8 @@ engine-e-interop-testbench-has-no-vehicle-trajectory-to = `{ $other }` has no ve
 
 engine-e-interop-testbench-empty-motion-csv = empty motion CSV
 
+engine-e-interop-testbench-sim-motion-time-not-increasing = line { $v1 }: the time does not increase
+
 engine-e-interop-testbench-motion-csv-header-is-not = motion CSV header is not the expected columns: { $head }
 
 engine-e-interop-testbench-row-fields-expected = row { $v1 }: { $f } fields, expected { $motion_columns }
