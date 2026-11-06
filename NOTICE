@@ -51,6 +51,11 @@ Galileo E1 primary memory codes:
   purposes, so the repository does not carry them; see LICENSING.md.
   Kshana is not developed by, used by, approved by or endorsed by the European Union.
 
+IEEE C37.118.2 reader:
+  src/c37118.rs reads synchrophasor frames using the field layout of the frame encoder in the
+  open-source pyPMU (synchrophasor/frame.py, iicsys/pypmu), used under its BSD 3-Clause licence.
+  No pyPMU code is included and no text of IEEE C37.118 is reproduced.
+
 RTCM 3 MSM and SSR readers:
   src/rtcm_ssr.rs reads RTCM 3 SSR correction messages (1057-1068, 1240-1264) from the same
   open decoder's field widths, scales and message layouts. Two of its public sample streams

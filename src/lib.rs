@@ -87,6 +87,7 @@ pub mod bplane;
 /// The bundled reference scenarios, present only with the `bundled-scenarios` feature.
 #[cfg(feature = "bundled-scenarios")]
 pub mod bundled_scenarios;
+pub mod c37118;
 /// Calibration ensembles (CAP-10): single-seed checks re-run over many seeds.
 pub mod calibration_ensembles;
 pub mod campaign;
