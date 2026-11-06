@@ -176,6 +176,9 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
         return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
     }
+    if args.first().map(String::as_str) == Some("load-test") {
+        return run_connect_load_test(&flag, args.iter().any(|a| a == "--json"));
+    }
     if args.first().map(String::as_str) == Some("check-live") && (2..=3).contains(&args.len()) {
         let json = args.len() == 3 && args[2] == "--json";
         if args.len() == 3 && !json {
@@ -222,6 +225,71 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
             print!("{text}");
             ExitCode::SUCCESS
         }
+    }
+}
+
+/// `kshana connect load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json]`:
+/// many synthetic stations through the live feeds (`kshana::connect_load`); exit 1 when the run does
+/// not keep up with the offered load. Defaults: 1000 stations at 1 Hz for 10 s, in memory.
+fn run_connect_load_test(flag: &dyn Fn(&str) -> Option<String>, json: bool) -> ExitCode {
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        ExitCode::from(2)
+    };
+    let num = |name: &str, d: f64| match flag(name).map(|v| v.parse::<f64>()) {
+        None => Some(d),
+        Some(Ok(v)) if v.is_finite() && v > 0.0 => Some(v),
+        Some(_) => None,
+    };
+    let (Some(stations), Some(rate), Some(seconds)) = (
+        num("--stations", 1000.0),
+        num("--rate", 1.0),
+        num("--seconds", 10.0),
+    ) else {
+        return usage();
+    };
+    let r = match flag("--via").as_deref() {
+        None | Some("memory") => {
+            kshana::connect_load::run_memory(stations as usize, rate, seconds as usize)
+        }
+        Some("mqtt") => kshana::connect_load::run_mqtt(stations as usize, rate, seconds as usize),
+        Some(_) => return usage(),
+    };
+    let r = match r {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("{e}");
+            return ExitCode::from(1);
+        }
+    };
+    if json {
+        println!("{}", serde_json::to_string_pretty(&r).unwrap_or_default());
+    } else {
+        let f1 = |v: f64| format!("{v:.1}");
+        let f3 = |v: f64| format!("{v:.3}");
+        println!(
+            "{}",
+            kshana::t!(
+                "connect-load-report",
+                verdict = if r.pass { "PASS" } else { "FAIL" },
+                stations = r.stations.to_string(),
+                rate = r.rate_hz.to_string(),
+                seconds = r.seconds.to_string(),
+                via = r.via.clone(),
+                messages = r.messages.to_string(),
+                epochs = r.epochs.to_string(),
+                capacity = f1(r.capacity_msgs_per_s),
+                offered = f1(r.offered_msgs_per_s),
+                p50 = f3(r.latency_ms[0]),
+                p99 = f3(r.latency_ms[1]),
+                max = f3(r.latency_ms[2])
+            )
+        );
+    }
+    if r.pass {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
     }
 }
 
