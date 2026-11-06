@@ -221,6 +221,21 @@ fn the_c_example_builds_and_runs_against_both_libraries() {
                 format!("-Wl,-rpath,{}", dir.display()),
             ],
         ),
+        // The C side under AddressSanitizer (with leak detection) and UndefinedBehaviorSanitizer:
+        // every string the library hands out must be freed back, and nothing read out of bounds.
+        (
+            "sanitized",
+            vec![
+                "-g".into(),
+                "-fsanitize=address,undefined".into(),
+                "-fno-sanitize-recover=all".into(),
+                "-fno-omit-frame-pointer".into(),
+                dir.join("libkshana_capi.a").display().to_string(),
+                "-lpthread".into(),
+                "-ldl".into(),
+                "-lm".into(),
+            ],
+        ),
     ] {
         let bin = tmp.join(format!("run_and_map_{kind}"));
         let out = Command::new("cc")
@@ -237,12 +252,17 @@ fn the_c_example_builds_and_runs_against_both_libraries() {
             "{kind}: {}",
             String::from_utf8_lossy(&out.stderr)
         );
-        let run = Command::new(&bin).args(&args).output().unwrap();
+        let run = Command::new(&bin)
+            .args(&args)
+            .env("ASAN_OPTIONS", "detect_leaks=1:abort_on_error=1")
+            .output()
+            .unwrap();
         let text = String::from_utf8_lossy(&run.stdout);
+        let errs = String::from_utf8_lossy(&run.stderr);
+        assert!(run.status.success(), "{kind}: {text}{errs}");
         assert!(
-            run.status.success(),
-            "{kind}: {text}{}",
-            String::from_utf8_lossy(&run.stderr)
+            !errs.contains("Sanitizer") && !errs.contains("runtime error"),
+            "{kind}: {errs}"
         );
         assert!(
             text.contains(&format!("kshana {}", env!("CARGO_PKG_VERSION"))),
