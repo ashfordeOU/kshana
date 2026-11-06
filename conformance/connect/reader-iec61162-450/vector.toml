@@ -1,0 +1,5 @@
+name = "built-in reader: iec61162-450"
+input = "../../../examples/connect/iec61162-450.capture"
+reader = "iec61162-450"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

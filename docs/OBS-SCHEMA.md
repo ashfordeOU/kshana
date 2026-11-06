@@ -24,6 +24,6 @@ kshana obs convert examples/receiver-trust/illustrative-jamming.nmea --format nm
 kshana obs check site.obs.jsonl          # or --json
 ```
 
-`convert` reads `ubx`, `rinex`, `android`, `sbf`, `nmea`, `rtklib-pos`, `novatel`, `rtcm3` and `gnss-sdr`. `check` accepts a file only if the header comes first with this schema, every record belongs to the header's station, epoch times are finite and never go backwards, and every IQ reference and alarm is complete. It reports the first problem with its line number.
+`convert` reads `ubx`, `rinex`, `android`, `sbf`, `nmea`, `rtklib-pos`, `novatel`, `rtcm3`, `gnss-sdr` and `iec61162-450`. The last is a capture of maritime network datagrams (IEC 61162-450): it is unwrapped to NMEA 0183 and read as `nmea`, and each TAG block's checksum is checked (`src/iec61162_450.rs`). `check` accepts a file only if the header comes first with this schema, every record belongs to the header's station, epoch times are finite and never go backwards, and every IQ reference and alarm is complete. It reports the first problem with its line number.
 
 The JSON Schema is [`spec/obs-1.schema.json`](spec/obs-1.schema.json). The version rule is in [STABILITY.md](STABILITY.md): fields are only added within `kshana.obs/1`; a change that removes or redefines one is `kshana.obs/2`.
