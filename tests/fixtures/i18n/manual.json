@@ -13495,5 +13495,62 @@
    },
    " adapters pass"
   ]
+ },
+ {
+  "id": "e-ntrip-refused",
+  "error": true,
+  "parts": [
+   "the caster refused the request: ",
+   {
+    "var": "status"
+   }
+  ]
+ },
+ {
+  "id": "e-ntrip-no-mountpoint",
+  "error": true,
+  "parts": [
+   "the caster has no mountpoint ",
+   {
+    "var": "mountpoint"
+   },
+   " (it answered with its source table)"
+  ]
+ },
+ {
+  "id": "e-ntrip-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana ntrip <host:port> [--mount <name>] [--user <name> --password-env <VAR>] [--gga <lat,lon[,height]>] [--out <file>] [--max-bytes <n>] [--seconds <s>]   (no --mount: print the caster's source table)"
+  ]
+ },
+ {
+  "id": "ntrip-summary",
+  "error": false,
+  "parts": [
+   "ntrip: ",
+   {
+    "var": "bytes"
+   },
+   " bytes, ",
+   {
+    "var": "frames"
+   },
+   " RTCM 3 frames with a valid CRC, ",
+   {
+    "var": "bad"
+   },
+   " with a bad CRC; messages ",
+   {
+    "var": "messages"
+   }
+  ]
+ },
+ {
+  "id": "e-ntrip-chunk",
+  "error": true,
+  "parts": [
+   "the caster sent a chunk whose size line is not hexadecimal"
+  ]
  }
 ]
