@@ -133,6 +133,10 @@
    "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/connect_watch.rs": {
+   "count": 1,
+   "reason": "machine-document: the source_format label connect-watch:<format> written to the kshana.obs/1 header"
+  },
   "src/rts25.rs": {
    "count": 10,
    "reason": "machine-document: the seven activity identifiers accepted on input (kebab-case names of the RTS 25 Annex rows) and the three outcome codes written to the result (within limit, beyond limit, not assessable)"

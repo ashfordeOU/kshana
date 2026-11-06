@@ -715,6 +715,17 @@ fn label_of(unix_utc: f64) -> String {
     }
 }
 
+/// Whether `text` holds at least one data row for `mapping` (after its filter). `Ok(false)` when it has
+/// none yet, for example a file a logger has only just started; any other problem, such as a header
+/// that lacks a mapped column, is an error.
+pub fn has_rows(mapping: &Mapping, text: &str) -> Result<bool, String> {
+    match read_rows(mapping, text) {
+        Ok(r) => Ok(!r.is_empty()),
+        Err(e) if e == crate::terr!("e-connect-no-rows") => Ok(false),
+        Err(e) => Err(e),
+    }
+}
+
 /// Apply `mapping` to `text` and return the observation records for `station`.
 pub fn map(mapping: &Mapping, text: &str, station: &Station) -> Result<Vec<Record>, String> {
     let rows = read_rows(mapping, text)?;
