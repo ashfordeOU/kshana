@@ -10556,6 +10556,10 @@ engine-telemetry-cli-usage =
     { "    " }--mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)
     { "  " }OpenTelemetry (build with --features otlp):
     { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)
+    { "  " }Alerts (OASIS CAP 1.2, one message per band change):
+    { "    " }--cap-config <cap.toml>  sender, status, scope, area and radius (docs/TRUST-TELEMETRY.md)
+    { "    " }--cap-dir <dir>          write each message to <dir>/<identifier>.xml
+    { "    " }--webhook <http://host:port/path> --webhook-secret-env <VAR>  POST each message, signed (Kshana-Signature)
 
 
 ## src/jammertest/cli.rs
@@ -11359,6 +11363,14 @@ engine-e-connect-json-records = the JSON input has no array of records at `{ $pa
 engine-e-connect-no-rows = the input has no data rows (after the filter, if any)
 
 engine-e-connect-watch-json = a single JSON document is not a growing log: watch a jsonl file instead
+
+engine-e-telemetry-cli-alerts-usage = --cap-dir and --webhook need --cap-config, --cap-config needs one of them, and --webhook needs --webhook-secret-env
+
+engine-e-telemetry-webhook-url = not a usable webhook: { $url } (http://host[:port]/path, with a non-empty secret)
+
+engine-e-telemetry-webhook-answer = the webhook did not answer with an HTTP status line
+
+engine-telemetry-cli-alerts-summary = alerts: { $messages } CAP message(s), { $failures } delivery failure(s)
 
 engine-e-connect-ws-url = not a ws:// URL: { $url }
 

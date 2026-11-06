@@ -1413,12 +1413,16 @@
    "count": 245,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/telemetry/alerts.rs": {
+   "count": 2,
+   "reason": "machine-document: the HTTP/1.1 POST head sent to the webhook, and the CAP identifier used as the alert's file name"
+  },
   "src/telemetry/cap.rs": {
    "count": 1,
    "reason": "machine-document: the CAP identifier prefix written into each message's identifier element"
   },
   "src/telemetry/cli.rs": {
-   "count": 10,
+   "count": 13,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/mqtt.rs": {

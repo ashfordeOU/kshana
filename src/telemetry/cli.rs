@@ -35,6 +35,10 @@ struct Opts {
     mqtt_discovery: Option<String>,
     otlp: Option<String>,
     otlp_every: Option<usize>,
+    cap_config: Option<String>,
+    cap_dir: Option<String>,
+    webhook: Option<String>,
+    webhook_secret_env: Option<String>,
 }
 
 fn parse(args: &[String]) -> Result<Opts, String> {
@@ -83,9 +87,17 @@ fn parse(args: &[String]) -> Result<Opts, String> {
                         crate::terr!("e-telemetry-cli-otlp-every-needs-whole-number")
                     })?)
             }
+            "--cap-config" => o.cap_config = Some(val("--cap-config")?),
+            "--cap-dir" => o.cap_dir = Some(val("--cap-dir")?),
+            "--webhook" => o.webhook = Some(val("--webhook")?),
+            "--webhook-secret-env" => o.webhook_secret_env = Some(val("--webhook-secret-env")?),
             "-h" | "--help" => return Err(String::new()),
             x => return Err(crate::terr!("e-telemetry-cli-unknown-option", x = x)),
         }
+    }
+    let alerting = o.cap_dir.is_some() || o.webhook.is_some();
+    if alerting != o.cap_config.is_some() || o.webhook.is_some() != o.webhook_secret_env.is_some() {
+        return Err(crate::terr!("e-telemetry-cli-alerts-usage"));
     }
     if o.input.is_some() && o.result.is_some() {
         return Err(crate::terr!(
@@ -137,7 +149,8 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         || o.syslog_tcp.is_some()
         || o.mqtt_tcp.is_some()
         || o.print_mqtt
-        || o.otlp.is_some();
+        || o.otlp.is_some()
+        || o.cap_config.is_some();
     let listen = match (&o.listen, any_other) {
         (Some(l), _) => Some(l.clone()),
         (None, false) => Some("127.0.0.1:9464".to_string()),
@@ -249,6 +262,29 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         None => None,
     };
 
+    let mut alert_sink = match &o.cap_config {
+        Some(path) => {
+            let text = std::fs::read_to_string(path)
+                .map_err(|e| crate::terr!("e-telemetry-cli-cannot-open", p = path, e = e))?;
+            let cfg: super::alerts::AlertConfig =
+                toml::from_str(&text).map_err(|e| format!("{path}: {e}"))?;
+            let webhook = match (&o.webhook, &o.webhook_secret_env) {
+                (Some(u), Some(var)) => {
+                    let secret = std::env::var(var).unwrap_or_default().into_bytes();
+                    Some(super::alerts::Webhook::new(u, secret)?)
+                }
+                _ => None,
+            };
+            Some(super::alerts::AlertSink::new(
+                cfg,
+                o.cap_dir.as_ref().map(std::path::PathBuf::from),
+                webhook,
+            )?)
+        }
+        None => None,
+    };
+    let mut alert_error: Option<String> = None;
+
     let mut prev: Option<Band> = None;
     let mut n_epochs = 0usize;
     let mut handle = |s: Result<TrustSample, String>, line_no: usize| match s {
@@ -293,6 +329,11 @@ fn run_inner(o: &Opts) -> Result<(), String> {
                 }
                 if let Some(t) = &mqtt_sink {
                     t.send(m);
+                }
+            }
+            if let Some(a) = alert_sink.as_mut() {
+                if let Err(e) = a.observe(&s, now) {
+                    alert_error.get_or_insert(e);
                 }
             }
             prev = Some(s.band);
@@ -354,6 +395,19 @@ fn run_inner(o: &Opts) -> Result<(), String> {
         }
     }
     let _ = n_epochs;
+    if let Some(e) = alert_error {
+        return Err(e);
+    }
+    if let Some(a) = &alert_sink {
+        eprintln!(
+            "{}",
+            crate::t!(
+                "telemetry-cli-alerts-summary",
+                messages = a.messages.to_string(),
+                failures = a.failures.to_string()
+            )
+        );
+    }
     if o.print_metrics {
         let text = reg.lock().map(|r| r.render()).unwrap_or_default();
         std::io::stdout().write_all(text.as_bytes()).ok();

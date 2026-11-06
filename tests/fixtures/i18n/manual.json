@@ -10406,7 +10406,7 @@
   "id": "telemetry-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana trust-telemetry [options]\n  input (default: JSON lines on stdin):\n    --input <file|->         read JSON lines from a file, or `-` for stdin\n    --result <result.json>   replay the epochs of a `kshana receiver-trust` result file\n  Prometheus:\n    --listen <addr:port>     serve /metrics (default 127.0.0.1:9464 when no other output is chosen)\n    --print-metrics          print the final exposition to stdout at end of input\n    --hold                   keep serving after the input ends\n    --expose-position        also publish the receiver-reported position as gauges (off by default)\n  syslog (CEF or LEEF in an RFC 5424 envelope):\n    --syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog\n    --syslog-octet-counting  frame TCP messages with octet counting (RFC 6587), not one per line\n    --format cef|leef        payload dialect (default cef)\n    --syslog-all             one event per epoch (default: one per band change)\n    --host <name>            device host name in events (default `kshana`)\n  Home Assistant / NTP appliance (JSON state + MQTT discovery; publish only, no credentials or TLS):\n    --mqtt-tcp <host:port>   publish to a local MQTT 3.1.1 broker (retained messages, QoS 0)\n    --print-mqtt             print the messages as `topic<TAB>payload` lines\n    --mqtt-prefix <p>        state topic prefix (default kshana/trust); --mqtt-node <id> (default kshana)\n    --mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)\n  OpenTelemetry (build with --features otlp):\n    --otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)"
+   "usage: kshana trust-telemetry [options]\n  input (default: JSON lines on stdin):\n    --input <file|->         read JSON lines from a file, or `-` for stdin\n    --result <result.json>   replay the epochs of a `kshana receiver-trust` result file\n  Prometheus:\n    --listen <addr:port>     serve /metrics (default 127.0.0.1:9464 when no other output is chosen)\n    --print-metrics          print the final exposition to stdout at end of input\n    --hold                   keep serving after the input ends\n    --expose-position        also publish the receiver-reported position as gauges (off by default)\n  syslog (CEF or LEEF in an RFC 5424 envelope):\n    --syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog\n    --syslog-octet-counting  frame TCP messages with octet counting (RFC 6587), not one per line\n    --format cef|leef        payload dialect (default cef)\n    --syslog-all             one event per epoch (default: one per band change)\n    --host <name>            device host name in events (default `kshana`)\n  Home Assistant / NTP appliance (JSON state + MQTT discovery; publish only, no credentials or TLS):\n    --mqtt-tcp <host:port>   publish to a local MQTT 3.1.1 broker (retained messages, QoS 0)\n    --print-mqtt             print the messages as `topic<TAB>payload` lines\n    --mqtt-prefix <p>        state topic prefix (default kshana/trust); --mqtt-node <id> (default kshana)\n    --mqtt-discovery <p>     Home Assistant discovery prefix (default homeassistant)\n  OpenTelemetry (build with --features otlp):\n    --otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (default 10)\n  Alerts (OASIS CAP 1.2, one message per band change):\n    --cap-config <cap.toml>  sender, status, scope, area and radius (docs/TRUST-TELEMETRY.md)\n    --cap-dir <dir>          write each message to <dir>/<identifier>.xml\n    --webhook <http://host:port/path> --webhook-secret-env <VAR>  POST each message, signed (Kshana-Signature)"
   ]
  },
  {
@@ -13214,6 +13214,46 @@
     "var": "total"
    },
    " live paths pass"
+  ]
+ },
+ {
+  "id": "e-telemetry-cli-alerts-usage",
+  "error": true,
+  "parts": [
+   "--cap-dir and --webhook need --cap-config, --cap-config needs one of them, and --webhook needs --webhook-secret-env"
+  ]
+ },
+ {
+  "id": "e-telemetry-webhook-url",
+  "error": true,
+  "parts": [
+   "not a usable webhook: ",
+   {
+    "var": "url"
+   },
+   " (http://host[:port]/path, with a non-empty secret)"
+  ]
+ },
+ {
+  "id": "e-telemetry-webhook-answer",
+  "error": true,
+  "parts": [
+   "the webhook did not answer with an HTTP status line"
+  ]
+ },
+ {
+  "id": "telemetry-cli-alerts-summary",
+  "error": false,
+  "parts": [
+   "alerts: ",
+   {
+    "var": "messages"
+   },
+   " CAP message(s), ",
+   {
+    "var": "failures"
+   },
+   " delivery failure(s)"
   ]
  }
 ]
