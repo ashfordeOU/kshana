@@ -51,6 +51,11 @@ Galileo E1 primary memory codes:
   purposes, so the repository does not carry them; see LICENSING.md.
   Kshana is not developed by, used by, approved by or endorsed by the European Union.
 
+ASTERIX CAT021 reader:
+  src/asterix_cat021.rs reads ADS-B target reports by the item list and field layouts of the
+  EUROCONTROL specification EUROCONTROL-SPEC-0149-12 (ASTERIX Part 12, Category 021, edition 2.6),
+  a public document. No text of it is reproduced beyond item names and field positions.
+
 IEEE C37.118.2 reader:
   src/c37118.rs reads synchrophasor frames using the field layout of the frame encoder in the
   open-source pyPMU (synchrophasor/frame.py, iicsys/pypmu), used under its BSD 3-Clause licence.

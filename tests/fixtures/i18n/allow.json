@@ -137,6 +137,10 @@
    "count": 10,
    "reason": "machine-document: the seven activity identifiers accepted on input (kebab-case names of the RTS 25 Annex rows) and the three outcome codes written to the result (within limit, beyond limit, not assessable)"
   },
+  "src/asterix_cat021.rs": {
+   "count": 1,
+   "reason": "machine-document: the header row of the interference map's ADS-B CSV input (column names fixed by docs/INTERFERENCE-MAP.md)"
+  },
   "src/clock_log.rs": {
    "count": 91,
    "reason": "machine-document: log-format names (including ntp-loopstats and ntp-peerstats), the clock identifiers written to the result's clock field (local clock, White Rabbit local clock, the ntpd source labels, the CGGTTS all-in-view label), the RINEX record key `RINEX VERSION / TYPE`, and the units definitions and provenance of the measured-log result JSON"
