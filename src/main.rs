@@ -173,6 +173,9 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
             ExitCode::from(1)
         };
     }
+    if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
+        return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
+    }
     if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
         return usage();
     }
@@ -206,6 +209,73 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
             print!("{text}");
             ExitCode::SUCCESS
         }
+    }
+}
+
+/// `kshana connect watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>]
+/// [--interval <s>] [--once]`: follow a directory of growing or rotating logs and print new
+/// `kshana.obs/1` records as JSON lines (`kshana::connect_watch`). `--once` reads what is there, releases
+/// the held last epoch and exits.
+fn run_connect_watch(dir: &str, flag: &dyn Fn(&str) -> Option<String>, once: bool) -> ExitCode {
+    use std::io::Write;
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    let (Some(mapping_path), Some(station_path)) = (flag("--mapping"), flag("--station")) else {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        return ExitCode::from(2);
+    };
+    let read = |p: &str| std::fs::read_to_string(p).map_err(|e| e.to_string());
+    let mapping = match read(&mapping_path).and_then(|t| kshana::connect::parse_mapping(&t)) {
+        Ok(m) => m,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let station: kshana::obs::Station =
+        match read(&station_path).and_then(|t| toml::from_str(&t).map_err(|e| e.to_string())) {
+            Ok(s) => s,
+            Err(e) => return fail(&station_path, e),
+        };
+    let suffix = flag("--suffix").unwrap_or_else(|| format!(".{}", mapping.source.format));
+    let interval = match flag("--interval").map(|v| v.parse::<f64>()) {
+        None => 2.0,
+        Some(Ok(v)) if v.is_finite() && v > 0.0 => v,
+        Some(_) => {
+            eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+            return ExitCode::from(2);
+        }
+    };
+    let path = std::path::Path::new(dir);
+    let mut st = kshana::connect_watch::WatchState::default();
+    let mut out = std::io::stdout().lock();
+    loop {
+        let step = if once {
+            kshana::connect_watch::step(path, &suffix, &mapping, &station, &mut st).and_then(
+                |mut a| {
+                    a.extend(kshana::connect_watch::flush(
+                        path, &suffix, &mapping, &station, &mut st,
+                    )?);
+                    Ok(a)
+                },
+            )
+        } else {
+            kshana::connect_watch::step(path, &suffix, &mapping, &station, &mut st)
+        };
+        let recs = match step.and_then(|r| kshana::obs::to_jsonl(&r)) {
+            Ok(t) => t,
+            Err(e) => return fail(dir, e),
+        };
+        if out
+            .write_all(recs.as_bytes())
+            .and_then(|()| out.flush())
+            .is_err()
+        {
+            return ExitCode::SUCCESS;
+        }
+        if once {
+            return ExitCode::SUCCESS;
+        }
+        std::thread::sleep(std::time::Duration::from_secs_f64(interval));
     }
 }
 
