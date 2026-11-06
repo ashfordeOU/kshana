@@ -121,8 +121,9 @@ same mapping file, into `kshana.obs/1` records.
   read in arrival order as one continuous log, as `connect watch` reads a directory, and the last epoch
   is held back until a later row arrives. Publishers send rows without a header, so a CSV or TSV mapping
   needs the header row given (`--header`).
-- Rows already emitted are dropped once a few thousand are held, and `t_s` still counts from the first
-  epoch of the run, so a subscription can run for days in bounded memory.
+- Rows already emitted are dropped as soon as their epoch is emitted, and `t_s` still counts from the
+  first epoch of the run. Each message therefore costs the same however long the subscription has run,
+  and memory stays bounded.
 - TLS is not built in, and the default build adds no crate for MQTT. For a broker that only accepts TLS,
   run a local TLS relay (for example stunnel, or a local broker bridged to it) and subscribe to that.
 - Checked against a loopback broker that publishes a log one row per message, alternating QoS 0 and 1:

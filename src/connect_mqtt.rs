@@ -184,6 +184,12 @@ impl Subscriber {
     /// The next message payload, or `Ok(None)` when nothing arrived within half the keep-alive (a
     /// PINGREQ is sent then, when due).
     pub fn next_payload(&mut self) -> Result<Option<Vec<u8>>, String> {
+        Ok(self.next_message()?.map(|(_, p)| p))
+    }
+
+    /// The next message as (topic, payload); `Ok(None)` as for [`next_payload`](Self::next_payload).
+    /// With a wildcard filter the topic tells the stations apart.
+    pub fn next_message(&mut self) -> Result<Option<(String, Vec<u8>)>, String> {
         let p = read_packet(&mut self.s)?;
         if self.last_sent.elapsed() >= self.keep_alive / 2 {
             self.s.write_all(&[0xC0, 0]).map_err(|e| e.to_string())?;
@@ -216,11 +222,13 @@ impl Subscriber {
                         .map_err(|e| e.to_string())?;
                     self.last_sent = Instant::now();
                 }
+                let topic =
+                    String::from_utf8_lossy(&p.body[2..(2 + tl).min(p.body.len())]).into_owned();
                 let body = p
                     .body
                     .get(at..)
                     .ok_or_else(|| crate::terr!("e-connect-mqtt-protocol"))?;
-                Ok(Some(body.to_vec()))
+                Ok(Some((topic, body.to_vec())))
             }
             _ => Ok(None), // PINGRESP and anything else
         }
@@ -233,11 +241,11 @@ impl Subscriber {
 }
 
 /// Data lines kept before the feed trims the rows it has already emitted.
-const KEEP_LINES: usize = 4096;
+const KEEP_LINES: usize = 0;
 
 /// The continuous log built from message payloads, and what was emitted from it. Rows already emitted
-/// are trimmed once the log passes a few thousand lines, keeping the clock of the whole run, so a
-/// subscription can run for days in bounded memory.
+/// are trimmed as soon as an epoch is emitted, keeping the clock of the whole run, so each message
+/// costs the same however long the subscription has run, and memory stays bounded.
 pub struct Feed {
     preamble: String,
     lines: Vec<String>,
@@ -273,9 +281,10 @@ impl Feed {
         })
     }
 
-    /// Trim emitted rows once more than `n` data lines are held (default 4096; at least 1).
+    /// Trim emitted rows only once more than `n` data lines are held (default 0: after every
+    /// emitted epoch).
     pub fn keep_lines(mut self, n: usize) -> Self {
-        self.keep = n.max(1);
+        self.keep = n;
         self
     }
 
@@ -366,24 +375,21 @@ pub struct RunStats {
     pub reconnects: u32,
 }
 
-/// Subscribe and feed every message to `feed`, handing the records to `on` as they complete. A lost
-/// connection is made again (after 0.2 s, doubling to at most 30 s per try; the feed and its held epoch
-/// are kept); the first connection failing is an error. The run ends after `max_messages` (the held
-/// epoch is released then, in a call of `on` of its own), or when `on` returns `false`.
-pub fn run(
+/// Subscribe and hand every message to `f` as (topic, payload, last), where `last` is true for the
+/// message that reaches `max_messages`. A lost connection is made again (after 0.2 s, doubling to at
+/// most 30 s per try); the first connection failing is an error. The run ends after `max_messages`, or
+/// when `f` returns `Ok(false)`.
+fn pump(
     cfg: &MqttConfig,
-    mapping: &Mapping,
-    station: &Station,
-    feed: &mut Feed,
     max_messages: Option<u64>,
-    mut on: impl FnMut(Vec<Record>) -> bool,
+    mut f: impl FnMut(String, Vec<u8>, bool) -> Result<bool, String>,
 ) -> Result<RunStats, String> {
     let mut stats = RunStats::default();
     let mut sub = Subscriber::connect(cfg)?;
     loop {
-        let p = match sub.next_payload() {
+        let (topic, p) = match sub.next_message() {
             Ok(None) => continue,
-            Ok(Some(p)) => p,
+            Ok(Some(m)) => m,
             Err(_) => {
                 let mut wait = Duration::from_millis(200);
                 sub = loop {
@@ -398,13 +404,111 @@ pub fn run(
             }
         };
         stats.messages += 1;
-        let more = on(feed.push(&p, mapping, station)?);
-        if max_messages == Some(stats.messages) {
-            on(feed.flush(mapping, station)?);
-        } else if more {
-            continue;
+        let last = max_messages == Some(stats.messages);
+        if !f(topic, p, last)? || last {
+            sub.disconnect();
+            return Ok(stats);
         }
-        sub.disconnect();
-        return Ok(stats);
     }
+}
+
+/// Subscribe and feed every message to `feed`, handing the records to `on` as they complete. A lost
+/// connection is made again (the feed and its held epoch are kept; see [`pump`]). The run ends after
+/// `max_messages` (the held epoch is released then, in a call of `on` of its own), or when `on`
+/// returns `false`.
+pub fn run(
+    cfg: &MqttConfig,
+    mapping: &Mapping,
+    station: &Station,
+    feed: &mut Feed,
+    max_messages: Option<u64>,
+    mut on: impl FnMut(Vec<Record>) -> bool,
+) -> Result<RunStats, String> {
+    pump(cfg, max_messages, |_, p, last| {
+        let more = on(feed.push(&p, mapping, station)?);
+        if last {
+            on(feed.flush(mapping, station)?);
+        }
+        Ok(more)
+    })
+}
+
+/// One feed per topic, for a wildcard subscription that carries many stations. Each topic's records
+/// carry the station id `<station.id>/<last topic level>`; everything else about the station comes
+/// from `station`.
+pub struct TopicFeeds {
+    feeds: std::collections::BTreeMap<String, (Feed, Station)>,
+    header: Option<String>,
+    label: &'static str,
+}
+
+impl TopicFeeds {
+    /// Feeds for `mapping`; `header` as for [`Feed::new`].
+    pub fn new(mapping: &Mapping, header: Option<&str>) -> Result<TopicFeeds, String> {
+        Feed::new(mapping, header)?; // checks the mapping and the header once
+        Ok(TopicFeeds {
+            feeds: std::collections::BTreeMap::new(),
+            header: header.map(str::to_string),
+            label: "connect-mqtt",
+        })
+    }
+
+    /// Take one message of `topic`; the records that became complete for that topic's station.
+    pub fn push(
+        &mut self,
+        topic: &str,
+        payload: &[u8],
+        mapping: &Mapping,
+        station: &Station,
+    ) -> Result<Vec<Record>, String> {
+        if !self.feeds.contains_key(topic) {
+            let mut st = station.clone();
+            st.id = format!(
+                "{}/{}",
+                station.id,
+                topic.rsplit('/').next().unwrap_or(topic)
+            );
+            let feed = Feed::new(mapping, self.header.as_deref())?.label(self.label);
+            self.feeds.insert(topic.to_string(), (feed, st));
+        }
+        let (feed, st) = self.feeds.get_mut(topic).expect("inserted above");
+        feed.push(payload, mapping, st)
+    }
+
+    /// Release every topic's held epoch.
+    pub fn flush(&mut self, mapping: &Mapping) -> Result<Vec<Record>, String> {
+        let mut out = Vec::new();
+        for (feed, st) in self.feeds.values_mut() {
+            out.extend(feed.flush(mapping, st)?);
+        }
+        Ok(out)
+    }
+
+    /// Topics seen.
+    pub fn len(&self) -> usize {
+        self.feeds.len()
+    }
+
+    /// True before the first message.
+    pub fn is_empty(&self) -> bool {
+        self.feeds.is_empty()
+    }
+}
+
+/// [`run`] with one feed per topic ([`TopicFeeds`]).
+pub fn run_per_topic(
+    cfg: &MqttConfig,
+    mapping: &Mapping,
+    station: &Station,
+    feeds: &mut TopicFeeds,
+    max_messages: Option<u64>,
+    mut on: impl FnMut(Vec<Record>) -> bool,
+) -> Result<RunStats, String> {
+    pump(cfg, max_messages, |topic, p, last| {
+        let more = on(feeds.push(&topic, &p, mapping, station)?);
+        if last {
+            on(feeds.flush(mapping)?);
+        }
+        Ok(more)
+    })
 }
