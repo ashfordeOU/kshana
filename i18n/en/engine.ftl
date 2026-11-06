@@ -11490,3 +11490,13 @@ engine-e-iq-io-record-max-seconds = --max-seconds must be a positive number of s
 engine-e-iq-io-record-rate = the sample rate must be a positive number of Hz
 
 engine-iq-io-record-wrote = recorded { $n } samples ({ $s } s) to { $files }; queue high-water { $high } of { $cap } chunks; { $cut } trailing byte(s) of a partial sample cut
+
+## src/interference_map/live.rs
+
+engine-e-interference-map-live-readsb-json = the aircraft snapshot is not readsb aircraft.json ({ $e })
+
+engine-e-interference-map-live-positive = { $name } must be a positive number of seconds
+
+engine-interference-map-live-record-usage = usage: kshana interference-map record --source <adsb|ais> --from <aircraft.json|-|tcp:host:port|udp:[addr:]port|file> --out <new.csv> [--poll-s <s>] [--max-seconds <s>]
+
+engine-interference-map-live-record-done = wrote { $rows } rows to { $out }; { $bad } inputs did not check or parse
