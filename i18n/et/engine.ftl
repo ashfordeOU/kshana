@@ -10792,6 +10792,10 @@ engine-telemetry-cli-usage =
     { "    " }--mqtt-discovery <p>     Home Assistant avastuse eesliide (vaikimisi homeassistant)
     { "  " }OpenTelemetry (ehita võtmega --features otlp):
     { "    " }--otlp <http://host:4318/v1/metrics>  --otlp-every <epochs> (vaikimisi 10)
+    { "  " }Alerts (OASIS CAP 1.2, one message per band change):
+    { "    " }--cap-config <cap.toml>  sender, status, scope, area and radius (docs/TRUST-TELEMETRY.md)
+    { "    " }--cap-dir <dir>          write each message to <dir>/<identifier>.xml
+    { "    " }--webhook <http://host:port/path> --webhook-secret-env <VAR>  POST each message, signed (Kshana-Signature)
 
 engine-jammertest-cli-usage =
     kasutus:

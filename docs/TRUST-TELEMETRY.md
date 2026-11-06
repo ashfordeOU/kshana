@@ -195,7 +195,7 @@ Empty fields are left out (no `cs2=` without reasons). The host name is cut to 2
 characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
 LEEF values have `^` and line breaks replaced by spaces.
 
-## Common Alerting Protocol (CAP 1.2), library
+## Common Alerting Protocol (CAP 1.2)
 
 `kshana::telemetry::cap::alerts` turns the trust stream into OASIS CAP 1.2 messages, the format that
 public-warning, maritime and aviation alerting systems take in. One message is written for each band
@@ -213,10 +213,29 @@ change after calibration:
 - `status` (`Actual`, `Exercise`, `System`, `Test`, `Draft`) and `scope` have no default, so an exercise
   cannot go out as `Actual` by accident.
 - The messages are checked against the OASIS CAP 1.2 schema (`tests/telemetry_cap.rs`; the schema is
-  fetched by `scripts/fetch_cap_xsd.sh`, not vendored). Delivery (HTTP, a CAP hub, an aggregator) is
-  the operator's own; Kshana writes the messages.
+  fetched by `scripts/fetch_cap_xsd.sh`, not vendored).
 
-## Signed webhooks, library
+From the command line, `--cap-config cap.toml` turns alerting on, `--cap-dir <dir>` writes each message
+to `<dir>/<identifier>.xml`, and `--webhook` posts it (next section):
+
+```toml
+sender = "kshana@station.example"
+status = "Exercise"            # Actual, Exercise, System, Test or Draft: no default
+scope = "Restricted"           # Public, Restricted or Private: no default
+area_desc = "Example port and approaches"
+station = [59.44, 24.75]       # used when the stream carries no position
+radius_km = 25.0
+```
+
+```sh
+kshana receiver-trust live session.toml --tcp 192.0.2.10:10110 --json - \
+  | kshana trust-telemetry --cap-config cap.toml --cap-dir alerts/
+```
+
+The date of `t_s = 0` comes from the first epoch's UTC time label when it carries one, else from the
+clock of the machine running `trust-telemetry`.
+
+## Signed webhooks
 
 `kshana::telemetry::webhook::sign` adds a signature to any alert body (a CAP message, a trust sample as
 JSON) so the receiving system can check that it came from the holder of a shared secret, was not
@@ -229,8 +248,14 @@ Kshana-Signature: t=<UNIX seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">
 `verify` recomputes the signature, compares in constant time, and refuses a timestamp further than a
 stated tolerance from the receiver's clock (the replay window). While a secret is being rotated, two
 `v1=` values may be sent, and either may match. The HMAC is checked against the RFC 4231 test vectors
-(`tests/telemetry_webhook.rs`). Keep the secret out of logs and scenario files. Delivery (HTTP POST, a
-queue) is the operator's.
+(`tests/telemetry_webhook.rs`). Keep the secret out of logs and scenario files.
+
+`--webhook http://host:port/path --webhook-secret-env <VAR>` (with `--cap-config`) POSTs each CAP message
+as `application/cap+xml`, signed with the secret read from the environment variable `<VAR>`, never from
+the command line. The webhook is plain HTTP: for HTTPS, post to a local relay. A delivery that fails, or
+is answered with anything other than 2xx, is counted. The count is printed at the end, and a failed
+delivery never stops the stream. `tests/telemetry_alerts.rs` runs the command against a local receiver:
+every POST verifies, and the messages equal the library's for the whole stream.
 
 ## OpenTelemetry (off by default)
 
