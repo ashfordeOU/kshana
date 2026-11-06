@@ -294,6 +294,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
+    ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
     ("src/lunar_service.rs", "writes only in a unit test (a temporary ephemeris)"),
     ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
     ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
@@ -317,6 +318,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/iq/io/inventory.rs", "writes a file inventory of recordings, a catalogue of inputs"),
     ("src/iq/io/sigmf_stream.rs", "writes SigMF sample and metadata files: format-bound"),
     ("src/iq/io/stream.rs", "writes the sample stream of a recording: format-bound"),
+    ("src/telemetry/alerts.rs", "writes OASIS CAP 1.2 alert messages: a format-bound file read by alerting systems, each carrying the advisory statement in its description"),
     ("src/live_io.rs", "writes the append-only session log of a live receiver feed (a stream of records, each labelled by its schema)"),
     ("src/nmea_synth/cli.rs", "writes the NMEA training stream and its truth log, which simulators and receivers read as plain NMEA"),
     ("src/realtime_frame_eop.rs", "writes the run's CSV, already labelled when it came from api::run_toml (RunOutput::write_csv)"),
