@@ -10918,6 +10918,7 @@ engine-iq-io-cli-usage =
     { "   " }або: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
     { "   " }або: kshana iq convert <in> <out> --to <format> [--gain <g>]
     { "   " }або: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
+    { "   " }або: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]
     { " " }сирі входи без допоміжного файлу також приймають: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
     { " " }багатопотокові входи (багатоканальний SigMF, чергований сирий) приймають --channel <k> (від 0; типово 0)
     { " " }формати: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-бітові в 16 ci12r_le ci12l_be cu12r_le ..., упаковані 4-бітові ci4_msb cu4_lsb ..., упаковані 2-бітові c2tc_msb c2sm_lsb r2ob_msb ..., 2 біти на байт c2sm_byte ..., дійсні r..., Q-first ..._qi

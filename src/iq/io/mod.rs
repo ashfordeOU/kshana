@@ -30,6 +30,7 @@
 //! `tests/iq_io.rs`).
 
 pub mod format;
+pub mod record;
 pub mod report;
 pub mod resample;
 pub mod sdrx;

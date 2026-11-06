@@ -10399,7 +10399,7 @@
   "id": "iq-io-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]\n   or: kshana iq info <recording>\n   or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]\n   or: kshana iq convert <in> <out> --to <format> [--gain <g>]\n   or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]\n raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]\n multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)\n formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi"
+   "usage: kshana iq inventory <dir> [--recursive] [--no-hash] [--workers <n>] [--json <out.json>] [--csv <out.csv>]\n   or: kshana iq info <recording>\n   or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]\n   or: kshana iq convert <in> <out> --to <format> [--gain <g>]\n   or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]\n   or: kshana iq record <out.sigmf-data> --format <format> --rate <hz> [--center <hz>] [--from <-|tcp:host:port|file>] [--max-seconds <s>] [--hw <text>]\n raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]\n multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)\n formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi"
   ]
  },
  {
@@ -13551,6 +13551,65 @@
   "error": true,
   "parts": [
    "the caster sent a chunk whose size line is not hexadecimal"
+  ]
+ },
+ {
+  "id": "e-iq-io-record-needs-format-rate",
+  "error": true,
+  "parts": [
+   "iq record needs --format <format> and --rate <hz>, as set on the capture tool"
+  ]
+ },
+ {
+  "id": "e-iq-io-record-out-sigmf",
+  "error": true,
+  "parts": [
+   "iq record writes a SigMF recording: give an output ending in .sigmf-data, .sigmf-meta or .sigmf"
+  ]
+ },
+ {
+  "id": "e-iq-io-record-max-seconds",
+  "error": true,
+  "parts": [
+   "--max-seconds must be a positive number of seconds"
+  ]
+ },
+ {
+  "id": "e-iq-io-record-rate",
+  "error": true,
+  "parts": [
+   "the sample rate must be a positive number of Hz"
+  ]
+ },
+ {
+  "id": "iq-io-record-wrote",
+  "error": false,
+  "parts": [
+   "recorded ",
+   {
+    "var": "n"
+   },
+   " samples (",
+   {
+    "var": "s"
+   },
+   " s) to ",
+   {
+    "var": "files"
+   },
+   "; queue high-water ",
+   {
+    "var": "high"
+   },
+   " of ",
+   {
+    "var": "cap"
+   },
+   " chunks; ",
+   {
+    "var": "cut"
+   },
+   " trailing byte(s) of a partial sample cut"
   ]
  }
 ]

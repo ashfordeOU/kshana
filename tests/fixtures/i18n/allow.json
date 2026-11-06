@@ -562,8 +562,12 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/io/cli.rs": {
-   "count": 5,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 9,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); iq record adds the SigMF file suffixes, the `-` standard-input name and two number layouts in its summary"
+  },
+  "src/iq/io/record.rs": {
+   "count": 1,
+   "reason": "machine-document: the SigMF core:description written into the recording's metadata"
   },
   "src/iq/io/inventory.rs": {
    "count": 4,
