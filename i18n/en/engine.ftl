@@ -11322,7 +11322,7 @@ engine-e-obs-bad-alarm = line { $line }: an alarm needs a finite time and a kind
 
 engine-e-obs-station-mismatch = line { $line } belongs to station `{ $found }`, but the header is station `{ $expected }`
 
-engine-e-obs-cli-usage = usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
+engine-e-obs-cli-usage = usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | live <file|-|tcp:host:port> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
 
 engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $epochs } epochs, { $alarms } alarms, { $iq } IQ references
 
