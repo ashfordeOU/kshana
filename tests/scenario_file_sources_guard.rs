@@ -39,6 +39,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
     (
+        "src/adapters.rs",
+        "dir",
+        "the folder of an adapter manifest in a registry check report (an output); no scenario reads it",
+    ),
+    (
         "src/obs.rs",
         "path",
         "a kshana.obs/1 record's reference to an IQ recording, kept as data: src/obs.rs never \
