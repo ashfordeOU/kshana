@@ -294,6 +294,7 @@ pub mod permalink;
 pub mod connect;
 pub mod connect_mqtt;
 pub mod connect_watch;
+pub mod connect_ws;
 pub mod governor;
 pub mod interference_map;
 pub mod nmea_synth;

@@ -131,6 +131,22 @@ same mapping file, into `kshana.obs/1` records.
   `--password-env <VAR>` reads the password from an environment variable, never from the command line.
   `--max-messages <n>` ends the run after n messages and releases the last epoch.
 
+## Live WebSocket input (`kshana::connect_ws`)
+
+`kshana::connect_ws` reads rows streamed over a WebSocket (RFC 6455) and maps them like an MQTT
+subscription, through the same continuous-log feed.
+
+- `ws://` over TCP. The upgrade key is random and the server's `Sec-WebSocket-Accept` is checked. Text
+  and binary messages are read, fragments are joined, a ping is answered with a pong, and a close ends
+  the stream (the held last epoch is released then). Frames the client sends are masked. Messages over
+  16 MiB are refused.
+- `wss://` is not built in. Run a local TLS relay and connect to it with `ws://`.
+- Checked against a loopback server that sends one message in two fragments, a ping, one row per
+  message and a close: the result is the same as `kshana connect map` on the whole log; the accept key
+  matches the example in RFC 6455 (`tests/connect_ws.rs`).
+- From the command line: `kshana connect ws <ws://host:port/path> --mapping <connect.toml> --station
+  <station.toml> [--header <row>] [--max-messages <n>]`.
+
 ## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
 `kshana::c37118` reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and

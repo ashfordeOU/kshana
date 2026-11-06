@@ -242,6 +242,7 @@ pub struct Feed {
     t0: Option<f64>,
     state: WatchState,
     keep: usize,
+    label: &'static str,
 }
 
 impl Feed {
@@ -266,12 +267,19 @@ impl Feed {
             t0: None,
             state: WatchState::default(),
             keep: KEEP_LINES,
+            label: "connect-mqtt",
         })
     }
 
     /// Trim emitted rows once more than `n` data lines are held (default 4096; at least 1).
     pub fn keep_lines(mut self, n: usize) -> Self {
         self.keep = n.max(1);
+        self
+    }
+
+    /// Name the input in the header's `source_format` (`<label>:<format>`; default `connect-mqtt`).
+    pub fn label(mut self, label: &'static str) -> Self {
+        self.label = label;
         self
     }
 
@@ -301,7 +309,7 @@ impl Feed {
         let text = self.text();
         let out = step_text(
             &text,
-            "connect-mqtt",
+            self.label,
             self.t0,
             mapping,
             station,
@@ -337,7 +345,7 @@ impl Feed {
     pub fn flush(&mut self, mapping: &Mapping, station: &Station) -> Result<Vec<Record>, String> {
         step_text(
             &self.text(),
-            "connect-mqtt",
+            self.label,
             self.t0,
             mapping,
             station,
