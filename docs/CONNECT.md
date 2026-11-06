@@ -86,6 +86,24 @@ Every new adapter comes with its vector.
 Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV
 or JSON Lines is the route for now) and live inputs (A3a).
 
+## Live: watching a directory (library)
+
+`kshana::connect_watch::step` follows the files a logger writes or rotates into a directory and returns
+the `kshana.obs/1` records that became complete since the last step, through the same mapping file.
+- The files whose names end with the chosen suffix are read in name order, as one continuous log: a
+  later file's comment lines and header row are dropped. So an epoch whose rows a rotation split is
+  still one epoch, and every `t_s` counts from the directory's first epoch.
+- Only complete lines are read; a line still being written waits for the next step.
+- The last epoch is held back until rows after it arrive, because more rows of it may still be written.
+  `flush` releases it at the end of a run.
+- Files must be in time order by name. A single JSON document is refused (use `jsonl`).
+- It polls, with no operating-system file events, so it behaves the same on every platform and on
+  network file systems. The directory is re-read on each step, so move processed files away from time
+  to time.
+- Checked by replaying a log written in pieces and rotated part-way through an epoch: the result is the
+  same as `kshana connect map` on the whole log (`tests/connect_watch.rs`).
+- A `kshana connect watch` command is planned. Today the watch is called from code.
+
 ## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
 `kshana::c37118` reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and
