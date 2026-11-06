@@ -328,6 +328,7 @@ pub mod rinex;
 pub mod rinex_obs;
 pub mod rtcm_ssr;
 pub mod rtk_real;
+pub mod rts25;
 pub mod run;
 pub mod sbas;
 pub mod scenario;
