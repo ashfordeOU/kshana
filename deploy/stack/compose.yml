@@ -80,12 +80,14 @@ services:
     # the example mapping reads the CSV rows of examples/connect/timing-monitor.csv.
     entrypoint: ["/bin/sh", "-c"]
     command:
+      # Compose checks a required variable even when this profile is off, so the check is here.
       - >-
+        test -n "$$KSHANA_HEADER" || { echo 'set KSHANA_HEADER to the CSV header row your loggers omit' >&2; exit 2; };
         exec kshana connect mqtt mosquitto:1883 --topic 'kshana/obs/#' --qos 1
         --mapping /etc/kshana/connect.toml --station /etc/kshana/station.toml
         --header "$$KSHANA_HEADER" >> /var/lib/kshana/obs.jsonl
     environment:
-      KSHANA_HEADER: "${KSHANA_HEADER:?set KSHANA_HEADER to the CSV header row your loggers omit}"
+      KSHANA_HEADER: "${KSHANA_HEADER:-}"
     volumes:
       - ./connect.toml:/etc/kshana/connect.toml:ro
       - ./station.toml:/etc/kshana/station.toml:ro
