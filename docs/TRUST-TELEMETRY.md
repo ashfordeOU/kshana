@@ -143,6 +143,9 @@ result, `cn0-drop`, `agc`, `raim`).
 
 A sample dashboard is in `deploy/grafana/kshana-gnss-trust.json` (import it and pick your
 Prometheus data source).
+To run the monitor, Prometheus and this dashboard together, use the Compose stack in
+[`deploy/stack/`](../deploy/stack/README.md); on Kubernetes, the Helm chart in
+[`deploy/helm/kshana`](../deploy/helm/README.md).
 
 ## Syslog: CEF and LEEF
 

@@ -1,0 +1,105 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Deployment kits end to end (roadmap A6): install the Helm chart on a clean kind cluster and bring the
+# Compose stack up, each fed the bundled NMEA replay, following only deploy/helm/README.md and
+# deploy/stack/README.md; pass when epochs reach the metrics (and, for Compose, Prometheus scrapes the
+# monitor and Grafana answers). kind, Helm and Docker Compose come with the runner image.
+name: deploy-kits-e2e
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "deploy/**"
+      - ".github/workflows/deploy-kits-e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  helm-on-kind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build the reference image
+        run: docker build -f deploy/reference-build/Dockerfile -t kshana-reference-build:e2e .
+      - name: Clean cluster
+        run: |
+          kind create cluster --name kshana --wait 120s
+          kind load docker-image kshana-reference-build:e2e --name kshana
+      - name: An NMEA source in the cluster (the bundled replay, served over TCP)
+        run: |
+          kubectl create configmap nmea --from-file=replay.nmea=examples/maritime-trust/tallinn-helsinki.nmea
+          kubectl apply -f - <<'EOF'
+          apiVersion: v1
+          kind: Pod
+          metadata: {name: nmea, labels: {app: nmea}}
+          spec:
+            containers:
+              - name: nc
+                image: busybox:1.36
+                command: ["sh", "-c", "while true; do nc -l -p 10110 < /data/replay.nmea; done"]
+                volumeMounts: [{name: d, mountPath: /data}]
+            volumes: [{name: d, configMap: {name: nmea}}]
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata: {name: nmea}
+          spec: {selector: {app: nmea}, ports: [{port: 10110}]}
+          EOF
+          kubectl wait --for=condition=Ready pod/nmea --timeout=120s
+      - name: Install the chart as the README says
+        run: |
+          helm install site-a deploy/helm/kshana --set input=nmea:10110 \
+            --set image.repository=kshana-reference-build --set image.tag=e2e --set image.pullPolicy=Never \
+            --wait --timeout 180s
+          kubectl get pods
+      - name: Epochs reach the metrics
+        run: |
+          kubectl port-forward svc/site-a-kshana 9464:9464 >/dev/null 2>&1 &
+          for i in $(seq 1 60); do
+            n=$(curl -fsS 127.0.0.1:9464/metrics 2>/dev/null \
+              | awk '/^kshana_trust_epochs_total/ {s += $2} END {print s + 0}')
+            echo "epochs: $n"
+            [ "${n:-0}" -gt 0 ] && exit 0
+            sleep 5
+          done
+          kubectl logs deploy/site-a-kshana || true
+          exit 1
+
+  compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: An NMEA source on the host (the bundled replay over TCP)
+        run: |
+          (while true; do nc -l -N 0.0.0.0 10110 < examples/maritime-trust/tallinn-helsinki.nmea || nc -l 10110 < examples/maritime-trust/tallinn-helsinki.nmea; done) &
+      - name: Bring the stack up as the README says
+        working-directory: deploy/stack
+        env:
+          KSHANA_INPUT: host.docker.internal:10110
+          GRAFANA_ADMIN_PASSWORD: ci-only
+        run: |
+          cp session.example.toml session.toml
+          cat > compose.ci.yml <<'EOF'
+          services:
+            kshana-monitor:
+              extra_hosts: ["host.docker.internal:host-gateway"]
+          EOF
+          docker compose -f compose.yml -f compose.ci.yml up -d --build --wait --wait-timeout 600
+      - name: Prometheus scrapes epochs and Grafana answers
+        run: |
+          for i in $(seq 1 60); do
+            n=$(curl -fsS '127.0.0.1:9090/api/v1/query?query=sum(kshana_trust_epochs_total)' \
+              | python3 -c 'import json,sys; r=json.load(sys.stdin)["data"]["result"]; print(int(float(r[0]["value"][1])) if r else 0)')
+            echo "epochs scraped: $n"
+            if [ "${n:-0}" -gt 0 ]; then
+              curl -fsS -u admin:ci-only 127.0.0.1:3000/api/search?query=GNSS | grep -q kshana-gnss-trust
+              exit 0
+            fi
+            sleep 5
+          done
+          docker compose -f deploy/stack/compose.yml logs --no-color | tail -50
+          exit 1

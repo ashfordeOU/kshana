@@ -587,6 +587,36 @@ jobs:
   # (docs/design/DETECTION-ROC.md). Measured: about 5 min for the monitors' campaigns and 6 for
   # the ROC's. The bars recorded as FINDINGs (M3, R1) run with --ignored.
   # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # Deployment kits (roadmap A6): the Compose stack resolves and the Helm chart lints and
+  # renders, with and without its options. Helm and Docker Compose come with the runner image.
+  # ---------------------------------------------------------------------------
+  deploy-kits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Compose stack resolves (both profiles)
+        working-directory: deploy/stack
+        env:
+          KSHANA_INPUT: 192.0.2.10:10110
+          GRAFANA_ADMIN_PASSWORD: ci-only
+          KSHANA_HEADER: "time,sat,band,cn0"
+        run: |
+          for f in session station connect; do cp "$f.example.toml" "$f.toml"; done
+          docker compose -f compose.yml config --quiet
+          docker compose -f compose.yml --profile ingest config --quiet
+      - name: Helm chart lints and renders
+        run: |
+          helm lint deploy/helm/kshana --set input=192.0.2.10:10110
+          helm template t deploy/helm/kshana --set input=192.0.2.10:10110 > /tmp/default.yaml
+          helm template t deploy/helm/kshana --set input=192.0.2.10:10110 \
+            --set metrics.serviceMonitor.enabled=true --set grafana.dashboard.enabled=false \
+            --set existingSessionConfigMap=mine > /tmp/options.yaml
+          grep -q 'kind: Deployment' /tmp/default.yaml
+          grep -q 'kind: ServiceMonitor' /tmp/options.yaml
+          ! grep -q 'kshana-gnss-trust.json' /tmp/options.yaml
+          if helm template t deploy/helm/kshana >/dev/null 2>&1; then echo "input must be required"; exit 1; fi
   iq-campaign-monitors:
     runs-on: ubuntu-latest
     timeout-minutes: 60

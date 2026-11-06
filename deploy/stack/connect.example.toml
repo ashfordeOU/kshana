@@ -1,0 +1,26 @@
+# A timing receiver's monitoring export: semicolon-separated, one C/N0 column per satellite,
+# GPS week and time of week, height in feet, gain control and the receiver's spoofing flag.
+schema = "kshana.connect/1"
+
+[source]
+format = "csv"
+delimiter = ";"
+comment = "#"
+
+[time]
+column = "tow"
+week_column = "week"
+format = "gps-week-tow"
+
+[signals]
+band = "L1"
+wide = { G05 = "G05", G12 = "G12", G25 = "G25", E11 = "E11" }
+
+[fix]
+lat = { column = "lat" }
+lon = { column = "lon" }
+height = { column = "alt_ft", unit = "ft" }
+
+[receiver]
+agc = { column = "agc" }
+spoofing = { column = "spoof" }
