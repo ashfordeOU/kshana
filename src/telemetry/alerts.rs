@@ -41,8 +41,11 @@ pub struct AlertConfig {
 /// Where a webhook goes.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Webhook {
+    /// Host name or address.
     pub host: String,
+    /// TCP port (80 when the URL names none).
     pub port: u16,
+    /// Request path, `/` when the URL names none.
     pub path: String,
     secret: Vec<u8>,
 }
