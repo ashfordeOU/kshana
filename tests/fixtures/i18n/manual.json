@@ -13017,5 +13017,12 @@
   "parts": [
    "a CAP area needs a position: the stream carries none and no station position is configured"
   ]
+ },
+ {
+  "id": "e-connect-watch-json",
+  "error": true,
+  "parts": [
+   "a single JSON document is not a growing log: watch a jsonl file instead"
+  ]
  }
 ]

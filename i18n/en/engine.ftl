@@ -11358,6 +11358,8 @@ engine-e-connect-json-records = the JSON input has no array of records at `{ $pa
 
 engine-e-connect-no-rows = the input has no data rows (after the filter, if any)
 
+engine-e-connect-watch-json = a single JSON document is not a growing log: watch a jsonl file instead
+
 engine-e-connect-missing-column = the input has no column `{ $column }` that the mapping names
 
 engine-e-connect-bad-time = line { $line }: `{ $value }` is not a time in the `{ $format }` format
