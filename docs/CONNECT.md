@@ -4,6 +4,8 @@ A mapping file (`kshana.connect/1`, TOML) tells Kshana how to read an export it 
 for, and turns it into a [`kshana.obs/1`](OBS-SCHEMA.md) observation file. No code is written:
 the file names the columns, their units and the time format.
 
+Step by step, for a monitoring station: [guides/MONITORING-STATION.md](guides/MONITORING-STATION.md).
+
 ```sh
 kshana connect map export.csv --mapping export.connect.toml --station station.toml --out site.obs.jsonl
 kshana obs check site.obs.jsonl
