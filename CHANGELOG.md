@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Fixed
+
+- An SBF log cut inside its last block, or with a stray `$@` sync whose declared length runs past the end, no longer makes
+  `kshana obs convert` and the receiver-trust SBF reader loop forever: the blocks are framed by Kshana and the unfinished one
+  counts as one skipped record (`tests/receiver_trust_sbf.rs`).
+
 ### Revisions
 
 - Mars short-arc orbit determination, run 2: since portable maths (0.36), the fit takes 11 Jacobian evaluations, B3 is 0.359 km

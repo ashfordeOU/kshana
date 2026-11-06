@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Live receiver logs (L4a): the same bytes fed as a live stream, in chunks of any size, give the
 //! epochs of a replay of the whole recording, byte for byte, while the decoder holds a bounded window.
-//! Checked on a synthetic UBX stream (with junk between frames), the bundled NMEA jamming log and the
-//! RINEX 4 conformance file.
+//! Checked on synthetic UBX, SBF, NovAtel and RTCM 3 streams (with junk between frames), the
+//! bundled NMEA jamming log and the RINEX 4 conformance file.
 
 use kshana::obs::{from_log, Record, Station};
 use kshana::obs_live::LiveObs;
@@ -195,4 +195,182 @@ fn the_command_reads_a_receiver_over_tcp() {
         })
         .collect();
     assert_eq!(got, want);
+}
+
+/// An SBF block as the reader's own tests lay it out (sync, CRC-16, id, length, TOW, WNc, body).
+fn sbf_block(id: u16, tow_ms: u32, wnc: u16, body: &[u8]) -> Vec<u8> {
+    let mut data = vec![0u8; 2];
+    data.extend(id.to_le_bytes());
+    data.extend([0, 0]);
+    data.extend(tow_ms.to_le_bytes());
+    data.extend(wnc.to_le_bytes());
+    data.extend(body);
+    while !(data.len() + 2).is_multiple_of(4) {
+        data.push(0);
+    }
+    let len = (data.len() + 2) as u16;
+    data[4..6].copy_from_slice(&len.to_le_bytes());
+    let crc = sbf_tools::crc::crc16_ccitt(&data[2..]);
+    data[0..2].copy_from_slice(&crc.to_le_bytes());
+    let mut out = vec![b'$', b'@'];
+    out.extend(data);
+    out
+}
+
+/// 90 epochs of PVTGeodetic and MeasEpoch, with junk (a false `$`) between some blocks.
+fn sbf_stream() -> Vec<u8> {
+    let mut v = Vec::new();
+    for t in 0..90u32 {
+        let tow = 345_600_000 + 1000 * t;
+        let mut p = vec![0u8; 83 - 12];
+        p[0] = 4;
+        p[2..10].copy_from_slice(&(59.44f64.to_radians()).to_le_bytes());
+        p[10..18].copy_from_slice(&(24.75f64.to_radians()).to_le_bytes());
+        p[18..26].copy_from_slice(&(30.0 + f64::from(t)).to_le_bytes());
+        p[60] = 8;
+        v.extend(sbf_block(4007, tow, 2330, &p));
+        let cn0 = if (30..50).contains(&t) { 26.0 } else { 45.0 };
+        let mut m = vec![6u8, 20, 0, 0, 0];
+        for svid in 1..=6u8 {
+            let mut sb = [0u8; 20];
+            sb[2] = svid;
+            sb[15] = ((cn0 - 10.0 - f64::from(svid % 3)) / 0.25) as u8;
+            m.extend(sb);
+        }
+        v.extend(sbf_block(4027, tow, 2330, &m));
+        if t % 11 == 0 {
+            v.extend([b'$', 0x00, 0x24, 0x40]); // junk: a false sync, then `$@` with no block
+        }
+    }
+    v
+}
+
+#[test]
+fn sbf_live_equals_replay() {
+    check("sbf", &sbf_stream());
+}
+
+/// A NovAtel ASCII log line with its CRC.
+fn novatel_ascii(body: &str) -> Vec<u8> {
+    format!(
+        "#{body}*{:08x}\r\n",
+        kshana::receiver_trust::machines::novatel::novatel_crc32(body.as_bytes())
+    )
+    .into_bytes()
+}
+
+/// 80 epochs of BESTPOSA and RANGEA lines, with a binary log the reader does not use between some
+/// of them (so the binary framing is exercised too).
+fn novatel_stream() -> Vec<u8> {
+    let mut v = Vec::new();
+    for k in 0..80u32 {
+        let sec = 100 + k;
+        let cn0 = if (20..35).contains(&k) { 27.0 } else { 44.5 };
+        v.extend(novatel_ascii(&format!(
+            "BESTPOSA,COM1,0,50.0,FINESTEERING,2300,{sec}.000,02000000,0000,1;SOL_COMPUTED,SINGLE,\
+             59.91150000000,10.75790000000,52.0000,40.0000,WGS84,1.0000,1.0000,2.0000,\"\",0.000,\
+             0.000,14,12,12,12,00,00,00,00"
+        )));
+        v.extend(novatel_ascii(&format!(
+            "RANGEA,COM1,0,50.0,FINESTEERING,2300,{sec}.000,02000000,5103,1;2,\
+             5,0,2.4e7,0.2,-1.2e8,0.01,100.0,{cn0},500.0,00000004,\
+             11,0,2.1e7,0.2,-1.2e8,0.01,100.0,{:.1},500.0,00000004",
+            cn0 - 3.0
+        )));
+        if k % 7 == 0 {
+            let body = [1u8, 2, 3, 4, 5, 6, 7, 8];
+            let mut m = vec![0xAA, 0x44, 0x12, 28];
+            m.extend(9999u16.to_le_bytes());
+            m.extend([0, 0xC0]);
+            m.extend((body.len() as u16).to_le_bytes());
+            m.extend([0, 0, 0, 180]);
+            m.extend(2300u16.to_le_bytes());
+            m.extend((sec * 1000).to_le_bytes());
+            m.extend([0; 8]);
+            m.extend(body);
+            let c = kshana::receiver_trust::machines::novatel::novatel_crc32(&m);
+            m.extend(c.to_le_bytes());
+            v.extend(m);
+        }
+    }
+    v
+}
+
+#[test]
+fn novatel_live_equals_replay() {
+    check("novatel", &novatel_stream());
+}
+
+struct Bits(Vec<u8>, usize);
+impl Bits {
+    fn put(&mut self, v: u64, n: usize) {
+        for i in (0..n).rev() {
+            if self.1.is_multiple_of(8) {
+                self.0.push(0);
+            }
+            *self.0.last_mut().unwrap() |= (((v >> i) & 1) as u8) << (7 - self.1 % 8);
+            self.1 += 1;
+        }
+    }
+}
+
+/// A GPS MSM4 frame (1074) at `tow_ms`, one L1 C/A signal per satellite; `sats` are (id, CNR).
+fn msm4(tow_ms: u64, sats: &[(u32, u64)]) -> Vec<u8> {
+    let mut w = Bits(Vec::new(), 0);
+    w.put(1074, 12);
+    w.put(7, 12);
+    w.put(tow_ms, 30);
+    w.put(0, 19);
+    let mut mask = 0u64;
+    for (id, _) in sats {
+        mask |= 1 << (64 - id);
+    }
+    w.put(mask, 64);
+    w.put(1 << (32 - 2), 32);
+    for _ in sats {
+        w.put(1, 1);
+    }
+    for _ in sats {
+        w.put(70, 8);
+        w.put(512, 10);
+    }
+    for bits in [15, 22, 4, 1] {
+        for _ in sats {
+            w.put(0, bits);
+        }
+    }
+    for (_, c) in sats {
+        w.put(*c, 6);
+    }
+    let payload = w.0;
+    let mut f = vec![0xD3, (payload.len() >> 8) as u8, payload.len() as u8];
+    f.extend(&payload);
+    let c = kshana::receiver_trust::machines::rtcm3::crc24q(&f);
+    f.extend([(c >> 16) as u8, (c >> 8) as u8, c as u8]);
+    f
+}
+
+/// 100 epochs of MSM4, with noise and a frame with a bad CRC between some of them.
+fn rtcm3_stream() -> Vec<u8> {
+    let mut v = Vec::new();
+    for k in 0..100u64 {
+        let cnr = if (40..60).contains(&k) { 27 } else { 44 };
+        v.extend(msm4(
+            100_000 + 1000 * k,
+            &[(5, cnr), (12, cnr - 2), (21, cnr - 4)],
+        ));
+        if k % 13 == 0 {
+            let mut bad = msm4(100_000 + 1000 * k, &[(7, 40)]);
+            let n = bad.len();
+            bad[n - 1] ^= 1;
+            v.extend(bad);
+            v.extend([0x00, 0xFF]);
+        }
+    }
+    v
+}
+
+#[test]
+fn rtcm3_live_equals_replay() {
+    check("rtcm3", &rtcm3_stream());
 }
