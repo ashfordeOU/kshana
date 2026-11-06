@@ -102,7 +102,10 @@ the `kshana.obs/1` records that became complete since the last step, through the
   to time.
 - Checked by replaying a log written in pieces and rotated part-way through an epoch: the result is the
   same as `kshana connect map` on the whole log (`tests/connect_watch.rs`).
-- A `kshana connect watch` command is planned. Today the watch is called from code.
+- From the command line: `kshana connect watch <dir> --mapping <connect.toml> --station <station.toml>`
+  prints new records as JSON lines every `--interval` seconds (default 2). `--suffix` picks the files
+  (default: the mapping's format, for example `.csv`). `--once` reads what is there, releases the last
+  epoch and exits.
 
 ## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
