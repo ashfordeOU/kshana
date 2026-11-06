@@ -1022,7 +1022,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 62,
+   "count": 64,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {
@@ -1108,6 +1108,10 @@
   "src/nmea_synth/nmea.rs": {
    "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/ntrip.rs": {
+   "count": 6,
+   "reason": "machine-document: the NTRIP request line and headers, the GGA sentence layout, the HTTP header names read from the caster, and the <address>: <error> prefix of an operating-system error"
   },
   "src/obs.rs": {
    "count": 1,
