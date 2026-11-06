@@ -133,6 +133,10 @@
    "count": 33,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/connect_live.rs": {
+   "count": 6,
+   "reason": "machine-document: the loopback test servers' MQTT topic and client id, the HTTP/1.1 upgrade reply, the ws:// URL, and the <path>: <error> prefix of an operating-system error"
+  },
   "src/connect_mqtt.rs": {
    "count": 2,
    "reason": "identifiers: the broker address prefixed to an operating-system connection error (<host:port>: <error>), no prose of its own"
@@ -1006,7 +1010,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 52,
+   "count": 54,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {

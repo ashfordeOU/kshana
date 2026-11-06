@@ -176,6 +176,13 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
         return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
     }
+    if args.first().map(String::as_str) == Some("check-live") && (2..=3).contains(&args.len()) {
+        let json = args.len() == 3 && args[2] == "--json";
+        if args.len() == 3 && !json {
+            return usage();
+        }
+        return run_connect_check_live(&args[1], json);
+    }
     if args.first().map(String::as_str) == Some("ws") && args.len() >= 6 {
         return run_connect_ws(&args[1], &flag);
     }
@@ -215,6 +222,89 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
             print!("{text}");
             ExitCode::SUCCESS
         }
+    }
+}
+
+/// `kshana connect check-live <vector.toml|dir> [--json]`: replay the conformance vectors over MQTT,
+/// WebSocket and the directory watch (`kshana::connect_live`); exit 1 when any path fails.
+fn run_connect_check_live(dir: &str, json: bool) -> ExitCode {
+    let vectors = kshana::connect::find_vectors(std::path::Path::new(dir));
+    if vectors.is_empty() {
+        eprintln!("{dir}: {}", kshana::terr!("e-connect-no-vectors"));
+        return ExitCode::from(1);
+    }
+    let scratch = std::env::temp_dir().join(format!("kshana-live-{}", std::process::id()));
+    let mut results = Vec::new();
+    for p in &vectors {
+        match kshana::connect_live::check_vector(p, &scratch) {
+            Ok(r) => results.push(r),
+            Err(e) => {
+                eprintln!("{}: {e}", p.display());
+                return ExitCode::from(1);
+            }
+        }
+    }
+    let paths: Vec<_> = results.iter().flat_map(|r| &r.paths).collect();
+    let passed = paths.iter().filter(|p| p.pass).count();
+    if json {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&results).unwrap_or_default()
+        );
+    } else {
+        let ms = |v: f64| format!("{v:.1}");
+        for r in &results {
+            if let Some(why) = &r.skipped {
+                println!(
+                    "{}",
+                    kshana::t!(
+                        "connect-live-skip",
+                        name = r.name.clone(),
+                        why = why.clone()
+                    )
+                );
+            }
+            for p in &r.paths {
+                let line = if p.pass {
+                    kshana::t!(
+                        "connect-live-pass",
+                        name = r.name.clone(),
+                        path = p.path,
+                        got = p.epochs_produced.to_string(),
+                        want = p.epochs_expected.to_string(),
+                        p50 = ms(p.latency_ms[0]),
+                        p99 = ms(p.latency_ms[1]),
+                        reconnects = p.reconnects.to_string()
+                    )
+                } else {
+                    kshana::t!(
+                        "connect-live-fail",
+                        name = r.name.clone(),
+                        path = p.path,
+                        got = p.epochs_produced.to_string(),
+                        want = p.epochs_expected.to_string(),
+                        diff = p.first_difference.map_or("-".into(), |d| d.to_string()),
+                        released = p.released_at_end.to_string(),
+                        p99 = ms(p.latency_ms[1]),
+                        reconnects = p.reconnects.to_string()
+                    )
+                };
+                println!("{line}");
+            }
+        }
+        println!(
+            "{}",
+            kshana::t!(
+                "connect-live-summary",
+                passed = passed.to_string(),
+                total = paths.len().to_string()
+            )
+        );
+    }
+    if passed == paths.len() {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
     }
 }
 
@@ -350,41 +440,24 @@ fn run_connect_mqtt(addr: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCo
         Ok(f) => f,
         Err(e) => return fail(&mapping_path, e),
     };
-    let mut sub = match kshana::connect_mqtt::Subscriber::connect(&cfg) {
-        Ok(s) => s,
-        Err(e) => return fail(addr, e),
-    };
     let mut out = std::io::stdout().lock();
-    let mut seen = 0u64;
-    loop {
-        let recs = match sub.next_payload() {
-            Ok(None) => continue,
-            Ok(Some(p)) => {
-                seen += 1;
-                let mut r = feed.push(&p, &mapping, &station);
-                if max == Some(seen) {
-                    r = r.and_then(|mut a| {
-                        a.extend(feed.flush(&mapping, &station)?);
-                        Ok(a)
-                    });
-                }
-                r
+    let mut bad = None;
+    let r = kshana::connect_mqtt::run(&cfg, &mapping, &station, &mut feed, max, |recs| {
+        match kshana::obs::to_jsonl(&recs) {
+            // A closed standard output (a reader that went away) ends the run quietly.
+            Ok(t) => out
+                .write_all(t.as_bytes())
+                .and_then(|()| out.flush())
+                .is_ok(),
+            Err(e) => {
+                bad = Some(e);
+                false
             }
-            Err(e) => Err(e),
-        };
-        let text = match recs.and_then(|r| kshana::obs::to_jsonl(&r)) {
-            Ok(t) => t,
-            Err(e) => return fail(addr, e),
-        };
-        if out
-            .write_all(text.as_bytes())
-            .and_then(|()| out.flush())
-            .is_err()
-            || max == Some(seen)
-        {
-            sub.disconnect();
-            return ExitCode::SUCCESS;
         }
+    });
+    match r.and_then(|_| bad.map_or(Ok(()), Err)) {
+        Err(e) => fail(addr, e),
+        Ok(()) => ExitCode::SUCCESS,
     }
 }
 

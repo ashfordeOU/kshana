@@ -150,6 +150,8 @@ impl Subscriber {
             .map_err(|e| format!("{}: {e}", cfg.addr))?;
         s.set_read_timeout(Some(Duration::from_secs(5)))
             .map_err(|e| e.to_string())?;
+        // Small packets (PUBACK, PINGREQ) go out at once rather than waiting to be coalesced.
+        s.set_nodelay(true).map_err(|e| e.to_string())?;
         s.write_all(&connect_packet(cfg))
             .map_err(|e| e.to_string())?;
         let ack = read_packet(&mut s)?.ok_or_else(|| crate::terr!("e-connect-mqtt-closed"))?;
@@ -352,5 +354,57 @@ impl Feed {
             &mut self.state,
             true,
         )
+    }
+}
+
+/// What a run did.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct RunStats {
+    /// Messages read.
+    pub messages: u64,
+    /// Times the connection was lost and made again.
+    pub reconnects: u32,
+}
+
+/// Subscribe and feed every message to `feed`, handing the records to `on` as they complete. A lost
+/// connection is made again (after 0.2 s, doubling to at most 30 s per try; the feed and its held epoch
+/// are kept); the first connection failing is an error. The run ends after `max_messages` (the held
+/// epoch is released then, in a call of `on` of its own), or when `on` returns `false`.
+pub fn run(
+    cfg: &MqttConfig,
+    mapping: &Mapping,
+    station: &Station,
+    feed: &mut Feed,
+    max_messages: Option<u64>,
+    mut on: impl FnMut(Vec<Record>) -> bool,
+) -> Result<RunStats, String> {
+    let mut stats = RunStats::default();
+    let mut sub = Subscriber::connect(cfg)?;
+    loop {
+        let p = match sub.next_payload() {
+            Ok(None) => continue,
+            Ok(Some(p)) => p,
+            Err(_) => {
+                let mut wait = Duration::from_millis(200);
+                sub = loop {
+                    std::thread::sleep(wait);
+                    match Subscriber::connect(cfg) {
+                        Ok(s) => break s,
+                        Err(_) => wait = (wait * 2).min(Duration::from_secs(30)),
+                    }
+                };
+                stats.reconnects += 1;
+                continue;
+            }
+        };
+        stats.messages += 1;
+        let more = on(feed.push(&p, mapping, station)?);
+        if max_messages == Some(stats.messages) {
+            on(feed.flush(mapping, station)?);
+        } else if more {
+            continue;
+        }
+        sub.disconnect();
+        return Ok(stats);
     }
 }
