@@ -8344,6 +8344,26 @@ engine-telemetry-syslog-cs4label-logtime-cs4 = { " " }cs4Label=logTime cs4={ $ce
 
 engine-telemetry-syslog-cs5label-gate-cs5 = { " " }cs5Label=gate cs5={ $cef_ext_escape }
 
+engine-telemetry-cap-headline = GNSS trust { $band }
+
+engine-telemetry-cap-description = The GNSS trust band of this receiver changed from { $prev } to { $band } at { $t } s after the start of the record.
+
+engine-telemetry-cap-reasons = Monitors: { $reasons }.
+
+engine-telemetry-cap-advisory = Advisory software, not type-approved navigation equipment; the operator remains responsible.
+
+engine-telemetry-cap-event = GNSS interference or degradation
+
+engine-e-telemetry-cap-bad-status = CAP status must be Actual, Exercise, System, Test or Draft, not { $v }
+
+engine-e-telemetry-cap-bad-scope = CAP scope must be Public, Restricted or Private, not { $v }
+
+engine-e-telemetry-cap-bad-sender = CAP sender must be a non-empty identifier without spaces, commas, < or &
+
+engine-e-telemetry-cap-bad-radius = CAP area radius must be a positive number of km
+
+engine-e-telemetry-cap-no-position = a CAP area needs a position: the stream carries none and no station position is configured
+
 engine-telemetry-syslog-cs6label-geometry-cs6 = { " " }cs6Label=geometry cs6={ $status }{ $classes }
 
 engine-telemetry-syslog-cfp3label-geometryhdop-cfp3 = { " " }cfp3Label=geometryHdop cfp3={ $num }
