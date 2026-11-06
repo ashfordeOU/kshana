@@ -304,6 +304,7 @@ pub mod interference_map;
 pub mod nmea_synth;
 pub mod ntrip;
 pub mod obs;
+pub mod obs_live;
 pub mod par;
 mod portable_distr;
 mod portable_distr_tables;

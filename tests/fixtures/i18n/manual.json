@@ -12495,7 +12495,7 @@
   "id": "e-obs-cli-usage",
   "error": true,
   "parts": [
-   "usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>"
+   "usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | live <file|-|tcp:host:port> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>"
   ]
  },
  {

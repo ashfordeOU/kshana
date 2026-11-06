@@ -15,7 +15,9 @@ fn usage() -> String {
 }
 
 /// `kshana obs convert <log> --format <f> --station <station.toml> [--out <file>]` writes a
-/// kshana.obs/1 file from a receiver log; `kshana obs check <file> [--json]` checks one.
+/// kshana.obs/1 file from a receiver log; `kshana obs live <file|-|tcp:host:port> --format <f>
+/// --station <station.toml> [--out <file>]` does the same for a stream as it arrives;
+/// `kshana obs check <file> [--json]` checks one.
 fn run_obs_cli(args: &[String]) -> ExitCode {
     let usage = || {
         eprintln!("{}", kshana::terr!("e-obs-cli-usage"));
@@ -64,6 +66,50 @@ fn run_obs_cli(args: &[String]) -> ExitCode {
                     print!("{text}");
                     ExitCode::SUCCESS
                 }
+            }
+        }
+        Some("live") if args.len() >= 6 => {
+            let source = &args[1];
+            let (Some(format), Some(station_path)) = (flag("--format"), flag("--station")) else {
+                return usage();
+            };
+            let station: kshana::obs::Station = match std::fs::read_to_string(&station_path)
+                .map_err(|e| e.to_string())
+                .and_then(|s| toml::from_str(&s).map_err(|e| e.to_string()))
+            {
+                Ok(s) => s,
+                Err(e) => return fail(&station_path, e),
+            };
+            // `-` is standard input, `tcp:host:port` a receiver's TCP port, anything else a file
+            // or a device (a serial port: set its speed with stty first).
+            let input: Box<dyn std::io::Read> = if source == "-" {
+                Box::new(std::io::stdin())
+            } else if let Some(addr) = source.strip_prefix("tcp:") {
+                match std::net::TcpStream::connect(addr) {
+                    Ok(s) => Box::new(s),
+                    Err(e) => return fail(source, e.to_string()),
+                }
+            } else {
+                match std::fs::File::open(source) {
+                    Ok(f) => Box::new(f),
+                    Err(e) => return fail(source, e.to_string()),
+                }
+            };
+            let result = match flag("--out") {
+                Some(out) => match std::fs::File::create(&out) {
+                    Ok(f) => kshana::obs_live::pump(
+                        input,
+                        &mut std::io::BufWriter::new(f),
+                        &format,
+                        &station,
+                    ),
+                    Err(e) => return fail(&out, e.to_string()),
+                },
+                None => kshana::obs_live::pump(input, &mut std::io::stdout(), &format, &station),
+            };
+            match result {
+                Ok(_) => ExitCode::SUCCESS,
+                Err(e) => fail(source, e),
             }
         }
         Some("check") if args.len() == 2 || (args.len() == 3 && args[2] == "--json") => {
