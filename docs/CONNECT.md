@@ -85,3 +85,17 @@ Every new adapter comes with its vector.
 
 Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV
 or JSON Lines is the route for now) and live inputs (A3a).
+
+## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
+
+`kshana::c37118` reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and
+reports each PMU's time health: the sync-error bit, the time-quality and unlocked-time classes in the
+`STAT` word, and the message time quality and leap-second flags in `FRACSEC`. `sync_losses` groups
+consecutive sync-error reports into intervals. Every frame's CRC is checked. A data frame is read only
+after a configuration frame (CFG-2) has given each PMU's channel layout. Phasor values are stepped over,
+not decoded.
+
+It is not yet a `kshana obs convert` reader, because the `kshana.obs/1` schema has no field for time
+quality. That needs a schema minor version. It is checked against a stream from an independent encoder
+(`tests/c37118.rs`); no public PMU capture has been checked yet.
+
