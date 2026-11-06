@@ -10074,7 +10074,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -12803,7 +12803,7 @@
   "id": "e-connect-cli-usage",
   "error": true,
   "parts": [
-   "usage: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json]>"
+   "usage: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>"
   ]
  },
  {
@@ -13332,6 +13332,168 @@
    {
     "var": "reason"
    }
+  ]
+ },
+ {
+  "id": "e-adapter-manifest",
+  "error": true,
+  "parts": [
+   "adapter.toml does not parse: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-schema",
+  "error": true,
+  "parts": [
+   "schema must be kshana.adapter/1, not ",
+   {
+    "var": "got"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-name",
+  "error": true,
+  "parts": [
+   "name must be lower-case letters, digits and -, at most 64: ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-kind",
+  "error": true,
+  "parts": [
+   "kind must be mapping (the only adapter kind so far), not ",
+   {
+    "var": "kind"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-status",
+  "error": true,
+  "parts": [
+   "status must be example, community or maintained, not ",
+   {
+    "var": "status"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-empty",
+  "error": true,
+  "parts": [
+   {
+    "var": "field"
+   },
+   " must not be empty"
+  ]
+ },
+ {
+  "id": "e-adapter-mapping",
+  "error": true,
+  "parts": [
+   "the mapping file does not load: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-vector",
+  "error": true,
+  "parts": [
+   "the conformance vector does not run: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-vector-mapping",
+  "error": true,
+  "parts": [
+   "the conformance vector must use this adapter's own mapping file"
+  ]
+ },
+ {
+  "id": "e-adapter-vector-differs",
+  "error": true,
+  "parts": [
+   "the conformance vector's output differs from its expected file at line ",
+   {
+    "var": "line"
+   }
+  ]
+ },
+ {
+  "id": "e-adapter-duplicate",
+  "error": true,
+  "parts": [
+   "two adapters share the name ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "adapter-list-line",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   "  [",
+   {
+    "var": "status"
+   },
+   "]  ",
+   {
+    "var": "title"
+   }
+  ]
+ },
+ {
+  "id": "adapter-check-pass",
+  "error": false,
+  "parts": [
+   "PASS  ",
+   {
+    "var": "name"
+   }
+  ]
+ },
+ {
+  "id": "adapter-check-fail",
+  "error": false,
+  "parts": [
+   "FAIL  ",
+   {
+    "var": "dir"
+   },
+   ": ",
+   {
+    "var": "problems"
+   }
+  ]
+ },
+ {
+  "id": "adapter-check-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "passed"
+   },
+   " of ",
+   {
+    "var": "total"
+   },
+   " adapters pass"
   ]
  }
 ]

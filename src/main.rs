@@ -176,6 +176,17 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
         return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
     }
+    if args.first().map(String::as_str) == Some("adapters")
+        && matches!(args.get(1).map(String::as_str), Some("list" | "check"))
+    {
+        let json = args.iter().any(|a| a == "--json");
+        let dir = args
+            .get(2)
+            .filter(|a| !a.starts_with("--"))
+            .cloned()
+            .unwrap_or_else(|| "adapters".into());
+        return run_connect_adapters(&args[1], &dir, json);
+    }
     if args.first().map(String::as_str) == Some("load-test") {
         return run_connect_load_test(&flag, args.iter().any(|a| a == "--json"));
     }
@@ -228,6 +239,65 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
             print!("{text}");
             ExitCode::SUCCESS
         }
+    }
+}
+
+/// `kshana connect adapters <list|check> [<dir>] [--json]`: the adapter registry
+/// (`kshana::adapters`). `check` validates every manifest and runs every conformance vector; exit 1
+/// when any adapter fails. `list` prints the adapters that pass.
+fn run_connect_adapters(cmd: &str, dir: &str, json: bool) -> ExitCode {
+    let entries = kshana::adapters::check(std::path::Path::new(dir));
+    if entries.is_empty() {
+        eprintln!("{dir}: {}", kshana::terr!("e-connect-no-vectors"));
+        return ExitCode::from(1);
+    }
+    let passed = entries.iter().filter(|e| e.ok()).count();
+    if json {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&entries).unwrap_or_default()
+        );
+    } else if cmd == "list" {
+        for m in entries
+            .iter()
+            .filter(|e| e.ok())
+            .filter_map(|e| e.manifest.as_ref())
+        {
+            println!(
+                "{}",
+                kshana::t!(
+                    "adapter-list-line",
+                    name = m.name.clone(),
+                    status = m.status.clone(),
+                    title = m.title.clone()
+                )
+            );
+        }
+    } else {
+        for e in &entries {
+            let line = match (&e.manifest, e.ok()) {
+                (Some(m), true) => kshana::t!("adapter-check-pass", name = m.name.clone()),
+                _ => kshana::t!(
+                    "adapter-check-fail",
+                    dir = e.dir.clone(),
+                    problems = e.problems.join("; ")
+                ),
+            };
+            println!("{line}");
+        }
+        println!(
+            "{}",
+            kshana::t!(
+                "adapter-check-summary",
+                passed = passed.to_string(),
+                total = entries.len().to_string()
+            )
+        );
+    }
+    if cmd == "check" && passed != entries.len() {
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
     }
 }
 

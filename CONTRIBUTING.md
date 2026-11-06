@@ -152,3 +152,12 @@ does not apply to them.
 
 Sign off each commit to certify the [Developer Certificate of Origin](https://developercertificate.org/):
 `git commit -s` (adds a `Signed-off-by` line).
+
+## Adding an adapter
+
+A device or log format that Kshana can read through a mapping file is added as an adapter: one folder
+under `adapters/`, with no change to the engine. The folder holds an `adapter.toml`, the mapping file, a
+sample you may share (no customer or personal data), and a conformance vector with its expected output.
+Run `kshana connect adapters check adapters` before opening the pull request: it validates the manifest
+and runs the vector, and CI runs the same check. The details are in [docs/ADAPTERS.md](docs/ADAPTERS.md).
+The licensing above applies to adapters too.
