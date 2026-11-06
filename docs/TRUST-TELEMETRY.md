@@ -213,6 +213,22 @@ change after calibration:
   fetched by `scripts/fetch_cap_xsd.sh`, not vendored). Delivery (HTTP, a CAP hub, an aggregator) is
   the operator's own; Kshana writes the messages.
 
+## Signed webhooks, library
+
+`kshana::telemetry::webhook::sign` adds a signature to any alert body (a CAP message, a trust sample as
+JSON) so the receiving system can check that it came from the holder of a shared secret, was not
+changed, and is fresh:
+
+```
+Kshana-Signature: t=<UNIX seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">
+```
+
+`verify` recomputes the signature, compares in constant time, and refuses a timestamp further than a
+stated tolerance from the receiver's clock (the replay window). While a secret is being rotated, two
+`v1=` values may be sent, and either may match. The HMAC is checked against the RFC 4231 test vectors
+(`tests/telemetry_webhook.rs`). Keep the secret out of logs and scenario files. Delivery (HTTP POST, a
+queue) is the operator's.
+
 ## OpenTelemetry (off by default)
 
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
