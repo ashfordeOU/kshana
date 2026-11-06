@@ -18,8 +18,11 @@ LABEL org.opencontainers.image.version="0.40.0" \
       org.opencontainers.image.licenses="AGPL-3.0-only"
 COPY --from=build /src/target/release/kshana /usr/local/bin/kshana
 COPY deploy/reference-build/docker-entrypoint.sh /usr/local/bin/kshana-entrypoint
-RUN useradd --system --home /var/lib/kshana --create-home kshana && usermod -aG dialout kshana
-USER kshana
+# A fixed numeric user, so a Kubernetes pod with runAsNonRoot can check it (deploy/helm/kshana).
+RUN groupadd --system --gid 10001 kshana \
+ && useradd --system --uid 10001 --gid 10001 --home /var/lib/kshana --create-home kshana \
+ && usermod -aG dialout kshana
+USER 10001:10001
 WORKDIR /var/lib/kshana
 # The gate serves the gated stream on 10110 inside the container, bound to all of the container's own addresses
 # (0.0.0.0) so that a published port reaches it; publish it to loopback on the host (-p 127.0.0.1:10110:10110).

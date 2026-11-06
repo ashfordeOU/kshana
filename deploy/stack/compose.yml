@@ -1,0 +1,99 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Kshana monitoring stack (roadmap A6): the receiver-trust monitor, its Prometheus metrics and a Grafana
+# dashboard; with the `ingest` profile, also an MQTT broker and `kshana connect mqtt`, which turns rows
+# published on kshana/obs/# into kshana.obs/1 records on the data volume. Read README.md first.
+# Advisory software, not type-approved navigation or timing equipment.
+#
+#   cp session.example.toml session.toml        # then edit the platform's limits
+#   KSHANA_INPUT=192.0.2.10:10110 GRAFANA_ADMIN_PASSWORD=... docker compose up -d
+#   ... docker compose --profile ingest up -d   # with the MQTT ingest (needs connect.toml, station.toml)
+#
+# Grafana is on http://127.0.0.1:3000. Every published port is bound to the host's loopback; put a
+# reverse proxy with TLS in front for remote access.
+name: kshana
+services:
+  kshana-monitor:
+    build:
+      context: ../..
+      dockerfile: deploy/reference-build/Dockerfile
+    image: kshana-trust-gate:local
+    restart: unless-stopped
+    # Reads NMEA 0183 from a TCP source (a serial-to-network bridge or a multiplexer) and writes one JSON
+    # line per epoch; trust-telemetry serves them as Prometheus metrics on :9464.
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        kshana receiver-trust live /etc/kshana/session.toml --tcp "$$KSHANA_INPUT" --json -
+        | kshana trust-telemetry --listen 0.0.0.0:9464 --hold
+    environment:
+      KSHANA_INPUT: "${KSHANA_INPUT:?set KSHANA_INPUT to the receiver's host:port}"
+    volumes:
+      - ./session.toml:/etc/kshana/session.toml:ro
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9464"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  prometheus:
+    image: prom/prometheus:v2.53.2
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-30d}
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    image: grafana/grafana-oss:11.2.2
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?set GRAFANA_ADMIN_PASSWORD}"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - prometheus
+
+  mosquitto:
+    profiles: ["ingest"]
+    image: eclipse-mosquitto:2.0.18
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  kshana-ingest:
+    profiles: ["ingest"]
+    image: kshana-trust-gate:local
+    restart: unless-stopped
+    # Rows that your loggers publish on kshana/obs/# become kshana.obs/1 records, appended to
+    # /var/lib/kshana/obs.jsonl. The mapping and the CSV header row are yours (docs/CONNECT.md);
+    # the example mapping reads the CSV rows of examples/connect/timing-monitor.csv.
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        exec kshana connect mqtt mosquitto:1883 --topic 'kshana/obs/#' --qos 1
+        --mapping /etc/kshana/connect.toml --station /etc/kshana/station.toml
+        --header "$$KSHANA_HEADER" >> /var/lib/kshana/obs.jsonl
+    environment:
+      KSHANA_HEADER: "${KSHANA_HEADER:?set KSHANA_HEADER to the CSV header row your loggers omit}"
+    volumes:
+      - ./connect.toml:/etc/kshana/connect.toml:ro
+      - ./station.toml:/etc/kshana/station.toml:ro
+      - kshana-data:/var/lib/kshana
+    depends_on:
+      - mosquitto
+
+volumes:
+  prometheus-data: {}
+  grafana-data: {}
+  kshana-data: {}

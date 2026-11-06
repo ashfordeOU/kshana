@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kshana.fullname" . }}
+  labels:
+    {{- include "kshana.labels" . | nindent 4 }}
+spec:
+  # One monitor per receiver: the trust state lives in the process, so it is never scaled out.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "kshana.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kshana.selector" . | nindent 8 }}
+      annotations:
+        checksum/session: {{ default (.Files.Get "files/session.toml") .Values.session | sha256sum }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: monitor
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >-
+              kshana receiver-trust live /etc/kshana/session.toml --tcp "$KSHANA_INPUT" --json -
+              | kshana trust-telemetry --listen 0.0.0.0:{{ .Values.metrics.port }} --hold
+          env:
+            - name: KSHANA_INPUT
+              value: {{ required "set input to the receiver's host:port" .Values.input | quote }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.metrics.port }}
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            periodSeconds: 15
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+            periodSeconds: 30
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: session
+              mountPath: /etc/kshana
+              readOnly: true
+            - name: work
+              mountPath: /var/lib/kshana
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: session
+          configMap:
+            name: {{ .Values.existingSessionConfigMap | default (printf "%s-session" (include "kshana.fullname" .)) }}
+        - name: work
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
