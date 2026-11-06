@@ -187,6 +187,29 @@ publish. A data line is one satellite track (`SAT CL MJD STTIME TRKL ELV AZTH RE
   comparison with BIPM Circular T is pre-registered in
   `docs/design/evidence/r6-1-cggtts/PREREGISTRATION.md`.
 
+## Trading clocks: divergence from UTC against RTS 25 (library)
+
+`kshana::rts25::assess` takes a clock's measured offset from UTC (any log above, for example `ptp4l`,
+`chrony-tracking` or `cggtts`) and the activity the clock serves. It reports the largest divergence,
+the samples and stretches beyond the limit, and gaps longer than a stated interval. The limits are the
+maximum divergence from UTC in the Annex of Commission Delegated Regulation (EU) 2017/574 (RTS 25,
+MiFID II):
+
+| Activity | Maximum divergence | Granularity |
+|---|---|---|
+| Venue, gateway-to-gateway latency above 1 ms | 1 ms | 1 ms or finer |
+| Venue, gateway-to-gateway latency 1 ms or less | 100 µs | 1 µs or finer |
+| High-frequency algorithmic trading | 100 µs | 1 µs or finer |
+| Voice trading; request-for-quote needing a human response; negotiated transactions | 1 s | 1 s or finer |
+| Any other trading activity | 1 ms | 1 ms or finer |
+
+- The outcome is `within limit`, `beyond limit` or `not assessable`. A record with no samples, or a
+  gap longer than the stated interval and no excursion, is `not assessable`, because the divergence
+  during the gap is unknown.
+- What it does not do: it does not show traceability to UTC (the documented chain from the time source,
+  which the Regulation also requires), and it does not measure the granularity of the firm's own
+  timestamps. It describes a measured record against a stated limit and is not a regulatory assessment.
+
 ## `tau0` and gaps
 
 When the log carries time stamps and no `tau0` is given, `tau0` is the median spacing of
