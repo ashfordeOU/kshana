@@ -1,0 +1,29 @@
+# Standalone, workspace-EXCLUDED C ABI crate (roadmap A5b).
+#
+# Why a separate crate: the `kshana` library keeps `#![forbid(unsafe_code)]` (src/lib.rs; SECURITY.md).
+# A C interface needs `extern "C"` functions that take raw pointers, so the little unsafe code it needs
+# lives here, behind a reviewed boundary (SAFETY.md), and never in the engine. The root package lists
+# `/capi` in its `exclude`, so root `cargo` never sees this crate; ci.yml gates it with its own job
+# (`capi-check`): tests, the C example built and run against the static and shared libraries, the
+# header kept in step with the exported symbols, and a fuzz pass over every entry point.
+[package]
+name = "kshana-capi"
+version = "0.40.0"
+edition = "2021"
+rust-version = "1.88"
+description = "C ABI for the Kshana PNT-resilience engine: run scenarios and map receiver logs from C, C++, Go, Java, MATLAB or LabVIEW."
+# Dual-licensed: AGPL-3.0-only, or a commercial licence from Ashforde OÜ
+# (contact@ashforde.org). See ../../LICENSE and ../../LICENSING.md.
+license = "AGPL-3.0-only"
+authors = ["Ashforde OÜ <contact@ashforde.org>"]
+repository = "https://github.com/AshfordeOU/kshana"
+homepage = "https://kshana.dev"
+publish = false
+
+[lib]
+name = "kshana_capi"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[dependencies]
+kshana = { path = "../..", version = "0.40.0" }
+serde_json = "1"
