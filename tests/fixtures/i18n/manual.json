@@ -13611,5 +13611,52 @@
    },
    " trailing byte(s) of a partial sample cut"
   ]
+ },
+ {
+  "id": "e-interference-map-live-readsb-json",
+  "error": true,
+  "parts": [
+   "the aircraft snapshot is not readsb aircraft.json (",
+   {
+    "var": "e"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-interference-map-live-positive",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " must be a positive number of seconds"
+  ]
+ },
+ {
+  "id": "interference-map-live-record-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana interference-map record --source <adsb|ais> --from <aircraft.json|-|tcp:host:port|udp:[addr:]port|file> --out <new.csv> [--poll-s <s>] [--max-seconds <s>]"
+  ]
+ },
+ {
+  "id": "interference-map-live-record-done",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "rows"
+   },
+   " rows to ",
+   {
+    "var": "out"
+   },
+   "; ",
+   {
+    "var": "bad"
+   },
+   " inputs did not check or parse"
+  ]
  }
 ]

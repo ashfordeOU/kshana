@@ -149,6 +149,7 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `interference-map adsb\|ais` (CSV) | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map` | Build Interference Map | `interference-map-route-exposure` | Interference map page | |
 | `interference-map adsb` (trace directory) | N/A | N/A | N/A | N/A | **N/A** (see Note) | | Tools: Command line card | Reads a directory (N/A above) |
 | `interference-map locate` (CSV) | `interference_emitter_regions` | `interference_emitter_regions` | `interference_emitter_regions` | N/A | **N/A** | | — | Estimated emitter regions, MODELLED; trace directories and `--tdoa` are command line only |
+| `interference-map record` | N/A | N/A | N/A | N/A | N/A | | — | Writes a local receiver's ADS-B or AIS reports into a CSV as they arrive (see `docs/INTERFERENCE-MAP.md`) |
 | `interference-map fetch-land` | N/A | N/A | N/A | N/A | **N/A** (see Note) | | Tools: Command line card | Network access (N/A above) |
 | `interference-map daily`, `sensitivity` | N/A | N/A | N/A | N/A | **N/A** (see Note) | | — | Reads an archive directory and writes files; the release delay is enforced on the publishing machine (N/A above) |
 | `bench score` | `bench_score` | `bench_score` | `score_benchmark` | N/A (the MCP tool carries it) | **N/A** | | — | Text in, text out; nothing read or written |

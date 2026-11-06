@@ -22,6 +22,7 @@ pub mod emitter;
 pub mod emitter_out;
 pub mod grid;
 pub mod land;
+pub mod live;
 pub mod locate_cli;
 pub mod observatory;
 pub mod output;
