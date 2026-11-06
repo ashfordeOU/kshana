@@ -11,6 +11,9 @@ cc -I include examples/c/run_and_map.c target/release/libkshana_capi.a -lpthread
   ../../examples/obs/station.toml ../../examples/connect/timing-monitor.csv
 ```
 
+Examples in other languages, each built and run by the tests: C++ (`examples/cpp`, RAII so every
+string is freed), Python with ctypes (`examples/python`) and Go with cgo (`examples/go`).
+
 The interface is `include/kshana.h`: five functions.
 
 | Function | Does |
