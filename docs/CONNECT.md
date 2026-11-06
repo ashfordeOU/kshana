@@ -134,8 +134,26 @@ same mapping file, into `kshana.obs/1` records.
   `--password-env <VAR>` reads the password from an environment variable, never from the command line.
   `--max-messages <n>` ends the run after n messages and releases the last epoch.
 - Many stations on one broker: subscribe with a wildcard (`--topic 'site/+/raw'`) and add `--per-topic`.
-  Each topic then gets its own feed, and its records carry the station id
-  `<station.id>/<last topic level>`, with one header per station before its first epoch.
+  Each topic then gets its own feed, and its records carry the station id `<station.id>/<topic>`,
+  with one header per station before its first epoch.
+
+## Live NATS input (`kshana::connect_nats`)
+
+`kshana connect nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml>`
+subscribes to a NATS subject and maps the rows that arrive, through the same feeds as MQTT.
+
+- NATS client protocol over TCP: `CONNECT` (with `--user` and `--password-env <VAR>`, or
+  `--token-env <VAR>`; secrets come from environment variables only), `SUB`, then `MSG` and `HMSG`
+  (headers are skipped). A server `PING` is answered with `PONG`, and a `-ERR` is reported. A lost
+  connection is made again, as for MQTT.
+- `--per-topic` gives each subject its own feed (station id `<station.id>/<subject>`), for a wildcard
+  subject such as `gnss.*.raw`.
+- TLS is not built in: for a server that requires it, use a local TLS relay.
+- Checked against a loopback server that publishes a log one row per message on two subjects, with a
+  header-carrying `HMSG` and a `PING` in between. Each subject's epochs equal `kshana connect map`
+  on that log (`tests/connect_nats.rs`).
+
+Kafka is not read yet. A Kafka topic can reach Kshana today through a bridge to MQTT or NATS.
 
 ## Live WebSocket input (`kshana::connect_ws`)
 
