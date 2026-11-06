@@ -137,6 +137,10 @@
    "count": 6,
    "reason": "machine-document: the built-in mapping and station TOML (copies of the examples, kept equal by tests/connect_load.rs), the synthetic timing-monitor CSV header and row format, and the loopback broker's MQTT topic and client id"
   },
+  "src/adapters.rs": {
+   "count": 2,
+   "reason": "identifiers: the manifest file name adapter.toml and the schema id kshana.adapter/1; not text a person reads"
+  },
   "src/connect_live.rs": {
    "count": 6,
    "reason": "machine-document: the loopback test servers' MQTT topic and client id, the HTTP/1.1 upgrade reply, the ws:// URL, and the <path>: <error> prefix of an operating-system error"

@@ -291,6 +291,7 @@ pub mod passes;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
+pub mod adapters;
 pub mod connect;
 pub mod connect_live;
 pub mod connect_load;
