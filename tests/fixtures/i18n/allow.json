@@ -134,8 +134,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/connect_load.rs": {
-   "count": 4,
-   "reason": "machine-document: the synthetic timing-monitor CSV header and row format, and the loopback broker's MQTT topic and client id"
+   "count": 6,
+   "reason": "machine-document: the built-in mapping and station TOML (copies of the examples, kept equal by tests/connect_load.rs), the synthetic timing-monitor CSV header and row format, and the loopback broker's MQTT topic and client id"
   },
   "src/connect_live.rs": {
    "count": 6,
@@ -144,6 +144,10 @@
   "src/connect_mqtt.rs": {
    "count": 2,
    "reason": "identifiers: the broker address prefixed to an operating-system connection error (<host:port>: <error>), no prose of its own"
+  },
+  "src/connect_nats.rs": {
+   "count": 2,
+   "reason": "machine-document: the NATS CONNECT/SUB/PING lines sent to the server, and the <address>: <error> prefix of an operating-system error"
   },
   "src/connect_watch.rs": {
    "count": 1,
@@ -1014,7 +1018,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 56,
+   "count": 62,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/mars_pnt.rs": {

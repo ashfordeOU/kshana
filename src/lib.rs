@@ -295,6 +295,7 @@ pub mod connect;
 pub mod connect_live;
 pub mod connect_load;
 pub mod connect_mqtt;
+pub mod connect_nats;
 pub mod connect_watch;
 pub mod connect_ws;
 pub mod governor;

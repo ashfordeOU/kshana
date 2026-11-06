@@ -71,7 +71,7 @@ fn per_topic_feeds_keep_stations_apart() {
     assert!(!base.is_empty());
     for s in ["a", "b"] {
         assert_eq!(
-            epochs_of(&got, &format!("{}/{s}", station.id)),
+            epochs_of(&got, &format!("{}/site/rx/{s}", station.id)),
             base,
             "station {s}"
         );
