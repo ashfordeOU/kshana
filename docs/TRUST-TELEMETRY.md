@@ -5,6 +5,8 @@ into signals an operations or security centre already ingests: Prometheus metric
 events in CEF or LEEF for a SIEM, and optionally OpenTelemetry. It reads the stream; it
 never changes the trust assessment and transmits nothing but telemetry.
 
+Step by step, for a monitoring station: [guides/MONITORING-STATION.md](guides/MONITORING-STATION.md).
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="figures/0.38/exporters-light.svg">
