@@ -87,6 +87,7 @@ impl WsClient {
             .map_err(|e| format!("{url}: {e}"))?;
         s.set_read_timeout(Some(Duration::from_secs(10)))
             .map_err(io)?;
+        s.set_nodelay(true).map_err(io)?;
         let key = crate::permalink::base64_encode(&rand::random::<[u8; 16]>());
         let req = format!(
             "GET {path} HTTP/1.1\r\nHost: {host}:{port}\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n"

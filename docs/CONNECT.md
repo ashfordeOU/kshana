@@ -147,6 +147,13 @@ subscription, through the same continuous-log feed.
 - From the command line: `kshana connect ws <ws://host:port/path> --mapping <connect.toml> --station
   <station.toml> [--header <row>] [--max-messages <n>]`.
 
+## Live conformance kit (`kshana connect check-live`)
+
+`kshana connect check-live <vector.toml|dir>` replays the conformance vectors over MQTT, WebSocket and
+the directory watch and checks ordering, holding, reconnection and latency. The rules are in
+[`conformance/connect/README.md`](../conformance/connect/README.md). On the bundled vectors every path
+passes, with a 99th-percentile latency of a few milliseconds on a laptop.
+
 ## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
 `kshana::c37118` reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and
