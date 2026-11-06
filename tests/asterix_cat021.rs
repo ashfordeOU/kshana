@@ -49,7 +49,11 @@ fn the_csv_is_read_by_the_interference_map_without_rejected_rows() {
     use kshana::interference_map::IdHasher;
     let rec = read(include_bytes!("fixtures/asterix_cat021/blocks.bin"));
     let csv = to_adsb_csv(&rec, 1_735_689_600);
-    let mut agg = AdsbAggregator::new(Grid::new(0.5).unwrap(), AdsbParams::PREREGISTERED_V1, IdHasher::new());
+    let mut agg = AdsbAggregator::new(
+        Grid::new(0.5).unwrap(),
+        AdsbParams::PREREGISTERED_V1,
+        IdHasher::new(),
+    );
     agg.read_csv(&csv).unwrap();
     let s = &agg.stats;
     assert_eq!(s.rows, 40);
