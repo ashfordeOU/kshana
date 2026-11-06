@@ -726,8 +726,28 @@ pub fn has_rows(mapping: &Mapping, text: &str) -> Result<bool, String> {
     }
 }
 
+/// The line number (1-based) and instant (Unix UTC seconds) of each data row of `text`, in order. A live
+/// feed uses it to trim the rows it has already emitted (`crate::connect_mqtt`).
+pub fn row_times(mapping: &Mapping, text: &str) -> Result<Vec<(usize, f64)>, String> {
+    read_rows(mapping, text)?
+        .iter()
+        .map(|r| Ok((r.line, row_time(mapping, r)?)))
+        .collect()
+}
+
 /// Apply `mapping` to `text` and return the observation records for `station`.
 pub fn map(mapping: &Mapping, text: &str, station: &Station) -> Result<Vec<Record>, String> {
+    map_from(mapping, text, station, None)
+}
+
+/// [`map`], with `t_s` counted from the instant `t0` (Unix UTC seconds) instead of from the first epoch
+/// of `text`: a live feed that has trimmed rows already emitted keeps the clock of the whole run.
+pub fn map_from(
+    mapping: &Mapping,
+    text: &str,
+    station: &Station,
+    t0: Option<f64>,
+) -> Result<Vec<Record>, String> {
     let rows = read_rows(mapping, text)?;
     let tol = mapping.time.group_tolerance_s.unwrap_or(0.0005).max(0.0);
     let mut epochs: Vec<(f64, LogEpoch)> = Vec::new();
@@ -875,7 +895,7 @@ pub fn map(mapping: &Mapping, text: &str, station: &Station) -> Result<Vec<Recor
             note("dop");
         }
     }
-    let t0 = epochs.first().map_or(0.0, |(t, _)| *t);
+    let t0 = t0.unwrap_or_else(|| epochs.first().map_or(0.0, |(t, _)| *t));
     let start_label = epochs.first().and_then(|(_, e)| e.time_label.clone());
     let mut out = Vec::with_capacity(epochs.len() + 1);
     out.push(Record::Header(Header {

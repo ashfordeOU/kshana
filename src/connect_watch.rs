@@ -16,7 +16,7 @@
 //! Cost: the directory is re-read and re-mapped on each step, so move processed files out of the watched
 //! directory from time to time (or point the watch at the current day's folder). This is a polling watch with no operating-system file events, so it behaves
 //! the same on every platform and on network file systems.
-use crate::connect::{has_rows, map, Mapping};
+use crate::connect::{has_rows, map_from, Mapping};
 use crate::obs::{Record, Station};
 use std::path::{Path, PathBuf};
 
@@ -91,10 +91,26 @@ fn run(
             }
         }
     }
-    if text.is_empty() || !has_rows(mapping, &text)? {
+    step_text(&text, "connect-watch", None, mapping, station, st, flush)
+}
+
+/// The records of a continuous log `text` that became complete since the last call: the header once,
+/// then the epochs not emitted before, holding the last epoch back unless `flush`. `label` names the
+/// input in the header's `source_format` (`<label>:<format>`); `t0` is as in [`map_from`]. Used by the
+/// directory watch and the MQTT subscription (`crate::connect_mqtt`).
+pub fn step_text(
+    text: &str,
+    label: &str,
+    t0: Option<f64>,
+    mapping: &Mapping,
+    station: &Station,
+    st: &mut WatchState,
+    flush: bool,
+) -> Result<Vec<Record>, String> {
+    if text.is_empty() || !has_rows(mapping, text)? {
         return Ok(Vec::new());
     }
-    let mut it = map(mapping, &text, station)?.into_iter();
+    let mut it = map_from(mapping, text, station, t0)?.into_iter();
     let Some(Record::Header(h)) = it.next() else {
         return Ok(Vec::new());
     };
@@ -112,7 +128,7 @@ fn run(
     let mut out = Vec::new();
     if ready > st.emitted && !st.header_sent {
         let mut h = h;
-        h.source_format = Some(format!("connect-watch:{}", mapping.source.format));
+        h.source_format = Some(format!("{label}:{}", mapping.source.format));
         out.push(Record::Header(h));
         st.header_sent = true;
     }

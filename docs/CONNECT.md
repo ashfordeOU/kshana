@@ -107,6 +107,30 @@ the `kshana.obs/1` records that became complete since the last step, through the
   (default: the mapping's format, for example `.csv`). `--once` reads what is there, releases the last
   epoch and exits.
 
+## Live MQTT subscription (`kshana::connect_mqtt`)
+
+`kshana::connect_mqtt` subscribes to a topic on an MQTT broker and maps the rows that arrive, with the
+same mapping file, into `kshana.obs/1` records.
+
+- MQTT 3.1.1 over TCP: clean session, optional user name and password, one topic filter (`+` and `#`
+  work), QoS 0 or 1. A QoS 1 message is acknowledged. A ping is sent when the line has been quiet for
+  half the keep-alive.
+- Each message is one or more rows of the mapping's format (`jsonl`, `csv` or `tsv`). The messages are
+  read in arrival order as one continuous log, as `connect watch` reads a directory, and the last epoch
+  is held back until a later row arrives. Publishers send rows without a header, so a CSV or TSV mapping
+  needs the header row given (`--header`).
+- Rows already emitted are dropped once a few thousand are held, and `t_s` still counts from the first
+  epoch of the run, so a subscription can run for days in bounded memory.
+- TLS is not built in, and the default build adds no crate for MQTT. For a broker that only accepts TLS,
+  run a local TLS relay (for example stunnel, or a local broker bridged to it) and subscribe to that.
+- Checked against a loopback broker that publishes a log one row per message, alternating QoS 0 and 1:
+  the result is the same as `kshana connect map` on the whole log, with the trimming path exercised
+  (`tests/connect_mqtt.rs`).
+- From the command line: `kshana connect mqtt <host:port> --topic <filter> --mapping <connect.toml>
+  --station <station.toml>` prints records as JSON lines as they complete. `--user` with
+  `--password-env <VAR>` reads the password from an environment variable, never from the command line.
+  `--max-messages <n>` ends the run after n messages and releases the last epoch.
+
 ## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
 `kshana::c37118` reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and
