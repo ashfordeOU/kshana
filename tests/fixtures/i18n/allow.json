@@ -1425,6 +1425,10 @@
    "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/telemetry/webhook.rs": {
+   "count": 1,
+   "reason": "machine-format: the HTTP header name Kshana-Signature and its t=/v1= field layout (a protocol identifier, not human text)"
+  },
   "src/test_support.rs": {
    "count": 4,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
