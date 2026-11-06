@@ -176,6 +176,9 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("watch") && args.len() >= 6 {
         return run_connect_watch(&args[1], &flag, args.iter().any(|a| a == "--once"));
     }
+    if args.first().map(String::as_str) == Some("ws") && args.len() >= 6 {
+        return run_connect_ws(&args[1], &flag);
+    }
     if args.first().map(String::as_str) == Some("mqtt") && args.len() >= 8 {
         return run_connect_mqtt(&args[1], &flag);
     }
@@ -211,6 +214,81 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         None => {
             print!("{text}");
             ExitCode::SUCCESS
+        }
+    }
+}
+
+/// `kshana connect ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml>
+/// [--header <row>] [--max-messages <n>]`: read rows streamed over a WebSocket and print `kshana.obs/1`
+/// records as JSON lines (`kshana::connect_ws`). The run ends when the server closes the stream (the held
+/// epoch is released then) or after `--max-messages`.
+fn run_connect_ws(url: &str, flag: &dyn Fn(&str) -> Option<String>) -> ExitCode {
+    use std::io::Write;
+    let fail = |path: &str, e: String| {
+        eprintln!("{path}: {e}");
+        ExitCode::from(1)
+    };
+    let usage = || {
+        eprintln!("{}", kshana::terr!("e-connect-cli-usage"));
+        ExitCode::from(2)
+    };
+    let (Some(mapping_path), Some(station_path)) = (flag("--mapping"), flag("--station")) else {
+        return usage();
+    };
+    let read = |p: &str| std::fs::read_to_string(p).map_err(|e| e.to_string());
+    let mapping = match read(&mapping_path).and_then(|t| kshana::connect::parse_mapping(&t)) {
+        Ok(m) => m,
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let station: kshana::obs::Station =
+        match read(&station_path).and_then(|t| toml::from_str(&t).map_err(|e| e.to_string())) {
+            Ok(s) => s,
+            Err(e) => return fail(&station_path, e),
+        };
+    let max = match flag("--max-messages").map(|v| v.parse::<u64>()) {
+        None => None,
+        Some(Ok(n)) if n > 0 => Some(n),
+        Some(_) => return usage(),
+    };
+    let mut feed = match kshana::connect_mqtt::Feed::new(&mapping, flag("--header").as_deref()) {
+        Ok(f) => f.label("connect-ws"),
+        Err(e) => return fail(&mapping_path, e),
+    };
+    let mut ws = match kshana::connect_ws::WsClient::connect(url) {
+        Ok(w) => w,
+        Err(e) => return fail(url, e),
+    };
+    let mut out = std::io::stdout().lock();
+    let mut seen = 0u64;
+    loop {
+        let (recs, end) = match ws.next_message() {
+            Ok(None) => (feed.flush(&mapping, &station), true),
+            Ok(Some(p)) => {
+                seen += 1;
+                let end = max == Some(seen);
+                let mut r = feed.push(&p, &mapping, &station);
+                if end {
+                    r = r.and_then(|mut a| {
+                        a.extend(feed.flush(&mapping, &station)?);
+                        Ok(a)
+                    });
+                }
+                (r, end)
+            }
+            Err(e) => (Err(e), true),
+        };
+        let text = match recs.and_then(|r| kshana::obs::to_jsonl(&r)) {
+            Ok(t) => t,
+            Err(e) => return fail(url, e),
+        };
+        if out
+            .write_all(text.as_bytes())
+            .and_then(|()| out.flush())
+            .is_err()
+            || end
+        {
+            ws.close();
+            return ExitCode::SUCCESS;
         }
     }
 }
