@@ -1,0 +1,50 @@
+# A partner-style GNSS monitor with its own binary protocol, made up for this example: the whole
+# protocol is described here, and `example-monitor.connect.toml` maps the decoded rows to
+# kshana.obs/1. No Kshana code knows this device.
+#
+# Frame: A5 5A | payload length (u16, little-endian) | message id (u8) | payload | CRC-16
+# (CCITT-FALSE, big-endian) over everything after the sync. Total length = payload length + 7.
+schema = "kshana.device/1"
+name = "example-monitor"
+
+[framing]
+sync = "A5 5A"
+length = { offset = 2, type = "u16le", add = 7 }
+checksum = { type = "crc16-ccitt-false", from = 2, endian = "be" }
+max_length = 64
+
+[[message]]
+name = "fix"
+id_offset = 4
+id_type = "u8"
+id = 1
+field = [
+  { name = "t_ms", offset = 5, type = "u64le", unit = "ms since 1970 (UTC)" },
+  { name = "lat", offset = 13, type = "i32le", scale = 1e-7, unit = "deg" },
+  { name = "lon", offset = 17, type = "i32le", scale = 1e-7, unit = "deg" },
+  { name = "h", offset = 21, type = "i32le", scale = 1e-3, unit = "m" },
+  { name = "agc", offset = 25, type = "u16le", unit = "counts", invalid = 65535 },
+]
+
+[[message]]
+name = "cn0"
+id_offset = 4
+id_type = "u8"
+id = 2
+field = [
+  { name = "t_ms", offset = 5, type = "u64le", unit = "ms since 1970 (UTC)" },
+  { name = "prn", offset = 13, type = "u8" },
+  { name = "cn0", offset = 14, type = "u16le", scale = 0.1, unit = "dB-Hz", invalid = 65535 },
+]
+
+[[test]]
+# A fix at 2026-11-07T00:00:00Z, 59.4375 N 24.7536 E, 30.5 m, AGC 1200.
+hex = "A5 5A 16 00 01 00 10 4E B3 A1 01 00 00 58 71 6D 23 80 19 C1 0E 24 77 00 00 B0 04 4E 52"
+message = "fix"
+expect = { t_ms = 1794009600000, lat = 59.4375, lon = 24.7536, h = 30.5, agc = 1200 }
+
+[[test]]
+# G07 at 43.5 dB-Hz.
+hex = "A5 5A 0B 00 02 00 10 4E B3 A1 01 00 00 07 B3 01 E4 79"
+message = "cn0"
+expect = { prn = 7, cn0 = 43.5 }

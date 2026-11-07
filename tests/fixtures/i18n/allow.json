@@ -165,6 +165,10 @@
    "count": 2,
    "reason": "machine-document: the HTTP/1.1 upgrade request sent to the server, and the <url>: <error> prefix of an operating-system connection error"
   },
+  "src/device.rs": {
+   "count": 2,
+   "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
+  },
   "src/interference_map/live.rs": {
    "count": 6,
    "reason": "machine-document: the two CSV headers of the documented input formats, the CSV row layouts of the ADS-B and AIS reports, the loopback address a bare UDP port binds, and the <source>: <error> prefix of an operating-system error"

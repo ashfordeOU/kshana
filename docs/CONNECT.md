@@ -217,3 +217,5 @@ It is not yet a `kshana obs convert` reader, because the `kshana.obs/1` schema h
 quality. That needs a schema minor version. It is checked against a stream from an independent encoder
 (`tests/c37118.rs`); no public PMU capture has been checked yet.
 
+A binary sensor is first decoded by a device file (`kshana.device/1`, [DEVICES.md](DEVICES.md)) into JSON
+Lines, which a mapping file then reads like any other JSON Lines export.

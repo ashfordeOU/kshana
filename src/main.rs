@@ -1188,6 +1188,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     let live_cmd: Option<LiveRun> = match args.get(1).map(String::as_str) {
         Some("clock-live") => Some(kshana::clock_live::run),
         Some("sensor-live") => Some(kshana::sensor_live::run),
+        // `kshana device check|decode <device.toml>`: a sensor described by a file (src/device.rs).
+        Some("device") => Some(kshana::device::run),
         _ => None,
     };
     if let Some(run) = live_cmd {

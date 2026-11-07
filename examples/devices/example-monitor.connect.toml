@@ -1,0 +1,22 @@
+# The rows `kshana device decode` gives for example-monitor.device.toml, mapped to kshana.obs/1.
+schema = "kshana.connect/1"
+
+[source]
+format = "jsonl"
+
+[time]
+column = "t_ms"
+format = "unix-ms"
+
+[signals]
+sat = { number_column = "prn", system = "G" }
+cn0 = { column = "cn0", unit = "dB-Hz" }
+band = "L1"
+
+[fix]
+lat = { column = "lat" }
+lon = { column = "lon" }
+height = { column = "h", unit = "m" }
+
+[receiver]
+agc = { column = "agc" }
