@@ -54,6 +54,21 @@ in rad/s, `ax`, `ay`, `az` specific force in m/s². `format = "euroc"`: the EuRo
 first sample is `t_s = 0`. Rows that do not parse, and rows whose time does not increase, are
 skipped. See [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md) for how the gyro heading is used.
 
+## IMU live (`kshana sensor-live --kind imu`)
+
+```sh
+my-imu-to-csv /dev/ttyUSB1 | kshana sensor-live --kind imu --format csv --from - --heading0 90
+kshana sensor-live --kind imu --format euroc --from imu0/data.csv --follow
+```
+
+`sensor-live` reads the same two layouts a line at a time, from standard input, `tcp:host:port` or a
+file (`--follow` waits for more lines), and prints one JSON line per sample: `t_s`, `gyro`, `accel` and
+`heading_deg`, the gyro heading integrated from `--heading0` (default 0; `--z-up` for a body z axis
+pointing up). The line reader is the one `[log.imu]` uses, and the heading is summed in the same order as
+the `heading-course` monitor sums it, so the live samples and headings equal a replay of the same file, bit
+for bit (`tests/clock_live.rs`). A serial IMU is read through the tool that turns it into CSV lines; Kshana
+opens no device.
+
 ## IMU into the hybrid and fusion scenarios (`kshana imu-fit`)
 
 The `hybrid` and `fusion` (17-state UKF) scenarios are simulations: they take sensor noise

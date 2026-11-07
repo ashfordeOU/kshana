@@ -888,6 +888,82 @@ fn ticc_value_fs(tok: &str) -> Option<i128> {
     Some((x * FS_PER_S).round() as i128)
 }
 
+/// One TICC data line, `<seconds> <label>`: the value in whole femtoseconds and the label (`chA`,
+/// `chB`, `chC` or a `TI...` interval label). `None` for any other line.
+pub fn ticc_line(line: &str) -> Option<(i128, String)> {
+    let l = line.trim();
+    if l.is_empty() || l.starts_with('#') {
+        return None;
+    }
+    let f: Vec<&str> = l.split_whitespace().collect();
+    let [v, label] = f.as_slice() else {
+        return None;
+    };
+    let v = ticc_value_fs(v)?;
+    (matches!(*label, "chA" | "chB" | "chC") || label.starts_with("TI"))
+        .then(|| (v, label.to_string()))
+}
+
+/// The phase of a TICC channel taken one reading at a time, with the arithmetic of the whole-log
+/// reader: for time stamps, `t[n] - t[0] - n tau0` with `n` the whole ticks accumulated between
+/// readings (exact in femtoseconds when `tau0` is a whole number of them); for an interval label,
+/// the reading itself.
+pub struct TiccPhase {
+    tau0: f64,
+    tau0_fs: i128,
+    exact: bool,
+    interval: bool,
+    first: Option<i128>,
+    prev: Option<i128>,
+    n: usize,
+}
+
+impl TiccPhase {
+    /// A channel at `tau0` seconds; `interval` for a `TI...` label.
+    pub fn new(tau0: f64, interval: bool) -> Self {
+        let tau0_fs = (tau0 * FS_PER_S).round() as i128;
+        Self {
+            tau0,
+            tau0_fs,
+            exact: tau0_fs as f64 / FS_PER_S == tau0,
+            interval,
+            first: None,
+            prev: None,
+            n: 0,
+        }
+    }
+
+    /// The phase of the next reading (s), its time (s), and the whole ticks since the reading
+    /// before (`0` for the first). `None` when it is under half a tick after the one before, which
+    /// the whole-log reader refuses.
+    pub fn push(&mut self, v: i128) -> Option<(f64, f64, usize)> {
+        let t = v as f64 / FS_PER_S;
+        if self.interval {
+            return Some((v as f64 / FS_PER_S, t, 1));
+        }
+        let Some(first) = self.first else {
+            self.first = Some(v);
+            self.prev = Some(v);
+            return Some((0.0, t, 0));
+        };
+        let prev = self.prev?;
+        let step_s = (v - prev) as f64 / FS_PER_S;
+        let k = (step_s / self.tau0).round();
+        if k < 1.0 {
+            return None;
+        }
+        let k = k as usize;
+        self.n += k;
+        self.prev = Some(v);
+        let x = if self.exact {
+            ((v - first) - self.n as i128 * self.tau0_fs) as f64 / FS_PER_S
+        } else {
+            (v - first) as f64 / FS_PER_S - self.n as f64 * self.tau0
+        };
+        Some((x, t, k))
+    }
+}
+
 fn parse_ticc(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
     let mut by_label: Vec<(String, Vec<i128>)> = Vec::new();
     let mut skipped = 0usize;

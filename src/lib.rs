@@ -346,6 +346,7 @@ pub mod scenario;
 pub mod scenario_version;
 pub mod sdr;
 pub mod security;
+pub mod sensor_live;
 pub mod sgp4;
 pub mod sigmf;
 pub mod skyline;
