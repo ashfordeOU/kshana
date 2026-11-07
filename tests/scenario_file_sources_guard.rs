@@ -17,6 +17,12 @@ use std::path::{Path, PathBuf};
 /// on a surface, with the reason.
 const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     (
+        "src/data_pack.rs",
+        "path",
+        "output: a written file's path relative to the pack directory, listed in manifest.json \
+         (PackFile, Serialize only); the pack directory is a command-line argument, never a scenario field",
+    ),
+    (
         "src/jammertest/dataset.rs",
         "path",
         "output: the dataset folder's path relative to the root, echoed in the report (FolderScore, \
