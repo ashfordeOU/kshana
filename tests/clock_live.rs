@@ -400,3 +400,92 @@ fn nmea_2000_over_tcp_gives_the_replay_sentences_and_the_nmea_readers_take_them(
         .count();
     assert_eq!(epochs, 120);
 }
+
+/// A source that drops and comes back: the reconnect brings it back with the gap reported (start
+/// and end, never filled), the watchdog reports it stale while it is gone, and every reading on
+/// either side is kept as the replay of the same lines keeps it.
+#[test]
+fn a_dropped_source_reconnects_with_the_gap_marked() {
+    let text = ptp4l_log();
+    let lines: Vec<String> = text.lines().map(|l| format!("{l}\n")).collect();
+    let (first, second) = lines.split_at(lines.len() / 2);
+    let (first, second) = (first.concat(), second.concat());
+    let l = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let addr = l.local_addr().unwrap().to_string();
+    let h = std::thread::spawn(move || {
+        let (mut s, _) = l.accept().unwrap();
+        s.write_all(first.as_bytes()).unwrap();
+        drop(s); // unplugged
+        std::thread::sleep(Duration::from_millis(1500));
+        let (mut s, _) = l.accept().unwrap();
+        s.write_all(second.as_bytes()).unwrap();
+    });
+    let out = live(&[
+        "--format",
+        "ptp4l",
+        "--from",
+        &format!("tcp:{addr}"),
+        "--reconnect",
+        "--stale-s",
+        "0.5",
+        "--latency-s",
+        "0.002",
+        "--sensor",
+        "gm-1",
+        "--max-seconds",
+        "4",
+    ]);
+    h.join().unwrap();
+    let events: Vec<&serde_json::Value> = out.iter().filter(|l| l.get("event").is_some()).collect();
+    let kinds: Vec<&str> = events
+        .iter()
+        .map(|e| e["event"].as_str().unwrap())
+        .collect();
+    assert!(
+        kinds.contains(&"stale") && kinds.contains(&"gap"),
+        "{kinds:?}"
+    );
+    let gap = events.iter().find(|e| e["event"] == "gap").unwrap();
+    assert!(gap["from_s"].as_f64().unwrap() < gap["host_s"].as_f64().unwrap());
+    assert_eq!(gap["sensor"], "gm-1");
+    let readings: Vec<serde_json::Value> = out
+        .iter()
+        .filter(|l| l.get("event").is_none())
+        .cloned()
+        .collect();
+    assert!(readings.iter().all(|r| r["host_s"].as_f64().is_some()));
+    assert_eq!(kept(&readings), replay("ptp4l", &text, None));
+}
+
+#[test]
+fn frozen_and_out_of_range_values_are_reported() {
+    let mut s = String::new();
+    for k in 0..12 {
+        let off = match k {
+            3..=6 => 7,   // the same offset four times: frozen at the third
+            9 => 900_000, // out of range (0.9 ms)
+            _ => k * 3 - 10,
+        };
+        s += &format!(
+            "ptp4l[{}.000]: master offset {off} s2 freq +0 path delay 500\n",
+            100 + k
+        );
+    }
+    let path = fresh("frozen.log");
+    std::fs::write(&path, &s).unwrap();
+    let out = live(&[
+        "--format",
+        "ptp4l",
+        "--from",
+        path.to_str().unwrap(),
+        "--frozen-n",
+        "3",
+        "--range",
+        "-1e-6,1e-6",
+    ]);
+    let kinds: Vec<&str> = out.iter().filter_map(|l| l["event"].as_str()).collect();
+    assert_eq!(
+        kinds,
+        ["frozen", "frozen-cleared", "out-of-range", "in-range"]
+    );
+}

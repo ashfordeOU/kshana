@@ -13663,7 +13663,7 @@
   "id": "clock-live-usage",
   "error": false,
   "parts": [
-   "usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>]"
+   "usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>] [--sensor <name>] [--stale-s <s>] [--frozen-n <n>] [--range <lo,hi>] [--latency-s <s>] [--reconnect]"
   ]
  },
  {
@@ -13697,7 +13697,7 @@
   "id": "sensor-live-usage",
   "error": false,
   "parts": [
-   "usage: kshana sensor-live --kind imu --format <csv|euroc|ros2-csv> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]\n   or: kshana sensor-live --kind n2k --from <candump.log|-|tcp:host:port> [--follow] [--max-seconds <s>]"
+   "usage: kshana sensor-live --kind imu --format <csv|euroc|ros2-csv> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>] [--sensor <name>] [--stale-s <s>] [--frozen-n <n>] [--range <lo,hi>] [--latency-s <s>] [--reconnect]\n   or: kshana sensor-live --kind n2k --from <candump.log|-|tcp:host:port> [--follow] [--max-seconds <s>]"
   ]
  },
  {
@@ -13715,6 +13715,16 @@
   "error": true,
   "parts": [
    "a TICC log read live needs --tau0 <seconds>: the whole-log reader finds it from every time stamp, which a live reader does not have yet"
+  ]
+ },
+ {
+  "id": "e-live-health-flag",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " needs a value: --sensor <name>, --stale-s <s>, --frozen-n <n of 2 or more>, --range <lo,hi>, --latency-s <s>"
   ]
  }
 ]

@@ -206,6 +206,7 @@ pub fn usage() -> String {
 /// `kshana clock-live --format <f> --from <-|tcp:host:port|file> [--clock <name>] [--follow]
 /// [--poll-s <s>] [--max-seconds <s>]`.
 pub fn run(args: &[String]) -> Result<(), String> {
+    let (hcfg, reconnect, args) = crate::live_health::split_args(args, "clock")?;
     let mut fmt = None;
     let mut from = None;
     let mut clock = None;
@@ -240,79 +241,44 @@ pub fn run(args: &[String]) -> Result<(), String> {
     let (Some(fmt), Some(from)) = (fmt, from) else {
         return Err(usage());
     };
-    let mut live = ClockLive::with_tau0(fmt, clock, tau0)?;
-    let start = std::time::Instant::now();
-    let over = || max_s.is_some_and(|m| start.elapsed().as_secs_f64() >= m);
-    let mut emit = |line: &str| -> Result<(), String> {
-        use std::io::Write;
-        if let Some(o) = live.push(line) {
-            let mut out = std::io::stdout().lock();
-            writeln!(
-                out,
-                "{}",
-                serde_json::to_string(&o).map_err(|e| e.to_string())?
-            )
-            .and_then(|()| out.flush())
-            .map_err(|e| e.to_string())?;
-        }
-        Ok(())
+    let live = std::cell::RefCell::new(ClockLive::with_tau0(fmt, clock, tau0)?);
+    let health = std::cell::RefCell::new(crate::live_health::Health::new(hcfg));
+    let emit = |line: &str, arrival: f64| -> Result<(), String> {
+        let Some(o) = live.borrow_mut().push(line) else {
+            return Ok(());
+        };
+        let mut h = health.borrow_mut();
+        let events = h.on_reading(arrival, o.kept.then_some(o.reading.offset_s));
+        crate::live_health::print_line(&o, Some(h.stamp(arrival)))?;
+        crate::live_health::print_events(&events)
     };
-    let io = |e: std::io::Error| format!("{from}: {e}");
     if let Some(p) = poll {
         // A file read whole at every poll: the PPS device's `assert`, or a status file.
-        while !over() {
-            let text = std::fs::read_to_string(&from).map_err(io)?;
+        let start = std::time::Instant::now();
+        while !max_s.is_some_and(|m| start.elapsed().as_secs_f64() >= m) {
+            let text = std::fs::read_to_string(&from).map_err(|e| format!("{from}: {e}"))?;
+            let now = crate::live_health::host_now();
             for l in text.lines() {
-                emit(l)?;
+                emit(l, now)?;
             }
+            let ev = health.borrow_mut().on_idle(now);
+            crate::live_health::print_events(&ev)?;
             std::thread::sleep(std::time::Duration::from_secs_f64(p));
         }
         return Ok(());
     }
-    follow_lines(&from, follow, max_s, emit)
-}
-
-/// Read `from` (`-`, `tcp:host:port` or a file) a line at a time, calling `f` on each whole line.
-/// With `follow`, the end of a file is not the end: wait for more lines (and for the rest of a line
-/// still being written) until `max_s` seconds have passed.
-pub fn follow_lines(
-    from: &str,
-    follow: bool,
-    max_s: Option<f64>,
-    mut f: impl FnMut(&str) -> Result<(), String>,
-) -> Result<(), String> {
-    use std::io::BufRead;
-    let io = |e: std::io::Error| format!("{from}: {e}");
-    let start = std::time::Instant::now();
-    let over = || max_s.is_some_and(|m| start.elapsed().as_secs_f64() >= m);
-    let reader: Box<dyn std::io::Read> = if from == "-" {
-        Box::new(std::io::stdin())
-    } else if let Some(addr) = from.strip_prefix("tcp:") {
-        Box::new(std::net::TcpStream::connect(addr).map_err(io)?)
-    } else {
-        Box::new(std::fs::File::open(from).map_err(io)?)
+    let opts = crate::live_health::FollowOptions {
+        follow,
+        max_s,
+        reconnect,
     };
-    let mut r = std::io::BufReader::new(reader);
-    let mut line = String::new();
-    while !over() {
-        let n = r.read_line(&mut line).map_err(io)?;
-        if n == 0 && !follow {
-            break;
-        }
-        if !line.ends_with('\n') {
-            if !follow {
-                // The last line of a finished input, with no newline.
-                f(&line)?;
-                break;
-            }
-            // Nothing new yet, or a line still being written: keep what there is and wait.
-            std::thread::sleep(std::time::Duration::from_millis(50));
-            continue;
-        }
-        f(&line)?;
-        line.clear();
-    }
-    Ok(())
+    crate::live_health::follow(
+        &from,
+        &opts,
+        emit,
+        |now| crate::live_health::print_events(&health.borrow_mut().on_idle(now)),
+        |a, b| crate::live_health::print_events(&[health.borrow().gap(a, b)]),
+    )
 }
 
 #[cfg(test)]
