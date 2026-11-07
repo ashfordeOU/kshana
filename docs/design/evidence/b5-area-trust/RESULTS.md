@@ -13,11 +13,11 @@ Reproduce with `cargo test --test area_trust -- --nocapture`.
 |---|---|
 | T1 rule exactness | **MET**: state agreement 1.0 with the oracle on 43 117 grid seconds of seven seeded replays (4, 5, 7, 10, 16, 25 and 50 stations; 520 events). Alert, live, degraded, untrusted and stale counts are equal too, and the engine's JSON Lines are the oracle's bytes. |
 | T2 detection | **MET**: 267 events put at least `k` stations in alarm in one second (112 of them at least `k` untrusted); every one raised the expected area alert. None of the 253 events with fewer raised `UNTRUSTED`. |
-| T3 end-to-end latency | **Open**: needs the real-background replay at 100 stations through ingest and both deliveries (webhook, MQTT). |
+| T3 end-to-end latency | **MET**: 220 injected events at 100 stations, 1 Hz, over the MQTT ingest. Webhook: 0 missed, median 1.003 s, 95th percentile 1.004 s, maximum 1.015 s. MQTT: 0 missed, median 1.003 s, 95th percentile 1.004 s, maximum 1.015 s. Bar: 95th percentile ≤ 5 s and maximum ≤ 10 s. |
 | T4 false alerts | **NOT MET**: 23 alerts to `DEGRADED` over 13 area-days (1.77 per area-day; bar ≤ 1). No alert to `UNTRUSTED` (0; bar ≤ 0.1). One area (Madrid: MADR, CEBR, YEBE, VILL), 2025-01-07 to 01-19. |
 | T5 determinism | **MET for the files and surfaces built**: the same seed gives the same stations document, byte for byte, equal to the committed fixture the oracle read; the command line, Python and WebAssembly give the oracle's bytes (`tests/area_trust.rs`, `tests/python/test_bindings.py`, `web/smoke.mjs`). T4's real-data timelines will be added when T4 runs. |
 
-B5 is MET only when T1 to T5 are all met. With T4 not met, **B5 is NOT MET**, whatever T3 gives.
+B5 is MET only when T1 to T5 are all met. T3 is met; with T4 not met, **B5 is NOT MET**. T3 not blocking K3b, the latency part of K3 is evidenced on the reference box.
 
 ## The replays
 
@@ -88,6 +88,31 @@ Epochs are 30 s. AGC, the jamming indicator, the clock monitor and OSNMA are not
 - The bar stays as signed; it is not loosened.
 - Any change to the rule (for example, requiring `n_U ≥ 2` for `DEGRADED` when `N ≤ 6`) or to the position
   monitor would need a new pre-registration and a new fortnight.
+
+## T3
+
+The readings for T3 (13 to 17 in `xval/area-trust/README.md`) were committed before the harness ran. The four
+scored runs (`tests/area_trust_igs.rs`, `t3_end_to_end_latency_run`) were made one after another on 7 November
+2026, 55 events each:
+- each run took about 80 minutes;
+- 100 stations replayed Madrid's real 2025 background at 1 Hz;
+- the events were seeded position offsets, clock steps and OSNMA failures on at least 34 stations.
+
+The runs, their pooled result (`xval/area-trust/t3_pool.py`) and the reference box's
+`kshana bench-speed --quick` are in `xval/area-trust/t3/`.
+- **Reference box:** Intel Xeon at 2.30 GHz, 4 logical CPUs, 15 GB, Linux. Live UBX decode ran at 8 409
+  epochs/s.
+- **Deliveries:** every alert the area rule raised reached both receivers, 225 alerts in all, with no failures
+  and no late epochs.
+- **Background alerts:** 5 of those 225 alerts came from the real background, not from an injected event.
+  They are delivered but not scored.
+
+What the latency includes: the data-time part, the MQTT framing, the ingest mapping, the area rule (a second
+closes when every station has reported in it) and both deliveries. Both ends run on one host's loopback
+interface, so it excludes any network between stations and the service. The data-time part dominates: the
+onset epoch is sent at the start of its second and is decided when that second closes, about 1 s later. The
+processing adds a few milliseconds. This says nothing about other hardware, about 1 000 stations (A3b), or about
+a network path.
 
 ## A correction to the oracle
 

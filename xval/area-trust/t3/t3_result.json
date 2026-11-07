@@ -1,0 +1,64 @@
+{
+ "runs": [
+  {
+   "alerts_sent": 56,
+   "late_epochs": 0,
+   "mqtt_failures": 0,
+   "mqtt_received": 56,
+   "run": 0,
+   "seconds": 4755,
+   "stations": 100,
+   "webhook_failures": 0,
+   "webhook_received": 56
+  },
+  {
+   "alerts_sent": 56,
+   "late_epochs": 0,
+   "mqtt_failures": 0,
+   "mqtt_received": 56,
+   "run": 1,
+   "seconds": 4311,
+   "stations": 100,
+   "webhook_failures": 0,
+   "webhook_received": 56
+  },
+  {
+   "alerts_sent": 56,
+   "late_epochs": 0,
+   "mqtt_failures": 0,
+   "mqtt_received": 56,
+   "run": 2,
+   "seconds": 4501,
+   "stations": 100,
+   "webhook_failures": 0,
+   "webhook_received": 56
+  },
+  {
+   "alerts_sent": 57,
+   "late_epochs": 0,
+   "mqtt_failures": 0,
+   "mqtt_received": 57,
+   "run": 3,
+   "seconds": 4597,
+   "stations": 100,
+   "webhook_failures": 0,
+   "webhook_received": 57
+  }
+ ],
+ "events": 220,
+ "webhook": {
+  "missed": 0,
+  "median_s": 1.002627264,
+  "p95_s": 1.0038933631,
+  "max_s": 1.014654201,
+  "pass": true
+ },
+ "mqtt": {
+  "missed": 0,
+  "median_s": 1.002856142,
+  "p95_s": 1.0044157557,
+  "max_s": 1.014837415,
+  "pass": true
+ },
+ "verdict": "MET"
+}
