@@ -14339,5 +14339,36 @@
    },
    "/status"
   ]
+ },
+ {
+  "id": "planner-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana planner map <spec.json> | place <spec.json>"
+  ]
+ },
+ {
+  "id": "e-planner-parse",
+  "error": true,
+  "parts": [
+   "not a kshana.planner/1 document: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-planner-spec",
+  "error": true,
+  "parts": [
+   "the planner input is out of range: schema kshana.planner/1, at least a 2 × 2 grid with positive extent, positive frequency, bandwidth, integration time and σ_τ, and 0 < P_fa < 1"
+  ]
+ },
+ {
+  "id": "e-planner-placement",
+  "error": true,
+  "parts": [
+   "placement needs candidates and m between 1 and their number"
+  ]
  }
 ]

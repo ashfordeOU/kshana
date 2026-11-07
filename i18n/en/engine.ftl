@@ -11647,3 +11647,13 @@ engine-e-station-service-system = unknown service system { $system } (systemd, l
 engine-station-check-ok = { $path }: Station { $id } with { $n } sources, writing to { $dir }
 
 engine-station-started = Kshana Station { $id }: { $n } sources, status on http://{ $addr }/status
+
+## src/planner.rs
+
+engine-planner-usage = usage: kshana planner map <spec.json> | place <spec.json>
+
+engine-e-planner-parse = not a kshana.planner/1 document: { $e }
+
+engine-e-planner-spec = the planner input is out of range: schema kshana.planner/1, at least a 2 × 2 grid with positive extent, positive frequency, bandwidth, integration time and σ_τ, and 0 < P_fa < 1
+
+engine-e-planner-placement = placement needs candidates and m between 1 and their number

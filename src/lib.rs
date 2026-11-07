@@ -316,6 +316,8 @@ pub mod ntrip;
 pub mod obs;
 pub mod obs_live;
 pub mod par;
+/// The monitoring-network planner (0.41 row B1a): `kshana planner`.
+pub mod planner;
 mod portable_distr;
 mod portable_distr_tables;
 #[doc(hidden)]

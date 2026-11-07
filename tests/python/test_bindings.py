@@ -851,6 +851,17 @@ def test_optical_atmosphere_scenarios_run_through_the_binding(name):
     assert "optical-atmosphere" in [k["name"] for k in kshana.scenario_kinds()]
 
 
+def test_planner_gives_the_engine_bytes():
+    """B1a bar P5: the planner's map through Python is the command line's bytes."""
+    import gzip
+    import os
+
+    root = os.path.join(os.path.dirname(__file__), "..", "..")
+    spec = open(os.path.join(root, "xval", "planner", "layout_circle.json")).read()
+    want = gzip.open(os.path.join(root, "tests", "fixtures", "planner", "engine_circle.json.gz")).read().decode()
+    assert kshana.planner("map", spec) + "\n" == want
+
+
 def test_area_trust_timeline_gives_the_oracle_bytes():
     """B5 bar T5: the area timeline through Python is the oracle's (and the command line's) bytes."""
     import gzip

@@ -1221,6 +1221,10 @@
    "count": 1,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/planner.rs": {
+   "count": 1,
+   "reason": "machine value: the placement method name in the output (exhaustive or greedy)"
+  },
   "src/pvt.rs": {
    "count": 52,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"

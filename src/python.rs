@@ -1628,6 +1628,14 @@ fn referee_location_score(truth_json: &str, reports_json: &str) -> PyResult<Stri
     crate::jammertest::location::score_json(truth_json, reports_json).map_err(PyValueError::new_err)
 }
 
+/// The monitoring-network planner (row B1a; `kshana planner`): `kind` is `"map"` or `"place"` and
+/// `spec_json` a `kshana.planner/1` document as text. Returns JSON text, the same bytes as the command
+/// line and WebAssembly give. Raises `ValueError`.
+#[pyfunction]
+fn planner(kind: &str, spec_json: &str) -> PyResult<String> {
+    crate::planner::run_json(kind, spec_json).map_err(PyValueError::new_err)
+}
+
 /// One trust state for an area from several reference stations (row B5; `kshana area-trust`):
 /// `stations_json` is a `kshana.area-stations/1` document as text. Returns the timeline as JSON
 /// Lines, the same bytes as the command line and WebAssembly give. Raises `ValueError`.
@@ -2537,6 +2545,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(jammertest_score, m)?)?;
     m.add_function(wrap_pyfunction!(referee_location_score, m)?)?;
     m.add_function(wrap_pyfunction!(area_trust_timeline, m)?)?;
+    m.add_function(wrap_pyfunction!(planner, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
