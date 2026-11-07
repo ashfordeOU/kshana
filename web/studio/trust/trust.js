@@ -17,6 +17,8 @@ import { skyMarkup, skyDescribe } from "../lib/skydraw.mjs";
 import { ensureSkyCss } from "../lib/skypage.mjs";
 import { vesselPath, rayEnd, ringPx } from "../lib/replay.mjs";
 import { parseSvgMarkup, sanitizeSvg } from "../lib/svgsafe.mjs";
+import { desktopInvoke } from "../lib/desktop.mjs";
+import { deviceApi, nativeEngine, liveLoop, counters, BAUDS } from "../lib/devices.mjs";
 await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
@@ -100,13 +102,13 @@ async function openFiles(files) {
 
 // ---------- score an NMEA log with the engine (in this browser) ----------
 function scoreStatus(msg, err) { const s = $("mt-score-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
-async function scoreHere(nmea, nmeaName, truthText, label) {
+async function scoreHere(nmea, nmeaName, truthText, label, engine) {
   try {
     const session = $("mt-session").value;
     if (!session.trim()) { scoreStatus(t("js-trust-err-session-empty", "The session settings are empty. They declare the vessel ({ $setting }).", { setting: "[platform] kind = \"vessel\"" }), true); return; }
     if (nmea.length > 2 * 1024 * 1024) { scoreStatus(t("js-trust-err-score-too-large", "{ $name }: larger than 2 MiB. The in-browser scorer takes an excerpt (the { $command } command takes a whole log); open an excerpt that holds the five-minute calibration window.", { name: nmeaName, command: "kshana receiver-trust" }), true); return; }
-    scoreStatus(t("js-trust-scoring", "Starting the engine and scoring…"));
-    const eng = await getEngine();
+    if (!engine) scoreStatus(t("js-trust-scoring", "Starting the engine and scoring…"));
+    const eng = engine || await getEngine();
     if (!eng.available) { scoreStatus(t("js-trust-err-engine-start-open", "The engine could not start here ({ $reason }). Opening result files above still works.", { reason: eng.error }), true); return; }
     if (!eng.has("receiver_trust_replay")) { scoreStatus(t("js-trust-err-engine-no-scorer", "This engine build (version { $version }) has no log scorer; it predates this page. The command is { $command }.", { version: eng.version, command: "kshana receiver-trust" }), true); return; }
     const rep = JSON.parse(await eng.call("receiver_trust_replay", session, nmea));
@@ -130,6 +132,62 @@ async function scoreFile(f) {
   if (!f) return;
   if (f.size > 2 * 1024 * 1024) { scoreStatus(t("js-trust-err-score-file-too-large", "{ $name }: larger than 2 MiB. The in-browser scorer takes an excerpt that holds the five-minute calibration window.", { name: f.name }), true); return; }
   await scoreHere(await f.text(), f.name, null);
+}
+
+// ---------- live device (Kshana Desktop only: the app reads the receiver, read only) ----------
+let live = null;
+function liveStatus(msg, err) { const s = $("mt-live-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
+function liveShow(st) {
+  if (st.error) { liveStatus(t("js-trust-live-error", "The device stopped: { $reason }.", { reason: st.error }), true); return; }
+  if (!st.running) { liveStatus(t("js-trust-live-stopped", "Not reading a device.")); return; }
+  const c = counters(st);
+  liveStatus(t("js-trust-live-reading", "Reading { $source }: { $sentences } sentences, { $kept } in the excerpt being scored, { $other } other lines.", { source: st.source, sentences: c.sentences.toLocaleString(), kept: c.kept.toLocaleString(), other: c.other.toLocaleString() }));
+}
+async function liveStart(invoke, api, source, baud) {
+  await liveStop(api);
+  if (!source) { liveStatus(t("js-trust-live-no-source", "Choose a port, or type tcp:<host>:<port> or file:<path>."), true); return; }
+  try {
+    const eng = await nativeEngine(invoke);
+    liveShow(await api.start(source, baud));
+    const name = source.split(/[\\/]/).pop() || source;
+    live = liveLoop({
+      api, everyMs: 5000, onStatus: liveShow,
+      score: (text) => scoreHere(text, name, null, t("js-trust-live-label", "Live from { $source }, scored natively every few seconds. Advisory only: the operator remains responsible for the navigation of the vessel.", { source }), eng),
+    });
+  } catch (e) { liveStatus(t("js-trust-live-error", "The device stopped: { $reason }.", { reason: e && e.message ? e.message : e }), true); }
+}
+function liveStop(api) {
+  if (live) { live.stop(); live = null; }
+  return api.stop().then(() => liveShow({ running: false }), () => {});
+}
+async function wireLive() {
+  const invoke = desktopInvoke();
+  if (!invoke) return; // the panel exists only in Kshana Desktop
+  const api = deviceApi(invoke);
+  const anchor = $("mt-score-status").closest("section");
+  const sel = el("select", { id: "mt-live-port", class: "mt-chip", "aria-label": t("js-trust-live-port", "Serial port") });
+  const src = el("input", { id: "mt-live-src", class: "mt-chip", type: "text", spellcheck: "false", placeholder: "tcp:192.168.1.20:10110", "aria-label": t("js-trust-live-source", "Source") });
+  const baud = el("select", { id: "mt-live-baud", class: "mt-chip", "aria-label": t("js-trust-live-baud", "Speed (baud)") },
+    BAUDS.map((b) => el("option", { value: b }, b || t("js-trust-live-baud-asis", "speed as set"))));
+  const refresh = el("button", { type: "button", class: "mt-chip" }, t("js-trust-live-refresh", "Refresh ports"));
+  const go = el("button", { type: "button", class: "mt-demo", id: "mt-live-start" }, t("js-trust-live-start", "Start scoring live"));
+  const halt = el("button", { type: "button", class: "mt-chip", id: "mt-live-stop" }, t("js-trust-live-stop", "Stop"));
+  const fill = async () => {
+    const ports = await api.list().catch(() => []);
+    sel.replaceChildren(el("option", { value: "" }, t("js-trust-live-pick", "Choose a port…")), ...ports.map((p) => el("option", { value: p.path }, p.label || p.path)));
+  };
+  sel.addEventListener("change", () => { if (sel.value) src.value = sel.value; });
+  refresh.addEventListener("click", fill);
+  go.addEventListener("click", () => liveStart(invoke, api, src.value.trim(), baud.value));
+  halt.addEventListener("click", () => liveStop(api));
+  const card = el("section", { class: "card mt-load", "aria-labelledby": "mt-live-h" },
+    el("div", { class: "card-head" }, el("h2", { id: "mt-live-h", class: "h3" }, t("js-trust-live-title", "Score a receiver live")),
+      el("p", { class: "card-note" }, t("js-trust-live-note", "Kshana Desktop reads the receiver's NMEA 0183 output from a serial port, a TCP stream or a growing file, read only, and scores its latest sentences with the settings above every few seconds. Nothing is sent to the device or anywhere else. The excerpt is the latest 1.5 MiB of sentences (about an hour at one fix a second), and the score calibrates on its first five minutes."))),
+    el("div", { class: "mt-drop" }, sel, src, baud, refresh, go, halt),
+    el("p", { class: "mt-status", id: "mt-live-status", role: "status", "aria-live": "polite" }));
+  anchor.after(card);
+  liveShow(await api.status().catch(() => ({ running: false })));
+  await fill();
 }
 
 // ---------- generic receiver-trust run (engine receiver_trust, log inline) ----------
@@ -825,6 +883,7 @@ function applyFilterVisual() {
 function wire() {
   fetch("trust/demo/session.toml").then((r) => (r.ok ? r.text() : "")).then((t) => { if (!$("mt-session").value) $("mt-session").value = t; }).catch(() => {});
   $("mt-score-demo").addEventListener("click", scoreDemo);
+  wireLive();
   wireGenFormats();
   $("mt-gen-demo").addEventListener("click", genDemo);
   $("mt-gen-file").addEventListener("change", (e) => { genFile(e.target.files[0]); e.target.value = ""; });

@@ -3,6 +3,7 @@
 //! engine's runs executed natively ([`bridge`]) off the window's thread.
 
 pub mod bridge;
+pub mod devices;
 
 use serde_json::Value;
 
@@ -39,6 +40,35 @@ async fn iq_probe(path: String, format: String, probe: u64) -> Result<Value, Str
         .map_err(|e| e.to_string())?
 }
 
+/// The serial ports this computer shows (live devices, read only).
+#[tauri::command]
+fn devices_list() -> Vec<Value> {
+    devices::list()
+}
+
+/// Start reading a receiver: a serial port, `tcp:<host>:<port>` or `file:<path>`.
+#[tauri::command]
+async fn device_start(source: String, baud: Option<u32>) -> Result<Value, String> {
+    tauri::async_runtime::spawn_blocking(move || devices::start(&source, baud))
+        .await
+        .map_err(|e| e.to_string())?
+}
+
+#[tauri::command]
+fn device_status() -> Value {
+    devices::status()
+}
+
+#[tauri::command]
+fn device_excerpt() -> Value {
+    devices::excerpt()
+}
+
+#[tauri::command]
+fn device_stop() -> Value {
+    devices::stop()
+}
+
 /// Start the application.
 pub fn run() {
     tauri::Builder::default()
@@ -47,7 +77,12 @@ pub fn run() {
             engine_native_fns,
             file_info,
             read_range,
-            iq_probe
+            iq_probe,
+            devices_list,
+            device_start,
+            device_status,
+            device_excerpt,
+            device_stop
         ])
         .run(tauri::generate_context!())
         .expect("Kshana Desktop could not start");

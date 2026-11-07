@@ -484,6 +484,8 @@ jobs:
         run: node web/studio/lib/engine.test.mjs
       - name: Test the Kshana Desktop engine client (native runs, WebAssembly tools)
         run: node web/studio/lib/desktop.test.mjs
+      - name: Test the Kshana Desktop live device client (excerpt loop, native scorer)
+        run: node web/studio/lib/devices.test.mjs
       - name: Test the A/B compare logic
         run: node web/studio/lib/compare.test.mjs
       - name: Test the chart-hover logic
