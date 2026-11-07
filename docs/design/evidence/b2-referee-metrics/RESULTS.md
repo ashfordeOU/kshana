@@ -17,7 +17,7 @@ Reproduce with `cargo test --test referee_location -- --nocapture` (and `cargo t
 | R1 exactness | **MET**: 0 misses over 10 054 reports, 13 events and the pooled set. Worst `|e − oracle|` 2.5e-9 m (bar 1e-6 m); worst region area 1.6e-15 relative (bar 1e-6); attribution, containment, counts, time to first location, time to locate and false locations identical. The anchors equal the printed values. |
 | R2 boundary rules | **MET**: the degenerate covariance is refused with an error; the boundary pair splits as stated; the antimeridian, near-pole, polygon-vertex, empty-grid, no-report, before-onset, overlapping-event and outside-track cases give the oracle's outcomes. |
 | R3 calibration of the metric | **MET**: coverage 0.9455 at 95 % (interval [0.9444, 0.9556]), 0.8963 at 90 % ([0.8923, 0.9077]), 0.4961 at 50 % ([0.4871, 0.5129]), n = 10 000. |
-| R4 surfaces | **MET for the command line and MCP, pending for Python and WebAssembly** (see below). |
+| R4 surfaces | **MET** on the command line, Python, WebAssembly and MCP (see below). |
 | R5 additivity | **MET**: `score.rs` is unchanged; `tests/jammertest_score.rs` and the referee's unit tests pass unchanged. |
 
 ## R1 and R2
@@ -43,13 +43,14 @@ metric, not any estimator.
   MCP tool's does, so the comparison is value for value, not byte for byte. The calibrated population is
   over a tool call's 4 MiB input cap.
 - **Python and WebAssembly:** `referee_location_score` returns the JSON text; `tests/python/test_bindings.py`
-  and `web/smoke.mjs` check its SHA-256 against the same pinned digest. Those run in CI (the
-  `test-python-bindings` and `test-wasm-bindings` jobs), not in this environment, which has neither maturin
-  nor wasm-pack. R4 is recorded as MET for them once those jobs pass on the commit that adds them; until
-  then it is pending.
+  and `web/smoke.mjs` check its SHA-256 against the same pinned digest. They ran in CI on `5f7df2da5`
+  (run 42333794789): the `test-wasm-bindings` job passed, and in `test-python-bindings` all 72 Python tests
+  passed, this one included. That job then failed its type-stub check (the new function was missing from
+  `kshana.pyi`), which `b8f2efafc` fixed; the bytes were not in question.
 
 ## What this means
 
 The metrics compute what the pre-registration defines, on cases fixed in advance. They can be used to score
 B1a, B3a, B3b and partner submissions. This says nothing about any locator's accuracy. The verification
-ledger row is added when R4 is met on every surface.
+ledger row (VALIDATED against the independent oracle, an arithmetic check) is added with the other Phase 5
+rows in one regeneration of the ledger and its published counts.
