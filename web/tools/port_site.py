@@ -572,8 +572,10 @@ def studio_index(text, studio_name):
     esc = html.escape(studio_name, quote=True)
     short = html.escape(re.sub(r"^Kshana\s+", "", studio_name), quote=True)
     text = re.sub(r"<title>[^<]*</title>", f"<title>{esc}</title>", text, count=1)
-    text = re.sub(r"(data-studio-name>)[^<]*(<)", lambda m: m.group(1) + esc + m.group(2), text)
-    text = re.sub(r"(data-studio-short>)[^<]*(<)", lambda m: m.group(1) + short + m.group(2), text)
+    # Element text only: the same markup also appears inside a data-l10n-tags map (an attribute,
+    # where the tag is followed by &quot;), and writing the name there loses the closing tag.
+    text = re.sub(r"(data-studio-name>)[^<&]*(<)", lambda m: m.group(1) + esc + m.group(2), text)
+    text = re.sub(r"(data-studio-short>)[^<&]*(<)", lambda m: m.group(1) + short + m.group(2), text)
     text = text.replace(f'href="{ORIGIN}/#ledger"', 'href="/evidence#ledger"')
     text = re.sub(r'(<p class="embed-only"><a href=")' + re.escape(ORIGIN) + r'(")', r"\1/studio/\2", text)
     if ORIGIN in text:

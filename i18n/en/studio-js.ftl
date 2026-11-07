@@ -1278,1437 +1278,1437 @@ js-adv-waterfall-title = Waterfall, { $name }
 # 2026-10-01-studio-rebuild/advanced.js:127
 js-adv-webassembly-unavailable = WebAssembly unavailable
 
-# 2026-10-01-studio-rebuild/app.js:1982
+# 2026-10-01-studio-rebuild/app.js:2002
 js-app-all-questions = All questions
 
-# 2026-10-01-studio-rebuild/app.js:1694
+# 2026-10-01-studio-rebuild/app.js:1714
 js-app-anim-frame-title = Animation of this run, written by the engine
 
-# 2026-10-01-studio-rebuild/app.js:1697
+# 2026-10-01-studio-rebuild/app.js:1717
 js-app-anim-html-player = HTML player
 
-# 2026-10-01-studio-rebuild/app.js:1697
+# 2026-10-01-studio-rebuild/app.js:1717
 js-app-anim-html-player-title = The single-file player, as the engine wrote it
 
-# 2026-10-01-studio-rebuild/app.js:1691
+# 2026-10-01-studio-rebuild/app.js:1711
 js-app-anim-load-failed = The recorded animation could not be loaded ({ $reason }).
 
-# 2026-10-01-studio-rebuild/app.js:1685
+# 2026-10-01-studio-rebuild/app.js:1705
 js-app-anim-loading = Loading the recorded animation…
 
-# 2026-10-01-studio-rebuild/app.js:1691
+# 2026-10-01-studio-rebuild/app.js:1711
 js-app-anim-none = There is no recorded animation for this scenario.
 
-# 2026-10-01-studio-rebuild/app.js:1682
+# 2026-10-01-studio-rebuild/app.js:1702
 js-app-anim-note = The engine writes an animation of any run that has a time axis: a self-playing SVG and a single-file HTML player with its own play and scrub controls. The browser build does not carry that writer, so this is the file the native command-line engine wrote for the bundled scenario.
 
-# 2026-10-01-studio-rebuild/app.js:1698
+# 2026-10-01-studio-rebuild/app.js:1718
 js-app-anim-svg = Animated SVG
 
-# 2026-10-01-studio-rebuild/app.js:1698
+# 2026-10-01-studio-rebuild/app.js:1718
 js-app-anim-svg-title = The self-playing SVG, as the engine wrote it
 
-# 2026-10-01-studio-rebuild/app.js:893
+# 2026-10-01-studio-rebuild/app.js:913
 js-app-axis-averaging-time = averaging time τ (s)
 
-# 2026-10-01-studio-rebuild/app.js:872
+# 2026-10-01-studio-rebuild/app.js:892
 js-app-axis-observation-interval = observation interval τ (s)
 
-# 2026-10-01-studio-rebuild/app.js:1343
+# 2026-10-01-studio-rebuild/app.js:1363
 js-app-axis-value = value
 
-# 2026-10-01-studio-rebuild/app.js:387
+# 2026-10-01-studio-rebuild/app.js:407
 js-app-badge-modelled = { $n } modelled
 
-# 2026-10-01-studio-rebuild/app.js:1672
+# 2026-10-01-studio-rebuild/app.js:1692
 js-app-badge-recorded = Recorded
 
-# 2026-10-01-studio-rebuild/app.js:386
+# 2026-10-01-studio-rebuild/app.js:406
 js-app-badge-validated = { $n } validated
 
-# 2026-10-01-studio-rebuild/app.js:779
+# 2026-10-01-studio-rebuild/app.js:799
 js-app-band-carrier = Carrier
 
-# 2026-10-01-studio-rebuild/app.js:779
+# 2026-10-01-studio-rebuild/app.js:799
 js-app-band-carrier-unset = not set in this scenario
 
-# 2026-10-01-studio-rebuild/app.js:780
+# 2026-10-01-studio-rebuild/app.js:800
 js-app-band-chip-rate = Chip rate
 
-# 2026-10-01-studio-rebuild/app.js:782
+# 2026-10-01-studio-rebuild/app.js:802
 js-app-band-jammer-bandwidth = Jammer bandwidth
 
-# 2026-10-01-studio-rebuild/app.js:813
+# 2026-10-01-studio-rebuild/app.js:833
 js-app-band-jammer-mhz = jammer { $mhz } MHz
 
-# 2026-10-01-studio-rebuild/app.js:783
+# 2026-10-01-studio-rebuild/app.js:803
 js-app-band-jammer-power = Jammer power
 
-# 2026-10-01-studio-rebuild/app.js:781
+# 2026-10-01-studio-rebuild/app.js:801
 js-app-band-jammer-type = Jammer type
 
-# 2026-10-01-studio-rebuild/app.js:817
+# 2026-10-01-studio-rebuild/app.js:837
 js-app-band-main-lobe = signal main lobe
 
-# 2026-10-01-studio-rebuild/app.js:790
+# 2026-10-01-studio-rebuild/app.js:810
 js-app-band-no-carrier-note = The engine computes the jammer-to-signal ratio from the link budget. This scenario does not name a carrier frequency, so no spectrum is drawn.
 
-# 2026-10-01-studio-rebuild/app.js:785
+# 2026-10-01-studio-rebuild/app.js:805
 js-app-band-satellites = Satellites
 
-# 2026-10-01-studio-rebuild/app.js:811
+# 2026-10-01-studio-rebuild/app.js:831
 js-app-band-svg-label = Signal and jammer bands around the carrier
 
-# 2026-10-01-studio-rebuild/app.js:784
+# 2026-10-01-studio-rebuild/app.js:804
 js-app-band-tracking-threshold = Tracking threshold
 
-# 2026-10-01-studio-rebuild/app.js:2545
+# 2026-10-01-studio-rebuild/app.js:2565
 js-app-browse-all-title = All { $n } scenarios
 
-# 2026-10-01-studio-rebuild/app.js:2527
+# 2026-10-01-studio-rebuild/app.js:2547
 js-app-browse-area-kicker =
     { $n ->
         [one] Area · { $n } scenario
        *[other] Area · { $n } scenarios
     }
 
-# 2026-10-01-studio-rebuild/app.js:2529
+# 2026-10-01-studio-rebuild/app.js:2549
 js-app-browse-area-lede = Pick one: it opens on its result straight away.
 
-# 2026-10-01-studio-rebuild/app.js:2537
+# 2026-10-01-studio-rebuild/app.js:2557
 js-app-browse-evidence = The engine methods its scenarios run have { $validated } validated and { $modelled } modelled rows in the verification matrix.
 
-# 2026-10-01-studio-rebuild/app.js:2537
+# 2026-10-01-studio-rebuild/app.js:2557
 js-app-browse-evidence-title = Evidence behind this area.
 
-# 2026-10-01-studio-rebuild/app.js:2544
+# 2026-10-01-studio-rebuild/app.js:2564
 js-app-browse-kicker = Browse
 
-# 2026-10-01-studio-rebuild/app.js:2546
+# 2026-10-01-studio-rebuild/app.js:2566
 js-app-browse-lede = Search, or pick an area. Every scenario opens on its result straight away.
 
-# 2026-10-01-studio-rebuild/app.js:2538
+# 2026-10-01-studio-rebuild/app.js:2558
 js-app-browse-validated-examples = Validated, for example: { $examples }.
 
-# 2026-10-01-studio-rebuild/app.js:346
+# 2026-10-01-studio-rebuild/app.js:366
 js-app-browser-cannot-run = The browser build cannot run this scenario.
 
-# 2026-10-01-studio-rebuild/app.js:2095
+# 2026-10-01-studio-rebuild/app.js:2115
 js-app-btn-all-exports = All exports
 
-# 2026-10-01-studio-rebuild/app.js:2095
+# 2026-10-01-studio-rebuild/app.js:2115
 js-app-btn-all-exports-title = Every export of this run, including the engine's own formats
 
-# 2026-10-01-studio-rebuild/app.js:2101
+# 2026-10-01-studio-rebuild/app.js:2121
 js-app-btn-compare-pinned = Compare pinned runs
 
-# 2026-10-01-studio-rebuild/app.js:2099
+# 2026-10-01-studio-rebuild/app.js:2119
 js-app-btn-copy-embed = Copy embed code
 
-# 2026-10-01-studio-rebuild/app.js:2098
+# 2026-10-01-studio-rebuild/app.js:2118
 js-app-btn-copy-link = Copy a link to this exact scenario
 
-# 2026-10-01-studio-rebuild/app.js:2093
+# 2026-10-01-studio-rebuild/app.js:2113
 js-app-btn-figure-png = Figure (PNG)
 
-# 2026-10-01-studio-rebuild/app.js:2093
+# 2026-10-01-studio-rebuild/app.js:2113
 js-app-btn-figure-png-title = The chart on screen as a high-resolution bitmap
 
-# 2026-10-01-studio-rebuild/app.js:2092
+# 2026-10-01-studio-rebuild/app.js:2112
 js-app-btn-figure-svg = Figure (SVG)
 
-# 2026-10-01-studio-rebuild/app.js:2092
+# 2026-10-01-studio-rebuild/app.js:2112
 js-app-btn-figure-svg-title = The chart on screen, with its title, engine version and DOI
 
-# 2026-10-01-studio-rebuild/app.js:2100
+# 2026-10-01-studio-rebuild/app.js:2120
 js-app-btn-pin-compare = Pin this run to compare
 
-# 2026-10-01-studio-rebuild/app.js:2100
+# 2026-10-01-studio-rebuild/app.js:2120
 js-app-btn-pin-count = Pin this run ({ $n } pinned)
 
-# 2026-10-01-studio-rebuild/app.js:2094
+# 2026-10-01-studio-rebuild/app.js:2114
 js-app-btn-report-html = Reproducible report (HTML)
 
-# 2026-10-01-studio-rebuild/app.js:2094
+# 2026-10-01-studio-rebuild/app.js:2114
 js-app-btn-report-html-title = One offline file: summary, figures with tiers, charts and the exact scenario
 
-# 2026-10-01-studio-rebuild/app.js:2089
+# 2026-10-01-studio-rebuild/app.js:2109
 js-app-btn-result-json = Result data (JSON)
 
-# 2026-10-01-studio-rebuild/app.js:2089
+# 2026-10-01-studio-rebuild/app.js:2109
 js-app-btn-result-json-title = The engine's complete output for this run
 
-# 2026-10-01-studio-rebuild/app.js:2102
+# 2026-10-01-studio-rebuild/app.js:2122
 js-app-btn-run-history = Run history
 
-# 2026-10-01-studio-rebuild/app.js:2091
+# 2026-10-01-studio-rebuild/app.js:2111
 js-app-btn-scenario-toml = Scenario file (TOML)
 
-# 2026-10-01-studio-rebuild/app.js:2091
+# 2026-10-01-studio-rebuild/app.js:2111
 js-app-btn-scenario-toml-title = The exact input of this run
 
-# 2026-10-01-studio-rebuild/app.js:2090
+# 2026-10-01-studio-rebuild/app.js:2110
 js-app-btn-table-csv = Table (CSV)
 
-# 2026-10-01-studio-rebuild/app.js:2090
+# 2026-10-01-studio-rebuild/app.js:2110
 js-app-btn-table-csv-title = The same bytes the command-line tool writes as { $file }
 
-# 2026-10-01-studio-rebuild/app.js:1677
+# 2026-10-01-studio-rebuild/app.js:1697
 js-app-bytes =
     { $n ->
         [one] { $n } bytes
        *[other] { $n } bytes
     }
 
-# 2026-10-01-studio-rebuild/app.js:2462
+# 2026-10-01-studio-rebuild/app.js:2482
 js-app-cap-sub = { $areas } areas, { $total } ready-to-run scenarios. Each area shows a real recorded result and the mix of evidence behind it: the share of its engine methods validated against an outside reference.
 
-# 2026-10-01-studio-rebuild/app.js:1631
+# 2026-10-01-studio-rebuild/app.js:1651
 js-app-chain-hint = each stage's output feeds the next
 
-# 2026-10-01-studio-rebuild/app.js:1631
+# 2026-10-01-studio-rebuild/app.js:1651
 js-app-chain-note = One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used.
 
-# 2026-10-01-studio-rebuild/app.js:1628
+# 2026-10-01-studio-rebuild/app.js:1648
 js-app-chain-stage = Stage { $n }
 
-# 2026-10-01-studio-rebuild/app.js:1629
+# 2026-10-01-studio-rebuild/app.js:1649
 js-app-chain-values-handed =
     { $n ->
         [one] { $n } value handed on
        *[other] { $n } values handed on
     }
 
-# 2026-10-01-studio-rebuild/app.js:893
+# 2026-10-01-studio-rebuild/app.js:913
 js-app-chart-allan-deviation = Allan deviation
 
-# 2026-10-01-studio-rebuild/app.js:773
+# 2026-10-01-studio-rebuild/app.js:793
 js-app-chart-cn0-by-satellite = Effective C/N0 by satellite
 
-# 2026-10-01-studio-rebuild/app.js:689
+# 2026-10-01-studio-rebuild/app.js:709
 js-app-chart-default-title = Kshana chart
 
-# 2026-10-01-studio-rebuild/app.js:903
+# 2026-10-01-studio-rebuild/app.js:923
 js-app-chart-ground-track = Ground track
 
-# 2026-10-01-studio-rebuild/app.js:861
+# 2026-10-01-studio-rebuild/app.js:881
 js-app-chart-holdover-title = Holdover against a timing budget
 
-# 2026-10-01-studio-rebuild/app.js:873
+# 2026-10-01-studio-rebuild/app.js:893
 js-app-chart-mtie-title = MTIE (maximum time interval error)
 
-# 2026-10-01-studio-rebuild/app.js:72
+# 2026-10-01-studio-rebuild/app.js:73
 js-app-chart-not-drawn = This chart could not be drawn.
 
-# 2026-10-01-studio-rebuild/app.js:687
+# 2026-10-01-studio-rebuild/app.js:707
 js-app-chart-scenario-hash = scenario { $hash }
 
-# 2026-10-01-studio-rebuild/app.js:894
+# 2026-10-01-studio-rebuild/app.js:914
 js-app-chart-stability-title = Clock stability (overlapping Allan deviation)
 
-# 2026-10-01-studio-rebuild/app.js:876
+# 2026-10-01-studio-rebuild/app.js:896
 js-app-chart-tdev-title = TDEV (time deviation)
 
-# 2026-10-01-studio-rebuild/app.js:2328
+# 2026-10-01-studio-rebuild/app.js:2348
 js-app-chip-failed-title = WebAssembly could not start here. Showing real recorded runs of the bundled scenarios.
 
-# 2026-10-01-studio-rebuild/app.js:2328
+# 2026-10-01-studio-rebuild/app.js:2348
 js-app-chip-failed-title-reason = WebAssembly could not start here ({ $reason }). Showing real recorded runs of the bundled scenarios.
 
-# 2026-10-01-studio-rebuild/app.js:2327
+# 2026-10-01-studio-rebuild/app.js:2347
 js-app-chip-live = Live engine · v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:2328
+# 2026-10-01-studio-rebuild/app.js:2348
 js-app-chip-live-title = The Kshana engine is running in this browser as WebAssembly
 
-# 2026-10-01-studio-rebuild/app.js:2327
+# 2026-10-01-studio-rebuild/app.js:2347
 js-app-chip-loading = Engine loading
 
-# 2026-10-01-studio-rebuild/app.js:2328
+# 2026-10-01-studio-rebuild/app.js:2348
 js-app-chip-loading-title = The engine is downloading. Recorded results show meanwhile.
 
-# 2026-10-01-studio-rebuild/app.js:2327
+# 2026-10-01-studio-rebuild/app.js:2347
 js-app-chip-recorded = Recorded runs · v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:2327
+# 2026-10-01-studio-rebuild/app.js:2347
 js-app-chip-unavailable = Engine unavailable
 
-# 2026-10-01-studio-rebuild/app.js:2080
+# 2026-10-01-studio-rebuild/app.js:2100
 js-app-cli-note = Install with { $command }. The run writes { $file }, a chart, and a report.
 
-# 2026-10-01-studio-rebuild/app.js:2737
+# 2026-10-01-studio-rebuild/app.js:2757
 js-app-cli-only-title = This one runs on the command line, not in the browser.
 
-# 2026-10-01-studio-rebuild/app.js:2079
+# 2026-10-01-studio-rebuild/app.js:2099
 js-app-cli-save-comment = # save the scenario file below as { $file }, then
 
-# 2026-10-01-studio-rebuild/app.js:2179
+# 2026-10-01-studio-rebuild/app.js:2199
 js-app-cmd-advanced = Show every setting (advanced settings)
 
-# 2026-10-01-studio-rebuild/app.js:2184
+# 2026-10-01-studio-rebuild/app.js:2204
 js-app-cmd-browse = Browse all scenarios
 
-# 2026-10-01-studio-rebuild/app.js:2183
+# 2026-10-01-studio-rebuild/app.js:2203
 js-app-cmd-compare = Compare the pinned runs
 
-# 2026-10-01-studio-rebuild/app.js:2173
+# 2026-10-01-studio-rebuild/app.js:2193
 js-app-cmd-embed = Copy embed code
 
-# 2026-10-01-studio-rebuild/app.js:2182
+# 2026-10-01-studio-rebuild/app.js:2202
 js-app-cmd-exports = Download the results (exports)
 
-# 2026-10-01-studio-rebuild/app.js:2175
+# 2026-10-01-studio-rebuild/app.js:2195
 js-app-cmd-history = Open run history
 
-# 2026-10-01-studio-rebuild/app.js:2185
+# 2026-10-01-studio-rebuild/app.js:2205
 js-app-cmd-home = Go to the opening screen
 
-# 2026-10-01-studio-rebuild/app.js:2180
+# 2026-10-01-studio-rebuild/app.js:2200
 js-app-cmd-how = How this is computed
 
-# 2026-10-01-studio-rebuild/app.js:2171
+# 2026-10-01-studio-rebuild/app.js:2191
 js-app-cmd-pin = Pin this run to compare
 
-# 2026-10-01-studio-rebuild/app.js:2174
+# 2026-10-01-studio-rebuild/app.js:2194
 js-app-cmd-report = Download the report
 
-# 2026-10-01-studio-rebuild/app.js:2181
+# 2026-10-01-studio-rebuild/app.js:2201
 js-app-cmd-research = Code, data and citation (for researchers)
 
-# 2026-10-01-studio-rebuild/app.js:2178
+# 2026-10-01-studio-rebuild/app.js:2198
 js-app-cmd-reset = Reset the scenario text
 
-# 2026-10-01-studio-rebuild/app.js:2170
+# 2026-10-01-studio-rebuild/app.js:2190
 js-app-cmd-run = Run the scenario
 
-# 2026-10-01-studio-rebuild/app.js:2172
+# 2026-10-01-studio-rebuild/app.js:2192
 js-app-cmd-share = Copy share link
 
-# 2026-10-01-studio-rebuild/app.js:2177
+# 2026-10-01-studio-rebuild/app.js:2197
 js-app-cmd-theme = Toggle light or dark theme
 
-# 2026-10-01-studio-rebuild/app.js:2176
+# 2026-10-01-studio-rebuild/app.js:2196
 js-app-cmd-tour = Start the guided tour
 
-# 2026-10-01-studio-rebuild/app.js:1170
+# 2026-10-01-studio-rebuild/app.js:1190
 js-app-compare-deltas = Deltas are against run A. Green marks the better value for each figure.
 
-# 2026-10-01-studio-rebuild/app.js:1169
+# 2026-10-01-studio-rebuild/app.js:1189
 js-app-compare-none = These runs share no comparable figures of merit. Pin runs of the same scenario family to see numbers and deltas.
 
-# 2026-10-01-studio-rebuild/app.js:1166
+# 2026-10-01-studio-rebuild/app.js:1186
 js-app-compare-pin-two = Pin at least two runs to compare them side by side. Pin a run, change a parameter or pick another scenario of the same family, run it, and pin again.
 
-# 2026-10-01-studio-rebuild/app.js:2624
+# 2026-10-01-studio-rebuild/app.js:2644
 js-app-compare-run-head = { $letter } · run { $id }
 
-# 2026-10-01-studio-rebuild/app.js:1564
+# 2026-10-01-studio-rebuild/app.js:1584
 js-app-coverage-cell-note = Each cell is one grid point on { $body }, scored over every epoch of the run.
 
-# 2026-10-01-studio-rebuild/app.js:1564
+# 2026-10-01-studio-rebuild/app.js:1584
 js-app-coverage-dots-of = of
 
-# 2026-10-01-studio-rebuild/app.js:1564
+# 2026-10-01-studio-rebuild/app.js:1584
 js-app-coverage-dots-post = satellites, flown along their ground tracks; play the replay to move them.
 
-# 2026-10-01-studio-rebuild/app.js:1564
+# 2026-10-01-studio-rebuild/app.js:1584
 js-app-coverage-dots-pre = The dots are
 
-# 2026-10-01-studio-rebuild/app.js:1554
+# 2026-10-01-studio-rebuild/app.js:1574
 js-app-coverage-field-label = Field to map
 
-# 2026-10-01-studio-rebuild/app.js:1561
+# 2026-10-01-studio-rebuild/app.js:1581
 js-app-coverage-map = Coverage map
 
-# 2026-10-01-studio-rebuild/app.js:1561
+# 2026-10-01-studio-rebuild/app.js:1581
 js-app-coverage-map-select = Map
 
-# 2026-10-01-studio-rebuild/app.js:1561
+# 2026-10-01-studio-rebuild/app.js:1581
 js-app-coverage-over = over
 
-# 2026-10-01-studio-rebuild/app.js:1573
+# 2026-10-01-studio-rebuild/app.js:1593
 js-app-coverage-title = { $field } over { $body }
 
-# 2026-10-01-studio-rebuild/app.js:2378
+# 2026-10-01-studio-rebuild/app.js:2398
 js-app-crumb-all-scenarios = All scenarios
 
-# 2026-10-01-studio-rebuild/app.js:2377
+# 2026-10-01-studio-rebuild/app.js:2397
 js-app-crumb-area = Area
 
-# 2026-10-01-studio-rebuild/app.js:2378
+# 2026-10-01-studio-rebuild/app.js:2398
 js-app-crumb-search = Search: { $query }
 
-# 2026-10-01-studio-rebuild/app.js:2375
+# 2026-10-01-studio-rebuild/app.js:2395
 js-app-crumb-studio = Studio
 
-# 2026-10-01-studio-rebuild/app.js:696
+# 2026-10-01-studio-rebuild/app.js:716
 js-app-download-label = Download
 
-# 2026-10-01-studio-rebuild/app.js:330
+# 2026-10-01-studio-rebuild/app.js:350
 js-app-edited-cli-only = Edited: this scenario runs only in the command-line engine.
 
-# 2026-10-01-studio-rebuild/app.js:302
+# 2026-10-01-studio-rebuild/app.js:322
 js-app-edited-needs-engine = Edited: needs engine { $need }.
 
-# 2026-10-01-studio-rebuild/app.js:254
+# 2026-10-01-studio-rebuild/app.js:274
 js-app-edited-needs-live = Edited scenarios need the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:2165
+# 2026-10-01-studio-rebuild/app.js:2185
 js-app-embed-copied = Embed code copied.
 
-# 2026-10-01-studio-rebuild/app.js:715
+# 2026-10-01-studio-rebuild/app.js:735
 js-app-engine-chart = Engine chart
 
-# 2026-10-01-studio-rebuild/app.js:724
+# 2026-10-01-studio-rebuild/app.js:744
 js-app-engine-chart-alt = Engine chart for this run
 
-# 2026-10-01-studio-rebuild/app.js:2938
+# 2026-10-01-studio-rebuild/app.js:2958
 js-app-engine-could-not-start = The engine could not start: { $reason }. Serve this folder over HTTP (for example { $command }) rather than opening the file directly.
 
 # 2026-10-01-studio-rebuild/lib/t.mjs:3
 js-app-engine-failed = The engine could not load ({ $reason }).
 
-# 2026-10-01-studio-rebuild/app.js:136
+# 2026-10-01-studio-rebuild/app.js:156
 js-app-engine-file-http = The engine file returned HTTP { $status }.
 
-# 2026-10-01-studio-rebuild/app.js:126
+# 2026-10-01-studio-rebuild/app.js:146
 js-app-engine-no-recordings = The engine could not load ({ $reason }) and no recorded runs were found.
 
-# 2026-10-01-studio-rebuild/app.js:487
+# 2026-10-01-studio-rebuild/app.js:507
 js-app-entries-count =
     { $n ->
         [one] { $n } entry
        *[other] { $n } entries
     }
 
-# 2026-10-01-studio-rebuild/app.js:2446
+# 2026-10-01-studio-rebuild/app.js:2466
 js-app-ev-aria = { $validated } validated and { $modelled } modelled verification-matrix rows
 
-# 2026-10-01-studio-rebuild/app.js:2446
+# 2026-10-01-studio-rebuild/app.js:2466
 js-app-ev-title = { $validated } validated · { $modelled } modelled rows in the verification matrix
 
-# 2026-10-01-studio-rebuild/app.js:2448
+# 2026-10-01-studio-rebuild/app.js:2468
 js-app-ev-validated = validated
 
-# 2026-10-01-studio-rebuild/app.js:1241
+# 2026-10-01-studio-rebuild/app.js:1261
 js-app-export-card-title = { $format } export
 
-# 2026-10-01-studio-rebuild/app.js:1230
+# 2026-10-01-studio-rebuild/app.js:1250
 js-app-export-checking = Checking which ephemeris formats this run can export…
 
-# 2026-10-01-studio-rebuild/app.js:1222
+# 2026-10-01-studio-rebuild/app.js:1242
 js-app-export-csv-desc = The same bytes the command-line tool writes as { $file }.
 
-# 2026-10-01-studio-rebuild/app.js:1222
+# 2026-10-01-studio-rebuild/app.js:1242
 js-app-export-csv-title = Reproducibility table
 
-# 2026-10-01-studio-rebuild/app.js:1227
+# 2026-10-01-studio-rebuild/app.js:1247
 js-app-export-engine-loading = The ephemeris exports appear here when the engine has loaded.
 
-# 2026-10-01-studio-rebuild/app.js:1219
+# 2026-10-01-studio-rebuild/app.js:1239
 js-app-export-json-desc = The engine's complete output for this run, units and provenance included.
 
-# 2026-10-01-studio-rebuild/app.js:1219
+# 2026-10-01-studio-rebuild/app.js:1239
 js-app-export-json-title = Full result document
 
-# 2026-10-01-studio-rebuild/app.js:179
+# 2026-10-01-studio-rebuild/app.js:199
 js-app-export-not-recorded = This export is large, so it was not recorded. It needs the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:1210
+# 2026-10-01-studio-rebuild/app.js:1230
 js-app-export-oem-desc = CCSDS OEM 2.0 (Orbit Ephemeris Message) for GMAT, Orekit or STK
 
-# 2026-10-01-studio-rebuild/app.js:1209
+# 2026-10-01-studio-rebuild/app.js:1229
 js-app-export-omm-desc = CCSDS OMM (Orbit Mean-elements Message) catalogue
 
-# 2026-10-01-studio-rebuild/app.js:1218
+# 2026-10-01-studio-rebuild/app.js:1238
 js-app-export-report-desc = One offline file: summary, figures with their tiers, every chart and the exact scenario text, stamped with engine version and scenario hash.
 
-# 2026-10-01-studio-rebuild/app.js:1218
+# 2026-10-01-studio-rebuild/app.js:1238
 js-app-export-report-title = Reproducible report
 
-# 2026-10-01-studio-rebuild/app.js:1208
+# 2026-10-01-studio-rebuild/app.js:1228
 js-app-export-sp3-desc = SP3-c precise ephemeris of this constellation
 
-# 2026-10-01-studio-rebuild/app.js:1220
+# 2026-10-01-studio-rebuild/app.js:1240
 js-app-export-toml-desc = The exact input of this run. Run it again anywhere with the command-line tool or the Python and npm packages.
 
-# 2026-10-01-studio-rebuild/app.js:1220
+# 2026-10-01-studio-rebuild/app.js:1240
 js-app-export-toml-title = Scenario file
 
-# 2026-10-01-studio-rebuild/app.js:1235
+# 2026-10-01-studio-rebuild/app.js:1255
 js-app-export-too-large = { $desc }. Too large to record: needs the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:1914
+# 2026-10-01-studio-rebuild/app.js:1934
 js-app-fields-more = { $n } more
 
-# 2026-10-01-studio-rebuild/app.js:1914
+# 2026-10-01-studio-rebuild/app.js:1934
 js-app-fields-none = none
 
-# 2026-10-01-studio-rebuild/app.js:1927
+# 2026-10-01-studio-rebuild/app.js:1947
 js-app-fields-none-hint = No other single numbers to change here. Edit the file under “For researchers”.
 
-# 2026-10-01-studio-rebuild/app.js:1924
+# 2026-10-01-studio-rebuild/app.js:1944
 js-app-fields-top-of-file = top of the file
 
-# 2026-10-01-studio-rebuild/app.js:2598
+# 2026-10-01-studio-rebuild/app.js:2618
 js-app-find-matches =
     { $n ->
         [one] { $n } guided control and { $m } of { $total } fields match “{ $query }”.
        *[other] { $n } guided controls and { $m } of { $total } fields match “{ $query }”.
     }
 
-# 2026-10-01-studio-rebuild/app.js:2598
+# 2026-10-01-studio-rebuild/app.js:2618
 js-app-find-none = No field of this scenario matches “{ $query }”. Search every scenario with the library search.
 
-# 2026-10-01-studio-rebuild/app.js:1759
+# 2026-10-01-studio-rebuild/app.js:1779
 js-app-geo-sub = { $name } · { $features } of { $total } features drawn · recorded with the native engine
 
-# 2026-10-01-studio-rebuild/app.js:1761
+# 2026-10-01-studio-rebuild/app.js:1781
 js-app-geojson-title = GeoJSON export: { $name }
 
-# 2026-10-01-studio-rebuild/app.js:902
+# 2026-10-01-studio-rebuild/app.js:922
 js-app-gt-highlighted = Highlighted: satellite visible from the station.
 
-# 2026-10-01-studio-rebuild/app.js:902
+# 2026-10-01-studio-rebuild/app.js:922
 js-app-gt-peak-doppler = Peak Doppler { $value } Hz.
 
-# 2026-10-01-studio-rebuild/app.js:902
+# 2026-10-01-studio-rebuild/app.js:922
 js-app-gt-peak-elevation = Peak elevation { $value }°.
 
-# 2026-10-01-studio-rebuild/app.js:517
+# 2026-10-01-studio-rebuild/app.js:537
 js-app-health-check-tuning = check tuning
 
-# 2026-10-01-studio-rebuild/app.js:517
+# 2026-10-01-studio-rebuild/app.js:537
 js-app-health-consistent = consistent
 
-# 2026-10-01-studio-rebuild/app.js:519
+# 2026-10-01-studio-rebuild/app.js:539
 js-app-health-nees-band = NEES { $mean } (95% band { $lo }–{ $hi }, target 2.0)
 
-# 2026-10-01-studio-rebuild/app.js:518
+# 2026-10-01-studio-rebuild/app.js:538
 js-app-health-nis-band = NIS { $mean } (95% band { $lo }–{ $hi }, target 1.0)
 
-# 2026-10-01-studio-rebuild/app.js:1131
+# 2026-10-01-studio-rebuild/app.js:1151
 js-app-heat-map-label = { $metric } heat map
 
-# 2026-10-01-studio-rebuild/app.js:2500
+# 2026-10-01-studio-rebuild/app.js:2520
 js-app-hero-clock = { $elapsed } of { $total }
 
-# 2026-10-01-studio-rebuild/app.js:2489
+# 2026-10-01-studio-rebuild/app.js:2509
 js-app-hero-mask = { $deg }° elevation mask
 
-# 2026-10-01-studio-rebuild/app.js:2489
+# 2026-10-01-studio-rebuild/app.js:2509
 js-app-hero-places =
     { $n ->
         [one] { $n } places
        *[other] { $n } places
     }
 
-# 2026-10-01-studio-rebuild/app.js:2489
+# 2026-10-01-studio-rebuild/app.js:2509
 js-app-hero-positions-only = Satellite positions only: no signal power, satellite health or terrain.
 
-# 2026-10-01-studio-rebuild/app.js:2503
+# 2026-10-01-studio-rebuild/app.js:2523
 js-app-hero-ramp = { $lo } to { $hi } { $field }
 
-# 2026-10-01-studio-rebuild/app.js:2503
+# 2026-10-01-studio-rebuild/app.js:2523
 js-app-hero-ramp-over = { $lo } to { $hi } { $field }, over { $duration }
 
-# 2026-10-01-studio-rebuild/app.js:2483
+# 2026-10-01-studio-rebuild/app.js:2503
 js-app-hero-recorded-bare = Recorded result
 
-# 2026-10-01-studio-rebuild/app.js:2489
+# 2026-10-01-studio-rebuild/app.js:2509
 js-app-hero-satellites =
     { $n ->
         [one] { $n } satellites
        *[other] { $n } satellites
     }
 
-# 2026-10-01-studio-rebuild/app.js:2489
+# 2026-10-01-studio-rebuild/app.js:2509
 js-app-hero-steps =
     { $n ->
         [one] { $n } time steps
        *[other] { $n } time steps
     }
 
-# 2026-10-01-studio-rebuild/app.js:1348
+# 2026-10-01-studio-rebuild/app.js:1368
 js-app-hist-runs = { $n } runs.
 
-# 2026-10-01-studio-rebuild/app.js:2125
+# 2026-10-01-studio-rebuild/app.js:2145
 js-app-history-pin = Pin
 
-# 2026-10-01-studio-rebuild/app.js:2124
+# 2026-10-01-studio-rebuild/app.js:2144
 js-app-history-restore = Restore
 
-# 2026-10-01-studio-rebuild/app.js:2146
+# 2026-10-01-studio-rebuild/app.js:2166
 js-app-history-restored = Restored run { $id }.
 
-# 2026-10-01-studio-rebuild/app.js:2121
+# 2026-10-01-studio-rebuild/app.js:2141
 js-app-history-run = run { $id } · { $time }
 
-# 2026-10-01-studio-rebuild/app.js:2567
+# 2026-10-01-studio-rebuild/app.js:2587
 js-app-hit-in-scenario = in { $title }
 
-# 2026-10-01-studio-rebuild/app.js:2514
+# 2026-10-01-studio-rebuild/app.js:2534
 js-app-hit-native-note = recorded run, native engine
 
-# 2026-10-01-studio-rebuild/app.js:2567
+# 2026-10-01-studio-rebuild/app.js:2587
 js-app-hit-setting-meta = { $area } · setting { $name }
 
-# 2026-10-01-studio-rebuild/app.js:860
+# 2026-10-01-studio-rebuild/app.js:880
 js-app-ho-budget = budget
 
-# 2026-10-01-studio-rebuild/app.js:858
+# 2026-10-01-studio-rebuild/app.js:878
 js-app-ho-engine-budget = Engine holdover at the scenario budget ({ $budget } { $unit }): { $duration }
 
-# 2026-10-01-studio-rebuild/app.js:858
+# 2026-10-01-studio-rebuild/app.js:878
 js-app-ho-engine-budget-bare = Engine holdover at the scenario budget: { $duration }
 
-# 2026-10-01-studio-rebuild/app.js:833
+# 2026-10-01-studio-rebuild/app.js:853
 js-app-ho-error-after-loss = error after GNSS was lost at t = { $t } s
 
-# 2026-10-01-studio-rebuild/app.js:833
+# 2026-10-01-studio-rebuild/app.js:853
 js-app-ho-error-since-fix = error since the last fix
 
-# 2026-10-01-studio-rebuild/app.js:857
+# 2026-10-01-studio-rebuild/app.js:877
 js-app-ho-stays-inside = stays inside this budget for the whole record
 
-# 2026-10-01-studio-rebuild/app.js:857
+# 2026-10-01-studio-rebuild/app.js:877
 js-app-ho-until-breached = until the budget is breached
 
-# 2026-10-01-studio-rebuild/app.js:758
+# 2026-10-01-studio-rebuild/app.js:778
 js-app-hover-classical = classical
 
-# 2026-10-01-studio-rebuild/app.js:758
+# 2026-10-01-studio-rebuild/app.js:778
 js-app-hover-quantum = quantum
 
-# 2026-10-01-studio-rebuild/app.js:2062
+# 2026-10-01-studio-rebuild/app.js:2082
 js-app-how-checks = (checks: { $requirement })
 
-# 2026-10-01-studio-rebuild/app.js:2058
+# 2026-10-01-studio-rebuild/app.js:2078
 js-app-how-matrix = The engine methods this scenario runs have { $validated } validated and { $modelled } modelled rows in the verification matrix:
 
-# 2026-10-01-studio-rebuild/app.js:2058
+# 2026-10-01-studio-rebuild/app.js:2078
 js-app-how-matrix-partner = The engine methods this scenario runs have { $validated } validated and { $modelled } modelled rows in the verification matrix, and { $partner } owned by partners:
 
-# 2026-10-01-studio-rebuild/app.js:2061
+# 2026-10-01-studio-rebuild/app.js:2081
 js-app-how-mix-chip = { $validated } validated · { $modelled } modelled
 
-# 2026-10-01-studio-rebuild/app.js:2039
+# 2026-10-01-studio-rebuild/app.js:2059
 js-app-how-more-notes =
     { $n ->
         [one] { $n } more note from the scenario file
        *[other] { $n } more notes from the scenario file
     }
 
-# 2026-10-01-studio-rebuild/app.js:2060
+# 2026-10-01-studio-rebuild/app.js:2080
 js-app-how-more-rows =
     { $n ->
         [one] { $n } more row in the verification matrix (Evidence page of the site).
        *[other] { $n } more rows in the verification matrix (Evidence page of the site).
     }
 
-# 2026-10-01-studio-rebuild/app.js:2038
+# 2026-10-01-studio-rebuild/app.js:2058
 js-app-how-no-header = This scenario file has no header note. The engine summary below says what was run.
 
-# 2026-10-01-studio-rebuild/app.js:2063
+# 2026-10-01-studio-rebuild/app.js:2083
 js-app-how-no-matrix-row = No verification-matrix row names this scenario's engine kind yet.
 
-# 2026-10-01-studio-rebuild/app.js:2064
+# 2026-10-01-studio-rebuild/app.js:2084
 js-app-how-no-sources = The scenario file cites no source, and no validated matrix row covers its kind.
 
-# 2026-10-01-studio-rebuild/app.js:2044
+# 2026-10-01-studio-rebuild/app.js:2064
 js-app-how-own-label = This run's own label: { $label }
 
-# 2026-10-01-studio-rebuild/app.js:2046
+# 2026-10-01-studio-rebuild/app.js:2066
 js-app-how-per-figure = Per figure, from the engine's figure_tiers block: { $validated } validated, { $modelled } modelled. The tier of each figure is in the Overview view.
 
-# 2026-10-01-studio-rebuild/app.js:2610
+# 2026-10-01-studio-rebuild/app.js:2630
 js-app-install-copy = Copy: { $command }
 
-# 2026-10-01-studio-rebuild/app.js:2610
+# 2026-10-01-studio-rebuild/app.js:2630
 js-app-install-label = Install v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:1746
+# 2026-10-01-studio-rebuild/app.js:1766
 js-app-interop-no-file = The engine wrote no file of this format for this run.
 
-# 2026-10-01-studio-rebuild/app.js:1746
+# 2026-10-01-studio-rebuild/app.js:1766
 js-app-interop-not-apply = Does not apply to this scenario: { $reason }.
 
-# 2026-10-01-studio-rebuild/app.js:1751
+# 2026-10-01-studio-rebuild/app.js:1771
 js-app-interop-not-bundled = Not bundled here (size): the command above writes it.
 
-# 2026-10-01-studio-rebuild/app.js:1739
+# 2026-10-01-studio-rebuild/app.js:1759
 js-app-interop-note = The engine writes a run's geometry and signal samples in formats other tools open: CZML for Cesium, KML (Keyhole Markup Language) for Google Earth, GeoJSON for maps, STK ephemeris (.e) files, and SigMF (Signal Metadata Format) recordings. The browser build does not carry these writers, so the files below are the ones the native command-line engine wrote for the bundled scenario.
 
-# 2026-10-01-studio-rebuild/app.js:241
+# 2026-10-01-studio-rebuild/app.js:261
 js-app-job-running = Running
 
-# 2026-10-01-studio-rebuild/app.js:1082
+# 2026-10-01-studio-rebuild/app.js:1102
 js-app-job-sweeping = Sweeping
 
-# 2026-10-01-studio-rebuild/app.js:799
+# 2026-10-01-studio-rebuild/app.js:819
 js-app-js-range-label = J/S range
 
-# 2026-10-01-studio-rebuild/app.js:799
+# 2026-10-01-studio-rebuild/app.js:819
 js-app-js-range-value = { $lo } to { $hi } dB
 
-# 2026-10-01-studio-rebuild/app.js:1612
+# 2026-10-01-studio-rebuild/app.js:1632
 js-app-latest-event-at = Latest event, at
 
-# 2026-10-01-studio-rebuild/app.js:2460
+# 2026-10-01-studio-rebuild/app.js:2480
 js-app-legend-all = engine capabilities are validated across the whole verification matrix; { $modelled } are modelled and { $partner } are owned by partners.
 
-# 2026-10-01-studio-rebuild/app.js:2460
+# 2026-10-01-studio-rebuild/app.js:2480
 js-app-legend-count = { $validated } of { $total }
 
-# 2026-10-01-studio-rebuild/app.js:1957
+# 2026-10-01-studio-rebuild/app.js:1977
 js-app-load-failed = Could not load { $file }.
 
-# 2026-10-01-studio-rebuild/app.js:870
+# 2026-10-01-studio-rebuild/app.js:890
 js-app-mask-envelope = Holdover time-error envelope ({ $source })
 
-# 2026-10-01-studio-rebuild/app.js:885
+# 2026-10-01-studio-rebuild/app.js:905
 js-app-mask-exceeded-after = exceeded after { $duration }
 
-# 2026-10-01-studio-rebuild/app.js:871
+# 2026-10-01-studio-rebuild/app.js:891
 js-app-mask-limit = limit { $value } ns
 
-# 2026-10-01-studio-rebuild/app.js:885
+# 2026-10-01-studio-rebuild/app.js:905
 js-app-mask-not-exceeded = not exceeded
 
-# 2026-10-01-studio-rebuild/app.js:392
+# 2026-10-01-studio-rebuild/app.js:412
 js-app-meta-engine = engine
 
-# 2026-10-01-studio-rebuild/app.js:395
+# 2026-10-01-studio-rebuild/app.js:415
 js-app-meta-file = file
 
-# 2026-10-01-studio-rebuild/app.js:393
+# 2026-10-01-studio-rebuild/app.js:413
 js-app-meta-scenario = scenario
 
-# 2026-10-01-studio-rebuild/app.js:394
+# 2026-10-01-studio-rebuild/app.js:414
 js-app-meta-seed = seed
 
-# 2026-10-01-studio-rebuild/app.js:395
+# 2026-10-01-studio-rebuild/app.js:415
 js-app-meta-shared-link = shared link
 
-# 2026-10-01-studio-rebuild/app.js:396
+# 2026-10-01-studio-rebuild/app.js:416
 js-app-meta-time = time
 
-# 2026-10-01-studio-rebuild/app.js:1598
+# 2026-10-01-studio-rebuild/app.js:1618
 js-app-mission-timeline = Mission timeline
 
-# 2026-10-01-studio-rebuild/app.js:329
+# 2026-10-01-studio-rebuild/app.js:349
 js-app-native-edited-notice = The recorded run is of the bundled file, so an edited copy cannot be shown here: run it with the command-line tool, or use Reset to see the recording.
 
-# 2026-10-01-studio-rebuild/app.js:352
+# 2026-10-01-studio-rebuild/app.js:372
 js-app-native-recorded = What you see is a run recorded with the native command-line engine v{ $version }, shown unchanged. It does not re-run when you edit.
 
-# 2026-10-01-studio-rebuild/app.js:351
+# 2026-10-01-studio-rebuild/app.js:371
 js-app-native-recorded-c = What you see is a run recorded with the native command-line engine v{ $version } by running { $command }, shown unchanged. It does not re-run when you edit.
 
-# 2026-10-01-studio-rebuild/app.js:350
+# 2026-10-01-studio-rebuild/app.js:370
 js-app-native-recorded-p = What you see is a run recorded with the native command-line engine v{ $version } ({ $platform }), shown unchanged. It does not re-run when you edit.
 
-# 2026-10-01-studio-rebuild/app.js:349
+# 2026-10-01-studio-rebuild/app.js:369
 js-app-native-recorded-pc = What you see is a run recorded with the native command-line engine v{ $version } ({ $platform }) by running { $command }, shown unchanged. It does not re-run when you edit.
 
-# 2026-10-01-studio-rebuild/app.js:183
+# 2026-10-01-studio-rebuild/app.js:203
 js-app-needs-live-engine = This needs the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:301
+# 2026-10-01-studio-rebuild/app.js:321
 js-app-needs-newer-engine = Needs a newer engine.
 
-# 2026-10-01-studio-rebuild/app.js:300
+# 2026-10-01-studio-rebuild/app.js:320
 js-app-needs-newer-why = This scenario needs engine { $need } or later; the engine running here is v{ $version }.
 
-# 2026-10-01-studio-rebuild/app.js:2092
+# 2026-10-01-studio-rebuild/app.js:2112
 js-app-no-chart-export = This view has no chart to export.
 
-# 2026-10-01-studio-rebuild/app.js:1612
+# 2026-10-01-studio-rebuild/app.js:1632
 js-app-no-event-yet = No event yet at this time.
 
-# 2026-10-01-studio-rebuild/app.js:172
+# 2026-10-01-studio-rebuild/app.js:192
 js-app-no-recorded-run = There is no recorded run for this scenario. It needs the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:301
+# 2026-10-01-studio-rebuild/app.js:321
 js-app-no-recording-here = There is no recording of it here.
 
-# 2026-10-01-studio-rebuild/app.js:381
+# 2026-10-01-studio-rebuild/app.js:401
 js-app-no-summary = (this scenario publishes no one-line summary)
 
-# 2026-10-01-studio-rebuild/app.js:1498
+# 2026-10-01-studio-rebuild/app.js:1518
 js-app-noise-floor = noise floor { $value }
 
-# 2026-10-01-studio-rebuild/app.js:325
+# 2026-10-01-studio-rebuild/app.js:345
 js-app-not-in-browser = This scenario does not run in the browser.
 
-# 2026-10-01-studio-rebuild/app.js:2952
+# 2026-10-01-studio-rebuild/app.js:2972
 js-app-notice-shared-needs-live = This link carries its own scenario, which needs the live engine. Open it on kshana.dev.
 
-# 2026-10-01-studio-rebuild/app.js:1598
+# 2026-10-01-studio-rebuild/app.js:1618
 js-app-on-one-clock = on one clock
 
-# 2026-10-01-studio-rebuild/app.js:302
+# 2026-10-01-studio-rebuild/app.js:322
 js-app-only-bundled-recording = Only the recording of the bundled file can be shown: use Reset to see it, or run an edited copy with engine { $need }.
 
-# 2026-10-01-studio-rebuild/app.js:2730
+# 2026-10-01-studio-rebuild/app.js:2750
 js-app-opening-result = Opening the result…
 
-# 2026-10-01-studio-rebuild/app.js:940
+# 2026-10-01-studio-rebuild/app.js:960
 js-app-orbit-canvas-label = Interactive 3-D view of the propagated track
 
-# 2026-10-01-studio-rebuild/app.js:929
+# 2026-10-01-studio-rebuild/app.js:949
 js-app-orbit-epoch-set = Turned to the run's epoch.
 
-# 2026-10-01-studio-rebuild/app.js:929
+# 2026-10-01-studio-rebuild/app.js:949
 js-app-orbit-epoch-unset = This run does not state an epoch, so Earth's rotation angle is not meaningful here.
 
-# 2026-10-01-studio-rebuild/app.js:932
+# 2026-10-01-studio-rebuild/app.js:952
 js-app-orbit-img-alt = Orthographic view of the propagated track
 
-# 2026-10-01-studio-rebuild/app.js:929
+# 2026-10-01-studio-rebuild/app.js:949
 js-app-orbit-note = Drag to rotate, scroll or pinch to zoom. Earth to scale, NASA Blue Marble imagery.
 
-# 2026-10-01-studio-rebuild/app.js:933
+# 2026-10-01-studio-rebuild/app.js:953
 js-app-orbit-static = Static view (the 3-D library could not load here).
 
-# 2026-10-01-studio-rebuild/app.js:2654
+# 2026-10-01-studio-rebuild/app.js:2674
 js-app-overlay-note = Solid lines are run A, dashed lines run B, on the same axes.
 
-# 2026-10-01-studio-rebuild/app.js:1199
+# 2026-10-01-studio-rebuild/app.js:1219
 js-app-overlay-pinned = Overlay of pinned runs
 
-# 2026-10-01-studio-rebuild/app.js:2649
+# 2026-10-01-studio-rebuild/app.js:2669
 js-app-overlay-title = { $title }: run { $a } (A) against run { $b } (B)
 
-# 2026-10-01-studio-rebuild/app.js:1199
+# 2026-10-01-studio-rebuild/app.js:1219
 js-app-overlay-with-diff = Overlay with the difference B − A
 
-# 2026-10-01-studio-rebuild/app.js:2221
+# 2026-10-01-studio-rebuild/app.js:2241
 js-app-pal-area = Area: { $label }
 
-# 2026-10-01-studio-rebuild/app.js:2230
+# 2026-10-01-studio-rebuild/app.js:2250
 js-app-pal-nothing = Nothing matches
 
-# 2026-10-01-studio-rebuild/app.js:2221
+# 2026-10-01-studio-rebuild/app.js:2241
 js-app-pal-scenario-count =
     { $n ->
         [one] { $n } scenario
        *[other] { $n } scenarios
     }
 
-# 2026-10-01-studio-rebuild/app.js:2226
+# 2026-10-01-studio-rebuild/app.js:2246
 js-app-pal-sec-areas = Areas
 
-# 2026-10-01-studio-rebuild/app.js:2229
+# 2026-10-01-studio-rebuild/app.js:2249
 js-app-pal-sec-commands = Commands
 
-# 2026-10-01-studio-rebuild/app.js:2225
+# 2026-10-01-studio-rebuild/app.js:2245
 js-app-pal-sec-scenarios = Scenarios
 
-# 2026-10-01-studio-rebuild/app.js:2227
+# 2026-10-01-studio-rebuild/app.js:2247
 js-app-pal-sec-settings = Settings
 
-# 2026-10-01-studio-rebuild/app.js:2228
+# 2026-10-01-studio-rebuild/app.js:2248
 js-app-pal-sec-views = Views
 
-# 2026-10-01-studio-rebuild/app.js:2222
+# 2026-10-01-studio-rebuild/app.js:2242
 js-app-pal-setting = Setting: { $label }
 
-# 2026-10-01-studio-rebuild/app.js:2223
+# 2026-10-01-studio-rebuild/app.js:2243
 js-app-pal-view = View: { $label }
 
-# 2026-10-01-studio-rebuild/app.js:2665
+# 2026-10-01-studio-rebuild/app.js:2685
 js-app-panel-close = Close
 
-# 2026-10-01-studio-rebuild/app.js:2665
+# 2026-10-01-studio-rebuild/app.js:2685
 js-app-panel-close-full = Close full screen
 
-# 2026-10-01-studio-rebuild/app.js:2665
+# 2026-10-01-studio-rebuild/app.js:2685
 js-app-panel-expand = Expand
 
-# 2026-10-01-studio-rebuild/app.js:2665
+# 2026-10-01-studio-rebuild/app.js:2685
 js-app-panel-expand-full = Expand this panel to full screen
 
-# 2026-10-01-studio-rebuild/app.js:2674
+# 2026-10-01-studio-rebuild/app.js:2694
 js-app-panel-expand-title = Show this panel full screen (Escape closes it)
 
-# 2026-10-01-studio-rebuild/app.js:1915
+# 2026-10-01-studio-rebuild/app.js:1935
 js-app-params-hint = Change a value, then run again. The answer and the chart update in place.
 
-# 2026-10-01-studio-rebuild/app.js:1598
+# 2026-10-01-studio-rebuild/app.js:1618
 js-app-phase = Phase:
 
-# 2026-10-01-studio-rebuild/app.js:1149
+# 2026-10-01-studio-rebuild/app.js:1169
 js-app-pin-already = That run is already pinned.
 
-# 2026-10-01-studio-rebuild/app.js:1152
+# 2026-10-01-studio-rebuild/app.js:1172
 js-app-pin-compare = { $n } runs pinned. Opening Compare.
 
-# 2026-10-01-studio-rebuild/app.js:1152
+# 2026-10-01-studio-rebuild/app.js:1172
 js-app-pin-first = Run { $id } pinned. Change a parameter, run again, then pin that run too.
 
-# 2026-10-01-studio-rebuild/app.js:1160
+# 2026-10-01-studio-rebuild/app.js:1180
 js-app-pin-label = { $letter } · { $title } · run { $id }
 
-# 2026-10-01-studio-rebuild/app.js:1531
+# 2026-10-01-studio-rebuild/app.js:1551
 js-app-plan-view = Plan view
 
-# 2026-10-01-studio-rebuild/app.js:1531
+# 2026-10-01-studio-rebuild/app.js:1551
 js-app-plan-view-at = at
 
-# 2026-10-01-studio-rebuild/app.js:1287
+# 2026-10-01-studio-rebuild/app.js:1307
 js-app-player-pause = Pause the replay
 
-# 2026-10-01-studio-rebuild/app.js:1286
+# 2026-10-01-studio-rebuild/app.js:1306
 js-app-player-pause-mission = Pause the mission replay
 
-# 2026-10-01-studio-rebuild/app.js:1285
+# 2026-10-01-studio-rebuild/app.js:1305
 js-app-player-pause-orbit = Pause the orbit replay
 
-# 2026-10-01-studio-rebuild/app.js:1284
+# 2026-10-01-studio-rebuild/app.js:1304
 js-app-player-pause-waterfall = Pause the waterfall replay
 
-# 2026-10-01-studio-rebuild/app.js:1287
+# 2026-10-01-studio-rebuild/app.js:1307
 js-app-player-play = Play the replay
 
-# 2026-10-01-studio-rebuild/app.js:1286
+# 2026-10-01-studio-rebuild/app.js:1306
 js-app-player-play-mission = Play the mission replay
 
-# 2026-10-01-studio-rebuild/app.js:1285
+# 2026-10-01-studio-rebuild/app.js:1305
 js-app-player-play-orbit = Play the orbit replay
 
-# 2026-10-01-studio-rebuild/app.js:1284
+# 2026-10-01-studio-rebuild/app.js:1304
 js-app-player-play-waterfall = Play the waterfall replay
 
-# 2026-10-01-studio-rebuild/app.js:1287
+# 2026-10-01-studio-rebuild/app.js:1307
 js-app-player-position = Position in the replay
 
-# 2026-10-01-studio-rebuild/app.js:1286
+# 2026-10-01-studio-rebuild/app.js:1306
 js-app-player-position-mission = Position in the mission replay
 
-# 2026-10-01-studio-rebuild/app.js:1285
+# 2026-10-01-studio-rebuild/app.js:1305
 js-app-player-position-orbit = Position in the orbit replay
 
-# 2026-10-01-studio-rebuild/app.js:1284
+# 2026-10-01-studio-rebuild/app.js:1304
 js-app-player-position-waterfall = Position in the waterfall replay
 
-# 2026-10-01-studio-rebuild/app.js:699
+# 2026-10-01-studio-rebuild/app.js:719
 js-app-png-button-title = High-resolution bitmap for slides and documents
 
-# 2026-10-01-studio-rebuild/app.js:703
+# 2026-10-01-studio-rebuild/app.js:723
 js-app-png-export-failed = PNG export failed: { $reason }
 
-# 2026-10-01-studio-rebuild/app.js:2084
+# 2026-10-01-studio-rebuild/app.js:2104
 js-app-py-note = Install with { $command }.
 
-# 2026-10-01-studio-rebuild/app.js:282
+# 2026-10-01-studio-rebuild/app.js:302
 js-app-ran-locally = Ran locally at { $time }, run { $n }.
 
-# 2026-10-01-studio-rebuild/app.js:282
+# 2026-10-01-studio-rebuild/app.js:302
 js-app-ran-locally-took = Ran locally at { $time }, run { $n }, { $took } s.
 
-# 2026-10-01-studio-rebuild/app.js:1469
+# 2026-10-01-studio-rebuild/app.js:1489
 js-app-receiver-at = Receiver at t =
 
-# 2026-10-01-studio-rebuild/app.js:364
+# 2026-10-01-studio-rebuild/app.js:384
 js-app-recorded-edit-notice = WebAssembly is blocked on this page, so this page is showing real runs of the bundled scenarios recorded with engine v{ $version }. Edited scenarios, sweeps and new exports need the live engine: open kshana.dev, or serve this folder locally. Reset restores the recorded scenario.
 
-# 2026-10-01-studio-rebuild/app.js:367
+# 2026-10-01-studio-rebuild/app.js:387
 js-app-recorded-intro = WebAssembly is blocked on this page, so this page shows real runs of the bundled scenarios, recorded with engine v{ $version }. Editing, sweeps and new exports need the live engine at kshana.dev.
 
-# 2026-10-01-studio-rebuild/app.js:343
+# 2026-10-01-studio-rebuild/app.js:363
 js-app-recorded-shown-native = Recorded run shown at { $time } (native engine).
 
-# 2026-10-01-studio-rebuild/app.js:315
+# 2026-10-01-studio-rebuild/app.js:335
 js-app-recorded-shown-needs = Recorded run shown at { $time } (needs engine { $need }).
 
-# 2026-10-01-studio-rebuild/app.js:283
+# 2026-10-01-studio-rebuild/app.js:303
 js-app-recorded-shown-run = Recorded run shown at { $time }, run { $n }.
 
-# 2026-10-01-studio-rebuild/app.js:283
+# 2026-10-01-studio-rebuild/app.js:303
 js-app-recorded-shown-took = Recorded run shown at { $time }, run { $n }, { $took } s.
 
-# 2026-10-01-studio-rebuild/app.js:311
+# 2026-10-01-studio-rebuild/app.js:331
 js-app-recorded-with-commit = What you see is the run recorded with an engine build at commit { $commit }, shown unchanged; it does not re-run here.
 
-# 2026-10-01-studio-rebuild/app.js:311
+# 2026-10-01-studio-rebuild/app.js:331
 js-app-recorded-with-engine = What you see is the run recorded with engine v{ $version }, shown unchanged; it does not re-run here.
 
-# 2026-10-01-studio-rebuild/app.js:1674
+# 2026-10-01-studio-rebuild/app.js:1694
 js-app-recording-edited-warning = You have edited the scenario: this recording is of the bundled file, not of your edit. Run the command on your own file to get yours.
 
-# 2026-10-01-studio-rebuild/app.js:1417
+# 2026-10-01-studio-rebuild/app.js:1437
 js-app-replay = Replay
 
-# 2026-10-01-studio-rebuild/app.js:1271
+# 2026-10-01-studio-rebuild/app.js:1291
 js-app-report-downloaded = Report downloaded.
 
-# 2026-10-01-studio-rebuild/app.js:1714
+# 2026-10-01-studio-rebuild/app.js:1734
 js-app-report-frame-title = Run report written by the engine
 
-# 2026-10-01-studio-rebuild/app.js:1716
+# 2026-10-01-studio-rebuild/app.js:1736
 js-app-report-html = Report (HTML)
 
-# 2026-10-01-studio-rebuild/app.js:1716
+# 2026-10-01-studio-rebuild/app.js:1736
 js-app-report-html-title = The report file, as the engine wrote it
 
-# 2026-10-01-studio-rebuild/app.js:1711
+# 2026-10-01-studio-rebuild/app.js:1731
 js-app-report-load-failed = The recorded report could not be loaded ({ $reason }).
 
-# 2026-10-01-studio-rebuild/app.js:1706
+# 2026-10-01-studio-rebuild/app.js:1726
 js-app-report-loading = Loading the recorded report…
 
-# 2026-10-01-studio-rebuild/app.js:1711
+# 2026-10-01-studio-rebuild/app.js:1731
 js-app-report-none = There is no recorded report for this scenario.
 
-# 2026-10-01-studio-rebuild/app.js:1703
+# 2026-10-01-studio-rebuild/app.js:1723
 js-app-report-note = Every command-line run writes a report: summary, inputs, results, the chart, what is validated and what is modelled, and a reproducibility record. The browser build does not carry that writer, so this is the report the native command-line engine wrote for the bundled scenario. The Studio's own report of the run on screen is under Exports.
 
-# 2026-10-01-studio-rebuild/app.js:1717
+# 2026-10-01-studio-rebuild/app.js:1737
 js-app-report-open-tab = Open in a new tab
 
-# 2026-10-01-studio-rebuild/app.js:1717
+# 2026-10-01-studio-rebuild/app.js:1737
 js-app-report-open-tab-title = Open the report on its own
 
-# 2026-10-01-studio-rebuild/app.js:1256
+# 2026-10-01-studio-rebuild/app.js:1276
 js-app-report-orbit-title = Orbit (Earth-centred inertial, orthographic)
 
-# 2026-10-01-studio-rebuild/app.js:1252
+# 2026-10-01-studio-rebuild/app.js:1272
 js-app-report-stability-short = Clock stability
 
-# 2026-10-01-studio-rebuild/app.js:1252
+# 2026-10-01-studio-rebuild/app.js:1272
 js-app-report-stability-title = Clock stability (Allan deviation)
 
-# 2026-10-01-studio-rebuild/app.js:2349
+# 2026-10-01-studio-rebuild/app.js:2369
 js-app-run-again = Run again
 
-# 2026-10-01-studio-rebuild/app.js:252
+# 2026-10-01-studio-rebuild/app.js:272
 js-app-run-cancelled = Run cancelled.
 
-# 2026-10-01-studio-rebuild/app.js:252
+# 2026-10-01-studio-rebuild/app.js:272
 js-app-run-cancelled-previous = Run cancelled. The previous result is still shown.
 
-# 2026-10-01-studio-rebuild/app.js:256
+# 2026-10-01-studio-rebuild/app.js:276
 js-app-run-failed = Run failed. See the message in the results.
 
-# 2026-10-01-studio-rebuild/app.js:2345
+# 2026-10-01-studio-rebuild/app.js:2365
 js-app-run-when-ready = Run when the engine is ready
 
-# 2026-10-01-studio-rebuild/app.js:2345
+# 2026-10-01-studio-rebuild/app.js:2365
 js-app-run-will-run = Will run when the engine is ready
 
-# 2026-10-01-studio-rebuild/app.js:2351
+# 2026-10-01-studio-rebuild/app.js:2371
 js-app-run-with-settings = Run with these settings
 
-# 2026-10-01-studio-rebuild/app.js:2568
+# 2026-10-01-studio-rebuild/app.js:2588
 js-app-search-more-matches =
     { $n ->
         [one] { $n } more matches: add a word to narrow them.
        *[other] { $n } more matches: add a word to narrow them.
     }
 
-# 2026-10-01-studio-rebuild/app.js:2570
+# 2026-10-01-studio-rebuild/app.js:2590
 js-app-search-nothing = Nothing matches “{ $query }”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.
 
-# 2026-10-01-studio-rebuild/app.js:2564
+# 2026-10-01-studio-rebuild/app.js:2584
 js-app-search-scenarios = Scenarios ({ $n })
 
-# 2026-10-01-studio-rebuild/app.js:2566
+# 2026-10-01-studio-rebuild/app.js:2586
 js-app-search-settings =
     { $n ->
         [one] Settings named like “{ $query }”: in { $n } scenario
        *[other] Settings named like “{ $query }”: in { $n } scenarios
     }
 
-# 2026-10-01-studio-rebuild/app.js:2566
+# 2026-10-01-studio-rebuild/app.js:2586
 js-app-search-settings-hint = Each opens the scenario with that setting highlighted, ready to change.
 
-# 2026-10-01-studio-rebuild/app.js:2153
+# 2026-10-01-studio-rebuild/app.js:2173
 js-app-share-copied = Share link copied. It carries the exact scenario.
 
-# 2026-10-01-studio-rebuild/app.js:2154
+# 2026-10-01-studio-rebuild/app.js:2174
 js-app-share-in-address-bar = Link placed in the address bar.
 
-# 2026-10-01-studio-rebuild/app.js:1979
+# 2026-10-01-studio-rebuild/app.js:1999
 js-app-share-link-sub = It runs exactly as it was shared.
 
-# 2026-10-01-studio-rebuild/app.js:1978
+# 2026-10-01-studio-rebuild/app.js:1998
 js-app-share-link-title = A scenario opened from a share link
 
-# 2026-10-01-studio-rebuild/app.js:271
+# 2026-10-01-studio-rebuild/app.js:291
 js-app-shared-scenario = Shared scenario
 
-# 2026-10-01-studio-rebuild/app.js:1673
+# 2026-10-01-studio-rebuild/app.js:1693
 js-app-shown-unchanged = Shown unchanged.
 
-# 2026-10-01-studio-rebuild/app.js:1533
+# 2026-10-01-studio-rebuild/app.js:1553
 js-app-solar-note = Each dot is a body at the run's epoch and each curve is the orbit track the engine computed for it. A dashed line is a link the scenario asks for. Pick a planet to see its moons about it.
 
-# 2026-10-01-studio-rebuild/app.js:1529
+# 2026-10-01-studio-rebuild/app.js:1549
 js-app-solar-which-bodies = Which bodies to draw
 
-# 2026-10-01-studio-rebuild/app.js:410
+# 2026-10-01-studio-rebuild/app.js:430
 js-app-source-live = Live result · engine v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:411
+# 2026-10-01-studio-rebuild/app.js:431
 js-app-source-native = Recorded result, native engine · v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:412
+# 2026-10-01-studio-rebuild/app.js:432
 js-app-source-recorded = Recorded result · v{ $version }
 
-# 2026-10-01-studio-rebuild/app.js:412
+# 2026-10-01-studio-rebuild/app.js:432
 js-app-source-recorded-loading = Recorded result · v{ $version } · engine loading
 
-# 2026-10-01-studio-rebuild/app.js:1453
+# 2026-10-01-studio-rebuild/app.js:1473
 js-app-spectrum-row-note = The spectrum along the waterfall row the replay is on.
 
-# 2026-10-01-studio-rebuild/app.js:1445
+# 2026-10-01-studio-rebuild/app.js:1465
 js-app-spectrum-row-title = Spectrum along the row on show
 
-# 2026-10-01-studio-rebuild/app.js:1444
+# 2026-10-01-studio-rebuild/app.js:1464
 js-app-spectrum-which-part = Which part of the spectrum
 
-# 2026-10-01-studio-rebuild/app.js:2355
+# 2026-10-01-studio-rebuild/app.js:2375
 js-app-status-last-run-took = The last run took { $ms } ms in your browser. Nothing is uploaded.
 
-# 2026-10-01-studio-rebuild/app.js:2347
+# 2026-10-01-studio-rebuild/app.js:2367
 js-app-status-loading-kept = The engine is still loading. Your changes are kept and run as soon as it is ready.
 
-# 2026-10-01-studio-rebuild/app.js:2347
+# 2026-10-01-studio-rebuild/app.js:2367
 js-app-status-loading-recorded = The engine is still loading. The result above is a recorded run.
 
-# 2026-10-01-studio-rebuild/app.js:2354
+# 2026-10-01-studio-rebuild/app.js:2374
 js-app-status-not-run-yet = Your changes are not run yet.
 
-# 2026-10-01-studio-rebuild/app.js:2357
+# 2026-10-01-studio-rebuild/app.js:2377
 js-app-status-runs-in-browser = Runs in your browser. Nothing is uploaded.
 
-# 2026-10-01-studio-rebuild/app.js:2356
+# 2026-10-01-studio-rebuild/app.js:2376
 js-app-status-wasm-blocked = WebAssembly is blocked here, so this shows recorded runs of the bundled scenarios.
 
-# 2026-10-01-studio-rebuild/app.js:1898
+# 2026-10-01-studio-rebuild/app.js:1918
 js-app-stepper-decrease = Decrease { $key }
 
-# 2026-10-01-studio-rebuild/app.js:1900
+# 2026-10-01-studio-rebuild/app.js:1920
 js-app-stepper-increase = Increase { $key }
 
-# 2026-10-01-studio-rebuild/app.js:1428
+# 2026-10-01-studio-rebuild/app.js:1448
 js-app-subtabs-label = Tiles of this view (phone)
 
-# 2026-10-01-studio-rebuild/app.js:698
+# 2026-10-01-studio-rebuild/app.js:718
 js-app-svg-button-title = Vector chart with title and provenance
 
-# 2026-10-01-studio-rebuild/app.js:1101
+# 2026-10-01-studio-rebuild/app.js:1121
 js-app-sweep-cancelled = Sweep cancelled.
 
-# 2026-10-01-studio-rebuild/app.js:1115
+# 2026-10-01-studio-rebuild/app.js:1135
 js-app-sweep-done-1d = Swept { $done } of { $total } runs locally in { $duration }.
 
-# 2026-10-01-studio-rebuild/app.js:1120
+# 2026-10-01-studio-rebuild/app.js:1140
 js-app-sweep-done-2d = Swept { $total } runs ({ $a } × { $b }) locally in { $duration }.
 
-# 2026-10-01-studio-rebuild/app.js:1071
+# 2026-10-01-studio-rebuild/app.js:1091
 js-app-sweep-enter-range = Enter a numeric range.
 
-# 2026-10-01-studio-rebuild/app.js:1075
+# 2026-10-01-studio-rebuild/app.js:1095
 js-app-sweep-enter-range-2 = Enter a numeric range for the second parameter.
 
-# 2026-10-01-studio-rebuild/app.js:1101
+# 2026-10-01-studio-rebuild/app.js:1121
 js-app-sweep-failed = Sweep failed: { $reason }
 
-# 2026-10-01-studio-rebuild/app.js:1099
+# 2026-10-01-studio-rebuild/app.js:1119
 js-app-sweep-interrupted = Sweep interrupted by a new run.
 
-# 2026-10-01-studio-rebuild/app.js:1028
+# 2026-10-01-studio-rebuild/app.js:1048
 js-app-sweep-needs-live = A sweep runs the engine many times, so it needs the live engine.
 
-# 2026-10-01-studio-rebuild/app.js:1024
+# 2026-10-01-studio-rebuild/app.js:1044
 js-app-sweep-none-line = None (line chart)
 
-# 2026-10-01-studio-rebuild/app.js:1068
+# 2026-10-01-studio-rebuild/app.js:1088
 js-app-sweep-nothing = Nothing to sweep for this scenario.
 
-# 2026-10-01-studio-rebuild/app.js:1090
+# 2026-10-01-studio-rebuild/app.js:1110
 js-app-sweep-progress = Sweeping run { $n } of { $total }…
 
-# 2026-10-01-studio-rebuild/app.js:1124
+# 2026-10-01-studio-rebuild/app.js:1144
 js-app-sweep-status-done = Swept { $total } runs at { $time }.
 
-# 2026-10-01-studio-rebuild/app.js:1111
+# 2026-10-01-studio-rebuild/app.js:1131
 js-app-sweep-title-1d = { $metric } against { $knob }
 
-# 2026-10-01-studio-rebuild/app.js:1117
+# 2026-10-01-studio-rebuild/app.js:1137
 js-app-sweep-title-2d = { $metric } over { $knob1 } and { $knob2 }
 
-# 2026-10-01-studio-rebuild/app.js:1063
+# 2026-10-01-studio-rebuild/app.js:1083
 js-app-sweep-wait = Wait for the current run to finish, then sweep.
 
-# 2026-10-01-studio-rebuild/app.js:542
+# 2026-10-01-studio-rebuild/app.js:562
 js-app-tab-animation = Animation
 
-# 2026-10-01-studio-rebuild/app.js:541
+# 2026-10-01-studio-rebuild/app.js:561
 js-app-tab-compare = Compare
 
-# 2026-10-01-studio-rebuild/app.js:544
+# 2026-10-01-studio-rebuild/app.js:564
 js-app-tab-exports = Exports & report
 
-# 2026-10-01-studio-rebuild/app.js:539
+# 2026-10-01-studio-rebuild/app.js:559
 js-app-tab-ground = Ground track
 
-# 2026-10-01-studio-rebuild/app.js:535
+# 2026-10-01-studio-rebuild/app.js:555
 js-app-tab-holdover = Holdover
 
-# 2026-10-01-studio-rebuild/app.js:545
+# 2026-10-01-studio-rebuild/app.js:565
 js-app-tab-json = JSON
 
-# 2026-10-01-studio-rebuild/app.js:536
+# 2026-10-01-studio-rebuild/app.js:556
 js-app-tab-masks = Timing masks
 
-# 2026-10-01-studio-rebuild/app.js:538
+# 2026-10-01-studio-rebuild/app.js:558
 js-app-tab-orbit = 3-D orbit
 
-# 2026-10-01-studio-rebuild/app.js:530
+# 2026-10-01-studio-rebuild/app.js:550
 js-app-tab-overview = Overview
 
-# 2026-10-01-studio-rebuild/app.js:543
+# 2026-10-01-studio-rebuild/app.js:563
 js-app-tab-report = Engine report
 
-# 2026-10-01-studio-rebuild/app.js:534
+# 2026-10-01-studio-rebuild/app.js:554
 js-app-tab-signal = Signal & band
 
-# 2026-10-01-studio-rebuild/app.js:537
+# 2026-10-01-studio-rebuild/app.js:557
 js-app-tab-stability = Stability
 
-# 2026-10-01-studio-rebuild/app.js:540
+# 2026-10-01-studio-rebuild/app.js:560
 js-app-tab-sweep = Sweep
 
-# 2026-10-01-studio-rebuild/app.js:533
+# 2026-10-01-studio-rebuild/app.js:553
 js-app-tab-timeseries = Time series
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-at-tau = At τ or time
 
-# 2026-10-01-studio-rebuild/app.js:1542
+# 2026-10-01-studio-rebuild/app.js:1562
 js-app-th-body = Body
 
-# 2026-10-01-studio-rebuild/app.js:469
+# 2026-10-01-studio-rebuild/app.js:489
 js-app-th-clock = Clock
 
-# 2026-10-01-studio-rebuild/app.js:492
+# 2026-10-01-studio-rebuild/app.js:512
 js-app-th-figure = Figure
 
-# 2026-10-01-studio-rebuild/app.js:1741
+# 2026-10-01-studio-rebuild/app.js:1761
 js-app-th-file = File
 
-# 2026-10-01-studio-rebuild/app.js:1741
+# 2026-10-01-studio-rebuild/app.js:1761
 js-app-th-format = Format
 
-# 2026-10-01-studio-rebuild/app.js:2624
+# 2026-10-01-studio-rebuild/app.js:2644
 js-app-th-key-figure = Key figure
 
-# 2026-10-01-studio-rebuild/app.js:1542
+# 2026-10-01-studio-rebuild/app.js:1562
 js-app-th-light-time = One-way light time from { $observer }
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-limit = Limit
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-margin = Margin
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-mask-or-budget = Mask or budget
 
-# 2026-10-01-studio-rebuild/app.js:469
+# 2026-10-01-studio-rebuild/app.js:489
 js-app-th-metric = Metric
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-metric-2 = Metric
 
-# 2026-10-01-studio-rebuild/app.js:1542
+# 2026-10-01-studio-rebuild/app.js:1562
 js-app-th-orbital-period = Orbital period
 
-# 2026-10-01-studio-rebuild/app.js:492
+# 2026-10-01-studio-rebuild/app.js:512
 js-app-th-provenance = Provenance
 
-# 2026-10-01-studio-rebuild/app.js:1741
+# 2026-10-01-studio-rebuild/app.js:1761
 js-app-th-size = Size
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-source = Source
 
-# 2026-10-01-studio-rebuild/app.js:1542
+# 2026-10-01-studio-rebuild/app.js:1562
 js-app-th-sun-distance = Distance from the Sun
 
-# 2026-10-01-studio-rebuild/app.js:469
+# 2026-10-01-studio-rebuild/app.js:489
 js-app-th-tier = Tier
 
-# 2026-10-01-studio-rebuild/app.js:492
+# 2026-10-01-studio-rebuild/app.js:512
 js-app-th-unit = Unit
 
-# 2026-10-01-studio-rebuild/app.js:469
+# 2026-10-01-studio-rebuild/app.js:489
 js-app-th-value = Value
 
-# 2026-10-01-studio-rebuild/app.js:492
+# 2026-10-01-studio-rebuild/app.js:512
 js-app-th-value-2 = Value
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-value-3 = Value
 
-# 2026-10-01-studio-rebuild/app.js:879
+# 2026-10-01-studio-rebuild/app.js:899
 js-app-th-verdict = Verdict
 
-# 2026-10-01-studio-rebuild/app.js:492
+# 2026-10-01-studio-rebuild/app.js:512
 js-app-th-what-it-is = What it is
 
-# 2026-10-01-studio-rebuild/app.js:1556
+# 2026-10-01-studio-rebuild/app.js:1576
 js-app-the-body = the body
 
-# 2026-10-01-studio-rebuild/app.js:1631
+# 2026-10-01-studio-rebuild/app.js:1651
 js-app-the-chain = The chain
 
-# 2026-10-01-studio-rebuild/app.js:1542
+# 2026-10-01-studio-rebuild/app.js:1562
 js-app-the-observer = the observer
 
-# 2026-10-01-studio-rebuild/app.js:2472
+# 2026-10-01-studio-rebuild/app.js:2492
 js-app-tile-browse-all = Browse all { $n } scenarios
 
-# 2026-10-01-studio-rebuild/app.js:2472
+# 2026-10-01-studio-rebuild/app.js:2492
 js-app-tile-browse-sub = Search by name, question or setting
 
-# 2026-10-01-studio-rebuild/app.js:2470
+# 2026-10-01-studio-rebuild/app.js:2490
 js-app-tile-preview-label = Recorded preview from { $source }: { $title }
 
-# 2026-10-01-studio-rebuild/app.js:2471
+# 2026-10-01-studio-rebuild/app.js:2491
 js-app-tile-scenario-count =
     { $n ->
         [one] { $n } scenario
        *[other] { $n } scenarios
     }
 
-# 2026-10-01-studio-rebuild/app.js:1641
+# 2026-10-01-studio-rebuild/app.js:1661
 js-app-timeline-chart-title = Mission timeline: { $title }
 
-# 2026-10-01-studio-rebuild/app.js:1600
+# 2026-10-01-studio-rebuild/app.js:1620
 js-app-timeline-note = One scrubber drives every chart below. Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. The values above are the campaign's channels at the replay time.
 
-# 2026-10-01-studio-rebuild/app.js:2800
+# 2026-10-01-studio-rebuild/app.js:2820
 js-app-toast-copied = Copied.
 
-# 2026-10-01-studio-rebuild/app.js:2790
+# 2026-10-01-studio-rebuild/app.js:2810
 js-app-toast-copy-blocked = Copy is blocked here.
 
-# 2026-10-01-studio-rebuild/app.js:2800
+# 2026-10-01-studio-rebuild/app.js:2820
 js-app-toast-copy-blocked-select = Copy is blocked here: select the text instead.
 
-# 2026-10-01-studio-rebuild/app.js:2798
+# 2026-10-01-studio-rebuild/app.js:2818
 js-app-toast-json-copied = JSON copied.
 
-# 2026-10-01-studio-rebuild/app.js:2363
+# 2026-10-01-studio-rebuild/app.js:2383
 js-app-toast-loading-run = The engine is still loading. Your run starts as soon as it is ready.
 
-# 2026-10-01-studio-rebuild/app.js:2925
+# 2026-10-01-studio-rebuild/app.js:2945
 js-app-toast-no-scenario = There is no scenario called { $name } here. These are the closest matches.
 
-# 2026-10-01-studio-rebuild/app.js:2403
+# 2026-10-01-studio-rebuild/app.js:2423
 js-app-toast-not-single-number = That setting is not a single number in this scenario: edit it in the scenario file.
 
-# 2026-10-01-studio-rebuild/app.js:2580
+# 2026-10-01-studio-rebuild/app.js:2600
 js-app-toast-one-pinned = One run is pinned. Change a setting, run again, and pin that run to compare the two.
 
-# 2026-10-01-studio-rebuild/app.js:2912
+# 2026-10-01-studio-rebuild/app.js:2932
 js-app-toast-opened-advanced = Opened with the settings you changed in the Advanced view.
 
-# 2026-10-01-studio-rebuild/app.js:2408
+# 2026-10-01-studio-rebuild/app.js:2428
 js-app-toast-opened-at = Opened at { $label }. Change it, then run again.
 
-# 2026-10-01-studio-rebuild/app.js:2790
+# 2026-10-01-studio-rebuild/app.js:2810
 js-app-toast-scenario-copied = Scenario copied.
 
-# 2026-10-01-studio-rebuild/app.js:2297
+# 2026-10-01-studio-rebuild/app.js:2317
 js-app-tour-answer-body = A plain sentence read from the result, and where the result comes from: a live run in your browser, or a run recorded with the same engine.
 
-# 2026-10-01-studio-rebuild/app.js:2297
+# 2026-10-01-studio-rebuild/app.js:2317
 js-app-tour-answer-title = The answer first
 
-# 2026-10-01-studio-rebuild/app.js:2250
+# 2026-10-01-studio-rebuild/app.js:2270
 js-app-tour-back = Back
 
-# 2026-10-01-studio-rebuild/app.js:2282
+# 2026-10-01-studio-rebuild/app.js:2302
 js-app-tour-done = Done
 
-# 2026-10-01-studio-rebuild/app.js:2253
+# 2026-10-01-studio-rebuild/app.js:2273
 js-app-tour-eyebrow = Guided tour
 
-# 2026-10-01-studio-rebuild/app.js:2298
+# 2026-10-01-studio-rebuild/app.js:2318
 js-app-tour-figures-body = Each card is read from the engine's result document.
 
-# 2026-10-01-studio-rebuild/app.js:2298
+# 2026-10-01-studio-rebuild/app.js:2318
 js-app-tour-figures-title = The figures that answer it
 
-# 2026-10-01-studio-rebuild/app.js:2301
+# 2026-10-01-studio-rebuild/app.js:2321
 js-app-tour-how-body = The method, the level of evidence and the references.
 
-# 2026-10-01-studio-rebuild/app.js:2301
+# 2026-10-01-studio-rebuild/app.js:2321
 js-app-tour-how-title = How this is computed
 
-# 2026-10-01-studio-rebuild/app.js:2251
+# 2026-10-01-studio-rebuild/app.js:2271
 js-app-tour-next = Next
 
-# 2026-10-01-studio-rebuild/app.js:2302
+# 2026-10-01-studio-rebuild/app.js:2322
 js-app-tour-research-body = The command line and Python to run it yourself, the data and figures, and how to cite it.
 
-# 2026-10-01-studio-rebuild/app.js:2302
+# 2026-10-01-studio-rebuild/app.js:2322
 js-app-tour-research-title = For researchers
 
-# 2026-10-01-studio-rebuild/app.js:2303
+# 2026-10-01-studio-rebuild/app.js:2323
 js-app-tour-search-body = ⌘K finds any scenario, area, setting, view or command.
 
-# 2026-10-01-studio-rebuild/app.js:2303
+# 2026-10-01-studio-rebuild/app.js:2323
 js-app-tour-search-title = Search
 
-# 2026-10-01-studio-rebuild/app.js:2300
+# 2026-10-01-studio-rebuild/app.js:2320
 js-app-tour-settings-body = The five settings that matter most for this question. Change one, then run again. The engine runs in your browser; nothing is uploaded.
 
-# 2026-10-01-studio-rebuild/app.js:2300
+# 2026-10-01-studio-rebuild/app.js:2320
 js-app-tour-settings-title = Try other settings
 
-# 2026-10-01-studio-rebuild/app.js:2252
+# 2026-10-01-studio-rebuild/app.js:2272
 js-app-tour-skip = Skip
 
-# 2026-10-01-studio-rebuild/app.js:2299
+# 2026-10-01-studio-rebuild/app.js:2319
 js-app-tour-views-body = Charts, maps, replays, the engine's own report and exports. [ and ] move between views.
 
-# 2026-10-01-studio-rebuild/app.js:2299
+# 2026-10-01-studio-rebuild/app.js:2319
 js-app-tour-views-title = Every view of the run
 
-# 2026-10-01-studio-rebuild/app.js:1480
+# 2026-10-01-studio-rebuild/app.js:1500
 js-app-tracking-threshold = Tracking threshold
 
-# 2026-10-01-studio-rebuild/app.js:1417
+# 2026-10-01-studio-rebuild/app.js:1437
 js-app-transport-hint = one scrubber drives every panel of this run
 
-# 2026-10-01-studio-rebuild/app.js:1416
+# 2026-10-01-studio-rebuild/app.js:1436
 js-app-transport-label = Replay: one scrubber drives every panel of this run
 
-# 2026-10-01-studio-rebuild/app.js:1161
+# 2026-10-01-studio-rebuild/app.js:1181
 js-app-unpin-run = Unpin run { $id }
 
-# 2026-10-01-studio-rebuild/app.js:1449
+# 2026-10-01-studio-rebuild/app.js:1469
 js-app-waterfall = Waterfall
 
-# 2026-10-01-studio-rebuild/app.js:1449
+# 2026-10-01-studio-rebuild/app.js:1469
 js-app-waterfall-hint = power spectral density: frequency across, time down
 
-# 2026-10-01-studio-rebuild/app.js:1451
+# 2026-10-01-studio-rebuild/app.js:1471
 js-app-waterfall-note = Colour is power above the receiver's noise floor. The navigation signals sit under that floor, so what lights up is the jammers. Play the replay or drag it, and the bands on the right show what the receiver still tracks at that moment.
 
-# 2026-10-01-studio-rebuild/app.js:1499
+# 2026-10-01-studio-rebuild/app.js:1519
 js-app-waterfall-title = Waterfall, { $name }
 
-# 2026-10-01-studio-rebuild/app.js:126
+# 2026-10-01-studio-rebuild/app.js:146
 js-app-webassembly-unavailable = WebAssembly unavailable
 
-# 2026-10-01-studio-rebuild/app.js:1673
+# 2026-10-01-studio-rebuild/app.js:1693
 js-app-written-by-native = Written by the native command-line engine v{ $version } ({ $platform }) with
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:139
@@ -12606,13 +12606,13 @@ js-training-what-recovered = Recovered
 # 2026-10-01-studio-rebuild/lib/training.mjs:40
 js-training-what-recovery-begins = Recovery begins
 
-# 2026-10-01-studio-rebuild/trust/trust.js:544
+# 2026-10-01-studio-rebuild/trust/trust.js:602
 js-trust-adv-carried = Advisory statement carried by this file:
 
-# 2026-10-01-studio-rebuild/trust/trust.js:545
+# 2026-10-01-studio-rebuild/trust/trust.js:603
 js-trust-adv-none = This file carries no advisory statement
 
-# 2026-10-01-studio-rebuild/trust/trust.js:545
+# 2026-10-01-studio-rebuild/trust/trust.js:603
 js-trust-adv-none-rest = (older outputs do not). The advisory at the top of this page applies to it all the same.
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:15
@@ -12630,16 +12630,16 @@ js-trust-agree-neither = neither flags
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:16
 js-trust-agree-receiver-only = only the receiver flags: no Kshana monitor alarms
 
-# 2026-10-01-studio-rebuild/trust/trust.js:151
+# 2026-10-01-studio-rebuild/trust/trust.js:209
 js-trust-assessed = Assessed { $name } with engine { $version }, in this browser.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:205
+# 2026-10-01-studio-rebuild/trust/trust.js:263
 js-trust-assessed-as = Assessed { $name } as { $format }, with the engine, in this browser. Nothing was uploaded.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:145
+# 2026-10-01-studio-rebuild/trust/trust.js:203
 js-trust-assessing = Starting the engine and assessing…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:442
+# 2026-10-01-studio-rebuild/trust/trust.js:500
 js-trust-class-also-costing = { $class } (also costing points)
 
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:32
@@ -12651,55 +12651,55 @@ js-trust-class-geometry = geometry: the sky, not the signal
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:33
 js-trust-class-inconsistency = inconsistency: attack-like, not explained by the sky or the signal
 
-# 2026-10-01-studio-rebuild/trust/trust.js:169
+# 2026-10-01-studio-rebuild/trust/trust.js:227
 js-trust-dl-result-json = Download the result (JSON)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:170
+# 2026-10-01-studio-rebuild/trust/trust.js:228
 js-trust-dl-table-csv = Download the per-epoch table (CSV)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:393
+# 2026-10-01-studio-rebuild/trust/trust.js:451
 js-trust-edge-degraded = { $v } degraded
 
-# 2026-10-01-studio-rebuild/trust/trust.js:393
+# 2026-10-01-studio-rebuild/trust/trust.js:451
 js-trust-edge-nominal = { $v } nominal
 
-# 2026-10-01-studio-rebuild/trust/trust.js:177
+# 2026-10-01-studio-rebuild/trust/trust.js:235
 js-trust-err-assess = { $name }: could not be assessed ({ $reason }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:124
+# 2026-10-01-studio-rebuild/trust/trust.js:126
 js-trust-err-demo-files = the demo files did not load
 
-# 2026-10-01-studio-rebuild/trust/trust.js:127
+# 2026-10-01-studio-rebuild/trust/trust.js:129
 js-trust-err-demo-log-open = The demo log could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:240
+# 2026-10-01-studio-rebuild/trust/trust.js:298
 js-trust-err-demo-open = The demo could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:148
+# 2026-10-01-studio-rebuild/trust/trust.js:206
 js-trust-err-engine-no-receiver-trust = This engine build (version { $version }) has no receiver_trust.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:111
+# 2026-10-01-studio-rebuild/trust/trust.js:113
 js-trust-err-engine-no-scorer = This engine build (version { $version }) has no log scorer; it predates this page. The command is { $command }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:147
+# 2026-10-01-studio-rebuild/trust/trust.js:205
 js-trust-err-engine-start = The engine could not start here ({ $reason }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:110
+# 2026-10-01-studio-rebuild/trust/trust.js:112
 js-trust-err-engine-start-open = The engine could not start here ({ $reason }). Opening result files above still works.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:183
+# 2026-10-01-studio-rebuild/trust/trust.js:241
 js-trust-err-example-files = the example files did not load
 
-# 2026-10-01-studio-rebuild/trust/trust.js:187
+# 2026-10-01-studio-rebuild/trust/trust.js:245
 js-trust-err-example-open = The example could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:193
+# 2026-10-01-studio-rebuild/trust/trust.js:251
 js-trust-err-file-2mib = { $name }: larger than 2 MiB. Open an excerpt.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:67
+# 2026-10-01-studio-rebuild/trust/trust.js:69
 js-trust-err-file-too-large = { $name }: larger than { $max }. This page reads files up to that size; open an excerpt.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:144
+# 2026-10-01-studio-rebuild/trust/trust.js:202
 js-trust-err-gen-too-large = { $name }: larger than 2 MiB. Open an excerpt (the command-line tool takes a whole log).
 
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:81
@@ -12717,37 +12717,37 @@ js-trust-err-no-epochs = The file has no epochs.
 # 2026-10-01-studio-rebuild/lib/trust.mjs:356
 js-trust-err-no-epochs-result = This result file has no epochs[]. It needs to come from `{ $command }` for a vessel session.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:113
+# 2026-10-01-studio-rebuild/trust/trust.js:115
 js-trust-err-no-epochs-returned = { $name }: the engine returned no epochs.
 
 # 2026-10-01-studio-rebuild/lib/trust.mjs:357
 js-trust-err-no-score-model = This result has no score_model, so it is a static-platform run with no trust score. The view draws vessel (moving-platform) runs.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:74
+# 2026-10-01-studio-rebuild/trust/trust.js:76
 js-trust-err-not-readable = { $name }: not a file this view reads (a result JSON, JSON lines, trust.csv, an NMEA log or a truth file).
 
 # 2026-10-01-studio-rebuild/lib/trust.mjs:384
 js-trust-err-nothing-to-draw = Nothing to draw: pick a result JSON, JSON lines or trust.csv.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:98
+# 2026-10-01-studio-rebuild/trust/trust.js:100
 js-trust-err-read = { $name }: could not be read ({ $reason }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:84
+# 2026-10-01-studio-rebuild/trust/trust.js:86
 js-trust-err-read-or-draw = { $name }: could not be read or drawn ({ $reason }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:118
+# 2026-10-01-studio-rebuild/trust/trust.js:120
 js-trust-err-score = { $name }: could not be scored ({ $reason }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:131
+# 2026-10-01-studio-rebuild/trust/trust.js:133
 js-trust-err-score-file-too-large = { $name }: larger than 2 MiB. The in-browser scorer takes an excerpt that holds the five-minute calibration window.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:107
+# 2026-10-01-studio-rebuild/trust/trust.js:109
 js-trust-err-score-too-large = { $name }: larger than 2 MiB. The in-browser scorer takes an excerpt (the { $command } command takes a whole log); open an excerpt that holds the five-minute calibration window.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:795
+# 2026-10-01-studio-rebuild/trust/trust.js:853
 js-trust-err-scorecard-too-large = { $name }: larger than 8 MiB; this page reads a scorecard up to that size.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:106
+# 2026-10-01-studio-rebuild/trust/trust.js:108
 js-trust-err-session-empty = The session settings are empty. They declare the vessel ({ $setting }).
 
 # 2026-10-01-studio-rebuild/lib/trust.mjs:386
@@ -12762,25 +12762,25 @@ js-trust-err-what-file = the file
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:84
 js-trust-err-what-imu = the IMU file
 
-# 2026-10-01-studio-rebuild/trust/trust.js:399
+# 2026-10-01-studio-rebuild/trust/trust.js:457
 js-trust-event-label = event: { $label }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:399
+# 2026-10-01-studio-rebuild/trust/trust.js:457
 js-trust-event-onset = onset
 
-# 2026-10-01-studio-rebuild/trust/trust.js:161
+# 2026-10-01-studio-rebuild/trust/trust.js:219
 js-trust-evt-col-first-alarm = First alarm, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:161
+# 2026-10-01-studio-rebuild/trust/trust.js:219
 js-trust-evt-col-latency = Latency, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:161
+# 2026-10-01-studio-rebuild/trust/trust.js:219
 js-trust-evt-col-onset = Onset, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:161
+# 2026-10-01-studio-rebuild/trust/trust.js:219
 js-trust-evt-col-outcome = Outcome
 
-# 2026-10-01-studio-rebuild/trust/trust.js:161
+# 2026-10-01-studio-rebuild/trust/trust.js:219
 js-trust-evt-col-stated = Stated event
 
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:17
@@ -12810,43 +12810,43 @@ js-trust-fmt-sbf = Septentrio SBF (binary)
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:15
 js-trust-fmt-ubx = u-blox UBX (binary)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:267
+# 2026-10-01-studio-rebuild/trust/trust.js:325
 js-trust-gate-note-derived = This run has no gate record. The strip shows where a gate would have withheld the fix: epochs in the untrusted band, held until 30 s after they leave it. Derived here, not read from a gate. A gate is opt-in and adds latency.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:268
+# 2026-10-01-studio-rebuild/trust/trust.js:326
 js-trust-gate-note-read = The gate of each epoch as the live stream reported it: off, passed or withheld (the fix was marked invalid in the forwarded cycle).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:703
+# 2026-10-01-studio-rebuild/trust/trust.js:761
 js-trust-gate-now-derived = { $gate } · derived
 
-# 2026-10-01-studio-rebuild/trust/trust.js:702
+# 2026-10-01-studio-rebuild/trust/trust.js:760
 js-trust-gate-off = Off
 
-# 2026-10-01-studio-rebuild/trust/trust.js:702
+# 2026-10-01-studio-rebuild/trust/trust.js:760
 js-trust-gate-off-cal = Off (calibrating)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:702
+# 2026-10-01-studio-rebuild/trust/trust.js:760
 js-trust-gate-passed = Passed: the fix is forwarded unchanged
 
-# 2026-10-01-studio-rebuild/trust/trust.js:420
+# 2026-10-01-studio-rebuild/trust/trust.js:478
 js-trust-gate-span = gate { $gate }, { $from } to { $to }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:420
+# 2026-10-01-studio-rebuild/trust/trust.js:478
 js-trust-gate-span-derived = gate { $gate } (derived), { $from } to { $to }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:702
+# 2026-10-01-studio-rebuild/trust/trust.js:760
 js-trust-gate-withheld = Withheld: the fix would be marked invalid downstream
 
-# 2026-10-01-studio-rebuild/trust/trust.js:167
+# 2026-10-01-studio-rebuild/trust/trust.js:225
 js-trust-gen-chart-label = The engine's chart of the run: carrier-to-noise density, state and alarms over time
 
-# 2026-10-01-studio-rebuild/trust/trust.js:154
+# 2026-10-01-studio-rebuild/trust/trust.js:212
 js-trust-gen-epochs = Epochs: { $nominal } nominal, { $degraded } degraded, { $untrusted } untrusted after the { $window }-epoch calibration window.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:157
+# 2026-10-01-studio-rebuild/trust/trust.js:215
 js-trust-gen-self-heading = The receiver's own flags, against Kshana's alarms
 
-# 2026-10-01-studio-rebuild/trust/trust.js:157
+# 2026-10-01-studio-rebuild/trust/trust.js:215
 js-trust-gen-self-note = A comparison, not a check of either: the receiver's flag is its own report.
 
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:180
@@ -12933,7 +12933,7 @@ js-trust-geo-source-reported = the receiver's stated DOP (GSA)
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:167
 js-trust-geo-status-reasons = { $status }: { $reasons }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:428
+# 2026-10-01-studio-rebuild/trust/trust.js:486
 js-trust-geo-status-title = geometry { $status }
 
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:28
@@ -12948,10 +12948,10 @@ js-trust-geo-unknown-odd = Geometry unknown (the file says "{ $odd }", which thi
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:168
 js-trust-geo-used-of-view = { $used } of { $inView } in view
 
-# 2026-10-01-studio-rebuild/trust/trust.js:75
+# 2026-10-01-studio-rebuild/trust/trust.js:77
 js-trust-got-file-kind = { $name }: { $kind }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:70
+# 2026-10-01-studio-rebuild/trust/trust.js:72
 js-trust-got-lines-skipped = { $count } line(s) of { $name } were not epochs and were skipped
 
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:20
@@ -12960,178 +12960,178 @@ js-trust-imu-csv = CSV with a header row
 # 2026-10-01-studio-rebuild/lib/trust-open.mjs:21
 js-trust-imu-euroc = EuRoC MAV imu0 data.csv
 
-# 2026-10-01-studio-rebuild/trust/trust.js:219
+# 2026-10-01-studio-rebuild/trust/trust.js:277
 js-trust-imu-file = IMU file: { $name } ({ $chars } characters). Used on the next assessment.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:218
+# 2026-10-01-studio-rebuild/trust/trust.js:276
 js-trust-imu-file-press = IMU file: { $name } ({ $chars } characters). Used on the next assessment; press Assess the chosen file.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:226
+# 2026-10-01-studio-rebuild/trust/trust.js:284
 js-trust-imu-none = No IMU file.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-latency = Latency, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-monitors = First monitors
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-name = Name
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-outcome = Outcome
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-recovered = Recovered
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-slot = Slot, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:807
+# 2026-10-01-studio-rebuild/trust/trust.js:865
 js-trust-jt-col-test = Test
 
-# 2026-10-01-studio-rebuild/trust/trust.js:803
+# 2026-10-01-studio-rebuild/trust/trust.js:861
 js-trust-jt-label = { $label } Guard { $guard } s, recovery hold { $hold } s.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:802
+# 2026-10-01-studio-rebuild/trust/trust.js:860
 js-trust-jt-label-contaminated = { $label } Guard { $guard } s, recovery hold { $hold } s. The calibration baseline overlapped a scheduled slot.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:809
+# 2026-10-01-studio-rebuild/trust/trust.js:867
 js-trust-jt-opened = Opened { $name }: { $count } test(s). Read here; nothing was uploaded.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:75
+# 2026-10-01-studio-rebuild/trust/trust.js:77
 js-trust-kind-batch-result = batch result
 
-# 2026-10-01-studio-rebuild/trust/trust.js:75
+# 2026-10-01-studio-rebuild/trust/trust.js:77
 js-trust-kind-json-lines = JSON lines
 
-# 2026-10-01-studio-rebuild/trust/trust.js:75
+# 2026-10-01-studio-rebuild/trust/trust.js:77
 js-trust-kind-nmea-log = NMEA log
 
-# 2026-10-01-studio-rebuild/trust/trust.js:75
+# 2026-10-01-studio-rebuild/trust/trust.js:77
 js-trust-kind-truth-file = truth file
 
-# 2026-10-01-studio-rebuild/trust/trust.js:239
+# 2026-10-01-studio-rebuild/trust/trust.js:297
 js-trust-label-demo = Synthetic demo: a made-up ferry log with a made-up position drag-off, scored by Kshana. Recorded from the engine; the log is text, not a measurement.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:186
+# 2026-10-01-studio-rebuild/trust/trust.js:244
 js-trust-label-example = Illustrative example: a made-up NMEA log with a made-up jammer from 120 s to 240 s, assessed here by the engine. Text, not a measurement.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:249
+# 2026-10-01-studio-rebuild/trust/trust.js:307
 js-trust-label-geo-demo = Synthetic masked-sky demo: the ferry log with the western half of the sky blanked from 600 s (natural degradation, put down to geometry) and the same made-up drag-off from 1500 s (attack-like). Recorded from an engine with the 0.36 geometry; text, not a measurement.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:126
+# 2026-10-01-studio-rebuild/trust/trust.js:128
 js-trust-label-score-demo = Synthetic demo log, scored here by the engine. Made-up ferry log and drag-off; text, not a measurement.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:549
+# 2026-10-01-studio-rebuild/trust/trust.js:607
 js-trust-legend-calibrating = Calibrating (never scored)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:554
+# 2026-10-01-studio-rebuild/trust/trust.js:612
 js-trust-legend-class = Deduction class:
 
-# 2026-10-01-studio-rebuild/trust/trust.js:554
+# 2026-10-01-studio-rebuild/trust/trust.js:612
 js-trust-legend-class-environment = environment: the signal
 
-# 2026-10-01-studio-rebuild/trust/trust.js:554
+# 2026-10-01-studio-rebuild/trust/trust.js:612
 js-trust-legend-class-geometry = geometry: the sky, not the signal
 
-# 2026-10-01-studio-rebuild/trust/trust.js:554
+# 2026-10-01-studio-rebuild/trust/trust.js:612
 js-trust-legend-class-inconsistency = inconsistency (attack-like)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:549
+# 2026-10-01-studio-rebuild/trust/trust.js:607
 js-trust-legend-degraded = Degraded
 
-# 2026-10-01-studio-rebuild/trust/trust.js:557
+# 2026-10-01-studio-rebuild/trust/trust.js:615
 js-trust-legend-demo = In this demo the receiver reports a valid fix throughout (GGA quality 1, RMC status A). The score is what falls.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:553
+# 2026-10-01-studio-rebuild/trust/trust.js:611
 js-trust-legend-geo-degraded = geometry degraded
 
-# 2026-10-01-studio-rebuild/trust/trust.js:553
+# 2026-10-01-studio-rebuild/trust/trust.js:611
 js-trust-legend-geo-good = geometry good
 
-# 2026-10-01-studio-rebuild/trust/trust.js:553
+# 2026-10-01-studio-rebuild/trust/trust.js:611
 js-trust-legend-geo-unknown = geometry unknown (no GSV or GSA; not good)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:549
+# 2026-10-01-studio-rebuild/trust/trust.js:607
 js-trust-legend-nominal = Nominal
 
-# 2026-10-01-studio-rebuild/trust/trust.js:556
+# 2026-10-01-studio-rebuild/trust/trust.js:614
 js-trust-legend-self = Receiver's own flag against Kshana's alarms:
 
-# 2026-10-01-studio-rebuild/trust/trust.js:556
+# 2026-10-01-studio-rebuild/trust/trust.js:614
 js-trust-legend-self-both = both flag
 
-# 2026-10-01-studio-rebuild/trust/trust.js:556
+# 2026-10-01-studio-rebuild/trust/trust.js:614
 js-trust-legend-self-kshana = only Kshana
 
-# 2026-10-01-studio-rebuild/trust/trust.js:556
+# 2026-10-01-studio-rebuild/trust/trust.js:614
 js-trust-legend-self-neither = neither
 
-# 2026-10-01-studio-rebuild/trust/trust.js:556
+# 2026-10-01-studio-rebuild/trust/trust.js:614
 js-trust-legend-self-receiver = only the receiver
 
-# 2026-10-01-studio-rebuild/trust/trust.js:553
+# 2026-10-01-studio-rebuild/trust/trust.js:611
 js-trust-legend-sky = Sky:
 
-# 2026-10-01-studio-rebuild/trust/trust.js:551
+# 2026-10-01-studio-rebuild/trust/trust.js:609
 js-trust-legend-true-track = True track (synthetic data only)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:554
+# 2026-10-01-studio-rebuild/trust/trust.js:612
 js-trust-legend-underline = underline: geometry also costing points
 
-# 2026-10-01-studio-rebuild/trust/trust.js:549
+# 2026-10-01-studio-rebuild/trust/trust.js:607
 js-trust-legend-untrusted = Untrusted
 
-# web/studio/trust/trust.js:170
+# 2026-10-01-studio-rebuild/trust/trust.js:170
 js-trust-live-baud = Speed (baud)
 
-# web/studio/trust/trust.js:171
+# 2026-10-01-studio-rebuild/trust/trust.js:171
 js-trust-live-baud-asis = speed as set
 
-# web/studio/trust/trust.js:141
+# 2026-10-01-studio-rebuild/trust/trust.js:141
 js-trust-live-error = The device stopped: { $reason }.
 
-# web/studio/trust/trust.js:155
+# 2026-10-01-studio-rebuild/trust/trust.js:155
 js-trust-live-label = Live from { $source }, scored natively every few seconds. Advisory only: the operator remains responsible for the navigation of the vessel.
 
-# web/studio/trust/trust.js:148
+# 2026-10-01-studio-rebuild/trust/trust.js:148
 js-trust-live-no-source = Choose a port, or type tcp:<host>:<port> or file:<path>.
 
-# web/studio/trust/trust.js:185
+# 2026-10-01-studio-rebuild/trust/trust.js:185
 js-trust-live-note = Kshana Desktop reads the receiver's NMEA 0183 output from a serial port, a TCP stream or a growing file, read only, and scores its latest sentences with the settings above every few seconds. Nothing is sent to the device or anywhere else. The excerpt is the latest 1.5 MiB of sentences (about an hour at one fix a second), and the score calibrates on its first five minutes.
 
-# web/studio/trust/trust.js:177
+# 2026-10-01-studio-rebuild/trust/trust.js:177
 js-trust-live-pick = Choose a port…
 
-# web/studio/trust/trust.js:168
+# 2026-10-01-studio-rebuild/trust/trust.js:168
 js-trust-live-port = Serial port
 
-# web/studio/trust/trust.js:144
+# 2026-10-01-studio-rebuild/trust/trust.js:144
 js-trust-live-reading = Reading { $source }: { $sentences } sentences, { $kept } in the excerpt being scored, { $other } other lines.
 
-# web/studio/trust/trust.js:172
+# 2026-10-01-studio-rebuild/trust/trust.js:172
 js-trust-live-refresh = Refresh ports
 
-# web/studio/trust/trust.js:169
+# 2026-10-01-studio-rebuild/trust/trust.js:169
 js-trust-live-source = Source
 
-# web/studio/trust/trust.js:173
+# 2026-10-01-studio-rebuild/trust/trust.js:173
 js-trust-live-start = Start scoring live
 
-# web/studio/trust/trust.js:174
+# 2026-10-01-studio-rebuild/trust/trust.js:174
 js-trust-live-stop = Stop
 
-# web/studio/trust/trust.js:142
+# 2026-10-01-studio-rebuild/trust/trust.js:142
 js-trust-live-stopped = Not reading a device.
 
-# web/studio/trust/trust.js:184
+# 2026-10-01-studio-rebuild/trust/trust.js:184
 js-trust-live-title = Score a receiver live
 
-# 2026-10-01-studio-rebuild/trust/trust.js:753
+# 2026-10-01-studio-rebuild/trust/trust.js:811
 js-trust-marks-cleared = Marks cleared.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:753
+# 2026-10-01-studio-rebuild/trust/trust.js:811
 js-trust-marks-set = { $name } was above its onset in { $count } epochs; they are marked on the timeline and the track.
 
 # 2026-10-01-studio-rebuild/lib/trust.mjs:34
@@ -13194,7 +13194,7 @@ js-trust-mon-unknown = A monitor this view does not have a description for (newe
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
 js-trust-na = n/a
 
-# 2026-10-01-studio-rebuild/trust/trust.js:517
+# 2026-10-01-studio-rebuild/trust/trust.js:575
 js-trust-name-colon-text = { $name }: { $text }
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:71
@@ -13203,13 +13203,13 @@ js-trust-never = never
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
 js-trust-no = no
 
-# 2026-10-01-studio-rebuild/trust/trust.js:435
+# 2026-10-01-studio-rebuild/trust/trust.js:493
 js-trust-no-deduction = no deduction
 
-# 2026-10-01-studio-rebuild/trust/trust.js:162
+# 2026-10-01-studio-rebuild/trust/trust.js:220
 js-trust-none = none
 
-# 2026-10-01-studio-rebuild/trust/trust.js:308
+# 2026-10-01-studio-rebuild/trust/trust.js:366
 js-trust-north = N
 
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:40
@@ -13239,76 +13239,76 @@ js-trust-note-truth-no-match = The truth file's times match no epoch.
 # 2026-10-01-studio-rebuild/lib/trust.mjs:388
 js-trust-note-unknown-state = { $count } epoch(s) carry a state this page does not know ({ $states }); they are drawn as calibrating, never scored.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:697
+# 2026-10-01-studio-rebuild/trust/trust.js:755
 js-trust-offset-at = At { $time } the receiver-reported position is { $m } m from where the vessel really was (synthetic truth).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:698
+# 2026-10-01-studio-rebuild/trust/trust.js:756
 js-trust-offset-no-truth = No true position at this time.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:81
+# 2026-10-01-studio-rebuild/trust/trust.js:83
 js-trust-opened = Opened { $count } epochs ({ $source }).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:233
+# 2026-10-01-studio-rebuild/trust/trust.js:291
 js-trust-opening-demo = Opening the synthetic demo…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:121
+# 2026-10-01-studio-rebuild/trust/trust.js:123
 js-trust-opening-demo-log = Opening the synthetic demo log…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:180
+# 2026-10-01-studio-rebuild/trust/trust.js:238
 js-trust-opening-example = Opening the illustrative example…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:244
+# 2026-10-01-studio-rebuild/trust/trust.js:302
 js-trust-opening-geo-demo = Opening the masked-sky demo…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:781
+# 2026-10-01-studio-rebuild/trust/trust.js:839
 js-trust-pause = Pause
 
-# 2026-10-01-studio-rebuild/trust/trust.js:786
+# 2026-10-01-studio-rebuild/trust/trust.js:844
 js-trust-play = Play
 
-# 2026-10-01-studio-rebuild/trust/trust.js:90
+# 2026-10-01-studio-rebuild/trust/trust.js:92
 js-trust-reading = Reading…
 
-# 2026-10-01-studio-rebuild/trust/trust.js:710
+# 2026-10-01-studio-rebuild/trust/trust.js:768
 js-trust-reasons-calibrating = Calibrating: the first seconds form the baseline and are never scored.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:724
+# 2026-10-01-studio-rebuild/trust/trust.js:782
 js-trust-reasons-class-note = Each deduction carries the engine's class: geometry (the sky), environment (the signal) or inconsistency (attack-like)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:731
+# 2026-10-01-studio-rebuild/trust/trust.js:789
 js-trust-reasons-live-unknown = Which monitors ran is not stated in a live stream; a check absent here may not have run.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:726
+# 2026-10-01-studio-rebuild/trust/trust.js:784
 js-trust-reasons-marked-none = marked; no deduction here
 
-# 2026-10-01-studio-rebuild/trust/trust.js:711
+# 2026-10-01-studio-rebuild/trust/trust.js:769
 js-trust-reasons-no-score = No score at this epoch.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:711
+# 2026-10-01-studio-rebuild/trust/trust.js:769
 js-trust-reasons-no-score-note = No score at this epoch: { $note }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:730
+# 2026-10-01-studio-rebuild/trust/trust.js:788
 js-trust-reasons-not-run = Not run (not a pass)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:712
+# 2026-10-01-studio-rebuild/trust/trust.js:770
 js-trust-reasons-nothing = Nothing was deducted at this epoch. That is not evidence the fix is good: see what the checks cannot see, below.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:720
+# 2026-10-01-studio-rebuild/trust/trust.js:778
 js-trust-reasons-pts = { $points } pts
 
-# 2026-10-01-studio-rebuild/trust/trust.js:729
+# 2026-10-01-studio-rebuild/trust/trust.js:787
 js-trust-reasons-ran-free = Ran, cost nothing
 
-# 2026-10-01-studio-rebuild/trust/trust.js:720
+# 2026-10-01-studio-rebuild/trust/trust.js:778
 js-trust-reasons-ratio = ratio { $ratio }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:717
+# 2026-10-01-studio-rebuild/trust/trust.js:775
 js-trust-reasons-row-title = { $name }: { $text } Click to mark where it was above its onset.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:720
+# 2026-10-01-studio-rebuild/trust/trust.js:778
 js-trust-reasons-weight = weight { $weight }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:842
+# 2026-10-01-studio-rebuild/trust/trust.js:901
 js-trust-reduced-motion = Reduced motion is preferred, so replay starts at 1x. Use the slider or the arrow keys to move without animation.
 
 # 2026-10-01-studio-rebuild/lib/trust.mjs:483
@@ -13329,13 +13329,13 @@ js-trust-say-reasons = reasons: { $list }
 # 2026-10-01-studio-rebuild/lib/trust.mjs:481
 js-trust-say-score = score { $score }
 
-# 2026-10-01-studio-rebuild/trust/trust.js:116
+# 2026-10-01-studio-rebuild/trust/trust.js:118
 js-trust-scored-label = Scored { $count } epochs of { $name } with engine { $version }, in this browser.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:117
+# 2026-10-01-studio-rebuild/trust/trust.js:119
 js-trust-scored-summary = Scored { $count } epochs with engine { $version }: { $summary }. Advisory only.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:108
+# 2026-10-01-studio-rebuild/trust/trust.js:110
 js-trust-scoring = Starting the engine and scoring…
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:55
@@ -13365,73 +13365,73 @@ js-trust-self-unknown-agreement = an agreement this page does not know ({ $odd }
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:62
 js-trust-self-yes-state-2 = yes (state 2 or more)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:601
+# 2026-10-01-studio-rebuild/trust/trust.js:659
 js-trust-set-degraded-edge = the degraded edge
 
-# 2026-10-01-studio-rebuild/trust/trust.js:567
+# 2026-10-01-studio-rebuild/trust/trust.js:625
 js-trust-set-degraded-min = degraded at or above
 
-# 2026-10-01-studio-rebuild/trust/trust.js:576
+# 2026-10-01-studio-rebuild/trust/trust.js:634
 js-trust-set-epochs = Epochs
 
-# 2026-10-01-studio-rebuild/trust/trust.js:578
+# 2026-10-01-studio-rebuild/trust/trust.js:636
 js-trust-set-epochs-counts = { $total } in all: { $calibrating } calibrating, { $nominal } nominal, { $degraded } degraded, { $untrusted } untrusted.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:577
+# 2026-10-01-studio-rebuild/trust/trust.js:635
 js-trust-set-epochs-counts-class = { $total } in all: { $calibrating } calibrating, { $nominal } nominal, { $degraded } degraded, { $untrusted } untrusted. By deduction class: geometry { $geometry }, environment { $environment }, inconsistency { $inconsistency }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:570
+# 2026-10-01-studio-rebuild/trust/trust.js:628
 js-trust-set-evidence-hold = evidence hold, s
 
-# 2026-10-01-studio-rebuild/trust/trust.js:569
+# 2026-10-01-studio-rebuild/trust/trust.js:627
 js-trust-set-full-ratio = full weight at ratio
 
-# 2026-10-01-studio-rebuild/trust/trust.js:608
+# 2026-10-01-studio-rebuild/trust/trust.js:666
 js-trust-set-geo-counts = Sky: { $good } good, { $degraded } degraded, { $unknown } unknown. Label: { $lgood } good, { $fair } fair, { $poor } poor (only poor costs points). Epochs with a deduction of class geometry { $geometry }, environment { $environment }, inconsistency { $inconsistency }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:607
+# 2026-10-01-studio-rebuild/trust/trust.js:665
 js-trust-set-geo-counts-odd = Sky: { $good } good, { $degraded } degraded, { $unknown } unknown ({ $odd } with a value this page does not know, read as unknown). Label: { $lgood } good, { $fair } fair, { $poor } poor (only poor costs points). Epochs with a deduction of class geometry { $geometry }, environment { $environment }, inconsistency { $inconsistency }.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:596
+# 2026-10-01-studio-rebuild/trust/trust.js:654
 js-trust-set-geometry = Geometry ([geometry] settings)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:587
+# 2026-10-01-studio-rebuild/trust/trust.js:645
 js-trust-set-gloss = What each check looks at
 
-# 2026-10-01-studio-rebuild/trust/trust.js:603
+# 2026-10-01-studio-rebuild/trust/trust.js:661
 js-trust-set-live-geometry = A live stream does not state the geometry thresholds; the documented defaults apply (poor above HDOP 4 or PDOP 6, or below 5 satellites; at most 15 points, never below the degraded band).
 
-# 2026-10-01-studio-rebuild/trust/trust.js:597
+# 2026-10-01-studio-rebuild/trust/trust.js:655
 js-trust-set-no-geometry = This run carries no geometry: it comes from an engine before 0.36, or from trust.csv. Nothing about the sky is shown, and nothing is shown as good.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:567
+# 2026-10-01-studio-rebuild/trust/trust.js:625
 js-trust-set-nominal-min = nominal at or above
 
-# 2026-10-01-studio-rebuild/trust/trust.js:568
+# 2026-10-01-studio-rebuild/trust/trust.js:626
 js-trust-set-onset-ratio = costs points from ratio
 
-# 2026-10-01-studio-rebuild/trust/trust.js:610
+# 2026-10-01-studio-rebuild/trust/trust.js:668
 js-trust-set-provenance = Where the thresholds come from, and how deductions are classed
 
-# 2026-10-01-studio-rebuild/trust/trust.js:589
+# 2026-10-01-studio-rebuild/trust/trust.js:647
 js-trust-set-ran = Checks that ran
 
-# 2026-10-01-studio-rebuild/trust/trust.js:585
+# 2026-10-01-studio-rebuild/trust/trust.js:643
 js-trust-set-weights = Weight of each check, points
 
-# 2026-10-01-studio-rebuild/trust/trust.js:564
+# 2026-10-01-studio-rebuild/trust/trust.js:622
 js-trust-settings-assumed = This stream does not state its score model. The band edges shown are the documented defaults, assumed.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:173
+# 2026-10-01-studio-rebuild/trust/trust.js:231
 js-trust-show-in-replay = Show this run in the replay below (track, score, the receiver's own flag)
 
-# 2026-10-01-studio-rebuild/trust/trust.js:663
+# 2026-10-01-studio-rebuild/trust/trust.js:721
 js-trust-sky-no-gsv = no GSV
 
-# 2026-10-01-studio-rebuild/trust/trust.js:663
+# 2026-10-01-studio-rebuild/trust/trust.js:721
 js-trust-sky-none = No sky: open the NMEA log with the run (or a demo) to see the satellites it lists.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:414
+# 2026-10-01-studio-rebuild/trust/trust.js:472
 js-trust-span-title = { $what }, { $from } to { $to }
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:22
@@ -13446,31 +13446,31 @@ js-trust-state-2 = indicated
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:25
 js-trust-state-3 = multiple indications or affirmed
 
-# 2026-10-01-studio-rebuild/trust/trust.js:409
+# 2026-10-01-studio-rebuild/trust/trust.js:467
 js-trust-strip-band = band
 
-# 2026-10-01-studio-rebuild/trust/trust.js:424
+# 2026-10-01-studio-rebuild/trust/trust.js:482
 js-trust-strip-class = class
 
-# 2026-10-01-studio-rebuild/trust/trust.js:409
+# 2026-10-01-studio-rebuild/trust/trust.js:467
 js-trust-strip-gate = gate
 
-# 2026-10-01-studio-rebuild/trust/trust.js:409
+# 2026-10-01-studio-rebuild/trust/trust.js:467
 js-trust-strip-marked = marked
 
-# 2026-10-01-studio-rebuild/trust/trust.js:448
+# 2026-10-01-studio-rebuild/trust/trust.js:506
 js-trust-strip-receiver = receiver
 
-# 2026-10-01-studio-rebuild/trust/trust.js:424
+# 2026-10-01-studio-rebuild/trust/trust.js:482
 js-trust-strip-sky = sky
 
-# 2026-10-01-studio-rebuild/trust/trust.js:510
+# 2026-10-01-studio-rebuild/trust/trust.js:568
 js-trust-strips-none = No monitor ratios in this file.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:509
+# 2026-10-01-studio-rebuild/trust/trust.js:567
 js-trust-strips-note-ran = ratio of statistic to threshold; dashed line is the alarm at 1
 
-# 2026-10-01-studio-rebuild/trust/trust.js:509
+# 2026-10-01-studio-rebuild/trust/trust.js:567
 js-trust-strips-note-seen = only monitors seen costing points; ratio over threshold
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:74
@@ -13551,31 +13551,31 @@ js-trust-thr-sigma-uere = user-equivalent range error the thresholds assume, met
 # 2026-10-01-studio-rebuild/lib/trust-geometry.mjs:50
 js-trust-thr-used-good = satellites used at or above which the geometry is good
 
-# 2026-10-01-studio-rebuild/trust/trust.js:322
+# 2026-10-01-studio-rebuild/trust/trust.js:380
 js-trust-track-desc = Track of { $positions } reported positions, north up. { $untrusted } epochs are untrusted.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:283
+# 2026-10-01-studio-rebuild/trust/trust.js:341
 js-trust-track-desc-none = No track: the files carry no positions.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:321
+# 2026-10-01-studio-rebuild/trust/trust.js:379
 js-trust-track-desc-truth = Track of { $positions } reported positions, north up. { $untrusted } epochs are untrusted. A thin grey line shows the true track.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:302
+# 2026-10-01-studio-rebuild/trust/trust.js:360
 js-trust-track-end = end
 
-# 2026-10-01-studio-rebuild/trust/trust.js:282
+# 2026-10-01-studio-rebuild/trust/trust.js:340
 js-trust-track-no-positions = No positions in the files opened
 
-# 2026-10-01-studio-rebuild/trust/trust.js:279
+# 2026-10-01-studio-rebuild/trust/trust.js:337
 js-trust-track-note = North up, one scale on both axes. The line is where the receiver said the vessel was, coloured by the trust band of each epoch.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:280
+# 2026-10-01-studio-rebuild/trust/trust.js:338
 js-trust-track-note-none = This file carries no positions. Add the NMEA log the run came from (or a v1.1 stream with a position) to draw the track.
 
-# 2026-10-01-studio-rebuild/trust/trust.js:301
+# 2026-10-01-studio-rebuild/trust/trust.js:359
 js-trust-track-start = start
 
-# 2026-10-01-studio-rebuild/trust/trust.js:452
+# 2026-10-01-studio-rebuild/trust/trust.js:510
 js-trust-unknown-agreement = an agreement this page does not know
 
 # 2026-10-01-studio-rebuild/lib/trust-selfreport.mjs:56
