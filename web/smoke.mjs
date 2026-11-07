@@ -2,8 +2,10 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short } from "./pkg/kshana.js";
+import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
+import { gunzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 
 const SCENARIO = `
 seed = 42
@@ -343,3 +345,19 @@ console.log(
     `ephemeris ${eph.n_samples} samples, lat ±${Math.max(Math.abs(eph.lat_min_deg), eph.lat_max_deg).toFixed(1)}°, ` +
     `|v| ${(vTeme / 1000).toFixed(2)} km/s, ground-track SVG ${ephSvg.length} B`,
 );
+
+// B2 bar R4: the referee's location metrics give the command line's bytes (the digest the Rust and
+// Python tests check too).
+{
+  const fx = (name) => new URL(`../tests/fixtures/referee_location/${name}`, import.meta.url);
+  const truth = await readFile(fx("truth_v1.json"), "utf8");
+  const reports = gunzipSync(await readFile(fx("reports_v1.json.gz"))).toString("utf8");
+  const text = referee_location_score(truth, reports);
+  const want = (await readFile(fx("score_v1.sha256"), "utf8")).trim();
+  const got = createHash("sha256").update(text, "utf8").digest("hex");
+  if (got !== want) {
+    console.error(`referee_location_score digest ${got}, expected ${want}`);
+    process.exit(1);
+  }
+  console.log("referee_location_score: the command line's bytes");
+}

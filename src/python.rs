@@ -1619,6 +1619,15 @@ fn jammertest_import<'py>(
     json_to_py(py, &v)
 }
 
+/// The referee's location metrics (row B2; `kshana jammertest locate-score`): `truth_json` is a
+/// `kshana.referee-location-truth/1` file and `reports_json` a `kshana.referee-location-reports/1`
+/// file, both as text. Returns the score as JSON text, the same bytes as the command line and
+/// WebAssembly give (parse it with `json.loads`). Raises `ValueError`.
+#[pyfunction]
+fn referee_location_score(truth_json: &str, reports_json: &str) -> PyResult<String> {
+    crate::jammertest::location::score_json(truth_json, reports_json).map_err(PyValueError::new_err)
+}
+
 /// Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per
 /// scheduled test the detection latency, missed alarms and time to recover, and the false
 /// alarms outside every slot. `session_toml` needs only `[log] format = "ubx"` (or `rinex`,
@@ -2518,6 +2527,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
     m.add_function(wrap_pyfunction!(jammertest_import, m)?)?;
     m.add_function(wrap_pyfunction!(jammertest_score, m)?)?;
+    m.add_function(wrap_pyfunction!(referee_location_score, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;

@@ -10413,7 +10413,7 @@
   "id": "jammertest-cli-usage",
   "error": false,
   "parts": [
-   "usage:\n  kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)\n  kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]\n        [--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)\n        [--local-offset-h <h>] [--year <y>] [--out <events.toml>]\n  kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]\n  kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]\n        [--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]\n        [--recover-hold-s <s>] [--guard-s <s>] [--json]\n        [--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]\nThe plan and catalogue are the published NPRA/jammertest-plan JSON files (MIT; fetch them with\nxval/jammertest-plan/fetch.sh). Plan times are local wall-clock; --local-offset-h (default 2, CEST)\nsays how far they are from UTC. The JammerTest 2024 dataset's attack_log stamps say Z but are local\ntime: --time-shift-h defaults to -2. Events are scheduled truth, not recorded on-air times.\nAdvisory software, not type-approved navigation equipment."
+   "usage:\n  kshana jammertest import --attack-log <scenario.json> [--time-shift-h <h>] (--log-start <time> | --log <file> --format <fmt>)\n  kshana jammertest import --catalog <testcatalog.json> --plan <plan.json> [--plan <plan.json> ...]\n        [--location <n>] (--log-start <YYYY-MM-DDTHH:MM:SSZ> | --log <file> --format <ubx|rinex|android|nmea>)\n        [--local-offset-h <h>] [--year <y>] [--out <events.toml>]\n  kshana jammertest score <session.toml> --attack-log <scenario.json> [--time-shift-h <h>] [same options]\n  kshana jammertest score <session.toml> --catalog <testcatalog.json> --plan <plan.json> [--plan ...]\n        [--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]\n        [--recover-hold-s <s>] [--guard-s <s>] [--json]\n        [--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]\n  kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]\nThe plan and catalogue are the published NPRA/jammertest-plan JSON files (MIT; fetch them with\nxval/jammertest-plan/fetch.sh). Plan times are local wall-clock; --local-offset-h (default 2, CEST)\nsays how far they are from UTC. The JammerTest 2024 dataset's attack_log stamps say Z but are local\ntime: --time-shift-h defaults to -2. Events are scheduled truth, not recorded on-air times.\nAdvisory software, not type-approved navigation equipment."
   ]
  },
  {
@@ -13959,6 +13959,51 @@
     "var": "ratio"
    },
    " calibration)"
+  ]
+ },
+ {
+  "id": "e-referee-location-covariance",
+  "error": true,
+  "parts": [
+   "an ellipse's covariance is not symmetric positive definite (an input error, not a miss)"
+  ]
+ },
+ {
+  "id": "e-referee-location-region",
+  "error": true,
+  "parts": [
+   "a region must be exactly one of ellipse, polygon or grid"
+  ]
+ },
+ {
+  "id": "e-referee-location-event",
+  "error": true,
+  "parts": [
+   "a report names event ",
+   {
+    "var": "id"
+   },
+   ", which the truth file does not list"
+  ]
+ },
+ {
+  "id": "e-referee-location-truth",
+  "error": true,
+  "parts": [
+   "not a referee location truth file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-referee-location-reports",
+  "error": true,
+  "parts": [
+   "not a referee location reports file: ",
+   {
+    "var": "e"
+   }
   ]
  }
 ]

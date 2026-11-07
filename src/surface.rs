@@ -89,6 +89,18 @@ fn cap_len(what: &str, len: usize, max: usize) -> Result<(), String> {
     Ok(())
 }
 
+/// The referee's location metrics (row B2) over a truth file and a reports file given as text, each
+/// capped by `max_bytes`: the JSON the command line writes (`kshana jammertest locate-score`).
+pub fn referee_location_score_json(
+    truth_json: &str,
+    reports_json: &str,
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap("truth_json", truth_json, max_bytes)?;
+    cap("reports_json", reports_json, max_bytes)?;
+    crate::jammertest::location::score_json(truth_json, reports_json)
+}
+
 // The inline-only boundary has one implementation, `crate::inline_only`; the surfaces use it
 // through this module. `tests/scenario_file_sources_guard.rs` pins the field list.
 pub use crate::inline_only::{reject_file_sources, FILE_SOURCE_KEYS, FILE_SOURCE_KEYS_BY_KIND};

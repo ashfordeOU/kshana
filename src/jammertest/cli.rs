@@ -55,11 +55,28 @@ fn read_text(path: &str) -> Result<String, String> {
         .map_err(|_| crate::terr!("e-jammertest-cli-is-not-utf-text", path = path))
 }
 
+/// `kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <file>]`:
+/// the location metrics of row B2 (`super::location`), as JSON on standard output or into a file.
+fn run_locate_score(args: &[String]) -> Result<(), String> {
+    let truth = flag_value(args, "--truth")?.ok_or_else(String::new)?;
+    let reports = flag_value(args, "--reports")?.ok_or_else(String::new)?;
+    let text = super::location::score_json(&read_text(&truth)?, &read_text(&reports)?)?;
+    match flag_value(args, "--out")? {
+        Some(out) => std::fs::write(&out, &text)
+            .map_err(|e| crate::terr!("e-jammertest-cli-cannot-write", o = out, e = e)),
+        None => {
+            println!("{text}");
+            Ok(())
+        }
+    }
+}
+
 /// Entry point; `args` are those after `jammertest`.
 pub fn run_cli(args: &[String]) -> ExitCode {
     let r = match args.first().map(String::as_str) {
         Some("import") => run_import(&args[1..]),
         Some("score") => run_score(&args[1..]),
+        Some("locate-score") => run_locate_score(&args[1..]),
         _ => Err(String::new()),
     };
     match r {

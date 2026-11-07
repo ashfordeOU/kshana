@@ -10694,6 +10694,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     Planen och katalogen är de publicerade JSON-filerna från NPRA/jammertest-plan (MIT; hämta dem med
     xval/jammertest-plan/fetch.sh). Plantider är lokal väggklocketid; --local-offset-h (standard 2, CEST)
     anger hur långt de ligger från UTC. Tidsstämplarna i attack_log för JammerTest 2024-datamängden säger Z men är lokal

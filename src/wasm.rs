@@ -670,6 +670,15 @@ pub fn jammertest_import(
     .map_err(|e| JsValue::from_str(&e))
 }
 
+/// The referee's location metrics (row B2; `kshana jammertest locate-score`): `truth_json` is a
+/// `kshana.referee-location-truth/1` file and `reports_json` a `kshana.referee-location-reports/1`
+/// file. Returns the score as JSON text, the same bytes as the command line and Python give.
+#[wasm_bindgen]
+pub fn referee_location_score(truth_json: &str, reports_json: &str) -> Result<String, JsValue> {
+    crate::jammertest::location::score_json(truth_json, reports_json)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Score a receiver log against the Jammertest schedule (`kshana jammertest score`). The session
 /// needs only `[log] format = "ubx"` (or `rinex`, `android`, `nmea`, `sbf`); `log_base64` is the
 /// log's bytes; `log_start_utc` is empty when the log states its own UTC start; `location` and

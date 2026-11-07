@@ -10553,6 +10553,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     Suunnitelma ja luettelo ovat julkaistut NPRA/jammertest-plan JSON-tiedostot (MIT; hae ne komennolla
     xval/jammertest-plan/fetch.sh). Suunnitelman ajat ovat paikallista seinäkelloaikaa; --local-offset-h (oletus 2, CEST)
     kertoo, kuinka kaukana ne ovat UTC:stä. JammerTest 2024 -aineiston attack_log-leimat sanovat Z, mutta ovat paikallista

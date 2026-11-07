@@ -145,3 +145,45 @@ async fn a_plan_is_imported_and_a_log_scored_in_memory() {
     assert!(call(&client, "jammertest_score", json!({"session_toml": "[log]\nformat = \"nmea\"\n", "catalog_json": CATALOG, "plans": [PLAN]})).await.is_err());
     client.cancel().await.ok();
 }
+
+/// B2 bar R4 over MCP: the location metrics equal the library's, value for value (the MCP reply adds
+/// the advisory `notice`). The hand-placed reports only: the calibrated population is over the
+/// 4 MiB input cap of a tool call.
+#[tokio::test]
+async fn referee_location_score_equals_the_library() {
+    use std::io::Read;
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tests/fixtures/referee_location");
+    let truth = std::fs::read_to_string(dir.join("truth_v1.json")).unwrap();
+    let mut all = String::new();
+    flate2::read::GzDecoder::new(&std::fs::read(dir.join("reports_v1.json.gz")).unwrap()[..])
+        .read_to_string(&mut all)
+        .unwrap();
+    let mut doc: Value = serde_json::from_str(&all).unwrap();
+    let hand: Vec<Value> = doc["reports"].as_array().unwrap()[..54].to_vec();
+    doc["reports"] = Value::Array(hand);
+    let reports = doc.to_string();
+    let lib: Value =
+        serde_json::from_str(&kshana::jammertest::location::score_json(&truth, &reports).unwrap())
+            .unwrap();
+    let client = connect().await;
+    let mut got = call(
+        &client,
+        "referee_location_score",
+        json!({"truth_json": truth, "reports_json": reports}),
+    )
+    .await
+    .unwrap();
+    assert!(got["notice"].is_string());
+    got.as_object_mut().unwrap().remove("notice");
+    assert_eq!(got, lib);
+    assert!(
+        call(
+            &client,
+            "referee_location_score",
+            json!({"truth_json": "{}", "reports_json": "{}"})
+        )
+        .await
+        .is_err()
+    );
+}

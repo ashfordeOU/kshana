@@ -66,3 +66,5 @@ tower = { version = "0.5", default-features = false, features = ["util"] }
 # The MCP client side, for the in-process (duplex) round-trip integration test.
 rmcp = { version = "2.1", features = ["client"] }
 futures-util = { version = "0.3", default-features = false }
+# Reads the gzip-compressed referee-location fixtures of the engine (tests/fixtures/referee_location).
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }

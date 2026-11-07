@@ -9961,6 +9961,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     プランとカタログは、公開されている NPRA/jammertest-plan の JSON ファイルです（MIT。
     xval/jammertest-plan/fetch.sh で取得してください）。プランの時刻はローカルの壁時計時刻です。--local-offset-h（既定は 2、CEST）は、
     それが UTC からどれだけ離れているかを示します。JammerTest 2024 データセットの attack_log のタイムスタンプは Z と記されていますが、

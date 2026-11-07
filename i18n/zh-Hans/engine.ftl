@@ -10092,6 +10092,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     计划和目录是已发布的 NPRA/jammertest-plan JSON 文件（MIT；用
     xval/jammertest-plan/fetch.sh 获取）。计划时间为当地挂钟时间；--local-offset-h（默认 2，CEST）
     表示它们与 UTC 相差多少。JammerTest 2024 数据集的 attack_log 时间戳标注为 Z，实际是当地
