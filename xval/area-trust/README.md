@@ -87,3 +87,54 @@ processed.
     station epochs with the same state. Without this, the 5 s stale rule would make every station stale between
     its epochs. A missing epoch leaves a 30 s gap, which the stale rule handles. The fortnight is one timeline
     per cluster. An alert counts on the UTC day of its grid second, and only on scored days.
+
+## Readings for T3 (end-to-end latency), fixed before the run
+
+Written on 7 November 2026, before the harness was run.
+
+13. **Reference box.** The pre-registration names A3a's reference box, which A3a never fixed. It is read as the
+    machine the run is made on. Its CPU, core count and memory are recorded with the result, beside a
+    `kshana bench-speed --quick` run on the same machine.
+14. **Stations and background.** There are 100 stations at 1 Hz. Station `i` replays the real background of
+    Madrid station `i mod 4`. Its start is offset into the 13 scored days by `11 h × ⌊i/4⌋` plus 2 h per
+    run, wrapping at the end of day 019, so the replicas do not share their noise in time. The background
+    comes from T4's per-epoch evidence (reading 11, with the navigation parser fix of 7556cdc5f):
+    - the horizontal position error, as east and north components;
+    - the C/N0 statistic;
+    - the loss-of-lock outcome.
+
+    Each 30 s epoch is held for its 30 seconds (reading 12).
+15. **What goes over the live path.** Each station publishes one CSV row a second on its own MQTT topic,
+    `kshana/area/s<i>`, through a loopback broker. The rows are read by `connect_mqtt::run_per_topic` with
+    a `kshana.connect/1` mapping. The row carries:
+    - a position fix: the station's surveyed position plus the error;
+    - one C/N0 value: 45 dB-Hz plus the statistic;
+    - the receiver's own jamming flag, set to "indicated" when a measurement-domain monitor alarms (loss of
+      lock, AGC, jamming indicator);
+    - the receiver's own spoofing flag, set to "indicated" when a fix-domain monitor other than position
+      alarms (clock, OSNMA).
+
+    The live side computes each station's state from the record with section 1's rule:
+    - horizontal distance of the fix from the surveyed position against `H_s`;
+    - C/N0 − 45 against −6 dB;
+    - the jamming flag as a measurement-domain alarm;
+    - the spoofing flag as a fix-domain alarm.
+
+    It then runs the area rule live (`AreaLive`).
+16. **Injected events.** These are fix-domain events on at least `k` = 34 stations, so each has one exact
+    expected alert, to `UNTRUSTED`:
+    - a position offset of 50 to 500 m, added east;
+    - a clock step;
+    - an OSNMA failure.
+
+    Each event lasts 20 to 60 s, with 25 to 60 s of quiet between events. The events are seeded per run, and
+    the runs are pooled until at least 200 events have run.
+17. **Delivery and latency.** Every alert is POSTed to a loopback HTTP receiver (`telemetry::alerts::Webhook`)
+    and published to a loopback MQTT receiver (`telemetry::mqtt::MqttSink`). Each receiver timestamps what it
+    receives on the same host clock as the sender.
+    - **An event's latency:** the receipt time of its first `UNTRUSTED` alert in `[onset, end)`, minus the
+      earliest send time of the onset-second rows of its affected stations.
+    - **A missing alert:** an event with no such alert on a path counts as a miss, with infinite latency.
+    - **The bar:** p95 ≤ 5 s and maximum ≤ 10 s, on each path separately.
+    - **Background alerts:** alerts from the real background are delivered too, but they are not events and
+      are not scored.
