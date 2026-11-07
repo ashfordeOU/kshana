@@ -295,6 +295,7 @@ const LABELLED_WRITERS: &[&str] = &[
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
+    ("src/station.rs", "writes the receiver's observations as kshana.obs/1 files, the stream recorded as received; data, not a result of the engine"),
     ("src/data_pack.rs", "writes synthetic training data and its labels: the manifest states it is synthetic; data, not a result of the engine"),
     ("src/interference_map/live.rs", "writes a receiver's reports as rows of the documented input CSV: an input file, read back by locate"),
     ("src/lunar_service.rs", "writes only in a unit test (a temporary ephemeris)"),

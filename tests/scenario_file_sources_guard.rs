@@ -17,6 +17,19 @@ use std::path::{Path, PathBuf};
 /// on a surface, with the reason.
 const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     (
+        "src/station.rs",
+        "dir",
+        "output: the directory the Station service writes its obs/1 files into, from the operator's \
+         station.toml given on the command line (`kshana station run`); not a scenario and not reachable \
+         from the MCP server",
+    ),
+    (
+        "src/station.rs",
+        "token_file",
+        "the bearer token's file in the operator's station.toml, read by `kshana station run` on the \
+         operator's own machine; not a scenario and not reachable from the MCP server",
+    ),
+    (
         "src/data_pack.rs",
         "path",
         "output: a written file's path relative to the pack directory, listed in manifest.json \
