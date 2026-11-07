@@ -1532,6 +1532,10 @@
   "src/wasm.rs": {
    "count": 11,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/station.rs": {
+   "count": 25,
+   "reason": "machine-document: HTTP/1.1 request and reply lines, the systemd unit, launchd property list and schtasks templates, JSON bodies of the status port, and `<path>: <operating-system error>` forms; every message for a person goes through the catalogue (station-*, e-station-*)"
   }
  }
 }

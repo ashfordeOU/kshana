@@ -14214,5 +14214,130 @@
    },
    "` is not a number"
   ]
+ },
+ {
+  "id": "station-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana station run <station.toml> | check <station.toml> | service <systemd|launchd|windows> <station.toml>"
+  ]
+ },
+ {
+  "id": "e-station-config",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": not a Kshana Station configuration: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-station-no-source",
+  "error": true,
+  "parts": [
+   "a Station needs at least one [[source]]"
+  ]
+ },
+ {
+  "id": "e-station-source-name",
+  "error": true,
+  "parts": [
+   "source ",
+   {
+    "var": "name"
+   },
+   ": a source name is letters, digits, '-' and '_' (at most 64), used once"
+  ]
+ },
+ {
+  "id": "e-station-output",
+  "error": true,
+  "parts": [
+   "output.rotate_mb must be a positive number and output.keep at least 1"
+  ]
+ },
+ {
+  "id": "e-station-listen",
+  "error": true,
+  "parts": [
+   "http.listen ",
+   {
+    "var": "addr"
+   },
+   " is not an address and port"
+  ]
+ },
+ {
+  "id": "e-station-remote-http",
+  "error": true,
+  "parts": [
+   "http.listen ",
+   {
+    "var": "addr"
+   },
+   " is not a loopback address: set http.token_file to serve other machines"
+  ]
+ },
+ {
+  "id": "e-station-fleet-url",
+  "error": true,
+  "parts": [
+   "fleet.url must be an http:// address (put a TLS tunnel in front for https) and fleet.interval_s at least 1"
+  ]
+ },
+ {
+  "id": "e-station-service-system",
+  "error": true,
+  "parts": [
+   "unknown service system ",
+   {
+    "var": "system"
+   },
+   " (systemd, launchd, windows)"
+  ]
+ },
+ {
+  "id": "station-check-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": Station ",
+   {
+    "var": "id"
+   },
+   " with ",
+   {
+    "var": "n"
+   },
+   " sources, writing to ",
+   {
+    "var": "dir"
+   }
+  ]
+ },
+ {
+  "id": "station-started",
+  "error": false,
+  "parts": [
+   "Kshana Station ",
+   {
+    "var": "id"
+   },
+   ": ",
+   {
+    "var": "n"
+   },
+   " sources, status on http://",
+   {
+    "var": "addr"
+   },
+   "/status"
+  ]
  }
 ]

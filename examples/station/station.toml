@@ -1,0 +1,34 @@
+# An example Kshana Station configuration (docs/STATION.md):
+#   kshana station check examples/station/station.toml
+#   kshana station run examples/station/station.toml
+[station]
+id = "example-station-1"
+lat_deg = 59.4400
+lon_deg = 24.7500
+height_m = 30.0
+
+# A receiver streaming u-blox UBX on a TCP port (most receivers and ser2net offer one).
+[[source]]
+name = "gnss-1"
+input = "tcp:127.0.0.1:9000"
+format = "ubx"
+
+# A receiver on a USB serial port, NMEA (set the speed first: stty -F /dev/ttyACM0 9600).
+# [[source]]
+# name = "nmea-1"
+# input = "/dev/ttyACM0"
+# format = "nmea"
+
+[output]
+dir = "station-data"       # one directory per source, relative to this file
+rotate_mb = 64
+keep = 48
+
+[http]
+listen = "127.0.0.1:8470"  # local only; another address needs token_file
+
+# Report to a fleet manager (for example the Pro service's /fleet/stations/<id>/heartbeat).
+# [fleet]
+# url = "http://10.0.0.2:8088/fleet/stations/example-station-1/heartbeat"
+# token_file = "fleet-token"
+# interval_s = 30

@@ -377,6 +377,8 @@ pub mod srp_boxwing;
 pub mod srp_shadow;
 pub mod ssv;
 pub mod standards_pack;
+/// Kshana Station: the headless receiver service (roadmap L3).
+pub mod station;
 pub mod study;
 pub mod suite;
 pub mod surface;
