@@ -292,9 +292,17 @@ pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphe
             ));
         }
         let system = head.chars().next().unwrap_or(' ');
-        let nlines = record_lines(system);
+        // The record runs to the next line that does not start with a blank: every
+        // continuation line opens with four blanks. RINEX 3.05 GLONASS records carry a fifth
+        // line (status flags) that 3.04 writers omit, and merged files mix both, so a fixed
+        // count per system would lose the record boundaries.
+        let mut end = i + 1;
+        while end < lines.len() && lines[end].starts_with(' ') && !lines[end].trim().is_empty() {
+            end += 1;
+        }
+        let nlines = (end - i).max(1);
         // An incomplete trailing record cannot be read.
-        if i + nlines > lines.len() {
+        if end == lines.len() && nlines < record_lines(system) {
             break;
         }
         if !is_parsed_system(system) {
@@ -310,6 +318,14 @@ pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphe
             // BeiDou GEO uses a different rotation; skipped unless asked for.
             i += nlines;
             continue;
+        }
+        if nlines < record_lines(system) {
+            return Err(crate::terr!(
+                "e-rinex-short-navigation-record",
+                head = format!("{:?}", head),
+                n = nlines,
+                need = record_lines(system)
+            ));
         }
         out.push(decode_keplerian_record(system, prn, &lines[i..i + 8])?);
         i += nlines;
@@ -841,6 +857,24 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let ephs = parse_nav(&mixed).expect("parses");
         assert_eq!(ephs.len(), 1);
         assert_eq!(ephs[0].system, 'G');
+    }
+
+    #[test]
+    fn a_five_line_glonass_record_keeps_the_records_after_it() {
+        // RINEX 3.05 GLONASS records have a fifth line (status flags); 3.04 ones have four.
+        // Merged daily files mix both, so the record length is read from the file.
+        let line = "     0.0D+00 0.0D+00 0.0D+00 0.0D+00";
+        let glonass = format!(
+            "R01 2023 01 01 00 00 00 0.0D+00 0.0D+00 0.0D+00\n{line}\n{line}\n{line}\n{line}"
+        );
+        let mixed = SAMPLE.replace(
+            "G01 2023 01 01 00 00 00",
+            &format!("{glonass}\nG01 2023 01 01 00 00 00"),
+        );
+        let ephs = parse_nav(&mixed).expect("parses");
+        assert_eq!(ephs.len(), 1);
+        assert_eq!(ephs[0].system, 'G');
+        assert!((ephs[0].toe - 172_800.0).abs() < 1e-6);
     }
 
     #[test]

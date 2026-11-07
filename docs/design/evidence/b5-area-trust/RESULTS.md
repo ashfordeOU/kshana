@@ -68,16 +68,22 @@ Epochs are 30 s. AGC, the jamming indicator, the clock monitor and OSNMA are not
 - Most alerts fall around 11:20 to 12:00 GPS time and come about 4 minutes earlier each day. That is the
   sidereal repeat of the GPS geometry, so they follow satellite geometry, not the stations.
 
-**Observed, not part of the bar:**
-- All four stations had no single-point fix in the same 3 832 scored epochs (about 10 %).
-- These epochs fall at the same hours of every day: 02–09, 14–17 and 20–23 GPS time.
-- The tracked-satellite median is 9 to 10.
-- So the engine's single-point solution (GPS only, broadcast ephemeris, 10° mask) fails at certain geometries.
-  This is an engine finding to investigate. It does not change this result: the run stands as recorded.
+**An engine finding, and the same run after its fix (supplementary, not the scored result):**
+- In the scored run, all four stations had no single-point fix in the same 3 832 epochs (about 10 %).
+- The cause was the RINEX navigation parser. It took a fixed number of lines per record, 4 for GLONASS. RINEX
+  3.05 GLONASS records have 5 lines, and the BKG merged files of days 008, 014 and 015 contain such records.
+  On those days the parser lost the record boundaries after the first one, and most GPS ephemerides were
+  missing.
+- The parser now takes each record's length from its continuation lines. A unit test covers a 5-line GLONASS
+  record, and the ten integration tests that read navigation files pass unchanged.
+- The same run with the fixed parser (`xval/area-trust/t4_result_after_nav_fix.json`) has a fix at every
+  epoch. It gives 26 alerts to `DEGRADED` (2.0 per area-day) and none to `UNTRUSTED`, so the verdict is
+  unchanged.
+- The scored result stays as recorded.
 
 **What NOT MET means here:**
 - With 4 stations, the pre-registered rule turns any one station's position alarm into an area alert. On these
-  quiet days, the single-point fixes against `H_s` produced 24 such alarms, which is more alerts than the bar
+  quiet days, the single-point fixes against `H_s` produced 24 such alarm epochs (27 after the parser fix), which is more alerts than the bar
   allows.
 - The bar stays as signed; it is not loosened.
 - Any change to the rule (for example, requiring `n_U ≥ 2` for `DEGRADED` when `N ≤ 6`) or to the position

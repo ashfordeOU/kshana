@@ -10,7 +10,8 @@
 //!
 //! It prints the per-station calibration, the alarm counts by monitor, the alerts per scored day and the
 //! verdict against the bars (DEGRADED or worse ≤ 1 per area-day, UNTRUSTED ≤ 0.1 per area-day), and writes
-//! `t4_result.json` into the data directory.
+//! `t4_result.json` into the data directory. The scored result is `xval/area-trust/t4_result.json`
+//! (engine at ff7d51567); today's engine reproduces `xval/area-trust/t4_result_after_nav_fix.json`.
 
 use flate2::read::GzDecoder;
 use kshana::area_trust::{
