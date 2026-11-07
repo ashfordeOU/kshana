@@ -171,6 +171,7 @@ __all__ = [
     "assess_vessel_log",
     "jammertest_import",
     "jammertest_score",
+    "referee_location_score",
     "evidence_create",
     "evidence_round_trip",
     "evidence_verify",
@@ -330,6 +331,12 @@ def jammertest_import(
     (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
     ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
     Raises ``ValueError``."""
+
+def referee_location_score(truth_json: str, reports_json: str) -> str:
+    """The referee's location metrics (row B2), as ``kshana jammertest locate-score`` gives them:
+    ``truth_json`` is a ``kshana.referee-location-truth/1`` document and ``reports_json`` a
+    ``kshana.referee-location-reports/1`` document. Returns the score as JSON text, the same bytes
+    as the command line and WebAssembly (parse it with ``json.loads``). Raises ``ValueError``."""
 
 def jammertest_score(
     session_toml: str,
