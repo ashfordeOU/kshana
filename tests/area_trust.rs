@@ -14,7 +14,7 @@
 use flate2::read::GzDecoder;
 use kshana::area_trust::synth::{replay, Replay};
 use kshana::area_trust::{
-    raw_state, timeline, timeline_jsonl, AreaState, Station, StationState, Stations,
+    raw_state, timeline, timeline_jsonl, AreaLive, AreaState, Station, StationState, Stations,
 };
 use std::io::Read;
 use std::path::PathBuf;
@@ -280,4 +280,27 @@ fn t4_miss_is_recorded() {
     assert_eq!(r["alerts_degraded_or_worse"], 23);
     assert_eq!(r["alerts_untrusted"], 0);
     assert!(r["per_area_day_degraded_or_worse"].as_f64().unwrap() > 1.0);
+}
+
+/// The live rule closes exactly the batch timeline's seconds, in order, on every replay.
+#[test]
+fn the_live_rule_equals_the_timeline() {
+    for (seed, n, e) in SETS {
+        let rep = replay(seed, n, e);
+        let mut all: Vec<(f64, usize, StationState)> = rep
+            .stations
+            .iter()
+            .enumerate()
+            .flat_map(|(i, s)| s.epochs.iter().map(move |&(t, st)| (t, i, st)))
+            .collect();
+        all.sort_by(|a, b| a.0.total_cmp(&b.0).then(a.1.cmp(&b.1)));
+        let mut live = AreaLive::new(rep.stations.len());
+        let mut got = Vec::new();
+        for (t, i, st) in all {
+            got.extend(live.push(i, t, st));
+        }
+        got.extend(live.flush());
+        assert_eq!(live.late, 0);
+        assert_eq!(got, timeline(&rep.stations), "seed {seed}");
+    }
 }
