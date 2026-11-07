@@ -297,6 +297,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
     ("src/interference_map/live.rs", "writes a receiver's reports as rows of the documented input CSV: an input file, read back by locate"),
     ("src/lunar_service.rs", "writes only in a unit test (a temporary ephemeris)"),
+    ("src/speed_bench.rs", "writes the bench-speed JSON: timings of this machine, not a result of the engine"),
     ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
     ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
     ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
