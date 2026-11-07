@@ -22,6 +22,13 @@ breaking changes are called out explicitly.
 - `leo-signal`: GPS L2C as a public reference preset (`gps-l2c`, from IS-GPS-200N: 1227.60 MHz, CM and CL time-multiplexed,
   −160.0 dBW) and as a GNSS victim in the compatibility analysis, so a LEO-PNT design is scored against L2C and L2C against it.
   MODELLED: checked against the CM and CL codes in `iq::signals::gps` and the BPSK closed forms only.
+- `kshana::solid_tide`: the IERS Conventions (2010) solid Earth tide displacement, Steps 1 and 2 (degree 2 and 3, the
+  latitude, out-of-phase and frequency-dependence terms), written from the Conventions text. MODELLED; not yet used by PPP. The
+  comparison with the IERS test cases waits for its pre-registration's sign-off (R1.4).
+- `kshana::bias_sinex`: a Bias-SINEX 1.00 reader (DSB, ISB and OSB; code and phase; offsets, slopes and open intervals), and a
+  lookup of a satellite's observable-specific bias at a time. On two public files every data line is read with the values
+  printed. Both files' headers state a count of estimates that differs from their data lines. MODELLED; applying the biases
+  in PPP is item R1.3.
 
 ### Fixed
 

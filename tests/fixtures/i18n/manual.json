@@ -14102,5 +14102,117 @@
     "var": "need"
    }
   ]
+ },
+ {
+  "id": "e-bias-sinex-empty",
+  "error": true,
+  "parts": [
+   "the Bias-SINEX file is empty"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-no-header",
+  "error": true,
+  "parts": [
+   "the first line is not a %=BIA header"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-count",
+  "error": true,
+  "parts": [
+   "the header's count of estimates `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-time",
+  "error": true,
+  "parts": [
+   "`",
+   {
+    "var": "v"
+   },
+   "` is not a time YYYY:DDD:SSSSS"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-type",
+  "error": true,
+  "parts": [
+   "bias type `",
+   {
+    "var": "v"
+   },
+   "` is not DSB, ISB or OSB"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-no-obs1",
+  "error": true,
+  "parts": [
+   "the line gives no OBS1 observable"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-obs2",
+  "error": true,
+  "parts": [
+   "OBS2 must be blank for OSB and given for DSB and ISB"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-no-estimate",
+  "error": true,
+  "parts": [
+   "the line gives no estimate"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-estimate",
+  "error": true,
+  "parts": [
+   "the estimate `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-std-dev",
+  "error": true,
+  "parts": [
+   "the standard deviation `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-slope",
+  "error": true,
+  "parts": [
+   "the slope `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
+ },
+ {
+  "id": "e-bias-sinex-bad-slope-std-dev",
+  "error": true,
+  "parts": [
+   "the slope's standard deviation `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
  }
 ]

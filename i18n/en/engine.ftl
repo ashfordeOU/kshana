@@ -11599,3 +11599,27 @@ engine-area-trust-usage = usage: kshana area-trust <stations.json>
 engine-e-area-trust-stations = not a kshana.area-stations/1 document: { $e }
 
 engine-e-area-trust-epoch-order = station { $id }: epochs must be finite and in time order
+
+engine-e-bias-sinex-empty = the Bias-SINEX file is empty
+
+engine-e-bias-sinex-no-header = the first line is not a %=BIA header
+
+engine-e-bias-sinex-bad-count = the header's count of estimates `{ $v }` is not a number
+
+engine-e-bias-sinex-bad-time = `{ $v }` is not a time YYYY:DDD:SSSSS
+
+engine-e-bias-sinex-bad-type = bias type `{ $v }` is not DSB, ISB or OSB
+
+engine-e-bias-sinex-no-obs1 = the line gives no OBS1 observable
+
+engine-e-bias-sinex-obs2 = OBS2 must be blank for OSB and given for DSB and ISB
+
+engine-e-bias-sinex-no-estimate = the line gives no estimate
+
+engine-e-bias-sinex-bad-estimate = the estimate `{ $v }` is not a number
+
+engine-e-bias-sinex-bad-std-dev = the standard deviation `{ $v }` is not a number
+
+engine-e-bias-sinex-bad-slope = the slope `{ $v }` is not a number
+
+engine-e-bias-sinex-bad-slope-std-dev = the slope's standard deviation `{ $v }` is not a number
