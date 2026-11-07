@@ -123,6 +123,77 @@ pub fn raw_state(live: &[StationState]) -> (AreaState, usize, usize) {
     (s, n_d, n_u)
 }
 
+/// The published state and the alert, second by second (hysteresis and alert rule of section 2).
+#[derive(Clone, Debug, Default)]
+struct Publisher {
+    /// The last [`HOLD_S`] raw states, this second's included.
+    raws: std::collections::VecDeque<AreaState>,
+    published: Option<AreaState>,
+}
+
+impl Publisher {
+    fn step(&mut self, raw: AreaState) -> (AreaState, bool) {
+        if self.raws.len() == HOLD_S {
+            self.raws.pop_front();
+        }
+        self.raws.push_back(raw);
+        let before = self.published;
+        let next = match before {
+            None => raw,
+            Some(p) if raw == AreaState::Unknown || p == AreaState::Unknown => raw,
+            Some(p) => match (raw.rank(), p.rank()) {
+                (Some(r), Some(q)) if r > q => raw,
+                (Some(r), Some(q)) if r < q => {
+                    let all_better = self.raws.len() == HOLD_S
+                        && self.raws.iter().all(|w| w.rank().is_some_and(|x| x < q));
+                    if all_better {
+                        *self
+                            .raws
+                            .iter()
+                            .max_by_key(|w| w.rank().unwrap_or(0))
+                            .unwrap_or(&raw)
+                    } else {
+                        p
+                    }
+                }
+                _ => p,
+            },
+        };
+        self.published = Some(next);
+        let alert = match before {
+            None => false,
+            Some(p) => {
+                next.rank().is_some_and(|r| r >= 1)
+                    && (p == AreaState::Unknown || next.rank() > p.rank())
+            }
+        };
+        (next, alert)
+    }
+}
+
+/// One grid second from the stations' held states.
+fn second(g: i64, held: &[Option<(StationState, i64)>], publisher: &mut Publisher) -> AreaSecond {
+    let mut live = Vec::with_capacity(held.len());
+    let mut stale = 0;
+    for h in held {
+        match h {
+            Some((st, last)) if g - last < STALE_AFTER_S => live.push(*st),
+            _ => stale += 1,
+        }
+    }
+    let (raw, n_d, n_u) = raw_state(&live);
+    let (state, alert) = publisher.step(raw);
+    AreaSecond {
+        g,
+        state,
+        alert,
+        n: live.len(),
+        n_d,
+        n_u,
+        stale,
+    }
+}
+
 /// The area timeline over every grid second from the first epoch to the last.
 pub fn timeline(stations: &[Station]) -> Vec<AreaSecond> {
     let (mut lo, mut hi) = (i64::MAX, i64::MIN);
@@ -136,69 +207,93 @@ pub fn timeline(stations: &[Station]) -> Vec<AreaSecond> {
     if lo > hi {
         return Vec::new();
     }
-    // Per station: a cursor over its epochs, the state it holds and the second it last reported.
+    // Per station: a cursor over its epochs, and the state it holds with the second it last reported.
     let mut cursor = vec![0usize; stations.len()];
     let mut held: Vec<Option<(StationState, i64)>> = vec![None; stations.len()];
     let mut out = Vec::with_capacity((hi - lo + 1) as usize);
-    let mut raws: Vec<AreaState> = Vec::new();
-    let mut published: Option<AreaState> = None;
+    let mut publisher = Publisher::default();
     for g in lo..=hi {
-        let mut live = Vec::with_capacity(stations.len());
-        let mut stale = 0;
         for (i, s) in stations.iter().enumerate() {
             while cursor[i] < s.epochs.len() && (s.epochs[cursor[i]].0.floor() as i64) <= g {
                 let (t, st) = s.epochs[cursor[i]];
                 held[i] = Some((st, t.floor() as i64));
                 cursor[i] += 1;
             }
-            match held[i] {
-                Some((st, last)) if g - last < STALE_AFTER_S => live.push(st),
-                _ => stale += 1,
-            }
         }
-        let (raw, n_d, n_u) = raw_state(&live);
-        raws.push(raw);
-        let before = published;
-        let next = match before {
-            None => raw,
-            Some(p) if raw == AreaState::Unknown || p == AreaState::Unknown => raw,
-            Some(p) => match (raw.rank(), p.rank()) {
-                (Some(r), Some(q)) if r > q => raw,
-                (Some(r), Some(q)) if r < q => {
-                    let window = &raws[raws.len().saturating_sub(HOLD_S)..];
-                    let all_better = window.len() == HOLD_S
-                        && window.iter().all(|w| w.rank().is_some_and(|x| x < q));
-                    if all_better {
-                        *window
-                            .iter()
-                            .max_by_key(|w| w.rank().unwrap_or(0))
-                            .unwrap_or(&raw)
-                    } else {
-                        p
-                    }
-                }
-                _ => p,
-            },
-        };
-        published = Some(next);
-        let alert = match before {
-            None => false,
-            Some(p) => {
-                next.rank().is_some_and(|r| r >= 1)
-                    && (p == AreaState::Unknown || next.rank() > p.rank())
-            }
-        };
-        out.push(AreaSecond {
-            g,
-            state: next,
-            alert,
-            n: live.len(),
-            n_d,
-            n_u,
-            stale,
-        });
+        out.push(second(g, &held, &mut publisher));
     }
     out
+}
+
+/// The area rule on a live stream: station epochs arrive in time order per station, the stations
+/// interleaved, and each grid second is decided as soon as it can be. A second closes when every
+/// station has reported in it, or when an epoch of a later second arrives (the seconds between are
+/// closed in order). The closed seconds are exactly [`timeline`]'s over the same epochs, provided no
+/// epoch arrives for a second that has already closed; such an epoch is counted in `late` and left out.
+#[derive(Clone, Debug)]
+pub struct AreaLive {
+    held: Vec<Option<(StationState, i64)>>,
+    reported: Vec<bool>,
+    open: Option<i64>,
+    publisher: Publisher,
+    /// Epochs that arrived for a second already closed (left out).
+    pub late: u64,
+}
+
+impl AreaLive {
+    /// A live area of `n` stations, numbered `0..n`.
+    pub fn new(n: usize) -> AreaLive {
+        AreaLive {
+            held: vec![None; n],
+            reported: vec![false; n],
+            open: None,
+            publisher: Publisher::default(),
+            late: 0,
+        }
+    }
+
+    /// Take station `i`'s epoch at `t_s`; returns the seconds this closes, in order.
+    pub fn push(&mut self, i: usize, t_s: f64, state: StationState) -> Vec<AreaSecond> {
+        let g = t_s.floor() as i64;
+        let mut out = Vec::new();
+        if i >= self.held.len() {
+            return out;
+        }
+        match self.open {
+            Some(o) if g < o => {
+                self.late += 1;
+                return out;
+            }
+            Some(o) if g > o => {
+                out.push(self.close(o));
+                for gap in o + 1..g {
+                    out.push(second(gap, &self.held, &mut self.publisher));
+                }
+            }
+            _ => {}
+        }
+        self.open = Some(g);
+        self.held[i] = Some((state, g));
+        self.reported[i] = true;
+        if self.reported.iter().all(|r| *r) {
+            out.push(self.close(g));
+            self.open = Some(g + 1);
+        }
+        out
+    }
+
+    /// Close the open second, if one has an epoch in it.
+    pub fn flush(&mut self) -> Vec<AreaSecond> {
+        match self.open {
+            Some(o) if self.reported.iter().any(|r| *r) => vec![self.close(o)],
+            _ => Vec::new(),
+        }
+    }
+
+    fn close(&mut self, g: i64) -> AreaSecond {
+        self.reported.iter_mut().for_each(|r| *r = false);
+        second(g, &self.held, &mut self.publisher)
+    }
 }
 
 // ------------------------------------------------------------------ per-station evidence (section 1)
