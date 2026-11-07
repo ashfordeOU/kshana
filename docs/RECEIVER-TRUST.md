@@ -74,7 +74,7 @@ The file goes in by `path` (resolved against the scenario's own folder), or inli
 
 ```toml
 [log.imu]
-format = "csv"          # or "euroc"
+format = "csv"          # or "euroc", "ros2-csv"
 path = "imu.csv"        # or text / base64
 heading0_deg = 90.0     # heading at the first IMU sample
 yaw_axis_down = true    # body z down (NED/FRD); false for z up (ENU/FLU)
