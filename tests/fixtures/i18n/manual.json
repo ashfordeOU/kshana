@@ -14370,5 +14370,15 @@
   "parts": [
    "placement needs candidates and m between 1 and their number"
   ]
+ },
+ {
+  "id": "e-env-baseline-input",
+  "error": true,
+  "parts": [
+   "not a list of site-hours (lat_deg, lon_deg, year, doy, ut_hour, kp, f107): ",
+   {
+    "var": "e"
+   }
+  ]
  }
 ]

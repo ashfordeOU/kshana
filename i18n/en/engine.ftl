@@ -11657,3 +11657,7 @@ engine-e-planner-parse = not a kshana.planner/1 document: { $e }
 engine-e-planner-spec = the planner input is out of range: schema kshana.planner/1, at least a 2 × 2 grid with positive extent, positive frequency, bandwidth, integration time and σ_τ, and 0 < P_fa < 1
 
 engine-e-planner-placement = placement needs candidates and m between 1 and their number
+
+## src/env_baseline.rs
+
+engine-e-env-baseline-input = not a list of site-hours (lat_deg, lon_deg, year, doy, ut_hour, kp, f107): { $e }

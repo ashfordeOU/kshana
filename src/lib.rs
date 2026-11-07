@@ -135,6 +135,8 @@ pub mod earth_gnss_lunar;
 pub mod egm2008_data;
 pub mod ensemble;
 pub mod entry_eo_ascent;
+/// Environmental baseline per site and hour (0.41 row B8).
+pub mod env_baseline;
 pub mod eo_payload;
 pub mod eop;
 /// Least-squares plus autoregressive Earth-orientation prediction with the zonal tides removed.
