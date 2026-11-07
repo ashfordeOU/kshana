@@ -11503,10 +11503,18 @@ engine-interference-map-live-record-done = wrote { $rows } rows to { $out }; { $
 
 ## src/clock_live.rs
 
-engine-clock-live-usage = usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert> --from <-|tcp:host:port|file> [--clock <name>] [--follow] [--poll-s <s>] [--max-seconds <s>]
+engine-clock-live-usage = usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>]
 
-engine-e-clock-live-format = clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics and pps-assert logs, not { $format }
+engine-e-clock-live-format = clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics, pps-assert and ticc logs, not { $format }
 
 engine-e-clock-live-positive = { $name } must be a positive number of seconds
 
 engine-e-clock-log-no-pps-pulses = the log has no PPS assert time stamps (<sec>.<nsec>#<sequence>)
+
+engine-e-clock-live-ticc-tau0 = a TICC log read live needs --tau0 <seconds>: the whole-log reader finds it from every time stamp, which a live reader does not have yet
+
+## src/sensor_live.rs
+
+engine-sensor-live-usage = usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]
+
+engine-e-sensor-live-kind = sensor-live reads --kind imu; not { $kind }

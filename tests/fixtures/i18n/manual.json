@@ -13663,14 +13663,14 @@
   "id": "clock-live-usage",
   "error": false,
   "parts": [
-   "usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert> --from <-|tcp:host:port|file> [--clock <name>] [--follow] [--poll-s <s>] [--max-seconds <s>]"
+   "usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>]"
   ]
  },
  {
   "id": "e-clock-live-format",
   "error": true,
   "parts": [
-   "clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics and pps-assert logs, not ",
+   "clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics, pps-assert and ticc logs, not ",
    {
     "var": "format"
    }
@@ -13691,6 +13691,30 @@
   "error": true,
   "parts": [
    "the log has no PPS assert time stamps (<sec>.<nsec>#<sequence>)"
+  ]
+ },
+ {
+  "id": "sensor-live-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]"
+  ]
+ },
+ {
+  "id": "e-sensor-live-kind",
+  "error": true,
+  "parts": [
+   "sensor-live reads --kind imu; not ",
+   {
+    "var": "kind"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-live-ticc-tau0",
+  "error": true,
+  "parts": [
+   "a TICC log read live needs --tau0 <seconds>: the whole-log reader finds it from every time stamp, which a live reader does not have yet"
   ]
  }
 ]

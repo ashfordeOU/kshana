@@ -1183,8 +1183,15 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     }
     // `kshana clock-live --format <f> --from <...>` follows a servo, chrony or PPS log and prints
     // one JSON line per reading (kshana::clock_live; docs/CLOCK-LOG-FORMATS.md). Read only.
-    if args.get(1).map(String::as_str) == Some("clock-live") {
-        return match kshana::clock_live::run(&args[2..]) {
+    // `kshana sensor-live --kind imu ...` follows a sensor log (kshana::sensor_live). Read only.
+    type LiveRun = fn(&[String]) -> Result<(), String>;
+    let live_cmd: Option<LiveRun> = match args.get(1).map(String::as_str) {
+        Some("clock-live") => Some(kshana::clock_live::run),
+        Some("sensor-live") => Some(kshana::sensor_live::run),
+        _ => None,
+    };
+    if let Some(run) = live_cmd {
+        return match run(&args[2..]) {
             Ok(()) => ExitCode::SUCCESS,
             Err(e) => {
                 eprintln!("{e}");

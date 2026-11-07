@@ -161,10 +161,11 @@ the PPS input) against the pulse; how good the pulse is, is not known from the l
 journalctl -f -o cat -u ptp4l | kshana clock-live --format ptp4l --from -
 kshana clock-live --format chrony-tracking --from /var/log/chrony/tracking.log --follow
 kshana clock-live --format pps-assert --from /sys/class/pps/pps0/assert --poll-s 0.2
+cat /dev/ttyACM0 | kshana clock-live --format ticc --clock chA --tau0 1 --from -
 ```
 
-`clock-live` reads a `ptp4l`, `phc2sys`, `ts2phc`, `chrony-tracking`, `chrony-statistics` or
-`pps-assert` log as it is written: from standard input, `tcp:host:port`, a file (with `--follow`, it
+`clock-live` reads a `ptp4l`, `phc2sys`, `ts2phc`, `chrony-tracking`, `chrony-statistics`,
+`pps-assert` or `ticc` log as it is written: from standard input, `tcp:host:port`, a file (with `--follow`, it
 waits at the end for more lines), or with `--poll-s` a file read whole at every poll (the PPS
 `assert` file). It prints one JSON line per reading:
 
@@ -175,7 +176,9 @@ waits at the end for more lines), or with `--poll-s` a file read whole at every 
 
 `kept` is true exactly for the readings the whole-log reader keeps: the source named by `--clock`
 (without it, the first source seen; every line of a chrony tracking log), linuxptp readings from the
-servo's first locked state (`s2`) on, and each PPS pulse once. So the kept offsets of a live run are
+servo's first locked state (`s2`) on, each PPS pulse once, and the TICC channel named by `--clock` (time stamps need `--tau0`, which the
+whole-log reader would find from every stamp; the phase is the same femtosecond arithmetic, and a missing
+tick is a reading the replay fills, not one live invents). So the kept offsets of a live run are
 the phase series a replay of the same log gives (`tests/clock_live.rs`, on logs read whole and
 followed while they are written). `rms_s` and `max_abs_s` are over the last 64 kept offsets. It only
 reads: nothing is sent to the servo, the daemon or the device.

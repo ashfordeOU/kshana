@@ -49,19 +49,76 @@ fn col(header: &[String], names: &[&str]) -> Option<usize> {
         .position(|h| names.iter().any(|n| h.eq_ignore_ascii_case(n)))
 }
 
-/// Read an IMU CSV. Rows that do not parse are skipped; time must increase, a row that does
-/// not is skipped. Errors when the header lacks a required column or no sample reads.
-pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String> {
-    let mut lines = text.lines().filter(|l| !l.trim().is_empty());
-    let head = lines
-        .next()
-        .ok_or_else(|| crate::terr!("e-receiver-trust-machines-imu-the-imu-file-is-empty"))?;
+/// An IMU log read a line at a time: the first non-empty line is the header, every later line a
+/// sample. [`read_imu`] is this reader over a whole file, so a live reader and a replay keep the same
+/// samples.
+pub struct ImuReader {
+    format: ImuFormat,
+    idx: Option<[usize; 7]>,
+    t0_ns: Option<f64>,
+    last_t: Option<f64>,
+}
+
+impl ImuReader {
+    /// A reader for `format`, before its header.
+    pub fn new(format: ImuFormat) -> Self {
+        Self {
+            format,
+            idx: None,
+            t0_ns: None,
+            last_t: None,
+        }
+    }
+
+    /// Take one line: the header (an error when it lacks a required column), then samples. A row
+    /// that does not parse, or whose time does not increase, gives `Ok(None)`.
+    pub fn push_line(&mut self, l: &str) -> Result<Option<ImuSample>, String> {
+        if l.trim().is_empty() {
+            return Ok(None);
+        }
+        let Some(idx) = self.idx else {
+            self.idx = Some(header_columns(self.format, l)?);
+            return Ok(None);
+        };
+        let f: Vec<&str> = l.split(',').map(str::trim).collect();
+        let v: Option<Vec<f64>> = idx
+            .iter()
+            .map(|&i| {
+                f.get(i)
+                    .and_then(|s| s.parse::<f64>().ok())
+                    .filter(|x| x.is_finite())
+            })
+            .collect();
+        let Some(v) = v else { return Ok(None) };
+        let t = match self.format {
+            ImuFormat::Csv => v[0],
+            ImuFormat::Euroc => (v[0] - *self.t0_ns.get_or_insert(v[0])) / 1e9,
+        };
+        if self.last_t.is_some_and(|p| t <= p) {
+            return Ok(None);
+        }
+        self.last_t = Some(t);
+        Ok(Some(ImuSample {
+            t_s: t,
+            gyro: [v[1], v[2], v[3]],
+            accel: [v[4], v[5], v[6]],
+        }))
+    }
+
+    /// Whether the header has been read.
+    pub fn has_header(&self) -> bool {
+        self.idx.is_some()
+    }
+}
+
+/// The columns of `t`, the three rates and the three specific forces, from the header line.
+fn header_columns(format: ImuFormat, head: &str) -> Result<[usize; 7], String> {
     let header: Vec<String> = head
         .trim_start_matches('#')
         .split(',')
         .map(|s| s.trim().to_string())
         .collect();
-    let idx: [usize; 7] = match format {
+    Ok(match format {
         ImuFormat::Csv => {
             let c = |n: &str| {
                 col(&header, &[n]).ok_or_else(|| {
@@ -94,35 +151,26 @@ pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String>
                 c("a_RS_S_z")?,
             ]
         }
-    };
+    })
+}
+
+/// Read an IMU CSV. Rows that do not parse are skipped; time must increase, a row that does
+/// not is skipped. Errors when the header lacks a required column or no sample reads.
+pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String> {
+    let mut r = ImuReader::new(format);
     let mut out: Vec<ImuSample> = Vec::new();
-    let mut t0_ns: Option<f64> = None;
-    for l in lines {
+    for l in text.lines() {
         if out.len() >= MAX_SAMPLES {
             break;
         }
-        let f: Vec<&str> = l.split(',').map(str::trim).collect();
-        let v: Option<Vec<f64>> = idx
-            .iter()
-            .map(|&i| {
-                f.get(i)
-                    .and_then(|s| s.parse::<f64>().ok())
-                    .filter(|x| x.is_finite())
-            })
-            .collect();
-        let Some(v) = v else { continue };
-        let t = match format {
-            ImuFormat::Csv => v[0],
-            ImuFormat::Euroc => (v[0] - *t0_ns.get_or_insert(v[0])) / 1e9,
-        };
-        if out.last().is_some_and(|p| t <= p.t_s) {
-            continue;
+        if let Some(s) = r.push_line(l)? {
+            out.push(s);
         }
-        out.push(ImuSample {
-            t_s: t,
-            gyro: [v[1], v[2], v[3]],
-            accel: [v[4], v[5], v[6]],
-        });
+    }
+    if !r.has_header() {
+        return Err(crate::terr!(
+            "e-receiver-trust-machines-imu-the-imu-file-is-empty"
+        ));
     }
     if out.is_empty() {
         return Err(crate::terr!(
@@ -130,6 +178,35 @@ pub fn read_imu(format: ImuFormat, text: &str) -> Result<Vec<ImuSample>, String>
         ));
     }
     Ok(out)
+}
+
+/// The gyro heading as it is integrated one sample at a time: the same sums, in the same order,
+/// as [`gyro_heading`].
+pub struct HeadingIntegrator {
+    sign: f64,
+    h: f64,
+    prev: Option<ImuSample>,
+}
+
+impl HeadingIntegrator {
+    /// Start at `heading0_deg`; `yaw_axis_down` as in [`gyro_heading`].
+    pub fn new(heading0_deg: f64, yaw_axis_down: bool) -> Self {
+        Self {
+            sign: if yaw_axis_down { 1.0 } else { -1.0 },
+            h: heading0_deg,
+            prev: None,
+        }
+    }
+
+    /// Take the next sample; its heading in degrees `[0, 360)`.
+    pub fn push(&mut self, s: &ImuSample) -> f64 {
+        if let Some(p) = &self.prev {
+            self.h += self.sign * 0.5 * (s.gyro[2] + p.gyro[2]) * (s.t_s - p.t_s) * 180.0
+                / std::f64::consts::PI;
+        }
+        self.prev = Some(*s);
+        self.h.rem_euclid(360.0)
+    }
 }
 
 /// Gyro heading in degrees `[0, 360)` at each sample: `heading0_deg` plus the trapezoidal
