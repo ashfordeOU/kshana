@@ -50,6 +50,18 @@ The pre-registration is `docs/design/evidence/b8-environmental-baseline/PREREGIS
    Passed over:
    - NYA200NOR, RIO200ARG and POTS00DEU: their 2017 files carry no `S1C`.
 
+8. **Navigation file (step 5).** The pre-registration says only "broadcast navigation files". The first
+   labelling pass used BKG's `BRDC00WRD_R` merged file. On 2024-03-11, 16 and 17 that file holds only about
+   50 GPS records (about 440 on other days), so most station-hours of those days could not be masked at 30°
+   and were excluded.
+   - Rule: each day takes whichever of BKG's two merged daily files (`BRDC00IGS_R`, `BRDC00WRD_R`) has more
+     GPS records.
+   - The rule is decided on the navigation files' own content, before any label is committed and before the
+     baseline has run.
+   - All labels were recomputed with it.
+9. **Epoch records (step 5).** Event records in an observation file (epoch flag 2 to 6, which may leave the
+   date blank) and the lines that follow them are skipped. One file with such a record stopped the first pass.
+
 ## Event days drawn (step 3)
 
 - **10 storm days**, daily maximum Kp of at least 8−. There were more than 10, so the 10 with the highest Ap
