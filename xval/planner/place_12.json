@@ -1,0 +1,102 @@
+{
+ "schema": "kshana.planner/1",
+ "site": {
+  "lat_min": 44.82,
+  "lat_max": 45.18,
+  "lon_min": 9.75,
+  "lon_max": 10.25,
+  "n_lat": 41,
+  "n_lon": 41
+ },
+ "source": {
+  "eirp_dbw": -30.0,
+  "height_m": 2.0,
+  "freq_hz": 1575420000.0
+ },
+ "receiver": {
+  "noise_figure_db": 3.0,
+  "bandwidth_hz": 2000000.0,
+  "integration_s": 0.001,
+  "p_fa": 0.001
+ },
+ "sigma_tau_s": 1e-08,
+ "mode": "surface",
+ "gate_pd": 0.5,
+ "d_req_m": 20.0,
+ "stations": [],
+ "candidates": [
+  {
+   "lat_deg": 44.88,
+   "lon_deg": 9.82,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.88,
+   "lon_deg": 9.94,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.88,
+   "lon_deg": 10.06,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.88,
+   "lon_deg": 10.18,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.94,
+   "lon_deg": 9.82,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.94,
+   "lon_deg": 9.94,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.94,
+   "lon_deg": 10.06,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 44.94,
+   "lon_deg": 10.18,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 45.0,
+   "lon_deg": 9.82,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 45.0,
+   "lon_deg": 9.94,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 45.0,
+   "lon_deg": 10.06,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  },
+  {
+   "lat_deg": 45.0,
+   "lon_deg": 10.18,
+   "height_m": 10.0,
+   "gain_dbi": 0.0
+  }
+ ],
+ "m": 4
+}
