@@ -3,7 +3,7 @@
 //! normalised phase series `(time_s, phase_s)` on a uniform grid, with the sample interval
 //! `tau0` found or stated, every gap counted, and the units of the log named.
 //!
-//! Eight formats are read. Each is a documented subset, stated here and in
+//! Thirteen formats are read. Each is a documented subset, stated here and in
 //! `docs/CLOCK-LOG-FORMATS.md`; anything outside it is refused with an error naming what
 //! was found rather than read approximately.
 //!
@@ -45,6 +45,8 @@
 //!   the logged offset is the phase (ns for linuxptp, s for chrony), the time stamp is the
 //!   line's own, and linuxptp readings before the servo first locks (`s2`) are left out.
 //!   Layouts and the sample interval rule are in `docs/CLOCK-LOG-FORMATS.md`.
+//! * **`pps-assert`** — Linux PPS `assert` time stamps (`<sec>.<nsec>#<sequence>`): the host
+//!   clock's offset from the pulse, which marks the second; a pulse read twice counts once.
 //!
 //! ## `tau0` and gaps
 //!
@@ -105,10 +107,14 @@ pub enum ClockLogFormat {
     /// BIPM CGGTTS 2E track file (all-in-view `REFSYS`, 0.1 ns; checksums checked).
     #[serde(rename = "cggtts")]
     Cggtts,
+    /// Linux PPS `assert` time stamps (`<sec>.<nsec>#<sequence>`, as `/sys/class/pps/ppsN/assert`
+    /// gives them): the host clock's offset from the pulse, s.
+    #[serde(rename = "pps-assert")]
+    PpsAssert,
 }
 
 /// Format names accepted in a scenario.
-pub const FORMAT_NAMES: [&str; 12] = [
+pub const FORMAT_NAMES: [&str; 13] = [
     "rinex-clk",
     "timelab",
     "ticc",
@@ -121,6 +127,7 @@ pub const FORMAT_NAMES: [&str; 12] = [
     "ntp-peerstats",
     "wr-stat",
     "cggtts",
+    "pps-assert",
 ];
 
 impl ClockLogFormat {
@@ -139,6 +146,7 @@ impl ClockLogFormat {
             "ntp-peerstats" => Ok(Self::NtpPeerstats),
             "wr-stat" => Ok(Self::WrStat),
             "cggtts" => Ok(Self::Cggtts),
+            "pps-assert" => Ok(Self::PpsAssert),
             other => Err(crate::terr!(
                 "e-clock-log-unknown-clock-log-format-expected",
                 other = format!("{:?}", other),
@@ -162,6 +170,7 @@ impl ClockLogFormat {
             Self::NtpPeerstats => "ntp-peerstats",
             Self::WrStat => "wr-stat",
             Self::Cggtts => "cggtts",
+            Self::PpsAssert => "pps-assert",
         }
     }
 }
@@ -322,7 +331,12 @@ pub fn read_input(inp: &ClockLogInput) -> Result<NormalisedPhase, String> {
     if fmt != ClockLogFormat::TimeLab && (inp.units.is_some() || inp.data.is_some()) {
         return Err(crate::terr!("e-clock-log-units-and-data-apply-to"));
     }
-    if inp.clock.is_some() && (fmt == ClockLogFormat::TimeLab || fmt == ClockLogFormat::Ticc) {
+    if inp.clock.is_some()
+        && matches!(
+            fmt,
+            ClockLogFormat::TimeLab | ClockLogFormat::Ticc | ClockLogFormat::PpsAssert
+        )
+    {
         return Err(crate::terr!("e-clock-log-clock-applies-to-the-rinex"));
     }
     if fmt != ClockLogFormat::Ticc && inp.channel.is_some() {
@@ -366,6 +380,7 @@ pub fn parse(
         }
         ClockLogFormat::WrStat => parse_wr_stat(text, inp, gaps),
         ClockLogFormat::Cggtts => parse_cggtts(text, inp, gaps),
+        ClockLogFormat::PpsAssert => parse_pps(text, inp, gaps),
         ClockLogFormat::ChronyTracking | ClockLogFormat::ChronyStatistics => {
             parse_chrony(fmt, text, inp, gaps)
         }
@@ -1150,6 +1165,33 @@ fn linuxptp_stamp(head: &str) -> Option<(f64, &str)> {
     None
 }
 
+fn linuxptp_line(prog: &str, l: &str) -> Option<(String, TimedOffset)> {
+    if !l.contains(prog) {
+        return None;
+    }
+    let at = l.find(" offset")?;
+    let (t, after_stamp) = linuxptp_stamp(&l[..at])?;
+    let mut it = l[at + " offset".len()..].split_whitespace();
+    let offset: f64 = it.next()?.parse().ok().filter(|v: &f64| v.is_finite())?;
+    let locked = match it.next() {
+        Some("s0") | Some("s1") => Some(false),
+        Some("s2") | Some("s3") => Some(true),
+        _ => None,
+    };
+    let source = after_stamp
+        .trim_start_matches(':')
+        .replace(['[', ']'], " ")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    let source = if source.is_empty() {
+        "-".to_string()
+    } else {
+        source
+    };
+    Some((source, TimedOffset { t, offset, locked }))
+}
+
 fn parse_linuxptp(
     fmt: ClockLogFormat,
     text: &str,
@@ -1164,32 +1206,7 @@ fn parse_linuxptp(
         if l.is_empty() || l.starts_with('#') {
             continue;
         }
-        let reading = (|| {
-            if !l.contains(prog) {
-                return None;
-            }
-            let at = l.find(" offset")?;
-            let (t, after_stamp) = linuxptp_stamp(&l[..at])?;
-            let mut it = l[at + " offset".len()..].split_whitespace();
-            let offset: f64 = it.next()?.parse().ok().filter(|v: &f64| v.is_finite())?;
-            let locked = match it.next() {
-                Some("s0") | Some("s1") => Some(false),
-                Some("s2") | Some("s3") => Some(true),
-                _ => None,
-            };
-            let source = after_stamp
-                .trim_start_matches(':')
-                .replace(['[', ']'], " ")
-                .split_whitespace()
-                .collect::<Vec<_>>()
-                .join(" ");
-            let source = if source.is_empty() {
-                "-".to_string()
-            } else {
-                source
-            };
-            Some((source, TimedOffset { t, offset, locked }))
-        })();
+        let reading = linuxptp_line(prog, l);
         let Some((source, r)) = reading else {
             skipped += 1;
             continue;
@@ -1249,6 +1266,31 @@ fn chrony_epoch(date: &str, time: &str) -> Option<f64> {
     Some(n as f64 * 86_400.0 + hh * 3600.0 + mm * 60.0 + ss)
 }
 
+fn chrony_line(min_cols: usize, offset_col: usize, l: &str) -> Option<(String, TimedOffset)> {
+    let f: Vec<&str> = l.split_whitespace().collect();
+    if f.len() < min_cols {
+        return None;
+    }
+    let t = chrony_epoch(f[0], f[1])?;
+    let offset: f64 = f[offset_col].parse().ok().filter(|v: &f64| v.is_finite())?;
+    Some((
+        f[2].to_string(),
+        TimedOffset {
+            t,
+            offset,
+            locked: None,
+        },
+    ))
+}
+
+/// Column count and offset column of chrony's `log tracking` and `log statistics` files.
+fn chrony_cols(fmt: ClockLogFormat) -> (usize, usize) {
+    match fmt {
+        ClockLogFormat::ChronyTracking => (14, 6),
+        _ => (13, 4),
+    }
+}
+
 fn parse_chrony(
     fmt: ClockLogFormat,
     text: &str,
@@ -1258,10 +1300,7 @@ fn parse_chrony(
     // Column positions of chrony's `log tracking` and `log statistics` files: the date,
     // the time, the address or reference id, then the offset (tracking, column 7: the
     // local offset on the clock update; statistics, column 5: the estimated offset).
-    let (min_cols, offset_col) = match fmt {
-        ClockLogFormat::ChronyTracking => (14, 6),
-        _ => (13, 4),
-    };
+    let (min_cols, offset_col) = chrony_cols(fmt);
     let mut by_source: Vec<(String, Vec<TimedOffset>)> = Vec::new();
     let mut skipped = 0usize;
     for line in text.lines() {
@@ -1269,22 +1308,7 @@ fn parse_chrony(
         if l.is_empty() || l.starts_with('=') || l.starts_with('#') {
             continue;
         }
-        let f: Vec<&str> = l.split_whitespace().collect();
-        let reading = (|| {
-            if f.len() < min_cols {
-                return None;
-            }
-            let t = chrony_epoch(f[0], f[1])?;
-            let offset: f64 = f[offset_col].parse().ok().filter(|v: &f64| v.is_finite())?;
-            Some((
-                f[2].to_string(),
-                TimedOffset {
-                    t,
-                    offset,
-                    locked: None,
-                },
-            ))
-        })();
+        let reading = chrony_line(min_cols, offset_col, l);
         let Some((source, r)) = reading else {
             skipped += 1;
             continue;
@@ -1328,6 +1352,124 @@ fn parse_chrony(
         skipped,
     )?
     .finish_with(gaps)
+}
+
+/// One Linux PPS `assert` line, `<sec>.<nsec>#<sequence>`: the host time stamp of the pulse and its
+/// sequence number. The offset is the time stamp's distance from the nearest whole second (the
+/// pulse marks the second), so a host clock ahead of the pulse has a positive offset.
+fn pps_line(l: &str) -> Option<(u64, TimedOffset)> {
+    let (stamp, seq) = l.trim().split_once('#')?;
+    let seq: u64 = seq.trim().parse().ok()?;
+    let (sec, frac) = stamp.split_once('.')?;
+    let sec: i64 = sec.parse().ok()?;
+    if frac.len() != 9 || !frac.bytes().all(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    let ns: i64 = frac.parse().ok()?;
+    let (whole, off_ns) = if ns >= 500_000_000 {
+        (sec + 1, ns - 1_000_000_000)
+    } else {
+        (sec, ns)
+    };
+    Some((
+        seq,
+        TimedOffset {
+            t: whole as f64,
+            offset: off_ns as f64 / 1e9,
+            locked: None,
+        },
+    ))
+}
+
+fn parse_pps(text: &str, inp: &ClockLogInput, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
+    let mut readings: Vec<TimedOffset> = Vec::new();
+    let mut last_seq = None;
+    let mut skipped = 0usize;
+    for line in text.lines() {
+        let l = line.trim();
+        if l.is_empty() || l.starts_with('#') {
+            continue;
+        }
+        match pps_line(l) {
+            // A poll that read the same pulse again is not a new reading.
+            Some((seq, _)) if last_seq == Some(seq) => {}
+            Some((seq, r)) => {
+                last_seq = Some(seq);
+                readings.push(r);
+            }
+            None => skipped += 1,
+        }
+    }
+    if readings.is_empty() {
+        return Err(crate::terr!("e-clock-log-no-pps-pulses"));
+    }
+    let times: Vec<f64> = readings.iter().map(|r| r.t).collect();
+    let offsets: Vec<f64> = readings.iter().map(|r| r.offset).collect();
+    grid_timed_offsets(
+        ClockLogFormat::PpsAssert,
+        "pps".to_string(),
+        &times,
+        &offsets,
+        inp,
+        "s",
+        None,
+        skipped,
+    )?
+    .finish_with(gaps)
+}
+
+/// One reading taken from one line of a servo, chrony or PPS log, for readers that see the log a
+/// line at a time (`kshana clock-live`). `None` for a line that is not a reading of `fmt`, and for
+/// formats that are not read a line at a time.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct LineReading {
+    /// The source the reading belongs to (the servo's clock, chrony's reference, `pps`).
+    pub source: String,
+    /// The line's time stamp: Unix seconds for linuxptp and PPS, seconds from 1980-01-06 for
+    /// chrony, as the whole-log readers keep it.
+    pub t_s: f64,
+    /// The offset, s.
+    pub offset_s: f64,
+    /// The servo state when the line gives one (linuxptp: `s0`/`s1` false, `s2`/`s3` true).
+    pub locked: Option<bool>,
+    /// The PPS sequence number.
+    pub seq: Option<u64>,
+}
+
+/// Read one line of a `ptp4l`, `phc2sys`, `ts2phc`, `chrony-tracking`, `chrony-statistics` or
+/// `pps-assert` log.
+pub fn read_line(fmt: ClockLogFormat, line: &str) -> Option<LineReading> {
+    let l = line.trim();
+    if l.is_empty() || l.starts_with('#') {
+        return None;
+    }
+    let (source, r, seq) = match fmt {
+        ClockLogFormat::Ptp4l | ClockLogFormat::Phc2sys | ClockLogFormat::Ts2phc => {
+            let (s, mut r) = linuxptp_line(fmt.name(), l)?;
+            r.offset /= 1e9;
+            (s, r, None)
+        }
+        ClockLogFormat::ChronyTracking | ClockLogFormat::ChronyStatistics => {
+            if l.starts_with('=') {
+                return None;
+            }
+            let (min_cols, offset_col) = chrony_cols(fmt);
+            let (s, r) = chrony_line(min_cols, offset_col, l)?;
+            (s, r, None)
+        }
+        ClockLogFormat::PpsAssert => {
+            let (seq, r) = pps_line(l)?;
+            ("pps".to_string(), r, Some(seq))
+        }
+        _ => return None,
+    };
+    Some(LineReading {
+        source,
+        t_s: r.t,
+        offset_s: r.offset,
+        locked: r.locked,
+        seq,
+    })
 }
 
 /// ntpd `loopstats` and `peerstats`: the modified Julian day, the seconds past midnight UTC,
@@ -2076,12 +2218,12 @@ TICC startup menu text
 
     #[test]
     fn clock_selector_is_refused_for_timelab_and_ticc_only() {
-        for f in ["timelab", "ticc"] {
+        for f in ["timelab", "ticc", "pps-assert"] {
             let mut i = inp(f);
             i.clock = Some("x".into());
             assert!(run(&i, "1\n2\n").unwrap_err().contains("clock applies to"));
         }
-        assert_eq!(FORMAT_NAMES.len(), 12);
+        assert_eq!(FORMAT_NAMES.len(), 13);
         for n in FORMAT_NAMES {
             assert_eq!(ClockLogFormat::from_name(n).unwrap().name(), n);
         }
