@@ -2,7 +2,7 @@
 
 `src/clock_log.rs` reads a measured clock log into one normalised phase series: a uniform
 grid of `(time_s, phase_s)` samples, with the sample interval `tau0` stated or found, every
-gap counted and the log's units named. Eleven formats are read, each a documented subset.
+gap counted and the log's units named. Thirteen formats are read, each a documented subset.
 Anything outside the subset is refused with an error that names what was found, rather
 than read approximately.
 
@@ -143,6 +143,42 @@ Kshana with made-up values (see its `NOTICE.md`); no real log was read, so a lay
 differs between daemon versions can still be refused or misread. A line that does not match is
 skipped and counted, never guessed.
 
+
+## Linux PPS time stamps (`pps-assert`)
+
+**`pps-assert`**: the time stamps the Linux PPS subsystem gives for each pulse, one per line as
+`/sys/class/pps/ppsN/assert` shows them: `<seconds>.<nanoseconds>#<sequence>`, the nanoseconds
+always nine digits. The pulse marks a whole second, so the offset is the time stamp's distance from
+the nearest second, in seconds: a host clock ahead of the pulse has a positive offset. The
+reading's time is that whole second. A line with the same sequence number as the line before it is
+the same pulse read twice and is not a new reading; other lines are skipped and counted. There is
+one source, so `clock` is refused. What is measured is the host clock (with the interrupt latency of
+the PPS input) against the pulse; how good the pulse is, is not known from the log.
+
+## Live: `kshana clock-live`
+
+```sh
+journalctl -f -o cat -u ptp4l | kshana clock-live --format ptp4l --from -
+kshana clock-live --format chrony-tracking --from /var/log/chrony/tracking.log --follow
+kshana clock-live --format pps-assert --from /sys/class/pps/pps0/assert --poll-s 0.2
+```
+
+`clock-live` reads a `ptp4l`, `phc2sys`, `ts2phc`, `chrony-tracking`, `chrony-statistics` or
+`pps-assert` log as it is written: from standard input, `tcp:host:port`, a file (with `--follow`, it
+waits at the end for more lines), or with `--poll-s` a file read whole at every poll (the PPS
+`assert` file). It prints one JSON line per reading:
+
+```json
+{"source":"-","t_s":1003.0,"offset_s":4e-8,"locked":true,"seq":null,"kept":true,"n_kept":1,
+ "rms_s":4e-8,"max_abs_s":4e-8,"since_last_s":null}
+```
+
+`kept` is true exactly for the readings the whole-log reader keeps: the source named by `--clock`
+(without it, the first source seen; every line of a chrony tracking log), linuxptp readings from the
+servo's first locked state (`s2`) on, and each PPS pulse once. So the kept offsets of a live run are
+the phase series a replay of the same log gives (`tests/clock_live.rs`, on logs read whole and
+followed while they are written). `rms_s` and `max_abs_s` are over the last 64 kept offsets. It only
+reads: nothing is sent to the servo, the daemon or the device.
 
 ## ntpd and White Rabbit logs
 

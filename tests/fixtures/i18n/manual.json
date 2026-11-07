@@ -13658,5 +13658,39 @@
    },
    " inputs did not check or parse"
   ]
+ },
+ {
+  "id": "clock-live-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert> --from <-|tcp:host:port|file> [--clock <name>] [--follow] [--poll-s <s>] [--max-seconds <s>]"
+  ]
+ },
+ {
+  "id": "e-clock-live-format",
+  "error": true,
+  "parts": [
+   "clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics and pps-assert logs, not ",
+   {
+    "var": "format"
+   }
+  ]
+ },
+ {
+  "id": "e-clock-live-positive",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   " must be a positive number of seconds"
+  ]
+ },
+ {
+  "id": "e-clock-log-no-pps-pulses",
+  "error": true,
+  "parts": [
+   "the log has no PPS assert time stamps (<sec>.<nsec>#<sequence>)"
+  ]
  }
 ]

@@ -167,6 +167,7 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `connect map` | `connect_map` | `connect_map` | `connect_map` | N/A | N/A | | — | In memory: the mapping, station and log are passed as text and the `kshana.obs/1` JSON lines come back (`surface::connect_map`; same bytes as the `kshana connect check` vectors, `tests/surface_connect_map.rs`). See `docs/CONNECT.md` |
 | `connect check` | N/A | N/A | N/A | N/A | N/A | | — | Runs check vectors from a directory on disk, so it stays a command; the Rust API (`kshana::connect::run_vector`) is the library surface |
 | `ntrip` | N/A | N/A | N/A | N/A | N/A | | — | A network client that streams to a file or a pipe, so it stays a command; the Rust API (`kshana::ntrip`) is the library surface |
+| `clock-live` | N/A | N/A | N/A | N/A | N/A | | — | Follows a log as it is written and prints JSON lines, so it stays a command; the Rust API (`kshana::clock_live`) is the library surface. See `docs/CLOCK-LOG-FORMATS.md` |
 | `connect watch` | N/A | N/A | N/A | N/A | N/A | | — | A long-running process that follows a directory on disk, so it stays a command; the Rust API (`kshana::connect_watch`) is the library surface |
 | `connect mqtt` | N/A | N/A | N/A | N/A | N/A | | — | A long-running network subscription, so it stays a command; the Rust API (`kshana::connect_mqtt`) is the library surface |
 | `connect nats` | N/A | N/A | N/A | N/A | N/A | | — | A long-running network subscription, so it stays a command; the Rust API (`kshana::connect_nats`) is the library surface |

@@ -11500,3 +11500,13 @@ engine-e-interference-map-live-positive = { $name } must be a positive number of
 engine-interference-map-live-record-usage = usage: kshana interference-map record --source <adsb|ais> --from <aircraft.json|-|tcp:host:port|udp:[addr:]port|file> --out <new.csv> [--poll-s <s>] [--max-seconds <s>]
 
 engine-interference-map-live-record-done = wrote { $rows } rows to { $out }; { $bad } inputs did not check or parse
+
+## src/clock_live.rs
+
+engine-clock-live-usage = usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert> --from <-|tcp:host:port|file> [--clock <name>] [--follow] [--poll-s <s>] [--max-seconds <s>]
+
+engine-e-clock-live-format = clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics and pps-assert logs, not { $format }
+
+engine-e-clock-live-positive = { $name } must be a positive number of seconds
+
+engine-e-clock-log-no-pps-pulses = the log has no PPS assert time stamps (<sec>.<nsec>#<sequence>)

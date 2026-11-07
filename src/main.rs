@@ -1181,6 +1181,17 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana clock-live --format <f> --from <...>` follows a servo, chrony or PPS log and prints
+    // one JSON line per reading (kshana::clock_live; docs/CLOCK-LOG-FORMATS.md). Read only.
+    if args.get(1).map(String::as_str) == Some("clock-live") {
+        return match kshana::clock_live::run(&args[2..]) {
+            Ok(()) => ExitCode::SUCCESS,
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
     if args.get(1).map(String::as_str) == Some("connect") {
         return run_connect_cli(&args[2..]);
     }

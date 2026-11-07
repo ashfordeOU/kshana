@@ -106,6 +106,7 @@ pub mod cislunar_srif;
 pub mod clock_fit;
 pub mod clock_integrity;
 pub mod clock_library;
+pub mod clock_live;
 pub mod clock_log;
 pub mod clock_specs;
 pub mod clock_state;
