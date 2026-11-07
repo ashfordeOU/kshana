@@ -482,6 +482,8 @@ jobs:
         run: node web/studio/lib/chartdl.test.mjs
       - name: Test the off-main-thread engine client
         run: node web/studio/lib/engine.test.mjs
+      - name: Test the Kshana Desktop engine client (native runs, WebAssembly tools)
+        run: node web/studio/lib/desktop.test.mjs
       - name: Test the A/B compare logic
         run: node web/studio/lib/compare.test.mjs
       - name: Test the chart-hover logic
