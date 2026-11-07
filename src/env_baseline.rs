@@ -221,6 +221,18 @@ pub fn baseline_json(site_hours_json: &str) -> Result<String, String> {
     serde_json::to_string(&out).map_err(|e| e.to_string())
 }
 
+/// `kshana env-baseline <site-hours.json>`: the baselines as JSON on standard output.
+#[cfg(not(target_arch = "wasm32"))]
+pub fn run(args: &[String]) -> Result<(), String> {
+    let path = match args {
+        [p] if !p.starts_with("--") => p,
+        _ => return Err(crate::t!("env-baseline-usage")),
+    };
+    let text = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
+    println!("{}", baseline_json(&text)?);
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

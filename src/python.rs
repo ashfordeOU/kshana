@@ -1628,6 +1628,14 @@ fn referee_location_score(truth_json: &str, reports_json: &str) -> PyResult<Stri
     crate::jammertest::location::score_json(truth_json, reports_json).map_err(PyValueError::new_err)
 }
 
+/// The environmental baseline (row B8; `kshana env-baseline`): `site_hours_json` is a JSON list of
+/// site-hours (lat_deg, lon_deg, year, doy, ut_hour, kp, f107). Returns JSON text, the same bytes as the
+/// command line and WebAssembly give. Raises `ValueError`.
+#[pyfunction]
+fn env_baseline(site_hours_json: &str) -> PyResult<String> {
+    crate::env_baseline::baseline_json(site_hours_json).map_err(PyValueError::new_err)
+}
+
 /// The monitoring-network planner (row B1a; `kshana planner`): `kind` is `"map"` or `"place"` and
 /// `spec_json` a `kshana.planner/1` document as text. Returns JSON text, the same bytes as the command
 /// line and WebAssembly give. Raises `ValueError`.
@@ -2546,6 +2554,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(referee_location_score, m)?)?;
     m.add_function(wrap_pyfunction!(area_trust_timeline, m)?)?;
     m.add_function(wrap_pyfunction!(planner, m)?)?;
+    m.add_function(wrap_pyfunction!(env_baseline, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;

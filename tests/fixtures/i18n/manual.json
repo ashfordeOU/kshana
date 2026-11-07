@@ -14380,5 +14380,12 @@
     "var": "e"
    }
   ]
+ },
+ {
+  "id": "env-baseline-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana env-baseline <site-hours.json>"
+  ]
  }
 ]
