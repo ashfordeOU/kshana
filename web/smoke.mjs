@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline } from "./pkg/kshana.js";
+import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline, planner } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
@@ -372,4 +372,15 @@ console.log(
     process.exit(1);
   }
   console.log("area_trust_timeline: the oracle's bytes");
+}
+
+// B1a bar P5: the planner's map gives the command line's bytes.
+{
+  const spec = await readFile(new URL("../xval/planner/layout_circle.json", import.meta.url), "utf8");
+  const want = gunzipSync(await readFile(new URL("../tests/fixtures/planner/engine_circle.json.gz", import.meta.url))).toString("utf8");
+  if (planner("map", spec) + "\n" !== want) {
+    console.error("planner differs from the command line's bytes");
+    process.exit(1);
+  }
+  console.log("planner: the command line's bytes");
 }

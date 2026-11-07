@@ -173,6 +173,7 @@ __all__ = [
     "jammertest_score",
     "referee_location_score",
     "area_trust_timeline",
+    "planner",
     "evidence_create",
     "evidence_round_trip",
     "evidence_verify",
@@ -332,6 +333,11 @@ def jammertest_import(
     (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
     ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
     Raises ``ValueError``."""
+
+def planner(kind: str, spec_json: str) -> str:
+    """The monitoring-network planner (row B1a), as ``kshana planner`` gives it: ``kind`` is ``"map"``
+    or ``"place"`` and ``spec_json`` a ``kshana.planner/1`` document. Returns JSON text, the same bytes
+    as the command line and WebAssembly. Raises ``ValueError``."""
 
 def area_trust_timeline(stations_json: str) -> str:
     """One trust state for an area from several reference stations (row B5), as ``kshana area-trust``

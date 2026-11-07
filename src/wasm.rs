@@ -679,6 +679,14 @@ pub fn referee_location_score(truth_json: &str, reports_json: &str) -> Result<St
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// The monitoring-network planner (row B1a; `kshana planner`): `kind` is `map` or `place` and
+/// `spec_json` a `kshana.planner/1` document. Returns JSON text, the same bytes as the command line and
+/// Python give.
+#[wasm_bindgen]
+pub fn planner(kind: &str, spec_json: &str) -> Result<String, JsValue> {
+    crate::planner::run_json(kind, spec_json).map_err(|e| JsValue::from_str(&e))
+}
+
 /// One trust state for an area from several reference stations (row B5; `kshana area-trust`):
 /// `stations_json` is a `kshana.area-stations/1` document. Returns the timeline as JSON Lines, the
 /// same bytes as the command line and Python give.
