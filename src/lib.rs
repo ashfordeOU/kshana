@@ -360,6 +360,7 @@ pub mod sigmf;
 pub mod skyline;
 pub mod slot_timing;
 pub mod solar_system;
+pub mod solid_tide;
 pub mod sp3;
 pub mod space_packet;
 pub mod space_weather;
