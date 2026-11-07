@@ -11554,3 +11554,15 @@ engine-device-usage =
 engine-device-check-ok = { $path }: { $name }, all { $n } test vectors decode as stated
 
 engine-device-decode-done = { $bad } frames failed the framing or checksum; { $unknown } valid frames were of messages the file does not list
+
+## src/speed_bench.rs
+
+engine-bench-speed-usage = usage: kshana bench-speed [--repeats <n>] [--quick] [--json <out.json>] [--baseline <old.json> [--tolerance <fraction, default 0.10>]]
+
+engine-bench-speed-head = speed on { $platform } ({ $cpus } logical CPUs); calibration { $calib } s
+
+engine-bench-speed-sizing = sizing, per core with half of it left free:
+
+engine-e-bench-speed-regression = slower than the baseline by more than { $tolerance } % (time over the calibration workload): { $list }
+
+engine-bench-speed-row = {"  "}{ $id } { $rate } { $unit }/s  (x{ $ratio } calibration)

@@ -1190,6 +1190,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("sensor-live") => Some(kshana::sensor_live::run),
         // `kshana device check|decode <device.toml>`: a sensor described by a file (src/device.rs).
         Some("device") => Some(kshana::device::run),
+        // `kshana bench-speed`: speed benchmarks and the station sizing table (src/speed_bench.rs).
+        Some("bench-speed") => Some(kshana::speed_bench::run_cli),
         _ => None,
     };
     if let Some(run) = live_cmd {

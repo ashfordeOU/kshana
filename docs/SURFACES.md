@@ -170,6 +170,7 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `clock-live` | N/A | N/A | N/A | N/A | N/A | | — | Follows a log as it is written and prints JSON lines, so it stays a command; the Rust API (`kshana::clock_live`) is the library surface. See `docs/CLOCK-LOG-FORMATS.md` |
 | `sensor-live` | N/A | N/A | N/A | N/A | N/A | | — | Follows a sensor log and prints JSON lines, so it stays a command; the Rust API (`kshana::sensor_live`) is the library surface. See `docs/MACHINE-INPUTS.md` |
 | `device check`, `device decode` | N/A | N/A | N/A | N/A | N/A | | — | Reads a device file and a byte stream; the Rust API (`kshana::device`) is the library surface. See `docs/DEVICES.md` |
+| `bench-speed` | N/A | N/A | N/A | N/A | N/A | | — | Times this machine; the Rust API (`kshana::speed_bench`) is the library surface. See `docs/SIZING.md` |
 | `connect watch` | N/A | N/A | N/A | N/A | N/A | | — | A long-running process that follows a directory on disk, so it stays a command; the Rust API (`kshana::connect_watch`) is the library surface |
 | `connect mqtt` | N/A | N/A | N/A | N/A | N/A | | — | A long-running network subscription, so it stays a command; the Rust API (`kshana::connect_mqtt`) is the library surface |
 | `connect nats` | N/A | N/A | N/A | N/A | N/A | | — | A long-running network subscription, so it stays a command; the Rust API (`kshana::connect_nats`) is the library surface |

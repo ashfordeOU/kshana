@@ -347,6 +347,31 @@ jobs:
           --test golden
           --test determinism
           --test sgp4_verification
+  bench-speed:
+    # Speed benchmarks per platform (roadmap L10c; docs/SIZING.md). The run is uploaded as an
+    # artifact. Each workload is also a ratio to a calibration workload timed in the same run, the
+    # figure compared between runs; the 10 % regression gate is switched on once three runs per
+    # platform have set the baselines, so it does not gate on a guess.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+      - name: Speed benchmarks and sizing table
+        shell: bash
+        run: cargo run --release --bin kshana -- bench-speed --repeats 5 --json "bench-speed-${{ matrix.os }}.json"
+      - name: Keep the run
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: bench-speed-${{ matrix.os }}
+          path: bench-speed-${{ matrix.os }}.json
   test-python-bindings:
     runs-on: ubuntu-latest
     timeout-minutes: 30

@@ -13890,5 +13890,75 @@
    },
    " valid frames were of messages the file does not list"
   ]
+ },
+ {
+  "id": "bench-speed-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana bench-speed [--repeats <n>] [--quick] [--json <out.json>] [--baseline <old.json> [--tolerance <fraction, default 0.10>]]"
+  ]
+ },
+ {
+  "id": "bench-speed-head",
+  "error": false,
+  "parts": [
+   "speed on ",
+   {
+    "var": "platform"
+   },
+   " (",
+   {
+    "var": "cpus"
+   },
+   " logical CPUs); calibration ",
+   {
+    "var": "calib"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "bench-speed-sizing",
+  "error": false,
+  "parts": [
+   "sizing, per core with half of it left free:"
+  ]
+ },
+ {
+  "id": "e-bench-speed-regression",
+  "error": true,
+  "parts": [
+   "slower than the baseline by more than ",
+   {
+    "var": "tolerance"
+   },
+   " % (time over the calibration workload): ",
+   {
+    "var": "list"
+   }
+  ]
+ },
+ {
+  "id": "bench-speed-row",
+  "error": false,
+  "parts": [
+   "  ",
+   {
+    "var": "id"
+   },
+   " ",
+   {
+    "var": "rate"
+   },
+   " ",
+   {
+    "var": "unit"
+   },
+   "/s  (x",
+   {
+    "var": "ratio"
+   },
+   " calibration)"
+  ]
  }
 ]

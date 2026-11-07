@@ -1042,8 +1042,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 66,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name"
+   "count": 67,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names"
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1392,6 +1392,10 @@
   "src/spectrum.rs": {
    "count": 289,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/speed_bench.rs": {
+   "count": 20,
+   "reason": "machine-document: the workload ids, units and descriptions and the sizing-row descriptions of the kshana.bench-speed/1 JSON report (English in every language, like the other machine files), the synthetic UBX, NMEA and ptp4l inputs it times, and the schema id"
   },
   "src/spk_writer.rs": {
    "count": 7,
