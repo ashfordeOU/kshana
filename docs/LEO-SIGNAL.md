@@ -48,6 +48,7 @@ the source does not publish is labelled REPRESENTATIVE in the file and in the re
 | `centispace` | `centispace-l1`, `centispace-l5`, BPSK at 2.046 Mchip/s | PUBLIC, [PubMed Central PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/) | carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE |
 | `generic-c-band` | `generic-c-band-leo`, 5020 MHz, BPSK(10) in 20 MHz | REPRESENTATIVE, for C-band systems whose parameters are not public (such as TrustPoint) | the whole design |
 | `generic-bands` | `generic-uhf`, `generic-l`, `generic-s`, `generic-c`, `generic-c-wide` | REPRESENTATIVE, allocations from the [ITU Radio Regulations](https://www.itu.int/pub/R-REG-RR); the 465 MHz UHF carrier from the public [openRECEIVER survey of LEO-PNT signals](https://open-receiver.com/blogs/leo-pnt-signals-celeste/) | the whole design (the UHF bandwidth and modulation too) |
+| `gps-l2c` | `gps-l2c` (1227.60 MHz, CM data and CL pilot time-multiplexed at 1.023 Mchip/s, −160.0 dBW), a medium Earth orbit reference signal for coexistence | PUBLIC, [IS-GPS-200N](https://www.gps.gov/sites/default/files/2025-07/IS-GPS-200N.pdf) | CM and CL drawn as BPSK(1) halves of the composite; code lengths in 1.023 Mchip/s slots so the periods (20 ms, 1.5 s) are right; the acquisition figures are for CL (the pilot), where a receiver would acquire CM first; orbit altitude nominal. MODELLED: checked against the CM and CL codes of `iq::signals::gps` and the BPSK closed forms only |
 
 The ATOMIC "zero-clock" polynomial ephemeris is a navigation-message model, not a signal
 design, and lives with the navigation-message work, not here.
@@ -75,7 +76,7 @@ design, and lives with the navigation-message work, not here.
   false-alarm probability, centred and at the worst-case straddle; and the mean
   acquisition time of a serial and a code-parallel single-dwell search (Holmes).
 - **Compatibility**: the spectral separation coefficient (SSC) of the band-limited signal
-  into GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b and the E5
+  into GPS L1 coarse/acquisition (C/A), GPS L2C, Galileo E1, GPS L5, Galileo E5a, E5b and the E5
   alternative BOC (AltBOC) signal over each global navigation satellite system (GNSS)
   receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀
   loss of each GNSS signal into the LEO tracked component.

@@ -35,8 +35,9 @@
 //! * the acquisition search space (Doppler bins × code bins) from the orbit's maximum
 //!   Doppler, the detection probability of a square-law detector, and the mean
 //!   acquisition time of a serial and a code-parallel search;
-//! * the spectral separation coefficient (SSC) of the signal into GPS L1 C/A, Galileo E1,
-//!   GPS L5, Galileo E5a, E5b and the E5 AltBOC signal, and of each GNSS signal into it,
+//! * the spectral separation coefficient (SSC) of the signal into GPS L1 C/A, GPS L2C,
+//!   Galileo E1, GPS L5, Galileo E5a, E5b and the E5 AltBOC signal, and of each GNSS signal
+//!   into it,
 //!   with the C/N₀ degradation each causes;
 //! * the jammer-to-signal ratio (J/S) each jammer type may reach before the tracked
 //!   component falls below the tracking threshold, from the `spectrum` kind's own SSC
@@ -376,6 +377,7 @@ pub const PRESET_FILES: &[(&str, &str)] = &[
         "generic-bands",
         include_str!("../data/leo-signals/generic-bands.toml"),
     ),
+    ("gps-l2c", include_str!("../data/leo-signals/gps-l2c.toml")),
 ];
 
 /// Parse a compiled-in preset by name.
@@ -922,6 +924,7 @@ pub struct GnssVictim {
 /// The GNSS signals the compatibility analysis knows.
 pub const GNSS_VICTIM_NAMES: &[&str] = &[
     "gps-l1ca",
+    "gps-l2c",
     "galileo-e1",
     "gps-l5",
     "galileo-e5a",
@@ -929,7 +932,8 @@ pub const GNSS_VICTIM_NAMES: &[&str] = &[
     "galileo-e5-altboc",
 ];
 
-/// A GNSS victim by name. The first four come from [`crate::spectrum::default_band`].
+/// A GNSS victim by name. GPS L1 C/A, L2C and L5, Galileo E1 and E5a come from
+/// [`crate::spectrum::default_band`].
 pub fn gnss_victim(name: &str) -> Option<GnssVictim> {
     let from_band = |n: &'static str, src: &'static str| {
         crate::spectrum::default_band(n).map(|b| GnssVictim {
@@ -943,6 +947,7 @@ pub fn gnss_victim(name: &str) -> Option<GnssVictim> {
     };
     match name {
         "gps-l1ca" => from_band("gps-l1ca", "IS-GPS-200"),
+        "gps-l2c" => from_band("gps-l2c", "IS-GPS-200"),
         "galileo-e1" => from_band("galileo-e1", "Galileo OS SIS ICD"),
         "gps-l5" => from_band("gps-l5", "IS-GPS-705"),
         "galileo-e5a" => from_band("galileo-e5a", "Galileo OS SIS ICD"),
@@ -2440,6 +2445,47 @@ mod tests {
         }
         assert!(public_signal("xona-x5").is_some());
         assert!(public_signal("no-such-signal").is_none());
+    }
+
+    // ── GPS L2C: the preset and the victim agree with IS-GPS-200 and the closed forms ──
+    // MODELLED, internal oracles only: the code periods come from the spreading codes of
+    // iq::signals::gps (whose end states are checked against IS-GPS-200N), and the spectral
+    // separation from the BPSK closed forms of navsignal.
+    #[test]
+    fn gps_l2c_preset_matches_the_codes_and_the_victim() {
+        let d = public_signal("gps-l2c").unwrap();
+        assert_eq!(d.centre_hz, 1_227.6e6);
+        assert_eq!(d.centre_hz, crate::iq::signals::gps::L2_HZ);
+        assert_eq!(d.tx_bandwidth_hz, 20.46e6);
+        // Two components at half power each; their periods equal the CM and CL codes'.
+        assert_eq!(d.components.len(), 2);
+        let period = |len: usize| len as f64 / crate::iq::signals::gps::L2C_CHIP_RATE_HZ;
+        let cm = crate::iq::signals::gps::l2c_cm(1).unwrap();
+        let cl = crate::iq::signals::gps::l2c_cl(1).unwrap();
+        assert_eq!(period(cm.primary().len()), 0.02);
+        assert_eq!(period(cl.primary().len()), 1.5);
+        for (c, want_s) in d.components.iter().zip([0.02, 1.5]) {
+            assert_eq!(c.share, 0.5);
+            let chips = c.code_length_chips.unwrap() as f64;
+            let rate = c.shape.chip_rate_hz().unwrap();
+            assert_eq!(rate, 2.0 * crate::iq::signals::gps::L2C_CHIP_RATE_HZ);
+            assert!((chips / rate - want_s).abs() < 1e-12, "{chips} / {rate}");
+        }
+        // The victim: BPSK(1) at 1227.60 MHz, -160 dBW, in the 2.046 MHz main lobe.
+        let v = gnss_victim("gps-l2c").unwrap();
+        assert_eq!((v.centre_hz, v.received_power_dbw), (1_227.6e6, -160.0));
+        assert_eq!(v.label(), "BPSK(1)");
+        // L2C into L2C: the SSC over the victim band equals the closed-form SSC of BPSK(1) on
+        // BPSK(1) in that band, divided by the share of L2C power its 20.46 MHz band passes.
+        let ssc = ssc_leo_into_gnss(&d, d.in_band_fraction(), &v);
+        let bpsk1 = Modulation::BpskR { n: 1.0 };
+        let want = crate::navsignal::spectral_separation_coeff(&bpsk1, &bpsk1, v.rx_bandwidth_hz)
+            / crate::navsignal::bpsk_power_in_band_closed_form(F0_HZ, d.tx_bandwidth_hz);
+        assert!((ssc / want - 1.0).abs() < 1e-3, "{ssc} vs {want}");
+        // An L-band LEO signal at the Galileo E5 centre does not reach the L2C band.
+        let l = public_signal("generic-l").unwrap();
+        assert_eq!(ssc_leo_into_gnss(&l, l.in_band_fraction(), &v), 0.0);
+        assert!(GNSS_VICTIM_NAMES.contains(&"gps-l2c"));
     }
 
     // ── ORACLE: max LEO Doppler reproduces the published Xona and Iridium figures ──

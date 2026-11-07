@@ -1,0 +1,54 @@
+# GPS L2C, the civil signal on L2, as a reference design for coexistence with LEO-PNT
+# signals (it is a medium Earth orbit signal, not a LEO one).
+#
+# PUBLIC: IS-GPS-200N (2022), the GPS space segment / navigation user interface specification.
+# * Carrier 1227.60 MHz (120 x 10.23 MHz), section 3.3.1.1; the L2 signals lie in a 20.46 MHz
+#   band about the carrier, section 3.3.1.1.
+# * Two codes, time-multiplexed chip by chip at 1.023 Mchip/s: CM, 10 230 chips at
+#   511.5 kchip/s (20 ms), carrying the CNAV message (25 bit/s, rate-1/2 coding, 50 symbol/s);
+#   and CL, 767 250 chips at 511.5 kchip/s (1.5 s), with no data. Sections 3.2.1.4, 3.2.1.5,
+#   3.3.2.1.
+# * Minimum received power of L2C for Block IIR-M and IIF satellites: -160.0 dBW (Table 3-Va);
+#   GPS III and IIIF are -158.5 dBW.
+#
+# Modelling choices, stated: the CM and CL chips together form one 1.023 Mchip/s chip stream,
+# so the composite spectrum is BPSK(1), and each component is drawn as BPSK(1) with half the
+# power. Each component's code length is given in 1.023 Mchip/s slots (twice its chip count),
+# so its code period (20 ms, 1.5 s) is right. The orbit altitude is the nominal GPS one
+# (semi-major axis 26 560 km), REPRESENTATIVE for the Doppler bound. The spreading codes
+# themselves are in kshana::iq::signals::gps (l2c_cm, l2c_cl), checked against the end states
+# IS-GPS-200N prints for every PRN.
+
+[preset]
+name = "gps-l2c"
+title = "GPS L2C (CM and CL) from IS-GPS-200, as a reference for coexistence"
+source = "PUBLIC"
+url = "https://www.gps.gov/sites/default/files/2025-07/IS-GPS-200N.pdf"
+notes = "A medium Earth orbit GNSS signal, here so that LEO-PNT designs can be compared with it and scored against it."
+
+[[signals]]
+name = "gps-l2c"
+system = "GPS"
+source = "PUBLIC"
+source_ref = "https://www.gps.gov/sites/default/files/2025-07/IS-GPS-200N.pdf"
+centre_mhz = 1227.6
+tx_bandwidth_mhz = 20.46
+allocation = "rnss"
+received_power_dbw = -160.0
+orbit_altitude_km = 20180.0
+notes = "IS-GPS-200N: 1227.60 MHz, 20.46 MHz band, -160.0 dBW minimum (IIR-M and IIF; -158.5 dBW for GPS III). CM and CL time-multiplexed at 1.023 Mchip/s, drawn as BPSK(1) halves; code lengths in 1.023 Mchip/s slots. Orbit altitude REPRESENTATIVE (nominal)."
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 20460
+data_rate_sps = 50.0
+note = "CM: 10 230 chips at 511.5 kchip/s (20 ms), CNAV at 25 bit/s with rate-1/2 coding."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 1534500
+note = "CL: 767 250 chips at 511.5 kchip/s (1.5 s), no data."
