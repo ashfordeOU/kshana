@@ -8,6 +8,7 @@
 
 pub mod cli;
 pub mod dataset;
+pub mod location;
 pub mod plan;
 pub mod score;
 

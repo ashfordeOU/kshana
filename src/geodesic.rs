@@ -638,7 +638,7 @@ mod tests {
     fn the_equator_and_a_meridian_quadrant() {
         // On the equator the geodesic is the arc while it is shorter than the antipodal limit.
         let d = distance_m(0.0, 0.0, 0.0, 0.01);
-        assert!((d - 1113.194_907_932_735_7).abs() < 1e-9, "{d}");
+        assert!((d - 1_113.194_907_932_735_7).abs() < 1e-9, "{d}");
         // The meridian quadrant of WGS 84, as GeographicLib gives it.
         let q = distance_m(0.0, 0.0, 90.0, 0.0);
         assert!((q - 10_001_965.729_312_724).abs() < 1e-7, "{q}");
