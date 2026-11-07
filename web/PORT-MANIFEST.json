@@ -8,7 +8,7 @@
    "dirty": false
   },
   "studio": {
-   "revision": "8d10cf74064be590d66f546345d9a2a964950c48",
+   "revision": "7bd2909b8fff9eea3cf93a3ac413b55bb1bf53ab",
    "dirty": false
   }
  },
@@ -315,7 +315,7 @@
   "studio/advanced/index.html": "04013acf20c580efba61b6d49fdb0a1ba965fa7fd92e023993af2e04350d1f12",
   "studio/ai.png": "1158236f944b3918e70f65af278ae7255152b7222fb9832462e06acf79e5ed9d",
   "studio/app.css": "a552b7a38278004227a7abd1ae94b659b281aa8d7620caf1f626cec48cef4a32",
-  "studio/app.js": "1ce23e20545fa89eaa3f09fb4cf0cb0a2168e25c720d0c112b14c0529f235c78",
+  "studio/app.js": "6d4bc72e902746e95a2e555a5f4d541e335fd3e602912f6bde7a7d8f5505f854",
   "studio/assets/brand/kshana-mark-mask.png": "7b51df9f7c9cf283572a793cb358c13b63ffd1ce9bd6a9aacea2ba1f2245a830",
   "studio/assets/planets/earth-day-2048.jpg": "3471b38e9bf8f91553bb8f3b55a1b8e2ee7346a80607ed40e6a656309b1994ea",
   "studio/assets/planets/earth-day-256.jpg": "1c4ccf1eff68a32afdffb9c1dfab104cc3a5e35bb22d695febe7571bbed71b20",
@@ -381,6 +381,10 @@
   "studio/lib/compare.test.mjs": "b126fc361c6642e27ab20851f9cda5015a92104dd74276f6659a6bd90d19286e",
   "studio/lib/counts.mjs": "1f878b17df142cb0574f7c5bba79f98bbc096309719130bf0ca31f354af34174",
   "studio/lib/counts.test.mjs": "3ef9ac5ff4106c7a48056cbb348cbe941379268ad4b291aaf3f1474089f341b3",
+  "studio/lib/desktop.mjs": "8d64257db746c1ff4bf2f83fe040688baa1fd6bb934aacf6c1e7ccd52bf10ae9",
+  "studio/lib/desktop.test.mjs": "40ce8b74d03628bcbddaa58f2f794c9a188729e6e65380a42235be50fe1f5b63",
+  "studio/lib/devices.mjs": "5df7b21b323c40afddb629f55dbae92ec10b322a4d38755c2aa7e469005a63fc",
+  "studio/lib/devices.test.mjs": "6e43b11953e28e7d16965203e6e3f1dbb7345a7236903f49e551e88ad43a25a9",
   "studio/lib/embed.mjs": "7d725f53e2b482f989db032cd695fb4371b738d8733d14a8d9ae6ed486c04226",
   "studio/lib/embed.test.mjs": "44a0096dcefc5be6244f0262bc13515e1ee746137bcdf3d06cd74ef02b4e5bc5",
   "studio/lib/engine-page.mjs": "39e994d4f270ed68eebd30223268be8a551ff6bd994811def437a872952b5db2",
@@ -1127,7 +1131,7 @@
   "studio/trust/generic/session.toml": "2fcb50f5bfc81519feca3c1c67c3f828369f875bdf92e1231cb07a67740a3d07",
   "studio/trust/index.html": "faf094d8d70c3e106a7b0ce1492a3c766299f69c69f65a48d4f7bf69dcd269a0",
   "studio/trust/trust.css": "7bc0fe5a22fde42f971bfbf67e18b9d4c83b62365a18238edd4751eeeb452b4e",
-  "studio/trust/trust.js": "afeb20945ac942e68178c70c8d8b47dfbcdc5c01afe29d22a03b8f73e71bc27d",
+  "studio/trust/trust.js": "ca969f6cda123b860f2550b03c1db10c3be272b1a29d6449319371c618e4e309",
   "theme.css": "0dfbe304bc73d1943aab4c6298505cc2a7cd907bf6caf1e6060c9561f5c96813",
   "tokens.css": "96647facea1275024535efcd9b2c72257de7663a3bcce93ef9a60dc8278130bc"
  }
