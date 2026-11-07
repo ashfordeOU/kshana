@@ -302,6 +302,7 @@ pub mod connect_watch;
 pub mod connect_ws;
 pub mod governor;
 pub mod interference_map;
+pub mod n2k;
 pub mod nmea_synth;
 pub mod ntrip;
 pub mod obs;

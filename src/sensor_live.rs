@@ -8,6 +8,9 @@
 //!   `--heading0` (default 0) the way the `heading-course` monitor integrates it, sample by sample
 //!   with the same sums.
 //!
+//! * `--kind n2k`: NMEA 2000 frames from a SocketCAN `candump -l` log, printed as NMEA 0183
+//!   sentences ([`crate::n2k`]), ready for `kshana receiver-trust live`.
+//!
 //! The input is standard input, `tcp:host:port` or a file (with `--follow`, waiting for more
 //! lines). A serial IMU is read through the tool that turns it into CSV lines. Read only.
 
@@ -101,9 +104,22 @@ pub fn run(args: &[String]) -> Result<(), String> {
         }
         i += 1;
     }
-    let (Some(kind), Some(format), Some(from)) = (kind, format, from) else {
+    let (Some(kind), Some(from)) = (kind, from) else {
         return Err(usage());
     };
+    let format = format.unwrap_or_default();
+    if kind == "n2k" {
+        // NMEA 2000 frames in, NMEA 0183 sentences out (src/n2k.rs).
+        let mut c = crate::n2k::N2kToNmea::default();
+        return crate::clock_live::follow_lines(&from, follow, max_s, |line| {
+            use std::io::Write;
+            let mut out = std::io::stdout().lock();
+            for s in c.push(line) {
+                out.write_all(s.as_bytes()).map_err(|e| e.to_string())?;
+            }
+            out.flush().map_err(|e| e.to_string())
+        });
+    }
     if kind != "imu" {
         return Err(crate::terr!("e-sensor-live-kind", kind = kind));
     }

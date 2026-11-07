@@ -13697,14 +13697,14 @@
   "id": "sensor-live-usage",
   "error": false,
   "parts": [
-   "usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]"
+   "usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]\n   or: kshana sensor-live --kind n2k --from <candump.log|-|tcp:host:port> [--follow] [--max-seconds <s>]"
   ]
  },
  {
   "id": "e-sensor-live-kind",
   "error": true,
   "parts": [
-   "sensor-live reads --kind imu; not ",
+   "sensor-live reads --kind imu or n2k; not ",
    {
     "var": "kind"
    }
