@@ -11524,3 +11524,33 @@ engine-e-sensor-live-kind = sensor-live reads --kind imu or n2k; not { $kind }
 ## src/live_health.rs
 
 engine-e-live-health-flag = { $name } needs a value: --sensor <name>, --stale-s <s>, --frozen-n <n of 2 or more>, --range <lo,hi>, --latency-s <s>
+
+## src/device.rs
+
+engine-e-device-hex = not hexadecimal bytes: { $text }
+
+engine-e-device-toml = not a device file: { $e }
+
+engine-e-device-schema = the device file says schema { $found }; this engine reads { $want }
+
+engine-e-device-sync = [framing] sync must name at least one byte
+
+engine-e-device-length = [framing] needs exactly one of fixed_length and length
+
+engine-e-device-type = unknown field type { $ty } (u8, i8, u16le, u16be, i16le, i16be, u32le, u32be, i32le, i32be, u64le, i64le, f32le, f32be, f64le, f64be; a length is u8, u16le or u16be)
+
+engine-e-device-checksum = unknown checksum { $ty } (xor8, sum8, fletcher8, crc16-xmodem, crc16-ccitt-false, crc32)
+
+engine-device-test-no-frame = test { $k }: no valid frame ({ $bad } failed the framing or checksum)
+
+engine-device-test-wrong-message = test { $k }: decoded as { $got }, expected { $want }
+
+engine-device-test-wrong-value = test { $k }: { $field } is { $got }, expected { $want }
+
+engine-device-usage =
+    usage: kshana device check <device.toml>
+    { "   " }or: kshana device decode <device.toml> --from <capture|-|tcp:host:port> [--follow] [--max-seconds <s>]
+
+engine-device-check-ok = { $path }: { $name }, all { $n } test vectors decode as stated
+
+engine-device-decode-done = { $bad } frames failed the framing or checksum; { $unknown } valid frames were of messages the file does not list

@@ -13726,5 +13726,169 @@
    },
    " needs a value: --sensor <name>, --stale-s <s>, --frozen-n <n of 2 or more>, --range <lo,hi>, --latency-s <s>"
   ]
+ },
+ {
+  "id": "e-device-hex",
+  "error": true,
+  "parts": [
+   "not hexadecimal bytes: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "e-device-toml",
+  "error": true,
+  "parts": [
+   "not a device file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-device-schema",
+  "error": true,
+  "parts": [
+   "the device file says schema ",
+   {
+    "var": "found"
+   },
+   "; this engine reads ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "e-device-sync",
+  "error": true,
+  "parts": [
+   "[framing] sync must name at least one byte"
+  ]
+ },
+ {
+  "id": "e-device-length",
+  "error": true,
+  "parts": [
+   "[framing] needs exactly one of fixed_length and length"
+  ]
+ },
+ {
+  "id": "e-device-type",
+  "error": true,
+  "parts": [
+   "unknown field type ",
+   {
+    "var": "ty"
+   },
+   " (u8, i8, u16le, u16be, i16le, i16be, u32le, u32be, i32le, i32be, u64le, i64le, f32le, f32be, f64le, f64be; a length is u8, u16le or u16be)"
+  ]
+ },
+ {
+  "id": "e-device-checksum",
+  "error": true,
+  "parts": [
+   "unknown checksum ",
+   {
+    "var": "ty"
+   },
+   " (xor8, sum8, fletcher8, crc16-xmodem, crc16-ccitt-false, crc32)"
+  ]
+ },
+ {
+  "id": "device-test-no-frame",
+  "error": false,
+  "parts": [
+   "test ",
+   {
+    "var": "k"
+   },
+   ": no valid frame (",
+   {
+    "var": "bad"
+   },
+   " failed the framing or checksum)"
+  ]
+ },
+ {
+  "id": "device-test-wrong-message",
+  "error": false,
+  "parts": [
+   "test ",
+   {
+    "var": "k"
+   },
+   ": decoded as ",
+   {
+    "var": "got"
+   },
+   ", expected ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "device-test-wrong-value",
+  "error": false,
+  "parts": [
+   "test ",
+   {
+    "var": "k"
+   },
+   ": ",
+   {
+    "var": "field"
+   },
+   " is ",
+   {
+    "var": "got"
+   },
+   ", expected ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "device-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana device check <device.toml>\n   or: kshana device decode <device.toml> --from <capture|-|tcp:host:port> [--follow] [--max-seconds <s>]"
+  ]
+ },
+ {
+  "id": "device-check-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "name"
+   },
+   ", all ",
+   {
+    "var": "n"
+   },
+   " test vectors decode as stated"
+  ]
+ },
+ {
+  "id": "device-decode-done",
+  "error": false,
+  "parts": [
+   {
+    "var": "bad"
+   },
+   " frames failed the framing or checksum; ",
+   {
+    "var": "unknown"
+   },
+   " valid frames were of messages the file does not list"
+  ]
  }
 ]
