@@ -172,6 +172,7 @@ __all__ = [
     "jammertest_import",
     "jammertest_score",
     "referee_location_score",
+    "area_trust_timeline",
     "evidence_create",
     "evidence_round_trip",
     "evidence_verify",
@@ -330,6 +331,12 @@ def jammertest_import(
     from UTC (CEST: 2). Returns ``events_toml`` (append it to a receiver-trust session), ``events``
     (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
     ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
+    Raises ``ValueError``."""
+
+def area_trust_timeline(stations_json: str) -> str:
+    """One trust state for an area from several reference stations (row B5), as ``kshana area-trust``
+    gives it: ``stations_json`` is a ``kshana.area-stations/1`` document. Returns the timeline as
+    JSON Lines, one line per grid second, the same bytes as the command line and WebAssembly.
     Raises ``ValueError``."""
 
 def referee_location_score(truth_json: str, reports_json: str) -> str:

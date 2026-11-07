@@ -1628,6 +1628,14 @@ fn referee_location_score(truth_json: &str, reports_json: &str) -> PyResult<Stri
     crate::jammertest::location::score_json(truth_json, reports_json).map_err(PyValueError::new_err)
 }
 
+/// One trust state for an area from several reference stations (row B5; `kshana area-trust`):
+/// `stations_json` is a `kshana.area-stations/1` document as text. Returns the timeline as JSON
+/// Lines, the same bytes as the command line and WebAssembly give. Raises `ValueError`.
+#[pyfunction]
+fn area_trust_timeline(stations_json: &str) -> PyResult<String> {
+    crate::area_trust::timeline_jsonl(stations_json).map_err(PyValueError::new_err)
+}
+
 /// Score a receiver log against the Jammertest schedule (`kshana jammertest score`): per
 /// scheduled test the detection latency, missed alarms and time to recover, and the false
 /// alarms outside every slot. `session_toml` needs only `[log] format = "ubx"` (or `rinex`,
@@ -2528,6 +2536,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(jammertest_import, m)?)?;
     m.add_function(wrap_pyfunction!(jammertest_score, m)?)?;
     m.add_function(wrap_pyfunction!(referee_location_score, m)?)?;
+    m.add_function(wrap_pyfunction!(area_trust_timeline, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_round_trip, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;

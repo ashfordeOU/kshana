@@ -679,6 +679,14 @@ pub fn referee_location_score(truth_json: &str, reports_json: &str) -> Result<St
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// One trust state for an area from several reference stations (row B5; `kshana area-trust`):
+/// `stations_json` is a `kshana.area-stations/1` document. Returns the timeline as JSON Lines, the
+/// same bytes as the command line and Python give.
+#[wasm_bindgen]
+pub fn area_trust_timeline(stations_json: &str) -> Result<String, JsValue> {
+    crate::area_trust::timeline_jsonl(stations_json).map_err(|e| JsValue::from_str(&e))
+}
+
 /// Score a receiver log against the Jammertest schedule (`kshana jammertest score`). The session
 /// needs only `[log] format = "ubx"` (or `rinex`, `android`, `nmea`, `sbf`); `log_base64` is the
 /// log's bytes; `log_start_utc` is empty when the log states its own UTC start; `location` and

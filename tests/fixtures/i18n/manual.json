@@ -14041,5 +14041,33 @@
    },
    "); manifest.json lists every file with its SHA-256"
   ]
+ },
+ {
+  "id": "area-trust-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana area-trust <stations.json>"
+  ]
+ },
+ {
+  "id": "e-area-trust-stations",
+  "error": true,
+  "parts": [
+   "not a kshana.area-stations/1 document: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-area-trust-epoch-order",
+  "error": true,
+  "parts": [
+   "station ",
+   {
+    "var": "id"
+   },
+   ": epochs must be finite and in time order"
+  ]
  }
 ]

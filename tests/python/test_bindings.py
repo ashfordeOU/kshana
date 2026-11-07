@@ -851,6 +851,17 @@ def test_optical_atmosphere_scenarios_run_through_the_binding(name):
     assert "optical-atmosphere" in [k["name"] for k in kshana.scenario_kinds()]
 
 
+def test_area_trust_timeline_gives_the_oracle_bytes():
+    """B5 bar T5: the area timeline through Python is the oracle's (and the command line's) bytes."""
+    import gzip
+    import os
+
+    d = os.path.join(os.path.dirname(__file__), "..", "fixtures", "area_trust")
+    doc = gzip.open(os.path.join(d, "replay_4104.stations.json.gz")).read().decode()
+    want = gzip.open(os.path.join(d, "replay_4104.expected.jsonl.gz")).read().decode()
+    assert kshana.area_trust_timeline(doc) == want
+
+
 def test_referee_location_score_gives_the_command_line_bytes():
     """B2 bar R4: the location metrics through Python are byte-identical to the command line."""
     import gzip

@@ -34,11 +34,11 @@ def station_states(epochs, g0, g1):
 def raw(states):
     live = [s for s in states if s is not None]
     n = len(live)
-    if n < 2:
-        return "UNKNOWN", n, 0, 0
-    k = max(2, math.ceil(n / 3))
     n_d = sum(1 for s in live if RANK[s] >= 1)
     n_u = sum(1 for s in live if RANK[s] == 2)
+    if n < 2:
+        return "UNKNOWN", n, n_d, n_u
+    k = max(2, math.ceil(n / 3))
     if n_u >= k:
         r = "UNTRUSTED"
     elif n_d >= k or n_u >= 1:
