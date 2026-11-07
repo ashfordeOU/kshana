@@ -9,6 +9,13 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- RTCM SSR reader (`kshana::rtcm_ssr`) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code
+  bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
+  field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds
+  missing from that stream are checked against hand-built frames only. MODELLED.
+
 ### Fixed
 
 - An SBF log cut inside its last block, or with a stray `$@` sync whose declared length runs past the end, no longer makes

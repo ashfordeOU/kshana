@@ -8,6 +8,14 @@
 //! global ionosphere as spherical harmonics (1264). They are what PPP services such as IGS
 //! real-time streams send.
 //!
+//! The IGS SSR format (RTCM message 4076, IGS SSR version 1) carries the same corrections, plus
+//! phase biases with yaw, under an 8-bit IGS message number: GPS 21–27, GLONASS 41–47, Galileo
+//! 61–67, QZSS 81–87, BeiDou 101–107, SBAS 121–127 (subtypes 1 orbit, 2 clock, 3 orbit and
+//! clock, 4 high-rate clock, 5 code bias, 6 phase bias, 7 user range accuracy) and 201 for the
+//! global ionosphere. Here every system has a 20-bit epoch (seconds of the GPS week), a 6-bit
+//! satellite ID and an 8-bit issue of data. A 4076 message is reported with `number` 4076 and
+//! the IGS message number in `igs_message`.
+//!
 //! The field widths, scales and message layouts are taken from the BSD-licensed open decoder
 //! pyrtcm 1.2.0 (`rtcmtypes_core.py`, `rtcmtypes_get.py`, `rtcmmessage.py`; BSD 3-Clause,
 //! Copyright (c) 2020 semuadmin (Steve Smith)), as for the MSM reader in
@@ -21,9 +29,16 @@
 //! this reading uses every bit of the message exactly (one layer of degree and order 12), where
 //! reading the field as the count itself would leave 2 720 bits unread.
 //!
+//! The IGS layout follows the same decoder (`rtcmtypes_get_igs.py`, after the IGS SSR v1 format
+//! description). Its orbit-only definition lists the cross-track and radial-rate fields in the
+//! other order from its combined one; Kshana reads orbit-only messages in the combined order, which
+//! is also the order of the RTCM orbit messages. No sample stream holds an IGS orbit-only message.
+//!
 //! MODELLED: decoding is checked field by field against values the open decoder recorded for
-//! public sample streams (`tests/rtcm_ssr_pyrtcm.rs`); corrections are not yet applied in PPP
-//! (programme item R1.5).
+//! public sample streams (`tests/rtcm_ssr_pyrtcm.rs`), for RTCM SSR and for IGS combined orbit and
+//! clock, code bias and ionosphere messages. IGS orbit-only, clock-only, high-rate clock, phase-bias
+//! and URA messages are checked only against hand-built frames, not an external oracle.
+//! Corrections are not yet applied in PPP (programme item R1.5).
 use serde::Serialize;
 
 /// The system a message is for.
@@ -87,8 +102,10 @@ pub enum Kind {
     Ura,
     /// High-rate clock.
     HighRateClock,
-    /// Ionosphere (vertical TEC as spherical harmonics, 1264).
+    /// Ionosphere (vertical TEC as spherical harmonics, 1264 and IGS 201).
     Vtec,
+    /// Phase biases with yaw (IGS SSR only).
+    PhaseBias,
 }
 
 fn classify(n: u16) -> Option<(Option<System>, Kind)> {
@@ -141,6 +158,21 @@ pub struct Clock {
     pub c2_m_s2: f64,
 }
 
+/// One phase bias (IGS SSR subtype 6).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct PhaseBias {
+    /// Signal and tracking mode identifier.
+    pub signal: u8,
+    /// Signal integer indicator.
+    pub integer: bool,
+    /// Signals wide-lane integer indicator, raw 2-bit field.
+    pub wide_lane_integer: u8,
+    /// Signal discontinuity counter.
+    pub discontinuity: u8,
+    /// Phase bias (m).
+    pub bias_m: f64,
+}
+
 /// One satellite's entry in a message.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Sat {
@@ -163,6 +195,12 @@ pub struct Sat {
     pub ura_raw: Option<u8>,
     /// High-rate clock correction (m).
     pub high_rate_clock_m: Option<f64>,
+    /// Yaw angle (semicircles), IGS phase-bias messages only.
+    pub yaw_semicircles: Option<f64>,
+    /// Yaw rate (semicircles/s), IGS phase-bias messages only.
+    pub yaw_rate_semicircles_s: Option<f64>,
+    /// Phase biases, IGS phase-bias messages only.
+    pub phase_biases: Vec<PhaseBias>,
 }
 
 /// One ionospheric layer of message 1264.
@@ -183,8 +221,12 @@ pub struct VtecLayer {
 /// One decoded SSR message.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Message {
-    /// Message number.
+    /// Message number (4076 for every IGS SSR message).
     pub number: u16,
+    /// IGS SSR version, 4076 only.
+    pub igs_version: Option<u8>,
+    /// IGS message number (e.g. 23 GPS orbit and clock, 201 ionosphere), 4076 only.
+    pub igs_message: Option<u8>,
     /// System (none for 1264).
     pub system: Option<System>,
     /// What the message carries.
@@ -203,11 +245,14 @@ pub struct Message {
     pub provider: u16,
     /// SSR solution ID.
     pub solution: u8,
+    /// Dispersive bias consistency and Melbourne-Wübbena consistency indicators, IGS
+    /// phase-bias messages only.
+    pub phase_consistency: Option<(bool, bool)>,
     /// Satellites (all kinds but 1264).
     pub sats: Vec<Sat>,
-    /// VTEC quality indicator (TECU), 1264 only.
+    /// VTEC quality indicator (TECU), 1264 and IGS 201 only.
     pub vtec_quality_tecu: Option<f64>,
-    /// Ionospheric layers, 1264 only.
+    /// Ionospheric layers, 1264 and IGS 201 only.
     pub vtec_layers: Vec<VtecLayer>,
 }
 
@@ -274,9 +319,126 @@ fn clock(b: &mut Bits) -> Option<Clock> {
     })
 }
 
+/// The header fields every SSR message shares, in the order they are read.
+struct Header {
+    epoch_s: u32,
+    update_interval: u8,
+    multiple: bool,
+    iod_ssr: u8,
+    provider: u16,
+    solution: u8,
+}
+
+fn new_message(number: u16, system: Option<System>, kind: Kind, h: Header) -> Message {
+    Message {
+        number,
+        igs_version: None,
+        igs_message: None,
+        system,
+        kind,
+        epoch_s: h.epoch_s,
+        update_interval: h.update_interval,
+        multiple: h.multiple,
+        regional_datum: None,
+        iod_ssr: h.iod_ssr,
+        provider: h.provider,
+        solution: h.solution,
+        phase_consistency: None,
+        sats: Vec::new(),
+        vtec_quality_tecu: None,
+        vtec_layers: Vec::new(),
+    }
+}
+
+fn new_sat(sys: System, id: u8) -> Sat {
+    Sat {
+        id,
+        label: format!("{}{:02}", sys.letter(), id),
+        iod: None,
+        toe_modulo_raw: None,
+        orbit: None,
+        clock: None,
+        code_biases: Vec::new(),
+        ura_raw: None,
+        high_rate_clock_m: None,
+        yaw_semicircles: None,
+        yaw_rate_semicircles_s: None,
+        phase_biases: Vec::new(),
+    }
+}
+
+/// The ionosphere body shared by 1264 and IGS 201: quality, then layers of spherical
+/// harmonics. The layer count, degree and order are each sent as the value minus one.
+fn vtec_body(b: &mut Bits, msg: &mut Message) -> Option<()> {
+    msg.vtec_quality_tecu = Some(b.u(9)? as f64 * 0.05);
+    let layers = b.u(2)? as usize + 1;
+    for _ in 0..layers {
+        let height_m = b.u(8)? as f64 * 10_000.0;
+        let n = b.u(4)? as usize + 1;
+        let m = b.u(4)? as usize + 1;
+        let nc = (n + 1) * (n + 2) / 2 - (n - m.min(n)) * (n - m.min(n) + 1) / 2;
+        let ns = nc - (n + 1);
+        let mut c_tecu = Vec::with_capacity(nc);
+        for _ in 0..nc {
+            c_tecu.push(b.i(16)? as f64 * 0.005);
+        }
+        let mut s_tecu = Vec::with_capacity(ns);
+        for _ in 0..ns {
+            s_tecu.push(b.i(16)? as f64 * 0.005);
+        }
+        msg.vtec_layers.push(VtecLayer {
+            height_m,
+            degree: n as u8,
+            order: m as u8,
+            c_tecu,
+            s_tecu,
+        });
+    }
+    Some(())
+}
+
+/// The per-kind satellite fields after the ID (and, for orbits, the issue of data), which the
+/// RTCM and IGS layouts share.
+fn sat_body(b: &mut Bits, kind: Kind, s: &mut Sat) -> Option<()> {
+    if matches!(kind, Kind::Orbit | Kind::Combined) {
+        s.orbit = Some(orbit(b)?);
+    }
+    match kind {
+        Kind::Clock | Kind::Combined => s.clock = Some(clock(b)?),
+        Kind::CodeBias => {
+            let n = b.u(5)? as usize;
+            for _ in 0..n {
+                let sig = b.u(5)? as u8;
+                s.code_biases.push((sig, b.i(14)? as f64 * 0.01));
+            }
+        }
+        Kind::Ura => s.ura_raw = Some(b.u(6)? as u8),
+        Kind::HighRateClock => s.high_rate_clock_m = Some(b.i(22)? as f64 * 0.1 * MM),
+        Kind::PhaseBias => {
+            let n = b.u(5)? as usize;
+            s.yaw_semicircles = Some(b.u(9)? as f64 / 256.0);
+            s.yaw_rate_semicircles_s = Some(b.i(8)? as f64 / 8192.0);
+            for _ in 0..n {
+                s.phase_biases.push(PhaseBias {
+                    signal: b.u(5)? as u8,
+                    integer: b.u(1)? == 1,
+                    wide_lane_integer: b.u(2)? as u8,
+                    discontinuity: b.u(4)? as u8,
+                    bias_m: b.i(20)? as f64 * 0.0001,
+                });
+            }
+        }
+        Kind::Orbit | Kind::Vtec => {}
+    }
+    Some(())
+}
+
 fn decode(p: &[u8]) -> Option<Message> {
     let mut b = Bits { b: p, pos: 0 };
     let number = b.u(12)? as u16;
+    if number == IGS_SSR {
+        return decode_igs(&mut b);
+    }
     let (system, kind) = classify(number)?;
     let epoch_bits = system.map_or(20, System::epoch_bits);
     let epoch_s = b.u(epoch_bits)? as u32;
@@ -288,65 +450,24 @@ fn decode(p: &[u8]) -> Option<Message> {
     if matches!(kind, Kind::Orbit | Kind::Combined) && regional_datum.is_none() {
         return None;
     }
-    let iod_ssr = b.u(4)? as u8;
-    let provider = b.u(16)? as u16;
-    let solution = b.u(4)? as u8;
-    let mut msg = Message {
-        number,
-        system,
-        kind,
+    let header = Header {
         epoch_s,
         update_interval,
         multiple,
-        regional_datum,
-        iod_ssr,
-        provider,
-        solution,
-        sats: Vec::new(),
-        vtec_quality_tecu: None,
-        vtec_layers: Vec::new(),
+        iod_ssr: b.u(4)? as u8,
+        provider: b.u(16)? as u16,
+        solution: b.u(4)? as u8,
     };
+    let mut msg = new_message(number, system, kind, header);
+    msg.regional_datum = regional_datum;
     let Some(sys) = system else {
-        msg.vtec_quality_tecu = Some(b.u(9)? as f64 * 0.05);
-        let layers = b.u(2)? as usize + 1;
-        for _ in 0..layers {
-            let height_m = b.u(8)? as f64 * 10_000.0;
-            let n = b.u(4)? as usize + 1;
-            let m = b.u(4)? as usize + 1;
-            let nc = (n + 1) * (n + 2) / 2 - (n - m.min(n)) * (n - m.min(n) + 1) / 2;
-            let ns = nc - (n + 1);
-            let mut c_tecu = Vec::with_capacity(nc);
-            for _ in 0..nc {
-                c_tecu.push(b.i(16)? as f64 * 0.005);
-            }
-            let mut s_tecu = Vec::with_capacity(ns);
-            for _ in 0..ns {
-                s_tecu.push(b.i(16)? as f64 * 0.005);
-            }
-            msg.vtec_layers.push(VtecLayer {
-                height_m,
-                degree: n as u8,
-                order: m as u8,
-                c_tecu,
-                s_tecu,
-            });
-        }
+        vtec_body(&mut b, &mut msg)?;
         return Some(msg);
     };
     let nsat = b.u(6)? as usize;
     for _ in 0..nsat {
         let id = b.u(sys.sat_bits())? as u8;
-        let mut s = Sat {
-            id,
-            label: format!("{}{:02}", sys.letter(), id),
-            iod: None,
-            toe_modulo_raw: None,
-            orbit: None,
-            clock: None,
-            code_biases: Vec::new(),
-            ura_raw: None,
-            high_rate_clock_m: None,
-        };
+        let mut s = new_sat(sys, id);
         if matches!(kind, Kind::Orbit | Kind::Combined) {
             match sys {
                 System::Gps | System::Glonass | System::Qzss => s.iod = Some(b.u(8)? as u32),
@@ -360,24 +481,92 @@ fn decode(p: &[u8]) -> Option<Message> {
                     s.iod = Some(b.u(8)? as u32);
                 }
             }
-            s.orbit = Some(orbit(&mut b)?);
         }
-        match kind {
-            Kind::Clock | Kind::Combined => s.clock = Some(clock(&mut b)?),
-            Kind::CodeBias => {
-                let n = b.u(5)? as usize;
-                for _ in 0..n {
-                    let sig = b.u(5)? as u8;
-                    s.code_biases.push((sig, b.i(14)? as f64 * 0.01));
-                }
-            }
-            Kind::Ura => s.ura_raw = Some(b.u(6)? as u8),
-            Kind::HighRateClock => s.high_rate_clock_m = Some(b.i(22)? as f64 * 0.1 * MM),
-            Kind::Orbit | Kind::Vtec => {}
-        }
+        sat_body(&mut b, kind, &mut s)?;
         msg.sats.push(s);
     }
     Some(msg)
+}
+
+/// RTCM message number of the IGS SSR format.
+const IGS_SSR: u16 = 4076;
+
+/// The system and kind of an IGS message number.
+fn classify_igs(n: u8) -> Option<(Option<System>, Kind)> {
+    if n == 201 {
+        return Some((None, Kind::Vtec));
+    }
+    let sys = match n / 20 {
+        1 => System::Gps,
+        2 => System::Glonass,
+        3 => System::Galileo,
+        4 => System::Qzss,
+        5 => System::Beidou,
+        6 => System::Sbas,
+        _ => return None,
+    };
+    let kind = match n % 20 {
+        1 => Kind::Orbit,
+        2 => Kind::Clock,
+        3 => Kind::Combined,
+        4 => Kind::HighRateClock,
+        5 => Kind::CodeBias,
+        6 => Kind::PhaseBias,
+        7 => Kind::Ura,
+        _ => return None,
+    };
+    Some((Some(sys), kind))
+}
+
+/// An IGS SSR (4076) message, after its 12-bit message number.
+fn decode_igs(b: &mut Bits) -> Option<Message> {
+    let version = b.u(3)? as u8;
+    let igs = b.u(8)? as u8;
+    let (system, kind) = classify_igs(igs)?;
+    let header = Header {
+        epoch_s: b.u(20)? as u32,
+        update_interval: b.u(4)? as u8,
+        multiple: b.u(1)? == 1,
+        iod_ssr: b.u(4)? as u8,
+        provider: b.u(16)? as u16,
+        solution: b.u(4)? as u8,
+    };
+    let mut msg = new_message(IGS_SSR, system, kind, header);
+    msg.igs_version = Some(version);
+    msg.igs_message = Some(igs);
+    let Some(sys) = system else {
+        vtec_body(b, &mut msg)?;
+        return Some(msg);
+    };
+    if matches!(kind, Kind::Orbit | Kind::Combined) {
+        msg.regional_datum = Some(b.u(1)? == 1);
+    }
+    if kind == Kind::PhaseBias {
+        msg.phase_consistency = Some((b.u(1)? == 1, b.u(1)? == 1));
+    }
+    let nsat = b.u(6)? as usize;
+    for _ in 0..nsat {
+        let mut s = new_sat(sys, b.u(6)? as u8);
+        if matches!(kind, Kind::Orbit | Kind::Combined) {
+            s.iod = Some(b.u(8)? as u32);
+        }
+        sat_body(b, kind, &mut s)?;
+        msg.sats.push(s);
+    }
+    Some(msg)
+}
+
+/// Whether a frame payload with this message number is one this module reads. For 4076 the
+/// IGS message number (bits 15 to 22) decides.
+fn is_ssr(number: u16, payload: &[u8]) -> bool {
+    if number == IGS_SSR {
+        let mut b = Bits {
+            b: payload,
+            pos: 15,
+        };
+        return b.u(8).is_some_and(|n| classify_igs(n as u8).is_some());
+    }
+    classify(number).is_some()
 }
 
 /// Read every RTCM 3 frame of `bytes` and decode the SSR messages among them. Bytes that are
@@ -411,7 +600,7 @@ pub fn read_stream(bytes: &[u8]) -> Stream {
         } else {
             0
         };
-        if classify(number).is_none() {
+        if !is_ssr(number, payload) {
             out.other += 1;
         } else {
             match decode(payload) {
@@ -454,6 +643,180 @@ mod tests {
         assert_eq!(b.i(5), Some(-1));
         assert_eq!(b.i(7), Some(0));
         assert_eq!(b.u(1), None);
+    }
+
+    #[test]
+    fn igs_message_numbers_map_to_systems_and_kinds() {
+        assert_eq!(classify_igs(23), Some((Some(System::Gps), Kind::Combined)));
+        assert_eq!(
+            classify_igs(46),
+            Some((Some(System::Glonass), Kind::PhaseBias))
+        );
+        assert_eq!(
+            classify_igs(65),
+            Some((Some(System::Galileo), Kind::CodeBias))
+        );
+        assert_eq!(classify_igs(87), Some((Some(System::Qzss), Kind::Ura)));
+        assert_eq!(classify_igs(101), Some((Some(System::Beidou), Kind::Orbit)));
+        assert_eq!(
+            classify_igs(124),
+            Some((Some(System::Sbas), Kind::HighRateClock))
+        );
+        assert_eq!(classify_igs(201), Some((None, Kind::Vtec)));
+        assert_eq!(classify_igs(28), None);
+        assert_eq!(classify_igs(141), None);
+    }
+
+    /// Big-endian bit writer for hand-built frames.
+    fn put(out: &mut Vec<bool>, v: i64, n: usize) {
+        for i in (0..n).rev() {
+            out.push((v >> i) & 1 == 1);
+        }
+    }
+
+    fn frame(bits: &[bool]) -> Vec<u8> {
+        use crate::receiver_trust::machines::rtcm3::crc24q;
+        let mut payload = vec![0u8; bits.len().div_ceil(8)];
+        for (i, b) in bits.iter().enumerate() {
+            if *b {
+                payload[i / 8] |= 0x80 >> (i % 8);
+            }
+        }
+        let mut f = vec![0xD3, (payload.len() >> 8) as u8, payload.len() as u8];
+        f.extend_from_slice(&payload);
+        let crc = crc24q(&f);
+        f.extend_from_slice(&[(crc >> 16) as u8, (crc >> 8) as u8, crc as u8]);
+        f
+    }
+
+    fn igs_header(igs: i64) -> Vec<bool> {
+        let mut b = Vec::new();
+        // 4076, version 1, IGS message, epoch 345 600 s, interval 2, multiple, IOD SSR 7,
+        // provider 258, solution 3.
+        for (v, n) in [
+            (4076, 12),
+            (1, 3),
+            (igs, 8),
+            (345_600, 20),
+            (2, 4),
+            (1, 1),
+            (7, 4),
+            (258, 16),
+            (3, 4),
+        ] {
+            put(&mut b, v, n);
+        }
+        b
+    }
+
+    #[test]
+    fn igs_phase_bias_fields_read_as_laid_out() {
+        // Galileo phase biases (66): consistency flags 1, 0; one satellite E11 with yaw
+        // 128/256 = 0.5 semicircle, yaw rate -16/8192 semicircle/s and two biases.
+        let mut b = igs_header(66);
+        for (v, n) in [(1, 1), (0, 1), (1, 6), (11, 6), (2, 5), (128, 9), (-16, 8)] {
+            put(&mut b, v, n);
+        }
+        // Signal 1: integer, wide-lane 2, discontinuity 5, +1.2345 m (12 345 x 0.1 mm).
+        // Signal 9: not integer, wide-lane 0, discontinuity 15, -0.0001 m.
+        for (v, n) in [(1, 5), (1, 1), (2, 2), (5, 4), (12_345, 20)] {
+            put(&mut b, v, n);
+        }
+        for (v, n) in [(9, 5), (0, 1), (0, 2), (15, 4), (-1, 20)] {
+            put(&mut b, v, n);
+        }
+        let s = read_stream(&frame(&b));
+        assert_eq!((s.messages.len(), s.truncated, s.other), (1, 0, 0));
+        let m = &s.messages[0];
+        assert_eq!(
+            (m.number, m.igs_version, m.igs_message, m.system, m.kind),
+            (
+                4076,
+                Some(1),
+                Some(66),
+                Some(System::Galileo),
+                Kind::PhaseBias
+            )
+        );
+        assert_eq!(
+            (
+                m.epoch_s,
+                m.update_interval,
+                m.multiple,
+                m.iod_ssr,
+                m.provider,
+                m.solution
+            ),
+            (345_600, 2, true, 7, 258, 3)
+        );
+        assert_eq!(m.phase_consistency, Some((true, false)));
+        assert_eq!(m.regional_datum, None);
+        let sat = &m.sats[0];
+        assert_eq!(sat.label, "E11");
+        assert_eq!(sat.yaw_semicircles, Some(0.5));
+        assert_eq!(sat.yaw_rate_semicircles_s, Some(-16.0 / 8192.0));
+        let p = &sat.phase_biases;
+        assert_eq!(p.len(), 2);
+        assert_eq!(
+            (p[0].signal, p[0].integer, p[0].wide_lane_integer),
+            (1, true, 2)
+        );
+        assert_eq!(p[0].discontinuity, 5);
+        assert!((p[0].bias_m - 1.2345).abs() < 1e-12);
+        assert_eq!(
+            (p[1].signal, p[1].integer, p[1].discontinuity),
+            (9, false, 15)
+        );
+        assert!((p[1].bias_m + 0.0001).abs() < 1e-12);
+    }
+
+    #[test]
+    fn igs_orbit_and_ura_fields_read_as_laid_out() {
+        // BeiDou orbit (101), regional datum; C05 IOD 200; radial -1 mm (-10 x 0.1 mm),
+        // along 0.8 mm, cross -0.4 mm, rates 0.001, -0.004, 0.008 mm/s.
+        let mut b = igs_header(101);
+        for (v, n) in [(1, 1), (1, 6), (5, 6), (200, 8)] {
+            put(&mut b, v, n);
+        }
+        for (v, n) in [(-10, 22), (2, 20), (-1, 20), (1, 21), (-1, 19), (2, 19)] {
+            put(&mut b, v, n);
+        }
+        let s = read_stream(&frame(&b));
+        let m = &s.messages[0];
+        assert_eq!((m.kind, m.regional_datum), (Kind::Orbit, Some(true)));
+        let o = m.sats[0].orbit.unwrap();
+        assert_eq!(
+            (m.sats[0].label.as_str(), m.sats[0].iod),
+            ("C05", Some(200))
+        );
+        let want = [-1e-3, 0.8e-3, -0.4e-3, 1e-6, -4e-6, 8e-6];
+        let got = [
+            o.radial_m,
+            o.along_m,
+            o.cross_m,
+            o.dot_radial_m_s,
+            o.dot_along_m_s,
+            o.dot_cross_m_s,
+        ];
+        for (g, w) in got.iter().zip(want) {
+            assert!((g - w).abs() < 1e-15, "{g} vs {w}");
+        }
+        // SBAS URA (127): S20, raw class 33.
+        let mut b = igs_header(127);
+        for (v, n) in [(1, 6), (20, 6), (33, 6)] {
+            put(&mut b, v, n);
+        }
+        let s = read_stream(&frame(&b));
+        assert_eq!(s.messages[0].sats[0].label, "S20");
+        assert_eq!(s.messages[0].sats[0].ura_raw, Some(33));
+    }
+
+    #[test]
+    fn an_igs_message_of_another_number_is_skipped_not_truncated() {
+        let mut b = igs_header(150);
+        put(&mut b, 0, 8);
+        let s = read_stream(&frame(&b));
+        assert_eq!((s.messages.len(), s.other, s.truncated), (0, 1, 0));
     }
 
     #[test]
