@@ -119,6 +119,9 @@ exclude = [
     # The JetBrains IDE plugin is a standalone Kotlin/Gradle project, not part of the
     # Rust crate at all. See ide/jetbrains/.
     "/ide",
+    # Kshana Desktop is a standalone Tauri application with its own Cargo.lock; it depends on
+    # this crate and is built and bundled on its own. See apps/desktop/.
+    "/apps",
     # rust-toolchain.toml pins THIS repository's CI and developer compiler to an exact
     # release. Shipping it in the .crate/sdist re-exports that decision to consumers: on
     # a rustup host it silently downloads that exact compiler mid-`pip install`, while a
