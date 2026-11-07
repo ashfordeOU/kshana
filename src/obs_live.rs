@@ -25,7 +25,7 @@
 use crate::obs::{Record, Station};
 
 /// Frames kept in the window before the emitted ones are dropped.
-const KEEP_FRAMES: usize = 4096;
+const KEEP_FRAMES: usize = 256;
 
 /// Cut whole frames off the front of `buf`; what is left is a frame still arriving.
 fn split(format: &str, buf: &mut Vec<u8>) -> Vec<Vec<u8>> {
@@ -144,7 +144,7 @@ impl LiveObs {
         })
     }
 
-    /// Trim once more than `n` frames are in the window (default 4096; at least 1).
+    /// Trim once more than `n` frames are in the window (default 256; at least 1).
     pub fn keep_frames(mut self, n: usize) -> Self {
         self.keep = n.max(1);
         self
