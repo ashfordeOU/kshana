@@ -11579,3 +11579,11 @@ engine-e-referee-location-event = a report names event { $id }, which the truth 
 engine-e-referee-location-truth = not a referee location truth file: { $e }
 
 engine-e-referee-location-reports = not a referee location reports file: { $e }
+
+## src/data_pack.rs
+
+engine-data-pack-usage = usage: kshana data-pack <out-dir> [--seed <n>] [--logs <n>] [--log-seconds <s>] [--iq <n>] [--iq-seconds <s>] [--iq-rate <hz>]
+
+engine-e-data-pack-exists = { $path } already exists: a pack is written into a new directory, never over one
+
+engine-data-pack-done = wrote { $n } items to { $out } ({ $classes }); manifest.json lists every file with its SHA-256
