@@ -301,6 +301,7 @@ pub mod connect_nats;
 pub mod connect_watch;
 pub mod connect_ws;
 pub mod device;
+pub mod geodesic;
 pub mod governor;
 pub mod interference_map;
 pub mod live_health;
