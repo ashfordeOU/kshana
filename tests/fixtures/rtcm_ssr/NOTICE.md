@@ -9,12 +9,19 @@ This directory holds the external reference used by `tests/rtcm_ssr_pyrtcm.rs` t
   public sample streams from the pyrtcm repository (github.com/semuconsulting/pyrtcm, tag v1.2.0,
   `tests/`), BSD 3-Clause, Copyright (c) 2020 semuadmin (Steve Smith). The licence text is in the
   repository's `NOTICE`.
+- `pygpsdata-NTRIP-4076.log` (sha256 d516703dafd776b2417a16fb428b6e57094ade6fafc906ba739f0d79e0243f35):
+  IGS SSR (RTCM 4076) messages recorded by pyrtcm's author from the IGS real-time caster
+  (products.igs-ip.net, mountpoint SSRA00CNE1), from the same repository, tag and licence.
 - `expected_ssr.json`: the decoded field values that pyrtcm's own test suite
   (`tests/test_stream.py`, `EXPECTED_RESULTS`) records for the SSR messages in those streams,
-  transcribed from the test file. pyrtcm was not run to produce them.
+  transcribed from the test file. pyrtcm was not run to produce them. The 4076 entries come from
+  `testigsssr4076` and also carry the IGS message number.
 
 ## Limits
 - The field widths in `src/rtcm_ssr.rs` come from the same open decoder, so this check confirms
   the decoding of the frames and the scaling. It does not independently confirm the tables against
   the RTCM standard; applying the corrections in PPP against IGS products (item R1.5) does that.
 - For message 1264, pyrtcm records no ionospheric layer for the sample; only its header is compared.
+- The 4076 stream holds combined orbit and clock (GPS, GLONASS, Galileo, BeiDou), code biases
+  (GPS, GLONASS, Galileo) and the ionosphere (201). IGS orbit-only, clock-only, high-rate clock,
+  phase-bias and URA messages are not in it; they are checked against hand-built frames only.
