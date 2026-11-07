@@ -11660,4 +11660,6 @@ engine-e-planner-placement = placement needs candidates and m between 1 and thei
 
 ## src/env_baseline.rs
 
+engine-env-baseline-usage = usage: kshana env-baseline <site-hours.json>
+
 engine-e-env-baseline-input = not a list of site-hours (lat_deg, lon_deg, year, doy, ut_hour, kp, f107): { $e }

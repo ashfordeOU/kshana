@@ -679,6 +679,13 @@ pub fn referee_location_score(truth_json: &str, reports_json: &str) -> Result<St
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// The environmental baseline (row B8; `kshana env-baseline`): `site_hours_json` is a JSON list of
+/// site-hours. Returns JSON text, the same bytes as the command line and Python give.
+#[wasm_bindgen]
+pub fn env_baseline(site_hours_json: &str) -> Result<String, JsValue> {
+    crate::env_baseline::baseline_json(site_hours_json).map_err(|e| JsValue::from_str(&e))
+}
+
 /// The monitoring-network planner (row B1a; `kshana planner`): `kind` is `map` or `place` and
 /// `spec_json` a `kshana.planner/1` document. Returns JSON text, the same bytes as the command line and
 /// Python give.

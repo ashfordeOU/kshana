@@ -174,6 +174,7 @@ __all__ = [
     "referee_location_score",
     "area_trust_timeline",
     "planner",
+    "env_baseline",
     "evidence_create",
     "evidence_round_trip",
     "evidence_verify",
@@ -333,6 +334,11 @@ def jammertest_import(
     (``test_id``, ``year``, ``kind``, ``onset_s``, ``end_s`` ...), ``skipped_non_rf``,
     ``outside_log`` and ``unknown_ids``. The events are planned slots, not recorded on-air times.
     Raises ``ValueError``."""
+
+def env_baseline(site_hours_json: str) -> str:
+    """The environmental baseline (row B8), as ``kshana env-baseline`` gives it: ``site_hours_json`` is a
+    JSON list of site-hours (``lat_deg``, ``lon_deg``, ``year``, ``doy``, ``ut_hour``, ``kp``, ``f107``).
+    Returns JSON text, the same bytes as the command line and WebAssembly. Raises ``ValueError``."""
 
 def planner(kind: str, spec_json: str) -> str:
     """The monitoring-network planner (row B1a), as ``kshana planner`` gives it: ``kind`` is ``"map"``

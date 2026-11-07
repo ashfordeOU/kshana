@@ -1199,6 +1199,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("area-trust") => Some(kshana::area_trust::run),
         // `kshana planner map|place <spec.json>`: the monitoring-network planner (src/planner.rs).
         Some("planner") => Some(kshana::planner::run),
+        // `kshana env-baseline <site-hours.json>`: the environmental baseline (src/env_baseline.rs).
+        Some("env-baseline") => Some(kshana::env_baseline::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
         _ => None,
