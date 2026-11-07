@@ -11515,6 +11515,8 @@ engine-e-clock-live-ticc-tau0 = a TICC log read live needs --tau0 <seconds>: the
 
 ## src/sensor_live.rs
 
-engine-sensor-live-usage = usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]
+engine-sensor-live-usage =
+    usage: kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]
+    { "   " }or: kshana sensor-live --kind n2k --from <candump.log|-|tcp:host:port> [--follow] [--max-seconds <s>]
 
-engine-e-sensor-live-kind = sensor-live reads --kind imu; not { $kind }
+engine-e-sensor-live-kind = sensor-live reads --kind imu or n2k; not { $kind }

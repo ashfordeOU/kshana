@@ -316,3 +316,87 @@ fn sensor_live_imu_followed_equals_the_replay() {
         assert_eq!(g["heading_deg"].as_f64().unwrap().to_bits(), h.1.to_bits());
     }
 }
+
+fn n2k_frame(t: f64, id: u32, d: &[u8]) -> String {
+    let hex: String = d.iter().map(|b| format!("{b:02X}")).collect();
+    format!("({t:.6}) can0 {id:08X}#{hex}\n")
+}
+
+/// Two minutes of a vessel at 1 Hz on NMEA 2000: system time, COG/SOG, position and heading,
+/// with an 11-bit frame and an unrelated group in between.
+fn candump_log() -> String {
+    let mut s = String::new();
+    for k in 0..120u32 {
+        let t = 1_780_000_000.0 + f64::from(k);
+        if k % 10 == 0 {
+            let mut st = vec![k as u8, 0xF0];
+            st.extend(20_602u16.to_le_bytes());
+            st.extend(((36_000 + k) * 10_000).to_le_bytes());
+            s += &n2k_frame(t, 0x09F0_1003, &st);
+        }
+        let mut cs = vec![k as u8, 0xFC];
+        cs.extend((15_000u16 + (k as u16) * 3).to_le_bytes());
+        cs.extend(400u16.to_le_bytes());
+        cs.extend([0xFF, 0xFF]);
+        s += &n2k_frame(t + 0.1, 0x09F8_0203, &cs);
+        let mut p = Vec::new();
+        p.extend((594_000_000i32 + k as i32 * 200).to_le_bytes());
+        p.extend((247_000_000i32 + k as i32 * 400).to_le_bytes());
+        s += &n2k_frame(t + 0.2, 0x09F8_0103, &p);
+        let mut h = vec![k as u8];
+        h.extend((15_100u16 + (k as u16) * 3).to_le_bytes());
+        h.extend([0xFF, 0x7F, 0xFF, 0x7F, 0xFC]);
+        s += &n2k_frame(t + 0.3, 0x09F1_1203, &h);
+        if k % 13 == 0 {
+            s += &format!("({:.6}) can0 123#DEADBEEF\n", t + 0.4);
+            s += &n2k_frame(t + 0.5, 0x0DF5_0B23, &[1, 2, 3, 4, 5, 6, 7, 8]);
+        }
+    }
+    s
+}
+
+#[test]
+fn nmea_2000_over_tcp_gives_the_replay_sentences_and_the_nmea_readers_take_them() {
+    let text = candump_log();
+    let replay = kshana::n2k::convert(&text).concat();
+    let l = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let addr = l.local_addr().unwrap().to_string();
+    let send = text.clone().into_bytes();
+    let h = std::thread::spawn(move || {
+        let (mut s, _) = l.accept().unwrap();
+        for c in send.chunks(53) {
+            s.write_all(c).unwrap();
+        }
+    });
+    let o = Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args([
+            "sensor-live",
+            "--kind",
+            "n2k",
+            "--from",
+            &format!("tcp:{addr}"),
+        ])
+        .env("KSHANA_LANG", "en")
+        .output()
+        .unwrap();
+    h.join().unwrap();
+    assert!(o.status.success(), "{}", String::from_utf8_lossy(&o.stderr));
+    let live = String::from_utf8(o.stdout).unwrap();
+    assert_eq!(live, replay);
+    assert_eq!(live.matches("$GPRMC").count(), 120);
+    assert_eq!(live.matches("$HEHDT").count(), 120);
+    // The sentences are ordinary NMEA 0183: the receiver-log reader takes them unchanged.
+    let station: kshana::obs::Station = toml::from_str(
+        &std::fs::read_to_string(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("examples/obs/station.toml"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    let recs = kshana::obs::from_log("nmea", live.as_bytes(), &station).unwrap();
+    let epochs = recs
+        .iter()
+        .filter(|r| matches!(r, kshana::obs::Record::Epoch(_)))
+        .count();
+    assert_eq!(epochs, 120);
+}

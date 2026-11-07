@@ -69,6 +69,23 @@ the `heading-course` monitor sums it, so the live samples and headings equal a r
 for bit (`tests/clock_live.rs`). A serial IMU is read through the tool that turns it into CSV lines; Kshana
 opens no device.
 
+## NMEA 2000 from a CAN bus (`kshana sensor-live --kind n2k`)
+
+```sh
+candump -L can0 | kshana sensor-live --kind n2k --from -
+kshana sensor-live --kind n2k --from recorded-candump.log > vessel.nmea
+```
+
+Reads SocketCAN `candump -l`/`-L` lines (29-bit identifiers; 11-bit frames are not NMEA 2000 and are
+passed over) and prints NMEA 0183 sentences: PGN 129025 (position, rapid update) gives `$GPRMC` with the
+latest PGN 129026 course and speed; PGN 127250 (vessel heading) gives `$HEHDT` (true) or `$HCHDM`
+(magnetic); PGN 126992 (system time) dates the sentences, otherwise the frame's capture time does. Values
+marked "not available" are left empty. The layouts are the openly documented ones (`canboat`); the NMEA 2000
+standard is not reproduced. Multi-frame (fast-packet) groups, such as GNSS position data, are not read yet.
+The conversion is the same function over a live stream and over a recorded log (`kshana::n2k::convert`),
+and the output is read by the NMEA reader unchanged (`tests/clock_live.rs`). USB-CAN gateways that present a
+SocketCAN interface (`slcan`, `gs_usb`) work the same way; nothing is sent on the bus.
+
 ## IMU into the hybrid and fusion scenarios (`kshana imu-fit`)
 
 The `hybrid` and `fusion` (17-state UKF) scenarios are simulations: they take sensor noise

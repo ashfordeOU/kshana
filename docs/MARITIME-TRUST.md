@@ -220,6 +220,14 @@ kshana receiver-trust live session.toml --tcp 192.0.2.10:10110
 kshana receiver-trust live session.toml --udp 10110
 ```
 
+An NMEA 2000 network is read through a SocketCAN interface: `kshana sensor-live --kind n2k` turns the
+position, course and speed, heading and system-time groups into NMEA 0183 sentences (see
+[`MACHINE-INPUTS.md`](MACHINE-INPUTS.md)), which this command reads as it reads any other:
+
+```sh
+candump -L can0 | kshana sensor-live --kind n2k --from - | kshana receiver-trust live session.toml
+```
+
 The session is the same `session.toml` as a batch run, with a `[platform]` table that declares
 `kind = "vessel"`; its `[log]` table is not needed. Serial ports are not opened directly yet:
 read the port with the tool you already use (`stty` and `cat`, a terminal server, a
