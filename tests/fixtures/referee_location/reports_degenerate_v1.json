@@ -1,0 +1,1 @@
+{"schema":"kshana.referee-location-reports/1","reports":[{"t":1780001010.0,"event":"E1","point":{"lat":0.0,"lon":0.0},"regions":[{"level":0.95,"ellipse":{"lat":0.0,"lon":0.0,"cov_en":[[100.0,100.0],[100.0,100.0]]}}]}]}
