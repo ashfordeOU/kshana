@@ -1,7 +1,7 @@
 # DLL discriminator jitter: pre-registration
 
 Written and committed **before** any measurement below was run. Trigger: W7's finding against
-the 0.34 tracker (feat/034-campaign @ d89e07ed). At fs = 2.046 MHz (2 samples per chip), with an
+the 0.34 tracker (feat/034-campaign @ b6cc305c). At fs = 2.046 MHz (2 samples per chip), with an
 EMLP discriminator and d = 0.5, the per-update DLL discriminator σ is about 0.20 chip and flat
 across 30, 38 and 43 dB-Hz, while theory gives about 0.06 chip at 45 dB-Hz. The PLL σ scales
 correctly.

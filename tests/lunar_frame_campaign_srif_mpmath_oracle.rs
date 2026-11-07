@@ -91,7 +91,7 @@
 //!
 //! ## Result (recorded 2026-10-02, not tuned)
 //!
-//! Pre-registration commit `b41908c9` (pushed 2026-10-02 16:19 UTC) precedes the solver, the
+//! Pre-registration commit `6e7000be` (pushed 2026-10-02 16:19 UTC) precedes the solver, the
 //! fixture and the oracle run. Oracle self-agreement 1.4e-43 or better.
 //!
 //! **Every pre-registered check passes on all four scenarios.**

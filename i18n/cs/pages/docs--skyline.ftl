@@ -202,7 +202,7 @@ seg-9d04c658b37a = Každý výsledek nese <c1/> (MODELLED), <c2/> (geometrie za 
 
 seg-0e1285fdfe52 = Pět řádků registru (<c1/>), tak jak je vymezuje návrhová poznámka:
 
-seg-1aa76286f152 = Orekit { "12.2" } (úhly pohledu <c1/>, <c2/>) s gnss_lib_py { "1.0.4" } (<c3/> a matice DOP), předregistrováno v <c4/> (commit e4b9d912) dříve, než byl kterýkoli z nich spuštěn: { "1173" } úhlů pohledu na šesti stanovištích a ve čtyřech epochách, šest tabulek, { "142" } viditelných množin; nejhorší elevace { "1.3e-13" }°, azimut { "2.3e-13" }°, maska { "1.1e-12" }° oproti { "1e-9" }°; shodné viditelné množiny, žádná v pásmu hranice; DOP { "3.3e-13" } relativně a kofaktor { "6.6e-13" } měřítka matice oproti { "1e-9" }. Rozsah: tabulkové masky, geodetické úhly pohledu, maskovaná množina a její DOP a kofaktor při společných hodinách.
+seg-1aa76286f152 = Orekit { "12.2" } (úhly pohledu <c1/>, <c2/>) s gnss_lib_py { "1.0.4" } (<c3/> a matice DOP), předregistrováno v <c4/> (commit d94130d4) dříve, než byl kterýkoli z nich spuštěn: { "1173" } úhlů pohledu na šesti stanovištích a ve čtyřech epochách, šest tabulek, { "142" } viditelných množin; nejhorší elevace { "1.3e-13" }°, azimut { "2.3e-13" }°, maska { "1.1e-12" }° oproti { "1e-9" }°; shodné viditelné množiny, žádná v pásmu hranice; DOP { "3.3e-13" } relativně a kofaktor { "6.6e-13" } měřítka matice oproti { "1e-9" }. Rozsah: tabulkové masky, geodetické úhly pohledu, maskovaná množina a její DOP a kofaktor při společných hodinách.
 
 seg-b33828edbe2f = ručně vypočtené hodnoty; výše uvedené porovnání čte jejich tabulky jako vstupy a nekontroluje je
 
@@ -210,7 +210,7 @@ seg-ca950752be62 = Předvolby skyline
 
 seg-83946f66ca78 = žádné: zvolené, uvedené rozměry (kontrolované jen proti sobě samým)
 
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> a <c2/> (standardní P2) na { "142" } uložených viditelných množinách, při společných hodinách i s jedněmi hodinami na systém, předregistrováno v <c3/> (commit 0bbeeaee): { "270" } případů, osy { "5.1e-13" } relativně, orientace { "5.3e-12" }°, kofaktor { "1.0e-12" } měřítka matice, oproti { "1e-9" } a { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> a <c2/> (standardní P2) na { "142" } uložených viditelných množinách, při společných hodinách i s jedněmi hodinami na systém, předregistrováno v <c3/> (commit 2dfc9c16): { "270" } případů, osy { "5.1e-13" } relativně, orientace { "5.3e-12" }°, kofaktor { "1.0e-12" } měřítka matice, oproti { "1e-9" } a { "1e-6" }°
 
 seg-44e5f9ca28f7 = Funkce geometrie oblohy
 

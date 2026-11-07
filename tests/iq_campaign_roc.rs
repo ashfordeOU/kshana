@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The detection ROC of a scored campaign (`kshana::iq::campaign::report::rocs`), against the
-//! bars pre-registered in `docs/design/DETECTION-ROC.md` §2 (b47e358d).
+//! bars pre-registered in `docs/design/DETECTION-ROC.md` §2 (04981059).
 //!
 //! The campaigns are Kshana scenes of GPS L1 C/A signals only (`tests/support/monitor_campaign.rs`).
 //! Each of 6 recordings carries 3 satellites and states one 6 s event:

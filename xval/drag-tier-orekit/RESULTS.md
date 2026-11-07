@@ -1,7 +1,7 @@
 # Results: the NRLMSISE-00 drag tier against Orekit 12.2
 
-First comparison run 2026-10-13 after the pre-registration (21647478), fixture committed unchanged
-(54065ecc). Test: `tests/drag_tier_orekit_oracle.rs`.
+First comparison run 2026-10-13 after the pre-registration (f380f42c), fixture committed unchanged
+(9e25daad). Test: `tests/drag_tier_orekit_oracle.rs`.
 
 | case | worst \|Δr\| (m) | worst \|Δv\| (m/s) | drag displacement over 24 h (m) | worst error / bar |
 |---|---|---|---|---|

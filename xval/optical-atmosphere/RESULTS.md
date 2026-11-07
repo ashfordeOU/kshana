@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Results: optical atmosphere (0.37), pre-registered bars A1 to A7
 
-Bars are those of `PREREGISTRATION.md`, committed in fe5d5f35 before any implementation. None was
+Bars are those of `PREREGISTRATION.md`, committed in 4cba8069 before any implementation. None was
 changed after a run. Oracle: `oracle.py` (mpmath 1.4.1, 30 digits), fixture
 `tests/fixtures/optical_atmosphere/reference.txt`.
 
@@ -11,9 +11,9 @@ changed after a run. Oracle: `oracle.py` (mpmath 1.4.1, 30 digits), fixture
 | A2 | Scintillation, aperture factor, gamma-gamma fade probability | worst 4.5e-16 (16 points), 5.7e-16 (36 points), 1.3e-12 in log10 (96 points) | MET |
 | A3 | Cloud and clear-air optical depth, relative error <= 1e-12 | worst 3.6e-16 (12 points), 6.6e-16 (24 points) | MET |
 | A4 | Diversity limits and monotonicity | rho = 0 and rho = 1 worst 0; zero monotonicity violations | MET (see note 1) |
-| A5 | Link budget and default network bit-identical to 5eac3b61 | digest fb00c966de4299bc at the base commit and now | MET |
+| A5 | Link budget and default network bit-identical to b17aba49 | digest fb00c966de4299bc at the base commit and now | MET |
 | A6 | Holdover coupling bit for bit | 324 comparisons identical | MET |
-| A7 | Native and wasm byte-identical | MET. Source half: no non-portable libm call in the new modules (test passes). Execution half (2026-10-18, integration commit 0c35d453, 0.37.0): `api::run_toml` JSON from the native release build and `run()` JSON from the wasm32 build (wasm-bindgen 0.2.122, Node 22) compared with `cmp` for both bundled scenarios: `optical-atmosphere-network` (29,856 B, SHA-256 prefix e06d7735c59efc90) and `optical-atmosphere-techniques` (18,431 B, 8004015c5f51429f), byte-identical. CI's `test-wasm-bindings` and `wasm-registry` jobs repeat it on the draft PR | MET |
+| A7 | Native and wasm byte-identical | MET. Source half: no non-portable libm call in the new modules (test passes). Execution half (2026-10-18, integration commit 52fb197b, 0.37.0): `api::run_toml` JSON from the native release build and `run()` JSON from the wasm32 build (wasm-bindgen 0.2.122, Node 22) compared with `cmp` for both bundled scenarios: `optical-atmosphere-network` (29,856 B, SHA-256 prefix e06d7735c59efc90) and `optical-atmosphere-techniques` (18,431 B, 8004015c5f51429f), byte-identical. CI's `test-wasm-bindings` and `wasm-registry` jobs repeat it on the draft PR | MET |
 
 Scope notes:
 
@@ -40,7 +40,7 @@ Nothing in these results is an external-oracle comparison of the atmosphere. No 
 
 ## Time series addendum (0.38): bars T1-T6
 
-Bars fixed in `PREREGISTRATION-timeseries.md` (commit c4dfdbab) before the first run. `tests/optical_atmosphere_timeseries.rs`, all met on the
+Bars fixed in `PREREGISTRATION-timeseries.md` (commit cf3e24f7) before the first run. `tests/optical_atmosphere_timeseries.rs`, all met on the
 first run: T1, T2, T5 and T6 pass; T3 and T4 over 8760 h at 600 s for the three default sites:
 
 | seed | site | stated availability, % | realised, % | p_cloud, % | realised cloud, % |

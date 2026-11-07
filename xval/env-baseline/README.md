@@ -6,7 +6,7 @@ The pre-registration is `docs/design/evidence/b8-environmental-baseline/PREREGIS
 
 1. Owner sign-off (3 November 2026).
 2. The baseline, `src/env_baseline.rs` (`EnvBaselineParams::v1`, each constant cited), was tested on synthetic
-   inputs only. `roti.py` was tested on synthetic TEC (`python3 -I roti.py --self-test`). Commit `ef01a4537`.
+   inputs only. `roti.py` was tested on synthetic TEC (`python3 -I roti.py --self-test`). Commit `7e7f8e1ad`.
 3. The event days were drawn by rule from the index files: `draw_days.py`, output `days.json`.
 4. The station list was drawn from the BKG listings and the file headers only: `stations.json` (readings 4 to 7).
 5. The ROTI labels (to come, before the baseline is run on the data).

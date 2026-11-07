@@ -47,7 +47,7 @@
   },
   "src/evidence/html.rs": {
    "count": 19,
-   "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 102266ea; docs/i18n.md)"
+   "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 4bc89cca; docs/i18n.md)"
   },
   "src/fusion/gnss_ins_ekf.rs": {
    "count": 4,

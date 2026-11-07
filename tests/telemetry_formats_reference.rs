@@ -21,7 +21,7 @@
 //! PIN-EXCLUDES: every expected value: those are read from the registry, never from a literal.
 //!
 //! A second corpus, `telemetry_oracle_13` (schema 1.3: geometry series and the `class` label),
-//! is pre-registered in `xval/telemetry-1.3/PREREGISTRATION.md` (fb226057) and judged by the
+//! is pre-registered in `xval/telemetry-1.3/PREREGISTRATION.md` (e1e65570) and judged by the
 //! same two parsers (O1, O2) plus promtool 3.5.0 `check metrics` (O3) and the OpenTelemetry
 //! Collector contrib 0.135.0 (O4), run by `xval/telemetry-1.3/run.sh`. First run, 2026-10-14:
 //! every bar met (`xval/telemetry-1.3/RESULTS.md`).

@@ -63,15 +63,15 @@
 //! must turn Part A red; scaling the joint fix's `sigma_enu_m` by 1.01 in `joint_pvt::solve`
 //! must turn Part B red.
 //!
-//! Result (2026-10-02). Part A, first run (commit 9f2875db): PASS. W_rms 1.9616 MHz, σ_t
+//! Result (2026-10-02). Part A, first run (commit 5351f9f0): PASS. W_rms 1.9616 MHz, σ_t
 //! 38.755 µs, σ_f 100.794 Hz, σ_ρ 0.5970 m; with the PSS boost σ_f 87.284 Hz, σ_ρ 0.5831 m
 //! (W_rms 1.8702 MHz, σ_t 41.679 µs).
-//! Part B, first run (commit 9f2875db): FAIL on one number. Signal 0 median 3-D sigma relative
+//! Part B, first run (commit 5351f9f0): FAIL on one number. Signal 0 median 3-D sigma relative
 //! difference 1.1e-6, Doppler east/north/up 1.1e-5, 1.2e-5, 5.0e-6 (all inside), but signal 1
 //! (200 kHz) 6.5e-5 > 1e-5: the report evaluated the formal covariance at its noisy fix, about
 //! 100 m from the truth for a 135 m sigma, so the number was not the bound the row claims (the
 //! Cramér-Rao bound is the information at the true parameter). Engine fix (commit after
-//! 9f2875db; the failing value was seen before it was written): `joint_pvt::formal_sigma_enu`
+//! 5351f9f0; the failing value was seen before it was written): `joint_pvt::formal_sigma_enu`
 //! evaluates the weighted fix covariance at a given position, and the report's
 //! `toa_median_sigma_3d_m` uses it at the true position. Re-run at the unchanged tolerances:
 //! PASS, signal 0 5.2e-16 and signal 1 5.1e-15 relative; Doppler unchanged (the Doppler fix's

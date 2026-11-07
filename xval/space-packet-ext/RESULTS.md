@@ -1,6 +1,6 @@
 # Results: Space Packet secondary header, packet error control and segmentation
 
-Pre-registration: `PREREGISTRATION.md` (003ef3eb), committed alone before any comparison.
+Pre-registration: `PREREGISTRATION.md` (1bd991e9), committed alone before any comparison.
 Judged by `tests/space_packet_ext_oracle.rs`; fixtures in `tests/fixtures/space_packet_ext/`.
 
 ## Reproduce

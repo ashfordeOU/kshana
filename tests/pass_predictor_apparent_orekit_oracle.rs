@@ -90,7 +90,7 @@
 //! 1.828 (8330 failures, crossings off by up to 5.3 s). Disclosed oracle finding: Orekit's
 //! `h·θ0²` coefficient (0.011380 against the printed 0.01380) explains the whole gap between
 //! the two refraction models above sea level to 4.8e-16 relative (up to 2.6e-3 deg at 3 km);
-//! they are the same function at sea level (5.6e-17 deg). Pre-registration commit e947e69d.
+//! they are the same function at sea level (5.6e-17 deg). Pre-registration commit 896f3c2e.
 //! Fixture, drivers and provenance: `tests/fixtures/pass_predictor_apparent_orekit_oracle/`.
 
 use kshana::frames::Geodetic;

@@ -1,7 +1,7 @@
 # Results: kshana-bench 2.0.0 baselines
 
-The pre-registration is `PREREGISTRATION-v2.md`, committed alone in e8bb485 before any v2 code or score. This is
-the one v2 baseline run (2026-10-18), made after the code of the stratified split (20fda01). Version 1.0.0 was never
+The pre-registration is `PREREGISTRATION-v2.md`, committed alone in c8d7ce1 before any v2 code or score. This is
+the one v2 baseline run (2026-10-18), made after the code of the stratified split (14cd3fe). Version 1.0.0 was never
 released; its pre-registration and results are `PREREGISTRATION.md` and `RESULTS-v1.md`, and the 1.0.0 result files
 are in `bench/results-v1/`. v2 exists because the 1.0.0 split of task (a) left the holdout without a jamming epoch
 (`RESULTS-v1.md`). All figures are MODELLED. The bars are pinned by `tests/bench_baselines.rs`.

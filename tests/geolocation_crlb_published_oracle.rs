@@ -6,7 +6,7 @@
 //!
 //! PRE-REGISTRATION (row M058, written 2026-10-01 before any Kshana value below was computed
 //! and before the figure-reading script was run; the engine functions it calls were committed
-//! in d5adea18 with unit tests on other geometries only).
+//! in a5b45035 with unit tests on other geometries only).
 //!
 //! DISCLOSURE: while choosing the cases, the two Ho and Xu figures were looked at as page
 //! renders (about 110 dots per inch) and as a one-third-scale view of the Fig. 7 image, to
@@ -373,7 +373,7 @@ fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
 // AMENDMENT 1 (row M058, written 2026-10-02 AFTER the first run of the tests above; a NEW
 // pre-registration under rule 3 of the round-2 brief, the tests above stay unchanged).
 //
-// WHY: the first run (commit c71815dd fixture, engine d5adea18) found the Fig. 7 solid lines a
+// WHY: the first run (commit 5ba40a1a fixture, engine a5b45035) found the Fig. 7 solid lines a
 // factor 8.8 (position) and 11.1 (velocity) above Kshana's bound for the printed near-field
 // source u = [300, 325, 275] m, while Fig. 6 agreed to 0.06 % and 0.17 %. RESULT SEEN BEFORE
 // THIS AMENDMENT: a diagnostic (an independent NumPy bound, not Kshana) then tried scaling the

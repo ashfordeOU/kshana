@@ -2,7 +2,7 @@
 //! `src/ionex.rs` on a real CODE global ionosphere map (FUT-22 / CAP-26).
 //!
 //! Pre-registration: `tests/fixtures/ionex_code_gim/PREREGISTRATION.md`, committed alone in
-//! e4d8b1f before the fixture slice was generated, before the formula reference was written and
+//! 79beaab before the fixture slice was generated, before the formula reference was written and
 //! before any comparison was run. Bars (copied, not changed):
 //!
 //! - B1 structure: 25 maps = `# OF MAPS IN FILE`; map k at `EPOCH OF FIRST MAP` + k x 3600 s, the
@@ -24,7 +24,7 @@
 //! (RTKLIB, BSD-2-Clause) but this repository cannot run it; the harness skips when the CSV is
 //! absent.
 //!
-//! Result (first comparison run 2026-10-12, after the fixture commit 0901cca): all bars held.
+//! Result (first comparison run 2026-10-12, after the fixture commit 521bf3c): all bars held.
 //! B1 25 maps, 3600 s apart, last at 86400 s, 11 x 73 grid. B2 20075 nodes exact (0 TECU) in
 //! both readers. B3 max |Delta| 1.4e-14 TECU (bilinear at map epochs, 2025 samples), 3.5e-13
 //! (eq. 2, 6885), 3.6e-13 (eq. 3, 6885), 3.5e-13 (existing composition, eq. 2). B4 slant TEC
@@ -48,7 +48,7 @@
 //! formulas only; the real-data checks are the gated ones.
 //!
 //! B6 RESULT (first and only run, 2026-10-13; RTKLIB v2.4.2-p13 built from 71db0ffa after the
-//! owner allowed it; driver `rtklib_iontec_driver.c` and `run_rtklib.sh`, committed 98866b4
+//! owner allowed it; driver `rtklib_iontec_driver.c` and `run_rtklib.sh`, committed 8709a51
 //! before the run): RTKLIB `iontec` at the 6885 equation-2/3 query points, zenith, compared with
 //! `IonexFile::vtec_at`: max |Delta| 3.553e-13 TECU in the rotated-map mode (RTKLIB opt 1) and
 //! 3.517e-13 TECU in the consecutive mode (opt 0), against the 1e-5 TECU bar. Disclosed

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Results: the emitter-region estimator against the Jammertest 2025 transmitter sites
 
-Run once, on 27 Oct 2026, exactly as `PREREGISTRATION.md` (signed off by the owner at commit `46d53701`) defines it: the
+Run once, on 27 Oct 2026, exactly as `PREREGISTRATION.md` (signed off by the owner at commit `02a9d725`) defines it: the
 pinned data (every CSV hash re-checked against the pin before the run), the estimator at the registered parameters, the
 six day files per source concatenated and passed once to `kshana interference-map locate`, scored by
 `xval/emitter-region/score.py`. Nothing was changed, re-run or re-scored after seeing the result. The outputs are in

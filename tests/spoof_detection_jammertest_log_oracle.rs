@@ -35,7 +35,7 @@
 //! start and is reported as not log-timed. If the log gives no times at all, the row is BLOCKED
 //! and nothing is run.
 //!
-//! Monitors (fixed now; engine commit 67058426): the round-1 RAIM parity test and solve-failure
+//! Monitors (fixed now; engine commit a8faba62): the round-1 RAIM parity test and solve-failure
 //! rule unchanged, and the clock-aided monitor replaced by
 //! `spoof_monitors::ClockAidedMonitor` (phase, frequency and drift states; non-latching) with
 //! noise levels from `spoof_monitors::hadamard_noise_fit` on the 60 s calibration phase record,

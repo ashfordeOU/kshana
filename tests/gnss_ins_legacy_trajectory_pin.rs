@@ -6,7 +6,7 @@
 //! the `gnss-ins` scenario. When the table is absent the pack must take exactly the code
 //! path it took before, with the same floating-point operations in the same order. This
 //! file pins, for each bundled scenario of the kind, a SHA-256 of the pack's result JSON
-//! and of the test-bench truth trajectory, taken on `a7c4cf8` (branch `feat/fusion-ins-0.36`, the rc merged; `src/fusion/pack.rs`
+//! and of the test-bench truth trajectory, taken on `a258a67` (branch `feat/fusion-ins-0.36`, the rc merged; `src/fusion/pack.rs`
 //! identical to the rc) BEFORE the library existed, and checks the current tree
 //! reproduces them bit for bit.
 //!

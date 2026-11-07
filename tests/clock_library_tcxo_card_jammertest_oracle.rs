@@ -6,9 +6,9 @@
 //! per-onset calibration raised to the TCXO class floor.
 //!
 //! PRE-REGISTRATION (written 2026-10-02, committed and pushed before the training sessions were
-//! extracted or any card was fitted; engine commit 52a931b2).
+//! extracted or any card was fitted; engine commit a6e24d78).
 //!
-//! WHY. Round 2 (`tests/spoof_detection_jammertest_log_oracle.rs`, pre-registered 6a66994b)
+//! WHY. Round 2 (`tests/spoof_detection_jammertest_log_oracle.rs`, pre-registered 6b2f6240)
 //! disagreed at 6 of 10 logged onsets; its remaining clock false alarms (1 at 2.1.4, 85 at
 //! 2.3.15) are attributed to the receiver TCXO's red noise, which a 60 s calibration cannot see
 //! and the synthesised class floor does not represent. Disclosed: every round-1 and round-2
@@ -34,7 +34,7 @@
 //! window. PROMOTE only if all evaluable onsets agree and at least eight are evaluable. With
 //! fewer than 3600 training epochs the comparison is BLOCKED and nothing is scored.
 //!
-//! VERDICT (2026-10-02, after pre-registration commit 2ec76864): BLOCKED, nothing scored, the
+//! VERDICT (2026-10-02, after pre-registration commit 14169982): BLOCKED, nothing scored, the
 //! row stays MODELLED. The dataset's stationary sessions outside the scored ones are four attack
 //! recordings of 3 to 17 minutes (1.6.4 on 2024-09-09; 3.1.1/3.1.2, 3.2.7, 3.2.8 on 2024-09-10);
 //! removing every epoch within 60 s of a logged transmission keeps 364 epochs, and the
@@ -295,7 +295,7 @@ fn round_4_reproduces_the_recorded_finding() {
 // outcome (the same four onsets late as round 2) was seen before this; the change is fixed by
 // the extraction diagnosis, not by the onsets.
 //
-// VERDICT (first and only run, 2026-10-02, after c9cc0d49): DISAGREES, identical to round 4:
+// VERDICT (first and only run, 2026-10-02, after cdfde420): DISAGREES, identical to round 4:
 // zero pre-onset alarms at all 10 onsets, 6 of 10 within tolerance, the same four late (2.1.1
 // +211.2 s, 2.3.5 +23.0 s, 2.3.10 +18.0 s, 2.6.1 +51.0 s), with a wider bound (224.6 ns; r
 // 1.74e-15 s^2, q_wf 6.03e-19 s, q_rw 2.29e-25 /s, q_drift 0). The four late onsets do not

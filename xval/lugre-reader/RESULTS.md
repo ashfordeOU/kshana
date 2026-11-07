@@ -1,6 +1,6 @@
 # The corrected LuGRE sample reader: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `0c438b26`, before the change was written
+Pre-registration: `PREREGISTRATION.md` (committed at `10f78906`, before the change was written
 or run). Outcome: **expected**. No existing output differs; the only new values are those of
 the new reader. No ledger row changes tier.
 
@@ -15,7 +15,7 @@ the new reader. No ledger row changes tier.
 
 ## Method and results (run 2026-10-13)
 
-1. **Binaries.** Release `kshana` built from c9e37402 ("before") and from the change ("after",
+1. **Binaries.** Release `kshana` built from 81d2f933 ("before") and from the change ("after",
    branch `feat/iq-ext-0.36`), in separate target directories.
 2. **Scenarios.** Every top-level scenario under `scenarios/` (150 files) was run with each
    binary on its own copy of the directory, and the `*.result.json` files compared byte for
@@ -48,7 +48,7 @@ the new reader. No ledger row changes tier.
      (`src/realdata/ion_sdr.rs`).
 
 **Extra check, beyond the registration: `run_acq.py` without `--corrected`.** The converter of
-c9e37402 and the changed converter were run on the same 9 non-surface L1 batches the registered
+81d2f933 and the changed converter were run on the same 9 non-surface L1 batches the registered
 comparison uses (OP5 and OP12 excluded as there). Their `.ibyte` outputs and returned facts are
 identical on 9 of 9 batches.
 

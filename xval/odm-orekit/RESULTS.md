@@ -1,7 +1,7 @@
 # Results: CCSDS ODM (OPM, OMM, OCM) against Orekit 13.1.8
 
-Pre-registration: `PREREGISTRATION.md` (cc6841da), committed alone. The engine code, the cases,
-the Kshana-written messages, the test and the driver were committed in 2e4f9b30 before Orekit
+Pre-registration: `PREREGISTRATION.md` (8efea7c1), committed alone. The engine code, the cases,
+the Kshana-written messages, the test and the driver were committed in d7b6681b before Orekit
 read any Kshana-written message. Judged by `tests/odm_orekit_oracle.rs`.
 
 ## Reproduce

@@ -73,7 +73,7 @@
 //! this branch, before that engine fix merges, the census still counts flag-I rows without
 //! a Bulletin B block as predictions (the M035 round-1 finding).
 
-//! FIRST RUN (2026-10-02, generator commit after 455b8fb5): Tables 4 and 6 agree exactly on
+//! FIRST RUN (2026-10-02, generator commit after 3d43ba52): Tables 4 and 6 agree exactly on
 //! all twelve cases; every Table 3 horizon, epoch list, fallback count and UT1 and pole
 //! statistic agrees (worst relative difference 1e-16). 19 of the 36 combined-at-the-Moon
 //! statistics miss the 1e-5 bar (relative 1.0e-5 to 1.3e-2, both signs, largest at the

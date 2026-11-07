@@ -1,6 +1,6 @@
 # Results of the v2 campaigns for the `gnss-ssv` bars not met
 
-Bars and rules are those of `PREREGISTRATION-v2.md`, signed off by the owner on 24 October 2026 in commit `5f4250c8` before any
+Bars and rules are those of `PREREGISTRATION-v2.md`, signed off by the owner on 24 October 2026 in commit `6fd7f5f7` before any
 run; no bar changed afterwards. Everything is **MODELLED**: the booklet is a simulation, so even agreement in every cell would be
 agreement with another model's computation of the same method, and nothing here moves a ledger row to VALIDATED. This is
 evidence-support information, not operational or safety-of-life advice.

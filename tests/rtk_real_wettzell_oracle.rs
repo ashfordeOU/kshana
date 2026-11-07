@@ -3,12 +3,12 @@
 //! IGS stations WTZR (base) and WTZZ (rover) at Wettzell, against the published ITRF2020 baseline.
 //!
 //! PRE-REGISTRATION: `tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_RTK.md`, committed on
-//! its own (2b81bfa) before the RTK code was written. Over 00:00-02:59:30: K1 accepted fixes
+//! its own (b0ca787) before the RTK code was written. Over 00:00-02:59:30: K1 accepted fixes
 //! (ratio ≥ 3) at ≥ 90 % of epochs from 00:10; K2 fixed-baseline error median ≤ 0.010 m and
 //! p95 ≤ 0.020 m; K3 float baseline at the last epoch ≤ 0.05 m; D over 00:00-00:09:30 the fixed
 //! median error at most half the float median at the same epochs; non-vacuity 300 epochs.
 //!
-//! RESULT of the first and only run (2026-10-13, on 8867d66), all bars held: 359 epochs, 0 slips;
+//! RESULT of the first and only run (2026-10-13, on 8b75be5), all bars held: 359 epochs, 0 slips;
 //! accepted fixes at 100 % of the epochs from 00:10 (359 fixes in all); fixed-baseline error
 //! median 0.0045 m, 95th percentile 0.0055 m; float baseline at the last epoch 0.0041 m; in the
 //! first 10 minutes 19 fixes with median error 0.0026 m against 0.1298 m for the float solution.

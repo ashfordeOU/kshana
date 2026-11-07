@@ -39,7 +39,7 @@ and written under `tests/fixtures/optical_atmosphere/`.
   rho = 1 equals the single-site availability to <= 1e-12; availability is non-decreasing in N and
   non-increasing in rho for every grid point (zero violations).
 - **A5 No moved output.** With no atmosphere block, `optical_link_budget` output is bit-identical
-  to the base commit 5eac3b61 over a grid of 1,000 parameter sets (`f64::to_bits`), and
+  to the base commit b17aba49 over a grid of 1,000 parameter sets (`f64::to_bits`), and
   `optical_availability::default_network` outputs are unchanged.
 - **A6 Holdover coupling.** Per-outage timing error equals `holdover::coast_phase_sigma` at the
   outage duration bit for bit; range error equals `phase_to_range_m` of it.

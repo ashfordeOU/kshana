@@ -440,7 +440,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   monitors scored in lab-replay campaigns".
 - **Lab fit from IQ campaigns, follow-up** (`tests/iq_labfit_followup.rs`, CI job
   `labfit-iq-followup`). It tests the two hypotheses §13.6 of `docs/design/LABFIT-FROM-IQ.md` left
-  open, against bars pre-registered in 1e532f84. It adds two synthetic campaigns: S, with a
+  open, against bars pre-registered in 99e7c599. It adds two synthetic campaigns: S, with a
   stepped J/S (seed 2026_1014), and R, a fresh ramp (seed 2026_1015). Results are in
   `docs/design/evidence/labfit-followup/RESULTS.md`.
   - S1 met: with each J/S level held, `δ_eff` is recovered within +0.185 dB. The ramp campaigns'
@@ -457,7 +457,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   fll_pull_in_max_s` (s), Rust `LoopConfig::fll_pull_in_max_s`. Under `fll_assist = "pull-in"`
   it forces the FLL-to-PLL hand-over after that long, whatever the PLI. Unset by default, and
   then out of the design hash; the default design and its hash are unchanged.
-  - Checked against bars pre-registered at 58789af0, on injected truth. The control is met: the
+  - Checked against bars pre-registered at 8aceabcb, on injected truth. The control is met: the
     default never hands over in 9 of 10 seeds at 33 dB-Hz.
   - Not met: with a 1.0 s cap, 16 of 20 runs hold lock at 33 dB-Hz and 8 of 20 at 31 dB-Hz; the
     others cycle between forced hand-overs and the FLL's return. Phase jitter is 1.8× the PLL
@@ -477,10 +477,10 @@ One dependency update in the shipped library (the first entry), the rest in the 
     `quantiser_loss_db` (dB, taken off every link's effective C/N0) and `loss_model`. The loss
     is the Gaussian-input one, flagged as not valid for CW, narrowband and swept jammers.
   - Without the sections every output is byte-identical.
-  - Checked against bars pre-registered at 70c72fcc. The quantiser loss is within 0.0007 dB of
+  - Checked against bars pre-registered at 2ca31ee1. The quantiser loss is within 0.0007 dB of
     an independent Monte Carlo, and the AGC reading within 0.012 dB of the IQ layer's AGC loop.
   - The registered hysteresis runs were uninformative (every link lost), so that bar is NOT
-    MET. A supplementary run set registered at 37793290 meets it: every flag equals an
+    MET. A supplementary run set registered at 2ef7427a meets it: every flag equals an
     independent recomputation, and 732 of 1824 links show the hysteresis.
   - Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure.
   - MODELLED; ledger row "Acquisition hysteresis and the front-end quantiser in the jamming
@@ -499,7 +499,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     `obstacle_distance_m` (m), `obstacle_terrain_m` (m), `path_length_m` (m) and
     `profile_points` (count).
   - Without the section every output is byte-identical.
-  - Checked against bars and ten placements pre-registered at 92cd2bfd, on the committed real
+  - Checked against bars and ten placements pre-registered at 3b0ebdd4, on the committed real
     SRTM tile of Death Valley, against an independent numpy recomputation. All met: worst
     difference 1.6e-10 on `ν` and on the loss (bar 1e-9), the loss monotone in jammer height, and
     the loss reaching J/S exactly.
@@ -515,7 +515,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - Without the section every output is byte-identical.
   - An invalid section (an empty element list, an unknown weighting, a non-positive bandwidth) is
     an error, through `kshana` and `api::run_toml` as well as `jamming::run_jamming`.
-  - Checked against bars pre-registered at 08d83b4d. Met: additivity (after a fix: the first
+  - Checked against bars pre-registered at 716de66a. Met: additivity (after a fix: the first
     build added the new units to every jamming run's units table); one element is no array;
     noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;
     MVDR tends to the null at high JNR.
@@ -527,8 +527,8 @@ One dependency update in the shipped library (the first entry), the rest in the 
     recomputation".
 - **IQ tracking engine against GNSS-SDR 0.0.19** (PRO-33): `kshana iq track` and GNSS-SDR track
   the same independent numpy recordings of GPS L1 C/A at 30 to 45 dB-Hz.
-  - Bars pre-registered at 48edd4a5. The registered calibration failed on a wrong GNSS-SDR
-    hand-off (F3), so Amendment 1 (1e4288c4) adds a pull-in-only FLL to both receivers, committed
+  - Bars pre-registered at b1f25cce. The registered calibration failed on a wrong GNSS-SDR
+    hand-off (F3), so Amendment 1 (9496b6b0) adds a pull-in-only FLL to both receivers, committed
     before any test recording.
   - Met: carrier and code jitter and Doppler agree within 5 % at every C/N0.
   - Not met: the engine's NWPR C/N0 reads 2.3–7.1 dB below GNSS-SDR's SNV (F4, a known
@@ -537,11 +537,11 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - MODELLED; ledger row "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings".
 - **Two VALIDATED rows for IQ-layer codes** (DS-GIQ-06b, PRO-39).
   - **BeiDou B1I.** All 63 B1I primary codes match GNSS-SDR v0.0.19's independent generator chip
-    for chip (bar pre-registered at 911106d1). Only that program's output is committed: the B1I
+    for chip (bar pre-registered at db9dd696). Only that program's output is committed: the B1I
     PRN codes the public ICD defines, as a prefix and a hash.
   - **GPS L1C.** All 126 L1CP/L1CD codes and 63 L1CO overlays match the check columns
     IS-GPS-800J prints, and the computed Legendre sequence matches its Table 6.2-1 (bars
-    pre-registered at fe372e26).
+    pre-registered at c6063eb2).
   - Rows: "BeiDou B1I primary ranging codes against an independent generator" and "GPS L1C ranging
     and overlay codes against the IS-GPS-800J printed check columns".
 - **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (CAP-12, signals): new band
@@ -549,7 +549,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   K = −7 to 6), `beidou-b1i`, `beidou-b1c`, `beidou-b2a`, `beidou-b3i` and `galileo-e6`. Each
   carries its ICD carrier, modulation and minimum received power. They are opt-in by name: the
   default band set and every existing output are unchanged.
-  - Checked against bars pre-registered at 5806f28b: the ICD values, nulls, the B1C composite
+  - Checked against bars pre-registered at 502af4a7: the ICD values, nulls, the B1C composite
     and the C/N0 path are met.
   - Two bars were not met. The unit-area bar was unattainable as written (F1). The IQ layer's
     B1I and B1C waveforms match the model only band-averaged, because of their codes' uneven
@@ -561,7 +561,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   false-alarm probability for `M` non-coherent blocks (`ca_cfar_pfa`, `ca_cfar_alpha`), so the
   decision does not depend on the sample-power normalisation. It is opt-in; the default
   detector and every existing output are unchanged.
-  - Checked against bars pre-registered at 3724aefa: the closed form against Monte Carlo
+  - Checked against bars pre-registered at 8af30331: the closed form against Monte Carlo
     (18 of 18 cases), and a 1 % design rate measured at 0.97–1.01 % on Gaussian and 2-bit
     quantised noise.
   - One bar was not met: on a noise-free 2-bit signal, 1.28 % of the off-peak cells exceed the
@@ -570,7 +570,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 - **Scintillation model against measured data** (PRO-34): the IQ channel's Cornell
   scintillation model was compared with measured 50 Hz GPS L1 intensity and phase from an
   equatorial scintillation night (Zenodo record 16941224, INGV, Malindi, CC BY 4.0), under bars
-  pre-registered at b6ccb499. Met: the intensity distribution and the phase scintillation tied
+  pre-registered at 653a2195. Met: the intensity distribution and the phase scintillation tied
   to S4. Not met: the model fades 2.4 times as often below −10 dB and 3.5 times as long
   (finding F1). The registered processing reads the model's wrapped phase (finding F2); the
   phase result holds with it unwrapped. `scripts/fetch_scint_malindi.sh` fetches the data.
@@ -587,7 +587,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   discriminators for the sine BOC(1,1) main peak and adds a bump-jump monitor (very-early and
   very-late correlators at ±0.5 chip, up/down counters, `N = 8`) that moves the code NCO off a
   side peak; `Channel::bump_jumps` lists the jumps. Off by default, and every existing output
-  is unchanged. Checked against bars pre-registered at 6b68f6cc on a synthetic BeiDou B1C
+  is unchanged. Checked against bars pre-registered at 700d95df on a synthetic BeiDou B1C
   signal: a side-peak start that stays 0.55 chip off without the option is pulled onto the
   main peak by one jump at 0.08 s with it, and no false jump was seen from the main peak. One
   bar was not met: the unit-test grid for the scaling reaches outside the discriminators'
@@ -618,12 +618,12 @@ One dependency update in the shipped library (the first entry), the rest in the 
 - **`solar-system` on a JPL kernel** (CAP-31): `planetary_kernel_path` takes each body the SPK
   holds (with de440s: Mercury, Venus, the Earth, the Moon) from the kernel, label `KERNEL`, and
   adds a `kernel` block only when set. New row, VALIDATED against SPICE (pre-registered
-  f8e946ea; worst 3.3e-5 m, 1.0e-11 m/s). The default report is unchanged.
+  f4a6297a; worst 3.3e-5 m, 1.0e-11 m/s). The default report is unchanged.
 - **Porkchop on the DE440 ephemeris** (CAP-20b): `maneuver::porkchop_kernel` sweeps C3 and
   arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
-  + pykep 3.0.1 (pre-registered 2d857fb1; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
+  + pykep 3.0.1 (pre-registered b9317cee; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
   the same minimum-C3 cell).
-- **LRO non-gravitational macro-model: NOT MET** (DS-LRO-10, pre-registered e82047e2).
+- **LRO non-gravitational macro-model: NOT MET** (DS-LRO-10, pre-registered a221a409).
   `lunar_od::LunarMacroModel` (opt-in via `LunarForceModel::macro_model`): flat-plate direct
   solar radiation with the Moon's shadow, a Sun-tracking array, and lunar albedo and thermal
   IR; `LunarMacroModel::lro_generic` is a labelled generic LRO approximation from published
@@ -642,17 +642,17 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
 - **CR3BP 9:2 NRHO against CAPSTONE** (CAP-29d): new MODELLED row measuring the engine's
   circular-restricted NRHO against CAPSTONE's flown orbit (JPL Horizons, March 2023;
-  pre-registered 4e868170): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
+  pre-registered dab3215c): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
   inside the registered 3 / 5 / 20 % bars. A measurement, not a validation.
 
 - **CR3BP rotating states to Moon-centred ICRF** (RM-34, FUT-06): `cr3bp::to_moon_centred_icrf`
   / `from_moon_centred_icrf` / `to_moon_centred_icrf_de440` map a nondimensional Earth-Moon
   rotating state onto the instantaneous DE440 Earth-Moon line, including the frame's
   out-of-plane rate. New row, VALIDATED against a SPICE two-vector frame (pre-registered
-  2313eb1b, amended before any run d5ef79b3; 72 cases, worst 1.8e-7 m and 1.2e-9 m/s).
+  3bfc9445, amended before any run e8bfabe4; 72 cases, worst 1.8e-7 m and 1.2e-9 m/s).
 
 - **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (RM-35,
-  pre-registered a9074f65). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
+  pre-registered ad0c9741). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
   index, pseudo-arclength continuation) matches 54 of 58 API members on every bar (state,
   period and Jacobi within 1e-10 everywhere). One L1 halo stability index (9.5e-2) and three
   small-DRO closures (1.5e-8 to 3.3e-8 against 1e-8) miss, so the module is `#[doc(hidden)]`
@@ -662,12 +662,12 @@ One dependency update in the shipped library (the first entry), the rest in the 
   `lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` /
   `try_mcmf_to_mci_de440` (epoch-anchored, DE440 principal axes) and
   `lunar_od::De440LunarEnvironment` (embedded DE440 PA orientation plus the geocentric Sun and
-  Moon from a user-supplied DE440 SPK). Against ANISE (pre-registered ea537710): orientation
+  Moon from a user-supplied DE440 SPK). Against ANISE (pre-registered 03db6794): orientation
   within 3.5e-7 rad and LRO fits within 1 mm, but the ephemeris leg missed its bar (Sun 30.7 m,
   Moon 1.1 m, a ~1 ms time offset on the ANISE side), so it is not a validated row. Results:
   `docs/design/evidence/fut05-de440-lunar-env/RESULTS.md`.
 
-- **Lunar frame campaign datum, condition-scaled NumPy bar: NOT MET** (pre-registered b887eb05;
+- **Lunar frame campaign datum, condition-scaled NumPy bar: NOT MET** (pre-registered 3855e840;
   stays MODELLED). Step 0 rules out the pseudo-inverse fallback as the cause of the 0.30
   stations-estimated gap; NumPy agrees within the bar on six of eight scenarios, but
   stations_estimated misses it (6.8e-6 against 5.9e-7), and on the fresh date 2026-12-01 an
@@ -675,7 +675,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   unchanged oracle cannot evaluate. Results: `docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md`.
 
 - **Lunar frame datum from a real observing campaign (analytic Moon) VALIDATED** on fresh 2025
-  EDC normal points (pre-registered 31f5283 before any was fetched): the unchanged SPICE and
+  EDC normal points (pre-registered c6971d0 before any was fetched): the unchanged SPICE and
   NumPy oracle agrees on bookkeeping, ranks and zero coupling, and within 1.11e-3 on sigmas
   (bar 1e-2), 8.95e-4 on the condition and 1.79e-3 on the across/along ratios (bar 2e-2). A
   Library check of the covariance computation only; the bars do not discriminate Moon models.
@@ -683,7 +683,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
 - **IAU body orientation and GM of the fourteen added solar-system bodies** split out of the
   "Physical constants of every solar-system body" row into a VALIDATED row (pre-registered
-  154bc54): `Body::iau_rotation_et` agrees with SPICE `pxform` on pck00011 within 1e-9 rad on
+  f3fa98b): `Body::iau_rotation_et` agrees with SPICE `pxform` on pck00011 within 1e-9 rad on
   574 matrices at the original epochs and on 574 at 41 fresh epochs never compared before (worst
   Phobos 1.38e-10 rad), and `Body::mu` equals gm_de440 for all fourteen bodies. The rest of the
   original row (J2, mean radius, the report) stays MODELLED. Results:
@@ -691,7 +691,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
 - **Multi-revolution Lambert** (`maneuver::lambert_multirev`): every solution with up to three
   revolutions, both branches. New ledger row, VALIDATED against pykep 3.0.1 (pre-registered
-  a75de851; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
+  9879ae57; 382 cases, 1058 solutions, worst velocity difference 1.6e-13 against 1e-8). The
   internal Kepler-landing guard found one limitation of `maneuver::kepler_universal` on an
   e = 0.994 arc; it is recorded in `docs/design/evidence/lambert-multirev/RESULTS.md`.
 
@@ -794,7 +794,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   `jd2::Jd2` and `timescales::TwoPartJd`, and an opt-in `two_part_jd = true` for the
   `ephemeris` scenario (ECEF, ground track and station view; default off and unchanged, and the
   key is left out of the scenario hash when off). New ledger row, VALIDATED against pyerfa
-  `gmst82`/`c2t06a` (pre-registered b10475ee; 40 dates: GMST bit-identical, matrix within
+  `gmst82`/`c2t06a` (pre-registered 765860c3; 40 dates: GMST bit-identical, matrix within
   2.7e-14, rotation over 1 µs steps within 1.1e-14 rad, where the single-`f64` path misses
   them). The Cowell force-model epoch stays single-`f64`; the reason is in its documentation.
 
@@ -807,7 +807,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
 - **Celestial-pole offsets dX, dY on the CIO chain** (`cio::gcrs_to_cirs_matrix_with_offsets`),
   and direct ERFA vector checks of `precession_matrix`, `teme_to_gcrs_matrix` and the new
-  function. New ledger row, VALIDATED against pyerfa (pre-registered 979c1e39; 40 epochs
+  function. New ledger row, VALIDATED against pyerfa (pre-registered bbaeb5b5; 40 epochs
   1950–2100: precession and CIO bit-identical, TEME→GCRS within 1.1e-10 rad, the predicted
   effect of the two-term equation-of-the-equinoxes series). Existing functions are unchanged.
 
@@ -815,7 +815,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   `Jd2::from_utc_calendar`, `jd2::utc_to_tai` and `jd2::tai_to_utc` from 1960-01-01): the
   drifting-rate ("rubber-second") era, with SOFA's drift table, fractional end-of-day steps, and
   the UTC-to-SI scaling of the day fraction. New ledger row, VALIDATED against pyerfa
-  `dtf2d`/`utctai`/`taiutc` (pre-registered 23c40661; 117 instants 1960–1971, worst 2.9e-11 s
+  `dtf2d`/`utctai`/`taiutc` (pre-registered 247a01a6; 117 instants 1960–1971, worst 2.9e-11 s
   against a 1 µs bar). Every 1972+ result is bit-identical (checksum pinned before the change).
   Before 1960 TAI − UTC is 0, as in SOFA. The single-`f64` `timescales::tai_minus_utc` is unchanged.
 
@@ -823,7 +823,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   from the RINEX record, at a time read on the satellite clock (two fixed-point iterations, the
   RTKLIB convention). The parsed `−τn` and `γn` were previously unused. New ledger row
   "GLONASS broadcast satellite clock and broadcast-orbit propagation", VALIDATED against RTKLIB
-  2.4.2-p13 `geph2clk`/`geph2pos` (pre-registered e099c42a; 292 cases on a real 2013 broadcast
+  2.4.2-p13 `geph2clk`/`geph2pos` (pre-registered 5cad23b7; 292 cases on a real 2013 broadcast
   file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
   scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
 
@@ -1243,7 +1243,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   finds the departure and arrival dates of a single-revolution ballistic two-impulse transfer that
   minimise departure C3 or arrival V-infinity within Type I or Type II. It searches a 2-day grid,
   then refines with 2-D Nelder-Mead, on heliocentric states from the DE440 kernel; it builds on
-  `porkchop_kernel`. The comparison was pre-registered (bf0439e8) against an independent SPICE +
+  `porkchop_kernel`. The comparison was pre-registered (06ad29a4) against an independent SPICE +
   pykep 3.0.1 + SciPy 1.18.1 optimiser on the 2026 Earth-to-Mars opportunity: all four
   optimisations agree to 8.7e-13 relative, with dates within 1e-5 day (VALIDATED, new ledger row).
   As a secondary published reference, NASA/TM-2010-216764 (the 2026-2045 Earth-to-Mars handbook)
@@ -1264,7 +1264,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   endorsed by any agency; no statement about the performance of any real system.
 - **Pre-registered prediction: lunar reference-station coverage** (not a validation; MODELLED).
   [`docs/predictions/lunar-reference-station.md`](docs/predictions/lunar-reference-station.md)
-  freezes, at commit c05dac1d, the `lunar-station-coverage` results under the publicly stated
+  freezes, at commit d4a2d4b5, the `lunar-station-coverage` results under the publicly stated
   assumptions, with SHA-256 hashes of the inputs and results and a scoring protocol fixed now
   (factor 2 for accuracies and protection levels, 10 percentage points for availability and
   coverage; a changed assumption gets a new dated prediction, never an edit; a miss is published
@@ -1428,8 +1428,8 @@ One dependency update in the shipped library (the first entry), the rest in the 
   as comparable, partly comparable or not comparable (`tests/fixtures/lunar_station_published/CLAIMS.md`;
   sources with URL, retrieval date, SHA-256 and licence in `tests/fixtures/lunar_station/SOURCES.md`).
   The partly comparable claims were scored under six one-sided bars pre-registered before the run
-  (`PREREGISTRATION.md`, revision 2, 05bf9a19): 1 of 6 claims within the pre-registered bar
-  (pre-registered 05bf9a19). Coverage is 0.00 against >= 0.95 on both south-polar circles, and the
+  (`PREREGISTRATION.md`, revision 2, ebac1e14): 1 of 6 claims within the pre-registered bar
+  (pre-registered ebac1e14). Coverage is 0.00 against >= 0.95 on both south-polar circles, and the
   corrected p95 is 280.6 m against <= 1.5 m. The cause is the satellites' orbit elements, which no
   source publishes: on the ILLUSTRATIVE in-tree elements, four satellites are in common view in 8 % of
   epochs, at near-singular geometry. The run does not reproduce the claims on those elements and is not
@@ -1628,7 +1628,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   wrong direction and with the wrong Euler order, so the analytic PA frame sat about 208″ from
   PA instead of on it. It is now transcribed as SPICE's Frames Required Reading defines it and
   agrees with SPICE `pxform('MOON_ME','MOON_PA')` to 2.6e-16 rad; the analytic PA frame is 6″ to
-  8″ from DE440 PA (pre-registered e1ead19b, re-registered be33382e after the first proposed
+  8″ from DE440 PA (pre-registered ab511714, re-registered ea5f4cbf after the first proposed
   change missed the 1e-12 bar; `docs/design/evidence/fut05b-me-pa-offset-sign/`). Published
   numbers that move: the LRO fit (`tests/agency_lro.rs`) raw overlap 53.8 → 39.9 m, dynamic
   12.6 → 12.05 m, reduced-dynamic 6.65 → 6.67 m (bars unchanged). The analytic stack now matches
@@ -3000,7 +3000,7 @@ its pinned test.
   radius 13.1 -> 13.0 km; Phobos and Deimos pole and prime meridian from pck00011; the
   solar-system prime_meridian_deg now includes the quadratic and periodic terms.
 - `europa-surface-pnt` (`body-pnt` on Europa), from the full pck00011 Europa orientation
-  (7cfd66b4; the orientation agrees with SPICE pxform to 1.4e-10 rad), which moves the lander in
+  (ff6a6e20; the orientation agrees with SPICE pxform to 1.4e-10 rad), which moves the lander in
   inertial space: availability relays only / with the Earth range 0.485 / 0.725 -> 0.480 / 0.719
   (83 -> 82 of 171 epochs relays only), median PDOP 5.266 -> 5.360, RMS fix error 129.516 /
   100.983 m -> 112.742 / 86.147 m, median formal sigma 5.266 / 4.272 m -> 5.360 / 4.239 m. The
@@ -3026,7 +3026,7 @@ its pinned test.
 Part 1, extended-precision oracle:
 
 - Lunar frame datum with the stations estimated: a 50-digit mpmath extended-precision oracle
-  (pre-registered 804662d5, condition-scaled bars from an a-priori backward-error formula) agrees
+  (pre-registered 826dd676, condition-scaled bars from an a-priori backward-error formula) agrees
   on a new campaign date (2026-03-18) and on the original 2024-01-01 scenario; new VALIDATED row
   under P2. It settles the earlier double-precision dispute: the engine's datum sigmas are off by
   up to 9.7e-6, NumPy's inverse and eigen routes by up to 6.2e-6, and its Cholesky and QR routes
@@ -3042,7 +3042,7 @@ Part 2, square-root information datum solver:
 - New opt-in square-root information solver (`linalg_sr`; `solver = "srif"` in the
   lunar-frame-campaign scenario): Householder QR, marginalisation through the triangular factor,
   a Jacobi SVD for the spectrum, and compensated products from correctly rounded operations
-  only. Against the 50-digit oracle (pre-registered b41908c9) its datum sigmas agree to 3e-13 on
+  only. Against the 50-digit oracle (pre-registered 6e7000be) its datum sigmas agree to 3e-13 on
   a new date (2026-06-09); on the 2026-03-18 and 2024-01-01 inputs the default solver is off by
   up to 1e-5. New VALIDATED row under P2. The default solver and its output are unchanged. The
   pre-registered bars certify errors only above about 2e-7 relative: they reject the default
@@ -3071,7 +3071,7 @@ Part 2, square-root information datum solver:
 - **The NAIF kernel reader has its own row.** `naif_kernel` (DAF container, SPK type 2,
   binary PCK type 2) agrees with the SPICE Toolkit (CSPICE N0067 through spiceypy 8.2.0) and
   with ANISE 0.10.6 on all 600 DE440 states and 200 lunar-orientation rotations of a random grid
-  drawn from the pre-registration commit's own hash (abcd9133), inside bars derived beforehand
+  drawn from the pre-registration commit's own hash (1e283534), inside bars derived beforehand
   from double-precision Chebyshev evaluation (worst 0.6 % of the bar, 1.95e-3 m). The row claims
   that the engine reads JPL kernels correctly, not that DE440 or the analytic series is accurate
   (`tests/naif_reader_spice_oracle.rs`).
@@ -3086,13 +3086,13 @@ Part 2, square-root information datum solver:
 - **Lunar-surface-point covariance on the kernel path** (new VALIDATED row): with every station
   fixed and the beacon on the DE440 Moon, the beacon covariance agrees with a SPICE light-time
   Jacobian (worst 1.7e-3 against a 1 % bar) and a NumPy inverse (4e-14 against 1e-9),
-  pre-registered 4a51256 (`tests/lunar_vlbi_surface_point_spice_oracle.rs`). The analytic-path
+  pre-registered a4781fd (`tests/lunar_vlbi_surface_point_spice_oracle.rs`). The analytic-path
   row stays MODELLED: on the analytic Moon its smallest beacon sigma is 3.9 % below the oracle.
 - **Lunar frame datum from a real campaign, kernel Moon centre** (new VALIDATED row): on 447
-  unseen 2019-Q2 normal points, pre-registered 830d945a before any was fetched, the datum
+  unseen 2019-Q2 normal points, pre-registered adc4406e before any was fetched, the datum
   covariance on the kernel path agrees with the unchanged SPICE and NumPy oracle within 7.6e-5
   against 1 % and 2 % bars (`tests/validate_llr_datum_kernel_moon_fresh.rs`). The founder
-  decided that this row promotes only on fresh points; the seen-data diagnostic (c51f8b2) is a
+  decided that this row promotes only on fresh points; the seen-data diagnostic (6d333da) is a
   finding, not evidence. The bar does not discriminate Moon models: the analytic Moon also
   passes on the same slice (worst 3.8e-3), the planned mutation (the kernel Moon one hour late)
   was not detected, and at the fold a Moon centre about 4,650 km wrong (the Moon taken about the
@@ -3100,7 +3100,7 @@ Part 2, square-root information datum solver:
   centre, and says so.
 - **Sun, Moon, Mercury and Venus positions from DE440 at UTC epochs** (new VALIDATED row):
   `KernelEphemeris::relative_position_utc` agrees with Skyfield 1.54 on 600 positions between
-  1973 and 2026, worst 2.96 m, inside a pre-registered bar (0bfafe6d) set by the two-term
+  1973 and 2026, worst 2.96 m, inside a pre-registered bar (7c23d520) set by the two-term
   TDB − TT series (`tests/kernel_ephemeris_skyfield_oracle.rs`). Planet positions get this new
   kernel row now; the Standish row and the planetary-moons row are unchanged, and the moons wait
   for a scenario that needs them (founder decision).
@@ -3131,10 +3131,10 @@ Part 2, square-root information datum solver:
 - **Lag-1 autocorrelation noise identification** (`allan::lag1_noise_id`, Riley and Greenhall
   2004), new VALIDATED row (Library): agrees with allantools 2024.6 `autocorr_noise_id` on 140
   cases, integers identical, worst difference 9.6e-13 against a 1e-9 bar (pre-registered
-  2ec76864; `tests/clock_library_lag1_noise_id_allantools.rs`).
+  14169982; `tests/clock_library_lag1_noise_id_allantools.rs`).
 - **Measured device cards with held-out prediction**, new MODELLED row (a finding): fit on one
   third, predict the Allan deviation of the other two thirds within a factor of 1.5
-  (pre-registered 2ec76864). GPS Block IIF on a fresh IGS window (2026-03-01 to 14): 10 of 11;
+  (pre-registered 14169982). GPS Block IIF on a fresh IGS window (2026-03-01 to 14): 10 of 11;
   G27 is optimistic at the two-hour scale (worst factor 1.510). Caesium (within, 1.070), OCXO
   (outside, 2.348) and strontium (within) are reported, not blind. The JammerTest receiver card
   and the Galileo maser and Deep Space Atomic Clock cards are blocked. A ZED-F9P receiver TCXO
@@ -3144,18 +3144,18 @@ Part 2, square-root information datum solver:
 - **GPS Block IIF cards with per-revolution terms**, new MODELLED row (a finding): on a second
   fresh window (2026-04-01 to 14) 9 of 11 within the bar; G03 (1.947) and G25 (1.581) are
   optimistic because their held-out records are noisier than their fit thirds; dropping the
-  periodic terms fails all 11 (pre-registered fb475550;
+  periodic terms fails all 11 (pre-registered 698f3842;
   `tests/clock_library_periodic_cards_oracle.rs`).
 - **M002, onboard clock state estimation, round 3** (a finding, stays MODELLED): after the frozen
   conditioning detector, the round-2 extended filter, tuning and criteria unchanged meet (a) and
   (c) on all 11 satellites for the first time; (b) fails on G09 (0.894) and G26 (0.876)
-  (pre-registered fb475550; `tests/clock_state_ext_igs_conditioned_oracle.rs`).
+  (pre-registered 698f3842; `tests/clock_state_ext_igs_conditioned_oracle.rs`).
 - **M010, spoofing detection, rounds 3 to 4b** (stays MODELLED): round 3 blocked (167 training
   epochs from the JammerTest unit's other sessions against 3600); with a ZED-F9P model-class card
   (rounds 4 and 4b) the clock monitor raises zero pre-onset false alarms at all 10 logged onsets
   (round 2: 86) and 6 of 10 onsets are detected within 10 s (round 2: 4); the same four stay late
   (`tests/clock_library_tcxo_card_jammertest_oracle.rs`).
-- **M083, UTC(k) overbound, round 3**: pre-registered prospectively (fb475550) on Circular T
+- **M083, UTC(k) overbound, round 3**: pre-registered prospectively (698f3842) on Circular T
   issues from 465, not yet run (`tests/utck_bound_prospective_oracle.rs`).
 - Oracle environment: the Wroclaw ZED-F9P record is data-gated under
   `$KSHANA_ORACLES/data/wroclaw_f9p` (CC BY 4.0, about 1.5 GB); the IGS clock fixtures are
@@ -3188,11 +3188,11 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
   named fast tiers and physics that is a row's subject are reasoned allowances.
 - New VALIDATED row "Two-part Julian dates and leap seconds on the Earth-orbit time path":
   pyerfa 2.0.1.5 `dtf2d`/`utctai`/`taiutc` on 224 instants around all 27 leap seconds within
-  1e-6 s (pre-registered e947e69d); worst 1.9e-11 s.
+  1e-6 s (pre-registered 896f3c2e); worst 1.9e-11 s.
 - New VALIDATED row "One Earth-orbit path": TEME positions of 232 element sets against
   python-sgp4 2.24 (Vallado's reference SGP4) within 6.1e-8 m (bar 1 cm), and the GCRS -> ITRS
   and TEME -> ITRS rotations against ERFA `c2t06a`, `pnm06a` and `ee06a` within 2.9e-6 mas and
-  0.41 mas (bars 0.1 and 2 mas), with Earth orientation parameters (pre-registered 72ea9eb0).
+  0.41 mas (bars 0.1 and 2 mas), with Earth orientation parameters (pre-registered d92aef9b).
   Disclosed: the first run failed at 2016-12-31T23:59:59.5 by one second of rotation; UT1 was
   taken from the UTC quasi Julian date on a leap-second day, the engine now goes through TAI,
   and the second run agrees at the unchanged bars.
@@ -3296,7 +3296,7 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
   post-verification): on the IGS broadcast file of 2 March 2025, parsed and decoded by RTKLIB
   v2.4.2-p13, all 960 words pass parity, all 96 subframes decode and all 608 broadcast integers
   equal Kshana's (`tests/gps_lnav_rtklib_integer_oracle.rs`), but the pre-registration
-  (d4d9eb9d) reached the public branch two seconds after the commit holding the result, so the
+  (a48d5b91) reached the public branch two seconds after the commit holding the result, so the
   order "registered before the file was fetched" cannot be shown and the row is not promoted.
 
 - `realdata::ion_sdr` fills words from the most significant bit (I in the high nibble of a LuGRE
@@ -3478,9 +3478,9 @@ every scenario gives the same result as on 0.29.0.
 ### Revisions to published numbers
 
 - **Line coverage: ~96 % → ~95 %.** The coverage job re-measured the released 0.29.0
-  code (commit `db796dd`, CI run 36809850252, 2026-10-01): **95.35 %**, 55,970 of 58,697
+  code (commit `fb73817`, CI run 36809850252, 2026-10-01): **95.35 %**, 55,970 of 58,697
   lines of `src/`. The published figure was 95.63 % (37,697 of 39,419 lines), measured on
-  `b1d350d` before 0.28.0; it rounded to ~96 %. The new figure rounds to ~95 %, so every
+  `7b4617c` before 0.28.0; it rounded to ~96 %. The new figure rounds to ~95 %, so every
   surface `tests/coverage_figure_doc_sync.rs` pins moves together: `docs/COVERAGE.md`, the
   README badge, Evidence line and CI table, the crates.io, PyPI and npm badges, the
   technical report and the kshana.dev coverage page. The 85 % floor is unchanged.
@@ -4990,7 +4990,7 @@ to every channel.
   `api::list_scenario_kinds()`, so their wording has to change at the source.
 
 - **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
-  (37,697 of 39,419 lines) from the CI `coverage` job on `b1d350d`, and
+  (37,697 of 39,419 lines) from the CI `coverage` job on `7b4617c`, and
   `tests/coverage_figure_doc_sync.rs` pins the five public "~96%" surfaces to it — the
   one headline number that was hand-maintained, and had already moved once unnoticed.
 
@@ -5196,17 +5196,17 @@ to every channel.
 
   | old | subject |
   |---|---|
-  | `9733177` | docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s |
-  | `5d16ea8` | fix(docs): the engine-flow diagram said 6 figures of merit; the engine scores 7 |
-  | `148d31d` | fix(test): two more cross-platform pins, and two wrong assumptions of my own |
-  | `a3a2667` | feat(web): surface the lunar cluster on the site — seven capability cards |
-  | `1e8bec6` | docs(lunar): document 42 public fields and ratchet the ceiling down to 985 |
-  | `7bba514` | chore(release): v0.27.0 |
-  | `3154548` | test(docs): guard the distribution diagram, the last unguarded one |
-  | `7864142` | chore(release): v0.27.1 |
+  | `e850f03` | docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s |
+  | `8e1f636` | fix(docs): the engine-flow diagram said 6 figures of merit; the engine scores 7 |
+  | `d0c5a70` | fix(test): two more cross-platform pins, and two wrong assumptions of my own |
+  | `8ce58ca` | feat(web): surface the lunar cluster on the site — seven capability cards |
+  | `a152284` | docs(lunar): document 42 public fields and ratchet the ceiling down to 985 |
+  | `2cfa462` | chore(release): v0.27.0 |
+  | `0eeaf8a` | test(docs): guard the distribution diagram, the last unguarded one |
+  | `4547e0d` | chore(release): v0.27.1 |
 
   **The v0.27.0 and v0.27.1 tags were deliberately NOT moved.** They still point
-  at `7bba514` and `7864142`, the exact commits whose trees produced the
+  at `2cfa462` and `4547e0d`, the exact commits whose trees produced the
   artefacts now live on crates.io, npm, PyPI, ghcr.io and the MCP registry. A
   crate's `.cargo_vcs_info.json` records the sha1 it was packaged from, registries
   are immutable, and the SLSA build-provenance attestation on the v0.27.1 release
@@ -5376,18 +5376,18 @@ to every channel.
 
   **What it cost.** A commit's name is a hash over its tree, its parents and its author
   headers, so changing an ancestor renames every descendant. The `v0.26.0` release
-  commit was `dce2dbf7700788cf6de46260c14673c0e5347360` and is now
-  `d4921f3025569e00e425e1747d0acfc261e96e18`. Two artifacts recorded the old name at
+  commit was `ef74e95e755715c34c514ad216204eb3b260021a` and is now
+  `ef74e95e755715c34c514ad216204eb3b260021a`. Two artifacts recorded the old name at
   publish time and cannot be corrected, because a published registry version is
   immutable by design:
 
-  - `kshana` 0.26.0 on crates.io — `.cargo_vcs_info.json` records `dce2dbf…`
+  - `kshana` 0.26.0 on crates.io — `.cargo_vcs_info.json` records `ef74e95…`
   - `kshana-mcp` 0.26.0 on crates.io — the same sha1, `path_in_vcs: mcp/kshana-mcp`
 
   Nothing else is affected. The npm package records no `gitHead`, and the PyPI
   distribution records no commit at all; both were checked rather than assumed.
 
-  There is no repair that makes `dce2dbf…` name the rewritten commit: that string *is*
+  There is no repair that makes `ef74e95…` name the rewritten commit: that string *is*
   the old ancestry, and the only way it resolves is to keep the pre-rewrite history
   published, which would restore the authorship the rewrite removed. Provenance for
   0.26.0 therefore runs through the tag rather than through the recorded sha1 — and the

@@ -1,7 +1,7 @@
 # The FLL→PLL hand-over floor of the default design: results
 
 Item DS-LOOP-05, run 2026-10-14 against the bars of [`PREREGISTRATION.md`](PREREGISTRATION.md)
-(58789af0, before the code). No bar was changed. Per-run statistics are in
+(8aceabcb, before the code). No bar was changed. Per-run statistics are in
 `tests/fixtures/fll_handover_floor/results.csv`. `tests/iq_fll_handover_floor.rs` grades them
 and asserts this verdict, and its release-mode `the_committed_results_reproduce` re-runs them.
 

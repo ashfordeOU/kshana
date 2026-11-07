@@ -4,7 +4,7 @@
 //! and planar DROs.
 //!
 //! Pre-registration: `docs/design/evidence/cr3bp-families/PREREGISTRATION.md` (committed alone,
-//! a9074f65, before any request to the API). Fixtures: `tests/fixtures/cr3bp_families_jpl/`
+//! ad0c9741, before any request to the API). Fixtures: `tests/fixtures/cr3bp_families_jpl/`
 //! (the three API responses byte for byte; provenance in NOTICE.md).
 //!
 //! Per selected member (20 per family, indices `round(k (n - 1) / 19)`), corrected from the API

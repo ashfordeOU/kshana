@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>{ "0.41" } ülesanne: üks käivitus.</b> Renderda mõlema
 
 seg-67e04a43cea8 = Wasm-ehitus kannab ainult ingliskeelset kataloogi. Ülejäänud kuusteist lisaksid umbes { "150" } kB gzip igaüks. Leht tõmbab keelevalikul <c1/> ja kutsub <c2/>; kui tõmbamine või registreerimine ebaõnnestub, jääb leht inglise keelde. Natiivselt kannavad käsurida ja Pythoni wheel kõiki { "18" }.
 
-seg-9a2f85e7e43c = Suurus, optimeerimata <c1/> käsust <c2/> (enne wasm-bindgenit ja wasm-opti), alus bc04e98f versus see haru: { "18.71" } MB -> { "19.88" } MB toorelt, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Ingliskeelne kataloog on { "521" } kB toorelt, sellest { "153" } kB gzip; ülejäänu on <c3/> ja selle sõltuvused. See on aktsepteeritud nii, nagu mõõdetud.
+seg-9a2f85e7e43c = Suurus, optimeerimata <c1/> käsust <c2/> (enne wasm-bindgenit ja wasm-opti), alus 68e8632b versus see haru: { "18.71" } MB -> { "19.88" } MB toorelt, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Ingliskeelne kataloog on { "521" } kB toorelt, sellest { "153" } kB gzip; ülejäänu on <c3/> ja selle sõltuvused. See on aktsepteeritud nii, nagu mõõdetud.
 
 seg-3ce9aab4916e = Kataloog
 

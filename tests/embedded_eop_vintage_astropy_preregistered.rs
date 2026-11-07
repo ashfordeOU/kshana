@@ -50,7 +50,7 @@
 //!
 //! Outcome rule: all six hold, the census claim of the row is supported by astropy.
 //!
-//! # Result (run 2026-10-01, after the pre-registration commit 6fdae01b)
+//! # Result (run 2026-10-01, after the pre-registration commit 74b3c1a0)
 //!
 //! All six hold. astropy reads 174 rows: 30 final (MJD 61224-61253), 54 rapid (61254-61307) and
 //! 90 predicted (61308-61397), each list equal to Kshana's; every predicted row is `P` in both

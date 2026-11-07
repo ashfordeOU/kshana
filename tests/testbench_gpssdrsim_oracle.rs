@@ -6,8 +6,8 @@
 //!
 //! The oracle is dev-only (`xval/testbench-gpssdrsim/run.sh`, after `fetch.sh`). CI reads the
 //! committed summary `tests/fixtures/testbench/gpssdrsim.json` and checks it against the bars
-//! registered in `xval/testbench-gpssdrsim/PREREGISTRATION.md` (commit 41874fa, before any run;
-//! amendment 1 in d929ddc, before its run). It also checks that today's export still produces the
+//! registered in `xval/testbench-gpssdrsim/PREREGISTRATION.md` (commit 683bf5e, before any run;
+//! amendment 1 in 3a18165, before its run). It also checks that today's export still produces the
 //! bytes the oracle read.
 //!
 //! Run 1 FINDING, pinned below: the header-removed full CSV (registered B3/B4) is not readable

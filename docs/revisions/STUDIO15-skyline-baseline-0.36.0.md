@@ -5,8 +5,8 @@ Fixture: `tests/fixtures/skyline/flat_hashes_0.36-portable.txt`. Bars and scenar
 
 ## What happened
 
-The "0.36 portable" baseline was blessed on the integration head (b1558f70), whose `Cargo.toml` still said
-0.35.0. The 0.36.0 version bump (c0d917ec) then made 38 of its 42 rows differ, and the full CI run on the
+The "0.36 portable" baseline was blessed on the integration head (b8c2172d), whose `Cargo.toml` still said
+0.35.0. The 0.36.0 version bump (c83df52e) then made 38 of its 42 rows differ, and the full CI run on the
 final commit reported them (the coverage job, a debug build). Every result carries `engine_version` and
 digests of its own content, so the baseline holds for one engine version. The 38 rows are re-blessed at
 0.36.0; the 4 other rows (training NMEA text, which carries neither) are unchanged.

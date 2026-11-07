@@ -4,16 +4,16 @@ Date: 2026-10-18. Companion to `STUDIO15-pins-0.36.0-version.md` and `STUDIO15-s
 Bars, tolerances and scenarios: unchanged.
 
 The full suite (`cargo test --release --all --no-fail-fast`, release symbols stripped to fit the disk), run
-straight after the 0.37.0 version bump (43772b74), reported three pinned tests that hold for one engine
-version. Between the integration merge (5d49735d, version 0.36.0) and the bump the only change under
+straight after the 0.37.0 version bump (c5b77903), reported three pinned tests that hold for one engine
+version. Between the integration merge (88a1a39c, version 0.36.0) and the bump the only change under
 `src/`, `tests/` and `Cargo.toml` is the `version` line of `Cargo.toml`
-(`git diff 5d49735d 43772b74 -- src tests Cargo.toml`), so what moved is a function of the version string.
+(`git diff 88a1a39c c5b77903 -- src tests Cargo.toml`), so what moved is a function of the version string.
 
 ## Evidence that the version is the only difference
 
-The same three test files, with their previous pins unchanged, were run on a worktree at 5d49735d (0.36.0)
+The same three test files, with their previous pins unchanged, were run on a worktree at 88a1a39c (0.36.0)
 and all pass there: `geometry_trust_no_change` 5 of 5, `skyline_scenarios` 14 of 14 and
-`iq_campaign::the_reference_digests_are_pinned`. At 43772b74 they fail, and the failing runs give the new
+`iq_campaign::the_reference_digests_are_pinned`. At c5b77903 they fail, and the failing runs give the new
 values below.
 
 ## 1. `tests/geometry_trust_no_change.rs`: 21 telemetry hashes

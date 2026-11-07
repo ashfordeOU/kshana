@@ -72,16 +72,16 @@
 //! * Timing. The sentence "written before ... the 2019 Bulletin A issues are fetched" is not
 //!   exact: one input issue, Vol. XXXII No. 001 (3 January 2019), was fetched to a scratch
 //!   file at 02:55:29 UTC to check its layout, 68 s before the pre-registration commit
-//!   df52afa0 (02:56:37). The report's PDF (02:56:44) and the bulk fetch (02:57:08-02:57:58)
+//!   bb8a10aa (02:56:37). The report's PDF (02:56:44) and the bulk fetch (02:57:08-02:57:58)
 //!   followed the commit. One issue's prediction table does not reveal any ratio.
-//! * Post-pre-registration change to the comparison mechanics. As committed in df52afa0,
+//! * Post-pre-registration change to the comparison mechanics. As committed in bb8a10aa,
 //!   `generate.py` took every table horizon including day 0 as a prediction lead and writes
 //!   an issue only when it has a prediction at every lead; no issue has a prediction row at
 //!   lead 0, so no issue could be written. `residuals()` unwrapped the pipeline's row, which
 //!   would panic at a horizon the pipeline does not form. After the table was transcribed
 //!   (02:57:07) and the issues fetched, `generate.py` was edited (02:58:23) to drop day 0
 //!   from the leads, and `residuals()` was changed to return `None` for a horizon the
-//!   pipeline does not form (both in commit 0c216754). No Kshana ratio could have been formed
+//!   pipeline does not form (both in commit ed5e9987). No Kshana ratio could have been formed
 //!   before that edit (no issue written; the test needs at least 50). The table's values, the
 //!   oracle, had been seen.
 //! * Scope. This file checks `predicted_vs_final_ut1` and the `pm_archived` output of

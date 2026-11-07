@@ -54,11 +54,11 @@ seg-84ce0dd8daef = <b>VALIDATED</b>水星、金星、地月质心、地球、火
 
 seg-cc5bd76ec542 = <b>MODELLED</b>天王星和海王星取自Standish表{ "1" }的位置（在公元{ "1800" }年至公元{ "2050" }年内为默认），冥王星取自当前JPL页面已不再列出的{ "1992" }年表{ "1" }那一行，以及每颗行星的日心速度：二体导数 测试：<a1>solar_system_horizons_reference.rs</a1>。
 
-seg-ad3da7fe8e46 = <b>VALIDATED</b>带planetary_kernel_path的<c1/>类型：每个所报告的天体，只要其自身的NAIF编码在SPK中存在，就从内核取得其日心J2000位置和速度. 参考基准（ExternalDataset）：NAIF SPICE Toolkit（CSPICE N0067，经spiceypy { "8.3.0" }）对完整de440s.bsp的spkezr日心状态，这是一个不调用任何Kshana代码的独立程序（tests/fixtures/solar_system_kernel/，NOTICE.md）；引擎逐位读取de440s的截取部分。预先登记f8e946ea。这是对接线的库检查：DE440本身和解析天体在此并未经核对验证。结果：docs/design/evidence/cap31-solar-system-kernel/RE
+seg-ad3da7fe8e46 = <b>VALIDATED</b>带planetary_kernel_path的<c1/>类型：每个所报告的天体，只要其自身的NAIF编码在SPK中存在，就从内核取得其日心J2000位置和速度. 参考基准（ExternalDataset）：NAIF SPICE Toolkit（CSPICE N0067，经spiceypy { "8.3.0" }）对完整de440s.bsp的spkezr日心状态，这是一个不调用任何Kshana代码的独立程序（tests/fixtures/solar_system_kernel/，NOTICE.md）；引擎逐位读取de440s的截取部分。预先登记f4a6297a。这是对接线的库检查：DE440本身和解析天体在此并未经核对验证。结果：docs/design/evidence/cap31-solar-system-kernel/RE
 
-seg-735fb0bc1705 = <b>VALIDATED</b>水星、金星、地月质心、地球、火星、木星和土星取自Standish表{ "1" }（公元{ "1800" }年至公元{ "2050" }年）的日心位置，以及全部. 参考基准（ExternalDataset）：JPL Horizons DE441几何日心矢量（黄道和ICRF），在预先登记提交{ "80451866" }、8d38a28b和558cc807之后获取。判据：对每颗行星及每个分量，RMS至多为Explanatory Supplement第3版表{ "8.10.1" }近似误差的1.0倍（地球取EMB那一行）；地球与EMB的分离直接对照DE441的{ "399" }减{ "3" }核对，在1950-2050的每个历元至多{ "0.3" } deg和{ "8.1" } km（
+seg-735fb0bc1705 = <b>VALIDATED</b>水星、金星、地月质心、地球、火星、木星和土星取自Standish表{ "1" }（公元{ "1800" }年至公元{ "2050" }年）的日心位置，以及全部. 参考基准（ExternalDataset）：JPL Horizons DE441几何日心矢量（黄道和ICRF），在预先登记提交{ "e5423015" }、59dac98b和7b218df5之后获取。判据：对每颗行星及每个分量，RMS至多为Explanatory Supplement第3版表{ "8.10.1" }近似误差的1.0倍（地球取EMB那一行）；地球与EMB的分离直接对照DE441的{ "399" }减{ "3" }核对，在1950-2050的每个历元至多{ "0.3" } deg和{ "8.1" } km（
 
-seg-ab1192de28f5 = <b>VALIDATED</b>从任意天体到任意另一天体、在某历元接收的牛顿单程光行时，由无线电测量不动点光行时求解器求得（radiometric::light_t. 参考基准（ExternalDataset）：JPL Horizons DE441单程下行牛顿光行时LT（VEC_CORR=LT，观测者为地心），已预先登记（480037d3，修订54d5c86f仅在首次获取未通过其{ "10" } m插值前提之后更改插值节点间距，且在比较任何光行时之前），判据为每个光行时{ "1e-6" } s，求解器输入DE441质心位置，因此推迟发射器迭代清晰可见
+seg-ab1192de28f5 = <b>VALIDATED</b>从任意天体到任意另一天体、在某历元接收的牛顿单程光行时，由无线电测量不动点光行时求解器求得（radiometric::light_t. 参考基准（ExternalDataset）：JPL Horizons DE441单程下行牛顿光行时LT（VEC_CORR=LT，观测者为地心），已预先登记（876f8edc，修订35d22bad仅在首次获取未通过其{ "10" } m插值前提之后更改插值节点间距，且在比较任何光行时之前），判据为每个光行时{ "1e-6" } s，求解器输入DE441质心位置，因此推迟发射器迭代清晰可见
 
 seg-5a2e745828ea = <b>MODELLED</b>天王星和海王星取自Standish表{ "1" }的位置（在公元{ "1800" }年至公元{ "2050" }年内为默认），冥王星取自当前JPL页面已不再列出的{ "1992" }年表{ "1" }那一行. 参考基准（ExternalDataset）：与JPL Horizons DE441（同样的已提交测试数据文件）比较测得，但未经核对验证：表{ "1" }给出的天王星和海王星数值，相对DE441日心位置被超出多达{ "2.0" }倍和{ "5.2" }倍（海王星相对质心位置则满足，这表明该拟合并非日心拟合），该页面没有给出冥王星的误差，速度也没有已发表的界。表2a/2b满足其自身
 

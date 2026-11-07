@@ -1,6 +1,6 @@
 # Results: DOP853 against SciPy 1.18.1 `solve_ivp(method="DOP853")`
 
-Bars: `PREREGISTRATION.md` (committed alone at ae1b25e, before the first comparison).
+Bars: `PREREGISTRATION.md` (committed alone at 8b23409, before the first comparison).
 Test: `tests/dop853_scipy_oracle.rs`; fixture `tests/fixtures/dop853_scipy_oracle/reference.json`
 (SHA-256 6c6aff03…ccd6a). First comparison run 2026-10-12. **Every bar passes.**
 

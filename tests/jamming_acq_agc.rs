@@ -25,7 +25,7 @@ use rand_distr::{Distribution, StandardNormal};
 
 const DEMO: &str = include_str!("../scenarios/jamming-demo.toml");
 const POWERS: [f64; 4] = [10.0, 20.0, 25.0, 30.0];
-/// The informative run set of `PREREGISTRATION-SUPPLEMENT-1.md` (37793290).
+/// The informative run set of `PREREGISTRATION-SUPPLEMENT-1.md` (2ef7427a).
 const POWERS_S1: [f64; 4] = [-40.0, -35.0, -30.0, -25.0];
 const TRACKING: f64 = 25.0;
 

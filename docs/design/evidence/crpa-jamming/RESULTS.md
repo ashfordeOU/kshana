@@ -1,7 +1,7 @@
 # CRPA antenna gains in the jamming kind: results
 
 Item CAP-06 (a), run 2026-10-14 against the bars of [`PREREGISTRATION.md`](PREREGISTRATION.md)
-(committed at 08d83b4d, before the code). No bar was changed.
+(committed at 716de66a, before the code). No bar was changed.
 
 | bar | verdict | numbers |
 |---|---|---|
@@ -13,7 +13,7 @@ Item CAP-06 (a), run 2026-10-14 against the bars of [`PREREGISTRATION.md`](PRERE
 ## A1
 
 Every one of the 150 scenarios under `scenarios/` (all `jamming` scenarios and every campaign
-composing one) was run with the release binary of 08d83b4d (before) and of this change
+composing one) was run with the release binary of 716de66a (before) and of this change
 (after), and the `result.json` files were compared byte for byte. `quantum-pnt-demonstrator.suite`
 is a study suite, not a scenario, and fails the same way under both binaries.
 
@@ -66,7 +66,7 @@ python3 -I xval/crpa-jamming/conditioning.py xval/crpa-jamming/inputs.json
 cargo test --test jamming_crpa -- --nocapture
 ```
 
-A1: build the release binary at 08d83b4d and at this commit, run every scenario under
+A1: build the release binary at 716de66a and at this commit, run every scenario under
 `scenarios/` with each, and compare the `result.json` files byte for byte.
 
 ## 0.36 portable maths (2026-10-15)

@@ -1,8 +1,8 @@
 # LLR frame datum on the analytic Moon, fresh 2025 normal points: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `31f5283`, 2026-10-12 19:44 UTC,
+Pre-registration: `PREREGISTRATION.md` (committed alone at `c6971d0`, 2026-10-12 19:44 UTC,
 before any normal point of the slice was fetched). Fixture:
-`tests/fixtures/llr_datum_analytic_fresh_2025/` (committed in `990dee43`; provenance in its
+`tests/fixtures/llr_datum_analytic_fresh_2025/` (committed in `52259b2a`; provenance in its
 `NOTICE.md`, committed before this run). Run: 2026-10-13,
 `cargo test --release --test validate_llr_datum_analytic_fresh_2025 -- --include-ignored --nocapture`.
 

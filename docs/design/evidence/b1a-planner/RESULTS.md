@@ -3,8 +3,8 @@
 
 Pre-registration: `PREREGISTRATION.md` (signed off 3 November 2026). The readings of part 1, the three layouts,
 the two placement instances and the independent oracle (`xval/planner/oracle.py`, numpy and the standard
-library only) were committed in `a723f0d31` before any planner code, together with the oracle's expected
-outputs. Reading 12, on P2's regime, was committed in `c2f947b33` after the P1 comparison and before any P2 run.
+library only) were committed in `a155b16d3` before any planner code, together with the oracle's expected
+outputs. Reading 12, on P2's regime, was committed in `a482faf48` after the P1 comparison and before any P2 run.
 The bars were not changed.
 
 Reproduce with `cargo test --release --test planner -- --nocapture`.

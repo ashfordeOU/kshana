@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! CCSDS Attitude Data Messages (AEM, APM; 504.0-B-2) against Orekit 13.1.8, as pre-registered
-//! in `xval/adm-orekit/PREREGISTRATION.md` (7a6a05fe, committed before any comparison).
+//! in `xval/adm-orekit/PREREGISTRATION.md` (2a4c44b3, committed before any comparison).
 //!
 //! The cases are generated here (`inputs.txt`, format in `xval/adm-orekit/FORMAT.md`). Kshana
 //! writes every case (`kshana/`); the driver `xval/adm-orekit/AdmOracle.java` writes the same

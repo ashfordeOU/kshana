@@ -70,7 +70,7 @@
 //!
 //! ## Result (recorded 2026-10-02, first run, not tuned)
 //!
-//! Pre-registration commit `b84ce19b` (pushed 2026-10-02 16:12 UTC) precedes the fixture.
+//! Pre-registration commit `a566dec6` (pushed 2026-10-02 16:12 UTC) precedes the fixture.
 //! Oracle self-agreement 9.2e-42 or better. **The pre-registered criterion passes, but it does not
 //! answer the question for the Helmert flips.**
 //! * Station block: all 40 days decided; all 40 match the engine. On 9 days (2026-03-15 and

@@ -2,7 +2,7 @@
 
 Pre-registrations: `PREREGISTRATION-0.40-A2.md` (A3), `PREREGISTRATION-0.40-D1.md` (D3) and
 `PREREGISTRATION-0.40-R1.md` (R3 and R4), each with the owner's sign-off recorded in its own commit before any run
-(A3 dfdbd8ba, D3 a0f2f354, R3/R4 2c44424a; owner, 24 Oct 2026: "All three, A3/D3 exploratory"). One run of each, as
+(A3 2b1bb3ed, D3 fac841ba, R3/R4 c56ab981; owner, 24 Oct 2026: "All three, A3/D3 exploratory"). One run of each, as
 registered; no bar, seed, recipe or setting changed after a result was seen. All figures are MODELLED.
 
 **A2, D1 and R1 are untouched: they stay NOT MET** in `RESULTS-v2.md` and `docs/design/DETECTION-ROC.md` and stay

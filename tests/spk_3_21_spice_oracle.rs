@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! SPK types 3 (Chebyshev) and 21 (extended difference lines) against the NAIF SPICE Toolkit
 //! (CSPICE N0067 via spiceypy 8.3.0), as pre-registered in
-//! `xval/spk-3-21-spice/PREREGISTRATION.md` (e1cf80d8, committed alone before any of this code).
+//! `xval/spk-3-21-spice/PREREGISTRATION.md` (3f8945c7, committed alone before any of this code).
 //!
 //! `tests/fixtures/spk_3_21_spice_oracle/generate.py inputs` draws the records from the seed;
 //! this test writes Kshana's kernels from them (`kshana/`, regenerate with

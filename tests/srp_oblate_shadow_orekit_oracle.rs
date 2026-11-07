@@ -3,7 +3,7 @@
 //! spherical baseline (`forces::conical_shadow`) against **Orekit 12.2**
 //! `SolarRadiationPressure.getLightingRatio` with a WGS-84 (and a spherical) `OneAxisEllipsoid`,
 //! over 2400 geometries across the shadow edge. Bars pre-registered in
-//! `xval/srp-oblate-shadow-orekit/PREREGISTRATION.md` (6d6d269c); results in `RESULTS.md` there.
+//! `xval/srp-oblate-shadow-orekit/PREREGISTRATION.md` (c6b751e9); results in `RESULTS.md` there.
 //!
 //! PIN-SCOPE:    the 2400 Orekit lighting ratios of
 //!               tests/fixtures/srp_oblate_shadow_orekit_oracle/srp_oblate_shadow_orekit_oracle.txt

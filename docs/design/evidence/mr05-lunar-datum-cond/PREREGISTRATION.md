@@ -6,7 +6,7 @@ scenarios' inputs exist and before their date is chosen.
 ## Row and what is already known (disclosed)
 
 Row "Lunar frame datum from an observing campaign" (`lunar-frame-campaign`), MODELLED.
-`tests/lunar_vlbi_campaign_spice_oracle.rs` (pre-registration commit cited as `50863551`, which
+`tests/lunar_vlbi_campaign_spice_oracle.rs` (pre-registration commit cited as `aad03856`, which
 is not in this repository's history; its bars are in the test header) found on 2026-10-01:
 
 * SPICE leg (binding; the delay Jacobian rebuilt by finite differences of SPICE light times):

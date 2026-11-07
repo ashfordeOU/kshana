@@ -13,7 +13,7 @@ seg-37d16b499bc5 = dB
 seg-37d29d8303fe = km
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Bilan de liaison J/S géométrique, C/N₀ anti-brouillage, perte d'accrochage par satellite. Référence indépendante (InternalConsistency) : Équation du bilan de liaison C/N₀ anti-brouillage vérifiée par rapport à une nouvelle dérivation numpy indépendante (partage la même forme fermée → InternalConsistency) plus une caractérisation de la dégradation du C/N₀ de JammerTest-2024 réel. { "0.30" } tour { "2" }, bloqué (reste MODELLED) : la baisse de C/N0 mesurée de JammerTest { "2024" } par rapport à une prédiction de bilan de liaison (préenregistrée 6a66994b, à { "3" } dB près) n'a pas été exécutée parce que la position et le pointage de l'antenne F8.1 à
+seg-cc2ad9e12064 = <b>MODELLED</b> Bilan de liaison J/S géométrique, C/N₀ anti-brouillage, perte d'accrochage par satellite. Référence indépendante (InternalConsistency) : Équation du bilan de liaison C/N₀ anti-brouillage vérifiée par rapport à une nouvelle dérivation numpy indépendante (partage la même forme fermée → InternalConsistency) plus une caractérisation de la dégradation du C/N₀ de JammerTest-2024 réel. { "0.30" } tour { "2" }, bloqué (reste MODELLED) : la baisse de C/N0 mesurée de JammerTest { "2024" } par rapport à une prédiction de bilan de liaison (préenregistrée 6b2f6240, à { "3" } dB près) n'a pas été exécutée parce que la position et le pointage de l'antenne F8.1 à
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Non fourni — Kshana modélise la performance du signal, et non le matériel de charge utile ou d'antenne. Référence indépendante (NoneKind) : aucune : une discipline propre au partenaire, sans module ni test par conception

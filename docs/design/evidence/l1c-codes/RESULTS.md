@@ -1,6 +1,6 @@
 # GPS L1C ranging and overlay codes against the IS-GPS-800J check columns: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `fe372e26`, before this run). The bars were
+Pre-registration: `PREREGISTRATION.md` (committed at `c6063eb2`, before this run). The bars were
 not changed. Reproduce with
 
 ```

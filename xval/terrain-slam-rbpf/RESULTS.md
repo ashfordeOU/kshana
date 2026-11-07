@@ -1,11 +1,11 @@
 # Results: joint map estimation (terrain SLAM, RBPF) (WP-10, RM-18)
 
-Run once against `PREREGISTRATION.md` (committed alone in c3168ae3, before the filter was
+Run once against `PREREGISTRATION.md` (committed alone in c027ce72, before the filter was
 written). The design constants, seeds and bars are exactly the pre-registered ones.
 Command: `cargo test --test terrain_slam_rbpf -- --nocapture`.
 
 Before the run, the refactor of the sequential filter onto a shared core was checked: the
-pre-refactor binary (4235687e) and this tree give byte-identical `result.json` and
+pre-refactor binary (d24acb7a) and this tree give byte-identical `result.json` and
 `chart.svg` for `scenarios/terrain-slam.toml`.
 
 ## Per seed, erroneous map (15 m, L = 0.03 deg), matched RMS over 60 waypoints

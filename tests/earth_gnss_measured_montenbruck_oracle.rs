@@ -6,7 +6,7 @@
 //! statistics Montenbruck et al. (2023) print for the GENESIS orbit.
 //!
 //! PRE-REGISTRATION (row M039, written 2026-10-02 before any Kshana value below was computed and
-//! before the fixture generators were run; the engine functions were committed in 6851ddb2 with
+//! before the fixture generators were run; the engine functions were committed in 694cb39f with
 //! unit tests on hand-made cases only).
 //!
 //! DISCLOSURE: to test the network route, the ESA orbit file and the IGS satellite metadata file

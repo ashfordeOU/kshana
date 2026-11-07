@@ -132,7 +132,7 @@ fn negative_control_elevation_dependent_errors_fail_the_low_elevation_geometries
 }
 
 /// The masked-skyline addendum (tests/fixtures/dop/PREREGISTRATION-MASKED.md, committed alone in
-/// 03999c11 before this ran): the `10sat-mixed` sky under the `city-street` (M1) and
+/// ad4d02cb before this ran): the `10sat-mixed` sky under the `city-street` (M1) and
 /// `container-terminal` (M2) presets, a satellite kept when its elevation is at or above the
 /// skyline's cut at its azimuth; geometry indices 8 and 9; the five tolerances unchanged.
 #[test]

@@ -33,7 +33,7 @@
 //! quantisation is round-to-nearest). Tolerance: exact; none is physical in a bit format.
 //! Non-vacuity: at least 25 satellites. If I1 to I3 hold, the row is promotable on this test.
 //!
-//! RESULT (run 2026-10-02 on d4d9eb9d + fixtures): 32 satellites, 0 failures: 960 of 960 words
+//! RESULT (run 2026-10-02 on a48d5b91 + fixtures): 32 satellites, 0 failures: 960 of 960 words
 //! pass RTKLIB's parity, 96 of 96 subframes decode, every one of 608 decoded integers equals
 //! Kshana's, every input lies within half a quantum, week and times exact. MUTATION: quantising
 //! by truncation instead of rounding gives 235 failures; edited back.

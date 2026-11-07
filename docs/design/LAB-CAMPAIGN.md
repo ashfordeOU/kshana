@@ -451,7 +451,7 @@ expected to agree. The tests cover:
   (`docs/design/evidence/dll-jitter/RESULTS.md`). The synthetic campaign therefore samples at
   2.5 MHz, where DLL jitter grows with falling C/N0 as theory expects.
 * The default design's FLL assist runs only during pull-in (`fll_assist = "pull-in"`, the
-  default from #45 `f3a8ca8b`; `"always"` restores the old behaviour). On the synthetic ramp
+  default from #45 `9dbfd5cc`; `"always"` restores the old behaviour). On the synthetic ramp
   (J/S 20 then 30 dB, about 30 dB-Hz at the end) the default design and the PLL-only design now
   score the same: no loss, availability 0.978 for PRN 3 and 0.978 for PRN 11. Before that change
   the always-on 10 Hz FLL injected frequency noise, and under the session's rule (phase *or*
@@ -469,5 +469,5 @@ expected to agree. The tests cover:
   With `reacquire = false`, PRNs 3 and 11 relock after the gap on both front ends
   (relock is `recovered`). PRN 22, whose loops drift during the gap, relocks on the raw chain and
   still does not on the 3-bit AGC chain. That outcome is pinned per front end
-  (`PINNED_OBSERVE_RAW`, `PINNED_OBSERVE_Q3`); before #45 `f3a8ca8b` PRN 22 did not relock on
+  (`PINNED_OBSERVE_RAW`, `PINNED_OBSERVE_Q3`); before #45 `9dbfd5cc` PRN 22 did not relock on
   either.

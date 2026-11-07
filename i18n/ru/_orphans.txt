@@ -319,7 +319,7 @@ seg-4b41ffeb0030 = Все { "87" } видов сценариев бесплат�
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 # text
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: constellation-multi-gnss-coverage.toml
 seg-597a57467277 = Движок v{ $version }, сборка <c1/> · <c2/> · детерминированный, без seed
 

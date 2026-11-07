@@ -103,7 +103,7 @@
 //!   pole, which the function leaves out and which depends on the site's longitude; the outcome at
 //!   other longitudes was not computed before this was written.
 //!
-//! RESULT of the third step (run 2026-10-02, after the pre-registration commit 71bebf63; fixture
+//! RESULT of the third step (run 2026-10-02, after the pre-registration commit 60d7f773; fixture
 //! `site_speed_true_pole_orekit.txt` from `gen_site_speed_true_pole.sh`): all 24 sites within
 //! 1e-6 on both paths; worst 4.87e-8 (62.9 deg, longitude 0), 4.32e-8 (-60, 0); every equatorial
 //! site 2.3e-11. Orekit's interpolated pole at the epoch (EOP2 line) is x_p 0.189386", y_p

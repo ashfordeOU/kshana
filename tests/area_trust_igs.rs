@@ -11,7 +11,7 @@
 //! It prints the per-station calibration, the alarm counts by monitor, the alerts per scored day and the
 //! verdict against the bars (DEGRADED or worse ≤ 1 per area-day, UNTRUSTED ≤ 0.1 per area-day), and writes
 //! `t4_result.json` into the data directory. The scored result is `xval/area-trust/t4_result.json`
-//! (engine at ff7d51567); today's engine reproduces `xval/area-trust/t4_result_after_nav_fix.json`.
+//! (engine at b29f90041); today's engine reproduces `xval/area-trust/t4_result_after_nav_fix.json`.
 
 use flate2::read::GzDecoder;
 use kshana::area_trust::{
@@ -306,8 +306,8 @@ fn t4_false_alerts_on_clean_igs_data() {
     });
     let text = serde_json::to_string_pretty(&result).unwrap();
     std::fs::write(dir.join("t4_result.json"), &text).unwrap();
-    // The scored result (`t4_result.json`) was written by the engine at ff7d51567. The navigation
-    // parser fix that followed (7556cdc5f) changes it, so today's engine reproduces the
+    // The scored result (`t4_result.json`) was written by the engine at b29f90041. The navigation
+    // parser fix that followed (887997061) changes it, so today's engine reproduces the
     // supplementary result.
     let committed = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("xval/area-trust/t4_result_after_nav_fix.json");

@@ -38,7 +38,7 @@ were outside the first approved change. §5 moves them.
 
 ## 2. What moved: 9 scenario results, nothing else
 
-Every scenario under `scenarios/` was run before (the release binary of 59d9ef5a) and after the
+Every scenario under `scenarios/` was run before (the release binary of 340fa5e3) and after the
 change, and its `result.json` was compared value by value. 141 are byte-identical. These 9 move:
 
 | scenario | values moved | what |
@@ -88,7 +88,7 @@ old numbers until the next site build is ported (`web/tools/port_site.py`).
 ## 4. How to check
 
 ```
-cargo build --release --bin kshana        # before (59d9ef5a) and after this commit
+cargo build --release --bin kshana        # before (340fa5e3) and after this commit
 kshana scenarios/<name>.toml              # each of the 9, both binaries
 ```
 
@@ -127,7 +127,7 @@ have no E5b or AltBOC entry, so the `spectrum` kind is unaffected.
 
 ### 5.2 What moved: 3 scenario results, nothing else
 
-Every scenario under `scenarios/` was run before (the release binary of 0042c5c9, which carries the
+Every scenario under `scenarios/` was run before (the release binary of 82478e57, which carries the
 first part) and after this change, and its `result.json` was compared value by value. 147 are
 byte-identical (`quantum-pnt-demonstrator.suite.toml` is a study file and was not run, as in the
 first part). These 3 move:
@@ -154,5 +154,5 @@ not edited here.
 
 ### 5.4 How to check
 
-As in §4, with the binaries of 0042c5c9 (before) and of this commit (after), on the 3 scenarios
+As in §4, with the binaries of 82478e57 (before) and of this commit (after), on the 3 scenarios
 above.

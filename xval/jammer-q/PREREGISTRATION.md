@@ -9,7 +9,7 @@ expectations below are not changed after the comparison has been run.
 `jamming::q_factor`, the spread-spectrum adjustment coefficient `Q` of the anti-jam equation
 `(C/N0)_eff = [1/(C/N0) + (J/S)/(Q R_c)]^-1`, by jammer type:
 
-| type | before (release/0.36.0-rc @ 617d4f51) | after | basis |
+| type | before (release/0.36.0-rc @ b916b6a4) | after | basis |
 |---|---|---|---|
 | `cw`, `narrowband` | 1 | 1 (unchanged) | a tone on the carrier: `κ = G_s(0) = T_c`, `Q = 1/(R_c κ) = 1` |
 | `broadband` | 1 ("kept as a conservative value ... pending review") | **2** | white noise over the main lobe `±R_c`, in-band signal power normalised to one: `κ = 1/(2 R_c)`, `Q = 2` (Kaplan and Hegarty, *Understanding GPS/GNSS*, 3rd ed., §9.4; Betz, NAVIGATION 48(4), 2001); without the normalisation `Q = 2/0.9028 = 2.215` |
@@ -51,7 +51,7 @@ Where a broadband or swept jammer acts, with no `q_override`, the interference t
 
 ## Method
 
-1. Build release binaries of `release/0.36.0-rc` @ 617d4f51 ("before") and of the change ("after").
+1. Build release binaries of `release/0.36.0-rc` @ b916b6a4 ("before") and of the change ("after").
 2. Run every scenario file under `scenarios/` with each binary.
 3. Compare the `*.result.json` files value by value (numbers to the last digit, strings exactly).
 4. List every file that differs, every field that differs, and the before and after values.

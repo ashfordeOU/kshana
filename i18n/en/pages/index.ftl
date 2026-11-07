@@ -91,7 +91,7 @@ seg-47d596393831 = Real events
 seg-5630c799cec1 = Where every trace comes from
 
 # text
-# c1: 3395218
+# c1: 7084cbf
 # c2: campaign-jam-spoof-holdover-integrity.toml
 seg-cff488aa106d = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
@@ -117,7 +117,7 @@ seg-f18f76c10709 = <s1><a1>Report</a1><a2>JSON</a2><a3>TOML</a3></s1>
 seg-a0ef302e2458 = Copy command
 
 # text
-# c1: 3395218
+# c1: 7084cbf
 # c2: constellation-multi-gnss-coverage.toml
 seg-fddfe8b260be = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
@@ -382,7 +382,7 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial navigation system
 
 # text
-# c1: 3395218
+# c1: 7084cbf
 # c2: campaign-jam-spoof-holdover-integrity.toml
 seg-388f14eb6d8d = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 

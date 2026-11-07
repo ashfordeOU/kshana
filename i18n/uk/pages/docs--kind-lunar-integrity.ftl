@@ -6,7 +6,7 @@ seg-1c1eeb2dcaa0 = Сторінка родини: <a1>Місячний і цис
 
 seg-619127334cf3 = Жоден рядок матриці не називає цей тип за назвою; позначка на його результаті — власна позначка рушія, наведена вище.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> Розв'язок ARAIM із розділенням рішень за багатьма гіпотезами згідно з ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels і add_v42_protecti. Оракул (ExternalDataset): Три незалежні інструменти, попередньо зареєстровані (0123cee1) до появи будь-яких фікстур чи виходів оракула, допуски зафіксовано тоді. ({ "1" }) ARAIM: Stanford MAAST для ARAIM { "2" } (коміт ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, запущений як окрема програма під GNU Octave { "8.4" } зі сумісним шимом unique() на боці драйвера (розкрито, без зміни алгоритму), за ADD TOL_PL { "0.05" } м: Rust відтворює еталонну реалізацію ADD на
+seg-aec7fc2a4070 = <b>VALIDATED</b> Розв'язок ARAIM із розділенням рішень за багатьма гіпотезами згідно з ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels і add_v42_protecti. Оракул (ExternalDataset): Три незалежні інструменти, попередньо зареєстровані (ba7a01a7) до появи будь-яких фікстур чи виходів оракула, допуски зафіксовано тоді. ({ "1" }) ARAIM: Stanford MAAST для ARAIM { "2" } (коміт ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, запущений як окрема програма під GNU Octave { "8.4" } зі сумісним шимом unique() на боці драйвера (розкрито, без зміни алгоритму), за ADD TOL_PL { "0.05" } м: Rust відтворює еталонну реалізацію ADD на
 
 seg-8ed008b206de = Джерело: <c1/>
 

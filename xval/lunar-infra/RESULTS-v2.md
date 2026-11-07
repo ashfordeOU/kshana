@@ -1,6 +1,6 @@
 # Results of the v2 campaigns for the `lunar-infrastructure` bars not met
 
-Bars are those of `PREREGISTRATION-v2.md`, signed off by the owner on 24 October 2026 in commit `e9c6fb1a` before any run;
+Bars are those of `PREREGISTRATION-v2.md`, signed off by the owner on 24 October 2026 in commit `8e827b66` before any run;
 no bar changed afterwards. Everything is **MODELLED**. The scipy program checks the implementation of stated formulas,
 not lunar physics, so nothing here moves a ledger row to VALIDATED. This is evidence-support information, not
 operational or safety-of-life advice. Seed 20261019, 400 trials, as recorded in the original study.

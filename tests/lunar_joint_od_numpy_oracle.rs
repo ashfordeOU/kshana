@@ -57,7 +57,7 @@
 //! Discrimination, pre-registered: dropping the weights in the normal matrix of
 //! `batch_ls::gauss_newton` (`w = 1`) must turn the test red.
 //!
-//! Result (2026-10-02). First run (commit 5094bc31): A to E agree (first step within 3.7e-11,
+//! Result (2026-10-02). First run (commit 8dfbfddd): A to E agree (first step within 3.7e-11,
 //! numpy step at the solution at most 3.6e-8 stored units, sigmas within 2.0e-11, station
 //! errors equal); F fails: first-step relative difference 6.1e-7 against `tol` 1e-8 (κ of the
 //! whitened Jacobian 1.43e5). The engine solved each step by inverting the normal matrix, whose

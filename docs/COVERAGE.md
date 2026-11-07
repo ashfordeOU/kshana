@@ -9,7 +9,7 @@ all of them together or none.
 | | |
 |---|---|
 | Measured | **95.35 %** — 55,970 of 58,697 lines |
-| Commit | `db796dd` (engine 0.29.0, the `v0.29.0` tag) |
+| Commit | `fb73817` (engine 0.29.0, the `v0.29.0` tag) |
 | Run | GitHub Actions, `ci.yml` job `coverage`, run 36809850252, 2026-10-01 |
 | Tool | `cargo tarpaulin --engine llvm` (LLVM source-based instrumentation) |
 | Scope | `src/`, excluding the generated data tables `src/*_data.rs` and the thin CLI (command-line interface) entry point `src/main.rs`; `tests/` and `web/` are not measured |
@@ -40,7 +40,7 @@ names any you miss.
 
 ## History
 
-The figure has been re-measured, not re-typed: 95.63 % on commit `b1d350d`
+The figure has been re-measured, not re-typed: 95.63 % on commit `7b4617c`
 (engine 0.27.2 + unreleased, run 35934579709, 2026-09-24, 37,697 of 39,419 lines, published
 as ~96 %), revised to 95.35 % on 0.29.0 (above), which rounds to ~95 %: the code grew by
 19,278 measured lines and the new lines are covered slightly less than the old ones;

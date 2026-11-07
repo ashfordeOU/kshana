@@ -48,7 +48,7 @@
 //! * **Mutation check, planned now:** dropping the TDB − TT term (TT used as TDB, an error up to
 //!   1.7 ms) must turn the strict test red; the edit is then reverted.
 //!
-//! ## Result (run after the pre-registration commit 0bfafe6d was published)
+//! ## Result (run after the pre-registration commit 7c23d520 was published)
 //!
 //! Seed 863282026935155989. All 600 positions are inside the bar, on the cut kernel (923
 //! records, checked by SPICE bit for bit) and on the full `de440s.bsp`. Worst difference 0.66

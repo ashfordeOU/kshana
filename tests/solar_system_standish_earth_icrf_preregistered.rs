@@ -11,13 +11,13 @@
 //! elements" also claims (a) the Earth, split from the Earth-Moon barycentre (EMB) by the
 //! Montenbruck & Gill lunar series and the mass ratio, and (b) positions rotated to the ICRF
 //! (International Celestial Reference Frame) by the JPL page's obliquity, composed as
-//! `kshana::ephem_provider::AnalyticSolarSystem`. The first pre-registered test (commit 80451866)
+//! `kshana::ephem_provider::AnalyticSolarSystem`. The first pre-registered test (commit e5423015)
 //! exercises only `ephem::standish_state` for the barycentres in the ecliptic. This file adds the
 //! two missing paths, at the same bar and on the same grid. The test
 //! `tests/solar_system_horizons_reference.rs::earth_from_the_barycentre_and_the_moon`, whose bar
 //! was set after its comparison, is not a promotion basis for the Earth.
 //!
-//! **Disclosure (outcome partly known).** The Table 1 barycentre results of commit 07b3c2a9 were
+//! **Disclosure (outcome partly known).** The Table 1 barycentre results of commit efe662fc were
 //! seen before this was written (largest RMS over the figure 0.778). Case B is a rotation of the
 //! same Standish positions and case A moves the EMB by at most about 4 671 km (the Earth's
 //! distance from the EMB), against an EMB distance bar of 6 000 km RMS; so the outcome is largely
@@ -73,7 +73,7 @@
 //! Fixture: `tests/fixtures/solar_system_standish_earth_icrf_preregistered/` (generator, NOTICE,
 //! CSVs), fetched only after this header was committed.
 //!
-//! # Result (run 2026-10-02, after the pre-registration commit 8d38a28b)
+//! # Result (run 2026-10-02, after the pre-registration commit 59dac98b)
 //!
 //! Every RMS is inside its bar. Case A, the Earth in the ecliptic: RMS over the EMB figure 0.433
 //! (lambda), 0.360 (phi), 0.483 (rho); maxima 1.30, 0.98, 1.30 times. Case B, the ICRF: the
@@ -294,7 +294,7 @@ fn icrf_positions_are_within_the_table_8_10_1_rms() {
 // the difference of their lengths at most 8.1 km (mu_M/(mu_E + mu_M) = 0.01215 times 500 km, plus
 // 2 km for the fixture's rounding).
 //
-// Result (run 2026-10-02, after commit 558cc807): 3563 gating epochs, worst angle 0.0877 deg, worst
+// Result (run 2026-10-02, after commit 7b218df5): 3563 gating epochs, worst angle 0.0877 deg, worst
 // length difference 6.09 km (1800-1950, not gating: 0.0936 deg, 6.39 km). Mutations, reverted by
 // editing back: no split (Earth at the EMB) 4942 km, red; split sign flipped 180 deg, red; mass
 // ratio 1 % high 53.3 km, red.

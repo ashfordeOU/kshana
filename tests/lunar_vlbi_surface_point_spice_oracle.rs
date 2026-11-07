@@ -101,7 +101,7 @@
 //! Cramér-Rao bound for the beacon alone. Both sides read DE440, so agreement validates the
 //! engine's geometry and linear algebra on DE440, not DE440 itself.
 //!
-//! ## Result (run after the pre-registration commit 4a51256 was published)
+//! ## Result (run after the pre-registration commit a4781fd was published)
 //!
 //! **Both legs AGREE.** SPICE leg: the 16 observations identical; rank 3 and defect 0 on both
 //! sides; eigenvalues within 5.9e-5 (6.1799e-3, 145.526 and 805.724 per square metre);

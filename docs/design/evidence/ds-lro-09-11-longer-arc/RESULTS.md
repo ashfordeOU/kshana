@@ -1,6 +1,6 @@
 # LRO longer arc, degree 150, lunar k2 tide and relativity: results (information only)
 
-Protocol: `PROTOCOL.md` (8fcb15ca). **Disclosure:** runs 1 and 2 were started about ten
+Protocol: `PROTOCOL.md` (9417f766). **Disclosure:** runs 1 and 2 were started about ten
 minutes before the protocol commit. Their results were not seen until after it, and the
 protocol sets no bar beyond the existing ones. Run 3 started after the protocol commit.
 
@@ -20,7 +20,7 @@ its variational equations). It is wired as `tests/agency_lro.rs::lro_fit_over_a_
 be recorded.
 
 **Run 3, recorded 2026-10-14** (information only; no bar). It did not finish locally, so it ran
-in the manual `lro-de440-opt-in` job, run 38491862009, job 115618682524, head e82047e2, 4 287 s:
+in the manual `lro-de440-opt-in` job, run 38491862009, job 115618682524, head a221a409, 4 287 s:
 `LRO 1441 epochs: dynamic 7.845 m (RTN 0.820 7.289 2.781, converged true), reduced-dynamic
 7.121 m (RTN 1.136 6.529 2.604, converged false)`. Over 24 h the dynamic tier fits better than
 over 4 h (7.8 m against 12.0 m) and is dominated by along-track error. The reduced-dynamic

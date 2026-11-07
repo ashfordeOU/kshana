@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # 0.38 WS-C timing, standards and hardware safety (W55): handover and release text
 
-Branch `feat/timing-standards-0.38`, from `origin/main` (v0.37.0, `c0c7770`). Items C1 to C6 and D1, D3
+Branch `feat/timing-standards-0.38`, from `origin/main` (v0.37.0, `a253d41`). Items C1 to C6 and D1, D3
 and D4 of `docs/plans/0.38-PLAN.md` (kshana-pro, `ws/coordination`).
 
 ## What was done

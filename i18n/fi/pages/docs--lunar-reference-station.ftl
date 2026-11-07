@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Lähteet S1–S5 (otsikko, URL, hakupäivä, SHA-256, lisenss
 
 seg-d866653008e1 = Jokainen numeerinen väite sivunumeron ja ilmoitettujen oletusten kanssa siteerattuna ja luokiteltuna vertailukelpoiseksi, osin vertailukelpoiseksi tai ei vertailukelpoiseksi: <c1/>. Mikään väite ei ole täysin vertailukelpoinen, koska mikään lähde ei ilmoita persentiiliä eikä satelliittien ratalementtejä.
 
-seg-50535c58d3cf = Kynnykset, tapaukset ja syötteet, tallennettu yksin ennen ajoa (versio { "2" }, 05bf9a19), ja kirjattu ajo: <c1/>. Havainto on kiinnitetty testissä <c2/>.
+seg-50535c58d3cf = Kynnykset, tapaukset ja syötteet, tallennettu yksin ennen ajoa (versio { "2" }, ebac1e14), ja kirjattu ajo: <c1/>. Havainto on kiinnitetty testissä <c2/>.
 
 seg-069a652c402e = kynnys
 

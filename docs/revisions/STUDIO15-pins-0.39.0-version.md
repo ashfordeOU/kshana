@@ -2,15 +2,15 @@
 
 Date: 2026-10-22. Companion to `STUDIO15-pins-0.38.0-version.md`. Bars, tolerances and scenarios: unchanged.
 
-The version bump (0774f6ce, with 5531a44c for the regenerated README assets) was run through the pin-bearing tests
+The version bump (1abf5e56, with 6cfd4016 for the regenerated README assets) was run through the pin-bearing tests
 (`cargo test --release`). The same four test files as at 0.38.0 hold values that depend on the engine version string.
-Between the integration merge of the three 0.39 branches (24a27937, version 0.38.0) and the bump, the only change
-under `src/` and `tests/` is nothing: `git diff 24a27937 0774f6ce -- src tests` is empty, and the one engine change is the
-`version` line of `Cargo.toml`. What moved is therefore a function of the version string. The re-bless is f93a030c.
+Between the integration merge of the three 0.39 branches (3a0ecc39, version 0.38.0) and the bump, the only change
+under `src/` and `tests/` is nothing: `git diff 3a0ecc39 1abf5e56 -- src tests` is empty, and the one engine change is the
+`version` line of `Cargo.toml`. What moved is therefore a function of the version string. The re-bless is 497414fb.
 
 ## Evidence that the version is the only difference
 
-The same four test files, with their previous pins unchanged, were run at 24a27937 (0.38.0) and all pass there:
+The same four test files, with their previous pins unchanged, were run at 3a0ecc39 (0.38.0) and all pass there:
 `geometry_trust_no_change` 5 of 5, `iq_campaign` 17 of 17 (2 ignored as always), `published_figures_still_reproduce`
 5 of 5 and `skyline_scenarios` 14 of 14. At the bump they fail, and the failing runs give the new values below.
 

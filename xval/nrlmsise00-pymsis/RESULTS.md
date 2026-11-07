@@ -1,6 +1,6 @@
 # Results: NRLMSISE-00 port against pymsis, the C port and the published C test output
 
-Pre-registration: `PREREGISTRATION.md`, commit e90ae26a (alone, before the port existed).
+Pre-registration: `PREREGISTRATION.md`, commit a6504ec9 (alone, before the port existed).
 Test: `tests/nrlmsise00_reference.rs` (`cargo test --test nrlmsise00_reference -- --nocapture`).
 Port: `src/nrlmsise00.rs` + `src/nrlmsise00_data.rs`.
 

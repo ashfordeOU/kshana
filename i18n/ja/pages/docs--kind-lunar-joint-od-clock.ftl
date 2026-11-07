@@ -16,7 +16,7 @@ seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
 
 seg-cfa051b87e59 = scenarios/lunar-joint-od-clock.toml（種別 lunar-joint-od-clock）についてエンジンが書き出すグラフ
 
-seg-4c6914c162d1 = <b>VALIDATED</b> VLBI + 月面ローカル距離 + 衛星間距離のバッチ融合による、局とコンステレーションの位置とクロックの回復。オラクル（ExternalDataset）：P2：numpy { "2.4.6" }（LAPACK gelsd を用いた numpy.linalg.lstsq、numpy.linalg.inv。BSD-3）が、六つのシミュレートしたネットワークのコミット済みのヤコビアンと観測に対して、各 Gauss-Newton ステップ、収束した重み付き最小二乗解、形式的なシグマ、局の誤差を再計算し、max({ "1e-8" }, { "100" } kappa eps) の相対値で事前登録されています（5094bc31）。最初の実行では VLBI なしのネットワークが不合格でした（{ "1e-8" } に対して { "6.1e-7" }、正規方程式の
+seg-4c6914c162d1 = <b>VALIDATED</b> VLBI + 月面ローカル距離 + 衛星間距離のバッチ融合による、局とコンステレーションの位置とクロックの回復。オラクル（ExternalDataset）：P2：numpy { "2.4.6" }（LAPACK gelsd を用いた numpy.linalg.lstsq、numpy.linalg.inv。BSD-3）が、六つのシミュレートしたネットワークのコミット済みのヤコビアンと観測に対して、各 Gauss-Newton ステップ、収束した重み付き最小二乗解、形式的なシグマ、局の誤差を再計算し、max({ "1e-8" }, { "100" } kappa eps) の相対値で事前登録されています（8dfbfddd）。最初の実行では VLBI なしのネットワークが不合格でした（{ "1e-8" } に対して { "6.1e-7" }、正規方程式の
 
 seg-5b3f6008f5a7 = <b>VALIDATED</b> フィッシャー情報 M=HᵀWH、クラメール・ラオの下限、観測可能性のランク / データム欠損の零空間（Moore–Penrose 擬似逆行列）、そして D/A/E/T 最適の実験設計。オラクル（ExternalDataset）：NumPy { "2.4.1" }（numpy.linalg.eigh / .inv。BSD-3-Clause、LAPACK ベース）— 独立した第三者の権威であり、Kshana の巡回 Jacobi 掃引とスペクトル擬似逆行列とは異なるアルゴリズム（LAPACK の分割統治法 + LU）で、一意に定まる同じ固有値、σ²(XᵀX)⁻¹ のクラメール・ラオ共分散、GNSS の精度低下率の係数を計算し、{ "1e-9" } で一致しました。同じ外部ライブラリの区分がすでに D を検証しています
 

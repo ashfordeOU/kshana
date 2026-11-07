@@ -6,7 +6,7 @@ its numbers and pinned by a test that asserts the recorded miss.
 
 ## What is compared
 
-`src/srp_boxwing.rs` as reviewed in aca9dc85:
+`src/srp_boxwing.rs` as reviewed in c987b0fd:
 
 * `boxwing_accel_scaled` (flat-plate sum, Vallado eq. 8-44), for the three shipped models
   `BoxWing::galileo_foc`, `galileo_iov`, `galileo_iov_eol`;

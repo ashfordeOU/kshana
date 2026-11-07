@@ -1,6 +1,6 @@
 # Results: the impulsive transfer optimiser on DE440 (CAP-20c) and the Earth-Mars C3 cross-check (CAP-20d)
 
-Run once on 2026-10-14 against `PREREGISTRATION.md` (bf0439e8, committed alone before the
+Run once on 2026-10-14 against `PREREGISTRATION.md` (06ad29a4, committed alone before the
 optimiser existed). Nothing in the pre-registration was changed after the run. Test:
 `tests/transfer_optimiser_oracle.rs`.
 

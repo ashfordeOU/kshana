@@ -480,7 +480,7 @@ seg-0e1285fdfe52 = Viis registri (ledger) rida (<c1/>), nagu kavandimärkus neid
 # c2: ElevationMask
 # c3: get_dop
 # c4: xval/orekit-skyline/PREREGISTRATION.md
-seg-1aa76286f152 = Orekit { "12.2" } (<c1/> vaatenurgad, <c2/>) koos gnss_lib_py { "1.0.4" } (<c3/> ja DOP maatriks), eelregistreeritud failis <c4/> (commit e4b9d912) enne kummagi käivitamist: { "1173" } vaatenurka kuuel asukohal ja neljal epohhil, kuus tabelit, { "142" } nähtavat hulka; halvim kõrgusnurk { "1.3e-13" }°, asimuut { "2.3e-13" }°, mask { "1.1e-12" }° versus { "1e-9" }°; identsed nähtavad hulgad, ükski pole piiririba sees; DOP { "3.3e-13" } suhteline ja kofaktor { "6.6e-13" } maatriksi skaalast versus { "1e-9" }. Ulatus: tabelmaskid, geodeetilised vaatenurgad, maskeeritud hulk ning selle ühiskella DOP ja kofaktor.
+seg-1aa76286f152 = Orekit { "12.2" } (<c1/> vaatenurgad, <c2/>) koos gnss_lib_py { "1.0.4" } (<c3/> ja DOP maatriks), eelregistreeritud failis <c4/> (commit d94130d4) enne kummagi käivitamist: { "1173" } vaatenurka kuuel asukohal ja neljal epohhil, kuus tabelit, { "142" } nähtavat hulka; halvim kõrgusnurk { "1.3e-13" }°, asimuut { "2.3e-13" }°, mask { "1.1e-12" }° versus { "1e-9" }°; identsed nähtavad hulgad, ükski pole piiririba sees; DOP { "3.3e-13" } suhteline ja kofaktor { "6.6e-13" } maatriksi skaalast versus { "1e-9" }. Ulatus: tabelmaskid, geodeetilised vaatenurgad, maskeeritud hulk ning selle ühiskella DOP ja kofaktor.
 
 # text
 seg-b33828edbe2f = käsitsi arvutatud väärtused; ülaltoodud võrdlus loeb nende tabeleid sisenditena ega kontrolli neid
@@ -495,7 +495,7 @@ seg-83946f66ca78 = puudub: valitud, esitatud mõõtmed (kontrollitud ainult isee
 # c1: linalg.inv
 # c2: linalg.eigh
 # c3: xval/numpy-ellipse/PREREGISTRATION.md
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> ja <c2/> (standardne P2) { "142" } sisse kirjutatud nähtaval hulgal, ühine kell ja üks kell süsteemi kohta, eelregistreeritud failis <c3/> (commit 0bbeeaee): { "270" } juhtu, teljed { "5.1e-13" } suhteline, orientatsioon { "5.3e-12" }°, kofaktor { "1.0e-12" } maatriksi skaalast, versus { "1e-9" } ja { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> ja <c2/> (standardne P2) { "142" } sisse kirjutatud nähtaval hulgal, ühine kell ja üks kell süsteemi kohta, eelregistreeritud failis <c3/> (commit 2dfc9c16): { "270" } juhtu, teljed { "5.1e-13" } suhteline, orientatsioon { "5.3e-12" }°, kofaktor { "1.0e-12" } maatriksi skaalast, versus { "1e-9" } ja { "1e-6" }°
 
 # text
 seg-44e5f9ca28f7 = Taevageomeetria funktsioonid

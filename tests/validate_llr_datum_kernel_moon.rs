@@ -5,7 +5,7 @@
 //!
 //! ## Why this exists, and what was already seen (disclosure)
 //!
-//! `tests/validate_llr_datum_spice_oracle.rs` (pre-registered in 6b27964a) compared the
+//! `tests/validate_llr_datum_spice_oracle.rs` (pre-registered in ba48ff6d) compared the
 //! engine's measured-schedule Helmert datum covariance with SPICE light times and a numpy
 //! inverse. Every quantity held except one: the z-translation sigma was 1.025 % high against a
 //! 1 % bar (engine 1.282270e-2 m, oracle 1.269258e-2 m). That record ruled out the lunar
@@ -41,7 +41,7 @@
 //! * **Oracle (unchanged, already seen):** the SPICE (CSPICE N0067 through spiceypy 8.2.0, MIT
 //!   licence) two-way light times with finite-difference partials on DE440, ITRF93 Earth
 //!   orientation and the DE440 lunar orientation, and the numpy 2.3.5 (BSD-3-Clause, LAPACK)
-//!   information matrix and inverse, as committed in `reference.txt` by 6b27964a. The oracle
+//!   information matrix and inverse, as committed in `reference.txt` by ba48ff6d. The oracle
 //!   read `de440.bsp`; the engine reads records of `de440s.bsp`. Both are the DE440 integration;
 //!   the generator checks with SPICE that the two files give identical Moon-relative-to-Earth
 //!   states over the window and records the largest difference.
@@ -57,7 +57,7 @@
 //!   analytic Moon instead; the strict test must then fail (it must reproduce the original
 //!   1.025 % miss), and the edit is reverted.
 //!
-//! ## Result (run after the pre-registration commit c51f8b2 was published)
+//! ## Result (run after the pre-registration commit 6d333da was published)
 //!
 //! Every quantity holds at the unchanged bars. The z-translation sigma, the one quantity the
 //! analytic run missed, moves from 1.025 % to 0.049 % (engine 1.268640e-2 m, oracle

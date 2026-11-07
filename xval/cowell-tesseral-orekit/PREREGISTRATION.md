@@ -7,7 +7,7 @@ The bars below are not loosened after the comparison has been run; a miss is rec
 ## The change being validated
 
 `propagator::ForceModel::geopotential` (`Geopotential`, `EarthFixedFrame::Era`), added in
-d23eb97. It is opt-in: `None` by default, so no existing output moves. It evaluates a
+6e85173. It is opt-in: `None` by default, so no existing output moves. It evaluates a
 fully-normalized `SphericalHarmonicField` (here the bundled EGM2008 truncated to N×N) in an Earth-fixed
 frame reached by a rotation about the inertial z axis by the IAU 2000 Earth rotation angle at
 UT1 = TT, evaluated at `epoch_jd_tt + t/86400`.

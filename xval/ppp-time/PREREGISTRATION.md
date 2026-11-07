@@ -67,7 +67,7 @@ Recorded without a bar: over the whole 00:00-05:55, including convergence, the m
 and the std is 0.623 ns over 71 epochs.
 
 Disclosed procedure: the first attempt stopped before any comparison. The fixture as first
-committed (661ad138) lacked the clock file's `END OF HEADER` line, dropped by the extraction
+committed (66c67ce6) lacked the clock file's `END OF HEADER` line, dropped by the extraction
 script, so the parser read no records. The fixture was rebuilt from the same checksummed source
 file with that line kept. Its records are byte-identical, and its new SHA-256 is in the fixture
 NOTICE. The ledger row is VALIDATED.

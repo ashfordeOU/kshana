@@ -1,6 +1,6 @@
 # BOC(1,1) ambiguity resolution (bump-jump) and BOC(1,1) DLL scaling: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `6b68f6cc`, before these runs). The bars
+Pre-registration: `PREREGISTRATION.md` (committed at `700d95df`, before these runs). The bars
 were not changed after the runs. Reproduce with
 
 ```

@@ -1,6 +1,6 @@
 # Multi-revolution Lambert against pykep: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `a75de851`). Reference:
+Pre-registration: `PREREGISTRATION.md` (committed alone at `9879ae57`). Reference:
 `tests/fixtures/lambert_multirev/reference.csv`, pykep 3.0.1, regenerated independently on
 2026-10-13 and byte-identical to the committed file. Run: 2026-10-13,
 `cargo test --release --test lambert_multirev_oracle -- --nocapture`.

@@ -5,7 +5,7 @@ comparison below is run.
 
 ## Finding that prompts it (seen data, disclosed)
 
-While writing the unit test of the opt-in DE440 orientation (pre-registration ea537710), the
+While writing the unit test of the opt-in DE440 orientation (pre-registration 03db6794), the
 analytic `icrf_to_moon_pa` (IAU 2015 mean-Earth orientation composed with the DE421 ME->PA
 offset of `me_from_pa`) was compared with the embedded DE440 PA series
 (`lunar_orientation`, SPICE-checked to 1.7e-6 rad), at JD 2457000.5, 2459580.5, 2461000.5 and

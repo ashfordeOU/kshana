@@ -1,6 +1,6 @@
 # Results: the default exponential drag against GMAT R2022a
 
-First comparison run 2026-10-13 after the pre-registration (640c85c1). GMAT was first run on
+First comparison run 2026-10-13 after the pre-registration (d870eb71). GMAT was first run on
 these cases after that commit; the fixture is committed as produced. Test:
 `tests/drag_exponential_gmat_oracle.rs`.
 

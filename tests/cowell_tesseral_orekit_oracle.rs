@@ -7,7 +7,7 @@
 //! Both sides evaluate the field in an Earth-fixed frame rotated about the inertial z axis by the
 //! IAU 2000 Earth rotation angle at UT1 = TT (`EarthFixedFrame::Era`); the Java driver carries a
 //! verbatim port of `cio::earth_rotation_angle`. The bars were pre-registered in
-//! `xval/cowell-tesseral-orekit/PREREGISTRATION.md` (f0e0e65, amended 2da899a) before this
+//! `xval/cowell-tesseral-orekit/PREREGISTRATION.md` (bdab936, amended 2c91443) before this
 //! comparison was first run; results are recorded in `xval/cowell-tesseral-orekit/RESULTS.md`.
 //!
 //! What this does NOT validate: Earth-orientation fidelity (precession–nutation, polar motion,

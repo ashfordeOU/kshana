@@ -1,7 +1,7 @@
 # Results: the opt-in tesseral Cowell tier against Orekit 12.2 (RM-09)
 
-First comparison run 2026-10-12, after the pre-registration (f0e0e65, amended 2da899a) and with the
-fixture committed unchanged (9fe9ccb). Test: `tests/cowell_tesseral_orekit_oracle.rs`.
+First comparison run 2026-10-12, after the pre-registration (bdab936, amended 2c91443) and with the
+fixture committed unchanged (9d7c31e). Test: `tests/cowell_tesseral_orekit_oracle.rs`.
 
 | case | N | worst \|Δr\| over 24 h (m) | worst \|Δv\| (m/s) |
 |---|---|---|---|

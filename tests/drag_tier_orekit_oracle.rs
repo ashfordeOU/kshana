@@ -2,7 +2,7 @@
 //! The opt-in **NRLMSISE-00 drag tier** of the Cowell propagator (`ForceModel::drag_density`,
 //! RM-13/DS-PA-15) against **Orekit 12.2** `DragForce` with Orekit's own `NRLMSISE00`, run as a
 //! separate program in the same Earth-rotation-angle frame and local-solar-time convention. Bars
-//! pre-registered in `xval/drag-tier-orekit/PREREGISTRATION.md` (21647478); results in
+//! pre-registered in `xval/drag-tier-orekit/PREREGISTRATION.md` (f380f42c); results in
 //! `xval/drag-tier-orekit/RESULTS.md`.
 //!
 //! PIN-SCOPE:    the 100 Orekit states of tests/fixtures/drag_tier_orekit_oracle/drag_tier_orekit_oracle.txt

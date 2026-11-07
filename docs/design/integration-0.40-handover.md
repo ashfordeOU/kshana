@@ -1,15 +1,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # 0.40.0 integration notes
 
-The 0.40.0 integration branch is `integ/0.40.0-rc2`, built from `origin/main` (bc04e98f) by merge commits only.
+The 0.40.0 integration branch is `integ/0.40.0-rc2`, built from `origin/main` (68e8632b) by merge commits only.
 
 ## Merged, in order
 
-1 chore/carry-0.40 a702f27b; 2 docs/partner-kit-0.40 a5a0c57e; 3 prereg/bench-0.40 b8fc95da; 4 prereg/space-0.40 22e08519;
-5 docs/screenshots-0.40 888169ce; 6 feat/clock-ingest-0.40 59f9484d; 7 feat/evidence-labels-0.40 3a33e482;
-8 feat/mission-thread-0.40 85ddc09e; 9 the engine message catalogue and its framework (feat/i18n-engine-0.40, last batch at
-8d915b22); 10 i18n/engine-0.40 b3d1b436; 11 i18n/data-w62-0.40 8e99ad0d; 12 i18n/data-w63-0.40 137ded10;
-13 i18n/pages-w61-0.40 ef529b0e; 14 i18n/pages-w62-0.40 6f5b8238; 15 i18n/pages-w63-0.40 fc4e6e32.
+1 chore/carry-0.40 de62d48b; 2 docs/partner-kit-0.40 dc306d79; 3 prereg/bench-0.40 146493e7; 4 prereg/space-0.40 a0ba3145;
+5 docs/screenshots-0.40 e5151558; 6 feat/clock-ingest-0.40 b59dc59a; 7 feat/evidence-labels-0.40 2229d659;
+8 feat/mission-thread-0.40 2a9ad69e; 9 the engine message catalogue and its framework (feat/i18n-engine-0.40, last batch at
+c1c19d86); 10 i18n/engine-0.40 9a8ada85; 11 i18n/data-w62-0.40 48d7d293; 12 i18n/data-w63-0.40 e52ab3ce;
+13 i18n/pages-w61-0.40 309b2cb8; 14 i18n/pages-w62-0.40 b9eb1269; 15 i18n/pages-w63-0.40 99902093.
 
 Conflict notes:
 
@@ -47,7 +47,7 @@ Conflict notes:
 
 ## Release state
 
-The engine side is at 0.40.0 on `integ/0.40.0-rc2` (final engine commit 52506606): version bump, re-blessed pins and SBOM fixture
+The engine side is at 0.40.0 on `integ/0.40.0-rc2` (final engine commit 584a2eb2): version bump, re-blessed pins and SBOM fixture
 (recorded in `docs/revisions/STUDIO15-pins-0.40.0-version.md` and `docs/revisions/I18N-sbom-verdict-dependency-growth.md`), count
 surfaces at 401 rows (176 VALIDATED, 221 MODELLED, 4 PARTNER) and 92 kinds. The release date 2026-10-29 (set by the owner) is in CHANGELOG,
 CITATION.cff, the README changelog anchor and docs/CAPABILITY.md.

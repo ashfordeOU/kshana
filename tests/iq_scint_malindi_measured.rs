@@ -2,7 +2,7 @@
 //! PRO-34: the IQ channel's Cornell scintillation model (`iq::channel::scint`) against
 //! measured 50 Hz GPS L1 intensity and phase under equatorial scintillation, with the
 //! processing, statistics and bars of `xval/scint-malindi/PREREGISTRATION.md` (committed at
-//! b6ccb499, before any statistic of the data was computed), run by
+//! 653a2195, before any statistic of the data was computed), run by
 //! [`kshana::realdata::scint50`].
 //!
 //! DATA (Measured oracle): Zenodo record 16941224 (doi 10.5281/zenodo.16941224; INGV, NORISK

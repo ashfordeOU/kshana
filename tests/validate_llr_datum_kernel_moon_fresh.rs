@@ -27,7 +27,7 @@
 //!   side's Helmert rank is below 7, the quarter is declared INSUFFICIENT, nothing is compared,
 //!   and the slice moves to 2019-07..2019-09 under the same rules; that move would be recorded
 //!   in this header.
-//! * **Everything else is the original comparison's (6b27964a), unchanged:** the ITRF2020 station
+//! * **Everything else is the original comparison's (ba48ff6d), unchanged:** the ITRF2020 station
 //!   catalogue (Grasse 7845 and Matera 7941; any other station is skipped and counted, never
 //!   given a substituted coordinate), the DE430 Table 7 reflector catalogue, the engine's
 //!   selection rules (ground-transmit epochs only, a measured precision required), the weights
@@ -58,7 +58,7 @@
 //!   line-of-sight error, ten times the analytic series' worst) must turn the strict test red;
 //!   the edit is then reverted. If it does not, that is reported.
 //!
-//! ## Result (run after the pre-registration commit 830d945a was published)
+//! ## Result (run after the pre-registration commit adc4406e was published)
 //!
 //! The slice exists in full (all 15 monthly files). 458 normal points parsed, 447 used, 11
 //! skipped for a station outside the catalogue; Helmert rank 7 on both sides, so the quarter

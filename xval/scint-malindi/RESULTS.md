@@ -1,6 +1,6 @@
 # The IQ Cornell scintillation model against measured 50 Hz GPS L1 data: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `b6ccb499`, before any statistic of the
+Pre-registration: `PREREGISTRATION.md` (committed at `653a2195`, before any statistic of the
 data was computed). The bars were not changed. **Verdict: FINDING.** N1, B2 and B3 are met; B1
 and B4 are missed. The row stays MODELLED.
 

@@ -1,4 +1,4 @@
-# Catalogue changes against integ/0.40.0-rc (aa28d9ab) as of the merge of feat/i18n-engine-0.40: ids added, ids whose English text changed (retranslate), ids removed. Lines: kind:id.
+# Catalogue changes against integ/0.40.0-rc (95235835) as of the merge of feat/i18n-engine-0.40: ids added, ids whose English text changed (retranslate), ids removed. Lines: kind:id.
 added:engine-e-api-clock-fit-needs-clock-log-table
 added:engine-e-clock-fit-clock-fit
 added:engine-e-clock-fit-clock-fit-replaces-must-be

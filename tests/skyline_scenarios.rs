@@ -14,7 +14,7 @@
 //!    write_the_portable_baseline_on_request`, and the revisions record of that bump shows that
 //!    nothing but the version and those digests moved (docs/revisions/STUDIO15-skyline-baseline-0.36.0.md).
 //!    The original baseline, `flat_hashes_0.35.0.txt`, was
-//!    computed by the frozen 0.35.0 release commit (35c1558d) before any skyline code existed;
+//!    computed by the frozen 0.35.0 release commit (5f7c44cc) before any skyline code existed;
 //!    it is kept as the historical record and pinned by hash (STUDIO-15 moved most of its rows).
 //! 2. **An empty skyline is the old mask.** An empty `[skyline]` section describes no
 //!    obstruction; the run must equal the run without the section in every field, the only

@@ -6,7 +6,7 @@
 //! record predicts the Allan deviation of the other two thirds.
 //!
 //! PRE-REGISTRATION (written 2026-10-02 and committed and pushed before any record below was
-//! fetched or any card was fitted to measured data; engine commit 52a931b2, which fixes the
+//! fetched or any card was fitted to measured data; engine commit a6e24d78, which fixes the
 //! conditioning detector, the card fit and the score).
 //!
 //! QUANTITY. Per card, at each averaging time tau the card was fitted at: the ratio of the
@@ -14,7 +14,7 @@
 //! `D^2 tau^2 / 2`) to the gap-aware overlapping Allan deviation measured on the held-out
 //! record.
 //!
-//! METHOD (fixed by engine commit 52a931b2, `kshana::clock_library`). Fit part and held-out
+//! METHOD (fixed by engine commit a6e24d78, `kshana::clock_library`). Fit part and held-out
 //! part are conditioned SEPARATELY by `clock_library::condition` (running-median residuals of
 //! the first differences, half window 30 samples, 6 robust sigmas; single flagged difference =
 //! phase step removed, cancelling pair = phase outlier removed, longer run = burst removed;
@@ -88,7 +88,7 @@
 //! `0.125 * self.h_0 / tau` in `DeviceCard::noise_allan_variance`; a passing strict test must
 //! turn red.
 //!
-//! VERDICT (first and only run, 2026-10-02, after pre-registration commit 2ec76864): the row
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit 14169982): the row
 //! stays MODELLED.
 //! * C3 GPS Block IIF (blind), DISAGREES: 10 of 11 cards within the bar (worst factors G03
 //!   1.110, G06 1.164, G08 1.339, G09 1.127, G10 1.065, G24 1.367, G25 1.144, G26 1.121, G30

@@ -1,6 +1,6 @@
 # Results: box-wing and ECOM2 SRP against Orekit 12.2
 
-First comparison run 2026-10-13 after the pre-registration (e59df6bf); the driver was written and
+First comparison run 2026-10-13 after the pre-registration (42e864bb); the driver was written and
 run only after that commit, and the fixture is committed as produced. Test:
 `tests/srp_boxwing_orekit_oracle.rs`.
 

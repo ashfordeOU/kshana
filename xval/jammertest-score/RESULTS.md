@@ -1,6 +1,6 @@
 # Results: scoring receiver logs against the Jammertest schedule on the JammerTest 2024 dataset (0.38 B2/B3)
 
-The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in c2e6d3b before
+The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in 123dc1e before
 `kshana jammertest score` was run on any log. This is its first and only run (2026-10-18), with the
 harness of `src/jammertest/dataset.rs` as committed in the commit that precedes this file, not changed
 after the run:

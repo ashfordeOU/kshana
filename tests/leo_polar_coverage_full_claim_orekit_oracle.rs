@@ -90,7 +90,7 @@
 //! row is not promoted; a fresh pre-registration is proposed in `.fold/feat-dom-d8-rows.md`.
 //! Deliberate mutation: the node's right ascension without the sidereal time of the epoch
 //! (6102 failures; in view identical on 172/1040 and 2151/3000 samples; median DOP off by up to
-//! 7.0e-2 relative). Pre-registration commit e947e69d.
+//! 7.0e-2 relative). Pre-registration commit 896f3c2e.
 
 use kshana::jd2::Jd2;
 use kshana::leo_fusion::joint_pvt::SystemClock;

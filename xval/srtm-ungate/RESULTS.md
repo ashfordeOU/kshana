@@ -1,6 +1,6 @@
 # Results: un-gating the real-SRTM tests (WP-10, CAP-27d)
 
-Run once against the bars in `PREREGISTRATION.md` (committed alone in 4235687e, before this
+Run once against the bars in `PREREGISTRATION.md` (committed alone in d24acb7a, before this
 run). Nothing in the pre-registration, the points, the bands or the crops was changed after
 the run. Crop sha256 values verified equal to the pre-registered ones before running.
 

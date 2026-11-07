@@ -1,10 +1,10 @@
 # Opt-in in-crate DE440 lunar environment against ANISE: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `ea537710`). Code: `1b092c0d`
+Pre-registration: `PREREGISTRATION.md` (committed alone at `03db6794`). Code: `2b986531`
 (`lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` and its inverse,
 `lunar_od::De440LunarEnvironment`). Harness: `xval/anise-lunar-od/src/bin/in_crate_parity.rs`.
 Run 2026-10-13 on `de440s.bsp` (SHA-256 `c1c7feea...`) and `moon_pa_de440_200625.bpc`
-(`60cd55aa...`), after the ME->PA offset fix (`8a7667e8`), which does not touch either
+(`60cd55aa...`), after the ME->PA offset fix (`0d6d97fb`), which does not touch either
 environment.
 
 ## Against the bars (241 LRO epochs)

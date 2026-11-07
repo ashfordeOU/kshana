@@ -6,8 +6,8 @@
 //! dataset's published reference trajectory and against the KF-GINS C++ program's own
 //! output on the same data.
 //!
-//! # Pre-registration (`xval/kfgins/PREREGISTRATION.md`, committed on its own in 5b6601b before
-//! the first comparison; the bars below first appeared in the WIP commit 4848eb0, disclosed there)
+//! # Pre-registration (`xval/kfgins/PREREGISTRATION.md`, committed on its own in d181eb9 before
+//! the first comparison; the bars below first appeared in the WIP commit 117092b, disclosed there)
 //!
 //! * **Oracles.** (a) Data: the reference trajectory `truth.nav` shipped with the
 //!   KF-GINS demo dataset (i2Nav group, GNSS Research Center, Wuhan University;

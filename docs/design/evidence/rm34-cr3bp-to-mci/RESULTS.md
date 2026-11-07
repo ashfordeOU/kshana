@@ -1,6 +1,6 @@
 # CR3BP rotating states to MCI on the DE440 Earth-Moon line: results
 
-Pre-registration: `PREREGISTRATION.md` (2313eb1b; amended before any run, d5ef79b3). Run
+Pre-registration: `PREREGISTRATION.md` (3bfc9445; amended before any run, e8bfabe4). Run
 2026-10-13, `cargo test --release --test cr3bp_to_mci_spice_oracle -- --nocapture`.
 
 | Bar | Result |

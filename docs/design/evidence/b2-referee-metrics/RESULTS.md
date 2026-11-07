@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # B2 (0.41): location metrics in the referee: results
 
-Pre-registration: `PREREGISTRATION.md` (signed off 3 November 2026, committed in `ca4242344` before any
-code). The truth set and the independent oracle were committed in `23616ff42`, before any engine code;
+Pre-registration: `PREREGISTRATION.md` (signed off 3 November 2026, committed in `1b2da49dc` before any
+code). The truth set and the independent oracle were committed in `7d04102a1`, before any engine code;
 the readings the pre-registration left open are written in `xval/referee-location/README.md` in that
 same commit. The engine's geodesic distance (`src/geodesic.rs`, a port of GeographicLib's inverse
-solution) was committed next, in `cb30132d1`, with its own check against GeographicLib. The bars were not
+solution) was committed next, in `69b729384`, with its own check against GeographicLib. The bars were not
 changed.
 
 Reproduce with `cargo test --test referee_location -- --nocapture` (and `cargo test --test geodesic`).
@@ -43,10 +43,10 @@ metric, not any estimator.
   MCP tool's does, so the comparison is value for value, not byte for byte. The calibrated population is
   over a tool call's 4 MiB input cap.
 - **Python and WebAssembly:** `referee_location_score` returns the JSON text; `tests/python/test_bindings.py`
-  and `web/smoke.mjs` check its SHA-256 against the same pinned digest. They ran in CI on `5f7df2da5`
+  and `web/smoke.mjs` check its SHA-256 against the same pinned digest. They ran in CI on `6dc5cf693`
   (run 42333794789): the `test-wasm-bindings` job passed, and in `test-python-bindings` all 72 Python tests
   passed, this one included. That job then failed its type-stub check (the new function was missing from
-  `kshana.pyi`), which `b8f2efafc` fixed; the bytes were not in question.
+  `kshana.pyi`), which `a64e7c413` fixed; the bytes were not in question.
 
 ## What this means
 

@@ -4,7 +4,7 @@
 //!
 //! The dump (every value's `f64::to_bits`, in grid order) is about 5 MB, so its SHA-256 is
 //! pinned instead. Bar 5 itself was met on host maths: the dump after the refactor equalled
-//! the one taken from `src/assurance/uncertainty.rs` as it stood at the base commit c9e37402,
+//! the one taken from `src/assurance/uncertainty.rs` as it stood at the base commit 81d2f933,
 //! before the change ([`BASE_DUMP_SHA256`], kept as that historical record).
 //!
 //! From 0.36 the engine computes every transcendental with portable maths (STUDIO-15), which

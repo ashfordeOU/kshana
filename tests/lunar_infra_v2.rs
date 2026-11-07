@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The scored runs of the signed-off v2 pre-registration (`xval/lunar-infra/PREREGISTRATION-v2.md`,
-//! signed off in e9c6fb1a before any run). Results and verdicts: `xval/lunar-infra/RESULTS-v2.md`.
+//! signed off in 8e827b66 before any run). Results and verdicts: `xval/lunar-infra/RESULTS-v2.md`.
 //!
 //! PIN-SCOPE:    the stored `results-v2.json` (written by `examples/lunar_infra_v2.rs` and the scipy
 //!               script `oracle_v2.py`), its verdicts for C3a, C3b, Q3a, Q3b, G3' (EXPLORATORY) and G3'',

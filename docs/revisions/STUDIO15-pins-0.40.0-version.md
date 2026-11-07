@@ -4,15 +4,15 @@ Date: 2026-10-28. Companion to `STUDIO15-pins-0.39.0-version.md`. Bars, toleranc
 this re-bless on 27 Oct 2026 ("I re-bless (Recommended)"), at the version bump and after the final merges, on the condition that
 nothing moves for a reason other than the version string or the dependency list.
 
-The version bump (3bdb3952) was run through the pin-bearing tests (`cargo test --release`). The same four test files as at 0.39.0
-hold values that depend on the engine version string. The integration branch immediately before the bump (804c02db, version 0.39.0,
+The version bump (34d24a49) was run through the pin-bearing tests (`cargo test --release`). The same four test files as at 0.39.0
+hold values that depend on the engine version string. The integration branch immediately before the bump (efd9564c, version 0.39.0,
 with every 0.40 branch merged) differs from the bump in `Cargo.toml`, the lock files, the version surfaces, the changelog, the README
-and its assets, and nothing under `src/` or `tests/`: `git diff 804c02db 3bdb3952 -- src tests` is empty. What moved is
+and its assets, and nothing under `src/` or `tests/`: `git diff efd9564c 34d24a49 -- src tests` is empty. What moved is
 therefore a function of the version string.
 
 ## Evidence that the version is the only difference
 
-The same four test files, with their previous pins unchanged, were run at 804c02db (0.39.0, all 0.40 branches merged) and all pass
+The same four test files, with their previous pins unchanged, were run at efd9564c (0.39.0, all 0.40 branches merged) and all pass
 there: `geometry_trust_no_change` 5 of 5, `iq_campaign` 17 of 17 (2 ignored as always), `published_figures_still_reproduce` 5 of 5
 and `skyline_scenarios` 14 of 14. At the bump they fail, and the failing runs give the new values below. After the re-bless
 they pass again (5 of 5, 17 of 17 with 2 ignored, 5 of 5, 14 of 14).

@@ -1,6 +1,6 @@
 # DE421 ME->PA offset sign: results
 
-Pre-registration: `PREREGISTRATION.md` (e1ead19b). Oracle fixture:
+Pre-registration: `PREREGISTRATION.md` (ab511714). Oracle fixture:
 `tests/fixtures/lunar_me_pa_offset_spice/` (SPICE `pxform('MOON_ME', 'MOON_PA')` on
 `moon_080317.tf` and `moon_pa_de421_1900-2050.bpc`). Test:
 `tests/lunar_me_pa_offset_spice_oracle.rs`.
@@ -27,7 +27,7 @@ rotations equal to the frame rotations `rz`, `ry`, `rx` of `lunar_frame.rs`. The
 built `Rx(c) Ry(b) Rz(a)`, read it as PA->ME and applied its transpose: both the direction and
 the order were wrong. The fix is re-registered in `REREGISTRATION.md`.
 
-## Run 2 (2026-10-13, under `REREGISTRATION.md`, be33382e): both bars hold
+## Run 2 (2026-10-13, under `REREGISTRATION.md`, ea5f4cbf): both bars hold
 
 | Quantity | Result | Bar |
 |---|---|---|

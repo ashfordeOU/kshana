@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The pre-registered scoring run on the JammerTest 2024 dataset
-//! (`xval/jammertest-score/PREREGISTRATION.md`, committed alone in c2e6d3b; results in
+//! (`xval/jammertest-score/PREREGISTRATION.md`, committed alone in 123dc1e; results in
 //! `xval/jammertest-score/RESULTS.md`).
 //!
 //! Data-gated: the dataset (Zenodo record 15911589, GPL-3.0-or-later, 375 MB) is never vendored.
@@ -43,7 +43,7 @@ fn the_recorded_run_reproduces_and_no_bar_is_assessable() {
     );
 }
 
-/// v2 (`xval/jammertest-score/PREREGISTRATION-v2.md`, committed alone in b512da21; results in
+/// v2 (`xval/jammertest-score/PREREGISTRATION-v2.md`, committed alone in 733da58e; results in
 /// `RESULTS-v2.md`): data handling only, the same bars and minimum-data rule.
 ///
 /// PIN-SCOPE:    the recorded v2 run: 14 of 24 folders kept, 7 scorable jamming windows from 7 folders,

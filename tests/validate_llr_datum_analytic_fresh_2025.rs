@@ -6,7 +6,7 @@
 //!
 //! ## Pre-registration
 //!
-//! `docs/design/evidence/mr06-llr-analytic-fresh/PREREGISTRATION.md`, committed alone (31f5283)
+//! `docs/design/evidence/mr06-llr-analytic-fresh/PREREGISTRATION.md`, committed alone (c6971d0)
 //! before any normal point of the slice was fetched, listed or opened. In short:
 //!
 //! * **Slice:** the ILRS CRD v2 monthly normal-point files of the EUROLAS Data Center (EDC,
@@ -19,7 +19,7 @@
 //!   orientation, the committed catalogues, selection rules, weights and 1e-9 threshold).
 //! * **Oracle (unchanged code):** `tests/fixtures/llr_datum_spice/gen_llr_datum_spice.py` through
 //!   `tests/fixtures/llr_datum_analytic_fresh_2025/run_oracle.py`; self-check SPICE O-C RMS < 100 m.
-//! * **Bars (6b27964a, unchanged):** sigmas and norms 1 %, condition 2 %, across/along ratios
+//! * **Bars (ba48ff6d, unchanged):** sigmas and norms 1 %, condition 2 %, across/along ratios
 //!   2 %, bookkeeping, ranks and per-array counts equal, coupling exactly 0.
 //! * **Outcome:** all hold, the analytic-default row is proposed VALIDATED (a Library check of the
 //!   covariance computation on measured schedules and weights, not an LLR accuracy and not a

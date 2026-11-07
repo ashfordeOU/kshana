@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! A6 test 9: the `lunar-station-coverage` arithmetic against an independent numpy
 //! re-computation, under the tolerances pre-registered in
-//! `tests/fixtures/lunar_station/PREREGISTRATION.md` (committed alone, 9caedf97, before the
+//! `tests/fixtures/lunar_station/PREREGISTRATION.md` (committed alone, 2d43d3d5, before the
 //! script first ran).
 //!
 //! The cases are re-traced from the current code on every run and must still equal the

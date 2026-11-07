@@ -7,7 +7,7 @@ run; a miss is recorded with its numbers and the row stays MODELLED.
 ## Disclosed history
 
 The bars below first entered the repository on 2026-10-12 inside a mixed work-in-progress commit
-(4848eb0, the loaders, lever-arm EKF methods and a draft test, by the previous worker), not in a
+(117092b, the loaders, lever-arm EKF methods and a draft test, by the previous worker), not in a
 commit of their own, and that worker had downloaded the dataset files (their SHA-256 values are
 in the draft test). Per that worker's hand-off, no comparison was run. This file restates the
 same bars, unchanged, as the registration of record; the first comparison run follows it.
@@ -81,14 +81,14 @@ is not vendored).
 ### No earlier run (checked 2026-10-13)
 
 KF-GINS was not run on this dataset, and Kshana was not compared with it, before the
-registration commit 5b6601b:
+registration commit d181eb9:
 
-- The git history holds no KF-GINS output and no comparison result before 5b6601b. The only
-  earlier KF-GINS commit is the previous worker's 4848eb0: loaders, EKF methods and a draft test,
+- The git history holds no KF-GINS output and no comparison result before d181eb9. The only
+  earlier KF-GINS commit is the previous worker's 117092b: loaders, EKF methods and a draft test,
   with no result.
 - That worker's hand-off states that no comparison was run, that no gates were run, and that the
   fetch script was not yet written.
-- In this worker's session, KF-GINS was first cloned and built after 5b6601b was committed. The
+- In this worker's session, KF-GINS was first cloned and built after d181eb9 was committed. The
   only earlier mentions of `KF_GINS_Navresult.nav` are in the text of the bars.
 
 ### Status: VALIDATED (data-gated)

@@ -1,7 +1,7 @@
 # Results: CCSDS ADM (AEM, APM) against Orekit 13.1.8
 
-Pre-registration: `PREREGISTRATION.md` (7a6a05fe), committed alone. The engine code, the cases,
-the Kshana-written messages, the test and the driver were committed in cf033c31 before Orekit
+Pre-registration: `PREREGISTRATION.md` (2a4c44b3), committed alone. The engine code, the cases,
+the Kshana-written messages, the test and the driver were committed in 7534e414 before Orekit
 read any Kshana-written message. Judged by `tests/adm_orekit_oracle.rs`.
 
 ## Reproduce

@@ -8,7 +8,7 @@
 //! from Desai, Lyons, Tooley and Kangas (2008, NTRS 20090004445): radius 6503.14 km, inertial
 //! 12.9 km/s at −8.2 deg.
 //!
-//! BARS, registered in `xval/entry-stardust/PREREGISTRATION.md` (commit 62cde2b8, before any run
+//! BARS, registered in `xval/entry-stardust/PREREGISTRATION.md` (commit 250c3734, before any run
 //! on these inputs):
 //!
 //! - E1: peak deceleration within ±10 % of 33.4 g;

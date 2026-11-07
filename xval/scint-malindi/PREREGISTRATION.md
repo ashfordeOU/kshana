@@ -8,7 +8,7 @@ loosened; a miss is recorded with its numbers and the ledger row stays MODELLED.
 
 `kshana::iq::channel::scint` (the Cornell scintillation model: `z = ẑ + ξ`, Rice intensity,
 second-order Butterworth spectrum, phase `arg z`, no extra phase term), as committed at
-release/0.36.0-rc @ c9e37402. The model takes two inputs, S4 and τ0. The check compares
+release/0.36.0-rc @ 81d2f933. The model takes two inputs, S4 and τ0. The check compares
 statistics the model **generates beyond those inputs** with the same statistics measured.
 
 ## Data (the oracle, Measured kind)

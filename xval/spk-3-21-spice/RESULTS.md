@@ -1,8 +1,8 @@
 # Results: SPK types 3 and 21 against the NAIF SPICE Toolkit
 
-Pre-registration: `PREREGISTRATION.md` (e1cf80d8), committed alone; its SHA-1 seeds the draws.
+Pre-registration: `PREREGISTRATION.md` (3f8945c7), committed alone; its SHA-1 seeds the draws.
 The writer and reader, the drawn records, Kshana's kernels, the generator and the test were
-committed in 46ca504e before SPICE read any Kshana kernel or wrote its own. Judged by
+committed in c6f60bba before SPICE read any Kshana kernel or wrote its own. Judged by
 `tests/spk_3_21_spice_oracle.rs`.
 
 Oracle: CSPICE N0067 through spiceypy 8.3.0 (`spkw03`, `spkw13`, `spkpvn`, `spkgeo`, DAF

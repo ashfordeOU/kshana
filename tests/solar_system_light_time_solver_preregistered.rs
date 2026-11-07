@@ -6,7 +6,7 @@
 //!
 //! # Pre-registration (written 2026-10-02, before any fixture of this file was fetched)
 //!
-//! **Why.** `tests/solar_system_light_time_preregistered.rs` (commit aa701595) compares the
+//! **Why.** `tests/solar_system_light_time_preregistered.rs` (commit ebb3a640) compares the
 //! light time on the analytic Standish positions, at a bar of 21 000 to 4 400 000 km set by
 //! those positions. The retardation of the transmitter, which is what the fixed-point solver
 //! adds over distance divided by c, is about v times the light time, roughly 1e-4 of the range,
@@ -77,7 +77,7 @@
 //! Fixture: `tests/fixtures/solar_system_light_time_solver_preregistered/` (generator, NOTICE,
 //! CSVs), fetched only after this header was committed.
 //!
-//! # Result (run 2026-10-02, after the amendment commit 54d5c86f)
+//! # Result (run 2026-10-02, after the amendment commit 35d22bad)
 //!
 //! Interpolation precondition: 12 608 positions, worst 1.06 m (limit 10 m). Every light time
 //! within 1e-6 s: max |dtau| 6.7e-9 s (Mercury), 3.0e-9 (Venus), 1.8e-9 (Mars), 1.7e-9

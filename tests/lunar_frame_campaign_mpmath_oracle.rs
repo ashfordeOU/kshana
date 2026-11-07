@@ -116,7 +116,7 @@
 //!
 //! ## Result (recorded 2026-10-02, first run, not tuned)
 //!
-//! Pre-registration commit `804662d5` (pushed 2026-10-02 15:45 UTC) precedes the fixture.
+//! Pre-registration commit `826dd676` (pushed 2026-10-02 15:45 UTC) precedes the fixture.
 //! Disclosed start-up defect of the oracle script, fixed before it wrote any output: its own
 //! 50-against-80-digit self-check compared the weakest direction as `sqrt(1 - cos^2)`, which
 //! cancels down to the 50-digit noise (it reported 7.3e-26 on the control); it now uses the norm

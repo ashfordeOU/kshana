@@ -16,7 +16,7 @@ seg-619127334cf3 = Žádný řádek matice tento druh nejmenuje; označení jeho
 
 seg-195347c63a8a = m/s^{ "2" }
 
-seg-451a304052c4 = <b>MODELLED</b> Akcelerometr s atomovým interferometrem se studenými atomy z prvních principů (k_eff·T², QPN). Oracle (ExternalDataset): Číselné vektory z primárních prací o CAI (Cheinet { "2008" }, přenosová funkce; Peters/Freier, citlivost): k_eff·T² přesně shodné, ASD výstřelového šumu jednostranné dno do ~{ "2" }× od každého zveřejněného přístroje (skutečná zařízení nesou technický šum nad kvantovým dnem). Rozmezí, nikoli shoda. { "0.30" } kolo { "2" } (předregistrováno fcb9ac64), zjištění (zůstává MODELLED): rotační šum jen od QPN proti naměřenému Gauguet et al.
+seg-451a304052c4 = <b>MODELLED</b> Akcelerometr s atomovým interferometrem se studenými atomy z prvních principů (k_eff·T², QPN). Oracle (ExternalDataset): Číselné vektory z primárních prací o CAI (Cheinet { "2008" }, přenosová funkce; Peters/Freier, citlivost): k_eff·T² přesně shodné, ASD výstřelového šumu jednostranné dno do ~{ "2" }× od každého zveřejněného přístroje (skutečná zařízení nesou technický šum nad kvantovým dnem). Rozmezí, nikoli shoda. { "0.30" } kolo { "2" } (předregistrováno e7de532a), zjištění (zůstává MODELLED): rotační šum jen od QPN proti naměřenému Gauguet et al.
 
 seg-7e95210bcc48 = <b>MODELLED</b> Složený rozpočet polohy z biasu + faktoru měřítka + VRW + poklesu stability během holdoveru. Oracle (ReferenceImpl): Nezávislá integrace SDE metodou Monte Carlo v numpy dvojitě integrovaného šumu bílého zrychlení (ověřuje analytický rozptyl VRW skutečně nezávislým algoritmem) + zveřejněná hodnota z Groves { "2013" } jako kotva pro členy biasu a faktoru měřítka; čísla zařízení CAI vyčíslují hardware partnera a zůstávají MODELLED
 

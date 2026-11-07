@@ -4,7 +4,7 @@
 //! Circular T issues not yet published when this was written.
 //!
 //! WHY. Round 2 (`tests/hetero_budget_utc_k_realised_overbound_oracle.rs`, pre-registered
-//! ca0921a4) bounded each laboratory from its own history and found a pooled exceedance of
+//! a212810e) bounded each laboratory from its own history and found a pooled exceedance of
 //! 0.0333 against 1e-2; 430 of the 694 exceedances were rows with no bound because the
 //! laboratory's own history was too thin. A pooled prior gives every laboratory a bound and
 //! shrinks short histories toward it. Every BIPM series up to 2026-09-30 has been seen, so the

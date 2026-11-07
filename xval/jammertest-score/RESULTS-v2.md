@@ -1,16 +1,16 @@
 # Results v2: scoring against the Jammertest schedule, data handling only (0.38 B2/B3)
 
-The pre-registration is [`PREREGISTRATION-v2.md`](PREREGISTRATION-v2.md), committed alone in b512da21 before
+The pre-registration is [`PREREGISTRATION-v2.md`](PREREGISTRATION-v2.md), committed alone in 733da58e before
 any v2 run; it changes only data handling and keeps v1's scorer, bars and minimum-data rule
 ([`PREREGISTRATION.md`](PREREGISTRATION.md); v1's result is in [`RESULTS.md`](RESULTS.md), unchanged).
 This is the first and only v2 run (2026-10-18), with the harness of `src/jammertest/dataset.rs`
-(`run_dataset_v2`) as committed in aac3960b, not changed after the run:
+(`run_dataset_v2`) as committed in a5fc605b, not changed after the run:
 
 ```text
 cargo run --release --example jammertest_score_2024 -- <extracted-root> report.json --v2
 ```
 
-(The first invocation after the harness commit before aac3960b did not take the `--v2` flag and re-ran v1,
+(The first invocation after the harness commit before a5fc605b did not take the `--v2` flag and re-ran v1,
 which gave v1's numbers again; no v2 number was computed by it. The flag was then added, nothing else, and the
 v2 run was made once.)
 

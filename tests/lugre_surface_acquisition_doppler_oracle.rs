@@ -10,7 +10,7 @@
 //! the batches were held out from the start of package D7). This is a blind run of a method
 //! developed on the nine non-surface batches, where three registered comparisons failed and
 //! taught: (1) the samples must be read with I in the high nibble (`ion_sdr` default since
-//! 3c480336; the other reading came out mirrored against prediction), (2) the bare
+//! f4c47c7a; the other reading came out mirrored against prediction), (2) the bare
 //! two's-complement levels carry a −0.5 mean, removed by the mid-rise reconstruction
 //! (`to_mid_rise`), (3) the band-limited front end inflates the cell noise, handled by the
 //! cell-averaging decision (`acquired_cell_average`), (4) the non-coherent refinement scatters
@@ -202,7 +202,7 @@ fn acquisitions(dir: &std::path::Path) -> Acquired {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on 2108e6ff, 1103 s): P1 non-vacuity fails - no batch has two acquisitions. OP40 excluded (its metadata names a missing file); OP38, OP73, OP77_0 and OP77_1 acquire nothing (top statistics 325 to 356, threshold 385.9, so no false alarm at 1e-7); OP74 and OP76 acquire PRN 31 and OP78_0 and OP78_1 PRN 12 (statistics 529 to 757), each alone; P3 4 of 4 predicted visible; P2 has no pair. Reported, not claimed: measured minus predicted Doppler is +530, +449 and +639 Hz on three of them (one receiver clock offset near 0.35 ppm), +4913 Hz on OP78_1. Pinned by each_surface_acquisition_is_a_single_predicted_visible_satellite"]
+#[ignore = "FINDING (run 2026-10-02 on 73ee3e14, 1103 s): P1 non-vacuity fails - no batch has two acquisitions. OP40 excluded (its metadata names a missing file); OP38, OP73, OP77_0 and OP77_1 acquire nothing (top statistics 325 to 356, threshold 385.9, so no false alarm at 1e-7); OP74 and OP76 acquire PRN 31 and OP78_0 and OP78_1 PRN 12 (statistics 529 to 757), each alone; P3 4 of 4 predicted visible; P2 has no pair. Reported, not claimed: measured minus predicted Doppler is +530, +449 and +639 Hz on three of them (one receiver clock offset near 0.35 ppm), +4913 Hz on OP78_1. Pinned by each_surface_acquisition_is_a_single_predicted_visible_satellite"]
 fn surface_acquisitions_match_the_orbit_predicted_doppler() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");

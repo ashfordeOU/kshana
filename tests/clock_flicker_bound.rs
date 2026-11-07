@@ -30,7 +30,7 @@
 //!   coordinator before anyone computed it: the pooled `RMS(error / 1-sigma bound)` over all
 //!   outage samples and runs lies in `[0.8, 1.2]` for EACH clock, on the shipped scenario
 //!   (seed 42) AND on a fresh seed (7), 200 runs each (`run::tests::
-//!   the_bound_is_not_inflated_pooled_rms_of_error_over_sigma`, committed in 1752c032 before it
+//!   the_bound_is_not_inflated_pooled_rms_of_error_over_sigma`, committed in a24afde9 before it
 //!   was first run). A priori basis: about one chi-square(1) draw per run, so the RMS over 200
 //!   runs has a standard deviation of about 0.05 and the band is about +-4 sigma; it still
 //!   catches a bound inflated by more than 1.25x. If it fails, report it; do not adjust it.

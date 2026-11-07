@@ -39,7 +39,7 @@
 //! 117 instants: dtf2d 9.6e-12 s, utctai 2.9e-11 s, taiutc 2.9e-11 s, round trip 1.9e-11 s. E1
 //! holds (the 1972+ checksum is unchanged). A deliberate mutation turns it red: dropping the
 //! UTC-to-SI scaling of the day fraction (190 failures, up to 2.6e-3 s). Pre-registration
-//! commit 23c40661.
+//! commit 247a01a6.
 
 use kshana::jd2::{tai_to_utc, utc_to_tai, Jd2};
 

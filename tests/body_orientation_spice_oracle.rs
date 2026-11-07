@@ -143,7 +143,7 @@ fn orientation_matches_spice_pxform_for_the_fourteen_added_bodies() {
 }
 
 /// The fresh-epoch comparison of docs/design/evidence/mr08-body-orientation/PREREGISTRATION.md
-/// (pre-registered 154bc54, the fixture generated after it): 41 epochs never compared before,
+/// (pre-registered f3fa98b, the fixture generated after it): 41 epochs never compared before,
 /// the same bodies, metric and 1e-9 rad bar.
 #[test]
 fn orientation_matches_spice_pxform_at_fresh_epochs() {

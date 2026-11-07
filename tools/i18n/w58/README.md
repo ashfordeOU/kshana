@@ -12,7 +12,7 @@ Needs `pip install fluent.syntax`.
   (English is then shown by fallback).
 - `split.py i18n/en/engine.ftl $I18N_WORK/chunks` cuts the English catalogue into chunks of about 26 KB (`en-NN.ftl`).
 - `delta.py NN <lang|done-ids.txt>...` writes `chunks/en-NN.ftl` with the English messages not yet handled.
-  `done-ids-0f6fb1fa.txt` lists every English id at 0f6fb1fa (all handled; use it for pl, cs, uk, ru, fi, et, ja, zh-Hans, whose files omit
+  `done-ids-f94e0c59.txt` lists every English id at f94e0c59 (all handled; use it for pl, cs, uk, ru, fi, et, ja, zh-Hans, whose files omit
   messages with no human words). For the nine languages translated first, the language's own `engine.ftl` is the done-list.
 - A translated chunk is written to `$I18N_WORK/out/<lang>-NN.ftl` (guided by `guides/<lang>.md`) and checked with `validate.py` until it
   reports `0 problems`.
@@ -26,7 +26,7 @@ Needs `pip install fluent.syntax`.
   from the glossaries (the `i18n/glossary/` folder of the site branch in kshana-pro).
 
 ## Recipe for messages added to the engine catalogue later
-1. Merge the engine branch. `python3 tools/i18n/w58/delta.py 17 tools/i18n/w58/done-ids-0f6fb1fa.txt` (new ids for the first eight
+1. Merge the engine branch. `python3 tools/i18n/w58/delta.py 17 tools/i18n/w58/done-ids-f94e0c59.txt` (new ids for the first eight
    languages) and `... delta.py 18 de fr es pt-BR pt-PT nl da sv nb` (for the other nine), in new chunk numbers.
 2. Translate one language at a time (or three languages for a small chunk), writing `out/<lang>-NN.ftl`.
 3. `assemble.py` / `assemble9.py`, then `cargo test --test i18n_catalogue --test i18n_legal --test i18n_api`, commit, push.

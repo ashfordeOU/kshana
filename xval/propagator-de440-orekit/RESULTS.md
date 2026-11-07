@@ -1,7 +1,7 @@
 # Results: the propagator's DE440 ephemeris tier against Orekit 12.2
 
-First comparison run 2026-10-13 after the pre-registration (22a5a01d), fixture committed unchanged
-(7f7ff132). Test: `tests/propagator_de440_orekit_oracle.rs`.
+First comparison run 2026-10-13 after the pre-registration (6386b3a2), fixture committed unchanged
+(b80d7fbc). Test: `tests/propagator_de440_orekit_oracle.rs`.
 
 | bar | measured | pre-registered | outcome |
 |---|---|---|---|

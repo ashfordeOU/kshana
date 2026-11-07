@@ -10,7 +10,7 @@ seg-1c1eeb2dcaa0 = Perekonna leht: <a1>Kuu ja tsislunaarne ruum</a1>
 seg-619127334cf3 = Ükski maatriksirida ei nimeta seda liiki nimepidi; selle tulemuse silt on mootori enda, ülal.
 
 # text
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM mitme hüpoteesi lahendite eraldatus vastavalt ARAIM Airborne Design Document (ADD) v4.2-le (araim_reference::add_v42_protection_levels ja add_v42_protecti. Sõltumatu etalon (ExternalDataset): Kolm sõltumatut tööriista, eelregistreeritud (0123cee1) enne mis tahes fikstuuri või sõltumatu etaloni väljundi olemasolu, tolerantsid fikseeritud siis. ({ "1" }) ARAIM: Stanfordi MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, jooksutatud eraldi programmina GNU Octave { "8.4" } all draiveripoolse unique() ühilduvuskihiga (avalikustatud, algoritmi muudatust ei ole), ADD TOL_PL juures { "0.05" } m: Rust reprodutseerib ADD etalonteostuse
+seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM mitme hüpoteesi lahendite eraldatus vastavalt ARAIM Airborne Design Document (ADD) v4.2-le (araim_reference::add_v42_protection_levels ja add_v42_protecti. Sõltumatu etalon (ExternalDataset): Kolm sõltumatut tööriista, eelregistreeritud (ba7a01a7) enne mis tahes fikstuuri või sõltumatu etaloni väljundi olemasolu, tolerantsid fikseeritud siis. ({ "1" }) ARAIM: Stanfordi MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, jooksutatud eraldi programmina GNU Octave { "8.4" } all draiveripoolse unique() ühilduvuskihiga (avalikustatud, algoritmi muudatust ei ole), ADD TOL_PL juures { "0.05" } m: Rust reprodutseerib ADD etalonteostuse
 
 # text
 # c1: docs/kinds/by-kind/lunar-integrity.md

@@ -67,9 +67,9 @@ base SHA-256 stays in the file as the historical record):
 
 | | SHA-256 of the 274 280-value dump |
 |---|---|
-| base (host maths, c9e37402 / 36dc5ba9) | `5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9` |
+| base (host maths, 81d2f933 / ef198206) | `5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9` |
 | 0.36 portable (this change) | `ad1444373d2021e47ac4ecaaa8af9cf538d28f55eec770d97afb8e8693f9c166` |
 
-Value by value (both dumps written by the test's own grid loop, host from 36dc5ba9, portable from this
+Value by value (both dumps written by the test's own grid loop, host from ef198206, portable from this
 change): 3 746 of 274 280 values differ, the largest by a relative 1.6e-12; no NaN appears or disappears.
 `tests/uncertainty_edf_reference.rs` passes unchanged.

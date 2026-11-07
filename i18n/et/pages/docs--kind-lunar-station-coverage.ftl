@@ -101,7 +101,7 @@ seg-4f5941f12127 = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo püh
 
 # text
 # c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaal. Sõltumatu etalon (InternalConsistency): Aritmeetika, mille arvutas uuesti sõltumatu numpy skript eksporditud juhtumitel (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; eelregistreeritud failis tests/fixtures/lunar_station/PREREGISTRATION.md, kinnitatud üksi commit-is 9caedf97 enne esimest käivitust): { "20" } juhtumil, kus iga vealiige on sees, on nähtavad hulgad ja olek identsed, toored ulatusvead ühtivad täpsusega { "1.4e-14" } m, asukohavea vektorid ja suurused täpsusega { "1.4e-9" } m vastu
+seg-d547d600ee2d = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaal. Sõltumatu etalon (InternalConsistency): Aritmeetika, mille arvutas uuesti sõltumatu numpy skript eksporditud juhtumitel (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; eelregistreeritud failis tests/fixtures/lunar_station/PREREGISTRATION.md, kinnitatud üksi commit-is 2d43d3d5 enne esimest käivitust): { "20" } juhtumil, kus iga vealiige on sees, on nähtavad hulgad ja olek identsed, toored ulatusvead ühtivad täpsusega { "1.4e-14" } m, asukohavea vektorid ja suurused täpsusega { "1.4e-9" } m vastu
 
 # text
 # c1: label

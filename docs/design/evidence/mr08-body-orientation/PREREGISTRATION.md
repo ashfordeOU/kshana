@@ -6,9 +6,9 @@ before the fresh-epoch SPICE fixture it names exists.
 ## Why a new pre-registration
 
 The ledger row "Physical constants of every solar-system body and the whole-system report"
-cites a pre-registration commit `c2434204` for the orientation comparison of
+cites a pre-registration commit `b4e0ff5a` for the orientation comparison of
 `tests/body_orientation_spice_oracle.rs`. That commit is not in this repository's history (the
-history starts at the root commit `f745ee6`, which already contains the test, its fixture and
+history starts at the root commit `fa4d38f`, which already contains the test, its fixture and
 its result). The bars are written in the test header, but no commit shows them preceding the
 first comparison. This file supplies that commit for the split-out orientation and GM row, and
 adds a comparison on epochs never used before so the record does not rest only on a result that

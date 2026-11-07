@@ -10,7 +10,7 @@ seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und ci
 seg-1c1eeb2dcaa0 = Familienseite: <a1>Mond und cislunarer Raum</a1>
 
 # text
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-Mehrfachhypothesen-Lösungstrennung nach dem ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels und add_v42_protecti. Unabhängige Referenz (ExternalDataset): Drei unabhängige Werkzeuge, vorab registriert (0123cee1), bevor irgendeine Fixture oder Ausgabe der Referenz existierte, Toleranzen damals festgelegt. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (Commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, als getrenntes Programm unter GNU Octave { "8.4" } mit einem treiberseitigen unique()-Kompatibilitäts-Shim ausgeführt (offengelegt, keine Algorithmusänderung), beim TOL_PL des ADD von { "0.05" } m: Das Rust reproduziert die ADD-Referenzimplementierung auf
+seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-Mehrfachhypothesen-Lösungstrennung nach dem ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels und add_v42_protecti. Unabhängige Referenz (ExternalDataset): Drei unabhängige Werkzeuge, vorab registriert (ba7a01a7), bevor irgendeine Fixture oder Ausgabe der Referenz existierte, Toleranzen damals festgelegt. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (Commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, als getrenntes Programm unter GNU Octave { "8.4" } mit einem treiberseitigen unique()-Kompatibilitäts-Shim ausgeführt (offengelegt, keine Algorithmusänderung), beim TOL_PL des ADD von { "0.05" } m: Das Rust reproduziert die ADD-Referenzimplementierung auf
 
 # text
 # c1: docs/kinds/by-kind/lunar-integrity.md

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Bars R3 and R4 of `xval/bench/PREREGISTRATION-0.40-R1.md` (signed off 24 Oct 2026, commit
-//! 2c44424a): the `cn0_drop` ROC with the 18 event windows of the R1 recipe against the windows of 12
+//! c56ab981): the `cn0_drop` ROC with the 18 event windows of the R1 recipe against the windows of 12
 //! null recordings. R1 itself (`iq_campaign_roc.rs`) is unchanged and stays NOT MET.
 //!
 //! PIN-SCOPE:    the one scored run of the registered recipe (seeds 300 to 305 with 6 dB, 500 to 511 with 0 dB)

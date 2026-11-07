@@ -3,8 +3,8 @@
 
 Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md) (programme rule R4:
 a changed published number is a revision). STUDIO-15 measured and re-recorded the 141 scenarios and the
-pins of its own branch. The batch 2 and 3 work was merged after it (`054fa552`) and then routed through
-`PortableFloat` (`ab4fbe09`: 457 transcendental call sites in 62 files, seven `rand_distr` samplers to
+pins of its own branch. The batch 2 and 3 work was merged after it (`23adcc3c`) and then routed through
+`PortableFloat` (`9bd1d4ce`: 457 transcendental call sites in 62 files, seven `rand_distr` samplers to
 `portable_distr`, three `gen_range` to `uniform_index`). This file lists what that moved, old -> new, under
 the owner's scope decision of 2026-10-13 (STUDIO-15 "c": full portable maths in 0.36 under a written
 re-baseline). It is committed before anything below is re-recorded. No bar, tolerance or threshold
@@ -17,19 +17,19 @@ test-bench oracle re-run ([`STUDIO15-testbench-gpssdrsim-rerun.md`](STUDIO15-tes
 ## 1. Method
 
 Every bundled scenario (158) was run through `kshana::api::run_toml` in release builds at three trees:
-`36dc5ba9` (batch 3b, host maths everywhere), `054fa552` (STUDIO-15 merged, batch 2-3 code still on host
+`ef198206` (batch 3b, host maths everywhere), `23adcc3c` (STUDIO-15 merged, batch 2-3 code still on host
 maths) and this branch. The comparison is `scenario_rows` of `scripts/studio15_rebaseline_table.py`
 (unchanged); the moved numbers are in
 [`STUDIO15-batch4-moved-values.csv.gz`](STUDIO15-batch4-moved-values.csv.gz) (scenario, JSON path, old, new,
-relative change; 25,811 rows, old = `36dc5ba9`). The test values come from a full release run of the suite
+relative change; 25,811 rows, old = `ef198206`). The test values come from a full release run of the suite
 on this branch.
 
 ## 2. Bundled scenarios
 
-**`054fa552` -> this branch** (the routing alone): 9 of 158 scenarios move, the 8 batch 2-3 scenarios
+**`23adcc3c` -> this branch** (the routing alone): 9 of 158 scenarios move, the 8 batch 2-3 scenarios
 marked * below and `pvt-abmf`. Every other result JSON is byte-identical.
 
-**The 17 scenarios added by batch 2-3** (not in STUDIO-15's 141), `36dc5ba9` (host) -> this branch: 11 move;
+**The 17 scenarios added by batch 2-3** (not in STUDIO-15's 141), `ef198206` (host) -> this branch: 11 move;
 `ascent-losses`, `eo-radiometry`, `fusion-pnt-coupled`, `gnss-ins-maritime`, `quantum-cai-coast` and
 `telecom-synce-eec` are byte-identical.
 
@@ -47,12 +47,12 @@ marked * below and `pvt-abmf`. Every other result JSON is byte-identical.
 | `gravity-map-error-mc` * | 5 / 12 | 7.250e-13 | `$.map_matched_error_m` | 144.27245221227884 | 144.27245221238343 |
 | `time-transfer-budget` * | 2 / 47 | 2.128e-16 | `$.simulated.tdev[9].tdev_ns` | 0.03260610040562846 | 0.03260610040562847 |
 
-**`pvt-abmf`** (one of STUDIO-15's 141, moved again by the routing of `pvt.rs`): `054fa552` -> this branch,
-33 of 46 numbers, largest relative 2.26e-9 (`$.epochs[2].fix.error_h_m`); `36dc5ba9` -> this branch, 32 of 46,
+**`pvt-abmf`** (one of STUDIO-15's 141, moved again by the routing of `pvt.rs`): `23adcc3c` -> this branch,
+33 of 46 numbers, largest relative 2.26e-9 (`$.epochs[2].fix.error_h_m`); `ef198206` -> this branch, 32 of 46,
 largest 1.95e-9 (1.0682319891558478 -> 1.0682319870775148 m).
 
 No integer, count or presence field moves in any of these documents; the only string that changes is the
-`campaign-optimize-link-budget` `reproducibility.run_digest` (1807cb3a... -> 9015901a... against `054fa552`).
+`campaign-optimize-link-budget` `reproducibility.run_digest` (1807cb3a... -> 9015901a... against `23adcc3c`).
 A search of `docs/`, `paper/`, `README.md`, `CHANGELOG.md`, `src/verification.rs` and `web/` for every moved
 value at 3 to 7 significant digits, in files that name the scenario, found no printed value that now rounds
 differently. None of these scenarios has a Studio recorded file except `pvt-abmf`, which STUDIO-15 already
@@ -71,10 +71,10 @@ left as recorded (it equals neither engine).
 | same, the three result hashes | | unchanged (the legacy pack path did not move) |
 | `tests/lunar_frame_campaign_unobserved_beacon.rs`, stations estimated, `translation_sigma_norm_m` | 632.3769172997296 | 632.3772338224321 (relative 5.0e-7; stations fixed 10.021467977424644 unchanged) |
 
-**Skyline rows re-blessed.** The result JSON of every one of the 28 is byte-identical between `054fa552`
+**Skyline rows re-blessed.** The result JSON of every one of the 28 is byte-identical between `23adcc3c`
 and this branch, so the routing did not move them: they moved through the batch 2-3 changes merged onto
 the STUDIO-15 baseline, which was blessed on the STUDIO-15 branch without them. Against that branch's own
-output (`2140172c`), 26 differ only by the `figure_tiers` key batch 3 added; `campaign-spectrum-holdover-integrity`
+output (`d7623755`), 26 differ only by the `figure_tiers` key batch 3 added; `campaign-spectrum-holdover-integrity`
 and `leo-resilience-gnss-jammed-leo-carries` also move numerically (largest relative 5.3e-2 and 1.4e-2, their
 SVG as well), the 0.36 jammer-Q table change recorded in `xval/jammer-q/RESULTS.md`. Rows:
 `araim-gps-galileo`, `campaign-jam-spoof-holdover-integrity`, `campaign-shared-jammer-sea-road`,

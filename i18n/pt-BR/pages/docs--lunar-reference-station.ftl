@@ -260,7 +260,7 @@ seg-d866653008e1 = Toda afirmação numérica, citada com sua página e hipótes
 # text
 # c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
 # c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Limiares, casos e entradas, versionados isoladamente antes da execução (revisão { "2" }, 05bf9a19), e a execução registrada: <c1/>. O achado está fixado em <c2/>.
+seg-50535c58d3cf = Limiares, casos e entradas, versionados isoladamente antes da execução (revisão { "2" }, ebac1e14), e a execução registrada: <c1/>. O achado está fixado em <c2/>.
 
 # text
 seg-069a652c402e = limiar
@@ -329,7 +329,7 @@ seg-e666f1eb7a59 = { "1" } de { "6" } limiares passa. A causa é a geometria. Ne
 seg-1da5fcf7bbf5 = Previsão pré-registrada
 
 # text
-# c1: c05dac1d
+# c1: d4a2d4b5
 # c2: docs/predictions/lunar-reference-station.md
 # c3: tests/prediction_frozen.rs
 seg-4ea806a57380 = Uma previsão pré-registrada, congelada no commit <c1/> com as entradas de fontes públicas, com seu protocolo de pontuação: <a1><c2/></a1>. É uma previsão, não uma validação, e todo valor nela é dominado pelo conjunto de elementos não publicado da constelação de quatro satélites (os elementos usados são ILLUSTRATIVE): na região de { "80" } deg S, disponibilidade { "8.2" } %, p95 3-D corrigido { "280" } m, não corrigido { "3.8" } km. MODELLED; <c3/> falha se qualquer byte congelado se mover.

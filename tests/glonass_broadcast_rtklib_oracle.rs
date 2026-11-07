@@ -2,7 +2,7 @@
 //! The GLONASS broadcast satellite clock (`GlonassEphemeris::sv_clock_bias_s`) and broadcast
 //! orbit (`GlonassEphemeris::position_ecef`) against RTKLIB `geph2clk` / `geph2pos`.
 //!
-//! Pre-registration: `xval/rtklib-glonass/PREREGISTRATION.md`, committed alone at e099c42a
+//! Pre-registration: `xval/rtklib-glonass/PREREGISTRATION.md`, committed alone at 5cad23b7
 //! before the function existed and before the harness was built or run. Bars: clock within
 //! 1e-14 s and position within 0.01 m in every one of the 292 cases (4 GLONASS records of the
 //! real 2013-01-01 broadcast file × 73 offsets within ±15 min).

@@ -11,7 +11,7 @@
 //! KSHANA SIDE: `aocs::simulate`, with its own quaternion RK4 at the same dt and a zero-order hold
 //! on the motor torques.
 //!
-//! BARS, registered in `xval/aocs-basilisk/PREREGISTRATION.md` (commit 27d6831a, before the
+//! BARS, registered in `xval/aocs-basilisk/PREREGISTRATION.md` (commit 89a01485, before the
 //! Kshana code and before any comparison). At every 1 s sample over 600 s, in each of the three
 //! cases:
 //!

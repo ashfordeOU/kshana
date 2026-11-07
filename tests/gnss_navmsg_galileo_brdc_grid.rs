@@ -32,7 +32,7 @@
 //! It therefore does not promote the navigation-message row: the row stays MODELLED. A miss is
 //! recorded below with its numbers, not tuned away.
 //!
-//! RESULT (run 2026-10-12 on 0901cca + this file's code, first run): G1, G2 and G3 HOLD and
+//! RESULT (run 2026-10-12 on 521bf3c + this file's code, first run): G1, G2 and G3 HOLD and
 //! the record count holds: 249 I/NAV records (5478 field values) and 247 F/NAV records (4693
 //! field values), 0 range errors, 0 decode mismatches, worst `|r - round(r)|` = 3.62e-3 (E14,
 //! t_oe 57600, eccentricity) against the 0.01 bar. FINDING: the SVID non-vacuity bar MISSED,

@@ -34,7 +34,7 @@ seg-4b0efe4b9b85 = <s1>Další</s1>lunar-beacon
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Rozpočet spoje J/S z geometrie, C/N₀ odolné proti rušení, ztráta zachycení signálu na jednotlivé družice. Oracle (InternalConsistency): Rovnice rozpočtu spoje pro C/N₀ odolné proti rušení je křížově zkontrolována nezávislým odvozením v numpy (sdílí stejný uzavřený tvar → InternalConsistency) a charakterizací zhoršení C/N₀ z reálného JammerTest-2024. { "0.30" } kolo { "2" }, zablokováno (zůstává MODELLED): naměřený pokles C/N0 v JammerTest { "2024" } proti predikci rozpočtu spoje (předregistrováno 6a66994b, do { "3" } dB) nebyl proveden, protože poloha a zaměření antény F8.1 při
+seg-cc2ad9e12064 = <b>MODELLED</b> Rozpočet spoje J/S z geometrie, C/N₀ odolné proti rušení, ztráta zachycení signálu na jednotlivé družice. Oracle (InternalConsistency): Rovnice rozpočtu spoje pro C/N₀ odolné proti rušení je křížově zkontrolována nezávislým odvozením v numpy (sdílí stejný uzavřený tvar → InternalConsistency) a charakterizací zhoršení C/N₀ z reálného JammerTest-2024. { "0.30" } kolo { "2" }, zablokováno (zůstává MODELLED): naměřený pokles C/N0 v JammerTest { "2024" } proti predikci rozpočtu spoje (předregistrováno 6b2f6240, do { "3" } dB) nebyl proveden, protože poloha a zaměření antény F8.1 při
 
 seg-143f3f1cc521 = Odolnost proti rušení při odepření GNSS je MODELLED, nikoli ověřena proti nezávislé vnější referenci: kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
 

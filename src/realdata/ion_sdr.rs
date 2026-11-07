@@ -20,7 +20,7 @@
 //! LuGRE (Lunar GNSS Receiver Experiment) byte holding one 4-bit complex sample carries I in
 //! its high nibble and Q in its low one. That reading was decided on evidence: read the other
 //! way, with I in the low nibble (`fill_lsb_first` true, this module's earlier default and the
-//! reading the D7 comparisons registered at 768cb62b, 0d1839d2 and a81a9a4e use explicitly), the
+//! reading the D7 comparisons registered at 7425dc34, c9868b3e and 470b0fc9 use explicitly), the
 //! strongest LuGRE acquisitions came out mirrored against orbit-predicted Doppler
 //! (`tests/lugre_acquisition_cell_average_doppler_oracle.rs`): the conjugate of the signal. The
 //! receiver's interface control document says only "IQ interleaved".

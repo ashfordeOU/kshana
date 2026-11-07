@@ -55,7 +55,7 @@
 //! `make_fixture.py` there from the files above (only derived window averages and the decimated
 //! altitudes and indices are committed; sources and SHA-256 in NOTICE.md).
 //!
-//! First run (2026-10-02, commit after 20eed695; the result was seen before the amendment below
+//! First run (2026-10-02, commit after bb8756e3; the result was seen before the amendment below
 //! was written): FAIL. CHAMP 2001 (max) 521 windows, 514 inside, median ratio 0.795, range
 //! 0.403-1.516; GRACE-A 2002 (max) 120 windows, 115 inside, median 0.628, range 0.461-0.860;
 //! GRACE-FO 1 2024 (max) 547 windows, 546 inside, median 0.721, range 0.472-1.359; GRACE-A 2008
@@ -85,7 +85,7 @@
 //! Discrimination, pre-registered: forcing the J71 profile's exospheric temperature to a constant
 //! 1000 K (no activity dependence) must turn the amended test red.
 //!
-//! Result after the engine change (commit 5cac30a8; run 2026-10-02): FAIL, a finding.
+//! Result after the engine change (commit 97fe0213; run 2026-10-02): FAIL, a finding.
 //! Amended (J71 point model): CHAMP 2001 521/521 windows inside, median ratio 1.342 (range
 //! 0.833-1.951); GRACE-A 2002 120/120, median 1.266 (0.937-1.908); GRACE-FO 1 2024 526/547,
 //! median 1.456 (0.807-3.361, the outliers in the recovery from the 2024-10-10 storm and in

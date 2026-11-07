@@ -6,7 +6,7 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b> J/S-linkbudget uit geometrie, anti-jam-C/N₀, verlies van lock per satelliet. Onafhankelijke referentie (InternalConsistency): De linkbudgetvergelijking voor anti-jam-C/N₀ is gecontroleerd tegen een onafhankelijke numpy-herafleiding (deelt dezelfde gesloten vorm → InternalConsistency) plus een karakterisering van de C/N₀-degradatie in de echte JammerTest-2024. { "0.30" } round { "2" }, geblokkeerd (blijft MODELLED): de gemeten JammerTest { "2024" }-C/N0-daling tegenover een linkbudgetvoorspelling (vooraf vastgelegd 6a66994b, binnen { "3" } dB) is niet uitgevoerd omdat de antennepositie en -richting van F8.1 at
+seg-cc2ad9e12064 = <b>MODELLED</b> J/S-linkbudget uit geometrie, anti-jam-C/N₀, verlies van lock per satelliet. Onafhankelijke referentie (InternalConsistency): De linkbudgetvergelijking voor anti-jam-C/N₀ is gecontroleerd tegen een onafhankelijke numpy-herafleiding (deelt dezelfde gesloten vorm → InternalConsistency) plus een karakterisering van de C/N₀-degradatie in de echte JammerTest-2024. { "0.30" } round { "2" }, geblokkeerd (blijft MODELLED): de gemeten JammerTest { "2024" }-C/N0-daling tegenover een linkbudgetvoorspelling (vooraf vastgelegd 6b2f6240, binnen { "3" } dB) is niet uitgevoerd omdat de antennepositie en -richting van F8.1 at
 
 seg-143f3f1cc521 = Jamming-veerkracht bij GNSS-uitval is MODELLED, niet extern getoetst: gecontroleerd tegen zijn eigen gesloten-vorm- of analytische identiteit — dat vangt transcriptie- en coëfficiëntfouten, maar is geen externe referentie. (verificatiematrix (docs/MODELLED-RATIONALE.md))
 

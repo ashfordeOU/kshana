@@ -12,7 +12,7 @@
 //! mismatch. Without the files it prints a skip notice, unless `KSHANA_REQUIRE_REALDATA=1` (the
 //! monthly CI job), which makes a missing file a failure.
 //!
-//! BARS, registered in `xval/mro-od/PREREGISTRATION.md` (commit abf7a311, before any Doppler
+//! BARS, registered in `xval/mro-od/PREREGISTRATION.md` (commit 13c05317, before any Doppler
 //! prediction or fit; amendment A1 before the scored run), on the scored arc 2007-304T23:00 to
 //! 2007-305T12:45 UTC (DSS 63 and DSS 14, 2-way X-band Doppler compressed to 60 s):
 //!

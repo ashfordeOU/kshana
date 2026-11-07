@@ -106,7 +106,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
     for snap in SNAPSHOTS {
         let p = dir.join(snap);
         let mut layout = parse_sdrx(&std::fs::read_to_string(&p).expect("sdrx")).expect("layout");
-        // The low-nibble-I reading registered at 0d1839d2 (ion_sdr's default changed after
+        // The low-nibble-I reading registered at c9868b3e (ion_sdr's default changed after
         // the finding; see its module documentation).
         layout.fill_lsb_first = true;
         let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).expect("samples");
@@ -139,7 +139,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on 0d1839d2, restarted once after a tool time limit; 5734 s): all 288 searches cross the threshold (sample-power statistics about 430 to 520 against 346.3 on noise), so P1 holds trivially (9 batches) and P3 holds (274 of 288 predicted visible) while P2 fails on 4033 of 4036 pairs (3 within 50 Hz, by chance). The band-limited front end correlates neighbouring samples (lag-one 0.27 on OP23) and raises every cell about 1.4 times, which the sample-power statistic does not see. Pinned by noise_alone_crosses_the_sample_power_threshold_on_lugre_iq"]
+#[ignore = "FINDING (run 2026-10-02 on c9868b3e, restarted once after a tool time limit; 5734 s): all 288 searches cross the threshold (sample-power statistics about 430 to 520 against 346.3 on noise), so P1 holds trivially (9 batches) and P3 holds (274 of 288 predicted visible) while P2 fails on 4033 of 4036 pairs (3 within 50 Hz, by chance). The band-limited front end correlates neighbouring samples (lag-one 0.27 on OP23) and raises every cell about 1.4 times, which the sample-power statistic does not see. Pinned by noise_alone_crosses_the_sample_power_threshold_on_lugre_iq"]
 fn acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -205,7 +205,7 @@ fn noise_alone_crosses_the_sample_power_threshold_on_lugre_iq() {
     };
     let p = dir.join(SNAPSHOTS[0]);
     let mut layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
-    // The low-nibble-I reading registered at 0d1839d2 (ion_sdr's default changed after
+    // The low-nibble-I reading registered at c9868b3e (ion_sdr's default changed after
     // the finding; see its module documentation).
     layout.fill_lsb_first = true;
     let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();

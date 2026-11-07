@@ -59,7 +59,7 @@ Helmert design and inverse. Kernel SHA-256 digests are written into the referenc
 Pre-stated self-check, unchanged: SPICE's own observed-minus-computed one-way range RMS must be
 under 100 m, or the oracle is void and nothing is compared.
 
-## Quantities and bars (the original comparison's, 6b27964a, unchanged)
+## Quantities and bars (the original comparison's, ba48ff6d, unchanged)
 
 * the seven Helmert sigmas and the three `datum_accuracy` norms within **1 %** relative;
 * the Helmert condition number within **2 %**;

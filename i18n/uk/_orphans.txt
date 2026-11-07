@@ -245,27 +245,27 @@ seg-4adb5411062e = Матриця верифікації, одна комірк�
 seg-582c4a762fc5 = Рушій v{ $version } · <c1/>, згенеровано з <c2/> · { "388" } рядків · без сценарію чи зерна (seed): власний реєстр рушія
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: tests/sgp4_verification.rs
 seg-6adbc42697f9 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: tests/raim_reference.rs
 seg-c5d5cf50c8a9 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: tests/numerical_cowell_пропагатор_reference.rs
 seg-2e80a89ee20a = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: tests/allan_nist_sp1065_1000point.rs
 seg-2a2794bda50f = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: tests/slot_timing_cs5071a_holdout.rs
 seg-275351654591 = Рушій v{ $version }, збірка <c1/> · <c2/> · детерміновано, без зерна (seed)
 
@@ -333,7 +333,7 @@ seg-4b41ffeb0030 = Усі { "87" } видів сценаріїв, безкошт
 
 # Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 # text
-# c1: fc21ac4
+# c1: 0a00b42
 # c2: constellation-multi-gnss-coverage.toml
 seg-597a57467277 = Рушій v{ $version }, збірка <c1/> · <c2/> · детермінований, без зерна (seed)
 

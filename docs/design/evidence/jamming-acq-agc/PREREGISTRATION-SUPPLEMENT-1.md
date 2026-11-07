@@ -1,7 +1,7 @@
 # Supplement 1 to the CAP-06 (c) pre-registration: an informative run set for H2 to H4
 
 Written and committed **before** any run of the configuration below. `PREREGISTRATION.md`
-(70c72fcc) is not edited, and its verdicts stand as recorded in `RESULTS.md`, including H3 as
+(2ca31ee1) is not edited, and its verdicts stand as recorded in `RESULTS.md`, including H3 as
 NOT MET (uninformative).
 
 ## Why

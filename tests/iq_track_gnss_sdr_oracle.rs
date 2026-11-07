@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! PRO-33: the IQ tracking engine (`kshana::iq::track`, run as `kshana iq track`) against
 //! GNSS-SDR 0.0.19 on the same independent numpy recordings, under the bars of
-//! `tests/fixtures/iq_track_gnss_sdr_oracle/PREREGISTRATION.md` (48edd4a5) as amended by
-//! `AMENDMENT-1.md` (1e4288c4: a 10 Hz FLL during pull-in only in both receivers, committed
+//! `tests/fixtures/iq_track_gnss_sdr_oracle/PREREGISTRATION.md` (b1f25cce) as amended by
+//! `AMENDMENT-1.md` (9496b6b0: a 10 Hz FLL during pull-in only in both receivers, committed
 //! before any test recording; the bars are unchanged).
 //!
 //! The numbers come from `make_fixture.py` (GNSS-SDR from the Ubuntu 24.04 package

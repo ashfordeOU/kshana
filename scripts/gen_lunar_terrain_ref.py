@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 """Independent numpy ray-cast of the lunar terrain horizon on the vendored LOLA crop.
 
-Pre-registered in tests/fixtures/lunar_terrain/PREREGISTRATION.md (committed alone, edbb9b02)
+Pre-registered in tests/fixtures/lunar_terrain/PREREGISTRATION.md (committed alone, 4fa71559)
 before this script existed. numpy only, no Kshana code: the image layout comes from
 data/lunar-dem/NOTICE.md and its descriptor, the projection from the published south polar
 stereographic equations written in latitude and longitude.

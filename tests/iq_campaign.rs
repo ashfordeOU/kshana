@@ -13,7 +13,7 @@
 //! `cn0_estimator` and maps the one label `modelled.q_source` from `event-override` back to the
 //! `type-table` it read at pre-registration. `PRE_M2M4_SCORED` strips the per-estimator fields
 //! added with `cn0_estimator` and the MODELLED reference. Both map the false-lock fields that a
-//! scorer bug fixed after the pins were registered (436eda13) moved (PRN 11 of ramp/agc-3bit:
+//! scorer bug fixed after the pins were registered (ae3942f9) moved (PRN 11 of ramp/agc-3bit:
 //! `false_lock_episodes` of the run and the event, `false_lock_per_hour`) back to their
 //! pre-fix values; the fixed values are pinned by `false_lock_fields_after_the_scorer_fix_are_pinned`.
 //! The DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
@@ -720,14 +720,14 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
     assert!(s.rows_failed > 0);
 }
 
-// Pre-registered before the `cn0_estimator` change (commit `b6cf9766`): the scored results of
-// the 12 reference cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main
-// `51dce137`, where the only C/N0 estimator the scorer read was NWPR, hashed with the MODELLED
+// Pre-registered before the `cn0_estimator` change (commit `44e967a5`): the scored results of
+// the 12 reference cells at the tree that carries #45 `7d918c76`, #64 `975fe0f8` and main
+// `b0f658af`, where the only C/N0 estimator the scorer read was NWPR, hashed with the MODELLED
 // reference: b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b. The reference
 // DIGEST at that tree was `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
 
 /// The pre-registered pin's scored results without the MODELLED reference ([`scored_digest`]),
-/// computed at release/0.36.0-rc @ 617d4f51, where the scored results with the MODELLED reference
+/// computed at release/0.36.0-rc @ b916b6a4, where the scored results with the MODELLED reference
 /// (as hashed before this change) still reproduced that pin.
 const PRE_M2M4_SCORED: &str = "e9c9f84010be7925176977e1ee58e8f2530c1ea0707887480c173eced89a05c7";
 
@@ -771,7 +771,7 @@ fn scored_digest(out: &Path) -> String {
     .to_string()
 }
 
-/// The satellites whose false-lock fields the scorer fix (436eda13) moved: a false lock the
+/// The satellites whose false-lock fields the scorer fix (ae3942f9) moved: a false lock the
 /// tracker reported from LOCKED was never counted before it. In the pinned scored results they
 /// are mapped back to their pre-fix values (no episode), so the pins registered before the fix
 /// keep checking every other field; the fixed values are pinned on their own by
@@ -962,7 +962,7 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 // Re-pinned for the 0.36 Q table (broadband 1 -> 2, xval/jammer-q/): the cells differ only
 // in the MODELLED reference (`modelled_cn0_dbhz`, `modelled_degradation_db`, `modelled.q`);
 // the scored results are unchanged (`PRE_M2M4_SCORED`). Before: eae86091215c0ba6...
-// Re-pinned for the false-lock scorer fix (436eda13): a false lock the tracker reported from
+// Re-pinned for the false-lock scorer fix (ae3942f9): a false lock the tracker reported from
 // LOCKED was never counted. Only PRN 11 of ramp/agc-3bit changes, in both designs and both
 // estimators, in six fields: `false_lock_episodes` of the run and of the event (0 -> 1) and
 // `false_lock_per_hour` (0 -> 426.29 fll-pll, 437.69 pll-only). Before: M2M4 89c76e01...,
@@ -976,7 +976,7 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 const DIGEST_M2M4: &str = "91d3153ae519995b7e6ad5622c5d1e817f040a39f2a3fb8684eac3422f72e8b0";
 const DIGEST_NWPR: &str = "ac7c739ea09e472499db1e1346f7ba476fa845f5d516ea2874e59a8b7426b254";
 
-/// The false-lock fields after the scorer fix (436eda13), pinned on their own in every cell of
+/// The false-lock fields after the scorer fix (ae3942f9), pinned on their own in every cell of
 /// both runs (the pinned scored results map the fixed ones back, `FIXED_FALSE_LOCKS`). PRN 19 of `alias`
 /// is scored from its shifted truth sidecar (one episode at about 750 per locked hour). PRN 11
 /// of ramp/agc-3bit is a false lock the tracker reported from LOCKED in the 30 dB step (about
@@ -1043,7 +1043,7 @@ fn nwpr_reproduces_the_pre_m2m4_results_exactly() {
     // the reference moves with the 0.36 Q table (broadband 1 -> 2; xval/jammer-q/, where the
     // campaign cells were compared and only the three MODELLED fields differ). So the scored
     // results are now pinned without the reference, to the value computed at
-    // release/0.36.0-rc @ 617d4f51, the tree that still reproduced the pre-registered pin.
+    // release/0.36.0-rc @ b916b6a4, the tree that still reproduced the pre-registered pin.
     assert_eq!(scored_digest(out), PRE_M2M4_SCORED);
     // In an NWPR run the primary C/N0 fields are the NWPR ones.
     for (_, c) in cells(out).values() {
@@ -1496,7 +1496,7 @@ fn with_reacquire_off_the_observe_only_outcome_is_pinned() {
     }
 }
 
-// Observe-only (reacquire off). Re-pinned at #45 f3a8ca8b (FLL assist gated to pull-in).
+// Observe-only (reacquire off). Re-pinned at #45 9dbfd5cc (FLL assist gated to pull-in).
 // Before: PRN 22 never relocked in either front end. Now it relocks on the raw chain and
 // still does not on the 3-bit AGC chain; PRNs 3 and 11 recover in both.
 const PINNED_OBSERVE_RAW: [(i64, bool, bool); 3] =

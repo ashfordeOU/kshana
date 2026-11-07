@@ -1,6 +1,6 @@
 # Cell-averaging CFAR option in IQ acquisition: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `3724aefa`, before the code existed). The
+Pre-registration: `PREREGISTRATION.md` (committed at `8af30331`, before the code existed). The
 bars were not changed.
 
 Reproduce with `cargo test --release --test iq_acq_cfar -- --nocapture`.
