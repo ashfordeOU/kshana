@@ -78,3 +78,7 @@ wrote are committed with it, in `tests/fixtures/planner/`.
     - Error: the empirical horizontal RMS, over 10 000 trials, of the east and north error.
 11. **P3.** At the same cells, each of 100 000 draws takes one statistic per station, `y_i ~ N(μ_i, σ)`, and
     counts a detection when `|y_i| > γ`. Seed `0xB1A3`.
+12. **P2 regime (added 7 November 2026, after the P1 comparison and before any P2 run).** "The mean station
+    distance" in P2 is read as the mean distance from the cell's source position to the stations used for that
+    cell. The ±5 % bar applies at the drawn cells whose `DRMS` is below 0.05 times that distance. Drawn cells
+    outside that regime are reported, not barred.
