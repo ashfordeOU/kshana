@@ -102,9 +102,9 @@ The runs, their pooled result (`xval/area-trust/t3_pool.py`) and the reference b
 `kshana bench-speed --quick` are in `xval/area-trust/t3/`.
 - **Reference box:** Intel Xeon at 2.30 GHz, 4 logical CPUs, 15 GB, Linux. Live UBX decode ran at 8 409
   epochs/s.
-- **Deliveries:** every alert the area rule raised reached both receivers, 225 alerts in all, with no failures
-  and no late epochs.
-- **Background alerts:** 5 of those 225 alerts came from the real background, not from an injected event.
+- **Deliveries:** every alert the area rule raised reached both receivers, 225 alerts in all for 220 events,
+  with no failures and no late epochs.
+- **The 5 extra alerts:** the run files hold counts, not a list of alerts, so they are not attributed here.
   They are delivered but not scored.
 
 What the latency includes: the data-time part, the MQTT framing, the ingest mapping, the area rule (a second
