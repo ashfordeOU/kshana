@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The Studio window: the engine bridge commands only",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

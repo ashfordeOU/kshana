@@ -1,0 +1,38 @@
+# Kshana Desktop: the Studio in a native window, with the engine running natively.
+# Built on its own (it is not part of the engine crate or the published package):
+#   cargo build --manifest-path apps/desktop/src-tauri/Cargo.toml
+# Bundles (.dmg, .msi, .deb, .AppImage) are made with the Tauri command line (apps/desktop/README.md).
+[package]
+name = "kshana-desktop"
+version = "0.40.0"
+edition = "2021"
+rust-version = "1.88"
+license = "AGPL-3.0-only"
+description = "Kshana Desktop: the Kshana Studio in a native window with the engine running natively"
+publish = false
+
+[lib]
+name = "kshana_desktop"
+path = "src/lib.rs"
+
+[[bin]]
+name = "kshana-desktop"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# The engine of this repository, linked natively (no WebAssembly for runs).
+kshana = { path = "../../..", features = ["bundled-scenarios"] }
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+
+[features]
+# Set by the Tauri command line for a release bundle: serve the frontend from the bundle.
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.dev.package.kshana]
+opt-level = 3

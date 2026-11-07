@@ -25,6 +25,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
+import { desktopEngine, desktopInvoke } from "./lib/desktop.mjs";
 import { attachEngineText, localiseRun } from "./lib/engine-text.mjs";
 import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, needsNewerEngine, engineCaps, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, DOMAIN_LINES, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
@@ -115,11 +116,30 @@ async function bootEngine() {
         defer: (fn) => setTimeout(fn, 20),
         init: wasm,
       });
+      // Kshana Desktop: runs go to the native engine; the tool pages keep the WebAssembly one.
+      const inv = desktopInvoke();
+      if (inv) S.engine = await desktopEngine(S.engine, inv);
       await attachEngineText(S.engine); // a non-English page: the engine's catalogue for its language is registered before the first run
       S.mode = "live";
       return;
     } catch (e) {
       S.liveError = errorMessage(e);
+    }
+    // Kshana Desktop without its WebAssembly package: the native engine alone.
+    const inv = desktopInvoke();
+    if (inv) {
+      try {
+        S.engine = await desktopEngine(null, inv);
+        S.version = await S.engine.call("version");
+        let kinds = null;
+        try { kinds = new Set(JSON.parse(await S.engine.call("list_kinds")).map((k) => k.name)); } catch { /* no kind list */ }
+        S.caps = { version: S.version, kinds, fns: S.engine.native };
+        await attachEngineText(S.engine);
+        S.mode = "live";
+        return;
+      } catch (e) {
+        S.liveError = errorMessage(e);
+      }
     }
   }
   S.recIndex = await recordedIndex("");
