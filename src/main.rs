@@ -1194,6 +1194,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("bench-speed") => Some(kshana::speed_bench::run_cli),
         // `kshana data-pack <dir>`: synthetic labelled data (src/data_pack.rs).
         Some("data-pack") => Some(kshana::data_pack::run),
+        // `kshana area-trust <stations.json>`: one area state from several stations (src/area_trust.rs).
+        Some("area-trust") => Some(kshana::area_trust::run),
         _ => None,
     };
     if let Some(run) = live_cmd {

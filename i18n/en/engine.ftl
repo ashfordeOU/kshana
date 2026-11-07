@@ -11587,3 +11587,11 @@ engine-data-pack-usage = usage: kshana data-pack <out-dir> [--seed <n>] [--logs 
 engine-e-data-pack-exists = { $path } already exists: a pack is written into a new directory, never over one
 
 engine-data-pack-done = wrote { $n } items to { $out } ({ $classes }); manifest.json lists every file with its SHA-256
+
+## src/area_trust.rs
+
+engine-area-trust-usage = usage: kshana area-trust <stations.json>
+
+engine-e-area-trust-stations = not a kshana.area-stations/1 document: { $e }
+
+engine-e-area-trust-epoch-order = station { $id }: epochs must be finite and in time order
