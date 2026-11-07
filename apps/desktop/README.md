@@ -12,6 +12,27 @@ What runs where:
 | Scenario runs, charts, tables, the localised summary (`run`, `run_all`, `summary`, `chart_svg`, `table_csv`, `run_human`), the kind list, the bundled examples, the CCSDS and SP3 exports | Native (`src-tauri/src/bridge.rs`, the same engine calls as `src/wasm.rs`) |
 | The tool pages (receiver trust, telemetry, evidence packs, the sky geometry and the rest) | The WebAssembly engine, in the same window, as on the web |
 | Large files (`file_info`, `read_range`, `iq_probe`) | Native: an IQ recording of any size is probed and read in blocks, never whole |
+| The receiver-trust scorers (`receiver_trust_replay`, `assess_vessel_log`) | Native, so the trust page's live device panel scores without the WebAssembly package |
+| Live devices (`devices_list`, `device_start`, `device_status`, `device_excerpt`, `device_stop`) | Native (`src-tauri/src/devices.rs`), read only |
+
+## Live devices
+
+The trust page shows a "Score a receiver live" panel in the Desktop (and only there). It
+reads a receiver's NMEA 0183 output from:
+
+| Source | Written as |
+|---|---|
+| A serial or USB port (Linux `/dev/serial/by-id/*`, `/dev/ttyACM*`, `/dev/ttyUSB*`; macOS `/dev/cu.*`; Windows `COMn`) | The port's path, picked from the list; the speed is set with `stty` on Linux and macOS when one is chosen, and left as the port has it otherwise (on Windows, set it in the port's properties) |
+| A TCP stream (a receiver's NMEA port, a multiplexer, a serial-to-network bridge) | `tcp:<host>:<port>` |
+| A file that is still being written (a logger's output) | `file:<path>` |
+
+Every source is opened for reading only; nothing is written to the device or sent
+anywhere. The app keeps the latest 1.5 MiB of sentences (lines starting with `$` or `!`;
+about an hour at one fix a second) and the page scores that excerpt with the native
+engine every five seconds, with the session settings above it, and shows it in the view.
+The score calibrates on the excerpt's first five minutes, so once the window rolls the
+calibration moves with it. One device is read at a time. Advisory only: the operator
+remains responsible for the navigation of the vessel.
 
 A run is off the window's thread; cancelling returns at once (the native run finishes in
 the background and its answer is dropped).
@@ -36,5 +57,7 @@ cargo install tauri-cli --version "^2" --locked     # once, for the bundles
   publisher's accounts; the release plan ships the engine first and the signed apps as a
   following patch release.
 - **Signed automatic updates.** Not configured: the update key is the publisher's to make.
-- **Devices panel** (serial and USB receivers, network feeds, SDRs) and the IQ view of a
-  large recording in the page: the native commands exist; the page for them does not yet.
+- **SDRs and binary receiver protocols** in the devices panel (it reads NMEA 0183 text),
+  and the IQ view of a large recording in the page: the native commands for files exist;
+  the page for them does not yet.
+- **Serial speed on Windows** is not set by the app.

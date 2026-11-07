@@ -13083,6 +13083,51 @@ js-trust-legend-underline = underline: geometry also costing points
 # 2026-10-01-studio-rebuild/trust/trust.js:549
 js-trust-legend-untrusted = Untrusted
 
+# web/studio/trust/trust.js:170
+js-trust-live-baud = Speed (baud)
+
+# web/studio/trust/trust.js:171
+js-trust-live-baud-asis = speed as set
+
+# web/studio/trust/trust.js:141
+js-trust-live-error = The device stopped: { $reason }.
+
+# web/studio/trust/trust.js:155
+js-trust-live-label = Live from { $source }, scored natively every few seconds. Advisory only: the operator remains responsible for the navigation of the vessel.
+
+# web/studio/trust/trust.js:148
+js-trust-live-no-source = Choose a port, or type tcp:<host>:<port> or file:<path>.
+
+# web/studio/trust/trust.js:185
+js-trust-live-note = Kshana Desktop reads the receiver's NMEA 0183 output from a serial port, a TCP stream or a growing file, read only, and scores its latest sentences with the settings above every few seconds. Nothing is sent to the device or anywhere else. The excerpt is the latest 1.5 MiB of sentences (about an hour at one fix a second), and the score calibrates on its first five minutes.
+
+# web/studio/trust/trust.js:177
+js-trust-live-pick = Choose a port…
+
+# web/studio/trust/trust.js:168
+js-trust-live-port = Serial port
+
+# web/studio/trust/trust.js:144
+js-trust-live-reading = Reading { $source }: { $sentences } sentences, { $kept } in the excerpt being scored, { $other } other lines.
+
+# web/studio/trust/trust.js:172
+js-trust-live-refresh = Refresh ports
+
+# web/studio/trust/trust.js:169
+js-trust-live-source = Source
+
+# web/studio/trust/trust.js:173
+js-trust-live-start = Start scoring live
+
+# web/studio/trust/trust.js:174
+js-trust-live-stop = Stop
+
+# web/studio/trust/trust.js:142
+js-trust-live-stopped = Not reading a device.
+
+# web/studio/trust/trust.js:184
+js-trust-live-title = Score a receiver live
+
 # 2026-10-01-studio-rebuild/trust/trust.js:753
 js-trust-marks-cleared = Marks cleared.
 

@@ -4,9 +4,10 @@
 //! `src/wasm.rs` (same engine call, same return shape), so a page cannot tell the two
 //! apart except by speed and by the size of what it can open.
 //!
-//! The other Studio functions (the tool pages: receiver trust, telemetry, evidence and
-//! the rest) stay on the WebAssembly engine in the same window; `NATIVE_FNS` is the list
-//! the page routes here.
+//! The receiver-trust scorers (`receiver_trust_replay`, `assess_vessel_log`) run here
+//! too, so the trust page's live device panel scores natively. The other Studio
+//! functions (the tool pages: telemetry, evidence and the rest) stay on the WebAssembly
+//! engine in the same window; `NATIVE_FNS` is the list the page routes here.
 
 use serde_json::{json, Value};
 
@@ -27,6 +28,8 @@ pub const NATIVE_FNS: &[&str] = &[
     "export_oem",
     "list_examples",
     "get_example",
+    "receiver_trust_replay",
+    "assess_vessel_log",
     "version",
 ];
 
@@ -80,6 +83,19 @@ pub fn call(name: &str, args: &[Value]) -> Result<Value, String> {
             kshana::surface::list_examples(k).map(|v| json!(v.to_string()))
         }
         "get_example" => kshana::surface::get_example(s(args, 0)?).map(|t| json!(t)),
+        "receiver_trust_replay" => kshana::surface::assess_vessel_excerpt(
+            s(args, 0)?,
+            s(args, 1)?.as_bytes(),
+            kshana::surface::MAX_INPUT_BYTES,
+        )
+        .and_then(|r| serde_json::to_string(&r).map_err(|e| e.to_string()))
+        .map(|j| json!(j)),
+        "assess_vessel_log" => kshana::surface::assess_vessel_log_json(
+            s(args, 0)?,
+            s(args, 1)?.as_bytes(),
+            kshana::surface::MAX_INPUT_BYTES,
+        )
+        .map(|j| json!(j)),
         "version" => Ok(json!(env!("CARGO_PKG_VERSION"))),
         other => Err(format!(
             "{other} is not a native engine function of this build"
@@ -213,8 +229,26 @@ mod tests {
             assert!(call(f, &[]).is_ok(), "{f}");
         }
         assert!(call("receiver_trust", &[]).is_err());
+        assert!(call("receiver_trust_replay", &[json!("")]).is_err());
         assert!(call("run", &[json!("kind = \"no-such-kind\"")]).is_err());
         assert!(call("run", &[]).is_err());
+    }
+
+    #[test]
+    fn the_trust_page_demo_log_is_scored_natively_as_by_the_webassembly_engine() {
+        let session = include_str!("../../../../web/studio/trust/demo/session.toml");
+        let nmea = include_str!("../../../../web/studio/trust/demo/tallinn-helsinki.nmea");
+        let v = call("receiver_trust_replay", &[json!(session), json!(nmea)]).unwrap();
+        let rep: Value = serde_json::from_str(v.as_str().unwrap()).unwrap();
+        let direct = kshana::surface::assess_vessel_excerpt(
+            session,
+            nmea.as_bytes(),
+            kshana::surface::MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        assert_eq!(rep, serde_json::to_value(&direct).unwrap());
+        assert!(rep["epochs"].as_array().unwrap().len() > 300);
+        assert!(NATIVE_FNS.contains(&"receiver_trust_replay"));
     }
 
     #[test]
