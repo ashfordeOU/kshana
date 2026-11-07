@@ -73,7 +73,7 @@ processed.
     alert.
 11. **Per-station evidence on the 30 s files.** GPS only.
     - **Position error.** The engine's single-point fix (`pvt::run_pvt`; ionosphere-free where both codes are
-      there; broadcast navigation from the BKG daily merged file `BRDC00WRD_S_*_01D_MN.rnx.gz`). `H_s` is set
+      there; broadcast navigation from the BKG daily merged file `BRDC00WRD_R_*_01D_MN.rnx.gz`). `H_s` is set
       from the day-006 horizontal errors.
     - **C/N0 template.** From day-006 `S1C`, in 5° elevation bins. Elevations come from the broadcast ephemeris
       at `p_s`. The statistic is the median `δ` over satellites above 15° that have a calibrated bin; it is

@@ -1,0 +1,446 @@
+{
+  "alerts": [
+    {
+      "g": 129660,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 129750,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 163830,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 215820,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 215910,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 239550,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 247620,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 268290,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 354450,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 411840,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 422310,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 474060,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 506070,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 560100,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 560520,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 602910,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 646620,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 689070,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 732300,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 732540,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 818670,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 991200,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    },
+    {
+      "g": 1077300,
+      "n": 4,
+      "n_d": 1,
+      "n_u": 1,
+      "stale": 0,
+      "state": "DEGRADED"
+    }
+  ],
+  "alerts_degraded_or_worse": 23,
+  "alerts_untrusted": 0,
+  "area": [
+    "MADR00ESP",
+    "CEBR00ESP",
+    "YEBE00ESP",
+    "VILL00ESP"
+  ],
+  "per_area_day_degraded_or_worse": 1.7692307692307692,
+  "per_area_day_untrusted": 0.0,
+  "per_day": [
+    {
+      "degraded_or_worse": 3,
+      "doy": 7,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 4,
+      "doy": 8,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 1,
+      "doy": 9,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 3,
+      "doy": 10,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 2,
+      "doy": 11,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 3,
+      "doy": 12,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 2,
+      "doy": 13,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 2,
+      "doy": 14,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 1,
+      "doy": 15,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 0,
+      "doy": 16,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 1,
+      "doy": 17,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 1,
+      "doy": 18,
+      "untrusted": 0
+    },
+    {
+      "degraded_or_worse": 0,
+      "doy": 19,
+      "untrusted": 0
+    }
+  ],
+  "scored_days": 13.0,
+  "stations": [
+    {
+      "alarms_cn0": 0,
+      "alarms_lock": 0,
+      "alarms_position": 4,
+      "degraded_epochs": 0,
+      "epochs": 40320,
+      "h_s_m": 17.788141709488027,
+      "name": "MADR00ESP",
+      "no_fix": 3832,
+      "no_fix_by_hour": [
+        0,
+        0,
+        357,
+        360,
+        360,
+        360,
+        240,
+        240,
+        120,
+        120,
+        0,
+        0,
+        0,
+        0,
+        238,
+        240,
+        120,
+        120,
+        0,
+        0,
+        238,
+        240,
+        239,
+        240
+      ],
+      "p_s_ecef_m": [
+        4849202.394,
+        -360328.9929,
+        4114913.1862
+      ],
+      "scored_epochs": 37440,
+      "tracked_median": 9.0,
+      "untrusted_epochs": 4
+    },
+    {
+      "alarms_cn0": 0,
+      "alarms_lock": 0,
+      "alarms_position": 16,
+      "degraded_epochs": 0,
+      "epochs": 40320,
+      "h_s_m": 13.51690892334528,
+      "name": "CEBR00ESP",
+      "no_fix": 3832,
+      "no_fix_by_hour": [
+        0,
+        0,
+        357,
+        360,
+        360,
+        360,
+        240,
+        240,
+        120,
+        120,
+        0,
+        0,
+        0,
+        0,
+        238,
+        240,
+        120,
+        120,
+        0,
+        0,
+        238,
+        240,
+        239,
+        240
+      ],
+      "p_s_ecef_m": [
+        4846664.918,
+        -370195.2,
+        4116929.526
+      ],
+      "scored_epochs": 37440,
+      "tracked_median": 10.0,
+      "untrusted_epochs": 16
+    },
+    {
+      "alarms_cn0": 0,
+      "alarms_lock": 47,
+      "alarms_position": 0,
+      "degraded_epochs": 47,
+      "epochs": 40320,
+      "h_s_m": 12.844022038593316,
+      "name": "YEBE00ESP",
+      "no_fix": 3832,
+      "no_fix_by_hour": [
+        0,
+        0,
+        357,
+        360,
+        360,
+        360,
+        240,
+        240,
+        120,
+        120,
+        0,
+        0,
+        0,
+        0,
+        238,
+        240,
+        120,
+        120,
+        0,
+        0,
+        238,
+        240,
+        239,
+        240
+      ],
+      "p_s_ecef_m": [
+        4848724.905,
+        -261632.493,
+        4123093.901
+      ],
+      "scored_epochs": 37440,
+      "tracked_median": 10.0,
+      "untrusted_epochs": 0
+    },
+    {
+      "alarms_cn0": 0,
+      "alarms_lock": 0,
+      "alarms_position": 4,
+      "degraded_epochs": 0,
+      "epochs": 40320,
+      "h_s_m": 13.283201410814577,
+      "name": "VILL00ESP",
+      "no_fix": 3832,
+      "no_fix_by_hour": [
+        0,
+        0,
+        357,
+        360,
+        360,
+        360,
+        240,
+        240,
+        120,
+        120,
+        0,
+        0,
+        0,
+        0,
+        238,
+        240,
+        120,
+        120,
+        0,
+        0,
+        238,
+        240,
+        239,
+        240
+      ],
+      "p_s_ecef_m": [
+        4849833.7962,
+        -335049.1807,
+        4116014.8247
+      ],
+      "scored_epochs": 37440,
+      "tracked_median": 10.0,
+      "untrusted_epochs": 4
+    }
+  ],
+  "unknown_seconds": 0,
+  "verdict": "NOT MET"
+}
