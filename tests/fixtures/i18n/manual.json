@@ -14005,5 +14005,41 @@
     "var": "e"
    }
   ]
+ },
+ {
+  "id": "data-pack-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana data-pack <out-dir> [--seed <n>] [--logs <n>] [--log-seconds <s>] [--iq <n>] [--iq-seconds <s>] [--iq-rate <hz>]"
+  ]
+ },
+ {
+  "id": "e-data-pack-exists",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " already exists: a pack is written into a new directory, never over one"
+  ]
+ },
+ {
+  "id": "data-pack-done",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "n"
+   },
+   " items to ",
+   {
+    "var": "out"
+   },
+   " (",
+   {
+    "var": "classes"
+   },
+   "); manifest.json lists every file with its SHA-256"
+  ]
  }
 ]

@@ -300,6 +300,9 @@ pub mod connect_mqtt;
 pub mod connect_nats;
 pub mod connect_watch;
 pub mod connect_ws;
+/// Synthetic labelled data packs (0.41 row B7): `kshana data-pack`.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod data_pack;
 pub mod device;
 pub mod geodesic;
 pub mod governor;

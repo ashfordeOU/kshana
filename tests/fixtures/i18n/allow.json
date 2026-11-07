@@ -165,6 +165,10 @@
    "count": 2,
    "reason": "machine-document: the HTTP/1.1 upgrade request sent to the server, and the <url>: <error> prefix of an operating-system connection error"
   },
+  "src/data_pack.rs": {
+   "count": 18,
+   "reason": "machine-document: the class names, label values, file paths, iq scene arguments and the C/N0 profile TOML the pack generator writes, and the manifest's schema id and note (data, English in every language)"
+  },
   "src/device.rs": {
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
@@ -1046,8 +1050,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 67,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names"
+   "count": 68,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack command name"
   },
   "src/mars_pnt.rs": {
    "count": 31,
