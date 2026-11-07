@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline, planner } from "./pkg/kshana.js";
+import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline, planner, env_baseline } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
@@ -383,4 +383,16 @@ console.log(
     process.exit(1);
   }
   console.log("planner: the command line's bytes");
+}
+
+// B8 bar V5: the environmental baseline gives the command line's bytes.
+{
+  const fx = (name) => new URL(`../tests/fixtures/env_baseline/${name}`, import.meta.url);
+  const hours = gunzipSync(await readFile(fx("site_hours.json.gz"))).toString("utf8");
+  const want = gunzipSync(await readFile(fx("baseline.json.gz"))).toString("utf8");
+  if (env_baseline(hours) + "\n" !== want) {
+    console.error("env_baseline differs from the command line's bytes");
+    process.exit(1);
+  }
+  console.log("env_baseline: the command line's bytes");
 }

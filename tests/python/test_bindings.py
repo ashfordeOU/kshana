@@ -851,6 +851,17 @@ def test_optical_atmosphere_scenarios_run_through_the_binding(name):
     assert "optical-atmosphere" in [k["name"] for k in kshana.scenario_kinds()]
 
 
+def test_env_baseline_gives_the_command_line_bytes():
+    """B8 bar V5: the environmental baseline through Python is the command line's bytes."""
+    import gzip
+    import os
+
+    d = os.path.join(os.path.dirname(__file__), "..", "fixtures", "env_baseline")
+    hours = gzip.open(os.path.join(d, "site_hours.json.gz")).read().decode()
+    want = gzip.open(os.path.join(d, "baseline.json.gz")).read().decode()
+    assert kshana.env_baseline(hours) + "\n" == want
+
+
 def test_planner_gives_the_engine_bytes():
     """B1a bar P5: the planner's map through Python is the command line's bytes."""
     import gzip

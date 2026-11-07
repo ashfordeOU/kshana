@@ -1,0 +1,39 @@
+{
+ "station_hours": 8686,
+ "y1": 1295,
+ "y1_by_band": {
+  "hi": 1067,
+  "mid": 38,
+  "lo": 190
+ },
+ "N1": {
+  "value": 1295,
+  "bands": [
+   "hi",
+   "lo",
+   "mid"
+  ],
+  "met": true
+ },
+ "V1": {
+  "auc": 0.8456010623376339,
+  "met": true
+ },
+ "V2": {
+  "share_quiet": 1.0,
+  "n": 1422,
+  "met": true
+ },
+ "V3": {
+  "share_elevated_or_disturbed": 0.9935587761674718,
+  "n": 621,
+  "met": true
+ },
+ "V4": {
+  "auc": 0.8717428831997915,
+  "n": 815,
+  "n_y1": 84,
+  "met": true
+ },
+ "verdict": "MET (V5 aside)"
+}
