@@ -11623,3 +11623,27 @@ engine-e-bias-sinex-bad-std-dev = the standard deviation `{ $v }` is not a numbe
 engine-e-bias-sinex-bad-slope = the slope `{ $v }` is not a number
 
 engine-e-bias-sinex-bad-slope-std-dev = the slope's standard deviation `{ $v }` is not a number
+
+## src/station.rs
+
+engine-station-usage = usage: kshana station run <station.toml> | check <station.toml> | service <systemd|launchd|windows> <station.toml>
+
+engine-e-station-config = { $path }: not a Kshana Station configuration: { $e }
+
+engine-e-station-no-source = a Station needs at least one [[source]]
+
+engine-e-station-source-name = source { $name }: a source name is letters, digits, '-' and '_' (at most 64), used once
+
+engine-e-station-output = output.rotate_mb must be a positive number and output.keep at least 1
+
+engine-e-station-listen = http.listen { $addr } is not an address and port
+
+engine-e-station-remote-http = http.listen { $addr } is not a loopback address: set http.token_file to serve other machines
+
+engine-e-station-fleet-url = fleet.url must be an http:// address (put a TLS tunnel in front for https) and fleet.interval_s at least 1
+
+engine-e-station-service-system = unknown service system { $system } (systemd, launchd, windows)
+
+engine-station-check-ok = { $path }: Station { $id } with { $n } sources, writing to { $dir }
+
+engine-station-started = Kshana Station { $id }: { $n } sources, status on http://{ $addr }/status

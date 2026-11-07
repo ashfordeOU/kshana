@@ -1197,6 +1197,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("data-pack") => Some(kshana::data_pack::run),
         // `kshana area-trust <stations.json>`: one area state from several stations (src/area_trust.rs).
         Some("area-trust") => Some(kshana::area_trust::run),
+        // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
+        Some("station") => Some(kshana::station::run),
         _ => None,
     };
     if let Some(run) = live_cmd {

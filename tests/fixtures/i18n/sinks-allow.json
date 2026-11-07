@@ -112,6 +112,10 @@
   "src/verification.rs": {
    "count": 4,
    "reason": "machine-document: rows of the verification matrix (claims, oracles, notes); stays English in every language (docs/i18n.md)"
+  },
+  "src/station.rs": {
+   "count": 4,
+   "reason": "machine-document: the HTTP/1.1 lines written to the status port and the fleet report, and the service templates; no human-facing sentence"
   }
  }
 }
