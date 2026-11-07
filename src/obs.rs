@@ -6,8 +6,9 @@
 //! and what the source carries. Every later record is an **epoch** (the same per-epoch observation
 //! every receiver-log reader in [`crate::receiver_trust`] returns: C/N0 per satellite, AGC, jamming
 //! indicator, the receiver's fix, sky, DOP, its own spoofing and jamming flags and OSNMA status, the
-//! marine sentences), optionally with a reference to an IQ recording, or an **alarm** a monitor or a
-//! station raised.
+//! marine sentences), optionally with a reference to an IQ recording, an **alarm** a monitor or a
+//! station raised, or a **correction**: one satellite's (or the ionosphere's) part of a decoded
+//! SSR correction message ([`crate::rtcm_ssr`]).
 //!
 //! Every reader that brings data into Kshana (receiver logs today; live feeds, partner data and
 //! station networks as they arrive) writes this one schema, so every consumer reads one schema.
@@ -132,6 +133,97 @@ pub struct AlarmRecord {
     pub note: Option<String>,
 }
 
+/// One code bias of a correction record.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SignalBias {
+    /// Signal and tracking mode identifier, as the message sends it.
+    pub signal: u8,
+    /// Bias, metres.
+    pub bias_m: f64,
+}
+
+/// One satellite's part of a decoded SSR correction message (or, for an ionosphere message, the
+/// whole message). Fields a message does not carry are absent.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CorrectionRecord {
+    /// The station id (equal to the header's): the correction stream, e.g. its mountpoint.
+    pub station: String,
+    /// Seconds since the first correction of the file, on GPS time.
+    pub t_s: f64,
+    /// `rtcm-ssr` (messages 1057–1068, 1240–1264) or `igs-ssr` (message 4076).
+    pub source: String,
+    /// RTCM message number.
+    pub message: u16,
+    /// IGS message number, 4076 only.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub igs_message: Option<u8>,
+    /// What the message carries.
+    pub kind: crate::rtcm_ssr::Kind,
+    /// The satellite system (absent for the ionosphere).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub system: Option<crate::rtcm_ssr::System>,
+    /// System letter and satellite ID, e.g. `G01` (absent for the ionosphere).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sat: Option<String>,
+    /// The message's epoch as sent: seconds of the week (GLONASS RTCM messages: of the day).
+    pub epoch_s: u32,
+    /// SSR update interval, raw 4-bit code.
+    pub update_interval: u8,
+    /// Multiple message indicator.
+    pub multiple: bool,
+    /// IOD SSR.
+    pub iod_ssr: u8,
+    /// SSR provider ID.
+    pub provider: u16,
+    /// SSR solution ID.
+    pub solution: u8,
+    /// Satellite reference datum (orbit messages): false ITRF, true regional.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub regional_datum: Option<bool>,
+    /// Issue of data of the broadcast ephemeris the orbit correction refers to.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub iod: Option<u32>,
+    /// SBAS t0 modulo or BeiDou toe modulo, raw field value.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub toe_modulo_raw: Option<u32>,
+    /// Orbit correction (m, m/s).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub orbit: Option<crate::rtcm_ssr::Orbit>,
+    /// Clock correction polynomial (m, m/s, m/s²).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clock: Option<crate::rtcm_ssr::Clock>,
+    /// High-rate clock correction, metres.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub high_rate_clock_m: Option<f64>,
+    /// Code biases.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub code_biases: Vec<SignalBias>,
+    /// Phase biases (IGS SSR).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub phase_biases: Vec<crate::rtcm_ssr::PhaseBias>,
+    /// Dispersive bias consistency and Melbourne-Wübbena consistency indicators (IGS phase
+    /// biases).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub phase_consistency: Option<(bool, bool)>,
+    /// Yaw angle, semicircles (IGS phase biases).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub yaw_semicircles: Option<f64>,
+    /// Yaw rate, semicircles per second (IGS phase biases).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub yaw_rate_semicircles_s: Option<f64>,
+    /// User range accuracy, raw 6-bit field.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ura_raw: Option<u8>,
+    /// VTEC quality indicator, TECU (ionosphere).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vtec_quality_tecu: Option<f64>,
+    /// Ionospheric layers (ionosphere).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub vtec_layers: Vec<crate::rtcm_ssr::VtecLayer>,
+}
+
 /// One line of an observation file.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "kebab-case")]
@@ -142,11 +234,20 @@ pub enum Record {
     Epoch(Box<EpochRecord>),
     /// An alarm.
     Alarm(AlarmRecord),
+    /// A decoded SSR correction.
+    Correction(Box<CorrectionRecord>),
 }
 
 /// Read a log of `format` (`ubx`, `rinex`, `android`, `sbf`, `nmea`, `rtklib-pos`, `novatel`,
-/// `rtcm3`, `gnss-sdr`) into an observation file for `station`.
+/// `rtcm3`, `gnss-sdr`, `iec61162-450`) into an observation file for `station`. `rtcm-ssr` reads
+/// an RTCM 3 stream's SSR correction messages (RTCM and IGS) into correction records instead.
 pub fn from_log(format: &str, bytes: &[u8], station: &Station) -> Result<Vec<Record>, String> {
+    if format == "rtcm-ssr" {
+        return Ok(crate::rtcm_ssr::to_obs(
+            &crate::rtcm_ssr::read_stream(bytes),
+            station,
+        ));
+    }
     if format == "iec61162-450" {
         // Maritime network datagrams: unwrap to NMEA 0183, then read as NMEA (A2c).
         let u = crate::iec61162_450::unwrap(bytes);
@@ -201,6 +302,9 @@ pub struct CheckReport {
     pub epochs: usize,
     /// Alarm records.
     pub alarms: usize,
+    /// Correction records.
+    #[serde(default)]
+    pub corrections: usize,
     /// Epochs that reference an IQ recording.
     pub iq_refs: usize,
     /// Whether the header marks the data as partner input.
@@ -214,7 +318,7 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
     let mut records = Vec::new();
     let mut header: Option<Header> = None;
     let mut last_t = f64::NEG_INFINITY;
-    let (mut epochs, mut alarms, mut iq_refs) = (0usize, 0usize, 0usize);
+    let (mut epochs, mut alarms, mut iq_refs, mut corrections) = (0usize, 0usize, 0usize, 0usize);
     for (i, line) in text.lines().enumerate() {
         let n = i + 1;
         if line.trim().is_empty() {
@@ -266,6 +370,14 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
                 }
                 alarms += 1;
             }
+            (Some(h), Record::Correction(c)) => {
+                same_station(&h.station.id, &c.station, n)?;
+                let sat_ok = c.sat.is_some() != (c.kind == crate::rtcm_ssr::Kind::Vtec);
+                if !c.t_s.is_finite() || !sat_ok {
+                    return Err(crate::terr!("e-obs-bad-correction", line = n.to_string()));
+                }
+                corrections += 1;
+            }
         }
         records.push(rec);
     }
@@ -275,6 +387,7 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
         station: h.station.id.clone(),
         epochs,
         alarms,
+        corrections,
         iq_refs,
         partner_input: h.station.partner_input,
     };

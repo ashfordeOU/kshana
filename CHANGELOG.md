@@ -15,6 +15,10 @@ breaking changes are called out explicitly.
   bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
   field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds
   missing from that stream are checked against hand-built frames only. MODELLED.
+- `kshana.obs/1` correction records, and `kshana obs convert --format rtcm-ssr`: an RTCM 3 stream's SSR corrections (RTCM
+  and IGS SSR) become one record per satellite of each message, with `t_s` on GPS time. Every value of the 676 records from
+  the three public sample streams equals pyrtcm's after a round trip through `obs check`; `obs check` counts corrections.
+  MODELLED; the limits are in `docs/design/evidence/r1-1-rtcm-ssr/RESULTS.md`.
 
 ### Fixed
 

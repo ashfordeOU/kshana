@@ -131,6 +131,7 @@ fn run_obs_cli(args: &[String]) -> ExitCode {
                                 station = rep.station.clone(),
                                 epochs = rep.epochs.to_string(),
                                 alarms = rep.alarms.to_string(),
+                                corrections = rep.corrections.to_string(),
                                 iq = rep.iq_refs.to_string()
                             )
                         );

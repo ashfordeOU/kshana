@@ -12382,7 +12382,7 @@
    {
     "var": "format"
    },
-   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450)"
+   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450; convert also reads rtcm-ssr)"
   ]
  },
  {
@@ -12473,6 +12473,17 @@
   ]
  },
  {
+  "id": "e-obs-bad-correction",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": a correction needs a finite time, and a satellite unless it is an ionosphere message"
+  ]
+ },
+ {
   "id": "e-obs-station-mismatch",
   "error": true,
   "parts": [
@@ -12518,6 +12529,10 @@
     "var": "alarms"
    },
    " alarms, ",
+   {
+    "var": "corrections"
+   },
+   " corrections, ",
    {
     "var": "iq"
    },

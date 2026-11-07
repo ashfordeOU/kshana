@@ -165,7 +165,7 @@ impl LiveObs {
             match r {
                 Record::Header(h) => header = Some(h),
                 Record::Epoch(e) => epochs.push(e),
-                Record::Alarm(_) => {}
+                Record::Alarm(_) | Record::Correction(_) => {}
             }
         }
         let n = epochs.len();

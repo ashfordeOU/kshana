@@ -11304,7 +11304,7 @@ engine-scenario-cli-migrated = { $path }: now states schema_version = { $to }
 engine-scenario-cli-unchanged = { $path }: already states schema_version = { $to }; unchanged
 
 
-engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450)
+engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450; convert also reads rtcm-ssr)
 
 engine-e-obs-bad-line = line { $line } is not a kshana.obs/1 record: { $e }
 
@@ -11322,11 +11322,13 @@ engine-e-obs-bad-iq-ref = line { $line }: the IQ reference needs a path, a posit
 
 engine-e-obs-bad-alarm = line { $line }: an alarm needs a finite time and a kind
 
+engine-e-obs-bad-correction = line { $line }: a correction needs a finite time, and a satellite unless it is an ionosphere message
+
 engine-e-obs-station-mismatch = line { $line } belongs to station `{ $found }`, but the header is station `{ $expected }`
 
 engine-e-obs-cli-usage = usage: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | live <file|-|tcp:host:port> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
 
-engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $epochs } epochs, { $alarms } alarms, { $iq } IQ references
+engine-obs-check-ok = { $path }: valid kshana.obs/1, station { $station }, { $epochs } epochs, { $alarms } alarms, { $corrections } corrections, { $iq } IQ references
 
 engine-e-governor-bad-max-memory = KSHANA_MAX_MEMORY must be a whole number of bytes, optionally with K, M, G or T (for example 2G), not `{ $value }`
 

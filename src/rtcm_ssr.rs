@@ -39,10 +39,10 @@
 //! clock, code bias and ionosphere messages. IGS orbit-only, clock-only, high-rate clock, phase-bias
 //! and URA messages are checked only against hand-built frames, not an external oracle.
 //! Corrections are not yet applied in PPP (programme item R1.5).
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 /// The system a message is for.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum System {
     /// GPS (1057–1062).
@@ -87,7 +87,7 @@ impl System {
 }
 
 /// What a message carries.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Kind {
     /// Orbit corrections.
@@ -131,7 +131,7 @@ fn classify(n: u16) -> Option<(Option<System>, Kind)> {
 }
 
 /// Orbit correction (m, m/s).
-#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Orbit {
     /// Radial (m).
     pub radial_m: f64,
@@ -148,7 +148,7 @@ pub struct Orbit {
 }
 
 /// Clock correction polynomial (m, m/s, m/s²).
-#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Clock {
     /// C0 (m).
     pub c0_m: f64,
@@ -159,7 +159,7 @@ pub struct Clock {
 }
 
 /// One phase bias (IGS SSR subtype 6).
-#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PhaseBias {
     /// Signal and tracking mode identifier.
     pub signal: u8,
@@ -204,7 +204,7 @@ pub struct Sat {
 }
 
 /// One ionospheric layer of message 1264.
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct VtecLayer {
     /// Layer height (m).
     pub height_m: f64,
@@ -298,24 +298,25 @@ impl Bits<'_> {
     }
 }
 
-const MM: f64 = 1e-3;
+// Scaled fields are computed as an exact integer over a power of ten, so each value is the
+// double nearest the decimal the message means.
 
 fn orbit(b: &mut Bits) -> Option<Orbit> {
     Some(Orbit {
-        radial_m: b.i(22)? as f64 * 0.1 * MM,
-        along_m: b.i(20)? as f64 * 0.4 * MM,
-        cross_m: b.i(20)? as f64 * 0.4 * MM,
-        dot_radial_m_s: b.i(21)? as f64 * 0.001 * MM,
-        dot_along_m_s: b.i(19)? as f64 * 0.004 * MM,
-        dot_cross_m_s: b.i(19)? as f64 * 0.004 * MM,
+        radial_m: b.i(22)? as f64 / 1e4,
+        along_m: (b.i(20)? * 4) as f64 / 1e4,
+        cross_m: (b.i(20)? * 4) as f64 / 1e4,
+        dot_radial_m_s: b.i(21)? as f64 / 1e6,
+        dot_along_m_s: (b.i(19)? * 4) as f64 / 1e6,
+        dot_cross_m_s: (b.i(19)? * 4) as f64 / 1e6,
     })
 }
 
 fn clock(b: &mut Bits) -> Option<Clock> {
     Some(Clock {
-        c0_m: b.i(22)? as f64 * 0.1 * MM,
-        c1_m_s: b.i(21)? as f64 * 0.001 * MM,
-        c2_m_s2: b.i(27)? as f64 * 0.00002 * MM,
+        c0_m: b.i(22)? as f64 / 1e4,
+        c1_m_s: b.i(21)? as f64 / 1e6,
+        c2_m_s2: (b.i(27)? * 2) as f64 / 1e8,
     })
 }
 
@@ -370,7 +371,7 @@ fn new_sat(sys: System, id: u8) -> Sat {
 /// The ionosphere body shared by 1264 and IGS 201: quality, then layers of spherical
 /// harmonics. The layer count, degree and order are each sent as the value minus one.
 fn vtec_body(b: &mut Bits, msg: &mut Message) -> Option<()> {
-    msg.vtec_quality_tecu = Some(b.u(9)? as f64 * 0.05);
+    msg.vtec_quality_tecu = Some((b.u(9)? * 5) as f64 / 100.0);
     let layers = b.u(2)? as usize + 1;
     for _ in 0..layers {
         let height_m = b.u(8)? as f64 * 10_000.0;
@@ -380,11 +381,11 @@ fn vtec_body(b: &mut Bits, msg: &mut Message) -> Option<()> {
         let ns = nc - (n + 1);
         let mut c_tecu = Vec::with_capacity(nc);
         for _ in 0..nc {
-            c_tecu.push(b.i(16)? as f64 * 0.005);
+            c_tecu.push((b.i(16)? * 5) as f64 / 1000.0);
         }
         let mut s_tecu = Vec::with_capacity(ns);
         for _ in 0..ns {
-            s_tecu.push(b.i(16)? as f64 * 0.005);
+            s_tecu.push((b.i(16)? * 5) as f64 / 1000.0);
         }
         msg.vtec_layers.push(VtecLayer {
             height_m,
@@ -409,11 +410,11 @@ fn sat_body(b: &mut Bits, kind: Kind, s: &mut Sat) -> Option<()> {
             let n = b.u(5)? as usize;
             for _ in 0..n {
                 let sig = b.u(5)? as u8;
-                s.code_biases.push((sig, b.i(14)? as f64 * 0.01));
+                s.code_biases.push((sig, b.i(14)? as f64 / 100.0));
             }
         }
         Kind::Ura => s.ura_raw = Some(b.u(6)? as u8),
-        Kind::HighRateClock => s.high_rate_clock_m = Some(b.i(22)? as f64 * 0.1 * MM),
+        Kind::HighRateClock => s.high_rate_clock_m = Some(b.i(22)? as f64 / 1e4),
         Kind::PhaseBias => {
             let n = b.u(5)? as usize;
             s.yaw_semicircles = Some(b.u(9)? as f64 / 256.0);
@@ -424,7 +425,7 @@ fn sat_body(b: &mut Bits, kind: Kind, s: &mut Sat) -> Option<()> {
                     integer: b.u(1)? == 1,
                     wide_lane_integer: b.u(2)? as u8,
                     discontinuity: b.u(4)? as u8,
-                    bias_m: b.i(20)? as f64 * 0.0001,
+                    bias_m: b.i(20)? as f64 / 1e4,
                 });
             }
         }
@@ -610,6 +611,131 @@ pub fn read_stream(bytes: &[u8]) -> Stream {
         }
         i = end + 3;
     }
+    out
+}
+
+/// GPS time minus UTC, seconds (unchanged since 1 January 2017). Used only to place GLONASS RTCM
+/// epochs (GLONASS time of day, UTC + 3 h) on GPS time.
+const GPS_MINUS_UTC_S: i64 = 18;
+/// GPS time minus BeiDou time, seconds.
+const BDT_TO_GPS_S: i64 = 14;
+const WEEK_S: i64 = 604_800;
+const DAY_S: i64 = 86_400;
+
+/// The candidate `x + k * period` nearest to `near`.
+fn nearest(x: i64, period: i64, near: i64) -> i64 {
+    x + ((near - x) as f64 / period as f64).round() as i64 * period
+}
+
+/// The stream's SSR messages as `kshana.obs/1` records for `station` (the correction stream, e.g.
+/// its mountpoint): a header, then one correction record per satellite of each message in stream
+/// order, and one per ionosphere message.
+///
+/// `t_s` is seconds since the first correction, on GPS time: the epochs are seconds of the GPS
+/// week, each put in the week that brings it nearest the message before it (so two messages more
+/// than half a week apart are ambiguous); a BeiDou RTCM epoch (BeiDou time) is moved 14 s to GPS time;
+/// a GLONASS RTCM epoch (seconds of the GLONASS day, UTC + 3 h) is moved to GPS time with
+/// GPS − UTC = 18 s and placed in the day of the message before it. Records are in stream order,
+/// so `t_s` need not increase from one to the next. The header's
+/// `skipped_records` counts frames with a bad CRC, truncated SSR frames and frames of other
+/// messages; `observables` lists the kinds present.
+pub fn to_obs(stream: &Stream, station: &crate::obs::Station) -> Vec<crate::obs::Record> {
+    use crate::obs::{CorrectionRecord, Header, Record, SignalBias, SCHEMA};
+    let mut kinds: Vec<String> = Vec::new();
+    let mut recs = Vec::new();
+    let mut first: Option<i64> = None;
+    let mut last: Option<i64> = None;
+    for m in &stream.messages {
+        let glonass_day = m.igs_message.is_none() && m.system == Some(System::Glonass);
+        let t_abs = if glonass_day {
+            let tod = (i64::from(m.epoch_s) - 3 * 3_600 + GPS_MINUS_UTC_S).rem_euclid(DAY_S);
+            nearest(tod, DAY_S, last.unwrap_or(tod))
+        } else {
+            // BeiDou RTCM epochs are BeiDou time, 14 s behind GPS time; IGS SSR epochs are GPS
+            // time for every system.
+            let bdt = m.igs_message.is_none() && m.system == Some(System::Beidou);
+            let sow = i64::from(m.epoch_s) + if bdt { BDT_TO_GPS_S } else { 0 };
+            nearest(sow, WEEK_S, last.unwrap_or(sow))
+        };
+        last = Some(t_abs);
+        let t_s = (t_abs - *first.get_or_insert(t_abs)) as f64;
+        let kind_name = serde_json::to_value(m.kind)
+            .ok()
+            .and_then(|v| v.as_str().map(str::to_string))
+            .unwrap_or_default();
+        if !kinds.contains(&kind_name) {
+            kinds.push(kind_name);
+        }
+        let base = CorrectionRecord {
+            station: station.id.clone(),
+            t_s,
+            source: if m.igs_message.is_some() {
+                "igs-ssr"
+            } else {
+                "rtcm-ssr"
+            }
+            .to_string(),
+            message: m.number,
+            igs_message: m.igs_message,
+            kind: m.kind,
+            system: m.system,
+            sat: None,
+            epoch_s: m.epoch_s,
+            update_interval: m.update_interval,
+            multiple: m.multiple,
+            iod_ssr: m.iod_ssr,
+            provider: m.provider,
+            solution: m.solution,
+            regional_datum: m.regional_datum,
+            iod: None,
+            toe_modulo_raw: None,
+            orbit: None,
+            clock: None,
+            high_rate_clock_m: None,
+            code_biases: Vec::new(),
+            phase_biases: Vec::new(),
+            phase_consistency: m.phase_consistency,
+            yaw_semicircles: None,
+            yaw_rate_semicircles_s: None,
+            ura_raw: None,
+            vtec_quality_tecu: m.vtec_quality_tecu,
+            vtec_layers: m.vtec_layers.clone(),
+        };
+        if m.kind == Kind::Vtec {
+            recs.push(Record::Correction(Box::new(base)));
+            continue;
+        }
+        for sat in &m.sats {
+            recs.push(Record::Correction(Box::new(CorrectionRecord {
+                sat: Some(sat.label.clone()),
+                iod: sat.iod,
+                toe_modulo_raw: sat.toe_modulo_raw,
+                orbit: sat.orbit,
+                clock: sat.clock,
+                high_rate_clock_m: sat.high_rate_clock_m,
+                code_biases: sat
+                    .code_biases
+                    .iter()
+                    .map(|&(signal, bias_m)| SignalBias { signal, bias_m })
+                    .collect(),
+                phase_biases: sat.phase_biases.clone(),
+                yaw_semicircles: sat.yaw_semicircles,
+                yaw_rate_semicircles_s: sat.yaw_rate_semicircles_s,
+                ura_raw: sat.ura_raw,
+                ..base.clone()
+            })));
+        }
+    }
+    let mut out = Vec::with_capacity(recs.len() + 1);
+    out.push(Record::Header(Header {
+        schema: SCHEMA.to_string(),
+        station: station.clone(),
+        source_format: Some("rtcm-ssr".to_string()),
+        start_label: None,
+        observables: kinds,
+        skipped_records: stream.bad_crc + stream.truncated + stream.other,
+    }));
+    out.extend(recs);
     out
 }
 
@@ -817,6 +943,52 @@ mod tests {
         put(&mut b, 0, 8);
         let s = read_stream(&frame(&b));
         assert_eq!((s.messages.len(), s.other, s.truncated), (0, 1, 0));
+    }
+
+    #[test]
+    fn correction_times_are_put_on_gps_time() {
+        let msg = |number: u16, system: System, epoch_s: u32| {
+            let mut m = new_message(
+                number,
+                Some(system),
+                Kind::Clock,
+                Header {
+                    epoch_s,
+                    update_interval: 0,
+                    multiple: false,
+                    iod_ssr: 0,
+                    provider: 0,
+                    solution: 0,
+                },
+            );
+            m.sats.push(new_sat(system, 1));
+            m
+        };
+        // GPS at 6 d 00:00:10 of the week; GLONASS 03:00:00 GLONASS time = 00:00:00 UTC =
+        // 00:00:18 GPS of the same day; BeiDou 518 396 s BDT = 518 410 s GPS; GPS 10 s before
+        // the week ends, then 5 s into the next week.
+        let st = Stream {
+            messages: vec![
+                msg(1058, System::Gps, 518_410),
+                msg(1064, System::Glonass, 10_800),
+                msg(1259, System::Beidou, 518_396),
+                msg(1058, System::Gps, 604_790),
+                msg(1058, System::Gps, 5),
+            ],
+            ..Default::default()
+        };
+        let station = crate::obs::Station {
+            id: "T".into(),
+            ..Default::default()
+        };
+        let t: Vec<f64> = to_obs(&st, &station)
+            .iter()
+            .filter_map(|r| match r {
+                crate::obs::Record::Correction(c) => Some(c.t_s),
+                _ => None,
+            })
+            .collect();
+        assert_eq!(t, vec![0.0, 8.0, 0.0, 86_380.0, 86_395.0]);
     }
 
     #[test]

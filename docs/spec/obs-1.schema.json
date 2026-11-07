@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kshana.dev/spec/obs-1.schema.json",
   "title": "kshana.obs/1 record",
-  "description": "One line of a kshana.obs/1 observation file (JSON Lines). The first line is a header; later lines are epochs and alarms of the header's station. See docs/OBS-SCHEMA.md.",
+  "description": "One line of a kshana.obs/1 observation file (JSON Lines). The first line is a header; later lines are epochs, alarms and SSR corrections of the header's station. See docs/OBS-SCHEMA.md.",
   "type": "object",
   "required": [
     "type"
@@ -16,6 +16,9 @@
     },
     {
       "$ref": "#/$defs/alarm"
+    },
+    {
+      "$ref": "#/$defs/correction"
     }
   ],
   "$defs": {
@@ -262,6 +265,266 @@
         },
         "note": {
           "type": "string"
+        }
+      }
+    },
+    "correction": {
+      "type": "object",
+      "description": "One satellite's part of a decoded SSR correction message (RTCM 1057-1068, 1240-1264, or IGS SSR 4076), or a whole ionosphere message (no sat).",
+      "required": [
+        "type",
+        "station",
+        "t_s",
+        "source",
+        "message",
+        "kind",
+        "epoch_s",
+        "update_interval",
+        "multiple",
+        "iod_ssr",
+        "provider",
+        "solution"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "correction"
+        },
+        "station": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t_s": {
+          "type": "number",
+          "description": "Seconds since the first correction of the file, on GPS time."
+        },
+        "source": {
+          "enum": [
+            "rtcm-ssr",
+            "igs-ssr"
+          ]
+        },
+        "message": {
+          "type": "integer"
+        },
+        "igs_message": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "orbit",
+            "clock",
+            "code-bias",
+            "combined",
+            "ura",
+            "high-rate-clock",
+            "vtec",
+            "phase-bias"
+          ]
+        },
+        "system": {
+          "enum": [
+            "gps",
+            "glonass",
+            "galileo",
+            "qzss",
+            "sbas",
+            "beidou"
+          ]
+        },
+        "sat": {
+          "type": "string",
+          "minLength": 2
+        },
+        "epoch_s": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "update_interval": {
+          "type": "integer"
+        },
+        "multiple": {
+          "type": "boolean"
+        },
+        "iod_ssr": {
+          "type": "integer"
+        },
+        "provider": {
+          "type": "integer"
+        },
+        "solution": {
+          "type": "integer"
+        },
+        "regional_datum": {
+          "type": "boolean"
+        },
+        "iod": {
+          "type": "integer"
+        },
+        "toe_modulo_raw": {
+          "type": "integer"
+        },
+        "orbit": {
+          "type": "object",
+          "required": [
+            "radial_m",
+            "along_m",
+            "cross_m",
+            "dot_radial_m_s",
+            "dot_along_m_s",
+            "dot_cross_m_s"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "radial_m": {
+              "type": "number"
+            },
+            "along_m": {
+              "type": "number"
+            },
+            "cross_m": {
+              "type": "number"
+            },
+            "dot_radial_m_s": {
+              "type": "number"
+            },
+            "dot_along_m_s": {
+              "type": "number"
+            },
+            "dot_cross_m_s": {
+              "type": "number"
+            }
+          }
+        },
+        "clock": {
+          "type": "object",
+          "required": [
+            "c0_m",
+            "c1_m_s",
+            "c2_m_s2"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "c0_m": {
+              "type": "number"
+            },
+            "c1_m_s": {
+              "type": "number"
+            },
+            "c2_m_s2": {
+              "type": "number"
+            }
+          }
+        },
+        "high_rate_clock_m": {
+          "type": "number"
+        },
+        "code_biases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "signal",
+              "bias_m"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "signal": {
+                "type": "integer"
+              },
+              "bias_m": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "phase_biases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "signal",
+              "integer",
+              "wide_lane_integer",
+              "discontinuity",
+              "bias_m"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "signal": {
+                "type": "integer"
+              },
+              "integer": {
+                "type": "boolean"
+              },
+              "wide_lane_integer": {
+                "type": "integer"
+              },
+              "discontinuity": {
+                "type": "integer"
+              },
+              "bias_m": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "phase_consistency": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yaw_semicircles": {
+          "type": "number"
+        },
+        "yaw_rate_semicircles_s": {
+          "type": "number"
+        },
+        "ura_raw": {
+          "type": "integer"
+        },
+        "vtec_quality_tecu": {
+          "type": "number"
+        },
+        "vtec_layers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "height_m",
+              "degree",
+              "order",
+              "c_tecu",
+              "s_tecu"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "height_m": {
+                "type": "number"
+              },
+              "degree": {
+                "type": "integer"
+              },
+              "order": {
+                "type": "integer"
+              },
+              "c_tecu": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "s_tecu": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
         }
       }
     }
