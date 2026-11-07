@@ -1,0 +1,20 @@
+{
+ "hi": [
+  "EUR200CAN",
+  "REYK00ISL",
+  "TRO100NOR",
+  "YEL200CAN"
+ ],
+ "mid": [
+  "CZTG00ATF",
+  "MATE00ITA",
+  "EBRE00ESP",
+  "M0SE00ITA"
+ ],
+ "lo": [
+  "CMUM00THA",
+  "ASCG00SHN",
+  "CHPG00BRA",
+  "KIRI00KIR"
+ ]
+}

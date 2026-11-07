@@ -8,7 +8,7 @@ The pre-registration is `docs/design/evidence/b8-environmental-baseline/PREREGIS
 2. The baseline, `src/env_baseline.rs` (`EnvBaselineParams::v1`, each constant cited), was tested on synthetic
    inputs only. `roti.py` was tested on synthetic TEC (`python3 -I roti.py --self-test`). Commit `ef01a4537`.
 3. The event days were drawn by rule from the index files: `draw_days.py`, output `days.json`.
-4. The station list (to come).
+4. The station list was drawn from the BKG listings and the file headers only: `stations.json` (readings 4 to 7).
 5. The ROTI labels (to come, before the baseline is run on the data).
 6. The one run and `RESULTS.md`.
 
@@ -26,6 +26,29 @@ The pre-registration is `docs/design/evidence/b8-environmental-baseline/PREREGIS
 2. **The international quiet days** are Q1 to Q5 of each month in those files. Ap is the daily Ap, F10.7 the
    observed value, and the maximum Kp is the largest of the day's eight 3-hourly values.
 3. **Ties** (same Ap) are broken by the earlier date.
+
+4. **2015 days (step 4).** No station has a RINEX 3 daily 30 s observation file at BKG on any 2015 day;
+   the listings show navigation files only. That covers 5 of the 40 event days: the storm of 2015-03-17 and
+   four quiet days of March 2015. With them, no station could reach the 90 % rule. They are therefore
+   dropped, not replaced, because RINEX 3 files do not exist for them. The rule applies to the 33 distinct
+   remaining days: at least 30.
+   - Dropping them turns on file availability alone, decided before any observation was opened.
+   - It leaves 9 storm days, 16 quiet days and 10 equinox days.
+5. **Bands (step 4).** The bands use `|Φ|` from the station's position in the `SITE/ID` block of the IGS
+   station SINEX (`https://files.igs.org/pub/station/general/igs.snx.gz`). The dipole is IGRF-13 at
+   2020.0 (g₁₀ = −29404.8, g₁₁ = −1450.9, h₁₁ = 4652.5 nT), which puts the pole at 80.59° N, 72.68° W. The
+   bands are 60° and above, 35° to 55°, and 15° and below.
+6. **"Carrying L1, L2 and S1C".** The GPS observation types in the file header include an L1 carrier phase
+   (any `L1` code), an L2 carrier phase (any `L2` code) and `S1C`. Stations are taken in ascending SHA-256
+   of the 9-character name until 4 qualify in each band. A header that could not be fetched is retried
+   until it is read; only a header that lacks the codes counts against a station.
+7. **Outcome.** The stations, in hash order:
+   - `|Φ|` ≥ 60°: EUR200CAN, REYK00ISL, TRO100NOR, YEL200CAN;
+   - 35° to 55°: CZTG00ATF, MATE00ITA, EBRE00ESP, M0SE00ITA;
+   - ≤ 15°: CMUM00THA, ASCG00SHN, CHPG00BRA, KIRI00KIR.
+
+   Passed over:
+   - NYA200NOR, RIO200ARG and POTS00DEU: their 2017 files carry no `S1C`.
 
 ## Event days drawn (step 3)
 
