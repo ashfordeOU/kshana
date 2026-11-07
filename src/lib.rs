@@ -83,6 +83,7 @@ pub mod attitude_dynamics;
 pub mod batch_ls;
 pub mod bench;
 pub mod benchmark;
+pub mod bias_sinex;
 pub mod body;
 pub mod body_pnt;
 pub mod bplane;
