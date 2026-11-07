@@ -1,0 +1,508 @@
+{
+  "alerts_sent": 57,
+  "events": [
+    {
+      "end_s": 80,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003529867,
+      "latency_webhook_s": 1.003220276,
+      "n_stations": 97,
+      "onset_s": 60,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 164,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002556977,
+      "latency_webhook_s": 1.002440482,
+      "n_stations": 97,
+      "onset_s": 115,
+      "size_m": 238.0
+    },
+    {
+      "end_s": 259,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002926009,
+      "latency_webhook_s": 1.002718383,
+      "n_stations": 48,
+      "onset_s": 223,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 328,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002500925,
+      "latency_webhook_s": 1.002314137,
+      "n_stations": 34,
+      "onset_s": 307,
+      "size_m": 361.0
+    },
+    {
+      "end_s": 426,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002877997,
+      "latency_webhook_s": 1.002648927,
+      "n_stations": 56,
+      "onset_s": 374,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 518,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.00274793,
+      "latency_webhook_s": 1.00260525,
+      "n_stations": 57,
+      "onset_s": 482,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 603,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.004210676,
+      "latency_webhook_s": 1.003872293,
+      "n_stations": 96,
+      "onset_s": 554,
+      "size_m": 182.0
+    },
+    {
+      "end_s": 669,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002037065,
+      "latency_webhook_s": 1.001867042,
+      "n_stations": 38,
+      "onset_s": 631,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 761,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002234387,
+      "latency_webhook_s": 1.002002529,
+      "n_stations": 79,
+      "onset_s": 725,
+      "size_m": 86.0
+    },
+    {
+      "end_s": 813,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.00207493,
+      "latency_webhook_s": 1.001932325,
+      "n_stations": 36,
+      "onset_s": 789,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 905,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002093454,
+      "latency_webhook_s": 1.001911124,
+      "n_stations": 44,
+      "onset_s": 849,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 976,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002686741,
+      "latency_webhook_s": 1.002482647,
+      "n_stations": 69,
+      "onset_s": 951,
+      "size_m": 460.0
+    },
+    {
+      "end_s": 1080,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003175343,
+      "latency_webhook_s": 1.002981643,
+      "n_stations": 99,
+      "onset_s": 1025,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1158,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.014837415,
+      "latency_webhook_s": 1.014654201,
+      "n_stations": 71,
+      "onset_s": 1111,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1222,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002334282,
+      "latency_webhook_s": 1.002181114,
+      "n_stations": 55,
+      "onset_s": 1184,
+      "size_m": 50.0
+    },
+    {
+      "end_s": 1315,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.00308379,
+      "latency_webhook_s": 1.002885639,
+      "n_stations": 80,
+      "onset_s": 1280,
+      "size_m": 297.0
+    },
+    {
+      "end_s": 1392,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002689872,
+      "latency_webhook_s": 1.002215445,
+      "n_stations": 36,
+      "onset_s": 1357,
+      "size_m": 360.0
+    },
+    {
+      "end_s": 1480,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.003748049,
+      "latency_webhook_s": 1.003558293,
+      "n_stations": 68,
+      "onset_s": 1433,
+      "size_m": 98.0
+    },
+    {
+      "end_s": 1542,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002799142,
+      "latency_webhook_s": 1.002577981,
+      "n_stations": 50,
+      "onset_s": 1520,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1619,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.003419076,
+      "latency_webhook_s": 1.00325386,
+      "n_stations": 52,
+      "onset_s": 1596,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1714,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003261027,
+      "latency_webhook_s": 1.003011703,
+      "n_stations": 35,
+      "onset_s": 1655,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1799,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.003307463,
+      "latency_webhook_s": 1.003188773,
+      "n_stations": 93,
+      "onset_s": 1741,
+      "size_m": 180.0
+    },
+    {
+      "end_s": 1876,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.001995745,
+      "latency_webhook_s": 1.001864147,
+      "n_stations": 67,
+      "onset_s": 1851,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 1975,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.00288426,
+      "latency_webhook_s": 1.002717796,
+      "n_stations": 70,
+      "onset_s": 1922,
+      "size_m": 356.0
+    },
+    {
+      "end_s": 2054,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002784366,
+      "latency_webhook_s": 1.002605879,
+      "n_stations": 78,
+      "onset_s": 2018,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2145,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002412872,
+      "latency_webhook_s": 1.002202231,
+      "n_stations": 65,
+      "onset_s": 2101,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2233,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003049351,
+      "latency_webhook_s": 1.002726212,
+      "n_stations": 70,
+      "onset_s": 2181,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2335,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002435004,
+      "latency_webhook_s": 1.00223462,
+      "n_stations": 82,
+      "onset_s": 2288,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2406,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002997411,
+      "latency_webhook_s": 1.00279141,
+      "n_stations": 78,
+      "onset_s": 2371,
+      "size_m": 461.0
+    },
+    {
+      "end_s": 2506,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002550428,
+      "latency_webhook_s": 1.002215691,
+      "n_stations": 51,
+      "onset_s": 2462,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2571,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003040499,
+      "latency_webhook_s": 1.002759159,
+      "n_stations": 71,
+      "onset_s": 2540,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2637,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002749445,
+      "latency_webhook_s": 1.002569162,
+      "n_stations": 57,
+      "onset_s": 2601,
+      "size_m": 109.0
+    },
+    {
+      "end_s": 2705,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002972912,
+      "latency_webhook_s": 1.002796126,
+      "n_stations": 60,
+      "onset_s": 2678,
+      "size_m": 61.0
+    },
+    {
+      "end_s": 2800,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.003072569,
+      "latency_webhook_s": 1.002889243,
+      "n_stations": 49,
+      "onset_s": 2757,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 2895,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.003195816,
+      "latency_webhook_s": 1.003001132,
+      "n_stations": 63,
+      "onset_s": 2851,
+      "size_m": 112.0
+    },
+    {
+      "end_s": 2975,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002436692,
+      "latency_webhook_s": 1.002263322,
+      "n_stations": 40,
+      "onset_s": 2945,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3057,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.003140346,
+      "latency_webhook_s": 1.00293677,
+      "n_stations": 35,
+      "onset_s": 3028,
+      "size_m": 277.0
+    },
+    {
+      "end_s": 3133,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002334894,
+      "latency_webhook_s": 1.002142332,
+      "n_stations": 63,
+      "onset_s": 3091,
+      "size_m": 480.0
+    },
+    {
+      "end_s": 3224,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.003055219,
+      "latency_webhook_s": 1.002843003,
+      "n_stations": 48,
+      "onset_s": 3192,
+      "size_m": 459.0
+    },
+    {
+      "end_s": 3298,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002654059,
+      "latency_webhook_s": 1.002378689,
+      "n_stations": 80,
+      "onset_s": 3253,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3384,
+      "kind": "position-offset",
+      "latency_mqtt_s": 1.002914328,
+      "latency_webhook_s": 1.00271702,
+      "n_stations": 70,
+      "onset_s": 3335,
+      "size_m": 146.0
+    },
+    {
+      "end_s": 3461,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002876281,
+      "latency_webhook_s": 1.002722996,
+      "n_stations": 95,
+      "onset_s": 3432,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3541,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002570698,
+      "latency_webhook_s": 1.002315735,
+      "n_stations": 75,
+      "onset_s": 3495,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3641,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002160065,
+      "latency_webhook_s": 1.002006911,
+      "n_stations": 98,
+      "onset_s": 3582,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3747,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002417213,
+      "latency_webhook_s": 1.002214582,
+      "n_stations": 96,
+      "onset_s": 3690,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3826,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002335759,
+      "latency_webhook_s": 1.002159897,
+      "n_stations": 77,
+      "onset_s": 3785,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3884,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.00206364,
+      "latency_webhook_s": 1.001867698,
+      "n_stations": 53,
+      "onset_s": 3862,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 3944,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.003098171,
+      "latency_webhook_s": 1.002861736,
+      "n_stations": 99,
+      "onset_s": 3910,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4032,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.003024028,
+      "latency_webhook_s": 1.002763567,
+      "n_stations": 75,
+      "onset_s": 3991,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4126,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002966058,
+      "latency_webhook_s": 1.002755077,
+      "n_stations": 90,
+      "onset_s": 4080,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4189,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002579268,
+      "latency_webhook_s": 1.002401384,
+      "n_stations": 83,
+      "onset_s": 4157,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4263,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.002860597,
+      "latency_webhook_s": 1.002627178,
+      "n_stations": 84,
+      "onset_s": 4221,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4347,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002856303,
+      "latency_webhook_s": 1.002627264,
+      "n_stations": 52,
+      "onset_s": 4310,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4443,
+      "kind": "osnma-fail",
+      "latency_mqtt_s": 1.003400982,
+      "latency_webhook_s": 1.003260892,
+      "n_stations": 47,
+      "onset_s": 4403,
+      "size_m": 0.0
+    },
+    {
+      "end_s": 4521,
+      "kind": "clock-step",
+      "latency_mqtt_s": 1.002135795,
+      "latency_webhook_s": 1.001988499,
+      "n_stations": 71,
+      "onset_s": 4486,
+      "size_m": 0.0
+    }
+  ],
+  "late_epochs": 0,
+  "mqtt_failures": 0,
+  "mqtt_received": 57,
+  "run": 3,
+  "seconds": 4597,
+  "stations": 100,
+  "webhook_failures": 0,
+  "webhook_received": 57
+}
