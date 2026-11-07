@@ -263,3 +263,21 @@ fn boundary_rules() {
         "epochs out of time order are refused"
     );
 }
+
+/// T4 was NOT MET (`docs/design/evidence/b5-area-trust/RESULTS.md`): the miss is pinned here, from the
+/// result the scored run wrote (`tests/area_trust_igs.rs` reproduces it from the fetched files).
+#[test]
+fn t4_miss_is_recorded() {
+    let r: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4_result.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(r["verdict"], "NOT MET");
+    assert_eq!(r["scored_days"], 13.0);
+    assert_eq!(r["alerts_degraded_or_worse"], 23);
+    assert_eq!(r["alerts_untrusted"], 0);
+    assert!(r["per_area_day_degraded_or_worse"].as_f64().unwrap() > 1.0);
+}
