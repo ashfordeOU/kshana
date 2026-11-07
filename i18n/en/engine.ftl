@@ -7256,6 +7256,8 @@ engine-e-rinex-unsupported-navigation-record-header-line = unsupported navigatio
 
 engine-e-rinex-bad-prn-in = bad PRN in { $head }
 
+engine-e-rinex-short-navigation-record = navigation record { $head } has { $n } lines; it needs { $need }
+
 engine-e-rinex-rinex-navigation-expected-record-header = RINEX 4 navigation: expected a '>' record header, found { $head }
 
 engine-e-rinex-rinex-record-has-lines-ephemeris = RINEX 4 record { $head } has { $body } lines, a { $msg } ephemeris needs 8

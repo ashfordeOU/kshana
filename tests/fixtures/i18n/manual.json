@@ -14084,5 +14084,23 @@
    },
    ": epochs must be finite and in time order"
   ]
+ },
+ {
+  "id": "e-rinex-short-navigation-record",
+  "error": true,
+  "parts": [
+   "navigation record ",
+   {
+    "var": "head"
+   },
+   " has ",
+   {
+    "var": "n"
+   },
+   " lines; it needs ",
+   {
+    "var": "need"
+   }
+  ]
  }
 ]
