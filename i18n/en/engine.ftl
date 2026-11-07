@@ -11503,7 +11503,7 @@ engine-interference-map-live-record-done = wrote { $rows } rows to { $out }; { $
 
 ## src/clock_live.rs
 
-engine-clock-live-usage = usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>]
+engine-clock-live-usage = usage: kshana clock-live --format <ptp4l|phc2sys|ts2phc|chrony-tracking|chrony-statistics|pps-assert|ticc> --from <-|tcp:host:port|file> [--clock <name>] [--tau0 <s>] [--follow] [--poll-s <s>] [--max-seconds <s>] [--sensor <name>] [--stale-s <s>] [--frozen-n <n>] [--range <lo,hi>] [--latency-s <s>] [--reconnect]
 
 engine-e-clock-live-format = clock-live reads ptp4l, phc2sys, ts2phc, chrony-tracking, chrony-statistics, pps-assert and ticc logs, not { $format }
 
@@ -11516,7 +11516,11 @@ engine-e-clock-live-ticc-tau0 = a TICC log read live needs --tau0 <seconds>: the
 ## src/sensor_live.rs
 
 engine-sensor-live-usage =
-    usage: kshana sensor-live --kind imu --format <csv|euroc|ros2-csv> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>]
+    usage: kshana sensor-live --kind imu --format <csv|euroc|ros2-csv> --from <-|tcp:host:port|file> [--follow] [--heading0 <deg>] [--z-up] [--max-seconds <s>] [--sensor <name>] [--stale-s <s>] [--frozen-n <n>] [--range <lo,hi>] [--latency-s <s>] [--reconnect]
     { "   " }or: kshana sensor-live --kind n2k --from <candump.log|-|tcp:host:port> [--follow] [--max-seconds <s>]
 
 engine-e-sensor-live-kind = sensor-live reads --kind imu or n2k; not { $kind }
+
+## src/live_health.rs
+
+engine-e-live-health-flag = { $name } needs a value: --sensor <name>, --stale-s <s>, --frozen-n <n of 2 or more>, --range <lo,hi>, --latency-s <s>

@@ -68,6 +68,8 @@ pub fn usage() -> String {
 /// `kshana sensor-live --kind imu --format <csv|euroc> --from <-|tcp:host:port|file> [--follow]
 /// [--heading0 <deg>] [--z-up] [--max-seconds <s>]`.
 pub fn run(args: &[String]) -> Result<(), String> {
+    let (hcfg, reconnect, args) = crate::live_health::split_args(args, "sensor")?;
+    let args = &args[..];
     let (mut kind, mut format, mut from) = (None, None, None);
     let (mut follow, mut z_up, mut heading0, mut max_s) = (false, false, 0.0, None);
     let mut i = 0;
@@ -108,17 +110,48 @@ pub fn run(args: &[String]) -> Result<(), String> {
         return Err(usage());
     };
     let format = format.unwrap_or_default();
+    let opts = crate::live_health::FollowOptions {
+        follow,
+        max_s,
+        reconnect,
+    };
+    let health = std::cell::RefCell::new(crate::live_health::Health::new(hcfg));
+    let idle = |now| crate::live_health::print_events(&health.borrow_mut().on_idle(now));
+    let gap = |a, b| crate::live_health::print_events(&[health.borrow().gap(a, b)]);
     if kind == "n2k" {
-        // NMEA 2000 frames in, NMEA 0183 sentences out (src/n2k.rs).
+        // NMEA 2000 frames in, NMEA 0183 sentences out (src/n2k.rs). The output is NMEA for the
+        // next reader, so health events go to standard error.
         let mut c = crate::n2k::N2kToNmea::default();
-        return crate::clock_live::follow_lines(&from, follow, max_s, |line| {
-            use std::io::Write;
-            let mut out = std::io::stdout().lock();
-            for s in c.push(line) {
-                out.write_all(s.as_bytes()).map_err(|e| e.to_string())?;
-            }
-            out.flush().map_err(|e| e.to_string())
-        });
+        return crate::live_health::follow(
+            &from,
+            &opts,
+            |line, arrival| {
+                use std::io::Write;
+                let sentences = c.push(line);
+                let ev = health.borrow_mut().on_reading(arrival, None);
+                for e in &ev {
+                    eprintln!("{}", serde_json::to_string(e).map_err(|e| e.to_string())?);
+                }
+                let mut out = std::io::stdout().lock();
+                for s in sentences {
+                    out.write_all(s.as_bytes()).map_err(|e| e.to_string())?;
+                }
+                out.flush().map_err(|e| e.to_string())
+            },
+            |now| {
+                for e in health.borrow_mut().on_idle(now) {
+                    eprintln!("{}", serde_json::to_string(&e).map_err(|e| e.to_string())?);
+                }
+                Ok(())
+            },
+            |a, b| {
+                eprintln!(
+                    "{}",
+                    serde_json::to_string(&health.borrow().gap(a, b)).map_err(|e| e.to_string())?
+                );
+                Ok(())
+            },
+        );
     }
     if kind != "imu" {
         return Err(crate::terr!("e-sensor-live-kind", kind = kind));
@@ -130,20 +163,23 @@ pub fn run(args: &[String]) -> Result<(), String> {
         _ => return Err(usage()),
     };
     let mut live = ImuLive::new(fmt, heading0, !z_up);
-    crate::clock_live::follow_lines(&from, follow, max_s, |line| {
-        use std::io::Write;
-        if let Some(o) = live.push(line)? {
-            let mut out = std::io::stdout().lock();
-            writeln!(
-                out,
-                "{}",
-                serde_json::to_string(&o).map_err(|e| e.to_string())?
-            )
-            .and_then(|()| out.flush())
-            .map_err(|e| e.to_string())?;
-        }
-        Ok(())
-    })
+    crate::live_health::follow(
+        &from,
+        &opts,
+        |line, arrival| {
+            let Some(o) = live.push(line)? else {
+                return Ok(());
+            };
+            let mut h = health.borrow_mut();
+            // The watched value is the magnitude of the specific force (about 9.8 m/s^2 at rest).
+            let g = o.accel.iter().map(|a| a * a).sum::<f64>().sqrt();
+            let events = h.on_reading(arrival, Some(g));
+            crate::live_health::print_line(&o, Some(h.stamp(arrival)))?;
+            crate::live_health::print_events(&events)
+        },
+        idle,
+        gap,
+    )
 }
 
 #[cfg(test)]

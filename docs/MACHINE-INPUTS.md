@@ -89,6 +89,30 @@ The conversion is the same function over a live stream and over a recorded log (
 and the output is read by the NMEA reader unchanged (`tests/clock_live.rs`). USB-CAN gateways that present a
 SocketCAN interface (`slcan`, `gs_usb`) work the same way; nothing is sent on the bus.
 
+## Timing and health of live inputs (`clock-live`, `sensor-live`)
+
+Every live reading line carries `host_s`: the host clock when the line arrived, minus the device's
+latency (`--latency-s`, measured once against a common reference such as a PPS edge). The host clock is
+the one chrony, PTP or PPS disciplines, so readings from several devices on one machine share one time
+base whatever their own clocks report.
+
+Each live command watches its sensor and prints events as JSON lines beside the readings (`sensor-live
+--kind n2k` prints them on standard error, since its output is NMEA):
+
+| Flag | Event | When |
+|---|---|---|
+| `--stale-s <s>` | `stale`, then `stale-cleared` | no reading for that long, then one again |
+| `--frozen-n <n>` | `frozen`, then `frozen-cleared` | the same value `n` times in a row, then a change |
+| `--range <lo,hi>` | `out-of-range`, then `in-range` | the value leaves `[lo, hi]`, then returns |
+| `--reconnect` | `gap` with `from_s` and `host_s` | the device or connection ended or failed; it is opened again every second, and the time without input is reported when it is back |
+
+The watched value is the kept offset for `clock-live` and the magnitude of the specific force for an IMU.
+Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no
+reading is made up for it. `--sensor <name>` names the sensor in events. `tests/clock_live.rs` checks a
+TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay),
+and the frozen and range events. What needs the bench (L8): two sensors on one PPS agreeing within a
+pre-registered skew, and a real unplug and replug.
+
 ## IMU into the hybrid and fusion scenarios (`kshana imu-fit`)
 
 The `hybrid` and `fusion` (17-state UKF) scenarios are simulations: they take sensor noise
