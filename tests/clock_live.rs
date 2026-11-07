@@ -187,3 +187,132 @@ fn the_bundled_fixtures_read_live() {
         .unwrap();
     assert_eq!(o.status.code(), Some(2));
 }
+
+fn ticc_log() -> String {
+    let mut s = String::from("# TICC start-up menu text\nTimestamp mode\n");
+    let mut t: i128 = 3_000_000 * 1_000_000_000_000_000; // 3e5 s after power-up, in fs
+    for k in 0..80i128 {
+        // 1 s ticks with a few ns of wander, chB interleaved, one tick missing.
+        if k == 40 {
+            t += 1_000_000_000_000_000;
+            continue;
+        }
+        let wander = (k * 7919 % 2000) - 1000; // fs * 1e3 below
+        let v = t + wander * 1000;
+        s += &format!(
+            "{}.{:012} chA\n",
+            v / 1_000_000_000_000_000,
+            (v % 1_000_000_000_000_000) / 1000
+        );
+        s += &format!("{}.{:012} chB\n", v / 1_000_000_000_000_000 + 7, 0);
+        t += 1_000_000_000_000_000;
+    }
+    s
+}
+
+#[test]
+fn a_ticc_channel_live_equals_its_replay() {
+    let text = ticc_log();
+    let path = fresh("ticc.txt");
+    std::fs::write(&path, &text).unwrap();
+    let out = live(&[
+        "--format",
+        "ticc",
+        "--from",
+        path.to_str().unwrap(),
+        "--clock",
+        "chA",
+        "--tau0",
+        "1",
+    ]);
+    let inp = ClockLogInput {
+        format: "ticc".into(),
+        text: Some(text.clone()),
+        channel: Some("chA".into()),
+        tau0_s: Some(1.0),
+        ..Default::default()
+    };
+    let p = parse(ClockLogFormat::Ticc, &text, &inp, GapPolicy::Linear).unwrap();
+    assert_eq!(p.n_missing, 1);
+    // The replay fills the one missing tick; the kept live readings are the others, bit for bit.
+    let replay: Vec<f64> = p
+        .phase_s
+        .iter()
+        .enumerate()
+        .filter(|(i, _)| *i != 40)
+        .map(|(_, x)| *x)
+        .collect();
+    let got = kept(&out);
+    assert_eq!(got.len(), replay.len());
+    for (a, b) in got.iter().zip(&replay) {
+        assert_eq!(a.to_bits(), b.to_bits());
+    }
+    // Without --tau0 the live reader refuses.
+    let o = Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args(["clock-live", "--format", "ticc", "--from"])
+        .arg(&path)
+        .env("KSHANA_LANG", "en")
+        .output()
+        .unwrap();
+    assert_eq!(o.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&o.stderr).contains("--tau0"));
+}
+
+#[test]
+fn sensor_live_imu_followed_equals_the_replay() {
+    // The first time stamp of a EuRoC-style log, in nanoseconds: any large count works; only the
+    // differences from it are read.
+    const EUROC_T0_NS: u64 = 1_400_000_000 * 1_000_000_000;
+    use kshana::receiver_trust::machines::imu::{gyro_heading, read_imu, ImuFormat};
+    let mut text = String::from("#timestamp [ns],w_RS_S_x [rad s^-1],w_RS_S_y [rad s^-1],w_RS_S_z [rad s^-1],a_RS_S_x [m s^-2],a_RS_S_y [m s^-2],a_RS_S_z [m s^-2]\n");
+    for k in 0..300u64 {
+        let z = ((k as f64) * 0.05).sin() * 0.3;
+        text += &format!(
+            "{},0.01,-0.02,{z},0.3,0.1,9.80\n",
+            EUROC_T0_NS + k * 5_000_000
+        );
+    }
+    let path = fresh("imu.csv");
+    std::fs::write(&path, "").unwrap();
+    let (p2, send) = (path.clone(), text.clone());
+    let w = std::thread::spawn(move || {
+        let mut f = std::fs::OpenOptions::new().append(true).open(&p2).unwrap();
+        for c in send.as_bytes().chunks(211) {
+            f.write_all(c).unwrap();
+            f.flush().unwrap();
+            std::thread::sleep(Duration::from_millis(5));
+        }
+    });
+    let o = Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args([
+            "sensor-live",
+            "--kind",
+            "imu",
+            "--format",
+            "euroc",
+            "--follow",
+            "--max-seconds",
+            "2.5",
+            "--heading0",
+            "90",
+            "--from",
+        ])
+        .arg(&path)
+        .env("KSHANA_LANG", "en")
+        .output()
+        .unwrap();
+    w.join().unwrap();
+    assert!(o.status.success(), "{}", String::from_utf8_lossy(&o.stderr));
+    let got: Vec<serde_json::Value> = String::from_utf8(o.stdout)
+        .unwrap()
+        .lines()
+        .map(|l| serde_json::from_str(l).unwrap())
+        .collect();
+    let replay = read_imu(ImuFormat::Euroc, &text).unwrap();
+    let heading = gyro_heading(&replay, 90.0, true);
+    assert_eq!(got.len(), replay.len());
+    for ((g, r), h) in got.iter().zip(&replay).zip(&heading) {
+        assert_eq!(g["t_s"].as_f64().unwrap().to_bits(), r.t_s.to_bits());
+        assert_eq!(g["heading_deg"].as_f64().unwrap().to_bits(), h.1.to_bits());
+    }
+}

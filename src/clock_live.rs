@@ -9,7 +9,7 @@
 //! the phase series a replay of the same log gives (`tests/clock_live.rs`). Read only: nothing is
 //! written to the clock, the servo or the PPS device.
 
-use crate::clock_log::{read_line, ClockLogFormat, LineReading};
+use crate::clock_log::{read_line, ticc_line, ClockLogFormat, LineReading, TiccPhase};
 use serde::Serialize;
 use std::collections::VecDeque;
 
@@ -45,21 +45,39 @@ pub struct ClockLive {
     last_t: Option<f64>,
     window: VecDeque<f64>,
     n_kept: u64,
+    ticc: Option<TiccPhase>,
+    tau0: Option<f64>,
 }
 
 impl ClockLive {
     /// A reader for `fmt`, keeping the source named `clock` (or, without one, the first source
     /// seen; every line of a chrony tracking log).
     pub fn new(fmt: ClockLogFormat, clock: Option<String>) -> Result<Self, String> {
-        if !matches!(
-            fmt,
-            ClockLogFormat::Ptp4l
-                | ClockLogFormat::Phc2sys
-                | ClockLogFormat::Ts2phc
-                | ClockLogFormat::ChronyTracking
-                | ClockLogFormat::ChronyStatistics
-                | ClockLogFormat::PpsAssert
-        ) {
+        Self::with_tau0(fmt, clock, None)
+    }
+
+    /// As [`ClockLive::new`], with the sample interval a TICC log needs live (`--tau0`): the
+    /// whole-log reader finds it from all the time stamps, which a live reader does not have yet.
+    /// For TICC, `clock` names the channel (`chA`, `chB`, `chC` or a `TI...` label).
+    pub fn with_tau0(
+        fmt: ClockLogFormat,
+        clock: Option<String>,
+        tau0: Option<f64>,
+    ) -> Result<Self, String> {
+        if fmt == ClockLogFormat::Ticc && !tau0.is_some_and(|t| t.is_finite() && t > 0.0) {
+            return Err(crate::terr!("e-clock-live-ticc-tau0"));
+        }
+        if fmt != ClockLogFormat::Ticc
+            && !matches!(
+                fmt,
+                ClockLogFormat::Ptp4l
+                    | ClockLogFormat::Phc2sys
+                    | ClockLogFormat::Ts2phc
+                    | ClockLogFormat::ChronyTracking
+                    | ClockLogFormat::ChronyStatistics
+                    | ClockLogFormat::PpsAssert
+            )
+        {
             return Err(crate::terr!(
                 "e-clock-live-format",
                 format = fmt.name().to_string()
@@ -75,11 +93,54 @@ impl ClockLive {
             last_t: None,
             window: VecDeque::new(),
             n_kept: 0,
+            ticc: None,
+            tau0,
         })
+    }
+
+    /// A TICC line: the selected (or first) channel's phase.
+    fn ticc_reading(&mut self, line: &str) -> Option<(LineReading, bool)> {
+        let (v, label) = ticc_line(line)?;
+        let mine = match &self.clock {
+            Some(c) => &label == c,
+            None => self.chosen.get_or_insert_with(|| label.clone()) == &label,
+        };
+        if !mine {
+            let r = LineReading {
+                source: label,
+                t_s: v as f64 / 1e15,
+                offset_s: f64::NAN,
+                locked: None,
+                seq: None,
+            };
+            return Some((r, false));
+        }
+        let tau0 = self.tau0?;
+        let ph = self
+            .ticc
+            .get_or_insert_with(|| TiccPhase::new(tau0, label.starts_with("TI")));
+        let (offset, t, kept) = match ph.push(v) {
+            Some((x, t, _)) => (x, t, true),
+            None => (f64::NAN, v as f64 / 1e15, false),
+        };
+        Some((
+            LineReading {
+                source: label,
+                t_s: t,
+                offset_s: offset,
+                locked: None,
+                seq: None,
+            },
+            kept,
+        ))
     }
 
     /// Take one line; a reading gives one output line.
     pub fn push(&mut self, line: &str) -> Option<LiveClockLine> {
+        if self.fmt == ClockLogFormat::Ticc {
+            let (r, kept) = self.ticc_reading(line)?;
+            return Some(self.account(r, kept));
+        }
         let r = read_line(self.fmt, line)?;
         let mine = match (&self.clock, self.fmt) {
             (Some(c), _) => &r.source == c,
@@ -103,6 +164,11 @@ impl ClockLive {
         if self.state_seen && !self.locked_once {
             kept = false;
         }
+        Some(self.account(r, kept))
+    }
+
+    /// Count a reading and update the running statistics.
+    fn account(&mut self, r: LineReading, kept: bool) -> LiveClockLine {
         let since = kept.then(|| self.last_t.map(|t| r.t_s - t)).flatten();
         if kept {
             self.n_kept += 1;
@@ -121,14 +187,14 @@ impl ClockLive {
                 Some(self.window.iter().fold(0.0f64, |m, x| m.max(x.abs()))),
             )
         };
-        Some(LiveClockLine {
+        LiveClockLine {
             reading: r,
             kept,
             n_kept: self.n_kept,
             rms_s: rms,
             max_abs_s: max,
             since_last_s: since,
-        })
+        }
     }
 }
 
@@ -146,6 +212,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
     let mut follow = false;
     let mut poll = None;
     let mut max_s = None;
+    let mut tau0 = None;
     let mut i = 0;
     let secs = |v: Option<&String>, k: &str| -> Result<f64, String> {
         v.and_then(|v| v.parse::<f64>().ok())
@@ -160,6 +227,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
             "--clock" => clock = Some(v.ok_or_else(usage)?.clone()),
             "--poll-s" => poll = Some(secs(v, "--poll-s")?),
             "--max-seconds" => max_s = Some(secs(v, "--max-seconds")?),
+            "--tau0" => tau0 = Some(secs(v, "--tau0")?),
             "--follow" => {
                 follow = true;
                 i += 1;
@@ -172,7 +240,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
     let (Some(fmt), Some(from)) = (fmt, from) else {
         return Err(usage());
     };
-    let mut live = ClockLive::new(fmt, clock)?;
+    let mut live = ClockLive::with_tau0(fmt, clock, tau0)?;
     let start = std::time::Instant::now();
     let over = || max_s.is_some_and(|m| start.elapsed().as_secs_f64() >= m);
     let mut emit = |line: &str| -> Result<(), String> {
@@ -201,43 +269,48 @@ pub fn run(args: &[String]) -> Result<(), String> {
         }
         return Ok(());
     }
+    follow_lines(&from, follow, max_s, emit)
+}
+
+/// Read `from` (`-`, `tcp:host:port` or a file) a line at a time, calling `f` on each whole line.
+/// With `follow`, the end of a file is not the end: wait for more lines (and for the rest of a line
+/// still being written) until `max_s` seconds have passed.
+pub fn follow_lines(
+    from: &str,
+    follow: bool,
+    max_s: Option<f64>,
+    mut f: impl FnMut(&str) -> Result<(), String>,
+) -> Result<(), String> {
     use std::io::BufRead;
+    let io = |e: std::io::Error| format!("{from}: {e}");
+    let start = std::time::Instant::now();
+    let over = || max_s.is_some_and(|m| start.elapsed().as_secs_f64() >= m);
     let reader: Box<dyn std::io::Read> = if from == "-" {
         Box::new(std::io::stdin())
     } else if let Some(addr) = from.strip_prefix("tcp:") {
         Box::new(std::net::TcpStream::connect(addr).map_err(io)?)
     } else {
-        Box::new(std::fs::File::open(&from).map_err(io)?)
+        Box::new(std::fs::File::open(from).map_err(io)?)
     };
     let mut r = std::io::BufReader::new(reader);
     let mut line = String::new();
-    loop {
-        if over() {
+    while !over() {
+        let n = r.read_line(&mut line).map_err(io)?;
+        if n == 0 && !follow {
             break;
         }
-        line.clear();
-        let n = r.read_line(&mut line).map_err(io)?;
-        if n == 0 {
+        if !line.ends_with('\n') {
             if !follow {
+                // The last line of a finished input, with no newline.
+                f(&line)?;
                 break;
             }
-            // A log still being written: wait for the next line.
-            std::thread::sleep(std::time::Duration::from_millis(100));
+            // Nothing new yet, or a line still being written: keep what there is and wait.
+            std::thread::sleep(std::time::Duration::from_millis(50));
             continue;
         }
-        if !line.ends_with('\n') && follow {
-            // A line still being written: read the rest of it on the next pass.
-            let mut rest = String::new();
-            while !rest.ends_with('\n') && !over() {
-                std::thread::sleep(std::time::Duration::from_millis(20));
-                rest.clear();
-                if r.read_line(&mut rest).map_err(io)? == 0 {
-                    continue;
-                }
-                line.push_str(&rest);
-            }
-        }
-        emit(&line)?;
+        f(&line)?;
+        line.clear();
     }
     Ok(())
 }
@@ -272,5 +345,6 @@ mod tests {
         assert!(b.kept && (b.reading.offset_s + 1e-6).abs() < 1e-15);
         assert_eq!(b.reading.t_s, 1_700_000_001.0);
         assert!(ClockLive::new(ClockLogFormat::Ticc, None).is_err());
+        assert!(ClockLive::new(ClockLogFormat::TimeLab, None).is_err());
     }
 }
