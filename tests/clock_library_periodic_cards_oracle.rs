@@ -11,7 +11,7 @@
 //! result were seen before this pre-registration and are not reused.
 //!
 //! PRE-REGISTRATION (written 2026-10-02, committed and pushed before the window below was
-//! fetched; engine commit 2e0a2bc1).
+//! fetched; engine commit 791d436c).
 //!
 //! QUANTITY. As the device-card row: per card, at each averaging time it was fitted at, the
 //! ratio of the predicted overlapping Allan deviation (power-law noise, the drift's
@@ -41,7 +41,7 @@
 //! MUTATION (pre-registered): replace `4.0 * a * a` by `0.0 * a * a` in `DeviceCard::adev`
 //! (drop the periodic terms from the prediction); a passing strict test must turn red.
 //!
-//! VERDICT (first and only run, 2026-10-02, after pre-registration commit fb475550): DISAGREES,
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit 698f3842): DISAGREES,
 //! the row is not promoted. 9 of 11 periodic cards are within the bar (worst factors G06 1.100,
 //! G08 1.145, G09 1.053, G10 1.062, G24 1.153, G26 1.336, G27 1.117, G30 1.415, G32 1.083); G03
 //! fails at 1.947 and G25 at 1.581, both OPTIMISTIC between 60 s and 2000 s (G03 0.514 at

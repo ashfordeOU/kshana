@@ -1,7 +1,7 @@
 # Results: SPK writer (types 9 and 13) and reader against the NAIF SPICE Toolkit
 
-Pre-registration: `PREREGISTRATION.md` (5059fd2a), committed alone before any comparison. The
-writer, reader, OEM export and test were committed in a189d6b7 before SPICE read any
+Pre-registration: `PREREGISTRATION.md` (75bc61d9), committed alone before any comparison. The
+writer, reader, OEM export and test were committed in 8506f632 before SPICE read any
 Kshana-written kernel or wrote its own. Judged by `tests/spk_writer_spice_oracle.rs`.
 
 Oracle: CSPICE N0067 through spiceypy 8.3.0, leapseconds kernel `naif0012.tls`
@@ -44,7 +44,7 @@ Mutation checks (planned in the pre-registration), each turning the test red and
   did a JSON serialisation of raw summaries; neither touched a compared value.
 * Readings of the pre-registration's table that it left open (per-segment Kepler elements, the
   F1 S3 start window, the F3 degree cycle, the OEM leap-second line) are fixed in the
-  generator's docstring, committed in 8617323a before any SPICE call.
+  generator's docstring, committed in 53f6a230 before any SPICE call.
 * Inputs are synthetic Kepler arcs with noise; nothing is claimed about physical accuracy.
 * The writer refuses comments that need more than the reserved records (SPICE would move the
   arrays then, writing uninitialised bytes that no other writer can reproduce).

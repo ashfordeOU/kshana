@@ -8,7 +8,7 @@
 //! # Pre-registration (written 2026-10-02, before the gravity-field files, the pyshtools
 //! values or the Horizons velocities were fetched or computed)
 //!
-//! **Why a new pre-registration.** Round 2 (commit 3d1442c9) changed the comparison of
+//! **Why a new pre-registration.** Round 2 (commit 3d6b0de5) changed the comparison of
 //! `tests/lunar_rate_frame_coupling_oracle.rs` (a new function, new inputs and a new closed form)
 //! without a new pre-registration, and it used Kshana's own J2 (`body::MOON_ZONALS_J2_J3`), which
 //! is not the publication's input. This file replaces it as the promotion basis.
@@ -82,7 +82,7 @@
 //! extracted field numbers, pyshtools output, Horizons velocities), produced only after this
 //! header was committed.
 //!
-//! # Result (run 2026-10-02, after the pre-registration commit 5590ab21)
+//! # Result (run 2026-10-02, after the pre-registration commit bb51058e)
 //!
 //! * Entry 1: J2 referred to a_m 2.031887e-4 (A) and 2.031891e-4 (B); Kshana 3.1388012e-11
 //!   against 3.13881e-11, relative 2.80e-6 for both fields (0.028 of the bar).

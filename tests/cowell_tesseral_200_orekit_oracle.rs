@@ -3,7 +3,7 @@
 //! `propagator::Geopotential` with the Holmes–Featherstone evaluator, against Orekit's
 //! `HolmesFeatherstoneAttractionModel` + `DormandPrince853` over the same full ICGEM `EGM2008.gfc`,
 //! both in an Earth-fixed frame rotated by the Earth rotation angle at UT1 = TT. Bars
-//! pre-registered in `xval/cowell-tesseral-200-orekit/PREREGISTRATION.md` (0aa312a6); results in
+//! pre-registered in `xval/cowell-tesseral-200-orekit/PREREGISTRATION.md` (876be39d); results in
 //! `xval/cowell-tesseral-200-orekit/RESULTS.md`.
 //!
 //! **Data gate.** The full model (252 MB) is not bundled: fetch it with `scripts/fetch_egm2008.sh`

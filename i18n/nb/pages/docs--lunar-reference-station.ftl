@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Kilder S1 til S5 (tittel, URL, hentedato, SHA-256, lisens): <
 
 seg-d866653008e1 = Hver numeriske påstand, sitert med side og oppgitte forutsetninger og klassifisert som sammenlignbar, delvis sammenlignbar eller ikke sammenlignbar: <c1/>. Ingen påstand er fullt sammenlignbar, fordi ingen kilde oppgir en persentil eller satellittenes banelementer.
 
-seg-50535c58d3cf = Terskler, tilfeller og inndata, committet alene før kjøringen (revisjon { "2" }, 05bf9a19), og den registrerte kjøringen: <c1/>. Funnet er låst i <c2/>.
+seg-50535c58d3cf = Terskler, tilfeller og inndata, committet alene før kjøringen (revisjon { "2" }, ebac1e14), og den registrerte kjøringen: <c1/>. Funnet er låst i <c2/>.
 
 seg-069a652c402e = terskel
 

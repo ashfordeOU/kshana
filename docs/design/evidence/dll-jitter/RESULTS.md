@@ -1,6 +1,6 @@
 # DLL discriminator jitter: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `a60ad599`, before these runs).
+Pre-registration: `PREREGISTRATION.md` (committed at `50a494ed`, before these runs).
 Reproduce with `cargo test --release --test iq_track_engine dll_jitter_survey -- --ignored --nocapture`.
 The source is a synthetic GPS L1 C/A signal (PRN 13, 1500 Hz Doppler, infinite bandwidth),
 tracked with the default loops: first-order 2 Hz carrier-aided EMLP DLL, d = 0.5, T = 1 ms.

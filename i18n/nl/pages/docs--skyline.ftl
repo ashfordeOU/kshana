@@ -204,7 +204,7 @@ seg-9d04c658b37a = Elk resultaat draagt <c1/> (MODELLED), de <c2/> (geometrie on
 
 seg-0e1285fdfe52 = Vijf registerrijen (<c1/>), zoals de ontwerpnotitie ze afbakent:
 
-seg-1aa76286f152 = Orekit { "12.2" } (<c1/>-kijkhoeken, <c2/>) met gnss_lib_py { "1.0.4" } (<c3/> en de DOP-matrix), vooraf vastgelegd in <c4/> (commit e4b9d912) voordat een van beide was uitgevoerd: { "1173" } kijkhoeken op zes locaties en vier epochs, zes tabellen, { "142" } zichtbare sets; ongunstigste elevatie { "1.3e-13" }°, azimut { "2.3e-13" }°, masker { "1.1e-12" }° tegen { "1e-9" }°; identieke zichtbare sets, geen in de grensband; DOP { "3.3e-13" } relatief en cofactor { "6.6e-13" } van de matrixschaal tegen { "1e-9" }. Bereik: tabelmaskers, geodetische kijkhoeken, de gemaskeerde set en haar DOP en cofactor met gemeenschappelijke klok.
+seg-1aa76286f152 = Orekit { "12.2" } (<c1/>-kijkhoeken, <c2/>) met gnss_lib_py { "1.0.4" } (<c3/> en de DOP-matrix), vooraf vastgelegd in <c4/> (commit d94130d4) voordat een van beide was uitgevoerd: { "1173" } kijkhoeken op zes locaties en vier epochs, zes tabellen, { "142" } zichtbare sets; ongunstigste elevatie { "1.3e-13" }°, azimut { "2.3e-13" }°, masker { "1.1e-12" }° tegen { "1e-9" }°; identieke zichtbare sets, geen in de grensband; DOP { "3.3e-13" } relatief en cofactor { "6.6e-13" } van de matrixschaal tegen { "1e-9" }. Bereik: tabelmaskers, geodetische kijkhoeken, de gemaskeerde set en haar DOP en cofactor met gemeenschappelijke klok.
 
 seg-b33828edbe2f = met de hand berekende waarden; de vergelijking hierboven leest hun tabellen als invoer en controleert ze niet
 
@@ -212,7 +212,7 @@ seg-ca950752be62 = Skyline-voorinstellingen
 
 seg-83946f66ca78 = geen: gekozen, vermelde afmetingen (alleen aan zichzelf getoetst)
 
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> en <c2/> (standaard P2) op de { "142" } vastgelegde zichtbare sets, gemeenschappelijke klok en één klok per systeem, vooraf vastgelegd in <c3/> (commit 0bbeeaee): { "270" } gevallen, assen { "5.1e-13" } relatief, oriëntatie { "5.3e-12" }°, cofactor { "1.0e-12" } van de matrixschaal, tegen { "1e-9" } en { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> en <c2/> (standaard P2) op de { "142" } vastgelegde zichtbare sets, gemeenschappelijke klok en één klok per systeem, vooraf vastgelegd in <c3/> (commit 2dfc9c16): { "270" } gevallen, assen { "5.1e-13" } relatief, oriëntatie { "5.3e-12" }°, cofactor { "1.0e-12" } van de matrixschaal, tegen { "1e-9" } en { "1e-6" }°
 
 seg-44e5f9ca28f7 = Hemelgeometriefuncties
 

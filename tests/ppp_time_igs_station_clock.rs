@@ -9,7 +9,7 @@
 //! KSHANA SIDE: `ppp_real::run_ppp` with the configuration of `tests/ppp_real_wettzell_oracle.rs`.
 //! The receiver clock is `PppEpoch::clock_m / c`.
 //!
-//! BARS, registered in `xval/ppp-time/PREREGISTRATION.md` (commit 661ad138, before any comparison),
+//! BARS, registered in `xval/ppp-time/PREREGISTRATION.md` (commit 66c67ce6, before any comparison),
 //! over 04:00-05:55 at the IGS 5-minute epochs:
 //!
 //! - T1: standard deviation of (Kshana − IGS) ≤ 0.20 ns;

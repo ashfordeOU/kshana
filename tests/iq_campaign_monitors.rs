@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The IQ monitors in the lab-replay campaign (`kshana::iq::campaign::detect`), against the
-//! bars pre-registered in `docs/design/MONITORS-IN-CAMPAIGN.md` §3 (382ab2f4).
+//! bars pre-registered in `docs/design/MONITORS-IN-CAMPAIGN.md` §3 (56322c99).
 //!
 //! The campaigns are Kshana scenes carrying GPS L1 C/A signals only (2.5 MHz complex, raw front
 //! end, the default loop design). The positive events attenuate each satellite's own signal

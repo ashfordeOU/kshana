@@ -5,7 +5,7 @@
 //! Scientific Technical Report STR06/01 (2006), doi:10.2312/GFZ.b103-06011, Table 5 (model A2 is
 //! Ray 2001). Amplitudes there are equivalent water height (cm, ρw = 1025 kg/m³), phases are sine
 //! leads (degrees). The 21 rows of Ray's waves at degrees 2 to 4 are transcribed below as printed.
-//! Bars pre-registered in `xval/s2-air-tide-fix/PREREGISTRATION.md` (5e31c37a): 0.0006 cm and 0.1°.
+//! Bars pre-registered in `xval/s2-air-tide-fix/PREREGISTRATION.md` (d2c3d297): 0.0006 cm and 0.1°.
 //!
 //! PIN-SCOPE:    the 21 transcribed Table 5 model A2 rows (n, m, prograde/retrograde, amplitude,
 //!               phase) and the pre-registered 0.0006 cm / 0.1° agreement with tides::s2_air_waves.

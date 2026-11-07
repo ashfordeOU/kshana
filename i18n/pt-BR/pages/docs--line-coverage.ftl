@@ -27,7 +27,7 @@ seg-6f8d24ecb89f = — { "55,970" } de { "58,697" } linhas
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
+# c1: fb73817
 # c2: v0.29.0
 seg-d734cdb77d70 = <c1/> (motor { "0.29.0" }, a tag <c2/>)
 
@@ -83,7 +83,7 @@ seg-b566e95a74ab = depois atualize a tabela acima e as seis superfícies no mesm
 seg-6935c9c381b3 = Histórico
 
 # text
-# c1: b1d350d
+# c1: 7b4617c
 # c2: 1daa012
 # c3: CHANGELOG.md
 # c4: paper/kshana-technical-report.md

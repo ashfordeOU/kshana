@@ -7,7 +7,7 @@
 //! stations, and the start and stop times. The reader never reads the label. This test parses
 //! the label separately.
 //!
-//! BARS, registered in `xval/mro-odf/PREREGISTRATION.md` (commit d54306bf, before the reader
+//! BARS, registered in `xval/mro-odf/PREREGISTRATION.md` (commit 5731811c, before the reader
 //! existed):
 //!
 //! - R1: record count;

@@ -3,7 +3,7 @@
 // portable maths (STUDIO-15), so the engine is checked against a second implementation.
 //! Azimuth-dependent skyline masks against Orekit 12.2 and gnss_lib_py 1.0.4, as pre-registered
 //! in `xval/orekit-skyline/PREREGISTRATION.md` (the inputs, the quantities (a) to (f), the
-//! tolerances and the decision rule were committed in e4b9d912, before either oracle was run).
+//! tolerances and the decision rule were committed in d94130d4, before either oracle was run).
 //! Result of the first run: every quantity passed, worst elevation 1.3e-13 deg, azimuth
 //! 2.3e-13 deg and mask 1.1e-12 deg against 1e-9, identical visible sets with none in the
 //! boundary band, DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9.

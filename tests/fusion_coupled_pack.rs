@@ -3,7 +3,7 @@
 //!
 //! FUT-16 adds an optional `[coupled]` table to the shared hybrid scenario: the `fusion` pack
 //! then runs the coupled pseudorange filter. Without it both kinds must take exactly their old
-//! code paths. The hashes below were taken on `e74504b` (branch `feat/fusion-ins-0.36`) BEFORE
+//! code paths. The hashes below were taken on `0b2485a` (branch `feat/fusion-ins-0.36`) BEFORE
 //! the table existed.
 //!
 //! PIN-SCOPE:    the CLI-level JSON and SVG (engine version blanked in both) and summary of the bundled

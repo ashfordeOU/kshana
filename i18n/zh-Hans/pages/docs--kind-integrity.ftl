@@ -14,7 +14,7 @@ seg-ee7dd15019d0 = 主题页面：<a1>CAMPAIGNS.md</a1>
 
 seg-3bc1761c76ab = 有{ "3" }个内置场景使用此类型；其余的在<a1><c1/></a1>中。
 
-seg-aec7fc2a4070 = <b>VALIDATED</b>依据ARAIM Airborne Design Document（ADD）v4.2的ARAIM多假设解分离（araim_reference::add_v42_protection_levels与add_v42_protecti。参考基准（oracle，ExternalDataset）：三种独立工具，在任何夹具或参考基准输出出现之前已预先登记（0123cee1），容差在当时即已固定。（{ "1" }）ARAIM：Stanford MAAST for ARAIM { "2" }（提交ab70e2a3，BSD-3）mhss_raim_baseline_v5.m，在GNU Octave { "8.4" }下作为独立程序运行，驱动端带一个unique() 兼容垫片（已披露，算法未改动），ADD的TOL_PL取{ "0.05" } m：该Rust实现复现了ADD参考实现于
+seg-aec7fc2a4070 = <b>VALIDATED</b>依据ARAIM Airborne Design Document（ADD）v4.2的ARAIM多假设解分离（araim_reference::add_v42_protection_levels与add_v42_protecti。参考基准（oracle，ExternalDataset）：三种独立工具，在任何夹具或参考基准输出出现之前已预先登记（ba7a01a7），容差在当时即已固定。（{ "1" }）ARAIM：Stanford MAAST for ARAIM { "2" }（提交ab70e2a3，BSD-3）mhss_raim_baseline_v5.m，在GNU Octave { "8.4" }下作为独立程序运行，驱动端带一个unique() 兼容垫片（已披露，算法未改动），ADD的TOL_PL取{ "0.05" } m：该Rust实现复现了ADD参考实现于
 
 seg-277205e56d73 = <b>VALIDATED</b>由视线几何经Q=(HᵀH)⁻¹ 并按局部ENU分解得到GDOP/PDOP/HDOP/VDOP/TDOP。参考基准（oracle，ExternalDataset）：gnss_lib_py { "1.0.4" }（Stanford NAV Lab）DOP——独立的库，吻合到相对{ "1e-6" }
 

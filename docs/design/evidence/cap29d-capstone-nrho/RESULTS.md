@@ -1,6 +1,6 @@
 # The CR3BP 9:2 NRHO against CAPSTONE's flown orbit: results (a measurement)
 
-Pre-registration: `PREREGISTRATION.md` (4e868170). Data: JPL Horizons CAPSTONE (-1176),
+Pre-registration: `PREREGISTRATION.md` (dab3215c). Data: JPL Horizons CAPSTONE (-1176),
 2023-03-01..31 TDB, 10 min, Moon-centred ICRF; the window was covered, so no move.
 `tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt`, SHA-256 `fed146a1ea7a2a5c92510cea476d9c6903c19baea67cd19e5a306f78071d18a2`.
 Run 2026-10-13, `cargo test --release --test capstone_nrho_horizons -- --nocapture`.

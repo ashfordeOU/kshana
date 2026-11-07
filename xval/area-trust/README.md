@@ -98,7 +98,7 @@ Written on 7 November 2026, before the harness was run.
 14. **Stations and background.** There are 100 stations at 1 Hz. Station `i` replays the real background of
     Madrid station `i mod 4`. Its start is offset into the 13 scored days by `11 h × ⌊i/4⌋` plus 2 h per
     run, wrapping at the end of day 019, so the replicas do not share their noise in time. The background
-    comes from T4's per-epoch evidence (reading 11, with the navigation parser fix of 7556cdc5f):
+    comes from T4's per-epoch evidence (reading 11, with the navigation parser fix of 887997061):
     - the horizontal position error, as east and north components;
     - the C/N0 statistic;
     - the loss-of-lock outcome.

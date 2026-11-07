@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The P2 (NumPy) leg of `lunar-frame-campaign` at the condition-scaled bar of
-//! `docs/design/evidence/mr05-lunar-datum-cond/PREREGISTRATION.md` (committed alone, b887eb05),
+//! `docs/design/evidence/mr05-lunar-datum-cond/PREREGISTRATION.md` (committed alone, 3855e840),
 //! on eight scenarios: the six of `tests/lunar_vlbi_campaign_spice_oracle.rs` and two fresh ones,
 //! `stations_estimated_fresh` and `stations_fixed_fresh`, the default network on the date
 //! D = 2026-12-01 chosen by `examples/mr05_fresh_date_probe.rs` after the pre-registration.

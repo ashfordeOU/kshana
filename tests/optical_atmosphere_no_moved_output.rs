@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Pre-registered bar A5 (xval/optical-atmosphere/PREREGISTRATION.md): the optical link budget
-//! and the existing site-availability model are bit-identical to the base commit 5eac3b61 when
+//! and the existing site-availability model are bit-identical to the base commit b17aba49 when
 //! no atmosphere is supplied. The expected digest was produced by running this same grid at
-//! 5eac3b61, before any of the 0.37 optical-atmosphere code existed.
+//! b17aba49, before any of the 0.37 optical-atmosphere code existed.
 
 use kshana::optical_availability::{
     correlated_union_availability, default_network, independent_union_availability,

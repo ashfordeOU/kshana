@@ -2,7 +2,7 @@
 //! The `solar-system` kind with `planetary_kernel_path` against SPICE.
 //!
 //! Pre-registration: `docs/design/evidence/cap31-solar-system-kernel/PREREGISTRATION.md`
-//! (f8e946ea). Oracle: `tests/fixtures/solar_system_kernel/` (SPICE spkezr on the full
+//! (f4a6297a). Oracle: `tests/fixtures/solar_system_kernel/` (SPICE spkezr on the full
 //! de440s.bsp; NOTICE.md). The engine reads one bit-for-bit de440s cut per epoch. Bars: Mercury,
 //! Venus, the Earth and the Moon within 1 mm and 1e-6 m/s; the kernel block lists exactly those
 //! four; every other body keeps its analytic label.

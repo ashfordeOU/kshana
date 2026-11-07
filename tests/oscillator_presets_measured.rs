@@ -214,7 +214,7 @@ fn caesium_preset_envelopes_the_measured_5071a() {
     );
 }
 
-/// FINDING pinned (run 2026-10-02, after the pre-registration commit a01c491c). The
+/// FINDING pinned (run 2026-10-02, after the pre-registration commit 43d19980). The
 /// record's short-term Allan deviation falls as 1/τ (3.3e-10 at 1 s, white phase noise
 /// of the measurement), 30 times the datasheet figure; the unit is inside the preset
 /// only from about 1e4 s. The holdover time error is above the synthesised one at every
@@ -353,7 +353,7 @@ fn rubidium_preset_envelopes_thu2_8040c() {
     );
 }
 
-/// FINDING pinned (run 2026-10-02, after a01c491c): Allan deviation inside the preset
+/// FINDING pinned (run 2026-10-02, after 43d19980): Allan deviation inside the preset
 /// (pooled over 19 days), holdover time error outside it, growing with the coast.
 #[test]
 fn rubidium_finding_pinned() {
@@ -409,7 +409,7 @@ fn csac_preset_envelopes_sa45s_production_units() {
     );
 }
 
-/// FINDING pinned (run 2026-10-02, after a01c491c).
+/// FINDING pinned (run 2026-10-02, after 43d19980).
 #[test]
 fn csac_finding_pinned() {
     let r = csac_ratios();

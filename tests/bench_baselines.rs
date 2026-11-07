@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! kshana-bench baselines against the bars of `xval/bench/PREREGISTRATION.md` (1.0.0, committed in
-//! 4e1a0ed before `kshana bench` existed) and `PREREGISTRATION-v2.md` (2.0.0, committed in e8bb485
+//! 311aec6 before `kshana bench` existed) and `PREREGISTRATION-v2.md` (2.0.0, committed in c8d7ce1
 //! before any v2 score). Results: `xval/bench/RESULTS-v1.md` and `RESULTS-v2.md`.
 //!
 //! PIN-SCOPE:    the first and only scored run of the task (c) and (d) baselines on the `test` split

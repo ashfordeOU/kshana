@@ -1,11 +1,11 @@
 # Result: the jammer-type Q change, compared as pre-registered
 
-Pre-registration: `xval/jammer-q/PREREGISTRATION.md` (commit ff88da05), committed before the
+Pre-registration: `xval/jammer-q/PREREGISTRATION.md` (commit 375156b3), committed before the
 changed engine ran on any scenario.
 
 ## Method as run
 
-- **Binaries:** release builds of `release/0.36.0-rc` @ 617d4f51 ("before") and of the change
+- **Binaries:** release builds of `release/0.36.0-rc` @ b916b6a4 ("before") and of the change
   ("after"). A spot check confirmed the "before" binary gives the swept jammer of
   `l-band-waterfall-jamming` a table Q of 1.
 - **Runs:** all 144 runnable scenario files under `scenarios/`, each with both binaries. Exit
@@ -79,7 +79,7 @@ The SVG charts and summaries of the changed scenarios move with their results, a
     exactly.
   - **Cell-file DIGESTs:** these cover the reference fields, so they are re-pinned: M2M4
     eae86091… → 89c76e01…, and NWPR fd5b8c32… → 79696147….
-  - **Later change (false-lock scorer fix, 436eda13).** It came after these pins were
+  - **Later change (false-lock scorer fix, ae3942f9).** It came after these pins were
     registered. The campaign scorer never counted a false lock the tracker reported from LOCKED:
     the check moves the channel to LOST, and the scorer flagged the next, unlocked update.
     Fixing that changes exactly six fields of the reference campaign, the same in M2M4 and

@@ -77,8 +77,8 @@
 //!   seen in round 1. The engine model below is the textbook error model with no fitted
 //!   parameter, so it cannot be tuned to them.
 //!
-//! # Result (run 2026-10-02, after the engine change, commit 440b3877, and the fixture,
-//! commit 73929319)
+//! # Result (run 2026-10-02, after the engine change, commit cce1c47a, and the fixture,
+//! commit 2be7ea95)
 //!
 //! AGREES: all 48 comparisons within 5 %. Largest differences: VRW +3.70 % at 1200 s and
 //! +3.67 % at 1800 s, ARW +3.33 % at 1800 s, VRW -3.02 % at 60 s (the stochastic terms sit

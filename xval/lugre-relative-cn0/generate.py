@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Build the fixtures of tests/lugre_relative_cn0_visibility.rs (pre-registered in 768cb62b).
+"""Build the fixtures of tests/lugre_relative_cn0_visibility.rs (pre-registered in 7425dc34).
 
 Independent of Kshana: Python with numpy, spiceypy and openpyxl. Writes into
 tests/fixtures/lugre_relative_cn0/:

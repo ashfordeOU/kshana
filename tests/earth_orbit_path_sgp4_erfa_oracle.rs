@@ -64,7 +64,7 @@
 //! cases; leg 2 worst GCRS->ITRS 2.9e-6 mas (bar 0.1 mas) and TEME->ITRS 0.41 mas (bar 2 mas)
 //! over 108 instants. Deliberate mutations turn this test red: polar motion dropped (46
 //! failures, 497 mas); WGS-84 constants in place of WGS-72 in `SgpOrbit::new` (4432 failures,
-//! 64.6 m). Pre-registration commit 72ea9eb0. Fixture: `tests/fixtures/earth_orbit_path_sgp4_erfa_oracle/`.
+//! 64.6 m). Pre-registration commit d92aef9b. Fixture: `tests/fixtures/earth_orbit_path_sgp4_erfa_oracle/`.
 
 use kshana::jd2::Jd2;
 use kshana::precession::Mat3;

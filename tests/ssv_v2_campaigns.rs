@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The scored runs of the signed-off v2 pre-registration for `gnss-ssv` (`xval/gnss-ssv/PREREGISTRATION-v2.md`,
-//! signed off in 5f4250c8 before any run). Results and verdicts: `xval/gnss-ssv/RESULTS-v2.md`.
+//! signed off in 6fd7f5f7 before any run). Results and verdicts: `xval/gnss-ssv/RESULTS-v2.md`.
 //!
 //! PIN-SCOPE:    the control run reproducing run 1 cell for cell (campaign A's result, EXPLORATORY), the ablation
 //!               sensitivity table (campaign B, EXPLORATORY, no bar), bar S7b including its miss, and that campaign D

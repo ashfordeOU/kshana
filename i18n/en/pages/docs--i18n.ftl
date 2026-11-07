@@ -199,7 +199,7 @@ seg-67e04a43cea8 = The wasm build embeds the English catalogue only. The other s
 # c1: .wasm
 # c2: cargo build --release --target wasm32-unknown-unknown --features wasm --lib
 # c3: fluent-bundle
-seg-9a2f85e7e43c = Size, unoptimised <c1/> from <c2/> (before wasm-bindgen and wasm-opt), base bc04e98f against this branch: { "18.71" } MB -> { "19.88" } MB raw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. The English catalogue is { "521" } kB raw, { "153" } kB gzip of it; the rest is <c3/> and its dependencies. This is accepted as measured.
+seg-9a2f85e7e43c = Size, unoptimised <c1/> from <c2/> (before wasm-bindgen and wasm-opt), base 68e8632b against this branch: { "18.71" } MB -> { "19.88" } MB raw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. The English catalogue is { "521" } kB raw, { "153" } kB gzip of it; the rest is <c3/> and its dependencies. This is accepted as measured.
 
 # text
 seg-3ce9aab4916e = The catalogue

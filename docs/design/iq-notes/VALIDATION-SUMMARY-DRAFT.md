@@ -7,7 +7,7 @@ cites on the released 0.31.0 tag, and keep the honest rule — a line reads
 fixed before the comparison; everything else is MODELLED and labelled so.
 Numbers below are the enforced test bars and the measured results on committed
 seeds, not marketing figures.
-Refreshed 2026-10-12 (docs truth pass, release/0.36.0-rc @ c9e37402): the ledger counts and
+Refreshed 2026-10-12 (docs truth pass, release/0.36.0-rc @ 81d2f933): the ledger counts and
 the list of validated signal-layer rows below. The per-figure table has NOT been re-run for
 this refresh; re-confirm each figure against the test it cites on the release being sent.
 -->

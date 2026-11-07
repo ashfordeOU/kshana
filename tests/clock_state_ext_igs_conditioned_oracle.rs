@@ -5,12 +5,12 @@
 //! extended filter, tuning rule and criteria UNCHANGED, on a fresh window whose records are first
 //! cleaned by the frozen conditioning detector of the measured clock library.
 //!
-//! WHY. Round 2 (`tests/clock_state_ext_igs_fresh_oracle.rs`, pre-registered 4b1a841e) met
+//! WHY. Round 2 (`tests/clock_state_ext_igs_fresh_oracle.rs`, pre-registered d8d18573) met
 //! criteria (a) and (b) on all 11 satellites and failed (c) on G24 and G30, whose first halves
 //! carried bursts of large phase second differences that the likelihood tuning absorbed as extra
 //! noise. A day-boundary repair was tried afterwards on both windows and failed; it is not
-//! reused. The detector here (`clock_library::condition`, frozen at engine commit 52a931b2 and
-//! pre-registered in 2ec76864) is a whole-record design that knows nothing of day or file
+//! reused. The detector here (`clock_library::condition`, frozen at engine commit a6e24d78 and
+//! pre-registered in 14169982) is a whole-record design that knows nothing of day or file
 //! boundaries. Disclosed: on 2026-03-01 to 14 the detector removed 15 to 78 phase steps per
 //! 30 s GPS IIF record segment; that window is not used here.
 //!
@@ -41,7 +41,7 @@
 //! MUTATION (pre-registered, if it passes): halve the tuned `R` in the scored run (a mistuned
 //! measurement noise must break (c)).
 //!
-//! VERDICT (first and only run, 2026-10-02, after pre-registration commit fb475550): DISAGREES,
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit 698f3842): DISAGREES,
 //! the row stays MODELLED, closer than round 2. (a) one-step holds on all 11 satellites (0.941 to
 //! 0.968); (c) the triple-NIS mean, which failed on G24 and G30 in round 2, now holds on all 11
 //! (2.641 to 3.549); (b) the one-hour criterion fails on two, G09 (0.894) and G26 (0.876), both

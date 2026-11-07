@@ -1,6 +1,6 @@
 # Results: 24 h EGM2008 200×200 Cowell orbit against Orekit 12.2 (FUT-07)
 
-First comparison run 2026-10-12, after the pre-registration (0aa312a6), with the full ICGEM
+First comparison run 2026-10-12, after the pre-registration (876be39d), with the full ICGEM
 `EGM2008.gfc` (SHA-256 ab5b524da073e63b5bdceb7ca47a0de07a26dd44a1c5798f39fc98dc80af70fd) and the
 Orekit fixture unchanged. Test: `tests/cowell_tesseral_200_orekit_oracle.rs` (data-gated).
 

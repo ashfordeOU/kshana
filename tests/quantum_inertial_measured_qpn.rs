@@ -140,7 +140,7 @@ fn gauguet_ratios() -> (f64, Vec<(f64, f64)>) {
     (op, pts)
 }
 
-/// FINDING pinned (run 2026-10-02, after the pre-registration commit fcb9ac64): the
+/// FINDING pinned (run 2026-10-02, after the pre-registration commit e7de532a): the
 /// QPN-only prediction sits 21 % to 31 % below the measured rotation noise at the three
 /// admitted points (ratios 0.788, 0.739, 0.695) and 25 % below at the operating point
 /// (0.751). The worst point misses the ±30 % bar by 0.5 percentage points. The gap has
@@ -193,7 +193,7 @@ fn gyroscope_qpn_matches_gauguet_measured_rotation_noise() {
     assert!(worst <= BAR, "worst |ratio - 1| {worst:.3} exceeds {BAR}");
 }
 
-/// Reference check, run 2026-10-02 after the pre-registration commit fcb9ac64: kshana's
+/// Reference check, run 2026-10-02 after the pre-registration commit e7de532a: kshana's
 /// gradiometer composition reproduces the authors' QPN model line at all 40 dashes,
 /// ratio 1.013 to 1.017 (bar ±10 %).
 #[test]

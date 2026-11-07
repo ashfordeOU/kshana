@@ -4,7 +4,7 @@
 //! PA series.
 //!
 //! Pre-registration: `docs/design/evidence/fut05b-me-pa-offset-sign/PREREGISTRATION.md`
-//! (committed alone, e1ead19b). Oracle: `pxform('MOON_ME', 'MOON_PA', et)` of the NAIF SPICE
+//! (committed alone, ab511714). Oracle: `pxform('MOON_ME', 'MOON_PA', et)` of the NAIF SPICE
 //! Toolkit on `moon_080317.tf` and `moon_pa_de421_1900-2050.bpc`
 //! (`tests/fixtures/lunar_me_pa_offset_spice/`, provenance in its NOTICE.md).
 //!
@@ -14,7 +14,7 @@
 //!
 //! ## Result
 //!
-//! Run 2 (under the re-registration be33382e): offset 2.6e-16 rad from SPICE, PA 5.93" to 8.30"
+//! Run 2 (under the re-registration ea5f4cbf): offset 2.6e-16 rad from SPICE, PA 5.93" to 8.30"
 //! from DE440: both bars hold. First run, 2026-10-13, on the shipped code: **NOT MET**. The PA<-ME factor is 207.70" (1.007e-3
 //! rad) from SPICE at all three epochs, twice the 103.9" offset, and `icrf_to_moon_pa` is 208.8"
 //! to 211.2" from DE440 PA. The pre-registered change (the transpose dropped) brought the factor to

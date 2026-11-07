@@ -5,7 +5,7 @@
 //! is unknown); the label is always reported. This file proves it on the recorded outputs of the
 //! two committed example sessions, whose geometry is good (vessel demo) or for which no score
 //! exists (static example): with the keys 0.36 appended removed, every output is byte-identical
-//! to what engine 0.35.0 wrote (release commit 35c1558d), and the outputs that gained nothing
+//! to what engine 0.35.0 wrote (release commit 5f7c44cc), and the outputs that gained nothing
 //! (the CSV, the SVG, the one-line verdict, the `$PKSHT` sentence, telemetry of a 0.35 input)
 //! are byte-identical as they stand. `tests/geometry_corpus_identity.rs` does the same for every
 //! committed vessel NMEA corpus, GPS-only open sky included.
@@ -433,7 +433,7 @@ fn without_label_fields(name: &str, text: &str) -> String {
 #[test]
 fn the_label_fields_are_appended_to_the_0_36_telemetry_and_nothing_else_moves() {
     // PIN-SCOPE:    the demo's 0.36 telemetry with the label fields removed equals the output pinned
-    //               before the label existed (commit 6609ea54)
+    //               before the label existed (commit b3c71eb0)
     // PIN-EXCLUDES: the label fields themselves, pinned above
     let before_label: [(&str, &str); 6] = [
         (

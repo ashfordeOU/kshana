@@ -1,8 +1,8 @@
 # Acquisition hysteresis and the front-end quantiser in the jamming kind: results
 
 Item CAP-06 (c), run 2026-10-14 against the bars of [`PREREGISTRATION.md`](PREREGISTRATION.md)
-(70c72fcc, before the code) and, for H2 to H4 on a second run set,
-[`PREREGISTRATION-SUPPLEMENT-1.md`](PREREGISTRATION-SUPPLEMENT-1.md) (37793290, before those
+(2ca31ee1, before the code) and, for H2 to H4 on a second run set,
+[`PREREGISTRATION-SUPPLEMENT-1.md`](PREREGISTRATION-SUPPLEMENT-1.md) (2ef7427a, before those
 runs). No bar was changed.
 
 | bar | verdict | numbers |
@@ -95,7 +95,7 @@ noise, so this column is not a correction the engine could add as it stands. Und
 ## H1/G1
 
 Every one of the 150 scenarios under `scenarios/` was run with the release binary of this change.
-Each `result.json` was compared byte for byte with the runs of 08d83b4d and of e69e1fd6 (CAP-06b):
+Each `result.json` was compared byte for byte with the runs of 716de66a and of 83c3b269 (CAP-06b):
 **all 150 were byte-identical** to both. `quantum-pnt-demonstrator.suite` is a study suite, not
 a scenario, and fails under every binary.
 

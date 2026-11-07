@@ -7,24 +7,24 @@ changed after the comparison has been run.
 ## Background
 
 Three registered comparisons on the LuGRE (Lunar GNSS Receiver Experiment) L1 sample batches
-(768cb62b, 0d1839d2, a81a9a4e) and one held-out run (2108e6ff) found three faults in how the
+(7425dc34, c9868b3e, 470b0fc9) and one held-out run (73ee3e14) found three faults in how the
 batches were read and searched:
 
 1. **I/Q order.** Read with I in the low nibble, the strongest pairs of acquisitions came out
    with the Doppler sign reversed against the orbit prediction: the conjugate of the signal.
    `realdata::ion_sdr` already fills words from the most significant bit by default since
-   3c480336 (I in the high nibble); `SdrLayout::fill_lsb_first = true` keeps the old reading.
+   f4c47c7a (I in the high nibble); `SdrLayout::fill_lsb_first = true` keeps the old reading.
 2. **DC offset.** The bare two's-complement levels `v` carry a mean of -1/2 on I and on Q, a
    zero-frequency line that both Kshana and GNSS-SDR acquire. The mid-rise reconstruction
    `2v + 1` (`ion_sdr::to_mid_rise`) removes it, but only when a caller remembers to apply it.
 3. **Statistic.** The sample-power statistic (`PcpsResult::statistic`, `acquired`) does not see
    the band-limited front end's raised cell noise (about 1.46 times). The noise-floor-normalised
    statistic `PcpsResult::cell_average_statistic` / `acquired_cell_average` (peak over the
-   grid's own mean cell) exists since a81a9a4e but nothing names it as the LuGRE decision.
+   grid's own mean cell) exists since 470b0fc9 but nothing names it as the LuGRE decision.
 
 ## The change
 
-| part | before (release/0.36.0-rc @ c9e37402) | after |
+| part | before (release/0.36.0-rc @ 81d2f933) | after |
 |---|---|---|
 | `ion_sdr::SdrLayout` | no mid-rise option; `decode` returns the coding's integer levels | new field `mid_rise: bool`. When true and the coding is two's complement, `decode` (and so `iq::io::SdrxSource`) returns `2v + 1`, the symmetric odd levels -15..+15 for 4 bits. `parse_sdrx` sets it **false**: the generic ION reader keeps the standard's signed integer, because mid-rise is a property of the LuGRE converter, not of the TC coding |
 | LuGRE reader | none of its own: callers used `parse_sdrx`, then `to_mid_rise` by hand | new `realdata::lugre::parse_iqs_sdrx(text)`: `parse_sdrx`, refuses any coding but two's complement, sets `mid_rise = true` and `fill_lsb_first = false` (I in the high nibble, Q in the low). Its output equals `parse_sdrx` + `decode` + `to_mid_rise` sample for sample |
@@ -55,7 +55,7 @@ not re-pinned.
 
 ## Method
 
-1. Build release `kshana` binaries of c9e37402 ("before") and of the change ("after") in
+1. Build release `kshana` binaries of 81d2f933 ("before") and of the change ("after") in
    separate target directories.
 2. Run every scenario file under `scenarios/` with each binary (`kshana <file>`, on a copy of
    the directory per binary, which writes `<name>.result.json` beside each file) and compare the

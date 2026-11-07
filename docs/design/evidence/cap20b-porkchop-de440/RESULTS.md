@@ -1,6 +1,6 @@
 # The porkchop on the DE440 ephemeris: results
 
-Pre-registration: `PREREGISTRATION.md` (2d857fb1). Run 2026-10-13,
+Pre-registration: `PREREGISTRATION.md` (b9317cee). Run 2026-10-13,
 `cargo test --release --test porkchop_de440_oracle -- --nocapture`.
 
 | Bar | Result |

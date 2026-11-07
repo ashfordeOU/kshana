@@ -4,7 +4,7 @@
 //! validation (a CR3BP orbit is not an ephemeris-model orbit).
 //!
 //! Pre-registration: `docs/design/evidence/cap29d-capstone-nrho/PREREGISTRATION.md` (committed
-//! alone, 4e868170, before the ephemeris was fetched). Fixture:
+//! alone, dab3215c, before the ephemeris was fetched). Fixture:
 //! `tests/fixtures/capstone_horizons/` (NOTICE.md). Bars: period within 3 %, apolune radius
 //! within 5 %, perilune radius within 20 % of CAPSTONE's means.
 //!

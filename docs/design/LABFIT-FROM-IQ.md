@@ -350,12 +350,12 @@ model also gives `delta_eff_db` (§13.2) beside `delta_db`.
 
 ### 13.6 Results (synthetic, 2026-10-13)
 
-The bars were evaluated after §13.1 to §13.4 were committed (b7117bf). No bar, truth, recipe
+The bars were evaluated after §13.1 to §13.4 were committed (4ca3ef3). No bar, truth, recipe
 or estimator was changed after a result was seen.
 
 **The C/N0 estimator** of the synthetic campaigns is the campaign default, M2M4. The reason is
 the one diagnostic tracking run disclosed in §13: NWPR read no closer to the imposed profile
-(both read about 1 dB high below 38 dB-Hz). The choice was fixed in 5b13e3c2, pushed before the
+(both read about 1 dB high below 38 dB-Hz). The choice was fixed in fa388b82, pushed before the
 first bar evaluation. It was committed together with the fit code, not as an addendum on its
 own as was asked for. The campaigns are built in `tests/iq_labfit_campaign.rs`
 from Kshana's own GPS L1 C/A scenes, with the stated J/S imposed as a C/N0 profile (§8).

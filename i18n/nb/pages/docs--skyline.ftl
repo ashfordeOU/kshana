@@ -204,7 +204,7 @@ seg-9d04c658b37a = Hvert resultat bærer <c1/> (MODELLED), <c2/> (geometri under
 
 seg-0e1285fdfe52 = Fem registerrader (<c1/>), slik utformingsnotatet avgrenser dem:
 
-seg-1aa76286f152 = Orekit { "12.2" } (synsvinkler fra <c1/>, <c2/>) med gnss_lib_py { "1.0.4" } (<c3/> og DOP-matrisen), forhåndsregistrert i <c4/> (commit e4b9d912) før noen av dem ble kjørt: { "1173" } synsvinkler på seks steder og fire epoker, seks tabeller, { "142" } synlige mengder; verste elevasjon { "1.3e-13" }°, asimut { "2.3e-13" }°, maske { "1.1e-12" }° mot { "1e-9" }°; identiske synlige mengder, ingen i grensebåndet; DOP { "3.3e-13" } relativt og kofaktor { "6.6e-13" } av matrisens skala mot { "1e-9" }. Omfang: tabellmasker, geodetiske synsvinkler, den maskerte mengden og dens DOP og kofaktor med felles klokke.
+seg-1aa76286f152 = Orekit { "12.2" } (synsvinkler fra <c1/>, <c2/>) med gnss_lib_py { "1.0.4" } (<c3/> og DOP-matrisen), forhåndsregistrert i <c4/> (commit d94130d4) før noen av dem ble kjørt: { "1173" } synsvinkler på seks steder og fire epoker, seks tabeller, { "142" } synlige mengder; verste elevasjon { "1.3e-13" }°, asimut { "2.3e-13" }°, maske { "1.1e-12" }° mot { "1e-9" }°; identiske synlige mengder, ingen i grensebåndet; DOP { "3.3e-13" } relativt og kofaktor { "6.6e-13" } av matrisens skala mot { "1e-9" }. Omfang: tabellmasker, geodetiske synsvinkler, den maskerte mengden og dens DOP og kofaktor med felles klokke.
 
 seg-b33828edbe2f = håndberegnede verdier; sammenligningen ovenfor leser tabellene deres som inndata og kontrollerer dem ikke
 
@@ -212,7 +212,7 @@ seg-ca950752be62 = Skyline-preset-er
 
 seg-83946f66ca78 = ingen: valgte, oppgitte dimensjoner (kontrollert bare mot seg selv)
 
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> og <c2/> (standard P2) på de { "142" } innsjekkede synlige mengdene, felles klokke og én klokke per system, forhåndsregistrert i <c3/> (commit 0bbeeaee): { "270" } tilfeller, akser { "5.1e-13" } relativt, orientering { "5.3e-12" }°, kofaktor { "1.0e-12" } av matrisens skala, mot { "1e-9" } og { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> og <c2/> (standard P2) på de { "142" } innsjekkede synlige mengdene, felles klokke og én klokke per system, forhåndsregistrert i <c3/> (commit 2dfc9c16): { "270" } tilfeller, akser { "5.1e-13" } relativt, orientering { "5.3e-12" }°, kofaktor { "1.0e-12" } av matrisens skala, mot { "1e-9" } og { "1e-6" }°
 
 seg-44e5f9ca28f7 = Himmelgeometrifunksjoner
 

@@ -466,7 +466,7 @@ fn every_terrain_field_has_a_unit_and_only_terrain_documents_carry_them() {
 // ── independent numpy ray-cast (pre-registered) ───────────────────────────────
 
 /// The pre-registered comparison (tests/fixtures/lunar_terrain/PREREGISTRATION.md, committed
-/// alone in edbb9b02 before the script existed): scripts/gen_lunar_terrain_ref.py, numpy only,
+/// alone in 4fa71559 before the script existed): scripts/gen_lunar_terrain_ref.py, numpy only,
 /// re-computes the horizon at five sites on the vendored crop. Bars B1 to B3: site heights to
 /// 1e-6 m, all 1800 elevations to 1e-6 deg, truncated-ray counts exact. Checks the arithmetic,
 /// not the model.

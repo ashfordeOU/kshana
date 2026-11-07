@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The pre-registered receiver-trust threshold calibration on the JammerTest 2024 dataset
-//! (CAP-13; `xval/jammertest-trust/PREREGISTRATION.md`, committed alone in 0fa012b; results in
+//! (CAP-13; `xval/jammertest-trust/PREREGISTRATION.md`, committed alone in 0987266; results in
 //! `xval/jammertest-trust/RESULTS.md`).
 //!
 //! Data-gated: the dataset (Zenodo record 15911589, GPL-3.0-or-later, 375 MB) is never vendored.

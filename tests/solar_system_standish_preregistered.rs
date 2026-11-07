@@ -73,7 +73,7 @@
 //! Fixture: `tests/fixtures/solar_system_standish_preregistered/` (generator, NOTICE, CSVs),
 //! fetched only after this header was committed.
 //!
-//! # Result (run 2026-10-01, after the pre-registration commit 80451866)
+//! # Result (run 2026-10-01, after the pre-registration commit e5423015)
 //!
 //! Every RMS is inside its bar; the largest RMS over the Table 8.10.1 figure is 0.778 (Saturn's
 //! distance, Table 1), then 0.774 (Venus' latitude, Table 2) and 0.763 (Mars' longitude, Table 1).

@@ -23,7 +23,7 @@
 //! ORACLE (Library): Orekit 13.1.8 with Hipparchus 4.0.3 (Apache-2.0); the round-1 driver with
 //! the TEME frame replaced as above; no Earth orientation parameters loaded.
 //!
-//! TOLERANCE (the round-1 bars, unchanged, fixed 2026-10-02 in e947e69d): pass counts identical
+//! TOLERANCE (the round-1 bars, unchanged, fixed 2026-10-02 in 896f3c2e): pass counts identical
 //! except ties within 1e-3 deg of the mask; AOS and LOS within 5 ms (0.5 s for grazing passes
 //! whose maximum is under 0.5 deg above the mask); maximum elevation within 1e-3 deg; TCA
 //! within 0.5 s; Q4 apparent elevation and direction within 1e-4 deg. Their derivation now
@@ -37,7 +37,7 @@
 //! time ignored (9777 failures, crossings off by 1.8e-2 s, Q4 by 1.5e-3 deg); the constant
 //! 1.728 of P.834 equation (14) changed to 1.828 (7883 failures, crossings off by 5.3 s). With
 //! legs 1 and 2 (`earth_orbit_path_sgp4_erfa_oracle.rs`) this validates the apparent pass
-//! predictor on the validated path at sea-level stations. Pre-registration commit 72ea9eb0.
+//! predictor on the validated path at sea-level stations. Pre-registration commit d92aef9b.
 //! Fixture: `tests/fixtures/pass_predictor_on_path_orekit_oracle/`.
 
 use kshana::frames::Geodetic;

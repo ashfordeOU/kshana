@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! CCSDS Orbit Data Messages (OPM, OMM, OCM; 502.0-B-3) against Orekit 13.1.8, as pre-registered
-//! in `xval/odm-orekit/PREREGISTRATION.md` (cc6841da, committed before any comparison).
+//! in `xval/odm-orekit/PREREGISTRATION.md` (8efea7c1, committed before any comparison).
 //!
 //! The cases are built here. Kshana writes every case (`kshana/`, KVN, and XML for version 3.0);
 //! the driver `xval/odm-orekit/OdmOracle.java` parses each file with Orekit, dumps what it read

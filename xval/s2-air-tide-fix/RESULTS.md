@@ -1,6 +1,6 @@
 # Results: the S2 air-tide coefficient fix
 
-Run 2026-10-13 after the pre-registration (5e31c37a), on the code of the fix commit.
+Run 2026-10-13 after the pre-registration (d2c3d297), on the code of the fix commit.
 
 ## External check: GFZ STR06/01 Table 5, model A2 — AGREES
 
@@ -10,7 +10,7 @@ against the pre-registered 0.0006 cm and 0.1° (the printed rounding is 0.0005 c
 
 ## Outputs that moved (all within the pre-registered bounds)
 
-CI fixtures, before (rc code at 4af078df + merge) and after (this fix), printed precision:
+CI fixtures, before (rc code at 23dd689d + merge) and after (this fix), printed precision:
 
 | fit | before | after | bound |
 |---|---|---|---|

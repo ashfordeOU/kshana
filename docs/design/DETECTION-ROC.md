@@ -49,7 +49,7 @@ PRO-31. No interference waveform is synthesised. A miss is recorded as NOT MET, 
 
 ## 3. Results (synthetic, 2026-10-13)
 
-Run after §2 was committed (b47e358d), in release on 4 cores: about 6 minutes for the two
+Run after §2 was committed (04981059), in release on 4 cores: about 6 minutes for the two
 campaigns. No bar, recipe or setting was changed after a result was seen.
 
 | bar | measured | verdict |

@@ -5,7 +5,7 @@
 //! print for named BPSK-R, BOC and MBOC cases.
 //!
 //! PRE-REGISTRATION (row M004, written 2026-10-01 before any Kshana value below was computed;
-//! the engine functions it calls were committed in f3df5f5f with unit tests on other cases only).
+//! the engine functions it calls were committed in aa8ace4b with unit tests on other cases only).
 //!
 //! ORACLES (Reference, P1 of docs/VALIDATION.md: numbers the publications computed and printed;
 //! the papers are reading copies outside the repository, numbers cited by page, table and figure):

@@ -1,8 +1,8 @@
 # IAU body orientation and GM of the fourteen added bodies: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `154bc54`). Fresh-epoch fixture:
+Pre-registration: `PREREGISTRATION.md` (committed alone at `f3fa98b`). Fresh-epoch fixture:
 `tests/fixtures/body_orientation_spice_oracle/fresh/`, committed after the pre-registration
-(`990dee43`); its 41 epochs equal the pre-registered grid exactly, and it was regenerated
+(`52259b2a`); its 41 epochs equal the pre-registered grid exactly, and it was regenerated
 independently on 2026-10-13 (spiceypy 8.3.0, CSPICE N0067, `pck00011.tpc` and `gm_de440.tpc`
 downloaded again from NAIF with the SHA-256 values the pre-registration names) and is
 byte-identical to the committed files. Run: 2026-10-13,
@@ -29,8 +29,8 @@ published file, not an independent determination). The rest of the original row 
 
 ## Correction to the pre-registration's background
 
-The pre-registration says commit `c2434204` (the original 1e-9 rad pre-registration) is not in
+The pre-registration says commit `b4e0ff5a` (the original 1e-9 rad pre-registration) is not in
 the history. It is: the clone the pre-registration was written in was shallow. After a full
-fetch, `c2434204` (2026-10-02 02:25) precedes `7cfd66b4` (02:34), the commit that recorded the
+fetch, `b4e0ff5a` (2026-10-02 02:25) precedes `ff6a6e20` (02:34), the commit that recorded the
 first result. This does not change any bar or the outcome; the fresh-epoch comparison stands
 on its own commit order either way.

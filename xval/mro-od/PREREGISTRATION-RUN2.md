@@ -34,7 +34,7 @@ Nothing below was computed on S1 or S2.
 
 ## The run-2 estimator (fixed here)
 
-`mars_od::fit_damped`, as committed in cf83e08e. The parameters, initial guess, finite-difference
+`mars_od::fit_damped`, as committed in 36cb93d4. The parameters, initial guess, finite-difference
 partials, elevation cut and outlier rule are those of the registered `fit`. Only two things are
 added:
 
@@ -91,7 +91,7 @@ The scored arc is fitted once with `fit_damped`. No setting above is changed aft
 
 ## Amendment R2-A1 (after the scored run, which errored while scoring B3/B4)
 
-The single scored run of `fit_damped` (harness 18036b5e, settings as registered) converged:
+The single scored run of `fit_damped` (harness 740dc61d, settings as registered) converged:
 11 Jacobian evaluations, last accepted position update 0.11 m, and 434 of the 447 points
 kept on the last iteration at 0.04856 Hz RMS. The harness then stopped before printing B2-B5:
 sampling the estimate for B3/B4 up to 2007-305T12:45:00 UTC reached past the fit's integrated
@@ -137,4 +137,4 @@ fitted parameters (the drag scale goes to almost zero), not in the measurement m
 diagnosed here. Under the outcome rule the TRK-2-18 row stays MODELLED. Run 2 is pinned in
 `tests/mro_odf_short_arc_od_oracle.rs` next to run 1, whose verdict stands.
 
-**Later revision (4 Nov 2026):** since the portable-maths merge (`054fa552`), the same run gives 11 evaluations, B3 0.3587 km and B4 0.5228 km. Every verdict is unchanged. See `docs/revisions/CAP30-run2-portable-math-rebaseline.md`.
+**Later revision (4 Nov 2026):** since the portable-maths merge (`23adcc3c`), the same run gives 11 evaluations, B3 0.3587 km and B4 0.5228 km. Every verdict is unchanged. See `docs/revisions/CAP30-run2-portable-math-rebaseline.md`.

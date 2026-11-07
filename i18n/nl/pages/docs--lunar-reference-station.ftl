@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Bronnen S1 tot S5 (titel, URL, ophaaldatum, SHA-256, licentie
 
 seg-d866653008e1 = Elke numerieke bewering, geciteerd met haar pagina en vermelde aannames en ingedeeld als vergelijkbaar, gedeeltelijk vergelijkbaar of niet vergelijkbaar: <c1/>. Geen bewering is volledig vergelijkbaar, omdat geen bron een percentiel of de baanelementen van de satellieten vermeldt.
 
-seg-50535c58d3cf = Drempels, gevallen en invoer, alleen vastgelegd vóór de run (revisie { "2" }, 05bf9a19), en de vastgelegde run: <c1/>. De bevinding is vastgepind in <c2/>.
+seg-50535c58d3cf = Drempels, gevallen en invoer, alleen vastgelegd vóór de run (revisie { "2" }, ebac1e14), en de vastgelegde run: <c1/>. De bevinding is vastgepind in <c2/>.
 
 seg-069a652c402e = drempel
 

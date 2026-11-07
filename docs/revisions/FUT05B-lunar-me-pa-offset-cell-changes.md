@@ -18,8 +18,8 @@ mapping ME->PA as SPICE's Frames Required Reading defines TK Euler angles. It ag
 `pxform('MOON_ME','MOON_PA')` within 2.6e-16 rad, and the analytic PA frame is 5.9" to 8.3" from
 DE440 PA over 2014 to 2028.
 
-* Pre-registration e1ead19b. Run 1 (NOT MET, recorded) 1b092c0d. Re-registration be33382e.
-  Fix 8a7667e8.
+* Pre-registration ab511714. Run 1 (NOT MET, recorded) 2b986531. Re-registration ea5f4cbf.
+  Fix 0d6d97fb.
 * Evidence: `docs/design/evidence/fut05b-me-pa-offset-sign/`,
   `tests/lunar_me_pa_offset_spice_oracle.rs`.
 

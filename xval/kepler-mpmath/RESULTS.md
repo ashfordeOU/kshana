@@ -1,6 +1,6 @@
 # Results: the robust Kepler solver against mpmath 1.3.0 roots
 
-Bars: `PREREGISTRATION.md` (committed alone at df22174, before the first comparison).
+Bars: `PREREGISTRATION.md` (committed alone at 73bab12, before the first comparison).
 Test: `tests/kepler_mpmath_oracle.rs`; fixture `tests/fixtures/kepler_mpmath_oracle/reference.json`
 (SHA-256 ef78cab6…44e51). First comparison run 2026-10-12. **Every bar passes.**
 

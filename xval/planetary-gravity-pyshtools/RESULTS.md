@@ -1,6 +1,6 @@
 # Results: PDS SHADR gravity (GMM-3, GL0660B) against pyshtools
 
-Pre-registration: `PREREGISTRATION.md`, commit 32c5b50 (committed alone, before any comparison).
+Pre-registration: `PREREGISTRATION.md`, commit 6d2674d (committed alone, before any comparison).
 Run 2026-10-12, `cargo test --test planetary_gravity_pds -- --include-ignored --nocapture`, with
 `KSHANA_GMM3_SHA`, `KSHANA_GRAIL_SHA` and `KSHANA_GL0660B_GFC` set to the files fetched by
 `fetch_data.sh` (SHA-256 verified). Oracle: pyshtools 4.14.1, numpy 2.3.5

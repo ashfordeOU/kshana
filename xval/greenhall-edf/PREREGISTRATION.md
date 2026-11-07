@@ -52,7 +52,7 @@ Every point is emitted with the case label allantools prints in verbose mode (1.
 5. **No moved output.** `assurance::uncertainty::edf` is bit-identical before and after the
    refactor over the grid `N` in {4 to 64 every 1, 100, 257, 1000, 4096, 100000}, every `m`
    with `2m < N` up to 10000, every noise type and every `VarType` (compared with `f64::to_bits`
-   against a dump taken from the base commit c9e3740 before the change). Its existing test
+   against a dump taken from the base commit 81d2f93 before the change). Its existing test
    `tests/uncertainty_edf_reference.rs` passes unchanged.
 
 ## Ledger consequence (decided now)
@@ -78,7 +78,7 @@ First and only run, 2026-10-13: `scripts/gen_greenhall_edf_ref.py` with allantoo
 5. **No moved output: met.** `uncertainty::edf` over the 274 280-value grid is bit-identical.
    Deviation from the wording: the dump is pinned as its SHA-256
    (5b2de183db76bf26920a51ae8b7dc55818471e930aee4a5e46597de6a6bb8ad9, committed alone in
-   a2b0b8dc before the refactor, from `uncertainty.rs` unchanged since c9e3740), not as the
+   a85161b1 before the refactor, from `uncertainty.rs` unchanged since 81d2f93), not as the
    5 MB file. `tests/uncertainty_edf_reference.rs` passes unchanged.
 
 Not foreseen by the grid's wording: at 32 points (alpha = -4, d = 3, unmodified, J > Jmax with

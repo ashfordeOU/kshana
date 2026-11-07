@@ -97,7 +97,7 @@ vessels per day; the plan and catalogue. No degraded flag, session or region was
 
 ## 4. Software and parameters
 
-The estimator is the code at the commit that is this file's parent (`5e8bb63113ff64265ee2b5338bf58466cc3ff238`). Parameters are the
+The estimator is the code at the commit that is this file's parent (`1b14cde99f04977ccffe9c5250c35d4c2a403779`). Parameters are the
 pre-registered v1 constants written into every output (`emitter::EmitterParams::preregistered_v1`): bins of 120 s;
 a unit is affected at 50% or more flagged reports; an aircraft or vessel needs 5 good reports in the input; ADS-B
 altitude floor 5000 ft; emitter antenna 2 to 100 m (8 log-spaced values); effective ranges 12 km to 426 km in steps
@@ -223,7 +223,7 @@ Sign-off: ______________________  (owner)   Date: ____________
 
 ## Addendum: sign-off (27 Oct 2026)
 
-The owner signed off this pre-registration as committed at `46d53701a7daafea2b8fefa3e3e11ff71597b71d`, on 27 Oct 2026,
+The owner signed off this pre-registration as committed at `02a9d725c8963b7636492011c3a73312d7cb400b`, on 27 Oct 2026,
 in answer to a summary of it (area-level truth points `SENDER` and `ORIG` with the 2026-catalogue caveat, six windows,
 `n` at least 4 or NOT ASSESSABLE, M1 `k(n)`, M2 at most 0.5, M3 45 km for ADS-B and 20 km for AIS, VALIDATED only if
 both sources are MET, the AIS +2 h reading as primary with the as-documented reading as a sensitivity run). The owner's

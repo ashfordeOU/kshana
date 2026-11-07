@@ -5,15 +5,15 @@
 //! from final orbits and the reconstructed spacecraft trajectory.
 //!
 //! PRE-REGISTRATION (written 2026-10-02 before this test was run). It is the comparison of
-//! `tests/lugre_acquisition_predicted_doppler_oracle.rs` (registered in 0d1839d2) with ONE
+//! `tests/lugre_acquisition_predicted_doppler_oracle.rs` (registered in c9868b3e) with ONE
 //! change, the detection decision: `PcpsResult::acquired_cell_average`, the peak over the
 //! grid's own mean cell, in place of the sample-power statistic. DISCLOSURE: the change was
 //! made after the first searches of that registered run (OP2, PRNs 1 to 23) had all crossed
 //! the threshold with statistics of 435 to 483 against 346, and after a lag-one noise
 //! correlation of 0.27 was measured on OP23 (the front end band-limits the noise, raising every
 //! cell's noise about 1.4 times, which the sample-power statistic does not see); the predictions
-//! (`predicted.csv`, computed after 0d1839d2) had been written but not compared with any
-//! acquisition. The tolerances, the inputs and the prediction file are those of 0d1839d2,
+//! (`predicted.csv`, computed after c9868b3e) had been written but not compared with any
+//! acquisition. The tolerances, the inputs and the prediction file are those of c9868b3e,
 //! unchanged. The earlier header text follows.
 //!
 //! This is a NEW comparison, not a re-run of
@@ -118,7 +118,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
     for snap in SNAPSHOTS {
         let p = dir.join(snap);
         let mut layout = parse_sdrx(&std::fs::read_to_string(&p).expect("sdrx")).expect("layout");
-        // The low-nibble-I reading registered at 0d1839d2 and a81a9a4e (ion_sdr's default changed after
+        // The low-nibble-I reading registered at c9868b3e and 470b0fc9 (ion_sdr's default changed after
         // the finding; see its module documentation).
         layout.fill_lsb_first = true;
         let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).expect("samples");
@@ -175,7 +175,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on a81a9a4e): P2 fails, 8 of 8 pairs beyond 50 Hz (P1 4 snapshots, P3 12 of 12 visible). The two strongest pairs match the prediction in magnitude with the sign REVERSED: OP2 PRN 18/24 measured +7670.0 Hz, predicted -7693.9 (23.9 Hz once mirrored); OP17 PRN 11/30 +11155.0 against -11114.4 (40.6 Hz). The registered I-in-the-low-nibble order is evidently the conjugate of the batches; the six detections at statistics 349 to 357 (threshold 346.3) match neither sign. Pinned by strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed"]
+#[ignore = "FINDING (run 2026-10-02 on 470b0fc9): P2 fails, 8 of 8 pairs beyond 50 Hz (P1 4 snapshots, P3 12 of 12 visible). The two strongest pairs match the prediction in magnitude with the sign REVERSED: OP2 PRN 18/24 measured +7670.0 Hz, predicted -7693.9 (23.9 Hz once mirrored); OP17 PRN 11/30 +11155.0 against -11114.4 (40.6 Hz). The registered I-in-the-low-nibble order is evidently the conjugate of the batches; the six detections at statistics 349 to 357 (threshold 346.3) match neither sign. Pinned by strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed"]
 fn cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -254,7 +254,7 @@ fn strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed() {
     for (snap, a, b) in pairs {
         let p = dir.join(snap);
         let mut layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
-        // The low-nibble-I reading registered at 0d1839d2 and a81a9a4e (ion_sdr's default changed after
+        // The low-nibble-I reading registered at c9868b3e and 470b0fc9 (ion_sdr's default changed after
         // the finding; see its module documentation).
         layout.fill_lsb_first = true;
         let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();

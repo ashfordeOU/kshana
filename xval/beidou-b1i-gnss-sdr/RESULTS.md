@@ -1,6 +1,6 @@
 # BeiDou B1I primary codes against GNSS-SDR's generator (DS-GIQ-06b): results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `911106d1`, before the comparison). The bar
+Pre-registration: `PREREGISTRATION.md` (committed at `db9dd696`, before the comparison). The bar
 was not changed.
 
 **MET.** All 2046 chips of all 63 PRNs are identical

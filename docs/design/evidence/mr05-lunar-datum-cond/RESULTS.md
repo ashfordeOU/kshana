@@ -1,14 +1,14 @@
 # Lunar frame datum from an observing campaign, condition-scaled NumPy bar: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `b887eb05`). Harness, fresh date and
-step 0 committed before the NumPy oracle was run (`887eccad`). Run: 2026-10-13, NumPy 2.5.4,
+Pre-registration: `PREREGISTRATION.md` (committed alone at `3855e840`). Harness, fresh date and
+step 0 committed before the NumPy oracle was run (`90b94d95`). Run: 2026-10-13, NumPy 2.5.4,
 SciPy 1.18.1.
 
 **Outcome: NOT MET. A finding; the row stays MODELLED and no bar is moved.**
 
 ## Correction to the pre-registration's background
 
-The pre-registration says `50863551` is not in the history. It is: the clone the pre-registration
+The pre-registration says `aad03856` is not in the history. It is: the clone the pre-registration
 was written in was shallow.
 
 ## Fresh date

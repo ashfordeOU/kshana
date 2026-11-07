@@ -41,7 +41,7 @@
 //! 1.9e-11 s. Deliberate mutations turn this test red: every UTC day 86 400 s long (the
 //! leap-second instants are rejected as invalid times, panic at the first one), and the
 //! leap-day fraction left unscaled in `utc_to_tai` (243 failures, up to 1 s). Pre-registration
-//! commit e947e69d. Fixture and provenance: `tests/fixtures/jd2_sofa_time_oracle/`.
+//! commit 896f3c2e. Fixture and provenance: `tests/fixtures/jd2_sofa_time_oracle/`.
 
 use kshana::jd2::{tai_to_utc, utc_to_tai, Jd2};
 

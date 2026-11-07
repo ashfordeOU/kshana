@@ -1,6 +1,6 @@
 # LRO non-gravitational macro-model (DS-LRO-10): results — NOT MET (finding)
 
-Pre-registration: `PREREGISTRATION.md` (e82047e2, committed and pushed alone before any
+Pre-registration: `PREREGISTRATION.md` (a221a409, committed and pushed alone before any
 macro-model fit). Runs made 2026-10-14 with `tests/agency_lro.rs`
 (`lro_macro_model_pre_registered_run`, `lro_macro_model_information_runs`,
 `lro_lunar_orbit_fit_against_horizons_truth`), release build, x86-64 Linux.
@@ -57,6 +57,6 @@ macro-model stays opt-in with nothing claimed for it.
 
 The local attempt was cut off by a container restart after about 40 minutes. The manual
 `lro-de440-opt-in` job was dispatched once on this branch
-(https://github.com/ashfordeOU/kshana/actions/runs/38491862009, head e82047e2, default model):
+(https://github.com/ashfordeOU/kshana/actions/runs/38491862009, head a221a409, default model):
 dynamic 7.845 m (converged), reduced-dynamic 7.121 m (not converged in 25 iterations). Recorded
 in `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md`; it changes no bar here.

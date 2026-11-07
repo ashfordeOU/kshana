@@ -4,7 +4,7 @@
 //! committed before the oracle was run). numpy inverts `GᵀG` and eigen-decomposes the
 //! horizontal block on the committed visible sets of `tests/fixtures/skyline_orekit_oracle/`;
 //! Kshana computes the same with `geometry::sky_geometry` from its own look angles. Pre-registered
-//! in 0bbeeaee. Result: 270 cases pass; worst axis 5.1e-13 relative, orientation 5.3e-12 deg,
+//! in 2dfc9c16. Result: 270 cases pass; worst axis 5.1e-13 relative, orientation 5.3e-12 deg,
 //! cofactor 1.0e-12 of the matrix scale.
 
 use kshana::frames::{look_angles, Geodetic};

@@ -81,7 +81,7 @@ simulated truth.
 - Any real spacecraft's gains.
 - Any guidance law other than inertial pointing.
 
-## Results (first and only run, 2026-10-13; code and fixture at 05b1cdaa)
+## Results (first and only run, 2026-10-13; code and fixture at df384418)
 
 All bars hold on all three cases.
 

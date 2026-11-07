@@ -1,7 +1,7 @@
 # Results: telemetry schema 1.3 through four consumers
 
-Pre-registration: `PREREGISTRATION.md` (fb226057), committed alone. The corpus, the crate's
-outputs, the comparison tests and the run script were committed in d9872223 before any tool
+Pre-registration: `PREREGISTRATION.md` (e1e65570), committed alone. The corpus, the crate's
+outputs, the comparison tests and the run script were committed in d438a3a4 before any tool
 read a schema-1.3 output. Judged by `tests/telemetry_formats_reference.rs`.
 
 ## Reproduce

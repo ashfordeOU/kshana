@@ -1,6 +1,6 @@
 # Results: receiver-trust thresholds calibrated on the JammerTest 2024 dataset (CAP-13)
 
-The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in 0fa012b before the
+The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in 0987266 before the
 harness ran. This is its first and only run, 2026-10-13, with the harness of
 `src/receiver_trust/calibration.rs` as handed over (reviewed against the pre-registration before the
 run, not changed after it):

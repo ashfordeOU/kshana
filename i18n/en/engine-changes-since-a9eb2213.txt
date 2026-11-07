@@ -1,6 +1,6 @@
-# Catalogue changes since a9eb2213 (the catalogue the translators started from): ids added, ids whose English
+# Catalogue changes since 42357a14 (the catalogue the translators started from): ids added, ids whose English
 # text changed (retranslate), ids removed (drop from translations). Lines: kind:id.
-# Regenerate: compare the message ids (and English values) of i18n/en/engine.ftl with those at a9eb2213 (git show a9eb2213:i18n/en/engine.ftl); batch of 328bee3e appended its 101 added ids.
+# Regenerate: compare the message ids (and English values) of i18n/en/engine.ftl with those at 42357a14 (git show 42357a14:i18n/en/engine.ftl); batch of 31600057 appended its 101 added ids.
 added:advanced-report-also-written-to
 added:advanced-report-animation-alt
 added:advanced-report-animation-caption

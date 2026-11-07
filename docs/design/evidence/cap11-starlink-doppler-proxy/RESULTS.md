@@ -1,6 +1,6 @@
 # Results: the Starlink Doppler-positioning proxy (CAP-11, part)
 
-Run once on 2026-10-14 against `PREREGISTRATION.md` (7a3249d3, committed alone before the run).
+Run once on 2026-10-14 against `PREREGISTRATION.md` (ac646c0b, committed alone before the run).
 Test: `tests/starlink_doppler_published_proxy.rs`. Nothing in the pre-registration was changed
 after the run.
 

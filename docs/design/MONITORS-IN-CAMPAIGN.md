@@ -67,7 +67,7 @@ Kshana's own noise and signals. No real receiver is checked.
 
 ## 4. Results (synthetic, 2026-10-13)
 
-The bars were run after §3 was committed (382ab2f4), in release, on 4 cores: about 5 minutes
+The bars were run after §3 was committed (56322c99), in release, on 4 cores: about 5 minutes
 for both campaigns. One harness error came before any bar was evaluated: the loop design named
 `default` is a reserved name. It was renamed `plain`, with the same default settings. No bar,
 recipe or setting was changed after a result was seen.

@@ -168,7 +168,7 @@ make. It is not a statement about the performance of any real system.
 - Every numeric claim, quoted with its page and stated assumptions and classified as comparable, partly
   comparable or not comparable: `tests/fixtures/lunar_station_published/CLAIMS.md`. No claim is fully
   comparable, because no source states a percentile or the satellites' orbit elements.
-- Bars, cases and inputs, committed alone before the run (revision 2, 05bf9a19), and the recorded run:
+- Bars, cases and inputs, committed alone before the run (revision 2, ebac1e14), and the recorded run:
   `tests/fixtures/lunar_station_published/PREREGISTRATION.md`. The finding is pinned in
   `tests/lunar_station_published_oracle.rs`.
 
@@ -192,7 +192,7 @@ constellation's elements would be scored under the same bars as a second, dated 
 
 ## Pre-registered prediction
 
-A pre-registered prediction, frozen at commit `c05dac1d` on the public-sources inputs, with its
+A pre-registered prediction, frozen at commit `d4a2d4b5` on the public-sources inputs, with its
 scoring protocol: [`docs/predictions/lunar-reference-station.md`](predictions/lunar-reference-station.md).
 It is a prediction, not a validation, and every figure in it is dominated by the unpublished
 element set of the four-satellite constellation (the elements used are ILLUSTRATIVE): over the

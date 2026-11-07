@@ -1,6 +1,6 @@
 # GLONASS, BeiDou and Galileo E6 bands in the spectrum model: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `5806f28b`, before the code existed). The
+Pre-registration: `PREREGISTRATION.md` (committed at `502af4a7`, before the code existed). The
 bars were not changed.
 
 Reproduce with `cargo test --release --test spectrum_more_bands -- --nocapture`.

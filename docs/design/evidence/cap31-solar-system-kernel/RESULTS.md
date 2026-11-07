@@ -1,6 +1,6 @@
 # Kernel-backed solar-system kind: results
 
-Pre-registration: `PREREGISTRATION.md` (f8e946ea). Run 2026-10-13,
+Pre-registration: `PREREGISTRATION.md` (f4a6297a). Run 2026-10-13,
 `cargo test --release --test solar_system_kernel_oracle -- --nocapture`.
 
 | Bar | Result |

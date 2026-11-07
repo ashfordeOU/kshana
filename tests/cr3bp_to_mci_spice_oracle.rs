@@ -2,8 +2,8 @@
 //! CR3BP rotating states mapped to Moon-centred ICRF on the DE440 Earth-Moon line
 //! (`cr3bp::to_moon_centred_icrf_de440`) against a SPICE two-vector dynamic frame.
 //!
-//! Pre-registration: `docs/design/evidence/rm34-cr3bp-to-mci/PREREGISTRATION.md` (2313eb1b,
-//! amended before any run in d5ef79b3). Oracle: `tests/fixtures/cr3bp_to_mci_spice/` (SPICE
+//! Pre-registration: `docs/design/evidence/rm34-cr3bp-to-mci/PREREGISTRATION.md` (3bfc9445,
+//! amended before any run in e8bfabe4). Oracle: `tests/fixtures/cr3bp_to_mci_spice/` (SPICE
 //! `sxform('EM_ROT', 'J2000')` of the frame kernel `em_rot.tf` on de440s; NOTICE.md). The engine
 //! reads the Moon from the committed de440s cut in the same directory, which reproduces de440s
 //! bit for bit over the window.

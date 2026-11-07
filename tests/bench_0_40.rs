@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Bars A3 and D3 of the 0.40 re-campaign (`xval/bench/PREREGISTRATION-0.40-A2.md` and `-D1.md`,
-//! signed off 24 Oct 2026 as EXPLORATORY in dfdbd8ba and a0f2f354). Results: `xval/bench/RESULTS-0.40.md`.
+//! signed off 24 Oct 2026 as EXPLORATORY in 2b1bb3ed and fac841ba). Results: `xval/bench/RESULTS-0.40.md`.
 //! R3 and R4 are in `iq_campaign_roc_0_40.rs`.
 //!
 //! A3 and D3 are EXPLORATORY: A3 cannot close A2 and is evidence about this archive only; D3's

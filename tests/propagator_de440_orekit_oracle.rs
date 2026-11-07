@@ -3,7 +3,7 @@
 //! RM-33/FUT-10) against **Orekit 12.2**, whose Sun and Moon come from its own DE440 reader on
 //! orekit-data's `lnxp1990.440`: kshana reads a bit-for-bit cut of NAIF `de440s.bsp` through
 //! `KernelEphemeris`. Same JPL integration, different file, format, reader and TDB model.
-//! Bars pre-registered in `xval/propagator-de440-orekit/PREREGISTRATION.md` (22a5a01d); results
+//! Bars pre-registered in `xval/propagator-de440-orekit/PREREGISTRATION.md` (6386b3a2); results
 //! in `xval/propagator-de440-orekit/RESULTS.md`.
 //!
 //! PIN-SCOPE:    the 125 Orekit states and 125 Sun/Moon positions of

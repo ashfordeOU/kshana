@@ -2,7 +2,7 @@
 # B5 (0.41): area trust from several reference stations: results
 
 Pre-registration: `PREREGISTRATION.md` (signed off 3 November 2026). The readings and the independent oracle
-(`xval/area-trust/README.md`, `oracle.py`, Python standard library only) were committed in `af8eea050`, before
+(`xval/area-trust/README.md`, `oracle.py`, Python standard library only) were committed in `b9d2f4db9`, before
 any engine code. The bars were not changed.
 
 Reproduce with `cargo test --test area_trust -- --nocapture`.
@@ -36,7 +36,7 @@ hysteresis from `UNTRUSTED` through `DEGRADED` to `TRUSTED`; the engine equals t
 
 ## T4
 
-The readings for real data (8 to 12 in `xval/area-trust/README.md`) were committed in `448e82289`, after the
+The readings for real data (8 to 12 in `xval/area-trust/README.md`) were committed in `81298b1ac`, after the
 station and day rule was applied and before any observation file was processed. The files were fetched by
 `xval/area-trust/fetch.sh`; their SHA-256 values are in `xval/area-trust/MANIFEST.tsv`. The scored run is
 `tests/area_trust_igs.rs` (ignored by default; it needs the fetched files), and it reproduces

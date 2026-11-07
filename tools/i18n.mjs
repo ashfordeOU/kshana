@@ -926,7 +926,7 @@ function studioPages(args) {
 /** migrate <lang>: carry translations to the new id of a segment whose English text is unchanged (--from-rev names the revision the ids came from). */
 async function migrate(args) {
   const L = await lang();
-  const { opt, pos } = args2opt(args, { root: 'i18n', fromRev: '5a8d284', gitPath: 'i18n', dryRun: false });
+  const { opt, pos } = args2opt(args, { root: 'i18n', fromRev: '710da30', gitPath: 'i18n', dryRun: false });
   const old = L.oldEnglish(opt.fromRev, opt.gitPath);
   const langs = pos.length ? pos : L.LANGS.filter((l) => existsSync(join(opt.root, l, 'pages')));
   for (const l of langs) {

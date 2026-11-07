@@ -70,7 +70,7 @@
 //! holdover MTIE/TDEV and the G.8273.2 T-BC/T-TSC limits have no printed worked value on a
 //! figure and stay transcriptions; the PASS/FAIL verdict and margin logic is not an oracle quantity.
 //!
-//! VERDICT (2026-10-01, first run after pre-registration commit 970003ee): AGREES. All 10 mask
+//! VERDICT (2026-10-01, first run after pre-registration commit 0f8c3f11): AGREES. All 10 mask
 //! values and 13 holdover values are inside their printed half-unit, for example 39.9875 ns
 //! against "40ns" (G.8272 Fig. 1), 60.67 and 100.72 ns exactly (G.8271.1 Fig. 7-3), 199.9972 ns
 //! against "200.0", 579.5 ns against "580 ns" (on the inclusive bound, as disclosed above),

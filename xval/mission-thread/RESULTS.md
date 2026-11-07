@@ -2,8 +2,8 @@
 
 Advisory software, not certified navigation equipment.
 
-Pre-registration: [`PREREGISTRATION.md`](PREREGISTRATION.md), committed (a1d621b0) before any comparison run, with Amendment 1
-(the request span, 74768e4a) made before any state vector had been seen. Nothing was changed after the result.
+Pre-registration: [`PREREGISTRATION.md`](PREREGISTRATION.md), committed (39ce9c7a) before any comparison run, with Amendment 1
+(the request span, 32ef26f6) made before any state vector had been seen. Nothing was changed after the result.
 
 ## Verdict
 

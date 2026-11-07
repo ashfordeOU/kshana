@@ -16,13 +16,13 @@ re-baseline never executed it.
 
 | Tree | Iterations | B1 (Hz) | B2 (Hz) | B3 (km) | B4 (km) | B5 |
 |---|---|---|---|---|---|---|
-| `0576185b` (run 2 pinned) | 12 | 0.01253 | 0.04856 | 0.3617 | 0.5270 | 0.0291 |
-| `36dc5ba9` (batch 3b, host maths) | 12 | 0.01253 | 0.04856 | 0.3617 | 0.5270 | 0.0291 |
-| `054fa552` (STUDIO-15 merged) | 11 | 0.01253 | 0.04856 | 0.3587 | 0.5228 | 0.0291 |
-| `99d06a73` (main, 4 Nov 2026) | 11 | 0.01253 | 0.04856 | 0.3587 | 0.5228 | 0.0291 |
+| `0550a3bc` (run 2 pinned) | 12 | 0.01253 | 0.04856 | 0.3617 | 0.5270 | 0.0291 |
+| `ef198206` (batch 3b, host maths) | 12 | 0.01253 | 0.04856 | 0.3617 | 0.5270 | 0.0291 |
+| `23adcc3c` (STUDIO-15 merged) | 11 | 0.01253 | 0.04856 | 0.3587 | 0.5228 | 0.0291 |
+| `1be01b32` (main, 4 Nov 2026) | 11 | 0.01253 | 0.04856 | 0.3587 | 0.5228 | 0.0291 |
 
 The move happens at the STUDIO-15 merge itself, through the shared modules it routed through
-`PortableFloat` (frames, precession, Earth orientation and others). It does not come from `ab4fbe09`'s
+`PortableFloat` (frames, precession, Earth orientation and others). It does not come from `9bd1d4ce`'s
 rewrite of `src/mars_od.rs`, which changes nothing further.
 
 ## Cells

@@ -1,7 +1,7 @@
 # Results: the oblate-Earth SRP shadow against Orekit 12.2
 
-First comparison run 2026-10-13 after the pre-registration (6d6d269c), fixture committed unchanged
-(68f2d791). Test: `tests/srp_oblate_shadow_orekit_oracle.rs`.
+First comparison run 2026-10-13 after the pre-registration (c6b751e9), fixture committed unchanged
+(84a72ee7). Test: `tests/srp_oblate_shadow_orekit_oracle.rs`.
 
 | bar | measured | pre-registered | outcome |
 |---|---|---|---|

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! `lunar-station-coverage` against the numeric claims published for a lunar differential
 //! reference station, under the bars pre-registered in
-//! `tests/fixtures/lunar_station_published/PREREGISTRATION.md` (revision 2, commit 05bf9a19,
+//! `tests/fixtures/lunar_station_published/PREREGISTRATION.md` (revision 2, commit ebac1e14,
 //! committed alone before any run).
 //!
 //! The claims are listed with their exact wording in
@@ -12,7 +12,7 @@
 //!
 //! ## Result (recorded, not tuned): 1 of 6 registered bars passes
 //!
-//! First and only run (2026-10-12, engine at merge commit d8aa075c plus this file):
+//! First and only run (2026-10-12, engine at merge commit cb2a8b3c plus this file):
 //!
 //! | bar | claim | Kshana | bar | verdict |
 //! |---|---|---|---|---|
@@ -240,7 +240,7 @@ fn recorded_finding_one_of_six_bars_passes() {
 }
 
 /// The K5 addendum with ephemeris-error growth (LRS-03), pre-registered alone in
-/// tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md (59d88248) before this run. The
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md (f9ce1284) before this run. The
 /// recorded comparison above is not edited. Ignored: the full LAT600 grid, three times.
 #[test]
 #[ignore]
@@ -269,7 +269,7 @@ fn k5_growth_addendum_run() {
 }
 
 /// The addendum with the sources' solution style (LRS-06), pre-registered alone in
-/// tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md (001ca100) before this run. The
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md (2b4c34b5) before this run. The
 /// recorded comparison above is not edited. Ignored: three full grids.
 #[test]
 #[ignore]

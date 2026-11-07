@@ -7,7 +7,7 @@
 //! was searched for, fetched or read)
 //!
 //! Why a second amendment: the first amendment
-//! (`tests/reentry_point_mass_reconstruction_oracle.rs`, pre-registered in commit 1b826fe8)
+//! (`tests/reentry_point_mass_reconstruction_oracle.rs`, pre-registered in commit 04899716)
 //! compared `reentry::simulate_planar_entry` with the Stardust and Genesis best-estimated
 //! trajectories and agreed (+11.3 %, +5.6 %). A review found that those maxima are outputs of
 //! the projects' own entry simulations (Genesis: "indistinguishable from the pre-entry
@@ -20,7 +20,7 @@
 //!
 //! * **Quantity.** Peak sensed deceleration in Earth g (9.80665 m/s^2) during the hypersonic
 //!   entry, before any parachute deployment. Kshana: `D/m / 9.80665`, the largest per-step
-//!   drag deceleration of `reentry::simulate_planar_entry` (unchanged since commit 4ea48b58;
+//!   drag deceleration of `reentry::simulate_planar_entry` (unchanged since commit 1f5a3f37;
 //!   no engine change is made for this amendment). Speed, altitude, time and flight-path
 //!   angle at the peak are not compared.
 //! * **Kshana side.** Unchanged: planar point mass, spherical non-rotating Earth of radius

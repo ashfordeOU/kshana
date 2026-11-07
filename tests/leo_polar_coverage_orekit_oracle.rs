@@ -60,7 +60,7 @@
 //! relative on the single-clock samples. Deliberate mutations turn this test red: every system
 //! on the first system's mask (B: 2890 failures, in view identical on 223/3000 samples), and one
 //! clock for every system (A and B: 90 failures, median DOP off by up to 8.3e-2 relative).
-//! Pre-registration commit 3254d456. Validated: the sweep geometry on the given Earth-fixed
+//! Pre-registration commit e6227a77. Validated: the sweep geometry on the given Earth-fixed
 //! states; the propagation that produces those states is not part of this comparison.
 //!
 //! REVISION (package D8, 2026-10-02): the polar mode no longer runs the two-body plus

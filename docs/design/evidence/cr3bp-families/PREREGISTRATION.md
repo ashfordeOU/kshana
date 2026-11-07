@@ -1,8 +1,8 @@
 # Pre-registration: CR3BP family members against the NASA/JPL Three-Body Periodic Orbits API (RM-35, CAP-29b)
 
 Written 2026-10-13 and committed alone, before any request to the API and before the
-comparison is run. `src/cr3bp_family.rs` exists (unfinished WIP of 7a661a03, compiled since
-13a16dbb); its six unit tests (internal checks) pass. It is not in any ledger row.
+comparison is run. `src/cr3bp_family.rs` exists (unfinished WIP of de4392bb, compiled since
+7e1a39d5); its six unit tests (internal checks) pass. It is not in any ledger row.
 
 ## Data (fixed now)
 

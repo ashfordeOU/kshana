@@ -4,11 +4,11 @@
 //! against its published ITRF2020 coordinate.
 //!
 //! PRE-REGISTRATION: `tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_HATCH.md`, committed on
-//! its own (bd45812) before any single-point solution on these data was computed. Over
+//! its own (b885b05) before any single-point solution on these data was computed. Over
 //! 01:00-05:59:30: H1 median 3-D error smoothed ≤ 0.6 × raw; H2 95th percentile smoothed ≤ 0.6 ×
 //! raw; H3 at least 500 epochs solved by both. Window 100 epochs (50 min).
 //!
-//! RESULT of the first and only run (2026-10-13, on 70b27ec), recorded as a FINDING; bars
+//! RESULT of the first and only run (2026-10-13, on 5df0766), recorded as a FINDING; bars
 //! unchanged, the row stays MODELLED. H3 holds (600 epochs). H1 does not: median 3-D error
 //! 1.553 m raw, 1.116 m smoothed, ratio 0.718 (bar 0.6). H2 does not: 95th percentile 3.473 m
 //! raw, 3.207 m smoothed, ratio 0.923 (bar 0.6). Smoothing removes code noise (the median falls by

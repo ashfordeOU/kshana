@@ -197,7 +197,7 @@ fn compare(o: &Value) -> (usize, Vec<String>, usize, usize, Vec<String>) {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on f88f2969 + fixture): C/A chips 0 of 32736 differ and the parity of 0 of 1920 words differs, but 230 of 1152 computed LNAV fields differ by one least-significant bit: gps-sdr-sim eph2sbf truncates toward zero with C casts, Kshana rounds to nearest; pinned by gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding"]
+#[ignore = "FINDING (run 2026-10-02 on 45ba9543 + fixture): C/A chips 0 of 32736 differ and the parity of 0 of 1920 words differs, but 230 of 1152 computed LNAV fields differ by one least-significant bit: gps-sdr-sim eph2sbf truncates toward zero with C casts, Kshana rounds to nearest; pinned by gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding"]
 fn ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly() {
     let o = load();
     let (chips, fields, parity, sats, frames) = compare(&o);

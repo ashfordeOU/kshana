@@ -1,8 +1,8 @@
 # Streaming M2M4 C/N0 in the tracking channel: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `3cd9150`, before the implementation).
+Pre-registration: `PREREGISTRATION.md` (committed at `30b6308`, before the implementation).
 These numbers were regenerated on 2026-10-12 from the current tree (`release/0.36.0-rc` @
-`c9e37402`) by running the tests that carry the bars; they match the figures first recorded in
+`81d2f933`) by running the tests that carry the bars; they match the figures first recorded in
 the `CHANGELOG.md` entry for the change. Reproduce with
 `cargo test --release --test iq_track_cn0 -- --nocapture`.
 
@@ -30,7 +30,7 @@ M2M4 = 45.34 dB-Hz at the end of the 6 s run (NWPR 45.12 dB-Hz). **M2 PASS**
 ## M3: NWPR unchanged bit for bit
 
 The FNV-1a checksum over the `f64` bit patterns of the NWPR estimate of all 5999 epochs of the
-M2 run equals the value captured from the base commit `010b30b9` before the change
+M2 run equals the value captured from the base commit `7d918c76` before the change
 (`0x05b3caf744da2a2d`). **M3 PASS.**
 
 ## M4: epoch formats

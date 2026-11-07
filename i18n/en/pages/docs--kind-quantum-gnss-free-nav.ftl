@@ -43,7 +43,7 @@ seg-1bdbf1a737b2 = The chart the engine writes for scenarios/quantum-gnss-free-n
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered fcb9ac64), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-451a304052c4 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

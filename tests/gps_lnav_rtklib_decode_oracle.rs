@@ -231,7 +231,7 @@ fn compare() -> (Vec<String>, usize) {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on ca5f0142 + fixture): R1 parity 960 of 960 words and subframes 1-3 decoded for 32 of 32 satellites; R3 every parameter within half a quantum, week and times exact; R2 fails on 41 values, all af1, delta-n and IDOT, by 1 to 4 units in the last place: RTKLIB defines P2_43 as the decimal 1.136868377216160E-13, 2.6e-16 relative from 2^-43, above the registered 2^-52. Pinned by rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43"]
+#[ignore = "FINDING (run 2026-10-02 on c26e2b28 + fixture): R1 parity 960 of 960 words and subframes 1-3 decoded for 32 of 32 satellites; R3 every parameter within half a quantum, week and times exact; R2 fails on 41 values, all af1, delta-n and IDOT, by 1 to 4 units in the last place: RTKLIB defines P2_43 as the decimal 1.136868377216160E-13, 2.6e-16 relative from 2^-43, above the registered 2^-52. Pinned by rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43"]
 fn kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters() {
     let committed = std::fs::read_to_string(format!("{FIX}/kshana_words.txt")).expect("words");
     assert_eq!(

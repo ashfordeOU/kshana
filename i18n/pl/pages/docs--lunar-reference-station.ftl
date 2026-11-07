@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Źródła S1 do S5 (tytuł, URL, data pobrania, SHA-256, lice
 
 seg-d866653008e1 = Każde twierdzenie liczbowe, zacytowane ze stroną i podanymi założeniami oraz sklasyfikowane jako porównywalne, częściowo porównywalne lub nieporównywalne: <c1/>. Żadne twierdzenie nie jest w pełni porównywalne, ponieważ żadne źródło nie podaje percentyla ani elementów orbitalnych satelitów.
 
-seg-50535c58d3cf = Progi, przypadki i dane wejściowe, zatwierdzone samodzielnie przed przebiegiem (rewizja { "2" }, 05bf9a19), oraz zapisany przebieg: <c1/>. Wynik jest przypięty w <c2/>.
+seg-50535c58d3cf = Progi, przypadki i dane wejściowe, zatwierdzone samodzielnie przed przebiegiem (rewizja { "2" }, ebac1e14), oraz zapisany przebieg: <c1/>. Wynik jest przypięty w <c2/>.
 
 seg-069a652c402e = próg
 

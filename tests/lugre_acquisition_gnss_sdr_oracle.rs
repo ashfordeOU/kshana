@@ -126,7 +126,7 @@ impl Snapshot {
         let p = dir.join(sdrx);
         let text = std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("{p:?}: {e}"));
         let mut layout = parse_sdrx(&text).unwrap_or_else(|e| panic!("{p:?}: {e}"));
-        // The low-nibble-I reading registered at 768cb62b (ion_sdr's default changed after
+        // The low-nibble-I reading registered at 7425dc34 (ion_sdr's default changed after
         // the finding; see its module documentation).
         layout.fill_lsb_first = true;
         let data = p.parent().unwrap().join(&layout.url);
@@ -208,7 +208,7 @@ fn config(fs: f64, if_hz: f64, dwells: usize) -> PcpsConfig {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on 768cb62b + fixtures, restarted once after a tool time limit stopped it at 226 of 266 cases): A0 288 of 288 spans decode identically to the independent converter; A1 266 GNSS-SDR positives from 9 snapshots; A3 266 of 266 also Kshana positives; A2 fails, 250 of 266 located (251 on the same Doppler bin), the 16 misses near-tie maxima elsewhere in the grid; C1 vacuous, 0 pairs: no flight RAW epoch lies within 30 s (nearest 141 s) of any batch. Most positives are artefacts: read as bare two-s-complement integers the samples carry a -0.5 mean on I and Q that both receivers acquire. Pinned by finding_dc_artefacts_and_no_contemporaneous_flight_cn0"]
+#[ignore = "FINDING (run 2026-10-02 on 7425dc34 + fixtures, restarted once after a tool time limit stopped it at 226 of 266 cases): A0 288 of 288 spans decode identically to the independent converter; A1 266 GNSS-SDR positives from 9 snapshots; A3 266 of 266 also Kshana positives; A2 fails, 250 of 266 located (251 on the same Doppler bin), the 16 misses near-tie maxima elsewhere in the grid; C1 vacuous, 0 pairs: no flight RAW epoch lies within 30 s (nearest 141 s) of any batch. Most positives are artefacts: read as bare two-s-complement integers the samples carry a -0.5 mean on I and Q that both receivers acquire. Pinned by finding_dc_artefacts_and_no_contemporaneous_flight_cn0"]
 fn acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");

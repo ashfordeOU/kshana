@@ -17,7 +17,7 @@
 //!    `KSHANA_BLESS_PORTABLE=1` rewrites the portable files.
 //!
 //! PIN-SCOPE:    the SHA-256 of each frozen TOML and of each stored result JSON, as frozen
-//!               (inputs at c05dac1d), and of each portable re-run
+//!               (inputs at d4a2d4b5), and of each portable re-run
 //! PIN-EXCLUDES: nothing in the result; the run's one-line summary and SVG are not frozen
 //!
 //! If this fails: do not edit the frozen prediction. Add a new, dated prediction file and keep

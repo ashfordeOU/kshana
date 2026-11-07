@@ -59,8 +59,8 @@
 //!     (B4) the acquired Doppler is within 125 Hz (one bin step) of `f_carr`.
 //! Non-vacuity: at least 6 channels.
 //!
-//! RESULT (added after the run of 2026-10-07 on 7777da53 with the fixture of e6c0a48c; the
-//! registration above is unchanged from 7777da53). (0) holds. (A) holds on all 11 channels:
+//! RESULT (added after the run of 2026-10-07 on d9ea217d with the fixture of e6c0a48c; the
+//! registration above is unchanged from d9ea217d). (0) holds. (A) holds on all 11 channels:
 //! worst pseudorange 1.6e-3 m, code phase 5.5e-6 chip, Doppler 7.4e-5 Hz, elevation and
 //! azimuth 4e-9 degree. (B1), (B3) and (B4) hold in both windows (code phase within 0.195
 //! chip, Doppler within 72 Hz), but (B2) fails: all 21 PRNs gps-sdr-sim did not simulate are
@@ -385,7 +385,7 @@ fn searches(h: &Value) -> Vec<Search> {
 
 /// (B) Acquisition of gps-sdr-sim's own samples, at the registered bars.
 #[test]
-#[ignore = "FINDING (run 2026-10-07 on 7777da53 + fixture e6c0a48c): (B1) all 11 simulated PRNs acquired in both windows, (B3) code phase within 0.195 chip, (B4) Doppler within 72 Hz, but (B2) every one of the 21 PRNs gps-sdr-sim did not simulate is also declared acquired in both windows (statistic 151 to 206 against the threshold 79.5): the noise-free input has no thermal noise, so the other satellites' cross-correlation is what the Gaussian-noise threshold sees; pinned by acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples"]
+#[ignore = "FINDING (run 2026-10-07 on d9ea217d + fixture e6c0a48c): (B1) all 11 simulated PRNs acquired in both windows, (B3) code phase within 0.195 chip, (B4) Doppler within 72 Hz, but (B2) every one of the 21 PRNs gps-sdr-sim did not simulate is also declared acquired in both windows (statistic 151 to 206 against the threshold 79.5): the noise-free input has no thermal noise, so the other satellites' cross-correlation is what the Gaussian-noise threshold sees; pinned by acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples"]
 fn acquisition_finds_gps_sdr_sim_satellites_in_its_samples() {
     let h = harness();
     let n_chans = channels(&h).len();

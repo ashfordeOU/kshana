@@ -95,9 +95,9 @@
 //!   (evaluating each record at `-s` instead of `s`) is applied and the strict test must turn
 //!   red; the edit is then reverted.
 //!
-//! ## Result (run after the pre-registration commit abcd9133 was published)
+//! ## Result (run after the pre-registration commit 1e283534 was published)
 //!
-//! Seed 12379710599223412932 (commit abcd913310d988c4ccb0babae9144ea53af2b1a5). Disclosure:
+//! Seed 12379710599223412932 (commit 1e283534958428db8f854abbdbd830708be3570f). Disclosure:
 //! the generator's first run aborted on its first SPICE call because it computed the grid
 //! interval as the intersection of individual segments, which is empty for the lunar
 //! orientation kernel (split in two at 2426); no oracle value was produced. The interval was

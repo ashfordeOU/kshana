@@ -101,7 +101,7 @@ seg-4f5941f12127 = <b>MODELLED</b> Varredura Monte Carlo do modelo de PNT difere
 
 # text
 # c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Varredura Monte Carlo do modelo de PNT diferencial lunar sobre uma grade de usuários no polo sul e um dia de épocas (o tipo de cenário <c1/>): para uma estação de referência diferencial. Referência independente (InternalConsistency): aritmética recalculada por um script numpy independente sobre casos exportados (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; com pré-registro em tests/fixtures/lunar_station/PREREGISTRATION.md, registrado isoladamente em 9caedf97 antes da primeira execução): em { "20" } casos com todos os termos de erro ligados, os conjuntos visíveis e o estado são idênticos, os erros brutos de distância concordam a { "1.4e-14" } m, os vetores e as magnitudes do erro de posição a { "1.4e-9" } m contra
+seg-d547d600ee2d = <b>MODELLED</b> Varredura Monte Carlo do modelo de PNT diferencial lunar sobre uma grade de usuários no polo sul e um dia de épocas (o tipo de cenário <c1/>): para uma estação de referência diferencial. Referência independente (InternalConsistency): aritmética recalculada por um script numpy independente sobre casos exportados (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; com pré-registro em tests/fixtures/lunar_station/PREREGISTRATION.md, registrado isoladamente em 2d43d3d5 antes da primeira execução): em { "20" } casos com todos os termos de erro ligados, os conjuntos visíveis e o estado são idênticos, os erros brutos de distância concordam a { "1.4e-14" } m, os vetores e as magnitudes do erro de posição a { "1.4e-9" } m contra
 
 # text
 # c1: label

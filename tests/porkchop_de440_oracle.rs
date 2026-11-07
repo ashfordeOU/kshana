@@ -3,7 +3,7 @@
 //! barycentre, 2026-2028) against SPICE heliocentric states and pykep 3.0.1's Lambert.
 //!
 //! Pre-registration: `docs/design/evidence/cap20b-porkchop-de440/PREREGISTRATION.md`
-//! (2d857fb1). Oracle: `tests/fixtures/porkchop_de440/` (generate.py, reference.csv, NOTICE.md).
+//! (b9317cee). Oracle: `tests/fixtures/porkchop_de440/` (generate.py, reference.csv, NOTICE.md).
 //! The engine reads the committed de440s cut in the same directory, which reproduces de440s bit
 //! for bit over the window. Bars: the same finite cells; every C3 and V∞ within 1e-8 relative;
 //! the same minimum-C3 cell.

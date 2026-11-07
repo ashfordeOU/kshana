@@ -1,6 +1,6 @@
 # Results: real gravity reference field (WP-10, RM-17)
 
-Both parts were run once against `PREREGISTRATION.md` (committed alone in e10d281b, before
+Both parts were run once against `PREREGISTRATION.md` (committed alone in 5710bb28, before
 any ICGEM grid was fetched and before the real-field scenario was first run). Nothing in the
 pre-registration was changed after the run.
 

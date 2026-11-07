@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Streaming M2M4 C/N0 in the tracking channel (`EpochOutput.cn0_m2m4_dbhz`). Bars M1-M4 are
-//! pre-registered in `docs/design/evidence/cn0-m2m4/PREREGISTRATION.md` (commit 3cd91504).
+//! pre-registered in `docs/design/evidence/cn0-m2m4/PREREGISTRATION.md` (commit 30b63083).
 //! All four bars run in the normal suite (about 90 s in a debug build, under 10 s in release).
 
 use kshana::iq::cli::build_code;
@@ -133,7 +133,7 @@ fn l1ca_45() -> Vec<EpochOutput> {
 }
 
 /// The NWPR checksum of the L1 C/A 45 dB-Hz run (2.5 MS/s, 6 s, PRN 7, 1200 Hz), captured
-/// from the base commit 010b30b9 before the M2M4 change.
+/// from the base commit 7d918c76 before the M2M4 change.
 // PIN-SCOPE:    FNV-1a over the f64 bit patterns of every NWPR estimate (or a marker) of the 5999
 //               epochs of that one run on the unmodified channel
 // PIN-EXCLUDES: every other output and every other scene

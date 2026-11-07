@@ -49,7 +49,7 @@
 //! fetched only after this header was committed. The generator also sends `REF_PLANE=FRAME`,
 //! which this header did not name; it does not change the scalar `LT`.
 //!
-//! # Result (run 2026-10-01, after the pre-registration commit aa701595)
+//! # Result (run 2026-10-01, after the pre-registration commit ebb3a640)
 //!
 //! Every RMS is inside its bar: RMS(c dLT) over the bar is 0.168 (Mercury), 0.259 (Venus),
 //! 0.301 (Mars), 0.205 (Jupiter) and 0.265 (Saturn); the largest single error is 1.17 times the

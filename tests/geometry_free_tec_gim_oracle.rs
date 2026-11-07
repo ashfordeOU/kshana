@@ -49,7 +49,7 @@
 //! (`p1 - p2` in place of `p2 - p1`) must turn the test red. Reported only: a 10 % error in the
 //! 40.3 constant.
 //!
-//! Result (run 2026-10-02 on the fixture of the commit after 5e795f93): FAIL, a finding. 36 arcs
+//! Result (run 2026-10-02 on the fixture of the commit after bd9812bd): FAIL, a finding. 36 arcs
 //! counted; 33 within 3 TECU (26 within 1.5 TECU), per-epoch RMS 3.95 TECU. Outside: G06 from
 //! 21:01 UTC (+6.84 TECU, a steady +5 to +11 TECU through the local evening, consistent with
 //! the smooth degree-15 map missing post-sunset structure at a low-latitude station) and G31

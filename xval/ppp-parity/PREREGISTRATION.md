@@ -58,7 +58,7 @@ permission system), so the gLAB leg stays pending and data-gated.
 
 ## Amendment 2 (2026-10-13): a new registration for the RTKLIB PPP leg, written after the first run was seen
 
-DISCLOSED: the first registered RTKLIB run (outputs 96dd27a) missed R1 and R2, and the diagnosis
+DISCLOSED: the first registered RTKLIB run (outputs 8f03cf0) missed R1 and R2, and the diagnosis
 written after it (tests/ppp_parity_glab_rtklib.rs) traced most of the difference to the
 registered configuration, which left RTKLIB's solid Earth tide correction off while Kshana
 applies it. That run stands as recorded. This amendment registers ONE further RTKLIB PPP run with

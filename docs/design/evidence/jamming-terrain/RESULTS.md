@@ -1,7 +1,7 @@
 # Terrain shadowing of the jammer in the jamming kind: results
 
 Item CAP-06 (b), run 2026-10-14 against the bars of [`PREREGISTRATION.md`](PREREGISTRATION.md)
-(committed at 92cd2bfd, before the code). No bar was changed.
+(committed at 3b0ebdd4, before the code). No bar was changed.
 
 | bar | verdict | numbers |
 |---|---|---|
@@ -48,8 +48,8 @@ What the placements show (findings, not bars):
 
 Every one of the 150 scenarios under `scenarios/` was run with the release binary of this change
 and compared byte for byte with the runs recorded for CAP-06a. Those were the release binaries
-of 08d83b4d (before the CRPA section) and 8ed3ec8e (with it), which agree byte for byte with
-each other. The one commit in between, 48a75761, only turns an invalid `[crpa]` section into an
+of 716de66a (before the CRPA section) and 396e181d (with it), which agree byte for byte with
+each other. The one commit in between, 64d8e0e4, only turns an invalid `[crpa]` section into an
 error. **All 150 results were byte-identical** to both. (`quantum-pnt-demonstrator.suite` is a
 study suite, not a scenario, and fails under every binary.)
 

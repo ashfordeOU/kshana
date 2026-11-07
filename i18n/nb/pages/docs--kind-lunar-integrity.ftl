@@ -6,7 +6,7 @@ seg-1c1eeb2dcaa0 = Familieside: <a1>Måne og cislunart rom</a1>
 
 seg-619127334cf3 = Ingen matriserad nevner denne typen ved navn; etiketten på resultatet er motorens egen, ovenfor.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparasjon med flere hypoteser etter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protecti. Uavhengig referanse (ExternalDataset): Tre uavhengige verktøy, forhåndsregistrert (0123cee1) før noen fixture eller referanseutdata fantes, toleranser fastsatt da. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, kjørt som et separat program under GNU Octave { "8.4" } med en kompatibilitetsshim for unique() på driversiden (oppgitt, ingen algoritmeendring), ved ADD TOL_PL på { "0.05" } m: Rust gjengir ADD-referanseimplementasjonen på
+seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparasjon med flere hypoteser etter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protecti. Uavhengig referanse (ExternalDataset): Tre uavhengige verktøy, forhåndsregistrert (ba7a01a7) før noen fixture eller referanseutdata fantes, toleranser fastsatt da. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, kjørt som et separat program under GNU Octave { "8.4" } med en kompatibilitetsshim for unique() på driversiden (oppgitt, ingen algoritmeendring), ved ADD TOL_PL på { "0.05" } m: Rust gjengir ADD-referanseimplementasjonen på
 
 seg-8ed008b206de = Kilde: <c1/>
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Grid-free acquisition (defect D12). Bars A1-A3 are pre-registered in
-//! `docs/design/evidence/acq-gridfree/PREREGISTRATION.md` (commit dc0dfb0e), before any
+//! `docs/design/evidence/acq-gridfree/PREREGISTRATION.md` (commit e306509e), before any
 //! implementation or measurement:
 //!
 //! * A1 `acquire_peak`'s `AcqResult` equals `acquire(..).result` bit for bit on GPS L1 C/A,

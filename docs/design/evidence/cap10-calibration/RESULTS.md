@@ -1,6 +1,6 @@
 # CAP-10 calibration ensembles: results
 
-Protocol: `PREREGISTRATION.md` in this directory, committed at ea451cb5 before the harness
+Protocol: `PREREGISTRATION.md` in this directory, committed at d224fbc0 before the harness
 existed. Generator: `cargo run --release --bin gen_calibration_ensembles` (one run, 9 min 50 s,
 release). The generated report is `docs/CALIBRATION-ENSEMBLES.md` and the per-seed values are
 in `docs/data/calibration-ensembles.csv`. The fast reproduction test is

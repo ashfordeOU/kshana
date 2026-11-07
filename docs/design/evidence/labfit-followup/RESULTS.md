@@ -1,8 +1,8 @@
 # Lab fit from IQ campaigns, follow-up: results (synthetic, 2026-10-14)
 
-The bars are those of [`PREREGISTRATION.md`](PREREGISTRATION.md), committed alone in 1e532f84
+The bars are those of [`PREREGISTRATION.md`](PREREGISTRATION.md), committed alone in 99e7c599
 before any code or run. The code (`tests/iq_labfit_followup.rs`) was committed and pushed in
-0042c5c9 before the run. No bar, seed, recipe, estimator or fit setting changed after a result was
+82478e57 before the run. No bar, seed, recipe, estimator or fit setting changed after a result was
 seen. Nothing in `docs/design/LABFIT-FROM-IQ.md` §13 changes: its bars and verdicts stand.
 
 ## Verdicts

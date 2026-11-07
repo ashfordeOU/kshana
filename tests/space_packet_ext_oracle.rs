@@ -2,7 +2,7 @@
 //! The Space Packet secondary header (CUC/CDS time codes), packet error control and
 //! segmentation against ccsdspy 2.0.1, CPython `binascii.crc_hqx`, spacepackets-py 0.32.0 and
 //! spacepackets-rs 0.18.0, as pre-registered in `xval/space-packet-ext/PREREGISTRATION.md`
-//! (003ef3eb, committed before any comparison was run).
+//! (1bd991e9, committed before any comparison was run).
 //!
 //! Kshana writes the time-code octets and packet streams under
 //! `tests/fixtures/space_packet_ext/kshana/` (regenerate with `KSHANA_XVAL_WRITE=1`; otherwise

@@ -3,7 +3,7 @@
 //! (`allan::lag1_noise_id`, package D9 of the dominance roadmap).
 //!
 //! PRE-REGISTRATION (written 2026-10-02, committed and pushed before the oracle was installed
-//! or run and before the fixture was generated; engine commit 52a931b2).
+//! or run and before the fixture was generated; engine commit a6e24d78).
 //!
 //! QUANTITY. For a phase or fractional-frequency record and an averaging factor `af`: the
 //! identified integer power-law exponent `alpha_int` (+2 white phase modulation down to -2
@@ -36,7 +36,7 @@
 //! round-off on these record lengths is expected below 1e-12; 1e-9 leaves three orders of
 //! margin and is still far below the 0.5 that would change an identification.
 //!
-//! VERDICT (2026-10-02, after pre-registration commit 2ec76864): AGREES. 140 of 140 cases
+//! VERDICT (2026-10-02, after pre-registration commit 14169982): AGREES. 140 of 140 cases
 //! with identical `alpha_int` and `d`; worst |alpha - alpha_ref| 9.6e-13 and worst
 //! |rho - rho_ref| 4.8e-13 against the 1e-9 bar. Disclosed: the first attempt stopped in the
 //! harness before any comparison, because numpy 2.4.6 printed the records as

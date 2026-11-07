@@ -1,6 +1,6 @@
 # Results: kshana-bench v1 baselines
 
-The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in 4e1a0ed before `kshana
+The pre-registration is `PREREGISTRATION.md` in this directory, committed alone in 311aec6 before `kshana
 bench` existed. This is the first and only scored run of the baselines (2026-10-18). No bar, split or setting
 was changed after a result was seen. Every figure is MODELLED; no external oracle agrees with a bench score.
 The bars are pinned by `tests/bench_baselines.rs` (task a is data-gated by `KSHANA_JAMMERTEST_DIR`).

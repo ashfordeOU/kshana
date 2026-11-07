@@ -32,7 +32,7 @@
 //! MUTATION (pre-registered, if it passes): `0.125 * self.h_0 / tau` in
 //! `DeviceCard::noise_allan_variance`; the strict test must turn red.
 //!
-//! VERDICT (first and only run of this pipeline, 2026-10-02, after pre-registration fb475550):
+//! VERDICT (first and only run of this pipeline, 2026-10-02, after pre-registration 698f3842):
 //! DISAGREES, the class fails. 11 of 12 stations (BX03-BX10, BX12, BX13, BX22) fail the 50 %
 //! presence rule (10 to 19 % of epochs present); BX14 (73 %) fails the bar at 23 541, its
 //! held-out Allan deviation at 240 and 480 s (1.6e-6) poisoned by a receiver millisecond reset
@@ -41,7 +41,7 @@
 //! epochs) and the RAIM test, with the 3 m sigma of the JammerTest pipeline, rejects most of the
 //! rest (229 of 1551) because the ionosphere-free combination amplifies code noise about three
 //! times. The broadcast navigation came from BRDC00WRD_R (BRDC00IGS_R does not exist for 2021;
-//! commit 52178918). A corrected pipeline is a new, disclosed comparison
+//! commit b74470c5). A corrected pipeline is a new, disclosed comparison
 //! (`f9p_cards_corrected_pipeline`, below).
 
 #[path = "clock_library_support/mod.rs"]
@@ -165,7 +165,7 @@ fn f9p_first_pipeline_reproduces_the_recorded_finding() {
 // BLIND: the 11 stations other than BX14. The class PROMOTES only if all 11 pass; BX14 is
 // reported only. Mutation as above.
 //
-// VERDICT (first and only run of the corrected pipeline, 2026-10-02, after c9cc0d49):
+// VERDICT (first and only run of the corrected pipeline, 2026-10-02, after cdfde420):
 // DISAGREES, the class fails. All 12 stations evaluable (10 185 to 12 983 fit epochs, 246 to
 // 1421 records). 1 of 11 blind stations within the bar (BX12, 1.412); BX07 1.532 and BX13
 // 1.542 just outside; BX08 1.979, BX03 6.665, BX10 7.268, BX22 54.4, BX05 734, BX09 1650, BX04

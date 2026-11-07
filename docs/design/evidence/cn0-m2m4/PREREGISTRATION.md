@@ -24,7 +24,7 @@ NWPR and every other output value are unchanged.
 * **M2** on GPS L1 C/A at 2.5 MS/s (an incommensurate rate), nominal 45 dB-Hz:
   `|M2M4 − nominal| ≤ 0.5 dB`.
 * **M3** NWPR is unchanged bit for bit: the NWPR estimate of every epoch of the M2 run equals
-  the values the unmodified channel produced (captured from the base commit 010b30b9 before
+  the values the unmodified channel produced (captured from the base commit 7d918c76 before
   any change and pinned as a checksum over `f64::to_bits`).
 * **M4** the three epoch formats carry the column and the binary round trip is exact; the
   record size stays 184 bytes.

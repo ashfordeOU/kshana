@@ -1,6 +1,6 @@
 # CR3BP family members against the JPL Three-Body Periodic Orbits API: results
 
-Pre-registration: `PREREGISTRATION.md` (committed alone at `a9074f65`, before any request).
+Pre-registration: `PREREGISTRATION.md` (committed alone at `ad0c9741`, before any request).
 Fixtures: `tests/fixtures/cr3bp_families_jpl/` (retrieved 2026-10-13 after it; NOTICE.md). Run
 2026-10-13, `cargo test --release --test cr3bp_families_jpl_oracle -- --include-ignored --nocapture`.
 

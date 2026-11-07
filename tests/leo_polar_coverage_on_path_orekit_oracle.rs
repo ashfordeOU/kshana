@@ -44,7 +44,7 @@
 //! the TEME -> GCRS step frozen at J2000 in `sgp4::teme_to_itrs_matrix_eop` (4739 failures,
 //! positions off by up to 188 km, in view identical on 959/1040 and 2725/3000). With legs 1 and
 //! 2 (`earth_orbit_path_sgp4_erfa_oracle.rs`) this validates the full claim from the element sets.
-//! Pre-registration commit 72ea9eb0. Fixture: `tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/`.
+//! Pre-registration commit d92aef9b. Fixture: `tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/`.
 
 #[path = "support/fixture_pin.rs"]
 mod fixture_pin;

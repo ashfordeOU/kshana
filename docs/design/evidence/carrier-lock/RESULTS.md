@@ -1,6 +1,6 @@
 # Carrier lock under the default FLL-assisted PLL: results
 
-Pre-registration: `PREREGISTRATION.md` (committed at `a4119ba7`, before these runs).
+Pre-registration: `PREREGISTRATION.md` (committed at `ddca3859`, before these runs).
 Reproduce with `cargo test --release --test iq_track_engine carrier_lock_survey -- --ignored
 --nocapture` (set `KSHANA_SURVEY_DATA=1` for the runs with data bits). The source is a
 synthetic GPS L1 C/A signal: PRN 13, 1500 Hz Doppler, 4.1 MHz (incommensurate), started

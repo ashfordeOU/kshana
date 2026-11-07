@@ -190,7 +190,7 @@ fn evaluate() -> (usize, usize, Vec<(i64, f64)>) {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-02 on 768cb62b + fixture): non-vacuity not met - 15 tracked Block IIR/IIR-M records (bar 50) and 1 pair (bar 30 over 10 epochs); 15 of 15 predicted visible; the one pair residual is -0.06 dB. At the 26 qualifying transit and lunar-orbit epochs the flight receiver tracked 37 GPS records, mostly Block IIF and III. A first generator run also admitted commissioning epochs (18 records), against the registration, and was replaced. Pinned by too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar"]
+#[ignore = "FINDING (run 2026-10-02 on 7425dc34 + fixture): non-vacuity not met - 15 tracked Block IIR/IIR-M records (bar 50) and 1 pair (bar 30 over 10 epochs); 15 of 15 predicted visible; the one pair residual is -0.06 dB. At the 26 qualifying transit and lunar-orbit epochs the flight receiver tracked 37 GPS records, mostly Block IIF and III. A first generator run also admitted commissioning epochs (18 records), against the registration, and was replaced. Pinned by too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar"]
 fn relative_cn0_and_visibility_at_lunar_distance_match_lugre() {
     let (records, visible, resid) = evaluate();
     let n = resid.len();

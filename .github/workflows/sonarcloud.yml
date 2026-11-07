@@ -8,7 +8,7 @@
 # Triggered on CI completion (workflow_run) instead of building coverage itself:
 # this job used to run its own cargo-tarpaulin pass — a duplicate of ci.yml's
 # coverage job costing ~90+ runner-minutes per push — and was cancelled whenever
-# the instrumented build outran its timeout cap (180 min on e1a2cb0). The scan
+# the instrumented build outran its timeout cap (180 min on 8e11d45). The scan
 # itself takes single-digit minutes; every cancellation was the duplicated build,
 # never the scan. Downloading ci.yml's `coverage-lcov` artifact makes the imported
 # coverage byte-identical to the report CI gated at >= 85% and removes the failure

@@ -3,10 +3,10 @@
 //! ITRF2020 coordinate of the International GNSS Service (IGS) station WTZR (Wettzell).
 //!
 //! PRE-REGISTRATION: `tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_PPP.md`, committed on
-//! its own (7e62990) before the filter was written. Development used only the co-located
+//! its own (7f87193) before the filter was written. Development used only the co-located
 //! station WTZZ (`wtzz_development_run`); WTZR is the held-out test station.
 //!
-//! RESULT of the first and only registered run (2026-10-12, on 386b531): P1, P2, P3 and D hold.
+//! RESULT of the first and only registered run (2026-10-12, on bd64c02): P1, P2, P3 and D hold.
 //! Last epoch: horizontal error 0.0015 m, up −0.0289 m (bars 0.05 / 0.10 m). 04:00-05:59:30:
 //! 240 of 240 epochs within 0.10 m in 3-D, 95th percentile 0.067 m. Code-only filter 95th
 //! percentile 1.70 m (25 times the PPP figure; bar twice). 719 of 720 epochs solved; 25 phase

@@ -53,7 +53,7 @@ re-records, never deleted or ignored.
 
 ## 3. Method
 
-The old values come from the unmodified tip of `feat/wasm-iq-0.36` (`b482fb33`, host
+The old values come from the unmodified tip of `feat/wasm-iq-0.36` (`7e8c3b4e`, host
 maths) built in a separate worktree; the new values from this branch. Both ran the 141
 scenarios bundled with the crate through `kshana::api::run_toml` in release builds. Every
 old/new pair is a leaf of the result JSON. The full list is
@@ -341,7 +341,7 @@ How each is handled in phase 2 is in section 6.
 ### 5.7 Tests that fail on the unmodified branch (not this change)
 
 `matrix_total_no_stale_count_doc_sync` (1), `scenario_count_doc_sync` (2) and
-`web_validation_counts_doc_sync` (3) fail identically on `b482fb33` in a clean worktree:
+`web_validation_counts_doc_sync` (3) fail identically on `7e8c3b4e` in a clean worktree:
 the web pages state 263 matrix rows (live: 274), 75 scenario kinds (live: 76), and
 "134 of 274 capabilities validated" is absent, with the Studio ledger copy stale. They are
 listed here only so they are not mistaken for moves; they are not touched.
@@ -367,7 +367,7 @@ path (a bless switch, an emit test, or the tool that wrote the file); the old va
 code comment or in a historical fixture beside the new one. Nothing else was re-recorded, and no
 bar, tolerance or threshold changed.
 
-**Merge.** `b482fb33` (STUDIO-06) is merged into the branch; the scenario numbers above were
+**Merge.** `7e8c3b4e` (STUDIO-06) is merged into the branch; the scenario numbers above were
 measured against it.
 
 **Tests ported.** `portable_math` is now `pub` and `#[doc(hidden)]`, and `PortableFloat` is `pub`

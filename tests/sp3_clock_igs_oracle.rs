@@ -3,7 +3,7 @@
 //! published 30 s clocks of the International GNSS Service (IGS).
 //!
 //! PRE-REGISTRATION: `tests/fixtures/sp3_clock_igs_oracle/PREREGISTRATION.md`, committed on its
-//! own (411526d) before the fixture was cut and before this test was first run. In short: the
+//! own (930fab0) before the fixture was cut and before this test was first run. In short: the
 //! IGS final 15 min orbit-and-clock product of 2025-02-24 is the input; the IGS final 30 s clock
 //! combination of the same day is the oracle (clock values estimated at the query instants, not
 //! interpolated). Over the GPS satellites: N, the median |SP3 − CLK| at the 15 min nodes, at most

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The SPK type 9/13 writer and reader against the NAIF SPICE Toolkit (CSPICE N0067 through
-//! spiceypy 8.3.0), as pre-registered in `xval/spk-writer-spice/PREREGISTRATION.md` (5059fd2a,
+//! spiceypy 8.3.0), as pre-registered in `xval/spk-writer-spice/PREREGISTRATION.md` (75bc61d9,
 //! committed before any comparison). Inputs are synthetic Kepler arcs drawn from the
 //! pre-registered seed (`tests/fixtures/spk_writer_spice_oracle/inputs.json`).
 //!
