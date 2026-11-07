@@ -19,6 +19,9 @@ breaking changes are called out explicitly.
   and IGS SSR) become one record per satellite of each message, with `t_s` on GPS time. Every value of the 676 records from
   the three public sample streams equals pyrtcm's after a round trip through `obs check`; `obs check` counts corrections.
   MODELLED; the limits are in `docs/design/evidence/r1-1-rtcm-ssr/RESULTS.md`.
+- `leo-signal`: GPS L2C as a public reference preset (`gps-l2c`, from IS-GPS-200N: 1227.60 MHz, CM and CL time-multiplexed,
+  −160.0 dBW) and as a GNSS victim in the compatibility analysis, so a LEO-PNT design is scored against L2C and L2C against it.
+  MODELLED: checked against the CM and CL codes in `iq::signals::gps` and the BPSK closed forms only.
 
 ### Fixed
 
