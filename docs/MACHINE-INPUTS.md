@@ -51,13 +51,16 @@ outputs of GNSS-SDR already read with `nmea` and `rinex`; the Monitor and PVT-mo
 names case-insensitive): `t_s` seconds on the receiver log's clock, `gx`, `gy`, `gz` angular rate
 in rad/s, `ax`, `ay`, `az` specific force in m/s². `format = "euroc"`: the EuRoC MAV `imu0`
 `data.csv` layout (`#timestamp [ns]`, `w_RS_S_x/y/z [rad s^-1]`, `a_RS_S_x/y/z [m s^-2]`); the
-first sample is `t_s = 0`. Rows that do not parse, and rows whose time does not increase, are
+first sample is `t_s = 0`. `format = "ros2-csv"`: ROS 2 `sensor_msgs/msg/Imu` as `ros2 topic echo
+--csv` prints it (no header; 40 fields in message order; `t_s` is the stamp, seconds plus nanoseconds), so
+a recorded or live ROS 2 topic is read with no bridge code. Rows that do not parse, and rows whose time does not increase, are
 skipped. See [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md) for how the gyro heading is used.
 
 ## IMU live (`kshana sensor-live --kind imu`)
 
 ```sh
 my-imu-to-csv /dev/ttyUSB1 | kshana sensor-live --kind imu --format csv --from - --heading0 90
+ros2 topic echo /imu/data sensor_msgs/msg/Imu --csv | kshana sensor-live --kind imu --format ros2-csv --from -
 kshana sensor-live --kind imu --format euroc --from imu0/data.csv --follow
 ```
 

@@ -2,7 +2,7 @@
 //! Live sensors (roadmap L4d): `kshana sensor-live` reads a sensor's log as it is written and
 //! prints one JSON line per sample.
 //!
-//! * `--kind imu` (`--format csv|euroc`): the gyro and accelerometer layouts of
+//! * `--kind imu` (`--format csv|euroc|ros2-csv`): the gyro and accelerometer layouts of
 //!   [`crate::receiver_trust::machines::imu`], read by the same line reader as a replay, so the
 //!   live samples are the replay's samples. Each line carries the gyro heading integrated from
 //!   `--heading0` (default 0) the way the `heading-course` monitor integrates it, sample by sample
@@ -126,6 +126,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
     let fmt = match format.as_str() {
         "csv" => ImuFormat::Csv,
         "euroc" => ImuFormat::Euroc,
+        "ros2-csv" => ImuFormat::Ros2Csv,
         _ => return Err(usage()),
     };
     let mut live = ImuLive::new(fmt, heading0, !z_up);
@@ -149,6 +150,32 @@ pub fn run(args: &[String]) -> Result<(), String> {
 mod tests {
     use super::*;
     use crate::receiver_trust::machines::imu::{gyro_heading, read_imu};
+
+    #[test]
+    fn a_ros2_imu_echo_reads_live_and_replayed() {
+        let line = |sec: i64, ns: u32, gz: f64| {
+            let mut f = vec![sec.to_string(), ns.to_string(), "imu_link".to_string()];
+            f.extend(["0", "0", "0", "1"].map(String::from));
+            f.extend(std::iter::repeat_n("0".to_string(), 9));
+            f.extend(["0.01", "0.02"].map(String::from));
+            f.push(gz.to_string());
+            f.extend(std::iter::repeat_n("0".to_string(), 9));
+            f.extend(["0.1", "0.2", "9.81"].map(String::from));
+            f.extend(std::iter::repeat_n("0".to_string(), 9));
+            f.join(",")
+        };
+        let text: String = (0..50)
+            .map(|k| line(1_780_000_000, k * 10_000_000, f64::from(k) * 0.01) + "\n")
+            .collect();
+        let replay = read_imu(ImuFormat::Ros2Csv, &text).unwrap();
+        assert_eq!(replay.len(), 50);
+        assert_eq!(replay[3].gyro, [0.01, 0.02, 0.03]);
+        assert_eq!(replay[3].t_s, 1_780_000_000.0 + 0.03);
+        let mut live = ImuLive::new(ImuFormat::Ros2Csv, 0.0, true);
+        let n = text.lines().filter_map(|l| live.push(l).unwrap()).count();
+        assert_eq!(n, 50);
+        assert!(live.push("1,2,short").unwrap().is_none());
+    }
 
     #[test]
     fn live_samples_and_heading_equal_the_replay() {

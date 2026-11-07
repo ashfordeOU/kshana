@@ -27,6 +27,12 @@ pub enum ImuFormat {
     Csv,
     /// EuRoC MAV `imu0/data.csv`.
     Euroc,
+    /// ROS 2 `sensor_msgs/msg/Imu` as `ros2 topic echo --csv` prints it: no header, one message
+    /// per line, the fields in message order (stamp seconds and nanoseconds, frame id, orientation
+    /// and its covariance, angular velocity and its covariance, linear acceleration and its
+    /// covariance). The time is the stamp, in seconds.
+    #[serde(rename = "ros2-csv")]
+    Ros2Csv,
 }
 
 /// One IMU sample.
@@ -76,6 +82,9 @@ impl ImuReader {
         if l.trim().is_empty() {
             return Ok(None);
         }
+        if self.format == ImuFormat::Ros2Csv {
+            return Ok(self.ros2_line(l));
+        }
         let Some(idx) = self.idx else {
             self.idx = Some(header_columns(self.format, l)?);
             return Ok(None);
@@ -93,6 +102,7 @@ impl ImuReader {
         let t = match self.format {
             ImuFormat::Csv => v[0],
             ImuFormat::Euroc => (v[0] - *self.t0_ns.get_or_insert(v[0])) / 1e9,
+            ImuFormat::Ros2Csv => unreachable!("read by ros2_line"),
         };
         if self.last_t.is_some_and(|p| t <= p) {
             return Ok(None);
@@ -105,14 +115,40 @@ impl ImuReader {
         }))
     }
 
-    /// Whether the header has been read.
+    /// Whether the header has been read (a headerless layout has none to read).
     pub fn has_header(&self) -> bool {
-        self.idx.is_some()
+        self.idx.is_some() || self.format == ImuFormat::Ros2Csv
+    }
+
+    /// One `ros2 topic echo --csv` line of `sensor_msgs/msg/Imu`.
+    fn ros2_line(&mut self, l: &str) -> Option<ImuSample> {
+        let f: Vec<&str> = l.split(',').map(str::trim).collect();
+        if f.len() != 40 {
+            return None;
+        }
+        let sec: i64 = f[0].parse().ok()?;
+        let nsec: u32 = f[1].parse().ok().filter(|n| *n < 1_000_000_000)?;
+        let num = |i: usize| f[i].parse::<f64>().ok().filter(|x| x.is_finite());
+        let gyro = [num(16)?, num(17)?, num(18)?];
+        let accel = [num(28)?, num(29)?, num(30)?];
+        let t = sec as f64 + f64::from(nsec) * 1e-9;
+        if self.last_t.is_some_and(|p| t <= p) {
+            return None;
+        }
+        self.last_t = Some(t);
+        Some(ImuSample {
+            t_s: t,
+            gyro,
+            accel,
+        })
     }
 }
 
 /// The columns of `t`, the three rates and the three specific forces, from the header line.
 fn header_columns(format: ImuFormat, head: &str) -> Result<[usize; 7], String> {
+    if format == ImuFormat::Ros2Csv {
+        return Ok([0, 16, 17, 18, 28, 29, 30]);
+    }
     let header: Vec<String> = head
         .trim_start_matches('#')
         .split(',')
@@ -135,7 +171,7 @@ fn header_columns(format: ImuFormat, head: &str) -> Result<[usize; 7], String> {
                 c("az")?,
             ]
         }
-        ImuFormat::Euroc => {
+        ImuFormat::Euroc | ImuFormat::Ros2Csv => {
             let c = |n: &str| {
                 header.iter().position(|h| h.starts_with(n)).ok_or_else(|| {
                     crate::terr!("e-receiver-trust-machines-imu-imu-euroc-no-column", n = n)
