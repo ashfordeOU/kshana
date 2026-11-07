@@ -185,6 +185,10 @@
    "count": 3,
    "reason": "machine-document: the host_s key added to each JSON reading line, and the <source>: <error> prefix of an operating-system error"
   },
+  "src/rtcm_ssr.rs": {
+   "count": 3,
+   "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
+  },
   "src/rts25.rs": {
    "count": 10,
    "reason": "machine-document: the seven activity identifiers accepted on input (kebab-case names of the RTS 25 Annex rows) and the three outcome codes written to the result (within limit, beyond limit, not assessable)"
@@ -1142,8 +1146,8 @@
    "reason": "machine-document: the NTRIP request line and headers, the GGA sentence layout, the HTTP header names read from the caster, and the <address>: <error> prefix of an operating-system error"
   },
   "src/obs.rs": {
-   "count": 1,
-   "reason": "identifier: the schema id `kshana.obs/1` written into and matched in every observation file header"
+   "count": 2,
+   "reason": "identifiers: the schema id `kshana.obs/1` written into and matched in every observation file header, and the source format name `rtcm-ssr`"
   },
   "src/observability_gramian.rs": {
    "count": 2,
