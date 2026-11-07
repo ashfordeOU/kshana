@@ -992,6 +992,7 @@ version = "0.40.0"
 dependencies = [
  "anyhow",
  "axum",
+ "flate2",
  "futures-util",
  "kshana",
  "rmcp",

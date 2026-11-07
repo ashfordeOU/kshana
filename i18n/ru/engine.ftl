@@ -11032,6 +11032,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     План и каталог — опубликованные файлы JSON NPRA/jammertest-plan (MIT; получите их через
     xval/jammertest-plan/fetch.sh). Время в плане местное, по настенным часам; --local-offset-h (по умолчанию 2, CEST)
     задаёт, насколько оно отличается от UTC. Метки attack_log набора данных JammerTest 2024 помечены Z, но это местное

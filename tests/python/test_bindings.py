@@ -849,3 +849,17 @@ def test_optical_atmosphere_scenarios_run_through_the_binding(name):
     # more sites never lower the independent-union availability
     assert all(a["independent_pct"] <= b["independent_pct"] + 1e-9 for a, b in zip(rows, rows[1:]))
     assert "optical-atmosphere" in [k["name"] for k in kshana.scenario_kinds()]
+
+
+def test_referee_location_score_gives_the_command_line_bytes():
+    """B2 bar R4: the location metrics through Python are byte-identical to the command line."""
+    import gzip
+    import hashlib
+    import os
+
+    d = os.path.join(os.path.dirname(__file__), "..", "fixtures", "referee_location")
+    truth = open(os.path.join(d, "truth_v1.json")).read()
+    reports = gzip.open(os.path.join(d, "reports_v1.json.gz")).read().decode()
+    text = kshana.referee_location_score(truth, reports)
+    want = open(os.path.join(d, "score_v1.sha256")).read().strip()
+    assert hashlib.sha256(text.encode()).hexdigest() == want

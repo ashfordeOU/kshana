@@ -173,6 +173,10 @@
    "count": 6,
    "reason": "machine-document: the two CSV headers of the documented input formats, the CSV row layouts of the ADS-B and AIS reports, the loopback address a bare UDP port binds, and the <source>: <error> prefix of an operating-system error"
   },
+  "src/jammertest/location.rs": {
+   "count": 1,
+   "reason": "machine-document: the schema id of the kshana.referee-location/1 score"
+  },
   "src/live_health.rs": {
    "count": 3,
    "reason": "machine-document: the host_s key added to each JSON reading line, and the <source>: <error> prefix of an operating-system error"
@@ -710,8 +714,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/jammertest/cli.rs": {
-   "count": 12,
-   "reason": "identifier and machine-document: option names, the `jammertest-score` tool name and the default pack title, which is written into the signed pack"
+   "count": 13,
+   "reason": "identifier and machine-document: option names, the `jammertest-score` tool name and the default pack title, which is written into the signed pack; the --truth, --reports and --out flags of locate-score"
   },
   "src/jammertest/dataset.rs": {
    "count": 17,
@@ -1442,8 +1446,8 @@
    "reason": "identifier and data: FoM keys, JSON key, the page's CSS; the HTML text is in the catalogue"
   },
   "src/surface.rs": {
-   "count": 29,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 31,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the truth_json and reports_json input names in the size-cap error"
   },
   "src/sweep.rs": {
    "count": 13,

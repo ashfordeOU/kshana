@@ -10576,6 +10576,7 @@ engine-jammertest-cli-usage =
     { "        " }[--location <n>] [--log-start <time>] [--local-offset-h <h>] [--year <y>]
     { "        " }[--recover-hold-s <s>] [--guard-s <s>] [--json]
     { "        " }[--key <keyfile> --out <dir> [--title <t>] [--created-utc <time>|none]]
+    { "  " }kshana jammertest locate-score --truth <truth.json> --reports <reports.json> [--out <score.json>]
     The plan and catalogue are the published NPRA/jammertest-plan JSON files (MIT; fetch them with
     xval/jammertest-plan/fetch.sh). Plan times are local wall-clock; --local-offset-h (default 2, CEST)
     says how far they are from UTC. The JammerTest 2024 dataset's attack_log stamps say Z but are local
@@ -11566,3 +11567,15 @@ engine-bench-speed-sizing = sizing, per core with half of it left free:
 engine-e-bench-speed-regression = slower than the baseline by more than { $tolerance } % (time over the calibration workload): { $list }
 
 engine-bench-speed-row = {"  "}{ $id } { $rate } { $unit }/s  (x{ $ratio } calibration)
+
+## src/jammertest/location.rs
+
+engine-e-referee-location-covariance = an ellipse's covariance is not symmetric positive definite (an input error, not a miss)
+
+engine-e-referee-location-region = a region must be exactly one of ellipse, polygon or grid
+
+engine-e-referee-location-event = a report names event { $id }, which the truth file does not list
+
+engine-e-referee-location-truth = not a referee location truth file: { $e }
+
+engine-e-referee-location-reports = not a referee location reports file: { $e }

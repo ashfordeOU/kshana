@@ -93,6 +93,17 @@ pub struct JammertestScoreRequest {
     pub guard_s: Option<f64>,
 }
 
+/// Parameters for [`KshanaServer::referee_location_score`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct RefereeLocationRequest {
+    /// A `kshana.referee-location-truth/1` document as JSON text: events with onset, end and a
+    /// position or track, the observation span, guard, hold, radii and levels.
+    pub truth_json: String,
+    /// A `kshana.referee-location-reports/1` document as JSON text: time-ordered reports with an
+    /// optional event id, point estimate and regions (ellipse, polygon or grid cells).
+    pub reports_json: String,
+}
+
 /// Parameters for [`KshanaServer::assess_vessel_stream`] and [`KshanaServer::assess_vessel_log`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct VesselNmeaRequest {
@@ -536,6 +547,24 @@ impl KshanaServer {
             MAX_UPLOAD_BYTES,
         )
         .map_err(|e| bad(kshana::terr!("e-mcp-marine-jammertest-score-failed", e = e)))?;
+        let mut v: serde_json::Value = serde_json::from_str(&j)
+            .map_err(|e| bad(kshana::terr!("e-animation-result-is-not-json", e = e)))?;
+        v["notice"] = ADVISORY.into();
+        reply(v)
+    }
+
+    #[tool(
+        description = "Score where a monitoring network said interference came from (`kshana jammertest locate-score`, 0.41 row B2): per report the event it belongs to (by id, or by time window and nearest truth), the horizontal geodesic error and vertical error, and for each region (an ellipse with its covariance, a polygon or grid cells) whether it contains the truth and its area; per event and pooled the median and 90th-percentile error, coverage per level with its binomial check, median region size, time to first location and time to locate within 100 m, 500 m, 1 km and 5 km; and false locations per hour of clean time. Definitions: docs/design/evidence/b2-referee-metrics/PREREGISTRATION.md. Input is capped at 4 MiB per text. It checks arithmetic, not any locator's accuracy. Evidence tier: the metrics are checked against an independent oracle; a locator scored with them is only as good as its own evidence."
+    )]
+    fn referee_location_score(
+        &self,
+        Parameters(RefereeLocationRequest {
+            truth_json,
+            reports_json,
+        }): Parameters<RefereeLocationRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let j = surface::referee_location_score_json(&truth_json, &reports_json, MAX_UPLOAD_BYTES)
+            .map_err(bad)?;
         let mut v: serde_json::Value = serde_json::from_str(&j)
             .map_err(|e| bad(kshana::terr!("e-animation-result-is-not-json", e = e)))?;
         v["notice"] = ADVISORY.into();
