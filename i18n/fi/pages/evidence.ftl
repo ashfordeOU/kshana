@@ -4117,18 +4117,6 @@ seg-07aef8ff8fe3 = Varmennusmatriisi, yksi solu per ominaisuus kirjanpidon järj
 
 seg-81464c684074 = Moottori v{ $version } · <c1/>, generoitu tiedostosta <c2/> · { "405" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
 
-seg-8f715a5e52b0 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-a9b6470fb2f8 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-947cc1db1e01 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-cfd8687a8048 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
-
-seg-fb3f807e97c0 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-7c4a8891ee1b = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
 seg-c54618ee87bb = { "176" }<s1>/ { "405" } validoitu</s1>
 
 seg-9984e76b5b28 = Varmennusmatriisi: { "176" } validoitu, { "225" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "405" }
@@ -4144,3 +4132,15 @@ seg-cea55077f323 = Validointikirjanpito, { "405" } riviä, vieritettävä
 seg-65122c2bb1fc = / { "104" } validoitu
 seg-2998c6fa20d6 = / { "79" } validoitu
 seg-4b3ab6095c65 = { "56" } rivistä validoitu
+
+seg-ee74b0bd690c = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-ccd3c88376c6 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-9e9722dd8156 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-86087d7afa56 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
+
+seg-e8c571d855ac = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-f66e0bd02a7d = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua

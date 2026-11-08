@@ -718,10 +718,10 @@ seg-579d9b6f7afd = 全部{ "93" }种场景类型，免费，无功能门控，�
 
 seg-56bf1281e330 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "53" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-8c81b3e5933e = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
-
-seg-56a515205cd4 = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
-
-seg-546dca465cd0 = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
-
 seg-24d919eaaba3 = { "405" }项能力中有{ "176" }项与独立的外部参考基准（oracle）一致；其余明确标注为由模型计算。
+
+seg-a3e8e37a3dfe = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+
+seg-fb666d7bed4e = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+seg-890b4e5ac62b = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }

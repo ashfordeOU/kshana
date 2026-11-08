@@ -838,4 +838,4 @@ seg-9b505908a6e2 = Kshana <b>nie steruje żadnym sprzętem radiowym i niczego ni
 
 seg-ceb2de75e2f4 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Za darmo: { "53" } narzędzi MCP, od run_scenario do export_oem.
 
-seg-c88dde71cc6e = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-43df0ed69f16 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

@@ -718,10 +718,10 @@ seg-579d9b6f7afd = { "93" } 種類すべてのシナリオ kind を、機能ゲ�
 
 seg-56bf1281e330 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "53" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-8c81b3e5933e = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
-
-seg-56a515205cd4 = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
-
-seg-546dca465cd0 = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
-
 seg-24d919eaaba3 = { "405" } 件の機能のうち { "176" } 件が独立した外部のオラクルと一致しています。残りはモデル計算とラベル付けされ、その旨を明示しています。
+
+seg-a3e8e37a3dfe = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+
+seg-fb666d7bed4e = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+seg-890b4e5ac62b = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
