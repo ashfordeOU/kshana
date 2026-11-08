@@ -177,6 +177,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
         "The cislunar mean-state propagation against the public Artemis I trajectory (`tli-and-cruise`)",
     ]),
     ("holdover-test", &["ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Telecom-timing MTIE and TDEV on a holdover time-error series", "Holdover test scored from an operator-supplied time-error record"]),
+    ("tip-and-cue", &["Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS"]),
     ("time-transfer-budget", &["TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity"]),
 ];
 
