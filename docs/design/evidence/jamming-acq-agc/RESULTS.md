@@ -111,3 +111,11 @@ python3 -I xval/jamming-acq-agc/hysteresis.py xval/jamming-acq-agc/inputs_s1.jso
 python3 -I xval/jamming-acq-agc/quantiser_mc.py xval/jamming-acq-agc/expected_quantiser.json
 cargo test --test jamming_acq_agc -- --nocapture
 ```
+
+## Re-run on a fresh ladder (D8b row 7, 2026-11-08)
+
+Under `docs/design/evidence/d8b-iq-timing-campaign-rerun/PREREGISTRATION.md` (row 7), H2 to H4 were asked again, as
+registered, on a 12-power ladder (−34 to −21 dBW, from `xval/d8b-jamming-ladder/`) with no engine change. The
+informativeness precondition holds (47.8 % of link-epochs between the thresholds), and H2, H3 (2626 links showing the
+hysteresis, every flag agreeing with `hysteresis.py`) and H4 are **MET on re-run**. The results above stand as the record
+of the registered runs. Details: `docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`.

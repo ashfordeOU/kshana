@@ -4,6 +4,38 @@
 Each row reports on its own, against the pre-registration in this directory (signed off on 3 November 2026). Rows are
 added as they are scored.
 
+## Row 7. `VM-e6a6348d`: acquisition hysteresis in the jamming kind, on a fresh power ladder
+
+- **Readings and run set:** `xval/d8b-jamming-ladder/` (README readings 1 to 6, `ladder.py`, `ladder.json`), committed at
+  115d99926 before any engine run. No engine change.
+- **The ladder:** `jamming-demo` at −34, −33, −32, −31, −29, −28, −27, −26, −24, −23, −22 and −21 dBW (12 runs), every
+  integer power whose median-link effective C/N0 (closed form, a 45° link; reading 2) lies in [22, 35] dB-Hz, less
+  supplement 1's −30 and −25 dBW.
+- **Run:** once, 2026-11-08 (`tests/jamming_acq_ladder.rs`, under a second). No bar, ladder or setting was changed
+  after a result was seen.
+
+| check | measured | verdict |
+|---|---|---|
+| Informativeness (≥ 10 % of link-epochs with effective C/N0 in [25, 32) dB-Hz, at 32 dB-Hz / 60 s) | 2614 of 5472 = 47.8 % | holds |
+| H2 (acquisition = tracking threshold, delay 0) | `acquired` = "not lost" on all 5472 links | MET |
+| H3 (32 dB-Hz, 60 s; `xval/jamming-acq-agc/hysteresis.py`) | all 5472 flags agree; 2626 links have `acquired` ≠ "not lost" | MET (informative) |
+| H4 (25, 28, 32, 36, 40 dB-Hz) | no epoch's acquired count rises with the threshold (totals below) | MET |
+| H1/G1, G2, G3 (regressions, `tests/jamming_acq_agc.rs`) | all pass; G2 worst difference 0.0007 dB | hold |
+
+Acquired link-epochs by acquisition threshold (25 / 28 / 32 / 36 / 40 dB-Hz): −34 dBW 440/440/440/59/0; −33 440/440/440/0/0;
+−32 440/440/295/0/0; −31 440/440/142/0/0; −29 440/440/0/0/0; −28 440/359/0/0/0; −27 440/162/0/0/0; −26 440/118/0/0/0;
+−24 169/0/0/0/0; −23 118/0/0/0/0; −22 and −21 0 at every threshold.
+
+**Verdict: MET on re-run** (the precondition holds and H2 to H4 hold on the ladder; the regressions pass).
+
+Disclosures: the ladder follows the pre-registration's rule, but the rule was written after the 0.40 runs (supplement 1)
+had shown where the thresholds lie, so the ladder's region was not unknown; what the rule fixes is that the powers come
+from the scenario file alone and repeat none of supplement 1's. The "median link" is a 45° link because satellite
+elevations are not known without an engine run (reading 2). This is MODELLED internal consistency of a link-budget
+model against an independent recomputation of its state machine; no receiver's acquisition is checked.
+
+Pins: `tests/jamming_acq_ladder.rs` (counts and H4 totals).
+
 ## Row 9. `VM-6254a75d`: detection ROC from a scored campaign, R1, with the window restart
 
 - **Readings and oracle:** `xval/d8b-roc-restart/` (README readings 1 to 6, `oracle.py`), committed at bc56e785e before
