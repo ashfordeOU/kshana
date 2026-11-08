@@ -9593,6 +9593,7 @@ engine-e-iq-scene-truth-missing-truth-csv-header = missing truth CSV header
 ## src/iq/track/design.rs
 
 engine-e-iq-track-design-carrier-fll-pull-in-max-2 = carrier.fll_pull_in_max_s applies only to fll_assist = "pull-in"
+engine-e-iq-track-design-carrier-fll-handover-mean = carrier.fll_handover_mean_s must be positive and needs carrier.fll_pull_in_max_s (got { $t })
 
 engine-e-iq-track-design-loop-design-file-holds-no = loop-design file holds no designs
 

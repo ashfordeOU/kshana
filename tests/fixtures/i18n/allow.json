@@ -730,8 +730,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/track/design.rs": {
-   "count": 28,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 29,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the design-file key name fll_handover_mean_s in the applicability table (identifier)"
   },
   "src/iq/track/lock.rs": {
    "count": 5,

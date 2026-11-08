@@ -187,6 +187,13 @@ impl LoopFilter {
         vel + k1 * phase_err
     }
 
+    /// Set the frequency state: the first integrator's output (the loop's frequency, in the
+    /// output unit) to `freq`, and the second integrator (frequency rate) to zero.
+    pub fn set_frequency_state(&mut self, freq: f64) {
+        self.vel.y = freq;
+        self.acc = Integrator::default();
+    }
+
     /// Clear the integrators.
     pub fn reset(&mut self) {
         self.acc = Integrator::default();
