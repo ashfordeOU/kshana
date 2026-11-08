@@ -205,6 +205,8 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("terrain-slam"),
     bundled!("time-transfer-budget"),
     bundled!("timetransfer"),
+    bundled!("tip-and-cue-baltic-m2"),
+    bundled!("tip-and-cue-short"),
     bundled!("tracking-loop"),
     bundled!("xona-pulsar-end-to-end"),
     bundled!("xona-pulsar-signals"),

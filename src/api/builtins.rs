@@ -3129,6 +3129,25 @@ impl BuiltinKind for crate::mission_thread::scenario::MissionThreadScenario {
     }
 }
 
+impl Scenario for crate::tip_and_cue::TipAndCueScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        let (json, summary, svg) = self.run_json().map_err(KshanaError::from)?;
+        Ok(RunOutput {
+            json,
+            svg,
+            summary,
+            csv: None,
+        })
+    }
+}
+
+impl BuiltinKind for crate::tip_and_cue::TipAndCueScenario {
+    const KIND: ScenarioKind = ScenarioKind::TipAndCue;
+    fn parse(src: &str) -> Result<Self, String> {
+        crate::tip_and_cue::TipAndCueScenario::parse(src)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3182,24 +3201,5 @@ mod tests {
             e,
             format!("invalid inertial scenario: {}", old.unwrap_err())
         );
-    }
-}
-
-impl Scenario for crate::tip_and_cue::TipAndCueScenario {
-    fn run(&self) -> Result<RunOutput, KshanaError> {
-        let (json, summary, svg) = self.run_json().map_err(KshanaError::from)?;
-        Ok(RunOutput {
-            json,
-            svg,
-            summary,
-            csv: None,
-        })
-    }
-}
-
-impl BuiltinKind for crate::tip_and_cue::TipAndCueScenario {
-    const KIND: ScenarioKind = ScenarioKind::TipAndCue;
-    fn parse(src: &str) -> Result<Self, String> {
-        crate::tip_and_cue::TipAndCueScenario::parse(src)
     }
 }
