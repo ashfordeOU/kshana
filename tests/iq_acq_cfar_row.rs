@@ -8,7 +8,12 @@
 //! * the scored run: C2 and C3 on the registered and fresh seeds, C4 on the registered and the
 //!   four fresh signals, C5, all with the row set.
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08): MET on re-run. C2/C3 0.969 % to 1.033 %; C4 detected on all
+//! five signals with 0, 3, 4, 0 and 0 of 2495 off-peak cells above; C5 0 changes
+//! (`docs/design/evidence/d8a-iq-tracking-cn0-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: the C2/C3 false-alarm counts and the C4 exceedance counts of the scored run.
+//! PIN-EXCLUDES: output hashes.
 
 use kshana::iq::acq::{acquire, ca_cfar, ca_cfar_cells, AcqConfig, CfarConfig, CfarReference};
 use kshana::iq::signals::gps;
@@ -210,4 +215,21 @@ fn c2_to_c5_with_the_row_reference_set() {
         miss.push(format!("C5: {d}"));
     }
     assert!(miss.is_empty(), "D8a row 3 NOT MET: {miss:?}");
+    // Pinned from the scored run (2026-11-08): MET.
+    let pinned_fa = [2120, 2035, 2057, 2169, 2091, 2122, 2074, 2139];
+    let got_fa: Vec<usize> = [
+        (false, 0..4u64),
+        (false, 100_000..100_004),
+        (true, 100..104),
+        (true, 100_100..100_104),
+    ]
+    .into_iter()
+    .flat_map(|(q, seeds)| [1usize, 4].map(|m| false_alarms(m, seeds.clone(), q, r).1))
+    .collect();
+    assert_eq!(got_fa, pinned_fa, "C2/C3 counts moved");
+    let got_c4: Vec<usize> = SIGNALS
+        .iter()
+        .map(|&(prn, f, p)| c4(prn, f, p, r).3)
+        .collect();
+    assert_eq!(got_c4, [0, 3, 4, 0, 0], "C4 exceedances moved");
 }

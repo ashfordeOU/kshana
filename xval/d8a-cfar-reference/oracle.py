@@ -4,7 +4,8 @@
 reference set, recomputed from the signal definition (README reading 6). Run only after the
 engine's scored run (reading 7).
 
-    python3 -I oracle.py          (prints one JSON line per signal)
+    python3 oracle.py             (prints one JSON line per signal; imports dev_study.py beside it,
+                                   so not with -I)
 """
 import json
 import numpy as np

@@ -1,0 +1,5 @@
+{"prn": 1, "row": {"above": 0, "tested": 2495, "detected": true, "n_ref": 622}, "registered": {"above": 32, "tested": 2495, "detected": true, "n_ref": 16}, "peak_doppler_hz": 1000.0, "code_phase_error_chips": 422.3972}
+{"prn": 7, "row": {"above": 3, "tested": 2495, "detected": true, "n_ref": 622}, "registered": {"above": 62, "tested": 2495, "detected": true, "n_ref": 16}, "peak_doppler_hz": -2500.0, "code_phase_error_chips": 35.09559999999999}
+{"prn": 13, "row": {"above": 4, "tested": 2495, "detected": true, "n_ref": 622}, "registered": {"above": 28, "tested": 2495, "detected": true, "n_ref": 16}, "peak_doppler_hz": -500.0, "code_phase_error_chips": 0.9091999999999985}
+{"prn": 22, "row": {"above": 0, "tested": 2495, "detected": true, "n_ref": 622}, "registered": {"above": 43, "tested": 2495, "detected": true, "n_ref": 16}, "peak_doppler_hz": 500.0, "code_phase_error_chips": 444.4456}
+{"prn": 31, "row": {"above": 0, "tested": 2495, "detected": true, "n_ref": 622}, "registered": {"above": 59, "tested": 2495, "detected": true, "n_ref": 16}, "peak_doppler_hz": 3000.0, "code_phase_error_chips": 45.66520000000003}
