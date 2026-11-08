@@ -10564,6 +10564,7 @@ engine-main-usage =
     { "   " }oder: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
     { "   " }oder: kshana trust-telemetry [options] (kshana trust-telemetry --help)
     { "   " }oder: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }oder: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]
     { "   " }oder: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }oder: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }oder: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
