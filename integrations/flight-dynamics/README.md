@@ -13,7 +13,7 @@ bar: the data either comes through or it does not.
 | Orekit 13.1.9 (orekit_jpype 13.1.9.0) | [`orekit_reader.py`](orekit_reader.py) | [`orekit.ipynb`](orekit.ipynb) ([`.md`](orekit.md)) | OEM, OPM | `flight-dynamics.yml`, job `tool (orekit)` |
 | Basilisk 2.12.2 (`bsk`), through the SPICE Toolkit it ships (`pyswice`) | [`basilisk_reader.py`](basilisk_reader.py) | [`basilisk.ipynb`](basilisk.ipynb) ([`.md`](basilisk.md)) | SPK | `flight-dynamics.yml`, job `tool (basilisk)` |
 | ANISE 0.10.6 (the fourth, file-based tool: its own kernel reader, not SPICE) | [`anise_reader.py`](anise_reader.py) | [`anise.ipynb`](anise.ipynb) ([`.md`](anise.md)) | SPK, OEM | `flight-dynamics.yml`, job `tool (anise)` |
-| GMAT | to come | | OEM, SPK | |
+| GMAT R2026a (not yet run: written without running GMAT, its CI job is the first test) | [`gmat_reader.py`](gmat_reader.py) | [`gmat.ipynb`](gmat.ipynb) ([`.md`](gmat.md)) | OEM, SPK | `flight-dynamics.yml`, job `gmat` (continue-on-error until green) |
 
 [`kshana_fd.py`](kshana_fd.py) holds what every tool shares: writing the three files through the
 Python binding (their SHA-256 must be the pinned ones, and the command line's bytes when
