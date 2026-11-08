@@ -1,0 +1,62 @@
+name: Bench task (e) truth
+# B4a bar E2: the task (e) truth files regenerated from the pinned JammerTest 2024 archive (Zenodo
+# record 15911589, GPL-3.0-or-later; fetched here, never stored in the repository) have the SHA-256
+# pinned in xval/bench-e/truth.sha256 on Linux, macOS and Windows.
+on:
+  push:
+    branches: [main]
+    paths: ["src/bench/**", "src/receiver_trust/**", "xval/bench-e/truth.sha256", ".github/workflows/bench-e-truth.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  truth:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-latest, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+      - name: Fetch and check the archive
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/jt"
+          curl -sSL --retry 4 -o "$RUNNER_TEMP/jt/a.tar.gz" \
+            https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content
+          PY=$(command -v python3 || command -v python)
+          "$PY" - "$RUNNER_TEMP/jt" <<'EOF'
+          import hashlib, sys, tarfile, os
+          d = sys.argv[1]
+          a = os.path.join(d, "a.tar.gz")
+          h = hashlib.sha256(open(a, "rb").read()).hexdigest()
+          assert h == "73e78934aa00d01dfeebabc45f81b38c9c0aecf972f5fc94d9ff60527065b313", h
+          with tarfile.open(a) as t:
+              t.extractall(os.path.join(d, "x"), filter="data")
+          EOF
+      - name: Regenerate the truth files
+        shell: bash
+        run: |
+          for s in dev test holdout; do
+            cargo run --quiet --bin kshana -- bench truth --task e --split $s --data "$RUNNER_TEMP/jt/x" --out "$RUNNER_TEMP/jt/e-$s.truth.json"
+          done
+      - name: Compare with the pinned SHA-256
+        shell: bash
+        run: |
+          PY=$(command -v python3 || command -v python)
+          "$PY" - "$RUNNER_TEMP/jt" <<'EOF'
+          import hashlib, os, sys
+          d = sys.argv[1]
+          bad = 0
+          for line in open("xval/bench-e/truth.sha256", encoding="utf-8"):
+              want, name = line.split()
+              got = hashlib.sha256(open(os.path.join(d, name), "rb").read()).hexdigest()
+              print(name, got, "ok" if got == want else "DIFFERS (pinned %s)" % want)
+              bad += got != want
+          sys.exit(1 if bad else 0)
+          EOF

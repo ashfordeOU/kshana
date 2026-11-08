@@ -29,7 +29,8 @@ data stated in section 3.
 
 ## 2. Versioning
 
-`SPEC_VERSION` is `kshana-bench/2.0.0`. A change to a metric, a split rule or a truth rule is a new major
+`SPEC_VERSION` is `kshana-bench/2.0.0` for tasks a to d; task (e), added as a minor version, is scored under
+`kshana-bench/2.1.0`. A change to a metric, a split rule or a truth rule is a new major
 version, and results from different major versions are never put in one table. Adding a baseline, a manifest
 entry or a task is a minor version. A result file carries the spec version it was scored under.
 
@@ -103,6 +104,32 @@ score always means "more likely impaired" (tasks a, b, d).
 - **Splits:** `dev` seeds 1000 (in) and 1000 (out); `test` seed 2000; `holdout` sealed (section 4).
 - **Baselines:** the five transparent detectors of `impairment_eval` (`energy`, `agc`, `sqm`, `parity`,
   `fused`).
+
+### Task (e): four-class interference labelling (added in 2.1.0)
+
+Pre-registered in `docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION.md`; the readings are in
+`xval/bench-e/README.md` and the first scores in that row's `RESULTS.md`. Truth files of task (e) carry
+`kshana-bench/2.1.0`; the other tasks keep 2.0.0.
+
+- **Data:** the JammerTest 2024 folders of task (a), by the same exclusion rule. TEXBAT enters only after its files
+  are pinned.
+- **Unit:** a 1 s post-calibration epoch, id `<folder>#<n>` with `/` as the path separator on every platform.
+- **Truth:** one class per unit: `nominal`, `jamming`, `spoofing` or `meaconing`.
+  - Inside a window (60 s guard), the class comes from the folder's `attack_type`: meaconing, else spoofing, else
+    jamming. Folders whose type names both spoofing and jamming are labelled `spoofing`, and their count is reported.
+  - Outside every window and guard, the unit is `nominal`.
+  - Units in a window carry the window id as `event`.
+- **Submission:** `labels` (one class per unit) and `class_scores` (four scores per unit).
+- **Metrics:**
+  - the confusion matrix, with recall and precision per class;
+  - balanced accuracy and macro-F1, over the classes that meet the minimum data (2 folders, 300 units, and for
+    meaconing 20 events), plus the same over all present classes, labelled descriptive;
+  - one-vs-rest AUC per class;
+  - the jamming against spoofing and meaconing confusion shares;
+  - the event-level confusion of window majority labels.
+- **Splits:** the section 4 rule, applied within each class stratum (jamming, spoofing, meaconing folders).
+- **Baselines:** B-log, the receiver-trust monitors at the 0.35 defaults mapped to a class by a fixed rule, with
+  PositionJump on stationary folders only; a descriptive variant runs PositionJump everywhere.
 
 ## 4. Splits and the sealed holdout
 
