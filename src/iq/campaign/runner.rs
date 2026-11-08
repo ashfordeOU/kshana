@@ -1201,15 +1201,16 @@ fn run_item(
             o.map(|(mut cm, kinds, stats)| {
                 cm.alarms
                     .sort_by(|a, b| a.t_alarm_s.total_cmp(&b.t_alarm_s));
-                let (grace, win) =
-                    mons_spec.map_or((0.0, 5.0), |m| (m.detect_grace_s, m.roc_window_s));
+                let (grace, win, restart) = mons_spec.map_or((0.0, 5.0, true), |m| {
+                    (m.detect_grace_s, m.roc_window_s, m.roc_restart)
+                });
                 let (d, f) = detect::score(&cm.alarms, &kinds, tc, grace);
                 cm.detections = d;
                 cm.false_alarms = f;
                 cm.windows = kinds
                     .iter()
                     .zip(&stats)
-                    .flat_map(|(k, st)| detect::windows(k, st, tc, grace, win))
+                    .flat_map(|(k, st)| detect::windows(k, st, tc, grace, win, restart))
                     .collect();
                 cm
             })
