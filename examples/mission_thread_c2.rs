@@ -22,6 +22,8 @@ const KERNEL: &str = "tests/fixtures/mission_thread/de440s_moon_2022-11-16_2022-
 // The SHA-256 of T's state table (from `$$SOE` to `$$EOE` inclusive). The whole response is not pinned: its
 // header carries the retrieval date and EOP file, so every fetch hashes differently. C1's diagnostic
 // recomputed on this table equals xval/mission-thread/results_diagnostic.json exactly (README, step 3).
+// PIN-SCOPE:    the bytes of T's state table, $$SOE to $$EOE inclusive
+// PIN-EXCLUDES: the response header (retrieval date, EOP file), the Moon kernel, the model and every result
 const T_TABLE_SHA256: &str = "241d674c140f95d5781e4525ccf636546db8b5b05b1652869a8ef15768f23826";
 const BAR_POSITION_M: f64 = 2_000.0;
 const BAR_VELOCITY_MPS: f64 = 0.01;
