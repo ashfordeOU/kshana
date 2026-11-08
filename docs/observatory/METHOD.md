@@ -80,9 +80,28 @@ thresholds, and we do not claim to reproduce them.
 geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low
 share must stand out against the same day's background across the region and against the aircraft's own good
 reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was
-degraded where the day's background is also low. An almanac-HDOP scorer is **not implemented**. It is an open
-item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run;
-until then it is cited, not claimed.
+degraded where the day's background is also low.
+
+**What was built (0.41, D18).** An almanac-HDOP scorer, `kshana::interference_map::almanac_hdop`, built from
+public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
+
+- HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S.
+  Coast Guard Navigation Center (<https://www.navcen.uscg.gov/>). Satellites are propagated with the almanac
+  equations of IS-GPS-200, with an elevation mask stated by the caller (geodetic horizon).
+- The 95 % horizontal bound (EPU) of the report's NACp category. The table is quoted from J. Sun, *The 1090
+  Megahertz Riddle* (open textbook), Table 1.9.
+- A flag when the EPU exceeds a stated multiple of the geometry-predicted 95 % error `2 · HDOP · σ_UERE`. The
+  multiple and `σ_UERE` are parameters with no default. No value was chosen from real data.
+
+Its checks (`tests/almanac_hdop.rs`):
+
+- HDOP equals an independent numpy computation (`xval/almanac-hdop/oracle.py`) at 20 stated points, to 1.6e-15
+  (the requirement was 1e-9).
+- The NACp mapping equals the quoted table.
+- The flag is exact on 12 hand-written reports.
+
+The observatory's products do not use the scorer. Scoring real days with it, for example against the base method,
+is an evidence question with its own pre-registration, committed before that run.
 
 ## Reproducing a product
 
