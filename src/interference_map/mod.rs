@@ -16,6 +16,7 @@
 
 pub mod adsb;
 pub mod ais;
+pub mod almanac_hdop;
 pub mod api;
 pub mod cli;
 pub mod emitter;

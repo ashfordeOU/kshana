@@ -42642,5 +42642,52 @@
   "parts": [
    "error: ephem-export needs the path of a Horizons vector table"
   ]
+ },
+ {
+  "id": "e-almanac-hdop-bad-value",
+  "error": true,
+  "parts": [
+   "almanac field ",
+   {
+    "var": "k"
+   },
+   ": `",
+   {
+    "var": "v"
+   },
+   "` is not a number"
+  ]
+ },
+ {
+  "id": "e-almanac-hdop-missing-field",
+  "error": true,
+  "parts": [
+   "an almanac record has no `",
+   {
+    "var": "k"
+   },
+   "` field"
+  ]
+ },
+ {
+  "id": "e-almanac-hdop-no-entries",
+  "error": true,
+  "parts": [
+   "the almanac has no satellite records"
+  ]
+ },
+ {
+  "id": "e-almanac-hdop-mixed-weeks",
+  "error": true,
+  "parts": [
+   "the almanac's records name different weeks"
+  ]
+ },
+ {
+  "id": "e-almanac-hdop-bad-params",
+  "error": true,
+  "parts": [
+   "the HDOP scorer needs an elevation mask between -90 and 90 degrees and a positive, finite UERE and multiple"
+  ]
  }
 ]

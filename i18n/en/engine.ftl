@@ -2944,6 +2944,18 @@ engine-e-interference-map-adsb-gzip = gzip: { $e }
 
 engine-e-interference-map-adsb-trace-json = trace JSON: { $e }
 
+## src/interference_map/almanac_hdop.rs
+
+engine-e-almanac-hdop-bad-value = almanac field { $k }: `{ $v }` is not a number
+
+engine-e-almanac-hdop-missing-field = an almanac record has no `{ $k }` field
+
+engine-e-almanac-hdop-no-entries = the almanac has no satellite records
+
+engine-e-almanac-hdop-mixed-weeks = the almanac's records name different weeks
+
+engine-e-almanac-hdop-bad-params = the HDOP scorer needs an elevation mask between -90 and 90 degrees and a positive, finite UERE and multiple
+
 ## src/interference_map/api.rs
 
 engine-e-interference-map-api-unknown-dataset-approved-or-custom = unknown dataset `{ $key }`; approved: { $v1 }, or a custom dataset

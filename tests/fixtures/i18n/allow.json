@@ -1568,6 +1568,10 @@
   "src/ephem_export.rs": {
    "count": 15,
    "reason": "CCSDS OEM and OPM keywords of the written messages (machine document)"
+  },
+  "src/interference_map/almanac_hdop.rs": {
+   "count": 6,
+   "reason": "data: the YUMA almanac field names the reader matches (Time of Applicability, Orbital Inclination, Rate of Right Ascen, Right Ascen at Week, Argument of Perigee, Mean Anom)"
   }
  }
 }
