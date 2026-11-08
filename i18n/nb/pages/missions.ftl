@@ -836,6 +836,6 @@ seg-0e6be0d623f6 = <b>Gratis i dag:</b> alt i den åpne motoren. Kommersiell lis
 
 seg-9b505908a6e2 = Kshana <b>styrer ingen radiomaskinvare og sender ingenting</b>. Den inneholder en programvare-GNSS-mottaker for innspilt og generert IQ, og kan skrive syntetiske IQ-filer i basebånd, men den er <b>ikke maskinvare for RF-signalgenerering</b> og <b>ikke en maskinvare- eller sertifisert GNSS-mottaker</b>. Den er et studie- og avveiningsinstrument: den simulerer hva jamming, spoofing og signaltap gjør med en navigasjons- og tidssynkroniseringsløsning, og forteller deg hvilke av svarene den har validert. <b>Ikke et flyprodukt.</b>
 
-seg-e6fe27ed6dfc = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> alt i den åpne motoren. Gratis: { "53" } MCP-verktøy, fra run_scenario til export_oem.
+
+seg-a1e85450eb6a = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed

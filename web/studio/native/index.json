@@ -1,9 +1,9 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "f4c7901819bf8bea5532d46e510cbcfb8be56a04",
+ "engine_commit": "97d254470b463344db4873ab3145c5379d23f83f",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-11-08T17:13:57.247Z",
+ "recorded_utc": "2026-11-08T18:17:54.524Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
@@ -2358,6 +2358,30 @@
    "report": true,
    "animation": true,
    "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "tip-and-cue-baltic-m2.toml": {
+   "file": "tip-and-cue-baltic-m2.json.gz",
+   "bytes": 9073,
+   "unpacked_bytes": 35526,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the tip-and-cue result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "tip-and-cue-short.toml": {
+   "file": "tip-and-cue-short.json.gz",
+   "bytes": 8402,
+   "unpacked_bytes": 32954,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the tip-and-cue result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
    "exports": [],
    "export_files": 0,
    "export_files_stored": 0,

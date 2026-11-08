@@ -1,6 +1,6 @@
 {
  "engine_version": "0.40.0",
- "recorded_utc": "2026-11-08T17:14:06.887Z",
+ "recorded_utc": "2026-11-08T18:19:02.424Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
@@ -883,6 +883,16 @@
    "file": "timetransfer.json.gz",
    "bytes": 137344,
    "ms": 4
+  },
+  "tip-and-cue-baltic-m2.toml": {
+   "file": "tip-and-cue-baltic-m2.json.gz",
+   "bytes": 23628,
+   "ms": 26717
+  },
+  "tip-and-cue-short.toml": {
+   "file": "tip-and-cue-short.json.gz",
+   "bytes": 10272,
+   "ms": 115
   },
   "tracking-loop.toml": {
    "file": "tracking-loop.json.gz",
