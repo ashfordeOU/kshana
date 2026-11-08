@@ -42,3 +42,11 @@ the key with these numbers. The ~35 dB-Hz floor remains the default's documented
 cargo test --release --test iq_fll_handover_floor -- --ignored   # re-runs the survey and compares
 cargo test --test iq_fll_handover_floor                          # grades the committed numbers
 ```
+
+## Re-run with the seeded hand-over (D8a row 4, 2026-11-08)
+
+Under `docs/design/evidence/d8a-iq-tracking-cn0-rerun/PREREGISTRATION.md` (row 4), a forced hand-over seeded with the
+mean NCO Doppler of the pull-in's last 0.5 s (`fll_handover_mean_s`) was scored on the registered and fresh seeds. At
+33 dB-Hz D2 and D3 are met (20 of 20 hold on both seed sets; σ within 1 % of the PLL alone). At 31 dB-Hz they are not
+(15 and 6 of 20; σ 1.8 and 2.8 times the PLL alone). The row stays **NOT MET**. The results above stand as the record of
+the unseeded cap. Details: the D8a `RESULTS.md`.
