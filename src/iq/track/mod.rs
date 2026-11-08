@@ -54,7 +54,7 @@ pub mod lock;
 pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
-pub use boc::{BocKind, BocTracking, BumpJump, BumpJumpConfig, BumpJumpEvent};
+pub use boc::{boc11_dll_inverse, BocKind, BocTracking, BumpJump, BumpJumpConfig, BumpJumpEvent};
 pub use channel::{Channel, ChannelInit, EpochOutput, MAX_EXTRA_TAPS, MAX_TAP_OFFSET_CHIPS};
 pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
@@ -382,7 +382,11 @@ impl LoopCore {
         if let Some(b) = &self.cfg.boc {
             match b.kind {
                 BocKind::SineBoc11 => {
-                    dll_chips *= boc::boc11_dll_scale(self.cfg.dll, self.cfg.spacing_chips)
+                    dll_chips = if b.exact_inverse {
+                        boc::boc11_dll_inverse(self.cfg.dll, self.cfg.spacing_chips, dll_chips)
+                    } else {
+                        dll_chips * boc::boc11_dll_scale(self.cfg.dll, self.cfg.spacing_chips)
+                    }
                 }
             }
         }
