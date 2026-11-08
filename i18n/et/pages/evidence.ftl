@@ -6262,18 +6262,6 @@ seg-07aef8ff8fe3 = Kontrollimaatriks, üks lahter võimekuse kohta registri jär
 
 seg-81464c684074 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "405" } rida · stsenaariumi ega algväärtust pole: mootori enda register
 
-seg-8f715a5e52b0 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-a9b6470fb2f8 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-947cc1db1e01 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-cfd8687a8048 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
-
-seg-fb3f807e97c0 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-7c4a8891ee1b = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
 seg-c54618ee87bb = { "176" }<s1>{ "405" }-st valideeritud</s1>
 
 seg-9984e76b5b28 = Kontrollimaatriks: { "176" } valideeritud, { "225" } modelleeritud, { "4" } partneri omanduses, kokku { "405" }
@@ -6289,3 +6277,15 @@ seg-cea55077f323 = Valideerimisregister, { "405" } rida, keritav
 seg-65122c2bb1fc = { "104" }-st valideeritud
 seg-2998c6fa20d6 = { "79" }-st valideeritud
 seg-4b3ab6095c65 = { "56" }-st kontrollitud
+
+seg-ee74b0bd690c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-ccd3c88376c6 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-9e9722dd8156 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-86087d7afa56 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+
+seg-e8c571d855ac = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-f66e0bd02a7d = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

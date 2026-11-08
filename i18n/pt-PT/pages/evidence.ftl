@@ -6344,18 +6344,6 @@ seg-07aef8ff8fe3 = Matriz de verificação, uma célula por capacidade na ordem 
 
 seg-81464c684074 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "405" } linhas · sem cenário nem semente: o registo do próprio motor
 
-seg-8f715a5e52b0 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-a9b6470fb2f8 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-947cc1db1e01 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-cfd8687a8048 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas na compilação <c2/> · determinístico, sem semente
-
-seg-fb3f807e97c0 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
-seg-7c4a8891ee1b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
 seg-c54618ee87bb = { "176" }<s1>de { "405" } validadas</s1>
 
 seg-9984e76b5b28 = Matriz de verificação: { "176" } validadas, { "225" } modeladas, { "4" } pertencentes a parceiros, { "405" } no total
@@ -6371,3 +6359,15 @@ seg-cea55077f323 = Registo de validação, { "405" } linhas, rolável
 seg-65122c2bb1fc = de { "104" } validadas
 seg-2998c6fa20d6 = de { "79" } validadas
 seg-4b3ab6095c65 = de { "56" } validadas
+
+seg-ee74b0bd690c = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-ccd3c88376c6 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-9e9722dd8156 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-86087d7afa56 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas na compilação <c2/> · determinístico, sem semente
+
+seg-e8c571d855ac = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-f66e0bd02a7d = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

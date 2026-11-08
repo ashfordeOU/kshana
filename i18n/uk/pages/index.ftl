@@ -932,10 +932,10 @@ seg-579d9b6f7afd = Усі { "93" } видів сценаріїв, безкошт
 
 seg-56bf1281e330 = Записаний сеанс із сервером kshana-mcp (Model Context Protocol, рушій v{ $version }): асистент перелічує { "53" } інструментів, перевіряє <c1/> (valid: detected scenario kind `clock`) і запускає його: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-8c81b3e5933e = <b>Кампанія:</b> рушій v{ $version }, збірка <c1/> · <c2/> · seed { "20260928" }
-
-seg-56a515205cd4 = <b>Орбіти:</b> рушій v{ $version }, збірка <c1/> · <c2/> · детермінований, без зерна (seed)
-
-seg-546dca465cd0 = Рушій v{ $version }, збірка <c1/> · <c2/> · seed { "20260928" }
-
 seg-24d919eaaba3 = { "176" } із { "405" } можливостей узгоджуються з незалежними зовнішніми оракулами; решту прямо позначено як змодельовані.
+
+seg-a3e8e37a3dfe = <b>Кампанія:</b> рушій v{ $version }, збірка <c1/> · <c2/> · seed { "20260928" }
+
+seg-fb666d7bed4e = <b>Орбіти:</b> рушій v{ $version }, збірка <c1/> · <c2/> · детермінований, без зерна (seed)
+
+seg-890b4e5ac62b = Рушій v{ $version }, збірка <c1/> · <c2/> · seed { "20260928" }
