@@ -21,7 +21,7 @@ Required fields: `epoch_utc`, `entry`, `phase`. Optional: `kind`, `title`, `seed
 **Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [mission-thread](by-kind/mission-thread.md).
 
 ```sh
-kshana scenarios/mission-thread-artemis-class.toml
+kshana scenarios/mission-thread-short.toml
 ```
 
-<img src="../figures/kinds/mission-thread.svg" alt="The chart the engine writes for scenarios/mission-thread-artemis-class.toml, kind mission-thread" width="640">
+<img src="../figures/kinds/mission-thread.svg" alt="The chart the engine writes for scenarios/mission-thread-short.toml, kind mission-thread" width="640">

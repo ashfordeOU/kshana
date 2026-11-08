@@ -102,4 +102,5 @@ pub const KIND_DESCRIPTION_IDS: &[(&str, &str, &[KindNumber])] = &[
     ("holdover-test", "kind-holdover-test-description", &[]),
     ("gnss-ssv", "kind-gnss-ssv-description", &[]),
     ("mission-thread", "kind-mission-thread-description", &[]),
+    ("tip-and-cue", "kind-tip-and-cue-description", &[]),
 ];
