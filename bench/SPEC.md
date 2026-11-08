@@ -108,7 +108,7 @@ score always means "more likely impaired" (tasks a, b, d).
 ### Task (e): four-class interference labelling (added in 2.1.0)
 
 Pre-registered in `docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION.md`; the readings are in
-`xval/bench-e/README.md` and the first scores in that row's `RESULTS.md`. Truth files of task (e) carry
+`xval/bench-e/README.md` and the first scores in that row's `RESULTS.md`. Step by step: `docs/guides/BENCHMARK-CLASSES.md`. Truth files of task (e) carry
 `kshana-bench/2.1.0`; the other tasks keep 2.0.0.
 
 - **Data:** the JammerTest 2024 folders of task (a), by the same exclusion rule. TEXBAT enters only after its files
