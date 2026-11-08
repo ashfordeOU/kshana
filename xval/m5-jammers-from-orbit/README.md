@@ -129,3 +129,13 @@ This is stated now, from the link budget alone, before any run.
   sources. A 10 m source is within the radio horizon (about 36 km) of fewer than 3 coastal sites.
 - **The full run** of all 200 placements is made once after this correction. The trial's 4 placements are part of
   it, and the trial output is kept (`trial-4.json`).
+
+### Amendment to reading 8, after the full run (disclosed)
+
+- **The omission.** The run (`result.json`) did not compute the B5 bounds: the engine code had left them out.
+- **Why adding them now changes nothing.** The bounds are computed afterwards from geometry alone, so no draw, and
+  no outcome of the run, enters them. They cannot be tuned to the run.
+- **The definition, at the truth of each placement and class:**
+  - the space epochs are the pass epochs at which every receiver's `P_d ≥ 0.5`;
+  - the ground sites are those within the radio horizon whose noise-free `P_r ≥ −110 dBm`;
+  - otherwise reading 8 applies as written.

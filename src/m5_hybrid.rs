@@ -91,6 +91,11 @@ pub fn sat_state(u0: f64, t: f64) -> (V3, V3) {
     (p, v)
 }
 
+/// Slant range (m) from a source to the receiver with initial argument of latitude `u0` at `t`.
+pub fn range_m(lat: f64, lon: f64, h: f64, u0: f64, t: f64) -> f64 {
+    norm(sub(point(lat, lon, h).0, sat_state(u0, t).0))
+}
+
 /// Initial arguments of latitude of the three receivers (lead, 50 km and 100 km behind).
 pub fn formation_u0() -> [f64; 3] {
     [0.0, -50e3 / A_M, -100e3 / A_M]
@@ -544,6 +549,130 @@ pub fn b4_rows() -> Value {
 
 /// A draw with its errors (space, ground, hybrid), m; infinite when the layer declined.
 type Scored = (DrawResult, f64, f64, f64);
+
+/// B5 (amended R8): the horizontal bounds (2x2, m^2) of space, ground and hybrid at the truth of a
+/// placement and class, from geometry alone; `None` where a layer's horizontal block is singular.
+pub fn bounds(src: (f64, f64, f64), eirp_dbm: f64) -> [Option<[[f64; 2]; 2]>; 3] {
+    let x0 = threshold();
+    let (p, up) = point(src.0, src.1, src.2);
+    // Local east and north unit vectors at the source.
+    let east = {
+        let (sl, cl) = (src.1 * DEG).psin_cos();
+        [-sl, cl, 0.0]
+    };
+    let north = [
+        -up[2] * up[0] / (1.0 - up[2] * up[2]).sqrt(),
+        -up[2] * up[1] / (1.0 - up[2] * up[2]).sqrt(),
+        (1.0 - up[2] * up[2]).sqrt(),
+    ];
+    let shift = |de: f64, dn: f64| -> V3 {
+        [
+            p[0] + de * east[0] + dn * north[0],
+            p[1] + de * east[1] + dn * north[1],
+            p[2] + de * east[2] + dn * north[2],
+        ]
+    };
+    let mut fs = [[0.0f64; 3]; 3];
+    let mut fg = [[0.0f64; 3]; 3];
+    let u0 = formation_u0();
+    if let Some((ep, _)) = pass(src.0, src.1, src.2) {
+        for t in ep {
+            let g: Vec<(f64, f64)> = u0
+                .iter()
+                .map(|&q| link(eirp_dbm, norm(sub(p, sat_state(q, t).0)), x0))
+                .map(|(_, g, pd)| (g, pd))
+                .collect();
+            if g.iter().any(|x| x.1 < 0.5) {
+                continue;
+            }
+            let (st, sf) = sigmas([g[0].0, g[1].0, g[2].0]);
+            let h = 1.0;
+            let (te, fe) = (predict(shift(h, 0.0), t), predict(shift(-h, 0.0), t));
+            let (tn, fnn) = (predict(shift(0.0, h), t), predict(shift(0.0, -h), t));
+            for k in 0..2 {
+                for (row, s) in [
+                    (
+                        [
+                            (te.0[k] - fe.0[k]) / (2.0 * h),
+                            (tn.0[k] - fnn.0[k]) / (2.0 * h),
+                            0.0,
+                        ],
+                        st[k],
+                    ),
+                    (
+                        [
+                            (te.1[k] - fe.1[k]) / (2.0 * h),
+                            (tn.1[k] - fnn.1[k]) / (2.0 * h),
+                            0.0,
+                        ],
+                        sf[k],
+                    ),
+                ] {
+                    for a in 0..3 {
+                        for b in 0..3 {
+                            fs[a][b] += row[a] * row[b] / (s * s);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    let reach = los_reach_km(SITE_H_M, src.2);
+    for &(a, b) in &SITES {
+        let (sp, _) = point(a, b, SITE_H_M);
+        let pr = eirp_dbm - 30.0 - fspl_db(norm(sub(p, sp)));
+        if gc_m((a, b), (src.0, src.1)) / 1000.0 > reach || pr < GROUND_MIN_DBW {
+            continue;
+        }
+        let h = 1.0;
+        let m = |q: V3| -fspl_db(norm(sub(q, sp)));
+        let row = [
+            (m(shift(h, 0.0)) - m(shift(-h, 0.0))) / (2.0 * h),
+            (m(shift(0.0, h)) - m(shift(0.0, -h))) / (2.0 * h),
+            1.0,
+        ];
+        for a2 in 0..3 {
+            for b2 in 0..3 {
+                fg[a2][b2] += row[a2] * row[b2] / (SIGMA_SH * SIGMA_SH);
+            }
+        }
+    }
+    let horiz = |f: &[[f64; 3]; 3]| -> Option<[[f64; 2]; 2]> {
+        let (mut a, mut b, mut c) = (f[0][0], f[0][1], f[1][1]);
+        if f[2][2] > 0.0 {
+            a -= f[0][2] * f[0][2] / f[2][2];
+            b -= f[0][2] * f[1][2] / f[2][2];
+            c -= f[1][2] * f[1][2] / f[2][2];
+        }
+        let det = a * c - b * b;
+        (det > 1e-300 * (a * c).abs().max(1e-300) && a > 0.0)
+            .then(|| [[c / det, -b / det], [-b / det, a / det]])
+    };
+    let mut fh = fs;
+    for a in 0..3 {
+        for b in 0..3 {
+            fh[a][b] += fg[a][b];
+        }
+    }
+    [horiz(&fs), horiz(&fg), horiz(&fh)]
+}
+
+/// Whether `c_layer - c_hybrid` has no eigenvalue below -1e-9 of its largest eigenvalue (B5).
+pub fn no_larger(c_layer: [[f64; 2]; 2], c_h: [[f64; 2]; 2]) -> bool {
+    let d = [
+        [c_layer[0][0] - c_h[0][0], c_layer[0][1] - c_h[0][1]],
+        [c_layer[1][0] - c_h[1][0], c_layer[1][1] - c_h[1][1]],
+    ];
+    let tr = d[0][0] + d[1][1];
+    let det = d[0][0] * d[1][1] - d[0][1] * d[1][0];
+    let disc = (0.25 * tr * tr - det).max(0.0).sqrt();
+    let (l1, l2) = (0.5 * tr + disc, 0.5 * tr - disc);
+    let big = l1
+        .abs()
+        .max(l2.abs())
+        .max(c_layer[0][0].abs().max(c_layer[1][1].abs()));
+    l2 >= -1e-9 * big
+}
 
 fn pct(mut v: Vec<f64>, p: f64) -> Option<f64> {
     if v.is_empty() {
