@@ -93,6 +93,10 @@ pub struct BocTracking {
     pub kind: BocKind,
     /// The bump-jump monitor (`None`: scaling only).
     pub bump_jump: Option<BumpJumpConfig>,
+    /// Read the DLL through [`boc11_dll_inverse`], the exact inverse of the discriminator's
+    /// ideal-peak response, instead of the linear [`boc11_dll_scale`] (D8a row 5,
+    /// `xval/d8a-boc-exact-inverse/`). `false` by default.
+    pub exact_inverse: bool,
 }
 
 impl BocTracking {
@@ -101,6 +105,7 @@ impl BocTracking {
         Self {
             kind: BocKind::SineBoc11,
             bump_jump: Some(BumpJumpConfig::default()),
+            exact_inverse: false,
         }
     }
 
@@ -138,6 +143,62 @@ pub fn boc11_dll_scale(dll: DllDiscriminator, d: f64) -> f64 {
         }
         DllDiscriminator::DotProduct => 1.0 / 3.0,
     }
+}
+
+/// The code error (chips) whose discriminator output on the ideal sine BOC(1,1) peak
+/// `R(τ) = 1 − 3|τ|` is `reading`, for early-late spacing `d`: the exact inverse of the
+/// response, odd in `reading`. With `h = d/2`, `c = 2 − 6h` and `a` the magnitude of the raw
+/// reading (EMLP `(E² − L²)/(E² + L²)`, envelope `(|E| − |L|)/(|E| + |L|)`, dot product
+/// `Re[(E − L)P*]/|P|²`):
+///
+/// * inside (`|ε| ≤ h`): EMLP `c(1 − √(1 − a²))/(6a)`, envelope `a·c/6`, dot product
+///   `a/(6 + 3a)`;
+/// * outside (`h < |ε| < 1/3 − h`, only when `d < 1/3`): EMLP `(2 − u)/6` with
+///   `u = 6h(1 + √(1 − a²))/a`, envelope `(2 − 6h/a)/6`, dot product `(1 − 6h/a)/3`;
+///
+/// the branch chosen by `a` against its value at `|ε| = h`, and `|ε|` clamped to
+/// `[0, 1/3 − h]`. `xval/d8a-boc-exact-inverse/README.md` reading 1.
+pub fn boc11_dll_inverse(dll: DllDiscriminator, d: f64, reading: f64) -> f64 {
+    let h = 0.5 * d;
+    let c = 2.0 - 6.0 * h;
+    let edge = (1.0 / 3.0 - h).max(0.0);
+    let raw = match dll {
+        DllDiscriminator::EarlyMinusLatePower => reading / (0.25 * (2.0 - d)),
+        DllDiscriminator::EarlyMinusLateEnvelope => reading / (0.5 * (2.0 - d)),
+        DllDiscriminator::DotProduct => 2.0 * reading,
+    };
+    let a = raw.abs();
+    if a.is_nan() || a == 0.0 {
+        return 0.0;
+    }
+    let two_sided = h < c / 6.0;
+    let mag = match dll {
+        DllDiscriminator::EarlyMinusLatePower => {
+            let a = a.min(1.0);
+            let a_h = 12.0 * h * c / (c * c + 36.0 * h * h);
+            if !two_sided || a <= a_h {
+                c * (1.0 - (1.0 - a * a).sqrt()) / (6.0 * a)
+            } else {
+                let u = 6.0 * h * (1.0 + (1.0 - a * a).sqrt()) / a;
+                (2.0 - u) / 6.0
+            }
+        }
+        DllDiscriminator::EarlyMinusLateEnvelope => {
+            if !two_sided || a <= 6.0 * h / c {
+                a * c / 6.0
+            } else {
+                (2.0 - 6.0 * h / a) / 6.0
+            }
+        }
+        DllDiscriminator::DotProduct => {
+            if !two_sided || a <= 6.0 * h / (1.0 - 3.0 * h) {
+                a / (6.0 + 3.0 * a)
+            } else {
+                (1.0 - 6.0 * h / a) / 3.0
+            }
+        }
+    };
+    raw.signum() * mag.clamp(0.0, edge)
 }
 
 /// One jump of the code NCO decided by [`BumpJump`].

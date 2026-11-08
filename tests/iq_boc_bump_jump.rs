@@ -375,6 +375,7 @@ fn b4_scaling_on_the_sampled_signal() {
     let scaling_only = BocTracking {
         kind: BocKind::SineBoc11,
         bump_jump: None,
+        exact_inverse: false,
     };
     let eps = [-0.06, -0.03, 0.03, 0.06];
     let mut setups = Vec::new();
