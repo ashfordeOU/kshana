@@ -6,7 +6,7 @@
 seg-e8e0e0618afa = Source: <c1/>
 
 # text
-seg-6875b0d82c59 = The complete, machine-checked evidence ledger: <b>{ "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
+seg-9d7b242850ee = The complete, machine-checked evidence ledger: <b>{ "405" } rows — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the <em>Validation ledger</em> on <a1>https://kshana.dev</a1>. See <a2>MODELLED-RATIONALE.md</a2> for why each Modelled row is not externally validated.
 
 # text
 seg-e9650a618b38 = ID
@@ -5831,6 +5831,57 @@ seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_reco
 seg-3feb4e9b427c = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). RE-RUN { "0.41" } (D8a row { "4" }, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last { "0.5" } s), still NOT MET: at { "33" } dB-Hz hand-over and hold { "20" } of { "20" } on seen and fresh seeds with jitter within { "1" } % of the PLL alone (this half met), but at { "31" } dB-Hz { "15" } of { "20" } seen and { "6" } of { "20" } fresh, jitter ratio { "1.8" } and { "2.8" }. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
 
 # text
+seg-fd2836e3f868 = Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back
+
+# text
+seg-089c214085e7 = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM { "2.0" }, an OPM { "3.0" } or an SPK of type { "13" } or { "9" } (frame code { "1" }, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
+# text
+seg-056312c86ee5 = tests/ephem_export_capstone.rs ({ "4321" } of { "4321" } CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md)
+
+# text
+seg-34b31799c1a2 = The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit { "13.1.9" } and Basilisk { "2.12.2" }'s SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE { "0.10.6" } evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
+# text
+seg-6cab0a1f9600 = Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials
+
+# text
+seg-be6225de24b7 = opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
+
+# text
+seg-4cfe14e05d52 = opnav
+
+# text
+seg-d9154306d83b = tests/c5a_opnav.rs ({ "36" } measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)
+
+# text
+seg-3582bea278d4 = SPICE (spiceypy { "8.3.0" }, CSPICE N0067) and OpenCV { "5.0.0" }, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within { "0.0016" } mas of SPICE CN+S (bar { "1" } mas), O2 stars within { "3e-8" } mas, O3 projection within { "1.3e-11" } px of OpenCV, O4 end to end within { "3.8e-8" } px (bar { "1e-4" } px), O6 additivity: MET. O5 NOT MET: { "258" } of { "432" } partial elements differ from central differences at the registered { "1" } m and { "1" } mm/s steps by more than { "1e-6" } relative (the largest elements agree to about { "1e-7" } to { "1e-9" }; a no-bar diagnostic at { "1" } km and { "1" } m/s cuts the worst relative difference from { "1.0" } to { "8e-4" }, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera
+
+# text
+seg-9168b89cdcc9 = CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter
+
+# text
+seg-5d4cc8e3a826 = c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit
+
+# text
+seg-2740772aa20c = tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)
+
+# text
+seg-13d3f5275f6d = JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 ({ "21.66" } km end position, { "4.24" } km periapsis; bars { "25" } and { "10" } km). C3-H NOT MET on the held-out windows E, H1, H2 (end position { "37.25" }, { "36.23" }, { "49.65" } km; periapsis met). C3-S NOT MET (k fitted on E: H1 { "12.92" } km met, H2 { "57.13" } km). A2 is not met on re-run. The reconstruction is the reference, not truth
+
+# text
+seg-2693df8ca65a = Impulsive steps in the cislunar coast and the C2 step detector
+
+# text
+seg-0785d04ff3f0 = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds { "0.01" } m/s and gives one impulse per event hour at its midpoint
+
+# text
+seg-9e0cda6673c7 = tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included)
+
+# text
+seg-5f50916efb2f = JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 ({ "17.3" } km against { "2" } km; { "0.0177" } m/s against { "0.01" } m/s); W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only
+
+# text
 seg-ac0f97e945a7 = RTKLIB .pos solution reader for receiver-trust
 
 # text
@@ -5936,7 +5987,7 @@ seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 seg-05ded40b17d2 = None external: the ROS node was not run on a live ROS { "2" } graph, and the ublox_ubx_msgs field names were not checked against a running driver. gnss_lib_py (MIT) was run for the bridge test
 
 # text
-seg-0a9897a43b5d = { "401" } rows: { "176" } externally validated, { "221" } modelled, { "4" } partner-owned.
+seg-3ca919e147c4 = { "405" } rows: { "176" } externally validated, { "225" } modelled, { "4" } partner-owned.
 
 # text
 seg-6bb40f180cf0 = <s1>Previous</s1>Validation status

@@ -714,14 +714,14 @@ seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
 
 seg-b9961ed25282 = Novinky ve v{ $version }: misijní vlákno, štítek důkazů u každého čísla a sedmnáct jazyků
 
-seg-653cf3198094 = { "176" } z { "401" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
-
 seg-579d9b6f7afd = Všech { "93" } druhů scénářů, zdarma bez omezení funkcí, deterministických podle scénáře, seedu a verze enginu.
 
 seg-56bf1281e330 = Zaznamenaná relace se serverem kshana-mcp (Model Context Protocol, engine v{ $version }): asistent vypíše { "53" } nástrojů, zvaliduje <c1/> (valid: detected scenario kind `clock`) a spustí jej: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-351fab28c16d = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+seg-8c81b3e5933e = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
 
-seg-414ba03a1362 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+seg-56a515205cd4 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
 
-seg-fc1e7a222c6b = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+seg-546dca465cd0 = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+
+seg-24d919eaaba3 = { "176" } z { "405" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.

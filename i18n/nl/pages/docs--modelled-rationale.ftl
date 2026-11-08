@@ -2053,4 +2053,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
 
-seg-a2bf08b8e82d = { "221" } mogelijkheden met het label MODELLED.
+seg-7a83829ca355 = { "225" } mogelijkheden met het label MODELLED.

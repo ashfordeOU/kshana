@@ -3048,4 +3048,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter üksusetestid (projektsiooni edasi-tagasi ring, horisondi näitaja, sünteetilised otse- ja pöördringid: teadaolev kiirgaja jääb nimetatud piirkonda ligikaudu nimetatud sagedusega, äärejuhud, seansside rühmitamine, profiil, privaatsus ja sõnastus); tests/interference_map_cli.rs locate juhud
 
-seg-a2bf08b8e82d = { "221" } võimekust sildiga MODELLED.
+seg-7a83829ca355 = { "225" } võimekust sildiga MODELLED.

@@ -838,4 +838,4 @@ seg-a0ef302e2458 = コマンドをコピー
 
 seg-ceb2de75e2f4 = <b>現在は無償：</b>オープンエンジンのすべて。無償：run_scenario から export_oem まで、{ "53" }個の MCP ツール。
 
-seg-a1e85450eb6a = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+seg-c88dde71cc6e = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし

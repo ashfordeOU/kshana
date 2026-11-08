@@ -1941,3 +1941,13 @@ seg-f942b36a11c4 = Pas encore sur GitHub
 # <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
 # text
 seg-4f8471649a07 = <b>Ce que fait l'observatoire à la place.</b> La question à laquelle répond la comparaison d'almanach est « la seule géométrie de la constellation pourrait-elle expliquer cette faible précision ? ». La méthode de base répond à une question voisine sans almanach : une faible part doit se distinguer du bruit de fond du même jour sur la région et des bons rapports du même aéronef ailleurs. C'est un substitut différent et plus faible : elle ne peut pas dire qu'une heure de géométrie calme était dégradée là où le bruit de fond du jour est lui aussi faible. Un évaluateur HDOP d'almanach <b>n'est pas implémenté</b>. C'est un point ouvert, à construire à partir du texte intégral de l'article et de l'almanach GPS public et à préenregistrer avant son exécution ; d'ici là, il est cité, et non revendiqué.
+
+# of { "55" } validated
+# text
+seg-5516d9825527 = sur { "55" } validés
+
+# of { "102" } validated
+seg-5668b5581703 = sur { "102" } vérifiées
+
+# of { "78" } validated
+seg-fbb78f11c0dc = sur { "78" } vérifiées

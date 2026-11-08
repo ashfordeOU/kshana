@@ -4916,9 +4916,6 @@ seg-fb01a581d5ee = de { "28" } validadas
 seg-d6c43e56d4cc = Análisis de misión, aseguramiento y otros
 
 # text
-seg-5516d9825527 = de { "55" } validadas
-
-# text
 seg-7038fab8b00c = Validadas { "176" }
 
 # text
@@ -6229,16 +6226,6 @@ seg-b5c49044a7a1 = Una región factible para la ubicación de una fuente de info
 
 seg-953a8b4f9f41 = Ninguna externa todavía. Solo ejecuciones sintéticas de ida y vuelta directa e inversa, de un generador que comparte el modelo del estimador, por lo que comprueban el código y la calibración de los niveles indicados bajo ese modelo y nada sobre emisores reales. Una comprobación externa frente a los emplazamientos de transmisores publicados de Jammertest { "2025" } se preregistró (docs/emitter-region/PREREGISTRATION.md, aprobada por el propietario antes de cualquier ejecución puntuada) y se ejecutó una vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sesiones programadas, menos del mínimo registrado de { "4" }) y AIS NOT ASSESSABLE (ninguna sesión publicada), de modo que no se probó ningún umbral y la fila sigue siendo MODELLED
 
-seg-aa7c0a865661 = { "401" } capacidades, cada una calificada. <b>{ "176" } validadas</b> frente a referencias independientes externas. <b>{ "221" } etiquetadas con franqueza como modeladas.</b> { "4" } propiedad de socios. Nada se redondea al alza.
-
-seg-7a254b7d5498 = Matriz de verificación, una celda por capacidad en el orden del registro: { "176" } validadas (cuadrados rellenos), { "221" } modeladas (cuadrados huecos), { "4" } propiedad de socios (rombos). Las teclas de flecha se mueven entre celdas; la capacidad y su referencia independiente se leen debajo.
-
-seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "401" } filas · sin escenario ni semilla: el propio registro del motor
-
-seg-77bfad0f4f88 = { "176" }<s1>de { "401" } validadas</s1>
-
-seg-222c46a96ec3 = Matriz de verificación: { "176" } validadas, { "221" } modeladas, { "4" } propiedad de socios, { "401" } en total
-
 seg-cf2aa475bc68 = El tipo de escenario mission-thread: un documento de fases, cada una de uno de ocho tipos registrados, ejecutadas… · Modelada
 
 seg-bdc3223c80e4 = La fase launch-ascent: una covarianza de posición y velocidad de velocidad constante con ruido blanco… · Modelada
@@ -6265,30 +6252,40 @@ seg-860ca782e2bf = La propagación del estado medio de la fase tli-and-cruise (C
 
 seg-7c7d72cc2036 = Una región factible para la ubicación de una fuente de informes de navegación degradada, a partir de ADS-B… · Modelada
 
-seg-65feaf4e91ef = Las { "401" } filas, una línea cada una.
-
-seg-5668b5581703 = de { "102" } validadas
-
 seg-43f852e4bee8 = de { "74" } validadas
-
-seg-fbb78f11c0dc = de { "78" } validadas
 
 seg-8fe12f6058c6 = de { "26" } validadas
 
-seg-b393e1b5fcfc = Todas { "401" }
+seg-2ed2d817f56e = { "405" } capacidades, cada una calificada. <b>{ "176" } validadas</b> frente a referencias independientes externas. <b>{ "225" } etiquetadas con franqueza como modeladas.</b> { "4" } propiedad de socios. Nada se redondea al alza.
 
-seg-3df9e327c036 = Modeladas { "221" }
+seg-07aef8ff8fe3 = Matriz de verificación, una celda por capacidad en el orden del registro: { "176" } validadas (cuadrados rellenos), { "225" } modeladas (cuadrados huecos), { "4" } propiedad de socios (rombos). Las teclas de flecha se mueven entre celdas; la capacidad y su referencia independiente se leen debajo.
 
-seg-7fa6f2e0de57 = Registro de validación, { "401" } filas, con desplazamiento
+seg-81464c684074 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "405" } filas · sin escenario ni semilla: el propio registro del motor
 
-seg-b4f766f66bdb = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-8f715a5e52b0 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-0dbc7d4822b9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-a9b6470fb2f8 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-d3eca6ae67fc = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-947cc1db1e01 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-629f069ed3e7 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
+seg-cfd8687a8048 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
 
-seg-f4ca37eb4f6d = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-fb3f807e97c0 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-5313db6b0f2a = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-7c4a8891ee1b = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+
+seg-c54618ee87bb = { "176" }<s1>de { "405" } validadas</s1>
+
+seg-9984e76b5b28 = Matriz de verificación: { "176" } validadas, { "225" } modeladas, { "4" } propiedad de socios, { "405" } en total
+
+seg-46e93e2ebc71 = Las { "405" } filas, una línea cada una.
+
+seg-ebec0449ab03 = Todas { "405" }
+
+seg-bcf766efe1ab = Modeladas { "225" }
+
+seg-cea55077f323 = Registro de validación, { "405" } filas, con desplazamiento
+
+seg-65122c2bb1fc = de { "104" } validadas
+seg-2998c6fa20d6 = de { "79" } validadas
+seg-4b3ab6095c65 = de { "56" } validadas

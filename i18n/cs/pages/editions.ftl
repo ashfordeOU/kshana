@@ -812,10 +812,10 @@ seg-67341b9eea70 = <b>Cokoli jiného</b><s1>contact@ashforde.org · pošta jde p
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-cc655ce0b6c8 = Úplná verifikační matice: { "176" } z { "401" } schopností ověřeno proti nezávislým orákulům, zbytek označen jako modelované
-
 seg-0ab329c843b0 = Otevřený engine uprostřed: jedna značka na druh scénáře ({ "93" }), vyplněná, kde druh má ověřené řádky registru, prázdná, kde jsou jeho řádky modelované, pomlčka, kde mu podle názvu neodpovídá žádný modul registru. Kshana Pro a studie na zakázku jsou kolem něj a navazují na druhy, na nichž staví.
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } druhů z <c1/> · stav registru z <c2/> · na čem stavějí Pro a studie: registr edic na webu · žádný scénář ani seed
 
 seg-7515b1af1f0b = Všech { "93" } druhů scénářů a { "183" } přibalených scénářů: nativně, v Pythonu, JavaScriptu, v prohlížeči a přes MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = Úplná verifikační matice: { "176" } z { "405" } schopností ověřeno proti nezávislým orákulům, zbytek označen jako modelované

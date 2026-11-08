@@ -1957,13 +1957,9 @@ seg-8e176aa32cd3 = MCP on Model Context Protocol. Kiinnitä julkaisu komennolla 
 
 seg-57686575b81d = Kumppanidata
 
-seg-0c39fcb3527f = { "176" } / { "401" } kyvykkyydestä VALIDATED riippumatonta ulkoista oraakkelia vasten, varmennusmatriisista
-
 seg-467bb88ec415 = <a1>Uutta versiossa { "0.40" }</a1>, <a2>Uutta versiossa { "0.39" }</a2>, <a3>Uutta versiossa { "0.38" }</a3> ja <a4>{ "0.38" } syvällisesti</a4>: jammertest-pisteytys, vastaanottimen omat liput, konesyötteet, ajoitus ja holdover, standardipaketit, LunaNet AFS, laboratorion kierros, kshana-bench, observatorio, viejät, optinen, <a5>avaruuskäyttäjän navigointi</a5> ja <a6>Kuun infrastruktuuri</a6>
 
 seg-cafc1c9c4d58 = Uutta versiossa { "0.40" }
-
-seg-59a31376fa3d = Versio { "0.40" } lisää tehtävätason virhebudjetin, merkitsee jokaisen luvun ja taulukon todistetasollaan, lukee mitattuja kellolokeja, tarkistaa datakumppanien toimitukset, arvioi, missä häiriölähetin voi olla, ja tukee seitsemääntoista kieltä englannin rinnalla. Kirjanpidossa on nyt { "401" } riviä: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Mitään riviä ei ole ylennetty tasolle VALIDATED, ja jokainen alla oleva ohitus on lukittu testillä.
 
 seg-5bd16655cace = <b>Todistenimikkeet.</b> Jokainen ajon kirjoittama luku ja taulukko kantaa tason ja ne kirjanpidon rivitunnisteet, joihin se nojaa, luettuna matriisista.
 
@@ -1999,25 +1995,9 @@ seg-ee28beafac1a = vaiheiden ketjun navigointi- ja ajoitusvirhebudjetti laukaisu
 
 seg-34e44a492cad = <c1/> ajaa skenaarion; jokainen muu komento on alikomento, ja <c2/> tulostaa kaikkien käyttöohjeen. Komennot ovat <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (komennoilla <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> ja <c63/>. <a1><c64/></a1> antaa kunkin tarkoituksen, varmennetun esimerkin ja sen dokumenttisivun.
 
-seg-9f5426cbbf4a = <b>{ "176" } / { "401" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "221" } on rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vastaan se tarkistetaan, tarkistuksen ajavan testin ja siitä seuraavan merkinnän. Jatkuva integrointi (CI) tekee mahdottomaksi merkitä ominaisuutta tasolle VALIDATED ilman riippumatonta ulkoista oraakkelia.
-
-seg-54ac34405621 = Miten ominaisuus ansaitsee merkintänsä. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vastaan se tarkistetaan, testin, joka ajaa tarkistuksen jatkuvassa integroinnissa, ja siitä seuraavan merkinnän. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED tai, kun laitteistokumppani omistaa sen, PARTNER. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, eräajo-/peräkkäis-OD, oraakkeli AIAA 2006-6753 SGP4-varmennusvektorit, testi tests/sgp4_verification.rs, merkintä VALIDATED. Ajantasaiset lukumäärät yhteensä { "401" } riviltä: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Kaiken kaikkiaan { "176" } ominaisuutta on validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "221" } lisäksi on rehellisesti merkitty tasolle MODELLED ja { "4" } on kumppanin omistamia (taso PARTNER).
-
-seg-42fa293e1bb4 = Muutama tarkistus: kaikki { "666" } AIAA:n (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektoria (Simplified General Perturbations { "4" }) tarkkuudella { "4.12" } mm; Cowell-voimamalli tarkkuudella { "0.08" } m Orekit-versiota { "12.2" } vastaan; Galileo tarkkuudella { "0.61" } m ja Swarm-A tarkkuudella { "0.10" } m Euroopan avaruusjärjestön (ESA) todellisia tarkkoja efemeridejä vastaan. Testit pitävät noin { "95" } % rivikattavuuden hakemistolle <c1/>, ja CI:ssä rajana on { "85" } %. Kirjanpito (ledger) on <a1><c2/></a1>, tuotettu tiedostosta <c3/>: <a2>koko 401 rivin matriisi</a2>, ja syy siihen, miksi millään mallinnetulla rivillä ei ole ulkoista oraakkelia, on tiedostossa <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Todistemerkintä jokaisessa luvussa
 
 seg-58ce18b8e642 = Jokainen ajon kirjoittama luku ja taulukko kertoo, kuinka paljon siihen voi luottaa ja mihin kirjanpidon (ledger) riveihin se perustuu. Tulos-JSONissa on avain <c1/>, kaavion SVG:ssä rivi kuvaajan alla (sekä elementti <c2/>), ja CSV-taulukon alussa on kommenttirivit <c3/> (luettavissa asetuksella <c4/>). Merkintä nimeää tason, <c5/>, <c6/> tai <c7/>, sekä ajon käyttämien varmennusmatriisin rivien tunnisteet (<c8/> ja kahdeksan heksadesimaalinumeroa). Taso on näistä riveistä heikoin, joten ajo, joka nojaa yhteen mallinnettuun riviin, saa merkinnän MODELLED riippumatta siitä, kuinka monta validoitua riviä sen vieressä on; merkintä ei voi koskaan väittää enempää kuin kirjanpito (ledger). Rivit, tilat ja tunnisteet luetaan matriisista, ei kirjoiteta käsin (<a1><c9/></a1>, <a2><c10/></a2>), ja <c11/> epäonnistuu, jos luvulla ei ole merkintää tai merkintä on ristiriidassa matriisin kanssa.
-
-seg-06fc56dd3edb = Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on <b>valikoitu poiminta</b>; koko koneellisesti tarkistettu matriisi on <b>{ "401" } riviä — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), ja täydet todisteet (sekä se, mitä rehellisesti <em>ei</em> vielä ole validoitu) ovat tiedostossa <a1><c2/></a1> ja julkaisukohtaisessa artefaktissa <a2><c3/></a2> (tuottaja <c4/>, SLSA-todennettu — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Miten ominaisuus ansaitsee merkintänsä: vaatimus kytkeytyy src-hakemiston moduuliin, tests-hakemiston testiin, ulkoiseen oraakkeliin (todellinen aineisto, riippumaton vertailutoteutus tai julkaistut vektorit) ja tilaan — CI:ssä valvottu suoja estää merkitsemästä ominaisuutta validoiduksi ilman ulkoista oraakkelia. Ajantasaiset lukumäärät: { "176" } validoitu, { "221" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "401" }
-
-seg-3f48a70a707a = Varmennustila kaikissa { "401" } ominaisuudessa: { "176" } validoitu (tarkistettu ulkoista oraakkelia vastaan), { "221" } mallinnettu, { "4" } kumppanin omistamaa
-
-seg-35a4412348e1 = { "176" } validoitu · { "221" } mallinnettu · { "4" } kumppanin omistama — <a1>SVG</a1>
-
-seg-cdf946112863 = Kshana-järjestelmän arkkitehtuuri: keskellä yksi avoin moottori, kshana { $version } AGPL-3.0-lisenssillä, ja siinä api::run_toml, tyypitetty ohjaus kaikkiin tyyppeihin, sekä { "401" } ominaisuuden varmennuskirjanpito (ledger) ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Sen ympärillä jokainen pinta ajaa samaa moottoria: komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: ”Kshana”). Sen alla on Kshana Pro, suljettu päällyskerros, joka riippuu avoimesta moottorista kirjastona, ei koskaan haaroita sitä eikä lisää fysikaalista mallia.
 
 seg-824001fa6734 = laboratoriot ja valmistajat, joilla on mitattua dataa
 
@@ -2035,8 +2015,6 @@ seg-a66ad1f69702 = Yksi moottori kattaa koko vikaketjun, ensimmäisestä häirit
 
 seg-43bd621a1f5b = Miten ajo etenee. Skenaario-TOML-tiedosto (laji, siemenluku ja parametrit) menee moottoriin, kshana { $version }, api::run_toml-ohjauksen kautta { "93" } skenaariolajin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille lajeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa study.json- ja study.html-tiedostot. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integraatiota.
 
-seg-290f2b34e368 = Kshana-järjestelmän arkkitehtuuri kerroksittain. Viisi etuovea (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtaa yhteen kutsuun api::run_toml, tyypitettyyn ohjaukseen { "93" } tyypille. Sen alla on kahdeksan toimialakerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä lennot ja tutkimukset, yhteisen ytimen päällä. Varmennusmoduuli, eli koneellisesti tarkistettu { "401" } ominaisuuden matriisi, viittaa niihin kaikkiin ristiin, ja se on jokaisen merkinnän ainoa totuuden lähde.
-
 seg-fb8bcc54a31d = { "93" } sisäänrakennettua skenaariotyyppiä kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi rakentaa kelvollisen skenaarion
 
 seg-2f38fc515db6 = koko avoin moottori, kaikki { "93" } skenaariotyyppiä, ei ominaisuusrajoitusta
@@ -2046,3 +2024,25 @@ seg-5374f780c396 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jo
 seg-d106dd5461ed = <a1><c1/></a1> on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja lukee sen JSON-tulosteen sen sijaan, että arvailisi matematiikkaa. Sen { "53" } työkalua ovat kukin ohut kääre kirjaston <c2/> julkisen funktion ympärillä, joten palvelimessa ei ole lainkaan simulointilogiikkaa.
 
 seg-0920329ba390 = { "53" } työkalua
+
+seg-44fb0df264f6 = { "176" } / { "405" } kyvykkyydestä VALIDATED riippumatonta ulkoista oraakkelia vasten, varmennusmatriisista
+
+seg-d8582006e2dc = Versio { "0.40" } lisää tehtävätason virhebudjetin, merkitsee jokaisen luvun ja taulukon todistetasollaan, lukee mitattuja kellolokeja, tarkistaa datakumppanien toimitukset, arvioi, missä häiriölähetin voi olla, ja tukee seitsemääntoista kieltä englannin rinnalla. Kirjanpidossa on nyt { "405" } riviä: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Mitään riviä ei ole ylennetty tasolle VALIDATED, ja jokainen alla oleva ohitus on lukittu testillä.
+
+seg-5a6c42704fb2 = <b>{ "176" } / { "405" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "225" } on rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vastaan se tarkistetaan, tarkistuksen ajavan testin ja siitä seuraavan merkinnän. Jatkuva integrointi (CI) tekee mahdottomaksi merkitä ominaisuutta tasolle VALIDATED ilman riippumatonta ulkoista oraakkelia.
+
+seg-b113dca9dfde = Miten ominaisuus ansaitsee merkintänsä. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vastaan se tarkistetaan, testin, joka ajaa tarkistuksen jatkuvassa integroinnissa, ja siitä seuraavan merkinnän. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED tai, kun laitteistokumppani omistaa sen, PARTNER. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, eräajo-/peräkkäis-OD, oraakkeli AIAA 2006-6753 SGP4-varmennusvektorit, testi tests/sgp4_verification.rs, merkintä VALIDATED. Ajantasaiset lukumäärät yhteensä { "405" } riviltä: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Kaiken kaikkiaan { "176" } ominaisuutta on validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "225" } lisäksi on rehellisesti merkitty tasolle MODELLED ja { "4" } on kumppanin omistamia (taso PARTNER).
+
+seg-113e59a8f70c = Muutama tarkistus: kaikki { "666" } AIAA:n (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektoria (Simplified General Perturbations { "4" }) tarkkuudella { "4.12" } mm; Cowell-voimamalli tarkkuudella { "0.08" } m Orekit-versiota { "12.2" } vastaan; Galileo tarkkuudella { "0.61" } m ja Swarm-A tarkkuudella { "0.10" } m Euroopan avaruusjärjestön (ESA) todellisia tarkkoja efemeridejä vastaan. Testit pitävät noin { "95" } % rivikattavuuden hakemistolle <c1/>, ja CI:ssä rajana on { "85" } %. Kirjanpito (ledger) on <a1><c2/></a1>, tuotettu tiedostosta <c3/>: <a2>koko 405 rivin matriisi</a2>, ja syy siihen, miksi millään mallinnetulla rivillä ei ole ulkoista oraakkelia, on tiedostossa <a3><c4/></a3>.
+
+seg-5334b90deb02 = Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on <b>valikoitu poiminta</b>; koko koneellisesti tarkistettu matriisi on <b>{ "405" } riviä — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), ja täydet todisteet (sekä se, mitä rehellisesti <em>ei</em> vielä ole validoitu) ovat tiedostossa <a1><c2/></a1> ja julkaisukohtaisessa artefaktissa <a2><c3/></a2> (tuottaja <c4/>, SLSA-todennettu — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Miten ominaisuus ansaitsee merkintänsä: vaatimus kytkeytyy src-hakemiston moduuliin, tests-hakemiston testiin, ulkoiseen oraakkeliin (todellinen aineisto, riippumaton vertailutoteutus tai julkaistut vektorit) ja tilaan — CI:ssä valvottu suoja estää merkitsemästä ominaisuutta validoiduksi ilman ulkoista oraakkelia. Ajantasaiset lukumäärät: { "176" } validoitu, { "225" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "405" }
+
+seg-008a8eed3718 = Varmennustila kaikissa { "405" } ominaisuudessa: { "176" } validoitu (tarkistettu ulkoista oraakkelia vastaan), { "225" } mallinnettu, { "4" } kumppanin omistamaa
+
+seg-4f7fb3fb883c = { "176" } validoitu · { "225" } mallinnettu · { "4" } kumppanin omistama — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Kshana-järjestelmän arkkitehtuuri: keskellä yksi avoin moottori, kshana { $version } AGPL-3.0-lisenssillä, ja siinä api::run_toml, tyypitetty ohjaus kaikkiin tyyppeihin, sekä { "405" } ominaisuuden varmennuskirjanpito (ledger) ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Sen ympärillä jokainen pinta ajaa samaa moottoria: komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: ”Kshana”). Sen alla on Kshana Pro, suljettu päällyskerros, joka riippuu avoimesta moottorista kirjastona, ei koskaan haaroita sitä eikä lisää fysikaalista mallia.
+
+seg-758f459ab5e5 = Kshana-järjestelmän arkkitehtuuri kerroksittain. Viisi etuovea (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtaa yhteen kutsuun api::run_toml, tyypitettyyn ohjaukseen { "93" } tyypille. Sen alla on kahdeksan toimialakerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä lennot ja tutkimukset, yhteisen ytimen päällä. Varmennusmoduuli, eli koneellisesti tarkistettu { "405" } ominaisuuden matriisi, viittaa niihin kaikkiin ristiin, ja se on jokaisen merkinnän ainoa totuuden lähde.

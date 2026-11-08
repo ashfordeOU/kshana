@@ -2024,4 +2024,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
 
-seg-a2bf08b8e82d = { "221" } schopností označeno MODELLED.
+seg-7a83829ca355 = { "225" } schopností označeno MODELLED.

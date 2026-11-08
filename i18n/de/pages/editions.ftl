@@ -1221,10 +1221,10 @@ seg-9a86ef058d27 = In Kshana Studio öffnen
 # text
 seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
 
-seg-cc655ce0b6c8 = Die vollständige Verifikationsmatrix: { "176" } von { "401" } Fähigkeiten gegen unabhängige Referenzen validiert, der Rest als modelliert gekennzeichnet
-
 seg-0ab329c843b0 = Die offene Engine in der Mitte: ein Zeichen je Szenarioart ({ "93" }), gefüllt, wo die Art validierte Registerzeilen hat, hohl, wo ihre Zeilen modelliert sind, ein Strich, wo kein Registermodul ihrem Namen entspricht. Kshana Pro und die individuelle Studie sitzen darum herum und verbinden sich mit den Arten, auf denen sie aufbauen.
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } Arten aus <c1/> · Registerstatus aus <c2/> · worauf Pro und eine Studie aufbauen: das Ausgabenregister der Website · kein Szenario und kein Seed
 
 seg-7515b1af1f0b = Alle { "93" } Szenarioarten und { "183" } mitgelieferten Szenarien: nativ, Python, JavaScript, im Browser und über MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = Die vollständige Verifikationsmatrix: { "176" } von { "405" } Fähigkeiten gegen unabhängige Referenzen validiert, der Rest als modelliert gekennzeichnet

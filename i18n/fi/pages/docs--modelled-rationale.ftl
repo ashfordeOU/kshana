@@ -2043,4 +2043,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
 
-seg-a2bf08b8e82d = { "221" } kyvykkyyttä merkitty MODELLED.
+seg-7a83829ca355 = { "225" } kyvykkyyttä merkitty MODELLED.

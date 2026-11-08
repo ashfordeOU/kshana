@@ -1244,3 +1244,13 @@ seg-f942b36a11c4 = На GitHub ще немає
 
 # <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
 seg-4f8471649a07 = <b>Що натомість робить обсерваторія.</b> Питання, на яке відповідає порівняння з альманахом: «чи може геометрія орбітального угруповання сама пояснити цю низьку точність?». Базовий метод відповідає на близьке питання без альманаху: низька частка має виділятися на тлі фону тієї самої доби по регіону та на тлі добрих повідомлень цього ж літака деінде. Це інший і слабший замінник: він не може сказати, що година зі спокійною геометрією була деградованою там, де й фон доби низький. Оцінювач за HDOP з альманаху <b>не реалізовано</b>. Це відкритий пункт, який слід побудувати за повним текстом статті та публічним альманахом GPS і попередньо зареєструвати до запуску; доти його цитують, але не заявляють.
+
+# of { "55" } validated
+# text
+seg-5516d9825527 = із { "55" } перевірено
+
+# of { "102" } validated
+seg-5668b5581703 = із { "102" } перевірено
+
+# of { "78" } validated
+seg-fbb78f11c0dc = із { "78" } перевірено

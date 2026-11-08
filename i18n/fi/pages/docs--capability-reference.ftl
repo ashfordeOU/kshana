@@ -2564,8 +2564,6 @@ seg-6eee4b0e40b9 = <s1>Edellinen</s1>Varmennusmatriisi
 
 seg-c3e7639ccf1a = <s1>Seuraava</s1>Miksi rivit pysyvät mallinnettuina
 
-seg-2fd8f2df3e6e = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "401" } riviä.
-
 seg-65185cb68d6b = Tehtävävaiheiden ketjun navigoinnin ja ajoituksen virhebudjetti laukaisusta paluuseen (<c1/>)
 
 seg-86a132e1a243 = Tyyppi <c1/>: vaiheiden asiakirja, jossa kukin vaihe on yksi kahdeksasta rekisteröidystä tyypistä, ajetaan järjestyksessä ja 6x6-kovarianssi, kello ja koordinaatisto siirretään eteenpäin ilmoitetun säännön mukaan (<c2/>; <c3/>, valkoinen kiihtyvyyskohina ilmoitetun välin yli suoraviivaisella mallilla; <c4/>, dead reckoning ja sitten lähteen lattia, ei koskaan sen alle, ei koskaan nollausta); koordinaatistomuunnokset GCRF, MCI ja MCMF sekä aika-asteikkomuunnokset TT:n kautta, kukin oma budjettirivinsä, ja Kuun tila valinnaisesta DE440-kernelin leikkeestä sekä analyyttinen sarja ilmoitettuna varavaihtoehtona; marginaali ilmoitettua vaatimusta vasten, heikoin lenkki, tapahtumat ja aikajanakuva. Jokainen luku on ilmoitettu syöte tai sen malli
@@ -2645,3 +2643,5 @@ seg-b5c49044a7a1 = Mahdollinen alue sille, missä heikentyneitä navigointirapor
 seg-953a8b4f9f41 = Ei vielä ulkoista. Vain synteettisiä eteenpäin-käänteisiä kiertoajoja generaattorilta, joka jakaa estimaattorin mallin, joten ne tarkistavat koodin ja ilmoitettujen tasojen kalibroinnin tämän mallin alaisena eivätkä mitään todellisista lähettimistä. Ulkoinen tarkistus julkaistuja Jammertest { "2025" } -lähetinkohteita vasten ennalta rekisteröitiin (docs/emitter-region/PREREGISTRATION.md, omistaja kuittasi ennen yhtäkään pisteytettyä ajoa) ja ajettiin kerran (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } aikataulutettua istuntoa, vähemmän kuin rekisteröity minimi { "4" }) ja AIS NOT ASSESSABLE (ei julkaistua istuntoa), joten mitään kynnystä ei testattu ja rivi pysyy MODELLED
 
 seg-d5a79853b72f = { "93" } / { "93" } tyyppiä, { "3334" } / { "3334" } numeerista kenttää
+
+seg-5576293ba3aa = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "405" } riviä.

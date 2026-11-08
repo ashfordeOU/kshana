@@ -812,10 +812,10 @@ seg-67341b9eea70 = <b>Alt andet</b><s1>contact@ashforde.org · mail går direkte
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-cc655ce0b6c8 = Den fulde verifikationsmatrix: { "176" } af { "401" } funktioner valideret mod uafhængige referencer, resten betegnet modelleret
-
 seg-0ab329c843b0 = Den åbne motor i midten: ét mærke pr. scenarietype ({ "93" }), udfyldt, hvor typen har validerede registerrækker, hult, hvor dens rækker er modellerede, en streg, hvor intet registermodul matcher den ved navn. Kshana Pro og det skræddersyede studie sidder rundt om den og forbindes til de typer, de bygger på.
 
 seg-e507665bbe2c = Motor v{ $version } · { "93" } typer fra <c1/> · registerstatus fra <c2/> · hvad Pro og et studie bygger på: webstedets register over udgaver · intet scenarie eller seed
 
 seg-7515b1af1f0b = Alle { "93" } scenarietyper og { "183" } medfølgende scenarier: native, Python, JavaScript, i browseren og over MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = Den fulde verifikationsmatrix: { "176" } af { "405" } funktioner valideret mod uafhængige referencer, resten betegnet modelleret

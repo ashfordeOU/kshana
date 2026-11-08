@@ -3505,16 +3505,10 @@ seg-8e176aa32cd3 = MCP é o Model Context Protocol. Fixe uma versão com <c1/>, 
 seg-57686575b81d = Dados de parceiros
 
 # text
-seg-0c39fcb3527f = { "176" } de { "401" } capacidades VALIDATED face a uma referência independente externa, a partir da matriz de verificação
-
-# text
 seg-467bb88ec415 = <a1>Novidades da { "0.40" }</a1>, <a2>Novidades da { "0.39" }</a2>, <a3>Novidades da { "0.38" }</a3> e <a4>a { "0.38" } em detalhe</a4>: pontuação do jammertest, os próprios indicadores do recetor, entradas de máquina, temporização e holdover, pacotes de normas, LunaNet AFS, o ciclo de ida e volta no laboratório, kshana-bench, o observatório, exportadores, ótica, <a5>navegação de utilizadores no espaço</a5> e <a6>infraestrutura lunar</a6>
 
 # text
 seg-cafc1c9c4d58 = Novidades da { "0.40" }
-
-# text
-seg-59a31376fa3d = A { "0.40" } acrescenta um orçamento de erro em nível de missão, etiqueta cada figura e tabela com o seu nível de evidência, lê registos de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e está disponível em dezassete idiomas além do inglês. O registo agora tem { "401" } linhas: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
 
 # text
 seg-5bd16655cace = <b>Etiquetas de evidência.</b> Cada figura e tabela que uma execução escreve traz o nível e os ids das linhas do registo em que assenta, lidos da matriz.
@@ -3638,19 +3632,6 @@ seg-ee28beafac1a = o orçamento de erro de navegação e temporização de uma c
 seg-34e44a492cad = <c1/> executa um cenário; todo outro comando é um subcomando, e <c2/> imprime o uso de todos eles. Os comandos são <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (com <c8/> e <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> e <c63/>. <a1><c64/></a1> dá a finalidade de cada um, um exemplo verificado e a sua página de documentação.
 
 # text
-seg-9f5426cbbf4a = <b>{ "176" } de { "401" }</b> capacidades validadas face a referências independentes externas; { "221" } etiquetadas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e a etiqueta que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
-
-# attr:alt
-seg-54ac34405621 = Como uma capacidade obtém a sua etiqueta. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação na integração contínua e a etiqueta que resulta. Uma linha só pode ser VALIDATED com uma referência independente externa; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é o responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, DO em lote/sequencial, referência independente: vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, etiqueta VALIDATED. Contagens ao vivo: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER de { "401" } linhas. No total, { "176" } capacidades validadas face a referências independentes externas; outras { "221" } são etiquetadas com honestidade como MODELLED e { "4" } pertencem a PARTNER.
-
-# text
-# c1: src/
-# c2: docs/VERIFICATION-MATRIX.md
-# c3: src/verification.rs
-# c4: docs/MODELLED-RATIONALE.md
-seg-42fa293e1bb4 = Algumas das verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm; o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }; o Galileo até { "0.61" } m e o Swarm-A até { "0.10" } m face a efemérides precisas reais da Agência Espacial Europeia (ESA). Os testes mantêm cerca de { "95" } % de cobertura de linhas de <c1/>, com um mínimo de { "85" } % exigido na CI. O registo é <a1><c2/></a1>, gerado a partir de <c3/>: a <a2>matriz completa de 401 linhas</a2>, e por que cada linha modelada não tem referência independente externa em <a3><c4/></a3>.
-
-# text
 seg-e7f7d0e51698 = A etiqueta de evidência em cada figura
 
 # text
@@ -3666,25 +3647,6 @@ seg-e7f7d0e51698 = A etiqueta de evidência em cada figura
 # c10: docs/SCHEMA.md
 # c11: tests/evidence_labels_doc_sync.rs
 seg-58ce18b8e642 = Cada figura e tabela que uma execução escreve diz até que ponto confiar nela e em quais linhas do registo ela assenta. O JSON de resultado tem uma chave <c1/>, o SVG do gráfico tem uma linha sob o gráfico (e um elemento <c2/>), e a tabela CSV tem linhas de comentário <c3/> no início (lidas com <c4/>). Ele nomeia um nível, <c5/>, <c6/> ou <c7/>, e os ids (<c8/> e oito dígitos hexadecimais) das linhas da matriz de verificação que a execução exercitou. O nível é o mais fraco dessas linhas, de modo que uma execução que assenta numa linha modelada é etiquetada MODELLED por mais linhas validadas que haja ao lado; a etiqueta nunca pode afirmar mais do que o registo. Linhas, estados e ids são lidos da matriz, não escritos à mão (<a1><c9/></a1>, <a2><c10/></a2>), e <c11/> falha se uma figura não tem etiqueta ou se uma etiqueta discorda da matriz.
-
-# text
-# c1: src/verification.rs
-# c2: docs/VALIDATION.md
-# c3: kshana-validation-summary.html
-# c4: cargo run --bin validation_report
-seg-06fc56dd3edb = Cada linha é imposta por um teste nomeado na CI. Esta tabela é um <b>destaque selecionado</b>; a matriz completa, verificada por máquina, tem <b>{ "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), com as evidências completas (e o que honestamente <em>ainda não</em> é validado) em <a1><c2/></a1> e o artefacto <a2><c3/></a2> de cada versão (gerado por <c4/>, atestado pelo SLSA — Supply-chain Levels for Software Artifacts).
-
-# attr:alt
-seg-4c4dfa02be15 = Como uma capacidade obtém a sua etiqueta: um requisito corresponde a um módulo em src, a um teste em tests, a uma referência independente externa (conjunto de dados real, implementação de referência independente ou vetores publicados), a um estado — com uma proteção imposta pela CI de que nenhuma capacidade pode ser validada sem uma referência independente externa. Contagens ao vivo: { "176" } validadas, { "221" } modeladas, { "4" } de parceiros, { "401" } no total
-
-# attr:alt
-seg-3f48a70a707a = Estado de verificação das { "401" } capacidades: { "176" } validadas (verificadas face a uma referência independente externa), { "221" } modeladas, { "4" } pertencentes a parceiros
-
-# text
-seg-35a4412348e1 = { "176" } validadas · { "221" } modeladas · { "4" } de parceiros — <a1>SVG</a1>
-
-# attr:alt
-seg-cdf946112863 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registo de verificação de { "401" } capacidades ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Em torno, cada superfície executa o mesmo motor: linha de comandos (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
 
 # text
 seg-824001fa6734 = laboratórios e fabricantes com dados medidos
@@ -3705,8 +3667,6 @@ seg-a66ad1f69702 = Um único motor cobre toda a cadeia de falhas, do primeiro sa
 
 seg-43bd621a1f5b = Como uma execução flui. Um ficheiro TOML de cenário (um tipo, uma semente e os seus parâmetros) entra no motor, kshana { $version }, pelo despacho api::run_toml sobre { "93" } tipos de cenário, determinístico a partir do cenário, da semente e da versão do motor. O motor escreve result.json, chart.svg, report.html e report.json, uma table.csv para os tipos de cenário que definem uma, e, a pedido, exportações SP3, CCSDS OMM e OEM, CZML, KML, GeoJSON, STK e SigMF; uma suíte escreve study.json e study.html. Esses ficheiros alimentam o Kshana Studio no navegador, um assistente de IA por meio do servidor kshana-mcp e a integração contínua.
 
-seg-290f2b34e368 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "401" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.
-
 seg-fb8bcc54a31d = Os { "93" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido
 
 seg-2f38fc515db6 = todo o motor aberto, todos os { "93" } tipos de cenário, sem restrição de recursos
@@ -3716,3 +3676,25 @@ seg-5374f780c396 = Veja <c1/> para pelo menos um exemplo prático de cada tipo d
 seg-d106dd5461ed = <a1><c1/></a1> é um servidor MCP: o seu assistente executa o motor verdadeiro e lê de volta o respetivo JSON, em vez de adivinhar a matemática. Cada uma das suas { "53" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, pelo que nenhuma lógica de simulação reside no servidor.
 
 seg-0920329ba390 = As { "53" } ferramentas
+
+seg-44fb0df264f6 = { "176" } de { "405" } capacidades VALIDATED face a uma referência independente externa, a partir da matriz de verificação
+
+seg-d8582006e2dc = A { "0.40" } acrescenta um orçamento de erro em nível de missão, etiqueta cada figura e tabela com o seu nível de evidência, lê registos de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e está disponível em dezassete idiomas além do inglês. O registo agora tem { "405" } linhas: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
+
+seg-5a6c42704fb2 = <b>{ "176" } de { "405" }</b> capacidades validadas face a referências independentes externas; { "225" } etiquetadas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e a etiqueta que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
+
+seg-b113dca9dfde = Como uma capacidade obtém a sua etiqueta. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação na integração contínua e a etiqueta que resulta. Uma linha só pode ser VALIDATED com uma referência independente externa; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é o responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, DO em lote/sequencial, referência independente: vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, etiqueta VALIDATED. Contagens ao vivo: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER de { "405" } linhas. No total, { "176" } capacidades validadas face a referências independentes externas; outras { "225" } são etiquetadas com honestidade como MODELLED e { "4" } pertencem a PARTNER.
+
+seg-113e59a8f70c = Algumas das verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm; o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }; o Galileo até { "0.61" } m e o Swarm-A até { "0.10" } m face a efemérides precisas reais da Agência Espacial Europeia (ESA). Os testes mantêm cerca de { "95" } % de cobertura de linhas de <c1/>, com um mínimo de { "85" } % exigido na CI. O registo é <a1><c2/></a1>, gerado a partir de <c3/>: a <a2>matriz completa de 405 linhas</a2>, e por que cada linha modelada não tem referência independente externa em <a3><c4/></a3>.
+
+seg-5334b90deb02 = Cada linha é imposta por um teste nomeado na CI. Esta tabela é um <b>destaque selecionado</b>; a matriz completa, verificada por máquina, tem <b>{ "405" } linhas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), com as evidências completas (e o que honestamente <em>ainda não</em> é validado) em <a1><c2/></a1> e o artefacto <a2><c3/></a2> de cada versão (gerado por <c4/>, atestado pelo SLSA — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Como uma capacidade obtém a sua etiqueta: um requisito corresponde a um módulo em src, a um teste em tests, a uma referência independente externa (conjunto de dados real, implementação de referência independente ou vetores publicados), a um estado — com uma proteção imposta pela CI de que nenhuma capacidade pode ser validada sem uma referência independente externa. Contagens ao vivo: { "176" } validadas, { "225" } modeladas, { "4" } de parceiros, { "405" } no total
+
+seg-008a8eed3718 = Estado de verificação das { "405" } capacidades: { "176" } validadas (verificadas face a uma referência independente externa), { "225" } modeladas, { "4" } pertencentes a parceiros
+
+seg-4f7fb3fb883c = { "176" } validadas · { "225" } modeladas · { "4" } de parceiros — <a1>SVG</a1>
+
+seg-d0d92b14d106 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registo de verificação de { "405" } capacidades ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Em torno, cada superfície executa o mesmo motor: linha de comandos (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
+
+seg-758f459ab5e5 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "405" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.

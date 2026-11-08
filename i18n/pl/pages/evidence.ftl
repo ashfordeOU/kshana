@@ -3206,8 +3206,6 @@ seg-fb01a581d5ee = z { "28" } sprawdzonych
 
 seg-d6c43e56d4cc = Analiza misji, zapewnienie jakości i inne
 
-seg-5516d9825527 = z { "55" } sprawdzonych
-
 seg-7038fab8b00c = Sprawdzone { "176" }
 
 seg-ba89c1119b21 = Należące do partnera { "4" }
@@ -4068,16 +4066,6 @@ seg-b5c49044a7a1 = Dopuszczalny obszar tego, gdzie może znajdować się źród�
 
 seg-953a8b4f9f41 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NOT ASSESSABLE (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
 
-seg-aa7c0a865661 = { "401" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "221" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
-
-seg-7a254b7d5498 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "221" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
-
-seg-a2f63c51d2c7 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "401" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
-
-seg-77bfad0f4f88 = { "176" }<s1>z { "401" } sprawdzonych</s1>
-
-seg-222c46a96ec3 = Macierz weryfikacji: { "176" } sprawdzonych, { "221" } modelowanych, { "4" } należących do partnera, { "401" } łącznie
-
 seg-cf2aa475bc68 = Rodzaj mission-thread: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych… · Modelowane
 
 seg-bdc3223c80e4 = Faza launch-ascent: kowariancja pozycji i prędkości o stałej prędkości z białym… · Modelowane
@@ -4104,30 +4092,40 @@ seg-860ca782e2bf = Propagacja stanu średniego fazy tli-and-cruise (Cowell, masa
 
 seg-7c7d72cc2036 = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie ADS-B… · Modelowane
 
-seg-65feaf4e91ef = Wszystkie { "401" } wierszy, po jednej linii.
-
-seg-5668b5581703 = z { "102" } sprawdzonych
-
 seg-43f852e4bee8 = z { "74" } sprawdzonych
-
-seg-fbb78f11c0dc = z { "78" } sprawdzonych
 
 seg-8fe12f6058c6 = z { "26" } sprawdzonych
 
-seg-b393e1b5fcfc = Wszystkie { "401" }
+seg-2ed2d817f56e = { "405" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "225" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
 
-seg-3df9e327c036 = Modelowane { "221" }
+seg-07aef8ff8fe3 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "225" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
 
-seg-7fa6f2e0de57 = Rejestr walidacji, { "401" } wierszy, z przewijaniem
+seg-81464c684074 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "405" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
 
-seg-b4f766f66bdb = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-8f715a5e52b0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-0dbc7d4822b9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-a9b6470fb2f8 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-d3eca6ae67fc = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-947cc1db1e01 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-629f069ed3e7 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+seg-cfd8687a8048 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-f4ca37eb4f6d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-fb3f807e97c0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-5313db6b0f2a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-7c4a8891ee1b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-c54618ee87bb = { "176" }<s1>z { "405" } sprawdzonych</s1>
+
+seg-9984e76b5b28 = Macierz weryfikacji: { "176" } sprawdzonych, { "225" } modelowanych, { "4" } należących do partnera, { "405" } łącznie
+
+seg-46e93e2ebc71 = Wszystkie { "405" } wierszy, po jednej linii.
+
+seg-ebec0449ab03 = Wszystkie { "405" }
+
+seg-bcf766efe1ab = Modelowane { "225" }
+
+seg-cea55077f323 = Rejestr walidacji, { "405" } wierszy, z przewijaniem
+
+seg-65122c2bb1fc = z { "104" } sprawdzonych
+seg-2998c6fa20d6 = z { "79" } sprawdzonych
+seg-4b3ab6095c65 = z { "56" } sprawdzonych

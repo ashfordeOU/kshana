@@ -838,4 +838,4 @@ seg-9b505908a6e2 = Kshana <b>styrer ingen radiomaskinvare og sender ingenting</b
 
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> alt i den åpne motoren. Gratis: { "53" } MCP-verktøy, fra run_scenario til export_oem.
 
-seg-a1e85450eb6a = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-c88dde71cc6e = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed

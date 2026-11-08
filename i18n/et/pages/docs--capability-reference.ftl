@@ -3992,8 +3992,6 @@ seg-6eee4b0e40b9 = <s1>Eelmine</s1>Kontrollimaatriks
 # text
 seg-c3e7639ccf1a = <s1>Järgmine</s1>Miks read jäävad modelleerituks
 
-seg-2fd8f2df3e6e = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "401" } kontrollimaatriksi rida.
-
 seg-65185cb68d6b = Missioonifaaside ahela navigatsiooni- ja ajastusvea eelarve startimisest sisenemiseni (<c1/>)
 
 seg-86a132e1a243 = Liik <c1/>: faaside dokument, millest iga on üks kaheksast registreeritud liigist, käivitatud järjekorras, 6x6 kovariatsiooni, kella ja tugisüsteemi edasiandmisega öeldud reegli järgi (<c2/>; <c3/>, valge kiirendusmüra öeldud vahemiku jooksul sirgjoonelisel mudelil; <c4/>, inertsiaalne edasiliikumine ja seejärel allika alampiir, mitte kunagi sellest allapoole, mitte kunagi lähtestamine); tugisüsteemi teisendused GCRF, MCI ja MCMF ning ajaskaala teisendused läbi TT, igaüks oma eelarveread, Kuu olek valikulisest DE440 kerneli lõigust ja analüütiline rida öeldud varuvariandina; varu öeldud nõude suhtes, nõrgim lüli, sündmused ja ajajoone joonis. Iga arv on öeldud sisend või selle mudel
@@ -4073,3 +4071,5 @@ seg-b5c49044a7a1 = Teostatav piirkond, kus võib asuda halvenenud navigatsioonit
 seg-953a8b4f9f41 = Veel ühtki välist. Ainult sünteetilised ettepoole-tagasi ringid generaatorist, mis jagab hindaja mudelit, seega need kontrollivad koodi ja öeldud tasemete kalibreeringut selle mudeli all ega ütle midagi päris kiirgusallikate kohta. Välist kontrolli avaldatud Jammertest { "2025" } saatjakohtade vastu eelregistreeriti (docs/emitter-region/PREREGISTRATION.md, omaniku poolt enne ühtki hinnatud käivitust kinnitatud) ja käivitati üks kord (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planeeritud sessiooni, vähem kui registreeritud miinimum { "4" }) ja AIS NOT ASSESSABLE (avaldatud sessiooni pole), seega ühtki lävi ei testitud ja rida jääb MODELLED
 
 seg-d5a79853b72f = { "93" } liiki { "93" }-st, { "3334" } arvulist välja { "3334" }-st
+
+seg-5576293ba3aa = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "405" } kontrollimaatriksi rida.

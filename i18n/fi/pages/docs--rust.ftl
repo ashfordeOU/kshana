@@ -170,12 +170,6 @@ seg-6dc7d52fef11 = <s1>Edellinen</s1>npm ja WebAssembly
 
 seg-8ff56af64ec2 = <s1>Seuraava</s1>MCP-palvelin
 
-seg-c9a297cc51e9 = { "176" } / { "401" } kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten
-
-seg-7b53ee712a36 = <b>{ "176" } / { "401" }</b> kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten; { "221" } rehellisesti merkitty mallinnetuksi, { "4" } kumppanin omistamaa. Jokaisella kyvykkyydellä on yksi nimike koneellisesti tarkistetussa kirjanpidossa: VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut viitevektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani omistaa sen). Tarkistuksiin kuuluvat muun muassa kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) julkaisusta AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vasten.
-
-seg-b59781ecf257 = Miten kyvykkyys ansaitsee nimikkeensä: kyvykkyys, oraakkeli, testi, kirjanpidon nimike. Varmennustila kaikissa { "401" } kyvykkyydessä: { "176" } validoitua, { "221" } mallinnettua, { "4" } kumppanin omistamaa
-
 seg-8e9fbc5f2e72 = Sisäänrakennetun skenaariotyypin kind kuvaus kielellä lang katalogista (englanniksi, kun kielellä ei ole sen käännöstä); None nimelle, joka ei ole sisäänrakennettu tyyppi.
 
 seg-06e503c23c30 = [kind_description_in] nykyisellä kielellä ([crate::i18n::current]).
@@ -197,3 +191,9 @@ seg-24fe823a994a = json ilman todistemerkintää ([crate::evidence_label]); muut
 seg-c0444d838311 = out ilman todistemerkintää JSON-, SVG- ja CSV-tulosteestaan, tavu tavulta sellaisena kuin ajo ne tuotti ennen merkinnän olemassaoloa; tuloste, jossa ei ole merkintää, on muuttumaton.
 
 seg-80e5f0aa2831 = Moottorissa on { "93" } skenaariolajia; <c1/> luettelee ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-kiertoratojen yläpuolella, ympärillä ja ohi) ja <c3/> (Kuun kiertorata ja pinta navigointi- ja geodeettisena infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vasten).
+
+seg-10f4803a4423 = { "176" } / { "405" } kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten
+
+seg-8a5d5b148d86 = <b>{ "176" } / { "405" }</b> kyvykkyydestä validoitu riippumattomia ulkoisia oraakkeleita vasten; { "225" } rehellisesti merkitty mallinnetuksi, { "4" } kumppanin omistamaa. Jokaisella kyvykkyydellä on yksi nimike koneellisesti tarkistetussa kirjanpidossa: VALIDATED (riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut viitevektorit), MODELLED (sisäisesti johdonmukainen, ja se sanotaan ääneen) tai PARTNER (laitteistokumppani omistaa sen). Tarkistuksiin kuuluvat muun muassa kaikki { "666" } SGP4-vektoria (Simplified General Perturbations { "4" }) julkaisusta AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tarkkuudella { "4.12" } mm sekä Cowell-voimamalli tarkkuudella { "0.08" } m Orekit { "12.2" }:aa vasten.
+
+seg-0ff660c53a50 = Miten kyvykkyys ansaitsee nimikkeensä: kyvykkyys, oraakkeli, testi, kirjanpidon nimike. Varmennustila kaikissa { "405" } kyvykkyydessä: { "176" } validoitua, { "225" } mallinnettua, { "4" } kumppanin omistamaa
