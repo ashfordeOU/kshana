@@ -34,7 +34,8 @@ or read by anyone working on this row.
 3. **Propagation.** The C1 code path: the `tli-and-cruise` phase with no TLI burn, the thread's Moon kernel cut, the
    analytic Sun, 1 h steps. The impulses are its new `impulses` list (`t_s` from the window start, `dv_mps` in GCRF).
    A step is shortened to land on an impulse time. Without impulses every output is unchanged.
-4. **Scoring.** The H states are the half-hour offsets 18:30 on 16 Nov to 17:30 on 19 Nov (71 states). C2a is the
+4. **Scoring.** The H states are the half-hour offsets 18:30 on 16 Nov to 17:30 on 19 Nov (72 states; see the
+   correction below; this reading first said 71, copying the pre-registration). C2a is the
    largest 3-D position difference over them; C2b is the velocity difference at the last one (17:30 on 19 Nov).
 
 ## Process (from the pre-registration), with commits as they land
@@ -51,3 +52,17 @@ or read by anyone working on this row.
      event. Impulses of 0.091, 0.221, 0.160, 0.094 and 0.150 m/s at the hours' midpoints. The largest quiet-hour
      residual is 0.00025 m/s against the 0.01 m/s threshold.
 4. H (half-hour offsets, W1) fetched; the comparison runs once; verdict committed and pinned: *pending*.
+
+## Correction after H was fetched, before any comparison (disclosed)
+
+- **What was seen.** H was fetched on 8 November 2026 with `fetch_h.sh`. Before this correction, only its row count and
+  its first and last epochs were read: 72 rows, 2022-11-16 18:30 to 2022-11-19 17:30 TDB, one hour apart. No state value
+  was read and no propagation was compared with it.
+- **The error.** §1 and §5 of the pre-registration say the H states are "30 minutes after each hour but the last", "71
+  of them per window". The window is 72 h: 18:00 on 16 Nov to 18:00 on 19 Nov holds 72 hour intervals (73 hour marks),
+  and the :30 point of each interval lies inside the window. "Each hour but the last" (the last hour mark, 18:00 on
+  19 Nov, has no :30 inside the window) therefore gives **72** states, not 71. This is the same kind of count slip as
+  A2's Amendment 6 (2161 written for a span holding 2137).
+- **The correction.** The runner expects 72 H states. The span, the states, the bars and every definition are
+  unchanged: C2b is taken at the last H state, 17:30 on 19 Nov, as before. If H had held any other count, the row
+  would have been "not run".
