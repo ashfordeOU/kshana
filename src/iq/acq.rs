@@ -509,7 +509,9 @@ pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64
 /// `X > α·mean`, with `α` from [`ca_cfar_alpha`] for `pfa_cell`. The stride keeps the
 /// reference cells and the cell close to independent under noise alone (it should exceed the
 /// code's autocorrelation main lobe; [`CfarConfig::new`] uses `ceil(samples per chip) + 1`).
-/// MODELLED; pre-registered in `docs/design/evidence/acq-cfar/`.
+/// MODELLED; pre-registered in `docs/design/evidence/acq-cfar/`. With
+/// [`CfarReference::Row`] the reference cells are every stride-th lag round the whole period
+/// instead (D8a row 3, `xval/d8a-cfar-reference/`).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CfarConfig {
     /// Number of reference cells `N` (even, at least 2).
@@ -520,6 +522,22 @@ pub struct CfarConfig {
     pub stride_lags: usize,
     /// Per-cell false-alarm probability under noise alone.
     pub pfa_cell: f64,
+    /// Which lags of the row are the reference cells.
+    pub reference: CfarReference,
+}
+
+/// The reference-cell set of [`CfarConfig`].
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
+pub enum CfarReference {
+    /// `reference_cells` cells, half on each side at `ℓ ± (guard_lags + k·stride_lags)`,
+    /// `k = 1 ..= reference_cells/2` (the registered set; the default).
+    #[default]
+    Window,
+    /// Every lag `ℓ ± (guard_lags + k·stride_lags)`, `k ≥ 1`, round the whole period, each
+    /// used once (`guard_lags + k·stride_lags < period − (guard_lags + k·stride_lags)`);
+    /// `reference_cells` is ignored and `N` is the number of such lags. Noise-free sidelobes are
+    /// then compared with the whole row's floor, not with 16 neighbouring sidelobes (D8a row 3).
+    Row,
 }
 
 impl CfarConfig {
@@ -537,11 +555,35 @@ impl CfarConfig {
             guard_lags,
             stride_lags: (spec.fs_hz / code.chip_rate_hz()).ceil() as usize + 1,
             pfa_cell,
+            reference: CfarReference::Window,
         }
     }
 
+    /// The same settings with the reference-cell set `reference`.
+    pub fn with_reference(self, reference: CfarReference) -> Self {
+        Self { reference, ..self }
+    }
+
+    /// The reference-cell offsets `guard_lags + k·stride_lags` (each used on both sides) for a
+    /// period of `len` lags.
+    fn offsets(&self, len: usize) -> Vec<usize> {
+        let d = |k: usize| self.guard_lags + k * self.stride_lags;
+        match self.reference {
+            CfarReference::Window => (1..=self.reference_cells / 2).map(d).collect(),
+            CfarReference::Row => (1..).map(d).take_while(|&o| o < len - o.min(len)).collect(),
+        }
+    }
+
+    /// The number of reference cells `N` for a period of `len` lags.
+    pub fn n_ref(&self, len: usize) -> usize {
+        2 * self.offsets(len).len()
+    }
+
     fn check(&self, samples_per_period: usize) -> Result<(), String> {
-        let n = self.reference_cells;
+        let n = match self.reference {
+            CfarReference::Window => self.reference_cells,
+            CfarReference::Row => self.n_ref(samples_per_period),
+        };
         if n < 2 || !n.is_multiple_of(2) {
             return Err(crate::terr!("e-iq-acq-cfar-reference-cells-must-be", n = n));
         }
@@ -555,7 +597,7 @@ impl CfarConfig {
             ));
         }
         let reach = self.guard_lags + (n / 2) * self.stride_lags;
-        if 2 * reach >= samples_per_period {
+        if self.reference == CfarReference::Window && 2 * reach >= samples_per_period {
             return Err(crate::terr!(
                 "e-iq-acq-cfar-window-reaches-lags-each",
                 reach = reach,
@@ -566,15 +608,13 @@ impl CfarConfig {
     }
 
     /// The mean of the reference cells of lag `lag` in `row` (one period of lags).
-    fn reference_mean(&self, row: &[f64], lag: usize) -> f64 {
+    fn reference_mean(&self, row: &[f64], offsets: &[usize], lag: usize) -> f64 {
         let len = row.len();
-        let half = self.reference_cells / 2;
         let mut sum = 0.0;
-        for k in 1..=half {
-            let d = self.guard_lags + k * self.stride_lags;
+        for &d in offsets {
             sum += row[(lag + d) % len] + row[(lag + len - d % len) % len];
         }
-        sum / self.reference_cells as f64
+        sum / (2 * offsets.len()) as f64
     }
 }
 
@@ -635,9 +675,10 @@ pub struct CfarResult {
 pub fn ca_cfar(grid: &AcqGrid, cfg: &AcqConfig, cfar: &CfarConfig) -> Result<CfarResult, String> {
     let r = &grid.result;
     cfar.check(r.samples_per_period)?;
-    let alpha = ca_cfar_alpha(cfar.pfa_cell, cfar.reference_cells, cfg.noncoherent);
     let row = &grid.grid[r.doppler_index];
-    let peak_ratio = row[r.delay_samples] / cfar.reference_mean(row, r.delay_samples);
+    let offsets = cfar.offsets(row.len());
+    let alpha = ca_cfar_alpha(cfar.pfa_cell, 2 * offsets.len(), cfg.noncoherent);
+    let peak_ratio = row[r.delay_samples] / cfar.reference_mean(row, &offsets, r.delay_samples);
     Ok(CfarResult {
         alpha,
         peak_ratio,
@@ -655,13 +696,14 @@ pub fn ca_cfar_cells(
     cfar: &CfarConfig,
 ) -> Result<Vec<Vec<bool>>, String> {
     cfar.check(grid.result.samples_per_period)?;
-    let alpha = ca_cfar_alpha(cfar.pfa_cell, cfar.reference_cells, cfg.noncoherent);
+    let offsets = cfar.offsets(grid.result.samples_per_period);
+    let alpha = ca_cfar_alpha(cfar.pfa_cell, 2 * offsets.len(), cfg.noncoherent);
     Ok(grid
         .grid
         .iter()
         .map(|row| {
             (0..row.len())
-                .map(|l| row[l] > alpha * cfar.reference_mean(row, l))
+                .map(|l| row[l] > alpha * cfar.reference_mean(row, &offsets, l))
                 .collect()
         })
         .collect())
