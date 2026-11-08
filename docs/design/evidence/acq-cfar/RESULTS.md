@@ -80,3 +80,11 @@ C4 bar and asserts its recorded verdict;
 
 Ordered-statistic and greatest-of CFAR variants, two-dimensional reference windows, band-limited
 front ends, and the tracking hand-off's detector (unchanged).
+
+## Re-run with the reference set over the whole row (D8a row 3, 2026-11-08)
+
+Under `docs/design/evidence/d8a-iq-tracking-cn0-rerun/PREREGISTRATION.md` (row 3), the opt-in `CfarReference::Row`
+(every stride-th lag round the whole Doppler row, `N` = 622) was scored once against C2 to C5 as registered, on the
+registered inputs and fresh ones (seeds plus 100 000; four fresh C4 signals). C4 is **MET on re-run** on all five
+signals (0, 3, 4, 0 and 0 of 2495 off-peak cells above, against 1 %), and C1, C2, C3 and C5 hold. Finding F1 stands as
+the record of the registered 16-cell window, which stays the default. Details: the D8a `RESULTS.md`.
