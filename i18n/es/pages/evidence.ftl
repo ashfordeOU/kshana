@@ -6281,14 +6281,14 @@ seg-3df9e327c036 = Modeladas { "221" }
 
 seg-7fa6f2e0de57 = Registro de validación, { "401" } filas, con desplazamiento
 
-seg-0b884f17b0f2 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-b4f766f66bdb = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-fd83e8666041 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-0dbc7d4822b9 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-9cf103c9cb54 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-d3eca6ae67fc = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-8e6705edeb6a = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
+seg-629f069ed3e7 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
 
-seg-3f8669a1465b = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-f4ca37eb4f6d = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-8aabe2e98c52 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-5313db6b0f2a = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla

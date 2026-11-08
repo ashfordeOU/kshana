@@ -1,0 +1,14 @@
+# A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the
+# Baltic Sea for 2 days at a 60 s step (fast; for the full pre-registered run see
+# tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED.
+kind = "tip-and-cue"
+title = "Two-layer survey over the Baltic Sea, 2 days"
+step_s = 60
+span_days = 2
+
+[[cases]]
+name = "rf-16-optical-16"
+rf = { total = 16, planes = 8, phasing = 1, node_offset = 0.0 }
+rf_mask_deg = 10.0
+optical = { total = 16, planes = 8, phasing = 1, node_offset = 0.5 }
+optical_off_nadir_deg = 45.0

@@ -770,8 +770,8 @@ seg-579d9b6f7afd = Alla { "93" } scenariotyper, gratis och utan funktionsspärr,
 
 seg-56bf1281e330 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "53" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-74e443a965d8 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-351fab28c16d = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
 
-seg-0dfbf0d5864b = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-414ba03a1362 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-08f9e715b4cb = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-fc1e7a222c6b = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }

@@ -1139,8 +1139,8 @@ seg-579d9b6f7afd = Les { "93" } types de scénario, gratuits et sans restriction
 
 seg-56bf1281e330 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "53" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
 
-seg-74e443a965d8 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+seg-351fab28c16d = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
 
-seg-0dfbf0d5864b = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+seg-414ba03a1362 = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
 
-seg-08f9e715b4cb = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+seg-fc1e7a222c6b = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
