@@ -22,6 +22,10 @@ breaking changes are called out explicitly.
   the digits written: that conversion is a second rounding of at most one ulp. The `flight-dynamics` workflow runs the
   notebooks, checks that the command line and Python write the same bytes, and runs `kshana connect check`. Basilisk
   2.12.2, through the SPICE Toolkit it ships, reads the SPK's 4,321 stored records and epochs with the written bits.
+- ANISE 0.10.6, the fourth, file-based C7 tool (`integrations/flight-dynamics/anise.ipynb`): its own kernel reader evaluates
+  Kshana's SPK, and its OEM conversion, at every node epoch no further from the written states than SPICE does (1.46e-11 km).
+  It reads SPK epochs as SPICE ET and OEM `TDB` labels with hifitime's TDB model, 3.2 µs apart here; the notebook shows why
+  the scale matters.
 - RTCM SSR reader (`kshana::rtcm_ssr`) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code
   bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
   field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds

@@ -12,8 +12,8 @@ bar: the data either comes through or it does not.
 |---|---|---|---|---|
 | Orekit 13.1.9 (orekit_jpype 13.1.9.0) | [`orekit_reader.py`](orekit_reader.py) | [`orekit.ipynb`](orekit.ipynb) ([`.md`](orekit.md)) | OEM, OPM | `flight-dynamics.yml`, job `tool (orekit)` |
 | Basilisk 2.12.2 (`bsk`), through the SPICE Toolkit it ships (`pyswice`) | [`basilisk_reader.py`](basilisk_reader.py) | [`basilisk.ipynb`](basilisk.ipynb) ([`.md`](basilisk.md)) | SPK | `flight-dynamics.yml`, job `tool (basilisk)` |
+| ANISE 0.10.6 (the fourth, file-based tool: its own kernel reader, not SPICE) | [`anise_reader.py`](anise_reader.py) | [`anise.ipynb`](anise.ipynb) ([`.md`](anise.md)) | SPK, OEM | `flight-dynamics.yml`, job `tool (anise)` |
 | GMAT | to come | | OEM, SPK | |
-| A fourth open tool, file-based | to come | | | |
 
 [`kshana_fd.py`](kshana_fd.py) holds what every tool shares: writing the three files through the
 Python binding (their SHA-256 must be the pinned ones, and the command line's bytes when
@@ -34,6 +34,12 @@ For every file a tool reads, value by value:
 
 A file is **carried** when every value is the written double, or the tool's own conversion of it,
 and every epoch is the written one.
+
+Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For
+those, the states at the node epochs are compared with the written states, beside SPICE's own
+evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written
+one and no state is further from the written one than SPICE's evaluation is. The report marks these
+rows "evaluated, not read".
 
 ## Results
 
@@ -58,6 +64,19 @@ Basilisk, run locally:
 Basilisk's SPICE reads the segment as written: target -1176, centre 301, frame 1 (J2000), type 13.
 Every stored record and epoch has the written bits.
 
+ANISE, run locally:
+
+| File | How ANISE reads it | Node states with the written bits | Worst at the nodes | SPICE on the same states |
+|---|---|---|---|---|
+| SPK, type 13 | its own SPK reader, at the nodes as ET | 25,828 of 25,926 values | 1.46e-11 km, 4.94e-15 km/s | 1.46e-11 km, 4.97e-15 km/s |
+| OEM | converted to an SPK of type 9, at the nodes as TDB | 25,831 of 25,926 values | 1.46e-11 km, 1.11e-16 km/s | (as above) |
+
+ANISE carries both files, no further from the written states than SPICE is. Time scales matter
+here. ANISE reads an SPK's epochs as SPICE ephemeris time (ET), but reads an OEM's
+`TIME_SYSTEM = TDB` labels with hifitime's TDB model. The same label falls 3.2 µs apart on the
+two scales at the first node. Evaluating the SPK at the TDB reading of the labels moves the states
+by up to 3.3e-6 km. The notebook shows this.
+
 ## Run
 
 ```sh
@@ -65,6 +84,8 @@ pip install kshana -r integrations/flight-dynamics/requirements-orekit.txt   # J
 python integrations/flight-dynamics/run_notebooks.py orekit
 pip install -r integrations/flight-dynamics/requirements-basilisk.txt
 python integrations/flight-dynamics/run_notebooks.py basilisk
+pip install -r integrations/flight-dynamics/requirements-anise.txt
+python integrations/flight-dynamics/run_notebooks.py anise
 ```
 
 `OREKIT_DATA` names an orekit-data directory or zip. Without it, the adapter fetches orekit-data at
