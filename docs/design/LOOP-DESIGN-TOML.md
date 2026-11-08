@@ -300,7 +300,9 @@ So it lowers the floor in most runs but not reliably, and its pre-registered bar
 hand-over forced by the cap, the carrier filter's frequency is set to the mean NCO Doppler over the
 last this-many seconds of the pull-in (its frequency rate to zero), so the PLL starts from a
 smoothed frequency instead of the FLL's instantaneous one. Unset by default and omitted from the
-hash then. Scored under D8a row 4 (`xval/d8a-fll-handover-seed/`).
+hash then. Measured with the 1.0 s cap and a 0.5 s mean (D8a row 4): at 33 dB-Hz every one of
+40 runs hands over and holds, with phase jitter within 1 % of the PLL alone; at 31 dB-Hz only 21
+of 40 do, and at 29 dB-Hz none. It moves the floor to about 33 dB-Hz, not below.
 
 With `reacquire` off (the built-in default) the state machine only observes. The loops run
 bit for bit as without it (tested), and a `LOST` channel returns to `LOCKED`

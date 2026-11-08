@@ -6,7 +6,12 @@
 //! of `xval/d8a-fll-handover-seed/` (committed before the change). The control is
 //! `tests/iq_fll_handover_floor.rs::the_committed_results_reproduce` (release, ignored).
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08, release): NOT MET. Met at 33 dB-Hz (20 of 20 hold, sigma
+//! within 1 % of the PLL alone, seen and fresh), missed at 31 dB-Hz (15 and 6 of 20)
+//! (`docs/design/evidence/d8a-iq-tracking-cn0-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: the per-run statistics of the scored run (`tests/fixtures/fll_handover_seed/
+//! results.csv`) and the verdict of D0, D2 and D3 on them. PIN-EXCLUDES: output hashes.
 
 use kshana::iq::cli::build_code;
 use kshana::iq::track::design::DesignFile;
@@ -265,8 +270,9 @@ fn development_runs() {
 }
 
 /// The scored run: D0, D2 and D3 on the seen (k = 1..10) and fresh (k = 100 001..100 010) seeds.
+/// Its per-run lines are `tests/fixtures/fll_handover_seed/results.csv`.
 #[test]
-#[cfg_attr(debug_assertions, ignore = "D8a row 4 survey: release")]
+#[ignore = "FINDING (run 2026-11-08, D8a row 4): NOT MET at 31 dB-Hz. At 33 dB-Hz the seeded hand-over holds in 20 of 20 runs on the seen and on the fresh seeds, with mean sigma within 1 % of the PLL alone (D2 and D3 met there). At 31 dB-Hz 15 of 20 (seen) and 6 of 20 (fresh) hold, mean sigma 15.28 / 8.42 and 23.94 / 8.51 deg. D0, D1 and D4 met. Graded from the committed results by the_committed_scored_run_gives_the_recorded_verdict; release, --ignored, re-runs it"]
 fn d0_d2_d3_seen_and_fresh() {
     let mut miss = Vec::new();
     for (label, ks) in [
@@ -387,4 +393,52 @@ fn d1_the_key_is_part_of_the_hash_only_when_set() {
     ] {
         assert!(parse(bad).is_err(), "accepted: {bad}");
     }
+}
+
+const SCORED: &str = include_str!("fixtures/fll_handover_seed/results.csv");
+
+/// The committed scored run graded with the registered bars gives the recorded verdict.
+#[test]
+fn the_committed_scored_run_gives_the_recorded_verdict() {
+    let rows: Vec<Vec<&str>> = SCORED
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+        .map(|l| l.split(',').collect())
+        .collect();
+    assert_eq!(rows.len(), 180);
+    let f = |r: &Vec<&str>, i: usize| r[i].parse::<f64>().unwrap();
+    let mut verdict = Vec::new();
+    for set in ["seen", "fresh"] {
+        let pick = |d: &str, cn0: f64| -> Vec<&Vec<&str>> {
+            rows.iter()
+                .filter(|r| r[0] == set && r[1] == d && f(r, 2) == cn0)
+                .collect()
+        };
+        let stuck = pick("default", 33.0).iter().filter(|r| r[9] == "1").count();
+        let mut v = vec![stuck];
+        for cn0 in [31.0, 33.0] {
+            let held = pick("seeded", cn0)
+                .iter()
+                .filter(|r| f(r, 8) == 0.0 && f(r, 5) >= 0.95 && r[6] == "0")
+                .count();
+            let mean = |d: &str| {
+                let v: Vec<f64> = pick(d, cn0)
+                    .iter()
+                    .filter(|r| f(r, 3) == DOPPLER)
+                    .map(|r| f(r, 7))
+                    .collect();
+                v.iter().sum::<f64>() / v.len() as f64
+            };
+            let ratio = mean("seeded") / mean("pll-only");
+            v.push(held);
+            v.push(usize::from((ratio - 1.0).abs() <= 0.25));
+        }
+        verdict.push(v);
+    }
+    // (D0 stuck of 10, D2 held at 31 of 20, D3 at 31 met, D2 held at 33, D3 at 33 met).
+    assert_eq!(
+        verdict,
+        [[9, 15, 0, 20, 1], [10, 6, 0, 20, 1]],
+        "the recorded verdict moved"
+    );
 }

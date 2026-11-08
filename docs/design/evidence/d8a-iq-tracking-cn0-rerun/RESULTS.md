@@ -4,6 +4,43 @@
 Each row reports on its own, against the pre-registration in this directory (signed off on 3 November 2026). Rows are
 added as they are scored.
 
+## Row 4. `VM-bdfec2e4`: the capped FLL pull-in, with the forced hand-over seeded by a smoothed frequency
+
+- **Readings:** `xval/d8a-fll-handover-seed/README.md`, committed at 2552a8738 before the engine change. Its reading 7
+  development runs (seeds k = 1001 to 1010) were made and recorded before the scored run (4933232c9); no reading was
+  changed after them.
+- **The change (one, to the hand-over logic):** `[design.carrier] fll_handover_mean_s` (`LoopConfig::
+  fll_handover_mean_s`). At a hand-over forced by `fll_pull_in_max_s`, the carrier filter's frequency is set to the mean
+  NCO Doppler over the pull-in's last `fll_handover_mean_s` seconds. Opt-in; out of the design hash when unset. Scored
+  design "seeded": cap 1.0 s, mean over 0.5 s.
+- **Run:** once, 2026-11-08, in release (`tests/iq_fll_handover_seed.rs`, 180 runs, 271 s). Per-run statistics:
+  `tests/fixtures/fll_handover_seed/results.csv`.
+
+| bar | seen (k = 1 to 10) | fresh (k = 100 001 to 100 010) | verdict |
+|---|---|---|---|
+| Control (registered survey, no seeding) | reproduces `fll_handover_floor/results.csv` exactly | | reproduces |
+| D0 (the limit is there) | default FLL still on at the end in 9 of 10 | 10 of 10 | MET |
+| D1 (additivity) | default hash unchanged; the key in the canonical form only when set; invalid uses refused | | MET |
+| D2 at 33 dB-Hz (all 20 hand over and hold) | **20 of 20** | **20 of 20** | MET |
+| D2 at 31 dB-Hz | 15 of 20 | 6 of 20 | **NOT MET** |
+| D3 at 33 dB-Hz (σ within 25 % of the PLL alone) | 6.073° / 6.056° (ratio 1.003) | 6.078° / 6.043° (1.006) | MET |
+| D3 at 31 dB-Hz | 15.281° / 8.420° (1.815) | 23.939° / 8.505° (2.815) | **NOT MET** |
+| D4 (100 Hz-off pull-in at 45 dB-Hz) | LOCKED, no false lock or timeout, within 5 Hz | | MET |
+| 29 dB-Hz (reported, not graded) | 0 of 20 hold | 0 of 20 hold | |
+
+**Verdict: NOT MET** (D2 and D3 at 31 dB-Hz). At 33 dB-Hz the change takes the capped design from 16 of 20 runs holding
+(0.40) to 20 of 20 on the seen and the fresh seeds, with phase jitter within 1 % of the PLL alone, so that half of D2 and
+D3 is met on re-run.
+
+What the result says about F3 (the 0.40 hypothesis): at 33 dB-Hz a smoothed frequency at the hand-over is enough, which
+supports it there. At 31 dB-Hz it is not: the failing runs return to the FLL for one to three 1 s spells, as in 0.40,
+and the seen and fresh seeds differ widely (15 and 6 of 20). A 0.5 s mean of the FLL's frequency is still too noisy at
+31 dB-Hz, or the PLL's PLI does not reach `fll_off_pli` within the return dwell for another reason; this run does not
+separate the two. Development runs (14 of 20 at 31 dB-Hz) pointed the same way; nothing was tuned on them.
+
+Pins: `tests/iq_fll_handover_seed.rs` (`the_committed_scored_run_gives_the_recorded_verdict` grades the committed
+per-run results; the strict survey is ignored with these numbers).
+
 ## Row 3. `VM-f5e2ce4e`: cell-averaging CFAR in IQ acquisition, with the reference set over the whole row
 
 - **Readings, study and oracle:** `xval/d8a-cfar-reference/` (README readings 1 to 7, `dev_study.py` and its output,
