@@ -312,13 +312,14 @@ pub mod geodesic;
 pub mod governor;
 pub mod interference_map;
 pub mod live_health;
+/// The monitoring-network planner (0.41 row B1a): `kshana planner`.
+pub mod locate_pd;
 pub mod n2k;
 pub mod nmea_synth;
 pub mod ntrip;
 pub mod obs;
 pub mod obs_live;
 pub mod par;
-/// The monitoring-network planner (0.41 row B1a): `kshana planner`.
 pub mod planner;
 mod portable_distr;
 mod portable_distr_tables;
