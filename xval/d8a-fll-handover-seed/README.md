@@ -37,3 +37,12 @@ readings are committed **before any engine code** for the change and before any 
    seeds k = 1001 to 1010 (31 and 33 dB-Hz, both hand-offs) to check the implementation. Their numbers are recorded with
    the result. If they lead to any change of reading 1 or 2, the change is written here as an amendment, before the
    scored run.
+
+## Development runs (made before the scored run, as reading 7 allows)
+
+Run once in release on 2026-11-08, design "seeded" as fixed in reading 2, seeds k = 1001 to 1010:
+- 33 dB-Hz: 20 of 20 runs hand over and hold; mean σ seeded 6.213° against pll-only 6.184°.
+- 31 dB-Hz: 14 of 20 hold (the six others return to the FLL for one to three 1 s spells); mean σ 15.676° against
+  8.419°.
+The control was run at the same time: the registered survey reproduces `results.csv` exactly. **No reading was
+changed** after these runs; the scored run uses `fll_handover_mean_s = 0.5` as fixed above.
