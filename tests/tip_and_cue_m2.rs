@@ -79,3 +79,81 @@ fn b0_access_intervals_match_the_independent_oracle() {
     eprintln!("M2-B0: {n} intervals, worst difference {worst} s");
     assert!(n > 1_000);
 }
+
+const RESULT: &str = include_str!("../xval/m2-revisit-tip-and-cue/m2_result.json");
+
+/// Minutes of a figure of a case in the committed run.
+fn minutes(doc: &Value, case: &str, fig: &str) -> f64 {
+    doc["cases"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|c| c["case"]["name"] == case)
+        .unwrap_or_else(|| panic!("{case}"))[fig]["value_s"]
+        .as_f64()
+        .unwrap()
+        / 60.0
+}
+
+/// M2-B1 and M2-B2 as recorded in `docs/design/evidence/m2-revisit-tip-and-cue/RESULTS.md`, from the
+/// committed run (`cargo run --release --example m2_tip_and_cue`). The windows are the signed bars;
+/// each verdict below is asserted as found, misses included.
+#[test]
+fn b1_and_b2_verdicts_are_the_recorded_ones() {
+    let d: Value = serde_json::from_str(RESULT).unwrap();
+    assert_eq!(d["points"], 996);
+    let within = |v: f64, published: f64, tol: f64| (v - published).abs() <= tol * published;
+    // (figure, published 16, published 32, consistent 16, consistent 32)
+    for (fig, p16, p32, c16, c32) in [
+        ("revisit", 20.0, 10.0, true, false),
+        ("full_refresh", 39.0, 18.0, false, false),
+        ("reaction", 15.0, 7.0, false, false),
+    ] {
+        let k16 = minutes(&d, "primary-16", fig);
+        let k32 = minutes(&d, "primary-32", fig);
+        assert_eq!(
+            within(k16, p16, 0.25),
+            c16,
+            "B1 {fig} 16: {k16:.2} min vs {p16}"
+        );
+        assert_eq!(
+            within(k32, p32, 0.25),
+            c32,
+            "B1 {fig} 32: {k32:.2} min vs {p32}"
+        );
+        // B2: every ratio NOT consistent with the published one.
+        assert!(
+            !within(k16 / k32, p16 / p32, 0.15),
+            "B2 {fig}: {}",
+            k16 / k32
+        );
+    }
+    // The recorded values themselves, to the hundredth of a minute.
+    for (case, fig, want) in [
+        ("primary-16", "revisit", 23.97),
+        ("primary-32", "revisit", 22.92),
+        ("primary-16", "full_refresh", 14.84),
+        ("primary-32", "full_refresh", 12.95),
+        ("primary-16", "reaction", 23.09),
+        ("primary-32", "reaction", 12.99),
+        ("V1-32-8x4", "revisit", 13.60),
+    ] {
+        assert!(
+            (minutes(&d, case, fig) - want).abs() < 0.005,
+            "{case} {fig}"
+        );
+    }
+}
+
+/// The committed run is what the planner gives: one case recomputed in full (all 996 points, 7 days at
+/// 10 s). A few seconds in a release build (minutes in a debug one), so it runs on request:
+/// `cargo test --release --test tip_and_cue_m2 -- --ignored`.
+#[test]
+#[ignore = "a few seconds in release; recomputes primary-16 of the committed M2 run"]
+fn the_committed_run_reproduces() {
+    use kshana::tip_and_cue::{baltic_points, m2_cases, run, Grid};
+    let d: Value = serde_json::from_str(RESULT).unwrap();
+    let r = run(&m2_cases()[..1], &baltic_points(), Grid::default()).unwrap();
+    let got = serde_json::to_value(&r[0]).unwrap();
+    assert_eq!(got, d["cases"][0]);
+}
