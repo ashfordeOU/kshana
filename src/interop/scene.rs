@@ -424,6 +424,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::TelecomTiming
         | K::HoldoverTest
         | K::MissionThread
+        | K::TipAndCue
         | K::SlotTiming
         | K::Spectrum => no_position,
         K::LeoPass | K::LeoPntChain => return None,

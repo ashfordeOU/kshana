@@ -30,8 +30,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 988,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar and mission-thread kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs)"
+   "count": 992,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs)"
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -346,8 +346,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/fom_label.rs": {
-   "count": 463,
-   "reason": "identifier: the crosswalk of kinds to matrix requirement text, matched by equality, and the result-JSON field paths of the figures of merit; the mission-thread entry adds its paths and one tier statement that is written into JSON"
+   "count": 465,
+   "reason": "identifier: the crosswalk of kinds to matrix requirement text, matched by equality, and the result-JSON field paths of the figures of merit; the mission-thread entry adds its paths and one tier statement that is written into JSON; the tip-and-cue entry adds one tier statement"
   },
   "src/frame_eop.rs": {
    "count": 14,
@@ -1346,8 +1346,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/registry.rs": {
-   "count": 69,
-   "reason": "identifier: kind ids and TOML section names of the registry; the new lunar and mission-thread kinds add their ids"
+   "count": 70,
+   "reason": "identifier: kind ids and TOML section names of the registry; the new lunar, mission-thread and tip-and-cue kinds add their ids"
   },
   "src/report.rs": {
    "count": 30,

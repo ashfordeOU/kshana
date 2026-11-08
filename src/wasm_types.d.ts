@@ -98,7 +98,8 @@ export type ScenarioKind =
   | "optical-atmosphere"
   | "holdover-test"
   | "gnss-ssv"
-  | "mission-thread";
+  | "mission-thread"
+  | "tip-and-cue";
 
 /** The failure category `error_kind` returns (`""` on success). */
 export type ErrorKind = "invalid_input" | "non_convergence" | "unsupported" | "io_error";

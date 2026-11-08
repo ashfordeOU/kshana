@@ -814,6 +814,8 @@ pub enum ScenarioKind {
     GnssSsv,
     /// The navigation and timing error budget of a chain of mission phases, from launch to entry (`mission-thread`).
     MissionThread,
+    /// Revisit, full-area refresh and RF-to-optical reaction of a two-layer survey (`tip-and-cue`).
+    TipAndCue,
 }
 
 impl ScenarioKind {
@@ -912,6 +914,7 @@ impl ScenarioKind {
             ScenarioKind::HoldoverTest => "holdover-test",
             ScenarioKind::GnssSsv => "gnss-ssv",
             ScenarioKind::MissionThread => "mission-thread",
+            ScenarioKind::TipAndCue => "tip-and-cue",
         }
     }
 
@@ -1014,6 +1017,7 @@ impl ScenarioKind {
             "holdover-test" => ScenarioKind::HoldoverTest,
             "gnss-ssv" => ScenarioKind::GnssSsv,
             "mission-thread" => ScenarioKind::MissionThread,
+            "tip-and-cue" => ScenarioKind::TipAndCue,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -1235,6 +1239,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "holdover-test", description: "MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). The test has four steps and Kshana performs none of them: a locked BASELINE, GNSS REMOVED by the operator (the antenna cable or the simulator output; Kshana transmits and drives nothing) at a stated time, HOLDOVER on the system's own oscillator, and RECOVERY after the operator restores GNSS at a second stated time. The record is split at those two times. Baseline: time-error statistics and the ITU-T masks written for a locked clock. Holdover: statistics, the fractional frequency offset the system held (a least-squares line), the masks written for holdover or an autonomous clock, the ePRTC-A holdover envelope from the stated locked duration, and the time to exceed each time-error budget. Recovery: whether and when |TE| came inside a stated band and stayed there, the peak and the largest step. Every limit is transcribed from a public ITU-T table (the telecom-timing masks); the words are 'measured against the mask', and the two times are the operator's statement, not verified. A record too short for a mask is INCOMPLETE, never extrapolated. See docs/TIMING-HIL.md.", required_fields: &["test", "series"], optional_fields: &["masks", "budgets"] },
         ScenarioMeta { name: "gnss-ssv", description: "MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)", required_fields: &["shell|trajectory|navigation"], optional_fields: &["name", "constellations", "transmit", "receiver", "atmosphere", "formation"] },
         ScenarioMeta { name: "mission-thread", description: "MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.", required_fields: &["epoch_utc", "entry", "phase"], optional_fields: &["kind", "title", "seed", "moon_kernel_path", "ground_network"] },
+        ScenarioMeta { name: "tip-and-cue", description: "MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation.", required_fields: &[], optional_fields: &["kind", "title", "seed", "area", "step_s", "span_days", "m2", "cases"] },
     ]
 }
 
@@ -2325,6 +2330,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         }
         ScenarioKind::MissionThread => {
             builtins::run_builtin::<crate::mission_thread::scenario::MissionThreadScenario>(src)
+        }
+        ScenarioKind::TipAndCue => {
+            builtins::run_builtin::<crate::tip_and_cue::TipAndCueScenario>(src)
         }
         ScenarioKind::LeoNavmsg => {
             builtins::run_builtin::<crate::leo_navmsg::LeoNavmsgScenario>(src)

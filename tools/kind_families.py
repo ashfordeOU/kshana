@@ -35,6 +35,7 @@ FAMILIES = [
       "acm-link", "contact-schedule", "aperture-duty-cycle", "space-packet", "oem-interop"]),
     ("Mission threads", ("docs/MISSION-THREAD.md", "docs/MISSION-THREAD-LUNAR.md"), "kshana scenarios/mission-thread-artemis-class.toml", ["mission-thread"]),
     ("Campaigns", ("docs/CAMPAIGNS.md",), "kshana scenarios/campaign-jam-spoof-holdover-integrity.toml", ["campaign"]),
+    ("Space RF survey", ("docs/TIP-AND-CUE.md",), "kshana scenarios/tip-and-cue-baltic-m2.toml", ["tip-and-cue"]),
 ]
 
 
@@ -56,5 +57,6 @@ BLURB = {
     "Optical PNT": "optical links through the atmosphere and optical-plus-RF figures of merit",
     "Mission analysis, links and space operations": "launch, ascent, entry, attitude, links, contact planning and file formats",
     "Mission threads": "the navigation and timing error budget of a chain of phases from launch to entry",
+    "Space RF survey": "how often a wide-area RF survey revisits a sea area and how soon it can cue an optical look",
     "Campaigns": "chained missions, sweeps and ensembles built from the other kinds",
 }
