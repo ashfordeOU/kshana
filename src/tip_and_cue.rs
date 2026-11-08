@@ -726,7 +726,9 @@ fn svg(results: &[CaseResult]) -> String {
         .fold(60.0f64, f64::max)
         / 60.0;
     let mut s = format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" font-family=\"sans-serif\" font-size=\"11\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\" font-family=\"{}\" font-size=\"11\" fill=\"{}\">",
+        crate::palette::chart::FONT_SANS,
+        crate::palette::chart::TEXT
     );
     s.push_str(&format!(
         "<text x=\"8\" y=\"18\" font-size=\"13\">{}</text>",
@@ -740,9 +742,9 @@ fn svg(results: &[CaseResult]) -> String {
             esc(&r.case.name)
         ));
         for (k, (f, tag, colour)) in [
-            (&r.revisit, "R", "#4C78A8"),
-            (&r.full_refresh, "F", "#F58518"),
-            (&r.reaction, "Q", "#54A24B"),
+            (&r.revisit, "R", crate::palette::chart::SERIES[0]),
+            (&r.full_refresh, "F", crate::palette::chart::SERIES[1]),
+            (&r.reaction, "Q", crate::palette::chart::SERIES[2]),
         ]
         .into_iter()
         .enumerate()

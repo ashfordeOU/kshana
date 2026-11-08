@@ -201,6 +201,10 @@
    "count": 4,
    "reason": "identifier: the JSON keys of the M4 metrics document (machine document)"
   },
+  "src/m5_hybrid.rs": {
+   "count": 5,
+   "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
