@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Стан безперервної інтеграції на main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Покриття рядків близько 95 % для src/, виміряне в docs/COVERAGE.md і з порогом 85 % у безперервній інтеграції"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F401-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 із 401 можливостей VALIDATED за незалежним зовнішнім оракулом, з матриці верифікації"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 із 405 можливостей VALIDATED за незалежним зовнішнім оракулом, з матриці верифікації"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Стан порогу якості SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Випуск v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Англійська та ще 17 мов, машинний переклад"></a>
@@ -118,7 +118,7 @@ Kshana відтворює глушіння, спуфінг і holdover годи�
 
 0.40 додає бюджет похибки на рівні місії, позначає кожен рисунок і таблицю рівнем доказів, читає журнали виміряних годинників,
 перевіряє подання від партнерів із даних, оцінює, де може бути джерело завад, і говорить сімнадцятьма мовами, крім англійської.
-Реєстр тепер має 401 рядок: 176 VALIDATED, 221 MODELLED, 4 PARTNER. Жоден рядок не підвищено до VALIDATED, і кожен промах нижче
+Реєстр тепер має 405 рядків: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Жоден рядок не підвищено до VALIDATED, і кожен промах нижче
 закріплено тестом.
 
 - **Нитка місії.** Вид `mission-thread` поєднує фази від запуску до входу в атмосферу (`launch-ascent`, `leo-rendezvous`,
@@ -1031,7 +1031,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 перевірено за всіма 666 еталонними векторами AIAA 2006-6753, найгірша похибка положення 4.12 mm"></a></p>
 
-<strong>176 із 401</strong> можливостей перевірено за незалежними зовнішніми оракулами; 221 чесно позначено Modelled.
+<strong>176 із 405</strong> можливостей перевірено за незалежними зовнішніми оракулами; 225 чесно позначено Modelled.
 Кожен рядок матриці верифікації називає можливість, оракул, за яким її перевіряють,
 тест, що виконує перевірку, і позначку, що з цього випливає. Безперервна інтеграція (CI) унеможливлює
 назвати можливість VALIDATED без незалежного зовнішнього оракула.
@@ -1039,13 +1039,13 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Як можливість заробляє свою позначку. Кожен рядок матриці верифікації називає можливість, оракул, за яким її перевіряють, тест, що виконує перевірку в безперервній інтеграції, і позначку, що з цього випливає. Рядок може бути VALIDATED лише з незалежним зовнішнім оракулом; інакше він MODELLED або PARTNER, коли ним володіє апаратний партнер. Приклад: SGP4/SDP4, Cowell 6-DOF + збурення, пакетне/послідовне OD, оракул — вектори верифікації SGP4 AIAA 2006-6753, тест tests/sgp4_verification.rs, позначка VALIDATED. Поточні кількості: 176 VALIDATED, 221 MODELLED, 4 PARTNER із 401 рядка. Загалом 176 можливостей перевірено за незалежними зовнішніми оракулами; ще 221 чесно позначено MODELLED, а 4 належать PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Як можливість заробляє свою позначку. Кожен рядок матриці верифікації називає можливість, оракул, за яким її перевіряють, тест, що виконує перевірку в безперервній інтеграції, і позначку, що з цього випливає. Рядок може бути VALIDATED лише з незалежним зовнішнім оракулом; інакше він MODELLED або PARTNER, коли ним володіє апаратний партнер. Приклад: SGP4/SDP4, Cowell 6-DOF + збурення, пакетне/послідовне OD, оракул — вектори верифікації SGP4 AIAA 2006-6753, тест tests/sgp4_verification.rs, позначка VALIDATED. Поточні кількості: 176 VALIDATED, 225 MODELLED, 4 PARTNER із 405 рядків. Загалом 176 можливостей перевірено за незалежними зовнішніми оракулами; ще 225 чесно позначено MODELLED, а 4 належать PARTNER." width="100%">
 </picture>
 
 | Позначка | Рядки | Значення |
 |---|---|---|
 | VALIDATED | 176 | погоджується незалежний зовнішній оракул: реальні дані, незалежна реалізація або опубліковані еталонні вектори |
-| MODELLED | 221 | перевірено за аналітичною істиною або самоузгодженістю симуляції, і про це сказано прямо |
+| MODELLED | 225 | перевірено за аналітичною істиною або самоузгодженістю симуляції, і про це сказано прямо |
 | PARTNER | 4 | належить апаратному партнерові; Kshana не має для неї оракула |
 
 Кілька перевірок: усі 666 векторів SGP4 (Simplified General Perturbations 4) AIAA (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 точними ефемеридами Європейського космічного агентства (ESA). Тести утримують покриття рядків близько 95 % для
 `src/`, з порогом 85 % у CI. Реєстр — це
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), згенерований з
-`src/verification.rs`: [повна матриця з 401 рядка](docs/VERIFICATION-MATRIX.md), а чому кожен
+`src/verification.rs`: [повна матриця з 405 рядків](docs/VERIFICATION-MATRIX.md), а чому кожен
 рядок Modelled не має зовнішнього оракула — у [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 ### Валідація коротко
 
 Кожен рядок забезпечується названим тестом у CI. Ця таблиця — **вибрані основні результати**;
-повна машинно перевірювана матриця має **401 рядок — 176 VALIDATED, 221 MODELLED, 4 PARTNER**
+повна машинно перевірювана матриця має **405 рядків — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
 (`src/verification.rs`), з повними доказами (і тим, що чесно *ще не*
 перевірено) в [`docs/VALIDATION.md`](docs/VALIDATION.md) і артефакті кожного випуску
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ Levels for Software Artifacts).
 | CI | Покриття тестами | **~95 % рядків** для `src/`, крім `src/*_data.rs` і `src/main.rs`, з порогом ≥ 85 % | cargo-tarpaulin (рушій LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Як можливість заробляє свою позначку: вимога відображається на модуль у src, на тест у tests, на зовнішній оракул (реальний набір даних, незалежна еталонна реалізація або опубліковані вектори), на статус — із запобіжником у CI, за яким жодна можливість не може бути Validated без зовнішнього оракула. Поточні кількості: 176 Validated, 221 Modelled, 4 Partner, загалом 401" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Як можливість заробляє свою позначку: вимога відображається на модуль у src, на тест у tests, на зовнішній оракул (реальний набір даних, незалежна еталонна реалізація або опубліковані вектори), на статус — із запобіжником у CI, за яким жодна можливість не може бути Validated без зовнішнього оракула. Поточні кількості: 176 Validated, 225 Modelled, 4 Partner, загалом 405" width="900">
   <br><sub>Як можливість заробляє свою позначку — інваріант, що забезпечується CI: немає зовнішнього оракула ⇒ не може бути Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ Levels for Software Artifacts).
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Статус верифікації для всіх 401 можливостей: 176 Validated (перевірено за зовнішнім оракулом), 221 Modelled, 4 належать Partner" width="780">
-  <br><sub>176 Validated · 221 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Статус верифікації для всіх 405 можливостей: 176 Validated (перевірено за зовнішнім оракулом), 225 Modelled, 4 належать Partner" width="780">
+  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ Rust, Python, WebAssembly і Kshana Studio, сервер MCP, образ Docker 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Архітектура Kshana: один відкритий рушій у центрі, kshana 0.40.0 за ліцензією AGPL-3.0, з api::run_toml, типізованим диспетчером для кожного виду, і реєстром верифікації з 401 можливості (176 VALIDATED, 221 MODELLED, 4 PARTNER). Навколо нього кожен інтерфейс запускає той самий рушій: командний рядок (cargo install kshana); бібліотека Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); сервер MCP (cargo install kshana-mcp); образ Docker (ghcr.io/ashfordeou/kshana-mcp); плагін JetBrains (Marketplace: &quot;Kshana&quot;). Під ним — Kshana Pro, пропрієтарна надбудова, що залежить від відкритого рушія як від бібліотеки, ніколи не створює його форк і не додає жодної фізичної моделі." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Архітектура Kshana: один відкритий рушій у центрі, kshana 0.40.0 за ліцензією AGPL-3.0, з api::run_toml, типізованим диспетчером для кожного виду, і реєстром верифікації з 405 можливостей (176 VALIDATED, 225 MODELLED, 4 PARTNER). Навколо нього кожен інтерфейс запускає той самий рушій: командний рядок (cargo install kshana); бібліотека Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); сервер MCP (cargo install kshana-mcp); образ Docker (ghcr.io/ashfordeou/kshana-mcp); плагін JetBrains (Marketplace: &quot;Kshana&quot;). Під ним — Kshana Pro, пропрієтарна надбудова, що залежить від відкритого рушія як від бібліотеки, ніколи не створює його форк і не додає жодної фізичної моделі." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ Rust, Python, WebAssembly і Kshana Studio, сервер MCP, образ Docker 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Архітектура Kshana за шарами. П'ять вхідних дверей (командний рядок, Python, JavaScript і WebAssembly, сервер MCP і плагін JetBrains) ведуть до одного api::run_toml, типізованого диспетчера для 92 видів. Під ним — вісім доменних шарів: час і системи відліку, годинники і синхронізація часу, інерціальна навігація і злиття, GNSS і цілісність, астродинаміка, LEO PNT, Місяць, Марс і далекий космос, а також місії і дослідження, на спільному ядрі, усі перехресно пов'язані модулем верифікації — машинно перевірюваною матрицею з 401 можливості, яка є єдиним джерелом істини для кожної позначки." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Архітектура Kshana за шарами. П'ять вхідних дверей (командний рядок, Python, JavaScript і WebAssembly, сервер MCP і плагін JetBrains) ведуть до одного api::run_toml, типізованого диспетчера для 92 видів. Під ним — вісім доменних шарів: час і системи відліку, годинники і синхронізація часу, інерціальна навігація і злиття, GNSS і цілісність, астродинаміка, LEO PNT, Місяць, Марс і далекий космос, а також місії і дослідження, на спільному ядрі, усі перехресно пов'язані модулем верифікації — машинно перевірюваною матрицею з 405 можливостей, яка є єдиним джерелом істини для кожної позначки." width="100%">
 </picture>
 
 **Один рушій, багато вхідних дверей.** Одне ядро на Rust (`kshana`) запускає кожен сценарій,
