@@ -71,3 +71,17 @@ A guard interval after each event, excluded from the negatives, would remove thi
 a new pre-registration. `r1_the_cn0_drop_roc_separates_6_db_attenuations` stays strict and is
 ignored with these values. R2 runs in the release CI job.
 
+
+## 4. Re-run with the window restart (D8b row 9, 2026-11-08)
+
+Under `docs/design/evidence/d8b-iq-timing-campaign-rerun/PREREGISTRATION.md` (row 9), the window scorer restarts the
+C/N0 CUSUM at each scored window's start (`[monitors] roc_restart`, default on; readings and oracle in
+`xval/d8b-roc-restart/`). R1's bar is unchanged.
+
+| bar | measured | verdict |
+|---|---|---|
+| R1 | `cn0_drop` AUC 1.0000 on seeds 300 to 305 and 1.0000 on fresh seeds 100 300 to 100 305 (18 positive, 36 negative windows each; `P_fa` 0.0 at `h = 5`) | **MET on re-run** |
+| R2 | seen: 0.5000, 0.5664, 0.6389; fresh: 0.5000, 0.6080, 0.5000 (`cn0_drop`, `sqm_delta`, `power_drop`) | MET |
+
+With `roc_restart = false` the campaign reproduces §3 exactly. The §3 result stands as the record of the scorer without
+the restart. Details and disclosures: `docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`.
