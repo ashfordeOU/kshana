@@ -6,8 +6,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/advanced_report.rs": {
-   "count": 495,
-   "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar and mission-thread kinds add rows), and report JSON keys"
+   "count": 497,
+   "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
   },
   "src/altpnt/sequential.rs": {
    "count": 22,
@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/cli.rs": {
-   "count": 47,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document"
+   "count": 49,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys)"
   },
   "src/bench/mod.rs": {
    "count": 39,
@@ -102,8 +102,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 201,
-   "reason": "bundled scenario file name mission-thread-short.toml (machine data, not user-facing text)"
+   "count": 203,
+   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2 and tip-and-cue-short (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
