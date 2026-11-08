@@ -24,6 +24,11 @@ its six amendments; the kinds were renamed after it was written, so the pre-regi
 
 A1, A2 and the pinned recorded verdicts are in `results_oracles.json` and `tests/mission_thread_lunar_oracles.rs`.
 
+**A2 re-run under C3 (8 November 2026), recorded beside A2 and not changing it.** With DE440 third bodies (model M1 of
+`docs/design/evidence/c3-capstone-nrho-force-model/`), W0 gives 21.66 km and 4.24 km (MET), but the three held-out
+windows miss the end-position bar (37.25, 36.23 and 49.65 km). By the C3 sign-off A2 is **not** recorded as met on
+re-run. A2 stays NOT MET.
+
 ## A1 and A2 in detail
 
 - **A1** (LRO, JPL Horizons `-85`, 2025-01-01 00:00 to 2025-01-02 00:00 UTC, 145 states, 144 comparisons): GL0660B to degree and
