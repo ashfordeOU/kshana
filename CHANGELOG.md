@@ -26,6 +26,13 @@ breaking changes are called out explicitly.
   Kshana's SPK, and its OEM conversion, at every node epoch no further from the written states than SPICE does (1.46e-11 km).
   It reads SPK epochs as SPICE ET and OEM `TDB` labels with hifitime's TDB model, 3.2 µs apart here; the notebook shows why
   the scale matters.
+- `[design.carrier] fll_handover_mean_s` (Rust `LoopConfig::fll_handover_mean_s`), with `fll_pull_in_max_s`: a forced
+  FLL-to-PLL hand-over starts the PLL at the mean NCO Doppler of the pull-in's last this-many seconds. Opt-in, out of the
+  design hash when unset. Scored under D8a row 4.
+- `iq::acq::CfarReference::Row` (`CfarConfig::with_reference`): CA-CFAR reference cells every stride-th lag round the
+  whole Doppler row. Opt-in; the 16-cell window stays the default. Scored under D8a row 3 (met).
+- `[monitors] roc_restart` (default on): the detection ROC scores each C/N0 CUSUM window as restarted at its start
+  (D8b row 9, met); a campaign's automatic C/N0 stride is now one NWPR window (D8b row 8).
 - RTCM SSR reader (`kshana::rtcm_ssr`) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code
   bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
   field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds

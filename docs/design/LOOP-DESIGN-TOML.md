@@ -46,6 +46,9 @@ fll_on_pli = 0.6                         #   held >= off for the dwell; back onc
 fll_gate_dwell_s = 0.1                   #   for the dwell (on < off: hysteresis)
 # fll_pull_in_max_s = 1.0                # optional (pull-in only): force the hand-over after
                                          #   this long; unset by default and out of the hash
+# fll_handover_mean_s = 0.5              # optional (with fll_pull_in_max_s): at a forced
+                                         #   hand-over, start the PLL at the mean NCO Doppler of
+                                         #   the pull-in's last this-many seconds; out of the hash
 bn_t_max = 0.1                           # Bn·T limit when T > 4 ms (0 = off); omitted from the
                                          #   hash at this default (see Rules)
 
@@ -292,6 +295,12 @@ Measured at 1.0 s (`docs/design/evidence/fll-handover-floor/`):
 - The other runs cycle between a forced hand-over and the FLL's return.
 
 So it lowers the floor in most runs but not reliably, and its pre-registered bars were not met.
+
+**Seeded forced hand-over** (`fll_handover_mean_s`, optional, needs `fll_pull_in_max_s`). At a
+hand-over forced by the cap, the carrier filter's frequency is set to the mean NCO Doppler over the
+last this-many seconds of the pull-in (its frequency rate to zero), so the PLL starts from a
+smoothed frequency instead of the FLL's instantaneous one. Unset by default and omitted from the
+hash then. Scored under D8a row 4 (`xval/d8a-fll-handover-seed/`).
 
 With `reacquire` off (the built-in default) the state machine only observes. The loops run
 bit for bit as without it (tested), and a `LOST` channel returns to `LOCKED`

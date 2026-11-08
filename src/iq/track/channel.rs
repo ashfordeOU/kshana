@@ -181,6 +181,9 @@ pub struct Channel {
     /// The last hand-over was forced by `fll_pull_in_max_s` and the PLI has not reached
     /// `off_pli` since.
     fll_forced_off: bool,
+    /// The NCO Doppler of each loop update while the FLL path is on (`(t, Hz)`), kept for
+    /// `fll_handover_mean_s`.
+    fll_dopplers: VecDeque<(f64, f64)>,
     nwpr: VecDeque<f64>,
     beaulieu: VecDeque<f64>,
     prev_window_sum: Option<Cf64>,
@@ -306,6 +309,7 @@ impl Channel {
             fll_gate_since: None,
             fll_on_since: None,
             fll_forced_off: false,
+            fll_dopplers: VecDeque::new(),
             nwpr: VecDeque::new(),
             beaulieu: VecDeque::new(),
             prev_window_sum: None,
@@ -454,6 +458,21 @@ impl Channel {
             self.fll_gate_step();
             let fll_active = self.core.fll_enabled();
             let disc = self.core.update(be, bp, bl, t);
+            if let Some(span) = self.core.config().fll_handover_mean_s {
+                if fll_active {
+                    let now = self.sample_index as f64 / self.fs;
+                    self.fll_dopplers.push_back((now, self.core.doppler_hz()));
+                    while self
+                        .fll_dopplers
+                        .front()
+                        .is_some_and(|(t0, _)| now - t0 > span)
+                    {
+                        self.fll_dopplers.pop_front();
+                    }
+                } else {
+                    self.fll_dopplers.clear();
+                }
+            }
             if let (Some((bj, h)), [(_, ve), (_, vl)]) = (self.bump.as_mut(), bump_taps.as_slice())
             {
                 let dir = bj.update(*ve, bp, *vl);
@@ -520,6 +539,18 @@ impl Channel {
             if on {
                 let since = *self.fll_on_since.get_or_insert(now);
                 if now - since >= max {
+                    if let Some(span) = self.core.config().fll_handover_mean_s {
+                        let from = now - span;
+                        let (sum, n) = self
+                            .fll_dopplers
+                            .iter()
+                            .filter(|(t, _)| *t >= from)
+                            .fold((0.0, 0usize), |(s, n), (_, d)| (s + d, n + 1));
+                        if n > 0 {
+                            self.core.seed_doppler(sum / n as f64);
+                        }
+                    }
+                    self.fll_dopplers.clear();
                     self.core.set_fll_enabled(false);
                     self.fll_on_since = None;
                     self.fll_forced_off = true;

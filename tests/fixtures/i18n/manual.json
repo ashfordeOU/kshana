@@ -7744,6 +7744,17 @@
   ]
  },
  {
+  "id": "e-iq-track-design-carrier-fll-handover-mean",
+  "error": true,
+  "parts": [
+   "carrier.fll_handover_mean_s must be positive and needs carrier.fll_pull_in_max_s (got ",
+   {
+    "var": "t"
+   },
+   ")"
+  ]
+ },
+ {
   "id": "e-iq-track-design-loop-design-file-holds-no",
   "error": true,
   "parts": [

@@ -242,6 +242,7 @@ struct RawCarrier {
     fll_on_pli: Option<f64>,
     fll_gate_dwell_s: Option<f64>,
     fll_pull_in_max_s: Option<f64>,
+    fll_handover_mean_s: Option<f64>,
     bn_t_max: Option<f64>,
 }
 
@@ -319,6 +320,9 @@ struct Carrier {
     /// design that does not set it keeps its hash.
     #[serde(skip_serializing_if = "Option::is_none")]
     fll_pull_in_max_s: Option<f64>,
+    /// Opt-in seeding of a forced hand-over (s); omitted from the canonical form when unset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    fll_handover_mean_s: Option<f64>,
     /// Largest `Bn · T` the PLL and FLL bandwidths may have when the loop update time
     /// exceeds [`BN_CLAMP_ABOVE_T_S`]; 0 disables. Omitted from the canonical form at its
     /// default, so a design that does not set it keeps its hash.
@@ -467,6 +471,7 @@ impl Resolved {
                 fll_on_pli: assisted.then_some(gate.on_pli),
                 fll_gate_dwell_s: assisted.then_some(gate.dwell_s),
                 fll_pull_in_max_s: None,
+                fll_handover_mean_s: None,
                 bn_t_max: BN_T_MAX_DEFAULT,
             },
             code: Code {
@@ -542,6 +547,9 @@ impl Resolved {
                     .flatten();
                 self.carrier.fll_pull_in_max_s =
                     assisted.then_some(self.carrier.fll_pull_in_max_s).flatten();
+                self.carrier.fll_handover_mean_s = assisted
+                    .then_some(self.carrier.fll_handover_mean_s)
+                    .flatten();
             }
         }
         let has_pll = self.carrier.kind != "fll";
@@ -562,6 +570,11 @@ impl Resolved {
             (
                 "fll_pull_in_max_s",
                 c.fll_pull_in_max_s.is_some(),
+                has_pll && has_fll,
+            ),
+            (
+                "fll_handover_mean_s",
+                c.fll_handover_mean_s.is_some(),
                 has_pll && has_fll,
             ),
         ] {
@@ -601,6 +614,7 @@ impl Resolved {
         set_some(&mut self.carrier.fll_on_pli, c.fll_on_pli);
         set_some(&mut self.carrier.fll_gate_dwell_s, c.fll_gate_dwell_s);
         set_some(&mut self.carrier.fll_pull_in_max_s, c.fll_pull_in_max_s);
+        set_some(&mut self.carrier.fll_handover_mean_s, c.fll_handover_mean_s);
         if let Some(v) = c.bn_t_max {
             if !(v.is_finite() && v >= 0.0) {
                 return Err(at(crate::t!(
@@ -720,6 +734,14 @@ impl Resolved {
             }
             if self.carrier.fll_assist.as_deref() == Some("always") {
                 return Err(crate::terr!("e-iq-track-design-carrier-fll-pull-in-max-2"));
+            }
+        }
+        if let Some(t) = self.carrier.fll_handover_mean_s {
+            if !(t.is_finite() && t > 0.0) || self.carrier.fll_pull_in_max_s.is_none() {
+                return Err(crate::terr!(
+                    "e-iq-track-design-carrier-fll-handover-mean",
+                    t = t
+                ));
             }
         }
         if let (Some(o), Some(b)) = (self.carrier.pll_order, self.carrier.pll_bw_hz) {
@@ -1057,6 +1079,7 @@ impl Design {
             // BOC tracking is not a design-file option yet.
             boc: None,
             fll_pull_in_max_s: c.fll_pull_in_max_s,
+            fll_handover_mean_s: c.fll_handover_mean_s,
         }
     }
 

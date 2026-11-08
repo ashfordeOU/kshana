@@ -237,6 +237,11 @@ pub struct LoopConfig {
     /// below `on_pli` for this long (not the gate's dwell). `None` (the default) leaves the
     /// PLI-only hand-over (`docs/design/evidence/fll-handover-floor/`).
     pub fll_pull_in_max_s: Option<f64>,
+    /// Opt-in seeding of a hand-over forced by [`LoopConfig::fll_pull_in_max_s`] (s): at
+    /// that hand-over the carrier filter's frequency is set to the mean NCO Doppler over the
+    /// last this-many seconds of the pull-in, and its frequency rate to zero. `None` (the
+    /// default) keeps the filter's state (D8a row 4, `xval/d8a-fll-handover-seed/`).
+    pub fll_handover_mean_s: Option<f64>,
 }
 
 impl Default for LoopConfig {
@@ -270,6 +275,7 @@ impl Default for LoopConfig {
             bit_sync: BitSyncConfig::default(),
             boc: None,
             fll_pull_in_max_s: None,
+            fll_handover_mean_s: None,
         }
     }
 }
@@ -395,6 +401,15 @@ impl LoopCore {
     /// ignores it.
     pub fn set_fll_enabled(&mut self, on: bool) {
         self.fll_enabled = on || !self.cfg.carrier.has_pll();
+    }
+
+    /// Set the carrier NCO to `doppler_hz` by the filter's frequency state (its frequency
+    /// rate to zero), as the seeded forced hand-over does.
+    pub fn seed_doppler(&mut self, doppler_hz: f64) {
+        self.carrier
+            .set_frequency_state(TAU * (doppler_hz - self.init_doppler_hz));
+        self.doppler_hz = doppler_hz;
+        self.code_rate_hz = self.base_code_rate();
     }
 
     /// Whether the FLL path feeds the loop.
