@@ -408,3 +408,12 @@ before release.
 
 The failing bar tests stay strict, and are ignored with these values (the repository's
 "strict, ignored with the gap" form). The ledger row states them.
+
+## 14. Re-run with the C/N0 estimator lag corrected (D8a row 6, 2026-11-08)
+
+Under `docs/design/evidence/d8a-iq-tracking-cn0-rerun/PREREGISTRATION.md` (row 6), the fit modelled each C/N0 bin at the
+stated J/S 0.5 s earlier along the profile (`[campaign_fit] cn0_lag_s`). Scored once over 12 batches: (a′) +0.50 dB
+seen and +0.40 dB fresh; (b′) 0 of 50 on both, every interval now above the truth (error +0.45 to +0.47 dB against
+−1.19 dB before); (c) fails on the fresh campaign's time-to-loss coverage (1.000); (d) 2.19 dB seen, 0.32 dB fresh.
+**NOT MET on re-run.** The correction moves the bias as the lag hypothesis predicts but overshoots it. §13.6 stands as
+the record of the uncorrected fit. Details: the D8a `RESULTS.md`.

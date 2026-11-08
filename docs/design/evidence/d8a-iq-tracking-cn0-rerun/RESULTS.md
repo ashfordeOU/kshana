@@ -69,6 +69,44 @@ compared.
 
 Pins: `tests/iq_boc_exact_inverse.rs`.
 
+## Row 6. `VM-c9318c63`: the lab fit with the C/N0 estimator lag corrected
+
+- **Readings, batch plan and scoring rule:** `xval/d8a-labfit-lag/` (README, `score.py`), committed at ffbe3746c before
+  any engine code. The change: `[campaign_fit] cn0_lag_s` (c69ea528f), each C/N0 bin modelled at the stated J/S 0.5 s
+  earlier along the profile (half the 1 s M2M4 span). Scorer, censoring and closed form unchanged.
+- **Runs:** 12 batches on 2026-11-08 (about 6.5 h on 4 cores), raw output committed as each landed, unread. Scored once
+  with `score.py` after batch 12 (`score_output.json`).
+- **Controls (disclosed):** before scoring, a script compared only the lag-0 lines with the recorded 0.40 values
+  (reading 3) and printed match or mismatch: the bar-(a′) campaign (−3.935 dB, (d) 35.514 against 37.714 dB) and the
+  (b′) campaigns 7000 and 7001 (−3.415 and −3.056 dB) all matched. No scored line was read before the scoring.
+
+| bar | seen (A seed 2026 1012; b′ seeds 7000 to 7049) | fresh (+100 000) | verdict |
+|---|---|---|---|
+| (a′) `|δ̂_eff − δ_eff| ≤ 0.5 dB` | +0.5015 dB | +0.3986 dB | **NOT MET** (seen) |
+| (b′) coverage in at least 45 of 50 | 0 of 50 | 0 of 50 | **NOT MET** |
+| (c) PI90 coverage in [0.80, 0.98] | bins 0.886, time to loss 0.900 under each model | bins 0.893, time to loss **1.000** under each model | **NOT MET** (fresh) |
+| (d) closed form within 1 dB of the direct median | 35.521 against 37.714 dB: 2.193 dB | 37.315 against 37.639 dB: 0.324 dB | **NOT MET** (seen) |
+
+**Verdict: NOT MET on re-run.** The `Q` clauses stay NOT MET (not identifiable) and S2 was not re-run (reading 7).
+
+What the numbers say, described after the scoring (not graded):
+
+- The correction **overshoots**. On the (b′) campaigns the `δ_eff` error goes from about −1.19 dB (0.40) to
+  **+0.451 ± 0.076 dB** (seen) and **+0.465 ± 0.102 dB** (fresh), and every one of the 100 intervals (median width
+  0.29 dB) lies above its truth. On the bar-(a′) campaign it goes from −1.097 to +0.502 dB. A 0.5 s shift at about
+  3.2 dB/s moves each bin by about 1.6 dB of J/S; the 0.40 bias corresponds to about 1.1 dB. So the hypothesis that the
+  estimator lag drives the ramp bias is supported in sign and size, but the effective lag is shorter than the window's
+  centre (about 0.35 s by this crude scaling), which a lag in the C/N0 domain (dB, not J/S, and with the M2M4 moments
+  averaged before the logarithm) would explain. Choosing the lag from these results would be a new pre-registration;
+  nothing was tuned.
+- (c) on the fresh campaign: the time-to-loss intervals cover all 10 interpolation events (bar at most 0.98); with 10
+  events the bar's upper edge is crossed by a single event.
+- (d) is unchanged on the seen campaign (2.19 dB, the drop dwell under a ramp, as diagnosed in 0.40) and met on the
+  fresh one (0.32 dB); the lag correction does not touch the closed form, so this split is a property of the campaigns.
+
+Pins: `xval/d8a-labfit-lag/raw/` (committed batches), `score_output.json`, and
+`tests/iq_labfit_campaign.rs::d8a_row6_scoring_of_the_committed_batches_is_the_recorded_one`.
+
 ## Row 3. `VM-f5e2ce4e`: cell-averaging CFAR in IQ acquisition, with the reference set over the whole row
 
 - **Readings, study and oracle:** `xval/d8a-cfar-reference/` (README readings 1 to 7, `dev_study.py` and its output,
