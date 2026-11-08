@@ -132,6 +132,13 @@ impl De440LunarEnvironment {
         }
     }
 
+    /// [`new`](Self::new) with a kernel already shared with another reader.
+    pub fn new_shared(kernel: std::sync::Arc<crate::ephem_provider::KernelEphemeris>) -> Self {
+        Self {
+            kernel: Some(kernel),
+        }
+    }
+
     /// DE440 orientation only; the Sun and Moon stay analytic.
     pub fn orientation_only() -> Self {
         Self { kernel: None }
