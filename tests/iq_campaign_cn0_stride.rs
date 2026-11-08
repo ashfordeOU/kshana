@@ -8,7 +8,11 @@
 //! * the scored re-run: M3 (both clauses) and M4 on the seen and the fresh seeds (readings 3 to
 //!   5), with the timing clause recomputed by `oracle.py` (reading 6).
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08, release): M3 NOT MET on its timing clause (median time to
+//! detect 0.221 s seen, 0.201 s fresh, against 0.0068 s and 0.0064 s); detection 18 of 18 and M4
+//! hold on both (`docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: see `m3_m4_recorded_numbers`. PIN-EXCLUDES: output hashes.
 
 #[path = "support/monitor_campaign.rs"]
 mod support;
@@ -194,16 +198,24 @@ fn control_at_the_estimator_cadence_reproduces_the_recorded_m3() {
     );
 }
 
+/// The scored campaigns at the default (one NWPR window) stride, built once per process.
+fn scored(which: usize) -> &'static Vec<CellResult> {
+    static CELLS: [std::sync::OnceLock<Vec<CellResult>>; 2] =
+        [std::sync::OnceLock::new(), std::sync::OnceLock::new()];
+    let (name, seed0) = [("seen", 200u64), ("fresh", 100_200)][which];
+    CELLS[which].get_or_init(|| stepped(name, seed0, "[monitors]\n"))
+}
+
 #[test]
-#[cfg_attr(debug_assertions, ignore = "IQ campaign: run in release")]
+#[ignore = "FINDING (run 2026-11-08, D8b row 8): M3 NOT MET on its timing clause at the one-window stride. 18 of 18 detected on the seen and on the fresh seeds (P_md = 0, met), but the median time to detect is 0.221 s (seen) and 0.201 s (fresh) against 2 x ARL1 x 0.020 s = 0.0068 s and 0.0064 s. The sliding 1 s C/N0 estimate falls only as attenuated windows enter it; the bound is below one detector sample. M4 holds (0 false alarms). Recorded in docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md; pinned by m3_m4_recorded_numbers. Run in release with --ignored"]
 fn m3_and_m4_at_one_nwpr_window_seen_and_fresh_seeds() {
     let (upd, per_win, _) = design();
     assert_eq!(per_win, 20, "reading 1: 20 loop updates");
     let dt = per_win as f64 * upd;
     let mut miss = Vec::new();
     for (name, seed0) in [("seen", 200u64), ("fresh", 100_200)] {
-        let cells = stepped(name, seed0, "[monitors]\n");
-        let r = m3(name, &cells, dt);
+        let cells = scored(usize::from(seed0 != 200));
+        let r = m3(name, cells, dt);
         assert!(r.oracle_diffs.iter().all(|d| *d <= 1e-9), "{name}: oracle");
         assert_eq!(r.detected + r.missed.len(), 18, "18 satellite-events");
         if !r.missed.is_empty() {
@@ -215,10 +227,40 @@ fn m3_and_m4_at_one_nwpr_window_seen_and_fresh_seeds() {
                 r.median_ttd_s, r.median_bound_s
             ));
         }
-        let (count, bound) = m4(name, &cells, dt);
+        let (count, bound) = m4(name, cells, dt);
         if count > bound {
             miss.push(format!("{name} M4: {count} > {bound}"));
         }
     }
     assert!(miss.is_empty(), "NOT MET: {miss:?}");
+}
+
+/// Pins the scored run (2026-11-08) of `m3_and_m4_at_one_nwpr_window_seen_and_fresh_seeds`.
+///
+/// PIN-SCOPE:    detections, the median time to detect and the median bound (to 5e-4 s), and
+///               the M4 count, on the seen and the fresh seeds.
+/// PIN-EXCLUDES: output hashes.
+#[test]
+#[cfg_attr(debug_assertions, ignore = "IQ campaign: run in release")]
+fn m3_m4_recorded_numbers() {
+    let (upd, per_win, _) = design();
+    let dt = per_win as f64 * upd;
+    for (which, (name, mt, mb)) in [("seen", 0.2208, 0.0068), ("fresh", 0.2008, 0.0064)]
+        .into_iter()
+        .enumerate()
+    {
+        let r = m3(name, scored(which), dt);
+        assert_eq!((r.detected, r.missed.len()), (18, 0), "{name}");
+        assert!(
+            (r.median_ttd_s - mt).abs() < 5e-4,
+            "{name}: {}",
+            r.median_ttd_s
+        );
+        assert!(
+            (r.median_bound_s - mb).abs() < 5e-4,
+            "{name}: {}",
+            r.median_bound_s
+        );
+        assert_eq!(m4(name, scored(which), dt), (0, 0), "{name}");
+    }
 }

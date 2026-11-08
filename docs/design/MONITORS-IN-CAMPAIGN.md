@@ -89,3 +89,16 @@ attainable. That would be a new pre-registration, not a change to this one.
 `m3_every_attenuation_is_detected_within_twice_the_arl1` stays strict, ignored with these
 values. M1, M2 and M4 run in the release CI job.
 
+
+## 5. Re-run at a shorter C/N0 stride (D8b row 8, 2026-11-08)
+
+Under `docs/design/evidence/d8b-iq-timing-campaign-rerun/PREREGISTRATION.md` (row 8), a campaign's automatic C/N0 stride
+became one NWPR window (0.020 s for the default design; readings in `xval/d8b-cn0-stride/`). M3's bar is unchanged.
+
+| bar | measured | verdict |
+|---|---|---|
+| M3 | 18 of 18 detected on seeds 200 to 205 and on fresh seeds 100 200 to 100 205; median time to detect 0.221 s and 0.201 s against 2 × ARL1 × 0.020 s = 0.0068 s and 0.0064 s | **NOT MET** (timing) |
+| M4 | 0 C/N0 false alarms on both | MET |
+
+The median time to detect fell from 1.001 s to about 0.2 s; what remains is the sliding estimator's own averaging, which
+no stride removes. §4 stands as the record at the 1 s cadence. Details: the D8b `RESULTS.md`.

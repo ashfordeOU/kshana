@@ -36,6 +36,38 @@ model against an independent recomputation of its state machine; no receiver's a
 
 Pins: `tests/jamming_acq_ladder.rs` (counts and H4 totals).
 
+## Row 8. `VM-59bb0091`: IQ monitors in lab-replay campaigns, M3 timing clause, at a shorter C/N0 stride
+
+- **Readings and oracle:** `xval/d8b-cn0-stride/` (README readings 1 to 8, `oracle.py`), committed at afbc72f35 (reading 8
+  widened at 07ed91f05) before the engine change. Reading 7 stated in advance that the timing clause was expected to be
+  missed again.
+- **The change:** a campaign's automatic C/N0 stride is one NWPR window of the loop design (`cn0_window_updates`: 20 loop
+  updates, 0.020 s, for the default design) instead of the whole estimator (1000 updates, 1.000 s). The sliding 1 s
+  estimator is not changed. The 0.40 monitor tests and the ROC tests state `stride = 1000`, the cadence they were scored
+  at.
+- **Run:** once, 2026-11-08, in release (`tests/iq_campaign_cn0_stride.rs`, about 4 minutes for three campaigns). No bar,
+  recipe or setting was changed after a result was seen.
+
+| check | measured | verdict |
+|---|---|---|
+| Control (`stride = 1000`), seeds 200 to 205 | 18 of 18 detected; median time to detect 1.001 s against 2 × ARL1 × 1.000 s = 0.433 s | reproduces the 0.40 record |
+| Oracle (Siegmund bound and medians recomputed) | differences 0 on all three runs | agrees (bar 1e-9) |
+| **M3**, seen seeds 200 to 205 | 18 of 18 detected (`P_md` = 0); median time to detect **0.221 s** against 2 × ARL1 × 0.020 s = **0.0068 s** | **NOT MET** (timing) |
+| **M3**, fresh seeds 100 200 to 100 205 | 18 of 18 detected; median time to detect **0.201 s** against **0.0064 s** | **NOT MET** (timing) |
+| M4 (regression), seen and fresh | 0 C/N0 false alarms; exposure / ARL0 2.2e-34 and 2.5e-34, Poisson 99 % bound 0 | holds |
+| M1, M2 (regressions, quiet campaign, run after the change) | M1 73 of 5900 blocks (interval [40, 80]); M2 delta 0.0160, ratio 0.0131 (within a factor of 2 of 0.01); the same as 0.40 | hold |
+
+**Verdict: M3 stays NOT MET** on its timing clause, seen and fresh. Its detection clause holds.
+
+Why, as stated before the run: at a 6 dB step, `ARL1` is a fraction of one detector sample, so the bound
+(2 × ARL1 samples) is below one stride whatever the stride. The detector cannot alarm before the C/N0 estimate has
+fallen, and the estimate averages the last 1 s, so it falls only as attenuated windows enter it. The shorter stride cut
+the median time to detect from 1.001 s to about 0.2 s. The remaining delay belongs to the estimator, not to the
+detector's cadence, so a stride change cannot meet this bar. The pre-registration's disclosure applies: overlapping
+windows give correlated estimates, which the ARL1 formula does not assume; this did not decide the outcome.
+
+Pins: `tests/iq_campaign_cn0_stride.rs` (`m3_m4_recorded_numbers`; the strict test is ignored with these values).
+
 ## Row 9. `VM-6254a75d`: detection ROC from a scored campaign, R1, with the window restart
 
 - **Readings and oracle:** `xval/d8b-roc-restart/` (README readings 1 to 6, `oracle.py`), committed at bc56e785e before
