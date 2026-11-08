@@ -1102,8 +1102,8 @@
    "reason": "machine-document: TOML model keys and the event and budget-row text of the leo-rendezvous phase in the thread result JSON"
   },
   "src/mission_thread/earth/tli_cruise.rs": {
-   "count": 52,
-   "reason": "machine-document: TOML model keys and the event and budget-row text of the tli-and-cruise phase in the thread result JSON"
+   "count": 53,
+   "reason": "machine-document: TOML model keys and the event and budget-row text of the tli-and-cruise phase in the thread result JSON (including the C2 impulse event)"
   },
   "src/mission_thread/handover.rs": {
    "count": 7,
