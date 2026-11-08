@@ -11673,3 +11673,15 @@ engine-e-bench-task-e-predictions-labels = task (e) predictions need a `labels` 
 engine-e-bench-task-e-bad-class = the truth label `{ $id }` has no class among nominal, jamming, spoofing and meaconing
 
 engine-e-bench-task-e-missing-prediction = no label or no class scores (nominal, jamming, spoofing, meaconing) for `{ $id }`
+
+engine-e-tip-and-cue-parse = not a tip-and-cue scenario: { $e }
+
+engine-e-tip-and-cue-area = area `{ $area }` is not known; the tip-and-cue kind has `baltic`
+
+engine-tip-and-cue-label = MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published simulation figures, never a validation
+
+engine-tip-and-cue-summary-head = tip-and-cue: { $n } cases over { $points } area points (minutes)
+
+engine-tip-and-cue-summary-case = { $name }: revisit { $r }, full-area refresh { $f }, RF-to-optical reaction { $q }
+
+engine-tip-and-cue-figure-title = Revisit (R), full-area refresh (F) and RF-to-optical reaction (Q), minutes

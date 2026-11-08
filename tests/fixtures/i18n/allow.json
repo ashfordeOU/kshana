@@ -1529,6 +1529,10 @@
    "count": 32,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/tip_and_cue.rs": {
+   "count": 69,
+   "reason": "machine-document: the units table (field paths, unit symbols and definitions written into the result JSON), the JSON field names of the result, the kind id and the SVG markup; the summary, label, figure title and errors are messages"
+  },
   "src/tle.rs": {
    "count": 24,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
