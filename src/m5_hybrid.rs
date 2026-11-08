@@ -475,9 +475,16 @@ fn run_draw(
             }
             out
         };
-        gauss_newton(vec![start.0, start.1, e0], &f, &[1e-5, 1e-5, 1e-3], &moved)
-            .filter(|t| in_box(t[0], t[1]))
-            .map(|t| (t[0], t[1]))
+        if rep.is_empty() {
+            // No reporting site: EIRP has no information; solve position from space alone (amended R7).
+            gauss_newton(vec![start.0, start.1], &sp_f, &[1e-5, 1e-5], &moved)
+                .filter(|t| in_box(t[0], t[1]))
+                .map(|t| (t[0], t[1]))
+        } else {
+            gauss_newton(vec![start.0, start.1, e0], &f, &[1e-5, 1e-5, 1e-3], &moved)
+                .filter(|t| in_box(t[0], t[1]))
+                .map(|t| (t[0], t[1]))
+        }
     } else {
         None
     };
