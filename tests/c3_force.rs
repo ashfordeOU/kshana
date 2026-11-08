@@ -132,3 +132,89 @@ fn m2_adds_only_the_radiation_term_to_its_base() {
     // Of order 1361/c · 0.01 ≈ 4.5e-8 m/s² (lit), or zero in shadow.
     assert!(n == 0.0 || (n > 3e-8 && n < 6e-8), "{n}");
 }
+
+/// C3 procedure step 3, the control: the A2 model, built as [`C3Model::a2`], re-run on A2's own
+/// window W0 must reproduce the recorded 136.8 km and 28.4 km to the printed digits. A mismatch
+/// stops the campaign. Gated (degree 150 over 156 h):
+/// `KSHANA_C3_CONTROL=1 cargo test --release --test c3_force`.
+#[test]
+fn control_the_a2_model_reproduces_its_recorded_miss_on_w0() {
+    if std::env::var("KSHANA_C3_CONTROL").is_err() {
+        eprintln!("skipped: set KSHANA_C3_CONTROL=1 to run the C3 control on W0");
+        return;
+    }
+    let dir = "tests/fixtures/mission_thread_lunar";
+    let v: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(format!("{dir}/a2_capstone_horizons.json")).unwrap(),
+    )
+    .unwrap();
+    let t = v["result"].as_str().unwrap();
+    let (a, b) = (t.find("$$SOE").unwrap(), t.find("$$EOE").unwrap());
+    let refs: Vec<(f64, [f64; 3], [f64; 3])> = t[a + 5..b]
+        .lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty())
+        .map(|l| {
+            let f: Vec<f64> = l
+                .split(',')
+                .map(str::trim)
+                .filter_map(|x| x.parse::<f64>().ok())
+                .collect();
+            (
+                f[0],
+                [f[1] * 1e3, f[2] * 1e3, f[3] * 1e3],
+                [f[4] * 1e3, f[5] * 1e3, f[6] * 1e3],
+            )
+        })
+        .collect();
+    // W0 starts at sample 145, JD TDB 2459951.5417 (the pre-registration's data table).
+    let i0 = 145;
+    assert!(
+        (refs[i0].0 - 2_459_951.541_7).abs() < 1e-4,
+        "{}",
+        refs[i0].0
+    );
+    let fld = SphericalHarmonicField::from_shadr(
+        &std::fs::read_to_string(format!("{dir}/jggrx_0660b_sha_to150.tab")).unwrap(),
+        150,
+    )
+    .unwrap();
+    let mu = fld.gm;
+    let m = C3Model::a2(fld, refs[i0].0);
+    let end = &refs[i0 + 156];
+    let tol = Tolerance {
+        rtol: 1e-12,
+        atol: 1e-9,
+        h_min: 1e-3,
+        h_max: 60.0,
+    };
+    let (r, v) = propagate(
+        &m,
+        refs[i0].1,
+        refs[i0].2,
+        (end.0 - refs[i0].0) * 86_400.0,
+        &tol,
+    );
+    let peri = |r: [f64; 3], v: [f64; 3]| {
+        let h = [
+            r[1] * v[2] - r[2] * v[1],
+            r[2] * v[0] - r[0] * v[2],
+            r[0] * v[1] - r[1] * v[0],
+        ];
+        let rn = (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt();
+        let vxh = [
+            v[1] * h[2] - v[2] * h[1],
+            v[2] * h[0] - v[0] * h[2],
+            v[0] * h[1] - v[1] * h[0],
+        ];
+        let e: Vec<f64> = (0..3).map(|i| vxh[i] / mu - r[i] / rn).collect();
+        let en = (e[0] * e[0] + e[1] * e[1] + e[2] * e[2]).sqrt();
+        (h[0] * h[0] + h[1] * h[1] + h[2] * h[2]) / mu / (1.0 + en)
+    };
+    let d = [r[0] - end.1[0], r[1] - end.1[1], r[2] - end.1[2]];
+    let dpos = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+    let dper = (peri(r, v) - peri(end.1, end.2)).abs();
+    eprintln!("C3 control on W0: end position {dpos:.3} m, periapsis {dper:.3} m");
+    assert_eq!(format!("{:.1}", dpos / 1e3), "136.8");
+    assert_eq!(format!("{:.1}", dper / 1e3), "28.4");
+}

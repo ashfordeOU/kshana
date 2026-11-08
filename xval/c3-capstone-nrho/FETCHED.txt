@@ -1,0 +1,5 @@
+retrieved_utc: 2026-11-08T12:30:40Z
+f_capstone_horizons.json  https://ssd.jpl.nasa.gov/api/horizons.api (COMMAND=-1176 CENTER=500@301 ICRF VEC_TABLE=2 KM-S, 2023-04-01 00:00 to 2023-06-29 00:00, 1 h)
+de440s.bsp  https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp
+770a5892ab8753d8662034e12e7c5f497ae0cb7284e9909301cf7854ff7cab27  f_capstone_horizons.json
+c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2  de440s.bsp
