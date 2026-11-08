@@ -1,0 +1,111 @@
+{
+  "label": "MODELLED: truth is the scheduled attack slots of the JammerTest 2024 event logs at one-minute resolution, the class read from each folder's attack_type; a nominal epoch means outside the logged windows",
+  "metrics": {
+    "auc": {
+      "jamming": 0.28233007622295514,
+      "meaconing": 0.5,
+      "nominal": 0.9973732058540926,
+      "spoofing": 0.6995816145398611
+    },
+    "balanced_accuracy": 0.47926484448633366,
+    "balanced_accuracy_descriptive": 0.43519414207673135,
+    "classes": [
+      "nominal",
+      "jamming",
+      "spoofing",
+      "meaconing"
+    ],
+    "confusion": [
+      [
+        2034,
+        88,
+        0,
+        0
+      ],
+      [
+        157,
+        564,
+        0,
+        0
+      ],
+      [
+        1,
+        4291,
+        0,
+        0
+      ],
+      [
+        0,
+        1563,
+        0,
+        0
+      ]
+    ],
+    "entered": [
+      "nominal",
+      "spoofing"
+    ],
+    "event_confusion": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        0
+      ]
+    ],
+    "jamming_labelled_spoofing_or_meaconing": 0.0,
+    "macro_f1": 0.47148817802503473,
+    "macro_f1_descriptive": 0.2747644294027208,
+    "n_events": 8,
+    "n_units": 8698,
+    "precision": {
+      "jamming": 0.08668920996003689,
+      "meaconing": null,
+      "nominal": 0.9279197080291971,
+      "spoofing": null
+    },
+    "present": [
+      "nominal",
+      "jamming",
+      "spoofing",
+      "meaconing"
+    ],
+    "recall": {
+      "jamming": 0.782246879334258,
+      "meaconing": 0.0,
+      "nominal": 0.9585296889726673,
+      "spoofing": 0.0
+    },
+    "spoofing_meaconing_labelled_jamming": 0.9998292058070025
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "62d6b1318479466c16010826dfec6e1270efd168afdba9466ec6febd37f02715",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.1.0",
+  "split": "dev",
+  "system": {
+    "name": "B-log: kshana receiver-trust monitors at the 0.35 defaults, class rule of B4a section 4 (PositionJump on stationary folders)",
+    "version": "kshana-bench/2.1.0"
+  },
+  "task": "e",
+  "truth_sha256": "7720566e68ad86e14a2a3ff98ee290d20f81d4454ba7cef77cd50c679269a818"
+}
