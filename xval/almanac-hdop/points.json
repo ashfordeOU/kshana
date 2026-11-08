@@ -1,0 +1,28 @@
+{
+  "_comment": "D18 acceptance 1: 20 stated epochs and positions for the almanac-HDOP check. Times are GPS seconds since 1980-01-06T00:00:00 GPS time, around the almanac's time of applicability (week 2444, toa 233472 s); heights above the WGS-84 ellipsoid; mask 5 degrees above the geodetic horizon.",
+  "almanac": "tests/fixtures/gps_almanac/yuma_2026_311.alm",
+  "week_hint": 2444,
+  "mask_deg": 5.0,
+  "points": [
+    {"gps_s": 1478339072.0, "lat_deg": 0.0, "lon_deg": 0.0, "h_m": 0.0},
+    {"gps_s": 1478339072.0, "lat_deg": 59.4370, "lon_deg": 24.7536, "h_m": 10000.0},
+    {"gps_s": 1478342672.0, "lat_deg": 60.1699, "lon_deg": 24.9384, "h_m": 11000.0},
+    {"gps_s": 1478300000.0, "lat_deg": 69.6492, "lon_deg": 18.9553, "h_m": 9000.0},
+    {"gps_s": 1478250000.0, "lat_deg": 78.2232, "lon_deg": 15.6267, "h_m": 500.0},
+    {"gps_s": 1478400000.0, "lat_deg": -33.8688, "lon_deg": 151.2093, "h_m": 12000.0},
+    {"gps_s": 1478450000.0, "lat_deg": 35.6762, "lon_deg": 139.6503, "h_m": 3000.0},
+    {"gps_s": 1478200000.0, "lat_deg": 40.7128, "lon_deg": -74.0060, "h_m": 10500.0},
+    {"gps_s": 1478150000.0, "lat_deg": -54.8019, "lon_deg": -68.3030, "h_m": 0.0},
+    {"gps_s": 1478500000.0, "lat_deg": 89.5, "lon_deg": 0.0, "h_m": 11000.0},
+    {"gps_s": 1478555000.0, "lat_deg": -89.5, "lon_deg": 45.0, "h_m": 2800.0},
+    {"gps_s": 1478100000.0, "lat_deg": 1.3521, "lon_deg": 103.8198, "h_m": 0.0},
+    {"gps_s": 1478339072.0, "lat_deg": 55.6761, "lon_deg": 12.5683, "h_m": 37000.0},
+    {"gps_s": 1478339672.5, "lat_deg": 54.3520, "lon_deg": 18.6466, "h_m": 10668.0},
+    {"gps_s": 1478600000.0, "lat_deg": 45.0, "lon_deg": 179.9, "h_m": 10000.0},
+    {"gps_s": 1478610000.0, "lat_deg": -45.0, "lon_deg": -179.9, "h_m": 10000.0},
+    {"gps_s": 1478050000.0, "lat_deg": 30.0, "lon_deg": 31.0, "h_m": 0.0},
+    {"gps_s": 1478339072.0, "lat_deg": -1.2921, "lon_deg": 36.8219, "h_m": 1795.0},
+    {"gps_s": 1478380000.0, "lat_deg": 64.1466, "lon_deg": -21.9426, "h_m": 0.0},
+    {"gps_s": 1478420000.0, "lat_deg": 21.3069, "lon_deg": -157.8583, "h_m": 9000.0}
+  ]
+}
