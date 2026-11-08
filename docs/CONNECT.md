@@ -5,6 +5,7 @@ for, and turns it into a [`kshana.obs/1`](OBS-SCHEMA.md) observation file. No co
 the file names the columns, their units and the time format.
 
 Step by step, for a monitoring station: [guides/MONITORING-STATION.md](guides/MONITORING-STATION.md).
+Step by step, for scoring an interference classifier on the benchmark: [guides/BENCHMARK-CLASSES.md](guides/BENCHMARK-CLASSES.md).
 
 ```sh
 kshana connect map export.csv --mapping export.connect.toml --station station.toml --out site.obs.jsonl
