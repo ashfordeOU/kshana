@@ -102,10 +102,13 @@
 //!   E5a-I, 20 ms) are acquired with their FULL tiered replica, one coherent block and no
 //!   non-coherent sums, as `iq track` does; the code phase is taken modulo the primary length
 //!   for the tracker, which still runs on the primary-only replica.
-//! * **Exception (D12).** The 100 ms tiered codes (Galileo E1-C and E5a-Q) keep the
-//!   primary-only replica with the four non-coherent blocks of v2 (a): the default search on a
-//!   100 ms full period keeps the whole Doppler × code-phase grid, about 2.4 GB for E1-C and
-//!   12 GB for E5a-Q at 25 MS/s, plus minutes of FFT time.
+//! * **Exception (D12, since fixed).** The 100 ms tiered codes (Galileo E1-C and E5a-Q) keep
+//!   the primary-only replica with the four non-coherent blocks of v2 (a). When this matrix was
+//!   registered, the default search on a 100 ms full period kept the whole Doppler × code-phase
+//!   grid, about 2.4 GB for E1-C and 12 GB for E5a-Q at 25 MS/s, plus minutes of FFT time.
+//!   Defect D12 is fixed by grid-free acquisition (`docs/design/evidence/acq-gridfree/`,
+//!   `tests/iq_acq_gridfree.rs`: peak `VmHWM` 213 MiB for E5a-Q at 25 MS/s, against about 30 GB
+//!   for the grid). The matrix keeps its registered replicas unchanged.
 //! * **Loops.** `Design::builtin_default().loop_config_for(period)` (the D9 clamp), with the
 //!   harness's 10 C/N0 windows, instead of `LoopConfig::default()`.
 //! * `gps_l2c` (T5) and `beidou_b1c` stay ignored findings with the causes in their `ignore`
@@ -366,8 +369,9 @@ fn run(case: &Case) -> Outcome {
     // (the primary period for a tiered code, which the loops track primary-only).
     // Exception: the 100 ms tiered codes (Galileo E1-C, E5a-Q) keep the primary-only replica.
     // The default search on a 100 ms full period keeps the whole Doppler x code-phase grid,
-    // about 2.4 GB for E1-C and 12 GB for E5a-Q at 25 MS/s (601 bins), minutes of FFT time and
-    // more memory than the test machine has (defect D12, with W1b's grid work).
+    // about 2.4 GB for E1-C and 12 GB for E5a-Q at 25 MS/s (601 bins) when this matrix was
+    // registered (defect D12, now fixed by grid-free acquisition: docs/design/evidence/acq-gridfree/,
+    // 213 MiB peak; the registered replicas are kept).
     let period = case.rx.period_s();
     let tiered = !case.secondary.is_empty();
     let full_replica = tiered && case.tx.period_s() <= 0.025;
