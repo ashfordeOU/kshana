@@ -896,3 +896,22 @@ def test_referee_location_score_gives_the_command_line_bytes():
     text = kshana.referee_location_score(truth, reports)
     want = open(os.path.join(d, "score_v1.sha256")).read().strip()
     assert hashlib.sha256(text.encode()).hexdigest() == want
+
+
+def test_ephem_export_gives_the_command_line_bytes():
+    """C7: the CAPSTONE Horizons table written through Python is the command line's bytes, and
+    every state reads back unchanged."""
+    import base64
+    import hashlib
+
+    d = REPO / "tests" / "fixtures" / "capstone_horizons"
+    table = (d / "capstone_2023-03_moon_icrf.txt").read_text()
+    pinned = dict(reversed(l.split()) for l in (d / "ephem_export.sha256").read_text().splitlines())
+    for fmt in ("oem", "opm", "spk"):
+        v = json.loads(kshana.ephem_export(table, fmt))
+        raw = base64.b64decode(v["content"]) if v["encoding"] == "base64" else v["content"].encode()
+        assert hashlib.sha256(raw).hexdigest() == pinned[fmt] == v["sha256"]
+        assert v["read_back"]["identical"] == v["read_back"]["states"]
+        assert v["read_back"]["epoch_mismatches"] == 0
+    with pytest.raises(ValueError):
+        kshana.ephem_export("no table")

@@ -291,6 +291,33 @@ pub struct FitImuRequest {
     pub id: Option<String>,
 }
 
+/// Parameters for [`KshanaServer::ephem_export`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct EphemExportRequest {
+    /// A JPL Horizons vector table as text: `Output type: GEOMETRIC cartesian states`, position
+    /// and velocity, units `KM-S`, time scale TDB, the CSV form between `$$SOE` and `$$EOE`.
+    pub table: String,
+    /// `oem` (default), `opm` or `spk`.
+    #[serde(default)]
+    pub format: Option<String>,
+    /// OPM: the index of the state to write (default 0, the first).
+    #[serde(default)]
+    pub index: Option<usize>,
+    /// SPK: the type, 13 (Hermite, default) or 9 (Lagrange).
+    #[serde(default)]
+    pub spk_type: Option<u32>,
+    /// SPK: the polynomial degree (default 7; odd for type 13).
+    #[serde(default)]
+    pub degree: Option<usize>,
+    /// `CREATION_DATE` of the OEM and OPM, `YYYY-MM-DDTHH:MM:SS` (default: the request time in
+    /// the table's header).
+    #[serde(default)]
+    pub creation_date: Option<String>,
+    /// `OBJECT_ID` of the OEM and OPM (default: the object's NAIF id).
+    #[serde(default)]
+    pub object_id: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::run_standards_pack`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct StandardsPackRequest {
@@ -938,6 +965,26 @@ impl KshanaServer {
             MAX_UPLOAD_BYTES,
         )
         .map_err(bad)?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
+    }
+
+    #[tool(
+        description = "Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM 2.0 of every state (`format` `oem`), a CCSDS OPM 3.0 of one state (`opm`, `index`), or a NAIF SPK kernel of type 13 or 9 (`spk`). The values are copied, not computed: the OEM and OPM write each double in shortest round-trip form and the SPK stores the same doubles, with the table's own epochs (TDB), object, centre and frame (ICRF, frame code 1 in the SPK). Returns JSON: the table's object, centre, NAIF ids, frame, time scale, number of states and span; the file (`suffix`, `bytes`, `sha256`, `encoding` `utf-8` or `base64` for the SPK, `content`); and `read_back`, the engine reading the file back and comparing every state with the one written (`identical` of `states`, the largest differences, and for the SPK the interpolated state at each node). Nothing is written to disk."
+    )]
+    fn ephem_export(
+        &self,
+        Parameters(r): Parameters<EphemExportRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let o = kshana::ephem_export::ExportOptions::from_parts(
+            r.format.as_deref().unwrap_or("oem"),
+            r.index.unwrap_or(0),
+            r.spk_type.unwrap_or(13),
+            r.degree.unwrap_or(7),
+            r.creation_date,
+            r.object_id,
+        )
+        .map_err(bad)?;
+        let text = surface::ephem_export(&r.table, &o, MAX_UPLOAD_BYTES).map_err(bad)?;
         Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
     }
 

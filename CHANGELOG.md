@@ -11,6 +11,11 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- `kshana ephem-export` (Python, WebAssembly and MCP `ephem_export`; `kshana::ephem_export`): a JPL Horizons state table
+  written as a CCSDS OEM 2.0, a CCSDS OPM 3.0 or an SPK kernel of type 13 or 9, then read back with the engine's own readers
+  (C7, step 1; `docs/FLIGHT-DYNAMICS-EXPORT.md`). Values and epochs are copied, not computed: on the mission thread's
+  CAPSTONE table all 4,321 states read back with the same bits from the OEM and the SPK, and from the SPICE Toolkit's
+  reading of the SPK too. Every surface writes the same bytes (pinned SHA-256).
 - RTCM SSR reader (`kshana::rtcm_ssr`) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code
   bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
   field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds

@@ -1342,7 +1342,7 @@ parts fit.
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its 52 tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its 53 tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ### Install the MCP server
@@ -1387,7 +1387,7 @@ Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The serv
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The 52 tools</summary>
+<summary>The 53 tools</summary>
 
 <br>
 
@@ -1415,6 +1415,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Export an `orbit` scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue |
 | `export_oem` | Export an `orbit` scenario's state series as CCSDS OEM (Orbit Ephemeris Message) 2.0 ephemeris — the TEME (true equator, mean equinox) position *and*  |
 | `export_table_csv` | Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as `<scenario>.table.csv` |
+| `ephem_export` | Write a JPL Horizons state table (the CAPSTONE or Artemis I states of the mission thread) as a CCSDS OEM, a CCSDS OPM or an SPK kernel of type 13 or 9 for flight-dynamics tools, and read it back state for state (`kshana ephem-export`) |
 | `export_test_bench` | A scenario's vehicle motion and events for a laboratory GNSS simulator (`kshana bench-export`) |
 
 **Receiver and vessel trust**

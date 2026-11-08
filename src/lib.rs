@@ -143,6 +143,7 @@ pub mod eop;
 /// Least-squares plus autoregressive Earth-orientation prediction with the zonal tides removed.
 pub mod eop_ls_ar;
 pub mod ephem;
+pub mod ephem_export;
 pub mod ephem_provider;
 pub mod ephemeris;
 pub mod estimator;

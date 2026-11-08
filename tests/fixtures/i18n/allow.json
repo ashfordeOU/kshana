@@ -1074,8 +1074,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 70,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names"
+   "count": 71,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name"
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1478,8 +1478,8 @@
    "reason": "identifier and data: FoM keys, JSON key, the page's CSS; the HTML text is in the catalogue"
   },
   "src/surface.rs": {
-   "count": 31,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the truth_json and reports_json input names in the size-cap error"
+   "count": 37,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the truth_json and reports_json input names in the size-cap error; the ephem_export report JSON keys and the state-table input name in the size-cap error"
   },
   "src/sweep.rs": {
    "count": 13,
@@ -1564,6 +1564,10 @@
   "src/station.rs": {
    "count": 25,
    "reason": "machine-document: HTTP/1.1 request and reply lines, the systemd unit, launchd property list and schtasks templates, JSON bodies of the status port, and `<path>: <operating-system error>` forms; every message for a person goes through the catalogue (station-*, e-station-*)"
+  },
+  "src/ephem_export.rs": {
+   "count": 15,
+   "reason": "CCSDS OEM and OPM keywords of the written messages (machine document)"
   }
  }
 }

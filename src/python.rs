@@ -2405,6 +2405,36 @@ fn imu_fit(log: &str, format: &str, axis: &str, expected_mean: f64, id: &str) ->
     .map_err(PyValueError::new_err)
 }
 
+/// Write a JPL Horizons vector table (`table`, the text) as a CCSDS OEM (`format="oem"`), a CCSDS
+/// OPM of the state at `index` (`"opm"`) or an SPK kernel of type `spk_type` 13 or 9 and odd
+/// `degree` (`"spk"`), and read it back with the engine's readers (`kshana ephem-export`,
+/// docs/FLIGHT-DYNAMICS-EXPORT.md). Returns JSON text: the table's object, centre, frame, time
+/// scale and span; the file (`encoding` `"utf-8"` or `"base64"`, `content`, `sha256`); and
+/// `read_back`. Raises `ValueError` on a table it cannot read.
+#[pyfunction]
+#[pyo3(signature = (table, format="oem", index=0, spk_type=13, degree=7, creation_date=None, object_id=None))]
+fn ephem_export(
+    table: &str,
+    format: &str,
+    index: usize,
+    spk_type: u32,
+    degree: usize,
+    creation_date: Option<String>,
+    object_id: Option<String>,
+) -> PyResult<String> {
+    let o = crate::ephem_export::ExportOptions::from_parts(
+        format,
+        index,
+        spk_type,
+        degree,
+        creation_date,
+        object_id,
+    )
+    .map_err(PyValueError::new_err)?;
+    crate::surface::ephem_export(table, &o, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
 /// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
 /// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
@@ -2588,6 +2618,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(imu_fit, m)?)?;
+    m.add_function(wrap_pyfunction!(ephem_export, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;

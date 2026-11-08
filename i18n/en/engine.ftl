@@ -1963,6 +1963,36 @@ engine-e-eo-payload-half-fov-too-large = half_fov too large: { $e }
 
 engine-eo-payload-eo-coverage-km-fov-km = eo-coverage: { $altitude_km } km, ±{ $half_fov_deg }° FOV -> { $v3 } km swath, { $gsd } m nadir GSD, access to { $v5 } km off-nadir; node spacing { $v6 } km ({ $v7 }) (MODELLED)
 
+## src/ephem_export.rs
+
+engine-e-ephem-export-unknown-format = unknown export format `{ $o }`: use `oem`, `opm` or `spk`
+
+engine-e-ephem-export-horizons-row-fields = Horizons table line { $line }: { $f } fields, expected the Julian date, the calendar date and six state values
+
+engine-e-ephem-export-horizons-bad-date = Horizons table line { $line }: the calendar date is not `A.D. YYYY-Mon-DD HH:MM:SS.ffff`
+
+engine-e-ephem-export-horizons-bad-number = Horizons table line { $line }: `{ $v }` is not a finite number
+
+engine-e-ephem-export-horizons-no-table = not a Horizons vector table: no `$$SOE` to `$$EOE` block
+
+engine-e-ephem-export-horizons-empty = the Horizons table has no rows
+
+engine-e-ephem-export-horizons-units = the Horizons table is in `{ $u }` units: request `KM-S`
+
+engine-e-ephem-export-horizons-time-scale = the Horizons table's time scale is `{ $t }`: request TDB
+
+engine-e-ephem-export-horizons-header = the Horizons table's header has no `{ $k }` line
+
+engine-e-ephem-export-no-creation-date = no creation date: the table's header has none, so give one (`--creation-date YYYY-MM-DDTHH:MM:SS`)
+
+engine-e-ephem-export-opm-index = state { $i } is out of range: the table has { $total } states
+
+engine-e-ephem-export-spk-type = the SPK export writes type 13 or type 9
+
+engine-e-ephem-export-read-back-count = { $w } states written, { $r } read back
+
+engine-e-ephem-export-read-back-value = the written file has a state that does not read back
+
 ## src/ephem_provider.rs
 
 engine-ephem-provider-earth-moon-barycentre-from-split = Earth-Moon barycentre from { $table }, split by the Montenbruck & Gill lunar series precessed to J2000
@@ -5784,6 +5814,12 @@ engine-main-error-expected-mean-needs-number = error: --expected-mean needs a nu
 engine-main-error-unknown-imu-fit-option = error: unknown imu-fit option { $x }
 
 engine-main-error-imu-fit-needs-an = error: imu-fit needs an IMU log path
+
+engine-main-error-option-needs-whole = error: { $a } needs a whole number
+
+engine-main-error-unknown-ephem-export-option = error: unknown ephem-export option { $x }
+
+engine-main-error-ephem-export-needs-a = error: ephem-export needs the path of a Horizons vector table
 
 engine-main-error-needs-value-2 = error: { $args } needs a value
 
@@ -10293,6 +10329,7 @@ engine-main-usage =
     { "   " }or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
     { "   " }or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
     { "   " }or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]
     { "   " }or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
