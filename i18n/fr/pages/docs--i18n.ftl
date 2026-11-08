@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Élément { "0.41" } : une seule exécution.</b> Rendre l
 
 seg-67e04a43cea8 = La compilation wasm n'embarque que le catalogue anglais. Les seize autres ajouteraient environ { "150" } kB en gzip chacun. Une page récupère <c1/> au choix d'une langue et appelle <c2/> ; si la récupération ou l'enregistrement échoue, la page reste en anglais. En natif, la ligne de commande et le wheel Python embarquent les { "18" }.
 
-seg-9a2f85e7e43c = Taille, <c1/> non optimisé issu de <c2/> (avant wasm-bindgen et wasm-opt), base 68e8632b par rapport à cette branche : { "18.71" } MB -> { "19.88" } MB brut, { "5.43" } MB -> { "5.79" } MB en gzip, +{ "357" } kB en gzip. Le catalogue anglais fait { "521" } kB brut, dont { "153" } kB en gzip ; le reste est <c3/> et ses dépendances. Cela est accepté tel que mesuré.
+seg-9a2f85e7e43c = Taille, <c1/> non optimisé issu de <c2/> (avant wasm-bindgen et wasm-opt), base bc04e98f par rapport à cette branche : { "18.71" } MB -> { "19.88" } MB brut, { "5.43" } MB -> { "5.79" } MB en gzip, +{ "357" } kB en gzip. Le catalogue anglais fait { "521" } kB brut, dont { "153" } kB en gzip ; le reste est <c3/> et ses dépendances. Cela est accepté tel que mesuré.
 
 seg-3ce9aab4916e = Le catalogue
 

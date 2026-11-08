@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Källorna S1 till S5 (titel, URL, hämtdatum, SHA-256, licens
 
 seg-d866653008e1 = Varje numeriskt påstående, citerat med sin sida och sina angivna antaganden och klassat som jämförbart, delvis jämförbart eller inte jämförbart: <c1/>. Inget påstående är helt jämförbart, eftersom ingen källa anger en percentil eller satelliternas banelement.
 
-seg-50535c58d3cf = Trösklar, fall och indata, incheckade för sig före körningen (revision { "2" }, ebac1e14), och den registrerade körningen: <c1/>. Resultatet är fastlåst i <c2/>.
+seg-50535c58d3cf = Trösklar, fall och indata, incheckade för sig före körningen (revision { "2" }, 05bf9a19), och den registrerade körningen: <c1/>. Resultatet är fastlåst i <c2/>.
 
 seg-069a652c402e = tröskel
 

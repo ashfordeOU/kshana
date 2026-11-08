@@ -480,7 +480,7 @@ seg-0e1285fdfe52 = Cinco linhas do registo (<c1/>), conforme a nota de projeto a
 # c2: ElevationMask
 # c3: get_dop
 # c4: xval/orekit-skyline/PREREGISTRATION.md
-seg-1aa76286f152 = Orekit { "12.2" } (ângulos de visada de <c1/>, <c2/>) com gnss_lib_py { "1.0.4" } (<c3/> e a matriz DOP), pré-registado em <c4/> (commit d94130d4) antes de qualquer um deles ser executado: { "1173" } ângulos de visada em seis locais e quatro épocas, seis tabelas, { "142" } conjuntos visíveis; pior elevação { "1.3e-13" }°, azimute { "2.3e-13" }°, máscara { "1.1e-12" }° face a { "1e-9" }°; conjuntos visíveis idênticos, nenhum na banda de fronteira; DOP { "3.3e-13" } relativo e cofator { "6.6e-13" } da escala da matriz face a { "1e-9" }. Âmbito: máscaras em tabela, ângulos de visada geodésicos, o conjunto mascarado e o seu DOP e cofator de relógio comum.
+seg-1aa76286f152 = Orekit { "12.2" } (ângulos de visada de <c1/>, <c2/>) com gnss_lib_py { "1.0.4" } (<c3/> e a matriz DOP), pré-registado em <c4/> (commit e4b9d912) antes de qualquer um deles ser executado: { "1173" } ângulos de visada em seis locais e quatro épocas, seis tabelas, { "142" } conjuntos visíveis; pior elevação { "1.3e-13" }°, azimute { "2.3e-13" }°, máscara { "1.1e-12" }° face a { "1e-9" }°; conjuntos visíveis idênticos, nenhum na banda de fronteira; DOP { "3.3e-13" } relativo e cofator { "6.6e-13" } da escala da matriz face a { "1e-9" }. Âmbito: máscaras em tabela, ângulos de visada geodésicos, o conjunto mascarado e o seu DOP e cofator de relógio comum.
 
 # text
 seg-b33828edbe2f = valores calculados à mão; a comparação acima lê as suas tabelas como entradas e não as verifica
@@ -495,7 +495,7 @@ seg-83946f66ca78 = nenhuma: dimensões escolhidas e declaradas (verificadas apen
 # c1: linalg.inv
 # c2: linalg.eigh
 # c3: xval/numpy-ellipse/PREREGISTRATION.md
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> e <c2/> (P2 padrão) nos { "142" } conjuntos visíveis registados, relógio comum e um relógio por sistema, pré-registado em <c3/> (commit 2dfc9c16): { "270" } casos, eixos { "5.1e-13" } relativo, orientação { "5.3e-12" }°, cofator { "1.0e-12" } da escala da matriz, face a { "1e-9" } e { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> e <c2/> (P2 padrão) nos { "142" } conjuntos visíveis registados, relógio comum e um relógio por sistema, pré-registado em <c3/> (commit 0bbeeaee): { "270" } casos, eixos { "5.1e-13" } relativo, orientação { "5.3e-12" }°, cofator { "1.0e-12" } da escala da matriz, face a { "1e-9" } e { "1e-6" }°
 
 # text
 seg-44e5f9ca28f7 = Funções de geometria do céu

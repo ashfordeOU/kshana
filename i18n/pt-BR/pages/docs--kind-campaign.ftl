@@ -73,7 +73,7 @@ seg-f16a176dc1f8 = <b>MODELLED</b> As fases do tipo de cenário <c1/>: cada fase
 seg-be831b52a339 = e mais { "4" } na matriz.
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Orçamento de enlace de J/S geométrico, C/N₀ antijamming, perda de sincronismo por satélite. Referência independente (InternalConsistency): Equação do orçamento de enlace de C/N₀ antijamming conferida contra uma nova derivação independente em numpy (compartilha a mesma forma fechada → InternalConsistency) mais uma caracterização real da degradação de C/N₀ do JammerTest-2024. { "0.30" } rodada { "2" }, bloqueado (permanece MODELLED): a queda de C/N0 medida no JammerTest { "2024" } contra uma previsão do orçamento de enlace (pré-registrada 6b2f6240, dentro de { "3" } dB) não foi executada porque a posição e o apontamento da antena F8.1 em
+seg-cc2ad9e12064 = <b>MODELLED</b> Orçamento de enlace de J/S geométrico, C/N₀ antijamming, perda de sincronismo por satélite. Referência independente (InternalConsistency): Equação do orçamento de enlace de C/N₀ antijamming conferida contra uma nova derivação independente em numpy (compartilha a mesma forma fechada → InternalConsistency) mais uma caracterização real da degradação de C/N₀ do JammerTest-2024. { "0.30" } rodada { "2" }, bloqueado (permanece MODELLED): a queda de C/N0 medida no JammerTest { "2024" } contra uma previsão do orçamento de enlace (pré-registrada 6a66994b, dentro de { "3" } dB) não foi executada porque a posição e o apontamento da antena F8.1 em
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Não fornecido — o Kshana modela o desempenho de sinal, não o hardware de carga útil/antena. Referência independente (NoneKind): nenhuma: uma disciplina de propriedade do parceiro, sem módulo e sem teste por projeto

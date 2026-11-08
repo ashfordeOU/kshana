@@ -32,9 +32,9 @@ seg-b1d90bf98ac3 = <b>VALIDATED</b> <c1/>的运行时默认值是库自带的、
 
 seg-0298bd40d72f = <b>MODELLED</b>对尾随窗口做最小二乘的偏置加变化率拟合，再加主要周期项（UT1为周年项、半年项和两个主要带谐潮汐；极移为钱德勒项、周年项和半年项），并以窗口内最后一个 测试：<a1>operational_eop_predictor_reference.rs</a1>。
 
-seg-12efcd20ca62 = <b>VALIDATED</b>一张表在每个预测时长的相同历元集上报告月球处的UT1预测误差、极移误差及其正交合成，给出. 参考基准（ExternalDataset）：astropy { "8.0.1" } utils.iers（BSD-3）按其自身的Bulletin-B优先否则A的规则读取IERS finals2000A产品，以及pyerfa { "2.0.1.5" }（SOFA）完整的天球到地球旋转（c2i06a、sp00、pom00、c2tcio；地球自转角按IERS { "2010" }式{ "5.15" }以精确算术计算），作为独立程序在冻结的2026-09-30 finals2000A.all的逐字行上运行；预先登记（3d43ba52），修订A1和A2仅固定
+seg-12efcd20ca62 = <b>VALIDATED</b>一张表在每个预测时长的相同历元集上报告月球处的UT1预测误差、极移误差及其正交合成，给出. 参考基准（ExternalDataset）：astropy { "8.0.1" } utils.iers（BSD-3）按其自身的Bulletin-B优先否则A的规则读取IERS finals2000A产品，以及pyerfa { "2.0.1.5" }（SOFA）完整的天球到地球旋转（c2i06a、sp00、pom00、c2tcio；地球自转角按IERS { "2010" }式{ "5.15" }以精确算术计算），作为独立程序在冻结的2026-09-30 finals2000A.all的逐字行上运行；预先登记（455b8fb5），修订A1和A2仅固定
 
-seg-020e5919c8fd = <b>VALIDATED</b> <c1/>的运行时默认值是库自带的、逐字取自IERS finals2000A的摘录副本（tools/finals2000A_20260930.txt：{ "174" }个连续. 参考基准（ExternalDataset）：astropy { "8.0.1" } astropy.utils.iers.IERS_A（BSD-3-Clause），用其自身的读取器读取同样的字节，以及IERS Bulletin A Vol. XXXIX No. { "039" }表，逐数字抄录；在运行astropy之前已预先登记（74b3c1a0）六条精确判据。六条全部成立：{ "30" }个最终、{ "54" }个快速和{ "90" }个预测行，MJD列表相同，每个预测行标志均为P，默认运行的统计相同，且预测与Bullet
+seg-020e5919c8fd = <b>VALIDATED</b> <c1/>的运行时默认值是库自带的、逐字取自IERS finals2000A的摘录副本（tools/finals2000A_20260930.txt：{ "174" }个连续. 参考基准（ExternalDataset）：astropy { "8.0.1" } astropy.utils.iers.IERS_A（BSD-3-Clause），用其自身的读取器读取同样的字节，以及IERS Bulletin A Vol. XXXIX No. { "039" }表，逐数字抄录；在运行astropy之前已预先登记（6fdae01b）六条精确判据。六条全部成立：{ "30" }个最终、{ "54" }个快速和{ "90" }个预测行，MJD列表相同，每个预测行标志均为P，默认运行的统计相同，且预测与Bullet
 
 seg-530c87bbff78 = <b>MODELLED</b>对尾随窗口做最小二乘的偏置加变化率拟合，再加主要周期项（UT1为周年项、半年项和两个主要带谐潮汐；. 参考基准（ReferenceImpl）：三条独立路径，没有一条是已发表的预测精度数字。（{ "1" }）已知系数的解析信号：这是检验周期项机制的唯一办法，因为没有任何已提交的序列长到足以容纳周年项。（{ "2" }）教科书式的闭式最小二乘解，代数形式不同于被测的矩阵求解，作用于真实行。（{ "3" }）真实存档的Bulletin A预测行，
 

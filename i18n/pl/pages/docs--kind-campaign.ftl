@@ -36,7 +36,7 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Fazy rodzaju <c1/>: każda faza uruchamia prz
 
 seg-be831b52a339 = oraz { "4" } kolejne w macierzy.
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Bilans łącza J/S wynikający z geometrii, C/N₀ przy zagłuszaniu, utrata śledzenia dla każdego satelity. Wyrocznia (InternalConsistency): Równanie bilansu łącza C/N₀ przy zagłuszaniu sprawdzone krzyżowo z niezależnym ponownym wyprowadzeniem w numpy (ta sama postać zamknięta → InternalConsistency) oraz charakteryzacja spadku C/N₀ w rzeczywistym JammerTest-2024. { "0.30" } runda { "2" }, zablokowane (pozostaje MODELLED): zmierzony spadek C/N0 w JammerTest { "2024" } względem prognozy z bilansu łącza (zarejestrowanej z góry 6b2f6240, w granicach { "3" } dB) nie został wykonany, ponieważ położenie i skierowanie anteny F8.1 przy
+seg-cc2ad9e12064 = <b>MODELLED</b> Bilans łącza J/S wynikający z geometrii, C/N₀ przy zagłuszaniu, utrata śledzenia dla każdego satelity. Wyrocznia (InternalConsistency): Równanie bilansu łącza C/N₀ przy zagłuszaniu sprawdzone krzyżowo z niezależnym ponownym wyprowadzeniem w numpy (ta sama postać zamknięta → InternalConsistency) oraz charakteryzacja spadku C/N₀ w rzeczywistym JammerTest-2024. { "0.30" } runda { "2" }, zablokowane (pozostaje MODELLED): zmierzony spadek C/N0 w JammerTest { "2024" } względem prognozy z bilansu łącza (zarejestrowanej z góry 6a66994b, w granicach { "3" } dB) nie został wykonany, ponieważ położenie i skierowanie anteny F8.1 przy
 
 seg-59afd80736c5 = <b>PARTNER</b> Nie zapewnia się — Kshana modeluje osiągi sygnału, a nie sprzęt ładunku użytecznego / anten. Wyrocznia (NoneKind): brak: dyscyplina należąca do partnera, z założenia bez modułu i bez testu
 

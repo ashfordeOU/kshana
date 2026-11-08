@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Kilderne S1 til S5 (titel, URL, hentedato, SHA-256, licens): 
 
 seg-d866653008e1 = Hver numerisk påstand, citeret med sin side og angivne antagelser og klassificeret som sammenlignelig, delvist sammenlignelig eller ikke sammenlignelig: <c1/>. Ingen påstand er fuldt sammenlignelig, fordi ingen kilde angiver en percentil eller satellitternes banelementer.
 
-seg-50535c58d3cf = Tærskler, tilfælde og inputs, committet alene før kørslen (revision { "2" }, ebac1e14), og den registrerede kørsel: <c1/>. Resultatet er fastholdt i <c2/>.
+seg-50535c58d3cf = Tærskler, tilfælde og inputs, committet alene før kørslen (revision { "2" }, 05bf9a19), og den registrerede kørsel: <c1/>. Resultatet er fastholdt i <c2/>.
 
 seg-069a652c402e = tærskel
 

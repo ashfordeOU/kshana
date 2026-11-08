@@ -1,6 +1,6 @@
 # docs--kind-integrity: translations (ja)
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM Airborne Design Document（ADD）v4.2 に従う ARAIM の複数仮説による解分離（araim_reference::add_v42_protection_levels と add_v42_protecti。オラクル（ExternalDataset）：三つの独立したツール。フィクスチャーやオラクル出力が存在する前に事前登録（ba7a01a7）し、許容差はその時点で固定しました。（{ "1" }）ARAIM：Stanford MAAST for ARAIM { "2" }（コミット ab70e2a3、BSD-3）の mhss_raim_baseline_v5.m を、GNU Octave { "8.4" } 上で別個のプログラムとして実行（ドライバー側に unique() の互換シムを置いています（開示済み、アルゴリズムの変更なし））、ADD の TOL_PL は{ "0.05" } m：Rust 実装は ADD の参照実装を次について再現します
+seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM Airborne Design Document（ADD）v4.2 に従う ARAIM の複数仮説による解分離（araim_reference::add_v42_protection_levels と add_v42_protecti。オラクル（ExternalDataset）：三つの独立したツール。フィクスチャーやオラクル出力が存在する前に事前登録（0123cee1）し、許容差はその時点で固定しました。（{ "1" }）ARAIM：Stanford MAAST for ARAIM { "2" }（コミット ab70e2a3、BSD-3）の mhss_raim_baseline_v5.m を、GNU Octave { "8.4" } 上で別個のプログラムとして実行（ドライバー側に unique() の互換シムを置いています（開示済み、アルゴリズムの変更なし））、ADD の TOL_PL は{ "0.05" } m：Rust 実装は ADD の参照実装を次について再現します
 
 seg-277205e56d73 = <b>VALIDATED</b> 視線方向の幾何から、Q=(HᵀH)⁻¹ とローカル ENU への分解によって求める GDOP/PDOP/HDOP/VDOP/TDOP。オラクル（ExternalDataset）：gnss_lib_py { "1.0.4" }（Stanford NAV Lab）の DOP — 独立したライブラリで、相対{ "1e-6" }まで一致
 

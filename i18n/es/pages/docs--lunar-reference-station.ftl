@@ -260,7 +260,7 @@ seg-d866653008e1 = Cada afirmación numérica, citada con su página y sus supue
 # text
 # c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
 # c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Umbrales, casos y entradas, confirmados por separado antes de la ejecución (revisión { "2" }, ebac1e14), y la ejecución registrada: <c1/>. El hallazgo está fijado en <c2/>.
+seg-50535c58d3cf = Umbrales, casos y entradas, confirmados por separado antes de la ejecución (revisión { "2" }, 05bf9a19), y la ejecución registrada: <c1/>. El hallazgo está fijado en <c2/>.
 
 # text
 seg-069a652c402e = umbral
@@ -329,7 +329,7 @@ seg-e666f1eb7a59 = Pasa { "1" } de { "6" } umbrales. La causa es la geometría. 
 seg-1da5fcf7bbf5 = Predicción preregistrada
 
 # text
-# c1: d4a2d4b5
+# c1: c05dac1d
 # c2: docs/predictions/lunar-reference-station.md
 # c3: tests/prediction_frozen.rs
 seg-4ea806a57380 = Una predicción preregistrada, congelada en el commit <c1/> con las entradas de fuentes públicas, con su protocolo de puntuación: <a1><c2/></a1>. Es una predicción, no una validación, y todas sus cifras están dominadas por el conjunto de elementos no publicado de la constelación de cuatro satélites (los elementos usados son ILLUSTRATIVE): sobre la región de { "80" } grados S, disponibilidad { "8.2" } %, 3-D p95 corregido { "280" } m, sin corregir { "3.8" } km. MODELLED; <c3/> falla si se mueve cualquier byte congelado.

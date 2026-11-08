@@ -204,7 +204,7 @@ seg-9d04c658b37a = Varje resultat bär <c1/> (MODELLED), <c2/> (geometri under e
 
 seg-0e1285fdfe52 = Fem registerrader (<c1/>), som designanteckningen avgränsar dem:
 
-seg-1aa76286f152 = Orekit { "12.2" } (lookvinklar via <c1/>, <c2/>) med gnss_lib_py { "1.0.4" } (<c3/> och DOP-matrisen), förhandsregistrerad i <c4/> (commit d94130d4) innan någondera kördes: { "1173" } lookvinklar på sex platser och fyra epoker, sex tabeller, { "142" } synliga uppsättningar; sämsta elevation { "1.3e-13" }°, azimut { "2.3e-13" }°, mask { "1.1e-12" }° mot { "1e-9" }°; identiska synliga uppsättningar, ingen i gränsbandet; DOP { "3.3e-13" } relativt och kofaktor { "6.6e-13" } av matrisskalan mot { "1e-9" }. Omfattning: tabellmasker, geodetiska lookvinklar, den maskerade mängden och dess DOP och kofaktor med gemensam klocka.
+seg-1aa76286f152 = Orekit { "12.2" } (lookvinklar via <c1/>, <c2/>) med gnss_lib_py { "1.0.4" } (<c3/> och DOP-matrisen), förhandsregistrerad i <c4/> (commit e4b9d912) innan någondera kördes: { "1173" } lookvinklar på sex platser och fyra epoker, sex tabeller, { "142" } synliga uppsättningar; sämsta elevation { "1.3e-13" }°, azimut { "2.3e-13" }°, mask { "1.1e-12" }° mot { "1e-9" }°; identiska synliga uppsättningar, ingen i gränsbandet; DOP { "3.3e-13" } relativt och kofaktor { "6.6e-13" } av matrisskalan mot { "1e-9" }. Omfattning: tabellmasker, geodetiska lookvinklar, den maskerade mängden och dess DOP och kofaktor med gemensam klocka.
 
 seg-b33828edbe2f = handberäknade värden; jämförelsen ovan läser deras tabeller som indata och kontrollerar dem inte
 
@@ -212,7 +212,7 @@ seg-ca950752be62 = Skylineförinställningar
 
 seg-83946f66ca78 = ingen: valda, angivna dimensioner (kontrollerade endast mot sig själva)
 
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> och <c2/> (standard P2) på de { "142" } incheckade synliga uppsättningarna, gemensam klocka och en klocka per system, förhandsregistrerad i <c3/> (commit 2dfc9c16): { "270" } fall, axlar { "5.1e-13" } relativt, orientering { "5.3e-12" }°, kofaktor { "1.0e-12" } av matrisskalan, mot { "1e-9" } och { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> och <c2/> (standard P2) på de { "142" } incheckade synliga uppsättningarna, gemensam klocka och en klocka per system, förhandsregistrerad i <c3/> (commit 0bbeeaee): { "270" } fall, axlar { "5.1e-13" } relativt, orientering { "5.3e-12" }°, kofaktor { "1.0e-12" } av matrisskalan, mot { "1e-9" } och { "1e-6" }°
 
 seg-44e5f9ca28f7 = Funktioner för himmelsgeometri
 

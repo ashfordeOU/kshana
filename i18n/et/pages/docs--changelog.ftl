@@ -346,7 +346,7 @@ seg-d25a34e23f1a = <b>IQ monitorid labori taasesituse kampaanias</b> (PRO-31, <a
 # c2: labfit-iq-followup
 # c3: docs/design/LABFIT-FROM-IQ.md
 # c4: docs/design/evidence/labfit-followup/RESULTS.md
-seg-8eb0f650065e = <b>Labori sobitus IQ kampaaniatest, järeluuring</b> (<c1/>, CI töö <c2/>). See testib kahte hüpoteesi, mille dokumendi <c3/> §{ "13.6" } jättis lahtiseks, lävede vastu, mis on eelregistreeritud kommitis 99e7c599. See lisab kaks sünteetilist kampaaniat: S astmelise J/S-ga (algväärtus 2026_1014) ja R, värske ramp (algväärtus 2026_1015). Tulemused on failis <c4/>.
+seg-8eb0f650065e = <b>Labori sobitus IQ kampaaniatest, järeluuring</b> (<c1/>, CI töö <c2/>). See testib kahte hüpoteesi, mille dokumendi <c3/> §{ "13.6" } jättis lahtiseks, lävede vastu, mis on eelregistreeritud kommitis 1e532f84. See lisab kaks sünteetilist kampaaniat: S astmelise J/S-ga (algväärtus 2026_1014) ja R, värske ramp (algväärtus 2026_1015). Tulemused on failis <c4/>.
 
 # text
 # c1: δ_eff
@@ -375,7 +375,7 @@ seg-34007ba58a9f = Ükski §{ "13" } otsus ei muutu ja registririda jääb MODEL
 seg-df2c3f2532d6 = <b>Piiratud FLL-i sisselukustumine, valikuline</b> (DS-LOOP-05): uus ahelaprojekti võti <c1/> (s), Rust <c2/>. Kui <c3/>, sunnib see FLL-ist PLL-ile ülemineku pärast nii pikka aega, sõltumata PLI-st. Vaikimisi seadistamata ja siis projekti räsist väljas; vaikeprojekt ja selle räsi on muutumatud.
 
 # text
-seg-ae2794b2d3d5 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 8aceabcb, süstitud tõe põhjal. Kontroll on täidetud: vaikeväärtus ei anna kunagi üle { "9" } seedil { "10" }-st väärtusel { "33" } dB-Hz.
+seg-ae2794b2d3d5 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 58789af0, süstitud tõe põhjal. Kontroll on täidetud: vaikeväärtus ei anna kunagi üle { "9" } seedil { "10" }-st väärtusel { "33" } dB-Hz.
 
 # text
 seg-6d9483874b35 = Täitmata: { "1.0" } s piirangu korral hoiavad { "16" } käitust { "20" }-st lukku väärtusel { "33" } dB-Hz ja { "8" } { "20" }-st väärtusel { "31" } dB-Hz; ülejäänud tsüklevad sunnitud üleandmiste ja FLL-i tagasipöördumise vahel. Faasivärin on { "1.8" }× ainult PLL-i oma väärtusel { "33" } dB-Hz.
@@ -414,10 +414,10 @@ seg-b568f542e23a = <c1/>: <c2/> ({ "1" } kuni { "16" }) ja <c3/> (MHz, vaikimisi
 seg-0dad81736863 = Ilma jaotisteta on iga väljund baitidena identne.
 
 # text
-seg-92007bfb6680 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 2ca31ee1. Kvantiseerija kadu on { "0.0007" } dB piires sõltumatust Monte Carlost ja AGC näit { "0.012" } dB piires IQ-kihi AGC-ahelast.
+seg-92007bfb6680 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 70c72fcc. Kvantiseerija kadu on { "0.0007" } dB piires sõltumatust Monte Carlost ja AGC näit { "0.012" } dB piires IQ-kihi AGC-ahelast.
 
 # text
-seg-973e451df99d = Registreeritud hüstereesikäitused olid infoväärtuseta (iga lüli kadus), seega on see lävi NOT MET. Täiendav käituskomplekt, mis on registreeritud kommitis { "2ef7427a" }, täidab selle: iga lipp võrdub sõltumatu ümberarvutusega ja { "732" } lülist { "1824" }-st näitavad hüstereesi.
+seg-973e451df99d = Registreeritud hüstereesikäitused olid infoväärtuseta (iga lüli kadus), seega on see lävi NOT MET. Täiendav käituskomplekt, mis on registreeritud kommitis { "37793290" }, täidab selle: iga lipp võrdub sõltumatu ümberarvutusega ja { "732" } lülist { "1824" }-st näitavad hüstereesi.
 
 # text
 seg-912e9f1a4d5b = Tähelepanek: CW-segajaga kaotab 1-bitine ADC umbes { "5" } dB rohkem kui Gaussi näitaja.
@@ -465,7 +465,7 @@ seg-b9696f5eda4b = Ilma jaotiseta on iga väljund baitidena identne.
 
 # text
 # c1: ν
-seg-593b6a5b4480 = Kontrollitud lävede ja kümne asukoha vastu, mis on eelregistreeritud kommitis 3b0ebdd4, Death Valley lisatud päris SRTM-i lahtril, sõltumatu numpy ümberarvutuse vastu. Kõik täidetud: halvim erinevus { "1.6e-10" } väärtusel <c1/> ja sumbuvusel (lävi { "1e-9" }), sumbuvus on segaja kõrguse suhtes monotoonne ja sumbuvus jõuab J/S-ini täpselt.
+seg-593b6a5b4480 = Kontrollitud lävede ja kümne asukoha vastu, mis on eelregistreeritud kommitis 92cd2bfd, Death Valley lisatud päris SRTM-i lahtril, sõltumatu numpy ümberarvutuse vastu. Kõik täidetud: halvim erinevus { "1.6e-10" } väärtusel <c1/> ja sumbuvusel (lävi { "1e-9" }), sumbuvus on segaja kõrguse suhtes monotoonne ja sumbuvus jõuab J/S-ini täpselt.
 
 # text
 seg-62e07defd715 = MODELLED; registririda „Segaja maastikuvarjestus jamming-liigis sõltumatu numpy ümberarvutuse suhtes päris SRTM-i lahtril“.
@@ -498,7 +498,7 @@ seg-1f1ddc11ad94 = Iga lüli saab ploki <c1/>: <c2/> (dB) ja <c3/> (dB).
 seg-790ecc6a1bd4 = Kehtetu jaotis (tühi elementide loend, tundmatu kaalutus, mittepositiivne ribalaius) on viga nii <c1/> ja <c2/> kaudu kui ka <c3/> kaudu.
 
 # text
-seg-2464d9dde85f = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 716de66a. Täidetud: additiivsus (pärast parandust: esimene ehitus lisas uued ühikud iga segamiskäituse ühikutabelisse); üks element ei ole massiiv; mürategur ja efektiivne C/N0 sõltumatu numpy ümberarvutuse vastu { "1e-9" } dB piires; MVDR läheneb nullile kõrge JNR-i korral.
+seg-2464d9dde85f = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 08d83b4d. Täidetud: additiivsus (pärast parandust: esimene ehitus lisas uued ühikud iga segamiskäituse ühikutabelisse); üks element ei ole massiiv; mürategur ja efektiivne C/N0 sõltumatu numpy ümberarvutuse vastu { "1e-9" } dB piires; MVDR läheneb nullile kõrge JNR-i korral.
 
 # text
 # c1: docs/revisions/STUDIO15-batch4-rebaseline.md
@@ -512,7 +512,7 @@ seg-c10e1c72eb15 = MODELLED; registririda „CRPA antennivõimendused jamming-li
 seg-0a3adfa7271c = <b>IQ jälgimismootor GNSS-SDR-i { "0.0.19" } suhtes</b> (PRO-33): <c1/> ja GNSS-SDR jälgivad samu sõltumatuid GPS L1 C/A numpy salvestusi väärtustel { "30" } kuni { "45" } dB-Hz.
 
 # text
-seg-cc73857e38e8 = Läved eelregistreeritud kommitis b1f25cce. Registreeritud kalibreerimine ebaõnnestus GNSS-SDR-i vale üleandmise tõttu (F3), seega lisab muudatus { "1" } (9496b6b0) mõlemale vastuvõtjale ainult sisselukustumise FLL-i, lisatud enne mis tahes katsesalvestust.
+seg-cc73857e38e8 = Läved eelregistreeritud kommitis 48edd4a5. Registreeritud kalibreerimine ebaõnnestus GNSS-SDR-i vale üleandmise tõttu (F3), seega lisab muudatus { "1" } (1e4288c4) mõlemale vastuvõtjale ainult sisselukustumise FLL-i, lisatud enne mis tahes katsesalvestust.
 
 # text
 seg-1d651ff134f9 = Täidetud: kandja ja koodi värin ning Doppler nõustuvad { "5" } % piires igal C/N0 väärtusel.
@@ -527,10 +527,10 @@ seg-7c32867b5c27 = MODELLED; registririda „IQ jälgimismootor GNSS-SDR-i { "0.
 seg-6ba057fab559 = <b>Kaks VALIDATED rida IQ-kihi koodidele</b> (DS-GIQ-06b, PRO-39).
 
 # text
-seg-55524624777b = <b>BeiDou B1I.</b> Kõik { "63" } B1I peamist koodi vastavad kiip kiibi haaval GNSS-SDR { "v0.0.19" } sõltumatule generaatorile (lävi eelregistreeritud kommitis db9dd696). Lisatud on ainult selle programmi väljund: B1I PRN koodid, mille avalik ICD määratleb, eesliite ja räsina.
+seg-55524624777b = <b>BeiDou B1I.</b> Kõik { "63" } B1I peamist koodi vastavad kiip kiibi haaval GNSS-SDR { "v0.0.19" } sõltumatule generaatorile (lävi eelregistreeritud kommitis 911106d1). Lisatud on ainult selle programmi väljund: B1I PRN koodid, mille avalik ICD määratleb, eesliite ja räsina.
 
 # text
-seg-37437a09dd67 = <b>GPS L1C.</b> Kõik { "126" } L1CP/L1CD koodi ja { "63" } L1CO ülekatet vastavad kontrollveergudele, mida IS-GPS-800J trükib, ning arvutatud Legendre’i jada vastab selle tabelile 6.2-1 (läved eelregistreeritud kommitis c6063eb2).
+seg-37437a09dd67 = <b>GPS L1C.</b> Kõik { "126" } L1CP/L1CD koodi ja { "63" } L1CO ülekatet vastavad kontrollveergudele, mida IS-GPS-800J trükib, ning arvutatud Legendre’i jada vastab selle tabelile 6.2-1 (läved eelregistreeritud kommitis fe372e26).
 
 # text
 seg-f445784a7f2d = Read: „BeiDou B1I peamised kaugusmõõtmiskoodid sõltumatu generaatori suhtes“ ja „GPS L1C kaugusmõõtmis- ja ülekattekoodid IS-GPS-800J trükitud kontrollveergude suhtes“.
@@ -547,7 +547,7 @@ seg-f445784a7f2d = Read: „BeiDou B1I peamised kaugusmõõtmiskoodid sõltumatu
 seg-001f48d86a3c = <b>GLONASS-i, BeiDou ja Galileo E6 ribad spektrimudelis</b> (CAP-12, signaalid): uued ribanimed <c1/> ja <c2/> (mis tahes FDMA kanal kujul <c3/>, K = −{ "7" } kuni { "6" }), <c4/>, <c5/>, <c6/>, <c7/> ja <c8/>. Igaüks kannab oma ICD kandesagedust, modulatsiooni ja minimaalset vastuvõetud võimsust. Need on valikulised nime järgi: vaikimisi ribakomplekt ja iga olemasolev väljund on muutumatud.
 
 # text
-seg-158a6ec19d6b = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 502af4a7: ICD väärtused, nullid, B1C komposiit ja C/N0 tee on täidetud.
+seg-158a6ec19d6b = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 5806f28b: ICD väärtused, nullid, B1C komposiit ja C/N0 tee on täidetud.
 
 # text
 seg-805092ae8ca2 = Kaks lävi jäid täitmata. Ühikpindala lävi oli kirjutatud kujul saavutamatu (F1). IQ-kihi B1I ja B1C lainekujud vastavad mudelile ainult ribakeskmistatult, nende koodide ebaühtlaste joonspektrite tõttu (F2).
@@ -564,7 +564,7 @@ seg-db88f07d97bb = MODELLED; registririda „Spektrimudel: GLONASS-i, BeiDou ja 
 seg-b0147cf3acc8 = <b>Lahtrikeskmistav CFAR-valik IQ hõivamises</b> (PRO-37): <c1/> ja <c2/> otsustavad hõivamisruudustikul, võrreldes iga lahtrit selle Doppleri rea tugilahtrite keskmisega. Lävi tuleneb suletud kujulisest CA-CFAR valehäire tõenäosusest <c3/> mittekoherentse bloki jaoks (<c4/>, <c5/>), seega otsus ei sõltu valimivõimsuse normaliseerimisest. See on valikuline; vaikedetektor ja iga olemasolev väljund on muutumatud.
 
 # text
-seg-a56e74b1e091 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 8af30331: suletud kuju Monte Carlo vastu ({ "18" } juhtu { "18" }-st) ja { "1" } % projekteeritud määr, mõõdetud { "0.97" }–{ "1.01" } % Gaussi ja 2-bitiselt kvantiseeritud müral.
+seg-a56e74b1e091 = Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 3724aefa: suletud kuju Monte Carlo vastu ({ "18" } juhtu { "18" }-st) ja { "1" } % projekteeritud määr, mõõdetud { "0.97" }–{ "1.01" } % Gaussi ja 2-bitiselt kvantiseeritud müral.
 
 # text
 seg-f88fe97e0ee6 = Üks lävi jäi täitmata: müravabal 2-bitisel signaalil ületab { "1.28" } % tipuväliseid lahtreid läve, koodi korrelatsiooni külgmaksimumide kohtadel (tähelepanek F1).
@@ -574,7 +574,7 @@ seg-8d88b626c31e = MODELLED; registririda „Lahtrikeskmistav CFAR-valik IQ hõi
 
 # text
 # c1: scripts/fetch_scint_malindi.sh
-seg-d596329195cf = <b>Sintillatsioonimudel mõõdetud andmete vastu</b> (PRO-34): IQ-kanali Cornelli sintillatsioonimudelit võrreldi mõõdetud { "50" } Hz GPS L1 intensiivsuse ja faasiga ekvatoriaalsest sintillatsiooniööst (Zenodo kirje { "16941224" }, INGV, Malindi, CC BY { "4.0" }), lävede all, mis on eelregistreeritud kommitis 653a2195. Täidetud: intensiivsuse jaotus ja S4-ga seotud faasisintillatsioon. Täitmata: mudel summutab { "2.4" } korda sagedamini alla −{ "10" } dB ja { "3.5" } korda kauem (tähelepanek F1). Registreeritud töötlus loeb mudeli mähitud faasi (tähelepanek F2); faasitulemus kehtib ka lahtimähituna. <c1/> toob andmed. Rida jääb MODELLED: „IQ ionosfääri sintillatsioonikanal (Cornelli mudel) mõõdetud { "50" } Hz GPS L1 sintillatsiooni suhtes“.
+seg-d596329195cf = <b>Sintillatsioonimudel mõõdetud andmete vastu</b> (PRO-34): IQ-kanali Cornelli sintillatsioonimudelit võrreldi mõõdetud { "50" } Hz GPS L1 intensiivsuse ja faasiga ekvatoriaalsest sintillatsiooniööst (Zenodo kirje { "16941224" }, INGV, Malindi, CC BY { "4.0" }), lävede all, mis on eelregistreeritud kommitis b6ccb499. Täidetud: intensiivsuse jaotus ja S4-ga seotud faasisintillatsioon. Täitmata: mudel summutab { "2.4" } korda sagedamini alla −{ "10" } dB ja { "3.5" } korda kauem (tähelepanek F1). Registreeritud töötlus loeb mudeli mähitud faasi (tähelepanek F2); faasitulemus kehtib ka lahtimähituna. <c1/> toob andmed. Rida jääb MODELLED: „IQ ionosfääri sintillatsioonikanal (Cornelli mudel) mõõdetud { "50" } Hz GPS L1 sintillatsiooni suhtes“.
 
 # text
 # c1: realdata::lugre::parse_iqs_sdrx
@@ -589,7 +589,7 @@ seg-d6740cab2271 = <b>Parandatud LuGRE valimilugeja</b> (MR-09): <c1/> loeb LuGR
 # c2: N = 8
 # c3: Channel::bump_jumps
 # c4: docs/design/evidence/boc-bump-jump/RESULTS.md
-seg-5adf36c03c14 = <b>Valikuline BOC({ "1,1" }) jälgimine</b> (CAP-07 (a)): <c1/> skaleerib DLL diskriminaatorid siinus-BOC({ "1,1" }) peamaksimumi jaoks ja lisab bump-jump monitori (väga varajased ja väga hilised korrelaatorid kohal ±{ "0.5" } kiipi, üles/alla loendurid, <c2/>), mis nihutab koodi NCO külgmaksimumilt eemale; <c3/> loetleb hüpped. Vaikimisi väljas ja iga olemasolev väljund on muutumatu. Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 700d95df, sünteetilisel BeiDou B1C signaalil: külgmaksimumilt algus, mis jääb ilma valikuta { "0.55" } kiipi kõrvale, tõmmatakse valikuga peamaksimumile ühe hüppega ajahetkel { "0.08" } s ja peamaksimumilt valehüpet ei nähtud. Üks lävi jäi täitmata: skaleerimise ühikutesti ruudustik ulatub diskriminaatorite lineaarsest vahemikust välja (tähelepanek F1 failis <c4/>). MODELLED; registririda „BOC({ "1,1" }) jälgimine: DLL skaleerimine ja bump-jump mitmetähenduslikkuse lahendamine (valikuline)“.
+seg-5adf36c03c14 = <b>Valikuline BOC({ "1,1" }) jälgimine</b> (CAP-07 (a)): <c1/> skaleerib DLL diskriminaatorid siinus-BOC({ "1,1" }) peamaksimumi jaoks ja lisab bump-jump monitori (väga varajased ja väga hilised korrelaatorid kohal ±{ "0.5" } kiipi, üles/alla loendurid, <c2/>), mis nihutab koodi NCO külgmaksimumilt eemale; <c3/> loetleb hüpped. Vaikimisi väljas ja iga olemasolev väljund on muutumatu. Kontrollitud lävede vastu, mis on eelregistreeritud kommitis 6b68f6cc, sünteetilisel BeiDou B1C signaalil: külgmaksimumilt algus, mis jääb ilma valikuta { "0.55" } kiipi kõrvale, tõmmatakse valikuga peamaksimumile ühe hüppega ajahetkel { "0.08" } s ja peamaksimumilt valehüpet ei nähtud. Üks lävi jäi täitmata: skaleerimise ühikutesti ruudustik ulatub diskriminaatorite lineaarsest vahemikust välja (tähelepanek F1 failis <c4/>). MODELLED; registririda „BOC({ "1,1" }) jälgimine: DLL skaleerimine ja bump-jump mitmetähenduslikkuse lahendamine (valikuline)“.
 
 # text
 # c1: docs/design/LABFIT-FROM-IQ.md
@@ -628,14 +628,14 @@ seg-4d58263106af = Aruanne on <c1/> JSON-i, CSV ja Markdownina, koos ühikute pl
 # c2: planetary_kernel_path
 # c3: KERNEL
 # c4: kernel
-seg-308d19be658d = <b><c1/> JPL-i tuumal</b> (CAP-31): <c2/> võtab iga keha, mida SPK sisaldab (de440s puhul: Merkuur, Veenus, Maa, Kuu), tuumalt, silt <c3/>, ning lisab ploki <c4/> ainult siis, kui see on seatud. Uus rida, VALIDATED SPICE-i vastu (eelregistreeritud f4a6297a; halvim { "3.3e-5" } m, { "1.0e-11" } m/s). Vaikearuanne on muutumatu.
+seg-308d19be658d = <b><c1/> JPL-i tuumal</b> (CAP-31): <c2/> võtab iga keha, mida SPK sisaldab (de440s puhul: Merkuur, Veenus, Maa, Kuu), tuumalt, silt <c3/>, ning lisab ploki <c4/> ainult siis, kui see on seatud. Uus rida, VALIDATED SPICE-i vastu (eelregistreeritud f8e946ea; halvim { "3.3e-5" } m, { "1.0e-11" } m/s). Vaikearuanne on muutumatu.
 
 # text
 # c1: maneuver::porkchop_kernel
 seg-fe16c24eae60 = <b>Porkchop DE440 efemeriidil</b> (CAP-20b): <c1/> pühib C3 ja saabumise V∞ heliotsentrilistel olekutel DE440 SPK-st. Uus rida, VALIDATED SPICE-i olekute vastu
 
 # text
-seg-a8632f3c86e9 = pykep { "3.0.1" } (eelregistreeritud b9317cee; Maa Marsile 2026-2028, { "304" } lahtrit, halvim { "2.6e-14" }, sama minimaalse C3 lahter).
+seg-a8632f3c86e9 = pykep { "3.0.1" } (eelregistreeritud 2d857fb1; Maa Marsile 2026-2028, { "304" } lahtrit, halvim { "2.6e-14" }, sama minimaalse C3 lahter).
 
 # text
 # c1: lunar_od::LunarMacroModel
@@ -643,7 +643,7 @@ seg-a8632f3c86e9 = pykep { "3.0.1" } (eelregistreeritud b9317cee; Maa Marsile 20
 # c3: LunarMacroModel::lro_generic
 # c4: docs/design/evidence/ds-lro-10-macro-model/RESULTS.md
 # c5: forces::conical_shadow_body
-seg-266cffab38a7 = <b>LRO mittegravitatsiooniline makromudel: NOT MET</b> (DS-LRO-10, eelregistreeritud a221a409). <c1/> (valikuline kaudu <c2/>): lamedate plaatide otsene päikesekiirgus Kuu varjuga, Päikest jälgiv paneel ning Kuu albeedo ja soojus-IR; <c3/> on märgistatud üldine LRO lähendus avaldatud faktidest (bussiplaate pole: plaadi tabelit ei õnnestunud hankida). { "4" } h LRO kaarel jätab see vähendatud dünaamilise RMS-i väärtusele { "6.668" } m ja dünaamilise väärtusele { "11.94" } m, uskumatu kiirgusteguriga (umbes +{ "21" } / −{ "22" }), seega kõik kolm lävi jäävad täitmata. Tähelepanek on kinnitatud testiga ja ühtki vaikeväljundit ei muudeta (<c4/>). Valikuline Kuu kahurikuuli SRP kasutab nüüd Maa varjuvööndi asemel Kuu koonilist varju (<c5/>).
+seg-266cffab38a7 = <b>LRO mittegravitatsiooniline makromudel: NOT MET</b> (DS-LRO-10, eelregistreeritud e82047e2). <c1/> (valikuline kaudu <c2/>): lamedate plaatide otsene päikesekiirgus Kuu varjuga, Päikest jälgiv paneel ning Kuu albeedo ja soojus-IR; <c3/> on märgistatud üldine LRO lähendus avaldatud faktidest (bussiplaate pole: plaadi tabelit ei õnnestunud hankida). { "4" } h LRO kaarel jätab see vähendatud dünaamilise RMS-i väärtusele { "6.668" } m ja dünaamilise väärtusele { "11.94" } m, uskumatu kiirgusteguriga (umbes +{ "21" } / −{ "22" }), seega kõik kolm lävi jäävad täitmata. Tähelepanek on kinnitatud testiga ja ühtki vaikeväljundit ei muudeta (<c4/>). Valikuline Kuu kahurikuuli SRP kasutab nüüd Maa varjuvööndi asemel Kuu koonilist varju (<c5/>).
 
 # text
 # c1: LunarForceModel::lunar_tide
@@ -653,19 +653,19 @@ seg-266cffab38a7 = <b>LRO mittegravitatsiooniline makromudel: NOT MET</b> (DS-LR
 seg-e4ed6e0e5048 = <b>Kuu OD: valikuline k2 tahke loodete mõju ja selenotsentriline relatiivsus</b> (DS-LRO-11), vaikimisi väljas (<c1/>, <c2/>); lüliti <c3/> ANISE ristvalideerimiseks (DS-LRO-04); { "24" } h LRO kaare fikstuur ja ainult informatiivne pika kaare sobitus (DS-LRO-09). Informatiivsed käitused on registreeritud failis <c4/>; ühtki avaldatud arvu ei muudeta.
 
 # text
-seg-b065138adba8 = <b>CR3BP { "9" }:{ "2" } NRHO CAPSTONE’i suhtes</b> (CAP-29d): uus MODELLED rida, mis mõõdab mootori ringpiiratud NRHO-d CAPSTONE’i lennatud orbiidi suhtes (JPL Horizons, märts { "2023" }; eelregistreeritud { "dab3215c" }): periood { "1.07" } %, apolune { "0.05" } %, perilune { "4.1" } % CAPSTONE’i keskmistest, registreeritud { "3" } / { "5" } / { "20" } % läve sees. Mõõtmine, mitte valideerimine.
+seg-b065138adba8 = <b>CR3BP { "9" }:{ "2" } NRHO CAPSTONE’i suhtes</b> (CAP-29d): uus MODELLED rida, mis mõõdab mootori ringpiiratud NRHO-d CAPSTONE’i lennatud orbiidi suhtes (JPL Horizons, märts { "2023" }; eelregistreeritud { "4e868170" }): periood { "1.07" } %, apolune { "0.05" } %, perilune { "4.1" } % CAPSTONE’i keskmistest, registreeritud { "3" } / { "5" } / { "20" } % läve sees. Mõõtmine, mitte valideerimine.
 
 # text
 # c1: cr3bp::to_moon_centred_icrf
 # c2: from_moon_centred_icrf
 # c3: to_moon_centred_icrf_de440
-seg-954bd2771180 = <b>CR3BP pöörlevad olekud Kuu-keskseks ICRF-iks</b> (RM-34, FUT-06): <c1/> / <c2/> / <c3/> vastendavad mõõtmeteta Maa-Kuu pöörleva oleku hetkelisele DE440 Maa-Kuu joonele, sh kaadri tasapinnaväline kiirus. Uus rida, VALIDATED SPICE-i kahe vektoriga kaadri vastu (eelregistreeritud 3bfc9445, muudetud enne mis tahes käitust e8bfabe4; { "72" } juhtu, halvim { "1.8e-7" } m ja { "1.2e-9" } m/s).
+seg-954bd2771180 = <b>CR3BP pöörlevad olekud Kuu-keskseks ICRF-iks</b> (RM-34, FUT-06): <c1/> / <c2/> / <c3/> vastendavad mõõtmeteta Maa-Kuu pöörleva oleku hetkelisele DE440 Maa-Kuu joonele, sh kaadri tasapinnaväline kiirus. Uus rida, VALIDATED SPICE-i kahe vektoriga kaadri vastu (eelregistreeritud 2313eb1b, muudetud enne mis tahes käitust d5ef79b3; { "72" } juhtu, halvim { "1.8e-7" } m ja { "1.2e-9" } m/s).
 
 # text
 # c1: cr3bp_family
 # c2: #[doc(hidden)]
 # c3: docs/design/evidence/cr3bp-families/RESULTS.md
-seg-14599ab79300 = <b>CR3BP perekonna liikmed JPL-i Three-Body Periodic Orbits API suhtes: NOT MET</b> (RM-35, eelregistreeritud ad0c9741). <c1/> (halo, NRHO ja DRO korrektsioon, monodroomia stabiilsusindeks, pseudokaare pikkusega jätkamine) vastab { "54" } API liikmele { "58" }-st igal lävel (olek, periood ja Jacobi { "1e-10" } piires kõikjal). Üks L1 halo stabiilsusindeks ({ "9.5e-2" }) ja kolm väikese DRO sulgumist ({ "1.5e-8" } kuni { "3.3e-8" } võrreldes väärtusega { "1e-8" }) jäävad lävest mööda, seega on moodul <c2/> ja ükski rida seda ei väida. Tulemused: <c3/>.
+seg-14599ab79300 = <b>CR3BP perekonna liikmed JPL-i Three-Body Periodic Orbits API suhtes: NOT MET</b> (RM-35, eelregistreeritud a9074f65). <c1/> (halo, NRHO ja DRO korrektsioon, monodroomia stabiilsusindeks, pseudokaare pikkusega jätkamine) vastab { "54" } API liikmele { "58" }-st igal lävel (olek, periood ja Jacobi { "1e-10" } piires kõikjal). Üks L1 halo stabiilsusindeks ({ "9.5e-2" }) ja kolm väikese DRO sulgumist ({ "1.5e-8" } kuni { "3.3e-8" } võrreldes väärtusega { "1e-8" }) jäävad lävest mööda, seega on moodul <c2/> ja ükski rida seda ei väida. Tulemused: <c3/>.
 
 # text
 # c1: lunar_frame::try_icrf_to_moon_pa_de440
@@ -673,28 +673,28 @@ seg-14599ab79300 = <b>CR3BP perekonna liikmed JPL-i Three-Body Periodic Orbits A
 # c3: try_mcmf_to_mci_de440
 # c4: lunar_od::De440LunarEnvironment
 # c5: docs/design/evidence/fut05-de440-lunar-env/RESULTS.md
-seg-0cd0e67a2e28 = <b>Valikuline DE440 Kuu orientatsioon ja keskkond</b> (FUT-05, DS-LRO-08; vaikeväärtused muutumatud): <c1/>, <c2/> / <c3/> (epohhiga ankurdatud, DE440 peatelgedes) ja <c4/> (sisseehitatud DE440 PA orientatsioon pluss geotsentriline Päike ja Kuu kasutaja antud DE440 SPK-st). ANISE’i vastu (eelregistreeritud 03db6794): orientatsioon { "3.5e-7" } rad piires ja LRO sobitused { "1" } mm piires, kuid efemeriidi haru jäi oma lävest mööda (Päike { "30.7" } m, Kuu { "1.1" } m, ANISE’i poolel ~{ "1" } ms ajanihe), seega see ei ole valideeritud rida. Tulemused: <c5/>.
+seg-0cd0e67a2e28 = <b>Valikuline DE440 Kuu orientatsioon ja keskkond</b> (FUT-05, DS-LRO-08; vaikeväärtused muutumatud): <c1/>, <c2/> / <c3/> (epohhiga ankurdatud, DE440 peatelgedes) ja <c4/> (sisseehitatud DE440 PA orientatsioon pluss geotsentriline Päike ja Kuu kasutaja antud DE440 SPK-st). ANISE’i vastu (eelregistreeritud ea537710): orientatsioon { "3.5e-7" } rad piires ja LRO sobitused { "1" } mm piires, kuid efemeriidi haru jäi oma lävest mööda (Päike { "30.7" } m, Kuu { "1.1" } m, ANISE’i poolel ~{ "1" } ms ajanihe), seega see ei ole valideeritud rida. Tulemused: <c5/>.
 
 # text
 # c1: docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md
-seg-92cc171c69da = <b>Kuu tugisüsteemi kampaania datum, tinglikkusega skaleeritud NumPy lävi: NOT MET</b> (eelregistreeritud 3855e840; jääb MODELLED). Samm { "0" } välistab pseudopöördmaatriksi tagavaravariandi kui põhjuse jaamade hinnatud lahknevusele { "0.30" }; NumPy nõustub lävega kaheksast stsenaariumist kuuel, kuid stations_estimated jääb lävest mööda ({ "6.8e-6" } võrreldes väärtusega { "5.9e-7" }) ning värskel kuupäeval 2026-12-01 muudab vaatlemata lõunapooluse maják majakainformatsiooni astakupuudulikuks, mida muutmata sõltumatu etalon ei suuda hinnata. Tulemused: <c1/>.
+seg-92cc171c69da = <b>Kuu tugisüsteemi kampaania datum, tinglikkusega skaleeritud NumPy lävi: NOT MET</b> (eelregistreeritud b887eb05; jääb MODELLED). Samm { "0" } välistab pseudopöördmaatriksi tagavaravariandi kui põhjuse jaamade hinnatud lahknevusele { "0.30" }; NumPy nõustub lävega kaheksast stsenaariumist kuuel, kuid stations_estimated jääb lävest mööda ({ "6.8e-6" } võrreldes väärtusega { "5.9e-7" }) ning värskel kuupäeval 2026-12-01 muudab vaatlemata lõunapooluse maják majakainformatsiooni astakupuudulikuks, mida muutmata sõltumatu etalon ei suuda hinnata. Tulemused: <c1/>.
 
 # text
 # c1: docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md
-seg-8d2f1e9708ff = <b>Kuu tugisüsteemi datum päris vaatluskampaaniast (analüütiline Kuu) VALIDATED</b> värsketel { "2025" } EDC normaalpunktidel (eelregistreeritud c6971d0 enne ühegi toomist): muutmata SPICE ja NumPy sõltumatu etalon nõustub raamatupidamise, astakute ja nullsidestuse osas ning { "1.11e-3" } piires sigmadel (lävi { "1e-2" }), { "8.95e-4" } tinglikkusel ja { "1.79e-3" } risti/piki suhetel (lävi { "2e-2" }). Ainult kovariatsiooniarvutuse Library kontroll; läved ei eralda Kuu mudeleid. Tulemused: <c1/>.
+seg-8d2f1e9708ff = <b>Kuu tugisüsteemi datum päris vaatluskampaaniast (analüütiline Kuu) VALIDATED</b> värsketel { "2025" } EDC normaalpunktidel (eelregistreeritud 31f5283 enne ühegi toomist): muutmata SPICE ja NumPy sõltumatu etalon nõustub raamatupidamise, astakute ja nullsidestuse osas ning { "1.11e-3" } piires sigmadel (lävi { "1e-2" }), { "8.95e-4" } tinglikkusel ja { "1.79e-3" } risti/piki suhetel (lävi { "2e-2" }). Ainult kovariatsiooniarvutuse Library kontroll; läved ei eralda Kuu mudeleid. Tulemused: <c1/>.
 
 # text
 # c1: Body::iau_rotation_et
 # c2: pxform
 # c3: Body::mu
 # c4: docs/design/evidence/mr08-body-orientation/RESULTS.md
-seg-058d7d490111 = <b>IAU kehade orientatsioon ja GM neljateistkümnel lisatud Päikesesüsteemi kehal</b>, eraldatud reast „Iga Päikesesüsteemi keha füüsikalised konstandid“ VALIDATED reaks (eelregistreeritud f3fa98b): <c1/> nõustub SPICE-i <c2/> väärtusega pck00011 pealt { "1e-9" } rad piires { "574" } maatriksil algsetel epohhidel ja { "574" } maatriksil { "41" } värskel epohhil, mida pole kunagi varem võrreldud (halvim Phobos { "1.38e-10" } rad), ning <c3/> võrdub väärtusega gm_de440 kõigil neljateistkümnel kehal. Algse rea ülejäänud osa (J2, keskmine raadius, aruanne) jääb MODELLED. Tulemused: <c4/>.
+seg-058d7d490111 = <b>IAU kehade orientatsioon ja GM neljateistkümnel lisatud Päikesesüsteemi kehal</b>, eraldatud reast „Iga Päikesesüsteemi keha füüsikalised konstandid“ VALIDATED reaks (eelregistreeritud 154bc54): <c1/> nõustub SPICE-i <c2/> väärtusega pck00011 pealt { "1e-9" } rad piires { "574" } maatriksil algsetel epohhidel ja { "574" } maatriksil { "41" } värskel epohhil, mida pole kunagi varem võrreldud (halvim Phobos { "1.38e-10" } rad), ning <c3/> võrdub väärtusega gm_de440 kõigil neljateistkümnel kehal. Algse rea ülejäänud osa (J2, keskmine raadius, aruanne) jääb MODELLED. Tulemused: <c4/>.
 
 # text
 # c1: maneuver::lambert_multirev
 # c2: maneuver::kepler_universal
 # c3: docs/design/evidence/lambert-multirev/RESULTS.md
-seg-56c445aa8d9e = <b>Mitme tiiruga Lambert</b> (<c1/>): iga lahend kuni kolme tiiruga, mõlemad harud. Uus registririda, VALIDATED pykep { "3.0.1" } vastu (eelregistreeritud 9879ae57; { "382" } juhtu, { "1058" } lahendit, halvim kiiruse erinevus { "1.6e-13" } võrreldes väärtusega { "1e-8" }). Sisemine Kepleri maandumiskaitse leidis funktsiooni <c2/> ühe piirangu kaarel e = { "0.994" }; see on registreeritud failis <c3/>.
+seg-56c445aa8d9e = <b>Mitme tiiruga Lambert</b> (<c1/>): iga lahend kuni kolme tiiruga, mõlemad harud. Uus registririda, VALIDATED pykep { "3.0.1" } vastu (eelregistreeritud a75de851; { "382" } juhtu, { "1058" } lahendit, halvim kiiruse erinevus { "1.6e-13" } võrreldes väärtusega { "1e-8" }). Sisemine Kepleri maandumiskaitse leidis funktsiooni <c2/> ühe piirangu kaarel e = { "0.994" }; see on registreeritud failis <c3/>.
 
 # text
 seg-b62dc38b09e9 = Kasti-tiiva ja ECOM2 päikesekiirguse rõhk (DS-PA-14), valikuline.
@@ -869,7 +869,7 @@ seg-e1a7ad42211e = <c1/> saab välja <c2/> (<c3/>, <c4/>). See hindab välja <c5
 # c13: c2t06a
 # c14: f64
 # c15: f64
-seg-957686bb351e = <b>Kaheosalised Juliuse kuupäevad läbi Maa pöörlemise orbiiditeel</b>: <c1/>, <c2/>, <c3/> / <c4/>, <c5/> ja <c6/>, <c7/> teisendused tüüpide <c8/> ja <c9/> vahel ning valikuline <c10/> stsenaariumile <c11/> (ECEF, aluspinna jälg ja jaama vaade; vaikimisi väljas ja muutumatu ning võti jäetakse stsenaariumi räsist välja, kui see on väljas). Uus registririda, VALIDATED pyerfa <c12/>/<c13/> vastu (eelregistreeritud 765860c3; { "40" } kuupäeva: GMST bititäpselt identne, maatriks { "2.7e-14" } piires, pöörlemine { "1" } µs sammude korral { "1.1e-14" } rad piires, kus üksik-<c14/> tee jääb neist mööda). Cowelli jõumudeli epohh jääb üksik-<c15/>; põhjus on selle dokumentatsioonis.
+seg-957686bb351e = <b>Kaheosalised Juliuse kuupäevad läbi Maa pöörlemise orbiiditeel</b>: <c1/>, <c2/>, <c3/> / <c4/>, <c5/> ja <c6/>, <c7/> teisendused tüüpide <c8/> ja <c9/> vahel ning valikuline <c10/> stsenaariumile <c11/> (ECEF, aluspinna jälg ja jaama vaade; vaikimisi väljas ja muutumatu ning võti jäetakse stsenaariumi räsist välja, kui see on väljas). Uus registririda, VALIDATED pyerfa <c12/>/<c13/> vastu (eelregistreeritud b10475ee; { "40" } kuupäeva: GMST bititäpselt identne, maatriks { "2.7e-14" } piires, pöörlemine { "1" } µs sammude korral { "1.1e-14" } rad piires, kus üksik-<c14/> tee jääb neist mööda). Cowelli jõumudeli epohh jääb üksik-<c15/>; põhjus on selle dokumentatsioonis.
 
 # text
 # c1: EopSeries::with_ls_ar_prediction
@@ -880,7 +880,7 @@ seg-0680b1f4c98b = <b>EOP ennustus väljaspool tabelit</b> (<c1/>, <c2/>): IERS 
 # c1: cio::gcrs_to_cirs_matrix_with_offsets
 # c2: precession_matrix
 # c3: teme_to_gcrs_matrix
-seg-a7d272a1ddd6 = <b>Taevapooluse nihked dX, dY CIO ahelas</b> (<c1/>) ning funktsioonide <c2/>, <c3/> ja uue funktsiooni otsesed ERFA vektorkontrollid. Uus registririda, VALIDATED pyerfa vastu (eelregistreeritud bbaeb5b5; { "40" } epohhi { "1950" }–{ "2100" }: pretsessioon ja CIO bititäpselt identsed, TEME→GCRS { "1.1e-10" } rad piires, kahe liikmega pööripunktivõrrandi rea ennustatud mõju). Olemasolevad funktsioonid on muutumatud.
+seg-a7d272a1ddd6 = <b>Taevapooluse nihked dX, dY CIO ahelas</b> (<c1/>) ning funktsioonide <c2/>, <c3/> ja uue funktsiooni otsesed ERFA vektorkontrollid. Uus registririda, VALIDATED pyerfa vastu (eelregistreeritud 979c1e39; { "40" } epohhi { "1950" }–{ "2100" }: pretsessioon ja CIO bititäpselt identsed, TEME→GCRS { "1.1e-10" } rad piires, kahe liikmega pööripunktivõrrandi rea ennustatud mõju). Olemasolevad funktsioonid on muutumatud.
 
 # text
 # c1: timescales::tai_minus_utc_on_date
@@ -892,7 +892,7 @@ seg-a7d272a1ddd6 = <b>Taevapooluse nihked dX, dY CIO ahelas</b> (<c1/>) ning fun
 # c7: taiutc
 # c8: f64
 # c9: timescales::tai_minus_utc
-seg-20d19a2d65ec = <b>Enne 1972. aastat kehtinud UTC kaheosalisel ajateel</b> (<c1/> ning <c2/>, <c3/> ja <c4/> alates 1960-01-01): triivava kiirusega („kummisekundi“) ajastu, SOFA triivitabeliga, päeva lõpu murdosaliste sammudega ja päevaosa UTC-st SI-ühikutesse skaleerimisega. Uus registririda, VALIDATED pyerfa <c5/>/<c6/>/<c7/> vastu (eelregistreeritud 247a01a6; { "117" } hetke { "1960" }–{ "1971" }, halvim { "2.9e-11" } s võrreldes { "1" } µs lävega). Iga { "1972" }+ tulemus on bititäpselt identne (kontrollsumma kindlaks määratud enne muudatust). Enne { "1960" } on TAI − UTC { "0" }, nagu SOFA-s. Üksik-<c8/> <c9/> on muutumatu.
+seg-20d19a2d65ec = <b>Enne 1972. aastat kehtinud UTC kaheosalisel ajateel</b> (<c1/> ning <c2/>, <c3/> ja <c4/> alates 1960-01-01): triivava kiirusega („kummisekundi“) ajastu, SOFA triivitabeliga, päeva lõpu murdosaliste sammudega ja päevaosa UTC-st SI-ühikutesse skaleerimisega. Uus registririda, VALIDATED pyerfa <c5/>/<c6/>/<c7/> vastu (eelregistreeritud 23c40661; { "117" } hetke { "1960" }–{ "1971" }, halvim { "2.9e-11" } s võrreldes { "1" } µs lävega). Iga { "1972" }+ tulemus on bititäpselt identne (kontrollsumma kindlaks määratud enne muudatust). Enne { "1960" } on TAI − UTC { "0" }, nagu SOFA-s. Üksik-<c8/> <c9/> on muutumatu.
 
 # text
 # c1: GlonassEphemeris::sv_clock_bias_s
@@ -901,7 +901,7 @@ seg-20d19a2d65ec = <b>Enne 1972. aastat kehtinud UTC kaheosalisel ajateel</b> (<
 # c4: γn
 # c5: geph2clk
 # c6: geph2pos
-seg-3ff0d080d9e6 = <b>GLONASS-i edastatav satelliidikell</b> (<c1/>): <c2/> RINEX-i kirjest, satelliidikellalt loetud ajahetkel (kaks kindla punktiga iteratsiooni, RTKLIB-i konventsioon). Parsitud <c3/> ja <c4/> olid varem kasutamata. Uus registririda „GLONASS-i edastatav satelliidikell ja edastatava orbiidi propageerimine“, VALIDATED RTKLIB 2.4.2-p13 <c5/>/<c6/> vastu (eelregistreeritud 5cad23b7; { "292" } juhtu päris { "2013" } edastusfailil: kella erinevus { "0" } s, halvim asukoht { "1.1" } mm võrreldes { "1" } cm lävega). Teegi funktsioon; ükski stsenaariumi väljund ei muutu. PZ-90.11 → ITRF teisendust ei rakendata ja moodul ütleb seda.
+seg-3ff0d080d9e6 = <b>GLONASS-i edastatav satelliidikell</b> (<c1/>): <c2/> RINEX-i kirjest, satelliidikellalt loetud ajahetkel (kaks kindla punktiga iteratsiooni, RTKLIB-i konventsioon). Parsitud <c3/> ja <c4/> olid varem kasutamata. Uus registririda „GLONASS-i edastatav satelliidikell ja edastatava orbiidi propageerimine“, VALIDATED RTKLIB 2.4.2-p13 <c5/>/<c6/> vastu (eelregistreeritud e099c42a; { "292" } juhtu päris { "2013" } edastusfailil: kella erinevus { "0" } s, halvim asukoht { "1.1" } mm võrreldes { "1" } cm lävega). Teegi funktsioon; ükski stsenaariumi väljund ei muutu. PZ-90.11 → ITRF teisendust ei rakendata ja moodul ütleb seda.
 
 # text
 # c1: xval/ppp-time/
@@ -1390,7 +1390,7 @@ seg-cd6dbcc3a78b = <b>Starlinki Doppleri positsioneerimine avaldatud eksperimend
 # text
 # c1: maneuver::optimise_transfer_kernel
 # c2: porkchop_kernel
-seg-ffeb1b66cda5 = <b>Impulsiivse ülekande optimeerija DE440 peal</b> ({ "0.36" }, WP-14, CAP-20c/d): <c1/> leiab ühe tiiruga ballistilise kahe impulsiga ülekande stardi- ja saabumiskuupäevad, mis minimeerivad stardi C3 või saabumise V-lõpmatuse tüübi I või tüübi II piires. See otsib 2-päevasel ruudustikul ja täpsustab seejärel 2-D Nelderi–Meadiga, heliotsentrilistel olekutel DE440 tuumast; see tugineb funktsioonile <c2/>. Võrdlus eelregistreeriti (06ad29a4) sõltumatu SPICE + pykep { "3.0.1" } + SciPy { "1.18.1" } optimeerija vastu { "2026" } Maa-Marsi võimaluse korral: kõik neli optimeerimist nõustuvad { "8.7e-13" } suhtelise vea piires, kuupäevad { "1e-5" } päeva piires (VALIDATED, uus registririda). Teisese avaldatud etalonina sobib NASA/TM-2010-216764 (2026-2045 Maa-Marsi käsiraamat) tüübi II minimaalse C3 jaoks ({ "9.182" } vs { "9.144" }) ja tüübi II minimaalse saabumise V-lõpmatuse jaoks ({ "2.564" } vs { "2.565" }). Selle tüübi I minimaalne C3 ei sobi: { "10.535" } vs { "11.11" } (-5.18 %), kus teegi sõltumatu etalon nõustub Kshanaga. See möödalask on registreeritud ja kinnitatud.
+seg-ffeb1b66cda5 = <b>Impulsiivse ülekande optimeerija DE440 peal</b> ({ "0.36" }, WP-14, CAP-20c/d): <c1/> leiab ühe tiiruga ballistilise kahe impulsiga ülekande stardi- ja saabumiskuupäevad, mis minimeerivad stardi C3 või saabumise V-lõpmatuse tüübi I või tüübi II piires. See otsib 2-päevasel ruudustikul ja täpsustab seejärel 2-D Nelderi–Meadiga, heliotsentrilistel olekutel DE440 tuumast; see tugineb funktsioonile <c2/>. Võrdlus eelregistreeriti (bf0439e8) sõltumatu SPICE + pykep { "3.0.1" } + SciPy { "1.18.1" } optimeerija vastu { "2026" } Maa-Marsi võimaluse korral: kõik neli optimeerimist nõustuvad { "8.7e-13" } suhtelise vea piires, kuupäevad { "1e-5" } päeva piires (VALIDATED, uus registririda). Teisese avaldatud etalonina sobib NASA/TM-2010-216764 (2026-2045 Maa-Marsi käsiraamat) tüübi II minimaalse C3 jaoks ({ "9.182" } vs { "9.144" }) ja tüübi II minimaalse saabumise V-lõpmatuse jaoks ({ "2.564" } vs { "2.565" }). Selle tüübi I minimaalne C3 ei sobi: { "10.535" } vs { "11.11" } (-5.18 %), kus teegi sõltumatu etalon nõustub Kshanaga. See möödalask on registreeritud ja kinnitatud.
 
 # text
 # c1: docs/LUNAR-REFERENCE-STATION.md
@@ -1403,7 +1403,7 @@ seg-91fe2e2625a1 = <b>Kuu etalonjaama uuring</b> ({ "0.36" }, ajendatud avaldatu
 # c2: lunar-station-coverage
 # c3: tests/prediction_frozen.rs
 # c4: docs/VALIDATION.md
-seg-3d0cd9692787 = <b>Eelregistreeritud ennustus: Kuu etalonjaama katvus</b> (mitte valideerimine; MODELLED). <a1><c1/></a1> külmutab kommitil d4a2d4b5 liigi <c2/> tulemused avalikult esitatud eelduste all, koos sisendite ja tulemuste SHA-256 räsidega ja nüüd fikseeritud hindamisprotokolliga (tegur { "2" } täpsuste ja kaitsetasemete jaoks, { "10" } protsendipunkti kättesaadavuse ja katvuse jaoks; muudetud eeldus saab uue dateeritud ennustuse, mitte kunagi redigeerimist; möödalask avaldatakse sama silmatorkavalt kui tabamus). Iga näitaja domineerib nelja satelliidi konstellatsiooni avaldamata elementide komplekt, mis on ILLUSTRATIVE, ja ütleb seda. <c3/> valvab seda; <c4/> saab jaotise „Eelregistreeritud ennustused“. Registririda puudub.
+seg-3d0cd9692787 = <b>Eelregistreeritud ennustus: Kuu etalonjaama katvus</b> (mitte valideerimine; MODELLED). <a1><c1/></a1> külmutab kommitil c05dac1d liigi <c2/> tulemused avalikult esitatud eelduste all, koos sisendite ja tulemuste SHA-256 räsidega ja nüüd fikseeritud hindamisprotokolliga (tegur { "2" } täpsuste ja kaitsetasemete jaoks, { "10" } protsendipunkti kättesaadavuse ja katvuse jaoks; muudetud eeldus saab uue dateeritud ennustuse, mitte kunagi redigeerimist; möödalask avaldatakse sama silmatorkavalt kui tabamus). Iga näitaja domineerib nelja satelliidi konstellatsiooni avaldamata elementide komplekt, mis on ILLUSTRATIVE, ja ütleb seda. <c3/> valvab seda; <c4/> saab jaotise „Eelregistreeritud ennustused“. Registririda puudub.
 
 # text
 # c1: lunar-station-coverage
@@ -1597,7 +1597,7 @@ seg-863c2c7a5f0b = <b>Kuu etalonjaam: jaama geodeesia</b> (<b>MODELLED</b>). Val
 # c2: tests/fixtures/lunar_station/SOURCES.md
 # c3: PREREGISTRATION.md
 # c4: tests/lunar_station_published_oracle.rs
-seg-45c6febcc7fc = <b>Kuu etalonjaam: võrdlus avaldatud väidetega</b> (<b>MODELLED</b>). Iga arvuline väide viies avalikus allikas on loetletud täpse sõnastuse, lehekülje ja esitatud eeldustega ning liigitatud võrreldavaks, osaliselt võrreldavaks või mittevõrreldavaks (<c1/>; allikad URL-i, toomise kuupäeva, SHA-256 ja litsentsiga failis <c2/>). Osaliselt võrreldavaid väiteid hinnati kuue ühepoolse lävega, mis eelregistreeriti enne käitust (<c3/>, redaktsioon { "2" }, ebac1e14): { "1" } väidet { "6" }-st eelregistreeritud läve piires (eelregistreeritud ebac1e14). Katvus on { "0.00" } võrreldes väärtusega >= { "0.95" } mõlemal lõunapolaarsel ringil ja parandatud p95 on { "280.6" } m võrreldes väärtusega <= { "1.5" } m. Põhjus on satelliitide orbiidielemendid, mida ükski allikas ei avalda: ILLUSTRATIVE hoidlasisestel elementidel on neli satelliiti ühisel vaatel { "8" } % epohhidest, peaaegu singulaarse geomeetriaga. Käitus ei reprodutseeri väiteid nendel elementidel ega ole tõend, et väited on valed. Kindlaks määratud failis <c4/>. Üks registririda, märgistatud MODELLED koos tähelepanekuga.
+seg-45c6febcc7fc = <b>Kuu etalonjaam: võrdlus avaldatud väidetega</b> (<b>MODELLED</b>). Iga arvuline väide viies avalikus allikas on loetletud täpse sõnastuse, lehekülje ja esitatud eeldustega ning liigitatud võrreldavaks, osaliselt võrreldavaks või mittevõrreldavaks (<c1/>; allikad URL-i, toomise kuupäeva, SHA-256 ja litsentsiga failis <c2/>). Osaliselt võrreldavaid väiteid hinnati kuue ühepoolse lävega, mis eelregistreeriti enne käitust (<c3/>, redaktsioon { "2" }, 05bf9a19): { "1" } väidet { "6" }-st eelregistreeritud läve piires (eelregistreeritud 05bf9a19). Katvus on { "0.00" } võrreldes väärtusega >= { "0.95" } mõlemal lõunapolaarsel ringil ja parandatud p95 on { "280.6" } m võrreldes väärtusega <= { "1.5" } m. Põhjus on satelliitide orbiidielemendid, mida ükski allikas ei avalda: ILLUSTRATIVE hoidlasisestel elementidel on neli satelliiti ühisel vaatel { "8" } % epohhidest, peaaegu singulaarse geomeetriaga. Käitus ei reprodutseeri väiteid nendel elementidel ega ole tõend, et väited on valed. Kindlaks määratud failis <c4/>. Üks registririda, märgistatud MODELLED koos tähelepanekuga.
 
 # text
 # c1: realdata::clk::rinex_clock_series
@@ -1837,7 +1837,7 @@ seg-ccbe11bd50b6 = <b>lunar-frame-campaign: vaatluseta majakas teatatakse nüüd
 # c4: pxform('MOON_ME','MOON_PA')
 # c5: docs/design/evidence/fut05b-me-pa-offset-sign/
 # c6: tests/agency_lro.rs
-seg-c223c1fc1323 = <b>Kuu peatelgede tugisüsteem</b> (<c1/>, kasutavad <c2/> ja LRO sobitus): DE421 keskmise Maa ja peatelgede nihe failist <c3/> rakendati vales suunas ja vales Euleri järjekorras, nii et analüütiline PA tugisüsteem asus PA-st umbes { "208" }″ eemal selle asemel, et sellel olla. Nüüd on see ümber kirjutatud nii, nagu SPICE'i Frames Required Reading seda defineerib, ja ühtib SPICE'iga <c4/> täpsusega { "2.6e-16" } rad; analüütiline PA tugisüsteem on DE440 PA-st { "6" }″ kuni { "8" }″ kaugusel (eelregistreeritud ab511714, uuesti registreeritud ea5f4cbf pärast seda, kui esimene kavandatud muudatus jäi lävele { "1e-12" } alla; <c5/>). Nihkuvad avaldatud arvud: LRO sobitus (<c6/>) toorkattuvus { "53.8" } → { "39.9" } m, dünaamiline { "12.6" } → { "12.05" } m, redutseeritud dünaamiline { "6.65" } → { "6.67" } m (läved muutumatud). Analüütiline pinu ühtib nüüd ANISE DE-klassi ristvalideerimisega ({ "12.0" } / { "6.67" } m) mõlemal tasemel; varasem dünaamilise taseme lõhe oli see viga.
+seg-c223c1fc1323 = <b>Kuu peatelgede tugisüsteem</b> (<c1/>, kasutavad <c2/> ja LRO sobitus): DE421 keskmise Maa ja peatelgede nihe failist <c3/> rakendati vales suunas ja vales Euleri järjekorras, nii et analüütiline PA tugisüsteem asus PA-st umbes { "208" }″ eemal selle asemel, et sellel olla. Nüüd on see ümber kirjutatud nii, nagu SPICE'i Frames Required Reading seda defineerib, ja ühtib SPICE'iga <c4/> täpsusega { "2.6e-16" } rad; analüütiline PA tugisüsteem on DE440 PA-st { "6" }″ kuni { "8" }″ kaugusel (eelregistreeritud e1ead19b, uuesti registreeritud be33382e pärast seda, kui esimene kavandatud muudatus jäi lävele { "1e-12" } alla; <c5/>). Nihkuvad avaldatud arvud: LRO sobitus (<c6/>) toorkattuvus { "53.8" } → { "39.9" } m, dünaamiline { "12.6" } → { "12.05" } m, redutseeritud dünaamiline { "6.65" } → { "6.67" } m (läved muutumatud). Analüütiline pinu ühtib nüüd ANISE DE-klassi ristvalideerimisega ({ "12.0" } / { "6.67" } m) mõlemal tasemel; varasem dünaamilise taseme lõhe oli see viga.
 
 # text
 # c1: [terrain] dem_hgt
@@ -3531,7 +3531,7 @@ seg-3631a31e7b26 = Keha konstandid: Phobos GM { "7.087e5" } -> { "7.087546066894
 # c3: docs/SOLAR-SYSTEM.md
 # c4: mcp/kshana-mcp/tests/round_trip.rs
 # c5: mars-orbit-pnt
-seg-ac1251d7a0fd = <c1/> (<c2/> Europal), täielikust pck00011 Europa orientatsioonist (ff6a6e20; orientatsioon ühtib SPICE pxform-iga { "1.4e-10" } rad täpsusega), mis nihutab maanduri inertsiaalruumis: kättesaadavus ainult releed / Maa kaugusega { "0.485" } / { "0.725" } -> { "0.480" } / { "0.719" } ({ "83" } -> { "82" } { "171" } epohhist ainult releed), mediaan PDOP { "5.266" } -> { "5.360" }, RMS lahendi viga { "129.516" } / { "100.983" } m -> { "112.742" } / { "86.147" } m, mediaan formaalne sigma { "5.266" } / { "4.272" } m -> { "5.360" } / { "4.239" } m. Tabel failis <c3/> ja kinnitus failis <c4/> järgivad; <c5/> on muutumatu.
+seg-ac1251d7a0fd = <c1/> (<c2/> Europal), täielikust pck00011 Europa orientatsioonist (7cfd66b4; orientatsioon ühtib SPICE pxform-iga { "1.4e-10" } rad täpsusega), mis nihutab maanduri inertsiaalruumis: kättesaadavus ainult releed / Maa kaugusega { "0.485" } / { "0.725" } -> { "0.480" } / { "0.719" } ({ "83" } -> { "82" } { "171" } epohhist ainult releed), mediaan PDOP { "5.266" } -> { "5.360" }, RMS lahendi viga { "129.516" } / { "100.983" } m -> { "112.742" } / { "86.147" } m, mediaan formaalne sigma { "5.266" } / { "4.272" } m -> { "5.360" } / { "4.239" } m. Tabel failis <c3/> ja kinnitus failis <c4/> järgivad; <c5/> on muutumatu.
 
 # text
 # c1: space-weather
@@ -3560,7 +3560,7 @@ seg-4ec44f8a5f8e = D12, laiendatud täpsus ja ruutjuurlahendaja (kaks uut VALIDA
 seg-d28005966948 = Osa { "1" }, laiendatud täpsusega sõltumatu etalon:
 
 # text
-seg-9a5f94973450 = Kuu tugisüsteemi datum hinnatud jaamadega: 50-kohaline mpmath laiendatud täpsusega sõltumatu etalon (eelregistreeritud 826dd676, tingimusega skaleeritud läved a priori tagurpidi veavalemist) ühtib uuel kampaaniakuupäeval (2026-03-18) ja algsel 2024-01-01 stsenaariumil; uus VALIDATED rida kategooria P2 all. See lahendab varasema kahekordse täpsuse vaidluse: mootori datumi sigmad on kuni { "9.7e-6" } võrra eemal, NumPy pöördmaatriksi ja omaväärtuse teed kuni { "6.2e-6" } võrra ning selle Choleski ja QR teed umbes { "1e-8" } võrra. Mootor on oma veapiiri sees, kuid umbes tuhat korda vähem täpne kui faktoriseerimistee.
+seg-9a5f94973450 = Kuu tugisüsteemi datum hinnatud jaamadega: 50-kohaline mpmath laiendatud täpsusega sõltumatu etalon (eelregistreeritud 804662d5, tingimusega skaleeritud läved a priori tagurpidi veavalemist) ühtib uuel kampaaniakuupäeval (2026-03-18) ja algsel 2024-01-01 stsenaariumil; uus VALIDATED rida kategooria P2 all. See lahendab varasema kahekordse täpsuse vaidluse: mootori datumi sigmad on kuni { "9.7e-6" } võrra eemal, NumPy pöördmaatriksi ja omaväärtuse teed kuni { "6.2e-6" } võrra ning selle Choleski ja QR teed umbes { "1e-8" } võrra. Mootor on oma veapiiri sees, kuid umbes tuhat korda vähem täpne kui faktoriseerimistee.
 
 # text
 seg-b055435a2138 = Sõltumatu etaloni keskkond: mpmath { "1.3.0" } lisatud.
@@ -3574,7 +3574,7 @@ seg-50b53908fb7c = Osa { "2" }, ruutjuur-informatsiooni datumi lahendaja:
 # text
 # c1: linalg_sr
 # c2: solver = "srif"
-seg-4c6089cfac5e = Uus valikuline ruutjuur-informatsiooni lahendaja (<c1/>; <c2/> stsenaariumis lunar-frame-campaign): Householderi QR, marginaliseerimine kolmnurkse teguri kaudu, Jacobi SVD spektri jaoks ja kompenseeritud korrutised ainult korrektselt ümardatud tehetest. 50-kohalise sõltumatu etaloni vastu (eelregistreeritud 6e7000be) ühtivad selle datumi sigmad { "3e-13" } täpsusega uuel kuupäeval (2026-06-09); 2026-03-18 ja 2024-01-01 sisenditel on vaikelahendaja kuni { "1e-5" } võrra eemal. Uus VALIDATED rida kategooria P2 all. Vaikelahendaja ja selle väljund on muutumatud. Eelregistreeritud läved tõendavad vigu ainult üle umbes { "2e-7" } suhtelise: need lükkavad vaikelahendaja tagasi, kuid mitte ümberpööratud Householderi märki, kompenseerimata skalaarkorrutist ega spektraalset lõppinversiooni, ja rida ütleb seda.
+seg-4c6089cfac5e = Uus valikuline ruutjuur-informatsiooni lahendaja (<c1/>; <c2/> stsenaariumis lunar-frame-campaign): Householderi QR, marginaliseerimine kolmnurkse teguri kaudu, Jacobi SVD spektri jaoks ja kompenseeritud korrutised ainult korrektselt ümardatud tehetest. 50-kohalise sõltumatu etaloni vastu (eelregistreeritud b41908c9) ühtivad selle datumi sigmad { "3e-13" } täpsusega uuel kuupäeval (2026-06-09); 2026-03-18 ja 2024-01-01 sisenditel on vaikelahendaja kuni { "1e-5" } võrra eemal. Uus VALIDATED rida kategooria P2 all. Vaikelahendaja ja selle väljund on muutumatud. Eelregistreeritud läved tõendavad vigu ainult üle umbes { "2e-7" } suhtelise: need lükkavad vaikelahendaja tagasi, kuid mitte ümberpööratud Householderi märki, kompenseerimata skalaarkorrutist ega spektraalset lõppinversiooni, ja rida ütleb seda.
 
 # text
 # c1: fim::crlb_srif
@@ -3606,7 +3606,7 @@ seg-30e8a645191f = NAIF-i kerneli lugejal on oma rida.
 # text
 # c1: naif_kernel
 # c2: tests/naif_reader_spice_oracle.rs
-seg-98ff121aa2a9 = <c1/> (DAF-konteiner, SPK tüüp { "2" }, binaarne PCK tüüp { "2" }) ühtib SPICE Toolkitiga (CSPICE N0067 läbi spiceypy { "8.2.0" }) ja ANISE-iga { "0.10.6" } kõigil { "600" } DE440 olekul ja { "200" } Kuu orientatsiooni pöördel juhuslikul ruudustikul, mis on tõmmatud eelregistreerimise commiti enda räsist (1e283534), läviväärtuste sees, mis on eelnevalt tuletatud kahekordse täpsusega Tšebõšovi hindamisest (halvim { "0.6" } % lävest, { "1.95e-3" } m). Rida väidab, et mootor loeb JPL-i kerneleid õigesti, mitte seda, et DE440 või analüütiline seeria on täpne (<c2/>).
+seg-98ff121aa2a9 = <c1/> (DAF-konteiner, SPK tüüp { "2" }, binaarne PCK tüüp { "2" }) ühtib SPICE Toolkitiga (CSPICE N0067 läbi spiceypy { "8.2.0" }) ja ANISE-iga { "0.10.6" } kõigil { "600" } DE440 olekul ja { "200" } Kuu orientatsiooni pöördel juhuslikul ruudustikul, mis on tõmmatud eelregistreerimise commiti enda räsist (abcd9133), läviväärtuste sees, mis on eelnevalt tuletatud kahekordse täpsusega Tšebõšovi hindamisest (halvim { "0.6" } % lävest, { "1.95e-3" } m). Rida väidab, et mootor loeb JPL-i kerneleid õigesti, mitte seda, et DE440 või analüütiline seeria on täpne (<c2/>).
 
 # text
 # c1: ephem_provider::KernelEphemeris
@@ -3622,16 +3622,16 @@ seg-6c7dae98601e = <b>Valikuline kerneli Kuu liikidele <c1/> ja <c2/></b>: võti
 
 # text
 # c1: tests/lunar_vlbi_surface_point_spice_oracle.rs
-seg-74e8def84747 = <b>Kuu pinnapunkti kovariatsioon kerneliteel</b> (uus VALIDATED rida): kui iga jaam on fikseeritud ja majakas DE440 Kuul, ühtib majaka kovariatsioon SPICE valguse aja Jacobi maatriksiga (halvim { "1.7e-3" } { "1" } % läve vastu) ja NumPy pöördmaatriksiga ({ "4e-14" } { "1e-9" } vastu), eelregistreeritud a4781fd (<c1/>). Analüütilise tee rida jääb MODELLED: analüütilisel Kuul on selle väikseim majaka sigma { "3.9" } % sõltumatu etaloni omast madalam.
+seg-74e8def84747 = <b>Kuu pinnapunkti kovariatsioon kerneliteel</b> (uus VALIDATED rida): kui iga jaam on fikseeritud ja majakas DE440 Kuul, ühtib majaka kovariatsioon SPICE valguse aja Jacobi maatriksiga (halvim { "1.7e-3" } { "1" } % läve vastu) ja NumPy pöördmaatriksiga ({ "4e-14" } { "1e-9" } vastu), eelregistreeritud 4a51256 (<c1/>). Analüütilise tee rida jääb MODELLED: analüütilisel Kuul on selle väikseim majaka sigma { "3.9" } % sõltumatu etaloni omast madalam.
 
 # text
 # c1: tests/validate_llr_datum_kernel_moon_fresh.rs
-seg-55002d236ab0 = <b>Kuu tugisüsteemi datum päris kampaaniast, kerneli Kuu keskpunkt</b> (uus VALIDATED rida): { "447" } nägemata 2019-Q2 normaalpunktil, eelregistreeritud adc4406e enne ühegi toomist, ühtib datumi kovariatsioon kerneliteel muutumatu SPICE ja NumPy sõltumatu etaloniga { "7.6e-5" } piires { "1" } % ja { "2" } % läve vastu (<c1/>). Asutaja otsustas, et see rida edutatakse ainult värskete punktide põhjal; nähtud andmete diagnostika (6d333da) on tähelepanek, mitte tõend. Lävi ei eralda Kuu mudeleid: ka analüütiline Kuu läbib sama lõigu (halvim { "3.8e-3" }), kavandatud mutatsiooni (kerneli Kuu tund hiljem) ei tuvastatud ja voltimisel läbis ka umbes { "4,650" } km vale Kuu keskpunkt (Kuu võetud ümber Maa-Kuu barütsentri). Rida väidab kovariatsiooni sellel teel, mitte Kuu keskpunkti, ja ütleb seda.
+seg-55002d236ab0 = <b>Kuu tugisüsteemi datum päris kampaaniast, kerneli Kuu keskpunkt</b> (uus VALIDATED rida): { "447" } nägemata 2019-Q2 normaalpunktil, eelregistreeritud 830d945a enne ühegi toomist, ühtib datumi kovariatsioon kerneliteel muutumatu SPICE ja NumPy sõltumatu etaloniga { "7.6e-5" } piires { "1" } % ja { "2" } % läve vastu (<c1/>). Asutaja otsustas, et see rida edutatakse ainult värskete punktide põhjal; nähtud andmete diagnostika (c51f8b2) on tähelepanek, mitte tõend. Lävi ei eralda Kuu mudeleid: ka analüütiline Kuu läbib sama lõigu (halvim { "3.8e-3" }), kavandatud mutatsiooni (kerneli Kuu tund hiljem) ei tuvastatud ja voltimisel läbis ka umbes { "4,650" } km vale Kuu keskpunkt (Kuu võetud ümber Maa-Kuu barütsentri). Rida väidab kovariatsiooni sellel teel, mitte Kuu keskpunkti, ja ütleb seda.
 
 # text
 # c1: KernelEphemeris::relative_position_utc
 # c2: tests/kernel_ephemeris_skyfield_oracle.rs
-seg-f147f9257b8b = <b>Päikese, Kuu, Merkuuri ja Veenuse asendid DE440-st UTC epohhidel</b> (uus VALIDATED rida): <c1/> ühtib Skyfield { "1.54" } omaga { "600" } asendil aastate { "1973" } ja { "2026" } vahel, halvim { "2.96" } m, eelregistreeritud läve (7c23d520) piires, mille seab kahe liikmega TDB − TT seeria (<c2/>). Planeetide asendid saavad selle uue kerneli rea nüüd; Standishi rida ja planeetide kaaslaste rida on muutumatud ning kaaslased ootavad stsenaariumi, mis neid vajab (asutaja otsus).
+seg-f147f9257b8b = <b>Päikese, Kuu, Merkuuri ja Veenuse asendid DE440-st UTC epohhidel</b> (uus VALIDATED rida): <c1/> ühtib Skyfield { "1.54" } omaga { "600" } asendil aastate { "1973" } ja { "2026" } vahel, halvim { "2.96" } m, eelregistreeritud läve (0bfafe6d) piires, mille seab kahe liikmega TDB − TT seeria (<c2/>). Planeetide asendid saavad selle uue kerneli rea nüüd; Standishi rida ja planeetide kaaslaste rida on muutumatud ning kaaslased ootavad stsenaariumi, mis neid vajab (asutaja otsus).
 
 # text
 # c1: tests/validate_llr_datum_kernel_moon.rs
@@ -3660,20 +3660,20 @@ seg-1f8644486f5d = <b>Mõõdetud kellateek (<c1/>).</b> Seadmekaardid (valge faa
 # c1: allan::lag1_noise_id
 # c2: autocorr_noise_id
 # c3: tests/clock_library_lag1_noise_id_allantools.rs
-seg-93add052ae56 = <b>Viivituse 1 autokorrelatsiooni müra tuvastamine</b> (<c1/>, Riley ja Greenhall { "2004" }), uus VALIDATED rida (Teek): ühtib allantools { "2024.6" } <c2/> omaga { "140" } juhul, täisarvud identsed, halvim erinevus { "9.6e-13" } { "1e-9" } läve vastu (eelregistreeritud 14169982; <c3/>).
+seg-93add052ae56 = <b>Viivituse 1 autokorrelatsiooni müra tuvastamine</b> (<c1/>, Riley ja Greenhall { "2004" }), uus VALIDATED rida (Teek): ühtib allantools { "2024.6" } <c2/> omaga { "140" } juhul, täisarvud identsed, halvim erinevus { "9.6e-13" } { "1e-9" } läve vastu (eelregistreeritud 2ec76864; <c3/>).
 
 # text
 # c1: tests/clock_library_device_cards_oracle.rs
 # c2: tests/clock_library_f9p_cards_oracle.rs
-seg-1fcea6ee6136 = <b>Mõõdetud seadmekaardid väljajäetud andmete ennustusega</b>, uus MODELLED rida (tähelepanek): sobitus ühele kolmandikule, ennustatakse ülejäänud kahe kolmandiku Alani hälve teguri { "1.5" } piires (eelregistreeritud 14169982). GPS Block IIF värskel IGS aknal (2026-03-01 kuni { "14" }): { "10" } { "11" }-st; G27 on kahetunnisel skaalal optimistlik (halvim tegur { "1.510" }). Tseesium (piires, { "1.070" }), OCXO (väljaspool, { "2.348" }) ja strontsium (piires) on teatatud, mitte pimedad. JammerTesti vastuvõtja kaart ning Galileo maseri ja Deep Space Atomic Clocki kaardid on blokeeritud. ZED-F9P vastuvõtja TCXO mudeliklass { "12" } staatilisel Wroclawi jaamal (Zenodo { "6488497" }) ebaõnnestub: { "1" } { "11" } pimedast jaamast avalikustatud parandatud kordusel (<c1/>, <c2/>).
+seg-1fcea6ee6136 = <b>Mõõdetud seadmekaardid väljajäetud andmete ennustusega</b>, uus MODELLED rida (tähelepanek): sobitus ühele kolmandikule, ennustatakse ülejäänud kahe kolmandiku Alani hälve teguri { "1.5" } piires (eelregistreeritud 2ec76864). GPS Block IIF värskel IGS aknal (2026-03-01 kuni { "14" }): { "10" } { "11" }-st; G27 on kahetunnisel skaalal optimistlik (halvim tegur { "1.510" }). Tseesium (piires, { "1.070" }), OCXO (väljaspool, { "2.348" }) ja strontsium (piires) on teatatud, mitte pimedad. JammerTesti vastuvõtja kaart ning Galileo maseri ja Deep Space Atomic Clocki kaardid on blokeeritud. ZED-F9P vastuvõtja TCXO mudeliklass { "12" } staatilisel Wroclawi jaamal (Zenodo { "6488497" }) ebaõnnestub: { "1" } { "11" } pimedast jaamast avalikustatud parandatud kordusel (<c1/>, <c2/>).
 
 # text
 # c1: tests/clock_library_periodic_cards_oracle.rs
-seg-26fa898f6272 = <b>GPS Block IIF kaardid pöördekohaste liikmetega</b>, uus MODELLED rida (tähelepanek): teisel värskel aknal (2026-04-01 kuni { "14" }) { "9" } { "11" }-st läve piires; G03 ({ "1.947" }) ja G25 ({ "1.581" }) on optimistlikud, kuna nende väljajäetud kirjed on müras kui nende sobitusosad; perioodiliste liikmete väljajätmine ebaõnnestub kõigil { "11" } (eelregistreeritud 698f3842; <c1/>).
+seg-26fa898f6272 = <b>GPS Block IIF kaardid pöördekohaste liikmetega</b>, uus MODELLED rida (tähelepanek): teisel värskel aknal (2026-04-01 kuni { "14" }) { "9" } { "11" }-st läve piires; G03 ({ "1.947" }) ja G25 ({ "1.581" }) on optimistlikud, kuna nende väljajäetud kirjed on müras kui nende sobitusosad; perioodiliste liikmete väljajätmine ebaõnnestub kõigil { "11" } (eelregistreeritud fb475550; <c1/>).
 
 # text
 # c1: tests/clock_state_ext_igs_conditioned_oracle.rs
-seg-ef456da29319 = <b>M002, pardakella oleku hindamine, voor { "3" }</b> (tähelepanek, jääb MODELLED): pärast külmutatud konditsioneerimisdetektorit täidab vooru 2 laiendatud filter, häälestus ja kriteeriumid muutumatuna kriteeriumid (a) ja (c) esimest korda kõigil { "11" } satelliidil; (b) ebaõnnestub G09 ({ "0.894" }) ja G26 ({ "0.876" }) puhul (eelregistreeritud 698f3842; <c1/>).
+seg-ef456da29319 = <b>M002, pardakella oleku hindamine, voor { "3" }</b> (tähelepanek, jääb MODELLED): pärast külmutatud konditsioneerimisdetektorit täidab vooru 2 laiendatud filter, häälestus ja kriteeriumid muutumatuna kriteeriumid (a) ja (c) esimest korda kõigil { "11" } satelliidil; (b) ebaõnnestub G09 ({ "0.894" }) ja G26 ({ "0.876" }) puhul (eelregistreeritud fb475550; <c1/>).
 
 # text
 # c1: tests/clock_library_tcxo_card_jammertest_oracle.rs
@@ -3681,7 +3681,7 @@ seg-0014b2629fd2 = <b>M010, spuufimise tuvastamine, voorud { "3" } kuni 4b</b> (
 
 # text
 # c1: tests/utck_bound_prospective_oracle.rs
-seg-79757abc69e3 = <b>M083, UTC(k) ülempiir, voor { "3" }</b>: eelregistreeritud prospektiivselt (698f3842) Circular T väljaannetel alates { "465" }, veel käitamata (<c1/>).
+seg-79757abc69e3 = <b>M083, UTC(k) ülempiir, voor { "3" }</b>: eelregistreeritud prospektiivselt (fb475550) Circular T väljaannetel alates { "465" }, veel käitamata (<c1/>).
 
 # text
 # c1: $KSHANA_ORACLES/data/wroclaw_f9p
@@ -3739,13 +3739,13 @@ seg-9ce091899bf1 = <c1/> hoiab paketi geomeetria-, aja- ja levituumad vabana pri
 # c1: dtf2d
 # c2: utctai
 # c3: taiutc
-seg-cf4ae964c5d1 = Uus VALIDATED rida „Two-part Julian dates and leap seconds on the Earth-orbit time path“: pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> { "224" } ajahetkel ümber kõigi { "27" } liigsekundi { "1e-6" } s piires (eelregistreeritud 896f3c2e); halvim { "1.9e-11" } s.
+seg-cf4ae964c5d1 = Uus VALIDATED rida „Two-part Julian dates and leap seconds on the Earth-orbit time path“: pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> { "224" } ajahetkel ümber kõigi { "27" } liigsekundi { "1e-6" } s piires (eelregistreeritud e947e69d); halvim { "1.9e-11" } s.
 
 # text
 # c1: c2t06a
 # c2: pnm06a
 # c3: ee06a
-seg-c0dec16ea932 = Uus VALIDATED rida „One Earth-orbit path“: { "232" } elemendikomplekti TEME asendid python-sgp4 { "2.24" } (Vallado etalon SGP4) vastu { "6.1e-8" } m piires (lävi { "1" } cm) ning GCRS -> ITRS ja TEME -> ITRS pöörded ERFA <c1/>, <c2/> ja <c3/> vastu { "2.9e-6" } mas ja { "0.41" } mas piires (läved { "0.1" } ja { "2" } mas), Maa orientatsiooniparameetritega (eelregistreeritud d92aef9b). Avalikustatud: esimene käitus ebaõnnestus ajahetkel 2016-12-31T23:{ "59" }:{ "59.5" } ühe pöördesekundi võrra; UT1 võeti UTC kvaasi-Juliuse kuupäevast liigsekundi päeval, mootor läheb nüüd läbi TAI ja teine käitus ühtib muutumatute lävedega.
+seg-c0dec16ea932 = Uus VALIDATED rida „One Earth-orbit path“: { "232" } elemendikomplekti TEME asendid python-sgp4 { "2.24" } (Vallado etalon SGP4) vastu { "6.1e-8" } m piires (lävi { "1" } cm) ning GCRS -> ITRS ja TEME -> ITRS pöörded ERFA <c1/>, <c2/> ja <c3/> vastu { "2.9e-6" } mas ja { "0.41" } mas piires (läved { "0.1" } ja { "2" } mas), Maa orientatsiooniparameetritega (eelregistreeritud 72ea9eb0). Avalikustatud: esimene käitus ebaõnnestus ajahetkel 2016-12-31T23:{ "59" }:{ "59.5" } ühe pöördesekundi võrra; UT1 võeti UTC kvaasi-Juliuse kuupäevast liigsekundi päeval, mootor läheb nüüd läbi TAI ja teine käitus ühtib muutumatute lävedega.
 
 # text
 seg-a72ccdc2516e = M131 „LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS“ muutub VALIDATED: Orekit { "13.1.8" } võtab mootori GCRS olekud, pöörab need ja arvutab nähtavuse ning DOP-i (NumPy mitme kellaga rühmade jaoks); asendid { "6.8e-5" } m piires (lävi { "0.2" } m), vaates olevate arv identne 4040/4040 valimil, mediaan DOP { "2.3e-11" } suhtelise piires.
@@ -3863,7 +3863,7 @@ seg-f0125531c4f8 = <c1/> ja moodulis <c2/> yaw-juhitav kerekoordinaatsüsteem, s
 
 # text
 # c1: tests/gps_lnav_rtklib_integer_oracle.rs
-seg-679aa02de1d0 = GPS LNAV navigatsioonisõnumi kodeerimine (uus rida, jääb MODELLED pärast integreerija järelkontrolli): { "2" }. märtsi { "2025" } IGS edastusfailil, mida parsis ja dekodeeris RTKLIB v2.4.2-p13, läbivad kõik { "960" } sõna pariteedi, kõik { "96" } alamkaadrit dekodeeruvad ja kõik { "608" } edastatud täisarvu on võrdsed Kshana omadega (<c1/>), kuid eelregistreerimine (a48d5b91) jõudis avalikule harule kaks sekundit pärast tulemust sisaldavat commiti, nii et järjestust „registreeritud enne faili toomist“ ei saa näidata ja rida ei edutata.
+seg-679aa02de1d0 = GPS LNAV navigatsioonisõnumi kodeerimine (uus rida, jääb MODELLED pärast integreerija järelkontrolli): { "2" }. märtsi { "2025" } IGS edastusfailil, mida parsis ja dekodeeris RTKLIB v2.4.2-p13, läbivad kõik { "960" } sõna pariteedi, kõik { "96" } alamkaadrit dekodeeruvad ja kõik { "608" } edastatud täisarvu on võrdsed Kshana omadega (<c1/>), kuid eelregistreerimine (d4d9eb9d) jõudis avalikule harule kaks sekundit pärast tulemust sisaldavat commiti, nii et järjestust „registreeritud enne faili toomist“ ei saa näidata ja rida ei edutata.
 
 # text
 # c1: realdata::ion_sdr
@@ -4021,10 +4021,10 @@ seg-7c41a482c7d8 = Paranduslik väljalase versioonil { "0.29.0" }: mõõdetud ka
 seg-997490bd1696 = Avaldatud arvude parandused
 
 # text
-# c1: fb73817
+# c1: db796dd
 # c2: 95.35 %
 # c3: src/
-# c4: 7b4617c
+# c4: b1d350d
 # c5: tests/coverage_figure_doc_sync.rs
 # c6: docs/COVERAGE.md
 seg-ed4b071e4bd9 = <b>Ridade katvus: ~{ "96" } % → ~{ "95" } %.</b> Katvuse töö mõõtis uuesti välja antud koodi { "0.29.0" } (commit <c1/>, CI jooksutus { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } rida { "58,697" }-st kataloogis <c3/>. Avaldatud arv oli { "95.63" } % ({ "37,697" } rida { "39,419" }-st), mõõdetuna commit'il <c4/> enne versiooni { "0.28.0" }; see ümardus väärtuseks ~{ "96" } %. Uus arv ümardub väärtuseks ~{ "95" } %, nii et iga pind, mida <c5/> kinnitab, liigub koos: <c6/>, README märk, Evidence'i rida ja CI tabel, märgid crates.io-s, PyPI-s ja npm-is, tehniline aruanne ning saidi kshana.dev katvuse leht. Alampiir { "85" } % ei muutu.
@@ -5814,7 +5814,7 @@ seg-2889ce118381 = Ridade katvusel on ametlik mõõtmine.
 # text
 # c1: docs/COVERAGE.md
 # c2: coverage
-# c3: 7b4617c
+# c3: b1d350d
 # c4: tests/coverage_figure_doc_sync.rs
 seg-9c4684c0a4ef = <c1/> kirjendab { "95.63" } % ({ "37,697" } rida { "39,419" }-st) CI töölt <c2/> commit'il <c3/> ja <c4/> kinnitab viis avalikku pinda „~{ "96" }%“ selle külge — ainus pealkirjaarv, mida hoiti käsitsi ja mis oli juba kord märkamatult liikunud.
 
@@ -6078,8 +6078,8 @@ seg-cbe63ab92c6a = test(docs): guard the distribution diagram, the last unguarde
 seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
 
 # text
-# c1: 2cfa462
-# c2: 4547e0d
+# c1: 7bba514
+# c2: 7864142
 # c3: .cargo_vcs_info.json
 # c4: main
 # c5: main
@@ -6202,14 +6202,14 @@ seg-ec4e75f94462 = <b>Sisu ei muutunud.</b> Ümberkirjutus puudutas ainult autor
 
 # text
 # c1: v0.26.0
-# c2: ef74e95e755715c34c514ad216204eb3b260021a
-# c3: ef74e95e755715c34c514ad216204eb3b260021a
+# c2: dce2dbf7700788cf6de46260c14673c0e5347360
+# c3: d4921f3025569e00e425e1747d0acfc261e96e18
 seg-bc0f4fa0a009 = <b>Mis see maksis.</b> Commit'i nimi on räsi selle puust, vanematest ja autoripäistest, nii et esivanema muutmine nimetab ümber iga järeltulija. Väljalaske <c1/> commit oli <c2/> ja on nüüd <c3/>. Kaks artefakti kirjendasid vana nime avaldamise ajal ja neid ei saa parandada, sest avaldatud registri versioon on kavandi poolest muutumatu:
 
 # text
 # c1: kshana
 # c2: .cargo_vcs_info.json
-# c3: ef74e95…
+# c3: dce2dbf…
 seg-52e096332738 = <c1/> { "0.26.0" } crates.io-s — <c2/> kirjendab <c3/>
 
 # text
@@ -6222,7 +6222,7 @@ seg-8ec39d2f136c = <c1/> { "0.26.0" } crates.io-s — sama sha1, <c2/>
 seg-9a21b7c7b41c = Midagi muud see ei mõjuta. npm-i pakett ei kirjenda <c1/> ja PyPI levitus ei kirjenda üldse commit'i; mõlemad kontrolliti, mitte ei eeldatud.
 
 # text
-# c1: ef74e95…
+# c1: dce2dbf…
 seg-9c51c5fb0d80 = Pole parandust, mis paneks <c1/> nimetama ümberkirjutatud commit'i: see string <em>on</em> vana esivanemate ahel ja ainus viis, kuidas see lahendub, on hoida ümberkirjutuse-eelne ajalugu avaldatuna, mis taastaks autorluse, mille ümberkirjutus eemaldas. Versiooni { "0.26.0" } päritolu kulgeb seetõttu sildi, mitte kirjendatud sha1 kaudu — ja silt annab identsed baidid, millest crate ehitati. Järgmine väljalase kirjendab kehtiva commit'i ilma täiendava tegevuseta.
 
 # text

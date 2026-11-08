@@ -77,7 +77,7 @@ seg-f16a176dc1f8 = <b>MODELLED</b> The <c1/> kind's phases: each phase runs one 
 seg-be831b52a339 = and { "4" } more in the matrix.
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing at
+seg-cc2ad9e12064 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6a66994b, within { "3" } dB) was not run because the F8.1 antenna position and pointing at
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

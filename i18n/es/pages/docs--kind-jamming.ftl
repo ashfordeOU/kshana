@@ -13,7 +13,7 @@ seg-37d16b499bc5 = dB
 seg-37d29d8303fe = km
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Balance de enlace J/S geométrico, C/N₀ antiinterferencia, pérdida de enganche por satélite. Referencia independiente (InternalConsistency): ecuación del balance de enlace de C/N₀ antiinterferencia contrastada con una rederivación independiente en numpy (comparte la misma forma cerrada → InternalConsistency) más una caracterización de la degradación de C/N₀ de JammerTest-2024 real. { "0.30" } ronda { "2" }, bloqueado (sigue siendo MODELLED): no se ejecutó la comparación de la caída de C/N0 medida en JammerTest { "2024" } con una predicción del balance de enlace (preregistrada 6b2f6240, dentro de { "3" } dB) porque la posición y el apuntamiento de la antena F8.1 en
+seg-cc2ad9e12064 = <b>MODELLED</b> Balance de enlace J/S geométrico, C/N₀ antiinterferencia, pérdida de enganche por satélite. Referencia independiente (InternalConsistency): ecuación del balance de enlace de C/N₀ antiinterferencia contrastada con una rederivación independiente en numpy (comparte la misma forma cerrada → InternalConsistency) más una caracterización de la degradación de C/N₀ de JammerTest-2024 real. { "0.30" } ronda { "2" }, bloqueado (sigue siendo MODELLED): no se ejecutó la comparación de la caída de C/N0 medida en JammerTest { "2024" } con una predicción del balance de enlace (preregistrada 6a66994b, dentro de { "3" } dB) porque la posición y el apuntamiento de la antena F8.1 en
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> No se proporciona — Kshana modela las prestaciones de la señal, no el hardware de carga útil ni de antenas. Referencia independiente (NoneKind): ninguna: una disciplina propiedad del socio, sin módulo ni prueba por diseño

@@ -6,7 +6,7 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-linkbudget, anti-jam-C/N₀, tab af lås pr. satellit. Uafhængig reference (InternalConsistency): Linkbudgetligningen for anti-jam-C/N₀ krydskontrolleret mod en uafhængig numpy-udledning påny (deler den samme lukkede form → InternalConsistency) plus en karakterisering af C/N₀-forringelse fra reelle JammerTest-2024-data. { "0.30" } runde { "2" }, blokeret (forbliver MODELLED): det målte fald i C/N0 fra JammerTest { "2024" } mod en linkbudgetforudsigelse (præregistreret 6b2f6240, inden for { "3" } dB) blev ikke kørt, fordi F8.1-antennens position og pegning ved
+seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-linkbudget, anti-jam-C/N₀, tab af lås pr. satellit. Uafhængig reference (InternalConsistency): Linkbudgetligningen for anti-jam-C/N₀ krydskontrolleret mod en uafhængig numpy-udledning påny (deler den samme lukkede form → InternalConsistency) plus en karakterisering af C/N₀-forringelse fra reelle JammerTest-2024-data. { "0.30" } runde { "2" }, blokeret (forbliver MODELLED): det målte fald i C/N0 fra JammerTest { "2024" } mod en linkbudgetforudsigelse (præregistreret 6a66994b, inden for { "3" } dB) blev ikke kørt, fordi F8.1-antennens position og pegning ved
 
 seg-143f3f1cc521 = Modstandsdygtighed over for jamming i GNSS-nægtede miljøer er MODELLED, ikke valideret: kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en ekstern uafhængig reference. (verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 

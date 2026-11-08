@@ -101,7 +101,7 @@ seg-4f5941f12127 = <b>MODELLED</b> Barrido Monte Carlo del modelo de PNT diferen
 
 # text
 # c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Barrido Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios en el polo sur y un día de épocas (el tipo de escenario <c1/>): para una r diferencial. Referencia independiente (InternalConsistency): Aritmética recalculada por un script de numpy independiente sobre casos exportados (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; preregistrado en tests/fixtures/lunar_station/PREREGISTRATION.md, confirmado por separado en 2d43d3d5 antes de la primera ejecución): en { "20" } casos con todos los términos de error activados, los conjuntos visibles y el estado son idénticos, los errores de distancia brutos coinciden hasta { "1.4e-14" } m, los vectores y magnitudes del error de posición hasta { "1.4e-9" } m frente a
+seg-d547d600ee2d = <b>MODELLED</b> Barrido Monte Carlo del modelo de PNT diferencial lunar sobre una cuadrícula de usuarios en el polo sur y un día de épocas (el tipo de escenario <c1/>): para una r diferencial. Referencia independiente (InternalConsistency): Aritmética recalculada por un script de numpy independiente sobre casos exportados (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; preregistrado en tests/fixtures/lunar_station/PREREGISTRATION.md, confirmado por separado en 9caedf97 antes de la primera ejecución): en { "20" } casos con todos los términos de error activados, los conjuntos visibles y el estado son idénticos, los errores de distancia brutos coinciden hasta { "1.4e-14" } m, los vectores y magnitudes del error de posición hasta { "1.4e-9" } m frente a
 
 # text
 # c1: label

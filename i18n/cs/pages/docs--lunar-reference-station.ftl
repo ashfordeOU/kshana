@@ -112,7 +112,7 @@ seg-fc27b4012f02 = Zdroje S1 až S5 (název, URL, datum stažení, SHA-256, lice
 
 seg-d866653008e1 = Každé číselné tvrzení, citované s uvedením stránky a stanovených předpokladů a zařazené jako srovnatelné, částečně srovnatelné nebo nesrovnatelné: <c1/>. Žádné tvrzení není plně srovnatelné, protože žádný zdroj neuvádí percentil ani orbitální elementy družic.
 
-seg-50535c58d3cf = Prahy, případy a vstupy, zapsané samostatně před během (revize { "2" }, ebac1e14), a zaznamenaný běh: <c1/>. Zjištění je připnuto v <c2/>.
+seg-50535c58d3cf = Prahy, případy a vstupy, zapsané samostatně před během (revize { "2" }, 05bf9a19), a zaznamenaný běh: <c1/>. Zjištění je připnuto v <c2/>.
 
 seg-069a652c402e = práh
 

@@ -32,7 +32,7 @@ seg-c2a8332f2ee2 = 引擎为scenarios/eo-coverage.toml（类型eo-coverage）生
 
 seg-d86d43628cf3 = <b>VALIDATED</b> SMAD空间三角形几何：地球角半径、幅宽、星下点GSD、最大离天底接入角与圆轨道周期，以及一阶J2交点周期（eo_payload::j2_nodal_period）和赤道星下点轨迹间距R_e (omega_ 测试：<a1>eo_payload_coverage_reference.rs</a1>。
 
-seg-9938f1de9eb8 = <b>VALIDATED</b> SMAD空间三角形几何：地球角半径、幅宽、星下点GSD、最大离天底接入角与圆轨道周期，以及一阶J2交点周期（。参考基准（oracle，ExternalDataset）：Orekit { "12.2" }（Apache-2.0）与GeographicLib { "2.1" }（MIT），均作为独立程序运行，已在引擎改动及任何参考基准运行之前预先登记（80513191）：球面量在相对{ "1e-9" }以内（最差值：角半径{ "5.4e-16" }，幅宽{ "7.0e-13" }，接入角{ "1.9e-14" }），周期{ "1e-12" }（{ "1.6e-16" }），星下点GSD { "1e-7" }（{ "2.9e-10" }），J2交点周期与节点间距与带节点检测器的Orekit数值J2传播相差在{ "0.1" } % 以内（{ "1" }
+seg-9938f1de9eb8 = <b>VALIDATED</b> SMAD空间三角形几何：地球角半径、幅宽、星下点GSD、最大离天底接入角与圆轨道周期，以及一阶J2交点周期（。参考基准（oracle，ExternalDataset）：Orekit { "12.2" }（Apache-2.0）与GeographicLib { "2.1" }（MIT），均作为独立程序运行，已在引擎改动及任何参考基准运行之前预先登记（766823f3）：球面量在相对{ "1e-9" }以内（最差值：角半径{ "5.4e-16" }，幅宽{ "7.0e-13" }，接入角{ "1.9e-14" }），周期{ "1e-12" }（{ "1.6e-16" }），星下点GSD { "1e-7" }（{ "2.9e-10" }），J2交点周期与节点间距与带节点检测器的Orekit数值J2传播相差在{ "0.1" } % 以内（{ "1" }
 
 seg-45625167e59f = MODELLED — 球形地球空间三角形几何；幅宽/GSD/接入角均为几何量（无辐射度/MTF/大气/抖动/耀光），星下点轨迹间距为R_e·(ω − Ω̇)·T_nodal，采用一阶J2长期项速率（结果<c1/>）
 

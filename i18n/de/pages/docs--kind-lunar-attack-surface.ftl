@@ -85,7 +85,7 @@ seg-37d16b499bc5 = dB
 seg-98151954f217 = false
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisches J/S-Link-Budget, Anti-Jam-C/N₀, Lock-Verlust je Satellit. Unabhängige Referenz (InternalConsistency): Anti-Jam-C/N₀-Link-Budget-Gleichung, gegen eine unabhängige numpy-Neuherleitung gegengeprüft (teilt dieselbe geschlossene Form → InternalConsistency), plus eine Charakterisierung der C/N₀-Verschlechterung mit realen JammerTest-2024-Daten. { "0.30" } Runde { "2" }, blockiert (bleibt MODELLED): der gemessene C/N0-Abfall von JammerTest { "2024" } gegen eine Link-Budget-Vorhersage (vorab registriert 6b2f6240, innerhalb von { "3" } dB) wurde nicht ausgeführt, weil die Antennenposition und -ausrichtung F8.1 bei
+seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisches J/S-Link-Budget, Anti-Jam-C/N₀, Lock-Verlust je Satellit. Unabhängige Referenz (InternalConsistency): Anti-Jam-C/N₀-Link-Budget-Gleichung, gegen eine unabhängige numpy-Neuherleitung gegengeprüft (teilt dieselbe geschlossene Form → InternalConsistency), plus eine Charakterisierung der C/N₀-Verschlechterung mit realen JammerTest-2024-Daten. { "0.30" } Runde { "2" }, blockiert (bleibt MODELLED): der gemessene C/N0-Abfall von JammerTest { "2024" } gegen eine Link-Budget-Vorhersage (vorab registriert 6a66994b, innerhalb von { "3" } dB) wurde nicht ausgeführt, weil die Antennenposition und -ausrichtung F8.1 bei
 
 # text
 seg-143f3f1cc521 = Jamming-Resilienz bei GNSS-Ausfall ist MODELLED, nicht validiert: gegen die eigene geschlossene bzw. analytische Identität geprüft — fängt Transkriptions- und Koeffizientenfehler ab, ist aber keine unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))

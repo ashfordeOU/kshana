@@ -10,7 +10,7 @@ seg-1c1eeb2dcaa0 = Page de famille : <a1>Lunaire et cislunaire</a1>
 seg-619127334cf3 = Aucune ligne de la matrice ne nomme ce type de scénario ; l'étiquette de son résultat est celle du moteur lui-même, ci-dessus.
 
 # text
-seg-aec7fc2a4070 = <b>VALIDATED</b> Séparation de solutions à hypothèses multiples ARAIM selon l'ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels et add_v42_protecti. Référence indépendante (ExternalDataset) : trois outils indépendants, préenregistrés (ba7a01a7) avant l'existence de toute donnée de banc d'essai ou de référence, tolérances alors fixées. ({ "1" }) ARAIM : Stanford MAAST pour ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, exécuté comme programme séparé sous GNU Octave { "8.4" } avec une couche de compatibilité unique() côté pilote (divulguée, sans changement d'algorithme), au TOL_PL de l'ADD de { "0.05" } m : le Rust reproduit l'implémentation de référence de l'ADD sur
+seg-aec7fc2a4070 = <b>VALIDATED</b> Séparation de solutions à hypothèses multiples ARAIM selon l'ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels et add_v42_protecti. Référence indépendante (ExternalDataset) : trois outils indépendants, préenregistrés (0123cee1) avant l'existence de toute donnée de banc d'essai ou de référence, tolérances alors fixées. ({ "1" }) ARAIM : Stanford MAAST pour ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, exécuté comme programme séparé sous GNU Octave { "8.4" } avec une couche de compatibilité unique() côté pilote (divulguée, sans changement d'algorithme), au TOL_PL de l'ADD de { "0.05" } m : le Rust reproduit l'implémentation de référence de l'ADD sur
 
 # text
 # c1: docs/kinds/by-kind/lunar-integrity.md
