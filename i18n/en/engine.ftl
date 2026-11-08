@@ -915,8 +915,6 @@ engine-bench-cli-cannot-create = cannot create { $d }: { $e }
 
 engine-bench-cli-cannot-write = cannot write { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = unknown task `{ $t }` (a, b, c or d)
-
 engine-bench-cli-scored-epochs-in-folder = { $labels } scored epochs in { $folders } folder(s)
 
 engine-bench-cli-wrote-cases-json-and-truth = wrote { $out }/cases.json and { $out }/truth.json
@@ -11663,3 +11661,15 @@ engine-e-planner-placement = placement needs candidates and m between 1 and thei
 engine-env-baseline-usage = usage: kshana env-baseline <site-hours.json>
 
 engine-e-env-baseline-input = not a list of site-hours (lat_deg, lon_deg, year, doy, ut_hour, kp, f107): { $e }
+
+## src/bench/task_e.rs
+
+engine-bench-cli-truth-json-e = e-{ $split }.truth.json
+
+engine-bench-cli-unknown-task-e = unknown task `{ $t }` (a, b, c, d or e)
+
+engine-e-bench-task-e-predictions-labels = task (e) predictions need a `labels` object and a `class_scores` object
+
+engine-e-bench-task-e-bad-class = the truth label `{ $id }` has no class among nominal, jamming, spoofing and meaconing
+
+engine-e-bench-task-e-missing-prediction = no label or no class scores (nominal, jamming, spoofing, meaconing) for `{ $id }`

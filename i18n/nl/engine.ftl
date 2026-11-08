@@ -721,8 +721,6 @@ engine-bench-cli-cannot-create = kan { $d } niet aanmaken: { $e }
 
 engine-bench-cli-cannot-write = kan { $p } niet schrijven: { $e }
 
-engine-bench-cli-unknown-task-or = onbekende taak `{ $t }` (a, b, c of d)
-
 engine-bench-cli-scored-epochs-in-folder = { $labels } gescoorde epochs in { $folders } map(pen)
 
 engine-bench-cli-wrote-cases-json-and-truth = geschreven: { $out }/cases.json en { $out }/truth.json

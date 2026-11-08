@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/cli.rs": {
-   "count": 45,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 47,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document"
   },
   "src/bench/mod.rs": {
    "count": 39,
@@ -64,6 +64,10 @@
   "src/bench/site.rs": {
    "count": 10,
    "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue"
+  },
+  "src/bench/task_e.rs": {
+   "count": 29,
+   "reason": "identifier: the class names, JSON keys and metric names of the task (e) truth, predictions and result documents, with the excluded-folder reasons and B-log system names written into them (bench/SPEC.md)"
   },
   "src/bench/tasks.rs": {
    "count": 30,

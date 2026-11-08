@@ -565,8 +565,6 @@ engine-bench-cli-cannot-create = { $d } nelze vytvořit: { $e }
 
 engine-bench-cli-cannot-write = do { $p } nelze zapsat: { $e }
 
-engine-bench-cli-unknown-task-or = neznámá úloha `{ $t }` (a, b, c nebo d)
-
 engine-bench-cli-scored-epochs-in-folder = hodnocené epochy: { $labels }, složky: { $folders }
 
 engine-bench-cli-wrote-cases-json-and-truth = zapsáno { $out }/cases.json a { $out }/truth.json

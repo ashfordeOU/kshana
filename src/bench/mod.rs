@@ -15,6 +15,7 @@
 
 pub mod cli;
 pub mod site;
+pub mod task_e;
 pub mod tasks;
 
 use std::collections::BTreeMap;
@@ -435,10 +436,15 @@ pub fn score(
     if preds.get("split").and_then(Value::as_str) != Some(split) {
         return err("predictions and truth name different splits");
     }
-    if truth.get("spec_version").and_then(Value::as_str) != Some(SPEC_VERSION) {
+    let spec = if task == "e" {
+        task_e::SPEC_VERSION_E
+    } else {
+        SPEC_VERSION
+    };
+    if truth.get("spec_version").and_then(Value::as_str) != Some(spec) {
         return err(crate::t!(
             "bench-truth-was-made-under-another",
-            SPEC_VERSION = SPEC_VERSION
+            SPEC_VERSION = spec
         ));
     }
     Split::parse(split)?;
@@ -447,6 +453,7 @@ pub fn score(
         "a" | "b" => tasks::score_detection_task(&truth, &preds, declared_threshold)?,
         "c" => tasks::score_c(&truth, &preds)?,
         "d" => tasks::score_d(&truth, &preds)?,
+        "e" => task_e::score_e(&truth, &preds)?,
         other => return err(crate::t!("bench-unknown-task", other = other)),
     };
     let mut r = result_json(

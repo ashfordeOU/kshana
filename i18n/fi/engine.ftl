@@ -649,8 +649,6 @@ engine-bench-cli-cannot-create = ei voi luoda { $d }: { $e }
 
 engine-bench-cli-cannot-write = ei voi kirjoittaa { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = tuntematon tehtävä `{ $t }` (a, b, c tai d)
-
 engine-bench-cli-scored-epochs-in-folder = pisteytetyt epookit { $labels } kansioissa { $folders }
 
 engine-bench-cli-wrote-cases-json-and-truth = kirjoitettu { $out }/cases.json ja { $out }/truth.json

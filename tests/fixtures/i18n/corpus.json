@@ -4545,17 +4545,6 @@
   ]
  },
  {
-  "id": "bench-cli-unknown-task-or",
-  "error": false,
-  "parts": [
-   "unknown task `",
-   {
-    "var": "t"
-   },
-   "` (a, b, c or d)"
-  ]
- },
- {
   "id": "bench-cli-scored-epochs-in-folder",
   "error": false,
   "parts": [

@@ -682,8 +682,6 @@ engine-bench-cli-cannot-create = kan inte skapa { $d }: { $e }
 
 engine-bench-cli-cannot-write = kan inte skriva { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = okänd uppgift `{ $t }` (a, b, c eller d)
-
 engine-bench-cli-scored-epochs-in-folder = { $labels } poängsatta epoker i { $folders } mapp(ar)
 
 engine-bench-cli-wrote-cases-json-and-truth = skrev { $out }/cases.json och { $out }/truth.json

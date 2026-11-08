@@ -569,8 +569,6 @@ engine-bench-cli-cannot-create = nie można utworzyć { $d }: { $e }
 
 engine-bench-cli-cannot-write = nie można zapisać { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = nieznane zadanie `{ $t }` (a, b, c lub d)
-
 engine-bench-cli-scored-epochs-in-folder = ocenione epoki: { $labels }, foldery: { $folders }
 
 engine-bench-cli-wrote-cases-json-and-truth = zapisano { $out }/cases.json i { $out }/truth.json
