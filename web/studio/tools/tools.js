@@ -8,6 +8,7 @@ import { imuRows } from "../lib/imufit-card.mjs";
 import { readScorecard, summaryRows as jtRows, assessability } from "../lib/jammertest-card.mjs";
 import { PAGES, FEATURES, CLI_CARDS, AI_QUESTIONS, docsHref } from "../lib/tools35-data.mjs";
 import { zip } from "../lib/zip.mjs";
+import { desktopInvoke } from "../lib/desktop.mjs";
 import { exampleFileUrl, packFilesJson, packProblems, parsePublicKey, verdictView, checkEpoch, benchEntries, scenarioKind, BENCH_KINDS, complianceRuns, MAX_COMPLIANCE_RUNS, toBase64, complianceView, statusInfo, osnmaView, OSNMA_STATUS, gstText, ubxLines } from "../lib/tools35.mjs";
 await ready(); // the page's first catalogue is loaded before text is built
 
@@ -87,7 +88,9 @@ function coverage() {
   for (const f of FEATURES) {
     const studio = f.studio.length
       ? el("ul", { class: "tl-list" }, f.studio.map(([pid, what]) => el("li", {}, el("a", { href: PAGES[pid].href }, PAGES[pid].label), `: ${what}.`)))
-      : el("span", { class: "tl-no" }, t("js-tools-not-in-browser", "Not in a browser."), " ", el("a", { href: "tools/#" + (f.card === "marine" || f.card === "telemetry" || f.card === "iq" ? "cli" : "cli") }, t("js-tools-how-to-run", "How to run it")), `. ${f.why}`);
+      : el("span", { class: "tl-no" }, t("js-tools-not-in-browser", "Not in a browser."), " ", el("a", { href: "tools/#" + (f.card === "marine" || f.card === "telemetry" || f.card === "iq" ? "cli" : "cli") }, t("js-tools-how-to-run", "How to run it")), `. ${f.why}`,
+        // Kshana Desktop reads recordings from disk: there, the IQ row links to the recording view.
+        f.card === "iq" && desktopInvoke() ? [" ", el("a", { href: "iq/" }, t("js-tools-iq-desktop", "In Kshana Desktop: look through a recording"))] : null);
     body.append(el("tr", {}, el("td", {}, f.name), el("td", {}, studio), el("td", {}, el("code", {}, f.cli))));
   }
 }

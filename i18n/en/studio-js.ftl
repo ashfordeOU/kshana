@@ -5112,6 +5112,111 @@ js-interf-withheld = withheld (fewer than 5)
 # 2026-10-01-studio-rebuild/interference/interference.js:214
 js-interf-written-by = written by Kshana { $version }
 
+# 2026-10-01-studio-rebuild/iq/iq.js:72
+js-iq-centre = Centre frequency (Hz)
+
+# 2026-10-01-studio-rebuild/iq/iq.js:80
+js-iq-cursor = Time in the recording
+
+# 2026-10-01-studio-rebuild/iq/iq.js:124
+js-iq-err-datatype = the recording's datatype { $datatype } is not one this page reads (ci8, cu8, ci16_le, cf32_le)
+
+# 2026-10-01-studio-rebuild/iq/iq.js:115
+js-iq-err-no-path = Type the path of a recording.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:141
+js-iq-err-open = { $path }: could not be read ({ $reason }).
+
+# 2026-10-01-studio-rebuild/iq/iq.js:133
+js-iq-err-rate = the sample rate must be a positive number of hertz
+
+# 2026-10-01-studio-rebuild/iq/iq.js:138
+js-iq-err-short = the recording holds fewer than { $n } samples
+
+# 2026-10-01-studio-rebuild/iq/iq.js:153
+js-iq-fact-centre = Centre, span
+
+# 2026-10-01-studio-rebuild/iq/iq.js:152
+js-iq-fact-duration = Duration
+
+# 2026-10-01-studio-rebuild/iq/iq.js:149
+js-iq-fact-file = File
+
+# 2026-10-01-studio-rebuild/iq/iq.js:155
+js-iq-fact-peak = Peak magnitude there
+
+# 2026-10-01-studio-rebuild/iq/iq.js:154
+js-iq-fact-power = Power of the first { $n } samples
+
+# 2026-10-01-studio-rebuild/iq/iq.js:151
+js-iq-fact-samples = Samples
+
+# 2026-10-01-studio-rebuild/iq/iq.js:150
+js-iq-fact-size = Size
+
+# 2026-10-01-studio-rebuild/iq/iq.js:70
+js-iq-format = Sample format
+
+# 2026-10-01-studio-rebuild/iq/iq.js:47
+js-iq-h1 = Look through an IQ recording
+
+# 2026-10-01-studio-rebuild/iq/iq.js:46
+js-iq-kicker = Kshana Desktop
+
+# 2026-10-01-studio-rebuild/iq/iq.js:48
+js-iq-lede = Open a recording of received GNSS samples of any size from disk: its power over the whole file, a waterfall, and the spectrum at any moment, which you can play through. The file is read in pieces and never changed. This page only reads recordings: it sends nothing to any radio and makes no signal.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:54
+js-iq-needs-desktop = This page reads recordings from disk, so it opens in Kshana Desktop, the Studio as a native application. In a browser, the command line reads recordings: kshana iq --help.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:73
+js-iq-open = Open
+
+# 2026-10-01-studio-rebuild/iq/iq.js:66
+js-iq-open-h = Recording
+
+# 2026-10-01-studio-rebuild/iq/iq.js:117
+js-iq-opening = Opening…
+
+# 2026-10-01-studio-rebuild/iq/iq.js:78
+js-iq-over-h = The whole recording
+
+# 2026-10-01-studio-rebuild/iq/iq.js:79
+js-iq-over-note = Power (dB full scale) and a waterfall from samples read at evenly spaced places through the file. Click or use the arrow keys to move the cursor.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:68
+js-iq-path = File path (a .sigmf-data, or raw samples)
+
+# 2026-10-01-studio-rebuild/iq/iq.js:256
+js-iq-pause = Pause
+
+# 2026-10-01-studio-rebuild/iq/iq.js:82
+js-iq-play = Play through
+
+# 2026-10-01-studio-rebuild/iq/iq.js:71
+js-iq-rate = Sample rate (Hz)
+
+# 2026-10-01-studio-rebuild/iq/iq.js:175
+js-iq-read = Read { $n } places through { $duration } of recording, { $chunk } samples at each.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:171
+js-iq-reading = Reading the recording: { $done } of { $all } places.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:74
+js-iq-sigmf-note = A SigMF recording fills the format, rate and frequency from its .sigmf-meta file. Raw samples need them typed in.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:239
+js-iq-spec-aria = Spectrum at { $time }, { $lo } to { $hi } dB full scale per bin
+
+# 2026-10-01-studio-rebuild/iq/iq.js:84
+js-iq-spec-h = Spectrum at the cursor
+
+# 2026-10-01-studio-rebuild/iq/iq.js:250
+js-iq-spec-note = { $segs } Hann-windowed segments of { $nfft } samples ({ $res } per bin), averaged. Bins sum to the power of the samples read.
+
+# 2026-10-01-studio-rebuild/iq/iq.js:35
+js-iq-title = IQ recording
+
 # 2026-10-01-studio-rebuild/lib/kinds.mjs:440
 js-kind-axis-3-d-position-error-m = 3-D position error (m)
 
@@ -11452,230 +11557,230 @@ js-t35data-sample-telemetry-leef = Syslog in LEEF for the demo run
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:88
 js-t35data-sample-telemetry-metrics = Prometheus metrics for the demo run
 
-# 2026-10-01-studio-rebuild/tools/tools.js:359
+# 2026-10-01-studio-rebuild/tools/tools.js:362
 js-tools-ai-group-engine = Install the engine and its libraries
 
-# 2026-10-01-studio-rebuild/tools/tools.js:359
+# 2026-10-01-studio-rebuild/tools/tools.js:362
 js-tools-ai-group-integrations = Marine, plugin and dashboard integrations
 
-# 2026-10-01-studio-rebuild/tools/tools.js:359
+# 2026-10-01-studio-rebuild/tools/tools.js:362
 js-tools-ai-group-mcp = Install the MCP server for your assistant
 
-# 2026-10-01-studio-rebuild/tools/tools.js:354
+# 2026-10-01-studio-rebuild/tools/tools.js:357
 js-tools-ai-heading = Use Kshana from your AI assistant
 
-# 2026-10-01-studio-rebuild/tools/tools.js:362
+# 2026-10-01-studio-rebuild/tools/tools.js:365
 js-tools-ai-install-mcp = Install the MCP server
 
-# 2026-10-01-studio-rebuild/tools/tools.js:354
+# 2026-10-01-studio-rebuild/tools/tools.js:357
 js-tools-ai-intro = The Kshana MCP server lets an AI assistant run the engine instead of guessing numbers. It runs on your computer; nothing is sent to Kshana. Pick the way that suits your tool.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:392
+# 2026-10-01-studio-rebuild/tools/tools.js:395
 js-tools-ai-load-failed = The install options did not load ({ $reason }). See the documentation for the MCP server.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:397
+# 2026-10-01-studio-rebuild/tools/tools.js:400
 js-tools-ai-mcp-docs = MCP server documentation
 
-# 2026-10-01-studio-rebuild/tools/tools.js:361
+# 2026-10-01-studio-rebuild/tools/tools.js:364
 js-tools-ai-more-ways = More ways to install
 
-# 2026-10-01-studio-rebuild/tools/tools.js:391
+# 2026-10-01-studio-rebuild/tools/tools.js:394
 js-tools-ai-none-listed = No install options are listed in this build.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:362
+# 2026-10-01-studio-rebuild/tools/tools.js:365
 js-tools-ai-other-ways = Other ways to install Kshana
 
-# 2026-10-01-studio-rebuild/tools/tools.js:397
+# 2026-10-01-studio-rebuild/tools/tools.js:400
 js-tools-ai-read-agent-guide = Read the agent guide
 
-# 2026-10-01-studio-rebuild/tools/tools.js:397
+# 2026-10-01-studio-rebuild/tools/tools.js:400
 js-tools-ai-rule = The rule for every answer: the assistant runs the engine, and reports what a tool returned with its unit and its evidence tier (validated against an external oracle, or modelled), the scenario, the seed and the engine version, so the run can be repeated. A result's own caveats stay with it. The MCP server reads and writes no files outside one opt-in folder.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:393
+# 2026-10-01-studio-rebuild/tools/tools.js:396
 js-tools-ai-what-to-ask = What to ask, and which tool answers
 
-# 2026-10-01-studio-rebuild/tools/tools.js:397
+# 2026-10-01-studio-rebuild/tools/tools.js:400
 js-tools-ai-where-reachable = Where each capability is reachable
 
-# 2026-10-01-studio-rebuild/tools/tools.js:216
+# 2026-10-01-studio-rebuild/tools/tools.js:219
 js-tools-bench-files-written =
     { $n ->
         [one] { $n } file written to your browser's memory
        *[other] { $n } files written to your browser's memory
     }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:216
+# 2026-10-01-studio-rebuild/tools/tools.js:219
 js-tools-bench-note = Motion and labelled event intervals only. Download them to load into a laboratory simulator.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:233
+# 2026-10-01-studio-rebuild/tools/tools.js:236
 js-tools-bench-wrong-kind = { $name } is a { $kind } scenario. A vehicle trajectory exists for the { $kinds } kinds; other kinds say why they have none.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:246
+# 2026-10-01-studio-rebuild/tools/tools.js:249
 js-tools-building-report = Building the report…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:440
+# 2026-10-01-studio-rebuild/tools/tools.js:443
 js-tools-choose-catalogue-first = Choose the catalogue JSON first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:319
+# 2026-10-01-studio-rebuild/tools/tools.js:322
 js-tools-choose-file-first = Choose a file first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:484
+# 2026-10-01-studio-rebuild/tools/tools.js:487
 js-tools-choose-imu-log = Choose a stationary IMU log first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:140
+# 2026-10-01-studio-rebuild/tools/tools.js:143
 js-tools-choose-pack-first = Choose the pack's files first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:175
+# 2026-10-01-studio-rebuild/tools/tools.js:178
 js-tools-choose-pack-first-above = Choose the pack's files first (above).
 
-# 2026-10-01-studio-rebuild/tools/tools.js:441
+# 2026-10-01-studio-rebuild/tools/tools.js:444
 js-tools-choose-plan-file = Choose at least one plan file.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:468
+# 2026-10-01-studio-rebuild/tools/tools.js:471
 js-tools-choose-receiver-log = Choose the receiver log first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:243
+# 2026-10-01-studio-rebuild/tools/tools.js:246
 js-tools-choose-result-first = Choose at least one result file (*.result.json) first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:232
+# 2026-10-01-studio-rebuild/tools/tools.js:235
 js-tools-choose-scenario-first = Choose a scenario first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:177
+# 2026-10-01-studio-rebuild/tools/tools.js:180
 js-tools-choose-tsr-first = Choose the timestamp response (.tsr) first.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:190
+# 2026-10-01-studio-rebuild/tools/tools.js:193
 js-tools-chosen = Chosen
 
-# 2026-10-01-studio-rebuild/tools/tools.js:160
+# 2026-10-01-studio-rebuild/tools/tools.js:163
 js-tools-col-check = Check
 
-# 2026-10-01-studio-rebuild/tools/tools.js:160
+# 2026-10-01-studio-rebuild/tools/tools.js:163
 js-tools-col-detail = Detail
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-first-monitors = First monitors
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-gap-that-stays = Gap that stays
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-col-last-auth-tag = Last authenticated tag (Galileo System Time)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-latency = Latency, s
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-name = Name
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-outcome = Outcome
 
-# 2026-10-01-studio-rebuild/tools/tools.js:394
+# 2026-10-01-studio-rebuild/tools/tools.js:397
 js-tools-col-question = Question
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-recovered = Recovered
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-reference = Reference
 
-# 2026-10-01-studio-rebuild/tools/tools.js:160
+# 2026-10-01-studio-rebuild/tools/tools.js:163
 js-tools-col-result = Result
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-row = Row
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-col-satellite = Satellite
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-slot = Slot, s
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-col-status = Status
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-col-tags = Tags
 
-# 2026-10-01-studio-rebuild/tools/tools.js:447
+# 2026-10-01-studio-rebuild/tools/tools.js:450
 js-tools-col-test = Test
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-these-runs = These runs
 
-# 2026-10-01-studio-rebuild/tools/tools.js:394
+# 2026-10-01-studio-rebuild/tools/tools.js:397
 js-tools-col-tool = Tool
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-what-is-missing = What is missing
 
-# 2026-10-01-studio-rebuild/tools/tools.js:261
+# 2026-10-01-studio-rebuild/tools/tools.js:264
 js-tools-col-what-it-asks = What it asks
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-col-why-not-auth = Why not authenticated
 
-# 2026-10-01-studio-rebuild/tools/tools.js:103
+# 2026-10-01-studio-rebuild/tools/tools.js:106
 js-tools-copied = Copied
 
-# 2026-10-01-studio-rebuild/tools/tools.js:102
+# 2026-10-01-studio-rebuild/tools/tools.js:105
 js-tools-copy = Copy
 
-# 2026-10-01-studio-rebuild/tools/tools.js:102
+# 2026-10-01-studio-rebuild/tools/tools.js:105
 js-tools-copy-command-aria = Copy: { $cmd }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:366
+# 2026-10-01-studio-rebuild/tools/tools.js:369
 js-tools-copy-labelled-aria = Copy { $label }: { $text }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:49
+# 2026-10-01-studio-rebuild/tools/tools.js:50
 js-tools-did-not-work = That did not work
 
-# 2026-10-01-studio-rebuild/tools/tools.js:384
+# 2026-10-01-studio-rebuild/tools/tools.js:387
 js-tools-documentation = Documentation
 
-# 2026-10-01-studio-rebuild/tools/tools.js:220
+# 2026-10-01-studio-rebuild/tools/tools.js:223
 js-tools-download = Download
 
-# 2026-10-01-studio-rebuild/tools/tools.js:225
+# 2026-10-01-studio-rebuild/tools/tools.js:228
 js-tools-download-all-zip = Download all (zip)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:460
+# 2026-10-01-studio-rebuild/tools/tools.js:463
 js-tools-download-events-toml = Download the events (TOML)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:277
+# 2026-10-01-studio-rebuild/tools/tools.js:280
 js-tools-download-md = Download (Markdown)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:267
+# 2026-10-01-studio-rebuild/tools/tools.js:270
 js-tools-download-report-json = Download the report (JSON)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:266
+# 2026-10-01-studio-rebuild/tools/tools.js:269
 js-tools-download-report-md = Download the report (Markdown)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:474
+# 2026-10-01-studio-rebuild/tools/tools.js:477
 js-tools-download-scorecard-json = Download the scorecard (JSON)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:492
+# 2026-10-01-studio-rebuild/tools/tools.js:495
 js-tools-download-table-toml = Download the table (TOML)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:183
+# 2026-10-01-studio-rebuild/tools/tools.js:186
 js-tools-download-updated-pack = Download the updated pack (zip)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:493
+# 2026-10-01-studio-rebuild/tools/tools.js:496
 js-tools-download-whole-report-json = Download the whole report (JSON)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:45
+# 2026-10-01-studio-rebuild/tools/tools.js:46
 js-tools-engine-lacks-error = This engine build (version { $version }) has no { $need }, so it cannot run this here yet. The recorded results and the command line still work.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:43
+# 2026-10-01-studio-rebuild/tools/tools.js:44
 js-tools-engine-lacks-status = This engine build (version { $version }) has no { $need }: it predates the version this tool needs. The command-line equivalent is in the Command line tab.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:41
+# 2026-10-01-studio-rebuild/tools/tools.js:42
 js-tools-engine-running = The engine (version { $version }) is running in this browser. Nothing is uploaded.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:39
+# 2026-10-01-studio-rebuild/tools/tools.js:40
 js-tools-engine-starting = Starting the engine in this browser…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:40
+# 2026-10-01-studio-rebuild/tools/tools.js:41
 js-tools-engine-unavailable = The engine could not start here ({ $reason }). Opening files works; running the tools needs WebAssembly.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:91
@@ -11684,52 +11789,52 @@ js-tools-epoch-format = Use YYYY-MM-DDTHH:MM:SS, with an optional Z (UTC).
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:94
 js-tools-epoch-not-real = That is not a real UTC instant between the years 2000 and 2099.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:166
+# 2026-10-01-studio-rebuild/tools/tools.js:169
 js-tools-every-check = Every check
 
-# 2026-10-01-studio-rebuild/tools/tools.js:169
+# 2026-10-01-studio-rebuild/tools/tools.js:172
 js-tools-evidence-disclaimer = An evidence pack is a technical record of what the engine computed from a stated log under stated settings. It is not a legal opinion, a finding of fact about any event or a certification. A pass says the record is unchanged.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:132
+# 2026-10-01-studio-rebuild/tools/tools.js:135
 js-tools-example-pack = Synthetic example pack
 
-# 2026-10-01-studio-rebuild/tools/tools.js:134
+# 2026-10-01-studio-rebuild/tools/tools.js:137
 js-tools-example-pack-note = A synthetic pack made by the engine's command line from the demo ferry log with a demonstration key. The key is filled in below; a real signer's key comes from the signer by another route.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:132
+# 2026-10-01-studio-rebuild/tools/tools.js:135
 js-tools-example-pack-tampered = Example pack with one byte of epochs.json changed
 
-# 2026-10-01-studio-rebuild/tools/tools.js:284
+# 2026-10-01-studio-rebuild/tools/tools.js:287
 js-tools-example-runs = Synthetic example runs
 
-# 2026-10-01-studio-rebuild/tools/tools.js:134
+# 2026-10-01-studio-rebuild/tools/tools.js:137
 js-tools-example-tampered-note = One byte of a file in the pack has been changed after signing. Verify it: the check names the file.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:213
+# 2026-10-01-studio-rebuild/tools/tools.js:216
 js-tools-exporting = Exporting…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:322
+# 2026-10-01-studio-rebuild/tools/tools.js:325
 js-tools-field-whole-number = { $field } must be a whole number
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:63
 js-tools-file-not-chosen = { $file } is not among the chosen files
 
-# 2026-10-01-studio-rebuild/tools/tools.js:53
+# 2026-10-01-studio-rebuild/tools/tools.js:54
 js-tools-file-too-large = { $name } is larger than 64 MiB
 
-# 2026-10-01-studio-rebuild/tools/tools.js:282
+# 2026-10-01-studio-rebuild/tools/tools.js:285
 js-tools-files-selected = { $label }: { $files }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:157
+# 2026-10-01-studio-rebuild/tools/tools.js:160
 js-tools-fingerprint-not-pinned = Signer fingerprint: { $fingerprint } (not pinned: the key the pack names itself)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:157
+# 2026-10-01-studio-rebuild/tools/tools.js:160
 js-tools-fingerprint-pinned = Signer fingerprint: { $fingerprint } (pinned)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:488
+# 2026-10-01-studio-rebuild/tools/tools.js:491
 js-tools-fitting = Fitting…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:260
+# 2026-10-01-studio-rebuild/tools/tools.js:263
 js-tools-framework-summary = { $name }: { $evidenced } evidenced, { $partly } partly, { $notEvidenced } not evidenced, { $outOfScope } out of scope
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:131
@@ -11753,163 +11858,166 @@ js-tools-gst-none = none
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:183
 js-tools-gst-text = week { $week }, { $tow } s
 
-# 2026-10-01-studio-rebuild/tools/tools.js:90
+# 2026-10-01-studio-rebuild/tools/tools.js:91
 js-tools-how-to-run = How to run it
 
-# 2026-10-01-studio-rebuild/tools/tools.js:502
+# 2026-10-01-studio-rebuild/tools/tools.js:505
 js-tools-imu-file-too-large = { $name } is larger than 32 MiB; open an excerpt.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:486
+# 2026-10-01-studio-rebuild/tools/tools.js:489
 js-tools-imu-mean-not-number = The specific force at rest is not a number (0 for a horizontal axis, about 9.80665 for the vertical one).
 
-# 2026-10-01-studio-rebuild/tools/tools.js:494
+# 2026-10-01-studio-rebuild/tools/tools.js:497
 js-tools-imu-notice = { $evidence }: the estimator is checked on synthetic white-noise logs with known coefficients, not against an external oracle. The table names the log's SHA-256 ({ $sha }…).
 
-# 2026-10-01-studio-rebuild/tools/tools.js:505
+# 2026-10-01-studio-rebuild/tools/tools.js:508
 js-tools-imu-selected = { $name } ({ $size }), read here, never uploaded.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:461
+# 2026-10-01-studio-rebuild/tools/tools.js:93
+js-tools-iq-desktop = In Kshana Desktop: look through a recording
+
+# 2026-10-01-studio-rebuild/tools/tools.js:464
 js-tools-jt-events-count = { $n } scheduled event(s)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:461
+# 2026-10-01-studio-rebuild/tools/tools.js:464
 js-tools-jt-events-note = as scheduled truth: planned slots, not recorded on-air times. Not RF: { $nonRf }; outside the log: { $outside }; unknown ids: { $unknown }.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:449
+# 2026-10-01-studio-rebuild/tools/tools.js:452
 js-tools-jt-guard-hold = Guard { $guard } s, recovery hold { $hold } s.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:449
+# 2026-10-01-studio-rebuild/tools/tools.js:452
 js-tools-jt-guard-hold-overlap = Guard { $guard } s, recovery hold { $hold } s. The calibration baseline overlapped a scheduled slot.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:456
+# 2026-10-01-studio-rebuild/tools/tools.js:459
 js-tools-jt-import-needs-start = Import needs the log's first epoch in UTC (ISO 8601), because the plan is in local time.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-catalogue = catalogue { $name }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-log = log { $name } ({ $size })
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-no-catalogue = no catalogue
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-no-log = no log
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-no-plan = no plan
 
-# 2026-10-01-studio-rebuild/tools/tools.js:433
+# 2026-10-01-studio-rebuild/tools/tools.js:436
 js-tools-jt-sel-plans = { $n } plan file(s)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:448
+# 2026-10-01-studio-rebuild/tools/tools.js:451
 js-tools-jt-slot-range = { $from } to { $to }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:443
+# 2026-10-01-studio-rebuild/tools/tools.js:446
 js-tools-jt-what-area = The test area
 
-# 2026-10-01-studio-rebuild/tools/tools.js:443
+# 2026-10-01-studio-rebuild/tools/tools.js:446
 js-tools-jt-what-guard = The guard
 
-# 2026-10-01-studio-rebuild/tools/tools.js:443
+# 2026-10-01-studio-rebuild/tools/tools.js:446
 js-tools-jt-what-hold = The recovery hold
 
-# 2026-10-01-studio-rebuild/tools/tools.js:443
+# 2026-10-01-studio-rebuild/tools/tools.js:446
 js-tools-jt-what-offset = The offset from UTC
 
-# 2026-10-01-studio-rebuild/tools/tools.js:443
+# 2026-10-01-studio-rebuild/tools/tools.js:446
 js-tools-jt-what-year = The plan year
 
-# 2026-10-01-studio-rebuild/tools/tools.js:377
+# 2026-10-01-studio-rebuild/tools/tools.js:380
 js-tools-label-command = command
 
-# 2026-10-01-studio-rebuild/tools/tools.js:378
+# 2026-10-01-studio-rebuild/tools/tools.js:381
 js-tools-label-pinned-command = pinned command
 
-# 2026-10-01-studio-rebuild/tools/tools.js:380
+# 2026-10-01-studio-rebuild/tools/tools.js:383
 js-tools-label-settings-example = settings example { $n }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:108
+# 2026-10-01-studio-rebuild/tools/tools.js:111
 js-tools-loading = Loading…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:244
+# 2026-10-01-studio-rebuild/tools/tools.js:247
 js-tools-max-runs = At most { $max } runs.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:324
+# 2026-10-01-studio-rebuild/tools/tools.js:327
 js-tools-merkle-root-format = The Merkle root is 64 hex digits.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:438
+# 2026-10-01-studio-rebuild/tools/tools.js:441
 js-tools-must-be-number = { $what } must be a number
 
-# 2026-10-01-studio-rebuild/tools/tools.js:439
+# 2026-10-01-studio-rebuild/tools/tools.js:442
 js-tools-must-be-whole-zero = { $what } must be a whole number, 0 for "not given"
 
-# 2026-10-01-studio-rebuild/tools/tools.js:448
+# 2026-10-01-studio-rebuild/tools/tools.js:451
 js-tools-na = n/a
 
-# 2026-10-01-studio-rebuild/tools/tools.js:376
+# 2026-10-01-studio-rebuild/tools/tools.js:379
 js-tools-needs = Needs: { $requires }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:448
+# 2026-10-01-studio-rebuild/tools/tools.js:451
 js-tools-no = no
 
-# 2026-10-01-studio-rebuild/tools/tools.js:448
+# 2026-10-01-studio-rebuild/tools/tools.js:451
 js-tools-none = none
 
-# 2026-10-01-studio-rebuild/tools/tools.js:338
+# 2026-10-01-studio-rebuild/tools/tools.js:341
 js-tools-none-in-build = none in this build
 
-# 2026-10-01-studio-rebuild/tools/tools.js:90
+# 2026-10-01-studio-rebuild/tools/tools.js:91
 js-tools-not-in-browser = Not in a browser.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:294
+# 2026-10-01-studio-rebuild/tools/tools.js:297
 js-tools-not-osnma = Not an OSNMA result
 
-# 2026-10-01-studio-rebuild/tools/tools.js:258
+# 2026-10-01-studio-rebuild/tools/tools.js:261
 js-tools-not-used = Not used: { $item }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:168
+# 2026-10-01-studio-rebuild/tools/tools.js:171
 js-tools-notes = Notes
 
-# 2026-10-01-studio-rebuild/tools/tools.js:382
+# 2026-10-01-studio-rebuild/tools/tools.js:385
 js-tools-open = Open
 
-# 2026-10-01-studio-rebuild/tools/tools.js:299
+# 2026-10-01-studio-rebuild/tools/tools.js:302
 js-tools-osnma-advisory = Advisory: this is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:176
 js-tools-osnma-authenticated = Authenticated
 
-# 2026-10-01-studio-rebuild/tools/tools.js:306
+# 2026-10-01-studio-rebuild/tools/tools.js:309
 js-tools-osnma-caption = Authentication status per satellite
 
-# 2026-10-01-studio-rebuild/tools/tools.js:340
+# 2026-10-01-studio-rebuild/tools/tools.js:343
 js-tools-osnma-demo-note = The throwaway public key is filled in; press Verify to run the verifier here, or show the recorded result.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:180
 js-tools-osnma-discarded = Discarded
 
-# 2026-10-01-studio-rebuild/tools/tools.js:310
+# 2026-10-01-studio-rebuild/tools/tools.js:313
 js-tools-osnma-events = What the verifier saw
 
-# 2026-10-01-studio-rebuild/tools/tools.js:336
+# 2026-10-01-studio-rebuild/tools/tools.js:339
 js-tools-osnma-examples-missing = the synthetic examples are not in this build yet
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:177
 js-tools-osnma-failed = Failed
 
-# 2026-10-01-studio-rebuild/tools/tools.js:303
+# 2026-10-01-studio-rebuild/tools/tools.js:306
 js-tools-osnma-nma-alert = NMA status { $status }; the system raised an alert message.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:303
+# 2026-10-01-studio-rebuild/tools/tools.js:306
 js-tools-osnma-nma-status = NMA status { $status }.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:186
 js-tools-osnma-not-json = This is not the JSON of kshana osnma verify --json (it needs overall and satellites).
 
-# 2026-10-01-studio-rebuild/tools/tools.js:300
+# 2026-10-01-studio-rebuild/tools/tools.js:303
 js-tools-osnma-overall = Overall: { $status }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:302
+# 2026-10-01-studio-rebuild/tools/tools.js:305
 js-tools-osnma-pages-read =
     { $n ->
         [one] { $n } page read.
@@ -11919,94 +12027,94 @@ js-tools-osnma-pages-read =
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:179
 js-tools-osnma-pending = Pending
 
-# 2026-10-01-studio-rebuild/tools/tools.js:344
+# 2026-10-01-studio-rebuild/tools/tools.js:347
 js-tools-osnma-recorded-failed = the recorded result did not load
 
-# 2026-10-01-studio-rebuild/tools/tools.js:344
+# 2026-10-01-studio-rebuild/tools/tools.js:347
 js-tools-osnma-recorded-result = Recorded result of kshana osnma verify --json for { $file }.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:308
+# 2026-10-01-studio-rebuild/tools/tools.js:311
 js-tools-osnma-tag-counts = { $authenticated } auth, { $failed } failed, { $pending } pending, { $discarded } discarded
 
-# 2026-10-01-studio-rebuild/tools/tools.js:304
+# 2026-10-01-studio-rebuild/tools/tools.js:307
 js-tools-osnma-tag-totals =
     { $n ->
         [one] { $n } tag: { $authenticated } authenticated, { $failed } failed, { $pending } pending, { $discarded } discarded.
        *[other] { $n } tags: { $authenticated } authenticated, { $failed } failed, { $pending } pending, { $discarded } discarded.
     }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:313
+# 2026-10-01-studio-rebuild/tools/tools.js:316
 js-tools-osnma-time-caveat = Time: every check is relative to the time stamps of the pages given to the verifier, which here come from the data itself and give no protection against replayed old data. Authentication says the data came from the system; it says nothing about the signal it arrived on or the quality of the fix.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:178
 js-tools-osnma-unavailable = Unavailable
 
-# 2026-10-01-studio-rebuild/tools/tools.js:296
+# 2026-10-01-studio-rebuild/tools/tools.js:299
 js-tools-osnma-word-authenticated = At least one satellite is authenticated and none failed
 
-# 2026-10-01-studio-rebuild/tools/tools.js:296
+# 2026-10-01-studio-rebuild/tools/tools.js:299
 js-tools-osnma-word-failed = A check on some satellite's data failed
 
-# 2026-10-01-studio-rebuild/tools/tools.js:296
+# 2026-10-01-studio-rebuild/tools/tools.js:299
 js-tools-osnma-word-unavailable = No satellite is authenticated
 
-# 2026-10-01-studio-rebuild/tools/tools.js:122
+# 2026-10-01-studio-rebuild/tools/tools.js:125
 js-tools-pack-selected = { $label }: { $files } ({ $size })
 
-# 2026-10-01-studio-rebuild/tools/tools.js:378
+# 2026-10-01-studio-rebuild/tools/tools.js:381
 js-tools-pinned-to-release = Pinned to this release:
 
-# 2026-10-01-studio-rebuild/tools/tools.js:221
+# 2026-10-01-studio-rebuild/tools/tools.js:224
 js-tools-preview = Preview
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:72
 js-tools-public-key-format = A public key is 64 hex digits (32 bytes). Nothing else is accepted.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:113
+# 2026-10-01-studio-rebuild/tools/tools.js:116
 js-tools-read-documentation = Read the documentation
 
-# 2026-10-01-studio-rebuild/tools/tools.js:458
+# 2026-10-01-studio-rebuild/tools/tools.js:461
 js-tools-reading-plan = Reading the plan…
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:42
 js-tools-refused-file-name = refused file name: { $name }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:410
+# 2026-10-01-studio-rebuild/tools/tools.js:413
 js-tools-run = Run
 
-# 2026-10-01-studio-rebuild/tools/tools.js:255
+# 2026-10-01-studio-rebuild/tools/tools.js:258
 js-tools-runs-read =
     { $n ->
         [one] { $n } run read: { $runs }
        *[other] { $n } runs read: { $runs }
     }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:254
+# 2026-10-01-studio-rebuild/tools/tools.js:257
 js-tools-runs-read-engine =
     { $n ->
         [one] { $n } run read, by engine { $engine }: { $runs }
        *[other] { $n } runs read, by engine { $engine }: { $runs }
     }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:110
+# 2026-10-01-studio-rebuild/tools/tools.js:113
 js-tools-sample-load-failed = The sample did not load ({ $reason }).
 
-# 2026-10-01-studio-rebuild/tools/tools.js:109
+# 2026-10-01-studio-rebuild/tools/tools.js:112
 js-tools-sample-note = A real output of the command, recorded from the engine on the synthetic demo run. Not a measurement of anything.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:107
+# 2026-10-01-studio-rebuild/tools/tools.js:110
 js-tools-sample-output = Sample output: { $label }
 
-# 2026-10-01-studio-rebuild/tools/tools.js:206
+# 2026-10-01-studio-rebuild/tools/tools.js:209
 js-tools-scenario-list-failed = The scenario list did not load
 
-# 2026-10-01-studio-rebuild/tools/tools.js:470
+# 2026-10-01-studio-rebuild/tools/tools.js:473
 js-tools-scoring = Scoring…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:103
+# 2026-10-01-studio-rebuild/tools/tools.js:106
 js-tools-select-and-copy = Select and copy
 
-# 2026-10-01-studio-rebuild/tools/tools.js:380
+# 2026-10-01-studio-rebuild/tools/tools.js:383
 js-tools-settings-example = Settings example { $n }:
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:139
@@ -12033,82 +12141,82 @@ js-tools-status-partly-label = Runs support evidence for part of this row
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:140
 js-tools-status-partly-short = Partly
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-ai = AI assistant
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-bench = Test bench
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-cli = Command line
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-compliance = Compliance
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-evidence = Evidence packs
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-imufit = IMU fit
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-jammertest = Jammertest
 
-# 2026-10-01-studio-rebuild/tools/tools.js:62
+# 2026-10-01-studio-rebuild/tools/tools.js:63
 js-tools-tab-osnma = OSNMA
 
-# 2026-10-01-studio-rebuild/tools/tools.js:425
+# 2026-10-01-studio-rebuild/tools/tools.js:428
 js-tools-tele-all-events = One syslog event per epoch (default: one per band change)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:406
+# 2026-10-01-studio-rebuild/tools/tools.js:409
 js-tools-tele-file-aria = Result or JSON-lines file
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-fmt-cef = Syslog, CEF
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-fmt-leef = Syslog, LEEF
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-fmt-mqtt = MQTT, Home Assistant discovery (topic, tab, payload)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-fmt-otlp = OpenTelemetry (OTLP JSON)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-fmt-prometheus = Prometheus metrics
 
-# 2026-10-01-studio-rebuild/tools/tools.js:407
+# 2026-10-01-studio-rebuild/tools/tools.js:410
 js-tools-tele-format-aria = Format
 
-# 2026-10-01-studio-rebuild/tools/tools.js:424
+# 2026-10-01-studio-rebuild/tools/tools.js:427
 js-tools-tele-host = Host
 
-# 2026-10-01-studio-rebuild/tools/tools.js:408
+# 2026-10-01-studio-rebuild/tools/tools.js:411
 js-tools-tele-host-aria = Host name written into syslog events
 
-# 2026-10-01-studio-rebuild/tools/tools.js:425
+# 2026-10-01-studio-rebuild/tools/tools.js:428
 js-tools-tele-include-position = Include the reported position (off by default)
 
-# 2026-10-01-studio-rebuild/tools/tools.js:405
+# 2026-10-01-studio-rebuild/tools/tools.js:408
 js-tools-tele-intro = Turn a result file (session.result.json) or the live JSON lines into one of the formats, in this browser. Needs an engine build that has the telemetry export (0.35 and later with the export); the commands above work everywhere.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:426
+# 2026-10-01-studio-rebuild/tools/tools.js:429
 js-tools-tele-note = Syslog lines carry no time stamp here (the page reads no clock); the command-line tool stamps them. Prometheus gives the final state. MQTT gives one line per message, the topic then a tab then the payload; nothing is published from here. The text is the same the command prints.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:404
+# 2026-10-01-studio-rebuild/tools/tools.js:407
 js-tools-tele-run-here = Run it here
 
-# 2026-10-01-studio-rebuild/tools/tools.js:334
+# 2026-10-01-studio-rebuild/tools/tools.js:337
 js-tools-that-file-too-large = That file is larger than 64 MiB.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:182
+# 2026-10-01-studio-rebuild/tools/tools.js:185
 js-tools-token-attached = Token attached
 
-# 2026-10-01-studio-rebuild/tools/tools.js:182
+# 2026-10-01-studio-rebuild/tools/tools.js:185
 js-tools-token-attached-note = The updated pack is below. The timestamp authority's signature was NOT checked here: run openssl ts -verify.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:312
+# 2026-10-01-studio-rebuild/tools/tools.js:315
 js-tools-trust-monitor-sentence = Trust-monitor sentence: { $sentence }
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:48
@@ -12117,7 +12225,7 @@ js-tools-two-files-same-name = two files are named { $name }
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:214
 js-tools-ubx-bad-crc = { $n } pages failed their CRC.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:311
+# 2026-10-01-studio-rebuild/tools/tools.js:314
 js-tools-ubx-file = The UBX file
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:212
@@ -12135,10 +12243,10 @@ js-tools-ubx-time-conflicts = { $n } pages had a time that conflicted with its n
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:215
 js-tools-ubx-unstamped = { $n } pages could not be placed in time.
 
-# 2026-10-01-studio-rebuild/tools/tools.js:233
+# 2026-10-01-studio-rebuild/tools/tools.js:236
 js-tools-unknown = unknown
 
-# 2026-10-01-studio-rebuild/tools/tools.js:257
+# 2026-10-01-studio-rebuild/tools/tools.js:260
 js-tools-unused-scenarios = Scenario files with no matching result were not used: { $files }.
 
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:81
@@ -12159,16 +12267,16 @@ js-tools-verdict-verified-text = The pack is unchanged and signed by the key you
 # 2026-10-01-studio-rebuild/lib/tools35.mjs:79
 js-tools-verdict-verified-title = Verified
 
-# 2026-10-01-studio-rebuild/tools/tools.js:149
+# 2026-10-01-studio-rebuild/tools/tools.js:152
 js-tools-verifying = Verifying…
 
-# 2026-10-01-studio-rebuild/tools/tools.js:158
+# 2026-10-01-studio-rebuild/tools/tools.js:161
 js-tools-what-failed = What failed
 
-# 2026-10-01-studio-rebuild/tools/tools.js:99
+# 2026-10-01-studio-rebuild/tools/tools.js:102
 js-tools-why-not-browser = Why not in a browser:
 
-# 2026-10-01-studio-rebuild/tools/tools.js:448
+# 2026-10-01-studio-rebuild/tools/tools.js:451
 js-tools-yes = yes
 
 # 2026-10-01-studio-rebuild/training/training.js:355
