@@ -12,18 +12,23 @@ fn main() {
         Some("dev") => {
             let scenes: Vec<_> = (0..10).map(generate).collect();
             let mut out = Vec::new();
-            for m in [1usize, 2, 3] {
-                for c in [3000.0, 5000.0] {
-                    let p = M4Params {
-                        m,
-                        c_m: c,
-                        ..M4Params::base()
-                    };
-                    let rows: Vec<_> = scenes
-                        .iter()
-                        .flat_map(|s| decided_classes(s, &decide(s, &p)))
-                        .collect();
-                    out.push(json!({"m": m, "c_m": c, "metrics": metrics(&rows)}));
+            for w in [60u32, 180] {
+                for m in [1usize, 2, 3] {
+                    for c in [3000.0, 5000.0] {
+                        let p = M4Params {
+                            m,
+                            c_m: c,
+                            epoch_window_s: w,
+                            ..M4Params::base()
+                        };
+                        let rows: Vec<_> = scenes
+                            .iter()
+                            .flat_map(|s| decided_classes(s, &decide(s, &p)))
+                            .collect();
+                        out.push(
+                            json!({"window_s": w, "m": m, "c_m": c, "metrics": metrics(&rows)}),
+                        );
+                    }
                 }
             }
             println!(
@@ -43,6 +48,15 @@ fn main() {
             }
             println!("{}", serde_json::to_string(&json!({"set": "scored", "seeds": [1000, 1009], "m": p.m, "c_m": p.c_m, "redraws": redraws, "metrics": metrics(&rows)})).expect("json"));
         }
-        _ => eprintln!("usage: m4_dev dev|scored"),
+        Some("seed") => {
+            let seed: u64 = a[1].parse().expect("seed");
+            let s = generate(seed);
+            let rows = decided_classes(&s, &decide(&s, &M4Params::v1()));
+            println!(
+                "{}",
+                serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
+            );
+        }
+        _ => eprintln!("usage: m4_dev dev|scored|seed N"),
     }
 }

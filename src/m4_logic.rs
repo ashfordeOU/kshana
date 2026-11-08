@@ -61,7 +61,15 @@ impl M4Params {
     /// The committed version 1 parameters: the base values with the (m, c) pair chosen on seeds 0 to 9
     /// (R17, R19).
     pub fn v1() -> Self {
-        Self::base()
+        // Chosen on seeds 0-9 (xval/m4-dark-vessel/dev-third.json.gz): the eligible triple
+        // (FA <= 0.005) with the highest offset recall at d >= 5 km: window 60 s, m = 3, c = 5 km
+        // (FA 0.00469, recall 938 of 1 120).
+        Self {
+            epoch_window_s: 60,
+            m: 3,
+            c_m: 5000.0,
+            ..Self::base()
+        }
     }
 }
 
@@ -124,7 +132,9 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
     for (&id, rep) in &by_id {
         let dup = rep
             .windows(2)
-            .any(|w| implied_kn(w[0], w[1]) > p.max_speed_kn);
+            .filter(|w| implied_kn(w[0], w[1]) > p.max_speed_kn)
+            .count()
+            >= 2;
         if dup {
             class.insert(id, Label::IdentityDuplicate);
             let mut parts: Vec<Vec<(u32, f64, f64)>> = Vec::new();
@@ -218,7 +228,8 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
         if let Some(a) = run {
             epochs.push((a + (steps - a) / 2) as u32 * STEP_S);
         }
-        let mut misses: Vec<(usize, (f64, f64))> = Vec::new();
+        // Every miss keeps all its candidates (amended R17).
+        let mut misses: Vec<Vec<(usize, (f64, f64))>> = Vec::new();
         for te in epochs {
             let lo = times.partition_point(|&x| x + p.epoch_window_s < te);
             let hi = times.partition_point(|&x| x <= te + p.epoch_window_s);
@@ -228,34 +239,40 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
             let Some(q) = tr.predict(te, p.interp_max_s) else {
                 continue;
             };
-            let cand = (lo..hi)
+            let cand: Vec<(usize, (f64, f64))> = (lo..hi)
                 .filter(|&j| assoc[j].is_none())
-                .map(|j| {
-                    let d = en(q, (scene.rf[j].1, scene.rf[j].2));
-                    (j, d, (d.0 * d.0 + d.1 * d.1).sqrt())
-                })
-                .filter(|x| x.2 <= p.candidate_max_m)
-                .fold(None, |acc: Option<(usize, (f64, f64), f64)>, x| match acc {
-                    Some(a) if a.2 <= x.2 => Some(a),
-                    _ => Some(x),
-                });
-            if let Some((j, d, _)) = cand {
-                misses.push((j, d));
+                .map(|j| (j, en(q, (scene.rf[j].1, scene.rf[j].2))))
+                .filter(|(_, d)| (d.0 * d.0 + d.1 * d.1).sqrt() <= p.candidate_max_m)
+                .collect();
+            if !cand.is_empty() {
+                misses.push(cand);
             }
         }
-        if misses.len() >= p.m {
-            let n = misses.len() as f64;
-            let me = misses.iter().map(|x| x.1 .0).sum::<f64>() / n;
-            let mn = misses.iter().map(|x| x.1 .1).sum::<f64>() / n;
-            let ok = misses
-                .iter()
-                .all(|x| ((x.1 .0 - me).powi(2) + (x.1 .1 - mn).powi(2)).sqrt() <= p.c_m);
-            if ok {
+        // The vote: the candidate displacement agreed by the most misses.
+        let near = |a: (f64, f64), b: (f64, f64)| {
+            ((a.0 - b.0).powi(2) + (a.1 - b.1).powi(2)).sqrt() <= p.c_m
+        };
+        let mut best: Option<(usize, (f64, f64))> = None;
+        for m in &misses {
+            for &(_, d) in m {
+                let count = misses
+                    .iter()
+                    .filter(|o| o.iter().any(|x| near(x.1, d)))
+                    .count();
+                if best.is_none_or(|b| count > b.0) {
+                    best = Some((count, d));
+                }
+            }
+        }
+        if let Some((count, d)) = best {
+            if count >= p.m {
                 if class.get(&tr.id) == Some(&Label::Normal) {
                     class.insert(tr.id, Label::PositionOffset);
                 }
-                for (j, _) in misses {
-                    explained[j] = true;
+                for m in &misses {
+                    for x in m.iter().filter(|x| near(x.1, d)) {
+                        explained[x.0] = true;
+                    }
                 }
             }
         }

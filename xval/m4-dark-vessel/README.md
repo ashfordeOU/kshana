@@ -138,3 +138,47 @@ so. The logic sees the AIS stream, the RF stream and the public M2 RF layer geom
     - The chosen pair, and every number above, is committed in `M4Params::v1` before seeds 1000 to 1009 are
       generated.
     - The scored seeds are then run once.
+
+### Amendment to reading 15 after the first development run (seeds 0 to 9), before any scored seed
+
+- **What was wrong.** The first development run classed all 1 400 POSITION-OFFSET vessels as IDENTITY-DUPLICATE.
+  The onset of an offset is one jump of 2 to 50 km between two reports 10 s apart, so it breaks the 70 kn rule
+  once. A duplicate identity interleaves reports from two places, so it breaks the rule at every switch.
+- **The correction.** An identity is a duplicate when **at least two** pairs of consecutive reports imply more than
+  70 kn.
+- **What was seen first.** That run's full output is kept in `dev-first.json.gz`. The tuning of `m` and `c` uses
+  the second run only.
+
+### Amendment to reading 17 after the second development run, before any scored seed
+
+- **What was wrong.** POSITION-OFFSET recall was 2 % to 11 % at every offset (`dev-second.json.gz`), against 100 %
+  for GAP and IDENTITY-DUPLICATE. A look at seed 0 showed why.
+  - The offset vessels do have 4 to 6 fixes after onset.
+  - The rule took the **nearest** unassociated fix as the candidate. At 10 to 50 km, another vessel's unassociated
+    fix is usually nearer than the vessel's own.
+  - A single stray candidate (a pre-onset miss when the vessel's own fix was not detected) broke the "all within
+    `c`" test.
+- **The correction (a vote).**
+  - Every miss keeps **all** its candidates: the unassociated fixes within the time window and 60 km.
+  - For each candidate displacement `D`, count the misses that have some candidate within `c` of `D`.
+  - The identity is a position offset when the best count is at least `m`. Only the candidates of the counted
+    misses are marked "explained".
+- **Tuning on seeds 0 to 9.** The time window is now chosen too, from {60, 180} s. The tuning rule is unchanged:
+  the triple (`m`, `c`, window) that maximises recall at `d ≥ 5` km subject to `FA ≤ 0.005`.
+
+### The tuned parameters (third development run, `dev-third.json.gz`), committed before any scored seed
+
+| Window | m | c | FA | Recall at d ≥ 5 km | Eligible (FA ≤ 0.005) |
+|---|---|---|---|---|---|
+| 60 s | 3 | 3 km | 0.00075 | 864 / 1 120 | yes |
+| **60 s** | **3** | **5 km** | **0.00469** | **938 / 1 120** | **yes: chosen** |
+| 180 s | 3 | 3 km | 0.00087 | 874 / 1 120 | yes |
+| 180 s | 3 | 5 km | 0.00506 | 950 / 1 120 | no (FA above 0.005) |
+
+With `m` = 1 or 2, FA is 5 % or more. `M4Params::v1` uses window 60 s, `m` = 3, `c` = 5 km.
+
+**What the development run already shows, before the scored run.** At the chosen triple on seeds 0 to 9:
+- DARK recall is 0.845, against the B2 bar of ≥ 0.95.
+- POSITION-OFFSET recall is 0.81 at 5 km (bar ≥ 0.85) and 0.85 at 10 km (bar ≥ 0.98).
+
+So B2 and B4 are expected to miss. The bars are not changed, and the scored seeds are run once as they stand.
