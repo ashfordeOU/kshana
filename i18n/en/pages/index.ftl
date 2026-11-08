@@ -91,9 +91,9 @@ seg-47d596393831 = Real events
 seg-5630c799cec1 = Where every trace comes from
 
 # text
-# c1: 3395218
+# c1: 0a53cb8
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-cff488aa106d = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-2dc1aed7a12e = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-9a86ef058d27 = Open in Kshana Studio
@@ -117,9 +117,9 @@ seg-f18f76c10709 = <s1><a1>Report</a1><a2>JSON</a2><a3>TOML</a3></s1>
 seg-a0ef302e2458 = Copy command
 
 # text
-# c1: 3395218
+# c1: 0a53cb8
 # c2: constellation-multi-gnss-coverage.toml
-seg-fddfe8b260be = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-b79ee48fd586 = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-f2d2f2263e63 = The console, the three cards and the log replay one chained run of { "6" } phases and { "18" } member runs on its { "10" } s grid (T+{ "01" }:{ "16" }:{ "10" } of mission time). The orbits are the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual { "0.0034" }°), radii compressed for display. Links are drawn to satellites above the constellation run's { "10" }° mask ({ "25" }° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
@@ -382,9 +382,9 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial navigation system
 
 # text
-# c1: 3395218
+# c1: 0a53cb8
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-388f14eb6d8d = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-9b9d03fe1477 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-4051fcd29291 = One engine for the whole failure chain.
@@ -774,7 +774,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-45da99dccd40 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-859bb6732925 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "52" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -807,6 +807,10 @@ seg-7a7a1e7a3f0d = <c1/>: The static public-framework mapping (`kshana complianc
 # text
 # c1: compliance_report
 seg-21caa50ec277 = <c1/>: Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article { "21" }, EN { "16803" }, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps.
+
+# text
+# c1: connect_map
+seg-4d77f10101d3 = <c1/>: Map any receiver, timing or monitoring log to Kshana observations with a `kshana.connect/1` mapping file, no code (`kshana connect map`, docs/CONNECT.md).
 
 # text
 # c1: create_evidence_pack
@@ -855,6 +859,10 @@ seg-b1ed1e518609 = <c1/>: Return the TOML text of one bundled reference scenario
 # text
 # c1: import_route
 seg-aafdb73abfac = <c1/>: Write a GeoJSON route into a Kshana scenario that flies a waypoint track, and return the new scenario TOML (run it with run_scenario).
+
+# text
+# c1: interference_emitter_regions
+seg-fea37484bdea = <c1/>: Estimate emitter regions from openly licensed aircraft (ADS-B) or ship (AIS) reports given as CSV text (`kshana interference-map locate`): where, under stated assumptions, a source of the degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point.
 
 # text
 # c1: iq_acquire
@@ -931,6 +939,10 @@ seg-299e14da6de8 = <c1/>: List the standards packs (`kshana standards-pack list`
 # text
 # c1: lunanet_afs_check
 seg-1097125b8282 = <c1/>: Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version { "5" } Applicable Document { "1" } Volume A (LSIS-AFS V1.0, { "29" } January { "2025" }) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md).
+
+# text
+# c1: referee_location_score
+seg-b18c7ece1365 = <c1/>: Score where a monitoring network said interference came from (`kshana jammertest locate-score`, { "0.41" } row B2): per report the event it belongs to (by id, or by time window and nearest truth), the horizontal geodesic error and vertical error, and for each region (an ellipse with its covariance, a polygon or grid cells) whether it contains the truth and its area; per event and pooled the median and 90th-percentile error, coverage per level with its binomial check, median region size, time to first location and time to locate within { "100" } m, { "500" } m, { "1" } km and { "5" } km; and false locations per hour of clean time.
 
 # text
 # c1: render_leaderboard
@@ -1061,7 +1073,7 @@ seg-0230217b1110 = Anyone who takes position or time from GNSS is exposed: jammi
 seg-653cf3198094 = { "176" } of { "401" } capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 # text
-seg-76b213d03caa = All { "92" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
+seg-579d9b6f7afd = All { "93" } scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
 # text
 seg-0af87a1caff4 = The same core under a commercial licence, for closed integration.

@@ -27,11 +27,6 @@ seg-6f8d24ecb89f = — { "55,970" } de { "58,697" } líneas
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
-# c2: v0.29.0
-seg-d734cdb77d70 = <c1/> (motor { "0.29.0" }, la etiqueta <c2/>)
-
-# text
 # c1: ci.yml
 # c2: coverage
 seg-a2af6144b6a0 = GitHub Actions, <c1/> trabajo <c2/>, ejecución { "36809850252" }, 2026-10-01
@@ -83,14 +78,11 @@ seg-b566e95a74ab = después actualice la tabla de arriba y las seis superficies 
 seg-6935c9c381b3 = Historial
 
 # text
-# c1: b1d350d
-# c2: 1daa012
-# c3: CHANGELOG.md
-# c4: paper/kshana-technical-report.md
-seg-daa9ae1913cd = La cifra se ha vuelto a medir, no a teclear: { "95.63" } % en el commit <c1/> (motor { "0.27.2" } + sin publicar, ejecución { "35934579709" }, 2026-09-24, { "37,697" } de { "39,419" } líneas, publicado como ~{ "96" } %), revisada a { "95.35" } % en { "0.29.0" } (arriba), que se redondea a ~{ "95" } %: el código creció en { "19,278" } líneas medidas y las líneas nuevas están cubiertas algo menos que las antiguas; { "95.85" } % en { "v0.17.0" } (commit <c2/>, 2026-06-14, publicado como ~{ "96" } %), y ~{ "97" } % en dos notas de versión anteriores (<c3/>, que se dejan como historia). <c4/> decía "cerca del { "97" } %" hasta que se ajustó a este registro; ahora es la sexta superficie que fija la prueba.
-
-# text
 seg-b2dbaf3a3b68 = <s1>Anterior</s1>Normas e interoperabilidad
 
 # text
 seg-508de3808e04 = <s1>Siguiente</s1>Paquetes de evidencias
+
+seg-5ff7e4510497 = <c1/> (motor { "0.29.0" }, la etiqueta <c2/>)
+
+seg-1ff43e658eef = La cifra se ha vuelto a medir, no a teclear: { "95.63" } % en el commit <c1/> (motor { "0.27.2" } + sin publicar, ejecución { "35934579709" }, 2026-09-24, { "37,697" } de { "39,419" } líneas, publicado como ~{ "96" } %), revisada a { "95.35" } % en { "0.29.0" } (arriba), que se redondea a ~{ "95" } %: el código creció en { "19,278" } líneas medidas y las líneas nuevas están cubiertas algo menos que las antiguas; { "95.85" } % en { "v0.17.0" } (commit <c2/>, 2026-06-14, publicado como ~{ "96" } %), y ~{ "97" } % en dos notas de versión anteriores (<c3/>, que se dejan como historia). <c4/> decía "cerca del { "97" } %" hasta que se ajustó a este registro; ahora es la sexta superficie que fija la prueba.

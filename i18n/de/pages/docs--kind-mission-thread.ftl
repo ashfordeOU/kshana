@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Szenarioart der Engine v{ $version }, Familie <a1>Missionsstr
 
 seg-1ec485468daa = MODELLED Fehlerbudget für Navigation und Zeitgebung einer genannten Kette von Missionsphasen, vom Start bis zum Wiedereintritt: Start und Aufstieg, Rendezvous und Andocken in niedriger Erdumlaufbahn (wiederholbar), translunare Injektion und cislunarer Flug, Rendezvous in der Mondumlaufbahn, Abstieg, Aufenthalt an der Oberfläche, Aufstieg sowie Rückkehr und Wiedereintritt, jede Phase eine von acht registrierten Arten mit eigenen Sensoren und eigenem Filter. Die 6x6-Kovarianz, die Uhr und das Bezugssystem werden nach einer genannten Regel von Phase zu Phase weitergegeben (carry, inflate oder reacquire); Umrechnungen von Bezugssystem und Zeitskala (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sind eigene Budgetzeilen, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient. Eine optionale Bodennetz-Überlagerung legt den Verfolgungseinsatz jeder Phase fest. Sie gibt das Budget je Phase an (Eintritts-, Spitzen- und Austritts-1-Sigma, jeder Beitrag mit seiner Einheit), die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. MODELLED: Jede Zahl ist eine genannte Eingabe; die Kette folgt einem Stapel, und es wird kein Fahrzeug modelliert. Nur öffentliche Quellen; weder mit einer Agentur verbunden noch von ihr gebilligt; beratende Software, keine zertifizierte Navigationsausrüstung.
 
-seg-d6eb3dbb87c7 = Ein Lauf von <c1/> fasst sich so zusammen: mission-thread | { "11" } Phasen | Missionsstrang im Stil von Artemis (ILLUSTRATIVE) | schwächstes Glied Abstieg | MODELLED
-
 seg-9bb19202a104 = Pflichtfelder: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Das Beispiel <c1/> setzt unter anderem:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = Flug
-
 seg-3be4934f4f4e = kleinste Marge gegenüber einer genannten Anforder
-
-seg-f32a7f31e191 = inertiale Drift, ohne Stützung, Ost
-
-seg-9fde3fc1cb5b = Abstieg
-
-seg-a07521d13bb4 = Das Diagramm, das die Engine für scenarios/mission-thread-artemis-class.toml schreibt, Art mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Die Phase <c1/>: eine Positions- und Geschwindigkeitskovarianz bei konstanter Geschwindigkeit mit weißem Beschleunigungsrauschen (die Güte der Koppelnavigation), eine GNSS-Lösung genannter Genauigkeit, die nach der Erfassungszeit und außerhalb genannter Abschwächungen angewandt wird, eine Uhr mit Bias und
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED Fehlerbudget für Navigation und Zeitgebung einer ge
 
 seg-80221e9351e4 = MODELLED: Jede Zahl ist eine genannte Eingabe; die Kette folgt einem Stapel, und es wird kein Fahrzeug modelliert. (Artenkatalog (<c1/>))
 
-seg-637296d00802 = EHRLICHKEIT. Jede Zahl hier ist ILLUSTRATIVE: eine runde Zahl, gewählt, damit die Kette läuft, nicht die Leistung eines Fahrzeugs, Sensors, einer Station oder eines Netzes. Die Kette folgt als genannte Vereinfachung einem Stapel; Fahrzeugwechsel, Besatzungstransfers und die Station in der Mondumlaufbahn werden nicht modelliert, die Mondumlaufbahnen sind die kreisförmigen und polaren mit { "100" } km, die die Mondarten fliegen (nicht der nahezu geradlinige Halo-Orbit), und das TLI-Manöver ist (Kommentar in der Szenariodatei, Zeilen { "11" } bis { "17" })
-
 seg-f6574a80a60a = Das Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt (<c1/>) ist MODELLED, nicht validiert: gegen seine eigene geschlossene / analytische Identität geprüft – fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Start und Aufstieg in eine Parkbahn mit GNSS-Erfassung und -Abschwächung (<c1/>) ist MODELLED, nicht validiert: gegen seine eigene geschlossene / analytische Identität geprüft – fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Familienseite: <a1>Missionsstränge</a1>
 seg-f3279128de3b = <s1>Zurück</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Weiter</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Das Beispiel <c1/> setzt unter anderem:

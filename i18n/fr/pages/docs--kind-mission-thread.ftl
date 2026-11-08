@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Type de scénario du moteur v{ $version }, famille <a1>Fils d
 
 seg-1ec485468daa = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée : lancement et ascension, rendez-vous et amarrage en orbite basse terrestre (répétable), injection trans-lunaire et croisière cislunaire, rendez-vous en orbite lunaire, descente, séjour en surface, ascension, puis retour et entrée, chaque phase étant l'un des huit types enregistrés avec ses propres capteurs et son propre filtre. La covariance 6x6, l'horloge et le référentiel sont transmis d'une phase à l'autre selon une règle déclarée (carry, inflate ou reacquire) ; les conversions de référentiel et d'échelle de temps (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sont des lignes de budget à part, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée. Une superposition facultative du réseau au sol fixe le cycle de suivi de chaque phase. Rapporte le budget par phase (1-sigma à l'entrée, au pic et à la sortie, chaque contribution avec son unité), la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. MODELLED : chaque nombre est une entrée déclarée ; la chaîne suit un seul empilement et aucun véhicule n'est modélisé. Sources publiques seulement ; sans affiliation ni aval d'aucune agence ; logiciel à titre consultatif, et non un équipement de navigation certifié.
 
-seg-d6eb3dbb87c7 = Une exécution de <c1/> se résume ainsi : mission-thread | { "11" } phases | Artemis-class mission thread (ILLUSTRATIVE) | weakest link descent | MODELLED
-
 seg-9bb19202a104 = Champs obligatoires : <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Champs facultatifs : <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = L'exemple <c1/> définit, entre autres :
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = plus petite marge par rapport à une exigence déclarée
-
-seg-f32a7f31e191 = dérive inertielle, sans aide, est
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Le graphique que le moteur écrit pour scenarios/mission-thread-artemis-class.toml, type de scénario mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> La phase <c1/> : une covariance de position et de vitesse à vitesse constante avec un bruit d'accélération blanc (le niveau de l'estime), un point GNSS de précision déclarée appliqué après l'instant d'acquisition et hors des évanouissements déclarés, une horloge à biais et
 
@@ -59,8 +47,6 @@ seg-01ef16f03f02 = <b>MODELLED</b> La phase <c1/> : l'état relatif dans les ax
 seg-d9a1ea509a3c = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée : lancement et ascension, rendez-vous et amarrage en orbite basse terrestre (répétable), injection trans-lunaire et croisière cislunaire, rendez-vous en orbite lunaire, descente, séjour en surface, ascension, puis retour et entrée, chaque phase étant l'un des huit types enregistrés avec ses propres capteurs et son propre filtre. (catalogue des types de scénario (<c1/>))
 
 seg-80221e9351e4 = MODELLED : chaque nombre est une entrée déclarée ; la chaîne suit un seul empilement et aucun véhicule n'est modélisé. (catalogue des types de scénario (<c1/>))
-
-seg-637296d00802 = HONNÊTETÉ. Chaque nombre ici est ILLUSTRATIVE : un chiffre rond choisi pour faire tourner la chaîne, et non la performance d'un véhicule, d'un capteur, d'une station ou d'un réseau. La chaîne suit un seul empilement comme simplification déclarée ; les changements de véhicule, les transferts d'équipage et la station en orbite lunaire ne sont pas modélisés, les orbites lunaires sont les orbites circulaires et polaires à { "100" } km que volent les types lunaires (et non l'orbite de halo quasi rectiligne), et la poussée TLI e (commentaire du fichier de scénario, lignes { "11" } à { "17" })
 
 seg-f6574a80a60a = Le budget d'erreur de navigation et de synchronisation d'une chaîne de phases de mission du lancement à l'entrée (<c1/>) est MODELLED, et non validé : vérifié par rapport à sa propre identité analytique / en forme fermée — il détecte les erreurs de transcription et de coefficients, mais ce n'est pas une référence indépendante externe. (matrice de vérification (docs/MODELLED-RATIONALE.md))
 
@@ -77,3 +63,5 @@ seg-f3279128de3b = <s1>Précédent</s1>mars-pnt
 seg-2854e6a75833 = <s1>Suivant</s1>moonlight-service-volume
 
 seg-1e77eae03d2c = <b>MODELLED</b> La phase <c1/> : l'état moyen par le propagateur de Cowell du moteur (masse ponctuelle terrestre et J2, le Soleil et la Lune comme corps tiers, la Lune issue du fil. Référence indépendante (InternalConsistency) : Le théorème de Liouville (le déterminant de la matrice de transition d'état de la partie conservative vaut un) et une différence plus fine dans les tests ; l'état moyen est comparé à une trajectoire publique dans la ligne ci-dessous, qu'il n'atteint pas. L'erreur de poussée, les mises à jour et la covariance ne sont comparées à rien
+
+seg-050e380fbc15 = L'exemple <c1/> définit, entre autres :

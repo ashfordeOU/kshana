@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } van { "58,697" } regels
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (engine { "0.29.0" }, de tag <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, job <c2/> in <c1/>, run { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Hulpmiddel
@@ -42,8 +40,10 @@ seg-b566e95a74ab = werk daarna de tabel hierboven en de zes plaatsen in dezelfde
 
 seg-6935c9c381b3 = Geschiedenis
 
-seg-daa9ae1913cd = Het cijfer is opnieuw gemeten, niet opnieuw getypt: { "95.63" } % op commit <c1/> (engine { "0.27.2" } + niet-uitgebracht, run { "35934579709" }, 2026-09-24, { "37,697" } van { "39,419" } regels, gepubliceerd als ~{ "96" } %), herzien naar { "95.35" } % op { "0.29.0" } (hierboven), wat afrondt op ~{ "95" } %: de code groeide met { "19,278" } gemeten regels en de nieuwe regels worden iets minder gedekt dan de oude; { "95.85" } % bij { "v0.17.0" } (commit <c2/>, 2026-06-14, gepubliceerd als ~{ "96" } %), en ~{ "97" } % in twee eerdere release notes (<c3/>, als geschiedenis gelaten). <c4/> zei "near { "97" } %" totdat het met deze vastlegging in overeenstemming werd gebracht; het is nu de zesde plaats die de test vastpint.
-
 seg-b2dbaf3a3b68 = <s1>Vorige</s1>Standaarden en interoperabiliteit
 
 seg-508de3808e04 = <s1>Volgende</s1>Bewijspakketten
+
+seg-5ff7e4510497 = <c1/> (engine { "0.29.0" }, de tag <c2/>)
+
+seg-1ff43e658eef = Het cijfer is opnieuw gemeten, niet opnieuw getypt: { "95.63" } % op commit <c1/> (engine { "0.27.2" } + niet-uitgebracht, run { "35934579709" }, 2026-09-24, { "37,697" } van { "39,419" } regels, gepubliceerd als ~{ "96" } %), herzien naar { "95.35" } % op { "0.29.0" } (hierboven), wat afrondt op ~{ "95" } %: de code groeide met { "19,278" } gemeten regels en de nieuwe regels worden iets minder gedekt dan de oude; { "95.85" } % bij { "v0.17.0" } (commit <c2/>, 2026-06-14, gepubliceerd als ~{ "96" } %), en ~{ "97" } % in twee eerdere release notes (<c3/>, als geschiedenis gelaten). <c4/> zei "near { "97" } %" totdat het met deze vastlegging in overeenstemming werd gebracht; het is nu de zesde plaats die de test vastpint.

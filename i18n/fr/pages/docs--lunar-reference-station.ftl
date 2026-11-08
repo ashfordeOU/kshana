@@ -258,11 +258,6 @@ seg-fc27b4012f02 = Sources S1 à S5 (titre, URL, date de consultation, SHA-256, 
 seg-d866653008e1 = Chaque affirmation numérique, citée avec sa page et ses hypothèses indiquées et classée comme comparable, partiellement comparable ou non comparable : <c1/>. Aucune affirmation n'est entièrement comparable, parce qu'aucune source n'indique un percentile ni les éléments orbitaux des satellites.
 
 # text
-# c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
-# c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Seuils, cas et entrées, enregistrés seuls avant l'exécution (révision { "2" }, 05bf9a19), et l'exécution consignée : <c1/>. Le constat est figé dans <c2/>.
-
-# text
 seg-069a652c402e = seuil
 
 # text
@@ -327,12 +322,6 @@ seg-e666f1eb7a59 = { "1" } seuil sur { "6" } est réussi. La cause est la géom�
 
 # text
 seg-1da5fcf7bbf5 = Prédiction préenregistrée
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Une prédiction préenregistrée, figée au commit <c1/> sur les entrées à sources publiques, avec son protocole de notation : <a1><c2/></a1>. C'est une prédiction, non une validation, et chaque chiffre qu'elle contient est dominé par le jeu d'éléments non publié de la constellation de quatre satellites (les éléments utilisés sont ILLUSTRATIVE) : sur la région au-delà de { "80" } deg S, disponibilité { "8.2" } %, p95 3-D corrigé { "280" } m, non corrigé { "3.8" } km. MODELLED ; <c3/> échoue si le moindre octet figé change.
 
 # text
 seg-e6aef34d5023 = Laboratoire de temps de la station
@@ -446,3 +435,5 @@ seg-79d53edd2374 = <s1>Suivant</s1>Navigation des utilisateurs de l'espace (gnss
 
 # text
 seg-9c59637f0666 = Carte de couverture et de précision (lunar-station-coverage)
+
+seg-34967943a088 = Une prédiction préenregistrée, figée au commit <c1/> sur les entrées à sources publiques, avec son protocole de notation : <a1><c2/></a1>. C'est une prédiction, non une validation, et chaque chiffre qu'elle contient est dominé par le jeu d'éléments non publié de la constellation de quatre satellites (les éléments utilisés sont ILLUSTRATIVE) : sur la région au-delà de { "80" } deg S, disponibilité { "8.2" } %, p95 3-D corrigé { "280" } m, non corrigé { "3.8" } km. MODELLED ; <c3/> échoue si le moindre octet figé change.

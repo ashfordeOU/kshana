@@ -50,8 +50,6 @@ seg-849c08d3ce70 = ファミリーページ：<a1>時計、タイミング、ホ
 
 seg-ee7dd15019d0 = トピックページ：<a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = トピックページ：<a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>前へ</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>次へ</s1>combined-altpnt

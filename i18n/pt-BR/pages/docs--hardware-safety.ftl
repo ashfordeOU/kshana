@@ -65,20 +65,11 @@ seg-1c566ec98a03 = Arquivos: logs de reprodução, IQ, exportações de bench, N
 seg-0435986aa760 = distribuído
 
 # text
-# c1: iq monitor --follow
-seg-56b9a4399108 = Recepção passiva: receptores somente leitura; logs de temporização (linuxptp, chrony, TICC); CSV de IMU; <c1/> sobre um arquivo SigMF em crescimento
-
-# text
 seg-608fc0a99107 = os receptores, o grandmaster e o SDR em recepção do usuário
 
 # text
 # c1: --configure
 seg-786d9e5ccf93 = qualquer escrita de configuração em um receptor exige um <c1/> explícito; o padrão é somente leitura
-
-# text
-# c1: holdover-test
-# c2: iq monitor --follow
-seg-ab8874046283 = distribuído em parte: formatos de log de temporização, <c1/>, <c2/>; a entrada serial de receptor está planejada
 
 # text
 seg-6b0a194d3f64 = Orquestração de laboratório sem RF do Kshana: uma especificação de condições de teste, passos do operador (retirada da antena, início do simulador) solicitados e com carimbo de tempo, pontuação de ida e volta e evidência

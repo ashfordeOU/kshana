@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Zie <a1><c1/></a1>. NMEA- en RINEX-uitvoer van GNSS-SDR wordt
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: een kopregel die de kolommen benoemt, daarna één sample per rij. Kolommen (in willekeurige volgorde, namen niet hoofdlettergevoelig): <c2/> seconden op de klok van het ontvangerlog, <c3/>, <c4/>, <c5/> hoeksnelheid in rad/s, <c6/>, <c7/>, <c8/> specifieke kracht in m/s². <c9/>: de indeling van de EuRoC MAV <c10/> <c11/> (<c12/>, <c13/>, <c14/>); het eerste sample is <c15/>. Rijen die niet te parsen zijn en rijen waarvan de tijd niet toeneemt, worden overgeslagen. Zie <a1><c16/></a1> voor hoe de gyrokoers wordt gebruikt.
-
 seg-f7007cf35f53 = IMU in de scenario's hybrid en fusion (<c1/>)
 
 seg-3fc254763f67 = De scenario's <c1/> en <c2/> (UKF met 17 toestanden) zijn simulaties: zij nemen parameters voor sensorruis (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), geen gemeten reeks. <c10/> leest die parameters af uit een stilstaand IMU-log, zodat een scenario kan worden uitgevoerd met de sensor die u werkelijk hebt:

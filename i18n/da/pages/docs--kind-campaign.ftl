@@ -36,8 +36,6 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Fasene i typen <c1/>: hver fase kører ét el
 
 seg-be831b52a339 = og { "4" } flere i matrixen.
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-linkbudget, anti-jam-C/N₀, tab af lås pr. satellit. Uafhængig reference (InternalConsistency): Linkbudgetligningen for anti-jam-C/N₀ krydskontrolleret mod en uafhængig numpy-udledning påny (deler den samme lukkede form → InternalConsistency) plus en karakterisering af C/N₀-forringelse fra reelle JammerTest-2024-data. { "0.30" } runde { "2" }, blokeret (forbliver MODELLED): det målte fald i C/N0 fra JammerTest { "2024" } mod en linkbudgetforudsigelse (præregistreret 6a66994b, inden for { "3" } dB) blev ikke kørt, fordi F8.1-antennens position og pegning ved
-
 seg-59afd80736c5 = <b>PARTNER</b> Ikke leveret — Kshana modellerer signalydelse, ikke nyttelast- eller antennehardware. Uafhængig reference (NoneKind): ingen: en disciplin, som partneren ejer, uden modul og uden test, af design
 
 seg-fa3ad6babe54 = <b>MODELLED</b> Typen <c1/>s sweep (en til tre punktsepararede nøgler af en vilkårlig type, på det generiske sweeps akseværdier, eventuelt et ensemble i hver knude) og monte_carlo-sek. Uafhængig reference (InternalConsistency): Den lukkede form for fasens random walk under hvid frekvensstøj, varians q_wf tau (NIST Technical Note { "1337" }), for statistikmaskineriet, og byte-lighed med de selvstændige kørsler for seedningen. Det kontrollerer ensemblets aritmetik på motorens egen urmodel, ikke et eksternt datasæt

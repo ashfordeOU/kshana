@@ -110,9 +110,6 @@ seg-509f93c7e9ce = <b>MODELLED</b> Trois scénarios gnss-ins sur la bibliothèqu
 seg-e0633b308e4e = <b>MODELLED</b> Un filtre de Kalman empilé unique sur la position, la vitesse, la phase et la fréquence de l'horloge, alimenté par des pseudodistances qui couplent position et horloge (mises à jour sous forme de Joseph portant la covariance croisée) ; une variante à 1 DOF augmentée d'un biais d'accéléromètre constant s Tests : <a1>fusion_coupled_filters.rs</a1>.
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Accéléromètre à interféromètre à atomes froids à partir des premiers principes (k_eff·T², QPN). Référence indépendante (ExternalDataset) : vecteurs numériques publiés d'articles primaires sur le CAI (fonction de transfert de Cheinet { "2008" } ; sensibilité de Peters/Freier) : k_eff·T² concorde exactement, ASD du bruit de grenaille un plancher unilatéral à ~{ "2" }× de chaque instrument publié (les dispositifs réels portent un bruit technique au-dessus du plancher quantique). Un encadrement, et non une parité. { "0.30" } tour { "2" } (préenregistré fcb9ac64), un constat (reste MODELLED) : le bruit de rotation limité au seul QPN face au Gauguet et al. mesuré.
-
-# text
 seg-7e95210bcc48 = <b>MODELLED</b> Budget de position composé biais + facteur d'échelle + VRW + décroissance de stabilité sur le holdover. Référence indépendante (ReferenceImpl) : intégration SDE Monte-Carlo numpy indépendante d'un bruit d'accélération blanc doublement intégré (valide la variance VRW analytique par un algorithme réellement indépendant) + un point d'ancrage de valeur publiée de Groves { "2013" } pour les termes de biais/facteur d'échelle ; les chiffres du dispositif CAI quantifient du matériel partenaire et restent MODELLED
 
 # text

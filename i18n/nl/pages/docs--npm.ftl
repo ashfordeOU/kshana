@@ -88,4 +88,4 @@ seg-7b53ee712a36 = <b>{ "176" } van { "401" }</b> mogelijkheden gevalideerd tege
 
 seg-b59781ecf257 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "401" } mogelijkheden: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner
 
-seg-d0b2811a3d3c = De engine heeft { "92" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).
+seg-80e5f0aa2831 = De engine heeft { "93" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).

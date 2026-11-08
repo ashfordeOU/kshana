@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Zdroje S1 až S5 (název, URL, datum stažení, SHA-256, lice
 
 seg-d866653008e1 = Každé číselné tvrzení, citované s uvedením stránky a stanovených předpokladů a zařazené jako srovnatelné, částečně srovnatelné nebo nesrovnatelné: <c1/>. Žádné tvrzení není plně srovnatelné, protože žádný zdroj neuvádí percentil ani orbitální elementy družic.
 
-seg-50535c58d3cf = Prahy, případy a vstupy, zapsané samostatně před během (revize { "2" }, 05bf9a19), a zaznamenaný běh: <c1/>. Zjištění je připnuto v <c2/>.
-
 seg-069a652c402e = práh
 
 seg-d6120708c062 = tvrzení (zdroje)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = splněno
 seg-e666f1eb7a59 = Splněn je { "1" } z { "6" } prahů. Příčinou je geometrie. Žádný zdroj nezveřejňuje orbitální elementy konstelace. Na ILLUSTRATIVE vestavěných elementech sdílejí uživatel a stanice čtyři družice nad { "5" } stupni jen v { "8" } % ({ "300" } km) a { "6" } % ({ "600" } km) epoch, při téměř singulární geometrii: neopravené p95 je { "3.8" } km, kde zdroje uvádějí < { "10" } m. Vlastní simulace zdrojů používaly filtr, výškovou vazbu a tři družice v částečném společném výhledu, což tento model snímku nemá. Běh proto tvrzení na těchto elementech nereprodukuje a není důkazem, že tvrzení jsou chybná. Splnění K6 je poměr dvou hodnot ovládaných geometrií a o dekorelaci nic nevypovídá. Zveřejněná sada elementů konstelace by byla hodnocena podle týchž prahů jako druhý, datovaný běh.
 
 seg-1da5fcf7bbf5 = Předregistrovaná předpověď
-
-seg-4ea806a57380 = Předregistrovaná předpověď, zmrazená u commitu <c1/> na vstupech z veřejných zdrojů, s protokolem hodnocení: <a1><c2/></a1>. Je to předpověď, nikoli validace, a každá hodnota v ní je ovládána nezveřejněnou sadou elementů čtyřdružicové konstelace (použité elementy jsou ILLUSTRATIVE): v oblasti od { "80" } stupňů j. š. dostupnost { "8.2" } %, opravená 3D na p95 { "280" } m, neopravená { "3.8" } km. MODELLED; <c3/> selže, pokud se pohne kterýkoli zmrazený bajt.
 
 seg-e6aef34d5023 = Časová laboratoř stanice
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Předchozí</s1>Sluneční soustava a další tělesa
 seg-79d53edd2374 = <s1>Další</s1>Navigace uživatelů ve vesmíru (gnss-ssv)
 
 seg-9c59637f0666 = Mapa pokrytí a přesnosti (lunar-station-coverage)
+
+seg-34967943a088 = Předregistrovaná předpověď, zmrazená u commitu <c1/> na vstupech z veřejných zdrojů, s protokolem hodnocení: <a1><c2/></a1>. Je to předpověď, nikoli validace, a každá hodnota v ní je ovládána nezveřejněnou sadou elementů čtyřdružicové konstelace (použité elementy jsou ILLUSTRATIVE): v oblasti od { "80" } stupňů j. š. dostupnost { "8.2" } %, opravená 3D na p95 { "280" } m, neopravená { "3.8" } km. MODELLED; <c3/> selže, pokud se pohne kterýkoli zmrazený bajt.

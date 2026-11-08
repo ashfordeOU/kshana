@@ -65,20 +65,11 @@ seg-1c566ec98a03 = Fichiers : journaux de rejeu, IQ, exports bench, NMEA ou UBX
 seg-0435986aa760 = livré
 
 # text
-# c1: iq monitor --follow
-seg-56b9a4399108 = Réception passive : récepteurs en lecture seule ; journaux de synchronisation temporelle (linuxptp, chrony, TICC) ; CSV d'IMU ; <c1/> sur un fichier SigMF en croissance
-
-# text
 seg-608fc0a99107 = les récepteurs de l'utilisateur, le grandmaster, la SDR en réception
 
 # text
 # c1: --configure
 seg-786d9e5ccf93 = toute écriture de configuration vers un récepteur exige un <c1/> explicite ; la valeur par défaut est la lecture seule
-
-# text
-# c1: holdover-test
-# c2: iq monitor --follow
-seg-ab8874046283 = livré en partie : formats de journaux de synchronisation temporelle, <c1/>, <c2/> ; l'entrée de récepteur série est prévue
 
 # text
 seg-6b0a194d3f64 = Orchestration de laboratoire sans RF de la part de Kshana : une spécification des conditions d'essai, des étapes de l'opérateur (retrait de l'antenne, démarrage du simulateur) sollicitées et horodatées, notation aller-retour et preuve

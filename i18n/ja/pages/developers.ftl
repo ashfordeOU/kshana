@@ -204,8 +204,6 @@ seg-32c07578eab3 = 記録されたセッションのステップ
 
 seg-2cff891dc970 = 次のステップ
 
-seg-45da99dccd40 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "49" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
-
 seg-102015d6ebd2 = <c1/>：Kshana シナリオを実行し、その時系列をアニメーションとして返します。
 
 seg-0247e08ba09d = <c1/>：実際の GNSS 受信機ログの信頼性を評価します。u-blox UBX、RINEX { "3" }（放送航法を併用すると、エンジン自身の測位解、RAIM、時計支援モニターが加わります）、Android GnssLogger、NMEA のいずれかのログを読み込み、信頼性モニター（搬送波電力対雑音密度の低下、AGC、ジャミング指標、ロック喪失、位置ジャンプ、RAIM、時計）を校正ベースラインに対して実行し、受信機がいつ、なぜ信頼できなくなったかを返します。
@@ -307,8 +305,6 @@ seg-2598d06895ec = <c1/>：署名付きエビデンスパックを検証しま�
 seg-62b5564e8d90 = 記録されたセッションが、ここでステップごとに再生されます。
 
 seg-2359edf78388 = <b>Studio での同じ実行：</b>エンジン v{ $version } · <c1/> · シード { "42" }
-
-seg-c24f65399c72 = 公開されている Kshana API（アプリケーションプログラミングインターフェース）の<b>ツール { "49" } 個</b>で、公式 MCP レジストリに <c1/> として登録されています。軌道エクスポートは、SP3（Standard Product { "3" }）と CCSDS（宇宙データシステム諮問委員会）の OMM と OEM（軌道平均要素・エフェメリスメッセージ、TEME：True Equator, Mean Equinox 座標系）です。<b>AI アシスタント（MCP サーバー）</b>または <b>Docker イメージ</b>の下で登録してください。<a1>MCP サーバーのドキュメント</a1>
 
 seg-306a0232c581 = TOML 定義から Kshana の PNT レジリエンスのシナリオを実行し、その性能指標を返します。人が読める要約に続いて、完全な結果の JSON（FoM、曲線）を返します。Kshana は、SGP4/SDP4、IAU の座標系、アラン偏差、GNSS の可用性/DOP、ARAIM の保護レベル、GNSS/INS 融合、量子センサーのモデルを、公表された参照に対して検証します。すべての種類はこの一つのツールで実行でき、<c1/>（無線周波数スペクトルとウォーターフォール）、<c2/>、<c3/>、<c4/>（任意の天体まわりのコンステレーション）、<c5/>（連鎖したフェーズ、パラメーター掃引、モンテカルロアンサンブル、組み合わせたシナリオ）、および低軌道航法の種類 <c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>、<c12/> を含みます。内容はインラインです。ファイルを指すシナリオフィールドは拒否され、シナリオは最大 { "4" } MiB です。シナリオの種類とそのフィールドを調べるには最初に list_scenario_kinds を、種類ごとの完全に実行できるシナリオには list_example_scenarios / get_example_scenario を呼び出してください。
 
@@ -650,8 +646,6 @@ seg-d85f16c14183 = kshana.run と run_full、および validate_toml と list_ki
 
 seg-5a6803e3eb48 = ブラウザーまたは Node.js での run、summary、chart_svg
 
-seg-1c19f8c0ad84 = AI アシスタントが呼び出せる { "49" } 個のツール。いずれも公開 API の薄いラッパーです
-
 seg-4ad1a7669b03 = Rust ツールチェーンなしで使える MCP サーバー（マルチアーキテクチャ）
 
 seg-9e409a07b3c9 = シナリオの .toml を右クリックして Run Kshana Scenario を選び、ツールウィンドウで数値を確認します
@@ -803,3 +797,9 @@ seg-bd7b70852d88 = ベンチマークを実行します。
 seg-193ee1ab991e = <c1/> は、提出ファイルと分割の正解を結果ファイルに変換し、<c2/> は結果ファイルを静的なページに出力します。お客様の代わりに実行されるものはなく、何もアップロードされません。
 
 seg-0c50b3629e39 = ベンチマークを開く
+
+seg-859bb6732925 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "52" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
+
+seg-f3512ff81b58 = 公開されている Kshana API（アプリケーションプログラミングインターフェース）の<b>ツール { "52" } 個</b>で、公式 MCP レジストリに <c1/> として登録されています。軌道エクスポートは、SP3（Standard Product { "3" }）と CCSDS（宇宙データシステム諮問委員会）の OMM と OEM（軌道平均要素・エフェメリスメッセージ、TEME：True Equator, Mean Equinox 座標系）です。<b>AI アシスタント（MCP サーバー）</b>または <b>Docker イメージ</b>の下で登録してください。<a1>MCP サーバーのドキュメント</a1>
+
+seg-5aa702c4ebc7 = AI アシスタントが呼び出せる { "52" } 個のツール。いずれも公開 API の薄いラッパーです

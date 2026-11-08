@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Se <a1><c1/></a1>. NMEA- og RINEX-utdata fra GNSS-SDR leses a
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: en overskriftsrad som navngir kolonnene, deretter ett sampel per rad. Kolonner (i hvilken som helst rekkefølge, navn uten forskjell på store og små bokstaver): <c2/> sekunder på mottakerloggens klokke, <c3/>, <c4/>, <c5/> vinkelhastighet i rad/s, <c6/>, <c7/>, <c8/> spesifikk kraft i m/s². <c9/>: EuRoC MAV-oppsettet <c10/> <c11/> (<c12/>, <c13/>, <c14/>); det første sampelet er <c15/>. Rader som ikke lar seg tolke, og rader der tiden ikke øker, hoppes over. Se <a1><c16/></a1> for hvordan gyroretningen brukes.
-
 seg-f7007cf35f53 = IMU inn i hybrid- og fusjonsscenarioene (<c1/>)
 
 seg-3fc254763f67 = Scenarioene <c1/> og <c2/> (UKF med 17 tilstander) er simuleringer: de tar sensorstøyparametere (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), ikke en målt serie. <c10/> leser disse parameterne ut av en IMU-logg i ro, slik at et scenario kan kjøres med sensoren du faktisk har:

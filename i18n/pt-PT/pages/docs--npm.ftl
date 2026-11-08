@@ -227,9 +227,4 @@ seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas face a re
 # attr:alt
 seg-b59781ecf257 = Como uma capacidade obtém a sua etiqueta: capacidade, referência independente, teste, etiqueta no registo. O estado de verificação das { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros
 
-# text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-d0b2811a3d3c = O motor tem { "92" } tipos de cenário; <c1/> os lista com os respetivos campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para veículos espaciais acima, em torno e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).
+seg-80e5f0aa2831 = O motor tem { "93" } tipos de cenário; <c1/> os lista com os respetivos campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para veículos espaciais acima, em torno e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).

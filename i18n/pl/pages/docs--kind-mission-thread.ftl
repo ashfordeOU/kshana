@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Rodzaj scenariusza silnika v{ $version }, rodzina <a1>Wątki 
 
 seg-1ec485468daa = MODELLED: budżet błędu nawigacji i czasu podanego łańcucha faz misji, od startu do wejścia w atmosferę: start i wznoszenie, spotkanie i połączenie na niskiej orbicie okołoziemskiej (powtarzalne), wtrysk translunarny i lot cislunarny, spotkanie na orbicie księżycowej, lądowanie, pobyt na powierzchni, wznoszenie oraz powrót i wejście w atmosferę, każda faza jednym z ośmiu zarejestrowanych rodzajów z własnymi czujnikami i filtrem. Kowariancja 6x6, zegar i układ odniesienia są przekazywane z fazy do fazy według podanej zasady (carry, inflate lub reacquire); konwersje układów odniesienia i skal czasu (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) są osobnymi wierszami budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem. Opcjonalna nakładka sieci naziemnej ustala cykl śledzenia każdej fazy. Podaje budżet każdej fazy (1-sigmy na wejściu, w szczycie i na wyjściu, każdy wkład z jednostką), margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. MODELLED: każda liczba jest podanym wejściem; łańcuch podąża za jednym stosem i żaden pojazd nie jest modelowany. Tylko źródła publiczne; bez powiązań z żadną agencją i bez jej poparcia; oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.
 
-seg-d6eb3dbb87c7 = Jeden przebieg <c1/> daje podsumowanie: mission-thread | { "11" } faz | wątek misji klasy Artemis (ILLUSTRATIVE) | najsłabsze ogniwo descent | MODELLED
-
 seg-9bb19202a104 = Pola wymagane: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Pola opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Przykład <c1/> ustawia między innymi:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = najmniejszy margines względem podanego wymag
-
-seg-f32a7f31e191 = dryf inercjalny, bez wspomagania, wschód
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Wykres zapisywany przez silnik dla scenarios/mission-thread-artemis-class.toml, rodzaj mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Faza <c1/>: kowariancja pozycji i prędkości o stałej prędkości z szumem białego przyspieszenia (klasa nawigacji zliczeniowej), pozycja GNSS o podanej dokładności stosowana po czasie akwizycji i poza podanymi zanikami, zegar z biasem i
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED: budżet błędu nawigacji i czasu podanego łańcuc
 
 seg-80221e9351e4 = MODELLED: każda liczba jest podanym wejściem; łańcuch podąża za jednym stosem i żaden pojazd nie jest modelowany. (katalog rodzajów (<c1/>))
 
-seg-637296d00802 = UCZCIWOŚĆ. Każda liczba tutaj jest ILLUSTRATIVE: okrągła wartość wybrana tak, by łańcuch działał, a nie osiągi jakiegokolwiek pojazdu, czujnika, stacji ani sieci. Łańcuch podąża za jednym stosem jako podanym uproszczeniem; zmiany pojazdów, transfery załogi i stacja na orbicie księżycowej nie są modelowane, orbity księżycowe to kołowe i polarne o wysokości { "100" } km, którymi latają rodzaje księżycowe (nie prawie prostoliniowa orbita halo), a impuls TLI jest (komentarz pliku scenariusza, wiersze { "11" } do { "17" })
-
 seg-f6574a80a60a = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (<c1/>) jest MODELLED, a nie sprawdzony względem niezależnego wzorca: sprawdzany względem własnej tożsamości w postaci zamkniętej / analitycznej — wychwytuje błędy transkrypcji i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Start i wznoszenie na orbitę parkingową z akwizycją GNSS i zanikiem (<c1/>) jest MODELLED, a nie sprawdzone względem niezależnego wzorca: sprawdzane względem własnej tożsamości w postaci zamkniętej / analitycznej — wychwytuje błędy transkrypcji i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Strona rodziny: <a1>Wątki misji</a1>
 seg-f3279128de3b = <s1>Poprzedni</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Następny</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Przykład <c1/> ustawia między innymi:

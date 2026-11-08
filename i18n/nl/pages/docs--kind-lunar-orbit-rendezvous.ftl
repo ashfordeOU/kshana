@@ -42,8 +42,6 @@ seg-4466fb6f4043 = batch-Gauss-Newton over de boog
 
 seg-d97b2505ac72 = De grafiek die de engine schrijft voor scenarios/lunar-orbit-rendezvous.toml, soort lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> De soort en fase <c1/>: een gezamenlijke batch-Gauss-Newton-schatting voor twee voertuigen over de boog (eenentwintig parameters: beide toestanden en blijvende positiebiassen in het signaal in de ruimte, gemeenschappelijk en onafhankelijk), opgebouwd over een kwart, een h Tests: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> De soort en fase <c1/>: een gezamenlijke batch-Gauss-Newton-schatting voor twee voertuigen over de boog (eenentwintig parameters: beide toestanden en blijvende positiebiassen in het sig. Onafhankelijke referentie (InternalConsistency): Zelfconsistentie onder een preregistratie (xval/mission-thread-lunar/PREREGISTRATION.md, resultaten en de geschiedenis van de schatter in RESULTS.md): de gemiddelde NEES van de relatieve toestand is { "5.85" } tot { "5.93" } tegen de band { "5.2" } tot { "6.8" } in vier configuraties, MET bij het vierde schatterontwerp nadat drie ontwerpen met een opeenvolgend filter hadden gemist; de referentie en de schatter delen één krachtenmodel, dus dit zegt niets over modelfouten. De p
 
 seg-b2f273ea732d = MODELLED relatieve navigatie voor een koppeling in de stijl van Orion en lander in een lage maanbaan of een elliptische poolbaan (Artemis-klasse). (soortencatalogus (<c1/>))

@@ -204,8 +204,6 @@ seg-32c07578eab3 = Tallennetun istunnon vaiheet
 
 seg-2cff891dc970 = Seuraava vaihe
 
-seg-45da99dccd40 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "49" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Aja Kshana-skenaario ja palauta sen aikasarja animaationa.
 
 seg-0247e08ba09d = <c1/>: Arvioi todellisen GNSS-vastaanottimen loki luottamuksen kannalta: lue u-blox UBX, RINEX { "3" } (valinnaisesti lähetetyn navigointidatan kanssa, mikä lisää moottorin oman ratkaisun, RAIMin ja kelloavusteisen monitorin), Android GnssLogger tai NMEA-loki, aja luottamusmonitorit (kantoaalto–kohinatiheyden lasku, AGC, häirintäindikaattori, kytkennän menetys, sijaintihyppy, RAIM, kello) kalibrointilähtötasoa vasten ja palauta, milloin ja miksi vastaanotin lakkasi olemasta luotettava.
@@ -307,8 +305,6 @@ seg-2598d06895ec = <c1/>: Varmenna allekirjoitettu todistepaketti (`kshana evide
 seg-62b5564e8d90 = Tallennettu istunto toistetaan tässä vaihe vaiheelta.
 
 seg-2359edf78388 = <b>Sama ajo Studiossa:</b> moottori v{ $version } · <c1/> · siemenluku { "42" }
-
-seg-c24f65399c72 = <b>{ "49" } työkalua</b> julkisen Kshana-rajapinnan (application programming interface) päällä, virallisessa MCP-rekisterissä nimellä <c1/>. Kiertoratavientit: SP3 (Standard Product { "3" }) sekä CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (kiertoradan keskielementti- ja efemeridiviestit, TEME: True Equator, Mean Equinox -koordinaatisto). Rekisteröi se kohdassa <b>Tekoälyavustaja (MCP-palvelin)</b> tai <b>Docker-image</b>. <a1>MCP-palvelimen dokumentaatio</a1>
 
 seg-306a0232c581 = Aja Kshana PNT-kestävyysskenaario TOML-määrittelystä ja palauta sen laatumittarit. Palauttaa ihmisluettavan yhteenvedon ja sen perässä koko tulos-JSONin (laatumittarit, käyrät). Kshana validoi SGP4/SDP4:n, IAU:n koordinaatistot, Allanin poikkeamat, GNSS:n saatavuuden/DOP:n, ARAIM-suojaustasot, GNSS/INS-fuusion ja kvanttisensorimallit julkaistuja vertailuja vasten. Jokainen laji ajetaan tämän yhden työkalun kautta, mukaan lukien <c1/> (radiotaajuusspektri ja vesiputous), <c2/>, <c3/> ja <c4/> (satelliittitähdistöt minkä tahansa kappaleen ympärillä), <c5/> (ketjutetut vaiheet, parametripyyhkäisyt, Monte Carlo -joukot ja koostetut skenaariot) sekä matalan Maan kiertoradan navigointilajit <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> ja <c12/>. Sisältö annetaan rivissä: tiedoston nimeävä skenaariokenttä hylätään, ja skenaario on enintään { "4" } MiB. Kutsu ensin list_scenario_kinds löytääksesi skenaariotyypit ja niiden kentät sekä list_example_scenarios / get_example_scenario löytääksesi lajin täydellisen ajettavan skenaarion.
 
@@ -650,8 +646,6 @@ seg-d85f16c14183 = kshana.run ja run_full sekä validate_toml ja list_kinds
 
 seg-5a6803e3eb48 = run, summary ja chart_svg selaimessa tai Node.js:ssä
 
-seg-1c19f8c0ad84 = { "49" } työkalua, joita tekoälyavustaja voi kutsua, kukin ohut kääre julkisen API:n päällä
-
 seg-4ad1a7669b03 = MCP-palvelin ilman Rust-työkaluketjua, usean arkkitehtuurin
 
 seg-9e409a07b3c9 = Napsauta skenaariota .toml hiiren oikealla, valitse Run Kshana Scenario ja lue luvut työkaluikkunasta
@@ -803,3 +797,9 @@ seg-bd7b70852d88 = Aja benchmark.
 seg-193ee1ab991e = <c1/> muuttaa lähetystiedoston ja jaon totuuden tulostiedostoksi, ja <c2/> renderöi tulostiedostot staattiseksi sivuksi. Mikään ei aja puolestasi eikä mitään lähetetä.
 
 seg-0c50b3629e39 = Avaa benchmark
+
+seg-859bb6732925 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "52" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } työkalua</b> julkisen Kshana-rajapinnan (application programming interface) päällä, virallisessa MCP-rekisterissä nimellä <c1/>. Kiertoratavientit: SP3 (Standard Product { "3" }) sekä CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (kiertoradan keskielementti- ja efemeridiviestit, TEME: True Equator, Mean Equinox -koordinaatisto). Rekisteröi se kohdassa <b>Tekoälyavustaja (MCP-palvelin)</b> tai <b>Docker-image</b>. <a1>MCP-palvelimen dokumentaatio</a1>
+
+seg-5aa702c4ebc7 = { "52" } työkalua, joita tekoälyavustaja voi kutsua, kukin ohut kääre julkisen API:n päällä

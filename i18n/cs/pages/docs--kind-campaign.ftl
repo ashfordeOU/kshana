@@ -36,8 +36,6 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Fáze druhu <c1/>: každá fáze spouští p�
 
 seg-be831b52a339 = a { "4" } další v matici.
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Rozpočet spoje J/S z geometrie, C/N₀ odolné proti rušení, ztráta zachycení signálu na jednotlivé družice. Oracle (InternalConsistency): Rovnice rozpočtu spoje pro C/N₀ odolné proti rušení je křížově zkontrolována nezávislým odvozením v numpy (sdílí stejný uzavřený tvar → InternalConsistency) a charakterizací zhoršení C/N₀ z reálného JammerTest-2024. { "0.30" } kolo { "2" }, zablokováno (zůstává MODELLED): naměřený pokles C/N0 v JammerTest { "2024" } proti predikci rozpočtu spoje (předregistrováno 6a66994b, do { "3" } dB) nebyl proveden, protože poloha a zaměření antény F8.1 při
-
 seg-59afd80736c5 = <b>PARTNER</b> Neposkytuje se: Kshana modeluje výkon signálu, nikoli nákladový hardware ani antény. Oracle (NoneKind): žádné: disciplína ve vlastnictví partnera, záměrně bez modulu a bez testu
 
 seg-fa3ad6babe54 = <b>MODELLED</b> Průchod druhu <c1/> (jeden až tři klíče zapsané s tečkami libovolného druhu, na hodnotách os obecného průchodu, volitelně se souborem v každém uzlu) a oddíl monte_carlo. Oracle (InternalConsistency): Uzavřený tvar náhodné procházky fáze při šumu bílé frekvence, rozptyl q_wf tau (NIST Technical Note { "1337" }), pro statistický aparát a bajtová shoda se samostatnými běhy pro seedování. Kontroluje aritmetiku souboru na vlastním modelu hodin enginu, nikoli vnější datovou sadu

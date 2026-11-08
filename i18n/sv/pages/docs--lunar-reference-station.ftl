@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Källorna S1 till S5 (titel, URL, hämtdatum, SHA-256, licens
 
 seg-d866653008e1 = Varje numeriskt påstående, citerat med sin sida och sina angivna antaganden och klassat som jämförbart, delvis jämförbart eller inte jämförbart: <c1/>. Inget påstående är helt jämförbart, eftersom ingen källa anger en percentil eller satelliternas banelement.
 
-seg-50535c58d3cf = Trösklar, fall och indata, incheckade för sig före körningen (revision { "2" }, 05bf9a19), och den registrerade körningen: <c1/>. Resultatet är fastlåst i <c2/>.
-
 seg-069a652c402e = tröskel
 
 seg-d6120708c062 = påstående (källor)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = klarat
 seg-e666f1eb7a59 = { "1" } av { "6" } trösklar klaras. Orsaken är geometrin. Ingen källa publicerar konstellationens banelement. Med de ILLUSTRATIVE interna elementen delar en användare och stationen fyra satelliter över { "5" } grader i endast { "8" } % ({ "300" } km) och { "6" } % ({ "600" } km) av epokerna, vid nästan singulär geometri: det okorrigerade p95 är { "3.8" } km, där källorna anger < { "10" } m. Källornas egna simuleringar använde ett filter, en höjdbegränsning och tre satelliter i gemensam sikt, vilket den här ögonblicksbildsmodellen inte har. Körningen återger därför inte påståendena på de elementen, och den är inte belägg för att påståendena är fel. Utfallet för K6 är en kvot mellan två geometridominerade siffror och säger ingenting om dekorrelation. En publicerad uppsättning av konstellationens element skulle poängsättas under samma trösklar som en andra, daterad körning.
 
 seg-1da5fcf7bbf5 = Förhandsregistrerad prediktion
-
-seg-4ea806a57380 = En förhandsregistrerad prediktion, fastfrusen vid commit <c1/> på indata från offentliga källor, med sitt poängprotokoll: <a1><c2/></a1>. Den är en prediktion, inte en validering, och varje siffra i den domineras av den opublicerade elementuppsättningen för konstellationen med fyra satelliter (de använda elementen är ILLUSTRATIVE): över regionen söder om { "80" } grader S, tillgänglighet { "8.2" } %, korrigerad p95 för 3D { "280" } m, okorrigerad { "3.8" } km. MODELLED; <c3/> misslyckas om någon fastfrusen byte rubbas.
 
 seg-e6aef34d5023 = Stationens tidslaboratorium
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Föregående</s1>Solsystemet och andra himlakroppar
 seg-79d53edd2374 = <s1>Nästa</s1>Navigering för rymdanvändare (gnss-ssv)
 
 seg-9c59637f0666 = Täckning och noggrannhetskarta (lunar-station-coverage)
+
+seg-34967943a088 = En förhandsregistrerad prediktion, fastfrusen vid commit <c1/> på indata från offentliga källor, med sitt poängprotokoll: <a1><c2/></a1>. Den är en prediktion, inte en validering, och varje siffra i den domineras av den opublicerade elementuppsättningen för konstellationen med fyra satelliter (de använda elementen är ILLUSTRATIVE): över regionen söder om { "80" } grader S, tillgänglighet { "8.2" } %, korrigerad p95 för 3D { "280" } m, okorrigerad { "3.8" } km. MODELLED; <c3/> misslyckas om någon fastfrusen byte rubbas.

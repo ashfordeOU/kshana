@@ -18,8 +18,6 @@ seg-32755afa0f78 = El hilo de misión
 
 seg-d4af67363efc = Software de carácter consultivo, no un equipo de navegación certificado. Solo fuentes públicas; sin afiliación ni respaldo de ninguna agencia, y nada de aquí afirma conformidad con los requisitos de ningún programa.
 
-seg-816770c97995 = <c1/> encadena fases de una misión, cada una de uno de ocho tipos registrados con sus propios sensores y filtro, e informa del <b>presupuesto de errores de navegación y temporización</b> de toda la cadena: para cada fase, la posición, la velocidad y el sesgo de reloj de 1 sigma en la entrada, en el máximo y en la salida; cada contribución a él, con su unidad; el margen frente a un requisito que usted indique; el eslabón más débil; los eventos fechados; y una figura de línea de tiempo. Cada número es <b>MODELLED</b>: una entrada indicada o un modelo de una. Las únicas filas con referencia independiente externa están en <s1><c2/></s1> y dicen qué prueban.
-
 seg-c29a19879c84 = Ejecute el ejemplo desde una copia del repositorio (lee un recorte confirmado del kernel de la Luna):
 
 seg-00f84b734853 = El documento
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Una tabla opcional <c1/> da estaciones y la elevación mínim
 seg-467b14d7ef59 = <c1/>: <c2/> (índice, identificador, tipo, tiempos, etiqueta, fuentes de navegación y de tiempo, fuente limitante, sigmas de entrada, máximo y salida, requisito, margen, <c3/> con una unidad por fila, <c4/>), el <c5/> (el menor margen frente a un requisito indicado, o si no la mayor posición máxima), el <c6/>, la <c7/> del hilo (la etiqueta de la fase más débil) y un bloque <c8/>. La figura es la posición de 1 sigma y el sesgo de reloj frente al tiempo de misión, una banda por fase.
 
 seg-a3c40c51c2ff = Qué son las evidencias
-
-seg-1168810d4407 = La etiqueta del hilo es la de la fase más débil, y cada fase es MODELLED. El propagador lunar se compara con LRO y CAPSTONE (<s1><c1/></s1>); el arco cislunar se compara con una trayectoria pública de Horizons (<s2><c2/></s2>). Una fila supera o no alcanza un umbral fijado en un archivo confirmado antes de la ejecución, y un fallo se registra como fallo. Nada es VALIDATED salvo que el registro lo diga.
 
 seg-ee3c5b58e6fa = <s1>Anterior</s1>Órbita y superficie lunares como infraestructura
 

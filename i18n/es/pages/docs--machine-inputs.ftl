@@ -83,25 +83,6 @@ seg-0cc992f8d61b = Véase <a1><c1/></a1>. Las salidas NMEA y RINEX de GNSS-SDR y
 seg-cf1bf4944f6a = IMU (<c1/>)
 
 # text
-# c1: format = "csv"
-# c2: t_s
-# c3: gx
-# c4: gy
-# c5: gz
-# c6: ax
-# c7: ay
-# c8: az
-# c9: format = "euroc"
-# c10: imu0
-# c11: data.csv
-# c12: #timestamp [ns]
-# c13: w_RS_S_x/y/z [rad s^-1]
-# c14: a_RS_S_x/y/z [m s^-2]
-# c15: t_s = 0
-# c16: RECEIVER-TRUST.md
-seg-ab64a0754907 = <c1/>: una fila de cabecera que nombra las columnas y después una muestra por fila. Columnas (en cualquier orden, nombres sin distinguir mayúsculas): <c2/> segundos en el reloj del registro del receptor, <c3/>, <c4/>, <c5/> velocidad angular en rad/s, <c6/>, <c7/>, <c8/> fuerza específica en m/s². <c9/>: el formato EuRoC MAV <c10/> <c11/> (<c12/>, <c13/>, <c14/>); la primera muestra es <c15/>. Las filas que no se analizan y las filas cuyo tiempo no aumenta se omiten. Véase <a1><c16/></a1> para saber cómo se usa el rumbo del giróscopo.
-
-# text
 # c1: kshana imu-fit
 seg-f7007cf35f53 = IMU en los escenarios híbridos y de fusión (<c1/>)
 

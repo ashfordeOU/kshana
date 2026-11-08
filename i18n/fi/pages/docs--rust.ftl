@@ -176,8 +176,6 @@ seg-7b53ee712a36 = <b>{ "176" } / { "401" }</b> kyvykkyydestä validoitu riippum
 
 seg-b59781ecf257 = Miten kyvykkyys ansaitsee nimikkeensä: kyvykkyys, oraakkeli, testi, kirjanpidon nimike. Varmennustila kaikissa { "401" } kyvykkyydessä: { "176" } validoitua, { "221" } mallinnettua, { "4" } kumppanin omistamaa
 
-seg-d0b2811a3d3c = Moottorissa on { "92" } skenaariolajia; <c1/> luettelee ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-kiertoratojen yläpuolella, ympärillä ja ohi) ja <c3/> (Kuun kiertorata ja pinta navigointi- ja geodeettisena infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vasten).
-
 seg-8e9fbc5f2e72 = Sisäänrakennetun skenaariotyypin kind kuvaus kielellä lang katalogista (englanniksi, kun kielellä ei ole sen käännöstä); None nimelle, joka ei ole sisäänrakennettu tyyppi.
 
 seg-06e503c23c30 = [kind_description_in] nykyisellä kielellä ([crate::i18n::current]).
@@ -197,3 +195,5 @@ seg-28e05e08ff76 = Aja src kielellä lang ja, jos se epäonnistuu, kuvaa virhe J
 seg-24fe823a994a = json ilman todistemerkintää ([crate::evidence_label]); muuttumaton, jos siinä ei ole sellaista.
 
 seg-c0444d838311 = out ilman todistemerkintää JSON-, SVG- ja CSV-tulosteestaan, tavu tavulta sellaisena kuin ajo ne tuotti ennen merkinnän olemassaoloa; tuloste, jossa ei ole merkintää, on muuttumaton.
+
+seg-80e5f0aa2831 = Moottorissa on { "93" } skenaariolajia; <c1/> luettelee ne kenttineen. Uutta versiossa { "0.38.0" }: <c2/> (GNSS-signaalit avaruusaluksille GNSS-kiertoratojen yläpuolella, ympärillä ja ohi) ja <c3/> (Kuun kiertorata ja pinta navigointi- ja geodeettisena infrastruktuurina), molemmat MODELLED, sekä <c4/> (aikavirhetallenne ITU-T-maskeja vasten).

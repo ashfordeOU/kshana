@@ -204,8 +204,6 @@ seg-32c07578eab3 = Trinn i den registrerte økten
 
 seg-2cff891dc970 = Neste trinn
 
-seg-45da99dccd40 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "49" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Kjør et Kshana-scenario og returner tidsserien som en animasjon.
 
 seg-0247e08ba09d = <c1/>: Vurder tilliten til en ekte GNSS-mottakerlogg: les en u-blox UBX-, RINEX { "3" }- (eventuelt med kringkastet navigasjon, som legger til motorens egen posisjonsbestemmelse, RAIM og en klokkestøttet overvåker), Android GnssLogger- eller NMEA-logg, kjør tillitsovervåkerne (fall i bærer-til-støy-tetthet, AGC, jamming-indikator, tap av lås, posisjonssprang, RAIM, klokke) mot en kalibreringsgrunnlinje, og returner når og hvorfor mottakeren sluttet å være til å stole på.
@@ -307,8 +305,6 @@ seg-2598d06895ec = <c1/>: Verifiser en signert bevispakke (`kshana evidence veri
 seg-62b5564e8d90 = Den registrerte økten spilles av her, trinn for trinn.
 
 seg-2359edf78388 = <b>Samme kjøring i Studio:</b> Motor v{ $version } · <c1/> · seed { "42" }
-
-seg-c24f65399c72 = <b>{ "49" } verktøy</b> over det offentlige Kshana-API-et (programmeringsgrensesnitt), i det offisielle MCP-registeret som <c1/>. Baneeksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meldinger om banemiddelelementer og efemerider, TEME: True Equator, Mean Equinox-referansesystemet). Registrer den under <b>KI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentasjon for MCP-serveren</a1>
 
 seg-306a0232c581 = Kjør et Kshana-scenario for PNT-robusthet fra en TOML-definisjon og returner kvalitetsmålene. Returnerer det menneskelesbare sammendraget etterfulgt av hele resultat-JSON-en (FoM-er, kurver). Kshana validerer SGP4/SDP4, IAU-referansesystemer, Allan-avvik, GNSS-tilgjengelighet/DOP, ARAIM-beskyttelsesnivåer, GNSS/INS-fusjon og kvantesensormodeller mot publiserte referanser. Alle typer kjøres gjennom dette ene verktøyet, inkludert <c1/> (radiofrekvensspektrum og fossefall), <c2/>, <c3/> og <c4/> (konstellasjoner rundt et hvilket som helst legeme), <c5/> (lenkede faser, parametersveip, Monte Carlo-ensembler og sammensatte scenarioer) og navigasjonstypene i lav jordbane <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> og <c12/>. Innholdet er innebygd: et scenariofelt som navngir en fil avvises, og et scenario er høyst { "4" } MiB. Kall list_scenario_kinds først for å finne scenariotyper og feltene deres, og list_example_scenarios / get_example_scenario for et komplett kjørbart scenario av en type.
 
@@ -650,8 +646,6 @@ seg-d85f16c14183 = kshana.run og run_full, pluss validate_toml og list_kinds
 
 seg-5a6803e3eb48 = run, summary og chart_svg i nettleseren eller Node.js
 
-seg-1c19f8c0ad84 = { "49" } verktøy en KI-assistent kan kalle, hvert av dem en tynn omslutning rundt det offentlige API-et
-
 seg-4ad1a7669b03 = MCP-serveren uten Rust-verktøykjede, for flere arkitekturer
 
 seg-9e409a07b3c9 = Høyreklikk på en scenario-.toml, velg Run Kshana Scenario, og les kvalitetsmålene i et verktøyvindu
@@ -803,3 +797,9 @@ seg-bd7b70852d88 = Kjør benchmarken.
 seg-193ee1ab991e = <c1/> gjør en innsendingsfil og en delings referanse om til en resultatfil, og <c2/> gjengir resultatfiler til en statisk side. Ingenting kjører på dine vegne, og ingenting lastes opp.
 
 seg-0c50b3629e39 = Åpne benchmarken
+
+seg-859bb6732925 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "52" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } verktøy</b> over det offentlige Kshana-API-et (programmeringsgrensesnitt), i det offisielle MCP-registeret som <c1/>. Baneeksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meldinger om banemiddelelementer og efemerider, TEME: True Equator, Mean Equinox-referansesystemet). Registrer den under <b>KI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentasjon for MCP-serveren</a1>
+
+seg-5aa702c4ebc7 = { "52" } verktøy en KI-assistent kan kalle, hvert av dem en tynn omslutning rundt det offentlige API-et

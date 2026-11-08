@@ -6,8 +6,6 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-linkbudsjett, anti-jam C/N₀, tap av lås per satellitt. Uavhengig referanse (InternalConsistency): Likningen for anti-jam C/N₀-linkbudsjett kryssjekket mot en uavhengig numpy-utledning (deler samme lukkede form → InternalConsistency) pluss en karakterisering av C/N₀-degradering i virkelige JammerTest-2024-data. { "0.30" } runde { "2" }, blokkert (forblir MODELLED): den målte C/N0-nedgangen i JammerTest { "2024" } mot en linkbudsjettprediksjon (forhåndsregistrert 6a66994b, innen { "3" } dB) ble ikke kjørt fordi F8.1-antenneposisjonen og -pekingen at
-
 seg-143f3f1cc521 = Robusthet mot jamming uten GNSS er MODELLED, ikke validert: kontrollert mot sin egen lukkede/analytiske identitet – fanger opp transkripsjons- og koeffisientfeil, men er ikke en uavhengig ekstern referanse. (verifikasjonsmatrise (docs/MODELLED-RATIONALE.md))
 
 seg-1f17ef6a853e = Scenariotype i motoren v{ $version }, familie <a1>Måne og cislunart rom</a1>. Veiledende: analyseutdata fra et forsknings- og ingeniørverktøy, ikke typegodkjent navigasjonsutstyr og ikke en sikkerhetskritisk tjeneste for menneskeliv. Hver etikett her er motorens eller verifikasjonsmatrisens; en type er MODELLED med mindre matrisen sier noe annet (hvordan en etikett fortjenes: Evidens-avsnittet i README).

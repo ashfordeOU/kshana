@@ -669,12 +669,6 @@ seg-e3949a1e6082 = Região do emissor (<c1/>)
 seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
 
 # text
-# c1: kshana interference-map locate
-# c2: VM-bc70cb57
-# c3: emitter-region/PREREGISTRATION.md
-seg-4fc5a1dcc963 = <c1/> estima <b>onde pode estar uma fonte de interferência</b> a partir dos mesmos relatos abertos ADS-B ou AIS: uma região em níveis de confiança declarados, um centroide com uma elipse de incerteza e as sessões no tempo. Nunca devolve um ponto isolado. <b>MODELLED</b> (linha <c2/> do registo): a física é a linha de vista de rádio dos manuais, a credibilidade das regiões depende do modelo, e a única verificação externa é a comparação com o Jammertest fixada antecipadamente em <s1><c3/></s1>. A publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está <b>desativada</b>: o observatório não lê este módulo, e um teste fixa-o.
-
-# text
 # c1: --levels 0.5,0.9,0.95
 # c2: --cell-km
 # c3: --session-gap-min

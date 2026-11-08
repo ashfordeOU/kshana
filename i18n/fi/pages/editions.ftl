@@ -813,10 +813,10 @@ seg-67341b9eea70 = <b>Jotain muuta</b><s1>contact@ashforde.org · posti menee su
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-3bf5f474beca = Avoin moottori keskellä: yksi merkki skenaariotyyppiä kohti ({ "92" }), täytetty, kun tyypillä on validoituja kirjanpitorivejä, ontto, kun sen rivit ovat mallinnettuja, ja viiva, kun mikään kirjanpitomoduuli ei vastaa sitä nimeltä. Kshana Pro ja räätälöity tutkimus ovat sen ympärillä ja yhdistyvät tyyppeihin, joiden varaan ne rakentuvat.
-
-seg-f88b6cf10837 = Moottori v{ $version } · { "92" } tyyppiä lähteestä <c1/> · kirjanpidon tila lähteestä <c2/> · mihin Pro ja tutkimus perustuvat: sivuston editioiden rekisteri · ei skenaariota eikä siemenlukua
-
 seg-cc655ce0b6c8 = Koko varmennusmatriisi: { "401" } ominaisuudesta { "176" } validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi
 
-seg-65342d8ef6ad = Kaikki { "92" } skenaariotyyppiä ja { "181" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
+seg-0ab329c843b0 = Avoin moottori keskellä: yksi merkki skenaariotyyppiä kohti ({ "93" }), täytetty, kun tyypillä on validoituja kirjanpitorivejä, ontto, kun sen rivit ovat mallinnettuja, ja viiva, kun mikään kirjanpitomoduuli ei vastaa sitä nimeltä. Kshana Pro ja räätälöity tutkimus ovat sen ympärillä ja yhdistyvät tyyppeihin, joiden varaan ne rakentuvat.
+
+seg-e507665bbe2c = Moottori v{ $version } · { "93" } tyyppiä lähteestä <c1/> · kirjanpidon tila lähteestä <c2/> · mihin Pro ja tutkimus perustuvat: sivuston editioiden rekisteri · ei skenaariota eikä siemenlukua
+
+seg-c7818536071d = Kaikki { "93" } skenaariotyyppiä ja { "181" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta

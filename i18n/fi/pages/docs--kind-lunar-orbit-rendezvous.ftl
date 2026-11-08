@@ -42,8 +42,6 @@ seg-4466fb6f4043 = eräpohjainen Gauss–Newton kaaren yli
 
 seg-d97b2505ac72 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/lunar-orbit-rendezvous.toml, laji lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Laji ja vaihe <c1/>: yhteinen kahden ajoneuvon eräpohjainen Gauss–Newton-estimaatti kaaren yli (kaksikymmentäyksi parametria: molemmat tilat ja pysyvät signaalitien paikkaharhat, yhteiset ja riippumattomat), kasvatettu neljänneksen, puolen Tests: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Laji ja vaihe <c1/>: yhteinen kahden ajoneuvon eräpohjainen Gauss–Newton-estimaatti kaaren yli (kaksikymmentäyksi parametria: molemmat tilat ja pysyvät signaalitien. Oraakkeli (InternalConsistency): Itsejohdonmukaisuus ennakkorekisteröinnin alaisena (xval/mission-thread-lunar/PREREGISTRATION.md, tulokset ja estimaattorin historia tiedostossa RESULTS.md): suhteellisen tilan keskimääräinen NEES on { "5.85" }–{ "5.93" } kaistaa { "5.2" }–{ "6.8" } vasten neljässä kokoonpanossa, MET neljännellä estimaattorirakenteella sen jälkeen, kun kolme peräkkäissuodinrakennetta oli jäänyt vajaaksi; totuus ja estimaattori käyttävät samaa voimamallia, joten tämä ei kerro mallivirheestä mitään. The p
 
 seg-b2f273ea732d = MODELLED suhteellinen navigointi Orion–laskeutuja-tyyppiselle telakoinnille matalalla Kuun kiertoradalla tai elliptisellä napakiertoradalla (Artemis-luokka). (lajiluettelo (<c1/>))

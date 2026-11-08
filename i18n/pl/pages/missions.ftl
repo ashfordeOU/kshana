@@ -826,8 +826,6 @@ seg-3cde4f0b352a = Pozwól asystentowi uruchamiać silnik sprawdzony względem n
 
 seg-0487ea97b0d8 = Zacznij od: <a1>Serwer MCP</a1>
 
-seg-562785c48737 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Za darmo: { "49" } narzędzi MCP, od run_scenario do export_oem.
-
 seg-af65a3c927cf = Programista wbudowany lub produktowy
 
 seg-16324be13740 = Wywołuj silnik z Rust, Pythona lub JavaScript wewnątrz własnego produktu.
@@ -838,4 +836,6 @@ seg-0e6be0d623f6 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Lice
 
 seg-9b505908a6e2 = Kshana <b>nie steruje żadnym sprzętem radiowym i niczego nie nadaje</b>. Zawiera programowy odbiornik GNSS dla zarejestrowanych i wygenerowanych próbek IQ i może zapisywać syntetyczne pliki IQ w paśmie podstawowym, ale <b>nie jest sprzętowym generatorem sygnału RF</b> ani <b>sprzętowym lub certyfikowanym odbiornikiem GNSS</b>. Jest narzędziem do badań i analizy kompromisów: symuluje, co zagłuszanie, spoofing i utrata sygnału robią z rozwiązaniem nawigacyjnym i czasowym, i wskazuje, które z jego odpowiedzi zostały sprawdzone względem niezależnego wzorca. <b>To nie jest produkt lotniczy.</b>
 
-seg-8575c0837e28 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-b9ebb409e11a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-7b9633a75c90 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Za darmo: { "52" } narzędzi MCP, od run_scenario do export_oem.

@@ -201,6 +201,35 @@ seg-43cc6f9c50b2 = gps-sdr-sim holds at most { "3000" } samples, { "300" } s at 
 seg-500243b6e402 = This checks that the files are read as written. It does not check the scenario's physics or anything the simulator transmits.
 
 # text
+seg-4de2d609a7ed = Importing a simulator motion file
+
+# text
+# c1: kshana::interop::testbench::read_sim_motion
+# c2: Ecef
+# c3: time, x, y, z
+# c4: -u
+# c5: Llh
+# c6: time, latitude, longitude, height
+# c7: -x
+seg-3d843b2dbc21 = <c1/> reads the two gps-sdr-sim motion layouts back into Kshana motion samples: <c2/> (<c3/>, the <c4/> layout) and <c5/> (<c6/>, the <c7/> layout). So a trajectory that was prepared for, or recorded from, a simulator can be scored or replayed in Kshana.
+
+# text
+# c1: gnss-ins
+# c2: Ecef
+# c3: Llh
+# c4: tests/interop_testbench.rs
+seg-e4ee0c9b6c49 = Velocity is the central difference of the positions (one-sided at the ends). On the bundled <c1/> export it is within { "0.08" } m/s of the scenario's velocity, and the position comes back exact (<c2/>) or within { "0.2" } mm (<c3/>) (<c4/>).
+
+# text
+seg-20ef029300ec = These layouts carry no attitude, so heading, pitch and roll are imported as zero. Do not read the imported heading as the vehicle's heading.
+
+# text
+seg-45aa774f57dd = The time column must increase. A line with fewer than four fields, or a field that is not a number, is an error that names the line.
+
+# text
+seg-c4ea6196aff7 = Other simulators' scenario formats are not imported yet. Their formats are vendor documents, and each needs its own published sample and check first.
+
+# text
 seg-a4c4514276e9 = { "2" }. State what you will score before the run
 
 # text

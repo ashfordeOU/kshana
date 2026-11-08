@@ -826,8 +826,6 @@ seg-3cde4f0b352a = Lad din assistent køre den kontrollerede motor i stedet for 
 
 seg-0487ea97b0d8 = Start ved <a1>MCP-server</a1>
 
-seg-562785c48737 = <b>Gratis i dag:</b> alt i den åbne motor. Gratis: { "49" } MCP-værktøjer, fra run_scenario til export_oem.
-
 seg-af65a3c927cf = Udvikler af indlejrede systemer eller produkter
 
 seg-16324be13740 = Kald motoren fra Rust, Python eller JavaScript inde i dit eget produkt.
@@ -838,4 +836,6 @@ seg-0e6be0d623f6 = <b>Gratis i dag:</b> alt i den åbne motor. Kommerciel licens
 
 seg-9b505908a6e2 = Kshana <b>styrer ingen radiohardware og udsender intet</b>. Den indeholder en software-GNSS-modtager til optaget og genereret IQ og kan skrive syntetiske IQ-filer i basisbånd, men den er <b>ikke RF-signalgeneratorhardware</b> og <b>ikke en hardware- eller certificeret GNSS-modtager</b>. Den er et studie- og afvejningsinstrument: den simulerer, hvad jamming, spoofing og signaltab gør ved en navigations- og tidsløsning, og fortæller dig, hvilke af dens svar der er kontrolleret. <b>Ikke et produkt til flyvning.</b>
 
-seg-8575c0837e28 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-b9ebb409e11a = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-7b9633a75c90 = <b>Gratis i dag:</b> alt i den åbne motor. Gratis: { "52" } MCP-værktøjer, fra run_scenario til export_oem.

@@ -182,7 +182,7 @@ seg-13c92a72544a = jamming, { "600" } s
 seg-f9c01304734d = the same, jammer at -30 dBW, { "1" } km
 
 # text
-seg-27d3b65152b0 = C/N0 falls to { "27.7" } dB-Hz, all { "8" } satellites still tracking
+seg-0886cc461f7a = C/N0 falls to { "30.6" } dB-Hz, all { "8" } satellites still tracking
 
 # text
 # c1: end_at
@@ -291,7 +291,7 @@ seg-fb8d8636c554 = <c1/>: a parameter grid over any kind
 # c3: k
 # c4: k
 # c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = One to three dotted scenario keys, each over a linear or logarithmic range, on the same axis values the <c1/> kind uses. Every axis has a name and a unit; every metric has a name and a result path, and its unit is read from the swept kind's own units block unless the campaign declares one. With <c2/> every node is a seeded Monte Carlo ensemble (realisation <c3/> at the node's seed plus <c4/>), reported with the statistics below. <c5/> sweeps a jammer { "1" } km from the receiver from -50 to +{ "10" } dBW: the mean jammer-to-signal ratio moves exactly { "1" } dB per dB ({ "12.2" } to { "72.2" } dB), and availability falls from { "1" } to { "0" } between -30 and -25 dBW.
+seg-74f8b08a4194 = One to three dotted scenario keys, each over a linear or logarithmic range, on the same axis values the <c1/> kind uses. Every axis has a name and a unit; every metric has a name and a result path, and its unit is read from the swept kind's own units block unless the campaign declares one. With <c2/> every node is a seeded Monte Carlo ensemble (realisation <c3/> at the node's seed plus <c4/>), reported with the statistics below. <c5/> sweeps a jammer { "1" } km from the receiver from -50 to +{ "10" } dBW: the mean jammer-to-signal ratio moves exactly { "1" } dB per dB ({ "12.2" } to { "72.2" } dB), and availability falls from { "1" } to { "0" } between -25 and -20 dBW.
 
 # text
 # c1: system.2.sisre_m

@@ -83,25 +83,6 @@ seg-0cc992f8d61b = Vt <a1><c1/></a1>. GNSS-SDR-i NMEA ja RINEX väljundeid loeta
 seg-cf1bf4944f6a = IMU (<c1/>)
 
 # text
-# c1: format = "csv"
-# c2: t_s
-# c3: gx
-# c4: gy
-# c5: gz
-# c6: ax
-# c7: ay
-# c8: az
-# c9: format = "euroc"
-# c10: imu0
-# c11: data.csv
-# c12: #timestamp [ns]
-# c13: w_RS_S_x/y/z [rad s^-1]
-# c14: a_RS_S_x/y/z [m s^-2]
-# c15: t_s = 0
-# c16: RECEIVER-TRUST.md
-seg-ab64a0754907 = <c1/>: veerge nimetav päiserida, seejärel üks valim rea kohta. Veerud (suvalises järjekorras, nimed tõstutundetud): <c2/> sekundid vastuvõtja logi kellal, <c3/>, <c4/>, <c5/> nurkkiirus rad/s, <c6/>, <c7/>, <c8/> erijõud m/s². <c9/>: EuRoC MAV <c10/> <c11/> paigutus (<c12/>, <c13/>, <c14/>); esimene valim on <c15/>. Read, mida ei saa parsida, ja read, mille aeg ei kasva, jäetakse vahele. Vt <a1><c16/></a1>, kuidas güroskoobi suunda kasutatakse.
-
-# text
 # c1: kshana imu-fit
 seg-f7007cf35f53 = IMU hübriid- ja liitmisstsenaariumidesse (<c1/>)
 

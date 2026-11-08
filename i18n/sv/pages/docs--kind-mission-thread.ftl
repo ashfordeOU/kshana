@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Scenariotyp i motorn v{ $version }, familj <a1>Uppdragsflöde
 
 seg-1ec485468daa = MODELLED felbudget för navigering och tidssynkronisering för en angiven kedja av uppdragsfaser, från uppskjutning till återinträde: uppskjutning och stigning, rendezvous och dockning i låg omloppsbana runt jorden (kan upprepas), trans-lunar injektion och färd i cislunart rum, rendezvous i månbana, nedstigning, vistelse på ytan, stigning samt återfärd och återinträde, varje fas en av åtta registrerade typer med egna sensorer och filter. 6x6-kovariansen, klockan och referenssystemet överlämnas från fas till fas enligt en angiven regel (carry, inflate eller reacquire); omvandlingar av referenssystem och tidsskalor (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) är egna budgetrader, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv. Ett valfritt överlägg för markstationsnät anger spårningsdriften för varje fas. Redovisar budgeten per fas (1-sigman vid inträde, topp och utträde, varje bidrag med sin enhet), marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. MODELLED: varje tal är en angiven indata; kedjan följer en enda stack och inget fordon modelleras. Enbart offentliga källor; inte knuten till eller stödd av någon rymdorganisation; rådgivande programvara, inte certifierad navigationsutrustning.
 
-seg-d6eb3dbb87c7 = En körning av <c1/> sammanfattas som: mission-thread | { "11" } faser | uppdragsflöde i Artemis-klass (ILLUSTRATIVE) | svagaste länk descent | MODELLED
-
 seg-9bb19202a104 = Obligatoriska fält: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Valfria fält: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Exemplet <c1/> anger bland annat:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = minsta marginal mot ett angivet krav
-
-seg-f32a7f31e191 = inertiell drift, inget stöd, öst
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Diagrammet som motorn skriver för scenarios/mission-thread-artemis-class.toml, typ mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Fasen <c1/>: en kovarians för position och hastighet med konstant hastighet och vitt accelerationsbrus (dödräkningsklassen), en GNSS-positionsbestämning med angiven noggrannhet som tillämpas efter inhämtningstiden och utanför angivna bortfall, en klocka med bias och
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED felbudget för navigering och tidssynkronisering fö
 
 seg-80221e9351e4 = MODELLED: varje tal är en angiven indata; kedjan följer en enda stack och inget fordon modelleras. (typkatalog (<c1/>))
 
-seg-637296d00802 = ÄRLIGHET. Varje tal här är ILLUSTRATIVE: en rund siffra vald för att få kedjan att köra, inte prestandan hos något fordon, någon sensor, station eller nät. Kedjan följer en enda stack som en angiven förenkling; fordonsbyten, besättningsöverföringar och månbanestationen modelleras inte, månbanorna är de cirkulära och polära på { "100" } km som månens typer flyger (inte den nästan rätlinjiga halobanan), och TLI-brännaren i (kommentar i scenariofilen, rad { "11" } till { "17" })
-
 seg-f6574a80a60a = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde (<c1/>) är MODELLED, inte validerad: kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Uppskjutning och stigning till en parkeringsbana med GNSS-inhämtning och bortfall (<c1/>) är MODELLED, inte validerad: kontrollerad mot sin egen identitet i sluten form / analytisk identitet — fångar överföringsfel och koefficientfel, men är inte en extern oberoende referens. (verifieringsmatris (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Familjesida: <a1>Uppdragsflöden</a1>
 seg-f3279128de3b = <s1>Föregående</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Nästa</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Exemplet <c1/> anger bland annat:

@@ -508,8 +508,6 @@ seg-15687303176d = <b>Stav v registru: MODELLED.</b> Jedno losování z modelu, 
 
 seg-c626c7f1926d = Nové pohledy Studia
 
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> získává Bridge replay (dva běhy vedle sebe na jedněch misních hodinách, na <a2><c1/></a2>), stránku Optical PNT (<c2/>), stránku Holdover test (<c3/>) a prohlížeč observatoře (<c4/>). Spouštějí stejný engine v prohlížeči, nic se nenahrává a nesou stejné poradní prohlášení. Obrázky výše jsou skriptem nakresleny z vlastního výstupu enginu; nejsou to snímky obrazovky těchto stránek.
-
 seg-630e6aa5f2cc = Navigace kosmických uživatelů (<c1/>)
 
 seg-20249fd1f444 = Pro kosmickou loď nad, kolem nebo daleko za drahami GNSS: kolik signálů GNSS může využít, jak jsou silné, jak dobrá je geometrie a co s nimi může udělat palubní filtr. Jeden druh, čtyři režimy, volené tabulkami scénáře: <b>shell</b> (slupka) uživatelů (podíl času s jedním a se čtyřmi signály, po konstelacích), <b>trajektorie</b> (signály, C/N0, faktor DOP a prostředí limbového paprsku podél oběžné dráhy), běh <b>navigace</b> (devítistavový filtr nad pseudovzdálenostmi, až k Měsíci) a <b>formace</b> (relativní navigace deputy kolem chief). Veřejným zdrojem pro srovnání dostupnosti je brožura interoperabilního GNSS Space Service Volume (UN OOSA ST/SPACE/75, od International Committee on GNSS), která je sama simulací; stahuje se, nikdy se nepřibaluje. Úplná stránka: <a1>docs/SSV.md</a1>.
@@ -1222,15 +1220,11 @@ seg-302554087e15 = Distribuce: jedno repozitorium dodává jádrový crate, serv
 
 seg-530f5e8a6cdd = Co se kam dodává a co to kontroluje · <a1>SVG</a1> · zdroj <a2>distribution.mmd</a2>
 
-seg-c21d26341f01 = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "49" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
-
 seg-c459db99a099 = <c1/>, vlastní hosting: viz <a1>docs/deploy/mcp-http.md</a1>
 
 seg-8977c5b65068 = kshana-mcp na Glama, skóre kvality jeho serveru MCP
 
 seg-920704a0e384 = Nastavení pro jednotlivé klienty je v <a1><c1/></a1>. Server je uveden v oficiálním registru MCP jako <c2/>.
-
-seg-b7ea176e9993 = { "49" } nástrojů
 
 seg-4a458fb861f4 = Scénáře a zprávy
 
@@ -1588,8 +1582,6 @@ seg-2610d5a9ee90 = <b>Kam se poděl můj výstup?</b> Každý běh zapíše <c1/
 
 seg-4765d3a73a6f = Verzování a vydání
 
-seg-0ca788bf975d = { -brand } se řídí <a1>sémantickým verzováním</a1>. Před verzí 1.0 se může veřejné schéma scénáře/výsledku ještě měnit; zásadní změny jsou výslovně uvedeny v <a2><c1/></a2>. Každý výsledek je reprodukovatelný z <c2/>.
-
 seg-2885b69ceef1 = <b>Každý tag <c1/> publikuje všechny kanály automaticky, v jednom pořadí</b> — nejprve se na označeném commitu spustí úplná testovací sada, dokud neprojde, nic se nepublikuje, a poté pipeline zkontroluje, že každý registr skutečně servíruje novou verzi (<a1><c2/></a1>). Kanály:
 
 seg-8222e46bc13c = Instalace / získání
@@ -1905,8 +1897,6 @@ seg-cafc1c9c4d58 = Co je nového ve verzi { "0.40" }
 
 seg-59a31376fa3d = Verze { "0.40" } přidává rozpočet chyb na úrovni mise, označuje každé číslo a tabulku úrovní důkazu, čte naměřené záznamy hodin, kontroluje podání datových partnerů, odhaduje, kde může být zdroj rušení, a mluví sedmnácti jazyky vedle angličtiny. Registr má nyní { "401" } řádků: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé nesplnění níže je zajištěno testem.
 
-seg-ab5eec8db03e = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "92" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>).
-
 seg-5bd16655cace = <b>Označení důkazů.</b> Každé číslo a tabulka, které běh zapíše, nese úroveň a id řádků registru, na nichž spočívá, načtené z matice.
 
 seg-e79fca859317 = <b>Naměřené hodiny.</b> Čte se osm formátů záznamů hodin (<a1><c1/></a1>) a nafitovaná řada může řídit holdover. Proti předregistrovaným prahům fit <b>nesplňuje</b> F1(a) u pěti ze šesti záznamů a F2 u jednoho; oba zůstávají MODELLED (<a2>Seznam změn</a2>).
@@ -1933,8 +1923,6 @@ seg-5d3bb72c6490 = Kshana Studio, pokročilý pohled, po běhu přibaleného sc�
 
 seg-b8f6321e9e0d = Tři stránky kshana.dev vedle sebe. Hlavní část Domů: řádek s názvem Kshana · क्षण · přesný okamžik nad titulkem Nacvičte minutu, kdy GNSS zhasne, s konzolí mise ze skutečného běhu enginu v{ $version } (zeměkoule a tři živé grafy: časová chyba hodin, poměr nosné k hustotě šumu a ochranná úroveň). Evidence, Publikovaný výzkum: šest článků na arXiv postavených na otevřeném enginu, nejnovější s obrázkem z enginu. Edice, Kshana Pro, týž engine, zesílený: Free spouští jeden scénář, Pro odpovídá na otázku programu.
 
-seg-9d447be4caed = Jeden engine pokrývá celý řetězec selhání, od prvního rušeného družicového signálu po poslední nanosekundu holdoveru hodin. Engine má { "92" } druhů scénářů; <c1/> je vypíše a <a1><c2/></a1> dokumentuje každé pole.
-
 seg-d3d6b030b588 = Oblast vysílače
 
 seg-56eee3458645 = kde, při uvedených předpokladech, může být zdroj zhoršených hlášení polohy: oblasti s uvedenou spolehlivostí, těžiště s elipsou, nikdy bod (MODELLED; <c1/>)
@@ -1942,8 +1930,6 @@ seg-56eee3458645 = kde, při uvedených předpokladech, může být zdroj zhorš
 seg-ee28beafac1a = rozpočet chyb navigace a času řetězce fází od startu po vstup do atmosféry
 
 seg-34e44a492cad = <c1/> spouští scénář; každý další příkaz je podpříkaz a <c2/> vypíše použití všech. Příkazy jsou <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (s <c8/> a <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> a <c63/>. <a1><c64/></a1> uvádí účel každého z nich, ověřený příklad a jeho stránku v dokumentaci.
-
-seg-c472e0e5a3a5 = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) jde do enginu, kshana { $version }, přes dispečink api::run_toml nad { "92" } druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapisuje result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapisuje study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a průběžnou integraci.
 
 seg-9f5426cbbf4a = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "221" } poctivě označeno jako modelované. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
 
@@ -1965,22 +1951,30 @@ seg-35a4412348e1 = { "176" } ověřeno · { "221" } modelováno · { "4" } partn
 
 seg-cdf946112863 = Architektura Kshana: jeden otevřený engine uprostřed, kshana { $version } pod licencí AGPL-3.0, s api::run_toml, typovaným rozdělováním přes každý druh, a verifikační registr { "401" } schopností ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Kolem něj každé rozhraní spouští týž engine: příkazový řádek (cargo install kshana); knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); server MCP (cargo install kshana-mcp); image Dockeru (ghcr.io/ashfordeou/kshana-mcp); zásuvný modul JetBrains (Marketplace: "Kshana"). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nepřidává žádný fyzikální model.
 
-seg-656df854409a = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "92" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "401" } schopností, která je jediným zdrojem pravdy pro každý štítek.
-
-seg-11041e6beb65 = { "92" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli — aby agent mohl sestavit platný scénář
-
-seg-abf70d11a088 = celý otevřený engine, všech { "92" } druhů scénářů, bez omezení funkcí
-
 seg-824001fa6734 = laboratoře a výrobci, kteří mají naměřená data
 
 seg-df3ca402513f = které řádky MODELLED by mohl povýšit naměřený záznam hodin nebo IMU, formáty, jak se podání kontroluje (<c1/>), hodnotí a připisuje
-
-seg-e2d733f93455 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "92" } druhů, { "193" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
-
-seg-88b7afd3df20 = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "92" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>). Ve Studiu se vlákno čte na <c6/>.
 
 seg-ac2d3dd91aa2 = Sestavuje se s Rustem { "1.88" } nebo novějším, tedy rust-version v Cargo.toml
 
 seg-48991660376d = Vyžaduje toolchain Rustu (≥ { "1.88" }, tedy <c1/> v Cargo.toml; vyvíjeno na { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> selže na starém toolchainu.</b> { -brand } potřebuje Rust ≥ { "1.88" }. Aktualizujte pomocí <c2/>.
+
+seg-8391e467adf7 = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "93" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>). Ve Studiu se vlákno čte na <c6/>.
+
+seg-a66ad1f69702 = Jeden engine pokrývá celý řetězec selhání, od prvního rušeného družicového signálu po poslední nanosekundu holdoveru hodin. Engine má { "93" } druhů scénářů; <c1/> je vypíše a <a1><c2/></a1> dokumentuje každé pole.
+
+seg-43bd621a1f5b = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) jde do enginu, kshana { $version }, přes dispečink api::run_toml nad { "93" } druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapisuje result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapisuje study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a průběžnou integraci.
+
+seg-290f2b34e368 = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "93" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "401" } schopností, která je jediným zdrojem pravdy pro každý štítek.
+
+seg-ed215c6aa19b = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "52" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
+
+seg-81fcbb495e8f = { "52" } nástrojů
+
+seg-fb8bcc54a31d = { "93" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli — aby agent mohl sestavit platný scénář
+
+seg-2f38fc515db6 = celý otevřený engine, všech { "93" } druhů scénářů, bez omezení funkcí
+
+seg-5374f780c396 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "93" } druhů, { "195" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.

@@ -26,9 +26,6 @@ seg-fbc3db22c061 = Bitte eröffnen Sie für sicherheitsrelevante Meldungen kein 
 seg-4c11dabdd8f6 = Unterstützte Versionen
 
 # text
-seg-19c99cf3a67e = Vor 1.0: Nur der neueste getaggte Release wird unterstützt.
-
-# text
 seg-1379eab9a8e3 = Speichersicherheit
 
 # text

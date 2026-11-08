@@ -30,8 +30,6 @@ seg-47ee40d4eb73 = Graf, který engine zapisuje pro scenarios/gnss-sim-raim.toml
 
 seg-ccc44a4ac68e = <b>VALIDATED</b> Klobucharovo jednofrekvenční šikmé ionosférické skupinové zpoždění na L1 z osmi vysílaných koeficientů α/β. Testy: <a1>klobuchar_reference.rs</a1>.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> Řešení ARAIM s oddělováním řešení pro více hypotéz podle dokumentu ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels a add_v42_protecti. Orákulum (ExternalDataset): Tři nezávislé nástroje, předregistrované (0123cee1) dříve, než existoval jakýkoli fixture nebo výstup orákula, tolerance stanoveny tehdy. ({ "1" }) ARAIM: Stanford MAAST pro ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, spuštěné jako samostatný program pod GNU Octave { "8.4" } s kompatibilní vrstvou unique() na straně ovladače (zveřejněno, bez změny algoritmu), při ADD TOL_PL { "0.05" } m: kód v Rustu reprodukuje referenční implementaci ADD na
-
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP z geometrie přímé viditelnosti přes Q=(HᵀH)⁻¹ s lokálním rozkladem ENU. Orákulum (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — nezávislá knihovna, shoda na { "1e-6" } relativně
 
 seg-752829346523 = <b>VALIDATED</b> Klobucharovo jednofrekvenční šikmé ionosférické skupinové zpoždění na L1 z osmi vysílaných koeficientů α/β. Orákulum (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — nezávislá referenční implementace přeložená ze zdrojového kódu; shoda na < { "1e-4" } m

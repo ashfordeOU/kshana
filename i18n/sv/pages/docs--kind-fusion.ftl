@@ -62,8 +62,6 @@ seg-509f93c7e9ce = <b>MODELLED</b> Tre gnss-ins-scenarier på banbiblioteket (et
 
 seg-e0633b308e4e = <b>MODELLED</b> Ett staplat Kalman-filter över position, hastighet, klockfas och frekvens som matas med pseudoavstånd som kopplar position och klocka (Joseph-uppdateringar som bär korskovariansen); en 1-DOF-variant utökad med en konstant accelerometerbias s Tests: <a1>fusion_coupled_filters.rs</a1>.
 
-seg-451a304052c4 = <b>MODELLED</b> Accelerometer med kallatomsinterferometer från grundprinciper (k_eff·T², QPN). Oracle (ExternalDataset): Publicerade numeriska vektorer från primärartiklar om CAI (Cheinet { "2008" } överföringsfunktion; Peters/Freier känslighet): k_eff·T² stämde exakt, skottbrus-ASD ett ensidigt golv inom ~{ "2" }× av varje publicerat instrument (verkliga enheter har tekniskt brus över kvantgolvet). Ett intervall, inte paritet. { "0.30" } round { "2" } (pre-registered fcb9ac64), ett fynd (förblir MODELLED): det rena QPN-rotationsbruset mot det uppmätta Gauguet et al.
-
 seg-7e95210bcc48 = <b>MODELLED</b> Sammansatt positionsbudget för bias + skalfaktor + VRW + stabilitetsavklingning över holdover. Oracle (ReferenceImpl): Oberoende numpy Monte Carlo-SDE-integrering av dubbelintegrerat vitt accelerationsbrus (validerar den analytiska VRW-variansen med en genuint oberoende algoritm) + ett publicerat värdeankare från Groves { "2013" } för bias-/skalfaktortermerna; CAI-enhetens siffror kvantifierar partnerhårdvara och förblir MODELLED
 
 seg-9955b1b1c018 = Prestanda hos kvantinertialsensorer är MODELLED, inte validerad: ett delpåstående kontrolleras externt, men hela förmågan består av modellerade delar, så förmågan förblir Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

@@ -30,8 +30,6 @@ seg-47ee40d4eb73 = Diagrammet motoren skriver for scenarios/gnss-sim-raim.toml, 
 
 seg-ccc44a4ac68e = <b>VALIDATED</b> Klobuchar enkeltfrekvens L1 skrå ionosfærisk gruppeforsinkelse fra de åtte kringkastede α/β-koeffisientene. Tester: <a1>klobuchar_reference.rs</a1>.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-løsningsseparasjon med flere hypoteser etter ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels og add_v42_protecti. Uavhengig referanse (ExternalDataset): Tre uavhengige verktøy, forhåndsregistrert (0123cee1) før noen fixture eller referanseutdata fantes, toleranser fastsatt da. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, kjørt som et separat program under GNU Octave { "8.4" } med en kompatibilitetsshim for unique() på driversiden (oppgitt, ingen algoritmeendring), ved ADD TOL_PL på { "0.05" } m: Rust gjengir ADD-referanseimplementasjonen på
-
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP fra siktlinjegeometri via Q=(HᵀH)⁻¹ med en lokal ENU-oppdeling. Uavhengig referanse (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP, uavhengig bibliotek, samsvarte til { "1e-6" } relativt
 
 seg-752829346523 = <b>VALIDATED</b> Klobuchar enkeltfrekvens L1 skrå ionosfærisk gruppeforsinkelse fra de åtte kringkastede α/β-koeffisientene. Uavhengig referanse (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c), uavhengig referanseimplementasjon kompilert fra kildekode; stemte til < { "1e-4" } m

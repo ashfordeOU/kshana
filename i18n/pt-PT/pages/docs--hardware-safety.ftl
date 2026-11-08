@@ -65,20 +65,11 @@ seg-1c566ec98a03 = Ficheiros: registos de reprodução, IQ, exportações de ben
 seg-0435986aa760 = incluída
 
 # text
-# c1: iq monitor --follow
-seg-56b9a4399108 = Receção passiva: recetores só de leitura; registos de temporização (linuxptp, chrony, TICC); CSV de IMU; <c1/> num ficheiro SigMF em crescimento
-
-# text
 seg-608fc0a99107 = os recetores, o grandmaster e o SDR em receção do utilizador
 
 # text
 # c1: --configure
 seg-786d9e5ccf93 = qualquer escrita de configuração num recetor exige um <c1/> explícito; a predefinição é só de leitura
-
-# text
-# c1: holdover-test
-# c2: iq monitor --follow
-seg-ab8874046283 = parcialmente incluída: formatos de registos de temporização, <c1/>, <c2/>; a entrada de recetor série está prevista
 
 # text
 seg-6b0a194d3f64 = Orquestração de laboratório sem RF do Kshana: uma especificação das condições de ensaio, passos do operador (retirar a antena, iniciar o simulador) pedidos e com marca temporal, pontuação de ida e volta e evidências

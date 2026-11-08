@@ -18,8 +18,6 @@ seg-32755afa0f78 = Vlákno mise
 
 seg-d4af67363efc = Software pouze poradního charakteru, nikoli certifikované navigační zařízení. Pouze veřejné zdroje; bez spojení s žádnou agenturou ani její podpory a nic zde netvrdí shodu s požadavky žádného programu.
 
-seg-816770c97995 = <c1/> řetězí fáze mise, z nichž každá je jedním z osmi registrovaných druhů s vlastními senzory a filtrem, a uvádí <b>rozpočet chyb navigace a času</b> celého řetězce: pro každou fázi 1sigma polohy, rychlosti a bias hodin při vstupu, ve špičce a při výstupu; každý příspěvek k ní s jednotkou; rezervu oproti požadavku, který uvedete; nejslabší článek; datované události; a obrázek časové osy. Každé číslo je <b>MODELLED</b>: uvedený vstup nebo model vstupu. Jediné řádky s vnějším orákulem jsou v <s1><c2/></s1> a říkají, co testují.
-
 seg-c29a19879c84 = Spusťte ukázku z checkoutu (čte zapsaný výřez jádra Měsíce):
 
 seg-00f84b734853 = Dokument
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Volitelná tabulka <c1/> uvádí stanice a nejnižší elevac
 seg-467b14d7ef59 = <c1/>: <c2/> (index, id, druh, časy, označení, zdroje navigace a času, limitující zdroj, sigma při vstupu, ve špičce a při výstupu, požadavek, rezerva, <c3/> s jednotkou pro každý řádek, <c4/>), <c5/> (nejmenší rezerva oproti uvedenému požadavku, jinak největší špičková poloha), <c6/>, <c7/> vlákna (označení nejslabší fáze) a blok <c8/>. Obrázek je 1sigma polohy a bias hodin oproti času mise, jedno pásmo na fázi.
 
 seg-a3c40c51c2ff = Co je důkazem
-
-seg-1168810d4407 = Označení vlákna je označení nejslabší fáze a každá fáze je MODELLED. Lunární propagátor se porovnává s LRO a CAPSTONE (<s1><c1/></s1>); cislunární oblouk se porovnává s veřejnou trajektorií Horizons (<s2><c2/></s2>). Řádek práh stanovený v zapsaném souboru před během buď splní, nebo nesplní a nesplnění se zaznamenává jako nesplnění. Nic není VALIDATED, pokud to registr neuvádí.
 
 seg-ee3c5b58e6fa = <s1>Předchozí</s1>Oběžná dráha a povrch Měsíce jako infrastruktura
 

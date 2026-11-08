@@ -1225,10 +1225,10 @@ seg-67341b9eea70 = <b>Autre chose</b><s1>contact@ashforde.org · le courrier va 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-3bf5f474beca = Le moteur ouvert au centre : une marque par type de scénario ({ "92" }), pleine lorsque le type a des lignes de registre vérifiées, creuse lorsque ses lignes sont modélisées, un tiret lorsqu'aucun module du registre ne lui correspond par le nom. { -brand } Pro et l'étude sur mesure l'entourent et se relient aux types sur lesquels ils s'appuient.
-
-seg-f88b6cf10837 = Moteur v{ $version } · { "92" } types issus de <c1/> · état du registre issu de <c2/> · ce sur quoi s'appuient Pro et une étude : le registre des éditions du site · aucun scénario ni graine
-
 seg-cc655ce0b6c8 = La matrice de vérification complète : { "176" } capacités sur { "401" } vérifiées par rapport à des références indépendantes, les autres étiquetées modélisées
 
-seg-65342d8ef6ad = Les { "92" } types de scénario et les { "181" } scénarios fournis : en natif, en Python, en JavaScript, dans le navigateur et via MCP (Model Context Protocol)
+seg-0ab329c843b0 = Le moteur ouvert au centre : une marque par type de scénario ({ "93" }), pleine lorsque le type a des lignes de registre vérifiées, creuse lorsque ses lignes sont modélisées, un tiret lorsqu'aucun module du registre ne lui correspond par le nom. { -brand } Pro et l'étude sur mesure l'entourent et se relient aux types sur lesquels ils s'appuient.
+
+seg-e507665bbe2c = Moteur v{ $version } · { "93" } types issus de <c1/> · état du registre issu de <c2/> · ce sur quoi s'appuient Pro et une étude : le registre des éditions du site · aucun scénario ni graine
+
+seg-c7818536071d = Les { "93" } types de scénario et les { "181" } scénarios fournis : en natif, en Python, en JavaScript, dans le navigateur et via MCP (Model Context Protocol)

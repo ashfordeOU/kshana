@@ -40,13 +40,9 @@ seg-1c566ec98a03 = Bestanden: replaylogboeken, IQ, bench-exports, live NMEA of U
 
 seg-0435986aa760 = geleverd
 
-seg-56b9a4399108 = Passief ontvangen: ontvangers uitsluitend lezend; tijdsynchronisatielogboeken (linuxptp, chrony, TICC); IMU-CSV; <c1/> op een groeiend SigMF-bestand
-
 seg-608fc0a99107 = de ontvangers van de gebruiker, grandmaster, SDR in ontvangst
 
 seg-786d9e5ccf93 = elke configuratieschrijfactie naar een ontvanger vereist een expliciete <c1/>; standaard is alleen lezen
-
-seg-ab8874046283 = gedeeltelijk geleverd: formaten van tijdsynchronisatielogboeken, <c1/>, <c2/>; seriële ontvangeringang is gepland
 
 seg-6b0a194d3f64 = Laborganisatie zonder RF van { -brand }: een specificatie van de testomstandigheden, stappen van de exploitant (antenne loskoppelen, simulator starten) die worden gevraagd en van een tijdstempel voorzien, scoren van de rondgang en bewijs
 

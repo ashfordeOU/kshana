@@ -42,8 +42,6 @@ seg-4466fb6f4043 = batch-Gauss-Newton over buen
 
 seg-d97b2505ac72 = Diagrammet, motoren skriver for scenarios/lunar-orbit-rendezvous.toml, type lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Typen og fasen <c1/>: et fælles batch-Gauss-Newton-estimat for to køretøjer over buen (enogtyve parametre: begge tilstande og vedvarende positionsbiaser i signal i rummet, fælles og uafhængige), opbygget over en fjerdedel, en h Tests: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-b2f273ea732d = MODELLED relativ navigation til en docking i stil med Orion og landingsfartøj i en lav månebane eller en elliptisk polar bane (Artemis-klassen). (typekatalog (<c1/>))
 
 seg-9d4f99557cc5 = MODELLED: illustrativt relæsæt, fejlbudget og priorer; referencen og estimatoren deler én kraftmodel, så NEES kontrollerer selvkonsistens og ikke modelfejl. (typekatalog (<c1/>))

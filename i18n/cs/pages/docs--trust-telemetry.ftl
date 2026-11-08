@@ -102,8 +102,6 @@ seg-17ca55cea260 = Názvy důvodů se zkracují na { "128" } znaků a nejvýše 
 
 seg-35f3faf39d1c = <c1/> je jedno z <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Názvy důvodů jsou názvy monitorů proudu (<c7/>, <c8/>, ...; u dávkového výsledku <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = Ukázkový dashboard je v <c1/> (importujte jej a zvolte svůj zdroj dat Prometheus).
-
 seg-208f33eda580 = Syslog: CEF a LEEF
 
 seg-0d53db66a990 = Události se odesílají v obálce RFC { "5424" } (facility local0, aplikace <c1/>, id zprávy <c2/>) přes UDP (jeden datagram na událost; IPv4 nebo IPv6) nebo TCP, ve výchozím stavu zakončené novým řádkem, nebo s <c3/> orámované jako <c4/> podle RFC { "6587" }. Ve výchozím stavu se odešle jedna událost při každé změně pásma; <c5/> odešle jednu za epochu. Dodavatel se zapisuje <c6/> (ASCII), aby jej žádný SIEM chybně nedekódoval.

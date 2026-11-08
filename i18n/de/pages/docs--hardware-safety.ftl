@@ -65,20 +65,11 @@ seg-1c566ec98a03 = Dateien: Replay-Logs, IQ, bench-Exporte, Live-NMEA oder UBX �
 seg-0435986aa760 = ausgeliefert
 
 # text
-# c1: iq monitor --follow
-seg-56b9a4399108 = Passiver Empfang: Empf채nger nur lesend; Zeitgebungslogs (linuxptp, chrony, TICC); IMU-CSV; <c1/> auf einer wachsenden SigMF-Datei
-
-# text
 seg-608fc0a99107 = die Empf채nger, der Grandmaster und das SDR im Empfang des Nutzers
 
 # text
 # c1: --configure
 seg-786d9e5ccf93 = jeder Konfigurationsschreibzugriff auf einen Empf채nger braucht ein ausdr체ckliches <c1/>; der Standard ist nur lesend
-
-# text
-# c1: holdover-test
-# c2: iq monitor --follow
-seg-ab8874046283 = teilweise ausgeliefert: Formate f체r Zeitgebungslogs, <c1/>, <c2/>; serielle Empf채ngereingabe ist geplant
 
 # text
 seg-6b0a194d3f64 = Laborsteuerung ohne HF von Kshana: eine Spezifikation der Testbedingungen, Schritte des Betreibers (Antenne abziehen, Simulator starten) angefragt und mit Zeitstempel versehen, Bewertung im Rundlauf und Nachweis

@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = Źródło: <c1/>
 
 seg-0dfd1160c5d7 = Formaty dzienników zegara
 
-seg-f52a62872493 = <c1/> wczytuje zmierzony dziennik zegara do jednego znormalizowanego szeregu fazy: jednorodnej siatki próbek <c2/>, z podanym lub znalezionym interwałem próbkowania <c3/>, każdą przerwą policzoną i nazwanymi jednostkami dziennika. Wczytywanych jest osiem formatów, każdy jako udokumentowany podzbiór. Wszystko poza podzbiorem jest odrzucane z błędem, który nazywa to, co znaleziono, zamiast być odczytywane w przybliżeniu.
-
 seg-dbdbfec37ab6 = <b>Skróty.</b> RINEX to Receiver Independent Exchange Format. TICC to licznik interwałów czasu TAPR (Tucson Amateur Packet Radio). ADEV to overlapping odchylenie Allana, TDEV to odchylenie czasu, a MTIE to maksymalny błąd interwału czasu. <c1/> to interwał próbkowania w sekundach.
 
 seg-1d5a6c2090af = Gdzie można użyć dziennika

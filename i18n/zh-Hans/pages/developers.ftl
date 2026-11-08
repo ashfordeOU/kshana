@@ -464,8 +464,6 @@ seg-d85f16c14183 = kshana.run和run_full，以及validate_toml和list_kinds
 
 seg-5a6803e3eb48 = 在浏览器或Node.js中使用run、summary和chart_svg
 
-seg-1c19f8c0ad84 = AI助手可调用的{ "49" }个工具，每个都是对公开API的轻量封装
-
 seg-4ad1a7669b03 = 无需Rust工具链的MCP服务器，支持多种架构
 
 seg-9e409a07b3c9 = 右键单击场景 .toml，选择Run Kshana Scenario，在工具窗口中查看数据
@@ -622,8 +620,6 @@ seg-7937ed00cbc0 = 方位角相关天际线（街道峡谷、港口、峡湾、�
 
 seg-2cff891dc970 = 下一步
 
-seg-45da99dccd40 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "49" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
-
 seg-102015d6ebd2 = <c1/>：运行一个Kshana场景，并以动画形式返回其时间序列。
 
 seg-0247e08ba09d = <c1/>：评估真实GNSS接收机日志的可信度：读取u-blox UBX、RINEX { "3" }（可附广播导航文件，这会加入引擎自己的定位解、RAIM和时钟辅助监测器）、Android GnssLogger或NMEA日志，对照校准基线运行信任监测器（载噪比下降、AGC、干扰指示、失锁、位置跳变、RAIM、时钟），并返回接收机何时以及为何不再可信。
@@ -726,8 +722,6 @@ seg-62b5564e8d90 = 已记录的会话在此逐步播放。
 
 seg-2359edf78388 = <b>Studio中的同一次运行：</b>引擎v{ $version } · <c1/> · 随机种子{ "42" }
 
-seg-c24f65399c72 = <b>{ "49" }个工具</b>，基于公开的Kshana API（应用程序接口），在官方MCP注册表中为<c1/>。轨道导出：SP3（Standard Product { "3" }）以及CCSDS（空间数据系统咨询委员会）OMM和OEM（轨道平均根数与星历消息，TEME：真赤道平春分点坐标系）。可在<b>AI助手（MCP服务器）</b>或<b>Docker镜像</b>下注册。<a1>MCP服务器文档</a1>
-
 seg-306a0232c581 = 由TOML定义运行一个Kshana PNT韧性场景，并返回其性能指标。先返回人类可读的摘要，再返回完整结果JSON（性能指标、曲线）。Kshana对照已发表的参考文献验证SGP4/SDP4、IAU参考坐标系、阿伦偏差、GNSS可用性/DOP、ARAIM保护级、GNSS/INS融合和量子传感器模型。每种类型都通过这一个工具运行，包括<c1/>（射频频谱与瀑布图）、<c2/>、<c3/>和<c4/>（围绕任意天体的星座）、<c5/>（串联阶段、参数扫描、蒙特卡罗集合和组合场景），以及低地球轨道导航类型<c6/>、<c7/>、<c8/>、<c9/>、<c10/>、<c11/>和<c12/>。内容以内联方式给出：指向文件的场景字段会被拒绝，场景至多{ "4" } MiB。先调用list_scenario_kinds以了解场景类型及其字段，并用list_example_scenarios / get_example_scenario获取某一类型的完整可运行场景。
 
 seg-5fe1f6a80612 = 以JSON数组列出每一种内置Kshana场景类型，及其描述和必填/可选的TOML字段。用它来了解可以运行哪些场景，以及如何为run_scenario构造有效的场景TOML。
@@ -803,3 +797,9 @@ seg-b4ee0795e52c = 基于以CSV文本给出的开放许可的飞机（ADS-B NIC/
 seg-d3175204c0ea = 概述一条路线有多大比例穿过一个或多个干扰地图中的劣化单元格（<c1/>）：对每张地图（每个来源每个UTC日一张，即<c2/>返回的GeoJSON），给出路线长度，以及其长度中位于劣化单元格、未劣化单元格、样本太少无法评估的单元格和未观测单元格的占比。路线是GeoJSON LineString或<c3/> CSV文本；<c4/>/<c5/>（YYYY-MM-DD）保留某个日期范围内的地图。每项的输入上限为{ "4" } MiB。未观测的单元格不是路线畅通的证据；劣化单元格并不表明干扰是其原因；这描述的是过去的报告，不是预报。证据等级：MODELLED。
 
 seg-e11a6425c180 = 由Kshana结果文档填充公共框架映射（<c1/>）：六个韧性框架和标准（美国DHS Resilient PNT框架v2.0、IMO船舶指南、EASA航空指南、NIS2第{ "21" }条、EN { "16803" }、NIST IR 8323r1）中，所给运行为哪些行提供证据支持，哪些行没有，以及每一行仍然存在的差距。把每个运行作为<c2/>、<c3/>（结果JSON文本）传入，若有，还传入<c4/>（场景TOML，它指明结果本身未指明的类型；receiver-trust结果不需要）。总共至多{ "64" }个运行和{ "4" } MiB；不从磁盘读取任何内容。每一行的<c5/>为<c6/>、<c7/>、<c8/>或<c9/>，且每一行即使有证据也保留其<c10/>；无法使用的输入列在<c11/>中，不计入任何内容。与任何结果一起，逐字展示报告的<c12/>：状态表示某个运行为该行所指名的能力提供证据支持；它不是某个框架已被满足的结论，也不意味着任何产品已被任何人评级或批准。不要用更强的措辞描述该输出。证据等级：MODELLED。
+
+seg-859bb6732925 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "52" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
+
+seg-f3512ff81b58 = <b>{ "52" }个工具</b>，基于公开的Kshana API（应用程序接口），在官方MCP注册表中为<c1/>。轨道导出：SP3（Standard Product { "3" }）以及CCSDS（空间数据系统咨询委员会）OMM和OEM（轨道平均根数与星历消息，TEME：真赤道平春分点坐标系）。可在<b>AI助手（MCP服务器）</b>或<b>Docker镜像</b>下注册。<a1>MCP服务器文档</a1>
+
+seg-5aa702c4ebc7 = AI助手可调用的{ "52" }个工具，每个都是对公开API的轻量封装

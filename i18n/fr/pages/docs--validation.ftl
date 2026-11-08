@@ -1353,17 +1353,6 @@ seg-a1706d47f895 = <c1/> : <c2/> à partir de la matrice de conception des ligne
 seg-504d5aa92cbc = Erreur de position = σ_UERE × DOP pour le point par moindres carrés propre au moteur
 
 # text
-# c1: src/dop_error_mc.rs
-# c2: tests/uere_dop_monte_carlo.rs
-# c3: pvt::solve_spp
-# c4: tests/fixtures/dop/dop_reference.csv
-# c5: orbit::dop
-# c6: orbit::dop_cofactor
-# c7: src/dop_error_ci.rs
-# c8: tests/position_error_dop_ci.rs
-seg-fc3443210358 = <c1/>, <c2/> : un Monte Carlo à graine fixe (N = { "20,000" } époques par géométrie, σ = { "1.5" } m, graine ChaCha8 { "36" } + i) de <c3/> avec des poids unitaires, résolu à partir de la position vraie, sur les <b>{ "8" } géométries de <c4/></b> (celles dont le DOP concorde avec gnss_lib_py), par rapport à σ²·Q où Q est le facteur de covariance du noyau <c5/> lui-même (<c6/>, la même arithmétique). <b>Tolérances préenregistrées</b> (commit e50c88d2, avant la première exécution, selon la note de conception de géométrie { "0.36" }, section { "5.2" }), chacune exprimée en nombre d'erreurs standard : variances est, nord, haut et horloge à { "5" } % près ; RMS H/V/P à { "2.5" } % près ; corrélation est-nord à { "0.035" } près ; moyennes à { "5" } erreurs standard près ; fraction de l'ellipse horizontale à { "95" } % dans { "0.95" } ± { "0.0077" }. Première exécution : les { "104" } contrôles passent tous (pire variance { "3.2" } %, RMS { "1.6" } %, corrélation { "0.012" }, moyenne { "2.2" } erreurs standard, ellipse { "0.0039" }). Les <b>contrôles négatifs</b> échouent comme requis : un PDOP doublé échoue sur chaque géométrie ; des erreurs croissant en 1/sin(élévation) face au Q non pondéré échouent à un contrôle de variance sur chaque géométrie dont le satellite le plus bas est sous { "20" }°. <b>Comment cela se compose avec la ligne ci-dessus :</b> cette ligne valide le DOP de ces géométries par rapport à gnss_lib_py ; celle-ci ajoute le passage de ces facteurs aux mètres par le solveur du moteur. <b>Un premier contrôle distinct est conservé à côté</b> (<c7/>, <c8/>, exécuté avant le préenregistrement et rapporté comme tel) : quatre ciels choisis à la main (dégagé, groupé, canyon, demi-ciel ; σ { "1" } m) avec des intervalles de confiance du chi carré à { "1e-6" } au total sur { "20" } contrôles ; rapports de { "0.987" } à { "1.009" }, et ses propres contrôles négatifs (une erreur de DOP de { "10" } %, des erreurs en 1/sin(élévation)) échouent comme requis. <b>Pourquoi MODELLED :</b> aucun jeu de données externe ; cela ne montre pas que l'erreur d'un récepteur réel suit le modèle, et σ_UERE est une entrée.
-
-# text
 seg-94bffbd8385b = Disponibilité multi-constellation
 
 # text
@@ -2077,9 +2066,6 @@ seg-dd68891f75e2 = Évaluée par rapport à
 
 # text
 seg-d5a09f26a028 = Couverture d'une station de référence lunaire
-
-# text
-seg-c68f124a16e7 = c05dac1d, 2026-10-12
 
 # text
 seg-293404a9cb92 = précision, disponibilité, couverture et niveaux de protection publiés d'une station différentielle lunaire au pôle Sud, par n'importe quelle partie

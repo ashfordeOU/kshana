@@ -184,9 +184,6 @@ seg-13c92a72544a = brouillage, { "600" } s
 seg-f9c01304734d = identique, brouilleur à -30 dBW, { "1" } km
 
 # text
-seg-27d3b65152b0 = le C/N0 chute à { "27.7" } dB-Hz, les { "8" } satellites restent tous poursuivis
-
-# text
 # c1: end_at
 seg-6a052db03815 = leurrage, terminé à { "370" } s par <c1/>
 
@@ -286,14 +283,6 @@ seg-2db37e292efe = Le retour de E1 sous la tonalité CW repose sur le traitement
 # text
 # c1: [sweep]
 seg-fb8d8636c554 = <c1/> : une grille de paramètres sur n'importe quel type
-
-# text
-# c1: sweep-nd
-# c2: runs > 1
-# c3: k
-# c4: k
-# c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = Une à trois clés de scénario pointées, chacune sur une plage linéaire ou logarithmique, sur les mêmes valeurs d'axe que celles qu'utilise le type <c1/>. Chaque axe a un nom et une unité ; chaque métrique a un nom et un chemin de résultat, et son unité est lue dans le bloc d'unités du type balayé, sauf si la campagne en déclare une. Avec <c2/>, chaque nœud est un ensemble Monte Carlo à graine (réalisation <c3/> à la graine du nœud plus <c4/>), rapporté avec les statistiques ci-dessous. <c5/> balaie un brouilleur situé à { "1" } km du récepteur de -50 à +{ "10" } dBW : le rapport moyen brouilleur sur signal varie d'exactement { "1" } dB par dB ({ "12.2" } à { "72.2" } dB), et la disponibilité passe de { "1" } à { "0" } entre -30 et -25 dBW.
 
 # text
 # c1: system.2.sisre_m
@@ -577,3 +566,7 @@ seg-03d764a4cb56 = [compose] : plusieurs scénarios sous des conditions partagé
 
 # text
 seg-61a0db2550ba = [optimize] : la meilleure valeur d'une métrique
+
+seg-0886cc461f7a = le C/N0 chute à { "30.6" } dB-Hz, les { "8" } satellites restent tous poursuivis
+
+seg-74f8b08a4194 = Une à trois clés de scénario pointées, chacune sur une plage linéaire ou logarithmique, sur les mêmes valeurs d'axe que celles qu'utilise le type <c1/>. Chaque axe a un nom et une unité ; chaque métrique a un nom et un chemin de résultat, et son unité est lue dans le bloc d'unités du type balayé, sauf si la campagne en déclare une. Avec <c2/>, chaque nœud est un ensemble Monte Carlo à graine (réalisation <c3/> à la graine du nœud plus <c4/>), rapporté avec les statistiques ci-dessous. <c5/> balaie un brouilleur situé à { "1" } km du récepteur de -50 à +{ "10" } dBW : le rapport moyen brouilleur sur signal varie d'exactement { "1" } dB par dB ({ "12.2" } à { "72.2" } dB), et la disponibilité passe de { "1" } à { "0" } entre -25 et -20 dBW.

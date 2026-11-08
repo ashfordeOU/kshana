@@ -542,15 +542,6 @@ seg-73a73af88f08 = HTTP-Modus (selbst gehostet)
 seg-4f248ed3e597 = <c1/> stellt dieselben Werkzeuge über Streamable HTTP unter <c2/> bereit. Es bindet nur an Loopback; eine Nicht-Loopback-Adresse braucht <c3/> und ein Bearer-Token in <c4/>; die IQ-Dateiwerkzeuge sind aus; Anfragegröße, Zeit und Nebenläufigkeit sind begrenzt; es wird kein CORS-Header gesendet. Kshana hostet keinen Endpunkt: Sie hosten ihn selbst. Siehe <a1>docs/deploy/mcp-http.md</a1>.
 
 # text
-# c1: cargo install
-# c2: kshana-mcp
-# c3: PATH
-# c4: ~/.cargo/bin/kshana-mcp
-# c5: rmcp
-# c6: kshana
-seg-60f55b197ac2 = <c1/> legt <c2/> in Ihren <c3/> (typischerweise <c4/>). Der Server spricht JSON-RPC (JSON remote procedure call) über stdio; Logs gehen nach stderr. Das Bauen aus dem Quelltext braucht eine Rust-Toolchain ≥ { "1.88" } (das gepatchte SDK <c5/> { "2" }.x braucht sie; die Bibliothek <c6/> selbst braucht nur { "1.85" }); das Docker-Image braucht keine.
-
-# text
 seg-2f3216082425 = Bei einem Client registrieren
 
 # text
@@ -640,16 +631,6 @@ seg-dc60d64a3bb8 = <em>"Erzeuge eine GPS-L1-Szene von einer Sekunde mit den PRNs
 seg-942dc8abe0ec = Entwurfsnotiz — warum ein eigenes Crate
 
 # text
-# c1: Cargo.lock
-# c2: rmcp
-# c3: kshana
-# c4: rmcp
-# c5: rmcp
-# c6: cargo deny
-# c7: xval/anise-frames
-seg-ce6d0ecab448 = Der Server ist ein <b>eigenständiges, vom Workspace ausgeschlossenes Crate</b> mit eigener <c1/>, sodass das offizielle Rust-MCP-SDK (Software Development Kit) <c2/> und seine asynchrone Laufzeit nie in den Abhängigkeitsgraphen des veröffentlichten Crates <c3/> gelangen: Ein Bibliotheks- oder Python-Nutzer kompiliert keinen Server, den er nicht betreibt. (Es wurde zuerst abgetrennt, weil <c4/> <b>Edition { "2024" }</b> ist und rustc ≥ { "1.85" } braucht, während das Haupt-Crate damals { "1.75" } zusagte. Die Bibliothek erklärt jetzt { "1.85" }; dieser Server erklärt { "1.88" }, die Untergrenze des sicherheitsgepatchten <c5/> { "2" }.x.) Die kontinuierliche Integration (CI) sichert dieses Crate für sich allein ab — Tests und <c6/> gegen seine Lockfile. Der Lizenzbaum von rmcp ist unbedenklich (Apache-2.0/MIT/BSD), sodass die Abtrennung, anders als beim Kreuzvalidierungs-Crate <c7/>, dem es sonst gleicht, keine Frage der Lizenzierung ist.
-
-# text
 seg-75bf2d74642d = Lizenz: AGPL-3.0-only, die GNU Affero General Public License Version { "3" } ausschließlich (oder eine kommerzielle Lizenz von Ashforde OÜ; siehe <a1>LICENSING.md</a1> des Repositorys).
 
 # text
@@ -658,8 +639,8 @@ seg-490ebbefb561 = <s1>Zurück</s1>Rust-Crate
 # text
 seg-350b6b914734 = <s1>Weiter</s1>MCP-Server: jeder Installationskanal
 
-seg-492888115662 = Die { "92" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann.
-
 seg-a4a0e399a31e = <c1/> legt <c2/> in Ihren <c3/> (typischerweise <c4/>). Der Server spricht JSON-RPC (JSON remote procedure call) über stdio; Logs gehen nach stderr. Das Bauen aus dem Quelltext braucht eine Rust-Toolchain ≥ { "1.88" } (das gepatchte SDK <c5/> { "2" }.x braucht sie, ebenso die Bibliothek <c6/>); das Docker-Image braucht keine.
 
 seg-0757e15070d4 = Der Server ist ein <b>eigenständiges, vom Workspace ausgeschlossenes Crate</b> mit eigener <c1/>, sodass das offizielle Rust-MCP-SDK (Software Development Kit) <c2/> und seine asynchrone Laufzeit nie in den Abhängigkeitsgraphen des veröffentlichten Crates <c3/> gelangen: Ein Bibliotheks- oder Python-Nutzer kompiliert keinen Server, den er nicht betreibt. (Es wurde zuerst abgetrennt, weil <c4/> <b>Edition { "2024" }</b> ist und rustc ≥ { "1.85" } braucht, während das Haupt-Crate damals { "1.75" } zusagte. Die Bibliothek und dieser Server erklären jetzt beide { "1.88" }, die Untergrenze des sicherheitsgepatchten <c5/> { "2" }.x und der aktualisierten RustCrypto-Crates.) Die kontinuierliche Integration (CI) sichert dieses Crate für sich allein ab — Tests und <c6/> gegen seine Lockfile. Der Lizenzbaum von rmcp ist unbedenklich (Apache-2.0/MIT/BSD), sodass die Abtrennung, anders als beim Kreuzvalidierungs-Crate <c7/>, dem es sonst gleicht, keine Frage der Lizenzierung ist.
+
+seg-b873b39a4921 = Die { "93" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann.

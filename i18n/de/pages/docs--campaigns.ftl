@@ -184,9 +184,6 @@ seg-13c92a72544a = jamming, { "600" } s
 seg-f9c01304734d = dasselbe, Jammer bei -30 dBW, { "1" } km
 
 # text
-seg-27d3b65152b0 = C/N0 fällt auf { "27.7" } dB-Hz, alle { "8" } Satelliten werden noch verfolgt
-
-# text
 # c1: end_at
 seg-6a052db03815 = Spoofing, bei { "370" } s durch <c1/> beendet
 
@@ -286,14 +283,6 @@ seg-2db37e292efe = Dass sich E1 unter dem CW-Ton erholt, beruht auf der Behandlu
 # text
 # c1: [sweep]
 seg-fb8d8636c554 = <c1/>: ein Parameterraster über jede Art
-
-# text
-# c1: sweep-nd
-# c2: runs > 1
-# c3: k
-# c4: k
-# c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = Ein bis drei gepunktete Szenarioschlüssel, jeweils über einen linearen oder logarithmischen Bereich, auf denselben Achsenwerten, die die Art <c1/> verwendet. Jede Achse hat einen Namen und eine Einheit; jede Metrik hat einen Namen und einen Ergebnispfad, und ihre Einheit wird aus dem eigenen Einheitenblock der durchlaufenen Art gelesen, sofern die Kampagne keine deklariert. Mit <c2/> ist jeder Knoten ein Monte-Carlo-Ensemble mit Startwerten (Realisierung <c3/> beim Startwert des Knotens plus <c4/>), das mit den unten genannten Statistiken berichtet wird. <c5/> durchläuft einen Jammer in { "1" } km Entfernung vom Empfänger von -50 bis +{ "10" } dBW: Das mittlere Verhältnis von Jammer zu Signal verschiebt sich genau um { "1" } dB je dB ({ "12.2" } bis { "72.2" } dB), und die Verfügbarkeit fällt zwischen -30 und -25 dBW von { "1" } auf { "0" }.
 
 # text
 # c1: system.2.sisre_m
@@ -577,3 +566,7 @@ seg-03d764a4cb56 = [compose]: mehrere Szenarien unter gemeinsamen Bedingungen
 
 # text
 seg-61a0db2550ba = [optimize]: der beste Wert einer Metrik
+
+seg-0886cc461f7a = C/N0 fällt auf { "30.6" } dB-Hz, alle { "8" } Satelliten werden noch verfolgt
+
+seg-74f8b08a4194 = Ein bis drei gepunktete Szenarioschlüssel, jeweils über einen linearen oder logarithmischen Bereich, auf denselben Achsenwerten, die die Art <c1/> verwendet. Jede Achse hat einen Namen und eine Einheit; jede Metrik hat einen Namen und einen Ergebnispfad, und ihre Einheit wird aus dem eigenen Einheitenblock der durchlaufenen Art gelesen, sofern die Kampagne keine deklariert. Mit <c2/> ist jeder Knoten ein Monte-Carlo-Ensemble mit Startwerten (Realisierung <c3/> beim Startwert des Knotens plus <c4/>), das mit den unten genannten Statistiken berichtet wird. <c5/> durchläuft einen Jammer in { "1" } km Entfernung vom Empfänger von -50 bis +{ "10" } dBW: Das mittlere Verhältnis von Jammer zu Signal verschiebt sich genau um { "1" } dB je dB ({ "12.2" } bis { "72.2" } dB), und die Verfügbarkeit fällt zwischen -25 und -20 dBW von { "1" } auf { "0" }.

@@ -67,9 +67,6 @@ seg-47ee40d4eb73 = Diagramm, mille mootor kirjutab failile scenarios/gnss-sim-ra
 seg-ccc44a4ac68e = <b>VALIDATED</b> Klobuchari ühesagedusliku L1 kaldionosfäärne grupiviivitus kaheksast edastatud α/β koefitsiendist Testid: <a1>klobuchar_reference.rs</a1>.
 
 # text
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM mitme hüpoteesi lahendite eraldatus vastavalt ARAIM Airborne Design Document (ADD) v4.2-le (araim_reference::add_v42_protection_levels ja add_v42_protecti. Sõltumatu etalon (ExternalDataset): Kolm sõltumatut tööriista, eelregistreeritud (0123cee1) enne mis tahes fikstuuri või sõltumatu etaloni väljundi olemasolu, tolerantsid fikseeritud siis. ({ "1" }) ARAIM: Stanfordi MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, jooksutatud eraldi programmina GNU Octave { "8.4" } all draiveripoolse unique() ühilduvuskihiga (avalikustatud, algoritmi muudatust ei ole), ADD TOL_PL juures { "0.05" } m: Rust reprodutseerib ADD etalonteostuse
-
-# text
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP vaatejoone geomeetriast kaudu Q=(HᵀH)⁻¹ kohaliku ENU lahutusega. Sõltumatu etalon (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — sõltumatu teek, ühtib { "1e-6" } suhtelise täpsusega
 
 # text

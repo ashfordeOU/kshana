@@ -184,9 +184,6 @@ seg-13c92a72544a = jamming, { "600" } s
 seg-f9c01304734d = o mesmo, jammer a -30 dBW, { "1" } km
 
 # text
-seg-27d3b65152b0 = o C/N0 cai para { "27.7" } dB-Hz, e todos os { "8" } satélites continuam sendo rastreados
-
-# text
 # c1: end_at
 seg-6a052db03815 = spoofing, encerrado em { "370" } s por <c1/>
 
@@ -286,14 +283,6 @@ seg-2db37e292efe = A recuperação do E1 sob o tom CW se apoia no tratamento de 
 # text
 # c1: [sweep]
 seg-fb8d8636c554 = <c1/>: uma grade de parâmetros sobre qualquer tipo de cenário
-
-# text
-# c1: sweep-nd
-# c2: runs > 1
-# c3: k
-# c4: k
-# c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = Uma a três chaves de cenário com pontos, cada uma sobre uma faixa linear ou logarítmica, nos mesmos valores de eixo que o tipo de cenário <c1/> usa. Todo eixo tem um nome e uma unidade; toda métrica tem um nome e um caminho de resultado, e sua unidade é lida do próprio bloco de unidades do tipo de cenário varrido, a menos que a campanha declare uma. Com <c2/>, cada nó é um conjunto de Monte Carlo com sementes (a realização <c3/> na semente do nó mais <c4/>), relatado com as estatísticas abaixo. <c5/> varre um jammer a { "1" } km do receptor de -50 a +{ "10" } dBW: a razão média entre jammer e sinal varia exatamente { "1" } dB por dB ({ "12.2" } a { "72.2" } dB), e a disponibilidade cai de { "1" } para { "0" } entre -30 e -25 dBW.
 
 # text
 # c1: system.2.sisre_m
@@ -577,3 +566,7 @@ seg-03d764a4cb56 = [compose]: vários cenários sob condições compartilhadas
 
 # text
 seg-61a0db2550ba = [optimize]: o melhor valor de uma métrica
+
+seg-0886cc461f7a = o C/N0 cai para { "30.6" } dB-Hz, e todos os { "8" } satélites continuam sendo rastreados
+
+seg-74f8b08a4194 = Uma a três chaves de cenário com pontos, cada uma sobre uma faixa linear ou logarítmica, nos mesmos valores de eixo que o tipo de cenário <c1/> usa. Todo eixo tem um nome e uma unidade; toda métrica tem um nome e um caminho de resultado, e sua unidade é lida do próprio bloco de unidades do tipo de cenário varrido, a menos que a campanha declare uma. Com <c2/>, cada nó é um conjunto de Monte Carlo com sementes (a realização <c3/> na semente do nó mais <c4/>), relatado com as estatísticas abaixo. <c5/> varre um jammer a { "1" } km do receptor de -50 a +{ "10" } dBW: a razão média entre jammer e sinal varia exatamente { "1" } dB por dB ({ "12.2" } a { "72.2" } dB), e a disponibilidade cai de { "1" } para { "0" } entre -25 e -20 dBW.

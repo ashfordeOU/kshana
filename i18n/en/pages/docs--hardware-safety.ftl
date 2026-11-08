@@ -67,7 +67,8 @@ seg-0435986aa760 = shipped
 
 # text
 # c1: iq monitor --follow
-seg-56b9a4399108 = Passive receive: receivers read-only; timing logs (linuxptp, chrony, TICC); IMU CSV; <c1/> on a growing SigMF file
+# c2: iq record
+seg-ddc9c92a0ad0 = Passive receive: receivers read-only; timing logs (linuxptp, chrony, TICC); IMU CSV; <c1/> on a growing SigMF file; <c2/>
 
 # text
 seg-608fc0a99107 = the user's receivers, grandmaster, SDR in receive
@@ -79,7 +80,9 @@ seg-786d9e5ccf93 = any configuration write to a receiver needs an explicit <c1/>
 # text
 # c1: holdover-test
 # c2: iq monitor --follow
-seg-ab8874046283 = partly shipped: timing-log formats, <c1/>, <c2/>; serial receiver input is planned
+# c3: iq record
+# c4: obs live
+seg-a65e163aac66 = partly shipped: timing-log formats, <c1/>, <c2/>, <c3/> (samples from a capture tool's output; the radio is configured by that tool, never by Kshana), <c4/> (receiver logs over a serial device, TCP or a pipe, read only)
 
 # text
 seg-6b0a194d3f64 = Lab orchestration with no RF from Kshana: a test-conditions specification, operator steps (antenna pull, simulator start) prompted and time-stamped, round-trip scoring and evidence

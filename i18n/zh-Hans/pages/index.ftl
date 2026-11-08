@@ -160,8 +160,6 @@ seg-29e58493fdd4 = 由模型计算得出
 
 seg-2cff891dc970 = 下一步
 
-seg-45da99dccd40 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "49" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
-
 seg-102015d6ebd2 = <c1/>：运行一个Kshana场景，并以动画形式返回其时间序列。
 
 seg-0247e08ba09d = <c1/>：评估真实GNSS接收机日志的可信度：读取u-blox UBX、RINEX { "3" }（可附广播导航文件，这会加入引擎自己的定位解、RAIM和时钟辅助监测器）、Android GnssLogger或NMEA日志，对照校准基线运行信任监测器（载噪比下降、AGC、干扰指示、失锁、位置跳变、RAIM、时钟），并返回接收机何时以及为何不再可信。
@@ -718,10 +716,12 @@ seg-b9961ed25282 = v{ $version }新增：任务线程、每个图表上的证据
 
 seg-653cf3198094 = { "401" }项能力中有{ "176" }项与独立的外部参考基准（oracle）一致；其余明确标注为由模型计算。
 
-seg-76b213d03caa = 全部{ "92" }种场景类型，免费，无功能门控，由场景、随机种子和引擎版本决定，具有确定性。
+seg-859bb6732925 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "52" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-cff488aa106d = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+seg-2dc1aed7a12e = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
 
-seg-fddfe8b260be = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+seg-b79ee48fd586 = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
 
-seg-388f14eb6d8d = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+seg-9b9d03fe1477 = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+
+seg-579d9b6f7afd = 全部{ "93" }种场景类型，免费，无功能门控，由场景、随机种子和引擎版本决定，具有确定性。

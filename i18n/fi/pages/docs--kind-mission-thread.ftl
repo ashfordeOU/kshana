@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Moottorin v{ $version } skenaariolaji, perhe <a1>Tehtäväket
 
 seg-1ec485468daa = MODELLED navigointi- ja ajoitusvirhebudjetti määritellylle tehtävävaiheiden ketjulle laukaisusta paluuseen: laukaisu ja nousu, matalan Maan kiertoradan kohtaaminen ja telakointi (toistettava), Kuuhun siirtyvä injektio ja kuunläheinen risteily, Kuun kiertoradan kohtaaminen, laskeutuminen, oleskelu pinnalla, nousu sekä paluu ja ilmakehään tulo, kukin vaihe yksi kahdeksasta rekisteröidystä lajista omine antureineen ja suotimineen. 6x6-kovarianssi, kello ja koordinaatisto siirretään vaiheesta toiseen määritellyn säännön mukaan (kanna, paisuta tai hanki uudelleen); koordinaatisto- ja aikaskaalamuunnokset (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) ovat omia budjettirivejään, ja Kuun tila tulee valinnaisesta DE440-kernelin leikkauksesta ja analyyttinen sarja on ilmoitettu varakeino. Valinnainen maaverkon peitto asettaa kunkin vaiheen seurantatyökuorman. Raportoi vaihekohtaisen budjetin (tulo-, huippu- ja poistumis-1-sigmat, jokainen osuus yksikköineen), marginaalin määriteltyyn vaatimukseen nähden, heikoimman lenkin, tapahtumat ja aikajanakuvan. MODELLED: jokainen luku on ilmoitettu syöte; ketju noudattaa yhtä pinoa, eikä mitään ajoneuvoa mallinneta. Vain julkisia lähteitä; ei ole sidoksissa mihinkään virastoon eikä sen hyväksymä; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.
 
-seg-d6eb3dbb87c7 = Yksi tiedoston <c1/> ajo tiivistyy seuraavasti: mission-thread | { "11" } vaihetta | Artemis-luokan tehtäväketju (ILLUSTRATIVE) | heikoin lenkki laskeutuminen | MODELLED
-
 seg-9bb19202a104 = Pakolliset kentät: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Valinnaiset kentät: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Esimerkki <c1/> asettaa muun muassa seuraavat:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = pienin marginaali suhteessa määriteltyyn vaatimukseen
-
-seg-f32a7f31e191 = inertiaajautuma, ei apuvälinettä, itä
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Kaavio, jonka moottori kirjoittaa tiedostolle scenarios/mission-thread-artemis-class.toml, laji mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Vaihe <c1/>: vakionopeuksinen paikan ja nopeuden kovarianssi valkoisella kiihtyvyyskohinalla (dead reckoning -luokka), määritellyn tarkkuuden GNSS-korjaus, jota sovelletaan hankinta-ajan jälkeen ja määriteltyjen häipymien ulkopuolella, harhan ja
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED navigointi- ja ajoitusvirhebudjetti määritellylle 
 
 seg-80221e9351e4 = MODELLED: jokainen luku on ilmoitettu syöte; ketju noudattaa yhtä pinoa, eikä mitään ajoneuvoa mallinneta. (lajiluettelo (<c1/>))
 
-seg-637296d00802 = REHELLISYYS. Jokainen luku tässä on ILLUSTRATIVE: pyöreä luku, joka on valittu saamaan ketju toimimaan, ei minkään ajoneuvon, anturin, aseman tai verkon suorituskyky. Ketju noudattaa yhtä pinoa määriteltynä yksinkertaistuksena; ajoneuvonvaihtoja, miehistön siirtoja ja Kuun kiertoradan asemaa ei mallinneta, Kuun kiertoradat ovat { "100" } km:n ympyrärata ja napakiertoradat, joita Kuun lajit lentävät (ei lähes suoraviivainen halorata), ja TLI-poltto on (skenaariotiedoston kommentti, rivit { "11" }–{ "17" })
-
 seg-f6574a80a60a = Tehtäväketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen (<c1/>) on MODELLED, ei validoitu: tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Laukaisu ja nousu parkkiradalle GNSS-hankinnalla ja häipymällä (<c1/>) on MODELLED, ei validoitu: tarkistettu sen omaa suljetun muodon / analyyttistä identiteettiä vastaan, mikä paljastaa kirjoitus- ja kerroinvirheet mutta ei ole ulkoinen oraakkeli. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Perhesivu: <a1>Tehtäväketjut</a1>
 seg-f3279128de3b = <s1>Edellinen</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Seuraava</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Esimerkki <c1/> asettaa muun muassa seuraavat:

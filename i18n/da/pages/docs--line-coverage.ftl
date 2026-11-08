@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } af { "58,697" } linjer
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (motor { "0.29.0" }, tagget <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, <c1/>-job <c2/>, kørsel { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Værktøj
@@ -42,8 +40,10 @@ seg-b566e95a74ab = og derefter opdatere tabellen ovenfor og de seks flader i sam
 
 seg-6935c9c381b3 = Historik
 
-seg-daa9ae1913cd = Tallet er målt igen, ikke skrevet om: { "95.63" } % på commit <c1/> (motor { "0.27.2" } + ikke-udgivet, kørsel { "35934579709" }, 2026-09-24, { "37,697" } af { "39,419" } linjer, offentliggjort som ~{ "96" } %), revideret til { "95.35" } % på { "0.29.0" } (ovenfor), hvilket afrundes til ~{ "95" } %: koden voksede med { "19,278" } målte linjer, og de nye linjer er dækket lidt mindre end de gamle; { "95.85" } % ved { "v0.17.0" } (commit <c2/>, 2026-06-14, offentliggjort som ~{ "96" } %) og ~{ "97" } % i to tidligere udgivelsesnoter (<c3/>, efterladt som historik). <c4/> sagde "near { "97" } %", indtil den blev bragt i overensstemmelse med denne registrering; den er nu den sjette flade, testen fastholder.
-
 seg-b2dbaf3a3b68 = <s1>Forrige</s1>Standarder og interoperabilitet
 
 seg-508de3808e04 = <s1>Næste</s1>Bevispakker
+
+seg-5ff7e4510497 = <c1/> (motor { "0.29.0" }, tagget <c2/>)
+
+seg-1ff43e658eef = Tallet er målt igen, ikke skrevet om: { "95.63" } % på commit <c1/> (motor { "0.27.2" } + ikke-udgivet, kørsel { "35934579709" }, 2026-09-24, { "37,697" } af { "39,419" } linjer, offentliggjort som ~{ "96" } %), revideret til { "95.35" } % på { "0.29.0" } (ovenfor), hvilket afrundes til ~{ "95" } %: koden voksede med { "19,278" } målte linjer, og de nye linjer er dækket lidt mindre end de gamle; { "95.85" } % ved { "v0.17.0" } (commit <c2/>, 2026-06-14, offentliggjort som ~{ "96" } %) og ~{ "97" } % i to tidligere udgivelsesnoter (<c3/>, efterladt som historik). <c4/> sagde "near { "97" } %", indtil den blev bragt i overensstemmelse med denne registrering; den er nu den sjette flade, testen fastholder.

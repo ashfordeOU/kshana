@@ -32,11 +32,7 @@ seg-88fb40d1b92d = scorer en modtagerlog, <c1/> scorer en strøm, <c2/> skriver 
 
 seg-13870be889cb = signerer, verificerer og tidsstempler bevispakker og knytter en laboratoriekørsel til dens score
 
-seg-2867423ef8dd = læser den offentliggjorte Jammertest-plan og scorer en log mod den
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = tillidsstrømmen som Prometheus-, CEF-, LEEF-, OTLP- eller MQTT-meddelelser
 
 seg-6fcb41643035 = Tillidstelemetri
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = tilpasser hybride sensorparametre ud fra en IMU-log i hvile
 seg-0dfc0ae9d7ed = skriver syntetisk NMEA fra broen med scriptet jamming og spoofing og en instruktørlog
 
 seg-f35f3f9cb83a = NMEA-træning
-
-seg-8802b623b1e7 = bygger interferenskort og observatoriets daglige produkt ud fra rapporter fra fly og skibe
 
 seg-f0ea96229aff = <a1>Interferenskort</a1>, <a2>observatorium</a2>
 

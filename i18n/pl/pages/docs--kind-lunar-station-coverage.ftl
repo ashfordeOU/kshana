@@ -38,8 +38,6 @@ seg-922b8656fcae = Wykres, który silnik zapisuje dla scenarios/lunar-station-co
 
 seg-4f5941f12127 = <b>MODELLED</b> Przegląd Monte Carlo modelu księżycowego różnicowego PNT po siatce użytkowników na biegunie południowym i dobie epok (rodzaj <c1/>): dla różnicowej stacji referencyjnej w znanym miejscu przy biegunie południowym, dla każdego punktu i dla regionu, Testy: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Przegląd Monte Carlo modelu księżycowego różnicowego PNT po siatce użytkowników na biegunie południowym i dobie epok (rodzaj <c1/>): dla różnicowej stacji r. Wyrocznia (InternalConsistency): arytmetykę obliczono ponownie niezależnym skryptem numpy na wyeksportowanych przypadkach (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; wstępnie zarejestrowane w tests/fixtures/lunar_station/PREREGISTRATION.md, zatwierdzone samodzielnie w 9caedf97 przed pierwszym przebiegiem): w { "20" } przypadkach ze wszystkimi składnikami błędu włączonymi zbiory widocznych satelitów i status są identyczne, surowe błędy odległości zgadzają się do { "1.4e-14" } m, wektory i wielkości błędu pozycji do { "1.4e-9" } m wzgl
-
 seg-626ab55f0424 = MODELLED (wynik <c1/>)
 
 seg-6f09def22469 = RZETELNOŚĆ: MODELLED. Przy podanych poniżej założeniach model daje te wartości. Nie jest to stwierdzenie o parametrach żadnego rzeczywistego systemu; bez powiązań z żadną agencją ani jej poparcia; bez deklaracji TRL ani dorobku. Pominięto: zasłanianie terenem i horyzontem na biegunie (pierwsze ograniczenie), wielodrogowość, sprzęt odbiornika. (komentarz w pliku scenariusza, wiersze { "15" } do { "18" })

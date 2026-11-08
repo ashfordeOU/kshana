@@ -308,10 +308,6 @@ seg-32c07578eab3 = Étapes de la session enregistrée
 seg-2cff891dc970 = Étape suivante
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "49" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/> : Exécute un scénario Kshana et renvoie sa série temporelle sous forme d'animation.
 
@@ -513,10 +509,6 @@ seg-62b5564e8d90 = La session enregistrée se déroule ici pas à pas.
 # text
 # c1: clock-holdover.toml
 seg-2359edf78388 = <b>Même exécution dans le Studio :</b> moteur v{ $version } · <c1/> · graine { "42" }
-
-# text
-# c1: io.github.ashfordeOU/kshana-mcp
-seg-c24f65399c72 = <b>{ "49" } outils</b> sur l'API publique de Kshana (interface de programmation d'application), dans le registre MCP officiel sous <c1/>. Exports d'orbite : SP3 (Standard Product { "3" }) et CCSDS (Consultative Committee for Space Data Systems) OMM et OEM (messages d'éléments moyens d'orbite et d'éphéméride, TEME : référentiel True Equator, Mean Equinox). Enregistrez-le sous <b>AI assistant (MCP server)</b> ou <b>Docker image</b>. <a1>Documentation du serveur MCP</a1>
 
 # text
 # c1: spectrum
@@ -1416,9 +1408,6 @@ seg-d85f16c14183 = kshana.run et run_full, plus validate_toml et list_kinds
 seg-5a6803e3eb48 = run, summary et chart_svg dans le navigateur ou dans Node.js
 
 # text
-seg-1c19f8c0ad84 = { "49" } outils qu'un assistant IA peut appeler, chacun une fine enveloppe autour de l'API publique
-
-# text
 seg-4ad1a7669b03 = Le serveur MCP sans chaîne d'outils Rust, multi-architecture
 
 # text
@@ -1700,3 +1689,9 @@ seg-193ee1ab991e = <c1/> transforme un fichier de soumission et la vérité d'un
 
 # text
 seg-0c50b3629e39 = Ouvrir le benchmark
+
+seg-859bb6732925 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "52" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
+
+seg-f3512ff81b58 = <b>{ "52" } outils</b> sur l'API publique de Kshana (interface de programmation d'application), dans le registre MCP officiel sous <c1/>. Exports d'orbite : SP3 (Standard Product { "3" }) et CCSDS (Consultative Committee for Space Data Systems) OMM et OEM (messages d'éléments moyens d'orbite et d'éphéméride, TEME : référentiel True Equator, Mean Equinox). Enregistrez-le sous <b>AI assistant (MCP server)</b> ou <b>Docker image</b>. <a1>Documentation du serveur MCP</a1>
+
+seg-5aa702c4ebc7 = { "52" } outils qu'un assistant IA peut appeler, chacun une fine enveloppe autour de l'API publique

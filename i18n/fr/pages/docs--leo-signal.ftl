@@ -198,9 +198,6 @@ seg-f878fd0359c9 = <b>Gigue de bruit thermique du suivi de code</b> d'une boucle
 seg-089e4e98af82 = <b>Acquisition</b> : le plus grand Doppler de satellite sur un passage au zénith à l'élévation du masque (<c1/>, orbite circulaire, sans rotation de la Terre) plus les termes de l'oscillateur et de l'utilisateur ; cases Doppler de <c2/> ; cases de code sur une période ; la probabilité de détection d'un détecteur quadratique (Q de Marcum généralisée) à une probabilité de fausse alarme par cellule, centrée et dans le pire cas de chevauchement ; et le temps d'acquisition moyen d'une recherche à temps d'intégration unique, série et parallèle sur le code (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Compatibilité</b> : le coefficient de séparation spectrale (SSC) du signal à bande limitée dans GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b et le signal E5 à BOC alternée (AltBOC) sur chaque bande de récepteur de système mondial de navigation par satellite (GNSS), la perte de C/N₀ qu'il cause à sa puissance reçue, et le SSC et la perte de C/N₀ de chaque signal GNSS dans la composante suivie LEO.
-
-# text
 # c1: spectrum
 # c2: spectrum::Jammer::ssc
 seg-864f3f2a5aa1 = <b>Tolérance au brouillage</b> : le rapport de puissance brouilleur sur signal (J/S) d'une onde entretenue (CW) à la porteuse, d'un bruit plat sur la bande d'émission et d'un bruit adapté à la composante suivie qui amène la composante suivie au seuil de suivi, d'après le code SSC propre au type de scénario <c1/> (<c2/>).

@@ -156,8 +156,6 @@ seg-32c07578eab3 = Trinn i den registrerte økten
 
 seg-2cff891dc970 = Neste trinn
 
-seg-45da99dccd40 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "49" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Kjør et Kshana-scenario og returner tidsserien som en animasjon.
 
 seg-0247e08ba09d = <c1/>: Vurder tilliten til en ekte GNSS-mottakerlogg: les en u-blox UBX-, RINEX { "3" }- (eventuelt med kringkastet navigasjon, som legger til motorens egen posisjonsbestemmelse, RAIM og en klokkestøttet overvåker), Android GnssLogger- eller NMEA-logg, kjør tillitsovervåkerne (fall i bærer-til-støy-tetthet, AGC, jamming-indikator, tap av lås, posisjonssprang, RAIM, klokke) mot en kalibreringsgrunnlinje, og returner når og hvorfor mottakeren sluttet å være til å stole på.
@@ -718,10 +716,12 @@ seg-b9961ed25282 = Nytt i v{ $version }: en oppdragstråd, en bevismerkelapp på
 
 seg-653cf3198094 = { "176" } av { "401" } funksjoner stemmer med uavhengige eksterne referanser; resten er merket modellert, høyt og tydelig.
 
-seg-76b213d03caa = Alle { "92" } scenariotyper, gratis og uten funksjonsbegrensning, deterministiske ut fra scenario, seed og motorversjon.
+seg-859bb6732925 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "52" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+seg-2dc1aed7a12e = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
 
-seg-fddfe8b260be = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-b79ee48fd586 = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-388f14eb6d8d = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+seg-9b9d03fe1477 = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+
+seg-579d9b6f7afd = Alle { "93" } scenariotyper, gratis og uten funksjonsbegrensning, deterministiske ut fra scenario, seed og motorversjon.

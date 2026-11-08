@@ -761,17 +761,6 @@ seg-a1706d47f895 = <c1/>: <c2/> a partir de la matriz de diseño de línea de vi
 seg-504d5aa92cbc = Error de posición = σ_UERE × DOP para la solución de mínimos cuadrados propia del motor
 
 # text
-# c1: src/dop_error_mc.rs
-# c2: tests/uere_dop_monte_carlo.rs
-# c3: pvt::solve_spp
-# c4: tests/fixtures/dop/dop_reference.csv
-# c5: orbit::dop
-# c6: orbit::dop_cofactor
-# c7: src/dop_error_ci.rs
-# c8: tests/position_error_dop_ci.rs
-seg-fc3443210358 = <c1/>, <c2/>: un Monte Carlo con semilla (N = { "20,000" } épocas por geometría, σ = { "1.5" } m, semilla ChaCha8 { "36" } + i) de <c3/> con pesos unitarios, resuelto desde la posición verdadera, sobre las <b>{ "8" } geometrías de <c4/></b> (aquellas cuyo DOP coincide con gnss_lib_py), frente a σ²·Q, donde Q es el factor de covarianza del propio núcleo <c5/> (<c6/>, la misma aritmética). <b>Tolerancias preregistradas</b> (commit e50c88d2, antes de la primera ejecución, según la nota de diseño de geometría { "0.36" }, sección { "5.2" }), cada una expresada en número de errores estándar: varianzas este, norte, arriba y de reloj dentro del { "5" } %; RMS H/V/P dentro del { "2.5" } %; correlación este-norte dentro de { "0.035" }; medias dentro de { "5" } errores estándar; la fracción de la elipse horizontal del { "95" } % dentro de { "0.95" } ± { "0.0077" }. Primera ejecución: pasan las { "104" } comprobaciones (peor varianza { "3.2" } %, RMS { "1.6" } %, correlación { "0.012" }, media { "2.2" } errores estándar, elipse { "0.0039" }). Los <b>controles negativos</b> fallan como se exige: duplicar el PDOP falla en todas las geometrías; los errores que crecen como 1/sin(elevación) frente a la Q sin ponderar fallan una comprobación de varianza en toda geometría cuyo satélite más bajo está por debajo de { "20" }°. <b>Cómo se combina con la fila anterior:</b> esa fila valida el DOP de estas geometrías frente a gnss_lib_py; esta añade el paso de esos factores a metros a través del solucionador del motor. <b>Se mantiene al lado una primera comprobación, aparte</b> (<c7/>, <c8/>, ejecutada antes del preregistro e informada como tal): cuatro cielos elegidos a mano (abierto, agrupado, cañón urbano, medio cielo; σ { "1" } m) con intervalos de confianza de chi cuadrado de { "1e-6" } en total sobre { "20" } comprobaciones; razones de { "0.987" } a { "1.009" }, y sus propios controles negativos (un error de DOP del { "10" } %, errores de 1/sin(elevación)) fallan como se exige. <b>Por qué MODELLED:</b> no hay conjunto de datos externo; no demuestra que el error de un receptor real siga el modelo, y σ_UERE es una entrada.
-
-# text
 seg-94bffbd8385b = Disponibilidad multiconstelación
 
 # text
@@ -2077,9 +2066,6 @@ seg-dd68891f75e2 = Puntuada frente a
 
 # text
 seg-d5a09f26a028 = Cobertura de una estación de referencia lunar
-
-# text
-seg-c68f124a16e7 = c05dac1d, 2026-10-12
 
 # text
 seg-293404a9cb92 = exactitud, disponibilidad, cobertura y niveles de protección publicados de una estación diferencial lunar polar sur, por cualquier parte

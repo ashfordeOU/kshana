@@ -665,8 +665,6 @@ seg-e3949a1e6082 = Kiirgusallika piirkond (<c1/>)
 
 seg-34bdcfd66ded = Hoidla harus, millest need dokumendid pärinevad; GitHubis veel mitte
 
-seg-4fc5a1dcc963 = <c1/> hindab, <b>kus võib asuda häireallikas</b>, samadest avatud ADS-B või AIS teadetest: piirkond öeldud usaldusnivoodel, tsentroid määramatuse ellipsiga ja sessioonid ajas. See ei tagasta kunagi paljast punkti. <b>MODELLED</b> (registririda <c2/>): füüsika on õpikuraadionähtavus, piirkondade usaldusväärsus sõltub mudelist ja ainus väline kontroll on Jammertesti võrdlus, mis on eelregistreeritud failis <s1><c3/></s1>. Kiirgusallika piirkondade avaldamine avalikus observatooriumis on eraldi omaniku otsus ja on <b>välja lülitatud</b>: observatoorium seda moodulit ei loe ja test kinnistab seda.
-
 seg-194d573cb817 = Valikud: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (liida TDOA fikseering; allpool). Iga valik, mis erineb eelregistreeritud väärtusest, teatatakse kui „mitte eelregistreeritud meetod“. Faile ei kirjutata kunagi üle.
 
 seg-5767c749117a = <b>Mudel.</b> Teated rühmitatakse <em>üksusteks</em> (üks õhusõiduk või laev ühes 2-minutilises vahemikus), millest igaüks on <em>mõjutatud</em> (ADS-B: vähemalt pooltel selle teadetest on kaardi enda reegli järgi madal NIC või NACp; AIS: ebatõenäoline kiirus või hüpe või rannikujoonest sisemaa poole jääv positsioon) või mitte. Õhusõiduk või laev loetakse ainult siis, kui sisendis on vähemalt { "5" } head teadet (sama varustuse lähtetaseme kaitse nagu kaardil). Mõjutatud üksused rühmitatakse <em>sessioonideks</em>: rohkem kui { "30" } minuti pikkune vahe jagab ajas ja ajaklastri sees kuuluvad kaks üksust kokku, kui üks kiirgusallikas võiks mõlemat ulatuda. Ühe sessiooni jaoks saab iga ruudustiku kandidaatpositsioon tõenäosuse:

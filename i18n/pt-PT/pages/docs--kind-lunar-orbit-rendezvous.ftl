@@ -96,10 +96,6 @@ seg-d97b2505ac72 = O gráfico que o motor escreve para scenarios/lunar-orbit-ren
 
 # text
 # c1: lunar-orbit-rendezvous
-seg-7ea832b979c9 = <b>MODELLED</b> O tipo de cenário e fase <c1/>: uma estimativa conjunta de Gauss-Newton em lote de dois veículos ao longo do arco (vinte e um parâmetros: os dois estados e enviesamentos persistentes de posição do sinal no espaço, comuns e independentes), ampliada sobre um quarto, me Testes: <s1>mission_thread_lunar_oracles.rs</s1>.
-
-# text
-# c1: lunar-orbit-rendezvous
 seg-826fd7fd44b9 = <b>MODELLED</b> O tipo de cenário e fase <c1/>: uma estimativa conjunta de Gauss-Newton em lote de dois veículos ao longo do arco (vinte e um parâmetros: os dois estados e enviesamentos persistentes de si. Referência independente (InternalConsistency): Autoconsistência sob um pré-registo (xval/mission-thread-lunar/PREREGISTRATION.md, resultados e histórico do estimador em RESULTS.md): o NEES médio do estado relativo é de { "5.85" } a { "5.93" } contra a intervalo de { "5.2" } a { "6.8" } em quatro configurações, MET no quarto projeto de estimador depois de três projetos de filtro sequencial terem falhado; a referência e o estimador partilham um único modelo de forças, portanto isso nada diz sobre o erro do modelo. O p
 
 # text

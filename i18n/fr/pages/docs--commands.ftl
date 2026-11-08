@@ -55,13 +55,7 @@ seg-88fb40d1b92d = note un journal de récepteur, <c1/> note un flux, <c2/> écr
 seg-13870be889cb = signe, vérifie et horodate les paquets de preuves et relie une exécution de laboratoire à son score
 
 # text
-seg-2867423ef8dd = lit le plan Jammertest publié et note un journal par rapport à lui
-
-# text
 seg-fe1abd564200 = Jammertest
-
-# text
-seg-1bcf94631313 = le flux de confiance sous forme de messages Prometheus, CEF, LEEF, OTLP ou MQTT
 
 # text
 seg-6fcb41643035 = Télémétrie de confiance
@@ -74,9 +68,6 @@ seg-0dfc0ae9d7ed = écrit des NMEA de passerelle synthétiques avec brouillage e
 
 # text
 seg-f35f3f9cb83a = Entraînement NMEA
-
-# text
-seg-8802b623b1e7 = construit des cartes d'interférence et le produit quotidien de l'observatoire à partir de rapports d'aéronefs et de navires
 
 # text
 seg-f0ea96229aff = <a1>Carte d'interférence</a1>, <a2>observatoire</a2>

@@ -5,7 +5,7 @@
 seg-6962adaa6a1f = Generated from the repository's scenario files and verification matrix at build time.
 
 # text
-seg-1b2e1e1b5c38 = Every bundled scenario file ({ "193" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
+seg-fda14a6fa1bd = Every bundled scenario file ({ "195" }), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings. Status reads the verification matrix for the kind's module. <b>Open in Kshana Studio</b> opens the recorded run.
 
 # text
 seg-cb9447893c7f = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation margin) and the data volume ACM moves against the constant-coding baseline that closes at the mask. MODELLED.
@@ -196,7 +196,7 @@ seg-7d2d780c5649 = Monte Carlo ensemble of the clock-holdover scenario.
 seg-d2b1e58dea11 = A clock scenario whose classical clock takes the noise of a measured log (<c1/>).
 
 # text
-seg-f942b36a11c4 = Not yet on GitHub
+seg-2f09b9930e10 = View on GitHub
 
 # text
 seg-ddd9856d154a = Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied. Clock white-FM noise calibrated to published sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validated against simulated Allan deviation in tests/calibration.rs (~{ "2" }%).
@@ -906,9 +906,6 @@ seg-0bd19840e50d = An Artemis-class mission thread: the navigation and timing er
 seg-a7bfd0a7e587 = A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of trans-lunar cruise and the return and entry, with the Moon's position from the analytic series (no kernel file). It is the bundled companion of mission-thread-artemis-class, which reads a Moon kernel cut from a checkout.
 
 # text
-seg-d60c5f13a769 = <a1>Open in Kshana Studio</a1> · <s1>Not yet on GitHub</s1>
-
-# text
 seg-28c6a5644152 = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥{ "4" } sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈{ "30" } m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.
 
 # text
@@ -1200,6 +1197,21 @@ seg-69138a582b9a = kind timetransfer
 seg-af67eb7dfe4e = Optical inter-satellite time transfer vs classical RF (TWSTFT).
 
 # text
+seg-152394289dff = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation.
+
+# text
+seg-24935888ed31 = kind tip-and-cue
+
+# text
+seg-cbf982c48281 = M2 (docs/design/evidence/m2-revisit-tip-and-cue/PREREGISTRATION.md): revisit, full-area refresh and RF-to-optical reaction of a two-layer survey over the Baltic Sea, for the pre-registered primary cases ({ "16" } and { "32" } satellites per layer) and variants V1 to V4, over { "7" } days at a { "10" } s step. Readings: xval/m2-revisit-tip-and-cue/README.md. A cross-check of published simulation figures, never a validation. Takes a few seconds in a release build.
+
+# text
+seg-f942b36a11c4 = Not yet on GitHub
+
+# text
+seg-f65e31d64d45 = A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the Baltic Sea for { "2" } days at a { "60" } s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED.
+
+# text
 seg-a79dfece857e = Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. The engine's existing denial and capture criteria are ratios on received power (a jammer denies at J/S = { "30" } dB, a spoofer captures at { "3" } dB); real loss of lock is not a power ratio, it is where a loop's jitter plus dynamic stress leaves its tracking-threshold budget. Reports ({ "1" }) carrier (Costas) and code (non-coherent early/late) 1-sigma thermal jitter versus C/N0, squaring loss included, against the stated rules { "3" }*sigma_PLL + theta_e <= { "45" } deg (the 15-degree rule in three-sigma form) and { "3" }*sigma_DLL + ramp lag <= d/2 chips; ({ "2" }) the drop and re-lock C/N0 thresholds with the binding loop named, the re-lock threshold DERIVED from the wider bandwidth a receiver re-pulls-in at rather than asserted, so the hysteresis width must fall between { "5" }*log10(ratio) and { "10" }*log10(ratio) dB; ({ "3" }) the declared time to lose lock from a two-threshold lock detector with confirmation dwells driven over a C/N0 ramp, reported separately from the physical phase-escape time (the Viterbi mean time between cycle slips, in log10 s because it spans hundreds of decades); ({ "4" }) spoof pull-in limits — the largest code slew and carrier Doppler rate a victim's loops can follow, with a map over both axes, because a spoofer that slews faster than these does not capture the loop, it outruns it; and ({ "5" }) the DENIAL RADIUS the loop dynamics imply reported ALONGSIDE the existing power-ratio radius, never in place of it, with their signed difference as its own named field (denial_radius_delta_km) and a definition beside it. Every emitted numeric field carries a unit and a provenance class. VALIDATED closed forms: the carrier and code jitter expressions, the loop-filter reduction sqrt({ "2" }*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF — a different route to the same numbers — to { "0.6" } %, { "3.7" } % and { "0.17" } % respectively, and the modified Bessel I0 behind the cycle-slip time against standard tabulated values to { "1e-7" }. The lower validity limit is asserted, not merely stated: below ~{ "32" } dB-Hz at { "1" } ms the real atan discriminator saturates against its +-pi/2 range and measures less jitter than any linear theory. MODELLED: the loop bandwidths, integration time, correlator spacing, pull-in bandwidth ratio, confirmation dwells, jammer power and antenna gains are representative band figures, not a datasheet. NOT modelled: oscillator (Allan-deviation) and vibration jitter, front-end bandwidth limiting, multipath, AGC dynamics, data-bit-transition loss, external aiding, and any half-cycle correction to the Costas cycle-slip formula. Under loop dynamics spoof capture has no radius at all — the binding constraint is offset rate, not power — so that field is null with a reason rather than a fabricated number. Not a certified receiver-performance product.
 
 # text
@@ -1219,9 +1231,6 @@ seg-b871497364ff = A suite is a scenario file that lists other scenarios; <c1/> 
 
 # text
 seg-b0569509d058 = Quantum-Enabled PNT Demonstrator — the three application areas as one study.
-
-# text
-seg-2f09b9930e10 = View on GitHub
 
 # text
 seg-67f767701c6d = <s1>Previous</s1>Capability domains

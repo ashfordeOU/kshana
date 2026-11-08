@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana zendt niets uit en stuurt geen hardware aan. Een inzen
 
 seg-01b0ee9973dc = Benadering
 
-seg-b5cb4dc0493f = Een bericht van één pagina voor een laboratorium is voor de eigenaar opgesteld in <s1><c1/></s1>. Het is een concept: er wordt niets verzonden en niemand wordt benaderd, tot de eigenaar besluit.
-
 seg-83b30e1ca261 = <s1>Vorige</s1>Bewijspakketten
 
 seg-09c0b5fa6e52 = <s1>Volgende</s1>Optische verbindingen door de atmosfeer

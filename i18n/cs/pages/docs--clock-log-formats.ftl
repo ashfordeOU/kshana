@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = Zdroj: <c1/>
 
 seg-0dfd1160c5d7 = Formáty záznamů hodin
 
-seg-f52a62872493 = <c1/> čte změřený záznam hodin do jedné normalizované fázové řady: rovnoměrné mřížky vzorků <c2/>, s uvedeným nebo zjištěným intervalem vzorků <c3/>, se započítanou každou mezerou a s pojmenovanými jednotkami záznamu. Čte se osm formátů, každý jako zdokumentovaná podmnožina. Cokoli mimo podmnožinu se odmítne chybou, která uvádí, co bylo nalezeno, místo aby se to četlo přibližně.
-
 seg-dbdbfec37ab6 = <b>Zkratky.</b> RINEX je Receiver Independent Exchange Format. TICC je čítač časových intervalů TAPR (Tucson Amateur Packet Radio). ADEV je překrývající se Allanova odchylka, TDEV časová odchylka a MTIE maximální chyba časového intervalu. <c1/> je interval vzorků v sekundách.
 
 seg-1d5a6c2090af = Kde lze záznam použít

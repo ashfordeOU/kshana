@@ -42,8 +42,6 @@ seg-4466fb6f4043 = 沿弧段的批处理高斯-牛顿
 
 seg-d97b2505ac72 = 引擎为scenarios/lunar-orbit-rendezvous.toml（类型lunar-orbit-rendezvous）生成的图表
 
-seg-7ea832b979c9 = <b>MODELLED</b> <c1/>类型与阶段：对整条弧段做两飞行器联合批处理高斯-牛顿估计（二十一个参数：两个状态以及持续存在的空间信号位置偏置，含共模与独立两部分），按四分之一、一半 测试：<s1>mission_thread_lunar_oracles.rs</s1>。
-
 seg-826fd7fd44b9 = <b>MODELLED</b> <c1/>类型与阶段：对整条弧段做两飞行器联合批处理高斯-牛顿估计（二十一个参数：两个状态以及持续存在的空间信号位。参考基准（InternalConsistency）：预先登记下的自洽性（xval/mission-thread-lunar/PREREGISTRATION.md，结果和估计器的演变历史见RESULTS.md）：相对状态的平均NEES为{ "5.85" }至{ "5.93" }，判据区间为{ "5.2" }至{ "6.8" }，在四种配置下均如此，在第四种估计器设计上MET，此前三种序贯滤波器设计均未达标；真值和估计器共用同一个力模型，因此这说明不了任何模型误差。
 
 seg-b2f273ea732d = MODELLED的相对导航，适用于低月球轨道或椭圆极轨道上的猎户座-着陆器式对接（Artemis级）。（类型目录（<c1/>））

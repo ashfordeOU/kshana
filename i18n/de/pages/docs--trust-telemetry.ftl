@@ -271,10 +271,6 @@ seg-17ca55cea260 = Namen von Gründen werden auf { "128" } Zeichen gekürzt, und
 seg-35f3faf39d1c = <c1/> ist eines von <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Namen von Gründen sind die Monitornamen des Stroms (<c7/>, <c8/>, ...; beim Stapelergebnis <c9/>, <c10/>, <c11/>).
 
 # text
-# c1: deploy/grafana/kshana-gnss-trust.json
-seg-a726fc8d28c2 = Ein Beispiel-Dashboard liegt in <c1/> (importieren Sie es und wählen Sie Ihre Prometheus-Datenquelle).
-
-# text
 seg-208f33eda580 = Syslog: CEF und LEEF
 
 # text

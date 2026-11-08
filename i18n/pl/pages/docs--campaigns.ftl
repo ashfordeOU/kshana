@@ -92,8 +92,6 @@ seg-13c92a72544a = zagłuszanie, { "600" } s
 
 seg-f9c01304734d = to samo, zagłuszacz o mocy -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 spada do { "27.7" } dB-Hz, wszystkie { "8" } satelitów nadal śledzonych
-
 seg-6a052db03815 = spoofing, zakończony po { "370" } s przez <c1/>
 
 seg-89856c1f83f8 = <c1/> (rampa czasu { "0.1" } ns/s), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A utrzymany na { "17.98" } dB-Hz, E1 wrócił do { "44.7
 seg-2db37e292efe = Odzyskanie E1 pod tonem CW opiera się na traktowaniu widma ciągłego w rodzaju widma: ton leży w zerze widma MBOC i niczego nie sprzęga. Prawdziwy ton sprzęgałby się przez linie widmowe kodu; jest to podane w pliku i w SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: siatka parametrów dla dowolnego rodzaju
-
-seg-b14a11d60e9f = Od jednego do trzech kluczy scenariusza w zapisie z kropkami, każdy w zakresie liniowym lub logarytmicznym, na tych samych wartościach osi, których używa rodzaj <c1/>. Każda oś ma nazwę i jednostkę; każda metryka ma nazwę i ścieżkę wyniku, a jej jednostka jest odczytywana z własnego bloku jednostek badanego rodzaju, chyba że kampania deklaruje własną. Przy <c2/> każdy węzeł jest zasianym zespołem Monte Carlo (realizacja <c3/> przy ziarnie węzła plus <c4/>), raportowanym ze statystykami poniżej. <c5/> przegląda zagłuszacz w odległości { "1" } km od odbiornika od -50 do +{ "10" } dBW: średni stosunek zagłuszacza do sygnału zmienia się dokładnie o { "1" } dB na dB (od { "12.2" } do { "72.2" } dB), a dostępność spada z { "1" } do { "0" } między -30 a -25 dBW.
 
 seg-c1931e311cca = Klucz z kropkami może indeksować tablicę tabel według położenia: <c1/> to <c2/> trzeciej tabeli <c3/>, a <c4/> sięga trzy poziomy w głąb.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: zasiany zespół
 seg-03d764a4cb56 = [compose]: kilka scenariuszy we wspólnych warunkach
 
 seg-61a0db2550ba = [optimize]: najlepsza wartość jednej metryki
+
+seg-0886cc461f7a = C/N0 spada do { "30.6" } dB-Hz, wszystkie { "8" } satelitów nadal śledzonych
+
+seg-74f8b08a4194 = Od jednego do trzech kluczy scenariusza w zapisie z kropkami, każdy w zakresie liniowym lub logarytmicznym, na tych samych wartościach osi, których używa rodzaj <c1/>. Każda oś ma nazwę i jednostkę; każda metryka ma nazwę i ścieżkę wyniku, a jej jednostka jest odczytywana z własnego bloku jednostek badanego rodzaju, chyba że kampania deklaruje własną. Przy <c2/> każdy węzeł jest zasianym zespołem Monte Carlo (realizacja <c3/> przy ziarnie węzła plus <c4/>), raportowanym ze statystykami poniżej. <c5/> przegląda zagłuszacz w odległości { "1" } km od odbiornika od -50 do +{ "10" } dBW: średni stosunek zagłuszacza do sygnału zmienia się dokładnie o { "1" } dB na dB (od { "12.2" } do { "72.2" } dB), a dostępność spada z { "1" } do { "0" } między -25 a -20 dBW.

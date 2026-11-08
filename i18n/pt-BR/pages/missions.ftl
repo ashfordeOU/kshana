@@ -1440,9 +1440,6 @@ seg-3cde4f0b352a = Deixe o seu assistente executar o motor validado em vez de ad
 seg-0487ea97b0d8 = Comece em <a1>Servidor MCP</a1>
 
 # text
-seg-562785c48737 = <b>Gratuito hoje:</b> tudo no motor aberto. Gratuito: { "49" } ferramentas MCP, de run_scenario a export_oem.
-
-# text
 seg-af65a3c927cf = Desenvolvedor embarcado ou de produto
 
 # text
@@ -1457,4 +1454,6 @@ seg-0e6be0d623f6 = <b>Gratuito hoje:</b> tudo no motor aberto. Licença comercia
 # text
 seg-9b505908a6e2 = O Kshana <b>não aciona nenhum hardware de rádio e não transmite nada</b>. Ele inclui um receptor GNSS de software para IQ gravado e gerado e pode gravar arquivos IQ sintéticos em banda base, mas <b>não é hardware gerador de sinais de RF</b> e <b>não é um receptor GNSS de hardware nem certificado</b>. É um instrumento de estudo e de análise de compromisso: simula o que o jamming, o spoofing e a perda de sinal fazem a uma solução de navegação e temporização, e diz quais de suas respostas são validadas. <b>Não é um produto de voo.</b>
 
-seg-8575c0837e28 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-b9ebb409e11a = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-7b9633a75c90 = <b>Gratuito hoje:</b> tudo no motor aberto. Gratuito: { "52" } ferramentas MCP, de run_scenario a export_oem.

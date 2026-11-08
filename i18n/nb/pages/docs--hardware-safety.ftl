@@ -40,13 +40,9 @@ seg-1c566ec98a03 = Filer: avspillingslogger, IQ, bench-eksporter, direkte NMEA e
 
 seg-0435986aa760 = levert
 
-seg-56b9a4399108 = Passivt mottak: mottakere skrivebeskyttet; tidslogger (linuxptp, chrony, TICC); IMU-CSV; <c1/> på en voksende SigMF-fil
-
 seg-608fc0a99107 = brukerens mottakere, grandmaster, SDR i mottak
 
 seg-786d9e5ccf93 = enhver konfigurasjonsskriving til en mottaker krever en uttrykkelig <c1/>; standarden er skrivebeskyttet
-
-seg-ab8874046283 = delvis levert: formater for tidslogger, <c1/>, <c2/>; seriell mottakerinngang er planlagt
 
 seg-6b0a194d3f64 = Laboratorieorkestrering uten RF fra Kshana: en spesifikasjon av testforhold, operatørtrinn (trekke ut antennen, starte simulatoren) som varsles og tidsstemples, tur-retur-scoring og evidens
 

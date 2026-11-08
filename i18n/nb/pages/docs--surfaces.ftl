@@ -150,8 +150,6 @@ seg-9eff7c00723a = Render Trust Telemetry (et lagret resultat)
 
 seg-1b60ff4652cd = Verktøy: Telemetrikort (fanen Kommandolinje; bare formater, ingen sockets)
 
-seg-3e332170d963 = Maskin- og sensorinndata ({ "0.38" }): <c1/>-formatene <c2/>, <c3/>, <c4/> og <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (scenario <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (innebygd)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Utdata
 
 seg-12471a4b2b57 = Senderområde (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (ennå ikke ført; flatene Rust, Python og WASM dekker det)
-
 seg-dff1bfe0263e = <b>N/A</b> (å publisere senderområder i det offentlige observatoriet er en egen eierbeslutning og er slått av)
 
 seg-ec2d91e2f867 = Kontroll av innsending fra datapartner (format og metadata for en innsending av målte data, <c1/>; skårer ingenting)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (bare innebygd; kjernenøkkelen avvises)
 seg-1c1729fafe99 = <b>N/A</b> (ingen notatbok; eksempelet kjører i en hvilken som helst notatbok gjennom <c1/> fra en utsjekk)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (ennå ikke ført)
 
 seg-ab52a3469f6a = Estimerte senderområder, MODELLED; sporkataloger og <c1/> finnes bare på kommandolinjen
 

@@ -8,12 +8,6 @@ seg-ca2fcdd60f65 = Quelle: <c1/>
 seg-0dfd1160c5d7 = Formate für Uhren-Logs
 
 # text
-# c1: src/clock_log.rs
-# c2: (time_s, phase_s)
-# c3: tau0
-seg-f52a62872493 = <c1/> liest ein gemessenes Uhren-Log in eine einzige normierte Phasenreihe ein: ein gleichmäßiges Raster von Abtastwerten <c2/>, mit dem angegebenen oder ermittelten Abtastintervall <c3/>, wobei jede Lücke gezählt und die Einheiten des Logs benannt werden. Acht Formate werden gelesen, jeweils eine dokumentierte Teilmenge. Alles außerhalb der Teilmenge wird mit einem Fehler zurückgewiesen, der benennt, was gefunden wurde, statt es näherungsweise zu lesen.
-
-# text
 # c1: tau0
 seg-dbdbfec37ab6 = <b>Abkürzungen.</b> RINEX ist das Receiver Independent Exchange Format. TICC ist der Zeitintervallzähler von TAPR (Tucson Amateur Packet Radio). ADEV ist die überlappende Allan-Abweichung, TDEV die Zeitabweichung und MTIE der maximale Zeitintervallfehler. <c1/> ist das Abtastintervall in Sekunden.
 

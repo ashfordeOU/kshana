@@ -170,6 +170,15 @@ seg-6630d0ac4ad5 = <b>Exception: <c1/>.</b> That directory is licensed <b>GPL-3.
 seg-0a78a12b1188 = Sign off each commit to certify the <a1>Developer Certificate of Origin</a1>: <c1/> (adds a <c2/> line).
 
 # text
+seg-12665eac32b4 = Adding an adapter
+
+# text
+# c1: adapters/
+# c2: adapter.toml
+# c3: kshana connect adapters check adapters
+seg-30cc7af9a7bc = A device or log format that Kshana can read through a mapping file is added as an adapter: one folder under <c1/>, with no change to the engine. The folder holds an <c2/>, the mapping file, a sample you may share (no customer or personal data), and a conformance vector with its expected output. Run <c3/> before opening the pull request: it validates the manifest and runs the vector, and CI runs the same check. The details are in <a1>docs/ADAPTERS.md</a1>. The licensing above applies to adapters too.
+
+# text
 seg-9f86d8f58b17 = <s1>Previous</s1>Security
 
 # text

@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = Bron: <c1/>
 
 seg-0dfd1160c5d7 = Klokloggegevensformaten
 
-seg-f52a62872493 = <c1/> leest een gemeten klokloggegevensbestand in tot één genormaliseerde fasereeks: een uniform raster van samples <c2/>, met het steekproefinterval <c3/> opgegeven of gevonden, elk hiaat geteld en de eenheden van het log benoemd. Er worden acht formaten gelezen, elk een gedocumenteerde deelverzameling. Alles buiten die deelverzameling wordt geweigerd met een fout die benoemt wat is aangetroffen, in plaats van bij benadering te worden gelezen.
-
 seg-dbdbfec37ab6 = <b>Afkortingen.</b> RINEX is het Receiver Independent Exchange Format. TICC is de tijdintervalteller van TAPR (Tucson Amateur Packet Radio). ADEV is de overlappende Allan-deviatie, TDEV de tijdsdeviatie en MTIE de maximale tijdintervalfout. <c1/> is het steekproefinterval in seconden.
 
 seg-1d5a6c2090af = Waar een log kan worden gebruikt

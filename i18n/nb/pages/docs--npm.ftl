@@ -88,4 +88,4 @@ seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> funksjoner validert mot uavheng
 
 seg-b59781ecf257 = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "401" } funksjoner: { "176" } validert, { "221" } modellert, { "4" } eid av partnere
 
-seg-d0b2811a3d3c = Motoren har { "92" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).
+seg-80e5f0aa2831 = Motoren har { "93" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).

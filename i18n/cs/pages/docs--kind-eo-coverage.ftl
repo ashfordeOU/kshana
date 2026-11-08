@@ -32,8 +32,6 @@ seg-c2a8332f2ee2 = Graf, který engine zapisuje pro scenarios/eo-coverage.toml, 
 
 seg-d86d43628cf3 = <b>VALIDATED</b> Geometrie kosmického trojúhelníku SMAD: úhlový poloměr Země, šířka pásu, GSD v nadiru, maximální přístup mimo nadir a kruhová perioda, plus prvořadá uzlová perioda J2 (eo_payload::j2_nodal_period) a rozestup pozemních stop na rovníku R_e (omega_ Testy: <a1>eo_payload_coverage_reference.rs</a1>.
 
-seg-9938f1de9eb8 = <b>VALIDATED</b> Geometrie kosmického trojúhelníku SMAD: úhlový poloměr Země, šířka pásu, GSD v nadiru, maximální přístup mimo nadir a kruhová perioda, plus prvořadá uzlová perioda J2 (. Oracle (ExternalDataset): Orekit { "12.2" } (Apache-2.0) a GeographicLib { "2.1" } (MIT), obojí spuštěné jako samostatné programy, předregistrované (766823f3) před změnou enginu a jakýmkoli během orákula: veličiny pro kouli do { "1e-9" } relativně (nejhorší: úhlový poloměr { "5.4e-16" }, pás { "7.0e-13" }, přístup { "1.9e-14" }), perioda { "1e-12" } ({ "1.6e-16" }), GSD v nadiru { "1e-7" } ({ "2.9e-10" }), uzlová perioda J2 a rozestup uzlů do { "0.1" } % číselné propagace J2 v Orekitu s detektorem uzlů ({ "1" }
-
 seg-45625167e59f = MODELLED — geometrie kosmického trojúhelníku pro kulovou Zemi; pás/GSD/přístup jsou geometrické (bez radiometrie/MTF/atmosféry/chvění/odlesků), rozestup pozemních stop je R_e·(ω − Ω̇)·T_nodal s prvořadými sekulárními rychlostmi J2 (výsledek <c1/>)
 
 seg-cf22f13c78d3 = MODELLED geometrie kulové Země (bez radiometrie/MTF/atmosféry/chvění/odlesků); rozestup uzlů R_e·(ω − Ω̇)·T_nodal s prvořadými sekulárními rychlostmi J2. (katalog druhů (<c1/>))

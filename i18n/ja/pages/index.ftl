@@ -156,8 +156,6 @@ seg-32c07578eab3 = 記録されたセッションのステップ
 
 seg-2cff891dc970 = 次のステップ
 
-seg-45da99dccd40 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "49" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
-
 seg-102015d6ebd2 = <c1/>：Kshana シナリオを実行し、その時系列をアニメーションとして返します。
 
 seg-0247e08ba09d = <c1/>：実際の GNSS 受信機ログの信頼性を評価します。u-blox UBX、RINEX { "3" }（放送航法を併用すると、エンジン自身の測位解、RAIM、時計支援モニターが加わります）、Android GnssLogger、NMEA のいずれかのログを読み込み、信頼性モニター（搬送波電力対雑音密度の低下、AGC、ジャミング指標、ロック喪失、位置ジャンプ、RAIM、時計）を校正ベースラインに対して実行し、受信機がいつ、なぜ信頼できなくなったかを返します。
@@ -718,10 +716,12 @@ seg-b9961ed25282 = v{ $version } の新機能：ミッションスレッド、�
 
 seg-653cf3198094 = { "401" } 件の機能のうち { "176" } 件が独立した外部のオラクルと一致しています。残りはモデル計算とラベル付けされ、その旨を明示しています。
 
-seg-76b213d03caa = { "92" } 種類すべてのシナリオ kind を、機能ゲートなしで無償提供します。シナリオ、シード、エンジンのバージョンから決定論的です。
+seg-859bb6732925 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "52" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-cff488aa106d = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+seg-2dc1aed7a12e = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
 
-seg-fddfe8b260be = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+seg-b79ee48fd586 = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
 
-seg-388f14eb6d8d = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+seg-9b9d03fe1477 = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+
+seg-579d9b6f7afd = { "93" } 種類すべてのシナリオ kind を、機能ゲートなしで無償提供します。シナリオ、シード、エンジンのバージョンから決定論的です。

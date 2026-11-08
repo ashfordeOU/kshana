@@ -823,13 +823,6 @@ seg-15687303176d = <b>Registri (ledger) staatus: MODELLED.</b> Üks valim mudeli
 seg-c626c7f1926d = Uued Studio vaated
 
 # text
-# c1: /studio/replay/
-# c2: /studio/optical/
-# c3: /studio/holdover/
-# c4: /studio/observatory/
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> saab Silla taasesituse (kaks käitust kõrvuti ühel missioonikellal, aadressil <a2><c1/></a2>), optilise PNT lehe (<c2/>), holdover-i testi lehe (<c3/>) ja vaatluskeskuse vaaturi (<c4/>). Need käitavad sama mootorit brauseris, midagi ei laeta üles ja need kannavad sama nõuandvat väidet. Ülaltoodud pildid on joonistatud mootori enda väljundist skriptiga; need ei ole nende lehtede ekraanipildid.
-
-# text
 # c1: gnss-ssv
 seg-630e6aa5f2cc = Kosmosekasutaja navigatsioon (<c1/>)
 
@@ -2172,11 +2165,6 @@ seg-302554087e15 = Levitamine: üks hoidla tarnib tuumakasti, MCP serveri, IDE p
 seg-530f5e8a6cdd = Mis kuhu tarnitakse ja mis seda kontrollib · <a1>SVG</a1> · allikas <a2>distribution.mmd</a2>
 
 # text
-# c1: kshana-mcp
-# c2: kshana
-seg-c21d26341f01 = <a1><c1/></a1> on MCP server: kasutaja assistent käivitab tegeliku mootori ja loeb tagasi selle JSON-i, mitte ei arva matemaatikat. Iga selle { "49" } tööriista on õhuke ümbris teegi <c2/> avaliku funktsiooni ümber, seega serveris ei asu simulatsioonilogikat.
-
-# text
 # c1: kshana-mcp --http 127.0.0.1:8080
 seg-c459db99a099 = <c1/>, ise majutatud: vt <a1>docs/deploy/mcp-http.md</a1>
 
@@ -2187,9 +2175,6 @@ seg-8977c5b65068 = kshana-mcp Glamas, selle MCP serveri kvaliteediskoor
 # c1: docs/integrations.md
 # c2: io.github.ashfordeOU/kshana-mcp
 seg-920704a0e384 = Kliendipõhine seadistus on failis <a1><c1/></a1>. Server on ametlikus MCP registris loetletud nimega <c2/>.
-
-# text
-seg-b7ea176e9993 = { "49" } tööriista
 
 # text
 seg-4a458fb861f4 = Stsenaariumid ja aruanded
@@ -3038,11 +3023,6 @@ seg-2610d5a9ee90 = <b>Kuhu mu väljund läks?</b> Iga käivitus kirjutab <c1/>, 
 seg-4765d3a73a6f = Versioonimine ja väljalasked
 
 # text
-# c1: CHANGELOG.md
-# c2: scenario + seed + engine version
-seg-0ca788bf975d = Kshana järgib <a1>semantilist versioonimist</a1>. Kuni 1.0-ni võib avalik stsenaariumi/tulemuse skeem endiselt muutuda; lõhkuvad muudatused on selgelt välja toodud failis <a2><c1/></a2>. Iga tulemus on reprodutseeritav failist <c2/>.
-
-# text
 # c1: vX.Y.Z
 # c2: docs/RELEASING.md
 seg-2885b69ceef1 = <b>Iga <c1/> silt avaldab kõik kanalid automaatselt, ühes järjekorras</b> — täielik testikomplekt käivitatakse esmalt sildistatud kommitil, midagi ei avaldata enne selle läbimist ning seejärel kontrollib torujuhe, et iga register tõesti serveerib uut versiooni (<a1><c2/></a1>). Kanalid:
@@ -3531,8 +3511,6 @@ seg-cafc1c9c4d58 = Mis on uut versioonis { "0.40" }
 
 seg-59a31376fa3d = Versioon { "0.40" } lisab missiooni tasemel veaeelarve, märgistab iga arvu ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid, kontrollib andmepartnerite esitusi, hindab, kus häirekiirgaja võib olla, ja räägib inglise keele kõrval seitsmeteist keelt. Register on nüüd { "401" } rida: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ning iga allpool nimetatud möödalaskmine on testiga fikseeritud.
 
-seg-ab5eec8db03e = <b>Missiooniahel.</b> Liik <c1/> ahelab faase starditest sisenemiseni (<c2/>, <c3/>, <c4/>, <c5/> ja neli Kuu liiki) nimetatud üleandmisreeglite, varu nimetatud nõuete suhtes ja nõrgima lülliga; otsast lõpuni Artemis-klassi näide { "11" } faasi kohta (Maa ja Kuu lõigud), kokku { "92" } stsenaariumi liiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu <b>jääb möödalaskmiseks</b> oma eelregistreeritud lävendi suhtes ({ "45.3" } km ja { "0.25" } m/s võrreldes läviga { "5" } km ja { "0.05" } m/s; põhjus on väikesed manöövrid, mida mudel ei sisalda) ning Kuu levitaja CAPSTONE'i orbiidi vastu <b>jääb möödalaskmiseks</b> ({ "136.8" } km võrreldes läviga { "25" } km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED (<a1>Missiooniahel</a1>, <a2>Kuu lõik</a2>).
-
 seg-5bd16655cace = <b>Tõendisildid.</b> Iga arv ja tabel, mille käivitus kirjutab, kannab tõendustaset ja registri rea id-sid, millele see tugineb, mis on loetud maatriksist.
 
 seg-e79fca859317 = <b>Mõõdetud kellad.</b> Loetakse kaheksat kellalogi vormingut (<a1><c1/></a1>) ja sobitatud jada võib juhtida holdover-it. Eelregistreeritud lävendite vastu <b>jääb sobitus möödalaskmiseks</b> F1(a) juures viiel kuuest kirjest ja F2 juures ühel; mõlemad jäävad MODELLED (<a2>Muudatuste logi</a2>).
@@ -3559,8 +3537,6 @@ seg-5d3bb72c6490 = Kshana Studio, täpsem vaade, pärast kaasatud stsenaariumi c
 
 seg-b8f6321e9e0d = Kolm kshana.dev lehte kõrvuti. Avalehe hero: nimerida Kshana · क्षण · täpne hetk pealkirja Rehearse the minute GNSS goes dark kohal, koos tegeliku mootori v{ $version } käituse missioonikonsooliga (gloobus ja kolm reaalajas diagrammi: kella ajaviga, kandja ja müra tihedus ning kaitsetase). Tõendid, Published research: kuus arXivi artiklit, mis tuginevad avatud mootorile, uusim mootori arvuga. Väljaanded, Kshana Pro, sama mootor, võimendatud: Free käitab ühe stsenaariumi, Pro vastab programmi küsimusele.
 
-seg-9d447be4caed = Üks mootor katab kogu rikkeahela, esimesest segatud satelliidist kella holdover-i viimase nanosekundini. Mootoril on { "92" } stsenaariumi liiki; <c1/> loetleb need ja <a1><c2/></a1> dokumenteerib iga välja.
-
 seg-d3d6b030b588 = Kiirgaja piirkond
 
 seg-56eee3458645 = kus nimetatud eelduste korral võib asuda halvenenud asukohateadete allikas: piirkonnad nimetatud usaldusnivool, tsentroid koos oma ellipsiga, mitte kunagi punkt (MODELLED; <c1/>)
@@ -3568,8 +3544,6 @@ seg-56eee3458645 = kus nimetatud eelduste korral võib asuda halvenenud asukohat
 seg-ee28beafac1a = navigatsiooni- ja ajastusvea eelarve faaside ahelale starditest sisenemiseni
 
 seg-34e44a492cad = <c1/> käivitab stsenaariumi; iga teine käsk on alamkäsk ja <c2/> prindib neist kõigist kasutusjuhised. Käsud on <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (koos <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> ja <c63/>. <a1><c64/></a1> annab iga käsu otstarbe, kontrollitud näite ja selle dokumentatsioonilehe.
-
-seg-c472e0e5a3a5 = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algväärtus (seed) ja selle parameetrid) siseneb mootorisse kshana { $version } läbi api::run_toml jaotuse { "92" } stsenaariumi liigi kohal, deterministlik stsenaariumi, algväärtuse (seed) ja mootori versiooni suhtes. Mootor kirjutab result.json, chart.svg, report.html ja report.json, table.csv neile liikidele, mis seda defineerivad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF eksportid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, tehisintellekti assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni.
 
 seg-9f5426cbbf4a = <b>{ "176" } võimekust { "401" }-st</b> on valideeritud sõltumatute väliste etalonide vastu; { "221" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
 
@@ -3591,22 +3565,30 @@ seg-35a4412348e1 = { "176" } valideeritud · { "221" } modelleeritud · { "4" } 
 
 seg-cdf946112863 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } litsentsi AGPL-3.0 all, koos ühe sissepääsuga api::run_toml (tüübitud jaotus üle iga liigi) ning { "401" } võimekuse kontrollregistriga ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Selle ümber käitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Dockeri tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi plugin (Marketplace: "Kshana"). Selle all on Kshana Pro, omandiline lisakiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit.
 
-seg-656df854409a = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "92" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "401" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.
-
-seg-11041e6beb65 = { "92" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike ja valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi
-
-seg-abf70d11a088 = kogu avatud mootor, kõik { "92" } stsenaariumi liiki, ilma funktsioonipiiranguta
-
 seg-824001fa6734 = laboratooriumid ja valmistajad, kelle käes on mõõteandmed
 
 seg-df3ca402513f = millised MODELLED read võiks mõõdetud kella- või IMU-salvestis edutada, vormingud ning kuidas esitatut kontrollitakse (<c1/>), hinnatakse ja tunnustatakse
-
-seg-e2d733f93455 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "92" } liiki, { "193" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.
-
-seg-88b7afd3df20 = <b>Missiooniahel.</b> Liik <c1/> ahelab faase starditest sisenemiseni (<c2/>, <c3/>, <c4/>, <c5/> ja neli Kuu liiki) nimetatud üleandmisreeglite, varu nimetatud nõuete suhtes ja nõrgima lülliga; otsast lõpuni Artemis-klassi näide { "11" } faasi kohta (Maa ja Kuu lõigud), kokku { "92" } stsenaariumi liiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu <b>jääb möödalaskmiseks</b> oma eelregistreeritud lävendi suhtes ({ "45.3" } km ja { "0.25" } m/s võrreldes läviga { "5" } km ja { "0.05" } m/s; põhjus on väikesed manöövrid, mida mudel ei sisalda) ning Kuu levitaja CAPSTONE'i orbiidi vastu <b>jääb möödalaskmiseks</b> ({ "136.8" } km võrreldes läviga { "25" } km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED (<a1>Missiooniahel</a1>, <a2>Kuu lõik</a2>). Studios loetakse ahelat aadressil <c6/>.
 
 seg-ac2d3dd91aa2 = Ehitub Rust { "1.88" } või uuemaga, Cargo.tomli rust-version
 
 seg-48991660376d = Nõuab Rusti tööriistaahelat (≥ { "1.88" }, Cargo.tomli <c1/>; arendatud versioonil { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> ebaõnnestub vanal tööriistaahelal.</b> Kshana vajab Rusti ≥ { "1.88" }. Uuenda käsuga <c2/>.
+
+seg-8391e467adf7 = <b>Missiooniahel.</b> Liik <c1/> ahelab faase starditest sisenemiseni (<c2/>, <c3/>, <c4/>, <c5/> ja neli Kuu liiki) nimetatud üleandmisreeglite, varu nimetatud nõuete suhtes ja nõrgima lülliga; otsast lõpuni Artemis-klassi näide { "11" } faasi kohta (Maa ja Kuu lõigud), kokku { "93" } stsenaariumi liiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu <b>jääb möödalaskmiseks</b> oma eelregistreeritud lävendi suhtes ({ "45.3" } km ja { "0.25" } m/s võrreldes läviga { "5" } km ja { "0.05" } m/s; põhjus on väikesed manöövrid, mida mudel ei sisalda) ning Kuu levitaja CAPSTONE'i orbiidi vastu <b>jääb möödalaskmiseks</b> ({ "136.8" } km võrreldes läviga { "25" } km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED (<a1>Missiooniahel</a1>, <a2>Kuu lõik</a2>). Studios loetakse ahelat aadressil <c6/>.
+
+seg-a66ad1f69702 = Üks mootor katab kogu rikkeahela, esimesest segatud satelliidist kella holdover-i viimase nanosekundini. Mootoril on { "93" } stsenaariumi liiki; <c1/> loetleb need ja <a1><c2/></a1> dokumenteerib iga välja.
+
+seg-43bd621a1f5b = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algväärtus (seed) ja selle parameetrid) siseneb mootorisse kshana { $version } läbi api::run_toml jaotuse { "93" } stsenaariumi liigi kohal, deterministlik stsenaariumi, algväärtuse (seed) ja mootori versiooni suhtes. Mootor kirjutab result.json, chart.svg, report.html ja report.json, table.csv neile liikidele, mis seda defineerivad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF eksportid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, tehisintellekti assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni.
+
+seg-290f2b34e368 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "93" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "401" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.
+
+seg-ed215c6aa19b = <a1><c1/></a1> on MCP server: kasutaja assistent käivitab tegeliku mootori ja loeb tagasi selle JSON-i, mitte ei arva matemaatikat. Iga selle { "52" } tööriista on õhuke ümbris teegi <c2/> avaliku funktsiooni ümber, seega serveris ei asu simulatsioonilogikat.
+
+seg-81fcbb495e8f = { "52" } tööriista
+
+seg-fb8bcc54a31d = { "93" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike ja valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi
+
+seg-2f38fc515db6 = kogu avatud mootor, kõik { "93" } stsenaariumi liiki, ilma funktsioonipiiranguta
+
+seg-5374f780c396 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "93" } liiki, { "195" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.

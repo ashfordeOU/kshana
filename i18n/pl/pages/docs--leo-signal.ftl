@@ -110,8 +110,6 @@ seg-f878fd0359c9 = <b>Jitter kodu od szumu termicznego</b> pętli synchronizacji
 
 seg-089e4e98af82 = <b>Akwizycja</b>: największy Doppler satelity podczas przelotu nad głową przy masce elewacji (<c1/>, orbita kołowa, bez obrotu Ziemi) plus człony oscylatora i użytkownika; przedziały Dopplera <c2/>; przedziały kodu na jeden okres; prawdopodobieństwo detekcji detektora kwadratowego (uogólniona funkcja Marcum Q) przy prawdopodobieństwie fałszywego alarmu na komórkę, na środku i w najgorszym przypadku skrajnym; oraz średni czas akwizycji wyszukiwania szeregowego i kodowo-równoległego z jednym okresem całkowania (Holmes).
 
-seg-1e2029183bdc = <b>Kompatybilność</b>: współczynnik separacji widmowej (SSC) sygnału ograniczonego pasmem względem GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b i sygnału E5 alternative BOC (AltBOC) w każdym paśmie odbiornika globalnych systemów nawigacji satelitarnej (GNSS), wywołany nim spadek C/N₀ przy jego mocy odbieranej oraz SSC i spadek C/N₀ każdego sygnału GNSS względem śledzonej składowej LEO.
-
 seg-864f3f2a5aa1 = <b>Tolerancja na zagłuszacz</b>: stosunek mocy zagłuszacza do sygnału (J/S) dla tonu fali ciągłej (CW) na nośnej, szumu płaskiego w paśmie nadawania i szumu dopasowanego do śledzonej składowej, który doprowadza śledzoną składową do progu śledzenia, z własnego kodu SSC rodzaju <c1/> (<c2/>).
 
 seg-0fbea397ab93 = Konwencja C/N₀: przegląd parametru i wartość odniesienia to <b>całkowite C/N₀ w paśmie</b>. Udział składowej wchodzi do wzorów śledzenia i zagłuszacza jako <c1/> (jej udział w mocy niefiltrowanej w stosunku do ułamka w paśmie), według tej samej konwencji, której używa rodzaj <c2/> dla zwykłego pasma, w którym moc modulacji poza pasmem odbiornika jest tracona w ten sam sposób.

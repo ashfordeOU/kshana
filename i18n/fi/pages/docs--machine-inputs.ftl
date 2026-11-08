@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Katso <a1><c1/></a1>. GNSS-SDR:n NMEA- ja RINEX-tulosteet lue
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: otsikkorivi, joka nimeää sarakkeet, ja sen jälkeen yksi näyte riviä kohti. Sarakkeet (missä tahansa järjestyksessä, nimet kirjainkoosta riippumattomia): <c2/> sekunnit vastaanottimen lokin kellolla, <c3/>, <c4/>, <c5/> kulmanopeus yksikössä rad/s, <c6/>, <c7/>, <c8/> ominaisvoima yksikössä m/s². <c9/>: EuRoC MAV -asettelu, jossa luetaan <c10/> <c11/> (otsikot <c12/>, <c13/>, <c14/>); ensimmäinen näyte on <c15/>. Rivit, joita ei voi jäsentää, ja rivit, joiden aika ei kasva, ohitetaan. Katso <a1><c16/></a1>, miten gyrosuuntimaa käytetään.
-
 seg-f7007cf35f53 = IMU hybrid- ja fusion-skenaarioihin (<c1/>)
 
 seg-3fc254763f67 = Skenaariot <c1/> ja <c2/> (17-tilainen UKF) ovat simulaatioita: ne ottavat syötteenä anturikohinaparametreja (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), ei mitattua sarjaa. <c10/> lukee nämä parametrit paikallaan olevan IMU:n lokista, joten skenaario voidaan ajaa juuri sillä anturilla, joka on todellisuudessa käytössä:

@@ -198,9 +198,6 @@ seg-f878fd0359c9 = <b>Jitter de ruído térmico do rastreamento de código</b> d
 seg-089e4e98af82 = <b>Aquisição</b>: o maior Doppler de satélite em uma passagem pelo zênite na máscara de elevação (<c1/>, órbita circular, sem rotação da Terra) mais os termos do oscilador e do usuário; compartimentos Doppler de <c2/>; compartimentos de código ao longo de um período; a probabilidade de detecção de um detector de lei quadrática (Q de Marcum generalizada) a uma probabilidade de falso alarme por célula, centrada e no pior caso de desalinhamento; e o tempo médio de aquisição de uma busca serial e de uma busca paralela em código, de janela única (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Compatibilidade</b>: o coeficiente de separação espectral (SSC) do sinal limitado em banda sobre o GPS L1 de aquisição grosseira (C/A), o Galileo E1, o GPS L5, o Galileo E5a, o E5b e o sinal E5 de BOC alternativa (AltBOC) em cada banda de receptor do sistema global de navegação por satélite (GNSS), a perda de C/N₀ que ele causa em sua potência recebida, e o SSC e a perda de C/N₀ de cada sinal GNSS sobre o componente rastreado do LEO.
-
-# text
 # c1: spectrum
 # c2: spectrum::Jammer::ssc
 seg-864f3f2a5aa1 = <b>Tolerância a interferidores</b>: a razão de potência interferidor/sinal (J/S) de um tom de onda contínua (CW) na portadora, de ruído plano sobre a banda de transmissão e de ruído casado ao componente rastreado que leva o componente rastreado ao limiar de rastreamento, a partir do código de SSC do próprio tipo <c1/> (<c2/>).

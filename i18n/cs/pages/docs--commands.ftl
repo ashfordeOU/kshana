@@ -32,11 +32,7 @@ seg-88fb40d1b92d = vyhodnotí záznam přijímače, <c1/> vyhodnotí proud, <c2/
 
 seg-13870be889cb = podepisuje, ověřuje a opatřuje časovým razítkem balíčky důkazů a propojuje běh v laboratoři s jeho skóre
 
-seg-2867423ef8dd = čte zveřejněný plán Jammertest a vyhodnocuje záznam proti němu
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = proud důvěryhodnosti jako zprávy Prometheus, CEF, LEEF, OTLP nebo MQTT
 
 seg-6fcb41643035 = Telemetrie důvěryhodnosti
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = fituje parametry hybridních senzorů ze záznamu nehybné IM
 seg-0dfc0ae9d7ed = zapisuje syntetické mostové NMEA se skriptovaným rušením (jamming) a spoofingem a záznam instruktora
 
 seg-f35f3f9cb83a = Trénink NMEA
-
-seg-8802b623b1e7 = sestavuje mapy interference a denní produkt observatoře z hlášení letadel a lodí
 
 seg-f0ea96229aff = <a1>Mapa interference</a1>, <a2>observatoř</a2>
 

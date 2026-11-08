@@ -27,7 +27,7 @@ seg-fbc3db22c061 = Please do not open a public issue for security-sensitive repo
 seg-4c11dabdd8f6 = Supported versions
 
 # text
-seg-19c99cf3a67e = Pre-1.0: only the latest tagged release is supported.
+seg-d8fabf656b3b = Pre-1.0: only the latest tagged release is supported. From { "1.0" }, each long-term-support release receives security fixes for { "12" } months after its successor; see <a1>docs/STABILITY.md</a1>.
 
 # text
 seg-1379eab9a8e3 = Memory safety
@@ -52,6 +52,16 @@ seg-3f9e707e7d0b = Scope, stated precisely, because <c1/> is per-crate:
 # c4: xval/
 # c5: unsafe
 seg-e7e22e711c53 = It governs the library crate only. The CLI binary (<c1/>), the helper binaries under <c2/>, the separately published <c3/> crate and the workspace-excluded <c4/> cross-validation crates are separate crate roots and are not covered by it. None of them contains <c5/> today, but that is discipline, not a compiler-enforced property.
+
+# text
+# c1: capi/kshana-capi
+# c2: unsafe
+# c3: extern "C"
+# c4: src/lib.rs
+# c5: kshana_string_free
+# c6: capi/kshana-capi/SAFETY.md
+# c7: capi-check
+seg-70a5b57b3e37 = The C interface, <c1/>, is a separate crate so that the library stays free of <c2/>. A C caller needs <c3/> functions that take raw pointers. The few unsafe operations that needs are in that crate's <c4/> alone: a null check before every read and write, input capped at { "64" } MiB, no panic unwinding into C, and strings freed only by <c5/>. Its review is <c6/>, and its own CI job (<c7/>) builds the C example against both libraries and runs a fuzz pass over its entry points.
 
 # text
 # c1: cargo deny check advisories licenses bans sources

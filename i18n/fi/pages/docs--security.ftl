@@ -16,8 +16,6 @@ seg-fbc3db22c061 = Tietoturvaherkistä ilmoituksista ei pidä avata julkista iss
 
 seg-4c11dabdd8f6 = Tuetut versiot
 
-seg-19c99cf3a67e = Ennen versiota 1.0: vain uusinta merkittyä julkaisua tuetaan.
-
 seg-1379eab9a8e3 = Muistiturvallisuus
 
 seg-cf966fa35408 = Kirjastopaketti (crate) julistaa määreen <c1/> juuressaan (<c2/>), joten lohko <c3/>, fn, impl tai extern missä tahansa kirjastossa on käännösvirhe eikä jotain, mitä tarkastajan täytyy huomata. Määre ei ole kohdan <c4/> takana, joten se koskee jokaista kokoonpanoa, jossa kirjasto toimitetaan, ja kaikki kolme kääntyvät sen alla puhtaasti: oletus-Rust-käännös, Python-laajennusmoduuli (<c5/>) ja WebAssembly-moduuli (<c6/>).

@@ -103,8 +103,6 @@ seg-17ca55cea260 = Syiden nimet typistetään { "128" } merkkiin, ja enintään 
 
 seg-35f3faf39d1c = <c1/> on yksi arvoista <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Syiden nimet ovat virran monitorien nimiä (<c7/>, <c8/>, ...; eräntuloksessa <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = Esimerkkikojelauta on tiedostossa <c1/> (tuo se ja valitse Prometheus-tietolähteesi).
-
 seg-208f33eda580 = Syslog: CEF ja LEEF
 
 seg-0d53db66a990 = Tapahtumat lähetetään RFC { "5424" } -kehyksessä (facility local0, sovellus <c1/>, viestin tunniste <c2/>) UDP:n yli (yksi datagrammi kutakin; IPv4 tai IPv6) tai TCP:n yli, oletuksena rivinvaihtoon päättyen tai asetuksella <c3/> kehystettynä <c4/> kuten RFC { "6587" }:ssä. Oletuksena yksi tapahtuma lähetetään luokan muutosta kohti; <c5/> lähettää yhden epookkia kohti. Valmistaja kirjoitetaan <c6/> (ASCII), jotta mikään SIEM ei tulkitse sitä väärin.

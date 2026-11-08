@@ -220,10 +220,6 @@ seg-188c6e41f434 = Dokumenter om vedligeholdernes arbejdsgange bliver i reposito
 
 seg-fcffac5eb150 = <s1>Sprog</s1><s2>Motorens tekst til mennesker findes på { "17" } sprog ved siden af engelsk: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-0cf0b9fb9184 = <s1>Scenarietyper</s1><s2>De { "92" } indbyggede scenarietyper, som kshana::api::run_toml fordeler over, hver med sin ene linje…</s2>
-
-seg-9d5c233c72b4 = <s1>Alle scenarietyper, efter familie</s1><s2>Alle scenarietyper, motoren v{ $version } fordeler over ({ "92" }), ordnet under { "13" } familier.</s2>
-
 seg-f5987c9d9fde = <s1>Verifikationsmatrix</s1><s2>Det komplette, maskinkontrollerede evidensregister: { "401" } rækker — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Funktionsreference</s1><s2>Funktionskortene og alle { "401" } rækker i verifikationsmatricen.</s2>
@@ -238,6 +234,10 @@ seg-cecb9535c0a1 = <s1>Måne og cislunart rum</s1><s2>{ "24" } scenarietyper i m
 
 seg-1dd7c80e18a7 = <s1>Missionstråde</s1><s2>{ "1" } scenarietype i motoren v{ $version }. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke…</s2>
 
-seg-f0e26f01a361 = { "92" } sider, én for hver scenarietype, der er linket fra <a1>Alle scenarietyper, efter familie</a1>.
+seg-b0ad334264dc = <s1>Scenarietyper</s1><s2>De { "93" } indbyggede scenarietyper, som kshana::api::run_toml fordeler over, hver med sin ene linje…</s2>
 
-seg-a1f33bd571ed = <s1>Scenariehenvisning</s1><s2>Alle medfølgende scenariefiler ({ "193" }), grupperet efter type, med deres vigtigste indstillinger.</s2>
+seg-5484fd345826 = <s1>Alle scenarietyper, efter familie</s1><s2>Alle scenarietyper, motoren v{ $version } fordeler over ({ "93" }), ordnet under { "14" } familier.</s2>
+
+seg-b23a9bd3ccfa = <s1>Scenariehenvisning</s1><s2>Alle medfølgende scenariefiler ({ "195" }), grupperet efter type, med deres vigtigste indstillinger.</s2>
+
+seg-a7dc2bc0a77d = { "93" } sider, én for hver scenarietype, der er linket fra <a1>Alle scenarietyper, efter familie</a1>.

@@ -308,10 +308,6 @@ seg-32c07578eab3 = Passos da sessão registrada
 seg-2cff891dc970 = Próximo passo
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "49" } ferramentas, valida <c1/> (válido: tipo de cenário detectado `clock`) e o executa: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: Executa um cenário do Kshana e retorna sua série temporal como uma animação.
 
@@ -513,10 +509,6 @@ seg-62b5564e8d90 = A sessão gravada é reproduzida aqui passo a passo.
 # text
 # c1: clock-holdover.toml
 seg-2359edf78388 = <b>Mesma execução no Studio:</b> Motor v{ $version } · <c1/> · seed { "42" }
-
-# text
-# c1: io.github.ashfordeOU/kshana-mcp
-seg-c24f65399c72 = <b>{ "49" } ferramentas</b> sobre a API pública (interface de programação de aplicações) do Kshana, no registro oficial de MCP como <c1/>. Exportações de órbita: SP3 (Standard Product { "3" }) e OMM e OEM do CCSDS (Consultative Committee for Space Data Systems) (mensagens de elementos médios de órbita e de efemérides, TEME: referencial True Equator, Mean Equinox). Registre-o em <b>Assistente de IA (servidor MCP)</b> ou <b>Imagem Docker</b>. <a1>Documentação do servidor MCP</a1>
 
 # text
 # c1: spectrum
@@ -1404,9 +1396,6 @@ seg-d85f16c14183 = kshana.run e run_full, além de validate_toml e list_kinds
 seg-5a6803e3eb48 = run, summary e chart_svg no navegador ou no Node.js
 
 # text
-seg-1c19f8c0ad84 = { "49" } ferramentas que um assistente de IA pode chamar, cada uma um invólucro fino sobre a API pública
-
-# text
 seg-4ad1a7669b03 = O servidor MCP sem toolchain Rust, multiarquitetura
 
 # text
@@ -1700,3 +1689,9 @@ seg-0c50b3629e39 = Abrir o benchmark
 # c8: epoch
 # c9: sky_source
 seg-7937ed00cbc0 = Geometria do céu sob um horizonte dependente do azimute (um cânion urbano, um porto, um fiorde, um terminal de contêineres): a partir de um local, de um instante e de predefinições de constelação, de conjuntos de elementos de duas linhas (<c1/>, com um <c2/> em UTC) ou de satélites dados em azimute/elevação ou em ECEF, quais satélites estão visíveis e quais ficam ocultos pelo horizonte, GDOP/PDOP/HDOP/VDOP/TDOP a partir do núcleo de DOP verificado com o gnss_lib_py, o cofator e a covariância leste-norte-cima com um relógio de receptor por sistema (ou um em comum) e a elipse de erro horizontal a um sigma e a uma confiança declarada para um UERE declarado. Sem <c3/>, descreve uma predefinição de horizonte REPRESENTATIVE com sua proveniência e seu corte a cada grau (um <c4/> vazio as lista). Cenários dos tipos orbit e integrity (com <c5/>), gnss-sim, jamming, leo-pvt e leo-pass recebem a mesma seção <c6/> por meio de run_scenario. Nível de evidência MODELLED: geometria sob um modelo de erro declarado, apenas linha de visada; não é uma previsão do erro real de um receptor nem um limite de integridade; as constelações predefinidas são um céu representativo, não o céu de uma data; o texto <c7/> com um <c8/> (UTC) fornece o céu que esses conjuntos de elementos dão naquela época (SGP4), não uma medição, e <c9/> diz qual dos dois. Traz o aviso consultivo: não é um equipamento de navegação homologado. Sem Monte Carlo por MCP (amostras em volume; use a CLI, Python ou WASM). Somente em linha, no máximo { "4" } MiB.
+
+seg-859bb6732925 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "52" } ferramentas, valida <c1/> (válido: tipo de cenário detectado `clock`) e o executa: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } ferramentas</b> sobre a API pública (interface de programação de aplicações) do Kshana, no registro oficial de MCP como <c1/>. Exportações de órbita: SP3 (Standard Product { "3" }) e OMM e OEM do CCSDS (Consultative Committee for Space Data Systems) (mensagens de elementos médios de órbita e de efemérides, TEME: referencial True Equator, Mean Equinox). Registre-o em <b>Assistente de IA (servidor MCP)</b> ou <b>Imagem Docker</b>. <a1>Documentação do servidor MCP</a1>
+
+seg-5aa702c4ebc7 = { "52" } ferramentas que um assistente de IA pode chamar, cada uma um invólucro fino sobre a API pública

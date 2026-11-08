@@ -224,4 +224,4 @@ seg-7b53ee712a36 = <b>{ "176" } von { "401" }</b> Fähigkeiten gegen unabhängig
 
 seg-b59781ecf257 = Wie eine Fähigkeit ihre Kennzeichnung erwirbt: Fähigkeit, unabhängige Referenz, Test, Registerkennzeichnung. Der Verifikationsstatus über alle { "401" } Fähigkeiten: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern
 
-seg-d0b2811a3d3c = Die Engine hat { "92" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).
+seg-80e5f0aa2831 = Die Engine hat { "93" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).

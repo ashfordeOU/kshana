@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana ei edasta midagi ega juhi ühtegi riistvara. Esitus on
 
 seg-01b0ee9973dc = Kontakteerumine
 
-seg-b5cb4dc0493f = Ühelehekülgne märge laboratooriumile on omaniku jaoks mustandina failis <s1><c1/></s1>. See on mustand: midagi ei saadeta ja kellegagi ei võeta ühendust enne, kui omanik otsustab.
-
 seg-83b30e1ca261 = <s1>Eelmine</s1>Tõendipaketid
 
 seg-09c0b5fa6e52 = <s1>Järgmine</s1>Optilised lingid läbi atmosfääri

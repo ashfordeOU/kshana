@@ -102,8 +102,6 @@ seg-17ca55cea260 = Skälnamn kapas vid { "128" } tecken, och högst { "64" } ski
 
 seg-35f3faf39d1c = <c1/> är en av <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Skälnamnen är strömmens monitornamn (<c7/>, <c8/>, ...; för batchresultatet <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = En exempelinstrumentpanel finns i <c1/> (importera den och välj din Prometheus-datakälla).
-
 seg-208f33eda580 = Syslog: CEF och LEEF
 
 seg-0d53db66a990 = Händelser skickas i ett RFC { "5424" }-kuvert (facility local0, app <c1/>, meddelande-id <c2/>) över UDP (ett datagram vardera; IPv4 eller IPv6) eller TCP, som standard avslutade med radbrytning eller, med <c3/>, inramade som <c4/> enligt RFC { "6587" }. Som standard skickas en händelse per bandbyte; <c5/> skickar en per epok. Tillverkaren skrivs <c6/> (ASCII) så att inget SIEM avkodar den fel.

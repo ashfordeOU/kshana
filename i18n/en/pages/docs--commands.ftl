@@ -47,13 +47,14 @@ seg-88fb40d1b92d = scores a receiver log, <c1/> scores a stream, <c2/> writes a 
 seg-13870be889cb = signs, verifies and timestamps evidence packs and links a lab run to its score
 
 # text
-seg-2867423ef8dd = reads the published Jammertest plan and scores a log against it
+# c1: locate-score
+seg-3e67f792cbb7 = reads the published Jammertest plan and scores a log against it; <c1/> scores reported emitter locations against truth (row B2)
 
 # text
 seg-fe1abd564200 = Jammertest
 
 # text
-seg-1bcf94631313 = the trust stream as Prometheus, CEF, LEEF, OTLP or MQTT messages
+seg-b8f2490bbc7f = the trust stream as Prometheus, CEF, LEEF, OTLP or MQTT messages, and CAP { "1.2" } alerts written to a directory or posted to a signed webhook
 
 # text
 seg-6fcb41643035 = Trust telemetry
@@ -71,7 +72,8 @@ seg-0dfc0ae9d7ed = writes synthetic bridge NMEA with scripted jamming and spoofi
 seg-f35f3f9cb83a = NMEA training
 
 # text
-seg-8802b623b1e7 = builds interference maps and the observatory's daily product from aircraft and ship reports
+# c1: record
+seg-493c1111e92e = builds interference maps and the observatory's daily product from aircraft and ship reports (<c1/>: from a local receiver, live)
 
 # text
 seg-f0ea96229aff = <a1>Interference map</a1>, <a2>observatory</a2>
@@ -117,6 +119,124 @@ seg-09dab71efd9d = checks the format and metadata of a data-partner submission a
 
 # text
 seg-57686575b81d = Partner data
+
+# text
+# c1: version
+seg-1ab0bcf9c2db = states a scenario file's schema version and upgrades older files; <c1/> prints the version this engine reads
+
+# text
+seg-97ab69d7ba52 = Scenario versions
+
+# text
+# c1: kshana.obs/1
+# c2: live
+# c3: convert --format rtcm-ssr
+seg-8bb7a2979d90 = writes a receiver log as a <c1/> observation file (<c2/>: from a stream as it arrives, the same epochs as a replay), and checks one; <c3/> writes an RTCM { "3" } stream's SSR corrections (RTCM and IGS SSR) as correction records
+
+# text
+seg-c8e197d3dca1 = Observations
+
+# text
+# c1: --mount
+seg-03140ea755db = fetches an NTRIP stream (RTCM { "3" }) from a caster, unchanged, and counts the frames that arrive intact; with no <c1/>, prints the source table
+
+# text
+seg-53463b88ab15 = NTRIP
+
+# text
+seg-513dde7f9fb4 = follows a linuxptp, chrony or Linux PPS log and prints one JSON line per reading, kept exactly as a replay keeps it
+
+# text
+seg-5d541b319b2b = Clock logs
+
+# text
+# c1: candump
+seg-c4021bba30c2 = follows an IMU log and prints each sample with its integrated gyro heading, equal to a replay; or turns NMEA { "2000" } CAN frames (<c1/>) into NMEA { "0183" }
+
+# text
+# c1: kshana.device/1
+seg-a2c424bc7da0 = runs a device file's test vectors; decodes a binary sensor described by a <c1/> file into JSON Lines for a connect mapping
+
+# text
+seg-584a40fe08b7 = Devices
+
+# text
+seg-628adc92fd4f = times the live paths and prints the station sizing table; with a baseline, fails on a slowdown over { "10" } %
+
+# text
+seg-4bbfad7ffde2 = Sizing
+
+# text
+seg-5b63b0661a3a = writes a synthetic labelled data pack (NMEA logs with spoofing labels, IQ scenes with natural impairments), the same bytes for the same seed
+
+# text
+seg-c81fc74b32eb = Data packs
+
+# text
+seg-a8bf970e3677 = environmental baseline per site and hour from Kp and F10.7: score { "0" } to { "1" } and quiet, elevated or disturbed (MODELLED)
+
+# text
+seg-b2e7ecf33e6e = B8 pre-registration
+
+# text
+# c1: m
+seg-53d5c10cb413 = monitoring-network planner: per site cell, detection probabilities and the TDOA location bound (DRMS, { "95" } % ellipse); chooses <c1/> stations from candidates (MODELLED)
+
+# text
+seg-9e0d61706807 = Planner
+
+# text
+seg-79ecf44bb085 = one trust state for an area from several reference stations' states, per second, with alerts (JSON Lines)
+
+# text
+seg-74b183fbdd05 = Area trust
+
+# text
+# c1: kshana.obs/1
+# c2: check
+# c3: service
+seg-5afa1ed0ea13 = runs a Kshana Station: every configured receiver stream as <c1/> files (the epochs a replay gives), rotated, with a local status port and an optional fleet report; <c2/> validates the configuration, <c3/> prints what installs it as a service
+
+# text
+seg-035c6d620220 = Station
+
+# text
+# c1: kshana.obs/1
+seg-d2bc0b6e28ee = maps any CSV, TSV, JSON or JSON Lines export to a <c1/> file through a mapping file, with no code
+
+# text
+seg-a0354cacda4c = Connect
+
+# text
+seg-30e9142de2a7 = runs Connect conformance vectors (input, mapping or reader, expected obs/1 output) and fails on any byte difference, naming the first differing line
+
+# text
+# c1: kshana.obs/1
+seg-ddcb1e7fd2af = follows a directory of growing or rotating logs and prints new <c1/> records as JSON lines, reading the files as one continuous log
+
+# text
+# c1: kshana.obs/1
+seg-1b295b35d6a0 = subscribes to an MQTT topic and prints <c1/> records as JSON lines as the published rows complete each epoch
+
+# text
+# c1: kshana.obs/1
+seg-a24218934685 = subscribes to a NATS subject and prints <c1/> records as JSON lines
+
+# text
+# c1: kshana.obs/1
+seg-0d000667a0e0 = reads rows streamed over a WebSocket and prints <c1/> records as JSON lines; the server's close ends the run
+
+# text
+seg-dac0b0f324b9 = replays the Connect conformance vectors over MQTT (with a forced reconnection), WebSocket and the directory watch; checks order, holding, reconnection and latency; exit { "1" } on any failure
+
+# text
+seg-3a756263a201 = runs many synthetic stations through the live feeds (default { "1,000" } at { "1" } Hz for { "10" } s); reports capacity and time per message; exit { "1" } if it does not keep up
+
+# text
+seg-a76eae8fc386 = the adapter registry: lists the adapters that pass, or validates every manifest and runs every conformance vector (exit { "1" } on any failure)
+
+# text
+seg-61aaab27a674 = Adapters
 
 # text
 seg-2d2bb8b8e7e7 = which satellites' navigation data a receiver can authenticate

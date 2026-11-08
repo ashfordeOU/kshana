@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Kilder S1 til S5 (tittel, URL, hentedato, SHA-256, lisens): <
 
 seg-d866653008e1 = Hver numeriske påstand, sitert med side og oppgitte forutsetninger og klassifisert som sammenlignbar, delvis sammenlignbar eller ikke sammenlignbar: <c1/>. Ingen påstand er fullt sammenlignbar, fordi ingen kilde oppgir en persentil eller satellittenes banelementer.
 
-seg-50535c58d3cf = Terskler, tilfeller og inndata, committet alene før kjøringen (revisjon { "2" }, 05bf9a19), og den registrerte kjøringen: <c1/>. Funnet er låst i <c2/>.
-
 seg-069a652c402e = terskel
 
 seg-d6120708c062 = påstand (kilder)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = består
 seg-e666f1eb7a59 = { "1" } av { "6" } terskler består. Årsaken er geometri. Ingen kilde publiserer konstellasjonens banelementer. Med de ILLUSTRATIVE medfølgende elementene deler en bruker og stasjonen fire satellitter over { "5" } grader i bare { "8" } % ({ "300" } km) og { "6" } % ({ "600" } km) av epokene, med nesten singulær geometri: den ukorrigerte p95 er { "3.8" } km, der kildene oppgir < { "10" } m. Kildenes egne simuleringer brukte et filter, en høydebegrensning og tre satellitter i felles sikt, noe denne øyeblikksmodellen ikke har. Kjøringen gjengir derfor ikke påstandene på disse elementene, og den er ikke belegg for at påstandene er feil. K6-bestått er et forhold mellom to geometridominerte tall og sier ingenting om dekorrelasjon. Et publisert sett med konstellasjonens elementer ville blitt poengsatt under de samme tersklene som en andre, datert kjøring.
 
 seg-1da5fcf7bbf5 = Forhåndsregistrert prediksjon
-
-seg-4ea806a57380 = En forhåndsregistrert prediksjon, frosset ved commit <c1/> på inndataene fra offentlige kilder, med sin poengsettingsprotokoll: <a1><c2/></a1>. Det er en prediksjon, ikke en validering, og hvert tall i den domineres av det upubliserte elementsettet for konstellasjonen med fire satellitter (elementene som brukes er ILLUSTRATIVE): over regionen { "80" } grader S, tilgjengelighet { "8.2" } %, korrigert p95 3-D { "280" } m, ukorrigert { "3.8" } km. MODELLED; <c3/> feiler hvis en eneste frossen byte flyttes.
 
 seg-e6aef34d5023 = Stasjonens tidslaboratorium
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Forrige</s1>Solsystemet og andre legemer
 seg-79d53edd2374 = <s1>Neste</s1>Navigasjon for rombrukere (gnss-ssv)
 
 seg-9c59637f0666 = Dekning- og nøyaktighetskart (lunar-station-coverage)
+
+seg-34967943a088 = En forhåndsregistrert prediksjon, frosset ved commit <c1/> på inndataene fra offentlige kilder, med sin poengsettingsprotokoll: <a1><c2/></a1>. Det er en prediksjon, ikke en validering, og hvert tall i den domineres av det upubliserte elementsettet for konstellasjonen med fire satellitter (elementene som brukes er ILLUSTRATIVE): over regionen { "80" } grader S, tilgjengelighet { "8.2" } %, korrigert p95 3-D { "280" } m, ukorrigert { "3.8" } km. MODELLED; <c3/> feiler hvis en eneste frossen byte flyttes.

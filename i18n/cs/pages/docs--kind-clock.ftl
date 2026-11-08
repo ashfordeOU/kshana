@@ -50,8 +50,6 @@ seg-849c08d3ce70 = Stránka rodiny: <a1>Hodiny, časování a holdover</a1>
 
 seg-ee7dd15019d0 = Tematická stránka: <a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = Tematická stránka: <a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>Předchozí</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Další</s1>combined-altpnt

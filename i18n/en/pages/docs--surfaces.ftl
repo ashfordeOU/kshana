@@ -43,6 +43,23 @@ seg-d78822583c64 = Notebook
 seg-334caeae9fba = Studio
 
 # text
+# c1: apps/desktop/
+seg-855939ca56b6 = Kshana Desktop ({ "0.41" }, L2a): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and (L2b) the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file (<c1/>, unsigned builds)
+
+# text
+seg-db9823876dc1 = <b>N/A</b> (an application)
+
+# text
+# c1: kshana::api
+seg-b7974d06ce85 = <c1/> (the bridge calls it)
+
+# text
+seg-415395834c08 = the tool pages in the window
+
+# text
+seg-9be9e58142da = the whole Studio, in the window
+
+# text
 seg-00c6ee5bf2ea = Vessel receiver-trust, batch log (0-100 score, reasons)
 
 # text
@@ -169,6 +186,29 @@ seg-5a9087e23823 = <b>N/A</b> (no notebook yet)
 seg-c92ea39fb2d1 = <b>pending</b>: a Tools card for the command line (the Studio strip and views are WS-A's)
 
 # text
+seg-8a4a1aeed34c = Referee location metrics ({ "0.41" }, B2): where a network said an emitter was, scored against truth (error, region coverage and size, time to first location, time to locate, false locations per hour); checked against an independent oracle
+
+# text
+# c1: UNKNOWN
+# c2: TRUSTED
+# c3: DEGRADED
+# c4: UNTRUSTED
+seg-91122e6ee6b6 = Area trust ({ "0.41" }, B5): one state for an area from several reference stations (<c1/>, <c2/>, <c3/>, <c4/>), per second, with the stale rule, hysteresis and alerts; checked against an independent oracle
+
+# text
+seg-3d3bb03e2492 = Monitoring-network planner ({ "0.41" }, B1a): detection and TDOA location-accuracy maps over a site, station placement (MODELLED; free space)
+
+# text
+seg-e8c9ecc8f6c1 = Environmental baseline ({ "0.41" }, B8): expected ionospheric disturbance per site and hour from Kp and F10.7 (MODELLED)
+
+# text
+# c1: kshana.obs/1
+seg-a9f9914620bc = Kshana Station ({ "0.41" }, L3): the headless receiver service (receiver streams to rotated <c1/> files, local status port, fleet report, service files for systemd, launchd and Windows)
+
+# text
+seg-65daa91c7e65 = <b>N/A</b> (a running service)
+
+# text
 # c1: jammertest score --key
 # c2: config.json
 seg-3eae6f848b58 = Signed Jammertest score pack (<c1/>: the receiver-trust evidence pack with the scorecard and the schedule inside <c2/>)
@@ -286,7 +326,8 @@ seg-1b60ff4652cd = Tools: Telemetry card (Command line tab; formats only, no soc
 # c5: [log.imu]
 # c6: csv
 # c7: euroc
-seg-3e332170d963 = Machine and sensor inputs ({ "0.38" }): <c1/> formats <c2/>, <c3/>, <c4/>, and <c5/> (<c6/>, <c7/>)
+# c8: ros2-csv
+seg-03187f3ec82a = Machine and sensor inputs ({ "0.38" }): <c1/> formats <c2/>, <c3/>, <c4/>, and <c5/> (<c6/>, <c7/>, <c8/>)
 
 # text
 # c1: receiver-trust
@@ -391,9 +432,6 @@ seg-b164d99daf08 = Interference map page
 
 # text
 seg-12471a4b2b57 = Emitter region (ADS-B, AIS; MODELLED)
-
-# text
-seg-0a58678302e5 = <b>N/A</b> (not yet carried; the Rust, Python and WASM surfaces cover it)
 
 # text
 seg-dff1bfe0263e = <b>N/A</b> (publishing emitter regions in the public observatory is a separate owner decision and is off)
@@ -955,6 +993,18 @@ seg-38dc9c30191a = <b>pending</b>: Tools: Command line card
 seg-57257e80468f = Plan and catalogue are given as text; the signed pack (<c1/>) is command line only (signing key)
 
 # text
+seg-32362c4e0ad2 = Location metrics (row B2): the same JSON bytes from the CLI, Python and WASM; MCP returns the same values with the advisory notice, inputs capped at { "4" } MiB
+
+# text
+seg-3238bd6d17fb = Area trust (row B5): the same JSON Lines bytes from the CLI, Python and WASM, equal to the independent oracle's
+
+# text
+seg-0c66e00d0fc0 = Planner (row B1a): the same JSON bytes from the CLI, Python and WASM
+
+# text
+seg-7e50fbda1237 = Environmental baseline (row B8): the same JSON bytes from the CLI, Python and WASM
+
+# text
 seg-3ea5db063974 = No signing key in a browser; no signal is written or replayed
 
 # text
@@ -995,11 +1045,12 @@ seg-d2cc933b6894 = Reads a directory (N/A above)
 seg-39e5b9fc3560 = <c1/> (CSV)
 
 # text
-seg-743d33b43d99 = N/A (not yet carried)
-
-# text
 # c1: --tdoa
 seg-ab52a3469f6a = Estimated emitter regions, MODELLED; trace directories and <c1/> are command line only
+
+# text
+# c1: docs/INTERFERENCE-MAP.md
+seg-d8d3c194a5b1 = Writes a local receiver's ADS-B or AIS reports into a CSV as they arrive (see <c1/>)
 
 # text
 seg-316b51d83726 = Network access (N/A above)
@@ -1045,6 +1096,89 @@ seg-4f1cc14c9af4 = Scenarios are embedded; no file system; <c1/> and <c2/> print
 seg-5f1ce275acbd = Reads a submission file and its data file on disk and verifies the SHA-256; none of those surfaces has the folder. Format and metadata only, nothing scored; see <c1/>
 
 # text
+# c1: schema_version
+# c2: docs/SCENARIO-VERSIONS.md
+seg-b2f1a10d0354 = Rewrites a file on disk; every surface that runs a scenario accepts and checks its <c1/> line (it is stripped before the kind reads the file, so results are byte-identical). See <c2/>
+
+# text
+# c1: kshana::obs
+# c2: kshana::obs_live
+# c3: --format rtcm-ssr
+# c4: kshana::rtcm_ssr::read_stream
+# c5: to_obs
+# c6: docs/OBS-SCHEMA.md
+seg-c0405a5b8766 = Reads and writes files on disk; the Rust API (<c1/>, <c2/>; SSR corrections with <c3/>: <c4/> and <c5/>) is the library surface. See <c6/>
+
+# text
+# c1: kshana.obs/1
+# c2: surface::connect_map
+# c3: kshana connect check
+# c4: tests/surface_connect_map.rs
+# c5: docs/CONNECT.md
+seg-29ef88b6a5f7 = In memory: the mapping, station and log are passed as text and the <c1/> JSON lines come back (<c2/>; same bytes as the <c3/> vectors, <c4/>). See <c5/>
+
+# text
+# c1: kshana::connect::run_vector
+seg-65a138a2d247 = Runs check vectors from a directory on disk, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::ntrip
+seg-099d8043182b = A network client that streams to a file or a pipe, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::clock_live
+# c2: docs/CLOCK-LOG-FORMATS.md
+seg-fde1a436ebde = Follows a log as it is written and prints JSON lines, so it stays a command; the Rust API (<c1/>) is the library surface. See <c2/>
+
+# text
+# c1: kshana::sensor_live
+# c2: docs/MACHINE-INPUTS.md
+seg-2e066a005c26 = Follows a sensor log and prints JSON lines, so it stays a command; the Rust API (<c1/>) is the library surface. See <c2/>
+
+# text
+# c1: kshana::device
+# c2: docs/DEVICES.md
+seg-480ac25e99df = Reads a device file and a byte stream; the Rust API (<c1/>) is the library surface. See <c2/>
+
+# text
+# c1: kshana::speed_bench
+# c2: docs/SIZING.md
+seg-7c36abea6f6a = Times this machine; the Rust API (<c1/>) is the library surface. See <c2/>
+
+# text
+# c1: kshana::data_pack
+# c2: docs/DATA-PACKS.md
+seg-6c91b1c73ca0 = Writes a directory of files; the Rust API (<c1/>) is the library surface. See <c2/>
+
+# text
+# c1: kshana::connect_watch
+seg-12dde0ae9257 = A long-running process that follows a directory on disk, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::connect_mqtt
+seg-a5ebb7070fb2 = A long-running network subscription, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::connect_nats
+seg-4ea7e2055e78 = A long-running network subscription, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::connect_ws
+seg-7836f6d38000 = A long-running network stream, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::connect_live
+seg-cf489438d63c = Opens loopback network servers and runs them against the live clients, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::connect_load
+seg-1a1ccb88f5fd = A timing measurement of this machine, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
+# c1: kshana::adapters
+seg-3b5fa9a97a9e = A check of a folder of files in a repository checkout, so it stays a command; the Rust API (<c1/>) is the library surface
+
+# text
 seg-5de02dcfb151 = Symbol streams are text of { "0" } and { "1" }, at most { "4" } MiB (MCP) or { "100" } frames generated per call; LDPC and CRC-24Q of subframes { "2" } to { "4" } are not verified; no signal is written
 
 # text
@@ -1070,6 +1204,10 @@ seg-237bb76fae50 = Inventory of a folder is Python and CLI; the MCP server reads
 
 # text
 seg-654781b74f2a = They rewrite recordings on disk (N/A above)
+
+# text
+# c1: docs/IQ-FOLLOW.md
+seg-31f37c797a37 = Writes a capture tool's samples into a SigMF recording on disk as they arrive (receive only); see <c1/>
 
 # text
 # c1: iq --help

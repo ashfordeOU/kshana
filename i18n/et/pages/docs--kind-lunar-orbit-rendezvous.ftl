@@ -42,8 +42,6 @@ seg-4466fb6f4043 = partii Gauss-Newton üle kaare
 
 seg-d97b2505ac72 = Mootori joonistatud diagramm failile scenarios/lunar-orbit-rendezvous.toml, liik lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Liik ja faas <c1/>: ühine kahe sõiduki partii Gauss-Newtoni hinnang üle kaare (kakskümmend üks parameetrit: mõlemad olekud ja püsivad signaali ruumis asukohanihked, ühised ja sõltumatud), kasvatatud veerandi, poole Tests: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Liik ja faas <c1/>: ühine kahe sõiduki partii Gauss-Newtoni hinnang üle kaare (kakskümmend üks parameetrit: mõlemad olekud ja püsivad signaali ruumis asukohanihked, ühised ja sõltumatud), mis. Sõltumatu etalon (InternalConsistency): Omavaheline kooskõla eelregistreerimise all (xval/mission-thread-lunar/PREREGISTRATION.md, tulemused ja hindaja ajalugu failis RESULTS.md): suhtelise oleku keskmine NEES on { "5.85" } kuni { "5.93" } võrreldes ribaga { "5.2" } kuni { "6.8" } neljas konfiguratsioonis, MET neljanda hindajakujunduse korral pärast seda, kui kolm järjestikuse filtri kujundust jäid tulemata; tõeolek ja hindaja jagavad üht jõumudelit, seega ei ütle see mudeli vea kohta midagi. P
 
 seg-b2f273ea732d = MODELLED suhteline navigatsioon Orioni ja maandurit ühendava dokkimise jaoks madalal Kuu orbiidil või elliptilisel polaarorbiidil (Artemis-klass). (liikide kataloog (<c1/>))

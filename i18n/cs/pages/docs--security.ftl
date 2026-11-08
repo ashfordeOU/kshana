@@ -16,8 +16,6 @@ seg-fbc3db22c061 = U hlášení citlivých z hlediska bezpečnosti prosím neote
 
 seg-4c11dabdd8f6 = Podporované verze
 
-seg-19c99cf3a67e = Před verzí 1.0: podporováno je pouze nejnovější označené vydání.
-
 seg-1379eab9a8e3 = Bezpečnost paměti
 
 seg-cf966fa35408 = Knihovní crate deklaruje <c1/> v kořeni crate (<c2/>), takže blok <c3/>, fn, impl nebo extern kdekoli v knihovně je chyba překladu, a nikoli něco, co musí zachytit recenzent. Atribut není pod <c4/>, platí tedy pro každou konfiguraci, v níž se knihovna dodává, a všechny tři se pod ním přeloží bez chyb: výchozí sestavení v Rustu, rozšiřující modul pro Python (<c5/>) a modul WebAssembly (<c6/>).

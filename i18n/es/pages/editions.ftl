@@ -1225,10 +1225,10 @@ seg-67341b9eea70 = <b>Cualquier otra cosa</b><s1>contact@ashforde.org · el corr
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-3bf5f474beca = El motor abierto en el centro: una marca por cada tipo de escenario ({ "92" }), rellena donde el tipo de escenario tiene filas validadas en el registro, hueca donde sus filas son modeladas, un guion donde ningún módulo del registro coincide con él por nombre. Kshana Pro y el estudio a medida lo rodean y se conectan con los tipos de escenario en los que se apoyan.
-
-seg-f88b6cf10837 = Motor v{ $version } · { "92" } tipos de escenario de <c1/> · estado del registro de <c2/> · en qué se apoyan Pro y un estudio: el registro de ediciones del sitio · sin escenario ni semilla
-
 seg-cc655ce0b6c8 = La matriz de verificación completa: { "176" } de { "401" } capacidades validadas frente a referencias independientes, el resto etiquetado como modelado
 
-seg-65342d8ef6ad = Los { "92" } tipos de escenario y { "181" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)
+seg-0ab329c843b0 = El motor abierto en el centro: una marca por cada tipo de escenario ({ "93" }), rellena donde el tipo de escenario tiene filas validadas en el registro, hueca donde sus filas son modeladas, un guion donde ningún módulo del registro coincide con él por nombre. Kshana Pro y el estudio a medida lo rodean y se conectan con los tipos de escenario en los que se apoyan.
+
+seg-e507665bbe2c = Motor v{ $version } · { "93" } tipos de escenario de <c1/> · estado del registro de <c2/> · en qué se apoyan Pro y un estudio: el registro de ediciones del sitio · sin escenario ni semilla
+
+seg-c7818536071d = Los { "93" } tipos de escenario y { "181" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)

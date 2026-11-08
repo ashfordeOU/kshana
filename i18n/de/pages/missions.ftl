@@ -1092,9 +1092,6 @@ seg-3cde4f0b352a = Lassen Sie Ihren Assistenten die validierte Engine ausführen
 seg-0487ea97b0d8 = Beginnen Sie beim <a1>MCP-Server</a1>
 
 # text
-seg-562785c48737 = <b>Heute frei:</b> alles in der offenen Engine. Frei: { "49" } MCP-Werkzeuge, von run_scenario bis export_oem.
-
-# text
 seg-af65a3c927cf = Entwickler für Embedded oder Produkte
 
 # text
@@ -1229,4 +1226,6 @@ seg-9a86ef058d27 = In Kshana Studio öffnen
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Editionen vergleichen
 
-seg-8575c0837e28 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-b9ebb409e11a = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-7b9633a75c90 = <b>Heute frei:</b> alles in der offenen Engine. Frei: { "52" } MCP-Werkzeuge, von run_scenario bis export_oem.

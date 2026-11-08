@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana no transmite nada y no controla ningún hardware. Un e
 
 seg-01b0ee9973dc = Contacto con socios
 
-seg-b5cb4dc0493f = Se ha redactado para el propietario una nota de una página para un laboratorio en <s1><c1/></s1>. Es un borrador: no se envía nada y no se contacta con nadie hasta que el propietario lo decida.
-
 seg-83b30e1ca261 = <s1>Anterior</s1>Paquetes de evidencias
 
 seg-09c0b5fa6e52 = <s1>Siguiente</s1>Enlaces ópticos a través de la atmósfera

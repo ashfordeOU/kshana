@@ -150,8 +150,6 @@ seg-9eff7c00723a = Render Trust Telemetry (et gemt resultat)
 
 seg-1b60ff4652cd = Tools: kortet Telemetry (fanen Command line; kun formater, ingen sockets)
 
-seg-3e332170d963 = Maskin- og sensorinput ({ "0.38" }): <c1/>-formaterne <c2/>, <c3/>, <c4/> og <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (scenarie <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (inline)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Output
 
 seg-12471a4b2b57 = Senderområde (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (endnu ikke ført; fladerne Rust, Python og WASM dækker det)
-
 seg-dff1bfe0263e = <b>N/A</b> (offentliggørelse af senderområder i det offentlige observatorium er en særskilt beslutning for ejeren og er slået fra)
 
 seg-ec2d91e2f867 = Kontrol af indsendelse fra datapartner (format og metadata for en indsendelse af målte data, <c1/>; scorer intet)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (kun indlejret; kernenøglen afvises)
 seg-1c1729fafe99 = <b>N/A</b> (ingen notebook; eksemplet kører i enhver notebook gennem <c1/> fra et checkout)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (endnu ikke ført)
 
 seg-ab52a3469f6a = Estimerede senderområder, MODELLED; sporkataloger og <c1/> er kun til kommandolinjen
 

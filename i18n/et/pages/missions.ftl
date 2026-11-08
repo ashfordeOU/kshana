@@ -1440,9 +1440,6 @@ seg-3cde4f0b352a = Laske oma assistendil käitada kontrollitud mootorit, selle a
 seg-0487ea97b0d8 = Alustage jaotisest <a1>MCP-server</a1>
 
 # text
-seg-562785c48737 = <b>Tasuta täna:</b> kõik avatud mootoris. Tasuta: { "49" } MCP tööriista, run_scenario'st export_oem'ini.
-
-# text
 seg-af65a3c927cf = Manus- või tootearendaja
 
 # text
@@ -1457,4 +1454,6 @@ seg-0e6be0d623f6 = <b>Tasuta täna:</b> kõik avatud mootoris. Avatud tuuma komm
 # text
 seg-9b505908a6e2 = Kshana <b>ei juhi raadioriistvara ega edasta midagi</b>. See sisaldab tarkvaralist GNSS-i vastuvõtjat salvestatud ja genereeritud IQ jaoks ning oskab kirjutada sünteetilisi baseband IQ faile, kuid see <b>ei ole RF signaaligeneraatori riistvara</b> ja <b>ei ole riistvaraline ega sertifitseeritud GNSS-i vastuvõtja</b>. See on uurimis- ja kompromissiinstrument: see simuleerib, mida segamine, spuufimine ja signaali kadu navigatsiooni- ja ajalahendiga teevad, ning ütleb, millised selle vastustest on kontrollitud. <b>Mitte lennutoode.</b>
 
-seg-8575c0837e28 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-b9ebb409e11a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-7b9633a75c90 = <b>Tasuta täna:</b> kõik avatud mootoris. Tasuta: { "52" } MCP tööriista, run_scenario'st export_oem'ini.

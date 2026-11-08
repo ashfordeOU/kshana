@@ -92,8 +92,6 @@ seg-13c92a72544a = jamming, { "600" } s
 
 seg-f9c01304734d = samma sak, störsändare vid -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 sjunker till { "27.7" } dB-Hz, alla { "8" } satelliter spåras fortfarande
-
 seg-6a052db03815 = spoofing, avslutad vid { "370" } s av <c1/>
 
 seg-89856c1f83f8 = <c1/> (tidsramp på { "0.1" } ns/s), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A hålls vid { "17.98" } dB-Hz, E1 tillbaka på { "44.73
 seg-2db37e292efe = Att E1 återhämtar sig under CW-tonen vilar på hur typen spectrum behandlar kontinuerliga spektra: tonen hamnar i nollstället i MBOC-spektrumet och kopplar ingenting. En verklig ton skulle koppla via kodens spektrallinjer. Det anges i filen och i SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: ett parameterrutnät över vilken typ som helst
-
-seg-b14a11d60e9f = En till tre punktseparerade scenarionycklar, var och en över ett linjärt eller logaritmiskt intervall, på samma axelvärden som typen <c1/> använder. Varje axel har ett namn och en enhet. Varje mått har ett namn och en resultatväg, och dess enhet läses från den svepta typens eget enhetsblock om inte kampanjen deklarerar en. Med <c2/> är varje nod en seedad Monte Carlo-ensemble (realisering <c3/> vid nodens frö plus <c4/>), som redovisas med statistiken nedan. <c5/> sveper en störsändare { "1" } km från mottagaren från -50 till +{ "10" } dBW: det genomsnittliga förhållandet mellan störsändare och signal ändras exakt { "1" } dB per dB ({ "12.2" } till { "72.2" } dB), och tillgängligheten faller från { "1" } till { "0" } mellan -30 och -25 dBW.
 
 seg-c1931e311cca = En punktseparerad nyckel kan indexera en array av tabeller efter position: <c1/> är <c2/> i den tredje tabellen <c3/>, och <c4/> når tre nivåer ned.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: en seedad ensemble
 seg-03d764a4cb56 = [compose]: flera scenarier under gemensamma villkor
 
 seg-61a0db2550ba = [optimize]: det bästa värdet för ett mått
+
+seg-0886cc461f7a = C/N0 sjunker till { "30.6" } dB-Hz, alla { "8" } satelliter spåras fortfarande
+
+seg-74f8b08a4194 = En till tre punktseparerade scenarionycklar, var och en över ett linjärt eller logaritmiskt intervall, på samma axelvärden som typen <c1/> använder. Varje axel har ett namn och en enhet. Varje mått har ett namn och en resultatväg, och dess enhet läses från den svepta typens eget enhetsblock om inte kampanjen deklarerar en. Med <c2/> är varje nod en seedad Monte Carlo-ensemble (realisering <c3/> vid nodens frö plus <c4/>), som redovisas med statistiken nedan. <c5/> sveper en störsändare { "1" } km från mottagaren från -50 till +{ "10" } dBW: det genomsnittliga förhållandet mellan störsändare och signal ändras exakt { "1" } dB per dB ({ "12.2" } till { "72.2" } dB), och tillgängligheten faller från { "1" } till { "0" } mellan -25 och -20 dBW.

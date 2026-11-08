@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana nic nevysílá a neovládá žádný hardware. Podán�
 
 seg-01b0ee9973dc = Oslovení
 
-seg-b5cb4dc0493f = Jednostránková zpráva pro laboratoř je pro vlastníka připravena jako koncept v <s1><c1/></s1>. Je to koncept: nic se neodesílá a nikdo není kontaktován, dokud se vlastník nerozhodne.
-
 seg-83b30e1ca261 = <s1>Předchozí</s1>Balíčky důkazů
 
 seg-09c0b5fa6e52 = <s1>Další</s1>Optické spoje atmosférou

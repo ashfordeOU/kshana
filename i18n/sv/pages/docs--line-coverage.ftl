@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } av { "58,697" } rader
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (motor { "0.29.0" }, taggen <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, <c1/> jobb <c2/>, körning { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Verktyg
@@ -42,8 +40,10 @@ seg-b566e95a74ab = uppdatera sedan tabellen ovan och de sex ytorna i samma commi
 
 seg-6935c9c381b3 = Historik
 
-seg-daa9ae1913cd = Siffran har mätts om, inte skrivits om: { "95.63" } % vid commit <c1/> (motor { "0.27.2" } + ej släppt, körning { "35934579709" }, 2026-09-24, { "37,697" } av { "39,419" } rader, publicerad som ~{ "96" } %), reviderad till { "95.35" } % vid { "0.29.0" } (ovan), vilket avrundas till ~{ "95" } %: koden växte med { "19,278" } uppmätta rader och de nya raderna täcks något sämre än de gamla; { "95.85" } % vid { "v0.17.0" } (commit <c2/>, 2026-06-14, publicerad som ~{ "96" } %), och ~{ "97" } % i två tidigare versionsanteckningar (<c3/>, lämnade som historik). <c4/> sa "nära { "97" } %" tills den bringades i linje med den här noteringen; den är nu den sjätte ytan som testet fäster.
-
 seg-b2dbaf3a3b68 = <s1>Föregående</s1>Standarder och interoperabilitet
 
 seg-508de3808e04 = <s1>Nästa</s1>Bevispaket
+
+seg-5ff7e4510497 = <c1/> (motor { "0.29.0" }, taggen <c2/>)
+
+seg-1ff43e658eef = Siffran har mätts om, inte skrivits om: { "95.63" } % vid commit <c1/> (motor { "0.27.2" } + ej släppt, körning { "35934579709" }, 2026-09-24, { "37,697" } av { "39,419" } rader, publicerad som ~{ "96" } %), reviderad till { "95.35" } % vid { "0.29.0" } (ovan), vilket avrundas till ~{ "95" } %: koden växte med { "19,278" } uppmätta rader och de nya raderna täcks något sämre än de gamla; { "95.85" } % vid { "v0.17.0" } (commit <c2/>, 2026-06-14, publicerad som ~{ "96" } %), och ~{ "97" } % i två tidigare versionsanteckningar (<c3/>, lämnade som historik). <c4/> sa "nära { "97" } %" tills den bringades i linje med den här noteringen; den är nu den sjätte ytan som testet fäster.

@@ -198,12 +198,6 @@ seg-cd0360ad624d = <b>Item da { "0.41" }: uma única execução.</b> Renderizar 
 seg-67e04a43cea8 = A build wasm incorpora apenas o catálogo em inglês. Os outros dezasseis acrescentariam cerca de { "150" } kB gzip cada um. Uma página obtém <c1/> quando um idioma é escolhido e chama <c2/>; se a obtenção ou o registo falhar, a página permanece em inglês. Nativamente, a linha de comandos e o wheel de Python incorporam todos os { "18" }.
 
 # text
-# c1: .wasm
-# c2: cargo build --release --target wasm32-unknown-unknown --features wasm --lib
-# c3: fluent-bundle
-seg-9a2f85e7e43c = Tamanho, <c1/> sem otimização a partir de <c2/> (antes do wasm-bindgen e do wasm-opt), base bc04e98f contra esta ramificação: { "18.71" } MB -> { "19.88" } MB bruto, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. O catálogo em inglês tem { "521" } kB brutos, { "153" } kB deles em gzip; o resto é <c3/> e as suas dependências. Isso é aceito como medido.
-
-# text
 seg-3ce9aab4916e = O catálogo
 
 # text

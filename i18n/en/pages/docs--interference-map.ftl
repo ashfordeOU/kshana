@@ -137,6 +137,30 @@ seg-db907db790b1 = no
 seg-5c2ce9f61700 = if present, only values starting <c1/> are used (MLAT, TIS-B and the like are excluded)
 
 # text
+seg-d715d2fd9c5f = ASTERIX CAT021 (air-traffic ADS-B reports), library.
+
+# text
+# c1: kshana::asterix_cat021::read
+# c2: to_adsb_csv
+seg-cf9231dedafb = <c1/> reads a recording of EUROCONTROL ASTERIX Category { "021" } data blocks (edition { "2.6" } items). <c2/> writes the CSV above for a stated UTC day, because CAT021 carries the time of day only.
+
+# text
+seg-5c0b8668fa54 = NIC is written only for MOPS version { "1" } or later; version { "0" } sends NUCp in that field, which is a different scale.
+
+# text
+seg-bfcbbfabb1e8 = NACp comes from the first extension of the quality indicators.
+
+# text
+seg-8f69b03be9a4 = Positions use the high-resolution item when present.
+
+# text
+seg-e19510611683 = Every item of the profile is stepped over by its own length rule, so one unused field does not lose the rest of the block.
+
+# text
+# c1: tests/asterix_cat021.rs
+seg-8c3ec487743d = Checked against an independent encoder (<c1/>); no public recording has been checked yet.
+
+# text
 # c1: tar -xf -
 # c2: trace_full_*.json
 seg-412f40b8eeb1 = <b>adsb.lol readsb history, read directly.</b> The daily archives are a split tar of readsb trace files. Extract one as the publisher describes (concatenate the parts, <c1/>), then give Kshana the extracted directory, a single <c2/> file, or a CSV:
@@ -378,17 +402,51 @@ seg-046f6af48349 = The page must not name or show any individual aircraft or ves
 seg-ae79b67c3b98 = <b>Route exposure.</b> If the page also loads a <c1/> report, show its rows per day and source with the four shares (degraded, clear, unassessed, not observed) together, never the degraded share alone, plus the report's <c2/>, and each row's <c3/> and <c4/>.
 
 # text
+# c1: interference-map record
+seg-512d65c617d8 = Live feeds from a local receiver (<c1/>)
+
+# text
+# c1: record
+# c2: locate
+# c3: adsb
+# c4: ais
+# c5: --max-seconds
+seg-f483edc0a830 = <c1/> writes the reports into the CSV formats above as they arrive, flushing each row, so the file is the input of <c2/>, <c3/> and <c4/>: a live run and its replay read the same rows. The output file must not exist yet (nothing is overwritten); stop with Ctrl-C or <c5/>.
+
+# text
+# c1: aircraft.json
+# c2: --poll-s
+# c3: -
+# c4: tcp:host:port
+# c5: now - seen_pos
+# c6: type
+# c7: source_type
+seg-ec4ea48607b6 = <b>ADS-B</b> reads readsb <c1/> snapshots: a file read every <c2/> seconds (default { "1" }), or one snapshot per line from <c3/>, <c4/> or a file. An aircraft becomes a row when its position is newer than its last row (time <c5/>, to the millisecond). Aircraft on the ground and aircraft without a position are not written. <c6/> is kept as <c7/>, so non-ADS-B positions (MLAT, TIS-B) are excluded later exactly as in an archive.
+
+# text
+# c1: !AIVDM
+# c2: !AIVDO
+# c3: -
+# c4: tcp:host:port
+# c5: udp:port
+# c6: udp:addr:port
+# c7: c:
+seg-a2a8c9e515d9 = <b>AIS</b> reads <c1/> and <c2/> sentences from <c3/>, <c4/>, <c5/> (bound to the loopback interface; <c6/> to listen wider) or a file. The checksum is checked and fragments are joined; position reports (types { "1" }, { "2" }, { "3" }, { "18" } and { "19" }, ITU-R M.1371 layout) become rows. The time is the NMEA { "4" } TAG block <c7/> field when the sentence has one, otherwise the time it arrived.
+
+# text
+# c1: tests/interference_map_live.rs
+# c2: locate
+seg-144eafeff270 = The identifiers are written as received (ICAO address, MMSI) into the operator's own file, which is sent nowhere; the map and region readers hash them with a random salt, as for any other input. <c1/> checks that AIS over TCP gives the same file as the same sentences read from a file, that each readsb position is written once, and that <c2/> reads both files.
+
+# text
 # c1: interference-map locate
 seg-e3949a1e6082 = Emitter region (<c1/>)
-
-# attr:title
-seg-34bdcfd66ded = In the repository branch these docs come from; not yet on GitHub
 
 # text
 # c1: kshana interference-map locate
 # c2: VM-bc70cb57
 # c3: emitter-region/PREREGISTRATION.md
-seg-4fc5a1dcc963 = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <s1><c3/></s1>. Publishing emitter regions in the public observatory is a separate owner decision and is <b>off</b>: the observatory does not read this module, and a test pins that.
+seg-78f09b1a960d = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <a1><c3/></a1>. Publishing emitter regions in the public observatory is a separate owner decision and is <b>off</b>: the observatory does not read this module, and a test pins that.
 
 # text
 # c1: --levels 0.5,0.9,0.95
@@ -744,6 +802,9 @@ seg-212c43d1a41c = <s1>Previous</s1>NMEA training streams
 
 # text
 seg-7f13ee5d254e = <s1>Next</s1>Interference map: data sources and licences
+
+# text
+seg-ad2a088151ce = Live feeds from a local receiver (interference-map record)
 
 # text
 seg-d8eb178ef226 = Emitter region (interference-map locate)

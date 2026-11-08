@@ -156,8 +156,6 @@ seg-32c07578eab3 = Tallennetun istunnon vaiheet
 
 seg-2cff891dc970 = Seuraava vaihe
 
-seg-45da99dccd40 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "49" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Aja Kshana-skenaario ja palauta sen aikasarja animaationa.
 
 seg-0247e08ba09d = <c1/>: Arvioi todellisen GNSS-vastaanottimen loki luottamuksen kannalta: lue u-blox UBX, RINEX { "3" } (valinnaisesti lähetetyn navigointidatan kanssa, mikä lisää moottorin oman ratkaisun, RAIMin ja kelloavusteisen monitorin), Android GnssLogger tai NMEA-loki, aja luottamusmonitorit (kantoaalto–kohinatiheyden lasku, AGC, häirintäindikaattori, kytkennän menetys, sijaintihyppy, RAIM, kello) kalibrointilähtötasoa vasten ja palauta, milloin ja miksi vastaanotin lakkasi olemasta luotettava.
@@ -724,10 +722,12 @@ seg-b9961ed25282 = Uutta versiossa v{ $version }: tehtäväketju, todistemerkint
 
 seg-653cf3198094 = { "401" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
 
-seg-76b213d03caa = Kaikki { "92" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
+seg-859bb6732925 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "52" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+seg-2dc1aed7a12e = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
 
-seg-fddfe8b260be = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-b79ee48fd586 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
-seg-388f14eb6d8d = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
+seg-9b9d03fe1477 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-579d9b6f7afd = Kaikki { "93" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.

@@ -164,6 +164,17 @@ seg-2f679a429dae = REPRESENTATIVE, allocations from the <a1>ITU Radio Regulation
 seg-2054d9ce8a0d = the whole design (the UHF bandwidth and modulation too)
 
 # text
+# c1: gps-l2c
+seg-ad37d1c63c77 = <c1/> ({ "1227.60" } MHz, CM data and CL pilot time-multiplexed at { "1.023" } Mchip/s, −{ "160.0" } dBW), a medium Earth orbit reference signal for coexistence
+
+# text
+seg-880beb6c804c = PUBLIC, <a1>IS-GPS-200N</a1>
+
+# text
+# c1: iq::signals::gps
+seg-abd29e8b439f = CM and CL drawn as BPSK({ "1" }) halves of the composite; code lengths in { "1.023" } Mchip/s slots so the periods ({ "20" } ms, { "1.5" } s) are right; the acquisition figures are for CL (the pilot), where a receiver would acquire CM first; orbit altitude nominal. MODELLED: checked against the CM and CL codes of <c1/> and the BPSK closed forms only
+
+# text
 seg-24360342e8e6 = The ATOMIC "zero-clock" polynomial ephemeris is a navigation-message model, not a signal design, and lives with the navigation-message work, not here.
 
 # text
@@ -187,7 +198,7 @@ seg-f878fd0359c9 = <b>Code-tracking thermal-noise jitter</b> of a delay lock loo
 seg-089e4e98af82 = <b>Acquisition</b>: the largest satellite Doppler on an overhead pass at the elevation mask (<c1/>, circular orbit, no Earth rotation) plus the oscillator and user terms; Doppler bins of <c2/>; code bins over one period; the detection probability of a square-law detector (generalised Marcum Q) at a per-cell false-alarm probability, centred and at the worst-case straddle; and the mean acquisition time of a serial and a code-parallel single-dwell search (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Compatibility</b>: the spectral separation coefficient (SSC) of the band-limited signal into GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b and the E5 alternative BOC (AltBOC) signal over each global navigation satellite system (GNSS) receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀ loss of each GNSS signal into the LEO tracked component.
+seg-c0274a782bd9 = <b>Compatibility</b>: the spectral separation coefficient (SSC) of the band-limited signal into GPS L1 coarse/acquisition (C/A), GPS L2C, Galileo E1, GPS L5, Galileo E5a, E5b and the E5 alternative BOC (AltBOC) signal over each global navigation satellite system (GNSS) receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀ loss of each GNSS signal into the LEO tracked component.
 
 # text
 # c1: spectrum

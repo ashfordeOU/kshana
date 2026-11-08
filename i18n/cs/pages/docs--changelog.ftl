@@ -26,8 +26,6 @@ seg-c9a8a5898ced = Opraveno
 
 seg-3cc8ba4d1be6 = Příkazový řádek se tiše ukončí se stavem { "141" }, když se jeho standardní výstup uzavře (<c1/>), místo aby spadl s hlášením „failed printing to stdout: Broken pipe“. { "141" } je { "128" } plus SIGPIPE, tedy stav, který shell hlásí pro <c2/>. Ošetřena je jen uzavřená roura: plný disk či jakákoli jiná chyba zápisu se dál ohlásí a živý přenos zapisující do uzavřeného socketu stále dostane svou chybu zápisu. <c3/> uzavře čtenáře před spuštěním programu, takže první zápis selže při každém běhu.
 
-seg-2a47e785cc1d = Aktualizace závislostí v nástrojích křížové validace (<c1/>); žádná změna dodávaného crate, wheel ani balíčku.
-
 seg-9df898fb24be = <c1/> { "0.9.10" } na { "0.9.11" } (RUSTSEC-2026-0186) v zámcích křížové kontroly ANISE (<c2/>, <c3/>); zámky také znovu synchronizují závislost na cestě <c4/> v repozitáři.
 
 seg-835e9d6058f8 = <c1/> { "12.3.0" } na { "13.0.0" } a <c2/> { "2026.7.22" } na { "2026.10.19" } v připnutých verzích prostředí orákul (<c3/>, <c4/>): opravená vydání pro osm bezpečnostních oznámení k pillow a jedno k certifi.
@@ -110,8 +108,6 @@ seg-eb589aff44ad = <b>Detekční ROC monitorů IQ</b> (PRO-32, <a1><c1/></a1>). 
 
 seg-d25a34e23f1a = <b>Monitory IQ v kampani laboratorního přehrávání</b> (PRO-31, <a1><c1/></a1>). Volitelná tabulka <c2/> v souboru kampaně spouští monitory IQ v jediném průchodu běhounu: výkonový a spektrální po každém řetězci předního stupně a C/N0, SQM a zachycení pro každý sledovaný kanál. Jejich poplachy se hodnotí vůči uvedeným událostem: zjištěno nebo nezachyceno, doba do detekce a falešné poplachy na hodinu expozice. U každého testu je uvedena hodnota falešného poplachu v uzavřeném tvaru, včetně nové oboustranné gaussovské hodnoty pro testy SQM (<c3/>). Bez tabulky se nic nemění. Na syntetických kampaních jsou prahy falešných poplachů pro výkon a SQM i práh falešných poplachů pro C/N0 splněny; { "18" } z { "18" } útlumů je zjištěno, ale mez doby do detekce, která je z konstrukce pod jedním vzorkem detektoru, splněna není a je zaznamenána. MODELLED; řádek registru „IQ monitors scored in lab-replay campaigns“.
 
-seg-8eb0f650065e = <b>Laboratorní fit z kampaní IQ, navazující práce</b> (<c1/>, úloha CI <c2/>). Testuje dvě hypotézy, které §{ "13.6" } v <c3/> nechal otevřené, oproti prahům předregistrovaným v 1e532f84. Přidává dvě syntetické kampaně: S se stupňovitým J/S (seed 2026_1014) a R, novou rampu (seed 2026_1015). Výsledky jsou v <c4/>.
-
 seg-ce60405d0005 = S1 splněno: při udržení každé úrovně J/S se <c1/> obnoví v rozmezí +{ "0.185" } dB. Chyba −{ "1.1" } dB u kampaní s rampou je zpoždění odhadovače.
 
 seg-ea9f206c2999 = S2 nesplněno, zafixováno testem, který tvrdí nesplnění: (d) tak, jak je napsáno, na kampani se stupňovitým průběhem platí pro model sledovací smyčky ({ "0.45" } dB), ale ne pro empirický ({ "6.42" } dB).
@@ -126,8 +122,6 @@ seg-34007ba58a9f = Žádný verdikt v §{ "13" } se nemění a řádek registru 
 
 seg-df2c3f2532d6 = <b>Omezené navázání FLL, volitelně</b> (DS-LOOP-05): nový klíč návrhu smyčky <c1/> (s), v Rustu <c2/>. Při <c3/> vynutí předání z FLL do PLL po této době, bez ohledu na PLI. Ve výchozím stavu nenastaveno, a pak mimo hash návrhu; výchozí návrh a jeho hash se nemění.
 
-seg-ae2794b2d3d5 = Ověřeno proti prahům předregistrovaným v 58789af0, na vložené pravdě. Kontrola je splněna: výchozí nastavení nikdy nepředá řízení v { "9" } z { "10" } seedů při { "33" } dB-Hz.
-
 seg-6d9483874b35 = Nesplněno: s omezením { "1.0" } s drží zachycení { "16" } z { "20" } běhů při { "33" } dB-Hz a { "8" } z { "20" } při { "31" } dB-Hz; ostatní cyklují mezi vynucenými předáními a návratem FLL. Fázový jitter je { "1.8" }násobkem samotné PLL při { "33" } dB-Hz.
 
 seg-deeefaf50e3e = Podlaha navázání ~{ "35" } dB-Hz zůstává zdokumentovaným omezením výchozího nastavení.
@@ -141,10 +135,6 @@ seg-4621a740e6ee = <c1/>: <c2/> (dB-Hz, na sledovacím prahu nebo nad ním) a <c
 seg-b568f542e23a = <c1/>: <c2/> ({ "1" } až { "16" }) a <c3/> (MHz, výchozí dvojnásobek čipové rychlosti). Výstupem je blok <c4/>: <c5/> (dB, <c6/>), <c7/> (dB, odečtené od efektivního C/N0 každého spoje) a <c8/>. Ztráta je ztráta pro gaussovský vstup, označená jako neplatná pro rušiče CW, úzkopásmové a s rozmítáním.
 
 seg-0dad81736863 = Bez těchto sekcí je každý výstup bajtově shodný.
-
-seg-92007bfb6680 = Ověřeno proti prahům předregistrovaným v 70c72fcc. Ztráta kvantizéru je do { "0.0007" } dB od nezávislého Monte Carlo a údaj AGC do { "0.012" } dB od smyčky AGC vrstvy IQ.
-
-seg-973e451df99d = Registrované běhy hystereze byly neinformativní (každý spoj ztracen), takže tento práh je NOT MET. Doplňková sada běhů registrovaná v { "37793290" } jej splňuje: každý příznak se rovná nezávislému přepočtu a { "732" } z { "1824" } spojů vykazuje hysterezi.
 
 seg-912e9f1a4d5b = Zjištění: s rušičem CW ztrácí 1bitový ADC asi o { "5" } dB více než gaussovská hodnota.
 
@@ -164,8 +154,6 @@ seg-001d7b88b26d = Výsledek získává blok <c1/>: <c2/> ({ "1" }), <c3/> (dB),
 
 seg-b9696f5eda4b = Bez této sekce je každý výstup bajtově shodný.
 
-seg-593b6a5b4480 = Ověřeno proti prahům a deseti umístěním předregistrovaným v 92cd2bfd, na commitnuté skutečné dlaždici SRTM Death Valley, oproti nezávislému přepočtu v numpy. Vše splněno: nejhorší rozdíl { "1.6e-10" } u <c1/> i u ztráty (práh { "1e-9" }), ztráta je monotónní ve výšce rušiče a ztráta snižuje J/S přesně o sebe samu.
-
 seg-62e07defd715 = MODELLED; řádek registru „Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile“.
 
 seg-378e9052e2c4 = <b>Zisky antény CRPA v druhu jamming</b> (CAP-06a): volitelná sekce <c1/> ve scénáři <c2/>. Pole: <c3/> (polohy prvků v lokálním systému východ-sever-nahoru, m), <c4/> (<c5/> nebo <c6/>) a <c7/> (šumová šířka pásma MVDR, MHz, výchozí dvojnásobek čipové rychlosti).
@@ -176,15 +164,11 @@ seg-1f1ddc11ad94 = Každý spoj získává blok <c1/>: <c2/> (dB) a <c3/> (dB).
 
 seg-790ecc6a1bd4 = Neplatná sekce (prázdný seznam prvků, neznámé váhování, nekladná šířka pásma) je chyba, a to přes <c1/> a <c2/> i přes <c3/>.
 
-seg-2464d9dde85f = Ověřeno proti prahům předregistrovaným v 08d83b4d. Splněno: aditivita (po opravě: první sestavení přidalo nové jednotky do tabulky jednotek každého běhu jamming); jeden prvek není pole; šumový zisk a efektivní C/N0 oproti nezávislému přepočtu v numpy do { "1e-9" } dB; MVDR se při vysokém JNR blíží nule.
-
 seg-c04495f7a65a = Nesplněno: zisk rušiče MVDR u { "194" } z { "456" } spojů při { "0.36" } přenosné matematice ({ "202" } při matematice hostitele; <c1/>) (nejhorší { "1.7e-6" } dB). Rezidua od −{ "100" } do −{ "188" } dB jsou při tomto prahu pod rozlišením float64 a numpy nesouhlasí sám se sebou ve stejném řádu.
 
 seg-c10e1c72eb15 = MODELLED; řádek registru „CRPA antenna gains in the jamming kind against an independent numpy recomputation“.
 
 seg-0a3adfa7271c = <b>Sledovací engine IQ oproti GNSS-SDR { "0.0.19" }</b> (PRO-33): <c1/> a GNSS-SDR sledují tytéž nezávislé záznamy GPS L1 C/A v numpy při { "30" } až { "45" } dB-Hz.
-
-seg-cc73857e38e8 = Prahy předregistrované v 48edd4a5. Registrovaná kalibrace selhala na chybném předání GNSS-SDR (F3), takže Amendment { "1" } (1e4288c4) přidává FLL jen pro navázání k oběma přijímačům, commitnuto před jakýmkoli testovacím záznamem.
 
 seg-1d651ff134f9 = Splněno: jitter nosné a kódu a Doppler se shodují v rozmezí { "5" } % při každém C/N0.
 
@@ -194,15 +178,9 @@ seg-7c32867b5c27 = MODELLED; řádek registru „IQ tracking engine against GNSS
 
 seg-6ba057fab559 = <b>Dva řádky VALIDATED pro kódy vrstvy IQ</b> (DS-GIQ-06b, PRO-39).
 
-seg-55524624777b = <b>BeiDou B1I.</b> Všech { "63" } primárních kódů B1I se shoduje s nezávislým generátorem GNSS-SDR { "v0.0.19" } čip po čipu (práh předregistrovaný v 911106d1). Commitnut je pouze výstup tohoto programu: kódy PRN B1I, které definuje veřejné ICD, jako prefix a hash.
-
-seg-37437a09dd67 = <b>GPS L1C.</b> Všech { "126" } kódů L1CP/L1CD a { "63" } překryvů L1CO se shoduje s kontrolními sloupci, které tiskne IS-GPS-800J, a vypočtená Legendreova posloupnost se shoduje s jeho Table 6.2-1 (prahy předregistrované v fe372e26).
-
 seg-f445784a7f2d = Řádky: „BeiDou B1I primary ranging codes against an independent generator“ a „GPS L1C ranging and overlay codes against the IS-GPS-800J printed check columns“.
 
 seg-001f48d86a3c = <b>Pásma GLONASS, BeiDou a Galileo E6 v modelu spektra</b> (CAP-12, signály): nové názvy pásem <c1/> a <c2/> (libovolný kanál FDMA jako <c3/>, K = −{ "7" } až { "6" }), <c4/>, <c5/>, <c6/>, <c7/> a <c8/>. Každé nese nosnou, modulaci a minimální přijímaný výkon podle svého ICD. Jsou volitelná podle názvu: výchozí sada pásem a všechny stávající výstupy se nemění.
-
-seg-158a6ec19d6b = Ověřeno proti prahům předregistrovaným v 5806f28b: hodnoty ICD, nuly, složený signál B1C a cesta C/N0 jsou splněny.
 
 seg-805092ae8ca2 = Dva prahy splněny nebyly. Práh jednotkové plochy byl tak, jak byl napsán, nedosažitelný (F1). Průběhy B1I a B1C vrstvy IQ se modelu shodují jen po zprůměrování v pásmu kvůli nerovnoměrným čárovým spektrům jejich kódů (F2).
 
@@ -210,17 +188,11 @@ seg-db88f07d97bb = MODELLED; řádek registru „Spectrum model: GLONASS, BeiDou
 
 seg-b0147cf3acc8 = <b>Volba CFAR s průměrováním buněk v akvizici IQ</b> (PRO-37): <c1/> a <c2/> rozhodují na akviziční mřížce porovnáním každé buňky s průměrem referenčních buněk v jejím dopplerovském řádku. Prahová hodnota vychází z pravděpodobnosti falešného poplachu CA-CFAR v uzavřeném tvaru pro <c3/> nekoherentních bloků (<c4/>, <c5/>), takže rozhodnutí nezávisí na normalizaci výkonu vzorků. Je volitelná; výchozí detektor a všechny stávající výstupy se nemění.
 
-seg-a56e74b1e091 = Ověřeno proti prahům předregistrovaným v 3724aefa: uzavřený tvar oproti Monte Carlo ({ "18" } z { "18" } případů) a návrhová míra { "1" } % naměřená na { "0.97" }–{ "1.01" } % na gaussovském a 2bitově kvantovaném šumu.
-
 seg-f88fe97e0ee6 = Jeden práh splněn nebyl: u 2bitového signálu bez šumu { "1.28" } % buněk mimo vrchol překračuje prahovou hodnotu, a to na korelačních postranních lalocích kódu (zjištění F1).
 
 seg-8d88b626c31e = MODELLED; řádek registru „Cell-averaging CFAR option in IQ acquisition“.
 
-seg-d596329195cf = <b>Model scintilace oproti naměřeným datům</b> (PRO-34): Cornellův model scintilace kanálu IQ byl porovnán s naměřenou intenzitou a fází GPS L1 při { "50" } Hz z noci rovníkové scintilace (záznam Zenodo { "16941224" }, INGV, Malindi, CC BY { "4.0" }), s prahy předregistrovanými v b6ccb499. Splněno: rozdělení intenzity a fázová scintilace svázaná s S4. Nesplněno: model je { "2.4" }krát častěji v útlumu pod −{ "10" } dB a { "3.5" }krát déle (zjištění F1). Registrované zpracování čte zabalenou fázi modelu (zjištění F2); výsledek pro fázi platí i s rozbalenou. <c1/> stahuje data. Řádek zůstává MODELLED: „IQ ionospheric scintillation channel (Cornell model) against measured { "50" } Hz GPS L1 scintillation“.
-
 seg-d6740cab2271 = <b>Opravená čtečka vzorků LuGRE</b> (MR-09): <c1/> čte dávku IQ LuGRE s I ve vysokém půlbajtu a úrovněmi mid-rise <c2/> (<c3/>), které odstraňují střední hodnotu −½, kterou nesou holá celá čísla ve dvojkovém doplňku u I a Q. <c4/> dává GNSS-SDR stejné čtení. Obecná čtečka ION a všechny stávající výstupy se nemění: { "149" } výsledků scénářů a jedna studie jsou před a po bajtově shodné a zafixovaná zjištění LuGRE se čtou, jak byla registrována (<c5/>). Žádný řádek registru se nemění.
-
-seg-5adf36c03c14 = <b>Volitelné sledování BOC({ "1,1" })</b> (CAP-07 (a)): <c1/> přeškáluje diskriminátory DLL pro hlavní vrchol sinusového BOC({ "1,1" }) a přidává monitor skoků na vedlejší vrchol (velmi předbíhající a velmi zpožděné korelátory při ±{ "0.5" } čipu, čítače nahoru/dolů, <c2/>), který přesouvá NCO kódu z vedlejšího vrcholu; <c3/> vypisuje skoky. Ve výchozím stavu vypnuto a všechny stávající výstupy se nemění. Ověřeno proti prahům předregistrovaným v 6b68f6cc na syntetickém signálu BeiDou B1C: start na vedlejším vrcholu, který bez volby zůstává { "0.55" } čipu mimo, je s ní jediným skokem v { "0.08" } s přitažen na hlavní vrchol a z hlavního vrcholu nebyl pozorován žádný falešný skok. Jeden práh splněn nebyl: mřížka jednotkového testu pro škálování zasahuje mimo lineární rozsah diskriminátorů (zjištění F1 v <c4/>). MODELLED; řádek registru „BOC({ "1,1" }) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in)“.
 
 seg-89345aa385f7 = <b>Laboratorní fit z kampaní IQ</b> (B7.1, <a1><c1/></a1>). <c2/> scénáře labfit fituje výstupní složku <c3/> v CLI (<c4/>), v Pythonu (<c5/>) a v nástroji labfit MCP (jen složky uvnitř jeho pracovního adresáře). Fituje jednu jednotku pro každý signál, návrh smyčky, řetězec předního stupně a typ rušiče:
 
@@ -236,31 +208,9 @@ seg-ee5deb4d5d4b = předregistrovaná tabulka <c1/>, s hashem, s PASS/FAIL pro k
 
 seg-4d58263106af = Zpráva je <c1/> jako JSON, CSV a Markdown, s blokem jednotek. <b><c2/> nelze z dat C/N0 identifikovat</b> bez nezávislého měření výkonu. Uvádí se, nikdy nefituje, a fitovaným parametrem je <c3/> (změna návrhu 2026-10-12). Neznámý typ rušiče bere nejškodlivější uvedené <c4/> (cw, { "1" }). Na syntetických kampaních z vlastních scén Kshana prahová hodnota pokrytí hold-outu (c) projde. Prahy <c5/> (a') a (b') ({ "0" } z { "50" } pokrytých kampaní) a práh uzavřeného tvaru prahové hodnoty (d) splněny nejsou: jsou zaznamenány se svými hodnotami. MODELLED; řádek registru „Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error“. Cesta labfit ze záznamu přijímače a její výstupy se nemění.
 
-seg-308d19be658d = <b><c1/> na jádru JPL</b> (CAP-31): <c2/> bere každé těleso, které SPK obsahuje (s de440s: Merkur, Venuše, Zemi, Měsíc), z jádra, štítek <c3/>, a blok <c4/> přidává jen tehdy, je-li nastaveno. Nový řádek, VALIDATED proti SPICE (předregistrováno f8e946ea; nejhorší { "3.3e-5" } m, { "1.0e-11" } m/s). Výchozí zpráva se nemění.
-
 seg-fe16c24eae60 = <b>Porkchop na efemeridách DE440</b> (CAP-20b): <c1/> prochází C3 a příletové V∞ na heliocentrických stavech z DE440 SPK. Nový řádek, VALIDATED proti stavům SPICE
 
-seg-a8632f3c86e9 = pykep { "3.0.1" } (předregistrováno 2d857fb1; Země–Mars 2026-2028, { "304" } buněk, nejhorší { "2.6e-14" }, táž buňka s minimálním C3).
-
-seg-266cffab38a7 = <b>Negravitační makromodel LRO: NOT MET</b> (DS-LRO-10, předregistrováno e82047e2). <c1/> (volitelné přes <c2/>): přímé sluneční záření na ploché desky se stínem Měsíce, panel sledující Slunce a lunární albedo a tepelné IR; <c3/> je označená obecná aproximace LRO z publikovaných údajů (bez desek sběrnice: tabulku desek se nepodařilo získat). Na { "4" } h oblouku LRO ponechává RMS redukovaně dynamického řešení na { "6.668" } m a dynamického na { "11.94" } m, s nevěrohodným faktorem záření (asi +{ "21" } / −{ "22" }), takže všechny tři prahy jsou nesplněny. Zjištění je zafixováno testem a žádný výchozí výstup se nemění (<c4/>). Volitelné lunární SRP typu dělová koule nyní používá kuželový stín Měsíce místo stínu Země (<c5/>).
-
 seg-e4ed6e0e5048 = <b>Lunární OD: volitelný pevninový příliv k2 a selenocentrická relativita</b> (DS-LRO-11), ve výchozím stavu vypnuto (<c1/>, <c2/>); přepínač <c3/> pro křížovou validaci ANISE (DS-LRO-04); fixture { "24" } h oblouku LRO a pouze informativní fit dlouhého oblouku (DS-LRO-09). Informativní běhy jsou zaznamenány v <c4/>; žádné zveřejněné číslo se nemění.
-
-seg-b065138adba8 = <b>NRHO CR3BP { "9" }:{ "2" } oproti CAPSTONE</b> (CAP-29d): nový řádek MODELLED měřící kruhovou omezenou NRHO enginu oproti skutečně prolétané dráze CAPSTONE (JPL Horizons, March { "2023" }; předregistrováno { "4e868170" }): perioda { "1.07" } %, apolunium { "0.05" } %, perilunium { "4.1" } % od středních hodnot CAPSTONE, v rámci registrovaných prahů { "3" } / { "5" } / { "20" } %. Měření, nikoli validace.
-
-seg-954bd2771180 = <b>Rotující stavy CR3BP do ICRF se středem v Měsíci</b> (RM-34, FUT-06): <c1/> / <c2/> / <c3/> mapují bezrozměrný rotující stav soustavy Země–Měsíc na okamžitou přímku Země–Měsíc podle DE440, včetně rychlosti soustavy mimo rovinu. Nový řádek, VALIDATED proti dvouvektorové soustavě SPICE (předregistrováno 2313eb1b, změněno před jakýmkoli během d5ef79b3; { "72" } případů, nejhorší { "1.8e-7" } m a { "1.2e-9" } m/s).
-
-seg-14599ab79300 = <b>Členové rodin CR3BP oproti JPL Three-Body Periodic Orbits API: NOT MET</b> (RM-35, předregistrováno a9074f65). <c1/> (korekce halo, NRHO a DRO, index stability monodromie, pseudo-obloukové pokračování) se shoduje u { "54" } z { "58" } členů API v každém prahu (stav, perioda a Jacobiho konstanta do { "1e-10" } všude). Jeden index stability halo L1 ({ "9.5e-2" }) a tři uzavření malých DRO ({ "1.5e-8" } až { "3.3e-8" } oproti { "1e-8" }) práh nesplňují, takže modul je <c2/> a žádný řádek jej netvrdí. Výsledky: <c3/>.
-
-seg-0cd0e67a2e28 = <b>Volitelná lunární orientace a prostředí podle DE440</b> (FUT-05, DS-LRO-08; výchozí nastavení beze změny): <c1/>, <c2/> / <c3/> (ukotveno k epoše, hlavní osy DE440) a <c4/> (vložená orientace DE440 PA plus geocentrické Slunce a Měsíc z uživatelem dodaného DE440 SPK). Oproti ANISE (předregistrováno ea537710): orientace do { "3.5e-7" } rad a fity LRO do { "1" } mm, ale větev efemerid svůj práh nesplnila (Slunce { "30.7" } m, Měsíc { "1.1" } m, časový posun ~{ "1" } ms na straně ANISE), takže to není ověřený řádek. Výsledky: <c5/>.
-
-seg-92cc171c69da = <b>Datum kampaně lunární soustavy, práh NumPy škálovaný podle podmíněnosti: NOT MET</b> (předregistrováno b887eb05; zůstává MODELLED). Krok { "0" } vylučuje záložní pseudoinverzi jako příčinu mezery { "0.30" } při odhadu stanic; NumPy se v rámci prahu shoduje u šesti z osmi scénářů, ale stations_estimated jej nesplňuje ({ "6.8e-6" } oproti { "5.9e-7" }) a na nové datum 2026-12-01 nepozorovaný maják na jižním pólu činí informační hodnost majáku deficitní, což nezměněné orákulum nedokáže vyhodnotit. Výsledky: <c1/>.
-
-seg-8d2f1e9708ff = <b>Datum lunární soustavy ze skutečné pozorovací kampaně (analytický Měsíc) VALIDATED</b> na nových normálních bodech EDC z { "2025" } (předregistrováno 31f5283 před stažením kteréhokoli): nezměněné orákulum SPICE a NumPy se shoduje v účetnictví, hodnostech a nulové vazbě a do { "1.11e-3" } na sigmách (práh { "1e-2" }), { "8.95e-4" } na podmíněnosti a { "1.79e-3" } na poměrech napříč/podél (práh { "2e-2" }). Pouze kontrola (Library) výpočtu kovariance; prahy modely Měsíce nerozlišují. Výsledky: <c1/>.
-
-seg-058d7d490111 = <b>Orientace podle IAU a GM čtrnácti přidaných těles Sluneční soustavy</b> vyčleněné z řádku „Physical constants of every solar-system body“ do řádku VALIDATED (předregistrováno 154bc54): <c1/> se shoduje se SPICE <c2/> na pck00011 do { "1e-9" } rad na { "574" } maticích v původních epochách a na { "574" } v { "41" } nových epochách, které nebyly dříve porovnány (nejhorší Phobos { "1.38e-10" } rad), a <c3/> se rovná gm_de440 u všech čtrnácti těles. Zbytek původního řádku (J2, střední poloměr, zpráva) zůstává MODELLED. Výsledky: <c4/>.
-
-seg-56c445aa8d9e = <b>Lambert s více oběhy</b> (<c1/>): každé řešení až s třemi oběhy, obě větve. Nový řádek registru, VALIDATED proti pykep { "3.0.1" } (předregistrováno a75de851; { "382" } případů, { "1058" } řešení, nejhorší rozdíl rychlosti { "1.6e-13" } oproti { "1e-8" }). Vnitřní hlídač přistání Keplerovy rovnice našel jedno omezení <c2/> na oblouku s e = { "0.994" }; je zaznamenáno v <c3/>.
 
 seg-b62dc38b09e9 = Tlak slunečního záření pro box-wing a ECOM2 (DS-PA-14), volitelně.
 
@@ -312,15 +262,7 @@ seg-5e82deb7c853 = Volitelná tesserální gravitace Země v propagátoru Cowell
 
 seg-e1a7ad42211e = <c1/> získává <c2/> (<c3/>, <c4/>). Vyhodnocuje <c5/> (přibalený EGM2008 do stupně/řádu { "70" } nebo libovolný ICGEM <c6/>) v soustavě pevné vůči Zemi, k níž se dojde úhlem rotace Země (<c7/>) nebo řetězcem CIO GCRS–ITRS (<c8/>). Výchozí <c9/>: žádný stávající výstup se nemění. VALIDATED proti Orekit { "12.2" } Holmes–Featherstone po { "24" } h ({ "6" } případů, nejhorší { "0.036" } m), s prahy předregistrovanými v <c10/>.
 
-seg-957686bb351e = <b>Dvoudílná juliánská data při rotaci Země na dráze oběžné dráhy</b>: <c1/>, <c2/>, <c3/> / <c4/>, <c5/> a <c6/>, převody <c7/> mezi <c8/> a <c9/> a volitelné <c10/> pro scénář <c11/> (ECEF, pozemní stopa a pohled ze stanice; ve výchozím stavu vypnuto a beze změny, a klíč je při vypnutí z hashe scénáře vynechán). Nový řádek registru, VALIDATED proti pyerfa <c12/>/<c13/> (předregistrováno b10475ee; { "40" } dat: GMST bitově shodné, matice do { "2.7e-14" }, rotace po krocích { "1" } µs do { "1.1e-14" } rad, kde cesta s jediným <c14/> tyto meze nesplňuje). Epocha silového modelu Cowell zůstává s jediným <c15/>; důvod je v její dokumentaci.
-
 seg-0680b1f4c98b = <b>Predikce EOP za hranicí tabulky</b> (<c1/>, <c2/>): volitelné rozšíření řady orientace Země IERS prediktorem LS+AR vydaným na jejím posledním řádku, takže argumenty soustavy pozdější epochy sledují předpověď místo ořezání na poslední řádek. Odpovědi uvnitř tabulky jsou bitově shodné (testováno); řada se nadále ořezává, pokud se toto nezavolá. Přesnost předpovědi zůstává stávajícím zjištěním LS+AR oproti Bulletinu A (MODELLED).
-
-seg-a7d272a1ddd6 = <b>Posuny nebeského pólu dX, dY na řetězci CIO</b> (<c1/>) a přímé kontroly vektorů ERFA pro <c2/>, <c3/> a novou funkci. Nový řádek registru, VALIDATED proti pyerfa (předregistrováno 979c1e39; { "40" } epoch { "1950" }–{ "2100" }: precese a CIO bitově shodné, TEME→GCRS do { "1.1e-10" } rad, což je předpovězený účinek dvoučlenné řady rovnice ekvinokcií). Stávající funkce se nemění.
-
-seg-20d19a2d65ec = <b>UTC před rokem 1972 na dvoudílné časové cestě</b> (<c1/> a <c2/>, <c3/> a <c4/> od 1960-01-01): éra s měnící se rychlostí („gumová sekunda“), s tabulkou driftu SOFA, zlomkovými skoky na konci dne a přeškálováním zlomku dne z UTC na SI. Nový řádek registru, VALIDATED proti pyerfa <c5/>/<c6/>/<c7/> (předregistrováno 23c40661; { "117" } okamžiků { "1960" }–{ "1971" }, nejhorší { "2.9e-11" } s oproti prahu { "1" } µs). Každý výsledek od { "1972" } je bitově shodný (kontrolní součet připnut před změnou). Před { "1960" } je TAI − UTC { "0" }, jako v SOFA. Cesta <c9/> s jediným <c8/> se nemění.
-
-seg-3ff0d080d9e6 = <b>Vysílané hodiny družice GLONASS</b> (<c1/>): <c2/> ze záznamu RINEX, v čase čteném na hodinách družice (dvě iterace s pevnou řádovou čárkou, konvence RTKLIB). Dříve nepoužívané parsované <c3/> a <c4/>. Nový řádek registru „GLONASS broadcast satellite clock and broadcast-orbit propagation“, VALIDATED proti RTKLIB 2.4.2-p13 <c5/>/<c6/> (předregistrováno e099c42a; { "292" } případů na skutečném vysílaném souboru z { "2013" }: rozdíl hodin { "0" } s, nejhorší poloha { "1.1" } mm oproti prahu { "1" } cm). Knihovní funkce; žádný výstup scénáře se nemění. Neprovádí se žádná transformace PZ-90.11 → ITRF a modul to uvádí.
 
 seg-71ae2ee163e0 = <b>Časové řešení PPP oproti hodinám stanice IGS</b> ({ "0.36" }, FUT-19): hodiny přijímače float filtru PPP na WTZR se shodují s finálními kombinovanými hodinami IGS pro stanici na { "0.075" } ns (směrodatná odchylka) s konstantním posunem −{ "0.66" } ns za konvergované dvě hodiny. Prahy byly předregistrovány v <c1/>. VALIDATED (nový řádek registru). Nová fixture <c2/>, záznamy hodin stanice z finálního souboru hodin IGS, který se již používal pro hodiny družic.
 
@@ -480,11 +422,7 @@ seg-8ce699586340 = <b>Plánování pozemních kontaktů a DVB-S2 ACM</b> ({ "0.3
 
 seg-cd6dbcc3a78b = <b>Dopplerovské určování polohy ze Starlink proti zveřejněnému experimentu</b> ({ "0.36" }, WP-14, část CAP-11, MODELLED). Jde o předregistrované proxy srovnání dopplerovského režimu <c1/> s předvolbou <c2/> proti percentilům datové sady 3 z „Unveiling Starlink for PNT“ (NAVIGATION { "72" }({ "1" }), { "2025" }, doi:10.33012/navi.685). Model použil { "3" } družice (maska { "47" } stupňů zvolená pevným pravidlem), žádnou podporu výšky a sigma Dopplera { "30" } Hz, přes { "200" } seedů. Jeho 90. percentil 3-D chyby je { "92.2" } m při { "20" } s a { "870" } m při { "8" } s, proti zveřejněným { "2" } m a { "10" } m, takže oba prahy dvojnásobku jsou NOT MET. Model je pesimistický, nikoli optimistický, jak bylo předpovězeno: tři pevné družice poskytují mnohem menší geometrickou různorodost než { "63" } družic experimentu během { "10" } minut s přepínáním kanálů každých { "15" } s. Obě nesplnění jsou potvrzena testem (<c3/>).
 
-seg-ffeb1b66cda5 = <b>Optimalizátor impulsních přeletů na DE440</b> ({ "0.36" }, WP-14, CAP-20c/d): <c1/> nalézá data odletu a příletu jednootáčkového balistického dvouimpulsního přeletu, které minimalizují odletové C3 nebo příletové V-infinity v rámci Type I nebo Type II. Prohledává mřížku po 2 dnech a poté zpřesňuje 2-D Nelder-Mead na heliocentrických stavech z jádra DE440; vychází z <c2/>. Srovnání bylo předregistrováno (bf0439e8) proti nezávislému optimalizátoru SPICE + pykep { "3.0.1" } + SciPy { "1.18.1" } na příležitosti Země–Mars { "2026" }: všechny čtyři optimalizace se shodují na { "8.7e-13" } relativně, s daty v rámci { "1e-5" } dne (VALIDATED, nový řádek registru). Jako sekundární zveřejněná reference se NASA/TM-2010-216764 (příručka Země–Mars 2026-2045) shoduje pro minimum C3 typu II ({ "9.182" } vs { "9.144" }) a minimum příletového V-infinity typu II ({ "2.564" } vs { "2.565" }). Jeho minimum C3 typu I se neshoduje: { "10.535" } vs { "11.11" } (-5,18 %), kde knihovní orákulum souhlasí s Kshana. Toto nesplnění je zaznamenáno a potvrzeno testem.
-
 seg-91fe2e2625a1 = <b>Studie lunární referenční stanice</b> ({ "0.36" }, podnícená zveřejněným materiálem o plánované referenční stanici na jižním pólu Měsíce; zdroje v <a1><c1/></a1>): druh <c2/>, sweep Monte Carlo lunárního diferenčního modelu PNT přes uživatelskou mřížku u jižního pólu a den epoch, který dává pro každý bod i pro oblast percentilovou opravenou a neopravenou chybu, dostupnost s důvody, pokrytí proti uvedenému prahu, ochranné úrovně, poloměr pokrytí podle azimutu a rozpočet korekčního spoje. V jednom bodě, epoše a pokusu se přesně redukuje na <c3/>; jeho aritmetika byla přepočtena v numpy pod předregistrovaným prahem (polohy a percentily splněny; opravy stanice svůj práh nesplnily kvůli zaokrouhlení v dvojité přesnosti, zaznamenáno). MODELLED; řádek registru „Lunar reference-station coverage and accuracy map“. Bez spojení s jakoukoli agenturou či jejího schválení; žádné tvrzení o výkonu jakéhokoli skutečného systému.
-
-seg-3d0cd9692787 = <b>Předregistrovaná předpověď: pokrytí lunární referenční stanice</b> (není validace; MODELLED). <a1><c1/></a1> zmrazuje v commitu c05dac1d výsledky <c2/> za veřejně uvedených předpokladů, s hashi SHA-256 vstupů a výsledků a s hodnoticím protokolem určeným nyní (faktor { "2" } pro přesnosti a ochranné úrovně, { "10" } procentních bodů pro dostupnost a pokrytí; změněný předpoklad dostane novou datovanou předpověď, nikdy úpravu; nesplnění se zveřejní stejně výrazně jako splnění). Každá hodnota je dominována nezveřejněnou sadou elementů čtyřdružicové konstelace, která je ILLUSTRATIVE, a říká to. <c3/> ji hlídá; <c4/> získává sekci „Pre-registered predictions“. Žádný řádek registru.
 
 seg-00ec7ccd4d0d = <b>Rozšíření lunární referenční stanice</b> ({ "0.36" }; omezení { "2" } a { "3" } studie stanice a styl řešení zdrojů), každé volitelně zapínané na <c1/> a ve výchozím stavu vypnuté, takže každý existující dokument, včetně zmrazené předpovědi, je beze změny: <c2/> (vícecestné šíření <c3/> u uživatele i stanice, u stanice volitelně Gauss-Markov přes epochy, kódový šum DLL z C/N0, mezikanálová zkreslení; hodnoty ILLUSTRATIVE pro Měsíc); <c4/> (lineární růst chyby vysílané dráhy po dobu latence oprav, ILLUSTRATIVE); <c5/> (omezení výšky, minimum tří družic s ním, okno statického uživatele přes epochy). Dva dodatky k porovnání se zveřejněnými tvrzeními, každý předregistrovaný samostatně před svým během, stojí vedle needitovaného zaznamenaného běhu: K5 s růstem selhává při každé rychlosti; ve stylu řešení zdrojů K1 až K5 selhávají a K6 vychází ({ "1" } z { "6" }), přičemž opravená 3-D chyba p95 pro R300 klesá z { "280.6" } m na { "2.11" } m. MODELLED; tři řádky registru.
 
@@ -509,8 +447,6 @@ seg-8f5ebce999fe = S řádky geometrie důvěry, skyline a lunární referenčn�
 seg-686b1211d7bb = <b>Lunární referenční stanice: laboratoř času stanice</b> (<b>MODELLED</b>). Nepovinný blok <c1/> na <c2/> (<c3/>). Modeluje hodiny stanice (výchozí třída miniRAFS, libovolná pojmenovaná třída nebo karta zařízení nafitovaná na uvedené body stability) řízené k LTC, poté volně běžící nebo znovu řízené každých N sekund. Vydává křivku časové chyby x(t), čas do { "1" }, { "10" } a { "100" } ns (bisekce vedle uzavřeného tvaru) a dominantní člen pro každý horizont, vše s jednotkami. Reziduum řízení je ILLUSTRATIVE. Rychlost LTC se znovu neodvozuje a drží si vlastní řádek VALIDATED. Cíl na úrovni nanosekund z veřejného materiálu ICG WG-B Lunar PNT (červen { "2024" }) je citován jako výrok zdroje, nikoli jako tvrzení. Pořadí hodin optické < PHM < RAFS < miniRAFS platí od { "1" } s do { "7e5" } s a test připíná křížení křivek PHM a RAFS poblíž { "7.5e5" } s. Toto křížení je vlastností modelů hodin s jediným typem šumu (čistý flicker FM proti čistému bílému FM), nikoli fyzikálním výsledkem. Bez bloku jsou zpráva, její tabulka i souhrn beze změny. Příklad: <c4/>. Přidává jeden řádek registru označený MODELLED.
 
 seg-863c2c7a5f0b = <b>Lunární referenční stanice: geodézie stanice</b> (<b>MODELLED</b>). Nepovinné vstupy <c1/> a <c2/> na <c3/> přidávají blok <c4/>. Informace o datu z pěti polí z archivovaného řezu laserového měření vzdálenosti se spojují s tím, co by přidaly přidaný retroreflektor a přidaný maják VLBI na uvedených místech. Reflektor je měřen v archivovaných epochách, kdy jej lze vidět, s jejich archivovanými vahami. Maják využívá síť a rozvrh <c5/>, se stanicemi pevnými. Blok udává každou Helmertovu 1-sigma před a po a jejich poměr. Jsou to meze Cramér–Rao pro zredukovanou množinu parametrů, na ILLUSTRATIVE rozvrhu a místě. Chybějící nebo prázdné vstupy nechávají zprávu bajt po bajtu shodnou. Příklady: <c6/> a <c7/>. Přidává jeden řádek registru označený MODELLED.
-
-seg-45c6febcc7fc = <b>Lunární referenční stanice: porovnání se zveřejněnými tvrzeními</b> (<b>MODELLED</b>). Každé číselné tvrzení v pěti veřejných zdrojích je uvedeno s přesným zněním, stranou a uvedenými předpoklady a zařazeno jako srovnatelné, částečně srovnatelné nebo nesrovnatelné (<c1/>; zdroje s URL, datem stažení, SHA-256 a licencí v <c2/>). Částečně srovnatelná tvrzení byla hodnocena podle šesti jednostranných prahů předregistrovaných před během (<c3/>, revize { "2" }, 05bf9a19): { "1" } ze { "6" } tvrzení v rámci předregistrovaného prahu (předregistrováno 05bf9a19). Pokrytí je { "0.00" } proti >= { "0.95" } na obou jihopolárních kružnicích a opravené p95 je { "280.6" } m proti <= { "1.5" } m. Příčinou jsou dráhové elementy družic, které žádný zdroj nezveřejňuje: na ILLUSTRATIVE elementech ve stromě jsou čtyři družice ve společném dohledu v { "8" } % epoch, při téměř singulární geometrii. Běh tato tvrzení na těchto elementech nereprodukuje a není důkazem, že jsou tvrzení chybná. Připnuto v <c4/>. Jeden řádek registru označený MODELLED se zjištěním.
 
 seg-2b01d2ccb666 = <b>Lunární referenční stanice: připravenost dat souboru hodin</b>. <c1/> nyní uvádí časový systém svých epoch. Je to hodnota <c2/> nebo, není-li deklarována, výchozí hodnota družicového systému z hlavičky. Výsledek také říká, zda byl systém deklarován. Funkce odmítne neznámý časový systém (například lunární časovou škálu), nedeklarovaný soubor se smíšenými systémy a soubory, které si odporují, místo aby je četla jako čas GPS. Dodává syntetický fixture hodin stanice. Není definován žádný formát souboru oprav, protože žádný veřejný neexistuje.
 
@@ -587,8 +523,6 @@ seg-fcfa0de18b05 = Předregistrované připnutí hodnocených výsledků zůstá
 seg-b96d34bb1d36 = Žádný práh nebyl změněn a nepohnul se žádný řádek VALIDATED, hodnota ani číslo na webu.
 
 seg-ccbe11bd50b6 = <b>lunar-frame-campaign: maják bez pozorování je nyní hlášen</b> (nalezeno MR-05). Zpráva získává <c1/> a <c2/> jen tehdy, když nějaký maják nemá žádné pozorování, a sigmy pozorovaných majáků pak pocházejí z jejich vlastní informace, místo aby byly všechny null. Datum je beze změny a nemění se žádný výchozí, přibalený ani zveřejněný výstup (<c3/>).
-
-seg-c223c1fc1323 = <b>Lunární soustava hlavních os</b> (<c1/>, používaná v <c2/> a ve fitu LRO): posun DE421 od střední osy Země k hlavním osám z <c3/> byl použit ve špatném směru a se špatným pořadím Eulerových úhlů, takže analytická soustava PA ležela asi { "208" }″ od PA, místo aby na ní ležela. Nyní je přepsána tak, jak ji definuje Frames Required Reading SPICE, a shoduje se se SPICE <c4/> na { "2.6e-16" } rad; analytická soustava PA je { "6" }″ až { "8" }″ od PA DE440 (předregistrováno e1ead19b, znovu registrováno be33382e poté, co první navržená změna nesplnila práh { "1e-12" }; <c5/>). Zveřejněná čísla, která se mění: fit LRO (<c6/>) surové překrytí { "53.8" } → { "39.9" } m, dynamické { "12.6" } → { "12.05" } m, redukovaně dynamické { "6.65" } → { "6.67" } m (prahy beze změny). Analytický zásobník se nyní shoduje s křížovou validací ANISE na úrovni DE ({ "12.0" } / { "6.67" } m) na obou úrovních; dřívější rozdíl na dynamické úrovni byla tato chyba.
 
 seg-ef2b49d4ad48 = <b>Server MCP odmítá <c1/></b> (navazuje na CAP-06b). Cesta k dlaždici terénu druhu jamming je nyní v <c2/>. Inline povrch odmítne scénář, který ji uvádí, se zprávou, která neobsahuje ani cestu, ani chybu operačního systému. Test ochrany zdrojů souborů nyní označí i pole končící na <c3/>.
 
@@ -1622,8 +1556,6 @@ seg-1a4f9d5eef96 = <b>Zkratky jsou rozepsány při prvním použití v každém 
 
 seg-2889ce118381 = Pokrytí řádků má záznamové měření.
 
-seg-9c4684c0a4ef = <c1/> zaznamenává { "95.63" } % ({ "37,697" } z { "39,419" } řádků) z úlohy CI <c2/> na <c3/> a <c4/> k němu přišpendluje pět veřejných ploch s „~{ "96" }%“ — jediné hlavní číslo, které se udržovalo ručně a které se už jednou nepozorovaně pohnulo.
-
 seg-ebd36b7291df = Nové brány synchronizace dokumentace pro plochy, které nic nečetlo.
 
 seg-3dd44fc69a28 = <c1/> kontroluje každý <c2/> v bloku JavaScriptu proti exportům WebAssembly a přišpendluje příklad v Rustu z README.crates.md bajt po bajtu ke kopii, kterou testovací binárka kompiluje. <c3/> selže, pokud <c4/> ztratí <c5/> nebo SECURITY.md přestane tuto skutečnost uvádět. <c6/> nyní prohledává také <c7/> a tři README registrů a každý standard na webu musí výslovně uvádět svůj <c8/>.
@@ -1724,8 +1656,6 @@ seg-cbe63ab92c6a = test(docs): guard the distribution diagram, the last unguarde
 
 seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
 
-seg-9c220336c895 = <b>Tagy { "v0.27.0" } a { "v0.27.1" } byly záměrně NEPŘESUNUTY.</b> Stále ukazují na <c1/> a <c2/>, přesné commity, jejichž stromy vytvořily artefakty, které jsou nyní živé na crates.io, npm, PyPI, ghcr.io a v registru MCP. <c3/> crate zaznamenává sha1, z něhož byl zabalen, registry jsou neměnné a atestace původu sestavení SLSA na položkách vydání { "v0.27.1" } je vázána na tento commit. Přesunutí tagů by ponechalo každý z těchto publikovaných artefaktů ukazovat na commit, který už neexistuje. Ponechání zachovává staré commity dosažitelné a každý publikovaný řetězec původu rozpoznatelný, za cenu dvou tagů, které už nejsou předky <c4/> — a proto toto vydání existuje: { "v0.27.2" } dává <c5/> vlastní tag, zabalený z commitu, který na ní leží.
-
 seg-3c644384256f = Toto je druhé zveřejněné přepsání této historie; první, z 2026-09-21, kanonizovalo autorství a je zaznamenáno v poznámkách { "0.27.0" } spolu s jeho vlastními dvěma visícími sha1 crate. Přepsání se zde zveřejňuje pokaždé, protože repozitář, který prodává ověřitelný původ, nemůže potichu posouvat půdu pod publikovaným artefaktem.
 
 seg-d82d7a3c9054 = Publikovaný crate se nekompiloval.
@@ -1764,15 +1694,9 @@ seg-ed290a85ab0e = <b>Autorství commitů v celé historii je nyní jediná iden
 
 seg-ec4e75f94462 = <b>Žádný obsah se nezměnil.</b> Přepsání se dotklo jen hlaviček autora a zapisovatele, a to je ověřitelné, ne jen tvrzené: strom každého tagu a každé větve je bit po bitu totožný s tím, jaký byl předtím. <c1/> se stále rozpoznává jako strom <c2/>, přesně jako dříve.
 
-seg-bc0f4fa0a009 = <b>Co to stálo.</b> Název commitu je hash přes jeho strom, rodiče a hlavičky autora, takže změna předka přejmenuje každého potomka. Commit vydání <c1/> byl <c2/> a nyní je <c3/>. Dva artefakty zaznamenaly starý název v době publikace a nelze je opravit, protože publikovaná verze v registru je z návrhu neměnná:
-
-seg-52e096332738 = <c1/> { "0.26.0" } na crates.io — <c2/> zaznamenává <c3/>
-
 seg-8ec39d2f136c = <c1/> { "0.26.0" } na crates.io — tentýž sha1, <c2/>
 
 seg-9a21b7c7b41c = Nic dalšího není dotčeno. Balíček npm nezaznamenává žádné <c1/> a distribuce PyPI nezaznamenává žádný commit vůbec; obojí bylo zkontrolováno, nikoli předpokládáno.
-
-seg-9c51c5fb0d80 = Neexistuje oprava, po níž by <c1/> pojmenovalo přepsaný commit: tento řetězec <em>je</em> starý původ a jediný způsob, jak se rozpozná, je ponechat publikovanou historii před přepsáním, což by obnovilo autorství, které přepsání odstranilo. Původ { "0.26.0" } proto vede přes tag, nikoli přes zaznamenaný sha1 — a tag dodává identické bajty, z nichž byl crate sestaven. Další vydání zaznamená platný commit bez nutnosti zásahu.
 
 seg-30ecea86118a = <b><c1/> měl jako výchozí soubor EOP bez řádků predikce (G12).</b> Scénář vkládal pětiřádkový výňatek <c2/> <em>pouze s finálními hodnotami</em> jako svůj výchozí offline soubor, takže holý běh hlásil <c3/> a tabulka po horizontech stála na { "5" }, { "4" }, { "3" } a { "2" } dvojicích. Engine uměl řádek predikce vždy přečíst — vstup prostě žádný neměl. Výchozí je nyní doslovný výňatek IERS { "2026" } (<c4/>, MJD { "61173" }–{ "61204" }): { "20" } finálních hodnot Bulletinu B a <b>{ "12" } řádků Bulletinu A pouze s predikcí</b>, takže holý běh bez argumentu souboru a bez sítě hlásí <c5/> a tabulku po horizontech při n = { "20" } / { "31" } / { "30" } / { "29" } a naplní se i srovnání s operačním prediktorem a shoda s vlastními publikovanými predikcemi produktu. Dlouhý výňatek o 45 řádcích byl změřen jako alternativa a zamítnut: je také pouze finální, takže by <c6/> ponechal na { "0" }. <b>Toto mění publikovaná čísla</b>, podle pravidla R4 a s oprávněním zakladatele: deset z { "22" } buněk vydaného <c7/> a { "24" } ze { "42" } vyplněných buněk <c8/>. Změřená podlaha pólu rychlý-minus-finální se stává { "0.0678" } mas (z { "0.0769" } mas), což je hodnota, kterou tabulka polárního pohybu článku P4 již publikuje při n = { "20" } — nyní se shodují, místo aby se lišily o { "13.5" } %. Každá další hodnota, kterou P4 z této tabulky vypisuje, je při vypsané přesnosti beze změny. Úplný výčet starý → nový, včetně polí, která se <em>nepohnula</em>, je v <a1><c9/></a1>. Výňatek pouze s finálními hodnotami se nadále dodává, je bajtově přišpendlen a procvičován: nulový počet řádků predikce je na něm vlastností souboru a test to stále dokazuje.
 
@@ -2774,8 +2698,6 @@ seg-9d65f2ce8715 = Zpráva <c1/>: nový klíč geometry_path („analytic“ př
 
 seg-3631a31e7b26 = Konstanty těles: Phobos GM { "7.087e5" } -> { "7.087546066894452e5" }; Deimos { "9.62e4" } -> { "9.615569648120313e4" }; Uran { "5.7939506103e15" } -> { "5.793951256527211e15" }; Neptun { "6.83509997e15" } -> { "6.835103145462294e15" }; Pluto { "8.69326e11" } -> { "8.696138177608748e11" } (m^3/s^{ "2" }); rovníkový poloměr Phobosu { "13.1" } -> { "13.0" } km; pól a nultý poledník Phobosu a Deimosu z pck00011; prime_meridian_deg sluneční soustavy nyní zahrnuje kvadratické a periodické členy.
 
-seg-ac1251d7a0fd = <c1/> (<c2/> na Europě) z úplné orientace Europy podle pck00011 (7cfd66b4; orientace se shoduje se SPICE pxform s přesností { "1.4e-10" } rad), která posouvá lander v inerciálním prostoru: dostupnost jen relé / se vzdáleností k Zemi { "0.485" } / { "0.725" } -> { "0.480" } / { "0.719" } ({ "83" } -> { "82" } ze { "171" } epoch jen relé), mediánové PDOP { "5.266" } -> { "5.360" }, RMS chyby řešení { "129.516" } / { "100.983" } m -> { "112.742" } / { "86.147" } m, mediánová formální sigma { "5.266" } / { "4.272" } m -> { "5.360" } / { "4.239" } m. Tabulka v <c3/> a pin v <c4/> následují; <c5/> se nemění.
-
 seg-3d9368d3a1bb = <c1/> (f107 { "180" }, f107a { "165" }, kp { "4" }), kalibrovaný faktor nahrazen Jacchia { "1971" }: activity_density_kg_m3 při 300/400/500/600/800 km { "2.602e-11" } -> { "3.608e-11" }, { "4.176e-12" } -> { "6.929e-12" }, { "8.136e-13" } -> { "1.618e-12" }, { "1.769e-13" } -> { "4.189e-13" }, { "1.544e-14" } -> { "3.781e-14" }; activity_factor 1,076/1,121/1,168/1,216/1,320 -> 1,492/1,860/2,322/2,881/3,232; reference_exospheric_temperature_k odstraněno, mean_exospheric_temperature_k přidáno ({ "1186.7" } K); <c2/>: sluneční cyklus při { "800" } km nyní kolísá 10,4× (NRLMSISE-00 13,6×) a tvrzení o výšce sleduje vzestup NRLMSISE do { "500" } km a pokles při { "800" } km.
 
 seg-7dd92ee64b7c = <c1/> toa_median_sigma_3d_m: NR { "5" } MHz { "2.0903959" } -> { "2.0903962" } m; NB { "200" } kHz { "25.938613" } -> { "25.938839" } m (text shrnutí beze změny na { "2.09" } / { "25.94" } m).
@@ -2790,15 +2712,11 @@ seg-4ec44f8a5f8e = D12, rozšířená přesnost a odmocninový řešič (dva nov
 
 seg-d28005966948 = Část { "1" }, orákulum s rozšířenou přesností:
 
-seg-9a5f94973450 = Lunární datum soustavy s odhadovanými stanicemi: 50místné orákulum s rozšířenou přesností mpmath (předregistrováno 804662d5, prahy škálované podmíněností z apriorního vzorce zpětné chyby) se shoduje na novém datu kampaně (2026-03-18) i na původním scénáři z 2024-01-01; nový řádek VALIDATED pod P2. Rozhoduje dřívější spor o dvojitou přesnost: sigmy datumu enginu se liší až o { "9.7e-6" }, inverzní a eigen cesty v NumPy až o { "6.2e-6" } a jeho cesty Cholesky a QR asi o { "1e-8" }. Engine je v rámci své meze chyby, ale asi tisíckrát méně přesný než faktorizační cesta.
-
 seg-b055435a2138 = Prostředí orákula: přidáno mpmath { "1.3.0" }.
 
 seg-d0c2b2a8e635 = Revize: žádné. Žádný golden soubor ani zveřejněný obrázek se nemění; řádek „Lunární datum soustavy z pozorovací kampaně“ zůstává MODELLED (rozhodnutí zakladatele 2026-10-02, varianta A: nepůjčuje si stav samostatného řádku); jeho text testů cituje nový test a jeho zjištění.
 
 seg-50b53908fb7c = Část { "2" }, odmocninový informační řešič datumu:
-
-seg-4c6089cfac5e = Nový volitelný odmocninový informační řešič (<c1/>; <c2/> ve scénáři lunar-frame-campaign): Householderova QR, marginalizace přes trojúhelníkový faktor, Jacobiho SVD pro spektrum a kompenzované součiny pouze ze správně zaokrouhlených operací. Proti 50místnému orákulu (předregistrováno b41908c9) se jeho sigmy datumu shodují s přesností { "3e-13" } na novém datu (2026-06-09); na vstupech 2026-03-18 a 2024-01-01 je výchozí řešič mimo až o { "1e-5" }. Nový řádek VALIDATED pod P2. Výchozí řešič a jeho výstup se nemění. Předregistrované prahy potvrzují chyby jen nad asi { "2e-7" } relativně: výchozí řešič odmítnou, ale nikoli obrácené znaménko Householderovy transformace, nekompenzovaný skalární součin ani spektrální konečnou inverzi, a řádek to říká.
 
 seg-de9aeb2adde0 = Volitelné odmocninové cesty vedle nezměněných výchozích: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> a <c6/>, na nových <c7/> a <c8/>. Každá se shoduje se svou výchozí tam, kde jsou obě přesné (vnitřní kontrola, žádný řádek; pro ně se netvrdí žádná validace). <c9/> nyní deleguje na sdílenou rutinu; jeho výstup i výchozí výstup každého scénáře se nemění.
 
@@ -2812,17 +2730,9 @@ seg-627d3357d620 = D4, páteř jádrových efemerid JPL, fáze { "1" } (čtyři 
 
 seg-30e8a645191f = Čtečka jader NAIF má vlastní řádek.
 
-seg-98ff121aa2a9 = <c1/> (kontejner DAF, SPK typu { "2" }, binární PCK typu { "2" }) se shoduje se SPICE Toolkit (CSPICE N0067 přes spiceypy { "8.2.0" }) a s ANISE { "0.10.6" } na všech { "600" } stavech DE440 a { "200" } rotacích lunární orientace náhodné mřížky odvozené z vlastního hashe předregistračního commitu (abcd9133), v rámci prahů odvozených předem z vyhodnocení Čebyševových polynomů v dvojité přesnosti (nejhorší { "0.6" } % prahu, { "1.95e-3" } m). Řádek tvrdí, že engine čte jádra JPL správně, nikoli že DE440 nebo analytická řada je přesná (<c2/>).
-
 seg-e0b5ea7af969 = <b><c1/></b>: polohy z DE440 (nebo libovolného SPK typu 2) přes vlastní čtečku enginu, s dvoudílnými epochami TDB a SHA-256 jádra uchovaným pro zprávy; nikdy nenahrazuje barycentrum soustavy planetou. <c2/> umožňuje cestě geometrie zvolit analytickou řadu (výchozí) nebo jádro.
 
 seg-6c7dae98601e = <b>Volitelný Měsíc z jádra pro <c1/> a <c2/></b>: klíč <c3/> čte geocentrický střed Měsíce z jádra; nic jiného se nemění a zpráva získává blok <c4/> pojmenovávající jádro a jeho SHA-256. Bez klíče jsou obě zprávy bajt po bajtu shodné s dřívějšími.
-
-seg-74e8def84747 = <b>Kovariance bodu na lunárním povrchu na cestě přes jádro</b> (nový řádek VALIDATED): při všech pevných stanicích a majáku na Měsíci z DE440 se kovariance majáku shoduje s Jacobiánem světelného času ve SPICE (nejhorší { "1.7e-3" } proti prahu { "1" } %) a s inverzí v NumPy ({ "4e-14" } proti { "1e-9" }), předregistrováno 4a51256 (<c1/>). Řádek analytické cesty zůstává MODELLED: na analytickém Měsíci je jeho nejmenší sigma majáku o { "3.9" } % pod orákulem.
-
-seg-55002d236ab0 = <b>Lunární datum soustavy ze skutečné kampaně, střed Měsíce z jádra</b> (nový řádek VALIDATED): na { "447" } neviděných normálních bodech 2019-Q2, předregistrováno 830d945a dříve, než byl kterýkoli stažen, se kovariance datumu na cestě přes jádro shoduje s nezměněným orákulem SPICE a NumPy v rámci { "7.6e-5" } proti prahům { "1" } % a { "2" } % (<c1/>). Zakladatel rozhodl, že tento řádek se povyšuje jen na čerstvých bodech; diagnostika na již viděných datech (c51f8b2) je zjištěním, nikoli důkazem. Práh modely Měsíce nerozlišuje: analytický Měsíc na stejném výřezu také projde (nejhorší { "3.8e-3" }), plánovaná mutace (Měsíc z jádra o hodinu opožděný) nebyla zachycena a při foldu prošel i střed Měsíce chybný asi o { "4,650" } km (Měsíc vzatý kolem barycentra soustavy Země–Měsíc). Řádek tvrdí kovarianci na této cestě, nikoli střed Měsíce, a říká to.
-
-seg-f147f9257b8b = <b>Polohy Slunce, Měsíce, Merkuru a Venuše z DE440 v epochách UTC</b> (nový řádek VALIDATED): <c1/> se shoduje se Skyfield { "1.54" } na { "600" } polohách mezi { "1973" } a { "2026" }, nejhorší { "2.96" } m, v rámci předregistrovaného prahu (0bfafe6d) daného dvoučlennou řadou TDB − TT (<c2/>). Polohy planet dostávají nyní tento nový řádek jádra; řádek Standish a řádek planetárních měsíců se nemění a měsíce čekají na scénář, který je potřebuje (rozhodnutí zakladatele).
 
 seg-bb840641c655 = Zjištění: jediné minutí porovnání datumu LLR (sigma z-translace { "1.025" } % proti { "1" } %) klesá na { "0.049" } %, když se z DE440 čte jen střed Měsíce, na již viděných datech (<c1/>); na čerstvém výřezu { "2019" } projde i analytický Měsíc, takže minutí v { "2015" } bylo okrajové vůči geometrii onoho čtvrtletí. Analytické řádky „Lunární datum soustavy ze SKUTEČNÉ pozorovací kampaně“ a „Kovariance souřadnic bodu na lunárním povrchu … oddělená od kovariance pozemní stanice“ zůstávají MODELLED; jejich texty orákula nyní odkazují na řádky cesty přes jádro.
 
@@ -2834,17 +2744,7 @@ seg-95b8207466a3 = D9, knihovna měřených hodin „Clock Atlas“ (tři nové 
 
 seg-1f8644486f5d = <b>Knihovna měřených hodin (<c1/>).</b> Karty zařízení (bílá fáze, bílá, flicker a náhodná procházka frekvenční modulace, lineární drift frekvence a volitelně fázové členy s jedním až čtyřmi cykly na oběh) fitované na pojmenovaný změřený záznam hodin a hodnocené na vynechaných datech; Allanovy a Hadamardovy variance s ohledem na mezery; detektor úpravy, který zaznamenává každou mezeru, fázový odlehlý bod, fázový skok, shluk a skok frekvence a nic neví o hranicích souborů ani dnů; převod karty na model šumu časování slotů, rozšířený Kalmanův model hodin a úrovně šumu monitoru spoofingu. Čtečky souborů hodin RINEX a IGS, souborů BIPM po laboratořích a Circular T oddíl { "1" } (<c2/>); souhrnná hierarchická mez stárnutí pro UTC(k) (<c3/>, zatím nehodnoceno).
 
-seg-93add052ae56 = <b>Identifikace šumu pomocí autokorelace zpoždění 1</b> (<c1/>, Riley a Greenhall { "2004" }), nový řádek VALIDATED (Knihovna): shoduje se s allantools { "2024.6" } <c2/> na { "140" } případech, celá čísla shodná, nejhorší rozdíl { "9.6e-13" } proti prahu { "1e-9" } (předregistrováno 2ec76864; <c3/>).
-
-seg-1fcea6ee6136 = <b>Změřené karty zařízení s predikcí na vynechaných datech</b>, nový řádek MODELLED (zjištění): fit na jedné třetině, predikce Allanovy odchylky zbylých dvou třetin v rámci faktoru { "1.5" } (předregistrováno 2ec76864). GPS Block IIF na čerstvém okně IGS (2026-03-01 až { "14" }): { "10" } z { "11" }; G27 je optimistický v dvouhodinovém měřítku (nejhorší faktor { "1.510" }). Cesium (uvnitř, { "1.070" }), OCXO (mimo, { "2.348" }) a stroncium (uvnitř) jsou uvedeny, nikoli slepé. Karta přijímače JammerTest a karty Galileo maseru a Deep Space Atomic Clock jsou blokovány. Třída modelu TCXO přijímače ZED-F9P na { "12" } statických stanicích Wroclaw (Zenodo { "6488497" }) selhává: { "1" } z { "11" } slepých stanic v zveřejněném opraveném opakovaném běhu (<c1/>, <c2/>).
-
-seg-26fa898f6272 = <b>Karty GPS Block IIF s členy na oběh</b>, nový řádek MODELLED (zjištění): na druhém čerstvém okně (2026-04-01 až { "14" }) { "9" } z { "11" } v rámci prahu; G03 ({ "1.947" }) a G25 ({ "1.581" }) jsou optimistické, protože jejich vynechané záznamy jsou hlučnější než jejich fitované třetiny; vynechání periodických členů selže u všech { "11" } (předregistrováno fb475550; <c1/>).
-
-seg-ef456da29319 = <b>M002, odhad stavu palubních hodin, kolo { "3" }</b> (zjištění, zůstává MODELLED): po zmrazeném detektoru úpravy rozšířený filtr z kola 2, s nezměněným laděním a kritérii, poprvé splňuje (a) a (c) u všech { "11" } satelitů; (b) selhává u G09 ({ "0.894" }) a G26 ({ "0.876" }) (předregistrováno fb475550; <c1/>).
-
 seg-0014b2629fd2 = <b>M010, detekce spoofingu, kola { "3" } až 4b</b> (zůstává MODELLED): kolo { "3" } blokováno ({ "167" } trénovacích epoch z ostatních relací jednotky JammerTest proti { "3600" }); s kartou třídy modelu ZED-F9P (kola { "4" } a 4b) monitor hodin vyvolá nula falešných poplachů před nástupem u všech { "10" } zaznamenaných nástupů (kolo { "2" }: { "86" }) a { "6" } z { "10" } nástupů je detekováno do { "10" } s (kolo { "2" }: { "4" }); stejné čtyři zůstávají pozdní (<c1/>).
-
-seg-79757abc69e3 = <b>M083, horní mez UTC(k), kolo { "3" }</b>: předregistrováno prospektivně (fb475550) na číslech Circular T od { "465" }, zatím nespuštěno (<c1/>).
 
 seg-09abf996ed16 = Prostředí orákula: záznam Wroclaw ZED-F9P je podmíněn přístupem k datům pod <c1/> (CC BY { "4.0" }, asi { "1.5" } GB); fixture IGS hodin jsou přibalené (produkty IGS, s uvedením zdroje).
 
@@ -2861,10 +2761,6 @@ seg-158c39fff817 = Polární režim <c1/> propaguje pomocí SGP4 v 2026-01-01T00
 seg-86ecad91a601 = Druh <c1/> spouští nový prediktor zdánlivých přeletů (<c2/>, <c3/>): SGP4 na řetězci IAU, refrakce ITU-R P.834-9 a světelný čas downlinku (nové přepínače <c4/> a <c5/>, ve výchozím stavu zapnuté), parametry orientace Země (<c6/>, <c7/>, <c8/>, výchozí { "0" }), průchody řešené s přesností { "1e-7" } s a kulminace hledáním zlatým řezem. Geometrický <c9/> se nemění.
 
 seg-9ce091899bf1 = <c1/> brání tomu, aby jádra geometrie, času a propagace balíčku nesla soukromou keplerovskou propagaci, sekulární rychlosti J2 nebo rotaci jen podle hvězdného času; pojmenované rychlé úrovně a fyzika, která je předmětem řádku, jsou odůvodněné výjimky.
-
-seg-cf4ae964c5d1 = Nový řádek VALIDATED „Dvoudílná juliánská data a přestupné sekundy na časové cestě drah kolem Země“: pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> na { "224" } okamžicích kolem všech { "27" } přestupných sekund v rámci { "1e-6" } s (předregistrováno e947e69d); nejhorší { "1.9e-11" } s.
-
-seg-c0dec16ea932 = Nový řádek VALIDATED „Jedna cesta drah kolem Země“: polohy TEME pro { "232" } sad elementů proti python-sgp4 { "2.24" } (Valladova referenční SGP4) v rámci { "6.1e-8" } m (práh { "1" } cm) a rotace GCRS -> ITRS a TEME -> ITRS proti ERFA <c1/>, <c2/> a <c3/> v rámci { "2.9e-6" } mas a { "0.41" } mas (prahy { "0.1" } a { "2" } mas), s parametry orientace Země (předregistrováno 72ea9eb0). Zveřejněno: první běh selhal v 2016-12-31T23:{ "59" }:{ "59.5" } o jednu sekundu rotace; UT1 se bral z kvazijuliánského data UTC ve dni s přestupnou sekundou, engine nyní jde přes TAI a druhý běh se shoduje při nezměněných prazích.
 
 seg-a72ccdc2516e = M131 „Pokrytí LEO a zhoršení přesnosti pro polární a arktické uživatele oproti MEO GNSS“ se stává VALIDATED: Orekit { "13.1.8" } přebírá stavy GCRS enginu, otáčí je a počítá viditelnost a DOP (NumPy pro skupiny s více hodinami); polohy v rámci { "6.8e-5" } m (práh { "0.2" } m), počty satelitů v dohledu shodné na 4040/4040 vzorcích, mediánový DOP v rámci { "2.3e-11" } relativně.
 
@@ -2913,8 +2809,6 @@ seg-43444792974c = <c1/>: čtečka standardu ION GNSS SDR Metadata Standard (<c2
 seg-a7dfc3475923 = <c1/>: hlavička dávky LuGRE (Lunar GNSS Receiver Experiment) IQS, telemetrie RAW, ACQ a NAV a soubory CLK a kontrola, která uvádí, kde metadata <c2/> odporují binární hlavičce.
 
 seg-f0125531c4f8 = <c1/> a v <c2/> těleso řízené stáčením (yaw-steering), vysílací azimut a úhly mimo nadir a <c3/> pro relativní C/N0 s měřenými diagramy.
-
-seg-679aa02de1d0 = Kódování navigační zprávy GPS LNAV (nový řádek, zůstává MODELLED po poverifikaci integrátora): na vysílaném souboru IGS z { "2" } března { "2025" }, zpracovaném a dekódovaném RTKLIB v2.4.2-p13, všech { "960" } slov projde paritou, všech { "96" } podrámců se dekóduje a všech { "608" } vysílaných celých čísel se rovná těm Kshany (<c1/>), ale předregistrace (d4d9eb9d) se dostala do veřejné větve dvě sekundy po commitu obsahujícím výsledek, takže pořadí „zaregistrováno před stažením souboru“ nelze prokázat a řádek není povýšen.
 
 seg-2875ba2d8f5f = <c1/> plní slova od nejvýznamnějšího bitu (I ve vyšší půlce bajtu LuGRE; dřívější čtení dávalo sdružený signál), staré čtení ponechává jako <c2/> a čte vzorky širší než slovo.
 
@@ -2991,8 +2885,6 @@ seg-f8b372e08ef9 = <b>Odznak CI v README ukazuje výsledek pushů do main.</b> O
 seg-7c41a482c7d8 = Záplatové vydání nad { "0.29.0" }: změřená hodnota pokrytí, řádek s názvem projektu na kshana.dev, rychlejší úloha pokrytí a obnovené README. Žádný výstup enginu se nemění: každý scénář dává stejný výsledek jako na { "0.29.0" }.
 
 seg-997490bd1696 = Revize zveřejněných čísel
-
-seg-ed4b071e4bd9 = <b>Pokrytí řádků: ~{ "96" } % → ~{ "95" } %.</b> Úloha pokrytí znovu změřila vydaný kód { "0.29.0" } (commit <c1/>, běh CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } řádků <c3/>. Zveřejněná hodnota byla { "95.63" } % ({ "37,697" } z { "39,419" } řádků), změřená na <c4/> před { "0.28.0" }; zaokrouhlovala se na ~{ "96" } %. Nová hodnota se zaokrouhluje na ~{ "95" } %, takže se společně mění každý povrch, který <c5/> připíná: <c6/>, odznak README, řádek Evidence a tabulka CI, odznaky crates.io, PyPI a npm, technická zpráva a stránka pokrytí na kshana.dev. Spodní mez { "85" } % se nemění.
 
 seg-577baa03af04 = <b>Řádek s názvem na kshana.dev.</b> „Kshana · क्षण · the precise instant“ nyní otevírá úvod domovské stránky a sedí pod značkou v patičce každé stránky. kshana.dev stále nevytváří žádný požadavek na jiného hostitele: devanágarí je vlastní hostovaná podmnožina Noto Sans Devanagari tří písmen क्षण ({ "1,692" } bajtů, <c1/>, s textem licence SIL Open Font License a jeho SHA-256 v <c2/>). <c3/> se naučil uložit podmnožinu Google Fonts <c4/> pod název souboru adresovaný obsahem.
 
@@ -3236,8 +3128,6 @@ seg-823e1abc7f92 = <c1/>: které řádky MODELLED v registru by mohla povýšit 
 
 seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
 
-seg-ddd45d39e8a9 = <b>Druhé kampaně pro nesplněné prahy <c1/> a <c2/></b>, provedené podle předregistrace (<s1><c3/></s1>, <s2><c4/></s2>; schváleno před jakýmkoli během). Každé původní nesplnění zůstává NOT MET a zafixováno. <c5/>: kontrola reprodukuje běh { "1" } buňku po buňce; pět ablací s jedním čtením přivede { "2" } ze { "78" } nesplněných buněk do tolerance (EXPLORATORY, bez prahu); nový práh S7b (tvar vysílání s poklesem a podlahou nafitovaný na panelech Classic IIR) je NOT MET na panelech IIR-M při { "3.83" } až { "3.95" } dB proti { "3" } dB; kampaň s odloženým zveřejněným příjmem neproběhla (nebyl zafixován žádný zdroj) (<s3><c6/></s3>). <c7/>: nové prahy C3a, C3b (mez detekce asi { "3e-9" } m/s2), Q3a, Q3b (přesná normální CDF odstraňuje rozdíl { "1.7e-6" }) a G3'' jsou splněny jako vlastní prahy a G3' s ilustračními apriorními rozděleními je splněn a označen EXPLORATORY (<s4><c8/></s4>). Vše zůstává MODELLED. Nové veřejné položky: <c9/>.
-
 seg-bc89e70f4d36 = <b>Štítek důkazů u každého čísla a každé tabulky, které běh zapíše.</b> Výsledný JSON má klíč <c1/>, graf SVG prvek metadat a řádek pod grafem a tabulka CSV řádky komentářů <c2/>: úroveň (<c3/>, <c4/> nebo <c5/>, podle nejslabšího z řádků) a id řádků verifikační matice, na nichž běh stojí. Řádky a stavy se čtou z matice, nepíší se ručně; id jsou stabilní (<c6/> a osm hexadecimálních číslic, nový sloupec <c7/> v <c8/>, zmrazený seznam v <c9/>). Také u receiver-trust, <c10/>, <c11/>, zprávy o expozici trasy a, uvnitř podepsaného <c12/>, u každého balíčku důkazů (<c13/> { "1.1" }; <c14/> uvádí úroveň; balíčky vytvořené před { "0.40" } se ověřují beze změny). <c15/> selže, pokud číslo nemá štítek, štítek nesouhlasí s maticí nebo nový zapisovač souborů není ani označen, ani uveden s důvodem. Výstupy, které žádný nenesou, jsou uvedeny v <c16/>. Tři demonstrační grafy v README byly znovu vykresleny se štítkem (odstraněním štítku se vrátí původní bajty; <c17/>). Žádné tvrzení se nezměnilo.
 
 seg-8abd87414bc4 = Druh scénáře <c1/> (<c2/>, <c3/>): rozpočet chyb navigace a času řetězce fází od startu po vstup do atmosféry, každé číslo MODELLED a každý vstup stanovený. Osm druhů fází: <c4/>, <c5/> (relativní kovariance Clohessy-Wiltshire po úsecích senzorů, dokovací okno), <c6/> (propagace Cowell s konečnědiferenční maticí přechodu stavu, chyba manévru, určení polohy <c7/> a aktualizace ze sledování ze Země, Měsíc z volitelného výřezu jádra DE440), <c8/> (sigma úhlu dráhy letu, pravděpodobnost koridoru, maximální zpomalení na okrajích koridoru, stopa přistání) a čtyři lunární druhy. Pravidla předání (<c9/>, <c10/>, <c11/>), převody soustav a časových stupnic jako samostatné řádky rozpočtu, volitelný překryv pozemní sítě, který stanoví vytížení sledování každé fáze, rezerva vůči stanoveným požadavkům a nejslabší článek. Příklad sleduje posloupnost veřejné prezentace NASA o koncepci provozu s ILLUSTRATIVE čísly: ucelený příklad ve stylu Artemis přes { "11" } fází, pozemní a lunární část. Cislunární propagace byla porovnána s veřejnou trajektorií Artemis I přes { "72" } h oblouk proti prahu zafixovanému v <c12/> před během: <b>NOT MET</b> ({ "45.3" } km a { "0.25" } m/s proti { "5" } km a { "0.05" } m/s). Diagnostika umisťuje nesplnění do pěti malých impulzních událostí v referenci; mezi nimi silový model reprodukuje hodinové stavy s mediánem { "0.4" } m. Řádek zůstává MODELLED (<c13/>).
@@ -3272,3 +3162,15 @@ seg-6b6a960ca7cf = <c1/>, <c2/> a <c3/> z verze { "0.13" } na { "0.14" } (spolu 
 seg-1a4cda9d1486 = Minimální podporovaná verze Rustu je nyní { "1.88" } (vyžaduje ji oprava RUSTSEC-2026-0387).
 
 seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+seg-2aa7197e4396 = <b>Pokrytí řádků: ~{ "96" } % → ~{ "95" } %.</b> Úloha pokrytí znovu změřila vydaný kód { "0.29.0" } (commit <c1/>, běh CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } řádků <c3/>. Zveřejněná hodnota byla { "95.63" } % ({ "37,697" } z { "39,419" } řádků), změřená na <c4/> před { "0.28.0" }; zaokrouhlovala se na ~{ "96" } %. Nová hodnota se zaokrouhluje na ~{ "95" } %, takže se společně mění každý povrch, který <c5/> připíná: <c6/>, odznak README, řádek Evidence a tabulka CI, odznaky crates.io, PyPI a npm, technická zpráva a stránka pokrytí na kshana.dev. Spodní mez { "85" } % se nemění.
+
+seg-55e8703f880c = <c1/> zaznamenává { "95.63" } % ({ "37,697" } z { "39,419" } řádků) z úlohy CI <c2/> na <c3/> a <c4/> k němu přišpendluje pět veřejných ploch s „~{ "96" }%“ — jediné hlavní číslo, které se udržovalo ručně a které se už jednou nepozorovaně pohnulo.
+
+seg-f22dcee41468 = <b>Tagy { "v0.27.0" } a { "v0.27.1" } byly záměrně NEPŘESUNUTY.</b> Stále ukazují na <c1/> a <c2/>, přesné commity, jejichž stromy vytvořily artefakty, které jsou nyní živé na crates.io, npm, PyPI, ghcr.io a v registru MCP. <c3/> crate zaznamenává sha1, z něhož byl zabalen, registry jsou neměnné a atestace původu sestavení SLSA na položkách vydání { "v0.27.1" } je vázána na tento commit. Přesunutí tagů by ponechalo každý z těchto publikovaných artefaktů ukazovat na commit, který už neexistuje. Ponechání zachovává staré commity dosažitelné a každý publikovaný řetězec původu rozpoznatelný, za cenu dvou tagů, které už nejsou předky <c4/> — a proto toto vydání existuje: { "v0.27.2" } dává <c5/> vlastní tag, zabalený z commitu, který na ní leží.
+
+seg-39ea22780266 = <b>Co to stálo.</b> Název commitu je hash přes jeho strom, rodiče a hlavičky autora, takže změna předka přejmenuje každého potomka. Commit vydání <c1/> byl <c2/> a nyní je <c3/>. Dva artefakty zaznamenaly starý název v době publikace a nelze je opravit, protože publikovaná verze v registru je z návrhu neměnná:
+
+seg-946f34f3aeca = <c1/> { "0.26.0" } na crates.io — <c2/> zaznamenává <c3/>
+
+seg-dd0c2acd6a93 = Neexistuje oprava, po níž by <c1/> pojmenovalo přepsaný commit: tento řetězec <em>je</em> starý původ a jediný způsob, jak se rozpozná, je ponechat publikovanou historii před přepsáním, což by obnovilo autorství, které přepsání odstranilo. Původ { "0.26.0" } proto vede přes tag, nikoli přes zaznamenaný sha1 — a tag dodává identické bajty, z nichž byl crate sestaven. Další vydání zaznamená platný commit bez nutnosti zásahu.

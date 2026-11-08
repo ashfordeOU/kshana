@@ -198,9 +198,6 @@ seg-f878fd0359c9 = Viivituslukustussilmuse (DLL) <b>koodijälgimise termilise m�
 seg-089e4e98af82 = <b>Omandamine</b>: suurim satelliidi Doppler otse pea kohal toimuval läbilennul kõrgusnurga maski juures (<c1/>, ringorbiit, Maa pöörlemiseta) pluss ostsillaatori ja kasutaja liikmed; Doppleri korvid <c2/>; koodikorvid ühe perioodi jooksul; ruutdetektori (üldistatud Marcum Q) tuvastustõenäosus lahtri kohta antud valehäire tõenäosuse korral, tsentreeritud ja halvima juhu ülekattega; ning järjestikuse ja koodiparalleelse üheviibelise otsingu keskmine omandamisaeg (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Ühilduvus</b>: ribapiiratud signaali spektraalse eraldatuse koefitsient (SSC) GPS L1 jämekoodi/omandamise (C/A), Galileo E1, GPS L5, Galileo E5a, E5b ja E5 alternatiivse BOC (AltBOC) signaali suhtes iga globaalse satelliitnavigatsioonisüsteemi (GNSS) vastuvõtja sagedusribas, C/N₀ kadu, mida see oma vastuvõetaval võimsusel põhjustab, ning iga GNSS-i signaali SSC ja C/N₀ kadu LEO jälgitavasse komponenti.
-
-# text
 # c1: spectrum
 # c2: spectrum::Jammer::ssc
 seg-864f3f2a5aa1 = <b>Segaja tolerants</b>: segaja ja signaali võimsuse suhe (J/S) pidevlaine (CW) toonil kandelainel, tasasel müral üle edastusriba ja jälgitavale komponendile sobitatud müral, mis viib jälgitava komponendi jälgimisläveni, liigi <c1/> enda SSC koodist (<c2/>).

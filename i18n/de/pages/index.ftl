@@ -239,10 +239,6 @@ seg-32c07578eab3 = Schritte der aufgezeichneten Sitzung
 seg-2cff891dc970 = Nächster Schritt
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model Context Protocol, Engine v{ $version }): Der Assistent listet die { "49" } Werkzeuge auf, validiert <c1/> (gültig: erkannte Szenarioart `clock`) und führt es aus: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: Führt ein Kshana-Szenario aus und gibt seine Zeitreihe als Animation zurück.
 
@@ -1138,10 +1134,12 @@ seg-b9961ed25282 = Neu in v{ $version }: ein Missionsstrang, eine Nachweiskennze
 
 seg-653cf3198094 = { "176" } von { "401" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
 
-seg-76b213d03caa = Alle { "92" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.
+seg-859bb6732925 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model Context Protocol, Engine v{ $version }): Der Assistent listet die { "52" } Werkzeuge auf, validiert <c1/> (gültig: erkannte Szenarioart `clock`) und führt es aus: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-2dc1aed7a12e = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
-seg-fddfe8b260be = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+seg-b79ee48fd586 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
-seg-388f14eb6d8d = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-9b9d03fe1477 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+
+seg-579d9b6f7afd = Alle { "93" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.

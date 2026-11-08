@@ -58,9 +58,6 @@ seg-c2a8332f2ee2 = El gráfico que escribe el motor para scenarios/eo-coverage.t
 seg-d86d43628cf3 = <b>VALIDATED</b> Geometría del triángulo espacial de SMAD: radio angular de la Tierra, anchura de franja, GSD en el nadir, acceso máximo fuera del nadir y periodo circular, más el periodo nodal de J2 de primer orden (eo_payload::j2_nodal_period) y la separación de trazas en tierra en el ecuador R_e (omega_ Pruebas: <a1>eo_payload_coverage_reference.rs</a1>.
 
 # text
-seg-9938f1de9eb8 = <b>VALIDATED</b> Geometría del triángulo espacial de SMAD: radio angular de la Tierra, anchura de franja, GSD en el nadir, acceso máximo fuera del nadir y periodo circular, más el periodo nodal de J2 de primer orden (. Referencia independiente (ExternalDataset): Orekit { "12.2" } (Apache-2.0) y GeographicLib { "2.1" } (MIT), ambos ejecutados como programas separados, preregistrados (766823f3) antes del cambio del motor y de cualquier ejecución de la referencia independiente: magnitudes de la esfera dentro de { "1e-9" } relativo (peor caso: radio angular { "5.4e-16" }, franja { "7.0e-13" }, acceso { "1.9e-14" }), periodo { "1e-12" } ({ "1.6e-16" }), GSD en el nadir { "1e-7" } ({ "2.9e-10" }), el periodo nodal de J2 y la separación de nodos dentro del { "0.1" } % de una propagación numérica de J2 de Orekit con un detector de nodos ({ "1" }
-
-# text
 # c1: label
 seg-45625167e59f = MODELLED — geometría de triángulo espacial de Tierra esférica; franja/GSD/acceso son geométricos (sin radiometría/MTF/atmósfera/vibración/destello), la separación de trazas en tierra es R_e·(ω − Ω̇)·T_nodal con tasas seculares de J2 de primer orden (resultado <c1/>)
 

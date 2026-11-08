@@ -40,13 +40,9 @@ seg-1c566ec98a03 = Pliki: dzienniki odtwarzania, IQ, eksporty bench, NMEA lub UB
 
 seg-0435986aa760 = dostarczone
 
-seg-56b9a4399108 = Odbiór pasywny: odbiorniki tylko do odczytu; dzienniki czasu (linuxptp, chrony, TICC); CSV z IMU; <c1/> na rosnącym pliku SigMF
-
 seg-608fc0a99107 = odbiorniki użytkownika, grandmaster, SDR w trybie odbioru
 
 seg-786d9e5ccf93 = każdy zapis konfiguracji do odbiornika wymaga jawnego <c1/>; domyślnie jest tylko do odczytu
-
-seg-ab8874046283 = częściowo dostarczone: formaty dzienników czasu, <c1/>, <c2/>; szeregowe wejście odbiornika jest planowane
 
 seg-6b0a194d3f64 = Orkiestracja laboratorium bez RF z { -brand }: specyfikacja warunków testu, kroki operatora (odłączenie anteny, uruchomienie symulatora) podpowiadane i opatrywane znacznikiem czasu, punktacja w obie strony i dowody
 

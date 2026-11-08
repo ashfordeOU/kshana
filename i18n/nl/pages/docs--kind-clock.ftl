@@ -50,8 +50,6 @@ seg-849c08d3ce70 = Familiepagina: <a1>Klokken, tijdsynchronisatie en holdover</a
 
 seg-ee7dd15019d0 = Onderwerppagina: <a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = Onderwerppagina: <a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>Vorige</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Volgende</s1>combined-altpnt

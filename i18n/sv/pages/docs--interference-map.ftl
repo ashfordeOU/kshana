@@ -336,8 +336,6 @@ seg-e3949a1e6082 = Sändarområde (<c1/>)
 
 seg-34bdcfd66ded = I den gren i arkivet som dessa dokument kommer från; ännu inte på GitHub
 
-seg-4fc5a1dcc963 = <c1/> uppskattar <b>var en störkälla kan finnas</b> utifrån samma öppna ADS-B- eller AIS-rapporter: ett område vid angivna konfidensnivåer, en tyngdpunkt med en osäkerhetsellips och sessionerna i tid. Den returnerar aldrig en enskild punkt. <b>MODELLED</b> (registerrad <c2/>): fysiken är lärobokens radiosikt, områdenas trovärdighet är villkorad av modellen, och den enda externa kontrollen är Jammertest-jämförelsen som förhandsregistrerades i <s1><c3/></s1>. Att publicera sändarområden i det publika observatoriet är ett separat beslut av ägaren och är <b>avstängt</b>: observatoriet läser inte den här modulen, och ett test låser fast det.
-
 seg-194d573cb817 = Alternativ: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (sammanväg en TDOA-positionsbestämning; nedan). Varje alternativ som avviker från det förhandsregistrerade värdet anges som "inte den förhandsregistrerade metoden". Filer skrivs aldrig över.
 
 seg-0e3abeb21526 = <b>Radiosikt.</b> Ett flygplan på höjden <c1/> och en sändarantenn på <c2/> ser varandra ut till <c3/> km på en 4/3-jordradie. <c4/> marginaliseras över { "2" } till { "100" } m ({ "8" } logaritmiskt fördelade värden).

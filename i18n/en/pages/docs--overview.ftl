@@ -27,6 +27,9 @@ seg-6499faeb5966 = SonarQube Cloud quality gate status
 seg-3b861b2f08b8 = Release v{ $version }
 
 # text
+seg-ff5f0e0f4dab = English and { "17" } more languages, machine translated
+
+# text
 seg-ca94ec23de8d = <a1><s1>Licence: AGPL-3.0-only</s1></a1> <br/> <a2><s2>DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release</s2></a2>
 
 # text
@@ -43,6 +46,11 @@ seg-62ebab562cf5 = kshana on npm, the current published version
 
 # text
 seg-72cbdfddc323 = <a1>Open Kshana Studio</a1> · <a2>Install</a2> · <a3>Capabilities</a3> · <a4>Evidence</a4> · <a5>Research</a5> · <a6>Documentation</a6> · <a7>Cite</a7>
+
+# text
+# c1: --lang <tag>
+# c2: kshana scenarios/holdover-test-example.toml --lang de
+seg-38132aeb0b14 = <a1>English</a1> · <a2><s1>Nederlands</s1></a2> · <a3><s2>Polski</s2></a3> · <a4><s3>Português (Brasil)</s3></a4> · <a5><s4>Português (Portugal)</s4></a5> · <a6><s5>Suomi</s5></a6> · <a7><s6>Svenska</s6></a7> · <a8><s7>Dansk</s7></a8> · <a9><s8>Norsk bokmål</s8></a9> · <a10><s9>Čeština</s9></a10> · <a11><s10>Українська</s10></a11> · <a12><s11>Русский</s11></a12> · <a13><s12>Deutsch</s12></a13> · <a14><s13>Français</s13></a14> · <a15><s14>Español</s14></a15> · <a16><s15>Eesti</s15></a16> · <a17><s16>日本語</s16></a17> · <a18><s17>简体中文</s17></a18><br/> <s18>The command line, run summaries, charts and reports speak each language with <c1/> (for example <c2/>), and so do the Python, WebAssembly and MCP surfaces. Each name opens this README in that language, and the website is translated too (for example <a19>kshana.dev/de/</a19>). These are machine translations that no native speaker has reviewed yet; English is the reference. See <a20>Localisation</a20>.</s18>
 
 # attr:alt
 seg-904baf07192f = Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v{ $version }: the chained campaign campaign-jam-spoof-holdover-integrity (seed { "20260928" }, { "6" } phases, { "18" } member runs over T+{ "01" }:{ "16" }:{ "10" }) and the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at { "62.7" } ns against a { "50" } ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a { "25" } dB-Hz floor, and the vertical protection level reaches { "135.4" } m against a { "50" } m alert limit.
@@ -99,7 +107,7 @@ seg-59a31376fa3d = { "0.40" } adds a mission-level error budget, labels every fi
 # c4: tli-and-cruise
 # c5: entry
 # c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Mission thread.</b> The <c1/> kind chains phases from launch to entry (<c2/>, <c3/>, <c4/>, <c5/> and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over { "11" } phases (Earth and lunar segments), { "92" } scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory <b>misses</b> its pre-registered bar ({ "45.3" } km and { "0.25" } m/s against { "5" } km and { "0.05" } m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit <b>misses</b> ({ "136.8" } km against { "25" } km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (<a1>Mission thread</a1>, <a2>lunar segment</a2>). In the Studio the thread is read at <c6/>.
+seg-8391e467adf7 = <b>Mission thread.</b> The <c1/> kind chains phases from launch to entry (<c2/>, <c3/>, <c4/>, <c5/> and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over { "11" } phases (Earth and lunar segments), { "93" } scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory <b>misses</b> its pre-registered bar ({ "45.3" } km and { "0.25" } m/s against { "5" } km and { "0.05" } m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit <b>misses</b> ({ "136.8" } km against { "25" } km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (<a1>Mission thread</a1>, <a2>lunar segment</a2>). In the Studio the thread is read at <c6/>.
 
 # text
 seg-5bd16655cace = <b>Evidence labels.</b> Every figure and table a run writes carries the tier and the ledger row ids it rests on, read from the matrix.
@@ -429,7 +437,8 @@ seg-c626c7f1926d = New Studio views
 # c2: /studio/optical/
 # c3: /studio/holdover/
 # c4: /studio/observatory/
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> gains a Bridge replay (two runs side by side on one mission clock, at <a2><c1/></a2>), an Optical PNT page (<c2/>), a Holdover test page (<c3/>) and an observatory viewer (<c4/>). They run the same engine in the browser, nothing is uploaded, and they carry the same advisory statement. The pictures above are drawn from the engine's own output by a script; they are not screenshots of these pages.
+# c5: /studio/iq/
+seg-430ad5051686 = <a1>kshana.dev/studio</a1> gains a Bridge replay (two runs side by side on one mission clock, at <a2><c1/></a2>), an Optical PNT page (<c2/>), a Holdover test page (<c3/>) and an observatory viewer (<c4/>). They run the same engine in the browser, nothing is uploaded, and they carry the same advisory statement. In Kshana Desktop only, an IQ recording view (<c5/>) reads a recording from disk and shows its power over time, a waterfall and the spectrum at a cursor; it reads received samples only and has no control that writes, transmits or makes a signal. The pictures above are drawn from the engine's own output by a script; they are not screenshots of these pages.
 
 # text
 # c1: gnss-ssv
@@ -522,7 +531,7 @@ seg-b8f6321e9e0d = Three pages of kshana.dev side by side. The Home hero: the na
 # text
 # c1: kshana kinds
 # c2: docs/SCENARIOS.md
-seg-9d447be4caed = One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "92" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
+seg-a66ad1f69702 = One engine covers the whole failure chain, from the first jammed satellite to the last nanosecond of clock holdover. The engine has { "93" } scenario kinds; <c1/> lists them and <a1><c2/></a1> documents every field.
 
 # text
 seg-d6476863f862 = Capability
@@ -1245,6 +1254,12 @@ seg-ee28beafac1a = the navigation and timing error budget of a chain of phases f
 seg-7df7f7116a7c = chained missions, sweeps and ensembles built from the other kinds
 
 # text
+seg-6dd0f6b51470 = Space RF survey
+
+# text
+seg-5dd16b62a324 = how often a wide-area RF survey revisits a sea area and how soon it can cue an optical look
+
+# text
 # c1: kshana <scenario.toml>
 # c2: kshana --help
 # c3: --study
@@ -1324,7 +1339,7 @@ seg-e46194af8cec = How a run works
 seg-aa92d3f2aaa0 = A scenario is a TOML (Tom's Obvious, Minimal Language) file: a kind, a seed and the parameters. The engine runs it and writes the result, a chart and a report beside it, and the exports you ask for.
 
 # attr:alt
-seg-c472e0e5a3a5 = How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "92" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
+seg-43bd621a1f5b = How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana { $version }, through the api::run_toml dispatch over { "93" } scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.
 
 # text
 seg-63aa55ab596d = This bundled scenario runs { "2" } h: { "10" } min of GNSS, then about { "1.8" } h with GNSS denied. It asks how long a strontium optical lattice clock and a chip-scale atomic clock (CSAC) each hold time to within { "20" } ns.
@@ -2141,7 +2156,7 @@ seg-cdf946112863 = Kshana's architecture: one open engine at the centre, kshana 
 seg-9ac1f9e2d1b1 = Inside the engine: the domain layers and the verification ledger
 
 # attr:alt
-seg-656df854409a = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "92" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "401" } capabilities that is the single source of truth for every label.
+seg-290f2b34e368 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "93" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "401" } capabilities that is the single source of truth for every label.
 
 # text
 # c1: kshana
@@ -2233,7 +2248,7 @@ seg-5cce5bd43a6b = AI assistant
 # text
 # c1: kshana-mcp
 # c2: kshana
-seg-c21d26341f01 = <a1><c1/></a1> is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its { "49" } tools is a thin wrapper over a public function of the <c2/> library, so no simulation logic lives in the server.
+seg-ed215c6aa19b = <a1><c1/></a1> is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its { "52" } tools is a thin wrapper over a public function of the <c2/> library, so no simulation logic lives in the server.
 
 # text
 seg-57f592bb676b = Install the MCP server
@@ -2336,7 +2351,7 @@ seg-8977c5b65068 = kshana-mcp on Glama, its MCP server quality score
 seg-920704a0e384 = Per-client set-up is in <a1><c1/></a1>. The server is listed in the official MCP registry as <c2/>.
 
 # text
-seg-b7ea176e9993 = The { "49" } tools
+seg-81fcbb495e8f = The { "52" } tools
 
 # text
 seg-4a458fb861f4 = Scenarios and reports
@@ -2348,7 +2363,7 @@ seg-b88a2a9497c2 = Tool
 seg-44d509180c56 = Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition
 
 # text
-seg-11041e6beb65 = The { "92" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
+seg-fb8bcc54a31d = The { "93" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario
 
 # text
 seg-ef28db290e2b = Pre-flight check: parse the TOML and detect its kind, without running
@@ -2449,9 +2464,19 @@ seg-f3fa6108f3b7 = A GNSS interference map from ADS-B or AIS position reports as
 seg-032b8d0d90bf = The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range
 
 # text
+# c1: kshana interference-map locate
+seg-b055a201471d = Estimate emitter regions from openly licensed ADS-B or AIS reports as CSV text (<c1/>): regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point. MODELLED
+
+# text
 # c1: receiver-trust
 # c2: kshana trust-telemetry
 seg-02c3fb3fcd01 = A trust stream (JSON lines) or <c1/> result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the <c2/> encoders
+
+# text
+# c1: kshana.obs/1
+# c2: kshana.connect/1
+# c3: kshana connect map
+seg-6bc8c0f9b655 = Map any receiver, timing or monitoring log (CSV or JSON text) to <c1/> records with a <c2/> mapping file, no code (<c3/>); byte-identical to the command line
 
 # text
 # c1: kshana jammertest import
@@ -2465,6 +2490,10 @@ seg-27698c80b7f1 = Read the published Jammertest test catalogue and transmission
 # c4: sbf
 # c5: log_base64
 seg-23daf6121ca0 = Score a receiver log against that schedule (<c1/>): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as <c2/>, binary (<c3/>, <c4/>) as <c5/>. A signed pack needs a key: command line. Advisory only; MODELLED.
+
+# text
+# c1: kshana jammertest locate-score
+seg-eefba693287f = Score where a monitoring network said interference came from (<c1/>): per report the horizontal and vertical error and whether each region contains the truth, per event and pooled
 
 # text
 # c1: hybrid
@@ -2569,7 +2598,7 @@ seg-a613a7447e3f = Custom study
 seg-f917e7fcac09 = What it is
 
 # text
-seg-abf70d11a088 = the whole open engine, all { "92" } scenario kinds, no feature gate
+seg-2f38fc515db6 = the whole open engine, all { "93" } scenario kinds, no feature gate
 
 # text
 seg-af56c940e13a = a proprietary overlay on the same engine, under contract
@@ -3124,7 +3153,7 @@ seg-9b33c9203ca2 = A <c1/> scenario reports the <b>relativistic Earth–Moon clo
 # c7: cargo run -- --validate <file>
 # c8: list_kinds()
 # c9: list_scenario_kinds
-seg-e2d733f93455 = See <c1/> for at least one worked example of every kind ({ "92" } kinds, { "193" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
 
 # attr:aria-label, text
 seg-6555ff9a6d8e = Output
@@ -3266,7 +3295,8 @@ seg-4765d3a73a6f = Versioning & releases
 # text
 # c1: CHANGELOG.md
 # c2: scenario + seed + engine version
-seg-0ca788bf975d = Kshana follows <a1>Semantic Versioning</a1>. While pre-1.0 the public scenario/result schema may still change; breaking changes are called out explicitly in the <a2><c1/></a2>. Every result is reproducible from <c2/>.
+# c3: docs/STABILITY.md
+seg-015b856aa53b = Kshana follows <a1>Semantic Versioning</a1>. While pre-1.0 the public scenario/result schema may still change; breaking changes are called out explicitly in the <a2><c1/></a2>. Every result is reproducible from <c2/>. What counts as the public surface, the deprecation rule, the conditions for { "1.0" } and the 12-month long-term support from { "1.0" } are in <a3><c3/></a3>.
 
 # text
 # c1: vX.Y.Z

@@ -102,8 +102,6 @@ seg-17ca55cea260 = Nazwy powodów są obcinane do { "128" } znaków, a co najwy�
 
 seg-35f3faf39d1c = <c1/> to jedno z <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Nazwy powodów to nazwy monitorów strumienia (<c7/>, <c8/>, ...; dla wyniku wsadowego <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = Przykładowy pulpit jest w <c1/> (zaimportuj go i wybierz swoje źródło danych Prometheus).
-
 seg-208f33eda580 = Syslog: CEF i LEEF
 
 seg-0d53db66a990 = Zdarzenia są wysyłane w kopercie RFC { "5424" } (facility local0, aplikacja <c1/>, identyfikator wiadomości <c2/>) przez UDP (jeden datagram na zdarzenie; IPv4 lub IPv6) albo TCP, domyślnie zakończone znakiem nowej linii lub, z <c3/>, w ramce <c4/> jak w RFC { "6587" }. Domyślnie wysyła się jedno zdarzenie na zmianę pasma; <c5/> wysyła jedno na epokę. Dostawca jest zapisywany jako <c6/> (ASCII), aby żaden SIEM nie zdekodował go błędnie.

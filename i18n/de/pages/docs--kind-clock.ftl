@@ -86,9 +86,6 @@ seg-849c08d3ce70 = Familienseite: <a1>Uhren, Zeitgebung und Holdover</a1>
 seg-ee7dd15019d0 = Themenseite: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-46ed0b786244 = Themenseite: <a1>RECEIVER-TRUST.md</a1>
-
-# text
 seg-e06f9a5a0291 = <s1>Zurück</s1>cislunar-observability
 
 # text

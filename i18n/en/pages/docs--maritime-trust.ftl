@@ -337,6 +337,11 @@ seg-d971dae93784 = Both need a session with <c1/>; its <c2/> table is optional.
 seg-870fece8026e = Run it live
 
 # text
+# c1: kshana sensor-live --kind n2k
+# c2: MACHINE-INPUTS.md
+seg-303a5fe2c305 = An NMEA { "2000" } network is read through a SocketCAN interface: <c1/> turns the position, course and speed, heading and system-time groups into NMEA { "0183" } sentences (see <a1><c2/></a1>), which this command reads as it reads any other:
+
+# text
 # c1: session.toml
 # c2: [platform]
 # c3: kind = "vessel"

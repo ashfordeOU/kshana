@@ -27,11 +27,6 @@ seg-6f8d24ecb89f = — { "55,970" } lignes sur { "58,697" }
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
-# c2: v0.29.0
-seg-d734cdb77d70 = <c1/> (moteur { "0.29.0" }, l'étiquette <c2/>)
-
-# text
 # c1: ci.yml
 # c2: coverage
 seg-a2af6144b6a0 = GitHub Actions, <c1/> job <c2/>, exécution { "36809850252" }, 2026-10-01
@@ -83,14 +78,11 @@ seg-b566e95a74ab = puis mettez à jour le tableau ci-dessus et les six surfaces 
 seg-6935c9c381b3 = Historique
 
 # text
-# c1: b1d350d
-# c2: 1daa012
-# c3: CHANGELOG.md
-# c4: paper/kshana-technical-report.md
-seg-daa9ae1913cd = Le chiffre a été remesuré, non retapé : { "95.63" } % sur le commit <c1/> (moteur { "0.27.2" } + non publié, exécution { "35934579709" }, 2026-09-24, { "37,697" } lignes sur { "39,419" }, publié comme ~{ "96" } %), révisé à { "95.35" } % sur { "0.29.0" } (ci-dessus), qui s'arrondit à ~{ "95" } % : le code a grossi de { "19,278" } lignes mesurées et les nouvelles lignes sont un peu moins couvertes que les anciennes ; { "95.85" } % à { "v0.17.0" } (commit <c2/>, 2026-06-14, publié comme ~{ "96" } %), et ~{ "97" } % dans deux notes de version antérieures (<c3/>, laissées comme historique). <c4/> disait « près de { "97" } % » jusqu'à ce qu'il soit aligné sur ce relevé ; c'est désormais la sixième surface que le test fige.
-
-# text
 seg-b2dbaf3a3b68 = <s1>Précédent</s1>Normes et interopérabilité
 
 # text
 seg-508de3808e04 = <s1>Suivant</s1>Paquets de preuves
+
+seg-5ff7e4510497 = <c1/> (moteur { "0.29.0" }, l'étiquette <c2/>)
+
+seg-1ff43e658eef = Le chiffre a été remesuré, non retapé : { "95.63" } % sur le commit <c1/> (moteur { "0.27.2" } + non publié, exécution { "35934579709" }, 2026-09-24, { "37,697" } lignes sur { "39,419" }, publié comme ~{ "96" } %), révisé à { "95.35" } % sur { "0.29.0" } (ci-dessus), qui s'arrondit à ~{ "95" } % : le code a grossi de { "19,278" } lignes mesurées et les nouvelles lignes sont un peu moins couvertes que les anciennes ; { "95.85" } % à { "v0.17.0" } (commit <c2/>, 2026-06-14, publié comme ~{ "96" } %), et ~{ "97" } % dans deux notes de version antérieures (<c3/>, laissées comme historique). <c4/> disait « près de { "97" } % » jusqu'à ce qu'il soit aligné sur ce relevé ; c'est désormais la sixième surface que le test fige.

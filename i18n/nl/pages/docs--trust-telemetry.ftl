@@ -102,8 +102,6 @@ seg-17ca55cea260 = Redennamen worden afgekapt tot { "128" } tekens, en hooguit {
 
 seg-35f3faf39d1c = <c1/> is er een van <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Redennamen zijn de monitornamen van de stroom (<c7/>, <c8/>, ...; voor het batchresultaat <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = Een voorbeelddashboard staat in <c1/> (importeer het en kies uw Prometheus-gegevensbron).
-
 seg-208f33eda580 = Syslog: CEF en LEEF
 
 seg-0d53db66a990 = Gebeurtenissen worden verzonden in een RFC { "5424" }-envelop (facility local0, app <c1/>, bericht-id <c2/>) via UDP (één datagram per gebeurtenis; IPv4 of IPv6) of TCP, standaard afgesloten met een nieuwe regel of, met <c3/>, ingekaderd als <c4/> zoals in RFC { "6587" }. Standaard wordt één gebeurtenis per bandwijziging verzonden; <c5/> verzendt er één per epoch. De leverancier wordt geschreven als <c6/> (ASCII), zodat geen enkele SIEM hem verkeerd decodeert.

@@ -258,11 +258,6 @@ seg-fc27b4012f02 = Fontes S1 a S5 (título, URL, data de obtenção, SHA-256, li
 seg-d866653008e1 = Toda afirmação numérica, citada com sua página e hipóteses declaradas e classificada como comparável, parcialmente comparável ou não comparável: <c1/>. Nenhuma afirmação é plenamente comparável, porque nenhuma fonte declara um percentil nem os elementos orbitais dos satélites.
 
 # text
-# c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
-# c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Limiares, casos e entradas, versionados isoladamente antes da execução (revisão { "2" }, 05bf9a19), e a execução registrada: <c1/>. O achado está fixado em <c2/>.
-
-# text
 seg-069a652c402e = limiar
 
 # text
@@ -327,12 +322,6 @@ seg-e666f1eb7a59 = { "1" } de { "6" } limiares passa. A causa é a geometria. Ne
 
 # text
 seg-1da5fcf7bbf5 = Previsão pré-registrada
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Uma previsão pré-registrada, congelada no commit <c1/> com as entradas de fontes públicas, com seu protocolo de pontuação: <a1><c2/></a1>. É uma previsão, não uma validação, e todo valor nela é dominado pelo conjunto de elementos não publicado da constelação de quatro satélites (os elementos usados são ILLUSTRATIVE): na região de { "80" } deg S, disponibilidade { "8.2" } %, p95 3-D corrigido { "280" } m, não corrigido { "3.8" } km. MODELLED; <c3/> falha se qualquer byte congelado se mover.
 
 # text
 seg-e6aef34d5023 = Laboratório de tempo da estação
@@ -446,3 +435,5 @@ seg-79d53edd2374 = <s1>Próxima</s1>Navegação de usuários no espaço (gnss-ss
 
 # text
 seg-9c59637f0666 = Mapa de cobertura e precisão (lunar-station-coverage)
+
+seg-34967943a088 = Uma previsão pré-registrada, congelada no commit <c1/> com as entradas de fontes públicas, com seu protocolo de pontuação: <a1><c2/></a1>. É uma previsão, não uma validação, e todo valor nela é dominado pelo conjunto de elementos não publicado da constelação de quatro satélites (os elementos usados são ILLUSTRATIVE): na região de { "80" } deg S, disponibilidade { "8.2" } %, p95 3-D corrigido { "280" } m, não corrigido { "3.8" } km. MODELLED; <c3/> falha se qualquer byte congelado se mover.

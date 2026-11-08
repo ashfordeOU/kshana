@@ -78,8 +78,6 @@ seg-cd0360ad624d = <b>Punkt für { "0.41" }: ein Lauf.</b> Beide aus einer Aufze
 
 seg-67e04a43cea8 = Der Wasm-Build bettet nur den englischen Katalog ein. Die übrigen sechzehn würden je etwa { "150" } kB gzip hinzufügen. Eine Seite lädt bei einer Sprachwahl <c1/> und ruft <c2/> auf; schlägt das Laden oder die Registrierung fehl, bleibt die Seite auf Englisch. Nativ betten die Befehlszeile und das Python-Wheel alle { "18" } ein.
 
-seg-9a2f85e7e43c = Größe, nicht optimierte <c1/> aus <c2/> (vor wasm-bindgen und wasm-opt), Basis bc04e98f gegenüber diesem Zweig: { "18.71" } MB -> { "19.88" } MB roh, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Der englische Katalog hat { "521" } kB roh, davon { "153" } kB gzip; der Rest ist <c3/> und seine Abhängigkeiten. Das wird wie gemessen akzeptiert.
-
 seg-3ce9aab4916e = Der Katalog
 
 seg-fdea76581cd8 = <c1/> enthält die Meldungen, Kennungen mit dem Präfix <c2/>. <c3/> ist die Quelle; die anderen Dateien gehören den Übersetzern und können Meldungen vermissen lassen (jede fällt je Meldung auf Englisch zurück). Begleitlisten in <c4/>: <c5/> (Meldungen mit Zählvariablen, für Pluralformen), <c6/> (als Platzhalter übergebene Zahlen), <c7/> (Meldungen, die Teile eines zur Laufzeit zusammengesetzten Satzes sind: in ganze Sätze zusammenzuführen, nie anwachsen zu lassen).

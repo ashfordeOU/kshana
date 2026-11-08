@@ -78,8 +78,6 @@ seg-cd0360ad624d = <b>Punkt for { "0.41" }: én kjøring.</b> Gjengi begge fra e
 
 seg-67e04a43cea8 = Wasm-bygget bygger inn bare den engelske katalogen. De andre seksten ville lagt til omtrent { "150" } kB gzip hver. En side henter <c1/> ved et språkvalg og kaller <c2/>; hvis hentingen eller registreringen feiler, forblir siden på engelsk. Nativt bygger kommandolinjen og Python-wheelen inn alle { "18" }.
 
-seg-9a2f85e7e43c = Størrelse, uoptimalisert <c1/> fra <c2/> (før wasm-bindgen og wasm-opt), base bc04e98f mot denne grenen: { "18.71" } MB -> { "19.88" } MB rå, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Den engelske katalogen er { "521" } kB rå, { "153" } kB gzip av det; resten er <c3/> og avhengighetene. Dette er godtatt slik det ble målt.
-
 seg-3ce9aab4916e = Katalogen
 
 seg-fdea76581cd8 = <c1/> holder meldingene, id-er med prefikset <c2/>. <c3/> er kilden; de andre filene tilhører oversetterne og kan mangle meldinger (hver faller tilbake til engelsk per melding). Følgelister i <c4/>: <c5/> (meldinger med telleregenskaper, for flertallsformer), <c6/> (tall sendt som plassholdere), <c7/> (meldinger som er deler av en setning satt sammen ved kjøring: skal slås sammen til hele setningsmeldinger, aldri vokse).

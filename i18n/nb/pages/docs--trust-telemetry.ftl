@@ -102,8 +102,6 @@ seg-17ca55cea260 = Årsaksnavn kuttes til { "128" } tegn, og høyst { "64" } uli
 
 seg-35f3faf39d1c = <c1/> er én av <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Årsaksnavn er strømmens monitornavn (<c7/>, <c8/>, ...; for batchresultatet <c9/>, <c10/>, <c11/>).
 
-seg-a726fc8d28c2 = Et eksempeldashbord finnes i <c1/> (importer det og velg din Prometheus-datakilde).
-
 seg-208f33eda580 = Syslog: CEF og LEEF
 
 seg-0d53db66a990 = Hendelser sendes i en RFC { "5424" }-konvolutt (facility local0, app <c1/>, meldings-id <c2/>) over UDP (ett datagram hver; IPv4 eller IPv6) eller TCP, avsluttet med linjeskift som standard eller, med <c3/>, innrammet <c4/> som i RFC { "6587" }. Som standard sendes én hendelse per båndendring; <c5/> sender én per epoke. Leverandøren skrives <c6/> (ASCII) slik at ingen SIEM dekoder den feil.

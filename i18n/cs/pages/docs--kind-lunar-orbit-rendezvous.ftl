@@ -42,8 +42,6 @@ seg-4466fb6f4043 = dávkový Gauss–Newton přes oblouk
 
 seg-d97b2505ac72 = Graf, který engine zapisuje pro scenarios/lunar-orbit-rendezvous.toml, druh lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Druh a fáze <c1/>: společný dávkový odhad Gauss–Newton dvou vozidel přes oblouk (dvacet jeden parametrů: oba stavy a trvalé polohové biasy signálu v prostoru, společné i nezávislé), narůstající přes čtvrtinu, polovinu. Testy: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Druh a fáze <c1/>: společný dávkový odhad Gauss–Newton dvou vozidel přes oblouk (dvacet jeden parametrů: oba stavy a trvalé polohové biasy signálu v prostoru, společné i nezávislé), narůstající přes čtvrtinu, polovinu. Orákulum (InternalConsistency): Vnitřní konzistence podle předregistrace (xval/mission-thread-lunar/PREREGISTRATION.md, výsledky a historie odhadovače v RESULTS.md): střední NEES relativního stavu je { "5.85" } až { "5.93" } oproti pásmu { "5.2" } až { "6.8" } ve čtyřech konfiguracích, MET u čtvrtého návrhu odhadovače poté, co tři návrhy se sekvenčním filtrem práh nesplnily; skutečnost a odhadovač sdílejí jeden model sil, takže to nic neříká o chybě modelu. Pro
 
 seg-b2f273ea732d = MODELLED relativní navigace pro dokování ve stylu Orion–lander na nízké lunární oběžné dráze nebo eliptické polární dráze (třída Artemis). (katalog druhů (<c1/>))

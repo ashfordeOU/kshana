@@ -44,10 +44,6 @@ seg-c9a8a5898ced = Behoben
 seg-3cc8ba4d1be6 = Die Befehlszeile beendet sich still mit dem Status { "141" }, wenn ihre Standardausgabe schließt (<c1/>), statt mit "failed printing to stdout: Broken pipe" abzustürzen. { "141" } ist { "128" } plus SIGPIPE, der Status, den eine Shell für <c2/> meldet. Behandelt wird nur eine geschlossene Pipe: Eine volle Festplatte oder jeder andere Schreibfehler meldet sich weiterhin selbst, und ein Live-Feed, der in einen geschlossenen Socket schreibt, erhält weiterhin seinen Schreibfehler. <c3/> schließt den Leser, bevor das Programm startet, sodass der erste Schreibvorgang in jedem Lauf fehlschlägt.
 
 # text
-# c1: xval/
-seg-2a47e785cc1d = Abhängigkeitsaktualisierungen im Werkzeug für die Kreuzvalidierung (<c1/>); keine Änderungen an ausgelieferten Crates, Wheels oder Paketen.
-
-# text
 # c1: memmap2
 # c2: xval/anise-lunar-od
 # c3: xval/anise-mars-od
@@ -411,15 +407,6 @@ seg-fcfa0de18b05 = Die vorab registrierte Festlegung der bewerteten Ergebnisse b
 # c2: warning
 # c3: docs/revisions/BEACON-unobserved-cell-changes.md
 seg-ccbe11bd50b6 = <b>lunar-frame-campaign: Eine Bake ohne Beobachtung wird jetzt gemeldet</b> (gefunden von MR-05). Der Bericht erhält <c1/> und <c2/> nur dann, wenn irgendeine Bake keine Beobachtung hat, und die Sigmas der beobachteten Baken stammen dann aus ihrer eigenen Information, statt alle null zu sein. Das Datum ist unverändert, und keine Standard-, mitgelieferte oder veröffentlichte Ausgabe verschiebt sich (<c3/>).
-
-# text
-# c1: lunar_frame::icrf_to_moon_pa
-# c2: lunar_od
-# c3: moon_080317.tf
-# c4: pxform('MOON_ME','MOON_PA')
-# c5: docs/design/evidence/fut05b-me-pa-offset-sign/
-# c6: tests/agency_lro.rs
-seg-c223c1fc1323 = <b>Hauptachsen-Bezugssystem des Mondes</b> (<c1/>, verwendet von <c2/> und der LRO-Anpassung): Der DE421-Versatz vom mittleren Erdsystem zum Hauptachsensystem aus <c3/> wurde in der falschen Richtung und mit der falschen Euler-Reihenfolge angewendet, sodass das analytische PA-System etwa { "208" }″ von PA entfernt lag, statt darauf. Es ist jetzt so übertragen, wie es SPICEs Frames Required Reading definiert, und stimmt mit SPICE <c4/> auf { "2.6e-16" } rad überein; das analytische PA-System liegt { "6" }″ bis { "8" }″ von DE440 PA entfernt (vorab registriert e1ead19b, neu registriert be33382e, nachdem die erste vorgeschlagene Änderung den Zielwert { "1e-12" } verfehlt hatte; <c5/>). Veröffentlichte Zahlen, die sich verschieben: die LRO-Anpassung (<c6/>) Roh-Überlappung { "53.8" } → { "39.9" } m, dynamisch { "12.6" } → { "12.05" } m, reduziert-dynamisch { "6.65" } → { "6.67" } m (Zielwerte unverändert). Der analytische Stack stimmt nun auf beiden Stufen mit der DE-Güte-Kreuzvalidierung von ANISE ({ "12.0" } / { "6.67" } m) überein; die frühere Lücke auf der dynamischen Stufe war dieser Fehler.
 
 # text
 # c1: Jd2::from_parts
@@ -1091,15 +1078,6 @@ seg-7c41a482c7d8 = Ein Patch-Release auf { "0.29.0" }: die gemessene Abdeckungsz
 
 # text
 seg-997490bd1696 = Korrekturen an veröffentlichten Zahlen
-
-# text
-# c1: db796dd
-# c2: 95.35 %
-# c3: src/
-# c4: b1d350d
-# c5: tests/coverage_figure_doc_sync.rs
-# c6: docs/COVERAGE.md
-seg-ed4b071e4bd9 = <b>Zeilenabdeckung: ~{ "96" } % → ~{ "95" } %.</b> Der Coverage-Job hat den freigegebenen Code von { "0.29.0" } neu gemessen (Commit <c1/>, CI-Lauf { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } von { "58,697" } Zeilen in <c3/>. Die veröffentlichte Zahl war { "95.63" } % ({ "37,697" } von { "39,419" } Zeilen), gemessen auf <c4/> vor { "0.28.0" }; sie rundete auf ~{ "96" } %. Die neue Zahl rundet auf ~{ "95" } %, sodass sich jede Stelle, die <c5/> festhält, gemeinsam ändert: <c6/>, das README-Badge, die Evidence-Zeile und die CI-Tabelle, die Badges von crates.io, PyPI und npm, der technische Bericht und die Coverage-Seite auf kshana.dev. Die Untergrenze von { "85" } % bleibt unverändert.
 
 # text
 # c1: web/fonts/
@@ -3280,13 +3258,6 @@ seg-eb589aff44ad = <b>Detektions-ROC der IQ-Monitore</b> (PRO-32, <a1><c1/></a1>
 seg-d25a34e23f1a = <b>IQ-Monitore in der Lab-Replay-Kampagne</b> (PRO-31, <a1><c1/></a1>). Eine optionale Tabelle <c2/> in einer Kampagnendatei lässt die IQ-Monitore im einzigen Durchlauf des Runners laufen: Leistung und Spektrum nach jeder Front-End-Kette sowie C/N0, SQM und Lock pro verfolgtem Kanal. Ihre Alarme werden an den genannten Ereignissen bewertet: erkannt oder verpasst, Zeit bis zur Erkennung und Fehlalarme pro Stunde Exposition. Die geschlossene Fehlalarmzahl jedes Tests ist angegeben, darunter eine neue zweiseitige Gauß-Zahl für die SQM-Tests (<c3/>). Ohne die Tabelle ändert sich nichts. Bei synthetischen Kampagnen sind die Fehlalarm-Zielwerte für Leistung und SQM sowie der Fehlalarm-Zielwert für C/N0 erfüllt; { "18" } von { "18" } Dämpfungen werden erkannt, aber die Schranke für die Zeit bis zur Erkennung, konstruktionsbedingt unter einem Detektor-Abtastwert, ist nicht erfüllt und ist festgehalten. MODELLED; Registerzeile „IQ monitors scored in lab-replay campaigns“.
 
 # text
-# c1: tests/iq_labfit_followup.rs
-# c2: labfit-iq-followup
-# c3: docs/design/LABFIT-FROM-IQ.md
-# c4: docs/design/evidence/labfit-followup/RESULTS.md
-seg-8eb0f650065e = <b>Lab-Anpassung aus IQ-Kampagnen, Folgeprüfung</b> (<c1/>, CI-Job <c2/>). Sie prüft die beiden Hypothesen, die §{ "13.6" } von <c3/> offen ließ, gegen Zielwerte, die in 1e532f84 vorab registriert wurden. Sie fügt zwei synthetische Kampagnen hinzu: S mit gestuftem J/S (Seed 2026_1014) und R, eine frische Rampe (Seed 2026_1015). Die Ergebnisse stehen in <c4/>.
-
-# text
 # c1: δ_eff
 seg-ce60405d0005 = S1 erfüllt: Bei jeweils gehaltenem J/S-Niveau wird <c1/> innerhalb von +{ "0.185" } dB wiedergewonnen. Der Fehler von −{ "1.1" } dB bei den Rampenkampagnen ist Schätzer-Verzögerung.
 
@@ -3311,9 +3282,6 @@ seg-34007ba58a9f = Kein Urteil in §{ "13" } ändert sich, und die Registerzeile
 # c2: LoopConfig::fll_pull_in_max_s
 # c3: fll_assist = "pull-in"
 seg-df2c3f2532d6 = <b>Begrenztes FLL-Pull-in, optional</b> (DS-LOOP-05): ein neuer Schlüssel im Schleifenentwurf <c1/> (s), in Rust <c2/>. Unter <c3/> erzwingt er nach dieser Dauer die Übergabe von FLL an PLL, unabhängig vom PLI. Standardmäßig nicht gesetzt, und dann nicht im Entwurfs-Hash; der Standardentwurf und sein Hash bleiben unverändert.
-
-# text
-seg-ae2794b2d3d5 = Geprüft gegen Zielwerte, die bei 58789af0 vorab registriert wurden, an eingespeister Wahrheit. Die Kontrolle ist erfüllt: Der Standard übergibt bei { "33" } dB-Hz in { "9" } von { "10" } Seeds nie.
 
 # text
 seg-6d9483874b35 = Nicht erfüllt: Mit einer Begrenzung von { "1.0" } s halten { "16" } von { "20" } Läufen bei { "33" } dB-Hz den Lock und { "8" } von { "20" } bei { "31" } dB-Hz; die übrigen wechseln zwischen erzwungenen Übergaben und der Rückkehr der FLL. Der Phasenjitter beträgt bei { "33" } dB-Hz das { "1.8" }-Fache der PLL allein.
@@ -3350,12 +3318,6 @@ seg-b568f542e23a = <c1/>: <c2/> ({ "1" } bis { "16" }) und <c3/> (MHz, Standard 
 
 # text
 seg-0dad81736863 = Ohne die Abschnitte ist jede Ausgabe byteidentisch.
-
-# text
-seg-92007bfb6680 = Geprüft gegen Zielwerte, die bei 70c72fcc vorab registriert wurden. Der Quantisierungsverlust liegt innerhalb von { "0.0007" } dB eines unabhängigen Monte-Carlo-Laufs, und der AGC-Wert innerhalb von { "0.012" } dB der AGC-Schleife der IQ-Schicht.
-
-# text
-seg-973e451df99d = Die registrierten Hysterese-Läufe waren nicht aussagekräftig (jede Verbindung verloren), daher ist dieser Zielwert NOT MET. Ein ergänzender Lauf-Satz, registriert bei { "37793290" }, erfüllt ihn: Jede Markierung entspricht einer unabhängigen Neuberechnung, und { "732" } von { "1824" } Verbindungen zeigen die Hysterese.
 
 # text
 seg-912e9f1a4d5b = Befund: Mit einem CW-Jammer verliert ein 1-Bit-ADC etwa { "5" } dB mehr als der gaußsche Wert.
@@ -3402,10 +3364,6 @@ seg-001d7b88b26d = Das Ergebnis erhält einen Block <c1/>: <c2/> ({ "1" }), <c3/
 seg-b9696f5eda4b = Ohne den Abschnitt ist jede Ausgabe byteidentisch.
 
 # text
-# c1: ν
-seg-593b6a5b4480 = Geprüft gegen Zielwerte und zehn Platzierungen, die bei 92cd2bfd vorab registriert wurden, an der eingecheckten echten SRTM-Kachel des Death Valley, gegen eine unabhängige Neuberechnung mit numpy. Alle erfüllt: größte Abweichung { "1.6e-10" } bei <c1/> und beim Verlust (Zielwert { "1e-9" }), der Verlust monoton in der Jammerhöhe, und der Verlust erreicht J/S exakt.
-
-# text
 seg-62e07defd715 = MODELLED; Registerzeile „Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile“.
 
 # text
@@ -3436,9 +3394,6 @@ seg-1f1ddc11ad94 = Jede Verbindung erhält einen Block <c1/>: <c2/> (dB) und <c3
 seg-790ecc6a1bd4 = Ein ungültiger Abschnitt (eine leere Elementliste, eine unbekannte Gewichtung, eine nicht positive Bandbreite) ist ein Fehler, über <c1/> und <c2/> ebenso wie über <c3/>.
 
 # text
-seg-2464d9dde85f = Geprüft gegen Zielwerte, die bei 08d83b4d vorab registriert wurden. Erfüllt: Additivität (nach einer Korrektur: Der erste Build fügte die neuen Einheiten der Einheitentabelle jedes Jamming-Laufs hinzu); ein Element ist kein Array; Rauschgewinn und effektive C/N0 innerhalb von { "1e-9" } dB einer unabhängigen Neuberechnung mit numpy; MVDR strebt bei hohem JNR zur Nullstelle.
-
-# text
 # c1: docs/revisions/STUDIO15-batch4-rebaseline.md
 seg-c04495f7a65a = Nicht erfüllt: der MVDR-Jammergewinn bei { "194" } von { "456" } Verbindungen mit der portablen Mathematik von { "0.36" } ({ "202" } mit der Host-Mathematik; <c1/>) (schlechtester Wert { "1.7e-6" } dB). Die Residuen von −{ "100" } bis −{ "188" } dB liegen unter der Auflösung von float64 bei diesem Zielwert, und numpy weicht von sich selbst in derselben Größenordnung ab.
 
@@ -3450,9 +3405,6 @@ seg-c10e1c72eb15 = MODELLED; Registerzeile „CRPA antenna gains in the jamming 
 seg-0a3adfa7271c = <b>IQ-Tracking-Engine gegen GNSS-SDR { "0.0.19" }</b> (PRO-33): <c1/> und GNSS-SDR verfolgen dieselben unabhängigen numpy-Aufzeichnungen von GPS L1 C/A bei { "30" } bis { "45" } dB-Hz.
 
 # text
-seg-cc73857e38e8 = Zielwerte vorab registriert bei 48edd4a5. Die registrierte Kalibrierung scheiterte an einer falschen Übergabe von GNSS-SDR (F3), daher ergänzt Nachtrag { "1" } (1e4288c4) beiden Empfängern eine reine Pull-in-FLL, eingecheckt vor jeder Testaufzeichnung.
-
-# text
 seg-1d651ff134f9 = Erfüllt: Träger- und Codejitter sowie Doppler stimmen bei jeder C/N0 innerhalb von { "5" } % überein.
 
 # text
@@ -3460,12 +3412,6 @@ seg-bc9c9a0247d1 = Nicht erfüllt: Die NWPR-C/N0 der Engine liegt { "2.3" }–{ 
 
 # text
 seg-7c32867b5c27 = MODELLED; Registerzeile „IQ tracking engine against GNSS-SDR { "0.0.19" } on independent recordings“.
-
-# text
-seg-55524624777b = <b>BeiDou B1I.</b> Alle { "63" } primären B1I-Codes stimmen Chip für Chip mit dem unabhängigen Generator von GNSS-SDR { "v0.0.19" } überein (Zielwert vorab registriert bei 911106d1). Nur die Ausgabe dieses Programms ist eingecheckt: die B1I-PRN-Codes, die das öffentliche ICD definiert, als Präfix und Hash.
-
-# text
-seg-37437a09dd67 = <b>GPS L1C.</b> Alle { "126" } L1CP/L1CD-Codes und { "63" } L1CO-Overlays stimmen mit den Prüfspalten überein, die IS-GPS-800J ausweist, und die berechnete Legendre-Folge stimmt mit ihrer Tabelle 6.2-1 überein (Zielwerte vorab registriert bei fe372e26).
 
 # text
 seg-f445784a7f2d = Zeilen: „BeiDou B1I primary ranging codes against an independent generator“ und „GPS L1C ranging and overlay codes against the IS-GPS-800J printed check columns“.
@@ -3482,9 +3428,6 @@ seg-f445784a7f2d = Zeilen: „BeiDou B1I primary ranging codes against an indepe
 seg-001f48d86a3c = <b>GLONASS-, BeiDou- und Galileo-E6-Bänder im Spektrummodell</b> (CAP-12, Signale): neue Bandnamen <c1/> und <c2/> (jeder FDMA-Kanal als <c3/>, K = −{ "7" } bis { "6" }), <c4/>, <c5/>, <c6/>, <c7/> und <c8/>. Jedes trägt Träger, Modulation und minimale Empfangsleistung aus seinem ICD. Sie sind nur über den Namen optional zuschaltbar: Der Standard-Bandsatz und jede bestehende Ausgabe bleiben unverändert.
 
 # text
-seg-158a6ec19d6b = Geprüft gegen Zielwerte, die bei 5806f28b vorab registriert wurden: Die ICD-Werte, Nullstellen, der B1C-Verbund und der C/N0-Pfad sind erfüllt.
-
-# text
 seg-805092ae8ca2 = Zwei Zielwerte wurden nicht erfüllt. Der Zielwert für die Flächeneinheit war wie geschrieben unerreichbar (F1). Die Wellenformen B1I und B1C der IQ-Schicht stimmen mit dem Modell nur bandgemittelt überein, wegen der ungleichmäßigen Linienspektren ihrer Codes (F2).
 
 # text
@@ -3499,17 +3442,10 @@ seg-db88f07d97bb = MODELLED; Registerzeile „Spectrum model: GLONASS, BeiDou an
 seg-b0147cf3acc8 = <b>Option Cell-Averaging-CFAR in der IQ-Akquisition</b> (PRO-37): <c1/> und <c2/> entscheiden auf einem Akquisitionsraster, indem jede Zelle mit dem Mittel der Referenzzellen in ihrer Doppler-Zeile verglichen wird. Die Schwelle ergibt sich aus der geschlossenen CA-CFAR-Fehlalarmwahrscheinlichkeit für <c3/> nichtkohärente Blöcke (<c4/>, <c5/>), sodass die Entscheidung nicht von der Normierung der Abtastleistung abhängt. Sie ist optional; der Standarddetektor und jede bestehende Ausgabe bleiben unverändert.
 
 # text
-seg-a56e74b1e091 = Geprüft gegen Zielwerte, die bei 3724aefa vorab registriert wurden: die geschlossene Form gegen Monte Carlo ({ "18" } von { "18" } Fällen) und eine Entwurfsrate von { "1" } %, gemessen mit { "0.97" }–{ "1.01" } % bei gaußschem und 2-Bit-quantisiertem Rauschen.
-
-# text
 seg-f88fe97e0ee6 = Ein Zielwert wurde nicht erfüllt: Bei einem rauschfreien 2-Bit-Signal überschreiten { "1.28" } % der Zellen außerhalb des Peaks die Schwelle, an den Korrelationsnebenmaxima des Codes (Befund F1).
 
 # text
 seg-8d88b626c31e = MODELLED; Registerzeile „Cell-averaging CFAR option in IQ acquisition“.
-
-# text
-# c1: scripts/fetch_scint_malindi.sh
-seg-d596329195cf = <b>Szintillationsmodell gegen Messdaten</b> (PRO-34): Das Cornell-Szintillationsmodell des IQ-Kanals wurde mit gemessener Intensität und Phase von GPS L1 bei { "50" } Hz aus einer äquatorialen Szintillationsnacht verglichen (Zenodo-Eintrag { "16941224" }, INGV, Malindi, CC BY { "4.0" }), unter bei b6ccb499 vorab registrierten Zielwerten. Erfüllt: die Intensitätsverteilung und die an S4 gebundene Phasenszintillation. Nicht erfüllt: Das Modell schwindet { "2.4" }-mal so oft unter −{ "10" } dB und { "3.5" }-mal so lang (Befund F1). Die registrierte Verarbeitung liest die umbrochene Phase des Modells (Befund F2); das Phasenergebnis gilt auch entfaltet. <c1/> lädt die Daten. Die Zeile bleibt MODELLED: „IQ ionospheric scintillation channel (Cornell model) against measured { "50" } Hz GPS L1 scintillation“.
 
 # text
 # c1: realdata::lugre::parse_iqs_sdrx
@@ -3518,13 +3454,6 @@ seg-d596329195cf = <b>Szintillationsmodell gegen Messdaten</b> (PRO-34): Das Cor
 # c4: run_acq.py --corrected
 # c5: xval/lugre-reader/RESULTS.md
 seg-d6740cab2271 = <b>Korrigierter LuGRE-Sample-Leser</b> (MR-09): <c1/> liest einen LuGRE-IQ-Stapel mit I im hohen Nibble und den Mid-Rise-Pegeln <c2/> (<c3/>), die das Mittel von −½ beseitigen, das die reinen Zweierkomplement-Ganzzahlen bei I und Q tragen. <c4/> gibt GNSS-SDR dieselbe Lesart. Der generische ION-Leser und jede bestehende Ausgabe bleiben unverändert: { "149" } Szenarioergebnisse und eine Studie sind vorher und nachher byteidentisch, und die festgehaltenen LuGRE-Befunde lesen sich wie registriert (<c5/>). Keine Registerzeile ändert sich.
-
-# text
-# c1: LoopConfig::boc
-# c2: N = 8
-# c3: Channel::bump_jumps
-# c4: docs/design/evidence/boc-bump-jump/RESULTS.md
-seg-5adf36c03c14 = <b>Optionales BOC({ "1,1" })-Tracking</b> (CAP-07 (a)): <c1/> skaliert die DLL-Diskriminatoren für den Sinus-BOC({ "1,1" })-Hauptpeak und fügt einen Bump-Jump-Monitor hinzu (sehr frühe und sehr späte Korrelatoren bei ±{ "0.5" } Chip, Auf-/Ab-Zähler, <c2/>), der den Code-NCO von einem Nebenpeak weg bewegt; <c3/> listet die Sprünge auf. Standardmäßig aus, und jede bestehende Ausgabe bleibt unverändert. Geprüft gegen Zielwerte, die bei 6b68f6cc vorab registriert wurden, an einem synthetischen BeiDou-B1C-Signal: Ein Start auf einem Nebenpeak, der ohne die Option { "0.55" } Chip daneben bleibt, wird mit ihr durch einen Sprung bei { "0.08" } s auf den Hauptpeak gezogen, und es wurde kein falscher Sprung vom Hauptpeak aus beobachtet. Ein Zielwert wurde nicht erfüllt: Das Raster des Unit-Tests für die Skalierung reicht über den linearen Bereich der Diskriminatoren hinaus (Befund F1 in <c4/>). MODELLED; Registerzeile „BOC({ "1,1" }) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in)“.
 
 # text
 # c1: docs/design/LABFIT-FROM-IQ.md
@@ -3559,26 +3488,8 @@ seg-ee5deb4d5d4b = eine vorab registrierte, gehashte Tabelle <c1/>, mit PASS/FAI
 seg-4d58263106af = Der Bericht ist <c1/> als JSON, CSV und Markdown, mit einem Einheitenblock. <b><c2/> ist aus C/N0-Daten nicht identifizierbar</b>, ohne eine unabhängige Leistungsmessung. Es wird angegeben, nie angepasst, und der angepasste Parameter ist <c3/> (Entwurfsänderung 2026-10-12). Ein unbekannter Jammer-Typ nimmt das schädlichste angegebene <c4/> (cw, { "1" }). Bei synthetischen Kampagnen aus Kshanas eigenen Szenen besteht der Zielwert für die Hold-out-Abdeckung (c). Die Zielwerte (a') und (b') für <c5/> ({ "0" } von { "50" } Kampagnen abgedeckt) und der Zielwert (d) für die Schwelle in geschlossener Form sind nicht erfüllt: Sie sind mit ihren Werten festgehalten. MODELLED; Registerzeile „Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error“. Der Labfit-Pfad für Empfängerprotokolle und seine Ausgaben bleiben unverändert.
 
 # text
-# c1: solar-system
-# c2: planetary_kernel_path
-# c3: KERNEL
-# c4: kernel
-seg-308d19be658d = <b><c1/> auf einem JPL-Kernel</b> (CAP-31): <c2/> nimmt jeden Körper, den die SPK enthält (mit de440s: Merkur, Venus, die Erde, den Mond), aus dem Kernel, Label <c3/>, und fügt einen Block <c4/> nur hinzu, wenn gesetzt. Neue Zeile, VALIDATED gegen SPICE (vorab registriert f8e946ea; schlechtester Wert { "3.3e-5" } m, { "1.0e-11" } m/s). Der Standardbericht bleibt unverändert.
-
-# text
 # c1: maneuver::porkchop_kernel
 seg-fe16c24eae60 = <b>Porkchop auf der Ephemeride DE440</b> (CAP-20b): <c1/> durchfährt C3 und Ankunfts-V∞ auf heliozentrischen Zuständen aus einer DE440-SPK. Neue Zeile, VALIDATED gegen SPICE-Zustände
-
-# text
-seg-a8632f3c86e9 = pykep { "3.0.1" } (vorab registriert 2d857fb1; Erde zu Mars 2026-2028, { "304" } Zellen, schlechtester Wert { "2.6e-14" }, dieselbe Zelle mit minimalem C3).
-
-# text
-# c1: lunar_od::LunarMacroModel
-# c2: LunarForceModel::macro_model
-# c3: LunarMacroModel::lro_generic
-# c4: docs/design/evidence/ds-lro-10-macro-model/RESULTS.md
-# c5: forces::conical_shadow_body
-seg-266cffab38a7 = <b>Nichtgravitatives Makromodell für LRO: NOT MET</b> (DS-LRO-10, vorab registriert e82047e2). <c1/> (optional über <c2/>): ebene Platten mit direkter Sonnenstrahlung mit dem Schatten des Mondes, ein der Sonne nachgeführtes Array sowie Mond-Albedo und thermisches IR; <c3/> ist eine gekennzeichnete generische LRO-Näherung aus veröffentlichten Fakten (keine Bus-Platten: Die Plattentabelle konnte nicht beschafft werden). Beim LRO-Bogen von { "4" } h lässt es den reduziert-dynamischen RMS bei { "6.668" } m und den dynamischen bei { "11.94" } m, mit einem unplausiblen Strahlungsfaktor (etwa +{ "21" } / −{ "22" }), sodass alle drei Zielwerte verfehlt werden. Der Befund ist durch einen Test festgehalten, und keine Standardausgabe ändert sich (<c4/>). Das optionale lunare Kanonenkugel-SRP verwendet jetzt den konischen Schatten des Mondes statt den der Erde (<c5/>).
 
 # text
 # c1: LunarForceModel::lunar_tide
@@ -3586,50 +3497,6 @@ seg-266cffab38a7 = <b>Nichtgravitatives Makromodell für LRO: NOT MET</b> (DS-LR
 # c3: KSHANA_LRO_DEGREE
 # c4: docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md
 seg-e4ed6e0e5048 = <b>Lunare Bahnbestimmung: optionale feste k2-Gezeit und selenozentrische Relativität</b> (DS-LRO-11), standardmäßig aus (<c1/>, <c2/>); ein Schalter <c3/> für die ANISE-Kreuzvalidierung (DS-LRO-04); eine Fixture mit einem LRO-Bogen von { "24" } h und eine nur informative Anpassung über einen langen Bogen (DS-LRO-09). Informationsläufe sind in <c4/> festgehalten; keine veröffentlichte Zahl ändert sich.
-
-# text
-seg-b065138adba8 = <b>CR3BP-NRHO { "9" }:{ "2" } gegen CAPSTONE</b> (CAP-29d): neue Zeile MODELLED, die die kreisförmig-eingeschränkte NRHO der Engine gegen die geflogene Bahn von CAPSTONE misst (JPL Horizons, März { "2023" }; vorab registriert { "4e868170" }): Periode { "1.07" } %, Apolun { "0.05" } %, Perilun { "4.1" } % von den Mittelwerten von CAPSTONE, innerhalb der registrierten Zielwerte von { "3" } / { "5" } / { "20" } %. Eine Messung, keine Validierung.
-
-# text
-# c1: cr3bp::to_moon_centred_icrf
-# c2: from_moon_centred_icrf
-# c3: to_moon_centred_icrf_de440
-seg-954bd2771180 = <b>CR3BP-Rotationszustände nach mondzentriertem ICRF</b> (RM-34, FUT-06): <c1/> / <c2/> / <c3/> bilden einen dimensionslosen rotierenden Erde-Mond-Zustand auf die momentane Erde-Mond-Linie von DE440 ab, einschließlich der Rate des Bezugssystems außerhalb der Ebene. Neue Zeile, VALIDATED gegen ein SPICE-Zwei-Vektor-Bezugssystem (vorab registriert 2313eb1b, vor jedem Lauf geändert d5ef79b3; { "72" } Fälle, schlechtester Wert { "1.8e-7" } m und { "1.2e-9" } m/s).
-
-# text
-# c1: cr3bp_family
-# c2: #[doc(hidden)]
-# c3: docs/design/evidence/cr3bp-families/RESULTS.md
-seg-14599ab79300 = <b>CR3BP-Familienmitglieder gegen die JPL Three-Body Periodic Orbits API: NOT MET</b> (RM-35, vorab registriert a9074f65). <c1/> (Halo-, NRHO- und DRO-Korrektur, Stabilitätsindex der Monodromie, Pseudo-Bogenlängen-Fortsetzung) stimmt bei { "54" } von { "58" } API-Mitgliedern bei jedem Zielwert überein (Zustand, Periode und Jacobi überall innerhalb von { "1e-10" }). Ein L1-Halo-Stabilitätsindex ({ "9.5e-2" }) und drei Schließungen kleiner DROs ({ "1.5e-8" } bis { "3.3e-8" } gegen { "1e-8" }) verfehlen ihn, daher ist das Modul <c2/> und keine Zeile beansprucht es. Ergebnisse: <c3/>.
-
-# text
-# c1: lunar_frame::try_icrf_to_moon_pa_de440
-# c2: lunar::try_mci_to_mcmf_de440
-# c3: try_mcmf_to_mci_de440
-# c4: lunar_od::De440LunarEnvironment
-# c5: docs/design/evidence/fut05-de440-lunar-env/RESULTS.md
-seg-0cd0e67a2e28 = <b>Optionale lunare Orientierung und Umgebung nach DE440</b> (FUT-05, DS-LRO-08; Standards unverändert): <c1/>, <c2/> / <c3/> (epochenverankert, Hauptachsen nach DE440) und <c4/> (eingebettete DE440-PA-Orientierung plus die geozentrische Sonne und der geozentrische Mond aus einer vom Nutzer gelieferten DE440-SPK). Gegen ANISE (vorab registriert ea537710): Orientierung innerhalb von { "3.5e-7" } rad und LRO-Anpassungen innerhalb von { "1" } mm, aber das Ephemeriden-Teilstück verfehlte seinen Zielwert (Sonne { "30.7" } m, Mond { "1.1" } m, ein Zeitversatz von ~{ "1" } ms auf der ANISE-Seite), daher ist es keine validierte Zeile. Ergebnisse: <c5/>.
-
-# text
-# c1: docs/design/evidence/mr05-lunar-datum-cond/RESULTS.md
-seg-92cc171c69da = <b>Datum der Kampagne im lunaren Bezugssystem, konditionsskalierter NumPy-Zielwert: NOT MET</b> (vorab registriert b887eb05; bleibt MODELLED). Schritt { "0" } schließt den Pseudo-Inversen-Rückfall als Ursache der Lücke von { "0.30" } bei geschätzten Stationen aus; NumPy stimmt bei sechs von acht Szenarien innerhalb des Zielwerts überein, aber stations_estimated verfehlt ihn ({ "6.8e-6" } gegen { "5.9e-7" }), und am frischen Datum 2026-12-01 macht eine unbeobachtete Bake am Südpol die Informationsmatrix der Bake rangdefizient, was die unveränderte unabhängige Referenz nicht auswerten kann. Ergebnisse: <c1/>.
-
-# text
-# c1: docs/design/evidence/mr06-llr-analytic-fresh/RESULTS.md
-seg-8d2f1e9708ff = <b>Datum des lunaren Bezugssystems aus einer realen Beobachtungskampagne (analytischer Mond) VALIDATED</b> an frischen EDC-Normalpunkten von { "2025" } (vorab registriert 31f5283, bevor einer abgerufen wurde): Die unveränderte unabhängige Referenz aus SPICE und NumPy stimmt bei Buchführung, Rängen und Nullkopplung überein und innerhalb von { "1.11e-3" } bei den Sigmas (Zielwert { "1e-2" }), { "8.95e-4" } bei der Kondition und { "1.79e-3" } bei den Verhältnissen quer/längs (Zielwert { "2e-2" }). Eine Library-Prüfung allein der Kovarianzberechnung; die Zielwerte unterscheiden keine Mondmodelle. Ergebnisse: <c1/>.
-
-# text
-# c1: Body::iau_rotation_et
-# c2: pxform
-# c3: Body::mu
-# c4: docs/design/evidence/mr08-body-orientation/RESULTS.md
-seg-058d7d490111 = <b>IAU-Orientierung und GM der vierzehn hinzugefügten Körper des Sonnensystems</b>, aus der Zeile „Physical constants of every solar-system body“ in eine Zeile VALIDATED ausgelagert (vorab registriert 154bc54): <c1/> stimmt mit SPICE <c2/> auf pck00011 innerhalb von { "1e-9" } rad bei { "574" } Matrizen zu den ursprünglichen Epochen und bei { "574" } zu { "41" } frischen, nie zuvor verglichenen Epochen überein (schlechtester Wert Phobos { "1.38e-10" } rad), und <c3/> entspricht gm_de440 für alle vierzehn Körper. Der Rest der ursprünglichen Zeile (J2, mittlerer Radius, der Bericht) bleibt MODELLED. Ergebnisse: <c4/>.
-
-# text
-# c1: maneuver::lambert_multirev
-# c2: maneuver::kepler_universal
-# c3: docs/design/evidence/lambert-multirev/RESULTS.md
-seg-56c445aa8d9e = <b>Lambert mit mehreren Umläufen</b> (<c1/>): jede Lösung mit bis zu drei Umläufen, beide Zweige. Neue Registerzeile, VALIDATED gegen pykep { "3.0.1" } (vorab registriert a75de851; { "382" } Fälle, { "1058" } Lösungen, größte Geschwindigkeitsdifferenz { "1.6e-13" } gegen { "1e-8" }). Der interne Kepler-Landing-Wächter fand bei einem Bogen mit e = { "0.994" } eine Einschränkung von <c2/>; sie ist in <c3/> festgehalten.
 
 # text
 seg-b62dc38b09e9 = Solarer Strahlungsdruck nach Box-Wing und ECOM2 (DS-PA-14), optional.
@@ -3789,54 +3656,9 @@ seg-5e82deb7c853 = Optionale tesserale Erdgravitation im Cowell-Propagator (RM-0
 seg-e1a7ad42211e = <c1/> erhält <c2/> (<c3/>, <c4/>). Es wertet ein <c5/> (mitgeliefertes EGM2008 bis Grad/Ordnung { "70" } oder jede ICGEM-Datei <c6/>) in einem erdfesten Bezugssystem aus, das über den Erdrotationswinkel (<c7/>) oder die CIO-Kette GCRS-nach-ITRS (<c8/>) erreicht wird. Standard <c9/>: Keine bestehende Ausgabe ändert sich. VALIDATED gegen Orekit { "12.2" } Holmes–Featherstone über { "24" } h ({ "6" } Fälle, schlechtester Wert { "0.036" } m), mit den in <c10/> vorab registrierten Zielwerten.
 
 # text
-# c1: jd2::gmst82
-# c2: cio::gcrs_to_itrs_matrix_jd2
-# c3: frames::teme_to_itrf_jd2
-# c4: itrf_to_teme_jd2
-# c5: orbit::Propagator::position_in_frame_jd2
-# c6: own_jd2_utc
-# c7: From
-# c8: jd2::Jd2
-# c9: timescales::TwoPartJd
-# c10: two_part_jd = true
-# c11: ephemeris
-# c12: gmst82
-# c13: c2t06a
-# c14: f64
-# c15: f64
-seg-957686bb351e = <b>Zweiteilige Julianische Daten durch die Erdrotation auf dem Bahnpfad</b>: <c1/>, <c2/>, <c3/> / <c4/>, <c5/> und <c6/>, <c7/>-Umwandlungen zwischen <c8/> und <c9/> sowie ein optionales <c10/> für das Szenario <c11/> (ECEF, Bodenspur und Stationsansicht; standardmäßig aus und unverändert, und der Schlüssel bleibt im Szenario-Hash weg, wenn er aus ist). Neue Registerzeile, VALIDATED gegen pyerfa <c12/>/<c13/> (vorab registriert b10475ee; { "40" } Daten: GMST bitgleich, Matrix innerhalb von { "2.7e-14" }, Rotation über Schritte von { "1" } µs innerhalb von { "1.1e-14" } rad, wo der Pfad mit einzelnem <c14/> sie verfehlt). Die Epoche des Cowell-Kraftmodells bleibt einzeln <c15/>; der Grund steht in seiner Dokumentation.
-
-# text
 # c1: EopSeries::with_ls_ar_prediction
 # c2: EopSeries::last_mjd
 seg-0680b1f4c98b = <b>EOP-Vorhersage über die Tabelle hinaus</b> (<c1/>, <c2/>): eine optionale Erweiterung einer IERS-Erdorientierungsreihe durch den LS+AR-Prädiktor, der an ihrer letzten Zeile ausgegeben wird, sodass die Bezugssystemargumente einer späteren Epoche der Vorhersage folgen, statt an der letzten Zeile zu klemmen. Antworten innerhalb der Tabelle sind bitgleich (getestet); die Reihe klemmt weiterhin, solange dies nicht aufgerufen wird. Die Genauigkeit der Vorhersage bleibt der bestehende LS+AR-Befund gegen Bulletin A (MODELLED).
-
-# text
-# c1: cio::gcrs_to_cirs_matrix_with_offsets
-# c2: precession_matrix
-# c3: teme_to_gcrs_matrix
-seg-a7d272a1ddd6 = <b>Offsets dX, dY des Himmelspols auf der CIO-Kette</b> (<c1/>), und direkte ERFA-Vektorprüfungen von <c2/>, <c3/> und der neuen Funktion. Neue Registerzeile, VALIDATED gegen pyerfa (vorab registriert 979c1e39; { "40" } Epochen { "1950" }–{ "2100" }: Präzession und CIO bitgleich, TEME→GCRS innerhalb von { "1.1e-10" } rad, der vorhergesagte Effekt der zweitermigen Reihe der Äquinoktien-Gleichung). Bestehende Funktionen bleiben unverändert.
-
-# text
-# c1: timescales::tai_minus_utc_on_date
-# c2: Jd2::from_utc_calendar
-# c3: jd2::utc_to_tai
-# c4: jd2::tai_to_utc
-# c5: dtf2d
-# c6: utctai
-# c7: taiutc
-# c8: f64
-# c9: timescales::tai_minus_utc
-seg-20d19a2d65ec = <b>UTC vor 1972 auf dem zweiteiligen Zeitpfad</b> (<c1/>, sowie <c2/>, <c3/> und <c4/> ab 1960-01-01): die Ära mit driftender Rate („Gummisekunde“), mit der Drifttabelle von SOFA, gebrochenen Schritten am Tagesende und der Skalierung des Tagesbruchteils von UTC auf SI. Neue Registerzeile, VALIDATED gegen pyerfa <c5/>/<c6/>/<c7/> (vorab registriert 23c40661; { "117" } Zeitpunkte { "1960" }–{ "1971" }, schlechtester Wert { "2.9e-11" } s gegen einen Zielwert von { "1" } µs). Jedes Ergebnis ab { "1972" } ist bitgleich (Prüfsumme vor der Änderung festgelegt). Vor { "1960" } ist TAI − UTC { "0" }, wie in SOFA. Das einzelne <c8/> <c9/> bleibt unverändert.
-
-# text
-# c1: GlonassEphemeris::sv_clock_bias_s
-# c2: −τn + γn·(t − tb)
-# c3: −τn
-# c4: γn
-# c5: geph2clk
-# c6: geph2pos
-seg-3ff0d080d9e6 = <b>GLONASS-Broadcast-Satellitenuhr</b> (<c1/>): <c2/> aus dem RINEX-Datensatz, zu einer auf der Satellitenuhr abgelesenen Zeit (zwei Festkomma-Iterationen, die RTKLIB-Konvention). Die geparsten <c3/> und <c4/> waren zuvor ungenutzt. Neue Registerzeile „GLONASS broadcast satellite clock and broadcast-orbit propagation“, VALIDATED gegen RTKLIB 2.4.2-p13 <c5/>/<c6/> (vorab registriert e099c42a; { "292" } Fälle in einer echten Broadcast-Datei von { "2013" }: Uhrendifferenz { "0" } s, schlechteste Position { "1.1" } mm gegen einen Zielwert von { "1" } cm). Library-Funktion; keine Szenarioausgabe ändert sich. Es wird keine Transformation PZ-90.11 → ITRF angewandt, und das Modul sagt das.
 
 # text
 # c1: xval/ppp-time/
@@ -4323,22 +4145,10 @@ seg-8ce699586340 = <b>Planung von Bodenkontakten und DVB-S2-ACM</b> ({ "0.36" },
 seg-cd6dbcc3a78b = <b>Starlink-Doppler-Positionierung gegen ein veröffentlichtes Experiment</b> ({ "0.36" }, WP-14, Teil von CAP-11, MODELLED). Dies ist ein vorab registrierter Stellvertreter-Vergleich des Doppler-Modus von <c1/> mit dem Preset <c2/> gegen die Perzentile des Datensatzes 3 aus „Unveiling Starlink for PNT“ (NAVIGATION { "72" }({ "1" }), { "2025" }, doi:10.33012/navi.685). Das Modell verwendete { "3" } Satelliten (eine Maske von { "47" } Grad, nach einer festen Regel gewählt), keine Höhenstützung und ein Doppler-Sigma von { "30" } Hz, über { "200" } Seeds. Sein 90.-Perzentil des 3D-Fehlers beträgt { "92.2" } m bei { "20" } s und { "870" } m bei { "8" } s, gegen die veröffentlichten { "2" } m und { "10" } m, daher sind beide Zielwerte vom Faktor zwei NOT MET. Das Modell ist pessimistisch, nicht optimistisch wie vorhergesagt: drei feste Satelliten geben weit weniger geometrische Vielfalt als die { "63" } Satelliten des Experiments über { "10" } Minuten mit Kanalwechsel alle { "15" } s. Beide Fehlschläge sind festgeschrieben (<c3/>).
 
 # text
-# c1: maneuver::optimise_transfer_kernel
-# c2: porkchop_kernel
-seg-ffeb1b66cda5 = <b>Optimierer für impulsive Transfers auf DE440</b> ({ "0.36" }, WP-14, CAP-20c/d): <c1/> findet die Abflug- und Ankunftsdaten eines ballistischen Zwei-Impuls-Transfers mit einem Umlauf, die das Abflug-C3 oder das Ankunfts-V-unendlich innerhalb von Typ I oder Typ II minimieren. Er durchsucht ein Raster von 2 Tagen und verfeinert dann mit Nelder-Mead in 2D, auf heliozentrischen Zuständen aus dem DE440-Kernel; er baut auf <c2/> auf. Der Vergleich wurde vorab registriert (bf0439e8) gegen einen unabhängigen Optimierer aus SPICE + pykep { "3.0.1" } + SciPy { "1.18.1" } an der Gelegenheit Erde-Mars von { "2026" }: alle vier Optimierungen stimmen auf { "8.7e-13" } relativ überein, mit Daten innerhalb von { "1e-5" } Tag (VALIDATED, neue Registerzeile). Als sekundäre veröffentlichte Referenz wird NASA/TM-2010-216764 (das Handbuch Erde-Mars 2026-2045) beim minimalen C3 des Typs II ({ "9.182" } gegen { "9.144" }) und beim minimalen Ankunfts-V-unendlich des Typs II ({ "2.564" } gegen { "2.565" }) getroffen. Sein minimales C3 des Typs I wird nicht getroffen: { "10.535" } gegen { "11.11" } (-5.18 %), wo die unabhängige Referenz der Bibliothek mit Kshana übereinstimmt. Dieser Fehlschlag ist festgehalten und festgeschrieben.
-
-# text
 # c1: docs/LUNAR-REFERENCE-STATION.md
 # c2: lunar-station-coverage
 # c3: lunar-differential-pnt
 seg-91fe2e2625a1 = <b>Studie zur lunaren Referenzstation</b> ({ "0.36" }, angeregt durch veröffentlichtes Material zu einer geplanten Referenzstation am lunaren Südpol; Quellen in <a1><c1/></a1>): die Art <c2/>, ein Monte-Carlo-Durchlauf des lunaren differenziellen PNT-Modells über ein südpolares Nutzerraster und einen Tag von Epochen, der je Punkt und über die Region den Perzentilfehler mit und ohne Korrektur, die Verfügbarkeit mit Gründen, die Abdeckung gegen eine genannte Schwelle, Schutzniveaus, den Abdeckungsradius je Azimut und das Budget der Korrekturstrecke liefert. Sie reduziert sich bei einem Punkt, einer Epoche und einem Versuch exakt auf <c3/>; ihre Arithmetik wurde unter einem vorab registrierten Zielwert mit numpy neu berechnet (Positionen und Perzentile erfüllt; die Stationskorrekturen verfehlten ihren durch Rundung in doppelter Genauigkeit, festgehalten). MODELLED; Registerzeile „Lunar reference-station coverage and accuracy map“. Nicht mit einer Behörde verbunden oder von ihr unterstützt; keine Aussage über die Leistung irgendeines realen Systems.
-
-# text
-# c1: docs/predictions/lunar-reference-station.md
-# c2: lunar-station-coverage
-# c3: tests/prediction_frozen.rs
-# c4: docs/VALIDATION.md
-seg-3d0cd9692787 = <b>Vorab registrierte Vorhersage: Abdeckung der lunaren Referenzstation</b> (keine Validierung; MODELLED). <a1><c1/></a1> friert bei Commit c05dac1d die Ergebnisse von <c2/> unter den öffentlich genannten Annahmen ein, mit SHA-256-Hashes der Eingaben und Ergebnisse und einem jetzt festgelegten Bewertungsprotokoll (Faktor { "2" } für Genauigkeiten und Schutzniveaus, { "10" } Prozentpunkte für Verfügbarkeit und Abdeckung; eine geänderte Annahme erhält eine neue datierte Vorhersage, nie eine Bearbeitung; ein Fehlschlag wird ebenso deutlich veröffentlicht wie ein Treffer). Jede Zahl wird vom unveröffentlichten Elementsatz der Konstellation mit vier Satelliten bestimmt, der ILLUSTRATIVE ist und das auch sagt. <c3/> schützt sie; <c4/> erhält einen Abschnitt „Pre-registered predictions“. Keine Registerzeile.
 
 # text
 # c1: lunar-station-coverage
@@ -4526,13 +4336,6 @@ seg-686b1211d7bb = <b>Lunare Referenzstation: Zeitlabor der Station</b> (<b>MODE
 # c6: scenarios/lunar-station-geodesy-baseline.toml
 # c7: -with-station.toml
 seg-863c2c7a5f0b = <b>Lunare Referenzstation: Geodäsie der Station</b> (<b>MODELLED</b>). Optionale Eingaben <c1/> und <c2/> bei <c3/> fügen einen Block <c4/> hinzu. Die Datums-Information mit fünf Arrays aus dem archivierten Ausschnitt der Laserentfernungsmessung wird mit dem kombiniert, was ein hinzugefügter Retroreflektor und eine hinzugefügte VLBI-Bake an genannten Standorten beitragen würden. Die Entfernung zum Reflektor wird zu den archivierten Epochen, die er sehen kann, mit ihren archivierten Gewichten gemessen. Die Bake verwendet das Netz und den Zeitplan von <c5/>, mit festgehaltenen Stationen. Der Block gibt jedes Helmert-1-Sigma davor und danach sowie ihr Verhältnis an. Das sind Cramér-Rao-Schranken für einen reduzierten Parametersatz, bei einem ILLUSTRATIVE Zeitplan und Standort. Fehlende oder leere Eingaben lassen den Bericht byteidentisch. Beispiele: <c6/> und <c7/>. Fügt eine Registerzeile hinzu, gekennzeichnet MODELLED.
-
-# text
-# c1: tests/fixtures/lunar_station_published/CLAIMS.md
-# c2: tests/fixtures/lunar_station/SOURCES.md
-# c3: PREREGISTRATION.md
-# c4: tests/lunar_station_published_oracle.rs
-seg-45c6febcc7fc = <b>Lunare Referenzstation: Vergleich mit veröffentlichten Behauptungen</b> (<b>MODELLED</b>). Jede numerische Behauptung in fünf öffentlichen Quellen ist mit ihrem genauen Wortlaut, ihrer Seite und ihren genannten Annahmen aufgeführt und als vergleichbar, teilweise vergleichbar oder nicht vergleichbar eingestuft (<c1/>; Quellen mit URL, Abrufdatum, SHA-256 und Lizenz in <c2/>). Die teilweise vergleichbaren Behauptungen wurden unter sechs einseitigen Zielwerten bewertet, die vor dem Lauf vorab registriert wurden (<c3/>, Revision { "2" }, 05bf9a19): { "1" } von { "6" } Behauptungen innerhalb des vorab registrierten Zielwerts (vorab registriert 05bf9a19). Die Abdeckung beträgt { "0.00" } gegen >= { "0.95" } auf beiden südpolaren Kreisen, und das korrigierte p95 beträgt { "280.6" } m gegen <= { "1.5" } m. Die Ursache sind die Bahnelemente der Satelliten, die keine Quelle veröffentlicht: Mit den ILLUSTRATIVE Elementen im Repository sind vier Satelliten in { "8" } % der Epochen gemeinsam in Sicht, bei nahezu singulärer Geometrie. Der Lauf reproduziert die Behauptungen mit diesen Elementen nicht und ist kein Beleg dafür, dass die Behauptungen falsch sind. Festgelegt in <c4/>. Eine Registerzeile, gekennzeichnet MODELLED mit dem Befund.
 
 # text
 # c1: realdata::clk::rinex_clock_series
@@ -5669,14 +5472,6 @@ seg-9d65f2ce8715 = <c1/>-Bericht: neuer Schlüssel geometry_path ("analytic" bei
 seg-3631a31e7b26 = Körperkonstanten: Phobos GM { "7.087e5" } -> { "7.087546066894452e5" }; Deimos { "9.62e4" } -> { "9.615569648120313e4" }; Uranus { "5.7939506103e15" } -> { "5.793951256527211e15" }; Neptun { "6.83509997e15" } -> { "6.835103145462294e15" }; Pluto { "8.69326e11" } -> { "8.696138177608748e11" } (m^3/s^{ "2" }); Äquatorradius von Phobos { "13.1" } -> { "13.0" } km; Pol und Nullmeridian von Phobos und Deimos aus pck00011; der prime_meridian_deg des Sonnensystems enthält jetzt die quadratischen und periodischen Terme.
 
 # text
-# c1: europa-surface-pnt
-# c2: body-pnt
-# c3: docs/SOLAR-SYSTEM.md
-# c4: mcp/kshana-mcp/tests/round_trip.rs
-# c5: mars-orbit-pnt
-seg-ac1251d7a0fd = <c1/> (<c2/> auf Europa), aus der vollständigen Europa-Orientierung nach pck00011 (7cfd66b4; die Orientierung stimmt mit SPICE pxform bis { "1.4e-10" } rad überein), die den Lander im inertialen Raum verschiebt: Verfügbarkeit nur Relais / mit der Erdentfernung { "0.485" } / { "0.725" } -> { "0.480" } / { "0.719" } ({ "83" } -> { "82" } von { "171" } Epochen nur Relais), mittleres PDOP { "5.266" } -> { "5.360" }, RMS des Fix-Fehlers { "129.516" } / { "100.983" } m -> { "112.742" } / { "86.147" } m, mittleres formales Sigma { "5.266" } / { "4.272" } m -> { "5.360" } / { "4.239" } m. Die Tabelle in <c3/> und die Festschreibung in <c4/> folgen; <c5/> ist unverändert.
-
-# text
 # c1: space-weather
 # c2: tests/space_weather_reference.rs
 seg-3d9368d3a1bb = <c1/> (f107 { "180" }, f107a { "165" }, kp { "4" }), der kalibrierte Faktor ersetzt durch Jacchia { "1971" }: activity_density_kg_m3 bei 300/400/500/600/800 km { "2.602e-11" } -> { "3.608e-11" }, { "4.176e-12" } -> { "6.929e-12" }, { "8.136e-13" } -> { "1.618e-12" }, { "1.769e-13" } -> { "4.189e-13" }, { "1.544e-14" } -> { "3.781e-14" }; activity_factor 1.076/1.121/1.168/1.216/1.320 -> 1.492/1.860/2.322/2.881/3.232; reference_exospheric_temperature_k entfernt, mean_exospheric_temperature_k hinzugefügt ({ "1186.7" } K); <c2/>: der Sonnenzyklus-Hub bei { "800" } km beträgt jetzt 10.4x (NRLMSISE-00 13.6x), und die Höhenaussage folgt dem Anstieg von NRLMSISE bis { "500" } km und dem Abfall bei { "800" } km.
@@ -5733,11 +5528,6 @@ seg-4fad02ab4b6d = Revisionen: keine. Keine Golden-Datei und keine veröffentlic
 seg-30e8a645191f = Der NAIF-Kernel-Leser hat eine eigene Zeile.
 
 # text
-# c1: naif_kernel
-# c2: tests/naif_reader_spice_oracle.rs
-seg-98ff121aa2a9 = <c1/> (DAF-Container, SPK-Typ { "2" }, binäres PCK vom Typ { "2" }) stimmt mit dem SPICE Toolkit (CSPICE N0067 über spiceypy { "8.2.0" }) und mit ANISE { "0.10.6" } bei allen { "600" } DE440-Zuständen und { "200" } Mondorientierungsrotationen eines Zufallsgitters überein, das aus dem eigenen Hash des Vorregistrierungs-Commits gezogen wurde (abcd9133), innerhalb von Zielwerten, die vorab aus der Chebyshev-Auswertung in doppelter Genauigkeit abgeleitet wurden (schlechtester Wert { "0.6" } % des Zielwerts, { "1.95e-3" } m). Die Zeile behauptet, dass die Engine JPL-Kernel korrekt liest, nicht dass DE440 oder die analytische Reihe genau ist (<c2/>).
-
-# text
 # c1: ephem_provider::KernelEphemeris
 # c2: LunisolarSource
 seg-e0b5ea7af969 = <b><c1/></b>: DE440- (oder beliebige SPK-Typ-2-) Positionen über den eigenen Leser der Engine, mit zweiteiligen TDB-Epochen und dem SHA-256 des Kernels für Berichte; sie setzt nie einen Systembarycentre für einen Planeten ein. <c2/> lässt einen Geometriepfad die analytische Reihe (die Voreinstellung) oder einen Kernel wählen.
@@ -5773,16 +5563,8 @@ seg-95b8207466a3 = D9, gemessene Uhrenbibliothek "Clock Atlas" (drei neue Zeilen
 seg-1f8644486f5d = <b>Gemessene Uhrenbibliothek (<c1/>).</b> Gerätekarten (weißes Phasenrauschen, weiße, Flicker- und Random-Walk-Frequenzmodulation, eine lineare Frequenzdrift und optional Phasenterme mit ein- bis vierfacher Frequenz pro Umlauf), angepasst an eine benannte gemessene Uhrenaufzeichnung und an zurückgehaltenen Daten bewertet; lückenbewusste Allan- und Hadamard-Varianzen; ein Konditionierungsdetektor, der jede Lücke, jeden Phasenausreißer, jeden Phasensprung, jeden Burst und jeden Frequenzsprung protokolliert und nichts von Datei- oder Tagesgrenzen weiß; Umwandlung einer Karte in das Rauschmodell der Slot-Zeitgebung, das erweiterte Kalman-Uhrenmodell und die Rauschpegel des Spoofing-Monitors. Leser für RINEX- und IGS-Uhrendateien, BIPM-Dateien je Labor und Circular T Abschnitt { "1" } (<c2/>); eine gepoolte, hierarchische Alterungsschranke für UTC(k) (<c3/>, noch nicht bewertet).
 
 # text
-# c1: tests/clock_state_ext_igs_conditioned_oracle.rs
-seg-ef456da29319 = <b>M002, Zustandsschätzung der Borduhr, Runde { "3" }</b> (ein Befund, bleibt MODELLED): nach dem eingefrorenen Konditionierungsdetektor erfüllt das erweiterte Filter aus Runde 2 mit unveränderter Abstimmung und unveränderten Kriterien (a) und (c) erstmals auf allen { "11" } Satelliten; (b) scheitert bei G09 ({ "0.894" }) und G26 ({ "0.876" }) (vorregistriert fb475550; <c1/>).
-
-# text
 # c1: tests/clock_library_tcxo_card_jammertest_oracle.rs
 seg-0014b2629fd2 = <b>M010, Spoofing-Erkennung, Runden { "3" } bis 4b</b> (bleibt MODELLED): Runde { "3" } blockiert ({ "167" } Trainingsepochen aus den anderen Sitzungen der JammerTest-Einheit gegenüber { "3600" }); mit einer Karte der Modellklasse ZED-F9P (Runden { "4" } und 4b) löst der Uhrenmonitor bei allen { "10" } protokollierten Einsätzen null Fehlalarme vor dem Einsatz aus (Runde { "2" }: { "86" }), und { "6" } von { "10" } Einsätzen werden innerhalb von { "10" } s erkannt (Runde { "2" }: { "4" }); dieselben vier bleiben verspätet (<c1/>).
-
-# text
-# c1: tests/utck_bound_prospective_oracle.rs
-seg-79757abc69e3 = <b>M083, Überschranke für UTC(k), Runde { "3" }</b>: prospektiv vorregistriert (fb475550) auf Circular-T-Ausgaben ab { "465" }, noch nicht ausgeführt (<c1/>).
 
 # text
 # c1: $KSHANA_ORACLES/data/wroclaw_f9p
@@ -5931,10 +5713,6 @@ seg-a7dfc3475923 = <c1/>: der IQS-Batch-Header des LuGRE (Lunar GNSS Receiver Ex
 # c2: earth_gnss_lunar
 # c3: transmit_side_db
 seg-f0125531c4f8 = <c1/> und, in <c2/>, das Yaw-Steering-Körpersystem, Sendeazimut und Off-Nadir-Winkel sowie <c3/> für relatives C/N0 mit gemessenen Mustern.
-
-# text
-# c1: tests/gps_lnav_rtklib_integer_oracle.rs
-seg-679aa02de1d0 = Kodierung der GPS-LNAV-Navigationsnachricht (neue Zeile, bleibt nach der Nachverifikation durch den Integrator MODELLED): auf der IGS-Broadcast-Datei vom { "2" }. März { "2025" }, von RTKLIB v2.4.2-p13 geparst und dekodiert, bestehen alle { "960" } Wörter die Paritätsprüfung, alle { "96" } Subframes dekodieren und alle { "608" } Broadcast-Ganzzahlen sind gleich denen von Kshana (<c1/>), aber die Vorregistrierung (d4d9eb9d) erreichte den öffentlichen Branch zwei Sekunden nach dem Commit mit dem Ergebnis, sodass die Reihenfolge "registriert, bevor die Datei abgerufen wurde" nicht gezeigt werden kann und die Zeile nicht hochgestuft wird.
 
 # text
 # c1: realdata::ion_sdr
@@ -6930,13 +6708,6 @@ seg-1a4f9d5eef96 = <b>Abkürzungen werden bei der ersten Verwendung in jedem von
 seg-2889ce118381 = Die Zeilenabdeckung hat eine maßgebliche Messung.
 
 # text
-# c1: docs/COVERAGE.md
-# c2: coverage
-# c3: b1d350d
-# c4: tests/coverage_figure_doc_sync.rs
-seg-9c4684c0a4ef = <c1/> verzeichnet { "95.63" } % ({ "37,697" } von { "39,419" } Zeilen) aus dem CI-Job <c2/> bei <c3/>, und <c4/> legt die fünf öffentlichen Oberflächen mit "~{ "96" }%" darauf fest — die eine Schlagzeilenzahl, die von Hand gepflegt wurde und sich schon einmal unbemerkt verschoben hatte.
-
-# text
 seg-ebd36b7291df = Neue Doc-Sync-Gates für Oberflächen, die niemand las.
 
 # text
@@ -7196,14 +6967,6 @@ seg-cbe63ab92c6a = test(docs): das Verteilungsdiagramm absichern, das letzte ung
 seg-70c84ea0a5bd = chore(release): { "v0.27.1" }
 
 # text
-# c1: 7bba514
-# c2: 7864142
-# c3: .cargo_vcs_info.json
-# c4: main
-# c5: main
-seg-9c220336c895 = <b>Die Tags { "v0.27.0" } und { "v0.27.1" } wurden absichtlich NICHT verschoben.</b> Sie zeigen weiterhin auf <c1/> und <c2/>, die genauen Commits, deren Bäume die Artefakte erzeugten, die jetzt auf crates.io, npm, PyPI, ghcr.io und in der MCP-Registry liegen. Die <c3/> eines Crates verzeichnet das sha1, aus dem es gepackt wurde, Registries sind unveränderlich, und die SLSA-Build-Provenance-Attestierung auf den Release-Assets von { "v0.27.1" } ist an diesen Commit gebunden. Ein Verschieben der Tags hätte jedes dieser veröffentlichten Artefakte auf einen Commit zeigen lassen, der nicht mehr existiert. Sie zu belassen hält die alten Commits erreichbar und jede veröffentlichte Herkunftskette auflösbar, auf Kosten von zwei Tags, die keine Vorfahren von <c4/> mehr sind — weshalb es diese Version gibt: { "v0.27.2" } gibt <c5/> einen eigenen Tag, gepackt aus einem Commit, der darauf liegt.
-
-# text
 seg-3c644384256f = Dies ist das zweite offengelegte Umschreiben dieser Historie; das erste, am 2026-09-21, kanonisierte die Autorenschaft und ist in den Hinweisen zu { "0.27.0" } mit seinen eigenen zwei hängenden crate-sha1 verzeichnet. Ein Umschreiben wird hier jedes Mal offengelegt, weil ein Repository, das nachprüfbare Herkunft verkauft, den Boden unter einem veröffentlichten Artefakt nicht stillschweigend verschieben kann.
 
 # text
@@ -7319,18 +7082,6 @@ seg-ed290a85ab0e = <b>Die Commit-Urheberschaft in der gesamten Historie ist nun 
 seg-ec4e75f94462 = <b>Kein Inhalt hat sich geändert.</b> Das Umschreiben betraf nur die Header von Autor und Committer, und das ist überprüfbar statt bloß behauptet: Der Baum jedes Tags und jedes Branches ist bitgleich mit dem von zuvor. <c1/> löst weiterhin auf den Baum <c2/> auf, genau wie bisher.
 
 # text
-# c1: v0.26.0
-# c2: dce2dbf7700788cf6de46260c14673c0e5347360
-# c3: d4921f3025569e00e425e1747d0acfc261e96e18
-seg-bc0f4fa0a009 = <b>Was es gekostet hat.</b> Der Name eines Commits ist ein Hash über seinen Baum, seine Eltern und seine Autoren-Header; wird also ein Vorfahr geändert, erhält jeder Nachfahr einen neuen Namen. Der Release-Commit von <c1/> hieß <c2/> und heißt jetzt <c3/>. Zwei Artefakte haben den alten Namen zum Zeitpunkt der Veröffentlichung festgehalten und lassen sich nicht korrigieren, weil eine veröffentlichte Registry-Version von Grund auf unveränderlich ist:
-
-# text
-# c1: kshana
-# c2: .cargo_vcs_info.json
-# c3: dce2dbf…
-seg-52e096332738 = <c1/> { "0.26.0" } auf crates.io — <c2/> hält <c3/> fest
-
-# text
 # c1: kshana-mcp
 # c2: path_in_vcs: mcp/kshana-mcp
 seg-8ec39d2f136c = <c1/> { "0.26.0" } auf crates.io — dasselbe sha1, <c2/>
@@ -7338,10 +7089,6 @@ seg-8ec39d2f136c = <c1/> { "0.26.0" } auf crates.io — dasselbe sha1, <c2/>
 # text
 # c1: gitHead
 seg-9a21b7c7b41c = Nichts anderes ist betroffen. Das npm-Paket hält kein <c1/> fest, und die PyPI-Distribution hält überhaupt keinen Commit fest; beides wurde geprüft statt angenommen.
-
-# text
-# c1: dce2dbf…
-seg-9c51c5fb0d80 = Es gibt keine Reparatur, die <c1/> auf den umgeschriebenen Commit verweisen lässt: Diese Zeichenfolge <em>ist</em> die alte Vorgeschichte, und sie lässt sich nur auflösen, indem die Historie vor dem Umschreiben veröffentlicht bleibt, was die durch das Umschreiben entfernte Urheberschaft wiederherstellen würde. Die Herkunft von { "0.26.0" } läuft daher über das Tag und nicht über das festgehaltene sha1 — und das Tag liefert exakt dieselben Bytes, aus denen das Crate gebaut wurde. Das nächste Release hält einen gültigen Commit fest, ohne dass etwas zu tun ist.
 
 # text
 # c1: realtime-frame-eop
@@ -8678,11 +8425,6 @@ seg-065c4431197e = Lab-Replay: eine Tracking-Engine, Erkennungsmonitore und ein 
 seg-07edced2764a = Neue Zeile der Stufe VALIDATED "LunaNet AFS frame channel coding, FID { "0" }": die Frames mit 6000 Symbolen sind Symbol für Symbol gleich denen von LANS-AFS-SIM (vorregistriert 986ac280); der Subframe-1-Code reproduziert das Rechenbeispiel in Abbildung { "8" } des LSIS, und der CRC-24 den Prüfwert aus dem Katalog CRC-24/LTE-A.
 
 # text
-# c1: tests/clock_library_device_cards_oracle.rs
-# c2: tests/clock_library_f9p_cards_oracle.rs
-seg-1fcea6ee6136 = <b>Gemessene Gerätekarten mit Vorhersage auf zurückgehaltenen Daten</b>, neue Zeile der Stufe MODELLED (ein Befund): Fit auf einem Drittel, Vorhersage der Allan-Abweichung der anderen zwei Drittel innerhalb eines Faktors von { "1.5" } (vorregistriert 2ec76864). GPS Block IIF auf einem frischen IGS-Fenster (2026-03-01 bis { "14" }): { "10" } von { "11" }; G27 ist auf der Zwei-Stunden-Skala optimistisch (schlechtester Faktor { "1.510" }). Caesium (innerhalb, { "1.070" }), OCXO (außerhalb, { "2.348" }) und Strontium (innerhalb) werden berichtet, nicht blind. Die Empfängerkarte des JammerTest sowie die Karten für den Galileo-Maser und die Deep Space Atomic Clock sind blockiert. Eine Modellklasse für den TCXO des Empfängers ZED-F9P an { "12" } statischen Stationen in Wroclaw (Zenodo { "6488497" }) scheitert: { "1" } von { "11" } blinden Stationen in einem offengelegten, korrigierten erneuten Lauf (<c1/>, <c2/>).
-
-# text
 # c1: tests/leo_resilience_verticals.rs
 seg-222ad0b777f8 = Drei Matrixzeilen der Stufe MODELLED: der Spoofing-Monitor für Doppler und Überflug-Geometrie, der Spoofing-Monitor zwischen den Bändern und die Ionosphärensondierung. <c1/> prüft die Monitore (still vor dem Einsatz, die Doppler-Statistik quadratisch im Sprung, der ionosphärische Sprung eines Bodenspoofers und keiner bei einem ionosphärenbewussten), die Sondierungsidentität, die Zeitgebungsspur gegenüber den Zeilenstatistiken und dass der Export einer Kampagne dem jedes Mitglieds entspricht.
 
@@ -8690,10 +8432,6 @@ seg-222ad0b777f8 = Drei Matrixzeilen der Stufe MODELLED: der Spoofing-Monitor f�
 # c1: tests/slot_timing_cs5071a_holdout.rs
 # c2: realdata-clock
 seg-22c09748488b = <b>Validierung der Holdover-Inversion auf zurückgehaltenen Daten an einer realen Uhr</b> (<c1/>): angepasst auf dem ersten Drittel der Aufzeichnung Caesium 5071A gegen Wasserstoffmaser liegen die vorhergesagten Ein-Sigma-Verletzungen bei sechs Schwellen von { "0.5" } bis { "2.5" } ns bei { "0.84" } bis { "1.03" } der Verletzungen, die an den anderen zwei Dritteln gemessen wurden, gegenüber einem Zielwert von { "1.5" }, der vor dem ersten Lauf des Tests festgelegt wurde. Eine Kontrolle (die Allan-Abweichung bei einer Sekunde als weißes Rauschen gelesen) verfehlt ihn um einen Faktor von etwa { "1 000" } und scheitert am Zielwert. Neue Registerzeile der Stufe VALIDATED; der Workflow <c2/> führt sie jetzt aus.
-
-# text
-# c1: tests/clock_library_periodic_cards_oracle.rs
-seg-26fa898f6272 = <b>GPS-Block-IIF-Karten mit Termen pro Umlauf</b>, neue Zeile der Stufe MODELLED (ein Befund): auf einem zweiten frischen Fenster (2026-04-01 bis { "14" }) liegen { "9" } von { "11" } innerhalb des Zielwerts; G03 ({ "1.947" }) und G25 ({ "1.581" }) sind optimistisch, weil ihre zurückgehaltenen Aufzeichnungen verrauschter sind als ihre Fit-Drittel; ohne die periodischen Terme scheitern alle { "11" } (vorregistriert fb475550; <c1/>).
 
 # text
 # c1: docs/LEO-NAVMSG.md
@@ -8708,16 +8446,7 @@ seg-3f6c1ff0b3a4 = <b>Register zu Repräsentativität & Lücken bis zum Flug</b>
 seg-411431a9b26b = Zwei neue Zeilen (MODELLED): der Wasserfall und die C/N0-Zeitleiste, die sich genau auf die Kette der Art <c1/> reduzieren (in jedem Bericht gegengeprüft), sowie der SigMF-Codec und der Welch-Schätzer. Im Repository liegt keine Aufnahme von Dritten.
 
 # text
-# c1: linalg_sr
-# c2: solver = "srif"
-seg-4c6089cfac5e = Neuer optional zuschaltbarer Löser mit Quadratwurzel-Information (<c1/>; <c2/> im Szenario lunar-frame-campaign): Householder-QR, Marginalisierung über den Dreiecksfaktor, eine Jacobi-SVD für das Spektrum und kompensierte Produkte allein aus korrekt gerundeten Operationen. Gegenüber der unabhängigen Referenz mit 50 Stellen (vorregistriert b41908c9) stimmen seine Datums-Sigmas an einem neuen Datum (2026-06-09) bis { "3e-13" } überein; bei den Eingaben vom 2026-03-18 und 2024-01-01 weicht der Standardlöser um bis zu { "1e-5" } ab. Neue Zeile VALIDATED unter P2. Der Standardlöser und seine Ausgabe bleiben unverändert. Die vorregistrierten Zielwerte bescheinigen Fehler nur oberhalb von etwa { "2e-7" } relativ: Sie weisen den Standardlöser zurück, nicht aber ein umgekehrtes Householder-Vorzeichen, ein unkompensiertes Skalarprodukt oder eine spektrale Endinverse, und die Zeile sagt das.
-
-# text
 seg-4ec44f8a5f8e = D12, erweiterte Genauigkeit und ein Quadratwurzel-Löser (zwei neue Zeilen VALIDATED: { "226" } -> { "228" } Zeilen, { "110" } -> { "112" } validiert).
-
-# text
-# c1: tests/validate_llr_datum_kernel_moon_fresh.rs
-seg-55002d236ab0 = <b>Mond-Bezugssystemdatum aus einer realen Kampagne, Kernel-Mondmittelpunkt</b> (neue Zeile VALIDATED): auf { "447" } ungesehenen Normalpunkten aus dem 2. Quartal 2019, vorregistriert 830d945a, bevor einer abgerufen wurde, stimmt die Datumskovarianz auf dem Kernel-Pfad mit der unveränderten SPICE- und NumPy-Referenz innerhalb von { "7.6e-5" } gegenüber Zielwerten von { "1" } % und { "2" } % überein (<c1/>). Der Gründer entschied, dass diese Zeile nur an frischen Punkten hochgestuft wird; die Diagnose mit bereits gesehenen Daten (c51f8b2) ist ein Befund, kein Beleg. Der Zielwert unterscheidet Mondmodelle nicht: Auch der analytische Mond besteht auf demselben Ausschnitt (schlechtester Wert { "3.8e-3" }), die geplante Mutation (der Kernel-Mond eine Stunde zu spät) wurde nicht erkannt, und bei der Faltung bestand auch ein um etwa { "4,650" } km falscher Mondmittelpunkt (der Mond um den Erde-Mond-Schwerpunkt genommen). Die Zeile beansprucht die Kovarianz auf diesem Pfad, nicht den Mondmittelpunkt, und sagt das.
 
 # text
 # c1: leo-ppp
@@ -8738,10 +8467,6 @@ seg-665d0dde637b = <b>Neue Fähigkeiten MODELLED</b>, jede intern gegen eine ges
 
 # text
 seg-6ba057fab559 = <b>Zwei Zeilen VALIDATED für Codes der IQ-Schicht</b> (DS-GIQ-06b, PRO-39).
-
-# text
-# c1: tests/lunar_vlbi_surface_point_spice_oracle.rs
-seg-74e8def84747 = <b>Kovarianz eines Punkts auf der Mondoberfläche auf dem Kernel-Pfad</b> (neue Zeile VALIDATED): bei festen Stationen und der Bake auf dem DE440-Mond stimmt die Kovarianz der Bake mit einer SPICE-Lichtlaufzeit-Jacobi-Matrix (schlechtester Wert { "1.7e-3" } gegenüber einem Zielwert von { "1" } %) und einer NumPy-Inversion ({ "4e-14" } gegenüber { "1e-9" }) überein, vorregistriert 4a51256 (<c1/>). Die Zeile des analytischen Pfads bleibt MODELLED: beim analytischen Mond liegt ihr kleinstes Bake-Sigma { "3.9" } % unter der unabhängigen Referenz.
 
 # text
 # c1: kind
@@ -8771,16 +8496,7 @@ seg-89a4bc4a766e = Befund (neue Zeile MODELLED), "LunaNet AFS spreading-code gen
 seg-8d9332df5c74 = <b>Elf neue lauffähige Szenarioarten: Demonstratoren mit zwei Ausschreibungen, eine CCSDS-Interop-Brücke und eine Suite für Missionsanalyse / Umgebung in erster Ordnung (alle MODELLED, additiv; bestehende Reproduzierbarkeits-Goldens unverändert).</b> Jede ist per CLI / Python / WASM / MCP aufrufbar, liefert ein <c1/> mit und trägt ein ausdrückliches Label MODELLED in ihrem Ergebnis-JSON und in der einzeiligen Zusammenfassung (ein Test je Art in <c2/> prüft, dass das Label vorhanden ist und dass die Ausgabe nie den String <c3/> enthält):
 
 # text
-# c1: allan::lag1_noise_id
-# c2: autocorr_noise_id
-# c3: tests/clock_library_lag1_noise_id_allantools.rs
-seg-93add052ae56 = <b>Rauschidentifikation per Autokorrelation bei Lag 1</b> (<c1/>, Riley und Greenhall { "2004" }), neue Zeile VALIDATED (Bibliothek): stimmt mit allantools { "2024.6" } <c2/> auf { "140" } Fällen überein, ganze Zahlen identisch, schlechteste Differenz { "9.6e-13" } gegenüber einem Zielwert von { "1e-9" } (vorregistriert 2ec76864; <c3/>).
-
-# text
 seg-986f4075210b = D8, ein validierter Propagations-, Bezugssystem- und Zeitpfad (drei neue Zeilen VALIDATED und M131 hochgestuft: { "235" } -> { "238" } Zeilen, validiert { "117" } -> { "121" }).
-
-# text
-seg-9a5f94973450 = Mond-Bezugssystemdatum bei geschätzten Stationen: eine unabhängige Referenz mit erweiterter Genauigkeit aus 50-stelligem mpmath (vorregistriert 804662d5, konditionsskalierte Zielwerte aus einer a-priori-Rückwärtsfehlerformel) stimmt an einem neuen Kampagnendatum (2026-03-18) und am ursprünglichen Szenario vom 2024-01-01 überein; neue Zeile VALIDATED unter P2. Sie entscheidet den früheren Streit um doppelte Genauigkeit: die Datums-Sigmas der Engine weichen um bis zu { "9.7e-6" } ab, die Inversions- und Eigenwertwege von NumPy um bis zu { "6.2e-6" } und seine Cholesky- und QR-Wege um etwa { "1e-8" }. Die Engine liegt innerhalb ihrer Fehlerschranke, ist aber etwa tausendmal weniger genau als ein Faktorisierungsweg.
 
 # text
 # c1: cislunar-observability
@@ -8806,22 +8522,10 @@ seg-b49f96eb52ad = Bestehende Zeilen VALIDATED neu abgestützt (keine Änderung 
 seg-b96d34bb1d36 = Es wurde kein Zielwert geändert, und keine Zeile VALIDATED, keine Abbildung und keine Zahl im Web hat sich verschoben.
 
 # text
-# c1: c2t06a
-# c2: pnm06a
-# c3: ee06a
-seg-c0dec16ea932 = Neue Zeile VALIDATED "One Earth-orbit path": TEME-Positionen von { "232" } Elementsätzen gegenüber python-sgp4 { "2.24" } (Vallados Referenz-SGP4) innerhalb von { "6.1e-8" } m (Zielwert { "1" } cm), und die Rotationen GCRS -> ITRS und TEME -> ITRS gegenüber ERFA <c1/>, <c2/> und <c3/> innerhalb von { "2.9e-6" } mas und { "0.41" } mas (Zielwerte { "0.1" } und { "2" } mas), mit Erdorientierungsparametern (vorregistriert 72ea9eb0). Offengelegt: der erste Lauf scheiterte bei 2016-12-31T23:{ "59" }:{ "59.5" } um eine Sekunde Rotation; UT1 wurde an einem Schaltsekundentag aus dem quasi-julianischen Datum von UTC genommen, die Engine geht nun über TAI, und der zweite Lauf stimmt bei unveränderten Zielwerten überein.
-
-# text
 # c1: conflict-resilience
 # c2: src/conflict_resilience.rs
 # c3: src/conflict_threat_params.rs
 seg-c87fc11dd86b = <b>Konfliktresilienz geschichteter PNT</b> (<c1/>, <c2/>) — eine Monte-Carlo-Resilienz-Engine mit festem Seed für eine mehrschichtige PNT-Architektur, mit einem Modell des <b>Überlebens bei graceful degradation je Vektor</b> nach §{ "4.2" } (vier benannte Bedrohungsvektoren, die geschlossene Form des Überlebens nutzbarer PNT, gegen die die Monte-Carlo-Läufe je Schicht konvergieren, im Ergebnis-JSON ausgegeben) und dokumentierter, gegen Abweichung abgesicherter Herkunft der Bedrohungsparameter (<c3/>). Die Architekturen sind MODELLED; die Konvergenz des Überlebens-Monte-Carlo → geschlossene Form ist der validierte Kern.
-
-# text
-# c1: dtf2d
-# c2: utctai
-# c3: taiutc
-seg-cf4ae964c5d1 = Neue VALIDATED Zeile "Two-part Julian dates and leap seconds on the Earth-orbit time path": pyerfa { "2.0.1.5" } <c1/>/<c2/>/<c3/> auf { "224" } Zeitpunkten rund um alle { "27" } Schaltsekunden innerhalb von { "1e-6" } s (vorregistriert e947e69d); schlechtester Wert { "1.9e-11" } s.
 
 # text
 seg-d4e76301323f = Befund (neue MODELLED Zeile), "LunaNet AFS closed-loop decodability": drei vorregistrierte Läufe gegen PocketSDR-AFS; der dritte erfüllte seine Zielwerte für Tracking und Dekodierung vollständig, nicht aber seine Absicherung, dass ein Empfänger-Build mit reiner Druckausgabe das Protokoll des festgelegten Builds reproduziert, weil sich schon zwei Läufe des unveränderten Empfängers in ihren Akquisitionsaufzeichnungen unterscheiden.
@@ -8845,11 +8549,6 @@ seg-e06522ca762e = <b><c1/> ist jetzt der erweiterte Laufbericht</b>, der unter 
 # c4: impairment-eval
 # c5: jamming_kind_cross_check
 seg-ecdf60335064 = <b>Betroffene Verbraucher:</b> die Arten <c1/>, <c2/>, <c3/> und <c4/>, der <c5/> der Spektrum-Arten, die Referenzkurve der IQ-Kampagne, die MODELLED ist, und das labfit-Standard-Q sowie der Interop-Szenenexport.
-
-# text
-# c1: KernelEphemeris::relative_position_utc
-# c2: tests/kernel_ephemeris_skyfield_oracle.rs
-seg-f147f9257b8b = <b>Positionen von Sonne, Mond, Merkur und Venus aus DE440 bei UTC-Epochen</b> (neue VALIDATED Zeile): <c1/> stimmt mit Skyfield { "1.54" } auf { "600" } Positionen zwischen { "1973" } und { "2026" } überein, schlechtester Wert { "2.96" } m, innerhalb eines vorregistrierten Zielwerts (0bfafe6d), der durch die zweitermige Reihe TDB − TT festgelegt ist (<c2/>). Planetenpositionen erhalten jetzt diese neue Kernel-Zeile; die Standish-Zeile und die Zeile der Planetenmonde sind unverändert, und die Monde warten auf ein Szenario, das sie braucht (Entscheidung des Gründers).
 
 # text
 seg-f1cb2c2881c9 = Sieben MODELLED Registerzeilen zu dem Obigen. Nichts davon ist VALIDATED: Es wurde keine Aufzeichnung eines realen Empfängers, einer Basisstation, einer IMU, eines GNSS-SDR-Laufs, eines ROS-Graphen oder eines MQTT-Brokers gelesen.
@@ -8914,8 +8613,6 @@ seg-823e1abc7f92 = <c1/>: welche MODELLED-Registerzeilen gemessene Daten beförd
 
 seg-34bdcfd66ded = Im Repository-Zweig, aus dem diese Dokumente stammen; noch nicht auf GitHub
 
-seg-ddd45d39e8a9 = <b>Zweite Kampagnen für die nicht erreichten Zielwerte von <c1/> und <c2/></b>, wie vorab festgelegt ausgeführt (<s1><c3/></s1>, <s2><c4/></s2>; vor jedem Lauf freigegeben). Jede ursprüngliche Verfehlung bleibt NOT MET und festgeschrieben. <c5/>: Die Kontrolle reproduziert Lauf { "1" } Zelle für Zelle; fünf Ablationen mit je einer Lesart bringen { "2" } der { "78" } verfehlten Zellen in die Toleranz (EXPLORATORY, kein Zielwert); der neue Zielwert S7b (eine auf Classic-IIR-Panels angepasste Sendeform aus Abfall und Untergrenze) ist bei den IIR-M-Panels mit { "3.83" } bis { "3.95" } dB gegenüber { "3" } dB NOT MET; die Kampagne mit zurückgehaltenen veröffentlichten Empfangsdaten wurde nicht ausgeführt (keine Quelle festgelegt) (<s3><c6/></s3>). <c7/>: Die neuen Zielwerte C3a, C3b (eine Nachweisgrenze von etwa { "3e-9" } m/s2), Q3a, Q3b (eine genaue Normalverteilungsfunktion beseitigt die Differenz von { "1.7e-6" }) und G3'' sind als eigene Zielwerte erreicht, und G3' mit illustrativen Priors ist erreicht und als EXPLORATORY gekennzeichnet (<s4><c8/></s4>). Alles bleibt MODELLED. Neue öffentliche Elemente: <c9/>.
-
 seg-bc89e70f4d36 = <b>Eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt.</b> Das Ergebnis-JSON hat einen Schlüssel <c1/>, die Diagramm-SVG ein Metadatenelement und eine Zeile unter der Grafik, und die CSV-Tabelle <c2/> Kommentarzeilen: die Stufe (<c3/>, <c4/> oder <c5/>, die schwächste der Zeilen) und die Kennungen der Zeilen der Verifikationsmatrix, auf denen der Lauf beruht. Zeilen und Status werden aus der Matrix gelesen, nicht getippt; die Kennungen sind stabil (<c6/> und acht Hexadezimalziffern, eine neue Spalte <c7/> in <c8/>, eine eingefrorene Liste in <c9/>). Auch bei receiver-trust, <c10/>, <c11/>, dem Bericht zur Routenexposition und, innerhalb der signierten <c12/>, bei jedem Nachweispaket (<c13/> { "1.1" }; <c14/> meldet die Stufe; vor { "0.40" } erstellte Pakete werden unverändert verifiziert). <c15/> schlägt fehl, wenn eine Grafik keine Kennzeichnung hat, eine Kennzeichnung der Matrix widerspricht oder ein neuer Dateischreiber weder gekennzeichnet noch mit einem Grund aufgelistet ist. Ausgaben, die keine tragen, sind in <c16/> aufgelistet. Die drei Demo-Diagramme der README wurden mit der Kennzeichnung neu gerendert (ohne sie ergeben sich wieder die alten Bytes; <c17/>). Keine Aussage hat sich geändert.
 
 seg-8abd87414bc4 = Die Szenarioart <c1/> (<c2/>, <c3/>): das Fehlerbudget für Navigation und Zeitgebung einer Kette von Phasen vom Start bis zum Wiedereintritt, jede Zahl MODELLED und jede Eingabe genannt. Acht Phasenarten: <c4/>, <c5/> (Clohessy-Wiltshire-Relativkovarianz über Sensorabschnitte, Andockfenster), <c6/> (Cowell-Fortschreibung mit einer Zustandsübergangsmatrix aus finiten Differenzen, Manöverfehler, <c7/>- und Bodenverfolgungsaktualisierungen, der Mond aus einem optionalen DE440-Kernel-Ausschnitt), <c8/> (Sigma des Bahnneigungswinkels, Korridorwahrscheinlichkeit, Spitzenverzögerung an den Korridorrändern, Landeellipse) und die vier Mondarten. Übergaberegeln (<c9/>, <c10/>, <c11/>), Umrechnungen von Bezugssystem und Zeitskala als eigene Budgetzeilen, eine optionale Bodennetz-Überlagerung, die den Verfolgungseinsatz jeder Phase festlegt, die Marge gegenüber genannten Anforderungen und das schwächste Glied. Das Beispiel folgt der Abfolge einer öffentlichen NASA-Foliensammlung zum Einsatzkonzept mit ILLUSTRATIVE Zahlen: ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen, Erd- und Mondsegmente. Die cislunare Fortschreibung wurde mit der öffentlichen Trajektorie von Artemis I über einen Bogen von { "72" } h gegen einen Zielwert verglichen, der vor dem Lauf in <c12/> festgelegt wurde: <b>NOT MET</b> ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s). Die Diagnose verortet die Verfehlung in fünf kleinen impulsiven Ereignissen in der Referenz; zwischen ihnen gibt das Kraftmodell die Stundenzustände mit einem Median von { "0.4" } m wieder. Die Zeile bleibt MODELLED (<c13/>).
@@ -8949,3 +8646,15 @@ seg-6b6a960ca7cf = <c1/>, <c2/> und <c3/> { "0.13" } auf { "0.14" } (mit <c4/> {
 seg-1a4cda9d1486 = Die minimal unterstützte Rust-Version ist jetzt { "1.88" } (erforderlich durch die Behebung von RUSTSEC-2026-0387).
 
 seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+seg-2aa7197e4396 = <b>Zeilenabdeckung: ~{ "96" } % → ~{ "95" } %.</b> Der Coverage-Job hat den freigegebenen Code von { "0.29.0" } neu gemessen (Commit <c1/>, CI-Lauf { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } von { "58,697" } Zeilen in <c3/>. Die veröffentlichte Zahl war { "95.63" } % ({ "37,697" } von { "39,419" } Zeilen), gemessen auf <c4/> vor { "0.28.0" }; sie rundete auf ~{ "96" } %. Die neue Zahl rundet auf ~{ "95" } %, sodass sich jede Stelle, die <c5/> festhält, gemeinsam ändert: <c6/>, das README-Badge, die Evidence-Zeile und die CI-Tabelle, die Badges von crates.io, PyPI und npm, der technische Bericht und die Coverage-Seite auf kshana.dev. Die Untergrenze von { "85" } % bleibt unverändert.
+
+seg-55e8703f880c = <c1/> verzeichnet { "95.63" } % ({ "37,697" } von { "39,419" } Zeilen) aus dem CI-Job <c2/> bei <c3/>, und <c4/> legt die fünf öffentlichen Oberflächen mit "~{ "96" }%" darauf fest — die eine Schlagzeilenzahl, die von Hand gepflegt wurde und sich schon einmal unbemerkt verschoben hatte.
+
+seg-f22dcee41468 = <b>Die Tags { "v0.27.0" } und { "v0.27.1" } wurden absichtlich NICHT verschoben.</b> Sie zeigen weiterhin auf <c1/> und <c2/>, die genauen Commits, deren Bäume die Artefakte erzeugten, die jetzt auf crates.io, npm, PyPI, ghcr.io und in der MCP-Registry liegen. Die <c3/> eines Crates verzeichnet das sha1, aus dem es gepackt wurde, Registries sind unveränderlich, und die SLSA-Build-Provenance-Attestierung auf den Release-Assets von { "v0.27.1" } ist an diesen Commit gebunden. Ein Verschieben der Tags hätte jedes dieser veröffentlichten Artefakte auf einen Commit zeigen lassen, der nicht mehr existiert. Sie zu belassen hält die alten Commits erreichbar und jede veröffentlichte Herkunftskette auflösbar, auf Kosten von zwei Tags, die keine Vorfahren von <c4/> mehr sind — weshalb es diese Version gibt: { "v0.27.2" } gibt <c5/> einen eigenen Tag, gepackt aus einem Commit, der darauf liegt.
+
+seg-39ea22780266 = <b>Was es gekostet hat.</b> Der Name eines Commits ist ein Hash über seinen Baum, seine Eltern und seine Autoren-Header; wird also ein Vorfahr geändert, erhält jeder Nachfahr einen neuen Namen. Der Release-Commit von <c1/> hieß <c2/> und heißt jetzt <c3/>. Zwei Artefakte haben den alten Namen zum Zeitpunkt der Veröffentlichung festgehalten und lassen sich nicht korrigieren, weil eine veröffentlichte Registry-Version von Grund auf unveränderlich ist:
+
+seg-946f34f3aeca = <c1/> { "0.26.0" } auf crates.io — <c2/> hält <c3/> fest
+
+seg-dd0c2acd6a93 = Es gibt keine Reparatur, die <c1/> auf den umgeschriebenen Commit verweisen lässt: Diese Zeichenfolge <em>ist</em> die alte Vorgeschichte, und sie lässt sich nur auflösen, indem die Historie vor dem Umschreiben veröffentlicht bleibt, was die durch das Umschreiben entfernte Urheberschaft wiederherstellen würde. Die Herkunft von { "0.26.0" } läuft daher über das Tag und nicht über das festgehaltene sha1 — und das Tag liefert exakt dieselben Bytes, aus denen das Crate gebaut wurde. Das nächste Release hält einen gültigen Commit fest, ohne dass etwas zu tun ist.

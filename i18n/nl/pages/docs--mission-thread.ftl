@@ -18,8 +18,6 @@ seg-32755afa0f78 = De missieketen
 
 seg-d4af67363efc = Adviserende software, geen gecertificeerde navigatieapparatuur. Alleen openbare bronnen; niet verbonden aan of onderschreven door enig agentschap, en niets hier beweert conformiteit met de eisen van enig programma.
 
-seg-816770c97995 = <c1/> koppelt fasen van een missie aan elkaar, elk een van acht geregistreerde soorten met eigen sensoren en filter, en rapporteert het <b>foutenbudget voor navigatie en tijdsynchronisatie</b> van de hele keten: voor elke fase de 1-sigma van positie, snelheid en klokbias bij binnenkomst, op het hoogtepunt en bij uitgang; elke bijdrage daaraan, met zijn eenheid; de marge ten opzichte van een eis die u vermeldt; de zwakste schakel; de gedateerde gebeurtenissen; en een tijdlijnfiguur. Elk getal is <b>MODELLED</b>: een vermelde invoer of een model daarvan. De enige rijen met een externe onafhankelijke referentie staan in <s1><c2/></s1> en zeggen wat ze testen.
-
 seg-c29a19879c84 = Voer het voorbeeld uit vanuit een checkout (het leest een vastgelegde snede van een maankernel):
 
 seg-00f84b734853 = Het document
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Een optionele tabel <c1/> geeft stations en de laagste tracki
 seg-467b14d7ef59 = <c1/>: <c2/> (index, id, soort, tijden, label, navigatie- en tijdbronnen, beperkende bron, sigma's bij binnenkomst, piek en uitgang, eis, marge, <c3/> met een eenheid per rij, <c4/>), de <c5/> (kleinste marge ten opzichte van een vermelde eis, anders de grootste piekpositie), de <c6/>, het <c7/> van de keten (het label van de zwakste fase) en een blok <c8/>. De figuur is de 1-sigma van positie en klokbias tegen de missietijd, een band per fase.
 
 seg-a3c40c51c2ff = Wat het bewijs is
-
-seg-1168810d4407 = Het label van de keten is het label van de zwakste fase, en elke fase is MODELLED. De maanpropagator wordt vergeleken met LRO en CAPSTONE (<s1><c1/></s1>); de cislunaire boog wordt vergeleken met een openbaar Horizons-traject (<s2><c2/></s2>). Een rij haalt een drempel die vóór de run in een vastgelegd bestand is vastgezet, of mist hem, en een misser wordt als misser vastgelegd. Niets is VALIDATED tenzij het register dat zegt.
 
 seg-ee3c5b58e6fa = <s1>Vorige</s1>Maanbaan en maanoppervlak als infrastructuur
 

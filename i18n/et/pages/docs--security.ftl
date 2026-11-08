@@ -26,9 +26,6 @@ seg-fbc3db22c061 = Turvatundlike teadete puhul ei tohi avalikku issue'd avada. E
 seg-4c11dabdd8f6 = Toetatud versioonid
 
 # text
-seg-19c99cf3a67e = Enne 1.0: toetatud on ainult viimane sildistatud väljalase.
-
-# text
 seg-1379eab9a8e3 = Mälu turvalisus
 
 # text

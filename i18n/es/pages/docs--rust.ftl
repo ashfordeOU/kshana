@@ -254,8 +254,6 @@ seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas frente a 
 
 seg-b59781ecf257 = Cómo gana una capacidad su etiqueta: capacidad, referencia independiente, prueba, etiqueta del registro. El estado de verificación de las { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } propiedad de socios
 
-seg-d0b2811a3d3c = El motor tiene { "92" } tipos de escenario; <c1/> los enumera con sus campos. Nuevos en { "0.38.0" }: <c2/> (señales GNSS para naves por encima, alrededor y más allá de las órbitas GNSS) y <c3/> (órbita y superficie lunares como infraestructura de navegación y geodésica), ambos MODELLED, y <c4/> (un registro de error de tiempo frente a las máscaras ITU-T).
-
 seg-8e9fbc5f2e72 = La descripción del tipo de escenario integrado kind en lang, tomada del catálogo (en inglés cuando el idioma no tiene traducción de ella); None para un nombre que no es un tipo de escenario integrado.
 
 seg-06e503c23c30 = [kind_description_in] en el idioma actual ([crate::i18n::current]).
@@ -275,3 +273,5 @@ seg-28e05e08ff76 = Ejecuta src en el idioma lang y, si falla, describe el fallo 
 seg-24fe823a994a = json sin la etiqueta de evidencia ([crate::evidence_label]); sin cambios si no lleva ninguna.
 
 seg-c0444d838311 = out con la etiqueta de evidencia eliminada de su JSON, SVG y CSV, byte por byte tal como los produjo la ejecución antes de que existiera la etiqueta; una salida sin etiqueta no cambia.
+
+seg-80e5f0aa2831 = El motor tiene { "93" } tipos de escenario; <c1/> los enumera con sus campos. Nuevos en { "0.38.0" }: <c2/> (señales GNSS para naves por encima, alrededor y más allá de las órbitas GNSS) y <c3/> (órbita y superficie lunares como infraestructura de navegación y geodésica), ambos MODELLED, y <c4/> (un registro de error de tiempo frente a las máscaras ITU-T).

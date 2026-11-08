@@ -508,8 +508,6 @@ seg-15687303176d = <b>Registerstatus: MODELLED.</b> Eén trekking uit het model,
 
 seg-c626c7f1926d = Nieuwe Studio-weergaven
 
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> krijgt een Bridge-replay (twee runs naast elkaar op één missieklok, op <a2><c1/></a2>), een pagina Optical PNT (<c2/>), een pagina Holdover test (<c3/>) en een observatoriumviewer (<c4/>). Ze draaien dezelfde engine in de browser, er wordt niets geüpload, en ze dragen dezelfde adviserende verklaring. De afbeeldingen hierboven worden door een script getekend uit de eigen uitvoer van de engine; het zijn geen schermafbeeldingen van deze pagina's.
-
 seg-630e6aa5f2cc = Navigatie voor ruimtegebruikers (<c1/>)
 
 seg-20249fd1f444 = Voor een ruimtevaartuig boven, rond of ver voorbij de GNSS-banen: hoeveel GNSS-signalen het kan gebruiken, hoe sterk ze zijn, hoe goed de geometrie is, en wat een boordfilter ermee kan doen. Eén type, vier modi, gekozen door de tabellen van het scenario: een <b>shell</b> van gebruikers (het aandeel van de tijd met één en vier signalen, per constellatie), een <b>trajectory</b> (signalen, C/N0, dilution of precision en het limbstraalmedium langs een baan), een <b>navigation</b>-run (een filter met negen toestanden op pseudoranges, naar de Maan) en een <b>formation</b> (relatieve navigatie van deputies rond een chief). De openbare bron voor de beschikbaarheidsvergelijking is het boekje van het interoperabele GNSS Space Service Volume (UN OOSA ST/SPACE/75, van het International Committee on GNSS), dat zelf een simulatie is; het wordt opgehaald, nooit meegeleverd. Volledige pagina: <a1>docs/SSV.md</a1>.
@@ -1222,15 +1220,11 @@ seg-302554087e15 = Distributie: één repository levert de kerncrate, de MCP-ser
 
 seg-530f5e8a6cdd = Wat waar wordt geleverd en wat het controleert · <a1>SVG</a1> · bron <a2>distribution.mmd</a2>
 
-seg-c21d26341f01 = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "49" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
-
 seg-c459db99a099 = <c1/>, zelf gehost: zie <a1>docs/deploy/mcp-http.md</a1>
 
 seg-8977c5b65068 = kshana-mcp op Glama, de kwaliteitsscore van zijn MCP-server
 
 seg-920704a0e384 = De installatie per client staat in <a1><c1/></a1>. De server staat in het officiële MCP-register vermeld als <c2/>.
-
-seg-b7ea176e9993 = De { "49" } tools
 
 seg-4a458fb861f4 = Scenario's en rapporten
 
@@ -1588,8 +1582,6 @@ seg-2610d5a9ee90 = <b>Waar is mijn uitvoer gebleven?</b> Elke run schrijft <c1/>
 
 seg-4765d3a73a6f = Versiebeheer en releases
 
-seg-0ca788bf975d = Kshana volgt <a1>Semantic Versioning</a1>. Zolang het nog voor 1.0 is, kan het publieke scenario-/resultaatschema nog veranderen; brekende wijzigingen worden uitdrukkelijk vermeld in <a2><c1/></a2>. Elk resultaat is reproduceerbaar uit <c2/>.
-
 seg-2885b69ceef1 = <b>Elke tag <c1/> publiceert automatisch alle kanalen, in één volgorde</b> — de volledige testsuite draait eerst op de getagde commit, er wordt niets gepubliceerd totdat die slaagt, en daarna controleert de pipeline dat elk register de nieuwe versie echt levert (<a1><c2/></a1>). De kanalen:
 
 seg-8222e46bc13c = Installeren / verkrijgen
@@ -1898,8 +1890,6 @@ seg-cafc1c9c4d58 = Wat is er nieuw in { "0.40" }
 
 seg-59a31376fa3d = { "0.40" } voegt een foutenbudget op missieniveau toe, labelt elk cijfer en elke tabel met zijn bewijsniveau, leest gemeten klokloggen, controleert inzendingen van datapartners, schat waar een interferentiezender zich kan bevinden, en spreekt zeventien talen naast het Engels. Het register telt nu { "401" } rijen: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Geen enkele rij is bevorderd naar VALIDATED, en elke misser hieronder is door een test vastgezet.
 
-seg-ab5eec8db03e = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "92" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>).
-
 seg-5bd16655cace = <b>Bewijslabels.</b> Elk cijfer en elke tabel die een run schrijft draagt het niveau en de id's van de registerrijen waarop het berust, afgelezen uit de matrix.
 
 seg-e79fca859317 = <b>Gemeten klokken.</b> Acht kloklogformaten worden gelezen (<a1><c1/></a1>) en een gefitte reeks kan de holdover aansturen. Tegen vooraf vastgelegde drempels <b>mist</b> de fit F1(a) bij vijf van de zes records en F2 bij één; beide blijven MODELLED (<a2>Changelog</a2>).
@@ -1926,8 +1916,6 @@ seg-5d3bb72c6490 = Kshana Studio, Geavanceerde weergave, na een run van het meeg
 
 seg-b8f6321e9e0d = Drie pagina's van kshana.dev naast elkaar. De Home-hero: de naamregel Kshana · क्षण · het precieze moment boven de kop Oefen de minuut waarop GNSS uitvalt, met de missieconsole van een echte run van engine v{ $version } (een globe en drie live grafieken: klokfout, draaggolf-ruisdichtheid en beschermingsniveau). Bewijs, Gepubliceerd onderzoek: de zes arXiv-artikelen die op de open engine zijn gebouwd, het nieuwste met een figuur van de engine. Edities, Kshana Pro, dezelfde engine, versterkt: Free voert één scenario uit, Pro beantwoordt de vraag van het programma.
 
-seg-9d447be4caed = Eén engine dekt de hele storingsketen, van de eerste gejamde satelliet tot de laatste nanoseconde van klokholdover. De engine heeft { "92" } scenariosoorten; <c1/> toont ze en <a1><c2/></a1> documenteert elk veld.
-
 seg-d3d6b030b588 = Zendergebied
 
 seg-56eee3458645 = waar, onder vermelde aannames, een bron van verslechterde positiemeldingen zich kan bevinden: gebieden bij een vermeld betrouwbaarheidsniveau, een zwaartepunt met zijn ellips, nooit een punt (MODELLED; <c1/>)
@@ -1935,8 +1923,6 @@ seg-56eee3458645 = waar, onder vermelde aannames, een bron van verslechterde pos
 seg-ee28beafac1a = het foutenbudget voor navigatie en tijdsynchronisatie van een keten van fasen van lancering tot terugkeer
 
 seg-34e44a492cad = <c1/> voert een scenario uit; elke andere opdracht is een subopdracht, en <c2/> drukt het gebruik van alle af. De opdrachten zijn <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (met <c8/> en <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> en <c63/>. <a1><c64/></a1> geeft van elk het doel, een geverifieerd voorbeeld en zijn documentatiepagina.
-
-seg-c472e0e5a3a5 = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, een seed en zijn parameters) gaat de engine in, kshana { $version }, via de dispatch api::run_toml over { "92" } scenariosoorten, deterministisch uit scenario, seed en engineversie. De engine schrijft result.json, chart.svg, report.html en report.json, een table.csv voor de soorten die er een definiëren, en op verzoek exports in SP3, CCSDS OMM en OEM, CZML, KML, GeoJSON, STK en SigMF; een suite schrijft study.json en study.html. Die bestanden voeden Kshana Studio in de browser, een AI-assistent via de kshana-mcp-server, en continue integratie.
 
 seg-9f5426cbbf4a = <b>{ "176" } van { "401" }</b> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "221" } eerlijk gelabeld als gemodelleerd. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd, de test die de controle uitvoert en het label dat daaruit volgt. Continue integratie (CI) maakt het onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke externe referentie.
 
@@ -1958,29 +1944,30 @@ seg-35a4412348e1 = { "176" } Gevalideerd · { "221" } Gemodelleerd · { "4" } Pa
 
 seg-cdf946112863 = De architectuur van Kshana: één open engine in het midden, kshana { $version } onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elke soort, en het verificatieregister van { "401" } mogelijkheden ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Eronder Kshana Pro, een propriëtaire overlay die de open engine als bibliotheek gebruikt en nooit forkt, en geen enkel fysisch model toevoegt.
 
-seg-656df854409a = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "92" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle met elkaar verbonden door de verificatiemodule, de machinaal gecontroleerde matrix van { "401" } mogelijkheden die de enige bron van waarheid is voor elk label.
-
-seg-11041e6beb65 = De { "92" } ingebouwde scenariosoorten met beschrijvingen + vereiste/optionele velden — zodat de agent een geldig scenario kan opstellen
-
-seg-abf70d11a088 = de hele open engine, alle { "92" } scenariosoorten, geen functiepoort
-
 seg-824001fa6734 = laboratoria en makers met gemeten data
 
 seg-df3ca402513f = welke MODELLED rijen een gemeten klok- of IMU-opname zou kunnen bevorderen, de formaten, hoe een inzending wordt gecontroleerd (<c1/>), gescoord en toegekend
-
-seg-e2d733f93455 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "92" } soorten, { "193" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.
-
-# text
-# c1: mission-thread
-# c2: launch-ascent
-# c3: leo-rendezvous
-# c4: tli-and-cruise
-# c5: entry
-# c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "92" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>). In de Studio wordt de keten gelezen op <c6/>.
 
 seg-ac2d3dd91aa2 = Bouwt met Rust { "1.88" } of nieuwer, de rust-version in Cargo.toml
 
 seg-48991660376d = Vereist een Rust-toolchain (≥ { "1.88" }, de <c1/> in Cargo.toml; ontwikkeld op { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> mislukt met een oude toolchain.</b> Kshana vereist Rust ≥ { "1.88" }. Werk bij met <c2/>.
+
+seg-8391e467adf7 = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "93" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>). In de Studio wordt de keten gelezen op <c6/>.
+
+seg-a66ad1f69702 = Eén engine dekt de hele storingsketen, van de eerste gejamde satelliet tot de laatste nanoseconde van klokholdover. De engine heeft { "93" } scenariosoorten; <c1/> toont ze en <a1><c2/></a1> documenteert elk veld.
+
+seg-43bd621a1f5b = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, een seed en zijn parameters) gaat de engine in, kshana { $version }, via de dispatch api::run_toml over { "93" } scenariosoorten, deterministisch uit scenario, seed en engineversie. De engine schrijft result.json, chart.svg, report.html en report.json, een table.csv voor de soorten die er een definiëren, en op verzoek exports in SP3, CCSDS OMM en OEM, CZML, KML, GeoJSON, STK en SigMF; een suite schrijft study.json en study.html. Die bestanden voeden Kshana Studio in de browser, een AI-assistent via de kshana-mcp-server, en continue integratie.
+
+seg-290f2b34e368 = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "93" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle met elkaar verbonden door de verificatiemodule, de machinaal gecontroleerde matrix van { "401" } mogelijkheden die de enige bron van waarheid is voor elk label.
+
+seg-ed215c6aa19b = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "52" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
+
+seg-81fcbb495e8f = De { "52" } tools
+
+seg-fb8bcc54a31d = De { "93" } ingebouwde scenariosoorten met beschrijvingen + vereiste/optionele velden — zodat de agent een geldig scenario kan opstellen
+
+seg-2f38fc515db6 = de hele open engine, alle { "93" } scenariosoorten, geen functiepoort
+
+seg-5374f780c396 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "93" } soorten, { "195" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.

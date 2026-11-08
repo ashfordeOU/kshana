@@ -826,8 +826,6 @@ seg-3cde4f0b352a = Laat uw assistent de getoetste engine uitvoeren in plaats van
 
 seg-0487ea97b0d8 = Begin bij <a1>MCP-server</a1>
 
-seg-562785c48737 = <b>Nu gratis:</b> alles in de open engine. Gratis: { "49" } MCP-tools, van run_scenario tot export_oem.
-
 seg-af65a3c927cf = Embedded- of productontwikkelaar
 
 seg-16324be13740 = Roep de engine aan vanuit Rust, Python of JavaScript binnen uw eigen product.
@@ -838,4 +836,6 @@ seg-0e6be0d623f6 = <b>Nu gratis:</b> alles in de open engine. Commerciële licen
 
 seg-9b505908a6e2 = Kshana <b>stuurt geen radiohardware aan en zendt niets uit</b>. Het bevat een software-GNSS-ontvanger voor vastgelegde en gegenereerde IQ en kan synthetische basisband-IQ-bestanden schrijven, maar het is <b>geen RF-signaalgeneratorhardware</b> en <b>geen hardwarematige of gecertificeerde GNSS-ontvanger</b>. Het is een instrument voor studie en afweging: het simuleert wat jamming, spoofing en signaalverlies doen met een navigatie- en tijdsynchronisatieoplossing, en vertelt u welke van zijn antwoorden zijn getoetst aan een onafhankelijke externe referentie. <b>Geen vluchtproduct.</b>
 
-seg-8575c0837e28 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-b9ebb409e11a = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-7b9633a75c90 = <b>Nu gratis:</b> alles in de open engine. Gratis: { "52" } MCP-tools, van run_scenario tot export_oem.

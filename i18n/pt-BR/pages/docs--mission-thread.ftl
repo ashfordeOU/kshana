@@ -18,8 +18,6 @@ seg-32755afa0f78 = A sequência de missão
 
 seg-d4af67363efc = Software de caráter consultivo, não um equipamento de navegação certificado. Apenas fontes públicas; sem afiliação nem aval de qualquer agência, e nada aqui afirma conformidade com os requisitos de qualquer programa.
 
-seg-816770c97995 = <c1/> encadeia fases de uma missão, cada uma de um de oito tipos registrados com seus próprios sensores e filtro, e informa o <b>orçamento de erro de navegação e temporização</b> da cadeia inteira: para cada fase, o 1-sigma de posição, velocidade e viés de relógio na entrada, no pico e na saída; cada contribuição a ele, com sua unidade; a margem em relação a um requisito que você declara; o elo mais fraco; os eventos datados; e uma figura de linha do tempo. Todo número é <b>MODELLED</b>: uma entrada declarada ou um modelo dela. As únicas linhas de referência independente externa estão em <s1><c2/></s1> e dizem o que testam.
-
 seg-c29a19879c84 = Execute o exemplo a partir de um checkout (ele lê um recorte versionado de kernel da Lua):
 
 seg-00f84b734853 = O documento
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Uma tabela opcional <c1/> fornece estações e a menor eleva�
 seg-467b14d7ef59 = <c1/>: <c2/> (índice, id, tipo, tempos, rótulo, fontes de navegação e de tempo, fonte limitante, sigmas de entrada, de pico e de saída, requisito, margem, <c3/> com uma unidade por linha, <c4/>), o <c5/> (menor margem em relação a um requisito declarado, caso contrário a maior posição de pico), o <c6/>, o <c7/> da sequência (o rótulo da fase mais fraca) e um bloco <c8/>. A figura é o 1-sigma de posição e de viés de relógio em função do tempo de missão, uma faixa por fase.
 
 seg-a3c40c51c2ff = O que são as evidências
-
-seg-1168810d4407 = O rótulo da sequência é o rótulo da fase mais fraca, e toda fase é MODELLED. O propagador lunar é comparado com o LRO e o CAPSTONE (<s1><c1/></s1>); o arco cislunar é comparado com uma trajetória pública do Horizons (<s2><c2/></s2>). Uma linha passa ou não atinge um limiar fixado em um arquivo versionado antes da execução, e uma falha é registrada como falha. Nada é VALIDATED, a menos que o registro o diga.
 
 seg-ee3c5b58e6fa = <s1>Anterior</s1>Órbita e superfície lunares como infraestrutura
 

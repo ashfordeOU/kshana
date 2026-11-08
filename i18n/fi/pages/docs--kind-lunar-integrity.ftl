@@ -6,8 +6,6 @@ seg-1c1eeb2dcaa0 = Perhesivu: <a1>Kuu ja kuunläheinen avaruus</a1>
 
 seg-619127334cf3 = Yksikään matriisin rivi ei nimeä tätä tyyppiä nimellä; sen tuloksen merkintä on moottorin oma, yllä.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-monihypoteesinen ratkaisuerotus ARAIM Airborne Design Documentin (ADD) v4.2 mukaan (araim_reference::add_v42_protection_levels ja add_v42_protecti. Oraakkeli (ExternalDataset): Kolme riippumatonta työkalua, ennakkorekisteröity (0123cee1) ennen kuin mitään fixturea tai oraakkelin tulostetta oli olemassa, toleranssit kiinnitetty silloin. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, ajettu erillisenä ohjelmana ympäristössä GNU Octave { "8.4" } ajurin puoleisella unique()-yhteensopivuuskerroksella (ilmoitettu, ei algoritmimuutosta), ADD:n TOL_PL-arvolla { "0.05" } m: Rust toistaa ADD-viitetoteutuksen on
-
 seg-8ed008b206de = Lähde: <c1/>
 
 seg-26f0cf6d63c0 = <c1/> (skenaariotyyppi)

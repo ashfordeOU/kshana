@@ -148,8 +148,6 @@ seg-7b53ee712a36 = <b>{ "176" } af { "401" }</b> funktioner valideret mod uafhæ
 
 seg-b59781ecf257 = Hvordan en funktion opnår sin etiket: funktion, uafhængig reference, test, registeretiket. Verifikationsstatus på tværs af alle { "401" } funktioner: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere
 
-seg-d0b2811a3d3c = Motoren har { "92" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).
-
 seg-8e9fbc5f2e72 = Beskrivelsen af den indbyggede scenarietype kind på sproget lang, fra kataloget (engelsk, når sproget ikke har nogen oversættelse af den); None for et navn, der ikke er en indbygget type.
 
 seg-06e503c23c30 = [kind_description_in] på det aktuelle sprog ([crate::i18n::current]).
@@ -169,3 +167,5 @@ seg-28e05e08ff76 = Kør src på sproget lang og, hvis det fejler, beskriv fejlen
 seg-24fe823a994a = json uden evidensetiketten ([crate::evidence_label]); uændret, hvis den ikke bærer nogen.
 
 seg-c0444d838311 = out med evidensetiketten fjernet fra dens JSON, SVG og CSV, byte for byte som kørslen frembragte dem, før etiketten fandtes; et output uden etiket er uændret.
+
+seg-80e5f0aa2831 = Motoren har { "93" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).

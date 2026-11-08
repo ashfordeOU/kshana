@@ -69,13 +69,6 @@ seg-b1d90bf98ac3 = <b>VALIDATED</b> O padrão em tempo de execução de <c1/> é
 seg-0298bd40d72f = <b>MODELLED</b> Um ajuste de mínimos quadrados de viés mais taxa sobre uma janela final mais os principais termos periódicos — anual, semianual e as duas principais marés zonais para UT1; Chandler, anual e semianual para o polo — extrapolado com o último na janela Testes: <a1>operational_eop_predictor_reference.rs</a1>.
 
 # text
-seg-12efcd20ca62 = <b>VALIDATED</b> Uma tabela informa o erro de predição de UT1, o erro de polo do movimento polar e a sua combinação em quadratura na Lua sobre um conjunto de épocas IDÊNTICO por horizonte, em. Referência independente (ExternalDataset): astropy { "8.0.1" } utils.iers (BSD-3) lendo o produto finals2000A do IERS com a sua própria regra Bulletin-B-senão-A, e rotações completas celeste-terrestre do pyerfa { "2.0.1.5" } (SOFA) (c2i06a, sp00, pom00, c2tcio; o ângulo de rotação da Terra segundo a eq. { "5.15" } do IERS { "2010" } em aritmética exata), executados como programas separados sobre linhas literais do finals2000A.all congelado de 2026-09-30; com pré-registro (455b8fb5) com as emendas A1 e A2 fixando apenas
-
-# text
-# c1: realtime-frame-eop
-seg-020e5919c8fd = <b>VALIDATED</b> O padrão em tempo de execução de <c1/> é a cópia incorporada da própria biblioteca de um extrato literal do IERS finals2000A (tools/finals2000A_20260930.txt: { "174" } consecutiv. Referência independente (ExternalDataset): astropy { "8.0.1" } astropy.utils.iers.IERS_A (BSD-3-Clause), lendo os mesmos bytes com o seu próprio leitor, e a tabela do IERS Bulletin A Vol. XXXIX No. { "039" }, copiada número por número; com pré-registro (6fdae01b) com seis critérios exatos antes de o astropy ser executado. Os seis se verificam: { "30" } linhas finais, { "54" } rápidas e { "90" } preditas com listas de MJD iguais, toda linha predita com o sinalizador P, o censo da execução padrão igual, e as predições iguais ao Bullet
-
-# text
 seg-530c87bbff78 = <b>MODELLED</b> Um ajuste de mínimos quadrados de viés mais taxa sobre uma janela final mais os principais termos periódicos — anual, semianual e as duas principais marés zonais para UT1; Cha. Referência independente (ReferenceImpl): três rotas independentes, nenhuma delas um valor publicado de exatidão de predição. ({ "1" }) Um sinal analítico com coeficientes conhecidos — a única forma de exercitar o mecanismo periódico, já que nenhuma série registrada é longa o bastante para admitir um termo anual. ({ "2" }) A solução de mínimos quadrados em forma fechada de manual, com álgebra diferente da resolução matricial sob teste, sobre linhas reais. ({ "3" }) As linhas genuínas arquivadas de predição do Bulletin A que o
 
 # text

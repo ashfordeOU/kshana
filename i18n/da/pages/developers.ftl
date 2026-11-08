@@ -204,8 +204,6 @@ seg-32c07578eab3 = Trin i den optagne session
 
 seg-2cff891dc970 = Næste trin
 
-seg-45da99dccd40 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "49" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
-
 seg-102015d6ebd2 = <c1/>: Kør et Kshana-scenarie og returnér dets tidsserie som en animation.
 
 seg-0247e08ba09d = <c1/>: Vurdér tilliden til en rigtig GNSS-modtagerlog: læs en u-blox UBX-, RINEX { "3" }- (eventuelt med broadcast-navigation, som tilføjer motorens egen positionsbestemmelse, RAIM og en urstøttet monitor), Android GnssLogger- eller NMEA-log, kør tillidsmonitorerne (fald i bærebølge-til-støj-tæthed, AGC, jamming-indikator, tab af lås, positionsspring, RAIM, ur) mod en kalibreringsbaseline, og returnér hvornår og hvorfor modtageren holdt op med at være pålidelig.
@@ -307,8 +305,6 @@ seg-2598d06895ec = <c1/>: Verificér en signeret bevispakke (`kshana evidence ve
 seg-62b5564e8d90 = Den optagede session afspilles her trin for trin.
 
 seg-2359edf78388 = <b>Samme kørsel i Studio:</b> Motor v{ $version } · <c1/> · seed { "42" }
-
-seg-c24f65399c72 = <b>{ "49" } værktøjer</b> over den offentlige Kshana-API (programmeringsgrænseflade), i det officielle MCP-register som <c1/>. Orbit-eksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meddelelser om middelelementer og efemeride for baner, TEME: True Equator, Mean Equinox-system). Registrér den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentation af MCP-serveren</a1>
 
 seg-306a0232c581 = Kør et Kshana-scenarie for PNT-robusthed ud fra en TOML-definition og returnér dets kvalitetsmål. Returnerer det menneskelæsbare resumé efterfulgt af det fulde resultat som JSON (FoM'er, kurver). Kshana validerer SGP4/SDP4, IAU-referencesystemer, Allan-deviationer, GNSS-tilgængelighed/DOP, ARAIM-beskyttelsesniveauer, GNSS/INS-fusion og kvantesensormodeller mod offentliggjorte referencer. Alle typer kører gennem dette ene værktøj, herunder <c1/> (radiofrekvensspektrum og vandfald), <c2/>, <c3/> og <c4/> (konstellationer omkring et vilkårligt legeme), <c5/> (kædede faser, parametersweeps, Monte Carlo-ensembler og sammensatte scenarier) og navigationstyperne for lav jordbane <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> og <c12/>. Indholdet er inline: et scenariefelt, der navngiver en fil, afvises, og et scenarie fylder højst { "4" } MiB. Kald list_scenario_kinds først for at finde scenarietyper og deres felter, og list_example_scenarios / get_example_scenario for et komplet scenarie af en type, der kan køres.
 
@@ -650,8 +646,6 @@ seg-d85f16c14183 = kshana.run og run_full samt validate_toml og list_kinds
 
 seg-5a6803e3eb48 = run, summary og chart_svg i browseren eller Node.js
 
-seg-1c19f8c0ad84 = { "49" } værktøjer, en AI-assistent kan kalde, hvert et tyndt lag over det offentlige API
-
 seg-4ad1a7669b03 = MCP-serveren uden Rust-værktøjskæde, til flere arkitekturer
 
 seg-9e409a07b3c9 = Højreklik på et scenarie .toml, vælg Run Kshana Scenario, og læs tallene i et værktøjsvindue
@@ -803,3 +797,9 @@ seg-bd7b70852d88 = Kør benchmarken.
 seg-193ee1ab991e = <c1/> omsætter en indsendelsesfil og en opdelings reference til en resultatfil, og <c2/> gengiver resultatfiler til en statisk side. Intet kører på dine vegne, og intet uploades.
 
 seg-0c50b3629e39 = Åbn benchmarken
+
+seg-859bb6732925 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "52" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
+
+seg-f3512ff81b58 = <b>{ "52" } værktøjer</b> over den offentlige Kshana-API (programmeringsgrænseflade), i det officielle MCP-register som <c1/>. Orbit-eksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meddelelser om middelelementer og efemeride for baner, TEME: True Equator, Mean Equinox-system). Registrér den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentation af MCP-serveren</a1>
+
+seg-5aa702c4ebc7 = { "52" } værktøjer, en AI-assistent kan kalde, hvert et tyndt lag over det offentlige API

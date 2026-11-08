@@ -32,11 +32,7 @@ seg-88fb40d1b92d = pisteyttää vastaanottimen lokin, <c1/> pisteyttää virran,
 
 seg-13870be889cb = allekirjoittaa, varmentaa ja aikaleimaa todistepaketit ja linkittää laboratorioajon sen pisteytykseen
 
-seg-2867423ef8dd = lukee julkaistun Jammertest-suunnitelman ja pisteyttää lokin sitä vastaan
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = luottamusvirran Prometheus-, CEF-, LEEF-, OTLP- tai MQTT-viesteinä
 
 seg-6fcb41643035 = Luottamustelemetria
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = sovittaa hybridianturien parametrit paikallaan olevan IMU:n l
 seg-0dfc0ae9d7ed = kirjoittaa synteettisen komentosillan NMEA-datan, jossa on käsikirjoitettu häirintä ja harhautus, sekä ohjaajan lokin
 
 seg-f35f3f9cb83a = NMEA-harjoitus
-
-seg-8802b623b1e7 = rakentaa häiriökarttoja ja observatorion päivätuotteen ilma-alusten ja alusten raporteista
 
 seg-f0ea96229aff = <a1>Häiriökartta</a1>, <a2>observatorio</a2>
 

@@ -8,8 +8,6 @@ seg-37d16b499bc5 = dB
 
 seg-37d29d8303fe = km
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-linkbudsjett, anti-jam C/N₀, tap av lås per satellitt. Uavhengig referanse (InternalConsistency): Likningen for anti-jam C/N₀-linkbudsjett kryssjekket mot en uavhengig numpy-utledning (deler samme lukkede form → InternalConsistency) pluss en karakterisering av C/N₀-degradering i virkelige JammerTest-2024-data. { "0.30" } runde { "2" }, blokkert (forblir MODELLED): den målte C/N0-nedgangen i JammerTest { "2024" } mot en linkbudsjettprediksjon (forhåndsregistrert 6a66994b, innen { "3" } dB) ble ikke kjørt fordi F8.1-antenneposisjonen og -pekingen at
-
 seg-59afd80736c5 = <b>PARTNER</b> Ikke levert — Kshana modellerer signalytelse, ikke nyttelast- eller antennemaskinvare. Uavhengig referanse (NoneKind): ingen: en disiplin som eies av partneren, uten modul og uten test etter utforming
 
 seg-143f3f1cc521 = Robusthet mot jamming uten GNSS er MODELLED, ikke validert: kontrollert mot sin egen lukkede/analytiske identitet – fanger opp transkripsjons- og koeffisientfeil, men er ikke en uavhengig ekstern referanse. (verifikasjonsmatrise (docs/MODELLED-RATIONALE.md))

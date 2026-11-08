@@ -26,9 +26,6 @@ seg-fbc3db22c061 = No abra una incidencia pública para informes sensibles desde
 seg-4c11dabdd8f6 = Versiones con soporte
 
 # text
-seg-19c99cf3a67e = Antes de la 1.0: solo se mantiene la última versión etiquetada.
-
-# text
 seg-1379eab9a8e3 = Seguridad de memoria
 
 # text

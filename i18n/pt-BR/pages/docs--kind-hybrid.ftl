@@ -56,9 +56,6 @@ seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 seg-e0633b308e4e = <b>MODELLED</b> Um filtro de Kalman empilhado sobre posição, velocidade, fase e frequência do relógio alimentado com pseudodistâncias que acoplam posição e relógio (atualizações na forma de Joseph carregando a covariância cruzada); uma variante de 1-DOF aumentada com um viés constante de acelerômetro Testes: <a1>fusion_coupled_filters.rs</a1>.
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Acelerômetro interferométrico de átomos frios a partir de primeiros princípios (k_eff·T², QPN). Referência independente (ExternalDataset): Vetores numéricos de artigos primários publicados de CAI (função de transferência de Cheinet { "2008" }; sensibilidade de Peters/Freier): k_eff·T² coincide exatamente, o piso unilateral de ASD de ruído de disparo dentro de ~{ "2" }× de cada instrumento publicado (dispositivos reais têm ruído técnico acima do piso quântico). Uma faixa, não uma paridade. { "0.30" } rodada { "2" } (fixada antecipadamente fcb9ac64), um achado (permanece MODELLED): o ruído de rotação somente por QPN contra o medido por Gauguet et al.
-
-# text
 seg-9955b1b1c018 = O desempenho de sensores inerciais quânticos é MODELLED, não validado: uma subafirmação é conferida externamente, mas a capacidade inteira compõe peças modeladas, de modo que a capacidade permanece modelada. (matriz de verificação (docs/MODELLED-RATIONALE.md))
 
 # text

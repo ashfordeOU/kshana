@@ -209,10 +209,6 @@ seg-2cc3c091ba0f = O Kshana não transmite nada e não aciona nenhum hardware. U
 seg-01b0ee9973dc = Divulgação
 
 # text
-# c1: docs/drafts/PARTNER-OUTREACH.md
-seg-b5cb4dc0493f = Uma nota de uma página para um laboratório está redigida para o responsável em <s1><c1/></s1>. É um rascunho: nada é enviado e ninguém é contactado até que o responsável decida.
-
-# text
 seg-83b30e1ca261 = <s1>Anterior</s1>Pacotes de evidências
 
 # text

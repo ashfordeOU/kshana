@@ -58,9 +58,6 @@ seg-c2a8332f2ee2 = Das Diagramm, das die Engine für scenarios/eo-coverage.toml 
 seg-d86d43628cf3 = <b>VALIDATED</b> SMAD-Raumdreieck-Geometrie: Erdwinkelradius, Streifenbreite, GSD im Nadir, maximaler Off-Nadir-Zugriff und Kreisbahnperiode, dazu die J2-Knotenperiode erster Ordnung (eo_payload::j2_nodal_period) und der Bodenspurabstand am Äquator R_e (omega_ Tests: <a1>eo_payload_coverage_reference.rs</a1>.
 
 # text
-seg-9938f1de9eb8 = <b>VALIDATED</b> SMAD-Raumdreieck-Geometrie: Erdwinkelradius, Streifenbreite, GSD im Nadir, maximaler Off-Nadir-Zugriff und Kreisbahnperiode, dazu die J2-Knotenperiode erster Ordnung (. Unabhängige Referenz (ExternalDataset): Orekit { "12.2" } (Apache-2.0) und GeographicLib { "2.1" } (MIT), beide als getrennte Programme ausgeführt, vorab registriert (766823f3) vor der Änderung der Engine und jedem Lauf der Referenz: Kugelgrößen innerhalb von { "1e-9" } relativ (schlechtester Wert: Winkelradius { "5.4e-16" }, Streifen { "7.0e-13" }, Zugriff { "1.9e-14" }), Periode { "1e-12" } ({ "1.6e-16" }), GSD im Nadir { "1e-7" } ({ "2.9e-10" }), die J2-Knotenperiode und der Knotenabstand innerhalb von { "0.1" } % einer numerischen J2-Propagation von Orekit mit einem Knotendetektor ({ "1" }
-
-# text
 # c1: label
 seg-45625167e59f = MODELLED — Raumdreieck-Geometrie der kugelförmigen Erde; Streifen/GSD/Zugriff sind geometrisch (keine Radiometrie/MTF/Atmosphäre/Jitter/Glint), der Bodenspurabstand ist R_e·(ω − Ω̇)·T_nodal mit säkularen J2-Raten erster Ordnung (Ergebnis <c1/>)
 

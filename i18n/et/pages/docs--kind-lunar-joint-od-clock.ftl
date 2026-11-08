@@ -59,9 +59,6 @@ seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
 seg-cfa051b87e59 = Mootori joonistatud diagramm failile scenarios/lunar-joint-od-clock.toml, liik lunar-joint-od-clock
 
 # text
-seg-4c6914c162d1 = <b>VALIDATED</b> VLBI + Kuu-kohalik ulatus + satelliitidevaheline ulatus kobarühendus jaama+konstellatsiooni asukohtade ja kellade taastamiseks. Sõltumatu etalon (ExternalDataset): P2: numpy { "2.4.6" } (numpy.linalg.lstsq koos LAPACK gelsd, numpy.linalg.inv; BSD-3) arvutab uuesti iga Gaussi-Newtoni sammu, koondunud kaalutud vähimruutude lahenduse, formaalsed sigmad ja jaamavea kuue simuleeritud võrgu kinnitatud Jacobi maatriksitel ja vaatlustel, eelregistreeritud (5094bc31) täpsusega max({ "1e-8" }, { "100" } kappa eps) suhteliselt. Esimene käivitus ebaõnnestus võrgul ilma VLBI-ta ({ "6.1e-7" } vs { "1e-8" }, normaalvõrrandi in
-
-# text
 seg-5b3f6008f5a7 = <b>VALIDATED</b> Fisheri informatsioon M=HᵀWH, Cramér–Rao alumine piir, vaadeldavuse auaste / datumi defekti nullruum (Moore–Penrose pseudopöördmaatriks) ja D/A/E/T-optimaalne eksperimendi-d. Sõltumatu etalon (ExternalDataset): NumPy { "2.4.1" } (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-põhine) — sõltumatu kolmanda osapoole autoriteet, mis arvutab samad üheselt määratletud omaväärtused, σ²(XᵀX)⁻¹ Cramér–Rao kovariatsiooni ja GNSS-i täpsuse halvenemise tegurid teistsuguse algoritmiga (LAPACK jaga-ja-valitse + LU) kui Kshana tsükliline Jacobi pühkimine ja spektraalne pseudopöördmaatriks; ühtivad täpsusega { "1e-9" }. Sama välise teegi klass juba valideerib D
 
 # text

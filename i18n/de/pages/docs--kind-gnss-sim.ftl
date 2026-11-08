@@ -67,9 +67,6 @@ seg-47ee40d4eb73 = Das Diagramm, das die Engine für scenarios/gnss-sim-raim.tom
 seg-ccc44a4ac68e = <b>VALIDATED</b> Klobuchar-L1-Einfrequenz-Gruppenlaufzeitverzögerung der Ionosphäre entlang des Schrägwegs aus den acht ausgesendeten α/β-Koeffizienten Tests: <a1>klobuchar_reference.rs</a1>.
 
 # text
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-Mehrfachhypothesen-Lösungstrennung nach dem ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels und add_v42_protecti. Unabhängige Referenz (ExternalDataset): Drei unabhängige Werkzeuge, vorab registriert (0123cee1), bevor irgendeine Fixture oder Ausgabe der Referenz existierte, Toleranzen damals festgelegt. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (Commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, als getrenntes Programm unter GNU Octave { "8.4" } mit einem treiberseitigen unique()-Kompatibilitäts-Shim ausgeführt (offengelegt, keine Algorithmusänderung), beim TOL_PL des ADD von { "0.05" } m: Das Rust reproduziert die ADD-Referenzimplementierung auf
-
-# text
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP aus der Sichtliniengeometrie über Q=(HᵀH)⁻¹ mit einer lokalen ENU-Aufteilung. Unabhängige Referenz (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — unabhängige Bibliothek, auf { "1e-6" } relativ getroffen
 
 # text

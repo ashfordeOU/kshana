@@ -18,8 +18,6 @@ seg-32755afa0f78 = Tehtäväketju
 
 seg-d4af67363efc = Ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite. Vain julkisia lähteitä; ei ole sidoksissa mihinkään virastoon eikä sen hyväksymä, eikä mikään tässä väitä vastaavuutta minkään ohjelman vaatimusten kanssa.
 
-seg-816770c97995 = <c1/> ketjuttaa tehtävän vaiheet, kukin yksi kahdeksasta rekisteröidystä lajista omine antureineen ja suotimineen, ja raportoi koko ketjun <b>navigointi- ja ajoitusvirhebudjetin</b>: jokaiselle vaiheelle 1-sigma-paikan, -nopeuden ja kellon harhan tulohetkellä, huipussa ja poistuessa; jokaisen sen osuuden yksikköineen; marginaalin ilmoittamaasi vaatimukseen nähden; heikoimman lenkin; päivätyt tapahtumat; ja aikajanakuvan. Jokainen luku on <b>MODELLED</b>: ilmoitettu syöte tai sen malli. Ainoat ulkoiset oraakkelirivit ovat kohdassa <s1><c2/></s1>, ja ne kertovat, mitä ne testaavat.
-
 seg-c29a19879c84 = Aja esimerkki checkoutista (se lukee sitoutetun Kuun kernel-leikkauksen):
 
 seg-00f84b734853 = Asiakirja
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Valinnainen taulukko <c1/> antaa asemat ja alimman seurantako
 seg-467b14d7ef59 = <c1/>: <c2/> (indeksi, tunniste, laji, ajat, nimike, navigointi- ja aikalähteet, rajoittava lähde, tulo-, huippu- ja poistumissigmat, vaatimus, marginaali, <c3/> rivikohtaisella yksiköllä, <c4/>), <c5/> (pienin marginaali määriteltyyn vaatimukseen nähden, muuten suurin huippupaikka), <c6/>, ketjun <c7/> (heikoimman vaiheen nimike) sekä <c8/>-lohko. Kuva on 1-sigma-paikka ja kellon harha tehtävän ajan funktiona, yksi kaista vaihetta kohden.
 
 seg-a3c40c51c2ff = Mitä todiste on
-
-seg-1168810d4407 = Ketjun nimike on heikoimman vaiheen nimike, ja jokainen vaihe on MODELLED. Kuun propagaattoria verrataan LRO:hon ja CAPSTONEen (<s1><c1/></s1>); kuunläheistä kaarta verrataan julkiseen Horizons-lentorataan (<s2><c2/></s2>). Rivi täyttää kynnyksen tai jää siitä ennen ajoa sitoutettuun tiedostoon kiinnitetyn kynnyksen mukaan, ja ohitus kirjataan ohitukseksi. Mikään ei ole VALIDATED, ellei kirjanpito niin sano.
 
 seg-ee3c5b58e6fa = <s1>Edellinen</s1>Kuun kiertorata ja pinta infrastruktuurina
 

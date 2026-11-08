@@ -242,8 +242,6 @@ seg-73a73af88f08 = Tryb HTTP (własny hosting)
 
 seg-4f248ed3e597 = <c1/> udostępnia te same narzędzia przez streamable HTTP pod <c2/>. Nasłuchuje tylko na pętli zwrotnej; adres inny niż pętla zwrotna wymaga <c3/> i tokenu bearer w <c4/>; narzędzia do plików IQ są wyłączone; rozmiar żądania, czas i współbieżność są ograniczone; nie jest wysyłany żaden nagłówek CORS. Kshana nie udostępnia punktu końcowego: hostuje się go samodzielnie. Zob. <a1>docs/deploy/mcp-http.md</a1>.
 
-seg-60f55b197ac2 = <c1/> umieszcza <c2/> w Twoim <c3/> (zwykle <c4/>). Serwer komunikuje się przez JSON-RPC (zdalne wywołanie procedur JSON) po stdio; logi trafiają do stderr. Budowanie ze źródeł wymaga toolchainu Rust ≥ { "1.88" } (potrzebuje go załatany SDK <c5/> { "2" }.x; sama biblioteka <c6/> potrzebuje tylko { "1.85" }); obraz Docker nie wymaga żadnego.
-
 seg-2f3216082425 = Zarejestruj go w kliencie
 
 seg-1090ae3f689c = Praktycznie każdy klient MCP używa tego samego bloku konfiguracji <c1/>: zarejestruj plik binarny <c2/> przez ścieżkę bezwzględną:
@@ -286,16 +284,14 @@ seg-dc60d64a3bb8 = <em>„Zrób jednosekundową scenę GPS L1 z PRN { "3" } i { 
 
 seg-942dc8abe0ec = Uwaga projektowa: dlaczego osobny crate
 
-seg-ce6d0ecab448 = Serwer jest <b>samodzielnym crate'em wyłączonym z workspace</b> z własnym <c1/>, więc oficjalny SDK (zestaw narzędzi programistycznych) Rust MCP <c2/> i jego asynchroniczne środowisko uruchomieniowe nigdy nie trafiają do grafu zależności opublikowanego crate'a <c3/>: użytkownik biblioteki lub Pythona nie kompiluje serwera, którego nie uruchamia. (Wydzielono go początkowo dlatego, że <c4/> jest w <b>edycji { "2024" }</b>, co wymaga rustc ≥ { "1.85" }, podczas gdy główny crate obiecywał wtedy { "1.75" }. Biblioteka deklaruje teraz { "1.85" }; ten serwer deklaruje { "1.88" }, dolną granicę załatanego pod względem bezpieczeństwa <c5/> { "2" }.x.) Ciągła integracja (CI) bramkuje ten crate osobno: testy i <c6/> względem jego pliku blokady. Drzewo licencji rmcp jest czyste (Apache-2.0/MIT/BSD), więc w odróżnieniu od crate'a walidacji krzyżowej <c7/>, który poza tym odwzorowuje, podział nie wynika z licencjonowania.
-
 seg-75bf2d74642d = Licencja: AGPL-3.0-only, GNU Affero General Public License wersja { "3" } wyłącznie (albo licencja komercyjna od Ashforde OÜ; zob. <a1>LICENSING.md</a1> w repozytorium).
 
 seg-490ebbefb561 = <s1>Poprzednia</s1>Crate Rust
 
 seg-350b6b914734 = <s1>Następna</s1>Serwer MCP: wszystkie kanały instalacji
 
-seg-492888115662 = { "92" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz.
-
 seg-a4a0e399a31e = <c1/> umieszcza <c2/> w Twoim <c3/> (zwykle <c4/>). Serwer komunikuje się przez JSON-RPC (zdalne wywołanie procedur JSON) po stdio; logi trafiają do stderr. Budowanie ze źródeł wymaga toolchainu Rust ≥ { "1.88" } (potrzebuje go załatany SDK <c5/> { "2" }.x, podobnie jak biblioteka <c6/>); obraz Docker nie wymaga żadnego.
 
 seg-0757e15070d4 = Serwer jest <b>samodzielnym crate'em wyłączonym z workspace</b> z własnym <c1/>, więc oficjalny SDK (zestaw narzędzi programistycznych) Rust MCP <c2/> i jego asynchroniczne środowisko uruchomieniowe nigdy nie trafiają do grafu zależności opublikowanego crate'a <c3/>: użytkownik biblioteki lub Pythona nie kompiluje serwera, którego nie uruchamia. (Wydzielono go początkowo dlatego, że <c4/> jest w <b>edycji { "2024" }</b>, co wymaga rustc ≥ { "1.85" }, podczas gdy główny crate obiecywał wtedy { "1.75" }. Biblioteka i ten serwer deklarują teraz oba { "1.88" }, dolną granicę załatanego pod względem bezpieczeństwa <c5/> { "2" }.x oraz zaktualizowanych crate'ów RustCrypto.) Ciągła integracja (CI) bramkuje ten crate osobno: testy i <c6/> względem jego pliku blokady. Drzewo licencji rmcp jest czyste (Apache-2.0/MIT/BSD), więc w odróżnieniu od crate'a walidacji krzyżowej <c7/>, który poza tym odwzorowuje, podział nie wynika z licencjonowania.
+
+seg-b873b39a4921 = { "93" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz.

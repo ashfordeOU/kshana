@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Źródła S1 do S5 (tytuł, URL, data pobrania, SHA-256, lice
 
 seg-d866653008e1 = Każde twierdzenie liczbowe, zacytowane ze stroną i podanymi założeniami oraz sklasyfikowane jako porównywalne, częściowo porównywalne lub nieporównywalne: <c1/>. Żadne twierdzenie nie jest w pełni porównywalne, ponieważ żadne źródło nie podaje percentyla ani elementów orbitalnych satelitów.
 
-seg-50535c58d3cf = Progi, przypadki i dane wejściowe, zatwierdzone samodzielnie przed przebiegiem (rewizja { "2" }, 05bf9a19), oraz zapisany przebieg: <c1/>. Wynik jest przypięty w <c2/>.
-
 seg-069a652c402e = próg
 
 seg-d6120708c062 = twierdzenie (źródła)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = zaliczony
 seg-e666f1eb7a59 = { "1" } z { "6" } progów zostaje zaliczone. Przyczyną jest geometria. Żadne źródło nie publikuje elementów orbitalnych konstelacji. Przy elementach ILLUSTRATIVE z drzewa źródeł użytkownik i stacja mają wspólne cztery satelity powyżej { "5" } deg tylko w { "8" } % ({ "300" } km) i { "6" } % ({ "600" } km) epok, przy geometrii bliskiej osobliwej: nieskorygowany p95 wynosi { "3.8" } km, tam gdzie źródła podają < { "10" } m. Własne symulacje źródeł używały filtra, ograniczenia wysokości i trzech satelitów we wspólnej widoczności, czego ten model migawkowy nie ma. Przebieg nie odtwarza więc twierdzeń na tych elementach i nie jest dowodem, że twierdzenia są błędne. Zaliczenie K6 jest stosunkiem dwóch wielkości zdominowanych geometrią i nic nie mówi o dekorelacji. Opublikowany zestaw elementów konstelacji zostałby oceniony przy tych samych progach jako drugi, datowany przebieg.
 
 seg-1da5fcf7bbf5 = Wstępnie zarejestrowana prognoza
-
-seg-4ea806a57380 = Wstępnie zarejestrowana prognoza, zamrożona w commicie <c1/> na danych wejściowych ze źródeł publicznych, z protokołem oceny: <a1><c2/></a1>. Jest to prognoza, a nie walidacja, i każda zawarta w niej wartość jest zdominowana przez nieopublikowany zestaw elementów czterosatelitarnej konstelacji (użyte elementy są ILLUSTRATIVE): w regionie { "80" } deg S dostępność { "8.2" } %, skorygowany 3-D p95 { "280" } m, nieskorygowany { "3.8" } km. MODELLED; <c3/> kończy się niepowodzeniem, jeśli jakikolwiek zamrożony bajt się zmieni.
 
 seg-e6aef34d5023 = Laboratorium czasu stacji
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Poprzednia</s1>Układ Słoneczny i inne ciała
 seg-79d53edd2374 = <s1>Następna</s1>Nawigacja użytkowników kosmicznych (gnss-ssv)
 
 seg-9c59637f0666 = Mapa pokrycia i dokładności (lunar-station-coverage)
+
+seg-34967943a088 = Wstępnie zarejestrowana prognoza, zamrożona w commicie <c1/> na danych wejściowych ze źródeł publicznych, z protokołem oceny: <a1><c2/></a1>. Jest to prognoza, a nie walidacja, i każda zawarta w niej wartość jest zdominowana przez nieopublikowany zestaw elementów czterosatelitarnej konstelacji (użyte elementy są ILLUSTRATIVE): w regionie { "80" } deg S dostępność { "8.2" } %, skorygowany 3-D p95 { "280" } m, nieskorygowany { "3.8" } km. MODELLED; <c3/> kończy się niepowodzeniem, jeśli jakikolwiek zamrożony bajt się zmieni.

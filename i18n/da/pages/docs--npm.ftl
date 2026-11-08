@@ -88,4 +88,4 @@ seg-7b53ee712a36 = <b>{ "176" } af { "401" }</b> funktioner valideret mod uafhæ
 
 seg-b59781ecf257 = Hvordan en funktion opnår sin etiket: funktion, uafhængig reference, test, registeretiket. Verifikationsstatus på tværs af alle { "401" } funktioner: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere
 
-seg-d0b2811a3d3c = Motoren har { "92" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).
+seg-80e5f0aa2831 = Motoren har { "93" } scenarietyper; <c1/> viser dem med deres felter. Nye i { "0.38.0" }: <c2/> (GNSS-signaler til rumfartøjer over, omkring og forbi GNSS-banerne) og <c3/> (månebane og -overflade som navigations- og geodætisk infrastruktur), begge MODELLED, og <c4/> (en tidsfejlsoptagelse mod ITU-T-masker).

@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = { -brand } n'émet rien et ne pilote aucun matériel. Une sou
 
 seg-01b0ee9973dc = Prospection
 
-seg-b5cb4dc0493f = Une note d'une page pour un laboratoire est rédigée à l'intention du propriétaire dans <s1><c1/></s1>. C'est un brouillon : rien n'est envoyé, et personne n'est contacté, tant que le propriétaire n'a pas décidé.
-
 seg-83b30e1ca261 = <s1>Précédent</s1>Paquets de preuves
 
 seg-09c0b5fa6e52 = <s1>Suivant</s1>Liaisons optiques à travers l'atmosphère

@@ -2338,8 +2338,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering for én kjede av faser, fra oppskyting
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Oppstigning fra månen: den drevne oppstigningen fra et sted på overflaten nær sørpolen (Artemis-klassen) til rendezvous på { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -2362,12 +2360,10 @@ seg-0ecc50eafdbe = Tilgjengelighet for PNT og tidssynkronisering på månens ove
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriske felt
-
-seg-237402dbe93a = Velg en av { "194" } scenariofiler fordelt på { "92" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
-
-seg-ace118a5dc36 = Alle { "194" } scenariofiler fordelt på { "92" } typer, gruppert etter domene; { "181" } er innebygd i motoren, og <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> kjøres fra depotet med kommandolinjen. Prikken viser registerstatusen til typens modul der registeret navngir den. En fil med en registrert kjøring åpner den i Kshana Studio; de andre åpner oppføringen sin i scenarioreferansen, med filen og kommandoen som kjører den.
-
 seg-f4ad26be58c2 = En kort oppdragstråd som kjører utelukkende fra en binærfil: oppskyting og stigning, ett rendezvous i lav jordbane, én dag med
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Velg en av { "196" } scenariofiler fordelt på { "93" } typer, eller skriv din egen. <c1/> lister hver type med feltene sine, og <c2/> skriver ut en fil å starte fra.
+
+seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriske felt

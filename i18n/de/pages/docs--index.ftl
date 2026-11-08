@@ -329,10 +329,6 @@ seg-d4b063147d18 = <s1>Konstellationen, Abdeckung und Geometrie</s1><s2>{ "7" } 
 
 seg-fcffac5eb150 = <s1>Sprachen</s1><s2>Der menschenlesbare Text der Engine liegt in { "17" } Sprachen neben Englisch vor: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-0cf0b9fb9184 = <s1>Szenarioarten</s1><s2>Die { "92" } eingebauten Szenarioarten, auf die kshana::api::run_toml verteilt, jede mit ihrer einzeiligen…</s2>
-
-seg-9d5c233c72b4 = <s1>Jede Szenarioart nach Familie</s1><s2>Jede Szenarioart, auf die die Engine v{ $version } verteilt ({ "92" }), eingeordnet in { "13" } Familien.</s2>
-
 seg-f5987c9d9fde = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "401" } Zeilen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "401" } Zeilen der Verifikationsmatrix.</s2>
@@ -347,6 +343,10 @@ seg-cecb9535c0a1 = <s1>Mond und cislunar</s1><s2>{ "24" } Szenarioarten der Engi
 
 seg-1dd7c80e18a7 = <s1>Missionsstränge</s1><s2>{ "1" } Szenarioart der Engine v{ $version }. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine…</s2>
 
-seg-f0e26f01a361 = { "92" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.
+seg-b0ad334264dc = <s1>Szenarioarten</s1><s2>Die { "93" } eingebauten Szenarioarten, auf die kshana::api::run_toml verteilt, jede mit ihrer einzeiligen…</s2>
 
-seg-a1f33bd571ed = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "193" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
+seg-5484fd345826 = <s1>Jede Szenarioart nach Familie</s1><s2>Jede Szenarioart, auf die die Engine v{ $version } verteilt ({ "93" }), eingeordnet in { "14" } Familien.</s2>
+
+seg-b23a9bd3ccfa = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "195" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
+
+seg-a7dc2bc0a77d = { "93" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.

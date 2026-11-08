@@ -150,8 +150,6 @@ seg-9eff7c00723a = Render Trust Telemetry (zapisany wynik)
 
 seg-1b60ff4652cd = Narzędzia: karta Telemetria (karta Wiersz poleceń; tylko formaty, bez gniazd)
 
-seg-3e332170d963 = Wejścia z maszyn i czujników ({ "0.38" }): <c1/> formaty <c2/>, <c3/>, <c4/> oraz <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (scenariusz <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (wbudowane)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Wynik
 
 seg-12471a4b2b57 = Obszar emitera (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (jeszcze nieobsługiwane; pokrywają to powierzchnie Rust, Python i WASM)
-
 seg-dff1bfe0263e = <b>N/A</b> (publikowanie obszarów emiterów w publicznym obserwatorium jest osobną decyzją właściciela i jest wyłączone)
 
 seg-ec2d91e2f867 = Sprawdzenie zgłoszenia partnera danych (format i metadane zgłoszenia zmierzonych danych, <c1/>; niczego nie ocenia)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (tylko w treści; klucz jądra jest odrzucany)
 seg-1c1729fafe99 = <b>N/A</b> (brak notatnika; przykład działa w każdym notatniku przez <c1/> z kopii repozytorium)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (jeszcze nieobsługiwane)
 
 seg-ab52a3469f6a = Szacowane obszary emitera, MODELLED; katalogi śladów i <c1/> są tylko w wierszu poleceń
 

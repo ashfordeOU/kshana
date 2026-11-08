@@ -38,8 +38,6 @@ seg-922b8656fcae = 引擎为scenarios/lunar-station-coverage.toml（类型lunar-
 
 seg-4f5941f12127 = <b>MODELLED</b>对月球差分PNT模型在南极用户网格和一天的历元上作蒙特卡罗扫描（<c1/>类型）：对位于已知南极站点的差分参考站，逐点及全区域，测试：<a1>lunar_station_coverage_reference.rs</a1>。
 
-seg-d547d600ee2d = <b>MODELLED</b>对月球差分PNT模型在南极用户网格和一天的历元上作蒙特卡罗扫描（<c1/>类型）：对差分参考 . 参考基准（oracle，InternalConsistency）：算术由独立的numpy脚本对导出的算例重新计算（scripts/gen_lunar_station_ref.py，numpy { "2.5.4" }；已预先登记于tests/fixtures/lunar_station/PREREGISTRATION.md，在首次运行之前单独提交于9caedf97）：在{ "20" }个所有误差项均开启的算例上，可见集合和状态完全一致，原始测距误差一致到{ "1.4e-14" } m，位置误差矢量和模一致到{ "1.4e-9" } m，对照
-
 seg-626ab55f0424 = MODELLED（结果<c1/>）
 
 seg-6f09def22469 = 诚实说明（HONESTY）：MODELLED。在下列给定假设下，模型给出这些数值。不是对任何真实系统性能的陈述；与任何机构无隶属关系，也未获其背书；不声称有TRL或飞行传承。已省略：极区的地形与地平线遮蔽（第一项局限）、多路径、接收机硬件。（场景文件注释，第{ "15" }至{ "18" }行）

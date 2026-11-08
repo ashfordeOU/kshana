@@ -242,10 +242,6 @@ seg-32c07578eab3 = Passos da sessão registada
 seg-2cff891dc970 = Passo seguinte
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "49" } ferramentas, valida <c1/> (válido: tipo de cenário detetado `clock`) e executa-o: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: Executa um cenário Kshana e devolve a sua série temporal sob a forma de animação.
 
@@ -1149,11 +1145,12 @@ seg-b9961ed25282 = Novidades da v{ $version }: uma cadeia da missão, uma etique
 # text
 seg-653cf3198094 = { "176" } de { "401" } capacidades concordam com referências independentes externas; as demais são etiquetadas como modeladas, em voz alta.
 
-# text
-seg-76b213d03caa = Todos os { "92" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.
+seg-859bb6732925 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "52" } ferramentas, valida <c1/> (válido: tipo de cenário detetado `clock`) e executa-o: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+seg-2dc1aed7a12e = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
 
-seg-fddfe8b260be = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinista, sem semente
+seg-b79ee48fd586 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinista, sem semente
 
-seg-388f14eb6d8d = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+seg-9b9d03fe1477 = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+seg-579d9b6f7afd = Todos os { "93" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.

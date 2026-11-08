@@ -32,11 +32,7 @@ seg-88fb40d1b92d = 对接收机日志评分，<c1/>对数据流评分，<c2/>写
 
 seg-13870be889cb = 对证据包进行签名、验证和加时间戳，并将实验室运行与其得分关联起来
 
-seg-2867423ef8dd = 读取已发布的Jammertest计划，并对照它为日志评分
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = 以Prometheus、CEF、LEEF、OTLP或MQTT消息形式给出的信任度数据流
 
 seg-6fcb41643035 = 信任度遥测
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = 依据静止IMU日志拟合混合传感器参数
 seg-0dfc0ae9d7ed = 写出带脚本化压制干扰和欺骗干扰的合成桥楼NMEA，以及一份教员日志
 
 seg-f35f3f9cb83a = NMEA训练
-
-seg-8802b623b1e7 = 根据飞机和船舶报告生成干扰地图和观测站的每日产品
 
 seg-f0ea96229aff = <a1>干扰地图</a1>、<a2>观测站</a2>
 

@@ -18,8 +18,6 @@ seg-32755afa0f78 = Uppdragsflödet
 
 seg-d4af67363efc = Rådgivande programvara, inte certifierad navigationsutrustning. Enbart offentliga källor; inte knuten till eller stödd av någon rymdorganisation, och ingenting här gör anspråk på överensstämmelse med något programs krav.
 
-seg-816770c97995 = <c1/> kopplar ihop faser i ett uppdrag, var och en av åtta registrerade typer med egna sensorer och filter, och redovisar <b>felbudgeten för navigering och tidssynkronisering</b> för hela kedjan: för varje fas 1-sigma för position, hastighet och klockbias vid inträde, vid toppen och vid utträde; varje bidrag till den, med sin enhet; marginalen mot ett krav som du anger; den svagaste länken; de daterade händelserna; och en tidslinjefigur. Varje tal är <b>MODELLED</b>: en angiven indata eller en modell av en sådan. De enda raderna med extern oberoende referens finns i <s1><c2/></s1> och säger vad de testar.
-
 seg-c29a19879c84 = Kör exemplet från en utcheckning (det läser ett incheckat utsnitt av en månkärna):
 
 seg-00f84b734853 = Dokumentet
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = En valfri tabell <c1/> anger stationer och den lägsta spårn
 seg-467b14d7ef59 = <c1/>: <c2/> (index, id, typ, tider, etikett, källor för navigering och tid, begränsande källa, sigman vid inträde, topp och utträde, krav, marginal, <c3/> med en enhet per rad, <c4/>), <c5/> (minsta marginal mot ett angivet krav, annars den största topposition), <c6/>, trådens <c7/> (den svagaste fasens etikett) och ett block <c8/>. Figuren är 1-sigma för position och klockbias mot uppdragstid, ett band per fas.
 
 seg-a3c40c51c2ff = Vad evidensen är
-
-seg-1168810d4407 = Trådens etikett är den svagaste fasens etikett, och varje fas är MODELLED. Månens propagator jämförs med LRO och CAPSTONE (<s1><c1/></s1>); bågen i cislunart rum jämförs med en offentlig bana från Horizons (<s2><c2/></s2>). En rad klarar eller missar en tröskel som fastställdes i en incheckad fil före körningen, och en miss registreras som en miss. Ingenting är VALIDATED om inte registret säger det.
 
 seg-ee3c5b58e6fa = <s1>Föregående</s1>Månbana och månyta som infrastruktur
 

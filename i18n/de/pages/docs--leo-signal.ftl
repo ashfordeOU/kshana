@@ -198,9 +198,6 @@ seg-f878fd0359c9 = <b>Thermisches Rauschjitter der Codeverfolgung</b> einer Dela
 seg-089e4e98af82 = <b>Akquisition</b>: der größte Satellitendoppler bei einem Überflug über den Nutzer an der Elevationsmaske (<c1/>, Kreisbahn, ohne Erdrotation) plus die Oszillator- und Nutzerterme; Dopplerbins von <c2/>; Codebins über eine Periode; die Detektionswahrscheinlichkeit eines Quadratdetektors (verallgemeinertes Marcum-Q) bei einer Falschalarmwahrscheinlichkeit je Zelle, zentriert und im ungünstigsten Überlappungsfall; und die mittlere Akquisitionszeit einer seriellen und einer codeparallelen Suche mit einer einzelnen Verweilzeit (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Kompatibilität</b>: der spektrale Trennungskoeffizient (SSC) des bandbegrenzten Signals in GPS L1 Coarse/Acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b und das Signal E5 Alternative BOC (AltBOC) über jedes Empfängerband der globalen Satellitennavigationssysteme (GNSS), der C/N₀-Verlust, den es bei seiner Empfangsleistung verursacht, sowie der SSC und der C/N₀-Verlust jedes GNSS-Signals in die verfolgte LEO-Komponente.
-
-# text
 # c1: spectrum
 # c2: spectrum::Jammer::ssc
 seg-864f3f2a5aa1 = <b>Störtoleranz</b>: das Verhältnis der Störleistung zur Signalleistung (J/S) eines Dauerstrichtons (CW) auf dem Träger, eines flachen Rauschens über das Sendeband und eines auf die verfolgte Komponente angepassten Rauschens, das die verfolgte Komponente an die Verfolgungsschwelle bringt, aus dem eigenen SSC-Code des Typs <c1/> (<c2/>).

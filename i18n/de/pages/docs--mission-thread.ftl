@@ -18,8 +18,6 @@ seg-32755afa0f78 = Der Missionsstrang
 
 seg-d4af67363efc = Beratende Software, keine zertifizierte Navigationsausrüstung. Nur öffentliche Quellen; weder mit einer Agentur verbunden noch von ihr gebilligt, und nichts hier behauptet eine Konformität mit den Anforderungen irgendeines Programms.
 
-seg-816770c97995 = <c1/> verkettet Phasen einer Mission, jede eine von acht registrierten Arten mit eigenen Sensoren und eigenem Filter, und gibt das <b>Fehlerbudget für Navigation und Zeitgebung</b> der ganzen Kette an: für jede Phase das 1-Sigma von Position, Geschwindigkeit und Uhrenbias beim Eintritt, am Spitzenwert und beim Austritt; jeden Beitrag dazu mit seiner Einheit; die Marge gegenüber einer von Ihnen genannten Anforderung; das schwächste Glied; die datierten Ereignisse; und eine Zeitleistengrafik. Jede Zahl ist <b>MODELLED</b>: eine genannte Eingabe oder ein Modell einer solchen. Die einzigen Zeilen mit externer unabhängiger Referenz stehen in <s1><c2/></s1> und sagen, was sie prüfen.
-
 seg-c29a19879c84 = Führen Sie das Beispiel aus einem Checkout aus (es liest einen eingecheckten Ausschnitt des Mondkernels):
 
 seg-00f84b734853 = Das Dokument
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Eine optionale Tabelle <c1/> gibt Stationen und die niedrigst
 seg-467b14d7ef59 = <c1/>: <c2/> (Index, Kennung, Art, Zeiten, Kennzeichnung, Navigations- und Zeitquellen, begrenzende Quelle, Sigmas bei Eintritt, Spitze und Austritt, Anforderung, Marge, <c3/> mit einer Einheit je Zeile, <c4/>), das <c5/> (kleinste Marge gegenüber einer genannten Anforderung, sonst die größte Spitzenposition), die <c6/>, die <c7/> des Strangs (die Kennzeichnung der schwächsten Phase) und ein Block <c8/>. Die Grafik zeigt das 1-Sigma von Position und Uhrenbias gegen die Missionszeit, ein Band je Phase.
 
 seg-a3c40c51c2ff = Was der Nachweis ist
-
-seg-1168810d4407 = Die Kennzeichnung des Strangs ist die Kennzeichnung der schwächsten Phase, und jede Phase ist MODELLED. Der Mondpropagator wird mit LRO und CAPSTONE verglichen (<s1><c1/></s1>); der cislunare Bogen wird mit einer öffentlichen Horizons-Trajektorie verglichen (<s2><c2/></s2>). Eine Zeile besteht einen Zielwert, der vor dem Lauf in einer eingecheckten Datei festgelegt wurde, oder verfehlt ihn, und eine Verfehlung wird als Verfehlung festgehalten. Nichts ist VALIDATED, sofern das Register es nicht sagt.
 
 seg-ee3c5b58e6fa = <s1>Zurück</s1>Mondumlaufbahn und Mondoberfläche als Infrastruktur
 

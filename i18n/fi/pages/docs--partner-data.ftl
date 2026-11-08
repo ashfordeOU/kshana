@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana ei lähetä mitään eikä ohjaa laitteistoa. Lähetys
 
 seg-01b0ee9973dc = Yhteydenotto
 
-seg-b5cb4dc0493f = Yhden sivun muistio laboratoriolle on laadittu omistajalle tiedostoon <s1><c1/></s1>. Se on luonnos: mitään ei lähetetä eikä kehenkään oteta yhteyttä ennen kuin omistaja päättää.
-
 seg-83b30e1ca261 = <s1>Edellinen</s1>Todistepaketit
 
 seg-09c0b5fa6e52 = <s1>Seuraava</s1>Optiset linkit ilmakehän läpi

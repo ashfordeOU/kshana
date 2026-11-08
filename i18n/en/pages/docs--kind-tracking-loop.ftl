@@ -114,4 +114,4 @@ seg-3a677e343081 = Tracking-loop loss of lock and spoof pull-in under interferen
 seg-5d23d7f8f872 = Family page: <a1>Jamming, spoofing and the spectrum</a1>
 
 # text
-seg-e3a8f20108f3 = <s1>Previous</s1>timetransfer
+seg-9c69b473859a = <s1>Previous</s1>tip-and-cue

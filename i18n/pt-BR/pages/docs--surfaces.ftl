@@ -294,16 +294,6 @@ seg-1b60ff4652cd = Tools: cartão Telemetry (aba Command line; somente formatos,
 
 # text
 # c1: receiver-trust
-# c2: rtklib-pos
-# c3: novatel
-# c4: gnss-sdr
-# c5: [log.imu]
-# c6: csv
-# c7: euroc
-seg-3e332170d963 = Entradas de máquina e de sensores ({ "0.38" }): <c1/> formatos <c2/>, <c3/>, <c4/> e <c5/> (<c6/>, <c7/>)
-
-# text
-# c1: receiver-trust
 # c2: [log] format
 seg-060e5931ac62 = <c1/> (cenário <c2/>)
 
@@ -1114,8 +1104,6 @@ seg-6555ff9a6d8e = Saída
 
 seg-12471a4b2b57 = Região do emissor (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (ainda não incluído; as superfícies Rust, Python e WASM o cobrem)
-
 seg-dff1bfe0263e = <b>N/A</b> (a publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está desativada)
 
 seg-ec2d91e2f867 = Verificação de envio de parceiro de dados (formato e metadados de um envio de dados medidos, <c1/>; não pontua nada)
@@ -1143,8 +1131,6 @@ seg-e957474f44a8 = <c1/> (apenas embutido; a chave do kernel é recusada)
 seg-1c1729fafe99 = <b>N/A</b> (sem notebook; o exemplo é executado em qualquer notebook por meio de <c1/> a partir de um checkout)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (ainda não incluído)
 
 seg-ab52a3469f6a = Regiões estimadas de emissores, MODELLED; diretórios de rastros e <c1/> são apenas de linha de comando
 

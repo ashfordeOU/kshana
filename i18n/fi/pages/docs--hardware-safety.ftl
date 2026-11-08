@@ -40,13 +40,9 @@ seg-1c566ec98a03 = Tiedostot: toistolokit, IQ, bench-viennit, reaaliaikainen NME
 
 seg-0435986aa760 = toimitettu
 
-seg-56b9a4399108 = Passiivinen vastaanotto: vastaanottimet vain luku -tilassa; ajoituslokit (linuxptp, chrony, TICC); IMU-CSV; <c1/> kasvavalla SigMF-tiedostolla
-
 seg-608fc0a99107 = käyttäjän vastaanottimet, grandmaster-kello, SDR vastaanottotilassa
 
 seg-786d9e5ccf93 = vastaanottimen jokainen asetusten kirjoitus vaatii nimenomaisen valitsimen <c1/>; oletus on vain luku
-
-seg-ab8874046283 = osittain toimitettu: ajoituslokien formaatit, <c1/>, <c2/>; sarjaporttivastaanottimen syöte on suunniteltu
 
 seg-6b0a194d3f64 = Laboratorion orkestrointi ilman Kshanan RF-lähetystä: testiolosuhteiden määrittely, operaattorin vaiheet (antennin irrotus, simulaattorin käynnistys) kehotettuna ja aikaleimattuna, kierrospisteytys ja todisteet
 

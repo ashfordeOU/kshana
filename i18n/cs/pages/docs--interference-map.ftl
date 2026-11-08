@@ -336,8 +336,6 @@ seg-e3949a1e6082 = Oblast zdroje rušení (<c1/>)
 
 seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
 
-seg-4fc5a1dcc963 = <c1/> odhaduje, <b>kde se může nacházet zdroj rušení</b>, ze stejných otevřených hlášení ADS-B nebo AIS: oblast na stanovených úrovních spolehlivosti, těžiště s elipsou nejistoty a relace v čase. Nikdy nevrací holý bod. <b>MODELLED</b> (řádek registru <c2/>): fyzika je učebnicová rádiová přímá viditelnost, věrohodnost oblastí je podmíněna modelem a jedinou externí kontrolou je srovnání Jammertest předregistrované v <s1><c3/></s1>. Zveřejňování oblastí zdrojů rušení ve veřejné observatoři je samostatné rozhodnutí vlastníka a je <b>vypnuto</b>: observatoř tento modul nečte a test to zafixovává.
-
 seg-194d573cb817 = Volby: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fúze určení polohy TDOA; níže). Každá volba, která se liší od předregistrované hodnoty, je oznámena jako „not the pre-registered method“. Soubory se nikdy nepřepisují.
 
 seg-5767c749117a = <b>Model.</b> Hlášení se řadí do <em>jednotek</em> (jedno letadlo nebo plavidlo v jednom 2minutovém košíku), každá je <em>dotčená</em> (ADS-B: nejméně polovina jejích hlášení má nízké NIC nebo NACp podle vlastního pravidla mapy; AIS: nepravděpodobná rychlost nebo skok, nebo poloha ve vnitrozemí od pobřeží) nebo ne. Letadlo nebo plavidlo se počítá, jen když má ve vstupu alespoň { "5" } dobrých hlášení (táž pojistka základní výbavy jako u mapy). Dotčené jednotky se seskupují do <em>relací</em>: mezera delší než { "30" } minut dělí v čase a uvnitř časového shluku k sobě patří dvě jednotky, když by oběma mohl být v dosahu jeden zdroj. Pro jednu relaci dostane každá kandidátní poloha na mřížce věrohodnost:

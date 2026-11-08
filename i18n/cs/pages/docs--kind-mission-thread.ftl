@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Druh scénáře enginu v{ $version }, rodina <a1>Vlákna mise
 
 seg-1ec485468daa = MODELLED rozpočet chyb navigace a času pro uvedený řetězec fází mise od startu po vstup do atmosféry: start a výstup, setkání a dokování na nízké oběžné dráze Země (opakovatelné), trans-lunární injekce a cislunární plavba, setkání na lunární oběžné dráze, sestup, pobyt na povrchu, výstup a návrat a vstup do atmosféry, přičemž každá fáze je jedním z osmi registrovaných druhů s vlastními senzory a filtrem. Kovariance 6x6, hodiny a rámec se předávají z fáze do fáze podle uvedeného pravidla (přenést, nafouknout nebo znovu získat); převody rámců a časových škál (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) jsou samostatné řádky rozpočtu, přičemž stav Měsíce pochází z volitelného výřezu jádra DE440 a analytická řada slouží jako uvedená záloha. Volitelné překrytí pozemní sítí nastavuje sledovací pracovní cyklus každé fáze. Uvádí rozpočet pro jednotlivé fáze (1sigma při vstupu, ve špičce a při výstupu, každý příspěvek s jednotkou), rezervu oproti uvedenému požadavku, nejslabší článek, události a obrázek časové osy. MODELLED: každé číslo je uvedený vstup; řetězec sleduje jeden svazek a žádné vozidlo není modelováno. Pouze veřejné zdroje; bez spojení s žádnou agenturou ani její podpory; software pouze poradního charakteru, nikoli certifikované navigační zařízení.
 
-seg-d6eb3dbb87c7 = Jeden běh <c1/> se shrne takto: mission-thread | { "11" } fází | Mise třídy Artemis (ILLUSTRATIVE) | nejslabší článek descent | MODELLED
-
 seg-9bb19202a104 = Povinná pole: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Volitelná pole: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Příklad <c1/> mimo jiné nastavuje:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = nejmenší rezerva oproti uvedenému požadavku
-
-seg-f32a7f31e191 = inerciální drift, bez pomůcky, východ
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Graf, který engine zapisuje pro scenarios/mission-thread-artemis-class.toml, druh mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Fáze <c1/>: kovariance polohy a rychlosti s konstantní rychlostí a bílým šumem zrychlení (třída dead-reckoning), určení GNSS uvedené přesnosti uplatněné po době akvizice a mimo uvedené úniky, a bias-a
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED rozpočet chyb navigace a času pro uvedený řetěz
 
 seg-80221e9351e4 = MODELLED: každé číslo je uvedený vstup; řetězec sleduje jeden svazek a žádné vozidlo není modelováno. (katalog druhů (<c1/>))
 
-seg-637296d00802 = ČESTNOST. Každé číslo zde je ILLUSTRATIVE: zaokrouhlená hodnota zvolená tak, aby řetězec běžel, nikoli výkon jakéhokoli vozidla, senzoru, stanice či sítě. Řetězec sleduje jeden svazek jako uvedené zjednodušení; výměny vozidel, přesuny posádky a lunární stanice na oběžné dráze se nemodelují, lunární dráhy jsou kruhová a polární dráha { "100" } km, které létají lunární druhy (nikoli téměř přímočará halo dráha), a zážeh TLI je (komentář v souboru scénáře, řádky { "11" } až { "17" })
-
 seg-f6574a80a60a = Rozpočet chyb navigace a času pro řetězec fází mise od startu po vstup do atmosféry (<c1/>) je MODELLED, nikoli ověřen: kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Start a výstup na parkovací dráhu s akvizicí a únikem GNSS (<c1/>) je MODELLED, nikoli ověřen: kontroluje se proti vlastní uzavřené / analytické identitě, což zachytí chyby přepisu a koeficientů, ale není to vnější orákulum. (verifikační matice (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Stránka rodiny: <a1>Vlákna mise</a1>
 seg-f3279128de3b = <s1>Předchozí</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Další</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Příklad <c1/> mimo jiné nastavuje:

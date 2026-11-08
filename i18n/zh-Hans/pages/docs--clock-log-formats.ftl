@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = 来源：<c1/>
 
 seg-0dfd1160c5d7 = 时钟日志格式
 
-seg-f52a62872493 = <c1/>将实测的时钟日志读为一条规范化的相位序列：由<c2/>采样构成的均匀网格，其中采样间隔<c3/>或为给定，或为找出的值，每一处间隙都被计数，日志的单位也会注明。共读取八种格式，每种都是有文档记录的子集。子集之外的内容会被拒绝，并给出指明所发现内容的错误，而不是近似地读入。
-
 seg-dbdbfec37ab6 = <b>缩写。</b>RINEX是接收机无关交换格式（Receiver Independent Exchange Format）。TICC是TAPR（Tucson Amateur Packet Radio）的时间间隔计数器。ADEV是重叠阿伦偏差，TDEV是时间偏差，MTIE是最大时间间隔误差。<c1/>是以秒为单位的采样间隔。
 
 seg-1d5a6c2090af = 日志可用于何处
