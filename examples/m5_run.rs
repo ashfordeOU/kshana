@@ -17,8 +17,8 @@ fn main() {
                         finite[k] += usize::from(b[k].is_some());
                     }
                     if let Some(h) = b[2] {
-                        for k in 0..2 {
-                            if let Some(c) = b[k] {
+                        for (k, layer) in b.iter().take(2).enumerate() {
+                            if let Some(c) = *layer {
                                 if !kshana::m5_hybrid::no_larger(c, h) {
                                     fails.push(serde_json::json!({"placement": i, "class": name, "layer": k}));
                                 }
