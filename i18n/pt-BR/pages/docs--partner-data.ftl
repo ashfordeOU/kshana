@@ -6,10 +6,6 @@ seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
 
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
-seg-f942b36a11c4 = Ainda não está no GitHub
-
 seg-7338b6210228 = Linha
 
 seg-c5ce76c91ff7 = Rótulo

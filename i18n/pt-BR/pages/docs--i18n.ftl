@@ -4,8 +4,6 @@ seg-c3c260b7063e = Testes
 
 seg-257c477dc510 = WebAssembly
 
-seg-f942b36a11c4 = Ainda não está no GitHub
-
 seg-26b562e7f535 = Fonte: <c1/>
 
 seg-60b2e78c882e = Localização do motor

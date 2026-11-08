@@ -116,7 +116,39 @@ seg-4892485e534b = Pleninger, Topkova and Steiner, "GNSS interference detection:
 seg-74ec1aca8a22 = <b>What we used.</b> Only the published abstract and bibliographic record. The full text was not available to us (paywalled), so we know neither its mapping from NACp to an error estimate, nor its HDOP computation, nor its thresholds, and we do not claim to reproduce them.
 
 # text
-seg-4f8471649a07 = <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-1604a8087643 = <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low.
+
+# text
+# c1: kshana::interference_map::almanac_hdop
+seg-a74caf601a7a = <b>What was built ({ "0.41" }, D18).</b> An almanac-HDOP scorer, <c1/>, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
+
+# text
+seg-8c55525969f3 = HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S. Coast Guard Navigation Center (<a1>https://www.navcen.uscg.gov/</a1>). Satellites are propagated with the almanac equations of IS-GPS-200, with an elevation mask stated by the caller (geodetic horizon).
+
+# text
+seg-af03ec3d53c6 = The { "95" } % horizontal bound (EPU) of the report's NACp category. The table is quoted from J. Sun, <em>The { "1090" } Megahertz Riddle</em> (open textbook), Table { "1.9" }.
+
+# text
+# c1: 2 · HDOP · σ_UERE
+# c2: σ_UERE
+seg-d938f09485db = A flag when the EPU exceeds a stated multiple of the geometry-predicted { "95" } % error <c1/>. The multiple and <c2/> are parameters with no default. No value was chosen from real data.
+
+# text
+# c1: tests/almanac_hdop.rs
+seg-f07909f1fbcc = Its checks (<c1/>):
+
+# text
+# c1: xval/almanac-hdop/oracle.py
+seg-200b23860f4a = HDOP equals an independent numpy computation (<c1/>) at { "20" } stated points, to { "1.6e-15" } (the requirement was { "1e-9" }).
+
+# text
+seg-37671ccdcc2b = The NACp mapping equals the quoted table.
+
+# text
+seg-35d4f9175af2 = The flag is exact on { "12" } hand-written reports.
+
+# text
+seg-9e54deb0b5ed = The observatory's products do not use the scorer. Scoring real days with it, for example against the base method, is an evidence question with its own pre-registration, committed before that run.
 
 # text
 seg-e9b9902633af = Reproducing a product
@@ -155,7 +187,7 @@ seg-436af9f16feb = <b>No ground truth.</b> The observatory has no external oracl
 seg-5c4966f0166d = <b>Sensitivity of the subject.</b> Maps of this kind are political. The observatory states a method, a delay and a vocabulary, and nothing else; it does not name states or actors, and it does not publish in real time.
 
 # text
-seg-874f46a80c8b = <s1>Previous</s1>Receiver protocols read
+seg-a6d0b8d580f5 = <s1>Previous</s1>Kshana Station
 
 # text
 seg-3137b7595e59 = <s1>Next</s1>Interference observatory: results

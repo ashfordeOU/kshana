@@ -109,7 +109,7 @@ seg-21989d609ae7 = Researchers, students and reviewers who need figures they can
 seg-3b6d727a2d38 = Developers wiring the engine into code, a CI (continuous integration) suite or an AI (artificial intelligence) assistant
 
 # text
-seg-c7818536071d = All { "93" } scenario kinds and { "181" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-7515b1af1f0b = All { "93" } scenario kinds and { "183" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 # text
 seg-cc655ce0b6c8 = The full verification matrix: { "176" } of { "401" } capabilities validated against independent oracles, the rest labelled Modelled

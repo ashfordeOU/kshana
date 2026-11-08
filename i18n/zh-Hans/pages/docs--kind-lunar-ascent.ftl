@@ -1,7 +1,5 @@
 # docs--kind-lunar-ascent: translations (zh-Hans)
 
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-98151954f217 = false
 
 seg-1f17ef6a853e = 引擎v{ $version }的场景类型，属于<a1>月球与地月空间</a1>系列。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为MODELLED（标签如何获得，见README的“证据”一节）。

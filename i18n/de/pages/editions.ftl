@@ -1227,4 +1227,4 @@ seg-0ab329c843b0 = Die offene Engine in der Mitte: ein Zeichen je Szenarioart ({
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } Arten aus <c1/> · Registerstatus aus <c2/> · worauf Pro und eine Studie aufbauen: das Ausgabenregister der Website · kein Szenario und kein Seed
 
-seg-c7818536071d = Alle { "93" } Szenarioarten und { "181" } mitgelieferten Szenarien: nativ, Python, JavaScript, im Browser und über MCP (Model Context Protocol)
+seg-7515b1af1f0b = Alle { "93" } Szenarioarten und { "183" } mitgelieferten Szenarien: nativ, Python, JavaScript, im Browser und über MCP (Model Context Protocol)

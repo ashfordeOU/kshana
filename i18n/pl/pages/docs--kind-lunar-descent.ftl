@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (pl)
 
-seg-f942b36a11c4 = Jeszcze nie na GitHub
-
 seg-51362910dcb7 = { "2" } dołączone scenariusze używają tego rodzaju; pozostałe są w <a1><c1/></a1>.
 
 seg-98151954f217 = false

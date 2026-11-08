@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (uk)
 
-seg-f942b36a11c4 = На GitHub ще немає
-
 seg-51362910dcb7 = Цей різновид використовують { "2" } вбудовані сценарії; решта — у <a1><c1/></a1>.
 
 seg-98151954f217 = false

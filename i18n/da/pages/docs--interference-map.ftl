@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = AIS-metode (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Senderområde (<c1/>)
 
-seg-34bdcfd66ded = I den repository-gren, disse dokumenter kommer fra; endnu ikke på GitHub
-
 seg-194d573cb817 = Indstillinger: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fusionér en TDOA-positionsbestemmelse; se nedenfor). Enhver indstilling, der afviger fra den præregistrerede værdi, meddeles som "ikke den præregistrerede metode". Filer overskrives aldrig.
 
 seg-5767c749117a = <b>Model.</b> Rapporter samles i <em>enheder</em> (ét fly eller skib i én 2-minutters bin), hver <em>berørt</em> (ADS-B: mindst halvdelen af dens rapporter har lav NIC eller NACp efter kortets egen regel; AIS: en usandsynlig fart eller et spring eller en position inde i landet fra kystlinjen) eller ikke. Et fly eller skib tæller kun med mindst { "5" } gode rapporter i inputtet (den samme beskyttelse af udstyrsbaseline som i kortet). Berørte enheder grupperes i <em>sessioner</em>: et hul på mere end { "30" } minutter deler i tid, og inden for en tidsklynge hører to enheder sammen, når én sender kunne være inden for rækkevidde af begge. For én session får hver kandidatposition på et gitter en sandsynlighed:

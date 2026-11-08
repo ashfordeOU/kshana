@@ -1962,12 +1962,12 @@ seg-43bd621a1f5b = Hvordan en kjøring flyter. En scenario-TOML-fil (en type, en
 
 seg-290f2b34e368 = Kshanas arkitektur i lag. Fem innganger (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-programtillegget) når én api::run_toml, en typet dispatch over { "93" } typer. Under ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med { "401" } funksjoner som er den eneste kilden til sannhet for hver merkelapp.
 
-seg-ed215c6aa19b = <a1><c1/></a1> er en MCP-server: assistenten din kjører den faktiske motoren og leser tilbake JSON-en, i stedet for å gjette matematikken. Hvert av de { "52" } verktøyene er en tynn innpakning rundt en offentlig funksjon i biblioteket <c2/>, så ingen simuleringslogikk bor i serveren.
-
-seg-81fcbb495e8f = De { "52" } verktøyene
-
 seg-fb8bcc54a31d = De { "93" } innebygde scenariotypene med beskrivelser og obligatoriske/valgfrie felt, slik at agenten kan bygge et gyldig scenario
 
 seg-2f38fc515db6 = hele den åpne motoren, alle { "93" } scenariotyper, ingen funksjonsbegrensning
 
 seg-5374f780c396 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "93" } typer, { "195" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> er en MCP-server: assistenten din kjører den faktiske motoren og leser tilbake JSON-en, i stedet for å gjette matematikken. Hvert av de { "53" } verktøyene er en tynn innpakning rundt en offentlig funksjon i biblioteket <c2/>, så ingen simuleringslogikk bor i serveren.
+
+seg-0920329ba390 = De { "53" } verktøyene

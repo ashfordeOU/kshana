@@ -62,8 +62,6 @@ seg-4892485e534b = Pleninger, Topkova i Steiner, „GNSS interference detection:
 
 seg-74ec1aca8a22 = <b>Z czego korzystaliśmy.</b> Tylko z opublikowanego streszczenia i rekordu bibliograficznego. Pełny tekst był dla nas niedostępny (za paywallem), więc nie znamy ani jego odwzorowania NACp na oszacowanie błędu, ani jego obliczenia HDOP, ani jego progów i nie twierdzimy, że je odtwarzamy.
 
-seg-4f8471649a07 = <b>Co zamiast tego robi obserwatorium.</b> Pytanie, na które odpowiada porównanie z almanachem, brzmi: „czy sama geometria konstelacji mogłaby wyjaśnić tę niską dokładność?”. Metoda bazowa odpowiada na pytanie pokrewne bez almanachu: niski odsetek musi wyróżniać się na tle tej samej doby w całym regionie oraz na tle własnych dobrych raportów statku powietrznego gdzie indziej. To inny i słabszy substytut: nie potrafi powiedzieć, że godzina o spokojnej geometrii miała pogorszoną jakość tam, gdzie tło doby też jest niskie. Układ oceniający HDOP z almanachu <b>nie jest zaimplementowany</b>. To otwarta pozycja, do zbudowania z pełnego tekstu artykułu i publicznego almanachu GPS oraz do wstępnej rejestracji przed uruchomieniem; do tego czasu jest cytowany, a nie twierdzony.
-
 seg-e9b9902633af = Odtwarzanie produktu
 
 seg-95e48f0286d9 = Potok jest deterministyczny we wszystkim, co publikuje (sól identyfikatorów dla każdego przebiegu zmienia tylko wewnętrzne skróty, które nigdy nie są zapisywane). Wartości SHA-256 w manifeście pozwalają porównać drugi przebieg bajt po bajcie.

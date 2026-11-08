@@ -663,8 +663,6 @@ seg-a3a97ab49ed1 = AIS-Methode (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Senderregion (<c1/>)
 
-seg-34bdcfd66ded = Im Repository-Zweig, aus dem diese Dokumente stammen; noch nicht auf GitHub
-
 seg-194d573cb817 = Optionen: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (eine TDOA-Lösung fusionieren; siehe unten). Jede Option, die vom vorab festgelegten Wert abweicht, wird als „not the pre-registered method“ angekündigt. Dateien werden nie überschrieben.
 
 seg-5767c749117a = <b>Modell.</b> Meldungen werden in <em>Einheiten</em> eingeteilt (ein Flugzeug oder Schiff in einem Intervall von 2 Minuten), jede <em>betroffen</em> (ADS-B: mindestens die Hälfte ihrer Meldungen hat nach der eigenen Regel der Karte niedrige NIC oder NACp; AIS: eine unplausible Geschwindigkeit oder ein Sprung oder eine Position im Landesinneren von der Küstenlinie aus) oder nicht. Ein Flugzeug oder Schiff zählt nur mit mindestens { "5" } guten Meldungen in der Eingabe (dieselbe Schutzregel der Ausrüstungsbasislinie wie bei der Karte). Betroffene Einheiten werden zu <em>Sitzungen</em> gruppiert: Eine Lücke von mehr als { "30" } Minuten trennt in der Zeit, und innerhalb eines Zeitclusters gehören zwei Einheiten zusammen, wenn ein Sender in Reichweite beider sein könnte. Für eine Sitzung erhält jede Kandidatenposition auf einem Raster eine Likelihood:

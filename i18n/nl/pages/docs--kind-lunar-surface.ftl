@@ -1,7 +1,5 @@
 # docs--kind-lunar-surface: translations (nl)
 
-seg-f942b36a11c4 = Nog niet op GitHub
-
 seg-51362910dcb7 = { "2" } meegeleverde scenario's gebruiken deze soort; de andere staan in <a1><c1/></a1>.
 
 seg-1f17ef6a853e = Scenariosoort van de engine v{ $version }, familie <a1>Maan en cislunair</a1>. Adviserend: analyse-uitvoer van een onderzoeks- en engineeringhulpmiddel, geen typegoedgekeurde navigatieapparatuur en geen safety-of-life-dienst. Elk label hier is dat van de engine of van de verificatiematrix; een soort is MODELLED tenzij de matrix anders zegt (hoe een label wordt verdiend: de sectie Bewijs van de README).

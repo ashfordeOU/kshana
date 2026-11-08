@@ -1,7 +1,5 @@
 # docs--mission-thread-lunar: translations (zh-Hans)
 
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-3b01a756c305 = 计算内容
 
 seg-b478421b21bb = 来源：<c1/>

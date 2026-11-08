@@ -1962,12 +1962,12 @@ seg-43bd621a1f5b = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, e
 
 seg-290f2b34e368 = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "93" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle met elkaar verbonden door de verificatiemodule, de machinaal gecontroleerde matrix van { "401" } mogelijkheden die de enige bron van waarheid is voor elk label.
 
-seg-ed215c6aa19b = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "52" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
-
-seg-81fcbb495e8f = De { "52" } tools
-
 seg-fb8bcc54a31d = De { "93" } ingebouwde scenariosoorten met beschrijvingen + vereiste/optionele velden — zodat de agent een geldig scenario kan opstellen
 
 seg-2f38fc515db6 = de hele open engine, alle { "93" } scenariosoorten, geen functiepoort
 
 seg-5374f780c396 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "93" } soorten, { "195" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "53" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
+
+seg-0920329ba390 = De { "53" } tools

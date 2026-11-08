@@ -798,8 +798,8 @@ seg-193ee1ab991e = <c1/> перетворює файл подання та іс�
 
 seg-0c50b3629e39 = Відкрити бенчмарк
 
-seg-859bb6732925 = Записаний сеанс із сервером kshana-mcp (Model Context Protocol, рушій v{ $version }): асистент перелічує { "52" } інструментів, перевіряє <c1/> (valid: detected scenario kind `clock`) і запускає його: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = Записаний сеанс із сервером kshana-mcp (Model Context Protocol, рушій v{ $version }): асистент перелічує { "53" } інструментів, перевіряє <c1/> (valid: detected scenario kind `clock`) і запускає його: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } інструментів</b> поверх публічного API Kshana (прикладний програмний інтерфейс) в офіційному реєстрі MCP як <c1/>. Експорти орбіт: SP3 (Standard Product { "3" }) та CCSDS (Консультативний комітет із космічних даних) OMM і OEM (повідомлення із середніми елементами орбіти та з ефемеридами, TEME: True Equator, Mean Equinox frame). Зареєструйте його в розділі <b>Асистент зі штучним інтелектом (сервер MCP)</b> або <b>Образ Docker</b>. <a1>Документація сервера MCP</a1>
+seg-19751efb1461 = <b>{ "53" } інструментів</b> поверх публічного API Kshana (прикладний програмний інтерфейс) в офіційному реєстрі MCP як <c1/>. Експорти орбіт: SP3 (Standard Product { "3" }) та CCSDS (Консультативний комітет із космічних даних) OMM і OEM (повідомлення із середніми елементами орбіти та з ефемеридами, TEME: True Equator, Mean Equinox frame). Зареєструйте його в розділі <b>Асистент зі штучним інтелектом (сервер MCP)</b> або <b>Образ Docker</b>. <a1>Документація сервера MCP</a1>
 
-seg-5aa702c4ebc7 = { "52" } інструментів, які може викликати ШІ-асистент, кожен — тонка обгортка над публічним API
+seg-1b9e5d8ce426 = { "53" } інструментів, які може викликати ШІ-асистент, кожен — тонка обгортка над публічним API

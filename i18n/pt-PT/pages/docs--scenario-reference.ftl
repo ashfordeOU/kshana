@@ -1158,9 +1158,6 @@ seg-ea79a68b0587 = <s1>Seguinte</s1>Esquema de resultados
 seg-944145b95b4a = Disponibilidade de PNT e temporização na superfície lunar por local e estação (locais polares sul de classe Artemis).
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 seg-ae3053a1f6c8 = Ascensão propulsionada MODELLED de um local de superfície polar sul até à órbita de encontro, e a covariância de posição e velocidade que ela leva de volta à órbita (classe Artemis). O modelo de erro inercial de cinco estados por eixo de lunar-descent (posição, velocidade, enviesamento do acelerómetro, inclinação de atitude, enviesamento do giroscópio, conduzido pela força específica) é executado nos três eixos do local a partir do estado de superfície com que a fase começa; uma solução de posição AFS a partir dos relés visíveis de uma constelação ILLUSTRATIVE de classe LCNS (isolada, ou diferencial usando o resíduo do enlace de correção de lunar-differential-pnt, com o relógio auxiliado quando apenas três relés estão visíveis) é obtida num intervalo declarado, com o tempo lunar a entrar pelo relógio do veículo e um erro de marcação temporal ao longo da trajetória. Indica as fontes inerciais em forma fechada, a contribuição do auxílio, a ablação, os 1-sigmas de navegação ao longo da ascensão, a dispersão no corte do motor ao lado do conhecimento de navegação, e a covariância MCI 6x6 completa na inserção com a correlação posição-velocidade mantida. MODELLED: classe de IMU, força específica, conjunto de relés e dispersão no corte ilustrativos; erros mantidos nos eixos do local de lançamento; o estado nominal de saída é um substituto. Sem aval de agência; software de caráter consultivo, não um equipamento de navegação certificado.
 
 # text

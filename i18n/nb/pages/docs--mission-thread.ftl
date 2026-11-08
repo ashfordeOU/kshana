@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Jorden
 
-seg-34bdcfd66ded = I repositoriegrenen disse dokumentene kommer fra; ennå ikke på GitHub
-
 seg-092dd691ca17 = Rapporten
-
-seg-f942b36a11c4 = Ikke på GitHub ennå
 
 seg-b03d56f501c3 = Type
 

@@ -798,8 +798,8 @@ seg-f79048f88b5c = Запустить Kshana Studio
 
 seg-9a86ef058d27 = Открыть в Kshana Studio
 
-seg-859bb6732925 = Записанный сеанс работы с сервером kshana-mcp (Model Context Protocol, движок v{ $version }): ассистент перечисляет { "52" } инструментов, проверяет <c1/> (допустимо: определён вид сценария `clock`) и запускает его: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = Записанный сеанс работы с сервером kshana-mcp (Model Context Protocol, движок v{ $version }): ассистент перечисляет { "53" } инструментов, проверяет <c1/> (допустимо: определён вид сценария `clock`) и запускает его: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } инструментов</b> поверх открытого API Kshana (программный интерфейс приложения), в официальном реестре MCP как <c1/>. Экспорт орбит: SP3 (Standard Product { "3" }) и CCSDS (Consultative Committee for Space Data Systems) OMM и OEM (сообщения о средних элементах орбиты и об эфемеридах, TEME: True Equator, Mean Equinox frame). Зарегистрируйте его в разделе <b>AI assistant (MCP server)</b> или <b>Docker image</b>. <a1>Документация по серверу MCP</a1>
+seg-19751efb1461 = <b>{ "53" } инструментов</b> поверх открытого API Kshana (программный интерфейс приложения), в официальном реестре MCP как <c1/>. Экспорт орбит: SP3 (Standard Product { "3" }) и CCSDS (Consultative Committee for Space Data Systems) OMM и OEM (сообщения о средних элементах орбиты и об эфемеридах, TEME: True Equator, Mean Equinox frame). Зарегистрируйте его в разделе <b>AI assistant (MCP server)</b> или <b>Docker image</b>. <a1>Документация по серверу MCP</a1>
 
-seg-5aa702c4ebc7 = { "52" } инструментов, которые может вызвать ИИ-ассистент, каждый — тонкая обёртка над открытым API
+seg-1b9e5d8ce426 = { "53" } инструментов, которые может вызвать ИИ-ассистент, каждый — тонкая обёртка над открытым API

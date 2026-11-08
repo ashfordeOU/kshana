@@ -1690,8 +1690,8 @@ seg-193ee1ab991e = <c1/> transforma um ficheiro de submissão e a referência de
 # text
 seg-0c50b3629e39 = Abrir o benchmark
 
-seg-859bb6732925 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "52" } ferramentas, valida <c1/> (válido: tipo de cenário detetado `clock`) e executa-o: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "53" } ferramentas, valida <c1/> (válido: tipo de cenário detetado `clock`) e executa-o: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } ferramentas</b> sobre a API pública do Kshana (interface de programação de aplicações), no registo oficial MCP como <c1/>. Exportações de órbita: SP3 (Standard Product { "3" }) e CCSDS (Consultative Committee for Space Data Systems) OMM e OEM (mensagens de elementos médios orbitais e de efemérides, TEME: referencial True Equator, Mean Equinox). Registe-o em <b>Assistente de IA (servidor MCP)</b> ou <b>Imagem Docker</b>. <a1>Documentação do servidor MCP</a1>
+seg-19751efb1461 = <b>{ "53" } ferramentas</b> sobre a API pública do Kshana (interface de programação de aplicações), no registo oficial MCP como <c1/>. Exportações de órbita: SP3 (Standard Product { "3" }) e CCSDS (Consultative Committee for Space Data Systems) OMM e OEM (mensagens de elementos médios orbitais e de efemérides, TEME: referencial True Equator, Mean Equinox). Registe-o em <b>Assistente de IA (servidor MCP)</b> ou <b>Imagem Docker</b>. <a1>Documentação do servidor MCP</a1>
 
-seg-5aa702c4ebc7 = { "52" } ferramentas que um assistente de IA pode chamar, cada uma um invólucro fino sobre a API pública
+seg-1b9e5d8ce426 = { "53" } ferramentas que um assistente de IA pode chamar, cada uma um invólucro fino sobre a API pública

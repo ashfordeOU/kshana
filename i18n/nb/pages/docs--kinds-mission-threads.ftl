@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (nb)
 
-seg-f942b36a11c4 = Ikke på GitHub ennå
-
 seg-b03d56f501c3 = Type
 
 seg-1ec485468daa = MODELLED budsjett for navigasjons- og tidsfeil for en oppgitt kjede av oppdragsfaser, fra oppskyting til gjeninntreden: oppskyting og stigning, LEO-rendezvous og dokking (kan gjentas), trans-lunar injeksjon og cislunar ferd, månebane-rendezvous, nedstigning, opphold på overflaten, stigning og retur og gjeninntreden, hver fase én av åtte registrerte typer med egne sensorer og eget filter. 6x6-kovariansen, klokken og rammen føres fra fase til fase etter en oppgitt regel (videreføre, utvide eller gjenerverve); omregninger mellom rammer og tidsskalaer (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er egne budsjettrader, med Månens tilstand fra et valgfritt DE440-kjerneutsnitt og den analytiske serien som oppgitt reserveløsning. Et valgfritt overlegg for bakkenettverk setter sporingsandelen for hver fase. Rapporterer budsjettet per fase (inngangs-, topp- og utgangs-1-sigma, hvert bidrag med sin enhet), marginen mot et oppgitt krav, det svakeste leddet, hendelsene og en tidslinjefigur. MODELLED: hvert tall er en oppgitt inndata; kjeden følger én stakk, og ingen fartøy er modellert. Bare offentlige kilder; ikke tilknyttet eller støttet av noe romfartsbyrå; veiledende programvare, ikke sertifisert navigasjonsutstyr.

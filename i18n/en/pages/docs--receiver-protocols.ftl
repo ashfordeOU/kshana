@@ -117,7 +117,7 @@ seg-38fcf7d91b6e = Unix only. It opens the device for reading, sets the <b>local
 seg-97e1ea47c2be = <s1>Previous</s1>Machine and sensor inputs
 
 # text
-seg-55ad3fc908be = <s1>Next</s1>Interference observatory: method
+seg-a79352700054 = <s1>Next</s1>Kshana Station
 
 # text
 seg-17c3203ee615 = The receiver-self-report comparison

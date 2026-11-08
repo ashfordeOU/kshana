@@ -6,10 +6,6 @@ seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
 
-seg-34bdcfd66ded = Siinä repositorion haarassa, josta nämä dokumentit tulevat; ei vielä GitHubissa
-
-seg-f942b36a11c4 = Ei vielä GitHubissa
-
 seg-7338b6210228 = Rivi
 
 seg-c5ce76c91ff7 = Nimike

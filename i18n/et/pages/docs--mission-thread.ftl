@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Maa
 
-seg-34bdcfd66ded = Hoidla harus, millest need dokumendid pärinevad; GitHubis veel mitte
-
 seg-092dd691ca17 = Aruanne
-
-seg-f942b36a11c4 = GitHubis veel mitte
 
 seg-b03d56f501c3 = Liik
 

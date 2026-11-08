@@ -1,9 +1,6 @@
 # docs--kinds-mission-threads: translations (pt-PT)
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 seg-b03d56f501c3 = Tipo
 
 # text

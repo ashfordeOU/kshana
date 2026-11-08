@@ -2839,7 +2839,7 @@ seg-c77384abd1cc = <b>RF ranging-precision budget</b> vs a first-principles refe
 seg-a451dbe09e10 = Fixtures and oracle-generator scripts live under <c1/>. These strengthen the evidence behind capabilities that remain <b>MODELLED</b> in the machine-checked matrix (<c2/>); they are regression checks, <b>not</b> new VALIDATED matrix rows, so they do not themselves change the machine-checked matrix count. That count is not restated here, because a hand-typed copy of it drifts: the live split is the generated header of <a1><c3/></a1>, which <c4/> writes from <c5/> and <c6/> pins.
 
 # text
-seg-a353a63661de = <s1>Previous</s1>Interoperability exports and imports
+seg-42107edaf708 = <s1>Previous</s1>Flight-dynamics tools reading Kshana's files
 
 # text
 seg-fdae3b73ab67 = <s1>Next</s1>Verification matrix

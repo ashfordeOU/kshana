@@ -1962,12 +1962,12 @@ seg-43bd621a1f5b = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno
 
 seg-290f2b34e368 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "93" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "401" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
 
-seg-ed215c6aa19b = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "52" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
-
-seg-81fcbb495e8f = { "52" } narzędzi
-
 seg-fb8bcc54a31d = { "93" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
 
 seg-2f38fc515db6 = cały otwarty silnik, wszystkie { "93" } rodzajów scenariuszy, bez blokad funkcji
 
 seg-5374f780c396 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "93" } rodzajów, { "195" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "53" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
+
+seg-0920329ba390 = { "53" } narzędzi

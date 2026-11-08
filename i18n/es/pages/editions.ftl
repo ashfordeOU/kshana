@@ -1231,4 +1231,4 @@ seg-0ab329c843b0 = El motor abierto en el centro: una marca por cada tipo de esc
 
 seg-e507665bbe2c = Motor v{ $version } · { "93" } tipos de escenario de <c1/> · estado del registro de <c2/> · en qué se apoyan Pro y un estudio: el registro de ediciones del sitio · sin escenario ni semilla
 
-seg-c7818536071d = Los { "93" } tipos de escenario y { "181" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)
+seg-7515b1af1f0b = Los { "93" } tipos de escenario y { "183" } escenarios incluidos: nativo, Python, JavaScript, en el navegador y mediante MCP (Model Context Protocol)

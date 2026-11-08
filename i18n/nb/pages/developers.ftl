@@ -798,8 +798,8 @@ seg-193ee1ab991e = <c1/> gjør en innsendingsfil og en delings referanse om til 
 
 seg-0c50b3629e39 = Åpne benchmarken
 
-seg-859bb6732925 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "52" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "53" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } verktøy</b> over det offentlige Kshana-API-et (programmeringsgrensesnitt), i det offisielle MCP-registeret som <c1/>. Baneeksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meldinger om banemiddelelementer og efemerider, TEME: True Equator, Mean Equinox-referansesystemet). Registrer den under <b>KI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentasjon for MCP-serveren</a1>
+seg-19751efb1461 = <b>{ "53" } verktøy</b> over det offentlige Kshana-API-et (programmeringsgrensesnitt), i det offisielle MCP-registeret som <c1/>. Baneeksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meldinger om banemiddelelementer og efemerider, TEME: True Equator, Mean Equinox-referansesystemet). Registrer den under <b>KI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentasjon for MCP-serveren</a1>
 
-seg-5aa702c4ebc7 = { "52" } verktøy en KI-assistent kan kalle, hvert av dem en tynn omslutning rundt det offentlige API-et
+seg-1b9e5d8ce426 = { "53" } verktøy en KI-assistent kan kalle, hvert av dem en tynn omslutning rundt det offentlige API-et

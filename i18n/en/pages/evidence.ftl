@@ -113,9 +113,9 @@ seg-55fc928e19ae = oracle · AIAA 2006-6753 verification vectors
 seg-1d60624d525d = How it was checked
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: tests/sgp4_verification.rs
-seg-5473e860c8ad = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-0b884f17b0f2 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -150,9 +150,9 @@ seg-87734f6c52a2 = One square per SciPy case, grouped by kernel.
 seg-4957eddb39ed = oracle · SciPy
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: tests/raim_reference.rs
-seg-87499e19254b = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-fd83e8666041 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -178,9 +178,9 @@ seg-2b1ea60e99a7 = Position difference against time, per force tier.
 seg-75344d6c427a = oracle · Orekit { "12.2" }
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-7519712dd773 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-9cf103c9cb54 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -208,8 +208,8 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: 0a53cb8
-seg-98cf1f04e35b = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+# c2: f4c7901
+seg-8e6705edeb6a = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -234,9 +234,9 @@ seg-5d3372dbff1f = Four deviations against averaging time, with the published va
 seg-9993e306ae64 = oracle · NIST SP { "1065" }
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-1b5499029725 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-3f8669a1465b = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -266,9 +266,9 @@ seg-46c1dbe5c6bc = Measured and predicted time error against coast time, and the
 seg-449f52c56c67 = oracle · measured caesium record
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-16ee2dead623 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-8aabe2e98c52 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml
@@ -3620,7 +3620,7 @@ seg-f40dc3dac990 = IQ monitors scored in lab-replay campaigns: detection, misses
 seg-93fb3109728c = iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised
 
 # text
-seg-326da6588922 = The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection ({ "18" } of { "18" } attenuations, P_md { "0" }) and NOT MET on its timing clause: the median time to detect is { "1.001" } s against { "2" } x ARL1 samples = { "0.433" } s. The CUSUM sees one estimate per { "1" } s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked
+seg-bb79b2968d68 = The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection ({ "18" } of { "18" } attenuations, P_md { "0" }) and NOT MET on its timing clause: the median time to detect is { "1.001" } s against { "2" } x ARL1 samples = { "0.433" } s. The CUSUM sees one estimate per { "1" } s window, so the sample-count bound is below one sample. RE-RUN { "0.41" } (D8b row { "8" }, docs/design/evidence/d8b-iq-timing-campaign-rerun/, 3dcbaace9): with the campaign's automatic C/N0 stride set to one NWPR window ({ "0.020" } s), M3 stays NOT MET on its timing clause, as stated before the run: { "18" } of { "18" } detected on seen and fresh seeds, median time to detect { "0.221" } s and { "0.201" } s against { "0.0068" } s and { "0.0064" } s; M1, M2 and M4 unchanged. The miss is structural (the { "1" } s sliding estimator's delay); a further attempt needs a new pre-registration. Internal consistency only: no real receiver or recorded interference is checked
 
 # text
 seg-5b7eb7ddb474 = Detection ROC of the IQ monitors from a scored lab-replay campaign
@@ -3629,7 +3629,7 @@ seg-5b7eb7ddb474 = Detection ROC of the IQ monitors from a scored lab-replay cam
 seg-57fe85965c9c = iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither
 
 # text
-seg-f190c06c525d = Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md ({ "04981059" }). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC { "0.7855" } against { "0.95" }, because every negative window after an event inherits the CUSUM's decay from the detection (all { "18" } post-event negatives reach { "81" } or more; all { "18" } pre-event ones stay at { "0" }). Internal consistency only: no real receiver or recorded interference is checked
+seg-b2c0964e706c = Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md ({ "04981059" }). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC { "0.7855" } against { "0.95" }, because every negative window after an event inherits the CUSUM's decay from the detection (all { "18" } post-event negatives reach { "81" } or more; all { "18" } pre-event ones stay at { "0" }). RE-RUN { "0.41" } (D8b row { "9" }, f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC { "1.0000" } on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces { "0.7855" }. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked
 
 # text
 seg-3a3cfa322f01 = Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error
@@ -5918,7 +5918,7 @@ seg-160507ac3702 = Cell-averaging CFAR option in IQ acquisition
 seg-7c0a1adc9ae6 = iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged.
 
 # text
-seg-19703d3e266a = Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: { "18" } of { "18" } cases within { "3" } binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, { "2.5" } MS/s, { "210 000" } cells each) at a design { "1" } %: { "0.977" } % and { "0.969" } % on Gaussian noise and { "1.006" } % and { "0.999" } % on 2-bit quantised noise (M = { "1" } and { "4" }; bar plus or minus { "20" } %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but { "1.28" } % of the off-peak cells of the peak's row (bar { "1" } %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.
+seg-602ada498041 = Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: { "18" } of { "18" } cases within { "3" } binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, { "2.5" } MS/s, { "210 000" } cells each) at a design { "1" } %: { "0.977" } % and { "0.969" } % on Gaussian noise and { "1.006" } % and { "0.999" } % on 2-bit quantised noise (M = { "1" } and { "4" }; bar plus or minus { "20" } %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but { "1.28" } % of the off-peak cells of the peak's row (bar { "1" } %) exceed the threshold, at the code's deterministic correlation sidelobes. RE-RUN { "0.41" } (D8a row { "3" }, 1059c34e8): MET on re-run with the opt-in row reference set (CfarConfig::with_reference: reference cells every stride-th lag round the whole Doppler row): { "0" } of { "2495" } off-peak cells above on the registered signal and { "3" }, { "4" }, { "0" } and { "0" } on four fresh signals (bar { "1" } %), all detected in the right bin; C2/C3 { "0.969" } to { "1.033" } % on seen and fresh seeds; the 16-cell window stays the default and its control reproduces { "0.40" }. One candidate tried, on development PRNs 2-6 (disclosed). WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.
 
 # text
 seg-5bd3bf0c22a7 = Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)
@@ -6020,7 +6020,7 @@ seg-825c121c7512 = Acquisition hysteresis and the front-end quantiser in the jam
 seg-f7207263d881 = The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading { "10" } log10({ "1" } + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers).
 
 # text
-seg-b9fb436ae2a3 = An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, { "2" }^{ "22" } samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all { "150" } scenario results byte-identical without the sections); every flag equal on the supplementary runs ({ "1824" } links, { "732" } of them showing the hysteresis); monotone in the threshold; the quantiser loss within { "0.0007" } dB of the Monte Carlo at { "1" } to { "4" } bits (bar { "0.02" } dB); the AGC reading within { "0.012" } dB of the AGC loop (bar { "0.05" } dB). NOT MET: the registered hysteresis runs (jamming-demo at { "10" } to { "30" } dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about { "5" } dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.
+seg-c1abbfb8a548 = An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, { "2" }^{ "22" } samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all { "150" } scenario results byte-identical without the sections); every flag equal on the supplementary runs ({ "1824" } links, { "732" } of them showing the hysteresis); monotone in the threshold; the quantiser loss within { "0.0007" } dB of the Monte Carlo at { "1" } to { "4" } bits (bar { "0.02" } dB); the AGC reading within { "0.012" } dB of the AGC loop (bar { "0.05" } dB). NOT MET: the registered hysteresis runs (jamming-demo at { "10" } to { "30" } dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. RE-RUN { "0.41" } (D8b row { "7" }, 0ea0da3df): MET on re-run on a 12-power ladder fixed from the scenario file before any engine run (-34 to -21 dBW): { "2614" } of { "5472" } link-epochs in the informative 25-32 dB-Hz band (bar { "10" } %); H2 and H4 hold; all { "5472" } flags agree with hysteresis.py, { "2626" } showing the hysteresis; no engine change. Disclosed: the ladder rule was written after supplement { "1" } had shown where the thresholds lie. Finding: with a CW jammer a 1-bit ADC loses about { "5" } dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.
 
 # text
 seg-9c46f1c76486 = Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in)
@@ -6029,7 +6029,7 @@ seg-9c46f1c76486 = Capped FLL pull-in below the default design's FLL-to-PLL hand
 seg-efa1d1a9e904 = iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli.
 
 # text
-seg-76bf3afbf0ae = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
+seg-3feb4e9b427c = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). RE-RUN { "0.41" } (D8a row { "4" }, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last { "0.5" } s), still NOT MET: at { "33" } dB-Hz hand-over and hold { "20" } of { "20" } on seen and fresh seeds with jitter within { "1" } % of the PLL alone (this half met), but at { "31" } dB-Hz { "15" } of { "20" } seen and { "6" } of { "20" } fresh, jitter ratio { "1.8" } and { "2.8" }. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
 
 # text
 seg-ac0f97e945a7 = RTKLIB .pos solution reader for receiver-trust

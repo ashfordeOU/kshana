@@ -62,8 +62,6 @@ seg-4892485e534b = Pleninger, Topkova en Steiner, "GNSS interference detection: 
 
 seg-74ec1aca8a22 = <b>Wat wij hebben gebruikt.</b> Alleen de gepubliceerde samenvatting en het bibliografische record. De volledige tekst was voor ons niet beschikbaar (achter een betaalmuur), dus wij kennen noch haar afbeelding van NACp naar een foutschatting, noch haar HDOP-berekening, noch haar drempels, en wij beweren niet ze te reproduceren.
 
-seg-4f8471649a07 = <b>Wat het observatorium in plaats daarvan doet.</b> De vraag die de almanakvergelijking beantwoordt is "kan de constellatiegeometrie alleen deze lage nauwkeurigheid verklaren?". De basismethode beantwoordt een verwante vraag zonder almanak: een laag aandeel moet opvallen tegenover de achtergrond van dezelfde dag in de regio en tegenover de eigen goede meldingen van het vliegtuig elders. Dat is een ander en zwakker substituut: het kan niet zeggen dat een uur met rustige geometrie verslechterd was waar ook de achtergrond van de dag laag is. Een almanak-HDOP-scorer is <b>niet geïmplementeerd</b>. Het is een openstaand punt, te bouwen uit de volledige tekst van het artikel en de openbare GPS-almanak en vooraf vast te leggen voordat het wordt uitgevoerd; tot die tijd wordt het aangehaald, niet geclaimd.
-
 seg-e9b9902633af = Een product reproduceren
 
 seg-95e48f0286d9 = De pijplijn is deterministisch in alles wat ze publiceert (de salt van de identificator per run wijzigt alleen interne hashes die nooit worden geschreven). Met de SHA-256-waarden van het manifest kan een tweede run byte voor byte worden vergeleken.

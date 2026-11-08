@@ -7,9 +7,6 @@ seg-c3c260b7063e = Testes
 seg-257c477dc510 = WebAssembly
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 # c1: docs/i18n.md
 seg-26b562e7f535 = Fonte: <c1/>
 

@@ -818,4 +818,4 @@ seg-0ab329c843b0 = De open engine in het midden: één teken per scenariosoort (
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } soorten uit <c1/> · registerstatus uit <c2/> · waarop Pro en een studie voortbouwen: het register van edities van de site · geen scenario of seed
 
-seg-c7818536071d = Alle { "93" } scenariosoorten en { "181" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)
+seg-7515b1af1f0b = Alle { "93" } scenariosoorten en { "183" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)

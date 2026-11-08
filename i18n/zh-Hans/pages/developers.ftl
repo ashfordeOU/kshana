@@ -798,8 +798,8 @@ seg-d3175204c0ea = 概述一条路线有多大比例穿过一个或多个干扰�
 
 seg-e11a6425c180 = 由Kshana结果文档填充公共框架映射（<c1/>）：六个韧性框架和标准（美国DHS Resilient PNT框架v2.0、IMO船舶指南、EASA航空指南、NIS2第{ "21" }条、EN { "16803" }、NIST IR 8323r1）中，所给运行为哪些行提供证据支持，哪些行没有，以及每一行仍然存在的差距。把每个运行作为<c2/>、<c3/>（结果JSON文本）传入，若有，还传入<c4/>（场景TOML，它指明结果本身未指明的类型；receiver-trust结果不需要）。总共至多{ "64" }个运行和{ "4" } MiB；不从磁盘读取任何内容。每一行的<c5/>为<c6/>、<c7/>、<c8/>或<c9/>，且每一行即使有证据也保留其<c10/>；无法使用的输入列在<c11/>中，不计入任何内容。与任何结果一起，逐字展示报告的<c12/>：状态表示某个运行为该行所指名的能力提供证据支持；它不是某个框架已被满足的结论，也不意味着任何产品已被任何人评级或批准。不要用更强的措辞描述该输出。证据等级：MODELLED。
 
-seg-859bb6732925 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "52" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
+seg-56bf1281e330 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $version }）的一次已记录会话：助手列出{ "53" }个工具，验证<c1/>（有效：检测到场景类型 `clock`）并运行它：scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-f3512ff81b58 = <b>{ "52" }个工具</b>，基于公开的Kshana API（应用程序接口），在官方MCP注册表中为<c1/>。轨道导出：SP3（Standard Product { "3" }）以及CCSDS（空间数据系统咨询委员会）OMM和OEM（轨道平均根数与星历消息，TEME：真赤道平春分点坐标系）。可在<b>AI助手（MCP服务器）</b>或<b>Docker镜像</b>下注册。<a1>MCP服务器文档</a1>
+seg-19751efb1461 = <b>{ "53" }个工具</b>，基于公开的Kshana API（应用程序接口），在官方MCP注册表中为<c1/>。轨道导出：SP3（Standard Product { "3" }）以及CCSDS（空间数据系统咨询委员会）OMM和OEM（轨道平均根数与星历消息，TEME：真赤道平春分点坐标系）。可在<b>AI助手（MCP服务器）</b>或<b>Docker镜像</b>下注册。<a1>MCP服务器文档</a1>
 
-seg-5aa702c4ebc7 = AI助手可调用的{ "52" }个工具，每个都是对公开API的轻量封装
+seg-1b9e5d8ce426 = AI助手可调用的{ "53" }个工具，每个都是对公开API的轻量封装

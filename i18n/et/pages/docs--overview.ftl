@@ -3583,12 +3583,12 @@ seg-43bd621a1f5b = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algvä
 
 seg-290f2b34e368 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "93" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "401" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.
 
-seg-ed215c6aa19b = <a1><c1/></a1> on MCP server: kasutaja assistent käivitab tegeliku mootori ja loeb tagasi selle JSON-i, mitte ei arva matemaatikat. Iga selle { "52" } tööriista on õhuke ümbris teegi <c2/> avaliku funktsiooni ümber, seega serveris ei asu simulatsioonilogikat.
-
-seg-81fcbb495e8f = { "52" } tööriista
-
 seg-fb8bcc54a31d = { "93" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike ja valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi
 
 seg-2f38fc515db6 = kogu avatud mootor, kõik { "93" } stsenaariumi liiki, ilma funktsioonipiiranguta
 
 seg-5374f780c396 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "93" } liiki, { "195" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> on MCP server: kasutaja assistent käivitab tegeliku mootori ja loeb tagasi selle JSON-i, mitte ei arva matemaatikat. Iga selle { "53" } tööriista on õhuke ümbris teegi <c2/> avaliku funktsiooni ümber, seega serveris ei asu simulatsioonilogikat.
+
+seg-0920329ba390 = { "53" } tööriista

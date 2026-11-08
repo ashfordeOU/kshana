@@ -553,7 +553,7 @@ seg-b74484e3586b = the <c1/> kind computes a link budget and stabilities, with n
 seg-bcd613e62c69 = <s1>Previous</s1>Animation export
 
 # text
-seg-0525f7fbbfd2 = <s1>Next</s1>Validation status
+seg-3b69ef8efeb7 = <s1>Next</s1>Flight-dynamics export: OEM, OPM and SPK
 
 # text
 seg-53a778722c16 = STK .e

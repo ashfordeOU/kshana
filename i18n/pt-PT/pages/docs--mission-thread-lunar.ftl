@@ -1,9 +1,6 @@
 # docs--mission-thread-lunar: translations (pt-PT)
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 seg-3b01a756c305 = O que calcula
 
 # text

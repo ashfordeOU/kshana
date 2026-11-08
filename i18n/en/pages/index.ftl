@@ -91,9 +91,9 @@ seg-47d596393831 = Real events
 seg-5630c799cec1 = Where every trace comes from
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-2dc1aed7a12e = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-74e443a965d8 = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-9a86ef058d27 = Open in Kshana Studio
@@ -117,9 +117,9 @@ seg-f18f76c10709 = <s1><a1>Report</a1><a2>JSON</a2><a3>TOML</a3></s1>
 seg-a0ef302e2458 = Copy command
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: constellation-multi-gnss-coverage.toml
-seg-b79ee48fd586 = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-0dfbf0d5864b = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-f2d2f2263e63 = The console, the three cards and the log replay one chained run of { "6" } phases and { "18" } member runs on its { "10" } s grid (T+{ "01" }:{ "16" }:{ "10" } of mission time). The orbits are the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual { "0.0034" }°), radii compressed for display. Links are drawn to satellites above the constellation run's { "10" }° mask ({ "25" }° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
@@ -382,9 +382,9 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial navigation system
 
 # text
-# c1: 0a53cb8
+# c1: f4c7901
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-9b9d03fe1477 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-08f9e715b4cb = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-4051fcd29291 = One engine for the whole failure chain.
@@ -774,7 +774,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-859bb6732925 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "52" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "53" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -819,6 +819,10 @@ seg-e9202a8c1176 = <c1/>: Create a signed evidence pack for a window of a vessel
 # text
 # c1: create_round_trip_pack
 seg-f09af0fa8fcd = <c1/>: Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block.
+
+# text
+# c1: ephem_export
+seg-1d3aea081258 = <c1/>: Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM { "2.0" } of every state (`format` `oem`), a CCSDS OPM { "3.0" } of one state (`opm`, `index`), or a NAIF SPK kernel of type { "13" } or { "9" } (`spk`).
 
 # text
 # c1: export_interop

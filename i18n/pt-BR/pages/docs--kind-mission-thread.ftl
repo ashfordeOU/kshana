@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (pt-BR)
 
-seg-f942b36a11c4 = Ainda não está no GitHub
-
 seg-be831b52a339 = e mais { "4" } na matriz.
 
 seg-936e96edf423 = <b>MODELLED</b> O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registrados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado Testes: <a1>field_units_global.rs</a1>.

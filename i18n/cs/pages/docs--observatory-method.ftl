@@ -86,8 +86,6 @@ seg-4892485e534b = Pleninger, Topkova a Steiner, „GNSS interference detection:
 
 seg-74ec1aca8a22 = <b>Co jsme použili.</b> Pouze zveřejněný abstrakt a bibliografický záznam. Plný text nám nebyl k dispozici (za paywallem), takže neznáme ani jeho převod z NACp na odhad chyby, ani jeho výpočet HDOP, ani jeho prahy, a netvrdíme, že je reprodukujeme.
 
-seg-4f8471649a07 = <b>Co místo toho dělá observatoř.</b> Otázka, na kterou odpovídá porovnání s almanachem, zní: „mohla by tuto nízkou přesnost vysvětlit samotná geometrie konstelace?" Základní metoda odpovídá na příbuznou otázku bez almanachu: nízký podíl se musí vymykat pozadí téhož dne v celé oblasti a vlastním dobrým hlášením letadel jinde. To je jiná a slabší náhrada: nemůže říci, že hodina s klidnou geometrií byla zhoršená tam, kde je pozadí onoho dne také nízké. Bodovací nástroj HDOP podle almanachu <b>není implementován</b>. Je to otevřená položka, která se má vytvořit z plného textu článku a veřejného almanachu GPS a předregistrovat před spuštěním; do té doby je citován, nikoli tvrzen.
-
 seg-e9b9902633af = Reprodukce produktu
 
 seg-95e48f0286d9 = Postup je deterministický ve všem, co zveřejňuje (sůl identifikátoru pro každý běh mění jen vnitřní hashe, které se nikdy nezapisují). Hodnoty SHA-256 v manifestu umožňují porovnat druhý běh bajt po bajtu.

@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (sv)
 
-seg-f942b36a11c4 = Ännu inte på GitHub
-
 seg-be831b52a339 = och { "4" } till i matrisen.
 
 seg-936e96edf423 = <b>MODELLED</b> Typen <c1/>: ett dokument med faser, var och en av åtta registrerade typer, körda i ordning med 6x6-kovariansen, klockan och referenssystemet överlämnade enligt en angiven regel (<c2/>; <c3/>, vitt accelerationsbrus över ett angivet glapp Tester: <a1>field_units_global.rs</a1>.

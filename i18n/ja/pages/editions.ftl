@@ -818,4 +818,4 @@ seg-0ab329c843b0 = 中心にあるオープンなエンジン：シナリオ kin
 
 seg-e507665bbe2c = エンジン v{ $version } · <c1/> による { "93" } 種類の kind · <c2/> による台帳のステータス · Pro とスタディが土台とするもの：サイトのエディション登録簿 · シナリオもシードもなし
 
-seg-c7818536071d = { "93" } 種類すべてのシナリオ kind と { "181" } 個の同梱シナリオ：ネイティブ、Python、JavaScript、ブラウザー、そして MCP（Model Context Protocol）経由
+seg-7515b1af1f0b = { "93" } 種類すべてのシナリオ kind と { "183" } 個の同梱シナリオ：ネイティブ、Python、JavaScript、ブラウザー、そして MCP（Model Context Protocol）経由

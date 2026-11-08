@@ -716,12 +716,12 @@ seg-b9961ed25282 = Nytt i v{ $version }: en oppdragstråd, en bevismerkelapp på
 
 seg-653cf3198094 = { "176" } av { "401" } funksjoner stemmer med uavhengige eksterne referanser; resten er merket modellert, høyt og tydelig.
 
-seg-859bb6732925 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "52" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-2dc1aed7a12e = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
-
-seg-b79ee48fd586 = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-9b9d03fe1477 = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
-
 seg-579d9b6f7afd = Alle { "93" } scenariotyper, gratis og uten funksjonsbegrensning, deterministiske ut fra scenario, seed og motorversjon.
+
+seg-56bf1281e330 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "53" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-74e443a965d8 = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+
+seg-0dfbf0d5864b = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-08f9e715b4cb = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }

@@ -62,8 +62,6 @@ seg-4892485e534b = Pleninger, Topkova og Steiner, «GNSS interference detection:
 
 seg-74ec1aca8a22 = <b>Hva vi brukte.</b> Bare det publiserte sammendraget og den bibliografiske posten. Fulltekten var ikke tilgjengelig for oss (bak betalingsmur), så vi kjenner verken kartleggingen fra NACp til et feilestimat, HDOP-beregningen eller terskelverdiene, og vi påstår ikke å gjengi dem.
 
-seg-4f8471649a07 = <b>Hva observatoriet gjør i stedet.</b> Spørsmålet almanakksammenligningen besvarer er «kunne konstellasjonsgeometrien alene forklare denne lave nøyaktigheten?». Grunnmetoden besvarer et beslektet spørsmål uten almanakk: en lav andel må skille seg ut mot samme dags bakgrunn i regionen og mot flyets egne gode rapporter andre steder. Det er en annen og svakere erstatning: den kan ikke si at en time med rolig geometri var degradert der dagens bakgrunn også er lav. En almanakk-HDOP-skårer er <b>ikke implementert</b>. Det er et åpent punkt, som skal bygges fra artikkelens fulltekst og den offentlige GPS-almanakken og forhåndsregistreres før den kjøres; inntil da siteres den, den påstås ikke.
-
 seg-e9b9902633af = Å gjengi et produkt
 
 seg-95e48f0286d9 = Rørledningen er deterministisk i alt den publiserer (saltet for identifikatorer per kjøring endrer bare interne hasher som aldri skrives ut). Manifestets SHA-256-verdier gjør at en ny kjøring kan sammenlignes byte for byte.

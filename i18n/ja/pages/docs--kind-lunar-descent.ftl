@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (ja)
 
-seg-f942b36a11c4 = まだ GitHub にはありません
-
 seg-51362910dcb7 = この kind を使う同梱シナリオは { "2" } 件です。その他は<a1><c1/></a1>にあります。
 
 seg-98151954f217 = false

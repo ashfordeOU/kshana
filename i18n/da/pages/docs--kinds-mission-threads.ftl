@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (da)
 
-seg-f942b36a11c4 = Endnu ikke på GitHub
-
 seg-b03d56f501c3 = Type
 
 seg-1ec485468daa = MODELLED fejlbudget for navigation og tidssynkronisering for en angivet kæde af missionsfaser, fra opsendelse til indflyvning: opsendelse og opstigning, rendezvous og docking i lav jordbane (kan gentages), trans-lunar injektion og cislunart krydstogt, rendezvous i månebane, nedstigning, ophold på overfladen, opstigning samt returflyvning og indflyvning, hver fase en af otte registrerede typer med sine egne sensorer og sit eget filter. 6x6-kovariansen, uret og referencesystemet gives videre fra fase til fase efter en angiven regel (carry, inflate eller reacquire); konverteringer af referencesystem og tidsskala (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) er deres egne budgetrækker, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve. Et valgfrit overlay af jordnetværk sætter hver fases sporingsandel. Rapporterer budgettet pr. fase (1-sigma ved indgang, spids og udgang, hvert bidrag med sin enhed), marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. MODELLED: hvert tal er et angivet input; kæden følger én stak, og intet køretøj modelleres. Kun offentlige kilder; ikke tilknyttet eller støttet af nogen rumfartsorganisation; vejledende software, ikke certificeret navigationsudstyr.

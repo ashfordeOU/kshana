@@ -62,8 +62,6 @@ seg-4892485e534b = Pleninger, Topkova och Steiner, "GNSS interference detection:
 
 seg-74ec1aca8a22 = <b>Vad vi använde.</b> Endast det publicerade sammandraget och den bibliografiska posten. Fulltexten fanns inte tillgänglig för oss (bakom betalvägg), så vi känner varken till dess avbildning från NACp till en felskattning, dess HDOP-beräkning eller dess trösklar, och vi hävdar inte att vi återskapar dem.
 
-seg-4f8471649a07 = <b>Vad observatoriet gör i stället.</b> Frågan som almanackjämförelsen besvarar är: "kan konstellationens geometri ensam förklara den här låga noggrannheten?". Grundmetoden besvarar en närliggande fråga utan almanacka: en låg andel måste sticka ut mot samma dags bakgrund i regionen och mot flygplanets egna goda rapporter någon annanstans. Det är en annan och svagare ersättning: den kan inte säga att en timme med lugn geometri var försämrad där dagens bakgrund också är låg. En almanack-HDOP-bedömare är <b>inte implementerad</b>. Det är en öppen punkt, som ska byggas utifrån artikelns fulltext och den offentliga GPS-almanackan och förhandsregistreras innan den körs; tills dess citeras den, men hävdas inte.
-
 seg-e9b9902633af = Återskapa en produkt
 
 seg-95e48f0286d9 = Pipelinen är deterministisk i allt den publicerar (saltet för identifierare per körning ändrar bara interna hashvärden som aldrig skrivs ut). Manifestets SHA-256-värden gör att en andra körning kan jämföras byte för byte.

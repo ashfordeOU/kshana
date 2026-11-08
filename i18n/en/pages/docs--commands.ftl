@@ -66,6 +66,12 @@ seg-7d888f167a57 = fits hybrid sensor parameters off a stationary IMU log
 seg-eaaed414a05a = Machine inputs
 
 # text
+seg-93cfedcf6a6c = writes a JPL Horizons state table as a CCSDS OEM or OPM or an SPK kernel for flight-dynamics tools, and reads it back
+
+# text
+seg-0aca49b43078 = Flight-dynamics export
+
+# text
 seg-0dfc0ae9d7ed = writes synthetic bridge NMEA with scripted jamming and spoofing, and an instructor log
 
 # text

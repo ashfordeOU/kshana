@@ -8663,9 +8663,6 @@ seg-b13f2dae66ea = <c1/>: verifica o formato e os metadados de um envio de parce
 # c2: docs/drafts/PARTNER-OUTREACH.md
 seg-823e1abc7f92 = <c1/>: que linhas MODELLED do registo poderiam ser promovidas por dados medidos, os formatos aceites, como um envio é verificado, pontuado face a um limiar fixado antecipadamente e creditado, e o que PARTNER e VALIDATED significam cada um; uma nota de divulgação em rascunho para o responsável em <c2/> (nada é enviado).
 
-# attr:title
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
 # text
 # c1: evidence
 # c2: # evidence:

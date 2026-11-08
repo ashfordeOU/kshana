@@ -836,6 +836,6 @@ seg-813d6d41b891 = 再現するコマンドをコピー
 
 seg-a0ef302e2458 = コマンドをコピー
 
-seg-b9ebb409e11a = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+seg-e6fe27ed6dfc = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
 
-seg-7b9633a75c90 = <b>現在は無償：</b>オープンエンジンのすべて。無償：run_scenario から export_oem まで、{ "52" }個の MCP ツール。
+seg-ceb2de75e2f4 = <b>現在は無償：</b>オープンエンジンのすべて。無償：run_scenario から export_oem まで、{ "53" }個の MCP ツール。

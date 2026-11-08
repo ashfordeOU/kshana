@@ -4,8 +4,6 @@ seg-c3c260b7063e = 测试
 
 seg-257c477dc510 = WebAssembly
 
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-26b562e7f535 = 来源：<c1/>
 
 seg-60b2e78c882e = 引擎的本地化

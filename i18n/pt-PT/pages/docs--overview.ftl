@@ -3707,12 +3707,12 @@ seg-43bd621a1f5b = Como uma execução flui. Um ficheiro TOML de cenário (um ti
 
 seg-290f2b34e368 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "401" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.
 
-seg-ed215c6aa19b = <a1><c1/></a1> é um servidor MCP: o seu assistente executa o motor verdadeiro e lê de volta o respetivo JSON, em vez de adivinhar a matemática. Cada uma das suas { "52" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, pelo que nenhuma lógica de simulação reside no servidor.
-
-seg-81fcbb495e8f = As { "52" } ferramentas
-
 seg-fb8bcc54a31d = Os { "93" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido
 
 seg-2f38fc515db6 = todo o motor aberto, todos os { "93" } tipos de cenário, sem restrição de recursos
 
 seg-5374f780c396 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "93" } tipos, { "195" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
+
+seg-d106dd5461ed = <a1><c1/></a1> é um servidor MCP: o seu assistente executa o motor verdadeiro e lê de volta o respetivo JSON, em vez de adivinhar a matemática. Cada uma das suas { "53" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, pelo que nenhuma lógica de simulação reside no servidor.
+
+seg-0920329ba390 = As { "53" } ferramentas

@@ -3583,12 +3583,12 @@ seg-43bd621a1f5b = Comment se déroule une exécution. Un fichier TOML de scéna
 
 seg-290f2b34e368 = L'architecture de Kshana en couches. Cinq portes d'entrée (ligne de commande, Python, JavaScript et WebAssembly, le serveur MCP et le module d'extension JetBrains) atteignent un seul api::run_toml, une répartition typée sur { "93" } types de scénario. En dessous se trouvent huit couches de domaine : temps et référentiels, horloges et synchronisation temporelle, inertiel et fusion, GNSS et intégrité, astrodynamique, PNT LEO, Lune, Mars et espace lointain, et missions et études, sur un cœur partagé, le tout recoupé par le module de vérification, la matrice vérifiée par machine de { "401" } capacités qui est la source unique de vérité pour chaque étiquette.
 
-seg-ed215c6aa19b = <a1><c1/></a1> est un serveur MCP : votre assistant exécute le vrai moteur et relit son JSON, au lieu de deviner les calculs. Chacun de ses { "52" } outils est une fine enveloppe autour d'une fonction publique de la bibliothèque <c2/>, de sorte qu'aucune logique de simulation ne réside dans le serveur.
-
-seg-81fcbb495e8f = Les { "52" } outils
-
 seg-fb8bcc54a31d = Les { "93" } types de scénario intégrés, avec leurs descriptions et leurs champs obligatoires et facultatifs — pour que l'agent puisse construire un scénario valide
 
 seg-2f38fc515db6 = tout le moteur ouvert, les { "93" } types de scénario, sans restriction de fonctionnalités
 
 seg-5374f780c396 = Voir <c1/> pour au moins un exemple travaillé de chaque type ({ "93" } types, { "195" } fichiers de scénario <c2/> + { "1" } manifeste de suite — plusieurs types fournissent plus d'un exemple). Tous les types n'ont pas un fichier portant leur nom : <c3/> → <c4/> et <c5/> → <c6/> en sont deux parmi plusieurs. Listez les types répartissables à tout moment avec les erreurs de <c7/>, le <c8/> de Python, ou l'outil MCP <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> est un serveur MCP : votre assistant exécute le vrai moteur et relit son JSON, au lieu de deviner les calculs. Chacun de ses { "53" } outils est une fine enveloppe autour d'une fonction publique de la bibliothèque <c2/>, de sorte qu'aucune logique de simulation ne réside dans le serveur.
+
+seg-0920329ba390 = Les { "53" } outils

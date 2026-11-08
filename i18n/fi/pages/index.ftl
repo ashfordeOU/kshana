@@ -722,12 +722,12 @@ seg-b9961ed25282 = Uutta versiossa v{ $version }: tehtäväketju, todistemerkint
 
 seg-653cf3198094 = { "401" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
 
-seg-859bb6732925 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "52" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-2dc1aed7a12e = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
-
-seg-b79ee48fd586 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-9b9d03fe1477 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
-
 seg-579d9b6f7afd = Kaikki { "93" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
+
+seg-56bf1281e330 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "53" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-74e443a965d8 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-0dfbf0d5864b = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-08f9e715b4cb = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }

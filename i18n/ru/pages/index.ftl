@@ -927,12 +927,12 @@ seg-b9961ed25282 = Нового в v{ $version }: цепочка миссии, �
 
 seg-653cf3198094 = { "176" } из { "401" } возможностей согласуются с независимыми внешними оракулами; остальные помечены как смоделированные, открыто.
 
-seg-859bb6732925 = Записанный сеанс работы с сервером kshana-mcp (Model Context Protocol, движок v{ $version }): ассистент перечисляет { "52" } инструментов, проверяет <c1/> (допустимо: определён вид сценария `clock`) и запускает его: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-2dc1aed7a12e = <b>Кампания:</b> движок v{ $version }, сборка <c1/> · <c2/> · seed { "20260928" }
-
-seg-b79ee48fd586 = <b>Орбиты:</b> движок v{ $version }, сборка <c1/> · <c2/> · детерминированный, без seed
-
-seg-9b9d03fe1477 = Движок v{ $version }, сборка <c1/> · <c2/> · seed { "20260928" }
-
 seg-579d9b6f7afd = Все { "93" } видов сценариев, бесплатно и без ограничения функций, детерминированно по сценарию, начальному значению и версии движка.
+
+seg-56bf1281e330 = Записанный сеанс работы с сервером kshana-mcp (Model Context Protocol, движок v{ $version }): ассистент перечисляет { "53" } инструментов, проверяет <c1/> (допустимо: определён вид сценария `clock`) и запускает его: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-74e443a965d8 = <b>Кампания:</b> движок v{ $version }, сборка <c1/> · <c2/> · seed { "20260928" }
+
+seg-0dfbf0d5864b = <b>Орбиты:</b> движок v{ $version }, сборка <c1/> · <c2/> · детерминированный, без seed
+
+seg-08f9e715b4cb = Движок v{ $version }, сборка <c1/> · <c2/> · seed { "20260928" }

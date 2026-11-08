@@ -1163,8 +1163,8 @@ seg-f79048f88b5c = Starta Kshana Studio
 
 seg-9a86ef058d27 = Öppna i Kshana Studio
 
-seg-859bb6732925 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "52" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "53" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } verktyg</b> över det publika Kshana-API:et (programmeringsgränssnitt), i det officiella MCP-registret som <c1/>. Banexporter: SP3 (Standard Product { "3" }) samt CCSDS (Consultative Committee for Space Data Systems) OMM och OEM (meddelanden om banmedelelement och efemerid, TEME: True Equator, Mean Equinox-systemet). Registrera den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-avbild</b>. <a1>Dokumentation för MCP-servern</a1>
+seg-19751efb1461 = <b>{ "53" } verktyg</b> över det publika Kshana-API:et (programmeringsgränssnitt), i det officiella MCP-registret som <c1/>. Banexporter: SP3 (Standard Product { "3" }) samt CCSDS (Consultative Committee for Space Data Systems) OMM och OEM (meddelanden om banmedelelement och efemerid, TEME: True Equator, Mean Equinox-systemet). Registrera den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-avbild</b>. <a1>Dokumentation för MCP-servern</a1>
 
-seg-5aa702c4ebc7 = { "52" } verktyg som en AI-assistent kan anropa, vart och ett ett tunt skal över det publika API:t
+seg-1b9e5d8ce426 = { "53" } verktyg som en AI-assistent kan anropa, vart och ett ett tunt skal över det publika API:t

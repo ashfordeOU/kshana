@@ -292,7 +292,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-859bb6732925 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "52" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "53" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -337,6 +337,10 @@ seg-e9202a8c1176 = <c1/>: Create a signed evidence pack for a window of a vessel
 # text
 # c1: create_round_trip_pack
 seg-f09af0fa8fcd = <c1/>: Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block.
+
+# text
+# c1: ephem_export
+seg-1d3aea081258 = <c1/>: Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM { "2.0" } of every state (`format` `oem`), a CCSDS OPM { "3.0" } of one state (`opm`, `index`), or a NAIF SPK kernel of type { "13" } or { "9" } (`spk`).
 
 # text
 # c1: export_interop
@@ -529,7 +533,7 @@ seg-366c59b03b4f = CSV
 
 # text
 # c1: io.github.ashfordeOU/kshana-mcp
-seg-f3512ff81b58 = <b>{ "52" } tools</b> over the public Kshana API (application programming interface), in the official MCP registry as <c1/>. Orbit exports: SP3 (Standard Product { "3" }) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under <b>AI assistant (MCP server)</b> or <b>Docker image</b>. <a1>MCP server docs</a1>
+seg-19751efb1461 = <b>{ "53" } tools</b> over the public Kshana API (application programming interface), in the official MCP registry as <c1/>. Orbit exports: SP3 (Standard Product { "3" }) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under <b>AI assistant (MCP server)</b> or <b>Docker image</b>. <a1>MCP server docs</a1>
 
 # text
 # c1: spectrum
@@ -997,6 +1001,25 @@ seg-d5807f566761 = The static public-framework mapping (<c1/> / <c2/>) as Markdo
 seg-01fd088cd243 = Fit the sensor parameters of the <c1/> and <c2/> scenarios from a stationary IMU log (<c3/>, docs/MACHINE-INPUTS.md). Those scenarios take noise parameters, not a time series: this reads them off a log recorded with the sensor held still, by the overlapping Allan deviation of the integrated signal. Returns JSON: <c4/> (accelerometer bias, velocity-random-walk PSD <c5/>, gyro bias, angle-random-walk PSD <c6/>, bias-instability floor when the log is long enough to show one, the log's rate and span, the early Allan slopes, and <c7/> on what could not be fitted or trusted), <c8/> (an <c9/> table whose provenance names the log's SHA-256, ready to paste into a scenario) and <c10/>. A log that was not stationary, or is too short or unevenly sampled, gives wrong parameters or is refused; the slopes (about -0.5 where white noise dominates) show which. Nothing is written to disk. Evidence tier: MODELLED (the estimator applied to the log, no external oracle).
 
 # text
+# c1: kshana ephem-export
+# c2: format
+# c3: oem
+# c4: opm
+# c5: index
+# c6: spk
+# c7: suffix
+# c8: bytes
+# c9: sha256
+# c10: encoding
+# c11: utf-8
+# c12: base64
+# c13: content
+# c14: read_back
+# c15: identical
+# c16: states
+seg-5bb868a064e2 = Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (<c1/>, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM { "2.0" } of every state (<c2/> <c3/>), a CCSDS OPM { "3.0" } of one state (<c4/>, <c5/>), or a NAIF SPK kernel of type { "13" } or { "9" } (<c6/>). The values are copied, not computed: the OEM and OPM write each double in shortest round-trip form and the SPK stores the same doubles, with the table's own epochs (TDB), object, centre and frame (ICRF, frame code { "1" } in the SPK). Returns JSON: the table's object, centre, NAIF ids, frame, time scale, number of states and span; the file (<c7/>, <c8/>, <c9/>, <c10/> <c11/> or <c12/> for the SPK, <c13/>); and <c14/>, the engine reading the file back and comparing every state with the one written (<c15/> of <c16/>, the largest differences, and for the SPK the interpolated state at each node). Nothing is written to disk.
+
+# text
 # c1: kshana standards-pack list
 seg-5b15806ef8af = List the standards packs (<c1/>): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc { "9849" } Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for. Needs no input. A pack measures modelled scenarios against stated bars; it rates no product. Evidence tier: MODELLED.
 
@@ -1444,7 +1467,7 @@ seg-d85f16c14183 = kshana.run and run_full, plus validate_toml and list_kinds
 seg-5a6803e3eb48 = run, summary and chart_svg in the browser or Node.js
 
 # text
-seg-5aa702c4ebc7 = { "52" } tools an AI assistant can call, each a thin wrapper over the public API
+seg-1b9e5d8ce426 = { "53" } tools an AI assistant can call, each a thin wrapper over the public API
 
 # text
 seg-4ad1a7669b03 = The MCP server without a Rust toolchain, multi-architecture

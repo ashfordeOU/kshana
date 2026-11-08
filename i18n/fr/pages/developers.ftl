@@ -1690,8 +1690,8 @@ seg-193ee1ab991e = <c1/> transforme un fichier de soumission et la vérité d'un
 # text
 seg-0c50b3629e39 = Ouvrir le benchmark
 
-seg-859bb6732925 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "52" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
+seg-56bf1281e330 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "53" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
 
-seg-f3512ff81b58 = <b>{ "52" } outils</b> sur l'API publique de Kshana (interface de programmation d'application), dans le registre MCP officiel sous <c1/>. Exports d'orbite : SP3 (Standard Product { "3" }) et CCSDS (Consultative Committee for Space Data Systems) OMM et OEM (messages d'éléments moyens d'orbite et d'éphéméride, TEME : référentiel True Equator, Mean Equinox). Enregistrez-le sous <b>AI assistant (MCP server)</b> ou <b>Docker image</b>. <a1>Documentation du serveur MCP</a1>
+seg-19751efb1461 = <b>{ "53" } outils</b> sur l'API publique de Kshana (interface de programmation d'application), dans le registre MCP officiel sous <c1/>. Exports d'orbite : SP3 (Standard Product { "3" }) et CCSDS (Consultative Committee for Space Data Systems) OMM et OEM (messages d'éléments moyens d'orbite et d'éphéméride, TEME : référentiel True Equator, Mean Equinox). Enregistrez-le sous <b>AI assistant (MCP server)</b> ou <b>Docker image</b>. <a1>Documentation du serveur MCP</a1>
 
-seg-5aa702c4ebc7 = { "52" } outils qu'un assistant IA peut appeler, chacun une fine enveloppe autour de l'API publique
+seg-1b9e5d8ce426 = { "53" } outils qu'un assistant IA peut appeler, chacun une fine enveloppe autour de l'API publique

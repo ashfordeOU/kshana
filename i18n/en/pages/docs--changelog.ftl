@@ -18,6 +18,39 @@ seg-985f7b4c001a = Unreleased
 seg-033d52126d8a = Added
 
 # text
+# c1: kshana ephem-export
+# c2: ephem_export
+# c3: kshana::ephem_export
+# c4: docs/FLIGHT-DYNAMICS-EXPORT.md
+seg-e5f57e6bd511 = <c1/> (Python, WebAssembly and MCP <c2/>; <c3/>): a JPL Horizons state table written as a CCSDS OEM { "2.0" }, a CCSDS OPM { "3.0" } or an SPK kernel of type { "13" } or { "9" }, then read back with the engine's own readers (C7, step { "1" }; <c4/>). Values and epochs are copied, not computed: on the mission thread's CAPSTONE table all { "4,321" } states read back with the same bits from the OEM and the SPK, and from the SPICE Toolkit's reading of the SPK too. Every surface writes the same bytes (pinned SHA-256).
+
+# text
+# c1: integrations/flight-dynamics/
+# c2: flight-dynamics
+# c3: kshana connect check
+seg-21e53817f475 = <c1/>: the C7 adapters and notebooks, Orekit and Basilisk first. Orekit { "13.1.9" } reads the CAPSTONE OEM and OPM Kshana wrote with its own CCSDS parsers; every value it holds is its own kilometre-to-metre conversion of the written double and every epoch is the written one ({ "4,321" } states). The difference report names Orekit as rounding further than the digits written: that conversion is a second rounding of at most one ulp. The <c2/> workflow runs the notebooks, checks that the command line and Python write the same bytes, and runs <c3/>. Basilisk { "2.12.2" }, through the SPICE Toolkit it ships, reads the SPK's { "4,321" } stored records and epochs with the written bits.
+
+# text
+# c1: integrations/flight-dynamics/anise.ipynb
+# c2: TDB
+seg-adfcb968dbdf = ANISE { "0.10.6" }, the fourth, file-based C7 tool (<c1/>): its own kernel reader evaluates Kshana's SPK, and its OEM conversion, at every node epoch no further from the written states than SPICE does ({ "1.46e-11" } km). It reads SPK epochs as SPICE ET and OEM <c2/> labels with hifitime's TDB model, { "3.2" } µs apart here; the notebook shows why the scale matters.
+
+# text
+# c1: [design.carrier] fll_handover_mean_s
+# c2: LoopConfig::fll_handover_mean_s
+# c3: fll_pull_in_max_s
+seg-47a2c66d1b8e = <c1/> (Rust <c2/>), with <c3/>: a forced FLL-to-PLL hand-over starts the PLL at the mean NCO Doppler of the pull-in's last this-many seconds. Opt-in, out of the design hash when unset. Scored under D8a row { "4" }.
+
+# text
+# c1: iq::acq::CfarReference::Row
+# c2: CfarConfig::with_reference
+seg-1ff8d5074dc4 = <c1/> (<c2/>): CA-CFAR reference cells every stride-th lag round the whole Doppler row. Opt-in; the 16-cell window stays the default. Scored under D8a row { "3" } (met).
+
+# text
+# c1: [monitors] roc_restart
+seg-5bffa66a1598 = <c1/> (default on): the detection ROC scores each C/N0 CUSUM window as restarted at its start (D8b row { "9" }, met); a campaign's automatic C/N0 stride is now one NWPR window (D8b row { "8" }).
+
+# text
 # c1: kshana::rtcm_ssr
 seg-8bd5fde6a7cd = RTCM SSR reader (<c1/>) reads the IGS SSR format (RTCM { "4076" }): orbit, clock, combined, high-rate clock, code bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere ({ "201" }). Every field of the { "11" } messages in pyrtcm { "1.2.0" }'s public IGS sample stream matches the values pyrtcm records; the message kinds missing from that stream are checked against hand-built frames only. MODELLED.
 

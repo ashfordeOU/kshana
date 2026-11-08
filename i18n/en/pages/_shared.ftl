@@ -242,6 +242,12 @@ seg-784264d56a1f = Animation export
 seg-93613477ea9b = Interoperability exports and imports
 
 # text
+seg-e36b9a73a5c7 = Flight-dynamics export: OEM, OPM and SPK
+
+# text
+seg-71877869fb5e = Flight-dynamics tools reading Kshana's files
+
+# text
 seg-bbfa9b76a4a9 = Validation and evidence
 
 # text
@@ -345,6 +351,9 @@ seg-dc2b913de7f3 = Machine and sensor inputs
 
 # text
 seg-a285edea3864 = Receiver protocols read
+
+# text
+seg-b9883e78ae39 = Kshana Station
 
 # text
 seg-f0d0a3233428 = Interference observatory: method

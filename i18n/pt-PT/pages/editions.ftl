@@ -1232,4 +1232,4 @@ seg-0ab329c843b0 = O motor aberto no centro: uma marca por tipo de cenário ({ "
 
 seg-e507665bbe2c = Motor v{ $version } · { "93" } tipos de cenário de <c1/> · estado no registo de <c2/> · em que o Pro e um estudo se baseiam: o registo de edições do site · sem cenário nem semente
 
-seg-c7818536071d = Todos os { "93" } tipos de cenário e { "181" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)
+seg-7515b1af1f0b = Todos os { "93" } tipos de cenário e { "183" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)

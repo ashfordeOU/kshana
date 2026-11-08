@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Maa
 
-seg-34bdcfd66ded = Siinä repositorion haarassa, josta nämä dokumentit tulevat; ei vielä GitHubissa
-
 seg-092dd691ca17 = Raportti
-
-seg-f942b36a11c4 = Ei vielä GitHubissa
 
 seg-b03d56f501c3 = Tyyppi
 

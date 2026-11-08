@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.40.0, build 0a53cb8 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 0a53cb8 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-93scenario kinds 181bundled scenario files 401capabilities in the verification matrix 176/401validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+93scenario kinds 183bundled scenario files 401capabilities in the verification matrix 176/401validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 ## New in v0.40.0: a mission thread, an evidence label on every figure, and seventeen languages
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.40.0, build 0a53cb8 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.40.0, build 0a53cb8 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -320,7 +320,7 @@ AI assistant + kshana-mcp Recorded session
 
 The messages an assistant exchanges with kshana-mcp, captured from the server.
 
-A recorded session with the kshana-mcp server (Model Context Protocol, engine v0.40.0): the assistant lists the 52 tools, validates clock-holdover.toml (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack).
+A recorded session with the kshana-mcp server (Model Context Protocol, engine v0.40.0): the assistant lists the 53 tools, validates clock-holdover.toml (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack).
 
 - animate_scenario: Run a Kshana scenario and return its time series as an animation.
 
@@ -343,6 +343,8 @@ A recorded session with the kshana-mcp server (Model Context Protocol, engine v0
 - create_evidence_pack: Create a signed evidence pack for a window of a vessel's NMEA 0183 log (`kshana receiver-trust evidence`): the raw log bytes for the window, the configuration with every threshold, the per-epoch results and reasons, a self-contained summary page, and a manifest listing every file's SHA-256 with the full log's hash and a hash chain, signed with Ed25519.
 
 - create_round_trip_pack: Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block.
+
+- ephem_export: Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM 2.0 of every state (`format` `oem`), a CCSDS OPM 3.0 of one state (`opm`, `index`), or a NAIF SPK kernel of type 13 or 9 (`spk`).
 
 - export_interop: Export a Kshana scenario in one interoperability format: `czml` (Cesium Language, for CesiumJS), `kml` (Keyhole Markup Language, for Google Earth and geographic information system tools), `geojson` (RFC 7946), `stk` (Systems Tool Kit ephemeris `.e`, one file per satellite) or `sigmf` (Signal Metadata Format recording of a `spectrum` scenario's synthesised samples).
 
@@ -460,9 +462,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.40.0, build 0a53cb8 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 0a53cb8 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1043,7 +1045,7 @@ Orbit view
 
 engine v0.40.0t = 0 sReal engine run, replayed
 
-Engine v0.40.0, build 0a53cb8 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -1236,7 +1238,7 @@ Start at MCP server
 
 cargo install kshana-mcp
 
-Free today: everything in the open engine. Free: 52 MCP tools, from run_scenario to export_oem.
+Free today: everything in the open engine. Free: 53 MCP tools, from run_scenario to export_oem.
 
 ### Embedded or product developer
 
@@ -1984,7 +1986,7 @@ Read more
 Free core
 ## Every bundled scenario, on one map.
 
-All 196 scenario files across 93 kinds, grouped by domain; 181 are bundled into the engine, and celeste-iod-classical-pilot-signals, celeste-iod-end-to-end, celeste-iod-fused-pvt, leo-navmsg-celeste-iod, leo-pass-celeste-iod-multiband, lunar-descent-lola, lunar-llr-datum, lunar-station-coverage-terrain, lunar-station-geodesy-baseline, lunar-station-geodesy-with-station, lunar-surface-terrain, mission-thread-artemis-class, quantum-pnt-demonstrator.suite, tip-and-cue-baltic-m2, tip-and-cue-short run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+All 196 scenario files across 93 kinds, grouped by domain; 183 are bundled into the engine, and celeste-iod-classical-pilot-signals, celeste-iod-end-to-end, celeste-iod-fused-pvt, leo-navmsg-celeste-iod, leo-pass-celeste-iod-multiband, lunar-descent-lola, lunar-llr-datum, lunar-station-coverage-terrain, lunar-station-geodesy-baseline, lunar-station-geodesy-with-station, lunar-surface-terrain, mission-thread-artemis-class, quantum-pnt-demonstrator.suite run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 ### Earth GNSS and interference15
 
@@ -2441,7 +2443,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.40.0, build 0a53cb8 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.40.0, build f4c7901 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2457,7 +2459,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.40.0, build 0a53cb8 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.40.0, build f4c7901 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2473,7 +2475,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.40.0, build 0a53cb8 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.40.0, build f4c7901 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2487,7 +2489,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 0a53cb8 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build f4c7901 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2501,7 +2503,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.40.0, build 0a53cb8 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.40.0, build f4c7901 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2517,7 +2519,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.40.0, build 0a53cb8 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.40.0, build f4c7901 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -5065,7 +5067,7 @@ iq::campaign::detect and the campaign runner: an optional [monitors] table runs 
 
 Oracle
 
-The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked
+The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. RE-RUN 0.41 (D8b row 8, docs/design/evidence/d8b-iq-timing-campaign-rerun/, 3dcbaace9): with the campaign's automatic C/N0 stride set to one NWPR window (0.020 s), M3 stays NOT MET on its timing clause, as stated before the run: 18 of 18 detected on seen and fresh seeds, median time to detect 0.221 s and 0.201 s against 0.0068 s and 0.0064 s; M1, M2 and M4 unchanged. The miss is structural (the 1 s sliding estimator's delay); a further attempt needs a new pre-registration. Internal consistency only: no real receiver or recorded interference is checked
 
 Tests
 
@@ -5079,7 +5081,7 @@ iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of
 
 Oracle
 
-Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). Internal consistency only: no real receiver or recorded interference is checked
+Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). RE-RUN 0.41 (D8b row 9, f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC 1.0000 on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces 0.7855. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked
 
 Tests
 
@@ -7893,7 +7895,7 @@ iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is co
 
 Oracle
 
-Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.
+Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. RE-RUN 0.41 (D8a row 3, 1059c34e8): MET on re-run with the opt-in row reference set (CfarConfig::with_reference: reference cells every stride-th lag round the whole Doppler row): 0 of 2495 off-peak cells above on the registered signal and 3, 4, 0 and 0 on four fresh signals (bar 1 %), all detected in the right bin; C2/C3 0.969 to 1.033 % on seen and fresh seeds; the 16-cell window stays the default and its control reproduces 0.40. One candidate tried, on development PRNs 2-6 (disclosed). WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.
 
 Tests
 
@@ -8047,7 +8049,7 @@ The jamming kind's optional [acquisition] section (a satellite is acquired at or
 
 Oracle
 
-An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.
+An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. RE-RUN 0.41 (D8b row 7, 0ea0da3df): MET on re-run on a 12-power ladder fixed from the scenario file before any engine run (-34 to -21 dBW): 2614 of 5472 link-epochs in the informative 25-32 dB-Hz band (bar 10 %); H2 and H4 hold; all 5472 flags agree with hysteresis.py, 2626 showing the hysteresis; no engine change. Disclosed: the ladder rule was written after supplement 1 had shown where the thresholds lie. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.
 
 Tests
 
@@ -8061,7 +8063,7 @@ iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq:
 
 Oracle
 
-Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
+Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
 
 Tests
 
@@ -8608,7 +8610,7 @@ Terminal · kshana v0.40.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.40.0 (build 0a53cb8):
+A recorded command-line session, engine v0.40.0 (build f4c7901):
 
 - $ kshana --version: kshana 0.40.0
 
@@ -8641,7 +8643,7 @@ Real commands, real output, replayed as captured. In the output: SVs, space vehi
 
 - JetBrainsIDE plugin
 
-Release v0.40.0 93 scenario kinds 52 MCP tools AGPL-3.0 or commercial licence Generated from the repository
+Release v0.40.0 93 scenario kinds 53 MCP tools AGPL-3.0 or commercial licence Generated from the repository
 
 01Install · AI assistants
 
@@ -8736,7 +8738,7 @@ AI assistant + kshana-mcp Recorded session
 
 The messages an assistant exchanges with kshana-mcp, captured from the server.
 
-A recorded session with the kshana-mcp server (Model Context Protocol, engine v0.40.0): the assistant lists the 52 tools, validates clock-holdover.toml (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack).
+A recorded session with the kshana-mcp server (Model Context Protocol, engine v0.40.0): the assistant lists the 53 tools, validates clock-holdover.toml (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack).
 
 - animate_scenario: Run a Kshana scenario and return its time series as an animation.
 
@@ -8759,6 +8761,8 @@ A recorded session with the kshana-mcp server (Model Context Protocol, engine v0
 - create_evidence_pack: Create a signed evidence pack for a window of a vessel's NMEA 0183 log (`kshana receiver-trust evidence`): the raw log bytes for the window, the configuration with every threshold, the per-epoch results and reasons, a self-contained summary page, and a manifest listing every file's SHA-256 with the full log's hash and a hash chain, signed with Ed25519.
 
 - create_round_trip_pack: Create the signed laboratory round-trip pack (`kshana evidence round-trip`, docs/spec/TEST-CONDITIONS.md): links by hash the scenario that produced the motion, the laboratory's `kshana.test-conditions/1` document, the receiver log and its score against the stated events, in a signed evidence pack whose `config.json` carries a `round_trip` block.
+
+- ephem_export: Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM 2.0 of every state (`format` `oem`), a CCSDS OPM 3.0 of one state (`opm`, `index`), or a NAIF SPK kernel of type 13 or 9 (`spk`).
 
 - export_interop: Export a Kshana scenario in one interoperability format: `czml` (Cesium Language, for CesiumJS), `kml` (Keyhole Markup Language, for Google Earth and geographic information system tools), `geojson` (RFC 7946), `stk` (Systems Tool Kit ephemeris `.e`, one file per satellite) or `sigmf` (Signal Metadata Format recording of a `spectrum` scenario's synthesised samples).
 
@@ -8846,7 +8850,7 @@ The recorded session plays here step by step.
 
 Same run in the Studio: Engine v0.40.0 · clock-holdover.toml · seed 42Open in Kshana StudioReport
 
-52 tools over the public Kshana API (application programming interface), in the official MCP registry as io.github.ashfordeOU/kshana-mcp. Orbit exports: SP3 (Standard Product 3) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under AI assistant (MCP server) or Docker image. MCP server docs
+53 tools over the public Kshana API (application programming interface), in the official MCP registry as io.github.ashfordeOU/kshana-mcp. Orbit exports: SP3 (Standard Product 3) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under AI assistant (MCP server) or Docker image. MCP server docs
 
 run_scenario
 Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit. Returns the human-readable summary followed by the full result JSON (FoMs, curves). Kshana validates SGP4/SDP4, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models against published references. Every kind runs through this one tool, including spectrum (radio-frequency spectrum and waterfall), solar-system, constellation-design and body-pnt (constellations around any body), campaign (chained phases, parameter sweeps, Monte Carlo ensembles and composed scenarios) and the low-Earth-orbit navigation kinds leo-signal, leo-pass, leo-navmsg, leo-pvt, leo-ppp, ntn-positioning and leo-pnt-chain. Content is inline: a scenario field that names a file is refused, and a scenario is at most 4 MiB. Call list_scenario_kinds first to discover scenario types and their fields, and list_example_scenarios / get_example_scenario for a complete runnable scenario of a kind.
@@ -8979,6 +8983,9 @@ The static public-framework mapping (kshana compliance-report --mapping / --sour
 
 fit_imu_log
 Fit the sensor parameters of the hybrid and fusion scenarios from a stationary IMU log (kshana imu-fit, docs/MACHINE-INPUTS.md). Those scenarios take noise parameters, not a time series: this reads them off a log recorded with the sensor held still, by the overlapping Allan deviation of the integrated signal. Returns JSON: fit (accelerometer bias, velocity-random-walk PSD q_va, gyro bias, angle-random-walk PSD q_arw, bias-instability floor when the log is long enough to show one, the log's rate and span, the early Allan slopes, and notes on what could not be fitted or trusted), toml (an [accel_classical] table whose provenance names the log's SHA-256, ready to paste into a scenario) and sha256. A log that was not stationary, or is too short or unevenly sampled, gives wrong parameters or is refused; the slopes (about -0.5 where white noise dominates) show which. Nothing is written to disk. Evidence tier: MODELLED (the estimator applied to the log, no external oracle).
+
+ephem_export
+Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (kshana ephem-export, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM 2.0 of every state (format oem), a CCSDS OPM 3.0 of one state (opm, index), or a NAIF SPK kernel of type 13 or 9 (spk). The values are copied, not computed: the OEM and OPM write each double in shortest round-trip form and the SPK stores the same doubles, with the table's own epochs (TDB), object, centre and frame (ICRF, frame code 1 in the SPK). Returns JSON: the table's object, centre, NAIF ids, frame, time scale, number of states and span; the file (suffix, bytes, sha256, encoding utf-8 or base64 for the SPK, content); and read_back, the engine reading the file back and comparing every state with the one written (identical of states, the largest differences, and for the SPK the interpolated state at each node). Nothing is written to disk.
 
 list_standards_packs
 List the standards packs (kshana standards-pack list): scored scenario sets for the DHS Resilient PNT framework test profiles, IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F, each with the bars it states before the run and the compliance rows it supports evidence for. Needs no input. A pack measures modelled scenarios against stated bars; it rates no product. Evidence tier: MODELLED.
@@ -9286,7 +9293,7 @@ run, summary and chart_svg in the browser or Node.js
 
 ### MCP server
 
-52 tools an AI assistant can call, each a thin wrapper over the public API
+53 tools an AI assistant can call, each a thin wrapper over the public API
 
 ### Docker image
 
@@ -9321,6 +9328,7 @@ kshana jammertest <import|score> ... (kshana jammertest --help)
 kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
 kshana trust-telemetry [options] (kshana trust-telemetry --help)
 kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]
 kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
 kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
 kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
@@ -9730,7 +9738,7 @@ Who it is for
 
 What is included
 
-- All 93 scenario kinds and 181 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+- All 93 scenario kinds and 183 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 - The full verification matrix: 176 of 401 capabilities validated against independent oracles, the rest labelled Modelled
 
@@ -10303,6 +10311,10 @@ Everything here is rendered at build time from Markdown files tracked in the Ksh
 
 - Interoperability exports and importsA run writes a result document, a chart and a report. --export also writes the scenario's geometry, or its…
 
+- Flight-dynamics export: OEM, OPM and SPKThis is step 1 of roadmap item C7 (adapters and notebooks for flight-dynamics tools; pre-registration).
+
+- Flight-dynamics tools reading Kshana's filesRoadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana…
+
 ## Validation and evidence
 
 - Validation statusOn tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…
@@ -10384,6 +10396,8 @@ Everything here is rendered at build time from Markdown files tracked in the Ksh
 - Machine and sensor inputsReaders that bring other receivers, solvers and sensors into the receiver-trust kind.
 
 - Receiver protocols readRead only, throughout: nothing here writes a byte to a receiver, and there is no transmit path of any kind.
+
+- Kshana StationA Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream…
 
 - Interference observatory: methodOne product per UTC day and region, from one open aircraft-position archive.
 
@@ -11323,7 +11337,7 @@ What ships where, and what checks it · SVG · source distribution.mmd
 
 ## AI assistant#
 
-kshana-mcp is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its 52 tools is a thin wrapper over a public function of the kshana library, so no simulation logic lives in the server.
+kshana-mcp is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its 53 tools is a thin wrapper over a public function of the kshana library, so no simulation logic lives in the server.
 
 ### Install the MCP server#
 
@@ -11367,7 +11381,7 @@ A passage naming third-party AI clients is left out here; it is in README.md on 
 
 Per-client set-up is in docs/integrations.md. The server is listed in the official MCP registry as io.github.ashfordeOU/kshana-mcp.
 
-The 52 tools
+The 53 tools
 
 Scenarios and reports
 
@@ -11406,6 +11420,8 @@ export_omm |  Export an orbit scenario's elements as a CCSDS (Consultative Commi
 export_oem |  Export an orbit scenario's state series as CCSDS OEM (Orbit Ephemeris Message) 2.0 ephemeris — the TEME (true equator, mean equinox) position and |
 
 export_table_csv |  Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as <scenario>.table.csv |
+
+ephem_export |  Write a JPL Horizons state table (the CAPSTONE or Artemis I states of the mission thread) as a CCSDS OEM, a CCSDS OPM or an SPK kernel of type 13 or 9 for flight-dynamics tools, and read it back state for state (kshana ephem-export) |
 
 export_test_bench |  A scenario's vehicle motion and events for a laboratory GNSS simulator (kshana bench-export) |
 
@@ -15553,6 +15569,8 @@ kshana trust-telemetry |  the trust stream as Prometheus, CEF, LEEF, OTLP or MQT
 
 kshana imu-fit <imu.csv> |  fits hybrid sensor parameters off a stationary IMU log |  kshana imu-fit still.csv --axis x --expected-mean 0 --id bench-imu |  Machine inputs |
 
+kshana ephem-export <horizons.txt> |  writes a JPL Horizons state table as a CCSDS OEM or OPM or an SPK kernel for flight-dynamics tools, and reads it back |  kshana ephem-export capstone.txt --format spk --out capstone.bsp |  Flight-dynamics export |
+
 kshana nmea-scenario <scenario> |  writes synthetic bridge NMEA with scripted jamming and spoofing, and an instructor log |  kshana nmea-scenario scenarios/training/coastal-drag-off.toml --out drag.nmea |  NMEA training |
 
 kshana interference-map adsb, ais, daily, sensitivity, fetch-land, record |  builds interference maps and the observatory's daily product from aircraft and ship reports (record: from a local receiver, live) |  examples/interference-map/regenerate.sh |  Interference map, observatory |
@@ -19679,7 +19697,7 @@ step_s = 10
 span_days = 7
 ```
 
-Not yet on GitHub
+View on GitHub
 
 ### tip-and-cue-short.toml
 
@@ -19698,7 +19716,7 @@ rf_mask_deg = 10.0
 optical = { total = 16, planes = 8, phasing = 1, node_offset = 0.5 }
 ```
 
-Not yet on GitHub
+View on GitHub
 
 ## tracking-loop#
 
@@ -20986,6 +21004,147 @@ Why a format does not apply:
 - the time-transfer-budget kind computes a link budget and stabilities, with no time-tagged geometry to place
 
 ========================================================================
+URL: https://kshana.dev/docs/flight-dynamics-export
+Title: Flight-dynamics export · Kshana docs
+========================================================================
+
+# Flight-dynamics export: a trajectory as OEM, OPM and SPK
+
+kshana ephem-export writes a tabulated trajectory as one of the files flight-dynamics tools load:
+
+Format |  What is written |  Read by, for example |
+
+oem |  CCSDS Orbit Ephemeris Message 2.0, KVN: one segment with every state |  Orekit, GMAT, STK |
+
+opm |  CCSDS Orbit Parameter Message 3.0, KVN: one state (--index, default the first) |  Orekit, GMAT |
+
+spk |  NAIF SPICE SPK kernel, type 13 (Hermite, default) or type 9 (Lagrange), one segment |  SPICE and the tools built on it (Basilisk, GMAT) |
+
+This is step 1 of roadmap item C7 (adapters and notebooks for flight-dynamics tools; pre-registration). The adapters and notebooks that load these files into the tools themselves are in integrations/flight-dynamics/: Orekit, Basilisk and ANISE so far.
+
+## Input#
+
+A JPL Horizons vector table as Horizons writes it: Output type: GEOMETRIC cartesian states, Output format: 2 (position and velocity), Output units: KM-S, a TDB time scale, and the CSV form between $$SOE and $$EOE (Julian date, calendar date, X, Y, Z, VX, VY, VZ). The object, the centre and their NAIF ids (Target body name: CAPSTONE (spacecraft) (-1176), Center body name: Moon (301)), the frame (Reference frame : ICRF) and the request time come from the table's header. A table in other units or another time scale is refused, not converted.
+
+The mission thread's CAPSTONE table is in the repository: tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt (4,321 states, 1 to 31 March 2023, every 10 minutes, Moon-centred, ICRF).
+
+## Use#
+
+```
+kshana ephem-export capstone.txt --format oem --out capstone.oem
+kshana ephem-export capstone.txt --format opm --index 0 --out capstone.opm
+kshana ephem-export capstone.txt --format spk --spk-type 13 --degree 7 --out capstone.bsp
+```
+
+Options: --out (default: the input path with .oem, .opm or .bsp), --index (OPM), --spk-type 13|9 and --degree (SPK; odd for type 13), --creation-date and --object-id (OEM and OPM headers). The command writes the file and prints a JSON report: the table's object, centre, NAIF ids, frame, time scale, number of states and span, the file's size and SHA-256, and read_back.
+
+The same function is ephem_export in Python, in WebAssembly and as an MCP tool, and kshana::ephem_export in Rust. Python, WebAssembly and MCP return the file in the report (content, with encoding utf-8, or base64 for the SPK). Every surface writes the same bytes; the SHA-256 of the three CAPSTONE files are pinned in tests/fixtures/capstone_horizons/ephem_export.sha256 and checked through the command line, Python and MCP.
+
+## What is written#
+
+The values are copied, not computed.
+
+- OEM and OPM. Each double is written in its shortest round-trip decimal form. A reader that parses the text as IEEE doubles gets back the bits the table gave. Epochs are the table's calendar epochs, copied as written (2023-03-01T00:10:00.0000), with TIME_SYSTEM = TDB. REF_FRAME is the table's frame (ICRF), CENTER_NAME its centre (MOON), OBJECT_ID the NAIF id unless --object-id gives one, and CREATION_DATE the request time in the table's header unless --creation-date gives one (never the wall clock, so the same table gives the same file).
+
+- SPK. One segment: target and centre from the NAIF ids, the states as stored doubles, the epochs as TDB seconds past J2000 computed exactly from the calendar labels. ICRF is frame code 1 (J2000), the code SPICE kernels of ICRF-referred ephemerides use; no rotation is applied. The kernel is laid out as the SPICE Toolkit's own writer lays it out (src/spk_writer.rs).
+
+## The read-back#
+
+After writing, the engine reads the file back with its own readers and compares every state with the one written (read_back): identical counts the states whose six values have the same bits, the largest position and velocity differences, and the epochs that read back differently. For the SPK it also evaluates the interpolated state at each node epoch.
+
+On the CAPSTONE table: all 4,321 states read back identical from the OEM and the SPK, and the OPM's one state too; no epoch differs. The SPK's interpolated state at the nodes is within 2.1e-11 km and 5.6e-15 km/s of the stored state (rounding in the Hermite arithmetic). Read with the SPICE Toolkit (CSPICE N0067 through spiceypy), the SPK's stored records and epochs are the same bits, and spkezr at the nodes is within 1.5e-11 km and 5.0e-15 km/s.
+
+## Limits#
+
+- One object per file. One Horizons table in, one segment out.
+
+- Horizons vector tables only, in km and km/s on TDB. Other state tables are not read yet.
+
+- The OEM carries no covariance and no interpolation hint (INTERPOLATION is not written); the reading tool chooses its own interpolation.
+
+- The frame is written as the table names it. ICRF is not rotated to EME2000 for tools that only accept EME2000; the C7 adapters state what each tool accepts.
+
+========================================================================
+URL: https://kshana.dev/docs/flight-dynamics-tools
+Title: Flight-dynamics tools · Kshana docs
+========================================================================
+
+# Flight-dynamics tools: Kshana's trajectories read back by the tools themselves
+
+Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana ephem-export, docs/FLIGHT-DYNAMICS-EXPORT.md). For each tool, an adapter here loads those files into the tool, and a notebook compares every state the tool reads back with the state written. The test is pre-registered with no bar: the data either comes through or it does not.
+
+Tool |  Adapter |  Notebook |  Reads |  CI |
+
+Orekit 13.1.9 (orekit_jpype 13.1.9.0) |  orekit_reader.py |  orekit.ipynb (.md) |  OEM, OPM |  flight-dynamics.yml, job tool (orekit) |
+
+Basilisk 2.12.2 (bsk), through the SPICE Toolkit it ships (pyswice) |  basilisk_reader.py |  basilisk.ipynb (.md) |  SPK |  flight-dynamics.yml, job tool (basilisk) |
+
+ANISE 0.10.6 (the fourth, file-based tool: its own kernel reader, not SPICE) |  anise_reader.py |  anise.ipynb (.md) |  SPK, OEM |  flight-dynamics.yml, job tool (anise) |
+
+GMAT R2026a (not yet run: written without running GMAT, its CI job is the first test) |  gmat_reader.py |  gmat.ipynb (.md) |  OEM, SPK |  flight-dynamics.yml, job gmat (continue-on-error until green) |
+
+kshana_fd.py holds what every tool shares: writing the three files through the Python binding (their SHA-256 must be the pinned ones, and the command line's bytes when KSHANA_FD_CLI_DIR names its output), reading back what was written, and the difference report.
+
+## The difference report#
+
+For every file a tool reads, value by value:
+
+- Values with the written bits. For a tool that holds the file's units (km, km/s).
+
+- Values equal to the tool's own conversion. A tool that holds other units must hold exactly its own conversion of the written double. Orekit holds metres, so each value must be the written kilometre value times 1000.0.
+
+- Epochs equal. Each epoch the tool holds equals the written TDB label.
+
+- Worst error in half-units of the last digit written, and in ulps from the correctly rounded value. Above 1 half-unit, the report names the tool as one that rounds further than the digits written.
+
+A file is carried when every value is the written double, or the tool's own conversion of it, and every epoch is the written one.
+
+Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For those, the states at the node epochs are compared with the written states, beside SPICE's own evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written one and no state is further from the written one than SPICE's evaluation is. The report marks these rows "evaluated, not read".
+
+## Results#
+
+Orekit, run locally with orekit-data at commit 2d6edc91:
+
+File |  States |  Values equal to Orekit's conversion |  Epochs equal |  Worst, half-units of the last digit written |  Worst, ulps from the correctly rounded value |
+
+OEM |  4,321 |  25,926 of 25,926 |  4,321 of 4,321 |  2.83 |  1 |
+
+OPM |  1 |  6 of 6 |  1 of 1 |  1.56 |  1 |
+
+Orekit carries both files. It rounds further than the digits written: it parses each kilometre value to the written double, then multiplies by 1000 into metres, which is a second rounding of at most one ulp. 6,727 of the 25,926 metre values are one ulp from the correctly rounded metre value for that reason.
+
+Basilisk, run locally:
+
+File |  States |  Values with the written bits |  Epochs equal |  Evaluated at the nodes (spkezr_c) |
+
+SPK, type 13 |  4,321 |  25,926 of 25,926 |  4,321 of 4,321 |  within 1.5e-11 km and 5e-15 km/s of the stored state |
+
+Basilisk's SPICE reads the segment as written: target -1176, centre 301, frame 1 (J2000), type 13. Every stored record and epoch has the written bits.
+
+ANISE, run locally:
+
+File |  How ANISE reads it |  Node states with the written bits |  Worst at the nodes |  SPICE on the same states |
+
+SPK, type 13 |  its own SPK reader, at the nodes as ET |  25,828 of 25,926 values |  1.46e-11 km, 4.94e-15 km/s |  1.46e-11 km, 4.97e-15 km/s |
+
+OEM |  converted to an SPK of type 9, at the nodes as TDB |  25,831 of 25,926 values |  1.46e-11 km, 1.11e-16 km/s |  (as above) |
+
+ANISE carries both files, no further from the written states than SPICE is. Time scales matter here. ANISE reads an SPK's epochs as SPICE ephemeris time (ET), but reads an OEM's TIME_SYSTEM = TDB labels with hifitime's TDB model. The same label falls 3.2 µs apart on the two scales at the first node. Evaluating the SPK at the TDB reading of the labels moves the states by up to 3.3e-6 km. The notebook shows this.
+
+## Run#
+
+```
+pip install kshana -r integrations/flight-dynamics/requirements-orekit.txt   # Java 17 or later
+python integrations/flight-dynamics/run_notebooks.py orekit
+pip install -r integrations/flight-dynamics/requirements-basilisk.txt
+python integrations/flight-dynamics/run_notebooks.py basilisk
+pip install -r integrations/flight-dynamics/requirements-anise.txt
+python integrations/flight-dynamics/run_notebooks.py anise
+```
+
+OREKIT_DATA names an orekit-data directory or zip. Without it, the adapter fetches orekit-data at the pinned commit once, into ~/.cache/kshana-fd. KSHANA_FD_OUT names the directory for the written files and the report.
+
+========================================================================
 URL: https://kshana.dev/docs/validation
 Title: Validation status · Kshana docs
 ========================================================================
@@ -22093,9 +22252,9 @@ VM-a0dce0aa |  GNSS IQ scene signal geometry against an independent baseband gen
 
 VM-3ed8a076 |  GNSS IQ acquisition on independently generated I/Q samples |  iq::acq::acquire (FFT parallel code-phase search with the square-law Marcum-Q threshold) with the GpsL1Ca replica, on 20 ms of gps-sdr-sim's own 8-bit I/Q output decoded by the iq::io sample decoder (ci8, 2.6 MHz, 11 satellites, no noise): every PRN 1 to 32 searched in two 10 ms windows, the result compared with the code phase and Doppler gps-sdr-sim modulated |  iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca) |  tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (pinned finding); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (strict, ignored with the gap) |  gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered d9ea217d: (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within 0.5 chip, (B4) Doppler within 125 Hz. FINDING: B1, B3 and B4 hold in both windows (worst 0.195 chip, 72 Hz), but B2 fails: all 21 PRNs gps-sdr-sim did not simulate also cross the threshold (statistic 151 to 206 against 79.5; simulated PRNs 1 300 and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction |  MODELLED |
 
-VM-59bb0091 |  IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures |  iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised |  iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |  tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form (73 of 5900 blocks against the 99 % binomial interval [40, 80] of P_fa 0.01), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta 0.0160, ratio 0.0131 against 0.01), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 (0 against 0), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table) |  The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked |  MODELLED |
+VM-59bb0091 |  IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures |  iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised |  iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |  tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form (73 of 5900 blocks against the 99 % binomial interval [40, 80] of P_fa 0.01), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta 0.0160, ratio 0.0131 against 0.01), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 (0 against 0), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table) |  The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. RE-RUN 0.41 (D8b row 8, docs/design/evidence/d8b-iq-timing-campaign-rerun/, 3dcbaace9): with the campaign's automatic C/N0 stride set to one NWPR window (0.020 s), M3 stays NOT MET on its timing clause, as stated before the run: 18 of 18 detected on seen and fresh seeds, median time to detect 0.221 s and 0.201 s against 0.0068 s and 0.0064 s; M1, M2 and M4 unchanged. The miss is structural (the 1 s sliding estimator's delay); a further attempt needs a new pre-registration. Internal consistency only: no real receiver or recorded interference is checked |  MODELLED |
 
-VM-6254a75d |  Detection ROC of the IQ monitors from a scored lab-replay campaign |  iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither |  iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |  tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop 0.500, sqm_delta 0.566, power_drop 0.639 on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events) |  Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). Internal consistency only: no real receiver or recorded interference is checked |  MODELLED |
+VM-6254a75d |  Detection ROC of the IQ monitors from a scored lab-replay campaign |  iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither |  iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |  tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop 0.500, sqm_delta 0.566, power_drop 0.639 on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events) |  Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). RE-RUN 0.41 (D8b row 9, f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC 1.0000 on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces 0.7855. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked |  MODELLED |
 
 VM-c9318c63 |  Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error |  iq::labfit (campaign, cn0, iqfit, iqreport) and [input] campaign on kshana iq labfit, Python kshana.iq_labfit and the MCP labfit tool (campaign folders inside its work directory only): reads a kshana iq campaign output folder by its DIGEST and groups the scored cells into fit units (signal x loop design x front-end chain x jammer type, never pooled). Per unit, it fits measured C/N0 against stated J/S with the spectral-separation form. Q_eff is not identifiable from C/N0 data without an independent measurement of the jammer and signal powers, so Q is stated, never fitted (the type table, the event's q, or for an unknown type the most damaging stated value, cw Q = 1). The fitted parameter is the identifiable offset delta_eff = delta - 10 log10 Q, with the correlation guard reporting the degeneracy. C/N0 bins locked under 90 % are censored and listed. The threshold J/S is given directly and by the closed form; the tracking-loop and empirical lock models are coupled through the C/N0 model, with drop and re-lock dwells. A seeded cluster bootstrap over recordings (1000 replicates) gives percentile intervals; 90 % prediction intervals come from residual draws; leave-one-recording-out hold-outs are split into interpolation and extrapolation; a pre-registered [validation] table is hashed and each bar judged PASS/FAIL. Report kshana.labfit-iq/1 as JSON, CSV and generated Markdown, with a units block. Synthetic only (no third-party recording, no jammer waveform). The receiver-log labfit path is unchanged |  iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit |  tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 coverage 0.891 over 558 bins, 0.900 over 10 time-to-loss events under each lock model), the_report_carries_its_inputs_censoring_validation_and_labels (inputs, censoring, [validation] hash and verdicts, units block audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db and bar_b_prime_ci_subset (strict, ignored with the gap); bar_b_prime_full_set_of_50_campaigns (ignored, run before release); iq::labfit::cn0 tests (exact Q-delta degeneracy, delta recovery at the stated Q, closed-form threshold inverse); iq::labfit::iqfit tests (the lock-model conditions reproduce the C/N0 model exactly); tests/iq_labfit_followup.rs (the follow-up registered in 99e7c599: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign asserting the recorded NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, in release) |  Synthetic parameter recovery on Kshana's own GPS L1 C/A scenes with a known C/N0 profile imposed from the section 3.1 formula, tracked and scored by kshana iq campaign, against bars pre-registered in docs/design/LABFIT-FROM-IQ.md (section 5.1, amended 2026-10-12 in 4ca3ef3, section 13). The campaigns' C/N0 estimator (M2M4) was fixed in fa388b82, pushed before the first bar evaluation (committed together with the fit code, not alone), after one disclosed diagnostic tracking run. FINDING on the 18-event bar campaign: (c) PASS; (a') NOT MET, delta_eff error -1.097 dB against 0.5 dB (still -0.89 dB on bins at 38 dB-Hz and above); (b') NOT MET, 0 of 50 campaigns cover the truth (error -1.189 +/- 0.093 dB, interval about 0.3 dB); (d) NOT MET, closed form 2.20 dB below the direct J/S at loss, about the fitted drop dwell times the ramp rate (2.09 dB); the original Q clauses of (a) and (b) are NOT MET because Q is not identifiable. FOLLOW-UP (bars pre-registered in 99e7c599, docs/design/evidence/labfit-followup/RESULTS.md): on a stepped-J/S campaign delta_eff is recovered within +0.185 dB (S1 MET: the ramp error is estimator lag); (d) as written on it is met by the tracking-loop model (0.45 dB) but not the empirical one (6.42 dB), so S2 is NOT MET; on a fresh ramp campaign (d) with the fitted drop dwell times each event's ramp rate added is within 1 dB for both models (R1 MET), and (a') and (d) as written miss again (-1.25 dB; 2.32 and 9.47 dB). The method is checked, not any receiver: it cannot be VALIDATED from synthetic data |  MODELLED |
 
@@ -22497,7 +22656,7 @@ VM-35b27a4f |  BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution
 
 VM-56e6f4f4 |  IQ ionospheric scintillation channel (Cornell model) against measured 50 Hz GPS L1 scintillation |  iq::channel::scint, the Cornell scintillation model (Rice intensity, second-order Butterworth spectrum, phase arg z) driven at a measured window's S4 and intensity decorrelation time, compared on what it generates beyond those two inputs; realdata::scint50 reads the measured log, detrends it and runs the comparison. |  iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare) |  tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, reported only; data-gated, fetched by scripts/fetch_scint_malindi.sh); realdata::scint50 unit tests (model_data_through_the_harness_shows_the_wrapped_phase_finding, finding F2) |  Measured data under bars pre-registered at 653a2195 (xval/scint-malindi/): Zenodo record 16941224 (INGV, Malindi, 18 March 2023, GPS PRN 26, 50 Hz intensity and carrier phase, CC BY 4.0, SHA-256 checked). 22 qualifying 60 s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D 0.0415, bar 0.05) and the phase scintillation tied to S4 (median measured/model sigma-phi 0.779, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is 2.38 times the measured (bar 0.5 to 2) and its mean fade 3.51 times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives 0.804. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED. |  MODELLED |
 
-VM-f5e2ce4e |  Cell-averaging CFAR option in IQ acquisition |  iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. |  iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |  tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts |  Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. |  MODELLED |
+VM-f5e2ce4e |  Cell-averaging CFAR option in IQ acquisition |  iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. |  iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |  tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts |  Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. RE-RUN 0.41 (D8a row 3, 1059c34e8): MET on re-run with the opt-in row reference set (CfarConfig::with_reference: reference cells every stride-th lag round the whole Doppler row): 0 of 2495 off-peak cells above on the registered signal and 3, 4, 0 and 0 on four fresh signals (bar 1 %), all detected in the right bin; C2/C3 0.969 to 1.033 % on seen and fresh seeds; the 16-cell window stays the default and its control reproduces 0.40. One candidate tried, on development PRNs 2-6 (disclosed). WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. |  MODELLED |
 
 VM-23e52907 |  Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in) |  spectrum::default_band resolves, by name only (MORE_BAND_NAMES), GLONASS L1OF and L2OF on every FDMA channel K = -7 to 6 (BPSK, 0.511 Mchip/s), BeiDou B1I (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)) and Galileo E6 (BPSK(5)), with the carriers and minimum received powers of their interface control documents; the default band set and every existing output are unchanged. |  spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS) |  tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, finding F1, pinned by finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, finding F2, pinned by finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, reported only) |  Published interface control documents and closed forms, under bars pre-registered at 502af4a7 (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition 5.1, BDS-SIS-ICD B1I 3.0, B1C 1.0, B2a 1.0 and B3I 1.0, Galileo OS SIS ICD Issue 2.1. MET: every carrier, chip rate and received power as transcribed (28 GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope (1.26 and 1.56 dB against 0.5 dB, finding F2; GLONASS 0.07 dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within 0.25 dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference. |  MODELLED |
 
@@ -22519,9 +22678,9 @@ VM-46dd95e7 |  CRPA antenna gains in the jamming kind against an independent num
 
 VM-40a50c34 |  Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile |  The jamming kind's optional [terrain] section: the great-circle terrain profile between jammer and receiver on an SRTM .hgt tile with a k-factor Earth bulge, the dominant knife edge (largest Fresnel-Kirchhoff nu) and the single knife-edge loss of ITU-R P.526-15 section 4.1, subtracted from the jammer's received power. |  jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky) |  tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), against xval/jamming-terrain/expected.json from xval/jamming-terrain/oracle.py |  An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS 84 round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 3b0ebdd4. All MET: additivity (all 150 scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within 1.6e-10 (bar 1e-9); the loss never rises as the jammer rises from 2 to 4902 m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within 1e-12 dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose 44 to 48 dB; two valley-floor placements lose 8 and 15 dB from the Earth bulge alone at 2 m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED. |  MODELLED |
 
-VM-e6a6348d |  Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations |  The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). |  jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |  tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), against xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json and expected_quantiser.json |  An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. |  MODELLED |
+VM-e6a6348d |  Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations |  The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). |  jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |  tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), against xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json and expected_quantiser.json |  An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. RE-RUN 0.41 (D8b row 7, 0ea0da3df): MET on re-run on a 12-power ladder fixed from the scenario file before any engine run (-34 to -21 dBW): 2614 of 5472 link-epochs in the informative 25-32 dB-Hz band (bar 10 %); H2 and H4 hold; all 5472 flags agree with hysteresis.py, 2626 showing the hysteresis; no engine change. Disclosed: the ladder rule was written after supplement 1 had shown where the thresholds lie. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. |  MODELLED |
 
-VM-bdfec2e4 |  Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |  Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  MODELLED |
+VM-bdfec2e4 |  Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |  Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  MODELLED |
 
 VM-ad0fc95e |  RTKLIB .pos solution reader for receiver-trust |  Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). |  receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |  receiver_trust::machines::rtklib::tests (lat/lon epochs, week/TOW and ECEF, dms refused, hostile input); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py |  None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows |  MODELLED |
 
@@ -23342,9 +23501,9 @@ GNSS IQ scene signal geometry against an independent baseband generator | The IQ
 
 GNSS IQ acquisition on independently generated I/Q samples | iq::acq::acquire (FFT parallel code-phase search with the square-law Marcum-Q threshold) with the GpsL1Ca replica, on 20 ms of gps-sdr-sim's own 8-bit I/Q output decoded by the iq::io sample decoder (ci8, 2.6 MHz, 11 satellites, no noise): every PRN 1 to 32 searched in two 10 ms windows, the result compared with the code phase and Doppler gps-sdr-sim modulated | MODELLED | gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered d9ea217d: (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within 0.5 chip, (B4) Doppler within 125 Hz. FINDING: B1, B3 and B4 hold in both windows (worst 0.195 chip, 72 Hz), but B2 fails: all 21 PRNs gps-sdr-sim did not simulate also cross the threshold (statistic 151 to 206 against 79.5; simulated PRNs 1 300 and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction | iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca) |
 
-IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures | iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised | MODELLED | The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked | iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |
+IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures | iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised | MODELLED | The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. RE-RUN 0.41 (D8b row 8, docs/design/evidence/d8b-iq-timing-campaign-rerun/, 3dcbaace9): with the campaign's automatic C/N0 stride set to one NWPR window (0.020 s), M3 stays NOT MET on its timing clause, as stated before the run: 18 of 18 detected on seen and fresh seeds, median time to detect 0.221 s and 0.201 s against 0.0068 s and 0.0064 s; M1, M2 and M4 unchanged. The miss is structural (the 1 s sliding estimator's delay); a further attempt needs a new pre-registration. Internal consistency only: no real receiver or recorded interference is checked | iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |
 
-Detection ROC of the IQ monitors from a scored lab-replay campaign | iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither | MODELLED | Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). Internal consistency only: no real receiver or recorded interference is checked | iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |
+Detection ROC of the IQ monitors from a scored lab-replay campaign | iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither | MODELLED | Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). RE-RUN 0.41 (D8b row 9, f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC 1.0000 on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces 0.7855. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked | iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |
 
 Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error | iq::labfit (campaign, cn0, iqfit, iqreport) and [input] campaign on kshana iq labfit, Python kshana.iq_labfit and the MCP labfit tool (campaign folders inside its work directory only): reads a kshana iq campaign output folder by its DIGEST and groups the scored cells into fit units (signal x loop design x front-end chain x jammer type, never pooled). Per unit, it fits measured C/N0 against stated J/S with the spectral-separation form. Q_eff is not identifiable from C/N0 data without an independent measurement of the jammer and signal powers, so Q is stated, never fitted (the type table, the event's q, or for an unknown type the most damaging stated value, cw Q = 1). The fitted parameter is the identifiable offset delta_eff = delta - 10 log10 Q, with the correlation guard reporting the degeneracy. C/N0 bins locked under 90 % are censored and listed. The threshold J/S is given directly and by the closed form; the tracking-loop and empirical lock models are coupled through the C/N0 model, with drop and re-lock dwells. A seeded cluster bootstrap over recordings (1000 replicates) gives percentile intervals; 90 % prediction intervals come from residual draws; leave-one-recording-out hold-outs are split into interpolation and extrapolation; a pre-registered [validation] table is hashed and each bar judged PASS/FAIL. Report kshana.labfit-iq/1 as JSON, CSV and generated Markdown, with a units block. Synthetic only (no third-party recording, no jammer waveform). The receiver-log labfit path is unchanged | MODELLED | Synthetic parameter recovery on Kshana's own GPS L1 C/A scenes with a known C/N0 profile imposed from the section 3.1 formula, tracked and scored by kshana iq campaign, against bars pre-registered in docs/design/LABFIT-FROM-IQ.md (section 5.1, amended 2026-10-12 in 4ca3ef3, section 13). The campaigns' C/N0 estimator (M2M4) was fixed in fa388b82, pushed before the first bar evaluation (committed together with the fit code, not alone), after one disclosed diagnostic tracking run. FINDING on the 18-event bar campaign: (c) PASS; (a') NOT MET, delta_eff error -1.097 dB against 0.5 dB (still -0.89 dB on bins at 38 dB-Hz and above); (b') NOT MET, 0 of 50 campaigns cover the truth (error -1.189 +/- 0.093 dB, interval about 0.3 dB); (d) NOT MET, closed form 2.20 dB below the direct J/S at loss, about the fitted drop dwell times the ramp rate (2.09 dB); the original Q clauses of (a) and (b) are NOT MET because Q is not identifiable. FOLLOW-UP (bars pre-registered in 99e7c599, docs/design/evidence/labfit-followup/RESULTS.md): on a stepped-J/S campaign delta_eff is recovered within +0.185 dB (S1 MET: the ramp error is estimator lag); (d) as written on it is met by the tracking-loop model (0.45 dB) but not the empirical one (6.42 dB), so S2 is NOT MET; on a fresh ramp campaign (d) with the fitted drop dwell times each event's ramp rate added is within 1 dB for both models (R1 MET), and (a') and (d) as written miss again (-1.25 dB; 2.32 and 9.47 dB). The method is checked, not any receiver: it cannot be VALIDATED from synthetic data | iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit |
 
@@ -23746,7 +23905,7 @@ BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in) | The
 
 IQ ionospheric scintillation channel (Cornell model) against measured 50 Hz GPS L1 scintillation | iq::channel::scint, the Cornell scintillation model (Rice intensity, second-order Butterworth spectrum, phase arg z) driven at a measured window's S4 and intensity decorrelation time, compared on what it generates beyond those two inputs; realdata::scint50 reads the measured log, detrends it and runs the comparison. | MODELLED | Measured data under bars pre-registered at 653a2195 (xval/scint-malindi/): Zenodo record 16941224 (INGV, Malindi, 18 March 2023, GPS PRN 26, 50 Hz intensity and carrier phase, CC BY 4.0, SHA-256 checked). 22 qualifying 60 s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D 0.0415, bar 0.05) and the phase scintillation tied to S4 (median measured/model sigma-phi 0.779, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is 2.38 times the measured (bar 0.5 to 2) and its mean fade 3.51 times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives 0.804. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED. | iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare) |
 
-Cell-averaging CFAR option in IQ acquisition | iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. | MODELLED | Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. | iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |
+Cell-averaging CFAR option in IQ acquisition | iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. | MODELLED | Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. RE-RUN 0.41 (D8a row 3, 1059c34e8): MET on re-run with the opt-in row reference set (CfarConfig::with_reference: reference cells every stride-th lag round the whole Doppler row): 0 of 2495 off-peak cells above on the registered signal and 3, 4, 0 and 0 on four fresh signals (bar 1 %), all detected in the right bin; C2/C3 0.969 to 1.033 % on seen and fresh seeds; the 16-cell window stays the default and its control reproduces 0.40. One candidate tried, on development PRNs 2-6 (disclosed). WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. | iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |
 
 Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in) | spectrum::default_band resolves, by name only (MORE_BAND_NAMES), GLONASS L1OF and L2OF on every FDMA channel K = -7 to 6 (BPSK, 0.511 Mchip/s), BeiDou B1I (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)) and Galileo E6 (BPSK(5)), with the carriers and minimum received powers of their interface control documents; the default band set and every existing output are unchanged. | MODELLED | Published interface control documents and closed forms, under bars pre-registered at 502af4a7 (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition 5.1, BDS-SIS-ICD B1I 3.0, B1C 1.0, B2a 1.0 and B3I 1.0, Galileo OS SIS ICD Issue 2.1. MET: every carrier, chip rate and received power as transcribed (28 GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope (1.26 and 1.56 dB against 0.5 dB, finding F2; GLONASS 0.07 dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within 0.25 dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference. | spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS) |
 
@@ -23768,9 +23927,9 @@ CRPA antenna gains in the jamming kind against an independent numpy recomputatio
 
 Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile | The jamming kind's optional [terrain] section: the great-circle terrain profile between jammer and receiver on an SRTM .hgt tile with a k-factor Earth bulge, the dominant knife edge (largest Fresnel-Kirchhoff nu) and the single knife-edge loss of ITU-R P.526-15 section 4.1, subtracted from the jammer's received power. | MODELLED | An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS 84 round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 3b0ebdd4. All MET: additivity (all 150 scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within 1.6e-10 (bar 1e-9); the loss never rises as the jammer rises from 2 to 4902 m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within 1e-12 dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose 44 to 48 dB; two valley-floor placements lose 8 and 15 dB from the Earth bulge alone at 2 m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED. | jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky) |
 
-Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations | The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). | MODELLED | An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. | jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |
+Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations | The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). | MODELLED | An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. RE-RUN 0.41 (D8b row 7, 0ea0da3df): MET on re-run on a 12-power ladder fixed from the scenario file before any engine run (-34 to -21 dBW): 2614 of 5472 link-epochs in the informative 25-32 dB-Hz band (bar 10 %); H2 and H4 hold; all 5472 flags agree with hysteresis.py, 2626 showing the hysteresis; no engine change. Disclosed: the ladder rule was written after supplement 1 had shown where the thresholds lie. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. | jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |
 
-Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) | iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. | MODELLED | Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. | iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |
+Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) | iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. | MODELLED | Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. | iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |
 
 RTKLIB .pos solution reader for receiver-trust | Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). | MODELLED | None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows | receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |
 
@@ -23941,9 +24100,9 @@ GPS L1 C/A cross-generator conformance |  GPS L1 C/A spreading codes (sdr::CaCod
 
 GNSS IQ acquisition on independently generated I/Q samples |  iq::acq::acquire (FFT parallel code-phase search with the square-law Marcum-Q threshold) with the GpsL1Ca replica, on 20 ms of gps-sdr-sim's own 8-bit I/Q output decoded by the iq::io sample decoder (ci8, 2.6 MHz, 11 satellites, no noise): every PRN 1 to 32 searched in two 10 ms windows, the result compared with the code phase and Doppler gps-sdr-sim modulated |  ExternalDataset |  a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered d9ea217d: (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within 0.5 chip, (B4) Doppler within 125 Hz. FINDING: B1, B3 and B4 hold in both windows (worst 0.195 chip, 72 Hz), but B2 fails: all 21 PRNs gps-sdr-sim did not simulate also cross the threshold (statistic 151 to 206 against 79.5; simulated PRNs 1 300 and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction |  iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca) |  tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (pinned finding); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (strict, ignored with the gap) |
 
-IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures |  iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked |  iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |  tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form (73 of 5900 blocks against the 99 % binomial interval [40, 80] of P_fa 0.01), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta 0.0160, ratio 0.0131 against 0.01), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 (0 against 0), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table) |
+IQ monitors scored in lab-replay campaigns: detection, misses, false alarms and closed-form false-alarm figures |  iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. The power and spectral monitors see the samples after each front-end chain; the C/N0, SQM and lock monitors see each tracked channel's loop updates. Each alarm is scored against the stated events: detected or missed per (event, alarm kind, channel), time to detect, and false alarms outside the events over their exposure. Each test's closed-form false-alarm figure is stated: power per block (exact Gamma tail), spectral excess per block (approximation), kurtosis (one-sided Gaussian), pulses (binomial ceiling), SQM per averaged update (2Q(k) = Q(1/2, k^2/2), new), and the C/N0 CUSUM's ARL0 (Siegmund). Without the table, cells, keys and digests are unchanged. No interference waveform is synthesised |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection (18 of 18 attenuations, P_md 0) and NOT MET on its timing clause: the median time to detect is 1.001 s against 2 x ARL1 samples = 0.433 s. The CUSUM sees one estimate per 1 s window, so the sample-count bound is below one sample. RE-RUN 0.41 (D8b row 8, docs/design/evidence/d8b-iq-timing-campaign-rerun/, 3dcbaace9): with the campaign's automatic C/N0 stride set to one NWPR window (0.020 s), M3 stays NOT MET on its timing clause, as stated before the run: 18 of 18 detected on seen and fresh seeds, median time to detect 0.221 s and 0.201 s against 0.0068 s and 0.0064 s; M1, M2 and M4 unchanged. The miss is structural (the 1 s sliding estimator's delay); a further attempt needs a new pre-registration. Internal consistency only: no real receiver or recorded interference is checked |  iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm) |  tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form (73 of 5900 blocks against the 99 % binomial interval [40, 80] of P_fa 0.01), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta 0.0160, ratio 0.0131 against 0.01), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 (0 against 0), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table) |
 
-Detection ROC of the IQ monitors from a scored lab-replay campaign |  iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). Internal consistency only: no real receiver or recorded interference is checked |  iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |  tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop 0.500, sqm_delta 0.566, power_drop 0.639 on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events) |
+Detection ROC of the IQ monitors from a scored lab-replay campaign |  iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over tiled roc_window_s windows outside the events (negative). The statistics are the block-power departure, the PSD excess, the kurtosis z, the SQM |z| of the averaged metric, and the C/N0 CUSUM. The report pools them by kind into an empirical window-level ROC with its AUC and the operating point at the configured threshold, written as roc.json (kshana.campaign-roc/1) and a Detection ROC section of report.html. A campaign without monitors writes neither |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC 0.7855 against 0.95, because every negative window after an event inherits the CUSUM's decay from the detection (all 18 post-event negatives reach 81 or more; all 18 pre-event ones stay at 0). RE-RUN 0.41 (D8b row 9, f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC 1.0000 on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces 0.7855. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked |  iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference) |  tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop 0.500, sqm_delta 0.566, power_drop 0.639 on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events) |
 
 Calibration of the open receiver's C/N0 and lock models to IQ campaign results, with stated prediction error |  iq::labfit (campaign, cn0, iqfit, iqreport) and [input] campaign on kshana iq labfit, Python kshana.iq_labfit and the MCP labfit tool (campaign folders inside its work directory only): reads a kshana iq campaign output folder by its DIGEST and groups the scored cells into fit units (signal x loop design x front-end chain x jammer type, never pooled). Per unit, it fits measured C/N0 against stated J/S with the spectral-separation form. Q_eff is not identifiable from C/N0 data without an independent measurement of the jammer and signal powers, so Q is stated, never fitted (the type table, the event's q, or for an unknown type the most damaging stated value, cw Q = 1). The fitted parameter is the identifiable offset delta_eff = delta - 10 log10 Q, with the correlation guard reporting the degeneracy. C/N0 bins locked under 90 % are censored and listed. The threshold J/S is given directly and by the closed form; the tracking-loop and empirical lock models are coupled through the C/N0 model, with drop and re-lock dwells. A seeded cluster bootstrap over recordings (1000 replicates) gives percentile intervals; 90 % prediction intervals come from residual draws; leave-one-recording-out hold-outs are split into interpolation and extrapolation; a pre-registered [validation] table is hashed and each bar judged PASS/FAIL. Report kshana.labfit-iq/1 as JSON, CSV and generated Markdown, with a units block. Synthetic only (no third-party recording, no jammer waveform). The receiver-log labfit path is unchanged |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Synthetic parameter recovery on Kshana's own GPS L1 C/A scenes with a known C/N0 profile imposed from the section 3.1 formula, tracked and scored by kshana iq campaign, against bars pre-registered in docs/design/LABFIT-FROM-IQ.md (section 5.1, amended 2026-10-12 in 4ca3ef3, section 13). The campaigns' C/N0 estimator (M2M4) was fixed in fa388b82, pushed before the first bar evaluation (committed together with the fit code, not alone), after one disclosed diagnostic tracking run. FINDING on the 18-event bar campaign: (c) PASS; (a') NOT MET, delta_eff error -1.097 dB against 0.5 dB (still -0.89 dB on bins at 38 dB-Hz and above); (b') NOT MET, 0 of 50 campaigns cover the truth (error -1.189 +/- 0.093 dB, interval about 0.3 dB); (d) NOT MET, closed form 2.20 dB below the direct J/S at loss, about the fitted drop dwell times the ramp rate (2.09 dB); the original Q clauses of (a) and (b) are NOT MET because Q is not identifiable. FOLLOW-UP (bars pre-registered in 99e7c599, docs/design/evidence/labfit-followup/RESULTS.md): on a stepped-J/S campaign delta_eff is recovered within +0.185 dB (S1 MET: the ramp error is estimator lag); (d) as written on it is met by the tracking-loop model (0.45 dB) but not the empirical one (6.42 dB), so S2 is NOT MET; on a fresh ramp campaign (d) with the fitted drop dwell times each event's ramp rate added is within 1 dB for both models (R1 MET), and (a') and (d) as written miss again (-1.25 dB; 2.32 and 9.47 dB). The method is checked, not any receiver: it cannot be VALIDATED from synthetic data |  iq::labfit (campaign, cn0, iqfit, iqreport, schema, mod); iq::cli::labfit |  tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 coverage 0.891 over 558 bins, 0.900 over 10 time-to-loss events under each lock model), the_report_carries_its_inputs_censoring_validation_and_labels (inputs, censoring, [validation] hash and verdicts, units block audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db and bar_b_prime_ci_subset (strict, ignored with the gap); bar_b_prime_full_set_of_50_campaigns (ignored, run before release); iq::labfit::cn0 tests (exact Q-delta degeneracy, delta recovery at the stated Q, closed-form threshold inverse); iq::labfit::iqfit tests (the lock-model conditions reproduce the C/N0 model exactly); tests/iq_labfit_followup.rs (the follow-up registered in 99e7c599: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign asserting the recorded NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, in release) |
 
@@ -24205,7 +24364,7 @@ BOC(1,1) tracking: DLL scaling and bump-jump ambiguity resolution (opt-in) |  Th
 
 IQ ionospheric scintillation channel (Cornell model) against measured 50 Hz GPS L1 scintillation |  iq::channel::scint, the Cornell scintillation model (Rice intensity, second-order Butterworth spectrum, phase arg z) driven at a measured window's S4 and intensity decorrelation time, compared on what it generates beyond those two inputs; realdata::scint50 reads the measured log, detrends it and runs the comparison. |  ExternalDataset |  a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — Measured data under bars pre-registered at 653a2195 (xval/scint-malindi/): Zenodo record 16941224 (INGV, Malindi, 18 March 2023, GPS PRN 26, 50 Hz intensity and carrier phase, CC BY 4.0, SHA-256 checked). 22 qualifying 60 s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D 0.0415, bar 0.05) and the phase scintillation tied to S4 (median measured/model sigma-phi 0.779, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is 2.38 times the measured (bar 0.5 to 2) and its mean fade 3.51 times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives 0.804. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED. |  iq::channel::scint (Scintillation, ScintParams); realdata::scint50 (parse_log, segments, measured_windows, model_windows, compare) |  tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, reported only; data-gated, fetched by scripts/fetch_scint_malindi.sh); realdata::scint50 unit tests (model_data_through_the_harness_shows_the_wrapped_phase_finding, finding F2) |
 
-Cell-averaging CFAR option in IQ acquisition |  iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. |  iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |  tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts |
+Cell-averaging CFAR option in IQ acquisition |  iq::acq::ca_cfar and ca_cfar_cells (opt-in): a cell of an acquisition grid is compared with the mean of reference cells of its Doppler row (guard and stride lags, wrapping round the period), at a factor alpha set from the closed-form CA-CFAR false-alarm probability for M non-coherent blocks (ca_cfar_pfa, ca_cfar_alpha). The sample-power detector stays the default and every existing output is unchanged. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: 18 of 18 cases within 3 binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, 2.5 MS/s, 210 000 cells each) at a design 1 %: 0.977 % and 0.969 % on Gaussian noise and 1.006 % and 0.999 % on 2-bit quantised noise (M = 1 and 4; bar plus or minus 20 %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but 1.28 % of the off-peak cells of the peak's row (bar 1 %) exceed the threshold, at the code's deterministic correlation sidelobes. RE-RUN 0.41 (D8a row 3, 1059c34e8): MET on re-run with the opt-in row reference set (CfarConfig::with_reference: reference cells every stride-th lag round the whole Doppler row): 0 of 2495 off-peak cells above on the registered signal and 3, 4, 0 and 0 on four fresh signals (bar 1 %), all detected in the right bin; C2/C3 0.969 to 1.033 % on seen and fresh seeds; the 16-cell window stays the default and its control reproduces 0.40. One candidate tried, on development PRNs 2-6 (disclosed). WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data. |  iq::acq (CfarConfig, ca_cfar, ca_cfar_cells, ca_cfar_pfa, ca_cfar_alpha) |  tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts |
 
 Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in) |  spectrum::default_band resolves, by name only (MORE_BAND_NAMES), GLONASS L1OF and L2OF on every FDMA channel K = -7 to 6 (BPSK, 0.511 Mchip/s), BeiDou B1I (BPSK(2)), B1C (MBOC(6,1,1/11)), B2a and B3I (BPSK(10)) and Galileo E6 (BPSK(5)), with the carriers and minimum received powers of their interface control documents; the default band set and every existing output are unchanged. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Published interface control documents and closed forms, under bars pre-registered at 502af4a7 (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition 5.1, BDS-SIS-ICD B1I 3.0, B1C 1.0, B2a 1.0 and B3I 1.0, Galileo OS SIS ICD Issue 2.1. MET: every carrier, chip rate and received power as transcribed (28 GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope (1.26 and 1.56 dB against 0.5 dB, finding F2; GLONASS 0.07 dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within 0.25 dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference. |  spectrum (default_band, MORE_BAND_NAMES, GLONASS_CHANNELS) |  tests/spectrum_more_bands.rs (s1_new_bands_carry_their_icd_values, s2_nulls_and_b1c_parts, s4_cn0_paths_agree_on_the_new_bands; s2_closed_form_densities_verdict_is_the_recorded_one, finding F1, pinned by finding_s2_areas_are_the_closed_form_in_band_fraction; s3_iq_layer_verdict_is_the_recorded_one, finding F2, pinned by finding_s3_per_bin_errors_follow_the_code_line_spectrum; posthoc_s3_band_averaged_shape, reported only) |
 
@@ -24221,9 +24380,9 @@ CRPA antenna gains in the jamming kind against an independent numpy recomputatio
 
 Terrain shadowing of the jammer in the jamming kind against an independent numpy recomputation on a real SRTM tile |  The jamming kind's optional [terrain] section: the great-circle terrain profile between jammer and receiver on an SRTM .hgt tile with a k-factor Earth bulge, the dominant knife edge (largest Fresnel-Kirchhoff nu) and the single knife-edge loss of ITU-R P.526-15 section 4.1, subtracted from the jammer's received power. |  ReferenceImpl |  checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS 84 round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 3b0ebdd4. All MET: additivity (all 150 scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within 1.6e-10 (bar 1e-9); the loss never rises as the jammer rises from 2 to 4902 m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within 1e-12 dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose 44 to 48 dB; two valley-floor placements lose 8 and 15 dB from the Earth bulge alone at 2 m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED. |  jamming_terrain (TerrainCfg, jammer_terrain, knife_edge_loss_db); jamming (run_jamming_sky) |  tests/jamming_terrain.rs (b1_terrain_units_only_with_the_section, b2_every_placement_matches_the_independent_numpy_recomputation, b3_the_loss_never_rises_as_the_jammer_rises, b4_the_loss_reaches_every_js_and_nothing_else, b5_the_knife_edge_function_matches_the_reference_expression), against xval/jamming-terrain/expected.json from xval/jamming-terrain/oracle.py |
 
-Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations |  The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). |  ReferenceImpl |  checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. |  jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |  tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), against xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json and expected_quantiser.json |
+Acquisition hysteresis and the front-end quantiser in the jamming kind against independent recomputations |  The jamming kind's optional [acquisition] section (a satellite is acquired at or above an acquisition threshold after a re-acquisition delay and held while at or above the tracking threshold) and [front_end] section (the AGC reading 10 log10(1 + J/N) and the ADC's Gaussian-input quantiser loss taken off every link, flagged as not valid for non-Gaussian jammers). |  ReferenceImpl |  checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, 2^22 samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at 2ef7427a. MET: additivity (all 150 scenario results byte-identical without the sections); every flag equal on the supplementary runs (1824 links, 732 of them showing the hysteresis); monotone in the threshold; the quantiser loss within 0.0007 dB of the Monte Carlo at 1 to 4 bits (bar 0.02 dB); the AGC reading within 0.012 dB of the AGC loop (bar 0.05 dB). NOT MET: the registered hysteresis runs (jamming-demo at 10 to 30 dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. RE-RUN 0.41 (D8b row 7, 0ea0da3df): MET on re-run on a 12-power ladder fixed from the scenario file before any engine run (-34 to -21 dBW): 2614 of 5472 link-epochs in the informative 25-32 dB-Hz band (bar 10 %); H2 and H4 hold; all 5472 flags agree with hysteresis.py, 2626 showing the hysteresis; no engine change. Disclosed: the ladder rule was written after supplement 1 had shown where the thresholds lie. Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED. |  jamming_rx (AcquisitionCfg, AcqState, FrontEndCfg, front_end); jamming (run_jamming_sky); iq::frontend::quant (optimum_step_sigma) |  tests/jamming_acq_agc.rs (h1_g1_units_only_with_their_section, h2_no_hysteresis_is_no_hysteresis, h2s_no_hysteresis_is_no_hysteresis_on_the_supplementary_runs, h3_flags_match_the_independent_recomputation, h3s_flags_match_the_independent_recomputation_on_the_supplementary_runs, h4_monotone_in_the_acquisition_threshold, h4s_monotone_in_the_acquisition_threshold_on_the_supplementary_runs, g2_quantiser_loss_matches_the_independent_monte_carlo, g3_agc_reading_matches_the_iq_layer_agc_loop), against xval/jamming-acq-agc/expected_hysteresis.json, expected_hysteresis_s1.json and expected_quantiser.json |
 
-Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |
+Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |
 
 RTKLIB .pos solution reader for receiver-trust |  Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows |  receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |  receiver_trust::machines::rtklib::tests (lat/lon epochs, week/TOW and ECEF, dms refused, hostile input); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py |
 
@@ -28852,6 +29011,199 @@ kshana receiver-trust live session.toml --serial /dev/ttyUSB0 --baud 4800 [--gat
 Unix only. It opens the device for reading, sets the local line to raw mode at --baud (default 4800, the NMEA 0183 rate), and reads NMEA lines like any other source. It never writes to the receiver. --configure is refused with an explanation: Kshana does not configure receivers; set the receiver to output NMEA with the maker's own tool, then read it. The feed is NMEA, as for every live source (UBX and SBF are read from files). A device that goes away ends the command as a fault (exit 1), for a supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback (tests/receiver_trust_live_serial.rs), including that the master side receives no byte from the command.
 
 ========================================================================
+URL: https://kshana.dev/docs/station
+Title: Kshana Station · Kshana docs
+========================================================================
+
+# Kshana Station
+
+A Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream as it arrives and keeps it as kshana.obs/1 observation files (OBS-SCHEMA.md), reports its state on a local port, and runs unattended as a system service. It only reads: nothing is ever written to a receiver.
+
+Abbreviations used on this page, in full:
+
+Abbreviation |  Meaning |
+
+C/N0 |  carrier-to-noise density ratio |
+
+GiB |  gibibyte (1,073,741,824 bytes) |
+
+HTTP |  HyperText Transfer Protocol |
+
+JSON |  JavaScript Object Notation |
+
+MiB |  mebibyte (1,048,576 bytes) |
+
+NMEA |  National Marine Electronics Association (its sentence format) |
+
+RF |  radio frequency |
+
+SBF |  Septentrio Binary Format |
+
+SNR |  signal-to-noise ratio |
+
+TCP |  Transmission Control Protocol |
+
+TLS |  Transport Layer Security |
+
+UBX |  the u-blox binary protocol |
+
+USB |  Universal Serial Bus |
+
+## Commands#
+
+```
+kshana station check <station.toml>                       # validate a configuration
+kshana station run <station.toml>                         # run until stopped
+kshana station service <systemd|launchd|windows> <station.toml>   # print what installs it as a service
+```
+
+## Configuration#
+
+See examples/station/station.toml.
+
+Table |  Key |  Meaning |
+
+[station] |  id, position, antenna |  the kshana.obs/1 station block written into every file's header |
+
+[[source]] |  name |  letters, digits, - and _; names the source's directory |
+
+|  input |  tcp:host:port, or a file or device path (a serial port: set its speed first) |
+
+|  format |  any kshana obs live format: ubx, sbf, nmea, rtcm3, novatel, gnss-sdr, ... |
+
+|  reconnect |  open the stream again when it ends (default true) |
+
+[output] |  dir |  where the files go, relative to the configuration file |
+
+|  rotate_mb |  start a new file past this size (default 64 MiB) |
+
+|  keep |  files kept per source (default 48); the oldest go first |
+
+[http] |  listen |  the status port (default 127.0.0.1:8470, local only) |
+
+|  token_file |  required for any other address; every request but /health then needs Authorization: Bearer <token> |
+
+[fleet] |  url, token_file, interval_s |  post the status to a fleet manager every interval_s seconds (default 30), http:// only |
+
+## What it writes#
+
+<dir>/<source>/<sequence>.obs.jsonl. Every file starts with the source's header record, so each is a valid observation file on its own (kshana obs check passes on each). The epochs of a connection are the epochs a replay of the same bytes gives (kshana obs convert), bit for bit, from the same live reader kshana obs live uses. A stream that ends or fails is opened again every second; the time without input is counted as a gap and never filled, and each new connection starts a new file.
+
+## Status#
+
+GET /health answers ok. GET /status answers kshana.station-status/1: the station, the engine version, uptime, and per source whether it is connected, its connections and gaps, bytes and epochs read, when the last epoch arrived, the last error and the current file; and the last fleet report's outcome.
+
+## As a service#
+
+kshana station service <system> <station.toml> prints, for the configuration's absolute path and this program's path:
+
+- systemd (Linux): a unit; save it as /etc/systemd/system/kshana-station.service, then systemctl enable --now kshana-station. It restarts on failure and after a reboot; it is in the dialout group for serial ports.
+
+- launchd (macOS): a property list; save it as /Library/LaunchDaemons/dev.kshana.station.plist, then launchctl bootstrap system /Library/LaunchDaemons/dev.kshana.station.plist.
+
+- windows: a schtasks command that runs the Station at start-up as the system account, so it comes back after a reboot.
+
+## Field guide: a real receiver on a site#
+
+These steps take one receiver from its box to an unattended Station on Linux. They use only the open engine. The Station reads; it never configures a receiver, so step 1 uses the maker's own tool.
+
+### 1. Make the receiver send what the Station reads#
+
+Set the receiver's output with its maker's tool (u-blox u-center, Septentrio's web interface or RxTools, and so on), and save that configuration in the receiver so it survives a power cycle.
+
+format |  Messages to enable |  What they give |
+
+ubx (u-blox) |  UBX-NAV-PVT, UBX-NAV-SAT, UBX-MON-RF; optionally UBX-NAV-STATUS, UBX-SEC-SIG, UBX-NAV-TIMEGPS |  the fix and time, C/N0 per satellite, the gain control and jamming indicator, and the receiver's own spoofing and jamming flags (RECEIVER-PROTOCOLS.md) |
+
+sbf (Septentrio) |  PVTGeodetic, MeasEpoch, RFStatus |  the fix, C/N0 per satellite and signal, the RF-band report (carried, not interpreted) |
+
+nmea |  GGA, RMC, GSV |  time and position, SNR per satellite |
+
+Once a second is enough. The other format values (rtcm3, novatel, gnss-sdr, ...) read the messages listed in OBS-SCHEMA.md.
+
+### 2. Connect it#
+
+- USB. Most receivers appear as /dev/ttyACM0 or /dev/ttyUSB0. Use the stable name under /dev/serial/by-id/ in the configuration, because the numbers change when devices are plugged in a different order.
+
+- Serial line. The Station does not set the line speed. Set it and raw mode before the Station opens the port: stty -F /dev/serial/by-id/<receiver> 115200 raw -echo. Use the speed the receiver sends at. A USB receiver that presents a virtual serial port ignores the speed.
+
+- Network. A receiver or a serial-to-network server (for example ser2net) that serves the stream on a TCP port is read with input = "tcp:<address>:<port>". The Station reconnects every second when the connection drops.
+
+Check that bytes arrive before going further: cat /dev/serial/by-id/<receiver> | head -c 200 | od -c shows the sync bytes (µb for UBX, $@ for SBF, $G for NMEA).
+
+### 3. Write the configuration#
+
+The service runs with a read-only system (ProtectSystem=strict) and may write only under /var/lib/kshana-station, so keep the configuration and the output there:
+
+```
+sudo mkdir -p /var/lib/kshana-station
+sudo cp examples/station/station.toml /var/lib/kshana-station/station.toml
+```
+
+Set the station's id, its position (lat_deg, lon_deg, height_m) and its antenna, and one [[source]] per receiver, with input the device or tcp: address from step 2 and format from step 1. Keep [output] dir relative (it is taken relative to the configuration file).
+
+The output needs rotate_mb × keep of disk per source: 3 GiB with the defaults (64 MiB × 48 files). The oldest file goes first when a source has keep files.
+
+### 4. Run it once in the foreground#
+
+```
+kshana station check /var/lib/kshana-station/station.toml
+sudo kshana station run /var/lib/kshana-station/station.toml
+```
+
+In another terminal:
+
+```
+curl -s http://127.0.0.1:8470/status            # each source: connected, epochs read, the last error
+kshana obs check /var/lib/kshana-station/station-data/<source>/<file>.obs.jsonl
+```
+
+/status should show each source connected and its epoch count rising. obs check should pass on the file being written. Stop the Station with Ctrl-C.
+
+### 5. Install it as a service#
+
+```
+kshana station service systemd /var/lib/kshana-station/station.toml | sudo tee /etc/systemd/system/kshana-station.service
+```
+
+For a serial line from step 2, add the stty call to the unit so the speed is set after every reboot. Run sudo systemctl edit kshana-station and add:
+
+```
+[Service]
+ExecStartPre=/bin/stty -F /dev/serial/by-id/<receiver> 115200 raw -echo
+```
+
+Then sudo systemctl enable --now kshana-station. Its log is journalctl -u kshana-station. The unit restarts the Station after a failure and after a reboot, and puts it in the dialout group, which may read serial ports.
+
+### 6. Day to day#
+
+- Gaps. A source with no input is counted as a gap (/status, per source), never filled. Each reconnection starts a new file.
+
+- Time. Epoch times in the files come from the receiver's own messages, not from the computer's clock.
+
+- Off the site. Keep the status port local. To read it from elsewhere, give [http] a token_file and put a TLS tunnel in front, as for the fleet report.
+
+What you see |  Likely cause |
+
+/status: source not connected, last error "permission denied" |  the service user is not allowed to open the device: is it in dialout, or does a udev rule restrict the device? |
+
+connected, but no epochs |  the wrong format, the wrong line speed (stty), or the messages of step 1 not enabled |
+
+epochs, but no C/N0 in the files |  UBX-NAV-SAT, MeasEpoch or GSV not enabled |
+
+the service starts and stops at once |  kshana station check names the problem in the configuration; journalctl -u kshana-station shows it |
+
+the disk fills |  lower keep or rotate_mb; the space is rotate_mb × keep per source |
+
+## Limits#
+
+- The fleet report is plain HTTP; across a network put a TLS tunnel in front of it.
+
+- A source blocked on a device read stops only with the process.
+
+- One Station is open. Managing several from one place (fleet management) is part of Kshana Pro.
+
+========================================================================
 URL: https://kshana.dev/docs/observatory-method
 Title: Interference observatory: method note · Kshana docs
 ========================================================================
@@ -28910,7 +29262,25 @@ Pleninger, Topkova and Steiner, "GNSS interference detection: Methodology utilis
 
 What we used. Only the published abstract and bibliographic record. The full text was not available to us (paywalled), so we know neither its mapping from NACp to an error estimate, nor its HDOP computation, nor its thresholds, and we do not claim to reproduce them.
 
-What the observatory does instead. The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is not implemented. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+What the observatory does instead. The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low.
+
+What was built (0.41, D18). An almanac-HDOP scorer, kshana::interference_map::almanac_hdop, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
+
+- HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S. Coast Guard Navigation Center (https://www.navcen.uscg.gov/). Satellites are propagated with the almanac equations of IS-GPS-200, with an elevation mask stated by the caller (geodetic horizon).
+
+- The 95 % horizontal bound (EPU) of the report's NACp category. The table is quoted from J. Sun, The 1090 Megahertz Riddle (open textbook), Table 1.9.
+
+- A flag when the EPU exceeds a stated multiple of the geometry-predicted 95 % error 2 · HDOP · σ_UERE. The multiple and σ_UERE are parameters with no default. No value was chosen from real data.
+
+Its checks (tests/almanac_hdop.rs):
+
+- HDOP equals an independent numpy computation (xval/almanac-hdop/oracle.py) at 20 stated points, to 1.6e-15 (the requirement was 1e-9).
+
+- The NACp mapping equals the quoted table.
+
+- The flag is exact on 12 hand-written reports.
+
+The observatory's products do not use the scorer. Scoring real days with it, for example against the base method, is an evidence question with its own pre-registration, committed before that run.
 
 ## Reproducing a product#
 
@@ -32830,6 +33200,8 @@ trust_telemetry |  A trust stream (JSON lines) or receiver-trust result rendered
 
 fit_imu_log |  Accelerometer and gyro parameters of the hybrid and fusion scenarios fitted from a stationary IMU log (CSV or EuRoC) by Allan deviation, with a ready-to-paste [accel_classical] table and the log's SHA-256 (kshana imu-fit). Text in, JSON out; MODELLED. |
 
+ephem_export |  A JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel of type 13 or 9, for flight-dynamics tools, and read back state for state (kshana ephem-export). Text in, JSON out (the SPK as base64). |
+
 list_standards_packs |  The standards packs (kshana standards-pack list): scored scenario sets for the DHS Resilient PNT framework test profiles (levels 1 to 4), IMO MSC.1/Circ.1575 and ICAO Doc 9849 Appendix F. |
 
 run_standards_pack |  One pack run against its bars stated before the run (kshana standards-pack run): each test MET, NOT MET or NEEDS INPUT, with measured and expected values; give the report to compliance_report to see the rows. MODELLED; rates no product. |
@@ -33822,6 +34194,8 @@ Machine and sensor inputs (0.38): receiver-trust formats rtklib-pos, novatel, gn
 
 IMU log to hybrid/fusion sensor parameters ([accel_classical] table from a stationary log, Allan fit) |  imu-fit |  surface::imu_fit, receiver_trust::machines::imu_fit |  imu_fit |  imu_fit |  fit_imu_log |  /kshana-fit-imu |  N/A (no IDE action yet) |  N/A |  N/A (Studio's scenario editor takes the pasted table) |
 
+Flight-dynamics export (0.41, C7): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type 13 or 9), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md) |  ephem-export |  ephem_export, surface::ephem_export |  ephem_export |  ephem_export |  ephem_export |  same |  N/A (no IDE action; the command line covers it) |  integrations/flight-dynamics/: orekit.ipynb (Orekit reads the OEM and OPM back), basilisk.ipynb (Basilisk's SPICE reads the SPK back), anise.ipynb (ANISE reads the SPK and the OEM) |  N/A (no Studio card; the browser has the WASM function) |
+
 ROS 2 node, GNSS-SDR UDP relay, trust-telemetry --mqtt-tcp (integrations/ros2, integrations/gnss-sdr) |  processes |  N/A |  N/A |  N/A |  N/A |  N/A |  N/A |  N/A |  N/A (long-running processes and sockets; text forms: trust_telemetry with mqtt) |
 
 Galileo OSNMA verification of I/NAV pages or a UBX stream (docs/OSNMA.md) |  osnma verify |  osnma::cli::verify_report, surface::osnma_verify |  osnma_verify |  osnma_verify |  N/A (a long raw receiver stream suits the CLI and Python; an agent tool would add a large-input surface for no benefit) |  N/A (plugin commands run over the MCP server, which has no OSNMA tool for the reason in the MCP cell; run kshana osnma verify) |  N/A (the result means nothing without a trusted Merkle root or public key obtained from the ICD by another route and, for freshness, an independent reference time; a right-click action has nowhere to take them, and an unpinned default would read as verification; run kshana osnma verify) |  N/A (a stream in, a JSON report out; no notebook) |  Tools: OSNMA |
@@ -33947,6 +34321,8 @@ receiver-trust live |  excerpt: receiver_trust_replay |  excerpt: receiver_trust
 trust-telemetry |  trust_telemetry |  trust_telemetry |  trust_telemetry |  /kshana-trust-telemetry |  Render Trust Telemetry (a stored result) |  vessel-trust-and-training |  Tools: Telemetry card (Command line tab; formats only, no sockets) |  Text only on every surface, no socket; the running exporters are a process (see above) |
 
 imu-fit <imu.csv> |  imu_fit |  imu_fit |  fit_imu_log |  /kshana-fit-imu |  N/A |   |  — |  Text in, JSON out; MODELLED |
+
+ephem-export <horizons.txt> |  ephem_export |  ephem_export |  ephem_export |  N/A (see above) |  N/A (see above) |   |  — |  Text in, JSON out; the SPK comes back as base64. The same bytes from every surface (tests/fixtures/capstone_horizons/ephem_export.sha256) |
 
 osnma verify <pages|vectors.csv|stream.ubx> |  osnma_verify |  osnma_verify |  N/A (see above) |  N/A (see above) |  N/A (see above) |   |  Tools: OSNMA |  Same JSON as --json, with the advisory in its advisory field; the file read becomes bytes in memory. Authentication status only: not a navigation integrity service, and no anti-spoofing performance claim |
 
@@ -34943,6 +35319,18 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ## Unreleased#
 
 ### Added#
+
+- kshana ephem-export (Python, WebAssembly and MCP ephem_export; kshana::ephem_export): a JPL Horizons state table written as a CCSDS OEM 2.0, a CCSDS OPM 3.0 or an SPK kernel of type 13 or 9, then read back with the engine's own readers (C7, step 1; docs/FLIGHT-DYNAMICS-EXPORT.md). Values and epochs are copied, not computed: on the mission thread's CAPSTONE table all 4,321 states read back with the same bits from the OEM and the SPK, and from the SPICE Toolkit's reading of the SPK too. Every surface writes the same bytes (pinned SHA-256).
+
+- integrations/flight-dynamics/: the C7 adapters and notebooks, Orekit and Basilisk first. Orekit 13.1.9 reads the CAPSTONE OEM and OPM Kshana wrote with its own CCSDS parsers; every value it holds is its own kilometre-to-metre conversion of the written double and every epoch is the written one (4,321 states). The difference report names Orekit as rounding further than the digits written: that conversion is a second rounding of at most one ulp. The flight-dynamics workflow runs the notebooks, checks that the command line and Python write the same bytes, and runs kshana connect check. Basilisk 2.12.2, through the SPICE Toolkit it ships, reads the SPK's 4,321 stored records and epochs with the written bits.
+
+- ANISE 0.10.6, the fourth, file-based C7 tool (integrations/flight-dynamics/anise.ipynb): its own kernel reader evaluates Kshana's SPK, and its OEM conversion, at every node epoch no further from the written states than SPICE does (1.46e-11 km). It reads SPK epochs as SPICE ET and OEM TDB labels with hifitime's TDB model, 3.2 µs apart here; the notebook shows why the scale matters.
+
+- [design.carrier] fll_handover_mean_s (Rust LoopConfig::fll_handover_mean_s), with fll_pull_in_max_s: a forced FLL-to-PLL hand-over starts the PLL at the mean NCO Doppler of the pull-in's last this-many seconds. Opt-in, out of the design hash when unset. Scored under D8a row 4.
+
+- iq::acq::CfarReference::Row (CfarConfig::with_reference): CA-CFAR reference cells every stride-th lag round the whole Doppler row. Opt-in; the 16-cell window stays the default. Scored under D8a row 3 (met).
+
+- [monitors] roc_restart (default on): the detection ROC scores each C/N0 CUSUM window as restarted at its start (D8b row 9, met); a campaign's automatic C/N0 stride is now one NWPR window (D8b row 8).
 
 - RTCM SSR reader (kshana::rtcm_ssr) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds missing from that stream are checked against hand-built frames only. MODELLED.
 

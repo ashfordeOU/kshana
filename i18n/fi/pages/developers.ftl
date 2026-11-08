@@ -798,8 +798,8 @@ seg-193ee1ab991e = <c1/> muuttaa lähetystiedoston ja jaon totuuden tulostiedost
 
 seg-0c50b3629e39 = Avaa benchmark
 
-seg-859bb6732925 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "52" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "53" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } työkalua</b> julkisen Kshana-rajapinnan (application programming interface) päällä, virallisessa MCP-rekisterissä nimellä <c1/>. Kiertoratavientit: SP3 (Standard Product { "3" }) sekä CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (kiertoradan keskielementti- ja efemeridiviestit, TEME: True Equator, Mean Equinox -koordinaatisto). Rekisteröi se kohdassa <b>Tekoälyavustaja (MCP-palvelin)</b> tai <b>Docker-image</b>. <a1>MCP-palvelimen dokumentaatio</a1>
+seg-19751efb1461 = <b>{ "53" } työkalua</b> julkisen Kshana-rajapinnan (application programming interface) päällä, virallisessa MCP-rekisterissä nimellä <c1/>. Kiertoratavientit: SP3 (Standard Product { "3" }) sekä CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (kiertoradan keskielementti- ja efemeridiviestit, TEME: True Equator, Mean Equinox -koordinaatisto). Rekisteröi se kohdassa <b>Tekoälyavustaja (MCP-palvelin)</b> tai <b>Docker-image</b>. <a1>MCP-palvelimen dokumentaatio</a1>
 
-seg-5aa702c4ebc7 = { "52" } työkalua, joita tekoälyavustaja voi kutsua, kukin ohut kääre julkisen API:n päällä
+seg-1b9e5d8ce426 = { "53" } työkalua, joita tekoälyavustaja voi kutsua, kukin ohut kääre julkisen API:n päällä

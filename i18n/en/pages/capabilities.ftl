@@ -1653,9 +1653,7 @@ seg-54dce6366d5a = Every bundled scenario, on one map.
 # c11: lunar-surface-terrain
 # c12: mission-thread-artemis-class
 # c13: quantum-pnt-demonstrator.suite
-# c14: tip-and-cue-baltic-m2
-# c15: tip-and-cue-short
-seg-0c0843eb6a5a = All { "196" } scenario files across { "93" } kinds, grouped by domain; { "181" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+seg-307cf3ee47d2 = All { "196" } scenario files across { "93" } kinds, grouped by domain; { "183" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 # attr:aria-label
 seg-f53c36555404 = Filter by ledger status

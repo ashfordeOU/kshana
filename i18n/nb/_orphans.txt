@@ -1205,3 +1205,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (forhåndsregistrert fbe6c8b3 og, etter en protokollbom i runde 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D-målløsning innenfor { "6.1e-15" } av r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = I repositoriegrenen disse dokumentene kommer fra; ennå ikke på GitHub
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Ikke på GitHub ennå
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>Hva observatoriet gjør i stedet.</b> Spørsmålet almanakksammenligningen besvarer er «kunne konstellasjonsgeometrien alene forklare denne lave nøyaktigheten?». Grunnmetoden besvarer et beslektet spørsmål uten almanakk: en lav andel må skille seg ut mot samme dags bakgrunn i regionen og mot flyets egne gode rapporter andre steder. Det er en annen og svakere erstatning: den kan ikke si at en time med rolig geometri var degradert der dagens bakgrunn også er lav. En almanakk-HDOP-skårer er <b>ikke implementert</b>. Det er et åpent punkt, som skal bygges fra artikkelens fulltekst og den offentlige GPS-almanakken og forhåndsregistreres før den kjøres; inntil da siteres den, den påstås ikke.
