@@ -115,3 +115,17 @@ This is stated now, from the link budget alone, before any run.
     The oracle and its output are committed before any engine code.
 12. **B6.** The same seeds give byte-identical results on every platform in the reproducibility matrix.
     `PortableFloat` is used for all trigonometry, logarithms and powers.
+
+### Amendment to reading 7, after a timing trial and before the full run (disclosed)
+
+- **The trial.** To time the run, the scenario was run on the **first 4 of the 200 placements** (seeds 4500 and 4501
+  as stated), at engine commit `eb6468999`.
+- **What it showed.** The hybrid declined every draw: 0 estimates, against 80 from the space layer. With no
+  reporting ground site, the EIRP unknown has no information, so the Gauss–Newton normal matrix is singular. This
+  is an implementation fault in a degenerate case the reading did not name.
+- **The correction.** The hybrid solves EIRP only when at least one ground site reports. With none, it solves
+  latitude and longitude from the space measurements alone, exactly as the space layer does.
+- **Also visible in the trial, as expected and not changed:** the ground layer gave no estimate for these surface
+  sources. A 10 m source is within the radio horizon (about 36 km) of fewer than 3 coastal sites.
+- **The full run** of all 200 placements is made once after this correction. The trial's 4 placements are part of
+  it, and the trial output is kept (`trial-4.json`).
