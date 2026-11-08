@@ -26,5 +26,11 @@ standard library only, sharing no code with the engine).
    engine's `cn0_drop` windows to a JSON file; `oracle.py` recomputes each window's restarted statistic from the series
    and the window bounds, and the AUC from the positive and negative maxima (trapezoidal, ties count half), and must
    agree with the engine within 1e-9.
+5a. **Amendment to reading 5, before any run** (no campaign had been run): campaign cells keep each window's
+    maximum but not the CUSUM series, so the oracle checks the restart and the AUC separately. (i) The restart: a test
+    builds CUSUM-shaped series (random walks clamped at zero, seeded), scores them through the engine's
+    `detect::windows` with the restart on, and `oracle.py` recomputes every window from the series; agreement within
+    1e-9. (ii) The AUC: for each run, `oracle.py` recomputes the `cn0_drop` AUC from the cells' window maxima and must
+    agree with the engine's within 1e-9.
 6. **The bench.** The bench's task (b) result file carries these numbers and the verdict
    (`xval/bench/PREREGISTRATION-0.41.md` §4); it does not score R1 again.
