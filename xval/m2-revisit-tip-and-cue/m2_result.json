@@ -1,0 +1,414 @@
+{
+  "cases": [
+    {
+      "case": {
+        "name": "primary-16",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 3270.0,
+        "median_s": 770.0,
+        "p95_s": 2070.0,
+        "samples": 8640,
+        "value_s": 890.5787037037037
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 9370.0,
+        "median_s": 500.0,
+        "p95_s": 5840.0,
+        "samples": 248450,
+        "value_s": 1385.3587237035754
+      },
+      "revisit": {
+        "max_s": 3290.0,
+        "median_s": 1850.0,
+        "p95_s": 2240.0,
+        "samples": 291115,
+        "value_s": 1438.1387864406433
+      },
+      "revisit_start_to_start_s": 2077.586038603479,
+      "rf_intervals": 292111
+    },
+    {
+      "case": {
+        "name": "primary-32",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 2300.0,
+        "median_s": 620.0,
+        "p95_s": 1890.0,
+        "samples": 8640,
+        "value_s": 776.8483796296297
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 8630.0,
+        "median_s": 410.0,
+        "p95_s": 3530.0,
+        "samples": 244193,
+        "value_s": 779.3151762823243
+      },
+      "revisit": {
+        "max_s": 2310.0,
+        "median_s": 1750.0,
+        "p95_s": 2050.0,
+        "samples": 284182,
+        "value_s": 1375.058943598176
+      },
+      "revisit_start_to_start_s": 2124.7787793446264,
+      "rf_intervals": 285178
+    },
+    {
+      "case": {
+        "name": "V1-32-8x4",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 8,
+          "total": 32
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 8,
+          "total": 32
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 1080.0,
+        "median_s": 340.0,
+        "p95_s": 870.0,
+        "samples": 8640,
+        "value_s": 378.1400462962963
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 8660.0,
+        "median_s": 300.0,
+        "p95_s": 5260.0,
+        "samples": 379636,
+        "value_s": 860.9239833116997
+      },
+      "revisit": {
+        "max_s": 1090.0,
+        "median_s": 850.0,
+        "p95_s": 980.0,
+        "samples": 442307,
+        "value_s": 815.9674012764095
+      },
+      "revisit_start_to_start_s": 1360.2062458469816,
+      "rf_intervals": 443303
+    },
+    {
+      "case": {
+        "name": "V2-16",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 60.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 3270.0,
+        "median_s": 770.0,
+        "p95_s": 2070.0,
+        "samples": 8640,
+        "value_s": 890.5787037037037
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 5780.0,
+        "median_s": 350.0,
+        "p95_s": 1740.0,
+        "samples": 248450,
+        "value_s": 504.295231484849
+      },
+      "revisit": {
+        "max_s": 3290.0,
+        "median_s": 1850.0,
+        "p95_s": 2240.0,
+        "samples": 291115,
+        "value_s": 1438.1387864406433
+      },
+      "revisit_start_to_start_s": 2077.586038603479,
+      "rf_intervals": 292111
+    },
+    {
+      "case": {
+        "name": "V2-32",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 60.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 2300.0,
+        "median_s": 620.0,
+        "p95_s": 1890.0,
+        "samples": 8640,
+        "value_s": 776.8483796296297
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 3030.0,
+        "median_s": 230.0,
+        "p95_s": 1500.0,
+        "samples": 244193,
+        "value_s": 337.00248063548173
+      },
+      "revisit": {
+        "max_s": 2310.0,
+        "median_s": 1750.0,
+        "p95_s": 2050.0,
+        "samples": 284182,
+        "value_s": 1375.058943598176
+      },
+      "revisit_start_to_start_s": 2124.7787793446264,
+      "rf_intervals": 285178
+    },
+    {
+      "case": {
+        "name": "V3-16",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "optical_min_sun_deg": 10.0,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 182487,
+      "full_refresh": {
+        "max_s": 3270.0,
+        "median_s": 770.0,
+        "p95_s": 2070.0,
+        "samples": 8640,
+        "value_s": 890.5787037037037
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 561760.0,
+        "median_s": 43650.0,
+        "p95_s": 237360.0,
+        "samples": 65963,
+        "value_s": 60592.8622124951
+      },
+      "revisit": {
+        "max_s": 3290.0,
+        "median_s": 1850.0,
+        "p95_s": 2240.0,
+        "samples": 291115,
+        "value_s": 1438.1387864406433
+      },
+      "revisit_start_to_start_s": 2077.586038603479,
+      "rf_intervals": 292111
+    },
+    {
+      "case": {
+        "name": "V3-32",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "optical_min_sun_deg": 10.0,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "rf_mask_deg": 10.0
+      },
+      "cues_unanswered": 160607,
+      "full_refresh": {
+        "max_s": 2300.0,
+        "median_s": 620.0,
+        "p95_s": 1890.0,
+        "samples": 8640,
+        "value_s": 776.8483796296297
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 558980.0,
+        "median_s": 42110.0,
+        "p95_s": 261540.0,
+        "samples": 83586,
+        "value_s": 60660.04719890934
+      },
+      "revisit": {
+        "max_s": 2310.0,
+        "median_s": 1750.0,
+        "p95_s": 2050.0,
+        "samples": 284182,
+        "value_s": 1375.058943598176
+      },
+      "revisit_start_to_start_s": 2124.7787793446264,
+      "rf_intervals": 285178
+    },
+    {
+      "case": {
+        "name": "V4-16",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 8,
+          "total": 16
+        },
+        "rf_mask_deg": 0.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 1890.0,
+        "median_s": 170.0,
+        "p95_s": 1480.0,
+        "samples": 8640,
+        "value_s": 454.60069444444446
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 9530.0,
+        "median_s": 870.0,
+        "p95_s": 4710.0,
+        "samples": 228850,
+        "value_s": 1536.2388622813087
+      },
+      "revisit": {
+        "max_s": 1900.0,
+        "median_s": 1140.0,
+        "p95_s": 1720.0,
+        "samples": 265380,
+        "value_s": 997.868420720827
+      },
+      "revisit_start_to_start_s": 2281.894290009803,
+      "rf_intervals": 266376
+    },
+    {
+      "case": {
+        "name": "V4-32",
+        "optical": {
+          "node_offset": 0.5,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "optical_min_sun_deg": null,
+        "optical_off_nadir_deg": 45.0,
+        "rf": {
+          "node_offset": 0.0,
+          "phasing": 1,
+          "planes": 16,
+          "total": 32
+        },
+        "rf_mask_deg": 0.0
+      },
+      "cues_unanswered": 0,
+      "full_refresh": {
+        "max_s": 1650.0,
+        "median_s": 90.0,
+        "p95_s": 1400.0,
+        "samples": 8640,
+        "value_s": 383.1261574074074
+      },
+      "points_without_gap": 0,
+      "reaction": {
+        "max_s": 6860.0,
+        "median_s": 690.0,
+        "p95_s": 1930.0,
+        "samples": 222669,
+        "value_s": 861.9551233465812
+      },
+      "revisit": {
+        "max_s": 1660.0,
+        "median_s": 1060.0,
+        "p95_s": 1550.0,
+        "samples": 259542,
+        "value_s": 921.8999356847985
+      },
+      "revisit_start_to_start_s": 2347.9576290314103,
+      "rf_intervals": 260538
+    }
+  ],
+  "epoch_utc": "2025-01-01T00:00:00Z",
+  "points": 996,
+  "row": "M2",
+  "span_s": 604800,
+  "step_s": 10
+}
