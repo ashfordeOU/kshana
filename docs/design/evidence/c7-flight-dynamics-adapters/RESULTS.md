@@ -27,7 +27,7 @@ the Python binding's.
 | Basilisk 2.12.2 | SPK | the SPICE Toolkit it ships (`pyswice`): stored records and epochs | **carried, to the digits written**: 25,926 of 25,926 values and 4,321 of 4,321 epochs with the written bits. `spkezr_c` at the nodes within 1.5e-11 km and 5e-15 km/s of the stored state. |
 | ANISE 0.10.6 | SPK | its own reader, evaluated at the nodes (ET) | **carried** (evaluated, not read): within 1.46e-11 km and 4.94e-15 km/s of the written state; SPICE on the same kernel 1.46e-11 km and 4.97e-15 km/s. |
 | ANISE 0.10.6 | OEM | converted by ANISE to a type 9 kernel, evaluated at the nodes (TDB) | **carried** (evaluated, not read): within 1.46e-11 km and 1.11e-16 km/s. |
-| GMAT | OEM, SPK | | **not done**: see below |
+| GMAT | SPK (the OEM is refused: R2026a reads OEM 2.0 only in its TESTING mode) | | **not done**: see below |
 
 These numbers are from local runs on 8 November 2026. The workflow runs the same notebooks; each
 run uploads its difference report.
@@ -58,11 +58,24 @@ run uploads its difference report.
 
 **Not done.** The adapter (`integrations/flight-dynamics/gmat_reader.py`, `gmat.ipynb`) and its
 workflow job `gmat` are in place. The job uses GMAT R2026a, from a 401,664,992-byte tarball pinned by
-SHA-256 `fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754` and cached. GMAT loads the
-OEM through its `CCSDS-OEM` propagator and the SPK through its `SPK` propagator, steps through each
-file at the node spacing, and reports every state; the report compares them as for an evaluating
-tool.
+SHA-256 `fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754` and cached. GMAT reads the
+SPK through its `SPK` propagator, steps through the file at the node spacing, and reports every
+state; the report compares them as for an evaluating tool.
+
+**The OEM: GMAT R2026a, as shipped, does not read an OEM of version 2.0.** In the job's first run
+(Flight dynamics run 42501092081, at open commit 150df8d41), GMAT loaded its kernels and stopped the
+mission at the first propagation of the OEM:
+
+    Utility Exception: Error: Usage of CCSDS OEM v2 ephemeris data file is only allowed for running in TESTING mode.
+
+Kshana writes `CCSDS_OEM_VERS = 2.0`. Turning on GMAT's TESTING mode would no longer test GMAT as
+shipped, so the adapter does not. It now runs the OEM and the SPK as two GMAT scripts. The OEM leg
+still gives GMAT the OEM as written, and the notebook accepts two outcomes for it: the OEM carried,
+or exactly this refusal, which the report then states. Any other failure fails the notebook, and a
+GMAT that reads the file is compared in full. Whether GMAT reads Kshana's states from an OEM of
+version 1.0 is not tested: Kshana does not write one.
 
 The adapter was written from GMAT's documentation and samples without running GMAT: the session
 that wrote it was not allowed to execute GMAT's binaries. The job runs with continue-on-error and is
-fixed from its logs. GMAT counts as done only when that job is green.
+fixed from its logs. The SPK leg has not run yet; it comes after the OEM leg, which stopped the first
+run. GMAT counts as done only when that job is green.

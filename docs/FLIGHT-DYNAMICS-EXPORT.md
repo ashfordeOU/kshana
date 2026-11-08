@@ -5,7 +5,7 @@
 
 | Format | What is written | Read by, for example |
 |---|---|---|
-| `oem` | CCSDS Orbit Ephemeris Message 2.0, KVN: one segment with every state | Orekit, GMAT, STK |
+| `oem` | CCSDS Orbit Ephemeris Message 2.0, KVN: one segment with every state | Orekit, STK (GMAT R2026a reads OEM 2.0 only in its TESTING mode) |
 | `opm` | CCSDS Orbit Parameter Message 3.0, KVN: one state (`--index`, default the first) | Orekit, GMAT |
 | `spk` | NAIF SPICE SPK kernel, type 13 (Hermite, default) or type 9 (Lagrange), one segment | SPICE and the tools built on it (Basilisk, GMAT) |
 

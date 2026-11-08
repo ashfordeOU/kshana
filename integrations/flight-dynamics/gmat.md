@@ -13,9 +13,13 @@ Needs GMAT R2026a (GMAT_ROOT names the installation) and spiceypy for the refere
 
 Kshana writes the CAPSTONE states of the mission thread (4,321 states, Moon-centred, ICRF, TDB) as
 an OEM and an SPK. GMAT loads each into a spacecraft through its `CCSDS-OEM` and `SPK` ephemeris
-propagators, steps through the file at the node spacing, and reports every state. The states GMAT
-reports are compared with the written states, and with SPICE's own evaluation of Kshana's SPK. This
-is the GMAT part of roadmap item C7 (`docs/FLIGHT-DYNAMICS-EXPORT.md`).
+propagators, in two separate runs, steps through the file at the node spacing, and reports every
+state. The states GMAT reports are compared with the written states, and with SPICE's own evaluation
+of Kshana's SPK. This is the GMAT part of roadmap item C7 (`docs/FLIGHT-DYNAMICS-EXPORT.md`).
+
+GMAT R2026a as shipped refuses an OEM of version 2.0, the version Kshana writes: its `CCSDS-OEM`
+propagator accepts one only in GMAT's TESTING mode. The notebook does not turn that mode on. It
+gives GMAT the OEM as written and accepts two outcomes: the OEM carried, or that refusal.
 
 ```python
 import os, sys, tempfile
@@ -46,19 +50,30 @@ spice = [[float(x) for x in spiceypy.spkezr("-1176", e, "J2000", "NONE", "301")[
 spiceypy.kclear()
 ```
 
-GMAT runs the script: both spacecraft, every step.
+GMAT runs the SPK script, every step.
 
 ```python
-oem_report, spk_report, log = gm.run(files["oem"], files["spk"], OUT / "gmat", written.epochs[0], len(ets))
-print(log[-2000:])
+spk_report, spk_log = gm.run_spk(files["spk"], OUT / "gmat", written.epochs[0], len(ets))
+print(spk_log[-2000:])
+```
+
+GMAT runs the OEM script on the OEM as written. `oem_report` is `None` when GMAT refuses the file
+with `gm.OEM_V2_REFUSAL`.
+
+```python
+oem_report, oem_log = gm.run_oem(files["oem"], OUT / "gmat", len(ets))
+oem_refused = oem_report is None
+print("OEM refused by GMAT:" if oem_refused else "OEM run by GMAT:", oem_log[-2000:])
 ```
 
 What GMAT reported, against what was written:
 
 ```python
 rows = []
-for fmt, path, how in [("oem", oem_report, "CCSDS-OEM propagator, LunaICRF"),
-                       ("spk", spk_report, "SPK propagator, LunaJ2000 (MJ2000Eq)")]:
+legs = [("spk", spk_report, "SPK propagator, LunaJ2000 (MJ2000Eq)")]
+if not oem_refused:
+    legs.append(("oem", oem_report, "CCSDS-OEM propagator, LunaICRF"))
+for fmt, path, how in legs:
     g_ets, g_states, g_texts = gm.read_report(path)
     print(fmt, len(g_states), "states reported")
     n = min(len(g_states), len(ets))
@@ -74,7 +89,11 @@ for fmt, path, how in [("oem", oem_report, "CCSDS-OEM propagator, LunaICRF"),
 
 ```python
 md = fd.report(rows, OUT)
+if oem_refused:
+    note = f"GMAT OEM: not run. GMAT R2026a refuses CCSDS_OEM_VERS = 2.0 outside its TESTING mode: {gm.OEM_V2_REFUSAL}"
+    md += "\n" + note + "\n"
+    (OUT / "gmat" / "oem_refused.txt").write_text(note + "\n")
 print(md)
-assert all(len(gm.read_report(p)[1]) == len(ets) for p in (oem_report, spk_report)), "GMAT did not report every state"
+assert all(len(gm.read_report(p)[1]) == len(ets) for _, p, _ in legs), "GMAT did not report every state"
 assert all(c.carried for c in rows), md
 ```

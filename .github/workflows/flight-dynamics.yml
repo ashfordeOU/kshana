@@ -109,7 +109,8 @@ jobs:
           path: ${{ runner.temp }}/fd
           if-no-files-found: warn
   gmat:
-    # GMAT R2026a reads the OEM and the SPK through its ephemeris propagators. The adapter was
+    # GMAT R2026a reads the SPK through its SPK propagator; it refuses the OEM (version 2.0) outside
+    # its TESTING mode, which the notebook checks and does not turn on. The adapter was
     # written without running GMAT, so this job may fail while it is fixed from these logs; it
     # does not fail the workflow, and C7 does not count GMAT done until it is green.
     needs: write
