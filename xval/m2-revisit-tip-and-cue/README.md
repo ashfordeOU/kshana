@@ -55,6 +55,9 @@ script that builds the area's sea points from Natural Earth (`area.py`, Python s
     (mean longitude, mean anomaly, ecliptic longitude, obliquity 23.439° − 4e-7°·d), rotated to Earth-fixed
     with the Greenwich mean sidereal time of IAU 1982 at UTC `2025-01-01T00:00:00 + t` (UT1 = UTC); an
     optical look counts only when the Sun is at or above 10° elevation at the point.
+12. **Variants** (added before any run, after the B0 check): V2, V3 and V4 are run for both the 16- and the
+    32-satellite layers; V1 replaces the 32-satellite RF and optical layers by 8 planes × 4 (phasing 1, the
+    optical nodes offset by half a plane spacing as in reading 1). V1 to V4 never enter the verdict.
 11. **Bar M2-B0.** The oracle propagates the 16-satellite RF layer over the first 24 h (steps
     `0 … 86 400 s`) and lists, for P1–P10 of M1, every satellite's access intervals and the merged
     intervals. The engine's must have the same counts, and every start and end must agree to within one step

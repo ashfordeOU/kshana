@@ -14438,5 +14438,76 @@
    },
    "`"
   ]
+ },
+ {
+  "id": "e-tip-and-cue-parse",
+  "error": true,
+  "parts": [
+   "not a tip-and-cue scenario: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-tip-and-cue-area",
+  "error": true,
+  "parts": [
+   "area `",
+   {
+    "var": "area"
+   },
+   "` is not known; the tip-and-cue kind has `baltic`"
+  ]
+ },
+ {
+  "id": "tip-and-cue-label",
+  "error": false,
+  "parts": [
+   "MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published simulation figures, never a validation"
+  ]
+ },
+ {
+  "id": "tip-and-cue-summary-head",
+  "error": false,
+  "parts": [
+   "tip-and-cue: ",
+   {
+    "var": "n"
+   },
+   " cases over ",
+   {
+    "var": "points"
+   },
+   " area points (minutes)"
+  ]
+ },
+ {
+  "id": "tip-and-cue-summary-case",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": revisit ",
+   {
+    "var": "r"
+   },
+   ", full-area refresh ",
+   {
+    "var": "f"
+   },
+   ", RF-to-optical reaction ",
+   {
+    "var": "q"
+   }
+  ]
+ },
+ {
+  "id": "tip-and-cue-figure-title",
+  "error": false,
+  "parts": [
+   "Revisit (R), full-area refresh (F) and RF-to-optical reaction (Q), minutes"
+  ]
  }
 ]

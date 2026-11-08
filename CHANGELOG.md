@@ -29,6 +29,11 @@ breaking changes are called out explicitly.
   lookup of a satellite's observable-specific bias at a time. On two public files every data line is read with the values
   printed. Both files' headers state a count of estimates that differs from their data lines. MODELLED; applying the biases
   in PPP is item R1.3.
+- `kshana::tip_and_cue` (row M2, library): Walker star RF and optical layers on 550 km sun-synchronous orbits over the 996
+  Baltic sea points (`data/tip-and-cue/baltic_sea_points.csv`, from Natural Earth), access intervals per point, and the
+  revisit, full-area refresh and RF-to-optical reaction figures; public helpers for the area grid, the sea mask, the primary
+  RF layer and one of its planes. Bar M2-B0 met: 1 283 access intervals equal the independent oracle's to the second. The
+  `tip-and-cue` scenario kind follows with the site rebuild. MODELLED.
 
 ### Fixed
 
