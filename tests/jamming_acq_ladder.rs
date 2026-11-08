@@ -5,7 +5,12 @@
 //! registered, with the informativeness precondition of the D8b pre-registration (row 7). No
 //! engine change. H1/G1, G2 and G3 are re-run as regressions by `tests/jamming_acq_agc.rs`.
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08): MET. Informativeness 2614 of 5472 link-epochs (0.4777) in
+//! [25, 32) dB-Hz; H2, H3 (5472 flags, 2626 showing the hysteresis) and H4 hold
+//! (`docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: the link counts, the informativeness and hysteresis counts and the H4 acquired
+//! link-epoch totals of the scored run. PIN-EXCLUDES: output hashes (none is pinned here).
 
 use kshana::jamming::{run_jamming, JammingResult, JammingScenario};
 
@@ -183,4 +188,24 @@ misses {}: {:?}",
         miss.iter().take(10).collect::<Vec<_>>()
     );
     assert!(miss.is_empty(), "D8b row 7 NOT MET: {} misses", miss.len());
+    // Pinned from the scored run (2026-11-08): MET.
+    assert_eq!((h2_links, h3_flags, links), (5472, 5472, 5472));
+    assert_eq!((between, differing), (2614, 2626), "the recorded run moved");
+    let pinned: [[usize; 5]; 12] = [
+        [440, 440, 440, 59, 0],
+        [440, 440, 440, 0, 0],
+        [440, 440, 295, 0, 0],
+        [440, 440, 142, 0, 0],
+        [440, 440, 0, 0, 0],
+        [440, 359, 0, 0, 0],
+        [440, 162, 0, 0, 0],
+        [440, 118, 0, 0, 0],
+        [169, 0, 0, 0, 0],
+        [118, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ];
+    for ((p, got), want) in h4_totals.iter().zip(pinned) {
+        assert_eq!(got.as_slice(), want.as_slice(), "{p} dBW: H4 totals moved");
+    }
 }
