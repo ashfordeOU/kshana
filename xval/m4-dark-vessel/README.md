@@ -138,3 +138,13 @@ so. The logic sees the AIS stream, the RF stream and the public M2 RF layer geom
     - The chosen pair, and every number above, is committed in `M4Params::v1` before seeds 1000 to 1009 are
       generated.
     - The scored seeds are then run once.
+
+### Amendment to reading 15 after the first development run (seeds 0 to 9), before any scored seed
+
+- **What was wrong.** The first development run classed all 1 400 POSITION-OFFSET vessels as IDENTITY-DUPLICATE.
+  The onset of an offset is one jump of 2 to 50 km between two reports 10 s apart, so it breaks the 70 kn rule
+  once. A duplicate identity interleaves reports from two places, so it breaks the rule at every switch.
+- **The correction.** An identity is a duplicate when **at least two** pairs of consecutive reports imply more than
+  70 kn.
+- **What was seen first.** That run's full output is kept in `dev-first.json.gz`. The tuning of `m` and `c` uses
+  the second run only.
