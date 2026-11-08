@@ -124,7 +124,9 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
     for (&id, rep) in &by_id {
         let dup = rep
             .windows(2)
-            .any(|w| implied_kn(w[0], w[1]) > p.max_speed_kn);
+            .filter(|w| implied_kn(w[0], w[1]) > p.max_speed_kn)
+            .count()
+            >= 2;
         if dup {
             class.insert(id, Label::IdentityDuplicate);
             let mut parts: Vec<Vec<(u32, f64, f64)>> = Vec::new();
