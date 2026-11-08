@@ -3,6 +3,7 @@
 // result (recorded/mission-thread-artemis-class.json) or reads a result file the person opens with File.text(); nothing leaves the page.
 import { readThread, headline, phaseTable, budgetTable, timelineSvg, metricTitle, fmtElapsed, fmtSigma, METRICS } from "../lib/mission-thread.mjs";
 import { t, ready } from "../lib/t.mjs";
+import { bytesToText } from "../lib/packs.mjs";
 await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
@@ -77,9 +78,11 @@ function draw(m) {
 async function openExample() {
   setStatus(t("js-mthread-opening", "Opening the Artemis-class example…"));
   try {
-    const r = await fetch(`recorded/${EXAMPLE}.json`);
-    if (!r.ok) throw new Error(t("js-mthread-example-not-loaded", "the recorded result did not load"));
-    const { model, error } = readThread(await r.json());
+    // The example is not a Studio library scenario, so it has no index entry: its fixed file, gzip (tools_mission_thread.mjs).
+    const res = await fetch(`recorded/${EXAMPLE}.json.gz`);
+    const rec = res.ok ? JSON.parse(await bytesToText(new Uint8Array(await res.arrayBuffer()))) : null;
+    if (!rec) throw new Error(t("js-mthread-example-not-loaded", "the recorded result did not load"));
+    const { model, error } = readThread(rec);
     if (error) throw new Error(error);
     draw(model);
     setStatus(t("js-mthread-recorded", "The engine's recorded result (version { $version }): an illustrative chain built from public mission descriptions; the numbers are modelled and stand for nothing real.", { version: model.engine }));

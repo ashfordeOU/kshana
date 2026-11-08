@@ -4,8 +4,10 @@ import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { rowsForKind, evidenceMix, validatedShare, sparkPoints, kindsOfToml, kindOfToml, previewOf, restoreMatchFields } from "./areas.mjs";
 import { SCENARIOS } from "./catalog.mjs";
+import { gunzipSync } from "node:zlib";
 
-const read = (f) => readFileSync(new URL(`../${f}`, import.meta.url), "utf8");
+// A recording is gzip (recorded/<name>.json.gz, tools_record.mjs); other files are plain.
+const read = (f) => { const b = readFileSync(new URL(`../${f}`, import.meta.url)); return (b[0] === 0x1f && b[1] === 0x8b ? gunzipSync(b) : b).toString("utf8"); };
 const matrix = JSON.parse(read("data/verification-matrix.json"));
 const rows = matrix.rows;
 
@@ -58,13 +60,13 @@ assert.equal(kindOfToml("seed = 1"), "holdover");
   }
   assert.ok(!/celeste/i.test(read("data/areas.json")), "the optional group's area lives in its own folder");
   // The RAIM preview is the line the Studio draws for that recording.
-  const d = JSON.parse(read("recorded/integrity-raim.json"));
+  const d = JSON.parse(read("recorded/integrity-raim.json.gz"));
   assert.deepEqual(previewOf(JSON.parse(d.json), d.toml).points, data.areas.find((a) => a.id === "integrity").preview.points);
 }
 // The opening screen's result is the recorded coverage run, unchanged (only re-serialised).
 {
   const hero = JSON.parse(read("data/hero.json"));
-  const d = JSON.parse(read("recorded/constellation-multi-gnss-coverage.json"));
+  const d = JSON.parse(read("recorded/constellation-multi-gnss-coverage.json.gz"));
   assert.equal(hero.json, JSON.stringify(JSON.parse(d.json)), "the same values (-0 is written 0)");
   assert.equal(hero.toml, d.toml);
 }
@@ -74,14 +76,14 @@ assert.equal(kindOfToml("seed = 1"), "holdover");
   const { taskWords } = await import("./meaning.mjs");
   const { DOMAINS } = await import("./catalog.mjs");
   for (const name of ["integrity-raim", "clock-holdover", "l-band-waterfall-jamming", "lunar-time-budget"]) {
-    const d = JSON.parse(read(`recorded/${name}.json`));
+    const d = JSON.parse(read(`recorded/${name}.json.gz`));
     const s = SCENARIOS.find((x) => x[0] === name + ".toml");
     const w = taskWords({ title: s[2], question: s[3] }, DOMAINS.find((x) => x.id === s[1]).label, d.toml, JSON.parse(d.json));
     assert.deepEqual([fp.s[name].t, fp.s[name].u, fp.s[name].b, fp.s[name].l], [w.title, w.sub, w.big, w.line], `${name}: first paint in step with the Studio`);
   }
   assert.ok(!/celeste/i.test(read("data/firstpaint.json")));
   const home = JSON.parse(read("data/firstpaint-home.json"));
-  const hd = JSON.parse(read("recorded/constellation-multi-gnss-coverage.json"));
+  const hd = JSON.parse(read("recorded/constellation-multi-gnss-coverage.json.gz"));
   const { plainMeaning } = await import("./meaning.mjs");
   const { spellOut } = await import("./abbr.mjs");
   const hm = plainMeaning(JSON.parse(hd.json), hd.toml);

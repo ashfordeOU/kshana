@@ -3,9 +3,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { SCENARIOS, STUDIES, readLi, readBars, barsOf, missesOf, missNote, barsTable, chartsOf, factRows } from "./lunar-infra.mjs";
+import { gunzipSync } from "node:zlib";
 
 const here = new URL("../", import.meta.url).pathname;
-const load = (id) => JSON.parse(readFileSync(here + `recorded/${id}.json`, "utf8"));
+const load = (id) => JSON.parse(gunzipSync(readFileSync(here + `recorded/${id}.json.gz`)).toString("utf8"));
 const models = (sc) => sc.files.map((f) => readLi(load(f)).model);
 const bars = readBars(JSON.parse(readFileSync(here + "lunar-infra/bars.json", "utf8"))).bars;
 const tab = (id) => SCENARIOS.find((s) => s.id === id);

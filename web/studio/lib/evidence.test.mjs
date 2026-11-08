@@ -69,7 +69,8 @@ import { readLi } from "./lunar-infra.mjs";
 import { readOptical } from "./optical.mjs";
 import { readHoldover } from "./holdover.mjs";
 import { readReport } from "./lunar-station.mjs";
-const rec = (f) => JSON.parse(readFileSync(new URL(`../recorded/${f}.json`, import.meta.url), "utf8"));
+import { gunzipSync } from "node:zlib";
+const rec = (f) => JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${f}.json.gz`, import.meta.url))).toString("utf8"));
 // A recording made before the engine wrote the label: the engine at 0.40 writes it into every result, so the fixture drops it.
 const withoutEv = (r) => { const j = JSON.parse(r.json); delete j.evidence; return { ...r, json: JSON.stringify(j) }; };
 const withEv = (r) => { const j = JSON.parse(r.json); j.evidence = RUN.evidence; return { ...r, json: JSON.stringify(j) }; };

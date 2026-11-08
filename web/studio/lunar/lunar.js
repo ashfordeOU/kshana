@@ -7,6 +7,7 @@ import { getEngine } from "../lib/engine-page.mjs";
 import { mountBadge } from "../lib/evidence.mjs";
 import { needsNewerEngine } from "../lib/catalog.mjs";
 import { t, ready } from "../lib/t.mjs";
+import { bytesToText } from "../lib/packs.mjs";
 await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
@@ -65,7 +66,7 @@ async function loadRecorded() {
   let res;
   try { res = await fetch(RECORDED_FILE); } catch { res = null; }
   if (!res || !res.ok) { show(null); status(t("js-lunar-no-recording", "No recording of this study ships yet: it is made at the release with the 0.36 engine. Run it here with an engine that has the kind, or open a result file.")); return; }
-  openText(await res.text(), t("js-lunar-what-recording", "the recording that ships with the Studio"), "recorded");
+  openText(await bytesToText(new Uint8Array(await res.arrayBuffer())), t("js-lunar-what-recording", "the recording that ships with the Studio"), "recorded");
 }
 async function runHere() {
   if (running) return;

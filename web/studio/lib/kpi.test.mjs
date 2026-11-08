@@ -6,8 +6,9 @@ import assert from "node:assert/strict";
 import { kpis, honesty, kpiDelta, headline, plainLabel, fieldTerm, isInputEcho, figureName } from "./kpi.mjs";
 import * as K from "./kinds.mjs";
 import * as V from "./views.mjs";
+import { gunzipSync } from "node:zlib";
 
-const rec = (name) => { const d = JSON.parse(readFileSync(new URL(`../recorded/${name}.json`, import.meta.url), "utf8")); return { r: JSON.parse(d.json), toml: d.toml }; };
+const rec = (name) => { const d = JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${name}.json.gz`, import.meta.url))).toString("utf8")); return { r: JSON.parse(d.json), toml: d.toml }; };
 
 // Constellation: availability passes at 100 %, PDOP against the scenario's own threshold.
 {

@@ -4,6 +4,9 @@
 import { SCENARIOS, readHoldover, seriesFor, teSvg, curvesSvg, stepRows, holdoverRows } from "../lib/holdover.mjs";
 import { mountBadge } from "../lib/evidence.mjs";
 import { t, ready } from "../lib/t.mjs";
+import { createPackReader } from "../lib/packs.mjs";
+// The recorded run, through the index (recorded/<name>.json.gz, gzip; lib/packs.mjs).
+const RECORDED = createPackReader();
 await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
@@ -22,9 +25,9 @@ async function open(id) {
   $("ho-blurb").textContent = sc.blurb;
   setStatus(t("js-hold-opening", "Opening { $title }…", { title: sc.title }));
   try {
-    const r = await fetch(`recorded/${sc.id}.json`);
-    if (!r.ok) throw new Error(t("js-hold-result-not-loaded", "the recorded result did not load"));
-    const { model, error } = readHoldover(await r.json());
+    const rec = await RECORDED.run("recorded/", sc.id);
+    if (!rec) throw new Error(t("js-hold-result-not-loaded", "the recorded result did not load"));
+    const { model, error } = readHoldover(rec);
     if (error) throw new Error(error);
     if (current !== sc.id) return;
     draw(model, t("js-hold-recorded", "{ $title }: the engine's recorded result (version { $version }).", { title: sc.title, version: model.engine }));
