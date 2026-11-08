@@ -35,7 +35,7 @@ an independent oracle (`oracle.py`, Python standard library only, sharing no cod
    fraction `f` of the window attenuated, roughly) needs a few hundred milliseconds. A shorter stride removes the
    one-sample floor of the 0.40 run but not the estimator's own lag. The pre-registration's disclosure applies:
    overlapping windows give correlated estimates, which the ARL1 formula does not assume.
-8. **Other campaigns.** The detection-ROC tests (`tests/iq_campaign_roc.rs`, `tests/iq_campaign_roc_restart.rs`, row 9)
-   were scored at the 1 s cadence. They state `[monitors.epoch.cn0] stride = 1000` explicitly so that their recorded
+8. **Other campaigns.** The 0.40 monitor tests (`tests/iq_campaign_monitors.rs`) and the detection-ROC tests
+   (`tests/iq_campaign_roc.rs`, `tests/iq_campaign_roc_restart.rs`, row 9) were scored at the 1 s cadence. They state `[monitors.epoch.cn0] stride = 1000` explicitly so that their recorded
    numbers keep describing the campaign that produced them; their bars and recipes are not changed. Scoring the ROC
    at the new stride would be a new run under its own pre-registration.
