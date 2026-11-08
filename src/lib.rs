@@ -276,6 +276,7 @@ pub mod odf;
 pub mod odm;
 pub mod oem;
 pub mod omm;
+pub mod opnav;
 pub mod optical_atmosphere;
 pub mod optical_atmosphere_scenario;
 pub mod optical_availability;
