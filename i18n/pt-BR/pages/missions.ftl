@@ -1454,6 +1454,6 @@ seg-0e6be0d623f6 = <b>Gratuito hoje:</b> tudo no motor aberto. Licença comercia
 # text
 seg-9b505908a6e2 = O Kshana <b>não aciona nenhum hardware de rádio e não transmite nada</b>. Ele inclui um receptor GNSS de software para IQ gravado e gerado e pode gravar arquivos IQ sintéticos em banda base, mas <b>não é hardware gerador de sinais de RF</b> e <b>não é um receptor GNSS de hardware nem certificado</b>. É um instrumento de estudo e de análise de compromisso: simula o que o jamming, o spoofing e a perda de sinal fazem a uma solução de navegação e temporização, e diz quais de suas respostas são validadas. <b>Não é um produto de voo.</b>
 
-seg-e6fe27ed6dfc = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
-
 seg-ceb2de75e2f4 = <b>Gratuito hoje:</b> tudo no motor aberto. Gratuito: { "53" } ferramentas MCP, de run_scenario a export_oem.
+
+seg-a1e85450eb6a = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

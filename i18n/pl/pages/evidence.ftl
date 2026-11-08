@@ -4120,14 +4120,14 @@ seg-3df9e327c036 = Modelowane { "221" }
 
 seg-7fa6f2e0de57 = Rejestr walidacji, { "401" } wierszy, z przewijaniem
 
-seg-0b884f17b0f2 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-b4f766f66bdb = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-fd83e8666041 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-0dbc7d4822b9 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-9cf103c9cb54 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-d3eca6ae67fc = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-8e6705edeb6a = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+seg-629f069ed3e7 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-3f8669a1465b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-f4ca37eb4f6d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-8aabe2e98c52 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-5313db6b0f2a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
