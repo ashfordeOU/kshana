@@ -347,6 +347,9 @@ jobs:
           --test golden
           --test determinism
           --test sgp4_verification
+          --test planner
+          --test env_baseline
+          --test locator_power_difference_synthetic
   bench-speed:
     # Speed benchmarks per platform (roadmap L10c; docs/SIZING.md). The run is uploaded as an
     # artifact. Each workload is also a ratio to a calibration workload timed in the same run, the
