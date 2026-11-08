@@ -6262,18 +6262,6 @@ seg-07aef8ff8fe3 = Matrice de vérification, une cellule par capacité dans l'or
 
 seg-81464c684074 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "405" } lignes · aucun scénario ni graine : le registre propre du moteur
 
-seg-8f715a5e52b0 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-a9b6470fb2f8 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-947cc1db1e01 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-cfd8687a8048 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
-
-seg-fb3f807e97c0 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-7c4a8891ee1b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
 seg-c54618ee87bb = { "176" }<s1>sur { "405" } vérifiées</s1>
 
 seg-9984e76b5b28 = Matrice de vérification : { "176" } vérifiées, { "225" } modélisées, { "4" } détenues par un partenaire, { "405" } au total
@@ -6289,3 +6277,15 @@ seg-cea55077f323 = Registre de validation, { "405" } lignes, défilable
 seg-65122c2bb1fc = sur { "104" } vérifiées
 seg-2998c6fa20d6 = sur { "79" } vérifiées
 seg-4b3ab6095c65 = sur { "56" } validés
+
+seg-ee74b0bd690c = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-ccd3c88376c6 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-9e9722dd8156 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-86087d7afa56 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
+
+seg-e8c571d855ac = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-f66e0bd02a7d = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine

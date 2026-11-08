@@ -4131,18 +4131,6 @@ seg-07aef8ff8fe3 = Verifikační matice, jedna buňka na schopnost v pořadí re
 
 seg-81464c684074 = Engine v{ $version } · <c1/>, generováno z <c2/> · { "405" } řádků · žádný scénář ani seed: vlastní registr enginu
 
-seg-8f715a5e52b0 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-a9b6470fb2f8 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-947cc1db1e01 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-cfd8687a8048 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
-
-seg-fb3f807e97c0 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-7c4a8891ee1b = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
 seg-c54618ee87bb = { "176" }<s1>z { "405" } ověřeno</s1>
 
 seg-9984e76b5b28 = Verifikační matice: { "176" } ověřeno, { "225" } modelováno, { "4" } ve vlastnictví partnera, celkem { "405" }
@@ -4158,3 +4146,15 @@ seg-cea55077f323 = Registr validace, { "405" } řádků, posouvatelný
 seg-65122c2bb1fc = z { "104" } ověřeno
 seg-2998c6fa20d6 = z { "79" } ověřeno
 seg-4b3ab6095c65 = z { "56" } ověřeno
+
+seg-ee74b0bd690c = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-ccd3c88376c6 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-9e9722dd8156 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-86087d7afa56 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+
+seg-e8c571d855ac = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-f66e0bd02a7d = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
