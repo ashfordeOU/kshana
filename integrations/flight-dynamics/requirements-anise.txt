@@ -1,0 +1,4 @@
+# The ANISE adapter (anise_reader.py) and its notebook; spiceypy evaluates the same kernel as the
+# reference. Exact versions.
+anise==0.10.6
+spiceypy==8.3.0

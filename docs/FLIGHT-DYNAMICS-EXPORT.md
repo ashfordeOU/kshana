@@ -12,7 +12,7 @@
 This is step 1 of roadmap item C7 (adapters and notebooks for flight-dynamics tools;
 [pre-registration](design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md)). The adapters and
 notebooks that load these files into the tools themselves are in
-[`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md): Orekit and Basilisk so far.
+[`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md): Orekit, Basilisk and ANISE so far.
 
 ## Input
 

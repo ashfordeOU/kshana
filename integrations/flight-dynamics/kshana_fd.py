@@ -118,12 +118,28 @@ class Comparison:
     worst_half_units: float = 0.0
     worst_ulps: float = 0.0
     epochs_equal: int = 0
+    #: For a tool that evaluates an SPK rather than handing back its records: the largest
+    #: position and velocity differences at the node epochs, and SPICE's own on the same kernel.
+    evaluated: bool = False
+    eval_max_km: float = 0.0
+    eval_max_km_s: float = 0.0
+    spice_max_km: float = 0.0
+    spice_max_km_s: float = 0.0
     notes: list[str] = field(default_factory=list)
 
     @property
     def carried(self) -> bool:
         """Every value is the written double, or the tool's own conversion of it, and every epoch
-        is the written one."""
+        is the written one. For a tool that evaluates an SPK at the node epochs: every epoch is the
+        written one and no value is further from the written state than SPICE's own evaluation of
+        the same kernel is."""
+        if self.evaluated:
+            return (
+                self.states > 0
+                and self.epochs_equal == self.states
+                and self.eval_max_km <= self.spice_max_km
+                and self.eval_max_km_s <= self.spice_max_km_s
+            )
         return (
             self.states > 0
             and self.tool_conversion_exact == self.values
@@ -183,6 +199,30 @@ def records_compare(tool: str, written: Written, records: list[list[float]], epo
     return c
 
 
+def evaluated_compare(tool: str, fmt: str, written: Written, evaluated: list[list[float]],
+                      epochs_equal: list[bool], spice: list[list[float]], how: str = "") -> Comparison:
+    """A tool that evaluates a kernel at the node epochs (it does not hand back the stored
+    records): its states compared with the written ones, beside SPICE's own evaluation (`spice`) of
+    Kshana's SPK of the same states at the same epochs."""
+    c = compare(tool, fmt, written, evaluated, epochs_equal, how=how)
+    c.evaluated = True
+
+    def worst(rows: list[list[float]]) -> tuple[float, float]:
+        dp = max(max(abs(a - b) for a, b in zip(r[:3], w[:3])) for r, w in zip(rows, written.values))
+        dv = max(max(abs(a - b) for a, b in zip(r[3:], w[3:])) for r, w in zip(rows, written.values))
+        return dp, dv
+
+    if len(evaluated) == len(written.values) == len(spice):
+        c.eval_max_km, c.eval_max_km_s = (float(x) for x in worst(evaluated))
+        c.spice_max_km, c.spice_max_km_s = (float(x) for x in worst(spice))
+        c.notes.append(
+            f"evaluated at the nodes: within {c.eval_max_km:.3g} km and {c.eval_max_km_s:.3g} km/s "
+            f"of the written state (SPICE on the same states: {c.spice_max_km:.3g} km, "
+            f"{c.spice_max_km_s:.3g} km/s)"
+        )
+    return c
+
+
 def et_of_label(label: str) -> float:
     """TDB seconds past J2000 of a TDB calendar label `YYYY-MM-DDTHH:MM:SS[.f]`, computed exactly."""
     import datetime as dt
@@ -203,8 +243,13 @@ def report(comparisons: list[Comparison], out_dir: str | os.PathLike | None = No
     ]
     for c in comparisons:
         bits = "n/a (other units)" if c.same_bits is None else f"{c.same_bits} of {c.values}"
+        worst = ("n/a (evaluated) | n/a (evaluated)" if c.evaluated
+                 else f"{c.worst_half_units:.3g} | {c.worst_ulps:.3g}")
         if not c.carried:
             result = "FAIL: " + ("; ".join(c.notes) or "a value or an epoch differs")
+        elif c.evaluated:
+            result = ("carried; evaluated, not read: " + "; ".join(c.notes)
+                      + ("; the tool rounds further than the digits written" if c.rounds_further else ""))
         elif c.rounds_further:
             result = "carried; the tool rounds further than the digits written"
         else:
@@ -212,7 +257,7 @@ def report(comparisons: list[Comparison], out_dir: str | os.PathLike | None = No
         lines.append(
             f"| {c.tool} | {c.fmt} | {c.how} | {c.states} | {bits} | "
             f"{c.tool_conversion_exact} of {c.values} | {c.epochs_equal} of {c.states} | "
-            f"{c.worst_half_units:.3g} | {c.worst_ulps:.3g} | {result} |"
+            f"{worst} | {result} |"
         )
     md = "\n".join(lines) + "\n"
     if out_dir:

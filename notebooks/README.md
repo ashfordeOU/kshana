@@ -15,7 +15,7 @@ clone.
 | `geometry.ipynb` | which satellites a site sees under a skyline (a street, a container terminal), their dilution of precision and error ellipse, a dated sky from element sets, a seeded Monte Carlo against the covariance, and the skyplot (MODELLED; REPRESENTATIVE presets) | [`.md`](geometry.md) |
 | `optical-atmosphere.ipynb` | an optical timing link through clouds and turbulence: per-site availability, site diversity, enhancement techniques and the outage-to-holdover coupling, on the two bundled scenarios (MODELLED; ILLUSTRATIVE sites) | [`.md`](optical-atmosphere.md) |
 
-**Flight-dynamics tools.** [`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md) holds the notebooks in which a flight-dynamics tool (Orekit and Basilisk so far) reads back a trajectory Kshana wrote. They need the tool installed and its data, so they live there and not here.
+**Flight-dynamics tools.** [`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md) holds the notebooks in which a flight-dynamics tool (Orekit, Basilisk and ANISE so far) reads back a trajectory Kshana wrote. They need the tool installed and its data, so they live there and not here.
 
 **Course.** [`course/`](course/README.md) holds six short teaching notebooks (jamming, spoofing, holdover, integrity, OSNMA, interference map), each with exercises.
 
