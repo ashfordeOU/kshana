@@ -41,5 +41,13 @@ or read by anyone working on this row.
 
 1. Signed off (3 November 2026).
 2. Impulse support, detector and propagation code, tested on synthetic data only (`tests/mission_thread_c2_impulses.rs`, the module tests of `src/mission_thread/impulses.rs`): this commit.
-3. T (hourly, W1) fetched; events and impulses computed and committed before H is fetched: *pending*.
+3. T (hourly, W1) fetched with C1's own script on 8 November 2026; events and impulses computed and committed before H
+   is fetched: this commit (`impulses.json`, from `examples/mission_thread_c2.rs detect`).
+   - **T's file hash differs from C1's recorded one** (876618b8… against 9494dc81…), because Horizons writes the
+     retrieval date and EOP file into the response header. The state table is the same: C1's hourly diagnostic
+     recomputed on this file equals `xval/mission-thread/results_diagnostic.json` exactly, on all 72 hours. The runner
+     therefore pins the SHA-256 of the state table (`$$SOE` to `$$EOE`): 241d674c140f95d5781e4525ccf636546db8b5b05b1652869a8ef15768f23826.
+   - **Five event hours**, at 1, 17, 23, 34 and 57 h after the start (the five C1's diagnostic named), each its own
+     event. Impulses of 0.091, 0.221, 0.160, 0.094 and 0.150 m/s at the hours' midpoints. The largest quiet-hour
+     residual is 0.00025 m/s against the 0.01 m/s threshold.
 4. H (half-hour offsets, W1) fetched; the comparison runs once; verdict committed and pinned: *pending*.
