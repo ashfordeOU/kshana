@@ -58,6 +58,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     ),
     ("src/field_schema.rs", "path", "a path into the result JSON"),
     (
+        "src/bench/task_e.rs",
+        "path",
+        "a dataset folder named in the task (e) truth file, not a scenario field",
+    ),
+    (
         "src/adapters.rs",
         "dir",
         "the folder of an adapter manifest in a registry check report (an output); no scenario reads it",

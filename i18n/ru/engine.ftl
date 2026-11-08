@@ -569,8 +569,6 @@ engine-bench-cli-cannot-create = не удалось создать { $d }: { $e
 
 engine-bench-cli-cannot-write = не удалось записать { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = неизвестная задача `{ $t }` (a, b, c или d)
-
 engine-bench-cli-scored-epochs-in-folder = оценённых эпох: { $labels }, папок: { $folders }
 
 engine-bench-cli-wrote-cases-json-and-truth = записаны { $out }/cases.json и { $out }/truth.json

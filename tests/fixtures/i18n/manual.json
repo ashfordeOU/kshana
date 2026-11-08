@@ -14387,5 +14387,56 @@
   "parts": [
    "usage: kshana env-baseline <site-hours.json>"
   ]
+ },
+ {
+  "id": "bench-cli-truth-json-e",
+  "error": false,
+  "parts": [
+   "e-",
+   {
+    "var": "split"
+   },
+   ".truth.json"
+  ]
+ },
+ {
+  "id": "bench-cli-unknown-task-e",
+  "error": false,
+  "parts": [
+   "unknown task `",
+   {
+    "var": "t"
+   },
+   "` (a, b, c, d or e)"
+  ]
+ },
+ {
+  "id": "e-bench-task-e-predictions-labels",
+  "error": true,
+  "parts": [
+   "task (e) predictions need a `labels` object and a `class_scores` object"
+  ]
+ },
+ {
+  "id": "e-bench-task-e-bad-class",
+  "error": true,
+  "parts": [
+   "the truth label `",
+   {
+    "var": "id"
+   },
+   "` has no class among nominal, jamming, spoofing and meaconing"
+  ]
+ },
+ {
+  "id": "e-bench-task-e-missing-prediction",
+  "error": true,
+  "parts": [
+   "no label or no class scores (nominal, jamming, spoofing, meaconing) for `",
+   {
+    "var": "id"
+   },
+   "`"
+  ]
  }
 ]

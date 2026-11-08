@@ -721,8 +721,6 @@ engine-bench-cli-cannot-create = { $d } kann nicht erstellt werden: { $e }
 
 engine-bench-cli-cannot-write = { $p } kann nicht geschrieben werden: { $e }
 
-engine-bench-cli-unknown-task-or = unbekannte Aufgabe `{ $t }` (a, b, c oder d)
-
 engine-bench-cli-scored-epochs-in-folder = { $labels } bewertete Epochen in { $folders } Ordner(n)
 
 engine-bench-cli-wrote-cases-json-and-truth = { $out }/cases.json und { $out }/truth.json geschrieben

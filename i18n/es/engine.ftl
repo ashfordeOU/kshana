@@ -763,8 +763,6 @@ engine-bench-cli-cannot-create = no se puede crear { $d }: { $e }
 
 engine-bench-cli-cannot-write = no se puede escribir { $p }: { $e }
 
-engine-bench-cli-unknown-task-or = tarea `{ $t }` desconocida (a, b, c o d)
-
 engine-bench-cli-scored-epochs-in-folder = { $labels } épocas puntuadas en { $folders } carpeta(s)
 
 engine-bench-cli-wrote-cases-json-and-truth = se escribieron { $out }/cases.json y { $out }/truth.json

@@ -563,8 +563,6 @@ engine-bench-cli-cannot-create = { $d } を作成できません：{ $e }
 
 engine-bench-cli-cannot-write = { $p } に書き込めません：{ $e }
 
-engine-bench-cli-unknown-task-or = 不明なタスク `{ $t }`（a、b、c、d のいずれか）
-
 engine-bench-cli-scored-epochs-in-folder = { $folders } 個のフォルダー内の採点済みエポック { $labels } 件
 
 engine-bench-cli-wrote-cases-json-and-truth = { $out }/cases.json と { $out }/truth.json を書き出しました

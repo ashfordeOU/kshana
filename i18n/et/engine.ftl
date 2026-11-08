@@ -691,8 +691,6 @@ engine-bench-cli-cannot-create = { $d } loomine ebaõnnestus: { $e }
 
 engine-bench-cli-cannot-write = { $p } kirjutamine ebaõnnestus: { $e }
 
-engine-bench-cli-unknown-task-or = tundmatu ülesanne `{ $t }` (a, b, c või d)
-
 engine-bench-cli-scored-epochs-in-folder = hinnatud epohhe: { $labels }, kaustu: { $folders }
 
 engine-bench-cli-wrote-cases-json-and-truth = kirjutatud { $out }/cases.json ja { $out }/truth.json

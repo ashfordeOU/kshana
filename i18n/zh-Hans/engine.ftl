@@ -597,8 +597,6 @@ engine-bench-cli-cannot-create = 无法创建 { $d }：{ $e }
 
 engine-bench-cli-cannot-write = 无法写入 { $p }：{ $e }
 
-engine-bench-cli-unknown-task-or = 未知任务 `{ $t }`（a、b、c 或 d）
-
 engine-bench-cli-scored-epochs-in-folder = { $folders } 个文件夹中共 { $labels } 个已评分历元
 
 engine-bench-cli-wrote-cases-json-and-truth = 已写入 { $out }/cases.json 和 { $out }/truth.json

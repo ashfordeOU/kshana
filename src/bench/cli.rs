@@ -124,10 +124,10 @@ fn secret(args: &[String]) -> Result<Option<Vec<u8>>, BenchError> {
 
 fn task_arg(args: &[String]) -> Result<&str, BenchError> {
     let t = need(args, "--task")?;
-    if matches!(t, "a" | "b" | "c" | "d") {
+    if matches!(t, "a" | "b" | "c" | "d" | "e") {
         Ok(t)
     } else {
-        Err(BenchError(crate::t!("bench-cli-unknown-task-or", t = t)))
+        Err(BenchError(crate::t!("bench-cli-unknown-task-e", t = t)))
     }
 }
 
@@ -185,6 +185,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                         "b": "detection on IQ (synthetic recipe; TEXBAT reference only)",
                         "c": "timing holdover prediction (IGS clocks, 300 s)",
                         "d": "out-of-distribution optimism gap (synthetic corpus)",
+                        "e": "four-class interference labelling on receiver logs (JammerTest 2024; spec 2.1.0)",
                     },
                     "splits": ["dev", "test", "holdout"],
                 }))
@@ -194,6 +195,21 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         }
         "truth" => {
             check(rest, &["--task", "--data", "--split", "--out"], false)?;
+            if task_arg(rest)? == "e" {
+                let split = Split::parse(need(rest, "--split")?)?;
+                let t = en(|| super::task_e::e_load(Path::new(need(rest, "--data")?)))?;
+                let text = en_ok(|| super::task_e::e_truth_text(&t, split));
+                write(Path::new(need(rest, "--out")?), &text)?;
+                println!(
+                    "{}",
+                    crate::t!(
+                        "bench-cli-scored-epochs-in-folder",
+                        labels = t.units_in(split).count(),
+                        folders = t.folders.len()
+                    )
+                );
+                return Ok(0);
+            }
             if task_arg(rest)? != "a" {
                 return Err(BenchError(crate::terr!(
                     "e-bench-cli-truth-reads-dataset-and-is"
@@ -486,6 +502,29 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
     }
     let split = Split::parse(need(args, "--split")?)?;
     match task {
+        "e" => {
+            use super::task_e::{b_log_predictions, e_load, e_truth_text, BLogVariant};
+            let t = en(|| e_load(Path::new(need(args, "--data")?)))?;
+            let truth_text = en_ok(|| e_truth_text(&t, split));
+            write(
+                &out.join(crate::i18n::in_english(|| {
+                    crate::t!("bench-cli-truth-json-e", split = split.name())
+                })),
+                &truth_text,
+            )?;
+            for (v, tag) in [
+                (BLogVariant::Primary, "b-log"),
+                (BLogVariant::PositionJumpEverywhere, "b-log-pj-all"),
+            ] {
+                let doc = en_ok(|| b_log_predictions(&t, split, v));
+                emit(
+                    &out,
+                    &format!("e-{}-{tag}", split.name()),
+                    &truth_text,
+                    &doc,
+                )?;
+            }
+        }
         "a" => {
             let t = en(|| tasks::a_load(Path::new(need(args, "--data")?), Some(split)))?;
             let truth_text = en_ok(|| pretty(&tasks::a_truth_json(&t, split)));
