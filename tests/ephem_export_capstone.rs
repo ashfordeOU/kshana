@@ -9,6 +9,9 @@
 //! PIN-EXCLUDES: reading by the external tools (the C7 adapters and notebooks), and whether the
 //!               Horizons states are right
 
+use std::sync::atomic::{AtomicU64, Ordering};
+
+static SEQ: AtomicU64 = AtomicU64::new(0);
 use std::process::Command;
 
 fn fixture(name: &str) -> std::path::PathBuf {
@@ -31,9 +34,14 @@ fn pinned(format: &str) -> String {
 
 #[test]
 fn the_command_writes_each_format_and_every_state_reads_back_unchanged() {
-    let dir = std::env::temp_dir().join(format!("kshana-ephem-export-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-ephem-export-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Ordering::Relaxed)
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     for format in ["oem", "opm", "spk"] {
+        // PATH-UNIQUE-WAIVER: inside the per-call directory above, which already carries a unique component.
         let out = dir.join(format!("capstone.{format}"));
         let run = Command::new(env!("CARGO_BIN_EXE_kshana"))
             .arg("ephem-export")
