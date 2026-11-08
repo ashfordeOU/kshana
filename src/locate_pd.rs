@@ -19,7 +19,7 @@ use crate::portable_math::PortableFloat;
 /// Method identifier written into every output.
 pub const METHOD_ID: &str = "kshana-locate/power-difference/v1";
 /// The tempering exponent, chosen on the development seeds (R9) before the gate was run.
-pub const TEMPER_V1: f64 = 1.0;
+pub const TEMPER_V1: f64 = 1.0 / 60.0;
 
 /// Every parameter of the method (R1 to R10).
 #[derive(Clone, Debug, PartialEq)]
