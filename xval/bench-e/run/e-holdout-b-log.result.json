@@ -1,0 +1,111 @@
+{
+  "label": "MODELLED: truth is the scheduled attack slots of the JammerTest 2024 event logs at one-minute resolution, the class read from each folder's attack_type; a nominal epoch means outside the logged windows",
+  "metrics": {
+    "auc": {
+      "jamming": 0.29260957370655005,
+      "meaconing": 0.5,
+      "nominal": 0.9983103285807456,
+      "spoofing": 0.5
+    },
+    "balanced_accuracy": 0.5,
+    "balanced_accuracy_descriptive": 0.47796934865900387,
+    "classes": [
+      "nominal",
+      "jamming",
+      "spoofing",
+      "meaconing"
+    ],
+    "confusion": [
+      [
+        664,
+        0,
+        0,
+        0
+      ],
+      [
+        161,
+        1666,
+        0,
+        0
+      ],
+      [
+        106,
+        2357,
+        0,
+        0
+      ],
+      [
+        0,
+        901,
+        0,
+        0
+      ]
+    ],
+    "entered": [
+      "nominal",
+      "spoofing"
+    ],
+    "event_confusion": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ]
+    ],
+    "jamming_labelled_spoofing_or_meaconing": 0.0,
+    "macro_f1": 0.4163009404388715,
+    "macro_f1_descriptive": 0.331539597756097,
+    "n_events": 5,
+    "n_units": 5855,
+    "precision": {
+      "jamming": 0.33834281072298944,
+      "meaconing": null,
+      "nominal": 0.7132116004296455,
+      "spoofing": null
+    },
+    "present": [
+      "nominal",
+      "jamming",
+      "spoofing",
+      "meaconing"
+    ],
+    "recall": {
+      "jamming": 0.9118773946360154,
+      "meaconing": 0.0,
+      "nominal": 1.0,
+      "spoofing": 0.0
+    },
+    "spoofing_meaconing_labelled_jamming": 0.9684898929845422
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "a557156b865e63a5503dcc29ca096a91352c6fbdc47ac2cd1bd42c963724218e",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.1.0",
+  "split": "holdout",
+  "system": {
+    "name": "B-log: kshana receiver-trust monitors at the 0.35 defaults, class rule of B4a section 4 (PositionJump on stationary folders)",
+    "version": "kshana-bench/2.1.0"
+  },
+  "task": "e",
+  "truth_sha256": "5238fb1190d28b76626b8e133e4fc0a39d75af91e19440336d8256bea48286ce"
+}
