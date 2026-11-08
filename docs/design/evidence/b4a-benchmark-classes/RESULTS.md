@@ -19,13 +19,13 @@ no dataset content is stored.
 | Bar | Result |
 |---|---|
 | E1 scorer exactness | **MET.** On the synthetic files (four classes, then meaconing removed), the confusion counts are equal to the numpy scorer's. Every BA, macro-F1, AUC, recall and precision is within 1e-12 (`tests/bench_e.rs`). On all six real-data results the two scorers also agree, with differences of 0. |
-| E2 truth reproducibility | **Not yet MET.** The SHA-256 of each split's truth file is pinned (`xval/bench-e/truth.sha256`). E2 is met when the `Bench task (e) truth` workflow reproduces them on Linux, macOS and Windows. |
+| E2 truth reproducibility | **MET.** The `Bench task (e) truth` workflow regenerated the truth file of every split from the pinned archive on Linux (ubuntu-22.04), macOS (macos-latest) and Windows (windows-2022), and all three matched the pinned SHA-256 values (`xval/bench-e/truth.sha256`). Run 42436307265, on a82561330. |
 | E3 B-log jamming | **NOT MET (not scoreable).** The `test` split holds one jamming folder, below the two-folder minimum, so jamming does not enter (reading 8). Descriptive only: jamming one-vs-rest AUC 0.135, jamming recall 0.395. |
 | E4 B-log interference type | **NOT MET.** All 2,222 spoofing epochs of `test` are labelled `jamming`, a share of 1.00 against the bar of ≤ 0.50. Meaconing did not enter; its 1,141 epochs are also all labelled `jamming`. |
 | E5 B-iq spoofing | **NOT MET (not scored).** No TEXBAT file was fetched (reading 13). |
 | E6 balanced accuracy | **NOT MET.** BA is 0.259 over the two entered classes (`nominal`, `spoofing`), against `max(0.40, 1.6/2)` = 0.80. It would also miss the original 0.40. |
 
-**Whether the task ships (E1 and E2):** E1 is met; E2 waits on CI. **The baseline (E3 to E6):** all four bars are
+**Whether the task ships (E1 and E2):** both are met, so task (e) ships. **The baseline (E3 to E6):** all four bars are
 missed. Section 5 says these misses are published as the baseline's score and do not block the task.
 
 ## The data
