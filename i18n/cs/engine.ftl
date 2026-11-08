@@ -10552,6 +10552,7 @@ engine-main-usage =
     { "   " }nebo: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
     { "   " }nebo: kshana trust-telemetry [options] (kshana trust-telemetry --help)
     { "   " }nebo: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]
+    { "   " }nebo: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]
     { "   " }nebo: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }nebo: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }nebo: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
