@@ -1,0 +1,110 @@
+name: Flight dynamics
+# The flight-dynamics reference integration (roadmap C7,
+# docs/design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md): Kshana writes the
+# mission thread's CAPSTONE states as OEM, OPM and SPK (`kshana ephem-export`), each tool's
+# adapter loads the files into the tool and the notebook compares every state read back with
+# the state written (integrations/flight-dynamics/). The command line and the Python binding
+# must write the same bytes; `kshana connect check` must stay green.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/ephem_export.rs"
+      - "src/spk_writer.rs"
+      - "src/oem.rs"
+      - "src/odm.rs"
+      - "src/surface.rs"
+      - "src/python.rs"
+      - "tests/fixtures/capstone_horizons/**"
+      - "integrations/flight-dynamics/**"
+      - ".github/workflows/flight-dynamics.yml"
+  pull_request:
+    paths:
+      - "src/ephem_export.rs"
+      - "src/spk_writer.rs"
+      - "src/oem.rs"
+      - "src/odm.rs"
+      - "src/surface.rs"
+      - "src/python.rs"
+      - "tests/fixtures/capstone_horizons/**"
+      - "integrations/flight-dynamics/**"
+      - ".github/workflows/flight-dynamics.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  write:
+    # The command line writes the three files and `kshana connect check` runs; the wheel is built
+    # once for the tool jobs.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+      - name: Build the command line
+        run: cargo build --release --locked --bin kshana
+      - name: kshana connect check
+        run: ./target/release/kshana connect check conformance/connect
+      - name: Write the files with the command line
+        run: |
+          set -euo pipefail
+          mkdir -p cli
+          t=tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt
+          for f in oem opm spk; do
+            s=$f; [ "$f" = spk ] && s=bsp
+            ./target/release/kshana ephem-export "$t" --format "$f" --out "cli/capstone_2023-03_moon_icrf.$s"
+          done
+      - name: Build the Python wheel
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
+        with:
+          command: build
+          args: --features python --out dist
+          manylinux: 2_28
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: fd-inputs
+          path: |
+            cli/
+            dist/
+  tool:
+    # Each tool's notebook, top to bottom: the adapter loads the files into the tool and the
+    # difference report compares every state read back with the state written.
+    needs: write
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        tool: [orekit, basilisk]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: fd-inputs
+          path: fd-inputs
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        if: matrix.tool == 'orekit'
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install the wheel and the adapter's requirements
+        run: |
+          pip install --no-index --find-links fd-inputs/dist kshana
+          pip install -r integrations/flight-dynamics/requirements-${{ matrix.tool }}.txt
+      - name: Run the notebook top to bottom
+        env:
+          KSHANA_FD_CLI_DIR: ${{ github.workspace }}/fd-inputs/cli
+          KSHANA_FD_OUT: ${{ runner.temp }}/fd
+        run: python integrations/flight-dynamics/run_notebooks.py ${{ matrix.tool }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: flight-dynamics-${{ matrix.tool }}
+          path: ${{ runner.temp }}/fd
+          if-no-files-found: warn
