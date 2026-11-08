@@ -1359,7 +1359,7 @@ JetBrains 插件（`ide/jetbrains`）是一个独立的 Kotlin
 ## AI 助手
 
 [`kshana-mcp`](mcp/kshana-mcp/) 是一个 MCP 服务器：你的助手运行真正的引擎并
-读回其 JSON，而不是去猜数学结果。它的 49 个工具中的每一个都是对
+读回其 JSON，而不是去猜数学结果。它的 53 个工具中的每一个都是对
 `kshana` 库某个公共函数的薄封装，因此服务器中不包含任何仿真逻辑。
 
 ### 安装 MCP 服务器
@@ -1404,7 +1404,7 @@ OpenCPN 集成提供数据：[`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRA
 `io.github.ashfordeOU/kshana-mcp` 的名称列在官方 MCP 注册表中。
 
 <details>
-<summary>49 个工具</summary>
+<summary>53 个工具</summary>
 
 <br>
 
@@ -1432,6 +1432,7 @@ OpenCPN 集成提供数据：[`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRA
 | `export_omm` | 将 `orbit` 场景的根数导出为 CCSDS（空间数据系统咨询委员会）502.0-B-2 OMM（轨道平根数电文）目录 |
 | `export_oem` | 将 `orbit` 场景的状态序列导出为 CCSDS OEM（轨道星历电文）2.0 星历——TEME（真赤道、平春分点）位置*和*  |
 | `export_table_csv` | 运行场景并以 CSV（逗号分隔值）返回其可复现性表——即 CLI（命令行界面）写为 `<scenario>.table.csv` 的字节稳定的表 |
+| `ephem_export` | 将 JPL Horizons 状态表（任务主线中 CAPSTONE 或 Artemis I 的状态）写为 CCSDS OEM、CCSDS OPM 或类型 13 或 9 的 SPK 内核，供飞行动力学工具使用，并逐个状态读回（`kshana ephem-export`） |
 | `export_test_bench` | 为实验室 GNSS 模拟器导出场景的载体运动和事件（`kshana bench-export`） |
 
 **接收机与船舶信任度**
@@ -1447,9 +1448,12 @@ OpenCPN 集成提供数据：[`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRA
 | `generate_training_nmea` | 根据 `nmea-scenario` TOML 生成用于船员训练的合成驾驶台 NMEA 0183（压制干扰、位置拖离、时间欺骗、重放时延），附教员日志（`kshana-nmea-training/1`） |
 | `build_interference_map` | 根据 CSV 文本形式的 ADS-B 或 AIS 位置报告（最多 4 MiB）生成 GNSS 干扰地图 |
 | `route_exposure` | 一条航线的长度在一张或多张干扰地图的已劣化、未劣化、未评估和未观测单元中所占的比例，可选限定日期范围 |
+| `interference_emitter_regions` | 根据开放许可的 ADS-B 或 AIS 报告（CSV 文本）估计发射源区域（`kshana interference-map locate`）：给出指定置信水平下带质心和不确定性椭圆的区域，绝不只给一个点。MODELLED |
 | `trust_telemetry` | 用 `kshana trust-telemetry` 编码器，将信任数据流（JSON 行）或 `receiver-trust` 结果呈现为 Prometheus 文本、CEF 或 LEEF syslog 行或 OTLP JSON 载荷 |
+| `connect_map` | 用 `kshana.connect/1` 映射文件无需代码地把任意接收机、授时或监测日志（CSV 或 JSON 文本）映射为 `kshana.obs/1` 记录（`kshana connect map`）；与命令行逐字节一致 |
 | `jammertest_import` | 读取已公布的 Jammertest 测试目录和发射计划（NPRA/jammertest-plan，MIT），作为排定的真值（`kshana jammertest import`）：一个测试区域的时段成为接收机信任度事件，每个标签中带有目录 id 和年份。是计划的时段，不是记录的实际发射时间；不读取计划中的任何联系人字段。MODELLED。见 [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md)。 |
 | `jammertest_score` | 对照该时间表为接收机日志评分（`kshana jammertest score`）：每项测试的检测延迟、漏警和恢复时间，以及所有时段之外的虚警。文本日志作为 `log`，二进制日志（`ubx`、`sbf`）作为 `log_base64`。签名包需要密钥：请用命令行。仅供参考；MODELLED。 |
+| `referee_location_score` | 为监测网络所称的干扰来源位置评分（`kshana jammertest locate-score`）：每份报告的水平和垂直误差，以及每个区域是否包含真值，按事件和汇总给出 |
 | `fit_imu_log` | 通过 Allan 偏差，从静止 IMU 日志（CSV 或 EuRoC）拟合 `hybrid` 和 `fusion` 场景的加速度计和陀螺仪参数，给出可直接粘贴的 `[accel_classical]` 表以及日志的 SHA-256（`kshana imu-fit`）。输入文本，输出 JSON；MODELLED。 |
 
 **GNSS IQ（工作目录文件；在 HTTP 模式下关闭）**

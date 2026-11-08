@@ -1361,7 +1361,7 @@ onderdelen in elkaar passen.
 ## AI-assistent
 
 [`kshana-mcp`](mcp/kshana-mcp/) is een MCP-server: uw assistent draait de echte engine en
-leest de JSON ervan terug, in plaats van de wiskunde te raden. Elk van de 49 tools is een dunne wrapper
+leest de JSON ervan terug, in plaats van de wiskunde te raden. Elk van de 53 tools is een dunne wrapper
 om een openbare functie van de `kshana`-bibliotheek, dus er zit geen simulatielogica in de server.
 
 ### De MCP-server installeren
@@ -1406,7 +1406,7 @@ De instelling per client staat in [`docs/integrations.md`](docs/integrations.md)
 in het officiële MCP-register als `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>De 49 tools</summary>
+<summary>De 53 tools</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ in het officiële MCP-register als `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | De elementen van een `orbit`-scenario exporteren als catalogus in CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) |
 | `export_oem` | De toestandsreeks van een `orbit`-scenario exporteren als efemeride in CCSDS OEM (Orbit Ephemeris Message) 2.0 — de TEME-positie (ware evenaar, gemiddeld equinox) *en*  |
 | `export_table_csv` | Een scenario draaien en de reproduceerbaarheidstabel ervan als CSV (door komma's gescheiden waarden) teruggeven — de bytestabiele tabel die de CLI (opdrachtregelinterface) schrijft als `<scenario>.table.csv` |
+| `ephem_export` | Schrijft een JPL Horizons-toestandstabel (de CAPSTONE- of Artemis I-toestanden van de missiedraad) als CCSDS OEM, CCSDS OPM of SPK-kernel van type 13 of 9 voor vluchtdynamicatools, en leest die toestand voor toestand terug (`kshana ephem-export`) |
 | `export_test_bench` | De voertuigbeweging en gebeurtenissen van een scenario voor een GNSS-simulator in een laboratorium (`kshana bench-export`) |
 
 **Vertrouwen van ontvanger en vaartuig**
@@ -1449,9 +1450,12 @@ in het officiële MCP-register als `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Synthetische NMEA 0183 voor de brug voor bemanningstraining uit een `nmea-scenario`-TOML (jamming, positieverschuiving, tijdspoof, replayvertraging) met het instructeurslogboek (`kshana-nmea-training/1`) |
 | `build_interference_map` | Een GNSS-interferentiekaart uit ADS-B- of AIS-positiemeldingen als CSV-tekst (hooguit 4 MiB) |
 | `route_exposure` | Het aandeel van de lengte van een route in gedegradeerde, niet-gedegradeerde, niet-beoordeelde en niet-waargenomen cellen van een of meer interferentiekaarten, optioneel binnen een datumbereik |
+| `interference_emitter_regions` | Schat zendergebieden uit open gelicentieerde ADS-B- of AIS-meldingen als CSV-tekst (`kshana interference-map locate`): gebieden op genoemde betrouwbaarheidsniveaus met een zwaartepunt en een onzekerheidsellips, nooit een los punt. MODELLED |
 | `trust_telemetry` | Een vertrouwensstroom (JSON-regels) of `receiver-trust`-resultaat weergegeven als Prometheus-tekst, CEF- of LEEF-syslogregels of een OTLP-JSON-payload, met de encoders van `kshana trust-telemetry` |
+| `connect_map` | Zet elk ontvanger-, timing- of monitoringlogboek (CSV- of JSON-tekst) om in `kshana.obs/1`-records met een `kshana.connect/1`-koppelbestand, zonder code (`kshana connect map`); byte voor byte gelijk aan de opdrachtregel |
 | `jammertest_import` | De gepubliceerde Jammertest-testcatalogus en het uitzendplan (NPRA/jammertest-plan, MIT) inlezen als geplande referentie (`kshana jammertest import`): de tijdsloten van één testgebied worden receiver-trust-gebeurtenissen met de catalogus-id en het jaar in elk label. Geplande tijdsloten, geen vastgelegde uitzendtijden; geen enkel contactveld van het plan wordt gelezen. MODELLED. Zie [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Een ontvangerregistratie scoren tegen dat schema (`kshana jammertest score`): per test de detectielatentie, gemiste alarmen en hersteltijd, en de valse alarmen buiten elk tijdslot. Tekstregistraties als `log`, binair (`ubx`, `sbf`) als `log_base64`. Een ondertekend pakket vereist een sleutel: opdrachtregel. Alleen adviserend; MODELLED. |
+| `referee_location_score` | Beoordeelt waar een monitoringnetwerk zei dat storing vandaan kwam (`kshana jammertest locate-score`): per melding de horizontale en verticale fout en of elk gebied de waarheid bevat, per gebeurtenis en samengevoegd |
 | `fit_imu_log` | Parameters van versnellingsmeter en gyroscoop voor de `hybrid`- en `fusion`-scenario's, gefit uit een stilstaande IMU-registratie (CSV of EuRoC) via Allan-deviatie, met een direct te plakken `[accel_classical]`-tabel en de SHA-256 van de registratie (`kshana imu-fit`). Tekst erin, JSON eruit; MODELLED. |
 
 **GNSS IQ (bestanden in de werkmap; uit in HTTP-modus)**

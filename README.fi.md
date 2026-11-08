@@ -1359,7 +1359,7 @@ osat sopivat yhteen.
 ## Tekoälyavustaja
 
 [`kshana-mcp`](mcp/kshana-mcp/) on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja
-lukee takaisin sen JSON-tulosteen sen sijaan, että arvaisi laskut. Kukin sen 49 työkalusta on ohut kääre
+lukee takaisin sen JSON-tulosteen sen sijaan, että arvaisi laskut. Kukin sen 53 työkalusta on ohut kääre
 `kshana`-kirjaston julkisen funktion ympärillä, joten palvelimessa ei ole simulointilogiikkaa.
 
 ### Asenna MCP-palvelin
@@ -1404,7 +1404,7 @@ Asiakasohjelmakohtaiset asetukset ovat tiedostossa [`docs/integrations.md`](docs
 virallisessa MCP-rekisterissä nimellä `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>49 työkalua</summary>
+<summary>53 työkalua</summary>
 
 <br>
 
@@ -1432,6 +1432,7 @@ virallisessa MCP-rekisterissä nimellä `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Vie `orbit`-skenaarion elementit CCSDS:n (Consultative Committee for Space Data Systems) 502.0-B-2 OMM -luettelona (Orbit Mean-elements Message) |
 | `export_oem` | Vie `orbit`-skenaarion tilasarjan CCSDS OEM (Orbit Ephemeris Message) 2.0 -efemeridinä — TEME-paikka (todellinen ekvaattori, keskimääräinen päiväntasaus) *ja*  |
 | `export_table_csv` | Ajaa skenaarion ja palauttaa sen toistettavuustaulukon CSV-muodossa (pilkuin erotetut arvot) — tavuvakaa taulukko, jonka CLI (komentorivikäyttöliittymä) kirjoittaa tiedostoon `<scenario>.table.csv` |
+| `ephem_export` | Kirjoittaa JPL Horizons -tilataulukon (tehtäväketjun CAPSTONE- tai Artemis I -tilat) CCSDS OEM-, CCSDS OPM- tai tyypin 13 tai 9 SPK-ytimenä lentodynamiikan työkaluille ja lukee sen takaisin tila tilalta (`kshana ephem-export`) |
 | `export_test_bench` | Skenaarion ajoneuvon liike ja tapahtumat laboratorion GNSS-simulaattorille (`kshana bench-export`) |
 
 **Vastaanottimen ja aluksen luotettavuus**
@@ -1447,9 +1448,12 @@ virallisessa MCP-rekisterissä nimellä `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Synteettistä komentosillan NMEA 0183 -dataa miehistön koulutukseen `nmea-scenario`-TOML:sta (häirintä, paikan poisveto, ajan harhautus, toistoviive) kouluttajan lokin kera (`kshana-nmea-training/1`) |
 | `build_interference_map` | GNSS-häiriökartta ADS-B- tai AIS-paikkailmoituksista CSV-tekstinä (enintään 4 MiB) |
 | `route_exposure` | Reitin pituuden osuus yhden tai useamman häiriökartan heikentyneissä, ei heikentyneissä, arvioimattomissa ja havaitsemattomissa soluissa, valinnaisesti päivämäärävälin sisällä |
+| `interference_emitter_regions` | Arvioi lähetinalueet avoimesti lisensoiduista ADS-B- tai AIS-ilmoituksista CSV-tekstinä (`kshana interference-map locate`): alueet ilmoitetuilla luottamustasoilla, painopisteen ja epävarmuusellipsin kanssa, ei koskaan pelkkä piste. MODELLED |
 | `trust_telemetry` | Luottamusvirta (JSON-rivit) tai `receiver-trust`-tulos esitettynä Prometheus-tekstinä, CEF- tai LEEF-syslog-riveinä tai OTLP JSON -hyötykuormana `kshana trust-telemetry` -koodaimilla |
+| `connect_map` | Muuntaa minkä tahansa vastaanotin-, ajoitus- tai valvontalokin (CSV- tai JSON-teksti) `kshana.obs/1`-tietueiksi `kshana.connect/1`-vastaavuustiedostolla ilman koodia (`kshana connect map`); tavu tavulta sama kuin komentorivillä |
 | `jammertest_import` | Lukee julkaistun Jammertest-testiluettelon ja lähetyssuunnitelman (NPRA/jammertest-plan, MIT) aikataulutettuna totuutena (`kshana jammertest import`): yhden testialueen aikavälit muuttuvat vastaanottimen luotettavuuden tapahtumiksi, joiden kunkin merkinnässä on luettelotunnus ja vuosi. Suunniteltuja aikavälejä, ei tallennettuja lähetysaikoja; suunnitelman yhteystietokenttiä ei lueta. MODELLED. Katso [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Pisteyttää vastaanotinlokin tätä aikataulua vasten (`kshana jammertest score`): testikohtaisesti havaitsemisviive, puuttuvat hälytykset ja palautumisaika sekä väärät hälytykset kaikkien aikavälien ulkopuolella. Tekstilokit `log`-kenttänä, binääriset (`ubx`, `sbf`) `log_base64`-kenttänä. Allekirjoitettu paketti tarvitsee avaimen: komentorivi. Vain ohjeellinen; MODELLED. |
+| `referee_location_score` | Pisteyttää, mistä valvontaverkko sanoi häiriön tulevan (`kshana jammertest locate-score`): ilmoituksittain vaaka- ja pystyvirhe ja sisältääkö kukin alue totuuden, tapahtumittain ja yhdistettynä |
 | `fit_imu_log` | `hybrid`- ja `fusion`-skenaarioiden kiihtyvyysanturi- ja gyroskooppiparametrit sovitettuna paikallaan olevan IMU:n lokista (CSV tai EuRoC) Allan-hajonnalla, valmiiksi liitettävän `[accel_classical]`-taulukon ja lokin SHA-256-tiivisteen kera (`kshana imu-fit`). Teksti sisään, JSON ulos; MODELLED. |
 
 **GNSS IQ (työhakemiston tiedostot; pois päältä HTTP-tilassa)**

@@ -1360,7 +1360,7 @@ osad kokku sobivad.
 ## AI-assistent
 
 [`kshana-mcp`](mcp/kshana-mcp/) on MCP server: sinu assistent käivitab tegeliku mootori ja
-loeb tagasi selle JSON-i, selle asemel et matemaatikat arvata. Iga selle 49 tööriistast on õhuke ümbris
+loeb tagasi selle JSON-i, selle asemel et matemaatikat arvata. Iga selle 53 tööriistast on õhuke ümbris
 `kshana` teegi avaliku funktsiooni ümber, nii et serveris ei ole simulatsiooniloogikat.
 
 ### MCP serveri paigaldamine
@@ -1405,7 +1405,7 @@ Kliendipõhine seadistus on failis [`docs/integrations.md`](docs/integrations.md
 ametlikus MCP registris kui `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>49 tööriista</summary>
+<summary>53 tööriista</summary>
 
 <br>
 
@@ -1433,6 +1433,7 @@ ametlikus MCP registris kui `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Ekspordi `orbit` stsenaariumi elemendid CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) kataloogina |
 | `export_oem` | Ekspordi `orbit` stsenaariumi olekuseeria CCSDS OEM (Orbit Ephemeris Message) 2.0 efemeriidina — TEME (tõeline ekvaator, keskmine pööripäev) asukoht *ja*  |
 | `export_table_csv` | Käivita stsenaarium ja tagasta selle reprodutseeritavuse tabel CSV-na (komaga eraldatud väärtused) — baidikaupa stabiilne tabel, mille CLI (käsurealiides) kirjutab kui `<scenario>.table.csv` |
+| `ephem_export` | Kirjutab JPL Horizonsi olekutabeli (missiooniahela CAPSTONE või Artemis I olekud) CCSDS OEM-i, CCSDS OPM-i või tüübi 13 või 9 SPK-tuumana lennudünaamika tööriistadele ja loeb selle oleku kaupa tagasi (`kshana ephem-export`) |
 | `export_test_bench` | Stsenaariumi sõiduki liikumine ja sündmused labori GNSS-simulaatorile (`kshana bench-export`) |
 
 **Vastuvõtja ja laeva usaldus**
@@ -1448,9 +1449,12 @@ ametlikus MCP registris kui `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Sünteetiline silla NMEA 0183 meeskonna väljaõppeks `nmea-scenario` TOML-ist (segamine, asukoha äravedu, ajaspuufimine, taasesituse viivitus) koos instruktori logiga (`kshana-nmea-training/1`) |
 | `build_interference_map` | GNSS-i häirekaart ADS-B või AIS asukohateadetest CSV-tekstina (kõige rohkem 4 MiB) |
 | `route_exposure` | Marsruudi pikkuse osakaal ühe või mitme häirekaardi halvenenud, mitte halvenenud, hindamata ja vaatlemata lahtrites, valikuliselt kuupäevavahemiku piires |
+| `interference_emitter_regions` | Hindab saatjate piirkondi avatud litsentsiga ADS-B või AIS teadetest CSV-tekstina (`kshana interference-map locate`): piirkonnad nimetatud usaldusnivoodel koos raskuskeskme ja määramatuse ellipsiga, mitte kunagi üksik punkt. MODELLED |
 | `trust_telemetry` | Usaldusvoog (JSON-read) või `receiver-trust` tulemus, esitatud Prometheuse tekstina, CEF või LEEF syslogi ridadena või OTLP JSON-koormana, `kshana trust-telemetry` kodeerijatega |
+| `connect_map` | Teisendab mis tahes vastuvõtja-, ajastus- või seirelogi (CSV- või JSON-tekst) `kshana.obs/1` kirjeteks `kshana.connect/1` vastendusfailiga, ilma koodita (`kshana connect map`); baidi kaupa sama mis käsureal |
 | `jammertest_import` | Loe avaldatud Jammertesti testikataloogi ja saateplaani (NPRA/jammertest-plan, MIT) ajastatud tõena (`kshana jammertest import`): ühe testiala ajapilud muutuvad vastuvõtja usalduse sündmusteks, igas sildis kataloogi id ja aasta. Planeeritud ajapilud, mitte salvestatud eetriajad; plaani ühtegi kontaktivälja ei loeta. MODELLED. Vt [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Hinda vastuvõtja logi selle ajakava vastu (`kshana jammertest score`): iga testi kohta tuvastuslatentsus, vahele jäänud häired ja taastumisaeg ning valehäired väljaspool kõiki ajapilusid. Tekstilogid kui `log`, binaarsed (`ubx`, `sbf`) kui `log_base64`. Allkirjastatud pakett vajab võtit: käsurida. Ainult nõuandev; MODELLED. |
+| `referee_location_score` | Hindab, kust seirevõrk ütles häire tulevat (`kshana jammertest locate-score`): teate kaupa horisontaalne ja vertikaalne viga ning kas iga piirkond sisaldab tõde, sündmuse kaupa ja koondatult |
 | `fit_imu_log` | `hybrid` ja `fusion` stsenaariumide kiirendusmõõturi ja güroskoobi parameetrid, sobitatud paigalseisva IMU logist (CSV või EuRoC) Allani hälbe abil, koos kleepimisvalmis `[accel_classical]` tabeli ja logi SHA-256-ga (`kshana imu-fit`). Tekst sisse, JSON välja; MODELLED. |
 
 **GNSS IQ (töökataloogi failid; HTTP-režiimis väljas)**
