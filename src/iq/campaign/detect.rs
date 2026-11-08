@@ -39,6 +39,14 @@ fn d_roc_window() -> f64 {
     5.0
 }
 
+fn yes() -> bool {
+    true
+}
+
+fn is_true(b: &bool) -> bool {
+    *b
+}
+
 /// The `[monitors]` table of a campaign file.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -59,6 +67,10 @@ pub struct MonitorsSpec {
     /// `docs/design/DETECTION-ROC.md`).
     #[serde(default = "d_roc_window")]
     pub roc_window_s: f64,
+    /// Restart the C/N0 CUSUM at each scored ROC window's start, so a window does not inherit
+    /// the detector's memory of an event before it (D8b row 9). Default on.
+    #[serde(default = "yes", skip_serializing_if = "is_true")]
+    pub roc_restart: bool,
 }
 
 impl MonitorsSpec {
@@ -177,14 +189,44 @@ pub struct WindowStat {
 /// stated event that can affect it, and consecutive `window_s` windows over the rest of
 /// `[k.from_s, k.to_s]` (a trailing piece shorter than half a window is dropped). A window
 /// with no value is left out.
+///
+/// With `restart`, a C/N0 CUSUM kind (`cn0_drop`, `cn0_rise`) is scored as if its statistic
+/// had been at zero at each window's start: inside the window `g′ = max(0, g′ + g_t − g_{t−1})`
+/// while `g_t > 0` and `g′ = 0` when `g_t = 0`, which the stored series determines exactly
+/// (D8b row 9, `xval/d8b-roc-restart/README.md`).
 pub fn windows(
     k: &KindSpan,
     series: &[(f64, f64)],
     tc: &TestConditions,
     grace_s: f64,
     window_s: f64,
+    restart: bool,
 ) -> Vec<WindowStat> {
+    let cusum = restart && (k.kind == "cn0_drop" || k.kind == "cn0_rise");
     let max_in = |a: f64, b: f64| {
+        if cusum {
+            let (mut prev, mut g_r, mut best): (f64, f64, Option<f64>) = (0.0, 0.0, None);
+            for &(t, g) in series {
+                if !g.is_finite() {
+                    continue;
+                }
+                if t < a {
+                    prev = g;
+                    continue;
+                }
+                if t > b {
+                    break;
+                }
+                g_r = if g > 0.0 {
+                    (g_r + g - prev).max(0.0)
+                } else {
+                    0.0
+                };
+                prev = g;
+                best = Some(best.map_or(g_r, |m: f64| m.max(g_r)));
+            }
+            return best;
+        }
         series
             .iter()
             .filter(|(t, v)| *t >= a && *t <= b && v.is_finite())
@@ -598,7 +640,7 @@ affects = [3]
             to_s: 30.0,
         };
         let series: Vec<(f64, f64)> = (0..300).map(|i| (i as f64 * 0.1, i as f64)).collect();
-        let w = windows(&k, &series, &tc(), 1.0, 5.0);
+        let w = windows(&k, &series, &tc(), 1.0, 5.0, true);
         let pos: Vec<&WindowStat> = w.iter().filter(|x| x.event_id.is_some()).collect();
         assert_eq!(pos.len(), 1);
         assert_eq!((pos[0].t0_s, pos[0].t1_s), (10.0, 17.0));
