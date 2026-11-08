@@ -94,6 +94,8 @@ fn recorded_test_split_run_and_its_misses() {
     let r = "xval/bench-e/run";
     let truth_text = gz_path(&format!("{r}/e-test.truth.json.gz"));
     let preds_text = gz_path(&format!("{r}/e-test-b-log.predictions.json.gz"));
+    // PIN-SCOPE:    the SHA-256 of the committed task (e) `test` truth file of the scored run.
+    // PIN-EXCLUDES: every other split, the predictions and the dataset itself.
     assert_eq!(
         kshana::bench::sha256_hex(truth_text.as_bytes()),
         "19a066c3eb566854a8a9d7a890a880538d24e566ec35835e59aec3546c5d9165"
