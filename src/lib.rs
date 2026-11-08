@@ -316,6 +316,7 @@ pub mod live_health;
 pub mod locate_pd;
 pub mod m4_dark_vessel;
 pub mod m4_logic;
+pub mod m5_hybrid;
 pub mod n2k;
 pub mod nmea_synth;
 pub mod ntrip;

@@ -439,6 +439,32 @@ pub fn summed_loglik(
     total
 }
 
+/// The same summed log-likelihood from interference powers given directly, one row per epoch
+/// (`None`: the station reports nothing), with each station's censoring power `jmin` (dBW). For a
+/// caller whose stations report power rather than C/N0 and AGC (M5's ground layer).
+pub fn summed_loglik_from_power(
+    p: &PowerDifferenceParams,
+    st: &[Station],
+    g: &Grid,
+    epochs_j: &[Vec<Option<f64>>],
+    jmin: &[f64],
+) -> Vec<f64> {
+    let geo = Geometry::new(p, g, st);
+    let len = g.centres.len() * hypotheses(p);
+    let mut total = vec![0.0; len];
+    let mut one = vec![0.0; len];
+    for j in epochs_j {
+        if j.iter().all(Option::is_none) {
+            continue;
+        }
+        epoch_loglik(p, st, &geo, j, jmin, &mut one);
+        for (t, x) in total.iter_mut().zip(&one) {
+            *t += x;
+        }
+    }
+    total
+}
+
 /// Sessions (R8): index ranges of epochs with at least `min_reporting` reporting stations.
 pub fn sessions(
     p: &PowerDifferenceParams,
