@@ -826,8 +826,6 @@ seg-3cde4f0b352a = Anna avustajasi ajaa validoitu moottori sen sijaan, että se 
 
 seg-0487ea97b0d8 = Aloita sivulta <a1>MCP-palvelin</a1>
 
-seg-562785c48737 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Ilmainen: { "49" } MCP-työkalua, run_scenariosta export_oem-työkaluun.
-
 seg-af65a3c927cf = Sulautettujen järjestelmien tai tuotteiden kehittäjä
 
 seg-16324be13740 = Kutsu moottoria Rustista, Pythonista tai JavaScriptistä oman tuotteesi sisällä.
@@ -838,4 +836,6 @@ seg-0e6be0d623f6 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Avoimen
 
 seg-9b505908a6e2 = Kshana <b>ei ohjaa radiolaitteistoa eikä lähetä mitään</b>. Siihen kuuluu ohjelmistopohjainen GNSS-vastaanotin tallennetulle ja tuotetulle IQ-datalle, ja se voi kirjoittaa synteettisiä kantataajuisia IQ-tiedostoja, mutta se <b>ei ole radiotaajuinen signaaligeneraattorilaitteisto</b> eikä <b>laitteisto- tai sertifioitu GNSS-vastaanotin</b>. Se on tutkimus- ja vaihtoehtovertailuväline: se simuloi, mitä häirintä, harhautus ja signaalin menetys tekevät navigointi- ja ajoitusratkaisulle, ja kertoo, mitkä sen vastauksista on validoitu. <b>Ei lentotuote.</b>
 
-seg-8575c0837e28 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-b9ebb409e11a = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-7b9633a75c90 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Ilmainen: { "52" } MCP-työkalua, run_scenariosta export_oem-työkaluun.

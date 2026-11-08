@@ -50,8 +50,6 @@ seg-849c08d3ce70 = Familjesida: <a1>Klockor, tidssynkronisering och holdover</a1
 
 seg-ee7dd15019d0 = Ämnessida: <a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = Ämnessida: <a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>Föregående</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Nästa</s1>combined-altpnt

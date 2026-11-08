@@ -110,8 +110,6 @@ seg-f878fd0359c9 = <b>Termisk støjjitter ved kodesporing</b> i en delay lock lo
 
 seg-089e4e98af82 = <b>Erhvervelse</b>: den største satellit-Doppler på et pas direkte overhead ved elevationsmasken (<c1/>, cirkulær bane, ingen jordrotation) plus oscillator- og brugerleddene; Doppler-bins på <c2/>; kodebins over én periode; detektionssandsynligheden for en kvadratisk lovdetektor (generaliseret Marcum Q) ved en falsk-alarm-sandsynlighed pr. celle, centreret og i det værste tilfælde af skæv placering; og den gennemsnitlige erhvervelsestid for en seriel og en kodeparallel søgning med enkelt dwell (Holmes).
 
-seg-1e2029183bdc = <b>Kompatibilitet</b>: den spektrale separationskoefficient (SSC) for det båndbegrænsede signal ind i GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b og E5-signalet alternative BOC (AltBOC) over hvert modtagerbånd for global navigation satellite system (GNSS), det C/N₀-tab, det forårsager ved sin modtagne effekt, samt SSC og C/N₀-tab for hvert GNSS-signal ind i den sporede LEO-komponent.
-
 seg-864f3f2a5aa1 = <b>Jammertolerance</b>: forholdet mellem jammer- og signaleffekt (J/S) for en continuous-wave (CW)-tone ved bærebølgen, flad støj over sendebåndet og støj tilpasset den sporede komponent, som bringer den sporede komponent til sporingstærsklen, ud fra den egen SSC-kode i typen <c1/> (<c2/>).
 
 seg-0fbea397ab93 = C/N₀-konvention: sweepet og referencen er den <b>samlede C/N₀ i båndet</b>. En komponents andel indgår i sporings- og jammerformlerne som <c1/> (dens andel af den ufiltrerede effekt divideret med andelen i båndet), den samme konvention som typen <c2/> bruger til et almindeligt bånd, hvis moduleringseffekt uden for modtagerbåndet går tabt på samme måde.

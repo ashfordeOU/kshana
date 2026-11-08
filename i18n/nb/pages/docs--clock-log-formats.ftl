@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = Kilde: <c1/>
 
 seg-0dfd1160c5d7 = Formater for klokkelogger
 
-seg-f52a62872493 = <c1/> leser en målt klokkelogg til én normalisert faseserie: et jevnt rutenett av <c2/>-samples, med sampleintervallet <c3/> oppgitt eller funnet, hvert hull talt og enhetene i loggen navngitt. Åtte formater leses, hvert en dokumentert delmengde. Alt utenfor delmengden avvises med en feil som navngir det som ble funnet, i stedet for å leses omtrentlig.
-
 seg-dbdbfec37ab6 = <b>Forkortelser.</b> RINEX er Receiver Independent Exchange Format. TICC er TAPR-tidsintervalltelleren (Tucson Amateur Packet Radio). ADEV er den overlappende Allan-deviasjonen, TDEV tidsdeviasjonen og MTIE den maksimale tidsintervallfeilen. <c1/> er sampleintervallet i sekunder.
 
 seg-1d5a6c2090af = Hvor en logg kan brukes

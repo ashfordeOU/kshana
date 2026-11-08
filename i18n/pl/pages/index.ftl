@@ -158,8 +158,6 @@ seg-32c07578eab3 = Kroki nagranej sesji
 
 seg-2cff891dc970 = Następny krok
 
-seg-45da99dccd40 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "49" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
-
 seg-102015d6ebd2 = <c1/>: Uruchamia scenariusz Kshana i zwraca jego szereg czasowy jako animację.
 
 seg-0247e08ba09d = <c1/>: Ocenia zaufanie do rzeczywistego dziennika odbiornika GNSS: odczytuje dziennik u-blox UBX, RINEX { "3" } (opcjonalnie z nawigacją nadawaną, która dodaje własną pozycję silnika, RAIM i monitor wspomagany zegarem), Android GnssLogger lub NMEA, uruchamia monitory zaufania (spadek gęstości stosunku nośnej do szumu, AGC, wskaźnik zagłuszania, utrata synchronizacji, skok pozycji, RAIM, zegar) względem bazowej kalibracji i zwraca, kiedy i dlaczego odbiornik przestał być godny zaufania.
@@ -718,10 +716,12 @@ seg-b9961ed25282 = Nowość w v{ $version }: wątek misji, etykieta dowodowa prz
 
 seg-653cf3198094 = { "176" } z { "401" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
 
-seg-76b213d03caa = Wszystkie { "92" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
+seg-859bb6732925 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "52" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
 
-seg-cff488aa106d = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+seg-2dc1aed7a12e = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
 
-seg-fddfe8b260be = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-b79ee48fd586 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-388f14eb6d8d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+seg-9b9d03fe1477 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-579d9b6f7afd = Wszystkie { "93" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.

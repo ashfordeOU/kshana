@@ -83,25 +83,6 @@ seg-0cc992f8d61b = Siehe <a1><c1/></a1>. NMEA- und RINEX-Ausgaben von GNSS-SDR w
 seg-cf1bf4944f6a = IMU (<c1/>)
 
 # text
-# c1: format = "csv"
-# c2: t_s
-# c3: gx
-# c4: gy
-# c5: gz
-# c6: ax
-# c7: ay
-# c8: az
-# c9: format = "euroc"
-# c10: imu0
-# c11: data.csv
-# c12: #timestamp [ns]
-# c13: w_RS_S_x/y/z [rad s^-1]
-# c14: a_RS_S_x/y/z [m s^-2]
-# c15: t_s = 0
-# c16: RECEIVER-TRUST.md
-seg-ab64a0754907 = <c1/>: eine Kopfzeile, die die Spalten benennt, dann ein Sample je Zeile. Spalten (beliebige Reihenfolge, Namen ohne Beachtung der Groß- und Kleinschreibung): <c2/> Sekunden auf der Uhr des Empfänger-Logs, <c3/>, <c4/>, <c5/> Winkelrate in rad/s, <c6/>, <c7/>, <c8/> spezifische Kraft in m/s². <c9/>: das Layout <c10/> <c11/> von EuRoC MAV (<c12/>, <c13/>, <c14/>); das erste Sample ist <c15/>. Zeilen, die sich nicht parsen lassen, und Zeilen, deren Zeit nicht zunimmt, werden übersprungen. Wie der Gyro-Kurs verwendet wird, steht in <a1><c16/></a1>.
-
-# text
 # c1: kshana imu-fit
 seg-f7007cf35f53 = IMU in die Hybrid- und Fusionsszenarien (<c1/>)
 

@@ -32,11 +32,7 @@ seg-88fb40d1b92d = ocenia dziennik odbiornika, <c1/> ocenia strumień, <c2/> zap
 
 seg-13870be889cb = podpisuje, weryfikuje i opatruje znacznikiem czasu pakiety dowodowe oraz łączy przebieg laboratoryjny z jego oceną
 
-seg-2867423ef8dd = wczytuje opublikowany plan Jammertest i ocenia względem niego dziennik
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = strumień zaufania jako komunikaty Prometheus, CEF, LEEF, OTLP lub MQTT
 
 seg-6fcb41643035 = Telemetria zaufania
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = dopasowuje parametry hybrydowego czujnika na podstawie dzienn
 seg-0dfc0ae9d7ed = zapisuje syntetyczny mostkowy NMEA ze scenariuszowym zagłuszaniem i spoofingiem oraz dziennik instruktora
 
 seg-f35f3f9cb83a = Szkolenie NMEA
-
-seg-8802b623b1e7 = buduje mapy zakłóceń i dzienny produkt obserwatorium z raportów statków powietrznych i okrętów
 
 seg-f0ea96229aff = <a1>Mapa zakłóceń</a1>, <a2>obserwatorium</a2>
 

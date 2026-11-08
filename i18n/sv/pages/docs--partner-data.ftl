@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana sänder ingenting och styr ingen hårdvara. Ett bidrag
 
 seg-01b0ee9973dc = Kontakt
 
-seg-b5cb4dc0493f = En ensidig not till ett laboratorium är utkastad åt ägaren i <s1><c1/></s1>. Det är ett utkast: ingenting skickas, och ingen kontaktas, förrän ägaren bestämmer.
-
 seg-83b30e1ca261 = <s1>Föregående</s1>Bevispaket
 
 seg-09c0b5fa6e52 = <s1>Nästa</s1>Optiska länkar genom atmosfären

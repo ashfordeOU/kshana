@@ -146,8 +146,6 @@ seg-9eff7c00723a = Render Trust Telemetry (uložený výsledek)
 
 seg-1b60ff4652cd = Nástroje: karta Telemetrie (záložka Příkazová řádka; pouze formáty, žádné sokety)
 
-seg-3e332170d963 = Strojové a senzorové vstupy ({ "0.38" }): <c1/> formáty <c2/>, <c3/>, <c4/> a <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (scénář <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (vložený text)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Výstup
 
 seg-12471a4b2b57 = Oblast emitoru (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (dosud nepodporováno; pokrývají to rozhraní Rust, Python a WASM)
-
 seg-dff1bfe0263e = <b>N/A</b> (zveřejňování oblastí emitorů ve veřejné observatoři je samostatné rozhodnutí vlastníka a je vypnuto)
 
 seg-ec2d91e2f867 = Kontrola podání dat od partnera (formát a metadata podání naměřených dat, <c1/>; nic nehodnotí)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (pouze vložený text; klíč jádra je odmítnut)
 seg-1c1729fafe99 = <b>N/A</b> (žádný notebook; příklad běží v libovolném notebooku přes <c1/> z checkoutu)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (dosud nepodporováno)
 
 seg-ab52a3469f6a = Odhadnuté oblasti emitorů, MODELLED; adresáře stop a <c1/> jsou pouze v příkazovém řádku
 

@@ -271,10 +271,6 @@ seg-17ca55cea260 = Les noms de raison sont tronqués à { "128" } caractères, e
 seg-35f3faf39d1c = <c1/> est l'une de <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Les noms de raison sont les noms des moniteurs du flux (<c7/>, <c8/>, ... ; pour le résultat de lot, <c9/>, <c10/>, <c11/>).
 
 # text
-# c1: deploy/grafana/kshana-gnss-trust.json
-seg-a726fc8d28c2 = Un tableau de bord d'exemple se trouve dans <c1/> (importez-le et choisissez votre source de données Prometheus).
-
-# text
 seg-208f33eda580 = Syslog : CEF et LEEF
 
 # text

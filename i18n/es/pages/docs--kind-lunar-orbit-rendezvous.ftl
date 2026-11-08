@@ -42,8 +42,6 @@ seg-4466fb6f4043 = Gauss-Newton por lotes a lo largo del arco
 
 seg-d97b2505ac72 = El gráfico que escribe el motor para scenarios/lunar-orbit-rendezvous.toml, tipo de escenario lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> El tipo de escenario y fase <c1/>: una estimación conjunta por lotes de Gauss-Newton de dos vehículos a lo largo del arco (veintiún parámetros: ambos estados y sesgos persistentes de posición de la señal en el espacio, comunes e independientes), ampliada sobre un cuarto, la mitad Pruebas: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> El tipo de escenario y fase <c1/>: una estimación conjunta por lotes de Gauss-Newton de dos vehículos a lo largo del arco (veintiún parámetros: ambos estados y sesgos persistentes de la señal en. Referencia independiente (InternalConsistency): Autoconsistencia bajo un preregistro (xval/mission-thread-lunar/PREREGISTRATION.md, resultados e historial del estimador en RESULTS.md): el NEES medio del estado relativo es de { "5.85" } a { "5.93" } frente a la banda de { "5.2" } a { "6.8" } en cuatro configuraciones, MET con el cuarto diseño de estimador tras fallar tres diseños de filtro secuencial; la verdad de referencia y el estimador comparten un modelo de fuerzas, de modo que esto no dice nada sobre el error del modelo. El pro
 
 seg-b2f273ea732d = Navegación relativa MODELLED para un acoplamiento al estilo Orion-módulo de aterrizaje en una órbita lunar baja o una órbita polar elíptica (clase Artemis). (catálogo de tipos de escenario (<c1/>))

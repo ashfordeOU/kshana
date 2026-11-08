@@ -47,4 +47,4 @@ seg-099d82cb0689 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-7dae5e291c8b = The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv
 
 # text
-seg-7ca028bf6bb4 = <s1>Previous</s1>Optical pnt
+seg-57f715216741 = <s1>Previous</s1>Space rf survey

@@ -12,7 +12,7 @@ seg-0dfd1160c5d7 = Clock-log formats
 # c1: src/clock_log.rs
 # c2: (time_s, phase_s)
 # c3: tau0
-seg-f52a62872493 = <c1/> reads a measured clock log into one normalised phase series: a uniform grid of <c2/> samples, with the sample interval <c3/> stated or found, every gap counted and the log's units named. Eight formats are read, each a documented subset. Anything outside the subset is refused with an error that names what was found, rather than read approximately.
+seg-e9f049ea0dcc = <c1/> reads a measured clock log into one normalised phase series: a uniform grid of <c2/> samples, with the sample interval <c3/> stated or found, every gap counted and the log's units named. Thirteen formats are read, each a documented subset. Anything outside the subset is refused with an error that names what was found, rather than read approximately.
 
 # text
 # c1: tau0
@@ -210,6 +210,193 @@ seg-197645e3c7c5 = Epochs are seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" }
 seg-61fbb0479c95 = The chrony columns and the linuxptp line layouts are those of the daemons' public documentation. The fixtures in <c1/> are written for Kshana with made-up values (see its <c2/>); no real log was read, so a layout that differs between daemon versions can still be refused or misread. A line that does not match is skipped and counted, never guessed.
 
 # text
+# c1: pps-assert
+seg-4a484c34d0b2 = Linux PPS time stamps (<c1/>)
+
+# text
+# c1: pps-assert
+# c2: /sys/class/pps/ppsN/assert
+# c3: <seconds>.<nanoseconds>#<sequence>
+# c4: clock
+seg-f94518293083 = <b><c1/></b>: the time stamps the Linux PPS subsystem gives for each pulse, one per line as <c2/> shows them: <c3/>, the nanoseconds always nine digits. The pulse marks a whole second, so the offset is the time stamp's distance from the nearest second, in seconds: a host clock ahead of the pulse has a positive offset. The reading's time is that whole second. A line with the same sequence number as the line before it is the same pulse read twice and is not a new reading; other lines are skipped and counted. There is one source, so <c4/> is refused. What is measured is the host clock (with the interrupt latency of the PPS input) against the pulse; how good the pulse is, is not known from the log.
+
+# text
+# c1: kshana clock-live
+seg-653cd16a2c68 = Live: <c1/>
+
+# text
+# c1: clock-live
+# c2: ptp4l
+# c3: phc2sys
+# c4: ts2phc
+# c5: chrony-tracking
+# c6: chrony-statistics
+# c7: pps-assert
+# c8: ticc
+# c9: tcp:host:port
+# c10: --follow
+# c11: --poll-s
+# c12: assert
+seg-be8d702e0827 = <c1/> reads a <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> or <c8/> log as it is written: from standard input, <c9/>, a file (with <c10/>, it waits at the end for more lines), or with <c11/> a file read whole at every poll (the PPS <c12/> file). It prints one JSON line per reading:
+
+# text
+# c1: kept
+# c2: --clock
+# c3: s2
+# c4: --clock
+# c5: --tau0
+# c6: tests/clock_live.rs
+# c7: rms_s
+# c8: max_abs_s
+seg-bd3598f371f4 = <c1/> is true exactly for the readings the whole-log reader keeps: the source named by <c2/> (without it, the first source seen; every line of a chrony tracking log), linuxptp readings from the servo's first locked state (<c3/>) on, each PPS pulse once, and the TICC channel named by <c4/> (time stamps need <c5/>, which the whole-log reader would find from every stamp; the phase is the same femtosecond arithmetic, and a missing tick is a reading the replay fills, not one live invents). So the kept offsets of a live run are the phase series a replay of the same log gives (<c6/>, on logs read whole and followed while they are written). <c7/> and <c8/> are over the last { "64" } kept offsets. It only reads: nothing is sent to the servo, the daemon or the device.
+
+# text
+seg-835fac4c7715 = ntpd and White Rabbit logs
+
+# text
+# c1: ntp-loopstats
+# c2: ntp-peerstats
+# c3: loopstats
+# c4: peerstats
+seg-9edfbb6d5193 = <b><c1/></b>, <b><c2/></b>: ntpd's <c3/> and <c4/> statistics files, read by column position. Each reading starts with the modified Julian day and the seconds past midnight UTC.
+
+# text
+seg-c2eb850b851c = Loopstats: column { "3" }, the local clock's offset on each update, in seconds; one local clock.
+
+# text
+# c1: clock = "<address>"
+seg-0b6ffdb82501 = Peerstats: column { "5" }, a peer's measured offset, in seconds; one series per peer address (column { "3" }), and the log needs <c1/> when it holds more than one.
+
+# text
+# c1: tau0
+seg-c7328bda540e = Epochs are seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } UTC (MJD { "44244" }), with no leap-second handling. The spacing follows the poll interval; <c1/> is the median spacing, as for chrony.
+
+# text
+seg-05014d1ce9cc = A line that does not have the columns or whose fields are not numbers is skipped and counted.
+
+# text
+# c1: wr-stat
+# c2: stat
+# c3: key:value
+# c4: sec
+# c5: cko
+# c6: nsec
+# c7: lock
+# c8: lock:1
+# c9: crtt
+# c10: setp
+# c11: mu
+# c12: temp
+# c13: sec
+# c14: cko
+seg-9b428ab2a31b = <b><c1/></b>: the <c2/> lines of a White Rabbit PTP core: white-space separated <c3/> pairs. The reader needs <c4/> (seconds, TAI) and <c5/> (the clock offset, picoseconds), reads <c6/> when present, and reads <c7/> as the servo state: readings before the first <c8/> are a pull-in and are left out and counted, and a log that never locks is refused, as for linuxptp. Every other key (<c9/>, <c10/>, <c11/>, <c12/>, ...) is ignored. A line without <c13/> and <c14/> is skipped and counted.
+
+# text
+seg-36db4dfd5a56 = CGGTTS time-transfer files
+
+# text
+# c1: cggtts
+# c2: SAT CL MJD STTIME TRKL ELV AZTH REFSV SRSV REFSYS ... CK
+seg-388ae663bd31 = <b><c1/></b>: BIPM CGGTTS version 2E track files, the common-view format that time laboratories publish. A data line is one satellite track (<c2/>).
+
+# text
+# c1: CK
+# c2: CK
+# c3: scripts/fetch_cggtts.sh
+# c4: tests/cggtts_bipm_reference.rs
+seg-ece054b705ee = A line counts only when its <c1/> checksum holds: the sum, modulo { "256" }, of the byte values of every character before <c2/>, including the separating space. Lines that fail are skipped and counted, never dropped silently. The rule was checked on every data line of a public BIPM file (<c3/>, <c4/>).
+
+# text
+# c1: REFSV
+# c2: REFSYS
+seg-2cb541ab92e0 = <c1/> and <c2/> are in units of { "0.1" } ns. A field of all 9s is a missing value.
+
+# text
+# c1: MJD
+# c2: STTIME
+# c3: TRKL
+seg-1a3ab13b04df = The time of a track is its start (<c1/>, <c2/>, UTC) plus half of <c3/>, as seconds from 1980-01-06 { "00" }:{ "00" }:{ "00" } UTC.
+
+# text
+# c1: REFSYS
+# c2: all in view
+# c3: clock = "G04"
+# c4: REFSYS
+seg-0ab3d9d1da0d = The phase read is, per track start, the median <c1/> over satellites (the laboratory's reference minus GNSS system time), labelled <c2/>. With <c3/>, one satellite's <c4/> only.
+
+# text
+# c1: tau0
+seg-e326de066091 = Tracks follow a 16-minute schedule that moves { "4" } minutes a day, so the spacing is uneven at a day change; <c1/> is the median spacing ({ "960" } s).
+
+# text
+# c1: kshana::cggtts::common_view
+# c2: REFSV(a) − REFSV(b)
+# c3: docs/design/evidence/r6-1-cggtts/PREREGISTRATION.md
+seg-0374ddb2231c = Two laboratories' files give a common-view difference (<c1/>): <c2/> on the same satellite and track cancels the satellite clock. Its comparison with BIPM Circular T is pre-registered in <c3/>.
+
+# text
+seg-a3dd34981f6a = Trading clocks: divergence from UTC against RTS { "25" } (library)
+
+# text
+# c1: kshana::rts25::assess
+# c2: ptp4l
+# c3: chrony-tracking
+# c4: cggtts
+seg-8ed26634c197 = <c1/> takes a clock's measured offset from UTC (any log above, for example <c2/>, <c3/> or <c4/>) and the activity the clock serves. It reports the largest divergence, the samples and stretches beyond the limit, and gaps longer than a stated interval. The limits are the maximum divergence from UTC in the Annex of Commission Delegated Regulation (EU) 2017/574 (RTS { "25" }, MiFID II):
+
+# text
+seg-a91cbf88e261 = Activity
+
+# text
+seg-6778eb61b600 = Maximum divergence
+
+# text
+seg-f85d36028a11 = Granularity
+
+# text
+seg-6908a8688923 = Venue, gateway-to-gateway latency above { "1" } ms
+
+# text
+seg-a3b12cc65d5a = { "1" } ms
+
+# text
+seg-0b3000b9834c = { "1" } ms or finer
+
+# text
+seg-97271a8edefe = Venue, gateway-to-gateway latency { "1" } ms or less
+
+# text
+seg-c80582fe02ea = { "100" } µs
+
+# text
+seg-a7514cb74761 = { "1" } µs or finer
+
+# text
+seg-6da4ca163925 = High-frequency algorithmic trading
+
+# text
+seg-6989059d2706 = Voice trading; request-for-quote needing a human response; negotiated transactions
+
+# text
+seg-b8031585e676 = { "1" } s
+
+# text
+seg-b0bf18d3cd12 = { "1" } s or finer
+
+# text
+seg-fae436edacfa = Any other trading activity
+
+# text
+# c1: within limit
+# c2: beyond limit
+# c3: not assessable
+# c4: not assessable
+seg-138d5fb8e5ae = The outcome is <c1/>, <c2/> or <c3/>. A record with no samples, or a gap longer than the stated interval and no excursion, is <c4/>, because the divergence during the gap is unknown.
+
+# text
+seg-128ff876f16a = What it does not do: it does not show traceability to UTC (the documented chain from the time source, which the Regulation also requires), and it does not measure the granularity of the firm's own timestamps. It describes a measured record against a stated limit and is not a regulatory assessment.
+
+# text
 # c1: tau0
 seg-b120a37b7d60 = <c1/> and gaps
 
@@ -322,6 +509,12 @@ seg-0f061f726ec5 = <s1>Previous</s1>Holdover test and timing hardware in the loo
 
 # text
 seg-3c89cfcbbd04 = <s1>Next</s1>Hardware safety
+
+# text
+seg-40d9586fb39d = Linux PPS time stamps (pps-assert)
+
+# text
+seg-270738d1d411 = Live: kshana clock-live
 
 # text
 seg-9b52cd5eb4be = tau0 and gaps

@@ -27,11 +27,6 @@ seg-6f8d24ecb89f = — { "55,970" } reast { "58,697" }
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
-# c2: v0.29.0
-seg-d734cdb77d70 = <c1/> (mootor { "0.29.0" }, silt <c2/>)
-
-# text
 # c1: ci.yml
 # c2: coverage
 seg-a2af6144b6a0 = GitHub Actions, <c1/> töö <c2/>, käivitus { "36809850252" }, 2026-10-01
@@ -83,14 +78,11 @@ seg-b566e95a74ab = seejärel uuendage ülaltoodud tabelit ja need kuus kohta sam
 seg-6935c9c381b3 = Ajalugu
 
 # text
-# c1: b1d350d
-# c2: 1daa012
-# c3: CHANGELOG.md
-# c4: paper/kshana-technical-report.md
-seg-daa9ae1913cd = Arvu on uuesti mõõdetud, mitte uuesti sisse trükitud: { "95.63" } % commit-il <c1/> (mootor { "0.27.2" } + avaldamata, käivitus { "35934579709" }, 2026-09-24, { "37,697" } reast { "39,419" }, avaldatud kui ~{ "96" } %), korrigeeriti väärtusele { "95.35" } % versioonis { "0.29.0" } (ülal), mis ümardub väärtuseni ~{ "95" } %: kood kasvas { "19,278" } mõõdetud rea võrra ja uued read on kaetud veidi vähem kui vanad; { "95.85" } % versioonis { "v0.17.0" } (commit <c2/>, 2026-06-14, avaldatud kui ~{ "96" } %) ja ~{ "97" } % kahes varasemas väljalaskemärkuses (<c3/>, jäetud ajaloona). <c4/> ütles „near { "97" } %“, kuni see viidi selle kirjega kooskõlla; nüüd on see kuues koht, mida test fikseerib.
-
-# text
 seg-b2dbaf3a3b68 = <s1>Eelmine</s1>Standardid ja koostalitlusvõime
 
 # text
 seg-508de3808e04 = <s1>Järgmine</s1>Tõendipaketid
+
+seg-5ff7e4510497 = <c1/> (mootor { "0.29.0" }, silt <c2/>)
+
+seg-1ff43e658eef = Arvu on uuesti mõõdetud, mitte uuesti sisse trükitud: { "95.63" } % commit-il <c1/> (mootor { "0.27.2" } + avaldamata, käivitus { "35934579709" }, 2026-09-24, { "37,697" } reast { "39,419" }, avaldatud kui ~{ "96" } %), korrigeeriti väärtusele { "95.35" } % versioonis { "0.29.0" } (ülal), mis ümardub väärtuseni ~{ "95" } %: kood kasvas { "19,278" } mõõdetud rea võrra ja uued read on kaetud veidi vähem kui vanad; { "95.85" } % versioonis { "v0.17.0" } (commit <c2/>, 2026-06-14, avaldatud kui ~{ "96" } %) ja ~{ "97" } % kahes varasemas väljalaskemärkuses (<c3/>, jäetud ajaloona). <c4/> ütles „near { "97" } %“, kuni see viidi selle kirjega kooskõlla; nüüd on see kuues koht, mida test fikseerib.

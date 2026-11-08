@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana sendet nichts und steuert keine Hardware an. Eine Einr
 
 seg-01b0ee9973dc = Ansprache
 
-seg-b5cb4dc0493f = Ein einseitiger Text für ein Labor ist für den Eigentümer in <s1><c1/></s1> entworfen. Er ist ein Entwurf: Es wird nichts gesendet, und niemand wird kontaktiert, bis der Eigentümer entscheidet.
-
 seg-83b30e1ca261 = <s1>Zurück</s1>Nachweispakete
 
 seg-09c0b5fa6e52 = <s1>Weiter</s1>Optische Verbindungen durch die Atmosphäre

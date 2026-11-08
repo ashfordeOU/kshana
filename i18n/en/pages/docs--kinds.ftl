@@ -9,7 +9,7 @@ seg-f7f2a6c0cd15 = Source: <c1/>
 seg-6c7831311d4e = Scenario kinds, by family
 
 # text
-seg-9ad7876b693f = Every scenario kind the engine v{ $version } dispatches ({ "92" }), filed under { "13" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
+seg-9be1b5fce0e8 = Every scenario kind the engine v{ $version } dispatches ({ "93" }), filed under { "14" } families. Each family has a page with one entry per kind (the engine's description and fields, the example command, headline numbers from a run, the matrix rows that name it, and the chart the engine writes) and a contact sheet of those charts. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
 seg-d23eaa8bc98b = Families
@@ -82,6 +82,12 @@ seg-c6bb02c73696 = Contact sheet of the charts the engine writes for the kinds o
 
 # attr:alt
 seg-b49ec180e810 = Contact sheet of the charts the engine writes for the kinds of the family Campaigns
+
+# text
+seg-6dd0f6b51470 = Space RF survey
+
+# attr:alt
+seg-e4e2ee13862b = Contact sheet of the charts the engine writes for the kinds of the family Space RF survey
 
 # text
 seg-3cedc38ae9d5 = Every kind

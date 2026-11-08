@@ -262,8 +262,6 @@ seg-d85f16c14183 = kshana.run i run_full, a także validate_toml i list_kinds
 
 seg-5a6803e3eb48 = run, summary i chart_svg w przeglądarce lub Node.js
 
-seg-1c19f8c0ad84 = { "49" } narzędzi, które może wywołać asystent AI, każde jako cienka nakładka na publiczne API
-
 seg-4ad1a7669b03 = Serwer MCP bez zestawu narzędzi Rusta, wieloarchitekturowy
 
 seg-9e409a07b3c9 = Kliknij prawym przyciskiem plik .toml scenariusza, wybierz Run Kshana Scenario i odczytaj wartości w oknie narzędzia
@@ -620,8 +618,6 @@ seg-32c07578eab3 = Kroki nagranej sesji
 
 seg-2cff891dc970 = Następny krok
 
-seg-45da99dccd40 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "49" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
-
 seg-102015d6ebd2 = <c1/>: Uruchamia scenariusz Kshana i zwraca jego szereg czasowy jako animację.
 
 seg-0247e08ba09d = <c1/>: Ocenia zaufanie do rzeczywistego dziennika odbiornika GNSS: odczytuje dziennik u-blox UBX, RINEX { "3" } (opcjonalnie z nawigacją nadawaną, która dodaje własną pozycję silnika, RAIM i monitor wspomagany zegarem), Android GnssLogger lub NMEA, uruchamia monitory zaufania (spadek gęstości stosunku nośnej do szumu, AGC, wskaźnik zagłuszania, utrata synchronizacji, skok pozycji, RAIM, zegar) względem bazowej kalibracji i zwraca, kiedy i dlaczego odbiornik przestał być godny zaufania.
@@ -724,8 +720,6 @@ seg-62b5564e8d90 = Nagrana sesja jest tu odtwarzana krok po kroku.
 
 seg-2359edf78388 = <b>Ten sam przebieg w Studio:</b> silnik v{ $version } · <c1/> · ziarno { "42" }
 
-seg-c24f65399c72 = <b>{ "49" } narzędzi</b> w publicznym API (interfejs programowania aplikacji) { -brand }, w oficjalnym rejestrze MCP jako <c1/>. Eksporty orbit: SP3 (Standard Product { "3" }) oraz CCSDS (Konsultacyjny Komitet ds. Systemów Danych Kosmicznych) OMM i OEM (komunikaty elementów średnich orbity i efemeryd, TEME: układ True Equator, Mean Equinox). Zarejestruj go w sekcji <b>Asystent AI (serwer MCP)</b> lub <b>Obraz Dockera</b>. <a1>Dokumentacja serwera MCP</a1>
-
 seg-306a0232c581 = Uruchamia scenariusz odporności PNT Kshana z definicji TOML i zwraca jego wskaźniki jakości. Zwraca podsumowanie czytelne dla człowieka, a po nim pełny wynik w JSON (wskaźniki jakości, krzywe). { -brand } waliduje modele SGP4/SDP4, układy odniesienia IAU, odchylenia Allana, dostępność GNSS/DOP, poziomy ochrony ARAIM, fuzję GNSS/INS i modele czujników kwantowych względem opublikowanych wzorców. Każdy rodzaj działa przez to jedno narzędzie, w tym <c1/> (widmo częstotliwości radiowych i waterfall), <c2/>, <c3/> i <c4/> (konstelacje wokół dowolnego ciała), <c5/> (łańcuchowe fazy, przeglądy parametrów, zespoły Monte Carlo i scenariusze złożone) oraz rodzaje nawigacji z niskiej orbity okołoziemskiej <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> i <c12/>. Treść jest podawana w linii: pole scenariusza, które wskazuje plik, jest odrzucane, a scenariusz ma najwyżej { "4" } MiB. Najpierw wywołaj list_scenario_kinds, aby poznać typy scenariuszy i ich pola, a list_example_scenarios / get_example_scenario, aby uzyskać kompletny, uruchamialny scenariusz danego rodzaju.
 
 seg-5fe1f6a80612 = Wyświetla każdy wbudowany rodzaj scenariusza Kshana z jego opisem i wymaganymi/opcjonalnymi polami TOML, jako tablicę JSON. Użyj tego, aby poznać, jakie scenariusze można uruchomić i jak zbudować poprawny TOML scenariusza dla run_scenario.
@@ -803,3 +797,9 @@ seg-b4ee0795e52c = Buduje mapę zakłóceń GNSS z raportów pozycji statków po
 seg-d3175204c0ea = Podsumowuje, jaka część trasy przebiega przez pogorszone komórki jednej lub więcej map zakłóceń (<c1/>): dla każdej mapy (jedna na źródło na dobę UTC, GeoJSON zwracany przez <c2/>) długość trasy oraz udziały jej długości w komórkach pogorszonych, w komórkach niepogorszonych, w komórkach ze zbyt małą próbką do oceny oraz w komórkach nieobserwowanych. Trasa to GeoJSON LineString lub tekst CSV <c3/>; <c4/>/<c5/> (RRRR-MM-DD) zachowują mapy z zakresu dat. Wejście jest ograniczone do { "4" } MiB na element. Komórki nieobserwowane nie są dowodem, że trasa jest czysta; pogorszona komórka nie wskazuje zakłóceń jako przyczyny; opisuje to przeszłe zgłoszenia i nie jest prognozą. Poziom dowodowy: MODELLED.
 
 seg-e11a6425c180 = Wypełnia odwzorowanie na publiczne ramy z dokumentów wyników Kshana (<c1/>): dla których wierszy sześciu ram i norm odporności (amerykańskie ramy Resilient PNT DHS v2.0, wytyczne IMO dla statków, wytyczne EASA dla lotnictwa, NIS2 art. { "21" }, EN { "16803" }, NIST IR 8323r1) podane przebiegi dostarczają dowodów na (supports evidence for), dla których nie, oraz jaką lukę zachowuje każdy wiersz. Podaj każdy przebieg jako <c2/>, <c3/> (tekst JSON wyniku) oraz, jeśli go masz, <c4/> (TOML scenariusza, który podaje rodzaj, jakiego wynik nie podaje; wynik receiver-trust go nie potrzebuje). Najwyżej { "64" } przebiegów i { "4" } MiB łącznie; nic nie jest odczytywane z dysku. <c5/> każdego wiersza to <c6/>, <c7/>, <c8/> lub <c9/>, a każdy wiersz zachowuje swoje <c10/> nawet gdy jest poparty dowodami; wejścia, których nie dało się użyć, są wymienione w <c11/> i nie liczą się wcale. Pokazuj <c12/> raportu z każdym wynikiem, dosłownie: status oznacza, że przebieg dostarcza dowodów na możliwości, które wiersz wymienia; nie jest to ustalenie, że jakiekolwiek ramy są spełnione, i nie oznacza, że jakikolwiek produkt został przez kogokolwiek oceniony lub zatwierdzony. Nie opisuj wyniku w mocniejszych słowach. Poziom dowodowy: MODELLED.
+
+seg-859bb6732925 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "52" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
+
+seg-f3512ff81b58 = <b>{ "52" } narzędzi</b> w publicznym API (interfejs programowania aplikacji) { -brand }, w oficjalnym rejestrze MCP jako <c1/>. Eksporty orbit: SP3 (Standard Product { "3" }) oraz CCSDS (Konsultacyjny Komitet ds. Systemów Danych Kosmicznych) OMM i OEM (komunikaty elementów średnich orbity i efemeryd, TEME: układ True Equator, Mean Equinox). Zarejestruj go w sekcji <b>Asystent AI (serwer MCP)</b> lub <b>Obraz Dockera</b>. <a1>Dokumentacja serwera MCP</a1>
+
+seg-5aa702c4ebc7 = { "52" } narzędzi, które może wywołać asystent AI, każde jako cienka nakładka na publiczne API

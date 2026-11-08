@@ -14,8 +14,6 @@ seg-619127334cf3 = Yksikään matriisin rivi ei nimeä tätä tyyppiä nimellä;
 
 seg-195347c63a8a = m/s^{ "2" }
 
-seg-451a304052c4 = <b>MODELLED</b> Kylmäatomi-interferometrikiihtyvyysanturi ensiperiaatteista (k_eff·T², QPN). Oraakkeli (ExternalDataset): Julkaistut CAI:n alkuperäisartikkelien numeeriset vektorit (Cheinet { "2008" } siirtofunktio; Peters/Freier-herkkyys): k_eff·T² täsmää tarkasti, shot-kohinan ASD yksipuolinen lattia ~{ "2" }× sisällä kustakin julkaistusta instrumentista (todelliset laitteet kantavat teknistä kohinaa kvanttilattian yläpuolella). Haarukka, ei pariteetti. { "0.30" } kierros { "2" } (ennakkorekisteröity fcb9ac64), havainto (jää tasolle MODELLED): pelkkä QPN-kiertokohina mitattua Gauguet ym.
-
 seg-7e95210bcc48 = <b>MODELLED</b> Koostettu harha + asteikkokerroin + VRW + stabiilisuuden vaimenemis -paikkabudjetti holdoverin yli. Oraakkeli (ReferenceImpl): Riippumaton numpy Monte Carlo -SDE-integrointi kaksoisintegroidulle valkoisen kiihtyvyyden kohinalle (validoi analyyttisen VRW-varianssin aidosti riippumattomalla algoritmilla) + Grovesin { "2013" } julkaistu arvoankkuri harha- ja asteikkokerroin-termeille; CAI-laitelukemat kvantifioivat kumppanin laitteiston ja pysyvät tasolla MODELLED
 
 seg-9955b1b1c018 = Kvanttiinertiaanturin suorituskyky on MODELLED, ei validoitu: osaväite tarkistetaan ulkoisesti, mutta koko kyvykkyys koostuu mallinnetuista osista, joten kyvykkyys jää mallinnetuksi. (varmennusmatriisi (docs/MODELLED-RATIONALE.md))

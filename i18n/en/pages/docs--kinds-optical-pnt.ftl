@@ -114,4 +114,4 @@ seg-5cea5229815e = The chart the engine writes for scenarios/hybrid-optical-rf.t
 seg-22449071fb11 = <s1>Previous</s1>Mission threads
 
 # text
-seg-48792381ba0b = <s1>Next</s1>Space user navigation
+seg-a69b1fa271f6 = <s1>Next</s1>Space rf survey

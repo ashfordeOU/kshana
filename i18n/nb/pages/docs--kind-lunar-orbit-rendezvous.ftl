@@ -42,8 +42,6 @@ seg-4466fb6f4043 = batch Gauss-Newton over buen
 
 seg-d97b2505ac72 = Diagrammet motoren skriver for scenarios/lunar-orbit-rendezvous.toml, typen lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Typen og fasen <c1/>: et felles batch Gauss-Newton-estimat for to fartøy over buen (tjueen parametere: begge tilstandene og vedvarende signal-i-rommet-posisjonsbiaser, felles og uavhengige), vokst over en kvart, en h Tester: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Typen og fasen <c1/>: et felles batch Gauss-Newton-estimat for to fartøy over buen (tjueen parametere: begge tilstandene og vedvarende sig. Uavhengig referanse (InternalConsistency): Selvkonsistens under en forhåndsregistrering (xval/mission-thread-lunar/PREREGISTRATION.md, resultater og estimatorhistorikken i RESULTS.md): middel-NEES for den relative tilstanden er { "5.85" } til { "5.93" } mot båndet { "5.2" } til { "6.8" } i fire konfigurasjoner, MET på den fjerde estimatorutformingen etter at tre utforminger med sekvensielt filter bommet; referansen og estimatoren deler én kraftmodell, så dette sier ingenting om modellfeil. Den p
 
 seg-b2f273ea732d = MODELLED relativ navigasjon for en dokking i stil med Orion og landingsfartøy i en lav månebane eller en elliptisk polarbane (Artemis-class). (typekatalog (<c1/>))

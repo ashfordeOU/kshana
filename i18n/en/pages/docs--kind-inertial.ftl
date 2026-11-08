@@ -86,7 +86,7 @@ seg-89ec2e65cf4f = <b>MODELLED</b> Composed bias + scale-factor + VRW + stabilit
 seg-be831b52a339 = and { "4" } more in the matrix.
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered fcb9ac64), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
 
 # text
 seg-7e95210bcc48 = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves { "2013" } published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED

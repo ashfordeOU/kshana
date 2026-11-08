@@ -258,13 +258,6 @@ seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas face a re
 seg-b59781ecf257 = Como uma capacidade obtém a sua etiqueta: capacidade, referência independente, teste, etiqueta no registo. O estado de verificação das { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros
 
 # text
-# c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-d0b2811a3d3c = O motor tem { "92" } tipos de cenário; <c1/> os lista com os respetivos campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para veículos espaciais acima, em torno e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).
-
-# text
 seg-8e9fbc5f2e72 = A descrição do tipo de cenário incorporado kind em lang, a partir do catálogo (inglês quando o idioma não tem tradução dela); None para um nome que não é um tipo de cenário incorporado.
 
 # text
@@ -293,3 +286,5 @@ seg-24fe823a994a = json sem a etiqueta de evidência ([crate::evidence_label]); 
 
 # text
 seg-c0444d838311 = out com a etiqueta de evidência removida do seu JSON, SVG e CSV, byte a byte como a execução os produziu antes de a etiqueta existir; uma saída sem etiqueta permanece inalterada.
+
+seg-80e5f0aa2831 = O motor tem { "93" } tipos de cenário; <c1/> os lista com os respetivos campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para veículos espaciais acima, em torno e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).

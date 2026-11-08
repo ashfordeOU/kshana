@@ -149,8 +149,6 @@ seg-7b53ee712a36 = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nez�
 
 seg-b59781ecf257 = Jak schopnost získává své označení: schopnost, orákulum, test, označení v registru. Stav ověření napříč všemi { "401" } schopnostmi: { "176" } ověřeno, { "221" } modelováno, { "4" } ve vlastnictví partnera
 
-seg-d0b2811a3d3c = Engine má { "92" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické prostředky nad drahami GNSS, kolem nich i za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).
-
 seg-8e9fbc5f2e72 = Popis vestavěného druhu scénáře kind v jazyce lang z katalogu (anglicky, pokud jazyk nemá jeho překlad); None pro název, který není vestavěným druhem.
 
 seg-06e503c23c30 = [kind_description_in] v aktuálním jazyce ([crate::i18n::current]).
@@ -170,3 +168,5 @@ seg-28e05e08ff76 = Spustí src v jazyce lang a pokud selže, popíše selhání 
 seg-24fe823a994a = json bez štítku důkazů ([crate::evidence_label]); beze změny, pokud žádný nenese.
 
 seg-c0444d838311 = out se štítkem důkazů odstraněným z jeho JSON, SVG a CSV, bajt po bajtu tak, jak je běh vytvořil, než štítek existoval; výstup bez štítku zůstává beze změny.
+
+seg-80e5f0aa2831 = Engine má { "93" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické prostředky nad drahami GNSS, kolem nich i za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).

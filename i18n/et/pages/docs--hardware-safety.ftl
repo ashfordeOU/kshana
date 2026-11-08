@@ -65,20 +65,11 @@ seg-1c566ec98a03 = Failid: taasesituslogid, IQ, bench-eksport, otse-NMEA või UB
 seg-0435986aa760 = tarnitud
 
 # text
-# c1: iq monitor --follow
-seg-56b9a4399108 = Passiivne vastuvõtt: vastuvõtjad ainult lugemiseks; ajastuslogid (linuxptp, chrony, TICC); IMU CSV; <c1/> kasvaval SigMF-failil
-
-# text
 seg-608fc0a99107 = kasutaja vastuvõtjad, suurmeister (grandmaster), SDR vastuvõtus
 
 # text
 # c1: --configure
 seg-786d9e5ccf93 = iga vastuvõtjasse tehtav konfiguratsioonikirjutus nõuab selgesõnalist <c1/>; vaikimisi on ainult lugemine
-
-# text
-# c1: holdover-test
-# c2: iq monitor --follow
-seg-ab8874046283 = osaliselt tarnitud: ajastuslogi vormingud, <c1/>, <c2/>; jadavastuvõtja sisend on kavandatud
 
 # text
 seg-6b0a194d3f64 = Laboriorkestreerimine ilma Kshana RF-ita: katsetingimuste spetsifikatsioon, operaatori sammud (antenni eemaldamine, simulaatori käivitamine) küsitud ja ajatembeldatud, ringteekonna hindamine ja tõendid

@@ -18,8 +18,6 @@ seg-32755afa0f78 = Le fil de mission
 
 seg-d4af67363efc = Logiciel à titre consultatif, et non un équipement de navigation certifié. Sources publiques seulement ; sans affiliation ni aval d'aucune agence, et rien ici ne revendique de conformité aux exigences d'un programme quelconque.
 
-seg-816770c97995 = <c1/> enchaîne des phases d'une mission, chacune d'un des huit types enregistrés avec ses propres capteurs et son propre filtre, et rapporte le <b>budget d'erreur de navigation et de synchronisation</b> de toute la chaîne : pour chaque phase, le 1-sigma de position, de vitesse et de biais d'horloge à l'entrée, au pic et à la sortie ; chaque contribution à celui-ci, avec son unité ; la marge par rapport à une exigence que vous déclarez ; le maillon le plus faible ; les événements datés ; et une figure chronologique. Chaque nombre est <b>MODELLED</b> : une entrée déclarée ou un modèle d'une entrée. Les seules lignes de références indépendantes externes se trouvent dans <s1><c2/></s1> et disent ce qu'elles testent.
-
 seg-c29a19879c84 = Exécutez l'exemple depuis une copie du dépôt (il lit une découpe versionnée du noyau de la Lune) :
 
 seg-00f84b734853 = Le document
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Une table <c1/> facultative donne des stations et l'élévati
 seg-467b14d7ef59 = <c1/> : <c2/> (indice, identifiant, type, temps, étiquette, sources de navigation et de temps, source limitante, sigmas à l'entrée, au pic et à la sortie, exigence, marge, <c3/> avec une unité par ligne, <c4/>), le <c5/> (la plus petite marge par rapport à une exigence déclarée, sinon le plus grand pic de position), le <c6/>, l'<c7/> du fil (l'étiquette de la phase la plus faible), et un bloc <c8/>. La figure est le 1-sigma de position et de biais d'horloge en fonction du temps de mission, une bande par phase.
 
 seg-a3c40c51c2ff = Ce que sont les preuves
-
-seg-1168810d4407 = L'étiquette du fil est l'étiquette de la phase la plus faible, et chaque phase est MODELLED. Le propagateur lunaire est comparé à LRO et CAPSTONE (<s1><c1/></s1>) ; l'arc cislunaire est comparé à une trajectoire publique de Horizons (<s2><c2/></s2>). Une ligne atteint ou manque un seuil fixé dans un fichier versionné avant l'exécution, et un échec est consigné comme un échec. Rien n'est VALIDATED sauf si le registre le dit.
 
 seg-ee3c5b58e6fa = <s1>Précédent</s1>Orbite et surface lunaires comme infrastructure
 

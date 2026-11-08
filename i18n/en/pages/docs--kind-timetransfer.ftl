@@ -66,4 +66,4 @@ seg-849c08d3ce70 = Family page: <a1>Clocks, timing and holdover</a1>
 seg-84fcf20588fb = <s1>Previous</s1>time-transfer-budget
 
 # text
-seg-149ad280a1f9 = <s1>Next</s1>tracking-loop
+seg-80df0cb6029b = <s1>Next</s1>tip-and-cue

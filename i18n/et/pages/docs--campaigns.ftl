@@ -184,9 +184,6 @@ seg-13c92a72544a = segamine, { "600" } s
 seg-f9c01304734d = sama, segaja -30 dBW juures, { "1" } km
 
 # text
-seg-27d3b65152b0 = C/N0 langeb väärtuseni { "27.7" } dB-Hz, kõik { "8" } satelliiti jälgitakse endiselt
-
-# text
 # c1: end_at
 seg-6a052db03815 = spuufimine, lõppes hetkel { "370" } s tänu <c1/>
 
@@ -286,14 +283,6 @@ seg-2db37e292efe = E1 taastumine CW-tooni all tugineb spektri liigi pideva spekt
 # text
 # c1: [sweep]
 seg-fb8d8636c554 = <c1/>: parameetrivõrk mis tahes liigi üle
-
-# text
-# c1: sweep-nd
-# c2: runs > 1
-# c3: k
-# c4: k
-# c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = Üks kuni kolm punktiga stsenaariumivõtit, igaüks lineaarse või logaritmilise vahemiku üle, samadel telje väärtustel, mida kasutab liik <c1/>. Igal teljel on nimi ja ühik; igal mõõdikul on nimi ja tulemustee ning selle ühik loetakse pühitud liigi enda ühikuplokist, kui kampaania ei deklareeri muud. Kui <c2/>, on iga sõlm algväärtustatud (seeded) Monte Carlo ansambel (realisatsioon <c3/> sõlme algväärtusel pluss <c4/>), mis esitatakse allpool toodud statistikaga. <c5/> pühib vastuvõtjast { "1" } km kaugusel olevat segajat vahemikus -50 kuni +{ "10" } dBW: keskmine segaja ja signaali suhe liigub täpselt { "1" } dB dB kohta ({ "12.2" } kuni { "72.2" } dB) ning kättesaadavus langeb väärtuselt { "1" } väärtusele { "0" } vahemikus -30 kuni -25 dBW.
 
 # text
 # c1: system.2.sisre_m
@@ -577,3 +566,7 @@ seg-03d764a4cb56 = [compose]: mitu stsenaariumi jagatud tingimustel
 
 # text
 seg-61a0db2550ba = [optimize]: ühe mõõdiku parim väärtus
+
+seg-0886cc461f7a = C/N0 langeb väärtuseni { "30.6" } dB-Hz, kõik { "8" } satelliiti jälgitakse endiselt
+
+seg-74f8b08a4194 = Üks kuni kolm punktiga stsenaariumivõtit, igaüks lineaarse või logaritmilise vahemiku üle, samadel telje väärtustel, mida kasutab liik <c1/>. Igal teljel on nimi ja ühik; igal mõõdikul on nimi ja tulemustee ning selle ühik loetakse pühitud liigi enda ühikuplokist, kui kampaania ei deklareeri muud. Kui <c2/>, on iga sõlm algväärtustatud (seeded) Monte Carlo ansambel (realisatsioon <c3/> sõlme algväärtusel pluss <c4/>), mis esitatakse allpool toodud statistikaga. <c5/> pühib vastuvõtjast { "1" } km kaugusel olevat segajat vahemikus -50 kuni +{ "10" } dBW: keskmine segaja ja signaali suhe liigub täpselt { "1" } dB dB kohta ({ "12.2" } kuni { "72.2" } dB) ning kättesaadavus langeb väärtuselt { "1" } väärtusele { "0" } vahemikus -25 kuni -20 dBW.

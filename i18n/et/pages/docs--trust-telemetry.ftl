@@ -271,10 +271,6 @@ seg-17ca55cea260 = Põhjuste nimed lõigatakse { "128" } märgini ja kuni { "64"
 seg-35f3faf39d1c = <c1/> on üks väärtustest <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Põhjuste nimed on voo monitooride nimed (<c7/>, <c8/>, ...; paketitulemuse puhul <c9/>, <c10/>, <c11/>).
 
 # text
-# c1: deploy/grafana/kshana-gnss-trust.json
-seg-a726fc8d28c2 = Näidisarmatuurlaud on failis <c1/> (importida see ja valida oma Prometheuse andmeallikas).
-
-# text
 seg-208f33eda580 = Syslog: CEF ja LEEF
 
 # text

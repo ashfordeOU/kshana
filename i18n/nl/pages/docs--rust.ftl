@@ -148,8 +148,6 @@ seg-7b53ee712a36 = <b>{ "176" } van { "401" }</b> mogelijkheden gevalideerd tege
 
 seg-b59781ecf257 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "401" } mogelijkheden: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner
 
-seg-d0b2811a3d3c = De engine heeft { "92" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).
-
 seg-8e9fbc5f2e72 = De beschrijving van de ingebouwde scenariosoort kind in lang, uit de catalogus (Engels wanneer de taal er geen vertaling van heeft); None voor een naam die geen ingebouwde soort is.
 
 seg-06e503c23c30 = [kind_description_in] in de huidige taal ([crate::i18n::current]).
@@ -169,3 +167,5 @@ seg-28e05e08ff76 = Voer src uit in taal lang en beschrijf, als het mislukt, de m
 seg-24fe823a994a = json zonder het bewijslabel ([crate::evidence_label]); ongewijzigd als het er geen draagt.
 
 seg-c0444d838311 = out met het bewijslabel verwijderd uit zijn JSON, SVG en CSV, byte voor byte zoals de run ze voortbracht voordat het label bestond; een uitvoer zonder label is ongewijzigd.
+
+seg-80e5f0aa2831 = De engine heeft { "93" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).

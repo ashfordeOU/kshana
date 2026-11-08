@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Viz <a1><c1/></a1>. Výstupy GNSS-SDR ve formátech NMEA a RI
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: řádek záhlaví s názvy sloupců, poté jeden vzorek na řádek. Sloupce (v libovolném pořadí, názvy bez ohledu na velikost písmen): <c2/> sekundy na hodinách záznamu přijímače, <c3/>, <c4/>, <c5/> úhlová rychlost v rad/s, <c6/>, <c7/>, <c8/> měrná síla v m/s². <c9/>: rozvržení EuRoC MAV <c10/> <c11/> (<c12/>, <c13/>, <c14/>); první vzorek je <c15/>. Řádky, které nelze zpracovat, a řádky, jejichž čas neroste, se přeskakují. Jak se používá směr gyroskopu, viz <a1><c16/></a1>.
-
 seg-f7007cf35f53 = IMU ve scénářích hybrid a fusion (<c1/>)
 
 seg-3fc254763f67 = Scénáře <c1/> a <c2/> (UKF o 17 stavech) jsou simulace: berou parametry šumu senzoru (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), nikoli změřenou řadu. <c10/> tyto parametry vyčte z klidového záznamu IMU, takže lze scénář spustit se senzorem, který skutečně máte:

@@ -396,8 +396,6 @@ seg-a1706d47f895 = <c1/>: <c2/> z návrhové matice přímé viditelnosti. <b>Ex
 
 seg-504d5aa92cbc = Chyba polohy = σ_UERE × DOP pro vlastní řešení nejmenších čtverců enginu
 
-seg-fc3443210358 = <c1/>, <c2/>: seedované Monte Carlo (N = { "20,000" } epoch na geometrii, σ = { "1.5" } m, seed ChaCha8 { "36" } + i) <c3/> s jednotkovými vahami, řešené z pravdivé polohy, na <b>{ "8" } geometriích <c4/></b> (těch, jejichž DOP je shodný s gnss_lib_py), proti σ²·Q, kde Q je kovarianční faktor samotného jádra <c5/> (<c6/>, stejná aritmetika). <b>Tolerance předregistrované</b> (commit e50c88d2, před prvním během, podle návrhové poznámky ke geometrii { "0.36" }, část { "5.2" }), každá jako počet směrodatných chyb: rozptyly východ, sever, nahoru a hodin v rámci { "5" } %; RMS H/V/P v rámci { "2.5" } %; korelace východ–sever v rámci { "0.035" }; střední hodnoty v rámci { "5" } směrodatných chyb; podíl { "95" }% horizontální elipsy v rámci { "0.95" } ± { "0.0077" }. První běh: všech { "104" } kontrol projde (nejhorší rozptyl { "3.2" } %, RMS { "1.6" } %, korelace { "0.012" }, střední hodnota { "2.2" } směrodatné chyby, elipsa { "0.0039" }). <b>Negativní kontroly</b> selžou, jak je požadováno: zdvojnásobený PDOP selže na každé geometrii; chyby rostoucí jako 1/sin(elevace) proti nevážené Q selžou na kontrole rozptylu u každé geometrie, jejíž nejnižší družice je pod { "20" }°. <b>Jak se skládá s řádkem výše:</b> tento řádek ověřuje DOP těchto geometrií proti gnss_lib_py; tento přidává krok od těchto faktorů k metrům prostřednictvím řešiče enginu. <b>První samostatná kontrola je ponechána vedle něj</b> (<c7/>, <c8/>, spuštěna před předregistrací a tak uvedena): čtyři ručně zvolené oblohy (otevřená, shluková, kaňon, poloviční obloha; σ { "1" } m) s intervaly spolehlivosti chí-kvadrát při celkových { "1e-6" } na { "20" } kontrol; poměry { "0.987" } až { "1.009" } a vlastní negativní kontroly (chyba DOP { "10" } %, chyby 1/sin(elevace)) selžou, jak je požadováno. <b>Proč MODELLED:</b> žádný externí soubor dat; neukazuje, že chyba skutečného přijímače sleduje model, a σ_UERE je vstup.
-
 seg-94bffbd8385b = Dostupnost při více konstelacích
 
 seg-a40eab03bbbe = <c1/>: další <c2/> jsou sloučeny do jedné sady družic pro viditelnost/DOP; test sloučeného počtu potvrzuje sjednocení.
@@ -863,8 +861,6 @@ seg-f9e2d4b52b79 = Zmrazeno
 seg-dd68891f75e2 = Hodnoceno proti
 
 seg-d5a09f26a028 = Pokrytí lunární referenční stanice
-
-seg-c68f124a16e7 = c05dac1d, 2026-10-12
 
 seg-293404a9cb92 = zveřejněná přesnost, dostupnost, pokrytí a ochranné úrovně jihopolární lunární diferenciální stanice, kýmkoli
 

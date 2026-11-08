@@ -1,7 +1,5 @@
 # docs--kind-integrity: translations (ja)
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM Airborne Design Document（ADD）v4.2 に従う ARAIM の複数仮説による解分離（araim_reference::add_v42_protection_levels と add_v42_protecti。オラクル（ExternalDataset）：三つの独立したツール。フィクスチャーやオラクル出力が存在する前に事前登録（0123cee1）し、許容差はその時点で固定しました。（{ "1" }）ARAIM：Stanford MAAST for ARAIM { "2" }（コミット ab70e2a3、BSD-3）の mhss_raim_baseline_v5.m を、GNU Octave { "8.4" } 上で別個のプログラムとして実行（ドライバー側に unique() の互換シムを置いています（開示済み、アルゴリズムの変更なし））、ADD の TOL_PL は{ "0.05" } m：Rust 実装は ADD の参照実装を次について再現します
-
 seg-277205e56d73 = <b>VALIDATED</b> 視線方向の幾何から、Q=(HᵀH)⁻¹ とローカル ENU への分解によって求める GDOP/PDOP/HDOP/VDOP/TDOP。オラクル（ExternalDataset）：gnss_lib_py { "1.0.4" }（Stanford NAV Lab）の DOP — 独立したライブラリで、相対{ "1e-6" }まで一致
 
 seg-78ff7db5ad3d = <b>VALIDATED</b> すべての保護レベルの土台となる分布の中核：スナップショット故障検出しきい値 χ²₁₋ₚfₐ(dof)、見逃しの非心度 pbias=√λ、そして。オラクル（ExternalDataset）：SciPy { "1.17.0" }（scipy.stats.chi2/.norm/.ncx2 + optimize.brentq）— 独立したライブラリ（Cephes/Boost）で、Kshana の不完全ガンマ級数とは異なるアルゴリズム；相対≤{ "1e-6" }まで一致。カーネルのみ。ARAIM MHSS の P_HMI バジェットの<em>配分</em>には、もはや公表された数値オラクルがないわけではありません — WG-C ARAIM Technical Subgroup 自身の計算例が、別の「ARAIM MHSS protection levels against published referen

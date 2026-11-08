@@ -761,17 +761,6 @@ seg-a1706d47f895 = <c1/>: <c2/> vaatejoone kavandimaatriksist. <b>Väline sõltu
 seg-504d5aa92cbc = Positsioonivead = σ_UERE × DOP mootori enda vähimruutude lahendi korral
 
 # text
-# c1: src/dop_error_mc.rs
-# c2: tests/uere_dop_monte_carlo.rs
-# c3: pvt::solve_spp
-# c4: tests/fixtures/dop/dop_reference.csv
-# c5: orbit::dop
-# c6: orbit::dop_cofactor
-# c7: src/dop_error_ci.rs
-# c8: tests/position_error_dop_ci.rs
-seg-fc3443210358 = <c1/>, <c2/>: algväärtusega (seed) Monte Carlo (N = { "20,000" } epohhi geomeetria kohta, σ = { "1.5" } m, ChaCha8 algväärtus (seed) { "36" } + i) funktsioonist <c3/> ühikkaaludega, lahendatud tegelikust asukohast, <b>faili <c4/> { "8" } geomeetria</b> korral (need, mille DOP on gnss_lib_py-ga kooskõlas), võrreldes suurusega σ²·Q, kus Q on <c5/> tuuma enda kovariatsioonitegur (<c6/>, sama aritmeetika). <b>Tolerantsid on eelregistreeritud</b> (commit e50c88d2, enne esimest käitust, vastavalt { "0.36" } geomeetria kavandi märkuse jaotisele { "5.2" }), kõik standardvigade arvuna: ida, põhja, üles ja kella dispersioonid { "5" } % piires; H/V/P RMS { "2.5" } % piires; ida–põhja korrelatsioon { "0.035" } piires; keskmised { "5" } standardvea piires; { "95" } % horisontaalse ellipsi osakaal { "0.95" } ± { "0.0077" } piires. Esimene käitus: kõik { "104" } kontrolli läbitakse (halvim dispersioon { "3.2" } %, RMS { "1.6" } %, korrelatsioon { "0.012" }, keskmine { "2.2" } standardviga, ellips { "0.0039" }). <b>Negatiivsed kontrollid</b> ebaõnnestuvad nõutud viisil: kahekordistatud PDOP ebaõnnestub igal geomeetrial; vead, mis kasvavad kui 1/sin(kõrgusnurk) kaalumata Q suhtes, ebaõnnestuvad dispersioonikontrollis igal geomeetrial, mille madalaim satelliit on alla { "20" }°. <b>Kuidas see seostub ülaltoodud reaga:</b> see rida valideerib nende geomeetriate DOP-i gnss_lib_py vastu; see lisab sammu nendest teguritest meetriteni mootori lahendaja kaudu. <b>Esimene, eraldiseisev kontroll on selle kõrval säilitatud</b> (<c7/>, <c8/>, tehtud enne eelregistreerimist ja nii ka esitatud): neli käsitsi valitud taevast (lage, koondunud, kanjon, pooltaevas; σ { "1" } m) hii-ruut usaldusvahemikega { "1e-6" } koguvea juures { "20" } kontrolli kohta; suhted { "0.987" } kuni { "1.009" } ning selle enda negatiivsed kontrollid ({ "10" } % DOP-viga, 1/sin(kõrgusnurk) vead) ebaõnnestuvad nõutud viisil. <b>Miks MODELLED:</b> väline andmestik puudub; see ei näita, et päris vastuvõtja viga järgib mudelit, ning σ_UERE on sisend.
-
-# text
 seg-94bffbd8385b = Mitme konstellatsiooni kättesaadavus
 
 # text
@@ -2077,9 +2066,6 @@ seg-dd68891f75e2 = Hinnatud vastu
 
 # text
 seg-d5a09f26a028 = Kuu etalonjaama katvus
-
-# text
-seg-c68f124a16e7 = c05dac1d, 2026-10-12
 
 # text
 seg-293404a9cb92 = lõunapooluse Kuu diferentsiaaljaama avaldatud täpsus, kättesaadavus, katvus ja kaitsetasemed, mis tahes osapoolelt

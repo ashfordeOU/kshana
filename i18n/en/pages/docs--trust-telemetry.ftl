@@ -12,6 +12,9 @@ seg-05919ac6cf31 = GNSS trust as security telemetry
 # c1: kshana trust-telemetry
 seg-8978c6508ebd = <c1/> turns the per-epoch GNSS trust stream (score 0-100, band, reasons) into signals an operations or security centre already ingests: Prometheus metrics, syslog events in CEF or LEEF for a SIEM, and optionally OpenTelemetry. It reads the stream; it never changes the trust assessment and transmits nothing but telemetry.
 
+# text
+seg-9b9a7fb601e3 = Step by step, for a monitoring station: <a1>guides/MONITORING-STATION.md</a1>.
+
 # attr:alt
 seg-c711c7fecbfc = One trust result in three export formats, from real runs of engine v{ $version } (`kshana trust-telemetry`) on examples/maritime-trust: Prometheus text exposition (the latest trust score is { "5.9" } and the untrusted band is the one set), and the last CEF and LEEF messages. The command publishes nothing unless given a destination, holds no credentials, and transmits no radio signal. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
 
@@ -267,7 +270,9 @@ seg-35f3faf39d1c = <c1/> is one of <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Reason nam
 
 # text
 # c1: deploy/grafana/kshana-gnss-trust.json
-seg-a726fc8d28c2 = A sample dashboard is in <c1/> (import it and pick your Prometheus data source).
+# c2: deploy/stack/
+# c3: deploy/helm/kshana
+seg-24bc6eb37a95 = A sample dashboard is in <c1/> (import it and pick your Prometheus data source). To run the monitor, Prometheus and this dashboard together, use the Compose stack in <a1><c2/></a1>; on Kubernetes, the Helm chart in <a2><c3/></a2>.
 
 # text
 seg-208f33eda580 = Syslog: CEF and LEEF
@@ -434,6 +439,92 @@ seg-1f099d4ef4b6 = In CEF the geometry uses dictionary custom fields only (no in
 # c5: =
 # c6: ^
 seg-b295bf5bac3e = Empty fields are left out (no <c1/> without reasons). The host name is cut to { "255" } characters. CEF header values escape <c2/> and <c3/>; extension values escape <c4/>, <c5/> and line breaks. LEEF values have <c6/> and line breaks replaced by spaces.
+
+# text
+seg-ed33534b559a = Common Alerting Protocol (CAP { "1.2" })
+
+# text
+# c1: kshana::telemetry::cap::alerts
+seg-327ada978896 = <c1/> turns the trust stream into OASIS CAP { "1.2" } messages, the format that public-warning, maritime and aviation alerting systems take in. One message is written for each band change after calibration:
+
+# text
+seg-9018eebf7374 = Change
+
+# text
+seg-b484d3c5be9b = nominal → degraded
+
+# text
+seg-a864c74089df = nominal → untrusted
+
+# text
+seg-ea05932da3b2 = degraded ↔ untrusted
+
+# text
+# c1: Update
+seg-9bcdeaf5cd67 = <c1/> (references the previous message)
+
+# text
+seg-e0eb14018b2c = as above
+
+# text
+seg-5c6d16a0be8e = back to nominal
+
+# text
+# c1: Past
+# c2: Minor
+seg-ac1a73bc6fc1 = <c1/> / <c2/>: the all-clear
+
+# text
+seg-7bc224f25a43 = Every message carries the band, the monitors behind it, the score and the advisory statement. Its area is a circle around the receiver's reported position, or the configured station position.
+
+# text
+# c1: status
+# c2: Actual
+# c3: Exercise
+# c4: System
+# c5: Test
+# c6: Draft
+# c7: scope
+# c8: Actual
+seg-70810581f0b1 = <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>) and <c7/> have no default, so an exercise cannot go out as <c8/> by accident.
+
+# text
+# c1: tests/telemetry_cap.rs
+# c2: scripts/fetch_cap_xsd.sh
+seg-08d18c2469ab = The messages are checked against the OASIS CAP { "1.2" } schema (<c1/>; the schema is fetched by <c2/>, not vendored).
+
+# text
+# c1: --cap-config cap.toml
+# c2: --cap-dir <dir>
+# c3: <dir>/<identifier>.xml
+# c4: --webhook
+seg-7ba2cbe630ed = From the command line, <c1/> turns alerting on, <c2/> writes each message to <c3/>, and <c4/> posts it (next section):
+
+# text
+# c1: t_s = 0
+# c2: trust-telemetry
+seg-401352072392 = The date of <c1/> comes from the first epoch's UTC time label when it carries one, else from the clock of the machine running <c2/>.
+
+# text
+seg-311f3d78292a = Signed webhooks
+
+# text
+# c1: kshana::telemetry::webhook::sign
+seg-a1af29dbbc87 = <c1/> adds a signature to any alert body (a CAP message, a trust sample as JSON) so the receiving system can check that it came from the holder of a shared secret, was not changed, and is fresh:
+
+# text
+# c1: verify
+# c2: v1=
+# c3: tests/telemetry_webhook.rs
+seg-2b4b885ad33f = <c1/> recomputes the signature, compares in constant time, and refuses a timestamp further than a stated tolerance from the receiver's clock (the replay window). While a secret is being rotated, two <c2/> values may be sent, and either may match. The HMAC is checked against the RFC { "4231" } test vectors (<c3/>). Keep the secret out of logs and scenario files.
+
+# text
+# c1: --webhook http://host:port/path --webhook-secret-env <VAR>
+# c2: --cap-config
+# c3: application/cap+xml
+# c4: <VAR>
+# c5: tests/telemetry_alerts.rs
+seg-a281993b3915 = <c1/> (with <c2/>) POSTs each CAP message as <c3/>, signed with the secret read from the environment variable <c4/>, never from the command line. The webhook is plain HTTP: for HTTPS, post to a local relay. A delivery that fails, or is answered with anything other than 2xx, is counted. The count is printed at the end, and a failed delivery never stops the stream. <c5/> runs the command against a local receiver: every POST verifies, and the messages equal the library's for the whole stream.
 
 # text
 seg-a3b77e9593eb = OpenTelemetry (off by default)

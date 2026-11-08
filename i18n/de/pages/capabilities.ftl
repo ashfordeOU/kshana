@@ -3672,8 +3672,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette, vom Start
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Mondaufstieg: der angetriebene Aufstieg von einem Oberflächenstandort am Südpol (Artemis-Klasse) zum Rendezvous in { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -3696,12 +3694,10 @@ seg-0ecc50eafdbe = PNT- und Zeitgebungsverfügbarkeit auf der Mondoberfläche na
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } von { "92" } Arten, { "3300" } von { "3300" } numerischen Feldern
-
-seg-237402dbe93a = Wählen Sie eine von { "194" } Szenariodateien aus { "92" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
-
-seg-ace118a5dc36 = Alle { "194" } Szenariodateien aus { "92" } Arten, nach Bereich gruppiert; { "181" } sind in die Engine eingebunden, und <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> laufen aus dem Repository mit der Befehlszeile. Der Punkt zeigt den Registerstatus des Moduls der Art, wo das Register es nennt. Eine Datei mit aufgezeichnetem Lauf öffnet diesen in Kshana Studio; die übrigen öffnen ihren Eintrag in der Szenarioreferenz, mit der Datei und dem Befehl, der sie ausführt.
-
 seg-f4ad26be58c2 = Ein kurzer Missionsstrang, der allein aus einer Binärdatei läuft: Start und Aufstieg, ein Rendezvous im niedrigen Erdorbit, ein Tag von
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Wählen Sie eine von { "196" } Szenariodateien aus { "93" } Arten oder schreiben Sie eine eigene. <c1/> listet jede Art mit ihren Feldern auf, und <c2/> gibt eine Datei als Ausgangspunkt aus.
+
+seg-d5a79853b72f = { "93" } von { "93" } Arten, { "3334" } von { "3334" } numerischen Feldern

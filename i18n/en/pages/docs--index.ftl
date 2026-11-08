@@ -38,10 +38,10 @@ seg-a164328ef8cd = <s1>{ "3" } · Quantum against classical</s1><s2>The capstone
 seg-50dd8e4077fd = <s1>Worked example: multi-tool pipeline</s1><s2>This walks one trajectory through the standards-based interop and mission-analysis scenario kinds end to…</s2>
 
 # text
-seg-0cf0b9fb9184 = <s1>Scenario kinds</s1><s2>The { "92" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
+seg-b0ad334264dc = <s1>Scenario kinds</s1><s2>The { "93" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…</s2>
 
 # text
-seg-9d5c233c72b4 = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "92" }), filed under { "13" } families.</s2>
+seg-5484fd345826 = <s1>Every scenario kind, by family</s1><s2>Every scenario kind the engine v{ $version } dispatches ({ "93" }), filed under { "14" } families.</s2>
 
 # text
 seg-86b2b5f29f35 = <s1>Every command</s1><s2>kshana <scenario.toml> runs a scenario; every other command is a subcommand. kshana --help prints the usage…</s2>
@@ -53,7 +53,7 @@ seg-e847b803a7a9 = <s1>Every surface</s1><s2>One engine, the same results everyw
 seg-dcd149f1b172 = <s1>Capability domains</s1><s2>Every capability of the public map, by domain, with its ledger label.</s2>
 
 # text
-seg-a1f33bd571ed = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "193" }), grouped by kind, with its key settings.</s2>
+seg-b23a9bd3ccfa = <s1>Scenario reference</s1><s2>Every bundled scenario file ({ "195" }), grouped by kind, with its key settings.</s2>
 
 # text
 seg-58cdc99dfc9e = <s1>Result schema</s1><s2>Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.</s2>
@@ -353,10 +353,13 @@ seg-1dd7c80e18a7 = <s1>Mission threads</s1><s2>{ "1" } scenario kind of the engi
 seg-5de091b18fe4 = <s1>Optical pnt</s1><s2>{ "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
+seg-e6f2aa4bdbdd = <s1>Space rf survey</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
+
+# text
 seg-35db5b51a590 = <s1>Space user navigation</s1><s2>{ "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…</s2>
 
 # text
-seg-f0e26f01a361 = { "92" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
+seg-a7dc2bc0a77d = { "93" } pages, one for each scenario kind, linked from <a1>Every scenario kind, by family</a1>.
 
 # text
 seg-1acf60cff708 = Not included

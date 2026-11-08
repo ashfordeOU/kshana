@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } av { "58,697" } linjer
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (motor { "0.29.0" }, taggen <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, jobben <c1/> <c2/>, kjøring { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Verktøy
@@ -42,8 +40,10 @@ seg-b566e95a74ab = oppdater deretter tabellen ovenfor og de seks stedene i samme
 
 seg-6935c9c381b3 = Historikk
 
-seg-daa9ae1913cd = Tallet er målt på nytt, ikke skrevet inn på nytt: { "95.63" } % på commit <c1/> (motor { "0.27.2" } + uutgitt, kjøring { "35934579709" }, 2026-09-24, { "37,697" } av { "39,419" } linjer, publisert som ~{ "96" } %), revidert til { "95.35" } % på { "0.29.0" } (ovenfor), som avrundes til ~{ "95" } %: koden vokste med { "19,278" } målte linjer, og de nye linjene er litt mindre dekket enn de gamle; { "95.85" } % ved { "v0.17.0" } (commit <c2/>, 2026-06-14, publisert som ~{ "96" } %), og ~{ "97" } % i to tidligere utgivelsesnotater (<c3/>, latt stå som historikk). <c4/> sa «nær { "97" } %» helt til den ble brakt i samsvar med denne registreringen; den er nå den sjette flaten testen binder.
-
 seg-b2dbaf3a3b68 = <s1>Forrige</s1>Standarder og interoperabilitet
 
 seg-508de3808e04 = <s1>Neste</s1>Bevispakker
+
+seg-5ff7e4510497 = <c1/> (motor { "0.29.0" }, taggen <c2/>)
+
+seg-1ff43e658eef = Tallet er målt på nytt, ikke skrevet inn på nytt: { "95.63" } % på commit <c1/> (motor { "0.27.2" } + uutgitt, kjøring { "35934579709" }, 2026-09-24, { "37,697" } av { "39,419" } linjer, publisert som ~{ "96" } %), revidert til { "95.35" } % på { "0.29.0" } (ovenfor), som avrundes til ~{ "95" } %: koden vokste med { "19,278" } målte linjer, og de nye linjene er litt mindre dekket enn de gamle; { "95.85" } % ved { "v0.17.0" } (commit <c2/>, 2026-06-14, publisert som ~{ "96" } %), og ~{ "97" } % i to tidligere utgivelsesnotater (<c3/>, latt stå som historikk). <c4/> sa «nær { "97" } %» helt til den ble brakt i samsvar med denne registreringen; den er nå den sjette flaten testen binder.

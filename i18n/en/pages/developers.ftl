@@ -292,7 +292,7 @@ seg-2cff891dc970 = Next step
 
 # text
 # c1: clock-holdover.toml
-seg-45da99dccd40 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "49" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-859bb6732925 = A recorded session with the kshana-mcp server (Model Context Protocol, engine v{ $version }): the assistant lists the { "52" } tools, validates <c1/> (valid: detected scenario kind `clock`) and runs it: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
 # text
 # c1: animate_scenario
@@ -325,6 +325,10 @@ seg-7a7a1e7a3f0d = <c1/>: The static public-framework mapping (`kshana complianc
 # text
 # c1: compliance_report
 seg-21caa50ec277 = <c1/>: Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article { "21" }, EN { "16803" }, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps.
+
+# text
+# c1: connect_map
+seg-4d77f10101d3 = <c1/>: Map any receiver, timing or monitoring log to Kshana observations with a `kshana.connect/1` mapping file, no code (`kshana connect map`, docs/CONNECT.md).
 
 # text
 # c1: create_evidence_pack
@@ -373,6 +377,10 @@ seg-b1ed1e518609 = <c1/>: Return the TOML text of one bundled reference scenario
 # text
 # c1: import_route
 seg-aafdb73abfac = <c1/>: Write a GeoJSON route into a Kshana scenario that flies a waypoint track, and return the new scenario TOML (run it with run_scenario).
+
+# text
+# c1: interference_emitter_regions
+seg-fea37484bdea = <c1/>: Estimate emitter regions from openly licensed aircraft (ADS-B) or ship (AIS) reports given as CSV text (`kshana interference-map locate`): where, under stated assumptions, a source of the degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point.
 
 # text
 # c1: iq_acquire
@@ -451,6 +459,10 @@ seg-299e14da6de8 = <c1/>: List the standards packs (`kshana standards-pack list`
 seg-1097125b8282 = <c1/>: Check the LunaNet Augmented Forward Signal (AFS) against the published specification, pinned to LNIS Version { "5" } Applicable Document { "1" } Volume A (LSIS-AFS V1.0, { "29" } January { "2025" }) (`kshana lunanet-afs-check`, docs/LUNANET-AFS.md).
 
 # text
+# c1: referee_location_score
+seg-b18c7ece1365 = <c1/>: Score where a monitoring network said interference came from (`kshana jammertest locate-score`, { "0.41" } row B2): per report the event it belongs to (by id, or by time window and nearest truth), the horizontal geodesic error and vertical error, and for each region (an ellipse with its covariance, a polygon or grid cells) whether it contains the truth and its area; per event and pooled the median and 90th-percentile error, coverage per level with its binomial check, median region size, time to first location and time to locate within { "100" } m, { "500" } m, { "1" } km and { "5" } km; and false locations per hour of clean time.
+
+# text
 # c1: render_leaderboard
 seg-9a7ca52ec440 = <c1/>: Render kshana-bench result files (`kshana bench leaderboard`) as the static leaderboard page, HTML text in the reply: `results` is a list of `kshana-bench-result/1` JSON texts (at most { "256" }, { "4" } MiB each), each validated first; a file scored under another major spec version is refused because results of different major versions are never put in one table.
 
@@ -517,7 +529,7 @@ seg-366c59b03b4f = CSV
 
 # text
 # c1: io.github.ashfordeOU/kshana-mcp
-seg-c24f65399c72 = <b>{ "49" } tools</b> over the public Kshana API (application programming interface), in the official MCP registry as <c1/>. Orbit exports: SP3 (Standard Product { "3" }) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under <b>AI assistant (MCP server)</b> or <b>Docker image</b>. <a1>MCP server docs</a1>
+seg-f3512ff81b58 = <b>{ "52" } tools</b> over the public Kshana API (application programming interface), in the official MCP registry as <c1/>. Orbit exports: SP3 (Standard Product { "3" }) and CCSDS (Consultative Committee for Space Data Systems) OMM and OEM (orbit mean-elements and ephemeris messages, TEME: True Equator, Mean Equinox frame). Register it under <b>AI assistant (MCP server)</b> or <b>Docker image</b>. <a1>MCP server docs</a1>
 
 # text
 # c1: spectrum
@@ -860,6 +872,10 @@ seg-34c1ecfea464 = Read the published Jammertest test catalogue and transmission
 seg-b6c610d771dd = Score a receiver log against the Jammertest schedule (<c1/>): per scheduled test the detection latency (first alarm minus planned start), whether it was detected within the tolerance, late or missed, and the time to recover (an alarm-free stretch of <c2/>), plus the false alarms outside every slot and its guard. <c3/> needs only <c4/> (or rinex, android, nmea, sbf); give the log as <c5/> (text formats) or <c6/> (binary). Needs the catalogue and plan JSON (<c7/>, <c8/>) and the test area (<c9/>). Returns the scorecard: <c10/>, <c11/>, <c12/> and a MODELLED label. The schedule is planned slots, not recorded on-air times, so a miss may be a test that never ran. A signed evidence pack needs a signing key: use the command line (<c13/>). Input is capped at { "4" } MiB per text. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED.
 
 # text
+# c1: kshana jammertest locate-score
+seg-43c81a5c1ddb = Score where a monitoring network said interference came from (<c1/>, { "0.41" } row B2): per report the event it belongs to (by id, or by time window and nearest truth), the horizontal geodesic error and vertical error, and for each region (an ellipse with its covariance, a polygon or grid cells) whether it contains the truth and its area; per event and pooled the median and 90th-percentile error, coverage per level with its binomial check, median region size, time to first location and time to locate within { "100" } m, { "500" } m, { "1" } km and { "5" } km; and false locations per hour of clean time. Definitions: docs/design/evidence/b2-referee-metrics/PREREGISTRATION.md. Input is capped at { "4" } MiB per text. It checks arithmetic, not any locator's accuracy. Evidence tier: the metrics are checked against an independent oracle; a locator scored with them is only as good as its own evidence.
+
+# text
 # c1: kshana receiver-trust
 # c2: [platform] kind = "vessel"
 # c3: label
@@ -926,6 +942,17 @@ seg-c0105e635548 = Verify a signed evidence pack (<c1/>): every file's SHA-256 a
 # c12: custom
 # c13: cell_deg
 seg-b4ee0795e52c = Build a GNSS interference map from openly licensed aircraft (ADS-B NIC/NACp) or ship (AIS) position reports given as CSV text (<c1/>). Returns one GeoJSON document per UTC day (schema kshana-interference-map/v1) (file names <c2/>; method version { "2" }) in which each published grid cell is <c3/>, <c4/>, <c5/>, <c6/> or <c7/> (ADS-B) or <c8/>/<c9/> (AIS), with the method, its pre-registered thresholds, the dataset licence and attribution embedded. Every per-cell count below the publication minimum ({ "5" }) is <c10/> (withheld, never zero), and a day whose background cannot be estimated withholds its calls. Aggregate only: identifiers are hashed in memory and never returned, and a cell with fewer than { "5" } distinct aircraft or vessels is not published. <c11/> is an approved preset or <c12/> (with licence, licence_url, attribution). Input is capped at { "4" } MiB and the reply at { "4" } MiB (use a coarser <c13/> or the command line for more). Nothing is fetched: land polygons, if wanted for AIS, are passed in. A degraded cell does not identify interference as the cause; an unpublished cell is not evidence of a clear cell; this is not a forecast. Evidence tier: MODELLED.
+
+# text
+# c1: kshana interference-map locate
+# c2: {stem, geojson, summary, csv, svg, sessions_published, sessions_withheld}
+seg-ceb4e7f09542 = Estimate emitter regions from openly licensed aircraft (ADS-B) or ship (AIS) reports given as CSV text (<c1/>): where, under stated assumptions, a source of the degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point. Returns <c2/>, each text labelled with its evidence tier. Aggregate only: a region is not the position of anyone and not a finding of the cause. Input is capped at { "4" } MiB. Nothing is fetched. Evidence tier: MODELLED.
+
+# text
+# c1: kshana.connect/1
+# c2: kshana connect map
+# c3: kshana.obs/1
+seg-88b22562398b = Map any receiver, timing or monitoring log to Kshana observations with a <c1/> mapping file, no code (<c2/>, docs/CONNECT.md). Takes the mapping and the station as TOML text and the log as text (CSV or JSON, at most { "4" } MiB) and returns the <c3/> records as JSON lines, byte-identical to the command line. A row that cannot be read is an error naming the line and field. Nothing is read from or written to disk.
 
 # text
 # c1: kshana route-exposure
@@ -1417,7 +1444,7 @@ seg-d85f16c14183 = kshana.run and run_full, plus validate_toml and list_kinds
 seg-5a6803e3eb48 = run, summary and chart_svg in the browser or Node.js
 
 # text
-seg-1c19f8c0ad84 = { "49" } tools an AI assistant can call, each a thin wrapper over the public API
+seg-5aa702c4ebc7 = { "52" } tools an AI assistant can call, each a thin wrapper over the public API
 
 # text
 seg-4ad1a7669b03 = The MCP server without a Rust toolchain, multi-architecture

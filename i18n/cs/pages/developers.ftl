@@ -204,8 +204,6 @@ seg-32c07578eab3 = Kroky zaznamenané relace
 
 seg-2cff891dc970 = Další krok
 
-seg-45da99dccd40 = Zaznamenaná relace se serverem kshana-mcp (Model Context Protocol, engine v{ $version }): asistent vypíše { "49" } nástrojů, zvaliduje <c1/> (valid: detected scenario kind `clock`) a spustí jej: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Spustí scénář Kshana a vrátí jeho časovou řadu jako animaci.
 
 seg-0247e08ba09d = <c1/>: Posoudí důvěryhodnost skutečného záznamu přijímače GNSS: načte záznam u-blox UBX, RINEX { "3" } (volitelně s vysílanou navigací, která přidá vlastní určení polohy enginu, RAIM a monitor podporovaný hodinami), Android GnssLogger nebo NMEA, spustí monitory důvěry (pokles poměru nosné k hustotě šumu, AGC, indikátor rušení (jammingu), ztráta vazby, skok polohy, RAIM, hodiny) proti kalibračnímu základu a vrátí, kdy a proč přijímač přestal být důvěryhodný.
@@ -307,8 +305,6 @@ seg-2598d06895ec = <c1/>: Ověří podepsaný balíček důkazů (`kshana eviden
 seg-62b5564e8d90 = Zaznamenaná relace se zde přehrává krok za krokem.
 
 seg-2359edf78388 = <b>Stejný běh ve Studiu:</b> Engine v{ $version } · <c1/> · seed { "42" }
-
-seg-c24f65399c72 = <b>{ "49" } nástrojů</b> nad veřejným API (rozhraní pro programování aplikací) Kshana, v oficiálním registru MCP jako <c1/>. Exporty drah: SP3 (Standard Product { "3" }) a CCSDS (Poradní výbor pro vesmírné datové systémy) OMM a OEM (zprávy o středních elementech a efemeridách dráhy, TEME: soustava True Equator, Mean Equinox). Zaregistrujte jej v části <b>Asistent s AI (server MCP)</b> nebo <b>Image Dockeru</b>. <a1>Dokumentace serveru MCP</a1>
 
 seg-306a0232c581 = Spustí scénář odolnosti PNT Kshana z definice TOML a vrátí jeho ukazatele kvality. Vrací čitelné shrnutí následované úplným výsledkem JSON (ukazatele kvality, křivky). Kshana ověřuje SGP4/SDP4, referenční soustavy IAU, Allanovy odchylky, dostupnost GNSS/DOP, ochranné úrovně ARAIM, fúzi GNSS/INS a modely kvantových senzorů proti publikovaným referencím. Každý druh běží přes tento jediný nástroj, včetně <c1/> (rádiové spektrum a waterfall), <c2/>, <c3/> a <c4/> (konstelace kolem libovolného tělesa), <c5/> (zřetězené fáze, průchody parametrů, soubory Monte Carlo a složené scénáře) a navigačních druhů pro nízkou oběžnou dráhu Země <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> a <c12/>. Obsah je vložený: pole scénáře, které pojmenovává soubor, je odmítnuto, a scénář má nejvýše { "4" } MiB. Nejprve zavolejte list_scenario_kinds, abyste zjistili typy scénářů a jejich pole, a list_example_scenarios / get_example_scenario pro úplný spustitelný scénář daného druhu.
 
@@ -648,8 +644,6 @@ seg-d85f16c14183 = kshana.run a run_full, plus validate_toml a list_kinds
 
 seg-5a6803e3eb48 = run, summary a chart_svg v prohlížeči nebo v Node.js
 
-seg-1c19f8c0ad84 = { "49" } nástrojů, které může asistent AI volat, každý je tenký obal nad veřejným API
-
 seg-4ad1a7669b03 = Server MCP bez nástrojů Rustu, pro více architektur
 
 seg-9e409a07b3c9 = Klikněte pravým tlačítkem na .toml scénáře, Run Kshana Scenario, hodnoty si přečtěte v okně nástroje
@@ -803,3 +797,9 @@ seg-193ee1ab991e = <c1/> promění soubor odevzdání a pravdu daného rozdělen
 seg-0c50b3629e39 = Otevřít benchmark
 
 seg-255de20bccce = Vytvořte podepsaný balíček laboratorního zpětného průchodu (<c1/>, docs/spec/TEST-CONDITIONS.md): hashem propojuje scénář, který pohyb vytvořil, laboratorní dokument <c2/>, log přijímače a jeho skóre vůči uvedeným událostem v podepsaném balíčku důkazů, jehož <c3/> nese blok <c4/>. Odmítne balíček, jehož podmínky a hodnoticí události si odporují nebo jehož uvedený SHA-256 logu neodpovídá logu. ŽÁDNÝ SIGNÁL: nic se nezapisuje, nepřehrává ani neplánuje; jak se pohyb scénáře dostal k přijímači, je odpovědností provozovatele a zaznamenává se pouze tak, jak byl uveden. Podpisový seed se nikdy nevrací ani nezapisuje do logu; je-li vynechán, použije se jednorázový klíč, který se poté zahodí (integrita, nikoli identita). Vstup je omezen na { "4" } MiB a odpověď na { "4" } MiB. Technický záznam, nikoli právní posudek ani certifikace. Úroveň důkazů: MODELLED.
+
+seg-859bb6732925 = Zaznamenaná relace se serverem kshana-mcp (Model Context Protocol, engine v{ $version }): asistent vypíše { "52" } nástrojů, zvaliduje <c1/> (valid: detected scenario kind `clock`) a spustí jej: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } nástrojů</b> nad veřejným API (rozhraní pro programování aplikací) Kshana, v oficiálním registru MCP jako <c1/>. Exporty drah: SP3 (Standard Product { "3" }) a CCSDS (Poradní výbor pro vesmírné datové systémy) OMM a OEM (zprávy o středních elementech a efemeridách dráhy, TEME: soustava True Equator, Mean Equinox). Zaregistrujte jej v části <b>Asistent s AI (server MCP)</b> nebo <b>Image Dockeru</b>. <a1>Dokumentace serveru MCP</a1>
+
+seg-5aa702c4ebc7 = { "52" } nástrojů, které může asistent AI volat, každý je tenký obal nad veřejným API

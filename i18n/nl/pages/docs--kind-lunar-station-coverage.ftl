@@ -38,8 +38,6 @@ seg-922b8656fcae = De grafiek die de engine schrijft voor scenarios/lunar-statio
 
 seg-4f5941f12127 = <b>MODELLED</b> Monte Carlo-sweep van het differentiële PNT-model voor de maan over een gebruikersraster bij de zuidpool en een dag aan epochs (de soort <c1/>): voor een differentieel referentiestation op een bekende locatie bij de zuidpool, per punt en over de regio, de Tests: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo-sweep van het differentiële PNT-model voor de maan over een gebruikersraster bij de zuidpool en een dag aan epochs (de soort <c1/>): voor een differentieel r. Onafhankelijke referentie (InternalConsistency): Rekenwerk opnieuw berekend door een onafhankelijk numpy-script op geëxporteerde gevallen (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; preregistratie in tests/fixtures/lunar_station/PREREGISTRATION.md, afzonderlijk vastgelegd in 9caedf97 vóór de eerste run): bij { "20" } gevallen met elke foutterm aan zijn de zichtbare verzamelingen en de status identiek, komen de ruwe afstandsfouten overeen tot { "1.4e-14" } m, de positiefoutvectoren en -groottes tot { "1.4e-9" } m ten opzichte van
-
 seg-626ab55f0424 = MODELLED (resultaat <c1/>)
 
 seg-6f09def22469 = EERLIJKHEID: MODELLED. Onder de hieronder vermelde aannames geeft het model deze cijfers. Geen uitspraak over de prestaties van enig echt systeem; niet gelieerd aan of onderschreven door enige organisatie; geen claim over TRL of heritage. Weggelaten: terrein- en horizonafscherming bij de pool (de eerste beperking), multipad, ontvangerhardware. (commentaar in het scenariobestand, regels { "15" } tot { "18" })

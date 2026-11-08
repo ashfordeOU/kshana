@@ -41,12 +41,12 @@ seg-a613a7447e3f = Custom study
 seg-b366150de755 = Request a study
 
 # text
-seg-3bf5f474beca = The open engine at the centre: one mark per scenario kind ({ "92" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
 
 # text
 # c1: src/api.rs
 # c2: web/data/verification-matrix.json
-seg-f88b6cf10837 = Engine v{ $version } · { "92" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
 
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Compare the editions
@@ -109,7 +109,7 @@ seg-21989d609ae7 = Researchers, students and reviewers who need figures they can
 seg-3b6d727a2d38 = Developers wiring the engine into code, a CI (continuous integration) suite or an AI (artificial intelligence) assistant
 
 # text
-seg-65342d8ef6ad = All { "92" } scenario kinds and { "181" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
+seg-c7818536071d = All { "93" } scenario kinds and { "181" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 # text
 seg-cc655ce0b6c8 = The full verification matrix: { "176" } of { "401" } capabilities validated against independent oracles, the rest labelled Modelled

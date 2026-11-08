@@ -2338,8 +2338,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van één keten van fasen, vanaf de lancering
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Maanopstijging: de aangedreven opstijging vanaf een locatie bij de zuidpool (Artemis-klasse) naar het rendez-vous op { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -2362,12 +2360,10 @@ seg-0ecc50eafdbe = Beschikbaarheid van PNT en tijdsynchronisatie op het maanoppe
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } van { "92" } soorten, { "3300" } van { "3300" } numerieke velden
-
-seg-237402dbe93a = Kies een van { "194" } scenariobestanden in { "92" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
-
-seg-ace118a5dc36 = Alle { "194" } scenariobestanden in { "92" } soorten, gegroepeerd per domein; { "181" } zijn in de engine gebundeld, en <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> draaien vanuit de repository met de opdrachtregel. De stip toont de registerstatus van de module van de soort waar het register die noemt. Een bestand met een vastgelegde run opent die in Kshana Studio; de andere openen hun vermelding in de scenarioreferentie, met het bestand en de opdracht die het uitvoert.
-
 seg-f4ad26be58c2 = Een korte missieketen die vanuit alleen een binair bestand draait: lancering en opstijging, één rendez-vous in een lage baan om de aarde, één dag van
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Kies een van { "196" } scenariobestanden in { "93" } soorten, of schrijf een eigen bestand. <c1/> toont elke soort met zijn velden, en <c2/> drukt een bestand af om mee te beginnen.
+
+seg-d5a79853b72f = { "93" } van { "93" } soorten, { "3334" } van { "3334" } numerieke velden

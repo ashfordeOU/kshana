@@ -204,15 +204,11 @@ seg-9d04c658b37a = Hvert resultat bærer <c1/> (MODELLED), <c2/> (geometri under
 
 seg-0e1285fdfe52 = Fem registerrækker (<c1/>), som designnotatet afgrænser dem:
 
-seg-1aa76286f152 = Orekit { "12.2" } (<c1/> pejlevinkler, <c2/>) med gnss_lib_py { "1.0.4" } (<c3/> og DOP-matricen), præregistreret i <c4/> (commit e4b9d912), før nogen af dem blev kørt: { "1173" } pejlevinkler på seks steder og fire epoker, seks tabeller, { "142" } synlige sæt; værste elevation { "1.3e-13" }°, azimut { "2.3e-13" }°, maske { "1.1e-12" }° mod { "1e-9" }°; identiske synlige sæt, ingen i grænsebåndet; DOP { "3.3e-13" } relativt og kofaktor { "6.6e-13" } af matricens skala mod { "1e-9" }. Omfang: tabelmasker, geodætiske pejlevinkler, den maskerede mængde og dens DOP og kofaktor med fælles ur.
-
 seg-b33828edbe2f = håndberegnede værdier; sammenligningen ovenfor læser deres tabeller som input og kontrollerer dem ikke
 
 seg-ca950752be62 = Forudindstillinger for horisontprofil
 
 seg-83946f66ca78 = ingen: valgte, angivne mål (kun kontrolleret mod dem selv)
-
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> og <c2/> (standard P2) på de { "142" } indskrevne synlige sæt, fælles ur og ét ur pr. system, præregistreret i <c3/> (commit 0bbeeaee): { "270" } tilfælde, akser { "5.1e-13" } relativt, orientering { "5.3e-12" }°, kofaktor { "1.0e-12" } af matricens skala, mod { "1e-9" } og { "1e-6" }°
 
 seg-44e5f9ca28f7 = Funktioner for himmelgeometri
 

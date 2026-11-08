@@ -22,13 +22,9 @@ seg-4816ff3c82ef = Mootori v{ $version } stsenaariumi liik, perekond <a1>Missioo
 
 seg-1ec485468daa = MODELLED navigatsiooni- ja ajastusvea eelarve nimetatud missioonifaaside ahelale starditest sisenemiseni: start ja tõus, madala Maa orbiidi kohtumine ja dokkimine (korratav), Kuule suunav siirdepõletus (TLI) ja tsislunaarne lend, Kuu orbiidil kohtumine, laskumine, viibimine pinnal, tõus ning tagasitulek ja sisenemine, iga faas üks kaheksast registreeritud liigist oma andurite ja filtriga. 6x6 kovariatsioon, kell ja tugisüsteem antakse faasist faasi edasi nimetatud reegli järgi (kanna edasi, paisuta või omanda uuesti); tugisüsteemide ja ajaskaalade teisendused (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) on eraldi eelarveread, kusjuures Kuu olek pärineb valikulisest DE440 kerneli väljalõikest ja analüütiline rida on nimetatud varuvariant. Valikuline maajaamade võrgu kate määrab iga faasi jälgimistööpõhimõtte. Esitab faasipõhise eelarve (sisenemise, tipu ja väljumise 1-sigmad, iga panus koos ühikuga), varu nimetatud nõude suhtes, nõrgima lüli, sündmused ja ajajoone joonise. MODELLED: iga arv on nimetatud sisend; ahel järgib ühte pinu ja ühtegi sõidukit ei modelleerita. Ainult avalikud allikad; ühegi agentuuriga sidumata ja nende poolt heaks kiitmata; nõuandev tarkvara, mitte kinnitatud navigatsiooniseade.
 
-seg-d6eb3dbb87c7 = Ühe <c1/> käivituse kokkuvõte: mission-thread | { "11" } faasi | Artemis-klassi missiooniahel (ILLUSTRATIVE) | nõrgim lüli descent | MODELLED
-
 seg-9bb19202a104 = Kohustuslikud väljad: <c1/>, <c2/>, <c3/>
 
 seg-e1faea3151d6 = Valikulised väljad: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
-
-seg-094b47cf8ae2 = Näide <c1/> määrab muu hulgas:
 
 seg-e5d2d8da2ec0 = gcrf
 
@@ -36,15 +32,7 @@ seg-2468a5014f25 = utc
 
 seg-e92b7836bae3 = 2028-01-01T00:{ "00" }:00Z
 
-seg-ffe559d3ff23 = cruise
-
 seg-3be4934f4f4e = väikseim varu nimetatud nõude suhtes
-
-seg-f32a7f31e191 = inertsiaalne triiv, ilma abivahendita, ida
-
-seg-9fde3fc1cb5b = descent
-
-seg-a07521d13bb4 = Mootori joonistatud diagramm failile scenarios/mission-thread-artemis-class.toml, liik mission-thread
 
 seg-423ce11b54cd = <b>MODELLED</b> Faas <c1/>: konstantse kiirusega asukoha ja kiiruse kovariatsioon valge kiirendusmüraga (arvestusnavigatsiooni klass), nimetatud täpsusega GNSS-fiks, mida rakendatakse pärast omandamisaega ja väljaspool nimetatud signaalikadusid, nihke-ja-
 
@@ -62,8 +50,6 @@ seg-d9a1ea509a3c = MODELLED navigatsiooni- ja ajastusvea eelarve nimetatud missi
 
 seg-80221e9351e4 = MODELLED: iga arv on nimetatud sisend; ahel järgib ühte pinu ja ühtegi sõidukit ei modelleerita. (liikide kataloog (<c1/>))
 
-seg-637296d00802 = AUSTUS. Iga arv siin on ILLUSTRATIVE: ümar suurus, mis on valitud ahela käitamiseks, mitte ühegi sõiduki, anduri, jaama ega võrgu jõudlus. Ahel järgib ühte pinu nimetatud lihtsustusena; sõidukivahetusi, meeskonnaülekandeid ja Kuu orbiidi jaama ei modelleerita, Kuu orbiidid on { "100" } km ringorbiit ja polaarorbiidid, mida Kuu liigid lendavad (mitte peaaegu sirgjooneline halo-orbiit), ja TLI põletus on (stsenaariumifaili kommentaar, read { "11" } kuni { "17" })
-
 seg-f6574a80a60a = Navigatsiooni- ja ajastusvea eelarve missioonifaaside ahelale starditest sisenemiseni (<c1/>) on MODELLED, mitte valideeritud: kontrollitud omaenda suletud kujul / analüütilise samasuse vastu — tabab ülekande- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
 
 seg-9faba276f210 = Start ja tõus parkimisorbiidile GNSS-i omandamise ja summutusega (<c1/>) on MODELLED, mitte valideeritud: kontrollitud omaenda suletud kujul / analüütilise samasuse vastu — tabab ülekande- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
@@ -77,3 +63,5 @@ seg-c10f77a86f4d = Perekonna leht: <a1>Missiooniahelad</a1>
 seg-f3279128de3b = <s1>Eelmine</s1>mars-pnt
 
 seg-2854e6a75833 = <s1>Järgmine</s1>moonlight-service-volume
+
+seg-050e380fbc15 = Näide <c1/> määrab muu hulgas:

@@ -148,8 +148,6 @@ seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> funksjoner validert mot uavheng
 
 seg-b59781ecf257 = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "401" } funksjoner: { "176" } validert, { "221" } modellert, { "4" } eid av partnere
 
-seg-d0b2811a3d3c = Motoren har { "92" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).
-
 seg-8e9fbc5f2e72 = Beskrivelsen av den innebygde scenariotypen kind på språket lang, fra katalogen (engelsk når språket ikke har noen oversettelse av den); None for et navn som ikke er en innebygd type.
 
 seg-06e503c23c30 = [kind_description_in] på gjeldende språk ([crate::i18n::current]).
@@ -169,3 +167,5 @@ seg-28e05e08ff76 = Kjør src på språket lang og, hvis den feiler, beskriv feil
 seg-24fe823a994a = json uten bevismerkelappen ([crate::evidence_label]); uendret hvis den ikke har noen.
 
 seg-c0444d838311 = out med bevismerkelappen fjernet fra JSON, SVG og CSV, byte for byte slik kjøringen produserte dem før merkelappen fantes; en utdata uten merkelapp er uendret.
+
+seg-80e5f0aa2831 = Motoren har { "93" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).

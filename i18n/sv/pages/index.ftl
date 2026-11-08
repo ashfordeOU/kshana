@@ -154,9 +154,6 @@ seg-32c07578eab3 = Steg i den inspelade sessionen
 
 seg-2cff891dc970 = Nästa steg
 
-# c1: clock-holdover.toml
-seg-45da99dccd40 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "49" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: Kör ett Kshana-scenario och returnerar dess tidsserie som en animering.
 
@@ -769,10 +766,12 @@ seg-b9961ed25282 = Nytt i v{ $version }: ett uppdragsflöde, en evidensetikett p
 
 seg-653cf3198094 = { "176" } av { "401" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.
 
-seg-76b213d03caa = Alla { "92" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.
+seg-859bb6732925 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "52" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-2dc1aed7a12e = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
 
-seg-fddfe8b260be = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-b79ee48fd586 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-388f14eb6d8d = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-9b9d03fe1477 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+seg-579d9b6f7afd = Alla { "93" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.

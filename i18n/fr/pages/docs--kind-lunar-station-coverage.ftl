@@ -100,10 +100,6 @@ seg-922b8656fcae = Le graphique que le moteur écrit pour scenarios/lunar-statio
 seg-4f5941f12127 = <b>MODELLED</b> Balayage de Monte-Carlo du modèle de PNT différentiel lunaire sur une grille d'utilisateurs du pôle sud et une journée d'époques (le type de scénario <c1/>) : pour une station de référence différentielle en un site connu du pôle sud, par point et sur la région, le Tests : <a1>lunar_station_coverage_reference.rs</a1>.
 
 # text
-# c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Balayage de Monte-Carlo du modèle de PNT différentiel lunaire sur une grille d'utilisateurs du pôle sud et une journée d'époques (le type de scénario <c1/>) : pour une station de référence différentielle en un s. Référence indépendante (InternalConsistency) : arithmétique recalculée par un script numpy indépendant sur des cas exportés (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" } ; préenregistré dans tests/fixtures/lunar_station/PREREGISTRATION.md, consigné seul dans 9caedf97 avant la première exécution) : sur { "20" } cas avec tous les termes d'erreur activés, les ensembles visibles et l'état sont identiques, les erreurs de distance brutes concordent à { "1.4e-14" } m, les vecteurs et amplitudes d'erreur de position à { "1.4e-9" } m par rapport à
-
-# text
 # c1: label
 seg-626ab55f0424 = MODELLED (résultat <c1/>)
 

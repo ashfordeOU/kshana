@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Zob. <a1><c1/></a1>. Wyjścia NMEA i RINEX z GNSS-SDR są ju�
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: wiersz nagłówka z nazwami kolumn, następnie jedna próbka na wiersz. Kolumny (w dowolnej kolejności, nazwy bez rozróżniania wielkości liter): <c2/> sekundy na zegarze dziennika odbiornika, <c3/>, <c4/>, <c5/> prędkość kątowa w rad/s, <c6/>, <c7/>, <c8/> siła właściwa w m/s². <c9/>: układ EuRoC MAV <c10/> <c11/> (<c12/>, <c13/>, <c14/>); pierwsza próbka to <c15/>. Wiersze, których nie da się przetworzyć, oraz wiersze, w których czas nie rośnie, są pomijane. Zob. <a1><c16/></a1>, jak używany jest kurs z żyroskopu.
-
 seg-f7007cf35f53 = IMU w scenariuszach hybrid i fusion (<c1/>)
 
 seg-3fc254763f67 = Scenariusze <c1/> i <c2/> (UKF o 17 stanach) są symulacjami: przyjmują parametry szumu czujnika (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), a nie zmierzony szereg. <c10/> odczytuje te parametry ze stacjonarnego dziennika IMU, więc scenariusz można uruchomić z faktycznie posiadanym czujnikiem:

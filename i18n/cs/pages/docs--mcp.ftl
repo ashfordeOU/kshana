@@ -242,8 +242,6 @@ seg-73a73af88f08 = Režim HTTP (vlastní hosting)
 
 seg-4f248ed3e597 = <c1/> poskytuje stejné nástroje přes streamable HTTP na <c2/>. Naslouchá pouze na loopbacku; adresa mimo loopback vyžaduje <c3/> a bearer token v <c4/>; nástroje pro soubory IQ jsou vypnuté; velikost požadavku, čas i souběžnost jsou omezeny; neodesílá se žádná hlavička CORS. Kshana žádný koncový bod neprovozuje: hostujete si jej sami. Viz <a1>docs/deploy/mcp-http.md</a1>.
 
-seg-60f55b197ac2 = <c1/> umístí <c2/> do vaší <c3/> (typicky <c4/>). Server komunikuje JSON-RPC (JSON remote procedure call) přes stdio; logy jdou na stderr. Sestavení ze zdrojů vyžaduje toolchain Rustu ≥ { "1.88" } (vyžaduje jej opravené SDK <c5/> { "2" }.x; samotná knihovna <c6/> potřebuje jen { "1.85" }); obraz Dockeru nepotřebuje nic.
-
 seg-2f3216082425 = Registrace u klienta
 
 seg-1090ae3f689c = Prakticky každý klient MCP používá stejný konfigurační blok <c1/> — zaregistrujte binární soubor <c2/> absolutní cestou:
@@ -286,18 +284,16 @@ seg-dc60d64a3bb8 = <em>„Vytvoř jednosekundovou scénu GPS L1 s PRN { "3" } a 
 
 seg-942dc8abe0ec = Poznámka k návrhu — proč samostatný crate
 
-seg-ce6d0ecab448 = Server je <b>samostatný crate vyňatý z workspace</b> s vlastním <c1/>, takže oficiální Rust MCP SDK (sada pro vývoj softwaru) <c2/> a jeho asynchronní runtime nikdy nevstoupí do grafu závislostí publikovaného crate <c3/>: uživatel knihovny nebo Pythonu nekompiluje server, který nespouští. (Původně byl oddělen proto, že <c4/> je <b>edice { "2024" }</b> a vyžaduje rustc ≥ { "1.85" }, zatímco hlavní crate tehdy slibovaly { "1.75" }. Knihovna nyní deklaruje { "1.85" }; tento server deklaruje { "1.88" }, minimum bezpečnostně opraveného <c5/> { "2" }.x.) Kontinuální integrace (CI) tento crate hlídá samostatně — testy a <c6/> proti jeho lockfile. Licenční strom rmcp je čistý (Apache-2.0/MIT/BSD), takže na rozdíl od křížově validačního crate <c7/>, který jinak kopíruje, oddělení nesouvisí s licencováním.
-
 seg-75bf2d74642d = Licence: pouze AGPL-3.0, GNU Affero General Public License verze { "3" } (nebo komerční licence od Ashforde OÜ; viz <a1>LICENSING.md</a1> v repozitáři).
 
 seg-490ebbefb561 = <s1>Předchozí</s1>Crate Rustu
 
 seg-350b6b914734 = <s1>Další</s1>Server MCP: každý instalační kanál
 
-seg-492888115662 = { "92" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli, aby agent mohl sestavit platný scénář.
-
 # text
 seg-a4a0e399a31e = <c1/> umístí <c2/> do vaší <c3/> (typicky <c4/>). Server komunikuje JSON-RPC (JSON remote procedure call) přes stdio; logy jdou na stderr. Sestavení ze zdrojů vyžaduje toolchain Rustu ≥ { "1.88" } (vyžaduje jej opravené SDK <c5/> { "2" }.x, stejně jako knihovna <c6/>); obraz Dockeru nepotřebuje nic.
 
 # text
 seg-0757e15070d4 = Server je <b>samostatný crate vyňatý z workspace</b> s vlastním <c1/>, takže oficiální Rust MCP SDK (sada pro vývoj softwaru) <c2/> a jeho asynchronní runtime nikdy nevstoupí do grafu závislostí publikovaného crate <c3/>: uživatel knihovny nebo Pythonu nekompiluje server, který nespouští. (Původně byl oddělen proto, že <c4/> je <b>edice { "2024" }</b> a vyžaduje rustc ≥ { "1.85" }, zatímco hlavní crate tehdy slibovaly { "1.75" }. Knihovna i tento server nyní deklarují { "1.88" }, minimum bezpečnostně opraveného <c5/> { "2" }.x a aktualizovaných crate z RustCrypto.) Kontinuální integrace (CI) tento crate hlídá samostatně — testy a <c6/> proti jeho lockfile. Licenční strom rmcp je čistý (Apache-2.0/MIT/BSD), takže na rozdíl od křížově validačního crate <c7/>, který jinak kopíruje, oddělení nesouvisí s licencováním.
+
+seg-b873b39a4921 = { "93" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli, aby agent mohl sestavit platný scénář.

@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } riviä kaikkiaan { "58,697" } rivistä
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (moottori { "0.29.0" }, tagi <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, tiedoston <c1/> työ <c2/>, ajo { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Työkalu
@@ -42,8 +40,10 @@ seg-b566e95a74ab = päivitä sitten yllä oleva taulukko ja kuusi pintaa samassa
 
 seg-6935c9c381b3 = Historia
 
-seg-daa9ae1913cd = Luku on mitattu uudelleen, ei kirjoitettu uudelleen käsin: { "95.63" } % commitissa <c1/> (moottori { "0.27.2" } + julkaisematon, ajo { "35934579709" }, 2026-09-24, { "37,697" } riviä kaikkiaan { "39,419" } rivistä, julkaistu muodossa ~{ "96" } %), tarkistettu arvoon { "95.35" } % versiossa { "0.29.0" } (yllä), joka pyöristyy arvoon ~{ "95" } %: koodi kasvoi { "19,278" } mitatulla rivillä ja uudet rivit ovat katetut hieman vähemmän kuin vanhat; { "95.85" } % versiossa { "v0.17.0" } (commit <c2/>, 2026-06-14, julkaistu muodossa ~{ "96" } %) ja ~{ "97" } % kahdessa aiemmassa julkaisutiedotteessa (<c3/>, jätetty historiaksi). <c4/> sanoi ”near { "97" } %” kunnes se saatettiin tämän kirjauksen mukaiseksi; se on nyt kuudes pinta, jonka testi kiinnittää.
-
 seg-b2dbaf3a3b68 = <s1>Edellinen</s1>Standardit ja yhteentoimivuus
 
 seg-508de3808e04 = <s1>Seuraava</s1>Todistepaketit
+
+seg-5ff7e4510497 = <c1/> (moottori { "0.29.0" }, tagi <c2/>)
+
+seg-1ff43e658eef = Luku on mitattu uudelleen, ei kirjoitettu uudelleen käsin: { "95.63" } % commitissa <c1/> (moottori { "0.27.2" } + julkaisematon, ajo { "35934579709" }, 2026-09-24, { "37,697" } riviä kaikkiaan { "39,419" } rivistä, julkaistu muodossa ~{ "96" } %), tarkistettu arvoon { "95.35" } % versiossa { "0.29.0" } (yllä), joka pyöristyy arvoon ~{ "95" } %: koodi kasvoi { "19,278" } mitatulla rivillä ja uudet rivit ovat katetut hieman vähemmän kuin vanhat; { "95.85" } % versiossa { "v0.17.0" } (commit <c2/>, 2026-06-14, julkaistu muodossa ~{ "96" } %) ja ~{ "97" } % kahdessa aiemmassa julkaisutiedotteessa (<c3/>, jätetty historiaksi). <c4/> sanoi ”near { "97" } %” kunnes se saatettiin tämän kirjauksen mukaiseksi; se on nyt kuudes pinta, jonka testi kiinnittää.

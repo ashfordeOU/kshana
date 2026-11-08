@@ -308,10 +308,6 @@ seg-32c07578eab3 = Salvestatud seansi sammud
 seg-2cff891dc970 = Järgmine samm
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "49" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: käivita Kshana stsenaarium ja tagasta selle aegrida animatsioonina.
 
@@ -513,10 +509,6 @@ seg-62b5564e8d90 = Salvestatud seanss esitatakse siin samm-sammult.
 # text
 # c1: clock-holdover.toml
 seg-2359edf78388 = <b>Sama käivitus Studios:</b> mootor v{ $version } · <c1/> · algväärtus (seed) { "42" }
-
-# text
-# c1: io.github.ashfordeOU/kshana-mcp
-seg-c24f65399c72 = <b>{ "49" } tööriista</b> Kshana avaliku API (rakendusliides) kohal, ametlikus MCP registris kujul <c1/>. Orbiidi ekspordid: SP3 (Standard Product { "3" }) ning CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (orbiidi keskmiste elementide ja efemeriidi sõnumid, TEME: True Equator, Mean Equinox tugisüsteem). Registreeri see jaotises <b>AI assistant (MCP server)</b> või <b>Docker image</b>. <a1>MCP serveri dokumentatsioon</a1>
 
 # text
 # c1: spectrum
@@ -1416,9 +1408,6 @@ seg-d85f16c14183 = kshana.run ja run_full ning validate_toml ja list_kinds
 seg-5a6803e3eb48 = run, summary ja chart_svg brauseris või Node.js-is
 
 # text
-seg-1c19f8c0ad84 = { "49" } tööriista, mida AI assistent saab kutsuda, igaüks õhuke ümbris avaliku API ümber
-
-# text
 seg-4ad1a7669b03 = MCP server ilma Rusti tööriistaahelata, mitmearhitektuuriline
 
 # text
@@ -1700,3 +1689,9 @@ seg-193ee1ab991e = <c1/> muudab esitusfaili ja jaotuse tõe tulemusfailiks ning 
 
 # text
 seg-0c50b3629e39 = Ava bench
+
+seg-859bb6732925 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "52" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } tööriista</b> Kshana avaliku API (rakendusliides) kohal, ametlikus MCP registris kujul <c1/>. Orbiidi ekspordid: SP3 (Standard Product { "3" }) ning CCSDS (Consultative Committee for Space Data Systems) OMM ja OEM (orbiidi keskmiste elementide ja efemeriidi sõnumid, TEME: True Equator, Mean Equinox tugisüsteem). Registreeri see jaotises <b>AI assistant (MCP server)</b> või <b>Docker image</b>. <a1>MCP serveri dokumentatsioon</a1>
+
+seg-5aa702c4ebc7 = { "52" } tööriista, mida AI assistent saab kutsuda, igaüks õhuke ümbris avaliku API ümber

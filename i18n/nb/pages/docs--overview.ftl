@@ -508,8 +508,6 @@ seg-15687303176d = <b>Registerstatus: MODELLED.</b> Ett trekk fra modellen, ikke
 
 seg-c626c7f1926d = Nye Studio-visninger
 
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> får en Bridge-gjenspilling (to kjøringer side om side på én oppdragsklokke, på <a2><c1/></a2>), en side for Optisk PNT (<c2/>), en side for Holdover-test (<c3/>) og en observatorievisning (<c4/>). De kjører den samme motoren i nettleseren, ingenting lastes opp, og de bærer den samme veiledende erklæringen. Bildene ovenfor er tegnet av et skript fra motorens egne utdata; de er ikke skjermbilder av disse sidene.
-
 seg-630e6aa5f2cc = Rombrukernavigasjon (<c1/>)
 
 seg-20249fd1f444 = For et romfartøy over, rundt eller langt forbi GNSS-banene: hvor mange GNSS-signaler det kan bruke, hvor sterke de er, hvor god geometrien er, og hva et filter om bord kan gjøre med dem. Én type, fire moduser, valgt av scenarioets tabeller: et <b>skall</b> av brukere (andelen av tiden med ett og fire signaler, per konstellasjon), en <b>bane</b> (signaler, C/N0, presisjonsfortynning og limbstrålemediet langs en bane), en <b>navigasjons</b>kjøring (et filter med ni tilstander på pseudoavstander, til Månen) og en <b>formasjon</b> (relativ navigasjon for deputies rundt en chief). Den offentlige kilden for tilgjengelighetssammenligningen er den interoperable GNSS Space Service Volume-boken (UN OOSA ST/SPACE/75, fra International Committee on GNSS), som selv er en simulering; den hentes, aldri lagt inn i depotet. Full side: <a1>docs/SSV.md</a1>.
@@ -1222,15 +1220,11 @@ seg-302554087e15 = Distribusjon: ett repositorium leverer kjernecraten, MCP-serv
 
 seg-530f5e8a6cdd = Hva som leveres hvor, og hva som kontrollerer det · <a1>SVG</a1> · kilde <a2>distribution.mmd</a2>
 
-seg-c21d26341f01 = <a1><c1/></a1> er en MCP-server: assistenten din kjører den faktiske motoren og leser tilbake JSON-en, i stedet for å gjette matematikken. Hvert av de { "49" } verktøyene er en tynn innpakning rundt en offentlig funksjon i biblioteket <c2/>, så ingen simuleringslogikk bor i serveren.
-
 seg-c459db99a099 = <c1/>, selvdrevet: se <a1>docs/deploy/mcp-http.md</a1>
 
 seg-8977c5b65068 = kshana-mcp på Glama, kvalitetsscoren for MCP-serveren
 
 seg-920704a0e384 = Oppsett per klient står i <a1><c1/></a1>. Serveren er oppført i det offisielle MCP-registeret som <c2/>.
-
-seg-b7ea176e9993 = De { "49" } verktøyene
 
 seg-4a458fb861f4 = Scenarioer og rapporter
 
@@ -1588,8 +1582,6 @@ seg-2610d5a9ee90 = <b>Hvor ble det av utdataene mine?</b> Hver kjøring skriver 
 
 seg-4765d3a73a6f = Versjonering og utgivelser
 
-seg-0ca788bf975d = Kshana følger <a1>semantisk versjonering</a1>. Før 1.0 kan det offentlige scenario-/resultatskjemaet fortsatt endres; brytende endringer pekes ut eksplisitt i <a2><c1/></a2>. Hvert resultat kan gjenskapes fra <c2/>.
-
 seg-2885b69ceef1 = <b>Hver <c1/>-tagg publiserer alle kanaler automatisk, i én bestemt rekkefølge</b> – hele testsuiten kjøres først på den taggede commiten, ingenting publiseres før den består, og etterpå kontrollerer pipelinen at hvert register faktisk leverer den nye versjonen (<a1><c2/></a1>). Kanalene:
 
 seg-8222e46bc13c = Installer / hent
@@ -1898,8 +1890,6 @@ seg-cafc1c9c4d58 = Nytt i { "0.40" }
 
 seg-59a31376fa3d = { "0.40" } legger til et budsjett på oppdragsnivå for feil, merker hvert tall og hver tabell med sitt evidensnivå, leser målte klokkeloggere, kontrollerer innleveringer fra datapartnere, anslår hvor en interferenskilde kan befinne seg, og snakker sytten språk ved siden av engelsk. Registeret har nå { "401" } rader: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ingen rad ble oppgradert til VALIDATED, og hver bom nedenfor er festet av en test.
 
-seg-ab5eec8db03e = <b>Oppdragstråd.</b> Typen <c1/> kjeder sammen faser fra oppskyting til gjeninntreden (<c2/>, <c3/>, <c4/>, <c5/> og fire lunare typer) med oppgitte overleveringsregler, en margin mot oppgitte krav og det svakeste leddet; et ende-til-ende-eksempel i stil med Artemis-class over { "11" } faser (jord- og månesegmenter), { "92" } scenariotyper til sammen. Hvert tall er MODELLED. Den cislunare propageringen mot den offentlige banekurven for Artemis I <b>bommer</b> på sin forhåndsregistrerte terskel ({ "45.3" } km og { "0.25" } m/s mot { "5" } km og { "0.05" } m/s; årsaken er små manøvrer modellen ikke inkluderer), og den lunare propagatoren mot CAPSTONE-banen <b>bommer</b> ({ "136.8" } km mot { "25" } km ved slutten av én omløpstid); sammenligningen med LRO er oppfylt. Radene forblir MODELLED (<a1>Oppdragstråd</a1>, <a2>månesegmentet</a2>).
-
 seg-5bd16655cace = <b>Evidensetiketter.</b> Hvert tall og hver tabell en kjøring skriver bærer nivået og register-radidene den bygger på, lest fra matrisen.
 
 seg-e79fca859317 = <b>Målte klokker.</b> Åtte klokkeloggformater leses (<a1><c1/></a1>), og en tilpasset serie kan drive holdoveren. Mot forhåndsregistrerte terskler <b>bommer</b> tilpasningen på F1(a) for fem av seks registreringer og på F2 for én; begge forblir MODELLED (<a2>Endringslogg</a2>).
@@ -1926,8 +1916,6 @@ seg-5d3bb72c6490 = Kshana Studio, avansert visning, etter en kjøring av det med
 
 seg-b8f6321e9e0d = Tre sider fra kshana.dev side om side. Forsiden: navnelinjen Kshana · क्षण · det presise øyeblikket over overskriften Øv på minuttet GNSS går i svart, med oppdragskonsollen fra en ekte kjøring av motor v{ $version } (en globus og tre levende diagrammer: klokkens tidsfeil, bærebølge-til-støy-tetthet og beskyttelsesnivå). Evidens, Publisert forskning: de seks arXiv-artiklene bygget på den åpne motoren, den nyeste med et motortall. Utgaver, Kshana Pro, den samme motoren, forsterket: Free kjører ett scenario, Pro besvarer programmets spørsmål.
 
-seg-9d447be4caed = Én motor dekker hele feilkjeden, fra den første jammede satellitten til den siste nanosekunden av klokke-holdover. Motoren har { "92" } scenariotyper; <c1/> lister dem, og <a1><c2/></a1> dokumenterer hvert felt.
-
 seg-d3d6b030b588 = Senderregion
 
 seg-56eee3458645 = hvor, under oppgitte forutsetninger, en kilde til degraderte posisjonsrapporter kan befinne seg: regioner ved oppgitt konfidensnivå, et tyngdepunkt med sin ellipse, aldri et punkt (MODELLED; <c1/>)
@@ -1935,8 +1923,6 @@ seg-56eee3458645 = hvor, under oppgitte forutsetninger, en kilde til degraderte 
 seg-ee28beafac1a = budsjettet for navigasjons- og tidsfeil for en kjede av faser fra oppskyting til gjeninntreden
 
 seg-34e44a492cad = <c1/> kjører et scenario; hver annen kommando er en underkommando, og <c2/> skriver ut bruken av dem alle. Kommandoene er <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> og <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> og <c63/>. <a1><c64/></a1> gir formålet med hver, et verifisert eksempel og dokumentasjonssiden.
-
-seg-c472e0e5a3a5 = Hvordan en kjøring flyter. En scenario-TOML-fil (en type, en seed og parametrene) går inn i motoren, kshana { $version }, gjennom api::run_toml-dispatchen over { "92" } scenariotyper, deterministisk ut fra scenario, seed og motorversjon. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for typene som definerer en, og på forespørsel eksport til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en suite skriver study.json og study.html. Disse filene mater Kshana Studio i nettleseren, en AI-assistent gjennom kshana-mcp-serveren og kontinuerlig integrasjon.
 
 seg-9f5426cbbf4a = <b>{ "176" } av { "401" }</b> funksjoner validert mot uavhengige eksterne referanser; { "221" } ærlig merket modellert. Hver rad i verifikasjonsmatrisen navngir en funksjon, den uavhengige referansen den kontrolleres mot, testen som kjører kontrollen og merkelappen som følger. Kontinuerlig integrasjon (CI) gjør det umulig å kalle en funksjon VALIDATED uten en uavhengig ekstern referanse.
 
@@ -1958,29 +1944,30 @@ seg-35a4412348e1 = { "176" } validert · { "221" } modellert · { "4" } partner 
 
 seg-cdf946112863 = Kshanas arkitektur: én åpen motor i sentrum, kshana { $version } under AGPL-3.0, med api::run_toml, en typet dispatch over hver type, og verifikasjonsregisteret med { "401" } funksjoner ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Rundt den kjører hver flate den samme motoren: kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbildning (ghcr.io/ashfordeou/kshana-mcp); JetBrains-programtillegg (Marketplace: "Kshana"). Under den ligger Kshana Pro, et proprietært overlegg som avhenger av den åpne motoren som bibliotek og aldri forgrener den, og som ikke legger til noen fysisk modell.
 
-seg-656df854409a = Kshanas arkitektur i lag. Fem innganger (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-programtillegget) når én api::run_toml, en typet dispatch over { "92" } typer. Under ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med { "401" } funksjoner som er den eneste kilden til sannhet for hver merkelapp.
-
-seg-11041e6beb65 = De { "92" } innebygde scenariotypene med beskrivelser og obligatoriske/valgfrie felt, slik at agenten kan bygge et gyldig scenario
-
-seg-abf70d11a088 = hele den åpne motoren, alle { "92" } scenariotyper, ingen funksjonsbegrensning
-
 seg-824001fa6734 = laboratorier og produsenter som har målte data
 
 seg-df3ca402513f = hvilke MODELLED-rader en målt klokke- eller IMU-registrering kan løfte, formatene, hvordan en innsending kontrolleres (<c1/>), skåres og krediteres
-
-seg-e2d733f93455 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "92" } typer, { "193" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.
-
-# text
-# c1: mission-thread
-# c2: launch-ascent
-# c3: leo-rendezvous
-# c4: tli-and-cruise
-# c5: entry
-# c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Oppdragstråd.</b> Typen <c1/> kjeder sammen faser fra oppskyting til gjeninntreden (<c2/>, <c3/>, <c4/>, <c5/> og fire lunare typer) med oppgitte overleveringsregler, en margin mot oppgitte krav og det svakeste leddet; et ende-til-ende-eksempel i stil med Artemis-class over { "11" } faser (jord- og månesegmenter), { "92" } scenariotyper til sammen. Hvert tall er MODELLED. Den cislunare propageringen mot den offentlige banekurven for Artemis I <b>bommer</b> på sin forhåndsregistrerte terskel ({ "45.3" } km og { "0.25" } m/s mot { "5" } km og { "0.05" } m/s; årsaken er små manøvrer modellen ikke inkluderer), og den lunare propagatoren mot CAPSTONE-banen <b>bommer</b> ({ "136.8" } km mot { "25" } km ved slutten av én omløpstid); sammenligningen med LRO er oppfylt. Radene forblir MODELLED (<a1>Oppdragstråd</a1>, <a2>månesegmentet</a2>). I Studio leses tråden på <c6/>.
 
 seg-ac2d3dd91aa2 = Bygger med Rust { "1.88" } eller nyere, rust-version i Cargo.toml
 
 seg-48991660376d = Krever en Rust-verktøykjede (≥ { "1.88" }, <c1/> i Cargo.toml; utviklet på { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> feiler med en gammel verktøykjede.</b> Kshana krever Rust ≥ { "1.88" }. Oppdater med <c2/>.
+
+seg-8391e467adf7 = <b>Oppdragstråd.</b> Typen <c1/> kjeder sammen faser fra oppskyting til gjeninntreden (<c2/>, <c3/>, <c4/>, <c5/> og fire lunare typer) med oppgitte overleveringsregler, en margin mot oppgitte krav og det svakeste leddet; et ende-til-ende-eksempel i stil med Artemis-class over { "11" } faser (jord- og månesegmenter), { "93" } scenariotyper til sammen. Hvert tall er MODELLED. Den cislunare propageringen mot den offentlige banekurven for Artemis I <b>bommer</b> på sin forhåndsregistrerte terskel ({ "45.3" } km og { "0.25" } m/s mot { "5" } km og { "0.05" } m/s; årsaken er små manøvrer modellen ikke inkluderer), og den lunare propagatoren mot CAPSTONE-banen <b>bommer</b> ({ "136.8" } km mot { "25" } km ved slutten av én omløpstid); sammenligningen med LRO er oppfylt. Radene forblir MODELLED (<a1>Oppdragstråd</a1>, <a2>månesegmentet</a2>). I Studio leses tråden på <c6/>.
+
+seg-a66ad1f69702 = Én motor dekker hele feilkjeden, fra den første jammede satellitten til den siste nanosekunden av klokke-holdover. Motoren har { "93" } scenariotyper; <c1/> lister dem, og <a1><c2/></a1> dokumenterer hvert felt.
+
+seg-43bd621a1f5b = Hvordan en kjøring flyter. En scenario-TOML-fil (en type, en seed og parametrene) går inn i motoren, kshana { $version }, gjennom api::run_toml-dispatchen over { "93" } scenariotyper, deterministisk ut fra scenario, seed og motorversjon. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for typene som definerer en, og på forespørsel eksport til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en suite skriver study.json og study.html. Disse filene mater Kshana Studio i nettleseren, en AI-assistent gjennom kshana-mcp-serveren og kontinuerlig integrasjon.
+
+seg-290f2b34e368 = Kshanas arkitektur i lag. Fem innganger (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-programtillegget) når én api::run_toml, en typet dispatch over { "93" } typer. Under ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med { "401" } funksjoner som er den eneste kilden til sannhet for hver merkelapp.
+
+seg-ed215c6aa19b = <a1><c1/></a1> er en MCP-server: assistenten din kjører den faktiske motoren og leser tilbake JSON-en, i stedet for å gjette matematikken. Hvert av de { "52" } verktøyene er en tynn innpakning rundt en offentlig funksjon i biblioteket <c2/>, så ingen simuleringslogikk bor i serveren.
+
+seg-81fcbb495e8f = De { "52" } verktøyene
+
+seg-fb8bcc54a31d = De { "93" } innebygde scenariotypene med beskrivelser og obligatoriske/valgfrie felt, slik at agenten kan bygge et gyldig scenario
+
+seg-2f38fc515db6 = hele den åpne motoren, alle { "93" } scenariotyper, ingen funksjonsbegrensning
+
+seg-5374f780c396 = Se <c1/> for minst ett gjennomarbeidet eksempel på hver type ({ "93" } typer, { "195" } scenario-<c2/>-filer + { "1" } suitemanifest – flere typer har mer enn ett eksempel). Ikke alle typer har en fil oppkalt etter seg: <c3/> → <c4/> og <c5/> → <c6/> er to av flere slike. Du kan når som helst liste de tilgjengelige typene med <c7/>-feil, Python-funksjonen <c8/> eller MCP-verktøyet <c9/>.

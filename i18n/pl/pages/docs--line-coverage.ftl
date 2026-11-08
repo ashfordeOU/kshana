@@ -16,8 +16,6 @@ seg-6f8d24ecb89f = — { "55,970" } z { "58,697" } linii
 
 seg-03065c20d4d8 = Commit
 
-seg-d734cdb77d70 = <c1/> (silnik { "0.29.0" }, tag <c2/>)
-
 seg-a2af6144b6a0 = GitHub Actions, zadanie <c1/> <c2/>, przebieg { "36809850252" }, 2026-10-01
 
 seg-b88a2a9497c2 = Narzędzie
@@ -42,8 +40,10 @@ seg-b566e95a74ab = następnie zaktualizuj tabelę powyżej i sześć powierzchni
 
 seg-6935c9c381b3 = Historia
 
-seg-daa9ae1913cd = Wartość została zmierzona ponownie, a nie przepisana: { "95.63" } % dla commitu <c1/> (silnik { "0.27.2" } + niewydane zmiany, przebieg { "35934579709" }, 2026-09-24, { "37,697" } z { "39,419" } linii, opublikowana jako ~{ "96" } %), skorygowana do { "95.35" } % dla { "0.29.0" } (powyżej), co po zaokrągleniu daje ~{ "95" } %: kod urósł o { "19,278" } mierzonych linii, a nowe linie są pokryte nieco słabiej niż stare; { "95.85" } % dla { "v0.17.0" } (commit <c2/>, 2026-06-14, opublikowana jako ~{ "96" } %) oraz ~{ "97" } % w dwóch wcześniejszych notach wydania (<c3/>, pozostawionych jako historia). <c4/> mówił „blisko { "97" } %”, dopóki nie został dostosowany do tego zapisu; jest to teraz szósta powierzchnia, którą test przypina.
-
 seg-b2dbaf3a3b68 = <s1>Poprzednia</s1>Standardy i interoperacyjność
 
 seg-508de3808e04 = <s1>Następna</s1>Pakiety dowodowe
+
+seg-5ff7e4510497 = <c1/> (silnik { "0.29.0" }, tag <c2/>)
+
+seg-1ff43e658eef = Wartość została zmierzona ponownie, a nie przepisana: { "95.63" } % dla commitu <c1/> (silnik { "0.27.2" } + niewydane zmiany, przebieg { "35934579709" }, 2026-09-24, { "37,697" } z { "39,419" } linii, opublikowana jako ~{ "96" } %), skorygowana do { "95.35" } % dla { "0.29.0" } (powyżej), co po zaokrągleniu daje ~{ "95" } %: kod urósł o { "19,278" } mierzonych linii, a nowe linie są pokryte nieco słabiej niż stare; { "95.85" } % dla { "v0.17.0" } (commit <c2/>, 2026-06-14, opublikowana jako ~{ "96" } %) oraz ~{ "97" } % w dwóch wcześniejszych notach wydania (<c3/>, pozostawionych jako historia). <c4/> mówił „blisko { "97" } %”, dopóki nie został dostosowany do tego zapisu; jest to teraz szósta powierzchnia, którą test przypina.

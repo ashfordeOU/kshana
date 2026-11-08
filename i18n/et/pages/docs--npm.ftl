@@ -224,4 +224,4 @@ seg-7b53ee712a36 = <b>{ "401" } võimekusest { "176" }</b> on valideeritud sõlt
 
 seg-b59781ecf257 = Kuidas võimekus oma sildi teenib: võimekus, etalon (oraakel), test, registri (ledger) silt. Kontrollistaatus kõigi { "401" } võimekuse lõikes: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omad
 
-seg-d0b2811a3d3c = Mootoril on { "92" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).
+seg-80e5f0aa2831 = Mootoril on { "93" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).

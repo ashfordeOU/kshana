@@ -294,16 +294,6 @@ seg-1b60ff4652cd = Tööriistad: Telemeetria kaart (Käsurea vahekaart; ainult v
 
 # text
 # c1: receiver-trust
-# c2: rtklib-pos
-# c3: novatel
-# c4: gnss-sdr
-# c5: [log.imu]
-# c6: csv
-# c7: euroc
-seg-3e332170d963 = Masina- ja andurisisendid ({ "0.38" }): <c1/> vormingud <c2/>, <c3/>, <c4/> ja <c5/> (<c6/>, <c7/>)
-
-# text
-# c1: receiver-trust
 # c2: [log] format
 seg-060e5931ac62 = <c1/> (stsenaarium <c2/>)
 
@@ -1114,8 +1104,6 @@ seg-6555ff9a6d8e = Väljund
 
 seg-12471a4b2b57 = Emitterpiirkond (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (veel kaasa võtmata; Rusti, Pythoni ja WASM-i pinnad katavad selle)
-
 seg-dff1bfe0263e = <b>N/A</b> (emitterpiirkondade avaldamine avalikus observatooriumis on eraldi omaniku otsus ja see on välja lülitatud)
 
 seg-ec2d91e2f867 = Andmepartneri esituse kontroll (mõõteandmete esituse vorming ja metaandmed, <c1/>; ei hinda midagi)
@@ -1143,8 +1131,6 @@ seg-e957474f44a8 = <c1/> (ainult otse; kerneli võtmest keeldutakse)
 seg-1c1729fafe99 = <b>N/A</b> (märkmikku pole; näide töötab mis tahes märkmikus käsuga <c1/> väljavõtte kataloogist)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (veel kaasa võtmata)
 
 seg-ab52a3469f6a = Hinnangulised emitterpiirkonnad, MODELLED; jälgede kataloogid ja <c1/> on ainult käsureal
 

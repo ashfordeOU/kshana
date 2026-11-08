@@ -18,8 +18,6 @@ seg-32755afa0f78 = Missiooniahel
 
 seg-d4af67363efc = Nõuandev tarkvara, mitte kinnitatud navigatsiooniseade. Ainult avalikud allikad; ühegi agentuuriga seotud ega nende poolt heaks kiidetud ning siin ei väideta vastavust ühegi programmi nõuetele.
 
-seg-816770c97995 = <c1/> ahelab missiooni faase, millest iga on üks kaheksast registreeritud liigist oma andurite ja filtriga, ning esitab kogu ahela <b>navigatsiooni- ja ajastusvea eelarve</b>: iga faasi kohta 1-sigma asukoha, kiiruse ja kella nihke sisenemisel, tipus ja väljumisel; iga panuse sellesse koos ühikuga; varu sinu nimetatud nõude suhtes; nõrgima lüli; kuupäevastatud sündmused; ja ajajoone joonise. Iga arv on <b>MODELLED</b>: nimetatud sisend või selle mudel. Ainsad välised sõltumatu etaloni read on failis <s1><c2/></s1> ja need ütlevad, mida nad testivad.
-
 seg-c29a19879c84 = Käivita näide lähtekoodi koopiast (see loeb kinnitatud Kuu kerneli väljalõiget):
 
 seg-00f84b734853 = Dokument
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Valikuline tabel <c1/> annab jaamad ja madalaima jälgimise t
 seg-467b14d7ef59 = <c1/>: <c2/> (indeks, id, liik, ajad, silt, navigatsiooni- ja ajaallikad, piirav allikas, sisenemise, tipu ja väljumise sigmad, nõue, varu, <c3/> koos rea ühikuga, <c4/>), <c5/> (väikseim varu nimetatud nõude suhtes, muidu suurim tipuasukoht), <c6/>, ahela <c7/> (nõrgima faasi silt) ja plokk <c8/>. Joonis on 1-sigma asukoht ja kella nihe missiooniaja suhtes, üks riba iga faasi kohta.
 
 seg-a3c40c51c2ff = Mis on tõendid
-
-seg-1168810d4407 = Ahela silt on nõrgima faasi silt ning iga faas on MODELLED. Kuu levitajat võrreldakse LRO ja CAPSTONE'iga (<s1><c1/></s1>); tsislunaarset kaart võrreldakse avaliku Horizonsi trajektooriga (<s2><c2/></s2>). Rida täidab lävendi või jätab selle täitmata; lävend on fikseeritud kinnitatud failis enne käivitust ja möödalaskmine registreeritakse möödalaskmisena. Miski ei ole VALIDATED, kui register seda ei ütle.
 
 seg-ee3c5b58e6fa = <s1>Eelmine</s1>Kuu orbiit ja pind taristuna
 

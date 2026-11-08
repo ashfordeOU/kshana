@@ -254,8 +254,6 @@ seg-7b53ee712a36 = <b>{ "401" } võimekusest { "176" }</b> on valideeritud sõlt
 
 seg-b59781ecf257 = Kuidas võimekus oma sildi teenib: võimekus, etalon (oraakel), test, registri (ledger) silt. Kontrollistaatus kõigi { "401" } võimekuse lõikes: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omad
 
-seg-d0b2811a3d3c = Mootoril on { "92" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).
-
 seg-8e9fbc5f2e72 = Sisseehitatud stsenaariumi liigi kind kirjeldus keeles lang kataloogist (inglise keeles, kui keeles selle tõlget pole); None nime puhul, mis ei ole sisseehitatud liik.
 
 seg-06e503c23c30 = [kind_description_in] praeguses keeles ([crate::i18n::current]).
@@ -275,3 +273,5 @@ seg-28e05e08ff76 = Käivita src keeles lang ja kui see ebaõnnestub, kirjelda t�
 seg-24fe823a994a = json ilma tõendussildita ([crate::evidence_label]); muutmata, kui sellel silti pole.
 
 seg-c0444d838311 = out koos tõendussildi eemaldamisega selle JSON-ist, SVG-st ja CSV-st, bait-baidilt nii, nagu jooks need tootis enne sildi olemasolu; sildita väljund jääb muutmata.
+
+seg-80e5f0aa2831 = Mootoril on { "93" } stsenaariumi liiki; <c1/> loetleb need koos nende väljadega. Uus versioonis { "0.38.0" }: <c2/> (GNSS-signaalid kosmoselaevadele GNSS-orbiitidest kõrgemal, nende ümber ja kaugemal) ja <c3/> (Kuu orbiit ja pind navigatsiooni- ja geodeetilise infrastruktuurina), mõlemad MODELLED, ning <c4/> (ajavea kirje ITU-T maskide vastu).

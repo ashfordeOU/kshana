@@ -258,11 +258,6 @@ seg-fc27b4012f02 = Quellen S1 bis S5 (Titel, URL, Abrufdatum, SHA-256, Lizenz): 
 seg-d866653008e1 = Jede numerische Behauptung, mit ihrer Seite und den angegebenen Annahmen zitiert und als vergleichbar, teilweise vergleichbar oder nicht vergleichbar eingestuft: <c1/>. Keine Behauptung ist vollständig vergleichbar, weil keine Quelle ein Perzentil oder die Bahnelemente der Satelliten angibt.
 
 # text
-# c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
-# c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Zielwerte, Fälle und Eingaben, vor dem Lauf allein eingecheckt (Revision { "2" }, 05bf9a19), und der aufgezeichnete Lauf: <c1/>. Der Befund ist in <c2/> festgeschrieben.
-
-# text
 seg-069a652c402e = Zielwert
 
 # text
@@ -327,12 +322,6 @@ seg-e666f1eb7a59 = { "1" } von { "6" } Zielwerten wird bestanden. Die Ursache is
 
 # text
 seg-1da5fcf7bbf5 = Vorregistrierte Vorhersage
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Eine vorregistrierte Vorhersage, eingefroren bei Commit <c1/> auf den Eingaben der öffentlichen Quellen, mit ihrem Bewertungsprotokoll: <a1><c2/></a1>. Sie ist eine Vorhersage, keine Validierung, und jede Zahl darin wird vom unveröffentlichten Elementesatz der Konstellation aus vier Satelliten dominiert (die verwendeten Elemente sind ILLUSTRATIVE): über die Region ab { "80" } Grad S Verfügbarkeit { "8.2" } %, korrigiert p95 3D { "280" } m, unkorrigiert { "3.8" } km. MODELLED; <c3/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt.
 
 # text
 seg-e6aef34d5023 = Zeitlabor der Station
@@ -446,3 +435,5 @@ seg-79d53edd2374 = <s1>Weiter</s1>Navigation für Raumnutzer (gnss-ssv)
 
 # text
 seg-9c59637f0666 = Abdeckungs- und Genauigkeitskarte (lunar-station-coverage)
+
+seg-34967943a088 = Eine vorregistrierte Vorhersage, eingefroren bei Commit <c1/> auf den Eingaben der öffentlichen Quellen, mit ihrem Bewertungsprotokoll: <a1><c2/></a1>. Sie ist eine Vorhersage, keine Validierung, und jede Zahl darin wird vom unveröffentlichten Elementesatz der Konstellation aus vier Satelliten dominiert (die verwendeten Elemente sind ILLUSTRATIVE): über die Region ab { "80" } Grad S Verfügbarkeit { "8.2" } %, korrigiert p95 3D { "280" } m, unkorrigiert { "3.8" } km. MODELLED; <c3/> schlägt fehl, wenn sich ein eingefrorenes Byte bewegt.

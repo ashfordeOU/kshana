@@ -6,8 +6,6 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b>几何J/S链路预算、抗干扰C/N₀、逐卫星失锁。参考基准（InternalConsistency）：抗干扰C/N₀ 链路预算方程对照独立的numpy重新推导进行交叉检查（与其共用同一闭式，故为InternalConsistency），外加对真实JammerTest-2024 C/N₀ 劣化的表征。{ "0.30" }轮{ "2" }，受阻（仍为MODELLED）：实测的JammerTest { "2024" } C/N0下降对照链路预算预测（预先登记6a66994b，在{ "3" } dB以内）未运行，因为F8.1天线位置和指向
-
 seg-143f3f1cc521 = GNSS拒止下的压制干扰韧性为MODELLED，而不是经独立验证：它对照自身的闭式或解析恒等式进行检查，能发现转录错误和系数错误，但不是外部参考基准（oracle）。（验证矩阵（docs/MODELLED-RATIONALE.md））
 
 seg-1f17ef6a853e = 引擎v{ $version }的场景类型，所属类别为<a1>月球与地月空间</a1>。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，一种类型即为MODELLED（标签如何获得：见README的证据一节）。

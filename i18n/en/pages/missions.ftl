@@ -1114,9 +1114,9 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Real engine run, replayed
 
 # text
-# c1: 3395218
+# c1: 0a53cb8
 # c2: constellation-multi-gnss-coverage.toml
-seg-8575c0837e28 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-b9ebb409e11a = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # attr:title
 seg-f70fa3b93b11 = The engine's own report of this run
@@ -1446,7 +1446,7 @@ seg-3cde4f0b352a = Let your assistant run the validated engine instead of guessi
 seg-0487ea97b0d8 = Start at <a1>MCP server</a1>
 
 # text
-seg-562785c48737 = <b>Free today:</b> everything in the open engine. Free: { "49" } MCP tools, from run_scenario to export_oem.
+seg-7b9633a75c90 = <b>Free today:</b> everything in the open engine. Free: { "52" } MCP tools, from run_scenario to export_oem.
 
 # text
 seg-af65a3c927cf = Embedded or product developer

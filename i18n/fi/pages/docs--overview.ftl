@@ -583,8 +583,6 @@ seg-15687303176d = <b>Kirjanpidon tila: MODELLED.</b> Yksi otos mallista, ei ilm
 
 seg-c626c7f1926d = Uudet Studio-näkymät
 
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> saa Bridge replay -näkymän (kaksi ajoa rinnakkain yhdellä tehtäväkellolla, osoitteessa <a2><c1/></a2>), Optical PNT -sivun (<c2/>), Holdover test -sivun (<c3/>) ja observatorionäkymän (<c4/>). Ne ajavat samaa moottoria selaimessa, mitään ei lähetetä palvelimelle, ja niissä on sama ohjeellinen ilmoitus. Yllä olevat kuvat on piirretty skriptillä moottorin omasta tulosteesta; ne eivät ole kuvakaappauksia näistä sivuista.
-
 seg-630e6aa5f2cc = Avaruuskäyttäjän navigointi (<c1/>)
 
 seg-20249fd1f444 = Avaruusalukselle GNSS-ratojen yläpuolella, ympärillä tai kaukana niiden takana: kuinka monta GNSS-signaalia se voi käyttää, kuinka voimakkaita ne ovat, kuinka hyvä geometria on ja mitä aluksen suodatin voi niillä tehdä. Yksi tyyppi, neljä tilaa, valittuna skenaarion taulukoilla: käyttäjien <b>kuori</b> (ajan osuus, jolloin signaaleja on yksi ja neljä, satelliittitähdistöittäin), <b>rata</b> (signaalit, C/N0, tarkkuuden heikkenemiskerroin ja reunasäteen väliaine radan varrella), <b>navigointi</b>-ajo (yhdeksän tilan suodatin pseudoetäisyyksillä, Kuuhun asti) ja <b>formaatio</b> (apulaisten suhteellinen navigointi johtajan ympärillä). Saatavuusvertailun julkinen lähde on yhteentoimiva GNSS Space Service Volume -vihkonen (UN OOSA ST/SPACE/75, International Committee on GNSS:ltä), joka on itsekin simulaatio; se haetaan, sitä ei koskaan toimiteta mukana. Koko sivu: <a1>docs/SSV.md</a1>.
@@ -1297,15 +1295,11 @@ seg-302554087e15 = Jakelu: yksi repositorio toimittaa ydinpaketin, MCP-palvelime
 
 seg-530f5e8a6cdd = Mitä toimitetaan minne ja mikä sen tarkistaa · <a1>SVG</a1> · lähde <a2>distribution.mmd</a2>
 
-seg-c21d26341f01 = <a1><c1/></a1> on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja lukee sen JSON-tulosteen sen sijaan, että arvailisi matematiikkaa. Sen { "49" } työkalua ovat kukin ohut kääre kirjaston <c2/> julkisen funktion ympärillä, joten palvelimessa ei ole lainkaan simulointilogiikkaa.
-
 seg-c459db99a099 = <c1/>, itse ylläpidetty: katso <a1>docs/deploy/mcp-http.md</a1>
 
 seg-8977c5b65068 = kshana-mcp Glamassa, sen MCP-palvelimen laatupisteet
 
 seg-920704a0e384 = Asiakaskohtainen käyttöönotto on tiedostossa <a1><c1/></a1>. Palvelin on listattu virallisessa MCP-rekisterissä tunnuksella <c2/>.
-
-seg-b7ea176e9993 = { "49" } työkalua
 
 seg-4a458fb861f4 = Skenaariot ja raportit
 
@@ -1663,8 +1657,6 @@ seg-2610d5a9ee90 = <b>Minne tulosteeni meni?</b> Jokainen ajo kirjoittaa tiedost
 
 seg-4765d3a73a6f = Versiointi ja julkaisut
 
-seg-0ca788bf975d = Kshana noudattaa <a1>semanttista versiointia</a1>. Ennen versiota 1.0 julkinen skenaario-/tulosskeema voi vielä muuttua; rikkovat muutokset mainitaan erikseen tiedostossa <a2><c1/></a2>. Jokainen tulos on toistettavissa kohteesta <c2/>.
-
 seg-2885b69ceef1 = <b>Jokainen <c1/>-tagi julkaisee kaikki kanavat automaattisesti yhdessä järjestyksessä</b> — koko testisarja ajetaan ensin merkityllä commitilla, mitään ei julkaista ennen kuin se menee läpi, ja sen jälkeen putki tarkistaa, että jokainen rekisteri todella tarjoaa uuden version (<a1><c2/></a1>). Kanavat:
 
 seg-8222e46bc13c = Asenna / hae
@@ -1973,8 +1965,6 @@ seg-cafc1c9c4d58 = Uutta versiossa { "0.40" }
 
 seg-59a31376fa3d = Versio { "0.40" } lisää tehtävätason virhebudjetin, merkitsee jokaisen luvun ja taulukon todistetasollaan, lukee mitattuja kellolokeja, tarkistaa datakumppanien toimitukset, arvioi, missä häiriölähetin voi olla, ja tukee seitsemääntoista kieltä englannin rinnalla. Kirjanpidossa on nyt { "401" } riviä: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Mitään riviä ei ole ylennetty tasolle VALIDATED, ja jokainen alla oleva ohitus on lukittu testillä.
 
-seg-ab5eec8db03e = <b>Tehtäväketju.</b> Laji <c1/> ketjuttaa vaiheet laukaisusta paluuseen (<c2/>, <c3/>, <c4/>, <c5/> ja neljä Kuun lajia) määriteltyine siirtosääntöineen, marginaalilla määriteltyihin vaatimuksiin nähden ja heikoimmalla lenkillä; päästä päähän ulottuva Artemis-luokan esimerkki { "11" } vaiheella (Maan ja Kuun osuudet), yhteensä { "92" } skenaariolajia. Jokainen luku on MODELLED. Kuunläheinen propagointi julkista Artemis I:n lentorataa vasten <b>jää vajaaksi</b> ennakkorekisteröidystä kynnyksestään ({ "45.3" } km ja { "0.25" } m/s kynnyksiä { "5" } km ja { "0.05" } m/s vasten; syynä ovat pienet ohjausliikkeet, joita malli ei sisällä), ja Kuun propagaattori CAPSTONE-rataa vasten <b>jää vajaaksi</b> ({ "136.8" } km kynnystä { "25" } km vasten yhden kierroksen lopussa); LRO-vertailu täyttyy. Rivit pysyvät MODELLED-tasolla (<a1>Tehtäväketju</a1>, <a2>Kuun osuus</a2>).
-
 seg-5bd16655cace = <b>Todistenimikkeet.</b> Jokainen ajon kirjoittama luku ja taulukko kantaa tason ja ne kirjanpidon rivitunnisteet, joihin se nojaa, luettuna matriisista.
 
 seg-e79fca859317 = <b>Mitatut kellot.</b> Kahdeksan kellolokiformaattia luetaan (<a1><c1/></a1>), ja sovitettu sarja voi ohjata holdoveria. Ennakkorekisteröityjä kynnyksiä vasten sovite <b>jää vajaaksi</b> kynnyksestä F1(a) viidellä kuudesta tallenteesta ja kynnyksestä F2 yhdellä; molemmat pysyvät MODELLED-tasolla (<a2>Muutosloki</a2>).
@@ -2001,8 +1991,6 @@ seg-5d3bb72c6490 = Kshana Studio, Edistynyt näkymä, mukana tulevan skenaarion 
 
 seg-b8f6321e9e0d = Kolme kshana.dev-sivua rinnakkain. Home hero: nimirivi Kshana · क्षण · the precise instant otsikon Rehearse the minute GNSS goes dark yläpuolella, ja moottorin v{ $version } todellisen ajon tehtäväkonsoli (maapallo ja kolme elävää kaaviota: kellon aikavirhe, kantoaalto-kohinatiheys ja suojaustaso). Evidence, Published research: avoimen moottorin varaan rakennetut kuusi arXiv-artikkelia, uusin moottorin kuvalla. Editions, Kshana Pro, sama moottori vahvistettuna: Free ajaa yhden skenaarion, Pro vastaa ohjelman kysymykseen.
 
-seg-9d447be4caed = Yksi moottori kattaa koko vikaketjun, ensimmäisestä häirityistä satelliitista kellon holdoverin viimeiseen nanosekuntiin. Moottorissa on { "92" } skenaariolajia; <c1/> luettelee ne ja <a1><c2/></a1> dokumentoi jokaisen kentän.
-
 seg-d3d6b030b588 = Lähettimen alue
 
 seg-56eee3458645 = missä, ilmoitetuin oletuksin, huononnettujen paikkaraporttien lähde voi olla: alueet ilmoitetulla luottamuksella, painopiste ellipsinsä kanssa, ei koskaan piste (MODELLED; <c1/>)
@@ -2010,8 +1998,6 @@ seg-56eee3458645 = missä, ilmoitetuin oletuksin, huononnettujen paikkaraporttie
 seg-ee28beafac1a = vaiheiden ketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen
 
 seg-34e44a492cad = <c1/> ajaa skenaarion; jokainen muu komento on alikomento, ja <c2/> tulostaa kaikkien käyttöohjeen. Komennot ovat <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (komennoilla <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> ja <c63/>. <a1><c64/></a1> antaa kunkin tarkoituksen, varmennetun esimerkin ja sen dokumenttisivun.
-
-seg-c472e0e5a3a5 = Miten ajo etenee. Skenaario-TOML-tiedosto (laji, siemenluku ja parametrit) menee moottoriin, kshana { $version }, api::run_toml-ohjauksen kautta { "92" } skenaariolajin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille lajeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa study.json- ja study.html-tiedostot. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integraatiota.
 
 seg-9f5426cbbf4a = <b>{ "176" } / { "401" }</b> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vastaan; { "221" } on rehellisesti merkitty mallinnetuiksi. Varmennusmatriisin jokainen rivi nimeää ominaisuuden, oraakkelin, jota vastaan se tarkistetaan, tarkistuksen ajavan testin ja siitä seuraavan merkinnän. Jatkuva integrointi (CI) tekee mahdottomaksi merkitä ominaisuutta tasolle VALIDATED ilman riippumatonta ulkoista oraakkelia.
 
@@ -2033,22 +2019,30 @@ seg-35a4412348e1 = { "176" } validoitu · { "221" } mallinnettu · { "4" } kumpp
 
 seg-cdf946112863 = Kshana-järjestelmän arkkitehtuuri: keskellä yksi avoin moottori, kshana { $version } AGPL-3.0-lisenssillä, ja siinä api::run_toml, tyypitetty ohjaus kaikkiin tyyppeihin, sekä { "401" } ominaisuuden varmennuskirjanpito (ledger) ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Sen ympärillä jokainen pinta ajaa samaa moottoria: komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: ”Kshana”). Sen alla on Kshana Pro, suljettu päällyskerros, joka riippuu avoimesta moottorista kirjastona, ei koskaan haaroita sitä eikä lisää fysikaalista mallia.
 
-seg-656df854409a = Kshana-järjestelmän arkkitehtuuri kerroksittain. Viisi etuovea (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtaa yhteen kutsuun api::run_toml, tyypitettyyn ohjaukseen { "92" } tyypille. Sen alla on kahdeksan toimialakerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä lennot ja tutkimukset, yhteisen ytimen päällä. Varmennusmoduuli, eli koneellisesti tarkistettu { "401" } ominaisuuden matriisi, viittaa niihin kaikkiin ristiin, ja se on jokaisen merkinnän ainoa totuuden lähde.
-
-seg-11041e6beb65 = { "92" } sisäänrakennettua skenaariotyyppiä kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi rakentaa kelvollisen skenaarion
-
-seg-abf70d11a088 = koko avoin moottori, kaikki { "92" } skenaariotyyppiä, ei ominaisuusrajoitusta
-
 seg-824001fa6734 = laboratoriot ja valmistajat, joilla on mitattua dataa
 
 seg-df3ca402513f = mitkä rivit, joiden taso on MODELLED, mitattu kello- tai IMU-tallenne voisi nostaa, muodot, miten lähetys tarkistetaan (<c1/>), pisteytetään ja hyvitetään
-
-seg-e2d733f93455 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "92" } tyyppiä, { "193" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.
-
-seg-88b7afd3df20 = <b>Tehtäväketju.</b> Laji <c1/> ketjuttaa vaiheet laukaisusta paluuseen (<c2/>, <c3/>, <c4/>, <c5/> ja neljä Kuun lajia) määriteltyine siirtosääntöineen, marginaalilla määriteltyihin vaatimuksiin nähden ja heikoimmalla lenkillä; päästä päähän ulottuva Artemis-luokan esimerkki { "11" } vaiheella (Maan ja Kuun osuudet), yhteensä { "92" } skenaariolajia. Jokainen luku on MODELLED. Kuunläheinen propagointi julkista Artemis I:n lentorataa vasten <b>jää vajaaksi</b> ennakkorekisteröidystä kynnyksestään ({ "45.3" } km ja { "0.25" } m/s kynnyksiä { "5" } km ja { "0.05" } m/s vasten; syynä ovat pienet ohjausliikkeet, joita malli ei sisällä), ja Kuun propagaattori CAPSTONE-rataa vasten <b>jää vajaaksi</b> ({ "136.8" } km kynnystä { "25" } km vasten yhden kierroksen lopussa); LRO-vertailu täyttyy. Rivit pysyvät MODELLED-tasolla (<a1>Tehtäväketju</a1>, <a2>Kuun osuus</a2>). Studiossa ketju luetaan osoitteessa <c6/>.
 
 seg-ac2d3dd91aa2 = Rakentuu Rustin versiolla { "1.88" } tai uudemmalla; vaatimus on kenttä rust-version tiedostossa Cargo.toml
 
 seg-48991660376d = Vaatii Rust-työkaluketjun (≥ { "1.88" }, kenttä <c1/> tiedostossa Cargo.toml; kehitetty versiolla { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> epäonnistuu vanhalla työkaluketjulla.</b> Kshana vaatii Rustin ≥ { "1.88" }. Päivitä komennolla <c2/>.
+
+seg-8391e467adf7 = <b>Tehtäväketju.</b> Laji <c1/> ketjuttaa vaiheet laukaisusta paluuseen (<c2/>, <c3/>, <c4/>, <c5/> ja neljä Kuun lajia) määriteltyine siirtosääntöineen, marginaalilla määriteltyihin vaatimuksiin nähden ja heikoimmalla lenkillä; päästä päähän ulottuva Artemis-luokan esimerkki { "11" } vaiheella (Maan ja Kuun osuudet), yhteensä { "93" } skenaariolajia. Jokainen luku on MODELLED. Kuunläheinen propagointi julkista Artemis I:n lentorataa vasten <b>jää vajaaksi</b> ennakkorekisteröidystä kynnyksestään ({ "45.3" } km ja { "0.25" } m/s kynnyksiä { "5" } km ja { "0.05" } m/s vasten; syynä ovat pienet ohjausliikkeet, joita malli ei sisällä), ja Kuun propagaattori CAPSTONE-rataa vasten <b>jää vajaaksi</b> ({ "136.8" } km kynnystä { "25" } km vasten yhden kierroksen lopussa); LRO-vertailu täyttyy. Rivit pysyvät MODELLED-tasolla (<a1>Tehtäväketju</a1>, <a2>Kuun osuus</a2>). Studiossa ketju luetaan osoitteessa <c6/>.
+
+seg-a66ad1f69702 = Yksi moottori kattaa koko vikaketjun, ensimmäisestä häirityistä satelliitista kellon holdoverin viimeiseen nanosekuntiin. Moottorissa on { "93" } skenaariolajia; <c1/> luettelee ne ja <a1><c2/></a1> dokumentoi jokaisen kentän.
+
+seg-43bd621a1f5b = Miten ajo etenee. Skenaario-TOML-tiedosto (laji, siemenluku ja parametrit) menee moottoriin, kshana { $version }, api::run_toml-ohjauksen kautta { "93" } skenaariolajin yli, deterministisesti skenaariosta, siemenluvusta ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv niille lajeille, jotka sen määrittelevät, ja pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa study.json- ja study.html-tiedostot. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta ja jatkuvaa integraatiota.
+
+seg-290f2b34e368 = Kshana-järjestelmän arkkitehtuuri kerroksittain. Viisi etuovea (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtaa yhteen kutsuun api::run_toml, tyypitettyyn ohjaukseen { "93" } tyypille. Sen alla on kahdeksan toimialakerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä lennot ja tutkimukset, yhteisen ytimen päällä. Varmennusmoduuli, eli koneellisesti tarkistettu { "401" } ominaisuuden matriisi, viittaa niihin kaikkiin ristiin, ja se on jokaisen merkinnän ainoa totuuden lähde.
+
+seg-ed215c6aa19b = <a1><c1/></a1> on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja lukee sen JSON-tulosteen sen sijaan, että arvailisi matematiikkaa. Sen { "52" } työkalua ovat kukin ohut kääre kirjaston <c2/> julkisen funktion ympärillä, joten palvelimessa ei ole lainkaan simulointilogiikkaa.
+
+seg-81fcbb495e8f = { "52" } työkalua
+
+seg-fb8bcc54a31d = { "93" } sisäänrakennettua skenaariotyyppiä kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi rakentaa kelvollisen skenaarion
+
+seg-2f38fc515db6 = koko avoin moottori, kaikki { "93" } skenaariotyyppiä, ei ominaisuusrajoitusta
+
+seg-5374f780c396 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "93" } tyyppiä, { "195" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.

@@ -30,8 +30,6 @@ seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 
 seg-e0633b308e4e = <b>MODELLED</b> Jeden zbiorczy filtr Kalmana dla położenia, prędkości, fazy i częstotliwości zegara, zasilany pseudoodległościami sprzęgającymi położenie i zegar (aktualizacje w postaci Josepha uwzględniające kowariancję krzyżową); wariant 1-DOF rozszerzony o stały bias akcelerometru Testy: <a1>fusion_coupled_filters.rs</a1>.
 
-seg-451a304052c4 = <b>MODELLED</b> Akcelerometr z interferometrem zimnych atomów z pierwszych zasad (k_eff·T², QPN). Wyrocznia (ExternalDataset): opublikowane wektory liczbowe z podstawowych prac o CAI (funkcja przenoszenia Cheinet { "2008" }; czułość Peters/Freier): k_eff·T² dopasowane dokładnie, ASD szumu śrutowego jako jednostronny próg w granicach ~{ "2" }× od każdego opublikowanego przyrządu (rzeczywiste urządzenia mają szum techniczny powyżej progu kwantowego). Przedział, nie równość. { "0.30" } runda { "2" } (zarejestrowane z góry fcb9ac64), ustalenie (pozostaje MODELLED): szum rotacji tylko od QPN względem zmierzonego Gauguet et al.
-
 seg-9955b1b1c018 = Wydajność kwantowego czujnika inercyjnego jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: podtwierdzenie jest sprawdzone zewnętrznie, ale cała możliwość składa się z elementów obliczonych na podstawie modelu, więc możliwość pozostaje oznaczona jako obliczona na podstawie modelu. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 
 seg-5fef5e8cc64e = Odporność kwantowej nawigacji zliczeniowej inercyjnej jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: sprawdzona względem osobnej implementacji w tej samej bazie kodu, niezależnej od badanego elementu, ale nie będącej zewnętrznym wzorcem. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))

@@ -42,8 +42,6 @@ seg-4466fb6f4043 = Batch-Gauß-Newton über den Bogen
 
 seg-d97b2505ac72 = Das Diagramm, das die Engine für scenarios/lunar-orbit-rendezvous.toml schreibt, Art lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Die Art und Phase <c1/>: eine gemeinsame Gauß-Newton-Batchschätzung zweier Fahrzeuge über den Bogen (einundzwanzig Parameter: beide Zustände und beständige Positionsbiase im Signalraum, gemeinsame und unabhängige), ausgebaut über ein Viertel, die Hälfte Tests: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Die Art und Phase <c1/>: eine gemeinsame Gauß-Newton-Batchschätzung zweier Fahrzeuge über den Bogen (einundzwanzig Parameter: beide Zustände und beständige Signalraumbiase. Unabhängige Referenz (InternalConsistency): Selbstkonsistenz unter einer Vorregistrierung (xval/mission-thread-lunar/PREREGISTRATION.md, Ergebnisse und die Geschichte der Schätzer in RESULTS.md): Der mittlere NEES des Relativzustands beträgt { "5.85" } bis { "5.93" } gegenüber dem Band { "5.2" } bis { "6.8" } in vier Konfigurationen, MET beim vierten Schätzerentwurf, nachdem drei Entwürfe mit sequentiellem Filter verfehlt wurden; die Wahrheit und der Schätzer teilen ein Kraftmodell, daher sagt dies nichts über Modellfehler aus. Der Pro
 
 seg-b2f273ea732d = MODELLED Relativnavigation für ein Andocken im Stil von Orion und Lander in einer niedrigen Mondumlaufbahn oder einer elliptischen Polarbahn (Artemis-Klasse). (Artenkatalog (<c1/>))

@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana sender ingenting og styrer ingen maskinvare. En innsen
 
 seg-01b0ee9973dc = Oppsøkende arbeid
 
-seg-b5cb4dc0493f = Et ensides notat til et laboratorium er skissert for eieren i <s1><c1/></s1>. Det er et utkast: ingenting sendes, og ingen kontaktes, før eieren bestemmer det.
-
 seg-83b30e1ca261 = <s1>Forrige</s1>Bevispakker
 
 seg-09c0b5fa6e52 = <s1>Neste</s1>Optiske lenker gjennom atmosfæren

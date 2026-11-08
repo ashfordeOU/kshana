@@ -16,8 +16,6 @@ seg-fbc3db22c061 = Prosimy nie otwierać publicznego zgłoszenia (issue) w spraw
 
 seg-4c11dabdd8f6 = Obsługiwane wersje
 
-seg-19c99cf3a67e = Przed 1.0: obsługiwane jest tylko najnowsze otagowane wydanie.
-
 seg-1379eab9a8e3 = Bezpieczeństwo pamięci
 
 seg-cf966fa35408 = Crate biblioteki deklaruje <c1/> w swoim korzeniu (<c2/>), więc blok <c3/>, fn, impl lub extern gdziekolwiek w bibliotece jest błędem kompilacji, a nie czymś, co musi wychwycić recenzent. Atrybut nie jest za <c4/>, więc dotyczy każdej konfiguracji, w której biblioteka jest dostarczana, i wszystkie trzy kompilują się bez ostrzeżeń: domyślna kompilacja Rust, moduł rozszerzenia Pythona (<c5/>) i moduł WebAssembly (<c6/>).

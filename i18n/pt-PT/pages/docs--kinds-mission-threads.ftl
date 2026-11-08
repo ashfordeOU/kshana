@@ -9,9 +9,6 @@ seg-b03d56f501c3 = Tipo
 # text
 seg-1ec485468daa = Orçamento de erro de navegação e temporização MODELLED de uma cadeia declarada de fases de missão, do lançamento à reentrada: lançamento e ascensão, encontro e acoplagem em órbita baixa da Terra (repetível), injeção trans-lunar e cruzeiro cislunar, encontro em órbita lunar, descida, permanência na superfície, ascensão, regresso e reentrada, cada fase um de oito tipos registados com os seus próprios sensores e filtro. A covariância 6x6, o relógio e o referencial são transferidos de fase em fase sob uma regra declarada (carry, inflate ou reacquire); as conversões de referencial e de escala de tempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) são linhas próprias do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada. Uma sobreposição opcional da rede terrestre define o ciclo de seguimento de cada fase. Indica o orçamento por fase (1-sigmas de entrada, de pico e de saída, cada contribuição com a sua unidade), a margem face a um requisito declarado, o elo mais fraco, os eventos e uma figura de cronologia. MODELLED: todo número é uma entrada declarada; a cadeia segue uma única pilha e nenhum veículo é modelado. Apenas fontes públicas; sem afiliação nem aval de qualquer agência; software de caráter consultivo, não um equipamento de navegação certificado.
 
-# attr:alt
-seg-a07521d13bb4 = O gráfico que o motor escreve para scenarios/mission-thread-artemis-class.toml, tipo mission-thread
-
 # text
 seg-c8012ee549ea = { "1" } tipo de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de investigação e engenharia, não um equipamento de navegação homologado e não um serviço de segurança da vida humana. Toda etiqueta aqui é do motor ou da matriz de verificação; um tipo de cenário é MODELLED, a menos que a matriz diga o contrário (como uma etiqueta é obtido: a secção Evidence do README).
 

@@ -8,12 +8,6 @@ seg-ca2fcdd60f65 = Allikas: <c1/>
 seg-0dfd1160c5d7 = Kellalogi vormingud
 
 # text
-# c1: src/clock_log.rs
-# c2: (time_s, phase_s)
-# c3: tau0
-seg-f52a62872493 = <c1/> loeb mõõdetud kellalogi üheks normaliseeritud faasireaks: ühtlane ruudustik valimitest <c2/>, kus valimi intervall <c3/> on öeldud või leitud, iga lünk on loetud ja logi ühikud nimetatud. Loetakse kaheksat vormingut, igaüks dokumenteeritud alamhulgana. Kõik, mis jääb alamhulgast välja, lükatakse tagasi veaga, mis nimetab leitud sisu, mitte ei loeta ligikaudselt.
-
-# text
 # c1: tau0
 seg-dbdbfec37ab6 = <b>Lühendid.</b> RINEX on Receiver Independent Exchange Format. TICC on TAPR (Tucson Amateur Packet Radio) ajaintervalli loendur. ADEV on kattuv Alani hälve, TDEV ajahälve ja MTIE maksimaalne ajaintervalli viga. <c1/> on valimi intervall sekundites.
 

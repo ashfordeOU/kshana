@@ -220,10 +220,6 @@ seg-188c6e41f434 = Dokument om underhållsprocesser stannar i förrådet: docs/R
 
 seg-fcffac5eb150 = <s1>Språk</s1><s2>Motorns text riktad till människor finns på { "17" } språk vid sidan av engelska: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-0cf0b9fb9184 = <s1>Scenariotyper</s1><s2>De { "92" } inbyggda scenariotyperna som kshana::api::run_toml fördelar över, var och en med sin enradiga…</s2>
-
-seg-9d5c233c72b4 = <s1>Varje scenariotyp, efter familj</s1><s2>Varje scenariotyp som motorn v{ $version } fördelar över ({ "92" }), ordnad under { "13" } familjer.</s2>
-
 seg-f5987c9d9fde = <s1>Verifieringsmatris</s1><s2>Det fullständiga, maskinkontrollerade evidensregistret: { "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Förmågereferens</s1><s2>Förmågekorten och alla { "401" } rader i verifieringsmatrisen.</s2>
@@ -238,6 +234,10 @@ seg-cecb9535c0a1 = <s1>Månen och cislunart rum</s1><s2>{ "24" } scenariotyper i
 
 seg-1dd7c80e18a7 = <s1>Uppdragsflöden</s1><s2>{ "1" } scenariotyp i motorn v{ $version }. Rådgivande: analysresultat från ett forsknings- och ingenjörsverktyg, inte…</s2>
 
-seg-f0e26f01a361 = { "92" } sidor, en för varje scenariotyp, länkade från <a1>Varje scenariotyp, efter familj</a1>.
+seg-b0ad334264dc = <s1>Scenariotyper</s1><s2>De { "93" } inbyggda scenariotyperna som kshana::api::run_toml fördelar över, var och en med sin enradiga…</s2>
 
-seg-a1f33bd571ed = <s1>Scenarioreferens</s1><s2>Varje medföljande scenariofil ({ "193" }), grupperad efter typ, med dess viktigaste inställningar.</s2>
+seg-5484fd345826 = <s1>Varje scenariotyp, efter familj</s1><s2>Varje scenariotyp som motorn v{ $version } fördelar över ({ "93" }), ordnad under { "14" } familjer.</s2>
+
+seg-b23a9bd3ccfa = <s1>Scenarioreferens</s1><s2>Varje medföljande scenariofil ({ "195" }), grupperad efter typ, med dess viktigaste inställningar.</s2>
+
+seg-a7dc2bc0a77d = { "93" } sidor, en för varje scenariotyp, länkade från <a1>Varje scenariotyp, efter familj</a1>.

@@ -2338,8 +2338,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času jednoho řetězce fází, od startu
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Lunární výstup: motorický výstup z jihopolárního povrchového místa (ve stylu Artemis) na setkání ve výšce { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -2362,12 +2360,10 @@ seg-0ecc50eafdbe = Dostupnost PNT a času na lunárním povrchu podle místa a r
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } z { "92" } druhů, { "3300" } z { "3300" } číselných polí
-
-seg-237402dbe93a = Vyberte jeden z { "194" } souborů scénářů napříč { "92" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
-
-seg-ace118a5dc36 = Všech { "194" } souborů scénářů napříč { "92" } druhy, seskupených podle oblasti; { "181" } je zabudováno do enginu a <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> se spouštějí z repozitáře příkazovým řádkem. Tečka ukazuje stav modulu daného druhu v registru, kde jej registr uvádí. Soubor se zaznamenaným během jej otevře ve Studiu Kshana; ostatní otevřou svou položku v referenci scénářů se souborem a příkazem, který jej spouští.
-
 seg-f4ad26be58c2 = Krátké vlákno mise, které běží jen z binárního souboru: start a výstup, jedno setkání na nízké oběžné dráze Země, jeden den
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Vyberte jeden z { "196" } souborů scénářů napříč { "93" } druhy, nebo napište vlastní. <c1/> vypíše každý druh s jeho poli a <c2/> vytiskne soubor, od kterého lze začít.
+
+seg-d5a79853b72f = { "93" } z { "93" } druhů, { "3334" } z { "3334" } číselných polí

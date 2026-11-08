@@ -23,9 +23,6 @@ seg-619127334cf3 = Ninguna fila de la matriz nombra este tipo de escenario por s
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Acelerómetro de interferómetro de átomos fríos a partir de primeros principios (k_eff·T², QPN). Referencia independiente (ExternalDataset): vectores numéricos publicados de artículos primarios de CAI (función de transferencia de Cheinet { "2008" }; sensibilidad de Peters/Freier): k_eff·T² coincide exactamente, el suelo unilateral de la ASD de ruido de disparo dentro de ~{ "2" }× de cada instrumento publicado (los dispositivos reales llevan ruido técnico por encima del suelo cuántico). Una cota, no una paridad. { "0.30" } ronda { "2" } (preregistrada fcb9ac64), un hallazgo (sigue siendo MODELLED): el ruido de rotación solo de QPN frente al medido por Gauguet et al.
-
-# text
 seg-7e95210bcc48 = <b>MODELLED</b> Balance de posición compuesto de sesgo + factor de escala + VRW + decaimiento de estabilidad a lo largo del holdover. Referencia independiente (ReferenceImpl): integración SDE de Monte Carlo independiente en numpy del ruido de aceleración blanca doblemente integrado (valida la varianza analítica del VRW con un algoritmo realmente independiente) + un ancla de valor publicado de Groves { "2013" } para los términos de sesgo y de factor de escala; las cifras del dispositivo CAI cuantifican hardware del socio y siguen siendo MODELLED
 
 # text

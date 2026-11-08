@@ -27,11 +27,6 @@ seg-6f8d24ecb89f = — { "55,970" } von { "58,697" } Zeilen
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
-# c2: v0.29.0
-seg-d734cdb77d70 = <c1/> (Engine { "0.29.0" }, das Tag <c2/>)
-
-# text
 # c1: ci.yml
 # c2: coverage
 seg-a2af6144b6a0 = GitHub Actions, Job <c2/> aus <c1/>, Lauf { "36809850252" }, 2026-10-01
@@ -83,14 +78,11 @@ seg-b566e95a74ab = dann aktualisieren Sie die obige Tabelle und die sechs Stelle
 seg-6935c9c381b3 = Verlauf
 
 # text
-# c1: b1d350d
-# c2: 1daa012
-# c3: CHANGELOG.md
-# c4: paper/kshana-technical-report.md
-seg-daa9ae1913cd = Die Zahl wurde neu gemessen, nicht neu getippt: { "95.63" } % bei Commit <c1/> (Engine { "0.27.2" } + unveröffentlicht, Lauf { "35934579709" }, 2026-09-24, { "37,697" } von { "39,419" } Zeilen, veröffentlicht als ~{ "96" } %), korrigiert auf { "95.35" } % bei { "0.29.0" } (oben), was auf ~{ "95" } % gerundet wird: Der Code ist um { "19,278" } gemessene Zeilen gewachsen, und die neuen Zeilen sind etwas weniger abgedeckt als die alten; { "95.85" } % bei { "v0.17.0" } (Commit <c2/>, 2026-06-14, veröffentlicht als ~{ "96" } %) und ~{ "97" } % in zwei früheren Release-Notes (<c3/>, als Verlauf belassen). <c4/> sagte „nahe { "97" } %“, bis es auf diesen Nachweis gebracht wurde; es ist jetzt die sechste Stelle, die der Test festlegt.
-
-# text
 seg-b2dbaf3a3b68 = <s1>Zurück</s1>Normen und Interoperabilität
 
 # text
 seg-508de3808e04 = <s1>Weiter</s1>Nachweispakete
+
+seg-5ff7e4510497 = <c1/> (Engine { "0.29.0" }, das Tag <c2/>)
+
+seg-1ff43e658eef = Die Zahl wurde neu gemessen, nicht neu getippt: { "95.63" } % bei Commit <c1/> (Engine { "0.27.2" } + unveröffentlicht, Lauf { "35934579709" }, 2026-09-24, { "37,697" } von { "39,419" } Zeilen, veröffentlicht als ~{ "96" } %), korrigiert auf { "95.35" } % bei { "0.29.0" } (oben), was auf ~{ "95" } % gerundet wird: Der Code ist um { "19,278" } gemessene Zeilen gewachsen, und die neuen Zeilen sind etwas weniger abgedeckt als die alten; { "95.85" } % bei { "v0.17.0" } (Commit <c2/>, 2026-06-14, veröffentlicht als ~{ "96" } %) und ~{ "97" } % in zwei früheren Release-Notes (<c3/>, als Verlauf belassen). <c4/> sagte „nahe { "97" } %“, bis es auf diesen Nachweis gebracht wurde; es ist jetzt die sechste Stelle, die der Test festlegt.

@@ -38,8 +38,6 @@ seg-922b8656fcae = Diagrammet motoren skriver for scenarios/lunar-station-covera
 
 seg-4f5941f12127 = <b>MODELLED</b> Monte Carlo-sveip av modellen for differensiell PNT på månen over et brukerrutenett ved sørpolen og et døgn av epoker (typen <c1/>): for en differensiell referansestasjon på et kjent sted ved sørpolen, per punkt og over regionen, den Tester: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo-sveip av modellen for differensiell PNT på månen over et brukerrutenett ved sørpolen og et døgn av epoker (typen <c1/>): for en differensiell r. Uavhengig referanse (InternalConsistency): Aritmetikk beregnet på nytt av et uavhengig numpy-skript på eksporterte tilfeller (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; forhåndsregistrert i tests/fixtures/lunar_station/PREREGISTRATION.md, innsjekket alene i 9caedf97 før første kjøring): på { "20" } tilfeller med hvert feilledd påslått er de synlige mengdene og statusen identiske, de rå avstandsfeilene stemmer til { "1.4e-14" } m, posisjonsfeilvektorene og størrelsene til { "1.4e-9" } m mot
-
 seg-626ab55f0424 = MODELLED (resultat <c1/>)
 
 seg-6f09def22469 = ÆRLIGHET: MODELLED. Under de oppgitte forutsetningene nedenfor gir modellen disse verdiene. Ikke en påstand om ytelsen til noe virkelig system; ikke tilknyttet eller støttet av noe byrå; ingen påstand om TRL eller heritage. Utelatt: terreng- og horisontmaskering ved polen (den første begrensningen), flerveis, mottakermaskinvare. (kommentar i scenariofilen, linje { "15" } til { "18" })

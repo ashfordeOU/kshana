@@ -42,8 +42,6 @@ seg-4466fb6f4043 = 弧全体にわたるバッチ Gauss-Newton
 
 seg-d97b2505ac72 = scenarios/lunar-orbit-rendezvous.toml（種別 lunar-orbit-rendezvous）についてエンジンが書き出すグラフ
 
-seg-7ea832b979c9 = <b>MODELLED</b> <c1/> の種別とフェーズ：弧全体にわたる二機結合のバッチ Gauss-Newton 推定（二十一個のパラメータ：両機の状態と、共通および独立の持続的な信号空間位置バイアス）を、四分の一周、半 テスト：<s1>mission_thread_lunar_oracles.rs</s1>。
-
 seg-826fd7fd44b9 = <b>MODELLED</b> <c1/> の種別とフェーズ：弧全体にわたる二機結合のバッチ Gauss-Newton 推定（二十一個のパラメータ：両機の状態と、持続的な信号空間。オラクル（InternalConsistency）：事前登録に基づく自己整合性（xval/mission-thread-lunar/PREREGISTRATION.md。結果と推定器の履歴は RESULTS.md）：相対状態の平均 NEES は { "5.85" } から { "5.93" } で、四つの構成のいずれでも帯域 { "5.2" } から { "6.8" } の内側にあり、逐次フィルターの三つの設計が未達だったあとの四つ目の推定器設計で MET です。真値と推定器は一つの力モデルを共有するため、モデル誤差については何も言えません。
 
 seg-b2f273ea732d = 低い月周回軌道または楕円の極軌道（アルテミス級）でのオリオン・着陸機型のドッキングに対する、MODELLED の相対航法。（種別カタログ（<c1/>））

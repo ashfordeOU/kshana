@@ -32,11 +32,7 @@ seg-88fb40d1b92d = poängsätter en mottagarlogg, <c1/> poängsätter en ström,
 
 seg-13870be889cb = signerar, verifierar och tidsstämplar bevispaket och kopplar en laboratoriekörning till dess poäng
 
-seg-2867423ef8dd = läser den publicerade Jammertest-planen och poängsätter en logg mot den
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = förtroendeströmmen som Prometheus-, CEF-, LEEF-, OTLP- eller MQTT-meddelanden
 
 seg-6fcb41643035 = Förtroendetelemetri
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = anpassar parametrar för hybridsensorer utifrån en logg frå
 seg-0dfc0ae9d7ed = skriver syntetisk NMEA för bryggan med skriptade jamming och spoofing, samt en instruktörslogg
 
 seg-f35f3f9cb83a = NMEA-utbildning
-
-seg-8802b623b1e7 = bygger störningskartor och observatoriets dagliga produkt utifrån rapporter från flygplan och fartyg
 
 seg-f0ea96229aff = <a1>Störningskarta</a1>, <a2>observatorium</a2>
 

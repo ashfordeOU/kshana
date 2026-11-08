@@ -78,8 +78,6 @@ seg-cd0360ad624d = <b>Položka { "0.41" }: jeden běh.</b> Vykreslit obojí ze z
 
 seg-67e04a43cea8 = Sestavení wasm vkládá jen anglický katalog. Ostatních šestnáct by přidalo každý asi { "150" } kB gzip. Stránka při volbě jazyka stáhne <c1/> a zavolá <c2/>; pokud selže stažení nebo registrace, stránka zůstane v angličtině. Nativně, příkazový řádek a wheel Pythonu vkládají všech { "18" }.
 
-seg-9a2f85e7e43c = Velikost neoptimalizovaného <c1/> z <c2/> (před wasm-bindgen a wasm-opt), základ bc04e98f proti této větvi: { "18.71" } MB -> { "19.88" } MB surově, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Anglický katalog má { "521" } kB surově, z toho { "153" } kB gzip; zbytek je <c3/> a jeho závislosti. Toto je přijato tak, jak bylo změřeno.
-
 seg-3ce9aab4916e = Katalog
 
 seg-fdea76581cd8 = <c1/> obsahuje zprávy s id s předponou <c2/>. <c3/> je zdroj; ostatní soubory jsou překladatelů a mohou některé zprávy postrádat (každá se vrací k angličtině po zprávách). Doprovodné seznamy v <c4/>: <c5/> (zprávy s proměnnými počtu, pro tvary množného čísla), <c6/> (čísla předávaná jako placeables), <c7/> (zprávy, které jsou kusy věty skládané za běhu: mají být sloučeny do zpráv o celé větě a nikdy nepřibývat).

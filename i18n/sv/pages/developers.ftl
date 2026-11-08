@@ -201,9 +201,6 @@ seg-32c07578eab3 = Steg i den inspelade sessionen
 
 seg-2cff891dc970 = Nästa steg
 
-# c1: clock-holdover.toml
-seg-45da99dccd40 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "49" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: Kör ett Kshana-scenario och returnerar dess tidsserie som en animering.
 
@@ -355,9 +352,6 @@ seg-62b5564e8d90 = Den inspelade sessionen spelas upp här steg för steg.
 
 # c1: clock-holdover.toml
 seg-2359edf78388 = <b>Samma körning i Studio:</b> Motor v{ $version } · <c1/> · frö { "42" }
-
-# c1: io.github.ashfordeOU/kshana-mcp
-seg-c24f65399c72 = <b>{ "49" } verktyg</b> över det publika Kshana-API:et (programmeringsgränssnitt), i det officiella MCP-registret som <c1/>. Banexporter: SP3 (Standard Product { "3" }) samt CCSDS (Consultative Committee for Space Data Systems) OMM och OEM (meddelanden om banmedelelement och efemerid, TEME: True Equator, Mean Equinox-systemet). Registrera den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-avbild</b>. <a1>Dokumentation för MCP-servern</a1>
 
 # c1: spectrum
 # c2: solar-system
@@ -1011,8 +1005,6 @@ seg-d85f16c14183 = kshana.run och run_full, samt validate_toml och list_kinds
 
 seg-5a6803e3eb48 = run, summary och chart_svg i webbläsaren eller Node.js
 
-seg-1c19f8c0ad84 = { "49" } verktyg som en AI-assistent kan anropa, vart och ett ett tunt skal över det publika API:t
-
 seg-4ad1a7669b03 = MCP-servern utan Rust-verktygskedja, för flera arkitekturer
 
 seg-9e409a07b3c9 = Högerklicka på ett scenario .toml, Run Kshana Scenario, läs måtten i ett verktygsfönster
@@ -1170,3 +1162,9 @@ seg-0c50b3629e39 = Öppna benchmarken
 seg-f79048f88b5c = Starta Kshana Studio
 
 seg-9a86ef058d27 = Öppna i Kshana Studio
+
+seg-859bb6732925 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "52" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } verktyg</b> över det publika Kshana-API:et (programmeringsgränssnitt), i det officiella MCP-registret som <c1/>. Banexporter: SP3 (Standard Product { "3" }) samt CCSDS (Consultative Committee for Space Data Systems) OMM och OEM (meddelanden om banmedelelement och efemerid, TEME: True Equator, Mean Equinox-systemet). Registrera den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-avbild</b>. <a1>Dokumentation för MCP-servern</a1>
+
+seg-5aa702c4ebc7 = { "52" } verktyg som en AI-assistent kan anropa, vart och ett ett tunt skal över det publika API:t

@@ -708,8 +708,6 @@ seg-3cde4f0b352a = Låt din assistent köra den kontrollerade motorn i stället 
 
 seg-0487ea97b0d8 = Börja med <a1>MCP-server</a1>
 
-seg-562785c48737 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "49" } MCP-verktyg, från run_scenario till export_oem.
-
 seg-af65a3c927cf = Utvecklare av inbyggda system eller produkter
 
 seg-16324be13740 = Anropa motorn från Rust, Python eller JavaScript inuti din egen produkt.
@@ -838,4 +836,6 @@ seg-9a86ef058d27 = Öppna i Kshana Studio
 
 seg-e1acd19a6ac6 = Jämför utgåvorna
 
-seg-8575c0837e28 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-b9ebb409e11a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-7b9633a75c90 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "52" } MCP-verktyg, från run_scenario till export_oem.

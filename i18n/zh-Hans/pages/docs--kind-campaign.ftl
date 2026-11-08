@@ -36,8 +36,6 @@ seg-f16a176dc1f8 = <b>MODELLED</b> <c1/>类型的各阶段：每个阶段通过r
 
 seg-be831b52a339 = 以及矩阵中另有{ "4" }项。
 
-seg-cc2ad9e12064 = <b>MODELLED</b>几何J/S链路预算、抗干扰C/N₀、逐卫星失锁。参考基准（InternalConsistency）：抗干扰C/N₀ 链路预算方程对照独立的numpy重新推导进行交叉检查（与其共用同一闭式，故为InternalConsistency），外加对真实JammerTest-2024 C/N₀ 劣化的表征。{ "0.30" }轮{ "2" }，受阻（仍为MODELLED）：实测的JammerTest { "2024" } C/N0下降对照链路预算预测（预先登记6a66994b，在{ "3" } dB以内）未运行，因为F8.1天线位置和指向
-
 seg-59afd80736c5 = <b>PARTNER</b>未提供：Kshana对信号性能建模，不对有效载荷或天线硬件建模。参考基准（NoneKind）：无：由合作方负责的学科，按设计没有模块也没有测试
 
 seg-fa3ad6babe54 = <b>MODELLED</b> <c1/>类型的扫描（在任意类型的一至三个点分隔的键上，使用通用扫描的坐标轴取值，可选地在每个节点上做一个集合）以及monte_carlo部。参考基准（InternalConsistency）：白频率噪声下相位随机游走的闭式，方差q_wf tau（NIST Technical Note { "1337" }），用于统计机制；以及与独立运行逐字节相等，用于随机种子设定。它检查的是引擎自身时钟模型上的集合运算，而不是外部数据集

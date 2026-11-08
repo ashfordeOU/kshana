@@ -150,8 +150,6 @@ seg-9eff7c00723a = Render Trust Telemetry (tallennettu tulos)
 
 seg-1b60ff4652cd = Työkalut: Telemetriakortti (Komentorivi-välilehti; vain muodot, ei pistokkeita)
 
-seg-3e332170d963 = Kone- ja anturisyötteet ({ "0.38" }): <c1/> -muodot <c2/>, <c3/>, <c4/> sekä <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (skenaario <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (sisäinen)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Tuloste
 
 seg-12471a4b2b57 = Lähetinalue (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (ei vielä mukana; Rust-, Python- ja WASM-pinnat kattavat sen)
-
 seg-dff1bfe0263e = <b>N/A</b> (lähetinalueiden julkaiseminen julkisessa observatoriossa on erillinen omistajan päätös ja on pois päältä)
 
 seg-ec2d91e2f867 = Datakumppanin lähetyksen tarkistus (mitatun datan lähetyksen muoto ja metatiedot, <c1/>; ei pisteytä mitään)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (vain inline; kerneliavain hylätään)
 seg-1c1729fafe99 = <b>N/A</b> (ei notebookia; esimerkki ajetaan missä tahansa notebookissa checkoutista käyttäen <c1/>)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (ei vielä mukana)
 
 seg-ab52a3469f6a = Arvioidut lähetinalueet, MODELLED; jälkihakemistot ja <c1/> ovat vain komentoriviltä
 

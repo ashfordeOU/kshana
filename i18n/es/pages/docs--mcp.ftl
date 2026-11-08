@@ -542,15 +542,6 @@ seg-73a73af88f08 = Modo HTTP (autoalojado)
 seg-4f248ed3e597 = <c1/> sirve las mismas herramientas mediante HTTP en streaming en <c2/>. Se enlaza solo a loopback; una dirección que no sea loopback necesita <c3/> y un token de portador en <c4/>; las herramientas de archivos IQ están desactivadas; el tamaño de las peticiones, el tiempo y la concurrencia están limitados; no se envía ninguna cabecera CORS. Kshana no aloja un punto de conexión: usted lo autoaloja. Véase <a1>docs/deploy/mcp-http.md</a1>.
 
 # text
-# c1: cargo install
-# c2: kshana-mcp
-# c3: PATH
-# c4: ~/.cargo/bin/kshana-mcp
-# c5: rmcp
-# c6: kshana
-seg-60f55b197ac2 = <c1/> coloca <c2/> en su <c3/> (normalmente <c4/>). El servidor habla JSON-RPC (llamada a procedimiento remoto en JSON) por stdio; los registros van a stderr. Compilar desde el código fuente necesita una cadena de herramientas de Rust ≥ { "1.88" } (el SDK <c5/> { "2" }.x parcheado la necesita; la propia biblioteca <c6/> solo necesita { "1.85" }); la imagen de Docker no necesita ninguna.
-
-# text
 seg-2f3216082425 = Registrarlo en un cliente
 
 # text
@@ -640,16 +631,6 @@ seg-dc60d64a3bb8 = <em>"Crea una escena GPS L1 de un segundo con los PRN { "3" }
 seg-942dc8abe0ec = Nota de diseño: por qué un crate aparte
 
 # text
-# c1: Cargo.lock
-# c2: rmcp
-# c3: kshana
-# c4: rmcp
-# c5: rmcp
-# c6: cargo deny
-# c7: xval/anise-frames
-seg-ce6d0ecab448 = El servidor es un <b>crate independiente, excluido del workspace</b>, con su propio <c1/>, de modo que el SDK (kit de desarrollo de software) oficial de MCP para Rust, <c2/>, y su entorno de ejecución asíncrono nunca entran en el grafo de dependencias del crate <c3/> publicado: un usuario de la biblioteca o de Python no compila un servidor que no ejecuta. (Se separó por primera vez porque <c4/> es <b>edición { "2024" }</b> y necesita rustc ≥ { "1.85" }, mientras que el crate principal prometía entonces { "1.75" }. La biblioteca declara ahora { "1.85" }; este servidor declara { "1.88" }, el mínimo de <c5/> { "2" }.x con parches de seguridad.) La integración continua (CI) controla este crate por separado: pruebas y <c6/> frente a su archivo de bloqueo. El árbol de licencias de rmcp está limpio (Apache-2.0/MIT/BSD), así que, a diferencia del crate de validación cruzada <c7/>, que por lo demás imita, la separación no obedece a la licencia.
-
-# text
 seg-75bf2d74642d = Licencia: AGPL-3.0-only, la Licencia Pública General Affero de GNU versión { "3" } únicamente (o una licencia comercial de Ashforde OÜ; véase <a1>LICENSING.md</a1> del repositorio).
 
 # text
@@ -658,8 +639,8 @@ seg-490ebbefb561 = <s1>Anterior</s1>Crate de Rust
 # text
 seg-350b6b914734 = <s1>Siguiente</s1>Servidor MCP: todos los canales de instalación
 
-seg-492888115662 = Los { "92" } tipos de escenario integrados con descripciones y campos obligatorios/opcionales, para que el agente pueda construir un escenario válido.
-
 seg-a4a0e399a31e = <c1/> coloca <c2/> en su <c3/> (normalmente <c4/>). El servidor habla JSON-RPC (llamada a procedimiento remoto en JSON) por stdio; los registros van a stderr. Compilar desde el código fuente necesita una cadena de herramientas de Rust ≥ { "1.88" } (el SDK <c5/> { "2" }.x parcheado la necesita, y también la biblioteca <c6/>); la imagen de Docker no necesita ninguna.
 
 seg-0757e15070d4 = El servidor es un <b>crate independiente, excluido del workspace</b>, con su propio <c1/>, de modo que el SDK (kit de desarrollo de software) oficial de MCP para Rust, <c2/>, y su entorno de ejecución asíncrono nunca entran en el grafo de dependencias del crate <c3/> publicado: un usuario de la biblioteca o de Python no compila un servidor que no ejecuta. (Se separó por primera vez porque <c4/> es <b>edición { "2024" }</b> y necesita rustc ≥ { "1.85" }, mientras que el crate principal prometía entonces { "1.75" }. La biblioteca y este servidor declaran ahora ambos { "1.88" }, el mínimo de <c5/> { "2" }.x con parches de seguridad y de los crates de RustCrypto actualizados.) La integración continua (CI) controla este crate por separado: pruebas y <c6/> frente a su archivo de bloqueo. El árbol de licencias de rmcp está limpio (Apache-2.0/MIT/BSD), así que, a diferencia del crate de validación cruzada <c7/>, que por lo demás imita, la separación no obedece a la licencia.
+
+seg-b873b39a4921 = Los { "93" } tipos de escenario integrados con descripciones y campos obligatorios/opcionales, para que el agente pueda construir un escenario válido.

@@ -198,9 +198,6 @@ seg-f878fd0359c9 = <b>Fluctuación por ruido térmico del seguimiento de código
 seg-089e4e98af82 = <b>Adquisición</b>: el mayor Doppler de satélite en un paso cenital a la máscara de elevación (<c1/>, órbita circular, sin rotación terrestre) más los términos del oscilador y del usuario; intervalos Doppler de <c2/>; intervalos de código a lo largo de un periodo; la probabilidad de detección de un detector de ley cuadrática (Q de Marcum generalizada) con una probabilidad de falsa alarma por celda, centrada y en el peor caso de desajuste; y el tiempo medio de adquisición de una búsqueda de dwell único, en serie y con código en paralelo (Holmes).
 
 # text
-seg-1e2029183bdc = <b>Compatibilidad</b>: el coeficiente de separación espectral (SSC) de la señal limitada en banda hacia GPS L1 de adquisición gruesa (C/A), Galileo E1, GPS L5, Galileo E5a, E5b y la señal E5 de portadora de desplazamiento binario alternativa (AltBOC) en cada banda de receptor del sistema global de navegación por satélite (GNSS), la pérdida de C/N₀ que causa con su potencia recibida, y el SSC y la pérdida de C/N₀ de cada señal GNSS hacia el componente LEO seguido.
-
-# text
 # c1: spectrum
 # c2: spectrum::Jammer::ssc
 seg-864f3f2a5aa1 = <b>Tolerancia al inhibidor</b>: la relación de potencia inhibidor a señal (J/S) de un tono de onda continua (CW) en la portadora, de ruido plano sobre la banda de transmisión y de ruido adaptado al componente seguido que lleva el componente seguido al umbral de seguimiento, a partir del propio código SSC del tipo <c1/> (<c2/>).

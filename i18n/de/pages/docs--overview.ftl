@@ -823,13 +823,6 @@ seg-15687303176d = <b>Registerstatus: MODELLED.</b> Eine Ziehung aus dem Modell,
 seg-c626c7f1926d = Neue Studio-Ansichten
 
 # text
-# c1: /studio/replay/
-# c2: /studio/optical/
-# c3: /studio/holdover/
-# c4: /studio/observatory/
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> erhält ein Bridge-Replay (zwei Läufe nebeneinander auf einer Missionsuhr, unter <a2><c1/></a2>), eine Seite Optical PNT (<c2/>), eine Seite Holdover-Test (<c3/>) und einen Observatoriums-Betrachter (<c4/>). Sie führen dieselbe Engine im Browser aus, nichts wird hochgeladen, und sie tragen dieselbe Hinweisaussage. Die Bilder oben werden von einem Skript aus der eigenen Ausgabe der Engine gezeichnet; sie sind keine Screenshots dieser Seiten.
-
-# text
 # c1: gnss-ssv
 seg-630e6aa5f2cc = Navigation für Raumfahrzeugnutzer (<c1/>)
 
@@ -2169,11 +2162,6 @@ seg-302554087e15 = Verteilung: Ein Repository liefert das Kern-Crate, den MCP-Se
 seg-530f5e8a6cdd = Was wohin ausgeliefert wird und was es prüft · <a1>SVG</a1> · Quelle <a2>distribution.mmd</a2>
 
 # text
-# c1: kshana-mcp
-# c2: kshana
-seg-c21d26341f01 = <a1><c1/></a1> ist ein MCP-Server: Ihr Assistent führt die tatsächliche Engine aus und liest deren JSON zurück, statt die Mathematik zu raten. Jedes seiner { "49" } Werkzeuge ist ein dünner Wrapper um eine öffentliche Funktion der Bibliothek <c2/>, sodass im Server keine Simulationslogik liegt.
-
-# text
 # c1: kshana-mcp --http 127.0.0.1:8080
 seg-c459db99a099 = <c1/>, selbst gehostet: siehe <a1>docs/deploy/mcp-http.md</a1>
 
@@ -2184,9 +2172,6 @@ seg-8977c5b65068 = kshana-mcp auf Glama, sein Qualitätswert als MCP-Server
 # c1: docs/integrations.md
 # c2: io.github.ashfordeOU/kshana-mcp
 seg-920704a0e384 = Die Einrichtung je Client steht in <a1><c1/></a1>. Der Server ist in der offiziellen MCP-Registry als <c2/> gelistet.
-
-# text
-seg-b7ea176e9993 = Die { "49" } Werkzeuge
 
 # text
 seg-4a458fb861f4 = Szenarien und Berichte
@@ -3026,11 +3011,6 @@ seg-2610d5a9ee90 = <b>Wo ist meine Ausgabe geblieben?</b> Jeder Lauf schreibt <c
 seg-4765d3a73a6f = Versionierung & Releases
 
 # text
-# c1: CHANGELOG.md
-# c2: scenario + seed + engine version
-seg-0ca788bf975d = Kshana folgt <a1>Semantic Versioning</a1>. Solange es vor 1.0 ist, kann sich das öffentliche Szenario-/Ergebnisschema noch ändern; inkompatible Änderungen werden im <a2><c1/></a2> ausdrücklich genannt. Jedes Ergebnis ist aus <c2/> reproduzierbar.
-
-# text
 # c1: vX.Y.Z
 # c2: docs/RELEASING.md
 seg-2885b69ceef1 = <b>Jeder Tag <c1/> veröffentlicht automatisch alle Kanäle, in einer Reihenfolge</b> — zuerst läuft die vollständige Testsuite auf dem getaggten Commit, nichts wird veröffentlicht, bis sie besteht, und danach prüft die Pipeline, dass jede Registry tatsächlich die neue Version ausliefert (<a1><c2/></a1>). Die Kanäle:
@@ -3531,8 +3511,6 @@ seg-cafc1c9c4d58 = Was neu ist in { "0.40" }
 
 seg-59a31376fa3d = { "0.40" } fügt ein Fehlerbudget auf Missionsebene hinzu, kennzeichnet jede Zahl und Tabelle mit ihrer Evidenzstufe, liest gemessene Uhrenlogs, prüft Einreichungen von Datenpartnern, schätzt, wo sich ein Störsender befinden kann, und spricht siebzehn Sprachen neben Englisch. Das Register hat nun { "401" } Zeilen: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Keine Zeile wurde zu VALIDATED befördert, und jede Verfehlung unten ist durch einen Test festgeschrieben.
 
-seg-ab5eec8db03e = <b>Missionsstrang.</b> Die Art <c1/> verkettet Phasen vom Start bis zum Wiedereintritt (<c2/>, <c3/>, <c4/>, <c5/> und vier Mondarten) mit genannten Übergaberegeln, einer Marge gegenüber genannten Anforderungen und dem schwächsten Glied; ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen (Erd- und Mondsegmente), insgesamt { "92" } Szenarioarten. Jede Zahl ist MODELLED. Die cislunare Fortschreibung gegen die öffentliche Trajektorie von Artemis I <b>verfehlt</b> ihren vorab festgelegten Zielwert ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s; die Ursache sind kleine Manöver, die das Modell nicht enthält), und der Mondpropagator gegen die CAPSTONE-Umlaufbahn <b>verfehlt</b> ihn ({ "136.8" } km gegenüber { "25" } km am Ende eines Umlaufs); der Vergleich mit LRO ist erreicht. Die Zeilen bleiben MODELLED (<a1>Missionsstrang</a1>, <a2>Mondsegment</a2>).
-
 seg-5bd16655cace = <b>Nachweiskennzeichnungen.</b> Jede Zahl und Tabelle, die ein Lauf schreibt, trägt die Stufe und die Kennungen der Registerzeilen, auf denen sie beruht, aus der Matrix gelesen.
 
 seg-e79fca859317 = <b>Gemessene Uhren.</b> Acht Uhrenlog-Formate werden gelesen (<a1><c1/></a1>), und eine angepasste Reihe kann den holdover antreiben. Gegen vorab festgelegte Zielwerte <b>verfehlt</b> die Anpassung F1(a) bei fünf von sechs Aufzeichnungen und F2 bei einer; beide bleiben MODELLED (<a2>Changelog</a2>).
@@ -3559,8 +3537,6 @@ seg-5d3bb72c6490 = Kshana Studio, erweiterte Ansicht, nach einem Lauf des mitgel
 
 seg-b8f6321e9e0d = Drei Seiten von kshana.dev nebeneinander. Das Hero der Startseite: die Namenszeile Kshana · क्षण · der präzise Augenblick über der Überschrift Probe der Minute, in der GNSS ausfällt, mit der Missionskonsole eines echten Laufs der Engine v{ $version } (ein Globus und drei Live-Diagramme: Uhrenzeitfehler, Träger-zu-Rauschdichte und Schutzniveau). Nachweise, Veröffentlichte Forschung: die sechs arXiv-Arbeiten, die auf der offenen Engine aufbauen, die neueste mit einer Grafik der Engine. Ausgaben, Kshana Pro, dieselbe Engine, verstärkt: Free führt ein Szenario aus, Pro beantwortet die Frage des Programms.
 
-seg-9d447be4caed = Eine Engine deckt die gesamte Ausfallkette ab, vom ersten gestörten Satelliten bis zur letzten Nanosekunde des Uhren-holdover. Die Engine hat { "92" } Szenarioarten; <c1/> listet sie auf, und <a1><c2/></a1> dokumentiert jedes Feld.
-
 seg-d3d6b030b588 = Senderregion
 
 seg-56eee3458645 = wo sich unter genannten Annahmen eine Quelle gestörter Positionsmeldungen befinden kann: Regionen bei genannter Konfidenz, ein Schwerpunkt mit seiner Ellipse, nie ein Punkt (MODELLED; <c1/>)
@@ -3568,8 +3544,6 @@ seg-56eee3458645 = wo sich unter genannten Annahmen eine Quelle gestörter Posit
 seg-ee28beafac1a = das Fehlerbudget für Navigation und Zeitgebung einer Phasenkette vom Start bis zum Wiedereintritt
 
 seg-34e44a492cad = <c1/> führt ein Szenario aus; jeder andere Befehl ist ein Unterbefehl, und <c2/> gibt die Nutzung aller aus. Die Befehle sind <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (mit <c8/> und <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> und <c63/>. <a1><c64/></a1> nennt für jeden seinen Zweck, ein geprüftes Beispiel und seine Dokumentationsseite.
-
-seg-c472e0e5a3a5 = Wie ein Lauf abläuft. Eine Szenario-TOML-Datei (eine Art, ein Seed und ihre Parameter) geht in die Engine, kshana { $version }, über den Dispatch api::run_toml über { "92" } Szenarioarten, deterministisch aus Szenario, Seed und Engineversion. Die Engine schreibt result.json, chart.svg, report.html und report.json, eine table.csv für die Arten, die eine definieren, und auf Anfrage die Exporte SP3, CCSDS OMM und OEM, CZML, KML, GeoJSON, STK und SigMF; eine Suite schreibt study.json und study.html. Diese Dateien speisen Kshana Studio im Browser, einen KI-Assistenten über den Server kshana-mcp und die kontinuierliche Integration.
 
 seg-9f5426cbbf4a = <b>{ "176" } von { "401" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "221" } ehrlich als modelliert gekennzeichnet. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die unabhängige Referenz, gegen die sie geprüft wird, den Test, der die Prüfung ausführt, und die Kennzeichnung, die daraus folgt. Die kontinuierliche Integration (CI) macht es unmöglich, eine Fähigkeit ohne unabhängige externe Referenz VALIDATED zu nennen.
 
@@ -3591,29 +3565,30 @@ seg-35a4412348e1 = { "176" } validiert · { "221" } modelliert · { "4" } Partne
 
 seg-cdf946112863 = Die Architektur von Kshana: eine offene Engine in der Mitte, kshana { $version } unter der AGPL-3.0, mit api::run_toml, einem typisierten Dispatch über jede Art, und dem Verifikationsregister mit { "401" } Fähigkeiten ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Darum herum läuft auf jeder Oberfläche dieselbe Engine: Befehlszeile (cargo install kshana); Rust-Bibliothek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-Server (cargo install kshana-mcp); Docker-Image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-Plugin (Marketplace: „Kshana“). Darunter Kshana Pro, eine proprietäre Schicht, die die offene Engine als Bibliothek nutzt, sie nie forkt und kein physikalisches Modell hinzufügt.
 
-seg-656df854409a = Die Architektur von Kshana in Schichten. Fünf Eingänge (Befehlszeile, Python, JavaScript und WebAssembly, der MCP-Server und das JetBrains-Plugin) führen zu einem api::run_toml, einem typisierten Dispatch über { "92" } Arten. Darunter liegen acht Fachschichten: Zeit und Bezugssysteme, Uhren und Zeitgebung, Inertial und Fusion, GNSS und Integrität, Astrodynamik, LEO-PNT, Mond, Mars und tiefer Raum sowie Missionen und Studien, auf einem gemeinsamen Kern, alle quer verwiesen vom Verifikationsmodul, der maschinengeprüften Matrix mit { "401" } Fähigkeiten, die die einzige Quelle der Wahrheit für jede Kennzeichnung ist.
-
-seg-11041e6beb65 = Die { "92" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann
-
-seg-abf70d11a088 = die gesamte offene Engine, alle { "92" } Szenarioarten, ohne Funktionssperre
-
 seg-824001fa6734 = Labore und Hersteller, die gemessene Daten besitzen
 
 seg-df3ca402513f = welche MODELLED-Zeilen eine gemessene Uhren- oder IMU-Aufzeichnung befördern könnte, die Formate, wie eine Einreichung geprüft (<c1/>), bewertet und angerechnet wird
-
-seg-e2d733f93455 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "92" } Arten, { "193" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.
-
-# text
-# c1: mission-thread
-# c2: launch-ascent
-# c3: leo-rendezvous
-# c4: tli-and-cruise
-# c5: entry
-# c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Missionsstrang.</b> Die Art <c1/> verkettet Phasen vom Start bis zum Wiedereintritt (<c2/>, <c3/>, <c4/>, <c5/> und vier Mondarten) mit genannten Übergaberegeln, einer Marge gegenüber genannten Anforderungen und dem schwächsten Glied; ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen (Erd- und Mondsegmente), insgesamt { "92" } Szenarioarten. Jede Zahl ist MODELLED. Die cislunare Fortschreibung gegen die öffentliche Trajektorie von Artemis I <b>verfehlt</b> ihren vorab festgelegten Zielwert ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s; die Ursache sind kleine Manöver, die das Modell nicht enthält), und der Mondpropagator gegen die CAPSTONE-Umlaufbahn <b>verfehlt</b> ihn ({ "136.8" } km gegenüber { "25" } km am Ende eines Umlaufs); der Vergleich mit LRO ist erreicht. Die Zeilen bleiben MODELLED (<a1>Missionsstrang</a1>, <a2>Mondsegment</a2>). Im Studio wird der Strang unter <c6/> gelesen.
 
 seg-ac2d3dd91aa2 = Baut mit Rust { "1.88" } oder neuer, der rust-version in Cargo.toml
 
 seg-48991660376d = Erfordert eine Rust-Toolchain (≥ { "1.88" }, die <c1/> in Cargo.toml; entwickelt mit { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> schlägt mit einer alten Toolchain fehl.</b> Kshana braucht Rust ≥ { "1.88" }. Aktualisieren Sie mit <c2/>.
+
+seg-8391e467adf7 = <b>Missionsstrang.</b> Die Art <c1/> verkettet Phasen vom Start bis zum Wiedereintritt (<c2/>, <c3/>, <c4/>, <c5/> und vier Mondarten) mit genannten Übergaberegeln, einer Marge gegenüber genannten Anforderungen und dem schwächsten Glied; ein durchgängiges Beispiel im Stil von Artemis über { "11" } Phasen (Erd- und Mondsegmente), insgesamt { "93" } Szenarioarten. Jede Zahl ist MODELLED. Die cislunare Fortschreibung gegen die öffentliche Trajektorie von Artemis I <b>verfehlt</b> ihren vorab festgelegten Zielwert ({ "45.3" } km und { "0.25" } m/s gegenüber { "5" } km und { "0.05" } m/s; die Ursache sind kleine Manöver, die das Modell nicht enthält), und der Mondpropagator gegen die CAPSTONE-Umlaufbahn <b>verfehlt</b> ihn ({ "136.8" } km gegenüber { "25" } km am Ende eines Umlaufs); der Vergleich mit LRO ist erreicht. Die Zeilen bleiben MODELLED (<a1>Missionsstrang</a1>, <a2>Mondsegment</a2>). Im Studio wird der Strang unter <c6/> gelesen.
+
+seg-a66ad1f69702 = Eine Engine deckt die gesamte Ausfallkette ab, vom ersten gestörten Satelliten bis zur letzten Nanosekunde des Uhren-holdover. Die Engine hat { "93" } Szenarioarten; <c1/> listet sie auf, und <a1><c2/></a1> dokumentiert jedes Feld.
+
+seg-43bd621a1f5b = Wie ein Lauf abläuft. Eine Szenario-TOML-Datei (eine Art, ein Seed und ihre Parameter) geht in die Engine, kshana { $version }, über den Dispatch api::run_toml über { "93" } Szenarioarten, deterministisch aus Szenario, Seed und Engineversion. Die Engine schreibt result.json, chart.svg, report.html und report.json, eine table.csv für die Arten, die eine definieren, und auf Anfrage die Exporte SP3, CCSDS OMM und OEM, CZML, KML, GeoJSON, STK und SigMF; eine Suite schreibt study.json und study.html. Diese Dateien speisen Kshana Studio im Browser, einen KI-Assistenten über den Server kshana-mcp und die kontinuierliche Integration.
+
+seg-290f2b34e368 = Die Architektur von Kshana in Schichten. Fünf Eingänge (Befehlszeile, Python, JavaScript und WebAssembly, der MCP-Server und das JetBrains-Plugin) führen zu einem api::run_toml, einem typisierten Dispatch über { "93" } Arten. Darunter liegen acht Fachschichten: Zeit und Bezugssysteme, Uhren und Zeitgebung, Inertial und Fusion, GNSS und Integrität, Astrodynamik, LEO-PNT, Mond, Mars und tiefer Raum sowie Missionen und Studien, auf einem gemeinsamen Kern, alle quer verwiesen vom Verifikationsmodul, der maschinengeprüften Matrix mit { "401" } Fähigkeiten, die die einzige Quelle der Wahrheit für jede Kennzeichnung ist.
+
+seg-ed215c6aa19b = <a1><c1/></a1> ist ein MCP-Server: Ihr Assistent führt die tatsächliche Engine aus und liest deren JSON zurück, statt die Mathematik zu raten. Jedes seiner { "52" } Werkzeuge ist ein dünner Wrapper um eine öffentliche Funktion der Bibliothek <c2/>, sodass im Server keine Simulationslogik liegt.
+
+seg-81fcbb495e8f = Die { "52" } Werkzeuge
+
+seg-fb8bcc54a31d = Die { "93" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann
+
+seg-2f38fc515db6 = die gesamte offene Engine, alle { "93" } Szenarioarten, ohne Funktionssperre
+
+seg-5374f780c396 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "93" } Arten, { "195" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.

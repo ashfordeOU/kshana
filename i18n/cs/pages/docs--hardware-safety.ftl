@@ -40,13 +40,9 @@ seg-1c566ec98a03 = Soubory: záznamy přehrávání, IQ, exporty bench, živé N
 
 seg-0435986aa760 = dodáno
 
-seg-56b9a4399108 = Pasivní příjem: přijímače pouze pro čtení; časové záznamy (linuxptp, chrony, TICC); CSV z IMU; <c1/> na rostoucím souboru SigMF
-
 seg-608fc0a99107 = přijímače uživatele, grandmaster, SDR v příjmu
 
 seg-786d9e5ccf93 = jakýkoli zápis konfigurace do přijímače vyžaduje výslovné <c1/>; výchozí stav je pouze čtení
-
-seg-ab8874046283 = částečně dodáno: formáty časových záznamů, <c1/>, <c2/>; vstup ze sériového přijímače je plánován
 
 seg-6b0a194d3f64 = Laboratorní orchestrace bez RF z { -brand }: specifikace zkušebních podmínek, kroky operátora (odpojení antény, spuštění simulátoru) vyzvané a opatřené časovou značkou, oboustranné skórování a důkazy
 

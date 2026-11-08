@@ -258,11 +258,6 @@ seg-fc27b4012f02 = Fontes S1 a S5 (título, URL, data de obtenção, SHA-256, li
 seg-d866653008e1 = Todas as alegações numéricas, citadas com a sua página e os pressupostos declarados e classificadas como comparáveis, parcialmente comparáveis ou não comparáveis: <c1/>. Nenhuma alegação é totalmente comparável, porque nenhuma fonte indica um percentil nem os elementos orbitais dos satélites.
 
 # text
-# c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
-# c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Limiares, casos e entradas, submetidos em separado antes da execução (revisão { "2" }, 05bf9a19), e a execução registada: <c1/>. A conclusão está fixada em <c2/>.
-
-# text
 seg-069a652c402e = limiar
 
 # text
@@ -327,12 +322,6 @@ seg-e666f1eb7a59 = { "1" } de { "6" } limiares passa. A causa é a geometria. Ne
 
 # text
 seg-1da5fcf7bbf5 = Previsão pré-registada
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Uma previsão pré-registada, congelada no commit <c1/> com as entradas de fontes públicas, com o seu protocolo de pontuação: <a1><c2/></a1>. É uma previsão, não uma validação, e todos os valores nela são dominados pelo conjunto de elementos não publicado da constelação de quatro satélites (os elementos usados são ILLUSTRATIVE): na região a { "80" } deg S, disponibilidade de { "8.2" } %, p95 3-D corrigido de { "280" } m, não corrigido de { "3.8" } km. MODELLED; <c3/> falha se algum byte congelado se alterar.
 
 # text
 seg-e6aef34d5023 = Laboratório de tempo da estação
@@ -446,3 +435,5 @@ seg-79d53edd2374 = <s1>Seguinte</s1>Navegação de utilizadores espaciais (gnss-
 
 # text
 seg-9c59637f0666 = Mapa de cobertura e exatidão (lunar-station-coverage)
+
+seg-34967943a088 = Uma previsão pré-registada, congelada no commit <c1/> com as entradas de fontes públicas, com o seu protocolo de pontuação: <a1><c2/></a1>. É uma previsão, não uma validação, e todos os valores nela são dominados pelo conjunto de elementos não publicado da constelação de quatro satélites (os elementos usados são ILLUSTRATIVE): na região a { "80" } deg S, disponibilidade de { "8.2" } %, p95 3-D corrigido de { "280" } m, não corrigido de { "3.8" } km. MODELLED; <c3/> falha se algum byte congelado se alterar.

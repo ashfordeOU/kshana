@@ -29,11 +29,6 @@ seg-32755afa0f78 = A cadeia da missão
 seg-d4af67363efc = Software de caráter consultivo, não um equipamento de navegação certificado. Apenas fontes públicas; sem afiliação nem aval de qualquer agência, e nada aqui afirma conformidade com os requisitos de qualquer programa.
 
 # text
-# c1: kind = "mission-thread"
-# c2: xval/mission-thread/
-seg-816770c97995 = <c1/> encadeia fases de uma missão, cada uma de um de oito tipos registados com os seus próprios sensores e filtro, e indica o <b>orçamento de erro de navegação e temporização</b> da cadeia inteira: para cada fase, o 1-sigma de posição, velocidade e enviesamento de relógio na entrada, no pico e na saída; cada contribuição a ele, com a sua unidade; a margem face a um requisito que declara; o elo mais fraco; os eventos datados; e uma figura de cronologia. Todo número é <b>MODELLED</b>: uma entrada declarada ou um modelo dela. As únicas linhas de referência independente externa estão em <s1><c2/></s1> e dizem o que testam.
-
-# text
 seg-c29a19879c84 = Execute o exemplo a partir de um checkout (ele lê um recorte versionado de kernel da Lua):
 
 # text
@@ -209,11 +204,6 @@ seg-467b14d7ef59 = <c1/>: <c2/> (índice, id, tipo, tempos, etiqueta, fontes de 
 
 # text
 seg-a3c40c51c2ff = O que são as evidências
-
-# text
-# c1: xval/mission-thread-lunar/
-# c2: xval/mission-thread/
-seg-1168810d4407 = A etiqueta da cadeia é a etiqueta da fase mais fraca, e toda fase é MODELLED. O propagador lunar é comparado com o LRO e o CAPSTONE (<s1><c1/></s1>); o arco cislunar é comparado com uma trajetória pública do Horizons (<s2><c2/></s2>). Uma linha passa ou não atinge um limiar fixado num ficheiro versionado antes da execução, e uma falha é registada como falha. Nada é VALIDATED, a menos que o registo o diga.
 
 # text
 seg-ee3c5b58e6fa = <s1>Anterior</s1>Órbita e superfície lunares como infraestrutura

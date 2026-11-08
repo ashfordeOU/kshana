@@ -294,16 +294,6 @@ seg-1b60ff4652cd = Tools: Telemetrie-Karte (Tab Kommandozeile; nur Formate, kein
 
 # text
 # c1: receiver-trust
-# c2: rtklib-pos
-# c3: novatel
-# c4: gnss-sdr
-# c5: [log.imu]
-# c6: csv
-# c7: euroc
-seg-3e332170d963 = Maschinen- und Sensoreingaben ({ "0.38" }): <c1/>-Formate <c2/>, <c3/>, <c4/> und <c5/> (<c6/>, <c7/>)
-
-# text
-# c1: receiver-trust
 # c2: [log] format
 seg-060e5931ac62 = <c1/> (Szenario <c2/>)
 
@@ -1114,8 +1104,6 @@ seg-6555ff9a6d8e = Ausgabe
 
 seg-12471a4b2b57 = Senderregion (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>N/A</b> (noch nicht getragen; die Oberflächen Rust, Python und WASM decken es ab)
-
 seg-dff1bfe0263e = <b>N/A</b> (das Veröffentlichen von Senderregionen im öffentlichen Observatorium ist eine gesonderte Entscheidung des Eigentümers und ist ausgeschaltet)
 
 seg-ec2d91e2f867 = Prüfung der Einreichung eines Datenpartners (Format und Metadaten einer Einreichung gemessener Daten, <c1/>; bewertet nichts)
@@ -1143,8 +1131,6 @@ seg-e957474f44a8 = <c1/> (nur Inline; der Kernel-Schlüssel wird abgelehnt)
 seg-1c1729fafe99 = <b>N/A</b> (kein Notebook; das Beispiel läuft in jedem Notebook über <c1/> aus einem Checkout)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = N/A (noch nicht getragen)
 
 seg-ab52a3469f6a = Geschätzte Senderregionen, MODELLED; Spurverzeichnisse und <c1/> gibt es nur in der Befehlszeile
 

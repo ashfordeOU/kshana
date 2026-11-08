@@ -56,9 +56,6 @@ seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 seg-e0633b308e4e = <b>MODELLED</b> Üks virnastatud Kalmani filter positsiooni, kiiruse, kella faasi ja sageduse üle, mida toidavad pseudovahemaad, mis seovad positsiooni ja kella (Joseph-kujulised uuendused, mis kannavad ristkovariatsiooni); 1-DOF variant, mida on täiendatud konstantse akseleromeetri nihke s Testid: <a1>fusion_coupled_filters.rs</a1>.
 
 # text
-seg-451a304052c4 = <b>MODELLED</b> Külmaatomi interferomeetri akseleromeeter esimestest printsiipidest (k_eff·T², QPN). Sõltumatu etalon (ExternalDataset): Avaldatud CAI esmaartiklite arvvektorid (Cheineti { "2008" } ülekandefunktsioon; Petersi/Freieri tundlikkus): k_eff·T² ühtib täpselt, footonimüra ASD ühepoolne põrand ~{ "2" }× piires iga avaldatud instrumendi omast (päris seadmed kannavad kvantpõrandast kõrgemat tehnilist müra). Vahemik, mitte võrdsus. { "0.30" } ring { "2" } (eelregistreeritud fcb9ac64), tulemus (jääb MODELLED): ainult QPN pöörlemismüra mõõdetud Gauguet et al. vastu.
-
-# text
 seg-9955b1b1c018 = Kvantinertsiaalsensori toimivus on MODELLED, mitte valideeritud: alamväide on väliselt kontrollitud, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleerituks. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))
 
 # text

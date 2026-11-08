@@ -38,8 +38,6 @@ seg-922b8656fcae = Moottorin kirjoittama kaavio skenaariolle scenarios/lunar-sta
 
 seg-4f5941f12127 = <b>MODELLED</b> Monte Carlo -pyyhkäisy kuun differentiaalisesta PNT-mallista etelänapa-alueen käyttäjäruudukon ja yhden päivän epookkien yli (tyyppi <c1/>): tunnetulla etelänapa-paikalla olevalle differentiaaliselle referenssiasemalle pistettä kohti ja koko alueella, Testit: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo -pyyhkäisy kuun differentiaalisesta PNT-mallista etelänapa-alueen käyttäjäruudukon ja yhden päivän epookkien yli (tyyppi <c1/>): differentiaaliselle r. Oraakkeli (InternalConsistency): Aritmetiikka laskettu uudelleen riippumattomalla numpy-skriptillä viedyistä tapauksista (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; ennakkorekisteröity tiedostossa tests/fixtures/lunar_station/PREREGISTRATION.md, kirjattu yksin versiossa 9caedf97 ennen ensimmäistä ajoa): { "20" } tapauksessa, joissa kaikki virhetermit ovat päällä, näkyvät joukot ja tila ovat identtiset, raakaetäisyysvirheet täsmäävät tarkkuuteen { "1.4e-14" } m, paikkavirhevektorit ja niiden suuruudet tarkkuuteen { "1.4e-9" } m vasten
-
 seg-626ab55f0424 = MODELLED (tulos <c1/>)
 
 seg-6f09def22469 = REHELLISYYS: MODELLED. Alla ilmoitetuilla oletuksilla malli antaa nämä luvut. Ei väite minkään todellisen järjestelmän suorituskyvystä; ei yhteyttä eikä hyväksyntää miltään virastolta; ei TRL- eikä perintöväitettä. Jätetty pois: maasto ja horisontin peittäminen navalla (ensimmäinen rajoitus), monitie-eteneminen, vastaanottimen laitteisto. (skenaariotiedoston kommentti, rivit { "15" } - { "18" })

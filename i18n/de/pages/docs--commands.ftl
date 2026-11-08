@@ -55,13 +55,7 @@ seg-88fb40d1b92d = bewertet ein Empfänger-Log, <c1/> bewertet einen Strom, <c2/
 seg-13870be889cb = signiert, verifiziert und mit Zeitstempel versieht Nachweispakete und verknüpft einen Laborlauf mit seiner Bewertung
 
 # text
-seg-2867423ef8dd = liest den veröffentlichten Plan von Jammertest und bewertet ein Log dagegen
-
-# text
 seg-fe1abd564200 = Jammertest
-
-# text
-seg-1bcf94631313 = der Vertrauensstrom als Nachrichten für Prometheus, CEF, LEEF, OTLP oder MQTT
 
 # text
 seg-6fcb41643035 = Vertrauens-Telemetrie
@@ -74,9 +68,6 @@ seg-0dfc0ae9d7ed = schreibt synthetische NMEA-Daten einer Brücke mit geskriptet
 
 # text
 seg-f35f3f9cb83a = NMEA-Training
-
-# text
-seg-8802b623b1e7 = erstellt Störungskarten und das Tagesprodukt des Observatoriums aus Meldungen von Flugzeugen und Schiffen
 
 # text
 seg-f0ea96229aff = <a1>Störungskarte</a1>, <a2>Observatorium</a2>

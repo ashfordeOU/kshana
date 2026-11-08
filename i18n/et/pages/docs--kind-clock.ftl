@@ -89,9 +89,6 @@ seg-849c08d3ce70 = Perekonna leht: <a1>Kellad, ajastus ja holdover</a1>
 seg-ee7dd15019d0 = Teemaleht: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-46ed0b786244 = Teemaleht: <a1>RECEIVER-TRUST.md</a1>
-
-# text
 seg-e06f9a5a0291 = <s1>Eelmine</s1>cislunar-observability
 
 # text

@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Bronnen S1 tot S5 (titel, URL, ophaaldatum, SHA-256, licentie
 
 seg-d866653008e1 = Elke numerieke bewering, geciteerd met haar pagina en vermelde aannames en ingedeeld als vergelijkbaar, gedeeltelijk vergelijkbaar of niet vergelijkbaar: <c1/>. Geen bewering is volledig vergelijkbaar, omdat geen bron een percentiel of de baanelementen van de satellieten vermeldt.
 
-seg-50535c58d3cf = Drempels, gevallen en invoer, alleen vastgelegd vóór de run (revisie { "2" }, 05bf9a19), en de vastgelegde run: <c1/>. De bevinding is vastgepind in <c2/>.
-
 seg-069a652c402e = drempel
 
 seg-d6120708c062 = bewering (bronnen)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = geslaagd
 seg-e666f1eb7a59 = { "1" } van { "6" } drempels wordt gehaald. De oorzaak is de geometrie. Geen bron publiceert de baanelementen van de constellatie. Met de ILLUSTRATIVE meegeleverde elementen delen een gebruiker en het station maar in { "8" } % ({ "300" } km) en { "6" } % ({ "600" } km) van de epochs vier satellieten boven { "5" } graden, bij bijna singuliere geometrie: de ongecorrigeerde p95 is { "3.8" } km, waar de bronnen < { "10" } m noemen. De eigen simulaties van de bronnen gebruikten een filter, een hoogtebeperking en drie satellieten in gemeenschappelijk zicht, wat dit momentopnamemodel niet heeft. De run reproduceert de beweringen daarom niet op die elementen, en zij is geen bewijs dat de beweringen onjuist zijn. Dat K6 slaagt is een verhouding van twee door geometrie gedomineerde cijfers en zegt niets over decorrelatie. Een gepubliceerde set van de elementen van de constellatie zou onder dezelfde drempels worden gescoord als een tweede, gedateerde run.
 
 seg-1da5fcf7bbf5 = Vooraf geregistreerde voorspelling
-
-seg-4ea806a57380 = Een vooraf geregistreerde voorspelling, bevroren op commit <c1/> met de invoer uit openbare bronnen, met haar scoringsprotocol: <a1><c2/></a1>. Het is een voorspelling, geen validatie, en elk cijfer erin wordt gedomineerd door de niet-gepubliceerde elementenset van de constellatie van vier satellieten (de gebruikte elementen zijn ILLUSTRATIVE): over het gebied van { "80" } graden Z, beschikbaarheid { "8.2" } %, gecorrigeerde p95 3D { "280" } m, ongecorrigeerd { "3.8" } km. MODELLED; <c3/> faalt als een bevroren byte verschuift.
 
 seg-e6aef34d5023 = Tijdlaboratorium van het station
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Vorige</s1>Zonnestelsel en andere hemellichamen
 seg-79d53edd2374 = <s1>Volgende</s1>Navigatie voor ruimtegebruikers (gnss-ssv)
 
 seg-9c59637f0666 = Dekkings- en nauwkeurigheidskaart (lunar-station-coverage)
+
+seg-34967943a088 = Een vooraf geregistreerde voorspelling, bevroren op commit <c1/> met de invoer uit openbare bronnen, met haar scoringsprotocol: <a1><c2/></a1>. Het is een voorspelling, geen validatie, en elk cijfer erin wordt gedomineerd door de niet-gepubliceerde elementenset van de constellatie van vier satellieten (de gebruikte elementen zijn ILLUSTRATIVE): over het gebied van { "80" } graden Z, beschikbaarheid { "8.2" } %, gecorrigeerde p95 3D { "280" } m, ongecorrigeerd { "3.8" } km. MODELLED; <c3/> faalt als een bevroren byte verschuift.

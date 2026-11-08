@@ -242,8 +242,6 @@ seg-73a73af88f08 = HTTP-tila (itse ylläpidetty)
 
 seg-4f248ed3e597 = <c1/> tarjoaa samat työkalut streamable HTTP:n yli osoitteessa <c2/>. Se sitoutuu vain loopbackiin; muu kuin loopback-osoite vaatii valitsimen <c3/> ja bearer-tunnuksen muuttujassa <c4/>; IQ-tiedostotyökalut ovat pois päältä; pyynnön koko, aika ja samanaikaisuus on rajattu; CORS-otsaketta ei lähetetä. Kshana ei isännöi päätepistettä: se ylläpidetään itse. Katso <a1>docs/deploy/mcp-http.md</a1>.
 
-seg-60f55b197ac2 = <c1/> asentaa binäärin <c2/> polkuun <c3/> (tyypillisesti <c4/>). Palvelin puhuu JSON-RPC:tä (JSON remote procedure call) stdion yli; lokit menevät stderriin. Lähdekoodista rakentaminen vaatii Rust-työkaluketjun ≥ { "1.88" } (korjattu SDK <c5/> { "2" }.x vaatii sen; kirjasto <c6/> itse vaatii vain { "1.85" }); Docker-image ei vaadi mitään.
-
 seg-2f3216082425 = Rekisteröi se asiakkaalle
 
 seg-1090ae3f689c = Käytännössä jokainen MCP-asiakas käyttää samaa asetuslohkoa <c1/> — rekisteröi binääri <c2/> absoluuttisella polulla:
@@ -286,18 +284,16 @@ seg-dc60d64a3bb8 = <em>”Tee yhden sekunnin GPS L1 -kohtaus PRN:illä { "3" } j
 
 seg-942dc8abe0ec = Suunnitteluhuomautus — miksi erillinen crate
 
-seg-ce6d0ecab448 = Palvelin on <b>itsenäinen, työtilan ulkopuolelle jätetty crate</b>, jolla on oma <c1/>, joten virallinen Rust MCP SDK (software development kit) <c2/> ja sen asynkroninen ajonaikainen ympäristö eivät koskaan päädy julkaistun craten <c3/> riippuvuuskuvaajaan: kirjasto- tai Python-käyttäjä ei käännä palvelinta, jota ei aja. (Se erotettiin ensin, koska <c4/> käyttää <b>editionia { "2024" }</b>, mikä vaatii rustc ≥ { "1.85" }, kun pääcrate lupasi silloin { "1.75" }. Kirjasto ilmoittaa nyt { "1.85" }; tämä palvelin ilmoittaa { "1.88" }, tietoturvakorjatun version <c5/> { "2" }.x alarajan.) Jatkuva integrointi (CI) portittaa tämän craten erikseen — testit ja <c6/> sen omaa lukitustiedostoa vasten. rmcp:n lisenssipuu on puhdas (Apache-2.0/MIT/BSD), joten toisin kuin ristiinvalidointicrate <c7/>, jota se muuten peilaa, jako ei johdu lisensoinnista.
-
 seg-75bf2d74642d = Lisenssi: AGPL-3.0-only, GNU Affero General Public License versio { "3" } vain (tai kaupallinen lisenssi Ashforde OÜ:ltä; katso repositorion <a1>LICENSING.md</a1>).
 
 seg-490ebbefb561 = <s1>Edellinen</s1>Rust-crate
 
 seg-350b6b914734 = <s1>Seuraava</s1>MCP-palvelin: kaikki asennuskanavat
 
-seg-492888115662 = { "92" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.
-
 # text
 seg-a4a0e399a31e = <c1/> asentaa binäärin <c2/> polkuun <c3/> (tyypillisesti <c4/>). Palvelin puhuu JSON-RPC:tä (JSON remote procedure call) stdion yli; lokit menevät stderriin. Lähdekoodista rakentaminen vaatii Rust-työkaluketjun ≥ { "1.88" } (korjattu SDK <c5/> { "2" }.x vaatii sen, ja niin vaatii myös kirjasto <c6/>); Docker-image ei vaadi mitään.
 
 # text
 seg-0757e15070d4 = Palvelin on <b>itsenäinen, työtilan ulkopuolelle jätetty crate</b>, jolla on oma <c1/>, joten virallinen Rust MCP SDK (software development kit) <c2/> ja sen asynkroninen ajonaikainen ympäristö eivät koskaan päädy julkaistun craten <c3/> riippuvuuskuvaajaan: kirjasto- tai Python-käyttäjä ei käännä palvelinta, jota ei aja. (Se erotettiin ensin, koska <c4/> käyttää <b>editionia { "2024" }</b>, mikä vaatii rustc ≥ { "1.85" }, kun pääcrate lupasi silloin { "1.75" }. Kirjasto ja tämä palvelin ilmoittavat nyt molemmat { "1.88" }, tietoturvakorjatun version <c5/> { "2" }.x ja päivitettyjen RustCrypto-cratejen alarajan.) Jatkuva integrointi (CI) portittaa tämän craten erikseen — testit ja <c6/> sen omaa lukitustiedostoa vasten. rmcp:n lisenssipuu on puhdas (Apache-2.0/MIT/BSD), joten toisin kuin ristiinvalidointicrate <c7/>, jota se muuten peilaa, jako ei johdu lisensoinnista.
+
+seg-b873b39a4921 = { "93" } sisäänrakennettua skenaariolajia kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi muodostaa kelvollisen skenaarion.

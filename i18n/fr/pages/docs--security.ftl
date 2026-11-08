@@ -26,9 +26,6 @@ seg-fbc3db22c061 = Merci de ne pas ouvrir de ticket public pour les signalements
 seg-4c11dabdd8f6 = Versions prises en charge
 
 # text
-seg-19c99cf3a67e = Avant la 1.0 : seule la dernière version publiée (étiquetée) est prise en charge.
-
-# text
 seg-1379eab9a8e3 = Sûreté mémoire
 
 # text

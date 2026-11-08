@@ -16,8 +16,6 @@ seg-fbc3db22c061 = Ikke åpne en offentlig sak for sikkerhetsfølsomme rapporter
 
 seg-4c11dabdd8f6 = Støttede versjoner
 
-seg-19c99cf3a67e = Før 1.0: bare den siste merkede utgivelsen støttes.
-
 seg-1379eab9a8e3 = Minnesikkerhet
 
 seg-cf966fa35408 = Bibliotekcraten erklærer <c1/> i crate-roten (<c2/>), så en <c3/>-blokk, fn, impl eller extern hvor som helst i biblioteket er en kompileringsfeil i stedet for noe en vurderer må fange opp. Attributtet ligger ikke bak en <c4/>, så det gjelder hver konfigurasjon biblioteket leveres i, og alle tre kompilerer rent under det: standard Rust-bygg, Python-utvidelsesmodulen (<c5/>) og WebAssembly-modulen (<c6/>).

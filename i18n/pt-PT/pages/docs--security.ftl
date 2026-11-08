@@ -26,9 +26,6 @@ seg-fbc3db22c061 = Por favor, não abra um issue público para comunicações se
 seg-4c11dabdd8f6 = Versões suportadas
 
 # text
-seg-19c99cf3a67e = Pré-1.0: apenas a última edição etiquetada é suportada.
-
-# text
 seg-1379eab9a8e3 = Segurança de memória
 
 # text

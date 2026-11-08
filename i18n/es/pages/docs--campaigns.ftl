@@ -184,9 +184,6 @@ seg-13c92a72544a = jamming, { "600" } s
 seg-f9c01304734d = igual, inhibidor a -30 dBW, { "1" } km
 
 # text
-seg-27d3b65152b0 = el C/N0 baja a { "27.7" } dB-Hz, los { "8" } satélites siguen en seguimiento
-
-# text
 # c1: end_at
 seg-6a052db03815 = spoofing, terminado a los { "370" } s por <c1/>
 
@@ -286,14 +283,6 @@ seg-2db37e292efe = La recuperación de E1 bajo el tono CW se apoya en el tratami
 # text
 # c1: [sweep]
 seg-fb8d8636c554 = <c1/>: una rejilla de parámetros sobre cualquier tipo de escenario
-
-# text
-# c1: sweep-nd
-# c2: runs > 1
-# c3: k
-# c4: k
-# c5: scenarios/campaign-sweep-jammer-power.toml
-seg-b14a11d60e9f = De una a tres claves de escenario con puntos, cada una sobre un rango lineal o logarítmico, sobre los mismos valores de eje que usa el tipo de escenario <c1/>. Cada eje tiene un nombre y una unidad; cada métrica tiene un nombre y una ruta de resultado, y su unidad se lee del propio bloque de unidades del tipo de escenario barrido, salvo que la campaña declare una. Con <c2/>, cada nodo es un conjunto de Monte Carlo con semilla (la realización <c3/> con la semilla del nodo más <c4/>), que se informa con las estadísticas siguientes. <c5/> barre un inhibidor a { "1" } km del receptor desde -50 hasta +{ "10" } dBW: la relación media inhibidor-señal se mueve exactamente { "1" } dB por dB (de { "12.2" } a { "72.2" } dB), y la disponibilidad cae de { "1" } a { "0" } entre -30 y -25 dBW.
 
 # text
 # c1: system.2.sisre_m
@@ -577,3 +566,7 @@ seg-03d764a4cb56 = [compose]: varios escenarios bajo condiciones compartidas
 
 # text
 seg-61a0db2550ba = [optimize]: el mejor valor de una métrica
+
+seg-0886cc461f7a = el C/N0 baja a { "30.6" } dB-Hz, los { "8" } satélites siguen en seguimiento
+
+seg-74f8b08a4194 = De una a tres claves de escenario con puntos, cada una sobre un rango lineal o logarítmico, sobre los mismos valores de eje que usa el tipo de escenario <c1/>. Cada eje tiene un nombre y una unidad; cada métrica tiene un nombre y una ruta de resultado, y su unidad se lee del propio bloque de unidades del tipo de escenario barrido, salvo que la campaña declare una. Con <c2/>, cada nodo es un conjunto de Monte Carlo con semilla (la realización <c3/> con la semilla del nodo más <c4/>), que se informa con las estadísticas siguientes. <c5/> barre un inhibidor a { "1" } km del receptor desde -50 hasta +{ "10" } dBW: la relación media inhibidor-señal se mueve exactamente { "1" } dB por dB (de { "12.2" } a { "72.2" } dB), y la disponibilidad cae de { "1" } a { "0" } entre -25 y -20 dBW.

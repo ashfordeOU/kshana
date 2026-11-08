@@ -329,10 +329,6 @@ seg-188c6e41f434 = Os documentos do processo de manutenção permanecem no repos
 
 seg-fcffac5eb150 = <s1>Idiomas</s1><s2>O texto do motor voltado às pessoas está em { "17" } idiomas além do inglês: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-0cf0b9fb9184 = <s1>Tipos de cenário</s1><s2>Os { "92" } tipos de cenário incorporados sobre os quais kshana::api::run_toml distribui, cada um com a sua descrição de uma…</s2>
-
-seg-9d5c233c72b4 = <s1>Todos os tipos de cenário, por família</s1><s2>Todos os tipos de cenário que o motor v{ $version } distribui ({ "92" }), organizados em { "13" } famílias.</s2>
-
 seg-f5987c9d9fde = <s1>Matriz de verificação</s1><s2>O registro de evidências completo, verificado por máquina: { "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
 
 seg-1c5265085fb6 = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "401" } linhas da matriz de verificação.</s2>
@@ -347,6 +343,10 @@ seg-cecb9535c0a1 = <s1>Lunar e cislunar</s1><s2>{ "24" } tipos de cenário do mo
 
 seg-1dd7c80e18a7 = <s1>Sequências de missão</s1><s2>{ "1" } tipo de cenário do motor v{ $version }. Consultivo: saída de análise de uma ferramenta de pesquisa e engenharia, não…</s2>
 
-seg-f0e26f01a361 = { "92" } páginas, uma para cada tipo de cenário, ligadas a partir de <a1>Todos os tipos de cenário, por família</a1>.
+seg-b0ad334264dc = <s1>Tipos de cenário</s1><s2>Os { "93" } tipos de cenário incorporados sobre os quais kshana::api::run_toml distribui, cada um com a sua descrição de uma…</s2>
 
-seg-a1f33bd571ed = <s1>Referência de cenários</s1><s2>Todos os arquivos de cenário incluídos ({ "193" }), agrupados por tipo, com suas principais configurações.</s2>
+seg-5484fd345826 = <s1>Todos os tipos de cenário, por família</s1><s2>Todos os tipos de cenário que o motor v{ $version } distribui ({ "93" }), organizados em { "14" } famílias.</s2>
+
+seg-b23a9bd3ccfa = <s1>Referência de cenários</s1><s2>Todos os arquivos de cenário incluídos ({ "195" }), agrupados por tipo, com suas principais configurações.</s2>
+
+seg-a7dc2bc0a77d = { "93" } páginas, uma para cada tipo de cenário, ligadas a partir de <a1>Todos os tipos de cenário, por família</a1>.

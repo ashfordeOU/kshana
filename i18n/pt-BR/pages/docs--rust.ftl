@@ -254,8 +254,6 @@ seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas em relaç
 
 seg-b59781ecf257 = Como uma capacidade obtém seu rótulo: capacidade, referência independente, teste, rótulo no registro. O estado de verificação das { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros
 
-seg-d0b2811a3d3c = O motor tem { "92" } tipos de cenário; <c1/> os lista com seus campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para espaçonaves acima, ao redor e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registro de erro de tempo em relação às máscaras da ITU-T).
-
 seg-8e9fbc5f2e72 = A descrição do tipo de cenário incorporado kind em lang, a partir do catálogo (inglês quando o idioma não tem tradução dela); None para um nome que não é um tipo de cenário incorporado.
 
 seg-06e503c23c30 = [kind_description_in] no idioma atual ([crate::i18n::current]).
@@ -275,3 +273,5 @@ seg-28e05e08ff76 = Executa src no idioma lang e, se falhar, descreve a falha com
 seg-24fe823a994a = json sem o rótulo de evidência ([crate::evidence_label]); inalterado se não tiver nenhum.
 
 seg-c0444d838311 = out com o rótulo de evidência removido de seu JSON, SVG e CSV, byte a byte como a execução os produziu antes de o rótulo existir; uma saída sem rótulo permanece inalterada.
+
+seg-80e5f0aa2831 = O motor tem { "93" } tipos de cenário; <c1/> os lista com seus campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para espaçonaves acima, ao redor e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registro de erro de tempo em relação às máscaras da ITU-T).

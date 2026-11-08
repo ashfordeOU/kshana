@@ -55,13 +55,7 @@ seg-88fb40d1b92d = pontua um registro de receptor, <c1/> pontua um fluxo, <c2/> 
 seg-13870be889cb = assina, verifica e carimba no tempo pacotes de evidências e vincula uma execução de laboratório à sua pontuação
 
 # text
-seg-2867423ef8dd = lê o plano publicado do Jammertest e pontua um registro em relação a ele
-
-# text
 seg-fe1abd564200 = Jammertest
-
-# text
-seg-1bcf94631313 = o fluxo de confiança como mensagens Prometheus, CEF, LEEF, OTLP ou MQTT
 
 # text
 seg-6fcb41643035 = Telemetria de confiança
@@ -74,9 +68,6 @@ seg-0dfc0ae9d7ed = grava NMEA sintético de ponte de comando com jamming e spoof
 
 # text
 seg-f35f3f9cb83a = Treinamento NMEA
-
-# text
-seg-8802b623b1e7 = constrói mapas de interferência e o produto diário do observatório a partir de relatórios de aeronaves e navios
 
 # text
 seg-f0ea96229aff = <a1>Mapa de interferência</a1>, <a2>observatório</a2>

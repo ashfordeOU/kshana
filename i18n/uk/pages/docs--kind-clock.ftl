@@ -48,8 +48,6 @@ seg-849c08d3ce70 = Сторінка родини: <a1>Годинники, син
 
 seg-ee7dd15019d0 = Тематична сторінка: <a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = Тематична сторінка: <a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>Попередній</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Наступний</s1>combined-altpnt

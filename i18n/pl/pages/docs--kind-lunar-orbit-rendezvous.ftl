@@ -42,8 +42,6 @@ seg-4466fb6f4043 = wsadowa metoda Gaussa-Newtona na łuku
 
 seg-d97b2505ac72 = Wykres zapisywany przez silnik dla scenarios/lunar-orbit-rendezvous.toml, rodzaj lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Rodzaj i faza <c1/>: wspólne wsadowe oszacowanie Gaussa-Newtona dwóch pojazdów na łuku (dwadzieścia jeden parametrów: oba stany oraz trwałe odchylenia pozycji sygnału w przestrzeni, wspólne i niezależne), rozbudowywane na ćwierć, poło Testy: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Rodzaj i faza <c1/>: wspólne wsadowe oszacowanie Gaussa-Newtona dwóch pojazdów na łuku (dwadzieścia jeden parametrów: oba stany oraz trwałe odchylenia sygnału. Wyrocznia (InternalConsistency): Samozgodność w ramach wstępnej rejestracji (xval/mission-thread-lunar/PREREGISTRATION.md, wyniki i historia estymatora w RESULTS.md): średnie NEES stanu względnego wynosi od { "5.85" } do { "5.93" } wobec pasma od { "5.2" } do { "6.8" } w czterech konfiguracjach, MET przy czwartym projekcie estymatora po tym, jak trzy projekty filtra sekwencyjnego nie osiągnęły progu; prawda i estymator współdzielą jeden model sił, więc nic to nie mówi o błędzie modelu. Propag
 
 seg-b2f273ea732d = MODELLED: nawigacja względna do połączenia w stylu Orion–lądownik na niskiej orbicie księżycowej albo eliptycznej orbicie polarnej (klasa Artemis). (katalog rodzajów (<c1/>))

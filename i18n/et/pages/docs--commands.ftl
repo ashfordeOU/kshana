@@ -55,13 +55,7 @@ seg-88fb40d1b92d = hindab vastuvõtja logi, <c1/> hindab voogu, <c2/> kirjutab a
 seg-13870be889cb = allkirjastab, kontrollib ja ajatempeldab tõendipakette ning seob labori käituse selle skooriga
 
 # text
-seg-2867423ef8dd = loeb avaldatud Jammertesti plaani ja hindab selle vastu logi
-
-# text
 seg-fe1abd564200 = Jammertest
-
-# text
-seg-1bcf94631313 = usaldusvoog Prometheuse, CEF-i, LEEF-i, OTLP või MQTT sõnumitena
 
 # text
 seg-6fcb41643035 = Usalduse telemeetria
@@ -74,9 +68,6 @@ seg-0dfc0ae9d7ed = kirjutab sünteetilise sillal tekkiva NMEA skriptitud segamis
 
 # text
 seg-f35f3f9cb83a = NMEA koolitus
-
-# text
-seg-8802b623b1e7 = koostab häirekaardid ja observatooriumi päevatoote õhusõidukite ja laevade aruannetest
 
 # text
 seg-f0ea96229aff = <a1>Häirekaart</a1>, <a2>observatoorium</a2>

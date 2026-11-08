@@ -32,8 +32,6 @@ seg-922b8656fcae = Graf, který engine zapisuje pro scenarios/lunar-station-cove
 
 seg-4f5941f12127 = <b>MODELLED</b> Průchod modelu lunárního diferenciálního PNT metodou Monte Carlo přes uživatelskou mřížku u jižního pólu a den epoch (druh <c1/>): pro diferenciální referenční stanici na známém místě u jižního pólu, pro každý bod i pro celou oblast, Testy: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Průchod modelu lunárního diferenciálního PNT metodou Monte Carlo přes uživatelskou mřížku u jižního pólu a den epoch (druh <c1/>): pro diferenciální r. Orákulum (InternalConsistency): Aritmetika přepočtená nezávislým skriptem numpy na exportovaných případech (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; předregistrováno v tests/fixtures/lunar_station/PREREGISTRATION.md, uloženo samostatně v 9caedf97 před prvním během): na { "20" } případech se všemi členy chyb zapnutými jsou viditelné množiny a stav shodné, surové chyby vzdálenosti se shodují na { "1.4e-14" } m, vektory a velikosti chyb polohy na { "1.4e-9" } m proti
-
 seg-626ab55f0424 = MODELLED (výsledek <c1/>)
 
 seg-6f09def22469 = ČESTNOST: MODELLED. Při níže uvedených předpokladech dává model tyto hodnoty. Není to tvrzení o výkonnosti žádného skutečného systému; bez spojení s žádnou agenturou ani její podpory; bez tvrzení o TRL nebo heritage. Vynecháno: stínění terénem a horizontem u pólu (první omezení), vícecestné šíření, hardware přijímače. (komentář v souboru scénáře, řádky { "15" } až { "18" })

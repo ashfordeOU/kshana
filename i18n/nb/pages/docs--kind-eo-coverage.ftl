@@ -32,8 +32,6 @@ seg-c2a8332f2ee2 = Diagrammet motoren skriver for scenarios/eo-coverage.toml, ty
 
 seg-d86d43628cf3 = <b>VALIDATED</b> SMAD-romtriangelgeometri: jordens vinkelradius, svathbredde, bakkeoppløsning i nadir, maksimal tilgang utenfor nadir og sirkulær periode, pluss førsteordens J2-nodeperiode (eo_payload::j2_nodal_period) og avstanden mellom bakkespor ved ekvator R_e (omega_ Tester: <a1>eo_payload_coverage_reference.rs</a1>.
 
-seg-9938f1de9eb8 = <b>VALIDATED</b> SMAD-romtriangelgeometri: jordens vinkelradius, svathbredde, bakkeoppløsning i nadir, maksimal tilgang utenfor nadir og sirkulær periode, pluss førsteordens J2-nodeperiode (. Uavhengig referanse (ExternalDataset): Orekit { "12.2" } (Apache-2.0) og GeographicLib { "2.1" } (MIT), begge kjørt som separate programmer, forhåndsregistrert (766823f3) før motorendringen og før noen kjøring av den uavhengige referansen: kulestørrelser innen { "1e-9" } relativt (verst: vinkelradius { "5.4e-16" }, svathbredde { "7.0e-13" }, tilgang { "1.9e-14" }), periode { "1e-12" } ({ "1.6e-16" }), bakkeoppløsning i nadir { "1e-7" } ({ "2.9e-10" }), J2-nodeperioden og nodeavstanden innen { "0.1" } % av en numerisk Orekit J2-propagering med nodedetektor ({ "1" }
-
 seg-45625167e59f = MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track spacing is R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates (resultat <c1/>)
 
 seg-cf22f13c78d3 = MODELLED geometri for sfærisk jord (ingen radiometri/MTF/atmosfære/jitter/glint); nodeavstand R_e·(ω − Ω̇)·T_nodal med førsteordens sekulære J2-rater. (typekatalog (<c1/>))

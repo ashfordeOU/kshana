@@ -396,8 +396,6 @@ seg-a1706d47f895 = <c1/>: <c2/> ud fra designmatricen for sigtelinjen. <b>Ekster
 
 seg-504d5aa92cbc = Positionsfejl = σ_UERE × DOP for motorens egen mindste-kvadraters-positionsbestemmelse
 
-seg-fc3443210358 = <c1/>, <c2/>: en Monte Carlo med seed (N = { "20,000" } epoker pr. geometri, σ = { "1.5" } m, ChaCha8-seed { "36" } + i) af <c3/> med enhedsvægte, løst fra den sande position, på <b>de { "8" } geometrier i <c4/></b> (dem hvis DOP er matchet med gnss_lib_py), mod σ²·Q, hvor Q er kovariansfaktoren for selve kernen <c5/> (<c6/>, den samme aritmetik). <b>Tolerancer præregistreret</b> (commit e50c88d2, før den første kørsel, efter designnotatet for geometri for { "0.36" }, afsnit { "5.2" }), hver et antal standardfejl: varianser for øst, nord, op og ur inden for { "5" } %; RMS for H/V/P inden for { "2.5" } %; korrelation mellem øst og nord inden for { "0.035" }; middelværdier inden for { "5" } standardfejl; andelen i den horisontale ellipse på { "95" } % inden for { "0.95" } ± { "0.0077" }. Første kørsel: alle { "104" } kontroller består (værste varians { "3.2" } %, RMS { "1.6" } %, korrelation { "0.012" }, middelværdi { "2.2" } standardfejl, ellipse { "0.0039" }). <b>Negative kontroller</b> fejler som krævet: fordoblet PDOP fejler på hver geometri; fejl, der vokser som 1/sin(elevation) mod den uvægtede Q, fejler en variankontrol på hver geometri, hvis laveste satellit ligger under { "20" }°. <b>Hvordan det hænger sammen med rækken ovenfor:</b> den række validerer disse geometriers DOP mod gnss_lib_py; denne tilføjer trinnet fra disse faktorer til meter gennem motorens løser. <b>En første, separat kontrol er bevaret ved siden af</b> (<c7/>, <c8/>, kørt før præregistreringen og meldt som sådan): fire håndvalgte himle (åben, klynget, kanyon, halv himmel; σ { "1" } m) med chi-i-anden-konfidensintervaller på { "1e-6" } samlet over { "20" } kontroller; forhold { "0.987" } til { "1.009" }, og dens egne negative kontroller (en DOP-fejl på { "10" } %, fejl som 1/sin(elevation)) fejler som krævet. <b>Hvorfor MODELLED:</b> intet eksternt datasæt; det viser ikke, at en rigtig modtagers fejl følger modellen, og σ_UERE er et input.
-
 seg-94bffbd8385b = Tilgængelighed med flere konstellationer
 
 seg-a40eab03bbbe = <c1/>: yderligere <c2/> flettes til ét satellitsæt for synlighed/DOP; en test af det samlede antal bekræfter foreningsmængden.
@@ -863,8 +861,6 @@ seg-f9e2d4b52b79 = Fastfrosset
 seg-dd68891f75e2 = Bedømt mod
 
 seg-d5a09f26a028 = Dækning fra en referencestation på Månen
-
-seg-c68f124a16e7 = c05dac1d, 2026-10-12
 
 seg-293404a9cb92 = offentliggjort nøjagtighed, tilgængelighed, dækning og beskyttelsesniveauer for en differentiel station ved månens sydpol, fra en hvilken som helst part
 

@@ -18,8 +18,6 @@ seg-32755afa0f78 = Missionstråden
 
 seg-d4af67363efc = Vejledende software, ikke certificeret navigationsudstyr. Kun offentlige kilder; ikke tilknyttet eller støttet af nogen rumfartsorganisation, og intet her hævder overensstemmelse med noget programs krav.
 
-seg-816770c97995 = <c1/> kæder faser af en mission sammen, hver en af otte registrerede typer med sine egne sensorer og sit eget filter, og rapporterer <b>fejlbudgettet for navigation og tidssynkronisering</b> for hele kæden: for hver fase 1-sigma for position, hastighed og urbias ved indgang, ved spidsen og ved udgang; hvert bidrag hertil med sin enhed; marginen mod et krav, du angiver; det svageste led; de daterede hændelser; og en tidslinjefigur. Hvert tal er <b>MODELLED</b>: et angivet input eller en model af et. De eneste rækker med ekstern uafhængig reference findes i <s1><c2/></s1> og siger, hvad de afprøver.
-
 seg-c29a19879c84 = Kør eksemplet fra et checkout (det læser et indlagt udsnit af Månens kerne):
 
 seg-00f84b734853 = Dokumentet
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = En valgfri tabel <c1/> angiver stationer og den laveste spori
 seg-467b14d7ef59 = <c1/>: <c2/> (indeks, id, type, tider, etiket, navigations- og tidskilder, begrænsende kilde, sigmaer ved indgang, spids og udgang, krav, margin, <c3/> med en enhed pr. række, <c4/>), <c5/> (mindste margin mod et angivet krav, ellers den største positionsspids), <c6/>, trådens <c7/> (den svageste fases etiket) og en blok <c8/>. Figuren er 1-sigma for position og urbias mod missionstid, ét bånd pr. fase.
 
 seg-a3c40c51c2ff = Hvad evidensen er
-
-seg-1168810d4407 = Trådens etiket er den svageste fases etiket, og hver fase er MODELLED. Månepropagatoren sammenlignes med LRO og CAPSTONE (<s1><c1/></s1>); den cislunare bue sammenlignes med en offentlig Horizons-bane (<s2><c2/></s2>). En række når eller misser en tærskel, der er fastsat i en indlagt fil før kørslen, og en miss registreres som en miss. Intet er VALIDATED, medmindre registeret siger det.
 
 seg-ee3c5b58e6fa = <s1>Forrige</s1>Månebane og -overflade som infrastruktur
 

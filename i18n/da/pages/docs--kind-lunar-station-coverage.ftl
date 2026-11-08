@@ -38,8 +38,6 @@ seg-922b8656fcae = Diagrammet, som motoren skriver for scenarios/lunar-station-c
 
 seg-4f5941f12127 = <b>MODELLED</b> Monte Carlo-sweep af den lunare differentielle PNT-model over et sydpolart brugergitter og et døgn af epoker (typen <c1/>): for en differentiel referencestation på et kendt sted ved sydpolen, pr. punkt og over regionen, de Tests: <a1>lunar_station_coverage_reference.rs</a1>.
 
-seg-d547d600ee2d = <b>MODELLED</b> Monte Carlo-sweep af den lunare differentielle PNT-model over et sydpolart brugergitter og et døgn af epoker (typen <c1/>): for en differentiel r. Uafhængig reference (InternalConsistency): Aritmetik genberegnet af et uafhængigt numpy-script på eksporterede tilfælde (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; præregistreret i tests/fixtures/lunar_station/PREREGISTRATION.md, committet alene i 9caedf97 før første kørsel): på { "20" } tilfælde med alle fejlled slået til er de synlige mængder og status identiske, de rå afstandsfejl stemmer til { "1.4e-14" } m, positionsfejlvektorerne og deres størrelser til { "1.4e-9" } m mod
-
 seg-626ab55f0424 = MODELLED (resultat <c1/>)
 
 seg-6f09def22469 = ÆRLIGHED: MODELLED. Under de nedenfor angivne antagelser giver modellen disse tal. Ikke en udtalelse om ydeevnen af noget reelt system; ikke tilknyttet eller støttet af nogen myndighed; intet krav om TRL eller heritage. Udeladt: terræn- og horisontmaskering ved polen (den første begrænsning), flervejsudbredelse, modtagerhardware. (kommentar i scenariefilen, linje { "15" } til { "18" })

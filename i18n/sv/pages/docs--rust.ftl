@@ -148,8 +148,6 @@ seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> förmågor validerade mot obero
 
 seg-b59781ecf257 = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "401" } förmågor: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner
 
-seg-d0b2811a3d3c = Motorn har { "92" } scenariotyper; <c1/> listar dem med deras fält. Nya i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månbana och månyta som infrastruktur för navigering och geodesi), båda MODELLED, och <c4/> (en tidsfelsregistrering mot ITU-T-maskerna).
-
 seg-8e9fbc5f2e72 = Beskrivningen av den inbyggda scenariotypen kind på språket lang, från katalogen (engelska när språket saknar översättning av den); None för ett namn som inte är en inbyggd typ.
 
 seg-06e503c23c30 = [kind_description_in] på det aktuella språket ([crate::i18n::current]).
@@ -169,3 +167,5 @@ seg-28e05e08ff76 = Kör src på språket lang och, om den misslyckas, beskriv fe
 seg-24fe823a994a = json utan evidensetiketten ([crate::evidence_label]); oförändrad om den inte bär någon.
 
 seg-c0444d838311 = out med evidensetiketten borttagen ur sin JSON, SVG och CSV, byte för byte som körningen producerade dem innan etiketten fanns; en utdata utan etikett är oförändrad.
+
+seg-80e5f0aa2831 = Motorn har { "93" } scenariotyper; <c1/> listar dem med deras fält. Nya i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månbana och månyta som infrastruktur för navigering och geodesi), båda MODELLED, och <c4/> (en tidsfelsregistrering mot ITU-T-maskerna).

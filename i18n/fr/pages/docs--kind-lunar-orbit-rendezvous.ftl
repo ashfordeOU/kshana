@@ -42,8 +42,6 @@ seg-4466fb6f4043 = Gauss-Newton par lots sur l'arc
 
 seg-d97b2505ac72 = Le graphique que le moteur écrit pour scenarios/lunar-orbit-rendezvous.toml, type de scénario lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Le type et la phase <c1/> : une estimation conjointe par lots de Gauss-Newton à deux véhicules sur l'arc (vingt et un paramètres : les deux états et des biais de position persistants du signal dans l'espace, communs et indépendants), élargie sur un quart, une m Tests : <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Le type et la phase <c1/> : une estimation conjointe par lots de Gauss-Newton à deux véhicules sur l'arc (vingt et un paramètres : les deux états et des biais de position persistants du sig. Référence indépendante (InternalConsistency) : Autocohérence sous un préenregistrement (xval/mission-thread-lunar/PREREGISTRATION.md, résultats et historique de l'estimateur dans RESULTS.md) : l'erreur d'estimation normalisée moyenne au carré de l'état relatif est de { "5.85" } à { "5.93" } contre la bande de { "5.2" } à { "6.8" } dans quatre configurations, MET à la quatrième conception d'estimateur après l'échec de trois conceptions de filtre séquentiel ; la vérité et l'estimateur partagent un même modèle de forces, ce qui ne dit donc rien de l'erreur de modèle. Le pro
 
 seg-b2f273ea732d = Navigation relative MODELLED pour un amarrage de type Orion-atterrisseur sur une orbite lunaire basse ou une orbite polaire elliptique (classe Artemis). (catalogue des types de scénario (<c1/>))

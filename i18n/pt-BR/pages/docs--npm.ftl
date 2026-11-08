@@ -224,4 +224,4 @@ seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas em relaç
 
 seg-b59781ecf257 = Como uma capacidade obtém seu rótulo: capacidade, referência independente, teste, rótulo no registro. O estado de verificação das { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros
 
-seg-d0b2811a3d3c = O motor tem { "92" } tipos de cenário; <c1/> os lista com seus campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para espaçonaves acima, ao redor e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registro de erro de tempo em relação às máscaras da ITU-T).
+seg-80e5f0aa2831 = O motor tem { "93" } tipos de cenário; <c1/> os lista com seus campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para espaçonaves acima, ao redor e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registro de erro de tempo em relação às máscaras da ITU-T).

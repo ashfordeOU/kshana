@@ -32,11 +32,7 @@ seg-88fb40d1b92d = beoordeelt een ontvangerlog, <c1/> beoordeelt een stroom, <c2
 
 seg-13870be889cb = ondertekent, controleert en voorziet bewijspakketten van een tijdstempel en koppelt een laboratoriumrun aan zijn score
 
-seg-2867423ef8dd = leest het gepubliceerde Jammertest-plan en beoordeelt een log ertegen
-
 seg-fe1abd564200 = Jammertest
-
-seg-1bcf94631313 = de vertrouwensstroom als berichten voor Prometheus, CEF, LEEF, OTLP of MQTT
 
 seg-6fcb41643035 = Vertrouwenstelemetrie
 
@@ -45,8 +41,6 @@ seg-7d888f167a57 = schat parameters van een hybride sensor uit een log van een s
 seg-0dfc0ae9d7ed = schrijft synthetische brug-NMEA met gescripte jamming en spoofing, en een instructeurslogboek
 
 seg-f35f3f9cb83a = NMEA-training
-
-seg-8802b623b1e7 = bouwt interferentiekaarten en het dagelijkse product van het observatorium uit meldingen van vliegtuigen en schepen
 
 seg-f0ea96229aff = <a1>Interferentiekaart</a1>, <a2>observatorium</a2>
 

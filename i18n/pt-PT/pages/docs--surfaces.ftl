@@ -294,16 +294,6 @@ seg-1b60ff4652cd = Ferramentas: cartão Telemetria (separador Linha de comandos;
 
 # text
 # c1: receiver-trust
-# c2: rtklib-pos
-# c3: novatel
-# c4: gnss-sdr
-# c5: [log.imu]
-# c6: csv
-# c7: euroc
-seg-3e332170d963 = Entradas de máquina e de sensor ({ "0.38" }): formatos <c2/>, <c3/>, <c4/> de <c1/>, e <c5/> (<c6/>, <c7/>)
-
-# text
-# c1: receiver-trust
 # c2: [log] format
 seg-060e5931ac62 = <c1/> (cenário <c2/>)
 
@@ -1117,9 +1107,6 @@ seg-6555ff9a6d8e = Saída
 seg-12471a4b2b57 = Região do emissor (ADS-B, AIS; MODELLED)
 
 # text
-seg-0a58678302e5 = <b>N/A</b> (ainda não incluído; as superfícies Rust, Python e WASM o cobrem)
-
-# text
 seg-dff1bfe0263e = <b>N/A</b> (a publicação de regiões de emissores no observatório público é uma decisão separada do responsável e está desativada)
 
 # text
@@ -1169,9 +1156,6 @@ seg-1c1729fafe99 = <b>N/A</b> (sem notebook; o exemplo é executado em qualquer 
 # text
 # c1: interference-map locate
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-# text
-seg-743d33b43d99 = N/A (ainda não incluído)
 
 # text
 # c1: --tdoa

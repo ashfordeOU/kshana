@@ -22,9 +22,9 @@ seg-6f8d24ecb89f = — { "55,970" } of { "58,697" } lines
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: db796dd
+# c1: fb73817
 # c2: v0.29.0
-seg-d734cdb77d70 = <c1/> (engine { "0.29.0" }, the <c2/> tag)
+seg-5ff7e4510497 = <c1/> (engine { "0.29.0" }, the <c2/> tag)
 
 # text
 seg-31d58f23c0a2 = Run
@@ -84,11 +84,11 @@ seg-b566e95a74ab = then update the table above and the six surfaces in the same 
 seg-6935c9c381b3 = History
 
 # text
-# c1: b1d350d
+# c1: 7b4617c
 # c2: 1daa012
 # c3: CHANGELOG.md
 # c4: paper/kshana-technical-report.md
-seg-daa9ae1913cd = The figure has been re-measured, not re-typed: { "95.63" } % on commit <c1/> (engine { "0.27.2" } + unreleased, run { "35934579709" }, 2026-09-24, { "37,697" } of { "39,419" } lines, published as ~{ "96" } %), revised to { "95.35" } % on { "0.29.0" } (above), which rounds to ~{ "95" } %: the code grew by { "19,278" } measured lines and the new lines are covered slightly less than the old ones; { "95.85" } % at { "v0.17.0" } (commit <c2/>, 2026-06-14, published as ~{ "96" } %), and ~{ "97" } % in two earlier release notes (<c3/>, left as history). <c4/> said "near { "97" } %" until it was brought to this record; it is now the sixth surface the test pins.
+seg-1ff43e658eef = The figure has been re-measured, not re-typed: { "95.63" } % on commit <c1/> (engine { "0.27.2" } + unreleased, run { "35934579709" }, 2026-09-24, { "37,697" } of { "39,419" } lines, published as ~{ "96" } %), revised to { "95.35" } % on { "0.29.0" } (above), which rounds to ~{ "95" } %: the code grew by { "19,278" } measured lines and the new lines are covered slightly less than the old ones; { "95.85" } % at { "v0.17.0" } (commit <c2/>, 2026-06-14, published as ~{ "96" } %), and ~{ "97" } % in two earlier release notes (<c3/>, left as history). <c4/> said "near { "97" } %" until it was brought to this record; it is now the sixth surface the test pins.
 
 # text
 seg-b2dbaf3a3b68 = <s1>Previous</s1>Standards and interoperability

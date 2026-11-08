@@ -1378,7 +1378,7 @@ seg-24194ccdcdca = Start from any scenario
 # text
 # c1: kshana kinds --json
 # c2: kshana example
-seg-237402dbe93a = Pick one of { "194" } scenario files across { "92" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
+seg-dc42de8502db = Pick one of { "196" } scenario files across { "93" } kinds, or write your own. <c1/> lists every kind with its fields, and <c2/> prints a file to start from.
 
 # text
 seg-5dd293dd429b = The library in Kshana Studio
@@ -1653,7 +1653,9 @@ seg-54dce6366d5a = Every bundled scenario, on one map.
 # c11: lunar-surface-terrain
 # c12: mission-thread-artemis-class
 # c13: quantum-pnt-demonstrator.suite
-seg-ace118a5dc36 = All { "194" } scenario files across { "92" } kinds, grouped by domain; { "181" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
+# c14: tip-and-cue-baltic-m2
+# c15: tip-and-cue-short
+seg-0c0843eb6a5a = All { "196" } scenario files across { "93" } kinds, grouped by domain; { "181" } are bundled into the engine, and <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/> run from the repository with the command line. The dot shows the ledger status of the kind's module where the ledger names it. A file with a recorded run opens it in Kshana Studio; the others open their entry in the scenario reference, with the file and the command that runs it.
 
 # attr:aria-label
 seg-f53c36555404 = Filter by ledger status
@@ -2163,6 +2165,16 @@ seg-7c4a93b81a2f = Space-weather environment model demonstrator.
 # text
 # c1: space-weather
 seg-5478de1beaca = <c1/><a1>space-weather</a1>
+
+# attr:title
+seg-32f7a7ea3235 = M2 (docs/design/evidence/m2-revisit-tip-and-cue/PREREGISTRATION.md): revisit, full-area refresh and
+
+# attr:title
+seg-b3ffdf0d7350 = A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the
+
+# text
+# c1: tip-and-cue
+seg-6a7efa094172 = <c1/><a1>tip-and-cue-baltic-m2</a1><a2>tip-and-cue-short</a2>
 
 # text
 seg-333828ec3da1 = Low Earth orbit (LEO) PNT
@@ -3304,7 +3316,7 @@ seg-ac19e38bed11 = <b>CI</b> continuous integration · <b>CSV</b> comma-separate
 seg-190cdf3ca8dc = Unit and provenance on every reported quantity
 
 # text
-seg-69c56cbdda90 = { "92" } of { "92" } kinds, { "3300" } of { "3300" } numeric fields
+seg-d5a79853b72f = { "93" } of { "93" } kinds, { "3334" } of { "3334" } numeric fields
 
 # text
 seg-3e7fb040a7c4 = Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants — the one-way link budget, the optical and RF budget — let a reader recompute the headline from the report alone.

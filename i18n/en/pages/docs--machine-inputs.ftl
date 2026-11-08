@@ -99,8 +99,112 @@ seg-cf1bf4944f6a = IMU (<c1/>)
 # c13: w_RS_S_x/y/z [rad s^-1]
 # c14: a_RS_S_x/y/z [m s^-2]
 # c15: t_s = 0
-# c16: RECEIVER-TRUST.md
-seg-ab64a0754907 = <c1/>: a header row naming the columns, then one sample per row. Columns (any order, names case-insensitive): <c2/> seconds on the receiver log's clock, <c3/>, <c4/>, <c5/> angular rate in rad/s, <c6/>, <c7/>, <c8/> specific force in m/s². <c9/>: the EuRoC MAV <c10/> <c11/> layout (<c12/>, <c13/>, <c14/>); the first sample is <c15/>. Rows that do not parse, and rows whose time does not increase, are skipped. See <a1><c16/></a1> for how the gyro heading is used.
+# c16: format = "ros2-csv"
+# c17: sensor_msgs/msg/Imu
+# c18: ros2 topic echo --csv
+# c19: t_s
+# c20: RECEIVER-TRUST.md
+seg-86f00eceef47 = <c1/>: a header row naming the columns, then one sample per row. Columns (any order, names case-insensitive): <c2/> seconds on the receiver log's clock, <c3/>, <c4/>, <c5/> angular rate in rad/s, <c6/>, <c7/>, <c8/> specific force in m/s². <c9/>: the EuRoC MAV <c10/> <c11/> layout (<c12/>, <c13/>, <c14/>); the first sample is <c15/>. <c16/>: ROS { "2" } <c17/> as <c18/> prints it (no header; { "40" } fields in message order; <c19/> is the stamp, seconds plus nanoseconds), so a recorded or live ROS { "2" } topic is read with no bridge code. Rows that do not parse, and rows whose time does not increase, are skipped. See <a1><c20/></a1> for how the gyro heading is used.
+
+# text
+# c1: kshana sensor-live --kind imu
+seg-07cea617dbb8 = IMU live (<c1/>)
+
+# text
+# c1: sensor-live
+# c2: tcp:host:port
+# c3: --follow
+# c4: t_s
+# c5: gyro
+# c6: accel
+# c7: heading_deg
+# c8: --heading0
+# c9: --z-up
+# c10: [log.imu]
+# c11: heading-course
+# c12: tests/clock_live.rs
+seg-4326412a140f = <c1/> reads the same two layouts a line at a time, from standard input, <c2/> or a file (<c3/> waits for more lines), and prints one JSON line per sample: <c4/>, <c5/>, <c6/> and <c7/>, the gyro heading integrated from <c8/> (default { "0" }; <c9/> for a body z axis pointing up). The line reader is the one <c10/> uses, and the heading is summed in the same order as the <c11/> monitor sums it, so the live samples and headings equal a replay of the same file, bit for bit (<c12/>). A serial IMU is read through the tool that turns it into CSV lines; Kshana opens no device.
+
+# text
+# c1: kshana sensor-live --kind n2k
+seg-8ebb0faae595 = NMEA { "2000" } from a CAN bus (<c1/>)
+
+# text
+# c1: candump -l
+# c2: -L
+# c3: $GPRMC
+# c4: $HEHDT
+# c5: $HCHDM
+# c6: canboat
+# c7: kshana::n2k::convert
+# c8: tests/clock_live.rs
+# c9: slcan
+# c10: gs_usb
+seg-ee1d555d1d57 = Reads SocketCAN <c1/>/<c2/> lines (29-bit identifiers; 11-bit frames are not NMEA { "2000" } and are passed over) and prints NMEA { "0183" } sentences: PGN { "129025" } (position, rapid update) gives <c3/> with the latest PGN { "129026" } course and speed; PGN { "127250" } (vessel heading) gives <c4/> (true) or <c5/> (magnetic); PGN { "126992" } (system time) dates the sentences, otherwise the frame's capture time does. Values marked "not available" are left empty. The layouts are the openly documented ones (<c6/>); the NMEA { "2000" } standard is not reproduced. Multi-frame (fast-packet) groups, such as GNSS position data, are not read yet. The conversion is the same function over a live stream and over a recorded log (<c7/>), and the output is read by the NMEA reader unchanged (<c8/>). USB-CAN gateways that present a SocketCAN interface (<c9/>, <c10/>) work the same way; nothing is sent on the bus.
+
+# text
+# c1: clock-live
+# c2: sensor-live
+seg-5c412e20a823 = Timing and health of live inputs (<c1/>, <c2/>)
+
+# text
+# c1: host_s
+# c2: --latency-s
+seg-333fdb1d2d51 = Every live reading line carries <c1/>: the host clock when the line arrived, minus the device's latency (<c2/>, measured once against a common reference such as a PPS edge). The host clock is the one chrony, PTP or PPS disciplines, so readings from several devices on one machine share one time base whatever their own clocks report.
+
+# text
+# c1: sensor-live --kind n2k
+seg-81eaa9583924 = Each live command watches its sensor and prints events as JSON lines beside the readings (<c1/> prints them on standard error, since its output is NMEA):
+
+# text
+seg-fea8fb19c38c = Flag
+
+# text
+seg-05304ce8160e = Event
+
+# text
+seg-d501dbcd4046 = When
+
+# text
+# c1: stale
+# c2: stale-cleared
+seg-6068215439f5 = <c1/>, then <c2/>
+
+# text
+seg-14cdf45b965f = no reading for that long, then one again
+
+# text
+# c1: frozen
+# c2: frozen-cleared
+seg-a6372a1fd17a = <c1/>, then <c2/>
+
+# text
+# c1: n
+seg-fdc8cf14edfd = the same value <c1/> times in a row, then a change
+
+# text
+# c1: out-of-range
+# c2: in-range
+seg-26117b870514 = <c1/>, then <c2/>
+
+# text
+# c1: [lo, hi]
+seg-e7e1f37fb077 = the value leaves <c1/>, then returns
+
+# text
+# c1: gap
+# c2: from_s
+# c3: host_s
+seg-aa562dbfb9f2 = <c1/> with <c2/> and <c3/>
+
+# text
+seg-7123ce590979 = the device or connection ended or failed; it is opened again every second, and the time without input is reported when it is back
+
+# text
+# c1: clock-live
+# c2: --sensor <name>
+# c3: tests/clock_live.rs
+seg-d21c2e09b2a0 = The watched value is the kept offset for <c1/> and the magnitude of the specific force for an IMU. Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no reading is made up for it. <c2/> names the sensor in events. <c3/> checks a TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay), and the frozen and range events. What needs the bench (L8): two sensors on one PPS agreeing within a pre-registered skew, and a real unplug and replug.
 
 # text
 # c1: kshana imu-fit
@@ -167,6 +271,15 @@ seg-61748cf7559e = GNSS-SDR (format = "gnss-sdr")
 
 # text
 seg-b0b5f9a66eed = IMU ([log.imu])
+
+# text
+seg-d1f5289d8c26 = IMU live (kshana sensor-live --kind imu)
+
+# text
+seg-6c4ae41fbc36 = NMEA { "2000" } from a CAN bus (kshana sensor-live --kind n2k)
+
+# text
+seg-9198c04f5818 = Timing and health of live inputs (clock-live, sensor-live)
 
 # text
 seg-03a6e15dce0a = IMU into the hybrid and fusion scenarios (kshana imu-fit)

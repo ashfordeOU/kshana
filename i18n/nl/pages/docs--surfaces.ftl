@@ -150,8 +150,6 @@ seg-9eff7c00723a = Render Trust Telemetry (een opgeslagen resultaat)
 
 seg-1b60ff4652cd = Hulpmiddelen: kaart Telemetrie (tabblad Opdrachtregel; alleen formaten, geen sockets)
 
-seg-3e332170d963 = Machine- en sensorinvoer ({ "0.38" }): <c1/> formaten <c2/>, <c3/>, <c4/> en <c5/> (<c6/>, <c7/>)
-
 seg-060e5931ac62 = <c1/> (scenario <c2/>)
 
 seg-9dad5918cbf9 = <c1/>, <c2/> (inline)
@@ -570,8 +568,6 @@ seg-6555ff9a6d8e = Uitvoer
 
 seg-12471a4b2b57 = Zendergebied (ADS-B, AIS; MODELLED)
 
-seg-0a58678302e5 = <b>n.v.t.</b> (nog niet beschikbaar; de oppervlakken Rust, Python en WASM dekken het)
-
 seg-dff1bfe0263e = <b>n.v.t.</b> (het publiceren van zendergebieden in het openbare observatorium is een afzonderlijk besluit van de eigenaar en staat uit)
 
 seg-ec2d91e2f867 = Controle van inzendingen van datapartners (formaat en metadata van een inzending met gemeten data, <c1/>; scoort niets)
@@ -599,8 +595,6 @@ seg-e957474f44a8 = <c1/> (alleen inline; de kernelsleutel wordt geweigerd)
 seg-1c1729fafe99 = <b>n.v.t.</b> (geen notebook; het voorbeeld draait in elk notebook via <c1/> vanuit een checkout)
 
 seg-39e5b9fc3560 = <c1/> (CSV)
-
-seg-743d33b43d99 = n.v.t. (nog niet beschikbaar)
 
 seg-ab52a3469f6a = Geschatte zendergebieden, MODELLED; tracemappen en <c1/> zijn alleen op de opdrachtregel beschikbaar
 

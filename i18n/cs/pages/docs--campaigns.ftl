@@ -92,8 +92,6 @@ seg-13c92a72544a = rušení (jamming), { "600" } s
 
 seg-f9c01304734d = totéž, rušička -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 klesne na { "27.7" } dB-Hz, všech { "8" } družic stále sleduje
-
 seg-6a052db03815 = spoofing, ukončen v { "370" } s pomocí <c1/>
 
 seg-89856c1f83f8 = <c1/> (časová rampa { "0.1" } ns/s), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A drží na { "17.98" } dB-Hz, E1 zpět na { "44.73" } d
 seg-2db37e292efe = Zotavení E1 pod tónem CW spočívá na zacházení druhu spektrum se spojitým spektrem: tón leží v nule spektra MBOC a nic nespřahuje. Skutečný tón by se spřahoval přes spektrální čáry kódu; to je uvedeno v souboru a v SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: mřížka parametrů přes libovolný druh
-
-seg-b14a11d60e9f = Jeden až tři tečkami oddělené klíče scénáře, každý v lineárním nebo logaritmickém rozsahu, na týchž hodnotách os, jaké používá druh <c1/>. Každá osa má název a jednotku; každá metrika má název a cestu k výsledku a její jednotka se čte z bloku jednotek procházeného druhu, pokud kampaň neuvede vlastní. S <c2/> je každý uzel souborem Monte Carlo se seedem (realizace <c3/> na seedu uzlu plus <c4/>) a uvádí se se statistikami níže. <c5/> prochází výkon rušičky { "1" } km od přijímače od -50 do +{ "10" } dBW: průměrný poměr rušení k signálu se mění přesně o { "1" } dB na dB ({ "12.2" } až { "72.2" } dB) a dostupnost klesá z { "1" } na { "0" } mezi -30 a -25 dBW.
 
 seg-c1931e311cca = Klíč s tečkami může indexovat pole tabulek podle pozice: <c1/> je <c2/> třetí tabulky <c3/> a <c4/> sahá o tři úrovně hlouběji.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: soubor se seedem
 seg-03d764a4cb56 = [compose]: několik scénářů za sdílených podmínek
 
 seg-61a0db2550ba = [optimize]: nejlepší hodnota jedné metriky
+
+seg-0886cc461f7a = C/N0 klesne na { "30.6" } dB-Hz, všech { "8" } družic stále sleduje
+
+seg-74f8b08a4194 = Jeden až tři tečkami oddělené klíče scénáře, každý v lineárním nebo logaritmickém rozsahu, na týchž hodnotách os, jaké používá druh <c1/>. Každá osa má název a jednotku; každá metrika má název a cestu k výsledku a její jednotka se čte z bloku jednotek procházeného druhu, pokud kampaň neuvede vlastní. S <c2/> je každý uzel souborem Monte Carlo se seedem (realizace <c3/> na seedu uzlu plus <c4/>) a uvádí se se statistikami níže. <c5/> prochází výkon rušičky { "1" } km od přijímače od -50 do +{ "10" } dBW: průměrný poměr rušení k signálu se mění přesně o { "1" } dB na dB ({ "12.2" } až { "72.2" } dB) a dostupnost klesá z { "1" } na { "0" } mezi -25 a -20 dBW.

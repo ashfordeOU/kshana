@@ -88,4 +88,4 @@ seg-7b53ee712a36 = <b>{ "176" } z { "401" }</b> możliwości sprawdzonych wzglę
 
 seg-b59781ecf257 = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "401" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "221" } obliczonych na podstawie modelu, { "4" } należących do partnera
 
-seg-d0b2811a3d3c = Silnik ma { "92" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).
+seg-80e5f0aa2831 = Silnik ma { "93" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).

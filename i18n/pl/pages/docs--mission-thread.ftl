@@ -18,8 +18,6 @@ seg-32755afa0f78 = Wątek misji
 
 seg-d4af67363efc = Oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny. Tylko źródła publiczne; bez powiązań z żadną agencją i bez jej poparcia, a nic tu nie twierdzi, że spełnia wymagania jakiegokolwiek programu.
 
-seg-816770c97995 = <c1/> łączy fazy misji, z których każda jest jednym z ośmiu zarejestrowanych rodzajów z własnymi czujnikami i filtrem, i podaje <b>budżet błędu nawigacji i czasu</b> całego łańcucha: dla każdej fazy 1-sigma pozycji, prędkości i biasu zegara na wejściu, w szczycie i na wyjściu; każdy wkład do niego, z jednostką; margines względem wymagania, które podajesz; najsłabsze ogniwo; datowane zdarzenia; i wykres osi czasu. Każda liczba jest <b>MODELLED</b>: podanym wejściem albo modelem takiego wejścia. Jedyne wiersze z zewnętrzną wyrocznią są w <s1><c2/></s1> i mówią, co testują.
-
 seg-c29a19879c84 = Uruchom przykład z kopii repozytorium (odczytuje zatwierdzony wycinek jądra Księżyca):
 
 seg-00f84b734853 = Dokument
@@ -87,8 +85,6 @@ seg-69d6ab8e93bc = Opcjonalna tabela <c1/> podaje stacje i najniższą elewację
 seg-467b14d7ef59 = <c1/>: <c2/> (indeks, identyfikator, rodzaj, czasy, etykieta, źródła nawigacji i czasu, źródło ograniczające, sigmy na wejściu, w szczycie i na wyjściu, wymaganie, margines, <c3/> z jednostką na wiersz, <c4/>), <c5/> (najmniejszy margines względem podanego wymagania, w przeciwnym razie największa pozycja w szczycie), <c6/>, <c7/> wątku (etykieta najsłabszej fazy) oraz blok <c8/>. Wykres to 1-sigma pozycji i biasu zegara względem czasu misji, jedno pasmo na fazę.
 
 seg-a3c40c51c2ff = Czym są dowody
-
-seg-1168810d4407 = Etykieta wątku to etykieta najsłabszej fazy, a każda faza jest MODELLED. Propagator księżycowy jest porównany z LRO i CAPSTONE (<s1><c1/></s1>); łuk cislunarny jest porównany z publiczną trajektorią Horizons (<s2><c2/></s2>). Wiersz zalicza próg albo go nie osiąga, a próg jest ustalony w zatwierdzonym pliku przed przebiegiem, a niespełnienie jest zapisywane jako niespełnienie. Nic nie jest VALIDATED, o ile rejestr tak nie stanowi.
 
 seg-ee3c5b58e6fa = <s1>Poprzednia</s1>Orbita i powierzchnia Księżyca jako infrastruktura
 

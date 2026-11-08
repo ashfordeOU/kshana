@@ -2338,8 +2338,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering för en kedja av faser, från uppskjutning
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Månstigning: den drivna stigningen från en plats vid sydpolen (Artemis-klass) till rendezvous på { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -2362,12 +2360,10 @@ seg-0ecc50eafdbe = PNT och tidssynkronisering på månytan: tillgänglighet per 
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } av { "92" } typer, { "3300" } av { "3300" } numeriska fält
-
-seg-237402dbe93a = Välj en av { "194" } scenariofiler fördelade på { "92" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
-
-seg-ace118a5dc36 = Alla { "194" } scenariofiler fördelade på { "92" } typer, grupperade efter område; { "181" } är inbyggda i motorn, och <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> körs från arkivet med kommandoraden. Pricken visar registerstatusen för typens modul där registret nämner den. En fil med en registrerad körning öppnar den i Kshana Studio; de andra öppnar sin post i scenarioreferensen, med filen och kommandot som kör den.
-
 seg-f4ad26be58c2 = Ett kort uppdragsflöde som körs enbart från en binärfil: uppskjutning och uppstigning, ett rendezvous i låg omloppsbana runt jorden, en dag av
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Välj en av { "196" } scenariofiler fördelade på { "93" } typer, eller skriv en egen. <c1/> listar varje typ med dess fält, och <c2/> skriver ut en fil att utgå från.
+
+seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriska fält

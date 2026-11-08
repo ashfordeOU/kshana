@@ -88,8 +88,6 @@ seg-32c07578eab3 = Stappen van de opgenomen sessie
 
 seg-2cff891dc970 = Volgende stap
 
-seg-45da99dccd40 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "49" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Voer een { -brand }-scenario uit en geef de tijdreeks ervan terug als animatie.
 
 seg-0247e08ba09d = <c1/>: Beoordeel het vertrouwen in een echt GNSS-ontvangerlogboek: lees een u-blox-UBX-, RINEX { "3" }- (eventueel met uitgezonden navigatiegegevens, wat de eigen positiebepaling van de engine, RAIM en een klokgestuurde monitor toevoegt), Android-GnssLogger- of NMEA-logboek, laat de vertrouwensmonitors draaien (daling van de draaggolf-ruisdichtheid, AGC, jamming-indicator, verlies van vergrendeling, positiesprong, RAIM, klok) tegen een kalibratiebasislijn, en geef terug wanneer en waarom de ontvanger niet meer te vertrouwen was.
@@ -718,10 +716,12 @@ seg-b9961ed25282 = Nieuw in v{ $version }: een missieketen, een bewijslabel bij 
 
 seg-653cf3198094 = { "176" } van { "401" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.
 
-seg-76b213d03caa = Alle { "92" } scenariosoorten, gratis zonder functiepoort, deterministisch uit scenario, seed en engineversie.
+seg-859bb6732925 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "52" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-2dc1aed7a12e = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
-seg-fddfe8b260be = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-b79ee48fd586 = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-388f14eb6d8d = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-9b9d03fe1477 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-579d9b6f7afd = Alle { "93" } scenariosoorten, gratis zonder functiepoort, deterministisch uit scenario, seed en engineversie.

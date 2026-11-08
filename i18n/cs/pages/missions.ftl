@@ -826,8 +826,6 @@ seg-3cde4f0b352a = Nechte svého asistenta spouštět ověřený engine místo h
 
 seg-0487ea97b0d8 = Začněte na <a1>Serveru MCP</a1>
 
-seg-562785c48737 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Zdarma: { "49" } nástrojů MCP, od run_scenario po export_oem.
-
 seg-af65a3c927cf = Vývojář vestavěných systémů nebo produktu
 
 seg-16324be13740 = Volejte engine z Rustu, Pythonu nebo JavaScriptu uvnitř vlastního produktu.
@@ -838,4 +836,6 @@ seg-0e6be0d623f6 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Komerční lic
 
 seg-9b505908a6e2 = Kshana <b>neovládá žádný rádiový hardware a nic nevysílá</b>. Obsahuje softwarový přijímač GNSS pro zaznamenaná a generovaná data IQ a umí zapisovat syntetické soubory IQ v základním pásmu, ale <b>nejde o hardware generátoru rádiových signálů</b> a <b>nejde o hardwarový přijímač GNSS ani o přijímač s certifikací</b>. Je to nástroj pro studie a kompromisní analýzy: simuluje, co rušení, spoofing a ztráta signálu způsobují navigačnímu a časovému řešení, a říká vám, které z jeho odpovědí jsou ověřené. <b>Nejde o letový produkt.</b>
 
-seg-8575c0837e28 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-b9ebb409e11a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-7b9633a75c90 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Zdarma: { "52" } nástrojů MCP, od run_scenario po export_oem.

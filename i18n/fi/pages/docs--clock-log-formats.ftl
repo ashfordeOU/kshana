@@ -4,8 +4,6 @@ seg-ca2fcdd60f65 = Lähde: <c1/>
 
 seg-0dfd1160c5d7 = Kellolokien formaatit
 
-seg-f52a62872493 = <c1/> lukee mitatun kellolokin yhdeksi normalisoiduksi vaihesarjaksi: tasavälinen <c2/>-näytteiden ruudukko, jossa näytteenottoväli <c3/> on annettu tai löydetty, jokainen aukko lasketaan ja lokin yksiköt nimetään. Kahdeksan formaattia luetaan, kukin dokumentoituna osajoukkona. Kaikki osajoukon ulkopuolinen hylätään virheellä, joka nimeää löydetyn, eikä sitä lueta likimääräisesti.
-
 seg-dbdbfec37ab6 = <b>Lyhenteet.</b> RINEX on Receiver Independent Exchange Format. TICC on TAPR:n (Tucson Amateur Packet Radio) aikavälilaskin. ADEV on limittäinen Allanin poikkeama, TDEV aikapoikkeama ja MTIE suurin aikavälivirhe. <c1/> on näytteenottoväli sekunteina.
 
 seg-1d5a6c2090af = Missä lokia voi käyttää

@@ -100,10 +100,6 @@ seg-922b8656fcae = Mootori joonistatud diagramm failile scenarios/lunar-station-
 seg-4f5941f12127 = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaaletaloonijaama jaoks teadaoleval lõunapooluse asukohal, punkti kaupa ja üle piirkonna, Testid: <a1>lunar_station_coverage_reference.rs</a1>.
 
 # text
-# c1: lunar-station-coverage
-seg-d547d600ee2d = <b>MODELLED</b> Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapooluse kasutajaruudustiku ja ühe päeva epohhide (liik <c1/>): diferentsiaal. Sõltumatu etalon (InternalConsistency): Aritmeetika, mille arvutas uuesti sõltumatu numpy skript eksporditud juhtumitel (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; eelregistreeritud failis tests/fixtures/lunar_station/PREREGISTRATION.md, kinnitatud üksi commit-is 9caedf97 enne esimest käivitust): { "20" } juhtumil, kus iga vealiige on sees, on nähtavad hulgad ja olek identsed, toored ulatusvead ühtivad täpsusega { "1.4e-14" } m, asukohavea vektorid ja suurused täpsusega { "1.4e-9" } m vastu
-
-# text
 # c1: label
 seg-626ab55f0424 = MODELLED (tulemus <c1/>)
 

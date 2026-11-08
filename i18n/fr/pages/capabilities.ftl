@@ -3672,8 +3672,6 @@ seg-031af69c715c = <c1/><a1>clock-ensemble</a1><a2>clock-fitted-log</a2><a3>cloc
 
 seg-5ab9475613b4 = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation d'une chaîne de phases, depuis le lancement
 
-seg-3ec60c6ff0e8 = <c1/><a1>mission-thread-artemis-class</a1>
-
 seg-fd3af0bea7c3 = Ascension lunaire : l'ascension propulsée depuis un site de surface polaire sud (classe Artemis) jusqu'au rendez-vous à { "100" } km
 
 seg-9abe86dc2d7a = <c1/><a1>lunar-ascent</a1>
@@ -3696,12 +3694,10 @@ seg-0ecc50eafdbe = Disponibilité du PNT et de la synchronisation temporelle en 
 
 seg-a349758cf3d8 = <c1/><a1>lunar-surface</a1><a2>lunar-surface-terrain</a2>
 
-seg-69c56cbdda90 = { "92" } types sur { "92" }, { "3300" } champs numériques sur { "3300" }
-
-seg-237402dbe93a = Choisissez parmi { "194" } fichiers de scénario répartis en { "92" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
-
-seg-ace118a5dc36 = Les { "194" } fichiers de scénario répartis en { "92" } types, regroupés par domaine ; { "181" } sont intégrés au moteur, et <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/> s'exécutent depuis le dépôt avec la ligne de commande. Le point indique l'état au registre du module du type là où le registre le nomme. Un fichier avec une exécution enregistrée l'ouvre dans { -brand } Studio ; les autres ouvrent leur entrée dans la référence des scénarios, avec le fichier et la commande qui l'exécute.
-
 seg-f4ad26be58c2 = Un court fil de mission qui s'exécute à partir d'un seul binaire : lancement et ascension, un rendez-vous en orbite basse terrestre, un jour de
 
 seg-c3f9422619ae = <c1/><a1>mission-thread-artemis-class</a1><a2>mission-thread-short</a2>
+
+seg-dc42de8502db = Choisissez parmi { "196" } fichiers de scénario répartis en { "93" } types, ou écrivez le vôtre. <c1/> liste chaque type avec ses champs, et <c2/> affiche un fichier de départ.
+
+seg-d5a79853b72f = { "93" } types sur { "93" }, { "3334" } champs numériques sur { "3334" }

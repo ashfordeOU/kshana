@@ -254,8 +254,6 @@ seg-7b53ee712a36 = <b>{ "176" } von { "401" }</b> Fähigkeiten gegen unabhängig
 
 seg-b59781ecf257 = Wie eine Fähigkeit ihre Kennzeichnung erwirbt: Fähigkeit, unabhängige Referenz, Test, Registerkennzeichnung. Der Verifikationsstatus über alle { "401" } Fähigkeiten: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern
 
-seg-d0b2811a3d3c = Die Engine hat { "92" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).
-
 seg-8e9fbc5f2e72 = Die Beschreibung der eingebauten Szenarioart kind in lang aus dem Katalog (Englisch, wenn die Sprache keine Übersetzung davon hat); None für einen Namen, der keine eingebaute Art ist.
 
 seg-06e503c23c30 = [kind_description_in] in der aktuellen Sprache ([crate::i18n::current]).
@@ -275,3 +273,5 @@ seg-28e05e08ff76 = src in der Sprache lang ausführen und, falls es fehlschlägt
 seg-24fe823a994a = json ohne die Nachweiskennzeichnung ([crate::evidence_label]); unverändert, wenn es keine trägt.
 
 seg-c0444d838311 = out mit der aus seinem JSON, SVG und CSV entfernten Nachweiskennzeichnung, Byte für Byte so, wie der Lauf es erzeugte, bevor es die Kennzeichnung gab; eine Ausgabe ohne Kennzeichnung bleibt unverändert.
+
+seg-80e5f0aa2831 = Die Engine hat { "93" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).

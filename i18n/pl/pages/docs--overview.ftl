@@ -504,8 +504,6 @@ seg-15687303176d = <b>Status w rejestrze (ledger): MODELLED.</b> Jedno losowanie
 
 seg-c626c7f1926d = Nowe widoki Studio
 
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> zyskuje Odtwarzanie na mostku (dwa przebiegi obok siebie na jednym zegarze misji, pod <a2><c1/></a2>), stronę Optyczne PNT (<c2/>), stronę Test holdover (<c3/>) i przeglądarkę obserwatorium (<c4/>). Uruchamiają ten sam silnik w przeglądarce, nic nie jest wysyłane i niosą to samo oświadczenie doradcze. Obrazy powyżej są rysowane z własnego wyniku silnika przez skrypt; nie są zrzutami ekranu tych stron.
-
 seg-630e6aa5f2cc = Nawigacja użytkowników przestrzeni kosmicznej (<c1/>)
 
 seg-20249fd1f444 = Dla statku kosmicznego powyżej orbit GNSS, wokół nich lub daleko poza nimi: ile sygnałów GNSS może użyć, jak są silne, jak dobra jest geometria i co może z nimi zrobić filtr pokładowy. Jeden rodzaj, cztery tryby, wybierane przez tabele scenariusza: <b>powłoka</b> użytkowników (udział czasu z jednym i czterema sygnałami, dla każdej konstelacji), <b>trajektoria</b> (sygnały, C/N0, rozmycie dokładności i ośrodek promienia przy brzegu wzdłuż orbity), przebieg <b>nawigacji</b> (dziewięciostanowy filtr na pseudoodległościach, aż do Księżyca) i <b>formacja</b> (nawigacja względna statków zastępczych wokół głównego). Publicznym źródłem porównania dostępności jest broszura interoperacyjna GNSS Space Service Volume (UN OOSA ST/SPACE/75, z International Committee on GNSS), która sama jest symulacją; jest pobierana, nigdy nie jest wbudowywana. Pełna strona: <a1>docs/SSV.md</a1>.
@@ -1222,15 +1220,11 @@ seg-302554087e15 = Dystrybucja: jedno repozytorium dostarcza pakiet rdzenia, ser
 
 seg-530f5e8a6cdd = Co gdzie trafia i co to sprawdza · <a1>SVG</a1> · źródło <a2>distribution.mmd</a2>
 
-seg-c21d26341f01 = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "49" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
-
 seg-c459db99a099 = <c1/>, we własnym hostingu: zob. <a1>docs/deploy/mcp-http.md</a1>
 
 seg-8977c5b65068 = kshana-mcp na Glama, wskaźnik jakości jego serwera MCP
 
 seg-920704a0e384 = Konfiguracja dla poszczególnych klientów jest w <a1><c1/></a1>. Serwer jest wymieniony w oficjalnym rejestrze MCP jako <c2/>.
-
-seg-b7ea176e9993 = { "49" } narzędzi
 
 seg-4a458fb861f4 = Scenariusze i raporty
 
@@ -1588,8 +1582,6 @@ seg-2610d5a9ee90 = <b>Gdzie się podziało moje wyjście?</b> Każdy przebieg za
 
 seg-4765d3a73a6f = Wersjonowanie i wydania
 
-seg-0ca788bf975d = Kshana stosuje <a1>Semantic Versioning</a1>. Przed wersją 1.0 publiczny schemat scenariuszy i wyników może się jeszcze zmieniać; zmiany niezgodne są wyraźnie opisane w <a2><c1/></a2>. Każdy wynik można odtworzyć z <c2/>.
-
 seg-2885b69ceef1 = <b>Każdy tag <c1/> publikuje automatycznie wszystkie kanały, w jednej kolejności</b>: najpierw na oznaczonym commicie działa pełny zestaw testów, nic nie jest publikowane, dopóki nie przejdzie, a potem potok sprawdza, czy każdy rejestr rzeczywiście udostępnia nową wersję (<a1><c2/></a1>). Kanały:
 
 seg-8222e46bc13c = Instalacja / pobranie
@@ -1898,8 +1890,6 @@ seg-cafc1c9c4d58 = Co nowego w { "0.40" }
 
 seg-59a31376fa3d = { "0.40" } dodaje budżet błędu na poziomie misji, oznacza każdą wartość i tabelę jej poziomem dowodowym, odczytuje zmierzone dzienniki zegara, sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się emiter zakłóceń, i mówi w siedemnastu językach obok angielskiego. Rejestr ma teraz { "401" } wierszy: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Żaden wiersz nie został awansowany do VALIDATED, a każde niespełnienie poniżej jest przypięte przez test.
 
-seg-ab5eec8db03e = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "92" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>).
-
 seg-5bd16655cace = <b>Etykiety dowodowe.</b> Każda wartość i tabela zapisywana przez przebieg niesie poziom i identyfikatory wierszy rejestru, na których się opiera, odczytane z macierzy.
 
 seg-e79fca859317 = <b>Zmierzone zegary.</b> Odczytywanych jest osiem formatów dzienników zegara (<a1><c1/></a1>), a dopasowana seria może sterować holdover. Względem progów zarejestrowanych wstępnie dopasowanie <b>nie osiąga</b> F1(a) w pięciu z sześciu zapisów i F2 w jednym; oba pozostają MODELLED (<a2>Dziennik zmian</a2>).
@@ -1926,8 +1916,6 @@ seg-5d3bb72c6490 = Kshana Studio, widok zaawansowany, po przebiegu dołączonego
 
 seg-b8f6321e9e0d = Trzy strony kshana.dev obok siebie. Strona główna, hero: wiersz z nazwą Kshana · क्षण · the precise instant nad nagłówkiem Przećwicz minutę, w której GNSS gaśnie, z konsolą misji prawdziwego przebiegu silnika v{ $version } (glob i trzy wykresy na żywo: błąd czasu zegara, stosunek nośnej do szumu i poziom ochrony). Dowody, Opublikowane badania: sześć prac na arXiv zbudowanych na otwartym silniku, najnowsza z wartością silnika. Wydania, Kshana Pro, ten sam silnik, wzmocniony: Free uruchamia jeden scenariusz, Pro odpowiada na pytanie programu.
 
-seg-9d447be4caed = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity po ostatnią nanosekundę holdover zegara. Silnik ma { "92" } rodzajów scenariuszy; <c1/> je wymienia, a <a1><c2/></a1> dokumentuje każde pole.
-
 seg-d3d6b030b588 = Obszar emitera
 
 seg-56eee3458645 = gdzie, przy podanych założeniach, może znajdować się źródło pogorszonych raportów pozycji: obszary na podanej ufności, centroid z jego elipsą, nigdy punkt (MODELLED; <c1/>)
@@ -1935,8 +1923,6 @@ seg-56eee3458645 = gdzie, przy podanych założeniach, może znajdować się źr
 seg-ee28beafac1a = budżet błędu nawigacji i czasu łańcucha faz od startu do wejścia w atmosferę
 
 seg-34e44a492cad = <c1/> uruchamia scenariusz; każde inne polecenie jest podpoleceniem, a <c2/> wypisuje sposób użycia wszystkich. Polecenia to <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (z <c8/> i <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> i <c63/>. <a1><c64/></a1> podaje przeznaczenie każdego z nich, zweryfikowany przykład i jego stronę w dokumentacji.
-
-seg-c472e0e5a3a5 = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "92" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
 
 seg-9f5426cbbf4a = <b>{ "176" } z { "401" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "221" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
 
@@ -1958,29 +1944,30 @@ seg-35a4412348e1 = { "176" } sprawdzonych · { "221" } obliczonych z modelu · {
 
 seg-cdf946112863 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "401" } możliwości ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
 
-seg-656df854409a = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "92" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "401" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
-
-seg-11041e6beb65 = { "92" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
-
-seg-abf70d11a088 = cały otwarty silnik, wszystkie { "92" } rodzajów scenariuszy, bez blokad funkcji
-
 seg-824001fa6734 = laboratoria i producenci posiadający zmierzone dane
 
 seg-df3ca402513f = które wiersze MODELLED mógłby awansować zmierzony zapis zegara lub IMU, jakie formaty, jak zgłoszenie jest sprawdzane (<c1/>), oceniane i zaliczane
-
-seg-e2d733f93455 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "92" } rodzajów, { "193" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
-
-# text
-# c1: mission-thread
-# c2: launch-ascent
-# c3: leo-rendezvous
-# c4: tli-and-cruise
-# c5: entry
-# c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "92" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>). W Studio wątek odczytuje się pod adresem <c6/>.
 
 seg-ac2d3dd91aa2 = Buduje się z Rust { "1.88" } lub nowszym, czyli rust-version z Cargo.toml
 
 seg-48991660376d = Wymaga toolchainu Rust (≥ { "1.88" }, czyli <c1/> w Cargo.toml; rozwijane na { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> kończy się błędem na starym toolchainie.</b> Kshana wymaga Rust ≥ { "1.88" }. Zaktualizuj poleceniem <c2/>.
+
+seg-8391e467adf7 = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "93" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>). W Studio wątek odczytuje się pod adresem <c6/>.
+
+seg-a66ad1f69702 = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity po ostatnią nanosekundę holdover zegara. Silnik ma { "93" } rodzajów scenariuszy; <c1/> je wymienia, a <a1><c2/></a1> dokumentuje każde pole.
+
+seg-43bd621a1f5b = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "93" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
+
+seg-290f2b34e368 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "93" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "401" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
+
+seg-ed215c6aa19b = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "52" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
+
+seg-81fcbb495e8f = { "52" } narzędzi
+
+seg-fb8bcc54a31d = { "93" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
+
+seg-2f38fc515db6 = cały otwarty silnik, wszystkie { "93" } rodzajów scenariuszy, bez blokad funkcji
+
+seg-5374f780c396 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "93" } rodzajów, { "195" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.

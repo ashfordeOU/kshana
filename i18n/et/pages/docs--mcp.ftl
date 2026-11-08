@@ -542,15 +542,6 @@ seg-73a73af88f08 = HTTP-režiim (ise majutatud)
 seg-4f248ed3e597 = <c1/> teenindab samu tööriistu voogedastatava HTTP kaudu aadressil <c2/>. See seob ainult loopbacki; mitte-loopback aadress vajab <c3/> ja bearer-tokenit muutujas <c4/>; IQ-failitööriistad on välja lülitatud; päringu suurus, aeg ja samaaegsus on piiratud; CORS-päist ei saadeta. Kshana ei majuta lõpp-punkti: te majutate seda ise. Vt <a1>docs/deploy/mcp-http.md</a1>.
 
 # text
-# c1: cargo install
-# c2: kshana-mcp
-# c3: PATH
-# c4: ~/.cargo/bin/kshana-mcp
-# c5: rmcp
-# c6: kshana
-seg-60f55b197ac2 = <c1/> paneb <c2/> teie teele <c3/> (tavaliselt <c4/>). Server räägib JSON-RPC-d (JSON remote procedure call) stdio kaudu; logid lähevad stderr-i. Lähtekoodist ehitamine vajab Rusti tööriistaahelat ≥ { "1.88" } (parandatud <c5/> { "2" }.x SDK vajab seda; teek <c6/> ise vajab ainult { "1.85" }); Dockeri kujutis ei vaja ühtki.
-
-# text
 seg-2f3216082425 = Registreerige see kliendiga
 
 # text
@@ -640,16 +631,6 @@ seg-dc60d64a3bb8 = <em>„Tee ühesekundiline GPS L1 stseen PRN-idega { "3" } ja
 seg-942dc8abe0ec = Kavandi märkus — miks eraldi crate
 
 # text
-# c1: Cargo.lock
-# c2: rmcp
-# c3: kshana
-# c4: rmcp
-# c5: rmcp
-# c6: cargo deny
-# c7: xval/anise-frames
-seg-ce6d0ecab448 = Server on <b>eraldiseisev, tööruumist välja jäetud crate</b> oma failiga <c1/>, nii et ametlik Rusti MCP SDK (tarkvaraarenduskomplekt) <c2/> ja selle asünkroonne käituskeskkond ei satu kunagi avaldatud <c3/> crate'i sõltuvusgraafi: teegi või Pythoni kasutaja ei kompileeri serverit, mida ta ei käita. (See eraldati esmalt seetõttu, et <c4/> on <b>edition { "2024" }</b>, mis vajab rustc ≥ { "1.85" }, samas kui põhicrate lubas siis { "1.75" }. Teek deklareerib nüüd { "1.85" }; see server deklareerib { "1.88" }, mis on turvaparandusega <c5/> { "2" }.x alampiir.) Pidev integreerimine (CI) kontrollib seda crate'i eraldi — testid ja <c6/> selle lukufaili vastu. rmcp litsentsipuu on puhas (Apache-2.0/MIT/BSD), seega erinevalt ristvalideerimise crate'ist <c7/>, mida see muidu järgib, ei ole eraldamine litsentsimise pärast.
-
-# text
 seg-75bf2d74642d = Litsents: AGPL-3.0-only, GNU Affero General Public License versioon { "3" } ainult (või Ashforde OÜ kommertslitsents; vt hoidla <a1>LICENSING.md</a1>).
 
 # text
@@ -658,10 +639,10 @@ seg-490ebbefb561 = <s1>Eelmine</s1>Rust crate
 # text
 seg-350b6b914734 = <s1>Järgmine</s1>MCP server: kõik paigalduskanalid
 
-seg-492888115662 = { "92" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.
-
 # text
 seg-a4a0e399a31e = <c1/> paneb <c2/> teie teele <c3/> (tavaliselt <c4/>). Server räägib JSON-RPC-d (JSON remote procedure call) stdio kaudu; logid lähevad stderr-i. Lähtekoodist ehitamine vajab Rusti tööriistaahelat ≥ { "1.88" } (parandatud <c5/> { "2" }.x SDK vajab seda ja nii ka teek <c6/>); Dockeri kujutis ei vaja ühtki.
 
 # text
 seg-0757e15070d4 = Server on <b>eraldiseisev, tööruumist välja jäetud crate</b> oma failiga <c1/>, nii et ametlik Rusti MCP SDK (tarkvaraarenduskomplekt) <c2/> ja selle asünkroonne käituskeskkond ei satu kunagi avaldatud <c3/> crate'i sõltuvusgraafi: teegi või Pythoni kasutaja ei kompileeri serverit, mida ta ei käita. (See eraldati esmalt seetõttu, et <c4/> on <b>edition { "2024" }</b>, mis vajab rustc ≥ { "1.85" }, samas kui põhicrate lubas siis { "1.75" }. Teek ja see server deklareerivad nüüd mõlemad { "1.88" }, mis on turvaparandusega <c5/> { "2" }.x ja uuendatud RustCrypto cratede alampiir.) Pidev integreerimine (CI) kontrollib seda crate'i eraldi — testid ja <c6/> selle lukufaili vastu. rmcp litsentsipuu on puhas (Apache-2.0/MIT/BSD), seega erinevalt ristvalideerimise crate'ist <c7/>, mida see muidu järgib, ei ole eraldamine litsentsimise pärast.
+
+seg-b873b39a4921 = { "93" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.

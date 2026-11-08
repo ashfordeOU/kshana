@@ -92,8 +92,6 @@ seg-13c92a72544a = häirintä, { "600" } s
 
 seg-f9c01304734d = sama, häirintälähde tasolla -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 laskee arvoon { "27.7" } dB-Hz, kaikki { "8" } satelliittia yhä seurattavina
-
 seg-6a052db03815 = harhautus, päättyi hetkellä { "370" } s säännöllä <c1/>
 
 seg-89856c1f83f8 = <c1/> ({ "0.1" } ns/s aikarampi), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A pysyy arvossa { "17.98" } dB-Hz, E1 takaisin arvoon { 
 seg-2db37e292efe = E1:n palautuminen CW-sävyn alla perustuu spektrilajin jatkuvan spektrin käsittelyyn: sävel osuu MBOC-spektrin nollakohtaan eikä kytkeydy mihinkään. Todellinen sävel kytkeytyisi koodin spektriviivojen kautta; tämä on kirjattu tiedostoon ja asiakirjaan SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: parametriruudukko mille tahansa lajille
-
-seg-b14a11d60e9f = Yhdestä kolmeen pisteellä erotettua skenaarioavainta, kukin lineaarisella tai logaritmisella alueella, samoilla akseliarvoilla, joita laji <c1/> käyttää. Jokaisella akselilla on nimi ja yksikkö; jokaisella mittarilla on nimi ja tulospolku, ja sen yksikkö luetaan pyyhkäistyn lajin omasta yksikkölohkosta, ellei kampanja ilmoita omaa. Kun <c2/>, jokainen solmu on siemenillä alustettu Monte Carlo -joukko (toteuma <c3/> solmun siemenluvulla plus <c4/>), raportoituna alla olevilla tilastoilla. <c5/> pyyhkäisee häirintälähdettä, joka on { "1" } km päässä vastaanottimesta, tasolta -50 tasolle +{ "10" } dBW: keskimääräinen häirintä-signaalisuhde liikkuu täsmälleen { "1" } dB per dB ({ "12.2" }–{ "72.2" } dB), ja saatavuus putoaa arvosta { "1" } arvoon { "0" } välillä -30 ja -25 dBW.
 
 seg-c1931e311cca = Pisteellä erotettu avain voi indeksoida taulukkotaulukkoa sijainnin mukaan: <c1/> on kolmannen taulukon <c3/> kenttä <c2/>, ja <c4/> yltää kolme tasoa alas.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: siemenillä alustettu joukko
 seg-03d764a4cb56 = [compose]: useita skenaarioita yhteisillä ehdoilla
 
 seg-61a0db2550ba = [optimize]: yhden mittarin paras arvo
+
+seg-0886cc461f7a = C/N0 laskee arvoon { "30.6" } dB-Hz, kaikki { "8" } satelliittia yhä seurattavina
+
+seg-74f8b08a4194 = Yhdestä kolmeen pisteellä erotettua skenaarioavainta, kukin lineaarisella tai logaritmisella alueella, samoilla akseliarvoilla, joita laji <c1/> käyttää. Jokaisella akselilla on nimi ja yksikkö; jokaisella mittarilla on nimi ja tulospolku, ja sen yksikkö luetaan pyyhkäistyn lajin omasta yksikkölohkosta, ellei kampanja ilmoita omaa. Kun <c2/>, jokainen solmu on siemenillä alustettu Monte Carlo -joukko (toteuma <c3/> solmun siemenluvulla plus <c4/>), raportoituna alla olevilla tilastoilla. <c5/> pyyhkäisee häirintälähdettä, joka on { "1" } km päässä vastaanottimesta, tasolta -50 tasolle +{ "10" } dBW: keskimääräinen häirintä-signaalisuhde liikkuu täsmälleen { "1" } dB per dB ({ "12.2" }–{ "72.2" } dB), ja saatavuus putoaa arvosta { "1" } arvoon { "0" } välillä -25 ja -20 dBW.

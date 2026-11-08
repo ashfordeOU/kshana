@@ -32,7 +32,7 @@ seg-b88a2a9497c2 = Tool
 seg-b847694d91b5 = Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition; returns the summary + full result JSON (JavaScript Object Notation: figures of merit, curves). Optional <c1/> returns the chart as SVG (Scalable Vector Graphics).
 
 # text
-seg-492888115662 = The { "92" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
+seg-b873b39a4921 = The { "93" } built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario.
 
 # text
 seg-3c00da00ec30 = Pre-flight check: parse the TOML and detect its kind, without running.
@@ -158,6 +158,10 @@ seg-27698c80b7f1 = Read the published Jammertest test catalogue and transmission
 seg-23daf6121ca0 = Score a receiver log against that schedule (<c1/>): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as <c2/>, binary (<c3/>, <c4/>) as <c5/>. A signed pack needs a key: command line. Advisory only; MODELLED.
 
 # text
+# c1: kshana jammertest locate-score
+seg-8bd52882e62d = Score where a monitoring network said interference came from (<c1/>, row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy.
+
+# text
 # c1: kshana receiver-trust evidence
 # c2: docs/EVIDENCE-PACKS.md
 seg-0ca5b319e850 = A signed evidence pack for a window of a vessel's log (<c1/>): the raw log bytes for the window, configuration, per-epoch results and reasons, a summary page, and a manifest with every SHA-256 and a hash chain, signed with Ed25519. The signing seed is never returned or logged; without one a one-time key is used, so the pack proves integrity, not identity. A technical record, not a legal opinion. See <a1><c2/></a1>.
@@ -186,6 +190,17 @@ seg-c43761e01f63 = Synthetic bridge NMEA { "0183" } for crew training from a <c1
 # c1: kshana-interference-map/v1
 # c2: docs/INTERFERENCE-MAP.md
 seg-8aec8f61dab2 = A GNSS interference map from ADS-B or AIS position reports as CSV text (at most { "4" } MiB): one <c1/> GeoJSON per UTC day, aggregate only (no identifiers, cells under { "5" } distinct aircraft or vessels withheld), with the dataset licence embedded. A degraded cell does not identify interference as the cause; not a forecast. MODELLED. See <a1><c2/></a1>.
+
+# text
+# c1: docs/INTERFERENCE-MAP.md
+seg-54fe27a3a974 = Estimated emitter regions from ADS-B or AIS reports as CSV text (at most { "4" } MiB): regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point; aggregate only. A region is not the position of anyone and not a finding of the cause. MODELLED. See <a1><c1/></a1>.
+
+# text
+# c1: kshana.connect/1
+# c2: kshana.obs/1
+# c3: kshana connect map
+# c4: docs/CONNECT.md
+seg-93e30c427a12 = Kshana Connect without code: a <c1/> mapping and a station (TOML text) applied to a log (text, at most { "4" } MiB), returning <c2/> JSON lines identical to <c3/>. See <a1><c4/></a1>.
 
 # text
 # c1: kshana bench-export

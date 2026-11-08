@@ -823,13 +823,6 @@ seg-15687303176d = <b>Estado no registro: MODELLED.</b> Um sorteio do modelo, n�
 seg-c626c7f1926d = Novas visões do Studio
 
 # text
-# c1: /studio/replay/
-# c2: /studio/optical/
-# c3: /studio/holdover/
-# c4: /studio/observatory/
-seg-5c17e7d00e39 = <a1>kshana.dev/studio</a1> ganha uma Reprodução de ponte (duas execuções lado a lado em um mesmo relógio de missão, em <a2><c1/></a2>), uma página de PNT óptico (<c2/>), uma página de teste de holdover (<c3/>) e um visualizador do observatório (<c4/>). Elas executam o mesmo motor no navegador, nada é enviado, e trazem a mesma declaração consultiva. As imagens acima são desenhadas por um script a partir da saída do próprio motor; não são capturas de tela dessas páginas.
-
-# text
 # c1: gnss-ssv
 seg-630e6aa5f2cc = Navegação de usuários espaciais (<c1/>)
 
@@ -2172,11 +2165,6 @@ seg-302554087e15 = Distribuição: um repositório distribui o crate do núcleo,
 seg-530f5e8a6cdd = O que é distribuído onde, e o que o verifica · <a1>SVG</a1> · fonte <a2>distribution.mmd</a2>
 
 # text
-# c1: kshana-mcp
-# c2: kshana
-seg-c21d26341f01 = <a1><c1/></a1> é um servidor MCP: seu assistente executa o motor de verdade e lê de volta o seu JSON, em vez de adivinhar a matemática. Cada uma de suas { "49" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, de modo que nenhuma lógica de simulação fica no servidor.
-
-# text
 # c1: kshana-mcp --http 127.0.0.1:8080
 seg-c459db99a099 = <c1/>, hospedado por conta própria: consulte <a1>docs/deploy/mcp-http.md</a1>
 
@@ -2187,9 +2175,6 @@ seg-8977c5b65068 = kshana-mcp no Glama, sua pontuação de qualidade de servidor
 # c1: docs/integrations.md
 # c2: io.github.ashfordeOU/kshana-mcp
 seg-920704a0e384 = A configuração por cliente está em <a1><c1/></a1>. O servidor está listado no registro MCP oficial como <c2/>.
-
-# text
-seg-b7ea176e9993 = As { "49" } ferramentas
 
 # text
 seg-4a458fb861f4 = Cenários e relatórios
@@ -3038,11 +3023,6 @@ seg-2610d5a9ee90 = <b>Para onde foi minha saída?</b> Cada execução grava <c1/
 seg-4765d3a73a6f = Versionamento e lançamentos
 
 # text
-# c1: CHANGELOG.md
-# c2: scenario + seed + engine version
-seg-0ca788bf975d = O Kshana segue o <a1>Versionamento Semântico</a1>. Enquanto estiver antes da 1.0, o esquema público de cenário/resultado ainda pode mudar; as mudanças incompatíveis são destacadas explicitamente em <a2><c1/></a2>. Todo resultado é reproduzível a partir de <c2/>.
-
-# text
 # c1: vX.Y.Z
 # c2: docs/RELEASING.md
 seg-2885b69ceef1 = <b>Toda tag <c1/> publica todos os canais automaticamente, em uma única ordem</b> — a suíte de testes completa é executada primeiro no commit com tag, nada é publicado até que ela passe, e depois o pipeline confere se cada registro realmente serve a nova versão (<a1><c2/></a1>). Os canais:
@@ -3531,8 +3511,6 @@ seg-cafc1c9c4d58 = Novidades da { "0.40" }
 
 seg-59a31376fa3d = A { "0.40" } acrescenta um orçamento de erro em nível de missão, rotula cada figura e tabela com seu nível de evidência, lê registros de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e fala dezessete idiomas além do inglês. O registro agora tem { "401" } linhas: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
 
-seg-ab5eec8db03e = <b>Sequência de missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem em relação aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "92" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar em relação à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar em relação à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Sequência de missão</a1>, <a2>segmento lunar</a2>).
-
 seg-5bd16655cace = <b>Rótulos de evidência.</b> Cada figura e tabela que uma execução grava traz o nível e os ids das linhas do registro em que se apoia, lidos da matriz.
 
 seg-e79fca859317 = <b>Relógios medidos.</b> Oito formatos de registro de relógio são lidos (<a1><c1/></a1>) e uma série ajustada pode conduzir o holdover. Em relação a limiares fixados antecipadamente, o ajuste <b>não atinge</b> F1(a) em cinco de seis registros e F2 em um; ambos permanecem MODELLED (<a2>Registro de alterações</a2>).
@@ -3559,8 +3537,6 @@ seg-5d3bb72c6490 = Kshana Studio, visão avançada, após uma execução do cen�
 
 seg-b8f6321e9e0d = Três páginas do kshana.dev lado a lado. O destaque do Início: a linha do nome Kshana · क्षण · o instante preciso acima do título Ensaie o minuto em que o GNSS se apaga, com o console de missão de uma execução real do motor v{ $version } (um globo e três gráficos ao vivo: erro de tempo do relógio, densidade de portadora para ruído e nível de proteção). Evidências, Pesquisa publicada: os seis artigos do arXiv construídos sobre o motor aberto, o mais recente com uma figura do motor. Edições, Kshana Pro, o mesmo motor, ampliado: o Free executa um cenário, o Pro responde à pergunta do programa.
 
-seg-9d447be4caed = Um único motor cobre toda a cadeia de falhas, do primeiro satélite sob interferência ao último nanossegundo de holdover do relógio. O motor tem { "92" } tipos de cenário; <c1/> os lista e <a1><c2/></a1> documenta cada campo.
-
 seg-d3d6b030b588 = Região do emissor
 
 seg-56eee3458645 = onde, sob hipóteses declaradas, pode estar uma fonte de relatos de posição degradados: regiões com confiança declarada, um centroide com sua elipse, nunca um ponto (MODELLED; <c1/>)
@@ -3568,8 +3544,6 @@ seg-56eee3458645 = onde, sob hipóteses declaradas, pode estar uma fonte de rela
 seg-ee28beafac1a = o orçamento de erro de navegação e temporização de uma cadeia de fases do lançamento à reentrada
 
 seg-34e44a492cad = <c1/> executa um cenário; todo outro comando é um subcomando, e <c2/> imprime o uso de todos eles. Os comandos são <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (com <c8/> e <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> e <c63/>. <a1><c64/></a1> dá a finalidade de cada um, um exemplo verificado e sua página de documentação.
-
-seg-c472e0e5a3a5 = Como uma execução flui. Um arquivo TOML de cenário (um tipo, uma semente e seus parâmetros) entra no motor, kshana { $version }, pelo despacho api::run_toml sobre { "92" } tipos de cenário, determinístico a partir do cenário, da semente e da versão do motor. O motor grava result.json, chart.svg, report.html e report.json, uma table.csv para os tipos de cenário que definem uma, e, sob demanda, exportações SP3, CCSDS OMM e OEM, CZML, KML, GeoJSON, STK e SigMF; uma suíte grava study.json e study.html. Esses arquivos alimentam o Kshana Studio no navegador, um assistente de IA por meio do servidor kshana-mcp e a integração contínua.
 
 seg-9f5426cbbf4a = <b>{ "176" } de { "401" }</b> capacidades validadas em relação a referências independentes externas; { "221" } rotuladas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e o rótulo que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
 
@@ -3591,29 +3565,30 @@ seg-35a4412348e1 = { "176" } validadas · { "221" } modeladas · { "4" } de parc
 
 seg-cdf946112863 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registro de verificação de { "401" } capacidades ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Ao redor, cada superfície executa o mesmo motor: linha de comando (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
 
-seg-656df854409a = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comando, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "92" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo compartilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "401" } capacidades verificada por máquina, que é a única fonte de verdade de cada rótulo.
-
-seg-11041e6beb65 = Os { "92" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido
-
-seg-abf70d11a088 = todo o motor aberto, todos os { "92" } tipos de cenário, sem restrição de recursos
-
 seg-824001fa6734 = laboratórios e fabricantes com dados medidos
 
 seg-df3ca402513f = quais linhas MODELLED um registro medido de relógio ou de IMU poderia promover, os formatos, como um envio é verificado (<c1/>), pontuado e creditado
-
-seg-e2d733f93455 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "92" } tipos, { "193" } arquivos <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um arquivo com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
-
-# text
-# c1: mission-thread
-# c2: launch-ascent
-# c3: leo-rendezvous
-# c4: tli-and-cruise
-# c5: entry
-# c6: /studio/mission-thread/
-seg-88b7afd3df20 = <b>Sequência de missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem em relação aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "92" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar em relação à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar em relação à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Sequência de missão</a1>, <a2>segmento lunar</a2>). No Studio, a sequência é lida em <c6/>.
 
 seg-ac2d3dd91aa2 = Compila com Rust { "1.88" } ou mais recente, a rust-version em Cargo.toml
 
 seg-48991660376d = Requer uma cadeia de ferramentas Rust (≥ { "1.88" }, o <c1/> em Cargo.toml; desenvolvido em { "1.93" }).
 
 seg-dc95335b5131 = <b><c1/> falha em uma cadeia de ferramentas antiga.</b> O Kshana precisa de Rust ≥ { "1.88" }. Atualize com <c2/>.
+
+seg-8391e467adf7 = <b>Sequência de missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem em relação aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "93" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar em relação à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar em relação à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Sequência de missão</a1>, <a2>segmento lunar</a2>). No Studio, a sequência é lida em <c6/>.
+
+seg-a66ad1f69702 = Um único motor cobre toda a cadeia de falhas, do primeiro satélite sob interferência ao último nanossegundo de holdover do relógio. O motor tem { "93" } tipos de cenário; <c1/> os lista e <a1><c2/></a1> documenta cada campo.
+
+seg-43bd621a1f5b = Como uma execução flui. Um arquivo TOML de cenário (um tipo, uma semente e seus parâmetros) entra no motor, kshana { $version }, pelo despacho api::run_toml sobre { "93" } tipos de cenário, determinístico a partir do cenário, da semente e da versão do motor. O motor grava result.json, chart.svg, report.html e report.json, uma table.csv para os tipos de cenário que definem uma, e, sob demanda, exportações SP3, CCSDS OMM e OEM, CZML, KML, GeoJSON, STK e SigMF; uma suíte grava study.json e study.html. Esses arquivos alimentam o Kshana Studio no navegador, um assistente de IA por meio do servidor kshana-mcp e a integração contínua.
+
+seg-290f2b34e368 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comando, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo compartilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "401" } capacidades verificada por máquina, que é a única fonte de verdade de cada rótulo.
+
+seg-ed215c6aa19b = <a1><c1/></a1> é um servidor MCP: seu assistente executa o motor de verdade e lê de volta o seu JSON, em vez de adivinhar a matemática. Cada uma de suas { "52" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, de modo que nenhuma lógica de simulação fica no servidor.
+
+seg-81fcbb495e8f = As { "52" } ferramentas
+
+seg-fb8bcc54a31d = Os { "93" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido
+
+seg-2f38fc515db6 = todo o motor aberto, todos os { "93" } tipos de cenário, sem restrição de recursos
+
+seg-5374f780c396 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "93" } tipos, { "195" } arquivos <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um arquivo com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.

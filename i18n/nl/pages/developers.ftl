@@ -262,8 +262,6 @@ seg-d85f16c14183 = kshana.run en run_full, plus validate_toml en list_kinds
 
 seg-5a6803e3eb48 = run, summary en chart_svg in de browser of Node.js
 
-seg-1c19f8c0ad84 = { "49" } hulpmiddelen die een AI-assistent kan aanroepen, elk een dunne laag om de publieke API
-
 seg-4ad1a7669b03 = De MCP-server zonder Rust-toolchain, voor meerdere architecturen
 
 seg-9e409a07b3c9 = Klik met rechts op een scenario-.toml, kies Run Kshana Scenario en lees de cijfers in een hulpmiddelvenster
@@ -604,8 +602,6 @@ seg-32c07578eab3 = Stappen van de opgenomen sessie
 
 seg-2cff891dc970 = Volgende stap
 
-seg-45da99dccd40 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "49" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
 seg-102015d6ebd2 = <c1/>: Voer een { -brand }-scenario uit en geef de tijdreeks ervan terug als animatie.
 
 seg-0247e08ba09d = <c1/>: Beoordeel het vertrouwen in een echt GNSS-ontvangerlogboek: lees een u-blox-UBX-, RINEX { "3" }- (eventueel met uitgezonden navigatiegegevens, wat de eigen positiebepaling van de engine, RAIM en een klokgestuurde monitor toevoegt), Android-GnssLogger- of NMEA-logboek, laat de vertrouwensmonitors draaien (daling van de draaggolf-ruisdichtheid, AGC, jamming-indicator, verlies van vergrendeling, positiesprong, RAIM, klok) tegen een kalibratiebasislijn, en geef terug wanneer en waarom de ontvanger niet meer te vertrouwen was.
@@ -708,8 +704,6 @@ seg-62b5564e8d90 = De opgenomen sessie wordt hier stap voor stap afgespeeld.
 
 seg-2359edf78388 = <b>Dezelfde run in de Studio:</b> Engine v{ $version } · <c1/> · seed { "42" }
 
-seg-c24f65399c72 = <b>{ "49" } hulpmiddelen</b> via de openbare { -brand }-API (application programming interface), in het officiële MCP-register als <c1/>. Baanexports: SP3 (Standard Product { "3" }) en CCSDS (Consultative Committee for Space Data Systems) OMM en OEM (berichten met gemiddelde baanelementen en efemeriden, TEME: True Equator, Mean Equinox-stelsel). Registreer het onder <b>AI-assistent (MCP-server)</b> of <b>Docker-image</b>. <a1>Documentatie van de MCP-server</a1>
-
 seg-306a0232c581 = Voer een { -brand }-PNT-veerkrachtscenario uit een TOML-definitie uit en geef de kwaliteitsmaten ervan terug. Geeft de voor mensen leesbare samenvatting gevolgd door de volledige resultaat-JSON (FoM's, curven). { -brand } toetst SGP4/SDP4, IAU-referentiestelsels, Allan-deviaties, GNSS-beschikbaarheid/DOP, ARAIM-beschermingsniveaus, GNSS/INS-fusie en kwantumsensormodellen aan gepubliceerde referenties. Elke soort loopt via dit ene hulpmiddel, waaronder <c1/> (radiofrequentiespectrum en waterfall), <c2/>, <c3/> en <c4/> (constellaties rond elk hemellichaam), <c5/> (gekoppelde fasen, parametersweeps, Monte Carlo-ensembles en samengestelde scenario's) en de navigatiesoorten voor de lage aardbaan <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/> en <c12/>. De inhoud staat inline: een scenarioveld dat een bestand noemt, wordt geweigerd, en een scenario is hoogstens { "4" } MiB. Roep eerst list_scenario_kinds aan om scenariotypen en hun velden te ontdekken, en list_example_scenarios / get_example_scenario voor een volledig uitvoerbaar scenario van een soort.
 
 seg-5fe1f6a80612 = Geef elke ingebouwde { -brand }-scenariosoort weer met zijn beschrijving en verplichte/optionele TOML-velden, als JSON-array. Gebruik dit om te ontdekken welke scenario's kunnen worden uitgevoerd en hoe u een geldige scenario-TOML voor run_scenario opbouwt.
@@ -803,3 +797,9 @@ seg-3a93f60a7714 = <s1><a1>Rapport</a1></s1>
 seg-c851aa23ea42 = kommagescheiden waarden
 
 seg-366c59b03b4f = CSV
+
+seg-859bb6732925 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "52" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+
+seg-f3512ff81b58 = <b>{ "52" } hulpmiddelen</b> via de openbare { -brand }-API (application programming interface), in het officiële MCP-register als <c1/>. Baanexports: SP3 (Standard Product { "3" }) en CCSDS (Consultative Committee for Space Data Systems) OMM en OEM (berichten met gemiddelde baanelementen en efemeriden, TEME: True Equator, Mean Equinox-stelsel). Registreer het onder <b>AI-assistent (MCP-server)</b> of <b>Docker-image</b>. <a1>Documentatie van de MCP-server</a1>
+
+seg-5aa702c4ebc7 = { "52" } hulpmiddelen die een AI-assistent kan aanroepen, elk een dunne laag om de publieke API

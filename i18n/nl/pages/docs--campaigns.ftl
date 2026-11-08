@@ -92,8 +92,6 @@ seg-13c92a72544a = jamming, { "600" } s
 
 seg-f9c01304734d = hetzelfde, jammer op -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 daalt tot { "27.7" } dB-Hz, alle { "8" } satellieten worden nog gevolgd
-
 seg-6a052db03815 = spoofing, beëindigd op { "370" } s door <c1/>
 
 seg-89856c1f83f8 = <c1/> (tijdhelling van { "0.1" } ns/s), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A blijft op { "17.98" } dB-Hz, E1 terug op { "44.73" } d
 seg-2db37e292efe = Dat E1 herstelt onder de CW-toon berust op de behandeling van continue spectra door de spectrumsoort: de toon valt in het nulpunt van het MBOC-spectrum en koppelt niets in. Een echte toon zou wel koppelen via de spectraallijnen van de code; dat staat in het bestand en in SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: een parameterraster over elke soort
-
-seg-b14a11d60e9f = Een tot drie scenariosleutels met punten, elk over een lineair of logaritmisch bereik, op dezelfde aswaarden als de soort <c1/> gebruikt. Elke as heeft een naam en een eenheid; elke metriek heeft een naam en een resultaatpad, en haar eenheid wordt gelezen uit het eigen eenhedenblok van de doorgelopen soort, tenzij de campagne er een opgeeft. Met <c2/> is elk knooppunt een geseed Monte Carlo-ensemble (realisatie <c3/> op de seed van het knooppunt plus <c4/>), gerapporteerd met de statistieken hieronder. <c5/> doorloopt een jammer op { "1" } km van de ontvanger van -50 tot +{ "10" } dBW: de gemiddelde verhouding tussen jammer en signaal verschuift precies { "1" } dB per dB ({ "12.2" } tot { "72.2" } dB), en de beschikbaarheid daalt van { "1" } naar { "0" } tussen -30 en -25 dBW.
 
 seg-c1931e311cca = Een sleutel met punten mag een array van tabellen op positie indexeren: <c1/> is de <c2/> van de derde tabel <c3/>, en <c4/> reikt drie niveaus diep.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: een geseed ensemble
 seg-03d764a4cb56 = [compose]: meerdere scenario's onder gedeelde omstandigheden
 
 seg-61a0db2550ba = [optimize]: de beste waarde van één metriek
+
+seg-0886cc461f7a = C/N0 daalt tot { "30.6" } dB-Hz, alle { "8" } satellieten worden nog gevolgd
+
+seg-74f8b08a4194 = Een tot drie scenariosleutels met punten, elk over een lineair of logaritmisch bereik, op dezelfde aswaarden als de soort <c1/> gebruikt. Elke as heeft een naam en een eenheid; elke metriek heeft een naam en een resultaatpad, en haar eenheid wordt gelezen uit het eigen eenhedenblok van de doorgelopen soort, tenzij de campagne er een opgeeft. Met <c2/> is elk knooppunt een geseed Monte Carlo-ensemble (realisatie <c3/> op de seed van het knooppunt plus <c4/>), gerapporteerd met de statistieken hieronder. <c5/> doorloopt een jammer op { "1" } km van de ontvanger van -50 tot +{ "10" } dBW: de gemiddelde verhouding tussen jammer en signaal verschuift precies { "1" } dB per dB ({ "12.2" } tot { "72.2" } dB), en de beschikbaarheid daalt van { "1" } naar { "0" } tussen -25 en -20 dBW.

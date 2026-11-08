@@ -110,8 +110,6 @@ seg-f878fd0359c9 = <b>Termiskt brusjitter vid kodspårning</b> för en fördröj
 
 seg-089e4e98af82 = <b>Infångning</b>: den största satellit-Dopplern på en överflygning rakt över huvudet vid elevationsmasken (<c1/>, cirkulär bana, ingen jordrotation) plus oscillator- och användartermerna; Doppler-bin om <c2/>; kodbin över en period; detektionssannolikheten för en kvadratisk detektor (generaliserad Marcum Q) vid en falsklarmsannolikhet per cell, centrerad och vid sämsta fallets mellanläge; samt medeltiden för infångning vid en seriell och en kodparallell sökning med en enda uppehållstid (Holmes).
 
-seg-1e2029183bdc = <b>Kompatibilitet</b>: spektralseparationskoefficienten (SSC) för den bandbegränsade signalen in i GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b och signalen Galileo E5 alternative BOC (AltBOC) över varje mottagarband för globala satellitnavigeringssystem (GNSS), den C/N₀-förlust den orsakar vid sin mottagna effekt, samt SSC och C/N₀-förlust för varje GNSS-signal in i den spårade LEO-komponenten.
-
 seg-864f3f2a5aa1 = <b>Tolerans mot jammer</b>: kvoten mellan jammer- och signaleffekt (J/S) för en kontinuerlig ton (CW) vid bärvågen, platt brus över sändningsbandet och brus anpassat till den spårade komponenten som för den spårade komponenten till spårningströskeln, enligt den SSC-kod som scenariotypen <c1/> själv har (<c2/>).
 
 seg-0fbea397ab93 = Konvention för C/N₀: svepet och referensen är den <b>totala C/N₀ i bandet</b>. En komponents andel går in i spårnings- och jammerformlerna som <c1/> (dess andel av den ofiltrerade effekten delat med andelen i bandet), samma konvention som scenariotypen <c2/> använder för ett vanligt band, där modulationens effekt utanför mottagarbandet förloras på samma sätt.

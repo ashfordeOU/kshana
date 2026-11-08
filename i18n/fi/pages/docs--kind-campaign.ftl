@@ -36,8 +36,6 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Lajin <c1/> vaiheet: jokainen vaihe ajaa yhde
 
 seg-be831b52a339 = ja { "4" } lisää matriisissa.
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrinen J/S-linkkibudjetti, häirinnänkestävä C/N₀, satelliittikohtainen lukituksen menetys. Oraakkeli (InternalConsistency): Häirinnänkestävän C/N₀:n linkkibudjettiyhtälö ristiintarkistettuna riippumatonta numpy-uudelleenjohtoa vastaan (jakaa saman suljetun muodon → InternalConsistency) sekä todellinen JammerTest-2024-C/N₀-heikkenemisen luonnehdinta. { "0.30" } kierros { "2" }, estetty (pysyy MODELLED): mitattua JammerTest { "2024" } C/N0-laskua ei ajettu linkkibudjettiennustetta vasten (ennakkorekisteröity 6a66994b, { "3" } dB:n sisällä), koska F8.1-antennin paikka ja suuntaus
-
 seg-59afd80736c5 = <b>PARTNER</b> Ei tarjota — Kshana mallintaa signaalin suorituskykyä, ei hyötykuorma- tai antennilaitteistoa. Oraakkeli (NoneKind): ei mitään: kumppanin omistama osa-alue, jolla ei ole moduulia eikä testiä tarkoituksella
 
 seg-fa3ad6babe54 = <b>MODELLED</b> Lajin <c1/> pyyhkäisy (yhdestä kolmeen pisteillä erotettua avainta mitä tahansa lajia, yleisen pyyhkäisyn akseliarvoilla, valinnaisesti joukko jokaisessa solmussa) ja osio monte_carlo. Oraakkeli (InternalConsistency): Vaihesatunnaiskävelyn suljettu muoto valkoisessa taajuuskohinassa, varianssi q_wf tau (NIST Technical Note { "1337" }), tilastokoneistolle, ja tavutason yhtäläisyys erillisten ajojen kanssa siementämiselle. Se tarkistaa joukkolaskennan moottorin omalla kellomallilla, ei ulkoista aineistoa

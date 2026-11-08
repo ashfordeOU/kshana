@@ -7,7 +7,7 @@ seg-45cb12242d59 = Source: <c1/>
 
 # text
 # c1: kshana::api::run_toml
-seg-75828ed6f443 = The { "92" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
+seg-0aae8450f693 = The { "93" } built-in scenario kinds that <c1/> dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
 # text
 # c1: api::list_scenario_kinds()
@@ -325,6 +325,9 @@ seg-d6d7bca305dc = MODELLED GNSS availability and link strength in the Space Ser
 
 # text
 seg-1ec485468daa = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
+
+# text
+seg-152394289dff = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation.
 
 # text
 seg-6c9d3eec1bd7 = Required fields:

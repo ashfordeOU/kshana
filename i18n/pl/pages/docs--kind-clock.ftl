@@ -50,8 +50,6 @@ seg-849c08d3ce70 = Strona rodziny: <a1>Zegary, synchronizacja czasu i holdover</
 
 seg-ee7dd15019d0 = Strona tematu: <a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = Strona tematu: <a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>Poprzedni</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>Następny</s1>combined-altpnt

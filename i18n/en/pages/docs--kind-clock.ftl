@@ -99,7 +99,7 @@ seg-849c08d3ce70 = Family page: <a1>Clocks, timing and holdover</a1>
 seg-ee7dd15019d0 = Topic page: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-46ed0b786244 = Topic page: <a1>RECEIVER-TRUST.md</a1>
+seg-101dbde1c65b = Topic page: <a1>CLOCK-LOG-FORMATS.md</a1>
 
 # text
 seg-e06f9a5a0291 = <s1>Previous</s1>cislunar-observability

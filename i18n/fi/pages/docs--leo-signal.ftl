@@ -110,8 +110,6 @@ seg-f878fd0359c9 = <b>Koodiseurannan terminen kohinajitteri</b> viivelukitussilm
 
 seg-089e4e98af82 = <b>Hankinta</b>: suurin satelliitin Doppler yläkautta tapahtuvalla ylilennolla korkeuskulmamaskissa (<c1/>, ympyrärata, ei Maan pyörimistä) plus oskillaattori- ja käyttäjätermit; Doppler-lokerot <c2/>; koodilokerot yhden jakson yli; neliöllisen ilmaisimen (yleistetty Marcum Q) havaitsemistodennäköisyys soluittaisella väärän hälytyksen todennäköisyydellä, keskitettynä ja pahimmassa välissä; sekä sarja- ja koodirinnakkaisen yhden viipymän haun keskimääräinen hankinta-aika (Holmes).
 
-seg-1e2029183bdc = <b>Yhteensopivuus</b>: kaistarajoitetun signaalin spektrierotuskerroin (SSC) kohteisiin GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b ja E5:n vaihtoehtoinen BOC (AltBOC) -signaali jokaisella maailmanlaajuisen satelliittinavigointijärjestelmän (GNSS) vastaanotinkaistalla, sen vastaanotetulla teholla aiheuttama C/N₀-häviö sekä jokaisen GNSS-signaalin SSC ja C/N₀-häviö LEO:n seurattuun komponenttiin.
-
 seg-864f3f2a5aa1 = <b>Häirintäsietokyky</b>: häirintä–signaalitehosuhde (J/S), jolla jatkuva-aaltoinen (CW) sävel kantoaallolla, lähetyskaistalla tasainen kohina ja seurattuun komponenttiin sovitettu kohina tuovat seurattavan komponentin seurantakynnykselle, laskettuna skenaariolajin <c1/> oman SSC-koodin avulla (<c2/>).
 
 seg-0fbea397ab93 = C/N₀-käytäntö: pyyhkäisy ja vertailu ovat <b>kokonaiskaistan sisäinen</b> C/N₀. Komponentin osuus tulee seuranta- ja häirintäkaavoihin muodossa <c1/> (sen osuus suodattamattomasta tehosta jaettuna kaistan sisäisellä osuudella), sama käytäntö, jota laji <c2/> käyttää tavalliselle kaistalle, jonka modulaation vastaanotinkaistan ulkopuolinen teho menetetään samalla tavalla.

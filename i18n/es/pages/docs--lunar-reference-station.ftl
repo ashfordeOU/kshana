@@ -258,11 +258,6 @@ seg-fc27b4012f02 = Fuentes S1 a S5 (título, URL, fecha de consulta, SHA-256, li
 seg-d866653008e1 = Cada afirmación numérica, citada con su página y sus supuestos declarados y clasificada como comparable, parcialmente comparable o no comparable: <c1/>. Ninguna afirmación es totalmente comparable, porque ninguna fuente indica un percentil ni los elementos orbitales de los satélites.
 
 # text
-# c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
-# c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Umbrales, casos y entradas, confirmados por separado antes de la ejecución (revisión { "2" }, 05bf9a19), y la ejecución registrada: <c1/>. El hallazgo está fijado en <c2/>.
-
-# text
 seg-069a652c402e = umbral
 
 # text
@@ -327,12 +322,6 @@ seg-e666f1eb7a59 = Pasa { "1" } de { "6" } umbrales. La causa es la geometría. 
 
 # text
 seg-1da5fcf7bbf5 = Predicción preregistrada
-
-# text
-# c1: c05dac1d
-# c2: docs/predictions/lunar-reference-station.md
-# c3: tests/prediction_frozen.rs
-seg-4ea806a57380 = Una predicción preregistrada, congelada en el commit <c1/> con las entradas de fuentes públicas, con su protocolo de puntuación: <a1><c2/></a1>. Es una predicción, no una validación, y todas sus cifras están dominadas por el conjunto de elementos no publicado de la constelación de cuatro satélites (los elementos usados son ILLUSTRATIVE): sobre la región de { "80" } grados S, disponibilidad { "8.2" } %, 3-D p95 corregido { "280" } m, sin corregir { "3.8" } km. MODELLED; <c3/> falla si se mueve cualquier byte congelado.
 
 # text
 seg-e6aef34d5023 = Laboratorio de tiempo de la estación
@@ -446,3 +435,5 @@ seg-79d53edd2374 = <s1>Siguiente</s1>Navegación de usuarios espaciales (gnss-ss
 
 # text
 seg-9c59637f0666 = Mapa de cobertura y exactitud (lunar-station-coverage)
+
+seg-34967943a088 = Una predicción preregistrada, congelada en el commit <c1/> con las entradas de fuentes públicas, con su protocolo de puntuación: <a1><c2/></a1>. Es una predicción, no una validación, y todas sus cifras están dominadas por el conjunto de elementos no publicado de la constelación de cuatro satélites (los elementos usados son ILLUSTRATIVE): sobre la región de { "80" } grados S, disponibilidad { "8.2" } %, 3-D p95 corregido { "280" } m, sin corregir { "3.8" } km. MODELLED; <c3/> falla si se mueve cualquier byte congelado.

@@ -254,8 +254,6 @@ seg-7b53ee712a36 = <b>{ "176" } sur { "401" }</b> capacités vérifiées par rap
 
 seg-b59781ecf257 = Comment une capacité obtient son étiquette : capacité, référence indépendante, test, étiquette du registre. L'état de vérification sur l'ensemble des { "401" } capacités : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire
 
-seg-d0b2811a3d3c = Le moteur compte { "92" } types de scénario ; <c1/> les liste avec leurs champs. Nouveaux dans la version { "0.38.0" } : <c2/> (signaux GNSS pour des véhicules spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps comparé aux masques de l'ITU-T).
-
 seg-8e9fbc5f2e72 = La description du type de scénario intégré kind dans lang, tirée du catalogue (l'anglais lorsque la langue n'en a pas de traduction) ; None pour un nom qui n'est pas un type intégré.
 
 seg-06e503c23c30 = [kind_description_in] dans la langue courante ([crate::i18n::current]).
@@ -275,3 +273,5 @@ seg-28e05e08ff76 = Exécute src dans la langue lang et, en cas d'échec, décrit
 seg-24fe823a994a = json sans l'étiquette de preuve ([crate::evidence_label]) ; inchangé s'il n'en porte aucune.
 
 seg-c0444d838311 = out avec l'étiquette de preuve retirée de son JSON, de son SVG et de son CSV, octet pour octet tel que l'exécution les produisait avant l'existence de l'étiquette ; une sortie sans étiquette est inchangée.
+
+seg-80e5f0aa2831 = Le moteur compte { "93" } types de scénario ; <c1/> les liste avec leurs champs. Nouveaux dans la version { "0.38.0" } : <c2/> (signaux GNSS pour des véhicules spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps comparé aux masques de l'ITU-T).

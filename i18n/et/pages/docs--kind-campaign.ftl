@@ -73,9 +73,6 @@ seg-f16a176dc1f8 = <b>MODELLED</b> Liigi <c1/> faasid: iga faas käivitab ühe v
 seg-be831b52a339 = ja veel { "4" } maatriksis.
 
 # text
-seg-cc2ad9e12064 = <b>MODELLED</b> Geomeetriline J/S lingibilanss, segamisvastane C/N₀, satelliidi kaupa sünkroonsuse kadu. Sõltumatu etalon (InternalConsistency): Segamisvastase C/N₀ lingibilansi võrrand, mida on risttõendatud sõltumatu numpy uuestituletusega (jagab sama suletud kuju → InternalConsistency) pluss tegeliku JammerTest-2024 C/N₀ halvenemise iseloomustusega. { "0.30" } ring { "2" }, blokeeritud (jääb MODELLED): mõõdetud JammerTest { "2024" } C/N0 langust lingibilansi ennustuse vastu (eelregistreeritud 6a66994b, { "3" } dB piires) ei jooksutatud, sest F8.1 antenni asukoht ja suunamine at
-
-# text
 seg-59afd80736c5 = <b>PARTNER</b> Ei paku — Kshana modelleerib signaali toimivust, mitte kasulikkoormuse/antenni riistvara. Sõltumatu etalon (NoneKind): puudub: partneri vastutusala, kujundatud nii, et mooduli ega testi ei ole
 
 # text

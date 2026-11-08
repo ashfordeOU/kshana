@@ -59,9 +59,6 @@ seg-6f788a1278b9 = 1/({ "10" }^{ "6" } m)^{ "2" }
 seg-cfa051b87e59 = O gráfico que o motor escreve para scenarios/lunar-joint-od-clock.toml, tipo de cenário lunar-joint-od-clock
 
 # text
-seg-4c6914c162d1 = <b>VALIDATED</b> Fusão em lote de VLBI + distância local lunar + distância entre satélites para recuperar posições e relógios da estação e da constelação. Referência independente (ExternalDataset): P2: numpy { "2.4.6" } (numpy.linalg.lstsq com LAPACK gelsd, numpy.linalg.inv; BSD-3) recalcula cada passo de Gauss-Newton, a solução convergida de mínimos quadrados ponderados, os sigmas formais e o erro da estação sobre os jacobianos e observações registrados de seis redes simuladas, com pré-registro (5094bc31) em max({ "1e-8" }, { "100" } kappa eps) relativo. A primeira execução reprovou a rede sem VLBI ({ "6.1e-7" } contra { "1e-8" }, uma equação normal in
-
-# text
 seg-5b3f6008f5a7 = <b>VALIDATED</b> Informação de Fisher M=HᵀWH, limite inferior de Cramér–Rao, posto de observabilidade / espaço nulo do defeito de datum (pseudoinversa de Moore–Penrose) e projeto de experimento ótimo D/A/E/T. Referência independente (ExternalDataset): NumPy { "2.4.1" } (numpy.linalg.eigh / .inv; BSD-3-Clause, com base em LAPACK) — uma autoridade independente de terceiros que calcula os mesmos autovalores univocamente definidos, a covariância de Cramér–Rao σ²(XᵀX)⁻¹ e os fatores de diluição da precisão GNSS por um algoritmo diferente (dividir e conquistar do LAPACK + LU) do varrimento cíclico de Jacobi e da pseudoinversa espectral do Kshana; coincidência até { "1e-9" }. A mesma classe de biblioteca externa já valida o D
 
 # text

@@ -42,8 +42,6 @@ seg-4466fb6f4043 = Gauss-Newton i satser över bågen
 
 seg-d97b2505ac72 = Diagrammet som motorn skriver för scenarios/lunar-orbit-rendezvous.toml, typ lunar-orbit-rendezvous
 
-seg-7ea832b979c9 = <b>MODELLED</b> Typen och fasen <c1/>: en gemensam Gauss-Newton-skattning i satser för två fordon över bågen (tjugoett parametrar: båda tillstånden och bestående positionsbias i signal i rymden, gemensamma och oberoende), uppbyggd över en kvarts, en h Tester: <s1>mission_thread_lunar_oracles.rs</s1>.
-
 seg-826fd7fd44b9 = <b>MODELLED</b> Typen och fasen <c1/>: en gemensam Gauss-Newton-skattning i satser för två fordon över bågen (tjugoett parametrar: båda tillstånden och bestående sig. Oberoende referens (InternalConsistency): Självkonsistens under en förhandsregistrering (xval/mission-thread-lunar/PREREGISTRATION.md, resultat och skattarens historik i RESULTS.md): den genomsnittliga NEES för det relativa tillståndet är { "5.85" } till { "5.93" } mot bandet { "5.2" } till { "6.8" } i fyra konfigurationer, MET på den fjärde skattarutformningen efter att tre utformningar med sekventiella filter missat; referensen och skattaren delar en kraftmodell, så detta säger ingenting om modellfel. Propagatorn d
 
 seg-b2f273ea732d = MODELLED relativ navigering för en dockning i Orion-landarstil i en låg månbana eller en elliptisk polär bana (Artemis-klass). (typkatalog (<c1/>))

@@ -542,15 +542,6 @@ seg-73a73af88f08 = Modo HTTP (hospedagem própria)
 seg-4f248ed3e597 = <c1/> serve as mesmas ferramentas por HTTP em fluxo contínuo em <c2/>. Faz bind apenas em loopback; um endereço fora de loopback exige <c3/> e um token de portador (bearer) em <c4/>; as ferramentas de arquivo IQ ficam desligadas; o tamanho, o tempo e a concorrência das requisições são limitados; nenhum cabeçalho CORS é enviado. O Kshana não hospeda um endpoint: você o hospeda por conta própria. Veja <a1>docs/deploy/mcp-http.md</a1>.
 
 # text
-# c1: cargo install
-# c2: kshana-mcp
-# c3: PATH
-# c4: ~/.cargo/bin/kshana-mcp
-# c5: rmcp
-# c6: kshana
-seg-60f55b197ac2 = <c1/> coloca <c2/> no seu <c3/> (normalmente <c4/>). O servidor fala JSON-RPC (chamada de procedimento remoto em JSON) por stdio; os logs vão para stderr. Compilar a partir do código-fonte exige uma toolchain Rust ≥ { "1.88" } (o SDK <c5/> { "2" }.x corrigido a exige; a própria biblioteca <c6/> precisa apenas de { "1.85" }); a imagem Docker não precisa de nenhuma.
-
-# text
 seg-2f3216082425 = Registre-o em um cliente
 
 # text
@@ -640,16 +631,6 @@ seg-dc60d64a3bb8 = <em>"Faça uma cena GPS L1 de um segundo com os PRNs { "3" } 
 seg-942dc8abe0ec = Nota de projeto — por que um crate separado
 
 # text
-# c1: Cargo.lock
-# c2: rmcp
-# c3: kshana
-# c4: rmcp
-# c5: rmcp
-# c6: cargo deny
-# c7: xval/anise-frames
-seg-ce6d0ecab448 = O servidor é um <b>crate independente, excluído do workspace</b>, com seu próprio <c1/>, de modo que o SDK oficial de MCP em Rust (kit de desenvolvimento de software) <c2/> e seu runtime assíncrono nunca entram no grafo de dependências do crate <c3/> publicado: quem usa a biblioteca ou o Python não compila um servidor que não executa. (Ele foi separado primeiro porque <c4/> é <b>edition { "2024" }</b>, exigindo rustc ≥ { "1.85" }, enquanto o crate principal então prometia { "1.75" }. A biblioteca agora declara { "1.85" }; este servidor declara { "1.88" }, o piso do <c5/> { "2" }.x corrigido quanto à segurança.) A integração contínua (CI) controla este crate por conta própria — testes e <c6/> contra o seu lockfile. A árvore de licenças do rmcp está limpa (Apache-2.0/MIT/BSD), de modo que, ao contrário do crate de validação cruzada <c7/>, que ele de resto espelha, a separação não tem a ver com licenciamento.
-
-# text
 seg-75bf2d74642d = Licença: AGPL-3.0-only, a GNU Affero General Public License versão { "3" } apenas (ou uma licença comercial da Ashforde OÜ; veja o <a1>LICENSING.md</a1> do repositório).
 
 # text
@@ -658,8 +639,8 @@ seg-490ebbefb561 = <s1>Anterior</s1>Crate Rust
 # text
 seg-350b6b914734 = <s1>Próxima</s1>Servidor MCP: todos os canais de instalação
 
-seg-492888115662 = Os { "92" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido.
-
 seg-a4a0e399a31e = <c1/> coloca <c2/> no seu <c3/> (normalmente <c4/>). O servidor fala JSON-RPC (chamada de procedimento remoto em JSON) por stdio; os logs vão para stderr. Compilar a partir do código-fonte exige uma toolchain Rust ≥ { "1.88" } (o SDK <c5/> { "2" }.x corrigido a exige, e a biblioteca <c6/> também); a imagem Docker não precisa de nenhuma.
 
 seg-0757e15070d4 = O servidor é um <b>crate independente, excluído do workspace</b>, com seu próprio <c1/>, de modo que o SDK oficial de MCP em Rust (kit de desenvolvimento de software) <c2/> e seu runtime assíncrono nunca entram no grafo de dependências do crate <c3/> publicado: quem usa a biblioteca ou o Python não compila um servidor que não executa. (Ele foi separado primeiro porque <c4/> é <b>edition { "2024" }</b>, exigindo rustc ≥ { "1.85" }, enquanto o crate principal então prometia { "1.75" }. A biblioteca e este servidor agora declaram ambos { "1.88" }, o piso do <c5/> { "2" }.x corrigido quanto à segurança e dos crates RustCrypto atualizados.) A integração contínua (CI) controla este crate por conta própria — testes e <c6/> contra o seu lockfile. A árvore de licenças do rmcp está limpa (Apache-2.0/MIT/BSD), de modo que, ao contrário do crate de validação cruzada <c7/>, que ele de resto espelha, a separação não tem a ver com licenciamento.
+
+seg-b873b39a4921 = Os { "93" } tipos de cenário incorporados com descrições + campos obrigatórios/opcionais — para que o agente possa montar um cenário válido.

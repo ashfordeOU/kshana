@@ -89,9 +89,6 @@ seg-849c08d3ce70 = Página da família: <a1>Relógios, temporização e holdover
 seg-ee7dd15019d0 = Página do tópico: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-46ed0b786244 = Página do tópico: <a1>RECEIVER-TRUST.md</a1>
-
-# text
 seg-e06f9a5a0291 = <s1>Anterior</s1>cislunar-observability
 
 # text

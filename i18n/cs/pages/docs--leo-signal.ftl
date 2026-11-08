@@ -110,8 +110,6 @@ seg-f878fd0359c9 = <b>Rozptyl tepelného šumu kódového sledování</b> smyčk
 
 seg-089e4e98af82 = <b>Akvizice</b>: největší Doppler družice na přeletu přes zenit při elevační masce (<c1/>, kruhová dráha, bez rotace Země) plus členy oscilátoru a uživatele; dopplerovské přihrádky <c2/>; kódové přihrádky přes jednu periodu; pravděpodobnost detekce detektoru se čtvercovou charakteristikou (zobecněné Marcumovo Q) při pravděpodobnosti falešného poplachu na buňku, vystředěná a při nejhorším případu překryvu; a střední doba akvizice sériového a kódově paralelního vyhledávání s jedním setrváním (Holmes).
 
-seg-1e2029183bdc = <b>Kompatibilita</b>: koeficient spektrální separace (SSC) pásmově omezeného signálu do GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b a signálu E5 s alternativní BOC (AltBOC) přes každé pásmo přijímače globálního družicového navigačního systému (GNSS), ztráta C/N₀, kterou způsobuje při svém přijímaném výkonu, a SSC a ztráta C/N₀ každého signálu GNSS do sledované složky LEO.
-
 seg-864f3f2a5aa1 = <b>Tolerance vůči rušiči</b>: poměr výkonu rušiče k signálu (J/S) pro tón s nemodulovanou nosnou (CW) na nosné, plochý šum přes vysílací pásmo a šum přizpůsobený sledované složce, který přivede sledovanou složku na práh sledování, z vlastního kódu SSC druhu <c1/> (<c2/>).
 
 seg-0fbea397ab93 = Konvence C/N₀: průchod i reference jsou <b>celkové C/N₀ v pásmu</b>. Podíl složky vstupuje do vzorců sledování a rušiče jako <c1/> (její podíl nefiltrovaného výkonu vůči podílu v pásmu), stejná konvence, kterou používá druh <c2/> pro prosté pásmo, jehož výkon modulace mimo pásmo přijímače se ztrácí stejným způsobem.

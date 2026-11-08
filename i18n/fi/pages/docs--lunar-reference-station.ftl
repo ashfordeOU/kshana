@@ -112,8 +112,6 @@ seg-fc27b4012f02 = Lähteet S1–S5 (otsikko, URL, hakupäivä, SHA-256, lisenss
 
 seg-d866653008e1 = Jokainen numeerinen väite sivunumeron ja ilmoitettujen oletusten kanssa siteerattuna ja luokiteltuna vertailukelpoiseksi, osin vertailukelpoiseksi tai ei vertailukelpoiseksi: <c1/>. Mikään väite ei ole täysin vertailukelpoinen, koska mikään lähde ei ilmoita persentiiliä eikä satelliittien ratalementtejä.
 
-seg-50535c58d3cf = Kynnykset, tapaukset ja syötteet, tallennettu yksin ennen ajoa (versio { "2" }, 05bf9a19), ja kirjattu ajo: <c1/>. Havainto on kiinnitetty testissä <c2/>.
-
 seg-069a652c402e = kynnys
 
 seg-d6120708c062 = väite (lähteet)
@@ -157,8 +155,6 @@ seg-7a33a168b020 = läpäisee
 seg-e666f1eb7a59 = Kynnyksistä läpäistään { "1" } / { "6" }. Syy on geometria. Mikään lähde ei julkaise tähdistön ratalementtejä. Repositorion ratalementeillä, jotka ovat ILLUSTRATIVE, käyttäjä ja asema jakavat neljä satelliittia yli { "5" }° vain { "8" } %:ssa ({ "300" } km) ja { "6" } %:ssa ({ "600" } km) epookeista, lähes singulaarisella geometrialla: korjaamaton p95 on { "3.8" } km, kun lähteet esittävät < { "10" } m. Lähteiden omissa simulaatioissa käytettiin suodatinta, korkeusrajoitetta ja kolmea satelliittia yhteisessä näkyvyydessä, joita tällä hetkellisellä mallilla ei ole. Ajo ei siksi toista väitteitä noilla ratalementeillä, eikä se ole todiste siitä, että väitteet olisivat väärin. K6:n läpäisy on kahden geometrian hallitseman luvun suhde eikä kerro mitään dekorrelaatiosta. Julkaistu tähdistön ratalementtijoukko pisteytettäisiin samoilla kynnyksillä toisena, päivättynä ajona.
 
 seg-1da5fcf7bbf5 = Ennakkorekisteröity ennuste
-
-seg-4ea806a57380 = Ennakkorekisteröity ennuste, jäädytetty commitissa <c1/> julkisten lähteiden syötteillä, pisteytysprotokollineen: <a1><c2/></a1>. Se on ennuste, ei validointi, ja jokaisen sen luvun määrää neljän satelliitin tähdistön julkaisematon ratalementtijoukko (käytetyt alkiot ovat ILLUSTRATIVE): alueella { "80" }° S saatavuus { "8.2" } %, korjattu p95 3D { "280" } m, korjaamaton { "3.8" } km. MODELLED; <c3/> epäonnistuu, jos yksikin jäädytetty tavu muuttuu.
 
 seg-e6aef34d5023 = Aseman aikalaboratorio
 
@@ -225,3 +221,5 @@ seg-68db6a17b4e7 = <s1>Edellinen</s1>Aurinkokunta ja muut kappaleet
 seg-79d53edd2374 = <s1>Seuraava</s1>Avaruuskäyttäjän navigointi (gnss-ssv)
 
 seg-9c59637f0666 = Kattavuus- ja tarkkuuskartta (lunar-station-coverage)
+
+seg-34967943a088 = Ennakkorekisteröity ennuste, jäädytetty commitissa <c1/> julkisten lähteiden syötteillä, pisteytysprotokollineen: <a1><c2/></a1>. Se on ennuste, ei validointi, ja jokaisen sen luvun määrää neljän satelliitin tähdistön julkaisematon ratalementtijoukko (käytetyt alkiot ovat ILLUSTRATIVE): alueella { "80" }° S saatavuus { "8.2" } %, korjattu p95 3D { "280" } m, korjaamaton { "3.8" } km. MODELLED; <c3/> epäonnistuu, jos yksikin jäädytetty tavu muuttuu.

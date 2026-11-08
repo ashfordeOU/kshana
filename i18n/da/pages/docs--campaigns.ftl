@@ -92,8 +92,6 @@ seg-13c92a72544a = jamming, { "600" } s
 
 seg-f9c01304734d = det samme, jammer ved -30 dBW, { "1" } km
 
-seg-27d3b65152b0 = C/N0 falder til { "27.7" } dB-Hz, alle { "8" } satellitter trackes stadig
-
 seg-6a052db03815 = spoofing, afsluttet ved { "370" } s af <c1/>
 
 seg-89856c1f83f8 = <c1/> (tidsrampe på { "0.1" } ns/s), <c2/>, <c3/>
@@ -143,8 +141,6 @@ seg-d455f0c06ee6 = L1 C/A holdt på { "17.98" } dB-Hz, E1 tilbage på { "44.73" 
 seg-2db37e292efe = At E1 kommer sig under CW-tonen hviler på spektrumtypens behandling af kontinuerligt spektrum: tonen ligger i nulpunktet af MBOC-spektret og kobler intet. En rigtig tone ville koble gennem kodens spektrallinjer; det er angivet i filen og i SPECTRUM.md.
 
 seg-fb8d8636c554 = <c1/>: et parametergitter over en vilkårlig type
-
-seg-b14a11d60e9f = Fra én til tre punkterede scenarienøgler, hver over et lineært eller logaritmisk område, på de samme akseværdier som typen <c1/> bruger. Hver akse har et navn og en enhed; hver metrik har et navn og en resultatsti, og dens enhed læses fra den fejede types egen enhedsblok, medmindre kampagnen erklærer en. Med <c2/> er hver knude et seedet Monte Carlo-ensemble (realisering <c3/> ved knudens seed plus <c4/>), rapporteret med statistikken nedenfor. <c5/> fejer en jammer { "1" } km fra modtageren fra -50 til +{ "10" } dBW: det gennemsnitlige forhold mellem jammer og signal flytter sig præcis { "1" } dB pr. dB ({ "12.2" } til { "72.2" } dB), og tilgængeligheden falder fra { "1" } til { "0" } mellem -30 og -25 dBW.
 
 seg-c1931e311cca = En punkteret nøgle kan indeksere et array af tabeller efter position: <c1/> er <c2/> i den tredje tabel <c3/>, og <c4/> når tre niveauer ned.
 
@@ -295,3 +291,7 @@ seg-7ca90ac531bf = [monte_carlo]: et seedet ensemble
 seg-03d764a4cb56 = [compose]: flere scenarier under fælles betingelser
 
 seg-61a0db2550ba = [optimize]: den bedste værdi af én metrik
+
+seg-0886cc461f7a = C/N0 falder til { "30.6" } dB-Hz, alle { "8" } satellitter trackes stadig
+
+seg-74f8b08a4194 = Fra én til tre punkterede scenarienøgler, hver over et lineært eller logaritmisk område, på de samme akseværdier som typen <c1/> bruger. Hver akse har et navn og en enhed; hver metrik har et navn og en resultatsti, og dens enhed læses fra den fejede types egen enhedsblok, medmindre kampagnen erklærer en. Med <c2/> er hver knude et seedet Monte Carlo-ensemble (realisering <c3/> ved knudens seed plus <c4/>), rapporteret med statistikken nedenfor. <c5/> fejer en jammer { "1" } km fra modtageren fra -50 til +{ "10" } dBW: det gennemsnitlige forhold mellem jammer og signal flytter sig præcis { "1" } dB pr. dB ({ "12.2" } til { "72.2" } dB), og tilgængeligheden falder fra { "1" } til { "0" } mellem -25 og -20 dBW.

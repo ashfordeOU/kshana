@@ -242,10 +242,6 @@ seg-32c07578eab3 = Salvestatud seansi sammud
 seg-2cff891dc970 = Järgmine samm
 
 # text
-# c1: clock-holdover.toml
-seg-45da99dccd40 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "49" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-# text
 # c1: animate_scenario
 seg-102015d6ebd2 = <c1/>: käivita Kshana stsenaarium ja tagasta selle aegrida animatsioonina.
 
@@ -1139,10 +1135,12 @@ seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt iga
 
 seg-653cf3198094 = { "176" } võimekust { "401" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
 
-seg-76b213d03caa = Kõik { "92" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.
+seg-859bb6732925 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "52" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-cff488aa106d = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-2dc1aed7a12e = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
 
-seg-fddfe8b260be = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+seg-b79ee48fd586 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
 
-seg-388f14eb6d8d = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-9b9d03fe1477 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+seg-579d9b6f7afd = Kõik { "93" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.

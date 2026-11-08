@@ -30,8 +30,6 @@ seg-47ee40d4eb73 = Diagrammet som motorn skriver för scenarios/gnss-sim-raim.to
 
 seg-ccc44a4ac68e = <b>VALIDATED</b> Klobuchars enfrekvens-L1-jonosfärsgruppfördröjning i snedriktning utifrån de åtta utsända α/β-koefficienterna Tests: <a1>klobuchar_reference.rs</a1>.
 
-seg-aec7fc2a4070 = <b>VALIDATED</b> ARAIM-lösning med multipla hypoteser och lösningsseparation enligt ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels och add_v42_protecti. Oracle (ExternalDataset): Tre oberoende verktyg, förhandsregistrerade (0123cee1) innan någon fixtur eller referensutdata fanns, toleranser fastställda då. ({ "1" }) ARAIM: Stanford MAAST för ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, körd som separat program under GNU Octave { "8.4" } med ett kompatibilitetsskal för unique() på drivrutinssidan (redovisat, ingen algoritmändring), vid ADD TOL_PL på { "0.05" } m: Rust återskapar ADD-referensimplementationen på
-
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP från siktlinjegeometri via Q=(HᵀH)⁻¹ med en lokal ENU-uppdelning. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — oberoende bibliotek, överensstämmande till { "1e-6" } relativt
 
 seg-752829346523 = <b>VALIDATED</b> Klobuchars enfrekvens-L1-jonosfärsgruppfördröjning i snedriktning utifrån de åtta utsända α/β-koefficienterna. Oracle (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — oberoende referensimplementation kompilerad från källkod; överensstämmande till < { "1e-4" } m

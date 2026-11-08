@@ -38,8 +38,6 @@ seg-0cc992f8d61b = Se <a1><c1/></a1>. NMEA- og RINEX-output fra GNSS-SDR kan all
 
 seg-cf1bf4944f6a = IMU (<c1/>)
 
-seg-ab64a0754907 = <c1/>: en overskriftsrække med kolonnenavnene, derefter én måling pr. række. Kolonner (i vilkårlig rækkefølge, navne uden forskel på store og små bogstaver): <c2/> sekunder efter modtagerlogens ur, <c3/>, <c4/>, <c5/> drejningshastighed i rad/s, <c6/>, <c7/>, <c8/> specifik kraft i m/s². <c9/>: EuRoC MAV-layoutet <c10/> <c11/> (<c12/>, <c13/>, <c14/>); den første måling er <c15/>. Rækker, der ikke kan fortolkes, og rækker, hvis tid ikke vokser, springes over. Se <a1><c16/></a1> for, hvordan gyroens kurs bruges.
-
 seg-f7007cf35f53 = IMU i de hybride scenarier og fusionsscenarierne (<c1/>)
 
 seg-3fc254763f67 = Scenarierne <c1/> og <c2/> (UKF med 17 tilstande) er simuleringer: de tager sensorstøjparametre (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), ikke en målt serie. <c10/> aflæser disse parametre ud fra en IMU-log i hvile, så et scenarie kan køres med den sensor, du faktisk har:

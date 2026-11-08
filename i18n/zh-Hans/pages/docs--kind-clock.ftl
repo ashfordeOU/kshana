@@ -50,8 +50,6 @@ seg-849c08d3ce70 = 类别页面：<a1>时钟、授时与守时</a1>
 
 seg-ee7dd15019d0 = 主题页面：<a1>CAMPAIGNS.md</a1>
 
-seg-46ed0b786244 = 主题页面：<a1>RECEIVER-TRUST.md</a1>
-
 seg-e06f9a5a0291 = <s1>上一页</s1>cislunar-observability
 
 seg-aba9395185fa = <s1>下一页</s1>combined-altpnt

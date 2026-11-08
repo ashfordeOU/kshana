@@ -16,8 +16,6 @@ seg-fbc3db22c061 = Open geen openbare issue voor veiligheidsgevoelige meldingen.
 
 seg-4c11dabdd8f6 = Ondersteunde versies
 
-seg-19c99cf3a67e = Vóór 1.0: alleen de nieuwste getagde release wordt ondersteund.
-
 seg-1379eab9a8e3 = Geheugenveiligheid
 
 seg-cf966fa35408 = De bibliotheekcrate declareert <c1/> in de crate-root (<c2/>), zodat een <c3/>-blok, fn, impl of extern ergens in de bibliotheek een compileerfout is en niet iets wat een reviewer moet opmerken. Het attribuut staat niet achter een <c4/>, dus het geldt voor elke configuratie waarin de bibliotheek wordt geleverd, en alle drie compileren er zonder problemen onder: de standaard Rust-build, de Python-extensiemodule (<c5/>) en de WebAssembly-module (<c6/>).

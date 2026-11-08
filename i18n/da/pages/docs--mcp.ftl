@@ -242,8 +242,6 @@ seg-73a73af88f08 = HTTP-tilstand (selvhostet)
 
 seg-4f248ed3e597 = <c1/> leverer de samme værktøjer over streamable HTTP på <c2/>. Den binder kun til loopback; en adresse uden for loopback kræver <c3/> og et bearer-token i <c4/>; IQ-filværktøjerne er slået fra; størrelse, tid og samtidighed for forespørgsler er begrænset; der sendes ingen CORS-header. Kshana hoster ikke et endpoint: du hoster det selv. Se <a1>docs/deploy/mcp-http.md</a1>.
 
-seg-60f55b197ac2 = <c1/> lægger <c2/> på din <c3/> (typisk <c4/>). Serveren taler JSON-RPC (JSON remote procedure call) over stdio; logs går til stderr. Bygning fra kildekode kræver en Rust-toolchain ≥ { "1.88" } (den patchede <c5/> { "2" }.x SDK kræver den; selve biblioteket <c6/> kræver kun { "1.85" }); Docker-aftrykket kræver ingen.
-
 seg-2f3216082425 = Registrér den hos en klient
 
 seg-1090ae3f689c = Stort set alle MCP-klienter bruger den samme <c1/>-konfigurationsblok — registrér binæren <c2/> med absolut sti:
@@ -286,16 +284,14 @@ seg-dc60d64a3bb8 = <em>"Lav en GPS L1-scene på ét sekund med PRN'erne { "3" } 
 
 seg-942dc8abe0ec = Designnote — hvorfor en separat crate
 
-seg-ce6d0ecab448 = Serveren er en <b>selvstændig crate uden for workspacet</b> med sin egen <c1/>, så den officielle Rust MCP SDK (software development kit) <c2/> og dens asynkrone runtime aldrig kommer ind i den udgivne crate <c3/>s afhængighedsgraf: en bruger af biblioteket eller Python kompilerer ikke en server, vedkommende ikke kører. (Den blev først skilt ud, fordi <c4/> er <b>edition { "2024" }</b> og kræver rustc ≥ { "1.85" }, mens hovedcraten dengang lovede { "1.75" }. Biblioteket erklærer nu { "1.85" }; denne server erklærer { "1.88" }, gulvet for den sikkerhedspatchede <c5/> { "2" }.x.) Kontinuerlig integration (CI) kontrollerer denne crate for sig selv — tests og <c6/> mod dens lockfile. rmcps licenstræ er rent (Apache-2.0/MIT/BSD), så opdelingen handler, i modsætning til tværvalideringscraten <c7/>, som den ellers afspejler, ikke om licensering.
-
 seg-75bf2d74642d = Licens: kun AGPL-3.0, GNU Affero General Public License version { "3" } alene (eller en kommerciel licens fra Ashforde OÜ; se repositoriets <a1>LICENSING.md</a1>).
 
 seg-490ebbefb561 = <s1>Forrige</s1>Rust-crate
 
 seg-350b6b914734 = <s1>Næste</s1>MCP-server: alle installationskanaler
 
-seg-492888115662 = De { "92" } indbyggede scenarietyper med beskrivelser + obligatoriske/valgfrie felter, så agenten kan konstruere et gyldigt scenarie.
-
 seg-a4a0e399a31e = <c1/> lægger <c2/> på din <c3/> (typisk <c4/>). Serveren taler JSON-RPC (JSON remote procedure call) over stdio; logs går til stderr. Bygning fra kildekode kræver en Rust-toolchain ≥ { "1.88" } (den patchede <c5/> { "2" }.x SDK kræver den, og det gør biblioteket <c6/> også); Docker-aftrykket kræver ingen.
 
 seg-0757e15070d4 = Serveren er en <b>selvstændig crate uden for workspacet</b> med sin egen <c1/>, så den officielle Rust MCP SDK (software development kit) <c2/> og dens asynkrone runtime aldrig kommer ind i den udgivne crate <c3/>s afhængighedsgraf: en bruger af biblioteket eller Python kompilerer ikke en server, vedkommende ikke kører. (Den blev først skilt ud, fordi <c4/> er <b>edition { "2024" }</b> og kræver rustc ≥ { "1.85" }, mens hovedcraten dengang lovede { "1.75" }. Biblioteket og denne server erklærer nu begge { "1.88" }, gulvet for den sikkerhedspatchede <c5/> { "2" }.x og for de opgraderede RustCrypto-crates.) Kontinuerlig integration (CI) kontrollerer denne crate for sig selv — tests og <c6/> mod dens lockfile. rmcps licenstræ er rent (Apache-2.0/MIT/BSD), så opdelingen handler, i modsætning til tværvalideringscraten <c7/>, som den ellers afspejler, ikke om licensering.
+
+seg-b873b39a4921 = De { "93" } indbyggede scenarietyper med beskrivelser + obligatoriske/valgfrie felter, så agenten kan konstruere et gyldigt scenarie.

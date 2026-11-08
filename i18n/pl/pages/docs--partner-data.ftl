@@ -128,8 +128,6 @@ seg-2cc3c091ba0f = Kshana niczego nie nadaje i nie steruje żadnym sprzętem. Zg
 
 seg-01b0ee9973dc = Kontakt z partnerami
 
-seg-b5cb4dc0493f = Jednostronicowa notatka dla laboratorium jest przygotowana dla właściciela w <s1><c1/></s1>. To szkic: nic nie jest wysyłane i nikt nie jest kontaktowany, dopóki właściciel nie zdecyduje.
-
 seg-83b30e1ca261 = <s1>Poprzednia</s1>Pakiety dowodowe
 
 seg-09c0b5fa6e52 = <s1>Następna</s1>Łącza optyczne przez atmosferę

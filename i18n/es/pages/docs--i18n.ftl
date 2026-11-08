@@ -78,8 +78,6 @@ seg-cd0360ad624d = <b>Elemento de { "0.41" }: una sola ejecución.</b> Generar a
 
 seg-67e04a43cea8 = La compilación wasm incorpora solo el catálogo en inglés. Los otros dieciséis añadirían unos { "150" } kB gzip cada uno. Una página obtiene <c1/> al elegir un idioma y llama a <c2/>; si falla la obtención o el registro, la página sigue en inglés. En nativo, la línea de comandos y el paquete wheel de Python incorporan los { "18" }.
 
-seg-9a2f85e7e43c = Tamaño, <c1/> sin optimizar de <c2/> (antes de wasm-bindgen y wasm-opt), base bc04e98f frente a esta rama: { "18.71" } MB -> { "19.88" } MB en bruto, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. El catálogo en inglés ocupa { "521" } kB en bruto, { "153" } kB gzip de ellos; el resto es <c3/> y sus dependencias. Esto se acepta tal como se midió.
-
 seg-3ce9aab4916e = El catálogo
 
 seg-fdea76581cd8 = <c1/> contiene los mensajes, con identificadores con el prefijo <c2/>. <c3/> es la fuente; los demás archivos son de los traductores y pueden carecer de mensajes (cada uno recurre al inglés mensaje por mensaje). Listas complementarias en <c4/>: <c5/> (mensajes con variables de recuento, para las formas de plural), <c6/> (números pasados como marcadores), <c7/> (mensajes que son fragmentos de una frase ensamblada en tiempo de ejecución: se deben fusionar en mensajes de frase completa, nunca aumentar).
