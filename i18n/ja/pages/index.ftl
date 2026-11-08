@@ -720,8 +720,8 @@ seg-579d9b6f7afd = { "93" } 種類すべてのシナリオ kind を、機能ゲ�
 
 seg-56bf1281e330 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "53" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-74e443a965d8 = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+seg-351fab28c16d = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
 
-seg-0dfbf0d5864b = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+seg-414ba03a1362 = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
 
-seg-08f9e715b4cb = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+seg-fc1e7a222c6b = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }

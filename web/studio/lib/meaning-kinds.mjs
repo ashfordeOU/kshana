@@ -543,6 +543,19 @@ function entryHeating(r) {
   if (!has(r, "peak_deceleration.g", "peak_deceleration.altitude_m", "peak_heat_flux.w_cm2", "relative_entry.speed_m_s", "relative_entry.flight_path_angle_deg")) return null;
   return { big: t("js-meankind-entry-big", "Peak deceleration is { $g } g at { $km } km, with a peak heat flux of { $flux } W/cm².", { g: f(r.peak_deceleration.g), km: f(r.peak_deceleration.altitude_m / 1000), flux: f(r.peak_heat_flux.w_cm2) }), line: t("js-meankind-entry-line", "Entering at { $speed } m/s, { $angle } degrees below the horizon.", { speed: f(r.relative_entry.speed_m_s, 4), angle: f(r.relative_entry.flight_path_angle_deg) }) };
 }
+function tipAndCue(r) {
+  const cs = Array.isArray(r.cases) ? r.cases : [];
+  const c = cs[0];
+  if (!c || !c.revisit || !c.reaction || !num(c.revisit.value_s) || !num(c.reaction.value_s)) return null;
+  const v = { revisit: dur(c.revisit.value_s), reaction: dur(c.reaction.value_s), name: words((c.case && c.case.name) || ""), n: cs.length };
+  const refresh = c.full_refresh && num(c.full_refresh.value_s) ? dur(c.full_refresh.value_s) : "";
+  const line = refresh
+    ? (cs.length > 1
+      ? t("js-meankind-tipcue-line-cases", { one: "Every point of the area is seen within { $refresh } on average (case { $name }; the run has { $n } case).", other: "Every point of the area is seen within { $refresh } on average (case { $name }, the first of { $n } cases)." }, { ...v, refresh })
+      : t("js-meankind-tipcue-line", "Every point of the area is seen within { $refresh } on average.", { refresh }))
+    : "";
+  return { big: t("js-meankind-tipcue-big", "The radio layer comes back over a point every { $revisit } on average, and an optical look follows its cue after { $reaction }.", v), line };
+}
 function eoRadiometry(r) {
   if (!has(r, "niirs_giqe4", "gsd_m", "snr", "mtf_nyquist.system")) return null;
   return { big: t("js-meankind-radiometry-big", "The camera reaches NIIRS { $niirs } at { $gsd } m ground sample distance, with a signal-to-noise ratio of { $snr }.", { niirs: f(r.niirs_giqe4), gsd: f(r.gsd_m), snr: f(r.snr) }), line: t("js-meankind-radiometry-line", "System MTF at Nyquist { $mtf }.", { mtf: f(r.mtf_nyquist.system) }) };
@@ -641,5 +654,5 @@ export const KIND_TEMPLATES = {
   "lunar-interop-export": lunarInterop, "lunar-vlbi": lunarVlbi, "lunar-vlbi-fim": lunarVlbiFim, "lunar-frame-campaign": lunarFrameCampaign,
   "lunar-llr-datum": lunarLlr, "cislunar-observability": cislunarObs, "cislunar-arc-recovery": cislunarArc,
   "acm-link": acmLink, aocs, "ascent-losses": ascentLosses, "contact-schedule": contactSchedule, "entry-heating": entryHeating,
-  "mission-thread": missionThread, "eo-radiometry": eoRadiometry, "time-transfer-budget": timeTransferBudget, "optical-atmosphere": opticalAtmosphere,
+  "mission-thread": missionThread, "tip-and-cue": tipAndCue, "eo-radiometry": eoRadiometry, "time-transfer-budget": timeTransferBudget, "optical-atmosphere": opticalAtmosphere,
 };

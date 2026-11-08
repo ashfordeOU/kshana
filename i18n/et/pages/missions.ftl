@@ -1454,6 +1454,6 @@ seg-0e6be0d623f6 = <b>Tasuta täna:</b> kõik avatud mootoris. Avatud tuuma komm
 # text
 seg-9b505908a6e2 = Kshana <b>ei juhi raadioriistvara ega edasta midagi</b>. See sisaldab tarkvaralist GNSS-i vastuvõtjat salvestatud ja genereeritud IQ jaoks ning oskab kirjutada sünteetilisi baseband IQ faile, kuid see <b>ei ole RF signaaligeneraatori riistvara</b> ja <b>ei ole riistvaraline ega sertifitseeritud GNSS-i vastuvõtja</b>. See on uurimis- ja kompromissiinstrument: see simuleerib, mida segamine, spuufimine ja signaali kadu navigatsiooni- ja ajalahendiga teevad, ning ütleb, millised selle vastustest on kontrollitud. <b>Mitte lennutoode.</b>
 
-seg-e6fe27ed6dfc = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
 seg-ceb2de75e2f4 = <b>Tasuta täna:</b> kõik avatud mootoris. Tasuta: { "53" } MCP tööriista, run_scenario'st export_oem'ini.
+
+seg-a1e85450eb6a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
