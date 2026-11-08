@@ -2,10 +2,11 @@
 // Checked against REAL recorded engine outputs (recorded/*.json, made by the engine version in pkg/; selfcheck.mjs fails if they differ).
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
 import { seriesModel, holdoverModel, signalModel, masksModel, adevCurves, groundTrack, orbitTrackKm, keyFigures,
   lineChartSvg, signalHeatmapSvg, groundTrackSvg, timeToThreshold, outageWindows, niceTicks, esc, fmt, resultLabel, heat } from "./views.mjs";
 
-const rec = (f) => { const r = JSON.parse(readFileSync(new URL(`../recorded/${f}.json`, import.meta.url), "utf8")); return { toml: r.toml, result: JSON.parse(r.json) }; };
+const rec = (f) => { const r = JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${f}.json.gz`, import.meta.url))).toString("utf8")); return { toml: r.toml, result: JSON.parse(r.json) }; };
 
 // A label made from a result key keeps an acronym's capitals ("Leo pass duration" and "Crc24q" were
 // on screen), and writes out the ones a reader is least likely to know.

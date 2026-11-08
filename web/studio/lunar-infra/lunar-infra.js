@@ -4,6 +4,9 @@
 import { SCENARIOS, readLi, readBars, chartsOf, factRows, missNote } from "../lib/lunar-infra.mjs";
 import { mountBadge } from "../lib/evidence.mjs";
 import { t, ready } from "../lib/t.mjs";
+import { createPackReader } from "../lib/packs.mjs";
+// The recorded run, through the index (recorded/<name>.json.gz, gzip; lib/packs.mjs).
+const RECORDED = createPackReader();
 await ready(); // the page's first catalogue is loaded before text is built
 
 const $ = (id) => document.getElementById(id);
@@ -28,8 +31,8 @@ async function open(id) {
   try {
     const models = [];
     for (const f of sc.files) {
-      const r = await fetch(`recorded/${f}.json`); if (!r.ok) throw new Error(t("js-lunarinfra-result-not-loaded", "the recorded result { $file } did not load", { file: f }));
-      const { model, error } = readLi(await r.json()); if (error) throw new Error(error);
+      const rec = await RECORDED.run("recorded/", f); if (!rec) throw new Error(t("js-lunarinfra-result-not-loaded", "the recorded result { $file } did not load", { file: f }));
+      const { model, error } = readLi(rec); if (error) throw new Error(error);
       models.push(model);
     }
     if (current !== sc.id) return;

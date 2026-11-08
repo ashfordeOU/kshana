@@ -3,9 +3,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { SCENARIOS, readOptical, chartsOf, barsSvg, linesSvg, seriesSvg, factRows } from "./optical.mjs";
+import { gunzipSync } from "node:zlib";
 
 const here = new URL("../", import.meta.url).pathname;
-const load = (id) => JSON.parse(readFileSync(here + `recorded/${id}.json`, "utf8"));
+const load = (id) => JSON.parse(gunzipSync(readFileSync(here + `recorded/${id}.json.gz`)).toString("utf8"));
 
 test("both 0.37 optical-atmosphere scenarios open and carry the engine's numbers unchanged", () => {
   assert.equal(SCENARIOS.length, 2);

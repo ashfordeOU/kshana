@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, genericPath, unitOf, quantity, leafText, keyLabel, capabilityView, capabilityTabs, capabilityFigures, guidedFor, kindOfRun, hasCapability, CAPABILITIES } from "./kinds.mjs";
 import { numericFields } from "./params.mjs";
+import { gunzipSync } from "node:zlib";
 
 // Paths.
 assert.equal(resolve({ a: { b: [{ c: 5 }, { c: 7 }] } }, "a.b[1].c"), 7);
@@ -22,11 +23,11 @@ assert.equal(quantity(7, "count").unit, "");
 assert.equal(keyLabel("timeline.bands[0].min_cn0_dbhz"), "Min C/N0");
 assert.equal(keyLabel("availability_pct"), "Availability");
 
-const load = (dir, f) => { const rec = JSON.parse(readFileSync(new URL(`../${dir}recorded/${f}`, import.meta.url), "utf8")); return { r: JSON.parse(rec.json), toml: rec.toml, file: rec.file }; };
+const load = (dir, f) => { const rec = JSON.parse(gunzipSync(readFileSync(new URL(`../${dir}recorded/${f}`, import.meta.url))).toString("utf8")); return { r: JSON.parse(rec.json), toml: rec.toml, file: rec.file }; };
 const all = [];
 for (const dir of ["", "celeste/"]) {
   if (!existsSync(new URL(`../${dir}recorded/`, import.meta.url))) continue;
-  for (const f of readdirSync(new URL(`../${dir}recorded/`, import.meta.url))) if (f.endsWith(".json") && f !== "index.json") all.push(load(dir, f));
+  for (const f of readdirSync(new URL(`../${dir}recorded/`, import.meta.url))) if (f.endsWith(".json.gz")) all.push(load(dir, f));
 }
 assert.ok(all.length > 130, `recorded runs found: ${all.length}`);
 

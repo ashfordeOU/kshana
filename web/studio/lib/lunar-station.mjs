@@ -10,7 +10,7 @@ import { t } from "./t.mjs";
 
 export const KIND = "lunar-station-coverage";
 export const SCENARIO_FILE = "scenarios/lunar-station-coverage.toml";
-export const RECORDED_FILE = "recorded/lunar-station-coverage.json";
+export const RECORDED_FILE = "recorded/lunar-station-coverage.json.gz"; // gzip (tools_record.mjs)
 // Shown on every result, whatever the file says (the plan's rules 1, 3 and 4).
 // The text is produced when read (the language can change after import): each entry is a getter on the frozen array.
 export const HONESTY = Object.freeze(Object.defineProperties(["", "", ""], {

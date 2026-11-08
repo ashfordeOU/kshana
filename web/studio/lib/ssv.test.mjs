@@ -3,9 +3,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { SCENARIOS, MODES, readSsv, chartsOf, factRows, groupedBarsSvg, linesSvg, rangesSvg, readIcg, icgTable, fmt } from "./ssv.mjs";
+import { gunzipSync } from "node:zlib";
 
 const here = new URL("../", import.meta.url).pathname;
-const load = (id) => JSON.parse(readFileSync(here + `recorded/${id}.json`, "utf8"));
+const load = (id) => JSON.parse(gunzipSync(readFileSync(here + `recorded/${id}.json.gz`)).toString("utf8"));
 const read = (id) => readSsv(load(id)).model;
 const modeOf = { "gnss-ssv-shell": "shell", "gnss-ssv-heo": "trajectory", "gnss-ssv-lunar-weak": "trajectory", "gnss-ssv-nav-lunar": "navigation", "gnss-ssv-formation-heo": "formation" };
 

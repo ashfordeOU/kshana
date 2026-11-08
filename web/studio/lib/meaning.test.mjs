@@ -7,9 +7,10 @@ import { plainMeaning, plainDuration, signalName, genericCards } from "./meaning
 import { kpis } from "./kpi.mjs";
 import { fmt } from "./views.mjs";
 import { SCENARIOS, NOT_IN_BROWSER, registerGroup } from "./catalog.mjs";
+import { gunzipSync } from "node:zlib";
 
 const idx = JSON.parse(readFileSync(new URL("../recorded/index.json", import.meta.url), "utf8"));
-const rec = (name) => { const d = JSON.parse(readFileSync(new URL(`../recorded/${name}.json`, import.meta.url), "utf8")); return { r: JSON.parse(d.json), toml: d.toml }; };
+const rec = (name) => { const d = JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${name}.json.gz`, import.meta.url))).toString("utf8")); return { r: JSON.parse(d.json), toml: d.toml }; };
 
 // Durations in words.
 assert.equal(plainDuration(45), "45 s");
@@ -60,7 +61,7 @@ assert.equal(signalName("galileo-e1"), "Galileo E1");
   let n = 0;
   for (const [f, e] of Object.entries(idx.runs)) {
     if (e.error) continue;
-    const d = JSON.parse(readFileSync(new URL(`../recorded/${e.file}`, import.meta.url), "utf8"));
+    const d = JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${e.file}`, import.meta.url))).toString("utf8"));
     const r = JSON.parse(d.json);
     const m = plainMeaning(r, d.toml);
     assert.ok(m && typeof m.big === "string" && m.big.length > 8, `${f} has a sentence`);
@@ -74,7 +75,7 @@ assert.equal(signalName("galileo-e1"), "Galileo E1");
 // result, with no "undefined", "NaN", empty placeholder or raw object in it; only a file the
 // browser cannot run and that has no recording (a command-line study suite) says why instead.
 {
-  const read = (f) => JSON.parse(readFileSync(new URL(`../${f}`, import.meta.url), "utf8"));
+  const read = (f) => { const b = readFileSync(new URL(`../${f}`, import.meta.url)); return JSON.parse((b[0] === 0x1f && b[1] === 0x8b ? gunzipSync(b) : b).toString("utf8")); };
   for (const g of read("groups.json").groups) registerGroup({ ...read(g + "index.json"), dir: g });
   const recs = {};
   for (const dir of ["", ...read("groups.json").groups]) for (const [f, e] of Object.entries(read(dir + "recorded/index.json").runs)) if (!e.error) recs[f] = dir + "recorded/" + e.file;

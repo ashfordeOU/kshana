@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import * as G from "./stages.mjs";
 
-const load = (f) => JSON.parse(JSON.parse(readFileSync(new URL(`../recorded/${f}.json`, import.meta.url), "utf8")).json);
+const load = (f) => JSON.parse(JSON.parse(gunzipSync(readFileSync(new URL(`../recorded/${f}.json.gz`, import.meta.url))).toString("utf8")).json);
 const count = (s, re) => (s.match(re) || []).length;
 
 // ---- waterfall

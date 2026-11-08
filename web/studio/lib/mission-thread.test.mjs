@@ -2,8 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { readThread, headline, phaseTable, budgetTable, timelineSvg, fmtSigma, fmtElapsed, SCHEMA } from "./mission-thread.mjs";
+import { gunzipSync } from "node:zlib";
 
-const REC = JSON.parse(readFileSync(new URL("../recorded/mission-thread-artemis-class.json", import.meta.url), "utf8"));
+const REC = JSON.parse(gunzipSync(readFileSync(new URL("../recorded/mission-thread-artemis-class.json.gz", import.meta.url))).toString("utf8"));
 const { model: M, error } = readThread(REC);
 
 test("the engine's Artemis-class result is read in full", () => {
