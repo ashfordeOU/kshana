@@ -51,9 +51,25 @@ fn every_bundled_scenario_is_deterministic() {
     // different threads and at different times, which is the same-process claim this
     // test makes, and the walk takes the time of the slowest scenario rather than the
     // sum of all of them twice.
-    let jobs: Vec<(usize, &PathBuf)> = entries
+    //
+    // Under cargo-tarpaulin (`cfg(tarpaulin)`, set only during a coverage build) the scenarios in
+    // `HEAVY_UNDER_COVERAGE` are left out. tip-and-cue-baltic-m2 takes about 20 s in a release build; debug
+    // plus LLVM instrumentation, run twice, passes tarpaulin's 3600 s per-test limit (run 42478518299). This
+    // is coverage-neutral: tip-and-cue-short runs the same code path in well under a second. The determinism
+    // check of the heavy scenario still runs on every ordinary `cargo test`, including the gate.
+    const HEAVY_UNDER_COVERAGE: [&str; 1] = ["tip-and-cue-baltic-m2.toml"];
+    let run: Vec<&PathBuf> = entries
         .iter()
-        .flat_map(|p| [(0usize, p), (1usize, p)])
+        .filter(|p| {
+            !cfg!(tarpaulin)
+                || !HEAVY_UNDER_COVERAGE
+                    .iter()
+                    .any(|h| p.file_name().is_some_and(|n| n == *h))
+        })
+        .collect();
+    let jobs: Vec<(usize, &PathBuf)> = run
+        .iter()
+        .flat_map(|p| [(0usize, *p), (1usize, *p)])
         .collect();
     let hashes = corpus::par_map(&jobs, |&(run, path)| {
         let name = path
@@ -74,7 +90,7 @@ fn every_bundled_scenario_is_deterministic() {
     });
 
     let mut checked = 0;
-    for (i, path) in entries.iter().enumerate() {
+    for (i, path) in run.iter().enumerate() {
         assert_eq!(
             hashes[2 * i],
             hashes[2 * i + 1],
