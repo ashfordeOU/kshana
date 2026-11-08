@@ -1,0 +1,67 @@
+{
+ "auc": {
+  "jamming": 0.85639453125,
+  "meaconing": null,
+  "nominal": 0.8422872807017544,
+  "spoofing": 0.8525625
+ },
+ "balanced_accuracy": 0.8133333333333334,
+ "balanced_accuracy_descriptive": 0.8072222222222223,
+ "classes": [
+  "nominal",
+  "jamming",
+  "spoofing",
+  "meaconing"
+ ],
+ "confusion": [
+  [
+   491,
+   55,
+   54,
+   0
+  ],
+  [
+   35,
+   318,
+   47,
+   0
+  ],
+  [
+   35,
+   34,
+   291,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   0
+  ]
+ ],
+ "entered": [
+  "nominal",
+  "spoofing"
+ ],
+ "jamming_labelled_spoofing_or_meaconing": 0.1175,
+ "macro_f1": 0.8098793684827826,
+ "macro_f1_descriptive": 0.802620942061632,
+ "precision": {
+  "jamming": 0.7813267813267813,
+  "meaconing": null,
+  "nominal": 0.875222816399287,
+  "spoofing": 0.7423469387755102
+ },
+ "present": [
+  "nominal",
+  "jamming",
+  "spoofing"
+ ],
+ "recall": {
+  "jamming": 0.795,
+  "meaconing": null,
+  "nominal": 0.8183333333333334,
+  "spoofing": 0.8083333333333333
+ },
+ "spoofing_meaconing_labelled_jamming": 0.09444444444444444
+}
