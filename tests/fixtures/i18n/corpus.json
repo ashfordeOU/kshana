@@ -42465,5 +42465,182 @@
   "parts": [
    "result: not ready; fix the errors above"
   ]
+ },
+ {
+  "id": "e-ephem-export-unknown-format",
+  "error": true,
+  "parts": [
+   "unknown export format `",
+   {
+    "var": "o"
+   },
+   "`: use `oem`, `opm` or `spk`"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-row-fields",
+  "error": true,
+  "parts": [
+   "Horizons table line ",
+   {
+    "var": "line"
+   },
+   ": ",
+   {
+    "var": "f"
+   },
+   " fields, expected the Julian date, the calendar date and six state values"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-bad-date",
+  "error": true,
+  "parts": [
+   "Horizons table line ",
+   {
+    "var": "line"
+   },
+   ": the calendar date is not `A.D. YYYY-Mon-DD HH:MM:SS.ffff`"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-bad-number",
+  "error": true,
+  "parts": [
+   "Horizons table line ",
+   {
+    "var": "line"
+   },
+   ": `",
+   {
+    "var": "v"
+   },
+   "` is not a finite number"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-no-table",
+  "error": true,
+  "parts": [
+   "not a Horizons vector table: no `$$SOE` to `$$EOE` block"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-empty",
+  "error": true,
+  "parts": [
+   "the Horizons table has no rows"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-units",
+  "error": true,
+  "parts": [
+   "the Horizons table is in `",
+   {
+    "var": "u"
+   },
+   "` units: request `KM-S`"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-time-scale",
+  "error": true,
+  "parts": [
+   "the Horizons table's time scale is `",
+   {
+    "var": "t"
+   },
+   "`: request TDB"
+  ]
+ },
+ {
+  "id": "e-ephem-export-horizons-header",
+  "error": true,
+  "parts": [
+   "the Horizons table's header has no `",
+   {
+    "var": "k"
+   },
+   "` line"
+  ]
+ },
+ {
+  "id": "e-ephem-export-no-creation-date",
+  "error": true,
+  "parts": [
+   "no creation date: the table's header has none, so give one (`--creation-date YYYY-MM-DDTHH:MM:SS`)"
+  ]
+ },
+ {
+  "id": "e-ephem-export-opm-index",
+  "error": true,
+  "parts": [
+   "state ",
+   {
+    "var": "i"
+   },
+   " is out of range: the table has ",
+   {
+    "var": "total"
+   },
+   " states"
+  ]
+ },
+ {
+  "id": "e-ephem-export-spk-type",
+  "error": true,
+  "parts": [
+   "the SPK export writes type 13 or type 9"
+  ]
+ },
+ {
+  "id": "e-ephem-export-read-back-count",
+  "error": true,
+  "parts": [
+   {
+    "var": "w"
+   },
+   " states written, ",
+   {
+    "var": "r"
+   },
+   " read back"
+  ]
+ },
+ {
+  "id": "e-ephem-export-read-back-value",
+  "error": true,
+  "parts": [
+   "the written file has a state that does not read back"
+  ]
+ },
+ {
+  "id": "main-error-option-needs-whole",
+  "error": false,
+  "parts": [
+   "error: ",
+   {
+    "var": "a"
+   },
+   " needs a whole number"
+  ]
+ },
+ {
+  "id": "main-error-unknown-ephem-export-option",
+  "error": false,
+  "parts": [
+   "error: unknown ephem-export option ",
+   {
+    "var": "x"
+   }
+  ]
+ },
+ {
+  "id": "main-error-ephem-export-needs-a",
+  "error": false,
+  "parts": [
+   "error: ephem-export needs the path of a Horizons vector table"
+  ]
  }
 ]

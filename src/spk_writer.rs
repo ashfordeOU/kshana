@@ -774,6 +774,12 @@ fn hermite(x: &[f64], y: &[f64], t: f64) -> (f64, f64) {
 }
 
 impl ReadSegment {
+    /// Types 9 and 13: the node epochs and the states stored at them, as read (empty for types
+    /// 3 and 21).
+    pub fn nodes(&self) -> (&[f64], &[[f64; 6]]) {
+        (&self.epochs, &self.states)
+    }
+
     /// The 0-based index of the first node of the window used at `et`, as the SPICE reader
     /// selects it (directory group, last epoch strictly before `et`, nearest node for an odd
     /// window with ties going to the later node).

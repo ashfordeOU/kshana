@@ -1114,6 +1114,50 @@ pub fn imu_fit(
     })
 }
 
+/// Write a JPL Horizons vector table as a CCSDS OEM, a CCSDS OPM or an SPK kernel
+/// (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md), then read the file back with the
+/// engine's own readers. Returns JSON: the table's `object`, `center`, NAIF ids, `ref_frame`,
+/// `time_system`, `states`, `start` and `stop`; the file (`suffix`, `bytes`, `sha256`,
+/// `encoding` `utf-8` or `base64`, `content`); and `read_back`, the comparison of the states read
+/// back with the states written. The values are copied, not computed: every state reads back
+/// with the bits it was read with.
+pub fn ephem_export(
+    text: &str,
+    options: &crate::ephem_export::ExportOptions,
+    max_bytes: usize,
+) -> Result<String, String> {
+    crate::i18n::in_english_or_localised_error(|| {
+        use crate::ephem_export::{export, parse_horizons_vectors, read_back};
+        cap("state table", text, max_bytes)?;
+        let t = parse_horizons_vectors(text)?;
+        let bytes = export(&t, options)?;
+        let rb = read_back(&t, options, &bytes)?;
+        let sha = crate::advanced_report::sha256_hex(&bytes);
+        let (encoding, content) = match String::from_utf8(bytes.clone()) {
+            Ok(s) if options.format != crate::ephem_export::ExportFormat::Spk => ("utf-8", s),
+            _ => ("base64", crate::permalink::base64_encode(&bytes)),
+        };
+        serde_json::to_string_pretty(&json!({
+            "object": t.object_name,
+            "object_naif": t.object_naif,
+            "center": t.center_name,
+            "center_naif": t.center_naif,
+            "ref_frame": t.ref_frame,
+            "time_system": t.time_system,
+            "states": t.states.len(),
+            "start": t.epochs[0],
+            "stop": t.epochs[t.epochs.len() - 1],
+            "suffix": options.suffix(),
+            "bytes": bytes.len(),
+            "sha256": sha,
+            "encoding": encoding,
+            "content": content,
+            "read_back": rb,
+        }))
+        .map_err(|e| e.to_string())
+    })
+}
+
 /// What the input of [`trust_telemetry`] is.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TelemetryInput {

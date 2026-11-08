@@ -619,6 +619,23 @@ def trust_telemetry(
     ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
     Raises ``ValueError`` on an unknown format or an input with no epoch."""
 
+def ephem_export(
+    table: str,
+    format: str = "oem",
+    index: int = 0,
+    spk_type: int = 13,
+    degree: int = 7,
+    creation_date: Optional[str] = None,
+    object_id: Optional[str] = None,
+) -> str:
+    """Write a JPL Horizons vector table (``table``, the text) as a CCSDS OEM (``format="oem"``), a
+    CCSDS OPM of the state at ``index`` (``"opm"``) or an SPK kernel of type ``spk_type`` 13 or 9
+    and odd ``degree`` (``"spk"``), and read it back with the engine's readers
+    (``kshana ephem-export``, docs/FLIGHT-DYNAMICS-EXPORT.md). Returns JSON text: the table's
+    object, centre, frame, time scale and span; the file (``encoding`` ``"utf-8"`` or
+    ``"base64"``, ``content``, ``sha256``); and ``read_back``. Raises ``ValueError`` on a table it
+    cannot read."""
+
 def imu_fit(
     log: str,
     format: str = "csv",

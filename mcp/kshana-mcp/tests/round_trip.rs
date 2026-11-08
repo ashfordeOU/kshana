@@ -96,6 +96,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "route_exposure",
         "trust_telemetry",
         "fit_imu_log",
+        "ephem_export",
         "compliance_report",
         "compliance_mapping",
         "list_standards_packs",
@@ -1602,5 +1603,53 @@ async fn sky_geometry_answers_a_request_and_describes_a_preset() {
         .await
         .expect_err("neither a request nor a preset must be refused");
     assert!(err.to_string().contains("exactly one"), "{err}");
+    client.cancel().await.ok();
+}
+
+/// C7: the CAPSTONE Horizons table written as an SPK and as an OEM reads back state for state,
+/// with the bytes the command line writes.
+#[tokio::test]
+async fn ephem_export_writes_the_capstone_table_and_reads_it_back() {
+    let table = std::fs::read_to_string(
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt"),
+    )
+    .expect("the CAPSTONE Horizons fixture");
+    let client = connect().await;
+    for (format, encoding) in [("spk", "base64"), ("oem", "utf-8")] {
+        let res = client
+            .call_tool(call(
+                "ephem_export",
+                serde_json::json!({ "table": table, "format": format }),
+            ))
+            .await
+            .expect("call ephem_export");
+        let v: serde_json::Value = serde_json::from_str(&first_text(&res)).expect("JSON reply");
+        assert_eq!(v["encoding"], encoding);
+        assert_eq!(v["object_naif"], -1176);
+        assert_eq!(v["read_back"]["states"], 4321);
+        assert_eq!(v["read_back"]["identical"], 4321, "{format}");
+        assert_eq!(v["read_back"]["epoch_mismatches"], 0);
+        // The same bytes as the command line and Python (tests/ephem_export_capstone.rs).
+        let pinned = std::fs::read_to_string(
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../tests/fixtures/capstone_horizons/ephem_export.sha256"),
+        )
+        .expect("the pinned digests");
+        let want = pinned
+            .lines()
+            .find(|l| l.ends_with(&format!("  {format}")))
+            .and_then(|l| l.split_whitespace().next())
+            .expect("a digest for the format");
+        assert_eq!(v["sha256"], want, "{format}");
+    }
+    let err = client
+        .call_tool(call(
+            "ephem_export",
+            serde_json::json!({ "table": "no table", "format": "oem" }),
+        ))
+        .await
+        .expect_err("a text with no table must be refused");
+    assert!(err.to_string().contains("SOE"), "{err}");
     client.cancel().await.ok();
 }

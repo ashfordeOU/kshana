@@ -1133,6 +1133,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("trust-telemetry") {
         return ExitCode::from(kshana::telemetry::cli::run(&args[2..]) as u8);
     }
+    // `kshana ephem-export <horizons.txt> --format oem|opm|spk` writes a trajectory for
+    // flight-dynamics tools (src/ephem_export.rs, docs/FLIGHT-DYNAMICS-EXPORT.md).
+    if args.get(1).map(String::as_str) == Some("ephem-export") {
+        return run_ephem_export_cli(&args[2..]);
+    }
     // `kshana imu-fit <imu.csv>` fits hybrid/fusion sensor parameters from a stationary IMU log.
     if args.get(1).map(String::as_str) == Some("imu-fit") {
         return run_imu_fit_cli(&args[2..]);
@@ -2320,6 +2325,114 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
 /// write the test-bench files (`<base>.motion.csv`, `.nmea`, `.events.csv`, ...). The
 /// default base is the scenario path without its extension; the default epoch is
 /// 2024-01-01T00:00:00Z.
+/// `kshana ephem-export <horizons.txt> --format oem|opm|spk [--out <file>] [--index <n>]
+/// [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]`:
+/// write the file (default: the input path with the format's suffix) and print the report of
+/// the export and its read-back as JSON, without the file's content.
+fn run_ephem_export_cli(args: &[String]) -> ExitCode {
+    let (mut path, mut out, mut format) = (None, None, "oem".to_string());
+    let (mut index, mut spk_type, mut degree) = (0usize, 13u32, 7usize);
+    let (mut created, mut object_id) = (None, None);
+    let mut i = 0;
+    while i < args.len() {
+        let a = args[i].as_str();
+        let needs = matches!(
+            a,
+            "--format"
+                | "--out"
+                | "--index"
+                | "--spk-type"
+                | "--degree"
+                | "--creation-date"
+                | "--object-id"
+        );
+        if needs && i + 1 >= args.len() {
+            eprintln!("{}", kshana::t!("main-error-needs-value", a = a));
+            return ExitCode::from(2);
+        }
+        let v = args.get(i + 1).cloned().unwrap_or_default();
+        let whole = |x: &str| x.parse::<usize>().ok();
+        match a {
+            "--format" => format = v,
+            "--out" => out = Some(PathBuf::from(v)),
+            "--creation-date" => created = Some(v),
+            "--object-id" => object_id = Some(v),
+            "--index" | "--spk-type" | "--degree" => {
+                let Some(n) = whole(&v) else {
+                    eprintln!("{}", kshana::t!("main-error-option-needs-whole", a = a));
+                    return ExitCode::from(2);
+                };
+                match a {
+                    "--index" => index = n,
+                    "--degree" => degree = n,
+                    _ => spk_type = n as u32,
+                }
+            }
+            x if x.starts_with("--") => {
+                eprintln!(
+                    "{}",
+                    kshana::t!("main-error-unknown-ephem-export-option", x = x)
+                );
+                return ExitCode::from(2);
+            }
+            x => path = Some(PathBuf::from(x)),
+        }
+        i += if needs { 2 } else { 1 };
+    }
+    let Some(path) = path else {
+        eprintln!("{}", kshana::t!("main-error-ephem-export-needs-a"));
+        return ExitCode::from(2);
+    };
+    let options = match kshana::ephem_export::ExportOptions::from_parts(
+        &format, index, spk_type, degree, created, object_id,
+    ) {
+        Ok(o) => o,
+        Err(e) => {
+            eprintln!("{}", kshana::t!("main-fail", e = e));
+            return ExitCode::from(2);
+        }
+    };
+    let text = match std::fs::read_to_string(&path) {
+        Ok(t) => t,
+        Err(e) => {
+            eprintln!(
+                "{}",
+                kshana::t!("main-error-cannot-read-2", path = path.display(), e = e)
+            );
+            return ExitCode::from(1);
+        }
+    };
+    let report =
+        match kshana::surface::ephem_export(&text, &options, kshana::surface::MAX_INPUT_BYTES) {
+            Ok(r) => r,
+            Err(e) => {
+                eprintln!("{}", kshana::t!("main-fail", e = e));
+                return ExitCode::from(1);
+            }
+        };
+    let mut v: serde_json::Value = serde_json::from_str(&report).unwrap_or_default();
+    let content = v["content"].as_str().unwrap_or_default().to_string();
+    let bytes = if v["encoding"] == "base64" {
+        kshana::permalink::base64_decode(&content).unwrap_or_default()
+    } else {
+        content.into_bytes()
+    };
+    let out = out.unwrap_or_else(|| path.with_extension(options.suffix()));
+    if let Err(e) = std::fs::write(&out, &bytes) {
+        eprintln!(
+            "{}",
+            kshana::t!("main-error-cannot-write-10", out = out.display(), e = e)
+        );
+        return ExitCode::from(1);
+    }
+    if let Some(o) = v.as_object_mut() {
+        o.remove("content");
+        o.insert("path".into(), serde_json::json!(out.display().to_string()));
+    }
+    println!("{}", serde_json::to_string_pretty(&v).unwrap_or_default());
+    ExitCode::SUCCESS
+}
+
 /// `kshana imu-fit`: print the `[accel_classical]` table (or `--json` the whole report).
 fn run_imu_fit_cli(args: &[String]) -> ExitCode {
     let (mut path, mut format, mut axis, mut id) = (

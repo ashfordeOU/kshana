@@ -833,6 +833,35 @@ pub fn imu_fit(
     .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Write a JPL Horizons vector table as a CCSDS OEM (`format` `"oem"`), a CCSDS OPM of the state
+/// at `index` (`"opm"`) or an SPK kernel of type `spk_type` 13 or 9 and odd `degree` (`"spk"`),
+/// and read it back with the engine's readers (`kshana ephem-export`,
+/// docs/FLIGHT-DYNAMICS-EXPORT.md). An empty `creation_date` or `object_id` takes the table's
+/// own. Returns JSON: the table's object, centre, frame, time scale and span; the file
+/// (`encoding` `"utf-8"` or `"base64"`, `content`, `sha256`); and `read_back`.
+#[wasm_bindgen]
+pub fn ephem_export(
+    table: &str,
+    format: &str,
+    index: u32,
+    spk_type: u32,
+    degree: u32,
+    creation_date: &str,
+    object_id: &str,
+) -> Result<String, JsValue> {
+    let err = |e: String| JsValue::from_str(&e);
+    let o = crate::ephem_export::ExportOptions::from_parts(
+        format,
+        index as usize,
+        spk_type,
+        degree as usize,
+        Some(creation_date.to_string()),
+        Some(object_id.to_string()),
+    )
+    .map_err(err)?;
+    crate::surface::ephem_export(table, &o, crate::surface::MAX_INPUT_BYTES).map_err(err)
+}
+
 /// Check Galileo OSNMA authentication of I/NAV pages, in memory, with the verifier
 /// `kshana osnma verify` runs. Advisory: this is analysis and monitoring output and not
 /// type-approved navigation equipment. The authentication status reported here is not a
