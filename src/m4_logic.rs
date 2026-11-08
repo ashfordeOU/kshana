@@ -61,7 +61,15 @@ impl M4Params {
     /// The committed version 1 parameters: the base values with the (m, c) pair chosen on seeds 0 to 9
     /// (R17, R19).
     pub fn v1() -> Self {
-        Self::base()
+        // Chosen on seeds 0-9 (xval/m4-dark-vessel/dev-third.json.gz): the eligible triple
+        // (FA <= 0.005) with the highest offset recall at d >= 5 km: window 60 s, m = 3, c = 5 km
+        // (FA 0.00469, recall 938 of 1 120).
+        Self {
+            epoch_window_s: 60,
+            m: 3,
+            c_m: 5000.0,
+            ..Self::base()
+        }
     }
 }
 
