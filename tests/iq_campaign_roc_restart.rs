@@ -10,7 +10,12 @@
 //! * the scored re-run: R1 and R2 on the seen and the fresh seeds (readings 3 and 4), with each
 //!   `cn0_drop` AUC recomputed by `oracle.py` from the cells' window maxima (reading 5a (ii)).
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08, release): R1 MET on re-run, AUC 1.0000 on the seen and the
+//! fresh seeds; R2 holds on both; the control reproduces the 0.40 numbers
+//! (`docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: the AUC values of the scored run (to 5e-5) and the window counts. PIN-EXCLUDES:
+//! output hashes (none is pinned here).
 
 #[path = "support/monitor_campaign.rs"]
 mod support;
@@ -239,6 +244,12 @@ fn r1_with_the_restart_seen_and_fresh_seeds() {
         if auc < 0.95 {
             miss.push(format!("{name}: {auc:.4}"));
         }
+        // Pinned from the scored run (2026-11-08): AUC 1.0000 on both, 18 and 36 windows.
+        assert_eq!(n, 36, "{name}");
+        assert!(
+            (auc - 1.0).abs() < 5e-5,
+            "{name}: AUC {auc:.6} moved from 1.0000"
+        );
     }
     assert!(miss.is_empty(), "R1 NOT MET: {miss:?}");
 }
@@ -247,9 +258,20 @@ fn r1_with_the_restart_seen_and_fresh_seeds() {
 #[cfg_attr(debug_assertions, ignore = "IQ campaign: run in release")]
 fn r2_with_the_restart_seen_and_fresh_seeds() {
     let mut bad = Vec::new();
-    for (name, seed0) in [("r2-seen", 400u64), ("r2-fresh", 100_400)] {
+    // Pinned from the scored run (2026-11-08): cn0_drop, sqm_delta, power_drop.
+    let pins = [[0.5000, 0.5664, 0.6389], [0.5000, 0.6080, 0.5000]];
+    for ((name, seed0), pin) in [("r2-seen", 400u64), ("r2-fresh", 100_400)]
+        .into_iter()
+        .zip(pins)
+    {
         let (a, d) = r2(name, seed0, R2_MON);
         assert!(d <= 1e-9, "{name}: oracle AUC differs by {d}");
+        for (got, want) in a.iter().zip(pin) {
+            assert!(
+                (got - want).abs() < 5e-5,
+                "{name}: {a:?} moved from {pin:?}"
+            );
+        }
         for (k, auc) in ["cn0_drop", "sqm_delta", "power_drop"].iter().zip(a) {
             if (auc - 0.5).abs() > 0.2 {
                 bad.push(format!("{name} {k}: {auc:.4}"));

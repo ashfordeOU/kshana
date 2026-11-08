@@ -590,28 +590,32 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
     Ok(0)
 }
 
-/// The task (b) baseline, carried from `docs/design/DETECTION-ROC.md` section 3.
+/// The task (b) baseline, carried from the D8b row 9 re-run of R1
+/// (`docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md`; the bench does not
+/// score R1 itself, `xval/bench/PREREGISTRATION-0.41.md` section 4).
 fn carried_b() -> Value {
     super::result_json(
         "b",
         "test",
         &super::System {
-            name: "kshana iq monitors: cn0_drop (CUSUM)".into(),
+            name: "kshana iq monitors: cn0_drop (CUSUM, restarted at each scored window)".into(),
             version: SPEC_VERSION.into(),
             url: None,
         },
         "carried",
-        Some("docs/design/DETECTION-ROC.md section 3: the R1 campaign of tests/iq_campaign_roc.rs, run 2026-10-13; not re-run for bench v1. Bar R1 (AUC >= 0.95) was NOT MET."),
+        Some("docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md row 9: the R1 campaign of tests/iq_campaign_roc_restart.rs, re-run 2026-11-08 with the window restart on seen seeds 300 to 305 and fresh seeds 100300 to 100305; scored there, not by the bench. Bar R1 (AUC >= 0.95) was MET on re-run. Without the restart (2026-10-13) it was NOT MET, AUC 0.7855."),
         &"0".repeat(64),
         &"0".repeat(64),
         json!({
             "n_positive": 18,
             "n_negative": 36,
-            "auc": 0.7855,
+            "auc": 1.0,
+            "auc_fresh": 1.0,
             "declared_threshold_note": "CUSUM threshold h = 5",
             "pd_at_declared": 1.0,
-            "pfa_at_declared": 0.5,
-            "bar_R1": "NOT MET (AUC 0.7855 against 0.95)",
+            "pfa_at_declared": 0.0,
+            "auc_without_restart_2026_10_13": 0.7855,
+            "bar_R1": "MET on re-run (AUC 1.0000 on seen and fresh seeds against 0.95)",
         }),
         "MODELLED: truth is the stated 6 dB attenuation events of Kshana's own GPS L1 C/A scenes; no interference waveform is involved",
     )
@@ -803,14 +807,15 @@ mod tests {
     }
 
     #[test]
-    fn the_carried_b_result_is_valid_and_says_it_was_not_re_run() {
+    fn the_carried_b_result_is_valid_and_names_the_run_it_carries() {
         let v = carried_b();
         assert!(validate_result(&v).is_empty(), "{:?}", validate_result(&v));
         assert_eq!(v["provenance"], "carried");
-        assert!(v["provenance_note"]
+        let note = v["provenance_note"].as_str().unwrap();
+        assert!(note.contains("not by the bench") && note.contains("row 9"));
+        assert!(v["metrics"]["bar_R1"]
             .as_str()
             .unwrap()
-            .contains("not re-run"));
-        assert!(v["metrics"]["bar_R1"].as_str().unwrap().contains("NOT MET"));
+            .starts_with("MET on re-run"));
     }
 }

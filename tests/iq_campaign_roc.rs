@@ -44,12 +44,12 @@ fn kind<'a>(r: &'a [Roc], k: &str) -> &'a Roc {
 }
 
 #[test]
-#[ignore = "FINDING (run 2026-10-13): R1 NOT MET: cn0_drop AUC 0.7855 < 0.95 over 18 positive and 36 negative windows; at the threshold P_d 1.0 and P_fa 0.5. All 18 pre-event negatives have a CUSUM maximum of 0; all 18 post-event negatives reach 81 or more, the statistic decaying after the attenuation it detected. Negative windows next to an event inherit the detector's memory; recorded in docs/design/DETECTION-ROC.md section 3. Run in release with --ignored"]
+#[ignore = "FINDING (run 2026-10-13, without the window restart; met on re-run with it, D8b row 9, tests/iq_campaign_roc_restart.rs): R1 NOT MET: cn0_drop AUC 0.7855 < 0.95 over 18 positive and 36 negative windows; at the threshold P_d 1.0 and P_fa 0.5. All 18 pre-event negatives have a CUSUM maximum of 0; all 18 post-event negatives reach 81 or more, the statistic decaying after the attenuation it detected. Negative windows next to an event inherit the detector's memory; recorded in docs/design/DETECTION-ROC.md section 3. Run in release with --ignored"]
 fn r1_the_cn0_drop_roc_separates_6_db_attenuations() {
     let cells = campaign(
         "r1",
         &recipe(300, 6.0),
-        "[monitors]\nroc_window_s = 6.0\n[monitors.epoch.cn0]\nstride = 1000\n",
+        "[monitors]\nroc_window_s = 6.0\nroc_restart = false\n[monitors.epoch.cn0]\nstride = 1000\n",
     );
     let r = rocs(&cells);
     let c = kind(&r, "cn0_drop");
