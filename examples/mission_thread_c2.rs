@@ -170,10 +170,11 @@ fn main() -> Result<(), String> {
                 })
                 .collect();
             let (h, h_sha) = parse(&format!("{dir}/c2_artemis1_h.json"))?;
-            // PIN-SCOPE:    the number of half-hour held-out states in W1 the pre-registration names
+            // PIN-SCOPE:    the number of half-hour held-out states in W1 (72; the pre-registration's "71" is a count
+            //               slip, corrected before any comparison: xval/mission-thread-c2/README.md)
             // PIN-EXCLUDES: their values and every result
-            if h.len() != 71 {
-                return Err(format!("H has {} states, not 71: C2 is not run", h.len()));
+            if h.len() != 72 {
+                return Err(format!("H has {} states, not 72: C2 is not run", h.len()));
             }
             let start = t
                 .iter()
