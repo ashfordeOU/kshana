@@ -1,0 +1,2 @@
+# The Basilisk adapter (basilisk_reader.py) and its notebook. Exact version.
+bsk==2.12.2

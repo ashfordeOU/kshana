@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline, planner, env_baseline } from "./pkg/kshana.js";
+import init, { run, run_typed, scenario_kinds, error_kind, list_kinds, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify, iq_signals, iq_run_short, referee_location_score, area_trust_timeline, planner, env_baseline, ephem_export } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
@@ -395,4 +395,23 @@ console.log(
     process.exit(1);
   }
   console.log("env_baseline: the command line's bytes");
+}
+
+// C7: the CAPSTONE Horizons table written as OEM, OPM and SPK gives the command line's bytes
+// (tests/fixtures/capstone_horizons/ephem_export.sha256), and every state reads back.
+{
+  const fx = (name) => new URL(`../tests/fixtures/capstone_horizons/${name}`, import.meta.url);
+  const table = await readFile(fx("capstone_2023-03_moon_icrf.txt"), "utf8");
+  const pinned = Object.fromEntries((await readFile(fx("ephem_export.sha256"), "utf8"))
+    .trim().split("\n").map((l) => l.split(/\s+/).reverse()));
+  for (const fmt of ["oem", "opm", "spk"]) {
+    const r = JSON.parse(ephem_export(table, fmt, 0, 13, 7, "", ""));
+    const bytes = r.encoding === "base64" ? Buffer.from(r.content, "base64") : Buffer.from(r.content, "utf8");
+    const sha = createHash("sha256").update(bytes).digest("hex");
+    if (sha !== pinned[fmt] || r.read_back.identical !== r.read_back.states) {
+      console.error(`ephem_export ${fmt}: ${sha} (pinned ${pinned[fmt]}), read back ${JSON.stringify(r.read_back)}`);
+      process.exit(1);
+    }
+  }
+  console.log("ephem_export: the command line's bytes, every state read back");
 }

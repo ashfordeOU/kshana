@@ -16,6 +16,12 @@ breaking changes are called out explicitly.
   (C7, step 1; `docs/FLIGHT-DYNAMICS-EXPORT.md`). Values and epochs are copied, not computed: on the mission thread's
   CAPSTONE table all 4,321 states read back with the same bits from the OEM and the SPK, and from the SPICE Toolkit's
   reading of the SPK too. Every surface writes the same bytes (pinned SHA-256).
+- `integrations/flight-dynamics/`: the C7 adapters and notebooks, Orekit and Basilisk first. Orekit 13.1.9 reads the CAPSTONE OEM and
+  OPM Kshana wrote with its own CCSDS parsers; every value it holds is its own kilometre-to-metre conversion of the written
+  double and every epoch is the written one (4,321 states). The difference report names Orekit as rounding further than
+  the digits written: that conversion is a second rounding of at most one ulp. The `flight-dynamics` workflow runs the
+  notebooks, checks that the command line and Python write the same bytes, and runs `kshana connect check`. Basilisk
+  2.12.2, through the SPICE Toolkit it ships, reads the SPK's 4,321 stored records and epochs with the written bits.
 - RTCM SSR reader (`kshana::rtcm_ssr`) reads the IGS SSR format (RTCM 4076): orbit, clock, combined, high-rate clock, code
   bias, phase bias with yaw and URA for GPS, GLONASS, Galileo, QZSS, BeiDou and SBAS, and the global ionosphere (201). Every
   field of the 11 messages in pyrtcm 1.2.0's public IGS sample stream matches the values pyrtcm records; the message kinds
