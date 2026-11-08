@@ -17,7 +17,6 @@ curl -sS -L --fail -G "https://ssd.jpl.nasa.gov/api/horizons.api" \
   --data-urlencode "MAKE_EPHEM='YES'" \
   --data-urlencode "EPHEM_TYPE='VECTORS'" \
   --data-urlencode "CENTER='500@399'" \
-  --data-urlencode "TIME_TYPE='TDB'" \
   --data-urlencode "START_TIME='2022-11-16 18:30'" \
   --data-urlencode "STOP_TIME='2022-11-19 17:30'" \
   --data-urlencode "STEP_SIZE='1 h'" \
