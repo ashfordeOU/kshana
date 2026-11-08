@@ -1205,3 +1205,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (förhandsregistrerad fbe6c8b3 och, efter en protokollmiss i omgång 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D-målslösning inom { "6.1e-15" } av r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = I den gren i arkivet som dessa dokument kommer från; ännu inte på GitHub
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Ännu inte på GitHub
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>Vad observatoriet gör i stället.</b> Frågan som almanackjämförelsen besvarar är: "kan konstellationens geometri ensam förklara den här låga noggrannheten?". Grundmetoden besvarar en närliggande fråga utan almanacka: en låg andel måste sticka ut mot samma dags bakgrund i regionen och mot flygplanets egna goda rapporter någon annanstans. Det är en annan och svagare ersättning: den kan inte säga att en timme med lugn geometri var försämrad där dagens bakgrund också är låg. En almanack-HDOP-bedömare är <b>inte implementerad</b>. Det är en öppen punkt, som ska byggas utifrån artikelns fulltext och den offentliga GPS-almanackan och förhandsregistreras innan den körs; tills dess citeras den, men hävdas inte.

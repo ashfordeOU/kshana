@@ -798,8 +798,8 @@ seg-c851aa23ea42 = kommagescheiden waarden
 
 seg-366c59b03b4f = CSV
 
-seg-859bb6732925 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "52" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
+seg-56bf1281e330 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "53" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-f3512ff81b58 = <b>{ "52" } hulpmiddelen</b> via de openbare { -brand }-API (application programming interface), in het officiële MCP-register als <c1/>. Baanexports: SP3 (Standard Product { "3" }) en CCSDS (Consultative Committee for Space Data Systems) OMM en OEM (berichten met gemiddelde baanelementen en efemeriden, TEME: True Equator, Mean Equinox-stelsel). Registreer het onder <b>AI-assistent (MCP-server)</b> of <b>Docker-image</b>. <a1>Documentatie van de MCP-server</a1>
+seg-19751efb1461 = <b>{ "53" } hulpmiddelen</b> via de openbare { -brand }-API (application programming interface), in het officiële MCP-register als <c1/>. Baanexports: SP3 (Standard Product { "3" }) en CCSDS (Consultative Committee for Space Data Systems) OMM en OEM (berichten met gemiddelde baanelementen en efemeriden, TEME: True Equator, Mean Equinox-stelsel). Registreer het onder <b>AI-assistent (MCP-server)</b> of <b>Docker-image</b>. <a1>Documentatie van de MCP-server</a1>
 
-seg-5aa702c4ebc7 = { "52" } hulpmiddelen die een AI-assistent kan aanroepen, elk een dunne laag om de publieke API
+seg-1b9e5d8ce426 = { "53" } hulpmiddelen die een AI-assistent kan aanroepen, elk een dunne laag om de publieke API

@@ -1,7 +1,5 @@
 # docs--kind-lunar-surface: translations (ja)
 
-seg-f942b36a11c4 = まだ GitHub にはありません
-
 seg-51362910dcb7 = この kind を使う同梱シナリオは { "2" } 件です。その他は<a1><c1/></a1>にあります。
 
 seg-1f17ef6a853e = エンジン v{ $version } のシナリオ kind、ファミリー<a1>月と地球・月間空間</a1>。助言のみ：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、人命安全（safety-of-life）サービスでもありません。ここにあるラベルはすべて、エンジンまたは検証マトリクスのものです。マトリクスに別の記載がない限り、kind は MODELLED です（ラベルの取得方法：README の Evidence の節）。

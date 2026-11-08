@@ -663,8 +663,6 @@ seg-a3a97ab49ed1 = Méthode AIS (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Région de l'émetteur (<c1/>)
 
-seg-34bdcfd66ded = Dans la branche du dépôt d'où viennent ces documents ; pas encore sur GitHub
-
 seg-194d573cb817 = Options : <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fusionner une position TDOA ; ci-dessous). Toute option qui diffère de la valeur préenregistrée est annoncée comme « not the pre-registered method ». Les fichiers ne sont jamais écrasés.
 
 seg-5767c749117a = <b>Modèle.</b> Les rapports sont regroupés en <em>unités</em> (un aéronef ou un navire dans un intervalle de 2 minutes), chacune <em>touchée</em> (ADS-B : au moins la moitié de ses rapports ont un NIC ou un NACp faible selon la règle propre à la carte ; AIS : une vitesse ou un saut invraisemblable, ou une position à l'intérieur des terres par rapport au littoral) ou non. Un aéronef ou un navire ne compte qu'avec au moins { "5" } bons rapports dans l'entrée (la même garde de référence d'équipement que la carte). Les unités touchées sont regroupées en <em>sessions</em> : un écart de plus de { "30" } minutes sépare dans le temps, et au sein d'un groupe temporel deux unités vont ensemble lorsqu'un même émetteur pourrait être à portée des deux. Pour une session, chaque position candidate sur une grille reçoit une vraisemblance :

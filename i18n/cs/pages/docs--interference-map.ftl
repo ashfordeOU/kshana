@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = Metoda AIS (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Oblast zdroje rušení (<c1/>)
 
-seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
-
 seg-194d573cb817 = Volby: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fúze určení polohy TDOA; níže). Každá volba, která se liší od předregistrované hodnoty, je oznámena jako „not the pre-registered method“. Soubory se nikdy nepřepisují.
 
 seg-5767c749117a = <b>Model.</b> Hlášení se řadí do <em>jednotek</em> (jedno letadlo nebo plavidlo v jednom 2minutovém košíku), každá je <em>dotčená</em> (ADS-B: nejméně polovina jejích hlášení má nízké NIC nebo NACp podle vlastního pravidla mapy; AIS: nepravděpodobná rychlost nebo skok, nebo poloha ve vnitrozemí od pobřeží) nebo ne. Letadlo nebo plavidlo se počítá, jen když má ve vstupu alespoň { "5" } dobrých hlášení (táž pojistka základní výbavy jako u mapy). Dotčené jednotky se seskupují do <em>relací</em>: mezera delší než { "30" } minut dělí v čase a uvnitř časového shluku k sobě patří dvě jednotky, když by oběma mohl být v dosahu jeden zdroj. Pro jednu relaci dostane každá kandidátní poloha na mřížce věrohodnost:

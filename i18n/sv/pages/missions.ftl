@@ -836,6 +836,6 @@ seg-9a86ef058d27 = Öppna i Kshana Studio
 
 seg-e1acd19a6ac6 = Jämför utgåvorna
 
-seg-b9ebb409e11a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-e6fe27ed6dfc = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-7b9633a75c90 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "52" } MCP-verktyg, från run_scenario till export_oem.
+seg-ceb2de75e2f4 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "53" } MCP-verktyg, från run_scenario till export_oem.

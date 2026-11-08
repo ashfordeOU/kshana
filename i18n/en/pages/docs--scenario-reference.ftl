@@ -1206,9 +1206,6 @@ seg-24935888ed31 = kind tip-and-cue
 seg-cbf982c48281 = M2 (docs/design/evidence/m2-revisit-tip-and-cue/PREREGISTRATION.md): revisit, full-area refresh and RF-to-optical reaction of a two-layer survey over the Baltic Sea, for the pre-registered primary cases ({ "16" } and { "32" } satellites per layer) and variants V1 to V4, over { "7" } days at a { "10" } s step. Readings: xval/m2-revisit-tip-and-cue/README.md. A cross-check of published simulation figures, never a validation. Takes a few seconds in a release build.
 
 # text
-seg-f942b36a11c4 = Not yet on GitHub
-
-# text
 seg-f65e31d64d45 = A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the Baltic Sea for { "2" } days at a { "60" } s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED.
 
 # text

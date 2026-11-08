@@ -1,7 +1,5 @@
 # docs--mission-thread-lunar: translations (nb)
 
-seg-f942b36a11c4 = Ikke på GitHub ennå
-
 seg-3b01a756c305 = Hva den beregner
 
 seg-b478421b21bb = Kilde: <c1/>

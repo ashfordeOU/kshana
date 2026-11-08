@@ -118,9 +118,6 @@ seg-4892485e534b = Pleninger, Topkova et Steiner, « GNSS interference detection
 seg-74ec1aca8a22 = <b>Ce que nous avons utilisé.</b> Seulement le résumé publié et la notice bibliographique. Le texte intégral n'était pas disponible pour nous (accès payant) ; nous ne connaissons donc ni sa correspondance entre le NACp et une estimation d'erreur, ni son calcul du HDOP, ni ses seuils, et nous ne prétendons pas les reproduire.
 
 # text
-seg-4f8471649a07 = <b>Ce que fait l'observatoire à la place.</b> La question à laquelle répond la comparaison d'almanach est « la seule géométrie de la constellation pourrait-elle expliquer cette faible précision ? ». La méthode de base répond à une question voisine sans almanach : une faible part doit se distinguer du bruit de fond du même jour sur la région et des bons rapports du même aéronef ailleurs. C'est un substitut différent et plus faible : elle ne peut pas dire qu'une heure de géométrie calme était dégradée là où le bruit de fond du jour est lui aussi faible. Un évaluateur HDOP d'almanach <b>n'est pas implémenté</b>. C'est un point ouvert, à construire à partir du texte intégral de l'article et de l'almanach GPS public et à préenregistrer avant son exécution ; d'ici là, il est cité, et non revendiqué.
-
-# text
 seg-e9b9902633af = Reproduire un produit
 
 # text

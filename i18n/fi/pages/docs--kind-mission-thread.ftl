@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (fi)
 
-seg-f942b36a11c4 = Ei vielä GitHubissa
-
 seg-be831b52a339 = ja { "4" } lisää matriisissa.
 
 seg-936e96edf423 = <b>MODELLED</b> Tyyppi <c1/>: vaiheiden asiakirja, jossa kukin vaihe on yksi kahdeksasta rekisteröidystä tyypistä, ajetaan järjestyksessä ja 6x6-kovarianssi, kello ja koordinaatisto siirretään eteenpäin ilmoitetun säännön mukaan (<c2/>; <c3/>, valkoinen kiihtyvyyskohina ilmoitetun välin yli Testit: <a1>field_units_global.rs</a1>.

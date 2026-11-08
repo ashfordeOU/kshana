@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Erde
 
-seg-34bdcfd66ded = Im Repository-Zweig, aus dem diese Dokumente stammen; noch nicht auf GitHub
-
 seg-092dd691ca17 = Der Bericht
-
-seg-f942b36a11c4 = Noch nicht auf GitHub
 
 seg-b03d56f501c3 = Art
 

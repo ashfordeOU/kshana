@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = AIS-methode (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Zendergebied (<c1/>)
 
-seg-34bdcfd66ded = In de repositorytak waaruit deze documentatie komt; nog niet op GitHub
-
 seg-194d573cb817 = Opties: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (een TDOA-positiebepaling samenvoegen; hieronder). Elke optie die van de vooraf vastgelegde waarde afwijkt wordt aangekondigd als "niet de vooraf vastgelegde methode". Bestanden worden nooit overschreven.
 
 seg-5767c749117a = <b>Model.</b> Meldingen worden ingedeeld in <em>eenheden</em> (één vliegtuig of vaartuig in één bin van 2 minuten), elk <em>getroffen</em> (ADS-B: ten minste de helft van zijn meldingen heeft volgens de eigen regel van de kaart een lage NIC of NACp; AIS: een onwaarschijnlijke snelheid of sprong, of een positie landinwaarts van de kustlijn) of niet. Een vliegtuig of vaartuig telt alleen mee met ten minste { "5" } goede meldingen in de invoer (dezelfde bescherming met een apparatuurbasislijn als de kaart). Getroffen eenheden worden gegroepeerd in <em>sessies</em>: een tussenpoos van meer dan { "30" } minuten splitst in de tijd, en binnen een tijdcluster horen twee eenheden bij elkaar wanneer één zender voor beide binnen bereik kan zijn. Voor één sessie krijgt elke kandidaatpositie op een raster een aannemelijkheid:

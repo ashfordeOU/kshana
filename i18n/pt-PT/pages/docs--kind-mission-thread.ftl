@@ -1,9 +1,6 @@
 # docs--kind-mission-thread: translations (pt-PT)
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 seg-be831b52a339 = e mais { "4" } na matriz.
 
 # text

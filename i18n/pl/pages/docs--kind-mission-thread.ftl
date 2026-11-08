@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (pl)
 
-seg-f942b36a11c4 = Jeszcze nie na GitHub
-
 seg-be831b52a339 = i { "4" } kolejne w macierzy.
 
 seg-936e96edf423 = <b>MODELLED</b> Rodzaj <c1/>: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (<c2/>; <c3/>, szum białego przyspieszenia na podanym odstępie Testy: <a1>field_units_global.rs</a1>.

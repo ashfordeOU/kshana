@@ -1,7 +1,5 @@
 # docs--mission-thread-lunar: translations (et)
 
-seg-f942b36a11c4 = GitHubis veel mitte
-
 seg-3b01a756c305 = Mida see arvutab
 
 seg-b478421b21bb = Allikas: <c1/>

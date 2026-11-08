@@ -665,9 +665,6 @@ seg-a3a97ab49ed1 = Método AIS (kshana-interference-map/ais/v2)
 # c1: interference-map locate
 seg-e3949a1e6082 = Região do emissor (<c1/>)
 
-# attr:title
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
 # text
 # c1: --levels 0.5,0.9,0.95
 # c2: --cell-km

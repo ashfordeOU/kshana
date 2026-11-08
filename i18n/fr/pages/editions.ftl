@@ -1231,4 +1231,4 @@ seg-0ab329c843b0 = Le moteur ouvert au centre : une marque par type de scénari
 
 seg-e507665bbe2c = Moteur v{ $version } · { "93" } types issus de <c1/> · état du registre issu de <c2/> · ce sur quoi s'appuient Pro et une étude : le registre des éditions du site · aucun scénario ni graine
 
-seg-c7818536071d = Les { "93" } types de scénario et les { "181" } scénarios fournis : en natif, en Python, en JavaScript, dans le navigateur et via MCP (Model Context Protocol)
+seg-7515b1af1f0b = Les { "93" } types de scénario et les { "183" } scénarios fournis : en natif, en Python, en JavaScript, dans le navigateur et via MCP (Model Context Protocol)

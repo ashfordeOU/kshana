@@ -74,6 +74,12 @@ seg-b57457566406 = <s1>Animation export</s1><s2>--animate turns a run's time ser
 seg-6e9c30a894e9 = <s1>Interoperability exports and imports</s1><s2>A run writes a result document, a chart and a report. --export also writes the scenario's geometry, or its…</s2>
 
 # text
+seg-7df65c76c8ca = <s1>Flight-dynamics export: OEM, OPM and SPK</s1><s2>This is step { "1" } of roadmap item C7 (adapters and notebooks for flight-dynamics tools; pre-registration).</s2>
+
+# text
+seg-7a6af2c42575 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana…</s2>
+
+# text
 seg-ea5f09561b29 = <s1>Validation status</s1><s2>On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…</s2>
 
 # text
@@ -183,6 +189,9 @@ seg-fe7815293477 = <s1>Machine and sensor inputs</s1><s2>Readers that bring othe
 
 # text
 seg-334ea28e861d = <s1>Receiver protocols read</s1><s2>Read only, throughout: nothing here writes a byte to a receiver, and there is no transmit path of any kind.</s2>
+
+# text
+seg-23e0706ca5eb = <s1>Kshana Station</s1><s2>A Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream…</s2>
 
 # text
 seg-9df595768906 = <s1>Interference observatory: method</s1><s2>One product per UTC day and region, from one open aircraft-position archive.</s2>

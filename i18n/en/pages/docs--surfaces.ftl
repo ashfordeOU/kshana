@@ -362,6 +362,22 @@ seg-426814dbf8dd = <b>N/A</b> (no IDE action yet)
 seg-e8477119c213 = <b>N/A</b> (Studio's scenario editor takes the pasted table)
 
 # text
+seg-7cc9e814552e = Flight-dynamics export ({ "0.41" }, C7): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type { "13" } or { "9" }), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md)
+
+# text
+seg-c5ebc48ad434 = <b>N/A</b> (no IDE action; the command line covers it)
+
+# text
+# c1: integrations/flight-dynamics/
+# c2: orekit.ipynb
+# c3: basilisk.ipynb
+# c4: anise.ipynb
+seg-bb23b19faac3 = <c1/>: <c2/> (Orekit reads the OEM and OPM back), <c3/> (Basilisk's SPICE reads the SPK back), <c4/> (ANISE reads the SPK and the OEM)
+
+# text
+seg-df85afffcd5c = <b>N/A</b> (no Studio card; the browser has the WASM function)
+
+# text
 # c1: trust-telemetry --mqtt-tcp
 # c2: integrations/ros2
 # c3: integrations/gnss-sdr
@@ -966,6 +982,9 @@ seg-5c93482c9ae4 = Text in, JSON out; MODELLED
 
 # text
 seg-3763f34af33d = N/A (see above)
+
+# text
+seg-6da5ebcdefdc = Text in, JSON out; the SPK comes back as base64. The same bytes from every surface (tests/fixtures/capstone_horizons/ephem_export.sha256)
 
 # text
 # c1: --json

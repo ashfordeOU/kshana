@@ -819,4 +819,4 @@ seg-0ab329c843b0 = Avoin moottori keskellä: yksi merkki skenaariotyyppiä kohti
 
 seg-e507665bbe2c = Moottori v{ $version } · { "93" } tyyppiä lähteestä <c1/> · kirjanpidon tila lähteestä <c2/> · mihin Pro ja tutkimus perustuvat: sivuston editioiden rekisteri · ei skenaariota eikä siemenlukua
 
-seg-c7818536071d = Kaikki { "93" } skenaariotyyppiä ja { "181" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
+seg-7515b1af1f0b = Kaikki { "93" } skenaariotyyppiä ja { "183" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta

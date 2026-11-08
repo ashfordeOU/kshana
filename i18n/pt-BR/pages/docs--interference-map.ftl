@@ -663,8 +663,6 @@ seg-a3a97ab49ed1 = Método de AIS (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Região do emissor (<c1/>)
 
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
 seg-194d573cb817 = Opções: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (fundir uma solução TDOA; abaixo). Qualquer opção que difira do valor fixado antecipadamente é anunciada como "não é o método fixado antecipadamente". Os arquivos nunca são sobrescritos.
 
 seg-5767c749117a = <b>Modelo.</b> Os relatos são agrupados em <em>unidades</em> (uma aeronave ou embarcação em um intervalo de 2 minutos), cada uma <em>afetada</em> (ADS-B: pelo menos metade de seus relatos tem NIC ou NACp baixo pela regra do próprio mapa; AIS: uma velocidade ou salto implausível, ou uma posição no interior do continente em relação à linha de costa) ou não. Uma aeronave ou embarcação só conta com pelo menos { "5" } bons relatos na entrada (a mesma proteção de linha de base de equipamento do mapa). As unidades afetadas são agrupadas em <em>sessões</em>: um intervalo de mais de { "30" } minutos separa no tempo e, dentro de um agrupamento no tempo, duas unidades pertencem ao mesmo grupo quando um único emissor poderia estar ao alcance de ambas. Para uma sessão, cada posição candidata em uma grade recebe uma verossimilhança:

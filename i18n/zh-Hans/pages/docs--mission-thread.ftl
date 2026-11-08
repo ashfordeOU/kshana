@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = 地球
 
-seg-34bdcfd66ded = 这些文档所来自的仓库分支；尚未上传到GitHub
-
 seg-092dd691ca17 = 报告
-
-seg-f942b36a11c4 = 尚未上传到GitHub
 
 seg-b03d56f501c3 = 类型
 

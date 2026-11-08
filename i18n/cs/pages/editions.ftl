@@ -818,4 +818,4 @@ seg-0ab329c843b0 = Otevřený engine uprostřed: jedna značka na druh scénář
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } druhů z <c1/> · stav registru z <c2/> · na čem stavějí Pro a studie: registr edic na webu · žádný scénář ani seed
 
-seg-c7818536071d = Všech { "93" } druhů scénářů a { "181" } přibalených scénářů: nativně, v Pythonu, JavaScriptu, v prohlížeči a přes MCP (Model Context Protocol)
+seg-7515b1af1f0b = Všech { "93" } druhů scénářů a { "183" } přibalených scénářů: nativně, v Pythonu, JavaScriptu, v prohlížeči a přes MCP (Model Context Protocol)

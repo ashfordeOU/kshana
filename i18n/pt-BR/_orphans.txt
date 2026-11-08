@@ -1931,3 +1931,13 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 # text
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (pré-registrado fbe6c8b3 e, após uma falha de protocolo na rodada 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — solução de alvo 1-D dentro de { "6.1e-15" } de r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Ainda não está no GitHub
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+# text
+seg-4f8471649a07 = <b>O que o observatório faz em vez disso.</b> A pergunta que a comparação com o almanaque responde é "a geometria da constelação, por si só, poderia explicar essa baixa precisão?". O método básico responde a uma pergunta relacionada sem almanaque: uma parcela baixa deve se destacar em relação ao fundo do mesmo dia na região e em relação aos próprios bons relatos da aeronave em outros lugares. Esse é um substituto diferente e mais fraco: ele não pode dizer que uma hora de geometria tranquila foi degraded onde o fundo do dia também é baixo. Um avaliador de HDOP por almanaque <b>não está implementado</b>. É um item em aberto, a ser construído a partir do texto completo do artigo e do almanaque GPS público e pré-registrado antes de ser executado; até lá ele é citado, não afirmado.

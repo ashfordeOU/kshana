@@ -1205,3 +1205,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs（position_error_is_sigma_t
 
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs（预先登记fbe6c8b3，并在第1轮协议未达之后为441f31bc：p2_prime_interior_target_range_matches_the_closed_form：1-D目标求解吻合到{ "6.1e-15" }，r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = 这些文档所来自的仓库分支；尚未上传到GitHub
+
+# Not yet on GitHub
+seg-f942b36a11c4 = 尚未上传到GitHub
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>观测站转而做什么。</b>星历比较所回答的问题是“仅凭星座几何能否解释这一低精度？”。基础方法在不使用星历的情况下回答一个相关的问题：较低的比例必须在该地区同一天的背景中，以及在该飞机自己在别处的良好报告面前，显得突出。这是一种不同的、较弱的替代：在当天背景同样较低之处，它无法说明某个几何条件平静的小时是否曾降级。星历HDOP评分器<b>尚未实现</b>。这是一个未决事项，需依据该论文的全文和公开的GPS星历来构建，并在运行之前预先登记；在此之前，它只是被引用，而不是被声称。

@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (et)
 
-seg-f942b36a11c4 = GitHubis veel mitte
-
 seg-be831b52a339 = ja veel { "4" } maatriksis.
 
 seg-936e96edf423 = <b>MODELLED</b> Liik <c1/>: faaside dokument, millest iga on üks kaheksast registreeritud liigist, käivitatud järjekorras, 6x6 kovariatsiooni, kella ja tugisüsteemi edasiandmisega öeldud reegli järgi (<c2/>; <c3/>, valge kiirendusmüra öeldud vahemiku jooksul Testid: <a1>field_units_global.rs</a1>.

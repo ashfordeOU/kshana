@@ -1,22 +1,21 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "0a53cb87eea8487a8529c1e7308da0ee5932da46",
- "recorded_utc": "2026-11-08T10:48:06.939Z",
+ "recorded_utc": "2026-11-08T17:14:06.887Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
    "bytes": 14153,
-   "ms": 94
+   "ms": 98
   },
   "aocs-slew-mekf.toml": {
    "file": "aocs-slew-mekf.json.gz",
    "bytes": 341634,
-   "ms": 32
+   "ms": 31
   },
   "aocs-slew.toml": {
    "file": "aocs-slew.json.gz",
    "bytes": 340766,
-   "ms": 13
+   "ms": 14
   },
   "aperture-duty-cycle.toml": {
    "file": "aperture-duty-cycle.json.gz",
@@ -26,17 +25,17 @@
   "araim-gps-galileo.toml": {
    "file": "araim-gps-galileo.json.gz",
    "bytes": 47929,
-   "ms": 148
+   "ms": 128
   },
   "araim-reference-check.toml": {
    "file": "araim-reference-check.json.gz",
    "bytes": 18367,
-   "ms": 5
+   "ms": 6
   },
   "ascent-losses.toml": {
    "file": "ascent-losses.json.gz",
    "bytes": 11082,
-   "ms": 4
+   "ms": 7
   },
   "attitude-budget.toml": {
    "file": "attitude-budget.json.gz",
@@ -46,22 +45,22 @@
   "automotive-urban-canyon.toml": {
    "file": "automotive-urban-canyon.json.gz",
    "bytes": 489181,
-   "ms": 55
+   "ms": 50
   },
   "campaign-jam-spoof-holdover-integrity.toml": {
    "file": "campaign-jam-spoof-holdover-integrity.json.gz",
    "bytes": 220186,
-   "ms": 327
+   "ms": 430
   },
   "campaign-monte-carlo-clock-holdover.toml": {
    "file": "campaign-monte-carlo-clock-holdover.json.gz",
    "bytes": 26022,
-   "ms": 1071
+   "ms": 950
   },
   "campaign-optimize-link-budget.toml": {
    "file": "campaign-optimize-link-budget.json.gz",
    "bytes": 40238,
-   "ms": 22
+   "ms": 21
   },
   "campaign-shared-jammer-sea-road.toml": {
    "file": "campaign-shared-jammer-sea-road.json.gz",
@@ -71,67 +70,67 @@
   "campaign-spectrum-holdover-integrity.toml": {
    "file": "campaign-spectrum-holdover-integrity.json.gz",
    "bytes": 311769,
-   "ms": 335
+   "ms": 325
   },
   "campaign-sweep-jammer-power.toml": {
    "file": "campaign-sweep-jammer-power.json.gz",
    "bytes": 13103,
-   "ms": 18
+   "ms": 22
   },
   "cislunar-arc-recovery.toml": {
    "file": "cislunar-arc-recovery.json.gz",
    "bytes": 43703,
-   "ms": 5855
+   "ms": 5864
   },
   "cislunar-observability.toml": {
    "file": "cislunar-observability.json.gz",
    "bytes": 41890,
-   "ms": 59
+   "ms": 50
   },
   "clock-ensemble.toml": {
    "file": "clock-ensemble.json.gz",
    "bytes": 318571,
-   "ms": 4927
+   "ms": 4296
   },
   "clock-holdover-labsr.toml": {
    "file": "clock-holdover-labsr.json.gz",
    "bytes": 213227,
-   "ms": 6
+   "ms": 5
   },
   "clock-holdover.toml": {
    "file": "clock-holdover.json.gz",
    "bytes": 214485,
-   "ms": 6
+   "ms": 5
   },
   "combined-altpnt.toml": {
    "file": "combined-altpnt.json.gz",
    "bytes": 8459,
-   "ms": 578
+   "ms": 436
   },
   "conflict-resilience.toml": {
    "file": "conflict-resilience.json.gz",
    "bytes": 45130,
-   "ms": 33
+   "ms": 26
   },
   "constellation-multi-gnss-coverage.toml": {
    "file": "constellation-multi-gnss-coverage.json.gz",
    "bytes": 406645,
-   "ms": 122
+   "ms": 126
   },
   "contact-schedule.toml": {
    "file": "contact-schedule.json.gz",
    "bytes": 23826,
-   "ms": 325
+   "ms": 301
   },
   "earth-gnss-lunar.toml": {
    "file": "earth-gnss-lunar.json.gz",
    "bytes": 35954,
-   "ms": 3
+   "ms": 4
   },
   "entry-heating-stardust.toml": {
    "file": "entry-heating-stardust.json.gz",
    "bytes": 17493,
-   "ms": 11
+   "ms": 13
   },
   "eo-coverage.toml": {
    "file": "eo-coverage.json.gz",
@@ -141,12 +140,12 @@
   "eo-radiometry.toml": {
    "file": "eo-radiometry.json.gz",
    "bytes": 12372,
-   "ms": 133
+   "ms": 147
   },
   "ephemeris.toml": {
    "file": "ephemeris.json.gz",
    "bytes": 664066,
-   "ms": 21
+   "ms": 30
   },
   "europa-surface-pnt.toml": {
    "file": "europa-surface-pnt.json.gz",
@@ -156,32 +155,32 @@
   "fusion-pnt-coupled.toml": {
    "file": "fusion-pnt-coupled.json.gz",
    "bytes": 278133,
-   "ms": 9
+   "ms": 8
   },
   "fusion-pnt.toml": {
    "file": "fusion-pnt.json.gz",
    "bytes": 279948,
-   "ms": 6
+   "ms": 5
   },
   "gnss-ins-aviation.toml": {
    "file": "gnss-ins-aviation.json.gz",
    "bytes": 1065093,
-   "ms": 116
+   "ms": 94
   },
   "gnss-ins-maritime.toml": {
    "file": "gnss-ins-maritime.json.gz",
    "bytes": 3161866,
-   "ms": 263
+   "ms": 247
   },
   "gnss-ins-rail.toml": {
    "file": "gnss-ins-rail.json.gz",
    "bytes": 2383359,
-   "ms": 220
+   "ms": 210
   },
   "gnss-ins.toml": {
    "file": "gnss-ins.json.gz",
    "bytes": 435106,
-   "ms": 26
+   "ms": 33
   },
   "gnss-sim-container-terminal-skyline.toml": {
    "file": "gnss-sim-container-terminal-skyline.json.gz",
@@ -191,57 +190,57 @@
   "gnss-sim-raim.toml": {
    "file": "gnss-sim-raim.json.gz",
    "bytes": 239287,
-   "ms": 164
+   "ms": 163
   },
   "gnss-ssv-formation-heo.toml": {
    "file": "gnss-ssv-formation-heo.json.gz",
    "bytes": 18759,
-   "ms": 1112
+   "ms": 1075
   },
   "gnss-ssv-heo.toml": {
    "file": "gnss-ssv-heo.json.gz",
    "bytes": 36102,
-   "ms": 319
+   "ms": 369
   },
   "gnss-ssv-lunar-weak.toml": {
    "file": "gnss-ssv-lunar-weak.json.gz",
    "bytes": 28429,
-   "ms": 24
+   "ms": 26
   },
   "gnss-ssv-nav-lunar.toml": {
    "file": "gnss-ssv-nav-lunar.json.gz",
    "bytes": 13521,
-   "ms": 28
+   "ms": 24
   },
   "gnss-ssv-shell.toml": {
    "file": "gnss-ssv-shell.json.gz",
    "bytes": 10194,
-   "ms": 101
+   "ms": 96
   },
   "gps-denied-gravity-nav-egm2008.toml": {
    "file": "gps-denied-gravity-nav-egm2008.json.gz",
    "bytes": 7433,
-   "ms": 252
+   "ms": 229
   },
   "gps-denied-gravity-nav.toml": {
    "file": "gps-denied-gravity-nav.json.gz",
    "bytes": 6876,
-   "ms": 56
+   "ms": 52
   },
   "gravity-map-error-mc.toml": {
    "file": "gravity-map-error-mc.json.gz",
    "bytes": 9208,
-   "ms": 1604
+   "ms": 1427
   },
   "gravity-map-nav.toml": {
    "file": "gravity-map-nav.json.gz",
    "bytes": 6503,
-   "ms": 10
+   "ms": 13
   },
   "holdover-test-example.toml": {
    "file": "holdover-test-example.json.gz",
    "bytes": 64485,
-   "ms": 7
+   "ms": 8
   },
   "holdover-test-ptp4l.toml": {
    "file": "holdover-test-ptp4l.json.gz",
@@ -251,57 +250,57 @@
   "hybrid-optical-rf.toml": {
    "file": "hybrid-optical-rf.json.gz",
    "bytes": 102386,
-   "ms": 11
+   "ms": 13
   },
   "hybrid-pnt.toml": {
    "file": "hybrid-pnt.json.gz",
    "bytes": 273199,
-   "ms": 5
+   "ms": 6
   },
   "hybrid-ukf.toml": {
    "file": "hybrid-ukf.json.gz",
    "bytes": 15846,
-   "ms": 906
+   "ms": 822
   },
   "impairment-eval.toml": {
    "file": "impairment-eval.json.gz",
    "bytes": 9875,
-   "ms": 7
+   "ms": 9
   },
   "imu-deadreckoning.toml": {
    "file": "imu-deadreckoning.json.gz",
    "bytes": 204894,
-   "ms": 5
+   "ms": 6
   },
   "ins-trn-coast.toml": {
    "file": "ins-trn-coast.json.gz",
    "bytes": 34677,
-   "ms": 224
+   "ms": 243
   },
   "integrity-harbour-approach.toml": {
    "file": "integrity-harbour-approach.json.gz",
    "bytes": 54781,
-   "ms": 98
+   "ms": 122
   },
   "integrity-raim.toml": {
    "file": "integrity-raim.json.gz",
    "bytes": 153427,
-   "ms": 745
+   "ms": 950
   },
   "jamming-demo.toml": {
    "file": "jamming-demo.json.gz",
    "bytes": 142634,
-   "ms": 3
+   "ms": 4
   },
   "jamming-harbour-approach-skyline.toml": {
    "file": "jamming-harbour-approach-skyline.json.gz",
    "bytes": 895363,
-   "ms": 19
+   "ms": 24
   },
   "l-band-waterfall-jamming.toml": {
    "file": "l-band-waterfall-jamming.json.gz",
    "bytes": 263593,
-   "ms": 265
+   "ms": 291
   },
   "launch-window.toml": {
    "file": "launch-window.json.gz",
@@ -311,32 +310,32 @@
   "leo-band-trade.toml": {
    "file": "leo-band-trade.json.gz",
    "bytes": 152043,
-   "ms": 60
+   "ms": 55
   },
   "leo-doppler-positioning.toml": {
    "file": "leo-doppler-positioning.json.gz",
    "bytes": 24784,
-   "ms": 25
+   "ms": 17
   },
   "leo-focus-data-services.toml": {
    "file": "leo-focus-data-services.json.gz",
    "bytes": 14538,
-   "ms": 468
+   "ms": 516
   },
   "leo-focus-fused-pnt-sisre.toml": {
    "file": "leo-focus-fused-pnt-sisre.json.gz",
    "bytes": 12679,
-   "ms": 106
+   "ms": 75
   },
   "leo-focus-indoor-uhf.toml": {
    "file": "leo-focus-indoor-uhf.json.gz",
    "bytes": 15886,
-   "ms": 104
+   "ms": 126
   },
   "leo-focus-iot-eirp.toml": {
    "file": "leo-focus-iot-eirp.json.gz",
    "bytes": 15312,
-   "ms": 333
+   "ms": 305
   },
   "leo-focus-ntn-bandwidth.toml": {
    "file": "leo-focus-ntn-bandwidth.json.gz",
@@ -346,142 +345,142 @@
   "leo-focus-ppp-altitude.toml": {
    "file": "leo-focus-ppp-altitude.json.gz",
    "bytes": 10972,
-   "ms": 809
+   "ms": 815
   },
   "leo-focus-science-iono-sounding.toml": {
    "file": "leo-focus-science-iono-sounding.json.gz",
    "bytes": 733574,
-   "ms": 55
+   "ms": 53
   },
   "leo-indoor-uhf.toml": {
    "file": "leo-indoor-uhf.json.gz",
    "bytes": 797760,
-   "ms": 53
+   "ms": 51
   },
   "leo-iot-energy.toml": {
    "file": "leo-iot-energy.json.gz",
    "bytes": 622326,
-   "ms": 51
+   "ms": 48
   },
   "leo-navmsg-encode-decode.toml": {
    "file": "leo-navmsg-encode-decode.json.gz",
    "bytes": 81152,
-   "ms": 111
+   "ms": 102
   },
   "leo-navmsg-fit-interval-trade.toml": {
    "file": "leo-navmsg-fit-interval-trade.json.gz",
    "bytes": 59469,
-   "ms": 7573
+   "ms": 7034
   },
   "leo-navmsg-midpass-update.toml": {
    "file": "leo-navmsg-midpass-update.json.gz",
    "bytes": 52689,
-   "ms": 834
+   "ms": 776
   },
   "leo-navmsg-model-comparison.toml": {
    "file": "leo-navmsg-model-comparison.json.gz",
    "bytes": 53695,
-   "ms": 4562
+   "ms": 4690
   },
   "leo-pass-iridium.toml": {
    "file": "leo-pass-iridium.json.gz",
    "bytes": 548395,
-   "ms": 39
+   "ms": 38
   },
   "leo-pass-vs-gnss-cn0.toml": {
    "file": "leo-pass-vs-gnss-cn0.json.gz",
    "bytes": 1244054,
-   "ms": 55
+   "ms": 51
   },
   "leo-pass-xona-pulsar.toml": {
    "file": "leo-pass-xona-pulsar.json.gz",
    "bytes": 2168263,
-   "ms": 96
+   "ms": 117
   },
   "leo-pnt-end-to-end.toml": {
    "file": "leo-pnt-end-to-end.json.gz",
    "bytes": 69851,
-   "ms": 229
+   "ms": 290
   },
   "leo-pnt-mega-shell.toml": {
    "file": "leo-pnt-mega-shell.json.gz",
    "bytes": 371522,
-   "ms": 34
+   "ms": 50
   },
   "leo-ppp-convergence.toml": {
    "file": "leo-ppp-convergence.json.gz",
    "bytes": 30316,
-   "ms": 3621
+   "ms": 3787
   },
   "leo-pvt-fjord-skyline.toml": {
    "file": "leo-pvt-fjord-skyline.json.gz",
    "bytes": 49840,
-   "ms": 17
+   "ms": 15
   },
   "leo-resilience-gnss-jammed-leo-carries.toml": {
    "file": "leo-resilience-gnss-jammed-leo-carries.json.gz",
    "bytes": 51321,
-   "ms": 280
+   "ms": 255
   },
   "leo-resilience-js-margin.toml": {
    "file": "leo-resilience-js-margin.json.gz",
    "bytes": 237145,
-   "ms": 30
+   "ms": 28
   },
   "leo-resilience-multiband-diversity.toml": {
    "file": "leo-resilience-multiband-diversity.json.gz",
    "bytes": 20959,
-   "ms": 69
+   "ms": 55
   },
   "leo-resilience-spoof-doppler.toml": {
    "file": "leo-resilience-spoof-doppler.json.gz",
    "bytes": 6928060,
-   "ms": 366
+   "ms": 347
   },
   "leo-resilience-spoof-monitors.toml": {
    "file": "leo-resilience-spoof-monitors.json.gz",
    "bytes": 20910,
-   "ms": 738
+   "ms": 773
   },
   "leo-timing-utc.toml": {
    "file": "leo-timing-utc.json.gz",
    "bytes": 6328444,
-   "ms": 162
+   "ms": 164
   },
   "leo-vertical-5g-network-timing.toml": {
    "file": "leo-vertical-5g-network-timing.json.gz",
    "bytes": 88726,
-   "ms": 192
+   "ms": 206
   },
   "leo-vertical-asset-tracking-iot.toml": {
    "file": "leo-vertical-asset-tracking-iot.json.gz",
    "bytes": 46139,
-   "ms": 107
+   "ms": 112
   },
   "leo-vertical-autonomous-vehicle-skyline.toml": {
    "file": "leo-vertical-autonomous-vehicle-skyline.json.gz",
    "bytes": 75568,
-   "ms": 97
+   "ms": 101
   },
   "leo-vertical-autonomous-vehicle.toml": {
    "file": "leo-vertical-autonomous-vehicle.json.gz",
    "bytes": 66219,
-   "ms": 91
+   "ms": 95
   },
   "leo-vertical-critical-infrastructure-timing.toml": {
    "file": "leo-vertical-critical-infrastructure-timing.json.gz",
    "bytes": 116909,
-   "ms": 81
+   "ms": 86
   },
   "leo-vertical-polar-arctic.toml": {
    "file": "leo-vertical-polar-arctic.json.gz",
    "bytes": 96927,
-   "ms": 104
+   "ms": 108
   },
   "leo-vertical-rail-maritime.toml": {
    "file": "leo-vertical-rail-maritime.json.gz",
    "bytes": 97551,
-   "ms": 252
+   "ms": 217
   },
   "link-budget.toml": {
    "file": "link-budget.json.gz",
@@ -491,12 +490,12 @@
   "lunanet-araim.toml": {
    "file": "lunanet-araim.json.gz",
    "bytes": 10024,
-   "ms": 11
+   "ms": 13
   },
   "lunar-attack-surface.toml": {
    "file": "lunar-attack-surface.json.gz",
    "bytes": 32303,
-   "ms": 139
+   "ms": 115
   },
   "lunar-beacon.toml": {
    "file": "lunar-beacon.json.gz",
@@ -506,42 +505,42 @@
   "lunar-differential-pnt.toml": {
    "file": "lunar-differential-pnt.json.gz",
    "bytes": 21150,
-   "ms": 3
+   "ms": 2
   },
   "lunar-frame-campaign.toml": {
    "file": "lunar-frame-campaign.json.gz",
    "bytes": 36779,
-   "ms": 43
+   "ms": 32
   },
   "lunar-frame-realisation.toml": {
    "file": "lunar-frame-realisation.json.gz",
    "bytes": 11087,
-   "ms": 2
+   "ms": 1
   },
   "lunar-infrastructure-carrier-phase.toml": {
    "file": "lunar-infrastructure-carrier-phase.json.gz",
    "bytes": 8751,
-   "ms": 724
+   "ms": 578
   },
   "lunar-infrastructure-frame-coestimation.toml": {
    "file": "lunar-infrastructure-frame-coestimation.json.gz",
    "bytes": 14691,
-   "ms": 31
+   "ms": 25
   },
   "lunar-infrastructure-geodesy-sensitivity.toml": {
    "file": "lunar-infrastructure-geodesy-sensitivity.json.gz",
    "bytes": 15867,
-   "ms": 23
+   "ms": 18
   },
   "lunar-infrastructure-od-consistency-model-error.toml": {
    "file": "lunar-infrastructure-od-consistency-model-error.json.gz",
    "bytes": 11389,
-   "ms": 35
+   "ms": 28
   },
   "lunar-infrastructure-od-consistency.toml": {
    "file": "lunar-infrastructure-od-consistency.json.gz",
    "bytes": 11339,
-   "ms": 31
+   "ms": 32
   },
   "lunar-infrastructure-space-tie.toml": {
    "file": "lunar-infrastructure-space-tie.json.gz",
@@ -572,12 +571,12 @@
   "lunar-relay-constellation.toml": {
    "file": "lunar-relay-constellation.json.gz",
    "bytes": 271343,
-   "ms": 13
+   "ms": 14
   },
   "lunar-station-coverage-public-sources.toml": {
    "file": "lunar-station-coverage-public-sources.json.gz",
    "bytes": 325601,
-   "ms": 1041
+   "ms": 1027
   },
   "lunar-station-coverage-terrain.toml": {
    "file": "lunar-station-coverage-terrain.json.gz",
@@ -588,7 +587,7 @@
   "lunar-station-coverage.toml": {
    "file": "lunar-station-coverage.json.gz",
    "bytes": 326215,
-   "ms": 6285
+   "ms": 7722
   },
   "lunar-station-geodesy-baseline.toml": {
    "file": "lunar-station-geodesy-baseline.json.gz",
@@ -620,72 +619,72 @@
   "lunar-vlbi-fim.toml": {
    "file": "lunar-vlbi-fim.json.gz",
    "bytes": 47871,
-   "ms": 10
+   "ms": 13
   },
   "lunar-vlbi.toml": {
    "file": "lunar-vlbi.json.gz",
    "bytes": 13257,
-   "ms": 2
+   "ms": 3
   },
   "maritime-port-approach-coast.toml": {
    "file": "maritime-port-approach-coast.json.gz",
    "bytes": 33628,
-   "ms": 180
+   "ms": 241
   },
   "maritime-spoof-position-push.toml": {
    "file": "maritime-spoof-position-push.json.gz",
    "bytes": 10153,
-   "ms": 0
+   "ms": 1
   },
   "maritime-strait-jamming.toml": {
    "file": "maritime-strait-jamming.json.gz",
    "bytes": 150692,
-   "ms": 3
+   "ms": 4
   },
   "mars-orbit-pnt.toml": {
    "file": "mars-orbit-pnt.json.gz",
    "bytes": 216905,
-   "ms": 8
+   "ms": 10
   },
   "mars-pnt-lmo.toml": {
    "file": "mars-pnt-lmo.json.gz",
    "bytes": 71132,
-   "ms": 222
+   "ms": 291
   },
   "mars-pnt-surface.toml": {
    "file": "mars-pnt-surface.json.gz",
    "bytes": 131239,
-   "ms": 290
+   "ms": 363
   },
   "mars-pnt-transfer.toml": {
    "file": "mars-pnt-transfer.json.gz",
    "bytes": 143345,
-   "ms": 932
+   "ms": 1161
   },
   "meo-leo-fused-pvt.toml": {
    "file": "meo-leo-fused-pvt.json.gz",
    "bytes": 45529,
-   "ms": 8
+   "ms": 7
   },
   "mission-thread-short.toml": {
    "file": "mission-thread-short.json.gz",
    "bytes": 249469,
-   "ms": 65
+   "ms": 63
   },
   "moonlight-service-volume.toml": {
    "file": "moonlight-service-volume.json.gz",
    "bytes": 18108,
-   "ms": 104
+   "ms": 82
   },
   "multi-band-jamming-waterfall.toml": {
    "file": "multi-band-jamming-waterfall.json.gz",
    "bytes": 638221,
-   "ms": 123
+   "ms": 101
   },
   "ntn-5g-positioning.toml": {
    "file": "ntn-5g-positioning.json.gz",
    "bytes": 10978,
-   "ms": 5
+   "ms": 4
   },
   "oem-interop.toml": {
    "file": "oem-interop.json.gz",
@@ -695,27 +694,27 @@
   "optical-atmosphere-network.toml": {
    "file": "optical-atmosphere-network.json.gz",
    "bytes": 461797,
-   "ms": 328
+   "ms": 256
   },
   "optical-atmosphere-techniques.toml": {
    "file": "optical-atmosphere-techniques.json.gz",
    "bytes": 164722,
-   "ms": 237
+   "ms": 185
   },
   "orbit-gnss-challenged.toml": {
    "file": "orbit-gnss-challenged.json.gz",
    "bytes": 424078,
-   "ms": 51
+   "ms": 49
   },
   "orbit-molniya.toml": {
    "file": "orbit-molniya.json.gz",
    "bytes": 159155,
-   "ms": 12
+   "ms": 11
   },
   "orbit-multignss.toml": {
    "file": "orbit-multignss.json.gz",
    "bytes": 401622,
-   "ms": 34
+   "ms": 33
   },
   "orbit-real-tle.toml": {
    "file": "orbit-real-tle.json.gz",
@@ -725,7 +724,7 @@
   "orbit-rinex.toml": {
    "file": "orbit-rinex.json.gz",
    "bytes": 162970,
-   "ms": 8
+   "ms": 9
   },
   "orbit-sgp4-gps.toml": {
    "file": "orbit-sgp4-gps.json.gz",
@@ -740,27 +739,27 @@
   "passes.toml": {
    "file": "passes.json.gz",
    "bytes": 9980,
-   "ms": 22
+   "ms": 25
   },
   "polar-arctic-leo-coverage.toml": {
    "file": "polar-arctic-leo-coverage.json.gz",
    "bytes": 28737,
-   "ms": 13
+   "ms": 15
   },
   "pvt-abmf.toml": {
    "file": "pvt-abmf.json.gz",
    "bytes": 34664,
-   "ms": 2
+   "ms": 3
   },
   "quantum-anomaly-detect.toml": {
    "file": "quantum-anomaly-detect.json.gz",
    "bytes": 9557,
-   "ms": 38
+   "ms": 43
   },
   "quantum-cai-coast.toml": {
    "file": "quantum-cai-coast.json.gz",
    "bytes": 206494,
-   "ms": 4
+   "ms": 5
   },
   "quantum-gnss-free-nav.toml": {
    "file": "quantum-gnss-free-nav.json.gz",
@@ -783,12 +782,12 @@
   "rail-tunnel-coast.toml": {
    "file": "rail-tunnel-coast.json.gz",
    "bytes": 33046,
-   "ms": 153
+   "ms": 179
   },
   "realtime-frame-eop.toml": {
    "file": "realtime-frame-eop.json.gz",
    "bytes": 123972,
-   "ms": 11
+   "ms": 13
   },
   "reentry.toml": {
    "file": "reentry.json.gz",
@@ -803,12 +802,12 @@
   "small-uas-jammed-nav.toml": {
    "file": "small-uas-jammed-nav.json.gz",
    "bytes": 437563,
-   "ms": 32
+   "ms": 31
   },
   "solar-system-tour.toml": {
    "file": "solar-system-tour.json.gz",
    "bytes": 431557,
-   "ms": 11
+   "ms": 9
   },
   "space-packet.toml": {
    "file": "space-packet.json.gz",
@@ -823,7 +822,7 @@
   "spoof-attack.toml": {
    "file": "spoof-attack.json.gz",
    "bytes": 31153,
-   "ms": 2
+   "ms": 1
   },
   "spoof-detect.toml": {
    "file": "spoof-detect.json.gz",
@@ -833,27 +832,27 @@
   "spoof-meaconing.toml": {
    "file": "spoof-meaconing.json.gz",
    "bytes": 335321,
-   "ms": 9
+   "ms": 8
   },
   "starlink-sop-doppler-positioning.toml": {
    "file": "starlink-sop-doppler-positioning.json.gz",
    "bytes": 22313,
-   "ms": 240
+   "ms": 258
   },
   "sweep-clock-stability.toml": {
    "file": "sweep-clock-stability.json.gz",
    "bytes": 9498,
-   "ms": 664
+   "ms": 651
   },
   "sweep-nd-inertial.toml": {
    "file": "sweep-nd-inertial.json.gz",
    "bytes": 8787,
-   "ms": 74
+   "ms": 60
   },
   "telecom-prtc-holdover-24h.toml": {
    "file": "telecom-prtc-holdover-24h.json.gz",
    "bytes": 42594,
-   "ms": 120
+   "ms": 106
   },
   "telecom-synce-eec.toml": {
    "file": "telecom-synce-eec.json.gz",
@@ -863,42 +862,42 @@
   "telecom-tie-ingest.toml": {
    "file": "telecom-tie-ingest.json.gz",
    "bytes": 60770,
-   "ms": 10
+   "ms": 8
   },
   "terrain-nav.toml": {
    "file": "terrain-nav.json.gz",
    "bytes": 6133,
-   "ms": 6
+   "ms": 4
   },
   "terrain-slam.toml": {
    "file": "terrain-slam.json.gz",
    "bytes": 19840,
-   "ms": 30
+   "ms": 23
   },
   "time-transfer-budget.toml": {
    "file": "time-transfer-budget.json.gz",
    "bytes": 12064,
-   "ms": 97
+   "ms": 76
   },
   "timetransfer.toml": {
    "file": "timetransfer.json.gz",
    "bytes": 137344,
-   "ms": 5
+   "ms": 4
   },
   "tracking-loop.toml": {
    "file": "tracking-loop.json.gz",
    "bytes": 38729,
-   "ms": 6
+   "ms": 4
   },
   "xona-pulsar-end-to-end.toml": {
    "file": "xona-pulsar-end-to-end.json.gz",
    "bytes": 74135,
-   "ms": 325
+   "ms": 222
   },
   "xona-pulsar-signals.toml": {
    "file": "xona-pulsar-signals.json.gz",
    "bytes": 80381,
-   "ms": 28
+   "ms": 27
   }
  }
 }

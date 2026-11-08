@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (de)
 
-seg-f942b36a11c4 = Noch nicht auf GitHub
-
 seg-be831b52a339 = und { "4" } weitere in der Matrix.
 
 seg-936e96edf423 = <b>MODELLED</b> Die Art <c1/>: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (<c2/>; <c3/>, weißes Beschleunigungsrauschen über eine genannte Lücke Tests: <a1>field_units_global.rs</a1>.

@@ -1,7 +1,5 @@
 # docs--mission-thread-lunar: translations (ja)
 
-seg-f942b36a11c4 = まだ GitHub にはありません
-
 seg-3b01a756c305 = 計算内容
 
 seg-b478421b21bb = ソース：<c1/>

@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (fr)
 
-seg-f942b36a11c4 = Pas encore sur GitHub
-
 seg-be831b52a339 = et { "4" } autres dans la matrice.
 
 seg-936e96edf423 = <b>MODELLED</b> Le type <c1/> : un document de phases, chacune d'un des huit types enregistrés, exécutées dans l'ordre avec la covariance 6x6, l'horloge et le référentiel transmis selon une règle déclarée (<c2/> ; <c3/>, bruit d'accélération blanc sur un intervalle déclaré Tests : <a1>field_units_global.rs</a1>.

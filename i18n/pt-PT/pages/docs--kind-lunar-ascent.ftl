@@ -1,9 +1,6 @@
 # docs--kind-lunar-ascent: translations (pt-PT)
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 seg-98151954f217 = false
 
 # text

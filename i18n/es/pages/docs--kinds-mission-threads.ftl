@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (es)
 
-seg-f942b36a11c4 = Aún no está en GitHub
-
 seg-b03d56f501c3 = Tipo
 
 seg-1ec485468daa = Presupuesto de errores de navegación y temporización MODELLED de una cadena indicada de fases de misión, desde el lanzamiento hasta la entrada: lanzamiento y ascenso, encuentro y acoplamiento en órbita terrestre baja (repetible), inyección translunar y crucero cislunar, encuentro en órbita lunar, descenso, estancia en la superficie, ascenso y el regreso y la entrada, cada fase uno de ocho tipos registrados con sus propios sensores y filtro. La covarianza de 6x6, el reloj y el marco se transmiten de una fase a otra bajo una regla indicada (carry, inflate o reacquire); las conversiones de marco y de escala de tiempo (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) son filas de presupuesto propias, con el estado de la Luna a partir de un recorte opcional del kernel DE440 y la serie analítica como alternativa indicada. Una superposición opcional de la red terrestre fija el ciclo de seguimiento de cada fase. Informa del presupuesto por fase (1 sigma de entrada, máximo y salida, cada contribución con su unidad), el margen frente a un requisito indicado, el eslabón más débil, los eventos y una figura de línea de tiempo. MODELLED: cada número es una entrada indicada; la cadena sigue una sola pila y no se modela ningún vehículo. Solo fuentes públicas; sin afiliación ni respaldo de ninguna agencia; software de carácter consultivo, no un equipo de navegación certificado.

@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = AIS-menetelmä (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Lähetinalue (<c1/>)
 
-seg-34bdcfd66ded = Siinä repositorion haarassa, josta nämä dokumentit tulevat; ei vielä GitHubissa
-
 seg-194d573cb817 = Valinnat: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (TDOA-paikannuksen fuusio; alla). Jokainen valinta, joka poikkeaa ennalta rekisteröidystä arvosta, ilmoitetaan sanoin ”ei ennalta rekisteröity menetelmä”. Tiedostoja ei koskaan ylikirjoiteta.
 
 seg-5767c749117a = <b>Malli.</b> Raportit lokeroidaan <em>yksiköihin</em> (yksi ilma-alus tai alus yhdessä 2 minuutin lokerossa), kukin <em>vaikutuksen alainen</em> (ADS-B: vähintään puolella sen raporteista on matala NIC tai NACp kartan oman säännön mukaan; AIS: epäuskottava nopeus tai hyppy tai paikka rannikkoviivan sisämaan puolella) tai ei. Ilma-alus tai alus lasketaan vain, jos syötteessä on vähintään { "5" } hyvää raporttia (sama laitteiston lähtötason suoja kuin kartalla). Vaikutuksen alaiset yksiköt ryhmitellään <em>istunnoiksi</em>: yli { "30" } minuutin väli jakaa ajassa, ja aikaklusterin sisällä kaksi yksikköä kuuluu yhteen, kun yksi lähetin voisi olla molempien kantamalla. Jokaisella istunnolla jokainen ruudukon ehdokaspaikka saa uskottavuusfunktion arvon:

@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Terra
 
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
 seg-092dd691ca17 = O relatório
-
-seg-f942b36a11c4 = Ainda não está no GitHub
 
 seg-b03d56f501c3 = Tipo
 

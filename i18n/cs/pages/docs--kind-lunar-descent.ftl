@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (cs)
 
-seg-f942b36a11c4 = Zatím ne na GitHubu
-
 seg-51362910dcb7 = { "2" } přibalené scénáře používají tento druh; ostatní jsou v <a1><c1/></a1>.
 
 seg-98151954f217 = nepravda

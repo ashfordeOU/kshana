@@ -3,14 +3,8 @@
 # text
 seg-e27476e37522 = Terra
 
-# attr:title
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
 # text
 seg-092dd691ca17 = O relatório
-
-# text
-seg-f942b36a11c4 = Ainda não está no GitHub
 
 # text
 seg-b03d56f501c3 = Tipo

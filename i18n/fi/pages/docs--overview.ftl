@@ -2037,12 +2037,12 @@ seg-43bd621a1f5b = Miten ajo etenee. Skenaario-TOML-tiedosto (laji, siemenluku j
 
 seg-290f2b34e368 = Kshana-järjestelmän arkkitehtuuri kerroksittain. Viisi etuovea (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtaa yhteen kutsuun api::run_toml, tyypitettyyn ohjaukseen { "93" } tyypille. Sen alla on kahdeksan toimialakerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä lennot ja tutkimukset, yhteisen ytimen päällä. Varmennusmoduuli, eli koneellisesti tarkistettu { "401" } ominaisuuden matriisi, viittaa niihin kaikkiin ristiin, ja se on jokaisen merkinnän ainoa totuuden lähde.
 
-seg-ed215c6aa19b = <a1><c1/></a1> on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja lukee sen JSON-tulosteen sen sijaan, että arvailisi matematiikkaa. Sen { "52" } työkalua ovat kukin ohut kääre kirjaston <c2/> julkisen funktion ympärillä, joten palvelimessa ei ole lainkaan simulointilogiikkaa.
-
-seg-81fcbb495e8f = { "52" } työkalua
-
 seg-fb8bcc54a31d = { "93" } sisäänrakennettua skenaariotyyppiä kuvauksineen sekä pakollisine ja valinnaisine kenttineen, jotta agentti voi rakentaa kelvollisen skenaarion
 
 seg-2f38fc515db6 = koko avoin moottori, kaikki { "93" } skenaariotyyppiä, ei ominaisuusrajoitusta
 
 seg-5374f780c396 = Katso hakemisto <c1/>: vähintään yksi toimiva esimerkki jokaisesta tyypistä ({ "93" } tyyppiä, { "195" } skenaariotiedostoa (<c2/>) + { "1" } sarjan manifesti — useilla tyypeillä on useampi kuin yksi esimerkki). Kaikilla tyypeillä ei ole niiden mukaan nimettyä tiedostoa: <c3/> → <c4/> ja <c5/> → <c6/> ovat kaksi useista tällaisista. Ajettavat tyypit saa luetteloksi milloin tahansa: komennon <c7/> virheistä, Pythonin funktiolla <c8/> tai MCP-työkalulla <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> on MCP-palvelin: avustajasi ajaa varsinaista moottoria ja lukee sen JSON-tulosteen sen sijaan, että arvailisi matematiikkaa. Sen { "53" } työkalua ovat kukin ohut kääre kirjaston <c2/> julkisen funktion ympärillä, joten palvelimessa ei ole lainkaan simulointilogiikkaa.
+
+seg-0920329ba390 = { "53" } työkalua

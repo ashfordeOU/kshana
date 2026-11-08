@@ -1205,3 +1205,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (præregistreret fbe6c8b3 og, efter en protokolfejl i runde 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1D-målløsning inden for { "6.1e-15" } af r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = I den repository-gren, disse dokumenter kommer fra; endnu ikke på GitHub
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Endnu ikke på GitHub
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>Hvad observatoriet gør i stedet.</b> Spørgsmålet, som almanaksammenligningen besvarer, er: "kan konstellationsgeometrien alene forklare denne lave nøjagtighed?". Grundmetoden besvarer et beslægtet spørgsmål uden almanak: en lav andel skal skille sig ud mod samme dags baggrund i regionen og mod flyets egne gode rapporter andre steder. Det er en anden og svagere erstatning: den kan ikke sige, at en time med rolig geometri var forringet, hvor dagens baggrund også er lav. En almanak-HDOP-scorer er <b>ikke implementeret</b>. Det er et åbent punkt, der skal bygges ud fra artiklens fulde tekst og den offentlige GPS-almanak og præregistreres, før den køres; indtil da er den citeret, ikke hævdet.

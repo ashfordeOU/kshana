@@ -3583,12 +3583,12 @@ seg-43bd621a1f5b = Cómo fluye una ejecución. Un archivo TOML de escenario (un 
 
 seg-290f2b34e368 = La arquitectura de Kshana en capas. Cinco puertas de entrada (la línea de comandos, Python, JavaScript y WebAssembly, el servidor MCP y el complemento de JetBrains) llegan a un único api::run_toml, un despacho tipado sobre { "93" } tipos de escenario. Debajo hay ocho capas de dominio: tiempo y marcos, relojes y temporización, inercial y fusión, GNSS e integridad, astrodinámica, PNT en LEO, la Luna, Marte y el espacio profundo, y misiones y estudios, sobre un núcleo compartido, todo con referencias cruzadas del módulo de verificación, la matriz verificada por máquina de { "401" } capacidades que es la única fuente de verdad de cada etiqueta.
 
-seg-ed215c6aa19b = <a1><c1/></a1> es un servidor MCP: su asistente ejecuta el motor real y lee su JSON, en lugar de adivinar las matemáticas. Cada una de sus { "52" } herramientas es una envoltura fina de una función pública de la biblioteca <c2/>, de modo que ninguna lógica de simulación reside en el servidor.
-
-seg-81fcbb495e8f = Las { "52" } herramientas
-
 seg-fb8bcc54a31d = Los { "93" } tipos de escenario integrados con descripciones y campos obligatorios/opcionales, para que el agente pueda construir un escenario válido
 
 seg-2f38fc515db6 = todo el motor abierto, los { "93" } tipos de escenario, sin restricción de funciones
 
 seg-5374f780c396 = Consulte <c1/> para ver al menos un ejemplo práctico de cada tipo de escenario ({ "93" } tipos de escenario, { "195" } archivos de escenario <c2/> + { "1" } manifiesto de conjunto; varios tipos de escenario incluyen más de un ejemplo). No todos los tipos de escenario tienen un archivo con su nombre: <c3/> → <c4/> y <c5/> → <c6/> son dos de varios casos así. Puede enumerar en cualquier momento los tipos de escenario despachables con los errores de <c7/>, con <c8/> en Python o con la herramienta <c9/> de MCP.
+
+seg-d106dd5461ed = <a1><c1/></a1> es un servidor MCP: su asistente ejecuta el motor real y lee su JSON, en lugar de adivinar las matemáticas. Cada una de sus { "53" } herramientas es una envoltura fina de una función pública de la biblioteca <c2/>, de modo que ninguna lógica de simulación reside en el servidor.
+
+seg-0920329ba390 = Las { "53" } herramientas

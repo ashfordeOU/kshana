@@ -3583,12 +3583,12 @@ seg-43bd621a1f5b = Wie ein Lauf abläuft. Eine Szenario-TOML-Datei (eine Art, ei
 
 seg-290f2b34e368 = Die Architektur von Kshana in Schichten. Fünf Eingänge (Befehlszeile, Python, JavaScript und WebAssembly, der MCP-Server und das JetBrains-Plugin) führen zu einem api::run_toml, einem typisierten Dispatch über { "93" } Arten. Darunter liegen acht Fachschichten: Zeit und Bezugssysteme, Uhren und Zeitgebung, Inertial und Fusion, GNSS und Integrität, Astrodynamik, LEO-PNT, Mond, Mars und tiefer Raum sowie Missionen und Studien, auf einem gemeinsamen Kern, alle quer verwiesen vom Verifikationsmodul, der maschinengeprüften Matrix mit { "401" } Fähigkeiten, die die einzige Quelle der Wahrheit für jede Kennzeichnung ist.
 
-seg-ed215c6aa19b = <a1><c1/></a1> ist ein MCP-Server: Ihr Assistent führt die tatsächliche Engine aus und liest deren JSON zurück, statt die Mathematik zu raten. Jedes seiner { "52" } Werkzeuge ist ein dünner Wrapper um eine öffentliche Funktion der Bibliothek <c2/>, sodass im Server keine Simulationslogik liegt.
-
-seg-81fcbb495e8f = Die { "52" } Werkzeuge
-
 seg-fb8bcc54a31d = Die { "93" } eingebauten Szenarioarten mit Beschreibungen + Pflicht- und optionalen Feldern, damit der Agent ein gültiges Szenario aufbauen kann
 
 seg-2f38fc515db6 = die gesamte offene Engine, alle { "93" } Szenarioarten, ohne Funktionssperre
 
 seg-5374f780c396 = Siehe <c1/> für mindestens ein ausgearbeitetes Beispiel jeder Art ({ "93" } Arten, { "195" } Szenario-Dateien <c2/> + { "1" } Suite-Manifest — mehrere Arten liefern mehr als ein Beispiel mit). Nicht jede Art hat eine nach ihr benannte Datei: <c3/> → <c4/> und <c5/> → <c6/> sind zwei von mehreren solchen. Listen Sie die verteilbaren Arten jederzeit auf mit <c7/>-Fehlern, dem Python-<c8/> oder dem MCP-Werkzeug <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> ist ein MCP-Server: Ihr Assistent führt die tatsächliche Engine aus und liest deren JSON zurück, statt die Mathematik zu raten. Jedes seiner { "53" } Werkzeuge ist ein dünner Wrapper um eine öffentliche Funktion der Bibliothek <c2/>, sodass im Server keine Simulationslogik liegt.
+
+seg-0920329ba390 = Die { "53" } Werkzeuge

@@ -818,4 +818,4 @@ seg-0ab329c843b0 = Den åbne motor i midten: ét mærke pr. scenarietype ({ "93"
 
 seg-e507665bbe2c = Motor v{ $version } · { "93" } typer fra <c1/> · registerstatus fra <c2/> · hvad Pro og et studie bygger på: webstedets register over udgaver · intet scenarie eller seed
 
-seg-c7818536071d = Alle { "93" } scenarietyper og { "181" } medfølgende scenarier: native, Python, JavaScript, i browseren og over MCP (Model Context Protocol)
+seg-7515b1af1f0b = Alle { "93" } scenarietyper og { "183" } medfølgende scenarier: native, Python, JavaScript, i browseren og over MCP (Model Context Protocol)

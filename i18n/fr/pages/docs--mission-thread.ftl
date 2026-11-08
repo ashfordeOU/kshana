@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Terre
 
-seg-34bdcfd66ded = Dans la branche du dépôt d'où viennent ces documents ; pas encore sur GitHub
-
 seg-092dd691ca17 = Le rapport
-
-seg-f942b36a11c4 = Pas encore sur GitHub
 
 seg-b03d56f501c3 = Type
 

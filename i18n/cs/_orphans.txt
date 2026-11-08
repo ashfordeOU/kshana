@@ -1209,3 +1209,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (předregistrováno fbe6c8b3 a po nezdaru protokolu v 1. kole 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — řešení cíle 1-D do { "6.1e-15" } od r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Zatím ne na GitHubu
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>Co místo toho dělá observatoř.</b> Otázka, na kterou odpovídá porovnání s almanachem, zní: „mohla by tuto nízkou přesnost vysvětlit samotná geometrie konstelace?" Základní metoda odpovídá na příbuznou otázku bez almanachu: nízký podíl se musí vymykat pozadí téhož dne v celé oblasti a vlastním dobrým hlášením letadel jinde. To je jiná a slabší náhrada: nemůže říci, že hodina s klidnou geometrií byla zhoršená tam, kde je pozadí onoho dne také nízké. Bodovací nástroj HDOP podle almanachu <b>není implementován</b>. Je to otevřená položka, která se má vytvořit z plného textu článku a veřejného almanachu GPS a předregistrovat před spuštěním; do té doby je citován, nikoli tvrzen.

@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = Země
 
-seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
-
 seg-092dd691ca17 = Zpráva
-
-seg-f942b36a11c4 = Zatím ne na GitHubu
 
 seg-b03d56f501c3 = Druh
 

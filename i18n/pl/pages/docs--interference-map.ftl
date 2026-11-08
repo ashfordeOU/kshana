@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = Metoda AIS (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Obszar emitera (<c1/>)
 
-seg-34bdcfd66ded = W gałęzi repozytorium, z której pochodzi ta dokumentacja; jeszcze nie na GitHub
-
 seg-194d573cb817 = Opcje: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (połącz pozycję TDOA; poniżej). Każda opcja różniąca się od wartości zarejestrowanej wstępnie jest ogłaszana jako „not the pre-registered method”. Pliki nigdy nie są nadpisywane.
 
 seg-5767c749117a = <b>Model.</b> Raporty są grupowane w <em>jednostki</em> (jeden statek powietrzny lub okręt w jednym 2-minutowym przedziale), z których każda jest <em>dotknięta</em> (ADS-B: co najmniej połowa jej raportów ma niskie NIC lub NACp według własnej reguły mapy; AIS: nieprawdopodobna prędkość lub skok albo pozycja w głębi lądu od linii brzegowej) albo nie. Statek powietrzny lub okręt liczy się tylko przy co najmniej { "5" } dobrych raportach w danych wejściowych (ta sama ochrona bazowa sprzętu co na mapie). Dotknięte jednostki są grupowane w <em>sesje</em>: przerwa dłuższa niż { "30" } minut dzieli w czasie, a w obrębie skupienia czasowego dwie jednostki należą do siebie, gdy jeden emiter mógłby być w zasięgu obu. Dla jednej sesji każda kandydująca pozycja na siatce otrzymuje wiarygodność:

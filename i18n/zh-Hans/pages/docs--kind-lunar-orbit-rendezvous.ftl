@@ -1,9 +1,5 @@
 # docs--kind-lunar-orbit-rendezvous: translations (zh-Hans)
 
-seg-34bdcfd66ded = 这些文档所来自的仓库分支；尚未上传到GitHub
-
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-51362910dcb7 = 有{ "2" }个内置场景使用此类型；其余的在<a1><c1/></a1>中。
 
 seg-1f17ef6a853e = 引擎v{ $version }的场景类型，属于<a1>月球与地月空间</a1>系列。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。此处的每个标签都来自引擎或验证矩阵；除非矩阵另有说明，否则某个类型为MODELLED（标签如何获得，见README的“证据”一节）。

@@ -1,11 +1,5 @@
 # docs--kind-lunar-orbit-rendezvous: translations (pt-PT)
 
-# attr:title
-seg-34bdcfd66ded = Na ramificação do repositório de onde vêm estes documentos; ainda não está no GitHub
-
-# text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
 # text
 # c1: scenarios/
 seg-51362910dcb7 = { "2" } cenários incluídos usam este tipo; os demais estão em <a1><c1/></a1>.

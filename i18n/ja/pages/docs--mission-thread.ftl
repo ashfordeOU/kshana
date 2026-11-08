@@ -2,11 +2,7 @@
 
 seg-e27476e37522 = 地球
 
-seg-34bdcfd66ded = これらのドキュメントの元になっているリポジトリのブランチ。まだ GitHub にはありません
-
 seg-092dd691ca17 = レポート
-
-seg-f942b36a11c4 = まだ GitHub にはありません
 
 seg-b03d56f501c3 = Kind
 

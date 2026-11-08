@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (sv)
 
-seg-f942b36a11c4 = Ännu inte på GitHub
-
 seg-b03d56f501c3 = Typ
 
 seg-1ec485468daa = MODELLED felbudget för navigering och tidssynkronisering för en angiven kedja av uppdragsfaser, från uppskjutning till återinträde: uppskjutning och stigning, rendezvous och dockning i låg omloppsbana runt jorden (kan upprepas), trans-lunar injektion och färd i cislunart rum, rendezvous i månbana, nedstigning, vistelse på ytan, stigning samt återfärd och återinträde, varje fas en av åtta registrerade typer med egna sensorer och filter. 6x6-kovariansen, klockan och referenssystemet överlämnas från fas till fas enligt en angiven regel (carry, inflate eller reacquire); omvandlingar av referenssystem och tidsskalor (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) är egna budgetrader, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv. Ett valfritt överlägg för markstationsnät anger spårningsdriften för varje fas. Redovisar budgeten per fas (1-sigman vid inträde, topp och utträde, varje bidrag med sin enhet), marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. MODELLED: varje tal är en angiven indata; kedjan följer en enda stack och inget fordon modelleras. Enbart offentliga källor; inte knuten till eller stödd av någon rymdorganisation; rådgivande programvara, inte certifierad navigationsutrustning.

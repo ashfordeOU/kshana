@@ -6,10 +6,6 @@ seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
 
-seg-34bdcfd66ded = Hoidla harus, millest need dokumendid pärinevad; GitHubis veel mitte
-
-seg-f942b36a11c4 = GitHubis veel mitte
-
 seg-7338b6210228 = Rida
 
 seg-c5ce76c91ff7 = Silt

@@ -716,12 +716,12 @@ seg-b9961ed25282 = Nyt i v{ $version }: en missionstråd, en evidensetiket på h
 
 seg-653cf3198094 = { "176" } af { "401" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
 
-seg-859bb6732925 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "52" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
-
-seg-2dc1aed7a12e = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-b79ee48fd586 = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
-
-seg-9b9d03fe1477 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-579d9b6f7afd = Alle { "93" } scenarietyper, gratis uden funktionsspærring, deterministiske ud fra scenarie, seed og motorversion.
+
+seg-56bf1281e330 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "53" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
+
+seg-74e443a965d8 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-0dfbf0d5864b = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+
+seg-08f9e715b4cb = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

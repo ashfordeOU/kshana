@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (fi)
 
-seg-f942b36a11c4 = Ei vielä GitHubissa
-
 seg-b03d56f501c3 = Tyyppi
 
 seg-1ec485468daa = MODELLED navigointi- ja ajoitusvirhebudjetti määritellylle tehtävävaiheiden ketjulle laukaisusta paluuseen: laukaisu ja nousu, matalan Maan kiertoradan kohtaaminen ja telakointi (toistettava), Kuuhun siirtyvä injektio ja kuunläheinen risteily, Kuun kiertoradan kohtaaminen, laskeutuminen, oleskelu pinnalla, nousu sekä paluu ja ilmakehään tulo, kukin vaihe yksi kahdeksasta rekisteröidystä lajista omine antureineen ja suotimineen. 6x6-kovarianssi, kello ja koordinaatisto siirretään vaiheesta toiseen määritellyn säännön mukaan (kanna, paisuta tai hanki uudelleen); koordinaatisto- ja aikaskaalamuunnokset (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) ovat omia budjettirivejään, ja Kuun tila tulee valinnaisesta DE440-kernelin leikkauksesta ja analyyttinen sarja on ilmoitettu varakeino. Valinnainen maaverkon peitto asettaa kunkin vaiheen seurantatyökuorman. Raportoi vaihekohtaisen budjetin (tulo-, huippu- ja poistumis-1-sigmat, jokainen osuus yksikköineen), marginaalin määriteltyyn vaatimukseen nähden, heikoimman lenkin, tapahtumat ja aikajanakuvan. MODELLED: jokainen luku on ilmoitettu syöte; ketju noudattaa yhtä pinoa, eikä mitään ajoneuvoa mallinneta. Vain julkisia lähteitä; ei ole sidoksissa mihinkään virastoon eikä sen hyväksymä; ohjeellinen ohjelmisto, ei virallisesti hyväksytty navigointilaite.

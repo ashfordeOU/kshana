@@ -1969,12 +1969,12 @@ seg-43bd621a1f5b = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho
 
 seg-290f2b34e368 = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "93" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "401" } schopností, která je jediným zdrojem pravdy pro každý štítek.
 
-seg-ed215c6aa19b = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "52" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
-
-seg-81fcbb495e8f = { "52" } nástrojů
-
 seg-fb8bcc54a31d = { "93" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli — aby agent mohl sestavit platný scénář
 
 seg-2f38fc515db6 = celý otevřený engine, všech { "93" } druhů scénářů, bez omezení funkcí
 
 seg-5374f780c396 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "93" } druhů, { "195" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "53" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
+
+seg-0920329ba390 = { "53" } nástrojů

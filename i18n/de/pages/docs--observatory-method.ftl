@@ -118,9 +118,6 @@ seg-4892485e534b = Pleninger, Topkova und Steiner, „GNSS interference detectio
 seg-74ec1aca8a22 = <b>Was wir genutzt haben.</b> Nur den veröffentlichten Abstract und den bibliographischen Eintrag. Der Volltext stand uns nicht zur Verfügung (hinter einer Bezahlschranke), daher kennen wir weder seine Abbildung von NACp auf eine Fehlerschätzung noch seine HDOP-Berechnung noch seine Schwellenwerte, und wir behaupten nicht, sie zu reproduzieren.
 
 # text
-seg-4f8471649a07 = <b>Was das Observatorium stattdessen tut.</b> Die Frage, die der Almanach-Vergleich beantwortet, lautet: „Könnte die Konstellationsgeometrie allein diese geringe Genauigkeit erklären?“ Die Basismethode beantwortet eine verwandte Frage ohne Almanach: Ein geringer Anteil muss sich gegen den Hintergrund desselben Tages in der Region und gegen die eigenen guten Meldungen des Flugzeugs anderswo abheben. Das ist ein anderer und schwächerer Ersatz: Er kann nicht sagen, dass eine Stunde mit ruhiger Geometrie degraded war, wenn der Hintergrund des Tages ebenfalls niedrig ist. Ein Almanach-HDOP-Bewerter ist <b>nicht implementiert</b>. Das ist ein offener Punkt, der aus dem Volltext der Arbeit und dem öffentlichen GPS-Almanach gebaut und vor dem Lauf vorregistriert werden soll; bis dahin wird sie zitiert, nicht beansprucht.
-
-# text
 seg-e9b9902633af = Ein Produkt reproduzieren
 
 # text

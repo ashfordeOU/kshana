@@ -1962,12 +1962,12 @@ seg-43bd621a1f5b = Så flödar en körning. En scenario-TOML-fil (en typ, ett fr
 
 seg-290f2b34e368 = Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når ett enda api::run_toml, ett typat anrop över { "93" } typer. Under det finns åtta domänlager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, PNT i låg omloppsbana (LEO), månen, Mars och djuprymd, samt uppdrag och studier, på en gemensam kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med { "401" } förmågor som är den enda källan till sanning för varje etikett.
 
-seg-ed215c6aa19b = <a1><c1/></a1> är en MCP-server: din assistent kör den faktiska motorn och läser tillbaka dess JSON i stället för att gissa matematiken. Vart och ett av dess { "52" } verktyg är ett tunt omslag runt en publik funktion i biblioteket <c2/>, så ingen simuleringslogik finns i servern.
-
-seg-81fcbb495e8f = De { "52" } verktygen
-
 seg-fb8bcc54a31d = De { "93" } inbyggda scenariotyperna med beskrivningar + obligatoriska/valfria fält — så att agenten kan konstruera ett giltigt scenario
 
 seg-2f38fc515db6 = hela den öppna motorn, alla { "93" } scenariotyper, ingen funktionsspärr
 
 seg-5374f780c396 = Se <c1/> för minst ett genomarbetat exempel för varje typ ({ "93" } typer, { "195" } scenariofiler med <c2/> + { "1" } svitmanifest — flera typer levereras med mer än ett exempel). Inte varje typ har en fil uppkallad efter sig: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de typer som går att anropa när som helst med <c7/> fel, Python <c8/> eller MCP-verktyget <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> är en MCP-server: din assistent kör den faktiska motorn och läser tillbaka dess JSON i stället för att gissa matematiken. Vart och ett av dess { "53" } verktyg är ett tunt omslag runt en publik funktion i biblioteket <c2/>, så ingen simuleringslogik finns i servern.
+
+seg-0920329ba390 = De { "53" } verktygen

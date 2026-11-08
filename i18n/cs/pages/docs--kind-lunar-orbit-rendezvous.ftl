@@ -1,9 +1,5 @@
 # docs--kind-lunar-orbit-rendezvous: translations (cs)
 
-seg-34bdcfd66ded = Ve větvi repozitáře, z níž tyto dokumenty pocházejí; zatím ne na GitHubu
-
-seg-f942b36a11c4 = Zatím ne na GitHubu
-
 seg-51362910dcb7 = { "2" } přibalené scénáře používají tento druh; ostatní jsou v <a1><c1/></a1>.
 
 seg-1f17ef6a853e = Druh scénáře enginu v{ $version }, rodina <a1>Lunární a cislunární</a1>. Pouze poradní charakter: výstup analýzy z výzkumného a inženýrského nástroje; nejde o typově schválené navigační zařízení ani o službu z oblasti bezpečnosti života. Každý štítek zde je štítkem enginu nebo verifikační matice; druh je MODELLED, pokud matice neříká jinak (jak se štítek získává: oddíl Evidence v README).

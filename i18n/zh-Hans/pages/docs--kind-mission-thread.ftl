@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (zh-Hans)
 
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-be831b52a339 = 矩阵中另有{ "4" }项。
 
 seg-936e96edf423 = <b>MODELLED</b> <c1/>类型：由多个阶段组成的文档，每个阶段是八种已注册类型之一，按顺序运行，6x6协方差、时钟和坐标系依所述规则向后交接（<c2/>；<c3/>，对所述间隔施加白加速度噪声 测试：<a1>field_units_global.rs</a1>。

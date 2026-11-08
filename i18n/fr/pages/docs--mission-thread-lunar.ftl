@@ -1,7 +1,5 @@
 # docs--mission-thread-lunar: translations (fr)
 
-seg-f942b36a11c4 = Pas encore sur GitHub
-
 seg-3b01a756c305 = Ce qu'elle calcule
 
 seg-b478421b21bb = Source : <c1/>

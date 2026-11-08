@@ -1,7 +1,5 @@
 # docs--kind-lunar-ascent: translations (fi)
 
-seg-f942b36a11c4 = Ei vielä GitHubissa
-
 seg-98151954f217 = false
 
 seg-1f17ef6a853e = Moottorin v{ $version } skenaariotyyppi, perhe <a1>Kuu ja kuunläheinen avaruus</a1>. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysitulos; ei tyyppihyväksytty navigointilaite eikä ihmishengen turvaamiseen tarkoitettu palvelu. Jokainen tässä oleva merkintä on moottorin tai varmennusmatriisin antama; tyyppi on MODELLED, ellei matriisi muuta sano (miten merkintä ansaitaan: README:n Evidence-osio).

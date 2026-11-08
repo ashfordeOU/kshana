@@ -1962,12 +1962,12 @@ seg-43bd621a1f5b = Hvordan en kørsel forløber. En scenariofil i TOML (en type,
 
 seg-290f2b34e368 = Kshanas arkitektur i lag. Fem indgange (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-pluginet) når én api::run_toml, en typet fordeling over { "93" } typer. Nedenunder ligger otte domænelag: tid og referencesystemer, ure og tidssynkronisering, inertial og fusion, GNSS og integritet, astrodynamik, LEO-PNT, Månen, Mars og det dybe rum samt missioner og studier, på en fælles kerne, alle krydshenvist af verifikationsmodulet, den maskinkontrollerede matrix med { "401" } funktioner, der er eneste kilde til sandhed for hver etiket.
 
-seg-ed215c6aa19b = <a1><c1/></a1> er en MCP-server: din assistent kører den faktiske motor og læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens { "52" } værktøjer er en tynd indpakning om en offentlig funktion i <c2/>-biblioteket, så ingen simuleringslogik bor i serveren.
-
-seg-81fcbb495e8f = De { "52" } værktøjer
-
 seg-fb8bcc54a31d = De { "93" } indbyggede scenarietyper med beskrivelser + obligatoriske/valgfrie felter — så agenten kan konstruere et gyldigt scenarie
 
 seg-2f38fc515db6 = hele den åbne motor, alle { "93" } scenarietyper, ingen funktionsspærring
 
 seg-5374f780c396 = Se <c1/> for mindst ét udarbejdet eksempel på hver type ({ "93" } typer, { "195" } scenariefiler <c2/> + { "1" } suitemanifest — flere typer leveres med mere end ét eksempel). Ikke hver type har en fil opkaldt efter sig: <c3/> → <c4/> og <c5/> → <c6/> er to af flere sådanne. Vis de fordelbare typer når som helst med <c7/> fejl, Python-funktionen <c8/> eller MCP-værktøjet <c9/>.
+
+seg-d106dd5461ed = <a1><c1/></a1> er en MCP-server: din assistent kører den faktiske motor og læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens { "53" } værktøjer er en tynd indpakning om en offentlig funktion i <c2/>-biblioteket, så ingen simuleringslogik bor i serveren.
+
+seg-0920329ba390 = De { "53" } værktøjer

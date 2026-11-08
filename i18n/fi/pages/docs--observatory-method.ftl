@@ -115,9 +115,6 @@ seg-4892485e534b = Pleninger, Topkova ja Steiner, "GNSS interference detection: 
 seg-74ec1aca8a22 = <b>Mitä käytimme.</b> Vain julkaistun tiivistelmän ja bibliografisen tietueen. Kokotekstiä ei ollut saatavilla (maksumuurin takana), joten emme tunne sen NACp:n ja virhearvion välistä kuvausta, HDOP-laskentaa emmekä kynnyksiä, emmekä väitä toistavamme niitä.
 
 # text
-seg-4f8471649a07 = <b>Mitä observatorio tekee sen sijaan.</b> Kysymys, johon almanakkavertailu vastaa, on "voisiko pelkkä satelliittitähdistön geometria selittää tämän heikon tarkkuuden?". Perusmenetelmä vastaa liittyvään kysymykseen ilman almanakkaa: matalan osuuden on erotuttava saman päivän taustasta koko alueella ja ilma-aluksen omista hyvistä raporteista muualla. Se on erilainen ja heikompi korvike: se ei voi sanoa, että hiljaisen geometrian tunti oli heikentynyt, jos päivän tausta on myös matala. Almanakka-HDOP-pisteyttäjää <b>ei ole toteutettu</b>. Se on avoin asia, joka rakennetaan artikkelin kokotekstistä ja julkisesta GPS-almanakasta ja ennakkorekisteröidään ennen ajoa; siihen asti siihen viitataan, mutta sitä ei väitetä.
-
-# text
 seg-e9b9902633af = Tuotteen toistaminen
 
 # text

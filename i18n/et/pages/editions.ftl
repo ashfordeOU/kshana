@@ -1231,4 +1231,4 @@ seg-0ab329c843b0 = Avatud mootor keskel: üks märk iga stsenaariumi liigi kohta
 
 seg-e507665bbe2c = Mootor v{ $version } · { "93" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · stsenaariumi ega algväärtust pole
 
-seg-c7818536071d = Kõik { "93" } stsenaariumi liiki ja { "181" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
+seg-7515b1af1f0b = Kõik { "93" } stsenaariumi liiki ja { "183" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)

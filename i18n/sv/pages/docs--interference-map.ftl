@@ -334,8 +334,6 @@ seg-a3a97ab49ed1 = AIS-metod (kshana-interference-map/ais/v2)
 
 seg-e3949a1e6082 = Sändarområde (<c1/>)
 
-seg-34bdcfd66ded = I den gren i arkivet som dessa dokument kommer från; ännu inte på GitHub
-
 seg-194d573cb817 = Alternativ: <c1/>, <c2/>, <c3/>, <c4/>, <c5/> (AIS), <c6/> (sammanväg en TDOA-positionsbestämning; nedan). Varje alternativ som avviker från det förhandsregistrerade värdet anges som "inte den förhandsregistrerade metoden". Filer skrivs aldrig över.
 
 seg-0e3abeb21526 = <b>Radiosikt.</b> Ett flygplan på höjden <c1/> och en sändarantenn på <c2/> ser varandra ut till <c3/> km på en 4/3-jordradie. <c4/> marginaliseras över { "2" } till { "100" } m ({ "8" } logaritmiskt fördelade värden).

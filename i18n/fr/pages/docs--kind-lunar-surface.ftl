@@ -1,7 +1,5 @@
 # docs--kind-lunar-surface: translations (fr)
 
-seg-f942b36a11c4 = Pas encore sur GitHub
-
 seg-51362910dcb7 = { "2" } scénarios fournis utilisent ce type ; les autres se trouvent dans <a1><c1/></a1>.
 
 seg-1f17ef6a853e = Type de scénario du moteur v{ $version }, famille <a1>Lunaire et cislunaire</a1>. À titre consultatif : résultat d'analyse d'un outil de recherche et d'ingénierie, et non un équipement de navigation homologué ni un service de sauvegarde de la vie humaine. Chaque étiquette ici est celle du moteur ou de la matrice de vérification ; un type de scénario est MODELLED sauf si la matrice dit le contraire (comment une étiquette s'acquiert : la section Evidence du README).

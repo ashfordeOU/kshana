@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (et)
 
-seg-f942b36a11c4 = GitHubis veel mitte
-
 seg-51362910dcb7 = { "2" } kaasasolevat stsenaariumi kasutab seda liiki; ülejäänud on kaustas <a1><c1/></a1>.
 
 seg-98151954f217 = false

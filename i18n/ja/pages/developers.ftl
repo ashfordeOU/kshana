@@ -798,8 +798,8 @@ seg-193ee1ab991e = <c1/> は、提出ファイルと分割の正解を結果フ�
 
 seg-0c50b3629e39 = ベンチマークを開く
 
-seg-859bb6732925 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "52" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
+seg-56bf1281e330 = kshana-mcp サーバー（Model Context Protocol、エンジン v{ $version }）との記録されたセッションです。アシスタントが { "53" } 個のツールを一覧し、<c1/> を検証して（valid: detected scenario kind `clock`）実行します。scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack)。
 
-seg-f3512ff81b58 = 公開されている Kshana API（アプリケーションプログラミングインターフェース）の<b>ツール { "52" } 個</b>で、公式 MCP レジストリに <c1/> として登録されています。軌道エクスポートは、SP3（Standard Product { "3" }）と CCSDS（宇宙データシステム諮問委員会）の OMM と OEM（軌道平均要素・エフェメリスメッセージ、TEME：True Equator, Mean Equinox 座標系）です。<b>AI アシスタント（MCP サーバー）</b>または <b>Docker イメージ</b>の下で登録してください。<a1>MCP サーバーのドキュメント</a1>
+seg-19751efb1461 = 公開されている Kshana API（アプリケーションプログラミングインターフェース）の<b>ツール { "53" } 個</b>で、公式 MCP レジストリに <c1/> として登録されています。軌道エクスポートは、SP3（Standard Product { "3" }）と CCSDS（宇宙データシステム諮問委員会）の OMM と OEM（軌道平均要素・エフェメリスメッセージ、TEME：True Equator, Mean Equinox 座標系）です。<b>AI アシスタント（MCP サーバー）</b>または <b>Docker イメージ</b>の下で登録してください。<a1>MCP サーバーのドキュメント</a1>
 
-seg-5aa702c4ebc7 = AI アシスタントが呼び出せる { "52" } 個のツール。いずれも公開 API の薄いラッパーです
+seg-1b9e5d8ce426 = AI アシスタントが呼び出せる { "53" } 個のツール。いずれも公開 API の薄いラッパーです

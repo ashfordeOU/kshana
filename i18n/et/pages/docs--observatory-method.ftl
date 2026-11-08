@@ -118,9 +118,6 @@ seg-4892485e534b = Pleninger, Topkova ja Steiner, „GNSS interference detection
 seg-74ec1aca8a22 = <b>Mida kasutasime.</b> Ainult avaldatud kokkuvõtet ja bibliograafilist kirjet. Täistekst ei olnud meile kättesaadav (tasuline), seega me ei tea ei selle NACp-st veahinnanguni viivat vastendust, selle HDOP-i arvutust ega selle lävesid ning me ei väida, et neid reprodutseerime.
 
 # text
-seg-4f8471649a07 = <b>Mida vaatluskeskus selle asemel teeb.</b> Küsimus, millele almanahhi võrdlus vastab, on „kas ainuüksi konstellatsiooni geomeetria võiks seda madalat täpsust selgitada?“. Põhimeetod vastab sellega seotud küsimusele ilma almanahhita: madal osa peab silma paistma sama päeva taustast kogu piirkonnas ja õhusõiduki enda headest teadetest mujal. See on teistsugune ja nõrgem asendus: see ei saa öelda, et rahuliku geomeetriaga tund oli halvenenud, kui päeva taust on samuti madal. Almanahhi-HDOP-i hindajat <b>ei ole realiseeritud</b>. See on lahtine ülesanne, mis tuleb ehitada artikli täisteksti ja avaliku GPS-i almanahhi põhjal ning eelregistreerida enne käitamist; seni on seda viidatud, mitte väidetud.
-
-# text
 seg-e9b9902633af = Toote reprodutseerimine
 
 # text

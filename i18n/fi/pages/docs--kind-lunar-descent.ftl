@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (fi)
 
-seg-f942b36a11c4 = Ei vielä GitHubissa
-
 seg-51362910dcb7 = { "2" } mukana toimitettua skenaariota käyttää tätä tyyppiä; muut ovat hakemistossa <a1><c1/></a1>.
 
 seg-98151954f217 = false

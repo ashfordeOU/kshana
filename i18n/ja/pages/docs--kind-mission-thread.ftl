@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (ja)
 
-seg-f942b36a11c4 = まだ GitHub にはありません
-
 seg-be831b52a339 = ほかに { "4" } 件がマトリクスにあります。
 
 seg-936e96edf423 = <b>MODELLED</b> <c1/> kind：フェーズの文書で、各フェーズは登録済みの八つの kind のいずれかです。フェーズは順に実行され、6x6 共分散、クロック、座標系が、明記した規則のもとで引き継がれます（<c2/>、<c3/>は、明記した区間にわたる白色加速度ノイズ テスト：<a1>field_units_global.rs</a1>。

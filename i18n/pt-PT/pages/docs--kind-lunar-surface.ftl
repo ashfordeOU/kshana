@@ -1,9 +1,6 @@
 # docs--kind-lunar-surface: translations (pt-PT)
 
 # text
-seg-f942b36a11c4 = Ainda não está no GitHub
-
-# text
 # c1: scenarios/
 seg-51362910dcb7 = { "2" } cenários incluídos usam este tipo; os demais estão em <a1><c1/></a1>.
 

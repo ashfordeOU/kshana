@@ -798,8 +798,8 @@ seg-193ee1ab991e = <c1/> omsætter en indsendelsesfil og en opdelings reference 
 
 seg-0c50b3629e39 = Åbn benchmarken
 
-seg-859bb6732925 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "52" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
+seg-56bf1281e330 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "53" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
 
-seg-f3512ff81b58 = <b>{ "52" } værktøjer</b> over den offentlige Kshana-API (programmeringsgrænseflade), i det officielle MCP-register som <c1/>. Orbit-eksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meddelelser om middelelementer og efemeride for baner, TEME: True Equator, Mean Equinox-system). Registrér den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentation af MCP-serveren</a1>
+seg-19751efb1461 = <b>{ "53" } værktøjer</b> over den offentlige Kshana-API (programmeringsgrænseflade), i det officielle MCP-register som <c1/>. Orbit-eksporter: SP3 (Standard Product { "3" }) og CCSDS (Consultative Committee for Space Data Systems) OMM og OEM (meddelelser om middelelementer og efemeride for baner, TEME: True Equator, Mean Equinox-system). Registrér den under <b>AI-assistent (MCP-server)</b> eller <b>Docker-image</b>. <a1>Dokumentation af MCP-serveren</a1>
 
-seg-5aa702c4ebc7 = { "52" } værktøjer, en AI-assistent kan kalde, hvert et tyndt lag over det offentlige API
+seg-1b9e5d8ce426 = { "53" } værktøjer, en AI-assistent kan kalde, hvert et tyndt lag over det offentlige API

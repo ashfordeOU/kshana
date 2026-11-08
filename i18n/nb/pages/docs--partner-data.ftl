@@ -6,10 +6,6 @@ seg-6e0cb6acc073 = VALIDATED
 
 seg-a349aa76b0ed = PARTNER
 
-seg-34bdcfd66ded = I repositoriegrenen disse dokumentene kommer fra; ennå ikke på GitHub
-
-seg-f942b36a11c4 = Ikke på GitHub ennå
-
 seg-7338b6210228 = Rad
 
 seg-c5ce76c91ff7 = Etikett

@@ -1,9 +1,5 @@
 # docs--kind-lunar-orbit-rendezvous: translations (de)
 
-seg-34bdcfd66ded = Im Repository-Zweig, aus dem diese Dokumente stammen; noch nicht auf GitHub
-
-seg-f942b36a11c4 = Noch nicht auf GitHub
-
 seg-51362910dcb7 = { "2" } mitgelieferte Szenarien verwenden diese Art; die übrigen stehen in <a1><c1/></a1>.
 
 seg-1f17ef6a853e = Szenarioart der Engine v{ $version }, Familie <a1>Mond und cislunar</a1>. Hinweis: Analyseausgabe eines Forschungs- und Engineering-Werkzeugs, keine typzugelassene Navigationsausrüstung und kein Dienst für die Sicherheit des Lebens. Jede Kennzeichnung hier stammt von der Engine oder der Verifikationsmatrix; eine Art ist MODELLED, sofern die Matrix nichts anderes sagt (wie eine Kennzeichnung erworben wird: der Abschnitt Evidenz der README).

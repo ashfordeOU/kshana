@@ -825,4 +825,4 @@ seg-0ab329c843b0 = Otwarty silnik pośrodku: jeden znacznik na rodzaj scenariusz
 
 seg-e507665bbe2c = Silnik v{ $version } · { "93" } rodzajów z <c1/> · status w rejestrze z <c2/> · na czym opierają się Pro i badanie: rejestr wydań serwisu · bez scenariusza i ziarna (seed)
 
-seg-c7818536071d = Wszystkie { "93" } rodzaje scenariuszy i { "181" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)
+seg-7515b1af1f0b = Wszystkie { "93" } rodzaje scenariuszy i { "183" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)

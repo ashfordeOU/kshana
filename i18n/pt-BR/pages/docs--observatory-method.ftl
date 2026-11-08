@@ -118,9 +118,6 @@ seg-4892485e534b = Pleninger, Topkova e Steiner, "GNSS interference detection: M
 seg-74ec1aca8a22 = <b>O que usamos.</b> Apenas o resumo publicado e o registro bibliográfico. O texto completo não estava disponível para nós (acesso pago), de modo que não conhecemos nem seu mapeamento de NACp para uma estimativa de erro, nem seu cálculo de HDOP, nem seus limiares, e não afirmamos reproduzi-los.
 
 # text
-seg-4f8471649a07 = <b>O que o observatório faz em vez disso.</b> A pergunta que a comparação com o almanaque responde é "a geometria da constelação, por si só, poderia explicar essa baixa precisão?". O método básico responde a uma pergunta relacionada sem almanaque: uma parcela baixa deve se destacar em relação ao fundo do mesmo dia na região e em relação aos próprios bons relatos da aeronave em outros lugares. Esse é um substituto diferente e mais fraco: ele não pode dizer que uma hora de geometria tranquila foi degraded onde o fundo do dia também é baixo. Um avaliador de HDOP por almanaque <b>não está implementado</b>. É um item em aberto, a ser construído a partir do texto completo do artigo e do almanaque GPS público e pré-registrado antes de ser executado; até lá ele é citado, não afirmado.
-
-# text
 seg-e9b9902633af = Reproduzindo um produto
 
 # text

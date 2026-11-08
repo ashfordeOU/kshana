@@ -1135,12 +1135,12 @@ seg-b9961ed25282 = Nouveau dans la v{ $version } : un fil de mission, une étiq
 
 seg-653cf3198094 = { "176" } capacités sur { "401" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
 
-seg-859bb6732925 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "52" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
-
-seg-2dc1aed7a12e = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
-seg-b79ee48fd586 = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
-
-seg-9b9d03fe1477 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
 seg-579d9b6f7afd = Les { "93" } types de scénario, gratuits et sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.
+
+seg-56bf1281e330 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "53" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
+
+seg-74e443a965d8 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+
+seg-0dfbf0d5864b = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+
+seg-08f9e715b4cb = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }

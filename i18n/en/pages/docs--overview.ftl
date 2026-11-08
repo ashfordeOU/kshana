@@ -2248,7 +2248,7 @@ seg-5cce5bd43a6b = AI assistant
 # text
 # c1: kshana-mcp
 # c2: kshana
-seg-ed215c6aa19b = <a1><c1/></a1> is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its { "52" } tools is a thin wrapper over a public function of the <c2/> library, so no simulation logic lives in the server.
+seg-d106dd5461ed = <a1><c1/></a1> is an MCP server: your assistant runs the actual engine and reads back its JSON, instead of guessing the maths. Each of its { "53" } tools is a thin wrapper over a public function of the <c2/> library, so no simulation logic lives in the server.
 
 # text
 seg-57f592bb676b = Install the MCP server
@@ -2351,7 +2351,7 @@ seg-8977c5b65068 = kshana-mcp on Glama, its MCP server quality score
 seg-920704a0e384 = Per-client set-up is in <a1><c1/></a1>. The server is listed in the official MCP registry as <c2/>.
 
 # text
-seg-81fcbb495e8f = The { "52" } tools
+seg-0920329ba390 = The { "53" } tools
 
 # text
 seg-4a458fb861f4 = Scenarios and reports
@@ -2422,6 +2422,10 @@ seg-eea23196a44a = Export an <c1/> scenario's state series as CCSDS OEM (Orbit E
 # text
 # c1: <scenario>.table.csv
 seg-77b4524cc903 = Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as <c1/>
+
+# text
+# c1: kshana ephem-export
+seg-c470dda97716 = Write a JPL Horizons state table (the CAPSTONE or Artemis I states of the mission thread) as a CCSDS OEM, a CCSDS OPM or an SPK kernel of type { "13" } or { "9" } for flight-dynamics tools, and read it back state for state (<c1/>)
 
 # text
 # c1: kshana bench-export

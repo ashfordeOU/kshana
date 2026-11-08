@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (nl)
 
-seg-f942b36a11c4 = Nog niet op GitHub
-
 seg-be831b52a339 = en { "4" } meer in de matrix.
 
 seg-936e96edf423 = <b>MODELLED</b> De soort <c1/>: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (<c2/>; <c3/>, witte versnellingsruis over een vermelde onderbreking Tests: <a1>field_units_global.rs</a1>.

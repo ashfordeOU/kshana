@@ -1,7 +1,5 @@
 # docs--kind-lunar-descent: translations (zh-Hans)
 
-seg-f942b36a11c4 = 尚未上传到GitHub
-
 seg-51362910dcb7 = 有{ "2" }个内置场景使用此类型；其余的在<a1><c1/></a1>中。
 
 seg-98151954f217 = false

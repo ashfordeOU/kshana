@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (cs)
 
-seg-f942b36a11c4 = Zatím ne na GitHubu
-
 seg-be831b52a339 = a { "4" } další v matici.
 
 seg-936e96edf423 = <b>MODELLED</b> Druh <c1/>: dokument fází, z nichž každá je jedním z osmi registrovaných druhů, spouštěných postupně, přičemž kovariance 6x6, hodiny a soustava se předávají podle stanoveného pravidla (<c2/>; <c3/>, šum bílého zrychlení po stanovenou mezeru Testy: <a1>field_units_global.rs</a1>.

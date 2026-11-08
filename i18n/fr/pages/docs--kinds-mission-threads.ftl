@@ -1,7 +1,5 @@
 # docs--kinds-mission-threads: translations (fr)
 
-seg-f942b36a11c4 = Pas encore sur GitHub
-
 seg-b03d56f501c3 = Type
 
 seg-1ec485468daa = Budget d'erreur de navigation et de synchronisation MODELLED d'une chaîne déclarée de phases de mission, du lancement à l'entrée : lancement et ascension, rendez-vous et amarrage en orbite basse terrestre (répétable), injection trans-lunaire et croisière cislunaire, rendez-vous en orbite lunaire, descente, séjour en surface, ascension, puis retour et entrée, chaque phase étant l'un des huit types enregistrés avec ses propres capteurs et son propre filtre. La covariance 6x6, l'horloge et le référentiel sont transmis d'une phase à l'autre selon une règle déclarée (carry, inflate ou reacquire) ; les conversions de référentiel et d'échelle de temps (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) sont des lignes de budget à part, avec l'état de la Lune issu d'une découpe facultative du noyau DE440 et la série analytique comme solution de repli déclarée. Une superposition facultative du réseau au sol fixe le cycle de suivi de chaque phase. Rapporte le budget par phase (1-sigma à l'entrée, au pic et à la sortie, chaque contribution avec son unité), la marge par rapport à une exigence déclarée, le maillon le plus faible, les événements et une figure chronologique. MODELLED : chaque nombre est une entrée déclarée ; la chaîne suit un seul empilement et aucun véhicule n'est modélisé. Sources publiques seulement ; sans affiliation ni aval d'aucune agence ; logiciel à titre consultatif, et non un équipement de navigation certifié.

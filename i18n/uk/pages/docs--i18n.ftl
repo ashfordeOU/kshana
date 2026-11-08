@@ -4,8 +4,6 @@ seg-c3c260b7063e = Тести
 
 seg-257c477dc510 = WebAssembly
 
-seg-f942b36a11c4 = На GitHub ще немає
-
 seg-26b562e7f535 = Джерело: <c1/>
 
 seg-60b2e78c882e = Локалізація рушія

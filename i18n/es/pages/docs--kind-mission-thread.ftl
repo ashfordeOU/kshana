@@ -1,7 +1,5 @@
 # docs--kind-mission-thread: translations (es)
 
-seg-f942b36a11c4 = Aún no está en GitHub
-
 seg-be831b52a339 = y { "4" } más en la matriz.
 
 seg-936e96edf423 = <b>MODELLED</b> El tipo de escenario <c1/>: un documento de fases, cada una de uno de ocho tipos registrados, ejecutadas en orden con la covarianza de 6x6, el reloj y el marco transmitidos bajo una regla indicada (<c2/>; <c3/>, ruido de aceleración blanco sobre un intervalo indicado Pruebas: <a1>field_units_global.rs</a1>.

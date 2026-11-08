@@ -1224,3 +1224,12 @@ seg-e60137382d1e = <s1>tests/uere_dop_monte_carlo.rs (position_error_is_sigma_ti
 # <s1>tests/campaign_optimize_reference.rs (pre-registered fbe6c8b3 and, after a round-1 protocol miss, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0)…</s1>
 # text
 seg-0eca2a3c8ca5 = <s1>tests/campaign_optimize_reference.rs (предварительно зарегистрировано fbe6c8b3 и, после промаха протокола в раунде 1, 441f31bc: p2_prime_interior_target_range_matches_the_closed_form — решение по цели 1-D в пределах { "6.1e-15" } от r* = r0 { "10" }^((m(r0)…</s1>
+
+# In the repository branch these docs come from; not yet on GitHub
+seg-34bdcfd66ded = В ветке репозитория, из которой взяты эти документы; на GitHub пока нет
+
+# Not yet on GitHub
+seg-f942b36a11c4 = Пока нет на GitHub
+
+# <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
+seg-4f8471649a07 = <b>Что вместо этого делает обсерватория.</b> Вопрос, на который отвечает сравнение с альманахом: «могла ли одна лишь геометрия орбитальной группировки объяснить эту низкую точность?». Базовый метод отвечает на родственный вопрос без альманаха: низкая доля должна выделяться на фоне того же дня по региону и на фоне собственных хороших сообщений воздушного судна в других местах. Это другая и более слабая замена: он не может сказать, что час со спокойной геометрией был ухудшен там, где фон дня тоже низок. Оценка по HDOP из альманаха <b>не реализована</b>. Это открытый пункт: её нужно построить по полному тексту статьи и публичному альманаху GPS и предварительно зарегистрировать до запуска; пока она лишь цитируется и не заявляется.

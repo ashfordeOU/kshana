@@ -260,6 +260,10 @@ seg-ffcc6c72dc1e = A trust stream (JSON lines) or <c1/> result rendered as Prome
 seg-2b82a8a22298 = Accelerometer and gyro parameters of the <c1/> and <c2/> scenarios fitted from a stationary IMU log (CSV or EuRoC) by Allan deviation, with a ready-to-paste <c3/> table and the log's SHA-256 (<c4/>). Text in, JSON out; MODELLED.
 
 # text
+# c1: kshana ephem-export
+seg-ac1ed0952c11 = A JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel of type { "13" } or { "9" }, for flight-dynamics tools, and read back state for state (<c1/>). Text in, JSON out (the SPK as base64).
+
+# text
 # c1: kshana standards-pack list
 seg-30d5bb6b34cb = The standards packs (<c1/>): scored scenario sets for the DHS Resilient PNT framework test profiles (levels { "1" } to { "4" }), IMO MSC.1/Circ.1575 and ICAO Doc { "9849" } Appendix F.
 
