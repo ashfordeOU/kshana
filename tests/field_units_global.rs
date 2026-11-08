@@ -172,6 +172,7 @@ const RUNNERS: &[(&str, &str)] = &[
         "mission-thread",
         "scenarios/mission-thread-artemis-class.toml",
     ),
+    ("tip-and-cue", "scenarios/tip-and-cue-short.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

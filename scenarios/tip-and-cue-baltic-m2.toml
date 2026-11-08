@@ -1,0 +1,11 @@
+# M2 (docs/design/evidence/m2-revisit-tip-and-cue/PREREGISTRATION.md): revisit, full-area refresh and
+# RF-to-optical reaction of a two-layer survey over the Baltic Sea, for the pre-registered primary
+# cases (16 and 32 satellites per layer) and variants V1 to V4, over 7 days at a 10 s step.
+# Readings: xval/m2-revisit-tip-and-cue/README.md. A cross-check of published simulation figures,
+# never a validation. Takes a few seconds in a release build.
+kind = "tip-and-cue"
+title = "M2: revisit and tip-and-cue latency over the Baltic Sea"
+area = "baltic"
+step_s = 10
+span_days = 7
+m2 = true

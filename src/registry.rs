@@ -132,6 +132,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         HoldoverTest,
         GnssSsv,
         MissionThread,
+        TipAndCue,
     ]
 };
 
@@ -293,6 +294,8 @@ pub mod ids {
     pub const GNSS_SSV: ScenarioId = ScenarioId::from_static("gnss-ssv");
     /// The navigation and timing error budget of a chain of mission phases.
     pub const MISSION_THREAD: ScenarioId = ScenarioId::from_static("mission-thread");
+    /// Revisit and tip-and-cue latency of a two-layer survey.
+    pub const TIP_AND_CUE: ScenarioId = ScenarioId::from_static("tip-and-cue");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

@@ -110,6 +110,7 @@ ScenarioKind = Literal[
     "holdover-test",
     "gnss-ssv",
     "mission-thread",
+    "tip-and-cue",
 ]
 """Every built-in scenario kind, the value of a scenario's top-level ``kind``."""
 
