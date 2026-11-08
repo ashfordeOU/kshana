@@ -6,7 +6,12 @@
 //! `tests/iq_boc_bump_jump.rs` (the control, run unchanged), with the seed as a parameter so the
 //! registered (`SEED`) and fresh (`SEED + 100 000`) runs share it.
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-08): MET on re-run (B4 unit grid exact to 4.6e-15; sampled
+//! slopes 0.9947 to 1.0106; B1-B3 and B5 hold on registered and fresh seeds)
+//! (`docs/design/evidence/d8a-iq-tracking-cn0-rerun/RESULTS.md`).
+//!
+//! PIN-SCOPE: the B4 unit-grid error bound and the sampled-signal slopes of the scored run.
+//! PIN-EXCLUDES: output hashes.
 
 use kshana::iq::scene::{
     NavData, NoiseConfig, RangeProfile, SatGeometry, Scene, SceneConfig, SceneSatellite,
@@ -422,6 +427,8 @@ fn b4_unit_grid_with_the_exact_inverse() {
         }
     }
     eprintln!("B4 unit grid: worst relative error {worst:.3e}");
+    // Pinned (2026-11-08): exact to rounding (4.6e-15).
+    assert!(worst < 1e-12, "worst {worst:.3e}");
     assert!(misses.is_empty(), "B4 unit grid missed: {misses:?}");
 }
 
@@ -456,6 +463,20 @@ fn b4_sampled_signal_with_the_exact_inverse() {
             run.label,
             mean(&r)
         );
+        // Pinned (2026-11-08): the inverse's slopes as recorded, to 5e-4.
+        if let Some(i) = run.label.strip_prefix("inverse ") {
+            let want = match i {
+                "-0.06" => 1.0055,
+                "-0.03" => 1.0106,
+                "+0.03" => 0.9947,
+                _ => 0.9998,
+            };
+            assert!(
+                (slope - want).abs() < 5e-4,
+                "{}: slope {slope:.4} moved",
+                run.label
+            );
+        }
         let ok = if run.label.starts_with("inverse") {
             (0.9..=1.1).contains(&slope)
         } else {
