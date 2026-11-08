@@ -56,6 +56,13 @@ run uploads its difference report.
 
 ## GMAT
 
-Not done. The adapter needs GMAT R2026a, a 401,664,992-byte tarball (SHA-256
-`fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754`). The session that wrote the other
-adapters could not run GMAT's binaries.
+**Not done.** The adapter (`integrations/flight-dynamics/gmat_reader.py`, `gmat.ipynb`) and its
+workflow job `gmat` are in place. The job uses GMAT R2026a, from a 401,664,992-byte tarball pinned by
+SHA-256 `fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754` and cached. GMAT loads the
+OEM through its `CCSDS-OEM` propagator and the SPK through its `SPK` propagator, steps through each
+file at the node spacing, and reports every state; the report compares them as for an evaluating
+tool.
+
+The adapter was written from GMAT's documentation and samples without running GMAT: the session
+that wrote it was not allowed to execute GMAT's binaries. The job runs with continue-on-error and is
+fixed from its logs. GMAT counts as done only when that job is green.

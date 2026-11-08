@@ -1,0 +1,152 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+"""GMAT adapter for the flight-dynamics reference integration (roadmap C7).
+
+GMAT reads a trajectory through its ephemeris propagators: `CCSDS-OEM` for an OEM (interpolated
+with Lagrange polynomials) and `SPK` for a SPICE kernel. This adapter writes a GMAT script that
+loads Kshana's OEM and SPK into two spacecraft. GMAT steps each one through the file at 600 s,
+which is the trajectory's own node spacing, starting at the file's first epoch. At every step GMAT
+reports the epoch (`TDBModJulian`) and the Moon-centred state, at 16 significant digits:
+
+- the OEM in a Moon-centred ICRF frame (its `REF_FRAME` is ICRF);
+- the SPK in a Moon-centred MJ2000Eq frame. The kernel's frame code is 1 (J2000), which GMAT
+  reads as MJ2000Eq, so no frame-bias rotation is applied to the stored states.
+
+The script runs in GMAT's console program, `GmatConsole --run <script>`, in GMAT's `bin`
+directory. `GMAT_ROOT` names the installation, the directory that holds `bin/`.
+
+GMAT reports its states rather than handing back the file's records. So the comparison is the one
+for an evaluating tool (`kshana_fd.evaluated_compare`). The report's 16 digits and GMAT's own epoch
+arithmetic are part of what is compared.
+
+Written without running GMAT in the session that wrote it. The workflow job that runs it is the
+first test.
+"""
+from __future__ import annotations
+
+import os
+import subprocess
+from pathlib import Path
+
+#: GMAT's modified Julian date is JD - 2430000.0, so J2000 (JD 2451545.0) is MJD 21545.0.
+GMAT_MJD_J2000 = 21545.0
+
+SCRIPT = """
+Create Spacecraft OemSat;
+OemSat.EphemerisName = '{oem}';
+
+Create Spacecraft SpkSat;
+SpkSat.NAIFId = {naif};
+SpkSat.OrbitSpiceKernelName = {{'{bsp}'}};
+SpkSat.DateFormat = TDBGregorian;
+SpkSat.Epoch = '{start_gregorian}';
+
+Create Propagator OemProp;
+OemProp.Type = 'CCSDS-OEM';
+OemProp.StepSize = {step};
+
+Create Propagator SpkProp;
+SpkProp.Type = SPK;
+SpkProp.StepSize = {step};
+SpkProp.CentralBody = Luna;
+SpkProp.StartEpoch = FromSpacecraft;
+
+Create CoordinateSystem LunaICRF;
+LunaICRF.Origin = Luna;
+LunaICRF.Axes = ICRF;
+
+Create CoordinateSystem LunaJ2000;
+LunaJ2000.Origin = Luna;
+LunaJ2000.Axes = MJ2000Eq;
+
+Create ReportFile OemReport;
+OemReport.Filename = '{out}/gmat_oem.txt';
+OemReport.Precision = 16;
+OemReport.WriteHeaders = false;
+
+Create ReportFile SpkReport;
+SpkReport.Filename = '{out}/gmat_spk.txt';
+SpkReport.Precision = 16;
+SpkReport.WriteHeaders = false;
+
+Create Variable k;
+
+BeginMissionSequence;
+
+Report OemReport OemSat.TDBModJulian OemSat.LunaICRF.X OemSat.LunaICRF.Y OemSat.LunaICRF.Z OemSat.LunaICRF.VX OemSat.LunaICRF.VY OemSat.LunaICRF.VZ;
+For k = 1:{steps};
+   Propagate OemProp(OemSat);
+   Report OemReport OemSat.TDBModJulian OemSat.LunaICRF.X OemSat.LunaICRF.Y OemSat.LunaICRF.Z OemSat.LunaICRF.VX OemSat.LunaICRF.VY OemSat.LunaICRF.VZ;
+EndFor;
+
+Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
+For k = 1:{steps};
+   Propagate SpkProp(SpkSat);
+   Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
+EndFor;
+"""
+
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def gmat_root() -> Path:
+    """The GMAT installation named by GMAT_ROOT."""
+    root = os.environ.get("GMAT_ROOT")
+    if not root:
+        raise RuntimeError("GMAT_ROOT is not set: it names the GMAT installation (the directory with bin/)")
+    return Path(root)
+
+
+def gregorian(label: str) -> str:
+    """`2023-03-01T00:00:00.0000` as GMAT's `01 Mar 2023 00:00:00.000`."""
+    date, time = label.split("T")
+    y, m, d = date.split("-")
+    hh, mm, ss = time.split(":")
+    return f"{int(d):02d} {MONTHS[int(m) - 1]} {y} {hh}:{mm}:{float(ss):06.3f}"
+
+
+def run(oem: Path, bsp: Path, out: Path, first_label: str, n: int, naif: int = -1176,
+        step_s: float = 600.0) -> tuple[Path, Path, str]:
+    """Write and run the GMAT script. Returns (OEM report, SPK report, GMAT's console output)."""
+    out.mkdir(parents=True, exist_ok=True)
+    script = out / "kshana_c7.script"
+    script.write_text(SCRIPT.format(
+        oem=Path(oem).resolve(), bsp=Path(bsp).resolve(), out=out.resolve(), naif=naif,
+        start_gregorian=gregorian(first_label), step=step_s, steps=n - 1,
+    ))
+    bin_dir = gmat_root() / "bin"
+    p = subprocess.run(["./GmatConsole", "--run", str(script.resolve())], cwd=bin_dir,
+                       capture_output=True, text=True, timeout=3600)
+    log = p.stdout + p.stderr
+    (out / "gmat_console.log").write_text(log)
+    if p.returncode != 0:
+        raise RuntimeError(f"GmatConsole exited with {p.returncode}:\n{log[-4000:]}")
+    return out / "gmat_oem.txt", out / "gmat_spk.txt", log
+
+
+def read_report(path: Path) -> tuple[list[float], list[list[float]], list[str]]:
+    """A GMAT report written by `run`: (epochs as TDB seconds past J2000, states, epoch texts)."""
+    ets, states, texts = [], [], []
+    for line in Path(path).read_text().splitlines():
+        f = line.split()
+        if len(f) != 7:
+            continue
+        texts.append(f[0])
+        ets.append((float(f[0]) - GMAT_MJD_J2000) * 86400.0)
+        states.append([float(x) for x in f[1:]])
+    return ets, states, texts
+
+
+def epochs_equal(texts: list[str], want_ets: list[float]) -> tuple[list[bool], float]:
+    """Each reported epoch against the written one, to the precision of the report: equal when the
+    written epoch, as a GMAT MJD, is within one unit of the last digit GMAT printed (the printed
+    value is itself the rounding of a double). Also returns the largest difference in seconds."""
+    from decimal import Decimal
+
+    ok, worst = [], 0.0
+    for t, e in zip(texts, want_ets):
+        got = Decimal(t)
+        want = Decimal(repr(e)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000))
+        unit = Decimal(1).scaleb(got.as_tuple().exponent)
+        ok.append(abs(got - want) <= unit)
+        worst = max(worst, float(abs(got - want)) * 86400.0)
+    return ok, worst
