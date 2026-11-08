@@ -48,6 +48,15 @@ fn main() {
             }
             println!("{}", serde_json::to_string(&json!({"set": "scored", "seeds": [1000, 1009], "m": p.m, "c_m": p.c_m, "redraws": redraws, "metrics": metrics(&rows)})).expect("json"));
         }
-        _ => eprintln!("usage: m4_dev dev|scored"),
+        Some("seed") => {
+            let seed: u64 = a[1].parse().expect("seed");
+            let s = generate(seed);
+            let rows = decided_classes(&s, &decide(&s, &M4Params::v1()));
+            println!(
+                "{}",
+                serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
+            );
+        }
+        _ => eprintln!("usage: m4_dev dev|scored|seed N"),
     }
 }
