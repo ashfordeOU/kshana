@@ -27,9 +27,9 @@ The scored input and output are in `tests/fixtures/env_baseline/` and the scores
 | V2 quiet mid-latitude | **MET**: 100 % of 1 422 quiet-day station-hours at 35° to 55° called `quiet` (bar ≥ 95 %). |
 | V3 storm high-latitude | **MET**: 99.4 % of 621 disturbed storm-day station-hours at ≥ 60° called `elevated` or `disturbed` (bar ≥ 80 %). |
 | V4 low latitude, no storm | **MET**: AUC 0.872 over 815 equinox-day station-hours at ≤ 15°, 84 of them disturbed (bar ≥ 0.70). |
-| V5 determinism | **MET on Linux; the other platforms' CI runs are still to come**. The scored run's bytes are pinned (`tests/env_baseline.rs`). Python (`tests/python/test_bindings.py`) and WebAssembly (`web/smoke.mjs`) compare with the same file in CI, as do the macOS and Windows test legs; none of these has run yet. |
+| V5 determinism | **Not yet MET**. The planner's first WebAssembly check showed that the platform math library differs between targets (B1a RESULTS, P5). The baseline used the same functions (sin, cos, asin), so before its own cross-platform run it was moved to the engine's portable math. That changed the scored run's scores by at most 2.4e-16, changed no level, and left N1 and V1 to V4 identical. The bytes were re-pinned (`tests/env_baseline.rs`). V5 is met when the CLI, Python, WebAssembly, macOS and Windows runs in CI give those bytes. |
 
-B8 is MET when V5 is confirmed on every platform and surface. Until then it is met on the bars scored here.
+B8 is MET when V5 is confirmed on every platform and surface. Until then, N1 and V1 to V4 are met and V5 is pending.
 
 ## The data
 

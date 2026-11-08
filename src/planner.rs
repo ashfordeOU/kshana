@@ -11,6 +11,7 @@
 
 use crate::frames::{geodetic_to_ecef, Geodetic, Vec3};
 use crate::geolocation::{tdoa_crlb_cov, tdoa_crlb_on_sphere};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Speed of light, m/s.
@@ -187,7 +188,7 @@ pub fn phi_inv(p: f64) -> f64 {
     }
     for _ in 0..2 {
         let e = phi(x) - p;
-        let u = e * (2.0 * std::f64::consts::PI).sqrt() * (0.5 * x * x).exp();
+        let u = e * (2.0 * std::f64::consts::PI).sqrt() * (0.5 * x * x).pexp();
         x -= u / (1.0 + 0.5 * x * u);
     }
     x
@@ -236,7 +237,7 @@ pub fn at_least(ps: &[f64], k: usize) -> f64 {
 fn detector(rx: &Receiver) -> (f64, f64, f64) {
     let sigma = 1.0 / (rx.bandwidth_hz * rx.integration_s).sqrt();
     let gamma = sigma * phi_inv(1.0 - rx.p_fa / 2.0);
-    let noise_w = K_B * T0 * 10f64.powf(rx.noise_figure_db / 10.0) * rx.bandwidth_hz;
+    let noise_w = K_B * T0 * 10f64.ppowf(rx.noise_figure_db / 10.0) * rx.bandwidth_hz;
     (sigma, gamma, noise_w)
 }
 
@@ -244,13 +245,14 @@ fn detector(rx: &Receiver) -> (f64, f64, f64) {
 fn inr(spec: &PlanSpec, noise_w: f64, x: Vec3, st: &StationSite, r: Vec3) -> f64 {
     let d = dist(x, r);
     let lambda = C / spec.source.freq_hz;
-    let p_dbw = spec.source.eirp_dbw - 20.0 * (4.0 * std::f64::consts::PI * d / lambda).log10()
+    let p_dbw = spec.source.eirp_dbw - 20.0 * (4.0 * std::f64::consts::PI * d / lambda).plog10()
         + st.gain_dbi;
-    10f64.powf(p_dbw / 10.0) / noise_w
+    10f64.ppowf(p_dbw / 10.0) / noise_w
 }
 
 fn dist(a: Vec3, b: Vec3) -> f64 {
-    ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    ((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) + (a[2] - b[2]) * (a[2] - b[2]))
+        .sqrt()
 }
 
 /// A station's detection probability for mean `mu` (the two-sided energy detector of
@@ -268,7 +270,7 @@ pub fn horizontal_cov(
     (lat, lon): (f64, f64),
     sigma_tau_s: f64,
 ) -> Option<[[f64; 2]; 2]> {
-    let q = (C * sigma_tau_s).powi(2);
+    let q = (C * sigma_tau_s) * (C * sigma_tau_s);
     let n = used.len().checked_sub(1)?;
     let q_rd: Vec<Vec<f64>> = (0..n)
         .map(|i| (0..n).map(|j| if i == j { q } else { 0.0 }).collect())
@@ -277,8 +279,8 @@ pub fn horizontal_cov(
         Mode::Surface => tdoa_crlb_on_sphere(used, x, &q_rd)?,
         Mode::ThreeD => tdoa_crlb_cov(used, x, &q_rd)?,
     };
-    let (sl, cl) = (lat.sin(), lat.cos());
-    let (so, co) = (lon.sin(), lon.cos());
+    let (sl, cl) = lat.psin_cos();
+    let (so, co) = lon.psin_cos();
     let e = [[-so, co, 0.0], [-sl * co, -sl * so, cl]];
     let mut ch = [[0.0; 2]; 2];
     for a in 0..2 {
@@ -300,7 +302,7 @@ pub fn map_for(spec: &PlanSpec, stations: &[StationSite]) -> Map {
     let (sigma, gamma, noise_w) = detector(&spec.receiver);
     let pos: Vec<Vec3> = stations.iter().map(ecef).collect();
     let k = spec.mode.k();
-    let chi2 = -2.0 * 0.05f64.ln();
+    let chi2 = -2.0 * 0.05f64.pln();
     let cells = grid(&spec.site)
         .into_iter()
         .map(|(lat, lon)| {
@@ -337,7 +339,8 @@ pub fn map_for(spec: &PlanSpec, stations: &[StationSite]) -> Map {
                 Some(c) => {
                     let tr = c[0][0] + c[1][1];
                     let det = c[0][0] * c[1][1] - c[0][1] * c[1][0];
-                    let disc = (0.25 * (c[0][0] - c[1][1]).powi(2) + c[0][1] * c[1][0])
+                    let disc = (0.25 * (c[0][0] - c[1][1]) * (c[0][0] - c[1][1])
+                        + c[0][1] * c[1][0])
                         .max(0.0)
                         .sqrt();
                     let (l1, l2) = (0.5 * tr + disc, (det / (0.5 * tr + disc)).max(0.0));
@@ -557,7 +560,7 @@ pub fn solve_tdoa_on_sphere(receivers: &[Vec3], rd: &[f64], radius: f64, x0: Vec
         ];
         let ry = (y[0] * y[0] + y[1] * y[1] + y[2] * y[2]).sqrt();
         x = [y[0] * radius / ry, y[1] * radius / ry, y[2] * radius / ry];
-        if s1.hypot(s2) < 1e-6 {
+        if s1.phypot(s2) < 1e-6 {
             return Some(x);
         }
     }

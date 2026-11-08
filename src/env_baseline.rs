@@ -15,6 +15,7 @@
 //! degree per decade.
 
 use crate::igrf::geomagnetic_north_pole;
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// One site-hour.
@@ -122,12 +123,15 @@ pub fn dipole_latitude_deg(lat_deg: f64, lon_deg: f64, year: f64) -> f64 {
     let (plat, plon) = geomagnetic_north_pole(year);
     let unit = |la: f64, lo: f64| {
         let (la, lo) = (la.to_radians(), lo.to_radians());
-        [la.cos() * lo.cos(), la.cos() * lo.sin(), la.sin()]
+        {
+            let ((sa, ca), (so, co)) = (la.psin_cos(), lo.psin_cos());
+            [ca * co, ca * so, sa]
+        }
     };
     let (r, m) = (unit(lat_deg, lon_deg), unit(plat, plon));
     (r[0] * m[0] + r[1] * m[1] + r[2] * m[2])
         .clamp(-1.0, 1.0)
-        .asin()
+        .pasin()
         .to_degrees()
 }
 
@@ -176,7 +180,7 @@ pub fn baseline_with(s: &SiteHour, p: &EnvBaselineParams) -> Baseline {
         let flux = ((s.f107 - f0) / (f1 - f0)).clamp(0.0, 1.0);
         // Season: 1 at the equinoxes (days 80 and 266), the solstice factor at the solstices.
         let w = 2.0 * std::f64::consts::PI * (f64::from(s.doy) - 80.0) / 365.25;
-        let season = p.low_solstice_factor + (1.0 - p.low_solstice_factor) * (w.cos() * w.cos());
+        let season = p.low_solstice_factor + (1.0 - p.low_solstice_factor) * (w.pcos() * w.pcos());
         let storm = if s.kp >= p.low_storm_kp {
             p.low_storm_factor
         } else {
