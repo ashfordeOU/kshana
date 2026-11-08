@@ -1,0 +1,380 @@
+{
+  "C2": "NOT MET",
+  "C2a_met": false,
+  "C2b_met": false,
+  "W1": "NOT MET",
+  "bars": {
+    "C2a_position_m": 2000.0,
+    "C2b_velocity_mps": 0.01
+  },
+  "h_table_sha256": "9b0bf68b2f2b9b93f17d44d3a0320fa4e7d5f532de019e3c988cb3cfd663ace7",
+  "impulses": 5,
+  "max_position_difference_m": 17334.771730709333,
+  "per_state": [
+    {
+      "hours_after_start": 0.4999999925494194,
+      "position_difference_m": 0.030784549114395064,
+      "velocity_difference_mps": 0.00005091784793692836
+    },
+    {
+      "hours_after_start": 1.5,
+      "position_difference_m": 0.4675931110318424,
+      "velocity_difference_mps": 0.09099230134924248
+    },
+    {
+      "hours_after_start": 2.5000000074505806,
+      "position_difference_m": 519.0021485250682,
+      "velocity_difference_mps": 0.00011455349440971129
+    },
+    {
+      "hours_after_start": 3.4999999925494194,
+      "position_difference_m": 520.2667349073815,
+      "velocity_difference_mps": 0.0005646209048116315
+    },
+    {
+      "hours_after_start": 4.5,
+      "position_difference_m": 522.7316281626316,
+      "velocity_difference_mps": 0.0009345266533569203
+    },
+    {
+      "hours_after_start": 5.500000007450581,
+      "position_difference_m": 526.2870624622537,
+      "velocity_difference_mps": 0.0012387276872213974
+    },
+    {
+      "hours_after_start": 6.499999992549419,
+      "position_difference_m": 530.855918822773,
+      "velocity_difference_mps": 0.0014902354763294955
+    },
+    {
+      "hours_after_start": 7.5,
+      "position_difference_m": 536.0564500196874,
+      "velocity_difference_mps": 0.0017010181011724757
+    },
+    {
+      "hours_after_start": 8.50000000745058,
+      "position_difference_m": 541.8808423866218,
+      "velocity_difference_mps": 0.0018752014087364867
+    },
+    {
+      "hours_after_start": 9.49999999254942,
+      "position_difference_m": 548.3272037963949,
+      "velocity_difference_mps": 0.002017094010905543
+    },
+    {
+      "hours_after_start": 10.5,
+      "position_difference_m": 555.0980458768012,
+      "velocity_difference_mps": 0.0021343446715093475
+    },
+    {
+      "hours_after_start": 11.50000000745058,
+      "position_difference_m": 562.2210696162875,
+      "velocity_difference_mps": 0.0022290644681262125
+    },
+    {
+      "hours_after_start": 12.49999999254942,
+      "position_difference_m": 569.7210392025487,
+      "velocity_difference_mps": 0.002301784895691117
+    },
+    {
+      "hours_after_start": 13.5,
+      "position_difference_m": 577.345674456203,
+      "velocity_difference_mps": 0.0023566813285357375
+    },
+    {
+      "hours_after_start": 14.50000000745058,
+      "position_difference_m": 585.1362511138626,
+      "velocity_difference_mps": 0.002396057113599275
+    },
+    {
+      "hours_after_start": 15.49999999254942,
+      "position_difference_m": 593.1300054128278,
+      "velocity_difference_mps": 0.002420285208549202
+    },
+    {
+      "hours_after_start": 16.5,
+      "position_difference_m": 601.105431286035,
+      "velocity_difference_mps": 0.00243298632028132
+    },
+    {
+      "hours_after_start": 17.50000000745058,
+      "position_difference_m": 609.1107073704201,
+      "velocity_difference_mps": 0.22267761774249276
+    },
+    {
+      "hours_after_start": 18.49999999254942,
+      "position_difference_m": 656.1392529466312,
+      "velocity_difference_mps": 0.0026091758626535923
+    },
+    {
+      "hours_after_start": 19.5,
+      "position_difference_m": 664.5231724648664,
+      "velocity_difference_mps": 0.002596212329241896
+    },
+    {
+      "hours_after_start": 20.50000000745058,
+      "position_difference_m": 672.8559574235734,
+      "velocity_difference_mps": 0.0025740628691735597
+    },
+    {
+      "hours_after_start": 21.49999999254942,
+      "position_difference_m": 681.1811535225618,
+      "velocity_difference_mps": 0.0025428801872244017
+    },
+    {
+      "hours_after_start": 22.5,
+      "position_difference_m": 689.3223302741296,
+      "velocity_difference_mps": 0.002504351073929347
+    },
+    {
+      "hours_after_start": 23.50000000745058,
+      "position_difference_m": 697.3278449360945,
+      "velocity_difference_mps": 0.15735000100627727
+    },
+    {
+      "hours_after_start": 24.49999999254942,
+      "position_difference_m": 3954.5714873343486,
+      "velocity_difference_mps": 0.002891104781900003
+    },
+    {
+      "hours_after_start": 25.5,
+      "position_difference_m": 3965.822493003474,
+      "velocity_difference_mps": 0.0034498018444972856
+    },
+    {
+      "hours_after_start": 26.50000000745058,
+      "position_difference_m": 3978.9548050069525,
+      "velocity_difference_mps": 0.003978107327420678
+    },
+    {
+      "hours_after_start": 27.49999999254942,
+      "position_difference_m": 3993.9403657369003,
+      "velocity_difference_mps": 0.004476500048901126
+    },
+    {
+      "hours_after_start": 28.5,
+      "position_difference_m": 4010.518221750742,
+      "velocity_difference_mps": 0.004948609764583978
+    },
+    {
+      "hours_after_start": 29.50000000745058,
+      "position_difference_m": 4028.6791810449745,
+      "velocity_difference_mps": 0.005394531881965525
+    },
+    {
+      "hours_after_start": 30.49999999254942,
+      "position_difference_m": 4048.4148361238176,
+      "velocity_difference_mps": 0.0058163239002706575
+    },
+    {
+      "hours_after_start": 31.5,
+      "position_difference_m": 4069.4962312595826,
+      "velocity_difference_mps": 0.0062166066893672165
+    },
+    {
+      "hours_after_start": 32.50000000745058,
+      "position_difference_m": 4091.92876393382,
+      "velocity_difference_mps": 0.0065958186427424815
+    },
+    {
+      "hours_after_start": 33.49999999254942,
+      "position_difference_m": 4115.716574684701,
+      "velocity_difference_mps": 0.0069561708370460135
+    },
+    {
+      "hours_after_start": 34.5,
+      "position_difference_m": 4140.655447973404,
+      "velocity_difference_mps": 0.09444378641084906
+    },
+    {
+      "hours_after_start": 35.50000000745058,
+      "position_difference_m": 7713.022147296892,
+      "velocity_difference_mps": 0.007837533609287255
+    },
+    {
+      "hours_after_start": 36.49999999254942,
+      "position_difference_m": 7729.533401044446,
+      "velocity_difference_mps": 0.008174378498151811
+    },
+    {
+      "hours_after_start": 37.5,
+      "position_difference_m": 7745.630404042578,
+      "velocity_difference_mps": 0.008510662297527125
+    },
+    {
+      "hours_after_start": 38.50000000745058,
+      "position_difference_m": 7761.345221802032,
+      "velocity_difference_mps": 0.008843981750107735
+    },
+    {
+      "hours_after_start": 39.49999999254942,
+      "position_difference_m": 7776.708780102671,
+      "velocity_difference_mps": 0.009172544867513732
+    },
+    {
+      "hours_after_start": 40.5,
+      "position_difference_m": 7791.6898487661965,
+      "velocity_difference_mps": 0.009496109545028584
+    },
+    {
+      "hours_after_start": 41.50000000745058,
+      "position_difference_m": 7806.321661640214,
+      "velocity_difference_mps": 0.009813607401339236
+    },
+    {
+      "hours_after_start": 42.49999999254942,
+      "position_difference_m": 7820.636253192828,
+      "velocity_difference_mps": 0.010124231471528192
+    },
+    {
+      "hours_after_start": 43.5,
+      "position_difference_m": 7834.607549962913,
+      "velocity_difference_mps": 0.010428425924493598
+    },
+    {
+      "hours_after_start": 44.50000000745058,
+      "position_difference_m": 7848.269217891147,
+      "velocity_difference_mps": 0.010725652428257968
+    },
+    {
+      "hours_after_start": 45.49999999254942,
+      "position_difference_m": 7861.653594075204,
+      "velocity_difference_mps": 0.011015505020140334
+    },
+    {
+      "hours_after_start": 46.5,
+      "position_difference_m": 7874.738532962784,
+      "velocity_difference_mps": 0.011298600467987339
+    },
+    {
+      "hours_after_start": 47.50000000745058,
+      "position_difference_m": 7887.557355566435,
+      "velocity_difference_mps": 0.011574156807125167
+    },
+    {
+      "hours_after_start": 48.49999999254942,
+      "position_difference_m": 7900.141866846159,
+      "velocity_difference_mps": 0.011842895181996715
+    },
+    {
+      "hours_after_start": 49.5,
+      "position_difference_m": 7912.472803929128,
+      "velocity_difference_mps": 0.012105031633179272
+    },
+    {
+      "hours_after_start": 50.50000000745058,
+      "position_difference_m": 7924.582536988746,
+      "velocity_difference_mps": 0.012360398613968067
+    },
+    {
+      "hours_after_start": 51.49999999254942,
+      "position_difference_m": 7936.501994237362,
+      "velocity_difference_mps": 0.012608849499968858
+    },
+    {
+      "hours_after_start": 52.5,
+      "position_difference_m": 7948.2142692952075,
+      "velocity_difference_mps": 0.01285112519893496
+    },
+    {
+      "hours_after_start": 53.50000000745058,
+      "position_difference_m": 7959.750758116494,
+      "velocity_difference_mps": 0.013087106104660186
+    },
+    {
+      "hours_after_start": 54.49999999254942,
+      "position_difference_m": 7971.141522672056,
+      "velocity_difference_mps": 0.013316676792500695
+    },
+    {
+      "hours_after_start": 55.5,
+      "position_difference_m": 7982.371961612218,
+      "velocity_difference_mps": 0.013540541674814334
+    },
+    {
+      "hours_after_start": 56.50000000745058,
+      "position_difference_m": 7993.472604479495,
+      "velocity_difference_mps": 0.013758551288410747
+    },
+    {
+      "hours_after_start": 57.49999999254942,
+      "position_difference_m": 8004.472663503745,
+      "velocity_difference_mps": 0.013970547738348837
+    },
+    {
+      "hours_after_start": 58.5,
+      "position_difference_m": 17334.771730709333,
+      "velocity_difference_mps": 0.014394275787871077
+    },
+    {
+      "hours_after_start": 59.50000000745058,
+      "position_difference_m": 17331.5654831501,
+      "velocity_difference_mps": 0.014639812284812932
+    },
+    {
+      "hours_after_start": 60.49999999254942,
+      "position_difference_m": 17326.6733477861,
+      "velocity_difference_mps": 0.014891192639202664
+    },
+    {
+      "hours_after_start": 61.5,
+      "position_difference_m": 17320.1451545756,
+      "velocity_difference_mps": 0.01514750519512842
+    },
+    {
+      "hours_after_start": 62.50000000745058,
+      "position_difference_m": 17312.020359102593,
+      "velocity_difference_mps": 0.015406852618792082
+    },
+    {
+      "hours_after_start": 63.49999999254942,
+      "position_difference_m": 17302.337668869623,
+      "velocity_difference_mps": 0.015667934109862017
+    },
+    {
+      "hours_after_start": 64.5,
+      "position_difference_m": 17291.14645473053,
+      "velocity_difference_mps": 0.015930025434740938
+    },
+    {
+      "hours_after_start": 65.50000000745058,
+      "position_difference_m": 17278.48512814892,
+      "velocity_difference_mps": 0.01619208231026629
+    },
+    {
+      "hours_after_start": 66.49999999254942,
+      "position_difference_m": 17264.39170694563,
+      "velocity_difference_mps": 0.01645232381879074
+    },
+    {
+      "hours_after_start": 67.5,
+      "position_difference_m": 17248.916061796805,
+      "velocity_difference_mps": 0.01671051882888571
+    },
+    {
+      "hours_after_start": 68.50000000745058,
+      "position_difference_m": 17232.096618478932,
+      "velocity_difference_mps": 0.016965504821000413
+    },
+    {
+      "hours_after_start": 69.49999999254942,
+      "position_difference_m": 17213.97178057249,
+      "velocity_difference_mps": 0.01721616410540831
+    },
+    {
+      "hours_after_start": 70.5,
+      "position_difference_m": 17194.592963233452,
+      "velocity_difference_mps": 0.0174620479093787
+    },
+    {
+      "hours_after_start": 71.50000000745058,
+      "position_difference_m": 17173.999713949765,
+      "velocity_difference_mps": 0.017701827123137854
+    }
+  ],
+  "step": 4,
+  "t_table_sha256": "241d674c140f95d5781e4525ccf636546db8b5b05b1652869a8ef15768f23826",
+  "velocity_difference_at_last_h_mps": 0.017701827123137854,
+  "w2": "not run (pre-registration section 2; xval/mission-thread-c2/README.md)",
+  "window": "W1"
+}
