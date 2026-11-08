@@ -2168,7 +2168,7 @@ Nieuw met deze termen? Elk ervan wordt in gewone taal gedefinieerd in de [verkla
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (92 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (93 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
