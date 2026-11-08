@@ -42,9 +42,12 @@ opened.
 6. **Heights and line of sight.**
    - The source height set is {2 m, 30 m}, marginalised with equal prior like `n`.
    - Line of sight uses the emitter-region horizon rule (`los_reach_km`) and, where a DEM is given, `jamming_terrain`.
-   - **In the synthetic gate:** no DEM is given, and the generator has no line-of-sight loss. The domain is kept
-     within line of sight by the station and source heights (reading 10). So the 20 dB term is implemented and
-     unit-tested, but it does not act in the gate.
+   - **In the synthetic gate:** no DEM is given, so only the horizon rule acts. The generator applies the same world
+     rule (20 dB more loss beyond the radio horizon `los_reach_km(h_station, h_source)`), so the locator's
+     line-of-sight term meets a world that has a horizon.
+   - **Correction, made before any code.** The first version of this reading said the gate domain stays within line
+     of sight. It does not: with 10 m stations and a 2 m source the horizon is about 19 km, while links in the domain
+     reach about 80 km. The generator's other differences from the locator (reading 12) are unchanged.
 7. **Domain and grid.**
    - **Projection:** local tangent plane at the stations' mean position (`emitter::Proj`).
    - **Domain:** points within 20 km of the stations' convex hull.
@@ -76,9 +79,10 @@ opened.
     - The layout scale `L` is uniform on [5, 30] km. Station positions are uniform in an `L × L` square, redrawn until
       no two stations are closer than `L/10`.
     - Antenna height is 10 m at every station.
-    - The source is uniform in the domain (reading 7), at a height of 2 m or 30 m with equal probability.
+    - The source is uniform in the domain (reading 7), at a height of 2 m or 30 m with equal probability. The horizon
+      is about 19 km for a 2 m source and about 36 km for a 30 m source.
 12. **Generating model.** It deliberately differs from the locator's model.
-    - Path loss: `J_i = P_0 − 10·n·log10(d_i) + s_i`.
+    - Path loss: `J_i = P_0 − 10·n·log10(d_i) + s_i − L_i`, with `L_i` = 20 dB beyond the radio horizon (reading 6).
       - `n` is uniform on [1.8, 3.5] per session.
       - `P_0` is uniform on [−40, −10] dBW at 1 m.
       - `s_i` is Gaussian with σ 6 dB, correlated between stations as `exp(−d_ij / 1 km)` (Cholesky), drawn once per
