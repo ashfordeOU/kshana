@@ -1361,7 +1361,7 @@ delene passer sammen.
 ## AI-assistent
 
 [`kshana-mcp`](mcp/kshana-mcp/) er en MCP-server: din assistent kører den faktiske motor og
-læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens 49 værktøjer er en tynd indpakning
+læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens 53 værktøjer er en tynd indpakning
 om en offentlig funktion i `kshana`-biblioteket, så ingen simuleringslogik bor i serveren.
 
 ### Installér MCP-serveren
@@ -1406,7 +1406,7 @@ Opsætning pr. klient står i [`docs/integrations.md`](docs/integrations.md). Se
 i det officielle MCP-register som `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>De 49 værktøjer</summary>
+<summary>De 53 værktøjer</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ i det officielle MCP-register som `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Eksportér et `orbit`-scenaries elementer som et CCSDS-katalog (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) |
 | `export_oem` | Eksportér et `orbit`-scenaries tilstandsserie som CCSDS OEM-efemeride (Orbit Ephemeris Message) 2.0 — TEME-positionen (sand ækvator, middel-jævndøgn) *og*  |
 | `export_table_csv` | Kør et scenarie og returnér dets reproducerbarhedstabel som CSV (kommaseparerede værdier) — den bytestabile tabel, som CLI'en (kommandolinjegrænsefladen) skriver som `<scenario>.table.csv` |
+| `ephem_export` | Skriver en JPL Horizons-tilstandstabel (missionstrådens CAPSTONE- eller Artemis I-tilstande) som CCSDS OEM, CCSDS OPM eller SPK-kerne af type 13 eller 9 til flydynamikværktøjer og læser den tilbage tilstand for tilstand (`kshana ephem-export`) |
 | `export_test_bench` | Et scenaries køretøjsbevægelse og hændelser til en GNSS-laboratoriesimulator (`kshana bench-export`) |
 
 **Modtager- og fartøjstillid**
@@ -1449,9 +1450,12 @@ i det officielle MCP-register som `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Syntetisk bro-NMEA 0183 til træning af besætningen ud fra en `nmea-scenario`-TOML (jamming, positionsforskydning, tidsspoofing, genafspilningsforsinkelse) med instruktørloggen (`kshana-nmea-training/1`) |
 | `build_interference_map` | Et GNSS-interferenskort ud fra ADS-B- eller AIS-positionsrapporter som CSV-tekst (højst 4 MiB) |
 | `route_exposure` | Andelen af en rutes længde i forringede, ikke-forringede, ikke-vurderede og ikke-observerede celler på et eller flere interferenskort, eventuelt inden for et datointerval |
+| `interference_emitter_regions` | Anslår senderområder ud fra åbent licenserede ADS-B- eller AIS-meldinger som CSV-tekst (`kshana interference-map locate`): områder på angivne konfidensniveauer med et tyngdepunkt og en usikkerhedsellipse, aldrig et enkelt punkt. MODELLED |
 | `trust_telemetry` | En tillidsstrøm (JSON-linjer) eller et `receiver-trust`-resultat gengivet som Prometheus-tekst, CEF- eller LEEF-syslog-linjer eller en OTLP JSON-nyttelast, med `kshana trust-telemetry`-koderne |
+| `connect_map` | Omsætter enhver modtager-, timing- eller overvågningslog (CSV- eller JSON-tekst) til `kshana.obs/1`-poster med en `kshana.connect/1`-tilknytningsfil, uden kode (`kshana connect map`); byte for byte identisk med kommandolinjen |
 | `jammertest_import` | Læs det offentliggjorte Jammertest-testkatalog og sendeplanen (NPRA/jammertest-plan, MIT) som planlagt sandhed (`kshana jammertest import`): ét testområdes tidsrum bliver til receiver-trust-hændelser med katalog-id og år i hver betegnelse. Planlagte tidsrum, ikke optagede sendetider; intet kontaktfelt i planen læses. MODELLED. Se [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Scor en modtagerlog mod den plan (`kshana jammertest score`): pr. test detektionsforsinkelsen, missede alarmer og tid til genopretning, samt de falske alarmer uden for alle tidsrum. Tekstlogs som `log`, binære (`ubx`, `sbf`) som `log_base64`. En signeret pakke kræver en nøgle: kommandolinje. Kun vejledende; MODELLED. |
+| `referee_location_score` | Bedømmer, hvor et overvågningsnet sagde, at interferensen kom fra (`kshana jammertest locate-score`): pr. melding den vandrette og lodrette fejl og om hvert område indeholder sandheden, pr. hændelse og samlet |
 | `fit_imu_log` | Accelerometer- og gyroparametre for `hybrid`- og `fusion`-scenarierne tilpasset ud fra en stationær IMU-log (CSV eller EuRoC) ved Allan-afvigelse, med en `[accel_classical]`-tabel klar til indsættelse og loggens SHA-256 (`kshana imu-fit`). Tekst ind, JSON ud; MODELLED. |
 
 **GNSS IQ (filer i arbejdsmappen; slået fra i HTTP-tilstand)**

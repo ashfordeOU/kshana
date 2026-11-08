@@ -1361,7 +1361,7 @@ części do siebie pasują.
 ## Asystent AI
 
 [`kshana-mcp`](mcp/kshana-mcp/) to serwer MCP: Twój asystent uruchamia prawdziwy silnik i
-odczytuje jego JSON, zamiast zgadywać obliczenia. Każde z jego 49 narzędzi to cienka nakładka
+odczytuje jego JSON, zamiast zgadywać obliczenia. Każde z jego 53 narzędzi to cienka nakładka
 na publiczną funkcję biblioteki `kshana`, więc w serwerze nie ma logiki symulacji.
 
 ### Instalacja serwera MCP
@@ -1406,7 +1406,7 @@ Konfiguracja dla poszczególnych klientów znajduje się w [`docs/integrations.m
 w oficjalnym rejestrze MCP jako `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>49 narzędzi</summary>
+<summary>53 narzędzi</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ w oficjalnym rejestrze MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Eksportuje elementy scenariusza `orbit` jako katalog CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) |
 | `export_oem` | Eksportuje szereg stanów scenariusza `orbit` jako efemerydy CCSDS OEM (Orbit Ephemeris Message) 2.0 — pozycję TEME (równik prawdziwy, średnia równonoc) *oraz*  |
 | `export_table_csv` | Uruchamia scenariusz i zwraca jego tabelę odtwarzalności jako CSV (wartości rozdzielane przecinkami) — stabilną bajtowo tabelę, którą CLI (interfejs wiersza poleceń) zapisuje jako `<scenario>.table.csv` |
+| `ephem_export` | Zapisuje tabelę stanów JPL Horizons (stany CAPSTONE lub Artemis I z wątku misji) jako CCSDS OEM, CCSDS OPM lub jądro SPK typu 13 lub 9 dla narzędzi dynamiki lotu i odczytuje ją z powrotem stan po stanie (`kshana ephem-export`) |
 | `export_test_bench` | Ruch pojazdu i zdarzenia scenariusza dla laboratoryjnego symulatora GNSS (`kshana bench-export`) |
 
 **Zaufanie do odbiornika i statku**
@@ -1449,9 +1450,12 @@ w oficjalnym rejestrze MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Syntetyczne NMEA 0183 mostka do szkolenia załogi z TOML `nmea-scenario` (zagłuszanie, odciąganie pozycji, spoofing czasu, opóźnienie powtórki) z dziennikiem instruktora (`kshana-nmea-training/1`) |
 | `build_interference_map` | Mapa zakłóceń GNSS z raportów pozycji ADS-B lub AIS jako tekst CSV (najwyżej 4 MiB) |
 | `route_exposure` | Udział długości trasy w komórkach zdegradowanych, niezdegradowanych, nieocenionych i nieobserwowanych jednej lub więcej map zakłóceń, opcjonalnie w zakresie dat |
+| `interference_emitter_regions` | Szacuje obszary nadajników na podstawie otwarcie licencjonowanych raportów ADS-B lub AIS jako tekst CSV (`kshana interference-map locate`): obszary na podanych poziomach ufności, z centroidem i elipsą niepewności, nigdy sam punkt. MODELLED |
 | `trust_telemetry` | Strumień zaufania (wiersze JSON) lub wynik `receiver-trust` przedstawiony jako tekst Prometheus, wiersze syslog CEF lub LEEF albo ładunek OTLP JSON, z koderami `kshana trust-telemetry` |
+| `connect_map` | Przekształca dowolny dziennik odbiornika, synchronizacji czasu lub monitorowania (tekst CSV lub JSON) w rekordy `kshana.obs/1` za pomocą pliku mapowania `kshana.connect/1`, bez kodu (`kshana connect map`); bajt w bajt zgodne z wierszem poleceń |
 | `jammertest_import` | Wczytuje opublikowany katalog testów i plan nadawania Jammertest (NPRA/jammertest-plan, MIT) jako zaplanowaną prawdę (`kshana jammertest import`): sloty jednego obszaru testowego stają się zdarzeniami receiver-trust z identyfikatorem katalogu i rokiem w każdej etykiecie. Zaplanowane sloty, a nie zapisane czasy nadawania; żadne pole kontaktowe planu nie jest czytane. MODELLED. Zob. [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Ocenia dziennik odbiornika względem tego harmonogramu (`kshana jammertest score`): dla każdego testu opóźnienie wykrycia, pominięte alarmy i czas powrotu oraz fałszywe alarmy poza wszystkimi slotami. Dzienniki tekstowe jako `log`, binarne (`ubx`, `sbf`) jako `log_base64`. Podpisany pakiet wymaga klucza: wiersz poleceń. Wyłącznie doradczo; MODELLED. |
+| `referee_location_score` | Ocenia, skąd według sieci monitorującej pochodziły zakłócenia (`kshana jammertest locate-score`): dla każdego raportu błąd poziomy i pionowy oraz to, czy każdy obszar zawiera prawdę, dla każdego zdarzenia i łącznie |
 | `fit_imu_log` | Parametry akcelerometru i żyroskopu scenariuszy `hybrid` i `fusion` dopasowane z dziennika nieruchomego IMU (CSV lub EuRoC) metodą odchylenia Allana, z gotową do wklejenia tabelą `[accel_classical]` i SHA-256 dziennika (`kshana imu-fit`). Tekst na wejściu, JSON na wyjściu; MODELLED. |
 
 **GNSS IQ (pliki w katalogu roboczym; wyłączone w trybie HTTP)**

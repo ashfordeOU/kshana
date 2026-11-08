@@ -1361,7 +1361,7 @@ MCP** для AI-агентів і **плагін JetBrains IDE** — усі во
 ## AI-асистент
 
 [`kshana-mcp`](mcp/kshana-mcp/) — це сервер MCP: ваш асистент запускає справжній рушій і
-читає його JSON, замість того щоб вгадувати математику. Кожен із його 49 інструментів — тонка обгортка
+читає його JSON, замість того щоб вгадувати математику. Кожен із його 53 інструментів — тонка обгортка
 над публічною функцією бібліотеки `kshana`, тож у сервері немає логіки симуляції.
 
 ### Встановлення сервера MCP
@@ -1406,7 +1406,7 @@ OpenCPN: [`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRATIONS.md).
 в офіційному реєстрі MCP як `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>49 інструментів</summary>
+<summary>53 інструментів</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ OpenCPN: [`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRATIONS.md).
 | `export_omm` | Експортує елементи сценарію `orbit` як каталог OMM (Orbit Mean-elements Message) CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 |
 | `export_oem` | Експортує ряд станів сценарію `orbit` як ефемериди CCSDS OEM (Orbit Ephemeris Message) 2.0 — положення TEME (true equator, mean equinox) *і*  |
 | `export_table_csv` | Запускає сценарій і повертає його таблицю відтворюваності як CSV (значення, розділені комами) — побайтово стабільну таблицю, яку CLI (інтерфейс командного рядка) записує як `<scenario>.table.csv` |
+| `ephem_export` | Записує таблицю станів JPL Horizons (стани CAPSTONE або Artemis I з наскрізного сценарію місії) як CCSDS OEM, CCSDS OPM або ядро SPK типу 13 чи 9 для інструментів динаміки польоту та зчитує її назад стан за станом (`kshana ephem-export`) |
 | `export_test_bench` | Рух транспортного засобу і події сценарію для лабораторного симулятора GNSS (`kshana bench-export`) |
 
 **Довіра до приймача і судна**
@@ -1449,9 +1450,12 @@ OpenCPN: [`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRATIONS.md).
 | `generate_training_nmea` | Синтетичний NMEA 0183 містка для навчання екіпажу з TOML `nmea-scenario` (глушіння, відтягування положення, спуфінг часу, затримка повторення) з журналом інструктора (`kshana-nmea-training/1`) |
 | `build_interference_map` | Карта завад GNSS зі звітів про положення ADS-B або AIS як текст CSV (щонайбільше 4 MiB) |
 | `route_exposure` | Частка довжини маршруту в погіршених, не погіршених, неоцінених і не спостережених комірках однієї чи кількох карт завад, за потреби в межах діапазону дат |
+| `interference_emitter_regions` | Оцінює області передавачів за повідомленнями ADS-B або AIS з відкритою ліцензією у вигляді тексту CSV (`kshana interference-map locate`): області на заданих рівнях довіри з центроїдом та еліпсом невизначеності, ніколи не просто точка. MODELLED |
 | `trust_telemetry` | Потік довіри (рядки JSON) або результат `receiver-trust`, відрендерений як текст Prometheus, рядки syslog CEF або LEEF чи корисне навантаження OTLP JSON, кодувальниками `kshana trust-telemetry` |
+| `connect_map` | Перетворює будь-який журнал приймача, синхронізації чи моніторингу (текст CSV або JSON) на записи `kshana.obs/1` за допомогою файлу зіставлення `kshana.connect/1`, без коду (`kshana connect map`); побайтно збігається з командним рядком |
 | `jammertest_import` | Читає опублікований каталог випробувань Jammertest і план передавання (NPRA/jammertest-plan, MIT) як заплановану істину (`kshana jammertest import`): слоти однієї зони випробувань стають подіями receiver-trust з ідентифікатором каталогу і роком у кожній мітці. Заплановані слоти, а не записані фактичні моменти ефіру; жодне контактне поле плану не читається. MODELLED. Див. [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Оцінює журнал приймача за цим розкладом (`kshana jammertest score`): для кожного випробування затримку виявлення, пропущені тривоги і час до відновлення, а також хибні тривоги поза всіма слотами. Текстові журнали як `log`, двійкові (`ubx`, `sbf`) як `log_base64`. Підписаному пакету потрібен ключ: командний рядок. Лише консультативно; MODELLED. |
+| `referee_location_score` | Оцінює, звідки, за словами мережі моніторингу, надійшла завада (`kshana jammertest locate-score`): для кожного повідомлення горизонтальна та вертикальна похибка і чи містить кожна область істину, для кожної події та загалом |
 | `fit_imu_log` | Параметри акселерометра і гіроскопа сценаріїв `hybrid` і `fusion`, підігнані зі стаціонарного журналу IMU (CSV або EuRoC) за девіацією Аллана, з готовою до вставлення таблицею `[accel_classical]` і SHA-256 журналу (`kshana imu-fit`). Текст на вході, JSON на виході; MODELLED. |
 
 **GNSS IQ (файли робочого каталогу; вимкнено в режимі HTTP)**

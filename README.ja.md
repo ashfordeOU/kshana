@@ -1354,7 +1354,7 @@ ANISE/SPICE の座標系のクロスチェックで、MPL-2.0（Mozilla Public L
 ## AI アシスタント
 
 [`kshana-mcp`](mcp/kshana-mcp/) は MCP サーバーです：アシスタントは数式を推測する代わりに、実際のエンジンを実行して
-その JSON を読み取ります。49 のツールはそれぞれ `kshana` ライブラリの公開関数の薄いラッパーであり、
+その JSON を読み取ります。53 のツールはそれぞれ `kshana` ライブラリの公開関数の薄いラッパーであり、
 シミュレーションのロジックはサーバー内にはありません。
 
 ### MCP サーバーのインストール
@@ -1399,7 +1399,7 @@ OpenCPN の統合に入力されます：[`docs/MARINE-INTEGRATIONS.md`](docs/MA
 公式の MCP レジストリに `io.github.ashfordeOU/kshana-mcp` として登録されています。
 
 <details>
-<summary>49 のツール</summary>
+<summary>53 のツール</summary>
 
 <br>
 
@@ -1427,6 +1427,7 @@ OpenCPN の統合に入力されます：[`docs/MARINE-INTEGRATIONS.md`](docs/MA
 | `export_omm` | `orbit` シナリオの要素を CCSDS（Consultative Committee for Space Data Systems）502.0-B-2 の OMM（Orbit Mean-elements Message）カタログとしてエクスポート |
 | `export_oem` | `orbit` シナリオの状態系列を CCSDS OEM（Orbit Ephemeris Message）2.0 のエフェメリスとしてエクスポート — TEME（真赤道・平均春分点）の位置 *と*  |
 | `export_table_csv` | シナリオを実行し、その再現性の表を CSV（カンマ区切り値）として返す — CLI（コマンドラインインターフェース）が `<scenario>.table.csv` として書き出す、バイト単位で安定した表 |
+| `ephem_export` | JPL Horizons の状態表（ミッションスレッドの CAPSTONE または Artemis I の状態）を、飛行力学ツール向けに CCSDS OEM、CCSDS OPM、またはタイプ 13 か 9 の SPK カーネルとして書き出し、状態ごとに読み戻します（`kshana ephem-export`） |
 | `export_test_bench` | ラボの GNSS シミュレーター向けのシナリオの車両運動とイベント（`kshana bench-export`） |
 
 **受信機と船舶の信頼性**
@@ -1442,9 +1443,12 @@ OpenCPN の統合に入力されます：[`docs/MARINE-INTEGRATIONS.md`](docs/MA
 | `generate_training_nmea` | `nmea-scenario` の TOML（ジャミング、位置のドラッグオフ、時刻スプーフ、リプレイ遅延）から、乗組員訓練のための合成の船橋 NMEA 0183 を教官用ログ（`kshana-nmea-training/1`）とともに生成 |
 | `build_interference_map` | CSV テキスト（最大 4 MiB）の ADS-B または AIS の位置報告から GNSS 干渉マップを作成 |
 | `route_exposure` | 1 つ以上の干渉マップの劣化、劣化なし、未評価、未観測のセルにルートの長さが占める割合。任意で日付範囲内に限定 |
+| `interference_emitter_regions` | オープンライセンスの ADS-B または AIS の報告（CSV テキスト）から送信源の領域を推定します（`kshana interference-map locate`）。明示した信頼水準の領域を重心と不確かさ楕円付きで示し、単なる一点にはしません。MODELLED |
 | `trust_telemetry` | 信頼のストリーム（JSON lines）または `receiver-trust` の結果を、`kshana trust-telemetry` のエンコーダーで Prometheus テキスト、CEF または LEEF の syslog 行、OTLP の JSON ペイロードとして出力 |
+| `connect_map` | 任意の受信機・タイミング・監視ログ（CSV または JSON テキスト）を、`kshana.connect/1` マッピングファイルでコードなしに `kshana.obs/1` レコードへ変換します（`kshana connect map`）。コマンドラインとバイト単位で同一です |
 | `jammertest_import` | 公開されている Jammertest の試験カタログと送信計画（NPRA/jammertest-plan、MIT）を予定された真値として読み込む（`kshana jammertest import`）：1 つの試験エリアのスロットが、各ラベルにカタログの id と年を持つ受信機信頼性のイベントになります。計画されたスロットであり、記録された実際の送信時刻ではありません。計画の連絡先フィールドは読み込みません。MODELLED。[`docs/JAMMERTEST.md`](docs/JAMMERTEST.md) を参照。 |
 | `jammertest_score` | そのスケジュールに対して受信機ログをスコアリング（`kshana jammertest score`）：試験ごとの検出の遅延、見逃し、復帰までの時間、およびどのスロットにも属さない誤警報。テキストのログは `log` として、バイナリ（`ubx`、`sbf`）は `log_base64` として渡します。署名付きのパックには鍵が必要です：コマンドラインを使用。助言用のみ。MODELLED。 |
+| `referee_location_score` | 監視ネットワークが干渉源と示した場所を採点します（`kshana jammertest locate-score`）。報告ごとの水平・垂直誤差と各領域が真値を含むかを、イベントごとおよび全体で示します |
 | `fit_imu_log` | 静止状態の IMU ログ（CSV または EuRoC）から Allan 偏差によってフィットした、`hybrid` と `fusion` のシナリオの加速度計とジャイロのパラメーター。そのまま貼り付けられる `[accel_classical]` の表とログの SHA-256 付き（`kshana imu-fit`）。テキストを入力し、JSON を出力。MODELLED。 |
 
 **GNSS IQ（作業ディレクトリのファイル。HTTP モードでは無効）**

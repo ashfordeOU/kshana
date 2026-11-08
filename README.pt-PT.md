@@ -1361,7 +1361,7 @@ partes encaixam.
 ## Assistente de IA
 
 [`kshana-mcp`](mcp/kshana-mcp/) é um servidor MCP: o seu assistente executa o motor real e
-lê de volta o JSON dele, em vez de adivinhar a matemática. Cada uma das suas 49 ferramentas é um invólucro fino
+lê de volta o JSON dele, em vez de adivinhar a matemática. Cada uma das suas 53 ferramentas é um invólucro fino
 sobre uma função pública da biblioteca `kshana`, pelo que nenhuma lógica de simulação vive no servidor.
 
 ### Instalar o servidor MCP
@@ -1406,7 +1406,7 @@ A configuração por cliente está em [`docs/integrations.md`](docs/integrations
 no registo MCP oficial como `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>As 49 ferramentas</summary>
+<summary>As 53 ferramentas</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ no registo MCP oficial como `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Exporta os elementos de um cenário `orbit` como catálogo OMM (Orbit Mean-elements Message) CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 |
 | `export_oem` | Exporta a série de estados de um cenário `orbit` como efemérides CCSDS OEM (Orbit Ephemeris Message) 2.0 — a posição TEME (equador verdadeiro, equinócio médio) *e*  |
 | `export_table_csv` | Executa um cenário e devolve a sua tabela de reprodutibilidade em CSV (valores separados por vírgulas) — a tabela estável ao byte que a CLI (interface de linha de comandos) escreve como `<scenario>.table.csv` |
+| `ephem_export` | Escreve uma tabela de estados do JPL Horizons (os estados do CAPSTONE ou do Artemis I do fio de missão) como OEM CCSDS, OPM CCSDS ou kernel SPK do tipo 13 ou 9 para ferramentas de dinâmica de voo, e volta a lê-la estado a estado (`kshana ephem-export`) |
 | `export_test_bench` | O movimento do veículo e os eventos de um cenário para um simulador GNSS de laboratório (`kshana bench-export`) |
 
 **Confiança no recetor e na embarcação**
@@ -1449,9 +1450,12 @@ no registo MCP oficial como `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | NMEA 0183 sintético de ponte para treino de tripulações a partir de um TOML `nmea-scenario` (jamming, arrastamento de posição, spoofing de tempo, atraso de repetição) com o registo do instrutor (`kshana-nmea-training/1`) |
 | `build_interference_map` | Um mapa de interferência GNSS a partir de relatórios de posição ADS-B ou AIS em texto CSV (no máximo 4 MiB) |
 | `route_exposure` | A fração do comprimento de uma rota em células degradadas, não degradadas, não avaliadas e não observadas de um ou mais mapas de interferência, opcionalmente dentro de um intervalo de datas |
+| `interference_emitter_regions` | Estima regiões de emissores a partir de relatórios ADS-B ou AIS com licença aberta como texto CSV (`kshana interference-map locate`): regiões em níveis de confiança declarados, com um centroide e uma elipse de incerteza, nunca um ponto isolado. MODELLED |
 | `trust_telemetry` | Um fluxo de confiança (linhas JSON) ou um resultado `receiver-trust` apresentado como texto Prometheus, linhas syslog CEF ou LEEF ou um payload JSON OTLP, com os codificadores de `kshana trust-telemetry` |
+| `connect_map` | Converte qualquer registo de recetor, temporização ou monitorização (texto CSV ou JSON) em registos `kshana.obs/1` com um ficheiro de mapeamento `kshana.connect/1`, sem código (`kshana connect map`); idêntico byte a byte à linha de comandos |
 | `jammertest_import` | Lê o catálogo de testes e o plano de transmissão publicados do Jammertest (NPRA/jammertest-plan, MIT) como verdade programada (`kshana jammertest import`): as janelas de uma área de teste tornam-se eventos receiver-trust com o id do catálogo e o ano em cada etiqueta. Janelas planeadas, não tempos de emissão registados; nenhum campo de contacto do plano é lido. MODELLED. Ver [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Pontua um registo de recetor face a esse calendário (`kshana jammertest score`): por teste, a latência de deteção, os alarmes falhados e o tempo de recuperação, e os falsos alarmes fora de todas as janelas. Registos de texto como `log`, binários (`ubx`, `sbf`) como `log_base64`. Um pacote assinado precisa de uma chave: linha de comandos. Apenas consultivo; MODELLED. |
+| `referee_location_score` | Pontua de onde uma rede de monitorização disse que a interferência veio (`kshana jammertest locate-score`): por relatório, o erro horizontal e vertical e se cada região contém a verdade, por evento e agregado |
 | `fit_imu_log` | Parâmetros do acelerómetro e do giroscópio dos cenários `hybrid` e `fusion` ajustados a partir de um registo de IMU estacionária (CSV ou EuRoC) por desvio de Allan, com uma tabela `[accel_classical]` pronta a colar e o SHA-256 do registo (`kshana imu-fit`). Texto à entrada, JSON à saída; MODELLED. |
 
 **IQ GNSS (ficheiros do diretório de trabalho; desativado em modo HTTP)**

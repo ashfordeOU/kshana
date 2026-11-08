@@ -1361,7 +1361,7 @@ počty, které uvádějí. Grafy v sekcích výše kreslí nástroje z běhů en
 ## AI asistent
 
 [`kshana-mcp`](mcp/kshana-mcp/) je server MCP: váš asistent spouští skutečný engine a
-čte zpět jeho JSON, místo aby matematiku odhadoval. Každý z jeho 49 nástrojů je tenký obal
+čte zpět jeho JSON, místo aby matematiku odhadoval. Každý z jeho 53 nástrojů je tenký obal
 nad veřejnou funkcí knihovny `kshana`, takže na serveru nežije žádná simulační logika.
 
 ### Instalace serveru MCP
@@ -1406,7 +1406,7 @@ Nastavení pro jednotlivé klienty je v [`docs/integrations.md`](docs/integratio
 v oficiálním registru MCP jako `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>49 nástrojů</summary>
+<summary>53 nástrojů</summary>
 
 <br>
 
@@ -1434,6 +1434,7 @@ v oficiálním registru MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Exportuje elementy scénáře `orbit` jako katalog CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) |
 | `export_oem` | Exportuje řadu stavů scénáře `orbit` jako efemeridy CCSDS OEM (Orbit Ephemeris Message) 2.0 — polohu TEME (pravý rovník, střední ekvinokcium) *a*  |
 | `export_table_csv` | Spustí scénář a vrátí jeho tabulku reprodukovatelnosti jako CSV (hodnoty oddělené čárkami) — bajtově stabilní tabulku, kterou CLI (rozhraní příkazového řádku) zapisuje jako `<scenario>.table.csv` |
+| `ephem_export` | Zapíše tabulku stavů JPL Horizons (stavy CAPSTONE nebo Artemis I z linie mise) jako CCSDS OEM, CCSDS OPM nebo jádro SPK typu 13 nebo 9 pro nástroje letové dynamiky a načte ji zpět stav po stavu (`kshana ephem-export`) |
 | `export_test_bench` | Pohyb vozidla a události scénáře pro laboratorní simulátor GNSS (`kshana bench-export`) |
 
 **Důvěra v přijímač a plavidlo**
@@ -1449,9 +1450,12 @@ v oficiálním registru MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Syntetické NMEA 0183 můstku pro výcvik posádky z TOML `nmea-scenario` (rušení, odtah polohy, časový spoofing, zpoždění přehrání) s logem instruktora (`kshana-nmea-training/1`) |
 | `build_interference_map` | Mapa interference GNSS z hlášení polohy ADS-B nebo AIS jako text CSV (nejvýše 4 MiB) |
 | `route_exposure` | Podíl délky trasy v degradovaných, nedegradovaných, neposouzených a nepozorovaných buňkách jedné nebo více map interference, volitelně v rozsahu dat |
+| `interference_emitter_regions` | Odhaduje oblasti vysílačů z otevřeně licencovaných hlášení ADS-B nebo AIS jako text CSV (`kshana interference-map locate`): oblasti na uvedených úrovních spolehlivosti s těžištěm a elipsou nejistoty, nikdy jen bod. MODELLED |
 | `trust_telemetry` | Proud důvěry (řádky JSON) nebo výsledek `receiver-trust` vykreslený jako text Prometheus, řádky syslog CEF nebo LEEF nebo payload OTLP JSON, pomocí kodérů `kshana trust-telemetry` |
+| `connect_map` | Převede libovolný záznam přijímače, časování nebo monitorování (text CSV nebo JSON) na záznamy `kshana.obs/1` pomocí mapovacího souboru `kshana.connect/1`, bez kódu (`kshana connect map`); bajt po bajtu shodné s příkazovou řádkou |
 | `jammertest_import` | Načte zveřejněný katalog testů Jammertest a plán vysílání (NPRA/jammertest-plan, MIT) jako plánovanou pravdu (`kshana jammertest import`): sloty jedné testovací oblasti se stanou událostmi receiver-trust s id katalogu a rokem v každém štítku. Plánované sloty, nikoli zaznamenané časy vysílání; žádné kontaktní pole plánu se nečte. MODELLED. Viz [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Boduje log přijímače proti tomuto plánu (`kshana jammertest score`): pro každý test latenci detekce, zmeškané poplachy a dobu zotavení a falešné poplachy mimo všechny sloty. Textové logy jako `log`, binární (`ubx`, `sbf`) jako `log_base64`. Podepsaný balíček potřebuje klíč: příkazový řádek. Pouze poradní charakter; MODELLED. |
+| `referee_location_score` | Hodnotí, odkud podle monitorovací sítě rušení přišlo (`kshana jammertest locate-score`): pro každé hlášení vodorovnou a svislou chybu a zda každá oblast obsahuje skutečnost, pro každou událost i souhrnně |
 | `fit_imu_log` | Parametry akcelerometru a gyroskopu scénářů `hybrid` a `fusion` proložené ze stacionárního logu IMU (CSV nebo EuRoC) Allanovou deviací, s tabulkou `[accel_classical]` připravenou ke vložení a SHA-256 logu (`kshana imu-fit`). Text dovnitř, JSON ven; MODELLED. |
 
 **GNSS IQ (soubory v pracovním adresáři; v režimu HTTP vypnuto)**

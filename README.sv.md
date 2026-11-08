@@ -1358,7 +1358,7 @@ delarna hänger ihop.
 ## AI-assistent
 
 [`kshana-mcp`](mcp/kshana-mcp/) är en MCP-server: din assistent kör den faktiska motorn och
-läser tillbaka dess JSON, i stället för att gissa matematiken. Vart och ett av dess 49 verktyg är ett tunt omslag
+läser tillbaka dess JSON, i stället för att gissa matematiken. Vart och ett av dess 53 verktyg är ett tunt omslag
 kring en publik funktion i biblioteket `kshana`, så ingen simuleringslogik finns i servern.
 
 ### Installera MCP-servern
@@ -1403,7 +1403,7 @@ Konfiguration per klient finns i [`docs/integrations.md`](docs/integrations.md).
 i det officiella MCP-registret som `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>De 49 verktygen</summary>
+<summary>De 53 verktygen</summary>
 
 <br>
 
@@ -1431,6 +1431,7 @@ i det officiella MCP-registret som `io.github.ashfordeOU/kshana-mcp`.
 | `export_omm` | Exportera elementen i ett `orbit`-scenario som en katalog enligt CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) |
 | `export_oem` | Exportera tillståndsserien i ett `orbit`-scenario som efemerid i CCSDS OEM (Orbit Ephemeris Message) 2.0 — TEME-positionen (sann ekvator, medeldagjämning) *och*  |
 | `export_table_csv` | Kör ett scenario och returnera dess reproducerbarhetstabell som CSV (kommaseparerade värden) — den bytestabila tabell som CLI:t (kommandoradsgränssnittet) skriver som `<scenario>.table.csv` |
+| `ephem_export` | Skriver en JPL Horizons-tillståndstabell (uppdragstrådens CAPSTONE- eller Artemis I-tillstånd) som CCSDS OEM, CCSDS OPM eller SPK-kärna av typ 13 eller 9 för flygdynamikverktyg och läser tillbaka den tillstånd för tillstånd (`kshana ephem-export`) |
 | `export_test_bench` | Ett scenarios fordonsrörelse och händelser för en GNSS-simulator i laboratorium (`kshana bench-export`) |
 
 **Mottagar- och fartygsförtroende**
@@ -1446,9 +1447,12 @@ i det officiella MCP-registret som `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Syntetisk NMEA 0183 för bryggan för utbildning av besättning från en `nmea-scenario`-TOML (jamming, positionsavdrift, tidsspoofing, uppspelningsfördröjning) med instruktörsloggen (`kshana-nmea-training/1`) |
 | `build_interference_map` | En GNSS-störningskarta från positionsrapporter från ADS-B eller AIS som CSV-text (högst 4 MiB) |
 | `route_exposure` | Andelen av en rutts längd i försämrade, inte försämrade, obedömda och inte observerade celler på en eller flera störningskartor, valfritt inom ett datumintervall |
+| `interference_emitter_regions` | Uppskattar sändarområden från öppet licensierade ADS-B- eller AIS-rapporter som CSV-text (`kshana interference-map locate`): områden på angivna konfidensnivåer med en tyngdpunkt och en osäkerhetsellips, aldrig en ensam punkt. MODELLED |
 | `trust_telemetry` | En förtroendeström (JSON-rader) eller ett `receiver-trust`-resultat återgivet som Prometheus-text, syslog-rader i CEF eller LEEF eller en OTLP JSON-nyttolast, med kodarna i `kshana trust-telemetry` |
+| `connect_map` | Mappar vilken mottagar-, timing- eller övervakningslogg som helst (CSV- eller JSON-text) till `kshana.obs/1`-poster med en `kshana.connect/1`-mappningsfil, utan kod (`kshana connect map`); byte för byte identisk med kommandoraden |
 | `jammertest_import` | Läs den publicerade testkatalogen och sändningsplanen för Jammertest (NPRA/jammertest-plan, MIT) som schemalagd sanning (`kshana jammertest import`): ett testområdes tidsfack blir händelser för mottagarförtroende med katalog-id och år i varje etikett. Planerade tidsfack, inte registrerade sändningstider; inget kontaktfält i planen läses. MODELLED. Se [`docs/JAMMERTEST.md`](docs/JAMMERTEST.md). |
 | `jammertest_score` | Poängsätt en mottagarlogg mot det schemat (`kshana jammertest score`): per test detekteringslatensen, missade larm och tid till återhämtning, samt falsklarmen utanför varje tidsfack. Textloggar som `log`, binära (`ubx`, `sbf`) som `log_base64`. Ett signerat paket kräver en nyckel: kommandoraden. Endast rådgivande; MODELLED. |
+| `referee_location_score` | Poängsätter varifrån ett övervakningsnät sade att störningen kom (`kshana jammertest locate-score`): per rapport det horisontella och vertikala felet och om varje område innehåller sanningen, per händelse och sammantaget |
 | `fit_imu_log` | Accelerometer- och gyroparametrar för scenarierna `hybrid` och `fusion` anpassade från en stillastående IMU-logg (CSV eller EuRoC) med Allan-avvikelse, med en `[accel_classical]`-tabell färdig att klistra in och loggens SHA-256 (`kshana imu-fit`). Text in, JSON ut; MODELLED. |
 
 **GNSS IQ (filer i arbetskatalogen; avstängt i HTTP-läge)**
