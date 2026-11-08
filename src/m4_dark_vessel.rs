@@ -189,6 +189,8 @@ pub struct Scene {
     pub ais: Vec<(u32, u64, f64, f64)>,
     /// RF fixes `(t, lat, lon)`, sorted.
     pub rf: Vec<(u32, f64, f64)>,
+    /// The owner of each fix of `rf`: vessel index, or `-1 - k` for the `k`-th duplicate.
+    pub rf_owner: Vec<i64>,
     /// Redraws (vessels that touched land).
     pub redraws: u32,
 }
@@ -226,7 +228,8 @@ fn rf_fixes(
     sats: &[Vec<[f64; 3]>],
     track: &[(f64, f64)],
     sin_mask: f64,
-    out: &mut Vec<(u32, f64, f64)>,
+    owner: i64,
+    out: &mut Vec<(u32, f64, f64, i64)>,
 ) {
     let vis: Vec<bool> = track
         .iter()
@@ -248,7 +251,7 @@ fn rf_fixes(
         if r.gen::<f64>() < 0.9 {
             let (a, b) = track[mid];
             let (fa, fb) = offset(a, b, 1000.0 * normal(r), 1000.0 * normal(r));
-            out.push((mid as u32 * STEP_S, fa, fb));
+            out.push((mid as u32 * STEP_S, fa, fb, owner));
         }
     }
 }
@@ -354,32 +357,36 @@ pub fn generate(seed: u64) -> Scene {
                 );
             }
         }
-        rf_fixes(&mut r, &sats, &track, sin_mask, &mut rf);
+        rf_fixes(&mut r, &sats, &track, sin_mask, i as i64, &mut rf);
         truth_v.push(entry);
     }
     let mut dups = Vec::new();
-    for (i, start) in dup_of {
+    for (k, (i, start)) in dup_of.into_iter().enumerate() {
         let id = 200_000_000 + i as u64;
         let (track, rd) = draw_track(&sea, &mut r, Some(start));
         redraws += rd;
         ais_reports(&mut r, id, &track, |_| None, |_| false, &mut ais);
-        rf_fixes(&mut r, &sats, &track, sin_mask, &mut rf);
+        rf_fixes(&mut r, &sats, &track, sin_mask, -1 - k as i64, &mut rf);
         dups.push(json!({"original": id}));
     }
     ais.sort_by(|a, b| a.0.cmp(&b.0).then(a.1.cmp(&b.1)));
     rf.sort_by(|a, b| {
         a.0.cmp(&b.0)
             .then(a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal))
+            .then(a.3.cmp(&b.3))
     });
+    let rf_owner: Vec<i64> = rf.iter().map(|f| f.3).collect();
+    let rf: Vec<(u32, f64, f64)> = rf.into_iter().map(|f| (f.0, f.1, f.2)).collect();
     let truth = json!({
         "schema": "kshana.m4-truth/1", "seed": seed, "scene_s": SCENE_S,
-        "vessels": truth_v, "duplicates": dups, "redraws": redraws,
+        "vessels": truth_v, "duplicates": dups, "redraws": redraws, "rf_owner": rf_owner,
     });
     Scene {
         seed,
         truth,
         ais,
         rf,
+        rf_owner,
         redraws,
     }
 }

@@ -197,6 +197,10 @@
    "count": 4,
    "reason": "identifier: the label names and schema names of the M4 synthetic truth, AIS and RF documents (machine documents)"
   },
+  "src/m4_logic.rs": {
+   "count": 4,
+   "reason": "identifier: the JSON keys of the M4 metrics document (machine document)"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
