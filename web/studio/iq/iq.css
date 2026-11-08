@@ -1,0 +1,27 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* IQ recording view (Kshana Desktop): layout only; colours come from tokens.css and theme.css. */
+.iq{display:flex;flex-direction:column;gap:16px;padding-block:20px 40px}
+.iq-card{display:flex;flex-direction:column;gap:12px}
+.iq-form{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;align-items:end}
+.iq-form label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.iq-form .iq-wide{grid-column:1/-1}
+.iq-in{min-height:40px;padding:0 10px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;min-width:0}
+.iq-btn{min-height:40px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-weight:600}
+.iq-note{margin:0;font-size:13px;color:var(--ink-2)}
+.iq-status{margin:0;font-size:13.5px}
+.iq-status.err{color:var(--b-unt,#c0392b)}
+.iq-facts{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:0;font-size:13.5px}
+.iq-facts dt{color:var(--ink-2)}
+.iq-facts dd{margin:0;font-family:var(--f-mono);overflow-wrap:anywhere}
+.iq-over,.iq-spec{width:100%;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+.iq-over{cursor:crosshair}
+.iq-over:focus-visible{outline:2px solid var(--tim,currentColor);outline-offset:2px}
+.iq-svg{display:block;width:100%;height:auto}
+.iq-over .iq-svg{aspect-ratio:960/250}
+.iq-spec .iq-svg{aspect-ratio:960/220}
+.iq-pow,.iq-psd{fill:none;stroke:var(--ink);stroke-width:1.4;vector-effect:non-scaling-stroke}
+.iq-cur{stroke:var(--tim,#e67e22);stroke-width:2;vector-effect:non-scaling-stroke}
+.iq-axis{font:500 11px var(--f-mono);fill:var(--ink-2)}
+.iq-transport{display:flex;align-items:center;gap:12px}
+.iq-time{font-family:var(--f-mono);font-size:13px;color:var(--ink-2)}
+.iq-open{min-height:40px;padding:0 22px;border-radius:999px;font-weight:600}

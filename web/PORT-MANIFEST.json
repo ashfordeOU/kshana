@@ -8,7 +8,7 @@
    "dirty": false
   },
   "studio": {
-   "revision": "7bd2909b8fff9eea3cf93a3ac413b55bb1bf53ab",
+   "revision": "71cac75302e87aaa43dcbc9ee7dc98e6eb17d748",
    "dirty": false
   }
  },
@@ -369,6 +369,9 @@
   "studio/interference/index.html": "db76beb956a5eb006a1f9bdf514c3dd7f79d7234066d8340cf7ce8565c57e52e",
   "studio/interference/interference.css": "2a8bf536492f7e02af522049867701394b527f97d418e7881c442998b392dde9",
   "studio/interference/interference.js": "6065cd8fcc7be8540add8a229341086dd297515808725264437acb742392462c",
+  "studio/iq/index.html": "8c48e8d2f6c448af05a7afa7bc1d162a35cc762a97295f5a8b6354efcb071c17",
+  "studio/iq/iq.css": "13088df03e35f75200e9186cdd1c1555f38e47d51b54b53b2995a0695c3f5ffc",
+  "studio/iq/iq.js": "e4655b0e94f591253377d3b9a05a068f426df153d2ffef3a8b5f9f595052501d",
   "studio/lib/abbr.mjs": "8ca6b7f96f7be8074407f7dfdbd5e568a0eff66a0514c6f133e1d0dd79fea123",
   "studio/lib/abbr.test.mjs": "0b54959a8c3f39029a0fa118eaffca45ba42555603a44eb8402149d40de53402",
   "studio/lib/areas.mjs": "32e9ff352f7c82883e457227741bf8dafcc1b1b2faf73911f78786745f7ff404",
@@ -416,6 +419,8 @@
   "studio/lib/inputs.test.mjs": "a863c9326f206d873dc542cc3bc7bad8bd269d89c63dfb2ed00114262f48ab30",
   "studio/lib/interference.mjs": "8337644be0edf751e172c62700971b9135adcfff10654470f8b86fb6898236a5",
   "studio/lib/interference.test.mjs": "e6964b2f7064eba22f5d6a983642a14bc1449a9030d8122f1ea0fa979cef5863",
+  "studio/lib/iqview.mjs": "f86b960792c20c0594b3efbf65d35836395b7d8aa7f0782c56067a62abcb5578",
+  "studio/lib/iqview.test.mjs": "079b74b3db65dbcff25fd3d5c040028ac6f6eb22b88fb2b692feca7ec17abd72",
   "studio/lib/jammertest-card.mjs": "5034fee73ceba3f82b8f8c71942b3f43648f1b1631732423eddae8772758775d",
   "studio/lib/jammertest-card.test.mjs": "f78f7e4790de7167fd65fefe8d20b8605879086a60c57ea16f9e45d2db7d8540",
   "studio/lib/kinds.mjs": "17604fa4a4ff592914017d8210a5421704f51179c16020f1c106c660e2ee5414",
@@ -1108,7 +1113,7 @@
   "studio/tools/samples/telemetry-leef.txt": "94ea5b5181a7a573920a7c08177e863c8defb3532cfbcb3df7a4cdaf1ca93ada",
   "studio/tools/samples/telemetry-metrics.txt": "016b17aabc8dd83bd6bf801a9accd3962cf92934e4a2d5aab55215c1df89d177",
   "studio/tools/tools.css": "93070eed6995530c62b3de055d0c117c4d16bcd393c6114bb39183a60eac1a53",
-  "studio/tools/tools.js": "aef8acdd941939e81c1cafd4a6e53f9934ae079553644128f3d5ba032ee5fe28",
+  "studio/tools/tools.js": "533d89f5dbc7e85367224f89e94e2db2373fb1f406a1dcefe2f4633198275298",
   "studio/training/demo/coastal-drag-off.instructor.json": "6f18345141c4753d512084fee4aa8c794a867ac33f850589142c289526f67d8f",
   "studio/training/demo/combined-event.instructor.json": "7f48354ee0430af7f6fe2834a439830529899fb9297bef584395e04b1eb3b7a0",
   "studio/training/demo/fjord-natural-degradation.instructor.json": "86e866b5cbd61f8bd3c97ff0b9c8fcf1dce63e023d1be0a655bf3866d1fb593b",
