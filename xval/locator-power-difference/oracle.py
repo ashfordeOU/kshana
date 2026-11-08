@@ -87,7 +87,7 @@ def main(inp, ans):
     jmin = np.array([j_drop(s["c_nom_dbhz"], P["gate_db"]) for s in st])
     wc, wa = 1 / P["sigma_cn0_db"] ** 2, 1 / P["sigma_agc_db"] ** 2
     lo, hi = a["session"]
-    total = np.zeros(len(cen))
+    total = 0.0
     geo = []
     for hs in P["h_set_m"]:
         dx = (C[:, None, 0] - S[None, :, 0]) * 1000
@@ -126,9 +126,12 @@ def main(inp, ans):
                 ll += np.where(rep[None, :], 0.0, cens).sum(axis=1)
                 terms.append(ll)
         T = np.array(terms)
-        m = T.max(axis=0)
-        total += m + np.log(np.exp(T - m).mean(axis=0))
-    w = np.exp(P["temper"] * (total - total.max()))
+        total = T if isinstance(total, float) else total + T
+    # Marginalise the (h, n) hypotheses over the session (reading 8, corrected).
+    TT = P["temper"] * total
+    m = TT.max(axis=0)
+    lp = m + np.log(np.exp(TT - m).mean(axis=0))
+    w = np.exp(lp - lp.max())
     w /= w.sum()
     order = sorted(range(len(w)), key=lambda k: (-w[k], k))
     regions = []

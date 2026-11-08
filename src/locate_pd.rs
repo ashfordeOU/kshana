@@ -357,7 +357,9 @@ impl Geometry {
     }
 }
 
-/// The log-likelihood of one epoch on every cell (R5, R6), with `n` and `h` marginalised.
+/// The log-likelihood of one epoch on every cell for each hypothesis `(h, n)` (R5, R6): `out[c * K + k]`,
+/// `K = h_set × n_set`, heights outer and exponents inner. The hypotheses are marginalised over the
+/// session, not here (R8).
 fn epoch_loglik(
     p: &PowerDifferenceParams,
     st: &[Station],
@@ -367,12 +369,12 @@ fn epoch_loglik(
     out: &mut [f64],
 ) {
     let s = p.sigma_sh_db;
-    let mut terms = Vec::with_capacity(p.n_set.len() * geo.n_h);
-    for (c, o) in out.iter_mut().enumerate() {
-        terms.clear();
+    let k_n = p.n_set.len();
+    let kk = geo.n_h * k_n;
+    for c in 0..out.len() / kk {
         for hk in 0..geo.n_h {
             let base = (c * geo.n_h + hk) * geo.n_st;
-            for &n in &p.n_set {
+            for (nk, &n) in p.n_set.iter().enumerate() {
                 let (mut sum, mut cnt) = (0.0, 0usize);
                 for i in 0..geo.n_st {
                     if let Some(ji) = j[i] {
@@ -381,34 +383,34 @@ fn epoch_loglik(
                         cnt += 1;
                     }
                 }
-                if cnt == 0 {
-                    continue;
-                }
-                let p0 = sum / cnt as f64;
                 let mut ll = 0.0;
-                for i in 0..geo.n_st {
-                    let pred =
-                        p0 - 10.0 * n * geo.logd[base + i] + st[i].gain_dbi - geo.loss[base + i];
-                    match j[i] {
-                        Some(ji) => {
-                            let z = (ji - pred) / s;
-                            ll += -0.5 * z * z - LN_SQRT_2PI;
+                if cnt > 0 {
+                    let p0 = sum / cnt as f64;
+                    for i in 0..geo.n_st {
+                        let pred = p0 - 10.0 * n * geo.logd[base + i] + st[i].gain_dbi
+                            - geo.loss[base + i];
+                        match j[i] {
+                            Some(ji) => {
+                                let z = (ji - pred) / s;
+                                ll += -0.5 * z * z - LN_SQRT_2PI;
+                            }
+                            None => ll += log_phi_cdf((jmin[i] - pred) / s),
                         }
-                        None => ll += log_phi_cdf((jmin[i] - pred) / s),
                     }
                 }
-                terms.push(ll);
+                out[c * kk + hk * k_n + nk] = ll;
             }
         }
-        *o = if terms.is_empty() {
-            0.0
-        } else {
-            log_sum_exp_mean(&terms)
-        };
     }
 }
 
-/// The summed (untempered) log-likelihood of a run of epochs on the grid.
+/// Number of `(h, n)` hypotheses.
+pub fn hypotheses(p: &PowerDifferenceParams) -> usize {
+    p.h_set_m.len() * p.n_set.len()
+}
+
+/// The summed (untempered) log-likelihood of a run of epochs, per cell and hypothesis
+/// (`[c * K + k]`, see [`hypotheses`]).
 pub fn summed_loglik(
     p: &PowerDifferenceParams,
     st: &[Station],
@@ -417,15 +419,16 @@ pub fn summed_loglik(
 ) -> Vec<f64> {
     let geo = Geometry::new(p, g, st);
     let jmin: Vec<f64> = st.iter().map(|s| j_min(p, s)).collect();
-    let mut total = vec![0.0; g.centres.len()];
-    let mut one = vec![0.0; g.centres.len()];
+    let len = g.centres.len() * hypotheses(p);
+    let mut total = vec![0.0; len];
+    let mut one = vec![0.0; len];
     for e in epochs {
         let j: Vec<Option<f64>> = st
             .iter()
             .zip(&e.obs)
             .map(|(s, o)| station_j(p, s, o))
             .collect();
-        if j.iter().filter(|x| x.is_some()).count() < 1 {
+        if j.iter().all(Option::is_none) {
             continue;
         }
         epoch_loglik(p, st, &geo, &j, &jmin, &mut one);
@@ -485,8 +488,16 @@ pub struct Location {
 
 /// The posterior and its summaries from a summed log-likelihood (R8, R10).
 pub fn locate(p: &PowerDifferenceParams, g: &Grid, summed: &[f64]) -> Location {
-    let m = summed.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-    let mut w: Vec<f64> = summed.iter().map(|x| (p.temper * (x - m)).pexp()).collect();
+    let kk = hypotheses(p);
+    let lp: Vec<f64> = summed
+        .chunks(kk)
+        .map(|h| {
+            let t: Vec<f64> = h.iter().map(|x| p.temper * x).collect();
+            log_sum_exp_mean(&t)
+        })
+        .collect();
+    let m = lp.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    let mut w: Vec<f64> = lp.iter().map(|x| (x - m).pexp()).collect();
     let z: f64 = w.iter().sum();
     for x in &mut w {
         *x /= z;
