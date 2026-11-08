@@ -41,6 +41,34 @@ separate the two. Development runs (14 of 20 at 31 dB-Hz) pointed the same way; 
 Pins: `tests/iq_fll_handover_seed.rs` (`the_committed_scored_run_gives_the_recorded_verdict` grades the committed
 per-run results; the strict survey is ignored with these numbers).
 
+## Row 5. `VM-35b27a4f`: BOC(1,1) DLL with the exact inverse of the discriminators
+
+- **Readings:** `xval/d8a-boc-exact-inverse/README.md`, committed at 0ac3ebd36 before the engine change. Reading 2
+  records how "replaces the linear scaling" is read: BOC tracking is itself opt-in, the exact inverse is an option of it
+  used by the scored configuration, and the linear scaling stays the default (every existing output unchanged).
+- **The change:** `BocTracking::exact_inverse` and `boc11_dll_inverse`, the closed-form inverse of each discriminator's
+  response on the ideal `1 − 3|τ|` peak, inside and outside `|ε| = d/2`, clamped to the main peak (5dd16894d).
+- **Run:** once, 2026-11-08, in release (`tests/iq_boc_exact_inverse.rs`), with the control
+  (`tests/iq_boc_bump_jump.rs` and the `boc.rs` unit tests, unchanged and passing).
+
+| bar | measured | verdict |
+|---|---|---|
+| Control (linear scaling) | B1 to B5 as recorded; the 11 recorded B4 unit-grid misses | reproduces |
+| **B4**, unit test, registered grid unchanged | all 27 discriminator-grid points within 10 % of `ε`; worst relative error 4.6e-15 | **MET** |
+| **B4**, sampled noise-free signal | slope 1.0055, 1.0106, 0.9947, 0.9998 at ε = −0.06, −0.03, +0.03, +0.06 (BPSK-scaled 3.62 to 3.83) | **MET** |
+| B1 (option off), registered / fresh | mean late error ±0.548 / ±0.549 chip, no jumps | holds |
+| B2 (exact inverse on), registered / fresh | one jump at 0.080 s towards the main peak in every run; RMS ≤ 0.0049 / 0.0024 chip | holds |
+| B3, registered / fresh | no jumps; RMS ≤ 0.0038 / 0.0033 chip | holds |
+| B5, registered / fresh | 0 false jumps at every C/N0; detection 1000/1000 towards the main peak | holds |
+
+**Verdict: MET on re-run.** As reading 6 stated in advance, the unit-grid part is met by construction (the inverse of
+the ideal response read on the ideal peak); it checks the algebra and the branch choice. The informative part is the
+sampled signal, where the linear scaling's slopes were 0.938 to 0.994 and the inverse's are within 1.1 % of one, and
+the loop regressions, which hold with the inverse in the DLL. MODELLED internal consistency; no external receiver is
+compared.
+
+Pins: `tests/iq_boc_exact_inverse.rs`.
+
 ## Row 3. `VM-f5e2ce4e`: cell-averaging CFAR in IQ acquisition, with the reference set over the whole row
 
 - **Readings, study and oracle:** `xval/d8a-cfar-reference/` (README readings 1 to 7, `dev_study.py` and its output,

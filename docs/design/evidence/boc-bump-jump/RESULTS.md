@@ -131,3 +131,11 @@ debug test profile (`cargo test`), so they stay in the default test set.
 
 Field IQ (CAP-07 (c)); band-limited front ends (the scene samples the ideal chip waveform);
 composite MBOC/QMBOC replicas; any external receiver.
+
+## Re-run with the exact inverse (D8a row 5, 2026-11-08)
+
+Under `docs/design/evidence/d8a-iq-tracking-cn0-rerun/PREREGISTRATION.md` (row 5), the opt-in
+`BocTracking::exact_inverse` reads the DLL through the exact inverse of each discriminator's ideal-peak response. B4 is
+**MET on re-run** on the registered grid (worst relative error 4.6e-15, by construction) and on the sampled signal
+(slopes 0.995 to 1.011); B1 to B3 and B5 hold on the registered and fresh seeds. Finding F1 stands as the record of the
+linear scaling, which stays the default. Details: the D8a `RESULTS.md`.
