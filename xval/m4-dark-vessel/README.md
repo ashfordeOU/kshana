@@ -148,3 +148,20 @@ so. The logic sees the AIS stream, the RF stream and the public M2 RF layer geom
   70 kn.
 - **What was seen first.** That run's full output is kept in `dev-first.json.gz`. The tuning of `m` and `c` uses
   the second run only.
+
+### Amendment to reading 17 after the second development run, before any scored seed
+
+- **What was wrong.** POSITION-OFFSET recall was 2 % to 11 % at every offset (`dev-second.json.gz`), against 100 %
+  for GAP and IDENTITY-DUPLICATE. A look at seed 0 showed why.
+  - The offset vessels do have 4 to 6 fixes after onset.
+  - The rule took the **nearest** unassociated fix as the candidate. At 10 to 50 km, another vessel's unassociated
+    fix is usually nearer than the vessel's own.
+  - A single stray candidate (a pre-onset miss when the vessel's own fix was not detected) broke the "all within
+    `c`" test.
+- **The correction (a vote).**
+  - Every miss keeps **all** its candidates: the unassociated fixes within the time window and 60 km.
+  - For each candidate displacement `D`, count the misses that have some candidate within `c` of `D`.
+  - The identity is a position offset when the best count is at least `m`. Only the candidates of the counted
+    misses are marked "explained".
+- **Tuning on seeds 0 to 9.** The time window is now chosen too, from {60, 180} s. The tuning rule is unchanged:
+  the triple (`m`, `c`, window) that maximises recall at `d ≥ 5` km subject to `FA ≤ 0.005`.
