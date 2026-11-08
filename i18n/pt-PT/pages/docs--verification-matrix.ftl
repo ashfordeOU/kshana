@@ -5511,8 +5511,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 # text
 seg-920b26e226ab = testes unitários de interference_map::emitter (ida e volta da projeção, figura do horizonte, ciclos diretos e inversos sintéticos: o emissor conhecido fica dentro da região declarada com cerca da taxa declarada, casos extremos, agrupamento de sessões, perfil, privacidade e formulação); casos de locate de tests/interference_map_cli.rs
 
-# text
-seg-6875b0d82c59 = O registo de evidências completo, verificado por máquina: <b>{ "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com ligações clicáveis por linha para cada teste, módulo e ficheiro de teste versionado, são o <em>Registo de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
+seg-9d7b242850ee = O registo de evidências completo, verificado por máquina: <b>{ "405" } linhas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com ligações clicáveis por linha para cada teste, módulo e ficheiro de teste versionado, são o <em>Registo de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
 
-# text
-seg-0a9897a43b5d = { "401" } linhas: { "176" } validadas externamente, { "221" } modeladas, { "4" } pertencentes a parceiros.
+seg-3ca919e147c4 = { "405" } linhas: { "176" } validadas externamente, { "225" } modeladas, { "4" } pertencentes a parceiros.

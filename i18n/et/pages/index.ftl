@@ -1133,14 +1133,14 @@ seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
 
 seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt igal näitajal ja seitseteist keelt
 
-seg-653cf3198094 = { "176" } võimekust { "401" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
-
 seg-579d9b6f7afd = Kõik { "93" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.
 
 seg-56bf1281e330 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "53" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-351fab28c16d = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-8c81b3e5933e = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
 
-seg-414ba03a1362 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+seg-56a515205cd4 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
 
-seg-fc1e7a222c6b = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-546dca465cd0 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+seg-24d919eaaba3 = { "176" } võimekust { "405" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.

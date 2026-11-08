@@ -5417,6 +5417,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter üksusetestid (projektsiooni edasi-tagasi ring, horisondi näitaja, sünteetilised otse- ja pöördringid: teadaolev kiirgaja jääb nimetatud piirkonda ligikaudu nimetatud sagedusega, äärejuhud, seansside rühmitamine, profiil, privaatsus ja sõnastus); tests/interference_map_cli.rs locate juhud
 
-seg-6875b0d82c59 = Täielik, masinkontrollitud tõenduste register: <b>{ "401" } rida — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
+seg-9d7b242850ee = Täielik, masinkontrollitud tõenduste register: <b>{ "405" } rida — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
 
-seg-0a9897a43b5d = { "401" } rida: { "176" } väliselt valideeritud, { "221" } modelleeritud, { "4" } partneri omanduses.
+seg-3ca919e147c4 = { "405" } rida: { "176" } väliselt valideeritud, { "225" } modelleeritud, { "4" } partneri omanduses.

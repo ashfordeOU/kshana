@@ -1456,4 +1456,4 @@ seg-9b505908a6e2 = Kshana <b>ei juhi raadioriistvara ega edasta midagi</b>. See 
 
 seg-ceb2de75e2f4 = <b>Tasuta täna:</b> kõik avatud mootoris. Tasuta: { "53" } MCP tööriista, run_scenario'st export_oem'ini.
 
-seg-a1e85450eb6a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-c88dde71cc6e = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

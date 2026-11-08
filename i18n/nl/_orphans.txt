@@ -1214,3 +1214,12 @@ seg-f942b36a11c4 = Nog niet op GitHub
 
 # <b>What the observatory does instead.</b> The question the almanac comparison answers is "could the constellation geometry alone explain this low accuracy?". The base method answers a related question without an almanac: a low share must stand out against the same day's background across the region and against the aircraft's own good reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was degraded where the day's background is also low. An almanac-HDOP scorer is <b>not implemented</b>. It is an open item, to be built from the paper's full text and the public GPS almanac and pre-registered before it is run; until then it is cited, not claimed.
 seg-4f8471649a07 = <b>Wat het observatorium in plaats daarvan doet.</b> De vraag die de almanakvergelijking beantwoordt is "kan de constellatiegeometrie alleen deze lage nauwkeurigheid verklaren?". De basismethode beantwoordt een verwante vraag zonder almanak: een laag aandeel moet opvallen tegenover de achtergrond van dezelfde dag in de regio en tegenover de eigen goede meldingen van het vliegtuig elders. Dat is een ander en zwakker substituut: het kan niet zeggen dat een uur met rustige geometrie verslechterd was waar ook de achtergrond van de dag laag is. Een almanak-HDOP-scorer is <b>niet geïmplementeerd</b>. Het is een openstaand punt, te bouwen uit de volledige tekst van het artikel en de openbare GPS-almanak en vooraf vast te leggen voordat het wordt uitgevoerd; tot die tijd wordt het aangehaald, niet geclaimd.
+
+# of { "55" } validated
+seg-5516d9825527 = van { "55" } getoetst
+
+# of { "102" } validated
+seg-5668b5581703 = van { "102" } gevalideerd
+
+# of { "78" } validated
+seg-fbb78f11c0dc = van { "78" } gevalideerd

@@ -220,10 +220,6 @@ seg-188c6e41f434 = Dokumenty procesu správců zůstávají v repozitáři: docs
 
 seg-fcffac5eb150 = <s1>Jazyky</s1><s2>Text enginu určený lidem je v { "17" } jazycích vedle angličtiny: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Reference schopností</s1><s2>Karty schopností a všech { "401" } řádků verifikační matice.</s2>
-
 seg-980f70b29717 = <s1>Datoví partneři a povyšované řádky</s1><s2>Kshana označuje každou schopnost ve strojově kontrolovaném registru (verifikační matice).</s2>
 
 seg-7c6a541b3bc8 = <s1>Vlákno mise: od startu po vstup do atmosféry</s1><s2>Software pouze poradního charakteru, nikoli certifikované navigační zařízení.</s2>
@@ -241,3 +237,7 @@ seg-5484fd345826 = <s1>Každý druh scénáře podle rodiny</s1><s2>Každý druh
 seg-b23a9bd3ccfa = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "195" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>
 
 seg-a7dc2bc0a77d = { "93" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.
+
+seg-f950b0ba9160 = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "405" } řádků — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Reference schopností</s1><s2>Karty schopností a všech { "405" } řádků verifikační matice.</s2>

@@ -714,14 +714,14 @@ seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
 
 seg-b9961ed25282 = Nowość w v{ $version }: wątek misji, etykieta dowodowa przy każdej wartości i siedemnaście języków
 
-seg-653cf3198094 = { "176" } z { "401" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.
-
 seg-579d9b6f7afd = Wszystkie { "93" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
 
 seg-56bf1281e330 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "53" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
 
-seg-351fab28c16d = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+seg-8c81b3e5933e = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
 
-seg-414ba03a1362 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-56a515205cd4 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-fc1e7a222c6b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+seg-546dca465cd0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
+
+seg-24d919eaaba3 = { "176" } z { "405" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.

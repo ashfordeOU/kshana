@@ -220,10 +220,6 @@ seg-d4b063147d18 = <s1>Constellaties, dekking en geometrie</s1><s2>{ "7" } scena
 
 seg-fcffac5eb150 = <s1>Talen</s1><s2>De menselijk leesbare tekst van de engine staat in { "17" } talen naast het Engels: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "401" } rijen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "401" } rijen van de verificatiematrix.</s2>
-
 seg-980f70b29717 = <s1>Datapartners en bevorderende rijen</s1><s2>Kshana labelt elke mogelijkheid in een machinaal gecontroleerd register (verificatiematrix).</s2>
 
 seg-7c6a541b3bc8 = <s1>Missieketen: van lancering tot terugkeer</s1><s2>Adviserende software, geen gecertificeerde navigatieapparatuur.</s2>
@@ -241,3 +237,7 @@ seg-5484fd345826 = <s1>Elke scenariosoort, per familie</s1><s2>Elke scenariosoor
 seg-b23a9bd3ccfa = <s1>Scenarioreferentie</s1><s2>Elk meegeleverd scenariobestand ({ "195" }), gegroepeerd per soort, met zijn belangrijkste instellingen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } pagina's, een voor elke scenariosoort, gelinkt vanaf <a1>Elke scenariosoort, per familie</a1>.
+
+seg-f950b0ba9160 = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "405" } rijen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "405" } rijen van de verificatiematrix.</s2>

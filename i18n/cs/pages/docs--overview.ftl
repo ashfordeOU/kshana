@@ -1889,13 +1889,9 @@ seg-8e176aa32cd3 = MCP je Model Context Protocol. Vydání připnete pomocí <c1
 
 seg-57686575b81d = Data partnerů
 
-seg-0c39fcb3527f = { "176" } z { "401" } schopností VALIDATED proti nezávislému vnějšímu orákulu, z verifikační matice
-
 seg-467bb88ec415 = <a1>Co je nového ve verzi { "0.40" }</a1>, <a2>Co je nového ve verzi { "0.39" }</a2>, <a3>Co je nového ve verzi { "0.38" }</a3> a <a4>{ "0.38" } podrobně</a4>: bodování jammertestu, vlastní příznaky přijímače, strojové vstupy, časování a holdover, balíčky norem, LunaNet AFS, okružní zkouška v laboratoři, kshana-bench, observatoř, exportéry, optika, <a5>navigace uživatelů ve vesmíru</a5> a <a6>lunární infrastruktura</a6>
 
 seg-cafc1c9c4d58 = Co je nového ve verzi { "0.40" }
-
-seg-59a31376fa3d = Verze { "0.40" } přidává rozpočet chyb na úrovni mise, označuje každé číslo a tabulku úrovní důkazu, čte naměřené záznamy hodin, kontroluje podání datových partnerů, odhaduje, kde může být zdroj rušení, a mluví sedmnácti jazyky vedle angličtiny. Registr má nyní { "401" } řádků: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé nesplnění níže je zajištěno testem.
 
 seg-5bd16655cace = <b>Označení důkazů.</b> Každé číslo a tabulka, které běh zapíše, nese úroveň a id řádků registru, na nichž spočívá, načtené z matice.
 
@@ -1931,25 +1927,9 @@ seg-ee28beafac1a = rozpočet chyb navigace a času řetězce fází od startu po
 
 seg-34e44a492cad = <c1/> spouští scénář; každý další příkaz je podpříkaz a <c2/> vypíše použití všech. Příkazy jsou <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (s <c8/> a <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> a <c63/>. <a1><c64/></a1> uvádí účel každého z nich, ověřený příklad a jeho stránku v dokumentaci.
 
-seg-9f5426cbbf4a = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "221" } poctivě označeno jako modelované. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
-
-seg-54ac34405621 = Jak schopnost získá své označení. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí v kontinuální integraci, a označení, které z toho plyne. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, pokud za něj odpovídá hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD, orákulum ověřovací vektory AIAA 2006-6753 SGP4, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER z { "401" } řádků. Celkem { "176" } schopností ověřeno proti nezávislým vnějším orákulům; dalších { "221" } je poctivě označeno MODELLED a { "4" } je ve vlastnictví partnera (PARTNER).
-
-seg-42fa293e1bb4 = Několik kontrol: všech { "666" } vektorů AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; silový model Cowell do { "0.08" } m proti Orekit { "12.2" }; Galileo do { "0.61" } m a Swarm-A do { "0.10" } m proti skutečným přesným efemeridám Evropské kosmické agentury (ESA). Testy udržují přibližně { "95" } % pokrytí řádků v <c1/>, s prahem { "85" } % v CI. Registrem je <a1><c2/></a1>, generovaný z <c3/>: <a2>úplná matice o 401 řádcích</a2> a proč nemá žádný modelovaný řádek vnější orákulum, v <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Štítek důkazů u každého čísla
 
 seg-58ce18b8e642 = Každé číslo a každá tabulka, které běh zapíše, říká, nakolik jim lze důvěřovat a na kterých řádcích registru stojí. Výsledné JSON má klíč <c1/>, graf SVG řádek pod grafem (a prvek <c2/>) a tabulka CSV na začátku řádky komentářů <c3/> (čtěte s <c4/>). Uvádí úroveň, <c5/>, <c6/> nebo <c7/>, a identifikátory (<c8/> a osm hexadecimálních číslic) řádků verifikační matice, které běh použil. Úroveň je nejslabší z těchto řádků, takže běh, který se opírá o jediný modelovaný řádek, je označen MODELLED bez ohledu na to, kolik ověřených řádků leží vedle něj; štítek tedy nikdy netvrdí víc než registr. Řádky, stavy a identifikátory se čtou z matice, nepíší se ručně (<a1><c9/></a1>, <a2><c10/></a2>) a <c11/> selže, pokud číslo nemá štítek nebo štítek s maticí nesouhlasí.
-
-seg-06fc56dd3edb = Každý řádek vynucuje pojmenovaný test v CI. Tato tabulka je <b>vybraný výběr</b>; úplná strojově kontrolovaná matice má <b>{ "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), s úplnými důkazy (a tím, co poctivě <em>ještě není</em> ověřeno) v <a1><c2/></a1> a v artefaktu <a2><c3/></a2> každého vydání (generovaném pomocí <c4/>, s atestací SLSA — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Jak schopnost získá své označení: požadavek je mapován na modul v src, na test v tests, na vnější orákulum (skutečný soubor dat, nezávislá referenční implementace nebo zveřejněné vektory) a na stav — s ochranou vynucovanou v CI, že žádná schopnost nemůže být ověřena bez vnějšího orákula. Aktuální počty: { "176" } ověřeno, { "221" } modelováno, { "4" } partnerské, celkem { "401" }
-
-seg-3f48a70a707a = Stav verifikace všech { "401" } schopností: { "176" } ověřeno (zkontrolováno proti vnějšímu orákulu), { "221" } modelováno, { "4" } ve vlastnictví partnera
-
-seg-35a4412348e1 = { "176" } ověřeno · { "221" } modelováno · { "4" } partnerské — <a1>SVG</a1>
-
-seg-cdf946112863 = Architektura Kshana: jeden otevřený engine uprostřed, kshana { $version } pod licencí AGPL-3.0, s api::run_toml, typovaným rozdělováním přes každý druh, a verifikační registr { "401" } schopností ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Kolem něj každé rozhraní spouští týž engine: příkazový řádek (cargo install kshana); knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); server MCP (cargo install kshana-mcp); image Dockeru (ghcr.io/ashfordeou/kshana-mcp); zásuvný modul JetBrains (Marketplace: "Kshana"). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nepřidává žádný fyzikální model.
 
 seg-824001fa6734 = laboratoře a výrobci, kteří mají naměřená data
 
@@ -1967,8 +1947,6 @@ seg-a66ad1f69702 = Jeden engine pokrývá celý řetězec selhání, od prvního
 
 seg-43bd621a1f5b = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) jde do enginu, kshana { $version }, přes dispečink api::run_toml nad { "93" } druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapisuje result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapisuje study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a průběžnou integraci.
 
-seg-290f2b34e368 = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "93" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "401" } schopností, která je jediným zdrojem pravdy pro každý štítek.
-
 seg-fb8bcc54a31d = { "93" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli — aby agent mohl sestavit platný scénář
 
 seg-2f38fc515db6 = celý otevřený engine, všech { "93" } druhů scénářů, bez omezení funkcí
@@ -1978,3 +1956,25 @@ seg-5374f780c396 = V <c1/> najdete alespoň jeden vzorový příklad každého d
 seg-d106dd5461ed = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "53" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
 
 seg-0920329ba390 = { "53" } nástrojů
+
+seg-44fb0df264f6 = { "176" } z { "405" } schopností VALIDATED proti nezávislému vnějšímu orákulu, z verifikační matice
+
+seg-d8582006e2dc = Verze { "0.40" } přidává rozpočet chyb na úrovni mise, označuje každé číslo a tabulku úrovní důkazu, čte naměřené záznamy hodin, kontroluje podání datových partnerů, odhaduje, kde může být zdroj rušení, a mluví sedmnácti jazyky vedle angličtiny. Registr má nyní { "405" } řádků: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé nesplnění níže je zajištěno testem.
+
+seg-5a6c42704fb2 = <b>{ "176" } z { "405" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "225" } poctivě označeno jako modelované. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
+
+seg-b113dca9dfde = Jak schopnost získá své označení. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí v kontinuální integraci, a označení, které z toho plyne. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, pokud za něj odpovídá hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD, orákulum ověřovací vektory AIAA 2006-6753 SGP4, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER z { "405" } řádků. Celkem { "176" } schopností ověřeno proti nezávislým vnějším orákulům; dalších { "225" } je poctivě označeno MODELLED a { "4" } je ve vlastnictví partnera (PARTNER).
+
+seg-113e59a8f70c = Několik kontrol: všech { "666" } vektorů AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; silový model Cowell do { "0.08" } m proti Orekit { "12.2" }; Galileo do { "0.61" } m a Swarm-A do { "0.10" } m proti skutečným přesným efemeridám Evropské kosmické agentury (ESA). Testy udržují přibližně { "95" } % pokrytí řádků v <c1/>, s prahem { "85" } % v CI. Registrem je <a1><c2/></a1>, generovaný z <c3/>: <a2>úplná matice o 405 řádcích</a2> a proč nemá žádný modelovaný řádek vnější orákulum, v <a3><c4/></a3>.
+
+seg-5334b90deb02 = Každý řádek vynucuje pojmenovaný test v CI. Tato tabulka je <b>vybraný výběr</b>; úplná strojově kontrolovaná matice má <b>{ "405" } řádků — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), s úplnými důkazy (a tím, co poctivě <em>ještě není</em> ověřeno) v <a1><c2/></a1> a v artefaktu <a2><c3/></a2> každého vydání (generovaném pomocí <c4/>, s atestací SLSA — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Jak schopnost získá své označení: požadavek je mapován na modul v src, na test v tests, na vnější orákulum (skutečný soubor dat, nezávislá referenční implementace nebo zveřejněné vektory) a na stav — s ochranou vynucovanou v CI, že žádná schopnost nemůže být ověřena bez vnějšího orákula. Aktuální počty: { "176" } ověřeno, { "225" } modelováno, { "4" } partnerské, celkem { "405" }
+
+seg-008a8eed3718 = Stav verifikace všech { "405" } schopností: { "176" } ověřeno (zkontrolováno proti vnějšímu orákulu), { "225" } modelováno, { "4" } ve vlastnictví partnera
+
+seg-4f7fb3fb883c = { "176" } ověřeno · { "225" } modelováno · { "4" } partnerské — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Architektura Kshana: jeden otevřený engine uprostřed, kshana { $version } pod licencí AGPL-3.0, s api::run_toml, typovaným rozdělováním přes každý druh, a verifikační registr { "405" } schopností ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Kolem něj každé rozhraní spouští týž engine: příkazový řádek (cargo install kshana); knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); server MCP (cargo install kshana-mcp); image Dockeru (ghcr.io/ashfordeou/kshana-mcp); zásuvný modul JetBrains (Marketplace: "Kshana"). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nepřidává žádný fyzikální model.
+
+seg-758f459ab5e5 = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "93" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "405" } schopností, která je jediným zdrojem pravdy pro každý štítek.

@@ -3552,6 +3552,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
 
-seg-6875b0d82c59 = Det komplette, maskinkontrollerede evidensregister: <b>{ "401" } rækker — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. En række kan kun være VALIDATED med en uafhængig ekstern reference (matrixens invarianttests håndhæver dette). De samme data, med klikbare links pr. række til hver test, hvert modul og hver indlagt fixture, er <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for, hvorfor hver modelleret række ikke er valideret eksternt.
+seg-9d7b242850ee = Det komplette, maskinkontrollerede evidensregister: <b>{ "405" } rækker — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. En række kan kun være VALIDATED med en uafhængig ekstern reference (matrixens invarianttests håndhæver dette). De samme data, med klikbare links pr. række til hver test, hvert modul og hver indlagt fixture, er <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for, hvorfor hver modelleret række ikke er valideret eksternt.
 
-seg-0a9897a43b5d = { "401" } rækker: { "176" } valideret eksternt, { "221" } modelleret, { "4" } ejet af partnere.
+seg-3ca919e147c4 = { "405" } rækker: { "176" } valideret eksternt, { "225" } modelleret, { "4" } ejet af partnere.

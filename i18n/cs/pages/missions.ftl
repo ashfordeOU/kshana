@@ -838,4 +838,4 @@ seg-9b505908a6e2 = Kshana <b>neovládá žádný rádiový hardware a nic nevys�
 
 seg-ceb2de75e2f4 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Zdarma: { "53" } nástrojů MCP, od run_scenario po export_oem.
 
-seg-a1e85450eb6a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-c88dde71cc6e = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu

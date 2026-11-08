@@ -3992,8 +3992,6 @@ seg-3801e9b32309 = Somente consistência interna: o tempo bissectado até o limi
 # text
 seg-226dedaba243 = Um programa independente em scipy/numpy integra as mesmas equações variacionais (limiar O1). Nada é comparado com uma medição de uma órbita lunar. A referência independente confere a numérica de fórmulas declaradas, não a física, de modo que a linha permanece MODELLED. Modelo restrito de três corpos: sem Sol, sem harmônicos lunares, com o eixo de rotação da Terra ao longo da normal da órbita, entradas de receptor e de estação ILLUSTRATIVE.
 
-seg-2fd8f2df3e6e = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "401" } linhas da matriz de verificação.
-
 seg-65185cb68d6b = Orçamento de erro de navegação e temporização de uma cadeia de fases de missão, do lançamento à reentrada (<c1/>)
 
 seg-86a132e1a243 = O tipo de cenário <c1/>: um documento de fases, cada uma de um de oito tipos registrados, executadas em ordem com a covariância 6x6, o relógio e o referencial transferidos sob uma regra declarada (<c2/>; <c3/>, ruído de aceleração branco ao longo de um intervalo declarado em um modelo de linha reta; <c4/>, navegação por estima e depois o piso da fonte, nunca abaixo dele, nunca uma reinicialização); conversões de referencial GCRF, MCI e MCMF e conversões de escala de tempo via TT, cada uma como sua própria linha do orçamento, com o estado da Lua a partir de um recorte opcional do kernel DE440 e a série analítica como alternativa declarada; a margem em relação a um requisito declarado, o elo mais fraco, os eventos e uma figura de linha do tempo. Todo número é uma entrada declarada ou um modelo dela
@@ -4073,3 +4071,5 @@ seg-b5c49044a7a1 = Uma região viável para onde pode estar uma fonte de relatos
 seg-953a8b4f9f41 = Nenhuma externa ainda. Apenas ciclos diretos-inversos sintéticos, de um gerador que compartilha o modelo do estimador, de modo que verificam o código e a calibração dos níveis declarados sob esse modelo e nada sobre emissores reais. Uma verificação externa em relação aos locais de transmissores publicados do Jammertest { "2025" } foi fixada antecipadamente (docs/emitter-region/PREREGISTRATION.md, aprovada pelo responsável antes de qualquer execução pontuada) e executada uma vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sessões programadas, menos que o mínimo registrado de { "4" }) e AIS NOT ASSESSABLE (nenhuma sessão publicada), portanto nenhum limiar foi testado e a linha permanece MODELLED
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de cenário, { "3334" } de { "3334" } campos numéricos
+
+seg-5576293ba3aa = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "405" } linhas da matriz de verificação.

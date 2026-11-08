@@ -1132,14 +1132,14 @@ seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
 
 seg-b9961ed25282 = Neu in v{ $version }: ein Missionsstrang, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen
 
-seg-653cf3198094 = { "176" } von { "401" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
-
 seg-579d9b6f7afd = Alle { "93" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.
 
 seg-56bf1281e330 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model Context Protocol, Engine v{ $version }): Der Assistent listet die { "53" } Werkzeuge auf, validiert <c1/> (gültig: erkannte Szenarioart `clock`) und führt es aus: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-351fab28c16d = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-8c81b3e5933e = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
-seg-414ba03a1362 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+seg-56a515205cd4 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
-seg-fc1e7a222c6b = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-546dca465cd0 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+
+seg-24d919eaaba3 = { "176" } von { "405" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.

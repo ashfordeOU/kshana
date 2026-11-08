@@ -30,12 +30,12 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 401 capabilities validated against external oracles.">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 405 capabilities validated against external oracles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Modelled capabilities — rationale · Kshana docs">
 <meta name="twitter:description" content="These capabilities are implemented from published or first-principles physics with tests, but are honestly labelled MODELLED — not checked against an…">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
-<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 401 capabilities validated against external oracles.">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 405 capabilities validated against external oracles.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Modelled capabilities — rationale", "item": "https://kshana.dev/docs/modelled-rationale"}]}</script>
 <!-- /seo:head -->
 </head>
@@ -1808,6 +1808,38 @@
 <td>tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv</td>
 </tr>
 <tr>
+<td>Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back</td>
+<td>kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison</td>
+<td>ReferenceImpl</td>
+<td>checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — The engine&#39;s own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2&#39;s SPICE read the files back exactly (Orekit&#39;s km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE&#39;s spkw13 writes from the same states. Carries data only; says nothing about any propagation</td>
+<td>ephem_export</td>
+<td>tests/ephem_export_capstone.rs (4321 of 4321 CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md)</td>
+</tr>
+<tr>
+<td>Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials</td>
+<td>opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity</td>
+<td>ExternalDataset</td>
+<td>a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body&#39;s figure or phase, attitude error, any real camera</td>
+<td>opnav</td>
+<td>tests/c5a_opnav.rs (36 measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)</td>
+</tr>
+<tr>
+<td>CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter</td>
+<td>c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit</td>
+<td>ExternalDataset</td>
+<td>a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2&#39;s window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth</td>
+<td>c3_force</td>
+<td>tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)</td>
+</tr>
+<tr>
+<td>Impulsive steps in the cislunar coast and the C2 step detector</td>
+<td>The tli-and-cruise phase&#39;s optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint</td>
+<td>ExternalDataset</td>
+<td>a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only</td>
+<td>mission_thread::impulses</td>
+<td>tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included)</td>
+</tr>
+<tr>
 <td>RTKLIB .pos solution reader for receiver-trust</td>
 <td>Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib).</td>
 <td>InternalConsistency</td>
@@ -1864,7 +1896,7 @@
 <td>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a 1.1 km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py 1.1.0 and the wheel), run with pytest, not by cargo</td>
 </tr>
 </tbody></table></div>
-<p>221 capabilities labelled MODELLED.</p>
+<p>225 capabilities labelled MODELLED.</p>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/capability-reference"><small>Previous</small>Capability reference</a><a class="next" href="/docs/claims-vs-reality"><small>Next</small>Claims against reality</a></nav>
   </article>

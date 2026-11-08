@@ -1882,13 +1882,9 @@ seg-8e176aa32cd3 = MCP er Model Context Protocol. Fastlås en udgivelse med <c1/
 
 seg-57686575b81d = Partnerdata
 
-seg-0c39fcb3527f = { "176" } af { "401" } funktioner VALIDATED mod en uafhængig ekstern reference, fra verifikationsmatricen
-
 seg-467bb88ec415 = <a1>Nyt i { "0.40" }</a1>, <a2>Nyt i { "0.39" }</a2>, <a3>Nyt i { "0.38" }</a3> og <a4>{ "0.38" } i dybden</a4>: jammertest-scoring, modtagerens egne flag, maskininput, tidssynkronisering og holdover, standardpakker, LunaNet AFS, rundturen i laboratoriet, kshana-bench, observatoriet, eksportører, optik, <a5>navigation for rumbrugere</a5> og <a6>månens infrastruktur</a6>
 
 seg-cafc1c9c4d58 = Nyt i { "0.40" }
-
-seg-59a31376fa3d = { "0.40" } tilføjer et fejlbudget på missionsniveau, mærker hvert tal og hver tabel med dets evidensniveau, læser målte urlogs, kontrollerer indsendelser fra datapartnere, estimerer, hvor en interferenssender kan være, og taler sytten sprog ved siden af engelsk. Registeret er nu på { "401" } rækker: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ingen række blev opgraderet til VALIDATED, og hver miss nedenfor er fastholdt af en test.
 
 seg-5bd16655cace = <b>Evidensetiketter.</b> Hvert tal og hver tabel, en kørsel skriver, bærer det niveau og de registerrække-id'er, det hviler på, læst fra matricen.
 
@@ -1924,25 +1920,9 @@ seg-ee28beafac1a = fejlbudgettet for navigation og tidssynkronisering for en kæ
 
 seg-34e44a492cad = <c1/> kører et scenarie; hver anden kommando er en underkommando, og <c2/> udskriver brugen af dem alle. Kommandoerne er <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> og <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> og <c63/>. <a1><c64/></a1> giver hver enkelts formål, et kontrolleret eksempel og dens dokumentationsside.
 
-seg-9f5426cbbf4a = <b>{ "176" } af { "401" }</b> funktioner valideret mod uafhængige eksterne referencer; { "221" } ærligt betegnet modelleret. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen, og den etiket, der følger. Kontinuerlig integration (CI) gør det umuligt at kalde en funktion VALIDATED uden en uafhængig ekstern reference.
-
-seg-54ac34405621 = Hvordan en funktion opnår sin etiket. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen i kontinuerlig integration, og den etiket, der følger. En række kan kun være VALIDATED med en uafhængig ekstern reference; ellers er den MODELLED, eller PARTNER, når en hardwarepartner ejer den. Eksempel: SGP4/SDP4, Cowell 6-DOF + forstyrrelser, batch-/sekventiel banebestemmelse, reference AIAA 2006-6753 SGP4-verifikationsvektorer, test tests/sgp4_verification.rs, etiket VALIDATED. Aktuelle antal: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER af { "401" } rækker. I alt { "176" } funktioner valideret mod uafhængige eksterne referencer; { "221" } flere er ærligt betegnet MODELLED, og { "4" } er ejet af PARTNER.
-
-seg-42fa293e1bb4 = Nogle af kontrollerne: alle { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektorer (Simplified General Perturbations { "4" }) til { "4.12" } mm; Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }; Galileo til { "0.61" } m og Swarm-A til { "0.10" } m mod virkelige præcise efemerider fra Den Europæiske Rumorganisation (ESA). Testene dækker omkring { "95" } % af linjerne i <c1/>, med en grænse på { "85" } % i CI. Registeret er <a1><c2/></a1>, genereret fra <c3/>: den <a2>fulde matrix med 401 rækker</a2> og hvorfor hver modellerede række ikke har nogen ekstern uafhængig reference i <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Evidensetiketten på hvert tal
 
 seg-58ce18b8e642 = Hvert tal og hver tabel, en kørsel skriver, siger, hvor meget det kan stoles på, og hvilke registerrækker det hviler på. Resultat-JSON har en nøgle <c1/>, diagram-SVG en linje under diagrammet (og et element <c2/>), og CSV-tabellen <c3/> kommentarlinjer foran (læst med <c4/>). Den nævner et niveau, <c5/>, <c6/> eller <c7/>, og id'erne (<c8/> og otte hex-cifre) på de verifikationsmatrixrækker, kørslen brugte. Niveauet er det svageste af disse rækker, så en kørsel, der læner sig op ad én modelleret række, er betegnet MODELLED, uanset hvor mange validerede rækker der står ved siden af; etiketten kan aldrig hævde mere end registeret. Rækker, statusser og id'er læses fra matricen og er ikke skrevet ind (<a1><c9/></a1>, <a2><c10/></a2>), og <c11/> fejler, hvis et tal ikke har en etiket, eller en etiket er uenig med matricen.
-
-seg-06fc56dd3edb = Hver række håndhæves af en navngiven test i CI. Denne tabel er et <b>udvalgt højdepunkt</b>; den fulde maskinkontrollerede matrix er på <b>{ "401" } rækker — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den komplette evidens (og hvad der ærligt talt <em>ikke</em> endnu er valideret) i <a1><c2/></a1> og artefaktet <a2><c3/></a2> for hver udgivelse (genereret af <c4/>, SLSA-attesteret — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Hvordan en funktion opnår sin etiket: Krav kobles til et modul i src, til en test i tests, til en ekstern uafhængig reference (virkeligt datasæt, uafhængig referenceimplementering eller offentliggjorte vektorer), til en status — med en CI-håndhævet sikring, så ingen funktion kan være Valideret uden en ekstern uafhængig reference. Aktuelle antal: { "176" } Valideret, { "221" } Modelleret, { "4" } Partner, { "401" } i alt
-
-seg-3f48a70a707a = Verifikationsstatus på tværs af alle { "401" } funktioner: { "176" } Valideret (kontrolleret mod ekstern uafhængig reference), { "221" } Modelleret, { "4" } ejet af partnere
-
-seg-35a4412348e1 = { "176" } Valideret · { "221" } Modelleret · { "4" } Partner — <a1>SVG</a1>
-
-seg-cdf946112863 = Kshanas arkitektur: én åben motor i midten, kshana { $version } under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikationsregisteret med { "401" } funktioner ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Rundt om den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, et proprietært overlay, der afhænger af den åbne motor som bibliotek og aldrig forker den, og som ikke tilføjer nogen fysisk model.
 
 seg-824001fa6734 = laboratorier og producenter med målte data
 
@@ -1960,8 +1940,6 @@ seg-a66ad1f69702 = Én motor dækker hele fejlkæden, fra den første jammede sa
 
 seg-43bd621a1f5b = Hvordan en kørsel forløber. En scenariofil i TOML (en type, et seed og dens parametre) går ind i motoren, kshana { $version }, gennem api::run_toml-fordelingen over { "93" } scenarietyper, deterministisk ud fra scenarie, seed og motorversion. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for de typer, der definerer en, og på forlangende eksporter til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en suite skriver study.json og study.html. Disse filer fødes ind i Kshana Studio i browseren, en AI-assistent gennem serveren kshana-mcp og kontinuerlig integration.
 
-seg-290f2b34e368 = Kshanas arkitektur i lag. Fem indgange (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-pluginet) når én api::run_toml, en typet fordeling over { "93" } typer. Nedenunder ligger otte domænelag: tid og referencesystemer, ure og tidssynkronisering, inertial og fusion, GNSS og integritet, astrodynamik, LEO-PNT, Månen, Mars og det dybe rum samt missioner og studier, på en fælles kerne, alle krydshenvist af verifikationsmodulet, den maskinkontrollerede matrix med { "401" } funktioner, der er eneste kilde til sandhed for hver etiket.
-
 seg-fb8bcc54a31d = De { "93" } indbyggede scenarietyper med beskrivelser + obligatoriske/valgfrie felter — så agenten kan konstruere et gyldigt scenarie
 
 seg-2f38fc515db6 = hele den åbne motor, alle { "93" } scenarietyper, ingen funktionsspærring
@@ -1971,3 +1949,25 @@ seg-5374f780c396 = Se <c1/> for mindst ét udarbejdet eksempel på hver type ({ 
 seg-d106dd5461ed = <a1><c1/></a1> er en MCP-server: din assistent kører den faktiske motor og læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens { "53" } værktøjer er en tynd indpakning om en offentlig funktion i <c2/>-biblioteket, så ingen simuleringslogik bor i serveren.
 
 seg-0920329ba390 = De { "53" } værktøjer
+
+seg-44fb0df264f6 = { "176" } af { "405" } funktioner VALIDATED mod en uafhængig ekstern reference, fra verifikationsmatricen
+
+seg-d8582006e2dc = { "0.40" } tilføjer et fejlbudget på missionsniveau, mærker hvert tal og hver tabel med dets evidensniveau, læser målte urlogs, kontrollerer indsendelser fra datapartnere, estimerer, hvor en interferenssender kan være, og taler sytten sprog ved siden af engelsk. Registeret er nu på { "405" } rækker: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Ingen række blev opgraderet til VALIDATED, og hver miss nedenfor er fastholdt af en test.
+
+seg-5a6c42704fb2 = <b>{ "176" } af { "405" }</b> funktioner valideret mod uafhængige eksterne referencer; { "225" } ærligt betegnet modelleret. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen, og den etiket, der følger. Kontinuerlig integration (CI) gør det umuligt at kalde en funktion VALIDATED uden en uafhængig ekstern reference.
+
+seg-b113dca9dfde = Hvordan en funktion opnår sin etiket. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen i kontinuerlig integration, og den etiket, der følger. En række kan kun være VALIDATED med en uafhængig ekstern reference; ellers er den MODELLED, eller PARTNER, når en hardwarepartner ejer den. Eksempel: SGP4/SDP4, Cowell 6-DOF + forstyrrelser, batch-/sekventiel banebestemmelse, reference AIAA 2006-6753 SGP4-verifikationsvektorer, test tests/sgp4_verification.rs, etiket VALIDATED. Aktuelle antal: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER af { "405" } rækker. I alt { "176" } funktioner valideret mod uafhængige eksterne referencer; { "225" } flere er ærligt betegnet MODELLED, og { "4" } er ejet af PARTNER.
+
+seg-113e59a8f70c = Nogle af kontrollerne: alle { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektorer (Simplified General Perturbations { "4" }) til { "4.12" } mm; Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }; Galileo til { "0.61" } m og Swarm-A til { "0.10" } m mod virkelige præcise efemerider fra Den Europæiske Rumorganisation (ESA). Testene dækker omkring { "95" } % af linjerne i <c1/>, med en grænse på { "85" } % i CI. Registeret er <a1><c2/></a1>, genereret fra <c3/>: den <a2>fulde matrix med 405 rækker</a2> og hvorfor hver modellerede række ikke har nogen ekstern uafhængig reference i <a3><c4/></a3>.
+
+seg-5334b90deb02 = Hver række håndhæves af en navngiven test i CI. Denne tabel er et <b>udvalgt højdepunkt</b>; den fulde maskinkontrollerede matrix er på <b>{ "405" } rækker — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den komplette evidens (og hvad der ærligt talt <em>ikke</em> endnu er valideret) i <a1><c2/></a1> og artefaktet <a2><c3/></a2> for hver udgivelse (genereret af <c4/>, SLSA-attesteret — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Hvordan en funktion opnår sin etiket: Krav kobles til et modul i src, til en test i tests, til en ekstern uafhængig reference (virkeligt datasæt, uafhængig referenceimplementering eller offentliggjorte vektorer), til en status — med en CI-håndhævet sikring, så ingen funktion kan være Valideret uden en ekstern uafhængig reference. Aktuelle antal: { "176" } Valideret, { "225" } Modelleret, { "4" } Partner, { "405" } i alt
+
+seg-008a8eed3718 = Verifikationsstatus på tværs af alle { "405" } funktioner: { "176" } Valideret (kontrolleret mod ekstern uafhængig reference), { "225" } Modelleret, { "4" } ejet af partnere
+
+seg-4f7fb3fb883c = { "176" } Valideret · { "225" } Modelleret · { "4" } Partner — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Kshanas arkitektur: én åben motor i midten, kshana { $version } under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikationsregisteret med { "405" } funktioner ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Rundt om den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, et proprietært overlay, der afhænger af den åbne motor som bibliotek og aldrig forker den, og som ikke tilføjer nogen fysisk model.
+
+seg-758f459ab5e5 = Kshanas arkitektur i lag. Fem indgange (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-pluginet) når én api::run_toml, en typet fordeling over { "93" } typer. Nedenunder ligger otte domænelag: tid og referencesystemer, ure og tidssynkronisering, inertial og fusion, GNSS og integritet, astrodynamik, LEO-PNT, Månen, Mars og det dybe rum samt missioner og studier, på en fælles kerne, alle krydshenvist af verifikationsmodulet, den maskinkontrollerede matrix med { "405" } funktioner, der er eneste kilde til sandhed for hver etiket.

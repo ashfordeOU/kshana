@@ -220,10 +220,6 @@ seg-188c6e41f434 = Ylläpitäjien prosessiasiakirjat pysyvät repositoriossa: do
 
 seg-fcffac5eb150 = <s1>Kielet</s1><s2>Moottorin ihmiselle tarkoitettu teksti on { "17" } kielellä englannin rinnalla: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "401" } riviä — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "401" } riviä.</s2>
-
 seg-980f70b29717 = <s1>Datakumppanit ja ylentävät rivit</s1><s2>Kshana merkitsee jokaisen ominaisuuden koneellisesti tarkistetussa kirjanpidossa (varmennusmatriisi).</s2>
 
 seg-7c6a541b3bc8 = <s1>Tehtäväketju: laukaisusta paluuseen</s1><s2>Ohjeellinen ohjelmisto, ei sertifioitu navigointilaite.</s2>
@@ -241,3 +237,7 @@ seg-5484fd345826 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen sk
 seg-b23a9bd3ccfa = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "195" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
+
+seg-f950b0ba9160 = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "405" } riviä — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "405" } riviä.</s2>

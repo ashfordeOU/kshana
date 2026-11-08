@@ -3553,6 +3553,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhetstester for interference_map::emitter (projeksjon frem og tilbake, horisonttall, syntetiske runder mellom foroverproblemet og det inverse: den kjente senderen ligger innenfor den oppgitte regionen omtrent med den oppgitte hyppigheten, grensetilfeller, øktklynging, profil, personvern og ordlyd); tests/interference_map_cli.rs, locate-tilfeller
 
-seg-6875b0d82c59 = Det komplette, maskinkontrollerte bevisregisteret: <b>{ "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. En rad kan bare være VALIDATED med en uavhengig ekstern referanse (invarianttestene for matrisen håndhever dette). De samme dataene, med klikkbare lenker per rad til hver test, modul og committede fixture, er <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for hvorfor hver modellerte rad ikke er eksternt validert.
+seg-9d7b242850ee = Det komplette, maskinkontrollerte bevisregisteret: <b>{ "405" } rader — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. En rad kan bare være VALIDATED med en uavhengig ekstern referanse (invarianttestene for matrisen håndhever dette). De samme dataene, med klikkbare lenker per rad til hver test, modul og committede fixture, er <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for hvorfor hver modellerte rad ikke er eksternt validert.
 
-seg-0a9897a43b5d = { "401" } rader: { "176" } eksternt validert, { "221" } modellert, { "4" } eid av partnere.
+seg-3ca919e147c4 = { "405" } rader: { "176" } eksternt validert, { "225" } modellert, { "4" } eid av partnere.

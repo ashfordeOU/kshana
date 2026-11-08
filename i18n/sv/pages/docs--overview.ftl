@@ -1882,13 +1882,9 @@ seg-8e176aa32cd3 = MCP är Model Context Protocol. Lås en utgåva med <c1/>, <c
 
 seg-57686575b81d = Partnerdata
 
-seg-0c39fcb3527f = { "176" } av { "401" } förmågor VALIDATED mot en oberoende extern referens, ur verifieringsmatrisen
-
 seg-467bb88ec415 = <a1>Nyheter i { "0.40" }</a1>, <a2>Nyheter i { "0.39" }</a2>, <a3>Nyheter i { "0.38" }</a3> och <a4>{ "0.38" } på djupet</a4>: jammertest-poängsättning, mottagarens egna flaggor, maskinindata, tidssynkronisering och holdover, standardpaket, LunaNet AFS, labbrundturen, kshana-bench, observatoriet, exportörer, optik, <a5>navigering för rymdanvändare</a5> och <a6>månens infrastruktur</a6>
 
 seg-cafc1c9c4d58 = Nyheter i { "0.40" }
-
-seg-59a31376fa3d = { "0.40" } lägger till en felbudget på uppdragsnivå, märker varje siffra och tabell med sin evidensnivå, läser uppmätta klockloggar, kontrollerar bidrag från datapartner, uppskattar var en störsändare kan finnas och talar sjutton språk vid sidan av engelska. Registret har nu { "401" } rader: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ingen rad lyftes till VALIDATED, och varje miss nedan är fastlåst av ett test.
 
 seg-5bd16655cace = <b>Evidensetiketter.</b> Varje siffra och tabell som en körning skriver bär den nivå och de registerrads-id som den vilar på, avlästa från matrisen.
 
@@ -1924,25 +1920,9 @@ seg-ee28beafac1a = felbudgeten för navigering och tidssynkronisering för en ke
 
 seg-34e44a492cad = <c1/> kör ett scenario; varje annat kommando är ett underkommando, och <c2/> skriver ut användningen av dem alla. Kommandona är <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (med <c8/> och <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> och <c63/>. <a1><c64/></a1> anger varje kommandos syfte, ett verifierat exempel och dess dokumentationssida.
 
-seg-9f5426cbbf4a = <b>{ "176" } av { "401" }</b> förmågor validerade mot oberoende externa referenser; { "221" } ärligt märkta som modellerade. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen och etiketten som följer. Kontinuerlig integration (CI) gör det omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
-
-seg-54ac34405621 = Hur en förmåga förtjänar sin etikett. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen i kontinuerlig integration och etiketten som följer. En rad får vara VALIDATED bara med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en hårdvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + störningar, batch-/sekventiell banbestämning, oberoende referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, etikett VALIDATED. Aktuella antal: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER av { "401" } rader. Sammanlagt { "176" } förmågor validerade mot oberoende externa referenser; { "221" } till är ärligt märkta MODELLED och { "4" } ägs av PARTNER.
-
-seg-42fa293e1bb4 = Några av kontrollerna: alla { "666" } vektorer för AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) till { "4.12" } mm; Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }; Galileo till { "0.61" } m och Swarm-A till { "0.10" } m mot verkliga precisa efemerider från Europeiska rymdorganisationen (ESA). Testerna håller nära { "95" } % radtäckning av <c1/>, med spärr vid { "85" } % i CI. Registret är <a1><c2/></a1>, genererat från <c3/>: den <a2>fullständiga matrisen med 401 rader</a2>, och varför varje modellerad rad saknar extern oberoende referens i <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Evidensetiketten på varje siffra
 
 seg-58ce18b8e642 = Varje siffra och tabell som en körning skriver anger hur långt den kan litas på, och vilka registerrader det vilar på. Resultat-JSON har en nyckel <c1/>, diagrammets SVG en rad under diagrammet (och ett element <c2/>), och CSV-tabellen <c3/> kommentarsrader först (läs med <c4/>). Den namnger en nivå, <c5/>, <c6/> eller <c7/>, och id:na (<c8/> och åtta hexsiffror) för de rader i verifieringsmatrisen som körningen använde. Nivån är den svagaste av de raderna, så en körning som stöder sig på en modellerad rad märks MODELLED oavsett hur många validerade rader som finns bredvid; etiketten kan aldrig hävda mer än registret. Rader, statusar och id:n läses från matrisen, inte inskrivna (<a1><c9/></a1>, <a2><c10/></a2>), och <c11/> misslyckas om en siffra saknar etikett eller en etikett avviker från matrisen.
-
-seg-06fc56dd3edb = Varje rad upprätthålls av ett namngivet test i CI. Den här tabellen är ett <b>kuraterat urval</b>; den fullständiga maskinkontrollerade matrisen är <b>{ "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den fullständiga evidensen (och vad som ärligt talat <em>inte</em> ännu är validerat) i <a1><c2/></a1> och artefakten <a2><c3/></a2> för varje utgåva (genererad av <c4/>, SLSA-attesterad — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Hur en förmåga förtjänar sin etikett: Krav kopplas till en modul i src, till ett test i tests, till en extern oberoende referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status — med ett skydd i CI som säkerställer att ingen förmåga kan vara validerad utan en extern oberoende referens. Aktuella antal: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner, { "401" } totalt
-
-seg-3f48a70a707a = Verifieringsstatus för alla { "401" } förmågor: { "176" } validerade (kontrollerade mot en extern oberoende referens), { "221" } modellerade, { "4" } ägda av partner
-
-seg-35a4412348e1 = { "176" } validerade · { "221" } modellerade · { "4" } ägda av partner — <a1>SVG</a1>
-
-seg-cdf946112863 = Kshanas arkitektur: en öppen motor i mitten, kshana { $version } under AGPL-3.0, med api::run_toml, ett typat anrop över varje typ, och verifieringsregistret med { "401" } förmågor ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Runt den kör varje yta samma motor: Kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbild (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, ett proprietärt överlägg som beror på den öppna motorn som ett bibliotek och aldrig förgrenar den, och inte lägger till någon fysikalisk modell.
 
 seg-824001fa6734 = laboratorier och tillverkare som har uppmätta data
 
@@ -1960,8 +1940,6 @@ seg-a66ad1f69702 = En motor täcker hela felkedjan, från den första störda sa
 
 seg-43bd621a1f5b = Så flödar en körning. En scenario-TOML-fil (en typ, ett frö och dess parametrar) går in i motorn, kshana { $version }, genom api::run_toml-anropet över { "93" } scenariotyper, deterministiskt utifrån scenario, frö och motorversion. Motorn skriver result.json, chart.svg, report.html och report.json, en table.csv för de typer som definierar en, och på begäran exporter i SP3, CCSDS OMM och OEM, CZML, KML, GeoJSON, STK och SigMF; en svit skriver study.json och study.html. Dessa filer matar Kshana Studio i webbläsaren, en AI-assistent via servern kshana-mcp och kontinuerlig integration.
 
-seg-290f2b34e368 = Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når ett enda api::run_toml, ett typat anrop över { "93" } typer. Under det finns åtta domänlager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, PNT i låg omloppsbana (LEO), månen, Mars och djuprymd, samt uppdrag och studier, på en gemensam kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med { "401" } förmågor som är den enda källan till sanning för varje etikett.
-
 seg-fb8bcc54a31d = De { "93" } inbyggda scenariotyperna med beskrivningar + obligatoriska/valfria fält — så att agenten kan konstruera ett giltigt scenario
 
 seg-2f38fc515db6 = hela den öppna motorn, alla { "93" } scenariotyper, ingen funktionsspärr
@@ -1971,3 +1949,25 @@ seg-5374f780c396 = Se <c1/> för minst ett genomarbetat exempel för varje typ (
 seg-d106dd5461ed = <a1><c1/></a1> är en MCP-server: din assistent kör den faktiska motorn och läser tillbaka dess JSON i stället för att gissa matematiken. Vart och ett av dess { "53" } verktyg är ett tunt omslag runt en publik funktion i biblioteket <c2/>, så ingen simuleringslogik finns i servern.
 
 seg-0920329ba390 = De { "53" } verktygen
+
+seg-44fb0df264f6 = { "176" } av { "405" } förmågor VALIDATED mot en oberoende extern referens, ur verifieringsmatrisen
+
+seg-d8582006e2dc = { "0.40" } lägger till en felbudget på uppdragsnivå, märker varje siffra och tabell med sin evidensnivå, läser uppmätta klockloggar, kontrollerar bidrag från datapartner, uppskattar var en störsändare kan finnas och talar sjutton språk vid sidan av engelska. Registret har nu { "405" } rader: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Ingen rad lyftes till VALIDATED, och varje miss nedan är fastlåst av ett test.
+
+seg-5a6c42704fb2 = <b>{ "176" } av { "405" }</b> förmågor validerade mot oberoende externa referenser; { "225" } ärligt märkta som modellerade. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen och etiketten som följer. Kontinuerlig integration (CI) gör det omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
+
+seg-b113dca9dfde = Hur en förmåga förtjänar sin etikett. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen i kontinuerlig integration och etiketten som följer. En rad får vara VALIDATED bara med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en hårdvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + störningar, batch-/sekventiell banbestämning, oberoende referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, etikett VALIDATED. Aktuella antal: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER av { "405" } rader. Sammanlagt { "176" } förmågor validerade mot oberoende externa referenser; { "225" } till är ärligt märkta MODELLED och { "4" } ägs av PARTNER.
+
+seg-113e59a8f70c = Några av kontrollerna: alla { "666" } vektorer för AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) till { "4.12" } mm; Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }; Galileo till { "0.61" } m och Swarm-A till { "0.10" } m mot verkliga precisa efemerider från Europeiska rymdorganisationen (ESA). Testerna håller nära { "95" } % radtäckning av <c1/>, med spärr vid { "85" } % i CI. Registret är <a1><c2/></a1>, genererat från <c3/>: den <a2>fullständiga matrisen med 405 rader</a2>, och varför varje modellerad rad saknar extern oberoende referens i <a3><c4/></a3>.
+
+seg-5334b90deb02 = Varje rad upprätthålls av ett namngivet test i CI. Den här tabellen är ett <b>kuraterat urval</b>; den fullständiga maskinkontrollerade matrisen är <b>{ "405" } rader — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den fullständiga evidensen (och vad som ärligt talat <em>inte</em> ännu är validerat) i <a1><c2/></a1> och artefakten <a2><c3/></a2> för varje utgåva (genererad av <c4/>, SLSA-attesterad — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Hur en förmåga förtjänar sin etikett: Krav kopplas till en modul i src, till ett test i tests, till en extern oberoende referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status — med ett skydd i CI som säkerställer att ingen förmåga kan vara validerad utan en extern oberoende referens. Aktuella antal: { "176" } validerade, { "225" } modellerade, { "4" } ägda av partner, { "405" } totalt
+
+seg-008a8eed3718 = Verifieringsstatus för alla { "405" } förmågor: { "176" } validerade (kontrollerade mot en extern oberoende referens), { "225" } modellerade, { "4" } ägda av partner
+
+seg-4f7fb3fb883c = { "176" } validerade · { "225" } modellerade · { "4" } ägda av partner — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Kshanas arkitektur: en öppen motor i mitten, kshana { $version } under AGPL-3.0, med api::run_toml, ett typat anrop över varje typ, och verifieringsregistret med { "405" } förmågor ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Runt den kör varje yta samma motor: Kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbild (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, ett proprietärt överlägg som beror på den öppna motorn som ett bibliotek och aldrig förgrenar den, och inte lägger till någon fysikalisk modell.
+
+seg-758f459ab5e5 = Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når ett enda api::run_toml, ett typat anrop över { "93" } typer. Under det finns åtta domänlager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, PNT i låg omloppsbana (LEO), månen, Mars och djuprymd, samt uppdrag och studier, på en gemensam kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med { "405" } förmågor som är den enda källan till sanning för varje etikett.

@@ -1456,4 +1456,4 @@ seg-9b505908a6e2 = Kshana <b>ne pilote aucun matériel radio et n'émet rien</b>
 
 seg-ceb2de75e2f4 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Gratuit : { "53" } outils MCP, de run_scenario à export_oem.
 
-seg-a1e85450eb6a = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-c88dde71cc6e = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine

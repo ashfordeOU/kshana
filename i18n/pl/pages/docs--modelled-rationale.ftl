@@ -2015,4 +2015,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = testy jednostkowe interference_map::emitter (cykl projekcji, wartość horyzontu, syntetyczne pełne cykle prosty i odwrotny: znany emiter leży wewnątrz podanego obszaru z mniej więcej podaną częstością, przypadki brzegowe, grupowanie sesji, profil, prywatność i sformułowania); przypadki locate w tests/interference_map_cli.rs
 
-seg-a2bf08b8e82d = { "221" } możliwości oznaczonych MODELLED.
+seg-7a83829ca355 = { "225" } możliwości oznaczonych MODELLED.

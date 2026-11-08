@@ -3992,8 +3992,6 @@ seg-8191906fc700 = Zwei etablierte Implementierungen Dritter zusammengesetzt, be
 # text
 seg-aae487789add = NASA/USGS SRTM v3 (1 Bogensekunde) Kachel N36W117 — PUBLIC-DOMAIN-Höhendaten der US-Regierung aus dem offenen AWS-Spiegel elevation-tiles-prod, auf 6 Bogensekunden ausgedünnt und unter tests/fixtures/terrain/ eingecheckt (siehe NOTICE.md), dazu Ausschnitte in voller Auflösung von N36W117 und N36W119, knotenweise gegen den unabhängigen SRTMHGT-Leser von GDAL und die Vermessungs-Benchmarks Mount Whitney ({ "4421" } m) und Badwater (−{ "86" } m) geprüft. Der dokumentierte Benchmark Badwater Basin (−{ "86" } m, tiefster Punkt Nordamerikas) verankert das georeferenzierte Lesen. Die Geländeabgleich-/TERCOM-Navigationslösung, die das DEM verwendet, bleibt modelliert (eigene Zeile Alternatives/ergänzendes PNT)
 
-seg-2fd8f2df3e6e = Die { "61" } Fähigkeitskarten aus <c1/>, danach alle { "401" } Zeilen der Verifikationsmatrix.
-
 seg-65185cb68d6b = Fehlerbudget für Navigation und Zeitgebung einer Kette von Missionsphasen vom Start bis zum Wiedereintritt (<c1/>)
 
 seg-86a132e1a243 = Die Art <c1/>: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt, wobei die 6x6-Kovarianz, die Uhr und das Bezugssystem nach einer genannten Regel weitergegeben werden (<c2/>; <c3/>, weißes Beschleunigungsrauschen über eine genannte Lücke bei einem geradlinigen Modell; <c4/>, Koppelnavigation, dann die Quellgrenze, nie darunter, nie ein Zurücksetzen); Umrechnungen der Bezugssysteme GCRF, MCI und MCMF und der Zeitskalen über TT, jede mit eigener Budgetzeile, wobei der Zustand des Mondes aus einem optionalen DE440-Kernel-Ausschnitt stammt und die analytische Reihe als genannter Ersatz dient; die Marge gegenüber einer genannten Anforderung, das schwächste Glied, die Ereignisse und eine Zeitleistengrafik. Jede Zahl ist eine genannte Eingabe oder ein Modell einer solchen
@@ -4073,3 +4071,5 @@ seg-b5c49044a7a1 = Eine zulässige Region dafür, wo sich eine Quelle gestörter
 seg-953a8b4f9f41 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Rundläufe aus einem Generator, der das Modell des Schätzers teilt; sie prüfen also den Code und die Kalibrierung der genannten Niveaus unter diesem Modell und nichts über reale Sender. Eine externe Prüfung gegen die veröffentlichten Senderstandorte des Jammertests { "2025" } wurde vorab festgelegt (docs/emitter-region/PREREGISTRATION.md, vom Eigentümer vor jedem bewerteten Lauf freigegeben) und einmal ausgeführt (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplante Sitzungen, weniger als das registrierte Minimum von { "4" }) und AIS NOT ASSESSABLE (keine veröffentlichte Sitzung), sodass kein Zielwert getestet wurde und die Zeile MODELLED bleibt
 
 seg-d5a79853b72f = { "93" } von { "93" } Arten, { "3334" } von { "3334" } numerischen Feldern
+
+seg-5576293ba3aa = Die { "61" } Fähigkeitskarten aus <c1/>, danach alle { "405" } Zeilen der Verifikationsmatrix.

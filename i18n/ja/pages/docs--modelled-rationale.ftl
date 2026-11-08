@@ -2040,4 +2040,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter の単体テスト（投影の往復、地平線の数値、合成の順方向・逆方向の往復：既知の発信源は、明示した領域の内側に、ほぼ明示した割合で入る。エッジケース、セッションのクラスタリング、プロファイル、プライバシーと文言）。tests/interference_map_cli.rs の locate のケース
 
-seg-a2bf08b8e82d = { "221" } 件の機能に MODELLED のラベルを付けています。
+seg-7a83829ca355 = { "225" } 件の機能に MODELLED のラベルを付けています。

@@ -329,10 +329,6 @@ seg-188c6e41f434 = Les documents relatifs aux processus des mainteneurs restent 
 
 seg-fcffac5eb150 = <s1>Langues</s1><s2>Le texte du moteur destiné aux personnes existe en { "17" } langues en plus de l'anglais : nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "401" } lignes — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "401" } lignes de la matrice de vérification.</s2>
-
 seg-980f70b29717 = <s1>Partenaires de données et lignes à promouvoir</s1><s2>{ -brand } étiquette chaque capacité dans un registre vérifié par machine (matrice de vérification).</s2>
 
 seg-7c6a541b3bc8 = <s1>Fil de mission : du lancement à l'entrée</s1><s2>Logiciel à titre consultatif, et non un équipement de navigation certifié.</s2>
@@ -350,3 +346,7 @@ seg-5484fd345826 = <s1>Chaque type de scénario, par famille</s1><s2>Chaque type
 seg-b23a9bd3ccfa = <s1>Référence des scénarios</s1><s2>Chaque fichier de scénario fourni ({ "195" }), regroupé par type, avec ses principaux réglages.</s2>
 
 seg-a7dc2bc0a77d = { "93" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.
+
+seg-f950b0ba9160 = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "405" } lignes — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "405" } lignes de la matrice de vérification.</s2>

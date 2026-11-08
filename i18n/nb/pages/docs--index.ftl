@@ -220,10 +220,6 @@ seg-188c6e41f434 = Dokumenter for vedlikeholdsprosessen blir liggende i reposito
 
 seg-fcffac5eb150 = <s1>Språk</s1><s2>Motorens tekst som mennesker leser finnes på { "17" } språk ved siden av engelsk: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "401" } rader — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "401" } radene i verifikasjonsmatrisen.</s2>
-
 seg-980f70b29717 = <s1>Datapartnere og rader som kan oppgraderes</s1><s2>Kshana merker hver funksjon i et maskinkontrollert register (verifikasjonsmatrise).</s2>
 
 seg-7c6a541b3bc8 = <s1>Oppdragstråd: fra oppskyting til gjeninntreden</s1><s2>Veiledende programvare, ikke sertifisert navigasjonsutstyr.</s2>
@@ -241,3 +237,7 @@ seg-5484fd345826 = <s1>Alle scenariotyper, etter familie</s1><s2>Alle scenarioty
 seg-b23a9bd3ccfa = <s1>Scenarioreferanse</s1><s2>Hver medfølgende scenariofil ({ "195" }), gruppert etter type, med nøkkelinnstillingene.</s2>
 
 seg-a7dc2bc0a77d = { "93" } sider, én for hver scenariotype, med lenker fra <a1>Alle scenariotyper, etter familie</a1>.
+
+seg-f950b0ba9160 = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "405" } rader — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "405" } radene i verifikasjonsmatrisen.</s2>

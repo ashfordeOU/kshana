@@ -3196,8 +3196,6 @@ seg-fb01a581d5ee = af { "28" } valideret
 
 seg-d6c43e56d4cc = Missionsanalyse, sikring og andet
 
-seg-5516d9825527 = af { "55" } valideret
-
 seg-7038fab8b00c = Valideret { "176" }
 
 seg-ba89c1119b21 = Partnerejet { "4" }
@@ -4058,16 +4056,6 @@ seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigatio
 
 seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS NOT ASSESSABLE (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
 
-seg-aa7c0a865661 = { "401" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "221" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
-
-seg-7a254b7d5498 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "221" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
-
-seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "401" } rækker · intet scenarie eller seed: motorens eget register
-
-seg-77bfad0f4f88 = { "176" }<s1>af { "401" } valideret</s1>
-
-seg-222c46a96ec3 = Verifikationsmatrix: { "176" } valideret, { "221" } modelleret, { "4" } ejet af partnere, { "401" } i alt
-
 seg-cf2aa475bc68 = Typen mission-thread: et dokument af faser, hver en af otte registrerede typer, kørt… · Modelleret
 
 seg-bdc3223c80e4 = Fasen launch-ascent: en position- og hastighedskovarians med konstant hastighed og hvid… · Modelleret
@@ -4094,30 +4082,40 @@ seg-860ca782e2bf = Propageringen af middeltilstanden i fasen tli-and-cruise (Cow
 
 seg-7c7d72cc2036 = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, fra ADS-B… · Modelleret
 
-seg-65feaf4e91ef = Alle { "401" } rækker, én linje hver.
-
-seg-5668b5581703 = af { "102" } valideret
-
 seg-43f852e4bee8 = af { "74" } valideret
-
-seg-fbb78f11c0dc = af { "78" } valideret
 
 seg-8fe12f6058c6 = af { "26" } valideret
 
-seg-b393e1b5fcfc = Alle { "401" }
+seg-2ed2d817f56e = { "405" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "225" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
 
-seg-3df9e327c036 = Modelleret { "221" }
+seg-07aef8ff8fe3 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "225" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
 
-seg-7fa6f2e0de57 = Valideringsregister, { "401" } rækker, kan rulles
+seg-81464c684074 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "405" } rækker · intet scenarie eller seed: motorens eget register
 
-seg-b4f766f66bdb = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-8f715a5e52b0 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-0dbc7d4822b9 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-a9b6470fb2f8 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-d3eca6ae67fc = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-947cc1db1e01 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-629f069ed3e7 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+seg-cfd8687a8048 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
 
-seg-f4ca37eb4f6d = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-fb3f807e97c0 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-5313db6b0f2a = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-7c4a8891ee1b = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-c54618ee87bb = { "176" }<s1>af { "405" } valideret</s1>
+
+seg-9984e76b5b28 = Verifikationsmatrix: { "176" } valideret, { "225" } modelleret, { "4" } ejet af partnere, { "405" } i alt
+
+seg-46e93e2ebc71 = Alle { "405" } rækker, én linje hver.
+
+seg-ebec0449ab03 = Alle { "405" }
+
+seg-bcf766efe1ab = Modelleret { "225" }
+
+seg-cea55077f323 = Valideringsregister, { "405" } rækker, kan rulles
+
+seg-65122c2bb1fc = af { "104" } valideret
+seg-2998c6fa20d6 = af { "79" } valideret
+seg-4b3ab6095c65 = af { "56" } valideret

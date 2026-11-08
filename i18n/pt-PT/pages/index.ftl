@@ -1142,15 +1142,14 @@ seg-7fae5de5ebf1 = kshana-bench: a nova campanha da { "0.40" }
 # text
 seg-b9961ed25282 = Novidades da v{ $version }: uma cadeia da missão, uma etiqueta de evidência em cada figura e dezassete idiomas
 
-# text
-seg-653cf3198094 = { "176" } de { "401" } capacidades concordam com referências independentes externas; as demais são etiquetadas como modeladas, em voz alta.
-
 seg-579d9b6f7afd = Todos os { "93" } tipos de cenário, gratuitos e sem restrição de recursos, determinísticos a partir do cenário, da semente e da versão do motor.
 
 seg-56bf1281e330 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "53" } ferramentas, valida <c1/> (válido: tipo de cenário detetado `clock`) e executa-o: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-351fab28c16d = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+seg-8c81b3e5933e = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
 
-seg-414ba03a1362 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinista, sem semente
+seg-56a515205cd4 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinista, sem semente
 
-seg-fc1e7a222c6b = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+seg-546dca465cd0 = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+seg-24d919eaaba3 = { "176" } de { "405" } capacidades concordam com referências independentes externas; as demais são etiquetadas como modeladas, em voz alta.
