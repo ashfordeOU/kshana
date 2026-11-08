@@ -39,7 +39,8 @@ here is committed **before any engine code** for the change and before any run.
 ## Batch plan (fixed before batch 1)
 
 The runs take about 6 hours on this container's 4 cores, so they run in batches. Each batch runs the release test
-`tests/iq_labfit_lag.rs`, writes **raw output only** (one JSON line per fit: the campaign seed, `cn0_lag_s`, `δ̂_eff`
+`d8a_row6_batch` in `tests/iq_labfit_campaign.rs` (`KSHANA_D8A_ROW6_BATCH=NN`; amended from a separate test file
+before batch 1, to reuse that file's campaign builders), writes **raw output only** (one JSON line per fit: the campaign seed, `cn0_lag_s`, `δ̂_eff`
 and its interval, and for the bar-(a′) campaigns the (c) coverages and the (d) medians) to `raw/batch-NN.jsonl`, and
 prints only the batch's line count and SHA-256. The truths are written by the same test to `raw/truth-NN.jsonl`. No
 verdict is computed and no line is read before every batch is in. The scoring rule is `score.py`, committed with this

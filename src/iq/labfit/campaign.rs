@@ -99,6 +99,41 @@ impl SatEvent {
         Some(m)
     }
 
+    /// The stated J/S at which a bin of stated J/S `js_db` is modelled with the C/N0 estimator
+    /// lag `lag_s` (D8a row 6): the profile's J/S `lag_s` before the first time in the event,
+    /// from its onset, at which a linear profile reaches `js_db`, clamped at the onset's
+    /// value. `js_db` itself when `lag_s` is 0, the profile is a step, or it does not reach
+    /// `js_db` in the event.
+    pub fn lagged_js_db(&self, js_db: f64, lag_s: f64) -> f64 {
+        let Some(p) = &self.power else { return js_db };
+        if lag_s <= 0.0 || p.interpolation == Interpolation::Step {
+            return js_db;
+        }
+        let mut knots = vec![self.onset_s];
+        knots.extend(
+            p.points
+                .iter()
+                .map(|pt| pt[0])
+                .filter(|&t| t > self.onset_s && t < self.offset_s),
+        );
+        knots.push(self.offset_s);
+        for w in knots.windows(2) {
+            let (t0, t1) = (w[0], w[1]);
+            let (j0, j1) = (p.js_db_at(t0), p.js_db_at(t1));
+            let reached = (j0 <= js_db && js_db <= j1) || (j1 <= js_db && js_db <= j0);
+            if !reached {
+                continue;
+            }
+            let t = if j1 == j0 {
+                t0
+            } else {
+                t0 + (t1 - t0) * (js_db - j0) / (j1 - j0)
+            };
+            return p.js_db_at((t - lag_s).max(self.onset_s));
+        }
+        js_db
+    }
+
     /// The mean J/S rate over the event's rising part (dB/s): peak minus the onset level over
     /// the time to reach the peak; 0 for a step.
     pub fn ramp_db_per_s(&self) -> f64 {

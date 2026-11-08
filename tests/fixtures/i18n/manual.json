@@ -7744,6 +7744,17 @@
   ]
  },
  {
+  "id": "e-iq-labfit-iqfit-campaign-fit-cn0-lag",
+  "error": true,
+  "parts": [
+   "campaign_fit.cn0_lag_s must be finite and at least 0 (got ",
+   {
+    "var": "lag"
+   },
+   ")"
+  ]
+ },
+ {
   "id": "e-iq-track-design-carrier-fll-handover-mean",
   "error": true,
   "parts": [

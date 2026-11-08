@@ -390,6 +390,17 @@ fn truth_of(seed: u64) -> Truth {
 /// The scenario of the fit: the campaign folder, the settings, the synthetic study's
 /// `[validation]` table (the illustrative values of §5.2) and one prediction.
 fn scenario(out: &Path, bootstrap: usize, lock_models: bool) -> String {
+    scenario_lag(out, bootstrap, lock_models, 0.0)
+}
+
+/// [`scenario`] with `[campaign_fit] cn0_lag_s` (D8a row 6); the key is written only when it
+/// is not 0, so the 0 case is the registered scenario text.
+fn scenario_lag(out: &Path, bootstrap: usize, lock_models: bool, lag: f64) -> String {
+    let lag_line = if lag > 0.0 {
+        format!("cn0_lag_s = {lag:?}\n")
+    } else {
+        String::new()
+    };
     format!(
         r#"kind = "iq-labfit"
 name = "synthetic campaign"
@@ -400,7 +411,7 @@ campaign = "{}"
 seed = 7
 bootstrap = {bootstrap}
 lock_models = {lock_models}
-[validation]
+{lag_line}[validation]
 registered = "2026-10-12"
 cn0_rms_db_max = 1.0
 pi90_coverage = [0.80, 0.98]
@@ -422,8 +433,17 @@ levels = [{{ t_s = 3.0, level_db = 2.0 }}, {{ t_s = 15.0, level_db = 40.0 }}]
 }
 
 fn fit(out: &Path, bootstrap: usize, lock_models: bool) -> kshana::iq::labfit::LabFitIqOutput {
+    fit_lag(out, bootstrap, lock_models, 0.0)
+}
+
+fn fit_lag(
+    out: &Path,
+    bootstrap: usize,
+    lock_models: bool,
+    lag: f64,
+) -> kshana::iq::labfit::LabFitIqOutput {
     let sc: kshana::iq::labfit::LabFitScenario =
-        toml::from_str(&scenario(out, bootstrap, lock_models)).unwrap();
+        toml::from_str(&scenario_lag(out, bootstrap, lock_models, lag)).unwrap();
     kshana::iq::labfit::run_campaign_scenario(&sc).unwrap()
 }
 
@@ -827,4 +847,116 @@ fn diagnose_bar_a_campaign() {
         rates.iter().cloned().fold(f64::INFINITY, f64::min),
         rates.iter().cloned().fold(f64::NEG_INFINITY, f64::max)
     );
+}
+
+/// D8a row 6 (`xval/d8a-labfit-lag/README.md`): one batch of the batch plan, named by
+/// `KSHANA_D8A_ROW6_BATCH` (01 to 12). Writes raw fit lines and truths to
+/// `xval/d8a-labfit-lag/raw/` and prints only their line counts and SHA-256; it computes no
+/// verdict (`score.py` does, once, after batch 12).
+#[test]
+#[ignore = "D8a row 6 batch run: release, KSHANA_D8A_ROW6_BATCH=NN, --ignored"]
+fn d8a_row6_batch() {
+    use sha2::{Digest, Sha256};
+    let n: u32 = std::env::var("KSHANA_D8A_ROW6_BATCH")
+        .expect("KSHANA_D8A_ROW6_BATCH")
+        .parse()
+        .unwrap();
+    assert!((1..=12).contains(&n));
+    let mut fits = Vec::new();
+    let mut truths = Vec::new();
+    let truth_line = |seed: u64| {
+        let t = truth_of(seed);
+        serde_json::json!({"seed": seed, "delta_eff": t.delta_db - 10.0 * t.q.log10()}).to_string()
+    };
+    if n <= 2 {
+        let (set, seed) = if n == 1 {
+            ("seen", A_SEED)
+        } else {
+            ("fresh", A_SEED + 100_000)
+        };
+        let out = build_campaign(
+            &format!("row6-a-{seed}"),
+            &recipe(seed, A_RECORDINGS),
+            truth_of(seed),
+            4,
+            "m2m4",
+        );
+        let lags: &[f64] = if n == 1 { &[0.0, 0.5] } else { &[0.5] };
+        for &lag in lags {
+            let f = fit_lag(&out, 1000, true, lag);
+            let u = unit0(&f);
+            let c = u.cn0_model.as_ref().unwrap();
+            let h = &u.holdout.as_ref().unwrap().interpolation;
+            let mut cov = serde_json::Map::new();
+            cov.insert("bins".into(), serde_json::json!(h.bins_pi90_coverage));
+            for g in &h.events {
+                cov.insert(
+                    g.model.as_str().replace('-', "_"),
+                    serde_json::json!(g.pi90_coverage),
+                );
+            }
+            let t = u.threshold.as_ref().unwrap();
+            let direct = t.direct.median_js_db;
+            let mut d = serde_json::Map::new();
+            for v in &t.via_model {
+                d.insert(
+                    v.model.as_str().replace('-', "_"),
+                    serde_json::json!([v.median_at_lost_events_db, direct]),
+                );
+            }
+            fits.push(
+                serde_json::json!({"kind": "a", "set": set, "seed": seed, "lag_s": lag,
+                    "delta_eff": c.delta_eff_db.estimate, "ci95": c.delta_eff_db.ci95,
+                    "span_db": c.span_db, "c": cov, "d": d, "direct_losses": t.direct.n})
+                .to_string(),
+            );
+        }
+        truths.push(truth_line(seed));
+        let _ = std::fs::remove_dir_all(out.parent().unwrap());
+    } else {
+        let (set, base) = if n <= 7 {
+            ("seen", 7_000)
+        } else {
+            ("fresh", 107_000)
+        };
+        let first = 10 * ((n - 3) % 5) as u64;
+        for s in first..first + 10 {
+            let seed = base + s;
+            let out = build_campaign(
+                &format!("row6-b-{seed}"),
+                &recipe(seed, 5),
+                truth_of(seed),
+                4,
+                "m2m4",
+            );
+            let lags: &[f64] = if set == "seen" && s < 2 {
+                &[0.0, 0.5]
+            } else {
+                &[0.5]
+            };
+            for &lag in lags {
+                let f = fit_lag(&out, 1000, false, lag);
+                let c = unit0(&f).cn0_model.clone().unwrap();
+                fits.push(
+                    serde_json::json!({"kind": "b", "set": set, "seed": seed, "lag_s": lag,
+                        "delta_eff": c.delta_eff_db.estimate, "ci95": c.delta_eff_db.ci95})
+                    .to_string(),
+                );
+            }
+            truths.push(truth_line(seed));
+            let _ = std::fs::remove_dir_all(out.parent().unwrap());
+        }
+    }
+    let dir = format!("{}/xval/d8a-labfit-lag/raw", env!("CARGO_MANIFEST_DIR"));
+    std::fs::create_dir_all(&dir).unwrap();
+    for (name, lines) in [("batch", &fits), ("truth", &truths)] {
+        let text = lines.join("\n") + "\n";
+        std::fs::write(format!("{dir}/{name}-{n:02}.jsonl"), &text).unwrap();
+        let h = Sha256::digest(text.as_bytes());
+        let hex: String = h.iter().map(|b| format!("{b:02x}")).collect();
+        eprintln!(
+            "ROW6 {name}-{n:02}.jsonl: {} lines, sha256 {hex}",
+            lines.len()
+        );
+    }
 }
