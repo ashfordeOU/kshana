@@ -1,0 +1,19 @@
+fidelity, PRN 1 registered detector: 32 of 2495 (engine recorded 32 of 2495); detected True
+  registered (N=16, g=2, s=4): PRN 2 +1750 Hz 100.5 chips: 20/2495 = 0.0080; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 3 -1250 Hz 640.25 chips: 22/2495 = 0.0088; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 4 +250 Hz 222.0 chips: 38/2495 = 0.0152; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 5 -3750 Hz 900.75 chips: 7/2495 = 0.0028; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 6 +4250 Hz 33.25 chips: 21/2495 = 0.0084; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 2 -500 Hz 410.0 chips: 55/2495 = 0.0220; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 3 +2000 Hz 5.5 chips: 45/2495 = 0.0180; N=16; peak detected True
+  registered (N=16, g=2, s=4): PRN 4 -4000 Hz 777.75 chips: 50/2495 = 0.0200; N=16; peak detected True
+registered (N=16, g=2, s=4): pooled 258/19960 = 0.0129
+  whole row at stride 4: PRN 2 +1750 Hz 100.5 chips: 0/2495 = 0.0000; N=622; peak detected True
+  whole row at stride 4: PRN 3 -1250 Hz 640.25 chips: 0/2495 = 0.0000; N=622; peak detected True
+  whole row at stride 4: PRN 4 +250 Hz 222.0 chips: 3/2495 = 0.0012; N=622; peak detected True
+  whole row at stride 4: PRN 5 -3750 Hz 900.75 chips: 0/2495 = 0.0000; N=622; peak detected True
+  whole row at stride 4: PRN 6 +4250 Hz 33.25 chips: 0/2495 = 0.0000; N=622; peak detected True
+  whole row at stride 4: PRN 2 -500 Hz 410.0 chips: 0/2495 = 0.0000; N=622; peak detected True
+  whole row at stride 4: PRN 3 +2000 Hz 5.5 chips: 1/2495 = 0.0004; N=622; peak detected True
+  whole row at stride 4: PRN 4 -4000 Hz 777.75 chips: 0/2495 = 0.0000; N=622; peak detected True
+whole row at stride 4: pooled 4/19960 = 0.0002
