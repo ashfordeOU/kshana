@@ -33,7 +33,7 @@ use crate::iq::cli::{apply_chain, build_chain, build_code};
 use crate::iq::io::batch::{default_workers, run_batch_items};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::monitor::power::PowerMonitor;
-use crate::iq::monitor::run::cn0_estimate_updates;
+use crate::iq::monitor::run::cn0_window_updates;
 use crate::iq::monitor::spectral::SpectralMonitor;
 use crate::iq::monitor::{EpochMonitors, MonitorEvent};
 use crate::iq::signals::SignalCode;
@@ -998,7 +998,7 @@ fn run_item(
                 let lc = d.loop_config_for(sats[ch.sat].code.period_s());
                 let mut st = m.epoch;
                 if st.cn0.stride == 0 {
-                    st.cn0.stride = cn0_estimate_updates(&lc);
+                    st.cn0.stride = cn0_window_updates(&lc);
                 }
                 EpochMonitors::new(&channel_label(&sats[ch.sat]), lc.spacing_chips, &st)
             })

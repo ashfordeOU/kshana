@@ -167,8 +167,10 @@ fn the_restart_agrees_with_the_oracle_on_synthetic_cusum_series() {
     assert!(o["auc_diff"].as_f64().unwrap() <= 1e-9, "{o}");
 }
 
-const R1_MON: &str = "[monitors]\nroc_window_s = 6.0\n";
-const R2_MON: &str = "[monitors]\nroc_window_s = 6.0\n[monitors.power]\n";
+/// At the 1 s C/N0 cadence row 9 was scored at (`xval/d8b-cn0-stride/` reading 8).
+const R1_MON: &str = "[monitors]\nroc_window_s = 6.0\n[monitors.epoch.cn0]\nstride = 1000\n";
+const R2_MON: &str =
+    "[monitors]\nroc_window_s = 6.0\n[monitors.epoch.cn0]\nstride = 1000\n[monitors.power]\n";
 const OFF: &str = "roc_restart = false\n";
 
 fn with_off(m: &str) -> String {

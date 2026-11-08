@@ -166,6 +166,10 @@ fn m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k() {
 
 const ATT_DB: f64 = 6.0;
 
+/// The stepped campaign's monitors, at the 1 s C/N0 cadence the 0.40 run was scored at (the
+/// campaign default became one NWPR window in D8b row 8, `xval/d8b-cn0-stride/` reading 8).
+const STEPPED_MON: &str = "[monitors]\n[monitors.epoch.cn0]\nstride = 1000\n";
+
 fn stepped() -> &'static Vec<CellResult> {
     static CELLS: std::sync::OnceLock<Vec<CellResult>> = std::sync::OnceLock::new();
     CELLS.get_or_init(|| {
@@ -186,7 +190,7 @@ fn stepped() -> &'static Vec<CellResult> {
                 atten: Some((10.0, 16.0, ATT_DB)),
             })
             .collect();
-        campaign("stepped", &recs, "[monitors]\n")
+        campaign("stepped", &recs, STEPPED_MON)
     })
 }
 

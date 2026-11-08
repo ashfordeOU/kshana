@@ -67,6 +67,13 @@ pub fn cn0_estimate_updates(cfg: &LoopConfig) -> usize {
     (cfg.cn0_windows * cfg.cn0_window_periods / cfg.coherent_periods.max(1)).max(1)
 }
 
+/// One window of the C/N0 estimator of `cfg` in loop updates (periods per window over the
+/// coherent periods per update), at least 1: the cadence at which the sliding estimate takes
+/// in new data. A campaign's automatic C/N0 stride (D8b row 8, `xval/d8b-cn0-stride/`).
+pub fn cn0_window_updates(cfg: &LoopConfig) -> usize {
+    (cfg.cn0_window_periods / cfg.coherent_periods.max(1)).max(1)
+}
+
 /// Run the configured monitors over `src` in one pass: the pre-correlation monitors on
 /// every sample, and, for each `(label, init)` in `channels`, a tracking channel with loop
 /// design `loop_cfg` whose loop updates feed that channel's [`EpochMonitors`]. Stops at the
