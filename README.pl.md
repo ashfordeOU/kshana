@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Stan ciągłej integracji na gałęzi main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Pokrycie wierszy bliskie 95 % katalogu src/, zmierzone w docs/COVERAGE.md i wymagane na poziomie 85 % w ciągłej integracji"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F401-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 z 401 możliwości VALIDATED względem niezależnej zewnętrznej wyroczni, według macierzy weryfikacji"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 z 405 możliwości VALIDATED względem niezależnej zewnętrznej wyroczni, według macierzy weryfikacji"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Stan bramki jakości SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Wydanie v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Angielski i 17 innych języków, tłumaczenie maszynowe"></a>
@@ -118,7 +118,7 @@ lub **PARTNER** (należy do partnera sprzętowego).
 
 0.40 dodaje budżet błędu na poziomie misji, oznacza każdy wykres i tabelę poziomem dowodowym, czyta zmierzone dzienniki zegarów,
 sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się źródło zakłóceń, i mówi siedemnastoma językami obok angielskiego.
-Rejestr liczy teraz 401 wierszy: 176 VALIDATED, 221 MODELLED, 4 PARTNER. Żaden wiersz nie został podniesiony do VALIDATED, a każde chybienie poniżej jest
+Rejestr liczy teraz 405 wierszy: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Żaden wiersz nie został podniesiony do VALIDATED, a każde chybienie poniżej jest
 utrwalone testem.
 
 - **Wątek misji.** Rodzaj `mission-thread` łączy w łańcuch fazy od startu do wejścia w atmosferę (`launch-ascent`, `leo-rendezvous`,
@@ -1031,7 +1031,7 @@ od których można zacząć.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 sprawdzony względem wszystkich 666 wektorów referencyjnych AIAA 2006-6753, najgorszy błąd pozycji 4.12 mm"></a></p>
 
-<strong>176 z 401</strong> możliwości zwalidowanych względem niezależnych zewnętrznych wyroczni; 221 uczciwie oznaczonych jako Modelled.
+<strong>176 z 405</strong> możliwości zwalidowanych względem niezależnych zewnętrznych wyroczni; 225 uczciwie oznaczonych jako Modelled.
 Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana,
 test, który wykonuje sprawdzenie, oraz wynikającą z tego etykietę. Ciągła integracja (CI) uniemożliwia
 nazwanie możliwości VALIDATED bez niezależnej zewnętrznej wyroczni.
@@ -1039,13 +1039,13 @@ nazwanie możliwości VALIDATED bez niezależnej zewnętrznej wyroczni.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Jak możliwość zdobywa swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, oraz wynikającą z tego etykietę. Wiersz może być VALIDATED tylko przy niezależnej zewnętrznej wyroczni; w przeciwnym razie jest MODELLED albo PARTNER, gdy należy do partnera sprzętowego. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, wsadowe/sekwencyjne OD, wyrocznia wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: 176 VALIDATED, 221 MODELLED, 4 PARTNER z 401 wierszy. Łącznie 176 możliwości zwalidowanych względem niezależnych zewnętrznych wyroczni; kolejne 221 jest uczciwie oznaczonych jako MODELLED, a 4 należą do partnera (PARTNER)." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Jak możliwość zdobywa swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, oraz wynikającą z tego etykietę. Wiersz może być VALIDATED tylko przy niezależnej zewnętrznej wyroczni; w przeciwnym razie jest MODELLED albo PARTNER, gdy należy do partnera sprzętowego. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, wsadowe/sekwencyjne OD, wyrocznia wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: 176 VALIDATED, 225 MODELLED, 4 PARTNER z 405 wierszy. Łącznie 176 możliwości zwalidowanych względem niezależnych zewnętrznych wyroczni; kolejne 225 jest uczciwie oznaczonych jako MODELLED, a 4 należą do partnera (PARTNER)." width="100%">
 </picture>
 
 | Etykieta | Wiersze | Znaczenie |
 |---|---|---|
 | VALIDATED | 176 | niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory referencyjne |
-| MODELLED | 221 | sprawdzone względem prawdy analitycznej lub samospójności symulacji i powiedziane wprost |
+| MODELLED | 225 | sprawdzone względem prawdy analitycznej lub samospójności symulacji i powiedziane wprost |
 | PARTNER | 4 | należy do partnera sprzętowego; Kshana nie ma dla niego wyroczni |
 
 Kilka ze sprawdzeń: wszystkie 666 wektorów SGP4 (Simplified General Perturbations 4) AIAA (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ do 0.08 m względem Orekit 12.2; Galileo do 0.61 m i Swarm-A do 0.10 m względem
 precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy utrzymują pokrycie wierszy bliskie 95 % katalogu
 `src/`, wymagane na poziomie 85 % w CI. Rejestrem jest
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generowany z
-`src/verification.rs`: [pełna macierz 401 wierszy](docs/VERIFICATION-MATRIX.md), a dlaczego każdy
+`src/verification.rs`: [pełna macierz 405 wierszy](docs/VERIFICATION-MATRIX.md), a dlaczego każdy
 wiersz Modelled nie ma zewnętrznej wyroczni, wyjaśnia [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ nigdy nie może twierdzić więcej niż rejestr. Wiersze, statusy i identyfikato
 ### Walidacja w skrócie
 
 Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to **wybór najważniejszych wyników**;
-pełna sprawdzana maszynowo macierz to **401 wierszy — 176 VALIDATED, 221 MODELLED, 4 PARTNER**
+pełna sprawdzana maszynowo macierz to **405 wierszy — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
 (`src/verification.rs`), a kompletne dowody (i to, co uczciwie *nie* jest jeszcze
 zwalidowane) znajdują się w [`docs/VALIDATION.md`](docs/VALIDATION.md) oraz w artefakcie każdego wydania
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ Kolumna **Status** podaje *rodzaj* dowodu, zgodnie z powyższą drabiną walidac
 | CI | Pokrycie testami | **~95 % wierszy** w `src/` z wyłączeniem `src/*_data.rs` i `src/main.rs`, wymagane ≥ 85 % | cargo-tarpaulin (silnik LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak możliwość zdobywa swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (prawdziwy zbiór danych, niezależną implementację referencyjną lub opublikowane wektory), na status — z wymuszanym w CI zabezpieczeniem, że żadna możliwość nie może być Validated bez zewnętrznej wyroczni. Bieżące liczby: 176 Validated, 221 Modelled, 4 Partner, łącznie 401" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak możliwość zdobywa swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (prawdziwy zbiór danych, niezależną implementację referencyjną lub opublikowane wektory), na status — z wymuszanym w CI zabezpieczeniem, że żadna możliwość nie może być Validated bez zewnętrznej wyroczni. Bieżące liczby: 176 Validated, 225 Modelled, 4 Partner, łącznie 405" width="900">
   <br><sub>Jak możliwość zdobywa swoją etykietę — niezmiennik wymuszany w CI: brak zewnętrznej wyroczni ⇒ nie może być Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ Kolumna **Status** podaje *rodzaj* dowodu, zgodnie z powyższą drabiną walidac
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Status weryfikacji wszystkich 401 możliwości: 176 Validated (sprawdzone względem zewnętrznej wyroczni), 221 Modelled, 4 należące do partnera" width="780">
-  <br><sub>176 Validated · 221 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Status weryfikacji wszystkich 405 możliwości: 176 Validated (sprawdzone względem zewnętrznej wyroczni), 225 Modelled, 4 należące do partnera" width="780">
+  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ na wierzchu jako osobna nakładka, która zależy od silnika i nigdy go nie rozw
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: jeden otwarty silnik w centrum, kshana 0.40.0 na licencji AGPL-3.0, z api::run_toml, typowanym rozdzielaniem na każdy rodzaj, oraz rejestrem weryfikacji 401 możliwości (176 VALIDATED, 221 MODELLED, 4 PARTNER). Wokół niego każdy interfejs uruchamia ten sam silnik: Wiersz poleceń (cargo install kshana); Biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Serwer MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Wtyczka JetBrains (Marketplace: &quot;Kshana&quot;). Pod nim Kshana Pro, zastrzeżona nakładka, która zależy od otwartego silnika jako biblioteki i nigdy go nie rozwidla, i nie dodaje żadnego modelu fizycznego." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: jeden otwarty silnik w centrum, kshana 0.40.0 na licencji AGPL-3.0, z api::run_toml, typowanym rozdzielaniem na każdy rodzaj, oraz rejestrem weryfikacji 405 możliwości (176 VALIDATED, 225 MODELLED, 4 PARTNER). Wokół niego każdy interfejs uruchamia ten sam silnik: Wiersz poleceń (cargo install kshana); Biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Serwer MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Wtyczka JetBrains (Marketplace: &quot;Kshana&quot;). Pod nim Kshana Pro, zastrzeżona nakładka, która zależy od otwartego silnika jako biblioteki i nigdy go nie rozwidla, i nie dodaje żadnego modelu fizycznego." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ na wierzchu jako osobna nakładka, która zależy od silnika i nigdy go nie rozw
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego rozdzielania na 92 rodzaje. Pod nim znajduje się osiem warstw domenowych: czas i układy odniesienia, zegary i synchronizacja czasu, nawigacja inercjalna i fuzja, GNSS i integralność, astrodynamika, LEO PNT, Księżyc, Mars i daleki kosmos oraz misje i badania, na wspólnym rdzeniu, wszystkie powiązane modułem weryfikacji, sprawdzaną maszynowo macierzą 401 możliwości, która jest jedynym źródłem prawdy dla każdej etykiety." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego rozdzielania na 92 rodzaje. Pod nim znajduje się osiem warstw domenowych: czas i układy odniesienia, zegary i synchronizacja czasu, nawigacja inercjalna i fuzja, GNSS i integralność, astrodynamika, LEO PNT, Księżyc, Mars i daleki kosmos oraz misje i badania, na wspólnym rdzeniu, wszystkie powiązane modułem weryfikacji, sprawdzaną maszynowo macierzą 405 możliwości, która jest jedynym źródłem prawdy dla każdej etykiety." width="100%">
 </picture>
 
 **Jeden silnik, wiele drzwi wejściowych.** Jeden rdzeń w Rust (`kshana`) uruchamia każdy scenariusz,
