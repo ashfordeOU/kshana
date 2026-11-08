@@ -753,6 +753,44 @@ fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
             f["sha256"].as_str().map(String::from),
         ));
     }
+    // External sources (TEXBAT): each file a user fetches is listed with its path relative to
+    // --root, its size and its SHA-256. A source whose `sha256_pinned` is false lists none, or
+    // lists them unpinned; a pinned source must give a hash for every file.
+    let mut sizes: std::collections::BTreeMap<String, u64> = std::collections::BTreeMap::new();
+    for src in m
+        .get("sources")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+    {
+        let pinned = src["sha256_pinned"].as_bool().unwrap_or(false);
+        let name = src["name"].as_str().unwrap_or("");
+        for f in src["files"].as_array().into_iter().flatten() {
+            let rel = f["path"].as_str().unwrap_or("").to_string();
+            let sha = f["sha256"].as_str().map(String::from);
+            if pinned && sha.is_none() {
+                return Err(BenchError(crate::terr!(
+                    "e-bench-cli-pinned-source-without-hash",
+                    name = name,
+                    rel = rel
+                )));
+            }
+            if let Some(b) = f["bytes"].as_u64() {
+                sizes.insert(rel.clone(), b);
+            }
+            entries.push((rel, if pinned { sha } else { None }));
+        }
+    }
+    for (rel, want) in &entries {
+        if let Some(w) = want {
+            if !super::is_sha256_hex(w) {
+                return Err(BenchError(crate::terr!(
+                    "e-bench-cli-malformed-sha256",
+                    rel = rel
+                )));
+            }
+        }
+    }
     let (mut ok, mut bad, mut missing, mut unpinned) = (0, 0, 0, 0);
     for (rel, want) in &entries {
         let Some(want) = want else {
@@ -760,12 +798,13 @@ fn verify_manifest(args: &[String]) -> Result<i32, BenchError> {
             println!("{}", crate::t!("bench-cli-unpinned", rel = rel));
             continue;
         };
-        match std::fs::read(root.join(rel)) {
+        // Streamed: a TEXBAT recording is tens of gigabytes.
+        match super::sha256_file(&root.join(rel)) {
             Err(_) => {
                 missing += 1;
                 println!("{}", crate::t!("bench-cli-missing", rel = rel));
             }
-            Ok(b) if &sha256_hex(&b) == want => ok += 1,
+            Ok((h, n)) if &h == want && sizes.get(rel).is_none_or(|b| *b == n) => ok += 1,
             Ok(_) => {
                 bad += 1;
                 println!("{}", crate::t!("bench-cli-mismatch-line", rel = rel));

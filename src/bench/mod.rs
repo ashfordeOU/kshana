@@ -97,6 +97,32 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
     hex::encode(Sha256::digest(bytes))
 }
 
+/// Lowercase hex SHA-256 and size in bytes of the file at `path`, read in 1 MiB blocks, so a
+/// recording of tens of gigabytes (a TEXBAT file) is never held in memory.
+pub fn sha256_file(path: &std::path::Path) -> std::io::Result<(String, u64)> {
+    use std::io::Read;
+    let mut f = std::fs::File::open(path)?;
+    let mut h = Sha256::new();
+    let mut buf = vec![0u8; 1 << 20];
+    let mut n = 0u64;
+    loop {
+        let k = f.read(&mut buf)?;
+        if k == 0 {
+            break;
+        }
+        h.update(&buf[..k]);
+        n += k as u64;
+    }
+    Ok((hex::encode(h.finalize()), n))
+}
+
+/// Whether `s` is a well-formed manifest hash: 64 lowercase hexadecimal digits.
+pub fn is_sha256_hex(s: &str) -> bool {
+    s.len() == 64
+        && s.bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+}
+
 /// The 1.0.0 split of a real-data folder (superseded, kept so `RESULTS-v1.md` stays reproducible):
 /// the first 8 bytes of the SHA-256 of the folder path, big-endian, modulo 10; 0 to 5 dev, 6 and 7
 /// test, 8 and 9 holdout. On JammerTest 2024 it left the holdout without a jamming epoch.
