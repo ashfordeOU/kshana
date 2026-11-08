@@ -4,7 +4,8 @@
     python3 -I oracle.py dump.json        (prints {"windows_checked", "worst_abs_diff", "auc"})
     python3 -I oracle.py --self-test
 
-The dump: {"cells": [{"series": {channel: [[t, g], ...]}, "windows": [{"channel", "t0_s", "t1_s",
+The dump: {"cells": [{"series" (optional; without it the window maxima are taken as given and only
+the AUC is checked): {channel: [[t, g], ...]}, "windows": [{"channel", "t0_s", "t1_s",
 "event_id" (null for a negative), "max"}]}], "auc": engine AUC}. Standard library only; no engine code.
 """
 import json
@@ -41,7 +42,8 @@ def check(dump):
     worst, n, pos, neg = 0.0, 0, [], []
     for cell in dump["cells"]:
         for w in cell["windows"]:
-            m = restarted_max(cell["series"][w["channel"]], w["t0_s"], w["t1_s"])
+            series = cell.get("series", {}).get(w["channel"])
+            m = w["max"] if series is None else restarted_max(series, w["t0_s"], w["t1_s"])
             worst = max(worst, abs(m - w["max"]))
             n += 1
             (pos if w["event_id"] is not None else neg).append(m)
