@@ -418,7 +418,9 @@ kshana scenarios/optical-atmosphere-network.toml
 mission clock, at [`/studio/replay/`](https://kshana.dev/studio/replay/)), an Optical PNT page
 (`/studio/optical/`), a Holdover test page (`/studio/holdover/`) and an observatory viewer
 (`/studio/observatory/`). They run the same engine in the browser, nothing is uploaded, and they carry
-the same advisory statement. The pictures above are drawn from the engine's own output by a script;
+the same advisory statement. In Kshana Desktop only, an IQ recording view (`/studio/iq/`) reads a recording from
+disk and shows its power over time, a waterfall and the spectrum at a cursor; it reads received samples only and
+has no control that writes, transmits or makes a signal. The pictures above are drawn from the engine's own output by a script;
 they are not screenshots of these pages.
 
 ### Space-user navigation (`gnss-ssv`)
