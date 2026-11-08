@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Punt voor { "0.41" }: één run.</b> Render beide uit een 
 
 seg-67e04a43cea8 = De wasm-build bevat alleen de Engelse catalogus. De andere zestien zouden elk ongeveer { "150" } kB gzip toevoegen. Een pagina haalt <c1/> op bij een taalkeuze en roept <c2/> aan; als het ophalen of de registratie mislukt, blijft de pagina in het Engels. Native bevatten de opdrachtregel en het Python-wheel alle { "18" }.
 
-seg-9a2f85e7e43c = Grootte, niet-geoptimaliseerde <c1/> uit <c2/> (vóór wasm-bindgen en wasm-opt), basis 68e8632b tegen deze tak: { "18.71" } MB -> { "19.88" } MB ruw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. De Engelse catalogus is { "521" } kB ruw, { "153" } kB gzip daarvan; de rest is <c3/> en zijn afhankelijkheden. Dit wordt zoals gemeten geaccepteerd.
+seg-9a2f85e7e43c = Grootte, niet-geoptimaliseerde <c1/> uit <c2/> (vóór wasm-bindgen en wasm-opt), basis bc04e98f tegen deze tak: { "18.71" } MB -> { "19.88" } MB ruw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. De Engelse catalogus is { "521" } kB ruw, { "153" } kB gzip daarvan; de rest is <c3/> en zijn afhankelijkheden. Dit wordt zoals gemeten geaccepteerd.
 
 seg-3ce9aab4916e = De catalogus
 

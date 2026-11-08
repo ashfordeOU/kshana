@@ -469,7 +469,7 @@ seg-0e1285fdfe52 = Fünf Registerzeilen (<c1/>), wie die Entwurfsnotiz sie abgre
 # c2: ElevationMask
 # c3: get_dop
 # c4: xval/orekit-skyline/PREREGISTRATION.md
-seg-1aa76286f152 = Orekit { "12.2" } (<c1/>-Blickwinkel, <c2/>) mit gnss_lib_py { "1.0.4" } (<c3/> und die DOP-Matrix), vorab registriert in <c4/> (Commit d94130d4), bevor eines von beiden ausgeführt wurde: { "1173" } Blickwinkel an sechs Standorten und vier Epochen, sechs Tabellen, { "142" } sichtbare Mengen; schlechteste Elevation { "1.3e-13" }°, Azimut { "2.3e-13" }°, Maske { "1.1e-12" }° gegenüber { "1e-9" }°; identische sichtbare Mengen, keine im Grenzband; DOP { "3.3e-13" } relativ und Kofaktor { "6.6e-13" } der Matrixskala gegenüber { "1e-9" }. Umfang: Tabellenmasken, geodätische Blickwinkel, die maskierte Menge und ihr DOP und Kofaktor bei gemeinsamer Uhr.
+seg-1aa76286f152 = Orekit { "12.2" } (<c1/>-Blickwinkel, <c2/>) mit gnss_lib_py { "1.0.4" } (<c3/> und die DOP-Matrix), vorab registriert in <c4/> (Commit e4b9d912), bevor eines von beiden ausgeführt wurde: { "1173" } Blickwinkel an sechs Standorten und vier Epochen, sechs Tabellen, { "142" } sichtbare Mengen; schlechteste Elevation { "1.3e-13" }°, Azimut { "2.3e-13" }°, Maske { "1.1e-12" }° gegenüber { "1e-9" }°; identische sichtbare Mengen, keine im Grenzband; DOP { "3.3e-13" } relativ und Kofaktor { "6.6e-13" } der Matrixskala gegenüber { "1e-9" }. Umfang: Tabellenmasken, geodätische Blickwinkel, die maskierte Menge und ihr DOP und Kofaktor bei gemeinsamer Uhr.
 
 # text
 seg-b33828edbe2f = von Hand berechnete Werte; der obige Vergleich liest deren Tabellen als Eingaben und prüft sie nicht
@@ -484,7 +484,7 @@ seg-83946f66ca78 = keine: gewählte, angegebene Abmessungen (nur gegen sich selb
 # c1: linalg.inv
 # c2: linalg.eigh
 # c3: xval/numpy-ellipse/PREREGISTRATION.md
-seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> und <c2/> (Standard P2) auf den { "142" } eingecheckten sichtbaren Mengen, gemeinsame Uhr und eine Uhr je System, vorab registriert in <c3/> (Commit 2dfc9c16): { "270" } Fälle, Achsen { "5.1e-13" } relativ, Orientierung { "5.3e-12" }°, Kofaktor { "1.0e-12" } der Matrixskala, gegenüber { "1e-9" } und { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" } <c1/> und <c2/> (Standard P2) auf den { "142" } eingecheckten sichtbaren Mengen, gemeinsame Uhr und eine Uhr je System, vorab registriert in <c3/> (Commit 0bbeeaee): { "270" } Fälle, Achsen { "5.1e-13" } relativ, Orientierung { "5.3e-12" }°, Kofaktor { "1.0e-12" } der Matrixskala, gegenüber { "1e-9" } und { "1e-6" }°
 
 # text
 seg-44e5f9ca28f7 = Himmelsgeometrie-Funktionen

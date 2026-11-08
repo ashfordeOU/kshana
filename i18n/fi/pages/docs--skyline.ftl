@@ -204,7 +204,7 @@ seg-9d04c658b37a = Jokainen tulos sisältää kentän <c1/> (MODELLED), kentän 
 
 seg-0e1285fdfe52 = Viisi kirjanpitoriviä (<c1/>), sellaisina kuin suunnittelumuistio ne rajaa:
 
-seg-1aa76286f152 = Orekit { "12.2" } (katselukulmat luokalla <c1/>, <c2/>) ja gnss_lib_py { "1.0.4" } (<c3/> ja DOP-matriisi), ennakkorekisteröity tiedostossa <c4/> (commit d94130d4) ennen kuin kumpaakaan ajettiin: { "1173" } katselukulmaa kuudessa paikassa ja neljällä epookilla, kuusi taulukkoa, { "142" } näkyvää joukkoa; pahin korkeuskulma { "1.3e-13" }°, atsimuutti { "2.3e-13" }°, maski { "1.1e-12" }° vastaan { "1e-9" }°; identtiset näkyvät joukot, ei yhtään rajakaistalla; DOP { "3.3e-13" } suhteellisesti ja kofaktori { "6.6e-13" } matriisin mittakaavasta vastaan { "1e-9" }. Rajaus: taulukkomaskit, geodeettiset katselukulmat, maskattu joukko sekä sen yhteiskellon DOP ja kofaktori.
+seg-1aa76286f152 = Orekit { "12.2" } (katselukulmat luokalla <c1/>, <c2/>) ja gnss_lib_py { "1.0.4" } (<c3/> ja DOP-matriisi), ennakkorekisteröity tiedostossa <c4/> (commit e4b9d912) ennen kuin kumpaakaan ajettiin: { "1173" } katselukulmaa kuudessa paikassa ja neljällä epookilla, kuusi taulukkoa, { "142" } näkyvää joukkoa; pahin korkeuskulma { "1.3e-13" }°, atsimuutti { "2.3e-13" }°, maski { "1.1e-12" }° vastaan { "1e-9" }°; identtiset näkyvät joukot, ei yhtään rajakaistalla; DOP { "3.3e-13" } suhteellisesti ja kofaktori { "6.6e-13" } matriisin mittakaavasta vastaan { "1e-9" }. Rajaus: taulukkomaskit, geodeettiset katselukulmat, maskattu joukko sekä sen yhteiskellon DOP ja kofaktori.
 
 seg-b33828edbe2f = käsin lasketut arvot; yllä oleva vertailu lukee niiden taulukot syötteinä eikä tarkista niitä
 
@@ -212,7 +212,7 @@ seg-ca950752be62 = Horisonttiprofiilin esiasetukset
 
 seg-83946f66ca78 = ei mitään: valitut, ilmoitetut mitat (tarkistettu vain itseään vastaan)
 
-seg-ca5db55640a9 = numpy { "2.5.4" }: <c1/> ja <c2/> (standardi P2) { "142" } tallennetulla näkyvällä joukolla, yhteinen kello ja yksi kello järjestelmää kohti, ennakkorekisteröity tiedostossa <c3/> (commit 2dfc9c16): { "270" } tapausta, akselit { "5.1e-13" } suhteellisesti, suunta { "5.3e-12" }°, kofaktori { "1.0e-12" } matriisin mittakaavasta, vastaan { "1e-9" } ja { "1e-6" }°
+seg-ca5db55640a9 = numpy { "2.5.4" }: <c1/> ja <c2/> (standardi P2) { "142" } tallennetulla näkyvällä joukolla, yhteinen kello ja yksi kello järjestelmää kohti, ennakkorekisteröity tiedostossa <c3/> (commit 0bbeeaee): { "270" } tapausta, akselit { "5.1e-13" } suhteellisesti, suunta { "5.3e-12" }°, kofaktori { "1.0e-12" } matriisin mittakaavasta, vastaan { "1e-9" } ja { "1e-6" }°
 
 seg-44e5f9ca28f7 = Taivasgeometriafunktiot
 

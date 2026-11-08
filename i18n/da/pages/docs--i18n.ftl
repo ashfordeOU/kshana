@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Punkt for { "0.41" }: én kørsel.</b> Gengiv begge ud fra
 
 seg-67e04a43cea8 = Wasm-buildet indlejrer kun det engelske katalog. De øvrige seksten ville tilføje omkring { "150" } kB gzip hver. En side henter <c1/> ved et sprogvalg og kalder <c2/>; hvis hentningen eller registreringen fejler, forbliver siden på engelsk. Native, kommandolinjen og Python-wheel indlejrer alle { "18" }.
 
-seg-9a2f85e7e43c = Størrelse, uoptimeret <c1/> fra <c2/> (før wasm-bindgen og wasm-opt), base 68e8632b mod denne gren: { "18.71" } MB -> { "19.88" } MB rå, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Det engelske katalog er { "521" } kB rå, { "153" } kB gzip heraf; resten er <c3/> og dets afhængigheder. Dette accepteres som målt.
+seg-9a2f85e7e43c = Størrelse, uoptimeret <c1/> fra <c2/> (før wasm-bindgen og wasm-opt), base bc04e98f mod denne gren: { "18.71" } MB -> { "19.88" } MB rå, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Det engelske katalog er { "521" } kB rå, { "153" } kB gzip heraf; resten er <c3/> og dets afhængigheder. Dette accepteres som målt.
 
 seg-3ce9aab4916e = Kataloget
 

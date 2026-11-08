@@ -27,7 +27,7 @@ seg-6f8d24ecb89f = — { "55,970" } von { "58,697" } Zeilen
 seg-03065c20d4d8 = Commit
 
 # text
-# c1: fb73817
+# c1: db796dd
 # c2: v0.29.0
 seg-d734cdb77d70 = <c1/> (Engine { "0.29.0" }, das Tag <c2/>)
 
@@ -83,7 +83,7 @@ seg-b566e95a74ab = dann aktualisieren Sie die obige Tabelle und die sechs Stelle
 seg-6935c9c381b3 = Verlauf
 
 # text
-# c1: 7b4617c
+# c1: b1d350d
 # c2: 1daa012
 # c3: CHANGELOG.md
 # c4: paper/kshana-technical-report.md

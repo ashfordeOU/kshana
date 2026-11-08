@@ -62,7 +62,7 @@ seg-509f93c7e9ce = <b>MODELLED</b>基于轨迹库的三个gnss-ins场景（一�
 
 seg-e0633b308e4e = <b>MODELLED</b>对位置、速度、时钟相位和频率使用同一个堆叠卡尔曼滤波器，输入为使位置与钟耦合的伪距（带互协方差的Joseph形式更新）；增广了常值加速度计偏置的1-DOF变体 测试：<a1>fusion_coupled_filters.rs</a1>。
 
-seg-451a304052c4 = <b>MODELLED</b>由第一性原理（k_eff·T²、QPN）得出的冷原子干涉加速度计。参考基准（oracle，ExternalDataset）：已发表的CAI原始论文数值向量（Cheinet { "2008" }传递函数；Peters/Freier灵敏度）：k_eff·T² 完全吻合，散粒噪声ASD为单边下限，与每台已发表仪器相差在约{ "2" }× 以内（实际器件的技术噪声高于量子下限）。这是一个范围界定，而非等同。{ "0.30" }第{ "2" }轮（已预先登记e7de532a），一项发现（仍为MODELLED）：仅含QPN的旋转噪声对照Gauguet等的实测值
+seg-451a304052c4 = <b>MODELLED</b>由第一性原理（k_eff·T²、QPN）得出的冷原子干涉加速度计。参考基准（oracle，ExternalDataset）：已发表的CAI原始论文数值向量（Cheinet { "2008" }传递函数；Peters/Freier灵敏度）：k_eff·T² 完全吻合，散粒噪声ASD为单边下限，与每台已发表仪器相差在约{ "2" }× 以内（实际器件的技术噪声高于量子下限）。这是一个范围界定，而非等同。{ "0.30" }第{ "2" }轮（已预先登记fcb9ac64），一项发现（仍为MODELLED）：仅含QPN的旋转噪声对照Gauguet等的实测值
 
 seg-7e95210bcc48 = <b>MODELLED</b>守时期间由偏置 + 标度因数 + VRW + 稳定度衰减复合而成的位置预算。参考基准（oracle，ReferenceImpl）：对双重积分白加速度噪声的独立numpy蒙特卡罗SDE积分（以真正独立的算法验证解析VRW方差）+ 偏置/标度因数项的Groves { "2013" }已发表值锚点；CAI器件数值量化的是合作方硬件，仍为MODELLED
 

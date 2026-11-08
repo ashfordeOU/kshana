@@ -6,7 +6,7 @@ seg-37d16b499bc5 = dB
 
 seg-98151954f217 = false
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Bilans łącza J/S wynikający z geometrii, C/N₀ przy zagłuszaniu, utrata śledzenia dla każdego satelity. Wyrocznia (InternalConsistency): Równanie bilansu łącza C/N₀ przy zagłuszaniu sprawdzone krzyżowo z niezależnym ponownym wyprowadzeniem w numpy (ta sama postać zamknięta → InternalConsistency) oraz charakteryzacja spadku C/N₀ w rzeczywistym JammerTest-2024. { "0.30" } runda { "2" }, zablokowane (pozostaje MODELLED): zmierzony spadek C/N0 w JammerTest { "2024" } względem prognozy z bilansu łącza (zarejestrowanej z góry 6b2f6240, w granicach { "3" } dB) nie został wykonany, ponieważ położenie i skierowanie anteny F8.1 przy
+seg-cc2ad9e12064 = <b>MODELLED</b> Bilans łącza J/S wynikający z geometrii, C/N₀ przy zagłuszaniu, utrata śledzenia dla każdego satelity. Wyrocznia (InternalConsistency): Równanie bilansu łącza C/N₀ przy zagłuszaniu sprawdzone krzyżowo z niezależnym ponownym wyprowadzeniem w numpy (ta sama postać zamknięta → InternalConsistency) oraz charakteryzacja spadku C/N₀ w rzeczywistym JammerTest-2024. { "0.30" } runda { "2" }, zablokowane (pozostaje MODELLED): zmierzony spadek C/N0 w JammerTest { "2024" } względem prognozy z bilansu łącza (zarejestrowanej z góry 6a66994b, w granicach { "3" } dB) nie został wykonany, ponieważ położenie i skierowanie anteny F8.1 przy
 
 seg-143f3f1cc521 = Odporność na zagłuszanie przy braku GNSS jest MODELLED, nie jest sprawdzona względem niezależnego wzorca: sprawdzona względem własnej tożsamości w postaci zamkniętej / analitycznej; wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią. (macierz weryfikacji (docs/MODELLED-RATIONALE.md))
 

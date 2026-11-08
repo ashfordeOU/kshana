@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Kohta versiossa { "0.41" }: yksi ajo.</b> Renderöi molemm
 
 seg-67e04a43cea8 = Wasm-käännös sisältää vain englanninkielisen katalogin. Muut kuusitoista lisäisivät noin { "150" } kB gzip kukin. Sivu noutaa <c1/> kielivalinnan yhteydessä ja kutsuu <c2/>; jos nouto tai rekisteröinti epäonnistuu, sivu pysyy englanniksi. Natiivisti komentorivi ja Python-wheel sisältävät kaikki { "18" }.
 
-seg-9a2f85e7e43c = Koko, optimoimaton <c1/> komennosta <c2/> (ennen wasm-bindgenia ja wasm-optia), pohja 68e8632b tätä haaraa vasten: { "18.71" } MB -> { "19.88" } MB raakana, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Englanninkielinen katalogi on { "521" } kB raakana, siitä { "153" } kB gzip; loput on <c3/> ja sen riippuvuudet. Tämä otetaan vastaan mitattuna.
+seg-9a2f85e7e43c = Koko, optimoimaton <c1/> komennosta <c2/> (ennen wasm-bindgenia ja wasm-optia), pohja bc04e98f tätä haaraa vasten: { "18.71" } MB -> { "19.88" } MB raakana, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Englanninkielinen katalogi on { "521" } kB raakana, siitä { "153" } kB gzip; loput on <c3/> ja sen riippuvuudet. Tämä otetaan vastaan mitattuna.
 
 seg-3ce9aab4916e = Katalogi
 

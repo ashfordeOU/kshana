@@ -258,7 +258,7 @@ seg-d866653008e1 = Every numeric claim, quoted with its page and stated assumpti
 # text
 # c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
 # c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Bars, cases and inputs, committed alone before the run (revision { "2" }, ebac1e14), and the recorded run: <c1/>. The finding is pinned in <c2/>.
+seg-50535c58d3cf = Bars, cases and inputs, committed alone before the run (revision { "2" }, 05bf9a19), and the recorded run: <c1/>. The finding is pinned in <c2/>.
 
 # text
 seg-069a652c402e = bar
@@ -327,7 +327,7 @@ seg-e666f1eb7a59 = { "1" } of { "6" } bars passes. The cause is geometry. No sou
 seg-1da5fcf7bbf5 = Pre-registered prediction
 
 # text
-# c1: d4a2d4b5
+# c1: c05dac1d
 # c2: docs/predictions/lunar-reference-station.md
 # c3: tests/prediction_frozen.rs
 seg-4ea806a57380 = A pre-registered prediction, frozen at commit <c1/> on the public-sources inputs, with its scoring protocol: <a1><c2/></a1>. It is a prediction, not a validation, and every figure in it is dominated by the unpublished element set of the four-satellite constellation (the elements used are ILLUSTRATIVE): over the { "80" } deg S region, availability { "8.2" } %, corrected p95 3-D { "280" } m, uncorrected { "3.8" } km. MODELLED; <c3/> fails if any frozen byte moves.

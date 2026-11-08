@@ -260,7 +260,7 @@ seg-d866653008e1 = Iga arvuline väide, tsiteeritud koos selle lehekülje ja sä
 # text
 # c1: tests/fixtures/lunar_station_published/PREREGISTRATION.md
 # c2: tests/lunar_station_published_oracle.rs
-seg-50535c58d3cf = Lävendid, juhtumid ja sisendid, kinnitatud eraldi enne käivitust (redaktsioon { "2" }, ebac1e14), ja registreeritud käivitus: <c1/>. Järeldus on fikseeritud failis <c2/>.
+seg-50535c58d3cf = Lävendid, juhtumid ja sisendid, kinnitatud eraldi enne käivitust (redaktsioon { "2" }, 05bf9a19), ja registreeritud käivitus: <c1/>. Järeldus on fikseeritud failis <c2/>.
 
 # text
 seg-069a652c402e = lävi
@@ -329,7 +329,7 @@ seg-e666f1eb7a59 = { "1" } { "6" } lävendist läbitakse. Põhjus on geomeetria.
 seg-1da5fcf7bbf5 = Eelregistreeritud ennustus
 
 # text
-# c1: d4a2d4b5
+# c1: c05dac1d
 # c2: docs/predictions/lunar-reference-station.md
 # c3: tests/prediction_frozen.rs
 seg-4ea806a57380 = Eelregistreeritud ennustus, külmutatud commit-il <c1/> avalike allikate sisenditel, koos selle hindamisprotokolliga: <a1><c2/></a1>. See on ennustus, mitte valideerimine, ja iga selles olev arv on domineeritud nelja satelliidi konstellatsiooni avaldamata elementide komplekti poolt (kasutatud elemendid on ILLUSTRATIVE): { "80" } kraadi S piirkonnas kättesaadavus { "8.2" } %, parandatud p95 3-D { "280" } m, parandamata { "3.8" } km. MODELLED; <c3/> kukub läbi, kui mõni külmutatud bait liigub.

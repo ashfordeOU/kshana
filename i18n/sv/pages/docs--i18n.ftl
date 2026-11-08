@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Punkt för { "0.41" }: en körning.</b> Rendera båda utif
 
 seg-67e04a43cea8 = Wasm-bygget bäddar bara in den engelska katalogen. De andra sexton skulle lägga till omkring { "150" } kB gzip vardera. En sida hämtar <c1/> vid ett språkval och anropar <c2/>; om hämtningen eller registreringen misslyckas stannar sidan på engelska. Nativt bäddar kommandoraden och Python-hjulet in alla { "18" }.
 
-seg-9a2f85e7e43c = Storlek, ooptimerad <c1/> från <c2/> (före wasm-bindgen och wasm-opt), bas 68e8632b mot den här grenen: { "18.71" } MB -> { "19.88" } MB rått, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Den engelska katalogen är { "521" } kB rå, { "153" } kB gzip av den; resten är <c3/> och dess beroenden. Detta godtas som uppmätt.
+seg-9a2f85e7e43c = Storlek, ooptimerad <c1/> från <c2/> (före wasm-bindgen och wasm-opt), bas bc04e98f mot den här grenen: { "18.71" } MB -> { "19.88" } MB rått, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Den engelska katalogen är { "521" } kB rå, { "153" } kB gzip av den; resten är <c3/> och dess beroenden. Detta godtas som uppmätt.
 
 seg-3ce9aab4916e = Katalogen
 

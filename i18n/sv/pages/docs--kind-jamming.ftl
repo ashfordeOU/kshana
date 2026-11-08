@@ -8,7 +8,7 @@ seg-37d16b499bc5 = dB
 
 seg-37d29d8303fe = km
 
-seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-länkbudget, anti-jam C/N₀, förlust av låsning per satellit. Oberoende referens (InternalConsistency): Länkbudgetekvationen för anti-jam C/N₀ korskontrollerad mot en oberoende numpy-omräkning (delar samma slutna form → InternalConsistency) plus en karakterisering av C/N₀-försämring i verkliga JammerTest-2024. { "0.30" } omgång { "2" }, blockerad (förblir MODELLED): den uppmätta C/N0-minskningen i JammerTest { "2024" } mot en länkbudgetprediktion (förhandsregistrerad 6b2f6240, inom { "3" } dB) kördes inte eftersom F8.1-antennens position och pekning vid
+seg-cc2ad9e12064 = <b>MODELLED</b> Geometrisk J/S-länkbudget, anti-jam C/N₀, förlust av låsning per satellit. Oberoende referens (InternalConsistency): Länkbudgetekvationen för anti-jam C/N₀ korskontrollerad mot en oberoende numpy-omräkning (delar samma slutna form → InternalConsistency) plus en karakterisering av C/N₀-försämring i verkliga JammerTest-2024. { "0.30" } omgång { "2" }, blockerad (förblir MODELLED): den uppmätta C/N0-minskningen i JammerTest { "2024" } mot en länkbudgetprediktion (förhandsregistrerad 6a66994b, inom { "3" } dB) kördes inte eftersom F8.1-antennens position och pekning vid
 
 seg-59afd80736c5 = <b>PARTNER</b> Tillhandahålls inte — Kshana modellerar signalprestanda, inte nyttolast- eller antennhårdvara. Oberoende referens (NoneKind): ingen: en disciplin som ägs av partner, utan modul och utan test av utformning
 

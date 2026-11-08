@@ -16,7 +16,7 @@ seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 
-seg-451a304052c4 = <b>MODELLED</b> Kaldatom-interferometer-akselerometer fra grunnprinsipper (k_eff·T², QPN). Uavhengig referanse (ExternalDataset): Publiserte numeriske vektorer fra primærartikler om CAI (Cheinet { "2008" } overføringsfunksjon; Peters/Freier-følsomhet): k_eff·T² stemte nøyaktig, skuddstøy-ASD et ensidig gulv innenfor ~{ "2" }× av hvert publiserte instrument (virkelige enheter har teknisk støy over kvantegulvet). Et intervall, ikke likhet. { "0.30" } runde { "2" } (forhåndsregistrert e7de532a), et funn (forblir MODELLED): rotasjonsstøyen kun fra QPN mot den målte Gauguet et al.
+seg-451a304052c4 = <b>MODELLED</b> Kaldatom-interferometer-akselerometer fra grunnprinsipper (k_eff·T², QPN). Uavhengig referanse (ExternalDataset): Publiserte numeriske vektorer fra primærartikler om CAI (Cheinet { "2008" } overføringsfunksjon; Peters/Freier-følsomhet): k_eff·T² stemte nøyaktig, skuddstøy-ASD et ensidig gulv innenfor ~{ "2" }× av hvert publiserte instrument (virkelige enheter har teknisk støy over kvantegulvet). Et intervall, ikke likhet. { "0.30" } runde { "2" } (forhåndsregistrert fcb9ac64), et funn (forblir MODELLED): rotasjonsstøyen kun fra QPN mot den målte Gauguet et al.
 
 seg-7e95210bcc48 = <b>MODELLED</b> Sammensatt posisjonsbudsjett over holdover fra bias + skalafaktor + VRW + stabilitetsforfall. Uavhengig referanse (ReferenceImpl): Uavhengig numpy Monte Carlo-SDE-integrasjon av dobbeltintegrert hvit akselerasjonsstøy (validerer den analytiske VRW-variansen med en genuint uavhengig algoritme) + et publisert Groves { "2013" }-verdianker for bias-/skalafaktorleddene; CAI-enhetenes tall kvantifiserer partnerens maskinvare og forblir MODELLED
 

@@ -78,7 +78,7 @@ seg-cd0360ad624d = <b>Pozycja { "0.41" }: jeden przebieg.</b> Wygenerować oba z
 
 seg-67e04a43cea8 = Kompilacja wasm zawiera tylko katalog angielski. Pozostałe szesnaście dodałoby około { "150" } kB gzip każdy. Strona pobiera <c1/> po wyborze języka i wywołuje <c2/>; jeśli pobranie lub rejestracja się nie powiedzie, strona pozostaje po angielsku. Natywnie wiersz poleceń i pakiet Pythona zawierają wszystkie { "18" }.
 
-seg-9a2f85e7e43c = Rozmiar, nieoptymalizowany <c1/> z <c2/> (przed wasm-bindgen i wasm-opt), podstawa 68e8632b wobec tej gałęzi: { "18.71" } MB -> { "19.88" } MB surowo, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Katalog angielski ma { "521" } kB surowo, z czego { "153" } kB gzip; reszta to <c3/> i jego zależności. Przyjęto to tak, jak zmierzono.
+seg-9a2f85e7e43c = Rozmiar, nieoptymalizowany <c1/> z <c2/> (przed wasm-bindgen i wasm-opt), podstawa bc04e98f wobec tej gałęzi: { "18.71" } MB -> { "19.88" } MB surowo, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. Katalog angielski ma { "521" } kB surowo, z czego { "153" } kB gzip; reszta to <c3/> i jego zależności. Przyjęto to tak, jak zmierzono.
 
 seg-3ce9aab4916e = Katalog
 
