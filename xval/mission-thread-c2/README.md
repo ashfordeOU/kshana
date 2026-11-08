@@ -24,9 +24,22 @@ not from data.
 By §2, **W2 is "not run"** and C2 reports W1 only, saying so (§7). No Horizons state of the W2 period has been fetched
 or read by anyone working on this row.
 
+## Readings, fixed before any data beyond the C1 files is fetched
+
+1. **Events and impulses.** §3's "adjacent event hours merge into one event" counts events. §4 gives **one impulse per
+   event hour** (its velocity residual vector, at the hour's midpoint), so a run of two adjacent event hours yields
+   two impulses (`src/mission_thread/impulses.rs`).
+2. **Residual sign.** The residual is the next tabulated velocity minus the propagated one, so it is the step the
+   propagation missed and is added as the impulse.
+3. **Propagation.** The C1 code path: the `tli-and-cruise` phase with no TLI burn, the thread's Moon kernel cut, the
+   analytic Sun, 1 h steps. The impulses are its new `impulses` list (`t_s` from the window start, `dv_mps` in GCRF).
+   A step is shortened to land on an impulse time. Without impulses every output is unchanged.
+4. **Scoring.** The H states are the half-hour offsets 18:30 on 16 Nov to 17:30 on 19 Nov (71 states). C2a is the
+   largest 3-D position difference over them; C2b is the velocity difference at the last one (17:30 on 19 Nov).
+
 ## Process (from the pre-registration), with commits as they land
 
 1. Signed off (3 November 2026).
-2. Impulse support, detector and propagation code, tested on synthetic data only: *pending*.
+2. Impulse support, detector and propagation code, tested on synthetic data only (`tests/mission_thread_c2_impulses.rs`, the module tests of `src/mission_thread/impulses.rs`): this commit.
 3. T (hourly, W1) fetched; events and impulses computed and committed before H is fetched: *pending*.
 4. H (half-hour offsets, W1) fetched; the comparison runs once; verdict committed and pinned: *pending*.

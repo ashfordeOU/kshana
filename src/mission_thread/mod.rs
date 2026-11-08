@@ -20,6 +20,7 @@ pub mod budget;
 pub mod conversions;
 pub mod earth;
 pub mod handover;
+pub mod impulses;
 pub mod lunar;
 pub mod phase;
 pub mod scenario;

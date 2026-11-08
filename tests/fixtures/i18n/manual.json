@@ -13589,6 +13589,66 @@
   ]
  },
  {
+  "id": "e-mission-thread-earth-tli-cruise-impulse-after-end",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": an impulse lies after the end of the phase"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-impulse-bad-dv",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": an `impulses` entry needs `dv_mps`, three finite numbers"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-impulse-bad-time",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": an `impulses` entry needs `t_s`, a number at least 0"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-impulse-not-a-table",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": each `impulses` entry must be a table"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-impulse-unknown-key",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": an `impulses` entry may hold only `t_s` and `dv_mps`"
+  ]
+ },
+ {
+  "id": "e-mission-thread-earth-tli-cruise-impulses-not-a-list",
+  "error": true,
+  "parts": [
+   {
+    "var": "kind"
+   },
+   ": `impulses` must be a list of tables"
+  ]
+ },
+ {
   "id": "e-bench-task-e-predictions-labels",
   "error": true,
   "parts": [

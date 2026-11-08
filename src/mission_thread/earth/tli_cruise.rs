@@ -104,6 +104,9 @@ pub struct TliCruise {
     clock_q_d: f64,
     ground: Option<Ground>,
     ssv: Option<Ssv>,
+    /// Impulses applied to the mean state during the coast: `(t_s` from the phase start, `dv` in GCRF m/s`)`,
+    /// sorted by time. Empty unless the model lists `impulses` (C2, `docs/mission-thread/PREREGISTRATION-C2.md`).
+    impulses: Vec<(f64, [f64; 3])>,
 }
 
 /// Builds the phase from its model table.
@@ -134,6 +137,7 @@ pub(super) fn parse(
         "ground_range_rate_sigma_mps",
         "ground_interval_s",
         "ground_duty",
+        "impulses",
     ];
     if with_burn {
         allowed.extend([
@@ -191,6 +195,7 @@ pub(super) fn parse(
     } else {
         None
     };
+    let impulses = parse_impulses(t)?;
     let burn = |key: &str| if with_burn { m.nonneg(key) } else { Ok(0.0) };
     Ok(TliCruise {
         start_state,
@@ -203,7 +208,70 @@ pub(super) fn parse(
         clock_q_d: m.nonneg("clock_q_d")?,
         ground,
         ssv,
+        impulses,
     })
+}
+
+/// The optional `[[...impulses]]` list: each entry has `t_s` (seconds from the phase start, at least 0) and
+/// `dv_mps` (three GCRF components). Returned sorted by time.
+fn parse_impulses(t: &toml::Table) -> Result<Vec<(f64, [f64; 3])>, String> {
+    let Some(v) = t.get("impulses") else {
+        return Ok(Vec::new());
+    };
+    let list = v.as_array().ok_or_else(|| {
+        crate::terr!(
+            "e-mission-thread-earth-tli-cruise-impulses-not-a-list",
+            kind = KIND
+        )
+    })?;
+    let mut out = Vec::with_capacity(list.len());
+    for e in list {
+        let e = e.as_table().ok_or_else(|| {
+            crate::terr!(
+                "e-mission-thread-earth-tli-cruise-impulse-not-a-table",
+                kind = KIND
+            )
+        })?;
+        if e.keys().any(|k| k != "t_s" && k != "dv_mps") {
+            return Err(crate::terr!(
+                "e-mission-thread-earth-tli-cruise-impulse-unknown-key",
+                kind = KIND
+            ));
+        }
+        let num = |x: &toml::Value| x.as_float().or_else(|| x.as_integer().map(|i| i as f64));
+        let t_s = e
+            .get("t_s")
+            .and_then(num)
+            .filter(|x| x.is_finite() && *x >= 0.0)
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-impulse-bad-time",
+                    kind = KIND
+                )
+            })?;
+        let dv = e
+            .get("dv_mps")
+            .and_then(|x| x.as_array())
+            .filter(|a| a.len() == 3)
+            .ok_or_else(|| {
+                crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-impulse-bad-dv",
+                    kind = KIND
+                )
+            })?;
+        let mut d = [0.0; 3];
+        for (k, x) in dv.iter().enumerate() {
+            d[k] = num(x).filter(|y| y.is_finite()).ok_or_else(|| {
+                crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-impulse-bad-dv",
+                    kind = KIND
+                )
+            })?;
+        }
+        out.push((t_s, d));
+    }
+    out.sort_by(|a, b| a.0.total_cmp(&b.0));
+    Ok(out)
 }
 
 /// The Moon from a kernel, everything else from the analytic series: the provider the cut that has
@@ -652,8 +720,41 @@ impl TliCruise {
         let mut segments = 0usize;
         let mut ground_since_update = 0.0;
         let mut ssv_last_avail: Option<bool> = None;
-        while t < dur - 1e-9 {
-            let dt = self.step_s.min(dur - t);
+        let mut next_impulse = 0usize;
+        if let Some(&(ti, _)) = self.impulses.last() {
+            if ti > dur + 1e-9 {
+                return Err(crate::terr!(
+                    "e-mission-thread-earth-tli-cruise-impulse-after-end",
+                    kind = KIND
+                ));
+            }
+        }
+        loop {
+            // Impulses due now are applied to the mean state before the next step (the covariance is
+            // unchanged: C2 models the steps' mean only).
+            while let Some(&(ti, dv)) = self.impulses.get(next_impulse) {
+                if ti > t + 1e-9 {
+                    break;
+                }
+                for k in 0..3 {
+                    x[3 + k] += dv[k];
+                }
+                events.push(Event {
+                    t_s: t0 + ti,
+                    what: format!(
+                        "impulse of {:.4} m/s applied to the mean state",
+                        (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt()
+                    ),
+                });
+                next_impulse += 1;
+            }
+            if t >= dur - 1e-9 {
+                break;
+            }
+            let mut dt = self.step_s.min(dur - t);
+            if let Some(&(ti, _)) = self.impulses.get(next_impulse) {
+                dt = dt.min(ti - t);
+            }
             let (model, used_kernel) = segment_model(ctx, jd0 + t / 86_400.0, dt);
             segments += 1;
             if used_kernel {

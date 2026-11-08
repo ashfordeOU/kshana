@@ -11103,6 +11103,18 @@ engine-e-mission-thread-earth-rendezvous-leg = { $kind }: leg { $leg }: { $e }
 
 engine-e-mission-thread-earth-tli-cruise-ground-duty-must-be-in = { $kind }: `ground_duty` must be in [0, 1], got { $d }
 
+engine-e-mission-thread-earth-tli-cruise-impulse-after-end = { $kind }: an impulse lies after the end of the phase
+
+engine-e-mission-thread-earth-tli-cruise-impulse-bad-dv = { $kind }: an `impulses` entry needs `dv_mps`, three finite numbers
+
+engine-e-mission-thread-earth-tli-cruise-impulse-bad-time = { $kind }: an `impulses` entry needs `t_s`, a number at least 0
+
+engine-e-mission-thread-earth-tli-cruise-impulse-not-a-table = { $kind }: each `impulses` entry must be a table
+
+engine-e-mission-thread-earth-tli-cruise-impulse-unknown-key = { $kind }: an `impulses` entry may hold only `t_s` and `dv_mps`
+
+engine-e-mission-thread-earth-tli-cruise-impulses-not-a-list = { $kind }: `impulses` must be a list of tables
+
 engine-e-mission-thread-earth-tli-cruise-ssv-window-and-ssv-step = { $kind }: `ssv_window_s` and `ssv_step_min` must be above 0
 
 engine-e-mission-thread-earth-tli-cruise-the-propagation-did-not-reach = { $kind }: the propagation did not reach { $dt } s
