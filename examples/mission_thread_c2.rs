@@ -208,7 +208,41 @@ fn main() -> Result<(), String> {
                 .map_err(|e| e.to_string())?
             );
         }
-        _ => return Err("detect|score <dir>".into()),
+        "diagnose" => {
+            // A diagnostic after the verdict, not part of it (pre-registration, Process 5): the propagation with the
+            // committed impulses against the hourly T states, and the same without impulses.
+            let imp: Value = serde_json::from_str(
+                &std::fs::read_to_string(IMPULSES).map_err(|e| format!("{IMPULSES}: {e}"))?,
+            )
+            .map_err(|e| e.to_string())?;
+            let impulses: Vec<(f64, [f64; 3])> = imp["impulses"]
+                .as_array()
+                .ok_or("no impulses")?
+                .iter()
+                .map(|i| {
+                    (
+                        i["t_s"].as_f64().unwrap(),
+                        std::array::from_fn(|k| i["dv_mps"][k].as_f64().unwrap()),
+                    )
+                })
+                .collect();
+            let start = t[0].x;
+            let mut rows = Vec::new();
+            for s in &t[1..] {
+                let secs = s_of(s.jd_tdb);
+                let w = run(&ctx, start, 0.0, secs, &impulses)?;
+                let n = run(&ctx, start, 0.0, secs, &[])?;
+                let d = |x: [f64; 6]| norm3([x[0] - s.x[0], x[1] - s.x[1], x[2] - s.x[2]]);
+                let dv = |x: [f64; 6]| norm3([x[3] - s.x[3], x[4] - s.x[4], x[5] - s.x[5]]);
+                rows.push(json!({"hours": secs / 3600.0, "with_impulses_m": d(w), "with_impulses_mps": dv(w),
+                    "without_m": d(n), "without_mps": dv(n)}));
+            }
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&rows).map_err(|e| e.to_string())?
+            );
+        }
+        _ => return Err("detect|score|diagnose <dir>".into()),
     }
     Ok(())
 }

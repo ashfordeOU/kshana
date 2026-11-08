@@ -78,3 +78,8 @@ cargo run --release --example mission_thread_oracle -- <dir> > xval/mission-thre
 cargo run --release --example mission_thread_oracle -- <dir> diagnose > xval/mission-thread/results_diagnostic.json
 KSHANA_MISSION_THREAD_ORACLE_DATA=<dir> cargo test --test mission_thread_oracle
 ```
+
+**C2 (8 November 2026), recorded beside C1 and not changing it.** With the five steps modelled as impulses
+(`docs/mission-thread/PREREGISTRATION-C2.md`), W1 is NOT MET: 17.3 km against 2 km, and 0.0177 m/s against 0.01 m/s. W2
+is not run. Four of the five steps carry position jumps no impulse can produce (`xval/mission-thread-c2/RESULTS.md`).
+C1 stays NOT MET.
