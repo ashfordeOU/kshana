@@ -35,8 +35,8 @@ opened.
      than 1 reporting station there is no `P̂_0`, and the epoch is skipped.
    - **Log-likelihood:** `Σ log φ((r_i − P̂_0)/σ_sh)`, plus, for each censored station,
      `log Φ((J_min,i − (P̂_0 − 10·n·log10 d_i + G_i − L_i))/σ_sh)`.
-   - **Exponent `n`.** It is marginalised over {2.0, 2.5, 3.0} with equal prior, per epoch: the log of the mean of
-     the three likelihoods (log-sum-exp).
+   - **Exponent `n`.** It is marginalised over {2.0, 2.5, 3.0} with equal prior **over the session, not per epoch**
+     (see the correction under reading 8).
    - **Distances.** `d_i` is the slant distance with the source at height `h` and the station at its stated antenna
      height, floored at 1 m.
 6. **Heights and line of sight.**
@@ -55,8 +55,19 @@ opened.
    - **Prior:** flat over domain cells; cells outside the domain have zero mass.
 8. **Session and accumulation.**
    - A session is a maximal run of epochs in which at least 3 stations report interference, split at a gap over 120 s.
-   - The session log-posterior is `τ · Σ_epochs log-likelihood`, with τ the tempering exponent (reading 9), then
-     normalised over the grid.
+   - **Session posterior.** For each hypothesis `(n, h)`, the epoch log-likelihoods are summed over the session and
+     multiplied by τ, the tempering exponent (reading 9). The posterior of a cell is the mean over the six
+     hypotheses of `exp(τ·Σ_e ll_e(x, n, h))`, normalised over the grid.
+   - **Correction, 8 November 2026, after the development run (seeds 1 to 200) and before any gate seed was drawn.**
+     - **The first version** marginalised `n` and `h` per epoch. A noiseless check, with data drawn from the
+       locator's own model, put the posterior mode 5 km from a source outside the network.
+     - **Why.** A per-epoch mixture rewards cells where several hypotheses fit equally well. There, every station is
+       beyond the horizon for both heights, so the mixture gains `log 2` per epoch, about 21 nats over 30 epochs.
+     - **The fix.** `n` and `h` belong to a static source and its surroundings, so they are constant over a session
+       and are marginalised once, over the session.
+     - **Data looked at.** The development run's summary (coverage, area and centroid ratio per τ) was seen before
+       this change and is kept in `dev-first.json.gz`. τ is chosen again on the same development seeds, and the gate
+       seeds are still unused.
 9. **The tempering exponent τ** (section 1 says it is fixed on synthetic data before the scored run).
    - **Candidates:** τ is the largest value in {1, 1/2, 1/3, 1/5, 1/10, 1/20, 1/30, 1/60} whose 95% region contains
      the truth in at least 0.95 of a **development** set: 200 synthetic sessions, seeds 1 to 200, generated as in
