@@ -1882,13 +1882,9 @@ seg-8e176aa32cd3 = MCP to Model Context Protocol. Przypnij wydanie poleceniem <c
 
 seg-57686575b81d = Dane partnera
 
-seg-0c39fcb3527f = { "176" } z { "401" } możliwości VALIDATED względem niezależnej wyroczni zewnętrznej, według macierzy weryfikacji
-
 seg-467bb88ec415 = <a1>Co nowego w { "0.40" }</a1>, <a2>Co nowego w { "0.39" }</a2>, <a3>Co nowego w { "0.38" }</a3> oraz <a4>{ "0.38" } szczegółowo</a4>: ocena jammertest, własne flagi odbiornika, wejścia maszynowe, czas i holdover, pakiety norm, LunaNet AFS, pełna pętla laboratoryjna, kshana-bench, obserwatorium, eksportery, optyka, <a5>nawigacja użytkowników przestrzeni kosmicznej</a5> i <a6>infrastruktura księżycowa</a6>
 
 seg-cafc1c9c4d58 = Co nowego w { "0.40" }
-
-seg-59a31376fa3d = { "0.40" } dodaje budżet błędu na poziomie misji, oznacza każdą wartość i tabelę jej poziomem dowodowym, odczytuje zmierzone dzienniki zegara, sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się emiter zakłóceń, i mówi w siedemnastu językach obok angielskiego. Rejestr ma teraz { "401" } wierszy: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Żaden wiersz nie został awansowany do VALIDATED, a każde niespełnienie poniżej jest przypięte przez test.
 
 seg-5bd16655cace = <b>Etykiety dowodowe.</b> Każda wartość i tabela zapisywana przez przebieg niesie poziom i identyfikatory wierszy rejestru, na których się opiera, odczytane z macierzy.
 
@@ -1924,25 +1920,9 @@ seg-ee28beafac1a = budżet błędu nawigacji i czasu łańcucha faz od startu do
 
 seg-34e44a492cad = <c1/> uruchamia scenariusz; każde inne polecenie jest podpoleceniem, a <c2/> wypisuje sposób użycia wszystkich. Polecenia to <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (z <c8/> i <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> i <c63/>. <a1><c64/></a1> podaje przeznaczenie każdego z nich, zweryfikowany przykład i jego stronę w dokumentacji.
 
-seg-9f5426cbbf4a = <b>{ "176" } z { "401" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "221" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
-
-seg-54ac34405621 = Jak możliwość zyskuje swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, i etykietę, która z tego wynika. Wiersz może być VALIDATED tylko z niezależną wyrocznią zewnętrzną; w przeciwnym razie jest MODELLED, albo PARTNER, gdy odpowiada za niego partner sprzętowy. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, OD wsadowe/sekwencyjne, wyrocznia: wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER z { "401" } wierszy. Łącznie { "176" } możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "221" } kolejnych uczciwie oznaczono jako MODELLED, a { "4" } należy do PARTNER.
-
-seg-42fa293e1bb4 = Kilka z kontroli: wszystkie { "666" } wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; model sił Cowella do { "0.08" } m względem Orekit { "12.2" }; Galileo do { "0.61" } m i Swarm-A do { "0.10" } m względem rzeczywistych precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy obejmują około { "95" } % pokrycia linii <c1/>, z progiem { "85" } % w CI. Rejestr (ledger) to <a1><c2/></a1>, generowany z <c3/>: <a2>pełna macierz 401 wierszy</a2> oraz powód, dla którego każdy wiersz obliczony z modelu nie ma zewnętrznej wyroczni, w <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Etykieta dowodowa przy każdej wartości
 
 seg-58ce18b8e642 = Każda wartość i tabela zapisywana przez przebieg mówi, na ile jej ufać i na których wierszach rejestru się opiera. JSON wyniku ma klucz <c1/>, SVG wykresu wiersz pod wykresem (oraz element <c2/>), a tabela CSV z przodu <c3/> wierszy komentarza (odczytywanych z <c4/>). Podaje poziom, <c5/>, <c6/> lub <c7/>, oraz identyfikatory (<c8/> i osiem cyfr szesnastkowych) wierszy macierzy weryfikacji, które przebieg wykorzystał. Poziom jest najsłabszy z tych wierszy, więc przebieg opierający się na jednym wierszu obliczonym z modelu jest oznaczony MODELLED, ile by obok niego nie było wierszy sprawdzonych; etykieta nigdy nie może twierdzić więcej niż rejestr. Wiersze, statusy i identyfikatory są odczytywane z macierzy, a nie wpisywane (<a1><c9/></a1>, <a2><c10/></a2>), a <c11/> kończy się niepowodzeniem, jeśli wartość nie ma etykiety lub etykieta nie zgadza się z macierzą.
-
-seg-06fc56dd3edb = Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to <b>wyselekcjonowane najważniejsze wyniki</b>; pełna, sprawdzana maszynowo macierz ma <b>{ "401" } wierszy — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), z kompletnymi dowodami (i tym, co uczciwie <em>nie</em> jest jeszcze sprawdzone) w <a1><c2/></a1> oraz w artefakcie <a2><c3/></a2> dla każdego wydania (generowanym przez <c4/>, z atestacją SLSA — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Jak możliwość zyskuje swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (rzeczywisty zbiór danych, niezależna implementacja referencyjna lub opublikowane wektory), na status — ze strażnikiem wymuszanym w CI, że żadna możliwość nie może być uznana za sprawdzoną bez zewnętrznej wyroczni. Bieżące liczby: { "176" } sprawdzonych, { "221" } obliczonych z modelu, { "4" } partnera, { "401" } łącznie
-
-seg-3f48a70a707a = Stan weryfikacji wszystkich { "401" } możliwości: { "176" } sprawdzonych (względem zewnętrznej wyroczni), { "221" } obliczonych z modelu, { "4" } należących do partnera
-
-seg-35a4412348e1 = { "176" } sprawdzonych · { "221" } obliczonych z modelu · { "4" } partnera — <a1>SVG</a1>
-
-seg-cdf946112863 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "401" } możliwości ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
 
 seg-824001fa6734 = laboratoria i producenci posiadający zmierzone dane
 
@@ -1960,8 +1940,6 @@ seg-a66ad1f69702 = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego z
 
 seg-43bd621a1f5b = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "93" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
 
-seg-290f2b34e368 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "93" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "401" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.
-
 seg-fb8bcc54a31d = { "93" } wbudowanych rodzajów scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz
 
 seg-2f38fc515db6 = cały otwarty silnik, wszystkie { "93" } rodzajów scenariuszy, bez blokad funkcji
@@ -1971,3 +1949,25 @@ seg-5374f780c396 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykł
 seg-d106dd5461ed = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "53" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
 
 seg-0920329ba390 = { "53" } narzędzi
+
+seg-44fb0df264f6 = { "176" } z { "405" } możliwości VALIDATED względem niezależnej wyroczni zewnętrznej, według macierzy weryfikacji
+
+seg-d8582006e2dc = { "0.40" } dodaje budżet błędu na poziomie misji, oznacza każdą wartość i tabelę jej poziomem dowodowym, odczytuje zmierzone dzienniki zegara, sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się emiter zakłóceń, i mówi w siedemnastu językach obok angielskiego. Rejestr ma teraz { "405" } wierszy: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Żaden wiersz nie został awansowany do VALIDATED, a każde niespełnienie poniżej jest przypięte przez test.
+
+seg-5a6c42704fb2 = <b>{ "176" } z { "405" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "225" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
+
+seg-b113dca9dfde = Jak możliwość zyskuje swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, i etykietę, która z tego wynika. Wiersz może być VALIDATED tylko z niezależną wyrocznią zewnętrzną; w przeciwnym razie jest MODELLED, albo PARTNER, gdy odpowiada za niego partner sprzętowy. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, OD wsadowe/sekwencyjne, wyrocznia: wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER z { "405" } wierszy. Łącznie { "176" } możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "225" } kolejnych uczciwie oznaczono jako MODELLED, a { "4" } należy do PARTNER.
+
+seg-113e59a8f70c = Kilka z kontroli: wszystkie { "666" } wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; model sił Cowella do { "0.08" } m względem Orekit { "12.2" }; Galileo do { "0.61" } m i Swarm-A do { "0.10" } m względem rzeczywistych precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy obejmują około { "95" } % pokrycia linii <c1/>, z progiem { "85" } % w CI. Rejestr (ledger) to <a1><c2/></a1>, generowany z <c3/>: <a2>pełna macierz 405 wierszy</a2> oraz powód, dla którego każdy wiersz obliczony z modelu nie ma zewnętrznej wyroczni, w <a3><c4/></a3>.
+
+seg-5334b90deb02 = Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to <b>wyselekcjonowane najważniejsze wyniki</b>; pełna, sprawdzana maszynowo macierz ma <b>{ "405" } wierszy — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), z kompletnymi dowodami (i tym, co uczciwie <em>nie</em> jest jeszcze sprawdzone) w <a1><c2/></a1> oraz w artefakcie <a2><c3/></a2> dla każdego wydania (generowanym przez <c4/>, z atestacją SLSA — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Jak możliwość zyskuje swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (rzeczywisty zbiór danych, niezależna implementacja referencyjna lub opublikowane wektory), na status — ze strażnikiem wymuszanym w CI, że żadna możliwość nie może być uznana za sprawdzoną bez zewnętrznej wyroczni. Bieżące liczby: { "176" } sprawdzonych, { "225" } obliczonych z modelu, { "4" } partnera, { "405" } łącznie
+
+seg-008a8eed3718 = Stan weryfikacji wszystkich { "405" } możliwości: { "176" } sprawdzonych (względem zewnętrznej wyroczni), { "225" } obliczonych z modelu, { "4" } należących do partnera
+
+seg-4f7fb3fb883c = { "176" } sprawdzonych · { "225" } obliczonych z modelu · { "4" } partnera — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "405" } możliwości ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
+
+seg-758f459ab5e5 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "93" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "405" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.

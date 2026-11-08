@@ -177,10 +177,10 @@ seg-4ae905aec2ab = <s1>Předchozí</s1>Rozhraní Python
 
 seg-8af548581ae9 = <s1>Další</s1>Crate Rustu
 
-seg-c9a297cc51e9 = { "176" } z { "401" } schopností ověřeno proti nezávislým vnějším orákulům
-
-seg-7b53ee712a36 = <b>{ "176" } z { "401" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "221" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jedno označení ve strojově kontrolovaném registru: VALIDATED (souhlasí nezávislé vnější orákulum: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní, a řečeno otevřeně) nebo PARTNER (vlastní ho hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 na { "4.12" } mm a model sil Cowell na { "0.08" } m proti Orekit { "12.2" }.
-
-seg-b59781ecf257 = Jak schopnost získává své označení: schopnost, orákulum, test, označení v registru. Stav ověření napříč všemi { "401" } schopnostmi: { "176" } ověřeno, { "221" } modelováno, { "4" } ve vlastnictví partnera
-
 seg-80e5f0aa2831 = Engine má { "93" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické prostředky nad drahami GNSS, kolem nich i za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).
+
+seg-10f4803a4423 = { "176" } z { "405" } schopností ověřeno proti nezávislým vnějším orákulům
+
+seg-8a5d5b148d86 = <b>{ "176" } z { "405" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "225" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jedno označení ve strojově kontrolovaném registru: VALIDATED (souhlasí nezávislé vnější orákulum: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní, a řečeno otevřeně) nebo PARTNER (vlastní ho hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 na { "4.12" } mm a model sil Cowell na { "0.08" } m proti Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Jak schopnost získává své označení: schopnost, orákulum, test, označení v registru. Stav ověření napříč všemi { "405" } schopnostmi: { "176" } ověřeno, { "225" } modelováno, { "4" } ve vlastnictví partnera

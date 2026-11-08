@@ -2002,4 +2002,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
 
-seg-a2bf08b8e82d = { "221" } funktioner betegnet MODELLED.
+seg-7a83829ca355 = { "225" } funktioner betegnet MODELLED.

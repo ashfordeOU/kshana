@@ -819,10 +819,10 @@ seg-67341b9eea70 = <b>Cokolwiek innego</b><s1>contact@ashforde.org · poczta tra
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-cc655ce0b6c8 = Pełna macierz weryfikacji: { "176" } z { "401" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane
-
 seg-0ab329c843b0 = Otwarty silnik pośrodku: jeden znacznik na rodzaj scenariusza ({ "93" }), wypełniony tam, gdzie dany rodzaj ma w rejestrze wiersze sprawdzone niezależnie, pusty tam, gdzie jego wiersze są modelowane, kreska tam, gdzie żaden moduł rejestru nie pasuje do niego z nazwy. Kshana Pro i badanie na zamówienie leżą wokół niego i łączą się z rodzajami, na których się opierają.
 
 seg-e507665bbe2c = Silnik v{ $version } · { "93" } rodzajów z <c1/> · status w rejestrze z <c2/> · na czym opierają się Pro i badanie: rejestr wydań serwisu · bez scenariusza i ziarna (seed)
 
 seg-7515b1af1f0b = Wszystkie { "93" } rodzaje scenariuszy i { "183" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = Pełna macierz weryfikacji: { "176" } z { "405" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane

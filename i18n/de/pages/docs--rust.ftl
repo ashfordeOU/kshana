@@ -248,12 +248,6 @@ seg-6dc7d52fef11 = <s1>Zurück</s1>npm und WebAssembly
 # text
 seg-8ff56af64ec2 = <s1>Weiter</s1>MCP-Server
 
-seg-c9a297cc51e9 = { "176" } von { "401" } Fähigkeiten gegen unabhängige externe Referenzen validiert
-
-seg-7b53ee712a36 = <b>{ "176" } von { "401" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "221" } ehrlich als modelliert gekennzeichnet, { "4" } im Besitz von Partnern. Jede Fähigkeit trägt in einem maschinengeprüften Register genau eine Kennzeichnung: VALIDATED (eine unabhängige externe Referenz stimmt überein: reale Daten, eine unabhängige Implementierung oder veröffentlichte Referenzvektoren), MODELLED (in sich konsistent, und das wird offen gesagt) oder PARTNER (ein Hardware-Partner besitzt sie). Zu den Prüfungen gehören: alle { "666" } SGP4-Vektoren (Simplified General Perturbations { "4" }) von AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 bis auf { "4.12" } mm und das Cowell-Kraftmodell bis auf { "0.08" } m gegen Orekit { "12.2" }.
-
-seg-b59781ecf257 = Wie eine Fähigkeit ihre Kennzeichnung erwirbt: Fähigkeit, unabhängige Referenz, Test, Registerkennzeichnung. Der Verifikationsstatus über alle { "401" } Fähigkeiten: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern
-
 seg-8e9fbc5f2e72 = Die Beschreibung der eingebauten Szenarioart kind in lang aus dem Katalog (Englisch, wenn die Sprache keine Übersetzung davon hat); None für einen Namen, der keine eingebaute Art ist.
 
 seg-06e503c23c30 = [kind_description_in] in der aktuellen Sprache ([crate::i18n::current]).
@@ -275,3 +269,9 @@ seg-24fe823a994a = json ohne die Nachweiskennzeichnung ([crate::evidence_label])
 seg-c0444d838311 = out mit der aus seinem JSON, SVG und CSV entfernten Nachweiskennzeichnung, Byte für Byte so, wie der Lauf es erzeugte, bevor es die Kennzeichnung gab; eine Ausgabe ohne Kennzeichnung bleibt unverändert.
 
 seg-80e5f0aa2831 = Die Engine hat { "93" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).
+
+seg-10f4803a4423 = { "176" } von { "405" } Fähigkeiten gegen unabhängige externe Referenzen validiert
+
+seg-8a5d5b148d86 = <b>{ "176" } von { "405" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "225" } ehrlich als modelliert gekennzeichnet, { "4" } im Besitz von Partnern. Jede Fähigkeit trägt in einem maschinengeprüften Register genau eine Kennzeichnung: VALIDATED (eine unabhängige externe Referenz stimmt überein: reale Daten, eine unabhängige Implementierung oder veröffentlichte Referenzvektoren), MODELLED (in sich konsistent, und das wird offen gesagt) oder PARTNER (ein Hardware-Partner besitzt sie). Zu den Prüfungen gehören: alle { "666" } SGP4-Vektoren (Simplified General Perturbations { "4" }) von AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 bis auf { "4.12" } mm und das Cowell-Kraftmodell bis auf { "0.08" } m gegen Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Wie eine Fähigkeit ihre Kennzeichnung erwirbt: Fähigkeit, unabhängige Referenz, Test, Registerkennzeichnung. Der Verifikationsstatus über alle { "405" } Fähigkeiten: { "176" } validiert, { "225" } modelliert, { "4" } im Besitz von Partnern

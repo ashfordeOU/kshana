@@ -329,10 +329,6 @@ seg-188c6e41f434 = Los documentos del proceso de los responsables permanecen en 
 
 seg-fcffac5eb150 = <s1>Idiomas</s1><s2>El texto del motor dirigido a las personas está en { "17" } idiomas además del inglés: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "401" } filas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "401" } filas de la matriz de verificación.</s2>
-
 seg-980f70b29717 = <s1>Socios de datos y filas que promover</s1><s2>Kshana etiqueta cada capacidad en un registro verificado por máquina (matriz de verificación).</s2>
 
 seg-7c6a541b3bc8 = <s1>Hilo de misión: del lanzamiento a la entrada</s1><s2>Software de carácter consultivo, no un equipo de navegación certificado.</s2>
@@ -350,3 +346,7 @@ seg-5484fd345826 = <s1>Todos los tipos de escenario, por familia</s1><s2>Cada ti
 seg-b23a9bd3ccfa = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "195" }), agrupado por tipo de escenario, con sus ajustes principales.</s2>
 
 seg-a7dc2bc0a77d = { "93" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.
+
+seg-f950b0ba9160 = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "405" } filas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "405" } filas de la matriz de verificación.</s2>

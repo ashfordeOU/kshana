@@ -3268,8 +3268,6 @@ seg-fb01a581d5ee = van { "28" } getoetst
 
 seg-d6c43e56d4cc = Missieanalyse, borging en overig
 
-seg-5516d9825527 = van { "55" } getoetst
-
 seg-7038fab8b00c = Getoetst { "176" }
 
 seg-ba89c1119b21 = Eigendom van de partner { "4" }
@@ -4130,16 +4128,6 @@ seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navi
 
 seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
 
-seg-aa7c0a865661 = { "401" } mogelijkheden, elk beoordeeld. <b>{ "176" } gevalideerd</b> tegen onafhankelijke externe referenties. <b>{ "221" } eerlijk gelabeld als gemodelleerd.</b> { "4" } in handen van een partner. Er wordt niets naar boven afgerond.
-
-seg-7a254b7d5498 = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } gevalideerd (gevulde vierkanten), { "221" } gemodelleerd (holle vierkanten), { "4" } in handen van een partner (ruiten). Met de pijltjestoetsen gaat u tussen cellen; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
-
-seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "401" } rijen · geen scenario of seed: het eigen register van de engine
-
-seg-77bfad0f4f88 = { "176" }<s1>van { "401" } gevalideerd</s1>
-
-seg-222c46a96ec3 = Verificatiematrix: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner, { "401" } in totaal
-
 seg-cf2aa475bc68 = De soort missieketen: een document met fasen, elk een van acht geregistreerde soorten, uitgevoerd… · Gemodelleerd
 
 seg-bdc3223c80e4 = De fase launch-ascent: een covariantie van positie en snelheid bij constante snelheid met witte… · Gemodelleerd
@@ -4166,30 +4154,40 @@ seg-860ca782e2bf = De voortplanting van de gemiddelde toestand van de fase tli-a
 
 seg-7c7d72cc2036 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B… · Gemodelleerd
 
-seg-65feaf4e91ef = Alle { "401" } rijen, elk op één regel.
-
-seg-5668b5581703 = van { "102" } gevalideerd
-
 seg-43f852e4bee8 = van { "74" } gevalideerd
-
-seg-fbb78f11c0dc = van { "78" } gevalideerd
 
 seg-8fe12f6058c6 = van { "26" } gevalideerd
 
-seg-b393e1b5fcfc = Alle { "401" }
+seg-2ed2d817f56e = { "405" } mogelijkheden, elk beoordeeld. <b>{ "176" } gevalideerd</b> tegen onafhankelijke externe referenties. <b>{ "225" } eerlijk gelabeld als gemodelleerd.</b> { "4" } in handen van een partner. Er wordt niets naar boven afgerond.
 
-seg-3df9e327c036 = Gemodelleerd { "221" }
+seg-07aef8ff8fe3 = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } gevalideerd (gevulde vierkanten), { "225" } gemodelleerd (holle vierkanten), { "4" } in handen van een partner (ruiten). Met de pijltjestoetsen gaat u tussen cellen; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
 
-seg-7fa6f2e0de57 = Validatieregister, { "401" } rijen, scrollbaar
+seg-81464c684074 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "405" } rijen · geen scenario of seed: het eigen register van de engine
 
-seg-0b884f17b0f2 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-8f715a5e52b0 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-fd83e8666041 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-a9b6470fb2f8 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-9cf103c9cb54 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-947cc1db1e01 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-8e6705edeb6a = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed
+seg-cfd8687a8048 = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed
 
-seg-3f8669a1465b = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-fb3f807e97c0 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-8aabe2e98c52 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-7c4a8891ee1b = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+
+seg-c54618ee87bb = { "176" }<s1>van { "405" } gevalideerd</s1>
+
+seg-9984e76b5b28 = Verificatiematrix: { "176" } gevalideerd, { "225" } gemodelleerd, { "4" } in handen van een partner, { "405" } in totaal
+
+seg-46e93e2ebc71 = Alle { "405" } rijen, elk op één regel.
+
+seg-ebec0449ab03 = Alle { "405" }
+
+seg-bcf766efe1ab = Gemodelleerd { "225" }
+
+seg-cea55077f323 = Validatieregister, { "405" } rijen, scrollbaar
+
+seg-65122c2bb1fc = van { "104" } gevalideerd
+seg-2998c6fa20d6 = van { "79" } gevalideerd
+seg-4b3ab6095c65 = van { "56" } getoetst

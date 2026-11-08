@@ -2765,52 +2765,52 @@ js-cat-automotive-urban-canyon-question = Through an underpass and a roadside ja
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:66
 js-cat-automotive-urban-canyon-title = Car through an urban canyon
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
 js-cat-campaign-jam-spoof-holdover-integrity-question = What happens to one receiver through jamming, spoofing, GNSS loss, an integrity alarm and recovery, on one timeline? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
 js-cat-campaign-jam-spoof-holdover-integrity-title = Chained mission: jam, spoof, hold over, alarm
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
 js-cat-campaign-monte-carlo-clock-holdover-question = Over many seeded runs, does a free-running clock's time error match its closed-form spread?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
 js-cat-campaign-monte-carlo-clock-holdover-title = Monte Carlo clock holdover
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
 js-cat-campaign-optimize-link-budget-question = Over range and data rate, where does an X-band link leave exactly 3 dB of margin?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
 js-cat-campaign-optimize-link-budget-title = Optimise a link budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
 js-cat-campaign-shared-jammer-sea-road-question = Under one jammer, which platform loses its fix: the ship 30 km away or the car 50 km away? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
 js-cat-campaign-shared-jammer-sea-road-title = One jammer, a ship and a car
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
 js-cat-campaign-spectrum-holdover-integrity-question = A jammer takes two L-band signals, the clock holds over and the receiver falls back to Galileo alone: does integrity monitoring still hold? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
 js-cat-campaign-spectrum-holdover-integrity-title = Spectrum-driven mission
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
 js-cat-campaign-sweep-jammer-power-question = As a jammer 1 km away is turned up from 10 nW to 10 W, when does the receiver lose its fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
 js-cat-campaign-sweep-jammer-power-title = Jammer power sweep
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
 js-cat-cislunar-arc-recovery-question = Does an independent least-squares estimator actually recover the state from the arc length the rank test predicts? (modelled; slow — about 15 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
 js-cat-cislunar-arc-recovery-title = Cislunar arc recovery
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
 js-cat-cislunar-observability-question = How much of a cislunar spacecraft's state does an inter-satellite arc make observable?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
 js-cat-cislunar-observability-title = Cislunar observability
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:79
@@ -2843,10 +2843,10 @@ js-cat-conflict-resilience-question = How does a layered PNT architecture degrad
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:71
 js-cat-conflict-resilience-title = Conflict resilience
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
 js-cat-constellation-multi-gnss-coverage-question = With the four global systems together, how many satellites are in view and how good is the geometry, everywhere on Earth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
 js-cat-constellation-multi-gnss-coverage-title = Four GNSS constellations, one map
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:143
@@ -2945,10 +2945,10 @@ js-cat-domain-timing-label = Clocks & timing
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:44
 js-cat-domain-timing-line = Clocks without satellites: holdover, stability, telecom masks, time transfer.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
 js-cat-earth-gnss-lunar-question = Can a receiver near the Moon hear Earth's GNSS, and is it ever enough for a fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
 js-cat-earth-gnss-lunar-title = Earth-GNSS at the Moon
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:144
@@ -2975,10 +2975,10 @@ js-cat-ephemeris-question = Where is the satellite, and when does it pass overhe
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:129
 js-cat-ephemeris-title = Ground track
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
 js-cat-europa-surface-pnt-question = Can a lander on Jupiter's moon Europa be positioned from a small relay constellation and a range from Earth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
 js-cat-europa-surface-pnt-title = Lander on Europa
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:101
@@ -3029,34 +3029,34 @@ js-cat-gnss-sim-raim-question = How do the ionosphere and troposphere shape raw 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:112
 js-cat-gnss-sim-raim-title = GNSS measurements
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
 js-cat-gnss-ssv-formation-heo-question = How well does a filter know the relative position of two spacecraft a kilometre apart, against differencing their absolute fixes? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
 js-cat-gnss-ssv-formation-heo-title = Formation relative navigation, highly elliptical orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
 js-cat-gnss-ssv-heo-question = What does a highly elliptical orbit hear along its path: signals in view, best C/N0, main lobe against sidelobe, DOP and grazing signals? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
 js-cat-gnss-ssv-heo-title = GNSS signals in a highly elliptical orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
 js-cat-gnss-ssv-lunar-weak-question = What can a receiver designed for the weakest signals use on the way to the Moon? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
 js-cat-gnss-ssv-lunar-weak-title = GNSS signals on a lunar transfer, weak-signal receiver
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
 js-cat-gnss-ssv-nav-lunar-question = How well does an onboard filter hold a lunar transfer, against the bound it states? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
 js-cat-gnss-ssv-nav-lunar-title = Onboard GNSS filter on a lunar transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
 js-cat-gnss-ssv-shell-question = How often does a spacecraft at geostationary height hear at least one, and at least four, navigation signals, per constellation and band? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
 js-cat-gnss-ssv-shell-title = GNSS signals above the satellites: a shell at 36 000 km
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:106
@@ -3155,10 +3155,10 @@ js-cat-jamming-harbour-approach-skyline-question = Under a 2 W shore jammer, how
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:63
 js-cat-jamming-harbour-approach-skyline-title = Ship jammed entering harbour
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
 js-cat-l-band-waterfall-jamming-question = What does the whole GNSS L band look like while a chirp, a tone and a noise jammer switch on, and which signals does each one take away? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
 js-cat-l-band-waterfall-jamming-title = L-band waterfall under jamming
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:132
@@ -3167,214 +3167,214 @@ js-cat-launch-window-question = What launch azimuth and dogleg Δv reach a targe
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:132
 js-cat-launch-window-title = Launch window
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
 js-cat-leo-band-trade-question = What does a low-orbit navigation signal gain and lose in each band, from ultra high frequency (UHF) to C band? (representative designs)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
 js-cat-leo-band-trade-title = Band trade, UHF to C band
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
 js-cat-leo-doppler-positioning-question = How good is a fix from ten minutes of Doppler on a low-orbit navigation constellation? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
 js-cat-leo-doppler-positioning-title = Positioning from Doppler alone
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
 js-cat-leo-focus-data-services-question = What does each extra data service cost in navigation-message bits? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
 js-cat-leo-focus-data-services-title = Service data against frame length
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
 js-cat-leo-focus-fused-pnt-sisre-question = How good must the low-orbit signal-in-space range error be before the low-orbit layer helps a fused fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
 js-cat-leo-focus-fused-pnt-sisre-title = Fused fix against orbit and clock error
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
 js-cat-leo-focus-indoor-uhf-question = Which band still reaches a user inside a traditional and a thermally efficient building? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
 js-cat-leo-focus-indoor-uhf-title = Indoor reception by band and building
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
 js-cat-leo-focus-iot-eirp-question = How much satellite transmit power does a battery tag need to last? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
 js-cat-leo-focus-iot-eirp-title = Tracker energy against transmit power
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
 js-cat-leo-focus-ntn-bandwidth-question = How does the positioning error fall as the reference signal widens from 180 kHz to 20 MHz? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
 js-cat-leo-focus-ntn-bandwidth-title = 5G downlink positioning against bandwidth
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
 js-cat-leo-focus-ppp-altitude-question = Does a lower or a higher low-orbit layer shorten convergence more? (modelled; slow, about a minute in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
 js-cat-leo-focus-ppp-altitude-title = Precise positioning against layer altitude
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
 js-cat-leo-focus-science-iono-sounding-question = How well does the delay difference between two bands measure the electron content below a low-orbit satellite? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
 js-cat-leo-focus-science-iono-sounding-title = Ionosphere sounding from two bands
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
 js-cat-leo-indoor-uhf-question = Why does a UHF carrier reach inside a building when the L, S and C bands struggle? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
 js-cat-leo-indoor-uhf-title = Indoors on UHF
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
 js-cat-leo-iot-energy-question = How much energy does a battery tag spend on each position fix from a low-orbit signal? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
 js-cat-leo-iot-energy-title = Energy per fix for a tracker
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
 js-cat-leo-navmsg-encode-decode-question = What does each field's quantisation cost, and does the frame survive encoding, decoding and a corrupted bit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
 js-cat-leo-navmsg-encode-decode-title = Navigation message: binary frame
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
 js-cat-leo-navmsg-fit-interval-trade-question = How long can one broadcast message cover before its orbit error outgrows the target? (modelled; slow, about 30 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
 js-cat-leo-navmsg-fit-interval-trade-title = Navigation message: fit interval
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
 js-cat-leo-navmsg-midpass-update-question = When a satellite switches to a new message in the middle of a pass, does the user see a jump? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
 js-cat-leo-navmsg-midpass-update-title = Navigation message: mid-pass update
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
 js-cat-leo-navmsg-model-comparison-question = Which ephemeris model represents a low orbit best, and how does it sit beside a published table? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
 js-cat-leo-navmsg-model-comparison-title = Navigation message: four models
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
 js-cat-leo-pass-iridium-question = What signal strength and Doppler does an airliner see over one Iridium pass? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
 js-cat-leo-pass-iridium-title = Iridium bursts from an aircraft
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
 js-cat-leo-pass-vs-gnss-cn0-question = How does the signal strength of one low-orbit pass compare with the Galileo satellites in view? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
 js-cat-leo-pass-vs-gnss-cn0-title = One pass against GNSS
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
 js-cat-leo-pass-xona-pulsar-question = What do the X1 and X5 signals look like over one pass, for a ship in the Bay of Biscay? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
 js-cat-leo-pass-xona-pulsar-title = Xona Pulsar pass
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
 js-cat-leo-pnt-end-to-end-question = From signal design to the final fix, what does each stage hand to the next? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
 js-cat-leo-pnt-end-to-end-title = End to end, generic constellation
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
 js-cat-leo-pnt-mega-shell-question = What coverage and geometry does a 5,000-satellite navigation constellation in low Earth orbit give? (modelled; an example design)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
 js-cat-leo-pnt-mega-shell-title = 5,000-satellite low-orbit design
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
 js-cat-leo-ppp-convergence-question = How much faster does precise point positioning (PPP) converge when a low-orbit layer is added? (modelled; slow, about 30 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
 js-cat-leo-ppp-convergence-title = Precise positioning convergence
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
 js-cat-leo-pvt-fjord-skyline-question = Where the fjord walls leave a strip of sky along the channel, how much does a low-orbit layer add to GPS and Galileo? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
 js-cat-leo-pvt-fjord-skyline-title = Ferry deep in a fjord
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
 js-cat-leo-resilience-gnss-jammed-leo-carries-question = When GNSS is jammed, can a low-orbit layer in other bands keep the fix and its integrity? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
 js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS jammed, low orbit carries on
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
 js-cat-leo-resilience-js-margin-question = How much more jamming does a stronger low-orbit signal survive than a GNSS signal from medium orbit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
 js-cat-leo-resilience-js-margin-title = Jammer margin from received power
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
 js-cat-leo-resilience-multiband-diversity-question = As one L-band jammer is turned up, which of four bands keep tracking? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
 js-cat-leo-resilience-multiband-diversity-title = Band diversity under a barrage jammer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
 js-cat-leo-resilience-spoof-doppler-question = When a spoofer moves the computed position 30 m, how quickly does a Doppler and pass-geometry check catch it? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
 js-cat-leo-resilience-spoof-doppler-title = Spoofing caught by Doppler
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
 js-cat-leo-resilience-spoof-monitors-question = Which monitor sees which kind of spoofer? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
 js-cat-leo-resilience-spoof-monitors-title = Spoofing monitors against four spoofers
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
 js-cat-leo-timing-utc-question = How closely can a receiver recover Coordinated Universal Time (UTC) from low-orbit satellites, by oscillator and signal level? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
 js-cat-leo-timing-utc-title = Time transfer to UTC
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
 js-cat-leo-vertical-5g-network-timing-question = When GNSS is lost for a day, does low-orbit time keep a base station inside its timing limit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
 js-cat-leo-vertical-5g-network-timing-title = 5G base-station timing
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
 js-cat-leo-vertical-asset-tracking-iot-question = Along a container's journey, what does each position fix cost a battery tag? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
 js-cat-leo-vertical-asset-tracking-iot-title = Container tracking
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
 js-cat-leo-vertical-autonomous-vehicle-question = When buildings hide the low satellites, does a low-orbit layer keep a car inside a lane-level error? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
 js-cat-leo-vertical-autonomous-vehicle-skyline-question = Modelled as a real street instead of a flat 35° cut-off, does a low-orbit layer still keep a car inside a lane-level error? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
 js-cat-leo-vertical-autonomous-vehicle-skyline-title = Vehicle in a street, not a flat cut-off
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
 js-cat-leo-vertical-autonomous-vehicle-title = Vehicle in an urban canyon
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
 js-cat-leo-vertical-critical-infrastructure-timing-question = When GNSS is lost, does low-orbit time hold a substation's synchronisation? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
 js-cat-leo-vertical-critical-infrastructure-timing-title = Substation timing
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
 js-cat-leo-vertical-polar-arctic-question = From Tromsø to the North Pole, what does a polar low-orbit layer add to GNSS? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
 js-cat-leo-vertical-polar-arctic-title = Arctic journey
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
 js-cat-leo-vertical-rail-maritime-question = When the bundled ship and train scenarios lose GNSS, does a low-orbit pass still reach them? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
 js-cat-leo-vertical-rail-maritime-title = Rail and maritime with a low-orbit layer
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:135
@@ -3383,166 +3383,166 @@ js-cat-link-budget-question = Does the one-way link close with margin at the giv
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:135
 js-cat-link-budget-title = Link budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
 js-cat-lunanet-araim-question = Does a sparse lunar relay set meet the integrity limits for an Artemis-region receiver?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
 js-cat-lunanet-araim-title = Lunar integrity
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
 js-cat-lunar-attack-surface-question = What does it take to spoof or deny a lunar surface receiver, and what authentication budget answers it? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
 js-cat-lunar-attack-surface-title = Lunar attack surface
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
 js-cat-lunar-beacon-question = How much does a handful of surveyed surface beacons collapse south-polar DOP? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
 js-cat-lunar-beacon-title = Lunar surface beacons
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
 js-cat-lunar-differential-pnt-question = How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
 js-cat-lunar-differential-pnt-title = Lunar differential PNT
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
 js-cat-lunar-frame-campaign-question = What datum accuracy comes out of an observing campaign rather than an injected transform? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
 js-cat-lunar-frame-campaign-title = Lunar frame campaign
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
 js-cat-lunar-frame-realisation-question = Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
 js-cat-lunar-frame-realisation-title = Lunar frame
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
 js-cat-lunar-infrastructure-carrier-phase-question = Can a surface station and an orbiter fix the integer carrier-phase ambiguities of Earth-GNSS signals together? The quick example run. (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
 js-cat-lunar-infrastructure-carrier-phase-title = Lunar carrier phase: surface station and orbiter
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
 js-cat-lunar-infrastructure-frame-coestimation-question = How much more information do orbiter-to-surface-station ranges add to the seven parameters of the lunar datum? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
 js-cat-lunar-infrastructure-frame-coestimation-title = Lunar frame co-estimation with orbiter links
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
 js-cat-lunar-infrastructure-geodesy-sensitivity-question = How sensitive are laser ranging, orbiter tracking, a gravimeter and a surface clock to h2, k2, l2 and the libration? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
 js-cat-lunar-infrastructure-geodesy-sensitivity-title = Lunar Love numbers and libration sensitivity
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
 js-cat-lunar-infrastructure-od-consistency-model-error-question = The same comparison with a small unmodelled acceleration injected: does the consistency check notice it? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
 js-cat-lunar-infrastructure-od-consistency-model-error-title = Lunar orbit determination, with an injected modelling error
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
 js-cat-lunar-infrastructure-od-consistency-question = Do onboard Earth-GNSS orbit determination in a lunar halo orbit and independent ground radiometric orbit determination agree to within their stated uncertainties? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
 js-cat-lunar-infrastructure-od-consistency-title = Lunar orbit determination: onboard GNSS against ground tracking
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
 js-cat-lunar-infrastructure-space-tie-question = How precisely can the offsets between three techniques be tied, against the error of the local tie? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
 js-cat-lunar-infrastructure-space-tie-title = Space tie: GNSS, VLBI and laser ranging on one spacecraft
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
 js-cat-lunar-interop-export-question = Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
 js-cat-lunar-interop-export-title = Lunar interop export
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
 js-cat-lunar-jamming-question = How far off can a jammer sit and still deny a lunar surface receiver? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
 js-cat-lunar-jamming-title = Lunar jamming
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
 js-cat-lunar-joint-od-clock-question = Does an Earth-baseline VLBI tie make a lunar station's absolute position observable? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
 js-cat-lunar-joint-od-clock-title = Lunar joint OD+clock
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
 js-cat-lunar-llr-datum-question = What does the lunar datum look like when the campaign is real archived lunar laser ranging (LLR)? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
 js-cat-lunar-llr-datum-title = Lunar laser-ranging datum
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
 js-cat-lunar-relay-constellation-question = What coverage does a relay and navigation constellation in frozen and low lunar orbits give over the whole Moon? (modelled; an example design)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
 js-cat-lunar-relay-constellation-title = Lunar relay constellation
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
 js-cat-lunar-station-coverage-public-sources-question = Under only the publicly stated assumptions, what corrected error does the station give over the south pole? The result is dominated by the orbit elements, which are not public and set ILLUSTRATIVE; this is the input of the frozen prediction. (modelled; not a statement about any real system)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
 js-cat-lunar-station-coverage-public-sources-title = Lunar reference station, public assumptions
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
 js-cat-lunar-station-coverage-question = Over the south-polar region and a day, what corrected error does a lunar reference station give, and how far from it does coverage hold? (modelled; not a statement about any real system)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
 js-cat-lunar-station-coverage-terrain-question = With each site's horizon ray-marched over a real lunar elevation model, how much coverage does the station lose to terrain? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
 js-cat-lunar-station-coverage-terrain-title = Lunar station with real terrain
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
 js-cat-lunar-station-coverage-title = Lunar reference station coverage
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
 js-cat-lunar-station-geodesy-baseline-question = How well do today's five retroreflector arrays pin the lunar datum on a real schedule, before any station is added? The baseline of a pair. (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
 js-cat-lunar-station-geodesy-baseline-title = Lunar station geodesy: the five arrays alone
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
 js-cat-lunar-station-geodesy-with-station-question = The same archived schedule with one added south-polar reflector and VLBI beacon: how much does the datum bound tighten? (modelled, illustrative site; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
 js-cat-lunar-station-geodesy-with-station-title = Lunar station geodesy: with a south-polar station
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
 js-cat-lunar-station-time-lab-question = After a station's miniature rubidium clock is last steered to lunar time, how long does it stay within 1, 10 and 100 ns, and which error term dominates? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
 js-cat-lunar-station-time-lab-title = Lunar station time laboratory
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
 js-cat-lunar-time-budget-question = How large is the Earth–Moon coordinate-time offset, and its error budget? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
 js-cat-lunar-time-budget-title = Lunar time budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
 js-cat-lunar-time-offset-question = How fast does a lunar clock diverge from Earth time (~56–59 µs/day)?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
 js-cat-lunar-time-offset-title = Lunar time offset
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
 js-cat-lunar-vlbi-fim-question = What station-coordinate accuracy does a given VLBI tracking schedule actually buy? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
 js-cat-lunar-vlbi-fim-title = Lunar VLBI information
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
 js-cat-lunar-vlbi-question = What delay does an Earth-baseline VLBI pair see for a lunar surface beacon? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
 js-cat-lunar-vlbi-title = Lunar VLBI
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:65
@@ -3563,73 +3563,73 @@ js-cat-maritime-strait-jamming-question = Across 30 km of open water, does a 50 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:62
 js-cat-maritime-strait-jamming-title = Ship jammed in a strait
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
 js-cat-mars-orbit-pnt-question = How well is a low Mars orbiter positioned from twelve navigation relays, and what does a range from Earth add? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:245
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
 js-cat-mars-orbit-pnt-title = Mars orbiter with relays and an Earth link
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
 js-cat-mars-pnt-lmo-question = Can a MARCONI relay constellation navigate a user at Mars? (covariance FoM, not a certified PL)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
 js-cat-mars-pnt-lmo-title = Mars PNT, low orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
 js-cat-mars-pnt-surface-question = How well can a lander or rover on the rotating Mars surface be navigated against the relay constellation?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
 js-cat-mars-pnt-surface-title = Mars PNT, surface
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
 js-cat-mars-pnt-transfer-question = How well is a vehicle on a high, eccentric approach or capture arc navigated at Mars?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
 js-cat-mars-pnt-transfer-title = Mars PNT, transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
 js-cat-meo-leo-fused-pvt-question = What does adding a low-orbit layer to GPS and Galileo do to position error and geometry? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
 js-cat-meo-leo-fused-pvt-title = Fused GNSS and low-orbit fix
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
 js-cat-mission-thread-short-question = Along one stack from launch to entry, through a low-orbit rendezvous and a day of trans-lunar cruise, which phase has the thinnest navigation and timing margin? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
 js-cat-mission-thread-short-title = Short mission thread, launch to entry
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
 js-cat-moonlight-service-volume-question = What DOP, coverage and integrity does a Moonlight/LCNS-class constellation give the south pole? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
 js-cat-moonlight-service-volume-title = Lunar service volume
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
 js-cat-multi-band-jamming-waterfall-question = With navigation signals spread over four bands, what does a jammer built for one band leave standing? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
 js-cat-multi-band-jamming-waterfall-title = Multi-band jamming waterfall
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:263
 js-cat-notinbrowser-elevation-model = Needs the lunar elevation-model crop ({ $path }) that ships with the repository, not with the browser build.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:258
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
 js-cat-notinbrowser-laser-ranging-data = Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:262
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:264
 js-cat-notinbrowser-study-suite = A study suite, not a single scenario. Run it with the command-line tool: { $command }.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
 js-cat-ntn-5g-positioning-question = How precisely can a handset position itself from a 5G non-terrestrial network downlink, by signal bandwidth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
 js-cat-ntn-5g-positioning-title = 5G satellite downlink positioning
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
 js-cat-oem-interop-question = Can an OEM ephemeris from GMAT / Orekit / STK be imported and round-tripped?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
 js-cat-oem-interop-title = CCSDS OEM bridge
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:116
@@ -3692,10 +3692,10 @@ js-cat-passes-question = When does a satellite rise and set over a station, and 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:130
 js-cat-passes-title = Ground passes
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
 js-cat-polar-arctic-leo-coverage-question = From the equator to the pole, how do satellites in view and geometry change with GNSS alone, a polar low-orbit layer alone, and both? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
 js-cat-polar-arctic-leo-coverage-title = Equator to pole
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:114
@@ -3704,10 +3704,10 @@ js-cat-pvt-abmf-question = Can a real receiver position be solved from raw RINEX
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:114
 js-cat-pvt-abmf-title = Positioning (SPP)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
 js-cat-quantum-anomaly-detect-question = How well are quantum-system faults detected at a fixed false-alarm rate? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
 js-cat-quantum-anomaly-detect-title = Quantum anomaly detect
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:99
@@ -3722,10 +3722,10 @@ js-cat-quantum-gnss-free-nav-question = How far does a cold-atom navigator coast
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:98
 js-cat-quantum-gnss-free-nav-title = Quantum GNSS-free nav
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
 js-cat-quantum-pnt-demonstrator-suite-question = The three quantum application areas as one study (a command-line study suite: kshana --study).
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
 js-cat-quantum-pnt-demonstrator-suite-title = Quantum PNT demonstrator study
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:84
@@ -3734,10 +3734,10 @@ js-cat-quantum-time-transfer-question = What does trusted quantum timing buy ove
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:84
 js-cat-quantum-time-transfer-title = Quantum time transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
 js-cat-quantum-trade-question = What timing / inertial holdover does a candidate clock buy over a classical baseline? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
 js-cat-quantum-trade-title = Quantum PNT trade
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:67
@@ -3746,10 +3746,10 @@ js-cat-rail-tunnel-coast-question = At 160 km/h through a tunnel, how soon does 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:67
 js-cat-rail-tunnel-coast-title = Train through a tunnel
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
 js-cat-realtime-frame-eop-question = How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
 js-cat-realtime-frame-eop-title = Real-time frame/EOP
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:133
@@ -3770,16 +3770,16 @@ js-cat-small-uas-jammed-nav-question = After a jammer takes GNSS away, how far d
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:68
 js-cat-small-uas-jammed-nav-title = Small drone under jamming
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
 js-cat-solar-system-tour-question = Where is every body the engine knows, from the Sun to Pluto and the large moons, and how long does light take between them?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
 js-cat-solar-system-tour-title = Solar system at one epoch
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
 js-cat-space-packet-question = Does a CCSDS 133.0 packet stream encode and decode bit-exactly?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
 js-cat-space-packet-title = Space Packet
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:137
@@ -3806,10 +3806,10 @@ js-cat-spoof-meaconing-question = With an explicit attack shape, how often does 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:75
 js-cat-spoof-meaconing-title = Spoof detector statistics
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
 js-cat-starlink-sop-doppler-positioning-question = How well can a receiver position itself from the Doppler of a broadband constellation that sends no navigation message? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
 js-cat-starlink-sop-doppler-positioning-title = Broadband signals of opportunity
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:85
@@ -3818,10 +3818,10 @@ js-cat-sweep-clock-stability-question = How does holdover change as one clock pa
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:85
 js-cat-sweep-clock-stability-title = Parameter sweep
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
 js-cat-sweep-nd-inertial-question = How does a figure of merit vary across a multi-parameter grid?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
 js-cat-sweep-nd-inertial-title = N-D sweep
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:81
@@ -3866,22 +3866,34 @@ js-cat-timetransfer-question = How tightly can two sites stay synchronised over 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:83
 js-cat-timetransfer-title = Time transfer
 
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-tip-and-cue-baltic-m2-question = Over a week at a 10 s step, what revisit, full-area refresh and radio-to-optical reaction do the pre-registered 16- and 32-satellite layers give? (modelled; about half a minute in the browser)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+js-cat-tip-and-cue-baltic-m2-title = Revisit and tip-and-cue latency, 7 days
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
+js-cat-tip-and-cue-short-question = How often does a radio-frequency layer revisit a sea area, and how fast can it cue an optical layer to look? (modelled; geometry and timing only)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
+js-cat-tip-and-cue-short-title = Two-layer survey over the Baltic Sea, 2 days
+
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:69
 js-cat-tracking-loop-question = At what C/N0 does a receiver actually lose lock, and can a spoofer pull the loops over? (modelled)
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:69
 js-cat-tracking-loop-title = Tracking loop
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
 js-cat-xona-pulsar-end-to-end-question = The same chain on public Xona Pulsar numbers: signal, pass, message, fused fix and precise positioning. (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
 js-cat-xona-pulsar-end-to-end-title = End to end, Xona Pulsar
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
 js-cat-xona-pulsar-signals-question = How precisely can a receiver range on the published X1 and X5 signals, and how large is the acquisition search? (public signal table)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
 js-cat-xona-pulsar-signals-title = Xona Pulsar signals
 
 # 2026-10-01-studio-rebuild/geometry/geometry.js:71
@@ -4325,22 +4337,22 @@ js-hold-blurb-ptp4l = The same four steps read from a ptp4l servo log (the daemo
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:95
 js-hold-budget-exceeded = { $name } first exceeded { $s } s after removal
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+# 2026-10-01-studio-rebuild/holdover/holdover.js:57
 js-hold-chip-baseline = Baseline against its masks
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+# 2026-10-01-studio-rebuild/holdover/holdover.js:57
 js-hold-chip-envelope = ePRTC-A holdover envelope
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+# 2026-10-01-studio-rebuild/holdover/holdover.js:57
 js-hold-chip-holdover = Holdover against its masks
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
 js-hold-chip-measured = measured against the mask
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:54
+# 2026-10-01-studio-rebuild/holdover/holdover.js:57
 js-hold-chip-recovery = Recovery
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:55
+# 2026-10-01-studio-rebuild/holdover/holdover.js:58
 js-hold-chip-words = Words
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:124
@@ -4361,16 +4373,16 @@ js-hold-envelope-exceeded-value = { $verdict }, first exceeded { $s } s after re
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:143
 js-hold-envelope-short = { $verdict } (the record is shorter than the envelope's period)
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:43
+# 2026-10-01-studio-rebuild/holdover/holdover.js:46
 js-hold-file-error = { $name }: { $error }.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:40
+# 2026-10-01-studio-rebuild/holdover/holdover.js:43
 js-hold-file-not-json = { $name }: not JSON.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:46
+# 2026-10-01-studio-rebuild/holdover/holdover.js:49
 js-hold-file-read-here = { $name }, read here; nothing was uploaded.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:38
+# 2026-10-01-studio-rebuild/holdover/holdover.js:41
 js-hold-file-too-large = { $name } is larger than this page reads.
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:67
@@ -4406,7 +4418,7 @@ js-hold-mark-title = { $id } limit { $limit } ns at τ { $tau } s ({ $verdict };
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:92
 js-hold-marker-time = { $name }, T+{ $time } s
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:15
+# 2026-10-01-studio-rebuild/holdover/holdover.js:18
 js-hold-na = n/a
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:102
@@ -4415,7 +4427,7 @@ js-hold-no-curve = No time-error curve: the record could not be reproduced for d
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:115
 js-hold-no-which-curve = No { $which } curve in this result.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+# 2026-10-01-studio-rebuild/holdover/holdover.js:69
 js-hold-not-exceeded = not exceeded
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:151
@@ -4424,10 +4436,10 @@ js-hold-not-recovered = did not stay inside the band
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:29
 js-hold-not-result = this is not a holdover-test result
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:32
+# 2026-10-01-studio-rebuild/holdover/holdover.js:35
 js-hold-open-failed = { $title } could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:23
+# 2026-10-01-studio-rebuild/holdover/holdover.js:26
 js-hold-opening = Opening { $title }…
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:72
@@ -4442,10 +4454,10 @@ js-hold-phase-recovery = Recovery: GNSS restored
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:87
 js-hold-phase-title = { $phase }, T+{ $from } s to { $to } s
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:47
+# 2026-10-01-studio-rebuild/holdover/holdover.js:50
 js-hold-read-failed = Could not be read or drawn ({ $reason }).
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:30
+# 2026-10-01-studio-rebuild/holdover/holdover.js:33
 js-hold-recorded = { $title }: the engine's recorded result (version { $version }).
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:151
@@ -4454,7 +4466,7 @@ js-hold-recovered = inside ±{ $band } ns for { $dwell } s, { $after } s after G
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:28
 js-hold-result-not-json = the result is not JSON ({ $reason })
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:26
+# 2026-10-01-studio-rebuild/holdover/holdover.js:29
 js-hold-result-not-loaded = the recorded result did not load
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:150
@@ -4487,7 +4499,7 @@ js-hold-row-residual = Residual about that line (rms)
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:149
 js-hold-row-step = Step at the moment of removal
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:68
+# 2026-10-01-studio-rebuild/holdover/holdover.js:71
 js-hold-status-final = { $status } { $label }; measured against the mask.
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:136
@@ -4499,61 +4511,61 @@ js-hold-te-aria = Time error over the record, with the phases and the mask limit
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:101
 js-hold-te-line-title = Time error, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
 js-hold-te-note = Time error from { $from }. The two times were stated by { $by }.
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+# 2026-10-01-studio-rebuild/holdover/holdover.js:69
 js-hold-th-budget = Budget
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+# 2026-10-01-studio-rebuild/holdover/holdover.js:69
 js-hold-th-budget-limit = Limit |TE|, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:66
+# 2026-10-01-studio-rebuild/holdover/holdover.js:69
 js-hold-th-first-exceeded = First exceeded after removal, s
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-largest = Largest |TE|, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-limit = Limit, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-margin = Margin, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-mask = Mask
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-mean = Mean, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-measured-on = Measured on
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-metric = Metric
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-rms = RMS, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-samples = Samples
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-source = Source
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-span = Span
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:61
+# 2026-10-01-studio-rebuild/holdover/holdover.js:64
 js-hold-th-step = Step
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-value = Value, ns
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-verdict = Verdict
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:64
+# 2026-10-01-studio-rebuild/holdover/holdover.js:67
 js-hold-th-worst-at = Worst at τ or T+, s
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:21
@@ -4568,7 +4580,7 @@ js-hold-why-no-samples = the result carries no time-error samples (record.series
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:65
 js-hold-why-not-series = the series in the result is not a time series (fewer than two samples, or time not increasing), so no curve is drawn
 
-# 2026-10-01-studio-rebuild/holdover/holdover.js:58
+# 2026-10-01-studio-rebuild/holdover/holdover.js:61
 js-hold-why-sentence = { $why }.
 
 # 2026-10-01-studio-rebuild/lib/holdover.mjs:66
@@ -7619,67 +7631,67 @@ js-lunar-address-too-long = The address was too long; the defaults are shown.
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:142
 js-lunar-address-unknown-source = Unknown source in the address; the recording is shown.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
 js-lunar-alert-limit = alert limit { $value } (illustrative)
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
 js-lunar-alert-not-stated = alert limit not stated
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+# 2026-10-01-studio-rebuild/lunar/lunar.js:147
 js-lunar-bearing-east = 90° E
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:146
+# 2026-10-01-studio-rebuild/lunar/lunar.js:147
 js-lunar-bearing-west = 90° W
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:141
+# 2026-10-01-studio-rebuild/lunar/lunar.js:142
 js-lunar-cell-title = { $lat }°, { $lon }°: corrected { $corrected }, availability { $availability }, coverage { $coverage }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+# 2026-10-01-studio-rebuild/lunar/lunar.js:246
 js-lunar-copy-address = Copy the address from the address bar.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:183
+# 2026-10-01-studio-rebuild/lunar/lunar.js:184
 js-lunar-counts = { $sats } satellites, { $points } grid points, { $epochs } epochs, { $trials } Monte Carlo trials per epoch. Label: { $label }.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:76
+# 2026-10-01-studio-rebuild/lunar/lunar.js:77
 js-lunar-engine-no-start = The engine could not start in this browser ({ $reason }). Open a result file instead.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+# 2026-10-01-studio-rebuild/lunar/lunar.js:91
 js-lunar-engine-unknown-kind = This engine ({ $version }) does not know the { $kind } kind; it needs engine 0.36.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:210
+# 2026-10-01-studio-rebuild/lunar/lunar.js:211
 js-lunar-fig-availability-region = Availability over the region
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+# 2026-10-01-studio-rebuild/lunar/lunar.js:177
 js-lunar-fig-corrected-3d = Corrected error, { $n } %, 3‑D
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+# 2026-10-01-studio-rebuild/lunar/lunar.js:180
 js-lunar-fig-coverage = Coverage
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:179
+# 2026-10-01-studio-rebuild/lunar/lunar.js:180
 js-lunar-fig-epochs-within = epochs within { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:176
+# 2026-10-01-studio-rebuild/lunar/lunar.js:177
 js-lunar-fig-horizontal-vertical = horizontal { $h }, vertical { $v }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:181
+# 2026-10-01-studio-rebuild/lunar/lunar.js:182
 js-lunar-fig-hpl-below-alert = HPL below the alert limit
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:180
+# 2026-10-01-studio-rebuild/lunar/lunar.js:181
 js-lunar-fig-hpl-vpl = HPL, VPL at most
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:178
+# 2026-10-01-studio-rebuild/lunar/lunar.js:179
 js-lunar-fig-improvement = Improvement factor
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:212
+# 2026-10-01-studio-rebuild/lunar/lunar.js:213
 js-lunar-fig-lowest-point = Lowest at a point
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+# 2026-10-01-studio-rebuild/lunar/lunar.js:212
 js-lunar-fig-points-always-available = Points available at every epoch
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:177
+# 2026-10-01-studio-rebuild/lunar/lunar.js:178
 js-lunar-fig-uncorrected-3d = Uncorrected error, { $n } %, 3‑D
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+# 2026-10-01-studio-rebuild/lunar/lunar.js:183
 js-lunar-fig-worst-point = Worst point
 
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:54
@@ -7688,19 +7700,19 @@ js-lunar-file-not-json = This file is not JSON.
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:55
 js-lunar-file-not-object = This file is not a JSON object.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:97
+# 2026-10-01-studio-rebuild/lunar/lunar.js:98
 js-lunar-file-too-large = { $name }: larger than 32 MiB; this page reads result files up to that size.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:47
+# 2026-10-01-studio-rebuild/lunar/lunar.js:48
 js-lunar-file-value = file: { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:211
+# 2026-10-01-studio-rebuild/lunar/lunar.js:212
 js-lunar-full-of-total = { $full } of { $total }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+# 2026-10-01-studio-rebuild/lunar/lunar.js:57
 js-lunar-give-value = { $label }: give a value from { $min } to { $max }.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:56
+# 2026-10-01-studio-rebuild/lunar/lunar.js:57
 js-lunar-give-whole-value = { $label }: give a value from { $min } to { $max } (a whole number).
 
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:19
@@ -7742,85 +7754,85 @@ js-lunar-input-out-of-range = { $label } is out of range.
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:58
 js-lunar-json-field-not-json = The file's json field is not JSON.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+# 2026-10-01-studio-rebuild/lunar/lunar.js:114
 js-lunar-key-50-or-more = 50 % or more
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+# 2026-10-01-studio-rebuild/lunar/lunar.js:114
 js-lunar-key-90-or-more = 90 % or more
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+# 2026-10-01-studio-rebuild/lunar/lunar.js:114
 js-lunar-key-95-or-more = 95 % or more
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+# 2026-10-01-studio-rebuild/lunar/lunar.js:114
 js-lunar-key-99-or-more = 99 % or more
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
 js-lunar-key-above = above { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
 js-lunar-key-above-threshold = above { $value } × threshold
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:113
+# 2026-10-01-studio-rebuild/lunar/lunar.js:114
 js-lunar-key-below-50 = below 50 %
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
 js-lunar-key-between = { $from } to { $to }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
 js-lunar-key-between-threshold = { $from } to { $to } × threshold
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
 js-lunar-key-up-to = up to { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
 js-lunar-key-up-to-threshold = up to { $value } × threshold
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:117
+# 2026-10-01-studio-rebuild/lunar/lunar.js:118
 js-lunar-layer-availability = availability
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:118
+# 2026-10-01-studio-rebuild/lunar/lunar.js:119
 js-lunar-layer-coverage = coverage
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:116
+# 2026-10-01-studio-rebuild/lunar/lunar.js:117
 js-lunar-layer-error = corrected error
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:115
+# 2026-10-01-studio-rebuild/lunar/lunar.js:116
 js-lunar-layer-range = corrected error over its own range
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:165
+# 2026-10-01-studio-rebuild/lunar/lunar.js:166
 js-lunar-legend-no-figure = no figure (unavailable throughout)
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:167
+# 2026-10-01-studio-rebuild/lunar/lunar.js:168
 js-lunar-legend-radius = coverage radius
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:166
+# 2026-10-01-studio-rebuild/lunar/lunar.js:167
 js-lunar-legend-threshold = threshold, { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:169
+# 2026-10-01-studio-rebuild/lunar/lunar.js:170
 js-lunar-legend-worst = worst point
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:245
+# 2026-10-01-studio-rebuild/lunar/lunar.js:246
 js-lunar-link-copied = Link copied.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:161
+# 2026-10-01-studio-rebuild/lunar/lunar.js:162
 js-lunar-map-desc = { $points } grid points from the pole to { $rim }° latitude. { $meet } of them have a corrected { $percentile } percentile error within the threshold of { $threshold }. Coloured by { $layer }. The station is at { $lat }°, { $lon }°.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:137
+# 2026-10-01-studio-rebuild/lunar/lunar.js:138
 js-lunar-map-note-one-band = { $share } % of the points fall in one band of the threshold scale, so the map shows little variation: colour by "its own range" to see how the error varies across the region.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:80
+# 2026-10-01-studio-rebuild/lunar/lunar.js:81
 js-lunar-needs-newer-engine = This study needs engine { $need } or later; the engine running here is v{ $version }. The recording, or a result file, can still be shown.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+# 2026-10-01-studio-rebuild/lunar/lunar.js:204
 js-lunar-no = no
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:67
+# 2026-10-01-studio-rebuild/lunar/lunar.js:68
 js-lunar-no-recording = No recording of this study ships yet: it is made at the release with the 0.36 engine. Run it here with an engine that has the kind, or open a result file.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:72
+# 2026-10-01-studio-rebuild/lunar/lunar.js:73
 js-lunar-no-scenario = This site has no { $file } yet: it arrives with the 0.36 engine. Open a result file instead.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:262
+# 2026-10-01-studio-rebuild/lunar/lunar.js:263
 js-lunar-no-scenario-note = This site has no { $file } yet (it arrives with the 0.36 engine), so a run here is not possible; open a result file instead.
 
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:61
@@ -7829,37 +7841,37 @@ js-lunar-not-report = This is not a { $kind } report.
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:284
 js-lunar-not-stated = not stated
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+# 2026-10-01-studio-rebuild/lunar/lunar.js:238
 js-lunar-note-none = The file states no note.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:237
+# 2026-10-01-studio-rebuild/lunar/lunar.js:238
 js-lunar-note-withheld = The file's own statement names a programme or an agency, so this page does not show it; the statement at the top of the page applies.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:215
+# 2026-10-01-studio-rebuild/lunar/lunar.js:216
 js-lunar-point-epochs-reason = point-epochs: { $reason }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+# 2026-10-01-studio-rebuild/lunar/lunar.js:201
 js-lunar-radius-desc = Coverage radius over { $count } azimuths: shortest { $lo } km at { $loAz }°, longest { $hi } km at { $hiAz }°.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+# 2026-10-01-studio-rebuild/lunar/lunar.js:201
 js-lunar-radius-desc-limited = { $count } reach the edge of the grid, so coverage runs at least that far there.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
 js-lunar-radius-hollow = Hollow points reach the edge of the grid: coverage holds at least that far along that bearing.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:200
+# 2026-10-01-studio-rebuild/lunar/lunar.js:201
 js-lunar-radius-none = The report states no coverage radius.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:151
+# 2026-10-01-studio-rebuild/lunar/lunar.js:152
 js-lunar-radius-per-azimuth = coverage radius per azimuth
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+# 2026-10-01-studio-rebuild/lunar/lunar.js:197
 js-lunar-radius-point = { $az }°: { $km } km
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:196
+# 2026-10-01-studio-rebuild/lunar/lunar.js:197
 js-lunar-radius-point-limited = { $az }°: { $km } km (reaches the edge of the grid: at least this far)
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:202
+# 2026-10-01-studio-rebuild/lunar/lunar.js:203
 js-lunar-radius-zero = On every bearing coverage is below 95 % already at the station, so the radius is 0 km: the corrected error exceeds the threshold of { $value } there.
 
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:39
@@ -7868,67 +7880,67 @@ js-lunar-reason-station-missing = the station does not see every satellite the u
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:38
 js-lunar-reason-user-lt4 = fewer than four satellites in view of the user
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:90
+# 2026-10-01-studio-rebuild/lunar/lunar.js:91
 js-lunar-run-stopped = The run stopped: { $message }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:84
+# 2026-10-01-studio-rebuild/lunar/lunar.js:85
 js-lunar-running = Running the study in this browser…
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:83
+# 2026-10-01-studio-rebuild/lunar/lunar.js:84
 js-lunar-running-elapsed = Running the study in this browser… { $seconds } s
 
 # 2026-10-01-studio-rebuild/lib/lunar-station.mjs:177
 js-lunar-scenario-missing-keys = The scenario file has no { $keys }; it cannot be changed here.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:108
+# 2026-10-01-studio-rebuild/lunar/lunar.js:109
 js-lunar-set-inputs = Set the inputs and press Run it here.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+# 2026-10-01-studio-rebuild/lunar/lunar.js:105
 js-lunar-showing = Showing { $what }.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:104
+# 2026-10-01-studio-rebuild/lunar/lunar.js:105
 js-lunar-showing-engine = Showing { $what } (engine { $version }).
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:102
+# 2026-10-01-studio-rebuild/lunar/lunar.js:103
 js-lunar-source-error = { $what }: { $error }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:157
+# 2026-10-01-studio-rebuild/lunar/lunar.js:158
 js-lunar-station = station
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:156
+# 2026-10-01-studio-rebuild/lunar/lunar.js:157
 js-lunar-station-title = station { $lat }°, { $lon }°
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:222
+# 2026-10-01-studio-rebuild/lunar/lunar.js:223
 js-lunar-table-count = { $n } points, nearest the station first.
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:219
+# 2026-10-01-studio-rebuild/lunar/lunar.js:220
 js-lunar-th-corrected = Corrected error, { $n } %
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:147
+# 2026-10-01-studio-rebuild/lunar/lunar.js:148
 js-lunar-threshold-title = corrected error { $value } (the threshold)
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:98
+# 2026-10-01-studio-rebuild/lunar/lunar.js:99
 js-lunar-what-file = the file { $name }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:68
+# 2026-10-01-studio-rebuild/lunar/lunar.js:69
 js-lunar-what-recording = the recording that ships with the Studio
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:87
+# 2026-10-01-studio-rebuild/lunar/lunar.js:88
 js-lunar-what-run = a run in this browser (engine { $version })
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:182
+# 2026-10-01-studio-rebuild/lunar/lunar.js:183
 js-lunar-worst-at = at { $lat }°, { $lon }°
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:153
+# 2026-10-01-studio-rebuild/lunar/lunar.js:154
 js-lunar-worst-title = worst point { $lat }°, { $lon }°: { $value }
 
-# 2026-10-01-studio-rebuild/lunar/lunar.js:203
+# 2026-10-01-studio-rebuild/lunar/lunar.js:204
 js-lunar-yes-at-least = yes: at least this far
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:92
 js-lunarinfra-above-95-point = above 95 % point
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:60
 js-lunarinfra-advisory = Advisory software, not type-approved equipment; no transmit path of any kind.
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
@@ -7937,10 +7949,10 @@ js-lunarinfra-arc-note = Carrier wavelength { $value } m.
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:106
 js-lunarinfra-arc-title = Each arc
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:16
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:19
 js-lunarinfra-bars-not-loaded = the bars file did not load
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:19
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:22
 js-lunarinfra-bars-not-shown = The pre-registered bars could not be shown ({ $reason }).
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:136
@@ -8012,7 +8024,7 @@ js-lunarinfra-days = { $n } days
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
 js-lunarinfra-direction = direction { $n }
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
 js-lunarinfra-disclosures = Disclosures
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
@@ -8054,7 +8066,7 @@ js-lunarinfra-families-note = The RMS of each parameter's partial derivative ove
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:131
 js-lunarinfra-families-title = What each family sees
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
 js-lunarinfra-findings = Findings
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:102
@@ -8108,7 +8120,7 @@ js-lunarinfra-nominal = nominal
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:30
 js-lunarinfra-not-result = this is not a lunar-infrastructure result
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:54
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:57
 js-lunarinfra-not-verified = Not verified
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:122
@@ -8123,10 +8135,10 @@ js-lunarinfra-offsets-title = The offsets at each tie error ({ $days }-day arc, 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
 js-lunarinfra-onboard-gnss = onboard Earth-GNSS
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:39
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:42
 js-lunarinfra-open-failed = { $title } could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:27
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:30
 js-lunarinfra-opening = Opening { $title }…
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:94
@@ -8141,7 +8153,7 @@ js-lunarinfra-q-note = Mean of the consistency statistic q over { $trials } tria
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:91
 js-lunarinfra-q-title = The consistency check, nominal against injected error
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:37
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:40
 js-lunarinfra-recorded =
     { $n ->
         [one] { $title }: the engine's recorded result (version { $version }).
@@ -8160,7 +8172,7 @@ js-lunarinfra-rel-title = How well each parameter can be pinned, against its nom
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:29
 js-lunarinfra-result-not-json = the result is not JSON ({ $reason })
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:31
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:34
 js-lunarinfra-result-not-loaded = the recorded result { $file } did not load
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:96
@@ -8349,7 +8361,7 @@ js-lunarinfra-title-space-tie = Space tie
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:31
 js-lunarinfra-unknown-study = this lunar-infrastructure result is the study "{ $study }", which this page does not read
 
-# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:50
+# 2026-10-01-studio-rebuild/lunar-infra/lunar-infra.js:53
 js-lunarinfra-where-missed = Where this study missed.
 
 # 2026-10-01-studio-rebuild/lib/lunar-infra.mjs:112
@@ -9229,19 +9241,19 @@ js-meankind-gnsssim-line = The ionosphere adds { $iono } m and the troposphere {
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:89
 js-meankind-headline-figure = headline figure
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
 js-meankind-holdovertest-big = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
 js-meankind-holdovertest-big-open = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error, and did not recover inside the band.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
 js-meankind-holdovertest-big-recovered = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error, and recovered { $recover } s after GNSS returned.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
 js-meankind-holdovertest-line = Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:572
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
 js-meankind-holdovertest-line-masks = { $masks }. Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
@@ -9250,22 +9262,22 @@ js-meankind-impairment-big = The detector separates impaired signals from clean 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
 js-meankind-impairment-line = On cases unlike its training set it scores { $auc }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:613
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:626
 js-meankind-infra-carrier = Integer carrier-phase fixing between a surface station and an orbiter fixed { $share } % of the trials on the longest arc ({ $days } days).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:617
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:630
 js-meankind-infra-frame = Orbiter-to-station links raise the smallest information eigenvalue of the lunar datum { $x } times and cut the Cramér-Rao trace to { $share } %, if the orbit is known in the lunar axes.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:623
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:636
 js-meankind-infra-geodesy = With all four families together, h2, k2 and l2 are pinned to { $h2 } %, { $k2 } % and { $l2 } % of their nominal values.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:609
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:622
 js-meankind-infra-od = Onboard Earth-GNSS orbit determination in lunar orbit is good to { $gnss } m, independent ground tracking to { $ground } m; the consistency statistic averages { $mean } ({ $expected } expected).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:605
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:618
 js-meankind-infra-tail = MODELLED: a restricted model with illustrative inputs, not a statement about any mission.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:620
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:633
 js-meankind-infra-tie =
     { $n ->
         [one] A { $mm } mm local tie on one spacecraft ties the GNSS, VLBI and laser-ranging frames over { $n } tie error swept.
@@ -9527,20 +9539,20 @@ js-meankind-oem-line =
        *[other] { $states } states in { $n } segments.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:563
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
 js-meankind-optical-big-alone = The best single site keeps the optical link up { $best } % of the time (cloud-free ceiling { $ceiling } %); no cloud-free margin lifts it above { $ceiling } %.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:563
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
 js-meankind-optical-big-team = The best single site keeps the optical link up { $best } % of the time (cloud-free ceiling { $ceiling } %); { $n } sites together reach { $independent } % if their weather is independent, { $correlated } % with the stated correlation.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:563
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
 js-meankind-optical-line-sites =
     { $n ->
         [one] { $n } site modelled; the cloud climates are illustrative.
        *[other] { $n } sites modelled; the cloud climates are illustrative.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:563
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
 js-meankind-optical-line-tech = { $name }: { $base } % becomes { $with } %.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
@@ -9637,10 +9649,10 @@ js-meankind-qtt-line-pfa = The security monitor detects { $pd } % of attacks at 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
 js-meankind-quantum-link = quantum link
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:548
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
 js-meankind-radiometry-big = The camera reaches NIIRS { $niirs } at { $gsd } m ground sample distance, with a signal-to-noise ratio of { $snr }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:548
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
 js-meankind-radiometry-line = System MTF at Nyquist { $mtf }.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
@@ -9733,19 +9745,19 @@ js-meankind-spoofdetect-line-score =
        *[other] { $on } of { $n } detection layers alarm; the fused score is { $score }.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:611
 js-meankind-ssv-formation = At { $km } km apart, the filter knows the relative position to { $filter } m RMS, against { $absolute } m from differencing the two absolute fixes.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:593
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:606
 js-meankind-ssv-navigation = The onboard filter holds position to { $inside } m RMS inside the GNSS orbits and { $above } m above them.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:583
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:596
 js-meankind-ssv-shell = On the shell, all constellations together give at least one signal { $one } % of the time and at least four { $four } % (L1).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:579
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:592
 js-meankind-ssv-tail = MODELLED: a geometric and link-budget sweep, not a measurement of any signal in space.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:588
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:601
 js-meankind-ssv-trajectory = From { $from } to { $to } km altitude, at least one signal is in view { $one } % of the epochs and at least four { $four } % (L1, all constellations).
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
@@ -9845,6 +9857,19 @@ js-meankind-timetransfer-line = Inside the ranging spec { $q } % of the time, ag
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
 js-meankind-timetransfer-line-mm = Inside the { $mm } mm ranging spec { $q } % of the time, against { $c } %.
 
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:557
+js-meankind-tipcue-big = The radio layer comes back over a point every { $revisit } on average, and an optical look follows its cue after { $reaction }.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:555
+js-meankind-tipcue-line = Every point of the area is seen within { $refresh } on average.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:554
+js-meankind-tipcue-line-cases =
+    { $n ->
+        [one] Every point of the area is seen within { $refresh } on average (case { $name }; the run has { $n } case).
+       *[other] Every point of the area is seen within { $refresh } on average (case { $name }, the first of { $n } cases).
+    }
+
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:283
 js-meankind-tracking-big = A spoofer can capture the receiver from up to { $km } km away.
 
@@ -9857,10 +9882,10 @@ js-meankind-trade-big = The quantum sensors are { $timing } times better at timi
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
 js-meankind-trade-line = Without satellites the quantum suite coasts for { $dur }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:565
 js-meankind-ttbudget-big = The two-way offset is { $offset } ns, with a combined uncertainty of { $uncertainty } ns.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:552
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:565
 js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosphere { $iono } ns.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
@@ -9916,94 +9941,94 @@ js-meankind-weather-line = Geomagnetic activity index ap is { $ap }.
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:155
 js-meankind-whole-run = over the whole run
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
 js-mthread-bcol-label = Label
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
 js-mthread-bcol-share = Size against the largest position term
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
 js-mthread-bcol-sigma = 1-sigma
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:64
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
 js-mthread-bcol-source = Contribution
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
 js-mthread-budget-caption = { $phase }: 1-sigma at entry { $entry }, at the peak { $peak }, at exit { $exit } (position); each contribution below, largest first.
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:137
 js-mthread-chart-title = { $metric } against mission elapsed time, one band per phase
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-kind = Kind
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-label = Label
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-limit = Largest contribution
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-margin = Against the limit
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-peak-pos = Peak position
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-peak-time = Peak clock bias
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-peak-vel = Peak velocity
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-phase = Phase
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:52
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
 js-mthread-col-window = Mission time
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:81
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:84
 js-mthread-example-not-loaded = the recorded result did not load
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:97
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:100
 js-mthread-file-failed = { $name } could not be read: { $reason }.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
 js-mthread-kv-elapsed = Mission elapsed time
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:32
 js-mthread-kv-engine = Engine
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
 js-mthread-kv-epoch = Epoch (UTC)
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
 js-mthread-kv-limits = Phases with a stated limit
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:28
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:29
 js-mthread-kv-limits-value = { $n } ({ $met } met, { $missed } not met)
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:27
 js-mthread-kv-phases = Phases
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:30
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:31
 js-mthread-kv-seed = Seed
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:25
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:26
 js-mthread-kv-title = Thread
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:40
 js-mthread-layout-phases = Equal width per phase
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:39
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:40
 js-mthread-layout-time = True mission time
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:154
 js-mthread-limit-title = { $phase }: the stated limit, { $limit }
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:65
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
 js-mthread-limiting-phase = The engine names the limiting source of this phase as { $source }: a source of the phase, not one row of this table.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:66
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
 js-mthread-limiting-row = the engine's limiting source
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:169
@@ -10027,7 +10052,7 @@ js-mthread-metric-vel = Velocity, 1-sigma
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:21
 js-mthread-na = n/a
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:67
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:68
 js-mthread-no-events = This phase records no events.
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:67
@@ -10039,7 +10064,7 @@ js-mthread-no-requirement = no limit stated
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:133
 js-mthread-no-series = The result holds no samples of this quantity.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:24
 js-mthread-no-weak = The result names no weakest link.
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:46
@@ -10048,34 +10073,34 @@ js-mthread-not-json = the result is not JSON ({ $reason })
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:47
 js-mthread-not-thread = this is not a mission-thread result (schema { $schema } expected)
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:46
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
 js-mthread-note-phases = Each phase is drawn with the same width so a short phase is as visible as a long one; the time at which each begins is under the band. Switch to true mission time to see the real proportions. Dashed lines are the limits the document states; a break in the line is a handover.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:47
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:48
 js-mthread-note-time = True mission time: a phase of a few minutes can be too narrow to see. Switch to equal widths to read it. Dashed lines are the limits the document states; a break in the line is a handover.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:86
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:89
 js-mthread-open-failed = The example could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:96
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:99
 js-mthread-opened = { $name } read in this page; nothing was sent anywhere.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:78
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:79
 js-mthread-opening = Opening the Artemis-class example…
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:74
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:75
 js-mthread-prov = Every label on this page is the engine's own; the page copies each number from the result and only scales it.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:85
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:88
 js-mthread-recorded = The engine's recorded result (version { $version }): an illustrative chain built from public mission descriptions; the numbers are modelled and stand for nothing real.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:91
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:94
 js-mthread-too-large = That file is larger than { $mb } MB; it is not read.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:22
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:23
 js-mthread-weak-line = The weakest link is the phase <b>{ $phase }</b>: { $margin }× its stated limit, set by { $source }. The margin is the smallest ratio of a stated limit to the phase's peak; above 1 meets the requirement.
 
-# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:53
+# 2026-10-01-studio-rebuild/mission-thread/mission-thread.js:54
 js-mthread-weakest-flag = weakest link
 
 # 2026-10-01-studio-rebuild/lib/mission-thread.mjs:164
@@ -10468,7 +10493,7 @@ js-opt-margin-note = Extra link margin, in dB on top of the present link, for ea
 # 2026-10-01-studio-rebuild/lib/optical.mjs:147
 js-opt-margin-title = Margin each availability target needs
 
-# 2026-10-01-studio-rebuild/optical/optical.js:39
+# 2026-10-01-studio-rebuild/optical/optical.js:42
 js-opt-model-output = Model output
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:167
@@ -10480,16 +10505,16 @@ js-opt-no-data = No data in this result.
 # 2026-10-01-studio-rebuild/lib/optical.mjs:112
 js-opt-no-series = No time series in this result.
 
-# 2026-10-01-studio-rebuild/optical/optical.js:42
+# 2026-10-01-studio-rebuild/optical/optical.js:45
 js-opt-no-source = no source stated
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:37
 js-opt-not-result = this is not an optical-atmosphere result with sites
 
-# 2026-10-01-studio-rebuild/optical/optical.js:30
+# 2026-10-01-studio-rebuild/optical/optical.js:33
 js-opt-open-failed = { $title } could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/optical/optical.js:20
+# 2026-10-01-studio-rebuild/optical/optical.js:23
 js-opt-opening = Opening { $title }…
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:150
@@ -10504,19 +10529,19 @@ js-opt-outage-title = How long outages last
 # 2026-10-01-studio-rebuild/lib/optical.mjs:96
 js-opt-point-title = { $name }: { $xLabel } { $x }, { $yLabel } { $y }
 
-# 2026-10-01-studio-rebuild/optical/optical.js:42
+# 2026-10-01-studio-rebuild/optical/optical.js:45
 js-opt-prov = { $label } Sites: { $sites }.
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:119
 js-opt-realised-up = { $value } up
 
-# 2026-10-01-studio-rebuild/optical/optical.js:28
+# 2026-10-01-studio-rebuild/optical/optical.js:31
 js-opt-recorded = { $title }: the engine's recorded result (version { $version }). Model output, not a measurement.
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:36
 js-opt-result-not-json = the result is not JSON ({ $reason })
 
-# 2026-10-01-studio-rebuild/optical/optical.js:23
+# 2026-10-01-studio-rebuild/optical/optical.js:26
 js-opt-result-not-loaded = the recorded result did not load
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:110
@@ -10549,34 +10574,34 @@ js-opt-techniques-note = Availability gain in percentage points over the baselin
 # 2026-10-01-studio-rebuild/lib/optical.mjs:156
 js-opt-techniques-title = What each technique buys
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-availability = Availability
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-ceiling = Ceiling
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-clear-air = Clear-air loss
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-cloud-prob = Cloud probability (input)
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-fade-budget = Fade budget
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-latlon = Latitude, longitude
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-mean-outage = Mean outage
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-outages-year = Outages per year
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-scint = Scintillation index
 
-# 2026-10-01-studio-rebuild/optical/optical.js:41
+# 2026-10-01-studio-rebuild/optical/optical.js:44
 js-opt-th-site = Site
 
 # 2026-10-01-studio-rebuild/lib/optical.mjs:152
@@ -10882,10 +10907,10 @@ js-ssv-cn0-note = Of the signals in view, the strongest at each epoch: smallest 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:164
 js-ssv-cn0-title = Best carrier-to-noise density, { $band }
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:57
+# 2026-10-01-studio-rebuild/ssv/ssv.js:60
 js-ssv-comparison-failed = The comparison could not be shown ({ $reason }).
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:53
+# 2026-10-01-studio-rebuild/ssv/ssv.js:56
 js-ssv-comparison-not-loaded = the comparison file did not load
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:82
@@ -10972,7 +10997,7 @@ js-ssv-from-absolute = from two absolute fixes
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:78
 js-ssv-group-combined = all together
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:56
+# 2026-10-01-studio-rebuild/ssv/ssv.js:59
 js-ssv-icg-note = { $label }; the bar-level verdicts of the engine's committed result files (engine commit { $commit }). The booklet's tables are public; nothing here is VALIDATED.
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:208
@@ -11020,10 +11045,10 @@ js-ssv-of = { $n } of { $total }
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:204
 js-ssv-offset = { $deg }° offset
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:29
+# 2026-10-01-studio-rebuild/ssv/ssv.js:32
 js-ssv-open-failed = { $title } could not be opened: { $reason }.
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:19
+# 2026-10-01-studio-rebuild/ssv/ssv.js:22
 js-ssv-opening = Opening { $title }…
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:157
@@ -11047,7 +11072,7 @@ js-ssv-range-title = { $label }: min { $min }, mean { $mean }, max { $max } { $u
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:145
 js-ssv-range-value = { $min } to { $max }
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:27
+# 2026-10-01-studio-rebuild/ssv/ssv.js:30
 js-ssv-recorded = { $title }: the engine's recorded result (version { $version }).
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:183
@@ -11056,7 +11081,7 @@ js-ssv-relative-label = Relative position error
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:34
 js-ssv-result-not-json = the result is not JSON ({ $reason })
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:22
+# 2026-10-01-studio-rebuild/ssv/ssv.js:25
 js-ssv-result-not-loaded = the recorded result did not load
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:201
@@ -11287,7 +11312,7 @@ js-ssv-traj-avail-note = Share of the epochs with at least one and at least four
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:161
 js-ssv-traj-avail-title = Availability along the trajectory, { $band }
 
-# 2026-10-01-studio-rebuild/ssv/ssv.js:37
+# 2026-10-01-studio-rebuild/ssv/ssv.js:40
 js-ssv-transmit-pattern = Transmit pattern: { $pattern }
 
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:163

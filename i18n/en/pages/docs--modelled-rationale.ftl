@@ -3239,6 +3239,57 @@ seg-80753cdc89bc = iq::track (LoopConfig, FllGate, design); iq::track::channel (
 seg-96b2276484ed = tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv
 
 # text
+seg-fd2836e3f868 = Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back
+
+# text
+seg-089c214085e7 = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM { "2.0" }, an OPM { "3.0" } or an SPK of type { "13" } or { "9" } (frame code { "1" }, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
+# text
+seg-c41907cdf840 = checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit { "13.1.9" } and Basilisk { "2.12.2" }'s SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE { "0.10.6" } evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
+# text
+seg-056312c86ee5 = tests/ephem_export_capstone.rs ({ "4321" } of { "4321" } CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md)
+
+# text
+seg-6cab0a1f9600 = Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials
+
+# text
+seg-be6225de24b7 = opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
+
+# text
+seg-37170ee5bed6 = a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — SPICE (spiceypy { "8.3.0" }, CSPICE N0067) and OpenCV { "5.0.0" }, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within { "0.0016" } mas of SPICE CN+S (bar { "1" } mas), O2 stars within { "3e-8" } mas, O3 projection within { "1.3e-11" } px of OpenCV, O4 end to end within { "3.8e-8" } px (bar { "1e-4" } px), O6 additivity: MET. O5 NOT MET: { "258" } of { "432" } partial elements differ from central differences at the registered { "1" } m and { "1" } mm/s steps by more than { "1e-6" } relative (the largest elements agree to about { "1e-7" } to { "1e-9" }; a no-bar diagnostic at { "1" } km and { "1" } m/s cuts the worst relative difference from { "1.0" } to { "8e-4" }, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera
+
+# text
+seg-4cfe14e05d52 = opnav
+
+# text
+seg-d9154306d83b = tests/c5a_opnav.rs ({ "36" } measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)
+
+# text
+seg-9168b89cdcc9 = CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter
+
+# text
+seg-5d4cc8e3a826 = c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit
+
+# text
+seg-de918b85604d = a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 ({ "21.66" } km end position, { "4.24" } km periapsis; bars { "25" } and { "10" } km). C3-H NOT MET on the held-out windows E, H1, H2 (end position { "37.25" }, { "36.23" }, { "49.65" } km; periapsis met). C3-S NOT MET (k fitted on E: H1 { "12.92" } km met, H2 { "57.13" } km). A2 is not met on re-run. The reconstruction is the reference, not truth
+
+# text
+seg-2740772aa20c = tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)
+
+# text
+seg-2693df8ca65a = Impulsive steps in the cislunar coast and the C2 step detector
+
+# text
+seg-0785d04ff3f0 = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds { "0.01" } m/s and gives one impulse per event hour at its midpoint
+
+# text
+seg-7a2e79c02e81 = a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 ({ "17.3" } km against { "2" } km; { "0.0177" } m/s against { "0.01" } m/s); W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only
+
+# text
+seg-9e0cda6673c7 = tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included)
+
+# text
 seg-ac0f97e945a7 = RTKLIB .pos solution reader for receiver-trust
 
 # text
@@ -3344,7 +3395,7 @@ seg-f94e58f3479b = integrations/ros2/kshana_trust (bridge.py, trust_node.py); in
 seg-8c92f36d0227 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a { "1.1" } km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py { "1.1.0" } and the wheel), run with pytest, not by cargo
 
 # text
-seg-a2bf08b8e82d = { "221" } capabilities labelled MODELLED.
+seg-7a83829ca355 = { "225" } capabilities labelled MODELLED.
 
 # text
 seg-7a0503f925c1 = <s1>Previous</s1>Capability reference

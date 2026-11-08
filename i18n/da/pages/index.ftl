@@ -714,14 +714,14 @@ seg-7fae5de5ebf1 = kshana-bench: gen-kampagnen { "0.40" }
 
 seg-b9961ed25282 = Nyt i v{ $version }: en missionstråd, en evidensetiket på hvert tal og sytten sprog
 
-seg-653cf3198094 = { "176" } af { "401" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
-
 seg-579d9b6f7afd = Alle { "93" } scenarietyper, gratis uden funktionsspærring, deterministiske ud fra scenarie, seed og motorversion.
 
 seg-56bf1281e330 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "53" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
 
-seg-74e443a965d8 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-8c81b3e5933e = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
-seg-0dfbf0d5864b = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+seg-56a515205cd4 = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
 
-seg-08f9e715b4cb = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-546dca465cd0 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-24d919eaaba3 = { "176" } af { "405" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.

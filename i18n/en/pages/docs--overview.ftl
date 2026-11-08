@@ -18,7 +18,7 @@ seg-fdd71491d5b0 = Continuous integration status on main
 seg-fa8a7ec005a9 = Line coverage near { "95" } % of src/, measured in docs/COVERAGE.md and gated at { "85" } % in continuous integration
 
 # text
-seg-0c39fcb3527f = { "176" } of { "401" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-44fb0df264f6 = { "176" } of { "405" } capabilities VALIDATED against an independent external oracle, from the verification matrix
 
 # text
 seg-6499faeb5966 = SonarQube Cloud quality gate status
@@ -98,7 +98,7 @@ seg-f2bf8028e0d4 = <b>Status: v{ $version }.</b> A validated, reproducible simul
 seg-cafc1c9c4d58 = What's new in { "0.40" }
 
 # text
-seg-59a31376fa3d = { "0.40" } adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now { "401" } rows: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+seg-d8582006e2dc = { "0.40" } adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now { "405" } rows: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
 
 # text
 # c1: mission-thread
@@ -1439,10 +1439,10 @@ seg-36d838421b86 = Can I reproduce, extend and cite a PNT result, down to the se
 seg-e31cf348fc57 = SGP4 checked against all { "666" } AIAA 2006-6753 reference vectors, worst position error { "4.12" } mm
 
 # text
-seg-9f5426cbbf4a = <b>{ "176" } of { "401" }</b> capabilities validated against independent external oracles; { "221" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-5a6c42704fb2 = <b>{ "176" } of { "405" }</b> capabilities validated against independent external oracles; { "225" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
 
 # attr:alt
-seg-54ac34405621 = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER of { "401" } rows. In all, { "176" } capabilities validated against independent external oracles; { "221" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-b113dca9dfde = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER of { "405" } rows. In all, { "176" } capabilities validated against independent external oracles; { "225" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
 
 # text
 seg-c5ce76c91ff7 = Label
@@ -1473,7 +1473,7 @@ seg-9dd73106acfc = owned by a hardware partner; Kshana holds no oracle for it
 # c2: docs/VERIFICATION-MATRIX.md
 # c3: src/verification.rs
 # c4: docs/MODELLED-RATIONALE.md
-seg-42fa293e1bb4 = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 401-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-113e59a8f70c = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 405-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
 
 # text
 seg-6fd41f16334e = How validation works, the curated highlight table and the evidence figures
@@ -1523,7 +1523,7 @@ seg-ee66ab516e01 = Validation at a glance
 # c2: docs/VALIDATION.md
 # c3: kshana-validation-summary.html
 # c4: cargo run --bin validation_report
-seg-06fc56dd3edb = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-5334b90deb02 = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "405" } rows — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
 
 # text
 # c1: CI
@@ -1941,7 +1941,7 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % line</b> on <c1/> excluding <c2/> and <c3/>, g
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM engine)
 
 # attr:alt
-seg-4c4dfa02be15 = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "221" } Modelled, { "4" } Partner, { "401" } total
+seg-0ceb61e3362d = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "225" } Modelled, { "4" } Partner, { "405" } total
 
 # text
 seg-5262ee45dd08 = How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a1>SVG</a1>
@@ -1956,10 +1956,10 @@ seg-c550a4bde1ff = SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 ref
 seg-2ad422aac6a1 = Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
 
 # attr:alt
-seg-3f48a70a707a = Verification status across all { "401" } capabilities: { "176" } Validated (checked vs external oracle), { "221" } Modelled, { "4" } Partner-owned
+seg-008a8eed3718 = Verification status across all { "405" } capabilities: { "176" } Validated (checked vs external oracle), { "225" } Modelled, { "4" } Partner-owned
 
 # text
-seg-35a4412348e1 = { "176" } Validated · { "221" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-4f7fb3fb883c = { "176" } Validated · { "225" } Modelled · { "4" } Partner — <a1>SVG</a1>
 
 # text
 # c1: tools/gen_readme_blocks.py
@@ -2150,13 +2150,13 @@ seg-f589eb87e902 = The npm package is the whole engine compiled to WebAssembly. 
 seg-7488a0b0a215 = One open engine sits at the centre, and every surface runs it: the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro sits on top as a separate overlay that depends on the engine and never forks it.
 
 # attr:alt
-seg-cdf946112863 = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "401" } capabilities ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-d0d92b14d106 = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "405" } capabilities ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
 
 # text
 seg-9ac1f9e2d1b1 = Inside the engine: the domain layers and the verification ledger
 
 # attr:alt
-seg-290f2b34e368 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "93" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "401" } capabilities that is the single source of truth for every label.
+seg-758f459ab5e5 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "93" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "405" } capabilities that is the single source of truth for every label.
 
 # text
 # c1: kshana

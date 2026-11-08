@@ -142,12 +142,6 @@ seg-6dc7d52fef11 = <s1>Vorige</s1>npm en WebAssembly
 
 seg-8ff56af64ec2 = <s1>Volgende</s1>MCP-server
 
-seg-c9a297cc51e9 = { "176" } van { "401" } mogelijkheden gevalideerd tegen onafhankelijke externe referenties
-
-seg-7b53ee712a36 = <b>{ "176" } van { "401" }</b> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "221" } eerlijk gelabeld als gemodelleerd, { "4" } in handen van een partner. Elke mogelijkheid draagt één label in een machinaal gecontroleerd register: VALIDATED (een onafhankelijke externe referentie komt overeen: echte data, een onafhankelijke implementatie of gepubliceerde referentievectoren), MODELLED (intern consistent, en hardop gezegd) of PARTNER (een hardwarepartner is eigenaar). Onder de controles: alle { "666" } SGP4-vectoren (Simplified General Perturbations { "4" }) van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tot { "4.12" } mm, en het Cowell-krachtenmodel tot { "0.08" } m tegen Orekit { "12.2" }.
-
-seg-b59781ecf257 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "401" } mogelijkheden: { "176" } gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner
-
 seg-8e9fbc5f2e72 = De beschrijving van de ingebouwde scenariosoort kind in lang, uit de catalogus (Engels wanneer de taal er geen vertaling van heeft); None voor een naam die geen ingebouwde soort is.
 
 seg-06e503c23c30 = [kind_description_in] in de huidige taal ([crate::i18n::current]).
@@ -169,3 +163,9 @@ seg-24fe823a994a = json zonder het bewijslabel ([crate::evidence_label]); ongewi
 seg-c0444d838311 = out met het bewijslabel verwijderd uit zijn JSON, SVG en CSV, byte voor byte zoals de run ze voortbracht voordat het label bestond; een uitvoer zonder label is ongewijzigd.
 
 seg-80e5f0aa2831 = De engine heeft { "93" } scenariosoorten; <c1/> toont ze met hun velden. Nieuw in { "0.38.0" }: <c2/> (GNSS-signalen voor ruimtevaartuigen boven, rond en voorbij de GNSS-banen) en <c3/> (maanbaan en maanoppervlak als navigatie- en geodetische infrastructuur), beide MODELLED, en <c4/> (een tijdfoutopname tegen de ITU-T-maskers).
+
+seg-10f4803a4423 = { "176" } van { "405" } mogelijkheden gevalideerd tegen onafhankelijke externe referenties
+
+seg-8a5d5b148d86 = <b>{ "176" } van { "405" }</b> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "225" } eerlijk gelabeld als gemodelleerd, { "4" } in handen van een partner. Elke mogelijkheid draagt één label in een machinaal gecontroleerd register: VALIDATED (een onafhankelijke externe referentie komt overeen: echte data, een onafhankelijke implementatie of gepubliceerde referentievectoren), MODELLED (intern consistent, en hardop gezegd) of PARTNER (een hardwarepartner is eigenaar). Onder de controles: alle { "666" } SGP4-vectoren (Simplified General Perturbations { "4" }) van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 tot { "4.12" } mm, en het Cowell-krachtenmodel tot { "0.08" } m tegen Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Hoe een mogelijkheid haar label verdient: mogelijkheid, onafhankelijke referentie, test, registerlabel. De verificatiestatus over alle { "405" } mogelijkheden: { "176" } gevalideerd, { "225" } gemodelleerd, { "4" } in handen van een partner

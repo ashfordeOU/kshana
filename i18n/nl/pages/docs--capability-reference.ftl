@@ -2636,8 +2636,6 @@ seg-c3e7639ccf1a = <s1>Volgende</s1>Waarom rijen gemodelleerd blijven
 
 seg-f4a311f936de = Langetermijnregendemping op het schuine pad van een aarde-ruimteverbinding
 
-seg-2fd8f2df3e6e = De { "61" } mogelijkheidskaarten uit <c1/>, daarna alle { "401" } rijen van de verificatiematrix.
-
 seg-65185cb68d6b = Foutenbudget voor navigatie en tijdsynchronisatie van een keten van missiefasen van lancering tot terugkeer (<c1/>)
 
 seg-86a132e1a243 = De soort <c1/>: een document met fasen, elk een van acht geregistreerde soorten, in volgorde uitgevoerd, waarbij de 6x6-covariantie, de klok en het referentiestelsel worden doorgegeven volgens een vermelde regel (<c2/>; <c3/>, witte versnellingsruis over een vermelde onderbreking op een model met rechte lijn; <c4/>, koppelnavigatie en daarna de bronvloer, nooit eronder, nooit een reset); omzettingen van referentiestelsel GCRF, MCI en MCMF en omzettingen van tijdschaal via TT, elk een eigen budgetrij, met de toestand van de maan uit een optionele DE440-kernelsnede en de analytische reeks als vermelde terugval; de marge ten opzichte van een vermelde eis, de zwakste schakel, de gebeurtenissen en een tijdlijnfiguur. Elk getal is een vermelde invoer of een model daarvan
@@ -2717,3 +2715,5 @@ seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navi
 seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
 
 seg-d5a79853b72f = { "93" } van { "93" } soorten, { "3334" } van { "3334" } numerieke velden
+
+seg-5576293ba3aa = De { "61" } mogelijkheidskaarten uit <c1/>, daarna alle { "405" } rijen van de verificatiematrix.

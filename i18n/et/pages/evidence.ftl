@@ -4561,9 +4561,6 @@ seg-fb01a581d5ee = { "28" }-st kontrollitud
 seg-d6c43e56d4cc = Missioonianalüüs, kvaliteedi tagamine ja muu
 
 # text
-seg-5516d9825527 = { "55" }-st kontrollitud
-
-# text
 seg-7038fab8b00c = Kontrollitud { "176" }
 
 # text
@@ -6229,16 +6226,6 @@ seg-b5c49044a7a1 = Teostatav piirkond, kus võib asuda halvenenud navigatsioonit
 
 seg-953a8b4f9f41 = Veel ühtki välist. Ainult sünteetilised ettepoole-tagasi ringid generaatorist, mis jagab hindaja mudelit, seega need kontrollivad koodi ja öeldud tasemete kalibreeringut selle mudeli all ega ütle midagi päris kiirgusallikate kohta. Välist kontrolli avaldatud Jammertest { "2025" } saatjakohtade vastu eelregistreeriti (docs/emitter-region/PREREGISTRATION.md, omaniku poolt enne ühtki hinnatud käivitust kinnitatud) ja käivitati üks kord (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planeeritud sessiooni, vähem kui registreeritud miinimum { "4" }) ja AIS NOT ASSESSABLE (avaldatud sessiooni pole), seega ühtki lävi ei testitud ja rida jääb MODELLED
 
-seg-aa7c0a865661 = { "401" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "221" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
-
-seg-7a254b7d5498 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "221" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
-
-seg-a2f63c51d2c7 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "401" } rida · stsenaariumi ega algväärtust pole: mootori enda register
-
-seg-77bfad0f4f88 = { "176" }<s1>{ "401" }-st valideeritud</s1>
-
-seg-222c46a96ec3 = Kontrollimaatriks: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri omanduses, kokku { "401" }
-
 seg-cf2aa475bc68 = Missiooniahela liik: faaside dokument, iga faas üks kaheksast registreeritud liigist, käivita… · Modelleeritud
 
 seg-bdc3223c80e4 = Faas launch-ascent: konstantse kiirusega positsiooni ja kiiruse kovariatsioon valge… · Modelleeritud
@@ -6265,30 +6252,40 @@ seg-860ca782e2bf = Faasi tli-and-cruise keskmise oleku propageerimine (Cowell, M
 
 seg-7c7d72cc2036 = Teostatav piirkond, kus võib asuda halvenenud navigatsiooniteadete allikas, ADS-B-st… · Modelleeritud
 
-seg-65feaf4e91ef = Kõik { "401" } rida, igaüks ühel real.
-
-seg-5668b5581703 = { "102" }-st valideeritud
-
 seg-43f852e4bee8 = { "74" }-st valideeritud
-
-seg-fbb78f11c0dc = { "78" }-st valideeritud
 
 seg-8fe12f6058c6 = { "26" }-st valideeritud
 
-seg-b393e1b5fcfc = Kõik { "401" }
+seg-2ed2d817f56e = { "405" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "225" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
 
-seg-3df9e327c036 = Modelleeritud { "221" }
+seg-07aef8ff8fe3 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "225" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
 
-seg-7fa6f2e0de57 = Valideerimisregister, { "401" } rida, keritav
+seg-81464c684074 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "405" } rida · stsenaariumi ega algväärtust pole: mootori enda register
 
-seg-0b884f17b0f2 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-8f715a5e52b0 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-fd83e8666041 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-a9b6470fb2f8 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-9cf103c9cb54 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-947cc1db1e01 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-8e6705edeb6a = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+seg-cfd8687a8048 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
 
-seg-3f8669a1465b = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-fb3f807e97c0 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-8aabe2e98c52 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-7c4a8891ee1b = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-c54618ee87bb = { "176" }<s1>{ "405" }-st valideeritud</s1>
+
+seg-9984e76b5b28 = Kontrollimaatriks: { "176" } valideeritud, { "225" } modelleeritud, { "4" } partneri omanduses, kokku { "405" }
+
+seg-46e93e2ebc71 = Kõik { "405" } rida, igaüks ühel real.
+
+seg-ebec0449ab03 = Kõik { "405" }
+
+seg-bcf766efe1ab = Modelleeritud { "225" }
+
+seg-cea55077f323 = Valideerimisregister, { "405" } rida, keritav
+
+seg-65122c2bb1fc = { "104" }-st valideeritud
+seg-2998c6fa20d6 = { "79" }-st valideeritud
+seg-4b3ab6095c65 = { "56" }-st kontrollitud

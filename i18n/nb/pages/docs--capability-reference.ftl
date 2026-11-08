@@ -2564,8 +2564,6 @@ seg-6eee4b0e40b9 = <s1>Forrige</s1>Verifikasjonsmatrise
 
 seg-c3e7639ccf1a = <s1>Neste</s1>Hvorfor radene forblir modellerte
 
-seg-2fd8f2df3e6e = De { "61" } funksjonskortene fra <c1/>, deretter alle { "401" } radene i verifikasjonsmatrisen.
-
 seg-65185cb68d6b = Feilbudsjett for navigasjon og tidssynkronisering for en kjede av oppdragsfaser fra oppskyting til gjeninntreden (<c1/>)
 
 seg-86a132e1a243 = Typen <c1/>: et dokument av faser, hver av dem én av åtte registrerte typer, kjørt i rekkefølge med 6x6-kovariansen, klokken og referansesystemet videreført under en oppgitt regel (<c2/>; <c3/>, hvit akselerasjonsstøy over et oppgitt gap på en rettlinjet modell; <c4/>, dødregning og så kildegulvet, aldri under det, aldri en nullstilling); konverteringer av referansesystem GCRF, MCI og MCMF og av tidsskala via TT, hver sin budsjettrad, med Månens tilstand fra et valgfritt DE440-kjerneutsnitt og den analytiske rekken som oppgitt reserveløsning; marginen mot et oppgitt krav, det svakeste leddet, hendelsene og en tidslinjefigur. Hvert tall er en oppgitt inndata eller en modell av en slik
@@ -2645,3 +2643,5 @@ seg-b5c49044a7a1 = En mulig region for hvor en kilde til forringede navigasjonsr
 seg-953a8b4f9f41 = Ingen eksterne ennå. Bare syntetiske rundturer forover og invers, fra en generator som deler estimatorens modell, så de kontrollerer koden og kalibreringen av de oppgitte nivåene under den modellen og ingenting om virkelige sendere. En ekstern kontroll mot de publiserte senderstedene fra Jammertest { "2025" } ble forhåndsregistrert (docs/emitter-region/PREREGISTRATION.md, underskrevet av eieren før noen skåret kjøring) og kjørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte økter, færre enn det registrerte minimumet på { "4" }) og AIS NOT ASSESSABLE (ingen publisert økt), så ingen terskel ble testet og raden forblir MODELLED
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriske felt
+
+seg-5576293ba3aa = De { "61" } funksjonskortene fra <c1/>, deretter alle { "405" } radene i verifikasjonsmatrisen.

@@ -329,10 +329,6 @@ seg-d4b063147d18 = <s1>Konstellatsioonide katvus ja geomeetria</s1><s2>{ "7" } s
 
 seg-fcffac5eb150 = <s1>Keeled</s1><s2>Mootori inimesele mõeldud tekst on { "17" } keeles lisaks inglise keelele: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "401" } rida — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "401" } kontrollimaatriksi rida.</s2>
-
 seg-980f70b29717 = <s1>Andmepartnerid ja edutavad read</s1><s2>Kshana märgib iga võimekuse masinkontrollitud registris (kontrollimaatriks).</s2>
 
 seg-7c6a541b3bc8 = <s1>Missiooniahel: startimisest sisenemiseni</s1><s2>Nõuandev tarkvara, mitte sertifitseeritud navigatsiooniseade.</s2>
@@ -350,3 +346,7 @@ seg-5484fd345826 = <s1>Iga stsenaariumi liik, perekondade kaupa</s1><s2>Iga stse
 seg-b23a9bd3ccfa = <s1>Stsenaariumide teatmik</s1><s2>Iga kaasasolev stsenaariumifail ({ "195" }), rühmitatud liigi järgi, koos selle põhiseadetega.</s2>
 
 seg-a7dc2bc0a77d = { "93" } lehte, üks iga stsenaariumi liigi kohta, viidatud lehelt <a1>Iga stsenaariumi liik, perekondade kaupa</a1>.
+
+seg-f950b0ba9160 = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "405" } rida — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "405" } kontrollimaatriksi rida.</s2>

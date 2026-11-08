@@ -82,10 +82,10 @@ seg-4ae905aec2ab = <s1>Forrige</s1>Python API
 
 seg-8af548581ae9 = <s1>Neste</s1>Rust crate
 
-seg-c9a297cc51e9 = { "176" } av { "401" } funksjoner validert mot uavhengige eksterne referanser
-
-seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> funksjoner validert mot uavhengige eksterne referanser; { "221" } ærlig merket som modellert, { "4" } eid av partnere. Hver funksjon har én merkelapp i et maskinkontrollert register: VALIDATED (en uavhengig ekstern referanse stemmer: reelle data, en uavhengig implementering eller publiserte referansevektorer), MODELLED (internt konsistent, og sagt høyt) eller PARTNER (en maskinvarepartner eier den). Blant kontrollene: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm, og Cowell-kraftmodellen til { "0.08" } m mot Orekit { "12.2" }.
-
-seg-b59781ecf257 = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "401" } funksjoner: { "176" } validert, { "221" } modellert, { "4" } eid av partnere
-
 seg-80e5f0aa2831 = Motoren har { "93" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).
+
+seg-10f4803a4423 = { "176" } av { "405" } funksjoner validert mot uavhengige eksterne referanser
+
+seg-8a5d5b148d86 = <b>{ "176" } av { "405" }</b> funksjoner validert mot uavhengige eksterne referanser; { "225" } ærlig merket som modellert, { "4" } eid av partnere. Hver funksjon har én merkelapp i et maskinkontrollert register: VALIDATED (en uavhengig ekstern referanse stemmer: reelle data, en uavhengig implementering eller publiserte referansevektorer), MODELLED (internt konsistent, og sagt høyt) eller PARTNER (en maskinvarepartner eier den). Blant kontrollene: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm, og Cowell-kraftmodellen til { "0.08" } m mot Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "405" } funksjoner: { "176" } validert, { "225" } modellert, { "4" } eid av partnere

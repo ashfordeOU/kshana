@@ -3625,6 +3625,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
 
-seg-6875b0d82c59 = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "401" } rijen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
+seg-9d7b242850ee = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "405" } rijen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
 
-seg-0a9897a43b5d = { "401" } rijen: { "176" } extern gevalideerd, { "221" } gemodelleerd, { "4" } in handen van een partner.
+seg-3ca919e147c4 = { "405" } rijen: { "176" } extern gevalideerd, { "225" } gemodelleerd, { "4" } in handen van een partner.

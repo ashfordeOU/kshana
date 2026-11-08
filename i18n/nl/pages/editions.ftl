@@ -812,10 +812,10 @@ seg-67341b9eea70 = <b>Iets anders</b><s1>contact@ashforde.org · mail gaat recht
 
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-cc655ce0b6c8 = De volledige verificatiematrix: { "176" } van { "401" } mogelijkheden gevalideerd tegen onafhankelijke referenties, de rest gelabeld als gemodelleerd
-
 seg-0ab329c843b0 = De open engine in het midden: één teken per scenariosoort ({ "93" }), gevuld waar de soort gevalideerde registerrijen heeft, hol waar zijn rijen gemodelleerd zijn, een streepje waar geen registermodule er op naam mee overeenkomt. Kshana Pro en de studie op maat staan eromheen en verbinden met de soorten waarop ze voortbouwen.
 
 seg-e507665bbe2c = Engine v{ $version } · { "93" } soorten uit <c1/> · registerstatus uit <c2/> · waarop Pro en een studie voortbouwen: het register van edities van de site · geen scenario of seed
 
 seg-7515b1af1f0b = Alle { "93" } scenariosoorten en { "183" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = De volledige verificatiematrix: { "176" } van { "405" } mogelijkheden gevalideerd tegen onafhankelijke referenties, de rest gelabeld als gemodelleerd

@@ -83,10 +83,10 @@ seg-7a6af2c42575 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Road
 seg-ea5f09561b29 = <s1>Validation status</s1><s2>On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…</s2>
 
 # text
-seg-f5987c9d9fde = <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
+seg-f950b0ba9160 = <s1>Verification matrix</s1><s2>The complete, machine-checked evidence ledger: { "405" } rows — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
 
 # text
-seg-1c5265085fb6 = <s1>Capability reference</s1><s2>The capability cards and all { "401" } rows of the verification matrix.</s2>
+seg-b6e56265840f = <s1>Capability reference</s1><s2>The capability cards and all { "405" } rows of the verification matrix.</s2>
 
 # text
 seg-ae0276d1d945 = <s1>Why rows stay Modelled</s1><s2>These capabilities are implemented from published or first-principles physics with tests, but are honestly…</s2>

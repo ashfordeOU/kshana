@@ -1226,6 +1226,6 @@ seg-9a86ef058d27 = In Kshana Studio öffnen
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Editionen vergleichen
 
-seg-e6fe27ed6dfc = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
 seg-ceb2de75e2f4 = <b>Heute frei:</b> alles in der offenen Engine. Frei: { "53" } MCP-Werkzeuge, von run_scenario bis export_oem.
+
+seg-c88dde71cc6e = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed

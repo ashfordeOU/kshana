@@ -2572,8 +2572,6 @@ seg-6eee4b0e40b9 = <s1>Föregående</s1>Verifieringsmatris
 
 seg-c3e7639ccf1a = <s1>Nästa</s1>Varför rader förblir Modelled
 
-seg-2fd8f2df3e6e = De { "61" } förmågekorten från <c1/>, därefter alla { "401" } rader i verifieringsmatrisen.
-
 seg-65185cb68d6b = Felbudget för navigering och tidssynkronisering för en kedja av uppdragsfaser från uppskjutning till återinträde (<c1/>)
 
 seg-86a132e1a243 = Typen <c1/>: ett dokument med faser, var och en av åtta registrerade typer, körda i ordning med 6x6-kovariansen, klockan och referenssystemet överlämnade enligt en angiven regel (<c2/>; <c3/>, vitt accelerationsbrus över ett angivet glapp på en rätlinjig modell; <c4/>, dödräkning och därefter källans golv, aldrig under det, aldrig en återställning); omvandlingar av referenssystem mellan GCRF, MCI och MCMF samt av tidsskalor via TT, var och en en egen budgetrad, med månens tillstånd från ett valfritt utsnitt av en DE440-kärna och den analytiska serien som angiven reserv; marginalen mot ett angivet krav, den svagaste länken, händelserna och en tidslinjefigur. Varje tal är en angiven indata eller en modell av en sådan
@@ -2653,3 +2651,5 @@ seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade nav
 seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriska fält
+
+seg-5576293ba3aa = De { "61" } förmågekorten från <c1/>, därefter alla { "405" } rader i verifieringsmatrisen.

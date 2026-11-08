@@ -1454,6 +1454,6 @@ seg-0e6be0d623f6 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur
 # text
 seg-9b505908a6e2 = Kshana <b>ne pilote aucun matériel radio et n'émet rien</b>. Il comprend un récepteur GNSS logiciel pour de l'IQ enregistré et généré, et peut écrire des fichiers IQ en bande de base synthétiques, mais il n'est <b>pas un matériel générateur de signaux RF</b> et <b>ni un récepteur GNSS matériel, ni certifié</b>. C'est un instrument d'étude et de compromis : il simule ce que le brouillage, le leurrage et la perte de signal font à une solution de navigation et de synchronisation temporelle, et vous dit lesquelles de ses réponses sont validées. <b>Pas un produit de vol.</b>
 
-seg-e6fe27ed6dfc = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
 seg-ceb2de75e2f4 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Gratuit : { "53" } outils MCP, de run_scenario à export_oem.
+
+seg-c88dde71cc6e = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine

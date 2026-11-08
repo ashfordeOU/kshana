@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 176,
-    "modelled": 221,
+    "modelled": 225,
     "partner_owned": 4,
-    "total": 401
+    "total": 405
   },
   "rows": [
     {
@@ -9088,6 +9088,106 @@
         {
           "path": "tests/iq_fll_handover_floor.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/iq_fll_handover_floor.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back",
+      "capability": "kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2's SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation",
+      "module": "ephem_export",
+      "tests": "tests/ephem_export_capstone.rs (4321 of 4321 CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md)",
+      "module_links": [
+        {
+          "path": "src/ephem_export.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/ephem_export.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/ephem_export_capstone.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/ephem_export_capstone.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials",
+      "capability": "opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera",
+      "module": "opnav",
+      "tests": "tests/c5a_opnav.rs (36 measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)",
+      "module_links": [
+        {
+          "path": "src/opnav.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/opnav.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/c5a_opnav.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/c5a_opnav.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/c5a_opnav",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/c5a_opnav",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/c5a_opnav/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter",
+      "capability": "c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth",
+      "module": "c3_force",
+      "tests": "tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)",
+      "module_links": [
+        {
+          "path": "src/c3_force.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/c3_force.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/c3_force.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/c3_force.rs"
+        },
+        {
+          "path": "tests/c3_verdicts.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/c3_verdicts.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Impulsive steps in the cislunar coast and the C2 step detector",
+      "capability": "The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only",
+      "module": "mission_thread::impulses",
+      "tests": "tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included)",
+      "module_links": [
+        {
+          "path": "src/mission_thread/impulses.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/mission_thread/impulses.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/mission_thread_c2_impulses.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/mission_thread_c2_impulses.rs"
+        },
+        {
+          "path": "tests/mission_thread_c2_verdict.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/mission_thread_c2_verdict.rs"
         }
       ],
       "fixture": null

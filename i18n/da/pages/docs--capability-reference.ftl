@@ -2564,8 +2564,6 @@ seg-6eee4b0e40b9 = <s1>Forrige</s1>Verifikationsmatrix
 
 seg-c3e7639ccf1a = <s1>Næste</s1>Hvorfor rækker forbliver modelleret
 
-seg-2fd8f2df3e6e = De { "61" } funktionskort fra <c1/>, derefter alle { "401" } rækker i verifikationsmatricen.
-
 seg-65185cb68d6b = Fejlbudget for navigation og tidssynkronisering for en kæde af missionsfaser fra opsendelse til indflyvning (<c1/>)
 
 seg-86a132e1a243 = Typen <c1/>: et dokument af faser, hver en af otte registrerede typer, kørt i rækkefølge, hvor 6x6-kovariansen, uret og referencesystemet gives videre efter en angiven regel (<c2/>; <c3/>, hvid accelerationsstøj over et angivet hul på en retlinet model; <c4/>, dødregning og derefter kildens gulv, aldrig under det, aldrig en nulstilling); konverteringer af referencesystem GCRF, MCI og MCMF og af tidsskala via TT, hver sin budgetrække, med Månens tilstand fra et valgfrit udsnit af DE440-kernen og den analytiske serie som den angivne reserve; marginen mod et angivet krav, det svageste led, hændelserne og en tidslinjefigur. Hvert tal er et angivet input eller en model af et
@@ -2645,3 +2643,5 @@ seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigatio
 seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS NOT ASSESSABLE (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
 
 seg-d5a79853b72f = { "93" } af { "93" } typer, { "3334" } af { "3334" } numeriske felter
+
+seg-5576293ba3aa = De { "61" } funktionskort fra <c1/>, derefter alle { "405" } rækker i verifikationsmatricen.

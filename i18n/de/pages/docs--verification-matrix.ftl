@@ -5417,6 +5417,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = Unit-Tests von interference_map::emitter (Projektions-Rundlauf, Horizontwert, synthetische Vorwärts- und Rückwärts-Rundläufe: Der bekannte Sender liegt etwa mit der genannten Rate innerhalb der genannten Region, Randfälle, Sitzungsclustering, Profil, Datenschutz und Formulierung); Fälle von locate in tests/interference_map_cli.rs
 
-seg-6875b0d82c59 = Das vollständige, maschinengeprüfte Nachweisregister: <b>{ "401" } Zeilen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen das). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Fixture, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede modellierte Zeile nicht extern validiert ist.
+seg-9d7b242850ee = Das vollständige, maschinengeprüfte Nachweisregister: <b>{ "405" } Zeilen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen das). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Fixture, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede modellierte Zeile nicht extern validiert ist.
 
-seg-0a9897a43b5d = { "401" } Zeilen: { "176" } extern validiert, { "221" } modelliert, { "4" } im Besitz von Partnern.
+seg-3ca919e147c4 = { "405" } Zeilen: { "176" } extern validiert, { "225" } modelliert, { "4" } im Besitz von Partnern.

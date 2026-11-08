@@ -3593,6 +3593,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
 
-seg-6875b0d82c59 = Úplný, strojově kontrolovaný registr důkazů: <b>{ "401" } řádků — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
+seg-9d7b242850ee = Úplný, strojově kontrolovaný registr důkazů: <b>{ "405" } řádků — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
 
-seg-0a9897a43b5d = { "401" } řádků: { "176" } vnějšně ověřeno, { "221" } modelováno, { "4" } ve vlastnictví partnera.
+seg-3ca919e147c4 = { "405" } řádků: { "176" } vnějšně ověřeno, { "225" } modelováno, { "4" } ve vlastnictví partnera.

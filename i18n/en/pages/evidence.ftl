@@ -5,7 +5,7 @@
 seg-8f101c803442 = Every capability wears <s1>its evidence.</s1>
 
 # text
-seg-aa7c0a865661 = { "401" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "221" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-2ed2d817f56e = { "405" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "225" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
 
 # text
 seg-4f6445e5dd61 = Verification matrix <b>v{ $version }</b>
@@ -26,7 +26,7 @@ seg-29e58493fdd4 = Modelled
 seg-ae9e2459836c = capabilities
 
 # attr:aria-label
-seg-7a254b7d5498 = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "221" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-07aef8ff8fe3 = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "225" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
 
 # text
 seg-f97cb6bf8202 = Hover or focus a cell to read its capability and the oracle that grades it.
@@ -37,7 +37,7 @@ seg-8a1cef0b9561 = Validated: an independent external oracle agrees
 # text
 # c1: web/data/verification-matrix.json
 # c2: src/verification.rs
-seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, generated from <c2/> · { "401" } rows · no scenario or seed: the engine's own ledger
+seg-81464c684074 = Engine v{ $version } · <c1/>, generated from <c2/> · { "405" } rows · no scenario or seed: the engine's own ledger
 
 # text
 seg-d5c32303297d = Read the ledger
@@ -113,9 +113,9 @@ seg-55fc928e19ae = oracle · AIAA 2006-6753 verification vectors
 seg-1d60624d525d = How it was checked
 
 # text
-# c1: f4c7901
+# c1: 667bea5
 # c2: tests/sgp4_verification.rs
-seg-0b884f17b0f2 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-8f715a5e52b0 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -150,9 +150,9 @@ seg-87734f6c52a2 = One square per SciPy case, grouped by kernel.
 seg-4957eddb39ed = oracle · SciPy
 
 # text
-# c1: f4c7901
+# c1: 667bea5
 # c2: tests/raim_reference.rs
-seg-fd83e8666041 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-a9b6470fb2f8 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -178,9 +178,9 @@ seg-2b1ea60e99a7 = Position difference against time, per force tier.
 seg-75344d6c427a = oracle · Orekit { "12.2" }
 
 # text
-# c1: f4c7901
+# c1: 667bea5
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-9cf103c9cb54 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-947cc1db1e01 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -208,8 +208,8 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: f4c7901
-seg-8e6705edeb6a = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+# c2: 667bea5
+seg-cfd8687a8048 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -234,9 +234,9 @@ seg-5d3372dbff1f = Four deviations against averaging time, with the published va
 seg-9993e306ae64 = oracle · NIST SP { "1065" }
 
 # text
-# c1: f4c7901
+# c1: 667bea5
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-3f8669a1465b = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-fb3f807e97c0 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -266,9 +266,9 @@ seg-46c1dbe5c6bc = Measured and predicted time error against coast time, and the
 seg-449f52c56c67 = oracle · measured caesium record
 
 # text
-# c1: f4c7901
+# c1: 667bea5
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-8aabe2e98c52 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-7c4a8891ee1b = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml
@@ -284,13 +284,13 @@ seg-b19592bc5242 = Validated means an independent external source agrees: publis
 seg-800e31fc8f7d = Capabilities graded
 
 # text
-seg-77bfad0f4f88 = { "176" }<s1>of { "401" } validated</s1>
+seg-c54618ee87bb = { "176" }<s1>of { "405" } validated</s1>
 
 # text
 seg-e61158f71854 = Hover a cell
 
 # attr:aria-label
-seg-222c46a96ec3 = Verification matrix: { "176" } validated, { "221" } modelled, { "4" } partner-owned, { "401" } in total
+seg-9984e76b5b28 = Verification matrix: { "176" } validated, { "225" } modelled, { "4" } partner-owned, { "405" } in total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise… · Validated
@@ -1475,6 +1475,18 @@ seg-de5a2ace5291 = The jamming kind's optional [acquisition] section (a satellit
 seg-337acb9b46a7 = iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of… · Modelled
 
 # attr:title
+seg-a54a1eab29ff = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons… · Modelled
+
+# attr:title
+seg-d5a1e905d61c = opnav::measure: the apparent direction of a body centre (converged Newtonian light time… · Modelled
+
+# attr:title
+seg-37d5138f126e = c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel… · Modelled
+
+# attr:title
+seg-a0bc09474f60 = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in… · Modelled
+
+# attr:title
 seg-731c77d5b154 = Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF… · Modelled
 
 # attr:title
@@ -1535,7 +1547,7 @@ seg-5af3d58e83fa = <b>With Pro:</b> a <b>mission dossier</b> checks every requir
 seg-400016e22379 = Validation ledger
 
 # text
-seg-65feaf4e91ef = All { "401" } rows, one line each.
+seg-46e93e2ebc71 = All { "405" } rows, one line each.
 
 # text
 seg-20ec758fe328 = Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
@@ -1547,7 +1559,7 @@ seg-08f2354cb22b = Filter by domain
 seg-f5a2e020b47e = By domain: bar length is rows, colour is status. Pick one to filter.
 
 # text
-seg-5668b5581703 = of { "102" } validated
+seg-65122c2bb1fc = of { "104" } validated
 
 # text
 seg-0272bc18f675 = of { "19" } validated
@@ -1565,7 +1577,7 @@ seg-501d3a72ea43 = Integrity
 seg-38ec110ef886 = Orbits, frames and geometry
 
 # text
-seg-fbb78f11c0dc = of { "78" } validated
+seg-2998c6fa20d6 = of { "79" } validated
 
 # text
 seg-a1c022c60fb6 = Inertial, fusion and alternative PNT
@@ -1583,19 +1595,19 @@ seg-fb01a581d5ee = of { "28" } validated
 seg-d6c43e56d4cc = Mission analysis, assurance and other
 
 # text
-seg-5516d9825527 = of { "55" } validated
+seg-4b3ab6095c65 = of { "56" } validated
 
 # attr:aria-label
 seg-85db75e49de8 = Filter by status
 
 # text
-seg-b393e1b5fcfc = All { "401" }
+seg-ebec0449ab03 = All { "405" }
 
 # text
 seg-7038fab8b00c = Validated { "176" }
 
 # text
-seg-3df9e327c036 = Modelled { "221" }
+seg-bcf766efe1ab = Modelled { "225" }
 
 # text
 seg-ba89c1119b21 = Partner-owned { "4" }
@@ -1607,7 +1619,7 @@ seg-cd12d85e2beb = Search the ledger
 seg-f014d784ebe3 = Search requirement, oracle, module or test
 
 # attr:aria-label
-seg-7fa6f2e0de57 = Validation ledger, { "401" } rows, scrollable
+seg-cea55077f323 = Validation ledger, { "405" } rows, scrollable
 
 # text
 seg-1603e76bcf66 = Power-law noise identification by lag-1 autocorrelation
@@ -6030,6 +6042,54 @@ seg-efa1d1a9e904 = iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in
 
 # text
 seg-3feb4e9b427c = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). RE-RUN { "0.41" } (D8a row { "4" }, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last { "0.5" } s), still NOT MET: at { "33" } dB-Hz hand-over and hold { "20" } of { "20" } on seen and fresh seeds with jitter within { "1" } % of the PLL alone (this half met), but at { "31" } dB-Hz { "15" } of { "20" } seen and { "6" } of { "20" } fresh, jitter ratio { "1.8" } and { "2.8" }. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
+
+# text
+seg-fd2836e3f868 = Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back
+
+# text
+seg-089c214085e7 = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM { "2.0" }, an OPM { "3.0" } or an SPK of type { "13" } or { "9" } (frame code { "1" }, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
+# text
+seg-34b31799c1a2 = The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit { "13.1.9" } and Basilisk { "2.12.2" }'s SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE { "0.10.6" } evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
+# text
+seg-98b136e73563 = <s1>tests/ephem_export_capstone.rs ({ "4321" } of { "4321" } CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow…</s1>
+
+# text
+seg-6cab0a1f9600 = Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials
+
+# text
+seg-be6225de24b7 = opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
+
+# text
+seg-3582bea278d4 = SPICE (spiceypy { "8.3.0" }, CSPICE N0067) and OpenCV { "5.0.0" }, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within { "0.0016" } mas of SPICE CN+S (bar { "1" } mas), O2 stars within { "3e-8" } mas, O3 projection within { "1.3e-11" } px of OpenCV, O4 end to end within { "3.8e-8" } px (bar { "1e-4" } px), O6 additivity: MET. O5 NOT MET: { "258" } of { "432" } partial elements differ from central differences at the registered { "1" } m and { "1" } mm/s steps by more than { "1e-6" } relative (the largest elements agree to about { "1e-7" } to { "1e-9" }; a no-bar diagnostic at { "1" } km and { "1" } m/s cuts the worst relative difference from { "1.0" } to { "8e-4" }, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera
+
+# text
+seg-a94b33e25d45 = <s1>tests/c5a_opnav.rs ({ "36" } measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)</s1>
+
+# text
+seg-9168b89cdcc9 = CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter
+
+# text
+seg-5d4cc8e3a826 = c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit
+
+# text
+seg-13d3f5275f6d = JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 ({ "21.66" } km end position, { "4.24" } km periapsis; bars { "25" } and { "10" } km). C3-H NOT MET on the held-out windows E, H1, H2 (end position { "37.25" }, { "36.23" }, { "49.65" } km; periapsis met). C3-S NOT MET (k fitted on E: H1 { "12.92" } km met, H2 { "57.13" } km). A2 is not met on re-run. The reconstruction is the reference, not truth
+
+# text
+seg-a3520b86680a = <s1>tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)</s1>
+
+# text
+seg-2693df8ca65a = Impulsive steps in the cislunar coast and the C2 step detector
+
+# text
+seg-0785d04ff3f0 = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds { "0.01" } m/s and gives one impulse per event hour at its midpoint
+
+# text
+seg-5f50916efb2f = JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 ({ "17.3" } km against { "2" } km; { "0.0177" } m/s against { "0.01" } m/s); W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only
+
+# text
+seg-f958136c0c18 = <s1>tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed…</s1>
 
 # text
 seg-ac0f97e945a7 = RTKLIB .pos solution reader for receiver-trust
