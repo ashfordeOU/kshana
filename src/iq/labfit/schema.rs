@@ -453,6 +453,15 @@ pub struct CampaignFitCfg {
     pub delta_bounds_db: [f64; 2],
     /// Fit the lock models (and their dwells and thresholds) as well as the C/N0 model.
     pub lock_models: bool,
+    /// C/N0 estimator lag (s): each C/N0 bin is modelled at the stated J/S this long before
+    /// the bin's time along the profile (D8a row 6, `xval/d8a-labfit-lag/`). 0, the default,
+    /// models it at its own stated J/S; omitted from the output then.
+    #[serde(skip_serializing_if = "is_zero")]
+    pub cn0_lag_s: f64,
+}
+
+fn is_zero(x: &f64) -> bool {
+    *x == 0.0
 }
 
 impl Default for CampaignFitCfg {
@@ -464,6 +473,7 @@ impl Default for CampaignFitCfg {
             q_bounds: [0.1, 10.0],
             delta_bounds_db: [-10.0, 10.0],
             lock_models: true,
+            cn0_lag_s: 0.0,
         }
     }
 }

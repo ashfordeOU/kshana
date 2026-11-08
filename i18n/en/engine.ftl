@@ -3805,6 +3805,7 @@ engine-e-iq-labfit-iqfit-unknown-mode-only-validation = unknown mode `{ $m }` (o
 engine-e-iq-labfit-iqfit-validation-pi90-coverage-must-be = validation.pi90_coverage must be [lower, upper] within [0, 1]
 
 engine-e-iq-labfit-iqfit-campaign-fit-bounds-must-be = campaign_fit.q_bounds must be [lower, upper] with 0 < lower < upper
+engine-e-iq-labfit-iqfit-campaign-fit-cn0-lag = campaign_fit.cn0_lag_s must be finite and at least 0 (got { $lag })
 
 engine-e-iq-labfit-iqfit-campaign-fit-delta-bounds-db = campaign_fit.delta_bounds_db must be [lower, upper]
 
