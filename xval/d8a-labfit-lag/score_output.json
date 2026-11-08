@@ -1,0 +1,37 @@
+{
+ "seen": {
+  "a_prime_error_db": 0.5015110880423386,
+  "a_prime": false,
+  "b_prime_covered": 0,
+  "b_prime": false,
+  "c": {
+   "bins": 0.8856624319419237,
+   "empirical": 0.9,
+   "tracking_loop": 0.9
+  },
+  "c_ok": true,
+  "d_gap_db": {
+   "empirical": 2.192620116326516,
+   "tracking_loop": 2.19261990138412
+  },
+  "d": false
+ },
+ "fresh": {
+  "a_prime_error_db": 0.39859290480335385,
+  "a_prime": true,
+  "b_prime_covered": 0,
+  "b_prime": false,
+  "c": {
+   "bins": 0.8933092224231465,
+   "empirical": 1.0,
+   "tracking_loop": 1.0
+  },
+  "c_ok": false,
+  "d_gap_db": {
+   "empirical": 0.3236161111770528,
+   "tracking_loop": 0.3236161228380041
+  },
+  "d": true
+ },
+ "met_on_re_run": false
+}

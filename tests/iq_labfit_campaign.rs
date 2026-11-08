@@ -960,3 +960,28 @@ fn d8a_row6_batch() {
         );
     }
 }
+
+/// D8a row 6: the committed raw batches scored by the registered rule give the recorded
+/// verdict (`xval/d8a-labfit-lag/score_output.json`, NOT MET on re-run).
+///
+/// PIN-SCOPE:    the row 6 scoring output from the committed raw batch files.
+/// PIN-EXCLUDES: the campaigns themselves (re-built only by `d8a_row6_batch`).
+#[test]
+fn d8a_row6_scoring_of_the_committed_batches_is_the_recorded_one() {
+    let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/xval/d8a-labfit-lag");
+    let out = std::process::Command::new("python3")
+        .args(["-I", "score.py", "raw"])
+        .current_dir(dir)
+        .output()
+        .expect("python3");
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let got: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    let want: serde_json::Value =
+        serde_json::from_str(include_str!("../xval/d8a-labfit-lag/score_output.json")).unwrap();
+    assert_eq!(got, want, "the recorded row 6 scoring moved");
+    assert_eq!(got["met_on_re_run"], false);
+}
