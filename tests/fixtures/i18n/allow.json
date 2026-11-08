@@ -189,6 +189,10 @@
    "count": 3,
    "reason": "machine-document: the host_s key added to each JSON reading line, and the <source>: <error> prefix of an operating-system error"
   },
+  "src/locate_pd.rs": {
+   "count": 10,
+   "reason": "identifier: the method id and the JSON keys of the locator's parameter block and synthetic session documents (machine documents read by xval/locator-power-difference/oracle.py)"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
