@@ -93,4 +93,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [Clocks, timing and holdover](../clocks-timing-and-holdover.md#clock)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [CAMPAIGNS.md](../../CAMPAIGNS.md)
-- Topic page: [RECEIVER-TRUST.md](../../RECEIVER-TRUST.md)
+- Topic page: [CLOCK-LOG-FORMATS.md](../../CLOCK-LOG-FORMATS.md)

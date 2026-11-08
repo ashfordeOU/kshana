@@ -483,6 +483,8 @@ stale.
 | `terrain-slam.toml` | `terrain-slam` | yes | yes | yes | no [6] | no [2] |
 | `time-transfer-budget.toml` | `time-transfer-budget` | no [21] | no [21] | no [21] | no [21] | no [2] |
 | `timetransfer.toml` | `timetransfer` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `tip-and-cue-baltic-m2.toml` | `tip-and-cue` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `tip-and-cue-short.toml` | `tip-and-cue` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `tracking-loop.toml` | `tracking-loop` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `xona-pulsar-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
 | `xona-pulsar-signals.toml` | `leo-signal` | no [8] | no [8] | no [8] | no [8] | no [2] |

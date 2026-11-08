@@ -8,7 +8,7 @@ Scenario kind of the engine v0.40.0, family [Mission threads](../mission-threads
 
 MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
 
-One run of `scenarios/mission-thread-artemis-class.toml` summarises as: mission-thread | 11 phases | Artemis-class mission thread (ILLUSTRATIVE) | weakest link descent | MODELLED
+One run of `scenarios/mission-thread-short.toml` summarises as: mission-thread | 4 phases | Short mission thread, launch to entry (ILLUSTRATIVE) | weakest link ascent | MODELLED
 
 ## Inputs
 
@@ -17,7 +17,7 @@ From the schema (`kshana kinds --json`):
 - Required fields: `epoch_utc`, `entry`, `phase`
 - Optional fields: `kind`, `title`, `seed`, `moon_kernel_path`, `ground_network`
 
-The example `scenarios/mission-thread-artemis-class.toml` sets, among others:
+The example `scenarios/mission-thread-short.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
@@ -29,16 +29,18 @@ The example `scenarios/mission-thread-artemis-class.toml` sets, among others:
 | `entry.timescale` | utc | text |
 | `entry.x` | [5.2850e6, 1.8802e6, 3.0253e6, -137.105, 385.389, 0] | not stated |
 | `epoch_utc` | 2028-01-01T00:00:00Z | text |
-| `ground_network.handover_gap_s` | 120 | s |
-| `ground_network.min_elevation_deg` | 10 | deg |
-| `ground_network.phases[0].geometry` | moon-direction | text |
-| `ground_network.phases[0].phase` | cruise | text |
+| `kind` | mission-thread | text |
+| `phase[0].duration_s` | 540 | s |
+| `phase[0].id` | ascent | text |
+| `phase[0].kind` | launch-ascent | text |
 
 ## Run it
 
 ```sh
-kshana scenarios/mission-thread-artemis-class.toml
+kshana scenarios/mission-thread-short.toml
 ```
+
+2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
 
 ## What it gives
 
@@ -51,15 +53,15 @@ The scalar results of that run, with the units the engine states:
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `schema` | kshana-mission-thread/1 | text |
-| `seed` | 20261024 | 1 |
+| `seed` | 20261028 | 1 |
 | `weakest_link.basis` | smallest margin against a stated require | text |
-| `weakest_link.limiting_source` | inertial drift, no aid, east | text |
-| `weakest_link.margin` | 1.213087 | 1 |
-| `weakest_link.phase_id` | descent | text |
+| `weakest_link.limiting_source` | inertial dead reckoning | text |
+| `weakest_link.margin` | 1.648059 | 1 |
+| `weakest_link.phase_id` | ascent | text |
 
 Result label (the engine's): MODELLED
 
-<img src="../../figures/kinds/mission-thread.svg" alt="The chart the engine writes for scenarios/mission-thread-artemis-class.toml, kind mission-thread" width="640">
+<img src="../../figures/kinds/mission-thread.svg" alt="The chart the engine writes for scenarios/mission-thread-short.toml, kind mission-thread" width="640">
 
 ## Evidence
 
@@ -85,7 +87,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. (kind catalogue (`kshana kinds --json`))
 - MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. (kind catalogue (`kshana kinds --json`))
-- HONESTY. Every number here is ILLUSTRATIVE: a round figure chosen to make the chain run, not the performance of any vehicle, sensor, station or network. The chain follows one stack as a stated simplification; vehicle changes, crew transfers and the lunar-orbit station are not modelled, the lunar orbits are the 100 km circular and polar ones the lunar kinds fly (not the near-rectilinear halo orbit), and the TLI burn i (scenario file comment, lines 11 to 17)
+- HONESTY. Every number is ILLUSTRATIVE, a round figure chosen to make the chain run, not the performance of any vehicle, sensor, station or network; the phases are a stated simplification of one stack. MODELLED. Public sources only; not affiliated with or endorsed by any agency. Advisory software, not certified navigation equipment. (scenario file comment, lines 5 to 7)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Navigation and timing error budget of a chain of mission phases from launch to entry (`mission-thread`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Launch and ascent to a parking orbit with GNSS acquisition and fade (`launch-ascent`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 3300,
-    "fields_total": 3300,
+    "fields_described": 3334,
+    "fields_total": 3334,
     "fields_without_units": 0,
-    "kinds_complete": 92,
-    "kinds_total": 92,
+    "kinds_complete": 93,
+    "kinds_total": 93,
     "kinds_uncovered": 0,
     "uncovered_kind_ceiling": 0,
     "uncovered_kinds": []
@@ -21152,6 +21152,220 @@
       "fields_without_units": [],
       "label": null,
       "source": "scenarios/timetransfer.toml"
+    },
+    "tip-and-cue": {
+      "complete": true,
+      "fields": {
+        "cases[].case.optical.node_offset": {
+          "definition": "first node, in plane spacings",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "cases[].case.optical.phasing": {
+          "definition": "Walker F of the optical layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "cases[].case.optical.planes": {
+          "definition": "Walker P of the optical layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "cases[].case.optical.total": {
+          "definition": "Walker T of the optical layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "cases[].case.optical_off_nadir_deg": {
+          "definition": "optical field of regard, off nadir",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "cases[].case.rf.node_offset": {
+          "definition": "first node, in plane spacings",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "cases[].case.rf.phasing": {
+          "definition": "Walker F of the RF layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "cases[].case.rf.planes": {
+          "definition": "Walker P of the RF layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "cases[].case.rf.total": {
+          "definition": "Walker T of the RF layer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "cases[].case.rf_mask_deg": {
+          "definition": "RF elevation mask",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "cases[].cues_unanswered": {
+          "definition": "cues with no optical access before the span ends",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].full_refresh.max_s": {
+          "definition": "largest F",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].full_refresh.median_s": {
+          "definition": "median of F",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].full_refresh.p95_s": {
+          "definition": "95th percentile of F",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].full_refresh.samples": {
+          "definition": "start times",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].full_refresh.value_s": {
+          "definition": "F: mean over 1 min start times of the wait until every point has been in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].points_without_gap": {
+          "definition": "points with no gap, left out of R",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].reaction.max_s": {
+          "definition": "largest wait",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].reaction.median_s": {
+          "definition": "median wait",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].reaction.p95_s": {
+          "definition": "95th percentile wait",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].reaction.samples": {
+          "definition": "cues",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].reaction.value_s": {
+          "definition": "Q: area-weighted mean of each point's mean wait from an RF access start to optical access",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].revisit.max_s": {
+          "definition": "largest gap",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].revisit.median_s": {
+          "definition": "median gap",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].revisit.p95_s": {
+          "definition": "95th percentile gap",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].revisit.samples": {
+          "definition": "gaps",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].revisit.value_s": {
+          "definition": "R: area-weighted mean of each point's mean gap between RF access intervals",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].revisit_start_to_start_s": {
+          "definition": "R measured start to start (unscored)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "cases[].rf_intervals": {
+          "definition": "RF access intervals over all points",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "inputs.inclination_deg": {
+          "definition": "sun-synchronous inclination for 550 km",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inputs.points": {
+          "definition": "area points",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "inputs.semi_major_axis_m": {
+          "definition": "circular orbit radius (550 km altitude)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "inputs.span_s": {
+          "definition": "span; F and Q use start times before span minus one day",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "inputs.step_s": {
+          "definition": "time step",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        }
+      },
+      "fields_described": 34,
+      "fields_total": 34,
+      "fields_without_units": [],
+      "label": "MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published simulation figures, never a validation",
+      "source": "scenarios/tip-and-cue-short.toml"
     },
     "tracking-loop": {
       "complete": true,
