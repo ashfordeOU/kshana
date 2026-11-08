@@ -1,14 +1,14 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "339521841a159ffa0594dd73fe8a7c5483841676",
+ "engine_commit": "0a53cb87eea8487a8529c1e7308da0ee5932da46",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-10-28T11:28:24.653Z",
+ "recorded_utc": "2026-11-08T09:50:16.096Z",
  "runs": {
   "celeste-iod-classical-pilot-signals.toml": {
    "file": "celeste-iod-classical-pilot-signals.json.gz",
-   "bytes": 26661,
-   "unpacked_bytes": 120776,
+   "bytes": 26662,
+   "unpacked_bytes": 120774,
    "report": true,
    "animation": false,
    "animation_reason": "--animate svg: no time series to animate: the leo-signal result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
@@ -19,7 +19,7 @@
   },
   "celeste-iod-end-to-end.toml": {
    "file": "celeste-iod-end-to-end.json.gz",
-   "bytes": 105283,
+   "bytes": 105284,
    "unpacked_bytes": 329755,
    "report": true,
    "animation": true,
@@ -36,7 +36,7 @@
   },
   "celeste-iod-fused-pvt.toml": {
    "file": "celeste-iod-fused-pvt.json.gz",
-   "bytes": 36235,
+   "bytes": 36236,
    "unpacked_bytes": 130446,
    "report": true,
    "animation": true,
@@ -48,7 +48,7 @@
   },
   "leo-navmsg-celeste-iod.toml": {
    "file": "leo-navmsg-celeste-iod.json.gz",
-   "bytes": 16669,
+   "bytes": 16670,
    "unpacked_bytes": 65863,
    "report": true,
    "animation": false,
