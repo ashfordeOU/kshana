@@ -17,3 +17,7 @@ Recorded before the fourth tool's adapter is written, as the sign-off of 3 Novem
 ## How criterion 3 is read
 
 8 November 2026: a tool that parses each written value to the written double and then converts units (Orekit holds metres; the OEM carries kilometres) passes criterion 3. The data is carried at the written precision. The report names the tool as one that rounds further than the digits written, because its conversion is a second rounding of at most one ulp. A value that is not the tool's own conversion of the written double, or an epoch that differs, fails.
+
+## How criterion 3 is read for a tool that evaluates a kernel
+
+8 November 2026: some tools evaluate an SPK and do not hand back its stored records (ANISE's Python API). For those, the file is carried when every epoch is the written one and no state at a node epoch is further from the written state than SPICE's own evaluation of the same kernel is. Rule set by the apps session, confirmed by the seat on 8 November. Nothing was pre-registered for evaluating tools.
