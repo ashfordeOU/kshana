@@ -1137,10 +1137,10 @@ seg-579d9b6f7afd = Todos os { "93" } tipos de cenário, gratuitos e sem restriç
 
 seg-56bf1281e330 = Uma sessão gravada com o servidor kshana-mcp (Model Context Protocol, motor v{ $version }): o assistente lista as { "53" } ferramentas, valida <c1/> (válido: tipo de cenário detectado `clock`) e o executa: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-8c81b3e5933e = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
-
-seg-56a515205cd4 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
-
-seg-546dca465cd0 = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
-
 seg-24d919eaaba3 = { "176" } de { "405" } capacidades concordam com referências independentes externas; as demais são rotuladas como modeladas, em voz alta.
+
+seg-a3e8e37a3dfe = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+seg-fb666d7bed4e = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinístico, sem semente
+
+seg-890b4e5ac62b = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }

@@ -4092,18 +4092,6 @@ seg-07aef8ff8fe3 = Verifikasjonsmatrise, én celle per funksjon i registerrekkef
 
 seg-81464c684074 = Motor v{ $version } · <c1/>, generert fra <c2/> · { "405" } rader · ingen scenario eller seed: motorens eget register
 
-seg-8f715a5e52b0 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-a9b6470fb2f8 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-947cc1db1e01 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-cfd8687a8048 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
-
-seg-fb3f807e97c0 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-7c4a8891ee1b = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
 seg-c54618ee87bb = { "176" }<s1>av { "405" } validert</s1>
 
 seg-9984e76b5b28 = Verifikasjonsmatrise: { "176" } validert, { "225" } modellert, { "4" } eid av partnere, { "405" } totalt
@@ -4119,3 +4107,15 @@ seg-cea55077f323 = Valideringsregister, { "405" } rader, kan rulles
 seg-65122c2bb1fc = av { "104" } validert
 seg-2998c6fa20d6 = av { "79" } validert
 seg-4b3ab6095c65 = av { "56" } validert
+
+seg-ee74b0bd690c = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-ccd3c88376c6 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-9e9722dd8156 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-86087d7afa56 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
+
+seg-e8c571d855ac = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-f66e0bd02a7d = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed

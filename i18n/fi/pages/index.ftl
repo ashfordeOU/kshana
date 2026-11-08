@@ -724,10 +724,10 @@ seg-579d9b6f7afd = Kaikki { "93" } skenaariotyyppiä, ilmaisia ilman ominaisuusr
 
 seg-56bf1281e330 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "53" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-8c81b3e5933e = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
-
-seg-56a515205cd4 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-546dca465cd0 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
-
 seg-24d919eaaba3 = { "405" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
+
+seg-a3e8e37a3dfe = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+
+seg-fb666d7bed4e = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-890b4e5ac62b = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }

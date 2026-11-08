@@ -718,10 +718,10 @@ seg-579d9b6f7afd = Alle { "93" } scenarietyper, gratis uden funktionsspærring, 
 
 seg-56bf1281e330 = En optaget session med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten viser de { "53" } værktøjer, validerer <c1/> (gyldig: fundet scenarietype `clock`) og kører den: scenarie 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integritet { "1.000" } sikkerhed n/a (ingen angreb) | klassisk holdover 2610s p95 19.7ns integritet { "1.000" } sikkerhed n/a (ingen angreb).
 
-seg-8c81b3e5933e = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-56a515205cd4 = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
-
-seg-546dca465cd0 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
 seg-24d919eaaba3 = { "176" } af { "405" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
+
+seg-a3e8e37a3dfe = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+
+seg-fb666d7bed4e = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+
+seg-890b4e5ac62b = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

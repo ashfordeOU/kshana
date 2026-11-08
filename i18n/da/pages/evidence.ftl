@@ -4092,18 +4092,6 @@ seg-07aef8ff8fe3 = Verifikationsmatrix, én celle pr. funktion i registerets ræ
 
 seg-81464c684074 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "405" } rækker · intet scenarie eller seed: motorens eget register
 
-seg-8f715a5e52b0 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-a9b6470fb2f8 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-947cc1db1e01 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-cfd8687a8048 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
-
-seg-fb3f807e97c0 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-7c4a8891ee1b = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
 seg-c54618ee87bb = { "176" }<s1>af { "405" } valideret</s1>
 
 seg-9984e76b5b28 = Verifikationsmatrix: { "176" } valideret, { "225" } modelleret, { "4" } ejet af partnere, { "405" } i alt
@@ -4119,3 +4107,15 @@ seg-cea55077f323 = Valideringsregister, { "405" } rækker, kan rulles
 seg-65122c2bb1fc = af { "104" } valideret
 seg-2998c6fa20d6 = af { "79" } valideret
 seg-4b3ab6095c65 = af { "56" } valideret
+
+seg-ee74b0bd690c = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-ccd3c88376c6 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-9e9722dd8156 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-86087d7afa56 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+
+seg-e8c571d855ac = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-f66e0bd02a7d = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed

@@ -4102,18 +4102,6 @@ seg-07aef8ff8fe3 = Macierz weryfikacji, jedna komórka na możliwość w kolejno
 
 seg-81464c684074 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "405" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
 
-seg-8f715a5e52b0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-a9b6470fb2f8 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-947cc1db1e01 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-cfd8687a8048 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-fb3f807e97c0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-7c4a8891ee1b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-c54618ee87bb = { "176" }<s1>z { "405" } sprawdzonych</s1>
 
 seg-9984e76b5b28 = Macierz weryfikacji: { "176" } sprawdzonych, { "225" } modelowanych, { "4" } należących do partnera, { "405" } łącznie
@@ -4129,3 +4117,15 @@ seg-cea55077f323 = Rejestr walidacji, { "405" } wierszy, z przewijaniem
 seg-65122c2bb1fc = z { "104" } sprawdzonych
 seg-2998c6fa20d6 = z { "79" } sprawdzonych
 seg-4b3ab6095c65 = z { "56" } sprawdzonych
+
+seg-ee74b0bd690c = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-ccd3c88376c6 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-9e9722dd8156 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-86087d7afa56 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-e8c571d855ac = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-f66e0bd02a7d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
