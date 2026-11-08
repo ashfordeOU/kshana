@@ -335,7 +335,12 @@ pub(crate) fn result_json(
 ) -> Value {
     let mut m = Map::new();
     m.insert("schema".into(), json!(RESULT_SCHEMA));
-    m.insert("spec_version".into(), json!(SPEC_VERSION));
+    let spec = if task == "e" {
+        task_e::SPEC_VERSION_E
+    } else {
+        SPEC_VERSION
+    };
+    m.insert("spec_version".into(), json!(spec));
     m.insert("task".into(), json!(task));
     m.insert("split".into(), json!(split));
     m.insert("system".into(), system.to_json());
@@ -365,8 +370,8 @@ pub fn validate_result(v: &Value) -> Vec<String> {
     if !s("spec_version").is_some_and(|x| x.starts_with("kshana-bench/")) {
         p.push("`spec_version` must start with `kshana-bench/`".into());
     }
-    if !matches!(s("task"), Some("a" | "b" | "c" | "d")) {
-        p.push("`task` must be a, b, c or d".into());
+    if !matches!(s("task"), Some("a" | "b" | "c" | "d" | "e")) {
+        p.push("`task` must be a, b, c, d or e".into());
     }
     if !matches!(s("split"), Some("dev" | "test" | "holdout")) {
         p.push("`split` must be dev, test or holdout".into());

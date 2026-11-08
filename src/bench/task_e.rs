@@ -552,10 +552,12 @@ pub fn score_e(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
             .get(id)
             .and_then(Value::as_str)
             .and_then(class_index)
-            .ok_or_else(|| BenchError(crate::terr!("e-bench-task-e-missing-prediction", id = id)))?;
-        let sc = pscores
-            .get(id)
-            .ok_or_else(|| BenchError(crate::terr!("e-bench-task-e-missing-prediction", id = id)))?;
+            .ok_or_else(|| {
+                BenchError(crate::terr!("e-bench-task-e-missing-prediction", id = id))
+            })?;
+        let sc = pscores.get(id).ok_or_else(|| {
+            BenchError(crate::terr!("e-bench-task-e-missing-prediction", id = id))
+        })?;
         let mut s = [0.0; 4];
         for (k, c) in CLASSES.iter().enumerate() {
             s[k] = sc.get(*c).and_then(Value::as_f64).ok_or_else(|| {
