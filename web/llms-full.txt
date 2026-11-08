@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 667bea5 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 667bea5 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-93scenario kinds 183bundled scenario files 401capabilities in the verification matrix 176/401validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+93scenario kinds 183bundled scenario files 405capabilities in the verification matrix 176/405validated against independent external oracles 6papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 ## New in v0.40.0: a mission thread, an evidence label on every figure, and seventeen languages
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 667bea5 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 667bea5 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -462,9 +462,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.40.0, build f4c7901 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 667bea5 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 667bea5 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -476,7 +476,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 176 of 401 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 176 of 405 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 93 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -1045,7 +1045,7 @@ Orbit view
 
 engine v0.40.0t = 0 sReal engine run, replayed
 
-Engine v0.40.0, build f4c7901 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 667bea5 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2409,7 +2409,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-401 capabilities, each graded. 176 validated against independent external oracles. 221 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+405 capabilities, each graded. 176 validated against independent external oracles. 225 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.40.0 From the repository
 
@@ -2417,7 +2417,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.40.0 · web/data/verification-matrix.json, generated from src/verification.rs · 401 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.40.0 · web/data/verification-matrix.json, generated from src/verification.rs · 405 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2443,7 +2443,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.40.0, build f4c7901 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.40.0, build 667bea5 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2459,7 +2459,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.40.0, build f4c7901 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.40.0, build 667bea5 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2475,7 +2475,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.40.0, build f4c7901 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.40.0, build 667bea5 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2489,7 +2489,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build f4c7901 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 667bea5 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2503,7 +2503,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.40.0, build f4c7901 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.40.0, build 667bea5 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2519,7 +2519,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.40.0, build f4c7901 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.40.0, build 667bea5 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2529,7 +2529,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-176of 401 validated
+176of 405 validated
 
 Hover a cell
 
@@ -2553,7 +2553,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 401 rows, one line each.
+## All 405 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -8069,6 +8069,62 @@ Tests
 
 tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on…
 
+ModelledWrite a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it backephem_export
+
+Capability
+
+kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
+Oracle
+
+The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2's SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
+Tests
+
+tests/ephem_export_capstone.rs (4321 of 4321 CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow…
+
+ModelledOptical-navigation measurement model: apparent direction, pinhole projection with distortion, and partialsopnav
+
+Capability
+
+opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
+
+Oracle
+
+SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera
+
+Tests
+
+tests/c5a_opnav.rs (36 measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included)
+
+ModelledCAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameterc3_force
+
+Capability
+
+c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit
+
+Oracle
+
+JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth
+
+Tests
+
+tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included)
+
+ModelledImpulsive steps in the cislunar coast and the C2 step detectormission_thread::impulses
+
+Capability
+
+The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint
+
+Oracle
+
+JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only
+
+Tests
+
+tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed…
+
 ModelledRTKLIB .pos solution reader for receiver-trustreceiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos
 
 Capability
@@ -8610,7 +8666,7 @@ Terminal · kshana v0.40.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.40.0 (build f4c7901):
+A recorded command-line session, engine v0.40.0 (build 667bea5):
 
 - $ kshana --version: kshana 0.40.0
 
@@ -9740,7 +9796,7 @@ What is included
 
 - All 93 scenario kinds and 183 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 176 of 401 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 176 of 405 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
@@ -10319,9 +10375,9 @@ Everything here is rendered at build time from Markdown files tracked in the Ksh
 
 - Validation statusOn tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…
 
-- Verification matrixThe complete, machine-checked evidence ledger: 401 rows — 176 VALIDATED, 221 MODELLED, 4 PARTNER.
+- Verification matrixThe complete, machine-checked evidence ledger: 405 rows — 176 VALIDATED, 225 MODELLED, 4 PARTNER.
 
-- Capability referenceThe capability cards and all 401 rows of the verification matrix.
+- Capability referenceThe capability cards and all 405 rows of the verification matrix.
 
 - Why rows stay ModelledThese capabilities are implemented from published or first-principles physics with tests, but are honestly…
 
@@ -10545,7 +10601,7 @@ Title: Overview · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 176 of 401 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.40.0 English and 17 more languages, machine translated Licence: AGPL-3.0-only
+Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 176 of 405 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.40.0 English and 17 more languages, machine translated Licence: AGPL-3.0-only
 DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release A commercial licence is available from Ashforde® OÜ, see Editions kshana on crates.io, the current published version kshana on PyPI, the current published version kshana on npm, the current published version
 
 Open Kshana Studio · Install · Capabilities · Evidence · Research · Documentation · Cite
@@ -10583,7 +10639,7 @@ Status: v0.40.0. A validated, reproducible simulation substrate for PNT resilien
 
 ## What's new in 0.40#
 
-0.40 adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now 401 rows: 176 VALIDATED, 221 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+0.40 adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now 405 rows: 176 VALIDATED, 225 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
 
 - Mission thread. The mission-thread kind chains phases from launch to entry (launch-ascent, leo-rendezvous, tli-and-cruise, entry and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments), 93 scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory misses its pre-registered bar (45.3 km and 0.25 m/s against 5 km and 0.05 m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit misses (136.8 km against 25 km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (Mission thread, lunar segment). In the Studio the thread is read at /studio/mission-thread/.
 
@@ -11087,17 +11143,17 @@ Science and research |  Can I reproduce, extend and cite a PNT result, down to t
 
 SGP4 checked against all 666 AIAA 2006-6753 reference vectors, worst position error 4.12 mm
 
-176 of 401 capabilities validated against independent external oracles; 221 honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+176 of 405 capabilities validated against independent external oracles; 225 honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
 
 Label |  Rows |  Meaning |
 
 VALIDATED |  176 |  an independent external oracle agrees: real data, an independent implementation or published reference vectors |
 
-MODELLED |  221 |  checked against analytic truth or simulation self-consistency, and said out loud |
+MODELLED |  225 |  checked against analytic truth or simulation self-consistency, and said out loud |
 
 PARTNER |  4 |  owned by a hardware partner; Kshana holds no oracle for it |
 
-A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations 4) vectors to 4.12 mm; the Cowell force model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m against real precise ephemerides of the European Space Agency (ESA). Tests hold near 95 % line coverage of src/, gated at 85 % in CI. The ledger is docs/VERIFICATION-MATRIX.md, generated from src/verification.rs: the full 401-row matrix, and why each Modelled row has no external oracle in docs/MODELLED-RATIONALE.md.
+A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations 4) vectors to 4.12 mm; the Cowell force model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m against real precise ephemerides of the European Space Agency (ESA). Tests hold near 95 % line coverage of src/, gated at 85 % in CI. The ledger is docs/VERIFICATION-MATRIX.md, generated from src/verification.rs: the full 405-row matrix, and why each Modelled row has no external oracle in docs/MODELLED-RATIONALE.md.
 
 How validation works, the curated highlight table and the evidence figures
 
@@ -11115,7 +11171,7 @@ Every figure and table a run writes says how far to trust it, and which ledger r
 
 ### Validation at a glance#
 
-Every row is enforced by a named test in CI. This table is a curated highlight; the full machine-checked matrix is 401 rows — 176 VALIDATED, 221 MODELLED, 4 PARTNER (src/verification.rs), with the complete evidence (and what is honestly not yet validated) in docs/VALIDATION.md and the per-release kshana-validation-summary.html artifact (generated by cargo run --bin validation_report, SLSA-attested — Supply-chain Levels for Software Artifacts).
+Every row is enforced by a named test in CI. This table is a curated highlight; the full machine-checked matrix is 405 rows — 176 VALIDATED, 225 MODELLED, 4 PARTNER (src/verification.rs), with the complete evidence (and what is honestly not yet validated) in docs/VALIDATION.md and the per-release kshana-validation-summary.html artifact (generated by cargo run --bin validation_report, SLSA-attested — Supply-chain Levels for Software Artifacts).
 
 The Status column states the kind of evidence, matching the validation ladder above: VALIDATED = checked against an independent external oracle (real data, an independent library, or published reference vectors); MODELLED = checked against analytic truth or simulation self-consistency (no independent external dataset). VALIDATED describes the method of checking, not a pass/fail — an honest miss against a real external oracle stays VALIDATED, while a comparison that no matrix row names as an oracle (the LRO — Lunar Reconnaissance Orbiter — fit above) is shown as MODELLED. CI rows are process guards, not figures of merit. A few real-data islands (the measured caesium clock, Stable32 PHASE.DAT, and the OPS-SAT/ICGEM checks where the raw inputs carry no redistribution licence) are data-gated: the test prints a skip notice and stays green when the input is absent, and the public reference numbers are committed under tests/fixtures/. Reproduce the raw inputs with the matching scripts/fetch_*.sh.
 
@@ -11203,7 +11259,7 @@ How a capability earns its label — the CI-enforced invariant: no external orac
 
 Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst 4.12 mm). SVG · SVG
 
-176 Validated · 221 Modelled · 4 Partner — SVG
+176 Validated · 225 Modelled · 4 Partner — SVG
 
 ### Capability domains#
 
@@ -19697,7 +19753,7 @@ step_s = 10
 span_days = 7
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### tip-and-cue-short.toml
 
@@ -19716,7 +19772,7 @@ rf_mask_deg = 10.0
 optical = { total = 16, planes = 8, phasing = 1, node_offset = 0.5 }
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## tracking-loop#
 
@@ -21890,7 +21946,7 @@ Title: Verification matrix · Kshana docs
 
 # Verification matrix
 
-The complete, machine-checked evidence ledger: 401 rows — 176 VALIDATED, 221 MODELLED, 4 PARTNER. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the Validation ledger on https://kshana.dev. See MODELLED-RATIONALE.md for why each Modelled row is not externally validated.
+The complete, machine-checked evidence ledger: 405 rows — 176 VALIDATED, 225 MODELLED, 4 PARTNER. A row may be VALIDATED only with an independent external oracle (the matrix invariant tests enforce this). The same data, with clickable per-row links to each test, module and committed fixture, is the Validation ledger on https://kshana.dev. See MODELLED-RATIONALE.md for why each Modelled row is not externally validated.
 
 ID |  Requirement |  Capability |  Module |  Tests |  Oracle |  Status |
 
@@ -22682,6 +22738,14 @@ VM-e6a6348d |  Acquisition hysteresis and the front-end quantiser in the jamming
 
 VM-bdfec2e4 |  Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |  Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  MODELLED |
 
+VM-1ac0d984 |  Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back |  kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison |  ephem_export |  tests/ephem_export_capstone.rs (4321 of 4321 CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md) |  The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2's SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation |  MODELLED |
+
+VM-3c8cdeb7 |  Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials |  opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity |  opnav |  tests/c5a_opnav.rs (36 measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included) |  SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera |  MODELLED |
+
+VM-a074a1db |  CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter |  c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit |  c3_force |  tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included) |  JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth |  MODELLED |
+
+VM-22f8a601 |  Impulsive steps in the cislunar coast and the C2 step detector |  The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint |  mission_thread::impulses |  tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included) |  JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only |  MODELLED |
+
 VM-ad0fc95e |  RTKLIB .pos solution reader for receiver-trust |  Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). |  receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |  receiver_trust::machines::rtklib::tests (lat/lon epochs, week/TOW and ECEF, dms refused, hostile input); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py |  None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows |  MODELLED |
 
 VM-df5ac582 |  NovAtel OEM7 ASCII and binary logs (BESTPOS, RANGE, RXSTATUS) for receiver-trust |  Reads BESTPOS (position), RANGE (C/No per signal) and RXSTATUS (the receiver's jammer flag, as the epoch's self-report) from ASCII and binary OEM7 logs, CRC-checked, read-only (receiver_trust::machines::novatel). |  receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel |  receiver_trust::machines::novatel::tests (pinned CRC, ASCII and binary records, bad CRC skipped, hostile input); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report |  None external as a pass bar. The field layouts and CRC follow the public OEM7 documentation (docs.novatel.com); the CRC routine was checked once against the CRC the documentation states for its own BESTPOSA example (cited, not quoted). Fixtures are self-written; no log from a real receiver was read |  MODELLED |
@@ -22696,7 +22760,7 @@ VM-64d822df |  Home Assistant MQTT discovery and state exporter for trust teleme
 
 VM-c9180fdd |  ROS 2 receiver-trust package and gnss_lib_py bridge |  A ROS-free bridge that writes fix and satellite messages as NMEA and scores them through the Python binding (integrations/ros2/kshana_trust), and a gnss_lib_py NavData to receiver-trust bridge through the rtklib-pos format (integrations/gnss_lib_py). |  integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py |  tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a 1.1 km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py 1.1.0 and the wheel), run with pytest, not by cargo |  None external: the ROS node was not run on a live ROS 2 graph, and the ublox_ubx_msgs field names were not checked against a running driver. gnss_lib_py (MIT) was run for the bridge test |  MODELLED |
 
-401 rows: 176 externally validated, 221 modelled, 4 partner-owned.
+405 rows: 176 externally validated, 225 modelled, 4 partner-owned.
 
 ========================================================================
 URL: https://kshana.dev/docs/capability-reference
@@ -22705,7 +22769,7 @@ Title: Capability reference · Kshana docs
 
 # Capability reference
 
-The 61 capability cards from web/capabilities.json, then all 401 rows of the verification matrix.
+The 61 capability cards from web/capabilities.json, then all 405 rows of the verification matrix.
 
 ## Capability cards#
 
@@ -23931,6 +23995,14 @@ Acquisition hysteresis and the front-end quantiser in the jamming kind against i
 
 Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) | iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. | MODELLED | Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. | iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |
 
+Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back | kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison | MODELLED | The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2's SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation | ephem_export |
+
+Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials | opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity | MODELLED | SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera | opnav |
+
+CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter | c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit | MODELLED | JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth | c3_force |
+
+Impulsive steps in the cislunar coast and the C2 step detector | The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint | MODELLED | JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only | mission_thread::impulses |
+
 RTKLIB .pos solution reader for receiver-trust | Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). | MODELLED | None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows | receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |
 
 NovAtel OEM7 ASCII and binary logs (BESTPOS, RANGE, RXSTATUS) for receiver-trust | Reads BESTPOS (position), RANGE (C/No per signal) and RXSTATUS (the receiver's jammer flag, as the epoch's self-report) from ASCII and binary OEM7 logs, CRC-checked, read-only (receiver_trust::machines::novatel). | MODELLED | None external as a pass bar. The field layouts and CRC follow the public OEM7 documentation (docs.novatel.com); the CRC routine was checked once against the CRC the documentation states for its own BESTPOSA example (cited, not quoted). Fixtures are self-written; no log from a real receiver was read | receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel |
@@ -24384,6 +24456,14 @@ Acquisition hysteresis and the front-end quantiser in the jamming kind against i
 
 Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in) |  iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in_max_s field of iq::track::LoopConfig): under fll_assist = pull-in, the FLL hands over to the PLL after a fixed pull-in time whatever the PLI, with a matching return dwell until the PLI first reaches fll_off_pli. |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN 13, 1500 Hz, 4.1 MHz, 8 s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in 9 of 10 seeds at 33 dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a 100 Hz-off hand-off at 45 dB-Hz. NOT MET: with a 1.0 s cap, hand-over and hold in every run (16 of 20 at 33 dB-Hz, 8 of 20 at 31 dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within 25 % of the PLL alone (10.8 against 6.1 degrees at 33 dB-Hz). RE-RUN 0.41 (D8a row 4, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last 0.5 s), still NOT MET: at 33 dB-Hz hand-over and hold 20 of 20 on seen and fresh seeds with jitter within 1 % of the PLL alone (this half met), but at 31 dB-Hz 15 of 20 seen and 6 of 20 fresh, jitter ratio 1.8 and 2.8. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED. |  iq::track (LoopConfig, FllGate, design); iq::track::channel (the FLL gate) |  tests/iq_fll_handover_floor.rs (registered_bars_give_the_recorded_verdict, d1_the_key_is_part_of_the_hash_only_when_set, d4_the_capped_design_pulls_in_a_100_hz_handoff_error), on tests/fixtures/fll_handover_floor/results.csv |
 
+Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back |  kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM 2.0, an OPM 3.0 or an SPK of type 13 or 9 (frame code 1, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison |  ReferenceImpl |  checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit 13.1.9 and Basilisk 2.12.2's SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE 0.10.6 evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation |  ephem_export |  tests/ephem_export_capstone.rs (4321 of 4321 CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md) |
+
+Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials |  opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity |  ExternalDataset |  a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — SPICE (spiceypy 8.3.0, CSPICE N0067) and OpenCV 5.0.0, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within 0.0016 mas of SPICE CN+S (bar 1 mas), O2 stars within 3e-8 mas, O3 projection within 1.3e-11 px of OpenCV, O4 end to end within 3.8e-8 px (bar 1e-4 px), O6 additivity: MET. O5 NOT MET: 258 of 432 partial elements differ from central differences at the registered 1 m and 1 mm/s steps by more than 1e-6 relative (the largest elements agree to about 1e-7 to 1e-9; a no-bar diagnostic at 1 km and 1 m/s cuts the worst relative difference from 1.0 to 8e-4, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera |  opnav |  tests/c5a_opnav.rs (36 measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included) |
+
+CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter |  c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit |  ExternalDataset |  a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 (21.66 km end position, 4.24 km periapsis; bars 25 and 10 km). C3-H NOT MET on the held-out windows E, H1, H2 (end position 37.25, 36.23, 49.65 km; periapsis met). C3-S NOT MET (k fitted on E: H1 12.92 km met, H2 57.13 km). A2 is not met on re-run. The reconstruction is the reference, not truth |  c3_force |  tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included) |
+
+Impulsive steps in the cislunar coast and the C2 step detector |  The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds 0.01 m/s and gives one impulse per event hour at its midpoint |  ExternalDataset |  a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 (17.3 km against 2 km; 0.0177 m/s against 0.01 m/s); W2 not run (the published burn times leave 42.8 h, not 72 h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only |  mission_thread::impulses |  tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included) |
+
 RTKLIB .pos solution reader for receiver-trust |  Reads an RTKLIB solution file (calendar or GPS week/TOW time, latitude/longitude or ECEF position, satellites used) into the receiver-trust timeline (receiver_trust::machines::rtklib). |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — None external: no RTKLIB-produced file was read, and the column layout is from the RTKLIB manual. Checked on self-written files only; the ECEF conversion reuses frames::ecef_to_geodetic, which has its own rows |  receiver_trust::machines::rtklib (read_rtklib_pos); receiver_trust::LogFormat::RtklibPos |  receiver_trust::machines::rtklib::tests (lat/lon epochs, week/TOW and ECEF, dms refused, hostile input); tests/receiver_trust_machines.rs::rtklib_pos_runs_as_a_receiver_log; integrations/gnss_lib_py/test_bridge.py |
 
 NovAtel OEM7 ASCII and binary logs (BESTPOS, RANGE, RXSTATUS) for receiver-trust |  Reads BESTPOS (position), RANGE (C/No per signal) and RXSTATUS (the receiver's jammer flag, as the epoch's self-report) from ASCII and binary OEM7 logs, CRC-checked, read-only (receiver_trust::machines::novatel). |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — None external as a pass bar. The field layouts and CRC follow the public OEM7 documentation (docs.novatel.com); the CRC routine was checked once against the CRC the documentation states for its own BESTPOSA example (cited, not quoted). Fixtures are self-written; no log from a real receiver was read |  receiver_trust::machines::novatel (read_novatel, novatel_crc32); receiver_trust::LogFormat::Novatel |  receiver_trust::machines::novatel::tests (pinned CRC, ASCII and binary records, bad CRC skipped, hostile input); tests/receiver_trust_machines.rs::novatel_jammer_flag_reaches_the_receiver_self_report |
@@ -24398,7 +24478,7 @@ Home Assistant MQTT discovery and state exporter for trust telemetry |  A JSON s
 
 ROS 2 receiver-trust package and gnss_lib_py bridge |  A ROS-free bridge that writes fix and satellite messages as NMEA and scores them through the Python binding (integrations/ros2/kshana_trust), and a gnss_lib_py NavData to receiver-trust bridge through the rtklib-pos format (integrations/gnss_lib_py). |  InternalConsistency |  checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — None external: the ROS node was not run on a live ROS 2 graph, and the ublox_ubx_msgs field names were not checked against a running driver. gnss_lib_py (MIT) was run for the bridge test |  integrations/ros2/kshana_trust (bridge.py, trust_node.py); integrations/gnss_lib_py/kshana_gnss_lib_py.py |  tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiver_log: the format the gnss_lib_py bridge writes, run through receiver-trust); the Python tests of the bridges are integrations/ros2/kshana_trust/test/test_bridge.py (bridge with a mock engine), integrations/ros2/kshana_trust/test/test_engine_integration.py (the real wheel scores a steady fix nominal and a 1.1 km jump untrusted) and integrations/gnss_lib_py/test_bridge.py (real gnss_lib_py 1.1.0 and the wheel), run with pytest, not by cargo |
 
-221 capabilities labelled MODELLED.
+225 capabilities labelled MODELLED.
 
 ========================================================================
 URL: https://kshana.dev/docs/claims-vs-reality
@@ -32726,7 +32806,7 @@ Title: npm and WebAssembly · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.40.0 176 of 401 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.40.0 176 of 405 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -32736,7 +32816,7 @@ Try it first with nothing to install: Kshana Studio runs the whole engine in you
 
 ## Evidence#
 
-176 of 401 capabilities validated against independent external oracles; 221 honestly labelled Modelled, 4 partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all 666 SGP4 (Simplified General Perturbations 4) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to 4.12 mm, and the Cowell force model to 0.08 m against Orekit 12.2.
+176 of 405 capabilities validated against independent external oracles; 225 honestly labelled Modelled, 4 partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all 666 SGP4 (Simplified General Perturbations 4) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to 4.12 mm, and the Cowell force model to 0.08 m against Orekit 12.2.
 
 ## Install#
 
@@ -32891,7 +32971,7 @@ Title: Rust crate · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.40.0 176 of 401 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.40.0 176 of 405 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -32901,7 +32981,7 @@ Try it first with nothing to install: Kshana Studio runs the whole engine in you
 
 ## Evidence#
 
-176 of 401 capabilities validated against independent external oracles; 221 honestly labelled Modelled, 4 partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all 666 SGP4 (Simplified General Perturbations 4) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to 4.12 mm, and the Cowell force model to 0.08 m against Orekit 12.2.
+176 of 405 capabilities validated against independent external oracles; 225 honestly labelled Modelled, 4 partner-owned. Each capability carries one label in a machine-checked ledger: VALIDATED (an independent external oracle agrees: real data, an independent implementation or published reference vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it). Among the checks: all 666 SGP4 (Simplified General Perturbations 4) vectors of AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to 4.12 mm, and the Cowell force model to 0.08 m against Orekit 12.2.
 
 ## Install#
 

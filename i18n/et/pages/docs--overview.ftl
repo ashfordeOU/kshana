@@ -3503,13 +3503,9 @@ seg-8e176aa32cd3 = MCP on Model Context Protocol. Kinnita väljalase käsuga <c1
 
 seg-57686575b81d = Partneri andmed
 
-seg-0c39fcb3527f = { "401" } võimekusest { "176" } VALIDATED sõltumatu välise etaloni (oraakli) vastu, kontrollimaatriksist
-
 seg-467bb88ec415 = <a1>Mis on uut versioonis { "0.40" }</a1>, <a2>Mis on uut versioonis { "0.39" }</a2>, <a3>Mis on uut versioonis { "0.38" }</a3> ja <a4>{ "0.38" } põhjalikult</a4>: jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborist tagasi ringlus, kshana-bench, vaatluskeskus, eksportijad, optiline, <a5>kosmosekasutaja navigatsioon</a5> ja <a6>Kuu infrastruktuur</a6>
 
 seg-cafc1c9c4d58 = Mis on uut versioonis { "0.40" }
-
-seg-59a31376fa3d = Versioon { "0.40" } lisab missiooni tasemel veaeelarve, märgistab iga arvu ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid, kontrollib andmepartnerite esitusi, hindab, kus häirekiirgaja võib olla, ja räägib inglise keele kõrval seitsmeteist keelt. Register on nüüd { "401" } rida: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ning iga allpool nimetatud möödalaskmine on testiga fikseeritud.
 
 seg-5bd16655cace = <b>Tõendisildid.</b> Iga arv ja tabel, mille käivitus kirjutab, kannab tõendustaset ja registri rea id-sid, millele see tugineb, mis on loetud maatriksist.
 
@@ -3545,25 +3541,9 @@ seg-ee28beafac1a = navigatsiooni- ja ajastusvea eelarve faaside ahelale stardite
 
 seg-34e44a492cad = <c1/> käivitab stsenaariumi; iga teine käsk on alamkäsk ja <c2/> prindib neist kõigist kasutusjuhised. Käsud on <c3/>, <c4/>, <c5/>, <c6/>, <c7/> (koos <c8/> ja <c9/>), <c10/> (<c11/>, <c12/>, <c13/>, <c14/>), <c15/> (<c16/>, <c17/>), <c18/>, <c19/>, <c20/>, <c21/> (<c22/>, <c23/>, <c24/>, <c25/>, <c26/>), <c27/>, <c28/> (<c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>), <c40/>, <c41/>, <c42/>, <c43/>, <c44/> (<c45/>), <c46/>, <c47/> (<c48/>, <c49/>, <c50/>, <c51/>, <c52/>, <c53/>, <c54/>, <c55/>, <c56/>, <c57/>, <c58/>, <c59/>, <c60/>, <c61/>), <c62/> ja <c63/>. <a1><c64/></a1> annab iga käsu otstarbe, kontrollitud näite ja selle dokumentatsioonilehe.
 
-seg-9f5426cbbf4a = <b>{ "176" } võimekust { "401" }-st</b> on valideeritud sõltumatute väliste etalonide vastu; { "221" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
-
-seg-54ac34405621 = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER { "401" } reast. Kokku on { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "221" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
-
-seg-42fa293e1bb4 = Mõned kontrollid: kõik { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vektorit täpsusega { "4.12" } mm; Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes; Galileo täpsusega { "0.61" } m ja Swarm-A täpsusega { "0.10" } m Euroopa Kosmoseagentuuri (ESA) tegelike täppisefemeriidide suhtes. Testid hoiavad faili <c1/> ligikaudu { "95" } % reakatvust, CI-s on lävi { "85" } %. Register on <a1><c2/></a1>, genereeritud failist <c3/>: <a2>kogu 401-realine maatriks</a2> ning see, miks igal modelleeritud real puudub väline etalon, on failis <a3><c4/></a3>.
-
 seg-e7f7d0e51698 = Tõendussilt igal näitajal
 
 seg-58ce18b8e642 = Iga jooksu kirjutatud näitaja ja tabel ütleb, kui palju seda usaldada ja millistele registrireadele see toetub. Tulemuse JSON-il on võti <c1/>, diagrammi SVG-l joon graafiku all (ja element <c2/>) ning CSV-tabelil ees <c3/> kommentaarirea(d) (loetakse võtmega <c4/>). See nimetab taseme, <c5/>, <c6/> või <c7/>, ning nende kontrollimaatriksi ridade tunnused (<c8/> ja kaheksa kuueteistkümnendnumbrit), mida jooks kasutas. Tase on nende ridade nõrgeim, nii et jooks, mis toetub ühele modelleeritud reale, on märgitud MODELLED, ükskõik kui palju valideeritud ridu selle kõrval on; silt ei saa kunagi väita rohkem kui register. Read, olekud ja tunnused loetakse maatriksist, mitte ei kirjutata käsitsi (<a1><c9/></a1>, <a2><c10/></a2>), ja <c11/> ebaõnnestub, kui näitajal pole silti või silt ei ühti maatriksiga.
-
-seg-06fc56dd3edb = Iga rida jõustatakse CI-s nimega testiga. See tabel on <b>valitud esiletõstete kogum</b>; kogu masinkontrollitud maatriks on <b>{ "401" } rida — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER</b> (<c1/>), kogu tõendusmaterjal (ja see, mis on ausalt öeldes veel <em>valideerimata</em>) on failis <a1><c2/></a1> ja iga väljalaske artefaktis <a2><c3/></a2> (genereeritud käsuga <c4/>, SLSA-atesteeritud — Supply-chain Levels for Software Artifacts).
-
-seg-4c4dfa02be15 = Kuidas võimekus oma sildi teenib: nõue vastab moodulile kaustas src, testile kaustas tests, välisele etalonile (päris andmestik, sõltumatu võrdlusteostus või avaldatud vektorid) ja olekule — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise etalonita. Hetkearvud: { "176" } valideeritud, { "221" } modelleeritud, { "4" } partneri oma, kokku { "401" }
-
-seg-3f48a70a707a = Kontrolli olek kõigi { "401" } võimekuse lõikes: { "176" } valideeritud (kontrollitud välise etaloni vastu), { "221" } modelleeritud, { "4" } partneri omanduses
-
-seg-35a4412348e1 = { "176" } valideeritud · { "221" } modelleeritud · { "4" } partneri oma — <a1>SVG</a1>
-
-seg-cdf946112863 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } litsentsi AGPL-3.0 all, koos ühe sissepääsuga api::run_toml (tüübitud jaotus üle iga liigi) ning { "401" } võimekuse kontrollregistriga ({ "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER). Selle ümber käitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Dockeri tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi plugin (Marketplace: "Kshana"). Selle all on Kshana Pro, omandiline lisakiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit.
 
 seg-824001fa6734 = laboratooriumid ja valmistajad, kelle käes on mõõteandmed
 
@@ -3581,8 +3561,6 @@ seg-a66ad1f69702 = Üks mootor katab kogu rikkeahela, esimesest segatud satellii
 
 seg-43bd621a1f5b = Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, algväärtus (seed) ja selle parameetrid) siseneb mootorisse kshana { $version } läbi api::run_toml jaotuse { "93" } stsenaariumi liigi kohal, deterministlik stsenaariumi, algväärtuse (seed) ja mootori versiooni suhtes. Mootor kirjutab result.json, chart.svg, report.html ja report.json, table.csv neile liikidele, mis seda defineerivad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF eksportid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, tehisintellekti assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni.
 
-seg-290f2b34e368 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "93" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "401" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.
-
 seg-fb8bcc54a31d = { "93" } sisseehitatud stsenaariumi liiki koos kirjelduste ning kohustuslike ja valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi
 
 seg-2f38fc515db6 = kogu avatud mootor, kõik { "93" } stsenaariumi liiki, ilma funktsioonipiiranguta
@@ -3592,3 +3570,25 @@ seg-5374f780c396 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötat
 seg-d106dd5461ed = <a1><c1/></a1> on MCP server: kasutaja assistent käivitab tegeliku mootori ja loeb tagasi selle JSON-i, mitte ei arva matemaatikat. Iga selle { "53" } tööriista on õhuke ümbris teegi <c2/> avaliku funktsiooni ümber, seega serveris ei asu simulatsioonilogikat.
 
 seg-0920329ba390 = { "53" } tööriista
+
+seg-44fb0df264f6 = { "405" } võimekusest { "176" } VALIDATED sõltumatu välise etaloni (oraakli) vastu, kontrollimaatriksist
+
+seg-d8582006e2dc = Versioon { "0.40" } lisab missiooni tasemel veaeelarve, märgistab iga arvu ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid, kontrollib andmepartnerite esitusi, hindab, kus häirekiirgaja võib olla, ja räägib inglise keele kõrval seitsmeteist keelt. Register on nüüd { "405" } rida: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ning iga allpool nimetatud möödalaskmine on testiga fikseeritud.
+
+seg-5a6c42704fb2 = <b>{ "176" } võimekust { "405" }-st</b> on valideeritud sõltumatute väliste etalonide vastu; { "225" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
+
+seg-b113dca9dfde = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER { "405" } reast. Kokku on { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "225" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
+
+seg-113e59a8f70c = Mõned kontrollid: kõik { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vektorit täpsusega { "4.12" } mm; Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes; Galileo täpsusega { "0.61" } m ja Swarm-A täpsusega { "0.10" } m Euroopa Kosmoseagentuuri (ESA) tegelike täppisefemeriidide suhtes. Testid hoiavad faili <c1/> ligikaudu { "95" } % reakatvust, CI-s on lävi { "85" } %. Register on <a1><c2/></a1>, genereeritud failist <c3/>: <a2>kogu 405-realine maatriks</a2> ning see, miks igal modelleeritud real puudub väline etalon, on failis <a3><c4/></a3>.
+
+seg-5334b90deb02 = Iga rida jõustatakse CI-s nimega testiga. See tabel on <b>valitud esiletõstete kogum</b>; kogu masinkontrollitud maatriks on <b>{ "405" } rida — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b> (<c1/>), kogu tõendusmaterjal (ja see, mis on ausalt öeldes veel <em>valideerimata</em>) on failis <a1><c2/></a1> ja iga väljalaske artefaktis <a2><c3/></a2> (genereeritud käsuga <c4/>, SLSA-atesteeritud — Supply-chain Levels for Software Artifacts).
+
+seg-0ceb61e3362d = Kuidas võimekus oma sildi teenib: nõue vastab moodulile kaustas src, testile kaustas tests, välisele etalonile (päris andmestik, sõltumatu võrdlusteostus või avaldatud vektorid) ja olekule — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise etalonita. Hetkearvud: { "176" } valideeritud, { "225" } modelleeritud, { "4" } partneri oma, kokku { "405" }
+
+seg-008a8eed3718 = Kontrolli olek kõigi { "405" } võimekuse lõikes: { "176" } valideeritud (kontrollitud välise etaloni vastu), { "225" } modelleeritud, { "4" } partneri omanduses
+
+seg-4f7fb3fb883c = { "176" } valideeritud · { "225" } modelleeritud · { "4" } partneri oma — <a1>SVG</a1>
+
+seg-d0d92b14d106 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } litsentsi AGPL-3.0 all, koos ühe sissepääsuga api::run_toml (tüübitud jaotus üle iga liigi) ning { "405" } võimekuse kontrollregistriga ({ "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER). Selle ümber käitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Dockeri tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi plugin (Marketplace: "Kshana"). Selle all on Kshana Pro, omandiline lisakiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit.
+
+seg-758f459ab5e5 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "93" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "405" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.

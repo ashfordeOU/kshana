@@ -220,10 +220,6 @@ seg-d4b063147d18 = <s1>Konstelacje: pokrycie i geometria</s1><s2>{ "7" } rodzaj�
 
 seg-fcffac5eb150 = <s1>Języki</s1><s2>Tekst silnika przeznaczony dla człowieka jest w { "17" } językach obok angielskiego: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "401" } wierszy — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "401" } wierszy macierzy weryfikacji.</s2>
-
 seg-980f70b29717 = <s1>Partnerzy danych i awansowane wiersze</s1><s2>Kshana oznacza każdą możliwość etykietą w sprawdzanym maszynowo rejestrze (macierz weryfikacji).</s2>
 
 seg-7c6a541b3bc8 = <s1>Wątek misji: od startu do wejścia w atmosferę</s1><s2>Oprogramowanie wyłącznie doradcze, nie jest to certyfikowany sprzęt nawigacyjny.</s2>
@@ -241,3 +237,7 @@ seg-5484fd345826 = <s1>Każdy rodzaj scenariusza, według rodziny</s1><s2>Każdy
 seg-b23a9bd3ccfa = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "195" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>
 
 seg-a7dc2bc0a77d = { "93" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
+
+seg-f950b0ba9160 = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "405" } wierszy — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "405" } wierszy macierzy weryfikacji.</s2>

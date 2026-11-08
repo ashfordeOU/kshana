@@ -3184,8 +3184,6 @@ seg-fb01a581d5ee = av { "28" } validerade
 
 seg-d6c43e56d4cc = Uppdragsanalys, säkring och övrigt
 
-seg-5516d9825527 = av { "55" } validerade
-
 seg-7038fab8b00c = Validerade { "176" }
 
 seg-ba89c1119b21 = Partnerägda { "4" }
@@ -4066,16 +4064,6 @@ seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade nav
 
 seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
 
-seg-aa7c0a865661 = { "401" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "221" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
-
-seg-7a254b7d5498 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "221" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
-
-seg-a2f63c51d2c7 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "401" } rader · inget scenario eller frö: motorns eget register
-
-seg-77bfad0f4f88 = { "176" }<s1>av { "401" } validerade</s1>
-
-seg-222c46a96ec3 = Verifieringsmatris: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner, { "401" } totalt
-
 seg-cf2aa475bc68 = Typen mission-thread: ett dokument med faser, var och en av åtta registrerade typer, körda… · Modellerad
 
 seg-bdc3223c80e4 = Fasen launch-ascent: en kovarians för position och hastighet med konstant hastighet och vitt… · Modellerad
@@ -4102,30 +4090,40 @@ seg-860ca782e2bf = Propageringen av medeltillståndet i fasen tli-and-cruise (Co
 
 seg-7c7d72cc2036 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B… · Modellerad
 
-seg-65feaf4e91ef = Alla { "401" } rader, en rad vardera.
-
-seg-5668b5581703 = av { "102" } validerade
-
 seg-43f852e4bee8 = av { "74" } validerade
-
-seg-fbb78f11c0dc = av { "78" } validerade
 
 seg-8fe12f6058c6 = av { "26" } validerade
 
-seg-b393e1b5fcfc = Alla { "401" }
+seg-2ed2d817f56e = { "405" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "225" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
 
-seg-3df9e327c036 = Modellerade { "221" }
+seg-07aef8ff8fe3 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "225" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
 
-seg-7fa6f2e0de57 = Valideringsregister, { "401" } rader, rullningsbart
+seg-81464c684074 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "405" } rader · inget scenario eller frö: motorns eget register
 
-seg-0b884f17b0f2 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-8f715a5e52b0 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-fd83e8666041 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-a9b6470fb2f8 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-9cf103c9cb54 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-947cc1db1e01 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-8e6705edeb6a = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
+seg-cfd8687a8048 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
 
-seg-3f8669a1465b = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-fb3f807e97c0 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-8aabe2e98c52 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-7c4a8891ee1b = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-c54618ee87bb = { "176" }<s1>av { "405" } validerade</s1>
+
+seg-9984e76b5b28 = Verifieringsmatris: { "176" } validerade, { "225" } modellerade, { "4" } ägda av partner, { "405" } totalt
+
+seg-46e93e2ebc71 = Alla { "405" } rader, en rad vardera.
+
+seg-ebec0449ab03 = Alla { "405" }
+
+seg-bcf766efe1ab = Modellerade { "225" }
+
+seg-cea55077f323 = Valideringsregister, { "405" } rader, rullningsbart
+
+seg-65122c2bb1fc = av { "104" } validerade
+seg-2998c6fa20d6 = av { "79" } validerade
+seg-4b3ab6095c65 = av { "56" } validerade

@@ -249,15 +249,6 @@ seg-6dc7d52fef11 = <s1>Anterior</s1>npm e WebAssembly
 seg-8ff56af64ec2 = <s1>Seguinte</s1>Servidor MCP
 
 # text
-seg-c9a297cc51e9 = { "176" } de { "401" } capacidades validadas face a referências independentes externas
-
-# text
-seg-7b53ee712a36 = <b>{ "176" } de { "401" }</b> capacidades validadas face a referências independentes externas; { "221" } etiquetadas com honestidade como modeladas, { "4" } pertencentes a parceiros. Cada capacidade traz uma única etiqueta num registo verificado por máquina: VALIDATED (uma referência independente externa concorda: dados reais, uma implementação independente ou vetores de referência publicados), MODELLED (internamente consistente, e dito em voz alta) ou PARTNER (um parceiro de hardware é o responsável). Entre as verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm, e o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }.
-
-# attr:alt
-seg-b59781ecf257 = Como uma capacidade obtém a sua etiqueta: capacidade, referência independente, teste, etiqueta no registo. O estado de verificação das { "401" } capacidades: { "176" } validadas, { "221" } modeladas, { "4" } pertencentes a parceiros
-
-# text
 seg-8e9fbc5f2e72 = A descrição do tipo de cenário incorporado kind em lang, a partir do catálogo (inglês quando o idioma não tem tradução dela); None para um nome que não é um tipo de cenário incorporado.
 
 # text
@@ -288,3 +279,9 @@ seg-24fe823a994a = json sem a etiqueta de evidência ([crate::evidence_label]); 
 seg-c0444d838311 = out com a etiqueta de evidência removida do seu JSON, SVG e CSV, byte a byte como a execução os produziu antes de a etiqueta existir; uma saída sem etiqueta permanece inalterada.
 
 seg-80e5f0aa2831 = O motor tem { "93" } tipos de cenário; <c1/> os lista com os respetivos campos. Novos na { "0.38.0" }: <c2/> (sinais GNSS para veículos espaciais acima, em torno e além das órbitas GNSS) e <c3/> (órbita e superfície lunares como infraestrutura de navegação e geodésica), ambos MODELLED, e <c4/> (um registo de erro de tempo face às máscaras da ITU-T).
+
+seg-10f4803a4423 = { "176" } de { "405" } capacidades validadas face a referências independentes externas
+
+seg-8a5d5b148d86 = <b>{ "176" } de { "405" }</b> capacidades validadas face a referências independentes externas; { "225" } etiquetadas com honestidade como modeladas, { "4" } pertencentes a parceiros. Cada capacidade traz uma única etiqueta num registo verificado por máquina: VALIDATED (uma referência independente externa concorda: dados reais, uma implementação independente ou vetores de referência publicados), MODELLED (internamente consistente, e dito em voz alta) ou PARTNER (um parceiro de hardware é o responsável). Entre as verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm, e o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Como uma capacidade obtém a sua etiqueta: capacidade, referência independente, teste, etiqueta no registo. O estado de verificação das { "405" } capacidades: { "176" } validadas, { "225" } modeladas, { "4" } pertencentes a parceiros

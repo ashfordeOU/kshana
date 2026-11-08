@@ -2564,8 +2564,6 @@ seg-c3e7639ccf1a = <s1>Następna</s1>Dlaczego wiersze pozostają modelowane
 
 seg-55ca63edff02 = Detekcja spoofingu na podstawie spójności Dopplera LEO i geometrii przelotu
 
-seg-2fd8f2df3e6e = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "401" } wierszy macierzy weryfikacji.
-
 seg-65185cb68d6b = Budżet błędu nawigacji i czasu łańcucha faz misji od startu do wejścia w atmosferę (<c1/>)
 
 seg-86a132e1a243 = Rodzaj <c1/>: dokument faz, z których każda jest jednym z ośmiu zarejestrowanych rodzajów, uruchamianych po kolei z kowariancją 6x6, zegarem i układem odniesienia przekazywanymi według podanej zasady (<c2/>; <c3/>, szum białego przyspieszenia na podanym odstępie w modelu prostoliniowym; <c4/>, nawigacja zliczeniowa, a potem dolna granica źródła, nigdy poniżej niej, nigdy zerowanie); konwersje układów GCRF, MCI i MCMF oraz konwersje skal czasu przez TT, każda jako osobny wiersz budżetu, ze stanem Księżyca z opcjonalnego wycinka jądra DE440 i z serii analitycznej jako podanym zapasowym wariantem; margines względem podanego wymagania, najsłabsze ogniwo, zdarzenia i wykres osi czasu. Każda liczba jest podanym wejściem albo modelem takiego wejścia
@@ -2645,3 +2643,5 @@ seg-b5c49044a7a1 = Dopuszczalny obszar tego, gdzie może znajdować się źród�
 seg-953a8b4f9f41 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NOT ASSESSABLE (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
 
 seg-d5a79853b72f = { "93" } z { "93" } rodzajów, { "3334" } z { "3334" } pól liczbowych
+
+seg-5576293ba3aa = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "405" } wierszy macierzy weryfikacji.

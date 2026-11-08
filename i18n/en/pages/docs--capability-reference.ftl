@@ -6,7 +6,7 @@ seg-6962adaa6a1f = Generated from the repository's scenario files and verificati
 
 # text
 # c1: web/capabilities.json
-seg-2fd8f2df3e6e = The { "61" } capability cards from <c1/>, then all { "401" } rows of the verification matrix.
+seg-5576293ba3aa = The { "61" } capability cards from <c1/>, then all { "405" } rows of the verification matrix.
 
 # text
 seg-f4f59f19e091 = Capability cards
@@ -4471,6 +4471,42 @@ seg-efa1d1a9e904 = iq::track's opt-in carrier.fll_pull_in_max_s (the fll_pull_in
 
 # text
 seg-3feb4e9b427c = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). RE-RUN { "0.41" } (D8a row { "4" }, 74ba62787): with the opt-in carrier.fll_handover_mean_s (the PLL seeded at the mean NCO Doppler of the pull-in's last { "0.5" } s), still NOT MET: at { "33" } dB-Hz hand-over and hold { "20" } of { "20" } on seen and fresh seeds with jitter within { "1" } % of the PLL alone (this half met), but at { "31" } dB-Hz { "15" } of { "20" } seen and { "6" } of { "20" } fresh, jitter ratio { "1.8" } and { "2.8" }. Development seeds 1001-1010 recorded, nothing tuned on them. WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
+
+# text
+seg-fd2836e3f868 = Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back
+
+# text
+seg-089c214085e7 = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM { "2.0" }, an OPM { "3.0" } or an SPK of type { "13" } or { "9" } (frame code { "1" }, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
+# text
+seg-34b31799c1a2 = The engine's own reader on the files it wrote (same codebase). The C7 reference integration has no bar: Orekit { "13.1.9" } and Basilisk { "2.12.2" }'s SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE { "0.10.6" } evaluates the SPK no further from the written states than SPICE does; GMAT is not done until its CI job is green. A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
+# text
+seg-6cab0a1f9600 = Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials
+
+# text
+seg-be6225de24b7 = opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
+
+# text
+seg-3582bea278d4 = SPICE (spiceypy { "8.3.0" }, CSPICE N0067) and OpenCV { "5.0.0" }, under bars pre-registered in docs/design/evidence/c5a-optical-navigation-model/: O1 body directions within { "0.0016" } mas of SPICE CN+S (bar { "1" } mas), O2 stars within { "3e-8" } mas, O3 projection within { "1.3e-11" } px of OpenCV, O4 end to end within { "3.8e-8" } px (bar { "1e-4" } px), O6 additivity: MET. O5 NOT MET: { "258" } of { "432" } partial elements differ from central differences at the registered { "1" } m and { "1" } mm/s steps by more than { "1e-6" } relative (the largest elements agree to about { "1e-7" } to { "1e-9" }; a no-bar diagnostic at { "1" } km and { "1" } m/s cuts the worst relative difference from { "1.0" } to { "8e-4" }, pointing to difference round-off, not proven). WHAT IS NOT CHECKED: image processing, the body's figure or phase, attitude error, any real camera
+
+# text
+seg-9168b89cdcc9 = CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter
+
+# text
+seg-5d4cc8e3a826 = c3_force::C3Model: the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is the A2 model bit for bit
+
+# text
+seg-13d3f5275f6d = JPL Horizons reconstruction of CAPSTONE (-1176), under bars pre-registered in docs/design/evidence/c3-capstone-nrho-force-model/. C3-R MET on A2's window W0 ({ "21.66" } km end position, { "4.24" } km periapsis; bars { "25" } and { "10" } km). C3-H NOT MET on the held-out windows E, H1, H2 (end position { "37.25" }, { "36.23" }, { "49.65" } km; periapsis met). C3-S NOT MET (k fitted on E: H1 { "12.92" } km met, H2 { "57.13" } km). A2 is not met on re-run. The reconstruction is the reference, not truth
+
+# text
+seg-2693df8ca65a = Impulsive steps in the cislunar coast and the C2 step detector
+
+# text
+seg-0785d04ff3f0 = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds { "0.01" } m/s and gives one impulse per event hour at its midpoint
+
+# text
+seg-5f50916efb2f = JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 ({ "17.3" } km against { "2" } km; { "0.0177" } m/s against { "0.01" } m/s); W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. The impulse support itself is checked on synthetic data only
 
 # text
 seg-ac0f97e945a7 = RTKLIB .pos solution reader for receiver-trust

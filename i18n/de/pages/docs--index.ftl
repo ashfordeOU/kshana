@@ -329,10 +329,6 @@ seg-d4b063147d18 = <s1>Konstellationen, Abdeckung und Geometrie</s1><s2>{ "7" } 
 
 seg-fcffac5eb150 = <s1>Sprachen</s1><s2>Der menschenlesbare Text der Engine liegt in { "17" } Sprachen neben Englisch vor: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "401" } Zeilen — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "401" } Zeilen der Verifikationsmatrix.</s2>
-
 seg-980f70b29717 = <s1>Datenpartner und befördernde Zeilen</s1><s2>Kshana kennzeichnet jede Fähigkeit in einem maschinengeprüften Register (Verifikationsmatrix).</s2>
 
 seg-7c6a541b3bc8 = <s1>Missionsstrang: vom Start bis zum Wiedereintritt</s1><s2>Beratende Software, keine zertifizierte Navigationsausrüstung.</s2>
@@ -350,3 +346,7 @@ seg-5484fd345826 = <s1>Jede Szenarioart nach Familie</s1><s2>Jede Szenarioart, a
 seg-b23a9bd3ccfa = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "195" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.
+
+seg-f950b0ba9160 = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "405" } Zeilen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "405" } Zeilen der Verifikationsmatrix.</s2>

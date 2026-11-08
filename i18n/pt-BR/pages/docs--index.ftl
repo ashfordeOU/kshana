@@ -329,10 +329,6 @@ seg-188c6e41f434 = Os documentos do processo de manutenção permanecem no repos
 
 seg-fcffac5eb150 = <s1>Idiomas</s1><s2>O texto do motor voltado às pessoas está em { "17" } idiomas além do inglês: nl, pl, pt-BR, pt-PT, fi, sv, da, nb, cs…</s2>
 
-seg-f5987c9d9fde = <s1>Matriz de verificação</s1><s2>O registro de evidências completo, verificado por máquina: { "401" } linhas — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-1c5265085fb6 = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "401" } linhas da matriz de verificação.</s2>
-
 seg-980f70b29717 = <s1>Parceiros de dados e linhas promovidas</s1><s2>O Kshana rotula cada capacidade em um registro verificado por máquina (matriz de verificação).</s2>
 
 seg-7c6a541b3bc8 = <s1>Sequência de missão: do lançamento à reentrada</s1><s2>Software de caráter consultivo, não um equipamento de navegação certificado.</s2>
@@ -350,3 +346,7 @@ seg-5484fd345826 = <s1>Todos os tipos de cenário, por família</s1><s2>Todos os
 seg-b23a9bd3ccfa = <s1>Referência de cenários</s1><s2>Todos os arquivos de cenário incluídos ({ "195" }), agrupados por tipo, com suas principais configurações.</s2>
 
 seg-a7dc2bc0a77d = { "93" } páginas, uma para cada tipo de cenário, ligadas a partir de <a1>Todos os tipos de cenário, por família</a1>.
+
+seg-f950b0ba9160 = <s1>Matriz de verificação</s1><s2>O registro de evidências completo, verificado por máquina: { "405" } linhas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+
+seg-b6e56265840f = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "405" } linhas da matriz de verificação.</s2>

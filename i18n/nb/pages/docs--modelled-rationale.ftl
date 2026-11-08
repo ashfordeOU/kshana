@@ -2003,4 +2003,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhetstester for interference_map::emitter (projeksjon frem og tilbake, horisonttall, syntetiske runder mellom foroverproblemet og det inverse: den kjente senderen ligger innenfor den oppgitte regionen omtrent med den oppgitte hyppigheten, grensetilfeller, øktklynging, profil, personvern og ordlyd); tests/interference_map_cli.rs, locate-tilfeller
 
-seg-a2bf08b8e82d = { "221" } funksjoner merket MODELLED.
+seg-7a83829ca355 = { "225" } funksjoner merket MODELLED.

@@ -4888,9 +4888,6 @@ seg-fb01a581d5ee = von { "28" } validiert
 seg-d6c43e56d4cc = Missionsanalyse, Sicherung und Sonstiges
 
 # text
-seg-5516d9825527 = von { "55" } validiert
-
-# text
 seg-7038fab8b00c = Validiert { "176" }
 
 # text
@@ -6216,16 +6213,6 @@ seg-b5c49044a7a1 = Eine zulässige Region dafür, wo sich eine Quelle gestörter
 
 seg-953a8b4f9f41 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Rundläufe aus einem Generator, der das Modell des Schätzers teilt; sie prüfen also den Code und die Kalibrierung der genannten Niveaus unter diesem Modell und nichts über reale Sender. Eine externe Prüfung gegen die veröffentlichten Senderstandorte des Jammertests { "2025" } wurde vorab festgelegt (docs/emitter-region/PREREGISTRATION.md, vom Eigentümer vor jedem bewerteten Lauf freigegeben) und einmal ausgeführt (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplante Sitzungen, weniger als das registrierte Minimum von { "4" }) und AIS NOT ASSESSABLE (keine veröffentlichte Sitzung), sodass kein Zielwert getestet wurde und die Zeile MODELLED bleibt
 
-seg-aa7c0a865661 = { "401" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "221" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
-
-seg-7a254b7d5498 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "221" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
-
-seg-a2f63c51d2c7 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "401" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
-
-seg-77bfad0f4f88 = { "176" }<s1>von { "401" } validiert</s1>
-
-seg-222c46a96ec3 = Verifikationsmatrix: { "176" } validiert, { "221" } modelliert, { "4" } im Besitz von Partnern, { "401" } insgesamt
-
 seg-cf2aa475bc68 = Die Art mission-thread: ein Dokument aus Phasen, jede eine von acht registrierten Arten, der Reihe nach ausgeführt… · Modelliert
 
 seg-bdc3223c80e4 = Die Phase launch-ascent: eine Positions- und Geschwindigkeitskovarianz bei konstanter Geschwindigkeit mit weißem… · Modelliert
@@ -6252,30 +6239,40 @@ seg-860ca782e2bf = Die Mittelwertfortschreibung der Phase tli-and-cruise (Cowell
 
 seg-7c7d72cc2036 = Eine zulässige Region dafür, wo sich eine Quelle gestörter Navigationsmeldungen befinden kann, aus ADS-B… · Modelliert
 
-seg-65feaf4e91ef = Alle { "401" } Zeilen, jede in einer eigenen Zeile.
-
-seg-5668b5581703 = von { "102" } validiert
-
 seg-43f852e4bee8 = von { "74" } validiert
-
-seg-fbb78f11c0dc = von { "78" } validiert
 
 seg-8fe12f6058c6 = von { "26" } validiert
 
-seg-b393e1b5fcfc = Alle { "401" }
+seg-2ed2d817f56e = { "405" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "225" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
 
-seg-3df9e327c036 = Modelliert { "221" }
+seg-07aef8ff8fe3 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "225" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
 
-seg-7fa6f2e0de57 = Validierungsregister, { "401" } Zeilen, scrollbar
+seg-81464c684074 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "405" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
 
-seg-0b884f17b0f2 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-8f715a5e52b0 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-fd83e8666041 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-a9b6470fb2f8 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-9cf103c9cb54 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-947cc1db1e01 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-8e6705edeb6a = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
+seg-cfd8687a8048 = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
 
-seg-3f8669a1465b = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-fb3f807e97c0 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-8aabe2e98c52 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-7c4a8891ee1b = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-c54618ee87bb = { "176" }<s1>von { "405" } validiert</s1>
+
+seg-9984e76b5b28 = Verifikationsmatrix: { "176" } validiert, { "225" } modelliert, { "4" } im Besitz von Partnern, { "405" } insgesamt
+
+seg-46e93e2ebc71 = Alle { "405" } Zeilen, jede in einer eigenen Zeile.
+
+seg-ebec0449ab03 = Alle { "405" }
+
+seg-bcf766efe1ab = Modelliert { "225" }
+
+seg-cea55077f323 = Validierungsregister, { "405" } Zeilen, scrollbar
+
+seg-65122c2bb1fc = von { "104" } validiert
+seg-2998c6fa20d6 = von { "79" } validiert
+seg-4b3ab6095c65 = von { "56" } validiert

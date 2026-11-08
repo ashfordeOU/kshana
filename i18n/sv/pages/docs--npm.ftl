@@ -82,10 +82,10 @@ seg-4ae905aec2ab = <s1>Föregående</s1>Python-API
 
 seg-8af548581ae9 = <s1>Nästa</s1>Rust-crate
 
-seg-c9a297cc51e9 = { "176" } av { "401" } förmågor validerade mot oberoende externa referenser
-
-seg-7b53ee712a36 = <b>{ "176" } av { "401" }</b> förmågor validerade mot oberoende externa referenser; { "221" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga bär en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsistent, och sagt högt) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
-
-seg-b59781ecf257 = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "401" } förmågor: { "176" } validerade, { "221" } modellerade, { "4" } ägda av partner
-
 seg-80e5f0aa2831 = Motorn har { "93" } scenariotyper; <c1/> listar dem med deras fält. Nya i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månbana och månyta som infrastruktur för navigering och geodesi), båda MODELLED, och <c4/> (en tidsfelsregistrering mot ITU-T-maskerna).
+
+seg-10f4803a4423 = { "176" } av { "405" } förmågor validerade mot oberoende externa referenser
+
+seg-8a5d5b148d86 = <b>{ "176" } av { "405" }</b> förmågor validerade mot oberoende externa referenser; { "225" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga bär en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsistent, och sagt högt) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
+
+seg-0ff660c53a50 = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "405" } förmågor: { "176" } validerade, { "225" } modellerade, { "4" } ägda av partner

@@ -1225,10 +1225,10 @@ seg-67341b9eea70 = <b>Autre chose</b><s1>contact@ashforde.org · le courrier va 
 # text
 seg-ca7158c62e88 = Ashforde® OÜ · <a1>ashforde.org</a1>
 
-seg-cc655ce0b6c8 = La matrice de vérification complète : { "176" } capacités sur { "401" } vérifiées par rapport à des références indépendantes, les autres étiquetées modélisées
-
 seg-0ab329c843b0 = Le moteur ouvert au centre : une marque par type de scénario ({ "93" }), pleine lorsque le type a des lignes de registre vérifiées, creuse lorsque ses lignes sont modélisées, un tiret lorsqu'aucun module du registre ne lui correspond par le nom. { -brand } Pro et l'étude sur mesure l'entourent et se relient aux types sur lesquels ils s'appuient.
 
 seg-e507665bbe2c = Moteur v{ $version } · { "93" } types issus de <c1/> · état du registre issu de <c2/> · ce sur quoi s'appuient Pro et une étude : le registre des éditions du site · aucun scénario ni graine
 
 seg-7515b1af1f0b = Les { "93" } types de scénario et les { "183" } scénarios fournis : en natif, en Python, en JavaScript, dans le navigateur et via MCP (Model Context Protocol)
+
+seg-ecca1eecd0cc = La matrice de vérification complète : { "176" } capacités sur { "405" } vérifiées par rapport à des références indépendantes, les autres étiquetées modélisées

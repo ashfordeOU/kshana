@@ -5243,9 +5243,6 @@ seg-fb01a581d5ee = sur { "28" } validés
 seg-d6c43e56d4cc = Analyse de mission, assurance et autres
 
 # text
-seg-5516d9825527 = sur { "55" } validés
-
-# text
 seg-7038fab8b00c = Validé { "176" }
 
 # text
@@ -6229,16 +6226,6 @@ seg-b5c49044a7a1 = Une région admissible pour l'endroit où peut se trouver une
 
 seg-953a8b4f9f41 = Aucune vérification externe pour l'instant. Seulement des allers-retours synthétiques direct-inverse, issus d'un générateur qui partage le modèle de l'estimateur : ils vérifient donc le code et l'étalonnage des niveaux déclarés sous ce modèle, et rien sur les émetteurs réels. Une vérification externe par rapport aux sites d'émetteurs publiés de Jammertest { "2025" } a été préenregistrée (docs/emitter-region/PREREGISTRATION.md, validée par le propriétaire avant toute exécution notée) et exécutée une fois (docs/emitter-region/RESULTS.md) : ADS-B NOT ASSESSABLE ({ "2" } sessions programmées, moins que le minimum enregistré de { "4" }) et AIS NOT ASSESSABLE (aucune session publiée) ; aucun seuil n'a donc été testé et la ligne reste MODELLED
 
-seg-aa7c0a865661 = { "401" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "221" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
-
-seg-7a254b7d5498 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "221" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
-
-seg-a2f63c51d2c7 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "401" } lignes · aucun scénario ni graine : le registre propre du moteur
-
-seg-77bfad0f4f88 = { "176" }<s1>sur { "401" } vérifiées</s1>
-
-seg-222c46a96ec3 = Matrice de vérification : { "176" } vérifiées, { "221" } modélisées, { "4" } détenues par un partenaire, { "401" } au total
-
 seg-cf2aa475bc68 = Le type mission-thread : un document de phases, chacune d'un des huit types enregistrés, exécutées… · modélisé
 
 seg-bdc3223c80e4 = La phase launch-ascent : une covariance de position et de vitesse à vitesse constante avec un bruit blanc… · modélisé
@@ -6265,30 +6252,40 @@ seg-860ca782e2bf = La propagation de l'état moyen de la phase tli-and-cruise (C
 
 seg-7c7d72cc2036 = Une région admissible pour l'endroit où peut se trouver une source de rapports de navigation dégradés, à partir de l'ADS-B… · modélisé
 
-seg-65feaf4e91ef = Les { "401" } lignes, une ligne chacune.
-
-seg-5668b5581703 = sur { "102" } vérifiées
-
 seg-43f852e4bee8 = sur { "74" } vérifiées
-
-seg-fbb78f11c0dc = sur { "78" } vérifiées
 
 seg-8fe12f6058c6 = sur { "26" } vérifiées
 
-seg-b393e1b5fcfc = Toutes { "401" }
+seg-2ed2d817f56e = { "405" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "225" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
 
-seg-3df9e327c036 = Modélisées { "221" }
+seg-07aef8ff8fe3 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "225" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
 
-seg-7fa6f2e0de57 = Registre de validation, { "401" } lignes, défilable
+seg-81464c684074 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "405" } lignes · aucun scénario ni graine : le registre propre du moteur
 
-seg-0b884f17b0f2 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-8f715a5e52b0 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-fd83e8666041 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-a9b6470fb2f8 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-9cf103c9cb54 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-947cc1db1e01 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-8e6705edeb6a = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
+seg-cfd8687a8048 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
 
-seg-3f8669a1465b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-fb3f807e97c0 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-8aabe2e98c52 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-7c4a8891ee1b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-c54618ee87bb = { "176" }<s1>sur { "405" } vérifiées</s1>
+
+seg-9984e76b5b28 = Matrice de vérification : { "176" } vérifiées, { "225" } modélisées, { "4" } détenues par un partenaire, { "405" } au total
+
+seg-46e93e2ebc71 = Les { "405" } lignes, une ligne chacune.
+
+seg-ebec0449ab03 = Toutes { "405" }
+
+seg-bcf766efe1ab = Modélisées { "225" }
+
+seg-cea55077f323 = Registre de validation, { "405" } lignes, défilable
+
+seg-65122c2bb1fc = sur { "104" } vérifiées
+seg-2998c6fa20d6 = sur { "79" } vérifiées
+seg-4b3ab6095c65 = sur { "56" } validés

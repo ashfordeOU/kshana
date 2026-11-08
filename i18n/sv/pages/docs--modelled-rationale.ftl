@@ -2020,4 +2020,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
 
-seg-a2bf08b8e82d = { "221" } förmågor märkta MODELLED.
+seg-7a83829ca355 = { "225" } förmågor märkta MODELLED.

@@ -836,6 +836,6 @@ seg-0e6be0d623f6 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Lice
 
 seg-9b505908a6e2 = Kshana <b>nie steruje żadnym sprzętem radiowym i niczego nie nadaje</b>. Zawiera programowy odbiornik GNSS dla zarejestrowanych i wygenerowanych próbek IQ i może zapisywać syntetyczne pliki IQ w paśmie podstawowym, ale <b>nie jest sprzętowym generatorem sygnału RF</b> ani <b>sprzętowym lub certyfikowanym odbiornikiem GNSS</b>. Jest narzędziem do badań i analizy kompromisów: symuluje, co zagłuszanie, spoofing i utrata sygnału robią z rozwiązaniem nawigacyjnym i czasowym, i wskazuje, które z jego odpowiedzi zostały sprawdzone względem niezależnego wzorca. <b>To nie jest produkt lotniczy.</b>
 
-seg-e6fe27ed6dfc = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
 seg-ceb2de75e2f4 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Za darmo: { "53" } narzędzi MCP, od run_scenario do export_oem.
+
+seg-c88dde71cc6e = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
