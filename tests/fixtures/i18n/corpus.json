@@ -42689,5 +42689,30 @@
   "parts": [
    "the HDOP scorer needs an elevation mask between -90 and 90 degrees and a positive, finite UERE and multiple"
   ]
+ },
+ {
+  "id": "e-bench-cli-pinned-source-without-hash",
+  "error": true,
+  "parts": [
+   "source ",
+   {
+    "var": "name"
+   },
+   " is pinned but its file ",
+   {
+    "var": "rel"
+   },
+   " has no SHA-256"
+  ]
+ },
+ {
+  "id": "e-bench-cli-malformed-sha256",
+  "error": true,
+  "parts": [
+   {
+    "var": "rel"
+   },
+   ": the manifest's SHA-256 is not 64 lowercase hexadecimal digits"
+  ]
  }
 ]

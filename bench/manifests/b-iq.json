@@ -20,7 +20,7 @@
       "use": "reference only: a user obtains the files from UT and scores their own method",
       "files": [],
       "sha256_pinned": false,
-      "note": "no hash is pinned because none was obtained in the licence review; the first user to fetch pins one in a manifest revision"
+      "note": "no hash is pinned yet: the files have not been fetched for the bench. The first fetch records, for cleanStatic.bin and ds1.bin to ds8.bin, each file's path, size and SHA-256 in `files`, with the URL and retrieval date, and sets sha256_pinned to true; `kshana bench verify-manifest` then refuses a file whose hash or size differs"
     }
   ],
   "baseline": {

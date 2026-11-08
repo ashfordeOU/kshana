@@ -903,6 +903,10 @@ engine-attitude-budget-attitude-budget-km-kg-gg = attitude-budget: { $altitude_k
 
 ## src/bench/cli.rs
 
+engine-e-bench-cli-pinned-source-without-hash = source { $name } is pinned but its file { $rel } has no SHA-256
+
+engine-e-bench-cli-malformed-sha256 = { $rel }: the manifest's SHA-256 is not 64 lowercase hexadecimal digits
+
 engine-bench-cli-needs-value = { $name } needs a value
 
 engine-bench-cli-unknown-option = unknown option `{ $a }`
