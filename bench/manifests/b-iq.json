@@ -18,9 +18,13 @@
       "url": "https://radionavlab.ae.utexas.edu/texbat",
       "data_licence": "research use permitted, users asked to refrain from distributing; no standard licence",
       "use": "reference only: a user obtains the files from UT and scores their own method",
-      "files": [],
-      "sha256_pinned": false,
-      "note": "no hash is pinned yet: the files have not been fetched for the bench. The first fetch records, for cleanStatic.bin and ds1.bin to ds8.bin, each file's path, size and SHA-256 in `files`, with the URL and retrieval date, and sets sha256_pinned to true; `kshana bench verify-manifest` then refuses a file whose hash or size differs"
+      "files": [
+        {"path": "cleanStatic.bin", "bytes": 48016392192, "sha256": "dd295ab46616bfe9634d1c37479520e720ebc54bcb64adf0a247315a541fb9b9", "retrieved": "2026-11-09"},
+        {"path": "ds1.bin", "bytes": 46170898432, "sha256": "8c8f4caa41c8a2253688eef47818a445e3a06139b729cf587c03be33e6b6744c", "retrieved": "2026-11-09"}
+      ],
+      "sha256_pinned": true,
+      "files_note": "Sizes and SHA-256 from the owner's fetch (hashed with shasum -a 256 on the owner's computer), each pinned as it arrives (D18; B4a E5 v2). Listed so far: cleanStatic.bin and ds1.bin; to come: cleanDynamic.bin and ds2.bin to ds8.bin. kshana bench verify-manifest and kshana bench texbat-windows refuse a listed file whose size or SHA-256 differs, and texbat-windows refuses an unlisted one.",
+      "note": "the owner's first fetch (9 November 2026) pins each file's path, size and SHA-256 in `files`, with the retrieval date, as it arrives; the URL is the source's. `kshana bench verify-manifest` refuses a listed file whose hash or size differs"
     }
   ],
   "baseline": {
