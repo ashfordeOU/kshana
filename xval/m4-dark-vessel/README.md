@@ -182,3 +182,63 @@ With `m` = 1 or 2, FA is 5 % or more. `M4Params::v1` uses window 60 s, `m` = 3, 
 - POSITION-OFFSET recall is 0.81 at 5 km (bar ≥ 0.85) and 0.85 at 10 km (bar ≥ 0.98).
 
 So B2 and B4 are expected to miss. The bars are not changed, and the scored seeds are run once as they stand.
+
+## Readings of v2 (before any v2 code)
+
+These read `docs/design/evidence/m4-dark-vessel-ais-integrity/PREREGISTRATION-v2.md`, signed off on 9 November 2026.
+They are committed before any v2 code and before any v2 seed is generated. Readings 13 to 19 stand unless changed
+here. The generator, metrics and bars are v1's. `M4Params::v1` and the v1 results are unchanged.
+
+20. **Order of the v2 decision.**
+    1. AIS tracks, IDENTITY-DUPLICATE and GAP: readings 13, 15 (as amended) and 16.
+    2. Association of each fix to AIS: reading 14. This gives each fix its AIS residual `d²_ais` (the chi-square of
+       reading 14) when it is inside a gate.
+    3. POSITION-OFFSET: reading 21, on the association of step 2.
+    4. Dark tracks: reading 22, over the fixes not marked "explained" in step 3.
+21. **Offsets by time-consistent misses.**
+    - **Kept from v1:** expected epochs, misses with candidates, the vote over candidate displacements with radius
+      `c`, the time window, and the "explained" marking. `c` = 5 km and the window = 60 s, v1's tuned values; v2 tunes
+      only `m`.
+    - **Added: the step test.** Let `D` be the displacement with the best vote, and `t₀` the earliest expected epoch
+      whose miss has a candidate within `c` of `D`. The identity is a position offset when:
+      - at least `m` misses agree with `D`; and
+      - no expected epoch at or after `t₀` has a fix associated with the identity's track.
+    - **What may come between the agreeing misses.** Expected epochs with no fix at all (nothing detected) are
+      allowed. An expected epoch at or after `t₀` with an associated fix ends the test, because the AIS position
+      then agrees with an RF fix again.
+    - **Votes are counted only from `t₀` on.** Before the step test, the vote is taken over the misses at or after
+      each candidate's own epoch, so an agreeing set is always a run from some epoch onward. The best `D` maximises
+      that count; ties go to the earliest `t₀`, then to stream order.
+    - **`m` ∈ {2, 3}.** It is chosen on seeds 20 to 29 by v1's rule: the `m` with the highest POSITION-OFFSET recall
+      at `d ≥ 5` km, subject to `FA ≤ 0.005`. If neither `m` is eligible, `m` = 3.
+22. **Dark tracks from fix sequences.** The fixes of step 4 are processed in stream order (time, then latitude,
+    then the generator's order, as `Scene::rf` is sorted). Each dark track is a list of fixes.
+    - **Feasibility.** Let `f` be the track's last fix and `Δt` the time from it, in seconds. A fix `x` is feasible
+      for the track when `|x − f| ≤ v_max·Δt + 3·√2·σ_fix`, with `v_max` = 30 kn and `σ_fix` = 1 km per axis. The
+      term `√2·σ_fix` is the per-axis noise of the difference of two fixes, read as a radius.
+    - **Constant-velocity prediction (tracks of 2 or more fixes).** From the last two fixes `f₁` (time `t₁`) and
+      `f₂` (time `t₂`), the prediction at time `t` is `f₂ + (f₂ − f₁)·τ`, with `τ = (t − t₂)/(t₂ − t₁)`.
+      - Its normalised residual is `d²_dark = |x − pred|² / (σ_fix²·(1 + (1 + τ)² + τ²))`. The denominator is the
+        variance of `x − pred` per axis when each fix has independent noise `σ_fix`, with no free parameter.
+      - A track whose last two fixes share a time has no prediction.
+    - **An unassociated fix** (no AIS gate) joins a track:
+      1. among the feasible tracks with a prediction, the one with the smallest `d²_dark`;
+      2. otherwise, the feasible single-fix track whose fix is nearest;
+      3. otherwise, it starts a new track.
+    - **A fix inside an AIS gate** joins a dark track only if a feasible track with a prediction has
+      `d²_dark < d²_ais`. Both are chi-squares with 2 degrees of freedom, so they compare directly. The smallest
+      `d²_dark` wins, and the fix then counts as unassociated. Otherwise it stays associated, and no new track is
+      started from it.
+    - **A dark fix** is a fix in a dark track of at least 2 fixes. A single-fix track's fix is not a dark fix.
+23. **Classes and scoring.** Reading 18, with two changes:
+    - "dark fix" is read 22's;
+    - an associated fix taken by a dark track (reading 22) is not counted for its AIS identity.
+
+    The majority rule per vessel and the precedence are unchanged. So a DARK decision always rests on a dark track
+    of at least 2 fixes, as the pre-registration requires.
+24. **Development and the scored run.**
+    - Seeds 20 to 29 choose `m` and fix any implementation fault. Any reading changed after a development run is
+      amended here, with what was seen first, before seed 2000 is generated.
+    - `M4Params::v2` is committed with the chosen `m` before the scored seeds.
+    - Seeds 2000 to 2009 are then generated and run once. `RESULTS-v2.md` records MET or NOT MET for B1 to B7, and
+      `tests/m4_verdicts.rs` pins the v2 verdicts beside v1's.
