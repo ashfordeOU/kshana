@@ -1,0 +1,60 @@
+# M1-B2 published case: Cao Y, Peng L, Li J, Yang L, Guo F. Chin J Aeronaut 2015, doi:10.1016/j.cja.2015.08.015 (article-in-press version, CC BY-NC-ND)
+# Transcribed values only; the paper itself is not in this repository. Plot values digitised from the published raster of Fig. 1 (1919 x 644 px, 300 ppi) by xval/m1-geolocation/digitise.py; resolution about 0.11, 0.15 and 0.35 km per pixel in (a), (b), (c).
+kind,id,quantity,value,unit,where,note
+input,target_lon,target longitude,-75.9,deg,p.7 s.6.2,75.9 deg W
+input,target_lat,target latitude,45.35,deg,p.7 s.6.2,45.35 deg N
+input,R,local Earth radius = constraint radius |u| = R (altitude 0),6367.287,km,p.7 s.6.2; Eq.(1),
+input,sat_radius,geocentric distance of every satellite,42164,km,p.7 s.6.2,
+input,s1_lon,satellite 1 longitude,-50.0,deg,p.7 s.6.2,W negative
+input,s1_lat,satellite 1 latitude,2.0,deg,p.7 s.6.2,
+input,s2_lon,satellite 2 longitude,-47.0,deg,p.7 s.6.2,W negative
+input,s2_lat,satellite 2 latitude,0.0,deg,p.7 s.6.2,
+input,s3_lon,satellite 3 longitude,-53.0,deg,p.7 s.6.2,W negative
+input,s3_lat,satellite 3 latitude,0.0,deg,p.7 s.6.2,
+input,s4_lon,satellite 4 longitude,-51.5,deg,p.7 s.6.2,W negative
+input,s4_lat,satellite 4 latitude,3.0,deg,p.7 s.6.2,
+input,s1_vx,"satellite 1 velocity w.r.t. the Earth, x",-15.48,km/h,p.7 s.6.2,geocentric frame
+input,s1_vy,"satellite 1 velocity w.r.t. the Earth, y",-13.0,km/h,p.7 s.6.2,geocentric frame
+input,s1_vz,"satellite 1 velocity w.r.t. the Earth, z",-772.04,km/h,p.7 s.6.2,geocentric frame
+input,s2_vx,"satellite 2 velocity w.r.t. the Earth, x",-30.78,km/h,p.7 s.6.2,geocentric frame
+input,s2_vy,"satellite 2 velocity w.r.t. the Earth, y",-28.7,km/h,p.7 s.6.2,geocentric frame
+input,s2_vz,"satellite 2 velocity w.r.t. the Earth, z",972.72,km/h,p.7 s.6.2,geocentric frame
+input,s3_vx,"satellite 3 velocity w.r.t. the Earth, x",-0.054,km/h,p.7 s.6.2,geocentric frame
+input,s3_vy,"satellite 3 velocity w.r.t. the Earth, y",-0.041,km/h,p.7 s.6.2,geocentric frame
+input,s3_vz,"satellite 3 velocity w.r.t. the Earth, z",-38.6,km/h,p.7 s.6.2,geocentric frame
+input,s4_vx,"satellite 4 velocity w.r.t. the Earth, x",-119.62,km/h,p.7 s.6.2,geocentric frame
+input,s4_vy,"satellite 4 velocity w.r.t. the Earth, y",-95.15,km/h,p.7 s.6.2,geocentric frame
+input,s4_vz,"satellite 4 velocity w.r.t. the Earth, z",1920.34,km/h,p.7 s.6.2,geocentric frame
+input,c,signal propagation speed,300000000.0,m/s,p.7 below Eq.(40),
+input,f,carrier frequency,14000000000.0,Hz,p.7 below Eq.(40),
+input,Q,"(M-1)x(M-1) correlation: diagonal 1, off-diagonal 0.5",1;0.5,-,p.7 Eq.(40),"TDOA block (c dt)^2 Q, FDOA block (c df/f)^2 Q"
+input,Qb,"satellite location error covariance diag(ds^2 I, dsdot^2 I) over all M satellites",-,-,p.7 Eq.(41),
+input,reference,TDOA/FDOA reference satellite,1,-,p.3 Eq.(2),
+input,fig1a_fixed,"Fig.1(a) fixed: df, ds, dsdot",20;1;0.05,Hz;km;m/s,p.7 s.6.3,dt varies
+input,fig1b_fixed,"Fig.1(b) fixed: dt, ds, dsdot",0.1;1;0.05,us;km;m/s,p.7 s.6.3,df varies
+input,fig1c_fixed,"Fig.1(c) fixed: dt, df, dsdot",0.1;20;0.05,us;Hz;m/s,p.7 s.6.3,ds varies
+value,fig1a_1,"CCRLB 'with satellite location error' curve, S (km), at x = 0.1 us",28.06,km,p.7 Fig.1(a),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
+value,fig1a_2,"CCRLB 'with satellite location error' curve, S (km), at x = 0.2 us",28.06,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_3,"CCRLB 'with satellite location error' curve, S (km), at x = 0.3 us",28.06,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_4,"CCRLB 'with satellite location error' curve, S (km), at x = 0.4 us",28.06,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_5,"CCRLB 'with satellite location error' curve, S (km), at x = 0.5 us",28.18,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_6,"CCRLB 'with satellite location error' curve, S (km), at x = 0.6 us",28.18,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_7,"CCRLB 'with satellite location error' curve, S (km), at x = 0.7 us",28.18,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_8,"CCRLB 'with satellite location error' curve, S (km), at x = 0.8 us",28.29,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_9,"CCRLB 'with satellite location error' curve, S (km), at x = 0.9 us",28.29,km,p.7 Fig.1(a),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1a_10,"CCRLB 'with satellite location error' curve, S (km), at x = 1.0 us",28.51,km,p.7 Fig.1(a),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
+value,fig1b_1,"CCRLB 'with satellite location error' curve, S (km), at x = 10 Hz",20.74,km,p.7 Fig.1(b),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
+value,fig1b_2,"CCRLB 'with satellite location error' curve, S (km), at x = 15 Hz",24.74,km,p.7 Fig.1(b),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1b_3,"CCRLB 'with satellite location error' curve, S (km), at x = 20 Hz",28.00,km,p.7 Fig.1(b),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1b_4,"CCRLB 'with satellite location error' curve, S (km), at x = 25 Hz",30.40,km,p.7 Fig.1(b),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1b_5,"CCRLB 'with satellite location error' curve, S (km), at x = 30 Hz",32.01,km,p.7 Fig.1(b),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1b_6,"CCRLB 'with satellite location error' curve, S (km), at x = 35 Hz",33.33,km,p.7 Fig.1(b),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1b_7,"CCRLB 'with satellite location error' curve, S (km), at x = 40 Hz",34.15,km,p.7 Fig.1(b),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
+value,fig1c_1,"CCRLB 'with satellite location error' curve, S (km), at x = 0.25 km",9.29,km,p.7 Fig.1(c),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
+value,fig1c_2,"CCRLB 'with satellite location error' curve, S (km), at x = 0.5 km",16.97,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_3,"CCRLB 'with satellite location error' curve, S (km), at x = 0.75 km",22.14,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_4,"CCRLB 'with satellite location error' curve, S (km), at x = 1.0 km",28.18,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_5,"CCRLB 'with satellite location error' curve, S (km), at x = 1.25 km",31.85,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_6,"CCRLB 'with satellite location error' curve, S (km), at x = 1.5 km",35.09,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_7,"CCRLB 'with satellite location error' curve, S (km), at x = 1.75 km",37.45,km,p.7 Fig.1(c),two-sided median of the curve at 11-16 px either side of the marker
+value,fig1c_8,"CCRLB 'with satellite location error' curve, S (km), at x = 2.0 km",40.92,km,p.7 Fig.1(c),edge: inner-side curve samples (11-30 px) fitted linearly and extrapolated to the point
