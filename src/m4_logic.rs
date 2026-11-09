@@ -16,6 +16,10 @@ use crate::tip_and_cue::primary_rf_layer;
 
 const DEG: f64 = std::f64::consts::PI / 180.0;
 
+/// The v2 `m`, chosen on seeds 20-29 (R21, R24; xval/m4-dark-vessel/dev-v2.json.gz): m = 2 has FA 0.00513
+/// (above 0.005, not eligible); m = 3 has FA 0.00006 and is the only eligible value.
+pub const M4_V2_M: usize = 3;
+
 /// Every number of the decision (R13 to R18).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct M4Params {
@@ -39,6 +43,10 @@ pub struct M4Params {
     pub c_m: f64,
     /// Elevation mask of the RF layer, degrees.
     pub mask_deg: f64,
+    /// v2 (R20 to R23): the step test for offsets and dark tracks from fix sequences. `false` is v1.
+    pub v2: bool,
+    /// v2 dark-track speed limit, kn (R22).
+    pub dark_max_kn: f64,
 }
 
 impl M4Params {
@@ -55,6 +63,22 @@ impl M4Params {
             m: 2,
             c_m: 3000.0,
             mask_deg: 10.0,
+            v2: false,
+            dark_max_kn: 30.0,
+        }
+    }
+
+    /// The committed version 2 parameters (R24). `m` is set from the seeds 20-29 development run.
+    pub fn v2() -> Self {
+        Self::v2_base(M4_V2_M)
+    }
+
+    /// The v2 development base (R21, R22): v1's window and `c`, the v2 logic on, `m` to be tuned.
+    pub fn v2_base(m: usize) -> Self {
+        Self {
+            m,
+            v2: true,
+            ..Self::v1()
         }
     }
 
@@ -111,8 +135,11 @@ impl Track {
 pub struct Decision {
     /// Class per identity.
     pub class: BTreeMap<u64, Label>,
-    /// Per fix (stream order): true if it is a dark fix (unassociated, not explained).
+    /// Per fix (stream order): true if it is a dark fix (v1: unassociated, not explained; v2: in a dark
+    /// track of at least 2 fixes, R22).
     pub dark_fix: Vec<bool>,
+    /// Per fix: true if an AIS-associated fix was taken by a dark track (v2, R22); all false in v1.
+    pub taken: Vec<bool>,
 }
 
 fn implied_kn(a: (u32, f64, f64), b: (u32, f64, f64)) -> f64 {
@@ -165,6 +192,7 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
     // Association (R14).
     let s2 = p.sigma_fix_m * p.sigma_fix_m;
     let mut assoc: Vec<Option<usize>> = Vec::with_capacity(scene.rf.len());
+    let mut d2_ais: Vec<f64> = Vec::with_capacity(scene.rf.len());
     for &(t, a, b) in &scene.rf {
         let mut best: Option<(f64, usize)> = None;
         for (k, tr) in tracks.iter().enumerate() {
@@ -177,6 +205,7 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
             }
         }
         assoc.push(best.map(|x| x.1));
+        d2_ais.push(best.map_or(f64::INFINITY, |x| x.0));
     }
     let mut explained = vec![false; scene.rf.len()];
     // Expected accesses (R17).
@@ -228,12 +257,15 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
         if let Some(a) = run {
             epochs.push((a + (steps - a) / 2) as u32 * STEP_S);
         }
-        // Every miss keeps all its candidates (amended R17).
+        // Every miss keeps all its candidates (amended R17); v2 also keeps the epochs and hits (R21).
         let mut misses: Vec<Vec<(usize, (f64, f64))>> = Vec::new();
+        let mut miss_t: Vec<u32> = Vec::new();
+        let mut hits: Vec<u32> = Vec::new();
         for te in epochs {
             let lo = times.partition_point(|&x| x + p.epoch_window_s < te);
             let hi = times.partition_point(|&x| x <= te + p.epoch_window_s);
             if (lo..hi).any(|j| assoc[j] == Some(k)) {
+                hits.push(te);
                 continue;
             }
             let Some(q) = tr.predict(te, p.interp_max_s) else {
@@ -246,6 +278,7 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
                 .collect();
             if !cand.is_empty() {
                 misses.push(cand);
+                miss_t.push(te);
             }
         }
         // The vote: the candidate displacement agreed by the most misses.
@@ -253,23 +286,29 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
             ((a.0 - b.0).powi(2) + (a.1 - b.1).powi(2)).sqrt() <= p.c_m
         };
         let mut best: Option<(usize, (f64, f64))> = None;
-        for m in &misses {
+        let mut best_from = 0usize;
+        for (i, m) in misses.iter().enumerate() {
             for &(_, d) in m {
-                let count = misses
+                // v1 votes over every miss; v2 over the misses from this one's epoch on (R21).
+                let from = if p.v2 { i } else { 0 };
+                let count = misses[from..]
                     .iter()
                     .filter(|o| o.iter().any(|x| near(x.1, d)))
                     .count();
                 if best.is_none_or(|b| count > b.0) {
                     best = Some((count, d));
+                    best_from = from;
                 }
             }
         }
         if let Some((count, d)) = best {
-            if count >= p.m {
+            // v2 step test: no hit at or after t0 (R21).
+            let step_ok = !p.v2 || !hits.iter().any(|&h| h >= miss_t[best_from]);
+            if count >= p.m && step_ok {
                 if class.get(&tr.id) == Some(&Label::Normal) {
                     class.insert(tr.id, Label::PositionOffset);
                 }
-                for m in &misses {
+                for m in &misses[best_from..] {
                     for x in m.iter().filter(|x| near(x.1, d)) {
                         explained[x.0] = true;
                     }
@@ -277,10 +316,92 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
             }
         }
     }
+    if p.v2 {
+        let (dark_fix, taken) = dark_tracks(scene, p, &assoc, &d2_ais, &explained);
+        return Decision {
+            class,
+            dark_fix,
+            taken,
+        };
+    }
     let dark_fix = (0..scene.rf.len())
         .map(|j| assoc[j].is_none() && !explained[j])
         .collect();
-    Decision { class, dark_fix }
+    Decision {
+        class,
+        dark_fix,
+        taken: vec![false; scene.rf.len()],
+    }
+}
+
+/// v2 dark tracks from fix sequences (R22). Returns the dark-fix flags and the associated fixes taken
+/// by a dark track.
+fn dark_tracks(
+    scene: &Scene,
+    p: &M4Params,
+    assoc: &[Option<usize>],
+    d2_ais: &[f64],
+    explained: &[bool],
+) -> (Vec<bool>, Vec<bool>) {
+    let s2 = p.sigma_fix_m * p.sigma_fix_m;
+    let v_max = p.dark_max_kn * 1852.0 / 3600.0;
+    let slack = 3.0 * std::f64::consts::SQRT_2 * p.sigma_fix_m;
+    let mut tracks: Vec<Vec<usize>> = Vec::new();
+    let mut taken = vec![false; scene.rf.len()];
+    let pos = |j: usize| (scene.rf[j].1, scene.rf[j].2);
+    for j in 0..scene.rf.len() {
+        if explained[j] {
+            continue;
+        }
+        let (t, x) = (scene.rf[j].0, pos(j));
+        let mut pred_best: Option<(f64, usize)> = None;
+        let mut single_best: Option<(f64, usize)> = None;
+        for (k, tr) in tracks.iter().enumerate() {
+            let last = *tr.last().unwrap_or(&j);
+            let dt = f64::from(t.saturating_sub(scene.rf[last].0));
+            let (e, n) = en(pos(last), x);
+            let dist = (e * e + n * n).sqrt();
+            if dist > v_max * dt + slack {
+                continue;
+            }
+            if tr.len() >= 2 {
+                let f1 = tr[tr.len() - 2];
+                let (t1, t2) = (scene.rf[f1].0, scene.rf[last].0);
+                if t2 == t1 {
+                    continue;
+                }
+                let tau = f64::from(t - t2) / f64::from(t2 - t1);
+                let (ve, vn) = en(pos(f1), pos(last));
+                let (re, rn) = (e - ve * tau, n - vn * tau);
+                let d2 = (re * re + rn * rn) / (s2 * (1.0 + (1.0 + tau).powi(2) + tau * tau));
+                if pred_best.is_none_or(|b| d2 < b.0) {
+                    pred_best = Some((d2, k));
+                }
+            } else if single_best.is_none_or(|b| dist < b.0) {
+                single_best = Some((dist, k));
+            }
+        }
+        if assoc[j].is_some() {
+            if let Some((d2, k)) = pred_best {
+                if d2 < d2_ais[j] {
+                    tracks[k].push(j);
+                    taken[j] = true;
+                }
+            }
+            continue;
+        }
+        match pred_best.or(single_best) {
+            Some((_, k)) => tracks[k].push(j),
+            None => tracks.push(vec![j]),
+        }
+    }
+    let mut dark = vec![false; scene.rf.len()];
+    for tr in tracks.iter().filter(|tr| tr.len() >= 2) {
+        for &j in tr {
+            dark[j] = true;
+        }
+    }
+    (dark, taken)
 }
 
 /// Exact (Clopper-Pearson) 95 % interval of `k` successes in `n`.
