@@ -1,0 +1,128 @@
+{
+  "C3-S-v2_M3_G1": {
+    "end_position_difference_m": 207.62304119224112,
+    "end_position_met": true,
+    "max_3d_difference_m": 207.62301200135062,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 11.07886219676584,
+    "start_index": 0,
+    "start_jd_tdb": 2460126.5
+  },
+  "C3-S-v2_M3_G2": {
+    "end_position_difference_m": 596.6490664932614,
+    "end_position_met": true,
+    "max_3d_difference_m": 596.6490241825119,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 3.690521646756679,
+    "start_index": 292,
+    "start_jd_tdb": 2460138.666666667
+  },
+  "C3-S-v2_M3_G3": {
+    "end_position_difference_m": 730.9954199199747,
+    "end_position_met": true,
+    "max_3d_difference_m": 730.9954103084139,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 87.05744809098542,
+    "start_index": 756,
+    "start_jd_tdb": 2460158.0
+  },
+  "noBar_M1_E": {
+    "end_position_difference_m": 37250.252426439314,
+    "end_position_met": false,
+    "max_3d_difference_m": 52502.95496414928,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 2326.6684158085845,
+    "start_index": 0,
+    "start_jd_tdb": 2460035.5
+  },
+  "noBar_M1_G1": {
+    "end_position_difference_m": 13625.188909034207,
+    "end_position_met": true,
+    "max_3d_difference_m": 13625.18896349648,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 4683.742176496424,
+    "start_index": 0,
+    "start_jd_tdb": 2460126.5
+  },
+  "noBar_M1_G2": {
+    "end_position_difference_m": 7204.415419464528,
+    "end_position_met": true,
+    "max_3d_difference_m": 7204.415378409004,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 2074.7812354033813,
+    "start_index": 292,
+    "start_jd_tdb": 2460138.666666667
+  },
+  "noBar_M1_G3": {
+    "end_position_difference_m": 5070.736430180112,
+    "end_position_met": true,
+    "max_3d_difference_m": 5070.736370198111,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 2785.6668640710413,
+    "start_index": 756,
+    "start_jd_tdb": 2460158.0
+  },
+  "noBar_M1_H1": {
+    "end_position_difference_m": 36227.91524924489,
+    "end_position_met": false,
+    "max_3d_difference_m": 36227.91524193994,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 7320.888348302804,
+    "start_index": 169,
+    "start_jd_tdb": 2460042.541666667
+  },
+  "noBar_M1_H2": {
+    "end_position_difference_m": 49646.204686522964,
+    "end_position_met": false,
+    "max_3d_difference_m": 49646.204672155414,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 4253.429054720327,
+    "start_index": 808,
+    "start_jd_tdb": 2460069.166666667
+  },
+  "noBar_M1_W0": {
+    "end_position_difference_m": 21656.921655243365,
+    "end_position_met": true,
+    "max_3d_difference_m": 40068.77844548986,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 4244.44353138702,
+    "start_index": 145,
+    "start_jd_tdb": 2459951.541666667
+  },
+  "noBar_M3_E": {
+    "end_position_difference_m": 32.931673870892446,
+    "end_position_met": true,
+    "max_3d_difference_m": 50.699341225568524,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 13.031104302499443,
+    "start_index": 0,
+    "start_jd_tdb": 2460035.5
+  },
+  "noBar_M3_H1": {
+    "end_position_difference_m": 13628.160364387328,
+    "end_position_met": true,
+    "max_3d_difference_m": 18147.536047799815,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 2782.7684915601276,
+    "start_index": 169,
+    "start_jd_tdb": 2460042.541666667
+  },
+  "noBar_M3_H2": {
+    "end_position_difference_m": 57823.04012849341,
+    "end_position_met": false,
+    "max_3d_difference_m": 57823.04011712215,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 582.0710707698017,
+    "start_index": 808,
+    "start_jd_tdb": 2460069.166666667
+  },
+  "noBar_M3_W0": {
+    "end_position_difference_m": 46.58653067668053,
+    "end_position_met": true,
+    "max_3d_difference_m": 161.51956451728,
+    "periapsis_met": true,
+    "periapsis_radius_difference_m": 8.802042266819626,
+    "start_index": 145,
+    "start_jd_tdb": 2459951.541666667
+  }
+}
