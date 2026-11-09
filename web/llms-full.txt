@@ -26,9 +26,9 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 77ee2bc · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 77ee2bc · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 77ee2bc · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 77ee2bc · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -462,9 +462,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 77ee2bc · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 77ee2bc · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1045,7 +1045,7 @@ Orbit view
 
 engine v0.40.0t = 0 sReal engine run, replayed
 
-Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 77ee2bc · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2443,7 +2443,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.40.0, build 62a2fa7 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.40.0, build 77ee2bc · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2459,7 +2459,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.40.0, build 62a2fa7 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.40.0, build 77ee2bc · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2475,7 +2475,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.40.0, build 62a2fa7 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.40.0, build 77ee2bc · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2489,7 +2489,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 62a2fa7 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 77ee2bc · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2503,7 +2503,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.40.0, build 62a2fa7 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.40.0, build 77ee2bc · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2519,7 +2519,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.40.0, build 62a2fa7 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.40.0, build 77ee2bc · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -8666,7 +8666,7 @@ Terminal · kshana v0.40.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.40.0 (build 62a2fa7):
+A recorded command-line session, engine v0.40.0 (build 77ee2bc):
 
 - $ kshana --version: kshana 0.40.0
 
@@ -10454,6 +10454,10 @@ Everything here is rendered at build time from Markdown files tracked in the Ksh
 - Receiver protocols readRead only, throughout: nothing here writes a byte to a receiver, and there is no transmit path of any kind.
 
 - Kshana StationA Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream…
+
+- Kshana Connect: mapping filesA mapping file (kshana.connect/1, TOML) tells Kshana how to read an export it has no reader for, and turns…
+
+- Adapter registryAn adapter teaches Kshana to read a device's or a logger's export, by configuration only.
 
 - Interference observatory: methodOne product per UTC day and region, from one open aircraft-position archive.
 
@@ -29292,6 +29296,249 @@ the disk fills |  lower keep or rotate_mb; the space is rotate_mb × keep per so
 - A source blocked on a device read stops only with the process.
 
 - One Station is open. Managing several from one place (fleet management) is part of Kshana Pro.
+
+========================================================================
+URL: https://kshana.dev/docs/connect
+Title: Kshana Connect: mapping files · Kshana docs
+========================================================================
+
+# Kshana Connect: mapping files
+
+A mapping file (kshana.connect/1, TOML) tells Kshana how to read an export it has no reader for, and turns it into a kshana.obs/1 observation file. No code is written: the file names the columns, their units and the time format.
+
+Step by step, for a monitoring station: guides/MONITORING-STATION.md. Step by step, for scoring an interference classifier on the benchmark: guides/BENCHMARK-CLASSES.md.
+
+```
+kshana connect map export.csv --mapping export.connect.toml --station station.toml --out site.obs.jsonl
+kshana obs check site.obs.jsonl
+```
+
+Three worked examples are in examples/connect/: an Android raw measurement CSV (one row per satellite, satellites from a constellation code and a number), a timing receiver's semicolon-separated monitoring export (one column per satellite, GPS week and time of week, height in feet) and a monitoring service's nested JSON (position in radians). tests/connect_examples.rs maps all three.
+
+## The file#
+
+```
+schema = "kshana.connect/1"
+
+[source]
+format = "csv"          # csv, tsv, json or jsonl
+delimiter = ";"         # csv only; one character, default ","
+skip_lines = 0          # lines before the header (csv, tsv)
+comment = "#"           # lines starting with this are ignored (csv, tsv)
+records = "/data/epochs" # json only: JSON pointer to the array of records
+filter = { column = "type", equals = ["Raw"] }  # keep only these rows
+
+[time]
+column = "tow"
+format = "gps-week-tow" # rfc3339, unix-s, unix-ms, gps-s, gps-week-tow or pattern
+week_column = "week"    # gps-week-tow: the full GPS week
+pattern = "%d/%m/%Y %H:%M:%S"  # pattern: %Y %m %d %H %M %S (seconds may have a fraction)
+scale = "utc"           # rfc3339, unix-* and pattern: utc (default), gps or tai
+group_tolerance_s = 0.0005  # rows this close in time are one epoch
+
+[fix]
+lat = { column = "lat", unit = "deg" }   # deg or rad
+lon = { column = "lon", unit = "deg" }
+height = { column = "alt", unit = "ft" } # m, ft or km
+n_used = { column = "nsat" }
+
+[signals]
+# One row per satellite ...
+sat = { column = "prn" }  # G05, G5 or "G 5"; or number_column with system / system_column + system_map
+cn0 = { column = "cn0", unit = "dB-Hz" }
+band_column = "signal"    # or band = "L1" (the default)
+# ... or one column per satellite:
+wide = { G05 = "cn0_g05", E11 = "cn0_e11" }
+
+[receiver]
+agc = { column = "agc" }          # native units
+jam_ind = { column = "jamming_indicator" }
+spoofing = { column = "spoof" }   # receiver's own flag: 0 unknown, 1 none, 2 indicated, 3 affirmed
+jamming = { column = "jam" }
+pdop = { column = "pdop" }
+hdop = { column = "hdop" }
+vdop = { column = "vdop" }
+```
+
+Every field takes scale and offset (applied after the unit: value × scale + offset), and in JSON a column starting with / is a JSON pointer into nested objects.
+
+## Rules#
+
+- Rows with the same time (within group_tolerance_s) are one epoch, so long and wide exports both work, and position rows interleaved with satellite rows join their epoch.
+
+- An empty cell (or a JSON null) is a missing value; anything else that is not a number is an error naming the line and the column. Nothing is guessed.
+
+- Times must not go backwards; a row that does is an error naming it, never a silent reorder.
+
+- GPS and TAI times are converted to UTC with the leap-second table; the observation file's time_label is UTC.
+
+- A CSV header without a column the mapping names is a mapping error.
+
+- The output header's source_format is connect:<format>.
+
+## Conformance vectors#
+
+conformance/connect/ holds one folder per adapter with a vector.toml (input, mapping file or built-in reader, station, expected output). kshana connect check conformance/connect runs them all and exits 1 on any byte difference, naming the first differing line; --bless records the expected outputs after a reviewed change. CI runs the folder (tests/connect_conformance.rs). Every new adapter comes with its vector.
+
+Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV or JSON Lines is the route for now) and live inputs (A3a).
+
+## Live: watching a directory (library)#
+
+kshana::connect_watch::step follows the files a logger writes or rotates into a directory and returns the kshana.obs/1 records that became complete since the last step, through the same mapping file.
+
+- The files whose names end with the chosen suffix are read in name order, as one continuous log: a later file's comment lines and header row are dropped. So an epoch whose rows a rotation split is still one epoch, and every t_s counts from the directory's first epoch.
+
+- Only complete lines are read; a line still being written waits for the next step.
+
+- The last epoch is held back until rows after it arrive, because more rows of it may still be written. flush releases it at the end of a run.
+
+- Files must be in time order by name. A single JSON document is refused (use jsonl).
+
+- It polls, with no operating-system file events, so it behaves the same on every platform and on network file systems. The directory is re-read on each step, so move processed files away from time to time.
+
+- Checked by replaying a log written in pieces and rotated part-way through an epoch: the result is the same as kshana connect map on the whole log (tests/connect_watch.rs).
+
+- From the command line: kshana connect watch <dir> --mapping <connect.toml> --station <station.toml> prints new records as JSON lines every --interval seconds (default 2). --suffix picks the files (default: the mapping's format, for example .csv). --once reads what is there, releases the last epoch and exits.
+
+## Live MQTT subscription (kshana::connect_mqtt)#
+
+kshana::connect_mqtt subscribes to a topic on an MQTT broker and maps the rows that arrive, with the same mapping file, into kshana.obs/1 records.
+
+- MQTT 3.1.1 over TCP: clean session, optional user name and password, one topic filter (+ and # work), QoS 0 or 1. A QoS 1 message is acknowledged. A ping is sent when the line has been quiet for half the keep-alive.
+
+- Each message is one or more rows of the mapping's format (jsonl, csv or tsv). The messages are read in arrival order as one continuous log, as connect watch reads a directory, and the last epoch is held back until a later row arrives. Publishers send rows without a header, so a CSV or TSV mapping needs the header row given (--header).
+
+- Rows already emitted are dropped as soon as their epoch is emitted, and t_s still counts from the first epoch of the run. Each message therefore costs the same however long the subscription has run, and memory stays bounded.
+
+- TLS is not built in, and the default build adds no crate for MQTT. For a broker that only accepts TLS, run a local TLS relay (for example stunnel, or a local broker bridged to it) and subscribe to that.
+
+- Checked against a loopback broker that publishes a log one row per message, alternating QoS 0 and 1: the result is the same as kshana connect map on the whole log, with the trimming path exercised (tests/connect_mqtt.rs).
+
+- From the command line: kshana connect mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> prints records as JSON lines as they complete. --user with --password-env <VAR> reads the password from an environment variable, never from the command line. --max-messages <n> ends the run after n messages and releases the last epoch.
+
+- Many stations on one broker: subscribe with a wildcard (--topic 'site/+/raw') and add --per-topic. Each topic then gets its own feed, and its records carry the station id <station.id>/<topic>, with one header per station before its first epoch.
+
+## Live NATS input (kshana::connect_nats)#
+
+kshana connect nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> subscribes to a NATS subject and maps the rows that arrive, through the same feeds as MQTT.
+
+- NATS client protocol over TCP: CONNECT (with --user and --password-env <VAR>, or --token-env <VAR>; secrets come from environment variables only), SUB, then MSG and HMSG (headers are skipped). A server PING is answered with PONG, and a -ERR is reported. A lost connection is made again, as for MQTT.
+
+- --per-topic gives each subject its own feed (station id <station.id>/<subject>), for a wildcard subject such as gnss.*.raw.
+
+- TLS is not built in: for a server that requires it, use a local TLS relay.
+
+- Checked against a loopback server that publishes a log one row per message on two subjects, with a header-carrying HMSG and a PING in between. Each subject's epochs equal kshana connect map on that log (tests/connect_nats.rs).
+
+Kafka is not read yet. A Kafka topic can reach Kshana today through a bridge to MQTT or NATS.
+
+## Live WebSocket input (kshana::connect_ws)#
+
+kshana::connect_ws reads rows streamed over a WebSocket (RFC 6455) and maps them like an MQTT subscription, through the same continuous-log feed.
+
+- ws:// over TCP. The upgrade key is random and the server's Sec-WebSocket-Accept is checked. Text and binary messages are read, fragments are joined, a ping is answered with a pong, and a close ends the stream (the held last epoch is released then). Frames the client sends are masked. Messages over 16 MiB are refused.
+
+- wss:// is not built in. Run a local TLS relay and connect to it with ws://.
+
+- Checked against a loopback server that sends one message in two fragments, a ping, one row per message and a close: the result is the same as kshana connect map on the whole log; the accept key matches the example in RFC 6455 (tests/connect_ws.rs).
+
+- From the command line: kshana connect ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>].
+
+## Load test (kshana connect load-test)#
+
+kshana connect load-test runs many synthetic stations through the live feeds: by default 1,000 stations at 1 Hz for 10 s, each sending one CSV row per epoch in the layout of examples/connect/timing-monitor.csv. It passes when the feeds keep up with the offered load, 99 % of messages take at most 250 ms, and every epoch comes back.
+
+- --via memory (default) puts the rows straight into the feeds as fast as they are taken, and measures how many messages one core maps a second.
+
+- --via mqtt has a loopback broker publish every station's rows on its own topic, paced at the real rate. One wildcard subscription splits them per topic, and the test measures the time from a message being sent to its records being returned.
+
+Measured with a release build on one core of a cloud machine on 6 Nov 2026 (1,000 stations, 1 Hz, 10 s; your machine will differ, so run it there):
+
+Via |  Capacity |  Time per message (median / 99th percentile / max) |
+
+memory |  40,659 messages/s against 1,000 offered |  0.022 / 0.042 / 0.276 ms |
+
+mqtt |  (as memory) |  12.9 / 28.5 / 29.7 ms |
+
+Over MQTT, all 1,000 stations send in the same instant each second, so most of that time is a message waiting behind the others of its second. tests/connect_load.rs runs a smaller load in both modes on every change. It also checks that per-topic feeds give each station exactly the epochs of kshana connect map on its own log.
+
+## Live conformance kit (kshana connect check-live)#
+
+kshana connect check-live <vector.toml|dir> replays the conformance vectors over MQTT, WebSocket and the directory watch and checks ordering, holding, reconnection and latency. The rules are in conformance/connect/README.md. On the bundled vectors every path passes, with a 99th-percentile latency of a few milliseconds on a laptop.
+
+## Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)#
+
+kshana::c37118 reads a capture of synchrophasor frames (a TCP stream or a dump of UDP payloads) and reports each PMU's time health: the sync-error bit, the time-quality and unlocked-time classes in the STAT word, and the message time quality and leap-second flags in FRACSEC. sync_losses groups consecutive sync-error reports into intervals. Every frame's CRC is checked. A data frame is read only after a configuration frame (CFG-2) has given each PMU's channel layout. Phasor values are stepped over, not decoded.
+
+It is not yet a kshana obs convert reader, because the kshana.obs/1 schema has no field for time quality. That needs a schema minor version. It is checked against a stream from an independent encoder (tests/c37118.rs); no public PMU capture has been checked yet.
+
+A binary sensor is first decoded by a device file (kshana.device/1, DEVICES.md) into JSON Lines, which a mapping file then reads like any other JSON Lines export.
+
+========================================================================
+URL: https://kshana.dev/docs/adapters
+Title: Adapters · Kshana docs
+========================================================================
+
+# Adapters: new devices and formats without engine changes
+
+An adapter teaches Kshana to read a device's or a logger's export, by configuration only. Each one is a folder under adapters/ that the registry checks on every change.
+
+```
+kshana connect adapters list adapters      # the adapters that pass
+kshana connect adapters check adapters     # validate every manifest and run every vector; exit 1 on any failure
+```
+
+## What an adapter holds#
+
+```
+adapters/<name>/
+adapter.toml        the manifest (below)
+<name>.connect.toml the kshana.connect/1 mapping file (docs/CONNECT.md)
+sample.csv          a sample log you may share: no customer data, no personal data
+vector.toml         a conformance vector: the sample, the mapping, a station, the expected output
+expected.obs.jsonl  the kshana.obs/1 records the mapping must give, byte for byte
+```
+
+The files may also live elsewhere in the repository; the manifest's paths are relative to it. The bundled examples point at examples/connect/ and conformance/connect/.
+
+```
+schema = "kshana.adapter/1"
+name = "timing-monitor"                  # lower-case letters, digits and -; unique
+title = "A timing receiver's monitoring export (...)"
+kind = "mapping"                         # the only kind so far
+mapping = "timing-monitor.connect.toml"
+vector = "vector.toml"
+maintainer = "Your name or organisation"
+licence = "AGPL-3.0-only"                # SPDX id of the adapter's files
+status = "community"                     # example | community | maintained
+# reference = "https://..."              # the format's public documentation, if any
+```
+
+## What the check refuses#
+
+- A manifest that does not parse, has an unknown field, the wrong schema, a bad name, kind or status, or an empty title, maintainer or licence.
+
+- A mapping file that does not load.
+
+- A vector that does not run, that uses a mapping other than the adapter's own, or whose output differs from its expected file (the first differing line is named).
+
+- Two adapters with the same name.
+
+tests/adapters.rs runs the check on the registry and on deliberately broken adapters, one for each refusal above.
+
+## Writing one#
+
+- Write the mapping for your export (docs/CONNECT.md), and try it: kshana connect map sample.csv --mapping <name>.connect.toml --station station.toml.
+
+- Write the vector and record its expected output: kshana connect check vector.toml --bless. Read the output before you commit it.
+
+- Write adapter.toml, then run kshana connect adapters check adapters.
+
+- Open a pull request with the folder, using the "Adapter submission" issue template if you want to discuss it first. Contributions are licensed as CONTRIBUTING.md describes, with signed-off commits.
+
+## Planned#
+
+Runtime plug-ins (WebAssembly or Python) for formats a mapping cannot express, on the same manifest with a new kind. Binary formats are read by built-in readers today (kshana obs convert).
 
 ========================================================================
 URL: https://kshana.dev/docs/observatory-method

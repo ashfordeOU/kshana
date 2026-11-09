@@ -770,8 +770,8 @@ seg-56bf1281e330 = En inspelad session med servern kshana-mcp (Model Context Pro
 
 seg-24d919eaaba3 = { "176" } av { "405" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.
 
-seg-defecb149c74 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-83124d433ad9 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
 
-seg-3a88568574d8 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-d0311672298c = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-706afacecd46 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+seg-92bb1f3f7822 = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }

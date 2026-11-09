@@ -1139,8 +1139,8 @@ seg-56bf1281e330 = Une session enregistrée avec le serveur kshana-mcp (Model Co
 
 seg-24d919eaaba3 = { "176" } capacités sur { "405" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.
 
-seg-defecb149c74 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+seg-83124d433ad9 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
 
-seg-3a88568574d8 = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
+seg-d0311672298c = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
 
-seg-706afacecd46 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
+seg-92bb1f3f7822 = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }

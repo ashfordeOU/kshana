@@ -1,0 +1,3 @@
+android-raw  [example]  Android raw GNSS measurements (one row per satellite, with interleaved position rows)
+monitor-api  [example]  A monitoring service's JSON API (records under /data/epochs, one per satellite; the position in radians in a nested object)
+timing-monitor  [example]  A timing receiver's monitoring export (semicolon-separated CSV: GPS week and time of week, one C/N0 column per satellite, gain control, spoofing flag)

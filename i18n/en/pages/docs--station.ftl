@@ -406,4 +406,4 @@ seg-d7ae0ccebe92 = One Station is open. Managing several from one place (fleet m
 seg-874f46a80c8b = <s1>Previous</s1>Receiver protocols read
 
 # text
-seg-55ad3fc908be = <s1>Next</s1>Interference observatory: method
+seg-a535b27ff15a = <s1>Next</s1>Kshana Connect: mapping files

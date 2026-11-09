@@ -356,6 +356,12 @@ seg-a285edea3864 = Receiver protocols read
 seg-b9883e78ae39 = Kshana Station
 
 # text
+seg-a8b3be965db9 = Kshana Connect: mapping files
+
+# text
+seg-defe9122d408 = Adapter registry
+
+# text
 seg-f0d0a3233428 = Interference observatory: method
 
 # text

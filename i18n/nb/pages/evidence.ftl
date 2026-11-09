@@ -4108,14 +4108,14 @@ seg-65122c2bb1fc = av { "104" } validert
 seg-2998c6fa20d6 = av { "79" } validert
 seg-4b3ab6095c65 = av { "56" } validert
 
-seg-1127d4b9d3c0 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-7ccfb90a1b22 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-6ceb5c40e820 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-3049f77a1f2b = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-db20582b2d1e = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-b7a6adb6c48d = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-11b283cf9156 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
+seg-322243e4b2ce = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
 
-seg-d507dcf1a970 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-c81354db10ba = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-cb2cb710b147 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-a036eba668b8 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
