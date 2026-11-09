@@ -4,7 +4,10 @@
 //! November 2026; readings `xval/c5a-opnav-v2/README.md`). O1 to O4 re-run on the fresh geometries. The scored run
 //! writes `xval/c5a-opnav-v2/result_v2.json` once (`KSHANA_C5A_V2_WRITE=1`).
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored 2026-11-09): MET. O5 v2 worst 2.3e-11 of the row's largest, no failing row; fresh O1-O4 within
+//! v1's bars (`docs/design/evidence/c5a-optical-navigation-model/RESULTS.md`, v2 section).
+//!
+//! PIN-SCOPE: the counts and worst values of `xval/c5a-opnav-v2/result_v2.json`. PIN-EXCLUDES: output hashes.
 
 use kshana::ephem_provider::KernelEphemeris;
 use kshana::opnav::{measure, project, Camera, Measurement, Target};
@@ -214,4 +217,21 @@ fn c5a_v2_partials_against_the_complex_step_oracle() {
         }
     }
     assert!(miss.is_empty(), "C5a v2 NOT MET: {miss:?}");
+    // Pinned (2026-11-09): the recorded result file.
+    let rec: Value = serde_json::from_str(&std::fs::read_to_string(RESULT).unwrap()).unwrap();
+    for key in ["O5v2_failing_rows", "O5v2x_reported_failing_rows", "count"] {
+        assert_eq!(got[key], rec[key], "{key}");
+    }
+    for key in [
+        "O5v2_worst",
+        "O5v2x_reported_worst",
+        "fresh_O1_max_mas",
+        "fresh_O4_max_px",
+    ] {
+        let (g, r) = (got[key].as_f64().unwrap(), rec[key].as_f64().unwrap());
+        assert!(
+            (g - r).abs() <= 1e-9 * r.abs().max(1e-30) + 1e-18,
+            "{key}: {g} vs {r}"
+        );
+    }
 }
