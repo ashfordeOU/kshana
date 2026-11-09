@@ -17,9 +17,10 @@ pub const FS_HZ: f64 = 25_000_000.0;
 pub const ONSET_S: u64 = 110;
 /// First epoch of a window that enters the statistics (E5v2-5: epochs 21 to 1 000).
 pub const FIRST_EPOCH: usize = 20;
-/// The synthetic thresholds `(τ_S, τ_P)` (E5v2-6), fixed by `tests/texbat_e5v2.rs` before any TEXBAT
-/// byte was read.
-pub const THRESHOLDS: (f64, f64) = (f64::NAN, f64::NAN);
+/// The synthetic thresholds `(τ_S, τ_P)` (E5v2-6, as amended): the 99th percentiles over the 61 of 64
+/// synthetic windows that acquire, computed by `tests/texbat_e5v2.rs` on 9 November 2026 before any
+/// TEXBAT byte was read.
+pub const THRESHOLDS: (f64, f64) = (1.944_242_841_719_368_8e-1, 2.169_909_546_431_267_4);
 
 /// The pinned manifest of the B-iq task (`bench/manifests/b-iq.json`), compiled in so the command
 /// needs no repository checkout.
@@ -94,8 +95,8 @@ pub fn score_file(path: &std::path::Path) -> Result<Value, String> {
         .ok_or_else(|| crate::terr!("e-bench-texbat-name"))?
         .to_string();
     let class = class_of(&name).ok_or_else(|| crate::terr!("e-bench-texbat-name"))?;
-    let (want_bytes, want_sha) =
-        pinned(&name).ok_or_else(|| crate::terr!("e-bench-texbat-unpinned", name = name.as_str()))?;
+    let (want_bytes, want_sha) = pinned(&name)
+        .ok_or_else(|| crate::terr!("e-bench-texbat-unpinned", name = name.as_str()))?;
     let tau = THRESHOLDS;
     let cfg = FeatureStageConfig::texbat_like();
     let win_bytes = FS_HZ as usize * 4;
@@ -125,7 +126,9 @@ pub fn score_file(path: &std::path::Path) -> Result<Value, String> {
             // Acquisition once, on the recording's first millisecond (amended E5v2-4).
             let spe = (FS_HZ / 1000.0).round() as usize;
             for prn in 1u8..=32 {
-                let Some(code) = CaCode::new(prn) else { continue };
+                let Some(code) = CaCode::new(prn) else {
+                    continue;
+                };
                 let acq = sdr::acquire(
                     &iq[..spe],
                     &code,
