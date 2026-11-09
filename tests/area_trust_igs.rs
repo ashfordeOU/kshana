@@ -331,9 +331,12 @@ fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
     era * 146_097 + doe - 719_468
 }
 
+/// (year, day of year, navigation file stem).
+type V2Day = (i64, u32, String);
+
 /// The v2 fortnight (readings W7, W8): from the committed selection and navigation choice, each day
 /// as (year, day of year, navigation file stem), and the four stations.
-fn v2_plan() -> (Vec<(i64, u32, String)>, Vec<String>, (i64, i64, i64)) {
+fn v2_plan() -> (Vec<V2Day>, Vec<String>, (i64, i64, i64)) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust");
     let sel: serde_json::Value =
         serde_json::from_str(&std::fs::read_to_string(root.join("selection_v2.json")).unwrap())
@@ -376,7 +379,7 @@ fn v2_plan() -> (Vec<(i64, u32, String)>, Vec<String>, (i64, i64, i64)) {
 fn read_station_v2(
     dir: &Path,
     name: &str,
-    days: &[(i64, u32, String)],
+    days: &[V2Day],
     first: (i64, i64, i64),
 ) -> (Vec<Raw>, [f64; 3]) {
     let t0 = (days_from_civil(first.0, first.1, first.2) - days_from_civil(1980, 1, 6)) * 86_400;
@@ -544,7 +547,8 @@ fn t4v2_false_alerts_on_clean_igs_data() {
     });
     let text = serde_json::to_string_pretty(&result).unwrap();
     std::fs::write(dir.join("t4v2_result.json"), &text).unwrap();
-    let committed = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4v2_result.json");
+    let committed =
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4v2_result.json");
     if committed.exists() {
         assert_eq!(
             text,

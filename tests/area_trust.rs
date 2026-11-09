@@ -351,7 +351,11 @@ fn write_v2_documents() {
     let out = PathBuf::from(std::env::var("KSHANA_AREA_V2_DOCS").expect("KSHANA_AREA_V2_DOCS"));
     std::fs::create_dir_all(&out).unwrap();
     for (name, v1, _) in v2_cases() {
-        std::fs::write(out.join(format!("{name}.v2.stations.json")), v2_document(&v1)).unwrap();
+        std::fs::write(
+            out.join(format!("{name}.v2.stations.json")),
+            v2_document(&v1),
+        )
+        .unwrap();
     }
 }
 
@@ -403,7 +407,10 @@ fn t1_t5_v2_the_engine_equals_oracle_v2_every_second() {
         } else {
             std::fs::read_to_string(dir().join(format!("{name}.expected.jsonl"))).unwrap()
         };
-        assert!(v1_text == v1_committed, "W6: {name} without the field keeps v1's bytes");
+        assert!(
+            v1_text == v1_committed,
+            "W6: {name} without the field keeps v1's bytes"
+        );
         assert!(
             timeline_jsonl(&format!("{{\"area_rule\":\"v1\",{}", &v1[1..])).unwrap() == v1_text,
             "W3: \"v1\" named is v1 ({name})"
@@ -509,6 +516,49 @@ fn the_v2_live_rule_equals_the_v2_timeline() {
         }
         got.extend(live.flush());
         assert_eq!(live.late, 0);
-        assert_eq!(got, timeline_with(&rep.stations, AreaRule::V2), "seed {seed}");
+        assert_eq!(
+            got,
+            timeline_with(&rep.stations, AreaRule::V2),
+            "seed {seed}"
+        );
+    }
+}
+
+/// B5 v2 T4 was NOT MET (`docs/design/evidence/b5-area-trust/RESULTS-v2.md`): the miss is pinned here,
+/// from the result the scored run wrote (`tests/area_trust_igs.rs`, `t4v2_false_alerts_on_clean_igs_data`).
+#[test]
+fn t4v2_miss_is_recorded() {
+    let r: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4v2_result.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(r["area_rule"], "v2");
+    assert_eq!(r["verdict"], "NOT MET");
+    assert_eq!(r["scored_days"], 13.0);
+    assert_eq!(r["alerts_degraded_or_worse"], 16);
+    assert_eq!(r["alerts_untrusted"], 9);
+    assert!(r["per_area_day_degraded_or_worse"].as_f64().unwrap() > 1.0);
+    assert!(r["per_area_day_untrusted"].as_f64().unwrap() > 0.1);
+}
+
+/// B5 v2 T3 was MET: the pooled result of the four v2 runs (`xval/area-trust/t3v2/`).
+#[test]
+fn t3v2_is_recorded() {
+    let d = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t3v2");
+    let r: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(d.join("t3_result.json")).unwrap()).unwrap();
+    assert_eq!(r["verdict"], "MET");
+    assert_eq!(r["events"], 220);
+    for run in r["runs"].as_array().unwrap() {
+        assert_eq!(run["area_rule"], "v2");
+        assert_eq!(run["stations"], 100);
+    }
+    for path in ["webhook", "mqtt"] {
+        assert_eq!(r[path]["missed"], 0, "{path}");
+        assert!(r[path]["p95_s"].as_f64().unwrap() <= 5.0, "{path}");
+        assert!(r[path]["max_s"].as_f64().unwrap() <= 10.0, "{path}");
     }
 }
