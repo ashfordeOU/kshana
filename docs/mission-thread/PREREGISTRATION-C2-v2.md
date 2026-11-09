@@ -78,3 +78,9 @@ published with its numbers.
 MET says the propagation with no impulses reproduces held-out reconstructed states of a fresh Artemis I arc between the
 reconstruction's steps, within bars derived from C1's radiation-pressure estimate. It does not undo C1's or C2 v1's
 NOT MET; all are published.
+
+## Outcome (9 November 2026)
+
+**Not run.** The rule of reading 4 leaves no 72 h window after W1 (the longest gap between published Artemis I burns is
+105.9 h, against the 120 h needed): `xval/mission-thread-c2-v2/README.md`. No v2 code was written and no v2 data was
+fetched.
