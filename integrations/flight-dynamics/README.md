@@ -13,7 +13,7 @@ bar: the data either comes through or it does not.
 | Orekit 13.1.9 (orekit_jpype 13.1.9.0) | [`orekit_reader.py`](orekit_reader.py) | [`orekit.ipynb`](orekit.ipynb) ([`.md`](orekit.md)) | OEM, OPM | `flight-dynamics.yml`, job `tool (orekit)` |
 | Basilisk 2.12.2 (`bsk`), through the SPICE Toolkit it ships (`pyswice`) | [`basilisk_reader.py`](basilisk_reader.py) | [`basilisk.ipynb`](basilisk.ipynb) ([`.md`](basilisk.md)) | SPK | `flight-dynamics.yml`, job `tool (basilisk)` |
 | ANISE 0.10.6 (the fourth, file-based tool: its own kernel reader, not SPICE) | [`anise_reader.py`](anise_reader.py) | [`anise.ipynb`](anise.ipynb) ([`.md`](anise.md)) | SPK, OEM | `flight-dynamics.yml`, job `tool (anise)` |
-| GMAT R2026a (written without running GMAT; its CI job is the test, and the SPK leg has not run yet) | [`gmat_reader.py`](gmat_reader.py) | [`gmat.ipynb`](gmat.ipynb) ([`.md`](gmat.md)) | SPK. The OEM is refused: R2026a reads an OEM of version 2.0 only in its TESTING mode | `flight-dynamics.yml`, job `gmat` (continue-on-error until green) |
+| GMAT R2026a (runs only in its CI job) | [`gmat_reader.py`](gmat_reader.py) | [`gmat.ipynb`](gmat.ipynb) ([`.md`](gmat.md)) | SPK, not carried: GMAT evaluates at the epochs it can represent, within 1.19 mm (a time-representation finding, [RESULTS](../../docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md#gmat)). The OEM is refused: R2026a reads an OEM of version 2.0 only in its TESTING mode | `flight-dynamics.yml`, job `gmat` (continue-on-error: red by design, see RESULTS) |
 
 [`kshana_fd.py`](kshana_fd.py) holds what every tool shares: writing the three files through the
 Python binding (their SHA-256 must be the pinned ones, and the command line's bytes when
@@ -79,6 +79,18 @@ here. ANISE reads an SPK's epochs as SPICE ephemeris time (ET), but reads an OEM
 `TIME_SYSTEM = TDB` labels with hifitime's TDB model. The same label falls 3.2 µs apart on the
 two scales at the first node. Evaluating the SPK at the TDB reading of the labels moves the states
 by up to 3.3e-6 km. The notebook shows this.
+
+GMAT R2026a, in its CI job (Flight dynamics run 42560008632):
+
+| File | How GMAT reads it | States | Worst at the nodes | Result |
+|---|---|---|---|---|
+| SPK, type 13 | its `SPK` propagator, read out at 16 digits in Luna-centred ICRF axes | 4,321 | 1.19 mm, 3.0e-10 km/s, all along the velocity | not carried |
+| OEM | its `CCSDS-OEM` propagator | none | | refused: OEM 2.0 only in GMAT's TESTING mode |
+
+GMAT returns the kernel's state at the epochs it can represent: an A.1 modified Julian date in a
+double, 0.31 µs per ulp, which its 16-digit report cannot print exactly. The differences match
+an epoch error of −1.91 to +0.72 µs per node, with at most 2.3e-10 km across the velocity. The rule
+is unchanged, so the SPK is not carried; RESULTS records this as a GMAT time-representation finding.
 
 ## Run
 

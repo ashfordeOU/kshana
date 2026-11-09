@@ -5,7 +5,8 @@ Pre-registration: `PREREGISTRATION.md` (signed off 3 November 2026, no bar). The
 readings of criterion 3 are in `NAMING.md`. The adapters, notebooks and the difference report are in
 `integrations/flight-dynamics/`; `.github/workflows/flight-dynamics.yml` runs them.
 
-**Status: three of the four tools pass; GMAT is not done.**
+**Status: three of the four tools carry the files. GMAT R2026a runs the SPK end to end and does not
+carry it: a GMAT time-representation finding (see GMAT). It refuses the OEM.**
 
 ## The trajectory
 
@@ -27,7 +28,8 @@ the Python binding's.
 | Basilisk 2.12.2 | SPK | the SPICE Toolkit it ships (`pyswice`): stored records and epochs | **carried, to the digits written**: 25,926 of 25,926 values and 4,321 of 4,321 epochs with the written bits. `spkezr_c` at the nodes within 1.5e-11 km and 5e-15 km/s of the stored state. |
 | ANISE 0.10.6 | SPK | its own reader, evaluated at the nodes (ET) | **carried** (evaluated, not read): within 1.46e-11 km and 4.94e-15 km/s of the written state; SPICE on the same kernel 1.46e-11 km and 4.97e-15 km/s. |
 | ANISE 0.10.6 | OEM | converted by ANISE to a type 9 kernel, evaluated at the nodes (TDB) | **carried** (evaluated, not read): within 1.46e-11 km and 1.11e-16 km/s. |
-| GMAT | SPK (the OEM is refused: R2026a reads OEM 2.0 only in its TESTING mode) | | **not done**: see below |
+| GMAT R2026a | SPK | its `SPK` propagator, evaluated at the nodes, read out at 16 digits in Luna-centred ICRF axes | **not carried** (evaluated, not read): within 1.19 mm and 3.0e-10 km/s of the written state, all of it along the velocity. GMAT evaluates the kernel at its own representable epochs (an A.1 modified Julian date in a double, 0.31 µs per ulp), which its report cannot print exactly. A GMAT time-representation finding; the rule is unchanged. |
+| GMAT R2026a | OEM | its `CCSDS-OEM` propagator | **refused**: R2026a reads an OEM of version 2.0 only in its TESTING mode, which the adapter does not turn on. |
 
 These numbers are from local runs on 8 November 2026. The workflow runs the same notebooks; each
 run uploads its difference report.
@@ -46,6 +48,9 @@ run uploads its difference report.
 3. **Orekit rounds further than the digits written.** Orekit parses each value to the written
    double and holds metres, so its kilometre-to-metre multiplication rounds a second time. 6,727 of
    the 25,926 metre values are one ulp from the correctly rounded metre value.
+4. **GMAT returns the kernel's state at the epochs it can represent.** See GMAT, the sixth run.
+5. **GMAT's MJ2000Eq axes are a constant 44.4 mas rotation from its ICRF axes** for these states,
+   about twice the IAU 2006 frame bias (about 23 mas, which leaves 7.4 m). See GMAT, the fifth run.
 
 ## Criterion 4
 
@@ -56,7 +61,8 @@ run uploads its difference report.
 
 ## GMAT
 
-**Not done.** The adapter (`integrations/flight-dynamics/gmat_reader.py`, `gmat.ipynb`) and its
+**The SPK is not carried: a GMAT time-representation finding** (the sixth run, at the end of this
+section). The adapter (`integrations/flight-dynamics/gmat_reader.py`, `gmat.ipynb`) and its
 workflow job `gmat` are in place. The job uses GMAT R2026a, from a 401,664,992-byte tarball pinned by
 SHA-256 `fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754` and cached. GMAT reads the
 SPK through its `SPK` propagator, steps through the file at the node spacing, and reports every
@@ -77,7 +83,7 @@ version 1.0 is not tested: Kshana does not write one.
 
 The adapter was written from GMAT's documentation and samples without running GMAT: the session
 that wrote it was not allowed to execute GMAT's binaries. The job runs with continue-on-error and is
-fixed from its logs. GMAT counts as done only when that job is green.
+fixed from its logs. Six runs closed the loop; each is recorded below.
 
 **The SPK: stepping by elapsed time runs past the kernel.** The job's second run (Flight dynamics run
 42534549174, at open commit bec4ae298) loaded the kernel and stepped 4,320 times by 600 s, then
@@ -144,3 +150,21 @@ the same 16 digits; the bar is unchanged, and Orekit, Basilisk and ANISE keep th
 comparison. Future work: read GMAT's states at full precision instead, for example from an ephemeris
 file GMAT writes (an SPK read back by SPICE at the nodes), which would need no amendment but puts
 GMAT's own writer in the path.
+
+**The sixth run: the finding.** The sixth run (Flight dynamics run 42560008632, at open commit
+8941ea41e) read the SPK out in GMAT's ICRF axes. The rotation is gone: a rotation fitted to the
+per-node differences is 0.000 mas. The worst node is 1.19 mm and 3.0e-10 km/s from the written state
+(median 0.05 mm), the first node 6.9e-11 km. What is left lies along the velocity: solving d = v·dt
+node by node gives dt from −1.91 to +0.72 µs, with at most 2.3e-10 km (median 5.7e-11 km) across
+it. The implied dt is within 0.44 µs of the epoch offset the report states, about one ulp of an A.1
+modified Julian date near 30,000 days (0.31 µs), and the 418 nodes reported at offset 0 still carry
+up to 0.57 mm along the velocity. GMAT returns the kernel's state at its own representable epoch,
+which its 16-digit report cannot print exactly. The MJ2000Eq readout of the same run repeats the
+fifth: ω = (−7.850, +43.722, −0.619) mas, worst 14.49 m, 0.31 m after the rotation.
+
+The rule is not amended for this (decision by the seat, after seeing this run). Judging GMAT at its
+representable epochs would need those epochs to better than one ulp, which the report cannot give;
+with dt fitted per node, the 2.3e-10 km across the velocity is still above SPICE's own evaluation of
+the kernel; and an amendment made after this result would be a loosened bar. The GMAT SPK row stays
+not carried. Future work: a full-precision GMAT readout, such as an epoch printed in two parts, or
+GMAT's API.
