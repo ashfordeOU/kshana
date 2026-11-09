@@ -221,3 +221,19 @@ E5v2-9. **Scoring.**
   file this is expected to hold, and the count is reported.
 - **Also reported, without a bar:** the recording-level AUC (each recording's median window score, 10 units).
 - **Scored once.**
+
+### Amendment to E5v2-4, before any E5 v2 code and before any TEXBAT byte is read (9 November 2026)
+
+- **Why.** Searching for PRNs 1 to 32 in every 1 s window, with the engine's brute-force acquisition (49 Doppler
+  bins × 1 023 code phases × 25 000 samples per PRN), would take days per recording. That cost was found while
+  sizing the code. No code had been written and no TEXBAT byte had been read.
+- **Acquisition.** Done once per recording, on its first millisecond, for PRNs 1 to 32, with E5v2-4's settings.
+- **Tracking.** Every acquired PRN is tracked continuously through the whole recording by the engine's loops (the
+  `sdr::track` loop, refactored to carry its state across windows without changing its arithmetic). A window's
+  statistics (E5v2-5) come from that window's 1 000 epochs, epochs 21 to 1 000 as before.
+- **Unchanged.** "No tracked PRN" in E5v2-7 now means no PRN was acquired at the start of the recording. The
+  synthetic thresholds of E5v2-6 are unchanged: each synthetic window is still acquired and then tracked for 1 s.
+- **Parallelism.** PRNs may be tracked in parallel threads, since each PRN's loop is independent. The output is
+  the same bytes whatever the thread count.
+- **Effect on what is measured.** This is how a receiver meets an attack: it is locked before the spoofer starts,
+  and it keeps tracking through the takeover.
