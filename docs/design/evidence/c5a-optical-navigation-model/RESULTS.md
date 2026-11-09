@@ -50,3 +50,31 @@ The bars were not changed.
 - It does not test image processing, the body's shape or phase, attitude error or any real camera's calibration.
 - A comparison with real optical-navigation images is a later, separate pre-registration.
 - Results stay MODELLED.
+
+## v2 (signed off 9 November 2026): the partials against a complex-step oracle
+
+Pre-registration: `PREREGISTRATION-v2.md`. Readings, oracle and its output: `xval/c5a-opnav-v2/`, committed with the
+fresh geometries, the longer kernel cut and the test at `72e566af0`, before the scored run. No engine change.
+
+| Bar | Result |
+|---|---|
+| Oracle self-check: its value against SPICE and OpenCV | 3.6e-8 mas and 4.6e-11 px over 72 measurements (bars 1 mas, 1e-4 px) |
+| **O5 v2**: analytic partials against the complex-step oracle, within 1e-6 of each row's largest element, 72 measurements (v1's 36 and 36 fresh) | **MET**: worst 2.3e-11; no failing row |
+| O1 to O4 on the 36 fresh measurements (v1's bars) | met: O1 3.7e-3 mas, O2 2.3e-8 mas, O3 4.7e-11 px, O4 8.4e-8 px |
+| O5 v2-x, observer-relative central differences (reported, no verdict) | worst 4.0e-5 of the row's largest; 144 of 288 rows above 1e-6 |
+
+**C5a is MET on v2.** v1's O5 stays NOT MET as recorded.
+
+Disclosures and what this shows:
+
+- **The scored run and the result file.** The scored run printed the summary without writing `result_v2.json` (the
+  write switch was not set). An identical second run (the computation is deterministic) wrote the file, and its values
+  equal the printed summary to every digit.
+- **What the result says.** The partials are the derivatives of the stated model to 2.3e-11 of each row's scale: v1's
+  failures were the difference check's round-off, as v1's diagnostic suggested.
+- **The second check.** The observer-relative differences still carry the rounding of the observer's construction
+  (barycentric `r_c + ρ`, about 3e-5 m). They are reported as they fall. Removing that rounding needs an engine entry
+  point taking the relative state, which v2 does not add.
+- **The bar.** It is relative to the row's largest element, weaker for small elements than v1's, and was chosen after
+  v1 (stated in the pre-registration).
+- Results stay MODELLED; no real camera or image is checked.
