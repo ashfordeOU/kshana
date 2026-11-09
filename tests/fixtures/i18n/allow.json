@@ -190,8 +190,8 @@
    "reason": "machine-document: the host_s key added to each JSON reading line, and the <source>: <error> prefix of an operating-system error"
   },
   "src/locate_pd.rs": {
-   "count": 10,
-   "reason": "identifier: the method id and the JSON keys of the locator's parameter block and synthetic session documents (machine documents read by xval/locator-power-difference/oracle.py)"
+   "count": 17,
+   "reason": "identifier: the method id and the JSON keys of the locator's parameter block and synthetic session documents (machine documents read by xval/locator-power-difference/oracle.py); v2 adds its method id, its parameter keys (sigma_meas_db, session_shadowing, report_share), the V9 domain statement and the V7 not-located reason (machine documents, 9 November 2026)"
   },
   "src/m4_dark_vessel.rs": {
    "count": 4,
