@@ -88,6 +88,18 @@ moves them about 0.28 ms apart. The script now stops each step at the next node'
 (`TDBModJulian` stop condition) instead of stepping by elapsed time. The comparison and its bar are
 unchanged.
 
+**The last node: GMAT cannot be asked for the kernel's end epoch itself.** The third run (Flight
+dynamics run 42545057567, at open commit f07e4ba53) stepped by TDB epoch through every interior node
+and halted on the last: GMAT's conversion of the stop epoch, the kernel's coverage end, landed past
+the coverage ("Insufficient ephemeris data has been loaded to compute the state of -1176 relative to
+399 (EARTH) at the ephemeris epoch 2023 MAR 31 00:00:00.000"). The first node, reported at the start
+epoch before any step, was inside the coverage. The script now asks for the last node 2 µs before
+the coverage end (read with SPICE), through a propagator whose one step is 1 µs short of 600 s, so
+that GMAT does not step past the kernel whether or not it shortens a step to land on an epoch stop.
+That node's epoch is then about 2 µs from the written one, and the report states the offset. Under
+the rule (every epoch the written one, no state further than SPICE's), that node is not carried; this
+is recorded as a GMAT time-representation finding, and the rule is not loosened.
+
 **The comparison through GMAT's report.** GMAT's states reach the notebook only through a text report
 of at most 16 significant digits, and a double needs 17. A stand-in that returns SPICE's own states,
 equal to SPICE in every value at 16 digits, fails the evaluating-tool rule as first written
