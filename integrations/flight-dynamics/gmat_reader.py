@@ -19,8 +19,11 @@ Moon and the Moon in its SPK chain agree. At every step GMAT reports the epoch (
 at 16 significant digits:
 
 - the OEM in a Moon-centred ICRF frame (its `REF_FRAME` is ICRF);
-- the SPK in a Moon-centred MJ2000Eq frame. The kernel's frame code is 1 (J2000), which GMAT
-  reads as MJ2000Eq, so no frame-bias rotation is applied to the stored states.
+- the SPK in a Moon-centred ICRF frame (GMAT's `ICRF` axes). The kernel's frame code is 1, J2000,
+  which SPICE treats as ICRF, and Kshana's states are ICRF. The fifth run of the job reported the SPK
+  in GMAT's MJ2000Eq axes and differed from the written states by a constant rotation of about
+  44 mas; the SPK is also still reported in MJ2000Eq, to `gmat_spk_mj2000eq.txt`, which is not
+  compared but kept beside the comparison.
 
 GMAT R2026a, as shipped, refuses an OEM of version 2.0 (`CCSDS_OEM_VERS = 2.0`, the version Kshana
 writes): its `CCSDS-OEM` propagator stops the mission with `OEM_V2_REFUSAL` unless GMAT runs in its
@@ -105,6 +108,10 @@ SpkPropLast.StepSize = {last_step};
 SpkPropLast.CentralBody = Luna;
 SpkPropLast.StartEpoch = FromSpacecraft;
 
+Create CoordinateSystem LunaSpkICRF;
+LunaSpkICRF.Origin = Luna;
+LunaSpkICRF.Axes = ICRF;
+
 Create CoordinateSystem LunaJ2000;
 LunaJ2000.Origin = Luna;
 LunaJ2000.Axes = MJ2000Eq;
@@ -114,19 +121,27 @@ SpkReport.Filename = '{out}/gmat_spk.txt';
 SpkReport.Precision = {digits};
 SpkReport.WriteHeaders = false;
 
+Create ReportFile SpkReportMJ2000Eq;
+SpkReportMJ2000Eq.Filename = '{out}/gmat_spk_mj2000eq.txt';
+SpkReportMJ2000Eq.Precision = {digits};
+SpkReportMJ2000Eq.WriteHeaders = false;
+
 Create Variable k t;
 
 BeginMissionSequence;
 
 Propagate SpkPropInit(SpkSat);
-Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
+Report SpkReport SpkSat.TDBModJulian SpkSat.LunaSpkICRF.X SpkSat.LunaSpkICRF.Y SpkSat.LunaSpkICRF.Z SpkSat.LunaSpkICRF.VX SpkSat.LunaSpkICRF.VY SpkSat.LunaSpkICRF.VZ;
+Report SpkReportMJ2000Eq SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 For k = 1:{inner_steps};
    t = {mjd0} + k * {step_days};
    Propagate SpkProp(SpkSat) {{SpkSat.TDBModJulian = t}};
-   Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
+   Report SpkReport SpkSat.TDBModJulian SpkSat.LunaSpkICRF.X SpkSat.LunaSpkICRF.Y SpkSat.LunaSpkICRF.Z SpkSat.LunaSpkICRF.VX SpkSat.LunaSpkICRF.VY SpkSat.LunaSpkICRF.VZ;
+   Report SpkReportMJ2000Eq SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 EndFor;
 Propagate SpkPropLast(SpkSat) {{SpkSat.TDBModJulian = {mjd_last}}};
-Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
+Report SpkReport SpkSat.TDBModJulian SpkSat.LunaSpkICRF.X SpkSat.LunaSpkICRF.Y SpkSat.LunaSpkICRF.Z SpkSat.LunaSpkICRF.VX SpkSat.LunaSpkICRF.VY SpkSat.LunaSpkICRF.VZ;
+Report SpkReportMJ2000Eq SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 """
 
 #: How far before the kernel's coverage end GMAT is asked for the last node, in seconds. GMAT's
