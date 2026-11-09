@@ -52,6 +52,14 @@ pub const SITES: [(f64, f64); 14] = [
 const SITE_H_M: f64 = 30.0;
 const GROUND_MIN_DBW: f64 = -140.0; // -110 dBm
 const SIGMA_SH: f64 = 6.0;
+/// v2 (R14): reports per site and draw, one per second, sharing one shadowing value.
+pub const V2_REPORTS: usize = 30;
+/// v2 (R14): per-report measurement noise, dB.
+const SIGMA_MEAS_V2: f64 = 1.0;
+/// v2 (R16): the placement and draw seeds of the scored run.
+pub const V2_SEEDS: (u64, u64) = (4600, 4601);
+/// v2 (R17): the seed of the unscored implementation checks.
+pub const V2_CHECK_SEED: u64 = 4699;
 
 type V3 = [f64; 3];
 
@@ -334,6 +342,49 @@ fn space_resid(ep: &[SpaceEpoch], h: f64) -> impl Fn(&[f64]) -> Vec<f64> + '_ {
     }
 }
 
+/// v2 (R13): the coarse search over M2's sea points by time differences alone, then reading 5's (or
+/// 7's) Gauss-Newton from the best 3; the converged in-box result with the lowest weighted sum of
+/// squared residuals over all of `f` is kept.
+fn started_gn(
+    ep: &[SpaceEpoch],
+    h: f64,
+    f: &dyn Fn(&[f64]) -> Vec<f64>,
+    extra: &dyn Fn((f64, f64)) -> Vec<f64>,
+    steps: &[f64],
+) -> Option<Vec<f64>> {
+    let pts = baltic_points();
+    let mut scored: Vec<(f64, usize)> = pts
+        .iter()
+        .enumerate()
+        .map(|(i, &(a, b))| {
+            let (p, _) = point(a, b, h);
+            let s: f64 = ep
+                .iter()
+                .map(|e| {
+                    let (td, _) = predict(p, e.t);
+                    (0..2)
+                        .map(|k| ((td[k] - e.tdoa[k]) / e.s_tau[k]).powi(2))
+                        .sum::<f64>()
+                })
+                .sum();
+            (s, i)
+        })
+        .collect();
+    scored.sort_by(|x, y| x.0.total_cmp(&y.0).then(x.1.cmp(&y.1)));
+    let mut best: Option<(f64, Vec<f64>)> = None;
+    for &(_, i) in scored.iter().take(3) {
+        let mut th = vec![pts[i].0, pts[i].1];
+        th.extend(extra(pts[i]));
+        if let Some(t) = gauss_newton(th, f, steps, &moved).filter(|t| in_box(t[0], t[1])) {
+            let ssr: f64 = f(&t).iter().map(|x| x * x).sum();
+            if best.as_ref().is_none_or(|b| ssr < b.0) {
+                best = Some((ssr, t));
+            }
+        }
+    }
+    best.map(|b| b.1)
+}
+
 fn moved(a: &[f64], b: &[f64]) -> f64 {
     gc_m((a[0], a[1]), (b[0], b[1]))
 }
@@ -391,6 +442,7 @@ fn run_draw(
     x0: f64,
     gctx: &GroundCtx,
     start: (f64, f64),
+    v2: bool,
 ) -> DrawResult {
     let (p, _) = point(src.0, src.1, src.2);
     let u0 = formation_u0();
@@ -421,34 +473,85 @@ fn run_draw(
         }
         eps.push(e);
     }
-    // Ground reports (R6).
+    // Ground reports (R6; v2: R14 and R16, 30 reports per site sharing one shadowing value).
     let reach = los_reach_km(SITE_H_M, src.2);
     let mut reports: Vec<Option<f64>> = Vec::with_capacity(14);
-    for &(a, b) in &SITES {
-        let x = SIGMA_SH * normal(r);
-        let (sp, _) = point(a, b, SITE_H_M);
-        let d = norm(sub(p, sp));
-        let pr = eirp_dbm - 30.0 - fspl_db(d) + x;
-        let horiz_km = gc_m((a, b), (src.0, src.1)) / 1000.0;
-        reports.push((horiz_km <= reach && pr >= GROUND_MIN_DBW).then_some(pr));
+    let mut epochs_j: Vec<Vec<Option<f64>>> = Vec::new();
+    if v2 {
+        let x: Vec<f64> = (0..14).map(|_| SIGMA_SH * normal(r)).collect();
+        let mean: Vec<(f64, bool)> = SITES
+            .iter()
+            .zip(&x)
+            .map(|(&(a, b), xi)| {
+                let (sp, _) = point(a, b, SITE_H_M);
+                let in_reach = gc_m((a, b), (src.0, src.1)) / 1000.0 <= reach;
+                (eirp_dbm - 30.0 - fspl_db(norm(sub(p, sp))) + xi, in_reach)
+            })
+            .collect();
+        let mut sum = [0.0f64; 14];
+        let mut cnt = [0usize; 14];
+        for _ in 0..V2_REPORTS {
+            let row: Vec<Option<f64>> = mean
+                .iter()
+                .enumerate()
+                .map(|(i, &(m, ok))| {
+                    let v = m + SIGMA_MEAS_V2 * normal(r);
+                    let rep = (ok && v >= GROUND_MIN_DBW).then_some(v);
+                    if let Some(v) = rep {
+                        sum[i] += v;
+                        cnt[i] += 1;
+                    }
+                    rep
+                })
+                .collect();
+            epochs_j.push(row);
+        }
+        for i in 0..14 {
+            reports.push((cnt[i] > 0).then(|| sum[i] / cnt[i] as f64));
+        }
+    } else {
+        for &(a, b) in &SITES {
+            let x = SIGMA_SH * normal(r);
+            let (sp, _) = point(a, b, SITE_H_M);
+            let d = norm(sub(p, sp));
+            let pr = eirp_dbm - 30.0 - fspl_db(d) + x;
+            let horiz_km = gc_m((a, b), (src.0, src.1)) / 1000.0;
+            reports.push((horiz_km <= reach && pr >= GROUND_MIN_DBW).then_some(pr));
+        }
     }
     let reporting = reports.iter().filter(|x| x.is_some()).count();
+    // v2: per-site report counts for the hybrid's sigma (R15).
+    let n_rep: Vec<usize> = (0..14)
+        .map(|i| epochs_j.iter().filter(|e| e[i].is_some()).count())
+        .collect();
     // Space estimate (R5).
     let space = if eps.len() >= 2 {
         let f = space_resid(&eps, src.2);
-        gauss_newton(vec![start.0, start.1], &f, &[1e-5, 1e-5], &moved)
-            .filter(|t| in_box(t[0], t[1]))
-            .map(|t| (t[0], t[1]))
+        if v2 {
+            started_gn(&eps, src.2, &f, &|_: (f64, f64)| Vec::new(), &[1e-5, 1e-5]).map(|t| (t[0], t[1]))
+        } else {
+            gauss_newton(vec![start.0, start.1], &f, &[1e-5, 1e-5], &moved)
+                .filter(|t| in_box(t[0], t[1]))
+                .map(|t| (t[0], t[1]))
+        }
     } else {
         None
     };
     // Ground estimate (R6): B3a with power input, known height.
-    let ground = if reporting >= 3 {
+    // v2 (R14): the session's epochs with at least 3 reporting sites (B3a's session rule).
+    let session: Vec<Vec<Option<f64>>> = epochs_j
+        .iter()
+        .filter(|e| e.iter().filter(|x| x.is_some()).count() >= 3)
+        .cloned()
+        .collect();
+    let ground_ok = if v2 { !session.is_empty() } else { reporting >= 3 };
+    let ground = if ground_ok {
         let mut prm = PowerDifferenceParams::preregistered_v1();
         prm.h_set_m = vec![src.2];
         let g = grid(&prm, &gctx.stations);
         let jmin = vec![GROUND_MIN_DBW; 14];
-        let summed = summed_loglik_from_power(&prm, &gctx.stations, &g, &[reports.clone()], &jmin);
+        let input = if v2 { session } else { vec![reports.clone()] };
+        let summed = summed_loglik_from_power(&prm, &gctx.stations, &g, &input, &jmin);
         let loc = locate(&prm, &g, &summed);
         Some(gctx.proj.inverse(loc.centroid.0, loc.centroid.1))
     } else {
@@ -457,17 +560,26 @@ fn run_draw(
     // Hybrid (R7).
     let n_res = eps.len() * 4 + reporting;
     let hybrid = if n_res >= 6 {
-        let rep: Vec<(V3, f64)> = SITES
+        // (site, value, sigma): v1 one report at 6 dB; v2 the mean of n reports at sqrt(6^2 + 1/n) (R15).
+        let rep: Vec<(V3, f64, f64)> = SITES
             .iter()
             .zip(&reports)
-            .filter_map(|(&(a, b), r)| r.map(|v| (point(a, b, SITE_H_M).0, v)))
+            .zip(&n_rep)
+            .filter_map(|((&(a, b), r), &n)| {
+                let s = if v2 {
+                    (SIGMA_SH * SIGMA_SH + SIGMA_MEAS_V2 * SIGMA_MEAS_V2 / n as f64).sqrt()
+                } else {
+                    SIGMA_SH
+                };
+                r.map(|v| (point(a, b, SITE_H_M).0, v, s))
+            })
             .collect();
         let (cp, _) = point(start.0, start.1, src.2);
         let e0 = if rep.is_empty() {
             0.0
         } else {
             rep.iter()
-                .map(|(sp, v)| v + fspl_db(norm(sub(cp, *sp))))
+                .map(|(sp, v, _)| v + fspl_db(norm(sub(cp, *sp))))
                 .sum::<f64>()
                 / rep.len() as f64
         };
@@ -475,12 +587,32 @@ fn run_draw(
         let f = |th: &[f64]| {
             let mut out = sp_f(th);
             let (pp, _) = point(th[0], th[1], src.2);
-            for (sp, v) in &rep {
-                out.push((v - (th[2] - fspl_db(norm(sub(pp, *sp))))) / SIGMA_SH);
+            for (sp, v, s) in &rep {
+                out.push((v - (th[2] - fspl_db(norm(sub(pp, *sp))))) / s);
             }
             out
         };
-        if rep.is_empty() {
+        // EIRP start at a given start point (R7).
+        let e_at = |c: (f64, f64)| -> Vec<f64> {
+            let (cp, _) = point(c.0, c.1, src.2);
+            vec![if rep.is_empty() {
+                0.0
+            } else {
+                rep.iter()
+                    .map(|(sp, v, _)| v + fspl_db(norm(sub(cp, *sp))))
+                    .sum::<f64>()
+                    / rep.len() as f64
+            }]
+        };
+        if v2 && eps.len() >= 2 {
+            // v2 (R13): the started Gauss-Newton.
+            if rep.is_empty() {
+                started_gn(&eps, src.2, &sp_f, &|_: (f64, f64)| Vec::new(), &[1e-5, 1e-5])
+                    .map(|t| (t[0], t[1]))
+            } else {
+                started_gn(&eps, src.2, &f, &e_at, &[1e-5, 1e-5, 1e-3]).map(|t| (t[0], t[1]))
+            }
+        } else if rep.is_empty() {
             // No reporting site: EIRP has no information; solve position from space alone (amended R7).
             gauss_newton(vec![start.0, start.1], &sp_f, &[1e-5, 1e-5], &moved)
                 .filter(|t| in_box(t[0], t[1]))
@@ -504,8 +636,13 @@ fn run_draw(
 
 /// The 200 placements of R9: (lat, lon, height).
 pub fn placements() -> Vec<(f64, f64, f64)> {
+    placements_seeded(4500)
+}
+
+/// Reading 9's placements from `seed` (v2, R16: 4600).
+pub fn placements_seeded(seed: u64) -> Vec<(f64, f64, f64)> {
     let pts = baltic_points();
-    let mut r = ChaCha8Rng::seed_from_u64(4500);
+    let mut r = ChaCha8Rng::seed_from_u64(seed);
     (0..200)
         .map(|i| {
             let c = pts[r.gen_range(0..pts.len())];
@@ -553,6 +690,16 @@ type Scored = (DrawResult, f64, f64, f64);
 /// B5 (amended R8): the horizontal bounds (2x2, m^2) of space, ground and hybrid at the truth of a
 /// placement and class, from geometry alone; `None` where a layer's horizontal block is singular.
 pub fn bounds(src: (f64, f64, f64), eirp_dbm: f64) -> [Option<[[f64; 2]; 2]>; 3] {
+    bounds_sigma(src, eirp_dbm, SIGMA_SH)
+}
+
+/// v2 (R15): the bounds with the ground sigma of the mean of 30 reports, sqrt(6^2 + 1^2/30).
+pub fn bounds_v2(src: (f64, f64, f64), eirp_dbm: f64) -> [Option<[[f64; 2]; 2]>; 3] {
+    let s = (SIGMA_SH * SIGMA_SH + SIGMA_MEAS_V2 * SIGMA_MEAS_V2 / V2_REPORTS as f64).sqrt();
+    bounds_sigma(src, eirp_dbm, s)
+}
+
+fn bounds_sigma(src: (f64, f64, f64), eirp_dbm: f64, sigma_g: f64) -> [Option<[[f64; 2]; 2]>; 3] {
     let x0 = threshold();
     let (p, up) = point(src.0, src.1, src.2);
     // Local east and north unit vectors at the source.
@@ -633,7 +780,7 @@ pub fn bounds(src: (f64, f64, f64), eirp_dbm: f64) -> [Option<[[f64; 2]; 2]>; 3]
         ];
         for a2 in 0..3 {
             for b2 in 0..3 {
-                fg[a2][b2] += row[a2] * row[b2] / (SIGMA_SH * SIGMA_SH);
+                fg[a2][b2] += row[a2] * row[b2] / (sigma_g * sigma_g);
             }
         }
     }
@@ -698,12 +845,25 @@ fn median(mut v: Vec<f64>) -> Option<f64> {
 
 /// Run the whole scenario once (R9, R10); `n_placements` below 200 for tests.
 pub fn run(n_placements: usize) -> Value {
+    run_with(n_placements, (4500, 4501), false)
+}
+
+/// v2 (R13 to R16): the scenario with seeds `seeds` (placements, draws); `V2_SEEDS` for the scored run,
+/// `(V2_CHECK_SEED, V2_CHECK_SEED)` for the unscored checks.
+pub fn run_v2(n_placements: usize, seeds: (u64, u64)) -> Value {
+    run_with(n_placements, seeds, true)
+}
+
+fn run_with(n_placements: usize, seeds: (u64, u64), v2: bool) -> Value {
     let x0 = threshold();
     let gctx = ground_ctx();
     let start = area_centroid();
-    let pl: Vec<_> = placements().into_iter().take(n_placements).collect();
+    let pl: Vec<_> = placements_seeded(seeds.0)
+        .into_iter()
+        .take(n_placements)
+        .collect();
     let passes: Vec<_> = pl.iter().map(|&(a, b, h)| pass(a, b, h)).collect();
-    let mut r = ChaCha8Rng::seed_from_u64(4501);
+    let mut r = ChaCha8Rng::seed_from_u64(seeds.1);
     let mut by_class = serde_json::Map::new();
     let mut rows: Vec<Vec<Vec<Scored>>> = Vec::new();
     for (i, &(a, b, h)) in pl.iter().enumerate() {
@@ -712,7 +872,7 @@ pub fn run(n_placements: usize) -> Value {
         for (_, e) in CLASSES {
             let mut draws = Vec::new();
             for _ in 0..20 {
-                let d = run_draw(&mut r, (a, b, h), e, &ep, x0, &gctx, start);
+                let d = run_draw(&mut r, (a, b, h), e, &ep, x0, &gctx, start, v2);
                 let err = |x: Option<(f64, f64)>| x.map_or(f64::INFINITY, |p| gc_m(p, (a, b)));
                 let (es, eg, eh) = (err(d.space), err(d.ground), err(d.hybrid));
                 draws.push((d, es, eg, eh));
@@ -761,6 +921,8 @@ pub fn run(n_placements: usize) -> Value {
     }
     json!({
         "schema": "kshana.m5-result/1",
+        "version": if v2 { 2 } else { 1 },
+        "seeds": [seeds.0, seeds.1],
         "placements": pl.len(),
         "passes_found": passes.iter().filter(|p| p.is_some()).count(),
         "classes": by_class,
