@@ -15,7 +15,8 @@ Kshana writes the CAPSTONE states of the mission thread (4,321 states, Moon-cent
 an OEM and an SPK. GMAT loads each into a spacecraft through its `CCSDS-OEM` and `SPK` ephemeris
 propagators, in two separate runs, steps through the file at the node spacing, and reports every
 state. The states GMAT reports are compared with the written states, and with SPICE's own evaluation
-of Kshana's SPK. This is the GMAT part of roadmap item C7 (`docs/FLIGHT-DYNAMICS-EXPORT.md`).
+of Kshana's SPK printed at the report's 16 digits, so that both pass through the same readout
+(NAMING.md, the 8-9 November amendment). This is the GMAT part of roadmap item C7 (`docs/FLIGHT-DYNAMICS-EXPORT.md`).
 
 GMAT R2026a as shipped refuses an OEM of version 2.0, the version Kshana writes: its `CCSDS-OEM`
 propagator accepts one only in GMAT's TESTING mode. The notebook does not turn that mode on. It
@@ -79,7 +80,8 @@ for fmt, path, how in legs:
     n = min(len(g_states), len(ets))
     ok, worst_dt = gm.epochs_equal(g_texts[:n], ets[:n])
     w = fd.Written(written.epochs[:n], written.text[:n])
-    c = fd.evaluated_compare("GMAT", fmt, w, g_states[:n], ok, spice[:n], how=how)
+    c = fd.evaluated_compare("GMAT", fmt, w, g_states[:n], ok, spice[:n], how=how,
+                             readout_digits=gm.REPORT_DIGITS)
     c.notes.append(f"{len(g_states)} of {len(ets)} states reported; epochs within {worst_dt:.3g} s of the written ones")
     rows.append(c)
     print(c.row())
