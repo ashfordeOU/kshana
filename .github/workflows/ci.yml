@@ -348,6 +348,7 @@ jobs:
           --test determinism
           --test sgp4_verification
           --test planner
+          --test planner_v2
           --test env_baseline
           --test locator_power_difference_synthetic
           --test m4_generator

@@ -1,0 +1,103 @@
+
+running 5 tests
+P1 pentagon: detection within 1.5e-13
+P1 mixed: detection within 2.6e-13
+P1 arc: detection within 1.6e-13
+P1 v2: 1662 barred cells, 0 reported, misses []
+.P2 pentagon cell 842: DRMS 2.143 m, 5 stations, ratio 1.0069, solved 10000/10000, barred
+P2 pentagon cell 686: DRMS 34.169 m, 3 stations, ratio 1.0000, solved 10000/10000, reported
+P2 pentagon cell 792: DRMS 5.123 m, 4 stations, ratio 0.9985, solved 10000/10000, barred
+P2 pentagon cell 758: DRMS 2.242 m, 5 stations, ratio 0.9915, solved 10000/10000, barred
+P2 pentagon cell 911: DRMS 66.896 m, 3 stations, ratio 1.0120, solved 10000/10000, reported
+P2 pentagon cell 684: DRMS 10.905 m, 4 stations, ratio 1.0103, solved 10000/10000, barred
+P2 pentagon cell 1162: DRMS 47.681 m, 3 stations, ratio 1.0135, solved 10000/10000, reported
+P2 pentagon cell 1085: DRMS 3.233 m, 5 stations, ratio 1.0048, solved 10000/10000, barred
+P2 pentagon cell 423: DRMS 21.774 m, 3 stations, ratio 1.0020, solved 10000/10000, reported
+P2 pentagon cell 958: DRMS 2.624 m, 5 stations, ratio 0.9991, solved 10000/10000, barred
+P2 pentagon cell 767: DRMS 14.297 m, 4 stations, ratio 1.0126, solved 10000/10000, barred
+P2 pentagon cell 1052: DRMS 10.244 m, 4 stations, ratio 1.0032, solved 10000/10000, barred
+P2 pentagon cell 391: DRMS 66.464 m, 3 stations, ratio 1.0089, solved 10000/10000, reported
+P2 pentagon cell 961: DRMS 2.442 m, 5 stations, ratio 1.0021, solved 10000/10000, barred
+P2 pentagon cell 1417: DRMS 27.583 m, 3 stations, ratio 1.0083, solved 10000/10000, reported
+P2 pentagon cell 916: DRMS 2.853 m, 5 stations, ratio 1.0073, solved 10000/10000, barred
+P2 pentagon cell 1288: DRMS 2505.989 m, 3 stations, ratio 0.1381, solved 5048/10000, reported
+P2 pentagon cell 1252: DRMS 14.678 m, 3 stations, ratio 0.9941, solved 10000/10000, reported
+P2 pentagon cell 755: DRMS 2.333 m, 5 stations, ratio 0.9949, solved 10000/10000, barred
+P2 pentagon cell 759: DRMS 2.205 m, 5 stations, ratio 1.0002, solved 10000/10000, barred
+P2 mixed cell 768: DRMS 5.617 m, 6 stations, ratio 1.0091, solved 10000/10000, barred
+P2 mixed cell 1414: DRMS 11.705 m, 4 stations, ratio 0.9966, solved 10000/10000, barred
+P2 mixed cell 263: DRMS 13.314 m, 4 stations, ratio 1.0014, solved 10000/10000, barred
+P2 mixed cell 875: DRMS 2.904 m, 8 stations, ratio 0.9958, solved 10000/10000, barred
+P2 mixed cell 1120: DRMS 10.198 m, 7 stations, ratio 0.9945, solved 10000/10000, barred
+P2 mixed cell 1038: DRMS 4.825 m, 7 stations, ratio 0.9982, solved 10000/10000, barred
+P2 mixed cell 973: DRMS 6.165 m, 6 stations, ratio 1.0039, solved 10000/10000, barred
+P2 mixed cell 1251: DRMS 5.569 m, 6 stations, ratio 0.9965, solved 10000/10000, barred
+P2 mixed cell 1081: DRMS 2.931 m, 7 stations, ratio 1.0065, solved 10000/10000, barred
+P2 mixed cell 508: DRMS 4.587 m, 6 stations, ratio 1.0093, solved 10000/10000, barred
+P2 mixed cell 223: DRMS 14.630 m, 4 stations, ratio 1.0094, solved 10000/10000, barred
+P2 mixed cell 967: DRMS 2.637 m, 8 stations, ratio 1.0043, solved 10000/10000, barred
+P2 mixed cell 598: DRMS 3.236 m, 7 stations, ratio 0.9994, solved 10000/10000, barred
+P2 mixed cell 727: DRMS 6.145 m, 6 stations, ratio 0.9979, solved 10000/10000, barred
+P2 mixed cell 715: DRMS 2.306 m, 8 stations, ratio 0.9924, solved 10000/10000, barred
+P2 mixed cell 551: DRMS 3.232 m, 7 stations, ratio 1.0003, solved 10000/10000, barred
+P2 mixed cell 812: DRMS 9.599 m, 4 stations, ratio 0.9969, solved 10000/10000, barred
+P2 mixed cell 592: DRMS 2.824 m, 7 stations, ratio 1.0095, solved 10000/10000, barred
+P2 mixed cell 853: DRMS 9.478 m, 4 stations, ratio 0.9809, solved 10000/10000, barred
+P2 mixed cell 353: DRMS 12.249 m, 5 stations, ratio 1.0022, solved 10000/10000, barred
+P2 arc cell 753: DRMS 25.800 m, 4 stations, ratio 1.0005, solved 10000/10000, barred
+P2 arc cell 799: DRMS 11.853 m, 4 stations, ratio 0.9893, solved 10000/10000, barred
+P2 arc cell 1307: DRMS 69.224 m, 3 stations, ratio 0.9944, solved 10000/10000, reported
+P2 arc cell 1124: DRMS 29.340 m, 4 stations, ratio 1.0041, solved 10000/10000, barred
+P2 arc cell 1139: DRMS 20.523 m, 4 stations, ratio 1.0035, solved 10000/10000, barred
+P2 arc cell 889: DRMS 8.215 m, 4 stations, ratio 0.9970, solved 10000/10000, barred
+P2 arc cell 637: DRMS 22.749 m, 4 stations, ratio 1.0103, solved 10000/10000, barred
+P2 arc cell 937: DRMS 79.112 m, 3 stations, ratio 1.0108, solved 10000/10000, reported
+P2 arc cell 1141: DRMS 30.087 m, 4 stations, ratio 1.0035, solved 10000/10000, barred
+P2 arc cell 1221: DRMS 23.716 m, 4 stations, ratio 0.9918, solved 10000/10000, barred
+P2 arc cell 1414: DRMS 129.861 m, 3 stations, ratio 0.9965, solved 10000/10000, reported
+P2 arc cell 1004: DRMS 6.235 m, 4 stations, ratio 0.9915, solved 10000/10000, barred
+P2 arc cell 1172: DRMS 9.273 m, 4 stations, ratio 1.0012, solved 10000/10000, barred
+P2 arc cell 1142: DRMS 44.486 m, 3 stations, ratio 0.9983, solved 10000/10000, reported
+P2 arc cell 879: DRMS 12.454 m, 4 stations, ratio 1.0035, solved 10000/10000, barred
+P2 arc cell 1304: DRMS 31.424 m, 4 stations, ratio 0.9991, solved 10000/10000, barred
+P2 arc cell 1140: DRMS 24.889 m, 4 stations, ratio 1.0019, solved 10000/10000, barred
+P2 arc cell 764: DRMS 14.462 m, 4 stations, ratio 0.9973, solved 10000/10000, barred
+P2 arc cell 998: DRMS 76.404 m, 3 stations, ratio 1.0009, solved 10000/10000, reported
+P2 arc cell 1424: DRMS 51.330 m, 3 stations, ratio 0.9980, solved 10000/10000, reported
+P2 v2: 46 barred, 14 reported, misses []
+.P3 v2: 60 cells inside the 99.9 % interval
+.P4 v2: greedy+exchange [0, 2, 9, 11, 12, 14, 21] objective 0.350982 (median DRMS None); best of 1000 random 0.353361
+
+thread 'p4_v2_greedy_exchange_against_random_subsets' (2110) panicked at tests/planner_v2.rs:261:5:
+0.3509815585960738 < 0.3533610945865556
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::ops::function::FnOnce::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+ 3/5
+p4_v2_greedy_exchange_against_random_subsets --- FAILED
+P5 v2 pentagon: a279b6595a08721f5bd4f67ec721f26b05f364ae708ae5acba3cbf8256ce7283
+
+thread 'p5_v2_the_same_bytes_from_every_entry' (2141) panicked at tests/planner_v2.rs:278:5:
+assertion `left == right` failed
+  left: "a279b6595a08721f5bd4f67ec721f26b05f364ae708ae5acba3cbf8256ce7283"
+ right: "PIN"
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed
+   4: core::ops::function::FnOnce::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+p5_v2_the_same_bytes_from_every_entry --- FAILED
+
+failures:
+
+failures:
+    p4_v2_greedy_exchange_against_random_subsets
+    p5_v2_the_same_bytes_from_every_entry
+
+test result: FAILED. 3 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.47s
+
+error: test failed, to rerun pass `--test planner_v2`

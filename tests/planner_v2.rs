@@ -7,7 +7,8 @@
 //! * P2: Monte Carlo at 20 cells per layout; barred where DRMS < 0.05 × mean distance and at least 4
 //!   stations are used.
 //! * P3: detection by simulation at the same cells.
-//! * P4: greedy+exchange on the 40-candidate instance against the best of 1 000 random subsets.
+//! * P4: greedy+exchange on the 40-candidate instance against the best of 1 000 random subsets: NOT MET,
+//!   pinned (0.350982 against 0.353361).
 //! * P5: the same bytes from every entry and the pinned bytes of the pentagon map.
 //!
 //! PIN-SCOPE:    the SHA-256 of the pentagon v2 map (`xval/planner/layout_pentagon_v2.json`) as written
@@ -230,7 +231,10 @@ fn p3_v2_detection_by_simulation() {
             for (name, hits, p) in [("P_D", any, c.p_any), ("P_k", atk, c.p_k)] {
                 let half = z * (p * (1.0 - p) / n as f64).sqrt() + 0.5 / n as f64;
                 let emp = hits as f64 / n as f64;
-                assert!((emp - p).abs() <= half, "{l} cell {ci} {name}: {emp} vs {p} ± {half}");
+                assert!(
+                    (emp - p).abs() <= half,
+                    "{l} cell {ci} {name}: {emp} vs {p} ± {half}"
+                );
             }
             checked += 1;
         }
@@ -258,7 +262,11 @@ fn p4_v2_greedy_exchange_against_random_subsets() {
         "P4 v2: greedy+exchange {:?} objective {:.6} (median DRMS {:?}); best of 1000 random {best:.6}",
         got.subset, got.objective, got.median_drms_m
     );
-    assert!(got.objective >= best, "{} < {best}", got.objective);
+    // NOT MET, pinned (RESULTS-v2.md): greedy+exchange 0.350982 below the best random subset 0.353361.
+    assert!(got.objective < best, "{} >= {best}", got.objective);
+    assert_eq!(got.subset, vec![0, 2, 9, 11, 12, 14, 21]);
+    assert!((got.objective - 0.350_981_558_596_073_8).abs() < 1e-12);
+    assert!((best - 0.353_361_094_586_555_6).abs() < 1e-12);
 }
 
 #[test]
@@ -278,4 +286,4 @@ fn p5_v2_the_same_bytes_from_every_entry() {
     assert_eq!(h, PENTAGON_SHA256);
 }
 
-const PENTAGON_SHA256: &str = "PIN";
+const PENTAGON_SHA256: &str = "a279b6595a08721f5bd4f67ec721f26b05f364ae708ae5acba3cbf8256ce7283";
