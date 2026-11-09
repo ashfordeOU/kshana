@@ -139,3 +139,49 @@ This is stated now, from the link budget alone, before any run.
   - the space epochs are the pass epochs at which every receiver's `P_d ≥ 0.5`;
   - the ground sites are those within the radio horizon whose noise-free `P_r ≥ −110 dBm`;
   - otherwise reading 8 applies as written.
+
+## Readings of v2 (before any v2 code)
+
+These read `docs/design/evidence/m5-jammers-from-orbit-hybrid/PREREGISTRATION-v2.md`, signed off on 9 November 2026.
+They are committed before any v2 code and before any v2 seed is drawn. Readings 1 to 12, with their two
+amendments, stand unless changed here. v1's code path, `result.json` and the v1 verdicts are unchanged.
+
+13. **The started Gauss–Newton (space and hybrid).**
+    - **The coarse search.** Each of M2's 996 sea points (the cell centres, at the source's known height) is scored
+      by the weighted sum of squared time-difference residuals of reading 4: the time differences alone, with
+      their σ.
+    - **The refinement.** The 3 lowest-scoring points, ties broken by M2's point order, each start reading 5's
+      Gauss–Newton (for the hybrid, reading 7's, with its EIRP start).
+    - **The pick.** Of the refinements that converge and end inside the M2 box, the one with the lowest weighted sum
+      of squared residuals over all the estimator's measurements is kept. The layer declines when none qualifies,
+      or under reading 5's other conditions.
+    - **Without time differences.** If a draw has fewer than 2 measurement epochs, the space layer declines as in
+      v1. The hybrid starts from the area centroid as in v1, with ground residuals only.
+    - **No truth is used** at any step.
+14. **The ground layer, with 30 reports per site per draw.**
+    - **The reports.** Per site and draw, the shadowing `X ~ N(0, 6 dB)` is drawn once. Each of 30 reports, one per
+      second, is `P_r = EIRP − FSPL + X + e_k`, with `e_k ~ N(0, 1 dB)` independent.
+    - **Censoring.** A report is made only when that value is at least −110 dBm and the site is within
+      `los_reach_km`. A site's censored reports are censored terms (`J_min` = −110 dBm), as in reading 6.
+    - **The locator.** B3a v1 as shipped (`PowerDifferenceParams::preregistered_v1`, τ = 1/60), with reading 6's
+      three substitutions. The 30 reports form one 30-epoch session: one epoch per second, passed in time order.
+      This is the session length its τ was chosen for. B3a v2, which is being run separately, is not used here.
+    - **Declining.** The layer declines when no epoch has at least 3 reporting sites (B3a's session rule).
+      Otherwise the estimate is the posterior centroid.
+15. **The hybrid's ground residuals.**
+    - Each site with at least one report adds one residual: the mean of its reported `P_r` minus
+      `EIRP − FSPL(d_i)`. Its σ is `√(6² + 1²/n_i)`, where `n_i` is its number of reports. This is the same
+      shadowing-once model as reading 14.
+    - Censored reports add no residual, as reading 7 states.
+    - **B5 bounds.** The ground Fisher information uses the same per-site σ, with `n_i` = 30 at the noise-free
+      truth.
+16. **Random numbers.**
+    - **Placements:** reading 9's procedure with seed 4600.
+    - **Draws:** one ChaCha8 stream seeded 4601, in reading 9's order (placement, class, draw). Within a draw:
+      detection uniforms, space noise, the 14 shadowing values in site order, then the 30 × 14 report noises (epoch
+      major, site minor).
+17. **Implementation checks and the run.**
+    - **Checks** use placements and draws from seed 4699 only. They are not scored, any output is kept, and they
+      are disclosed in `RESULTS-v2.md`. Seeds 4600 and 4601 are drawn once, for the scored run.
+    - **Records.** `RESULTS-v2.md` records B1 to B6. Reading 8's bounds (as amended) are computed at the v2
+      placements. `tests/m5_*` pins the v2 verdicts beside v1's.
