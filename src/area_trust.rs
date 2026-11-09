@@ -13,6 +13,11 @@
 //! * a worse state is published at once (an alert); a better one only after the raw state has been
 //!   better for 10 s, and then as the worst raw state of those 10 s.
 //!
+//! Version 2 (`PREREGISTRATION-v2.md`, readings W1 to W11 in the same README) changes one clause:
+//! `DEGRADED` if `n_D ≥ k` or `n_U ≥ m`, with `m = 2` for `N ≤ 6` and `m = 1` above. A stations
+//! document selects it with `"area_rule": "v2"`; without the field the rule is version 1, with the
+//! same bytes. [`AreaRule`] selects it on the other paths.
+//!
 //! [`station_state`] is section 1's per-station rule over the evidence one station reports for an
 //! epoch, and [`synth`] builds a seeded multi-station replay with injected events whose expected
 //! station states follow from that rule. This module computes; the live wiring and alert delivery are
@@ -58,6 +63,17 @@ impl AreaState {
     }
 }
 
+/// Which pre-registered area rule applies (readings W1 to W3).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum AreaRule {
+    /// Version 1: `DEGRADED` if `n_D ≥ k` or `n_U ≥ 1`.
+    #[default]
+    V1,
+    /// Version 2: `DEGRADED` if `n_D ≥ k` or `n_U ≥ m`, `m = 2` for `N ≤ 6`, else 1.
+    V2,
+}
+
 /// One station's epochs.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Station {
@@ -98,8 +114,13 @@ pub const STALE_AFTER_S: i64 = 5;
 /// Seconds a better raw state must hold before it is published.
 pub const HOLD_S: usize = 10;
 
-/// The raw area state of one grid second from the live stations' states.
+/// The raw area state of one grid second from the live stations' states (version 1's rule).
 pub fn raw_state(live: &[StationState]) -> (AreaState, usize, usize) {
+    raw_state_with(live, AreaRule::V1)
+}
+
+/// The raw area state of one grid second under `rule`.
+pub fn raw_state_with(live: &[StationState], rule: AreaRule) -> (AreaState, usize, usize) {
     let n = live.len();
     let n_d = live
         .iter()
@@ -113,9 +134,14 @@ pub fn raw_state(live: &[StationState]) -> (AreaState, usize, usize) {
         return (AreaState::Unknown, n_d, n_u);
     }
     let k = 2usize.max(n.div_ceil(3));
+    // Untrusted stations that make the area DEGRADED: v1 one; v2 two for 6 or fewer stations (W1).
+    let m = match rule {
+        AreaRule::V2 if n <= 6 => 2,
+        _ => 1,
+    };
     let s = if n_u >= k {
         AreaState::Untrusted
-    } else if n_d >= k || n_u >= 1 {
+    } else if n_d >= k || n_u >= m {
         AreaState::Degraded
     } else {
         AreaState::Trusted
@@ -172,7 +198,12 @@ impl Publisher {
 }
 
 /// One grid second from the stations' held states.
-fn second(g: i64, held: &[Option<(StationState, i64)>], publisher: &mut Publisher) -> AreaSecond {
+fn second(
+    g: i64,
+    held: &[Option<(StationState, i64)>],
+    publisher: &mut Publisher,
+    rule: AreaRule,
+) -> AreaSecond {
     let mut live = Vec::with_capacity(held.len());
     let mut stale = 0;
     for h in held {
@@ -181,7 +212,7 @@ fn second(g: i64, held: &[Option<(StationState, i64)>], publisher: &mut Publishe
             _ => stale += 1,
         }
     }
-    let (raw, n_d, n_u) = raw_state(&live);
+    let (raw, n_d, n_u) = raw_state_with(&live, rule);
     let (state, alert) = publisher.step(raw);
     AreaSecond {
         g,
@@ -194,8 +225,13 @@ fn second(g: i64, held: &[Option<(StationState, i64)>], publisher: &mut Publishe
     }
 }
 
-/// The area timeline over every grid second from the first epoch to the last.
+/// The area timeline over every grid second from the first epoch to the last (version 1's rule).
 pub fn timeline(stations: &[Station]) -> Vec<AreaSecond> {
+    timeline_with(stations, AreaRule::V1)
+}
+
+/// The area timeline under `rule`.
+pub fn timeline_with(stations: &[Station], rule: AreaRule) -> Vec<AreaSecond> {
     let (mut lo, mut hi) = (i64::MAX, i64::MIN);
     for s in stations {
         for &(t, _) in &s.epochs {
@@ -220,7 +256,7 @@ pub fn timeline(stations: &[Station]) -> Vec<AreaSecond> {
                 cursor[i] += 1;
             }
         }
-        out.push(second(g, &held, &mut publisher));
+        out.push(second(g, &held, &mut publisher, rule));
     }
     out
 }
@@ -236,18 +272,25 @@ pub struct AreaLive {
     reported: Vec<bool>,
     open: Option<i64>,
     publisher: Publisher,
+    rule: AreaRule,
     /// Epochs that arrived for a second already closed (left out).
     pub late: u64,
 }
 
 impl AreaLive {
-    /// A live area of `n` stations, numbered `0..n`.
+    /// A live area of `n` stations, numbered `0..n`, under version 1's rule.
     pub fn new(n: usize) -> AreaLive {
+        AreaLive::with_rule(n, AreaRule::V1)
+    }
+
+    /// A live area of `n` stations under `rule` (W3: the live path takes the rule explicitly).
+    pub fn with_rule(n: usize, rule: AreaRule) -> AreaLive {
         AreaLive {
             held: vec![None; n],
             reported: vec![false; n],
             open: None,
             publisher: Publisher::default(),
+            rule,
             late: 0,
         }
     }
@@ -267,7 +310,7 @@ impl AreaLive {
             Some(o) if g > o => {
                 out.push(self.close(o));
                 for gap in o + 1..g {
-                    out.push(second(gap, &self.held, &mut self.publisher));
+                    out.push(second(gap, &self.held, &mut self.publisher, self.rule));
                 }
             }
             _ => {}
@@ -292,7 +335,7 @@ impl AreaLive {
 
     fn close(&mut self, g: i64) -> AreaSecond {
         self.reported.iter_mut().for_each(|r| *r = false);
-        second(g, &self.held, &mut self.publisher)
+        second(g, &self.held, &mut self.publisher, self.rule)
     }
 }
 
@@ -358,10 +401,18 @@ pub fn h_s(calibration_horiz_m: &[f64]) -> f64 {
 /// The timeline of a `kshana.area-stations/1` document as JSON Lines, one line per grid second
 /// (`{"g":…,"state":…,"alert":…,"n":…,"n_d":…,"n_u":…,"stale":…}`): the bytes the oracle writes, and
 /// the same on the command line, in Python and in WebAssembly. Each station's epochs must be finite
-/// and in time order.
+/// and in time order. `"area_rule": "v2"` selects version 2's rule (W3); without it, version 1.
 pub fn timeline_jsonl(stations_json: &str) -> Result<String, String> {
+    #[derive(Deserialize)]
+    struct Rule {
+        #[serde(default)]
+        area_rule: AreaRule,
+    }
     let doc: Stations = serde_json::from_str(stations_json)
         .map_err(|e| crate::terr!("e-area-trust-stations", e = e))?;
+    let rule = serde_json::from_str::<Rule>(stations_json)
+        .map_err(|e| crate::terr!("e-area-trust-stations", e = e))?
+        .area_rule;
     for s in &doc.stations {
         let ordered = s.epochs.iter().all(|(t, _)| t.is_finite())
             && s.epochs.windows(2).all(|w| w[0].0 <= w[1].0);
@@ -370,7 +421,7 @@ pub fn timeline_jsonl(stations_json: &str) -> Result<String, String> {
         }
     }
     let mut out = String::new();
-    for g in timeline(&doc.stations) {
+    for g in timeline_with(&doc.stations, rule) {
         out.push_str(&serde_json::to_string(&g).map_err(|e| e.to_string())?);
         out.push('\n');
     }
@@ -390,3 +441,80 @@ pub fn run(args: &[String]) -> Result<(), String> {
 }
 
 pub mod synth;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use StationState::{Degraded as D, Nominal as N, Untrusted as U};
+
+    #[test]
+    fn v2_one_untrusted_station_alone_moves_a_small_area_no_more() {
+        // W1, W2: with 6 or fewer stations one Untrusted station alone moves nothing in v2.
+        assert_eq!(
+            raw_state_with(&[U, N, N, N], AreaRule::V1).0,
+            AreaState::Degraded
+        );
+        assert_eq!(
+            raw_state_with(&[U, N, N, N], AreaRule::V2).0,
+            AreaState::Trusted
+        );
+        assert_eq!(
+            raw_state_with(&[U, N, N, N, N, N], AreaRule::V2).0,
+            AreaState::Trusted
+        );
+        // Another station in alarm makes n_D >= k = 2, and two Untrusted meet the UNTRUSTED clause.
+        assert_eq!(
+            raw_state_with(&[U, D, N, N], AreaRule::V2).0,
+            AreaState::Degraded
+        );
+        assert_eq!(
+            raw_state_with(&[U, U, N, N], AreaRule::V2).0,
+            AreaState::Untrusted
+        );
+        // Above 6 stations m = 1: v2 is v1.
+        let seven = [U, N, N, N, N, N, N];
+        assert_eq!(raw_state_with(&seven, AreaRule::V2).0, AreaState::Degraded);
+        assert_eq!(
+            raw_state_with(&seven, AreaRule::V2),
+            raw_state_with(&seven, AreaRule::V1)
+        );
+        assert_eq!(raw_state_with(&[U], AreaRule::V2).0, AreaState::Unknown);
+        assert_eq!(
+            raw_state(&[U, N, N, N]),
+            raw_state_with(&[U, N, N, N], AreaRule::V1)
+        );
+    }
+
+    #[test]
+    fn the_document_field_selects_the_rule_and_v1_keeps_its_bytes() {
+        let doc = |rule: &str| {
+            format!(
+                r#"{{{rule}"stations":[{{"id":"a","epochs":[[0,"nominal"],[1,"untrusted"],[2,"untrusted"]]}},
+                {{"id":"b","epochs":[[0,"nominal"],[1,"nominal"],[2,"nominal"]]}},
+                {{"id":"c","epochs":[[0,"nominal"],[1,"nominal"],[2,"nominal"]]}}]}}"#
+            )
+        };
+        let v1 = timeline_jsonl(&doc("")).expect("v1");
+        assert_eq!(
+            timeline_jsonl(&doc(r#""area_rule":"v1","#)).expect("v1"),
+            v1
+        );
+        assert!(v1.contains(r#""state":"DEGRADED","alert":true"#));
+        let v2 = timeline_jsonl(&doc(r#""area_rule":"v2","#)).expect("v2");
+        assert!(!v2.contains("DEGRADED") && v2.contains(r#""state":"TRUSTED""#));
+        assert!(timeline_jsonl(&doc(r#""area_rule":"v3","#)).is_err());
+    }
+
+    #[test]
+    fn the_live_path_takes_the_rule() {
+        let mut v1 = AreaLive::new(3);
+        let mut v2 = AreaLive::with_rule(3, AreaRule::V2);
+        let mut last = (Vec::new(), Vec::new());
+        for (i, st) in [U, N, N].into_iter().enumerate() {
+            last.0 = v1.push(i, 0.0, st);
+            last.1 = v2.push(i, 0.0, st);
+        }
+        assert_eq!(last.0[0].state, AreaState::Degraded);
+        assert_eq!(last.1[0].state, AreaState::Trusted);
+    }
+}
