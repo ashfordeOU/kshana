@@ -31,3 +31,30 @@ fn the_score_rule_and_classes() {
     assert_eq!(class_of("ds8.bin"), Some("spoofing"));
     assert_eq!(class_of("ds9.bin"), None);
 }
+
+#[test]
+fn a_file_that_does_not_match_its_pin_writes_nothing() {
+    // A small file under a pinned name: its hash and size differ from the manifest, so it is refused.
+    let dir = temp_workdir("e5v2");
+    // PATH-UNIQUE-WAIVER: inside the per-call directory above, which already carries a unique component.
+    let f = dir.join("cleanStatic.bin");
+    std::fs::write(&f, vec![0u8; 4096]).unwrap();
+    assert!(kshana::bench::texbat::score_file(&f).is_err());
+    // An unknown name is refused before reading.
+    // PATH-UNIQUE-WAIVER: inside the per-call directory above, which already carries a unique component.
+    let g = dir.join("other.bin");
+    std::fs::write(&g, [0u8; 4]).unwrap();
+    assert!(kshana::bench::texbat::score_file(&g).is_err());
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+/// Per-call working directory under the system temp dir. The sequence makes it unique
+/// per call: every test in this binary shares the process id.
+fn temp_workdir(label: &str) -> std::path::PathBuf {
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-{label}-{}-{seq}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(&dir).unwrap();
+    dir
+}

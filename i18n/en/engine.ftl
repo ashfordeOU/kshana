@@ -909,6 +909,8 @@ engine-e-bench-texbat-usage = usage: kshana bench texbat-windows <file> --out <s
 engine-e-bench-texbat-name = not a TEXBAT recording name: expected cleanStatic.bin, cleanDynamic.bin or ds1.bin to ds8.bin
 engine-e-bench-texbat-unpinned = { $name }: no pinned size and SHA-256 in the B-iq manifest yet
 engine-e-bench-texbat-mismatch = { $name }: SHA-256 { $got } and { $bytes } bytes do not match the pinned manifest; nothing was written
+engine-bench-texbat-acquired = { $name }: acquired PRNs { $prns }
+engine-bench-texbat-progress = { $name }: { $seconds } s done
 engine-bench-cli-texbat-written = wrote { $path } ({ $windows } windows)
 engine-e-bench-cli-malformed-sha256 = { $rel }: the manifest's SHA-256 is not 64 lowercase hexadecimal digits
 

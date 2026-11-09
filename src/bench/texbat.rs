@@ -123,28 +123,46 @@ pub fn score_file(path: &std::path::Path) -> Result<Value, String> {
         }
         let iq: Vec<Cf64> = iqif::load_iq(&buf, IqFormat::Int16Le);
         if w == 0 {
-            // Acquisition once, on the recording's first millisecond (amended E5v2-4).
+            // Acquisition once, on the recording's first millisecond (amended E5v2-4); PRNs searched
+            // in parallel, kept in PRN order.
             let spe = (FS_HZ / 1000.0).round() as usize;
-            for prn in 1u8..=32 {
-                let Some(code) = CaCode::new(prn) else {
-                    continue;
-                };
-                let acq = sdr::acquire(
-                    &iq[..spe],
-                    &code,
-                    cfg.fs_hz,
-                    cfg.if_hz,
-                    cfg.doppler_max_hz,
-                    cfg.doppler_step_hz,
-                    cfg.acq_threshold,
-                );
-                if acq.acquired {
-                    tracked.push(Tracked {
-                        state: TrackState::from_acquisition(&acq, cfg.if_hz),
-                        code,
-                    });
-                }
-            }
+            let first = &iq[..spe];
+            let found: Vec<Option<Tracked>> = std::thread::scope(|sc| {
+                let hs: Vec<_> = (1u8..=32)
+                    .map(|prn| {
+                        let cfg = &cfg;
+                        sc.spawn(move || {
+                            let code = CaCode::new(prn)?;
+                            let acq = sdr::acquire(
+                                first,
+                                &code,
+                                cfg.fs_hz,
+                                cfg.if_hz,
+                                cfg.doppler_max_hz,
+                                cfg.doppler_step_hz,
+                                cfg.acq_threshold,
+                            );
+                            acq.acquired.then(|| Tracked {
+                                state: TrackState::from_acquisition(&acq, cfg.if_hz),
+                                code,
+                            })
+                        })
+                    })
+                    .collect();
+                hs.into_iter().map(|h| h.join().ok().flatten()).collect()
+            });
+            tracked = found.into_iter().flatten().collect();
+            eprintln!(
+                "{}",
+                crate::t!(
+                    "bench-texbat-acquired",
+                    name = name.as_str(),
+                    prns = format!(
+                        "{:?}",
+                        tracked.iter().map(|t| t.code.prn).collect::<Vec<_>>()
+                    )
+                )
+            );
         }
         // Each PRN's loop is independent: tracked in parallel, results in PRN order.
         let stats: Vec<(u8, Option<(f64, f64)>)> = std::thread::scope(|sc| {
@@ -180,6 +198,12 @@ pub fn score_file(path: &std::path::Path) -> Result<Value, String> {
             "prns": stats.iter().map(|(p, v)| json!({"prn": p, "s": v.map(|x| x.0), "p": v.map(|x| x.1)})).collect::<Vec<_>>(),
         }));
         w += 1;
+        if w.is_multiple_of(30) {
+            eprintln!(
+                "{}",
+                crate::t!("bench-texbat-progress", name = name.as_str(), seconds = w)
+            );
+        }
     }
     let got = hex::encode(hasher.finalize());
     if got != want_sha || total != want_bytes {
