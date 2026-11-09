@@ -7,10 +7,12 @@
 use kshana::bench::texbat::{class_of, p99, synthetic_stats, window_score, THRESHOLDS};
 
 #[test]
+#[ignore = "about 16 minutes in release: run with --ignored"]
 fn the_thresholds_are_the_synthetic_99th_percentiles() {
     // Windows that do not acquire are excluded and counted (amended E5v2-6).
     let stats: Vec<(f64, f64)> = (0..64).filter_map(synthetic_stats).collect();
     println!("acquired {} of 64 synthetic windows", stats.len());
+    assert_eq!(stats.len(), 61);
     let tau = (
         p99(stats.iter().map(|x| x.0).collect()),
         p99(stats.iter().map(|x| x.1).collect()),
