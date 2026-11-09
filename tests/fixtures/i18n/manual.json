@@ -14617,5 +14617,89 @@
   "parts": [
    "MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation."
   ]
+ },
+ {
+  "id": "e-bench-texbat-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana bench texbat-windows <file> --out <scores.json>"
+  ]
+ },
+ {
+  "id": "e-bench-texbat-name",
+  "error": true,
+  "parts": [
+   "not a TEXBAT recording name: expected cleanStatic.bin, cleanDynamic.bin or ds1.bin to ds8.bin"
+  ]
+ },
+ {
+  "id": "e-bench-texbat-unpinned",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": no pinned size and SHA-256 in the B-iq manifest yet"
+  ]
+ },
+ {
+  "id": "e-bench-texbat-mismatch",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": SHA-256 ",
+   {
+    "var": "got"
+   },
+   " and ",
+   {
+    "var": "bytes"
+   },
+   " bytes do not match the pinned manifest; nothing was written"
+  ]
+ },
+ {
+  "id": "bench-cli-texbat-written",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "windows"
+   },
+   " windows)"
+  ]
+ },
+ {
+  "id": "bench-texbat-acquired",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": acquired PRNs ",
+   {
+    "var": "prns"
+   }
+  ]
+ },
+ {
+  "id": "bench-texbat-progress",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": ",
+   {
+    "var": "seconds"
+   },
+   " s done"
+  ]
  }
 ]

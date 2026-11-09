@@ -237,3 +237,12 @@ E5v2-9. **Scoring.**
   the same bytes whatever the thread count.
 - **Effect on what is measured.** This is how a receiver meets an attack: it is locked before the spoofer starts,
   and it keeps tracking through the takeover.
+
+### Amendment to E5v2-6, before any TEXBAT byte is read (9 November 2026)
+
+- **What happened.** The first computation of the thresholds stopped: at least one of the 64 synthetic windows did
+  not acquire. A 1 ms acquisition at 45 dB-Hz gives peak ratios of about 3.6 to 4.1 against the 2.5 threshold, so
+  an unlucky noise draw can fall below it. The reading had no rule for this case.
+- **The rule.** A synthetic window that does not acquire is excluded from the threshold set, and the number
+  excluded is reported. The thresholds are the 99th percentiles over the windows that acquire.
+- No TEXBAT byte had been read.

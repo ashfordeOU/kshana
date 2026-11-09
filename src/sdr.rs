@@ -596,14 +596,52 @@ pub fn track(
     cfg: &TrackConfig,
     n_epochs: usize,
 ) -> Vec<CorrelatorDump> {
+    let mut st = TrackState::from_acquisition(acq, if_hz);
+    track_continue(iq, code, &mut st, fs_hz, cfg, n_epochs)
+}
+
+/// The loop state of [`track`], carried between calls by [`track_continue`] so one PRN can be
+/// tracked through a recording read window by window.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct TrackState {
+    /// Code phase (chips) at the start of the next epoch.
+    pub code_phase_chips: f64,
+    /// Carrier frequency (Hz): the IF plus the tracked Doppler.
+    pub carrier_freq_hz: f64,
+    /// Carrier phase (rad) at the start of the next epoch.
+    pub carrier_phase_rad: f64,
+}
+
+impl TrackState {
+    /// The state [`track`] starts from after acquisition.
+    pub fn from_acquisition(acq: &Acquisition, if_hz: f64) -> Self {
+        Self {
+            code_phase_chips: acq.code_phase_chips,
+            carrier_freq_hz: if_hz + acq.doppler_hz,
+            carrier_phase_rad: 0.0,
+        }
+    }
+}
+
+/// [`track`] from a carried state: the same loop and arithmetic, with the state updated in
+/// place so the next call continues where this one stopped. Epoch times are from this call's
+/// first sample.
+pub fn track_continue(
+    iq: &[Cf64],
+    code: &CaCode,
+    st: &mut TrackState,
+    fs_hz: f64,
+    cfg: &TrackConfig,
+    n_epochs: usize,
+) -> Vec<CorrelatorDump> {
     let spe = (fs_hz / 1000.0).round() as usize; // samples per 1 ms epoch
     if spe == 0 {
         return Vec::new();
     }
     let epoch_dur = spe as f64 / fs_hz;
-    let mut code_phase = acq.code_phase_chips;
-    let mut carrier_freq = if_hz + acq.doppler_hz;
-    let mut carrier_phase = 0.0_f64;
+    let mut code_phase = st.code_phase_chips;
+    let mut carrier_freq = st.carrier_freq_hz;
+    let mut carrier_phase = st.carrier_phase_rad;
     let mut dumps = Vec::with_capacity(n_epochs);
 
     for e in 0..n_epochs {
@@ -662,6 +700,11 @@ pub fn track(
         carrier_phase += TAU * carrier_freq * epoch_dur + cfg.pll_phase_gain * pll;
         carrier_phase = carrier_phase.rem_euclid(TAU);
     }
+    *st = TrackState {
+        code_phase_chips: code_phase,
+        carrier_freq_hz: carrier_freq,
+        carrier_phase_rad: carrier_phase,
+    };
     dumps
 }
 
