@@ -6278,14 +6278,14 @@ seg-65122c2bb1fc = de { "104" } validadas
 seg-2998c6fa20d6 = de { "79" } validadas
 seg-4b3ab6095c65 = de { "56" } validadas
 
-seg-1127d4b9d3c0 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-7ccfb90a1b22 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-6ceb5c40e820 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-3049f77a1f2b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-db20582b2d1e = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-b7a6adb6c48d = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-11b283cf9156 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
+seg-322243e4b2ce = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
 
-seg-d507dcf1a970 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-c81354db10ba = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-cb2cb710b147 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-a036eba668b8 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

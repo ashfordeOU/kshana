@@ -91,9 +91,9 @@ seg-47d596393831 = Real events
 seg-5630c799cec1 = Where every trace comes from
 
 # text
-# c1: 62a2fa7
+# c1: 77ee2bc
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-defecb149c74 = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-83124d433ad9 = <b>Campaign:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-9a86ef058d27 = Open in Kshana Studio
@@ -117,9 +117,9 @@ seg-f18f76c10709 = <s1><a1>Report</a1><a2>JSON</a2><a3>TOML</a3></s1>
 seg-a0ef302e2458 = Copy command
 
 # text
-# c1: 62a2fa7
+# c1: 77ee2bc
 # c2: constellation-multi-gnss-coverage.toml
-seg-3a88568574d8 = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-d0311672298c = <b>Orbits:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-f2d2f2263e63 = The console, the three cards and the log replay one chained run of { "6" } phases and { "18" } member runs on its { "10" } s grid (T+{ "01" }:{ "16" }:{ "10" } of mission time). The orbits are the { "102" } satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual { "0.0034" }°), radii compressed for display. Links are drawn to satellites above the constellation run's { "10" }° mask ({ "25" }° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
@@ -382,9 +382,9 @@ seg-84a1bf0122ab = T+{ "00" }:{ "00" }:{ "00" } → T+{ "01" }:{ "16" }:{ "10" }
 seg-dc2eb6c3c2a4 = PL = protection level · AL = alert limit · INS = inertial navigation system
 
 # text
-# c1: 62a2fa7
+# c1: 77ee2bc
 # c2: campaign-jam-spoof-holdover-integrity.toml
-seg-706afacecd46 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-92bb1f3f7822 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
 # text
 seg-4051fcd29291 = One engine for the whole failure chain.

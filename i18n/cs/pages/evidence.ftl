@@ -4147,14 +4147,14 @@ seg-65122c2bb1fc = z { "104" } ověřeno
 seg-2998c6fa20d6 = z { "79" } ověřeno
 seg-4b3ab6095c65 = z { "56" } ověřeno
 
-seg-1127d4b9d3c0 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-7ccfb90a1b22 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-6ceb5c40e820 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-3049f77a1f2b = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-db20582b2d1e = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-b7a6adb6c48d = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-11b283cf9156 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+seg-322243e4b2ce = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
 
-seg-d507dcf1a970 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-c81354db10ba = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-cb2cb710b147 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-a036eba668b8 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu

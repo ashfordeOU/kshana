@@ -720,8 +720,8 @@ seg-56bf1281e330 = En registrert økt med kshana-mcp-serveren (Model Context Pro
 
 seg-24d919eaaba3 = { "176" } av { "405" } funksjoner stemmer med uavhengige eksterne referanser; resten er merket modellert, høyt og tydelig.
 
-seg-defecb149c74 = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+seg-83124d433ad9 = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
 
-seg-3a88568574d8 = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-d0311672298c = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-706afacecd46 = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
+seg-92bb1f3f7822 = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }

@@ -838,4 +838,4 @@ seg-9b505908a6e2 = Kshana <b>ei ohjaa radiolaitteistoa eikä lähetä mitään</
 
 seg-ceb2de75e2f4 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Ilmainen: { "53" } MCP-työkalua, run_scenariosta export_oem-työkaluun.
 
-seg-660b3d0d4413 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-5c86fa79a863 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua

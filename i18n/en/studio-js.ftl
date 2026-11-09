@@ -11427,43 +11427,52 @@ js-ssv-y-position-log = position, metres (log)
 # 2026-10-01-studio-rebuild/lib/ssv.mjs:168
 js-ssv-y-signals-all = signals in view, all constellations
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:132
 js-t35data-ai-q-bench-export = Export a scenario's motion and events for a laboratory simulator
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:133
 js-t35data-ai-q-compliance-rows = Which public-framework rows do these runs support evidence for?
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:125
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:130
 js-t35data-ai-q-evidence-pack = Check or make an evidence pack of a trust event
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:124
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
 js-t35data-ai-q-interference-route = Where has GNSS looked degraded, and how much of this route is in it?
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:129
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:134
 js-t35data-ai-q-iq-recordings = GNSS IQ recordings (scene, acquire, track, front end, campaigns)
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:131
 js-t35data-ai-q-osnma-satellites = Which Galileo satellites' navigation data does this receiver stream authenticate (OSNMA)?
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:121
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
 js-t35data-ai-q-run-scenario = Run or explain a PNT scenario (orbits, GNSS, timing, fusion, lunar)
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:123
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:128
 js-t35data-ai-q-training-nmea = I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:122
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:127
 js-t35data-ai-q-trustworthy-log = Was this receiver log, or this vessel's NMEA, trustworthy, and when did it stop being?
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:126
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:131
 js-t35data-ai-tool-osnma-satellites = none on MCP: use osnma_verify (the OSNMA card here, WebAssembly), kshana osnma verify (CLI) or kshana.osnma_verify (Python)
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+js-t35data-card-connect-title = Kshana Connect: receiver and monitoring exports as observations
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+js-t35data-card-connect-what = Maps any CSV, TSV, JSON or JSON Lines export to a kshana.obs/1 observation file through a mapping file, with no code. It follows growing logs and reads MQTT, NATS and WebSocket feeds. A set of test vectors checks every mapping and built-in reader byte for byte, and the adapter registry lists the adapters in the repository, each marked [example].
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+js-t35data-card-connect-why = Its feeds hold network connections and follow files on disk, which a page does not do. The check reads the repository's test vectors.
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
 js-t35data-card-evidence-create-title = Create an evidence pack
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
 js-t35data-card-evidence-create-what = Signs a window of a receiver log and what the engine computed from it, so anyone can check that nothing was changed afterwards. The Studio verifies packs.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
 js-t35data-card-evidence-create-why = Signing needs a private key, which should not pass through a web page.
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:89
@@ -11475,22 +11484,22 @@ js-t35data-card-iq-what = Build a scene, acquire and track signals, sweep parame
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:91
 js-t35data-card-iq-why = A recording is gigabytes of samples. A page cannot hold it, and the commands that convert, extract and decimate rewrite recordings on disk.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:109
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:114
 js-t35data-card-land-title = Land-polygon download for the on-land AIS detector
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:110
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:115
 js-t35data-card-land-what = Fetches one pinned land file (Natural Earth, public domain) and checks its SHA-256. The map builder takes the land file as text instead.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:111
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:116
 js-t35data-card-land-why = It is the only command that opens a network connection, and it needs the system curl and an explicit flag.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:94
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
 js-t35data-card-marine-title = Marine integrations
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:95
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
 js-t35data-card-marine-what = A Signal K server plugin and OpenCPN through gate-mode NMEA over TCP put the trust score on software boaters already run; a reference build puts it on a small computer next to the receiver.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:96
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
 js-t35data-card-marine-why = They are consumers of the running live process and of its TCP gate: deployments on the boat's computer.
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:84
@@ -11502,13 +11511,13 @@ js-t35data-card-telemetry-what = Turns the trust stream (score, band, reasons) i
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:86
 js-t35data-card-telemetry-why = It is a process that serves metrics and sends to your monitoring systems, so it runs next to the receiver, not in a page.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:99
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:104
 js-t35data-card-training-stream-title = Training streams to a TCP or UDP address
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:100
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:105
 js-t35data-card-training-stream-what = Sends a generated training stream to a bridge simulator or a chart plotter in real time or faster. The Studio's training page generates the same text and lets you download it.
 
-# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:101
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:106
 js-t35data-card-training-stream-why = Sending to a network address is something a browser page does not do. The stream is text only and never for a vessel's live navigation systems.
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:77
@@ -11642,6 +11651,12 @@ js-t35data-page-training = Training debrief
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:18
 js-t35data-page-trust = Maritime trust
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:98
+js-t35data-sample-connect-adapters = The adapter registry
+
+# 2026-10-01-studio-rebuild/lib/tools35-data.mjs:98
+js-t35data-sample-connect-check = The test-vector check
 
 # 2026-10-01-studio-rebuild/lib/tools35-data.mjs:93
 js-t35data-sample-iq-help = The IQ command list

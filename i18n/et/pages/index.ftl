@@ -1139,8 +1139,8 @@ seg-56bf1281e330 = Salvestatud seanss kshana-mcp serveriga (Model Context Protoc
 
 seg-24d919eaaba3 = { "176" } võimekust { "405" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
 
-seg-defecb149c74 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-83124d433ad9 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
 
-seg-3a88568574d8 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+seg-d0311672298c = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
 
-seg-706afacecd46 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+seg-92bb1f3f7822 = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }

@@ -4118,14 +4118,14 @@ seg-65122c2bb1fc = z { "104" } sprawdzonych
 seg-2998c6fa20d6 = z { "79" } sprawdzonych
 seg-4b3ab6095c65 = z { "56" } sprawdzonych
 
-seg-1127d4b9d3c0 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-7ccfb90a1b22 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-6ceb5c40e820 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-3049f77a1f2b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-db20582b2d1e = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-b7a6adb6c48d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-11b283cf9156 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+seg-322243e4b2ce = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-d507dcf1a970 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-c81354db10ba = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-cb2cb710b147 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-a036eba668b8 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

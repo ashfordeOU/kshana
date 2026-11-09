@@ -1,0 +1,7 @@
+PASS  connect mapping: android-raw
+PASS  connect mapping: monitor-api
+PASS  built-in reader: iec61162-450
+PASS  built-in reader: nmea
+PASS  built-in reader: rinex 4.00 observations
+PASS  connect mapping: timing-monitor
+6 of 6 vectors pass

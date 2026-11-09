@@ -838,4 +838,4 @@ seg-e1acd19a6ac6 = Jämför utgåvorna
 
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "53" } MCP-verktyg, från run_scenario till export_oem.
 
-seg-660b3d0d4413 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-5c86fa79a863 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

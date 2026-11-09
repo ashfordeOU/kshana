@@ -194,6 +194,12 @@ seg-334ea28e861d = <s1>Receiver protocols read</s1><s2>Read only, throughout: no
 seg-23e0706ca5eb = <s1>Kshana Station</s1><s2>A Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream…</s2>
 
 # text
+seg-2e1b6ea4588b = <s1>Kshana Connect: mapping files</s1><s2>A mapping file (kshana.connect/1, TOML) tells Kshana how to read an export it has no reader for, and turns…</s2>
+
+# text
+seg-193c6271df2b = <s1>Adapter registry</s1><s2>An adapter teaches Kshana to read a device's or a logger's export, by configuration only.</s2>
+
+# text
 seg-9df595768906 = <s1>Interference observatory: method</s1><s2>One product per UTC day and region, from one open aircraft-position archive.</s2>
 
 # text

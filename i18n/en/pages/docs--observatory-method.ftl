@@ -187,7 +187,7 @@ seg-436af9f16feb = <b>No ground truth.</b> The observatory has no external oracl
 seg-5c4966f0166d = <b>Sensitivity of the subject.</b> Maps of this kind are political. The observatory states a method, a delay and a vocabulary, and nothing else; it does not name states or actors, and it does not publish in real time.
 
 # text
-seg-a6d0b8d580f5 = <s1>Previous</s1>Kshana Station
+seg-9fd83447aa7d = <s1>Previous</s1>Adapter registry
 
 # text
 seg-3137b7595e59 = <s1>Next</s1>Interference observatory: results
