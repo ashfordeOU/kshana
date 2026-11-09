@@ -1242,8 +1242,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/planner.rs": {
-   "count": 1,
-   "reason": "machine value: the placement method name in the output (exhaustive or greedy)"
+   "count": 2,
+   "reason": "machine value: the placement method name in the output (exhaustive, greedy or greedy+exchange) and the search option's values (B1a v2, 9 November 2026)"
   },
   "src/pvt.rs": {
    "count": 52,
