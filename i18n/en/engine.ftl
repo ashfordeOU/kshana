@@ -905,6 +905,11 @@ engine-attitude-budget-attitude-budget-km-kg-gg = attitude-budget: { $altitude_k
 
 engine-e-bench-cli-pinned-source-without-hash = source { $name } is pinned but its file { $rel } has no SHA-256
 
+engine-e-bench-texbat-usage = usage: kshana bench texbat-windows <file> --out <scores.json>
+engine-e-bench-texbat-name = not a TEXBAT recording name: expected cleanStatic.bin, cleanDynamic.bin or ds1.bin to ds8.bin
+engine-e-bench-texbat-unpinned = { $name }: no pinned size and SHA-256 in the B-iq manifest yet
+engine-e-bench-texbat-mismatch = { $name }: SHA-256 { $got } and { $bytes } bytes do not match the pinned manifest; nothing was written
+engine-bench-cli-texbat-written = wrote { $path } ({ $windows } windows)
 engine-e-bench-cli-malformed-sha256 = { $rel }: the manifest's SHA-256 is not 64 lowercase hexadecimal digits
 
 engine-bench-cli-needs-value = { $name } needs a value

@@ -16,6 +16,7 @@
 pub mod cli;
 pub mod site;
 pub mod task_e;
+pub mod texbat;
 pub mod tasks;
 
 use std::collections::BTreeMap;

@@ -330,6 +330,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         }
         "manifest" => manifest(rest),
         "verify-manifest" => verify_manifest(rest),
+        "texbat-windows" => texbat_windows(rest),
         "validate" => {
             let files = check(rest, &[], true)?;
             if files.is_empty() {
@@ -712,6 +713,30 @@ fn manifest(args: &[String]) -> Result<i32, BenchError> {
     });
     write(Path::new(need(args, "--out")?), &pretty(&doc))?;
     println!("{}", crate::t!("bench-cli-folders", n = dirs.len()));
+    Ok(0)
+}
+
+/// `kshana bench texbat-windows <file> --out <scores.json>` (B4a E5 v2, E5v2-8): the window scores of
+/// one TEXBAT recording, checked against the pinned hash; nothing is written on a mismatch.
+fn texbat_windows(args: &[String]) -> Result<i32, BenchError> {
+    let pos = check(args, &["--out"], true)?;
+    let [path] = pos.as_slice() else {
+        return Err(BenchError(crate::terr!("e-bench-texbat-usage")));
+    };
+    let out = PathBuf::from(need(args, "--out")?);
+    let doc = super::texbat::score_file(std::path::Path::new(path)).map_err(BenchError)?;
+    let text = serde_json::to_string(&doc)
+        .map_err(|e| BenchError(e.to_string()))?
+        + "\n";
+    std::fs::write(&out, text).map_err(|e| BenchError(e.to_string()))?;
+    println!(
+        "{}",
+        crate::t!(
+            "bench-cli-texbat-written",
+            path = out.display().to_string(),
+            windows = doc["windows"].as_array().map_or(0, Vec::len)
+        )
+    );
     Ok(0)
 }
 
