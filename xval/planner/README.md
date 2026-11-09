@@ -141,3 +141,18 @@ oracle's `map` mode gives v1's bytes, and its new `map2` mode adds two keys.
       with that field ignored, are the check.
 19. **The run.** The v2 test (`tests/planner_v2.rs`) runs once after the code is committed, and `RESULTS-v2.md`
     records it. A miss is pinned. v1's misses stay published.
+
+### Amendment to readings 13 and 15, before any v2 planner code (9 November 2026)
+
+This amends my own readings of the same day. It was found while reading the planner code, before any v2 code was
+written or run.
+- **Reading 13, output.** The flag is written only where it is true: `"ill_conditioned": true` on a cell whose
+  `κ` exceeds 1e8. The key is absent elsewhere. With "false otherwise", every map's bytes would change, including
+  the v1 map pinned for P5 (`engine_circle.json.gz`) on every surface. With this amendment, a map with no
+  ill-conditioned cell keeps v1's bytes.
+- **Reading 15, how v1 stays reproducible.** The planner input gains an optional `search` field:
+  - `"greedy+exchange"`, the default and the v2 method;
+  - `"greedy"`, v1's method.
+
+  v1's P4 test sets `"greedy"` explicitly, so its recorded greedy miss still reproduces. Up to the exhaustive limit,
+  `search` has no effect.
