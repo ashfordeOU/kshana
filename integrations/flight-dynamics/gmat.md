@@ -53,7 +53,7 @@ spiceypy.kclear()
 GMAT runs the SPK script, every step.
 
 ```python
-spk_report, spk_log = gm.run_spk(files["spk"], OUT / "gmat", written.epochs[0], len(ets))
+spk_report, spk_log = gm.run_spk(files["spk"], OUT / "gmat", written.epochs[0], ets[0], len(ets))
 print(spk_log[-2000:])
 ```
 
@@ -61,7 +61,7 @@ GMAT runs the OEM script on the OEM as written. `oem_report` is `None` when GMAT
 with `gm.OEM_V2_REFUSAL`.
 
 ```python
-oem_report, oem_log = gm.run_oem(files["oem"], OUT / "gmat", len(ets))
+oem_report, oem_log = gm.run_oem(files["oem"], OUT / "gmat", ets[0], len(ets))
 oem_refused = oem_report is None
 print("OEM refused by GMAT:" if oem_refused else "OEM run by GMAT:", oem_log[-2000:])
 ```

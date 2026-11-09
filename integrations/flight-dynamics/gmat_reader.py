@@ -5,7 +5,11 @@ GMAT reads a trajectory through its ephemeris propagators: `CCSDS-OEM` for an OE
 with Lagrange polynomials) and `SPK` for a SPICE kernel. This adapter writes one GMAT script per
 file, so that one leg's failure cannot stop the other. In each, a spacecraft loads Kshana's file and
 GMAT steps it through the file at 600 s, which is the trajectory's own node spacing, starting at the
-file's first epoch. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
+file's first epoch. Each step stops at the next node's TDB epoch (a `TDBModJulian` stop condition),
+not after a fixed elapsed time: GMAT counts elapsed time in A.1 seconds, and over the file's 30 days
+the TDB−TT periodic term drifts 600 A.1 seconds away from 600 TDB seconds, by about 0.28 ms by the
+end. The second run of the job, stepping by elapsed time, ended 3.2e-9 day past the kernel's
+coverage and GMAT halted. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
 at 16 significant digits:
 
 - the OEM in a Moon-centred ICRF frame (its `REF_FRAME` is ICRF);
@@ -27,7 +31,8 @@ arithmetic are part of what is compared.
 
 Written without running GMAT in the session that wrote it; GMAT's binaries run only in the workflow
 job, whose logs drive the fixes. The first run reached the OEM leg and stopped there with
-OEM_V2_REFUSAL, before the SPK leg; the SPK leg's first run is the next job.
+OEM_V2_REFUSAL, before the SPK leg. The second ran the SPK leg to its last step, which stepped
+past the kernel's coverage (see above); the epoch stop condition is the fix, tested by the next job.
 """
 from __future__ import annotations
 
@@ -55,13 +60,14 @@ OemReport.Filename = '{out}/gmat_oem.txt';
 OemReport.Precision = 16;
 OemReport.WriteHeaders = false;
 
-Create Variable k;
+Create Variable k t;
 
 BeginMissionSequence;
 
 Report OemReport OemSat.TDBModJulian OemSat.LunaICRF.X OemSat.LunaICRF.Y OemSat.LunaICRF.Z OemSat.LunaICRF.VX OemSat.LunaICRF.VY OemSat.LunaICRF.VZ;
 For k = 1:{steps};
-   Propagate OemProp(OemSat);
+   t = {mjd0} + k * {step_days};
+   Propagate OemProp(OemSat) {{OemSat.TDBModJulian = t}};
    Report OemReport OemSat.TDBModJulian OemSat.LunaICRF.X OemSat.LunaICRF.Y OemSat.LunaICRF.Z OemSat.LunaICRF.VX OemSat.LunaICRF.VY OemSat.LunaICRF.VZ;
 EndFor;
 """
@@ -88,13 +94,14 @@ SpkReport.Filename = '{out}/gmat_spk.txt';
 SpkReport.Precision = 16;
 SpkReport.WriteHeaders = false;
 
-Create Variable k;
+Create Variable k t;
 
 BeginMissionSequence;
 
 Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 For k = 1:{steps};
-   Propagate SpkProp(SpkSat);
+   t = {mjd0} + k * {step_days};
+   Propagate SpkProp(SpkSat) {{SpkSat.TDBModJulian = t}};
    Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 EndFor;
 """
@@ -122,6 +129,13 @@ def gregorian(label: str) -> str:
     return f"{int(d):02d} {MONTHS[int(m) - 1]} {y} {hh}:{mm}:{float(ss):06.3f}"
 
 
+def tdb_mjd(et: float) -> float:
+    """TDB seconds past J2000 as GMAT's TDB modified Julian date, rounded once."""
+    from decimal import Decimal
+
+    return float(Decimal(repr(et)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000)))
+
+
 def _console(script: Path, log_name: str) -> tuple[int, str]:
     """Run one script in GmatConsole; returns (exit code, console output), the output also saved."""
     p = subprocess.run(["./GmatConsole", "--run", str(script.resolve())], cwd=gmat_root() / "bin",
@@ -131,27 +145,29 @@ def _console(script: Path, log_name: str) -> tuple[int, str]:
     return p.returncode, log
 
 
-def run_spk(bsp: Path, out: Path, first_label: str, n: int, naif: int = -1176,
+def run_spk(bsp: Path, out: Path, first_label: str, first_et: float, n: int, naif: int = -1176,
             step_s: float = 600.0) -> tuple[Path, str]:
     """GMAT's SPK propagator through Kshana's kernel. Returns (report, console output); raises if
     GMAT fails."""
     out.mkdir(parents=True, exist_ok=True)
     script = out / "kshana_c7_spk.script"
     script.write_text(SPK_SCRIPT.format(bsp=Path(bsp).resolve(), out=out.resolve(), naif=naif,
-                                        start_gregorian=gregorian(first_label), step=step_s, steps=n - 1))
+                                        start_gregorian=gregorian(first_label), step=step_s, steps=n - 1,
+                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0)))
     code, log = _console(script, "gmat_console_spk.log")
     if code != 0:
         raise RuntimeError(f"GmatConsole exited with {code} on the SPK script:\n{log[-4000:]}")
     return out / "gmat_spk.txt", log
 
 
-def run_oem(oem: Path, out: Path, n: int, step_s: float = 600.0) -> tuple[Path | None, str]:
+def run_oem(oem: Path, out: Path, first_et: float, n: int, step_s: float = 600.0) -> tuple[Path | None, str]:
     """GMAT's CCSDS-OEM propagator through Kshana's OEM, as written. Returns (report, console output)
     when GMAT runs it, and (None, console output) when GMAT refuses the file with OEM_V2_REFUSAL.
     Any other failure raises."""
     out.mkdir(parents=True, exist_ok=True)
     script = out / "kshana_c7_oem.script"
-    script.write_text(OEM_SCRIPT.format(oem=Path(oem).resolve(), out=out.resolve(), step=step_s, steps=n - 1))
+    script.write_text(OEM_SCRIPT.format(oem=Path(oem).resolve(), out=out.resolve(), step=step_s, steps=n - 1,
+                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0)))
     code, log = _console(script, "gmat_console_oem.log")
     if code == 0:
         return out / "gmat_oem.txt", log
