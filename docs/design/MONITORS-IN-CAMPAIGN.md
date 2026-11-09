@@ -102,3 +102,16 @@ became one NWPR window (0.020 s for the default design; readings in `xval/d8b-cn
 
 The median time to detect fell from 1.001 s to about 0.2 s; what remains is the sliding estimator's own averaging, which
 no stride removes. §4 stands as the record at the 1 s cadence. Details: the D8b `RESULTS.md`.
+
+## 6. The timing bound with the estimator's delay (D8b row 8 v2, 2026-11-09)
+
+Under `docs/design/evidence/d8b-iq-timing-campaign-rerun/PREREGISTRATION-v2.md`, M3's bound became `D_est + 2 × ARL1 ×
+stride`, where `D_est` is the noise-free estimator-and-CUSUM delay (readings in `xval/d8b-cn0-bound-v2/`). The detector
+and the stride are unchanged.
+
+| bar | measured | verdict |
+|---|---|---|
+| M3 v2 | 18 of 18 detected on each of three seed sets; median time to detect 0.2208 s, 0.2008 s, 0.2207 s against median bounds 0.0868 s, 0.0864 s, 0.0660 s | **NOT MET** (timing) |
+| M4 | 0 C/N0 false alarms on all three | MET |
+
+§4 and §5 stand. Details: the D8b `RESULTS.md`.

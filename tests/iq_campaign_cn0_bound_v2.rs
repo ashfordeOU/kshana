@@ -5,7 +5,7 @@
 //! stepped campaign at the default stride, on seeds 200-205 and 100200-100205 (seen) and
 //! 200200-200205 (fresh); M4 on the same.
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! PIN-SCOPE: see `m3_v2_m4_recorded_numbers`. PIN-EXCLUDES: output hashes.
 
 #[path = "support/monitor_campaign.rs"]
 mod support;
@@ -168,7 +168,7 @@ fn oracle_check(name: &str, dump: Vec<serde_json::Value>) -> f64 {
 }
 
 #[test]
-#[cfg_attr(debug_assertions, ignore = "IQ campaign: run in release")]
+#[ignore = "FINDING (scored run 2026-11-09, D8b row 8 v2): M3 v2 NOT MET on its timing clause on all three seed sets. 18 of 18 detected on each (P_md = 0, met); median time to detect 0.2208 s (v1-registered), 0.2008 s (v1-fresh), 0.2207 s (v2-fresh) against median bounds D_est + 2 x ARL1 x stride of 0.0868 s, 0.0864 s, 0.0660 s (largest bound 0.0916 s, so informative). Oracle worst difference 0. M4 holds (0 false alarms). Recorded in docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md; pinned by m3_v2_m4_recorded_numbers. Run in release with --ignored"]
 fn m3_v2_and_m4_on_seen_and_fresh_seeds() {
     let (upd, per_win, wins) = design();
     assert_eq!(
@@ -207,4 +207,29 @@ fn m3_v2_and_m4_on_seen_and_fresh_seeds() {
         }
     }
     assert!(miss.is_empty(), "NOT MET: {miss:?}");
+}
+
+/// Pins the scored run (2026-11-09) of `m3_v2_and_m4_on_seen_and_fresh_seeds`.
+///
+/// PIN-SCOPE:    detections, the median time to detect, the median and the largest bound (to
+///               5e-4 s) and the M4 count on the three seed sets.
+/// PIN-EXCLUDES: output hashes.
+#[test]
+#[cfg_attr(debug_assertions, ignore = "IQ campaign: run in release")]
+fn m3_v2_m4_recorded_numbers() {
+    let (upd, per_win, _) = design();
+    let dt = per_win as f64 * upd;
+    for (name, seed0, mt, mb, mx) in [
+        ("v1-registered", 200u64, 0.2208, 0.0868, 0.0913),
+        ("v1-fresh", 100_200, 0.2008, 0.0864, 0.0913),
+        ("v2-fresh", 200_200, 0.2207, 0.0660, 0.0916),
+    ] {
+        let cells = stepped(name, seed0, "[monitors]\n");
+        let (det, missed, t, b, maxb, _) = m3_v2(&cells, dt);
+        assert_eq!((det, missed.len()), (18, 0), "{name}");
+        for (got, want) in [(t, mt), (b, mb), (maxb, mx)] {
+            assert!((got - want).abs() < 5e-4, "{name}: {got} vs {want}");
+        }
+        assert_eq!(m4(name, &cells, dt), (0, 0), "{name}");
+    }
 }
