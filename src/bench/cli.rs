@@ -725,9 +725,7 @@ fn texbat_windows(args: &[String]) -> Result<i32, BenchError> {
     };
     let out = PathBuf::from(need(args, "--out")?);
     let doc = super::texbat::score_file(std::path::Path::new(path)).map_err(BenchError)?;
-    let text = serde_json::to_string(&doc)
-        .map_err(|e| BenchError(e.to_string()))?
-        + "\n";
+    let text = serde_json::to_string(&doc).map_err(|e| BenchError(e.to_string()))? + "\n";
     std::fs::write(&out, text).map_err(|e| BenchError(e.to_string()))?;
     println!(
         "{}",
