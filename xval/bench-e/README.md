@@ -142,3 +142,82 @@ outside the repository.
 
 The first engine run on the Jammertest splits is the scored run. Its numbers go to
 `docs/design/evidence/b4a-benchmark-classes/RESULTS.md`, with misses pinned by a test.
+
+## E5 v2 readings (9 November 2026, before any E5 v2 code and before any TEXBAT byte is read)
+
+These read `docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION-E5-v2.md`, signed off on 9 November 2026.
+- **The sources** are the two documents the TEXBAT page links:
+  - Humphreys, Bhatti, Shepard and Wesson, "The Texas Spoofing Test Battery", ION GNSS 2012
+    (`tbION_for_distribution.pdf`);
+  - "TEXBAT ds7 and ds8" (`texbat_ds7_and_ds8.pdf`).
+
+  The owner downloaded both in a browser. They are kept privately, not in this repository; only the facts below are
+  transcribed.
+- **The owner's hashes so far.** Two TEXBAT files have been fetched and hashed by the owner, `ds1.bin` and
+  `cleanStatic.bin`, and no Kshana code has read either.
+
+E5v2-1. **Recordings and classes.**
+- `nominal`: `cleanStatic.bin` and `cleanDynamic.bin`, every window.
+- `spoofing`: `ds1.bin` to `ds8.bin`.
+- The file names and the class of each are fixed here. A file whose SHA-256 differs from the pinned manifest is
+  refused, not scored.
+
+E5v2-2. **Spoofing onset (truth).** What the sources state:
+- **ds1 to ds6:** "No spoofing signals were injected during the first 100 seconds or so" (2012 paper, section
+  "Recording procedure").
+- **ds1 (switch):** "a disruption began between 90 and 100 seconds".
+- **ds2:** "the initial takeover (at around 80 seconds)".
+- **ds7 and ds8:** spoofing is injected over 110–130 s: "0-110 No spoofing present … 110-130 A spoofing signal is
+  injected".
+
+One onset is used for all eight: **t₀ = 110 s.** It is the latest stated or implied start, so no window that is
+labelled `spoofing` can precede the spoofer. The cost is fewer spoofing windows: those between the true onset and
+110 s are excluded, neither class. No spoofing recording is excluded entirely.
+
+E5v2-3. **Windows.**
+- **The data.** Complex int16 little-endian I/Q (I then Q), 25 Msps, complex baseband, so the IF is 0 Hz (the
+  format `examples/texbat_probe.rs` reads).
+- **The windows.** Window `w` covers samples `[w·25 000 000, (w + 1)·25 000 000)`, that is 1 s, starting at the
+  file's first sample. A trailing partial window is dropped.
+- **Which windows count.** Every window of a nominal recording counts. For a spoofing recording, only windows with
+  `w ≥ 110` count.
+
+E5v2-4. **The front end per window.** Each window is processed on its own:
+- `iqif::FeatureStageConfig::texbat_like()`: 25 Msps, IF 0, Doppler ±6 kHz in 250 Hz steps, acquisition threshold
+  2.5, 1 000 one-ms epochs, the default tracking loops;
+- acquisition on the window's first millisecond for PRNs 1 to 32, then tracking for the window.
+
+E5v2-5. **Statistics per tracked PRN**, both independent of the signal's scale. Epochs 1 to 20 are dropped (loop
+pull-in), so each uses epochs 21 to 1 000.
+- `S` = the mean of the early-minus-late imbalance `|E − L| / (E + L)` (`CorrelatorDump::el_imbalance`).
+- `P` = the standard deviation of `20·log10|prompt|` (dB). This is a scale-free measure of prompt-power fluctuation;
+  the authentic and counterfeit signals interacting makes the prompt power oscillate.
+
+E5v2-6. **Thresholds, fixed on synthetic data only.**
+- **The data.** `τ_S` and `τ_P` are the 99th percentiles (nearest-rank) of `S` and `P` over a synthetic clean set:
+  - `sdr::synth_if` at 25 Msps baseband, amplitude 1;
+  - noise `σ = √(3·fs / (4·10^(45/10)))`, which is `C/N0` = 45 dB-Hz for that generator. Each component is
+    `σ·(u₁ + u₂)` with `uᵢ` uniform on (−1, 1), so the complex noise power is `4σ²/3`;
+  - 64 windows: PRNs 1 to 32, each at carrier offsets +1 500 Hz and −2 500 Hz; code phase `(17·prn) mod 1023`
+    chips; generator seed = window index + 1;
+  - each window run through E5v2-4 and E5v2-5, tracking the PRN it carries.
+- **When.** The thresholds are computed by a committed test and written into the baseline config before any
+  TEXBAT byte is read.
+
+E5v2-7. **The window score.**
+- `max over tracked PRNs of max(S/τ_S, P/τ_P)`.
+- A window with no tracked PRN scores `+∞`: no authentic tracking is itself an alarm.
+- Only the ranking enters the AUC.
+
+E5v2-8. **The owner's command** (`kshana bench texbat-windows <file> --out <file>.scores.json`):
+1. streams the file's SHA-256 and size and refuses a mismatch with the manifest;
+2. writes, per window, the start second and the score (and `S`, `P` and the PRN count), with no IQ;
+3. the owner sends the ten JSON files, and they are committed.
+
+E5v2-9. **Scoring.**
+- **AUC:** one-vs-rest AUC of `spoofing` over all counted windows of the ten files (Mann-Whitney, ties half). `+∞`
+  ranks above every finite score, and ties among `+∞` count half.
+- **Minimum:** each class needs at least 2 recordings and 300 counted windows. With about 420 to 480 windows per
+  file this is expected to hold, and the count is reported.
+- **Also reported, without a bar:** the recording-level AUC (each recording's median window score, 10 units).
+- **Scored once.**
