@@ -640,7 +640,35 @@ fn lock_events<'a>(unit: &'a FitUnit, grace: f64) -> Vec<LockEv<'a>> {
     v
 }
 
-fn cn0_points(unit: &FitUnit, recs: &[usize], lag_s: f64) -> Vec<Cn0Point> {
+/// The fit point of bin `b` of event `e` (baseline `c0`), modelled as `cf` says: at the
+/// bin's stated J/S, `cn0_lag_s` earlier along the profile (v1), or as the estimator's reading
+/// (`cn0_model = "estimator-response"`, v2).
+fn point_for(
+    unit: &FitUnit,
+    e: &super::campaign::SatEvent,
+    js_db: f64,
+    c0: f64,
+    measured: f64,
+    weight: f64,
+    cf: &CampaignFitCfg,
+) -> Cn0Point {
+    let response = match cf.cn0_model {
+        super::schema::Cn0Model::Stated => None,
+        super::schema::Cn0Model::EstimatorResponse => e
+            .response_windows_js(js_db, cf.cn0_windows, cf.cn0_window_s)
+            .map(|w| (std::sync::Arc::from(w), cf.coherent_s)),
+    };
+    Cn0Point {
+        c0_dbhz: c0,
+        js_db: e.lagged_js_db(js_db, cf.cn0_lag_s),
+        cn0_dbhz: measured,
+        weight,
+        chip_rate_hz: unit.chip_rate_hz,
+        response,
+    }
+}
+
+fn cn0_points(unit: &FitUnit, recs: &[usize], cf: &CampaignFitCfg) -> Vec<Cn0Point> {
     let mut v = Vec::new();
     for &ri in recs {
         for e in &unit.recordings[ri].events {
@@ -652,13 +680,7 @@ fn cn0_points(unit: &FitUnit, recs: &[usize], lag_s: f64) -> Vec<Cn0Point> {
             }
             for b in e.bins.iter().filter(|b| !b.censored) {
                 if let Some(m) = b.measured_cn0_dbhz {
-                    v.push(Cn0Point {
-                        c0_dbhz: c0,
-                        js_db: e.lagged_js_db(b.js_db, lag_s),
-                        cn0_dbhz: m,
-                        weight: b.n as f64,
-                        chip_rate_hz: unit.chip_rate_hz,
-                    });
+                    v.push(point_for(unit, e, b.js_db, c0, m, b.n as f64, cf));
                 }
             }
         }
@@ -885,12 +907,12 @@ struct UnitCtx<'a> {
     cfg: Cn0FitCfg,
     sc: &'a LabFitScenario,
     lock: bool,
-    lag_s: f64,
+    cf: CampaignFitCfg,
 }
 
 impl UnitCtx<'_> {
     fn fit(&self, recs: &[usize], mode: Option<QMode>, warm: Option<&OneFit>) -> Option<OneFit> {
-        let pts = cn0_points(self.unit, recs, self.lag_s);
+        let pts = cn0_points(self.unit, recs, &self.cf);
         let mode = mode.unwrap_or_else(|| cn0::choose_mode(&pts, &self.cfg).0);
         let c = cn0::fit_in_mode(&pts, &self.cfg, mode)?;
         if !(c.q.is_finite() && c.delta_db.is_finite()) {
@@ -1045,7 +1067,7 @@ fn fit_unit(
         })
         .collect();
     let all: Vec<usize> = (0..m).collect();
-    let pts_all = cn0_points(unit, &all, cf.cn0_lag_s);
+    let pts_all = cn0_points(unit, &all, cf);
     let counts = DataCounts {
         recordings: m,
         satellites: unit
@@ -1101,7 +1123,7 @@ fn fit_unit(
         },
         sc,
         lock: cf.lock_models,
-        lag_s: cf.cn0_lag_s,
+        cf: *cf,
     };
     let Some(full) = ctx.fit(&all, None, None) else {
         report.status = "insufficient data: not fitted (no uncensored C/N0 bin)".into();
@@ -1168,13 +1190,8 @@ fn fit_unit(
         for e in &r.events {
             for b in &e.bins {
                 let fitted = e.baseline_cn0_dbhz.map(|c0| {
-                    cn0::model_cn0_dbhz(
-                        c0,
-                        e.lagged_js_db(b.js_db, cf.cn0_lag_s),
-                        full.cn0.q,
-                        full.cn0.delta_db,
-                        unit.chip_rate_hz,
-                    )
+                    point_for(unit, e, b.js_db, c0, f64::NAN, 0.0, cf)
+                        .model(full.cn0.q, full.cn0.delta_db)
                 });
                 residuals.push(ResidualRow {
                     unit: ui,
@@ -1539,7 +1556,7 @@ fn holdout(ctx: &UnitCtx, cf: &CampaignFitCfg, seed: u64) -> HoldoutReport {
         };
         let boot = ctx.bootstrap(&train, &f, cf.bootstrap, seed ^ ((h as u64 + 1) << 32));
         // Training box for bins: J/S and baseline ranges of the uncensored training bins.
-        let tp = cn0_points(unit, &train, cf.cn0_lag_s);
+        let tp = cn0_points(unit, &train, cf);
         let rng_of = |g: &dyn Fn(&Cn0Point) -> f64| {
             tp.iter()
                 .map(g)
@@ -1555,19 +1572,14 @@ fn holdout(ctx: &UnitCtx, cf: &CampaignFitCfg, seed: u64) -> HoldoutReport {
             .filter(|e| e.rec != h)
             .map(|e| (coords(e.c0, e.ev), unit.recordings[e.rec].recording.clone()))
             .collect();
-        let held = cn0_points(unit, &[h], cf.cn0_lag_s);
+        let held = cn0_points(unit, &[h], cf);
         let (mut b_err, mut b_in, mut b_int) = (Vec::new(), 0, 0);
         for p in &held {
-            let pred = cn0::model_cn0_dbhz(p.c0_dbhz, p.js_db, f.cn0.q, f.cn0.delta_db, rc);
+            let pred = p.model(f.cn0.q, f.cn0.delta_db);
             let per: Vec<(f64, &[f64])> = boot
                 .reps
                 .iter()
-                .map(|r| {
-                    (
-                        cn0::model_cn0_dbhz(p.c0_dbhz, p.js_db, r.cn0.q, r.cn0.delta_db, rc),
-                        r.cn0_res.as_slice(),
-                    )
-                })
+                .map(|r| (p.model(r.cn0.q, r.cn0.delta_db), r.cn0_res.as_slice()))
                 .collect();
             let inside =
                 pi90(&mut rng, &per).is_some_and(|[a, b]| p.cn0_dbhz >= a && p.cn0_dbhz <= b);
@@ -1757,6 +1769,14 @@ pub fn analyse(data: &CampaignData, sc: &LabFitScenario) -> Result<LabFitIqRepor
         return Err(crate::terr!(
             "e-iq-labfit-iqfit-campaign-fit-cn0-lag",
             lag = cf.cn0_lag_s
+        ));
+    }
+    if cf.cn0_windows == 0 || !(cf.cn0_window_s > 0.0 && cf.coherent_s > 0.0) {
+        return Err(crate::terr!(
+            "e-iq-labfit-iqfit-campaign-fit-cn0-estimator",
+            windows = cf.cn0_windows,
+            window = cf.cn0_window_s,
+            coherent = cf.coherent_s
         ));
     }
     if !(cf.q_bounds[0] > 0.0 && cf.q_bounds[1] > cf.q_bounds[0]) {

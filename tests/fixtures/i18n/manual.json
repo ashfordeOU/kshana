@@ -7744,6 +7744,25 @@
   ]
  },
  {
+  "id": "e-iq-labfit-iqfit-campaign-fit-cn0-estimator",
+  "error": true,
+  "parts": [
+   "campaign_fit.cn0_windows, cn0_window_s and coherent_s must be positive (got ",
+   {
+    "var": "windows"
+   },
+   ", ",
+   {
+    "var": "window"
+   },
+   ", ",
+   {
+    "var": "coherent"
+   },
+   ")"
+  ]
+ },
+ {
   "id": "e-iq-labfit-iqfit-campaign-fit-cn0-lag",
   "error": true,
   "parts": [

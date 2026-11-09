@@ -401,6 +401,14 @@ fn scenario_lag(out: &Path, bootstrap: usize, lock_models: bool, lag: f64) -> St
     } else {
         String::new()
     };
+    scenario_extra(out, bootstrap, lock_models, &lag_line)
+}
+
+/// D8a row 6 v2: the estimator-response model with the campaigns' estimator settings.
+const RESPONSE_LINES: &str =
+    "cn0_model = \"estimator-response\"\ncn0_windows = 50\ncn0_window_s = 0.02\ncoherent_s = 0.001\n";
+
+fn scenario_extra(out: &Path, bootstrap: usize, lock_models: bool, lag_line: &str) -> String {
     format!(
         r#"kind = "iq-labfit"
 name = "synthetic campaign"
@@ -804,6 +812,7 @@ fn diagnose_bar_a_campaign() {
                         cn0_dbhz: m,
                         weight: b.n as f64,
                         chip_rate_hz: RC,
+                        response: None,
                     })
                 })
             })
@@ -984,4 +993,174 @@ fn d8a_row6_scoring_of_the_committed_batches_is_the_recorded_one() {
         serde_json::from_str(include_str!("../xval/d8a-labfit-lag/score_output.json")).unwrap();
     assert_eq!(got, want, "the recorded row 6 scoring moved");
     assert_eq!(got["met_on_re_run"], false);
+}
+
+fn fit_response(
+    out: &Path,
+    bootstrap: usize,
+    lock_models: bool,
+) -> kshana::iq::labfit::LabFitIqOutput {
+    let sc: kshana::iq::labfit::LabFitScenario =
+        toml::from_str(&scenario_extra(out, bootstrap, lock_models, RESPONSE_LINES)).unwrap();
+    kshana::iq::labfit::run_campaign_scenario(&sc).unwrap()
+}
+
+/// D8a row 6 v2 (`xval/d8a-labfit-response/README.md`): one batch of its plan, named by
+/// `KSHANA_D8A_ROW6_V2_BATCH` (01 to 18). Raw fit lines, truths and (batch 01) the oracle dump
+/// go to `xval/d8a-labfit-response/raw/`; only line counts and SHA-256 are printed.
+#[test]
+#[ignore = "D8a row 6 v2 batch run: release, KSHANA_D8A_ROW6_V2_BATCH=NN, --ignored"]
+fn d8a_row6_v2_batch() {
+    use sha2::{Digest, Sha256};
+    // Reading 2: the estimator settings are the campaigns' loop design.
+    let lc = kshana::iq::track::LoopConfig::default();
+    assert_eq!(
+        (lc.cn0_windows, lc.cn0_window_periods, lc.coherent_periods),
+        (50, 20, 1)
+    );
+    let n: u32 = std::env::var("KSHANA_D8A_ROW6_V2_BATCH")
+        .expect("KSHANA_D8A_ROW6_V2_BATCH")
+        .parse()
+        .unwrap();
+    assert!((1..=18).contains(&n));
+    let dir = format!(
+        "{}/xval/d8a-labfit-response/raw",
+        env!("CARGO_MANIFEST_DIR")
+    );
+    std::fs::create_dir_all(&dir).unwrap();
+    let (mut fits, mut truths) = (Vec::new(), Vec::new());
+    let truth_line = |seed: u64| {
+        let t = truth_of(seed);
+        serde_json::json!({"seed": seed, "delta_eff": t.delta_db - 10.0 * t.q.log10()}).to_string()
+    };
+    let a_line = |f: &kshana::iq::labfit::LabFitIqOutput, set: &str, seed: u64, model: &str| {
+        let u = unit0(f);
+        let c = u.cn0_model.as_ref().unwrap();
+        let h = &u.holdout.as_ref().unwrap().interpolation;
+        let mut cov = serde_json::Map::new();
+        cov.insert("bins".into(), serde_json::json!(h.bins_pi90_coverage));
+        for g in &h.events {
+            cov.insert(
+                g.model.as_str().replace('-', "_"),
+                serde_json::json!(g.pi90_coverage),
+            );
+        }
+        let t = u.threshold.as_ref().unwrap();
+        let mut d = serde_json::Map::new();
+        for v in &t.via_model {
+            d.insert(
+                v.model.as_str().replace('-', "_"),
+                serde_json::json!([v.median_at_lost_events_db, t.direct.median_js_db]),
+            );
+        }
+        serde_json::json!({"kind": "a", "set": set, "seed": seed, "model": model,
+            "delta_eff": c.delta_eff_db.estimate, "ci95": c.delta_eff_db.ci95, "span_db": c.span_db,
+            "c": cov, "d": d, "direct_losses": t.direct.n})
+        .to_string()
+    };
+    if n <= 3 {
+        let (set, seed) = match n {
+            1 => ("v1-registered", A_SEED),
+            2 => ("v1-fresh", A_SEED + 100_000),
+            _ => ("v2-fresh", A_SEED + 200_000),
+        };
+        let out = build_campaign(
+            &format!("row6v2-a-{seed}"),
+            &recipe(seed, A_RECORDINGS),
+            truth_of(seed),
+            4,
+            "m2m4",
+        );
+        if n == 1 {
+            fits.push(a_line(&fit(&out, 1000, true), set, seed, "stated"));
+        }
+        let f = fit_response(&out, 1000, true);
+        fits.push(a_line(&f, set, seed, "estimator-response"));
+        if n == 1 {
+            // Reading 6: every bin of the campaign, for oracle.py --check.
+            let data = kshana::iq::labfit::campaign::load(&out).unwrap();
+            let u = unit0(&f);
+            let c = u.cn0_model.as_ref().unwrap();
+            let q = match &c.q_eff {
+                kshana::iq::labfit::iqfit::QReport::Stated { value, .. } => *value,
+                other => panic!("Q must be stated: {other:?}"),
+            };
+            let delta = c.delta_db.estimate;
+            let mut bins = Vec::new();
+            for r in &data.units[0].recordings {
+                for e in &r.events {
+                    let (Some(c0), Some(p)) = (e.baseline_cn0_dbhz, e.power.as_ref()) else {
+                        continue;
+                    };
+                    let pts: Vec<[f64; 2]> = p
+                        .points
+                        .iter()
+                        .map(|pt| [pt[0], p.js_db_at(pt[0])])
+                        .collect();
+                    let interp = match p.interpolation {
+                        kshana::iq::campaign::conditions::Interpolation::Step => "step",
+                        kshana::iq::campaign::conditions::Interpolation::Linear => "linear",
+                    };
+                    for b in &e.bins {
+                        let w = e.response_windows_js(b.js_db, 50, 0.02);
+                        let eng = match &w {
+                            None => {
+                                kshana::iq::labfit::cn0::model_cn0_dbhz(c0, b.js_db, q, delta, RC)
+                            }
+                            Some(w) => kshana::iq::labfit::cn0::estimator_reading(
+                                c0, w, q, delta, RC, 0.001,
+                            ),
+                        };
+                        bins.push(
+                            serde_json::json!({"profile": {"interp": interp, "points": pts},
+                            "onset_s": e.onset_s, "offset_s": e.offset_s, "js_db": b.js_db,
+                            "c0_dbhz": c0, "q": q, "delta_db": delta, "engine_dbhz": eng}),
+                        );
+                    }
+                }
+            }
+            let dump = serde_json::json!({"windows": 50, "window_s": 0.02, "coherent_s": 0.001,
+                "chip_rate_hz": RC, "bins": bins});
+            std::fs::write(format!("{dir}/oracle-dump-01.json"), dump.to_string()).unwrap();
+            eprintln!("ROW6V2 oracle-dump-01.json: {} bins", bins.len());
+        }
+        truths.push(truth_line(seed));
+        let _ = std::fs::remove_dir_all(out.parent().unwrap());
+    } else {
+        let (set, base) = match n {
+            4..=8 => ("v1-registered", 7_000),
+            9..=13 => ("v1-fresh", 107_000),
+            _ => ("v2-fresh", 207_000),
+        };
+        let first = 10 * ((n - 4) % 5) as u64;
+        for s in first..first + 10 {
+            let seed = base + s;
+            let out = build_campaign(
+                &format!("row6v2-b-{seed}"),
+                &recipe(seed, 5),
+                truth_of(seed),
+                4,
+                "m2m4",
+            );
+            let f = fit_response(&out, 1000, false);
+            let c = unit0(&f).cn0_model.clone().unwrap();
+            fits.push(
+                serde_json::json!({"kind": "b", "set": set, "seed": seed, "model": "estimator-response",
+                    "delta_eff": c.delta_eff_db.estimate, "ci95": c.delta_eff_db.ci95})
+                .to_string(),
+            );
+            truths.push(truth_line(seed));
+            let _ = std::fs::remove_dir_all(out.parent().unwrap());
+        }
+    }
+    for (name, lines) in [("batch", &fits), ("truth", &truths)] {
+        let text = lines.join("\n") + "\n";
+        std::fs::write(format!("{dir}/{name}-{n:02}.jsonl"), &text).unwrap();
+        let h = Sha256::digest(text.as_bytes());
+        let hex: String = h.iter().map(|b| format!("{b:02x}")).collect();
+        eprintln!(
+            "ROW6V2 {name}-{n:02}.jsonl: {} lines, sha256 {hex}",
+            lines.len()
+        );
+    }
 }
