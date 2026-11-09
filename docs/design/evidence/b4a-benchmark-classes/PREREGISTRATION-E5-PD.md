@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B4a E5-PD (0.41.x): power-and-distortion spoofing detection on TEXBAT
 
-**Status: PROPOSED, 9 November 2026. Waiting for the owner's sign-off.** No score of any kind has been seen:
-neither E5 v2's nor this one's. Numbers marked *proposed* are fixed at sign-off. After sign-off, bars may be
+**Status: SIGNED. Proposed 9 November 2026 and signed off by the owner the same day, as drafted.** No score of any
+kind had been seen: neither E5 v2's nor this one's. Numbers marked *proposed* are fixed at sign-off. After sign-off, bars may be
 tightened, never loosened.
 
 ## Why a second entry
