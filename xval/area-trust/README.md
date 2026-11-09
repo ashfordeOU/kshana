@@ -138,3 +138,88 @@ Written on 7 November 2026, before the harness was run.
     - **The bar:** p95 ≤ 5 s and maximum ≤ 10 s, on each path separately.
     - **Background alerts:** alerts from the real background are delivered too, but they are not events and
       are not scored.
+
+## v2 readings (9 November 2026)
+
+The v2 pre-registration is `docs/design/evidence/b5-area-trust/PREREGISTRATION-v2.md`, signed off on 9 November 2026.
+These readings are written before any v2 engine code and before any v2 data is selected or fetched. Readings 1 to 17
+above, the v1 oracle and the v1 results stay as they are. A v1 reading not changed below still holds for v2. The
+coordinator answered three questions before these readings were written (W2, W5, W8).
+
+W1. **The v2 rule.** With `N` live stations, `n_D` in `Degraded` or worse, `n_U` in `Untrusted` and
+    `k = max(2, ⌈N/3⌉)`, in this order:
+    - `UNKNOWN` if `N < 2`;
+    - `UNTRUSTED` if `n_U ≥ k`;
+    - `DEGRADED` if `n_D ≥ k` or `n_U ≥ m`, with `m = 2` for `N ≤ 6` and `m = 1` for `N > 6`;
+    - `TRUSTED` otherwise.
+
+    Readings 1 to 3 and 5 to 7 (grid, station state, order, hysteresis, alert, stale count) are unchanged.
+W2. **What the rule changes (coordinator's answer, 9 November).**
+    - For `N ≤ 6`, `k = 2 = m`. A second Untrusted station therefore meets the `UNTRUSTED` clause first, so the
+      `n_U ≥ m` clause never decides a state when `N ≤ 6`.
+    - For `N > 6`, `m = 1` is v1's rule exactly.
+    - So v2 differs from v1 in one thing: with 6 or fewer stations, **one Untrusted station alone moves nothing**
+      (unless another station is also in alarm, which makes `n_D ≥ 2`).
+    - Two Untrusted stations move the area, to `UNTRUSTED`.
+W3. **Selecting the rule (coordinator's answer to how v2 is made explicit).**
+    - A `kshana.area-stations/1` document selects v2 with the field `"area_rule": "v2"`. Without the field it is v1,
+      and a v1 document's output keeps its exact bytes.
+    - The command line, Python and WebAssembly read the document, so the same field selects v2 on every surface.
+    - The live path (`AreaLive`, T3) takes the rule as an explicit constructor argument.
+W4. **The v2 oracle** is `oracle_v2.py`. It is a copy of `oracle.py` with W1's `m` clause, and it reads the
+    `area_rule` field (v1 without it). It is committed with these readings, before any v2 engine code. `oracle.py`
+    is not changed.
+W5. **T2's added checks (coordinator's answer, 9 November).** The pre-registration says an event that puts two
+    stations in `Untrusted` in an area of 6 or fewer "raises `DEGRADED`".
+    - Its own rule order gives `UNTRUSTED` for that case (W2), so the literal word conflicts with the rule.
+    - The check is read as "raises an area alert, to `DEGRADED` or worse". That keeps its stated intent: two stations
+      agreeing do move the area.
+    - This is a disclosed reading, not a rule change.
+
+    Over the events of the replays with `N ≤ 6` (seeds 4101 and 4102):
+    - an event whose peak has exactly one station `Untrusted` and one station in alarm in all
+      (`peak_untrusted = 1`, `peak_in_alarm = 1`) raises no area alert between its onset and its end;
+    - an event whose peak has two `Untrusted` stations (`peak_untrusted = 2`) raises an area alert, to `DEGRADED`
+      or worse, in that window.
+
+    The rest of T2 is v1's, with the expected state from W1:
+    - every event with `peak_in_alarm ≥ k` raises its expected alert;
+    - no event with fewer raises `UNTRUSTED`.
+W6. **T1 and T5.** On the seven committed replays (seeds 4101 to 4107) and the two boundary documents, each with
+    `"area_rule": "v2"` added:
+    - **T1:** the engine's timeline equals `oracle_v2.py`'s, every grid second;
+    - **T5:** the command line, Python and WebAssembly give those same bytes.
+
+    The v1 timelines of the same documents (without the field) stay byte-identical to their committed v1
+    expectations.
+W7. **T4: the fortnight.**
+    - **Days:** the first 14 consecutive UTC days starting on or after 20 January 2025 on which all eight 3-hour Kp
+      values are at most 4.000, from the GFZ file fetched on the day of selection. `4.000` counts; `4.333` does not.
+    - **Calibration and scoring:** the first day calibrates every station; the other 13 are scored.
+    - **Selection by script:** the selection is made by a script and committed, with the GFZ file's SHA-256, before
+      any observation file is fetched.
+W8. **T4: stations, coordinates and navigation.**
+    - **Stations:** reading 10's rule, applied anew on the v2 days. It may or may not give the Madrid cluster again.
+    - **Coordinates:** reading 9.
+    - **Navigation:** B8 reading 8, per day: whichever of BKG's `BRDC00IGS_R` and `BRDC00WRD_R` merged daily files
+      has more GPS records.
+    - **Per-station evidence and time:** readings 11 and 12.
+    - Every file is fetched by script, with its SHA-256 in a v2 manifest.
+    - **If any file the rule needs cannot be fetched**, the work stops and the coordinator is asked. Nothing is
+      substituted. Any refusal is recorded.
+W9. **T4 bars.** As v1:
+    - `DEGRADED` or worse: at most 1 alert per area-day;
+    - `UNTRUSTED`: at most 0.1 alerts per area-day;
+    - area-days are clusters × 13 scored days.
+
+    An alert counts on the UTC day of its grid second, on scored days only.
+W10. **T3 (coordinator's answer, 9 November).**
+     - T3 is re-run as written, on the v2 rule, with v1's harness and readings 13 to 17 unchanged.
+     - v1's background is Madrid's 2025-01-06 to 01-19 data, as in reading 14.
+     - There are 4 runs of 55 events at 100 stations, pooled to at least 200 events.
+     - For `N = 100`, the v2 rule is v1's (W2).
+     - The runs are made one after another, as in v1. Latency is wall-clock, so runs made in parallel would share the
+       box and could not be byte-identical to a sequential run.
+W11. **Scoring once.** T1, T2, T3, T4 and T5 are scored once, after the engine code and the T4 selection are
+     committed, and recorded in `RESULTS-v2.md` as MET or NOT MET. A miss is pinned by a test. v1 stays published,
+     and a v2 MET does not undo v1's NOT MET.
