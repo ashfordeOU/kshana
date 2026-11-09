@@ -271,3 +271,130 @@ pub fn p99(mut v: Vec<f64>) -> f64 {
     let k = ((0.99 * v.len() as f64).ceil() as usize).clamp(1, v.len());
     v[k - 1]
 }
+
+/// B4a E5-PD (`docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION-E5-PD.md`): the power
+/// threshold `τ_ΔP`, dB.
+pub const TAU_DP_DB: f64 = 1.0;
+/// E5-PD: windows `0..BASELINE_WINDOWS` set each recording's power baseline and are not scored.
+pub const BASELINE_WINDOWS: u64 = 60;
+
+/// The E5-PD window score: `max(ΔP/τ_ΔP, max S/τ_S, max P/τ_P)` over the PRN statistics, `+∞` when
+/// no PRN is tracked.
+pub fn pd_score(dp_db: f64, stats: &[(f64, f64)], tau: (f64, f64)) -> f64 {
+    if stats.is_empty() {
+        return f64::INFINITY;
+    }
+    (dp_db / TAU_DP_DB).max(window_score(stats, tau))
+}
+
+/// The median of `v` (mean of the two middle values for an even count).
+fn median(mut v: Vec<f64>) -> f64 {
+    v.sort_by(f64::total_cmp);
+    let n = v.len();
+    if n == 0 {
+        f64::NAN
+    } else if n % 2 == 1 {
+        v[n / 2]
+    } else {
+        0.5 * (v[n / 2 - 1] + v[n / 2])
+    }
+}
+
+/// E5-PD for one recording: stream it once (hash checked against the pinned manifest at the end;
+/// nothing is returned on a mismatch), take each 1 s window's in-band power in dB, and combine it with
+/// the distortion statistics of the recording's E5 v2 score document `windows`.
+pub fn pd_file(path: &std::path::Path, windows: &Value) -> Result<Value, String> {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or_else(|| crate::terr!("e-bench-texbat-name"))?
+        .to_string();
+    let class = class_of(&name).ok_or_else(|| crate::terr!("e-bench-texbat-name"))?;
+    let (want_bytes, want_sha) = pinned(&name)
+        .ok_or_else(|| crate::terr!("e-bench-texbat-unpinned", name = name.as_str()))?;
+    if windows["file"].as_str() != Some(name.as_str())
+        || windows["sha256"].as_str() != Some(want_sha.as_str())
+    {
+        return Err(crate::terr!(
+            "e-bench-texbat-pd-windows",
+            name = name.as_str()
+        ));
+    }
+    let win_bytes = FS_HZ as usize * 4;
+    let mut f = std::fs::File::open(path).map_err(|e| e.to_string())?;
+    let mut hasher = Sha256::new();
+    let mut total: u64 = 0;
+    let mut buf = vec![0u8; win_bytes];
+    let mut power_db: Vec<f64> = Vec::new();
+    loop {
+        let mut filled = 0;
+        while filled < win_bytes {
+            let k = f.read(&mut buf[filled..]).map_err(|e| e.to_string())?;
+            if k == 0 {
+                break;
+            }
+            filled += k;
+        }
+        hasher.update(&buf[..filled]);
+        total += filled as u64;
+        if filled < win_bytes {
+            break;
+        }
+        let mut acc = 0.0f64;
+        for c in buf.chunks_exact(4) {
+            let i = f64::from(i16::from_le_bytes([c[0], c[1]]));
+            let q = f64::from(i16::from_le_bytes([c[2], c[3]]));
+            acc += i * i + q * q;
+        }
+        let mean = acc / (win_bytes / 4) as f64;
+        power_db.push(10.0 * crate::portable_math::PortableFloat::plog10(mean.max(1e-300)));
+    }
+    let got = hex::encode(hasher.finalize());
+    if got != want_sha || total != want_bytes {
+        return Err(crate::terr!(
+            "e-bench-texbat-mismatch",
+            name = name.as_str(),
+            got = got.as_str(),
+            bytes = total
+        ));
+    }
+    let base_n = (BASELINE_WINDOWS as usize).min(power_db.len());
+    let baseline = median(power_db[..base_n].to_vec());
+    let tau = THRESHOLDS;
+    let src = windows["windows"].as_array().cloned().unwrap_or_default();
+    let out: Vec<Value> = power_db
+        .iter()
+        .enumerate()
+        .map(|(w, &p)| {
+            let w64 = w as u64;
+            let stats: Vec<(f64, f64)> = src
+                .get(w)
+                .and_then(|x| x["prns"].as_array())
+                .into_iter()
+                .flatten()
+                .filter_map(|p| Some((p["s"].as_f64()?, p["p"].as_f64()?)))
+                .collect();
+            let dp = p - baseline;
+            let counted = w64 >= BASELINE_WINDOWS && (class == "nominal" || w64 >= ONSET_S);
+            json!({
+                "start_s": w64,
+                "counted": counted,
+                "power_db": p,
+                "dp_db": dp,
+                "score": finite_or_null(pd_score(dp, &stats, tau)),
+            })
+        })
+        .collect();
+    Ok(json!({
+        "schema": "kshana-bench-texbat-pd/1",
+        "file": name,
+        "class": class,
+        "bytes": total,
+        "sha256": got,
+        "onset_s": ONSET_S,
+        "baseline_windows": BASELINE_WINDOWS,
+        "baseline_db": baseline,
+        "thresholds": {"tau_s": tau.0, "tau_p": tau.1, "tau_dp_db": TAU_DP_DB},
+        "windows": out,
+    }))
+}

@@ -14701,5 +14701,22 @@
    },
    " s done"
   ]
+ },
+ {
+  "id": "e-bench-texbat-pd-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana bench texbat-pd <file> --windows <file>.scores.json --out <file>.pd.json"
+  ]
+ },
+ {
+  "id": "e-bench-texbat-pd-windows",
+  "error": true,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": the --windows file is not the E5 v2 score file of this recording"
+  ]
  }
 ]
