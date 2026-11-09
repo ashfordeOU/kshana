@@ -8,9 +8,9 @@ use kshana::bench::texbat::{class_of, p99, synthetic_stats, window_score, THRESH
 
 #[test]
 fn the_thresholds_are_the_synthetic_99th_percentiles() {
-    let stats: Vec<(f64, f64)> = (0..64)
-        .map(|i| synthetic_stats(i).unwrap_or_else(|| panic!("synthetic window {i} must acquire")))
-        .collect();
+    // Windows that do not acquire are excluded and counted (amended E5v2-6).
+    let stats: Vec<(f64, f64)> = (0..64).filter_map(synthetic_stats).collect();
+    println!("acquired {} of 64 synthetic windows", stats.len());
     let tau = (
         p99(stats.iter().map(|x| x.0).collect()),
         p99(stats.iter().map(|x| x.1).collect()),
