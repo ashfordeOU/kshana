@@ -100,6 +100,28 @@ That node's epoch is then about 2 µs from the written one, and the report state
 the rule (every epoch the written one, no state further than SPICE's), that node is not carried; this
 is recorded as a GMAT time-representation finding, and the rule is not loosened.
 
+**The fourth run: every state reported, two adapter faults found.** The fourth run (Flight dynamics
+run 42549642686, at open commit b099de4ea) ran the SPK leg end to end: 4,321 of 4,321 states, 4,290
+epochs equal within the printed unit, the last node −1.73e-6 s, the others within 1.15e-6 s. Two
+faults in the adapter showed in the states:
+
+- The first row was GMAT's default spacecraft state, not the kernel's: the first report ran before
+  any propagation, and GMAT loads an ephemeris propagator's state only when it propagates. That row
+  alone made the worst difference 3.97e5 km and 7.24 km/s. The spacecraft now takes one 1e-12 s
+  step before the first report.
+- From the second row on, GMAT's positions were tens of metres from the written ones (node 1: +29.5,
+  +4.9, −13.7 m; node 2000: −50.3, −8.8, +24.3 m), with velocities within about 1e-8 km/s. GMAT reads
+  the spacecraft relative to the Earth, through the Moon of the planetary SPK it loads
+  (DE405AllPlanets.bsp), and subtracts the Moon of its own solar-system source (its DE405 reader);
+  the frame bias between ICRF and J2000 does not match the offsets. GMAT's solar system now reads
+  NAIF's de440s.bsp (SHA-256 `c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2`,
+  fetched and cached by the workflow) through SPICE, so that both Moons come from one ephemeris. If
+  the offsets remain, they are recorded as a GMAT finding with the per-node table, and the rule is
+  not changed.
+
+The notebook writes the per-node differences (epoch offset in seconds, GMAT minus written in km and
+km/s) to `gmat/spk_differences.csv` in the job's artifact.
+
 **The comparison through GMAT's report.** GMAT's states reach the notebook only through a text report
 of at most 16 significant digits, and a double needs 17. A stand-in that returns SPICE's own states,
 equal to SPICE in every value at 16 digits, fails the evaluating-tool rule as first written

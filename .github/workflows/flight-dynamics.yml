@@ -120,6 +120,8 @@ jobs:
     env:
       GMAT_TARBALL_SHA256: fe124b4a606b2e3b704a6fbb1c37b87598d5df0d18cb661c304b5f60074a7754
       GMAT_URL: https://sourceforge.net/projects/gmat/files/GMAT/GMAT-R2026a/gmat-ubuntu-x64-R2026a.tar.gz/download
+      DE440S_SHA256: c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2
+      DE440S_URL: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -141,6 +143,21 @@ jobs:
           mkdir -p ~/gmat
           tar xzf "$RUNNER_TEMP/gmat.tar.gz" -C ~/gmat
           rm "$RUNNER_TEMP/gmat.tar.gz"
+      - name: Cache NAIF's de440s.bsp (keyed on its SHA-256)
+        id: de440s-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/naif
+          key: de440s-c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2
+      - name: Fetch de440s.bsp and check its SHA-256
+        # GMAT's solar system reads it through SPICE, so that its Moon and the Moon in its SPK chain
+        # come from one ephemeris (integrations/flight-dynamics/gmat_reader.py, planetary_lines).
+        if: steps.de440s-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p ~/naif
+          curl -sSfL --retry 4 -o ~/naif/de440s.bsp "$DE440S_URL"
+          echo "$DE440S_SHA256  $HOME/naif/de440s.bsp" | sha256sum -c -
       - name: GMAT's runtime libraries
         run: sudo apt-get update && sudo apt-get install -y libgfortran5 libgomp1
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -153,6 +170,7 @@ jobs:
       - name: Run the GMAT notebook top to bottom
         env:
           GMAT_ROOT: /home/runner/gmat/GMAT/R2026a
+          GMAT_PLANETARY_SPK: /home/runner/naif/de440s.bsp
           KSHANA_FD_CLI_DIR: ${{ github.workspace }}/fd-inputs/cli
           KSHANA_FD_OUT: ${{ runner.temp }}/fd
         run: python integrations/flight-dynamics/run_notebooks.py gmat

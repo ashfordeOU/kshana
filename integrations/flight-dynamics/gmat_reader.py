@@ -12,7 +12,10 @@ end. The second run of the job, stepping by elapsed time, ended 3.2e-9 day past 
 coverage and GMAT halted. The last node is asked for LAST_NODE_MARGIN_S before the kernel's
 coverage end (read with SPICE), through a propagator whose step is LAST_STEP_SHORT_S short, so that
 GMAT never steps past the kernel (the third run, stopping at the end itself, still landed past it);
-the report states that node's epoch offset like every other. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
+the report states that node's epoch offset like every other. Before the first report the
+spacecraft takes one INIT_STEP_S step, so that GMAT holds the kernel's state rather than its default
+one. With `planetary_spk` (NAIF's de440s), GMAT's solar system is read through SPICE, so that its
+Moon and the Moon in its SPK chain agree. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
 at 16 significant digits:
 
 - the OEM in a Moon-centred ICRF frame (its `REF_FRAME` is ICRF);
@@ -77,7 +80,7 @@ For k = 1:{steps};
 EndFor;
 """
 
-SPK_SCRIPT = """
+SPK_SCRIPT = """{planetary}
 Create Spacecraft SpkSat;
 SpkSat.NAIFId = {naif};
 SpkSat.OrbitSpiceKernelName = {{'{bsp}'}};
@@ -89,6 +92,12 @@ SpkProp.Type = SPK;
 SpkProp.StepSize = {step};
 SpkProp.CentralBody = Luna;
 SpkProp.StartEpoch = FromSpacecraft;
+
+Create Propagator SpkPropInit;
+SpkPropInit.Type = SPK;
+SpkPropInit.StepSize = {init_step};
+SpkPropInit.CentralBody = Luna;
+SpkPropInit.StartEpoch = FromSpacecraft;
 
 Create Propagator SpkPropLast;
 SpkPropLast.Type = SPK;
@@ -109,6 +118,7 @@ Create Variable k t;
 
 BeginMissionSequence;
 
+Propagate SpkPropInit(SpkSat);
 Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 For k = 1:{inner_steps};
    t = {mjd0} + k * {step_days};
@@ -129,6 +139,12 @@ LAST_NODE_MARGIN_S = 2e-6
 #: but not past the kernel, whether or not GMAT shortens a step to land on an epoch stop. 600 A.1
 #: seconds differ from 600 TDB seconds by at most about 2e-7 s here.
 LAST_STEP_SHORT_S = 1e-6
+
+#: The one step taken before the first report, in seconds. Until a spacecraft on an ephemeris
+#: propagator is propagated, GMAT holds its default state, not the kernel's: the fourth run of the
+#: job (at open commit b099de4ea) reported that default state as the first node. A step this short
+#: loads the kernel's state at the first node and moves it by about 2e-12 km at most.
+INIT_STEP_S = 1e-12
 
 #: Significant digits of GMAT's reports: ReportFile's largest Precision. The comparison prints
 #: SPICE's evaluation at the same precision (NAMING.md, the 8-9 November amendment).
@@ -194,8 +210,19 @@ def _console(script: Path, log_name: str) -> tuple[int, str]:
     return p.returncode, log
 
 
+def planetary_lines(planetary_spk: Path | None) -> str:
+    """GMAT's solar system read through SPICE from `planetary_spk`, so that GMAT's Moon and the Moon
+    in its SPK chain (it reads the spacecraft relative to the Earth) come from one ephemeris. None
+    leaves GMAT's default source (its own DE405 reader), with which the fourth run of the job showed
+    tens of metres between the two Moons."""
+    if planetary_spk is None:
+        return ""
+    return (f"\nSolarSystem.EphemerisSource = 'SPICE';\n"
+            f"SolarSystem.SPKFilename = '{Path(planetary_spk).resolve()}';\n")
+
+
 def run_spk(bsp: Path, out: Path, first_label: str, first_et: float, n: int, naif: int = -1176,
-            step_s: float = 600.0) -> tuple[Path, str]:
+            step_s: float = 600.0, planetary_spk: Path | None = None) -> tuple[Path, str]:
     """GMAT's SPK propagator through Kshana's kernel. Returns (report, console output); raises if
     GMAT fails."""
     out.mkdir(parents=True, exist_ok=True)
@@ -204,6 +231,7 @@ def run_spk(bsp: Path, out: Path, first_label: str, first_et: float, n: int, nai
     script.write_text(SPK_SCRIPT.format(bsp=Path(bsp).resolve(), out=out.resolve(), naif=naif,
                                         start_gregorian=gregorian(first_label), step=step_s, inner_steps=n - 2,
                                         mjd_last=repr(last_node_mjd(end_et)), last_step=repr(step_s - LAST_STEP_SHORT_S),
+                                        planetary=planetary_lines(planetary_spk), init_step=repr(INIT_STEP_S),
                                         mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0),
                                         digits=REPORT_DIGITS))
     code, log = _console(script, "gmat_console_spk.log")
@@ -264,3 +292,20 @@ def epoch_offsets(texts: list[str], want_ets: list[float]) -> list[float]:
 
     return [float((Decimal(t) - (Decimal(repr(e)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000))))
                   * Decimal(86400)) for t, e in zip(texts, want_ets)]
+
+
+def write_differences(path: Path, texts: list[str], got: list[list[float]], want_ets: list[float],
+                      want: list[list[float]]) -> None:
+    """One CSV row per node: the reported epoch minus the written one (s), the state difference
+    (GMAT minus written, km and km/s) and both position norms, so that a gross difference shows its
+    pattern (an origin, a frame rotation, a time shift) in the artifact."""
+    import csv
+    import math
+
+    off = epoch_offsets(texts, want_ets)
+    with open(path, "w", newline="") as f:
+        out = csv.writer(f)
+        out.writerow(["node", "epoch_offset_s", "dx", "dy", "dz", "dvx", "dvy", "dvz", "r_gmat_km", "r_written_km"])
+        for i, (g, w) in enumerate(zip(got, want)):
+            d = [a - b for a, b in zip(g, w)]
+            out.writerow([i, repr(off[i]), *map(repr, d), repr(math.hypot(*g[:3])), repr(math.hypot(*w[:3]))])
