@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration D8a v2 (0.41.x): row 6, the lab fit with the C/N0 estimator's own response
 
-**Status: PROPOSED, 8 November 2026. Waiting for the owner's sign-off. No code or data for v2 before it.**
+**Status: Signed off by the owner on 9 November 2026, as drafted (proposed 8 November 2026). No code or data for v2 before this sign-off. Bars may be tightened after a run, never loosened.**
 
 ## Why a v2
 
