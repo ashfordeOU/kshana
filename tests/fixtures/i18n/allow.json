@@ -1554,8 +1554,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/verification.rs": {
-   "count": 2423,
-   "reason": "machine-document: the verification matrix (requirements, capabilities, modules, tests, oracles); the new lunar and mission-thread kinds add their rows"
+   "count": 2441,
+   "reason": "machine-document: the verification matrix (requirements, capabilities, modules, tests, oracles); the new lunar and mission-thread kinds add their rows; the four 0.41 MODELLED rows (VM-1ac0d984, VM-3c8cdeb7, VM-a074a1db, VM-22f8a601) and the D8 re-run findings add theirs"
   },
   "src/wasm.rs": {
    "count": 11,
