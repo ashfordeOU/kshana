@@ -1,0 +1,72 @@
+{
+  "manoeuvre_hours": [
+    180,
+    291,
+    659,
+    755,
+    1289,
+    1396,
+    1596,
+    1698
+  ],
+  "max_quiet_hour_miss_m": 7.861021232265604,
+  "model": "M1",
+  "runs": [
+    {
+      "samples": 181,
+      "start": 0
+    },
+    {
+      "samples": 111,
+      "start": 181
+    },
+    {
+      "samples": 368,
+      "start": 292
+    },
+    {
+      "samples": 96,
+      "start": 660
+    },
+    {
+      "samples": 534,
+      "start": 756
+    },
+    {
+      "samples": 107,
+      "start": 1290
+    },
+    {
+      "samples": 200,
+      "start": 1397
+    },
+    {
+      "samples": 102,
+      "start": 1597
+    },
+    {
+      "samples": 438,
+      "start": 1699
+    }
+  ],
+  "span": "G",
+  "threshold_m": 100.0,
+  "window_count": 3,
+  "windows": [
+    {
+      "name": "G1",
+      "start_index": 0,
+      "start_jd_tdb": 2460126.5
+    },
+    {
+      "name": "G2",
+      "start_index": 292,
+      "start_jd_tdb": 2460138.666666667
+    },
+    {
+      "name": "G3",
+      "start_index": 756,
+      "start_jd_tdb": 2460158.0
+    }
+  ]
+}
