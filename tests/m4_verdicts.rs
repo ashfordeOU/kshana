@@ -49,3 +49,48 @@ fn seed_1000_decision_is_deterministic_and_as_recorded() {
     .unwrap();
     assert_eq!(conf, want);
 }
+
+fn scored_v2() -> Value {
+    serde_json::from_str(
+        &std::fs::read_to_string("xval/m4-dark-vessel/scored-v2.json").expect("file"),
+    )
+    .expect("json")
+}
+
+/// M4 v2 (`RESULTS-v2.md`): seeds 2000-2009 at `M4Params::v2` (B1, B3, B5 MET; B2, B4 NOT MET, pinned).
+#[test]
+fn recorded_verdicts_v2() {
+    let s = scored_v2();
+    assert_eq!(s["m"], 3);
+    assert_eq!(s["c_m"], 5000.0);
+    assert_eq!(M4Params::v2().m, 3);
+    let m = &s["metrics"];
+    let pc = |c: &str, k: &str| m["per_class"][c][k].as_f64().expect("number");
+    assert!(m["false_alarm"].as_f64().unwrap() <= 0.01);
+    // B2 NOT MET, pinned: 1228 of 1400 (bar >= 0.95); precision >= 0.80.
+    assert!((pc("DARK", "recall") - 1228.0 / 1400.0).abs() < 1e-12 && pc("DARK", "recall") < 0.95);
+    assert!(pc("DARK", "precision") >= 0.80);
+    assert_eq!(pc("GAP", "recall"), 1.0);
+    assert_eq!(pc("IDENTITY-DUPLICATE", "recall"), 1.0);
+    // B4 NOT MET, pinned: 111 of 280 at 5 km (bar 0.85); 10, 20, 50 km below 0.98.
+    let r = |d: &str| m["offset_recall_by_km"][d]["recall"].as_f64().unwrap();
+    assert!((r("5") - 111.0 / 280.0).abs() < 1e-12 && r("5") < 0.85);
+    for d in ["10", "20", "50"] {
+        assert!(r(d) < 0.98, "{d}");
+    }
+}
+
+#[test]
+fn seed_2000_v2_decision_is_deterministic_and_as_recorded() {
+    let s = generate(2000);
+    let p = M4Params::v2();
+    let (a, b) = (decide(&s, &p), decide(&s, &p));
+    assert_eq!(a.class, b.class);
+    assert_eq!(a.dark_fix, b.dark_fix);
+    assert_eq!(a.taken, b.taken);
+    let conf = metrics(&decided_classes(&s, &a))["confusion"].clone();
+    let want: Value = serde_json::from_str(SEED_2000_V2).unwrap();
+    assert_eq!(conf, want);
+}
+
+const SEED_2000_V2: &str = "[[1600,0,0,0,0],[18,122,0,0,0],[0,0,60,0,0],[60,16,0,64,0],[0,0,0,0,60]]";

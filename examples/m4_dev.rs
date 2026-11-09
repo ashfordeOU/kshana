@@ -58,6 +58,15 @@ fn main() {
                 serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
             );
         }
+        Some("seed2") => {
+            let seed: u64 = a[1].parse().expect("seed");
+            let s = generate(seed);
+            let rows = decided_classes(&s, &decide(&s, &M4Params::v2()));
+            println!(
+                "{}",
+                serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
+            );
+        }
         Some("dev2") => {
             // v2 (R21, R24): seeds 20-29, m in {2, 3}.
             let scenes: Vec<_> = (20..30).map(generate).collect();
@@ -89,6 +98,6 @@ fn main() {
             }
             println!("{}", serde_json::to_string(&json!({"set": "scored-v2", "seeds": [2000, 2009], "m": p.m, "c_m": p.c_m, "redraws": redraws, "metrics": metrics(&rows)})).expect("json"));
         }
-        _ => eprintln!("usage: m4_dev dev|scored|seed N|dev2|scored2"),
+        _ => eprintln!("usage: m4_dev dev|scored|seed N|dev2|scored2|seed2 N"),
     }
 }
