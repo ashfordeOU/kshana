@@ -352,6 +352,25 @@ jobs:
           --test locator_power_difference_synthetic
           --test m4_generator
           --test m5_verdicts
+  b3a-v2-determinism:
+    # B3a v2, S4 as read in V12 (xval/locator-power-difference/README.md): the recorded gate rows
+    # reproduce bit for bit on Linux, macOS and Windows, in a debug build (they were recorded by a
+    # release build). Its own job, so a macOS or Windows difference shows as its own row.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+      - name: B3a v2 gate rows, bit for bit
+        run: cargo test --locked --test locator_power_difference_v2
+
   bench-speed:
     # Speed benchmarks per platform (roadmap L10c; docs/SIZING.md). The run is uploaded as an
     # artifact. Each workload is also a ratio to a calibration workload timed in the same run, the
