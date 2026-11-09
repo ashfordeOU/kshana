@@ -63,15 +63,15 @@ seg-93df99196244 = SPK, OEM
 seg-1995ae726000 = <c1/>, job <c2/>
 
 # text
-seg-5c2dbdc7f056 = GMAT R2026a (not yet run: written without running GMAT, its CI job is the first test)
+seg-fffe2c68aa80 = GMAT R2026a (runs only in its CI job)
 
 # text
-seg-6d1355906f3a = OEM, SPK
+seg-44f1d6aa0445 = SPK, not carried: GMAT evaluates at the epochs it can represent, within { "1.19" } mm (a time-representation finding, <a1>RESULTS</a1>). The OEM is refused: R2026a reads an OEM of version { "2.0" } only in its TESTING mode
 
 # text
 # c1: flight-dynamics.yml
 # c2: gmat
-seg-4533628cb580 = <c1/>, job <c2/> (continue-on-error until green)
+seg-201ab90d6403 = <c1/>, job <c2/> (continue-on-error: red by design, see RESULTS)
 
 # text
 # c1: kshana_fd.py
@@ -100,7 +100,7 @@ seg-453c7d9d656f = <b>Worst error in half-units of the last digit written,</b> a
 seg-8b76c756a1e4 = A file is <b>carried</b> when every value is the written double, or the tool's own conversion of it, and every epoch is the written one.
 
 # text
-seg-fbefc16a1153 = Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For those, the states at the node epochs are compared with the written states, beside SPICE's own evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written one and no state is further from the written one than SPICE's evaluation is. The report marks these rows "evaluated, not read".
+seg-b9dbaa84b945 = Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For those, the states at the node epochs are compared with the written states, beside SPICE's own evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written one and no state is further from the written one than SPICE's evaluation is. The report marks these rows "evaluated, not read". For a tool whose only readout is a fixed-precision text report (GMAT, { "16" } significant digits), SPICE's evaluation is printed at the same precision before the comparison, so both pass through the same readout (<a1>NAMING.md</a1>, the 8-9 November amendment).
 
 # text
 # c1: 2d6edc91
@@ -206,6 +206,35 @@ seg-b0c2207838d0 = (as above)
 # text
 # c1: TIME_SYSTEM = TDB
 seg-d3bfcc1ee87c = ANISE carries both files, no further from the written states than SPICE is. Time scales matter here. ANISE reads an SPK's epochs as SPICE ephemeris time (ET), but reads an OEM's <c1/> labels with hifitime's TDB model. The same label falls { "3.2" } µs apart on the two scales at the first node. Evaluating the SPK at the TDB reading of the labels moves the states by up to { "3.3e-6" } km. The notebook shows this.
+
+# text
+seg-a1561f52f69a = GMAT R2026a, in its CI job (Flight dynamics run { "42560008632" }):
+
+# text
+seg-a39271f210ae = How GMAT reads it
+
+# text
+# c1: SPK
+seg-f8df08d68485 = its <c1/> propagator, read out at { "16" } digits in Luna-centred ICRF axes
+
+# text
+seg-6066b95b4fbc = { "1.19" } mm, { "3.0e-10" } km/s, all along the velocity
+
+# text
+seg-215cb694e690 = not carried
+
+# text
+# c1: CCSDS-OEM
+seg-0c848d7ddac2 = its <c1/> propagator
+
+# text
+seg-fdbb9db68f1d = none
+
+# text
+seg-a1350ad99986 = refused: OEM { "2.0" } only in GMAT's TESTING mode
+
+# text
+seg-e29d25da0cc7 = GMAT returns the kernel's state at the epochs it can represent: an A.1 modified Julian date in a double, { "0.31" } µs per ulp, which its 16-digit report cannot print exactly. The differences match an epoch error of −{ "1.91" } to +{ "0.72" } µs per node, with at most { "2.3e-10" } km across the velocity. The rule is unchanged, so the SPK is not carried; RESULTS records this as a GMAT time-representation finding.
 
 # text
 seg-31d58f23c0a2 = Run

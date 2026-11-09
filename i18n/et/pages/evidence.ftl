@@ -6278,14 +6278,14 @@ seg-65122c2bb1fc = { "104" }-st valideeritud
 seg-2998c6fa20d6 = { "79" }-st valideeritud
 seg-4b3ab6095c65 = { "56" }-st kontrollitud
 
-seg-ee74b0bd690c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-1127d4b9d3c0 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-ccd3c88376c6 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-6ceb5c40e820 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-9e9722dd8156 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-db20582b2d1e = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-86087d7afa56 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+seg-11b283cf9156 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
 
-seg-e8c571d855ac = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-d507dcf1a970 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-f66e0bd02a7d = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-cb2cb710b147 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

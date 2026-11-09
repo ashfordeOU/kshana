@@ -25,7 +25,7 @@ seg-1dc9509e0606 = Read by, for example
 seg-35c0a5c47c63 = CCSDS Orbit Ephemeris Message { "2.0" }, KVN: one segment with every state
 
 # text
-seg-bcfdd2fa0efb = Orekit, GMAT, STK
+seg-673e35fb36fa = Orekit, STK (GMAT R2026a reads OEM { "2.0" } only in its TESTING mode)
 
 # text
 # c1: --index

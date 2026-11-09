@@ -720,8 +720,8 @@ seg-56bf1281e330 = En optaget session med kshana-mcp-serveren (Model Context Pro
 
 seg-24d919eaaba3 = { "176" } af { "405" } funktioner stemmer overens med uafhængige eksterne referencer; resten er betegnet modelleret, højt og tydeligt.
 
-seg-a3e8e37a3dfe = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-defecb149c74 = <b>Kampagne:</b> Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
-seg-fb666d7bed4e = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
+seg-3a88568574d8 = <b>Baner:</b> Motor v{ $version }, build <c1/> · <c2/> · deterministisk, uden seed
 
-seg-890b4e5ac62b = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-706afacecd46 = Motor v{ $version }, build <c1/> · <c2/> · seed { "20260928" }

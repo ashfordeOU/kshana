@@ -26,9 +26,9 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.40.0, build 884e343 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 884e343 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
@@ -162,7 +162,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.40.0, build 884e343 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -218,7 +218,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.40.0, build 884e343 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -462,9 +462,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.40.0, build 884e343 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.40.0, build 62a2fa7 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.40.0, build 884e343 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1045,7 +1045,7 @@ Orbit view
 
 engine v0.40.0t = 0 sReal engine run, replayed
 
-Engine v0.40.0, build 884e343 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.40.0, build 62a2fa7 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2443,7 +2443,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.40.0, build 884e343 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.40.0, build 62a2fa7 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2459,7 +2459,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.40.0, build 884e343 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.40.0, build 62a2fa7 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2475,7 +2475,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.40.0, build 884e343 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.40.0, build 62a2fa7 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2489,7 +2489,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 884e343 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.40.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 62a2fa7 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2503,7 +2503,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.40.0, build 884e343 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.40.0, build 62a2fa7 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2519,7 +2519,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.40.0, build 884e343 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.40.0, build 62a2fa7 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -8666,7 +8666,7 @@ Terminal · kshana v0.40.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.40.0 (build 884e343):
+A recorded command-line session, engine v0.40.0 (build 62a2fa7):
 
 - $ kshana --version: kshana 0.40.0
 
@@ -16508,7 +16508,7 @@ provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1
 q_wf = 1.0e-30
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### clock-holdover.toml
 
@@ -16565,7 +16565,7 @@ provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1
 q_wf = 1.0e-30
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## combined-altpnt#
 
@@ -18148,7 +18148,7 @@ align_arcmin = 3.0
 gyro_bias_deg_per_hr = 0.01
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## lunar-attack-surface#
 
@@ -18217,7 +18217,7 @@ accel_bias_ug = 100.0
 align_arcmin = 3.0
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-descent-lola.toml
 
@@ -18581,7 +18581,7 @@ sis_ure_m = 30.0
 common_mode_fraction = 0.9
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-orbit-rendezvous-elfo.toml
 
@@ -18600,7 +18600,7 @@ sis_ure_m = 30.0
 common_mode_fraction = 0.9
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ## lunar-station-coverage#
 
@@ -18684,7 +18684,7 @@ eccentricity = 0.6
 inc_deg = 57.7
 ```
 
-View on GitHub
+Open in Kshana Studio · View on GitHub
 
 ### lunar-surface-terrain.toml
 
@@ -21070,7 +21070,7 @@ kshana ephem-export writes a tabulated trajectory as one of the files flight-dyn
 
 Format |  What is written |  Read by, for example |
 
-oem |  CCSDS Orbit Ephemeris Message 2.0, KVN: one segment with every state |  Orekit, GMAT, STK |
+oem |  CCSDS Orbit Ephemeris Message 2.0, KVN: one segment with every state |  Orekit, STK (GMAT R2026a reads OEM 2.0 only in its TESTING mode) |
 
 opm |  CCSDS Orbit Parameter Message 3.0, KVN: one state (--index, default the first) |  Orekit, GMAT |
 
@@ -21137,7 +21137,7 @@ Basilisk 2.12.2 (bsk), through the SPICE Toolkit it ships (pyswice) |  basilisk_
 
 ANISE 0.10.6 (the fourth, file-based tool: its own kernel reader, not SPICE) |  anise_reader.py |  anise.ipynb (.md) |  SPK, OEM |  flight-dynamics.yml, job tool (anise) |
 
-GMAT R2026a (not yet run: written without running GMAT, its CI job is the first test) |  gmat_reader.py |  gmat.ipynb (.md) |  OEM, SPK |  flight-dynamics.yml, job gmat (continue-on-error until green) |
+GMAT R2026a (runs only in its CI job) |  gmat_reader.py |  gmat.ipynb (.md) |  SPK, not carried: GMAT evaluates at the epochs it can represent, within 1.19 mm (a time-representation finding, RESULTS). The OEM is refused: R2026a reads an OEM of version 2.0 only in its TESTING mode |  flight-dynamics.yml, job gmat (continue-on-error: red by design, see RESULTS) |
 
 kshana_fd.py holds what every tool shares: writing the three files through the Python binding (their SHA-256 must be the pinned ones, and the command line's bytes when KSHANA_FD_CLI_DIR names its output), reading back what was written, and the difference report.
 
@@ -21155,7 +21155,7 @@ For every file a tool reads, value by value:
 
 A file is carried when every value is the written double, or the tool's own conversion of it, and every epoch is the written one.
 
-Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For those, the states at the node epochs are compared with the written states, beside SPICE's own evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written one and no state is further from the written one than SPICE's evaluation is. The report marks these rows "evaluated, not read".
+Some tools evaluate a kernel and do not hand back its stored records (ANISE's Python API). For those, the states at the node epochs are compared with the written states, beside SPICE's own evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written one and no state is further from the written one than SPICE's evaluation is. The report marks these rows "evaluated, not read". For a tool whose only readout is a fixed-precision text report (GMAT, 16 significant digits), SPICE's evaluation is printed at the same precision before the comparison, so both pass through the same readout (NAMING.md, the 8-9 November amendment).
 
 ## Results#
 
@@ -21186,6 +21186,16 @@ SPK, type 13 |  its own SPK reader, at the nodes as ET |  25,828 of 25,926 value
 OEM |  converted to an SPK of type 9, at the nodes as TDB |  25,831 of 25,926 values |  1.46e-11 km, 1.11e-16 km/s |  (as above) |
 
 ANISE carries both files, no further from the written states than SPICE is. Time scales matter here. ANISE reads an SPK's epochs as SPICE ephemeris time (ET), but reads an OEM's TIME_SYSTEM = TDB labels with hifitime's TDB model. The same label falls 3.2 µs apart on the two scales at the first node. Evaluating the SPK at the TDB reading of the labels moves the states by up to 3.3e-6 km. The notebook shows this.
+
+GMAT R2026a, in its CI job (Flight dynamics run 42560008632):
+
+File |  How GMAT reads it |  States |  Worst at the nodes |  Result |
+
+SPK, type 13 |  its SPK propagator, read out at 16 digits in Luna-centred ICRF axes |  4,321 |  1.19 mm, 3.0e-10 km/s, all along the velocity |  not carried |
+
+OEM |  its CCSDS-OEM propagator |  none |   |  refused: OEM 2.0 only in GMAT's TESTING mode |
+
+GMAT returns the kernel's state at the epochs it can represent: an A.1 modified Julian date in a double, 0.31 µs per ulp, which its 16-digit report cannot print exactly. The differences match an epoch error of −1.91 to +0.72 µs per node, with at most 2.3e-10 km across the velocity. The rule is unchanged, so the SPK is not carried; RESULTS records this as a GMAT time-representation finding.
 
 ## Run#
 

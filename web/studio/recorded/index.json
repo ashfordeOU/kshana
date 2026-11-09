@@ -1,6 +1,6 @@
 {
  "engine_version": "0.40.0",
- "recorded_utc": "2026-11-08T18:19:02.424Z",
+ "recorded_utc": "2026-11-09T04:38:47.046Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
@@ -92,6 +92,11 @@
    "bytes": 318571,
    "ms": 4296
   },
+  "clock-fitted-log.toml": {
+   "file": "clock-fitted-log.json.gz",
+   "bytes": 242038,
+   "ms": 63
+  },
   "clock-holdover-labsr.toml": {
    "file": "clock-holdover-labsr.json.gz",
    "bytes": 213227,
@@ -101,6 +106,11 @@
    "file": "clock-holdover.json.gz",
    "bytes": 214485,
    "ms": 5
+  },
+  "clock-measured-log.toml": {
+   "file": "clock-measured-log.json.gz",
+   "bytes": 224424,
+   "ms": 10
   },
   "combined-altpnt.toml": {
    "file": "combined-altpnt.json.gz",
@@ -492,6 +502,11 @@
    "bytes": 10024,
    "ms": 13
   },
+  "lunar-ascent.toml": {
+   "file": "lunar-ascent.json.gz",
+   "bytes": 23129,
+   "ms": 4
+  },
   "lunar-attack-surface.toml": {
    "file": "lunar-attack-surface.json.gz",
    "bytes": 32303,
@@ -501,6 +516,11 @@
    "file": "lunar-beacon.json.gz",
    "bytes": 13978,
    "ms": 2
+  },
+  "lunar-descent.toml": {
+   "file": "lunar-descent.json.gz",
+   "bytes": 22507,
+   "ms": 61
   },
   "lunar-differential-pnt.toml": {
    "file": "lunar-differential-pnt.json.gz",
@@ -568,6 +588,16 @@
    "source": "native",
    "browser_error": "cannot read tests/fixtures/lunar_llr/de430_retroreflectors_mer.csv (operation not supported on this platform). This scenario runs on the committed real-data slice under tests/fixtures/lunar_llr, which ships with the repository but not with the published crate; point `data_dir` at a copy of it."
   },
+  "lunar-orbit-rendezvous-elfo.toml": {
+   "file": "lunar-orbit-rendezvous-elfo.json.gz",
+   "bytes": 24230,
+   "ms": 26613
+  },
+  "lunar-orbit-rendezvous.toml": {
+   "file": "lunar-orbit-rendezvous.json.gz",
+   "bytes": 24275,
+   "ms": 24661
+  },
   "lunar-relay-constellation.toml": {
    "file": "lunar-relay-constellation.json.gz",
    "bytes": 271343,
@@ -605,6 +635,11 @@
    "file": "lunar-station-time-lab.json.gz",
    "bytes": 63225,
    "ms": 4
+  },
+  "lunar-surface.toml": {
+   "file": "lunar-surface.json.gz",
+   "bytes": 25140,
+   "ms": 106
   },
   "lunar-time-budget.toml": {
    "file": "lunar-time-budget.json.gz",

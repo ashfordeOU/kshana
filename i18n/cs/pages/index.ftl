@@ -720,8 +720,8 @@ seg-56bf1281e330 = Zaznamenaná relace se serverem kshana-mcp (Model Context Pro
 
 seg-24d919eaaba3 = { "176" } z { "405" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.
 
-seg-a3e8e37a3dfe = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+seg-defecb149c74 = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
 
-seg-fb666d7bed4e = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
+seg-3a88568574d8 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
 
-seg-890b4e5ac62b = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
+seg-706afacecd46 = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }

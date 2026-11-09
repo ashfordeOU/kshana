@@ -451,6 +451,28 @@ function lunarStation(r) {
   const n = num(r.percentile) ? `${f(r.percentile)} %` : t("js-meankind-percentile-word", "percentile");
   return { big: t("js-meankind-station-big", "Over the south-polar region, a lunar reference station's corrections bring the { $percentile } error from { $from } m to { $to } m (modelled).", { percentile: n, from: f(g.uncorrected_p_3d_m), to: f(g.corrected_p_3d_m) }), line: num(g.coverage_fraction) ? t("js-meankind-station-line", "Within the accuracy threshold for { $share } % of the epochs; not a statement about any real system.", { share: f(g.coverage_fraction * 100) }) : "" };
 }
+function lunarAscent(r) {
+  const rows = Array.isArray(r.ablation) ? r.ablation : [], none = rows.find((x) => x.aids === "none"), aided = rows.filter((x) => x.aids !== "none").reduce((a, c) => (!a || c.nav_sigma_position_m < a.nav_sigma_position_m ? c : a), null);
+  if (!aided || !num(aided.nav_sigma_position_m)) return null;
+  return { big: t("js-meankind-lunarascent-big", "At orbit insertion, the aided navigation knows the position to { $pos } m and the velocity to { $vel } m/s (1-sigma, modelled).", { pos: f(aided.nav_sigma_position_m), vel: f(aided.nav_sigma_velocity_m_s) }), line: none && num(none.nav_sigma_position_m) ? t("js-meankind-lunarascent-line", "Inertial navigation alone: { $pos } m and { $vel } m/s.", { pos: f(none.nav_sigma_position_m), vel: f(none.nav_sigma_velocity_m_s) }) : "" };
+}
+function lunarDescent(r) {
+  const rows = Array.isArray(r.ablation) ? r.ablation.filter((x) => num(x.r95_m)) : [], none = rows.find((x) => x.aids === "none"), best = rows.reduce((a, c) => (!a || c.r95_m < a.r95_m ? c : a), null);
+  if (!best) return null;
+  return { big: t("js-meankind-lunardescent-big", "With its aids, 95 % of landings fall within { $r95 } m of the target (modelled).", { r95: f(best.r95_m) }), line: none && none !== best ? t("js-meankind-lunardescent-line", "Inertial navigation alone: within { $r95 } m.", { r95: f(none.r95_m) }) : "" };
+}
+function lunarSurface(r) {
+  const cells = Array.isArray(r.cells) ? r.cells : [];
+  if (!cells.length) return null;
+  const minOf = (k) => Math.min(...cells.map((c) => c[k]).filter(num)), maxOf = (k) => Math.max(...cells.map((c) => c[k]).filter(num));
+  const timing = minOf("timing_availability"), v = { sites: r.n_sites, seasons: r.n_seasons, share: f(timing * 100) };
+  return { big: timing >= 1 ? t("js-meankind-lunarsurface-big-always", "Over { $sites } sites and { $seasons } seasons, a timing source is always in view (modelled).", v) : t("js-meankind-lunarsurface-big", "Over { $sites } sites and { $seasons } seasons, a timing source is in view at least { $share } % of the time (modelled).", v), line: t("js-meankind-lunarsurface-line", "Positioning is available { $low } to { $high } % of the time; the longest stretch without timing is { $gap } h.", { low: f(minOf("position_availability") * 100), high: f(maxOf("position_availability") * 100), gap: f(get(r, "exit_state.longest_timing_gap_h")) }) };
+}
+function lunarRendezvous(r) {
+  const total = get(r, "final_rel_pos_sigma_lvlh_m.total");
+  if (!num(total)) return null;
+  return { big: t("js-meankind-lunarrendezvous-big", "At the end of the approach, the relative position is known to { $m } m (1-sigma, modelled).", { m: f(total) }), line: has(r, "monte_carlo.mean_nees", "monte_carlo.nees_dof") ? t("js-meankind-lunarrendezvous-line", { one: "Over { $n } Monte Carlo trial the mean NEES (normalised estimation error squared) is { $nees }, against { $dof } expected.", other: "Over { $n } Monte Carlo trials the mean NEES (normalised estimation error squared) is { $nees }, against { $dof } expected." }, { n: get(r, "monte_carlo.trials"), nees: f(get(r, "monte_carlo.mean_nees")), dof: get(r, "monte_carlo.nees_dof") }) : "" };
+}
 function lunarAttack(r) {
   if (typeof r.spoof_captured !== "boolean") return null;
   return { big: r.spoof_captured ? t("js-meankind-attack-big-yes", "A spoofer on the surface can capture a lunar receiver.") : t("js-meankind-attack-big-no", "A spoofer on the surface cannot capture a lunar receiver."), line: num(r.surface_transmitter_reach_m) ? t("js-meankind-attack-line", "A surface transmitter reaches { $km } km before the horizon blocks it.", { km: f(r.surface_transmitter_reach_m / 1000) }) : "" };
@@ -650,7 +672,7 @@ export const KIND_TEMPLATES = {
   "attitude-budget": attitude, "aperture-duty-cycle": aperture, "eo-coverage": eo, "launch-window": launch, "link-budget": linkBudget, passes, reentry,
   ephemeris, "space-weather": spaceWeather, "space-packet": spacePacket, "oem-interop": oem, "solar-system": solar, "realtime-frame-eop": realtimeEop,
   "body-pnt": bodyPnt, "mars-pnt": marsPnt, "moonlight-service-volume": moonlight, "earth-gnss-lunar": earthGnssLunar, "lunar-beacon": lunarBeacon,
-  "lunar-differential-pnt": lunarDpnt, "lunar-station-coverage": lunarStation, "lunar-attack-surface": lunarAttack, "lunar-joint-od-clock": lunarJointOd, "lunar-frame-realisation": lunarFrameReal,
+  "lunar-differential-pnt": lunarDpnt, "lunar-station-coverage": lunarStation, "lunar-ascent": lunarAscent, "lunar-descent": lunarDescent, "lunar-surface": lunarSurface, "lunar-orbit-rendezvous": lunarRendezvous, "lunar-attack-surface": lunarAttack, "lunar-joint-od-clock": lunarJointOd, "lunar-frame-realisation": lunarFrameReal,
   "lunar-interop-export": lunarInterop, "lunar-vlbi": lunarVlbi, "lunar-vlbi-fim": lunarVlbiFim, "lunar-frame-campaign": lunarFrameCampaign,
   "lunar-llr-datum": lunarLlr, "cislunar-observability": cislunarObs, "cislunar-arc-recovery": cislunarArc,
   "acm-link": acmLink, aocs, "ascent-losses": ascentLosses, "contact-schedule": contactSchedule, "entry-heating": entryHeating,
