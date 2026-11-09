@@ -6,6 +6,12 @@
 //! cargo run --release --example locate_pd_gate -- gate           # seeds 1001-2000 at TEMPER_V1
 //! cargo run --release --example locate_pd_gate -- json SEED      # one seed's input (for oracle.py)
 //! cargo run --release --example locate_pd_gate -- answer SEED    # the engine's answer for that seed
+//!
+//! Version 2 (readings V1 to V15), with `preregistered_v2`:
+//! cargo run --release --example locate_pd_gate -- dev2           # seeds 3001-3200 (implementation checks, V13)
+//! cargo run --release --example locate_pd_gate -- gate2          # seeds 4001-5000, run once (V14)
+//! cargo run --release --example locate_pd_gate -- json2 SEED     # one seed's input (for oracle.py --v2)
+//! cargo run --release --example locate_pd_gate -- answer2 SEED   # the engine's v2 answer for that seed
 //! ```
 //! Output is JSON on stdout.
 
@@ -15,8 +21,7 @@ use kshana::locate_pd::{
 };
 use serde_json::json;
 
-fn run(seeds: Vec<u64>, tempers: Vec<f64>) -> Vec<GateRow> {
-    let p = PowerDifferenceParams::preregistered_v1();
+fn run(p: &PowerDifferenceParams, seeds: Vec<u64>, tempers: Vec<f64>) -> Vec<GateRow> {
     let threads = std::thread::available_parallelism().map_or(1, |n| n.get());
     let chunks: Vec<Vec<u64>> = (0..threads)
         .map(|t| seeds.iter().copied().skip(t).step_by(threads).collect())
@@ -41,6 +46,27 @@ fn run(seeds: Vec<u64>, tempers: Vec<f64>) -> Vec<GateRow> {
     rows
 }
 
+/// Version 2's rows: v1's fields and whether the session was located (V7).
+fn rows_json_v2(rows: &[GateRow]) -> serde_json::Value {
+    json!(rows
+        .iter()
+        .map(|r| json!({"seed": r.seed, "covered": r.covered, "area_share": r.area_share,
+            "centroid_err_km": r.centroid_err_km, "nn_spacing_km": r.nn_spacing_km, "redraws": r.redraws,
+            "located": r.located}))
+        .collect::<Vec<_>>())
+}
+
+/// A version 2 run's summary (V12): S1 to S3, redraws and sessions not located.
+fn summary_v2(set: &str, seeds: [u64; 2], rows: &[GateRow]) -> serde_json::Value {
+    let p = PowerDifferenceParams::preregistered_v2();
+    let (s1, s2, s3) = gate_summary(rows, 0);
+    json!({"set": set, "seeds": seeds, "method": p.to_json(),
+        "S1_coverage": s1, "S2_median_area_share": s2, "S3_centroid_ratio": s3,
+        "redraws": rows.iter().map(|r| r.redraws).sum::<u32>(),
+        "not_located": rows.iter().filter(|r| !r.located).count(),
+        "rows": rows_json_v2(rows)})
+}
+
 fn rows_json(rows: &[GateRow]) -> serde_json::Value {
     json!(rows
         .iter()
@@ -54,7 +80,7 @@ fn main() {
     let p = PowerDifferenceParams::preregistered_v1();
     let out = match a.first().map(String::as_str) {
         Some("dev") => {
-            let rows = run((1..=200).collect(), TEMPER_CANDIDATES.to_vec());
+            let rows = run(&p, (1..=200).collect(), TEMPER_CANDIDATES.to_vec());
             let summary: Vec<_> = TEMPER_CANDIDATES
                 .iter()
                 .enumerate()
@@ -66,7 +92,7 @@ fn main() {
             json!({"set": "dev", "seeds": [1, 200], "summary": summary, "rows": rows_json(&rows)})
         }
         Some("gate") => {
-            let rows = run((1001..=2000).collect(), vec![TEMPER_V1]);
+            let rows = run(&p, (1001..=2000).collect(), vec![TEMPER_V1]);
             let (s1, s2, s3) = gate_summary(&rows, 0);
             json!({"set": "gate", "seeds": [1001, 2000], "temper": TEMPER_V1,
                 "S1_coverage": s1, "S2_median_area_share": s2, "S3_centroid_ratio": s3,
@@ -74,8 +100,32 @@ fn main() {
         }
         Some("json") => synth_json(&p, a[1].parse().expect("seed")),
         Some("answer") => synth_answer_json(&p, a[1].parse().expect("seed")),
+        Some("dev2") => {
+            let q = PowerDifferenceParams::preregistered_v2();
+            summary_v2(
+                "dev2",
+                [3001, 3200],
+                &run(&q, (3001..=3200).collect(), vec![q.temper]),
+            )
+        }
+        Some("gate2") => {
+            let q = PowerDifferenceParams::preregistered_v2();
+            summary_v2(
+                "gate2",
+                [4001, 5000],
+                &run(&q, (4001..=5000).collect(), vec![q.temper]),
+            )
+        }
+        Some("json2") => synth_json(
+            &PowerDifferenceParams::preregistered_v2(),
+            a[1].parse().expect("seed"),
+        ),
+        Some("answer2") => synth_answer_json(
+            &PowerDifferenceParams::preregistered_v2(),
+            a[1].parse().expect("seed"),
+        ),
         _ => {
-            eprintln!("usage: locate_pd_gate dev|gate|json SEED|answer SEED");
+            eprintln!("usage: locate_pd_gate dev|gate|json SEED|answer SEED|dev2|gate2|json2 SEED|answer2 SEED");
             std::process::exit(2);
         }
     };
