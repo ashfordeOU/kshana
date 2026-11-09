@@ -68,6 +68,37 @@ windows give correlated estimates, which the ARL1 formula does not assume; this 
 
 Pins: `tests/iq_campaign_cn0_stride.rs` (`m3_m4_recorded_numbers`; the strict test is ignored with these values).
 
+## Row 8 v2. M3's timing bound with the C/N0 estimator's delay
+
+- **Pre-registration:** `PREREGISTRATION-v2.md`, signed 9 November 2026. **Readings and oracle:** `xval/d8b-cn0-bound-v2/`
+  (README readings 1 to 7, `oracle.py`), committed at 3568fbd4e before the engine code (08e362f73).
+- **The bound:** for each detected event, `D_est + 2 × ARL1(k, h, 6/σ0) × stride`. `D_est` is the first stride at which
+  the noise-free drop CUSUM, fed the noise-free sliding M2M4 estimate of the 6 dB step, exceeds `h`. The detector, the
+  estimator, the stride (0.020 s) and the 0.40 bar's other terms are unchanged.
+- **Run:** once, 2026-11-09, in release (`tests/iq_campaign_cn0_bound_v2.rs`, about 3.5 minutes for three campaigns), on
+  the registered seed sets. No bar, recipe or setting was changed after a result was seen.
+
+| check | measured | verdict |
+|---|---|---|
+| Oracle (`D_est` and the bound recomputed for every detected event) | worst difference 0 s on all three sets | agrees (bar 1e-9 s) |
+| Informativeness (reading 4) | largest bound 0.0913 s, 0.0913 s, 0.0916 s (below the 1 s estimator span) | informative |
+| **M3 v2**, v1's registered seeds 200 to 205 | 18 of 18 detected; median time to detect **0.2208 s** against median bound **0.0868 s** | **NOT MET** (timing) |
+| **M3 v2**, v1's fresh seeds 100 200 to 100 205 | 18 of 18 detected; **0.2008 s** against **0.0864 s** | **NOT MET** (timing) |
+| **M3 v2**, fresh seeds 200 200 to 200 205 | 18 of 18 detected; **0.2207 s** against **0.0660 s** | **NOT MET** (timing) |
+| M4, all three sets | 0 C/N0 false alarms; exposure / ARL0 2.2e-34, 2.5e-34, 1.7e-33; Poisson 99 % bound 0 | holds |
+
+**Verdict: M3 v2 is NOT MET** on its timing clause, on every seed set. Its detection clause holds. v1's NOT MET and the
+0.40 M3 NOT MET stand and are not changed by this run.
+
+What the numbers show (no amendment follows from them): `D_est` is 0.06 s to 0.08 s (three or four 20 ms windows) for
+every event, so the bound sits at about 0.07 s to 0.09 s. The detector takes about 0.2 s, ten or eleven windows, on all
+three sets. On the two v1 sets the times to detect equal v1's (0.2208 s and 0.2008 s), as expected, since the detector and
+the data are unchanged; only the bound moved. The noise-free estimate therefore crosses `h` well before the real one.
+The pre-registration's disclosure names the noisy estimate as a limit of `D_est`; this run does not establish whether
+that, or something else in the estimate's response, accounts for the gap.
+
+Pins: `tests/iq_campaign_cn0_bound_v2.rs` (`m3_v2_m4_recorded_numbers`; the strict test is ignored with these values).
+
 ## Row 9. `VM-6254a75d`: detection ROC from a scored campaign, R1, with the window restart
 
 - **Readings and oracle:** `xval/d8b-roc-restart/` (README readings 1 to 6, `oracle.py`), committed at bc56e785e before
