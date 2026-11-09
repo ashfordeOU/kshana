@@ -1,0 +1,14 @@
+commit e89d49c22 start 2026-11-09T16:35:03Z
+test t3_end_to_end_latency_run ... T3 run 0: 55 events, 56 alerts sent, webhook 56 received, MQTT 56 received
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 4897.36s
+run 0 done 2026-11-09T18:06:43Z
+test t3_end_to_end_latency_run ... T3 run 1: 55 events, 56 alerts sent, webhook 56 received, MQTT 56 received
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 4434.40s
+run 1 done 2026-11-09T19:20:44Z
+test t3_end_to_end_latency_run ... T3 run 2: 55 events, 56 alerts sent, webhook 56 received, MQTT 56 received
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 4623.60s
+run 2 done 2026-11-09T20:37:49Z
+test t3_end_to_end_latency_run ... T3 run 3: 55 events, 57 alerts sent, webhook 57 received, MQTT 57 received
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 4719.68s
+run 3 done 2026-11-09T21:56:29Z
+ALLDONE
