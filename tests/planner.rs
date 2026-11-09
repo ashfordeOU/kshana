@@ -275,7 +275,9 @@ fn p4_placement() {
     assert_eq!(got.method.as_deref(), Some("exhaustive"));
     assert!((got.objective - exp["objective"].as_f64().unwrap()).abs() < 1e-15);
 
-    let sp = spec("place_30");
+    // v1's method by name (B1a v2 reading 15, as amended): the recorded greedy miss still reproduces.
+    let mut sp = spec("place_30");
+    sp.search = Some("greedy".into());
     let greedy = place(&sp).unwrap();
     assert_eq!(greedy.method.as_deref(), Some("greedy"));
     let mut rng = ChaCha20Rng::seed_from_u64(0xB1A4);
