@@ -490,11 +490,12 @@ fn mqtt_publish(topic: &str, payload: &str) -> Vec<u8> {
 }
 
 /// One T3 run (reading 14 to 17): `KSHANA_B5_T3_RUN` (run index), `KSHANA_B5_T3_EVENTS` (events,
-/// default 55). Writes `t3_run_<run>.json` into `KSHANA_B5_DIR`.
+/// default 55). Writes `t3_run_<run>.json` into `KSHANA_B5_DIR`. With `KSHANA_B5_AREA_RULE=v2` the
+/// live area runs version 2's rule (reading W10) and writes `t3v2_run_<run>.json`; without it, v1.
 #[test]
 #[ignore]
 fn t3_end_to_end_latency_run() {
-    use kshana::area_trust::AreaLive;
+    use kshana::area_trust::{AreaLive, AreaRule};
     use kshana::connect::parse_mapping;
     use kshana::connect_mqtt::{run_per_topic, MqttConfig, TopicFeeds};
     use kshana::obs::Record;
@@ -510,6 +511,11 @@ fn t3_end_to_end_latency_run() {
         .ok()
         .and_then(|v| v.parse().ok())
         .unwrap_or(55);
+    let rule = match std::env::var("KSHANA_B5_AREA_RULE").as_deref() {
+        Ok("v2") => AreaRule::V2,
+        Ok("v1") | Err(_) => AreaRule::V1,
+        Ok(other) => panic!("KSHANA_B5_AREA_RULE: unknown rule {other}"),
+    };
     // Background (reading 14): per real station, the 30 s epochs of the scored days and the calibration.
     struct Bg {
         geo: kshana::frames::Geodetic,
@@ -657,7 +663,7 @@ fn t3_end_to_end_latency_run() {
         keep_alive_s: 60,
     };
     let mut feeds = TopicFeeds::new(&mapping, Some(T3_HEADER)).unwrap();
-    let mut live = AreaLive::new(T3_N);
+    let mut live = AreaLive::with_rule(T3_N, rule);
     let mut alerts_sent = 0usize;
     let mut post_failures = 0usize;
     let mut on_seconds = |secs: Vec<kshana::area_trust::AreaSecond>| {
@@ -763,12 +769,15 @@ fn t3_end_to_end_latency_run() {
             })
         })
         .collect();
-    let out = serde_json::json!({
+    let mut out = serde_json::json!({
         "run": run, "stations": T3_N, "seconds": dur, "alerts_sent": alerts_sent,
         "webhook_received": web.len(), "mqtt_received": mq.len(), "webhook_failures": post_failures,
         "mqtt_failures": mq_failures.load(Ordering::Relaxed),
         "late_epochs": live.late, "events": events,
     });
+    if rule == AreaRule::V2 {
+        out["area_rule"] = serde_json::json!("v2");
+    }
     println!(
         "T3 run {run}: {} events, {alerts_sent} alerts sent, webhook {} received, MQTT {} received",
         plan.len(),
@@ -776,7 +785,11 @@ fn t3_end_to_end_latency_run() {
         mq.len()
     );
     std::fs::write(
-        dir.join(format!("t3_run_{run}.json")),
+        dir.join(if rule == AreaRule::V2 {
+            format!("t3v2_run_{run}.json")
+        } else {
+            format!("t3_run_{run}.json")
+        }),
         serde_json::to_string_pretty(&out).unwrap(),
     )
     .unwrap();
