@@ -884,6 +884,18 @@ def test_area_trust_timeline_gives_the_oracle_bytes():
     assert kshana.area_trust_timeline(doc) == want
 
 
+def test_area_trust_timeline_v2_gives_the_oracle_v2_bytes():
+    """B5 v2 bar T5 (README W6): with "area_rule": "v2" the timeline through Python is oracle_v2's bytes."""
+    import gzip
+    import os
+
+    d = os.path.join(os.path.dirname(__file__), "..", "fixtures", "area_trust")
+    doc = gzip.open(os.path.join(d, "replay_4101.stations.json.gz")).read().decode()
+    want = gzip.open(os.path.join(d, "replay_4101.v2.expected.jsonl.gz")).read().decode()
+    assert doc.startswith('{"stations":')
+    assert kshana.area_trust_timeline('{"area_rule":"v2",' + doc[1:]) == want
+
+
 def test_referee_location_score_gives_the_command_line_bytes():
     """B2 bar R4: the location metrics through Python are byte-identical to the command line."""
     import gzip

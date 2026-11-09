@@ -374,6 +374,18 @@ console.log(
   console.log("area_trust_timeline: the oracle's bytes");
 }
 
+// B5 v2 bar T5 (README W6): with "area_rule": "v2" the area timeline gives oracle_v2's bytes.
+{
+  const fx = (name) => new URL(`../tests/fixtures/area_trust/${name}`, import.meta.url);
+  const doc = gunzipSync(await readFile(fx("replay_4101.stations.json.gz"))).toString("utf8");
+  const want = gunzipSync(await readFile(fx("replay_4101.v2.expected.jsonl.gz"))).toString("utf8");
+  if (!doc.startsWith('{"stations":') || area_trust_timeline('{"area_rule":"v2",' + doc.slice(1)) !== want) {
+    console.error("area_trust_timeline v2 differs from oracle_v2's bytes");
+    process.exit(1);
+  }
+  console.log("area_trust_timeline v2: oracle_v2's bytes");
+}
+
 // B1a bar P5: the planner's map gives the command line's bytes.
 {
   const spec = await readFile(new URL("../xval/planner/layout_circle.json", import.meta.url), "utf8");
