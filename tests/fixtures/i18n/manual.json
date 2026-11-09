@@ -14674,5 +14674,32 @@
    },
    " windows)"
   ]
+ },
+ {
+  "id": "bench-texbat-acquired",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": acquired PRNs ",
+   {
+    "var": "prns"
+   }
+  ]
+ },
+ {
+  "id": "bench-texbat-progress",
+  "error": false,
+  "parts": [
+   {
+    "var": "name"
+   },
+   ": ",
+   {
+    "var": "seconds"
+   },
+   " s done"
+  ]
  }
 ]

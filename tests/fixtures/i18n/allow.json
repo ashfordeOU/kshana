@@ -1572,6 +1572,10 @@
   "src/interference_map/almanac_hdop.rs": {
    "count": 6,
    "reason": "data: the YUMA almanac field names the reader matches (Time of Applicability, Orbital Inclination, Rate of Right Ascen, Right Ascen at Week, Argument of Perigee, Mean Anom)"
+  },
+  "src/bench/texbat.rs": {
+   "count": 2,
+   "reason": "machine-document and data: the kshana-bench-texbat-windows/1 schema id and the PRN list formatting inside a catalogue message's variable (B4a E5 v2, 9 November 2026)"
   }
  }
 }
