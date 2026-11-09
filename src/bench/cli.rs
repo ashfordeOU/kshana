@@ -331,6 +331,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         "manifest" => manifest(rest),
         "verify-manifest" => verify_manifest(rest),
         "texbat-windows" => texbat_windows(rest),
+        "texbat-pd" => texbat_pd(rest),
         "validate" => {
             let files = check(rest, &[], true)?;
             if files.is_empty() {
@@ -725,6 +726,31 @@ fn texbat_windows(args: &[String]) -> Result<i32, BenchError> {
     };
     let out = PathBuf::from(need(args, "--out")?);
     let doc = super::texbat::score_file(std::path::Path::new(path)).map_err(BenchError)?;
+    let text = serde_json::to_string(&doc).map_err(|e| BenchError(e.to_string()))? + "\n";
+    std::fs::write(&out, text).map_err(|e| BenchError(e.to_string()))?;
+    println!(
+        "{}",
+        crate::t!(
+            "bench-cli-texbat-written",
+            path = out.display().to_string(),
+            windows = doc["windows"].as_array().map_or(0, Vec::len)
+        )
+    );
+    Ok(0)
+}
+
+/// `kshana bench texbat-pd <file> --windows <file>.scores.json --out <file>.pd.json` (B4a E5-PD): the
+/// power-and-distortion window scores of one TEXBAT recording; nothing is written on a mismatch.
+fn texbat_pd(args: &[String]) -> Result<i32, BenchError> {
+    let pos = check(args, &["--windows", "--out"], true)?;
+    let [path] = pos.as_slice() else {
+        return Err(BenchError(crate::terr!("e-bench-texbat-pd-usage")));
+    };
+    let wpath = need(args, "--windows")?;
+    let windows: Value = serde_json::from_str(&read(wpath)?)
+        .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json-2", path = wpath, e = e)))?;
+    let out = PathBuf::from(need(args, "--out")?);
+    let doc = super::texbat::pd_file(std::path::Path::new(path), &windows).map_err(BenchError)?;
     let text = serde_json::to_string(&doc).map_err(|e| BenchError(e.to_string()))? + "\n";
     std::fs::write(&out, text).map_err(|e| BenchError(e.to_string()))?;
     println!(

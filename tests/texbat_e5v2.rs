@@ -58,3 +58,26 @@ fn temp_workdir(label: &str) -> std::path::PathBuf {
     std::fs::create_dir_all(&dir).unwrap();
     dir
 }
+
+#[test]
+fn the_pd_score_rule() {
+    use kshana::bench::texbat::pd_score;
+    let tau = (0.1, 2.0);
+    // Power dominates: 3 dB over 1 dB.
+    assert_eq!(pd_score(3.0, &[(0.05, 1.0)], tau), 3.0);
+    // Distortion dominates.
+    assert_eq!(pd_score(0.2, &[(0.4, 1.0)], tau), 4.0);
+    // No tracked PRN is an alarm.
+    assert!(pd_score(0.0, &[], tau).is_infinite());
+}
+
+#[test]
+fn pd_refuses_a_windows_file_of_another_recording() {
+    let dir = temp_workdir("e5pd");
+    // PATH-UNIQUE-WAIVER: inside the per-call directory above, which already carries a unique component.
+    let f = dir.join("ds1.bin");
+    std::fs::write(&f, [0u8; 8]).unwrap();
+    let other = serde_json::json!({"file": "ds2.bin", "sha256": "0", "windows": []});
+    assert!(kshana::bench::texbat::pd_file(&f, &other).is_err());
+    std::fs::remove_dir_all(&dir).ok();
+}

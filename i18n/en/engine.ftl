@@ -905,6 +905,8 @@ engine-attitude-budget-attitude-budget-km-kg-gg = attitude-budget: { $altitude_k
 
 engine-e-bench-cli-pinned-source-without-hash = source { $name } is pinned but its file { $rel } has no SHA-256
 
+engine-e-bench-texbat-pd-usage = usage: kshana bench texbat-pd <file> --windows <file>.scores.json --out <file>.pd.json
+engine-e-bench-texbat-pd-windows = { $name }: the --windows file is not the E5 v2 score file of this recording
 engine-e-bench-texbat-usage = usage: kshana bench texbat-windows <file> --out <scores.json>
 engine-e-bench-texbat-name = not a TEXBAT recording name: expected cleanStatic.bin, cleanDynamic.bin or ds1.bin to ds8.bin
 engine-e-bench-texbat-unpinned = { $name }: no pinned size and SHA-256 in the B-iq manifest yet
