@@ -131,6 +131,10 @@ pub struct PlanSpec {
     /// Stations to place.
     #[serde(default)]
     pub m: Option<usize>,
+    /// Search beyond the exhaustive limit: `greedy+exchange` (default, B1a v2 reading 15) or `greedy`
+    /// (v1).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub search: Option<String>,
 }
 
 /// One cell of the map.
@@ -150,7 +154,15 @@ pub struct Cell {
     pub drms_m: Option<f64>,
     /// 95 % ellipse semi-axes, m, larger first.
     pub ellipse_m: Option<[f64; 2]>,
+    /// `true` when the horizontal block's condition number exceeds [`ILL_CONDITIONED`]: the figures
+    /// there are not meaningful beyond the rounding of the inversion. Absent otherwise (B1a v2
+    /// reading 13, as amended).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ill_conditioned: Option<bool>,
 }
+
+/// Condition-number limit of the horizontal block (B1a v2 reading 13).
+pub const ILL_CONDITIONED: f64 = 1e8;
 
 /// A map.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -168,7 +180,7 @@ pub struct Placement {
     pub objective: f64,
     /// Median DRMS over all cells (`None` when infinite: most cells not locatable).
     pub median_drms_m: Option<f64>,
-    /// `exhaustive` or `greedy`.
+    /// `exhaustive`, `greedy` or `greedy+exchange`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub method: Option<String>,
 }
@@ -335,6 +347,7 @@ pub fn map_for(spec: &PlanSpec, stations: &[StationSite]) -> Map {
             } else {
                 None
             };
+            let mut ill = None;
             let (drms_m, ellipse_m) = match ch {
                 Some(c) => {
                     let tr = c[0][0] + c[1][1];
@@ -344,6 +357,9 @@ pub fn map_for(spec: &PlanSpec, stations: &[StationSite]) -> Map {
                         .max(0.0)
                         .sqrt();
                     let (l1, l2) = (0.5 * tr + disc, (det / (0.5 * tr + disc)).max(0.0));
+                    if !(l2 > 0.0 && l1 / l2 <= ILL_CONDITIONED) {
+                        ill = Some(true);
+                    }
                     (
                         Some(tr.sqrt()),
                         Some([(chi2 * l1).sqrt(), (chi2 * l2).sqrt()]),
@@ -359,6 +375,7 @@ pub fn map_for(spec: &PlanSpec, stations: &[StationSite]) -> Map {
                 p_k,
                 drms_m,
                 ellipse_m,
+                ill_conditioned: ill,
             }
         })
         .collect();
@@ -384,7 +401,11 @@ fn check(spec: &PlanSpec) -> Result<(), String> {
         && spec.receiver.integration_s > 0.0
         && spec.receiver.p_fa > 0.0
         && spec.receiver.p_fa < 1.0
-        && spec.sigma_tau_s > 0.0;
+        && spec.sigma_tau_s > 0.0
+        && matches!(
+            spec.search.as_deref(),
+            None | Some("greedy") | Some("greedy+exchange")
+        );
     if ok {
         Ok(())
     } else {
@@ -428,7 +449,7 @@ fn n_choose(n: usize, m: usize) -> u64 {
 }
 
 /// Choose `m` of the candidates: exhaustive when there are at most [`EXHAUSTIVE_MAX`] subsets,
-/// greedy otherwise.
+/// otherwise greedy followed by single-exchange local search (or greedy alone with `search: "greedy"`).
 pub fn place(spec: &PlanSpec) -> Result<Placement, String> {
     check(spec)?;
     let n = spec.candidates.len();
@@ -487,7 +508,38 @@ pub fn place(spec: &PlanSpec) -> Result<Placement, String> {
             chosen = s;
             last = (g, md);
         }
-        (chosen, last.0, last.1, "greedy")
+        if spec.search.as_deref() == Some("greedy") {
+            (chosen, last.0, last.1, "greedy")
+        } else {
+            // Single-exchange local search (B1a v2 reading 15): the best strictly improving swap, until none.
+            loop {
+                let mut step: Option<(Vec<usize>, usize, f64)> = None;
+                for pos in 0..chosen.len() {
+                    for c in (0..n).filter(|c| !chosen.contains(c)) {
+                        let mut sub = chosen.clone();
+                        sub[pos] = c;
+                        sub.sort_unstable();
+                        let (g, med) = score(spec, &pick(&sub));
+                        let cur = step
+                            .as_ref()
+                            .map_or((last.0, last.1, chosen.as_slice()), |(s, bg, bm)| {
+                                (*bg, *bm, s.as_slice())
+                            });
+                        if better((g, med, &sub), cur) {
+                            step = Some((sub, g, med));
+                        }
+                    }
+                }
+                match step {
+                    Some((s, g, md)) => {
+                        chosen = s;
+                        last = (g, md);
+                    }
+                    None => break,
+                }
+            }
+            (chosen, last.0, last.1, "greedy+exchange")
+        }
     };
     Ok(Placement {
         subset: best,
