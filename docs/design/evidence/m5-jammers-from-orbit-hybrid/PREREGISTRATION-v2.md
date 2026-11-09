@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration M5 v2 (0.41.x): a started space solver and a ground layer with session evidence
 
-**Status: PROPOSED, 8 November 2026. Waiting for the owner's sign-off. No code or data for v2 before it.**
+**Status: SIGNED. Proposed 8 November 2026; signed off by the owner on 9 November 2026, as drafted. The v1 results stay published as NOT MET; no bar is loosened.**
 
 ## Why a v2
 
