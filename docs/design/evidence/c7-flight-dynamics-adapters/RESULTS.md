@@ -77,5 +77,13 @@ version 1.0 is not tested: Kshana does not write one.
 
 The adapter was written from GMAT's documentation and samples without running GMAT: the session
 that wrote it was not allowed to execute GMAT's binaries. The job runs with continue-on-error and is
-fixed from its logs. The SPK leg has not run yet; it comes after the OEM leg, which stopped the first
-run. GMAT counts as done only when that job is green.
+fixed from its logs. GMAT counts as done only when that job is green.
+
+**The SPK: stepping by elapsed time runs past the kernel.** The job's second run (Flight dynamics run
+42534549174, at open commit bec4ae298) loaded the kernel and stepped 4,320 times by 600 s, then
+halted on the last step: the requested epoch, A.1 modified Julian 30034.49962788203, was 3.2e-9 day
+(about 0.28 ms) past the kernel's coverage, which GMAT gave as ending at 30034.4996278788. GMAT counts
+elapsed time in A.1 seconds; the kernel's nodes are TDB, and over 30 days the TDB−TT periodic term
+moves them about 0.28 ms apart. The script now stops each step at the next node's TDB epoch
+(`TDBModJulian` stop condition) instead of stepping by elapsed time. The comparison and its bar are
+unchanged.
