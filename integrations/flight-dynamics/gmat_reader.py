@@ -26,8 +26,9 @@ Each script runs in GMAT's console program, `GmatConsole --run <script>`, in GMA
 directory. `GMAT_ROOT` names the installation, the directory that holds `bin/`.
 
 GMAT reports its states rather than handing back the file's records. So the comparison is the one
-for an evaluating tool (`kshana_fd.evaluated_compare`). The report's 16 digits and GMAT's own epoch
-arithmetic are part of what is compared.
+for an evaluating tool (`kshana_fd.evaluated_compare`), with SPICE's evaluation printed at the
+report's 16 digits so that both pass through the same readout (NAMING.md, the 8-9 November
+amendment). GMAT's own epoch arithmetic is part of what is compared.
 
 Written without running GMAT in the session that wrote it; GMAT's binaries run only in the workflow
 job, whose logs drive the fixes. The first run reached the OEM leg and stopped there with
@@ -57,7 +58,7 @@ LunaICRF.Axes = ICRF;
 
 Create ReportFile OemReport;
 OemReport.Filename = '{out}/gmat_oem.txt';
-OemReport.Precision = 16;
+OemReport.Precision = {digits};
 OemReport.WriteHeaders = false;
 
 Create Variable k t;
@@ -91,7 +92,7 @@ LunaJ2000.Axes = MJ2000Eq;
 
 Create ReportFile SpkReport;
 SpkReport.Filename = '{out}/gmat_spk.txt';
-SpkReport.Precision = 16;
+SpkReport.Precision = {digits};
 SpkReport.WriteHeaders = false;
 
 Create Variable k t;
@@ -105,6 +106,10 @@ For k = 1:{steps};
    Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 EndFor;
 """
+
+#: Significant digits of GMAT's reports: ReportFile's largest Precision. The comparison prints
+#: SPICE's evaluation at the same precision (NAMING.md, the 8-9 November amendment).
+REPORT_DIGITS = 16
 
 #: What GMAT R2026a prints when its `CCSDS-OEM` propagator is given an OEM of version 2.0 outside
 #: its TESTING mode (first CI run of the `gmat` job, at open commit 150df8d41).
@@ -153,7 +158,8 @@ def run_spk(bsp: Path, out: Path, first_label: str, first_et: float, n: int, nai
     script = out / "kshana_c7_spk.script"
     script.write_text(SPK_SCRIPT.format(bsp=Path(bsp).resolve(), out=out.resolve(), naif=naif,
                                         start_gregorian=gregorian(first_label), step=step_s, steps=n - 1,
-                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0)))
+                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0),
+                                        digits=REPORT_DIGITS))
     code, log = _console(script, "gmat_console_spk.log")
     if code != 0:
         raise RuntimeError(f"GmatConsole exited with {code} on the SPK script:\n{log[-4000:]}")
@@ -167,7 +173,8 @@ def run_oem(oem: Path, out: Path, first_et: float, n: int, step_s: float = 600.0
     out.mkdir(parents=True, exist_ok=True)
     script = out / "kshana_c7_oem.script"
     script.write_text(OEM_SCRIPT.format(oem=Path(oem).resolve(), out=out.resolve(), step=step_s, steps=n - 1,
-                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0)))
+                                        mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0),
+                                        digits=REPORT_DIGITS))
     code, log = _console(script, "gmat_console_oem.log")
     if code == 0:
         return out / "gmat_oem.txt", log

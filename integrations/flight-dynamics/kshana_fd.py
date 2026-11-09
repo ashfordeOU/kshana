@@ -199,13 +199,27 @@ def records_compare(tool: str, written: Written, records: list[list[float]], epo
     return c
 
 
+def printed(rows: list[list[float]], digits: int) -> list[list[float]]:
+    """Each value as a text report printing `digits` significant digits would give it back."""
+    return [[float(f"{x:.{digits}g}") for x in r] for r in rows]
+
+
 def evaluated_compare(tool: str, fmt: str, written: Written, evaluated: list[list[float]],
-                      epochs_equal: list[bool], spice: list[list[float]], how: str = "") -> Comparison:
+                      epochs_equal: list[bool], spice: list[list[float]], how: str = "",
+                      readout_digits: int | None = None) -> Comparison:
     """A tool that evaluates a kernel at the node epochs (it does not hand back the stored
     records): its states compared with the written ones, beside SPICE's own evaluation (`spice`) of
-    Kshana's SPK of the same states at the same epochs."""
+    Kshana's SPK of the same states at the same epochs.
+
+    `readout_digits`: for a tool whose only readout is a text report at that many significant
+    digits (GMAT, 16), SPICE's evaluation is printed at the same precision before the comparison,
+    so both pass through the same readout (NAMING.md, the 8-9 November amendment). None, the
+    default, keeps the full-double comparison."""
     c = compare(tool, fmt, written, evaluated, epochs_equal, how=how)
     c.evaluated = True
+    if readout_digits is not None:
+        spice = printed(spice, readout_digits)
+        c.notes.append(f"SPICE's evaluation printed at {readout_digits} significant digits, as the tool's report is")
 
     def worst(rows: list[list[float]]) -> tuple[float, float]:
         dp = max(max(abs(a - b) for a, b in zip(r[:3], w[:3])) for r, w in zip(rows, written.values))

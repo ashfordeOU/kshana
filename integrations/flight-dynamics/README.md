@@ -39,7 +39,10 @@ Some tools evaluate a kernel and do not hand back its stored records (ANISE's Py
 those, the states at the node epochs are compared with the written states, beside SPICE's own
 evaluation of Kshana's SPK of the same states. The file is carried when every epoch is the written
 one and no state is further from the written one than SPICE's evaluation is. The report marks these
-rows "evaluated, not read".
+rows "evaluated, not read". For a tool whose only readout is a fixed-precision text report (GMAT,
+16 significant digits), SPICE's evaluation is printed at the same precision before the comparison,
+so both pass through the same readout ([NAMING.md](../../docs/design/evidence/c7-flight-dynamics-adapters/NAMING.md),
+the 8-9 November amendment).
 
 ## Results
 

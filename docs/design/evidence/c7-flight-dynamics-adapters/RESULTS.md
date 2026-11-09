@@ -87,3 +87,13 @@ elapsed time in A.1 seconds; the kernel's nodes are TDB, and over 30 days the TD
 moves them about 0.28 ms apart. The script now stops each step at the next node's TDB epoch
 (`TDBModJulian` stop condition) instead of stepping by elapsed time. The comparison and its bar are
 unchanged.
+
+**The comparison through GMAT's report.** GMAT's states reach the notebook only through a text report
+of at most 16 significant digits, and a double needs 17. A stand-in that returns SPICE's own states,
+equal to SPICE in every value at 16 digits, fails the evaluating-tool rule as first written
+(2.18e-11 km against SPICE's 1.46e-11 km). By the 8-9 November amendment in NAMING.md, written before
+any real GMAT SPK comparison was seen, GMAT's states are compared with SPICE's evaluation printed at
+the same 16 digits; the bar is unchanged, and Orekit, Basilisk and ANISE keep the full-double
+comparison. Future work: read GMAT's states at full precision instead, for example from an ephemeris
+file GMAT writes (an SPK read back by SPICE at the nodes), which would need no amendment but puts
+GMAT's own writer in the path.
