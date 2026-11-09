@@ -747,7 +747,7 @@ fn texbat_pd(args: &[String]) -> Result<i32, BenchError> {
         return Err(BenchError(crate::terr!("e-bench-texbat-pd-usage")));
     };
     let wpath = need(args, "--windows")?;
-    let windows: Value = serde_json::from_str(&read(&wpath)?)
+    let windows: Value = serde_json::from_str(&read(wpath)?)
         .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json-2", path = wpath, e = e)))?;
     let out = PathBuf::from(need(args, "--out")?);
     let doc = super::texbat::pd_file(std::path::Path::new(path), &windows).map_err(BenchError)?;
