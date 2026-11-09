@@ -11,7 +11,12 @@
 //! * B4: multi-pass fusion is information-additive and never worsens DRMS.
 //! * B5: additivity (a new module; existing outputs unchanged by construction).
 //!
-//! PIN-SCOPE: none. PIN-EXCLUDES: everything (no output hash is pinned here).
+//! Result (scored once, 2026-11-09, release): MET. B1 worst relative 3.0e-10; B2 worst 5.5 %
+//! (bar 20 %); B3 ratios 0.979 to 1.019, every trial converged; B4 additivity 6.7e-16
+//! (`docs/design/evidence/m1-space-rf-geolocation/RESULTS.md`).
+//!
+//! PIN-SCOPE: the B2 values (1e-3 km) and the B3 ratios (1e-4) of the scored run; B1 and B4 by
+//! their bars. PIN-EXCLUDES: output hashes.
 
 #![allow(clippy::needless_range_loop)]
 
@@ -222,6 +227,15 @@ fn b2_the_published_case_is_reproduced_within_20_percent() {
         }
     }
     eprintln!("B2: worst {:.1} %", 100.0 * worst);
+    // Pinned (2026-11-09): the engine's 25 values, to 1e-3 km.
+    const PIN: [f64; 25] = [
+        28.078, 28.089, 28.108, 28.134, 28.168, 28.209, 28.257, 28.312, 28.374, 28.443, 20.797,
+        24.866, 28.078, 30.445, 32.160, 33.409, 34.331, 9.309, 17.207, 23.355, 28.078, 31.869,
+        35.114, 38.061, 40.860,
+    ];
+    for ((id, _, _, eng), pin) in rows.iter().zip(PIN) {
+        assert!((eng - pin).abs() < 1e-3, "{id}: {eng} moved from {pin}");
+    }
     assert!(miss.is_empty(), "B2 NOT MET: {miss:?}");
 }
 
@@ -270,6 +284,16 @@ fn b3_the_solver_attains_the_bound_for_f3_ais() {
             e.drms_m,
             rms
         );
+        // Pinned (2026-11-09): the ratios as recorded, to 1e-4, and every trial converged.
+        const RATIO: [f64; 10] = [
+            1.0004, 0.9853, 1.0188, 0.9793, 1.0063, 1.0069, 0.9949, 1.0110, 1.0045, 0.9793,
+        ];
+        assert!(
+            (ratio - RATIO[pi]).abs() < 1e-4,
+            "P{}: ratio {ratio} moved",
+            pi + 1
+        );
+        assert_eq!(n_ok, 1000);
         if !(0.9..=1.25).contains(&ratio) || n_ok < 990 {
             miss.push(format!("P{}: ratio {ratio:.4}, converged {n_ok}", pi + 1));
         }
