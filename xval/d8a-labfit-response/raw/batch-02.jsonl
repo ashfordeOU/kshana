@@ -1,0 +1,1 @@
+{"c":{"bins":0.9014336917562724,"empirical":1.0,"tracking_loop":1.0},"ci95":[-3.0044875739430643,-2.7112204616438422],"d":{"empirical":[37.31502726161413,37.638639958081626],"tracking_loop":[37.315027322988,37.638639958081626]},"delta_eff":-2.8467053966275198,"direct_losses":18,"kind":"a","model":"estimator-response","seed":20361012,"set":"v1-fresh","span_db":37.0}
