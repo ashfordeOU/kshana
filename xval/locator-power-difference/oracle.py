@@ -6,6 +6,10 @@ library only; shares no code with the engine.
 
 INPUT is `locate_pd_gate json SEED`, ANSWER is `locate_pd_gate answer SEED`. Prints whether the
 grid, the 50/90/95 % region cells and the centroid (within 1 m) agree.
+
+Version 2 (readings V2 to V7, V15): when the input's parameters carry `session_shadowing`, give it
+`json2 SEED` and `answer2 SEED`. It recomputes the per-station session means, the more-than-half
+rule, sigma_tot, the weighted P0 and the not-located case on its own.
 """
 import json
 import math
@@ -57,6 +61,54 @@ def norm_logcdf(z):
     return -0.5 * z * z - 0.5 * math.log(2 * math.pi) - math.log(-z)
 
 
+def epoch_powers(P, st, e, j_drop, wc, wa):
+    """One epoch's power estimate per station (readings 2 to 4); None where it does not report."""
+    js = []
+    for i, s in enumerate(st):
+        dr, ag = e["drop_db"][i], e["dagc"][i]
+        if dr is None or dr < P["gate_db"]:
+            js.append(None)
+            continue
+        jc = j_drop(s["c_nom_dbhz"], dr)
+        if s["kappa_db"] is not None and ag is not None and ag * s["kappa_db"] > 0:
+            ja = s["noise_dbw"] + 10 * math.log10(max(10 ** (ag * s["kappa_db"] / 10) - 1, 1e-300))
+            jc = (jc * wc + ja * wa) / (wc + wa)
+        js.append(jc)
+    return js
+
+
+def v2_loglik(P, st, epochs, geo, gain, jmin, j_drop, wc, wa):
+    """Version 2's session log-likelihood per (h, n) hypothesis and cell (V2 to V7), or None when
+    fewer than min_reporting stations report in more than half of the session."""
+    per = [epoch_powers(P, st, e, j_drop, wc, wa) for e in epochs]
+    E = len(per)
+    jbar, sig = [], []
+    for i in range(len(st)):
+        vals = [row[i] for row in per if row[i] is not None]
+        reporting = len(vals) > P["report_share"] * E
+        n = len(vals) if reporting else max(E, 1)
+        sig.append(math.sqrt(P["sigma_sh_db"] ** 2 + P["sigma_meas_db"] ** 2 / n))
+        jbar.append(sum(vals) / len(vals) if reporting else None)
+    rep = np.array([x is not None for x in jbar])
+    if rep.sum() < P["min_reporting"]:
+        return None
+    jv = np.array([x if x is not None else 0.0 for x in jbar])
+    sg = np.array(sig)
+    w = np.where(rep, 1 / sg ** 2, 0.0)
+    terms = []
+    for logd, loss in geo:
+        for n in P["n_set"]:
+            r = jv[None, :] + 10 * n * logd - gain[None, :] + loss
+            p0 = (r * w[None, :]).sum(axis=1) / w.sum()
+            pred = p0[:, None] - 10 * n * logd + gain[None, :] - loss
+            z = (jv[None, :] - pred) / sg[None, :]
+            ll = np.where(rep[None, :], -0.5 * z * z, 0.0).sum(axis=1)
+            zc = (jmin[None, :] - pred) / sg[None, :]
+            ll += np.where(rep[None, :], 0.0, np.vectorize(norm_logcdf)(zc)).sum(axis=1)
+            terms.append(ll)
+    return np.array(terms)
+
+
 def main(inp, ans):
     d = json.load(open(inp))
     a = json.load(open(ans))
@@ -99,7 +151,13 @@ def main(inp, ans):
         loss = np.where(horiz > reach[None, :], P["nlos_db"], 0.0)
         geo.append((np.log10(dist), loss))
     s_sh = P["sigma_sh_db"]
-    for e in d["epochs"][lo:hi]:
+    if P.get("session_shadowing"):
+        total = v2_loglik(P, st, d["epochs"][lo:hi], geo, gain, jmin, j_drop, wc, wa)
+        if total is None:
+            agree = a.get("located") is False and len(cen) == a["n_cells"]
+            print(json.dumps({"seed": d["seed"], "located": False, "agree": bool(agree)}))
+            return
+    for e in ([] if P.get("session_shadowing") else d["epochs"][lo:hi]):
         js = []
         for i, s in enumerate(st):
             dr, ag = e["drop_db"][i], e["dagc"][i]

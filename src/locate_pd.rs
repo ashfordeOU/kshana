@@ -8,6 +8,10 @@
 //! the path-loss exponent and source height marginalised and censored terms for stations that see
 //! nothing gives a posterior on a grid around the network. MODELLED: checked on synthetic networks
 //! only until a public multi-station campaign with blind transmitter positions is scored.
+//!
+//! Version 2 (`PREREGISTRATION-v2.md`, readings V1 to V15 in the same README): each station's power
+//! is averaged over the session, with one shadowing term per station (`σ_tot² = σ_sh² + σ_meas²/n`),
+//! no tempering and a domain of the hull buffered by 10 km. Version 1 is kept as it was recorded.
 
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -18,6 +22,11 @@ use crate::portable_math::PortableFloat;
 
 /// Method identifier written into every output.
 pub const METHOD_ID: &str = "kshana-locate/power-difference/v1";
+/// Method identifier of version 2 (V1).
+pub const METHOD_ID_V2: &str = "kshana-locate/power-difference/v2";
+/// The scope statement of version 2 (V9): what the locator does with a source beyond its domain.
+pub const OUTSIDE_STATEMENT_V2: &str =
+    "A source beyond this domain is outside the network and is not located.";
 /// The tempering exponent, chosen on the development seeds (R9) before the gate was run.
 pub const TEMPER_V1: f64 = 1.0 / 60.0;
 
@@ -60,6 +69,12 @@ pub struct PowerDifferenceParams {
     pub levels: Vec<f64>,
     /// Timeline step, s.
     pub timeline_s: f64,
+    /// Measurement noise of one epoch's power estimate, dB (v2, V4; unused by v1).
+    pub sigma_meas_db: f64,
+    /// Model the shadowing once per session (v2) rather than per epoch (v1).
+    pub session_shadowing: bool,
+    /// A station reports in a session when it reports in more than this share of its epochs (v2, V3).
+    pub report_share: f64,
 }
 
 impl PowerDifferenceParams {
@@ -84,13 +99,38 @@ impl PowerDifferenceParams {
             temper: TEMPER_V1,
             levels: vec![0.5, 0.9, 0.95],
             timeline_s: 60.0,
+            sigma_meas_db: 0.0,
+            session_shadowing: false,
+            report_share: 0.0,
+        }
+    }
+
+    /// The pre-registered version 2 parameters (V1): v1's with a 10 km buffer, τ = 1, σ_meas = 2 dB,
+    /// session-level shadowing and the more-than-half reporting rule.
+    pub fn preregistered_v2() -> Self {
+        Self {
+            buffer_km: 10.0,
+            temper: 1.0,
+            sigma_meas_db: 2.0,
+            session_shadowing: true,
+            report_share: 0.5,
+            ..Self::preregistered_v1()
+        }
+    }
+
+    /// The method identifier of these parameters.
+    pub fn method_id(&self) -> &'static str {
+        if self.session_shadowing {
+            METHOD_ID_V2
+        } else {
+            METHOD_ID
         }
     }
 
     /// The parameters as JSON, for the method block of every output.
     pub fn to_json(&self) -> Value {
-        json!({
-            "method": METHOD_ID,
+        let mut v = json!({
+            "method": self.method_id(),
             "signal_dbw": self.signal_dbw, "chip_rate_hz": self.chip_rate_hz, "q": self.q,
             "gate_db": self.gate_db, "sigma_cn0_db": self.sigma_cn0_db, "sigma_agc_db": self.sigma_agc_db,
             "sigma_sh_db": self.sigma_sh_db, "nlos_db": self.nlos_db, "n_set": self.n_set,
@@ -98,7 +138,18 @@ impl PowerDifferenceParams {
             "max_cells": self.max_cells, "min_reporting": self.min_reporting,
             "session_gap_s": self.session_gap_s, "temper": self.temper, "levels": self.levels,
             "timeline_s": self.timeline_s,
-        })
+        });
+        // Version 2's fields and its domain statement (V1, V9); version 1's block is as it was.
+        if self.session_shadowing {
+            v["sigma_meas_db"] = json!(self.sigma_meas_db);
+            v["session_shadowing"] = json!(true);
+            v["report_share"] = json!(self.report_share);
+            v["domain"] = json!({
+                "rule": format!("the stations' convex hull buffered by {} km", self.buffer_km),
+                "outside": OUTSIDE_STATEMENT_V2,
+            });
+        }
+        v
     }
 }
 
@@ -465,6 +516,119 @@ pub fn summed_loglik_from_power(
     total
 }
 
+/// Why a version 2 session is not located (V7).
+pub const NOT_LOCATED_V2: &str =
+    "not located: fewer than 3 stations report in more than half the session";
+
+/// Version 2's per-station session summary (V2 to V4): the mean power over the epochs the station
+/// reports in (`None` when it is censored) and its `σ_tot`, dB.
+pub fn session_stations(
+    p: &PowerDifferenceParams,
+    st: &[Station],
+    epochs: &[Epoch],
+) -> Vec<(Option<f64>, f64)> {
+    let e = epochs.len();
+    st.iter()
+        .enumerate()
+        .map(|(i, s)| {
+            let js: Vec<f64> = epochs
+                .iter()
+                .filter_map(|ep| station_j(p, s, &ep.obs[i]))
+                .collect();
+            let reporting = js.len() as f64 > p.report_share * e as f64;
+            let n = if reporting { js.len() } else { e.max(1) } as f64;
+            let sig =
+                (p.sigma_sh_db * p.sigma_sh_db + p.sigma_meas_db * p.sigma_meas_db / n).sqrt();
+            let mean = if reporting {
+                Some(js.iter().sum::<f64>() / js.len() as f64)
+            } else {
+                None
+            };
+            (mean, sig)
+        })
+        .collect()
+}
+
+/// Version 2's session log-likelihood per cell and hypothesis (`[c * K + k]`, see [`hypotheses`]):
+/// one term per station (V5). `None` when fewer than `min_reporting` stations report in the session
+/// (V7).
+pub fn session_loglik(
+    p: &PowerDifferenceParams,
+    st: &[Station],
+    g: &Grid,
+    epochs: &[Epoch],
+) -> Option<Vec<f64>> {
+    let est = session_stations(p, st, epochs);
+    if est.iter().filter(|(m, _)| m.is_some()).count() < p.min_reporting {
+        return None;
+    }
+    let geo = Geometry::new(p, g, st);
+    let jmin: Vec<f64> = st.iter().map(|s| j_min(p, s)).collect();
+    let k_n = p.n_set.len();
+    let kk = geo.n_h * k_n;
+    let mut out = vec![0.0; g.centres.len() * kk];
+    for c in 0..g.centres.len() {
+        for hk in 0..geo.n_h {
+            let base = (c * geo.n_h + hk) * geo.n_st;
+            for (nk, &n) in p.n_set.iter().enumerate() {
+                // P0 profiled: the weighted mean over reporting stations, weights 1/σ_tot² (V5).
+                let (mut sw, mut swr) = (0.0, 0.0);
+                for i in 0..geo.n_st {
+                    if let (Some(ji), sig) = est[i] {
+                        let w = 1.0 / (sig * sig);
+                        let r = ji + 10.0 * n * geo.logd[base + i] - st[i].gain_dbi
+                            + geo.loss[base + i];
+                        sw += w;
+                        swr += w * r;
+                    }
+                }
+                let p0 = swr / sw;
+                let mut ll = 0.0;
+                for i in 0..geo.n_st {
+                    let (m, sig) = est[i];
+                    let pred =
+                        p0 - 10.0 * n * geo.logd[base + i] + st[i].gain_dbi - geo.loss[base + i];
+                    match m {
+                        Some(ji) => {
+                            let z = (ji - pred) / sig;
+                            ll += -0.5 * z * z;
+                        }
+                        None => ll += log_phi_cdf((jmin[i] - pred) / sig),
+                    }
+                }
+                out[c * kk + hk * k_n + nk] = ll;
+            }
+        }
+    }
+    Some(out)
+}
+
+/// Version 2's timeline (V10): for the end of each `timeline_s` step from the session start, the
+/// location from the epochs up to then, or `None` while it is not located (V7).
+pub fn timeline_v2(
+    p: &PowerDifferenceParams,
+    st: &[Station],
+    g: &Grid,
+    epochs: &[Epoch],
+) -> Vec<(f64, Option<Location>)> {
+    let Some(t0) = epochs.first().map(|e| e.t_s) else {
+        return Vec::new();
+    };
+    let t_last = epochs.last().map_or(t0, |e| e.t_s);
+    let mut out = Vec::new();
+    let mut k = 1.0;
+    loop {
+        let t_end = t0 + k * p.timeline_s;
+        let upto = epochs.iter().take_while(|e| e.t_s < t_end).count();
+        let loc = session_loglik(p, st, g, &epochs[..upto]).map(|ll| locate(p, g, &ll));
+        out.push((t_end, loc));
+        if t_end > t_last {
+            return out;
+        }
+        k += 1.0;
+    }
+}
+
 /// Sessions (R8): index ranges of epochs with at least `min_reporting` reporting stations.
 pub fn sessions(
     p: &PowerDifferenceParams,
@@ -781,6 +945,8 @@ pub struct GateRow {
     pub nn_spacing_km: f64,
     /// Redraws.
     pub redraws: u32,
+    /// Whether the session was located (always true for v1; false for a v2 session under V7).
+    pub located: bool,
 }
 
 /// Score one synthetic seed for each tempering exponent in `tempers` (the summed log-likelihood
@@ -789,7 +955,11 @@ pub fn gate_row(p: &PowerDifferenceParams, seed: u64, tempers: &[f64]) -> GateRo
     let s = synth_session(p, seed);
     let g = grid(p, &s.stations);
     let (a, b) = sessions(p, &s.stations, &s.epochs)[0];
-    let summed = summed_loglik(p, &s.stations, &g, &s.epochs[a..b]);
+    let summed = if p.session_shadowing {
+        session_loglik(p, &s.stations, &g, &s.epochs[a..b])
+    } else {
+        Some(summed_loglik(p, &s.stations, &g, &s.epochs[a..b]))
+    };
     let truth_cell = g
         .centres
         .iter()
@@ -806,6 +976,29 @@ pub fn gate_row(p: &PowerDifferenceParams, seed: u64, tempers: &[f64]) -> GateRo
         .position(|&l| l == 0.95)
         .unwrap_or(p.levels.len() - 1);
     let (mut covered, mut area_share, mut err) = (Vec::new(), Vec::new(), Vec::new());
+    // Not located (V7): not covered, the whole domain, and the error from the domain's area centroid.
+    let Some(summed) = summed else {
+        let nc = g.centres.len() as f64;
+        let (cx, cy) = g
+            .centres
+            .iter()
+            .fold((0.0, 0.0), |acc, c| (acc.0 + c.0, acc.1 + c.1));
+        let (cx, cy) = (cx / nc, cy / nc);
+        for _ in tempers {
+            covered.push(false);
+            area_share.push(1.0);
+            err.push(((cx - s.source.0).powi(2) + (cy - s.source.1).powi(2)).sqrt());
+        }
+        return GateRow {
+            seed,
+            covered,
+            area_share,
+            centroid_err_km: err,
+            nn_spacing_km: nn_spacing(&s.stations),
+            redraws: s.redraws,
+            located: false,
+        };
+    };
     for &t in tempers {
         let mut q = p.clone();
         q.temper = t;
@@ -817,12 +1010,24 @@ pub fn gate_row(p: &PowerDifferenceParams, seed: u64, tempers: &[f64]) -> GateRo
             ((loc.centroid.0 - s.source.0).powi(2) + (loc.centroid.1 - s.source.1).powi(2)).sqrt(),
         );
     }
-    let nn: Vec<f64> = s
-        .stations
+    GateRow {
+        seed,
+        covered,
+        area_share,
+        centroid_err_km: err,
+        nn_spacing_km: nn_spacing(&s.stations),
+        redraws: s.redraws,
+        located: true,
+    }
+}
+
+/// The median nearest-neighbour spacing of the stations, km (R13).
+fn nn_spacing(stations: &[Station]) -> f64 {
+    let nn: Vec<f64> = stations
         .iter()
         .enumerate()
         .map(|(i, a)| {
-            s.stations
+            stations
                 .iter()
                 .enumerate()
                 .filter(|(j, _)| *j != i)
@@ -832,14 +1037,7 @@ pub fn gate_row(p: &PowerDifferenceParams, seed: u64, tempers: &[f64]) -> GateRo
                 .fold(f64::INFINITY, f64::min)
         })
         .collect();
-    GateRow {
-        seed,
-        covered,
-        area_share,
-        centroid_err_km: err,
-        nn_spacing_km: median(nn),
-        redraws: s.redraws,
-    }
+    median(nn)
 }
 
 /// The tempering candidates of R9.
@@ -881,6 +1079,23 @@ pub fn synth_answer_json(p: &PowerDifferenceParams, seed: u64) -> Value {
     let s = synth_session(p, seed);
     let g = grid(p, &s.stations);
     let (a, b) = sessions(p, &s.stations, &s.epochs)[0];
+    if p.session_shadowing {
+        // Version 2: the method block (with the domain statement, V9) is in every output.
+        return match session_loglik(p, &s.stations, &g, &s.epochs[a..b]) {
+            Some(ll) => {
+                let loc = locate(p, &g, &ll);
+                json!({
+                    "seed": seed, "method": p.to_json(), "cell_km": g.cell_km, "n_cells": g.centres.len(),
+                    "session": [a, b],
+                    "regions": loc.regions, "centroid": [loc.centroid.0, loc.centroid.1],
+                })
+            }
+            None => json!({
+                "seed": seed, "method": p.to_json(), "cell_km": g.cell_km, "n_cells": g.centres.len(),
+                "session": [a, b], "located": false, "reason": NOT_LOCATED_V2,
+            }),
+        };
+    }
     let summed = summed_loglik(p, &s.stations, &g, &s.epochs[a..b]);
     let loc = locate(p, &g, &summed);
     json!({
@@ -949,5 +1164,179 @@ mod tests {
     fn synthetic_sessions_are_reproducible() {
         let p = PowerDifferenceParams::preregistered_v1();
         assert_eq!(synth_session(&p, 7), synth_session(&p, 7));
+    }
+
+    fn station_at(x: f64, y: f64) -> Station {
+        Station {
+            east_km: x,
+            north_km: y,
+            antenna_h_m: 10.0,
+            c_nom_dbhz: 45.0,
+            kappa_db: None,
+            noise_dbw: -130.0,
+            gain_dbi: 0.0,
+        }
+    }
+
+    /// Epochs whose drops give exactly the powers `j` (dBW) at every epoch; `None` reports nothing.
+    fn epochs_from_powers(p: &PowerDifferenceParams, j: &[Option<f64>], n: usize) -> Vec<Epoch> {
+        (0..n)
+            .map(|k| Epoch {
+                t_s: k as f64,
+                obs: j
+                    .iter()
+                    .map(|ji| Obs {
+                        drop_db: Some(match ji {
+                            Some(v) => {
+                                45.0 - crate::jamming::effective_cn0_dbhz(
+                                    45.0,
+                                    v - p.signal_dbw,
+                                    p.q,
+                                    p.chip_rate_hz,
+                                )
+                            }
+                            None => 0.0,
+                        }),
+                        dagc: None,
+                    })
+                    .collect(),
+            })
+            .collect()
+    }
+
+    #[test]
+    fn v2_parameters_keep_v1_as_recorded() {
+        let (v1, v2) = (
+            PowerDifferenceParams::preregistered_v1(),
+            PowerDifferenceParams::preregistered_v2(),
+        );
+        assert_eq!(v1.method_id(), METHOD_ID);
+        assert_eq!(v2.method_id(), METHOD_ID_V2);
+        assert_eq!(
+            (v2.buffer_km, v2.temper, v2.sigma_meas_db),
+            (10.0, 1.0, 2.0)
+        );
+        assert!(v2.session_shadowing && v2.report_share == 0.5);
+        // v1's method block has no v2 key; v2's carries the domain statement (V9).
+        assert!(
+            v1.to_json().get("domain").is_none() && v1.to_json().get("sigma_meas_db").is_none()
+        );
+        assert_eq!(v2.to_json()["domain"]["outside"], OUTSIDE_STATEMENT_V2);
+    }
+
+    #[test]
+    fn v2_more_than_half_rule_and_session_sigma() {
+        let p = PowerDifferenceParams::preregistered_v2();
+        let st = vec![station_at(0.0, 0.0)];
+        let on = epochs_from_powers(&p, &[Some(-110.0)], 1);
+        let off = epochs_from_powers(&p, &[None], 1);
+        // 16 of 30 epochs report: reporting, n = 16. 15 of 30: censored, n = 30 (V3, V4).
+        let mix = |k: usize| -> Vec<Epoch> {
+            (0..30)
+                .map(|i| Epoch {
+                    t_s: i as f64,
+                    obs: if i < k {
+                        on[0].obs.clone()
+                    } else {
+                        off[0].obs.clone()
+                    },
+                })
+                .collect()
+        };
+        let a = session_stations(&p, &st, &mix(16))[0];
+        assert!((a.0.unwrap_or(f64::NAN) + 110.0).abs() < 1e-9);
+        assert!((a.1 - (36.0f64 + 4.0 / 16.0).sqrt()).abs() < 1e-12);
+        let b = session_stations(&p, &st, &mix(15))[0];
+        assert!(b.0.is_none());
+        assert!((b.1 - (36.0f64 + 4.0 / 30.0).sqrt()).abs() < 1e-12);
+    }
+
+    #[test]
+    fn v2_not_located_with_fewer_than_three_reporting_stations() {
+        let p = PowerDifferenceParams::preregistered_v2();
+        let st: Vec<Station> = (0..4).map(|i| station_at(i as f64 * 3.0, 0.0)).collect();
+        let g = grid(&p, &st);
+        let e = epochs_from_powers(&p, &[Some(-110.0), Some(-112.0), None, None], 30);
+        assert!(session_loglik(&p, &st, &g, &e).is_none());
+        let e = epochs_from_powers(&p, &[Some(-110.0), Some(-112.0), Some(-115.0), None], 30);
+        assert!(session_loglik(&p, &st, &g, &e).is_some());
+    }
+
+    #[test]
+    fn v2_noiseless_data_from_its_own_model_is_located() {
+        // Data drawn from the locator's own model, without noise: the posterior mode is the
+        // source's cell and the 95% region holds it.
+        let p = PowerDifferenceParams::preregistered_v2();
+        let st: Vec<Station> = [
+            (0.0, 0.0),
+            (10.0, 0.0),
+            (0.0, 10.0),
+            (10.0, 10.0),
+            (5.0, 2.0),
+            (2.0, 7.0),
+        ]
+        .iter()
+        .map(|&(x, y)| station_at(x, y))
+        .collect();
+        let (src, h, n, p0) = ((6.0, 4.0), 2.0, 2.5, -20.0);
+        let j: Vec<Option<f64>> = st
+            .iter()
+            .map(|s| {
+                let (dx, dy) = ((src.0 - s.east_km) * 1000.0, (src.1 - s.north_km) * 1000.0);
+                let dz = h - s.antenna_h_m;
+                let d: f64 = (dx * dx + dy * dy + dz * dz).sqrt();
+                let horiz_km = (dx * dx + dy * dy).sqrt() / 1000.0;
+                let los = if horiz_km > los_reach_km(s.antenna_h_m, h) {
+                    p.nlos_db
+                } else {
+                    0.0
+                };
+                Some(p0 - 10.0 * n * d.log10() - los)
+            })
+            .collect();
+        let g = grid(&p, &st);
+        let e = epochs_from_powers(&p, &j, 30);
+        let ll = session_loglik(&p, &st, &g, &e).expect("located");
+        let loc = locate(&p, &g, &ll);
+        let truth = g
+            .centres
+            .iter()
+            .enumerate()
+            .map(|(k, c)| (k, (c.0 - src.0).powi(2) + (c.1 - src.1).powi(2)))
+            .fold((0, f64::INFINITY), |a, x| if x.1 < a.1 { x } else { a })
+            .0;
+        let mode = (0..loc.posterior.len()).fold(0, |a, k| {
+            if loc.posterior[k] > loc.posterior[a] {
+                k
+            } else {
+                a
+            }
+        });
+        let dm = ((g.centres[mode].0 - src.0).powi(2) + (g.centres[mode].1 - src.1).powi(2)).sqrt();
+        assert!(dm <= g.cell_km, "mode {dm} km from the source");
+        assert!(loc.regions[2].binary_search(&truth).is_ok());
+    }
+
+    #[test]
+    fn v2_timeline_steps_through_the_session() {
+        let p = PowerDifferenceParams::preregistered_v2();
+        let st: Vec<Station> = (0..4)
+            .map(|i| station_at(i as f64 * 3.0, (i % 2) as f64 * 3.0))
+            .collect();
+        let g = grid(&p, &st);
+        let mut e = epochs_from_powers(
+            &p,
+            &[Some(-110.0), Some(-112.0), Some(-115.0), Some(-118.0)],
+            150,
+        );
+        for (k, ep) in e.iter_mut().enumerate() {
+            ep.t_s = k as f64;
+        }
+        let tl = timeline_v2(&p, &st, &g, &e);
+        assert_eq!(
+            tl.iter().map(|x| x.0).collect::<Vec<_>>(),
+            vec![60.0, 120.0, 180.0]
+        );
+        assert!(tl.iter().all(|x| x.1.is_some()));
     }
 }
