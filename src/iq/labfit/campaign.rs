@@ -134,6 +134,52 @@ impl SatEvent {
         js_db
     }
 
+    /// The stated J/S at the centres of the estimator's `windows` windows of `window_s` ending at
+    /// the bin's time (D8a row 6 v2): the bin's time is the first time from the onset at which a
+    /// rising or falling segment of a linear profile reaches `js_db`; window `k` is centred at
+    /// `t_b − (k + ½)·window_s`; a centre before the onset gives `None` (the baseline). A level
+    /// reached only on a held segment, a step profile or a level not reached in the event is
+    /// read as settled (`None` overall: model the bin at `js_db`).
+    pub fn response_windows_js(
+        &self,
+        js_db: f64,
+        windows: usize,
+        window_s: f64,
+    ) -> Option<Vec<Option<f64>>> {
+        let p = self.power.as_ref()?;
+        if p.interpolation == Interpolation::Step {
+            return None;
+        }
+        let mut knots = vec![self.onset_s];
+        knots.extend(
+            p.points
+                .iter()
+                .map(|pt| pt[0])
+                .filter(|&t| t > self.onset_s && t < self.offset_s),
+        );
+        knots.push(self.offset_s);
+        for w in knots.windows(2) {
+            let (t0, t1) = (w[0], w[1]);
+            let (j0, j1) = (p.js_db_at(t0), p.js_db_at(t1));
+            if !((j0 <= js_db && js_db <= j1) || (j1 <= js_db && js_db <= j0)) {
+                continue;
+            }
+            if j1 == j0 {
+                return None;
+            }
+            let tb = t0 + (t1 - t0) * (js_db - j0) / (j1 - j0);
+            return Some(
+                (0..windows)
+                    .map(|k| {
+                        let t = tb - (k as f64 + 0.5) * window_s;
+                        (t >= self.onset_s).then(|| p.js_db_at(t))
+                    })
+                    .collect(),
+            );
+        }
+        None
+    }
+
     /// The mean J/S rate over the event's rising part (dB/s): peak minus the onset level over
     /// the time to reach the peak; 0 for a step.
     pub fn ramp_db_per_s(&self) -> f64 {

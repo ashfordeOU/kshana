@@ -458,6 +458,33 @@ pub struct CampaignFitCfg {
     /// models it at its own stated J/S; omitted from the output then.
     #[serde(skip_serializing_if = "is_zero")]
     pub cn0_lag_s: f64,
+    /// How a measured C/N0 bin is modelled: at its stated J/S (the default), or as the
+    /// campaign's M2M4 estimator would read the stated profile (D8a row 6 v2,
+    /// `xval/d8a-labfit-response/`); omitted from the output at the default.
+    #[serde(skip_serializing_if = "is_stated")]
+    pub cn0_model: Cn0Model,
+    /// Windows the C/N0 estimator averages (with `cn0_model = "estimator-response"`).
+    pub cn0_windows: usize,
+    /// Length of one estimator window (s).
+    pub cn0_window_s: f64,
+    /// Coherent time of one prompt (s).
+    pub coherent_s: f64,
+}
+
+/// How the lab fit models a measured C/N0 bin.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Cn0Model {
+    /// The §3.1 model at the bin's stated J/S.
+    #[default]
+    Stated,
+    /// The M2M4 estimator's reading of the §3.1 model along the stated profile: window
+    /// moments averaged over the estimator's span, then its transform.
+    EstimatorResponse,
+}
+
+fn is_stated(m: &Cn0Model) -> bool {
+    *m == Cn0Model::Stated
 }
 
 fn is_zero(x: &f64) -> bool {
@@ -474,6 +501,10 @@ impl Default for CampaignFitCfg {
             delta_bounds_db: [-10.0, 10.0],
             lock_models: true,
             cn0_lag_s: 0.0,
+            cn0_model: Cn0Model::Stated,
+            cn0_windows: 50,
+            cn0_window_s: 0.02,
+            coherent_s: 0.001,
         }
     }
 }

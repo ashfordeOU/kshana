@@ -62,7 +62,7 @@ pub fn threshold_js_db(
 }
 
 /// One measured C/N0 bin entering the fit.
-#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Cn0Point {
     /// The satellite's measured baseline C/N0 (dB-Hz).
     pub c0_dbhz: f64,
@@ -74,13 +74,59 @@ pub struct Cn0Point {
     pub weight: f64,
     /// Chip rate of the signal (chips/s).
     pub chip_rate_hz: f64,
+    /// With the estimator-response model: the stated J/S at the centre of each of the
+    /// estimator's windows (`None` for a window before the onset, which has the baseline), and
+    /// the coherent time of a prompt (s). `None`: the bin is modelled at `js_db`.
+    #[serde(skip)]
+    pub response: Option<(std::sync::Arc<[Option<f64>]>, f64)>,
 }
 
 impl Cn0Point {
+    /// The modelled C/N0 of the bin (dB-Hz).
+    pub fn model(&self, q: f64, delta_db: f64) -> f64 {
+        match &self.response {
+            None => model_cn0_dbhz(self.c0_dbhz, self.js_db, q, delta_db, self.chip_rate_hz),
+            Some((windows, coh_s)) => estimator_reading(
+                self.c0_dbhz,
+                windows,
+                q,
+                delta_db,
+                self.chip_rate_hz,
+                *coh_s,
+            ),
+        }
+    }
+
     /// Measured minus modelled C/N0 (dB).
     pub fn residual(&self, q: f64, delta_db: f64) -> f64 {
-        self.cn0_dbhz - model_cn0_dbhz(self.c0_dbhz, self.js_db, q, delta_db, self.chip_rate_hz)
+        self.cn0_dbhz - self.model(q, delta_db)
     }
+}
+
+/// The M2M4 estimator's reading (dB-Hz) of the §3.1 model over its windows: each window's
+/// expected per-prompt moments with unit noise power (`A² = 10^(C/10)·T`, `m2 = A² + 1`,
+/// `m4 = A⁴ + 4A² + 2`), averaged, then [`crate::acquisition::m2m4_cn0_from_moments`]. A
+/// window of `None` has the baseline `c0_dbhz`. For equal windows it returns the model.
+pub fn estimator_reading(
+    c0_dbhz: f64,
+    windows: &[Option<f64>],
+    q: f64,
+    delta_db: f64,
+    chip_rate_hz: f64,
+    coherent_s: f64,
+) -> f64 {
+    let (mut m2, mut m4) = (0.0, 0.0);
+    for w in windows {
+        let c = match w {
+            None => c0_dbhz,
+            Some(js) => model_cn0_dbhz(c0_dbhz, *js, q, delta_db, chip_rate_hz),
+        };
+        let a2 = 10f64.ppowf(c / 10.0) * coherent_s;
+        m2 += a2 + 1.0;
+        m4 += a2 * a2 + 4.0 * a2 + 2.0;
+    }
+    let n = windows.len().max(1) as f64;
+    crate::acquisition::m2m4_cn0_from_moments(m2 / n, m4 / n, coherent_s).unwrap_or(f64::NAN)
 }
 
 /// Whether `Q_eff` was fitted or held at its stated value.
@@ -270,6 +316,7 @@ mod tests {
                 cn0_dbhz: model_cn0_dbhz(45.0, j, q, delta, RC),
                 weight: 100.0,
                 chip_rate_hz: RC,
+                response: None,
             })
             .collect()
     }

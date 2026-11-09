@@ -3822,6 +3822,7 @@ engine-e-iq-labfit-iqfit-validation-pi90-coverage-must-be = validation.pi90_cove
 
 engine-e-iq-labfit-iqfit-campaign-fit-bounds-must-be = campaign_fit.q_bounds must be [lower, upper] with 0 < lower < upper
 engine-e-iq-labfit-iqfit-campaign-fit-cn0-lag = campaign_fit.cn0_lag_s must be finite and at least 0 (got { $lag })
+engine-e-iq-labfit-iqfit-campaign-fit-cn0-estimator = campaign_fit.cn0_windows, cn0_window_s and coherent_s must be positive (got { $windows }, { $window }, { $coherent })
 
 engine-e-iq-labfit-iqfit-campaign-fit-delta-bounds-db = campaign_fit.delta_bounds_db must be [lower, upper]
 
