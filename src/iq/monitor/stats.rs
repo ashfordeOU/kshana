@@ -196,6 +196,61 @@ pub fn cusum_arl0(k: f64, h: f64) -> f64 {
     cusum_arl(k, h, 0.0)
 }
 
+/// The noise-free M2M4 reading (dB-Hz) of a channel at `mu0_dbhz` whose last `n_att` of
+/// `windows` estimator windows are attenuated by `att_db`: each window's expected per-prompt
+/// moments with unit noise power (`A² = 10^(C/10)·T`, `m2 = A² + 1`, `m4 = A⁴ + 4A² + 2`),
+/// averaged, then [`crate::acquisition::m2m4_cn0_from_moments`] (D8b row 8 v2).
+pub fn m2m4_step_reading(
+    mu0_dbhz: f64,
+    att_db: f64,
+    n_att: usize,
+    windows: usize,
+    coherent_s: f64,
+) -> f64 {
+    let a0 = 10f64.ppowf(mu0_dbhz / 10.0) * coherent_s;
+    let a1 = a0 * 10f64.ppowf(-att_db / 10.0);
+    let (k, m) = (n_att.min(windows) as f64, windows as f64);
+    let m2 = ((m - k) * (a0 + 1.0) + k * (a1 + 1.0)) / m;
+    let m4 = ((m - k) * (a0 * a0 + 4.0 * a0 + 2.0) + k * (a1 * a1 + 4.0 * a1 + 2.0)) / m;
+    crate::acquisition::m2m4_cn0_from_moments(m2, m4, coherent_s).unwrap_or(f64::NAN)
+}
+
+/// `D_est` of D8b row 8 v2 (`xval/d8b-cn0-bound-v2/README.md`): the first time after a step of
+/// `att_db` at which the noise-free drop CUSUM (`k = shift_db/(2σ0)`, threshold `h`, `σ0` at
+/// least 0.1 dB) fed the noise-free sliding M2M4 estimate exceeds `h`, sampling every
+/// `stride_s` with `stride_s / window_s` new windows per sample; infinite if it never does.
+#[allow(clippy::too_many_arguments)]
+pub fn cusum_delay_through_m2m4(
+    mu0_dbhz: f64,
+    sigma0_db: f64,
+    h: f64,
+    shift_db: f64,
+    att_db: f64,
+    stride_s: f64,
+    windows: usize,
+    window_s: f64,
+    coherent_s: f64,
+) -> f64 {
+    let s = sigma0_db.max(0.1);
+    let k = shift_db / (2.0 * s);
+    let per = (stride_s / window_s).round().max(1.0) as usize;
+    let mut g = 0.0f64;
+    let mut j = 0usize;
+    loop {
+        j += 1;
+        let n = (j * per).min(windows);
+        let c = m2m4_step_reading(mu0_dbhz, att_db, n, windows, coherent_s);
+        let z = (c - mu0_dbhz) / s;
+        g = (g - z - k).max(0.0);
+        if g > h {
+            return j as f64 * stride_s;
+        }
+        if n == windows && j * per > 10 * windows {
+            return f64::INFINITY;
+        }
+    }
+}
+
 /// Mean of `cos 2θ` for the phase of a constant phasor in circular complex Gaussian noise
 /// at power signal-to-noise ratio `gamma` (`A²/E|n|²`): `1 − (1 − e^{−γ})/γ`.
 pub fn pli_mean(gamma: f64) -> f64 {
