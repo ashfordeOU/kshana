@@ -122,6 +122,19 @@ faults in the adapter showed in the states:
 The notebook writes the per-node differences (epoch offset in seconds, GMAT minus written in km and
 km/s) to `gmat/spk_differences.csv` in the job's artifact.
 
+**The fifth run: a constant rotation of the readout axes.** The fifth run (Flight dynamics run
+42555506824, at open commit fec594dd1) reported the kernel's state at the first node, and with one
+Moon the worst position difference fell from 85 m to 14.5 m, velocities within 0.32 mm/s. What was
+left is a constant rotation: a least-squares fit of d = ω × r over all 4,321 nodes gives
+ω = (−7.85, +43.72, −0.62) mas, |ω| = 44.4 mas, stable over 5-day chunks; with it removed the
+position residual is at most 0.31 m (RMS 0.15 m), the radial differences at most 0.7 mm. The IAU
+2006 frame bias (about 23 mas) removes only part of it. The states had been read out in GMAT's
+MJ2000Eq axes, while Kshana's states are ICRF (the kernel's frame code is J2000, which SPICE treats
+as ICRF). The SPK is now reported in a Luna-centred frame with GMAT's ICRF axes, the like-for-like
+readout, and still also in MJ2000Eq (`gmat_spk_mj2000eq.txt`, `spk_mj2000eq_differences.csv`, not
+compared). If a rotation remains in the ICRF readout, it is recorded as a GMAT frame finding with
+this fit, and the rule is not changed.
+
 **The comparison through GMAT's report.** GMAT's states reach the notebook only through a text report
 of at most 16 significant digits, and a double needs 17. A stand-in that returns SPICE's own states,
 equal to SPICE in every value at 16 digits, fails the evaluating-tool rule as first written

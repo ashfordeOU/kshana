@@ -76,7 +76,7 @@ What GMAT reported, against what was written:
 
 ```python
 rows = []
-legs = [("spk", spk_report, "SPK propagator, LunaJ2000 (MJ2000Eq)")]
+legs = [("spk", spk_report, "SPK propagator, Luna-centred ICRF axes")]
 if not oem_refused:
     legs.append(("oem", oem_report, "CCSDS-OEM propagator, LunaICRF"))
 for fmt, path, how in legs:
@@ -86,6 +86,11 @@ for fmt, path, how in legs:
     ok, worst_dt = gm.epochs_equal(g_texts[:n], ets[:n])
     w = fd.Written(written.epochs[:n], written.text[:n])
     gm.write_differences(OUT / "gmat" / f"{fmt}_differences.csv", g_texts[:n], g_states[:n], ets[:n], w.values[:n])
+    if fmt == "spk":
+        # The same states in GMAT's MJ2000Eq axes: kept beside the comparison, not compared.
+        m_ets, m_states, m_texts = gm.read_report(OUT / "gmat" / "gmat_spk_mj2000eq.txt")
+        m = min(len(m_states), len(ets))
+        gm.write_differences(OUT / "gmat" / "spk_mj2000eq_differences.csv", m_texts[:m], m_states[:m], ets[:m], w.values[:m])
     c = fd.evaluated_compare("GMAT", fmt, w, g_states[:n], ok, spice[:n], how=how,
                              readout_digits=gm.REPORT_DIGITS)
     c.notes.append(f"{len(g_states)} of {len(ets)} states reported; epochs within {worst_dt:.3g} s of the written ones")
