@@ -9,7 +9,10 @@ file's first epoch. Each step stops at the next node's TDB epoch (a `TDBModJulia
 not after a fixed elapsed time: GMAT counts elapsed time in A.1 seconds, and over the file's 30 days
 the TDB−TT periodic term drifts 600 A.1 seconds away from 600 TDB seconds, by about 0.28 ms by the
 end. The second run of the job, stepping by elapsed time, ended 3.2e-9 day past the kernel's
-coverage and GMAT halted. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
+coverage and GMAT halted. The last node is asked for LAST_NODE_MARGIN_S before the kernel's
+coverage end (read with SPICE), through a propagator whose step is LAST_STEP_SHORT_S short, so that
+GMAT never steps past the kernel (the third run, stopping at the end itself, still landed past it);
+the report states that node's epoch offset like every other. At every step GMAT reports the epoch (`TDBModJulian`) and the Moon-centred state,
 at 16 significant digits:
 
 - the OEM in a Moon-centred ICRF frame (its `REF_FRAME` is ICRF);
@@ -33,7 +36,8 @@ amendment). GMAT's own epoch arithmetic is part of what is compared.
 Written without running GMAT in the session that wrote it; GMAT's binaries run only in the workflow
 job, whose logs drive the fixes. The first run reached the OEM leg and stopped there with
 OEM_V2_REFUSAL, before the SPK leg. The second ran the SPK leg to its last step, which stepped
-past the kernel's coverage (see above); the epoch stop condition is the fix, tested by the next job.
+past the kernel's coverage (see above). The third, with the epoch stop condition, still asked for
+the last node a hair past the coverage end; the last-node margin is the fix, tested by the next job.
 """
 from __future__ import annotations
 
@@ -86,6 +90,12 @@ SpkProp.StepSize = {step};
 SpkProp.CentralBody = Luna;
 SpkProp.StartEpoch = FromSpacecraft;
 
+Create Propagator SpkPropLast;
+SpkPropLast.Type = SPK;
+SpkPropLast.StepSize = {last_step};
+SpkPropLast.CentralBody = Luna;
+SpkPropLast.StartEpoch = FromSpacecraft;
+
 Create CoordinateSystem LunaJ2000;
 LunaJ2000.Origin = Luna;
 LunaJ2000.Axes = MJ2000Eq;
@@ -100,12 +110,25 @@ Create Variable k t;
 BeginMissionSequence;
 
 Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
-For k = 1:{steps};
+For k = 1:{inner_steps};
    t = {mjd0} + k * {step_days};
    Propagate SpkProp(SpkSat) {{SpkSat.TDBModJulian = t}};
    Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 EndFor;
+Propagate SpkPropLast(SpkSat) {{SpkSat.TDBModJulian = {mjd_last}}};
+Report SpkReport SpkSat.TDBModJulian SpkSat.LunaJ2000.X SpkSat.LunaJ2000.Y SpkSat.LunaJ2000.Z SpkSat.LunaJ2000.VX SpkSat.LunaJ2000.VY SpkSat.LunaJ2000.VZ;
 """
+
+#: How far before the kernel's coverage end GMAT is asked for the last node, in seconds. GMAT's
+#: conversion of a stop epoch that is the end itself landed past the coverage (third run of the job,
+#: at open commit f07e4ba53: "Insufficient ephemeris data ... at 2023 MAR 31 00:00:00.000").
+LAST_NODE_MARGIN_S = 2e-6
+
+#: The last node's propagator steps this much short of the node spacing, so that its one step from
+#: the node before ends between the stop epoch and the coverage end: past the stop (bracketing it)
+#: but not past the kernel, whether or not GMAT shortens a step to land on an epoch stop. 600 A.1
+#: seconds differ from 600 TDB seconds by at most about 2e-7 s here.
+LAST_STEP_SHORT_S = 1e-6
 
 #: Significant digits of GMAT's reports: ReportFile's largest Precision. The comparison prints
 #: SPICE's evaluation at the same precision (NAMING.md, the 8-9 November amendment).
@@ -141,6 +164,27 @@ def tdb_mjd(et: float) -> float:
     return float(Decimal(repr(et)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000)))
 
 
+def coverage_end_et(bsp: Path, naif: int) -> float:
+    """The end of the kernel's coverage for `naif`, as SPICE reads it (ET seconds past J2000)."""
+    import spiceypy
+
+    cover = spiceypy.spkcov(str(bsp), naif)
+    return spiceypy.wnfetd(cover, spiceypy.wncard(cover) - 1)[1]
+
+
+def last_node_mjd(end_et: float) -> float:
+    """The last node's stop epoch: LAST_NODE_MARGIN_S before the coverage end, as a TDB modified
+    Julian date no later than that instant."""
+    import math
+    from decimal import Decimal
+
+    want = Decimal(repr(end_et - LAST_NODE_MARGIN_S)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000))
+    t = float(want)
+    while Decimal(repr(t)) > want:
+        t = math.nextafter(t, -math.inf)
+    return t
+
+
 def _console(script: Path, log_name: str) -> tuple[int, str]:
     """Run one script in GmatConsole; returns (exit code, console output), the output also saved."""
     p = subprocess.run(["./GmatConsole", "--run", str(script.resolve())], cwd=gmat_root() / "bin",
@@ -156,8 +200,10 @@ def run_spk(bsp: Path, out: Path, first_label: str, first_et: float, n: int, nai
     GMAT fails."""
     out.mkdir(parents=True, exist_ok=True)
     script = out / "kshana_c7_spk.script"
+    end_et = coverage_end_et(bsp, naif)
     script.write_text(SPK_SCRIPT.format(bsp=Path(bsp).resolve(), out=out.resolve(), naif=naif,
-                                        start_gregorian=gregorian(first_label), step=step_s, steps=n - 1,
+                                        start_gregorian=gregorian(first_label), step=step_s, inner_steps=n - 2,
+                                        mjd_last=repr(last_node_mjd(end_et)), last_step=repr(step_s - LAST_STEP_SHORT_S),
                                         mjd0=repr(tdb_mjd(first_et)), step_days=repr(step_s / 86400.0),
                                         digits=REPORT_DIGITS))
     code, log = _console(script, "gmat_console_spk.log")
@@ -210,3 +256,11 @@ def epochs_equal(texts: list[str], want_ets: list[float]) -> tuple[list[bool], f
         ok.append(abs(got - want) <= unit)
         worst = max(worst, float(abs(got - want)) * 86400.0)
     return ok, worst
+
+
+def epoch_offsets(texts: list[str], want_ets: list[float]) -> list[float]:
+    """Each reported epoch minus the written one, in seconds (the reported MJD text read exactly)."""
+    from decimal import Decimal
+
+    return [float((Decimal(t) - (Decimal(repr(e)) / Decimal(86400) + Decimal(repr(GMAT_MJD_J2000))))
+                  * Decimal(86400)) for t, e in zip(texts, want_ets)]

@@ -83,6 +83,10 @@ for fmt, path, how in legs:
     c = fd.evaluated_compare("GMAT", fmt, w, g_states[:n], ok, spice[:n], how=how,
                              readout_digits=gm.REPORT_DIGITS)
     c.notes.append(f"{len(g_states)} of {len(ets)} states reported; epochs within {worst_dt:.3g} s of the written ones")
+    if fmt == "spk" and n == len(ets):
+        off = gm.epoch_offsets(g_texts[:n], ets[:n])
+        c.notes.append(f"last node asked for {gm.LAST_NODE_MARGIN_S:g} s before the kernel's end: its epoch "
+                       f"offset {off[-1]:.3g} s; the other nodes within {max(abs(x) for x in off[:-1]):.3g} s")
     rows.append(c)
     print(c.row())
 ```
