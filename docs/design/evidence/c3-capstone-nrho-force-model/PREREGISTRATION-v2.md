@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration C3 v2 (0.41.x): the CAPSTONE NRHO with a per-window radiation-pressure estimate
 
-**Status: PROPOSED, 8 November 2026. Waiting for the owner's sign-off. No code or data for v2 before it.** Advisory software, not navigation equipment. Public sources only.
+**Status: Signed off by the owner on 9 November 2026, as drafted (proposed 8 November 2026). No code or data for v2 before this sign-off. Bars may be tightened after a run, never loosened.** Advisory software, not navigation equipment. Public sources only.
 
 ## Why a v2
 
