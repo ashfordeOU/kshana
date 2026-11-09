@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! M4 development and scored runs (readings 17 to 19):
 //! `m4_dev dev` runs seeds 0-9 for every (m, c) candidate; `m4_dev scored` runs seeds 1000-1009 once
-//! at `M4Params::v1`. JSON on stdout.
+//! at `M4Params::v1`; `dev2` runs seeds 20-29 for m in {2, 3} (v2, R24); `scored2` runs seeds
+//! 2000-2009 once at `M4Params::v2`. JSON on stdout.
 use kshana::m4_dark_vessel::generate;
 use kshana::m4_logic::{decide, decided_classes, metrics, M4Params};
 use serde_json::json;
@@ -57,6 +58,37 @@ fn main() {
                 serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
             );
         }
-        _ => eprintln!("usage: m4_dev dev|scored|seed N"),
+        Some("dev2") => {
+            // v2 (R21, R24): seeds 20-29, m in {2, 3}.
+            let scenes: Vec<_> = (20..30).map(generate).collect();
+            let out: Vec<_> = [2usize, 3]
+                .iter()
+                .map(|&m| {
+                    let p = M4Params::v2_base(m);
+                    let rows: Vec<_> = scenes
+                        .iter()
+                        .flat_map(|s| decided_classes(s, &decide(s, &p)))
+                        .collect();
+                    json!({"m": m, "metrics": metrics(&rows)})
+                })
+                .collect();
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"set": "dev-v2", "seeds": [20, 29], "runs": out}))
+                    .expect("json")
+            );
+        }
+        Some("scored2") => {
+            let p = M4Params::v2();
+            let mut redraws = 0;
+            let mut rows = Vec::new();
+            for seed in 2000..2010 {
+                let s = generate(seed);
+                redraws += s.redraws;
+                rows.extend(decided_classes(&s, &decide(&s, &p)));
+            }
+            println!("{}", serde_json::to_string(&json!({"set": "scored-v2", "seeds": [2000, 2009], "m": p.m, "c_m": p.c_m, "redraws": redraws, "metrics": metrics(&rows)})).expect("json"));
+        }
+        _ => eprintln!("usage: m4_dev dev|scored|seed N|dev2|scored2"),
     }
 }

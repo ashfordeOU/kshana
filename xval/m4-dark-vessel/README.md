@@ -242,3 +242,23 @@ here. The generator, metrics and bars are v1's. `M4Params::v1` and the v1 result
     - `M4Params::v2` is committed with the chosen `m` before the scored seeds.
     - Seeds 2000 to 2009 are then generated and run once. `RESULTS-v2.md` records MET or NOT MET for B1 to B7, and
       `tests/m4_verdicts.rs` pins the v2 verdicts beside v1's.
+
+### The v2 development run (seeds 20 to 29, `dev-v2.json.gz`), committed before any scored seed
+
+| m | FA | DARK recall | DARK precision | Offset recall at 5 / 10 / 20 / 50 km | Eligible (FA ≤ 0.005) |
+|---|---|---|---|---|---|
+| 2 | 0.00513 | 0.870 | 0.898 | 0.486 / 0.675 / 0.689 / 0.771 | no |
+| **3** | **0.00006** | **0.883** | **0.896** | **0.436 / 0.600 / 0.611 / 0.686** | **yes: chosen** |
+
+`M4Params::v2` uses `m` = 3. No reading was changed after this run.
+
+**What the development run already shows, before the scored run (diagnosed on seeds 20 to 29 only).**
+- **DARK.** Recall is 0.883 against the B2 bar of 0.95. Every missed dark vessel had at least 5 detected fixes.
+  Their 1,474 fixes split into 614 dark fixes and 860 others: fixes kept by an AIS gate, or fixes left in a
+  single-fix track. Over the roughly 40 min between fixes, vessels turn (reading 4's legs). The constant-velocity
+  residual therefore rarely beats a nearby AIS gate's chi-square.
+- **POSITION-OFFSET.** Recall falls below v1's. The step test fails whenever any fix lands in the identity's gate
+  after onset. The fix can be another vessel's: v1 noted that a fix has about a one-in-five chance of falling inside
+  some other vessel's gate.
+- **Expected outcome.** B2 and B4 are expected to miss again, with B4 worse than in v1. The bars are not changed,
+  the readings are not changed to chase them, and the scored seeds are run once as they stand.
