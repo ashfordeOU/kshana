@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B4a E5 v2 (0.41.x): B-iq spoofing on TEXBAT, scoreable by design
 
-**Status: PROPOSED, 9 November 2026. Waiting for the owner's sign-off. No code reads any TEXBAT byte before it,
-and no score exists.** Numbers marked *proposed* are fixed at sign-off. After sign-off, bars may be tightened,
-never loosened.
+**Status: SIGNED. Proposed 9 November 2026 and signed off by the owner the same day, as drafted. No code read any
+TEXBAT byte before it, and no score exists.** Numbers marked *proposed* are now fixed. After sign-off, bars may be
+tightened, never loosened.
 
 ## Why a v2
 
