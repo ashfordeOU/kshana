@@ -434,6 +434,7 @@ fn ground_ctx() -> GroundCtx {
 }
 
 /// Run one draw (R5 to R7) for a source at `(lat, lon, h)` and EIRP `eirp_dbm`.
+#[allow(clippy::too_many_arguments)]
 fn run_draw(
     r: &mut ChaCha8Rng,
     src: (f64, f64, f64),
@@ -528,7 +529,8 @@ fn run_draw(
     let space = if eps.len() >= 2 {
         let f = space_resid(&eps, src.2);
         if v2 {
-            started_gn(&eps, src.2, &f, &|_: (f64, f64)| Vec::new(), &[1e-5, 1e-5]).map(|t| (t[0], t[1]))
+            started_gn(&eps, src.2, &f, &|_: (f64, f64)| Vec::new(), &[1e-5, 1e-5])
+                .map(|t| (t[0], t[1]))
         } else {
             gauss_newton(vec![start.0, start.1], &f, &[1e-5, 1e-5], &moved)
                 .filter(|t| in_box(t[0], t[1]))
@@ -544,7 +546,11 @@ fn run_draw(
         .filter(|e| e.iter().filter(|x| x.is_some()).count() >= 3)
         .cloned()
         .collect();
-    let ground_ok = if v2 { !session.is_empty() } else { reporting >= 3 };
+    let ground_ok = if v2 {
+        !session.is_empty()
+    } else {
+        reporting >= 3
+    };
     let ground = if ground_ok {
         let mut prm = PowerDifferenceParams::preregistered_v1();
         prm.h_set_m = vec![src.2];
@@ -607,8 +613,14 @@ fn run_draw(
         if v2 && eps.len() >= 2 {
             // v2 (R13): the started Gauss-Newton.
             if rep.is_empty() {
-                started_gn(&eps, src.2, &sp_f, &|_: (f64, f64)| Vec::new(), &[1e-5, 1e-5])
-                    .map(|t| (t[0], t[1]))
+                started_gn(
+                    &eps,
+                    src.2,
+                    &sp_f,
+                    &|_: (f64, f64)| Vec::new(),
+                    &[1e-5, 1e-5],
+                )
+                .map(|t| (t[0], t[1]))
             } else {
                 started_gn(&eps, src.2, &f, &e_at, &[1e-5, 1e-5, 1e-3]).map(|t| (t[0], t[1]))
             }
@@ -919,14 +931,18 @@ fn run_with(n_placements: usize, seeds: (u64, u64), v2: bool) -> Value {
             }),
         );
     }
-    json!({
+    let mut out = json!({
         "schema": "kshana.m5-result/1",
-        "version": if v2 { 2 } else { 1 },
-        "seeds": [seeds.0, seeds.1],
         "placements": pl.len(),
         "passes_found": passes.iter().filter(|p| p.is_some()).count(),
         "classes": by_class,
-    })
+    });
+    // v1's output bytes are pinned (B6); v2 adds its version and seeds.
+    if v2 {
+        out["version"] = json!(2);
+        out["seeds"] = json!([seeds.0, seeds.1]);
+    }
+    out
 }
 
 #[cfg(test)]
