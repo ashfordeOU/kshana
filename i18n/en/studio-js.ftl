@@ -2711,52 +2711,52 @@ js-app-webassembly-unavailable = WebAssembly unavailable
 # 2026-10-01-studio-rebuild/app.js:1693
 js-app-written-by-native = Written by the native command-line engine v{ $version } ({ $platform }) with
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
 js-cat-acm-link-question = Along each pass, which DVB-S2 mode does the link hold, and how much data does the pass move? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
 js-cat-acm-link-title = Satellite downlink with adaptive coding
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
 js-cat-aocs-slew-mekf-question = With the controller fed by an attitude filter and a biased gyro, how does the slew compare with the true-state case? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:141
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
 js-cat-aocs-slew-mekf-title = Slew on an attitude estimate
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
 js-cat-aocs-slew-question = Does the feedback law settle a large-angle slew with four wheels, and how hard do the wheels work? (the control loop is validated; the spacecraft is illustrative)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
 js-cat-aocs-slew-title = Reaction-wheel slew
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
 js-cat-aperture-duty-cycle-question = When one aperture serves both navigation and communications, what outage does that cost? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:140
 js-cat-aperture-duty-cycle-title = Aperture duty cycle
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
 js-cat-araim-gps-galileo-question = With GPS + Galileo and the constellation-wide fault hypothesis, how available is advanced RAIM?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
 js-cat-araim-gps-galileo-title = Dual-constellation ARAIM
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
 js-cat-araim-reference-check-question = Do the engine's protection levels land on the published Working Group C worked examples?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
 js-cat-araim-reference-check-title = ARAIM reference check
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
 js-cat-ascent-losses-question = How much of a two-stage launcher's ideal speed gain do gravity, drag, steering and back-pressure take? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:142
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
 js-cat-ascent-losses-title = Launch ascent losses
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
 js-cat-attitude-budget-question = What is the worst-case disturbance torque and pointing-error budget?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:138
 js-cat-attitude-budget-title = Pointing budget
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:66
@@ -2765,64 +2765,70 @@ js-cat-automotive-urban-canyon-question = Through an underpass and a roadside ja
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:66
 js-cat-automotive-urban-canyon-title = Car through an urban canyon
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
 js-cat-campaign-jam-spoof-holdover-integrity-question = What happens to one receiver through jamming, spoofing, GNSS loss, an integrity alarm and recovery, on one timeline? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
 js-cat-campaign-jam-spoof-holdover-integrity-title = Chained mission: jam, spoof, hold over, alarm
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
 js-cat-campaign-monte-carlo-clock-holdover-question = Over many seeded runs, does a free-running clock's time error match its closed-form spread?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:249
 js-cat-campaign-monte-carlo-clock-holdover-title = Monte Carlo clock holdover
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
 js-cat-campaign-optimize-link-budget-question = Over range and data rate, where does an X-band link leave exactly 3 dB of margin?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
 js-cat-campaign-optimize-link-budget-title = Optimise a link budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
 js-cat-campaign-shared-jammer-sea-road-question = Under one jammer, which platform loses its fix: the ship 30 km away or the car 50 km away? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
 js-cat-campaign-shared-jammer-sea-road-title = One jammer, a ship and a car
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
 js-cat-campaign-spectrum-holdover-integrity-question = A jammer takes two L-band signals, the clock holds over and the receiver falls back to Galileo alone: does integrity monitoring still hold? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
 js-cat-campaign-spectrum-holdover-integrity-title = Spectrum-driven mission
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
 js-cat-campaign-sweep-jammer-power-question = As a jammer 1 km away is turned up from 10 nW to 10 W, when does the receiver lose its fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
 js-cat-campaign-sweep-jammer-power-title = Jammer power sweep
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
 js-cat-cislunar-arc-recovery-question = Does an independent least-squares estimator actually recover the state from the arc length the rank test predicts? (modelled; slow — about 15 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
 js-cat-cislunar-arc-recovery-title = Cislunar arc recovery
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
 js-cat-cislunar-observability-question = How much of a cislunar spacecraft's state does an inter-satellite arc make observable?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
 js-cat-cislunar-observability-title = Cislunar observability
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
 js-cat-clock-ensemble-question = Across many noise draws, what confidence band does holdover fall in?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
 js-cat-clock-ensemble-title = Clock holdover ensemble
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-fitted-log-question = If the simulated clock takes the noise fitted from a measured log, how long does it hold time? (modelled)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:79
+js-cat-clock-fitted-log-title = Clock holdover with noise fitted from a log
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
 js-cat-clock-holdover-labsr-question = How does a laboratory-grade strontium optical clock compare with a chip-scale atomic clock in holdover?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
 js-cat-clock-holdover-labsr-title = Clock holdover, lab optical clock
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:77
@@ -2831,10 +2837,16 @@ js-cat-clock-holdover-question = How long can a clock keep time after GNSS drops
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:77
 js-cat-clock-holdover-title = Clock holdover
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-measured-log-question = What does a real clock's log say about its stability, next to the simulated holdover?
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:78
+js-cat-clock-measured-log-title = Clock holdover beside a measured log
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
 js-cat-combined-altpnt-question = What does fusing three scalar map channels buy over any one alone?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
 js-cat-combined-altpnt-title = Combined alt-PNT
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:71
@@ -2843,16 +2855,16 @@ js-cat-conflict-resilience-question = How does a layered PNT architecture degrad
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:71
 js-cat-conflict-resilience-title = Conflict resilience
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
 js-cat-constellation-multi-gnss-coverage-question = With the four global systems together, how many satellites are in view and how good is the geometry, everywhere on Earth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
 js-cat-constellation-multi-gnss-coverage-title = Four GNSS constellations, one map
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
 js-cat-contact-schedule-question = For three satellites and three stations over 12 hours, which passes does a conflict-free plan keep, and how much data does it move? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:143
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
 js-cat-contact-schedule-title = Ground-contact plan
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:31
@@ -2945,172 +2957,172 @@ js-cat-domain-timing-label = Clocks & timing
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:44
 js-cat-domain-timing-line = Clocks without satellites: holdover, stability, telecom masks, time transfer.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
 js-cat-earth-gnss-lunar-question = Can a receiver near the Moon hear Earth's GNSS, and is it ever enough for a fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
 js-cat-earth-gnss-lunar-title = Earth-GNSS at the Moon
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
 js-cat-entry-heating-stardust-question = Does the entry model reproduce the published peak deceleration of the Stardust sample-return capsule?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:144
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
 js-cat-entry-heating-stardust-title = Stardust capsule entry
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
 js-cat-eo-coverage-question = What swath, ground sample distance and revisit does an EO orbit give?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:136
 js-cat-eo-coverage-title = EO coverage
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
 js-cat-eo-radiometry-question = For a small Earth-observation camera, what signal-to-noise, MTF at Nyquist and NIIRS does a 15 % reflectance scene give? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:145
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
 js-cat-eo-radiometry-title = Imager radiometry and image quality
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:131
 js-cat-ephemeris-question = Where is the satellite, and when does it pass overhead?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:131
 js-cat-ephemeris-title = Ground track
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
 js-cat-europa-surface-pnt-question = Can a lander on Jupiter's moon Europa be positioned from a small relay constellation and a range from Earth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:248
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
 js-cat-europa-surface-pnt-title = Lander on Europa
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
 js-cat-fusion-pnt-coupled-question = With one stacked Kalman filter over position, clock and accelerometer bias, how does the navigator ride out a GNSS outage? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
 js-cat-fusion-pnt-coupled-title = Coupled sensor-fusion navigator
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
 js-cat-fusion-pnt-question = What does a single joint estimator buy across clock + position?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
 js-cat-fusion-pnt-title = Sensor fusion
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
 js-cat-gnss-ins-aviation-question = Through a two-minute GNSS denial that covers a banked turn, how far does a tightly coupled navigation-grade or tactical-grade INS drift? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
 js-cat-gnss-ins-aviation-title = Aircraft turn through a GNSS gap
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
 js-cat-gnss-ins-maritime-question = After a five-minute GNSS outage on a weaving vessel, how far does a navigation-grade or tactical-grade INS drift? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:103
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
 js-cat-gnss-ins-maritime-title = Ship weaving through a GNSS outage
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
 js-cat-gnss-ins-question = How well does an aided inertial navigator coast through a GNSS outage?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
 js-cat-gnss-ins-rail-question = Through a deep cutting with two satellites and then a tunnel, how far does a tightly coupled INS drift? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:104
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
 js-cat-gnss-ins-rail-title = Train through a cutting and a tunnel
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
 js-cat-gnss-ins-title = GNSS/INS fusion
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
 js-cat-gnss-sim-container-terminal-skyline-question = With cranes to seaward and stacks to landward, how many satellites are left, and what happens to RAIM protection? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:113
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
 js-cat-gnss-sim-container-terminal-skyline-title = Straddle carrier on a container quay
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
 js-cat-gnss-sim-raim-question = How do the ionosphere and troposphere shape raw pseudoranges, and does RAIM still protect?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:112
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
 js-cat-gnss-sim-raim-title = GNSS measurements
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
 js-cat-gnss-ssv-formation-heo-question = How well does a filter know the relative position of two spacecraft a kilometre apart, against differencing their absolute fixes? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
 js-cat-gnss-ssv-formation-heo-title = Formation relative navigation, highly elliptical orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
 js-cat-gnss-ssv-heo-question = What does a highly elliptical orbit hear along its path: signals in view, best C/N0, main lobe against sidelobe, DOP and grazing signals? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
 js-cat-gnss-ssv-heo-title = GNSS signals in a highly elliptical orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
 js-cat-gnss-ssv-lunar-weak-question = What can a receiver designed for the weakest signals use on the way to the Moon? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:173
 js-cat-gnss-ssv-lunar-weak-title = GNSS signals on a lunar transfer, weak-signal receiver
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
 js-cat-gnss-ssv-nav-lunar-question = How well does an onboard filter hold a lunar transfer, against the bound it states? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:172
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
 js-cat-gnss-ssv-nav-lunar-title = Onboard GNSS filter on a lunar transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
 js-cat-gnss-ssv-shell-question = How often does a spacecraft at geostationary height hear at least one, and at least four, navigation signals, per constellation and band? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:171
 js-cat-gnss-ssv-shell-title = GNSS signals above the satellites: a shell at 36 000 km
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
 js-cat-gps-denied-gravity-nav-egm2008-question = On the real EGM2008 gravity field to degree 70, can map matching hold a GPS-denied track? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:106
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
 js-cat-gps-denied-gravity-nav-egm2008-title = Gravity navigation on the real field
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
 js-cat-gps-denied-gravity-nav-question = How far does position drift over a full hour without GNSS — and can a gravity map rein it in?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
 js-cat-gps-denied-gravity-nav-title = GNSS-free nav
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:107
 js-cat-gravity-map-error-mc-question = As the stored gravity map gets noisier, how often does map matching still keep a GPS-denied fix inside its target? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:105
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:107
 js-cat-gravity-map-error-mc-title = Gravity-map error Monte Carlo
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
 js-cat-gravity-map-nav-question = Can a cold-atom gravimeter hold position with no GNSS by matching the gravity field it flies through?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:97
 js-cat-gravity-map-nav-title = Gravity-map navigation
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
 js-cat-holdover-test-example-question = Pull the antenna, score the holdover: a record split at the two times the operator states, each step measured against the ITU-T masks written for it. (modelled; the record is invented for the example)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
 js-cat-holdover-test-example-title = Holdover test: a time-error record against the masks
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:121
 js-cat-holdover-test-ptp4l-question = The same four steps read from a ptp4l servo log: how far does the daemon's own offset stay from the masks while GNSS is away? (modelled; the log is invented for the example)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:121
 js-cat-holdover-test-ptp4l-title = Holdover test: a linuxptp log
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
 js-cat-hybrid-optical-rf-question = What continuity and integrity does combining optical and RF PNT buy? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:102
 js-cat-hybrid-optical-rf-title = Optical/RF hybrid
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
 js-cat-hybrid-pnt-question = What does a combined clock + inertial suite buy you?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:91
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
 js-cat-hybrid-pnt-title = Hybrid PNT
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
 js-cat-hybrid-ukf-question = Is the 17-state tightly-coupled UKF self-consistent (NEES + innovation-whiteness)? A self-consistency check, not an accuracy claim.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:92
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
 js-cat-hybrid-ukf-title = Hybrid 17-state UKF
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:70
@@ -3119,28 +3131,28 @@ js-cat-impairment-eval-question = How well does a detector separate jamming / sp
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:70
 js-cat-impairment-eval-title = RF-impairment eval
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
 js-cat-imu-deadreckoning-question = How far does position drift coasting on an IMU alone?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:89
 js-cat-imu-deadreckoning-title = Inertial dead-reckoning
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
 js-cat-ins-trn-coast-question = How far does position drift during a navigation outage, and when does it cross 10 m and 50 m? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:88
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:90
 js-cat-ins-trn-coast-title = INS/TRN coast
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
 js-cat-integrity-harbour-approach-question = With quay buildings and a breakwater hiding low satellites, do GPS and Galileo keep ARAIM protection inside the alert limits? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:109
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:111
 js-cat-integrity-harbour-approach-title = ARAIM entering harbour
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
 js-cat-integrity-raim-question = Does the geometry meet the alert limits (HPL / VPL)?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:108
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:110
 js-cat-integrity-raim-title = RAIM integrity
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:61
@@ -3155,394 +3167,424 @@ js-cat-jamming-harbour-approach-skyline-question = Under a 2 W shore jammer, how
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:63
 js-cat-jamming-harbour-approach-skyline-title = Ship jammed entering harbour
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
 js-cat-l-band-waterfall-jamming-question = What does the whole GNSS L band look like while a chirp, a tone and a noise jammer switch on, and which signals does each one take away? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:197
 js-cat-l-band-waterfall-jamming-title = L-band waterfall under jamming
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
 js-cat-launch-window-question = What launch azimuth and dogleg Δv reach a target inclination from a site?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:134
 js-cat-launch-window-title = Launch window
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
 js-cat-leo-band-trade-question = What does a low-orbit navigation signal gain and lose in each band, from ultra high frequency (UHF) to C band? (representative designs)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
 js-cat-leo-band-trade-title = Band trade, UHF to C band
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
 js-cat-leo-doppler-positioning-question = How good is a fix from ten minutes of Doppler on a low-orbit navigation constellation? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
 js-cat-leo-doppler-positioning-title = Positioning from Doppler alone
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
 js-cat-leo-focus-data-services-question = What does each extra data service cost in navigation-message bits? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
 js-cat-leo-focus-data-services-title = Service data against frame length
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
 js-cat-leo-focus-fused-pnt-sisre-question = How good must the low-orbit signal-in-space range error be before the low-orbit layer helps a fused fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
 js-cat-leo-focus-fused-pnt-sisre-title = Fused fix against orbit and clock error
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
 js-cat-leo-focus-indoor-uhf-question = Which band still reaches a user inside a traditional and a thermally efficient building? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
 js-cat-leo-focus-indoor-uhf-title = Indoor reception by band and building
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
 js-cat-leo-focus-iot-eirp-question = How much satellite transmit power does a battery tag need to last? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
 js-cat-leo-focus-iot-eirp-title = Tracker energy against transmit power
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
 js-cat-leo-focus-ntn-bandwidth-question = How does the positioning error fall as the reference signal widens from 180 kHz to 20 MHz? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
 js-cat-leo-focus-ntn-bandwidth-title = 5G downlink positioning against bandwidth
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
 js-cat-leo-focus-ppp-altitude-question = Does a lower or a higher low-orbit layer shorten convergence more? (modelled; slow, about a minute in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
 js-cat-leo-focus-ppp-altitude-title = Precise positioning against layer altitude
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
 js-cat-leo-focus-science-iono-sounding-question = How well does the delay difference between two bands measure the electron content below a low-orbit satellite? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:205
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
 js-cat-leo-focus-science-iono-sounding-title = Ionosphere sounding from two bands
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
 js-cat-leo-indoor-uhf-question = Why does a UHF carrier reach inside a building when the L, S and C bands struggle? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
 js-cat-leo-indoor-uhf-title = Indoors on UHF
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
 js-cat-leo-iot-energy-question = How much energy does a battery tag spend on each position fix from a low-orbit signal? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:204
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
 js-cat-leo-iot-energy-title = Energy per fix for a tracker
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
 js-cat-leo-navmsg-encode-decode-question = What does each field's quantisation cost, and does the frame survive encoding, decoding and a corrupted bit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:210
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
 js-cat-leo-navmsg-encode-decode-title = Navigation message: binary frame
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
 js-cat-leo-navmsg-fit-interval-trade-question = How long can one broadcast message cover before its orbit error outgrows the target? (modelled; slow, about 30 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
 js-cat-leo-navmsg-fit-interval-trade-title = Navigation message: fit interval
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
 js-cat-leo-navmsg-midpass-update-question = When a satellite switches to a new message in the middle of a pass, does the user see a jump? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
 js-cat-leo-navmsg-midpass-update-title = Navigation message: mid-pass update
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
 js-cat-leo-navmsg-model-comparison-question = Which ephemeris model represents a low orbit best, and how does it sit beside a published table? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
 js-cat-leo-navmsg-model-comparison-title = Navigation message: four models
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
 js-cat-leo-pass-iridium-question = What signal strength and Doppler does an airliner see over one Iridium pass? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:209
 js-cat-leo-pass-iridium-title = Iridium bursts from an aircraft
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
 js-cat-leo-pass-vs-gnss-cn0-question = How does the signal strength of one low-orbit pass compare with the Galileo satellites in view? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:200
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:207
 js-cat-leo-pass-vs-gnss-cn0-title = One pass against GNSS
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
 js-cat-leo-pass-xona-pulsar-question = What do the X1 and X5 signals look like over one pass, for a ship in the Bay of Biscay? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:201
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:208
 js-cat-leo-pass-xona-pulsar-title = Xona Pulsar pass
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
 js-cat-leo-pnt-end-to-end-question = From signal design to the final fix, what does each stage hand to the next? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:226
 js-cat-leo-pnt-end-to-end-title = End to end, generic constellation
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
 js-cat-leo-pnt-mega-shell-question = What coverage and geometry does a 5,000-satellite navigation constellation in low Earth orbit give? (modelled; an example design)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:202
 js-cat-leo-pnt-mega-shell-title = 5,000-satellite low-orbit design
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
 js-cat-leo-ppp-convergence-question = How much faster does precise point positioning (PPP) converge when a low-orbit layer is added? (modelled; slow, about 30 s in a browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:217
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:224
 js-cat-leo-ppp-convergence-title = Precise positioning convergence
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
 js-cat-leo-pvt-fjord-skyline-question = Where the fjord walls leave a strip of sky along the channel, how much does a low-orbit layer add to GPS and Galileo? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:212
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:219
 js-cat-leo-pvt-fjord-skyline-title = Ferry deep in a fjord
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
 js-cat-leo-resilience-gnss-jammed-leo-carries-question = When GNSS is jammed, can a low-orbit layer in other bands keep the fix and its integrity? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:228
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
 js-cat-leo-resilience-gnss-jammed-leo-carries-title = GNSS jammed, low orbit carries on
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
 js-cat-leo-resilience-js-margin-question = How much more jamming does a stronger low-orbit signal survive than a GNSS signal from medium orbit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
 js-cat-leo-resilience-js-margin-title = Jammer margin from received power
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
 js-cat-leo-resilience-multiband-diversity-question = As one L-band jammer is turned up, which of four bands keep tracking? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:229
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
 js-cat-leo-resilience-multiband-diversity-title = Band diversity under a barrage jammer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
 js-cat-leo-resilience-spoof-doppler-question = When a spoofer moves the computed position 30 m, how quickly does a Doppler and pass-geometry check catch it? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:213
 js-cat-leo-resilience-spoof-doppler-title = Spoofing caught by Doppler
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
 js-cat-leo-resilience-spoof-monitors-question = Which monitor sees which kind of spoofer? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:230
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
 js-cat-leo-resilience-spoof-monitors-title = Spoofing monitors against four spoofers
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
 js-cat-leo-timing-utc-question = How closely can a receiver recover Coordinated Universal Time (UTC) from low-orbit satellites, by oscillator and signal level? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:215
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:222
 js-cat-leo-timing-utc-title = Time transfer to UTC
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
 js-cat-leo-vertical-5g-network-timing-question = When GNSS is lost for a day, does low-orbit time keep a base station inside its timing limit? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:231
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:238
 js-cat-leo-vertical-5g-network-timing-title = 5G base-station timing
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
 js-cat-leo-vertical-asset-tracking-iot-question = Along a container's journey, what does each position fix cost a battery tag? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:232
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:239
 js-cat-leo-vertical-asset-tracking-iot-title = Container tracking
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
 js-cat-leo-vertical-autonomous-vehicle-question = When buildings hide the low satellites, does a low-orbit layer keep a car inside a lane-level error? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
 js-cat-leo-vertical-autonomous-vehicle-skyline-question = Modelled as a real street instead of a flat 35° cut-off, does a low-orbit layer still keep a car inside a lane-level error? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:234
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:241
 js-cat-leo-vertical-autonomous-vehicle-skyline-title = Vehicle in a street, not a flat cut-off
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:233
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:240
 js-cat-leo-vertical-autonomous-vehicle-title = Vehicle in an urban canyon
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
 js-cat-leo-vertical-critical-infrastructure-timing-question = When GNSS is lost, does low-orbit time hold a substation's synchronisation? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:235
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:242
 js-cat-leo-vertical-critical-infrastructure-timing-title = Substation timing
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
 js-cat-leo-vertical-polar-arctic-question = From Tromsø to the North Pole, what does a polar low-orbit layer add to GNSS? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:236
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:243
 js-cat-leo-vertical-polar-arctic-title = Arctic journey
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
 js-cat-leo-vertical-rail-maritime-question = When the bundled ship and train scenarios lose GNSS, does a low-orbit pass still reach them? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:237
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:244
 js-cat-leo-vertical-rail-maritime-title = Rail and maritime with a low-orbit layer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
 js-cat-link-budget-question = Does the one-way link close with margin at the given range and data rate?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
 js-cat-link-budget-title = Link budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
 js-cat-lunanet-araim-question = Does a sparse lunar relay set meet the integrity limits for an Artemis-region receiver?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:150
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
 js-cat-lunanet-araim-title = Lunar integrity
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-lunar-ascent-question = How well does an ascent vehicle know its state at orbit insertion, with and without lunar navigation aids? (modelled)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:192
+js-cat-lunar-ascent-title = Lunar ascent to orbit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
 js-cat-lunar-attack-surface-question = What does it take to spoof or deny a lunar surface receiver, and what authentication budget answers it? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:152
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
 js-cat-lunar-attack-surface-title = Lunar attack surface
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
 js-cat-lunar-beacon-question = How much does a handful of surveyed surface beacons collapse south-polar DOP? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
 js-cat-lunar-beacon-title = Lunar surface beacons
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+js-cat-lunar-descent-question = How close to the target does a south-pole lander touch down with inertial navigation alone, and with lunar navigation aids? (modelled)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:190
+js-cat-lunar-descent-title = Lunar descent and landing
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
 js-cat-lunar-differential-pnt-question = How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:157
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
 js-cat-lunar-differential-pnt-title = Lunar differential PNT
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
 js-cat-lunar-frame-campaign-question = What datum accuracy comes out of an observing campaign rather than an injected transform? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
 js-cat-lunar-frame-campaign-title = Lunar frame campaign
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
 js-cat-lunar-frame-realisation-question = Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
 js-cat-lunar-frame-realisation-title = Lunar frame
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
 js-cat-lunar-infrastructure-carrier-phase-question = Can a surface station and an orbiter fix the integer carrier-phase ambiguities of Earth-GNSS signals together? The quick example run. (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
 js-cat-lunar-infrastructure-carrier-phase-title = Lunar carrier phase: surface station and orbiter
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
 js-cat-lunar-infrastructure-frame-coestimation-question = How much more information do orbiter-to-surface-station ranges add to the seven parameters of the lunar datum? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
 js-cat-lunar-infrastructure-frame-coestimation-title = Lunar frame co-estimation with orbiter links
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
 js-cat-lunar-infrastructure-geodesy-sensitivity-question = How sensitive are laser ranging, orbiter tracking, a gravimeter and a surface clock to h2, k2, l2 and the libration? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:179
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
 js-cat-lunar-infrastructure-geodesy-sensitivity-title = Lunar Love numbers and libration sensitivity
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
 js-cat-lunar-infrastructure-od-consistency-model-error-question = The same comparison with a small unmodelled acceleration injected: does the consistency check notice it? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:175
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:177
 js-cat-lunar-infrastructure-od-consistency-model-error-title = Lunar orbit determination, with an injected modelling error
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
 js-cat-lunar-infrastructure-od-consistency-question = Do onboard Earth-GNSS orbit determination in a lunar halo orbit and independent ground radiometric orbit determination agree to within their stated uncertainties? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:174
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:176
 js-cat-lunar-infrastructure-od-consistency-title = Lunar orbit determination: onboard GNSS against ground tracking
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
 js-cat-lunar-infrastructure-space-tie-question = How precisely can the offsets between three techniques be tied, against the error of the local tie? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:178
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
 js-cat-lunar-infrastructure-space-tie-title = Space tie: GNSS, VLBI and laser ranging on one spacecraft
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
 js-cat-lunar-interop-export-question = Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:180
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:182
 js-cat-lunar-interop-export-title = Lunar interop export
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
 js-cat-lunar-jamming-question = How far off can a jammer sit and still deny a lunar surface receiver? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
 js-cat-lunar-jamming-title = Lunar jamming
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
 js-cat-lunar-joint-od-clock-question = Does an Earth-baseline VLBI tie make a lunar station's absolute position observable? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:165
 js-cat-lunar-joint-od-clock-title = Lunar joint OD+clock
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
 js-cat-lunar-llr-datum-question = What does the lunar datum look like when the campaign is real archived lunar laser ranging (LLR)? (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:166
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
 js-cat-lunar-llr-datum-title = Lunar laser-ranging datum
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+js-cat-lunar-orbit-rendezvous-elfo-question = How well is the relative position known for the same approach in a 100 km by 3000 km polar lunar orbit? (modelled; about half a minute in the browser)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:194
+js-cat-lunar-orbit-rendezvous-elfo-title = Rendezvous in an elliptical polar lunar orbit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-orbit-rendezvous-question = How well is the relative position known when a chaser approaches a target in a 100 km lunar orbit? (modelled; about half a minute in the browser)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:193
+js-cat-lunar-orbit-rendezvous-title = Rendezvous in low lunar orbit
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
 js-cat-lunar-relay-constellation-question = What coverage does a relay and navigation constellation in frozen and low lunar orbits give over the whole Moon? (modelled; an example design)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:196
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:203
 js-cat-lunar-relay-constellation-title = Lunar relay constellation
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
 js-cat-lunar-station-coverage-public-sources-question = Under only the publicly stated assumptions, what corrected error does the station give over the south pole? The result is dominated by the orbit elements, which are not public and set ILLUSTRATIVE; this is the input of the frozen prediction. (modelled; not a statement about any real system)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:159
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
 js-cat-lunar-station-coverage-public-sources-title = Lunar reference station, public assumptions
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
 js-cat-lunar-station-coverage-question = Over the south-polar region and a day, what corrected error does a lunar reference station give, and how far from it does coverage hold? (modelled; not a statement about any real system)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
 js-cat-lunar-station-coverage-terrain-question = With each site's horizon ray-marched over a real lunar elevation model, how much coverage does the station lose to terrain? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:189
 js-cat-lunar-station-coverage-terrain-title = Lunar station with real terrain
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:158
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
 js-cat-lunar-station-coverage-title = Lunar reference station coverage
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
 js-cat-lunar-station-geodesy-baseline-question = How well do today's five retroreflector arrays pin the lunar datum on a real schedule, before any station is added? The baseline of a pair. (modelled; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:167
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:169
 js-cat-lunar-station-geodesy-baseline-title = Lunar station geodesy: the five arrays alone
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
 js-cat-lunar-station-geodesy-with-station-question = The same archived schedule with one added south-polar reflector and VLBI beacon: how much does the datum bound tighten? (modelled, illustrative site; a run recorded with the native engine)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:168
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:170
 js-cat-lunar-station-geodesy-with-station-title = Lunar station geodesy: with a south-polar station
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
 js-cat-lunar-station-time-lab-question = After a station's miniature rubidium clock is last steered to lunar time, how long does it stay within 1, 10 and 100 ns, and which error term dominates? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:160
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
 js-cat-lunar-station-time-lab-title = Lunar station time laboratory
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-lunar-surface-question = Across sites and seasons near the south pole, how often can a surface user position itself and keep time from relays and the Earth? (modelled)
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+js-cat-lunar-surface-title = Lunar surface stay: positioning and timing
+
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
 js-cat-lunar-time-budget-question = How large is the Earth–Moon coordinate-time offset, and its error budget? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:154
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:156
 js-cat-lunar-time-budget-title = Lunar time budget
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
 js-cat-lunar-time-offset-question = How fast does a lunar clock diverge from Earth time (~56–59 µs/day)?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:153
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:155
 js-cat-lunar-time-offset-title = Lunar time offset
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
 js-cat-lunar-vlbi-fim-question = What station-coordinate accuracy does a given VLBI tracking schedule actually buy? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:162
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:164
 js-cat-lunar-vlbi-fim-title = Lunar VLBI information
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
 js-cat-lunar-vlbi-question = What delay does an Earth-baseline VLBI pair see for a lunar surface beacon? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:161
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:163
 js-cat-lunar-vlbi-title = Lunar VLBI
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:65
@@ -3563,181 +3605,181 @@ js-cat-maritime-strait-jamming-question = Across 30 km of open water, does a 50 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:62
 js-cat-maritime-strait-jamming-title = Ship jammed in a strait
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
 js-cat-mars-orbit-pnt-question = How well is a low Mars orbiter positioned from twelve navigation relays, and what does a range from Earth add? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:247
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
 js-cat-mars-orbit-pnt-title = Mars orbiter with relays and an Earth link
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
 js-cat-mars-pnt-lmo-question = Can a MARCONI relay constellation navigate a user at Mars? (covariance FoM, not a certified PL)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:184
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
 js-cat-mars-pnt-lmo-title = Mars PNT, low orbit
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
 js-cat-mars-pnt-surface-question = How well can a lander or rover on the rotating Mars surface be navigated against the relay constellation?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:185
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:187
 js-cat-mars-pnt-surface-title = Mars PNT, surface
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
 js-cat-mars-pnt-transfer-question = How well is a vehicle on a high, eccentric approach or capture arc navigated at Mars?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:186
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
 js-cat-mars-pnt-transfer-title = Mars PNT, transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
 js-cat-meo-leo-fused-pvt-question = What does adding a low-orbit layer to GPS and Galileo do to position error and geometry? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:211
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
 js-cat-meo-leo-fused-pvt-title = Fused GNSS and low-orbit fix
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
 js-cat-mission-thread-short-question = Along one stack from launch to entry, through a low-orbit rendezvous and a day of trans-lunar cruise, which phase has the thinnest navigation and timing margin? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:188
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:195
 js-cat-mission-thread-short-title = Short mission thread, launch to entry
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
 js-cat-moonlight-service-volume-question = What DOP, coverage and integrity does a Moonlight/LCNS-class constellation give the south pole? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:151
 js-cat-moonlight-service-volume-title = Lunar service volume
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
 js-cat-multi-band-jamming-waterfall-question = With navigation signals spread over four bands, what does a jammer built for one band leave standing? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:191
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:198
 js-cat-multi-band-jamming-waterfall-title = Multi-band jamming waterfall
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:263
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:270
 js-cat-notinbrowser-elevation-model = Needs the lunar elevation-model crop ({ $path }) that ships with the repository, not with the browser build.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:267
 js-cat-notinbrowser-laser-ranging-data = Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:264
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:271
 js-cat-notinbrowser-study-suite = A study suite, not a single scenario. Run it with the command-line tool: { $command }.
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
 js-cat-ntn-5g-positioning-question = How precisely can a handset position itself from a 5G non-terrestrial network downlink, by signal bandwidth? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:218
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:225
 js-cat-ntn-5g-positioning-title = 5G satellite downlink positioning
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
 js-cat-oem-interop-question = Can an OEM ephemeris from GMAT / Orekit / STK be imported and round-tripped?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:260
 js-cat-oem-interop-title = CCSDS OEM bridge
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
 js-cat-optical-atmosphere-network-question = How often is an optical timing link up through clouds and turbulence, and what do extra ground sites buy? (modelled; illustrative cloud climates)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:118
 js-cat-optical-atmosphere-network-title = Optical link through the atmosphere, three sites
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
 js-cat-optical-atmosphere-techniques-question = What do a larger aperture, another wavelength or adaptive optics buy one optical uplink in cloud and turbulence? (modelled; illustrative cloud climate)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:119
 js-cat-optical-atmosphere-techniques-title = Optical link techniques
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
 js-cat-orbit-gnss-challenged-question = When is a fix even possible from the satellite geometry?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
 js-cat-orbit-gnss-challenged-title = GNSS availability
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
 js-cat-orbit-molniya-question = Can a highly-eccentric Molniya-orbit user still see enough GNSS satellites near apogee?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
 js-cat-orbit-molniya-title = Molniya user
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
 js-cat-orbit-multignss-question = How much do GPS + Galileo together lift availability and tighten dilution of precision?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:124
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:126
 js-cat-orbit-multignss-title = Multi-GNSS availability
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
 js-cat-orbit-real-tle-question = What coverage does an actual constellation, given as two-line element sets, provide?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:129
 js-cat-orbit-real-tle-title = Real two-line elements
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
 js-cat-orbit-rinex-question = What availability comes out of a real RINEX 3 broadcast ephemeris?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:128
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
 js-cat-orbit-rinex-title = Broadcast ephemeris
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
 js-cat-orbit-sgp4-gps-question = How does a real GPS-like constellation propagate over a day?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:123
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
 js-cat-orbit-sgp4-gps-title = SGP4 orbits
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
 js-cat-orbit-urban-canyon-skyline-question = At the bottom of a city street, how much of the day do GPS and Galileo give four satellites, and what does the strip of sky do to PDOP? (modelled; representative skyline)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:125
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:127
 js-cat-orbit-urban-canyon-skyline-title = City street availability
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
 js-cat-passes-question = When does a satellite rise and set over a station, and for how long?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:130
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:132
 js-cat-passes-title = Ground passes
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
 js-cat-polar-arctic-leo-coverage-question = From the equator to the pole, how do satellites in view and geometry change with GNSS alone, a polar low-orbit layer alone, and both? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:216
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:223
 js-cat-polar-arctic-leo-coverage-title = Equator to pole
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
 js-cat-pvt-abmf-question = Can a real receiver position be solved from raw RINEX measurements?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:114
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:116
 js-cat-pvt-abmf-title = Positioning (SPP)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:258
 js-cat-quantum-anomaly-detect-question = How well are quantum-system faults detected at a fixed false-alarm rate? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:251
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:258
 js-cat-quantum-anomaly-detect-title = Quantum anomaly detect
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
 js-cat-quantum-cai-coast-question = How long does a cold-atom interferometer, specified by its physics, keep dead reckoning inside 100 m after GNSS is lost, against a nav-grade quartz accelerometer? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:99
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:101
 js-cat-quantum-cai-coast-title = Quantum accelerometer coast
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
 js-cat-quantum-gnss-free-nav-question = How far does a cold-atom navigator coast vs a nav-grade INS with no GNSS? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:98
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:100
 js-cat-quantum-gnss-free-nav-title = Quantum GNSS-free nav
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:262
 js-cat-quantum-pnt-demonstrator-suite-question = The three quantum application areas as one study (a command-line study suite: kshana --study).
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:255
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:262
 js-cat-quantum-pnt-demonstrator-suite-title = Quantum PNT demonstrator study
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:86
 js-cat-quantum-time-transfer-question = What does trusted quantum timing buy over a classical CSAC + RF chain? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:86
 js-cat-quantum-time-transfer-title = Quantum time transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
 js-cat-quantum-trade-question = What timing / inertial holdover does a candidate clock buy over a classical baseline? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:250
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:257
 js-cat-quantum-trade-title = Quantum PNT trade
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:67
@@ -3746,22 +3788,22 @@ js-cat-rail-tunnel-coast-question = At 160 km/h through a tunnel, how soon does 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:67
 js-cat-rail-tunnel-coast-title = Train through a tunnel
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
 js-cat-realtime-frame-eop-question = How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:181
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:183
 js-cat-realtime-frame-eop-title = Real-time frame/EOP
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
 js-cat-reentry-question = What peak-g and peak-heating velocity does a ballistic re-entry see?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:133
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:135
 js-cat-reentry-title = Re-entry corridor
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
 js-cat-slot-timing-ocxo-leo-question = How long does an oven-controlled crystal oscillator on a low-orbit smallsat stay inside its slot guard after the last GNSS fix? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:80
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
 js-cat-slot-timing-ocxo-leo-title = Slot timing
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:68
@@ -3770,22 +3812,22 @@ js-cat-small-uas-jammed-nav-question = After a jammer takes GNSS away, how far d
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:68
 js-cat-small-uas-jammed-nav-title = Small drone under jamming
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
 js-cat-solar-system-tour-question = Where is every body the engine knows, from the Sun to Pluto and the large moons, and how long does light take between them?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:246
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:253
 js-cat-solar-system-tour-title = Solar system at one epoch
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
 js-cat-space-packet-question = Does a CCSDS 133.0 packet stream encode and decode bit-exactly?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:254
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:261
 js-cat-space-packet-title = Space Packet
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
 js-cat-space-weather-question = How does solar / geomagnetic activity change thermospheric density? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:137
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:139
 js-cat-space-weather-title = Space weather
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:73
@@ -3806,76 +3848,76 @@ js-cat-spoof-meaconing-question = With an explicit attack shape, how often does 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:75
 js-cat-spoof-meaconing-title = Spoof detector statistics
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
 js-cat-starlink-sop-doppler-positioning-question = How well can a receiver position itself from the Doppler of a broadband constellation that sends no navigation message? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:214
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:221
 js-cat-starlink-sop-doppler-positioning-title = Broadband signals of opportunity
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
 js-cat-sweep-clock-stability-question = How does holdover change as one clock parameter is swept?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:87
 js-cat-sweep-clock-stability-title = Parameter sweep
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:259
 js-cat-sweep-nd-inertial-question = How does a figure of merit vary across a multi-parameter grid?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:252
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:259
 js-cat-sweep-nd-inertial-title = N-D sweep
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
 js-cat-telecom-prtc-holdover-24h-question = Does a rubidium reference that loses GNSS for 24 hours stay inside the ITU-T time-error masks? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:81
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
 js-cat-telecom-prtc-holdover-24h-title = Telecom holdover, 24 h
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
 js-cat-telecom-synce-eec-question = Does a free-running oven-controlled oscillator stay inside the synchronous Ethernet equipment-clock wander masks? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:120
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:122
 js-cat-telecom-synce-eec-title = Frequency sync against SyncE masks
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
 js-cat-telecom-tie-ingest-question = Does a time interval error record pass the ITU-T MTIE and TDEV masks?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:82
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:84
 js-cat-telecom-tie-ingest-title = Telecom mask check, your data
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
 js-cat-terrain-nav-question = Can an altimeter fix INS drift by matching a terrain elevation profile?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:93
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:95
 js-cat-terrain-nav-title = Terrain nav
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
 js-cat-terrain-slam-question = Can a particle filter track a time-varying INS drift against a terrain map?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:94
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:96
 js-cat-terrain-slam-title = Terrain SLAM
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
 js-cat-time-transfer-budget-question = What do station, transponder, ionosphere and Sagnac terms do to a two-way time offset, and what is its uncertainty budget? (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:115
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:117
 js-cat-time-transfer-budget-title = Two-way satellite time transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
 js-cat-timetransfer-question = How tightly can two sites stay synchronised over a link?
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:83
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:85
 js-cat-timetransfer-title = Time transfer
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
 js-cat-tip-and-cue-baltic-m2-question = Over a week at a 10 s step, what revisit, full-area refresh and radio-to-optical reaction do the pre-registered 16- and 32-satellite layers give? (modelled; about half a minute in the browser)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:147
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:149
 js-cat-tip-and-cue-baltic-m2-title = Revisit and tip-and-cue latency, 7 days
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
 js-cat-tip-and-cue-short-question = How often does a radio-frequency layer revisit a sea area, and how fast can it cue an optical layer to look? (modelled; geometry and timing only)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:146
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:148
 js-cat-tip-and-cue-short-title = Two-layer survey over the Baltic Sea, 2 days
 
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:69
@@ -3884,16 +3926,16 @@ js-cat-tracking-loop-question = At what C/N0 does a receiver actually lose lock,
 # 2026-10-01-studio-rebuild/lib/catalog.mjs:69
 js-cat-tracking-loop-title = Tracking loop
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
 js-cat-xona-pulsar-end-to-end-question = The same chain on public Xona Pulsar numbers: signal, pass, message, fused fix and precise positioning. (modelled)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:220
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:227
 js-cat-xona-pulsar-end-to-end-title = End to end, Xona Pulsar
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
 js-cat-xona-pulsar-signals-question = How precisely can a receiver range on the published X1 and X5 signals, and how large is the acquisition search? (public signal table)
 
-# 2026-10-01-studio-rebuild/lib/catalog.mjs:199
+# 2026-10-01-studio-rebuild/lib/catalog.mjs:206
 js-cat-xona-pulsar-signals-title = Xona Pulsar signals
 
 # 2026-10-01-studio-rebuild/geometry/geometry.js:71
@@ -8824,14 +8866,14 @@ js-meaning-whole-run = over the whole run
 # 2026-10-01-studio-rebuild/lib/meaning.mjs:249
 js-meaning-your-setting = your setting
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:517
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:539
 js-meankind-acm-big =
     { $n ->
         [one] Adaptive coding moves { $gain } times the data of the best fixed mode: { $acm } Gbit against { $ccm } Gbit over { $n } pass.
        *[other] Adaptive coding moves { $gain } times the data of the best fixed mode: { $acm } Gbit against { $ccm } Gbit over { $n } passes.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:517
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:539
 js-meankind-acm-line = Fixed mode { $mode }; { $dur } of outage.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
@@ -8840,22 +8882,22 @@ js-meankind-anomaly-big = The quantum fault monitor scores { $q } against { $c }
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:246
 js-meankind-anomaly-line = The smallest detectable fault is { $q } against { $c }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:544
 js-meankind-aocs-big-open = The { $slew } degree slew does not settle below { $threshold } degrees.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:522
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:544
 js-meankind-aocs-big-settles = The { $slew } degree slew settles below { $threshold } degrees after { $dur }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:528
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:550
 js-meankind-aocs-line = Final pointing error { $final } degrees.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:527
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:549
 js-meankind-aocs-line-filter = Final pointing error { $final } degrees. An attitude filter in the loop is off by { $arcsec } arcsec RMS.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:526
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:548
 js-meankind-aocs-line-wheel = Final pointing error { $final } degrees. Peak wheel torque { $torque } N m.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:525
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:547
 js-meankind-aocs-line-wheel-filter = Final pointing error { $final } degrees. Peak wheel torque { $torque } N m. An attitude filter in the loop is off by { $arcsec } arcsec RMS.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:360
@@ -8920,25 +8962,25 @@ js-meankind-araim-line-vectors =
        *[other] The worst difference is { $worst } m against the reference's own tolerance of { $tol } m, over { $n } reference vectors.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:521
 js-meankind-arc-big = The estimator recovers the orbit once it has { $dur } of the { $h } h arc.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:499
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:521
 js-meankind-arc-line = { $n } spacecraft, { $observable } measurements.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:555
 js-meankind-ascent-big = Gravity, drag, steering and back-pressure take { $loss } m/s of the { $ideal } m/s ideal speed gain.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:533
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:555
 js-meankind-ascent-line = Burnout at { $km } km and { $speed } m/s; peak dynamic pressure { $kpa } kPa.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
 js-meankind-attack-big-no = A spoofer on the surface cannot capture a lunar receiver.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
 js-meankind-attack-big-yes = A spoofer on the surface can capture a lunar receiver.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:456
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
 js-meankind-attack-line = A surface transmitter reaches { $km } km before the horizon blocks it.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:341
@@ -9126,21 +9168,21 @@ js-meankind-conflict-line-trials-corr =
        *[other] A Monte Carlo of { $n } trials gives { $ratio } times; with correlated threats it can fall to { $low } times.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:540
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:562
 js-meankind-contacts-big =
     { $n ->
         [one] The plan keeps { $kept } of { $n } candidate contact and delivers { $gbit } Gbit.
        *[other] The plan keeps { $kept } of { $n } candidate contacts and delivers { $gbit } Gbit.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:540
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:562
 js-meankind-contacts-big-waiting =
     { $n ->
         [one] The plan keeps { $kept } of { $n } candidate contact and delivers { $gbit } Gbit of the { $waiting } Gbit waiting.
        *[other] The plan keeps { $kept } of { $n } candidate contacts and delivers { $gbit } Gbit of the { $waiting } Gbit waiting.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:540
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:562
 js-meankind-contacts-line = { $sats } satellites and { $stations } stations over { $hours } h.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:446
@@ -9173,10 +9215,10 @@ js-meankind-engine-run-count =
        *[other] { $n } engine runs
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:544
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:566
 js-meankind-entry-big = Peak deceleration is { $g } g at { $km } km, with a peak heat flux of { $flux } W/cm².
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:544
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:566
 js-meankind-entry-line = Entering at { $speed } m/s, { $angle } degrees below the horizon.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:365
@@ -9210,26 +9252,26 @@ js-meankind-event-count =
        *[other] { $n } events
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:505
 js-meankind-framecampaign-big-open =
     { $n ->
         [one] The campaign leaves { $n } datum direction undetermined.
        *[other] The campaign leaves { $n } datum directions undetermined.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:505
 js-meankind-framecampaign-big-yes = Yes: the campaign fixes the lunar frame datum fully.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:483
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:505
 js-meankind-framecampaign-line = Condition number { $n }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:487
 js-meankind-framereal-big = The lunar frame is realised with { $m } m of residual error.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:487
 js-meankind-framereal-big-open = The lunar frame is realised with { $m } m of residual error, though the fit did not converge.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:465
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:487
 js-meankind-framereal-line = Translation error { $trans } m, scale error { $scale } parts per billion.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:261
@@ -9241,19 +9283,19 @@ js-meankind-gnsssim-line = The ionosphere adds { $iono } m and the troposphere {
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:89
 js-meankind-headline-figure = headline figure
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:607
 js-meankind-holdovertest-big = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:607
 js-meankind-holdovertest-big-open = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error, and did not recover inside the band.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:607
 js-meankind-holdovertest-big-recovered = Measured against the masks, the record's holdover of { $dur } s reaches { $te } ns of time error, and recovered { $recover } s after GNSS returned.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:607
 js-meankind-holdovertest-line = Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:585
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:607
 js-meankind-holdovertest-line-masks = { $masks }. Measured against the mask, never a statement that a system conforms; the two times are the operator's statement.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
@@ -9262,22 +9304,22 @@ js-meankind-impairment-big = The detector separates impaired signals from clean 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:242
 js-meankind-impairment-line = On cases unlike its training set it scores { $auc }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:626
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:648
 js-meankind-infra-carrier = Integer carrier-phase fixing between a surface station and an orbiter fixed { $share } % of the trials on the longest arc ({ $days } days).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:630
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:652
 js-meankind-infra-frame = Orbiter-to-station links raise the smallest information eigenvalue of the lunar datum { $x } times and cut the Cramér-Rao trace to { $share } %, if the orbit is known in the lunar axes.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:636
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:658
 js-meankind-infra-geodesy = With all four families together, h2, k2 and l2 are pinned to { $h2 } %, { $k2 } % and { $l2 } % of their nominal values.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:622
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:644
 js-meankind-infra-od = Onboard Earth-GNSS orbit determination in lunar orbit is good to { $gnss } m, independent ground tracking to { $ground } m; the consistency statistic averages { $mean } ({ $expected } expected).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:618
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:640
 js-meankind-infra-tail = MODELLED: a restricted model with illustrative inputs, not a statement about any mission.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:633
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:655
 js-meankind-infra-tie =
     { $n ->
         [one] A { $mm } mm local tie on one spacecraft ties the GNSS, VLBI and laser-ranging frames over { $n } tie error swept.
@@ -9302,22 +9344,22 @@ js-meankind-instrn-line-dom = It passes { $passes }; { $dominant } dominates.
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:205
 js-meankind-instrn-pass = { $threshold } m after { $dur }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:491
 js-meankind-interop-big-no = No: the lunar ephemeris file does not round-trip.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:491
 js-meankind-interop-big-yes = Yes: the lunar ephemeris file round-trips intact.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:491
 js-meankind-interop-line = { $n } states in the { $frame } frame, { $time } time.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:151
 js-meankind-its-spec = its spec
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:482
 js-meankind-jointod-big = Adding an Earth-based interferometry delay sharpens the station position { $x } times.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:460
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:482
 js-meankind-jointod-line = The station is then known to { $m } m.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:369
@@ -9437,11 +9479,42 @@ js-meankind-link-line-rate = Over { $km } km at { $rate } bit/s.
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:21
 js-meankind-list-and = { $head } and { $last }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:510
 js-meankind-llr-big = Real laser ranging pins the lunar frame to { $mm } mm.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:488
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:510
 js-meankind-llr-line = Scale to { $ppb } parts per billion.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:457
+js-meankind-lunarascent-big = At orbit insertion, the aided navigation knows the position to { $pos } m and the velocity to { $vel } m/s (1-sigma, modelled).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:457
+js-meankind-lunarascent-line = Inertial navigation alone: { $pos } m and { $vel } m/s.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:462
+js-meankind-lunardescent-big = With its aids, 95 % of landings fall within { $r95 } m of the target (modelled).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:462
+js-meankind-lunardescent-line = Inertial navigation alone: within { $r95 } m.
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:474
+js-meankind-lunarrendezvous-big = At the end of the approach, the relative position is known to { $m } m (1-sigma, modelled).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:474
+js-meankind-lunarrendezvous-line =
+    { $n ->
+        [one] Over { $n } Monte Carlo trial the mean NEES (normalised estimation error squared) is { $nees }, against { $dof } expected.
+       *[other] Over { $n } Monte Carlo trials the mean NEES (normalised estimation error squared) is { $nees }, against { $dof } expected.
+    }
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-lunarsurface-big = Over { $sites } sites and { $seasons } seasons, a timing source is in view at least { $share } % of the time (modelled).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-lunarsurface-big-always = Over { $sites } sites and { $seasons } seasons, a timing source is always in view (modelled).
+
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:469
+js-meankind-lunarsurface-line = Positioning is available { $low } to { $high } % of the time; the longest stretch without timing is { $gap } h.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:195
 js-meankind-mapmatch-altimeter = The altimeter measures to { $sigma } m.
@@ -9475,13 +9548,13 @@ js-meankind-moonlight-line =
        *[other] Between { $min } and { $n } satellites are in view; geometry quality (PDOP) ranges from { $pmin } to { $pmax }.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:509
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:531
 js-meankind-mthread-big = Along the thread the thinnest margin against its requirement is in the { $phase } phase.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:508
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:530
 js-meankind-mthread-big-source = Along the thread the thinnest margin against its requirement is in the { $phase } phase, limited by { $source }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:510
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:532
 js-meankind-mthread-line =
     { $n ->
         [one] { $n } phase.
@@ -9520,13 +9593,13 @@ js-meankind-ntn-big = 5G positioning from orbit reaches { $m } m with { $signal 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:334
 js-meankind-ntn-line = Doppler over one pass gives { $m } m.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
 js-meankind-obs-big-full = The orbit becomes fully observable after { $dur } of tracking.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
 js-meankind-obs-big-partly = The orbit stays partly observable over the { $h } h arc.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:494
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:516
 js-meankind-obs-line = Rank { $rank } of { $dim } at the end of the arc.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:405
@@ -9539,20 +9612,20 @@ js-meankind-oem-line =
        *[other] { $states } states in { $n } segments.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
 js-meankind-optical-big-alone = The best single site keeps the optical link up { $best } % of the time (cloud-free ceiling { $ceiling } %); no cloud-free margin lifts it above { $ceiling } %.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
 js-meankind-optical-big-team = The best single site keeps the optical link up { $best } % of the time (cloud-free ceiling { $ceiling } %); { $n } sites together reach { $independent } % if their weather is independent, { $correlated } % with the stated correlation.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
 js-meankind-optical-line-sites =
     { $n ->
         [one] { $n } site modelled; the cloud climates are illustrative.
        *[other] { $n } sites modelled; the cloud climates are illustrative.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:598
 js-meankind-optical-line-tech = { $name }: { $base } % becomes { $with } %.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:227
@@ -9649,10 +9722,10 @@ js-meankind-qtt-line-pfa = The security monitor detects { $pd } % of attacks at 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:163
 js-meankind-quantum-link = quantum link
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:583
 js-meankind-radiometry-big = The camera reaches NIIRS { $niirs } at { $gsd } m ground sample distance, with a signal-to-noise ratio of { $snr }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:561
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:583
 js-meankind-radiometry-line = System MTF at Nyquist { $mtf }.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:387
@@ -9745,19 +9818,19 @@ js-meankind-spoofdetect-line-score =
        *[other] { $on } of { $n } detection layers alarm; the fused score is { $score }.
     }
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:611
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:633
 js-meankind-ssv-formation = At { $km } km apart, the filter knows the relative position to { $filter } m RMS, against { $absolute } m from differencing the two absolute fixes.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:606
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:628
 js-meankind-ssv-navigation = The onboard filter holds position to { $inside } m RMS inside the GNSS orbits and { $above } m above them.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:596
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:618
 js-meankind-ssv-shell = On the shell, all constellations together give at least one signal { $one } % of the time and at least four { $four } % (L1).
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:592
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:614
 js-meankind-ssv-tail = MODELLED: a geometric and link-budget sweep, not a measurement of any signal in space.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:601
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:623
 js-meankind-ssv-trajectory = From { $from } to { $to } km altitude, at least one signal is in view { $one } % of the epochs and at least four { $four } % (L1, all constellations).
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:452
@@ -9857,13 +9930,13 @@ js-meankind-timetransfer-line = Inside the ranging spec { $q } % of the time, ag
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:165
 js-meankind-timetransfer-line-mm = Inside the { $mm } mm ranging spec { $q } % of the time, against { $c } %.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:557
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:579
 js-meankind-tipcue-big = The radio layer comes back over a point every { $revisit } on average, and an optical look follows its cue after { $reaction }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:555
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:577
 js-meankind-tipcue-line = Every point of the area is seen within { $refresh } on average.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:554
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:576
 js-meankind-tipcue-line-cases =
     { $n ->
         [one] Every point of the area is seen within { $refresh } on average (case { $name }; the run has { $n } case).
@@ -9882,10 +9955,10 @@ js-meankind-trade-big = The quantum sensors are { $timing } times better at timi
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:250
 js-meankind-trade-line = Without satellites the quantum suite coasts for { $dur }.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:565
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
 js-meankind-ttbudget-big = The two-way offset is { $offset } ns, with a combined uncertainty of { $uncertainty } ns.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:565
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:587
 js-meankind-ttbudget-line = Sagnac { $sagnac } ns; ionosphere { $iono } ns.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:215
@@ -9917,16 +9990,16 @@ js-meankind-ukf-line-out-seeds =
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:429
 js-meankind-user-word = user
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:495
 js-meankind-vlbi-big = Over a { $km } km baseline, the beacon's signal arrives { $ms } ms apart at the two stations.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:473
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:495
 js-meankind-vlbi-line = The near-field correction is { $us } µs.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:500
 js-meankind-vlbifim-big = Each station coordinate is known to { $m } m from this observing schedule.
 
-# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:478
+# 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:500
 js-meankind-vlbifim-line = The simple equal-share estimate would claim { $m } m.
 
 # 2026-10-01-studio-rebuild/lib/meaning-kinds.mjs:397

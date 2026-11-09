@@ -1,9 +1,9 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "97d254470b463344db4873ab3145c5379d23f83f",
+ "engine_commit": "62a2fa71d688103d90eb0f286a52600a2240fbaa",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-11-08T18:17:54.524Z",
+ "recorded_utc": "2026-11-09T04:37:45.052Z",
  "runs": {
   "celeste-iod-classical-pilot-signals.toml": {
    "file": "celeste-iod-classical-pilot-signals.json.gz",

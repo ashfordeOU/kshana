@@ -1139,8 +1139,8 @@ seg-56bf1281e330 = Una sesión grabada con el servidor kshana-mcp (Model Context
 
 seg-24d919eaaba3 = { "176" } de { "405" } capacidades coinciden con referencias independientes externas; el resto se etiqueta como modelado, en voz alta.
 
-seg-a3e8e37a3dfe = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+seg-defecb149c74 = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
 
-seg-fb666d7bed4e = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
+seg-3a88568574d8 = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
 
-seg-890b4e5ac62b = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
+seg-706afacecd46 = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }

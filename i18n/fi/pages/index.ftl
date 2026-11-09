@@ -726,8 +726,8 @@ seg-56bf1281e330 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Conte
 
 seg-24d919eaaba3 = { "405" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.
 
-seg-a3e8e37a3dfe = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
+seg-defecb149c74 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
 
-seg-fb666d7bed4e = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-3a88568574d8 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
 
-seg-890b4e5ac62b = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
+seg-706afacecd46 = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }

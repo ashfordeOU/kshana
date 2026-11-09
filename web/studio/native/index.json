@@ -1,9 +1,9 @@
 {
  "engine_version": "0.40.0",
- "engine_commit": "97d254470b463344db4873ab3145c5379d23f83f",
+ "engine_commit": "62a2fa71d688103d90eb0f286a52600a2240fbaa",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-11-08T18:17:54.524Z",
+ "recorded_utc": "2026-11-09T04:37:45.052Z",
  "runs": {
   "acm-link.toml": {
    "file": "acm-link.json.gz",
@@ -250,6 +250,18 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "clock-fitted-log.toml": {
+   "file": "clock-fitted-log.json.gz",
+   "bytes": 63032,
+   "unpacked_bytes": 192386,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "clock-holdover-labsr.toml": {
    "file": "clock-holdover-labsr.json.gz",
    "bytes": 52760,
@@ -266,6 +278,18 @@
    "file": "clock-holdover.json.gz",
    "bytes": 52833,
    "unpacked_bytes": 160440,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "clock-measured-log.toml": {
+   "file": "clock-measured-log.json.gz",
+   "bytes": 55274,
+   "unpacked_bytes": 168071,
    "report": true,
    "animation": true,
    "animation_reason": "",
@@ -1378,6 +1402,18 @@
    "export_files_stored": 0,
    "full_run": false
   },
+  "lunar-ascent.toml": {
+   "file": "lunar-ascent.json.gz",
+   "bytes": 19795,
+   "unpacked_bytes": 65016,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "lunar-attack-surface.toml": {
    "file": "lunar-attack-surface.json.gz",
    "bytes": 10328,
@@ -1397,6 +1433,18 @@
    "report": true,
    "animation": false,
    "animation_reason": "--animate svg: no time series to animate: the lunar-beacon result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "lunar-descent.toml": {
+   "file": "lunar-descent.json.gz",
+   "bytes": 9403,
+   "unpacked_bytes": 36994,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the lunar-descent result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
    "exports": [],
    "export_files": 0,
    "export_files_stored": 0,
@@ -1558,6 +1606,30 @@
    "export_files_stored": 0,
    "full_run": true
   },
+  "lunar-orbit-rendezvous-elfo.toml": {
+   "file": "lunar-orbit-rendezvous-elfo.json.gz",
+   "bytes": 18915,
+   "unpacked_bytes": 64273,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "lunar-orbit-rendezvous.toml": {
+   "file": "lunar-orbit-rendezvous.json.gz",
+   "bytes": 18929,
+   "unpacked_bytes": 64324,
+   "report": true,
+   "animation": true,
+   "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
   "lunar-relay-constellation.toml": {
    "file": "lunar-relay-constellation.json.gz",
    "bytes": 36857,
@@ -1637,6 +1709,18 @@
    "report": true,
    "animation": true,
    "animation_reason": "",
+   "exports": [],
+   "export_files": 0,
+   "export_files_stored": 0,
+   "full_run": false
+  },
+  "lunar-surface.toml": {
+   "file": "lunar-surface.json.gz",
+   "bytes": 8822,
+   "unpacked_bytes": 35355,
+   "report": true,
+   "animation": false,
+   "animation_reason": "--animate svg: no time series to animate: the lunar-surface result carries no sampled time axis (see docs/ANIMATION.md for the shapes the exporter recognises)",
    "exports": [],
    "export_files": 0,
    "export_files_stored": 0,

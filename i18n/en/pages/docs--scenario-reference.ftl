@@ -196,9 +196,6 @@ seg-7d2d780c5649 = Monte Carlo ensemble of the clock-holdover scenario.
 seg-d2b1e58dea11 = A clock scenario whose classical clock takes the noise of a measured log (<c1/>).
 
 # text
-seg-2f09b9930e10 = View on GitHub
-
-# text
 seg-ddd9856d154a = Kshana reference scenario: { "2" } h run, { "10" } min GNSS sync then ~{ "1.8" } h denied. Clock white-FM noise calibrated to published sigma_y({ "1" } s): q_wf = sigma_y(1s)^{ "2" }. Validated against simulated Allan deviation in tests/calibration.rs (~{ "2" }%).
 
 # text
@@ -695,6 +692,9 @@ seg-224175962a12 = Lunar landing dispersion: the budget for a powered descent to
 
 # text
 seg-138dbcd1aece = Lunar landing dispersion with the real LOLA south-polar DEM: the budget for a powered descent to a south-polar site (Artemis-class), from the inertial drift of the descent stack and what terrain-relative navigation, LunaNet signals and lunar time each take off it.
+
+# text
+seg-2f09b9930e10 = View on GitHub
 
 # text
 seg-8ac5ac006ae7 = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → { "0" } as baseline → { "0" } (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.

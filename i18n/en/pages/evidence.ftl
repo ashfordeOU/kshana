@@ -113,9 +113,9 @@ seg-55fc928e19ae = oracle · AIAA 2006-6753 verification vectors
 seg-1d60624d525d = How it was checked
 
 # text
-# c1: 884e343
+# c1: 62a2fa7
 # c2: tests/sgp4_verification.rs
-seg-ee74b0bd690c = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-1127d4b9d3c0 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -150,9 +150,9 @@ seg-87734f6c52a2 = One square per SciPy case, grouped by kernel.
 seg-4957eddb39ed = oracle · SciPy
 
 # text
-# c1: 884e343
+# c1: 62a2fa7
 # c2: tests/raim_reference.rs
-seg-ccd3c88376c6 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-6ceb5c40e820 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -178,9 +178,9 @@ seg-2b1ea60e99a7 = Position difference against time, per force tier.
 seg-75344d6c427a = oracle · Orekit { "12.2" }
 
 # text
-# c1: 884e343
+# c1: 62a2fa7
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-9e9722dd8156 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-db20582b2d1e = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -208,8 +208,8 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: 884e343
-seg-86087d7afa56 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+# c2: 62a2fa7
+seg-11b283cf9156 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -234,9 +234,9 @@ seg-5d3372dbff1f = Four deviations against averaging time, with the published va
 seg-9993e306ae64 = oracle · NIST SP { "1065" }
 
 # text
-# c1: 884e343
+# c1: 62a2fa7
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-e8c571d855ac = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-d507dcf1a970 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -266,9 +266,9 @@ seg-46c1dbe5c6bc = Measured and predicted time error against coast time, and the
 seg-449f52c56c67 = oracle · measured caesium record
 
 # text
-# c1: 884e343
+# c1: 62a2fa7
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-f66e0bd02a7d = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-cb2cb710b147 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml

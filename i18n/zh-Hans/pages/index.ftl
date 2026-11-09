@@ -720,8 +720,8 @@ seg-56bf1281e330 = 与kshana-mcp服务器（Model Context Protocol，引擎v{ $v
 
 seg-24d919eaaba3 = { "405" }项能力中有{ "176" }项与独立的外部参考基准（oracle）一致；其余明确标注为由模型计算。
 
-seg-a3e8e37a3dfe = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+seg-defecb149c74 = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
 
-seg-fb666d7bed4e = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+seg-3a88568574d8 = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
 
-seg-890b4e5ac62b = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+seg-706afacecd46 = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }

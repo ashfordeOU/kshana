@@ -1138,8 +1138,8 @@ seg-56bf1281e330 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model 
 
 seg-24d919eaaba3 = { "176" } von { "405" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
 
-seg-a3e8e37a3dfe = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-defecb149c74 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
-seg-fb666d7bed4e = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+seg-3a88568574d8 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
-seg-890b4e5ac62b = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-706afacecd46 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
