@@ -86,6 +86,9 @@ def cell(spec, stations, lat, lon):
     ch = E.T @ cov @ E
     ev = np.linalg.eigvalsh(ch)
     out["drms_m"] = math.sqrt(float(np.trace(ch)))
+    # v2 (reading 13): condition number of the horizontal block and the number of stations used.
+    out["cond"] = float(ev[1] / ev[0]) if ev[0] > 0 else math.inf
+    out["n_used"] = len(gated)
     out["ellipse_m"] = [math.sqrt(CHI2_2_95 * float(ev[1])), math.sqrt(CHI2_2_95 * float(ev[0]))]
     return out
 
@@ -108,8 +111,18 @@ def objective(spec, stations):
 def main():
     mode, path = sys.argv[1], sys.argv[2]
     spec = json.load(open(path))
-    if mode == "map":
-        out = {"cells": [cell(spec, spec["stations"], la, lo) for la, lo in grid(spec)]}
+    if mode in ("map", "map2"):
+        cells = [cell(spec, spec["stations"], la, lo) for la, lo in grid(spec)]
+        if mode == "map":
+            # v1 output keys only (its committed outputs are unchanged).
+            for c in cells:
+                c.pop("cond", None)
+                c.pop("n_used", None)
+        else:
+            for c in cells:
+                if c.get("cond") == math.inf:
+                    c["cond"] = None
+        out = {"cells": cells}
     else:
         cands, m = spec["candidates"], spec["m"]
         best = None

@@ -82,3 +82,62 @@ wrote are committed with it, in `tests/fixtures/planner/`.
     distance" in P2 is read as the mean distance from the cell's source position to the stations used for that
     cell. The ±5 % bar applies at the drawn cells whose `DRMS` is below 0.05 times that distance. Drawn cells
     outside that regime are reported, not barred.
+
+## Readings of v2 (9 November 2026, before any v2 planner code)
+
+These read `docs/design/evidence/b1a-planner/PREREGISTRATION-v2.md`, signed off on 9 November 2026. They are
+committed with the v2 layouts, the placement instance and the oracle's v2 outputs, before any v2 planner code.
+Readings 1 to 12 stand unless changed here. The v1 inputs, outputs and recorded results are unchanged. The
+oracle's `map` mode gives v1's bytes, and its new `map2` mode adds two keys.
+
+13. **P1 scope (condition number).**
+    - `κ` is the ratio of the largest to the smallest eigenvalue of the 2 × 2 horizontal block `C_h`. That equals
+      the condition number of its inverse, the horizontal information matrix. It is infinite when the smaller
+      eigenvalue is not positive.
+    - **Who decides the scope.** The oracle's `κ` decides which cells are barred (`map2`'s `cond`, `null` for
+      infinite), so the scope does not depend on the implementation under test.
+    - **Bars.** Cells with `κ ≤ 1e8` take P1's bars (detection 1e-12, DRMS 1e-9 relative, the same ellipse rule
+      as v1). Cells above it are reported with their count and their largest relative difference, not barred.
+    - **The planner's output** gains `"ill_conditioned": true` on a cell whose own `κ` exceeds 1e8, and `false`
+      otherwise. A cell that is not locatable carries no flag.
+14. **P2 regime.** Barred: the drawn cells with `DRMS < 0.05 ×` the mean distance from the source to the
+    stations used (reading 12), **and** at least 4 stations used (`map2`'s `n_used`).
+    - Drawn: 20 locatable cells per v2 layout, with seed `0xB1A5` (ChaCha20, as in v1's test).
+    - Monte Carlo: as reading 10, with seed `0xB1A6`.
+    - Cells outside the regime are reported, not barred.
+15. **P4 search (v2).**
+    - Up to the exhaustive limit, as v1.
+    - Beyond it: greedy (reading 9), then single-exchange local search. Every (chosen, unchosen) pair is tried in
+      order: chosen position, then unchosen index ascending. The swap that gives the best subset under reading 9's
+      order (share, then median DRMS, then the sorted index list) is accepted when it is strictly better than the
+      current subset. This repeats until no swap improves.
+    - The planner's output names the method `greedy+exchange`.
+16. **P4 bar instance.** `place_40_v2.json`: 40 candidates, `m` = 7, `C(40, 7)` = 18 643 560 subsets (beyond the
+    exhaustive limit).
+    - The candidates are 5 rows by 8 columns, 8 km apart north–south and 32/7 km east–west, with alternate rows
+      shifted by half a column, centred on 45° N, 10° E.
+    - The bar: the planner's objective ≥ the best of 1 000 random `m`-subsets, drawn with ChaCha20 seed `0xB1A7`
+      under the engine's objective, as in v1.
+    - Also reported, without a bar: the oracle's objective for the planner's chosen subset.
+17. **Layouts** (all with v1's source, receiver, grid and `σ_τ`; `layout_*_v2.json`):
+    - **pentagon:** 5 stations at 7 km from 45° N, 10° E, at bearings 10°, 80°, 150°, 230° and 300° from east,
+      counter-clockwise. That makes an irregular pentagon.
+    - **mixed:** an inner square of side 3 km and an outer square of side 12 km, both centred there; 8 stations.
+    - **arc:** 4 stations at 8 km, at 0°, 30°, 60° and 90° from east: a 90° arc, the near-degenerate case.
+    - The oracle's `map2` outputs are committed in `tests/fixtures/planner/v2/` before any v2 planner code:
+
+      | Layout | Locatable cells | `κ` > 1e8 | 4 or more stations used |
+      |---|---|---|---|
+      | pentagon | 479 | 0 | 243 |
+      | mixed | 697 | 0 | 665 |
+      | arc | 486 | 0 | 306 |
+
+      No v2 layout has an ill-conditioned locatable cell, so P1's scope rule has nothing to exclude there.
+18. **P3, P5 and P6 on v2.**
+    - **P3:** at the P2 cells of each v2 layout, as reading 11, with seed `0xB1A8`.
+    - **P5:** the v2 test runs in the reproducibility matrix (Linux, macOS, Windows). The surfaces (CLI, Python,
+      WebAssembly) carry the new output field and are checked by their existing tests.
+    - **P6:** v1's map outputs are byte-identical except for the added `ill_conditioned` field. The v1 tests,
+      with that field ignored, are the check.
+19. **The run.** The v2 test (`tests/planner_v2.rs`) runs once after the code is committed, and `RESULTS-v2.md`
+    records it. A miss is pinned. v1's misses stay published.
