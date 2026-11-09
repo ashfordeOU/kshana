@@ -51,10 +51,15 @@ spice = [[float(x) for x in spiceypy.spkezr("-1176", e, "J2000", "NONE", "301")[
 spiceypy.kclear()
 ```
 
-GMAT runs the SPK script, every step.
+GMAT runs the SPK script, every step. `GMAT_PLANETARY_SPK` names a planetary SPK (the workflow
+gives NAIF's de440s.bsp); GMAT's solar system then reads it through SPICE, so that the Moon GMAT
+subtracts and the Moon in its SPK chain are the same.
 
 ```python
-spk_report, spk_log = gm.run_spk(files["spk"], OUT / "gmat", written.epochs[0], ets[0], len(ets))
+planetary = os.environ.get("GMAT_PLANETARY_SPK")  # NAIF's de440s.bsp in the workflow
+spk_report, spk_log = gm.run_spk(files["spk"], OUT / "gmat", written.epochs[0], ets[0], len(ets),
+                                 planetary_spk=Path(planetary) if planetary else None)
+print("GMAT's planetary source:", planetary or "GMAT's default")
 print(spk_log[-2000:])
 ```
 
@@ -80,10 +85,17 @@ for fmt, path, how in legs:
     n = min(len(g_states), len(ets))
     ok, worst_dt = gm.epochs_equal(g_texts[:n], ets[:n])
     w = fd.Written(written.epochs[:n], written.text[:n])
+    gm.write_differences(OUT / "gmat" / f"{fmt}_differences.csv", g_texts[:n], g_states[:n], ets[:n], w.values[:n])
     c = fd.evaluated_compare("GMAT", fmt, w, g_states[:n], ok, spice[:n], how=how,
                              readout_digits=gm.REPORT_DIGITS)
     c.notes.append(f"{len(g_states)} of {len(ets)} states reported; epochs within {worst_dt:.3g} s of the written ones")
     if fmt == "spk" and n == len(ets):
+        import math
+        dr = [math.dist(g[:3], v[:3]) for g, v in zip(g_states, w.values)]
+        dv = [math.dist(g[3:], v[3:]) for g, v in zip(g_states, w.values)]
+        c.notes.append(f"GMAT minus written: first node {dr[0]:.3g} km, {dv[0]:.3g} km/s; interior nodes up to "
+                       f"{max(dr[1:-1]):.3g} km, {max(dv[1:-1]):.3g} km/s; last node {dr[-1]:.3g} km, {dv[-1]:.3g} km/s "
+                       f"(per node: gmat/spk_differences.csv)")
         off = gm.epoch_offsets(g_texts[:n], ets[:n])
         c.notes.append(f"last node asked for {gm.LAST_NODE_MARGIN_S:g} s before the kernel's end: its epoch "
                        f"offset {off[-1]:.3g} s; the other nodes within {max(abs(x) for x in off[:-1]):.3g} s")
