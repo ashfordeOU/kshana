@@ -131,8 +131,8 @@ pub struct PlanSpec {
     /// Stations to place.
     #[serde(default)]
     pub m: Option<usize>,
-    /// Search beyond the exhaustive limit: `greedy+exchange` (default, B1a v2 reading 15) or `greedy`
-    /// (v1).
+    /// Search beyond the exhaustive limit: `greedy+exchange2+restarts` (default, B1a v3 readings 20 to 22),
+    /// `greedy+exchange` (v2) or `greedy` (v1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub search: Option<String>,
 }
@@ -180,7 +180,7 @@ pub struct Placement {
     pub objective: f64,
     /// Median DRMS over all cells (`None` when infinite: most cells not locatable).
     pub median_drms_m: Option<f64>,
-    /// `exhaustive`, `greedy` or `greedy+exchange`.
+    /// `exhaustive`, `greedy`, `greedy+exchange` or `greedy+exchange2+restarts`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub method: Option<String>,
 }
@@ -404,7 +404,7 @@ fn check(spec: &PlanSpec) -> Result<(), String> {
         && spec.sigma_tau_s > 0.0
         && matches!(
             spec.search.as_deref(),
-            None | Some("greedy") | Some("greedy+exchange")
+            None | Some("greedy") | Some("greedy+exchange") | Some("greedy+exchange2+restarts")
         );
     if ok {
         Ok(())
@@ -448,8 +448,127 @@ fn n_choose(n: usize, m: usize) -> u64 {
     r
 }
 
+/// Number of starts of the v3 search (B1a v3 reading 21).
+const RESTARTS: usize = 8;
+/// Seed of the v3 search's drawn starts (B1a v3 reading 21).
+const RESTART_SEED: u64 = 0xB1B1;
+
+fn pick_of(spec: &PlanSpec, sub: &[usize]) -> Vec<StationSite> {
+    sub.iter().map(|&i| spec.candidates[i].clone()).collect()
+}
+
+/// Greedy growth (reading 9): each step takes the candidate best under the objective's order.
+fn greedy_subset(spec: &PlanSpec, n: usize, m: usize) -> Result<(Vec<usize>, usize, f64), String> {
+    let mut chosen: Vec<usize> = Vec::new();
+    let mut last = (0usize, f64::INFINITY);
+    for _ in 0..m {
+        let mut step: Option<(Vec<usize>, usize, f64)> = None;
+        for c in (0..n).filter(|c| !chosen.contains(c)) {
+            let mut sub = chosen.clone();
+            sub.push(c);
+            sub.sort_unstable();
+            let (g, med) = score(spec, &pick_of(spec, &sub));
+            if step
+                .as_ref()
+                .is_none_or(|(s, bg, bm)| better((g, med, &sub), (*bg, *bm, s)))
+            {
+                step = Some((sub, g, med));
+            }
+        }
+        let (s, g, md) = step.ok_or_else(|| crate::terr!("e-planner-placement"))?;
+        chosen = s;
+        last = (g, md);
+    }
+    Ok((chosen, last.0, last.1))
+}
+
+/// Single-exchange local search (B1a v2 reading 15): the best strictly improving swap, until none.
+fn single_exchange(
+    spec: &PlanSpec,
+    n: usize,
+    mut chosen: Vec<usize>,
+    mut last: (usize, f64),
+) -> (Vec<usize>, usize, f64) {
+    loop {
+        let mut step: Option<(Vec<usize>, usize, f64)> = None;
+        for pos in 0..chosen.len() {
+            for c in (0..n).filter(|c| !chosen.contains(c)) {
+                let mut sub = chosen.clone();
+                sub[pos] = c;
+                sub.sort_unstable();
+                let (g, med) = score(spec, &pick_of(spec, &sub));
+                let cur = step
+                    .as_ref()
+                    .map_or((last.0, last.1, chosen.as_slice()), |(s, bg, bm)| {
+                        (*bg, *bm, s.as_slice())
+                    });
+                if better((g, med, &sub), cur) {
+                    step = Some((sub, g, med));
+                }
+            }
+        }
+        match step {
+            Some((s, g, md)) => {
+                chosen = s;
+                last = (g, md);
+            }
+            None => return (chosen, last.0, last.1),
+        }
+    }
+}
+
+/// One double-exchange step (B1a v3 reading 20): the best strictly improving swap of two chosen for two
+/// unchosen candidates, if any.
+fn double_step(
+    spec: &PlanSpec,
+    n: usize,
+    chosen: &[usize],
+    last: (usize, f64),
+) -> Option<(Vec<usize>, usize, f64)> {
+    let out: Vec<usize> = (0..n).filter(|c| !chosen.contains(c)).collect();
+    let mut step: Option<(Vec<usize>, usize, f64)> = None;
+    for p in 0..chosen.len() {
+        for q in p + 1..chosen.len() {
+            for (ia, &a) in out.iter().enumerate() {
+                for &b in &out[ia + 1..] {
+                    let mut sub = chosen.to_vec();
+                    sub[p] = a;
+                    sub[q] = b;
+                    sub.sort_unstable();
+                    let (g, med) = score(spec, &pick_of(spec, &sub));
+                    let cur = step
+                        .as_ref()
+                        .map_or((last.0, last.1, chosen), |(s, bg, bm)| {
+                            (*bg, *bm, s.as_slice())
+                        });
+                    if better((g, med, &sub), cur) {
+                        step = Some((sub, g, med));
+                    }
+                }
+            }
+        }
+    }
+    step
+}
+
+/// Single exchange to a local optimum, then a double step; repeat while the double step improves
+/// (B1a v3 reading 20).
+fn local_search(
+    spec: &PlanSpec,
+    n: usize,
+    start: Vec<usize>,
+    sc: (usize, f64),
+) -> (Vec<usize>, usize, f64) {
+    let (mut s, mut g, mut md) = single_exchange(spec, n, start, sc);
+    while let Some((s2, g2, md2)) = double_step(spec, n, &s, (g, md)) {
+        (s, g, md) = single_exchange(spec, n, s2, (g2, md2));
+    }
+    (s, g, md)
+}
+
 /// Choose `m` of the candidates: exhaustive when there are at most [`EXHAUSTIVE_MAX`] subsets,
-/// otherwise greedy followed by single-exchange local search (or greedy alone with `search: "greedy"`).
+/// otherwise the v3 search (B1a v3 readings 20 to 22; `search: "greedy+exchange"` gives v2's single
+/// exchange and `search: "greedy"` v1's greedy alone).
 pub fn place(spec: &PlanSpec) -> Result<Placement, String> {
     check(spec)?;
     let n = spec.candidates.len();
@@ -488,57 +607,41 @@ pub fn place(spec: &PlanSpec) -> Result<Placement, String> {
         let (s, g, md) = best.ok_or_else(|| crate::terr!("e-planner-placement"))?;
         (s, g, md, "exhaustive")
     } else {
-        let mut chosen: Vec<usize> = Vec::new();
-        let mut last = (0usize, f64::INFINITY);
-        for _ in 0..m {
-            let mut step: Option<(Vec<usize>, usize, f64)> = None;
-            for c in (0..n).filter(|c| !chosen.contains(c)) {
-                let mut sub = chosen.clone();
-                sub.push(c);
-                sub.sort_unstable();
-                let (g, med) = score(spec, &pick(&sub));
-                if step
-                    .as_ref()
-                    .is_none_or(|(s, bg, bm)| better((g, med, &sub), (*bg, *bm, s)))
-                {
-                    step = Some((sub, g, med));
-                }
+        let (greedy, g0, m0) = greedy_subset(spec, n, m)?;
+        match spec.search.as_deref() {
+            Some("greedy") => (greedy, g0, m0, "greedy"),
+            Some("greedy+exchange") => {
+                let (s, g, md) = single_exchange(spec, n, greedy, (g0, m0));
+                (s, g, md, "greedy+exchange")
             }
-            let (s, g, md) = step.ok_or_else(|| crate::terr!("e-planner-placement"))?;
-            chosen = s;
-            last = (g, md);
-        }
-        if spec.search.as_deref() == Some("greedy") {
-            (chosen, last.0, last.1, "greedy")
-        } else {
-            // Single-exchange local search (B1a v2 reading 15): the best strictly improving swap, until none.
-            loop {
-                let mut step: Option<(Vec<usize>, usize, f64)> = None;
-                for pos in 0..chosen.len() {
-                    for c in (0..n).filter(|c| !chosen.contains(c)) {
-                        let mut sub = chosen.clone();
-                        sub[pos] = c;
-                        sub.sort_unstable();
-                        let (g, med) = score(spec, &pick(&sub));
-                        let cur = step
-                            .as_ref()
-                            .map_or((last.0, last.1, chosen.as_slice()), |(s, bg, bm)| {
-                                (*bg, *bm, s.as_slice())
-                            });
-                        if better((g, med, &sub), cur) {
-                            step = Some((sub, g, med));
-                        }
+            _ => {
+                // B1a v3 readings 20 and 21: eight starts (greedy, then 7 drawn with seed 0xB1B1), each
+                // improved by single and double exchange; the best final subset is kept.
+                use rand::{Rng, SeedableRng};
+                let mut rng = rand_chacha::ChaCha20Rng::seed_from_u64(RESTART_SEED);
+                let mut starts = vec![greedy];
+                for _ in 1..RESTARTS {
+                    let mut pool: Vec<usize> = (0..n).collect();
+                    let mut sub: Vec<usize> = (0..m)
+                        .map(|_| pool.remove(rng.gen_range(0..pool.len())))
+                        .collect();
+                    sub.sort_unstable();
+                    starts.push(sub);
+                }
+                let mut best: Option<(Vec<usize>, usize, f64)> = None;
+                for st in starts {
+                    let sc = score(spec, &pick(&st));
+                    let (s, g, md) = local_search(spec, n, st, sc);
+                    if best
+                        .as_ref()
+                        .is_none_or(|(bs, bg, bm)| better((g, md, &s), (*bg, *bm, bs)))
+                    {
+                        best = Some((s, g, md));
                     }
                 }
-                match step {
-                    Some((s, g, md)) => {
-                        chosen = s;
-                        last = (g, md);
-                    }
-                    None => break,
-                }
+                let (s, g, md) = best.ok_or_else(|| crate::terr!("e-planner-placement"))?;
+                (s, g, md, "greedy+exchange2+restarts")
             }
-            (chosen, last.0, last.1, "greedy+exchange")
         }
     };
     Ok(Placement {
