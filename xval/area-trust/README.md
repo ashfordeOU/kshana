@@ -223,3 +223,110 @@ W10. **T3 (coordinator's answer, 9 November).**
 W11. **Scoring once.** T1, T2, T3, T4 and T5 are scored once, after the engine code and the T4 selection are
      committed, and recorded in `RESULTS-v2.md` as MET or NOT MET. A miss is pinned by a test. v1 stays published,
      and a v2 MET does not undo v1's NOT MET.
+
+## v3 readings (10 November 2026)
+
+The v3 pre-registration is `docs/design/evidence/b5-area-trust/PREREGISTRATION-v3.md`, signed off on 10 November 2026.
+These readings are written after its step 1 (the diagnosis on v2's already-scored data), before any v3 rule code,
+any v3 oracle and any v3 data selection. A v1 or v2 reading not changed below still holds. The coordinator answered
+three questions before they were written (X2, X3, X4).
+
+X1. **Diagnosis (step 1).**
+    - **Tool and output:** `tests/area_trust_igs.rs`, `b5v3_diagnosis_of_v2_common_epochs` (ignored; it reads the v2
+      files with the v2 harness's own fix computation). Its output is `xval/area-trust/v3_diagnosis.json.gz` (uncompressed SHA-256
+      `a7b4fac8cf3e9b07b4cf09ec3a5094363f6d8717ac00cc4ff86a32614ce4c38c`).
+    - **The common epochs:** 314 scored epochs in which at least two stations had a position alarm, in 10 runs.
+      In every one, leaving one satellite out of the fixes brings every alarmed station to a horizontal error at
+      or under its `H_s`.
+    - **G11, 07-27 and 07-28 from 10:30:30 (122 epochs, all four stations):** at 10:27 each day G11 broadcast a
+      record marked unhealthy (health 63, Toc 11:00, IODE 72 and 98). The engine chose it as the record with the
+      nearest Toe; a healthy 10:00 record was 60 s farther away. Residuals reached about 1 900 km.
+    - **G14, 07-31 from 10:36 (66 epochs, two or three stations):** records marked unhealthy (health 63) from 10:44
+      to 14:44 were used. Residuals were −16 to −100 m.
+    - **G03, 08-02 from 02:00 (125 epochs, up to all four stations; one more epoch is explained by G03 or G14):**
+      - The BKG merged file holds no G03 record between 22:00 on 08-01 and 04:00 on 08-02.
+      - From 02:00 the engine used the 04:00 record (health 0, IODE 94) at |Toe − t| = 7 200 s, inside
+        `MAX_EPH_AGE_S`.
+      - Its transmission time is 03:08, after the epochs it was used for. Residuals were about 1 600 to 1 900 km.
+    - **Unhealthy records in general:** each station's fix used a satellite whose record is marked unhealthy in 119
+      to 264 scored epochs.
+    - **The 7 loss-of-lock alerts (19:15 to 19:33):** at each of them every station tracked 6 to 8 GPS satellites,
+      against medians of 10 and 11. Fewer satellites were in view at all four stations at once; no station lost lock
+      on its own.
+X2. **Engine finding: satellite health (coordinator's answer, 10 November).**
+    - `pvt::select_ephemeris` ignored `sv_health`. That is a fault whatever the algorithm.
+    - It now skips records with `sv_health ≠ 0`. A satellite with no healthy record within `MAX_EPH_AGE_S` is dropped
+      for that epoch. This is on by default, with no option to turn it off.
+    - Every pinned value the fix moves is listed, old and new, in
+      `docs/design/evidence/b5-area-trust/ENGINE-FINDING-HEALTH.md`. Results already scored stay published as
+      recorded, each with a dated note pointing to the finding.
+X3. **Transmission time (coordinator's answer, 10 November).**
+    - No engine change. The engine keeps the nearest Toe within `MAX_EPH_AGE_S`, as post-processing tools commonly do.
+    - A transmission-time rule belongs with a real-time mode, which is a separate design.
+    - G03 on 08-02 therefore stays a satellite fault common to every station: it is the case X4 has to catch.
+X4. **The `SATELLITE_FAULT` rule (coordinator's answer, 10 November).** In each epoch:
+    - `k` is the plan's: `k = max(2, ⌈N/3⌉)`, with `N` the stations with a fix in that epoch.
+    - The alarmed set `A` is the stations whose fix-domain position alarm holds: horizontal error `> H_s`.
+    - When `|A| ≥ k`, the candidates are the satellites used in the fix of every station in `A`.
+    - A candidate explains the epoch when, for every station in `A`, the fix recomputed without it exists and has a
+      horizontal error `≤ H_s`. "Under its threshold" is read as "not alarmed", the complement of the alarm.
+    - If several candidates explain the epoch, the one with the largest median |post-fit residual| over the stations
+      of `A` (from the full fixes) is chosen. Ties go to the lowest PRN.
+    - The chosen satellite is flagged `SATELLITE_FAULT` for that epoch and the flag is shown in the output.
+    - Every station whose fix used it, not only those in `A`, has its fix recomputed without it. The stations'
+      position alarms, and so the area state, use the recomputed fixes.
+    - At most one satellite is flagged per epoch. When none explains the epoch, nothing changes.
+X5. **Loss of lock.**
+    - In v3 a loss-of-lock alarm alone no longer makes a station `Degraded`. With a C/N0 template alarm or an AGC
+      alarm the station is `Degraded` as before, by those alarms.
+    - "It stays visible in the station's state": the station's per-epoch record keeps the loss-of-lock alarm as its
+      own field, and T4 reports the lock-only epochs per station. The three station states and their order are
+      unchanged.
+X6. **The area rule.**
+    - The aggregation of station states into the area state is v2's (W1, with the `m` clause).
+    - v3 changes what feeds it: X4 on the fixes, then X5 on the station state.
+    - A `kshana.area-stations/1` document with `"area_rule": "v3"` is aggregated as v2. A document without the field
+      keeps v1's bytes, and one with `"v2"` keeps v2's.
+X7. **The v3 oracle and the satellite-fault replays (T1, T5).**
+    - **The oracle:** `oracle_v3.py`, Python standard library only and sharing no code with the engine. It implements
+      X4 with its own weighted least-squares single-point solve from the same per-satellite inputs, then X5 and W1.
+      It is committed before any v3 engine code.
+    - **The replays:** seeded measurement-level documents. Each epoch gives each station's surveyed position, `H_s`,
+      evidence flags and, per GPS satellite, the satellite position, pseudorange, satellite clock, ionosphere,
+      troposphere and weight. They have 4, 5, 7 and 10 stations, at least 500 epochs in all, and inject:
+      - one satellite's range error common to every station (20 m to 2 000 km);
+      - a range error at one station only;
+      - two satellites' errors at once;
+      - loss-of-lock alarms alone and with a C/N0 alarm;
+      - clean epochs.
+    - **T1:** in every epoch the engine's flagged satellite, its recomputed horizontal errors, the station states
+      and the area timeline equal the oracle's. The seven v2 replays and the two boundary documents with
+      `"area_rule": "v3"` equal v2's bytes.
+    - **T5:** the command line, Python and WebAssembly give the oracle's bytes on the satellite-fault replays.
+X8. **T2 on v3.** As v2 (W5), and on the satellite-fault replays:
+    - every injected single-satellite fault that alarms at least `k` stations is flagged with the injected
+      satellite, and raises no area alert after the recomputation;
+    - an error at one station only is not flagged;
+    - an epoch with two faulty satellites is not explained by one, so no satellite is flagged and the alarms stand;
+    - a loss-of-lock alarm alone leaves the station `Nominal`, with the alarm in its record.
+X9. **T3.**
+    - T3 is re-run as in W10: v1's harness, readings 13 to 17, four sequential runs of 55 events at 100 stations, with
+      the v3 rule.
+    - The harness streams per-station evidence, not per-satellite measurements, so X5 is in T3's path and X4 is not.
+      The results say so.
+X10. **T4: the fortnight and its stations.**
+     - **Days:** the first 14 consecutive UTC days starting on or after 7 August 2025 on which all eight 3-hour Kp
+       values are at most 4.000, from the GFZ file fetched on the day of selection.
+     - **Calibration and scoring:** the first day calibrates; 13 are scored.
+     - **Selection:** `select_v3.py` makes it and is committed, with the GFZ file's SHA-256, before any observation
+       file is fetched.
+     - **Stations, coordinates and navigation:** reading 10's rule applied anew on the v3 days; reading 9; B8 reading 8
+       per day.
+     - **Engine:** the X2 health fix applies.
+     - **Fetch:** every file is fetched by script into a v3 manifest. If any file the rule needs cannot be fetched,
+       the work stops and the coordinator is asked; nothing is substituted, and any refusal is recorded.
+     - **Order per 30 s epoch:** X4 across the area's stations, then X5, then the area aggregation. The bars are W9's.
+X11. **Scoring once.**
+     - T1 to T5 are scored once, after the oracle, the engine code and the T4 selection are committed, and recorded in
+       `RESULTS-v3.md` as MET or NOT MET.
+     - A miss is pinned by a test. v1 and v2 stay published, and a v3 MET does not undo their NOT MET.

@@ -558,6 +558,244 @@ fn t4v2_false_alerts_on_clean_igs_data() {
     }
 }
 
+// ------------------------------------------------------------------------- B5 v3, step 1: diagnosis
+
+/// One GPS satellite in one station's fix: its id, elevation, post-fit residual, the broadcast record
+/// in use and the station's horizontal error with that satellite left out.
+#[derive(serde::Serialize)]
+struct DiagSat {
+    sat: String,
+    el_deg: f64,
+    resid_m: f64,
+    iode: f64,
+    health: f64,
+    toe_age_s: f64,
+    ura_m: f64,
+    err_h_without_m: Option<f64>,
+}
+
+#[derive(serde::Serialize)]
+struct DiagStation {
+    name: String,
+    err_h_m: Option<f64>,
+    h_s_m: f64,
+    alarmed: bool,
+    sats: Vec<DiagSat>,
+}
+
+/// One epoch of one station as the diagnosis keeps it: the measurements with their satellite ids and
+/// the broadcast record each was computed from.
+struct DiagEpoch {
+    p: [f64; 3],
+    meas: Vec<(String, kshana::pvt::SppMeasurement, [f64; 4])>,
+}
+
+/// B5 v3 step 1 (`PREREGISTRATION-v3.md`): on v2's scored data, every scored epoch where at least two
+/// stations raise a position alarm, with the satellites each fix used, the residual per satellite, the
+/// broadcast record in use (IODE, health, age, URA) and whether leaving one satellite out clears every
+/// alarmed station. Also counts, per station, the scored epochs whose fix used a satellite the broadcast
+/// record marks unhealthy, and records the tracked counts at v2's loss-of-lock alerts. Reads the v2 files
+/// (`KSHANA_B5_V2_DIR`) exactly as `t4v2_false_alerts_on_clean_igs_data` does; writes
+/// `v3_diagnosis.json` there.
+#[test]
+#[ignore]
+fn b5v3_diagnosis_of_v2_common_epochs() {
+    let dir = PathBuf::from(
+        std::env::var("KSHANA_B5_V2_DIR").expect("KSHANA_B5_V2_DIR: the fetch_v2.py directory"),
+    );
+    let (days, names, first) = v2_plan();
+    let t0 = (days_from_civil(first.0, first.1, first.2) - days_from_civil(1980, 1, 6)) * 86_400;
+    let mut cals = Vec::new();
+    let mut tracked: Vec<BTreeMap<i64, usize>> = Vec::new();
+    for name in &names {
+        let (raw, _) = read_station_v2(&dir, name, &days, first);
+        let cal = calibrate(&raw);
+        tracked.push(raw.iter().map(|r| (r.t, r.tracked)).collect());
+        cals.push(cal);
+    }
+    // Pass 2: per station and epoch, the measurements with their ids and broadcast records.
+    let mut epochs: Vec<BTreeMap<i64, DiagEpoch>> = Vec::new();
+    let mut unhealthy_used = Vec::new();
+    for name in &names {
+        let mut m_ep = BTreeMap::new();
+        let mut unhealthy = 0usize;
+        let mut p_s = None;
+        for (year, doy, nav_src) in &days {
+            let obs_text =
+                gunzip(&dir.join(format!("{name}_R_{year}{doy:03}0000_01D_30S_MO.rnx.gz")));
+            let nav_text = gunzip(&dir.join(format!("{nav_src}_{year}{doy:03}0000_01D_MN.rnx.gz")));
+            let obs = parse_obs(&obs_text).unwrap();
+            let ephs = parse_nav(&nav_text).unwrap();
+            let p = *p_s.get_or_insert_with(|| obs.header.approx_xyz.unwrap());
+            let atmos = AtmosModel {
+                iono: klobuchar_from_nav_header(&nav_text).unwrap_or_default(),
+                meteo: Meteo::default(),
+            };
+            for (i, ep) in obs.epochs.iter().enumerate() {
+                if ep.flag != 0 {
+                    continue;
+                }
+                let t = ep.time.seconds_from_gps_epoch().round() as i64 - t0;
+                let tow = ep.time.gps_time_of_week();
+                let meas: Vec<_> = assemble_epoch(&obs, i, &ephs, p, &atmos, MASK_DEG, true)
+                    .into_iter()
+                    .filter(|(s, _)| s.starts_with('G'))
+                    .map(|(s, m)| {
+                        let prn: u8 = s[1..3].trim().parse().unwrap();
+                        let e = select_ephemeris(&ephs, 'G', prn, tow).unwrap();
+                        let rec = [e.iode, e.sv_health, tow - e.toe, e.sv_accuracy];
+                        (s, m, rec)
+                    })
+                    .collect();
+                if t >= 86_400 && meas.iter().any(|(_, _, r)| r[1] != 0.0) {
+                    unhealthy += 1;
+                }
+                m_ep.insert(t, DiagEpoch { p, meas });
+            }
+        }
+        unhealthy_used.push(unhealthy);
+        epochs.push(m_ep);
+    }
+    let err = |d: &DiagEpoch, skip: Option<&str>| -> Option<f64> {
+        let m: Vec<_> = d
+            .meas
+            .iter()
+            .filter(|(s, _, _)| Some(s.as_str()) != skip)
+            .map(|(_, m, _)| *m)
+            .collect();
+        solve_spp(&m, d.p).map(|f| {
+            let e = enu_error(d.p, f.ecef);
+            e[0].hypot(e[1])
+        })
+    };
+    let mut common = Vec::new();
+    let all_t: std::collections::BTreeSet<i64> =
+        epochs.iter().flat_map(|m| m.keys().copied()).collect();
+    for &t in all_t.iter().filter(|t| (86_400..14 * 86_400).contains(*t)) {
+        let alarmed: Vec<usize> = (0..names.len())
+            .filter(|&k| {
+                epochs[k]
+                    .get(&t)
+                    .and_then(|d| err(d, None))
+                    .is_some_and(|e| e > cals[k].hs)
+            })
+            .collect();
+        if alarmed.len() < 2 {
+            continue;
+        }
+        let mut st = Vec::new();
+        for (k, name) in names.iter().enumerate() {
+            let Some(d) = epochs[k].get(&t) else {
+                continue;
+            };
+            let m: Vec<_> = d.meas.iter().map(|(_, m, _)| *m).collect();
+            let fix = solve_spp(&m, d.p);
+            let station = ecef_to_geodetic(d.p);
+            let sats = d
+                .meas
+                .iter()
+                .map(|(s, m, r)| {
+                    let resid = fix.map_or(f64::NAN, |f| {
+                        let dx = [
+                            m.sat_ecef[0] - f.ecef[0],
+                            m.sat_ecef[1] - f.ecef[1],
+                            m.sat_ecef[2] - f.ecef[2],
+                        ];
+                        let rho = (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt();
+                        m.pseudorange_m
+                            - (rho + f.clock_bias_m - m.sat_clock_m + m.iono_m + m.tropo_m)
+                    });
+                    DiagSat {
+                        sat: s.clone(),
+                        el_deg: look_angles(station, m.sat_ecef).el_rad.to_degrees(),
+                        resid_m: resid,
+                        iode: r[0],
+                        health: r[1],
+                        toe_age_s: r[2],
+                        ura_m: r[3],
+                        err_h_without_m: err(d, Some(s)),
+                    }
+                })
+                .collect();
+            st.push(DiagStation {
+                name: name.clone(),
+                err_h_m: err(d, None),
+                h_s_m: cals[k].hs,
+                alarmed: alarmed.contains(&k),
+                sats,
+            });
+        }
+        // A satellite explains the epoch if every alarmed station used it and leaving it out brings
+        // each alarmed station under its H_s.
+        let explaining: Vec<String> = st[alarmed[0]]
+            .sats
+            .iter()
+            .map(|s| s.sat.clone())
+            .filter(|sat| {
+                st.iter().filter(|x| x.alarmed).all(|x| {
+                    x.sats
+                        .iter()
+                        .any(|s| &s.sat == sat && s.err_h_without_m.is_some_and(|e| e <= x.h_s_m))
+                })
+            })
+            .collect();
+        common.push(serde_json::json!({
+            "t": t,
+            "day": t / 86_400,
+            "gps_time_of_day_s": t % 86_400,
+            "alarmed": alarmed.iter().map(|&k| names[k].clone()).collect::<Vec<_>>(),
+            "explaining_satellites": explaining,
+            "stations": st,
+        }));
+    }
+    let committed: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4v2_result.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    let lock_alerts: Vec<_> = committed["alerts"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|a| a["n_u"] == 0)
+        .map(|a| {
+            let t = a["g"].as_i64().unwrap();
+            serde_json::json!({
+                "t": t,
+                "tracked": names.iter().enumerate().map(|(k, n)| serde_json::json!({
+                    "name": n,
+                    "tracked": tracked[k].get(&t),
+                    "tracked_median": cals[k].tracked_median,
+                })).collect::<Vec<_>>(),
+            })
+        })
+        .collect();
+    let out = serde_json::json!({
+        "common_position_alarm_epochs": common,
+        "scored_epochs_using_an_unhealthy_satellite": names.iter().zip(&unhealthy_used)
+            .map(|(n, u)| serde_json::json!({"name": n, "epochs": u})).collect::<Vec<_>>(),
+        "loss_of_lock_alerts": lock_alerts,
+    });
+    let text = serde_json::to_string_pretty(&out).unwrap();
+    std::fs::write(dir.join("v3_diagnosis.json"), &text).unwrap();
+    println!(
+        "B5 v3 diagnosis: {} common position-alarm epochs",
+        common.len()
+    );
+    for c in &common {
+        println!(
+            "  t={} day {} {:>5} s alarmed {:?} explained by {:?}",
+            c["t"], c["day"], c["gps_time_of_day_s"], c["alarmed"], c["explaining_satellites"]
+        );
+    }
+    println!(
+        "unhealthy satellite used: {:?}",
+        out["scored_epochs_using_an_unhealthy_satellite"]
+    );
+}
+
 // ------------------------------------------------------------------------------------------- T3
 
 const T3_N: usize = 100;
