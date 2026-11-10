@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="main 分支上的持续集成状态"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="src/ 的行覆盖率接近 95 %，测量见 docs/COVERAGE.md，持续集成中的门槛为 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="405 项能力中有 176 项与独立的外部参考基准核对为 VALIDATED，数据来自验证矩阵"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="412 项能力中有 176 项与独立的外部参考基准核对为 VALIDATED，数据来自验证矩阵"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud 质量门状态"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="发布版本 v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="英语及另外 17 种语言，均为机器翻译"></a>
@@ -117,7 +117,7 @@
 
 0.40 新增了任务级误差预算，为每张图和每个表标注其证据等级，可读取实测时钟日志，
 检查数据合作方提交的数据，估计干扰发射源可能所在的区域，并在英语之外支持十七种语言。
-台账现有 405 行：176 行 VALIDATED、225 行 MODELLED、4 行 PARTNER。没有任何一行被提升为 VALIDATED，下面每一项未达标
+台账现有 412 行：176 行 VALIDATED、232 行 MODELLED、4 行 PARTNER。没有任何一行被提升为 VALIDATED，下面每一项未达标
 都由一项测试固定下来。
 
 - **任务链。** `mission-thread` 类型将从发射到再入的各阶段串联起来（`launch-ascent`、`leo-rendezvous`、
@@ -1029,7 +1029,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 已对照全部 666 个 AIAA 2006-6753 参考向量检查，最大位置误差 4.12 mm"></a></p>
 
-<strong>405 项中有 176 项</strong>能力已对照独立的外部参考基准验证；225 项如实标为 Modelled。
+<strong>412 项中有 176 项</strong>能力已对照独立的外部参考基准验证；232 项如实标为 Modelled。
 验证矩阵的每一行都列出一项能力、用于检查它的参考基准、
 运行检查的测试，以及由此得出的标签。持续集成（CI）使得
 在没有独立外部参考基准的情况下不可能把一项能力称为 VALIDATED。
@@ -1037,13 +1037,13 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="一项能力如何获得其标签。验证矩阵的每一行都列出一项能力、用于检查它的参考基准、在持续集成中运行检查的测试，以及由此得出的标签。只有在有独立外部参考基准时，一行才可以是 VALIDATED；否则为 MODELLED，或在由硬件合作方负责时为 PARTNER。示例：SGP4/SDP4、Cowell 6-DOF + 摄动、批处理/序贯定轨，参考基准为 AIAA 2006-6753 SGP4 验证向量，测试为 tests/sgp4_verification.rs，标签为 VALIDATED。实时计数：405 行中 176 行 VALIDATED、225 行 MODELLED、4 行 PARTNER。总计 176 项能力已对照独立的外部参考基准验证；另有 225 项如实标为 MODELLED，4 项由 PARTNER 负责。" width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="一项能力如何获得其标签。验证矩阵的每一行都列出一项能力、用于检查它的参考基准、在持续集成中运行检查的测试，以及由此得出的标签。只有在有独立外部参考基准时，一行才可以是 VALIDATED；否则为 MODELLED，或在由硬件合作方负责时为 PARTNER。示例：SGP4/SDP4、Cowell 6-DOF + 摄动、批处理/序贯定轨，参考基准为 AIAA 2006-6753 SGP4 验证向量，测试为 tests/sgp4_verification.rs，标签为 VALIDATED。实时计数：412 行中 176 行 VALIDATED、232 行 MODELLED、4 行 PARTNER。总计 176 项能力已对照独立的外部参考基准验证；另有 232 项如实标为 MODELLED，4 项由 PARTNER 负责。" width="100%">
 </picture>
 
 | 标签 | 行数 | 含义 |
 |---|---|---|
 | VALIDATED | 176 | 独立的外部参考基准与之一致：真实数据、独立实现或已公布的参考向量 |
-| MODELLED | 225 | 对照解析真值或仿真自洽性检查，并明确说明这一点 |
+| MODELLED | 232 | 对照解析真值或仿真自洽性检查，并明确说明这一点 |
 | PARTNER | 4 | 由硬件合作方负责；Kshana 对其没有参考基准 |
 
 部分检查：全部 666 个 AIAA（美国航空航天学会）
@@ -1052,7 +1052,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 测试使 `src/` 的行覆盖率保持在 95 % 左右，
 CI 中的门槛为 85 %。台账为
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md)，由
-`src/verification.rs` 生成：[完整的 405 行矩阵](docs/VERIFICATION-MATRIX.md)，以及每个
+`src/verification.rs` 生成：[完整的 412 行矩阵](docs/VERIFICATION-MATRIX.md)，以及每个
 Modelled 行为何没有外部参考基准，见 [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md)。
 
 <details>
@@ -1085,7 +1085,7 @@ Modelled 行为何没有外部参考基准，见 [`docs/MODELLED-RATIONALE.md`](
 ### 验证一览
 
 每一行都由 CI 中一个具名测试强制保证。此表是**精选要点**；
-完整的经机器检查的矩阵有 **405 行——176 行 VALIDATED、225 行 MODELLED、4 行 PARTNER**
+完整的经机器检查的矩阵有 **412 行——176 行 VALIDATED、232 行 MODELLED、4 行 PARTNER**
 （`src/verification.rs`），完整证据（以及如实说明的尚*未*
 验证的内容）见 [`docs/VALIDATION.md`](docs/VALIDATION.md) 以及每个发布版本的
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1137,7 +1137,7 @@ Levels for Software Artifacts，软件制品供应链等级）。
 | CI | 测试覆盖率 | `src/` 上**约 95 % 行覆盖率**（不含 `src/*_data.rs` 和 `src/main.rs`），门槛 ≥ 85 % | cargo-tarpaulin（LLVM 引擎） |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="一项能力如何获得其标签：需求映射到 src 中的一个模块，再到 tests 中的一个测试，再到一个外部参考基准（真实数据集、独立参考实现或已公布的向量），再到一个状态——并有一个由 CI 强制执行的防护：没有外部参考基准的能力不能被标为 Validated。实时计数：176 Validated、225 Modelled、4 Partner，共 405" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="一项能力如何获得其标签：需求映射到 src 中的一个模块，再到 tests 中的一个测试，再到一个外部参考基准（真实数据集、独立参考实现或已公布的向量），再到一个状态——并有一个由 CI 强制执行的防护：没有外部参考基准的能力不能被标为 Validated。实时计数：176 Validated、232 Modelled、4 Partner，共 412" width="900">
   <br><sub>一项能力如何获得其标签——由 CI 强制执行的不变式：没有外部参考基准 ⇒ 不能被标为 Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1149,8 +1149,8 @@ Levels for Software Artifacts，软件制品供应链等级）。
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="全部 405 项能力的验证状态：176 项 Validated（对照外部参考基准检查）、225 项 Modelled、4 项由 Partner 负责" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="全部 412 项能力的验证状态：176 项 Validated（对照外部参考基准检查）、232 项 Modelled、4 项由 Partner 负责" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1260,7 +1260,7 @@ JetBrains 插件。同一个场景文件在每种接口上都给出相同的字�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana 的架构：一个开源引擎位于中心，即采用 AGPL-3.0 的 kshana 0.40.0，带有 api::run_toml（对每种类型的类型化分派）以及包含 405 项能力的验证台账（176 项 VALIDATED、225 项 MODELLED、4 项 PARTNER）。在其周围，每种接口都运行同一个引擎：命令行（cargo install kshana）；Rust 库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP 服务器（cargo install kshana-mcp）；Docker 镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains 插件（Marketplace：&quot;Kshana&quot;）。在其下方是 Kshana Pro，一个专有叠加层，它将开源引擎作为库来依赖，从不分叉它，也不添加任何物理模型。" width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana 的架构：一个开源引擎位于中心，即采用 AGPL-3.0 的 kshana 0.40.0，带有 api::run_toml（对每种类型的类型化分派）以及包含 412 项能力的验证台账（176 项 VALIDATED、232 项 MODELLED、4 项 PARTNER）。在其周围，每种接口都运行同一个引擎：命令行（cargo install kshana）；Rust 库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP 服务器（cargo install kshana-mcp）；Docker 镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains 插件（Marketplace：&quot;Kshana&quot;）。在其下方是 Kshana Pro，一个专有叠加层，它将开源引擎作为库来依赖，从不分叉它，也不添加任何物理模型。" width="100%">
 </picture>
 
 <details>
@@ -1269,7 +1269,7 @@ JetBrains 插件。同一个场景文件在每种接口上都给出相同的字�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana 的分层架构。五个入口（命令行、Python、JavaScript 和 WebAssembly、MCP 服务器以及 JetBrains 插件）都到达同一个 api::run_toml，即对 92 种类型的类型化分派。其下是八个领域层：时间与坐标系、时钟与授时、惯性与融合、GNSS 与完好性、航天动力学、LEO PNT、月球火星与深空，以及任务与研究，它们位于一个共享核心之上，全部由验证模块交叉引用；验证模块是包含 405 项能力的经机器检查的矩阵，是每个标签的唯一事实来源。" width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana 的分层架构。五个入口（命令行、Python、JavaScript 和 WebAssembly、MCP 服务器以及 JetBrains 插件）都到达同一个 api::run_toml，即对 92 种类型的类型化分派。其下是八个领域层：时间与坐标系、时钟与授时、惯性与融合、GNSS 与完好性、航天动力学、LEO PNT、月球火星与深空，以及任务与研究，它们位于一个共享核心之上，全部由验证模块交叉引用；验证模块是包含 412 项能力的经机器检查的矩阵，是每个标签的唯一事实来源。" width="100%">
 </picture>
 
 **一个引擎，多个入口。** 单一的 Rust 核心（`kshana`）运行每个场景，
