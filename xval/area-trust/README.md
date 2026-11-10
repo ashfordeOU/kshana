@@ -330,3 +330,11 @@ X11. **Scoring once.**
      - T1 to T5 are scored once, after the oracle, the engine code and the T4 selection are committed, and recorded in
        `RESULTS-v3.md` as MET or NOT MET.
      - A miss is pinned by a test. v1 and v2 stay published, and a v3 MET does not undo their NOT MET.
+X12. **What T1 and T5 compare on the satellite-fault replays (written with the oracle, before any v3 engine code).**
+     - `oracle_v3.py`'s default output holds only discrete fields: the flagged satellite, the station states, the
+       loss-of-lock flags and the area timeline. T1 and T5 compare these byte for byte.
+     - The horizontal errors before and after the screen (`--detail`) come from two independent iterative solves, so
+       their last bits can differ. T1 compares them within 1 × 10⁻⁶ m, and a missing fix must be missing in both.
+     - Ties in X4's median |residual| are exact equalities of floating-point values. The replays are drawn so that
+       no two candidates tie and no horizontal error lies within 1 × 10⁻⁶ m of its `H_s`. The generator checks both
+       and redraws the epoch otherwise, and says how many it redrew.
