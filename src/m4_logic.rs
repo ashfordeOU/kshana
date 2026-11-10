@@ -47,6 +47,15 @@ pub struct M4Params {
     pub v2: bool,
     /// v2 dark-track speed limit, kn (R22).
     pub dark_max_kn: f64,
+    /// v3 (R25 to R31): bounded-turn dark tracks, global association per window and the
+    /// collision-tolerant step test. `true` needs `v2` too; `false` is v1 or v2.
+    pub v3: bool,
+    /// v3 fixed cost of "new dark track", in units of `sigma_fix^2` (R29, R31).
+    pub new_track_cost: f64,
+    /// v3 turn-rate bound of the bounded-turn prediction, degrees per minute (R28).
+    pub turn_max_deg_per_min: f64,
+    /// v3 association window, s (R29).
+    pub assoc_window_s: u32,
 }
 
 impl M4Params {
@@ -65,6 +74,10 @@ impl M4Params {
             mask_deg: 10.0,
             v2: false,
             dark_max_kn: 30.0,
+            v3: false,
+            new_track_cost: 13.82,
+            turn_max_deg_per_min: 3.0,
+            assoc_window_s: 60,
         }
     }
 
@@ -79,6 +92,16 @@ impl M4Params {
             m,
             v2: true,
             ..Self::v1()
+        }
+    }
+
+    /// The v3 development base (R25 to R31): the v2 logic with the v3 changes on, `m` and the new-track
+    /// cost to be tuned.
+    pub fn v3_base(m: usize, new_track_cost: f64) -> Self {
+        Self {
+            v3: true,
+            new_track_cost,
+            ..Self::v2_base(m)
         }
     }
 
@@ -261,11 +284,32 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
         let mut misses: Vec<Vec<(usize, (f64, f64))>> = Vec::new();
         let mut miss_t: Vec<u32> = Vec::new();
         let mut hits: Vec<u32> = Vec::new();
+        // v3 (R27): per hit, its AIS residual and its candidates' displacements.
+        let mut hit_v3: Vec<(u32, f64, Vec<(f64, f64)>)> = Vec::new();
         for te in epochs {
             let lo = times.partition_point(|&x| x + p.epoch_window_s < te);
             let hi = times.partition_point(|&x| x <= te + p.epoch_window_s);
             if (lo..hi).any(|j| assoc[j] == Some(k)) {
                 hits.push(te);
+                if p.v3 {
+                    if let Some(q) = tr.predict(te, p.interp_max_s) {
+                        let h = (lo..hi)
+                            .filter(|&j| assoc[j] == Some(k))
+                            .map(|j| {
+                                let (e, n) = en(q, (scene.rf[j].1, scene.rf[j].2));
+                                (e * e + n * n) / s2
+                            })
+                            .fold(f64::INFINITY, f64::min);
+                        let cand: Vec<(f64, f64)> = (lo..hi)
+                            .filter(|&j| assoc[j].is_none())
+                            .map(|j| en(q, (scene.rf[j].1, scene.rf[j].2)))
+                            .filter(|d| (d.0 * d.0 + d.1 * d.1).sqrt() <= p.candidate_max_m)
+                            .collect();
+                        hit_v3.push((te, h, cand));
+                    } else {
+                        hit_v3.push((te, 0.0, Vec::new()));
+                    }
+                }
                 continue;
             }
             let Some(q) = tr.predict(te, p.interp_max_s) else {
@@ -302,8 +346,22 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
             }
         }
         if let Some((count, d)) = best {
-            // v2 step test: no hit at or after t0 (R21).
-            let step_ok = !p.v2 || !hits.iter().any(|&h| h >= miss_t[best_from]);
+            // v2 step test: no hit at or after t0 (R21). v3 (R27): a hit at or after t0 ends the test
+            // only if its AIS residual is below the best offset residual of the epoch's agreeing
+            // candidates (infinite when there is none).
+            let t0 = miss_t[best_from];
+            let step_ok = if p.v3 {
+                !hit_v3.iter().any(|(te, h, cand)| {
+                    let g = cand
+                        .iter()
+                        .filter(|x| near(**x, d))
+                        .map(|x| ((x.0 - d.0).powi(2) + (x.1 - d.1).powi(2)) / s2)
+                        .fold(f64::INFINITY, f64::min);
+                    *te >= t0 && *h < g
+                })
+            } else {
+                !p.v2 || !hits.iter().any(|&h| h >= t0)
+            };
             if count >= p.m && step_ok {
                 if class.get(&tr.id) == Some(&Label::Normal) {
                     class.insert(tr.id, Label::PositionOffset);
@@ -315,6 +373,14 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
                 }
             }
         }
+    }
+    if p.v3 {
+        let (dark_fix, taken) = dark_tracks_v3(scene, p, &tracks, &assoc, &explained);
+        return Decision {
+            class,
+            dark_fix,
+            taken,
+        };
     }
     if p.v2 {
         let (dark_fix, taken) = dark_tracks(scene, p, &assoc, &d2_ais, &explained);
@@ -397,6 +463,273 @@ fn dark_tracks(
     }
     let mut dark = vec![false; scene.rf.len()];
     for tr in tracks.iter().filter(|tr| tr.len() >= 2) {
+        for &j in tr {
+            dark[j] = true;
+        }
+    }
+    (dark, taken)
+}
+
+/// v3 dark residual (R28): the smaller of the constant-velocity residual and the bounded-turn
+/// residual (minimum over 121 turn rates in `[-turn_max, turn_max]`) of fix `x` at time `t`, for a
+/// track whose last two fixes are `f1` and `f2`. `None` when the two fixes share a time.
+fn dark_residual_v3(scene: &Scene, p: &M4Params, f1: usize, f2: usize, j: usize) -> Option<f64> {
+    let pos = |i: usize| (scene.rf[i].1, scene.rf[i].2);
+    let (t1, t2, t) = (scene.rf[f1].0, scene.rf[f2].0, scene.rf[j].0);
+    if t2 == t1 {
+        return None;
+    }
+    let s2 = p.sigma_fix_m * p.sigma_fix_m;
+    let big_t = f64::from(t2 - t1);
+    let delta = f64::from(t.saturating_sub(t2));
+    let tau = delta / big_t;
+    let (ve, vn) = en(pos(f1), pos(f2));
+    let (e, n) = en(pos(f2), pos(j));
+    // Constant velocity (R22).
+    let (re, rn) = (e - ve * tau, n - vn * tau);
+    let d2_cv = (re * re + rn * rn) / (s2 * (1.0 + (1.0 + tau).powi(2) + tau * tau));
+    // Bounded turn (R28).
+    let w_max = p.turn_max_deg_per_min / 60.0 * DEG;
+    let mut d2_turn = f64::INFINITY;
+    for k in -60i32..=60 {
+        let w = f64::from(k) * w_max / 60.0;
+        let phi = 0.5 * w * delta;
+        let (sp, cp) = phi.psin_cos();
+        let kappa = if k == 0 || phi == 0.0 {
+            tau
+        } else {
+            tau * sp / phi
+        };
+        let (pe, pn) = (kappa * (ve * cp - vn * sp), kappa * (ve * sp + vn * cp));
+        let (re, rn) = (e - pe, n - pn);
+        let d2 = (re * re + rn * rn) / (s2 * (2.0 + 2.0 * kappa * cp + 2.0 * kappa * kappa));
+        if d2 < d2_turn {
+            d2_turn = d2;
+        }
+    }
+    Some(d2_cv.min(d2_turn))
+}
+
+/// A column of the v3 assignment (R29): an AIS track or a predicted dark track, by index.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum Col {
+    Ais(usize),
+    Dark(usize),
+}
+
+/// Minimum-cost assignment of every row to a distinct column (rows <= columns): the
+/// shortest-augmenting-path Hungarian algorithm with potentials, rows added in order; a strictly
+/// smaller reduced cost is needed to change the chosen column (the R29 tie rule). Returns the column
+/// of each row.
+fn hungarian(a: &[Vec<f64>]) -> Vec<usize> {
+    let n = a.len();
+    let m = a.first().map_or(0, Vec::len);
+    let mut u = vec![0.0f64; n + 1];
+    let mut v = vec![0.0f64; m + 1];
+    let mut p = vec![0usize; m + 1];
+    let mut way = vec![0usize; m + 1];
+    for i in 1..=n {
+        p[0] = i;
+        let mut j0 = 0usize;
+        let mut minv = vec![f64::INFINITY; m + 1];
+        let mut used = vec![false; m + 1];
+        loop {
+            used[j0] = true;
+            let i0 = p[j0];
+            let mut delta = f64::INFINITY;
+            let mut j1 = 0usize;
+            for j in 1..=m {
+                if !used[j] {
+                    let cur = a[i0 - 1][j - 1] - u[i0] - v[j];
+                    if cur < minv[j] {
+                        minv[j] = cur;
+                        way[j] = j0;
+                    }
+                    if minv[j] < delta {
+                        delta = minv[j];
+                        j1 = j;
+                    }
+                }
+            }
+            for j in 0..=m {
+                if used[j] {
+                    u[p[j]] += delta;
+                    v[j] -= delta;
+                } else {
+                    minv[j] -= delta;
+                }
+            }
+            j0 = j1;
+            if p[j0] == 0 {
+                break;
+            }
+        }
+        loop {
+            let j1 = way[j0];
+            p[j0] = p[j1];
+            j0 = j1;
+            if j0 == 0 {
+                break;
+            }
+        }
+    }
+    let mut out = vec![0usize; n];
+    for j in 1..=m {
+        if p[j] > 0 {
+            out[p[j] - 1] = j - 1;
+        }
+    }
+    out
+}
+
+/// v3 dark tracks by global association per window (R28, R29). Returns the dark-fix flags and the
+/// fixes associated by R14 that the assignment did not give to an AIS track.
+fn dark_tracks_v3(
+    scene: &Scene,
+    p: &M4Params,
+    ais: &[Track],
+    assoc: &[Option<usize>],
+    explained: &[bool],
+) -> (Vec<bool>, Vec<bool>) {
+    // Cost of a pair that is not allowed: above any total of private new-track columns.
+    const NOT_ALLOWED: f64 = 1.0e6;
+    let s2 = p.sigma_fix_m * p.sigma_fix_m;
+    let v_max = p.dark_max_kn * 1852.0 / 3600.0;
+    let slack = 3.0 * std::f64::consts::SQRT_2 * p.sigma_fix_m;
+    let w_s = p.assoc_window_s;
+    let nf = scene.rf.len();
+    let pos = |j: usize| (scene.rf[j].1, scene.rf[j].2);
+    let feasible = |last: usize, j: usize| {
+        let dt = f64::from(scene.rf[j].0.saturating_sub(scene.rf[last].0));
+        let (e, n) = en(pos(last), pos(j));
+        ((e * e + n * n).sqrt() <= v_max * dt + slack, (e * e + n * n).sqrt())
+    };
+    let mut dtracks: Vec<Vec<usize>> = Vec::new();
+    let mut taken = vec![false; nf];
+    let mut j0 = 0usize;
+    while j0 < nf {
+        let w = scene.rf[j0].0 / w_s;
+        let mut j1 = j0;
+        while j1 < nf && scene.rf[j1].0 / w_s == w {
+            j1 += 1;
+        }
+        let rows: Vec<usize> = (j0..j1).filter(|&j| !explained[j]).collect();
+        // Allowed pairs of each row (R29).
+        let mut allowed: Vec<Vec<(Col, f64)>> = Vec::with_capacity(rows.len());
+        for &j in &rows {
+            let (t, x) = (scene.rf[j].0, pos(j));
+            let mut v: Vec<(Col, f64)> = Vec::new();
+            for (k, tr) in ais.iter().enumerate() {
+                if let Some(q) = tr.predict(t, p.interp_max_s) {
+                    let (e, n) = en(q, x);
+                    let d2 = (e * e + n * n) / s2;
+                    if d2 <= p.gate {
+                        v.push((Col::Ais(k), d2));
+                    }
+                }
+            }
+            for (k, tr) in dtracks.iter().enumerate() {
+                if tr.len() < 2 {
+                    continue;
+                }
+                let last = tr[tr.len() - 1];
+                if !feasible(last, j).0 {
+                    continue;
+                }
+                if let Some(d2) = dark_residual_v3(scene, p, tr[tr.len() - 2], last, j) {
+                    v.push((Col::Dark(k), d2));
+                }
+            }
+            allowed.push(v);
+        }
+        // Connected components of the allowed pairs (private new-track columns join none).
+        let nr = rows.len();
+        let mut parent: Vec<usize> = (0..nr).collect();
+        fn find(parent: &mut [usize], mut i: usize) -> usize {
+            while parent[i] != i {
+                parent[i] = parent[parent[i]];
+                i = parent[i];
+            }
+            i
+        }
+        let mut owner: BTreeMap<Col, usize> = BTreeMap::new();
+        for (r, v) in allowed.iter().enumerate() {
+            for &(c, _) in v {
+                if let Some(&o) = owner.get(&c) {
+                    let (a, b) = (find(&mut parent, o), find(&mut parent, r));
+                    if a != b {
+                        let (lo, hi) = (a.min(b), a.max(b));
+                        parent[hi] = lo;
+                    }
+                } else {
+                    owner.insert(c, r);
+                }
+            }
+        }
+        let mut comps: BTreeMap<usize, Vec<usize>> = BTreeMap::new();
+        for r in 0..nr {
+            let root = find(&mut parent, r);
+            comps.entry(root).or_default().push(r);
+        }
+        // Assigned column of each row; `None` is "new dark track".
+        let mut chosen: Vec<Option<Col>> = vec![None; nr];
+        for comp in comps.values() {
+            let mut cols: Vec<Col> = comp
+                .iter()
+                .flat_map(|&r| allowed[r].iter().map(|x| x.0))
+                .collect();
+            cols.sort();
+            cols.dedup();
+            let nc = cols.len();
+            let mat: Vec<Vec<f64>> = comp
+                .iter()
+                .enumerate()
+                .map(|(ri, &r)| {
+                    let mut row = vec![NOT_ALLOWED; nc + comp.len()];
+                    for &(c, d2) in &allowed[r] {
+                        if let Ok(ci) = cols.binary_search(&c) {
+                            row[ci] = d2;
+                        }
+                    }
+                    row[nc + ri] = p.new_track_cost;
+                    row
+                })
+                .collect();
+            let asg = hungarian(&mat);
+            for (ri, &r) in comp.iter().enumerate() {
+                chosen[r] = if asg[ri] < nc { Some(cols[asg[ri]]) } else { None };
+            }
+        }
+        // Apply, in stream order (R29).
+        for (r, &j) in rows.iter().enumerate() {
+            if assoc[j].is_some() && !matches!(chosen[r], Some(Col::Ais(_))) {
+                taken[j] = true;
+            }
+            match chosen[r] {
+                Some(Col::Ais(_)) => {}
+                Some(Col::Dark(k)) => dtracks[k].push(j),
+                None => {
+                    let mut single: Option<(f64, usize)> = None;
+                    for (k, tr) in dtracks.iter().enumerate() {
+                        if tr.len() != 1 || scene.rf[tr[0]].0 / w_s >= w {
+                            continue;
+                        }
+                        let (ok, dist) = feasible(tr[0], j);
+                        if ok && single.is_none_or(|b| dist < b.0) {
+                            single = Some((dist, k));
+                        }
+                    }
+                    match single {
+                        Some((_, k)) => dtracks[k].push(j),
+                        None => dtracks.push(vec![j]),
+                    }
+                }
+            }
+        }
+        j0 = j1;
+    }
+    let mut dark = vec![false; nf];
+    for tr in dtracks.iter().filter(|tr| tr.len() >= 2) {
         for &j in tr {
             dark[j] = true;
         }
