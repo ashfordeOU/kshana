@@ -347,6 +347,6 @@ seg-b23a9bd3ccfa = <s1>Referência de cenários</s1><s2>Todos os arquivos de cen
 
 seg-a7dc2bc0a77d = { "93" } páginas, uma para cada tipo de cenário, ligadas a partir de <a1>Todos os tipos de cenário, por família</a1>.
 
-seg-f950b0ba9160 = <s1>Matriz de verificação</s1><s2>O registro de evidências completo, verificado por máquina: { "405" } linhas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Matriz de verificação</s1><s2>O registro de evidências completo, verificado por máquina: { "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "405" } linhas da matriz de verificação.</s2>
+seg-7fd385494ae0 = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "412" } linhas da matriz de verificação.</s2>

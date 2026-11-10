@@ -4072,4 +4072,4 @@ seg-953a8b4f9f41 = Nenhuma externa ainda. Apenas ciclos diretos-inversos sintét
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de cenário, { "3334" } de { "3334" } campos numéricos
 
-seg-5576293ba3aa = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "405" } linhas da matriz de verificação.
+seg-877f989ae75e = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "412" } linhas da matriz de verificação.

@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Status for kontinuerlig integrasjon på main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Linjedekning nær 95 % av src/, målt i docs/COVERAGE.md og sikret ved 85 % i kontinuerlig integrasjon"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 av 405 funksjoner VALIDATED mot en uavhengig ekstern referanse, ifølge verifikasjonsmatrisen"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 av 412 funksjoner VALIDATED mot en uavhengig ekstern referanse, ifølge verifikasjonsmatrisen"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Status for kvalitetsporten i SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Utgivelse v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Engelsk og 17 andre språk, maskinoversatt"></a>
@@ -118,7 +118,7 @@ eller **PARTNER** (en maskinvarepartner eier den).
 
 0.40 legger til et feilbudsjett på oppdragsnivå, merker hver figur og tabell med evidensnivået sitt, leser målte klokkelogger,
 kontrollerer innsendinger fra datapartnere, anslår hvor en interferenskilde kan være, og snakker sytten språk ved siden av engelsk.
-Registeret har nå 405 rader: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Ingen rad ble forfremmet til VALIDATED, og hver bom nedenfor er
+Registeret har nå 412 rader: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Ingen rad ble forfremmet til VALIDATED, og hver bom nedenfor er
 låst fast av en test.
 
 - **Oppdragstråd.** Typen `mission-thread` kjeder faser fra oppskyting til inntreden (`launch-ascent`, `leo-rendezvous`,
@@ -1031,7 +1031,7 @@ starte fra.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 kontrollert mot alle 666 referansevektorer i AIAA 2006-6753, verste posisjonsfeil 4.12 mm"></a></p>
 
-<strong>176 av 405</strong> funksjoner validert mot uavhengige eksterne referanser; 225 ærlig merket Modelled.
+<strong>176 av 412</strong> funksjoner validert mot uavhengige eksterne referanser; 232 ærlig merket Modelled.
 Hver rad i verifikasjonsmatrisen nevner en funksjon, referansen den kontrolleres mot,
 testen som kjører kontrollen, og merkelappen som følger. Kontinuerlig integrasjon (CI) gjør
 det umulig å kalle en funksjon VALIDATED uten en uavhengig ekstern referanse.
@@ -1039,13 +1039,13 @@ det umulig å kalle en funksjon VALIDATED uten en uavhengig ekstern referanse.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hvordan en funksjon opptjener merkelappen sin. Hver rad i verifikasjonsmatrisen nevner en funksjon, referansen den kontrolleres mot, testen som kjører kontrollen i kontinuerlig integrasjon, og merkelappen som følger. En rad kan bare være VALIDATED med en uavhengig ekstern referanse; ellers er den MODELLED, eller PARTNER når en maskinvarepartner eier den. Eksempel: SGP4/SDP4, Cowell 6-DOF + perturbasjoner, batch/sekvensiell OD, referanse AIAA 2006-6753 SGP4-verifikasjonsvektorer, test tests/sgp4_verification.rs, merkelapp VALIDATED. Aktuelle tall: 176 VALIDATED, 225 MODELLED, 4 PARTNER av 405 rader. I alt 176 funksjoner validert mot uavhengige eksterne referanser; 225 til er ærlig merket MODELLED og 4 eies av PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hvordan en funksjon opptjener merkelappen sin. Hver rad i verifikasjonsmatrisen nevner en funksjon, referansen den kontrolleres mot, testen som kjører kontrollen i kontinuerlig integrasjon, og merkelappen som følger. En rad kan bare være VALIDATED med en uavhengig ekstern referanse; ellers er den MODELLED, eller PARTNER når en maskinvarepartner eier den. Eksempel: SGP4/SDP4, Cowell 6-DOF + perturbasjoner, batch/sekvensiell OD, referanse AIAA 2006-6753 SGP4-verifikasjonsvektorer, test tests/sgp4_verification.rs, merkelapp VALIDATED. Aktuelle tall: 176 VALIDATED, 232 MODELLED, 4 PARTNER av 412 rader. I alt 176 funksjoner validert mot uavhengige eksterne referanser; 232 til er ærlig merket MODELLED og 4 eies av PARTNER." width="100%">
 </picture>
 
 | Merkelapp | Rader | Betydning |
 |---|---|---|
 | VALIDATED | 176 | en uavhengig ekstern referanse er enig: ekte data, en uavhengig implementering eller publiserte referansevektorer |
-| MODELLED | 225 | kontrollert mot analytisk fasit eller simuleringens selvkonsistens, og sagt høyt |
+| MODELLED | 232 | kontrollert mot analytisk fasit eller simuleringens selvkonsistens, og sagt høyt |
 | PARTNER | 4 | eid av en maskinvarepartner; Kshana har ingen referanse for den |
 
 Noen av kontrollene: alle 666 SGP4-vektorer (Simplified General Perturbations 4) i AIAA (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ til 0.08 m mot Orekit 12.2; Galileo til 0.61 m og Swarm-A til 0.10 m mot ekte
 presise efemerider fra Den europeiske romfartsorganisasjonen (ESA). Testene holder nær 95 % linjedekning av
 `src/`, sikret ved 85 % i CI. Registeret er
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generert fra
-`src/verification.rs`: [hele matrisen med 405 rader](docs/VERIFICATION-MATRIX.md), og hvorfor hver
+`src/verification.rs`: [hele matrisen med 412 rader](docs/VERIFICATION-MATRIX.md), og hvorfor hver
 Modelled-rad ikke har noen ekstern referanse, i [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ kan aldri hevde mer enn registeret gjør. Rader, statuser og id-er leses fra mat
 ### Validering i korte trekk
 
 Hver rad håndheves av en navngitt test i CI. Denne tabellen er et **kuratert høydepunkt**;
-hele den maskinkontrollerte matrisen er **405 rader — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+hele den maskinkontrollerte matrisen er **412 rader — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), med den fullstendige evidensen (og hva som ærlig talt *ikke* er validert
 ennå) i [`docs/VALIDATION.md`](docs/VALIDATION.md) og artefaktet
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ Kolonnen **Status** oppgir *typen* evidens, i samsvar med valideringsstigen oven
 | CI | Testdekning | **~95 % linjer** på `src/` unntatt `src/*_data.rs` og `src/main.rs`, sikret ≥ 85 % | cargo-tarpaulin (LLVM-motor) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hvordan en funksjon opptjener merkelappen sin: Krav avbildes til en modul i src, til en test i tests, til en ekstern referanse (ekte datasett, uavhengig referanseimplementering eller publiserte vektorer), til en status — med et vern håndhevet i CI om at ingen funksjon kan være Validated uten en ekstern referanse. Aktuelle tall: 176 Validated, 225 Modelled, 4 Partner, 405 totalt" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hvordan en funksjon opptjener merkelappen sin: Krav avbildes til en modul i src, til en test i tests, til en ekstern referanse (ekte datasett, uavhengig referanseimplementering eller publiserte vektorer), til en status — med et vern håndhevet i CI om at ingen funksjon kan være Validated uten en ekstern referanse. Aktuelle tall: 176 Validated, 232 Modelled, 4 Partner, 412 totalt" width="900">
   <br><sub>Hvordan en funksjon opptjener merkelappen sin — invarianten håndhevet i CI: ingen ekstern referanse ⇒ kan ikke være Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ Kolonnen **Status** oppgir *typen* evidens, i samsvar med valideringsstigen oven
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifikasjonsstatus over alle 405 funksjoner: 176 Validated (kontrollert mot ekstern referanse), 225 Modelled, 4 eid av Partner" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifikasjonsstatus over alle 412 funksjoner: 176 Validated (kontrollert mot ekstern referanse), 232 Modelled, 4 eid av Partner" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ på toppen som et separat overlag som avhenger av motoren og aldri forgrener den
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: én åpen motor i sentrum, kshana 0.40.0 under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikasjonsregisteret med 405 funksjoner (176 VALIDATED, 225 MODELLED, 4 PARTNER). Rundt den kjører hvert grensesnitt den samme motoren: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-utvidelse (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, et proprietært overlag som avhenger av den åpne motoren som et bibliotek og aldri forgrener den, og som ikke legger til noen fysisk modell." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: én åpen motor i sentrum, kshana 0.40.0 under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikasjonsregisteret med 412 funksjoner (176 VALIDATED, 232 MODELLED, 4 PARTNER). Rundt den kjører hvert grensesnitt den samme motoren: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-utvidelse (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, et proprietært overlag som avhenger av den åpne motoren som et bibliotek og aldri forgrener den, og som ikke legger til noen fysisk modell." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ på toppen som et separat overlag som avhenger av motoren og aldri forgrener den
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanas arkitektur i lag. Fem inngangsdører (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-utvidelsen) når én api::run_toml, en typet fordeling over 92 typer. Under den ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO-PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med 405 funksjoner som er den eneste sannhetskilden for hver merkelapp." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanas arkitektur i lag. Fem inngangsdører (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-utvidelsen) når én api::run_toml, en typet fordeling over 92 typer. Under den ligger åtte domenelag: tid og referansesystemer, klokker og tidssynkronisering, treghet og fusjon, GNSS og integritet, astrodynamikk, LEO-PNT, Månen, Mars og dypt rom, og oppdrag og studier, på en felles kjerne, alle kryssreferert av verifikasjonsmodulen, den maskinkontrollerte matrisen med 412 funksjoner som er den eneste sannhetskilden for hver merkelapp." width="100%">
 </picture>
 
 **Én motor, mange inngangsdører.** Én enkelt Rust-kjerne (`kshana`) kjører hvert scenario,

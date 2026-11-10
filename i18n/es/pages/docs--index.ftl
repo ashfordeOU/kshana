@@ -347,6 +347,6 @@ seg-b23a9bd3ccfa = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenari
 
 seg-a7dc2bc0a77d = { "93" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.
 
-seg-f950b0ba9160 = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "405" } filas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "412" } filas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "405" } filas de la matriz de verificación.</s2>
+seg-7fd385494ae0 = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "412" } filas de la matriz de verificación.</s2>

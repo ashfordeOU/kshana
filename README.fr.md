@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="État de l'intégration continue sur main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Couverture de lignes proche de 95 % de src/, mesurée dans docs/COVERAGE.md et bloquante à 85 % en intégration continue"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 capacités sur 405 VALIDATED par rapport à une référence externe indépendante, d'après la matrice de vérification"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 capacités sur 412 VALIDATED par rapport à une référence externe indépendante, d'après la matrice de vérification"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="État du contrôle qualité SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Version v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Anglais et 17 autres langues, en traduction automatique"></a>
@@ -118,7 +118,7 @@ ou **PARTNER** (un partenaire matériel en est responsable).
 
 La 0.40 ajoute un budget d'erreur au niveau de la mission, étiquette chaque figure et chaque tableau avec son niveau de preuve, lit les journaux d'horloge mesurés,
 vérifie les soumissions des partenaires de données, estime où un émetteur d'interférence peut se trouver, et parle dix-sept langues en plus de l'anglais.
-Le registre compte désormais 405 lignes : 176 VALIDATED, 225 MODELLED, 4 PARTNER. Aucune ligne n'a été promue VALIDATED, et chaque échec ci-dessous est
+Le registre compte désormais 412 lignes : 176 VALIDATED, 232 MODELLED, 4 PARTNER. Aucune ligne n'a été promue VALIDATED, et chaque échec ci-dessous est
 figé par un test.
 
 - **Fil de mission.** Le type `mission-thread` enchaîne des phases du lancement à la rentrée (`launch-ascent`, `leo-rendezvous`,
@@ -1030,7 +1030,7 @@ commencer.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 vérifié face aux 666 vecteurs de référence AIAA 2006-6753, pire erreur de position 4.12 mm"></a></p>
 
-<strong>176 sur 405</strong> capacités validées face à des références externes indépendantes ; 225 honnêtement étiquetées Modelled.
+<strong>176 sur 412</strong> capacités validées face à des références externes indépendantes ; 232 honnêtement étiquetées Modelled.
 Chaque ligne de la matrice de vérification nomme une capacité, la référence face à laquelle elle est vérifiée,
 le test qui exécute la vérification, et l'étiquette qui en découle. L'intégration continue (CI) rend
 impossible de qualifier une capacité de VALIDATED sans référence externe indépendante.
@@ -1038,13 +1038,13 @@ impossible de qualifier une capacité de VALIDATED sans référence externe ind�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Comment une capacité obtient son étiquette. Chaque ligne de la matrice de vérification nomme une capacité, la référence face à laquelle elle est vérifiée, le test qui exécute la vérification en intégration continue, et l'étiquette qui en découle. Une ligne ne peut être VALIDATED qu'avec une référence externe indépendante ; sinon elle est MODELLED, ou PARTNER lorsqu'un partenaire matériel en est responsable. Exemple : SGP4/SDP4, Cowell 6-DOF + perturbations, DO par lots/séquentielle, référence vecteurs de vérification SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, étiquette VALIDATED. Décomptes en direct : 176 VALIDATED, 225 MODELLED, 4 PARTNER sur 405 lignes. Au total, 176 capacités validées face à des références externes indépendantes ; 225 autres sont honnêtement étiquetées MODELLED et 4 relèvent de PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Comment une capacité obtient son étiquette. Chaque ligne de la matrice de vérification nomme une capacité, la référence face à laquelle elle est vérifiée, le test qui exécute la vérification en intégration continue, et l'étiquette qui en découle. Une ligne ne peut être VALIDATED qu'avec une référence externe indépendante ; sinon elle est MODELLED, ou PARTNER lorsqu'un partenaire matériel en est responsable. Exemple : SGP4/SDP4, Cowell 6-DOF + perturbations, DO par lots/séquentielle, référence vecteurs de vérification SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, étiquette VALIDATED. Décomptes en direct : 176 VALIDATED, 232 MODELLED, 4 PARTNER sur 412 lignes. Au total, 176 capacités validées face à des références externes indépendantes ; 232 autres sont honnêtement étiquetées MODELLED et 4 relèvent de PARTNER." width="100%">
 </picture>
 
 | Étiquette | Lignes | Signification |
 |---|---|---|
 | VALIDATED | 176 | une référence externe indépendante concorde : données réelles, une implémentation indépendante ou des vecteurs de référence publiés |
-| MODELLED | 225 | vérifié face à une vérité analytique ou à l'auto-cohérence de la simulation, et dit ouvertement |
+| MODELLED | 232 | vérifié face à une vérité analytique ou à l'auto-cohérence de la simulation, et dit ouvertement |
 | PARTNER | 4 | relève d'un partenaire matériel ; Kshana ne détient aucune référence pour cela |
 
 Quelques-unes des vérifications : les 666 vecteurs SGP4 (Simplified General Perturbations 4) AIAA (American Institute of Aeronautics and Astronautics)
@@ -1053,7 +1053,7 @@ Quelques-unes des vérifications : les 666 vecteurs SGP4 (Simplified General Per
 éphémérides précises de l'Agence spatiale européenne (ESA). Les tests maintiennent une couverture de lignes proche de 95 % de
 `src/`, bloquante à 85 % en CI. Le registre est
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), généré à partir de
-`src/verification.rs` : la [matrice complète de 405 lignes](docs/VERIFICATION-MATRIX.md), et la raison pour laquelle chaque
+`src/verification.rs` : la [matrice complète de 412 lignes](docs/VERIFICATION-MATRIX.md), et la raison pour laquelle chaque
 ligne Modelled n'a pas de référence externe dans [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1086,7 +1086,7 @@ ne peut jamais revendiquer plus que le registre. Les lignes, états et identifia
 ### La validation en un coup d'œil
 
 Chaque ligne est imposée par un test nommé en CI. Ce tableau est une **sélection de points forts** ;
-la matrice complète vérifiée par machine compte **405 lignes — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+la matrice complète vérifiée par machine compte **412 lignes — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), avec les preuves complètes (et ce qui n'est honnêtement *pas* encore
 validé) dans [`docs/VALIDATION.md`](docs/VALIDATION.md) et l'artefact
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1138,7 +1138,7 @@ La colonne **État** indique la *nature* de la preuve, conformément à l'échel
 | CI | Couverture de tests | **~95 % de lignes** sur `src/` hors `src/*_data.rs` et `src/main.rs`, bloquante à ≥ 85 % | cargo-tarpaulin (moteur LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Comment une capacité obtient son étiquette : une exigence correspond à un module dans src, à un test dans tests, à une référence externe (jeu de données réel, implémentation de référence indépendante ou vecteurs publiés), à un état — avec un garde-fou imposé par la CI selon lequel aucune capacité ne peut être Validated sans référence externe. Décomptes en direct : 176 Validated, 225 Modelled, 4 Partner, 405 au total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Comment une capacité obtient son étiquette : une exigence correspond à un module dans src, à un test dans tests, à une référence externe (jeu de données réel, implémentation de référence indépendante ou vecteurs publiés), à un état — avec un garde-fou imposé par la CI selon lequel aucune capacité ne peut être Validated sans référence externe. Décomptes en direct : 176 Validated, 232 Modelled, 4 Partner, 412 au total" width="900">
   <br><sub>Comment une capacité obtient son étiquette — l'invariant imposé par la CI : pas de référence externe ⇒ ne peut pas être Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1150,8 +1150,8 @@ La colonne **État** indique la *nature* de la preuve, conformément à l'échel
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="État de vérification sur l'ensemble des 405 capacités : 176 Validated (vérifiées face à une référence externe), 225 Modelled, 4 relevant d'un partenaire" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="État de vérification sur l'ensemble des 412 capacités : 176 Validated (vérifiées face à une référence externe), 232 Modelled, 4 relevant d'un partenaire" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1261,7 +1261,7 @@ au-dessus comme une surcouche séparée qui dépend du moteur et n'en crée jama
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="L'architecture de Kshana : un seul moteur ouvert au centre, kshana 0.40.0 sous AGPL-3.0, avec api::run_toml, un répartiteur typé sur chaque type, et le registre de vérification de 405 capacités (176 VALIDATED, 225 MODELLED, 4 PARTNER). Autour, chaque interface exécute le même moteur : ligne de commande (cargo install kshana) ; bibliothèque Rust (cargo add kshana) ; Python (pip install kshana) ; WebAssembly + Kshana Studio (npm install kshana) ; serveur MCP (cargo install kshana-mcp) ; image Docker (ghcr.io/ashfordeou/kshana-mcp) ; plugin JetBrains (Marketplace : &quot;Kshana&quot;). En dessous, Kshana Pro, une surcouche propriétaire qui dépend du moteur ouvert en tant que bibliothèque, n'en crée jamais de fork, et n'ajoute aucun modèle physique." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="L'architecture de Kshana : un seul moteur ouvert au centre, kshana 0.40.0 sous AGPL-3.0, avec api::run_toml, un répartiteur typé sur chaque type, et le registre de vérification de 412 capacités (176 VALIDATED, 232 MODELLED, 4 PARTNER). Autour, chaque interface exécute le même moteur : ligne de commande (cargo install kshana) ; bibliothèque Rust (cargo add kshana) ; Python (pip install kshana) ; WebAssembly + Kshana Studio (npm install kshana) ; serveur MCP (cargo install kshana-mcp) ; image Docker (ghcr.io/ashfordeou/kshana-mcp) ; plugin JetBrains (Marketplace : &quot;Kshana&quot;). En dessous, Kshana Pro, une surcouche propriétaire qui dépend du moteur ouvert en tant que bibliothèque, n'en crée jamais de fork, et n'ajoute aucun modèle physique." width="100%">
 </picture>
 
 <details>
@@ -1270,7 +1270,7 @@ au-dessus comme une surcouche séparée qui dépend du moteur et n'en crée jama
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="L'architecture de Kshana en couches. Cinq portes d'entrée (ligne de commande, Python, JavaScript et WebAssembly, le serveur MCP et le plugin JetBrains) atteignent un seul api::run_toml, un répartiteur typé sur 92 types. En dessous se trouvent huit couches de domaine : temps et référentiels, horloges et temps, inertiel et fusion, GNSS et intégrité, astrodynamique, PNT LEO, Lune, Mars et espace lointain, et missions et études, sur un cœur commun, toutes référencées par le module de vérification, la matrice vérifiée par machine de 405 capacités qui est la source unique de vérité pour chaque étiquette." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="L'architecture de Kshana en couches. Cinq portes d'entrée (ligne de commande, Python, JavaScript et WebAssembly, le serveur MCP et le plugin JetBrains) atteignent un seul api::run_toml, un répartiteur typé sur 92 types. En dessous se trouvent huit couches de domaine : temps et référentiels, horloges et temps, inertiel et fusion, GNSS et intégrité, astrodynamique, PNT LEO, Lune, Mars et espace lointain, et missions et études, sur un cœur commun, toutes référencées par le module de vérification, la matrice vérifiée par machine de 412 capacités qui est la source unique de vérité pour chaque étiquette." width="100%">
 </picture>
 
 **Un seul moteur, de nombreuses portes d'entrée.** Un unique cœur Rust (`kshana`) exécute chaque scénario,

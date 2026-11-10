@@ -238,6 +238,6 @@ seg-b23a9bd3ccfa = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaar
 
 seg-a7dc2bc0a77d = { "93" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
 
-seg-f950b0ba9160 = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "405" } riviä — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "412" } riviä — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "405" } riviä.</s2>
+seg-7fd385494ae0 = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "412" } riviä.</s2>

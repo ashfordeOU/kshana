@@ -2310,8 +2310,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } lohkoa { "5900" } lohkosta, verrattuna binomiaalivälin [{ "40" }, { "80" }] ({ "99" } %), kun P_fa on { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, suhde { "0.0131" } verrattuna arvoon { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } vs. { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (tiukka, ohitettu aukon vuoksi); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (kiinnitetyt tiivisteet ovat muuttumattomia ilman taulukkoa)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } ilmoitetuilla tapahtumilla, jotka eivät vaimenna mitään); r1_the_cn0_drop_roc_separates_6_db_attenuations (tiukka, ohitettu aukon vuoksi); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -3582,6 +3580,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
 
-seg-9d7b242850ee = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): <b>{ "405" } riviä — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa (matriisin invarianttitestit valvovat tätä). Samat tiedot, joissa on napsautettavat rivikohtaiset linkit jokaiseen testiin, moduuliin ja tallennettuun testiaineistoon, ovat <em>Validointikirjanpito</em> osoitteessa <a1>https://kshana.dev</a1>. Katso tiedosto <a2>MODELLED-RATIONALE.md</a2>, miksi jokaista mallinnettua riviä ei ole validoitu ulkoisesti.
+seg-db7a6ac0a47d = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): <b>{ "412" } riviä — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa (matriisin invarianttitestit valvovat tätä). Samat tiedot, joissa on napsautettavat rivikohtaiset linkit jokaiseen testiin, moduuliin ja tallennettuun testiaineistoon, ovat <em>Validointikirjanpito</em> osoitteessa <a1>https://kshana.dev</a1>. Katso tiedosto <a2>MODELLED-RATIONALE.md</a2>, miksi jokaista mallinnettua riviä ei ole validoitu ulkoisesti.
 
-seg-3ca919e147c4 = { "405" } riviä: { "176" } validoitu ulkoisesti, { "225" } mallinnettu, { "4" } kumppanin omistama.
+seg-1cc523709234 = { "412" } riviä: { "176" } validoitu ulkoisesti, { "232" } mallinnettu, { "4" } kumppanin omistama.

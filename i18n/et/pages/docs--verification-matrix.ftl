@@ -3612,9 +3612,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
 # text
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } { "5900" }-st plokist vs { "99" } % binoomvahemik [{ "40" }, { "80" }] P_fa { "0.01" } korral), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, suhe { "0.0131" } vs { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } vs { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (range, lõhega ignoreeritud); iq::campaign::detect testid; iq::monitor::stats testid (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (kinnitatud räsid on ilma tabelita muutmata)
-
-# text
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 # text
@@ -5417,6 +5414,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter üksusetestid (projektsiooni edasi-tagasi ring, horisondi näitaja, sünteetilised otse- ja pöördringid: teadaolev kiirgaja jääb nimetatud piirkonda ligikaudu nimetatud sagedusega, äärejuhud, seansside rühmitamine, profiil, privaatsus ja sõnastus); tests/interference_map_cli.rs locate juhud
 
-seg-9d7b242850ee = Täielik, masinkontrollitud tõenduste register: <b>{ "405" } rida — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
+seg-db7a6ac0a47d = Täielik, masinkontrollitud tõenduste register: <b>{ "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
 
-seg-3ca919e147c4 = { "405" } rida: { "176" } väliselt valideeritud, { "225" } modelleeritud, { "4" } partneri omanduses.
+seg-1cc523709234 = { "412" } rida: { "176" } väliselt valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses.

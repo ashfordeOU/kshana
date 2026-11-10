@@ -4072,4 +4072,4 @@ seg-953a8b4f9f41 = Aucune vérification externe pour l'instant. Seulement des al
 
 seg-d5a79853b72f = { "93" } types sur { "93" }, { "3334" } champs numériques sur { "3334" }
 
-seg-5576293ba3aa = Les { "61" } fiches de capacités issues de <c1/>, puis les { "405" } lignes de la matrice de vérification.
+seg-877f989ae75e = Les { "61" } fiches de capacités issues de <c1/>, puis les { "412" } lignes de la matrice de vérification.

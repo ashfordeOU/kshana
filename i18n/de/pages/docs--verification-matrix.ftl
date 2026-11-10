@@ -3591,9 +3591,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
 # text
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } von { "5900" } Blöcken gegen das binomiale Intervall von { "99" } % [{ "40" }, { "80" }] von P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (Delta { "0.0160" }, Verhältnis { "0.0131" } gegenüber { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } gegenüber { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strikt, mit der Lücke ignoriert); Tests zu iq::campaign::detect; Tests zu iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (die festgelegten Digests sind ohne die Tabelle unverändert)
-
-# text
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 # text
@@ -5417,6 +5414,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = Unit-Tests von interference_map::emitter (Projektions-Rundlauf, Horizontwert, synthetische Vorwärts- und Rückwärts-Rundläufe: Der bekannte Sender liegt etwa mit der genannten Rate innerhalb der genannten Region, Randfälle, Sitzungsclustering, Profil, Datenschutz und Formulierung); Fälle von locate in tests/interference_map_cli.rs
 
-seg-9d7b242850ee = Das vollständige, maschinengeprüfte Nachweisregister: <b>{ "405" } Zeilen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen das). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Fixture, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede modellierte Zeile nicht extern validiert ist.
+seg-db7a6ac0a47d = Das vollständige, maschinengeprüfte Nachweisregister: <b>{ "412" } Zeilen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen das). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Fixture, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede modellierte Zeile nicht extern validiert ist.
 
-seg-3ca919e147c4 = { "405" } Zeilen: { "176" } extern validiert, { "225" } modelliert, { "4" } im Besitz von Partnern.
+seg-1cc523709234 = { "412" } Zeilen: { "176" } extern validiert, { "232" } modelliert, { "4" } im Besitz von Partnern.

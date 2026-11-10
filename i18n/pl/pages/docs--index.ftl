@@ -238,6 +238,6 @@ seg-b23a9bd3ccfa = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariu
 
 seg-a7dc2bc0a77d = { "93" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
 
-seg-f950b0ba9160 = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "405" } wierszy — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "412" } wierszy — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "405" } wierszy macierzy weryfikacji.</s2>
+seg-7fd385494ae0 = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "412" } wierszy macierzy weryfikacji.</s2>

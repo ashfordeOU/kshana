@@ -2644,4 +2644,4 @@ seg-953a8b4f9f41 = Ingen eksterne ennå. Bare syntetiske rundturer forover og in
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriske felt
 
-seg-5576293ba3aa = De { "61" } funksjonskortene fra <c1/>, deretter alle { "405" } radene i verifikasjonsmatrisen.
+seg-877f989ae75e = De { "61" } funksjonskortene fra <c1/>, deretter alle { "412" } radene i verifikasjonsmatrisen.

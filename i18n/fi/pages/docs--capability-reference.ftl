@@ -2644,4 +2644,4 @@ seg-953a8b4f9f41 = Ei vielä ulkoista. Vain synteettisiä eteenpäin-käänteisi
 
 seg-d5a79853b72f = { "93" } / { "93" } tyyppiä, { "3334" } / { "3334" } numeerista kenttää
 
-seg-5576293ba3aa = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "405" } riviä.
+seg-877f989ae75e = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "412" } riviä.

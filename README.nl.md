@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Status van continue integratie op main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Regeldekking van bijna 95 % van src/, gemeten in docs/COVERAGE.md en in continue integratie bewaakt op 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 van 405 mogelijkheden VALIDATED tegen een onafhankelijke externe referentie, volgens de verificatiematrix"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 van 412 mogelijkheden VALIDATED tegen een onafhankelijke externe referentie, volgens de verificatiematrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Status van de SonarQube Cloud-kwaliteitspoort"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Engels en 17 andere talen, machinaal vertaald"></a>
@@ -118,7 +118,7 @@ of **PARTNER** (een hardwarepartner is er eigenaar van).
 
 0.40 voegt een foutbudget op missieniveau toe, labelt elke figuur en tabel met zijn bewijsniveau, leest gemeten klokregistraties in,
 controleert inzendingen van datapartners, schat waar een interferentiebron kan zijn, en spreekt naast Engels zeventien talen.
-Het register telt nu 405 rijen: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Geen enkele rij is gepromoveerd naar VALIDATED, en elke tekortkoming hieronder is
+Het register telt nu 412 rijen: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Geen enkele rij is gepromoveerd naar VALIDATED, en elke tekortkoming hieronder is
 vastgelegd door een test.
 
 - **Missiedraad.** Het type `mission-thread` koppelt fasen van lancering tot terugkeer (`launch-ascent`, `leo-rendezvous`,
@@ -1031,7 +1031,7 @@ mee te beginnen.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 gecontroleerd tegen alle 666 AIAA 2006-6753-referentievectoren, slechtste positiefout 4.12 mm"></a></p>
 
-<strong>176 van 405</strong> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; 225 eerlijk gelabeld als Modelled.
+<strong>176 van 412</strong> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; 232 eerlijk gelabeld als Modelled.
 Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd,
 de test die de controle uitvoert, en het label dat daaruit volgt. Continue integratie (CI) maakt het
 onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke externe referentie.
@@ -1039,13 +1039,13 @@ onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke extern
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hoe een mogelijkheid haar label verdient. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd, de test die de controle in continue integratie uitvoert, en het label dat daaruit volgt. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie; anders is ze MODELLED, of PARTNER wanneer een hardwarepartner er eigenaar van is. Voorbeeld: SGP4/SDP4, Cowell 6-DOF + perturbaties, batch-/sequentiële OD, onafhankelijke referentie AIAA 2006-6753 SGP4-verificatievectoren, test tests/sgp4_verification.rs, label VALIDATED. Actuele tellingen: 176 VALIDATED, 225 MODELLED, 4 PARTNER van 405 rijen. In totaal 176 mogelijkheden gevalideerd tegen onafhankelijke externe referenties; 225 meer zijn eerlijk gelabeld als MODELLED en 4 zijn eigendom van een PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hoe een mogelijkheid haar label verdient. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd, de test die de controle in continue integratie uitvoert, en het label dat daaruit volgt. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie; anders is ze MODELLED, of PARTNER wanneer een hardwarepartner er eigenaar van is. Voorbeeld: SGP4/SDP4, Cowell 6-DOF + perturbaties, batch-/sequentiële OD, onafhankelijke referentie AIAA 2006-6753 SGP4-verificatievectoren, test tests/sgp4_verification.rs, label VALIDATED. Actuele tellingen: 176 VALIDATED, 232 MODELLED, 4 PARTNER van 412 rijen. In totaal 176 mogelijkheden gevalideerd tegen onafhankelijke externe referenties; 232 meer zijn eerlijk gelabeld als MODELLED en 4 zijn eigendom van een PARTNER." width="100%">
 </picture>
 
 | Label | Rijen | Betekenis |
 |---|---|---|
 | VALIDATED | 176 | een onafhankelijke externe referentie is het ermee eens: echte data, een onafhankelijke implementatie of gepubliceerde referentievectoren |
-| MODELLED | 225 | gecontroleerd tegen een analytische referentie of zelfconsistentie van de simulatie, en dat wordt hardop gezegd |
+| MODELLED | 232 | gecontroleerd tegen een analytische referentie of zelfconsistentie van de simulatie, en dat wordt hardop gezegd |
 | PARTNER | 4 | eigendom van een hardwarepartner; Kshana heeft er geen onafhankelijke referentie voor |
 
 Enkele van de controles: alle 666 AIAA-vectoren (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ model tot 0.08 m tegen Orekit 12.2; Galileo tot 0.61 m en Swarm-A tot 0.10 m teg
 precieze efemeriden van de European Space Agency (ESA). Tests houden een regeldekking van bijna 95 % van
 `src/` aan, in CI bewaakt op 85 %. Het register is
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), gegenereerd uit
-`src/verification.rs`: de [volledige matrix van 405 rijen](docs/VERIFICATION-MATRIX.md), en waarom elke
+`src/verification.rs`: de [volledige matrix van 412 rijen](docs/VERIFICATION-MATRIX.md), en waarom elke
 Modelled-rij geen externe onafhankelijke referentie heeft in [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ kan nooit meer claimen dan het register. Rijen, statussen en id's worden uit de 
 ### Validatie in één oogopslag
 
 Elke rij wordt in CI afgedwongen door een benoemde test. Deze tabel is een **samengestelde selectie van hoogtepunten**;
-de volledige machinaal gecontroleerde matrix telt **405 rijen — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+de volledige machinaal gecontroleerde matrix telt **412 rijen — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), met het volledige bewijs (en wat eerlijk gezegd *nog niet*
 gevalideerd is) in [`docs/VALIDATION.md`](docs/VALIDATION.md) en het artefact
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ De kolom **Status** vermeldt het *soort* bewijs, overeenkomstig de validatieladd
 | CI | Testdekking | **~95 % regels** van `src/` exclusief `src/*_data.rs` en `src/main.rs`, bewaakt op ≥ 85 % | cargo-tarpaulin (LLVM-engine) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hoe een mogelijkheid haar label verdient: een eis wordt gekoppeld aan een module in src, aan een test in tests, aan een externe onafhankelijke referentie (echte dataset, onafhankelijke referentie-implementatie of gepubliceerde vectoren), aan een status — met een door CI afgedwongen bewaking dat geen enkele mogelijkheid Validated kan zijn zonder externe onafhankelijke referentie. Actuele tellingen: 176 Validated, 225 Modelled, 4 Partner, 405 totaal" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hoe een mogelijkheid haar label verdient: een eis wordt gekoppeld aan een module in src, aan een test in tests, aan een externe onafhankelijke referentie (echte dataset, onafhankelijke referentie-implementatie of gepubliceerde vectoren), aan een status — met een door CI afgedwongen bewaking dat geen enkele mogelijkheid Validated kan zijn zonder externe onafhankelijke referentie. Actuele tellingen: 176 Validated, 232 Modelled, 4 Partner, 412 totaal" width="900">
   <br><sub>Hoe een mogelijkheid haar label verdient — de door CI afgedwongen invariant: geen externe onafhankelijke referentie ⇒ kan niet Validated zijn · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ De kolom **Status** vermeldt het *soort* bewijs, overeenkomstig de validatieladd
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verificatiestatus over alle 405 mogelijkheden: 176 Validated (gecontroleerd tegen externe onafhankelijke referentie), 225 Modelled, 4 eigendom van een Partner" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verificatiestatus over alle 412 mogelijkheden: 176 Validated (gecontroleerd tegen externe onafhankelijke referentie), 232 Modelled, 4 eigendom van een Partner" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ erbovenop als een afzonderlijke laag die van de engine afhangt en haar nooit for
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="De architectuur van Kshana: één open engine in het midden, kshana 0.40.0 onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elk type, en het verificatieregister van 405 mogelijkheden (176 VALIDATED, 225 MODELLED, 4 PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plug-in (Marketplace: &quot;Kshana&quot;). Daaronder Kshana Pro, een propriëtaire laag die van de open engine afhangt als bibliotheek en haar nooit forkt, en geen fysisch model toevoegt." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="De architectuur van Kshana: één open engine in het midden, kshana 0.40.0 onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elk type, en het verificatieregister van 412 mogelijkheden (176 VALIDATED, 232 MODELLED, 4 PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plug-in (Marketplace: &quot;Kshana&quot;). Daaronder Kshana Pro, een propriëtaire laag die van de open engine afhangt als bibliotheek en haar nooit forkt, en geen fysisch model toevoegt." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ erbovenop als een afzonderlijke laag die van de engine afhangt en haar nooit for
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="De architectuur van Kshana in lagen. Vijf toegangen (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plug-in) bereiken één api::run_toml, een getypeerde dispatch over 92 typen. Daaronder liggen acht domeinlagen: tijd en stelsels, klokken en tijdsynchronisatie, inertiaal en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, Maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, allemaal met kruisverwijzingen via de verificatiemodule, de machinaal gecontroleerde matrix van 405 mogelijkheden die de enige bron van waarheid is voor elk label." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="De architectuur van Kshana in lagen. Vijf toegangen (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plug-in) bereiken één api::run_toml, een getypeerde dispatch over 92 typen. Daaronder liggen acht domeinlagen: tijd en stelsels, klokken en tijdsynchronisatie, inertiaal en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, Maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, allemaal met kruisverwijzingen via de verificatiemodule, de machinaal gecontroleerde matrix van 412 mogelijkheden die de enige bron van waarheid is voor elk label." width="100%">
 </picture>
 
 **Eén engine, veel toegangen.** Eén Rust-kern (`kshana`) draait elk scenario,

@@ -1890,9 +1890,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 seg-ee030053dc63 = iq::campaign (detect, runner, spec) ; iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
 # text
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs : m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } blocs sur { "5900" } par rapport à l'intervalle binomial à { "99" } % [{ "40" }, { "80" }] de P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, rapport { "0.0131" } contre { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } contre { "0" }), the_monitors_table_parses_and_validates ; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignoré avec l'écart) ; tests de iq::campaign::detect ; tests de iq::monitor::stats (gaussian_two_sided_tail_matches_known_values) ; tests/iq_campaign.rs (les empreintes figées sont inchangées sans le tableau)
-
-# text
 seg-e214fbcbf22e = iq::campaign (detect, report, runner) ; iq::monitor::spectral (kurtosis_reference)
 
 # text
@@ -3048,4 +3045,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = tests unitaires d'interference_map::emitter (aller-retour de projection, valeur de l'horizon, allers-retours synthétiques direct et inverse : l'émetteur connu se trouve dans la région déclarée à peu près au taux déclaré, cas limites, regroupement en sessions, profil, confidentialité et formulation) ; cas locate de tests/interference_map_cli.rs
 
-seg-7a83829ca355 = { "225" } capacités étiquetées MODELLED.
+seg-474381d842e6 = { "232" } capacités étiquetées MODELLED.

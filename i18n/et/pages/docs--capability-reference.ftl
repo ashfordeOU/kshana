@@ -4072,4 +4072,4 @@ seg-953a8b4f9f41 = Veel ühtki välist. Ainult sünteetilised ettepoole-tagasi r
 
 seg-d5a79853b72f = { "93" } liiki { "93" }-st, { "3334" } arvulist välja { "3334" }-st
 
-seg-5576293ba3aa = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "405" } kontrollimaatriksi rida.
+seg-877f989ae75e = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "412" } kontrollimaatriksi rida.

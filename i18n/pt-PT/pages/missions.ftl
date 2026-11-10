@@ -1456,4 +1456,4 @@ seg-9b505908a6e2 = O Kshana <b>não comanda nenhum equipamento de rádio nem tra
 
 seg-ceb2de75e2f4 = <b>Gratuito hoje:</b> tudo o que está no motor aberto. Gratuito: { "53" } ferramentas MCP, de run_scenario a export_oem.
 
-seg-5c86fa79a863 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-67a6c0107bcd = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

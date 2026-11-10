@@ -4072,4 +4072,4 @@ seg-953a8b4f9f41 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Ru
 
 seg-d5a79853b72f = { "93" } von { "93" } Arten, { "3334" } von { "3334" } numerischen Feldern
 
-seg-5576293ba3aa = Die { "61" } Fähigkeitskarten aus <c1/>, danach alle { "405" } Zeilen der Verifikationsmatrix.
+seg-877f989ae75e = Die { "61" } Fähigkeitskarten aus <c1/>, danach alle { "412" } Zeilen der Verifikationsmatrix.

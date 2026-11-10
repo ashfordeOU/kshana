@@ -2652,4 +2652,4 @@ seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och b
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriska fält
 
-seg-5576293ba3aa = De { "61" } förmågekorten från <c1/>, därefter alla { "405" } rader i verifieringsmatrisen.
+seg-877f989ae75e = De { "61" } förmågekorten från <c1/>, därefter alla { "412" } rader i verifieringsmatrisen.

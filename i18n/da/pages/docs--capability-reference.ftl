@@ -2644,4 +2644,4 @@ seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler 
 
 seg-d5a79853b72f = { "93" } af { "93" } typer, { "3334" } af { "3334" } numeriske felter
 
-seg-5576293ba3aa = De { "61" } funktionskort fra <c1/>, derefter alle { "405" } rækker i verifikationsmatricen.
+seg-877f989ae75e = De { "61" } funktionskort fra <c1/>, derefter alle { "412" } rækker i verifikationsmatricen.
