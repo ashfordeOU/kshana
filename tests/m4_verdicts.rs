@@ -95,3 +95,49 @@ fn seed_2000_v2_decision_is_deterministic_and_as_recorded() {
 
 const SEED_2000_V2: &str =
     "[[1600,0,0,0,0],[18,122,0,0,0],[0,0,60,0,0],[60,16,0,64,0],[0,0,0,0,60]]";
+
+fn scored_v3() -> Value {
+    serde_json::from_str(
+        &std::fs::read_to_string("xval/m4-dark-vessel/scored-v3.json").expect("file"),
+    )
+    .expect("json")
+}
+
+/// M4 v3 (`RESULTS-v3.md`): seeds 3000-3009 at `M4Params::v3` (B1, B2, B3, B5 MET; B4 NOT MET, pinned).
+#[test]
+fn recorded_verdicts_v3() {
+    let s = scored_v3();
+    assert_eq!(s["m"], 3);
+    assert_eq!(s["new_track_cost"], 9.21);
+    assert_eq!(M4Params::v3().m, 3);
+    let m = &s["metrics"];
+    let pc = |c: &str, k: &str| m["per_class"][c][k].as_f64().expect("number");
+    assert!(m["false_alarm"].as_f64().unwrap() <= 0.01);
+    // B2 MET: 1392 of 1400 (bar >= 0.95); precision >= 0.80.
+    assert!((pc("DARK", "recall") - 1392.0 / 1400.0).abs() < 1e-12 && pc("DARK", "recall") >= 0.95);
+    assert!(pc("DARK", "precision") >= 0.80);
+    assert_eq!(pc("GAP", "recall"), 1.0);
+    assert_eq!(pc("IDENTITY-DUPLICATE", "recall"), 1.0);
+    // B4 NOT MET, pinned: 137 of 280 at 5 km (bar 0.85); 10, 20, 50 km below 0.98.
+    let r = |d: &str| m["offset_recall_by_km"][d]["recall"].as_f64().unwrap();
+    assert!((r("5") - 137.0 / 280.0).abs() < 1e-12 && r("5") < 0.85);
+    for d in ["10", "20", "50"] {
+        assert!(r(d) < 0.98, "{d}");
+    }
+}
+
+#[test]
+fn seed_3000_v3_decision_is_deterministic_and_as_recorded() {
+    let s = generate(3000);
+    let p = M4Params::v3();
+    let (a, b) = (decide(&s, &p), decide(&s, &p));
+    assert_eq!(a.class, b.class);
+    assert_eq!(a.dark_fix, b.dark_fix);
+    assert_eq!(a.taken, b.taken);
+    let conf = metrics(&decided_classes(&s, &a))["confusion"].clone();
+    let want: Value = serde_json::from_str(SEED_3000_V3).unwrap();
+    assert_eq!(conf, want);
+}
+
+const SEED_3000_V3: &str =
+    "[[1600,0,0,0,0],[2,138,0,0,0],[0,0,60,0,0],[54,24,0,62,0],[0,0,0,0,60]]";
