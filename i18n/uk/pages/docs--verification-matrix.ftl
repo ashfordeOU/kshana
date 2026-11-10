@@ -2394,8 +2394,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } із { "5900" } блоків проти { "99" } % біноміального інтервалу [{ "40" }, { "80" }] для P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, відношення { "0.0131" } проти { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } проти { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (суворий, ігнорується разом із прогалиною); тести iq::campaign::detect; тести iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (закріплені дайджести без таблиці не змінюються)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } на заявлених подіях, що нічого не ослаблюють); r1_the_cn0_drop_roc_separates_6_db_attenuations (суворий, ігнорується разом із прогалиною); тести iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -3589,6 +3587,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = модульні тести interference_map::emitter (круговий цикл проєкції, показник горизонту, синтетичні прямо-зворотні цикли: відомий випромінювач лежить усередині заданого регіону приблизно із заданою частотою, граничні випадки, кластеризація сесій, профіль, приватність і формулювання); випадки locate у tests/interference_map_cli.rs
 
-seg-9d7b242850ee = Повний машинно перевірюваний реєстр доказів (ledger): <b>{ "405" } рядків — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Рядок може мати позначку VALIDATED лише за наявності незалежного зовнішнього оракула (це забезпечують тести інваріантів матриці). Ті самі дані, з клікабельними посиланнями для кожного рядка на кожен тест, модуль і закомічений тестовий файл, — це <em>реєстр валідації</em> на <a1>https://kshana.dev</a1>. Причину, чому кожен змодельований рядок не перевірено зовні, див. у <a2>MODELLED-RATIONALE.md</a2>.
+seg-db7a6ac0a47d = Повний машинно перевірюваний реєстр доказів (ledger): <b>{ "412" } рядків — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Рядок може мати позначку VALIDATED лише за наявності незалежного зовнішнього оракула (це забезпечують тести інваріантів матриці). Ті самі дані, з клікабельними посиланнями для кожного рядка на кожен тест, модуль і закомічений тестовий файл, — це <em>реєстр валідації</em> на <a1>https://kshana.dev</a1>. Причину, чому кожен змодельований рядок не перевірено зовні, див. у <a2>MODELLED-RATIONALE.md</a2>.
 
-seg-3ca919e147c4 = { "405" } рядків: { "176" } перевірено зовні, { "225" } змодельовано, { "4" } належать партнерам.
+seg-1cc523709234 = { "412" } рядків: { "176" } перевірено зовні, { "232" } змодельовано, { "4" } належать партнерам.

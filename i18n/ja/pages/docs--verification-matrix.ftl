@@ -2712,8 +2712,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form（{ "5900" } ブロックのうち { "73" } 個、P_fa { "0.01" } の { "99" } % の二項区間 [{ "40" }, { "80" }] に対して）, m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k（delta { "0.0160" }、比 { "0.0131" }、対 { "0.01" }）, m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0（{ "0" } 対 { "0" }）, the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1（厳格、ギャップとともに無視）; iq::campaign::detect のテスト; iq::monitor::stats のテスト（gaussian_two_sided_tail_matches_known_values）; tests/iq_campaign.rs（固定したダイジェストは、表がなくても変わらない）
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance（何も減衰させない指定のイベントでの AUC：cn0_drop { "0.500" }、sqm_delta { "0.566" }、power_drop { "0.639" }）; r1_the_cn0_drop_roc_separates_6_db_attenuations（厳格、ギャップとともに無視）; iq::campaign::detect のテスト（the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events）
@@ -3588,6 +3586,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = interference_map::emitter の単体テスト（投影の往復、地平線の数値、合成の順方向・逆方向の往復：既知の発信源は、明示した領域の内側に、ほぼ明示した割合で入る。エッジケース、セッションのクラスタリング、プロファイル、プライバシーと文言）。tests/interference_map_cli.rs の locate のケース
 
-seg-9d7b242850ee = 機械検査される完全なエビデンスの台帳：<b>{ "405" } 行——{ "176" } 行が VALIDATED、{ "225" } 行が MODELLED、{ "4" } 行が PARTNER</b>。行が VALIDATED となれるのは、独立した外部オラクルがある場合だけです（マトリクスの不変条件のテストがこれを強制します）。同じデータは、各テスト、モジュール、コミット済みフィクスチャへの行ごとのクリック可能なリンク付きで、<a1>https://kshana.dev</a1> の<em>検証台帳</em>にあります。モデル計算の各行が外部で検証されていない理由は、<a2>MODELLED-RATIONALE.md</a2> を参照してください。
+seg-db7a6ac0a47d = 機械検査される完全なエビデンスの台帳：<b>{ "412" } 行——{ "176" } 行が VALIDATED、{ "232" } 行が MODELLED、{ "4" } 行が PARTNER</b>。行が VALIDATED となれるのは、独立した外部オラクルがある場合だけです（マトリクスの不変条件のテストがこれを強制します）。同じデータは、各テスト、モジュール、コミット済みフィクスチャへの行ごとのクリック可能なリンク付きで、<a1>https://kshana.dev</a1> の<em>検証台帳</em>にあります。モデル計算の各行が外部で検証されていない理由は、<a2>MODELLED-RATIONALE.md</a2> を参照してください。
 
-seg-3ca919e147c4 = { "405" } 行：外部で確認済みが { "176" }、モデル計算が { "225" }、パートナー担当が { "4" }。
+seg-1cc523709234 = { "412" } 行：外部で確認済みが { "176" }、モデル計算が { "232" }、パートナー担当が { "4" }。

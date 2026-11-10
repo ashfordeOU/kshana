@@ -347,6 +347,6 @@ seg-b23a9bd3ccfa = <s1>Référence des scénarios</s1><s2>Chaque fichier de scé
 
 seg-a7dc2bc0a77d = { "93" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.
 
-seg-f950b0ba9160 = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "405" } lignes — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "412" } lignes — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "405" } lignes de la matrice de vérification.</s2>
+seg-7fd385494ae0 = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "412" } lignes de la matrice de vérification.</s2>

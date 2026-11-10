@@ -4946,9 +4946,6 @@ seg-a1c022c60fb6 = Inercial, fusão e PNT alternativo
 seg-b355dc732d29 = Sinais e interferência
 
 # text
-seg-fb01a581d5ee = de { "28" } validadas
-
-# text
 seg-d6c43e56d4cc = Análise de missão, garantia e outros
 
 # text
@@ -6256,36 +6253,44 @@ seg-43f852e4bee8 = de { "74" } validadas
 
 seg-8fe12f6058c6 = de { "26" } validadas
 
-seg-2ed2d817f56e = { "405" } capacidades, cada uma avaliada. <b>{ "176" } validadas</b> em relação a referências independentes externas. <b>{ "225" } rotuladas com honestidade como modeladas.</b> { "4" } pertencentes a parceiros. Nada é arredondado para cima.
-
-seg-07aef8ff8fe3 = Matriz de verificação, uma célula por capacidade na ordem do registro: { "176" } validadas (quadrados preenchidos), { "225" } modeladas (quadrados vazados), { "4" } pertencentes a parceiros (losangos). As teclas de seta movem entre as células; a capacidade e sua referência independente são lidas abaixo.
-
-seg-81464c684074 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "405" } linhas · sem cenário nem semente: o registro do próprio motor
-
-seg-c54618ee87bb = { "176" }<s1>de { "405" } validadas</s1>
-
-seg-9984e76b5b28 = Matriz de verificação: { "176" } validadas, { "225" } modeladas, { "4" } pertencentes a parceiros, { "405" } no total
-
-seg-46e93e2ebc71 = Todas as { "405" } linhas, uma linha para cada.
-
-seg-ebec0449ab03 = Todas { "405" }
-
-seg-bcf766efe1ab = Modeladas { "225" }
-
-seg-cea55077f323 = Registro de validação, { "405" } linhas, rolável
-
 seg-65122c2bb1fc = de { "104" } validadas
 seg-2998c6fa20d6 = de { "79" } validadas
 seg-4b3ab6095c65 = de { "56" } validadas
 
-seg-7ccfb90a1b22 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-0c637f4b6c88 = { "412" } capacidades, cada uma avaliada. <b>{ "176" } validadas</b> em relação a referências independentes externas. <b>{ "232" } rotuladas com honestidade como modeladas.</b> { "4" } pertencentes a parceiros. Nada é arredondado para cima.
 
-seg-3049f77a1f2b = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-c2c3179c1316 = Matriz de verificação, uma célula por capacidade na ordem do registro: { "176" } validadas (quadrados preenchidos), { "232" } modeladas (quadrados vazados), { "4" } pertencentes a parceiros (losangos). As teclas de seta movem entre as células; a capacidade e sua referência independente são lidas abaixo.
 
-seg-b7a6adb6c48d = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "412" } linhas · sem cenário nem semente: o registro do próprio motor
 
-seg-322243e4b2ce = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
+seg-b36352ff4d2a = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-c81354db10ba = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-edd1aba6a08c = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
 
-seg-a036eba668b8 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+seg-90efc3759f07 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-094876c75564 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas no build <c2/> · determinístico, sem semente
+
+seg-1c7e4b85e701 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-f42398e9711c = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+seg-07e8ef5a102f = { "176" }<s1>de { "412" } validadas</s1>
+
+seg-4873cd813b9a = Matriz de verificação: { "176" } validadas, { "232" } modeladas, { "4" } pertencentes a parceiros, { "412" } no total
+
+seg-98b273ce8773 = Todas as { "412" } linhas, uma linha para cada.
+
+seg-7780d0588bd2 = de { "20" } validadas
+
+seg-00d97be31745 = de { "81" } validadas
+
+seg-04cc15e9a93c = de { "31" } validadas
+
+seg-2de2a4f9f3f7 = de { "57" } validadas
+
+seg-c321a2dafd3e = Todas { "412" }
+
+seg-bc4726a0baf1 = Modeladas { "232" }
+
+seg-40e80b22723c = Registro de validação, { "412" } linhas, rolável

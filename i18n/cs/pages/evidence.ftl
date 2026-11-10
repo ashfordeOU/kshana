@@ -3231,8 +3231,6 @@ seg-a1c022c60fb6 = Inerciální navigace, fúze a alternativní PNT
 
 seg-b355dc732d29 = Signály a interference
 
-seg-fb01a581d5ee = z { "28" } ověřeno
-
 seg-d6c43e56d4cc = Analýza misí, zajištění a ostatní
 
 seg-7038fab8b00c = Ověřeno { "176" }
@@ -4125,36 +4123,44 @@ seg-43f852e4bee8 = z { "74" } ověřeno
 
 seg-8fe12f6058c6 = z { "26" } ověřeno
 
-seg-2ed2d817f56e = { "405" } schopností, každá ohodnocena. <b>{ "176" } ověřeno</b> proti nezávislým vnějším orákulům. <b>{ "225" } poctivě označeno jako modelované.</b> { "4" } ve vlastnictví partnera. Nic se nezaokrouhluje nahoru.
-
-seg-07aef8ff8fe3 = Verifikační matice, jedna buňka na schopnost v pořadí registru: { "176" } ověřeno (plné čtverce), { "225" } modelováno (prázdné čtverce), { "4" } ve vlastnictví partnera (kosočtverce). Šipky přesouvají mezi buňkami; schopnost a její orákulum se čtou níže.
-
-seg-81464c684074 = Engine v{ $version } · <c1/>, generováno z <c2/> · { "405" } řádků · žádný scénář ani seed: vlastní registr enginu
-
-seg-c54618ee87bb = { "176" }<s1>z { "405" } ověřeno</s1>
-
-seg-9984e76b5b28 = Verifikační matice: { "176" } ověřeno, { "225" } modelováno, { "4" } ve vlastnictví partnera, celkem { "405" }
-
-seg-46e93e2ebc71 = Všech { "405" } řádků, jeden řádek na každý.
-
-seg-ebec0449ab03 = Všech { "405" }
-
-seg-bcf766efe1ab = Modelováno { "225" }
-
-seg-cea55077f323 = Registr validace, { "405" } řádků, posouvatelný
-
 seg-65122c2bb1fc = z { "104" } ověřeno
 seg-2998c6fa20d6 = z { "79" } ověřeno
 seg-4b3ab6095c65 = z { "56" } ověřeno
 
-seg-7ccfb90a1b22 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-0c637f4b6c88 = { "412" } schopností, každá ohodnocena. <b>{ "176" } ověřeno</b> proti nezávislým vnějším orákulům. <b>{ "232" } poctivě označeno jako modelované.</b> { "4" } ve vlastnictví partnera. Nic se nezaokrouhluje nahoru.
 
-seg-3049f77a1f2b = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-c2c3179c1316 = Verifikační matice, jedna buňka na schopnost v pořadí registru: { "176" } ověřeno (plné čtverce), { "232" } modelováno (prázdné čtverce), { "4" } ve vlastnictví partnera (kosočtverce). Šipky přesouvají mezi buňkami; schopnost a její orákulum se čtou níže.
 
-seg-b7a6adb6c48d = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, generováno z <c2/> · { "412" } řádků · žádný scénář ani seed: vlastní registr enginu
 
-seg-322243e4b2ce = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+seg-b36352ff4d2a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-c81354db10ba = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-edd1aba6a08c = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
 
-seg-a036eba668b8 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+seg-90efc3759f07 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-094876c75564 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
+
+seg-1c7e4b85e701 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-f42398e9711c = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
+
+seg-07e8ef5a102f = { "176" }<s1>z { "412" } ověřeno</s1>
+
+seg-4873cd813b9a = Verifikační matice: { "176" } ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera, celkem { "412" }
+
+seg-98b273ce8773 = Všech { "412" } řádků, jeden řádek na každý.
+
+seg-7780d0588bd2 = z { "20" } ověřeno
+
+seg-00d97be31745 = z { "81" } ověřeno
+
+seg-04cc15e9a93c = z { "31" } ověřeno
+
+seg-2de2a4f9f3f7 = z { "57" } ověřeno
+
+seg-c321a2dafd3e = Všech { "412" }
+
+seg-bc4726a0baf1 = Modelováno { "232" }
+
+seg-40e80b22723c = Registr validace, { "412" } řádků, posouvatelný

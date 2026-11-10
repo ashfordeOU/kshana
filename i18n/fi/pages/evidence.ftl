@@ -3193,8 +3193,6 @@ seg-a1c022c60fb6 = Inertia, fuusio ja vaihtoehtoinen PNT
 
 seg-b355dc732d29 = Signaalit ja häiriöt
 
-seg-fb01a581d5ee = { "28" } rivistä validoitu
-
 seg-d6c43e56d4cc = Tehtäväanalyysi, varmistus ja muut
 
 seg-7038fab8b00c = Validoitu { "176" }
@@ -4111,36 +4109,44 @@ seg-43f852e4bee8 = / { "74" } validoitu
 
 seg-8fe12f6058c6 = / { "26" } validoitu
 
-seg-2ed2d817f56e = { "405" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitu</b> riippumattomia ulkoisia oraakkeleita vastaan. <b>{ "225" } rehellisesti merkitty mallinnetuiksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
-
-seg-07aef8ff8fe3 = Varmennusmatriisi, yksi solu per ominaisuus kirjanpidon järjestyksessä: { "176" } validoitu (täytetyt neliöt), { "225" } mallinnettu (onttoja neliöitä), { "4" } kumppanin omistama (vinoneliöt). Nuolinäppäimet siirtävät solujen välillä; ominaisuus ja sen oraakkeli luetaan alla.
-
-seg-81464c684074 = Moottori v{ $version } · <c1/>, generoitu tiedostosta <c2/> · { "405" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
-
-seg-c54618ee87bb = { "176" }<s1>/ { "405" } validoitu</s1>
-
-seg-9984e76b5b28 = Varmennusmatriisi: { "176" } validoitu, { "225" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "405" }
-
-seg-46e93e2ebc71 = Kaikki { "405" } riviä, yksi rivi kullekin.
-
-seg-ebec0449ab03 = Kaikki { "405" }
-
-seg-bcf766efe1ab = Mallinnettu { "225" }
-
-seg-cea55077f323 = Validointikirjanpito, { "405" } riviä, vieritettävä
-
 seg-65122c2bb1fc = / { "104" } validoitu
 seg-2998c6fa20d6 = / { "79" } validoitu
 seg-4b3ab6095c65 = { "56" } rivistä validoitu
 
-seg-7ccfb90a1b22 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-0c637f4b6c88 = { "412" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitu</b> riippumattomia ulkoisia oraakkeleita vastaan. <b>{ "232" } rehellisesti merkitty mallinnetuiksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
 
-seg-3049f77a1f2b = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-c2c3179c1316 = Varmennusmatriisi, yksi solu per ominaisuus kirjanpidon järjestyksessä: { "176" } validoitu (täytetyt neliöt), { "232" } mallinnettu (onttoja neliöitä), { "4" } kumppanin omistama (vinoneliöt). Nuolinäppäimet siirtävät solujen välillä; ominaisuus ja sen oraakkeli luetaan alla.
 
-seg-b7a6adb6c48d = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-a2cdd2df1b36 = Moottori v{ $version } · <c1/>, generoitu tiedostosta <c2/> · { "412" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
 
-seg-322243e4b2ce = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
+seg-b36352ff4d2a = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
 
-seg-c81354db10ba = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-edd1aba6a08c = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
 
-seg-a036eba668b8 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+seg-90efc3759f07 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-094876c75564 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
+
+seg-1c7e4b85e701 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-f42398e9711c = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
+
+seg-07e8ef5a102f = { "176" }<s1>/ { "412" } validoitu</s1>
+
+seg-4873cd813b9a = Varmennusmatriisi: { "176" } validoitu, { "232" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "412" }
+
+seg-98b273ce8773 = Kaikki { "412" } riviä, yksi rivi kullekin.
+
+seg-7780d0588bd2 = { "20" } rivistä validoitu
+
+seg-00d97be31745 = { "81" } rivistä validoitu
+
+seg-04cc15e9a93c = { "31" } rivistä validoitu
+
+seg-2de2a4f9f3f7 = { "57" } rivistä validoitu
+
+seg-c321a2dafd3e = Kaikki { "412" }
+
+seg-bc4726a0baf1 = Mallinnettu { "232" }
+
+seg-40e80b22723c = Validointikirjanpito, { "412" } riviä, vieritettävä
