@@ -20,6 +20,14 @@ const DEG: f64 = std::f64::consts::PI / 180.0;
 /// (above 0.005, not eligible); m = 3 has FA 0.00006 and is the only eligible value.
 pub const M4_V2_M: usize = 3;
 
+/// The v3 `m` and new-track cost, chosen on seeds 30-39 (R31; xval/m4-dark-vessel/dev-v3.json.gz): only
+/// the pairs with m = 3 are eligible (FA 0.00044 at 9.21, 0.00038 at 13.82; m = 2 gives FA above 0.006);
+/// of those, 9.21 has the higher DARK recall (1393 of 1400 against 1387), and m = 3 is the only eligible
+/// m at 9.21.
+pub const M4_V3_M: usize = 3;
+/// See [`M4_V3_M`].
+pub const M4_V3_NEW_TRACK_COST: f64 = 9.21;
+
 /// Every number of the decision (R13 to R18).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct M4Params {
@@ -93,6 +101,12 @@ impl M4Params {
             v2: true,
             ..Self::v1()
         }
+    }
+
+    /// The committed version 3 parameters (R31): `m` and the new-track cost from the seeds 30-39
+    /// development run.
+    pub fn v3() -> Self {
+        Self::v3_base(M4_V3_M, M4_V3_NEW_TRACK_COST)
     }
 
     /// The v3 development base (R25 to R31): the v2 logic with the v3 changes on, `m` and the new-track
@@ -285,7 +299,7 @@ pub fn decide(scene: &Scene, p: &M4Params) -> Decision {
         let mut miss_t: Vec<u32> = Vec::new();
         let mut hits: Vec<u32> = Vec::new();
         // v3 (R27): per hit, its AIS residual and its candidates' displacements.
-        let mut hit_v3: Vec<(u32, f64, Vec<(f64, f64)>)> = Vec::new();
+        let mut hit_v3: Vec<HitV3> = Vec::new();
         for te in epochs {
             let lo = times.partition_point(|&x| x + p.epoch_window_s < te);
             let hi = times.partition_point(|&x| x <= te + p.epoch_window_s);
@@ -510,6 +524,9 @@ fn dark_residual_v3(scene: &Scene, p: &M4Params, f1: usize, f2: usize, j: usize)
     Some(d2_cv.min(d2_turn))
 }
 
+/// A v3 hit (R27): its epoch, its AIS residual and its candidates' displacements.
+type HitV3 = (u32, f64, Vec<(f64, f64)>);
+
 /// A column of the v3 assignment (R29): an AIS track or a predicted dark track, by index.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum Col {
@@ -602,7 +619,10 @@ fn dark_tracks_v3(
     let feasible = |last: usize, j: usize| {
         let dt = f64::from(scene.rf[j].0.saturating_sub(scene.rf[last].0));
         let (e, n) = en(pos(last), pos(j));
-        ((e * e + n * n).sqrt() <= v_max * dt + slack, (e * e + n * n).sqrt())
+        (
+            (e * e + n * n).sqrt() <= v_max * dt + slack,
+            (e * e + n * n).sqrt(),
+        )
     };
     let mut dtracks: Vec<Vec<usize>> = Vec::new();
     let mut taken = vec![false; nf];
@@ -697,7 +717,11 @@ fn dark_tracks_v3(
                 .collect();
             let asg = hungarian(&mat);
             for (ri, &r) in comp.iter().enumerate() {
-                chosen[r] = if asg[ri] < nc { Some(cols[asg[ri]]) } else { None };
+                chosen[r] = if asg[ri] < nc {
+                    Some(cols[asg[ri]])
+                } else {
+                    None
+                };
             }
         }
         // Apply, in stream order (R29).
