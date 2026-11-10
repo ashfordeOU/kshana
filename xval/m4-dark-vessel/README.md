@@ -368,3 +368,23 @@ byte-identical outputs after the change.
       table, before the scored seeds.
     - Seeds 3000 to 3009 are then generated and run once. `RESULTS-v3.md` records MET or NOT MET for B1 to B7, and
       `tests/m4_verdicts.rs` pins the v3 verdicts beside v1's and v2's.
+
+### The v3 development run (seeds 30 to 39, `dev-v3.json.gz`), committed before any scored seed
+
+| m | `C_new` | FA | DARK recall | DARK precision | Offset recall at 5 / 10 / 20 / 50 km | Eligible (FA ≤ 0.005) |
+|---|---|---|---|---|---|---|
+| 2 | 9.21 | 0.00613 | 0.993 (1 390 / 1 400) | 0.870 | 0.546 / 0.750 / 0.796 / 0.775 | no |
+| 2 | 13.82 | 0.00606 | 0.989 (1 384 / 1 400) | 0.890 | 0.546 / 0.750 / 0.796 / 0.775 | no |
+| **3** | **9.21** | **0.00044** | **0.995 (1 393 / 1 400)** | **0.863** | **0.482 / 0.682 / 0.711 / 0.671** | **yes: chosen** |
+| 3 | 13.82 | 0.00038 | 0.991 (1 387 / 1 400) | 0.884 | 0.482 / 0.682 / 0.711 / 0.671 | yes |
+
+By reading 31: only the `m` = 3 pairs are eligible; of those, `C_new` = 9.21 has the higher DARK recall; at
+`C_new` = 9.21, `m` = 3 is the only eligible `m`. `M4Params::v3` uses `m` = 3 and `C_new` = 9.21. No reading was
+changed after this run. Before it, one development seed (30) was decided at `m` = 3, `C_new` = 13.82 to check the
+code ran; nothing was changed after that check.
+
+**What the development run already shows, before the scored run.**
+- **DARK.** Recall 0.995 against the B2 bar of 0.95, precision 0.863 against 0.80. B2 is expected to be met.
+- **POSITION-OFFSET.** Recall 0.482 at 5 km (bar 0.85) and 0.67 to 0.71 at 10 to 50 km (bar 0.98). The
+  collision-tolerant step test raises recall over v2's development run (0.436 at 5 km at `m` = 3), but far from the
+  bar. B4 is expected to miss again. The bars are not changed, and the scored seeds are run once as they stand.
