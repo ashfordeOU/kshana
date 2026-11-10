@@ -317,9 +317,27 @@ pub fn klobuchar_from_nav_header(text: &str) -> Option<KlobucharCoeffs> {
     })
 }
 
+/// Whether a broadcast record's health field marks the satellite unhealthy for the
+/// single-point solve (B5 v3 reading X2):
+/// - GPS: any non-zero value of the six-bit health (IS-GPS-200, 20.3.3.3.1.4: 0 means
+///   all signals OK).
+/// - QZSS: any bit but the least significant. That bit is the L1C/A-only flag, as
+///   RTKLIB's `rinex.c` reads it (it masks QZSS health with `0xFE`).
+/// - Galileo and BeiDou: never, for now. Their health bits are per signal (Galileo
+///   E1-B, E5a and E5b health and data-validity bits; BeiDou `SatH1` with its own
+///   signal flags), so the right mask depends on the signals a solve combines; that
+///   rule is left to a separate change.
+fn record_unhealthy(e: &RinexEphemeris) -> bool {
+    match e.system {
+        'G' => e.sv_health != 0.0,
+        'J' => (e.sv_health as i64) & 0xFE != 0,
+        _ => false,
+    }
+}
+
 /// Select the broadcast ephemeris record for satellite `system`/`prn` whose
 /// reference time `Toe` is closest to the GPS time-of-week `tow_s`, within the
-/// fit interval [`MAX_EPH_AGE_S`]. Records whose `sv_health` is not 0 are never
+/// fit interval [`MAX_EPH_AGE_S`]. Records marked unhealthy (see `record_unhealthy`) are never
 /// selected: a satellite with no healthy record inside the window gives `None`
 /// and is left out of the fix (B5 v3 engine finding,
 /// `docs/design/evidence/b5-area-trust/ENGINE-FINDING-HEALTH.md`). Week rollover
@@ -332,7 +350,7 @@ pub fn select_ephemeris(
 ) -> Option<&RinexEphemeris> {
     let mut best: Option<(&RinexEphemeris, f64)> = None;
     for e in ephs {
-        if e.system != system || e.prn != prn || e.sv_health != 0.0 {
+        if e.system != system || e.prn != prn || record_unhealthy(e) {
             continue;
         }
         let mut d = (e.toe - tow_s).abs();
@@ -1477,6 +1495,31 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let s = select_ephemeris(&ephs, 'G', 1, 174_600.0).unwrap();
         assert!((s.toe - 172_800.0).abs() < 1.0);
         assert!(select_ephemeris(&[sick], 'G', 1, 174_600.0).is_none());
+    }
+
+    #[test]
+    fn qzss_health_lsb_alone_is_not_unhealthy() {
+        // X2: QZSS health 1 (only the L1C/A flag) keeps the record; 2 (another bit) drops it.
+        // GPS health 1 drops it. Galileo and BeiDou health is not read here yet.
+        let base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut j = base;
+        j.system = 'J';
+        j.toe = 172_800.0;
+        j.sv_health = 1.0;
+        assert!(!record_unhealthy(&j));
+        assert!(select_ephemeris(&[j], 'J', j.prn, 172_800.0).is_some());
+        j.sv_health = 2.0;
+        assert!(record_unhealthy(&j));
+        assert!(select_ephemeris(&[j], 'J', j.prn, 172_800.0).is_none());
+        let mut g = base;
+        g.sv_health = 1.0;
+        assert!(record_unhealthy(&g));
+        for sys in ['E', 'C'] {
+            let mut x = base;
+            x.system = sys;
+            x.sv_health = 7.0;
+            assert!(!record_unhealthy(&x));
+        }
     }
 
     #[test]
