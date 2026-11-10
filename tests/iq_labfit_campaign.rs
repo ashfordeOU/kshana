@@ -1023,11 +1023,9 @@ fn d8a_row6_v2_batch() {
         .parse()
         .unwrap();
     assert!((1..=18).contains(&n));
-    let dir = format!(
-        "{}/xval/d8a-labfit-response/raw",
-        env!("CARGO_MANIFEST_DIR")
-    );
+    let dir = row6v2_out_dir(std::env::var("KSHANA_D8A_ROW6_V2_OUT").ok().as_deref());
     std::fs::create_dir_all(&dir).unwrap();
+    let subset = std::env::var("KSHANA_D8A_ROW6_V2_SEEDS").ok();
     let (mut fits, mut truths) = (Vec::new(), Vec::new());
     let truth_line = |seed: u64| {
         let t = truth_of(seed);
@@ -1142,8 +1140,13 @@ fn d8a_row6_v2_batch() {
         if let Some(p) = &parts {
             std::fs::create_dir_all(p).unwrap();
         }
-        for s in first..first + 10 {
-            let seed = base + s;
+        let all: Vec<u64> = (first..first + 10).map(|s| base + s).collect();
+        let run = row6v2_seeds(subset.as_deref(), &all);
+        assert!(
+            subset.is_none() || parts.is_some(),
+            "KSHANA_D8A_ROW6_V2_SEEDS needs KSHANA_D8A_ROW6_V2_PARTS"
+        );
+        for seed in run {
             let part = parts.as_ref().map(|p| p.join(format!("{seed}.json")));
             if let Some(Ok(text)) = part.as_ref().map(std::fs::read_to_string) {
                 let v: serde_json::Value = serde_json::from_str(&text).unwrap();
@@ -1176,6 +1179,14 @@ fn d8a_row6_v2_batch() {
             let _ = std::fs::remove_dir_all(out.parent().unwrap());
         }
     }
+    if subset.is_some() {
+        // A seed subset only fills checkpoints; a run without it assembles the batch file.
+        eprintln!(
+            "ROW6V2 batch {n:02}: subset of {} seeds checkpointed",
+            fits.len()
+        );
+        return;
+    }
     for (name, lines) in [("batch", &fits), ("truth", &truths)] {
         let text = lines.join("\n") + "\n";
         std::fs::write(format!("{dir}/{name}-{n:02}.jsonl"), &text).unwrap();
@@ -1186,4 +1197,51 @@ fn d8a_row6_v2_batch() {
             lines.len()
         );
     }
+}
+
+/// D8a row 6 v2 execution only: where a batch run writes (`KSHANA_D8A_ROW6_V2_OUT`, default the
+/// registered `raw/` folder).
+fn row6v2_out_dir(out: Option<&str>) -> String {
+    match out {
+        Some(d) => d.to_string(),
+        None => format!(
+            "{}/xval/d8a-labfit-response/raw",
+            env!("CARGO_MANIFEST_DIR")
+        ),
+    }
+}
+
+/// D8a row 6 v2 execution only: the seeds a (b') batch process runs, in batch order
+/// (`KSHANA_D8A_ROW6_V2_SEEDS`, a comma-separated list; default all ten).
+fn row6v2_seeds(subset: Option<&str>, all: &[u64]) -> Vec<u64> {
+    match subset {
+        None => all.to_vec(),
+        Some(list) => {
+            let want: Vec<u64> = list.split(',').map(|x| x.trim().parse().unwrap()).collect();
+            assert!(
+                want.iter().all(|w| all.contains(w)),
+                "seed outside this batch: {list}"
+            );
+            all.iter().copied().filter(|s| want.contains(s)).collect()
+        }
+    }
+}
+
+/// With both execution variables unset, the batch runner runs every seed of the batch in order and
+/// writes to the registered folder, as before they existed.
+#[test]
+fn row6v2_execution_variables_unset_change_nothing() {
+    let all: Vec<u64> = (207_030..207_040).collect();
+    assert_eq!(row6v2_seeds(None, &all), all);
+    assert_eq!(
+        row6v2_out_dir(None),
+        format!(
+            "{}/xval/d8a-labfit-response/raw",
+            env!("CARGO_MANIFEST_DIR")
+        )
+    );
+    assert_eq!(
+        row6v2_seeds(Some("207039, 207031"), &all),
+        vec![207_031, 207_039]
+    );
 }
