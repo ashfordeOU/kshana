@@ -4882,9 +4882,6 @@ seg-a1c022c60fb6 = Inertial, Fusion und alternatives PNT
 seg-b355dc732d29 = Signale und Störung
 
 # text
-seg-fb01a581d5ee = von { "28" } validiert
-
-# text
 seg-d6c43e56d4cc = Missionsanalyse, Sicherung und Sonstiges
 
 # text
@@ -6243,36 +6240,44 @@ seg-43f852e4bee8 = von { "74" } validiert
 
 seg-8fe12f6058c6 = von { "26" } validiert
 
-seg-2ed2d817f56e = { "405" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "225" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
-
-seg-07aef8ff8fe3 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "225" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
-
-seg-81464c684074 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "405" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
-
-seg-c54618ee87bb = { "176" }<s1>von { "405" } validiert</s1>
-
-seg-9984e76b5b28 = Verifikationsmatrix: { "176" } validiert, { "225" } modelliert, { "4" } im Besitz von Partnern, { "405" } insgesamt
-
-seg-46e93e2ebc71 = Alle { "405" } Zeilen, jede in einer eigenen Zeile.
-
-seg-ebec0449ab03 = Alle { "405" }
-
-seg-bcf766efe1ab = Modelliert { "225" }
-
-seg-cea55077f323 = Validierungsregister, { "405" } Zeilen, scrollbar
-
 seg-65122c2bb1fc = von { "104" } validiert
 seg-2998c6fa20d6 = von { "79" } validiert
 seg-4b3ab6095c65 = von { "56" } validiert
 
-seg-7ccfb90a1b22 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-0c637f4b6c88 = { "412" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "232" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
 
-seg-3049f77a1f2b = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-c2c3179c1316 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "232" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
 
-seg-b7a6adb6c48d = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "412" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
 
-seg-322243e4b2ce = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
+seg-b36352ff4d2a = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-c81354db10ba = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-edd1aba6a08c = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
 
-seg-a036eba668b8 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+seg-90efc3759f07 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-094876c75564 = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
+
+seg-1c7e4b85e701 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-f42398e9711c = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
+
+seg-07e8ef5a102f = { "176" }<s1>von { "412" } validiert</s1>
+
+seg-4873cd813b9a = Verifikationsmatrix: { "176" } validiert, { "232" } modelliert, { "4" } im Besitz von Partnern, { "412" } insgesamt
+
+seg-98b273ce8773 = Alle { "412" } Zeilen, jede in einer eigenen Zeile.
+
+seg-7780d0588bd2 = von { "20" } validiert
+
+seg-00d97be31745 = von { "81" } validiert
+
+seg-04cc15e9a93c = von { "31" } validiert
+
+seg-2de2a4f9f3f7 = von { "57" } validiert
+
+seg-c321a2dafd3e = Alle { "412" }
+
+seg-bc4726a0baf1 = Modelliert { "232" }
+
+seg-40e80b22723c = Validierungsregister, { "412" } Zeilen, scrollbar

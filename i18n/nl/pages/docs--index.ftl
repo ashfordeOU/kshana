@@ -238,6 +238,6 @@ seg-b23a9bd3ccfa = <s1>Scenarioreferentie</s1><s2>Elk meegeleverd scenariobestan
 
 seg-a7dc2bc0a77d = { "93" } pagina's, een voor elke scenariosoort, gelinkt vanaf <a1>Elke scenariosoort, per familie</a1>.
 
-seg-f950b0ba9160 = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "405" } rijen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "405" } rijen van de verificatiematrix.</s2>
+seg-7fd385494ae0 = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "412" } rijen van de verificatiematrix.</s2>

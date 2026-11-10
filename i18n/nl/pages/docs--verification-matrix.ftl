@@ -2382,8 +2382,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } van { "5900" } blokken tegen het binomiale { "99" } %-interval [{ "40" }, { "80" }] van P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, verhouding { "0.0131" } tegen { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } tegen { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strikt, met het gat genegeerd); iq::campaign::detect-tests; iq::monitor::stats-tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (de vastgelegde digests zijn zonder de tabel ongewijzigd)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } bij vermelde gebeurtenissen die niets verzwakken); r1_the_cn0_drop_roc_separates_6_db_attenuations (strikt, met het gat genegeerd); iq::campaign::detect-tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -3625,6 +3623,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
 
-seg-9d7b242850ee = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "405" } rijen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
+seg-db7a6ac0a47d = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
 
-seg-3ca919e147c4 = { "405" } rijen: { "176" } extern gevalideerd, { "225" } gemodelleerd, { "4" } in handen van een partner.
+seg-1cc523709234 = { "412" } rijen: { "176" } extern gevalideerd, { "232" } gemodelleerd, { "4" } in handen van een partner.

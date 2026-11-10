@@ -5237,9 +5237,6 @@ seg-a1c022c60fb6 = Inertiel, fusion et PNT alternatif
 seg-b355dc732d29 = Signaux et interférences
 
 # text
-seg-fb01a581d5ee = sur { "28" } validés
-
-# text
 seg-d6c43e56d4cc = Analyse de mission, assurance et autres
 
 # text
@@ -6256,36 +6253,44 @@ seg-43f852e4bee8 = sur { "74" } vérifiées
 
 seg-8fe12f6058c6 = sur { "26" } vérifiées
 
-seg-2ed2d817f56e = { "405" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "225" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
-
-seg-07aef8ff8fe3 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "225" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
-
-seg-81464c684074 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "405" } lignes · aucun scénario ni graine : le registre propre du moteur
-
-seg-c54618ee87bb = { "176" }<s1>sur { "405" } vérifiées</s1>
-
-seg-9984e76b5b28 = Matrice de vérification : { "176" } vérifiées, { "225" } modélisées, { "4" } détenues par un partenaire, { "405" } au total
-
-seg-46e93e2ebc71 = Les { "405" } lignes, une ligne chacune.
-
-seg-ebec0449ab03 = Toutes { "405" }
-
-seg-bcf766efe1ab = Modélisées { "225" }
-
-seg-cea55077f323 = Registre de validation, { "405" } lignes, défilable
-
 seg-65122c2bb1fc = sur { "104" } vérifiées
 seg-2998c6fa20d6 = sur { "79" } vérifiées
 seg-4b3ab6095c65 = sur { "56" } validés
 
-seg-7ccfb90a1b22 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-0c637f4b6c88 = { "412" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "232" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
 
-seg-3049f77a1f2b = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-c2c3179c1316 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "232" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
 
-seg-b7a6adb6c48d = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-a2cdd2df1b36 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "412" } lignes · aucun scénario ni graine : le registre propre du moteur
 
-seg-322243e4b2ce = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
+seg-b36352ff4d2a = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-c81354db10ba = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-edd1aba6a08c = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
 
-seg-a036eba668b8 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+seg-90efc3759f07 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-094876c75564 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
+
+seg-1c7e4b85e701 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-f42398e9711c = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
+
+seg-07e8ef5a102f = { "176" }<s1>sur { "412" } vérifiées</s1>
+
+seg-4873cd813b9a = Matrice de vérification : { "176" } vérifiées, { "232" } modélisées, { "4" } détenues par un partenaire, { "412" } au total
+
+seg-98b273ce8773 = Les { "412" } lignes, une ligne chacune.
+
+seg-7780d0588bd2 = sur { "20" } validés
+
+seg-00d97be31745 = sur { "81" } validés
+
+seg-04cc15e9a93c = sur { "31" } validés
+
+seg-2de2a4f9f3f7 = sur { "57" } validés
+
+seg-c321a2dafd3e = Toutes { "412" }
+
+seg-bc4726a0baf1 = Modélisées { "232" }
+
+seg-40e80b22723c = Registre de validation, { "412" } lignes, défilable

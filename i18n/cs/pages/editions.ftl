@@ -818,4 +818,4 @@ seg-e507665bbe2c = Engine v{ $version } · { "93" } druhů z <c1/> · stav regis
 
 seg-7515b1af1f0b = Všech { "93" } druhů scénářů a { "183" } přibalených scénářů: nativně, v Pythonu, JavaScriptu, v prohlížeči a přes MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = Úplná verifikační matice: { "176" } z { "405" } schopností ověřeno proti nezávislým orákulům, zbytek označen jako modelované
+seg-43711d15e734 = Úplná verifikační matice: { "176" } z { "412" } schopností ověřeno proti nezávislým orákulům, zbytek označen jako modelované

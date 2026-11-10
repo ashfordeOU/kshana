@@ -3180,8 +3180,6 @@ seg-a1c022c60fb6 = Tröghet, fusion och alternativ PNT
 
 seg-b355dc732d29 = Signaler och störning
 
-seg-fb01a581d5ee = av { "28" } validerade
-
 seg-d6c43e56d4cc = Uppdragsanalys, säkring och övrigt
 
 seg-7038fab8b00c = Validerade { "176" }
@@ -4094,36 +4092,44 @@ seg-43f852e4bee8 = av { "74" } validerade
 
 seg-8fe12f6058c6 = av { "26" } validerade
 
-seg-2ed2d817f56e = { "405" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "225" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
-
-seg-07aef8ff8fe3 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "225" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
-
-seg-81464c684074 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "405" } rader · inget scenario eller frö: motorns eget register
-
-seg-c54618ee87bb = { "176" }<s1>av { "405" } validerade</s1>
-
-seg-9984e76b5b28 = Verifieringsmatris: { "176" } validerade, { "225" } modellerade, { "4" } ägda av partner, { "405" } totalt
-
-seg-46e93e2ebc71 = Alla { "405" } rader, en rad vardera.
-
-seg-ebec0449ab03 = Alla { "405" }
-
-seg-bcf766efe1ab = Modellerade { "225" }
-
-seg-cea55077f323 = Valideringsregister, { "405" } rader, rullningsbart
-
 seg-65122c2bb1fc = av { "104" } validerade
 seg-2998c6fa20d6 = av { "79" } validerade
 seg-4b3ab6095c65 = av { "56" } validerade
 
-seg-7ccfb90a1b22 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-0c637f4b6c88 = { "412" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "232" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
 
-seg-3049f77a1f2b = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-c2c3179c1316 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "232" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
 
-seg-b7a6adb6c48d = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "412" } rader · inget scenario eller frö: motorns eget register
 
-seg-322243e4b2ce = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
+seg-b36352ff4d2a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-c81354db10ba = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-edd1aba6a08c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
 
-seg-a036eba668b8 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+seg-90efc3759f07 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-094876c75564 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
+
+seg-1c7e4b85e701 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-f42398e9711c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+seg-07e8ef5a102f = { "176" }<s1>av { "412" } validerade</s1>
+
+seg-4873cd813b9a = Verifieringsmatris: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner, { "412" } totalt
+
+seg-98b273ce8773 = Alla { "412" } rader, en rad vardera.
+
+seg-7780d0588bd2 = av { "20" } validerade
+
+seg-00d97be31745 = av { "81" } validerade
+
+seg-04cc15e9a93c = av { "31" } validerade
+
+seg-2de2a4f9f3f7 = av { "57" } validerade
+
+seg-c321a2dafd3e = Alla { "412" }
+
+seg-bc4726a0baf1 = Modellerade { "232" }
+
+seg-40e80b22723c = Valideringsregister, { "412" } rader, rullningsbart

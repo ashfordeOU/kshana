@@ -1231,4 +1231,4 @@ seg-e507665bbe2c = Motor v{ $version } · { "93" } tipos de cenário de <c1/> ·
 
 seg-7515b1af1f0b = Todos os { "93" } tipos de cenário e { "183" } cenários incluídos: nativo, Python, JavaScript, no navegador e por MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = A matriz de verificação completa: { "176" } de { "405" } capacidades validadas face a referências independentes, as demais etiquetadas como modeladas
+seg-43711d15e734 = A matriz de verificação completa: { "176" } de { "412" } capacidades validadas face a referências independentes, as demais etiquetadas como modeladas

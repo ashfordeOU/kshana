@@ -819,4 +819,4 @@ seg-e507665bbe2c = Moottori v{ $version } · { "93" } tyyppiä lähteestä <c1/>
 
 seg-7515b1af1f0b = Kaikki { "93" } skenaariotyyppiä ja { "183" } mukana toimitettua skenaariota: natiivisti, Pythonilla, JavaScriptillä, selaimessa ja MCP:n (Model Context Protocol) kautta
 
-seg-ecca1eecd0cc = Koko varmennusmatriisi: { "405" } ominaisuudesta { "176" } validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi
+seg-43711d15e734 = Koko varmennusmatriisi: { "412" } ominaisuudesta { "176" } validoitu riippumattomia oraakkeleita vastaan, loput merkitty mallinnetuiksi

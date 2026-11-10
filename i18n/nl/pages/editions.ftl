@@ -818,4 +818,4 @@ seg-e507665bbe2c = Engine v{ $version } · { "93" } soorten uit <c1/> · registe
 
 seg-7515b1af1f0b = Alle { "93" } scenariosoorten en { "183" } meegeleverde scenario's: native, Python, JavaScript, in de browser en via MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = De volledige verificatiematrix: { "176" } van { "405" } mogelijkheden gevalideerd tegen onafhankelijke referenties, de rest gelabeld als gemodelleerd
+seg-43711d15e734 = De volledige verificatiematrix: { "176" } van { "412" } mogelijkheden gevalideerd tegen onafhankelijke referenties, de rest gelabeld als gemodelleerd

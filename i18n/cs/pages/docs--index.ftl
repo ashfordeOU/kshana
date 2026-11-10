@@ -238,6 +238,6 @@ seg-b23a9bd3ccfa = <s1>Reference scénářů</s1><s2>Každý přibalený soubor 
 
 seg-a7dc2bc0a77d = { "93" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.
 
-seg-f950b0ba9160 = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "405" } řádků — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Reference schopností</s1><s2>Karty schopností a všech { "405" } řádků verifikační matice.</s2>
+seg-7fd385494ae0 = <s1>Reference schopností</s1><s2>Karty schopností a všech { "412" } řádků verifikační matice.</s2>

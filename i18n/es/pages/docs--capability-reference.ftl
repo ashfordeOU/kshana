@@ -4072,4 +4072,4 @@ seg-953a8b4f9f41 = Ninguna externa todavía. Solo ejecuciones sintéticas de ida
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de escenario, { "3334" } de { "3334" } campos numéricos
 
-seg-5576293ba3aa = Las { "61" } fichas de capacidades de <c1/>, y luego las { "405" } filas de la matriz de verificación.
+seg-877f989ae75e = Las { "61" } fichas de capacidades de <c1/>, y luego las { "412" } filas de la matriz de verificación.

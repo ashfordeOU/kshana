@@ -2644,4 +2644,4 @@ seg-953a8b4f9f41 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cyk
 
 seg-d5a79853b72f = { "93" } z { "93" } rodzajów, { "3334" } z { "3334" } pól liczbowych
 
-seg-5576293ba3aa = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "405" } wierszy macierzy weryfikacji.
+seg-877f989ae75e = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "412" } wierszy macierzy weryfikacji.

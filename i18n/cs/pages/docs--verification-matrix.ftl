@@ -2167,8 +2167,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } z { "5900" } bloků proti { "99" } % binomickému intervalu [{ "40" }, { "80" }] pro P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, poměr { "0.0131" } proti { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } proti { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (striktní, ignorován s mezerou); testy iq::campaign::detect; testy iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (zafixované otisky jsou bez tabulky nezměněny)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } na uvedených událostech, které nic neutlumují); r1_the_cn0_drop_roc_separates_6_db_attenuations (striktní, ignorován s mezerou); testy iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -3593,6 +3591,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
 
-seg-9d7b242850ee = Úplný, strojově kontrolovaný registr důkazů: <b>{ "405" } řádků — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
+seg-db7a6ac0a47d = Úplný, strojově kontrolovaný registr důkazů: <b>{ "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
 
-seg-3ca919e147c4 = { "405" } řádků: { "176" } vnějšně ověřeno, { "225" } modelováno, { "4" } ve vlastnictví partnera.
+seg-1cc523709234 = { "412" } řádků: { "176" } vnějšně ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera.

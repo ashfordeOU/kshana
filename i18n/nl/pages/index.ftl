@@ -718,10 +718,10 @@ seg-579d9b6f7afd = Alle { "93" } scenariosoorten, gratis zonder functiepoort, de
 
 seg-56bf1281e330 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "53" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-24d919eaaba3 = { "176" } van { "405" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.
+seg-237d8bd201d2 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
-seg-83124d433ad9 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-98ebce268546 = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
 
-seg-d0311672298c = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
+seg-bb2975f5a7dd = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
 
-seg-92bb1f3f7822 = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
+seg-ee04b167d80a = { "176" } van { "412" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.

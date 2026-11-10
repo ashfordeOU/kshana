@@ -818,4 +818,4 @@ seg-e507665bbe2c = Motor v{ $version } · { "93" } typer fra <c1/> · registerst
 
 seg-7515b1af1f0b = Alle { "93" } scenariotyper og { "183" } medfølgende scenarier: native, Python, JavaScript, i nettleseren og over MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = Den fulle verifikasjonsmatrisen: { "176" } av { "405" } funksjoner validert mot uavhengige referanser, resten merket modellert
+seg-43711d15e734 = Den fulle verifikasjonsmatrisen: { "176" } av { "412" } funksjoner validert mot uavhengige referanser, resten merket modellert

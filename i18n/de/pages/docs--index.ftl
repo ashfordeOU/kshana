@@ -347,6 +347,6 @@ seg-b23a9bd3ccfa = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei
 
 seg-a7dc2bc0a77d = { "93" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.
 
-seg-f950b0ba9160 = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "405" } Zeilen — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "412" } Zeilen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "405" } Zeilen der Verifikationsmatrix.</s2>
+seg-7fd385494ae0 = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "412" } Zeilen der Verifikationsmatrix.</s2>

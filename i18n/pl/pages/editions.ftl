@@ -825,4 +825,4 @@ seg-e507665bbe2c = Silnik v{ $version } · { "93" } rodzajów z <c1/> · status 
 
 seg-7515b1af1f0b = Wszystkie { "93" } rodzaje scenariuszy i { "183" } dołączone scenariusze: natywnie, w Pythonie, w JavaScripcie, w przeglądarce i przez MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = Pełna macierz weryfikacji: { "176" } z { "405" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane
+seg-43711d15e734 = Pełna macierz weryfikacji: { "176" } z { "412" } możliwości sprawdzonych względem niezależnych wyroczni, pozostałe oznaczone jako modelowane

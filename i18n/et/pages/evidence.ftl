@@ -4555,9 +4555,6 @@ seg-a1c022c60fb6 = Inertsiaal-, liit- ja alternatiivne PNT
 seg-b355dc732d29 = Signaalid ja häired
 
 # text
-seg-fb01a581d5ee = { "28" }-st kontrollitud
-
-# text
 seg-d6c43e56d4cc = Missioonianalüüs, kvaliteedi tagamine ja muu
 
 # text
@@ -6256,36 +6253,44 @@ seg-43f852e4bee8 = { "74" }-st valideeritud
 
 seg-8fe12f6058c6 = { "26" }-st valideeritud
 
-seg-2ed2d817f56e = { "405" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "225" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
-
-seg-07aef8ff8fe3 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "225" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
-
-seg-81464c684074 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "405" } rida · stsenaariumi ega algväärtust pole: mootori enda register
-
-seg-c54618ee87bb = { "176" }<s1>{ "405" }-st valideeritud</s1>
-
-seg-9984e76b5b28 = Kontrollimaatriks: { "176" } valideeritud, { "225" } modelleeritud, { "4" } partneri omanduses, kokku { "405" }
-
-seg-46e93e2ebc71 = Kõik { "405" } rida, igaüks ühel real.
-
-seg-ebec0449ab03 = Kõik { "405" }
-
-seg-bcf766efe1ab = Modelleeritud { "225" }
-
-seg-cea55077f323 = Valideerimisregister, { "405" } rida, keritav
-
 seg-65122c2bb1fc = { "104" }-st valideeritud
 seg-2998c6fa20d6 = { "79" }-st valideeritud
 seg-4b3ab6095c65 = { "56" }-st kontrollitud
 
-seg-7ccfb90a1b22 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-0c637f4b6c88 = { "412" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "232" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
 
-seg-3049f77a1f2b = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-c2c3179c1316 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "232" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
 
-seg-b7a6adb6c48d = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-a2cdd2df1b36 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "412" } rida · stsenaariumi ega algväärtust pole: mootori enda register
 
-seg-322243e4b2ce = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+seg-b36352ff4d2a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-c81354db10ba = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-edd1aba6a08c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
 
-seg-a036eba668b8 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+seg-90efc3759f07 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-094876c75564 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+
+seg-1c7e4b85e701 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-f42398e9711c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+seg-07e8ef5a102f = { "176" }<s1>{ "412" }-st valideeritud</s1>
+
+seg-4873cd813b9a = Kontrollimaatriks: { "176" } valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses, kokku { "412" }
+
+seg-98b273ce8773 = Kõik { "412" } rida, igaüks ühel real.
+
+seg-7780d0588bd2 = { "20" }-st kontrollitud
+
+seg-00d97be31745 = { "81" }-st kontrollitud
+
+seg-04cc15e9a93c = { "31" }-st kontrollitud
+
+seg-2de2a4f9f3f7 = { "57" }-st kontrollitud
+
+seg-c321a2dafd3e = Kõik { "412" }
+
+seg-bc4726a0baf1 = Modelleeritud { "232" }
+
+seg-40e80b22723c = Valideerimisregister, { "412" } rida, keritav

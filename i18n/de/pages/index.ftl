@@ -1136,10 +1136,10 @@ seg-579d9b6f7afd = Alle { "93" } Szenarioarten, kostenlos und ohne Funktionssper
 
 seg-56bf1281e330 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model Context Protocol, Engine v{ $version }): Der Assistent listet die { "53" } Werkzeuge auf, validiert <c1/> (gültig: erkannte Szenarioart `clock`) und führt es aus: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
 
-seg-24d919eaaba3 = { "176" } von { "405" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
+seg-237d8bd201d2 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
-seg-83124d433ad9 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-98ebce268546 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
 
-seg-d0311672298c = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
+seg-bb2975f5a7dd = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
 
-seg-92bb1f3f7822 = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
+seg-ee04b167d80a = { "176" } von { "412" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.
