@@ -3579,9 +3579,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
 # text
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } de { "5900" } bloques frente al intervalo binomial del { "99" } % [{ "40" }, { "80" }] de P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, razón { "0.0131" } frente a { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } frente a { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (estricta, ignorada con la diferencia); pruebas de iq::campaign::detect; pruebas de iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (los resúmenes fijados no cambian sin la tabla)
-
-# text
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 # text
@@ -5417,6 +5414,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = pruebas unitarias de interference_map::emitter (ida y vuelta de la proyección, cifra del horizonte, ida y vuelta sintéticas directa e inversa: el emisor conocido queda dentro de la región indicada con aproximadamente la tasa indicada, casos límite, agrupación en sesiones, perfil, privacidad y redacción); casos de locate de tests/interference_map_cli.rs
 
-seg-9d7b242850ee = El registro de evidencias completo y verificado por máquina: <b>{ "405" } filas — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Una fila solo puede ser VALIDATED con una referencia independiente externa (las pruebas de invariantes de la matriz lo hacen cumplir). Los mismos datos, con enlaces en los que se puede hacer clic por fila a cada prueba, módulo y archivo de prueba confirmado, son el <em>Registro de validación</em> de <a1>https://kshana.dev</a1>. Véase <a2>MODELLED-RATIONALE.md</a2> para saber por qué cada fila modelada no está validada externamente.
+seg-db7a6ac0a47d = El registro de evidencias completo y verificado por máquina: <b>{ "412" } filas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Una fila solo puede ser VALIDATED con una referencia independiente externa (las pruebas de invariantes de la matriz lo hacen cumplir). Los mismos datos, con enlaces en los que se puede hacer clic por fila a cada prueba, módulo y archivo de prueba confirmado, son el <em>Registro de validación</em> de <a1>https://kshana.dev</a1>. Véase <a2>MODELLED-RATIONALE.md</a2> para saber por qué cada fila modelada no está validada externamente.
 
-seg-3ca919e147c4 = { "405" } filas: { "176" } validadas externamente, { "225" } modeladas, { "4" } propiedad de socios.
+seg-1cc523709234 = { "412" } filas: { "176" } validadas externamente, { "232" } modeladas, { "4" } propiedad de socios.

@@ -1010,8 +1010,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } z { "5900" } bloków wobec { "99" } % przedziału dwumianowego [{ "40" }, { "80" }] dla P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, stosunek { "0.0131" } wobec { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } wobec { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (ścisły, ignorowany z tą luką); testy iq::campaign::detect; testy iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (przypięte skróty są niezmienione bez tabeli)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } dla podanych zdarzeń, które niczego nie tłumią); r1_the_cn0_drop_roc_separates_6_db_attenuations (ścisły, ignorowany z tą luką); testy iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -2015,4 +2013,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = testy jednostkowe interference_map::emitter (cykl projekcji, wartość horyzontu, syntetyczne pełne cykle prosty i odwrotny: znany emiter leży wewnątrz podanego obszaru z mniej więcej podaną częstością, przypadki brzegowe, grupowanie sesji, profil, prywatność i sformułowania); przypadki locate w tests/interference_map_cli.rs
 
-seg-7a83829ca355 = { "225" } możliwości oznaczonych MODELLED.
+seg-474381d842e6 = { "232" } możliwości oznaczonych MODELLED.

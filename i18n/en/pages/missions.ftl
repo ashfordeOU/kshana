@@ -1114,9 +1114,9 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Real engine run, replayed
 
 # text
-# c1: 77ee2bc
+# c1: 660db8d
 # c2: constellation-multi-gnss-coverage.toml
-seg-5c86fa79a863 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-67a6c0107bcd = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # attr:title
 seg-f70fa3b93b11 = The engine's own report of this run

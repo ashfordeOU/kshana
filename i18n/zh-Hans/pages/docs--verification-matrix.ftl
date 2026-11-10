@@ -2311,8 +2311,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form（{ "5900" }个块中{ "73" }个，对照P_fa { "0.01" }的{ "99" } % 二项区间 [{ "40" }, { "80" }]），m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k（delta { "0.0160" }，比值{ "0.0131" }，对照{ "0.01" }），m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0（{ "0" }对照{ "0" }），the_monitors_table_parses_and_validates；m3_every_attenuation_is_detected_within_twice_the_arl1（严格，因该缺口而被忽略）；iq::campaign::detect测试；iq::monitor::stats测试（gaussian_two_sided_tail_matches_known_values）；tests/iq_campaign.rs（没有该表时，已固定的摘要保持不变）
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance（在不衰减任何信号的既定事件上，AUC cn0_drop { "0.500" }，sqm_delta { "0.566" }，power_drop { "0.639" }）；r1_the_cn0_drop_roc_separates_6_db_attenuations（严格，因该缺口而被忽略）；iq::campaign::detect测试（the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events）
@@ -3554,6 +3552,6 @@ seg-b5b1125d515c = <c1/> 类型与阶段：沿航迹带有比力的动力上升�
 
 seg-76e0d23b7483 = 测试中包含闭式惯性漂移和单调性检查。未与任何已飞行的上升进行比较
 
-seg-9d7b242850ee = 完整的、经机器检查的证据台账：<b>{ "405" }行——{ "176" }行VALIDATED，{ "225" }行MODELLED，{ "4" }行PARTNER</b>。只有具备独立的外部参考基准时，一行才可以是VALIDATED（矩阵不变式测试强制执行这一点）。同样的数据，带有指向每个测试、模块和已提交测试夹具的可点击的逐行链接，即<a1>https://kshana.dev</a1>上的<em>验证台账</em>。每个由模型计算的行为何没有经过外部验证，见<a2>MODELLED-RATIONALE.md</a2>。
+seg-db7a6ac0a47d = 完整的、经机器检查的证据台账：<b>{ "412" }行——{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER</b>。只有具备独立的外部参考基准时，一行才可以是VALIDATED（矩阵不变式测试强制执行这一点）。同样的数据，带有指向每个测试、模块和已提交测试夹具的可点击的逐行链接，即<a1>https://kshana.dev</a1>上的<em>验证台账</em>。每个由模型计算的行为何没有经过外部验证，见<a2>MODELLED-RATIONALE.md</a2>。
 
-seg-3ca919e147c4 = { "405" }行：{ "176" }行已通过外部验证，{ "225" }行由模型计算，{ "4" }行由合作方负责。
+seg-1cc523709234 = { "412" }行：{ "176" }行已通过外部验证，{ "232" }行由模型计算，{ "4" }行由合作方负责。

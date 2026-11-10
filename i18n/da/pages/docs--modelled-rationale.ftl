@@ -1202,8 +1202,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } af { "5900" } blokke mod det binomiale { "99" } %-interval [{ "40" }, { "80" }] for P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, forhold { "0.0131" } mod { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } mod { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (streng, ignoreret med hullet); iq::campaign::detect-tests; iq::monitor::stats-tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (de fastlåste digests er uændrede uden tabellen)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } på angivne hændelser, der ikke dæmper noget); r1_the_cn0_drop_roc_separates_6_db_attenuations (streng, ignoreret med hullet); iq::campaign::detect-tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -2002,4 +2000,4 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
 
-seg-7a83829ca355 = { "225" } funktioner betegnet MODELLED.
+seg-474381d842e6 = { "232" } funktioner betegnet MODELLED.

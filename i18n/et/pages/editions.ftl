@@ -1231,4 +1231,4 @@ seg-e507665bbe2c = Mootor v{ $version } · { "93" } liiki failist <c1/> · regis
 
 seg-7515b1af1f0b = Kõik { "93" } stsenaariumi liiki ja { "183" } kaasasolevat stsenaariumi: natiivselt, Pythonis, JavaScriptis, brauseris ja MCP kaudu (Model Context Protocol)
 
-seg-ecca1eecd0cc = Täielik kontrollimaatriks: { "176" } võimekust { "405" }-st on valideeritud sõltumatute etalonide vastu, ülejäänud on märgitud modelleeritud
+seg-43711d15e734 = Täielik kontrollimaatriks: { "176" } võimekust { "412" }-st on valideeritud sõltumatute etalonide vastu, ülejäänud on märgitud modelleeritud
