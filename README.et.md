@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Pideva integratsiooni olek harul main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Ridade kaetus ligikaudu 95 % kataloogist src/, mõõdetud failis docs/COVERAGE.md ja pidevas integratsioonis nõutud vähemalt 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="405 võimekusest 176 on VALIDATED sõltumatu välise oraakli vastu, kontrollimaatriksi järgi"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="412 võimekusest 176 on VALIDATED sõltumatu välise oraakli vastu, kontrollimaatriksi järgi"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloudi kvaliteedivärava olek"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Väljalase v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Inglise keel ja veel 17 keelt, masintõlkena"></a>
@@ -118,7 +118,7 @@ või **PARTNER** (selle omanik on riistvarapartner).
 
 0.40 lisab missioonitaseme veaeelarve, märgistab iga joonise ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid,
 kontrollib andmepartnerite esitusi, hindab, kus häireallikas võib asuda, ning räägib inglise keele kõrval seitseteist keelt.
-Registris on nüüd 405 rida: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ja iga allpool
+Registris on nüüd 412 rida: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ja iga allpool
 nimetatud möödalask on testiga fikseeritud.
 
 - **Missiooni lõng.** Liik `mission-thread` aheldab faasid stardist sisenemiseni (`launch-ascent`, `leo-rendezvous`,
@@ -1030,7 +1030,7 @@ millest alustada.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 kontrollitud kõigi 666 AIAA 2006-6753 etalonvektori vastu, halvim asukohaviga 4.12 mm"></a></p>
 
-<strong>405-st 176</strong> võimekust on valideeritud sõltumatute väliste oraaklite vastu; 225 on ausalt märgitud modelleerituks.
+<strong>412-st 176</strong> võimekust on valideeritud sõltumatute väliste oraaklite vastu; 232 on ausalt märgitud modelleerituks.
 Kontrollimaatriksi iga rida nimetab võimekuse, oraakli, mille vastu seda kontrollitakse,
 testi, mis kontrolli käivitab, ja sellest tuleneva sildi. Pidev integratsioon (CI) teeb
 võimatuks nimetada võimekust VALIDATED ilma sõltumatu välise oraaklita.
@@ -1038,13 +1038,13 @@ võimatuks nimetada võimekust VALIDATED ilma sõltumatu välise oraaklita.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Kuidas võimekus oma sildi välja teenib. Kontrollimaatriksi iga rida nimetab võimekuse, oraakli, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ja sellest tuleneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise oraakliga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiritused, pakett-/järjestikune OD, oraakel AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Reaalajas arvud: 405 reast 176 VALIDATED, 225 MODELLED, 4 PARTNER. Kokku on 176 võimekust valideeritud sõltumatute väliste oraaklite vastu; veel 225 on ausalt märgitud MODELLED ja 4 kuuluvad PARTNERile." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Kuidas võimekus oma sildi välja teenib. Kontrollimaatriksi iga rida nimetab võimekuse, oraakli, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ja sellest tuleneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise oraakliga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiritused, pakett-/järjestikune OD, oraakel AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Reaalajas arvud: 412 reast 176 VALIDATED, 232 MODELLED, 4 PARTNER. Kokku on 176 võimekust valideeritud sõltumatute väliste oraaklite vastu; veel 232 on ausalt märgitud MODELLED ja 4 kuuluvad PARTNERile." width="100%">
 </picture>
 
 | Silt | Read | Tähendus |
 |---|---|---|
 | VALIDATED | 176 | sõltumatu väline oraakel on nõus: päris andmed, sõltumatu teostus või avaldatud etalonvektorid |
-| MODELLED | 225 | kontrollitud analüütilise tõe või simulatsiooni enesejärjepidevuse vastu, ja see öeldakse välja |
+| MODELLED | 232 | kontrollitud analüütilise tõe või simulatsiooni enesejärjepidevuse vastu, ja see öeldakse välja |
 | PARTNER | 4 | omanik on riistvarapartner; Kshanal ei ole selle jaoks oraaklit |
 
 Mõned kontrollid: kõik 666 AIAA (American Institute of Aeronautics and Astronautics)
@@ -1053,7 +1053,7 @@ Mõned kontrollid: kõik 666 AIAA (American Institute of Aeronautics and Astrona
 päris täppisefemeriidide vastu. Testid hoiavad kataloogi `src/` ridade kaetust ligikaudu 95 % juures,
 CI-s nõutud vähemalt 85 %. Register on
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), genereeritud failist
-`src/verification.rs`: [täielik 405-realine maatriks](docs/VERIFICATION-MATRIX.md) ning see, miks igal
+`src/verification.rs`: [täielik 412-realine maatriks](docs/VERIFICATION-MATRIX.md) ning see, miks igal
 modelleeritud real puudub väline oraakel, failis [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1086,7 +1086,7 @@ ei saa kunagi väita rohkem kui register. Read, olekud ja id-d loetakse maatriks
 ### Valideerimine ühe pilguga
 
 Iga rida jõustatakse CI-s nimetatud testiga. See tabel on **kureeritud esiletõst**;
-täielik masinkontrollitud maatriks on **405 rida — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+täielik masinkontrollitud maatriks on **412 rida — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), koos täielike tõenditega (ja sellega, mis on ausalt *veel*
 valideerimata) failis [`docs/VALIDATION.md`](docs/VALIDATION.md) ja väljalaskepõhises
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1138,7 +1138,7 @@ Veerg **Olek** esitab tõendi *liigi*, vastavalt ülaltoodud valideerimisredelil
 | CI | Testide kaetus | **~95 % ridadest** kataloogis `src/`, välja arvatud `src/*_data.rs` ja `src/main.rs`, nõutud ≥ 85 % | cargo-tarpaulin (LLVM mootor) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Kuidas võimekus oma sildi välja teenib: nõue seotakse mooduliga kataloogis src, testiga kataloogis tests, välise oraakliga (päris andmekogum, sõltumatu etalonteostus või avaldatud vektorid) ja olekuga — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise oraaklita. Reaalajas arvud: 176 valideeritud, 225 modelleeritud, 4 partneri, kokku 405" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Kuidas võimekus oma sildi välja teenib: nõue seotakse mooduliga kataloogis src, testiga kataloogis tests, välise oraakliga (päris andmekogum, sõltumatu etalonteostus või avaldatud vektorid) ja olekuga — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise oraaklita. Reaalajas arvud: 176 valideeritud, 232 modelleeritud, 4 partneri, kokku 412" width="900">
   <br><sub>Kuidas võimekus oma sildi välja teenib — CI-s jõustatud invariant: välist oraaklit pole ⇒ ei saa olla valideeritud · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1150,8 +1150,8 @@ Veerg **Olek** esitab tõendi *liigi*, vastavalt ülaltoodud valideerimisredelil
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Kontrolli olek kõigi 405 võimekuse lõikes: 176 valideeritud (kontrollitud välise oraakli vastu), 225 modelleeritud, 4 partneri omanduses" width="780">
-  <br><sub>176 valideeritud · 225 modelleeritud · 4 partneri — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Kontrolli olek kõigi 412 võimekuse lõikes: 176 valideeritud (kontrollitud välise oraakli vastu), 232 modelleeritud, 4 partneri omanduses" width="780">
+  <br><sub>176 valideeritud · 232 modelleeritud · 4 partneri — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1261,7 +1261,7 @@ peal eraldi kihina, mis sõltub mootorist ega hargne sellest kunagi.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana arhitektuur: keskel üks avatud mootor, kshana 0.40.0 litsentsi AGPL-3.0 all, koos api::run_toml-iga, tüübitud jaotusega iga liigi üle, ja 405 võimekuse kontrolliregistriga (176 VALIDATED, 225 MODELLED, 4 PARTNER). Selle ümber käitab iga liides sama mootorit: Käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker-tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: &quot;Kshana&quot;). Selle all Kshana Pro, omandkiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana arhitektuur: keskel üks avatud mootor, kshana 0.40.0 litsentsi AGPL-3.0 all, koos api::run_toml-iga, tüübitud jaotusega iga liigi üle, ja 412 võimekuse kontrolliregistriga (176 VALIDATED, 232 MODELLED, 4 PARTNER). Selle ümber käitab iga liides sama mootorit: Käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker-tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: &quot;Kshana&quot;). Selle all Kshana Pro, omandkiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit." width="100%">
 </picture>
 
 <details>
@@ -1270,7 +1270,7 @@ peal eraldi kihina, mis sõltub mootorist ega hargne sellest kunagi.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana arhitektuur kihtidena. Viis välisust (käsurida, Python, JavaScript ja WebAssembly, MCP server ja JetBrainsi pistikprogramm) jõuavad ühe api::run_toml-ini, tüübitud jaotuseni 92 liigi üle. Selle all on kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaalne ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal, kõik ristviidatud kontrollimooduli kaudu, mis on 405 võimekuse masinkontrollitud maatriks ja iga sildi ainus tõeallikas." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana arhitektuur kihtidena. Viis välisust (käsurida, Python, JavaScript ja WebAssembly, MCP server ja JetBrainsi pistikprogramm) jõuavad ühe api::run_toml-ini, tüübitud jaotuseni 92 liigi üle. Selle all on kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaalne ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal, kõik ristviidatud kontrollimooduli kaudu, mis on 412 võimekuse masinkontrollitud maatriks ja iga sildi ainus tõeallikas." width="100%">
 </picture>
 
 **Üks mootor, palju välisuksi.** Üks Rusti tuum (`kshana`) käivitab iga stsenaariumi,

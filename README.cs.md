@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Stav průběžné integrace na větvi main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Řádkové pokrytí blízko 95 % adresáře src/, měřené v docs/COVERAGE.md a v průběžné integraci hlídané na 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 ze 405 schopností VALIDATED proti nezávislému vnějšímu orákulu, podle verifikační matice"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 ze 412 schopností VALIDATED proti nezávislému vnějšímu orákulu, podle verifikační matice"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Stav brány kvality SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Vydání v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Angličtina a 17 dalších jazyků, strojově přeloženo"></a>
@@ -118,7 +118,7 @@ nebo **PARTNER** (vlastní ji hardwarový partner).
 
 0.40 přidává rozpočet chyb na úrovni mise, označuje každý obrázek a tabulku jeho úrovní důkazů, čte naměřené logy hodin,
 kontroluje příspěvky datových partnerů, odhaduje, kde se může nacházet zdroj interference, a mluví sedmnácti jazyky vedle angličtiny.
-Registr má nyní 405 řádků: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé selhání níže je
+Registr má nyní 412 řádků: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé selhání níže je
 zafixováno testem.
 
 - **Misijní vlákno.** Druh `mission-thread` řetězí fáze od startu po vstup do atmosféry (`launch-ascent`, `leo-rendezvous`,
@@ -1031,7 +1031,7 @@ lze začít.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 zkontrolováno proti všem 666 referenčním vektorům AIAA 2006-6753, nejhorší chyba polohy 4.12 mm"></a></p>
 
-<strong>176 ze 405</strong> schopností je ověřeno proti nezávislým vnějším orákulům; 225 je poctivě označeno jako Modelled.
+<strong>176 ze 412</strong> schopností je ověřeno proti nezávislým vnějším orákulům; 232 je poctivě označeno jako Modelled.
 Každý řádek verifikační matice jmenuje schopnost, orákulum, proti kterému je kontrolována,
 test, který kontrolu provádí, a označení, které z toho plyne. Průběžná integrace (CI) znemožňuje
 označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
@@ -1039,13 +1039,13 @@ označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Jak schopnost získává své označení. Každý řádek verifikační matice jmenuje schopnost, orákulum, proti kterému je kontrolována, test, který kontrolu provádí v průběžné integraci, a označení, které z toho plyne. Řádek smí být VALIDATED pouze s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, když jej vlastní hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + perturbace, dávkové/sekvenční OD, orákulum verifikační vektory SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: 176 VALIDATED, 225 MODELLED, 4 PARTNER ze 405 řádků. Celkem 176 schopností ověřeno proti nezávislým vnějším orákulům; dalších 225 je poctivě označeno MODELLED a 4 vlastní PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Jak schopnost získává své označení. Každý řádek verifikační matice jmenuje schopnost, orákulum, proti kterému je kontrolována, test, který kontrolu provádí v průběžné integraci, a označení, které z toho plyne. Řádek smí být VALIDATED pouze s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, když jej vlastní hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + perturbace, dávkové/sekvenční OD, orákulum verifikační vektory SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: 176 VALIDATED, 232 MODELLED, 4 PARTNER ze 412 řádků. Celkem 176 schopností ověřeno proti nezávislým vnějším orákulům; dalších 232 je poctivě označeno MODELLED a 4 vlastní PARTNER." width="100%">
 </picture>
 
 | Označení | Řádky | Význam |
 |---|---|---|
 | VALIDATED | 176 | souhlasí nezávislé vnější orákulum: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory |
-| MODELLED | 225 | kontrolováno proti analytické pravdě nebo vnitřní konzistenci simulace, a to otevřeně řečeno |
+| MODELLED | 232 | kontrolováno proti analytické pravdě nebo vnitřní konzistenci simulace, a to otevřeně řečeno |
 | PARTNER | 4 | vlastní hardwarový partner; Kshana pro to nemá žádné orákulum |
 
 Několik z kontrol: všech 666 vektorů AIAA (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ model na 0.08 m proti Orekit 12.2; Galileo na 0.61 m a Swarm-A na 0.10 m proti s
 přesným efemeridám Evropské kosmické agentury (ESA). Testy drží řádkové pokrytí `src/` blízko 95 %,
 v CI hlídané na 85 %. Registrem je
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generovaný ze
-`src/verification.rs`: [úplná matice o 405 řádcích](docs/VERIFICATION-MATRIX.md) a proč každý
+`src/verification.rs`: [úplná matice o 412 řádcích](docs/VERIFICATION-MATRIX.md) a proč každý
 řádek Modelled nemá vnější orákulum, viz [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ nikdy nemůže tvrdit víc než registr. Řádky, stavy a id se čtou z matice, 
 ### Validace v kostce
 
 Každý řádek je v CI vynucen pojmenovaným testem. Tato tabulka je **vybraný přehled hlavních bodů**;
-úplná strojově kontrolovaná matice má **405 řádků — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+úplná strojově kontrolovaná matice má **412 řádků — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), s úplnými důkazy (a tím, co poctivě *ještě není*
 ověřeno) v [`docs/VALIDATION.md`](docs/VALIDATION.md) a v artefaktu pro každé vydání
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ Sloupec **Stav** uvádí *druh* důkazu, v souladu s žebříčkem validace vý�
 | CI | Pokrytí testy | **~95 % řádků** na `src/` bez `src/*_data.rs` a `src/main.rs`, hlídáno na ≥ 85 % | cargo-tarpaulin (engine LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak schopnost získává své označení: požadavek se mapuje na modul v src, na test v tests, na vnější orákulum (skutečná datová sada, nezávislá referenční implementace nebo zveřejněné vektory), na stav — s pojistkou vynucenou v CI, že žádná schopnost nemůže být Validated bez vnějšího orákula. Aktuální počty: 176 Validated, 225 Modelled, 4 Partner, celkem 405" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak schopnost získává své označení: požadavek se mapuje na modul v src, na test v tests, na vnější orákulum (skutečná datová sada, nezávislá referenční implementace nebo zveřejněné vektory), na stav — s pojistkou vynucenou v CI, že žádná schopnost nemůže být Validated bez vnějšího orákula. Aktuální počty: 176 Validated, 232 Modelled, 4 Partner, celkem 412" width="900">
   <br><sub>Jak schopnost získává své označení — invariant vynucený v CI: žádné vnější orákulum ⇒ nemůže být Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ Sloupec **Stav** uvádí *druh* důkazu, v souladu s žebříčkem validace vý�
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Stav verifikace všech 405 schopností: 176 Validated (zkontrolováno proti vnějšímu orákulu), 225 Modelled, 4 ve vlastnictví partnera" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Stav verifikace všech 412 schopností: 176 Validated (zkontrolováno proti vnějšímu orákulu), 232 Modelled, 4 ve vlastnictví partnera" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ navrchu jako samostatná nadstavba, která na enginu závisí a nikdy jej nefork
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: uprostřed jeden otevřený engine, kshana 0.40.0 pod AGPL-3.0, s api::run_toml, typovaným rozcestníkem nad každým druhem, a verifikačním registrem 405 schopností (176 VALIDATED, 225 MODELLED, 4 PARTNER). Kolem něj každé rozhraní spouští stejný engine: Příkazový řádek (cargo install kshana); Knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Server MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin pro JetBrains (Marketplace: &quot;Kshana&quot;). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně a nikdy jej neforkuje, a nepřidává žádný fyzikální model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: uprostřed jeden otevřený engine, kshana 0.40.0 pod AGPL-3.0, s api::run_toml, typovaným rozcestníkem nad každým druhem, a verifikačním registrem 412 schopností (176 VALIDATED, 232 MODELLED, 4 PARTNER). Kolem něj každé rozhraní spouští stejný engine: Příkazový řádek (cargo install kshana); Knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Server MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin pro JetBrains (Marketplace: &quot;Kshana&quot;). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně a nikdy jej neforkuje, a nepřidává žádný fyzikální model." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ navrchu jako samostatná nadstavba, která na enginu závisí a nikdy jej nefork
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Architektura Kshana ve vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a plugin pro JetBrains) dosahuje na jeden api::run_toml, typovaný rozcestník nad 92 druhy. Pod ním leží osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, na sdíleném jádru, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí 405 schopností, která je jediným zdrojem pravdy pro každé označení." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Architektura Kshana ve vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a plugin pro JetBrains) dosahuje na jeden api::run_toml, typovaný rozcestník nad 92 druhy. Pod ním leží osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, na sdíleném jádru, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí 412 schopností, která je jediným zdrojem pravdy pro každé označení." width="100%">
 </picture>
 
 **Jeden engine, mnoho vstupních bran.** Jediné jádro v Rustu (`kshana`) spouští každý scénář,
