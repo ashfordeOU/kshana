@@ -255,8 +255,19 @@ X1. **Diagnosis (step 1).**
       on its own.
 X2. **Engine finding: satellite health (coordinator's answer, 10 November).**
     - `pvt::select_ephemeris` ignored `sv_health`. That is a fault whatever the algorithm.
-    - It now skips records with `sv_health ≠ 0`. A satellite with no healthy record within `MAX_EPH_AGE_S` is dropped
+    - It now skips records marked unhealthy. A satellite with no healthy record within `MAX_EPH_AGE_S` is dropped
       for that epoch. This is on by default, with no option to turn it off.
+    - **What "unhealthy" means, per system (amended 10 November, after the coordinator's test run).**
+      - **GPS:** any non-zero health value. IS-GPS-200 defines 0 as "all signals OK".
+      - **QZSS:** any bit but the least significant, `(health & 0xFE) ≠ 0`. That bit is the L1C/A-only flag;
+        RTKLIB's `rinex.c` applies the same mask. The first version of the fix read any non-zero QZSS value as
+        unhealthy, and so dropped J01 (health 1) from `BRDM00DLR_R_20130010000_01D_MN.rnx` in
+        `orbit::tests::constellation_from_a_real_broadcast_file_has_one_propagator_per_satellite`. That was a scope
+        error in the fix, not a value to re-pin.
+      - **Galileo and BeiDou:** not read, as before the fix. Their health bits are per signal (Galileo E1-B, E5a and
+        E5b health and data-validity bits; BeiDou `SatH1` with its signal flags). The right mask depends on the
+        signals a solve combines, so that rule is left to a separate change. B5 uses GPS only, so this does not
+        affect B5.
     - Every pinned value the fix moves is listed, old and new, in
       `docs/design/evidence/b5-area-trust/ENGINE-FINDING-HEALTH.md`. Results already scored stay published as
       recorded, each with a dated note pointing to the finding.
