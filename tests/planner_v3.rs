@@ -51,5 +51,9 @@ fn p4_v3_search_against_random_subsets() {
         serde_json::to_value(&got).unwrap(),
         "place and run_json disagree"
     );
-    assert!(got.objective >= best, "P4 v3 NOT MET: {} < {best}", got.objective);
+    assert!(
+        got.objective >= best,
+        "P4 v3 NOT MET: {} < {best}",
+        got.objective
+    );
 }
