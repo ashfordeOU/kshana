@@ -156,3 +156,37 @@ written or run.
 
   v1's P4 test sets `"greedy"` explicitly, so its recorded greedy miss still reproduces. Up to the exhaustive limit,
   `search` has no effect.
+
+## Readings of v3 (10 November 2026, before any v3 planner code)
+
+These read `docs/design/evidence/b1a-planner/PREREGISTRATION-v3.md`, signed off on 10 November 2026. They are
+committed with the v3 instance, before any v3 planner code. Readings 1 to 19 and the amendment stand unless changed
+here. Only P4 changes; P1 to P3, P5 and P6 are re-run unchanged with `tests/planner_v2.rs`.
+
+20. **P4 search (v3), one local search.** From a start subset:
+    - single exchange as reading 15 until no swap improves;
+    - then one double-exchange step: every pair of chosen positions `(p, q)` with `p < q`, ascending, against every
+      pair of unchosen indices `(a, b)` with `a < b`, ascending; `a` goes into position `p`, `b` into `q`, and
+      the subset is sorted. The move giving the best subset under reading 9's order is accepted when it is
+      strictly better than the current subset;
+    - if the double step improved, back to single exchange; otherwise the local search stops.
+21. **Restarts.** Eight starts, each followed by the local search of reading 20:
+    - start 0 is the greedy subset (reading 9);
+    - starts 1 to 7 are drawn from one ChaCha20 stream, seed `0xB1B1`, each as P4's random subsets are drawn:
+      a pool `0..N` in order, `m` times removing the element at `gen_range(0..len)`, then sorted.
+    - The best final subset under reading 9's order is kept. The output names the method
+      `greedy+exchange2+restarts`.
+22. **Which method runs.** The input's `search` field gains `"greedy+exchange2+restarts"`, which becomes the
+    default beyond the exhaustive limit. `"greedy+exchange"` (v2) and `"greedy"` (v1) stay available. The v1 and v2
+    tests set their method explicitly, so their recorded results reproduce; no committed v1 or v2 file changes.
+23. **P4 bar instance (v3).** `place_48_v3.json`: 48 candidates, `m` = 8, `C(48, 8)` = 377 348 994 subsets. It has
+    v1's source, receiver, grid and `σ_τ`, and `search` set to the v3 method.
+    - 6 rows by 8 columns; row `i` (0 to 5) at latitude `45 + (i − 2.5) · 6400 / k` degrees, column `j` (0 to 7)
+      at longitude `10 + (j − 3.5 ∓ 0.25) · (32000/7) / (k · cos 45°)` degrees (−0.25 on even rows, +0.25 on
+      odd rows), with `k = 6378137 · π / 180` m per degree; rounded to 1e-6 degree; height 10 m, gain 0 dBi.
+      (Rows 6.4 km apart, columns 32/7 km apart, alternate rows shifted by half a column.)
+    - SHA-256 of the file as committed: `caa9db0cfbc88443a2ce47697e504b2b27b471d995b8f1b3cb80ae59235d8770`.
+24. **P4 bar (unchanged).** The planner's objective ≥ the best of 1 000 random `m`-subsets drawn with ChaCha20
+    seed `0xB1B2`, as in reading 21, under the engine's objective.
+25. **The run.** The v3 test (`tests/planner_v3.rs`) runs once after the code is committed, and `RESULTS-v3.md`
+    records it with the v2 test's re-run. A miss is pinned. v1's and v2's misses stay published.
