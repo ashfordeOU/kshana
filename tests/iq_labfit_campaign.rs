@@ -1133,8 +1133,25 @@ fn d8a_row6_v2_batch() {
             _ => ("v2-fresh", 207_000),
         };
         let first = 10 * ((n - 4) % 5) as u64;
+        // Optional per-seed checkpoint (execution only): with KSHANA_D8A_ROW6_V2_PARTS set, each
+        // finished seed's two lines are kept there and a restarted batch skips them. Seeds are
+        // independent, and the batch file is assembled in seed order, so it is the same bytes.
+        let parts = std::env::var("KSHANA_D8A_ROW6_V2_PARTS")
+            .ok()
+            .map(|d| std::path::PathBuf::from(d).join(format!("{n:02}")));
+        if let Some(p) = &parts {
+            std::fs::create_dir_all(p).unwrap();
+        }
         for s in first..first + 10 {
             let seed = base + s;
+            let part = parts.as_ref().map(|p| p.join(format!("{seed}.json")));
+            if let Some(Ok(text)) = part.as_ref().map(std::fs::read_to_string) {
+                let v: serde_json::Value = serde_json::from_str(&text).unwrap();
+                fits.push(v["fit"].as_str().unwrap().to_string());
+                truths.push(v["truth"].as_str().unwrap().to_string());
+                eprintln!("ROW6V2 batch {n:02}: seed {seed} from its checkpoint");
+                continue;
+            }
             let out = build_campaign(
                 &format!("row6v2-b-{seed}"),
                 &recipe(seed, 5),
@@ -1150,6 +1167,12 @@ fn d8a_row6_v2_batch() {
                 .to_string(),
             );
             truths.push(truth_line(seed));
+            if let Some(p) = &part {
+                let tmp = p.with_extension("tmp");
+                let v = serde_json::json!({"fit": fits.last().unwrap(), "truth": truths.last().unwrap()});
+                std::fs::write(&tmp, v.to_string()).unwrap();
+                std::fs::rename(&tmp, p).unwrap();
+            }
             let _ = std::fs::remove_dir_all(out.parent().unwrap());
         }
     }
