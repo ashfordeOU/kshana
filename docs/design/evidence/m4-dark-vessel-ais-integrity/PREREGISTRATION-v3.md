@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration M4 v3 (0.41): manoeuvring dark tracks, global association, collision-tolerant onsets
 
-**Status: PROPOSED, 9 November 2026. Waiting for the owner's sign-off. No v3 code or seed before it.**
+**Status: SIGNED. Proposed 9 November 2026; signed off by the owner on 10 November 2026, as drafted. The v1 and v2 results stay published as NOT MET; no bar is loosened.**
 
 ## Why a v3
 

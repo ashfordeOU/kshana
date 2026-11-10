@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Pre-registration B3b (0.41.x): fixed-station jammer locator by time difference of arrival
 
-**Status: PROPOSED, 9 November 2026. Waiting for the owner's sign-off. No code or data before it.** Numbers marked
+**Status: SIGNED. Proposed 9 November 2026; signed off by the owner on 10 November 2026, as drafted.** Numbers marked
 *proposed* are fixed at sign-off. After sign-off, bars may be tightened, never loosened. Advisory software, not
 certified navigation equipment.
 
