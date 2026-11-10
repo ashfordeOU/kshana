@@ -319,9 +319,11 @@ pub fn klobuchar_from_nav_header(text: &str) -> Option<KlobucharCoeffs> {
 
 /// Select the broadcast ephemeris record for satellite `system`/`prn` whose
 /// reference time `Toe` is closest to the GPS time-of-week `tow_s`, within the
-/// fit interval [`MAX_EPH_AGE_S`]. Returns `None` if the satellite has no record
-/// inside the window. Week rollover is folded so a `Toe` just across a week
-/// boundary still matches.
+/// fit interval [`MAX_EPH_AGE_S`]. Records whose `sv_health` is not 0 are never
+/// selected: a satellite with no healthy record inside the window gives `None`
+/// and is left out of the fix (B5 v3 engine finding,
+/// `docs/design/evidence/b5-area-trust/ENGINE-FINDING-HEALTH.md`). Week rollover
+/// is folded so a `Toe` just across a week boundary still matches.
 pub fn select_ephemeris(
     ephs: &[RinexEphemeris],
     system: char,
@@ -330,7 +332,7 @@ pub fn select_ephemeris(
 ) -> Option<&RinexEphemeris> {
     let mut best: Option<(&RinexEphemeris, f64)> = None;
     for e in ephs {
-        if e.system != system || e.prn != prn {
+        if e.system != system || e.prn != prn || e.sv_health != 0.0 {
             continue;
         }
         let mut d = (e.toe - tow_s).abs();
@@ -1458,6 +1460,23 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         // PRN 2 is resolved independently of PRN 1.
         let s = select_ephemeris(&ephs, 'G', 2, 173_000.0).unwrap();
         assert_eq!(s.prn, 2);
+    }
+
+    #[test]
+    fn select_ephemeris_skips_unhealthy_records() {
+        // B5 v3 (ENGINE-FINDING-HEALTH.md): a nearer record marked unhealthy is passed over for a
+        // healthy one, and a satellite with only unhealthy records in the window gives None.
+        let base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut healthy = base;
+        healthy.toe = 172_800.0;
+        healthy.sv_health = 0.0;
+        let mut sick = base;
+        sick.toe = 174_600.0;
+        sick.sv_health = 63.0;
+        let ephs = vec![healthy, sick];
+        let s = select_ephemeris(&ephs, 'G', 1, 174_600.0).unwrap();
+        assert!((s.toe - 172_800.0).abs() < 1.0);
+        assert!(select_ephemeris(&[sick], 'G', 1, 174_600.0).is_none());
     }
 
     #[test]
