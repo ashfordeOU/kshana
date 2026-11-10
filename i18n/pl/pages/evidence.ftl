@@ -3202,8 +3202,6 @@ seg-a1c022c60fb6 = Inercjalne, fuzja i alternatywne PNT
 
 seg-b355dc732d29 = Sygnały i zakłócenia
 
-seg-fb01a581d5ee = z { "28" } sprawdzonych
-
 seg-d6c43e56d4cc = Analiza misji, zapewnienie jakości i inne
 
 seg-7038fab8b00c = Sprawdzone { "176" }
@@ -4096,36 +4094,44 @@ seg-43f852e4bee8 = z { "74" } sprawdzonych
 
 seg-8fe12f6058c6 = z { "26" } sprawdzonych
 
-seg-2ed2d817f56e = { "405" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "225" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
-
-seg-07aef8ff8fe3 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "225" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
-
-seg-81464c684074 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "405" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
-
-seg-c54618ee87bb = { "176" }<s1>z { "405" } sprawdzonych</s1>
-
-seg-9984e76b5b28 = Macierz weryfikacji: { "176" } sprawdzonych, { "225" } modelowanych, { "4" } należących do partnera, { "405" } łącznie
-
-seg-46e93e2ebc71 = Wszystkie { "405" } wierszy, po jednej linii.
-
-seg-ebec0449ab03 = Wszystkie { "405" }
-
-seg-bcf766efe1ab = Modelowane { "225" }
-
-seg-cea55077f323 = Rejestr walidacji, { "405" } wierszy, z przewijaniem
-
 seg-65122c2bb1fc = z { "104" } sprawdzonych
 seg-2998c6fa20d6 = z { "79" } sprawdzonych
 seg-4b3ab6095c65 = z { "56" } sprawdzonych
 
-seg-7ccfb90a1b22 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-0c637f4b6c88 = { "412" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "232" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
 
-seg-3049f77a1f2b = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-c2c3179c1316 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "232" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
 
-seg-b7a6adb6c48d = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-a2cdd2df1b36 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "412" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
 
-seg-322243e4b2ce = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+seg-b36352ff4d2a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-c81354db10ba = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-edd1aba6a08c = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
 
-seg-a036eba668b8 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+seg-90efc3759f07 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-094876c75564 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-1c7e4b85e701 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-f42398e9711c = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
+
+seg-07e8ef5a102f = { "176" }<s1>z { "412" } sprawdzonych</s1>
+
+seg-4873cd813b9a = Macierz weryfikacji: { "176" } sprawdzonych, { "232" } modelowanych, { "4" } należących do partnera, { "412" } łącznie
+
+seg-98b273ce8773 = Wszystkie { "412" } wierszy, po jednej linii.
+
+seg-7780d0588bd2 = z { "20" } sprawdzonych
+
+seg-00d97be31745 = z { "81" } sprawdzonych
+
+seg-04cc15e9a93c = z { "31" } sprawdzonych
+
+seg-2de2a4f9f3f7 = z { "57" } sprawdzonych
+
+seg-c321a2dafd3e = Wszystkie { "412" }
+
+seg-bc4726a0baf1 = Modelowane { "232" }
+
+seg-40e80b22723c = Rejestr walidacji, { "412" } wierszy, z przewijaniem

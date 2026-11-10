@@ -3192,8 +3192,6 @@ seg-a1c022c60fb6 = Inerti, fusion og alternativ PNT
 
 seg-b355dc732d29 = Signaler og interferens
 
-seg-fb01a581d5ee = af { "28" } valideret
-
 seg-d6c43e56d4cc = Missionsanalyse, sikring og andet
 
 seg-7038fab8b00c = Valideret { "176" }
@@ -4086,36 +4084,44 @@ seg-43f852e4bee8 = af { "74" } valideret
 
 seg-8fe12f6058c6 = af { "26" } valideret
 
-seg-2ed2d817f56e = { "405" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "225" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
-
-seg-07aef8ff8fe3 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "225" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
-
-seg-81464c684074 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "405" } rækker · intet scenarie eller seed: motorens eget register
-
-seg-c54618ee87bb = { "176" }<s1>af { "405" } valideret</s1>
-
-seg-9984e76b5b28 = Verifikationsmatrix: { "176" } valideret, { "225" } modelleret, { "4" } ejet af partnere, { "405" } i alt
-
-seg-46e93e2ebc71 = Alle { "405" } rækker, én linje hver.
-
-seg-ebec0449ab03 = Alle { "405" }
-
-seg-bcf766efe1ab = Modelleret { "225" }
-
-seg-cea55077f323 = Valideringsregister, { "405" } rækker, kan rulles
-
 seg-65122c2bb1fc = af { "104" } valideret
 seg-2998c6fa20d6 = af { "79" } valideret
 seg-4b3ab6095c65 = af { "56" } valideret
 
-seg-7ccfb90a1b22 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-0c637f4b6c88 = { "412" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "232" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
 
-seg-3049f77a1f2b = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-c2c3179c1316 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "232" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
 
-seg-b7a6adb6c48d = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "412" } rækker · intet scenarie eller seed: motorens eget register
 
-seg-322243e4b2ce = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+seg-b36352ff4d2a = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-c81354db10ba = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-edd1aba6a08c = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
 
-seg-a036eba668b8 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+seg-90efc3759f07 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-094876c75564 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
+
+seg-1c7e4b85e701 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-f42398e9711c = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
+
+seg-07e8ef5a102f = { "176" }<s1>af { "412" } valideret</s1>
+
+seg-4873cd813b9a = Verifikationsmatrix: { "176" } valideret, { "232" } modelleret, { "4" } ejet af partnere, { "412" } i alt
+
+seg-98b273ce8773 = Alle { "412" } rækker, én linje hver.
+
+seg-7780d0588bd2 = af { "20" } valideret
+
+seg-00d97be31745 = af { "81" } valideret
+
+seg-04cc15e9a93c = af { "31" } valideret
+
+seg-2de2a4f9f3f7 = af { "57" } valideret
+
+seg-c321a2dafd3e = Alle { "412" }
+
+seg-bc4726a0baf1 = Modelleret { "232" }
+
+seg-40e80b22723c = Valideringsregister, { "412" } rækker, kan rulles

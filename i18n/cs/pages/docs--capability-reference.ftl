@@ -2683,4 +2683,4 @@ seg-953a8b4f9f41 = Zatím žádná externí. Pouze syntetické okružní cesty d
 
 seg-d5a79853b72f = { "93" } z { "93" } druhů, { "3334" } z { "3334" } číselných polí
 
-seg-5576293ba3aa = { "61" } karet schopností z <c1/>, pak všech { "405" } řádků verifikační matice.
+seg-877f989ae75e = { "61" } karet schopností z <c1/>, pak všech { "412" } řádků verifikační matice.

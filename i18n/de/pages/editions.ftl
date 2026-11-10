@@ -1227,4 +1227,4 @@ seg-e507665bbe2c = Engine v{ $version } · { "93" } Arten aus <c1/> · Registers
 
 seg-7515b1af1f0b = Alle { "93" } Szenarioarten und { "183" } mitgelieferten Szenarien: nativ, Python, JavaScript, im Browser und über MCP (Model Context Protocol)
 
-seg-ecca1eecd0cc = Die vollständige Verifikationsmatrix: { "176" } von { "405" } Fähigkeiten gegen unabhängige Referenzen validiert, der Rest als modelliert gekennzeichnet
+seg-43711d15e734 = Die vollständige Verifikationsmatrix: { "176" } von { "412" } Fähigkeiten gegen unabhängige Referenzen validiert, der Rest als modelliert gekennzeichnet
