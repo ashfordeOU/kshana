@@ -2,7 +2,8 @@
 //! M4 development and scored runs (readings 17 to 19):
 //! `m4_dev dev` runs seeds 0-9 for every (m, c) candidate; `m4_dev scored` runs seeds 1000-1009 once
 //! at `M4Params::v1`; `dev2` runs seeds 20-29 for m in {2, 3} (v2, R24); `scored2` runs seeds
-//! 2000-2009 once at `M4Params::v2`. JSON on stdout.
+//! 2000-2009 once at `M4Params::v2`; `dev3` runs seeds 30-39 for m in {2, 3} and the new-track cost
+//! in {9.21, 13.82} (v3, R31). JSON on stdout.
 use kshana::m4_dark_vessel::generate;
 use kshana::m4_logic::{decide, decided_classes, metrics, M4Params};
 use serde_json::json;
@@ -98,6 +99,37 @@ fn main() {
             }
             println!("{}", serde_json::to_string(&json!({"set": "scored-v2", "seeds": [2000, 2009], "m": p.m, "c_m": p.c_m, "redraws": redraws, "metrics": metrics(&rows)})).expect("json"));
         }
-        _ => eprintln!("usage: m4_dev dev|scored|seed N|dev2|scored2|seed2 N"),
+        Some("dev3") => {
+            // v3 (R31): seeds 30-39, m in {2, 3} x new-track cost in {9.21, 13.82}.
+            let scenes: Vec<_> = (30..40).map(generate).collect();
+            let mut out = Vec::new();
+            for m in [2usize, 3] {
+                for c in [9.21, 13.82] {
+                    let p = M4Params::v3_base(m, c);
+                    let rows: Vec<_> = scenes
+                        .iter()
+                        .flat_map(|s| decided_classes(s, &decide(s, &p)))
+                        .collect();
+                    out.push(json!({"m": m, "new_track_cost": c, "metrics": metrics(&rows)}));
+                }
+            }
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"set": "dev-v3", "seeds": [30, 39], "runs": out}))
+                    .expect("json")
+            );
+        }
+        Some("seed3") => {
+            let seed: u64 = a[1].parse().expect("seed");
+            let m: usize = a.get(2).map_or(3, |x| x.parse().expect("m"));
+            let c: f64 = a.get(3).map_or(13.82, |x| x.parse().expect("cost"));
+            let s = generate(seed);
+            let rows = decided_classes(&s, &decide(&s, &M4Params::v3_base(m, c)));
+            println!(
+                "{}",
+                serde_json::to_string(&metrics(&rows)["confusion"]).expect("json")
+            );
+        }
+        _ => eprintln!("usage: m4_dev dev|scored|seed N|dev2|scored2|seed2 N|dev3|seed3 N [m c]"),
     }
 }
