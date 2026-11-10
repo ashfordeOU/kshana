@@ -245,7 +245,9 @@ fn p3_v2_detection_by_simulation() {
 
 #[test]
 fn p4_v2_greedy_exchange_against_random_subsets() {
-    let sp = spec("place_40_v2");
+    let mut sp = spec("place_40_v2");
+    // v2's method, set explicitly since v3 changed the default (B1a v3 reading 22).
+    sp.search = Some("greedy+exchange".into());
     let got = place(&sp).unwrap();
     assert_eq!(got.method.as_deref(), Some("greedy+exchange"));
     let mut rng = ChaCha20Rng::seed_from_u64(0xB1A7);
