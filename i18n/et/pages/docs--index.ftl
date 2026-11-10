@@ -347,6 +347,6 @@ seg-b23a9bd3ccfa = <s1>Stsenaariumide teatmik</s1><s2>Iga kaasasolev stsenaarium
 
 seg-a7dc2bc0a77d = { "93" } lehte, üks iga stsenaariumi liigi kohta, viidatud lehelt <a1>Iga stsenaariumi liik, perekondade kaupa</a1>.
 
-seg-f950b0ba9160 = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "405" } rida — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "405" } kontrollimaatriksi rida.</s2>
+seg-7fd385494ae0 = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "412" } kontrollimaatriksi rida.</s2>

@@ -3192,8 +3192,6 @@ seg-a1c022c60fb6 = Treghet, fusjon og alternativ PNT
 
 seg-b355dc732d29 = Signaler og interferens
 
-seg-fb01a581d5ee = av { "28" } validert
-
 seg-d6c43e56d4cc = Oppdragsanalyse, sikring og annet
 
 seg-7038fab8b00c = Validert { "176" }
@@ -4086,36 +4084,44 @@ seg-43f852e4bee8 = av { "74" } validert
 
 seg-8fe12f6058c6 = av { "26" } validert
 
-seg-2ed2d817f56e = { "405" } funksjoner, hver gradert. <b>{ "176" } validert</b> mot uavhengige eksterne referanser. <b>{ "225" } ærlig merket modellert.</b> { "4" } eid av partnere. Ingenting er rundet opp.
-
-seg-07aef8ff8fe3 = Verifikasjonsmatrise, én celle per funksjon i registerrekkefølge: { "176" } validert (fylte kvadrater), { "225" } modellert (hule kvadrater), { "4" } eid av partnere (rutere). Piltastene flytter mellom cellene; funksjonen og dens uavhengige referanse leses opp nedenfor.
-
-seg-81464c684074 = Motor v{ $version } · <c1/>, generert fra <c2/> · { "405" } rader · ingen scenario eller seed: motorens eget register
-
-seg-c54618ee87bb = { "176" }<s1>av { "405" } validert</s1>
-
-seg-9984e76b5b28 = Verifikasjonsmatrise: { "176" } validert, { "225" } modellert, { "4" } eid av partnere, { "405" } totalt
-
-seg-46e93e2ebc71 = Alle { "405" } rader, én linje hver.
-
-seg-ebec0449ab03 = Alle { "405" }
-
-seg-bcf766efe1ab = Modellert { "225" }
-
-seg-cea55077f323 = Valideringsregister, { "405" } rader, kan rulles
-
 seg-65122c2bb1fc = av { "104" } validert
 seg-2998c6fa20d6 = av { "79" } validert
 seg-4b3ab6095c65 = av { "56" } validert
 
-seg-7ccfb90a1b22 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-0c637f4b6c88 = { "412" } funksjoner, hver gradert. <b>{ "176" } validert</b> mot uavhengige eksterne referanser. <b>{ "232" } ærlig merket modellert.</b> { "4" } eid av partnere. Ingenting er rundet opp.
 
-seg-3049f77a1f2b = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-c2c3179c1316 = Verifikasjonsmatrise, én celle per funksjon i registerrekkefølge: { "176" } validert (fylte kvadrater), { "232" } modellert (hule kvadrater), { "4" } eid av partnere (rutere). Piltastene flytter mellom cellene; funksjonen og dens uavhengige referanse leses opp nedenfor.
 
-seg-b7a6adb6c48d = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, generert fra <c2/> · { "412" } rader · ingen scenario eller seed: motorens eget register
 
-seg-322243e4b2ce = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
+seg-b36352ff4d2a = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-c81354db10ba = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-edd1aba6a08c = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
 
-seg-a036eba668b8 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+seg-90efc3759f07 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-094876c75564 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
+
+seg-1c7e4b85e701 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-f42398e9711c = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
+
+seg-07e8ef5a102f = { "176" }<s1>av { "412" } validert</s1>
+
+seg-4873cd813b9a = Verifikasjonsmatrise: { "176" } validert, { "232" } modellert, { "4" } eid av partnere, { "412" } totalt
+
+seg-98b273ce8773 = Alle { "412" } rader, én linje hver.
+
+seg-7780d0588bd2 = av { "20" } validert
+
+seg-00d97be31745 = av { "81" } validert
+
+seg-04cc15e9a93c = av { "31" } validert
+
+seg-2de2a4f9f3f7 = av { "57" } validert
+
+seg-c321a2dafd3e = Alle { "412" }
+
+seg-bc4726a0baf1 = Modellert { "232" }
+
+seg-40e80b22723c = Valideringsregister, { "412" } rader, kan rulles

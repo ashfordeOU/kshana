@@ -1204,8 +1204,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form（{ "5900" }个块中{ "73" }个，对照P_fa { "0.01" }的{ "99" } % 二项区间 [{ "40" }, { "80" }]），m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k（delta { "0.0160" }，比值{ "0.0131" }，对照{ "0.01" }），m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0（{ "0" }对照{ "0" }），the_monitors_table_parses_and_validates；m3_every_attenuation_is_detected_within_twice_the_arl1（严格，因该缺口而被忽略）；iq::campaign::detect测试；iq::monitor::stats测试（gaussian_two_sided_tail_matches_known_values）；tests/iq_campaign.rs（没有该表时，已固定的摘要保持不变）
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance（在不衰减任何信号的既定事件上，AUC cn0_drop { "0.500" }，sqm_delta { "0.566" }，power_drop { "0.639" }）；r1_the_cn0_drop_roc_separates_6_db_attenuations（严格，因该缺口而被忽略）；iq::campaign::detect测试（the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events）
@@ -2007,4 +2005,4 @@ seg-0db91d70a079 = 从月球极区站点到入轨轨道的动力上升（<c1/>�
 
 seg-b5b1125d515c = <c1/> 类型与阶段：沿航迹带有比力的动力上升过程中运行的五状态逐轴惯性误差模型，由 AFS 定位和月球时间辅助，报告传递至轨道的入轨位置与速度协方差以及发动机关机散布（仅报告，不传递）
 
-seg-7a83829ca355 = { "225" }项能力被标为MODELLED。
+seg-474381d842e6 = { "232" }项能力被标为MODELLED。

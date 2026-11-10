@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Status der kontinuierlichen Integration auf main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Zeilenabdeckung nahe 95 % von src/, gemessen in docs/COVERAGE.md und in der kontinuierlichen Integration bei 85 % abgesichert"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F405-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 von 405 Fähigkeiten VALIDATED gegen eine unabhängige externe Referenz, laut Verifikationsmatrix"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 von 412 Fähigkeiten VALIDATED gegen eine unabhängige externe Referenz, laut Verifikationsmatrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Status des Quality Gate von SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Englisch und 17 weitere Sprachen, maschinell übersetzt"></a>
@@ -118,7 +118,7 @@ oder **PARTNER** (ein Hardwarepartner verantwortet sie).
 
 0.40 ergänzt ein Fehlerbudget auf Missionsebene, kennzeichnet jede Abbildung und Tabelle mit ihrer Evidenzstufe, liest gemessene Uhrenprotokolle,
 prüft Einreichungen von Datenpartnern, schätzt, wo sich ein Störsender befinden kann, und spricht neben Englisch siebzehn Sprachen.
-Das Register umfasst jetzt 405 Zeilen: 176 VALIDATED, 225 MODELLED, 4 PARTNER. Keine Zeile wurde zu VALIDATED hochgestuft, und jede unten genannte Verfehlung ist
+Das Register umfasst jetzt 412 Zeilen: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Keine Zeile wurde zu VALIDATED hochgestuft, und jede unten genannte Verfehlung ist
 durch einen Test festgeschrieben.
 
 - **Missionsfaden.** Die Art `mission-thread` verkettet Phasen vom Start bis zum Wiedereintritt (`launch-ascent`, `leo-rendezvous`,
@@ -1030,7 +1030,7 @@ Ausgangspunkt.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 gegen alle 666 Referenzvektoren von AIAA 2006-6753 geprüft, schlechtester Positionsfehler 4.12 mm"></a></p>
 
-<strong>176 von 405</strong> Fähigkeiten gegen unabhängige externe Referenzen validiert; 225 ehrlich als Modelled gekennzeichnet.
+<strong>176 von 412</strong> Fähigkeiten gegen unabhängige externe Referenzen validiert; 232 ehrlich als Modelled gekennzeichnet.
 Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die Referenz, gegen die sie geprüft wird,
 den Test, der die Prüfung ausführt, und die Kennzeichnung, die daraus folgt. Die kontinuierliche Integration (CI) macht
 es unmöglich, eine Fähigkeit ohne unabhängige externe Referenz VALIDATED zu nennen.
@@ -1038,13 +1038,13 @@ es unmöglich, eine Fähigkeit ohne unabhängige externe Referenz VALIDATED zu n
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Wie eine Fähigkeit ihre Kennzeichnung verdient. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die Referenz, gegen die sie geprüft wird, den Test, der die Prüfung in der kontinuierlichen Integration ausführt, und die Kennzeichnung, die daraus folgt. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein; sonst ist sie MODELLED, oder PARTNER, wenn ein Hardwarepartner sie verantwortet. Beispiel: SGP4/SDP4, Cowell 6-DOF + Störungen, Batch-/sequenzielle Bahnbestimmung, Referenz AIAA-2006-6753-SGP4-Verifikationsvektoren, Test tests/sgp4_verification.rs, Kennzeichnung VALIDATED. Aktuelle Zahlen: 176 VALIDATED, 225 MODELLED, 4 PARTNER von 405 Zeilen. Insgesamt 176 Fähigkeiten gegen unabhängige externe Referenzen validiert; 225 weitere sind ehrlich als MODELLED gekennzeichnet und 4 werden von PARTNER verantwortet." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Wie eine Fähigkeit ihre Kennzeichnung verdient. Jede Zeile der Verifikationsmatrix nennt eine Fähigkeit, die Referenz, gegen die sie geprüft wird, den Test, der die Prüfung in der kontinuierlichen Integration ausführt, und die Kennzeichnung, die daraus folgt. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein; sonst ist sie MODELLED, oder PARTNER, wenn ein Hardwarepartner sie verantwortet. Beispiel: SGP4/SDP4, Cowell 6-DOF + Störungen, Batch-/sequenzielle Bahnbestimmung, Referenz AIAA-2006-6753-SGP4-Verifikationsvektoren, Test tests/sgp4_verification.rs, Kennzeichnung VALIDATED. Aktuelle Zahlen: 176 VALIDATED, 232 MODELLED, 4 PARTNER von 412 Zeilen. Insgesamt 176 Fähigkeiten gegen unabhängige externe Referenzen validiert; 232 weitere sind ehrlich als MODELLED gekennzeichnet und 4 werden von PARTNER verantwortet." width="100%">
 </picture>
 
 | Kennzeichnung | Zeilen | Bedeutung |
 |---|---|---|
 | VALIDATED | 176 | eine unabhängige externe Referenz stimmt überein: echte Daten, eine unabhängige Implementierung oder veröffentlichte Referenzvektoren |
-| MODELLED | 225 | gegen analytische Wahrheit oder Selbstkonsistenz der Simulation geprüft, und das wird offen gesagt |
+| MODELLED | 232 | gegen analytische Wahrheit oder Selbstkonsistenz der Simulation geprüft, und das wird offen gesagt |
 | PARTNER | 4 | von einem Hardwarepartner verantwortet; Kshana hat dafür keine Referenz |
 
 Einige der Prüfungen: alle 666 SGP4-Vektoren (Simplified General Perturbations 4) von AIAA (American Institute of Aeronautics and Astronautics)
@@ -1053,7 +1053,7 @@ modell auf 0.08 m gegen Orekit 12.2; Galileo auf 0.61 m und Swarm-A auf 0.10 m g
 präzise Ephemeriden der Europäischen Weltraumorganisation (ESA). Die Tests halten nahe 95 % Zeilenabdeckung von
 `src/`, in der CI bei 85 % abgesichert. Das Register ist
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), erzeugt aus
-`src/verification.rs`: die [vollständige Matrix mit 405 Zeilen](docs/VERIFICATION-MATRIX.md), und warum jede
+`src/verification.rs`: die [vollständige Matrix mit 412 Zeilen](docs/VERIFICATION-MATRIX.md), und warum jede
 Modelled-Zeile keine externe Referenz hat, steht in [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1086,7 +1086,7 @@ kann nie mehr behaupten als das Register. Zeilen, Status und IDs werden aus der 
 ### Validierung auf einen Blick
 
 Jede Zeile wird durch einen benannten Test in der CI durchgesetzt. Diese Tabelle ist eine **kuratierte Übersicht**;
-die vollständige maschinell geprüfte Matrix umfasst **405 Zeilen — 176 VALIDATED, 225 MODELLED, 4 PARTNER**
+die vollständige maschinell geprüfte Matrix umfasst **412 Zeilen — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
 (`src/verification.rs`), mit den vollständigen Nachweisen (und dem, was ehrlich *noch nicht*
 validiert ist) in [`docs/VALIDATION.md`](docs/VALIDATION.md) und dem Artefakt
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1137,7 +1137,7 @@ Die Spalte **Status** nennt die *Art* des Nachweises, passend zur obigen Validie
 | CI | Testabdeckung | **~95 % Zeilen** auf `src/` ohne `src/*_data.rs` und `src/main.rs`, abgesichert bei ≥ 85 % | cargo-tarpaulin (LLVM-Engine) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Wie eine Fähigkeit ihre Kennzeichnung verdient: Die Anforderung führt zu einem Modul in src, zu einem Test in tests, zu einer externen Referenz (echter Datensatz, unabhängige Referenzimplementierung oder veröffentlichte Vektoren), zu einem Status — mit einem in der CI durchgesetzten Wächter, dass keine Fähigkeit ohne externe Referenz Validated sein kann. Aktuelle Zahlen: 176 Validated, 225 Modelled, 4 Partner, 405 insgesamt" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Wie eine Fähigkeit ihre Kennzeichnung verdient: Die Anforderung führt zu einem Modul in src, zu einem Test in tests, zu einer externen Referenz (echter Datensatz, unabhängige Referenzimplementierung oder veröffentlichte Vektoren), zu einem Status — mit einem in der CI durchgesetzten Wächter, dass keine Fähigkeit ohne externe Referenz Validated sein kann. Aktuelle Zahlen: 176 Validated, 232 Modelled, 4 Partner, 412 insgesamt" width="900">
   <br><sub>Wie eine Fähigkeit ihre Kennzeichnung verdient — die in der CI durchgesetzte Invariante: keine externe Referenz ⇒ kann nicht Validated sein · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1149,8 +1149,8 @@ Die Spalte **Status** nennt die *Art* des Nachweises, passend zur obigen Validie
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifikationsstatus über alle 405 Fähigkeiten: 176 Validated (gegen externe Referenz geprüft), 225 Modelled, 4 von Partnern verantwortet" width="780">
-  <br><sub>176 Validated · 225 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifikationsstatus über alle 412 Fähigkeiten: 176 Validated (gegen externe Referenz geprüft), 232 Modelled, 4 von Partnern verantwortet" width="780">
+  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1260,7 +1260,7 @@ obenauf als getrennte Erweiterungsschicht, die von der Engine abhängt und sie n
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Die Architektur von Kshana: eine offene Engine im Zentrum, kshana 0.40.0 unter der AGPL-3.0, mit api::run_toml, einer typisierten Verteilung über jede Art, und dem Verifikationsregister mit 405 Fähigkeiten (176 VALIDATED, 225 MODELLED, 4 PARTNER). Darum herum führt jede Oberfläche dieselbe Engine aus: Befehlszeile (cargo install kshana); Rust-Bibliothek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-Server (cargo install kshana-mcp); Docker-Image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-Plugin (Marketplace: &quot;Kshana&quot;). Darunter Kshana Pro, eine proprietäre Erweiterungsschicht, die die offene Engine als Bibliothek nutzt, sie nie forkt und kein physikalisches Modell hinzufügt." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Die Architektur von Kshana: eine offene Engine im Zentrum, kshana 0.40.0 unter der AGPL-3.0, mit api::run_toml, einer typisierten Verteilung über jede Art, und dem Verifikationsregister mit 412 Fähigkeiten (176 VALIDATED, 232 MODELLED, 4 PARTNER). Darum herum führt jede Oberfläche dieselbe Engine aus: Befehlszeile (cargo install kshana); Rust-Bibliothek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-Server (cargo install kshana-mcp); Docker-Image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-Plugin (Marketplace: &quot;Kshana&quot;). Darunter Kshana Pro, eine proprietäre Erweiterungsschicht, die die offene Engine als Bibliothek nutzt, sie nie forkt und kein physikalisches Modell hinzufügt." width="100%">
 </picture>
 
 <details>
@@ -1269,7 +1269,7 @@ obenauf als getrennte Erweiterungsschicht, die von der Engine abhängt und sie n
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Die Architektur von Kshana in Schichten. Fünf Eingänge (Befehlszeile, Python, JavaScript und WebAssembly, der MCP-Server und das JetBrains-Plugin) erreichen ein einziges api::run_toml, eine typisierte Verteilung über 92 Arten. Darunter liegen acht Bereichsschichten: Zeit und Bezugssysteme, Uhren und Zeitgebung, Inertial und Fusion, GNSS und Integrität, Astrodynamik, LEO-PNT, Mond, Mars und Tiefraum sowie Missionen und Studien, auf einem gemeinsamen Kern, alle querverwiesen durch das Verifikationsmodul, die maschinell geprüfte Matrix mit 405 Fähigkeiten, die die einzige Quelle der Wahrheit für jede Kennzeichnung ist." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Die Architektur von Kshana in Schichten. Fünf Eingänge (Befehlszeile, Python, JavaScript und WebAssembly, der MCP-Server und das JetBrains-Plugin) erreichen ein einziges api::run_toml, eine typisierte Verteilung über 92 Arten. Darunter liegen acht Bereichsschichten: Zeit und Bezugssysteme, Uhren und Zeitgebung, Inertial und Fusion, GNSS und Integrität, Astrodynamik, LEO-PNT, Mond, Mars und Tiefraum sowie Missionen und Studien, auf einem gemeinsamen Kern, alle querverwiesen durch das Verifikationsmodul, die maschinell geprüfte Matrix mit 412 Fähigkeiten, die die einzige Quelle der Wahrheit für jede Kennzeichnung ist." width="100%">
 </picture>
 
 **Eine Engine, viele Eingänge.** Ein einziger Rust-Kern (`kshana`) führt jedes Szenario aus,

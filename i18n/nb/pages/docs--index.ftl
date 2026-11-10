@@ -238,6 +238,6 @@ seg-b23a9bd3ccfa = <s1>Scenarioreferanse</s1><s2>Hver medfølgende scenariofil (
 
 seg-a7dc2bc0a77d = { "93" } sider, én for hver scenariotype, med lenker fra <a1>Alle scenariotyper, etter familie</a1>.
 
-seg-f950b0ba9160 = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "405" } rader — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER.</s2>
+seg-abe17fad0734 = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
 
-seg-b6e56265840f = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "405" } radene i verifikasjonsmatrisen.</s2>
+seg-7fd385494ae0 = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "412" } radene i verifikasjonsmatrisen.</s2>

@@ -2598,8 +2598,6 @@ seg-538f0f38481a = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 
 seg-ee030053dc63 = iq::campaign (detect, runner, spec); iq::monitor (stats::gaussian_two_sided_pfa, sqm)
 
-seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } из { "5900" } блоков при { "99" } % биномиальном интервале [{ "40" }, { "80" }] для P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } при { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } при { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (строгий, игнорируется вместе с пробелом); тесты iq::campaign::detect; тесты iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (зафиксированные дайджесты не меняются без таблицы)
-
 seg-e214fbcbf22e = iq::campaign (detect, report, runner); iq::monitor::spectral (kurtosis_reference)
 
 seg-c7d9da2a1afd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } на заданных событиях, которые ничего не ослабляют); r1_the_cn0_drop_roc_separates_6_db_attenuations (строгий, игнорируется вместе с пробелом); тесты iq::campaign::detect (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -3552,6 +3550,6 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 seg-920b26e226ab = модульные тесты interference_map::emitter (круговое преобразование проекции, фигура горизонта, синтетические круговые преобразования прямой и обратной задач: известный излучатель лежит внутри заявленной области примерно с заявленной частотой, граничные случаи, кластеризация сеансов, профиль, приватность и формулировки); случаи locate в tests/interference_map_cli.rs
 
-seg-9d7b242850ee = Полный машинно проверяемый реестр доказательств: <b>{ "405" } строк — { "176" } VALIDATED, { "225" } MODELLED, { "4" } PARTNER</b>. Строка может быть VALIDATED только при наличии независимого внешнего оракула (это обеспечивают тесты инвариантов матрицы). Те же данные, с кликабельными ссылками по каждой строке на тест, модуль и закоммиченный тестовый набор, — это <em>реестр проверки</em> на <a1>https://kshana.dev</a1>. См. <a2>MODELLED-RATIONALE.md</a2>, почему каждая смоделированная строка не проверена внешне.
+seg-db7a6ac0a47d = Полный машинно проверяемый реестр доказательств: <b>{ "412" } строк — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Строка может быть VALIDATED только при наличии независимого внешнего оракула (это обеспечивают тесты инвариантов матрицы). Те же данные, с кликабельными ссылками по каждой строке на тест, модуль и закоммиченный тестовый набор, — это <em>реестр проверки</em> на <a1>https://kshana.dev</a1>. См. <a2>MODELLED-RATIONALE.md</a2>, почему каждая смоделированная строка не проверена внешне.
 
-seg-3ca919e147c4 = { "405" } строк: { "176" } проверено внешне, { "225" } смоделировано, { "4" } принадлежат партнёру.
+seg-1cc523709234 = { "412" } строк: { "176" } проверено внешне, { "232" } смоделировано, { "4" } принадлежат партнёру.
