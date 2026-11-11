@@ -788,11 +788,19 @@ fn texbat_score(args: &[String]) -> Result<i32, BenchError> {
     let load = |name: &str, ext: &str| -> Result<Value, BenchError> {
         let path = Path::new(dir).join(format!("{name}.{ext}.json"));
         let p = path.display().to_string();
-        let v: Value = serde_json::from_str(&read(&p)?)
-            .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json-2", path = p.as_str(), e = e)))?;
+        let v: Value = serde_json::from_str(&read(&p)?).map_err(|e| {
+            BenchError(crate::t!(
+                "bench-cli-is-not-json-2",
+                path = p.as_str(),
+                e = e
+            ))
+        })?;
         let want = super::texbat::pinned(name).map(|(_, h)| h);
         if v["file"].as_str() != Some(name) || want.as_deref() != v["sha256"].as_str() {
-            return Err(BenchError(crate::terr!("e-bench-texbat-score-file", path = p.as_str())));
+            return Err(BenchError(crate::terr!(
+                "e-bench-texbat-score-file",
+                path = p.as_str()
+            )));
         }
         Ok(v)
     };
