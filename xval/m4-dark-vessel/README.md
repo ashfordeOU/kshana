@@ -262,3 +262,129 @@ here. The generator, metrics and bars are v1's. `M4Params::v1` and the v1 result
   some other vessel's gate.
 - **Expected outcome.** B2 and B4 are expected to miss again, with B4 worse than in v1. The bars are not changed,
   the readings are not changed to chase them, and the scored seeds are run once as they stand.
+
+## Readings of v3 (before any v3 code)
+
+These read `docs/design/evidence/m4-dark-vessel-ais-integrity/PREREGISTRATION-v3.md`, signed off on 10 November
+2026. They are committed before any v3 code and before any v3 seed is generated. The generator, metrics and bars
+are v1's. `M4Params::v1`, `M4Params::v2` and their recorded results are unchanged, and the v1 and v2 paths must give
+byte-identical outputs after the change.
+
+25. **What stands from v1 and v2.**
+    - Readings 13 (AIS tracks and interpolation), 14 (the association of each fix to its nearest gated AIS track,
+      gate 13.816), 15 as amended (duplicates), 16 (gaps), 17 as amended and 21 (expected epochs, misses with
+      candidates, the vote with `c` = 5 km and the 60 s window, `t₀`, the "explained" marking), except the step test,
+      which reading 27 replaces.
+    - Reading 22's feasibility rule (30 kn plus `3·√2·σ_fix`), its constant-velocity prediction and normalised
+      residual `d²_cv`, its single-fix rule, and its "dark fix" (a fix in a dark track of at least 2 fixes).
+    - Readings 18 and 23 (classes, precedence, the majority rule per vessel and scoring).
+    - **Replaced:** reading 22's per-fix choice between AIS and dark tracks (by reading 29) and reading 21's step test
+      (by reading 27). **Added:** the bounded-turn prediction (reading 28).
+26. **Order of the v3 decision.**
+    1. AIS tracks, IDENTITY-DUPLICATE and GAP: readings 13, 15 and 16.
+    2. Association of each fix to AIS by reading 14 (nearest gated track). This association defines the hits and
+       misses of the offset test only.
+    3. POSITION-OFFSET: reading 21 with the collision-tolerant step test of reading 27.
+    4. Dark tracks: the global association of reading 29, window by window, over the fixes not marked "explained" in
+       step 3.
+27. **Collision-tolerant step test.** Let `D`, `t₀` and the agreeing count be as in reading 21 (the vote is
+    unchanged), and `pred(te)` the identity's track prediction (reading 13) at an expected epoch `te`.
+    - A **hit** is, as in v2, an expected epoch with at least one fix associated with the track (step 2) within
+      ±60 s. Its AIS residual is `h = min |x − pred(te)|² / σ_fix²` over those associated fixes.
+    - The **offset candidates of the same epoch** are the unassociated fixes within ±60 s and within 60 km of
+      `pred(te)` (reading 17's candidates, chosen as in v2) whose displacement `x − pred(te)` lies within `c` of `D`.
+      Their offset residual is `g = min |(x − pred(te)) − D|² / σ_fix²` over them; `g = ∞` when there is none.
+    - A hit at `te ≥ t₀` **ends the step test only if `h < g`**: the AIS track explains its associated fix better than
+      the offset hypothesis `pred + D` explains its best candidate. Both are squared distances in units of
+      `σ_fix²`, with no free parameter. A hit with no agreeing candidate (`g = ∞`) ends the test, as in v2.
+    - The identity is a position offset when at least `m` misses agree with `D` and no hit at or after `t₀` ends the
+      test. A hit that does not end the test is not counted as a miss, and its candidates are not marked
+      "explained" (only the counted misses' candidates are, as in v2).
+28. **Bounded-turn prediction and the dark residual.** For a dark track with at least 2 fixes whose last two fixes
+    `f₁` (time `t₁`) and `f₂` (time `t₂ > t₁`) differ in time, and a fix `x` at time `t`:
+    - `T = t₂ − t₁`, `Δ = t − t₂`, `τ = Δ/T`, `v = en(f₁, f₂)` (the local east-north metres of `f₂` from `f₁`, as in
+      v2), and the residual is computed on the local plane at `f₂` as in v2 (`en(f₂, x)`).
+    - **Constant-turn prediction at rate `ω`** (rad/s): the vessel keeps the speed `|v|/T` and turns at the constant
+      rate `ω` from `t₂`. Its displacement from `f₂` is `κ·Rot(φ)·v`, with `φ = ωΔ/2`,
+      `κ = τ·sin φ / φ` (`κ = τ` at `ω = 0`), and `Rot(φ)` the rotation by `φ` in the east-north plane.
+    - **Normalised residual at rate `ω`:**
+      `d²(ω) = |en(f₂, x) − κ·Rot(φ)·v|² / (σ_fix²·(2 + 2κ·cos φ + 2κ²))`. The denominator is the exact per-axis
+      variance of `x − pred` when each of `f₁`, `f₂` and `x` has independent noise `σ_fix` per axis
+      (`x − pred = x − f₂ − κ·Rot(φ)·(f₂ − f₁)`, and `Rot(φ) + Rot(φ)ᵀ = 2 cos φ·I`). At `ω = 0` it is v2's
+      `1 + (1 + τ)² + τ²`, so `d²(0) = d²_cv`.
+    - **The bound:** `|ω| ≤ ω_max` = 3° per minute (0.05°/s), the plan's only parameter. The turn residual is
+      `d²_turn = min d²(ω)` over the 121 rates `ω_j = j·ω_max/60`, `j = −60 … 60` (steps of 0.05° per minute). The
+      grid is the numerical evaluation of the bounded minimum, fixed now; it contains `ω = 0`.
+    - **The dark residual** is `d²_dark = min(d²_cv, d²_turn)`, the smaller of the two models' residuals, as the
+      plan says (equal to `d²_turn` since the grid contains 0; both are computed and the minimum taken).
+    - A track whose last two fixes share a time has no prediction, as in v2.
+29. **Global association per 60 s window.** Windows are `[60k, 60k + 60)` s, `k = 0 … 359`, processed in time order.
+    The rows of window `k` are its fixes not marked "explained", in stream order. The dark tracks are those built
+    in the earlier windows (none at the start).
+    - **Columns and costs** (all costs in units of `σ_fix²`, chi-square with 2 degrees of freedom):
+      - **AIS:** every AIS track (reading 13, with reading 15's split tracks) with a prediction at the fix's time and
+        `d²_ais = |x − pred|²/σ_fix² ≤ 13.816` (reading 14's gate). Cost `d²_ais`. Every gated track is a column,
+        not only the nearest.
+      - **Dark (predicted):** every dark track with a prediction (reading 28) for which the fix is feasible (reading
+        22's rule from the track's last fix). Cost `d²_dark`.
+      - **New dark track:** one private column per fix, cost `C_new` ∈ {9.21, 13.82} (reading 31).
+      - Every other pair is not allowed (infinite cost).
+    - **The assignment:** each fix gets exactly one column; each AIS track and each dark track gets at most one fix
+      per window; the total cost is minimised (Hungarian algorithm). Because every fix has its private
+      new-track column, an assignment always exists.
+    - **Computation and ties.** The window's problem splits into the connected components of its allowed
+      fix-to-track pairs (private columns join no component); each component is solved on its own, which gives the
+      same minimum total. Each component is solved by the shortest-augmenting-path Hungarian algorithm with
+      potentials, rows added in stream order and columns ordered AIS tracks (track order of reading 13), then dark
+      tracks (creation order), then new-track columns (row order); a strictly smaller reduced cost is needed to
+      change the chosen column, so among assignments of equal total the first in that order is kept.
+      This is the tie rule.
+    - **After the assignment**, in stream order within the window:
+      - a fix assigned to an AIS track is associated with it and is not a dark-track fix;
+      - a fix assigned to a predicted dark track joins it;
+      - a fix assigned "new" counts as unassociated: it joins the feasible single-fix dark track whose fix is
+        nearest, among single-fix tracks whose fix lies in an earlier window (reading 22's rule 2, with one fix per
+        track per window); otherwise it starts a new single-fix track.
+    - **Interaction of AIS-gated and dark choices.** This replaces v2's per-fix rule. A gated fix may now be given
+      to a dark track or to "new": when a cheaper total results, including when another fix in the same window takes
+      its AIS track. With `C_new` = 13.82 a gated fix never prefers "new" to a free gated track on its own cost
+      (13.816 < 13.82); with `C_new` = 9.21 it does when `d²_ais > 9.21`. A fix that was associated by step 2 and is
+      not given to an AIS track by the assignment is marked "taken".
+30. **Dark fixes, classes and scoring.** A dark fix is a fix in a dark track of at least 2 fixes (reading 22).
+    Readings 18 and 23 apply unchanged: the precedence per identity, the majority rule per vessel, a DARK vessel
+    with no detected fix is NORMAL.
+31. **Tuning, development and the scored run.**
+    - **Grid:** `m` ∈ {2, 3} × `C_new` ∈ {9.21, 13.82}, on seeds 30 to 39, every other number fixed above.
+      Eligible: `FA ≤ 0.005`.
+    - **`C_new`** is the plan's rule: the `C_new` of the eligible pair with the highest DARK recall; on a tie in
+      DARK recall, the larger `C_new`.
+    - **`m`** is v1's rule at that `C_new`: among the eligible pairs with the chosen `C_new`, the `m` with the
+      highest POSITION-OFFSET recall at `d ≥ 5` km; on a tie, `m` = 3.
+    - **Fallback, if no pair is eligible:** `m` = 3 and `C_new` = 13.82 (the larger of each, the pair expected to
+      give the fewest false alarms; v2's fallback was `m` = 3).
+    - Seeds 30 to 39 also fix any implementation fault. Any reading changed after a development run is amended here,
+      dated, with what was seen first, before seed 3000 is generated.
+    - `M4Params::v3` is committed with the chosen pair, with the development output (`dev-v3.json.gz`) and its
+      table, before the scored seeds.
+    - Seeds 3000 to 3009 are then generated and run once. `RESULTS-v3.md` records MET or NOT MET for B1 to B7, and
+      `tests/m4_verdicts.rs` pins the v3 verdicts beside v1's and v2's.
+
+### The v3 development run (seeds 30 to 39, `dev-v3.json.gz`), committed before any scored seed
+
+| m | `C_new` | FA | DARK recall | DARK precision | Offset recall at 5 / 10 / 20 / 50 km | Eligible (FA ≤ 0.005) |
+|---|---|---|---|---|---|---|
+| 2 | 9.21 | 0.00613 | 0.993 (1 390 / 1 400) | 0.870 | 0.546 / 0.750 / 0.796 / 0.775 | no |
+| 2 | 13.82 | 0.00606 | 0.989 (1 384 / 1 400) | 0.890 | 0.546 / 0.750 / 0.796 / 0.775 | no |
+| **3** | **9.21** | **0.00044** | **0.995 (1 393 / 1 400)** | **0.863** | **0.482 / 0.682 / 0.711 / 0.671** | **yes: chosen** |
+| 3 | 13.82 | 0.00038 | 0.991 (1 387 / 1 400) | 0.884 | 0.482 / 0.682 / 0.711 / 0.671 | yes |
+
+By reading 31: only the `m` = 3 pairs are eligible; of those, `C_new` = 9.21 has the higher DARK recall; at
+`C_new` = 9.21, `m` = 3 is the only eligible `m`. `M4Params::v3` uses `m` = 3 and `C_new` = 9.21. No reading was
+changed after this run. Before it, one development seed (30) was decided at `m` = 3, `C_new` = 13.82 to check the
+code ran; nothing was changed after that check.
+
+**What the development run already shows, before the scored run.**
+- **DARK.** Recall 0.995 against the B2 bar of 0.95, precision 0.863 against 0.80. B2 is expected to be met.
+- **POSITION-OFFSET.** Recall 0.482 at 5 km (bar 0.85) and 0.67 to 0.71 at 10 to 50 km (bar 0.98). The
+  collision-tolerant step test raises recall over v2's development run (0.436 at 5 km at `m` = 3), but far from the
+  bar. B4 is expected to miss again. The bars are not changed, and the scored seeds are run once as they stand.
