@@ -112,3 +112,10 @@ Epochs are 30 s. AGC, the jamming indicator, the clock monitor and OSNMA are not
 - Any further change to the rule or to the position monitor, for example screening satellites the broadcast data
   marks unhealthy or alarms common to every station of an area, would need a new pre-registration and a new
   fortnight.
+
+## Note (10 November 2026): an engine finding after scoring
+
+B5 v3's diagnosis found that the engine used broadcast records marked unhealthy: G11 on 07-27 and 07-28, and G14 on
+07-31. These are among the T4 alerts above. The engine now skips such records
+(`ENGINE-FINDING-HEALTH.md`). The T4 result above was scored before the fix and stays as recorded. It was not
+re-scored.
