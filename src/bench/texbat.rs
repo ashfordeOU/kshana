@@ -499,7 +499,8 @@ pub fn e5v2_on_pd_windows(v2: &[Value], pd: &[Value]) -> Option<f64> {
     let mut pos = Vec::new();
     let mut neg = Vec::new();
     for p in pd {
-        let keep: std::collections::BTreeSet<u64> = counted(p).into_iter().map(|(t, _)| t).collect();
+        let keep: std::collections::BTreeSet<u64> =
+            counted(p).into_iter().map(|(t, _)| t).collect();
         let Some(w) = v2.iter().find(|w| w["file"] == p["file"]) else {
             continue;
         };
