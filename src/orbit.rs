@@ -2049,11 +2049,14 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 built,
                 keys.len()
             );
-            // No satellite the parsers decode is lost on the way: every distinct
-            // (system, PRN) in the file is still represented exactly once.
+            // No usable satellite is lost on the way: every distinct (system, PRN)
+            // with at least one healthy record in the file (the per-system rule of
+            // `pvt::record_unhealthy`, B5 v3 reading X2) is represented exactly once.
+            // A satellite whose every record is marked unhealthy is left out.
             let mut parsed: Vec<(char, u8)> = crate::rinex::parse_nav(text)
                 .expect("nav parses")
                 .iter()
+                .filter(|e| !crate::pvt::record_unhealthy(e))
                 .map(|e| (e.system, e.prn))
                 .collect();
             parsed.extend(
@@ -2065,6 +2068,12 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             parsed.sort_unstable();
             parsed.dedup();
             assert_eq!(keys, parsed, "{name}: satellite set changed");
+            // BRDC00WRD's only G04 record has health 63, so G04 is left out; BRDM00DLR's
+            // QZSS J01 has health 1, the L1C/A-only flag, so it stays.
+            match name {
+                "BRDC00WRD" => assert!(!keys.contains(&('G', 4)), "{name}: G04 is unhealthy"),
+                _ => assert!(keys.contains(&('J', 1)), "{name}: J01 is kept"),
+            }
         }
     }
 

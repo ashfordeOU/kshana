@@ -327,7 +327,7 @@ pub fn klobuchar_from_nav_header(text: &str) -> Option<KlobucharCoeffs> {
 ///   E1-B, E5a and E5b health and data-validity bits; BeiDou `SatH1` with its own
 ///   signal flags), so the right mask depends on the signals a solve combines; that
 ///   rule is left to a separate change.
-fn record_unhealthy(e: &RinexEphemeris) -> bool {
+pub(crate) fn record_unhealthy(e: &RinexEphemeris) -> bool {
     match e.system {
         'G' => e.sv_health != 0.0,
         'J' => (e.sv_health as i64) & 0xFE != 0,
