@@ -424,16 +424,6 @@ pub fn auc(pos: &[f64], neg: &[f64]) -> Option<f64> {
     Some(sum / (pos.len() as f64 * n.len() as f64))
 }
 
-fn median(mut v: Vec<f64>) -> f64 {
-    v.sort_by(f64::total_cmp);
-    let n = v.len();
-    if n % 2 == 1 {
-        v[n / 2]
-    } else {
-        0.5 * (v[n / 2 - 1] + v[n / 2])
-    }
-}
-
 /// The counted windows' scores of one score document, by start time.
 fn counted(doc: &Value) -> Vec<(u64, f64)> {
     doc["windows"]
