@@ -398,3 +398,113 @@ pub fn pd_file(path: &std::path::Path, windows: &Value) -> Result<Value, String>
         "windows": out,
     }))
 }
+
+// ------------------------------------------------------------ the one score (E5 v2 and E5-PD)
+
+/// A window score as a number: JSON `null` is `+∞` (no tracked PRN, E5v2-7).
+fn score_value(w: &Value) -> f64 {
+    w["score"].as_f64().unwrap_or(f64::INFINITY)
+}
+
+/// One-vs-rest AUC of `pos` against `neg` by the rank-sum rule: each (positive, negative) pair
+/// counts 1 when the positive scores higher, 1/2 on a tie (two `+∞` tie). `None` when a class is
+/// empty.
+pub fn auc(pos: &[f64], neg: &[f64]) -> Option<f64> {
+    if pos.is_empty() || neg.is_empty() {
+        return None;
+    }
+    let mut n = neg.to_vec();
+    n.sort_by(f64::total_cmp);
+    let mut sum = 0.0;
+    for &p in pos {
+        let below = n.partition_point(|&x| x.total_cmp(&p).is_lt());
+        let upto = n.partition_point(|&x| x.total_cmp(&p).is_le());
+        sum += below as f64 + 0.5 * (upto - below) as f64;
+    }
+    Some(sum / (pos.len() as f64 * n.len() as f64))
+}
+
+/// The counted windows' scores of one score document, by start time.
+fn counted(doc: &Value) -> Vec<(u64, f64)> {
+    doc["windows"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter(|w| w["counted"].as_bool() == Some(true))
+        .filter_map(|w| Some((w["start_s"].as_u64()?, score_value(w))))
+        .collect()
+}
+
+/// E5 (v2 or PD) from the ten documents of one kind: the barred one-vs-rest AUC of `spoofing`
+/// over the counted windows, the minimum-data check (2 recordings and 300 units per class),
+/// and, with no bar, the recording-level AUC (each recording's median window score) and the AUC of
+/// each spoofing recording against the two clean ones.
+pub fn e5_score(docs: &[Value], bar: f64) -> Value {
+    let mut pos = Vec::new();
+    let mut neg = Vec::new();
+    let mut rec_pos = Vec::new();
+    let mut rec_neg = Vec::new();
+    let mut per: Vec<(String, Vec<f64>)> = Vec::new();
+    let (mut n_pos_rec, mut n_neg_rec) = (0usize, 0usize);
+    for d in docs {
+        let s: Vec<f64> = counted(d).into_iter().map(|(_, x)| x).collect();
+        if s.is_empty() {
+            continue;
+        }
+        let m = median(s.clone());
+        if d["class"].as_str() == Some("spoofing") {
+            n_pos_rec += 1;
+            rec_pos.push(m);
+            per.push((d["file"].as_str().unwrap_or("").to_string(), s.clone()));
+            pos.extend(s);
+        } else {
+            n_neg_rec += 1;
+            rec_neg.push(m);
+            neg.extend(s);
+        }
+    }
+    let enough = n_pos_rec >= 2 && n_neg_rec >= 2 && pos.len() >= 300 && neg.len() >= 300;
+    let a = auc(&pos, &neg);
+    let per_rec: serde_json::Map<String, Value> = per
+        .iter()
+        .map(|(f, s)| (f.clone(), json!(auc(s, &neg))))
+        .collect();
+    json!({
+        "auc": a,
+        "bar": bar,
+        "verdict": match (enough, a) {
+            (false, _) => "NOT ASSESSABLE",
+            (true, Some(x)) if x >= bar => "MET",
+            _ => "NOT MET",
+        },
+        "units": {"spoofing": pos.len(), "nominal": neg.len()},
+        "recordings": {"spoofing": n_pos_rec, "nominal": n_neg_rec},
+        "recording_level_auc": auc(&rec_pos, &rec_neg),
+        "per_recording_auc": per_rec,
+    })
+}
+
+/// E5 v2's AUC restricted to the windows E5-PD counts (reported with E5-PD, no bar).
+pub fn e5v2_on_pd_windows(v2: &[Value], pd: &[Value]) -> Option<f64> {
+    let mut pos = Vec::new();
+    let mut neg = Vec::new();
+    for p in pd {
+        let keep: std::collections::BTreeSet<u64> =
+            counted(p).into_iter().map(|(t, _)| t).collect();
+        let Some(w) = v2.iter().find(|w| w["file"] == p["file"]) else {
+            continue;
+        };
+        let s = w["windows"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|x| x["start_s"].as_u64().is_some_and(|t| keep.contains(&t)))
+            .map(score_value);
+        if p["class"].as_str() == Some("spoofing") {
+            pos.extend(s);
+        } else {
+            neg.extend(s);
+        }
+    }
+    auc(&pos, &neg)
+}
