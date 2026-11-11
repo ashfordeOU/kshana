@@ -3,6 +3,15 @@ version = 2
 # Fail (not just warn) if a dependency resolves to a yanked release, so a yanked
 # crate cannot silently enter the build.
 yanked = "deny"
+# RUSTSEC-2026-0462 (rmcp < 3.9, kshana-mcp's lockfile): unbounded response-body buffering in rmcp's
+# Streamable HTTP *clients* (features transport-streamable-http-client-reqwest and -unix-socket).
+# kshana-mcp is a server: it enables server, macros, transport-io and transport-streamable-http-server,
+# and its tests the generic `client` feature only; neither client transport is compiled (reqwest is not in
+# its lockfile). Ignored for that reason on 11 November 2026; the move to rmcp 3.9+ is tracked as its own
+# change (a major version) and this entry goes with it.
+ignore = [
+  { id = "RUSTSEC-2026-0462", reason = "affects rmcp's Streamable HTTP client transports only; kshana-mcp compiles neither (server-only)" },
+]
 
 [licenses]
 version = 2
