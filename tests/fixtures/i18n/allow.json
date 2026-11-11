@@ -638,8 +638,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/iqfit.rs": {
-   "count": 176,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 184,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); +8 for the FIELD_UNITS rows of settings.cn0_lag_s, cn0_windows, cn0_window_s and coherent_s (machine field-units document)"
   },
   "src/iq/labfit/iqreport.rs": {
    "count": 6,
