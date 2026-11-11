@@ -1295,7 +1295,9 @@ fn mqtt_publish(topic: &str, payload: &str) -> Vec<u8> {
 
 /// One T3 run (reading 14 to 17): `KSHANA_B5_T3_RUN` (run index), `KSHANA_B5_T3_EVENTS` (events,
 /// default 55). Writes `t3_run_<run>.json` into `KSHANA_B5_DIR`. With `KSHANA_B5_AREA_RULE=v2` the
-/// live area runs version 2's rule (reading W10) and writes `t3v2_run_<run>.json`; without it, v1.
+/// live area runs version 2's rule (reading W10) and writes `t3v2_run_<run>.json`; with `v3`, version
+/// 3's (reading X9; X5 is in this path, but the harness raises no loss-of-lock alarm, and X4 is not,
+/// since it streams per-station evidence) and writes `t3v3_run_<run>.json`; without it, v1.
 #[test]
 #[ignore]
 fn t3_end_to_end_latency_run() {
@@ -1317,6 +1319,7 @@ fn t3_end_to_end_latency_run() {
         .unwrap_or(55);
     let rule = match std::env::var("KSHANA_B5_AREA_RULE").as_deref() {
         Ok("v2") => AreaRule::V2,
+        Ok("v3") => AreaRule::V3,
         Ok("v1") | Err(_) => AreaRule::V1,
         Ok(other) => panic!("KSHANA_B5_AREA_RULE: unknown rule {other}"),
     };
@@ -1579,8 +1582,10 @@ fn t3_end_to_end_latency_run() {
         "mqtt_failures": mq_failures.load(Ordering::Relaxed),
         "late_epochs": live.late, "events": events,
     });
-    if rule == AreaRule::V2 {
-        out["area_rule"] = serde_json::json!("v2");
+    match rule {
+        AreaRule::V2 => out["area_rule"] = serde_json::json!("v2"),
+        AreaRule::V3 => out["area_rule"] = serde_json::json!("v3"),
+        AreaRule::V1 => {}
     }
     println!(
         "T3 run {run}: {} events, {alerts_sent} alerts sent, webhook {} received, MQTT {} received",
@@ -1589,10 +1594,10 @@ fn t3_end_to_end_latency_run() {
         mq.len()
     );
     std::fs::write(
-        dir.join(if rule == AreaRule::V2 {
-            format!("t3v2_run_{run}.json")
-        } else {
-            format!("t3_run_{run}.json")
+        dir.join(match rule {
+            AreaRule::V2 => format!("t3v2_run_{run}.json"),
+            AreaRule::V3 => format!("t3v3_run_{run}.json"),
+            AreaRule::V1 => format!("t3_run_{run}.json"),
         }),
         serde_json::to_string_pretty(&out).unwrap(),
     )
