@@ -60,7 +60,9 @@ exclude = [
     "!/tools/finals2000A_20260930.txt",
     "/integrations",
     "/packaging",
-    "/bench",
+    # bench/ keeps only the manifest src/bench/texbat.rs embeds (B4a E5 v2, include_str!).
+    "/bench/*",
+    "!/bench/manifests",
     # The changelog and roadmap are read on GitHub and kshana.dev; the crate's page links them.
     "/CHANGELOG.md",
     "/ROADMAP.md",
