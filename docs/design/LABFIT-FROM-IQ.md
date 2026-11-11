@@ -417,3 +417,19 @@ seen and +0.40 dB fresh; (b′) 0 of 50 on both, every interval now above the tr
 −1.19 dB before); (c) fails on the fresh campaign's time-to-loss coverage (1.000); (d) 2.19 dB seen, 0.32 dB fresh.
 **NOT MET on re-run.** The correction moves the bias as the lag hypothesis predicts but overshoots it. §13.6 stands as
 the record of the uncorrected fit. Details: the D8a `RESULTS.md`.
+
+## 15. Re-run with the C/N0 estimator's own response (D8a row 6 v2, 2026-11-11)
+
+Under `docs/design/evidence/d8a-iq-tracking-cn0-rerun/PREREGISTRATION-v2.md`, the fit modelled each C/N0 bin as the
+estimator's M2M4 reading over its 50 windows of 20 ms along the stated profile (`[campaign_fit] cn0_model =
+"estimator-response"`). It was scored once over 18 batches and three input sets (v1-registered, v1-fresh, v2-fresh):
+
+- (a′): +0.17, +0.10 and +0.10 dB, met on all three.
+- (b′): 36, 32 and 27 of 50, with the (b′) error at +0.08 to +0.10 dB against intervals about 0.23 dB wide.
+- (c): fails on v1-fresh's time-to-loss coverage (1.000).
+- (d): 2.19 dB on v1-registered, and 0.32 and 0.19 dB on the fresh sets.
+
+**NOT MET on v2.** The model removes most of the ramp bias that §13.6 and §14 recorded, but not enough for the
+coverage bar. §13.6 and §14 stand. The details and the execution amendments (parallel batches, per-seed checkpoints,
+helper sessions, a byte-identical cross-machine rerun of batch 17) are in the D8a `RESULTS.md`.
+

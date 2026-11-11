@@ -995,6 +995,30 @@ fn d8a_row6_scoring_of_the_committed_batches_is_the_recorded_one() {
     assert_eq!(got["met_on_re_run"], false);
 }
 
+/// Pins the single scoring (2026-11-11) of D8a row 6 v2 over the committed batches: NOT MET on v2.
+///
+/// PIN-SCOPE:    `score.py raw` output over the committed raw batches, equal to `score_v2.json`.
+/// PIN-EXCLUDES: the fits themselves (not rerun here).
+#[test]
+fn d8a_row6_v2_scoring_of_the_committed_batches_is_the_recorded_one() {
+    let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/xval/d8a-labfit-response");
+    let out = std::process::Command::new("python3")
+        .args(["-I", "score.py", "raw"])
+        .current_dir(dir)
+        .output()
+        .expect("python3");
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let got: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    let want: serde_json::Value =
+        serde_json::from_str(include_str!("../xval/d8a-labfit-response/score_v2.json")).unwrap();
+    assert_eq!(got, want, "the recorded row 6 v2 scoring moved");
+    assert_eq!(got["met_on_v2"], false);
+}
+
 fn fit_response(
     out: &Path,
     bootstrap: usize,
