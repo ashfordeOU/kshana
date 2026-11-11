@@ -463,11 +463,15 @@ pub struct CampaignFitCfg {
     /// `xval/d8a-labfit-response/`); omitted from the output at the default.
     #[serde(skip_serializing_if = "is_stated")]
     pub cn0_model: Cn0Model,
-    /// Windows the C/N0 estimator averages (with `cn0_model = "estimator-response"`).
+    /// Windows the C/N0 estimator averages (with `cn0_model = "estimator-response"`);
+    /// omitted from the output at the default.
+    #[serde(skip_serializing_if = "is_default_cn0_windows")]
     pub cn0_windows: usize,
-    /// Length of one estimator window (s).
+    /// Length of one estimator window (s); omitted from the output at the default.
+    #[serde(skip_serializing_if = "is_default_cn0_window_s")]
     pub cn0_window_s: f64,
-    /// Coherent time of one prompt (s).
+    /// Coherent time of one prompt (s); omitted from the output at the default.
+    #[serde(skip_serializing_if = "is_default_coherent_s")]
     pub coherent_s: f64,
 }
 
@@ -489,6 +493,18 @@ fn is_stated(m: &Cn0Model) -> bool {
 
 fn is_zero(x: &f64) -> bool {
     *x == 0.0
+}
+
+fn is_default_cn0_windows(n: &usize) -> bool {
+    *n == CampaignFitCfg::default().cn0_windows
+}
+
+fn is_default_cn0_window_s(x: &f64) -> bool {
+    *x == CampaignFitCfg::default().cn0_window_s
+}
+
+fn is_default_coherent_s(x: &f64) -> bool {
+    *x == CampaignFitCfg::default().coherent_s
 }
 
 impl Default for CampaignFitCfg {

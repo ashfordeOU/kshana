@@ -458,6 +458,30 @@
           "provenance": "input",
           "unit": "count"
         },
+        "settings.cn0_lag_s": {
+          "definition": "C/N0 estimator lag of the v1 bin model (omitted at 0)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "settings.cn0_window_s": {
+          "definition": "length of one C/N0 estimator window (omitted at the default)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "settings.cn0_windows": {
+          "definition": "windows the C/N0 estimator averages (omitted at the default)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "settings.coherent_s": {
+          "definition": "coherent time of one prompt (omitted at the default)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
         "settings.delta_bounds_db[]": {
           "definition": "bounds of the J/S offset delta",
           "evidence_tier": "illustrative",
