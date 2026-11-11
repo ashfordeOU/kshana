@@ -337,6 +337,17 @@ X10. **T4: the fortnight and its stations.**
      - **Fetch:** every file is fetched by script into a v3 manifest. If any file the rule needs cannot be fetched,
        the work stops and the coordinator is asked; nothing is substituted, and any refusal is recorded.
      - **Order per 30 s epoch:** X4 across the area's stations, then X5, then the area aggregation. The bars are W9's.
+X10a. **The selection, as run (11 November 2026, before any v3 observation file was fetched).**
+     - `select_v3.py` (committed in `988b834f3`) was run once; its output is `selection_v3.json` (GFZ Kp file
+       SHA-256 `dd30b260d0c36c3efaf8149e5d4313794b362bfe8b568ad5360644260409cfac`).
+     - **A difference between the pre-registration and X10, disclosed.** The pre-registration says "the next 14
+       consecutive days of 2025 after 6 August"; X10, committed before the selection, says "starting on or after
+       7 August 2025" with no end. In that Kp file no such run exists in 2025: the longest run of days with every
+       3-hour Kp at most 4.000 between 7 August and 31 December 2025 is 12 days (from 20 August). Read with "of
+       2025", T4 would have no data and be NOT ASSESSABLE. The selection follows X10 as committed: the first run is
+       **17 to 30 May 2026** (17 May calibrates; 18 to 30 May are scored). No bar changes.
+     - **Stations (reading 10 applied anew):** two clusters, Goddard (GODS00USA, GODE00USA, GODN00USA, MRC100USA)
+       and Wettzell (WTZR00DEU, WTZA00DEU, WT2100DEU, WTZZ00DEU): 26 area-days.
 X11. **Scoring once.**
      - T1 to T5 are scored once, after the oracle, the engine code and the T4 selection are committed, and recorded in
        `RESULTS-v3.md` as MET or NOT MET.
