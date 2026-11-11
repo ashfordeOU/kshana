@@ -1,0 +1,52 @@
+{
+  "e5_pd": {
+    "auc": 0.7409736925549811,
+    "bar": 0.7,
+    "per_recording_auc": {
+      "ds1.bin": 0.46570184226044575,
+      "ds2.bin": 1.0,
+      "ds3.bin": 0.4177057356608479,
+      "ds4.bin": 0.8213840399002493,
+      "ds5.bin": 1.0,
+      "ds6.bin": 0.583978365773877,
+      "ds7.bin": 0.8970732889997229,
+      "ds8.bin": 0.750162787475755
+    },
+    "recording_level_auc": 0.8125,
+    "recordings": {
+      "nominal": 2,
+      "spoofing": 8
+    },
+    "units": {
+      "nominal": 802,
+      "spoofing": 2729
+    },
+    "verdict": "MET"
+  },
+  "e5_v2": {
+    "auc": 0.6940656673044165,
+    "bar": 0.7,
+    "per_recording_auc": {
+      "ds1.bin": 0.46842921680231875,
+      "ds2.bin": 0.7139535029099752,
+      "ds3.bin": 0.38357286190276746,
+      "ds4.bin": 0.8218203804822101,
+      "ds5.bin": 0.9417838127165676,
+      "ds6.bin": 0.5792602191734513,
+      "ds7.bin": 0.9011056881176187,
+      "ds8.bin": 0.7499216678717763
+    },
+    "recording_level_auc": 0.8125,
+    "recordings": {
+      "nominal": 2,
+      "spoofing": 8
+    },
+    "units": {
+      "nominal": 922,
+      "spoofing": 2729
+    },
+    "verdict": "NOT MET"
+  },
+  "e5_v2_on_e5_pd_windows": 0.6912464167540109,
+  "schema": "kshana-bench-texbat-e5/1"
+}

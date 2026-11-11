@@ -113,3 +113,37 @@ fn e5_score_arithmetic_on_synthetic_documents() {
     let small = e5_score(&docs[..3], 0.70);
     assert_eq!(small["verdict"], "NOT ASSESSABLE");
 }
+
+/// The one score of E5 v2 and E5-PD (RESULTS-E5-v2.md, RESULTS-E5-PD.md), recomputed from the committed score files.
+#[test]
+fn the_recorded_e5_score_is_the_committed_one() {
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("xval/bench-e/texbat-v2");
+    let rec: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(dir.join("E5-SCORE.json")).unwrap()).unwrap();
+    assert_eq!(rec["e5_v2"]["verdict"], "NOT MET");
+    assert!((rec["e5_v2"]["auc"].as_f64().unwrap() - 0.694_065_667_304_416_5).abs() < 1e-12);
+    assert_eq!(rec["e5_pd"]["verdict"], "MET");
+    assert!((rec["e5_pd"]["auc"].as_f64().unwrap() - 0.740_973_692_554_981_1).abs() < 1e-12);
+    let names = [
+        "cleanStatic",
+        "cleanDynamic",
+        "ds1",
+        "ds2",
+        "ds3",
+        "ds4",
+        "ds5",
+        "ds6",
+        "ds7",
+        "ds8",
+    ];
+    let load = |n: &str, ext: &str| -> serde_json::Value {
+        serde_json::from_str(
+            &std::fs::read_to_string(dir.join(format!("{n}.bin.{ext}.json"))).unwrap(),
+        )
+        .unwrap()
+    };
+    let v2: Vec<_> = names.iter().map(|n| load(n, "scores")).collect();
+    let pd: Vec<_> = names.iter().map(|n| load(n, "pd")).collect();
+    assert_eq!(kshana::bench::texbat::e5_score(&v2, 0.70), rec["e5_v2"]);
+    assert_eq!(kshana::bench::texbat::e5_score(&pd, 0.70), rec["e5_pd"]);
+}
