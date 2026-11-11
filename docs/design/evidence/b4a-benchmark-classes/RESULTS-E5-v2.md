@@ -15,33 +15,9 @@ Reported without a bar:
 - **Per spoofing recording against the two clean ones:** ds1 0.468, ds2 0.714, ds3 0.384, ds4 0.822, ds5 0.942,
   ds6 0.579, ds7 0.901, ds8 0.750.
 
-## Data and how it was run
+## Every scoring rule was fixed before any TEXBAT data existed in the repository
 
-- All ten recordings were fetched and hashed by the owner on the owner's computer; each size and SHA-256 is pinned in
-  `bench/manifests/b-iq.json` before its score file was made, and each score file carries its recording's hash
-  (checked again by the scorer). The recordings never left the owner's machine; only the score files (window start
-  times and scores, no IQ) are committed in `xval/bench-e/texbat-v2/`.
-- No window scored `+∞` (no tracked PRN) in any file.
-
-## Disclosures
-
-- The score command was written after nine of the ten score files were committed, and merged before the tenth
-  arrived and before any AUC was computed. Its arithmetic is the plan's (rank-sum AUC with ties as 1/2, `null` as
-  `+∞`, the minimum-data rule), checked on synthetic documents (`tests/texbat_e5v2.rs`).
-- Before the score, the uploaded files were displayed whole in the working session, so individual window values were
-  seen; no class statistic or AUC was computed from them. A check before the score counted `null` scores per file
-  (none).
-
-## What it shows (descriptive, after the score)
-
-- The distortion-only baseline separates the strong attacks (ds5, ds7, ds4, ds8) and misses the matched-power,
-  time-push and protected attacks (ds1, ds3, ds6), where the window scores of spoofed and clean data overlap.
-- The recording-level AUC (0.81) is higher than the window-level one: the median separates recordings better than
-  single 1 s windows do. It carries no bar.
-
-## Why the two disclosures cannot have moved the result (added 11 November 2026, after the score)
-
-- **Everything that decides a score was fixed before any TEXBAT data reached the repository.** The first score
+- **The rules.** The first score
   files were committed in `2517d5893` (9 November 2026, 23:05 UTC). Before that:
   - E5 v2 signed off (`b668cad13`, 17:00 UTC) and its readings, onset 110 s, 1 s windows, the score rule
     (`256793667`, 17:04 UTC; amendments `9b97022c0` 17:05 and `feed4d355` 17:40 UTC);
@@ -56,6 +32,33 @@ Reported without a bar:
   library only, sharing no code with the engine; exact pair-by-pair AUC with fractions) recomputes E5 v2 and E5-PD
   from the ten committed files. Every field of `E5-SCORE.json` agrees with it to 1e-12: E5 v2 AUC 0.6940656673044165
   (NOT MET), E5-PD AUC 0.7409736925549811 (MET).
+
+## Data and how it was run
+
+- All ten recordings were fetched and hashed by the owner on the owner's computer; each size and SHA-256 is pinned in
+  `bench/manifests/b-iq.json` before its score file was made, and each score file carries its recording's hash
+  (checked again by the scorer). The recordings never left the owner's machine; only the score files (window start
+  times and scores, no IQ) are committed in `xval/bench-e/texbat-v2/`.
+- No window scored `+∞` (no tracked PRN) in any file.
+
+## What it shows (descriptive, after the score)
+
+- The distortion-only baseline separates the strong attacks (ds5, ds7, ds4, ds8) and misses the matched-power,
+  time-push and protected attacks (ds1, ds3, ds6), where the window scores of spoofed and clean data overlap.
+- The recording-level AUC (0.81) is higher than the window-level one: the median separates recordings better than
+  single 1 s windows do. It carries no bar.
+
+## Process notes
+
+These do not change any number above: the rules were fixed earlier (see above) and an independent recomputation
+gives the same result to 1e-12.
+
+- The score command was written after nine of the ten score files were committed, and merged before the tenth
+  arrived and before any AUC was computed. Its arithmetic is the plan's (rank-sum AUC with ties as 1/2, `null` as
+  `+∞`, the minimum-data rule), checked on synthetic documents (`tests/texbat_e5v2.rs`).
+- Before the score, the uploaded files were displayed whole in the working session, so individual window values were
+  seen; no class statistic or AUC was computed from them. A check before the score counted `null` scores per file
+  (none).
 - **For later benchmarks** (`xval/bench-e/README.md`): the scorer and its independent check are committed before the
   first data file, and data files are handed over as one archive that is checked and committed without displaying
   its contents.
