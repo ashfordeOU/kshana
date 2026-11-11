@@ -21,10 +21,12 @@
       "files": [
         {"path": "cleanStatic.bin", "bytes": 48016392192, "sha256": "dd295ab46616bfe9634d1c37479520e720ebc54bcb64adf0a247315a541fb9b9", "retrieved": "2026-11-09"},
         {"path": "ds1.bin", "bytes": 46170898432, "sha256": "8c8f4caa41c8a2253688eef47818a445e3a06139b729cf587c03be33e6b6744c", "retrieved": "2026-11-09"},
-        {"path": "ds2.bin", "bytes": 45717913600, "sha256": "65bfba9bbb8643c1f6b8f1a48bdef8adfc0e787458f0c5b0cb54ca92977bed5e", "retrieved": "2026-11-09"}
+        {"path": "ds2.bin", "bytes": 45717913600, "sha256": "65bfba9bbb8643c1f6b8f1a48bdef8adfc0e787458f0c5b0cb54ca92977bed5e", "retrieved": "2026-11-09"},
+        {"path": "ds3.bin", "bytes": 45785022464, "sha256": "e37e11b060bc2c675d4a60024f8b4a53e95e7cd1d304bea80cd903856075a30d", "retrieved": "2026-11-11"},
+        {"path": "ds4.bin", "bytes": 45818576896, "sha256": "dd542aa8884123bc8842dd0a4b0e1fb2565758104611478205ffc1f3c2cfb7e6", "retrieved": "2026-11-11"}
       ],
       "sha256_pinned": true,
-      "files_note": "Sizes and SHA-256 from the owner's fetch (hashed with shasum -a 256 on the owner's computer), each pinned as it arrives (D18; B4a E5 v2). Listed so far: cleanStatic.bin, ds1.bin and ds2.bin; to come: cleanDynamic.bin and ds3.bin to ds8.bin. kshana bench verify-manifest and kshana bench texbat-windows refuse a listed file whose size or SHA-256 differs, and texbat-windows refuses an unlisted one.",
+      "files_note": "Sizes and SHA-256 from the owner's fetch (hashed with shasum -a 256 on the owner's computer), each pinned as it arrives (D18; B4a E5 v2). Listed so far: cleanStatic.bin and ds1.bin to ds4.bin; to come: cleanDynamic.bin and ds5.bin to ds8.bin. kshana bench verify-manifest and kshana bench texbat-windows refuse a listed file whose size or SHA-256 differs, and texbat-windows refuses an unlisted one.",
       "note": "the owner's first fetch (9 November 2026) pins each file's path, size and SHA-256 in `files`, with the retrieval date, as it arrives; the URL is the source's. `kshana bench verify-manifest` refuses a listed file whose hash or size differs"
     }
   ],
