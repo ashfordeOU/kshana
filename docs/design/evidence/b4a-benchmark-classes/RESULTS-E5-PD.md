@@ -14,7 +14,8 @@ Reported without a bar:
 - **Recording-level AUC:** 0.8125.
 - **E5 v2's AUC on the same windows:** 0.6912.
 
-The data, the disclosures and the way the score was run are E5 v2's (`RESULTS-E5-v2.md`).
+The data, the disclosures, the way the score was run and the independent recomputation (which agrees with E5-PD to
+1e-12) are E5 v2's (`RESULTS-E5-v2.md`).
 
 ## What it shows (descriptive, after the score)
 
