@@ -38,3 +38,24 @@ Reported without a bar:
   time-push and protected attacks (ds1, ds3, ds6), where the window scores of spoofed and clean data overlap.
 - The recording-level AUC (0.81) is higher than the window-level one: the median separates recordings better than
   single 1 s windows do. It carries no bar.
+
+## Why the two disclosures cannot have moved the result (added 11 November 2026, after the score)
+
+- **Everything that decides a score was fixed before any TEXBAT data reached the repository.** The first score
+  files were committed in `2517d5893` (9 November 2026, 23:05 UTC). Before that:
+  - E5 v2 signed off (`b668cad13`, 17:00 UTC) and its readings, onset 110 s, 1 s windows, the score rule
+    (`256793667`, 17:04 UTC; amendments `9b97022c0` 17:05 and `feed4d355` 17:40 UTC);
+  - the thresholds τ_S and τ_P set on synthetic data (`2b2cf102e`, 17:56 UTC), and the window-score command merged
+    (`abadbc32b`, 19:02 UTC);
+  - E5-PD signed off with τ_ΔP = 1 dB and the 60-window baseline (`013016cc0`, 22:50 UTC), coded in `ff43383e1`
+    (23:01 UTC).
+
+  The score command added on 11 November only counts: it reads the committed window scores and computes the
+  registered AUC. It has no parameter.
+- **An independent recomputation gives the same numbers.** `xval/bench-e/texbat-v2/oracle_e5.py` (Python standard
+  library only, sharing no code with the engine; exact pair-by-pair AUC with fractions) recomputes E5 v2 and E5-PD
+  from the ten committed files. Every field of `E5-SCORE.json` agrees with it to 1e-12: E5 v2 AUC 0.6940656673044165
+  (NOT MET), E5-PD AUC 0.7409736925549811 (MET).
+- **For later benchmarks** (`xval/bench-e/README.md`): the scorer and its independent check are committed before the
+  first data file, and data files are handed over as one archive that is checked and committed without displaying
+  its contents.

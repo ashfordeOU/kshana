@@ -246,3 +246,9 @@ E5v2-9. **Scoring.**
 - **The rule.** A synthetic window that does not acquire is excluded from the threshold set, and the number
   excluded is reported. The thresholds are the 99th percentiles over the windows that acquire.
 - No TEXBAT byte had been read.
+
+## Process rule for later externally held data (added 11 November 2026, after B4a E5)
+
+1. The scorer and an independent oracle that recomputes it are committed before the first data or score file.
+2. Files from the owner's computer are handed over as one archive, checked against their pinned hashes and committed
+   without displaying their contents in the working session.
