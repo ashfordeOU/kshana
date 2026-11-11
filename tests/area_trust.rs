@@ -562,3 +562,16 @@ fn t3v2_is_recorded() {
         assert!(r[path]["max_s"].as_f64().unwrap() <= 10.0, "{path}");
     }
 }
+
+/// X6 (B5 v3, part of T1): a stations document with `"area_rule":"v3"` is aggregated as v2, so the
+/// seven replays and the two boundary documents give `oracle_v2.py`'s bytes.
+#[test]
+fn t1_v3_stations_documents_give_v2_bytes() {
+    for (name, v1, oracle_v2) in v2_cases() {
+        let v3 = v2_document(&v1).replacen("\"area_rule\":\"v2\"", "\"area_rule\":\"v3\"", 1);
+        assert!(
+            timeline_jsonl(&v3).unwrap() == oracle_v2,
+            "X6: {name} with \"v3\" gives v2's bytes"
+        );
+    }
+}
