@@ -81,3 +81,35 @@ fn pd_refuses_a_windows_file_of_another_recording() {
     assert!(kshana::bench::texbat::pd_file(&f, &other).is_err());
     std::fs::remove_dir_all(&dir).ok();
 }
+
+/// The scorer's arithmetic on synthetic documents (no TEXBAT data): the rank-sum AUC with ties and
+/// `+∞` (JSON null), the minimum-data rule, and the counted-window filter.
+#[test]
+fn e5_score_arithmetic_on_synthetic_documents() {
+    use kshana::bench::texbat::{auc, e5_score};
+    assert_eq!(auc(&[2.0], &[1.0]), Some(1.0));
+    assert_eq!(auc(&[1.0], &[2.0]), Some(0.0));
+    assert_eq!(auc(&[1.0], &[1.0]), Some(0.5));
+    assert_eq!(auc(&[f64::INFINITY], &[f64::INFINITY]), Some(0.5));
+    assert_eq!(auc(&[3.0, 1.0], &[2.0]), Some(0.5));
+    assert_eq!(auc(&[], &[1.0]), None);
+    let doc = |file: &str, class: &str, n: usize, s: Option<f64>| {
+        let w: Vec<_> = (0..n + 5)
+            .map(|i| serde_json::json!({"start_s": i, "counted": i >= 5, "score": if i >= 5 { serde_json::json!(s) } else { serde_json::json!(-100.0) }}))
+            .collect();
+        serde_json::json!({"file": file, "class": class, "windows": w})
+    };
+    let docs = vec![
+        doc("cleanStatic.bin", "nominal", 200, Some(1.0)),
+        doc("cleanDynamic.bin", "nominal", 200, Some(1.0)),
+        doc("ds1.bin", "spoofing", 200, Some(2.0)),
+        doc("ds2.bin", "spoofing", 200, None),
+    ];
+    let r = e5_score(&docs, 0.70);
+    assert_eq!(r["auc"], 1.0);
+    assert_eq!(r["verdict"], "MET");
+    assert_eq!(r["units"]["spoofing"], 400);
+    assert_eq!(r["recording_level_auc"], 1.0);
+    let small = e5_score(&docs[..3], 0.70);
+    assert_eq!(small["verdict"], "NOT ASSESSABLE");
+}
