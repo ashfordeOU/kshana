@@ -914,6 +914,9 @@ engine-e-bench-texbat-mismatch = { $name }: SHA-256 { $got } and { $bytes } byte
 engine-bench-texbat-acquired = { $name }: acquired PRNs { $prns }
 engine-bench-texbat-progress = { $name }: { $seconds } s done
 engine-bench-cli-texbat-written = wrote { $path } ({ $windows } windows)
+engine-e-bench-texbat-score-usage = usage: kshana bench texbat-score <dir> --out <file>
+engine-e-bench-texbat-score-file = { $path }: not the pinned recording's score file
+engine-bench-texbat-scored = E5 v2: { $v2 }; E5-PD: { $pd }
 engine-e-bench-cli-malformed-sha256 = { $rel }: the manifest's SHA-256 is not 64 lowercase hexadecimal digits
 
 engine-bench-cli-needs-value = { $name } needs a value
