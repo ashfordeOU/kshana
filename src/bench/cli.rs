@@ -332,6 +332,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         "verify-manifest" => verify_manifest(rest),
         "texbat-windows" => texbat_windows(rest),
         "texbat-pd" => texbat_pd(rest),
+        "texbat-score" => texbat_score(rest),
         "validate" => {
             let files = check(rest, &[], true)?;
             if files.is_empty() {
@@ -759,6 +760,69 @@ fn texbat_pd(args: &[String]) -> Result<i32, BenchError> {
             "bench-cli-texbat-written",
             path = out.display().to_string(),
             windows = doc["windows"].as_array().map_or(0, Vec::len)
+        )
+    );
+    Ok(0)
+}
+
+/// `kshana bench texbat-score <dir> --out <file>` (B4a E5 v2 and E5-PD, scored once): reads the ten
+/// recordings' `.scores.json` and `.pd.json` from `<dir>`, refuses unless all ten are present and each
+/// carries its pinned SHA-256, and writes E5 v2's and E5-PD's AUC with their verdicts.
+fn texbat_score(args: &[String]) -> Result<i32, BenchError> {
+    let pos = check(args, &["--out"], true)?;
+    let [dir] = pos.as_slice() else {
+        return Err(BenchError(crate::terr!("e-bench-texbat-score-usage")));
+    };
+    let names = [
+        "cleanStatic.bin",
+        "cleanDynamic.bin",
+        "ds1.bin",
+        "ds2.bin",
+        "ds3.bin",
+        "ds4.bin",
+        "ds5.bin",
+        "ds6.bin",
+        "ds7.bin",
+        "ds8.bin",
+    ];
+    let load = |name: &str, ext: &str| -> Result<Value, BenchError> {
+        let path = Path::new(dir).join(format!("{name}.{ext}.json"));
+        let p = path.display().to_string();
+        let v: Value = serde_json::from_str(&read(&p)?).map_err(|e| {
+            BenchError(crate::t!(
+                "bench-cli-is-not-json-2",
+                path = p.as_str(),
+                e = e
+            ))
+        })?;
+        let want = super::texbat::pinned(name).map(|(_, h)| h);
+        if v["file"].as_str() != Some(name) || want.as_deref() != v["sha256"].as_str() {
+            return Err(BenchError(crate::terr!(
+                "e-bench-texbat-score-file",
+                path = p.as_str()
+            )));
+        }
+        Ok(v)
+    };
+    let mut v2 = Vec::new();
+    let mut pd = Vec::new();
+    for n in names {
+        v2.push(load(n, "scores")?);
+        pd.push(load(n, "pd")?);
+    }
+    let doc = json!({
+        "schema": "kshana-bench-texbat-e5/1",
+        "e5_v2": super::texbat::e5_score(&v2, 0.70),
+        "e5_pd": super::texbat::e5_score(&pd, 0.70),
+        "e5_v2_on_e5_pd_windows": super::texbat::e5v2_on_pd_windows(&v2, &pd),
+    });
+    write(Path::new(need(args, "--out")?), &pretty(&doc))?;
+    println!(
+        "{}",
+        crate::t!(
+            "bench-texbat-scored",
+            v2 = doc["e5_v2"]["verdict"].as_str().unwrap_or(""),
+            pd = doc["e5_pd"]["verdict"].as_str().unwrap_or("")
         )
     );
     Ok(0)

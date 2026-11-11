@@ -14718,5 +14718,36 @@
    },
    ": the --windows file is not the E5 v2 score file of this recording"
   ]
+ },
+ {
+  "id": "e-bench-texbat-score-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana bench texbat-score <dir> --out <file>"
+  ]
+ },
+ {
+  "id": "e-bench-texbat-score-file",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": not the pinned recording's score file"
+  ]
+ },
+ {
+  "id": "bench-texbat-scored",
+  "error": false,
+  "parts": [
+   "E5 v2: ",
+   {
+    "var": "v2"
+   },
+   "; E5-PD: ",
+   {
+    "var": "pd"
+   }
+  ]
  }
 ]
