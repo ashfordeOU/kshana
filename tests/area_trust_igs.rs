@@ -796,6 +796,332 @@ fn b5v3_diagnosis_of_v2_common_epochs() {
     );
 }
 
+// ------------------------------------------------------------------------------------------- B5 v3, T4
+
+/// The v3 fortnight and its areas (reading X10, X10a): from the committed selection and navigation
+/// choice, each day as (year, day of year, navigation file stem), and the stations of each cluster.
+/// The v3 plan: the days, the stations of each area, and the first day as (year, month, day).
+type V3Plan = (Vec<V2Day>, Vec<Vec<String>>, (i64, i64, i64));
+
+fn v3_plan(dir: &Path) -> V3Plan {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust");
+    let sel: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(root.join("selection_v3.json")).unwrap())
+            .unwrap();
+    let committed = root.join("nav_choice_v3.tsv");
+    let nav_path = if committed.exists() {
+        committed
+    } else {
+        dir.join("nav_choice_v3.tsv")
+    };
+    let nav: BTreeMap<String, String> = std::fs::read_to_string(nav_path)
+        .unwrap()
+        .lines()
+        .skip(1)
+        .map(|l| {
+            let f: Vec<&str> = l.split('\t').collect();
+            (f[0].to_string(), f[3].to_string())
+        })
+        .collect();
+    let areas: Vec<Vec<String>> = sel["clusters"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| {
+            c.as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_str().unwrap().to_string())
+                .collect()
+        })
+        .collect();
+    let mut first = None;
+    let days = sel["days"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|d| {
+            let d = d.as_str().unwrap();
+            let p: Vec<i64> = d.split('-').map(|x| x.parse().unwrap()).collect();
+            first.get_or_insert((p[0], p[1], p[2]));
+            let doy = (days_from_civil(p[0], p[1], p[2]) - days_from_civil(p[0], 1, 1) + 1) as u32;
+            (p[0], doy, nav[d].clone())
+        })
+        .collect();
+    (days, areas, first.unwrap())
+}
+
+/// One station's epochs for v3: reading 11's statistics ([`Raw`]) and the per-satellite inputs of the
+/// fix, keyed by the epoch's second from the first selected day.
+fn read_station_v3(
+    dir: &Path,
+    name: &str,
+    days: &[V2Day],
+    first: (i64, i64, i64),
+) -> (
+    Vec<Raw>,
+    BTreeMap<i64, Vec<kshana::area_trust::v3::Meas>>,
+    [f64; 3],
+) {
+    let t0 = (days_from_civil(first.0, first.1, first.2) - days_from_civil(1980, 1, 6)) * 86_400;
+    let mut out = Vec::new();
+    let mut by_t = BTreeMap::new();
+    let mut p_s = None;
+    for (year, doy, nav_src) in days {
+        let obs_text = gunzip(&dir.join(format!("{name}_R_{year}{doy:03}0000_01D_30S_MO.rnx.gz")));
+        let nav_text = gunzip(&dir.join(format!("{nav_src}_{year}{doy:03}0000_01D_MN.rnx.gz")));
+        let obs = parse_obs(&obs_text).unwrap();
+        let ephs = parse_nav(&nav_text).unwrap();
+        let p = *p_s.get_or_insert_with(|| obs.header.approx_xyz.expect("APPROX POSITION XYZ"));
+        let station = ecef_to_geodetic(p);
+        let atmos = AtmosModel {
+            iono: klobuchar_from_nav_header(&nav_text).unwrap_or_default(),
+            meteo: Meteo::default(),
+        };
+        for (i, ep) in obs.epochs.iter().enumerate() {
+            if ep.flag != 0 {
+                continue;
+            }
+            let tm = &ep.time;
+            let t = tm.seconds_from_gps_epoch().round() as i64 - t0;
+            let assembled: Vec<_> = assemble_epoch(&obs, i, &ephs, p, &atmos, MASK_DEG, true)
+                .into_iter()
+                .filter(|(s, _)| s.starts_with('G'))
+                .collect();
+            let meas: Vec<_> = assembled.iter().map(|(_, m)| *m).collect();
+            let en = solve_spp(&meas, p).map(|f| {
+                let e = enu_error(p, f.ecef);
+                [e[0], e[1]]
+            });
+            let err_h = en.map(|e| e[0].hypot(e[1]));
+            let tow = tm.gps_time_of_week();
+            let mut cn0 = Vec::new();
+            for sv in &ep.sats {
+                if !sv.sat.starts_with('G') {
+                    continue;
+                }
+                let Some(s1c) = obs.observation(i, &sv.sat, "S1C") else {
+                    continue;
+                };
+                let Some(prn) = sv.sat.get(1..3).and_then(|s| s.trim().parse::<u8>().ok()) else {
+                    continue;
+                };
+                let el = select_ephemeris(&ephs, 'G', prn, tow).map(|e| {
+                    look_angles(station, e.sv_position_ecef(tow))
+                        .el_rad
+                        .to_degrees()
+                });
+                cn0.push((s1c, el.unwrap_or(f64::NAN)));
+            }
+            let tracked = cn0.len();
+            by_t.insert(
+                t,
+                assembled
+                    .into_iter()
+                    .map(|(s, m)| kshana::area_trust::v3::Meas {
+                        sat: s,
+                        sat_ecef: m.sat_ecef,
+                        pseudorange_m: m.pseudorange_m,
+                        sat_clock_m: m.sat_clock_m,
+                        iono_m: m.iono_m,
+                        tropo_m: m.tropo_m,
+                        weight: m.weight,
+                    })
+                    .collect(),
+            );
+            out.push(Raw {
+                t,
+                err_h,
+                en,
+                cn0,
+                tracked,
+            });
+        }
+    }
+    (out, by_t, p_s.unwrap())
+}
+
+/// B5 v3 T4 (readings X10, X10a, W9): false area alerts on the v3 fortnight, per 30 s epoch the X4
+/// screen across each area's stations, then X5, then the area aggregation. The files are fetched by
+/// `xval/area-trust/fetch_v3.py`; `KSHANA_B5_V3_DIR` names their directory. Writes `t4v3_result.json`
+/// there; once `xval/area-trust/t4v3_result.json` is committed, the run must reproduce it.
+#[test]
+#[ignore]
+fn t4v3_false_alerts_on_clean_igs_data() {
+    use kshana::area_trust::v3::{screen, station_state as state_v3, MeasStation, Report};
+    use kshana::area_trust::{timeline_with, AreaRule};
+    let dir = PathBuf::from(
+        std::env::var("KSHANA_B5_V3_DIR").expect("KSHANA_B5_V3_DIR: the fetch_v3.py directory"),
+    );
+    let (days, areas, first) = v3_plan(&dir);
+    let cal_end = 86_400i64;
+    let scored = days.len() as i64 - 1;
+    let mut area_results = Vec::new();
+    let (mut deg_all, mut unt_all, mut area_days) = (0usize, 0usize, 0f64);
+    for names in &areas {
+        let mut cals = Vec::new();
+        let mut raws = Vec::new();
+        let mut meas = Vec::new();
+        let mut mstations = Vec::new();
+        for name in names {
+            let (raw, m, p_s) = read_station_v3(&dir, name, &days, first);
+            let cal = calibrate(&raw);
+            mstations.push(MeasStation {
+                id: name.clone(),
+                p_s_ecef_m: p_s,
+                h_s_m: cal.hs,
+            });
+            cals.push(cal);
+            raws.push(
+                raw.into_iter()
+                    .map(|r| (r.t, r))
+                    .collect::<BTreeMap<_, _>>(),
+            );
+            meas.push(m);
+        }
+        let all_t: std::collections::BTreeSet<i64> =
+            raws.iter().flat_map(|m| m.keys().copied()).collect();
+        let mut epochs: Vec<Vec<(f64, StationState)>> = vec![Vec::new(); names.len()];
+        let mut reps: Vec<StationReport> = names
+            .iter()
+            .enumerate()
+            .map(|(k, n)| StationReport {
+                name: n.clone(),
+                p_s_ecef_m: mstations[k].p_s_ecef_m,
+                h_s_m: cals[k].hs,
+                tracked_median: cals[k].tracked_median,
+                ..Default::default()
+            })
+            .collect();
+        let mut flagged: BTreeMap<String, usize> = BTreeMap::new();
+        let mut flagged_scored = 0usize;
+        let mut lock_only = vec![0usize; names.len()];
+        for &t in &all_t {
+            let reports: Vec<Option<Report>> = (0..names.len())
+                .map(|k| {
+                    raws[k].get(&t).map(|r| {
+                        let e = evidence(r, &cals[k]);
+                        Report {
+                            cn0_alarm: e.cn0_delta_db < kshana::area_trust::CN0_ALARM_DB,
+                            agc_alarm: false,
+                            jam_alarm: false,
+                            lock_alarm: e.lock_alarm,
+                            clock_alarm: false,
+                            osnma_ok: None,
+                            meas: meas[k].get(&t).cloned().unwrap_or_default(),
+                        }
+                    })
+                })
+                .collect();
+            let sc = screen(&mstations, &reports);
+            if let Some(f) = &sc.satellite_fault {
+                *flagged.entry(f.clone()).or_default() += 1;
+                flagged_scored += usize::from(t >= cal_end);
+            }
+            for (k, r) in reports.iter().enumerate() {
+                let Some(r) = r else { continue };
+                let st = state_v3(r, sc.err_h_screened_m[k], mstations[k].h_s_m);
+                if t >= cal_end {
+                    let rep = &mut reps[k];
+                    rep.scored_epochs += 1;
+                    rep.no_fix += usize::from(sc.err_h_screened_m[k].is_none());
+                    rep.alarms_position +=
+                        usize::from(sc.err_h_screened_m[k].is_some_and(|e| e > mstations[k].h_s_m));
+                    rep.alarms_cn0 += usize::from(r.cn0_alarm);
+                    rep.alarms_lock += usize::from(r.lock_alarm);
+                    rep.degraded_epochs += usize::from(st == StationState::Degraded);
+                    rep.untrusted_epochs += usize::from(st == StationState::Untrusted);
+                    lock_only[k] +=
+                        usize::from(r.lock_alarm && !r.cn0_alarm && st == StationState::Nominal);
+                }
+                reps[k].epochs += 1;
+                for s in 0..30 {
+                    epochs[k].push(((t + s) as f64, st));
+                }
+            }
+        }
+        let stations: Vec<Station> = names
+            .iter()
+            .zip(epochs)
+            .map(|(n, e)| Station {
+                id: n.clone(),
+                epochs: e,
+            })
+            .collect();
+        let tl = timeline_with(&stations, AreaRule::V3);
+        let mut per_day: BTreeMap<i64, (usize, usize)> =
+            (1..=scored).map(|d| (d, (0, 0))).collect();
+        let mut alert_list = Vec::new();
+        for s in &tl {
+            if s.alert && s.g >= cal_end && s.g < (scored + 1) * 86_400 {
+                let e = per_day.entry(s.g / 86_400).or_default();
+                e.0 += 1;
+                e.1 += usize::from(s.state == AreaState::Untrusted);
+                alert_list.push(serde_json::json!({"g": s.g, "state": s.state, "n": s.n, "n_d": s.n_d, "n_u": s.n_u, "stale": s.stale}));
+            }
+        }
+        let (deg, unt): (usize, usize) =
+            per_day.values().fold((0, 0), |a, b| (a.0 + b.0, a.1 + b.1));
+        let unknown_s = tl
+            .iter()
+            .filter(|s| s.g >= cal_end && s.state == AreaState::Unknown)
+            .count();
+        println!(
+            "area {names:?}: {deg} alerts to DEGRADED or worse, {unt} to UNTRUSTED over {scored} days; {flagged_scored} scored epochs with a SATELLITE_FAULT flag ({flagged:?}); lock-only epochs per station {lock_only:?}"
+        );
+        for r in &reps {
+            println!(
+                "  {}: H_s {:.1} m, tracked median {}, {} scored epochs, no fix {}, alarms position {} C/N0 {} lock {}",
+                r.name, r.h_s_m, r.tracked_median, r.scored_epochs, r.no_fix, r.alarms_position, r.alarms_cn0, r.alarms_lock
+            );
+        }
+        deg_all += deg;
+        unt_all += unt;
+        area_days += scored as f64;
+        area_results.push(serde_json::json!({
+            "area": names,
+            "alerts_degraded_or_worse": deg,
+            "alerts_untrusted": unt,
+            "unknown_seconds": unknown_s,
+            "satellite_fault_epochs_scored": flagged_scored,
+            "satellite_fault_by_satellite": flagged,
+            "lock_only_epochs": names.iter().zip(&lock_only).map(|(n, c)| serde_json::json!({"name": n, "epochs": c})).collect::<Vec<_>>(),
+            "per_day": per_day.iter().map(|(d, (a, b))| serde_json::json!({"day": d, "date_doy": days[*d as usize].1, "degraded_or_worse": a, "untrusted": b})).collect::<Vec<_>>(),
+            "alerts": alert_list,
+            "stations": reps,
+        }));
+    }
+    let deg_rate = deg_all as f64 / area_days;
+    let unt_rate = unt_all as f64 / area_days;
+    let met = deg_rate <= 1.0 && unt_rate <= 0.1;
+    println!(
+        "T4 v3: {deg_all} alerts to DEGRADED or worse ({deg_rate:.3} per area-day, bar 1), {unt_all} to UNTRUSTED ({unt_rate:.3}, bar 0.1) over {area_days} area-days: {}",
+        if met { "MET" } else { "NOT MET" }
+    );
+    let result = serde_json::json!({
+        "area_rule": "v3",
+        "days": days.iter().map(|(y, d, n)| serde_json::json!({"year": y, "doy": d, "nav": n})).collect::<Vec<_>>(),
+        "area_days": area_days,
+        "alerts_degraded_or_worse": deg_all,
+        "alerts_untrusted": unt_all,
+        "per_area_day_degraded_or_worse": deg_rate,
+        "per_area_day_untrusted": unt_rate,
+        "areas": area_results,
+        "verdict": if met { "MET" } else { "NOT MET" },
+    });
+    let text = serde_json::to_string_pretty(&result).unwrap();
+    std::fs::write(dir.join("t4v3_result.json"), &text).unwrap();
+    let committed =
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t4v3_result.json");
+    if committed.exists() {
+        assert_eq!(
+            text,
+            std::fs::read_to_string(committed).unwrap(),
+            "the run reproduces the committed v3 T4 result"
+        );
+    }
+}
+
 // ------------------------------------------------------------------------------------------- T3
 
 const T3_N: usize = 100;
