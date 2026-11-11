@@ -107,6 +107,63 @@ What the numbers say, described after the scoring (not graded):
 Pins: `xval/d8a-labfit-lag/raw/` (committed batches), `score_output.json`, and
 `tests/iq_labfit_campaign.rs::d8a_row6_scoring_of_the_committed_batches_is_the_recorded_one`.
 
+## Row 6 v2. The lab fit with the C/N0 estimator's own response
+
+- **Pre-registration:** `PREREGISTRATION-v2.md`, signed 9 November 2026. **Readings, batch plan, oracle and scoring
+  rule:** `xval/d8a-labfit-response/` (README readings 1 to 7, `oracle.py`, `score.py`), committed before any engine
+  code. The change: `[campaign_fit] cn0_model = "estimator-response"`. Each bin's modelled C/N0 is the M2M4 transform of
+  the expected moments averaged over the estimator's 50 windows of 20 ms along the stated profile, applied wherever v1's
+  lag applied. Scorer, censoring, lock models and the closed form are unchanged.
+- **Checks before scoring (both passed, no scored line read):**
+  - Control (reading 4), compared by script on the `cn0_model`-unset line of batch 01 alone: −3.935 dB and (d) 35.514
+    against 37.714 dB, both lock models, as recorded.
+  - Oracle (reading 6): 647 bins of the bar-(a′) campaign, worst difference 3.0e-13 dB (bar 1e-6 dB).
+- **Runs:** 18 batches, raw output committed unread as each landed. Scored once with `score.py` after all 18
+  (`score_v2.json`, 2026-11-11).
+
+| bar | v1-registered (A 2026 1012; b′ 7000-7049) | v1-fresh (+100 000) | v2-fresh (+200 000) | verdict |
+|---|---|---|---|---|
+| (a′) `|δ̂_eff − δ_eff| ≤ 0.5 dB` | +0.165 dB | +0.098 dB | +0.099 dB | met on all three |
+| (b′) coverage in at least 45 of 50 | 36 of 50 | 32 of 50 | 27 of 50 | **NOT MET** |
+| (c) PI90 coverage in [0.80, 0.98] | bins 0.898, time to loss 0.900 | bins 0.901, time to loss **1.000** | bins 0.885, time to loss 0.889 | **NOT MET** (v1-fresh) |
+| (d) closed form within 1 dB of the direct median | 35.519 against 37.714 dB: **2.195 dB** | 37.315 against 37.639 dB: 0.324 dB | 36.918 against 37.111 dB: 0.193 dB | **NOT MET** (v1-registered) |
+
+**Verdict: NOT MET on v2.** A MET needed all four bars on all three sets. v1's NOT MET and the 0.40 record stand.
+
+Execution amendments, all made before scoring and none touching a fit, seed, recipe, bar or the scorer:
+
+- **Parallel and restarted runs.** Batch 01 ran alone (2.6 h). From batch 02 the batches ran 4 at a time on this
+  container. The container restarted three times (about 20:43Z, 00:47Z and 02:15Z, 9-10 November); each time the
+  batches in flight had written nothing and were rerun whole from their seeds, as the batch plan provides.
+- **Per-seed checkpoints** (`bd0845acd`). A (b′) seed takes about 1.6 h under the estimator-response fit, against about
+  2 min in v1, and the restarts came about as often as whole batches would have needed. From 10 November each (b′)
+  seed's two lines were kept once its fit was done, and the batch file was assembled in seed order.
+- **Helper sessions.** Batches 08-18 ran in three other cloud sessions at `bd0845acd`. Each pushed only its batch's
+  two files, unread, and they were merged after a check of file list, identity and SHA-256. Batches 01-07 ran on
+  this container.
+- **Determinism check** (`4a9668c93`, `KSHANA_D8A_ROW6_V2_SEEDS`). Batch 17, first produced in a helper session, was
+  rerun on this container as four seed-subset processes into one checkpoint folder and assembled. A whole-batch single
+  process would have taken about 16 h against about 5 h. `batch-17.jsonl` and `truth-17.jsonl` came out
+  byte-identical to the helper's (SHA-256 `046b7a14…` and `080529c7…`). That covers the cross-machine,
+  parallel, checkpointed and cross-process paths at once. A test pins that the runner is unchanged with the variables
+  unset.
+
+What the numbers say, described after the scoring (not graded):
+
+- **The estimator-response model removes most of the ramp bias.** On the (b′) campaigns the `δ_eff` error is
+  +0.083 ± 0.067 dB (v1-registered), +0.087 ± 0.076 dB (v1-fresh) and +0.099 ± 0.077 dB (v2-fresh). v1's lag gave
+  about +0.45 dB and the 0.40 fit about −1.19 dB. (a′) is met on all three sets.
+- **(b′) is missed on interval width against that residual.** The intervals have a median width of 0.22 to 0.24 dB.
+  Of the misses, 14, 17 and 22 lie wholly above the truth and 0, 1 and 1 below. A residual bias of about +0.09 dB, plus a
+  campaign-to-campaign spread comparable to the interval's half-width, is enough to keep coverage near 30 of 50. The
+  data do not say whether the remaining bias belongs to the model or the intervals are too narrow; both would show this.
+- **(c) and (d) repeat v1's split.** The v1-fresh time-to-loss intervals cover all 10 interpolation events, as in v1.
+  (d) is 2.19 dB on the v1-registered campaign, the drop dwell under a ramp diagnosed in 0.40, which the C/N0 model does
+  not touch. It is met on both fresh campaigns.
+
+Pins: `xval/d8a-labfit-response/raw/` (the committed batches), `score_v2.json`, and
+`tests/iq_labfit_campaign.rs::d8a_row6_v2_scoring_of_the_committed_batches_is_the_recorded_one`.
+
 ## Row 3. `VM-f5e2ce4e`: cell-averaging CFAR in IQ acquisition, with the reference set over the whole row
 
 - **Readings, study and oracle:** `xval/d8a-cfar-reference/` (README readings 1 to 7, `dev_study.py` and its output,
