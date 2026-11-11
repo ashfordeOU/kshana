@@ -11674,11 +11674,17 @@ engine-data-pack-done = wrote { $n } items to { $out } ({ $classes }); manifest.
 
 ## src/area_trust.rs
 
-engine-area-trust-usage = usage: kshana area-trust <stations.json>
+engine-area-trust-usage = usage: kshana area-trust [--detail] <stations.json | measurements.json>
 
 engine-e-area-trust-stations = not a kshana.area-stations/1 document: { $e }
 
 engine-e-area-trust-epoch-order = station { $id }: epochs must be finite and in time order
+
+## src/area_trust/v3.rs
+
+engine-e-area-trust-measurements-rule = a kshana.area-measurements/1 document needs "area_rule": "v3"
+
+engine-e-area-trust-measurements-epochs = a measurements document needs epochs in increasing integer seconds, each with one report (or null) per station
 
 engine-e-bias-sinex-empty = the Bias-SINEX file is empty
 

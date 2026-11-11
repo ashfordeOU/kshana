@@ -386,6 +386,20 @@ console.log(
   console.log("area_trust_timeline v2: oracle_v2's bytes");
 }
 
+// B5 v3 bar T5 (README X7): every satellite-fault replay gives oracle_v3's bytes.
+{
+  const fx = (name) => new URL(`../tests/fixtures/area_trust/${name}`, import.meta.url);
+  for (const seed of [5101, 5102, 5103, 5104]) {
+    const doc = gunzipSync(await readFile(fx(`v3_${seed}.measurements.json.gz`))).toString("utf8");
+    const want = gunzipSync(await readFile(fx(`v3_${seed}.expected.jsonl.gz`))).toString("utf8");
+    if (area_trust_timeline(doc) !== want) {
+      console.error(`area_trust_timeline v3 differs from oracle_v3's bytes (seed ${seed})`);
+      process.exit(1);
+    }
+  }
+  console.log("area_trust_timeline v3: oracle_v3's bytes");
+}
+
 // B1a bar P5: the planner's map gives the command line's bytes.
 {
   const spec = await readFile(new URL("../xval/planner/layout_circle.json", import.meta.url), "utf8");

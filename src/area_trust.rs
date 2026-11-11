@@ -72,6 +72,8 @@ pub enum AreaRule {
     V1,
     /// Version 2: `DEGRADED` if `n_D ≥ k` or `n_U ≥ m`, `m = 2` for `N ≤ 6`, else 1.
     V2,
+    /// Version 3 (X6): version 2's aggregation; v3 changes what feeds it ([`v3`]).
+    V3,
 }
 
 /// One station's epochs.
@@ -136,7 +138,7 @@ pub fn raw_state_with(live: &[StationState], rule: AreaRule) -> (AreaState, usiz
     let k = 2usize.max(n.div_ceil(3));
     // Untrusted stations that make the area DEGRADED: v1 one; v2 two for 6 or fewer stations (W1).
     let m = match rule {
-        AreaRule::V2 if n <= 6 => 2,
+        AreaRule::V2 | AreaRule::V3 if n <= 6 => 2,
         _ => 1,
     };
     let s = if n_u >= k {
@@ -401,8 +403,13 @@ pub fn h_s(calibration_horiz_m: &[f64]) -> f64 {
 /// The timeline of a `kshana.area-stations/1` document as JSON Lines, one line per grid second
 /// (`{"g":…,"state":…,"alert":…,"n":…,"n_d":…,"n_u":…,"stale":…}`): the bytes the oracle writes, and
 /// the same on the command line, in Python and in WebAssembly. Each station's epochs must be finite
-/// and in time order. `"area_rule": "v2"` selects version 2's rule (W3); without it, version 1.
+/// and in time order. `"area_rule": "v2"` selects version 2's rule (W3), `"v3"` version 3's, which
+/// aggregates as version 2 (X6); without it, version 1. A `kshana.area-measurements/1` document is
+/// run through version 3's satellite-fault screen ([`v3::measurements_jsonl`]).
 pub fn timeline_jsonl(stations_json: &str) -> Result<String, String> {
+    if v3::is_measurements(stations_json) {
+        return v3::measurements_jsonl(stations_json, false);
+    }
     #[derive(Deserialize)]
     struct Rule {
         #[serde(default)]
@@ -428,19 +435,27 @@ pub fn timeline_jsonl(stations_json: &str) -> Result<String, String> {
     Ok(out)
 }
 
-/// `kshana area-trust <stations.json>`: the area timeline on standard output (JSON Lines).
+/// `kshana area-trust [--detail] <document>`: the area timeline on standard output (JSON Lines).
+/// `--detail` (a measurements document only) writes each station's horizontal error before and after
+/// the satellite-fault screen instead.
 #[cfg(not(target_arch = "wasm32"))]
 pub fn run(args: &[String]) -> Result<(), String> {
-    let path = match args {
-        [p] if !p.starts_with("--") => p,
+    let (detail, path) = match args {
+        [p] if !p.starts_with("--") => (false, p),
+        [d, p] if d == "--detail" && !p.starts_with("--") => (true, p),
         _ => return Err(crate::t!("area-trust-usage")),
     };
     let text = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
-    print!("{}", timeline_jsonl(&text)?);
+    if detail {
+        print!("{}", v3::measurements_jsonl(&text, true)?);
+    } else {
+        print!("{}", timeline_jsonl(&text)?);
+    }
     Ok(())
 }
 
 pub mod synth;
+pub mod v3;
 
 #[cfg(test)]
 mod tests {
@@ -502,7 +517,12 @@ mod tests {
         assert!(v1.contains(r#""state":"DEGRADED","alert":true"#));
         let v2 = timeline_jsonl(&doc(r#""area_rule":"v2","#)).expect("v2");
         assert!(!v2.contains("DEGRADED") && v2.contains(r#""state":"TRUSTED""#));
-        assert!(timeline_jsonl(&doc(r#""area_rule":"v3","#)).is_err());
+        // X6: a stations document with "v3" is aggregated as v2.
+        assert_eq!(
+            timeline_jsonl(&doc(r#""area_rule":"v3","#)).expect("v3"),
+            v2
+        );
+        assert!(timeline_jsonl(&doc(r#""area_rule":"v4","#)).is_err());
     }
 
     #[test]
