@@ -6,6 +6,7 @@
 //!   1 000 random subsets drawn with ChaCha20 seed `0xB1B2`. P1 to P3, P5 and P6 are re-run unchanged by
 //!   `tests/planner_v2.rs`.
 //! * The same placement from `place` and from `run_json("place", …)`.
+//! * Ignored by default (about 1.5 h); the scored run's values are pinned.
 
 use kshana::planner::{objective_of, place, run_json, PlanSpec};
 use rand::{Rng, SeedableRng};
@@ -20,6 +21,7 @@ fn text() -> String {
 }
 
 #[test]
+#[ignore = "about 1.5 h of search on 48 candidates; run with --ignored (RESULTS-v3.md)"]
 fn p4_v3_search_against_random_subsets() {
     let t = text();
     let sp: PlanSpec = serde_json::from_str(&t).unwrap();
@@ -51,9 +53,14 @@ fn p4_v3_search_against_random_subsets() {
         serde_json::to_value(&got).unwrap(),
         "place and run_json disagree"
     );
+    // MET (RESULTS-v3.md): 0.440809 against the best random subset 0.410470.
     assert!(
         got.objective >= best,
         "P4 v3 NOT MET: {} < {best}",
         got.objective
     );
+    assert_eq!(got.subset, vec![4, 12, 14, 20, 26, 34, 35, 41]);
+    assert_eq!(best_sub, vec![0, 3, 9, 18, 26, 34, 41, 43]);
+    assert!((got.objective - 0.440_809).abs() < 5e-7);
+    assert!((best - 0.410_470).abs() < 5e-7);
 }
