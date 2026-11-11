@@ -896,6 +896,18 @@ def test_area_trust_timeline_v2_gives_the_oracle_v2_bytes():
     assert kshana.area_trust_timeline('{"area_rule":"v2",' + doc[1:]) == want
 
 
+def test_area_trust_timeline_v3_gives_the_oracle_v3_bytes():
+    """B5 v3 bar T5 (README X7): every satellite-fault replay through Python is oracle_v3's bytes."""
+    import gzip
+    import os
+
+    d = os.path.join(os.path.dirname(__file__), "..", "fixtures", "area_trust")
+    for seed in (5101, 5102, 5103, 5104):
+        doc = gzip.open(os.path.join(d, f"v3_{seed}.measurements.json.gz")).read().decode()
+        want = gzip.open(os.path.join(d, f"v3_{seed}.expected.jsonl.gz")).read().decode()
+        assert kshana.area_trust_timeline(doc) == want, seed
+
+
 def test_referee_location_score_gives_the_command_line_bytes():
     """B2 bar R4: the location metrics through Python are byte-identical to the command line."""
     import gzip

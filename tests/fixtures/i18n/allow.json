@@ -9,6 +9,10 @@
    "count": 497,
    "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
   },
+  "src/area_trust/v3.rs": {
+   "count": 1,
+   "reason": "developer: an internal invariant message of the B5 v3 replay generator (expect), never shown for user input"
+  },
   "src/altpnt/sequential.rs": {
    "count": 22,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"

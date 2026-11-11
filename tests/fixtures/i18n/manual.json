@@ -13258,7 +13258,7 @@
   "id": "area-trust-usage",
   "error": false,
   "parts": [
-   "usage: kshana area-trust <stations.json>"
+   "usage: kshana area-trust [--detail] <stations.json | measurements.json>"
   ]
  },
  {
@@ -13280,6 +13280,20 @@
     "var": "id"
    },
    ": epochs must be finite and in time order"
+  ]
+ },
+ {
+  "id": "e-area-trust-measurements-rule",
+  "error": true,
+  "parts": [
+   "a kshana.area-measurements/1 document needs \"area_rule\": \"v3\""
+  ]
+ },
+ {
+  "id": "e-area-trust-measurements-epochs",
+  "error": true,
+  "parts": [
+   "a measurements document needs epochs in increasing integer seconds, each with one report (or null) per station"
   ]
  },
  {
