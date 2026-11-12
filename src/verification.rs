@@ -4218,6 +4218,16 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            id: "VM-09cb4375",
+            requirement: "Interference-source location by time difference of arrival across fixed monitoring stations",
+            capability: "locate_tdoa: from 10 ms snapshots at 4 Msps time-tagged by each station's clock, the station with the largest measured jammer-to-noise ratio is the reference; each other station's delay is the cross-correlation peak refined by a parabola, with a sigma from the Knapp-Carter bound for the measured SNRs and the reference's mean-square bandwidth plus both clocks (the pairs share the reference clock's covariance); the source is located on a spherical Earth at a known height by a grid search over the stations' hull buffered by 10 km and Gauss-Newton, with a 95 % ellipse and a chi-square test of the residuals at 0.999 that gives not located. locate_tdoa::session draws the synthetic sessions (CW, chirp and wideband noise jammers, two-ray ground reflection with 6 dB shadowing, 20 ns station clocks)",
+            module: "locate_tdoa",
+            tests: "tests/locator_tdoa.rs (the recorded gate verdict, the misses included; seeds 6001-6020 against the numpy oracle; the whole gate reproduces its recorded bytes, ignored by default and run on Linux, macOS and Windows by the b3b-determinism CI job)",
+            oracle: "Synthetic sessions under bars pre-registered in docs/design/evidence/b3b-tdoa-locator/ (B3a's bars), with an independent numpy recomputation of the locator (xval/tdoa-locator/oracle.py). Gate (seeds 6001-7000, 1 000 sessions, eed00fd84): NOT MET on T1 (coverage 0.044; bar 0.90), T2 (median area share 1.000; bar 0.25) and T3 (3.35 x the median nearest-neighbour spacing; bar 0.5); 872 sessions not located (CW 334 of 334, chirp 324 of 333, noise 214 of 333). The parabolic refinement misplaces a one-sample-wide correlation peak by up to 125 ns against a stated sigma of about 28 ns, so the chi-square test rejects most fits; the sawtooth chirp's correlation repeats inside the lag window; a CW has no bandwidth. The numpy recomputation agrees on 19 of seeds 6001-6020 within the registered tolerances; on seed 6002 Gauss-Newton diverges in both and the scored outputs agree. By the pre-registration no real run is made with this method. WHAT IS NOT CHECKED: any real jammer, station or clock",
+            oracle_kind: ReferenceImpl,
+            status: Modelled,
+        },
+        VerificationItem {
             id: "VM-bd8626f0",
             requirement: "TEXBAT spoofing-detection benchmark: per-window baseline IQ scores and power-and-distortion scores",
             capability: "bench::texbat (kshana bench texbat-windows and texbat-pd): streams one TEXBAT recording (complex int16, 25 Msps), refuses a file whose SHA-256 or size differs from the pinned manifest and then writes nothing, acquires PRNs 1 to 32 once and tracks them through the recording, and writes per 1 s window the early-minus-late imbalance S, the prompt-power fluctuation P and the window score against synthetic thresholds (the 99th percentiles over the 61 of 64 synthetic windows that acquire); texbat-pd adds the in-band power rise over the recording's own windows 0 to 59 (tau 1.0 dB). Writes scores only, never IQ samples",

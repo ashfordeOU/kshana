@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 176,
-    "modelled": 232,
+    "modelled": 233,
     "partner_owned": 4,
-    "total": 412
+    "total": 413
   },
   "rows": [
     {
@@ -9359,6 +9359,28 @@
         {
           "path": "tests/locator_power_difference_v2.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/locator_power_difference_v2.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Interference-source location by time difference of arrival across fixed monitoring stations",
+      "capability": "locate_tdoa: from 10 ms snapshots at 4 Msps time-tagged by each station's clock, the station with the largest measured jammer-to-noise ratio is the reference; each other station's delay is the cross-correlation peak refined by a parabola, with a sigma from the Knapp-Carter bound for the measured SNRs and the reference's mean-square bandwidth plus both clocks (the pairs share the reference clock's covariance); the source is located on a spherical Earth at a known height by a grid search over the stations' hull buffered by 10 km and Gauss-Newton, with a 95 % ellipse and a chi-square test of the residuals at 0.999 that gives not located. locate_tdoa::session draws the synthetic sessions (CW, chirp and wideband noise jammers, two-ray ground reflection with 6 dB shadowing, 20 ns station clocks)",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "Synthetic sessions under bars pre-registered in docs/design/evidence/b3b-tdoa-locator/ (B3a's bars), with an independent numpy recomputation of the locator (xval/tdoa-locator/oracle.py). Gate (seeds 6001-7000, 1 000 sessions, eed00fd84): NOT MET on T1 (coverage 0.044; bar 0.90), T2 (median area share 1.000; bar 0.25) and T3 (3.35 x the median nearest-neighbour spacing; bar 0.5); 872 sessions not located (CW 334 of 334, chirp 324 of 333, noise 214 of 333). The parabolic refinement misplaces a one-sample-wide correlation peak by up to 125 ns against a stated sigma of about 28 ns, so the chi-square test rejects most fits; the sawtooth chirp's correlation repeats inside the lag window; a CW has no bandwidth. The numpy recomputation agrees on 19 of seeds 6001-6020 within the registered tolerances; on seed 6002 Gauss-Newton diverges in both and the scored outputs agree. By the pre-registration no real run is made with this method. WHAT IS NOT CHECKED: any real jammer, station or clock",
+      "module": "locate_tdoa",
+      "tests": "tests/locator_tdoa.rs (the recorded gate verdict, the misses included; seeds 6001-6020 against the numpy oracle; the whole gate reproduces its recorded bytes, ignored by default and run on Linux, macOS and Windows by the b3b-determinism CI job)",
+      "module_links": [
+        {
+          "path": "src/locate_tdoa.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/locate_tdoa.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/locator_tdoa.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/locator_tdoa.rs"
         }
       ],
       "fixture": null
