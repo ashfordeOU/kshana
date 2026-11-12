@@ -30,7 +30,7 @@ permissions:
 jobs:
   check:
     name: Apple signing and notarization secrets
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 15
     env:
       APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
