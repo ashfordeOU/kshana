@@ -109,8 +109,8 @@ jobs:
           mkdir -p tap/Formula
           cp manifests/homebrew/Formula/kshana-mcp.rb tap/Formula/kshana-mcp.rb
           cd tap
-          git config user.name "Ashforde OÜ"
-          git config user.email "contact@ashforde.org"
+          git config user.name "ashfordeOU"
+          git config user.email "236818772+ashfordeOU@users.noreply.github.com"
           git add Formula/kshana-mcp.rb
           if git diff --cached --quiet; then echo "the tap already has this formula"; exit 0; fi
           git commit -m "kshana-mcp ${VERSION}"
@@ -149,8 +149,8 @@ jobs:
           mkdir -p bucket-repo/bucket
           cp manifests/scoop/bucket/kshana-mcp.json bucket-repo/bucket/kshana-mcp.json
           cd bucket-repo
-          git config user.name "Ashforde OÜ"
-          git config user.email "contact@ashforde.org"
+          git config user.name "ashfordeOU"
+          git config user.email "236818772+ashfordeOU@users.noreply.github.com"
           git add bucket/kshana-mcp.json
           if git diff --cached --quiet; then echo "the bucket already has this manifest"; exit 0; fi
           git commit -m "kshana-mcp ${VERSION}"
@@ -193,8 +193,8 @@ jobs:
           git clone --depth 1 --filter=blob:none --sparse "https://github.com/$me/winget-pkgs.git" winget
           cd winget
           git sparse-checkout set manifests/a/AshfordeOU/KshanaMcp
-          git config user.name "Ashforde OÜ"
-          git config user.email "contact@ashforde.org"
+          git config user.name "ashfordeOU"
+          git config user.email "236818772+ashfordeOU@users.noreply.github.com"
           branch="kshana-mcp-${VERSION}"
           git checkout -b "$branch"
           mkdir -p "manifests/a/AshfordeOU/KshanaMcp/${VERSION}"
