@@ -98,8 +98,9 @@ fn t1_t5_the_engine_equals_oracle_v3() {
             panic!("T1: seed {seed} differs from oracle_v3: {first:?}");
         }
         // The command line, on the same document.
-        let tmp =
-            std::env::temp_dir().join(format!("kshana-b5v3-{seed}-{}.json", std::process::id()));
+        let scratch = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join("area_trust_v3");
+        std::fs::create_dir_all(&scratch).unwrap();
+        let tmp = scratch.join(format!("v3_{seed}.measurements.json"));
         std::fs::write(&tmp, &doc).unwrap();
         let cli = std::process::Command::new(bin)
             .args(["area-trust", tmp.to_str().unwrap()])
@@ -137,7 +138,6 @@ fn t1_t5_the_engine_equals_oracle_v3() {
             }
         }
         assert_eq!(detail.lines().count(), oracle_detail.lines().count());
-        let _ = std::fs::remove_file(&tmp);
         for l in oracle.lines() {
             if l.contains(r#""kind":"epoch""#) {
                 epochs += 1;
