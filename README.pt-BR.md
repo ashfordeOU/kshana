@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Estado da integração contínua em main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Cobertura de linhas perto de 95 % de src/, medida em docs/COVERAGE.md e exigida em 85 % na integração contínua"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 de 412 capacidades VALIDATED em relação a uma referência externa independente, segundo a matriz de verificação"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 de 413 capacidades VALIDATED em relação a uma referência externa independente, segundo a matriz de verificação"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Estado do quality gate do SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Versão v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Inglês e mais 17 idiomas, em tradução automática"></a>
@@ -1029,7 +1029,7 @@ começar.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 verificado frente a todos os 666 vetores de referência do AIAA 2006-6753, pior erro de posição 4.12 mm"></a></p>
 
-<strong>176 de 412</strong> capacidades validadas frente a referências externas independentes; 232 rotuladas declaradamente como Modelled.
+<strong>176 de 413</strong> capacidades validadas frente a referências externas independentes; 233 rotuladas declaradamente como Modelled.
 Cada linha da matriz de verificação nomeia uma capacidade, a referência frente à qual é verificada,
 o teste que executa a verificação e o rótulo resultante. A integração contínua (CI) torna
 impossível chamar uma capacidade de VALIDATED sem uma referência externa independente.
@@ -1037,13 +1037,13 @@ impossível chamar uma capacidade de VALIDATED sem uma referência externa indep
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Como uma capacidade conquista o seu rótulo. Cada linha da matriz de verificação nomeia uma capacidade, a referência frente à qual é verificada, o teste que executa a verificação na integração contínua e o rótulo resultante. Uma linha só pode ser VALIDATED com uma referência externa independente; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, OD em lote/sequencial, referência vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, rótulo VALIDATED. Contagens atuais: 176 VALIDATED, 232 MODELLED, 4 PARTNER de 412 linhas. Ao todo, 176 capacidades validadas frente a referências externas independentes; outras 232 estão rotuladas declaradamente como MODELLED e 4 são de responsabilidade de PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Como uma capacidade conquista o seu rótulo. Cada linha da matriz de verificação nomeia uma capacidade, a referência frente à qual é verificada, o teste que executa a verificação na integração contínua e o rótulo resultante. Uma linha só pode ser VALIDATED com uma referência externa independente; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, OD em lote/sequencial, referência vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, rótulo VALIDATED. Contagens atuais: 176 VALIDATED, 233 MODELLED, 4 PARTNER de 413 linhas. Ao todo, 176 capacidades validadas frente a referências externas independentes; outras 233 estão rotuladas declaradamente como MODELLED e 4 são de responsabilidade de PARTNER." width="100%">
 </picture>
 
 | Rótulo | Linhas | Significado |
 |---|---|---|
 | VALIDATED | 176 | uma referência externa independente concorda: dados reais, uma implementação independente ou vetores de referência publicados |
-| MODELLED | 232 | verificado frente a uma verdade analítica ou à autoconsistência da simulação, e dito abertamente |
+| MODELLED | 233 | verificado frente a uma verdade analítica ou à autoconsistência da simulação, e dito abertamente |
 | PARTNER | 4 | de responsabilidade de um parceiro de hardware; o Kshana não tem referência para ela |
 
 Algumas das verificações: todos os 666 vetores SGP4 (Simplified General Perturbations 4) do AIAA (American Institute of Aeronautics and Astronautics)
@@ -1052,7 +1052,7 @@ a 0.08 m frente ao Orekit 12.2; o Galileo a 0.61 m e o Swarm-A a 0.10 m frente a
 da Agência Espacial Europeia (ESA). Os testes mantêm perto de 95 % de cobertura de linhas de
 `src/`, exigida em 85 % na CI. O registro é
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), gerado a partir de
-`src/verification.rs`: a [matriz completa de 412 linhas](docs/VERIFICATION-MATRIX.md), e por que cada
+`src/verification.rs`: a [matriz completa de 413 linhas](docs/VERIFICATION-MATRIX.md), e por que cada
 linha Modelled não tem referência externa em [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1085,7 +1085,7 @@ nunca pode afirmar mais do que o registro. Linhas, estados e ids são lidos da m
 ### A validação em resumo
 
 Cada linha é garantida por um teste nomeado na CI. Esta tabela é um **destaque selecionado**;
-a matriz completa verificada por máquina tem **412 linhas — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
+a matriz completa verificada por máquina tem **413 linhas — 176 VALIDATED, 233 MODELLED, 4 PARTNER**
 (`src/verification.rs`), com as evidências completas (e o que declaradamente *ainda não* está
 validado) em [`docs/VALIDATION.md`](docs/VALIDATION.md) e no artefato por versão
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1137,7 +1137,7 @@ A coluna **Estado** declara o *tipo* de evidência, de acordo com a escada de va
 | CI | Cobertura de testes | **~95 % de linhas** em `src/` excluindo `src/*_data.rs` e `src/main.rs`, exigida ≥ 85 % | cargo-tarpaulin (motor LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Como uma capacidade conquista o seu rótulo: o Requisito é mapeado para um módulo em src, para um teste em tests, para uma referência externa (conjunto de dados real, implementação de referência independente ou vetores publicados), para um estado — com uma salvaguarda garantida pela CI de que nenhuma capacidade pode ser Validated sem uma referência externa. Contagens atuais: 176 Validated, 232 Modelled, 4 Partner, 412 no total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Como uma capacidade conquista o seu rótulo: o Requisito é mapeado para um módulo em src, para um teste em tests, para uma referência externa (conjunto de dados real, implementação de referência independente ou vetores publicados), para um estado — com uma salvaguarda garantida pela CI de que nenhuma capacidade pode ser Validated sem uma referência externa. Contagens atuais: 176 Validated, 233 Modelled, 4 Partner, 413 no total" width="900">
   <br><sub>Como uma capacidade conquista o seu rótulo — o invariante garantido pela CI: sem referência externa ⇒ não pode ser Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1149,8 +1149,8 @@ A coluna **Estado** declara o *tipo* de evidência, de acordo com a escada de va
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Estado de verificação das 412 capacidades: 176 Validated (verificadas frente a referência externa), 232 Modelled, 4 de responsabilidade de Partner" width="780">
-  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Estado de verificação das 413 capacidades: 176 Validated (verificadas frente a referência externa), 233 Modelled, 4 de responsabilidade de Partner" width="780">
+  <br><sub>176 Validated · 233 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1260,7 +1260,7 @@ por cima como uma camada separada que depende do motor e nunca o bifurca.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="A arquitetura do Kshana: um único motor aberto no centro, kshana 0.40.0 sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre cada tipo, e o registro de verificação de 412 capacidades (176 VALIDATED, 232 MODELLED, 4 PARTNER). Ao seu redor, cada superfície executa o mesmo motor: Linha de comando (cargo install kshana); Biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Servidor MCP (cargo install kshana-mcp); Imagem Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin JetBrains (Marketplace: &quot;Kshana&quot;). Abaixo dele, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca e nunca o bifurca, e não acrescenta nenhum modelo físico." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="A arquitetura do Kshana: um único motor aberto no centro, kshana 0.40.0 sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre cada tipo, e o registro de verificação de 413 capacidades (176 VALIDATED, 233 MODELLED, 4 PARTNER). Ao seu redor, cada superfície executa o mesmo motor: Linha de comando (cargo install kshana); Biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Servidor MCP (cargo install kshana-mcp); Imagem Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin JetBrains (Marketplace: &quot;Kshana&quot;). Abaixo dele, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca e nunca o bifurca, e não acrescenta nenhum modelo físico." width="100%">
 </picture>
 
 <details>
@@ -1269,7 +1269,7 @@ por cima como uma camada separada que depende do motor e nunca o bifurca.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comando, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre 92 tipos. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo compartilhado, todas com referência cruzada pelo módulo de verificação, a matriz verificada por máquina de 412 capacidades que é a única fonte de verdade para cada rótulo." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comando, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre 92 tipos. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo compartilhado, todas com referência cruzada pelo módulo de verificação, a matriz verificada por máquina de 413 capacidades que é a única fonte de verdade para cada rótulo." width="100%">
 </picture>
 
 **Um motor, muitas portas de entrada.** Um único núcleo Rust (`kshana`) executa cada cenário,
